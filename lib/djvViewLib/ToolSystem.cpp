@@ -45,6 +45,7 @@ namespace djv
         struct ToolSystem::Private
         {
             std::map<std::string, std::shared_ptr<UI::Action> > actions;
+            std::map<std::string, std::shared_ptr<UI::Menu> > menus;
             std::map<std::string, std::shared_ptr<ValueObserver<bool> > > clickedObservers;
         };
 
@@ -77,8 +78,15 @@ namespace djv
         NewMenu ToolSystem::createMenu()
         {
             DJV_PRIVATE_PTR();
-            auto menu = UI::Menu::create("Tools", getContext());
-            return { menu, "F" };
+            auto context = getContext();
+            p.menus["Tools"] = UI::Menu::create(_getText(DJV_TEXT("djv::ViewLib", "Tools")), context);
+            return { p.menus["Tools"], "F" };
+        }
+
+        void ToolSystem::_localeEvent(Event::Locale &)
+        {
+            DJV_PRIVATE_PTR();
+            p.menus["Tools"]->setMenuName(_getText(DJV_TEXT("djv::ViewLib", "Tools")));
         }
 
     } // namespace ViewLib

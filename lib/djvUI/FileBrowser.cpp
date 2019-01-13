@@ -31,7 +31,6 @@
 
 #include <djvUI/Action.h>
 #include <djvUI/ActionGroup.h>
-#include <djvUI/Border.h>
 #include <djvUI/DialogSystem.h>
 #include <djvUI/FileBrowserPrivate.h>
 #include <djvUI/FlowLayout.h>
@@ -931,12 +930,10 @@ namespace djv
                 if (!p.dialog)
                 {
                     p.dialog = Dialog::create(context);
-                    auto border = Layout::Border::create(context);
-                    border->addWidget(p.dialog);
                     p.overlay = Layout::Overlay::create(context);
                     p.overlay->setBackgroundRole(Style::ColorRole::Overlay);
                     p.overlay->setMargin(Style::MetricsRole::MarginLarge);
-                    p.overlay->addWidget(border);
+                    p.overlay->addWidget(p.dialog);
                 }
                 if (auto windowSystem = context->getSystemT<UI::IWindowSystem>().lock())
                 {

@@ -502,5 +502,29 @@
         "nameSpace": "djv::ViewLib", 
         "id": "Color Palette", 
         "description": ""
+    }, 
+    {
+        "text": "\u0391\u03c5\u03be\u03ac\u03bd\u03c9 \u03c3\u03c4\u03bf\u03bd \u03b1\u03bd\u03ce\u03c4\u03b1\u03c4\u03bf \u03b2\u03b1\u03b8\u03bc\u03cc", 
+        "nameSpace": "djv::ViewLib", 
+        "id": "Maximize", 
+        "description": ""
+    }, 
+    {
+        "text": "\u0395\u03c0\u03cc\u03bc\u03b5\u03bd\u03bf", 
+        "nameSpace": "djv::ViewLib", 
+        "id": "Next", 
+        "description": ""
+    }, 
+    {
+        "text": "\u03a0\u03c1\u03bf\u03b7\u03b3", 
+        "nameSpace": "djv::ViewLib", 
+        "id": "Prev", 
+        "description": ""
+    }, 
+    {
+        "text": "\u0395\u03c1\u03b3\u03b1\u03bb\u03b5\u03af\u03b1", 
+        "nameSpace": "djv::ViewLib", 
+        "id": "Tools", 
+        "description": ""
     }
 ]

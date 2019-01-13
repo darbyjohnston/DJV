@@ -30,7 +30,6 @@
 #include <djvUI/DialogSystem.h>
 
 #include <djvUI/Action.h>
-#include <djvUI/Border.h>
 #include <djvUI/IWindowSystem.h>
 #include <djvUI/Label.h>
 #include <djvUI/Overlay.h>
@@ -83,15 +82,12 @@ namespace djv
                     _childLayout = Layout::Vertical::create(context);
                     _childLayout->setSpacing(Style::MetricsRole::None);
 
-                    auto layout = Layout::Vertical::create(context);
-                    layout->setSpacing(Style::MetricsRole::None);
-                    layout->addWidget(_titleLabel);
-                    layout->addSeparator();
-                    layout->addWidget(_childLayout, Layout::RowStretch::Expand);
-
-                    _border = Layout::Border::create(context);
-                    _border->addWidget(layout);
-                    IContainer::addWidget(_border);
+                    _layout = Layout::Vertical::create(context);
+                    _layout->setSpacing(Style::MetricsRole::None);
+                    _layout->addWidget(_titleLabel);
+                    _layout->addSeparator();
+                    _layout->addWidget(_childLayout, Layout::RowStretch::Expand);
+                    IContainer::addWidget(_layout);
                 }
 
                 DialogWidget()
@@ -128,18 +124,18 @@ namespace djv
             protected:
                 void _preLayoutEvent(Event::PreLayout&) override
                 {
-                    _setMinimumSize(_border->getMinimumSize());
+                    _setMinimumSize(_layout->getMinimumSize());
                 }
 
                 void _layoutEvent(Event::Layout&) override
                 {
-                    _border->setGeometry(getGeometry());
+                    _layout->setGeometry(getGeometry());
                 }
 
             private:
                 std::shared_ptr<Label> _titleLabel;
                 std::shared_ptr<Layout::Vertical> _childLayout;
-                std::shared_ptr<Layout::Border> _border;
+                std::shared_ptr<Layout::Vertical> _layout;
             };
 
             class MessageDialog : public DialogWidget

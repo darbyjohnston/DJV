@@ -502,5 +502,29 @@
         "nameSpace": "djv::ViewLib", 
         "id": "Color Palette", 
         "description": ""
+    }, 
+    {
+        "text": "Maksimer", 
+        "nameSpace": "djv::ViewLib", 
+        "id": "Maximize", 
+        "description": ""
+    }, 
+    {
+        "text": "N\u00e6ste", 
+        "nameSpace": "djv::ViewLib", 
+        "id": "Next", 
+        "description": ""
+    }, 
+    {
+        "text": "forrige", 
+        "nameSpace": "djv::ViewLib", 
+        "id": "Prev", 
+        "description": ""
+    }, 
+    {
+        "text": "V\u00e6rkt\u00f8j", 
+        "nameSpace": "djv::ViewLib", 
+        "id": "Tools", 
+        "description": ""
     }
 ]

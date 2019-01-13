@@ -34,7 +34,6 @@
 #include <djvViewLib/LanguageSettingsWidget.h>
 
 #include <djvUI/Action.h>
-#include <djvUI/Border.h>
 #include <djvUI/IWindowSystem.h>
 #include <djvUI/Icon.h>
 #include <djvUI/Label.h>
@@ -184,13 +183,10 @@ namespace djv
             {
                 _p->settingsWidget = SettingsWidget::create(context);
 
-                auto border = UI::Layout::Border::create(context);
-                border->addWidget(_p->settingsWidget);
-
                 _p->overlay = UI::Layout::Overlay::create(context);
                 _p->overlay->setBackgroundRole(UI::Style::ColorRole::Overlay);
                 _p->overlay->setMargin(UI::Style::MetricsRole::MarginLarge);
-                _p->overlay->addWidget(border);
+                _p->overlay->addWidget(_p->settingsWidget);
             }
             if (auto windowSystem = context->getSystemT<UI::IWindowSystem>().lock())
             {

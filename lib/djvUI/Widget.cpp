@@ -308,6 +308,11 @@ namespace djv
                     }
                     break;
                 }
+                case Event::Type::ChildRemoved:
+                case Event::Type::ChildOrder:
+                case Event::Type::Locale:
+                    _resize();
+                    break;
                 case Event::Type::Update:
                 {
                     auto& updateEvent = static_cast<Event::Update&>(event);
@@ -329,9 +334,8 @@ namespace djv
                     }
                     if (style != _style.lock())
                     {
+                        _styleInit = false;
                         _style = style;
-                        Event::Style styleEvent;
-                        this->event(styleEvent);
                     }
 
                     _updateTime = updateEvent.getTime();
@@ -360,6 +364,7 @@ namespace djv
                 }
                 case Event::Type::Style:
                     _styleEvent(static_cast<Event::Style&>(event));
+                    _resize();
                     break;
                 case Event::Type::PreLayout:
                     _preLayoutEvent(static_cast<Event::PreLayout&>(event));

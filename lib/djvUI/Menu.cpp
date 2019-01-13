@@ -881,27 +881,8 @@ namespace djv
                 layout->addWidget(i.second);
             }
 
-            std::shared_ptr<Widget> out;
-            if (widgets.size())
-            {
-                switch (type)
-                {
-                case MenuType::Default:
-                {
-                    auto border = Layout::Border::create(context);
-                    border->addWidget(layout);
-                    out = border;
-                    break;
-                }
-                case MenuType::ComboBox:
-                {
-                    auto scrollWidget = ScrollWidget::create(ScrollType::Vertical, context);
-                    scrollWidget->addWidget(layout);
-                    out = scrollWidget;
-                    break;
-                }
-                }
-            }
+            std::shared_ptr<ScrollWidget> out = ScrollWidget::create(ScrollType::Vertical, context);
+            out->addWidget(layout);
             return out;
         }
 

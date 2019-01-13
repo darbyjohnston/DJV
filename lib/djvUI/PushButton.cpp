@@ -150,6 +150,11 @@ namespace djv
                 _p->label->setTextVAlign(value);
             }
 
+            const std::string & Push::getFont() const
+            {
+                return _p->label->getFont();
+            }
+
             const std::string & Push::getFontFace() const
             {
                 return _p->label->getFontFace();
@@ -158,6 +163,11 @@ namespace djv
             Style::MetricsRole Push::getFontSizeRole() const
             {
                 return _p->label->getFontSizeRole();
+            }
+
+            void Push::setFont(const std::string & value)
+            {
+                _p->label->setFont(value);
             }
 
             void Push::setFontFace(const std::string & value)
@@ -202,28 +212,23 @@ namespace djv
                     if (auto style = _getStyle().lock())
                     {
                         const BBox2f& g = getGeometry();
-                        const float b = style->getMetric(Style::MetricsRole::Border);
-
-                        // Draw the border.
-                        render->setFillColor(_getColorWithOpacity(style->getColor(Style::ColorRole::Border)));
-                        render->drawRectangle(g);
 
                         // Draw the background.
                         render->setFillColor(_getColorWithOpacity(style->getColor(getBackgroundRole())));
-                        render->drawRectangle(g.margin(-b));
+                        render->drawRectangle(g);
 
                         // Draw the toggled state.
                         if (_isToggled())
                         {
                             render->setFillColor(_getColorWithOpacity(style->getColor(getCheckedColorRole())));
-                            render->drawRectangle(g.margin(-b));
+                            render->drawRectangle(g);
                         }
 
                         // Draw the hovered state.
                         if (_isHovered())
                         {
                             render->setFillColor(_getColorWithOpacity(style->getColor(Style::ColorRole::Hover)));
-                            render->drawRectangle(g.margin(-b));
+                            render->drawRectangle(g);
                         }
                     }
                 }

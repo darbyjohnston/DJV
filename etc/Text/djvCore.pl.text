@@ -1588,5 +1588,29 @@
         "nameSpace": "djv::Core::Event", 
         "id": "Style", 
         "description": ""
+    }, 
+    {
+        "text": "ChildAdded", 
+        "nameSpace": "djv::Core::Event", 
+        "id": "ChildAdded", 
+        "description": ""
+    }, 
+    {
+        "text": "ChildRemoved", 
+        "nameSpace": "djv::Core::Event", 
+        "id": "ChildRemoved", 
+        "description": ""
+    }, 
+    {
+        "text": "ChildOrder", 
+        "nameSpace": "djv::Core::Event", 
+        "id": "ChildOrder", 
+        "description": ""
+    }, 
+    {
+        "text": "PaintOverlay", 
+        "nameSpace": "djv::Core::Event", 
+        "id": "PaintOverlay", 
+        "description": ""
     }
 ]

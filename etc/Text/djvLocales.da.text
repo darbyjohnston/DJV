@@ -42,6 +42,18 @@
         "description": "This is a locale label."
     }, 
     {
+        "text": "italiano", 
+        "id": "it", 
+        "language": "it", 
+        "description": "This is a locale label."
+    }, 
+    {
+        "text": "\u00cdslensku", 
+        "id": "is", 
+        "language": "is", 
+        "description": "This is a locale label."
+    }, 
+    {
         "text": "\u65e5\u672c\u4eba", 
         "id": "ja", 
         "language": "ja", 
@@ -60,6 +72,12 @@
         "description": "This is a locale label."
     }, 
     {
+        "text": "Portugu\u00eas", 
+        "id": "pt", 
+        "language": "pt", 
+        "description": "This is a locale label."
+    }, 
+    {
         "text": "\u0440\u0443\u0441\u0441\u043a\u0438\u0439", 
         "id": "ru", 
         "language": "ru", 
@@ -72,7 +90,7 @@
         "description": "This is a locale label."
     }, 
     {
-        "text": "\u4e2d\u6587", 
+        "text": "\u4e2d\u56fd", 
         "id": "zh", 
         "language": "zh", 
         "description": "This is a locale label."

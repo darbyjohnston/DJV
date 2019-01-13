@@ -267,12 +267,6 @@ namespace djv
                 return _p->font;
             }
 
-            AV::Font::Info Style::getFont(const std::string & face, MetricsRole role) const
-            {
-                DJV_PRIVATE_PTR();
-                return AV::Font::Info(p.font, face, p.metrics.getMetric(role), p.dpi);
-            }
-
             void Style::setFont(const std::string & value)
             {
                 DJV_PRIVATE_PTR();
@@ -280,6 +274,18 @@ namespace djv
                     return;
                 p.font = value;
                 p.dirty = true;
+            }
+
+            AV::Font::Info Style::getFontInfo(const std::string & family, const std::string & face, MetricsRole role) const
+            {
+                DJV_PRIVATE_PTR();
+                return AV::Font::Info(family, face, p.metrics.getMetric(role), p.dpi);
+            }
+
+            AV::Font::Info Style::getFontInfo(const std::string & face, MetricsRole role) const
+            {
+                DJV_PRIVATE_PTR();
+                return AV::Font::Info(p.font, face, p.metrics.getMetric(role), p.dpi);
             }
 
             bool Style::isDirty() const

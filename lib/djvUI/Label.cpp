@@ -47,6 +47,7 @@ namespace djv
             TextHAlign textHAlign = TextHAlign::Center;
             TextVAlign textVAlign = TextVAlign::Center;
             Style::ColorRole textColorRole = Style::ColorRole::Foreground;
+            std::string font;
             std::string fontFace = AV::Font::Info::faceDefault;
             Style::MetricsRole fontSizeRole = Style::MetricsRole::FontMedium;
             float minimumWidth = 0.f;
@@ -139,6 +140,11 @@ namespace djv
             _redraw();
         }
 
+        const std::string & Label::getFont() const
+        {
+            return _p->font;
+        }
+
         const std::string & Label::getFontFace() const
         {
             return _p->fontFace;
@@ -147,6 +153,15 @@ namespace djv
         Style::MetricsRole Label::getFontSizeRole() const
         {
             return _p->fontSizeRole;
+        }
+
+        void Label::setFont(const std::string & value)
+        {
+            DJV_PRIVATE_PTR();
+            if (value == p.font)
+                return;
+            p.font = value;
+            _updateText();
         }
 
         void Label::setFontFace(const std::string & value)
@@ -232,8 +247,10 @@ namespace djv
                     const glm::vec2 c = g.getCenter();
 
                     DJV_PRIVATE_PTR();
-                    auto font = style->getFont(p.fontFace, p.fontSizeRole);
-                    render->setCurrentFont(font);
+                    auto fontInfo = p.font.empty() ?
+                        style->getFontInfo(p.fontFace, p.fontSizeRole) :
+                        style->getFontInfo(p.font, p.fontFace, p.fontSizeRole);
+                    render->setCurrentFont(fontInfo);
                     glm::vec2 pos = g.min;
                     switch (p.textHAlign)
                     {
@@ -278,9 +295,11 @@ namespace djv
                 if (auto fontSystem = _getFontSystem().lock())
                 {
                     DJV_PRIVATE_PTR();
-                    const auto font = style->getFont(p.fontFace, p.fontSizeRole);
-                    p.fontMetricsFuture = fontSystem->getMetrics(font);
-                    p.textSizeFuture = fontSystem->measure(p.text, font);
+                    const auto fontInfo = p.font.empty() ?
+                        style->getFontInfo(p.fontFace, p.fontSizeRole) :
+                        style->getFontInfo(p.font, p.fontFace, p.fontSizeRole);
+                    p.fontMetricsFuture = fontSystem->getMetrics(fontInfo);
+                    p.textSizeFuture = fontSystem->measure(p.text, fontInfo);
                 }
             }
         }

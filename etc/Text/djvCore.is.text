@@ -1,0 +1,1616 @@
+[
+    {
+        "text": "Ekki er h\u00e6gt a\u00f0 opna skr\u00e1", 
+        "nameSpace": "djv::Core::FileSystem", 
+        "id": "Cannot open file", 
+        "description": ""
+    }, 
+    {
+        "text": "Ekki er h\u00e6gt a\u00f0 loka skr\u00e1", 
+        "nameSpace": "djv::Core::FileSystem", 
+        "id": "Cannot close file", 
+        "description": ""
+    }, 
+    {
+        "text": "Ekki er h\u00e6gt a\u00f0 kortleggja skr\u00e1", 
+        "nameSpace": "djv::Core::FileSystem", 
+        "id": "Cannot map file", 
+        "description": ""
+    }, 
+    {
+        "text": "Ekki er h\u00e6gt a\u00f0 afrita skr\u00e1", 
+        "nameSpace": "djv::Core::FileSystem", 
+        "id": "Cannot unmap file", 
+        "description": ""
+    }, 
+    {
+        "text": "Ekki er h\u00e6gt a\u00f0 lesa skr\u00e1", 
+        "nameSpace": "djv::Core::FileSystem", 
+        "id": "Cannot read file", 
+        "description": ""
+    }, 
+    {
+        "text": "Ekki er h\u00e6gt a\u00f0 skrifa skr\u00e1", 
+        "nameSpace": "djv::Core::FileSystem", 
+        "id": "Cannot write file", 
+        "description": ""
+    }, 
+    {
+        "text": "MSB", 
+        "nameSpace": "djv::Core::Memory", 
+        "id": "MSB", 
+        "description": ""
+    }, 
+    {
+        "text": "LSB", 
+        "nameSpace": "djv::Core::Memory", 
+        "id": "LSB", 
+        "description": ""
+    }, 
+    {
+        "text": "Heim", 
+        "nameSpace": "djv::Core::OS", 
+        "id": "Home", 
+        "description": ""
+    }, 
+    {
+        "text": "Skrifbor\u00f0", 
+        "nameSpace": "djv::Core::OS", 
+        "id": "Desktop", 
+        "description": ""
+    }, 
+    {
+        "text": "Skj\u00f6l", 
+        "nameSpace": "djv::Core::OS", 
+        "id": "Documents", 
+        "description": ""
+    }, 
+    {
+        "text": "Ni\u00f0urhal", 
+        "nameSpace": "djv::Core::OS", 
+        "id": "Downloads", 
+        "description": ""
+    }, 
+    {
+        "text": "Ekki er h\u00e6gt a\u00f0 b\u00faa til m\u00f6ppu", 
+        "nameSpace": "djv::Core::FileSystem", 
+        "id": "Cannot create directory", 
+        "description": ""
+    }, 
+    {
+        "text": "Ekki er h\u00e6gt a\u00f0 flokka gildi.", 
+        "nameSpace": "djv::Core::PicoJSON", 
+        "id": "Cannot parse value.", 
+        "description": ""
+    }, 
+    {
+        "text": "Ekki er h\u00e6gt a\u00f0 flokka gildi", 
+        "nameSpace": "djv::Core::Time", 
+        "id": "Cannot parse value", 
+        "description": ""
+    }, 
+    {
+        "text": "Amargosa Canyon Snigill Dace", 
+        "nameSpace": "djv::Core::String", 
+        "id": "Amargosa Canyon Speckled Dace", 
+        "description": ""
+    }, 
+    {
+        "text": "Amargosa River Pupfish", 
+        "nameSpace": "djv::Core::String", 
+        "id": "Amargosa River Pupfish", 
+        "description": ""
+    }, 
+    {
+        "text": "American Shad", 
+        "nameSpace": "djv::Core::String", 
+        "id": "American Shad", 
+        "description": ""
+    }, 
+    {
+        "text": "Arroyo Chub", 
+        "nameSpace": "djv::Core::String", 
+        "id": "Arroyo Chub", 
+        "description": ""
+    }, 
+    {
+        "text": "Bigeye Marbled Sculpin", 
+        "nameSpace": "djv::Core::String", 
+        "id": "Bigeye Marbled Sculpin", 
+        "description": ""
+    }, 
+    {
+        "text": "Bigscale Logperch", 
+        "nameSpace": "djv::Core::String", 
+        "id": "Bigscale Logperch", 
+        "description": ""
+    }, 
+    {
+        "text": "Black Bullhead", 
+        "nameSpace": "djv::Core::String", 
+        "id": "Black Bullhead", 
+        "description": ""
+    }, 
+    {
+        "text": "Black Crappie", 
+        "nameSpace": "djv::Core::String", 
+        "id": "Black Crappie", 
+        "description": ""
+    }, 
+    {
+        "text": "Blue Catfish", 
+        "nameSpace": "djv::Core::String", 
+        "id": "Blue Catfish", 
+        "description": ""
+    }, 
+    {
+        "text": "Blue Chub", 
+        "nameSpace": "djv::Core::String", 
+        "id": "Blue Chub", 
+        "description": ""
+    }, 
+    {
+        "text": "Bluefin Killifish", 
+        "nameSpace": "djv::Core::String", 
+        "id": "Bluefin Killifish", 
+        "description": ""
+    }, 
+    {
+        "text": "Bluegill", 
+        "nameSpace": "djv::Core::String", 
+        "id": "Bluegill", 
+        "description": ""
+    }, 
+    {
+        "text": "Lepomis macrochirus", 
+        "nameSpace": "djv::Core::String", 
+        "id": "Lepomis macrochirus", 
+        "description": ""
+    }, 
+    {
+        "text": "Bonytail", 
+        "nameSpace": "djv::Core::String", 
+        "id": "Bonytail", 
+        "description": ""
+    }, 
+    {
+        "text": "Brook Stickleback", 
+        "nameSpace": "djv::Core::String", 
+        "id": "Brook Stickleback", 
+        "description": ""
+    }, 
+    {
+        "text": "Brook Trout", 
+        "nameSpace": "djv::Core::String", 
+        "id": "Brook Trout", 
+        "description": ""
+    }, 
+    {
+        "text": "Brown Bullhead", 
+        "nameSpace": "djv::Core::String", 
+        "id": "Brown Bullhead", 
+        "description": ""
+    }, 
+    {
+        "text": "Br\u00fann silungur", 
+        "nameSpace": "djv::Core::String", 
+        "id": "Brown Trout", 
+        "description": ""
+    }, 
+    {
+        "text": "Bull Trout", 
+        "nameSpace": "djv::Core::String", 
+        "id": "Bull Trout", 
+        "description": ""
+    }, 
+    {
+        "text": "California Coast Fall Chinook lax", 
+        "nameSpace": "djv::Core::String", 
+        "id": "California Coast Fall Chinook Salmon", 
+        "description": ""
+    }, 
+    {
+        "text": "California Golden Foring", 
+        "nameSpace": "djv::Core::String", 
+        "id": "California Golden Trout", 
+        "description": ""
+    }, 
+    {
+        "text": "Kaliforn\u00eda Killifish", 
+        "nameSpace": "djv::Core::String", 
+        "id": "California Killifish", 
+        "description": ""
+    }, 
+    {
+        "text": "Kaliforn\u00eda Tilapia", 
+        "nameSpace": "djv::Core::String", 
+        "id": "California Tilapia", 
+        "description": ""
+    }, 
+    {
+        "text": "Mi\u00f0 Kaliforn\u00edu Coast Winter Steelhead", 
+        "nameSpace": "djv::Core::String", 
+        "id": "Central California Coast Winter Steelhead", 
+        "description": ""
+    }, 
+    {
+        "text": "Central California Roach", 
+        "nameSpace": "djv::Core::String", 
+        "id": "Central California Roach", 
+        "description": ""
+    }, 
+    {
+        "text": "Central Coast Coho lax", 
+        "nameSpace": "djv::Core::String", 
+        "id": "Central Coast Coho Salmon", 
+        "description": ""
+    }, 
+    {
+        "text": "Central Valley Fall Chinook lax", 
+        "nameSpace": "djv::Core::String", 
+        "id": "Central Valley Fall Chinook Salmon", 
+        "description": ""
+    }, 
+    {
+        "text": "Central Valley seint haust Chinook lax", 
+        "nameSpace": "djv::Core::String", 
+        "id": "Central Valley late Fall Chinook Salmon", 
+        "description": ""
+    }, 
+    {
+        "text": "Oncorhynchus tshawytscha", 
+        "nameSpace": "djv::Core::String", 
+        "id": "Oncorhynchus tshawytscha", 
+        "description": ""
+    }, 
+    {
+        "text": "Central Valley vori\u00f0 Chinook lax", 
+        "nameSpace": "djv::Core::String", 
+        "id": "Central Valley spring Chinook Salmon", 
+        "description": ""
+    }, 
+    {
+        "text": "Central Valley Steelhead", 
+        "nameSpace": "djv::Core::String", 
+        "id": "Central Valley Steelhead", 
+        "description": ""
+    }, 
+    {
+        "text": "Central Valley Winter Chinook lax", 
+        "nameSpace": "djv::Core::String", 
+        "id": "Central Valley Winter Chinook Salmon", 
+        "description": ""
+    }, 
+    {
+        "text": "Channel Catfish", 
+        "nameSpace": "djv::Core::String", 
+        "id": "Channel Catfish", 
+        "description": ""
+    }, 
+    {
+        "text": "Chum lax", 
+        "nameSpace": "djv::Core::String", 
+        "id": "Chum Salmon", 
+        "description": ""
+    }, 
+    {
+        "text": "Clear Lake Hitch", 
+        "nameSpace": "djv::Core::String", 
+        "id": "Clear Lake Hitch", 
+        "description": ""
+    }, 
+    {
+        "text": "Clear Lake Prickly Sculpin", 
+        "nameSpace": "djv::Core::String", 
+        "id": "Clear Lake Prickly Sculpin", 
+        "description": ""
+    }, 
+    {
+        "text": "Clear Lake Roach", 
+        "nameSpace": "djv::Core::String", 
+        "id": "Clear Lake Roach", 
+        "description": ""
+    }, 
+    {
+        "text": "Clear Lake Splittail", 
+        "nameSpace": "djv::Core::String", 
+        "id": "Clear Lake Splittail", 
+        "description": ""
+    }, 
+    {
+        "text": "Hreinsa Lake Tule Karfa", 
+        "nameSpace": "djv::Core::String", 
+        "id": "Clear Lake Tule Perch", 
+        "description": ""
+    }, 
+    {
+        "text": "Coastal Cutthroat Trout", 
+        "nameSpace": "djv::Core::String", 
+        "id": "Coastal Cutthroat Trout", 
+        "description": ""
+    }, 
+    {
+        "text": "Coastal Rainbow Trout", 
+        "nameSpace": "djv::Core::String", 
+        "id": "Coastal Rainbow Trout", 
+        "description": ""
+    }, 
+    {
+        "text": "Coastal Threespine Stickleback", 
+        "nameSpace": "djv::Core::String", 
+        "id": "Coastal Threespine Stickleback", 
+        "description": ""
+    }, 
+    {
+        "text": "Coastrange Sculpin", 
+        "nameSpace": "djv::Core::String", 
+        "id": "Coastrange Sculpin", 
+        "description": ""
+    }, 
+    {
+        "text": "Colorado Pikeminnow", 
+        "nameSpace": "djv::Core::String", 
+        "id": "Colorado Pikeminnow", 
+        "description": ""
+    }, 
+    {
+        "text": "Colorado River Cutthroat Trout", 
+        "nameSpace": "djv::Core::String", 
+        "id": "Colorado River Cutthroat Trout", 
+        "description": ""
+    }, 
+    {
+        "text": "Common Carp", 
+        "nameSpace": "djv::Core::String", 
+        "id": "Common Carp", 
+        "description": ""
+    }, 
+    {
+        "text": "Cottonball Marsh Pupfish", 
+        "nameSpace": "djv::Core::String", 
+        "id": "Cottonball Marsh Pupfish", 
+        "description": ""
+    }, 
+    {
+        "text": "K\u00fdrh\u00f6fu\u00f0 Tui Chub", 
+        "nameSpace": "djv::Core::String", 
+        "id": "Cow Head Tui Chub", 
+        "description": ""
+    }, 
+    {
+        "text": "Delta Melt", 
+        "nameSpace": "djv::Core::String", 
+        "id": "Delta Smelt", 
+        "description": ""
+    }, 
+    {
+        "text": "Desert Pupfish", 
+        "nameSpace": "djv::Core::String", 
+        "id": "Desert Pupfish", 
+        "description": ""
+    }, 
+    {
+        "text": "Eagle Lake Rainbow Trout", 
+        "nameSpace": "djv::Core::String", 
+        "id": "Eagle Lake Rainbow Trout", 
+        "description": ""
+    }, 
+    {
+        "text": "Eagle Lake Tui Chub", 
+        "nameSpace": "djv::Core::String", 
+        "id": "Eagle Lake Tui Chub", 
+        "description": ""
+    }, 
+    {
+        "text": "Eulachon", 
+        "nameSpace": "djv::Core::String", 
+        "id": "Eulachon", 
+        "description": ""
+    }, 
+    {
+        "text": "Fathead Minnow", 
+        "nameSpace": "djv::Core::String", 
+        "id": "Fathead Minnow", 
+        "description": ""
+    }, 
+    {
+        "text": "Flannelmouth Sucker", 
+        "nameSpace": "djv::Core::String", 
+        "id": "Flannelmouth Sucker", 
+        "description": ""
+    }, 
+    {
+        "text": "Flathead Catfish", 
+        "nameSpace": "djv::Core::String", 
+        "id": "Flathead Catfish", 
+        "description": ""
+    }, 
+    {
+        "text": "Golden Shiner", 
+        "nameSpace": "djv::Core::String", 
+        "id": "Golden Shiner", 
+        "description": ""
+    }, 
+    {
+        "text": "Gullfiskur", 
+        "nameSpace": "djv::Core::String", 
+        "id": "Goldfish", 
+        "description": ""
+    }, 
+    {
+        "text": "Goose Lake Lamprey", 
+        "nameSpace": "djv::Core::String", 
+        "id": "Goose Lake Lamprey", 
+        "description": ""
+    }, 
+    {
+        "text": "Goose Lake Redband Trout", 
+        "nameSpace": "djv::Core::String", 
+        "id": "Goose Lake Redband Trout", 
+        "description": ""
+    }, 
+    {
+        "text": "Goose Lake Sucker", 
+        "nameSpace": "djv::Core::String", 
+        "id": "Goose Lake Sucker", 
+        "description": ""
+    }, 
+    {
+        "text": "Goose Lake Tui Chub", 
+        "nameSpace": "djv::Core::String", 
+        "id": "Goose Lake Tui Chub", 
+        "description": ""
+    }, 
+    {
+        "text": "Grass Carp", 
+        "nameSpace": "djv::Core::String", 
+        "id": "Grass Carp", 
+        "description": ""
+    }, 
+    {
+        "text": "Gr\u00e6nn Sunfish", 
+        "nameSpace": "djv::Core::String", 
+        "id": "Green Sunfish", 
+        "description": ""
+    }, 
+    {
+        "text": "Gualala Roach", 
+        "nameSpace": "djv::Core::String", 
+        "id": "Gualala Roach", 
+        "description": ""
+    }, 
+    {
+        "text": "Hardhead", 
+        "nameSpace": "djv::Core::String", 
+        "id": "Hardhead", 
+        "description": ""
+    }, 
+    {
+        "text": "High Rock Springs Tui Chub", 
+        "nameSpace": "djv::Core::String", 
+        "id": "High Rock Springs Tui Chub", 
+        "description": ""
+    }, 
+    {
+        "text": "Humboldt Sucker", 
+        "nameSpace": "djv::Core::String", 
+        "id": "Humboldt Sucker", 
+        "description": ""
+    }, 
+    {
+        "text": "Inland Threespine Stickleback", 
+        "nameSpace": "djv::Core::String", 
+        "id": "Inland Threespine Stickleback", 
+        "description": ""
+    }, 
+    {
+        "text": "Kern Brook Lamprey", 
+        "nameSpace": "djv::Core::String", 
+        "id": "Kern Brook Lamprey", 
+        "description": ""
+    }, 
+    {
+        "text": "Kern River Rainbow Trout", 
+        "nameSpace": "djv::Core::String", 
+        "id": "Kern River Rainbow Trout", 
+        "description": ""
+    }, 
+    {
+        "text": "Klamath Largescale Sucker", 
+        "nameSpace": "djv::Core::String", 
+        "id": "Klamath Largescale Sucker", 
+        "description": ""
+    }, 
+    {
+        "text": "Klamath Mountains Province Summer Steelhead", 
+        "nameSpace": "djv::Core::String", 
+        "id": "Klamath Mountains Province Summer Steelhead", 
+        "description": ""
+    }, 
+    {
+        "text": "Klamath Mountains Province Winter Steelhead", 
+        "nameSpace": "djv::Core::String", 
+        "id": "Klamath Mountains Province Winter Steelhead", 
+        "description": ""
+    }, 
+    {
+        "text": "Klamath River Lamprey", 
+        "nameSpace": "djv::Core::String", 
+        "id": "Klamath River Lamprey", 
+        "description": ""
+    }, 
+    {
+        "text": "Klamath Smallscale Sucker", 
+        "nameSpace": "djv::Core::String", 
+        "id": "Klamath Smallscale Sucker", 
+        "description": ""
+    }, 
+    {
+        "text": "Klamath Speckled Dace", 
+        "nameSpace": "djv::Core::String", 
+        "id": "Klamath Speckled Dace", 
+        "description": ""
+    }, 
+    {
+        "text": "Klamath Tui Chub", 
+        "nameSpace": "djv::Core::String", 
+        "id": "Klamath Tui Chub", 
+        "description": ""
+    }, 
+    {
+        "text": "Lahontan Cutthroat Trout", 
+        "nameSpace": "djv::Core::String", 
+        "id": "Lahontan Cutthroat Trout", 
+        "description": ""
+    }, 
+    {
+        "text": "Lahontan Lake Tui Chub", 
+        "nameSpace": "djv::Core::String", 
+        "id": "Lahontan Lake Tui Chub", 
+        "description": ""
+    }, 
+    {
+        "text": "Lahontan Mountain Sucker", 
+        "nameSpace": "djv::Core::String", 
+        "id": "Lahontan Mountain Sucker", 
+        "description": ""
+    }, 
+    {
+        "text": "Lahontan Redside", 
+        "nameSpace": "djv::Core::String", 
+        "id": "Lahontan Redside", 
+        "description": ""
+    }, 
+    {
+        "text": "Lahontan speckled Dace", 
+        "nameSpace": "djv::Core::String", 
+        "id": "Lahontan Speckled Dace", 
+        "description": ""
+    }, 
+    {
+        "text": "Lahontan Stream Tui Chub", 
+        "nameSpace": "djv::Core::String", 
+        "id": "Lahontan Stream Tui Chub", 
+        "description": ""
+    }, 
+    {
+        "text": "Lake Trout", 
+        "nameSpace": "djv::Core::String", 
+        "id": "Lake Trout", 
+        "description": ""
+    }, 
+    {
+        "text": "Largemouth Bass", 
+        "nameSpace": "djv::Core::String", 
+        "id": "Largemouth Bass", 
+        "description": ""
+    }, 
+    {
+        "text": "Little Kern Golden Foring", 
+        "nameSpace": "djv::Core::String", 
+        "id": "Little Kern Golden Trout", 
+        "description": ""
+    }, 
+    {
+        "text": "Long Valley speckled Dace", 
+        "nameSpace": "djv::Core::String", 
+        "id": "Long Valley Speckled Dace", 
+        "description": ""
+    }, 
+    {
+        "text": "Longfin Smelt", 
+        "nameSpace": "djv::Core::String", 
+        "id": "Longfin Smelt", 
+        "description": ""
+    }, 
+    {
+        "text": "Longjaw Mudsucker", 
+        "nameSpace": "djv::Core::String", 
+        "id": "Longjaw Mudsucker", 
+        "description": ""
+    }, 
+    {
+        "text": "Lost River Sucker", 
+        "nameSpace": "djv::Core::String", 
+        "id": "Lost River Sucker", 
+        "description": ""
+    }, 
+    {
+        "text": "Ne\u00f0ri Klamath Marbled Sculpin", 
+        "nameSpace": "djv::Core::String", 
+        "id": "Lower Klamath Marbled Sculpin", 
+        "description": ""
+    }, 
+    {
+        "text": "McCloud River Redband Trout", 
+        "nameSpace": "djv::Core::String", 
+        "id": "McCloud River Redband Trout", 
+        "description": ""
+    }, 
+    {
+        "text": "Mississippi Silversides", 
+        "nameSpace": "djv::Core::String", 
+        "id": "Mississippi Silversides", 
+        "description": ""
+    }, 
+    {
+        "text": "Modoc Sucker", 
+        "nameSpace": "djv::Core::String", 
+        "id": "Modoc Sucker", 
+        "description": ""
+    }, 
+    {
+        "text": "Mojave Tui Chub", 
+        "nameSpace": "djv::Core::String", 
+        "id": "Mojave Tui Chub", 
+        "description": ""
+    }, 
+    {
+        "text": "Monterey Hitch", 
+        "nameSpace": "djv::Core::String", 
+        "id": "Monterey Hitch", 
+        "description": ""
+    }, 
+    {
+        "text": "Monterey Roach", 
+        "nameSpace": "djv::Core::String", 
+        "id": "Monterey Roach", 
+        "description": ""
+    }, 
+    {
+        "text": "Monterey Sucker", 
+        "nameSpace": "djv::Core::String", 
+        "id": "Monterey Sucker", 
+        "description": ""
+    }, 
+    {
+        "text": "Mountain Whitefish", 
+        "nameSpace": "djv::Core::String", 
+        "id": "Mountain Whitefish", 
+        "description": ""
+    }, 
+    {
+        "text": "Navarro Roach", 
+        "nameSpace": "djv::Core::String", 
+        "id": "Navarro Roach", 
+        "description": ""
+    }, 
+    {
+        "text": "Northern (Pit) Roach", 
+        "nameSpace": "djv::Core::String", 
+        "id": "Northern (Pit) Roach", 
+        "description": ""
+    }, 
+    {
+        "text": "Nor\u00f0ur-Kaliforn\u00eda Brook Lamprey", 
+        "nameSpace": "djv::Core::String", 
+        "id": "Northern California Brook Lamprey", 
+        "description": ""
+    }, 
+    {
+        "text": "Northern California Coast Summer Steelhead", 
+        "nameSpace": "djv::Core::String", 
+        "id": "Northern California Coast Summer Steelhead", 
+        "description": ""
+    }, 
+    {
+        "text": "Northern California Coast Winter Steelhead", 
+        "nameSpace": "djv::Core::String", 
+        "id": "Northern California Coast Winter Steelhead", 
+        "description": ""
+    }, 
+    {
+        "text": "Northern Green Sturgeon", 
+        "nameSpace": "djv::Core::String", 
+        "id": "Northern Green Sturgeon", 
+        "description": ""
+    }, 
+    {
+        "text": "Owens Pupfish", 
+        "nameSpace": "djv::Core::String", 
+        "id": "Owens Pupfish", 
+        "description": ""
+    }, 
+    {
+        "text": "Owens speckled Dace", 
+        "nameSpace": "djv::Core::String", 
+        "id": "Owens Speckled Dace", 
+        "description": ""
+    }, 
+    {
+        "text": "Owens Sucker", 
+        "nameSpace": "djv::Core::String", 
+        "id": "Owens Sucker", 
+        "description": ""
+    }, 
+    {
+        "text": "Owens Tui Chub", 
+        "nameSpace": "djv::Core::String", 
+        "id": "Owens Tui Chub", 
+        "description": ""
+    }, 
+    {
+        "text": "Pacific Lamprey", 
+        "nameSpace": "djv::Core::String", 
+        "id": "Pacific Lamprey", 
+        "description": ""
+    }, 
+    {
+        "text": "Paiute Cutthroat Trout", 
+        "nameSpace": "djv::Core::String", 
+        "id": "Paiute Cutthroat Trout", 
+        "description": ""
+    }, 
+    {
+        "text": "Paiute Sculpin", 
+        "nameSpace": "djv::Core::String", 
+        "id": "Paiute Sculpin", 
+        "description": ""
+    }, 
+    {
+        "text": "Pink lax", 
+        "nameSpace": "djv::Core::String", 
+        "id": "Pink Salmon", 
+        "description": ""
+    }, 
+    {
+        "text": "Pit River Tui Chub", 
+        "nameSpace": "djv::Core::String", 
+        "id": "Pit River Tui Chub", 
+        "description": ""
+    }, 
+    {
+        "text": "Pit Sculpin", 
+        "nameSpace": "djv::Core::String", 
+        "id": "Pit Sculpin", 
+        "description": ""
+    }, 
+    {
+        "text": "Pit-Klamath Brook Lamprey", 
+        "nameSpace": "djv::Core::String", 
+        "id": "Pit-Klamath Brook Lamprey", 
+        "description": ""
+    }, 
+    {
+        "text": "Porthole Livebearer", 
+        "nameSpace": "djv::Core::String", 
+        "id": "Porthole Livebearer", 
+        "description": ""
+    }, 
+    {
+        "text": "Prickly Sculpin", 
+        "nameSpace": "djv::Core::String", 
+        "id": "Prickly Sculpin", 
+        "description": ""
+    }, 
+    {
+        "text": "Pumpkinseed", 
+        "nameSpace": "djv::Core::String", 
+        "id": "Pumpkinseed", 
+        "description": ""
+    }, 
+    {
+        "text": "Rainwater Killifish", 
+        "nameSpace": "djv::Core::String", 
+        "id": "Rainwater Killifish", 
+        "description": ""
+    }, 
+    {
+        "text": "Razorback Sucker", 
+        "nameSpace": "djv::Core::String", 
+        "id": "Razorback Sucker", 
+        "description": ""
+    }, 
+    {
+        "text": "Red Hills Roach", 
+        "nameSpace": "djv::Core::String", 
+        "id": "Red Hills Roach", 
+        "description": ""
+    }, 
+    {
+        "text": "Red Shiner", 
+        "nameSpace": "djv::Core::String", 
+        "id": "Red Shiner", 
+        "description": ""
+    }, 
+    {
+        "text": "Redear Sunfish", 
+        "nameSpace": "djv::Core::String", 
+        "id": "Redear Sunfish", 
+        "description": ""
+    }, 
+    {
+        "text": "Redeye Bass", 
+        "nameSpace": "djv::Core::String", 
+        "id": "Redeye Bass", 
+        "description": ""
+    }, 
+    {
+        "text": "Reticulate Sculpin", 
+        "nameSpace": "djv::Core::String", 
+        "id": "Reticulate Sculpin", 
+        "description": ""
+    }, 
+    {
+        "text": "Riffle Sculpin", 
+        "nameSpace": "djv::Core::String", 
+        "id": "Riffle Sculpin", 
+        "description": ""
+    }, 
+    {
+        "text": "River Lamprey", 
+        "nameSpace": "djv::Core::String", 
+        "id": "River Lamprey", 
+        "description": ""
+    }, 
+    {
+        "text": "Rough Sculpin", 
+        "nameSpace": "djv::Core::String", 
+        "id": "Rough Sculpin", 
+        "description": ""
+    }, 
+    {
+        "text": "Russian River Roach", 
+        "nameSpace": "djv::Core::String", 
+        "id": "Russian River Roach", 
+        "description": ""
+    }, 
+    {
+        "text": "Russian River Tule Abch", 
+        "nameSpace": "djv::Core::String", 
+        "id": "Russian River Tule Perch", 
+        "description": ""
+    }, 
+    {
+        "text": "Sacramento Blackfish", 
+        "nameSpace": "djv::Core::String", 
+        "id": "Sacramento Blackfish", 
+        "description": ""
+    }, 
+    {
+        "text": "Sacramento Hitch", 
+        "nameSpace": "djv::Core::String", 
+        "id": "Sacramento Hitch", 
+        "description": ""
+    }, 
+    {
+        "text": "Sacramento Karfa", 
+        "nameSpace": "djv::Core::String", 
+        "id": "Sacramento Perch", 
+        "description": ""
+    }, 
+    {
+        "text": "Sacramento Pikeminnow", 
+        "nameSpace": "djv::Core::String", 
+        "id": "Sacramento Pikeminnow", 
+        "description": ""
+    }, 
+    {
+        "text": "Sacramento Sp\u00e6na Dace", 
+        "nameSpace": "djv::Core::String", 
+        "id": "Sacramento Speckled Dace", 
+        "description": ""
+    }, 
+    {
+        "text": "Sacramento Splittail", 
+        "nameSpace": "djv::Core::String", 
+        "id": "Sacramento Splittail", 
+        "description": ""
+    }, 
+    {
+        "text": "Sacramento Sucker", 
+        "nameSpace": "djv::Core::String", 
+        "id": "Sacramento Sucker", 
+        "description": ""
+    }, 
+    {
+        "text": "Sacramento Tule Karfa", 
+        "nameSpace": "djv::Core::String", 
+        "id": "Sacramento Tule Perch", 
+        "description": ""
+    }, 
+    {
+        "text": "Sailfin Molly", 
+        "nameSpace": "djv::Core::String", 
+        "id": "Sailfin Molly", 
+        "description": ""
+    }, 
+    {
+        "text": "Salt Creek Pupfish", 
+        "nameSpace": "djv::Core::String", 
+        "id": "Salt Creek Pupfish", 
+        "description": ""
+    }, 
+    {
+        "text": "Santa Ana, speckled Dace", 
+        "nameSpace": "djv::Core::String", 
+        "id": "Santa Ana Speckled Dace", 
+        "description": ""
+    }, 
+    {
+        "text": "Santa Ana Sucker", 
+        "nameSpace": "djv::Core::String", 
+        "id": "Santa Ana Sucker", 
+        "description": ""
+    }, 
+    {
+        "text": "Saratoga Springs Pupfish", 
+        "nameSpace": "djv::Core::String", 
+        "id": "Saratoga Springs Pupfish", 
+        "description": ""
+    }, 
+    {
+        "text": "Shay Creek Stickleback", 
+        "nameSpace": "djv::Core::String", 
+        "id": "Shay Creek Stickleback", 
+        "description": ""
+    }, 
+    {
+        "text": "Shimofuri Goby", 
+        "nameSpace": "djv::Core::String", 
+        "id": "Shimofuri Goby", 
+        "description": ""
+    }, 
+    {
+        "text": "Shiner Karfa", 
+        "nameSpace": "djv::Core::String", 
+        "id": "Shiner Perch", 
+        "description": ""
+    }, 
+    {
+        "text": "Shortfin Molly", 
+        "nameSpace": "djv::Core::String", 
+        "id": "Shortfin Molly", 
+        "description": ""
+    }, 
+    {
+        "text": "Shortnose Sucker", 
+        "nameSpace": "djv::Core::String", 
+        "id": "Shortnose Sucker", 
+        "description": ""
+    }, 
+    {
+        "text": "Shoshone Pupfish", 
+        "nameSpace": "djv::Core::String", 
+        "id": "Shoshone Pupfish", 
+        "description": ""
+    }, 
+    {
+        "text": "Smallmouth Bass", 
+        "nameSpace": "djv::Core::String", 
+        "id": "Smallmouth Bass", 
+        "description": ""
+    }, 
+    {
+        "text": "Sockeye (Kokanee) Lax", 
+        "nameSpace": "djv::Core::String", 
+        "id": "Sockeye (Kokanee) Salmon", 
+        "description": ""
+    }, 
+    {
+        "text": "South Central California Coast Steelhead", 
+        "nameSpace": "djv::Core::String", 
+        "id": "South Central California Coast Steelhead", 
+        "description": ""
+    }, 
+    {
+        "text": "Su\u00f0ur-Kaliforn\u00eda Steelhead", 
+        "nameSpace": "djv::Core::String", 
+        "id": "Southern California Steelhead", 
+        "description": ""
+    }, 
+    {
+        "text": "Southern Green Sturgeon", 
+        "nameSpace": "djv::Core::String", 
+        "id": "Southern Green Sturgeon", 
+        "description": ""
+    }, 
+    {
+        "text": "Su\u00f0ur-Oregon Northern California Coast Coho lax", 
+        "nameSpace": "djv::Core::String", 
+        "id": "Southern Oregon Northern California Coast Coho Salmon", 
+        "description": ""
+    }, 
+    {
+        "text": "Su\u00f0ur-Oregon Northern California Coast Fall Chinook lax", 
+        "nameSpace": "djv::Core::String", 
+        "id": "Southern Oregon Northern California Coast Fall Chinook Salmon", 
+        "description": ""
+    }, 
+    {
+        "text": "Spotted Bass", 
+        "nameSpace": "djv::Core::String", 
+        "id": "Spotted Bass", 
+        "description": ""
+    }, 
+    {
+        "text": "Staghorn Sculpin", 
+        "nameSpace": "djv::Core::String", 
+        "id": "Staghorn Sculpin", 
+        "description": ""
+    }, 
+    {
+        "text": "Starry Flounder", 
+        "nameSpace": "djv::Core::String", 
+        "id": "Starry Flounder", 
+        "description": ""
+    }, 
+    {
+        "text": "Striped Bass", 
+        "nameSpace": "djv::Core::String", 
+        "id": "Striped Bass", 
+        "description": ""
+    }, 
+    {
+        "text": "Striped Mullet", 
+        "nameSpace": "djv::Core::String", 
+        "id": "Striped Mullet", 
+        "description": ""
+    }, 
+    {
+        "text": "Brimbr\u00e6\u00f0sla", 
+        "nameSpace": "djv::Core::String", 
+        "id": "Surf Smelt", 
+        "description": ""
+    }, 
+    {
+        "text": "Tahoe Sucker", 
+        "nameSpace": "djv::Core::String", 
+        "id": "Tahoe Sucker", 
+        "description": ""
+    }, 
+    {
+        "text": "Tecopa Pupfish", 
+        "nameSpace": "djv::Core::String", 
+        "id": "Tecopa Pupfish", 
+        "description": ""
+    }, 
+    {
+        "text": "Tench", 
+        "nameSpace": "djv::Core::String", 
+        "id": "Tench", 
+        "description": ""
+    }, 
+    {
+        "text": "Thicktail Chub", 
+        "nameSpace": "djv::Core::String", 
+        "id": "Thicktail Chub", 
+        "description": ""
+    }, 
+    {
+        "text": "Threadfin Shad", 
+        "nameSpace": "djv::Core::String", 
+        "id": "Threadfin Shad", 
+        "description": ""
+    }, 
+    {
+        "text": "Tidewater Goby", 
+        "nameSpace": "djv::Core::String", 
+        "id": "Tidewater Goby", 
+        "description": ""
+    }, 
+    {
+        "text": "Tomales Roach", 
+        "nameSpace": "djv::Core::String", 
+        "id": "Tomales Roach", 
+        "description": ""
+    }, 
+    {
+        "text": "Topsmelt", 
+        "nameSpace": "djv::Core::String", 
+        "id": "Topsmelt", 
+        "description": ""
+    }, 
+    {
+        "text": "Unarmored Threespine Stickleback", 
+        "nameSpace": "djv::Core::String", 
+        "id": "Unarmored Threespine Stickleback", 
+        "description": ""
+    }, 
+    {
+        "text": "Upper Klamath Marbled Sculpin", 
+        "nameSpace": "djv::Core::String", 
+        "id": "Upper Klamath Marbled Sculpin", 
+        "description": ""
+    }, 
+    {
+        "text": "Upper Klamath-Trinity Fall Chinook lax", 
+        "nameSpace": "djv::Core::String", 
+        "id": "Upper Klamath-Trinity Fall Chinook Salmon", 
+        "description": ""
+    }, 
+    {
+        "text": "Efri Klamath-Trinity Vor Chinook Lax", 
+        "nameSpace": "djv::Core::String", 
+        "id": "Upper Klamath-Trinity Spring Chinook Salmon", 
+        "description": ""
+    }, 
+    {
+        "text": "Wakasagi", 
+        "nameSpace": "djv::Core::String", 
+        "id": "Wakasagi", 
+        "description": ""
+    }, 
+    {
+        "text": "Warmouth", 
+        "nameSpace": "djv::Core::String", 
+        "id": "Warmouth", 
+        "description": ""
+    }, 
+    {
+        "text": "Western Brook Lamprey", 
+        "nameSpace": "djv::Core::String", 
+        "id": "Western Brook Lamprey", 
+        "description": ""
+    }, 
+    {
+        "text": "Western Mosquitofish", 
+        "nameSpace": "djv::Core::String", 
+        "id": "Western Mosquitofish", 
+        "description": ""
+    }, 
+    {
+        "text": "White Bass", 
+        "nameSpace": "djv::Core::String", 
+        "id": "White Bass", 
+        "description": ""
+    }, 
+    {
+        "text": "White Catfish", 
+        "nameSpace": "djv::Core::String", 
+        "id": "White Catfish", 
+        "description": ""
+    }, 
+    {
+        "text": "White Crappie", 
+        "nameSpace": "djv::Core::String", 
+        "id": "White Crappie", 
+        "description": ""
+    }, 
+    {
+        "text": "White Sturgeon", 
+        "nameSpace": "djv::Core::String", 
+        "id": "White Sturgeon", 
+        "description": ""
+    }, 
+    {
+        "text": "Yellow Bullhead", 
+        "nameSpace": "djv::Core::String", 
+        "id": "Yellow Bullhead", 
+        "description": ""
+    }, 
+    {
+        "text": "Gull karfa", 
+        "nameSpace": "djv::Core::String", 
+        "id": "Yellow Perch", 
+        "description": ""
+    }, 
+    {
+        "text": "Yellowfin Goby", 
+        "nameSpace": "djv::Core::String", 
+        "id": "Yellowfin Goby", 
+        "description": ""
+    }, 
+    {
+        "text": "Sp\u00e1\u00f0 Dace er f\u00e6r um a\u00f0 b\u00faa \u00ed fj\u00f6lda b\u00fasv\u00e6\u00f0a fr\u00e1 litlum fj\u00f6\u00f0rum e\u00f0a l\u00e6kjum til st\u00f3ra \u00e1na og dj\u00fapa v\u00f6tn.", 
+        "nameSpace": "djv::Core::String", 
+        "id": "Speckled Dace are capable of living in an array of habitats from small springs or streams to large rivers and deep lakes.", 
+        "description": ""
+    }, 
+    {
+        "text": "Spa\u00f0a\u00f0ur Dace kj\u00f3sa b\u00fasv\u00e6\u00f0i sem inniheldur sk\u00fdrt, vel s\u00farefnisvatn, me\u00f0 hreyfingu vegna n\u00faverandi e\u00f0a bylgju.", 
+        "nameSpace": "djv::Core::String", 
+        "id": "Speckled Dace prefer habitat that includes clear, well oxygenated water, with movement due to a current or waves.", 
+        "description": ""
+    }, 
+    {
+        "text": "\u00dear a\u00f0 auki gl\u00edmar fiskurinn \u00e1 sv\u00e6\u00f0um me\u00f0 dj\u00fapa k\u00e1pa e\u00f0a v\u00f6rn gegn gr\u00f3\u00f0ri e\u00f0a vi\u00f0arbrota.", 
+        "nameSpace": "djv::Core::String", 
+        "id": "In addition the fish thrive in areas with deep cover or overhead protection from vegetation or woody debris.", 
+        "description": ""
+    }, 
+    {
+        "text": "Sp\u00e1\u00f0 Dace r\u00e1\u00f0a yfirleitt litla l\u00e6kna \u00ed \u00feri\u00f0ja til \u00feri\u00f0ja r\u00f6\u00f0 \u00fear sem \u00feeir f\u00e6\u00f0a og f\u00f3\u00f0ra fyrir skord\u00fdravatn.", 
+        "nameSpace": "djv::Core::String", 
+        "id": "Speckled Dace predominantly occupy small streams of the second to third order where they feed and forage for aquatic insects.", 
+        "description": ""
+    }, 
+    {
+        "text": "Tegundirnar eru mj\u00f6g a\u00f0l\u00f6gunarh\u00e6far og finnast \u00ed k\u00f6ldum alp\u00ednum v\u00f6tnum eins og Lake Tahoe, en hefur einnig geta\u00f0 lifa\u00f0 af m\u00f3tspyrnu vi\u00f0 hitastig vi\u00f0 e\u00f0a yfir 31 \u00b0 C me\u00f0 uppleystu s\u00farefnis\u00fe\u00e9ttni 1 mg / L.", 
+        "nameSpace": "djv::Core::String", 
+        "id": "The species is very adaptable and is found in cold alpine lakes such as Lake Tahoe, but has also been able to survive adversity in temperatures at or above 31\\u2103 with a dissolved oxygen concentration of 1 mg / L.", 
+        "description": ""
+    }, 
+    {
+        "text": "\u00cd l\u00e6kjum eru dregnir sundf\u00f6t \u00ed sundur me\u00f0fram botni a\u00f0 leita a\u00f0 litlum hryggleysingjum, en \u00ed v\u00f6tnum eru \u00feau t\u00e6kif\u00e6riss\u00fdkingar sem geta haft \u00e1hrif \u00e1 d\u00fdrasvif, \u00fe\u00f6runga, nymf, e\u00f0a flj\u00fagandi skord\u00fdr.", 
+        "nameSpace": "djv::Core::String", 
+        "id": "In streams speckled dace swim along the bottom looking for small invertebrates while in lakes they are opportunistic feeders that may feed on zooplankton, algae, nymphs, or the resulting flying insects.", 
+        "description": ""
+    }, 
+    {
+        "text": "Spenntur Dace hefur yfirleitt l\u00edfst\u00edma \u00e1 \u00feremur \u00e1rum, en getur lifa\u00f0 6 e\u00f0a fleiri \u00e1r, \u00fear sem konur vaxa venjulega hra\u00f0ar en karlar.", 
+        "nameSpace": "djv::Core::String", 
+        "id": "Speckled Dace typically have a life span of three years, but may live 6 or more years, during which time females typically grow more rapidly than males.", 
+        "description": ""
+    }, 
+    {
+        "text": "Fiskurinn ver\u00f0ur kynfer\u00f0islegur \u00feroska\u00f0ur \u00e1 \u00f6\u00f0ru \u00e1ri og \u00ed sumarm\u00e1nu\u00f0inni dr\u00e6tur hann.", 
+        "nameSpace": "djv::Core::String", 
+        "id": "The fish become sexually mature in their second year and during the summer months the dace spawn.", 
+        "description": ""
+    }, 
+    {
+        "text": "Straumb\u00faar hylja \u00ed riffles e\u00f0a gr\u00f3ft sv\u00e6\u00f0i, en vatni\u00f0 \u00edb\u00faar hylja \u00ed \u00fever\u00e1r e\u00f0a \u00ed grunnstr\u00f6nd.", 
+        "nameSpace": "djv::Core::String", 
+        "id": "Stream dwellers spawn in riffles or gravely areas, while the lake inhabitants spawn in tributaries or in shallow shoreline regions.", 
+        "description": ""
+    }, 
+    {
+        "text": "F\u00f3sturv\u00edsarnir klj\u00fafa \u00e1 6 d\u00f6gum og lirfurnar eru \u00e1fram \u00ed \u00f6ryggi m\u00f6lunnar \u00ed 7 - 8 daga.", 
+        "nameSpace": "djv::Core::String", 
+        "id": "The embryos hatch in 6 days, and the larvae remain in the safety of the gravel for 7 - 8 days.", 
+        "description": ""
+    }, 
+    {
+        "text": "Ungi steikurinn ey\u00f0ir s\u00ed\u00f0an snemma hluta l\u00edfs s\u00edns \u00ed grunnum, hl\u00fdjum sv\u00e6\u00f0um \u00ed straumnum e\u00f0a vatni \u00fear sem \u00feeir kl\u00f3ru \u00fat.", 
+        "nameSpace": "djv::Core::String", 
+        "id": "The young fry then spend the early part of their lives in the shallow warm areas of the stream or lake where they hatched.", 
+        "description": ""
+    }, 
+    {
+        "text": "Rangt", 
+        "nameSpace": "djv::Core::String", 
+        "id": "False", 
+        "description": ""
+    }, 
+    {
+        "text": "Satt", 
+        "nameSpace": "djv::Core::String", 
+        "id": "True", 
+        "description": ""
+    }, 
+    {
+        "text": "Villa vi\u00f0 a\u00f0 lesa textaskr\u00e1", 
+        "nameSpace": "djv::Core", 
+        "id": "Error reading text file", 
+        "description": ""
+    }, 
+    {
+        "text": "H\u00e6gur", 
+        "nameSpace": "djv::Core::Time", 
+        "id": "Slow", 
+        "description": ""
+    }, 
+    {
+        "text": "Mi\u00f0lungs", 
+        "nameSpace": "djv::Core::Time", 
+        "id": "Medium", 
+        "description": ""
+    }, 
+    {
+        "text": "Hratt", 
+        "nameSpace": "djv::Core::Time", 
+        "id": "Fast", 
+        "description": ""
+    }, 
+    {
+        "text": "Mj\u00f6g hratt", 
+        "nameSpace": "djv::Core::Time", 
+        "id": "VeryFast", 
+        "description": ""
+    }, 
+    {
+        "text": "L\u00ednuleg", 
+        "nameSpace": "djv:::Core::Animation", 
+        "id": "Linear", 
+        "description": ""
+    }, 
+    {
+        "text": "Au\u00f0velda inn", 
+        "nameSpace": "djv:::Core::Animation", 
+        "id": "EaseIn", 
+        "description": ""
+    }, 
+    {
+        "text": "Au\u00f0velda \u00fat", 
+        "nameSpace": "djv:::Core::Animation", 
+        "id": "EaseOut", 
+        "description": ""
+    }, 
+    {
+        "text": "Sl\u00e9tt skref", 
+        "nameSpace": "djv:::Core::Animation", 
+        "id": "SmoothStep", 
+        "description": ""
+    }, 
+    {
+        "text": "\u00feess", 
+        "nameSpace": "djv:::Core::Animation", 
+        "id": "Sine", 
+        "description": ""
+    }, 
+    {
+        "text": "Villa vi\u00f0 a\u00f0 finna breytingartilkynningu fyrir", 
+        "nameSpace": "djv::Core::FileSystem", 
+        "id": "Error finding change notification for", 
+        "description": ""
+    }, 
+    {
+        "text": "Foreldri", 
+        "nameSpace": "djv::Core::Event", 
+        "id": "Parent", 
+        "description": ""
+    }, 
+    {
+        "text": "Sta\u00f0bundi\u00f0 breytt", 
+        "nameSpace": "djv::Core::Event", 
+        "id": "LocaleChanged", 
+        "description": ""
+    }, 
+    {
+        "text": "Uppf\u00e6ra", 
+        "nameSpace": "djv::Core::Event", 
+        "id": "Update", 
+        "description": ""
+    }, 
+    {
+        "text": "St\u00edll breytt", 
+        "nameSpace": "djv::Core::Event", 
+        "id": "StyleChanged", 
+        "description": ""
+    }, 
+    {
+        "text": "Pre Layout", 
+        "nameSpace": "djv::Core::Event", 
+        "id": "PreLayout", 
+        "description": ""
+    }, 
+    {
+        "text": "Skipulag", 
+        "nameSpace": "djv::Core::Event", 
+        "id": "Layout", 
+        "description": ""
+    }, 
+    {
+        "text": "Klippi", 
+        "nameSpace": "djv::Core::Event", 
+        "id": "Clip", 
+        "description": ""
+    }, 
+    {
+        "text": "M\u00e1la", 
+        "nameSpace": "djv::Core::Event", 
+        "id": "Paint", 
+        "description": ""
+    }, 
+    {
+        "text": "Bendillinn inn", 
+        "nameSpace": "djv::Core::Event", 
+        "id": "PointerEnter", 
+        "description": ""
+    }, 
+    {
+        "text": "P\u00f3ker Leyfi", 
+        "nameSpace": "djv::Core::Event", 
+        "id": "PointerLeave", 
+        "description": ""
+    }, 
+    {
+        "text": "Bendillinn F\u00e6ra", 
+        "nameSpace": "djv::Core::Event", 
+        "id": "PointerMove", 
+        "description": ""
+    }, 
+    {
+        "text": "Hnappur \u00fdttu \u00e1", 
+        "nameSpace": "djv::Core::Event", 
+        "id": "ButtonPress", 
+        "description": ""
+    }, 
+    {
+        "text": "Button Release", 
+        "nameSpace": "djv::Core::Event", 
+        "id": "ButtonRelease", 
+        "description": ""
+    }, 
+    {
+        "text": "Flettu", 
+        "nameSpace": "djv::Core::Event", 
+        "id": "Scroll", 
+        "description": ""
+    }, 
+    {
+        "text": "Dropi", 
+        "nameSpace": "djv::Core::Event", 
+        "id": "Drop", 
+        "description": ""
+    }, 
+    {
+        "text": "Keyboard Focus", 
+        "nameSpace": "djv::Core::Event", 
+        "id": "KeyboardFocus", 
+        "description": ""
+    }, 
+    {
+        "text": "Keyboard Focus lost", 
+        "nameSpace": "djv::Core::Event", 
+        "id": "KeyboardFocusLost", 
+        "description": ""
+    }, 
+    {
+        "text": "Lykill", 
+        "nameSpace": "djv::Core::Event", 
+        "id": "Key", 
+        "description": ""
+    }, 
+    {
+        "text": "Texti", 
+        "nameSpace": "djv::Core::Event", 
+        "id": "Text", 
+        "description": ""
+    }, 
+    {
+        "text": "Skr\u00e1", 
+        "nameSpace": "djv::Core::FileSystem", 
+        "id": "File", 
+        "description": ""
+    }, 
+    {
+        "text": "Sequence", 
+        "nameSpace": "djv::Core::FileSystem", 
+        "id": "Sequence", 
+        "description": ""
+    }, 
+    {
+        "text": "Skr\u00e1", 
+        "nameSpace": "djv::Core::FileSystem", 
+        "id": "Directory", 
+        "description": ""
+    }, 
+    {
+        "text": "Nafn", 
+        "nameSpace": "djv::Core::FileSystem", 
+        "id": "Name", 
+        "description": ""
+    }, 
+    {
+        "text": "St\u00e6r\u00f0", 
+        "nameSpace": "djv::Core::FileSystem", 
+        "id": "Size", 
+        "description": ""
+    }, 
+    {
+        "text": "Heimildir", 
+        "nameSpace": "djv::Core::FileSystem", 
+        "id": "Permissions", 
+        "description": ""
+    }, 
+    {
+        "text": "Tegund", 
+        "nameSpace": "djv::Core::FileSystem", 
+        "id": "Type", 
+        "description": ""
+    }, 
+    {
+        "text": "Ums\u00f3kn", 
+        "nameSpace": "djv::Core::FileSystem", 
+        "id": "Application", 
+        "description": ""
+    }, 
+    {
+        "text": "Log skr\u00e1", 
+        "nameSpace": "djv::Core::FileSystem", 
+        "id": "LogFile", 
+        "description": ""
+    }, 
+    {
+        "text": "Stillingar Skr\u00e1", 
+        "nameSpace": "djv::Core::FileSystem", 
+        "id": "SettingsFile", 
+        "description": ""
+    }, 
+    {
+        "text": "Hlj\u00f3\u00f0skr\u00e1", 
+        "nameSpace": "djv::Core::FileSystem", 
+        "id": "AudioDirectory", 
+        "description": ""
+    }, 
+    {
+        "text": "Sk\u00edrnarfontur", 
+        "nameSpace": "djv::Core::FileSystem", 
+        "id": "FontsDirectory", 
+        "description": ""
+    }, 
+    {
+        "text": "T\u00e1knaskr\u00e1", 
+        "nameSpace": "djv::Core::FileSystem", 
+        "id": "IconsDirectory", 
+        "description": ""
+    }, 
+    {
+        "text": "Myndir Directory", 
+        "nameSpace": "djv::Core::FileSystem", 
+        "id": "ImagesDirectory", 
+        "description": ""
+    }, 
+    {
+        "text": "L\u00edkanaskr\u00e1", 
+        "nameSpace": "djv::Core::FileSystem", 
+        "id": "ModelsDirectory", 
+        "description": ""
+    }, 
+    {
+        "text": "Shaders Directory", 
+        "nameSpace": "djv::Core::FileSystem", 
+        "id": "ShadersDirectory", 
+        "description": ""
+    }, 
+    {
+        "text": "Textaskr\u00e1", 
+        "nameSpace": "djv::Core::FileSystem", 
+        "id": "TextDirectory", 
+        "description": ""
+    }, 
+    {
+        "text": "ParentChanged", 
+        "nameSpace": "djv::Core::Event", 
+        "id": "ParentChanged", 
+        "description": ""
+    }, 
+    {
+        "text": "sveitarf\u00e9laga", 
+        "nameSpace": "djv::Core::Event", 
+        "id": "Locale", 
+        "description": ""
+    }, 
+    {
+        "text": "St\u00edll", 
+        "nameSpace": "djv::Core::Event", 
+        "id": "Style", 
+        "description": ""
+    }, 
+    {
+        "text": "ChildAdded", 
+        "nameSpace": "djv::Core::Event", 
+        "id": "ChildAdded", 
+        "description": ""
+    }, 
+    {
+        "text": "ChildRemoved", 
+        "nameSpace": "djv::Core::Event", 
+        "id": "ChildRemoved", 
+        "description": ""
+    }, 
+    {
+        "text": "ChildOrder", 
+        "nameSpace": "djv::Core::Event", 
+        "id": "ChildOrder", 
+        "description": ""
+    }, 
+    {
+        "text": "PaintOverlay", 
+        "nameSpace": "djv::Core::Event", 
+        "id": "PaintOverlay", 
+        "description": ""
+    }
+]

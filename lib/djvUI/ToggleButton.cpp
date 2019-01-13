@@ -83,7 +83,7 @@ namespace djv
                         const float m = style->getMetric(Style::MetricsRole::Margin);
 
                         // Use the font size to determine the size of the button.
-                        const auto fontMetrics = fontSystem->getMetrics(style->getFont(AV::Font::Info::faceDefault, Style::MetricsRole::FontMedium)).get();
+                        const auto fontMetrics = fontSystem->getMetrics(style->getFontInfo(AV::Font::Info::faceDefault, Style::MetricsRole::FontMedium)).get();
                         _p->lineHeight = static_cast<float>(fontMetrics.lineHeight);
 
                         // Set the minimum size.

@@ -32,29 +32,11 @@
 #include <djvUI/ButtonGroup.h>
 #include <djvUI/FlowLayout.h>
 #include <djvUI/PushButton.h>
-/*#include <djvUI/Action.h>
-#include <djvUI/Border.h>
-#include <djvUI/ComboBox.h>
-#include <djvUI/IWindowSystem.h>
-#include <djvUI/Icon.h>
-#include <djvUI/FormLayout.h>
-#include <djvUI/GroupBox.h>
-#include <djvUI/Label.h>
-#include <djvUI/Overlay.h>
-#include <djvUI/RowLayout.h>
-#include <djvUI/ScrollWidget.h>
-#include <djvUI/Style.h>
-#include <djvUI/StyleSettings.h>
-#include <djvUI/ToolButton.h>
+#include <djvUI/FontSettings.h>
 #include <djvUI/UISystem.h>
-#include <djvUI/Window.h>*/
-
-//#include <djvAV/AVSystem.h>
 
 #include <djvCore/Context.h>
 #include <djvCore/TextSystem.h>
-
-//#include <GLFW/glfw3.h>
 
 using namespace djv::Core;
 
@@ -69,8 +51,10 @@ namespace djv
             std::shared_ptr<UI::Layout::Flow> layout;
             std::map<int, std::string> indexToLocale;
             std::map<std::string, int> localeToIndex;
+            std::map<std::string, std::string> localeFonts;
             std::map<std::string, std::shared_ptr<UI::Button::Push> > localeToButton;
             std::shared_ptr<ValueObserver<std::string> > localeObserver;
+            std::shared_ptr<MapObserver<std::string, std::string> > localeFontsObserver;
         };
 
         void LanguageSettingsWidget::_init(Context * context)
@@ -132,6 +116,20 @@ namespace djv
                     }
                 });
             }
+            
+            if (auto uiSystem = context->getSystemT<UI::UISystem>().lock())
+            {
+                p.localeFontsObserver = MapObserver<std::string, std::string>::create(
+                    uiSystem->getFontSettings()->observeLocaleFonts(),
+                    [weak](const std::map<std::string, std::string> & value)
+                {
+                    if (auto widget = weak.lock())
+                    {
+                        widget->_p->localeFonts = value;
+                        widget->_textUpdate();
+                    }
+                });
+            }
         }
 
         LanguageSettingsWidget::LanguageSettingsWidget() :
@@ -147,16 +145,36 @@ namespace djv
 
         void LanguageSettingsWidget::_localeEvent(Event::Locale &)
         {
+            _textUpdate();
+        }
+        
+        void LanguageSettingsWidget::_textUpdate()
+        {
             setText(_getText(DJV_TEXT("djv::ViewLib", "Language")));
             auto context = getContext();
             if (auto textSystem = context->getSystemT<TextSystem>().lock())
             {
                 for (const auto & i : textSystem->getLocales())
                 {
-                    const auto j = _p->localeToButton.find(i);
-                    if (j != _p->localeToButton.end())
+                    std::string font;
+                    auto j = _p->localeFonts.find(i);
+                    if (j != _p->localeFonts.end())
                     {
-                        j->second->setText(context->getText(i));
+                        font = j->second;
+                    }
+                    else
+                    {
+                        j = _p->localeFonts.find("Default");
+                        if (j != _p->localeFonts.end())
+                        {
+                            font = j->second;
+                        }
+                    }
+                    const auto k = _p->localeToButton.find(i);
+                    if (k != _p->localeToButton.end())
+                    {
+                        k->second->setText(context->getText(i));
+                        k->second->setFont(font);
                     }
                 }
             }

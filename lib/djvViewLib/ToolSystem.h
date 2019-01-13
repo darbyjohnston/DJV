@@ -51,6 +51,9 @@ namespace djv
             std::map<std::string, std::shared_ptr<UI::Action> > getActions() override;
             NewMenu createMenu() override;
 
+        protected:
+            void _localeEvent(Core::Event::Locale &) override;
+            
         private:
             DJV_PRIVATE();
         };

@@ -1588,5 +1588,29 @@
         "nameSpace": "djv::Core::Event", 
         "id": "Style", 
         "description": ""
+    }, 
+    {
+        "text": "Ni\u00f1oadded", 
+        "nameSpace": "djv::Core::Event", 
+        "id": "ChildAdded", 
+        "description": ""
+    }, 
+    {
+        "text": "Ni\u00f1o retirado", 
+        "nameSpace": "djv::Core::Event", 
+        "id": "ChildRemoved", 
+        "description": ""
+    }, 
+    {
+        "text": "Orden del ni\u00f1o", 
+        "nameSpace": "djv::Core::Event", 
+        "id": "ChildOrder", 
+        "description": ""
+    }, 
+    {
+        "text": "PaintOverlay", 
+        "nameSpace": "djv::Core::Event", 
+        "id": "PaintOverlay", 
+        "description": ""
     }
 ]

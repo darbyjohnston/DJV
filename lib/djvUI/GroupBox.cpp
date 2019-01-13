@@ -29,7 +29,6 @@
 
 #include <djvUI/GroupBox.h>
 
-#include <djvUI/Border.h>
 #include <djvUI/Label.h>
 #include <djvUI/RowLayout.h>
 #include <djvUI/StackLayout.h>
@@ -64,15 +63,12 @@ namespace djv
                 p.label->setMargin(Style::MetricsRole::MarginSmall);
                 
                 p.childLayout = Layout::Stack::create(context);
-                p.childLayout->setMargin(Style::MetricsRole::Margin);
-
-                auto border = Layout::Border::create(context);
-                border->addWidget(p.childLayout);
+                p.childLayout->setMargin(Layout::Margin(Style::MetricsRole::MarginLarge, Style::MetricsRole::MarginLarge, Style::MetricsRole::Margin, Style::MetricsRole::Margin));
 
                 p.layout = Layout::Vertical::create(context);
                 p.layout->setSpacing(Style::MetricsRole::None);
                 p.layout->addWidget(p.label);
-                p.layout->addWidget(border);
+                p.layout->addWidget(p.childLayout);
                 IContainer::addWidget(p.layout);
             }
 

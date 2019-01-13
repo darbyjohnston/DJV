@@ -34,8 +34,6 @@
 #include <djvUI/UISystem.h>
 
 #include <djvCore/Context.h>
-#include <djvCore/Math.h>
-#include <djvCore/Memory.h>
 #include <djvCore/TextSystem.h>
 
 //#pragma optimize("", off)
@@ -260,14 +258,6 @@ namespace djv
                     }
                 }
                 p.currentFont->setIfChanged(font);
-                auto context = getContext();
-                if (auto uiSystem = context->getSystemT<UISystem>().lock())
-                {
-                    if (auto style = uiSystem->getStyle())
-                    {
-                        style->setFont(font);
-                    }
-                }
             }
 
         } // namespace Settings
