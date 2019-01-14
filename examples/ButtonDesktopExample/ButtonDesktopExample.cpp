@@ -46,7 +46,7 @@ int main(int argc, char ** argv)
 
         auto button1 = UI::Button::Push::create(app.get());
         button1->setText("Button 1");
-        button1->setFontSizeRole(UI::Style::MetricsRole::FontExtraLarge);
+        button1->setFontSizeRole(UI::Style::MetricsRole::FontLarge);
         button1->setClickedCallback(
             []
         {
@@ -55,7 +55,7 @@ int main(int argc, char ** argv)
 
         auto button2 = UI::Button::Push::create(app.get());
         button2->setText("Button 2");
-        button2->setFontSizeRole(UI::Style::MetricsRole::FontExtraLarge);
+        button2->setFontSizeRole(UI::Style::MetricsRole::FontLarge);
         button2->setClickedCallback(
             []
         {
