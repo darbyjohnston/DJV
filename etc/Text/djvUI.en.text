@@ -1362,13 +1362,13 @@
         "description": ""
     }, 
     {
-        "text": "ForegroundHeader", 
+        "text": "Foreground Header", 
         "nameSpace": "djv::UI::Style", 
         "id": "ForegroundHeader", 
         "description": ""
     }, 
     {
-        "text": "MarginDialog", 
+        "text": "Margin Dialog", 
         "nameSpace": "djv::UI::Style", 
         "id": "MarginDialog", 
         "description": ""

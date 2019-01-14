@@ -270,127 +270,127 @@
         "description": ""
     }, 
     {
-        "text": "L_U8", 
+        "text": "L U8", 
         "nameSpace": "djv::AV::Image", 
         "id": "L_U8", 
         "description": ""
     }, 
     {
-        "text": "L_U16", 
+        "text": "L U16", 
         "nameSpace": "djv::AV::Image", 
         "id": "L_U16", 
         "description": ""
     }, 
     {
-        "text": "L_U32", 
+        "text": "L U32", 
         "nameSpace": "djv::AV::Image", 
         "id": "L_U32", 
         "description": ""
     }, 
     {
-        "text": "L_F16", 
+        "text": "L F16", 
         "nameSpace": "djv::AV::Image", 
         "id": "L_F16", 
         "description": ""
     }, 
     {
-        "text": "L_F32", 
+        "text": "L F32", 
         "nameSpace": "djv::AV::Image", 
         "id": "L_F32", 
         "description": ""
     }, 
     {
-        "text": "LA_U8", 
+        "text": "LA U8", 
         "nameSpace": "djv::AV::Image", 
         "id": "LA_U8", 
         "description": ""
     }, 
     {
-        "text": "LA_U16", 
+        "text": "LA U16", 
         "nameSpace": "djv::AV::Image", 
         "id": "LA_U16", 
         "description": ""
     }, 
     {
-        "text": "LA_U32", 
+        "text": "LA U32", 
         "nameSpace": "djv::AV::Image", 
         "id": "LA_U32", 
         "description": ""
     }, 
     {
-        "text": "LA_F16", 
+        "text": "LA F16", 
         "nameSpace": "djv::AV::Image", 
         "id": "LA_F16", 
         "description": ""
     }, 
     {
-        "text": "LA_F32", 
+        "text": "LA F32", 
         "nameSpace": "djv::AV::Image", 
         "id": "LA_F32", 
         "description": ""
     }, 
     {
-        "text": "RGB_U8", 
+        "text": "RGB U8", 
         "nameSpace": "djv::AV::Image", 
         "id": "RGB_U8", 
         "description": ""
     }, 
     {
-        "text": "RGB_U10", 
+        "text": "RGB U10", 
         "nameSpace": "djv::AV::Image", 
         "id": "RGB_U10", 
         "description": ""
     }, 
     {
-        "text": "RGB_U16", 
+        "text": "RGB U16", 
         "nameSpace": "djv::AV::Image", 
         "id": "RGB_U16", 
         "description": ""
     }, 
     {
-        "text": "RGB_U32", 
+        "text": "RGB U32", 
         "nameSpace": "djv::AV::Image", 
         "id": "RGB_U32", 
         "description": ""
     }, 
     {
-        "text": "RGB_F16", 
+        "text": "RGB F16", 
         "nameSpace": "djv::AV::Image", 
         "id": "RGB_F16", 
         "description": ""
     }, 
     {
-        "text": "RGB_F32", 
+        "text": "RGB F32", 
         "nameSpace": "djv::AV::Image", 
         "id": "RGB_F32", 
         "description": ""
     }, 
     {
-        "text": "RGBA_U8", 
+        "text": "RGBA U8", 
         "nameSpace": "djv::AV::Image", 
         "id": "RGBA_U8", 
         "description": ""
     }, 
     {
-        "text": "RGBA_U16", 
+        "text": "RGBA U16", 
         "nameSpace": "djv::AV::Image", 
         "id": "RGBA_U16", 
         "description": ""
     }, 
     {
-        "text": "RGBA_U32", 
+        "text": "RGBA U32", 
         "nameSpace": "djv::AV::Image", 
         "id": "RGBA_U32", 
         "description": ""
     }, 
     {
-        "text": "RGBA_F16", 
+        "text": "RGBA F16", 
         "nameSpace": "djv::AV::Image", 
         "id": "RGBA_F16", 
         "description": ""
     }, 
     {
-        "text": "RGBA_F32", 
+        "text": "RGBA F32", 
         "nameSpace": "djv::AV::Image", 
         "id": "RGBA_F32", 
         "description": ""
@@ -423,6 +423,12 @@
         "text": "Cannot create shader", 
         "nameSpace": "djv::AV::Render", 
         "id": "Cannot create shader", 
+        "description": ""
+    }, 
+    {
+        "text": "Cannot compile foobar vertex shader", 
+        "nameSpace": "djv::AV::OpenGL", 
+        "id": "Cannot compile foobar vertex shader", 
         "description": ""
     }
 ]

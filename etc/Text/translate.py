@@ -1,3 +1,5 @@
+# \todo Remove translations from the output file that are no longer in the input file
+#
 # References:
 # - https://github.com/GoogleCloudPlatform/python-docs-samples/blob/master/translate/cloud-client/quickstart.py
 
@@ -5,32 +7,48 @@ import sys
 import json
 from google.cloud import translate
 
+def getTranslation(translateClient, text, language):
+    translation = translateClient.translate(text, target_language=language)
+    print text, "=", translation['translatedText']
+    return translation['translatedText']
+
 def run():
     
     inFile = sys.argv[1]
     outFile = sys.argv[2]
     language = sys.argv[3]
     
-    data = json.load(open(inFile))
-    oldData = json.load(open(outFile))
+    inData = json.load(open(inFile))
+    outData = []
+    try:
+        outData = json.load(open(outFile))
+    except:
+        pass
 
     translateClient = translate.Client()
-    for item in data:
+    for inItem in inData:
         i = None
-        for oldItem in oldData:
-            if oldItem['id'] == item['id']:
-                i = oldItem['id']
+        for outItem in outData:
+            if outItem['id'] == inItem['id']:
+                i = outItem
                 break
         if None == i:
+            i = dict(inItem)
             itemLanguage = language
-            if 'language' in item:
-                itemLanguage = item['language']
-            translation = translateClient.translate(item['text'], target_language=itemLanguage)
-            print item['text'], "=", translation['translatedText']
-            item['text'] = translation['translatedText']
+            if 'language' in inItem:
+                itemLanguage = i['language']
+            i['text'] = getTranslation(translateClient, inItem['text'], itemLanguage)
+            i['source'] = inItem['text']
+            outData.append(i)
+        elif i['source'] != inItem['text']:
+            itemLanguage = language
+            if 'language' in inItem:
+                itemLanguage = i['language']
+            i['text'] = getTranslation(translateClient, inItem['text'], itemLanguage)
+            i['source'] = inItem['text']
 
     with open(outFile, 'w') as f:
-        json.dump(data, f, indent = 4)
+        json.dump(outData, f, indent = 4)
     
 if __name__ == '__main__':
     run()

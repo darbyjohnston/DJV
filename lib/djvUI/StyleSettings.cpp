@@ -132,9 +132,10 @@ namespace djv
                     const float v = metrics.getMetric(m);
                     mediumMetrics.setMetric(m, v * 1.5f);
                     largeMetrics.setMetric(m, v * 2.f);
-                    extraLargeMetrics.setMetric(m, v * 2.f);
+                    extraLargeMetrics.setMetric(m, v * 2.5f);
                 }
                 metricsList[DJV_TEXT("djv::UI::Settings", "Medium")] = mediumMetrics;
+                metricsList[DJV_TEXT("djv::UI::Settings", "Large")] = largeMetrics;
                 metricsList[DJV_TEXT("djv::UI::Settings", "ExtraLarge")] = extraLargeMetrics;
 
                 DJV_PRIVATE_PTR();

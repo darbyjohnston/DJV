@@ -1,536 +1,625 @@
 [
     {
-        "text": "H\u00e6tta", 
-        "nameSpace": "djv::ViewLib", 
         "id": "Exit", 
-        "description": ""
+        "source": "Exit", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "H\u00e6tta"
     }, 
     {
-        "text": "Ertu viss um a\u00f0 \u00fe\u00fa viljir fara?", 
-        "nameSpace": "djv::ViewLib", 
         "id": "Are you sure you want to exit?", 
-        "description": ""
+        "source": "Are you sure you want to exit?", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "Ertu viss um a\u00f0 \u00fe\u00fa viljir fara?"
     }, 
     {
-        "text": "J\u00e1", 
-        "nameSpace": "djv::ViewLib", 
         "id": "Yes", 
-        "description": ""
+        "source": "Yes", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "J\u00e1"
     }, 
     {
-        "text": "Nr", 
-        "nameSpace": "djv::ViewLib", 
         "id": "No", 
-        "description": ""
+        "source": "No", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "Nr"
     }, 
     {
-        "text": "Skr\u00e1", 
-        "nameSpace": "djv::ViewLib", 
         "id": "File", 
-        "description": ""
+        "source": "File", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "Skr\u00e1"
     }, 
     {
-        "text": "Proxy Scale", 
-        "nameSpace": "djv::ViewLib", 
         "id": "Proxy Scale", 
-        "description": ""
+        "source": "Proxy Scale", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "Proxy Scale"
     }, 
     {
-        "text": "Opna", 
-        "nameSpace": "djv::ViewLib", 
         "id": "Open", 
-        "description": ""
+        "source": "Open", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "Opna"
     }, 
     {
-        "text": "N\u00fdleg", 
-        "nameSpace": "djv::ViewLib", 
         "id": "Recent", 
-        "description": ""
+        "source": "Recent", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "N\u00fdleg"
     }, 
     {
-        "text": "Endurhla\u00f0a", 
-        "nameSpace": "djv::ViewLib", 
         "id": "Reload", 
-        "description": ""
+        "source": "Reload", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "Endurhla\u00f0a"
     }, 
     {
-        "text": "Endurhla\u00f0a ramma", 
-        "nameSpace": "djv::ViewLib", 
         "id": "Reload Frame", 
-        "description": ""
+        "source": "Reload Frame", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "Endurhla\u00f0a ramma"
     }, 
     {
-        "text": "Loka", 
-        "nameSpace": "djv::ViewLib", 
         "id": "Close", 
-        "description": ""
+        "source": "Close", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "Loka"
     }, 
     {
-        "text": "\u00datflutningur", 
-        "nameSpace": "djv::ViewLib", 
         "id": "Export", 
-        "description": ""
+        "source": "Export", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "\u00datflutningur"
     }, 
     {
-        "text": "Lag", 
-        "nameSpace": "djv::ViewLib", 
         "id": "Layers", 
-        "description": ""
+        "source": "Layers", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "Lag"
     }, 
     {
-        "text": "N\u00e6sta lag", 
-        "nameSpace": "djv::ViewLib", 
         "id": "Next Layer", 
-        "description": ""
+        "source": "Next Layer", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "N\u00e6sta lag"
     }, 
     {
-        "text": "Fyrri lag", 
-        "nameSpace": "djv::ViewLib", 
         "id": "Previous Layer", 
-        "description": ""
+        "source": "Previous Layer", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "Fyrri lag"
     }, 
     {
-        "text": "8-bita vi\u00f0skipta", 
-        "nameSpace": "djv::ViewLib", 
         "id": "8-bit Conversion", 
-        "description": ""
+        "source": "8-bit Conversion", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "8-bita vi\u00f0skipta"
     }, 
     {
-        "text": "Minnisskyndiminni", 
-        "nameSpace": "djv::ViewLib", 
         "id": "Memory Cache", 
-        "description": ""
+        "source": "Memory Cache", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "Minnisskyndiminni"
     }, 
     {
-        "text": "Hreinsa skyndiminni", 
-        "nameSpace": "djv::ViewLib", 
         "id": "Clear Cache", 
-        "description": ""
+        "source": "Clear Cache", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "Hreinsa skyndiminni"
     }, 
     {
-        "text": "Skjalfesting", 
-        "nameSpace": "djv::ViewLib", 
         "id": "Documentation", 
-        "description": ""
+        "source": "Documentation", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "Skjalfesting"
     }, 
     {
-        "text": "Uppl\u00fdsingar", 
-        "nameSpace": "djv::ViewLib", 
         "id": "Information", 
-        "description": ""
+        "source": "Information", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "Uppl\u00fdsingar"
     }, 
     {
-        "text": "Um", 
-        "nameSpace": "djv::ViewLib", 
         "id": "About", 
-        "description": ""
+        "source": "About", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "Um"
     }, 
     {
-        "text": "Hj\u00e1lp", 
-        "nameSpace": "djv::ViewLib", 
         "id": "Help", 
-        "description": ""
+        "source": "Help", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "Hj\u00e1lp"
     }, 
     {
-        "text": "Mynd", 
-        "nameSpace": "djv::ViewLib", 
         "id": "Image", 
-        "description": ""
+        "source": "Image", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "Mynd"
     }, 
     {
-        "text": "Skala", 
-        "nameSpace": "djv::ViewLib", 
         "id": "Scale", 
-        "description": ""
+        "source": "Scale", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "Skala"
     }, 
     {
-        "text": "Sn\u00faa", 
-        "nameSpace": "djv::ViewLib", 
         "id": "Rotate", 
-        "description": ""
+        "source": "Rotate", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "Sn\u00faa"
     }, 
     {
-        "text": "Mirror L\u00e1r\u00e9tt", 
-        "nameSpace": "djv::ViewLib", 
         "id": "Mirror Horizontal", 
-        "description": ""
+        "source": "Mirror Horizontal", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "Mirror L\u00e1r\u00e9tt"
     }, 
     {
-        "text": "Spegill l\u00f3\u00f0r\u00e9tt", 
-        "nameSpace": "djv::ViewLib", 
         "id": "Mirror Vertical", 
-        "description": ""
+        "source": "Mirror Vertical", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "Spegill l\u00f3\u00f0r\u00e9tt"
     }, 
     {
-        "text": "Litastj\u00f3rnun", 
-        "nameSpace": "djv::ViewLib", 
         "id": "Color Manager", 
-        "description": ""
+        "source": "Color Manager", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "Litastj\u00f3rnun"
     }, 
     {
-        "text": "Litur pr\u00f3f\u00edl", 
-        "nameSpace": "djv::ViewLib", 
         "id": "Color Profile", 
-        "description": ""
+        "source": "Color Profile", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "Litur pr\u00f3f\u00edl"
     }, 
     {
-        "text": "Sko\u00f0a pr\u00f3f\u00edl", 
-        "nameSpace": "djv::ViewLib", 
         "id": "Display Profile", 
-        "description": ""
+        "source": "Display Profile", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "Sko\u00f0a pr\u00f3f\u00edl"
     }, 
     {
-        "text": "Premulitplied Alpha", 
-        "nameSpace": "djv::ViewLib", 
         "id": "Premulitplied Alpha", 
-        "description": ""
+        "source": "Premulitplied Alpha", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "Premulitplied Alpha"
     }, 
     {
-        "text": "S\u00fdna rammaverslun", 
-        "nameSpace": "djv::ViewLib", 
         "id": "Show Frame Store", 
-        "description": ""
+        "source": "Show Frame Store", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "S\u00fdna rammaverslun"
     }, 
     {
-        "text": "Setja rammaverslun", 
-        "nameSpace": "djv::ViewLib", 
         "id": "Set Frame Store", 
-        "description": ""
+        "source": "Set Frame Store", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "Setja rammaverslun"
     }, 
     {
-        "text": "\u00dats\u00fdni", 
-        "nameSpace": "djv::ViewLib", 
         "id": "View", 
-        "description": ""
+        "source": "View", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "\u00dats\u00fdni"
     }, 
     {
-        "text": "Rist", 
-        "nameSpace": "djv::ViewLib", 
         "id": "Grid", 
-        "description": ""
+        "source": "Grid", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "Rist"
     }, 
     {
-        "text": "Vinstri", 
-        "nameSpace": "djv::ViewLib", 
         "id": "Left", 
-        "description": ""
+        "source": "Left", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "Vinstri"
     }, 
     {
-        "text": "H\u00e6gri", 
-        "nameSpace": "djv::ViewLib", 
         "id": "Right", 
-        "description": ""
+        "source": "Right", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "H\u00e6gri"
     }, 
     {
-        "text": "Upp", 
-        "nameSpace": "djv::ViewLib", 
         "id": "Up", 
-        "description": ""
+        "source": "Up", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "Upp"
     }, 
     {
-        "text": "Ni\u00f0ur", 
-        "nameSpace": "djv::ViewLib", 
         "id": "Down", 
-        "description": ""
+        "source": "Down", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "Ni\u00f0ur"
     }, 
     {
-        "text": "Mi\u00f0st\u00f6\u00f0", 
-        "nameSpace": "djv::ViewLib", 
         "id": "Center", 
-        "description": ""
+        "source": "Center", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "Mi\u00f0st\u00f6\u00f0"
     }, 
     {
-        "text": "Zoom inn", 
-        "nameSpace": "djv::ViewLib", 
         "id": "Zoom In", 
-        "description": ""
+        "source": "Zoom In", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "Zoom inn"
     }, 
     {
-        "text": "Zoom \u00fat", 
-        "nameSpace": "djv::ViewLib", 
         "id": "Zoom Out", 
-        "description": ""
+        "source": "Zoom Out", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "Zoom \u00fat"
     }, 
     {
-        "text": "Endurstilla Zoom", 
-        "nameSpace": "djv::ViewLib", 
         "id": "Reset Zoom", 
-        "description": ""
+        "source": "Reset Zoom", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "Endurstilla Zoom"
     }, 
     {
-        "text": "Endurstilla st\u00f6\u00f0u og a\u00f0dr\u00e1tt", 
-        "nameSpace": "djv::ViewLib", 
         "id": "Reset Position and Zoom", 
-        "description": ""
+        "source": "Reset Position and Zoom", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "Endurstilla st\u00f6\u00f0u og a\u00f0dr\u00e1tt"
     }, 
     {
-        "text": "Passa", 
-        "nameSpace": "djv::ViewLib", 
         "id": "Fit", 
-        "description": ""
+        "source": "Fit", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "Passa"
     }, 
     {
-        "text": "HUD", 
-        "nameSpace": "djv::ViewLib", 
         "id": "HUD", 
-        "description": ""
+        "source": "HUD", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "HUD"
     }, 
     {
-        "text": "Ekki er h\u00e6gt a\u00f0 b\u00faa til Open Source", 
-        "nameSpace": "djv::ViewLib", 
         "id": "cannot create OpenAL source", 
-        "description": ""
+        "source": "cannot create OpenAL source", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "Ekki er h\u00e6gt a\u00f0 b\u00faa til Open Source"
     }, 
     {
-        "text": "Ekki er h\u00e6gt a\u00f0 b\u00faa til OpenAL bi\u00f0minni", 
-        "nameSpace": "djv::ViewLib", 
         "id": "cannot create OpenAL buffers", 
-        "description": ""
+        "source": "cannot create OpenAL buffers", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "Ekki er h\u00e6gt a\u00f0 b\u00faa til OpenAL bi\u00f0minni"
     }, 
     {
-        "text": "Ekki er h\u00e6gt a\u00f0 opna", 
-        "nameSpace": "djv::ViewLib", 
         "id": "cannot open", 
-        "description": ""
+        "source": "cannot open", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "Ekki er h\u00e6gt a\u00f0 opna"
     }, 
     {
-        "text": "Spilun", 
-        "nameSpace": "djv::ViewLib", 
         "id": "Playback", 
-        "description": ""
+        "source": "Playback", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "Spilun"
     }, 
     {
-        "text": "Loop", 
-        "nameSpace": "djv::ViewLib", 
         "id": "Loop", 
-        "description": ""
+        "source": "Loop", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "Loop"
     }, 
     {
-        "text": "Skipulag", 
-        "nameSpace": "djv::ViewLib", 
         "id": "Layout", 
-        "description": ""
+        "source": "Layout", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "Skipulag"
     }, 
     {
-        "text": "H\u00e6ttu", 
-        "nameSpace": "djv::ViewLib", 
         "id": "Stop", 
-        "description": ""
+        "source": "Stop", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "H\u00e6ttu"
     }, 
     {
-        "text": "\u00c1fram", 
-        "nameSpace": "djv::ViewLib", 
         "id": "Forward", 
-        "description": ""
+        "source": "Forward", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "\u00c1fram"
     }, 
     {
-        "text": "Aftur", 
-        "nameSpace": "djv::ViewLib", 
         "id": "Reverse", 
-        "description": ""
+        "source": "Reverse", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "Aftur"
     }, 
     {
-        "text": "V\u00edxla spilun", 
-        "nameSpace": "djv::ViewLib", 
         "id": "Toggle Playback", 
-        "description": ""
+        "source": "Toggle Playback", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "V\u00edxla spilun"
     }, 
     {
-        "text": "V\u00edxla aftur\u00e1bak", 
-        "nameSpace": "djv::ViewLib", 
         "id": "Toggle Reverse Playback", 
-        "description": ""
+        "source": "Toggle Reverse Playback", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "V\u00edxla aftur\u00e1bak"
     }, 
     {
-        "text": "Spila hvert ramma", 
-        "nameSpace": "djv::ViewLib", 
         "id": "Play Every Frame", 
-        "description": ""
+        "source": "Play Every Frame", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "Spila hvert ramma"
     }, 
     {
-        "text": "Fara \u00ed punkt", 
-        "nameSpace": "djv::ViewLib", 
         "id": "Go To In Point", 
-        "description": ""
+        "source": "Go To In Point", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "Fara \u00ed punkt"
     }, 
     {
-        "text": "Fari\u00f0 \u00fat \u00far sta\u00f0", 
-        "nameSpace": "djv::ViewLib", 
         "id": "Go To Out Point", 
-        "description": ""
+        "source": "Go To Out Point", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "Fari\u00f0 \u00fat \u00far sta\u00f0"
     }, 
     {
-        "text": "Fara \u00ed byrjunarlista", 
-        "nameSpace": "djv::ViewLib", 
         "id": "Go To Start Frame", 
-        "description": ""
+        "source": "Go To Start Frame", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "Fara \u00ed byrjunarlista"
     }, 
     {
-        "text": "Fara \u00ed lok ramma", 
-        "nameSpace": "djv::ViewLib", 
         "id": "Go To End Frame", 
-        "description": ""
+        "source": "Go To End Frame", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "Fara \u00ed lok ramma"
     }, 
     {
-        "text": "N\u00e6sta ramma", 
-        "nameSpace": "djv::ViewLib", 
         "id": "Next Frame", 
-        "description": ""
+        "source": "Next Frame", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "N\u00e6sta ramma"
     }, 
     {
-        "text": "N\u00e6sta ramma X10", 
-        "nameSpace": "djv::ViewLib", 
         "id": "Next Frame X10", 
-        "description": ""
+        "source": "Next Frame X10", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "N\u00e6sta ramma X10"
     }, 
     {
-        "text": "N\u00e6sta ramma X100", 
-        "nameSpace": "djv::ViewLib", 
         "id": "Next Frame X100", 
-        "description": ""
+        "source": "Next Frame X100", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "N\u00e6sta ramma X100"
     }, 
     {
-        "text": "Fyrri ramma", 
-        "nameSpace": "djv::ViewLib", 
         "id": "Previous Frame", 
-        "description": ""
+        "source": "Previous Frame", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "Fyrri ramma"
     }, 
     {
-        "text": "Fyrri ramma X10", 
-        "nameSpace": "djv::ViewLib", 
         "id": "Previous Frame X10", 
-        "description": ""
+        "source": "Previous Frame X10", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "Fyrri ramma X10"
     }, 
     {
-        "text": "Fyrri ramma X100", 
-        "nameSpace": "djv::ViewLib", 
         "id": "Previous Frame X100", 
-        "description": ""
+        "source": "Previous Frame X100", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "Fyrri ramma X100"
     }, 
     {
-        "text": "Virkja inn / \u00fat stig", 
-        "nameSpace": "djv::ViewLib", 
         "id": "Enable In/Out Points", 
-        "description": ""
+        "source": "Enable In/Out Points", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "Virkja inn / \u00fat stig"
     }, 
     {
-        "text": "Setja \u00ed punkt", 
-        "nameSpace": "djv::ViewLib", 
         "id": "Set In Point", 
-        "description": ""
+        "source": "Set In Point", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "Setja \u00ed punkt"
     }, 
     {
-        "text": "Setja \u00fat punkt", 
-        "nameSpace": "djv::ViewLib", 
         "id": "Set Out Point", 
-        "description": ""
+        "source": "Set Out Point", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "Setja \u00fat punkt"
     }, 
     {
-        "text": "Endurstilla \u00ed punkti", 
-        "nameSpace": "djv::ViewLib", 
         "id": "Reset In Point", 
-        "description": ""
+        "source": "Reset In Point", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "Endurstilla \u00ed punkti"
     }, 
     {
-        "text": "Endurstilla \u00fatpunkt", 
-        "nameSpace": "djv::ViewLib", 
         "id": "Reset Out Point", 
-        "description": ""
+        "source": "Reset Out Point", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "Endurstilla \u00fatpunkt"
     }, 
     {
-        "text": "Stillingar", 
-        "nameSpace": "djv::ViewLib", 
         "id": "Settings", 
-        "description": ""
+        "source": "Settings", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "Stillingar"
     }, 
     {
-        "text": "Almennt", 
-        "nameSpace": "djv::ViewLib", 
         "id": "General", 
-        "description": ""
+        "source": "General", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "Almennt"
     }, 
     {
-        "text": "Litaspjald", 
-        "nameSpace": "djv::ViewLib", 
         "id": "Color palette", 
-        "description": ""
+        "source": "Color palette", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "Litaspjald"
     }, 
     {
-        "text": "DPI", 
-        "nameSpace": "djv::ViewLib", 
         "id": "DPI", 
-        "description": ""
+        "source": "DPI", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "DPI"
     }, 
     {
-        "text": "sveitarf\u00e9laga", 
-        "nameSpace": "djv::ViewLib", 
         "id": "Locale", 
-        "description": ""
+        "source": "Locale", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "sveitarf\u00e9laga"
     }, 
     {
-        "text": "Gluggi", 
-        "nameSpace": "djv::ViewLib", 
         "id": "Window", 
-        "description": ""
+        "source": "Window", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "Gluggi"
     }, 
     {
-        "text": "Afrit", 
-        "nameSpace": "djv::ViewLib", 
         "id": "Duplicate", 
-        "description": ""
+        "source": "Duplicate", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "Afrit"
     }, 
     {
-        "text": "Fullskj\u00e1r", 
-        "nameSpace": "djv::ViewLib", 
         "id": "Full Screen", 
-        "description": ""
+        "source": "Full Screen", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "Fullskj\u00e1r"
     }, 
     {
-        "text": "S\u00fdna", 
-        "nameSpace": "djv::ViewLib", 
         "id": "Display", 
-        "description": ""
+        "source": "Display", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "S\u00fdna"
     }, 
     {
-        "text": "Tungum\u00e1l", 
-        "nameSpace": "djv::ViewLib", 
         "id": "Language", 
-        "description": ""
+        "source": "Language", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "Tungum\u00e1l"
     }, 
     {
-        "text": "Litaspjald", 
-        "nameSpace": "djv::ViewLib", 
         "id": "Color Palette", 
-        "description": ""
+        "source": "Color Palette", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "Litaspjald"
     }, 
     {
-        "text": "H\u00e1marka", 
-        "nameSpace": "djv::ViewLib", 
         "id": "Maximize", 
-        "description": ""
+        "source": "Maximize", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "H\u00e1marka"
     }, 
     {
-        "text": "N\u00e6st", 
-        "nameSpace": "djv::ViewLib", 
         "id": "Next", 
-        "description": ""
+        "source": "Next", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "N\u00e6st"
     }, 
     {
-        "text": "Fyrri", 
-        "nameSpace": "djv::ViewLib", 
         "id": "Prev", 
-        "description": ""
+        "source": "Prev", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "Fyrri"
     }, 
     {
-        "text": "Verkf\u00e6ri", 
-        "nameSpace": "djv::ViewLib", 
         "id": "Tools", 
-        "description": ""
+        "source": "Tools", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "Verkf\u00e6ri"
     }, 
     {
-        "text": "Palette", 
-        "nameSpace": "djv::ViewLib", 
         "id": "Palette", 
-        "description": ""
+        "source": "Palette", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "Palette"
     }
 ]

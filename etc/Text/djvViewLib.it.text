@@ -1,536 +1,625 @@
 [
     {
-        "text": "Uscita", 
-        "nameSpace": "djv::ViewLib", 
         "id": "Exit", 
-        "description": ""
+        "source": "Exit", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "Uscita"
     }, 
     {
-        "text": "Siete sicuri di voler uscire?", 
-        "nameSpace": "djv::ViewLib", 
         "id": "Are you sure you want to exit?", 
-        "description": ""
+        "source": "Are you sure you want to exit?", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "Siete sicuri di voler uscire?"
     }, 
     {
-        "text": "s\u00ec", 
-        "nameSpace": "djv::ViewLib", 
         "id": "Yes", 
-        "description": ""
+        "source": "Yes", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "s\u00ec"
     }, 
     {
-        "text": "No", 
-        "nameSpace": "djv::ViewLib", 
         "id": "No", 
-        "description": ""
+        "source": "No", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "No"
     }, 
     {
-        "text": "File", 
-        "nameSpace": "djv::ViewLib", 
         "id": "File", 
-        "description": ""
+        "source": "File", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "File"
     }, 
     {
-        "text": "Scala proxy", 
-        "nameSpace": "djv::ViewLib", 
         "id": "Proxy Scale", 
-        "description": ""
+        "source": "Proxy Scale", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "Scala proxy"
     }, 
     {
-        "text": "Aperto", 
-        "nameSpace": "djv::ViewLib", 
         "id": "Open", 
-        "description": ""
+        "source": "Open", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "Aperto"
     }, 
     {
-        "text": "Recente", 
-        "nameSpace": "djv::ViewLib", 
         "id": "Recent", 
-        "description": ""
+        "source": "Recent", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "Recente"
     }, 
     {
-        "text": "Ricaricare", 
-        "nameSpace": "djv::ViewLib", 
         "id": "Reload", 
-        "description": ""
+        "source": "Reload", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "Ricaricare"
     }, 
     {
-        "text": "Ricarica cornice", 
-        "nameSpace": "djv::ViewLib", 
         "id": "Reload Frame", 
-        "description": ""
+        "source": "Reload Frame", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "Ricarica cornice"
     }, 
     {
-        "text": "Vicino", 
-        "nameSpace": "djv::ViewLib", 
         "id": "Close", 
-        "description": ""
+        "source": "Close", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "Vicino"
     }, 
     {
-        "text": "Esportare", 
-        "nameSpace": "djv::ViewLib", 
         "id": "Export", 
-        "description": ""
+        "source": "Export", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "Esportare"
     }, 
     {
-        "text": "Livelli", 
-        "nameSpace": "djv::ViewLib", 
         "id": "Layers", 
-        "description": ""
+        "source": "Layers", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "Livelli"
     }, 
     {
-        "text": "Next Layer", 
-        "nameSpace": "djv::ViewLib", 
         "id": "Next Layer", 
-        "description": ""
+        "source": "Next Layer", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "Next Layer"
     }, 
     {
-        "text": "Livello precedente", 
-        "nameSpace": "djv::ViewLib", 
         "id": "Previous Layer", 
-        "description": ""
+        "source": "Previous Layer", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "Livello precedente"
     }, 
     {
-        "text": "Conversione a 8 bit", 
-        "nameSpace": "djv::ViewLib", 
         "id": "8-bit Conversion", 
-        "description": ""
+        "source": "8-bit Conversion", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "Conversione a 8 bit"
     }, 
     {
-        "text": "Cache di memoria", 
-        "nameSpace": "djv::ViewLib", 
         "id": "Memory Cache", 
-        "description": ""
+        "source": "Memory Cache", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "Cache di memoria"
     }, 
     {
-        "text": "Cancella cache", 
-        "nameSpace": "djv::ViewLib", 
         "id": "Clear Cache", 
-        "description": ""
+        "source": "Clear Cache", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "Cancella cache"
     }, 
     {
-        "text": "Documentazione", 
-        "nameSpace": "djv::ViewLib", 
         "id": "Documentation", 
-        "description": ""
+        "source": "Documentation", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "Documentazione"
     }, 
     {
-        "text": "Informazione", 
-        "nameSpace": "djv::ViewLib", 
         "id": "Information", 
-        "description": ""
+        "source": "Information", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "Informazione"
     }, 
     {
-        "text": "Di", 
-        "nameSpace": "djv::ViewLib", 
         "id": "About", 
-        "description": ""
+        "source": "About", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "Di"
     }, 
     {
-        "text": "Aiuto", 
-        "nameSpace": "djv::ViewLib", 
         "id": "Help", 
-        "description": ""
+        "source": "Help", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "Aiuto"
     }, 
     {
-        "text": "Immagine", 
-        "nameSpace": "djv::ViewLib", 
         "id": "Image", 
-        "description": ""
+        "source": "Image", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "Immagine"
     }, 
     {
-        "text": "Scala", 
-        "nameSpace": "djv::ViewLib", 
         "id": "Scale", 
-        "description": ""
+        "source": "Scale", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "Scala"
     }, 
     {
-        "text": "Ruotare", 
-        "nameSpace": "djv::ViewLib", 
         "id": "Rotate", 
-        "description": ""
+        "source": "Rotate", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "Ruotare"
     }, 
     {
-        "text": "Specchio orizzontale", 
-        "nameSpace": "djv::ViewLib", 
         "id": "Mirror Horizontal", 
-        "description": ""
+        "source": "Mirror Horizontal", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "Specchio orizzontale"
     }, 
     {
-        "text": "Specchio verticale", 
-        "nameSpace": "djv::ViewLib", 
         "id": "Mirror Vertical", 
-        "description": ""
+        "source": "Mirror Vertical", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "Specchio verticale"
     }, 
     {
-        "text": "Color Manager", 
-        "nameSpace": "djv::ViewLib", 
         "id": "Color Manager", 
-        "description": ""
+        "source": "Color Manager", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "Color Manager"
     }, 
     {
-        "text": "Profilo colore", 
-        "nameSpace": "djv::ViewLib", 
         "id": "Color Profile", 
-        "description": ""
+        "source": "Color Profile", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "Profilo colore"
     }, 
     {
-        "text": "Visualizza profilo", 
-        "nameSpace": "djv::ViewLib", 
         "id": "Display Profile", 
-        "description": ""
+        "source": "Display Profile", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "Visualizza profilo"
     }, 
     {
-        "text": "Alfa premiscelato", 
-        "nameSpace": "djv::ViewLib", 
         "id": "Premulitplied Alpha", 
-        "description": ""
+        "source": "Premulitplied Alpha", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "Alfa premiscelato"
     }, 
     {
-        "text": "Mostra Frame Store", 
-        "nameSpace": "djv::ViewLib", 
         "id": "Show Frame Store", 
-        "description": ""
+        "source": "Show Frame Store", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "Mostra Frame Store"
     }, 
     {
-        "text": "Imposta archivio fotogrammi", 
-        "nameSpace": "djv::ViewLib", 
         "id": "Set Frame Store", 
-        "description": ""
+        "source": "Set Frame Store", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "Imposta archivio fotogrammi"
     }, 
     {
-        "text": "vista", 
-        "nameSpace": "djv::ViewLib", 
         "id": "View", 
-        "description": ""
+        "source": "View", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "vista"
     }, 
     {
-        "text": "Griglia", 
-        "nameSpace": "djv::ViewLib", 
         "id": "Grid", 
-        "description": ""
+        "source": "Grid", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "Griglia"
     }, 
     {
-        "text": "Sinistra", 
-        "nameSpace": "djv::ViewLib", 
         "id": "Left", 
-        "description": ""
+        "source": "Left", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "Sinistra"
     }, 
     {
-        "text": "Destra", 
-        "nameSpace": "djv::ViewLib", 
         "id": "Right", 
-        "description": ""
+        "source": "Right", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "Destra"
     }, 
     {
-        "text": "Su", 
-        "nameSpace": "djv::ViewLib", 
         "id": "Up", 
-        "description": ""
+        "source": "Up", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "Su"
     }, 
     {
-        "text": "Gi\u00f9", 
-        "nameSpace": "djv::ViewLib", 
         "id": "Down", 
-        "description": ""
+        "source": "Down", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "Gi\u00f9"
     }, 
     {
-        "text": "Centro", 
-        "nameSpace": "djv::ViewLib", 
         "id": "Center", 
-        "description": ""
+        "source": "Center", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "Centro"
     }, 
     {
-        "text": "Ingrandire", 
-        "nameSpace": "djv::ViewLib", 
         "id": "Zoom In", 
-        "description": ""
+        "source": "Zoom In", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "Ingrandire"
     }, 
     {
-        "text": "Zoom indietro", 
-        "nameSpace": "djv::ViewLib", 
         "id": "Zoom Out", 
-        "description": ""
+        "source": "Zoom Out", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "Zoom indietro"
     }, 
     {
-        "text": "Reimposta lo zoom", 
-        "nameSpace": "djv::ViewLib", 
         "id": "Reset Zoom", 
-        "description": ""
+        "source": "Reset Zoom", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "Reimposta lo zoom"
     }, 
     {
-        "text": "Ripristina posizione e zoom", 
-        "nameSpace": "djv::ViewLib", 
         "id": "Reset Position and Zoom", 
-        "description": ""
+        "source": "Reset Position and Zoom", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "Ripristina posizione e zoom"
     }, 
     {
-        "text": "In forma", 
-        "nameSpace": "djv::ViewLib", 
         "id": "Fit", 
-        "description": ""
+        "source": "Fit", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "In forma"
     }, 
     {
-        "text": "HUD", 
-        "nameSpace": "djv::ViewLib", 
         "id": "HUD", 
-        "description": ""
+        "source": "HUD", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "HUD"
     }, 
     {
-        "text": "impossibile creare l&#39;origine OpenAL", 
-        "nameSpace": "djv::ViewLib", 
         "id": "cannot create OpenAL source", 
-        "description": ""
+        "source": "cannot create OpenAL source", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "impossibile creare l&#39;origine OpenAL"
     }, 
     {
-        "text": "non \u00e8 possibile creare i buffer OpenAL", 
-        "nameSpace": "djv::ViewLib", 
         "id": "cannot create OpenAL buffers", 
-        "description": ""
+        "source": "cannot create OpenAL buffers", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "non \u00e8 possibile creare i buffer OpenAL"
     }, 
     {
-        "text": "non si pu\u00f2 aprire", 
-        "nameSpace": "djv::ViewLib", 
         "id": "cannot open", 
-        "description": ""
+        "source": "cannot open", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "non si pu\u00f2 aprire"
     }, 
     {
-        "text": "riproduzione", 
-        "nameSpace": "djv::ViewLib", 
         "id": "Playback", 
-        "description": ""
+        "source": "Playback", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "riproduzione"
     }, 
     {
-        "text": "Ciclo continuo", 
-        "nameSpace": "djv::ViewLib", 
         "id": "Loop", 
-        "description": ""
+        "source": "Loop", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "Ciclo continuo"
     }, 
     {
-        "text": "disposizione", 
-        "nameSpace": "djv::ViewLib", 
         "id": "Layout", 
-        "description": ""
+        "source": "Layout", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "disposizione"
     }, 
     {
-        "text": "Stop", 
-        "nameSpace": "djv::ViewLib", 
         "id": "Stop", 
-        "description": ""
+        "source": "Stop", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "Stop"
     }, 
     {
-        "text": "Inoltrare", 
-        "nameSpace": "djv::ViewLib", 
         "id": "Forward", 
-        "description": ""
+        "source": "Forward", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "Inoltrare"
     }, 
     {
-        "text": "Inverso", 
-        "nameSpace": "djv::ViewLib", 
         "id": "Reverse", 
-        "description": ""
+        "source": "Reverse", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "Inverso"
     }, 
     {
-        "text": "Attiva / disattiva la riproduzione", 
-        "nameSpace": "djv::ViewLib", 
         "id": "Toggle Playback", 
-        "description": ""
+        "source": "Toggle Playback", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "Attiva / disattiva la riproduzione"
     }, 
     {
-        "text": "Attiva / disattiva la riproduzione inversa", 
-        "nameSpace": "djv::ViewLib", 
         "id": "Toggle Reverse Playback", 
-        "description": ""
+        "source": "Toggle Reverse Playback", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "Attiva / disattiva la riproduzione inversa"
     }, 
     {
-        "text": "Riproduci ogni fotogramma", 
-        "nameSpace": "djv::ViewLib", 
         "id": "Play Every Frame", 
-        "description": ""
+        "source": "Play Every Frame", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "Riproduci ogni fotogramma"
     }, 
     {
-        "text": "Vai al punto", 
-        "nameSpace": "djv::ViewLib", 
         "id": "Go To In Point", 
-        "description": ""
+        "source": "Go To In Point", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "Vai al punto"
     }, 
     {
-        "text": "Vai al punto di partenza", 
-        "nameSpace": "djv::ViewLib", 
         "id": "Go To Out Point", 
-        "description": ""
+        "source": "Go To Out Point", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "Vai al punto di partenza"
     }, 
     {
-        "text": "Vai al fotogramma iniziale", 
-        "nameSpace": "djv::ViewLib", 
         "id": "Go To Start Frame", 
-        "description": ""
+        "source": "Go To Start Frame", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "Vai al fotogramma iniziale"
     }, 
     {
-        "text": "Vai al fotogramma finale", 
-        "nameSpace": "djv::ViewLib", 
         "id": "Go To End Frame", 
-        "description": ""
+        "source": "Go To End Frame", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "Vai al fotogramma finale"
     }, 
     {
-        "text": "Fotogramma successivo", 
-        "nameSpace": "djv::ViewLib", 
         "id": "Next Frame", 
-        "description": ""
+        "source": "Next Frame", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "Fotogramma successivo"
     }, 
     {
-        "text": "Next Frame X10", 
-        "nameSpace": "djv::ViewLib", 
         "id": "Next Frame X10", 
-        "description": ""
+        "source": "Next Frame X10", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "Next Frame X10"
     }, 
     {
-        "text": "Next Frame X100", 
-        "nameSpace": "djv::ViewLib", 
         "id": "Next Frame X100", 
-        "description": ""
+        "source": "Next Frame X100", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "Next Frame X100"
     }, 
     {
-        "text": "Cornice precedente", 
-        "nameSpace": "djv::ViewLib", 
         "id": "Previous Frame", 
-        "description": ""
+        "source": "Previous Frame", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "Cornice precedente"
     }, 
     {
-        "text": "Frame precedente X10", 
-        "nameSpace": "djv::ViewLib", 
         "id": "Previous Frame X10", 
-        "description": ""
+        "source": "Previous Frame X10", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "Frame precedente X10"
     }, 
     {
-        "text": "Frame precedente X100", 
-        "nameSpace": "djv::ViewLib", 
         "id": "Previous Frame X100", 
-        "description": ""
+        "source": "Previous Frame X100", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "Frame precedente X100"
     }, 
     {
-        "text": "Abilita punti In / Out", 
-        "nameSpace": "djv::ViewLib", 
         "id": "Enable In/Out Points", 
-        "description": ""
+        "source": "Enable In/Out Points", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "Abilita punti In / Out"
     }, 
     {
-        "text": "Imposta in punto", 
-        "nameSpace": "djv::ViewLib", 
         "id": "Set In Point", 
-        "description": ""
+        "source": "Set In Point", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "Imposta in punto"
     }, 
     {
-        "text": "Set Out Point", 
-        "nameSpace": "djv::ViewLib", 
         "id": "Set Out Point", 
-        "description": ""
+        "source": "Set Out Point", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "Set Out Point"
     }, 
     {
-        "text": "Ripristina punto", 
-        "nameSpace": "djv::ViewLib", 
         "id": "Reset In Point", 
-        "description": ""
+        "source": "Reset In Point", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "Ripristina punto"
     }, 
     {
-        "text": "Reset Out Point", 
-        "nameSpace": "djv::ViewLib", 
         "id": "Reset Out Point", 
-        "description": ""
+        "source": "Reset Out Point", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "Reset Out Point"
     }, 
     {
-        "text": "impostazioni", 
-        "nameSpace": "djv::ViewLib", 
         "id": "Settings", 
-        "description": ""
+        "source": "Settings", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "impostazioni"
     }, 
     {
-        "text": "Generale", 
-        "nameSpace": "djv::ViewLib", 
         "id": "General", 
-        "description": ""
+        "source": "General", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "Generale"
     }, 
     {
-        "text": "Palette dei colori", 
-        "nameSpace": "djv::ViewLib", 
         "id": "Color palette", 
-        "description": ""
+        "source": "Color palette", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "Palette dei colori"
     }, 
     {
-        "text": "DPI", 
-        "nameSpace": "djv::ViewLib", 
         "id": "DPI", 
-        "description": ""
+        "source": "DPI", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "DPI"
     }, 
     {
-        "text": "Locale", 
-        "nameSpace": "djv::ViewLib", 
         "id": "Locale", 
-        "description": ""
+        "source": "Locale", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "Locale"
     }, 
     {
-        "text": "Finestra", 
-        "nameSpace": "djv::ViewLib", 
         "id": "Window", 
-        "description": ""
+        "source": "Window", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "Finestra"
     }, 
     {
-        "text": "Duplicare", 
-        "nameSpace": "djv::ViewLib", 
         "id": "Duplicate", 
-        "description": ""
+        "source": "Duplicate", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "Duplicare"
     }, 
     {
-        "text": "A schermo intero", 
-        "nameSpace": "djv::ViewLib", 
         "id": "Full Screen", 
-        "description": ""
+        "source": "Full Screen", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "A schermo intero"
     }, 
     {
-        "text": "Display", 
-        "nameSpace": "djv::ViewLib", 
         "id": "Display", 
-        "description": ""
+        "source": "Display", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "Display"
     }, 
     {
-        "text": "linguaggio", 
-        "nameSpace": "djv::ViewLib", 
         "id": "Language", 
-        "description": ""
+        "source": "Language", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "linguaggio"
     }, 
     {
-        "text": "Palette dei colori", 
-        "nameSpace": "djv::ViewLib", 
         "id": "Color Palette", 
-        "description": ""
+        "source": "Color Palette", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "Palette dei colori"
     }, 
     {
-        "text": "massimizzare", 
-        "nameSpace": "djv::ViewLib", 
         "id": "Maximize", 
-        "description": ""
+        "source": "Maximize", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "massimizzare"
     }, 
     {
-        "text": "Il prossimo", 
-        "nameSpace": "djv::ViewLib", 
         "id": "Next", 
-        "description": ""
+        "source": "Next", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "Il prossimo"
     }, 
     {
-        "text": "prev", 
-        "nameSpace": "djv::ViewLib", 
         "id": "Prev", 
-        "description": ""
+        "source": "Prev", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "prev"
     }, 
     {
-        "text": "Utensili", 
-        "nameSpace": "djv::ViewLib", 
         "id": "Tools", 
-        "description": ""
+        "source": "Tools", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "Utensili"
     }, 
     {
-        "text": "Tavolozza", 
-        "nameSpace": "djv::ViewLib", 
         "id": "Palette", 
-        "description": ""
+        "source": "Palette", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "Tavolozza"
     }
 ]

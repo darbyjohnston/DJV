@@ -163,16 +163,16 @@ namespace djv
                 {
                     if (auto style = _getStyle().lock())
                     {
-                        const float m = style->getMetric(Style::MetricsRole::MarginSmall);
+                        const float b = style->getMetric(Style::MetricsRole::Border);
                         const auto & children = getChildrenT<Widget>();
                         if (children.size())
                         {
-                            const BBox2f g = children.back()->getGeometry().margin(m);
+                            const BBox2f g = children.back()->getGeometry().margin(b);
                             render->setFillColor(_getColorWithOpacity(style->getColor(Style::ColorRole::Checked)));
-                            render->drawRectangle(BBox2f(g.min, glm::vec2(g.max.x, g.min.y + m)));
-                            render->drawRectangle(BBox2f(glm::vec2(g.min.x, g.min.y + m), glm::vec2(g.min.x + m, g.max.y - m)));
-                            render->drawRectangle(BBox2f(glm::vec2(g.max.x - m, g.min.y + m), glm::vec2(g.max.x, g.max.y - m)));
-                            render->drawRectangle(BBox2f(glm::vec2(g.min.x, g.max.y - m), glm::vec2(g.max.x, g.max.y)));
+                            render->drawRectangle(BBox2f(g.min, glm::vec2(g.max.x, g.min.y + b)));
+                            render->drawRectangle(BBox2f(glm::vec2(g.min.x, g.min.y + b), glm::vec2(g.min.x + b, g.max.y - b)));
+                            render->drawRectangle(BBox2f(glm::vec2(g.max.x - b, g.min.y + b), glm::vec2(g.max.x, g.max.y - b)));
+                            render->drawRectangle(BBox2f(glm::vec2(g.min.x, g.max.y - b), glm::vec2(g.max.x, g.max.y)));
                         }
                     }
                 }

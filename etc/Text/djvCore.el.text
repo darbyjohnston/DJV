@@ -1,1616 +1,1885 @@
 [
     {
-        "text": "\u0394\u03b5\u03bd \u03b5\u03af\u03bd\u03b1\u03b9 \u03b4\u03c5\u03bd\u03b1\u03c4\u03cc \u03c4\u03bf \u03ac\u03bd\u03bf\u03b9\u03b3\u03bc\u03b1 \u03b1\u03c1\u03c7\u03b5\u03af\u03bf\u03c5", 
-        "nameSpace": "djv::Core::FileSystem", 
         "id": "Cannot open file", 
-        "description": ""
+        "source": "Cannot open file", 
+        "nameSpace": "djv::Core::FileSystem", 
+        "description": "", 
+        "text": "\u0394\u03b5\u03bd \u03b5\u03af\u03bd\u03b1\u03b9 \u03b4\u03c5\u03bd\u03b1\u03c4\u03cc \u03c4\u03bf \u03ac\u03bd\u03bf\u03b9\u03b3\u03bc\u03b1 \u03b1\u03c1\u03c7\u03b5\u03af\u03bf\u03c5"
     }, 
     {
-        "text": "\u0394\u03b5\u03bd \u03b5\u03af\u03bd\u03b1\u03b9 \u03b4\u03c5\u03bd\u03b1\u03c4\u03ae \u03b7 \u03ba\u03bb\u03b5\u03af\u03c3\u03b9\u03bc\u03bf \u03b1\u03c1\u03c7\u03b5\u03af\u03bf\u03c5", 
-        "nameSpace": "djv::Core::FileSystem", 
         "id": "Cannot close file", 
-        "description": ""
+        "source": "Cannot close file", 
+        "nameSpace": "djv::Core::FileSystem", 
+        "description": "", 
+        "text": "\u0394\u03b5\u03bd \u03b5\u03af\u03bd\u03b1\u03b9 \u03b4\u03c5\u03bd\u03b1\u03c4\u03ae \u03b7 \u03ba\u03bb\u03b5\u03af\u03c3\u03b9\u03bc\u03bf \u03b1\u03c1\u03c7\u03b5\u03af\u03bf\u03c5"
     }, 
     {
-        "text": "\u0394\u03b5\u03bd \u03b5\u03af\u03bd\u03b1\u03b9 \u03b4\u03c5\u03bd\u03b1\u03c4\u03ae \u03b7 \u03c7\u03b1\u03c1\u03c4\u03bf\u03b3\u03c1\u03ac\u03c6\u03b7\u03c3\u03b7 \u03b1\u03c1\u03c7\u03b5\u03af\u03bf\u03c5", 
-        "nameSpace": "djv::Core::FileSystem", 
         "id": "Cannot map file", 
-        "description": ""
+        "source": "Cannot map file", 
+        "nameSpace": "djv::Core::FileSystem", 
+        "description": "", 
+        "text": "\u0394\u03b5\u03bd \u03b5\u03af\u03bd\u03b1\u03b9 \u03b4\u03c5\u03bd\u03b1\u03c4\u03ae \u03b7 \u03c7\u03b1\u03c1\u03c4\u03bf\u03b3\u03c1\u03ac\u03c6\u03b7\u03c3\u03b7 \u03b1\u03c1\u03c7\u03b5\u03af\u03bf\u03c5"
     }, 
     {
-        "text": "\u0394\u03b5\u03bd \u03b5\u03af\u03bd\u03b1\u03b9 \u03b4\u03c5\u03bd\u03b1\u03c4\u03ae \u03b7 \u03b1\u03c0\u03b5\u03b3\u03ba\u03b1\u03c4\u03ac\u03c3\u03c4\u03b1\u03c3\u03b7 \u03c4\u03bf\u03c5 \u03b1\u03c1\u03c7\u03b5\u03af\u03bf\u03c5", 
-        "nameSpace": "djv::Core::FileSystem", 
         "id": "Cannot unmap file", 
-        "description": ""
+        "source": "Cannot unmap file", 
+        "nameSpace": "djv::Core::FileSystem", 
+        "description": "", 
+        "text": "\u0394\u03b5\u03bd \u03b5\u03af\u03bd\u03b1\u03b9 \u03b4\u03c5\u03bd\u03b1\u03c4\u03ae \u03b7 \u03b1\u03c0\u03b5\u03b3\u03ba\u03b1\u03c4\u03ac\u03c3\u03c4\u03b1\u03c3\u03b7 \u03c4\u03bf\u03c5 \u03b1\u03c1\u03c7\u03b5\u03af\u03bf\u03c5"
     }, 
     {
-        "text": "\u0394\u03b5\u03bd \u03b5\u03af\u03bd\u03b1\u03b9 \u03b4\u03c5\u03bd\u03b1\u03c4\u03ae \u03b7 \u03b1\u03bd\u03ac\u03b3\u03bd\u03c9\u03c3\u03b7 \u03b1\u03c1\u03c7\u03b5\u03af\u03bf\u03c5", 
-        "nameSpace": "djv::Core::FileSystem", 
         "id": "Cannot read file", 
-        "description": ""
+        "source": "Cannot read file", 
+        "nameSpace": "djv::Core::FileSystem", 
+        "description": "", 
+        "text": "\u0394\u03b5\u03bd \u03b5\u03af\u03bd\u03b1\u03b9 \u03b4\u03c5\u03bd\u03b1\u03c4\u03ae \u03b7 \u03b1\u03bd\u03ac\u03b3\u03bd\u03c9\u03c3\u03b7 \u03b1\u03c1\u03c7\u03b5\u03af\u03bf\u03c5"
     }, 
     {
-        "text": "\u0394\u03b5\u03bd \u03b5\u03af\u03bd\u03b1\u03b9 \u03b4\u03c5\u03bd\u03b1\u03c4\u03ae \u03b7 \u03b5\u03b3\u03b3\u03c1\u03b1\u03c6\u03ae \u03b1\u03c1\u03c7\u03b5\u03af\u03bf\u03c5", 
-        "nameSpace": "djv::Core::FileSystem", 
         "id": "Cannot write file", 
-        "description": ""
+        "source": "Cannot write file", 
+        "nameSpace": "djv::Core::FileSystem", 
+        "description": "", 
+        "text": "\u0394\u03b5\u03bd \u03b5\u03af\u03bd\u03b1\u03b9 \u03b4\u03c5\u03bd\u03b1\u03c4\u03ae \u03b7 \u03b5\u03b3\u03b3\u03c1\u03b1\u03c6\u03ae \u03b1\u03c1\u03c7\u03b5\u03af\u03bf\u03c5"
     }, 
     {
-        "text": "MSB", 
-        "nameSpace": "djv::Core::Memory", 
         "id": "MSB", 
-        "description": ""
-    }, 
-    {
-        "text": "LSB", 
+        "source": "MSB", 
         "nameSpace": "djv::Core::Memory", 
+        "description": "", 
+        "text": "MSB"
+    }, 
+    {
         "id": "LSB", 
-        "description": ""
+        "source": "LSB", 
+        "nameSpace": "djv::Core::Memory", 
+        "description": "", 
+        "text": "LSB"
     }, 
     {
-        "text": "\u03a3\u03c0\u03af\u03c4\u03b9", 
-        "nameSpace": "djv::Core::OS", 
         "id": "Home", 
-        "description": ""
+        "source": "Home", 
+        "nameSpace": "djv::Core::OS", 
+        "description": "", 
+        "text": "\u03a3\u03c0\u03af\u03c4\u03b9"
     }, 
     {
-        "text": "\u0395\u03c0\u03b9\u03c6\u03ac\u03bd\u03b5\u03b9\u03b1 \u03b5\u03c1\u03b3\u03b1\u03c3\u03af\u03b1\u03c2", 
-        "nameSpace": "djv::Core::OS", 
         "id": "Desktop", 
-        "description": ""
+        "source": "Desktop", 
+        "nameSpace": "djv::Core::OS", 
+        "description": "", 
+        "text": "\u0395\u03c0\u03b9\u03c6\u03ac\u03bd\u03b5\u03b9\u03b1 \u03b5\u03c1\u03b3\u03b1\u03c3\u03af\u03b1\u03c2"
     }, 
     {
-        "text": "\u0395\u03b3\u03b3\u03c1\u03b1\u03c6\u03b1", 
-        "nameSpace": "djv::Core::OS", 
         "id": "Documents", 
-        "description": ""
-    }, 
-    {
-        "text": "\u039b\u03ae\u03c8\u03b5\u03b9\u03c2", 
+        "source": "Documents", 
         "nameSpace": "djv::Core::OS", 
+        "description": "", 
+        "text": "\u0395\u03b3\u03b3\u03c1\u03b1\u03c6\u03b1"
+    }, 
+    {
         "id": "Downloads", 
-        "description": ""
+        "source": "Downloads", 
+        "nameSpace": "djv::Core::OS", 
+        "description": "", 
+        "text": "\u039b\u03ae\u03c8\u03b5\u03b9\u03c2"
     }, 
     {
-        "text": "\u0394\u03b5\u03bd \u03b5\u03af\u03bd\u03b1\u03b9 \u03b4\u03c5\u03bd\u03b1\u03c4\u03ae \u03b7 \u03b4\u03b7\u03bc\u03b9\u03bf\u03c5\u03c1\u03b3\u03af\u03b1 \u03ba\u03b1\u03c4\u03b1\u03bb\u03cc\u03b3\u03bf\u03c5", 
-        "nameSpace": "djv::Core::FileSystem", 
         "id": "Cannot create directory", 
-        "description": ""
+        "source": "Cannot create directory", 
+        "nameSpace": "djv::Core::FileSystem", 
+        "description": "", 
+        "text": "\u0394\u03b5\u03bd \u03b5\u03af\u03bd\u03b1\u03b9 \u03b4\u03c5\u03bd\u03b1\u03c4\u03ae \u03b7 \u03b4\u03b7\u03bc\u03b9\u03bf\u03c5\u03c1\u03b3\u03af\u03b1 \u03ba\u03b1\u03c4\u03b1\u03bb\u03cc\u03b3\u03bf\u03c5"
     }, 
     {
-        "text": "\u0394\u03b5\u03bd \u03b5\u03af\u03bd\u03b1\u03b9 \u03b4\u03c5\u03bd\u03b1\u03c4\u03ae \u03b7 \u03b1\u03bd\u03ac\u03bb\u03c5\u03c3\u03b7 \u03c4\u03b7\u03c2 \u03c4\u03b9\u03bc\u03ae\u03c2.", 
-        "nameSpace": "djv::Core::PicoJSON", 
         "id": "Cannot parse value.", 
-        "description": ""
+        "source": "Cannot parse value.", 
+        "nameSpace": "djv::Core::PicoJSON", 
+        "description": "", 
+        "text": "\u0394\u03b5\u03bd \u03b5\u03af\u03bd\u03b1\u03b9 \u03b4\u03c5\u03bd\u03b1\u03c4\u03ae \u03b7 \u03b1\u03bd\u03ac\u03bb\u03c5\u03c3\u03b7 \u03c4\u03b7\u03c2 \u03c4\u03b9\u03bc\u03ae\u03c2."
     }, 
     {
-        "text": "\u0394\u03b5\u03bd \u03b5\u03af\u03bd\u03b1\u03b9 \u03b4\u03c5\u03bd\u03b1\u03c4\u03ae \u03b7 \u03b1\u03bd\u03ac\u03bb\u03c5\u03c3\u03b7 \u03c4\u03b7\u03c2 \u03c4\u03b9\u03bc\u03ae\u03c2", 
-        "nameSpace": "djv::Core::Time", 
         "id": "Cannot parse value", 
-        "description": ""
+        "source": "Cannot parse value", 
+        "nameSpace": "djv::Core::Time", 
+        "description": "", 
+        "text": "\u0394\u03b5\u03bd \u03b5\u03af\u03bd\u03b1\u03b9 \u03b4\u03c5\u03bd\u03b1\u03c4\u03ae \u03b7 \u03b1\u03bd\u03ac\u03bb\u03c5\u03c3\u03b7 \u03c4\u03b7\u03c2 \u03c4\u03b9\u03bc\u03ae\u03c2"
     }, 
     {
-        "text": "\u03a6\u03b1\u03c1\u03ac\u03b3\u03b3\u03b9 Amargosa Speckled Dace", 
-        "nameSpace": "djv::Core::String", 
         "id": "Amargosa Canyon Speckled Dace", 
-        "description": ""
+        "source": "Amargosa Canyon Speckled Dace", 
+        "nameSpace": "djv::Core::String", 
+        "description": "", 
+        "text": "\u03a6\u03b1\u03c1\u03ac\u03b3\u03b3\u03b9 Amargosa Speckled Dace"
     }, 
     {
-        "text": "Amargosa River Pupfish", 
-        "nameSpace": "djv::Core::String", 
         "id": "Amargosa River Pupfish", 
-        "description": ""
+        "source": "Amargosa River Pupfish", 
+        "nameSpace": "djv::Core::String", 
+        "description": "", 
+        "text": "Amargosa River Pupfish"
     }, 
     {
-        "text": "\u0391\u03bc\u03b5\u03c1\u03b9\u03ba\u03b1\u03bd\u03b9\u03ba\u03ae \u03c3\u03ba\u03b9\u03ac", 
-        "nameSpace": "djv::Core::String", 
         "id": "American Shad", 
-        "description": ""
+        "source": "American Shad", 
+        "nameSpace": "djv::Core::String", 
+        "description": "", 
+        "text": "\u0391\u03bc\u03b5\u03c1\u03b9\u03ba\u03b1\u03bd\u03b9\u03ba\u03ae \u03c3\u03ba\u03b9\u03ac"
     }, 
     {
-        "text": "Arroyo Chub", 
-        "nameSpace": "djv::Core::String", 
         "id": "Arroyo Chub", 
-        "description": ""
+        "source": "Arroyo Chub", 
+        "nameSpace": "djv::Core::String", 
+        "description": "", 
+        "text": "Arroyo Chub"
     }, 
     {
-        "text": "\u039c\u03b5\u03c3\u03bf\u03b3\u03b5\u03b9\u03b1\u03ba\u03cc \u03bc\u03b1\u03c1\u03bc\u03ac\u03c1\u03b9\u03bd\u03bf Sculpin", 
-        "nameSpace": "djv::Core::String", 
         "id": "Bigeye Marbled Sculpin", 
-        "description": ""
+        "source": "Bigeye Marbled Sculpin", 
+        "nameSpace": "djv::Core::String", 
+        "description": "", 
+        "text": "\u039c\u03b5\u03c3\u03bf\u03b3\u03b5\u03b9\u03b1\u03ba\u03cc \u03bc\u03b1\u03c1\u03bc\u03ac\u03c1\u03b9\u03bd\u03bf Sculpin"
     }, 
     {
-        "text": "\u039c\u03b5\u03b3\u03ac\u03bb\u03b7 \u03ba\u03bb\u03af\u03bc\u03b1\u03ba\u03b1 Logperch", 
-        "nameSpace": "djv::Core::String", 
         "id": "Bigscale Logperch", 
-        "description": ""
+        "source": "Bigscale Logperch", 
+        "nameSpace": "djv::Core::String", 
+        "description": "", 
+        "text": "\u039c\u03b5\u03b3\u03ac\u03bb\u03b7 \u03ba\u03bb\u03af\u03bc\u03b1\u03ba\u03b1 Logperch"
     }, 
     {
-        "text": "Black Bullhead", 
-        "nameSpace": "djv::Core::String", 
         "id": "Black Bullhead", 
-        "description": ""
+        "source": "Black Bullhead", 
+        "nameSpace": "djv::Core::String", 
+        "description": "", 
+        "text": "Black Bullhead"
     }, 
     {
-        "text": "\u039c\u03b1\u03cd\u03c1\u03bf Crappie", 
-        "nameSpace": "djv::Core::String", 
         "id": "Black Crappie", 
-        "description": ""
+        "source": "Black Crappie", 
+        "nameSpace": "djv::Core::String", 
+        "description": "", 
+        "text": "\u039c\u03b1\u03cd\u03c1\u03bf Crappie"
     }, 
     {
-        "text": "\u039c\u03c0\u03bb\u03b5 \u03b3\u03b1\u03c4\u03cc\u03c8\u03b1\u03c1\u03bf", 
-        "nameSpace": "djv::Core::String", 
         "id": "Blue Catfish", 
-        "description": ""
+        "source": "Blue Catfish", 
+        "nameSpace": "djv::Core::String", 
+        "description": "", 
+        "text": "\u039c\u03c0\u03bb\u03b5 \u03b3\u03b1\u03c4\u03cc\u03c8\u03b1\u03c1\u03bf"
     }, 
     {
-        "text": "Blue Chub", 
-        "nameSpace": "djv::Core::String", 
         "id": "Blue Chub", 
-        "description": ""
+        "source": "Blue Chub", 
+        "nameSpace": "djv::Core::String", 
+        "description": "", 
+        "text": "Blue Chub"
     }, 
     {
-        "text": "\u039a\u03c5\u03b1\u03bd\u03cc\u03c8\u03b1\u03c1\u03bf", 
-        "nameSpace": "djv::Core::String", 
         "id": "Bluefin Killifish", 
-        "description": ""
+        "source": "Bluefin Killifish", 
+        "nameSpace": "djv::Core::String", 
+        "description": "", 
+        "text": "\u039a\u03c5\u03b1\u03bd\u03cc\u03c8\u03b1\u03c1\u03bf"
     }, 
     {
-        "text": "Bluegill", 
-        "nameSpace": "djv::Core::String", 
         "id": "Bluegill", 
-        "description": ""
+        "source": "Bluegill", 
+        "nameSpace": "djv::Core::String", 
+        "description": "", 
+        "text": "Bluegill"
     }, 
     {
-        "text": "Lepomis macrochirus", 
-        "nameSpace": "djv::Core::String", 
         "id": "Lepomis macrochirus", 
-        "description": ""
+        "source": "Lepomis macrochirus", 
+        "nameSpace": "djv::Core::String", 
+        "description": "", 
+        "text": "Lepomis macrochirus"
     }, 
     {
-        "text": "Bonetail", 
-        "nameSpace": "djv::Core::String", 
         "id": "Bonytail", 
-        "description": ""
+        "source": "Bonytail", 
+        "nameSpace": "djv::Core::String", 
+        "description": "", 
+        "text": "Bonetail"
     }, 
     {
-        "text": "Brook Stickleback", 
-        "nameSpace": "djv::Core::String", 
         "id": "Brook Stickleback", 
-        "description": ""
+        "source": "Brook Stickleback", 
+        "nameSpace": "djv::Core::String", 
+        "description": "", 
+        "text": "Brook Stickleback"
     }, 
     {
-        "text": "\u03a0\u03ad\u03c3\u03c4\u03c1\u03bf\u03c6\u03b1", 
-        "nameSpace": "djv::Core::String", 
         "id": "Brook Trout", 
-        "description": ""
+        "source": "Brook Trout", 
+        "nameSpace": "djv::Core::String", 
+        "description": "", 
+        "text": "\u03a0\u03ad\u03c3\u03c4\u03c1\u03bf\u03c6\u03b1"
     }, 
     {
-        "text": "Brown Bullhead", 
-        "nameSpace": "djv::Core::String", 
         "id": "Brown Bullhead", 
-        "description": ""
+        "source": "Brown Bullhead", 
+        "nameSpace": "djv::Core::String", 
+        "description": "", 
+        "text": "Brown Bullhead"
     }, 
     {
-        "text": "\u039a\u03b1\u03c6\u03ad \u03c0\u03ad\u03c3\u03c4\u03c1\u03bf\u03c6\u03b1", 
-        "nameSpace": "djv::Core::String", 
         "id": "Brown Trout", 
-        "description": ""
+        "source": "Brown Trout", 
+        "nameSpace": "djv::Core::String", 
+        "description": "", 
+        "text": "\u039a\u03b1\u03c6\u03ad \u03c0\u03ad\u03c3\u03c4\u03c1\u03bf\u03c6\u03b1"
     }, 
     {
-        "text": "\u03a0\u03ad\u03c3\u03c4\u03c1\u03bf\u03c6\u03b5\u03c2 \u03c4\u03b1\u03cd\u03c1\u03c9\u03bd", 
-        "nameSpace": "djv::Core::String", 
         "id": "Bull Trout", 
-        "description": ""
+        "source": "Bull Trout", 
+        "nameSpace": "djv::Core::String", 
+        "description": "", 
+        "text": "\u03a0\u03ad\u03c3\u03c4\u03c1\u03bf\u03c6\u03b5\u03c2 \u03c4\u03b1\u03cd\u03c1\u03c9\u03bd"
     }, 
     {
-        "text": "\u039a\u03b1\u03bb\u03b9\u03c6\u03cc\u03c1\u03bd\u03b9\u03b1 \u0391\u03ba\u03c4\u03ae \u03a6\u03b8\u03b9\u03bd\u03cc\u03c0\u03c9\u03c1\u03bf Chinook \u03a3\u03bf\u03bb\u03bf\u03bc\u03cc\u03c2", 
-        "nameSpace": "djv::Core::String", 
         "id": "California Coast Fall Chinook Salmon", 
-        "description": ""
+        "source": "California Coast Fall Chinook Salmon", 
+        "nameSpace": "djv::Core::String", 
+        "description": "", 
+        "text": "\u039a\u03b1\u03bb\u03b9\u03c6\u03cc\u03c1\u03bd\u03b9\u03b1 \u0391\u03ba\u03c4\u03ae \u03a6\u03b8\u03b9\u03bd\u03cc\u03c0\u03c9\u03c1\u03bf Chinook \u03a3\u03bf\u03bb\u03bf\u03bc\u03cc\u03c2"
     }, 
     {
-        "text": "\u039a\u03b1\u03bb\u03b9\u03c6\u03cc\u03c1\u03bd\u03b9\u03b1 Golden Trout", 
-        "nameSpace": "djv::Core::String", 
         "id": "California Golden Trout", 
-        "description": ""
+        "source": "California Golden Trout", 
+        "nameSpace": "djv::Core::String", 
+        "description": "", 
+        "text": "\u039a\u03b1\u03bb\u03b9\u03c6\u03cc\u03c1\u03bd\u03b9\u03b1 Golden Trout"
     }, 
     {
-        "text": "\u039a\u03b1\u03bb\u03b9\u03c6\u03cc\u03c1\u03bd\u03b9\u03b1 Killifish", 
-        "nameSpace": "djv::Core::String", 
         "id": "California Killifish", 
-        "description": ""
+        "source": "California Killifish", 
+        "nameSpace": "djv::Core::String", 
+        "description": "", 
+        "text": "\u039a\u03b1\u03bb\u03b9\u03c6\u03cc\u03c1\u03bd\u03b9\u03b1 Killifish"
     }, 
     {
-        "text": "\u039a\u03b1\u03bb\u03b9\u03c6\u03cc\u03c1\u03bd\u03b9\u03b1 Tilapia", 
-        "nameSpace": "djv::Core::String", 
         "id": "California Tilapia", 
-        "description": ""
+        "source": "California Tilapia", 
+        "nameSpace": "djv::Core::String", 
+        "description": "", 
+        "text": "\u039a\u03b1\u03bb\u03b9\u03c6\u03cc\u03c1\u03bd\u03b9\u03b1 Tilapia"
     }, 
     {
-        "text": "\u039a\u03b5\u03bd\u03c4\u03c1\u03b9\u03ba\u03ae \u039a\u03b1\u03bb\u03b9\u03c6\u03cc\u03c1\u03bd\u03b9\u03b1 \u0391\u03ba\u03c4\u03ae \u03a7\u03b5\u03b9\u03bc\u03ce\u03bd\u03b1\u03c2 Steelhead", 
-        "nameSpace": "djv::Core::String", 
         "id": "Central California Coast Winter Steelhead", 
-        "description": ""
+        "source": "Central California Coast Winter Steelhead", 
+        "nameSpace": "djv::Core::String", 
+        "description": "", 
+        "text": "\u039a\u03b5\u03bd\u03c4\u03c1\u03b9\u03ba\u03ae \u039a\u03b1\u03bb\u03b9\u03c6\u03cc\u03c1\u03bd\u03b9\u03b1 \u0391\u03ba\u03c4\u03ae \u03a7\u03b5\u03b9\u03bc\u03ce\u03bd\u03b1\u03c2 Steelhead"
     }, 
     {
-        "text": "\u039a\u03b5\u03bd\u03c4\u03c1\u03b9\u03ba\u03ae \u039a\u03b1\u03bb\u03b9\u03c6\u03cc\u03c1\u03bd\u03b9\u03b1 Roach", 
-        "nameSpace": "djv::Core::String", 
         "id": "Central California Roach", 
-        "description": ""
+        "source": "Central California Roach", 
+        "nameSpace": "djv::Core::String", 
+        "description": "", 
+        "text": "\u039a\u03b5\u03bd\u03c4\u03c1\u03b9\u03ba\u03ae \u039a\u03b1\u03bb\u03b9\u03c6\u03cc\u03c1\u03bd\u03b9\u03b1 Roach"
     }, 
     {
-        "text": "\u039a\u03b5\u03bd\u03c4\u03c1\u03b9\u03ba\u03ae \u0391\u03ba\u03c4\u03ae Coho Salmon", 
-        "nameSpace": "djv::Core::String", 
         "id": "Central Coast Coho Salmon", 
-        "description": ""
+        "source": "Central Coast Coho Salmon", 
+        "nameSpace": "djv::Core::String", 
+        "description": "", 
+        "text": "\u039a\u03b5\u03bd\u03c4\u03c1\u03b9\u03ba\u03ae \u0391\u03ba\u03c4\u03ae Coho Salmon"
     }, 
     {
-        "text": "\u039a\u03b5\u03bd\u03c4\u03c1\u03b9\u03ba\u03ae \u03ba\u03bf\u03b9\u03bb\u03ac\u03b4\u03b1 \u03c0\u03c4\u03ce\u03c3\u03b7\u03c2 Chinook \u03c3\u03bf\u03bb\u03bf\u03bc\u03bf\u03cd", 
-        "nameSpace": "djv::Core::String", 
         "id": "Central Valley Fall Chinook Salmon", 
-        "description": ""
+        "source": "Central Valley Fall Chinook Salmon", 
+        "nameSpace": "djv::Core::String", 
+        "description": "", 
+        "text": "\u039a\u03b5\u03bd\u03c4\u03c1\u03b9\u03ba\u03ae \u03ba\u03bf\u03b9\u03bb\u03ac\u03b4\u03b1 \u03c0\u03c4\u03ce\u03c3\u03b7\u03c2 Chinook \u03c3\u03bf\u03bb\u03bf\u03bc\u03bf\u03cd"
     }, 
     {
-        "text": "\u039a\u03b5\u03bd\u03c4\u03c1\u03b9\u03ba\u03ae \u03ba\u03bf\u03b9\u03bb\u03ac\u03b4\u03b1 \u03b1\u03c1\u03b3\u03ac Fall Chinook \u03a3\u03bf\u03bb\u03bf\u03bc\u03cc\u03c2", 
-        "nameSpace": "djv::Core::String", 
         "id": "Central Valley late Fall Chinook Salmon", 
-        "description": ""
+        "source": "Central Valley late Fall Chinook Salmon", 
+        "nameSpace": "djv::Core::String", 
+        "description": "", 
+        "text": "\u039a\u03b5\u03bd\u03c4\u03c1\u03b9\u03ba\u03ae \u03ba\u03bf\u03b9\u03bb\u03ac\u03b4\u03b1 \u03b1\u03c1\u03b3\u03ac Fall Chinook \u03a3\u03bf\u03bb\u03bf\u03bc\u03cc\u03c2"
     }, 
     {
-        "text": "Oncorhynchus tshawytscha", 
-        "nameSpace": "djv::Core::String", 
         "id": "Oncorhynchus tshawytscha", 
-        "description": ""
+        "source": "Oncorhynchus tshawytscha", 
+        "nameSpace": "djv::Core::String", 
+        "description": "", 
+        "text": "Oncorhynchus tshawytscha"
     }, 
     {
-        "text": "\u039a\u03b5\u03bd\u03c4\u03c1\u03b9\u03ba\u03ae \u03ba\u03bf\u03b9\u03bb\u03ac\u03b4\u03b1 \u03ac\u03bd\u03bf\u03b9\u03be\u03b7 Chinook \u03c3\u03bf\u03bb\u03bf\u03bc\u03cc\u03c2", 
-        "nameSpace": "djv::Core::String", 
         "id": "Central Valley spring Chinook Salmon", 
-        "description": ""
+        "source": "Central Valley spring Chinook Salmon", 
+        "nameSpace": "djv::Core::String", 
+        "description": "", 
+        "text": "\u039a\u03b5\u03bd\u03c4\u03c1\u03b9\u03ba\u03ae \u03ba\u03bf\u03b9\u03bb\u03ac\u03b4\u03b1 \u03ac\u03bd\u03bf\u03b9\u03be\u03b7 Chinook \u03c3\u03bf\u03bb\u03bf\u03bc\u03cc\u03c2"
     }, 
     {
-        "text": "\u039a\u03b5\u03bd\u03c4\u03c1\u03b9\u03ba\u03ae \u03ba\u03bf\u03b9\u03bb\u03ac\u03b4\u03b1 Steelhead", 
-        "nameSpace": "djv::Core::String", 
         "id": "Central Valley Steelhead", 
-        "description": ""
+        "source": "Central Valley Steelhead", 
+        "nameSpace": "djv::Core::String", 
+        "description": "", 
+        "text": "\u039a\u03b5\u03bd\u03c4\u03c1\u03b9\u03ba\u03ae \u03ba\u03bf\u03b9\u03bb\u03ac\u03b4\u03b1 Steelhead"
     }, 
     {
-        "text": "\u039a\u03b5\u03bd\u03c4\u03c1\u03b9\u03ba\u03ae \u03ba\u03bf\u03b9\u03bb\u03ac\u03b4\u03b1 Chinook \u03c3\u03bf\u03bb\u03bf\u03bc\u03bf\u03cd \u03c7\u03b5\u03b9\u03bc\u03ce\u03bd\u03b1", 
-        "nameSpace": "djv::Core::String", 
         "id": "Central Valley Winter Chinook Salmon", 
-        "description": ""
+        "source": "Central Valley Winter Chinook Salmon", 
+        "nameSpace": "djv::Core::String", 
+        "description": "", 
+        "text": "\u039a\u03b5\u03bd\u03c4\u03c1\u03b9\u03ba\u03ae \u03ba\u03bf\u03b9\u03bb\u03ac\u03b4\u03b1 Chinook \u03c3\u03bf\u03bb\u03bf\u03bc\u03bf\u03cd \u03c7\u03b5\u03b9\u03bc\u03ce\u03bd\u03b1"
     }, 
     {
-        "text": "Channel Catfish", 
-        "nameSpace": "djv::Core::String", 
         "id": "Channel Catfish", 
-        "description": ""
+        "source": "Channel Catfish", 
+        "nameSpace": "djv::Core::String", 
+        "description": "", 
+        "text": "Channel Catfish"
     }, 
     {
-        "text": "Chum Salmon", 
-        "nameSpace": "djv::Core::String", 
         "id": "Chum Salmon", 
-        "description": ""
+        "source": "Chum Salmon", 
+        "nameSpace": "djv::Core::String", 
+        "description": "", 
+        "text": "Chum Salmon"
     }, 
     {
-        "text": "Clear Lake Hitch", 
-        "nameSpace": "djv::Core::String", 
         "id": "Clear Lake Hitch", 
-        "description": ""
+        "source": "Clear Lake Hitch", 
+        "nameSpace": "djv::Core::String", 
+        "description": "", 
+        "text": "Clear Lake Hitch"
     }, 
     {
-        "text": "Clear Lake Prickly Sculpin", 
-        "nameSpace": "djv::Core::String", 
         "id": "Clear Lake Prickly Sculpin", 
-        "description": ""
+        "source": "Clear Lake Prickly Sculpin", 
+        "nameSpace": "djv::Core::String", 
+        "description": "", 
+        "text": "Clear Lake Prickly Sculpin"
     }, 
     {
-        "text": "Clear Lake Roach", 
-        "nameSpace": "djv::Core::String", 
         "id": "Clear Lake Roach", 
-        "description": ""
+        "source": "Clear Lake Roach", 
+        "nameSpace": "djv::Core::String", 
+        "description": "", 
+        "text": "Clear Lake Roach"
     }, 
     {
-        "text": "Clear Lake Splittail", 
-        "nameSpace": "djv::Core::String", 
         "id": "Clear Lake Splittail", 
-        "description": ""
+        "source": "Clear Lake Splittail", 
+        "nameSpace": "djv::Core::String", 
+        "description": "", 
+        "text": "Clear Lake Splittail"
     }, 
     {
-        "text": "Clear Lake Tule", 
-        "nameSpace": "djv::Core::String", 
         "id": "Clear Lake Tule Perch", 
-        "description": ""
+        "source": "Clear Lake Tule Perch", 
+        "nameSpace": "djv::Core::String", 
+        "description": "", 
+        "text": "Clear Lake Tule"
     }, 
     {
-        "text": "\u03a0\u03b1\u03c1\u03b1\u03b8\u03b1\u03bb\u03ac\u03c3\u03c3\u03b9\u03b1 \u03c0\u03ad\u03c3\u03c4\u03c1\u03bf\u03c6\u03b1", 
-        "nameSpace": "djv::Core::String", 
         "id": "Coastal Cutthroat Trout", 
-        "description": ""
+        "source": "Coastal Cutthroat Trout", 
+        "nameSpace": "djv::Core::String", 
+        "description": "", 
+        "text": "\u03a0\u03b1\u03c1\u03b1\u03b8\u03b1\u03bb\u03ac\u03c3\u03c3\u03b9\u03b1 \u03c0\u03ad\u03c3\u03c4\u03c1\u03bf\u03c6\u03b1"
     }, 
     {
-        "text": "\u03a0\u03b1\u03c1\u03ac\u03ba\u03c4\u03b9\u03b1 \u03c4\u03c1\u03bf\u03c0\u03b9\u03ba\u03ae \u03c0\u03ad\u03c3\u03c4\u03c1\u03bf\u03c6\u03b1", 
-        "nameSpace": "djv::Core::String", 
         "id": "Coastal Rainbow Trout", 
-        "description": ""
+        "source": "Coastal Rainbow Trout", 
+        "nameSpace": "djv::Core::String", 
+        "description": "", 
+        "text": "\u03a0\u03b1\u03c1\u03ac\u03ba\u03c4\u03b9\u03b1 \u03c4\u03c1\u03bf\u03c0\u03b9\u03ba\u03ae \u03c0\u03ad\u03c3\u03c4\u03c1\u03bf\u03c6\u03b1"
     }, 
     {
-        "text": "Coastle Threepine Stickleback", 
-        "nameSpace": "djv::Core::String", 
         "id": "Coastal Threespine Stickleback", 
-        "description": ""
+        "source": "Coastal Threespine Stickleback", 
+        "nameSpace": "djv::Core::String", 
+        "description": "", 
+        "text": "Coastle Threepine Stickleback"
     }, 
     {
-        "text": "\u0391\u03ba\u03c1\u03c9\u03c4\u03ae\u03c1\u03b9 Sculpin", 
-        "nameSpace": "djv::Core::String", 
         "id": "Coastrange Sculpin", 
-        "description": ""
+        "source": "Coastrange Sculpin", 
+        "nameSpace": "djv::Core::String", 
+        "description": "", 
+        "text": "\u0391\u03ba\u03c1\u03c9\u03c4\u03ae\u03c1\u03b9 Sculpin"
     }, 
     {
-        "text": "\u039a\u03bf\u03bb\u03bf\u03c1\u03ac\u03bd\u03c4\u03bf Pikeminnow", 
-        "nameSpace": "djv::Core::String", 
         "id": "Colorado Pikeminnow", 
-        "description": ""
+        "source": "Colorado Pikeminnow", 
+        "nameSpace": "djv::Core::String", 
+        "description": "", 
+        "text": "\u039a\u03bf\u03bb\u03bf\u03c1\u03ac\u03bd\u03c4\u03bf Pikeminnow"
     }, 
     {
-        "text": "\u03a0\u03bf\u03c4\u03b1\u03bc\u03cc\u03c2 \u039a\u03bf\u03bb\u03bf\u03c1\u03ac\u03bd\u03c4\u03bf Cutthroat \u03c0\u03ad\u03c3\u03c4\u03c1\u03bf\u03c6\u03b1\u03c2", 
-        "nameSpace": "djv::Core::String", 
         "id": "Colorado River Cutthroat Trout", 
-        "description": ""
+        "source": "Colorado River Cutthroat Trout", 
+        "nameSpace": "djv::Core::String", 
+        "description": "", 
+        "text": "\u03a0\u03bf\u03c4\u03b1\u03bc\u03cc\u03c2 \u039a\u03bf\u03bb\u03bf\u03c1\u03ac\u03bd\u03c4\u03bf Cutthroat \u03c0\u03ad\u03c3\u03c4\u03c1\u03bf\u03c6\u03b1\u03c2"
     }, 
     {
-        "text": "\u039a\u03bf\u03b9\u03bd\u03cc\u03c2 \u039a\u03c5\u03c0\u03c1\u03af\u03bd\u03bf\u03c2", 
-        "nameSpace": "djv::Core::String", 
         "id": "Common Carp", 
-        "description": ""
+        "source": "Common Carp", 
+        "nameSpace": "djv::Core::String", 
+        "description": "", 
+        "text": "\u039a\u03bf\u03b9\u03bd\u03cc\u03c2 \u039a\u03c5\u03c0\u03c1\u03af\u03bd\u03bf\u03c2"
     }, 
     {
-        "text": "\u039c\u03c0\u03bf\u03c5\u03ba\u03ad\u03c4\u03bf \u03b2\u03b1\u03bc\u03b2\u03ac\u03ba\u03b9", 
-        "nameSpace": "djv::Core::String", 
         "id": "Cottonball Marsh Pupfish", 
-        "description": ""
+        "source": "Cottonball Marsh Pupfish", 
+        "nameSpace": "djv::Core::String", 
+        "description": "", 
+        "text": "\u039c\u03c0\u03bf\u03c5\u03ba\u03ad\u03c4\u03bf \u03b2\u03b1\u03bc\u03b2\u03ac\u03ba\u03b9"
     }, 
     {
-        "text": "\u0391\u03b3\u03b5\u03bb\u03ac\u03b4\u03b1 \u03ba\u03b5\u03c6\u03ac\u03bb\u03b9 Tui Chub", 
-        "nameSpace": "djv::Core::String", 
         "id": "Cow Head Tui Chub", 
-        "description": ""
+        "source": "Cow Head Tui Chub", 
+        "nameSpace": "djv::Core::String", 
+        "description": "", 
+        "text": "\u0391\u03b3\u03b5\u03bb\u03ac\u03b4\u03b1 \u03ba\u03b5\u03c6\u03ac\u03bb\u03b9 Tui Chub"
     }, 
     {
-        "text": "Delta Melt", 
-        "nameSpace": "djv::Core::String", 
         "id": "Delta Smelt", 
-        "description": ""
+        "source": "Delta Smelt", 
+        "nameSpace": "djv::Core::String", 
+        "description": "", 
+        "text": "Delta Melt"
     }, 
     {
-        "text": "\u0388\u03c1\u03b7\u03bc\u03bf\u03c2 Pupfish", 
-        "nameSpace": "djv::Core::String", 
         "id": "Desert Pupfish", 
-        "description": ""
+        "source": "Desert Pupfish", 
+        "nameSpace": "djv::Core::String", 
+        "description": "", 
+        "text": "\u0388\u03c1\u03b7\u03bc\u03bf\u03c2 Pupfish"
     }, 
     {
-        "text": "\u03a0\u03ad\u03c3\u03c4\u03c1\u03bf\u03c6\u03b1\u03c2 \u03bf\u03c5\u03c1\u03ac\u03bd\u03b9\u03bf\u03c5 \u03c4\u03cc\u03be\u03bf\u03c5", 
-        "nameSpace": "djv::Core::String", 
         "id": "Eagle Lake Rainbow Trout", 
-        "description": ""
+        "source": "Eagle Lake Rainbow Trout", 
+        "nameSpace": "djv::Core::String", 
+        "description": "", 
+        "text": "\u03a0\u03ad\u03c3\u03c4\u03c1\u03bf\u03c6\u03b1\u03c2 \u03bf\u03c5\u03c1\u03ac\u03bd\u03b9\u03bf\u03c5 \u03c4\u03cc\u03be\u03bf\u03c5"
     }, 
     {
-        "text": "\u039b\u03af\u03bc\u03bd\u03b7 \u03b1\u03b5\u03c4\u03ce\u03bd Tui Chub", 
-        "nameSpace": "djv::Core::String", 
         "id": "Eagle Lake Tui Chub", 
-        "description": ""
+        "source": "Eagle Lake Tui Chub", 
+        "nameSpace": "djv::Core::String", 
+        "description": "", 
+        "text": "\u039b\u03af\u03bc\u03bd\u03b7 \u03b1\u03b5\u03c4\u03ce\u03bd Tui Chub"
     }, 
     {
-        "text": "Eulachon", 
-        "nameSpace": "djv::Core::String", 
         "id": "Eulachon", 
-        "description": ""
+        "source": "Eulachon", 
+        "nameSpace": "djv::Core::String", 
+        "description": "", 
+        "text": "Eulachon"
     }, 
     {
-        "text": "Fathead Minnow", 
-        "nameSpace": "djv::Core::String", 
         "id": "Fathead Minnow", 
-        "description": ""
+        "source": "Fathead Minnow", 
+        "nameSpace": "djv::Core::String", 
+        "description": "", 
+        "text": "Fathead Minnow"
     }, 
     {
-        "text": "Flannelmouth Sucker", 
-        "nameSpace": "djv::Core::String", 
         "id": "Flannelmouth Sucker", 
-        "description": ""
+        "source": "Flannelmouth Sucker", 
+        "nameSpace": "djv::Core::String", 
+        "description": "", 
+        "text": "Flannelmouth Sucker"
     }, 
     {
-        "text": "Flatheet \u03b3\u03b1\u03c4\u03cc\u03c8\u03b1\u03c1\u03bf", 
-        "nameSpace": "djv::Core::String", 
         "id": "Flathead Catfish", 
-        "description": ""
+        "source": "Flathead Catfish", 
+        "nameSpace": "djv::Core::String", 
+        "description": "", 
+        "text": "Flatheet \u03b3\u03b1\u03c4\u03cc\u03c8\u03b1\u03c1\u03bf"
     }, 
     {
-        "text": "Golden Shiner", 
-        "nameSpace": "djv::Core::String", 
         "id": "Golden Shiner", 
-        "description": ""
+        "source": "Golden Shiner", 
+        "nameSpace": "djv::Core::String", 
+        "description": "", 
+        "text": "Golden Shiner"
     }, 
     {
-        "text": "\u03a7\u03c1\u03c5\u03c3\u03cc\u03c8\u03b1\u03c1\u03bf", 
-        "nameSpace": "djv::Core::String", 
         "id": "Goldfish", 
-        "description": ""
+        "source": "Goldfish", 
+        "nameSpace": "djv::Core::String", 
+        "description": "", 
+        "text": "\u03a7\u03c1\u03c5\u03c3\u03cc\u03c8\u03b1\u03c1\u03bf"
     }, 
     {
-        "text": "\u0393\u03ba\u03cc\u03b6 \u039b\u03ac\u03bc\u03c0\u03b5\u03c1\u03b9", 
-        "nameSpace": "djv::Core::String", 
         "id": "Goose Lake Lamprey", 
-        "description": ""
+        "source": "Goose Lake Lamprey", 
+        "nameSpace": "djv::Core::String", 
+        "description": "", 
+        "text": "\u0393\u03ba\u03cc\u03b6 \u039b\u03ac\u03bc\u03c0\u03b5\u03c1\u03b9"
     }, 
     {
-        "text": "\u039b\u03af\u03bc\u03bd\u03b7 \u03c4\u03b7\u03c2 \u03c7\u03ae\u03bd\u03b1\u03c2 Redband \u03a0\u03ad\u03c3\u03c4\u03c1\u03bf\u03c6\u03b1", 
-        "nameSpace": "djv::Core::String", 
         "id": "Goose Lake Redband Trout", 
-        "description": ""
+        "source": "Goose Lake Redband Trout", 
+        "nameSpace": "djv::Core::String", 
+        "description": "", 
+        "text": "\u039b\u03af\u03bc\u03bd\u03b7 \u03c4\u03b7\u03c2 \u03c7\u03ae\u03bd\u03b1\u03c2 Redband \u03a0\u03ad\u03c3\u03c4\u03c1\u03bf\u03c6\u03b1"
     }, 
     {
-        "text": "\u0393\u03b1\u03bb\u03ac\u03b6\u03b9\u03b5\u03c2 \u03bb\u03af\u03bc\u03bd\u03b5\u03c2", 
-        "nameSpace": "djv::Core::String", 
         "id": "Goose Lake Sucker", 
-        "description": ""
+        "source": "Goose Lake Sucker", 
+        "nameSpace": "djv::Core::String", 
+        "description": "", 
+        "text": "\u0393\u03b1\u03bb\u03ac\u03b6\u03b9\u03b5\u03c2 \u03bb\u03af\u03bc\u03bd\u03b5\u03c2"
     }, 
     {
-        "text": "\u03a7\u03ae\u03bd\u03b1 \u03bb\u03af\u03bc\u03bd\u03b7 Tui Chub", 
-        "nameSpace": "djv::Core::String", 
         "id": "Goose Lake Tui Chub", 
-        "description": ""
+        "source": "Goose Lake Tui Chub", 
+        "nameSpace": "djv::Core::String", 
+        "description": "", 
+        "text": "\u03a7\u03ae\u03bd\u03b1 \u03bb\u03af\u03bc\u03bd\u03b7 Tui Chub"
     }, 
     {
-        "text": "\u03a7\u03bb\u03bf\u03bf\u03c4\u03ac\u03c0\u03b7\u03c4\u03b1", 
-        "nameSpace": "djv::Core::String", 
         "id": "Grass Carp", 
-        "description": ""
+        "source": "Grass Carp", 
+        "nameSpace": "djv::Core::String", 
+        "description": "", 
+        "text": "\u03a7\u03bb\u03bf\u03bf\u03c4\u03ac\u03c0\u03b7\u03c4\u03b1"
     }, 
     {
-        "text": "Green Sunfish", 
-        "nameSpace": "djv::Core::String", 
         "id": "Green Sunfish", 
-        "description": ""
+        "source": "Green Sunfish", 
+        "nameSpace": "djv::Core::String", 
+        "description": "", 
+        "text": "Green Sunfish"
     }, 
     {
-        "text": "Gualala Roach", 
-        "nameSpace": "djv::Core::String", 
         "id": "Gualala Roach", 
-        "description": ""
+        "source": "Gualala Roach", 
+        "nameSpace": "djv::Core::String", 
+        "description": "", 
+        "text": "Gualala Roach"
     }, 
     {
-        "text": "Hardhead", 
-        "nameSpace": "djv::Core::String", 
         "id": "Hardhead", 
-        "description": ""
+        "source": "Hardhead", 
+        "nameSpace": "djv::Core::String", 
+        "description": "", 
+        "text": "Hardhead"
     }, 
     {
-        "text": "High Rock Springs Tui Chub", 
-        "nameSpace": "djv::Core::String", 
         "id": "High Rock Springs Tui Chub", 
-        "description": ""
+        "source": "High Rock Springs Tui Chub", 
+        "nameSpace": "djv::Core::String", 
+        "description": "", 
+        "text": "High Rock Springs Tui Chub"
     }, 
     {
-        "text": "Humboldt Sucker", 
-        "nameSpace": "djv::Core::String", 
         "id": "Humboldt Sucker", 
-        "description": ""
+        "source": "Humboldt Sucker", 
+        "nameSpace": "djv::Core::String", 
+        "description": "", 
+        "text": "Humboldt Sucker"
     }, 
     {
-        "text": "\u0395\u03bd\u03b4\u03bf\u03b4\u03b1\u03c0\u03ad\u03b4\u03b9\u03bf Stickleback \u03b5\u03c3\u03c9\u03c4\u03b5\u03c1\u03b9\u03ba\u03bf\u03cd \u03c7\u03ce\u03c1\u03bf\u03c5", 
-        "nameSpace": "djv::Core::String", 
         "id": "Inland Threespine Stickleback", 
-        "description": ""
+        "source": "Inland Threespine Stickleback", 
+        "nameSpace": "djv::Core::String", 
+        "description": "", 
+        "text": "\u0395\u03bd\u03b4\u03bf\u03b4\u03b1\u03c0\u03ad\u03b4\u03b9\u03bf Stickleback \u03b5\u03c3\u03c9\u03c4\u03b5\u03c1\u03b9\u03ba\u03bf\u03cd \u03c7\u03ce\u03c1\u03bf\u03c5"
     }, 
     {
-        "text": "Kern Brook Lamprey", 
-        "nameSpace": "djv::Core::String", 
         "id": "Kern Brook Lamprey", 
-        "description": ""
+        "source": "Kern Brook Lamprey", 
+        "nameSpace": "djv::Core::String", 
+        "description": "", 
+        "text": "Kern Brook Lamprey"
     }, 
     {
-        "text": "\u03a0\u03ad\u03c3\u03c4\u03c1\u03bf\u03c6\u03b5\u03c2 \u03c4\u03bf\u03c5 \u03bf\u03c5\u03c1\u03ac\u03bd\u03b9\u03bf\u03c5 \u03c4\u03cc\u03be\u03bf\u03c5", 
-        "nameSpace": "djv::Core::String", 
         "id": "Kern River Rainbow Trout", 
-        "description": ""
+        "source": "Kern River Rainbow Trout", 
+        "nameSpace": "djv::Core::String", 
+        "description": "", 
+        "text": "\u03a0\u03ad\u03c3\u03c4\u03c1\u03bf\u03c6\u03b5\u03c2 \u03c4\u03bf\u03c5 \u03bf\u03c5\u03c1\u03ac\u03bd\u03b9\u03bf\u03c5 \u03c4\u03cc\u03be\u03bf\u03c5"
     }, 
     {
-        "text": "Klamath Largescale Sucker", 
-        "nameSpace": "djv::Core::String", 
         "id": "Klamath Largescale Sucker", 
-        "description": ""
+        "source": "Klamath Largescale Sucker", 
+        "nameSpace": "djv::Core::String", 
+        "description": "", 
+        "text": "Klamath Largescale Sucker"
     }, 
     {
-        "text": "Klamath \u0392\u03bf\u03c5\u03bd\u03cc \u0395\u03c0\u03b1\u03c1\u03c7\u03af\u03b1 \u039a\u03b1\u03bb\u03bf\u03ba\u03b1\u03af\u03c1\u03b9 Steelhead", 
-        "nameSpace": "djv::Core::String", 
         "id": "Klamath Mountains Province Summer Steelhead", 
-        "description": ""
+        "source": "Klamath Mountains Province Summer Steelhead", 
+        "nameSpace": "djv::Core::String", 
+        "description": "", 
+        "text": "Klamath \u0392\u03bf\u03c5\u03bd\u03cc \u0395\u03c0\u03b1\u03c1\u03c7\u03af\u03b1 \u039a\u03b1\u03bb\u03bf\u03ba\u03b1\u03af\u03c1\u03b9 Steelhead"
     }, 
     {
-        "text": "\u0395\u03c0\u03b1\u03c1\u03c7\u03af\u03b1 \u03c4\u03c9\u03bd \u03bf\u03c1\u03b5\u03b9\u03bd\u03ce\u03bd \u03c0\u03b5\u03c1\u03b9\u03bf\u03c7\u03ce\u03bd Klamath Winter Steelhead", 
-        "nameSpace": "djv::Core::String", 
         "id": "Klamath Mountains Province Winter Steelhead", 
-        "description": ""
+        "source": "Klamath Mountains Province Winter Steelhead", 
+        "nameSpace": "djv::Core::String", 
+        "description": "", 
+        "text": "\u0395\u03c0\u03b1\u03c1\u03c7\u03af\u03b1 \u03c4\u03c9\u03bd \u03bf\u03c1\u03b5\u03b9\u03bd\u03ce\u03bd \u03c0\u03b5\u03c1\u03b9\u03bf\u03c7\u03ce\u03bd Klamath Winter Steelhead"
     }, 
     {
-        "text": "\u039f \u03c0\u03bf\u03c4\u03b1\u03bc\u03cc\u03c2 Klamath Lamprey", 
-        "nameSpace": "djv::Core::String", 
         "id": "Klamath River Lamprey", 
-        "description": ""
+        "source": "Klamath River Lamprey", 
+        "nameSpace": "djv::Core::String", 
+        "description": "", 
+        "text": "\u039f \u03c0\u03bf\u03c4\u03b1\u03bc\u03cc\u03c2 Klamath Lamprey"
     }, 
     {
-        "text": "Klamath Smallscale Sucker", 
-        "nameSpace": "djv::Core::String", 
         "id": "Klamath Smallscale Sucker", 
-        "description": ""
+        "source": "Klamath Smallscale Sucker", 
+        "nameSpace": "djv::Core::String", 
+        "description": "", 
+        "text": "Klamath Smallscale Sucker"
     }, 
     {
-        "text": "Klamath Speckled Dace", 
-        "nameSpace": "djv::Core::String", 
         "id": "Klamath Speckled Dace", 
-        "description": ""
+        "source": "Klamath Speckled Dace", 
+        "nameSpace": "djv::Core::String", 
+        "description": "", 
+        "text": "Klamath Speckled Dace"
     }, 
     {
-        "text": "Klamath Tui Chub", 
-        "nameSpace": "djv::Core::String", 
         "id": "Klamath Tui Chub", 
-        "description": ""
+        "source": "Klamath Tui Chub", 
+        "nameSpace": "djv::Core::String", 
+        "description": "", 
+        "text": "Klamath Tui Chub"
     }, 
     {
-        "text": "\u03a0\u03b1\u03bb\u03b9\u03ac \u03c0\u03ad\u03c3\u03c4\u03c1\u03bf\u03c6\u03b1 Lahontan", 
-        "nameSpace": "djv::Core::String", 
         "id": "Lahontan Cutthroat Trout", 
-        "description": ""
+        "source": "Lahontan Cutthroat Trout", 
+        "nameSpace": "djv::Core::String", 
+        "description": "", 
+        "text": "\u03a0\u03b1\u03bb\u03b9\u03ac \u03c0\u03ad\u03c3\u03c4\u03c1\u03bf\u03c6\u03b1 Lahontan"
     }, 
     {
-        "text": "Lahontan \u039b\u03af\u03bc\u03bd\u03b7 Tui Chub", 
-        "nameSpace": "djv::Core::String", 
         "id": "Lahontan Lake Tui Chub", 
-        "description": ""
+        "source": "Lahontan Lake Tui Chub", 
+        "nameSpace": "djv::Core::String", 
+        "description": "", 
+        "text": "Lahontan \u039b\u03af\u03bc\u03bd\u03b7 Tui Chub"
     }, 
     {
-        "text": "\u0395\u03ba\u03c4\u03bf\u03be\u03b5\u03c5\u03c4\u03ae\u03c2 \u03b2\u03bf\u03c5\u03bd\u03ce\u03bd Lahontan", 
-        "nameSpace": "djv::Core::String", 
         "id": "Lahontan Mountain Sucker", 
-        "description": ""
+        "source": "Lahontan Mountain Sucker", 
+        "nameSpace": "djv::Core::String", 
+        "description": "", 
+        "text": "\u0395\u03ba\u03c4\u03bf\u03be\u03b5\u03c5\u03c4\u03ae\u03c2 \u03b2\u03bf\u03c5\u03bd\u03ce\u03bd Lahontan"
     }, 
     {
-        "text": "Lahontan Redside", 
-        "nameSpace": "djv::Core::String", 
         "id": "Lahontan Redside", 
-        "description": ""
+        "source": "Lahontan Redside", 
+        "nameSpace": "djv::Core::String", 
+        "description": "", 
+        "text": "Lahontan Redside"
     }, 
     {
-        "text": "Lahontan Speckled Dace", 
-        "nameSpace": "djv::Core::String", 
         "id": "Lahontan Speckled Dace", 
-        "description": ""
+        "source": "Lahontan Speckled Dace", 
+        "nameSpace": "djv::Core::String", 
+        "description": "", 
+        "text": "Lahontan Speckled Dace"
     }, 
     {
-        "text": "Lahontan Stream Tui Chub", 
-        "nameSpace": "djv::Core::String", 
         "id": "Lahontan Stream Tui Chub", 
-        "description": ""
+        "source": "Lahontan Stream Tui Chub", 
+        "nameSpace": "djv::Core::String", 
+        "description": "", 
+        "text": "Lahontan Stream Tui Chub"
     }, 
     {
-        "text": "\u039b\u03af\u03bc\u03bd\u03b7 \u03a0\u03ad\u03c3\u03c4\u03c1\u03bf\u03c6\u03b1", 
-        "nameSpace": "djv::Core::String", 
         "id": "Lake Trout", 
-        "description": ""
+        "source": "Lake Trout", 
+        "nameSpace": "djv::Core::String", 
+        "description": "", 
+        "text": "\u039b\u03af\u03bc\u03bd\u03b7 \u03a0\u03ad\u03c3\u03c4\u03c1\u03bf\u03c6\u03b1"
     }, 
     {
-        "text": "\u039b\u03b1\u03c5\u03c1\u03ac\u03ba\u03b9", 
-        "nameSpace": "djv::Core::String", 
         "id": "Largemouth Bass", 
-        "description": ""
+        "source": "Largemouth Bass", 
+        "nameSpace": "djv::Core::String", 
+        "description": "", 
+        "text": "\u039b\u03b1\u03c5\u03c1\u03ac\u03ba\u03b9"
     }, 
     {
-        "text": "\u039c\u03b9\u03ba\u03c1\u03ae Kern \u03c7\u03c1\u03c5\u03c3\u03ae \u03c0\u03ad\u03c3\u03c4\u03c1\u03bf\u03c6\u03b1", 
-        "nameSpace": "djv::Core::String", 
         "id": "Little Kern Golden Trout", 
-        "description": ""
+        "source": "Little Kern Golden Trout", 
+        "nameSpace": "djv::Core::String", 
+        "description": "", 
+        "text": "\u039c\u03b9\u03ba\u03c1\u03ae Kern \u03c7\u03c1\u03c5\u03c3\u03ae \u03c0\u03ad\u03c3\u03c4\u03c1\u03bf\u03c6\u03b1"
     }, 
     {
-        "text": "Long Valley Speckled Dace", 
-        "nameSpace": "djv::Core::String", 
         "id": "Long Valley Speckled Dace", 
-        "description": ""
+        "source": "Long Valley Speckled Dace", 
+        "nameSpace": "djv::Core::String", 
+        "description": "", 
+        "text": "Long Valley Speckled Dace"
     }, 
     {
-        "text": "Longfin Smelt", 
-        "nameSpace": "djv::Core::String", 
         "id": "Longfin Smelt", 
-        "description": ""
+        "source": "Longfin Smelt", 
+        "nameSpace": "djv::Core::String", 
+        "description": "", 
+        "text": "Longfin Smelt"
     }, 
     {
-        "text": "Longjaw Mudsucker", 
-        "nameSpace": "djv::Core::String", 
         "id": "Longjaw Mudsucker", 
-        "description": ""
+        "source": "Longjaw Mudsucker", 
+        "nameSpace": "djv::Core::String", 
+        "description": "", 
+        "text": "Longjaw Mudsucker"
     }, 
     {
-        "text": "Lost Sucker River", 
-        "nameSpace": "djv::Core::String", 
         "id": "Lost River Sucker", 
-        "description": ""
+        "source": "Lost River Sucker", 
+        "nameSpace": "djv::Core::String", 
+        "description": "", 
+        "text": "Lost Sucker River"
     }, 
     {
-        "text": "\u039a\u03ac\u03c4\u03c9 \u039a\u03bb\u03b1\u03bc\u03b1\u03b8 \u03bc\u03b1\u03c1\u03bc\u03ac\u03c1\u03b9\u03bd\u03bf Sculpin", 
-        "nameSpace": "djv::Core::String", 
         "id": "Lower Klamath Marbled Sculpin", 
-        "description": ""
+        "source": "Lower Klamath Marbled Sculpin", 
+        "nameSpace": "djv::Core::String", 
+        "description": "", 
+        "text": "\u039a\u03ac\u03c4\u03c9 \u039a\u03bb\u03b1\u03bc\u03b1\u03b8 \u03bc\u03b1\u03c1\u03bc\u03ac\u03c1\u03b9\u03bd\u03bf Sculpin"
     }, 
     {
-        "text": "McCloud \u03c0\u03bf\u03c4\u03b1\u03bc\u03cc\u03c2 Redband \u03c0\u03ad\u03c3\u03c4\u03c1\u03bf\u03c6\u03b1\u03c2", 
-        "nameSpace": "djv::Core::String", 
         "id": "McCloud River Redband Trout", 
-        "description": ""
+        "source": "McCloud River Redband Trout", 
+        "nameSpace": "djv::Core::String", 
+        "description": "", 
+        "text": "McCloud \u03c0\u03bf\u03c4\u03b1\u03bc\u03cc\u03c2 Redband \u03c0\u03ad\u03c3\u03c4\u03c1\u03bf\u03c6\u03b1\u03c2"
     }, 
     {
-        "text": "\u039c\u03b9\u03c3\u03c3\u03af\u03c3\u03c3\u03b9 \u03a3\u03af\u03bb\u03b2\u03b5\u03c1\u03b9\u03c2", 
-        "nameSpace": "djv::Core::String", 
         "id": "Mississippi Silversides", 
-        "description": ""
+        "source": "Mississippi Silversides", 
+        "nameSpace": "djv::Core::String", 
+        "description": "", 
+        "text": "\u039c\u03b9\u03c3\u03c3\u03af\u03c3\u03c3\u03b9 \u03a3\u03af\u03bb\u03b2\u03b5\u03c1\u03b9\u03c2"
     }, 
     {
-        "text": "Modoc Sucker", 
-        "nameSpace": "djv::Core::String", 
         "id": "Modoc Sucker", 
-        "description": ""
+        "source": "Modoc Sucker", 
+        "nameSpace": "djv::Core::String", 
+        "description": "", 
+        "text": "Modoc Sucker"
     }, 
     {
-        "text": "Mojave Tui Chub", 
-        "nameSpace": "djv::Core::String", 
         "id": "Mojave Tui Chub", 
-        "description": ""
+        "source": "Mojave Tui Chub", 
+        "nameSpace": "djv::Core::String", 
+        "description": "", 
+        "text": "Mojave Tui Chub"
     }, 
     {
-        "text": "Monterey Hitch", 
-        "nameSpace": "djv::Core::String", 
         "id": "Monterey Hitch", 
-        "description": ""
+        "source": "Monterey Hitch", 
+        "nameSpace": "djv::Core::String", 
+        "description": "", 
+        "text": "Monterey Hitch"
     }, 
     {
-        "text": "Monterey Roach", 
-        "nameSpace": "djv::Core::String", 
         "id": "Monterey Roach", 
-        "description": ""
+        "source": "Monterey Roach", 
+        "nameSpace": "djv::Core::String", 
+        "description": "", 
+        "text": "Monterey Roach"
     }, 
     {
-        "text": "Monterey Sucker", 
-        "nameSpace": "djv::Core::String", 
         "id": "Monterey Sucker", 
-        "description": ""
+        "source": "Monterey Sucker", 
+        "nameSpace": "djv::Core::String", 
+        "description": "", 
+        "text": "Monterey Sucker"
     }, 
     {
-        "text": "Mountainfish Whitefish", 
-        "nameSpace": "djv::Core::String", 
         "id": "Mountain Whitefish", 
-        "description": ""
+        "source": "Mountain Whitefish", 
+        "nameSpace": "djv::Core::String", 
+        "description": "", 
+        "text": "Mountainfish Whitefish"
     }, 
     {
-        "text": "\u039d\u03b1\u03b2\u03ac\u03c1\u03bf \u03a1\u03cc\u03bf\u03c5\u03c4\u03c2", 
-        "nameSpace": "djv::Core::String", 
         "id": "Navarro Roach", 
-        "description": ""
+        "source": "Navarro Roach", 
+        "nameSpace": "djv::Core::String", 
+        "description": "", 
+        "text": "\u039d\u03b1\u03b2\u03ac\u03c1\u03bf \u03a1\u03cc\u03bf\u03c5\u03c4\u03c2"
     }, 
     {
-        "text": "\u0392\u03cc\u03c1\u03b5\u03b9\u03bf (Pit) Roach", 
-        "nameSpace": "djv::Core::String", 
         "id": "Northern (Pit) Roach", 
-        "description": ""
+        "source": "Northern (Pit) Roach", 
+        "nameSpace": "djv::Core::String", 
+        "description": "", 
+        "text": "\u0392\u03cc\u03c1\u03b5\u03b9\u03bf (Pit) Roach"
     }, 
     {
-        "text": "\u0392\u03cc\u03c1\u03b5\u03b9\u03b1 \u039a\u03b1\u03bb\u03b9\u03c6\u03cc\u03c1\u03bd\u03b9\u03b1 Brook Lamprey", 
-        "nameSpace": "djv::Core::String", 
         "id": "Northern California Brook Lamprey", 
-        "description": ""
+        "source": "Northern California Brook Lamprey", 
+        "nameSpace": "djv::Core::String", 
+        "description": "", 
+        "text": "\u0392\u03cc\u03c1\u03b5\u03b9\u03b1 \u039a\u03b1\u03bb\u03b9\u03c6\u03cc\u03c1\u03bd\u03b9\u03b1 Brook Lamprey"
     }, 
     {
-        "text": "\u03a0\u03b1\u03c1\u03b1\u03bb\u03af\u03b1 \u03c4\u03b7\u03c2 \u0392\u03cc\u03c1\u03b5\u03b9\u03b1\u03c2 \u039a\u03b1\u03bb\u03b9\u03c6\u03cc\u03c1\u03bd\u03b9\u03b1\u03c2 Summer Steel", 
-        "nameSpace": "djv::Core::String", 
         "id": "Northern California Coast Summer Steelhead", 
-        "description": ""
+        "source": "Northern California Coast Summer Steelhead", 
+        "nameSpace": "djv::Core::String", 
+        "description": "", 
+        "text": "\u03a0\u03b1\u03c1\u03b1\u03bb\u03af\u03b1 \u03c4\u03b7\u03c2 \u0392\u03cc\u03c1\u03b5\u03b9\u03b1\u03c2 \u039a\u03b1\u03bb\u03b9\u03c6\u03cc\u03c1\u03bd\u03b9\u03b1\u03c2 Summer Steel"
     }, 
     {
-        "text": "\u0391\u03ba\u03c4\u03ae \u03c4\u03b7\u03c2 \u0392\u03cc\u03c1\u03b5\u03b9\u03b1\u03c2 \u039a\u03b1\u03bb\u03b9\u03c6\u03cc\u03c1\u03bd\u03b9\u03b1\u03c2 Winter Steelhead", 
-        "nameSpace": "djv::Core::String", 
         "id": "Northern California Coast Winter Steelhead", 
-        "description": ""
+        "source": "Northern California Coast Winter Steelhead", 
+        "nameSpace": "djv::Core::String", 
+        "description": "", 
+        "text": "\u0391\u03ba\u03c4\u03ae \u03c4\u03b7\u03c2 \u0392\u03cc\u03c1\u03b5\u03b9\u03b1\u03c2 \u039a\u03b1\u03bb\u03b9\u03c6\u03cc\u03c1\u03bd\u03b9\u03b1\u03c2 Winter Steelhead"
     }, 
     {
-        "text": "\u0392\u03cc\u03c1\u03b5\u03b9\u03bf\u03c2 \u03a0\u03c1\u03ac\u03c3\u03b9\u03bd\u03bf\u03c2 \u03a3\u03c4\u03c1\u03bf\u03c5\u03b3\u03b3\u03ac\u03bd\u03bf\u03c2", 
-        "nameSpace": "djv::Core::String", 
         "id": "Northern Green Sturgeon", 
-        "description": ""
+        "source": "Northern Green Sturgeon", 
+        "nameSpace": "djv::Core::String", 
+        "description": "", 
+        "text": "\u0392\u03cc\u03c1\u03b5\u03b9\u03bf\u03c2 \u03a0\u03c1\u03ac\u03c3\u03b9\u03bd\u03bf\u03c2 \u03a3\u03c4\u03c1\u03bf\u03c5\u03b3\u03b3\u03ac\u03bd\u03bf\u03c2"
     }, 
     {
-        "text": "Owens Pupfish", 
-        "nameSpace": "djv::Core::String", 
         "id": "Owens Pupfish", 
-        "description": ""
+        "source": "Owens Pupfish", 
+        "nameSpace": "djv::Core::String", 
+        "description": "", 
+        "text": "Owens Pupfish"
     }, 
     {
-        "text": "Owens Speckled Dace", 
-        "nameSpace": "djv::Core::String", 
         "id": "Owens Speckled Dace", 
-        "description": ""
+        "source": "Owens Speckled Dace", 
+        "nameSpace": "djv::Core::String", 
+        "description": "", 
+        "text": "Owens Speckled Dace"
     }, 
     {
-        "text": "Owens Sucker", 
-        "nameSpace": "djv::Core::String", 
         "id": "Owens Sucker", 
-        "description": ""
+        "source": "Owens Sucker", 
+        "nameSpace": "djv::Core::String", 
+        "description": "", 
+        "text": "Owens Sucker"
     }, 
     {
-        "text": "Owens Tui Chub", 
-        "nameSpace": "djv::Core::String", 
         "id": "Owens Tui Chub", 
-        "description": ""
+        "source": "Owens Tui Chub", 
+        "nameSpace": "djv::Core::String", 
+        "description": "", 
+        "text": "Owens Tui Chub"
     }, 
     {
-        "text": "Pacific Lamprey", 
-        "nameSpace": "djv::Core::String", 
         "id": "Pacific Lamprey", 
-        "description": ""
+        "source": "Pacific Lamprey", 
+        "nameSpace": "djv::Core::String", 
+        "description": "", 
+        "text": "Pacific Lamprey"
     }, 
     {
-        "text": "\u03a0\u03ad\u03c3\u03c4\u03c1\u03bf\u03c6\u03b1 \u03ba\u03bf\u03bb\u03bf\u03ba\u03c5\u03b8\u03bf\u03ba\u03b5\u03c6\u03c4\u03ad\u03b4\u03b5\u03c2", 
-        "nameSpace": "djv::Core::String", 
         "id": "Paiute Cutthroat Trout", 
-        "description": ""
+        "source": "Paiute Cutthroat Trout", 
+        "nameSpace": "djv::Core::String", 
+        "description": "", 
+        "text": "\u03a0\u03ad\u03c3\u03c4\u03c1\u03bf\u03c6\u03b1 \u03ba\u03bf\u03bb\u03bf\u03ba\u03c5\u03b8\u03bf\u03ba\u03b5\u03c6\u03c4\u03ad\u03b4\u03b5\u03c2"
     }, 
     {
-        "text": "Paiute Sculpin", 
-        "nameSpace": "djv::Core::String", 
         "id": "Paiute Sculpin", 
-        "description": ""
+        "source": "Paiute Sculpin", 
+        "nameSpace": "djv::Core::String", 
+        "description": "", 
+        "text": "Paiute Sculpin"
     }, 
     {
-        "text": "\u03a1\u03bf\u03b6 \u03c3\u03bf\u03bb\u03bf\u03bc\u03cc\u03c2", 
-        "nameSpace": "djv::Core::String", 
         "id": "Pink Salmon", 
-        "description": ""
+        "source": "Pink Salmon", 
+        "nameSpace": "djv::Core::String", 
+        "description": "", 
+        "text": "\u03a1\u03bf\u03b6 \u03c3\u03bf\u03bb\u03bf\u03bc\u03cc\u03c2"
     }, 
     {
-        "text": "\u03a0\u03bf\u03c4\u03b1\u03bc\u03cc\u03c2 Tui Chub", 
-        "nameSpace": "djv::Core::String", 
         "id": "Pit River Tui Chub", 
-        "description": ""
+        "source": "Pit River Tui Chub", 
+        "nameSpace": "djv::Core::String", 
+        "description": "", 
+        "text": "\u03a0\u03bf\u03c4\u03b1\u03bc\u03cc\u03c2 Tui Chub"
     }, 
     {
-        "text": "\u03a3\u03ba\u03bf\u03c5\u03c0\u03b9\u03ad\u03c1\u03b1 Sculpin", 
-        "nameSpace": "djv::Core::String", 
         "id": "Pit Sculpin", 
-        "description": ""
+        "source": "Pit Sculpin", 
+        "nameSpace": "djv::Core::String", 
+        "description": "", 
+        "text": "\u03a3\u03ba\u03bf\u03c5\u03c0\u03b9\u03ad\u03c1\u03b1 Sculpin"
     }, 
     {
-        "text": "\u03a0\u03b9\u03c4-\u039a\u03bb\u03b1\u03bc\u03ac\u03c4 \u039c\u03c0\u03c1\u03bf\u03c5\u03ba \u039b\u03ac\u03bc\u03c0\u03c1\u03b5\u03ca", 
-        "nameSpace": "djv::Core::String", 
         "id": "Pit-Klamath Brook Lamprey", 
-        "description": ""
+        "source": "Pit-Klamath Brook Lamprey", 
+        "nameSpace": "djv::Core::String", 
+        "description": "", 
+        "text": "\u03a0\u03b9\u03c4-\u039a\u03bb\u03b1\u03bc\u03ac\u03c4 \u039c\u03c0\u03c1\u03bf\u03c5\u03ba \u039b\u03ac\u03bc\u03c0\u03c1\u03b5\u03ca"
     }, 
     {
-        "text": "\u0398\u03c5\u03bc\u03ac\u03c1\u03b9 \u03b6\u03c9\u03bd\u03ce\u03bd", 
-        "nameSpace": "djv::Core::String", 
         "id": "Porthole Livebearer", 
-        "description": ""
+        "source": "Porthole Livebearer", 
+        "nameSpace": "djv::Core::String", 
+        "description": "", 
+        "text": "\u0398\u03c5\u03bc\u03ac\u03c1\u03b9 \u03b6\u03c9\u03bd\u03ce\u03bd"
     }, 
     {
-        "text": "\u03a6\u03c1\u03b1\u03b3\u03ba\u03cc\u03c3\u03c5\u03ba\u03bf Sculpin", 
-        "nameSpace": "djv::Core::String", 
         "id": "Prickly Sculpin", 
-        "description": ""
+        "source": "Prickly Sculpin", 
+        "nameSpace": "djv::Core::String", 
+        "description": "", 
+        "text": "\u03a6\u03c1\u03b1\u03b3\u03ba\u03cc\u03c3\u03c5\u03ba\u03bf Sculpin"
     }, 
     {
-        "text": "\u03a3\u03c0\u03cc\u03c1\u03bf\u03c2 \u03ba\u03bf\u03bb\u03bf\u03ba\u03cd\u03b8\u03b1\u03c2", 
-        "nameSpace": "djv::Core::String", 
         "id": "Pumpkinseed", 
-        "description": ""
+        "source": "Pumpkinseed", 
+        "nameSpace": "djv::Core::String", 
+        "description": "", 
+        "text": "\u03a3\u03c0\u03cc\u03c1\u03bf\u03c2 \u03ba\u03bf\u03bb\u03bf\u03ba\u03cd\u03b8\u03b1\u03c2"
     }, 
     {
-        "text": "\u0392\u03c1\u03cc\u03c7\u03b9\u03bd\u03bf \u03bd\u03b5\u03c1\u03cc Killifish", 
-        "nameSpace": "djv::Core::String", 
         "id": "Rainwater Killifish", 
-        "description": ""
+        "source": "Rainwater Killifish", 
+        "nameSpace": "djv::Core::String", 
+        "description": "", 
+        "text": "\u0392\u03c1\u03cc\u03c7\u03b9\u03bd\u03bf \u03bd\u03b5\u03c1\u03cc Killifish"
     }, 
     {
-        "text": "\u039e\u03c5\u03c1\u03ac\u03c6\u03b9\u03b1", 
-        "nameSpace": "djv::Core::String", 
         "id": "Razorback Sucker", 
-        "description": ""
+        "source": "Razorback Sucker", 
+        "nameSpace": "djv::Core::String", 
+        "description": "", 
+        "text": "\u039e\u03c5\u03c1\u03ac\u03c6\u03b9\u03b1"
     }, 
     {
-        "text": "Red Hills Roach", 
-        "nameSpace": "djv::Core::String", 
         "id": "Red Hills Roach", 
-        "description": ""
+        "source": "Red Hills Roach", 
+        "nameSpace": "djv::Core::String", 
+        "description": "", 
+        "text": "Red Hills Roach"
     }, 
     {
-        "text": "Red Shiner", 
-        "nameSpace": "djv::Core::String", 
         "id": "Red Shiner", 
-        "description": ""
+        "source": "Red Shiner", 
+        "nameSpace": "djv::Core::String", 
+        "description": "", 
+        "text": "Red Shiner"
     }, 
     {
-        "text": "Redear Sunfish", 
-        "nameSpace": "djv::Core::String", 
         "id": "Redear Sunfish", 
-        "description": ""
+        "source": "Redear Sunfish", 
+        "nameSpace": "djv::Core::String", 
+        "description": "", 
+        "text": "Redear Sunfish"
     }, 
     {
-        "text": "\u03a1\u03b5\u03b2\u03ad\u03b6\u03b9\u03ba\u03bf \u03bc\u03c0\u03ac\u03c3\u03bf", 
-        "nameSpace": "djv::Core::String", 
         "id": "Redeye Bass", 
-        "description": ""
+        "source": "Redeye Bass", 
+        "nameSpace": "djv::Core::String", 
+        "description": "", 
+        "text": "\u03a1\u03b5\u03b2\u03ad\u03b6\u03b9\u03ba\u03bf \u03bc\u03c0\u03ac\u03c3\u03bf"
     }, 
     {
-        "text": "\u03a3\u03ba\u03b5\u03bb\u03b5\u03c4\u03cc\u03c2 \u03bc\u03b5 \u03c3\u03ba\u03b5\u03bb\u03b5\u03c4\u03cc", 
-        "nameSpace": "djv::Core::String", 
         "id": "Reticulate Sculpin", 
-        "description": ""
+        "source": "Reticulate Sculpin", 
+        "nameSpace": "djv::Core::String", 
+        "description": "", 
+        "text": "\u03a3\u03ba\u03b5\u03bb\u03b5\u03c4\u03cc\u03c2 \u03bc\u03b5 \u03c3\u03ba\u03b5\u03bb\u03b5\u03c4\u03cc"
     }, 
     {
-        "text": "Riffle Sculpin", 
-        "nameSpace": "djv::Core::String", 
         "id": "Riffle Sculpin", 
-        "description": ""
+        "source": "Riffle Sculpin", 
+        "nameSpace": "djv::Core::String", 
+        "description": "", 
+        "text": "Riffle Sculpin"
     }, 
     {
-        "text": "\u03a4\u03bf\u03bd \u03c0\u03bf\u03c4\u03b1\u03bc\u03cc Lamprey", 
-        "nameSpace": "djv::Core::String", 
         "id": "River Lamprey", 
-        "description": ""
+        "source": "River Lamprey", 
+        "nameSpace": "djv::Core::String", 
+        "description": "", 
+        "text": "\u03a4\u03bf\u03bd \u03c0\u03bf\u03c4\u03b1\u03bc\u03cc Lamprey"
     }, 
     {
-        "text": "\u03a3\u03ba\u03bb\u03b7\u03c1\u03cc Sculpin", 
-        "nameSpace": "djv::Core::String", 
         "id": "Rough Sculpin", 
-        "description": ""
+        "source": "Rough Sculpin", 
+        "nameSpace": "djv::Core::String", 
+        "description": "", 
+        "text": "\u03a3\u03ba\u03bb\u03b7\u03c1\u03cc Sculpin"
     }, 
     {
-        "text": "\u03a1\u03c9\u03c3\u03b9\u03ba\u03cc \u03c0\u03bf\u03c4\u03b1\u03bc\u03cc Roach", 
-        "nameSpace": "djv::Core::String", 
         "id": "Russian River Roach", 
-        "description": ""
+        "source": "Russian River Roach", 
+        "nameSpace": "djv::Core::String", 
+        "description": "", 
+        "text": "\u03a1\u03c9\u03c3\u03b9\u03ba\u03cc \u03c0\u03bf\u03c4\u03b1\u03bc\u03cc Roach"
     }, 
     {
-        "text": "\u03a1\u03ce\u03c3\u03b9\u03ba\u03b1 \u03c0\u03bf\u03c4\u03b1\u03bc\u03bf\u03cd Tule", 
-        "nameSpace": "djv::Core::String", 
         "id": "Russian River Tule Perch", 
-        "description": ""
+        "source": "Russian River Tule Perch", 
+        "nameSpace": "djv::Core::String", 
+        "description": "", 
+        "text": "\u03a1\u03ce\u03c3\u03b9\u03ba\u03b1 \u03c0\u03bf\u03c4\u03b1\u03bc\u03bf\u03cd Tule"
     }, 
     {
-        "text": "Sacramento Blackfish", 
-        "nameSpace": "djv::Core::String", 
         "id": "Sacramento Blackfish", 
-        "description": ""
+        "source": "Sacramento Blackfish", 
+        "nameSpace": "djv::Core::String", 
+        "description": "", 
+        "text": "Sacramento Blackfish"
     }, 
     {
-        "text": "Sacramento Hitch", 
-        "nameSpace": "djv::Core::String", 
         "id": "Sacramento Hitch", 
-        "description": ""
+        "source": "Sacramento Hitch", 
+        "nameSpace": "djv::Core::String", 
+        "description": "", 
+        "text": "Sacramento Hitch"
     }, 
     {
-        "text": "Sacramento \u03c0\u03ad\u03c1\u03ba\u03b1", 
-        "nameSpace": "djv::Core::String", 
         "id": "Sacramento Perch", 
-        "description": ""
+        "source": "Sacramento Perch", 
+        "nameSpace": "djv::Core::String", 
+        "description": "", 
+        "text": "Sacramento \u03c0\u03ad\u03c1\u03ba\u03b1"
     }, 
     {
-        "text": "Sacramento Pikeminnow", 
-        "nameSpace": "djv::Core::String", 
         "id": "Sacramento Pikeminnow", 
-        "description": ""
+        "source": "Sacramento Pikeminnow", 
+        "nameSpace": "djv::Core::String", 
+        "description": "", 
+        "text": "Sacramento Pikeminnow"
     }, 
     {
-        "text": "Sacramento Speckled Dace", 
-        "nameSpace": "djv::Core::String", 
         "id": "Sacramento Speckled Dace", 
-        "description": ""
+        "source": "Sacramento Speckled Dace", 
+        "nameSpace": "djv::Core::String", 
+        "description": "", 
+        "text": "Sacramento Speckled Dace"
     }, 
     {
-        "text": "\u03a3\u03b1\u03ba\u03c1\u03b1\u03bc\u03ad\u03bd\u03c4\u03bf", 
-        "nameSpace": "djv::Core::String", 
         "id": "Sacramento Splittail", 
-        "description": ""
+        "source": "Sacramento Splittail", 
+        "nameSpace": "djv::Core::String", 
+        "description": "", 
+        "text": "\u03a3\u03b1\u03ba\u03c1\u03b1\u03bc\u03ad\u03bd\u03c4\u03bf"
     }, 
     {
-        "text": "Sacramento Sucker", 
-        "nameSpace": "djv::Core::String", 
         "id": "Sacramento Sucker", 
-        "description": ""
+        "source": "Sacramento Sucker", 
+        "nameSpace": "djv::Core::String", 
+        "description": "", 
+        "text": "Sacramento Sucker"
     }, 
     {
-        "text": "Sacramento Tule", 
-        "nameSpace": "djv::Core::String", 
         "id": "Sacramento Tule Perch", 
-        "description": ""
+        "source": "Sacramento Tule Perch", 
+        "nameSpace": "djv::Core::String", 
+        "description": "", 
+        "text": "Sacramento Tule"
     }, 
     {
-        "text": "Sailfin Molly", 
-        "nameSpace": "djv::Core::String", 
         "id": "Sailfin Molly", 
-        "description": ""
+        "source": "Sailfin Molly", 
+        "nameSpace": "djv::Core::String", 
+        "description": "", 
+        "text": "Sailfin Molly"
     }, 
     {
-        "text": "Salt Creek Pupfish", 
-        "nameSpace": "djv::Core::String", 
         "id": "Salt Creek Pupfish", 
-        "description": ""
+        "source": "Salt Creek Pupfish", 
+        "nameSpace": "djv::Core::String", 
+        "description": "", 
+        "text": "Salt Creek Pupfish"
     }, 
     {
-        "text": "\u03a3\u03ac\u03bd\u03c4\u03b1 \u0386\u03bd\u03b1 \u0386\u03c3\u03c0\u03c1\u03b7 Dace", 
-        "nameSpace": "djv::Core::String", 
         "id": "Santa Ana Speckled Dace", 
-        "description": ""
+        "source": "Santa Ana Speckled Dace", 
+        "nameSpace": "djv::Core::String", 
+        "description": "", 
+        "text": "\u03a3\u03ac\u03bd\u03c4\u03b1 \u0386\u03bd\u03b1 \u0386\u03c3\u03c0\u03c1\u03b7 Dace"
     }, 
     {
-        "text": "Santa Ana Sucker", 
-        "nameSpace": "djv::Core::String", 
         "id": "Santa Ana Sucker", 
-        "description": ""
+        "source": "Santa Ana Sucker", 
+        "nameSpace": "djv::Core::String", 
+        "description": "", 
+        "text": "Santa Ana Sucker"
     }, 
     {
-        "text": "Saratoga Springs Pupfish", 
-        "nameSpace": "djv::Core::String", 
         "id": "Saratoga Springs Pupfish", 
-        "description": ""
+        "source": "Saratoga Springs Pupfish", 
+        "nameSpace": "djv::Core::String", 
+        "description": "", 
+        "text": "Saratoga Springs Pupfish"
     }, 
     {
-        "text": "\u03a3\u03ba\u03ad\u03b9\u03c4 \u039a\u03ad\u03b9\u03ba", 
-        "nameSpace": "djv::Core::String", 
         "id": "Shay Creek Stickleback", 
-        "description": ""
+        "source": "Shay Creek Stickleback", 
+        "nameSpace": "djv::Core::String", 
+        "description": "", 
+        "text": "\u03a3\u03ba\u03ad\u03b9\u03c4 \u039a\u03ad\u03b9\u03ba"
     }, 
     {
-        "text": "Shimofuri Goby", 
-        "nameSpace": "djv::Core::String", 
         "id": "Shimofuri Goby", 
-        "description": ""
+        "source": "Shimofuri Goby", 
+        "nameSpace": "djv::Core::String", 
+        "description": "", 
+        "text": "Shimofuri Goby"
     }, 
     {
-        "text": "Shinner Perch", 
-        "nameSpace": "djv::Core::String", 
         "id": "Shiner Perch", 
-        "description": ""
+        "source": "Shiner Perch", 
+        "nameSpace": "djv::Core::String", 
+        "description": "", 
+        "text": "Shinner Perch"
     }, 
     {
-        "text": "Shortfin Molly", 
-        "nameSpace": "djv::Core::String", 
         "id": "Shortfin Molly", 
-        "description": ""
+        "source": "Shortfin Molly", 
+        "nameSpace": "djv::Core::String", 
+        "description": "", 
+        "text": "Shortfin Molly"
     }, 
     {
-        "text": "\u0392\u03c1\u03b1\u03c3\u03c4\u03ae\u03c1\u03b1 \u03b2\u03c1\u03b1\u03c7\u03c5\u03c0\u03c1\u03cc\u03b8\u03b5\u03c3\u03bc\u03b1", 
-        "nameSpace": "djv::Core::String", 
         "id": "Shortnose Sucker", 
-        "description": ""
+        "source": "Shortnose Sucker", 
+        "nameSpace": "djv::Core::String", 
+        "description": "", 
+        "text": "\u0392\u03c1\u03b1\u03c3\u03c4\u03ae\u03c1\u03b1 \u03b2\u03c1\u03b1\u03c7\u03c5\u03c0\u03c1\u03cc\u03b8\u03b5\u03c3\u03bc\u03b1"
     }, 
     {
-        "text": "Shoshone Pupfish", 
-        "nameSpace": "djv::Core::String", 
         "id": "Shoshone Pupfish", 
-        "description": ""
+        "source": "Shoshone Pupfish", 
+        "nameSpace": "djv::Core::String", 
+        "description": "", 
+        "text": "Shoshone Pupfish"
     }, 
     {
-        "text": "\u039c\u03b9\u03ba\u03c1\u03cc\u03bc\u03b1\u03b8\u03b5\u03c2 \u03bc\u03c0\u03ac\u03c3\u03bf", 
-        "nameSpace": "djv::Core::String", 
         "id": "Smallmouth Bass", 
-        "description": ""
+        "source": "Smallmouth Bass", 
+        "nameSpace": "djv::Core::String", 
+        "description": "", 
+        "text": "\u039c\u03b9\u03ba\u03c1\u03cc\u03bc\u03b1\u03b8\u03b5\u03c2 \u03bc\u03c0\u03ac\u03c3\u03bf"
     }, 
     {
-        "text": "Sockeye (Kokanee) \u03a3\u03bf\u03bb\u03bf\u03bc\u03cc\u03c2", 
-        "nameSpace": "djv::Core::String", 
         "id": "Sockeye (Kokanee) Salmon", 
-        "description": ""
+        "source": "Sockeye (Kokanee) Salmon", 
+        "nameSpace": "djv::Core::String", 
+        "description": "", 
+        "text": "Sockeye (Kokanee) \u03a3\u03bf\u03bb\u03bf\u03bc\u03cc\u03c2"
     }, 
     {
-        "text": "\u039d\u03cc\u03c4\u03b9\u03b1 \u039a\u03b5\u03bd\u03c4\u03c1\u03b9\u03ba\u03ae \u039a\u03b1\u03bb\u03b9\u03c6\u03cc\u03c1\u03bd\u03b9\u03b1 Coast Steelhead", 
-        "nameSpace": "djv::Core::String", 
         "id": "South Central California Coast Steelhead", 
-        "description": ""
+        "source": "South Central California Coast Steelhead", 
+        "nameSpace": "djv::Core::String", 
+        "description": "", 
+        "text": "\u039d\u03cc\u03c4\u03b9\u03b1 \u039a\u03b5\u03bd\u03c4\u03c1\u03b9\u03ba\u03ae \u039a\u03b1\u03bb\u03b9\u03c6\u03cc\u03c1\u03bd\u03b9\u03b1 Coast Steelhead"
     }, 
     {
-        "text": "\u039d\u03cc\u03c4\u03b9\u03b1 \u039a\u03b1\u03bb\u03b9\u03c6\u03cc\u03c1\u03bd\u03b9\u03b1 Steelhead", 
-        "nameSpace": "djv::Core::String", 
         "id": "Southern California Steelhead", 
-        "description": ""
+        "source": "Southern California Steelhead", 
+        "nameSpace": "djv::Core::String", 
+        "description": "", 
+        "text": "\u039d\u03cc\u03c4\u03b9\u03b1 \u039a\u03b1\u03bb\u03b9\u03c6\u03cc\u03c1\u03bd\u03b9\u03b1 Steelhead"
     }, 
     {
-        "text": "\u039d\u03cc\u03c4\u03b9\u03bf \u03a0\u03c1\u03ac\u03c3\u03b9\u03bd\u03bf \u03a3\u03c4\u03c1\u03bf\u03c5\u03b3\u03b3\u03ac\u03c1\u03b9", 
-        "nameSpace": "djv::Core::String", 
         "id": "Southern Green Sturgeon", 
-        "description": ""
+        "source": "Southern Green Sturgeon", 
+        "nameSpace": "djv::Core::String", 
+        "description": "", 
+        "text": "\u039d\u03cc\u03c4\u03b9\u03bf \u03a0\u03c1\u03ac\u03c3\u03b9\u03bd\u03bf \u03a3\u03c4\u03c1\u03bf\u03c5\u03b3\u03b3\u03ac\u03c1\u03b9"
     }, 
     {
-        "text": "\u039d\u03cc\u03c4\u03b9\u03bf \u038c\u03c1\u03b5\u03b3\u03ba\u03bf\u03bd \u0392\u03cc\u03c1\u03b5\u03b9\u03b1 \u039a\u03b1\u03bb\u03b9\u03c6\u03cc\u03c1\u03bd\u03b9\u03b1 \u0391\u03ba\u03c4\u03ae Coho Salmon", 
-        "nameSpace": "djv::Core::String", 
         "id": "Southern Oregon Northern California Coast Coho Salmon", 
-        "description": ""
+        "source": "Southern Oregon Northern California Coast Coho Salmon", 
+        "nameSpace": "djv::Core::String", 
+        "description": "", 
+        "text": "\u039d\u03cc\u03c4\u03b9\u03bf \u038c\u03c1\u03b5\u03b3\u03ba\u03bf\u03bd \u0392\u03cc\u03c1\u03b5\u03b9\u03b1 \u039a\u03b1\u03bb\u03b9\u03c6\u03cc\u03c1\u03bd\u03b9\u03b1 \u0391\u03ba\u03c4\u03ae Coho Salmon"
     }, 
     {
-        "text": "\u039d\u03cc\u03c4\u03b9\u03b1 \u038c\u03c1\u03b5\u03b3\u03ba\u03bf\u03bd \u0391\u03ba\u03c4\u03ae \u03c4\u03b7\u03c2 \u0392\u03cc\u03c1\u03b5\u03b9\u03b1\u03c2 \u039a\u03b1\u03bb\u03b9\u03c6\u03cc\u03c1\u03bd\u03b9\u03b1\u03c2 Fall Chinook Salmon", 
-        "nameSpace": "djv::Core::String", 
         "id": "Southern Oregon Northern California Coast Fall Chinook Salmon", 
-        "description": ""
+        "source": "Southern Oregon Northern California Coast Fall Chinook Salmon", 
+        "nameSpace": "djv::Core::String", 
+        "description": "", 
+        "text": "\u039d\u03cc\u03c4\u03b9\u03b1 \u038c\u03c1\u03b5\u03b3\u03ba\u03bf\u03bd \u0391\u03ba\u03c4\u03ae \u03c4\u03b7\u03c2 \u0392\u03cc\u03c1\u03b5\u03b9\u03b1\u03c2 \u039a\u03b1\u03bb\u03b9\u03c6\u03cc\u03c1\u03bd\u03b9\u03b1\u03c2 Fall Chinook Salmon"
     }, 
     {
-        "text": "\u03a3\u03ba\u03bf\u03cd\u03c1\u03bf \u03bc\u03c0\u03ac\u03c3\u03bf", 
-        "nameSpace": "djv::Core::String", 
         "id": "Spotted Bass", 
-        "description": ""
+        "source": "Spotted Bass", 
+        "nameSpace": "djv::Core::String", 
+        "description": "", 
+        "text": "\u03a3\u03ba\u03bf\u03cd\u03c1\u03bf \u03bc\u03c0\u03ac\u03c3\u03bf"
     }, 
     {
-        "text": "Staghorn Sculpin", 
-        "nameSpace": "djv::Core::String", 
         "id": "Staghorn Sculpin", 
-        "description": ""
+        "source": "Staghorn Sculpin", 
+        "nameSpace": "djv::Core::String", 
+        "description": "", 
+        "text": "Staghorn Sculpin"
     }, 
     {
-        "text": "\u0391\u03c3\u03c4\u03b5\u03c1\u03bf\u03b5\u03b9\u03b4\u03ae\u03c2 \u03c7\u03bb\u03bf\u03bf\u03c4\u03ac\u03c0\u03b7\u03c4\u03b1", 
-        "nameSpace": "djv::Core::String", 
         "id": "Starry Flounder", 
-        "description": ""
+        "source": "Starry Flounder", 
+        "nameSpace": "djv::Core::String", 
+        "description": "", 
+        "text": "\u0391\u03c3\u03c4\u03b5\u03c1\u03bf\u03b5\u03b9\u03b4\u03ae\u03c2 \u03c7\u03bb\u03bf\u03bf\u03c4\u03ac\u03c0\u03b7\u03c4\u03b1"
     }, 
     {
-        "text": "\u03a1\u03b1\u03b2\u03b4\u03c9\u03c4\u03ae \u03c0\u03ad\u03c1\u03ba\u03b1", 
-        "nameSpace": "djv::Core::String", 
         "id": "Striped Bass", 
-        "description": ""
+        "source": "Striped Bass", 
+        "nameSpace": "djv::Core::String", 
+        "description": "", 
+        "text": "\u03a1\u03b1\u03b2\u03b4\u03c9\u03c4\u03ae \u03c0\u03ad\u03c1\u03ba\u03b1"
     }, 
     {
-        "text": "\u03a1\u03b9\u03b3\u03ad Mullet", 
-        "nameSpace": "djv::Core::String", 
         "id": "Striped Mullet", 
-        "description": ""
+        "source": "Striped Mullet", 
+        "nameSpace": "djv::Core::String", 
+        "description": "", 
+        "text": "\u03a1\u03b9\u03b3\u03ad Mullet"
     }, 
     {
-        "text": "Surf Smelt", 
-        "nameSpace": "djv::Core::String", 
         "id": "Surf Smelt", 
-        "description": ""
+        "source": "Surf Smelt", 
+        "nameSpace": "djv::Core::String", 
+        "description": "", 
+        "text": "Surf Smelt"
     }, 
     {
-        "text": "Tahoe Sucker", 
-        "nameSpace": "djv::Core::String", 
         "id": "Tahoe Sucker", 
-        "description": ""
+        "source": "Tahoe Sucker", 
+        "nameSpace": "djv::Core::String", 
+        "description": "", 
+        "text": "Tahoe Sucker"
     }, 
     {
-        "text": "Tecopa Pupfish", 
-        "nameSpace": "djv::Core::String", 
         "id": "Tecopa Pupfish", 
-        "description": ""
+        "source": "Tecopa Pupfish", 
+        "nameSpace": "djv::Core::String", 
+        "description": "", 
+        "text": "Tecopa Pupfish"
     }, 
     {
-        "text": "\u0395\u03af\u03b4\u03bf\u03c2 \u03ba\u03c5\u03c0\u03c1\u03af\u03bd\u03bf\u03c5", 
-        "nameSpace": "djv::Core::String", 
         "id": "Tench", 
-        "description": ""
+        "source": "Tench", 
+        "nameSpace": "djv::Core::String", 
+        "description": "", 
+        "text": "\u0395\u03af\u03b4\u03bf\u03c2 \u03ba\u03c5\u03c0\u03c1\u03af\u03bd\u03bf\u03c5"
     }, 
     {
-        "text": "\u03a7\u03bf\u03bd\u03c4\u03c1\u03ac \u03ba\u03bf\u03bc\u03bc\u03ac\u03c4\u03b9\u03b1", 
-        "nameSpace": "djv::Core::String", 
         "id": "Thicktail Chub", 
-        "description": ""
+        "source": "Thicktail Chub", 
+        "nameSpace": "djv::Core::String", 
+        "description": "", 
+        "text": "\u03a7\u03bf\u03bd\u03c4\u03c1\u03ac \u03ba\u03bf\u03bc\u03bc\u03ac\u03c4\u03b9\u03b1"
     }, 
     {
-        "text": "Threadfin Shad", 
-        "nameSpace": "djv::Core::String", 
         "id": "Threadfin Shad", 
-        "description": ""
+        "source": "Threadfin Shad", 
+        "nameSpace": "djv::Core::String", 
+        "description": "", 
+        "text": "Threadfin Shad"
     }, 
     {
-        "text": "Tidewater Goby", 
-        "nameSpace": "djv::Core::String", 
         "id": "Tidewater Goby", 
-        "description": ""
+        "source": "Tidewater Goby", 
+        "nameSpace": "djv::Core::String", 
+        "description": "", 
+        "text": "Tidewater Goby"
     }, 
     {
-        "text": "Tomales Roach", 
-        "nameSpace": "djv::Core::String", 
         "id": "Tomales Roach", 
-        "description": ""
+        "source": "Tomales Roach", 
+        "nameSpace": "djv::Core::String", 
+        "description": "", 
+        "text": "Tomales Roach"
     }, 
     {
-        "text": "Topsmelt", 
-        "nameSpace": "djv::Core::String", 
         "id": "Topsmelt", 
-        "description": ""
+        "source": "Topsmelt", 
+        "nameSpace": "djv::Core::String", 
+        "description": "", 
+        "text": "Topsmelt"
     }, 
     {
-        "text": "\u0386\u03bd\u03b5\u03c5 \u03b1\u03bd\u03c4\u03b9\u03ba\u03b5\u03b9\u03bc\u03ad\u03bd\u03bf\u03c5", 
-        "nameSpace": "djv::Core::String", 
         "id": "Unarmored Threespine Stickleback", 
-        "description": ""
+        "source": "Unarmored Threespine Stickleback", 
+        "nameSpace": "djv::Core::String", 
+        "description": "", 
+        "text": "\u0386\u03bd\u03b5\u03c5 \u03b1\u03bd\u03c4\u03b9\u03ba\u03b5\u03b9\u03bc\u03ad\u03bd\u03bf\u03c5"
     }, 
     {
-        "text": "\u0386\u03bd\u03c9 \u039a\u03bb\u03b1\u03bc\u03b1\u03b8 \u03bc\u03b1\u03c1\u03bc\u03ac\u03c1\u03b9\u03bd\u03bf Sculpin", 
-        "nameSpace": "djv::Core::String", 
         "id": "Upper Klamath Marbled Sculpin", 
-        "description": ""
+        "source": "Upper Klamath Marbled Sculpin", 
+        "nameSpace": "djv::Core::String", 
+        "description": "", 
+        "text": "\u0386\u03bd\u03c9 \u039a\u03bb\u03b1\u03bc\u03b1\u03b8 \u03bc\u03b1\u03c1\u03bc\u03ac\u03c1\u03b9\u03bd\u03bf Sculpin"
     }, 
     {
-        "text": "\u0386\u03bd\u03c9 \u039a\u03bb\u03b1\u03bc\u03b1\u03b8\u03af\u03b1-\u03a4\u03c1\u03b9\u03ac\u03b4\u03b1 \u03a6\u03b8\u03b9\u03bd\u03cc\u03c0\u03c9\u03c1\u03bf Chinook Salmon", 
-        "nameSpace": "djv::Core::String", 
         "id": "Upper Klamath-Trinity Fall Chinook Salmon", 
-        "description": ""
+        "source": "Upper Klamath-Trinity Fall Chinook Salmon", 
+        "nameSpace": "djv::Core::String", 
+        "description": "", 
+        "text": "\u0386\u03bd\u03c9 \u039a\u03bb\u03b1\u03bc\u03b1\u03b8\u03af\u03b1-\u03a4\u03c1\u03b9\u03ac\u03b4\u03b1 \u03a6\u03b8\u03b9\u03bd\u03cc\u03c0\u03c9\u03c1\u03bf Chinook Salmon"
     }, 
     {
-        "text": "\u0386\u03bd\u03bf\u03b9\u03be\u03b7 Klamath-Trinity \u0386\u03bd\u03bf\u03b9\u03be\u03b7 Chinook \u03a3\u03bf\u03bb\u03bf\u03bc\u03cc\u03c2", 
-        "nameSpace": "djv::Core::String", 
         "id": "Upper Klamath-Trinity Spring Chinook Salmon", 
-        "description": ""
+        "source": "Upper Klamath-Trinity Spring Chinook Salmon", 
+        "nameSpace": "djv::Core::String", 
+        "description": "", 
+        "text": "\u0386\u03bd\u03bf\u03b9\u03be\u03b7 Klamath-Trinity \u0386\u03bd\u03bf\u03b9\u03be\u03b7 Chinook \u03a3\u03bf\u03bb\u03bf\u03bc\u03cc\u03c2"
     }, 
     {
-        "text": "Wakasagi", 
-        "nameSpace": "djv::Core::String", 
         "id": "Wakasagi", 
-        "description": ""
+        "source": "Wakasagi", 
+        "nameSpace": "djv::Core::String", 
+        "description": "", 
+        "text": "Wakasagi"
     }, 
     {
-        "text": "Warmouth", 
-        "nameSpace": "djv::Core::String", 
         "id": "Warmouth", 
-        "description": ""
+        "source": "Warmouth", 
+        "nameSpace": "djv::Core::String", 
+        "description": "", 
+        "text": "Warmouth"
     }, 
     {
-        "text": "\u0394\u03c5\u03c4\u03b9\u03ba\u03cc Brook Lamprey", 
-        "nameSpace": "djv::Core::String", 
         "id": "Western Brook Lamprey", 
-        "description": ""
+        "source": "Western Brook Lamprey", 
+        "nameSpace": "djv::Core::String", 
+        "description": "", 
+        "text": "\u0394\u03c5\u03c4\u03b9\u03ba\u03cc Brook Lamprey"
     }, 
     {
-        "text": "\u0394\u03c5\u03c4\u03b9\u03ba\u03ae Mosquitofish", 
-        "nameSpace": "djv::Core::String", 
         "id": "Western Mosquitofish", 
-        "description": ""
+        "source": "Western Mosquitofish", 
+        "nameSpace": "djv::Core::String", 
+        "description": "", 
+        "text": "\u0394\u03c5\u03c4\u03b9\u03ba\u03ae Mosquitofish"
     }, 
     {
-        "text": "\u039b\u03b5\u03c5\u03ba\u03cc \u03bc\u03c0\u03ac\u03c3\u03bf", 
-        "nameSpace": "djv::Core::String", 
         "id": "White Bass", 
-        "description": ""
+        "source": "White Bass", 
+        "nameSpace": "djv::Core::String", 
+        "description": "", 
+        "text": "\u039b\u03b5\u03c5\u03ba\u03cc \u03bc\u03c0\u03ac\u03c3\u03bf"
     }, 
     {
-        "text": "\u039b\u03b5\u03c5\u03ba\u03cc \u03b3\u03b1\u03c4\u03cc\u03c8\u03b1\u03c1\u03bf", 
-        "nameSpace": "djv::Core::String", 
         "id": "White Catfish", 
-        "description": ""
+        "source": "White Catfish", 
+        "nameSpace": "djv::Core::String", 
+        "description": "", 
+        "text": "\u039b\u03b5\u03c5\u03ba\u03cc \u03b3\u03b1\u03c4\u03cc\u03c8\u03b1\u03c1\u03bf"
     }, 
     {
-        "text": "\u039b\u03b5\u03c5\u03ba\u03cc Crappie", 
-        "nameSpace": "djv::Core::String", 
         "id": "White Crappie", 
-        "description": ""
+        "source": "White Crappie", 
+        "nameSpace": "djv::Core::String", 
+        "description": "", 
+        "text": "\u039b\u03b5\u03c5\u03ba\u03cc Crappie"
     }, 
     {
-        "text": "\u039b\u03b5\u03c5\u03ba\u03cc\u03c2 \u03a3\u03c4\u03c1\u03bf\u03c5\u03b8\u03bf\u03ba\u03b1\u03bc\u03ae\u03bb\u03bf\u03c2", 
-        "nameSpace": "djv::Core::String", 
         "id": "White Sturgeon", 
-        "description": ""
+        "source": "White Sturgeon", 
+        "nameSpace": "djv::Core::String", 
+        "description": "", 
+        "text": "\u039b\u03b5\u03c5\u03ba\u03cc\u03c2 \u03a3\u03c4\u03c1\u03bf\u03c5\u03b8\u03bf\u03ba\u03b1\u03bc\u03ae\u03bb\u03bf\u03c2"
     }, 
     {
-        "text": "\u039a\u03af\u03c4\u03c1\u03b9\u03bd\u03bf \u03c4\u03b1\u03cd\u03c1\u03bf", 
-        "nameSpace": "djv::Core::String", 
         "id": "Yellow Bullhead", 
-        "description": ""
+        "source": "Yellow Bullhead", 
+        "nameSpace": "djv::Core::String", 
+        "description": "", 
+        "text": "\u039a\u03af\u03c4\u03c1\u03b9\u03bd\u03bf \u03c4\u03b1\u03cd\u03c1\u03bf"
     }, 
     {
-        "text": "\u039a\u03af\u03c4\u03c1\u03b9\u03bd\u03b7 \u03c0\u03ad\u03c1\u03ba\u03b1", 
-        "nameSpace": "djv::Core::String", 
         "id": "Yellow Perch", 
-        "description": ""
+        "source": "Yellow Perch", 
+        "nameSpace": "djv::Core::String", 
+        "description": "", 
+        "text": "\u039a\u03af\u03c4\u03c1\u03b9\u03bd\u03b7 \u03c0\u03ad\u03c1\u03ba\u03b1"
     }, 
     {
-        "text": "\u0393\u03b1\u03bb\u03bf\u03c0\u03bf\u03cd\u03bb\u03b1 Goby", 
-        "nameSpace": "djv::Core::String", 
         "id": "Yellowfin Goby", 
-        "description": ""
+        "source": "Yellowfin Goby", 
+        "nameSpace": "djv::Core::String", 
+        "description": "", 
+        "text": "\u0393\u03b1\u03bb\u03bf\u03c0\u03bf\u03cd\u03bb\u03b1 Goby"
     }, 
     {
-        "text": "\u03a4\u03bf Speckled Dace \u03b5\u03af\u03bd\u03b1\u03b9 \u03b9\u03ba\u03b1\u03bd\u03cc \u03bd\u03b1 \u03b6\u03b5\u03b9 \u03c3\u03b5 \u03bc\u03b9\u03b1 \u03c3\u03b5\u03b9\u03c1\u03ac \u03b1\u03c0\u03cc \u03b5\u03bd\u03b4\u03b9\u03b1\u03b9\u03c4\u03ae\u03bc\u03b1\u03c4\u03b1 \u03b1\u03c0\u03cc \u03bc\u03b9\u03ba\u03c1\u03ad\u03c2 \u03c0\u03b7\u03b3\u03ad\u03c2 \u03ae \u03c1\u03c5\u03ac\u03ba\u03b9\u03b1 \u03c3\u03b5 \u03bc\u03b5\u03b3\u03ac\u03bb\u03bf\u03c5\u03c2 \u03c0\u03bf\u03c4\u03b1\u03bc\u03bf\u03cd\u03c2 \u03ba\u03b1\u03b9 \u03b2\u03b1\u03b8\u03b9\u03ad\u03c2 \u03bb\u03af\u03bc\u03bd\u03b5\u03c2.", 
-        "nameSpace": "djv::Core::String", 
         "id": "Speckled Dace are capable of living in an array of habitats from small springs or streams to large rivers and deep lakes.", 
-        "description": ""
+        "source": "Speckled Dace are capable of living in an array of habitats from small springs or streams to large rivers and deep lakes.", 
+        "nameSpace": "djv::Core::String", 
+        "description": "", 
+        "text": "\u03a4\u03bf Speckled Dace \u03b5\u03af\u03bd\u03b1\u03b9 \u03b9\u03ba\u03b1\u03bd\u03cc \u03bd\u03b1 \u03b6\u03b5\u03b9 \u03c3\u03b5 \u03bc\u03b9\u03b1 \u03c3\u03b5\u03b9\u03c1\u03ac \u03b1\u03c0\u03cc \u03b5\u03bd\u03b4\u03b9\u03b1\u03b9\u03c4\u03ae\u03bc\u03b1\u03c4\u03b1 \u03b1\u03c0\u03cc \u03bc\u03b9\u03ba\u03c1\u03ad\u03c2 \u03c0\u03b7\u03b3\u03ad\u03c2 \u03ae \u03c1\u03c5\u03ac\u03ba\u03b9\u03b1 \u03c3\u03b5 \u03bc\u03b5\u03b3\u03ac\u03bb\u03bf\u03c5\u03c2 \u03c0\u03bf\u03c4\u03b1\u03bc\u03bf\u03cd\u03c2 \u03ba\u03b1\u03b9 \u03b2\u03b1\u03b8\u03b9\u03ad\u03c2 \u03bb\u03af\u03bc\u03bd\u03b5\u03c2."
     }, 
     {
-        "text": "\u03a4\u03bf Speckled Dace \u03c0\u03c1\u03bf\u03c4\u03b9\u03bc\u03ac \u03c4\u03bf \u03c0\u03b5\u03c1\u03b9\u03b2\u03ac\u03bb\u03bb\u03bf\u03bd \u03c0\u03bf\u03c5 \u03c0\u03b5\u03c1\u03b9\u03bb\u03b1\u03bc\u03b2\u03ac\u03bd\u03b5\u03b9 \u03ba\u03b1\u03b8\u03b1\u03c1\u03cc, \u03ba\u03b1\u03bb\u03ac \u03bf\u03be\u03c5\u03b3\u03bf\u03bd\u03c9\u03bc\u03ad\u03bd\u03bf \u03bd\u03b5\u03c1\u03cc, \u03bc\u03b5 \u03ba\u03af\u03bd\u03b7\u03c3\u03b7 \u03bb\u03cc\u03b3\u03c9 \u03c1\u03b5\u03cd\u03bc\u03b1\u03c4\u03bf\u03c2 \u03ae \u03ba\u03c5\u03bc\u03ac\u03c4\u03c9\u03bd.", 
-        "nameSpace": "djv::Core::String", 
         "id": "Speckled Dace prefer habitat that includes clear, well oxygenated water, with movement due to a current or waves.", 
-        "description": ""
+        "source": "Speckled Dace prefer habitat that includes clear, well oxygenated water, with movement due to a current or waves.", 
+        "nameSpace": "djv::Core::String", 
+        "description": "", 
+        "text": "\u03a4\u03bf Speckled Dace \u03c0\u03c1\u03bf\u03c4\u03b9\u03bc\u03ac \u03c4\u03bf \u03c0\u03b5\u03c1\u03b9\u03b2\u03ac\u03bb\u03bb\u03bf\u03bd \u03c0\u03bf\u03c5 \u03c0\u03b5\u03c1\u03b9\u03bb\u03b1\u03bc\u03b2\u03ac\u03bd\u03b5\u03b9 \u03ba\u03b1\u03b8\u03b1\u03c1\u03cc, \u03ba\u03b1\u03bb\u03ac \u03bf\u03be\u03c5\u03b3\u03bf\u03bd\u03c9\u03bc\u03ad\u03bd\u03bf \u03bd\u03b5\u03c1\u03cc, \u03bc\u03b5 \u03ba\u03af\u03bd\u03b7\u03c3\u03b7 \u03bb\u03cc\u03b3\u03c9 \u03c1\u03b5\u03cd\u03bc\u03b1\u03c4\u03bf\u03c2 \u03ae \u03ba\u03c5\u03bc\u03ac\u03c4\u03c9\u03bd."
     }, 
     {
-        "text": "\u0395\u03c0\u03b9\u03c0\u03bb\u03ad\u03bf\u03bd, \u03c4\u03b1 \u03c8\u03ac\u03c1\u03b9\u03b1 \u03b5\u03c5\u03b4\u03bf\u03ba\u03b9\u03bc\u03bf\u03cd\u03bd \u03c3\u03b5 \u03c0\u03b5\u03c1\u03b9\u03bf\u03c7\u03ad\u03c2 \u03bc\u03b5 \u03b2\u03b1\u03b8\u03b9\u03ac \u03ba\u03ac\u03bb\u03c5\u03c8\u03b7 \u03ae \u03b5\u03bd\u03b1\u03ad\u03c1\u03b9\u03b1 \u03c0\u03c1\u03bf\u03c3\u03c4\u03b1\u03c3\u03af\u03b1 \u03b1\u03c0\u03cc \u03b2\u03bb\u03ac\u03c3\u03c4\u03b7\u03c3\u03b7 \u03ae \u03be\u03c5\u03bb\u03ce\u03b4\u03b7 \u03c3\u03c5\u03bd\u03c4\u03c1\u03af\u03bc\u03bc\u03b9\u03b1.", 
-        "nameSpace": "djv::Core::String", 
         "id": "In addition the fish thrive in areas with deep cover or overhead protection from vegetation or woody debris.", 
-        "description": ""
+        "source": "In addition the fish thrive in areas with deep cover or overhead protection from vegetation or woody debris.", 
+        "nameSpace": "djv::Core::String", 
+        "description": "", 
+        "text": "\u0395\u03c0\u03b9\u03c0\u03bb\u03ad\u03bf\u03bd, \u03c4\u03b1 \u03c8\u03ac\u03c1\u03b9\u03b1 \u03b5\u03c5\u03b4\u03bf\u03ba\u03b9\u03bc\u03bf\u03cd\u03bd \u03c3\u03b5 \u03c0\u03b5\u03c1\u03b9\u03bf\u03c7\u03ad\u03c2 \u03bc\u03b5 \u03b2\u03b1\u03b8\u03b9\u03ac \u03ba\u03ac\u03bb\u03c5\u03c8\u03b7 \u03ae \u03b5\u03bd\u03b1\u03ad\u03c1\u03b9\u03b1 \u03c0\u03c1\u03bf\u03c3\u03c4\u03b1\u03c3\u03af\u03b1 \u03b1\u03c0\u03cc \u03b2\u03bb\u03ac\u03c3\u03c4\u03b7\u03c3\u03b7 \u03ae \u03be\u03c5\u03bb\u03ce\u03b4\u03b7 \u03c3\u03c5\u03bd\u03c4\u03c1\u03af\u03bc\u03bc\u03b9\u03b1."
     }, 
     {
-        "text": "\u03a4\u03bf Speckled Dace \u03ba\u03b1\u03c4\u03ac \u03ba\u03cd\u03c1\u03b9\u03bf \u03bb\u03cc\u03b3\u03bf \u03ba\u03b1\u03c4\u03b1\u03bb\u03b1\u03bc\u03b2\u03ac\u03bd\u03b5\u03b9 \u03bc\u03b9\u03ba\u03c1\u03ac \u03c1\u03ad\u03bc\u03b1\u03c4\u03b1 \u03c4\u03b7\u03c2 \u03b4\u03b5\u03cd\u03c4\u03b5\u03c1\u03b7\u03c2 \u03ad\u03c9\u03c2 \u03c4\u03c1\u03af\u03c4\u03b7\u03c2 \u03c4\u03ac\u03be\u03b7\u03c2 \u03cc\u03c0\u03bf\u03c5 \u03c4\u03c1\u03bf\u03c6\u03bf\u03b4\u03bf\u03c4\u03bf\u03cd\u03bd \u03ba\u03b1\u03b9 \u03b5\u03ba\u03c4\u03c1\u03ad\u03c6\u03bf\u03c5\u03bd \u03b3\u03b9\u03b1 \u03c5\u03b4\u03c1\u03cc\u03b2\u03b9\u03b1 \u03ad\u03bd\u03c4\u03bf\u03bc\u03b1.", 
-        "nameSpace": "djv::Core::String", 
         "id": "Speckled Dace predominantly occupy small streams of the second to third order where they feed and forage for aquatic insects.", 
-        "description": ""
+        "source": "Speckled Dace predominantly occupy small streams of the second to third order where they feed and forage for aquatic insects.", 
+        "nameSpace": "djv::Core::String", 
+        "description": "", 
+        "text": "\u03a4\u03bf Speckled Dace \u03ba\u03b1\u03c4\u03ac \u03ba\u03cd\u03c1\u03b9\u03bf \u03bb\u03cc\u03b3\u03bf \u03ba\u03b1\u03c4\u03b1\u03bb\u03b1\u03bc\u03b2\u03ac\u03bd\u03b5\u03b9 \u03bc\u03b9\u03ba\u03c1\u03ac \u03c1\u03ad\u03bc\u03b1\u03c4\u03b1 \u03c4\u03b7\u03c2 \u03b4\u03b5\u03cd\u03c4\u03b5\u03c1\u03b7\u03c2 \u03ad\u03c9\u03c2 \u03c4\u03c1\u03af\u03c4\u03b7\u03c2 \u03c4\u03ac\u03be\u03b7\u03c2 \u03cc\u03c0\u03bf\u03c5 \u03c4\u03c1\u03bf\u03c6\u03bf\u03b4\u03bf\u03c4\u03bf\u03cd\u03bd \u03ba\u03b1\u03b9 \u03b5\u03ba\u03c4\u03c1\u03ad\u03c6\u03bf\u03c5\u03bd \u03b3\u03b9\u03b1 \u03c5\u03b4\u03c1\u03cc\u03b2\u03b9\u03b1 \u03ad\u03bd\u03c4\u03bf\u03bc\u03b1."
     }, 
     {
-        "text": "\u03a4\u03bf \u03b5\u03af\u03b4\u03bf\u03c2 \u03b5\u03af\u03bd\u03b1\u03b9 \u03c0\u03bf\u03bb\u03cd \u03c0\u03c1\u03bf\u03c3\u03b1\u03c1\u03bc\u03cc\u03c3\u03b9\u03bc\u03bf \u03ba\u03b1\u03b9 \u03b2\u03c1\u03af\u03c3\u03ba\u03b5\u03c4\u03b1\u03b9 \u03c3\u03b5 \u03c8\u03c5\u03c7\u03c1\u03ad\u03c2 \u03b1\u03bb\u03c0\u03b9\u03ba\u03ad\u03c2 \u03bb\u03af\u03bc\u03bd\u03b5\u03c2 \u03cc\u03c0\u03c9\u03c2 \u03b7 \u03bb\u03af\u03bc\u03bd\u03b7 Tahoe, \u03b1\u03bb\u03bb\u03ac \u03ad\u03c7\u03b5\u03b9 \u03b5\u03c0\u03af\u03c3\u03b7\u03c2 \u03b5\u03c0\u03b9\u03c4\u03cd\u03c7\u03b5\u03b9 \u03bd\u03b1 \u03b5\u03c0\u03b9\u03b2\u03b9\u03ce\u03c3\u03b5\u03b9 \u03c3\u03c4\u03b9\u03c2 \u03b1\u03bd\u03c4\u03b9\u03be\u03bf\u03cc\u03c4\u03b7\u03c4\u03b5\u03c2 \u03c3\u03b5 \u03b8\u03b5\u03c1\u03bc\u03bf\u03ba\u03c1\u03b1\u03c3\u03af\u03b5\u03c2 \u03af\u03c3\u03b5\u03c2 \u03ae \u03b1\u03bd\u03ce\u03c4\u03b5\u03c1\u03b5\u03c2 \u03b1\u03c0\u03cc 31\u03bc2103 \u03bc\u03b5 \u03c3\u03c5\u03b3\u03ba\u03ad\u03bd\u03c4\u03c1\u03c9\u03c3\u03b7 \u03b4\u03b9\u03b1\u03bb\u03c5\u03bc\u03ad\u03bd\u03bf\u03c5 \u03bf\u03be\u03c5\u03b3\u03cc\u03bd\u03bf\u03c5 1 mg / l.", 
-        "nameSpace": "djv::Core::String", 
         "id": "The species is very adaptable and is found in cold alpine lakes such as Lake Tahoe, but has also been able to survive adversity in temperatures at or above 31\\u2103 with a dissolved oxygen concentration of 1 mg / L.", 
-        "description": ""
+        "source": "The species is very adaptable and is found in cold alpine lakes such as Lake Tahoe, but has also been able to survive adversity in temperatures at or above 31\\u2103 with a dissolved oxygen concentration of 1 mg / L.", 
+        "nameSpace": "djv::Core::String", 
+        "description": "", 
+        "text": "\u03a4\u03bf \u03b5\u03af\u03b4\u03bf\u03c2 \u03b5\u03af\u03bd\u03b1\u03b9 \u03c0\u03bf\u03bb\u03cd \u03c0\u03c1\u03bf\u03c3\u03b1\u03c1\u03bc\u03cc\u03c3\u03b9\u03bc\u03bf \u03ba\u03b1\u03b9 \u03b2\u03c1\u03af\u03c3\u03ba\u03b5\u03c4\u03b1\u03b9 \u03c3\u03b5 \u03c8\u03c5\u03c7\u03c1\u03ad\u03c2 \u03b1\u03bb\u03c0\u03b9\u03ba\u03ad\u03c2 \u03bb\u03af\u03bc\u03bd\u03b5\u03c2 \u03cc\u03c0\u03c9\u03c2 \u03b7 \u03bb\u03af\u03bc\u03bd\u03b7 Tahoe, \u03b1\u03bb\u03bb\u03ac \u03ad\u03c7\u03b5\u03b9 \u03b5\u03c0\u03af\u03c3\u03b7\u03c2 \u03b5\u03c0\u03b9\u03c4\u03cd\u03c7\u03b5\u03b9 \u03bd\u03b1 \u03b5\u03c0\u03b9\u03b2\u03b9\u03ce\u03c3\u03b5\u03b9 \u03c3\u03c4\u03b9\u03c2 \u03b1\u03bd\u03c4\u03b9\u03be\u03bf\u03cc\u03c4\u03b7\u03c4\u03b5\u03c2 \u03c3\u03b5 \u03b8\u03b5\u03c1\u03bc\u03bf\u03ba\u03c1\u03b1\u03c3\u03af\u03b5\u03c2 \u03af\u03c3\u03b5\u03c2 \u03ae \u03b1\u03bd\u03ce\u03c4\u03b5\u03c1\u03b5\u03c2 \u03b1\u03c0\u03cc 31\u03bc2103 \u03bc\u03b5 \u03c3\u03c5\u03b3\u03ba\u03ad\u03bd\u03c4\u03c1\u03c9\u03c3\u03b7 \u03b4\u03b9\u03b1\u03bb\u03c5\u03bc\u03ad\u03bd\u03bf\u03c5 \u03bf\u03be\u03c5\u03b3\u03cc\u03bd\u03bf\u03c5 1 mg / l."
     }, 
     {
-        "text": "\u03a3\u03c4\u03b1 \u03c1\u03ad\u03bc\u03b1\u03c4\u03b1 \u03c0\u03bf\u03c5 \u03c3\u03c0\u03c1\u03ce\u03c7\u03bd\u03bf\u03c5\u03bd \u03c4\u03bf \u03b4\u03ad\u03bd\u03c4\u03c1\u03bf \u03ba\u03bf\u03bb\u03c5\u03bc\u03c0\u03bf\u03cd\u03bd \u03ba\u03b1\u03c4\u03ac \u03bc\u03ae\u03ba\u03bf\u03c2 \u03c4\u03bf\u03c5 \u03c0\u03c5\u03b8\u03bc\u03ad\u03bd\u03b1 \u03c8\u03ac\u03c7\u03bd\u03bf\u03bd\u03c4\u03b1\u03c2 \u03b3\u03b9\u03b1 \u03bc\u03b9\u03ba\u03c1\u03ac \u03b1\u03c3\u03c0\u03cc\u03bd\u03b4\u03c5\u03bb\u03b1, \u03b5\u03bd\u03ce \u03c3\u03c4\u03b9\u03c2 \u03bb\u03af\u03bc\u03bd\u03b5\u03c2 \u03b5\u03af\u03bd\u03b1\u03b9 \u03b5\u03c5\u03ba\u03b1\u03b9\u03c1\u03b9\u03b1\u03ba\u03bf\u03af \u03c4\u03c1\u03bf\u03c6\u03bf\u03b4\u03cc\u03c4\u03b5\u03c2 \u03c0\u03bf\u03c5 \u03bc\u03c0\u03bf\u03c1\u03bf\u03cd\u03bd \u03bd\u03b1 \u03c4\u03c1\u03ad\u03c6\u03bf\u03bd\u03c4\u03b1\u03b9 \u03bc\u03b5 \u03b6\u03c9\u03bf\u03c0\u03bb\u03b1\u03b3\u03ba\u03c4\u03cc\u03bd, \u03ac\u03bb\u03b3\u03b7, \u03bd\u03cd\u03bc\u03c6\u03b5\u03c2 \u03ae \u03c4\u03b1 \u03b9\u03c0\u03c4\u03ac\u03bc\u03b5\u03bd\u03b1 \u03ad\u03bd\u03c4\u03bf\u03bc\u03b1 \u03c0\u03bf\u03c5 \u03c0\u03c1\u03bf\u03ba\u03cd\u03c0\u03c4\u03bf\u03c5\u03bd.", 
-        "nameSpace": "djv::Core::String", 
         "id": "In streams speckled dace swim along the bottom looking for small invertebrates while in lakes they are opportunistic feeders that may feed on zooplankton, algae, nymphs, or the resulting flying insects.", 
-        "description": ""
+        "source": "In streams speckled dace swim along the bottom looking for small invertebrates while in lakes they are opportunistic feeders that may feed on zooplankton, algae, nymphs, or the resulting flying insects.", 
+        "nameSpace": "djv::Core::String", 
+        "description": "", 
+        "text": "\u03a3\u03c4\u03b1 \u03c1\u03ad\u03bc\u03b1\u03c4\u03b1 \u03c0\u03bf\u03c5 \u03c3\u03c0\u03c1\u03ce\u03c7\u03bd\u03bf\u03c5\u03bd \u03c4\u03bf \u03b4\u03ad\u03bd\u03c4\u03c1\u03bf \u03ba\u03bf\u03bb\u03c5\u03bc\u03c0\u03bf\u03cd\u03bd \u03ba\u03b1\u03c4\u03ac \u03bc\u03ae\u03ba\u03bf\u03c2 \u03c4\u03bf\u03c5 \u03c0\u03c5\u03b8\u03bc\u03ad\u03bd\u03b1 \u03c8\u03ac\u03c7\u03bd\u03bf\u03bd\u03c4\u03b1\u03c2 \u03b3\u03b9\u03b1 \u03bc\u03b9\u03ba\u03c1\u03ac \u03b1\u03c3\u03c0\u03cc\u03bd\u03b4\u03c5\u03bb\u03b1, \u03b5\u03bd\u03ce \u03c3\u03c4\u03b9\u03c2 \u03bb\u03af\u03bc\u03bd\u03b5\u03c2 \u03b5\u03af\u03bd\u03b1\u03b9 \u03b5\u03c5\u03ba\u03b1\u03b9\u03c1\u03b9\u03b1\u03ba\u03bf\u03af \u03c4\u03c1\u03bf\u03c6\u03bf\u03b4\u03cc\u03c4\u03b5\u03c2 \u03c0\u03bf\u03c5 \u03bc\u03c0\u03bf\u03c1\u03bf\u03cd\u03bd \u03bd\u03b1 \u03c4\u03c1\u03ad\u03c6\u03bf\u03bd\u03c4\u03b1\u03b9 \u03bc\u03b5 \u03b6\u03c9\u03bf\u03c0\u03bb\u03b1\u03b3\u03ba\u03c4\u03cc\u03bd, \u03ac\u03bb\u03b3\u03b7, \u03bd\u03cd\u03bc\u03c6\u03b5\u03c2 \u03ae \u03c4\u03b1 \u03b9\u03c0\u03c4\u03ac\u03bc\u03b5\u03bd\u03b1 \u03ad\u03bd\u03c4\u03bf\u03bc\u03b1 \u03c0\u03bf\u03c5 \u03c0\u03c1\u03bf\u03ba\u03cd\u03c0\u03c4\u03bf\u03c5\u03bd."
     }, 
     {
-        "text": "\u03a4\u03bf Speckled Dace \u03ad\u03c7\u03b5\u03b9 \u03c3\u03c5\u03bd\u03ae\u03b8\u03c9\u03c2 \u03b4\u03b9\u03ac\u03c1\u03ba\u03b5\u03b9\u03b1 \u03b6\u03c9\u03ae\u03c2 \u03c4\u03c1\u03b9\u03ce\u03bd \u03b5\u03c4\u03ce\u03bd, \u03b1\u03bb\u03bb\u03ac \u03bc\u03c0\u03bf\u03c1\u03b5\u03af \u03bd\u03b1 \u03b6\u03ae\u03c3\u03b5\u03b9 6 \u03ae \u03c0\u03b5\u03c1\u03b9\u03c3\u03c3\u03cc\u03c4\u03b5\u03c1\u03b1 \u03c7\u03c1\u03cc\u03bd\u03b9\u03b1, \u03ba\u03b1\u03c4\u03ac \u03c4\u03b7 \u03b4\u03b9\u03ac\u03c1\u03ba\u03b5\u03b9\u03b1 \u03c4\u03c9\u03bd \u03bf\u03c0\u03bf\u03af\u03c9\u03bd \u03bf\u03b9 \u03b3\u03c5\u03bd\u03b1\u03af\u03ba\u03b5\u03c2 \u03c3\u03c5\u03bd\u03ae\u03b8\u03c9\u03c2 \u03bc\u03b5\u03b3\u03b1\u03bb\u03ce\u03bd\u03bf\u03c5\u03bd \u03c4\u03b1\u03c7\u03cd\u03c4\u03b5\u03c1\u03b1 \u03b1\u03c0\u03cc \u03c4\u03bf\u03c5\u03c2 \u03ac\u03bd\u03b4\u03c1\u03b5\u03c2.", 
-        "nameSpace": "djv::Core::String", 
         "id": "Speckled Dace typically have a life span of three years, but may live 6 or more years, during which time females typically grow more rapidly than males.", 
-        "description": ""
+        "source": "Speckled Dace typically have a life span of three years, but may live 6 or more years, during which time females typically grow more rapidly than males.", 
+        "nameSpace": "djv::Core::String", 
+        "description": "", 
+        "text": "\u03a4\u03bf Speckled Dace \u03ad\u03c7\u03b5\u03b9 \u03c3\u03c5\u03bd\u03ae\u03b8\u03c9\u03c2 \u03b4\u03b9\u03ac\u03c1\u03ba\u03b5\u03b9\u03b1 \u03b6\u03c9\u03ae\u03c2 \u03c4\u03c1\u03b9\u03ce\u03bd \u03b5\u03c4\u03ce\u03bd, \u03b1\u03bb\u03bb\u03ac \u03bc\u03c0\u03bf\u03c1\u03b5\u03af \u03bd\u03b1 \u03b6\u03ae\u03c3\u03b5\u03b9 6 \u03ae \u03c0\u03b5\u03c1\u03b9\u03c3\u03c3\u03cc\u03c4\u03b5\u03c1\u03b1 \u03c7\u03c1\u03cc\u03bd\u03b9\u03b1, \u03ba\u03b1\u03c4\u03ac \u03c4\u03b7 \u03b4\u03b9\u03ac\u03c1\u03ba\u03b5\u03b9\u03b1 \u03c4\u03c9\u03bd \u03bf\u03c0\u03bf\u03af\u03c9\u03bd \u03bf\u03b9 \u03b3\u03c5\u03bd\u03b1\u03af\u03ba\u03b5\u03c2 \u03c3\u03c5\u03bd\u03ae\u03b8\u03c9\u03c2 \u03bc\u03b5\u03b3\u03b1\u03bb\u03ce\u03bd\u03bf\u03c5\u03bd \u03c4\u03b1\u03c7\u03cd\u03c4\u03b5\u03c1\u03b1 \u03b1\u03c0\u03cc \u03c4\u03bf\u03c5\u03c2 \u03ac\u03bd\u03b4\u03c1\u03b5\u03c2."
     }, 
     {
-        "text": "\u03a4\u03b1 \u03c8\u03ac\u03c1\u03b9\u03b1 \u03b3\u03af\u03bd\u03bf\u03bd\u03c4\u03b1\u03b9 \u03c3\u03b5\u03be\u03bf\u03c5\u03b1\u03bb\u03b9\u03ba\u03ac \u03ce\u03c1\u03b9\u03bc\u03b1 \u03c3\u03c4\u03b7 \u03b4\u03b5\u03cd\u03c4\u03b5\u03c1\u03b7 \u03c7\u03c1\u03bf\u03bd\u03b9\u03ac \u03c4\u03bf\u03c5\u03c2 \u03ba\u03b1\u03b9 \u03ba\u03b1\u03c4\u03ac \u03c4\u03b7 \u03b4\u03b9\u03ac\u03c1\u03ba\u03b5\u03b9\u03b1 \u03c4\u03c9\u03bd \u03ba\u03b1\u03bb\u03bf\u03ba\u03b1\u03b9\u03c1\u03b9\u03bd\u03ce\u03bd \u03bc\u03b7\u03bd\u03ce\u03bd \u03c4\u03bf dace spawn.", 
-        "nameSpace": "djv::Core::String", 
         "id": "The fish become sexually mature in their second year and during the summer months the dace spawn.", 
-        "description": ""
+        "source": "The fish become sexually mature in their second year and during the summer months the dace spawn.", 
+        "nameSpace": "djv::Core::String", 
+        "description": "", 
+        "text": "\u03a4\u03b1 \u03c8\u03ac\u03c1\u03b9\u03b1 \u03b3\u03af\u03bd\u03bf\u03bd\u03c4\u03b1\u03b9 \u03c3\u03b5\u03be\u03bf\u03c5\u03b1\u03bb\u03b9\u03ba\u03ac \u03ce\u03c1\u03b9\u03bc\u03b1 \u03c3\u03c4\u03b7 \u03b4\u03b5\u03cd\u03c4\u03b5\u03c1\u03b7 \u03c7\u03c1\u03bf\u03bd\u03b9\u03ac \u03c4\u03bf\u03c5\u03c2 \u03ba\u03b1\u03b9 \u03ba\u03b1\u03c4\u03ac \u03c4\u03b7 \u03b4\u03b9\u03ac\u03c1\u03ba\u03b5\u03b9\u03b1 \u03c4\u03c9\u03bd \u03ba\u03b1\u03bb\u03bf\u03ba\u03b1\u03b9\u03c1\u03b9\u03bd\u03ce\u03bd \u03bc\u03b7\u03bd\u03ce\u03bd \u03c4\u03bf dace spawn."
     }, 
     {
-        "text": "\u039f\u03b9 \u03ba\u03ac\u03c4\u03bf\u03b9\u03ba\u03bf\u03b9 \u03c1\u03b5\u03cd\u03bc\u03b1\u03c4\u03bf\u03c2 \u03b5\u03ba\u03c4\u03c1\u03ad\u03c6\u03bf\u03bd\u03c4\u03b1\u03b9 \u03c3\u03b5 \u03ba\u03ce\u03bd\u03bf\u03b9 \u03ae \u03c3\u03b5 \u03c3\u03bf\u03b2\u03b1\u03c1\u03ad\u03c2 \u03c0\u03b5\u03c1\u03b9\u03bf\u03c7\u03ad\u03c2, \u03b5\u03bd\u03ce \u03bf\u03b9 \u03ba\u03ac\u03c4\u03bf\u03b9\u03ba\u03bf\u03b9 \u03c4\u03b7\u03c2 \u03bb\u03af\u03bc\u03bd\u03b7\u03c2 \u03b1\u03bd\u03b1\u03c0\u03c4\u03cd\u03c3\u03c3\u03bf\u03bd\u03c4\u03b1\u03b9 \u03c3\u03b5 \u03c0\u03b1\u03c1\u03b1\u03c0\u03bf\u03c4\u03ac\u03bc\u03bf\u03c5\u03c2 \u03ae \u03c3\u03b5 \u03c1\u03b7\u03c7\u03ad\u03c2 \u03b1\u03ba\u03c4\u03bf\u03b3\u03c1\u03b1\u03bc\u03bc\u03ad\u03c2.", 
-        "nameSpace": "djv::Core::String", 
         "id": "Stream dwellers spawn in riffles or gravely areas, while the lake inhabitants spawn in tributaries or in shallow shoreline regions.", 
-        "description": ""
+        "source": "Stream dwellers spawn in riffles or gravely areas, while the lake inhabitants spawn in tributaries or in shallow shoreline regions.", 
+        "nameSpace": "djv::Core::String", 
+        "description": "", 
+        "text": "\u039f\u03b9 \u03ba\u03ac\u03c4\u03bf\u03b9\u03ba\u03bf\u03b9 \u03c1\u03b5\u03cd\u03bc\u03b1\u03c4\u03bf\u03c2 \u03b5\u03ba\u03c4\u03c1\u03ad\u03c6\u03bf\u03bd\u03c4\u03b1\u03b9 \u03c3\u03b5 \u03ba\u03ce\u03bd\u03bf\u03b9 \u03ae \u03c3\u03b5 \u03c3\u03bf\u03b2\u03b1\u03c1\u03ad\u03c2 \u03c0\u03b5\u03c1\u03b9\u03bf\u03c7\u03ad\u03c2, \u03b5\u03bd\u03ce \u03bf\u03b9 \u03ba\u03ac\u03c4\u03bf\u03b9\u03ba\u03bf\u03b9 \u03c4\u03b7\u03c2 \u03bb\u03af\u03bc\u03bd\u03b7\u03c2 \u03b1\u03bd\u03b1\u03c0\u03c4\u03cd\u03c3\u03c3\u03bf\u03bd\u03c4\u03b1\u03b9 \u03c3\u03b5 \u03c0\u03b1\u03c1\u03b1\u03c0\u03bf\u03c4\u03ac\u03bc\u03bf\u03c5\u03c2 \u03ae \u03c3\u03b5 \u03c1\u03b7\u03c7\u03ad\u03c2 \u03b1\u03ba\u03c4\u03bf\u03b3\u03c1\u03b1\u03bc\u03bc\u03ad\u03c2."
     }, 
     {
-        "text": "\u03a4\u03b1 \u03ad\u03bc\u03b2\u03c1\u03c5\u03b1 \u03b5\u03ba\u03ba\u03bf\u03bb\u03ac\u03c0\u03c4\u03bf\u03bd\u03c4\u03b1\u03b9 \u03c3\u03b5 6 \u03b7\u03bc\u03ad\u03c1\u03b5\u03c2 \u03ba\u03b1\u03b9 \u03bf\u03b9 \u03c0\u03c1\u03bf\u03bd\u03cd\u03bc\u03c6\u03b5\u03c2 \u03c0\u03b1\u03c1\u03b1\u03bc\u03ad\u03bd\u03bf\u03c5\u03bd \u03c3\u03c4\u03b7\u03bd \u03b1\u03c3\u03c6\u03ac\u03bb\u03b5\u03b9\u03b1 \u03c4\u03bf\u03c5 \u03c7\u03b1\u03bb\u03b9\u03ba\u03b9\u03bf\u03cd \u03b3\u03b9\u03b1 7 - 8 \u03b7\u03bc\u03ad\u03c1\u03b5\u03c2.", 
-        "nameSpace": "djv::Core::String", 
         "id": "The embryos hatch in 6 days, and the larvae remain in the safety of the gravel for 7 - 8 days.", 
-        "description": ""
+        "source": "The embryos hatch in 6 days, and the larvae remain in the safety of the gravel for 7 - 8 days.", 
+        "nameSpace": "djv::Core::String", 
+        "description": "", 
+        "text": "\u03a4\u03b1 \u03ad\u03bc\u03b2\u03c1\u03c5\u03b1 \u03b5\u03ba\u03ba\u03bf\u03bb\u03ac\u03c0\u03c4\u03bf\u03bd\u03c4\u03b1\u03b9 \u03c3\u03b5 6 \u03b7\u03bc\u03ad\u03c1\u03b5\u03c2 \u03ba\u03b1\u03b9 \u03bf\u03b9 \u03c0\u03c1\u03bf\u03bd\u03cd\u03bc\u03c6\u03b5\u03c2 \u03c0\u03b1\u03c1\u03b1\u03bc\u03ad\u03bd\u03bf\u03c5\u03bd \u03c3\u03c4\u03b7\u03bd \u03b1\u03c3\u03c6\u03ac\u03bb\u03b5\u03b9\u03b1 \u03c4\u03bf\u03c5 \u03c7\u03b1\u03bb\u03b9\u03ba\u03b9\u03bf\u03cd \u03b3\u03b9\u03b1 7 - 8 \u03b7\u03bc\u03ad\u03c1\u03b5\u03c2."
     }, 
     {
-        "text": "\u03a4\u03b1 \u03bd\u03b5\u03b1\u03c1\u03ac \u03c4\u03b7\u03b3\u03b1\u03bd\u03b7\u03c4\u03ac \u03c3\u03c4\u03b7 \u03c3\u03c5\u03bd\u03ad\u03c7\u03b5\u03b9\u03b1 \u03c0\u03b5\u03c1\u03bd\u03bf\u03cd\u03bd \u03c4\u03bf \u03c0\u03c1\u03cc\u03c9\u03c1\u03bf \u03bc\u03ad\u03c1\u03bf\u03c2 \u03c4\u03b7\u03c2 \u03b6\u03c9\u03ae\u03c2 \u03c4\u03bf\u03c5\u03c2 \u03c3\u03c4\u03b9\u03c2 \u03c1\u03b7\u03c7\u03ad\u03c2 \u03b6\u03b5\u03c3\u03c4\u03ad\u03c2 \u03c0\u03b5\u03c1\u03b9\u03bf\u03c7\u03ad\u03c2 \u03c4\u03bf\u03c5 \u03c1\u03c5\u03b1\u03ba\u03b9\u03bf\u03cd \u03ae \u03c4\u03b7\u03c2 \u03bb\u03af\u03bc\u03bd\u03b7\u03c2 \u03cc\u03c0\u03bf\u03c5 \u03b5\u03ba\u03ba\u03bf\u03bb\u03ac\u03c6\u03b8\u03b7\u03ba\u03b1\u03bd.", 
-        "nameSpace": "djv::Core::String", 
         "id": "The young fry then spend the early part of their lives in the shallow warm areas of the stream or lake where they hatched.", 
-        "description": ""
+        "source": "The young fry then spend the early part of their lives in the shallow warm areas of the stream or lake where they hatched.", 
+        "nameSpace": "djv::Core::String", 
+        "description": "", 
+        "text": "\u03a4\u03b1 \u03bd\u03b5\u03b1\u03c1\u03ac \u03c4\u03b7\u03b3\u03b1\u03bd\u03b7\u03c4\u03ac \u03c3\u03c4\u03b7 \u03c3\u03c5\u03bd\u03ad\u03c7\u03b5\u03b9\u03b1 \u03c0\u03b5\u03c1\u03bd\u03bf\u03cd\u03bd \u03c4\u03bf \u03c0\u03c1\u03cc\u03c9\u03c1\u03bf \u03bc\u03ad\u03c1\u03bf\u03c2 \u03c4\u03b7\u03c2 \u03b6\u03c9\u03ae\u03c2 \u03c4\u03bf\u03c5\u03c2 \u03c3\u03c4\u03b9\u03c2 \u03c1\u03b7\u03c7\u03ad\u03c2 \u03b6\u03b5\u03c3\u03c4\u03ad\u03c2 \u03c0\u03b5\u03c1\u03b9\u03bf\u03c7\u03ad\u03c2 \u03c4\u03bf\u03c5 \u03c1\u03c5\u03b1\u03ba\u03b9\u03bf\u03cd \u03ae \u03c4\u03b7\u03c2 \u03bb\u03af\u03bc\u03bd\u03b7\u03c2 \u03cc\u03c0\u03bf\u03c5 \u03b5\u03ba\u03ba\u03bf\u03bb\u03ac\u03c6\u03b8\u03b7\u03ba\u03b1\u03bd."
     }, 
     {
-        "text": "\u03a8\u03b5\u03c5\u03b4\u03ae\u03c2", 
-        "nameSpace": "djv::Core::String", 
         "id": "False", 
-        "description": ""
-    }, 
-    {
-        "text": "\u0391\u03bb\u03b7\u03b8\u03ae\u03c2", 
+        "source": "False", 
         "nameSpace": "djv::Core::String", 
+        "description": "", 
+        "text": "\u03a8\u03b5\u03c5\u03b4\u03ae\u03c2"
+    }, 
+    {
         "id": "True", 
-        "description": ""
+        "source": "True", 
+        "nameSpace": "djv::Core::String", 
+        "description": "", 
+        "text": "\u0391\u03bb\u03b7\u03b8\u03ae\u03c2"
     }, 
     {
-        "text": "\u03a3\u03c6\u03ac\u03bb\u03bc\u03b1 \u03ba\u03b1\u03c4\u03ac \u03c4\u03b7\u03bd \u03b1\u03bd\u03ac\u03b3\u03bd\u03c9\u03c3\u03b7 \u03b1\u03c1\u03c7\u03b5\u03af\u03bf\u03c5 \u03ba\u03b5\u03b9\u03bc\u03ad\u03bd\u03bf\u03c5", 
-        "nameSpace": "djv::Core", 
         "id": "Error reading text file", 
-        "description": ""
+        "source": "Error reading text file", 
+        "nameSpace": "djv::Core", 
+        "description": "", 
+        "text": "\u03a3\u03c6\u03ac\u03bb\u03bc\u03b1 \u03ba\u03b1\u03c4\u03ac \u03c4\u03b7\u03bd \u03b1\u03bd\u03ac\u03b3\u03bd\u03c9\u03c3\u03b7 \u03b1\u03c1\u03c7\u03b5\u03af\u03bf\u03c5 \u03ba\u03b5\u03b9\u03bc\u03ad\u03bd\u03bf\u03c5"
     }, 
     {
-        "text": "\u0391\u03c1\u03b3\u03cc\u03c2", 
-        "nameSpace": "djv::Core::Time", 
         "id": "Slow", 
-        "description": ""
+        "source": "Slow", 
+        "nameSpace": "djv::Core::Time", 
+        "description": "", 
+        "text": "\u0391\u03c1\u03b3\u03cc\u03c2"
     }, 
     {
-        "text": "\u039c\u03b5\u03c3\u03b1\u03af\u03bf", 
-        "nameSpace": "djv::Core::Time", 
         "id": "Medium", 
-        "description": ""
+        "source": "Medium", 
+        "nameSpace": "djv::Core::Time", 
+        "description": "", 
+        "text": "\u039c\u03b5\u03c3\u03b1\u03af\u03bf"
     }, 
     {
-        "text": "\u0393\u03c1\u03ae\u03b3\u03bf\u03c1\u03b1", 
-        "nameSpace": "djv::Core::Time", 
         "id": "Fast", 
-        "description": ""
-    }, 
-    {
-        "text": "\u03a0\u03bf\u03bb\u03cd \u03b3\u03c1\u03ae\u03b3\u03bf\u03c1\u03b1", 
+        "source": "Fast", 
         "nameSpace": "djv::Core::Time", 
+        "description": "", 
+        "text": "\u0393\u03c1\u03ae\u03b3\u03bf\u03c1\u03b1"
+    }, 
+    {
         "id": "VeryFast", 
-        "description": ""
+        "source": "Very Fast", 
+        "nameSpace": "djv::Core::Time", 
+        "description": "", 
+        "text": "\u03a0\u03bf\u03bb\u03cd \u03b3\u03c1\u03ae\u03b3\u03bf\u03c1\u03b1"
     }, 
     {
-        "text": "\u0393\u03c1\u03b1\u03bc\u03bc\u03b9\u03ba\u03cc\u03c2", 
-        "nameSpace": "djv:::Core::Animation", 
         "id": "Linear", 
-        "description": ""
+        "source": "Linear", 
+        "nameSpace": "djv:::Core::Animation", 
+        "description": "", 
+        "text": "\u0393\u03c1\u03b1\u03bc\u03bc\u03b9\u03ba\u03cc\u03c2"
     }, 
     {
-        "text": "\u0395\u03c5\u03ba\u03bf\u03bb\u03af\u03b1 \u03c3\u03c4\u03bf", 
-        "nameSpace": "djv:::Core::Animation", 
         "id": "EaseIn", 
-        "description": ""
+        "source": "Ease In", 
+        "nameSpace": "djv:::Core::Animation", 
+        "description": "", 
+        "text": "\u0395\u03c5\u03ba\u03bf\u03bb\u03af\u03b1 \u03c3\u03c4\u03bf"
     }, 
     {
-        "text": "Ease Out", 
-        "nameSpace": "djv:::Core::Animation", 
         "id": "EaseOut", 
-        "description": ""
+        "source": "Ease Out", 
+        "nameSpace": "djv:::Core::Animation", 
+        "description": "", 
+        "text": "Ease Out"
     }, 
     {
-        "text": "\u039f\u03bc\u03b1\u03bb\u03ae \u0392\u03ae\u03bc\u03b1", 
-        "nameSpace": "djv:::Core::Animation", 
         "id": "SmoothStep", 
-        "description": ""
-    }, 
-    {
-        "text": "\u03c4\u03bf\u03c5", 
+        "source": "Smooth Step", 
         "nameSpace": "djv:::Core::Animation", 
+        "description": "", 
+        "text": "\u039f\u03bc\u03b1\u03bb\u03ae \u0392\u03ae\u03bc\u03b1"
+    }, 
+    {
         "id": "Sine", 
-        "description": ""
+        "source": "Sine", 
+        "nameSpace": "djv:::Core::Animation", 
+        "description": "", 
+        "text": "\u03c4\u03bf\u03c5"
     }, 
     {
-        "text": "\u03a3\u03c6\u03ac\u03bb\u03bc\u03b1 \u03ba\u03b1\u03c4\u03ac \u03c4\u03b7\u03bd \u03b5\u03cd\u03c1\u03b5\u03c3\u03b7 \u03b5\u03b9\u03b4\u03bf\u03c0\u03bf\u03af\u03b7\u03c3\u03b7\u03c2 \u03b1\u03bb\u03bb\u03b1\u03b3\u03ae\u03c2 \u03b3\u03b9\u03b1", 
-        "nameSpace": "djv::Core::FileSystem", 
         "id": "Error finding change notification for", 
-        "description": ""
+        "source": "Error finding change notification for", 
+        "nameSpace": "djv::Core::FileSystem", 
+        "description": "", 
+        "text": "\u03a3\u03c6\u03ac\u03bb\u03bc\u03b1 \u03ba\u03b1\u03c4\u03ac \u03c4\u03b7\u03bd \u03b5\u03cd\u03c1\u03b5\u03c3\u03b7 \u03b5\u03b9\u03b4\u03bf\u03c0\u03bf\u03af\u03b7\u03c3\u03b7\u03c2 \u03b1\u03bb\u03bb\u03b1\u03b3\u03ae\u03c2 \u03b3\u03b9\u03b1"
     }, 
     {
-        "text": "\u039c\u03b7\u03c4\u03c1\u03b9\u03ba\u03ae \u03b5\u03c4\u03b1\u03b9\u03c1\u03b5\u03af\u03b1", 
-        "nameSpace": "djv::Core::Event", 
         "id": "Parent", 
-        "description": ""
+        "source": "Parent", 
+        "nameSpace": "djv::Core::Event", 
+        "description": "", 
+        "text": "\u039c\u03b7\u03c4\u03c1\u03b9\u03ba\u03ae \u03b5\u03c4\u03b1\u03b9\u03c1\u03b5\u03af\u03b1"
     }, 
     {
-        "text": "\u03a4\u03bf \u03c4\u03bf\u03c0\u03b9\u03ba\u03cc \u03c3\u03c4\u03bf\u03b9\u03c7\u03b5\u03af\u03bf \u03ac\u03bb\u03bb\u03b1\u03be\u03b5", 
-        "nameSpace": "djv::Core::Event", 
         "id": "LocaleChanged", 
-        "description": ""
+        "source": "Locale Changed", 
+        "nameSpace": "djv::Core::Event", 
+        "description": "", 
+        "text": "\u03a4\u03bf \u03c4\u03bf\u03c0\u03b9\u03ba\u03cc \u03c3\u03c4\u03bf\u03b9\u03c7\u03b5\u03af\u03bf \u03ac\u03bb\u03bb\u03b1\u03be\u03b5"
     }, 
     {
-        "text": "\u0395\u03ba\u03c3\u03c5\u03b3\u03c7\u03c1\u03bf\u03bd\u03af\u03b6\u03c9", 
-        "nameSpace": "djv::Core::Event", 
         "id": "Update", 
-        "description": ""
+        "source": "Update", 
+        "nameSpace": "djv::Core::Event", 
+        "description": "", 
+        "text": "\u0395\u03ba\u03c3\u03c5\u03b3\u03c7\u03c1\u03bf\u03bd\u03af\u03b6\u03c9"
     }, 
     {
-        "text": "\u03a4\u03bf \u03c3\u03c4\u03c5\u03bb \u03ac\u03bb\u03bb\u03b1\u03be\u03b5", 
-        "nameSpace": "djv::Core::Event", 
         "id": "StyleChanged", 
-        "description": ""
+        "source": "Style Changed", 
+        "nameSpace": "djv::Core::Event", 
+        "description": "", 
+        "text": "\u03a4\u03bf \u03c3\u03c4\u03c5\u03bb \u03ac\u03bb\u03bb\u03b1\u03be\u03b5"
     }, 
     {
-        "text": "\u03a0\u03c1\u03bf\u03c1\u03cd\u03b8\u03bc\u03b9\u03c3\u03b7", 
-        "nameSpace": "djv::Core::Event", 
         "id": "PreLayout", 
-        "description": ""
+        "source": "Pre Layout", 
+        "nameSpace": "djv::Core::Event", 
+        "description": "", 
+        "text": "\u03a0\u03c1\u03bf\u03c1\u03cd\u03b8\u03bc\u03b9\u03c3\u03b7"
     }, 
     {
-        "text": "\u03a3\u03c7\u03ad\u03b4\u03b9\u03bf", 
-        "nameSpace": "djv::Core::Event", 
         "id": "Layout", 
-        "description": ""
+        "source": "Layout", 
+        "nameSpace": "djv::Core::Event", 
+        "description": "", 
+        "text": "\u03a3\u03c7\u03ad\u03b4\u03b9\u03bf"
     }, 
     {
-        "text": "\u03a3\u03c5\u03bd\u03b4\u03b5\u03c4\u03ae\u03c1\u03b1\u03c2", 
-        "nameSpace": "djv::Core::Event", 
         "id": "Clip", 
-        "description": ""
+        "source": "Clip", 
+        "nameSpace": "djv::Core::Event", 
+        "description": "", 
+        "text": "\u03a3\u03c5\u03bd\u03b4\u03b5\u03c4\u03ae\u03c1\u03b1\u03c2"
     }, 
     {
-        "text": "\u03a7\u03c1\u03ce\u03bc\u03b1", 
-        "nameSpace": "djv::Core::Event", 
         "id": "Paint", 
-        "description": ""
+        "source": "Paint", 
+        "nameSpace": "djv::Core::Event", 
+        "description": "", 
+        "text": "\u03a7\u03c1\u03ce\u03bc\u03b1"
     }, 
     {
-        "text": "\u0395\u03b9\u03c3\u03b1\u03b3\u03c9\u03b3\u03ae \u03b4\u03b5\u03af\u03ba\u03c4\u03b7", 
-        "nameSpace": "djv::Core::Event", 
         "id": "PointerEnter", 
-        "description": ""
+        "source": "Pointer Enter", 
+        "nameSpace": "djv::Core::Event", 
+        "description": "", 
+        "text": "\u0395\u03b9\u03c3\u03b1\u03b3\u03c9\u03b3\u03ae \u03b4\u03b5\u03af\u03ba\u03c4\u03b7"
     }, 
     {
-        "text": "\u0388\u03be\u03bf\u03b4\u03bf\u03c2 \u03b4\u03b5\u03af\u03ba\u03c4\u03b7", 
-        "nameSpace": "djv::Core::Event", 
         "id": "PointerLeave", 
-        "description": ""
+        "source": "Pointer Leave", 
+        "nameSpace": "djv::Core::Event", 
+        "description": "", 
+        "text": "\u0388\u03be\u03bf\u03b4\u03bf\u03c2 \u03b4\u03b5\u03af\u03ba\u03c4\u03b7"
     }, 
     {
-        "text": "\u039c\u03b5\u03c4\u03b1\u03ba\u03af\u03bd\u03b7\u03c3\u03b7 \u03b4\u03b5\u03af\u03ba\u03c4\u03b7", 
-        "nameSpace": "djv::Core::Event", 
         "id": "PointerMove", 
-        "description": ""
+        "source": "Pointer Move", 
+        "nameSpace": "djv::Core::Event", 
+        "description": "", 
+        "text": "\u039c\u03b5\u03c4\u03b1\u03ba\u03af\u03bd\u03b7\u03c3\u03b7 \u03b4\u03b5\u03af\u03ba\u03c4\u03b7"
     }, 
     {
-        "text": "\u039a\u03bf\u03c5\u03bc\u03c0\u03af \u03a0\u03b9\u03ad\u03c3\u03c4\u03b5", 
-        "nameSpace": "djv::Core::Event", 
         "id": "ButtonPress", 
-        "description": ""
+        "source": "Button Press", 
+        "nameSpace": "djv::Core::Event", 
+        "description": "", 
+        "text": "\u039a\u03bf\u03c5\u03bc\u03c0\u03af \u03a0\u03b9\u03ad\u03c3\u03c4\u03b5"
     }, 
     {
-        "text": "\u0391\u03c0\u03b5\u03bb\u03b5\u03c5\u03b8\u03ad\u03c1\u03c9\u03c3\u03b7 \u03ba\u03bf\u03c5\u03bc\u03c0\u03b9\u03bf\u03cd", 
-        "nameSpace": "djv::Core::Event", 
         "id": "ButtonRelease", 
-        "description": ""
+        "source": "Button Release", 
+        "nameSpace": "djv::Core::Event", 
+        "description": "", 
+        "text": "\u0391\u03c0\u03b5\u03bb\u03b5\u03c5\u03b8\u03ad\u03c1\u03c9\u03c3\u03b7 \u03ba\u03bf\u03c5\u03bc\u03c0\u03b9\u03bf\u03cd"
     }, 
     {
-        "text": "\u03a0\u03ac\u03c0\u03c5\u03c1\u03bf\u03c2", 
-        "nameSpace": "djv::Core::Event", 
         "id": "Scroll", 
-        "description": ""
+        "source": "Scroll", 
+        "nameSpace": "djv::Core::Event", 
+        "description": "", 
+        "text": "\u03a0\u03ac\u03c0\u03c5\u03c1\u03bf\u03c2"
     }, 
     {
-        "text": "\u03a0\u03c4\u03ce\u03c3\u03b7", 
-        "nameSpace": "djv::Core::Event", 
         "id": "Drop", 
-        "description": ""
+        "source": "Drop", 
+        "nameSpace": "djv::Core::Event", 
+        "description": "", 
+        "text": "\u03a0\u03c4\u03ce\u03c3\u03b7"
     }, 
     {
-        "text": "Focus Focus", 
-        "nameSpace": "djv::Core::Event", 
         "id": "KeyboardFocus", 
-        "description": ""
+        "source": "Keyboard Focus", 
+        "nameSpace": "djv::Core::Event", 
+        "description": "", 
+        "text": "Focus Focus"
     }, 
     {
-        "text": "\u03a3\u03c6\u03ac\u03bb\u03bc\u03b1 \u03b5\u03c3\u03c4\u03af\u03b1\u03c3\u03b7\u03c2 \u03c0\u03bb\u03b7\u03ba\u03c4\u03c1\u03bf\u03bb\u03bf\u03b3\u03af\u03bf\u03c5", 
-        "nameSpace": "djv::Core::Event", 
         "id": "KeyboardFocusLost", 
-        "description": ""
+        "source": "Keyboard Focus Lost", 
+        "nameSpace": "djv::Core::Event", 
+        "description": "", 
+        "text": "\u03a3\u03c6\u03ac\u03bb\u03bc\u03b1 \u03b5\u03c3\u03c4\u03af\u03b1\u03c3\u03b7\u03c2 \u03c0\u03bb\u03b7\u03ba\u03c4\u03c1\u03bf\u03bb\u03bf\u03b3\u03af\u03bf\u03c5"
     }, 
     {
-        "text": "\u039a\u03bb\u03b5\u03b9\u03b4\u03af", 
-        "nameSpace": "djv::Core::Event", 
         "id": "Key", 
-        "description": ""
+        "source": "Key", 
+        "nameSpace": "djv::Core::Event", 
+        "description": "", 
+        "text": "\u039a\u03bb\u03b5\u03b9\u03b4\u03af"
     }, 
     {
-        "text": "\u039a\u03b5\u03af\u03bc\u03b5\u03bd\u03bf", 
-        "nameSpace": "djv::Core::Event", 
         "id": "Text", 
-        "description": ""
+        "source": "Text", 
+        "nameSpace": "djv::Core::Event", 
+        "description": "", 
+        "text": "\u039a\u03b5\u03af\u03bc\u03b5\u03bd\u03bf"
     }, 
     {
-        "text": "\u0391\u03c1\u03c7\u03b5\u03af\u03bf", 
-        "nameSpace": "djv::Core::FileSystem", 
         "id": "File", 
-        "description": ""
+        "source": "File", 
+        "nameSpace": "djv::Core::FileSystem", 
+        "description": "", 
+        "text": "\u0391\u03c1\u03c7\u03b5\u03af\u03bf"
     }, 
     {
-        "text": "\u0391\u03bb\u03bb\u03b7\u03bb\u03bf\u03c5\u03c7\u03af\u03b1", 
-        "nameSpace": "djv::Core::FileSystem", 
         "id": "Sequence", 
-        "description": ""
+        "source": "Sequence", 
+        "nameSpace": "djv::Core::FileSystem", 
+        "description": "", 
+        "text": "\u0391\u03bb\u03bb\u03b7\u03bb\u03bf\u03c5\u03c7\u03af\u03b1"
     }, 
     {
-        "text": "\u0395\u03c5\u03c1\u03b5\u03c4\u03ae\u03c1\u03b9\u03bf", 
-        "nameSpace": "djv::Core::FileSystem", 
         "id": "Directory", 
-        "description": ""
+        "source": "Directory", 
+        "nameSpace": "djv::Core::FileSystem", 
+        "description": "", 
+        "text": "\u0395\u03c5\u03c1\u03b5\u03c4\u03ae\u03c1\u03b9\u03bf"
     }, 
     {
-        "text": "\u039f\u03bd\u03bf\u03bc\u03b1", 
-        "nameSpace": "djv::Core::FileSystem", 
         "id": "Name", 
-        "description": ""
+        "source": "Name", 
+        "nameSpace": "djv::Core::FileSystem", 
+        "description": "", 
+        "text": "\u039f\u03bd\u03bf\u03bc\u03b1"
     }, 
     {
-        "text": "\u039c\u03ad\u03b3\u03b5\u03b8\u03bf\u03c2", 
-        "nameSpace": "djv::Core::FileSystem", 
         "id": "Size", 
-        "description": ""
+        "source": "Size", 
+        "nameSpace": "djv::Core::FileSystem", 
+        "description": "", 
+        "text": "\u039c\u03ad\u03b3\u03b5\u03b8\u03bf\u03c2"
     }, 
     {
-        "text": "\u0394\u03b9\u03ba\u03b1\u03b9\u03ce\u03bc\u03b1\u03c4\u03b1", 
-        "nameSpace": "djv::Core::FileSystem", 
         "id": "Permissions", 
-        "description": ""
+        "source": "Permissions", 
+        "nameSpace": "djv::Core::FileSystem", 
+        "description": "", 
+        "text": "\u0394\u03b9\u03ba\u03b1\u03b9\u03ce\u03bc\u03b1\u03c4\u03b1"
     }, 
     {
-        "text": "\u03a4\u03cd\u03c0\u03bf\u03c2", 
-        "nameSpace": "djv::Core::FileSystem", 
         "id": "Type", 
-        "description": ""
+        "source": "Type", 
+        "nameSpace": "djv::Core::FileSystem", 
+        "description": "", 
+        "text": "\u03a4\u03cd\u03c0\u03bf\u03c2"
     }, 
     {
-        "text": "\u0395\u03c6\u03b1\u03c1\u03bc\u03bf\u03b3\u03ae", 
-        "nameSpace": "djv::Core::FileSystem", 
         "id": "Application", 
-        "description": ""
+        "source": "Application", 
+        "nameSpace": "djv::Core::FileSystem", 
+        "description": "", 
+        "text": "\u0395\u03c6\u03b1\u03c1\u03bc\u03bf\u03b3\u03ae"
     }, 
     {
-        "text": "\u0391\u03c1\u03c7\u03b5\u03af\u03bf \u03ba\u03b1\u03c4\u03b1\u03b3\u03c1\u03b1\u03c6\u03ae\u03c2", 
-        "nameSpace": "djv::Core::FileSystem", 
         "id": "LogFile", 
-        "description": ""
+        "source": "Log File", 
+        "nameSpace": "djv::Core::FileSystem", 
+        "description": "", 
+        "text": "\u0391\u03c1\u03c7\u03b5\u03af\u03bf \u03ba\u03b1\u03c4\u03b1\u03b3\u03c1\u03b1\u03c6\u03ae\u03c2"
     }, 
     {
-        "text": "\u0391\u03c1\u03c7\u03b5\u03af\u03bf \u03c1\u03c5\u03b8\u03bc\u03af\u03c3\u03b5\u03c9\u03bd", 
-        "nameSpace": "djv::Core::FileSystem", 
         "id": "SettingsFile", 
-        "description": ""
+        "source": "Settings File", 
+        "nameSpace": "djv::Core::FileSystem", 
+        "description": "", 
+        "text": "\u0391\u03c1\u03c7\u03b5\u03af\u03bf \u03c1\u03c5\u03b8\u03bc\u03af\u03c3\u03b5\u03c9\u03bd"
     }, 
     {
-        "text": "\u039a\u03b1\u03c4\u03ac\u03bb\u03bf\u03b3\u03bf\u03c2 \u03ae\u03c7\u03bf\u03c5", 
-        "nameSpace": "djv::Core::FileSystem", 
         "id": "AudioDirectory", 
-        "description": ""
+        "source": "Audio Directory", 
+        "nameSpace": "djv::Core::FileSystem", 
+        "description": "", 
+        "text": "\u039a\u03b1\u03c4\u03ac\u03bb\u03bf\u03b3\u03bf\u03c2 \u03ae\u03c7\u03bf\u03c5"
     }, 
     {
-        "text": "\u039a\u03b1\u03c4\u03ac\u03bb\u03bf\u03b3\u03bf\u03c2 \u03b3\u03c1\u03b1\u03bc\u03bc\u03b1\u03c4\u03bf\u03c3\u03b5\u03b9\u03c1\u03ce\u03bd", 
-        "nameSpace": "djv::Core::FileSystem", 
         "id": "FontsDirectory", 
-        "description": ""
+        "source": "Fonts Directory", 
+        "nameSpace": "djv::Core::FileSystem", 
+        "description": "", 
+        "text": "\u039a\u03b1\u03c4\u03ac\u03bb\u03bf\u03b3\u03bf\u03c2 \u03b3\u03c1\u03b1\u03bc\u03bc\u03b1\u03c4\u03bf\u03c3\u03b5\u03b9\u03c1\u03ce\u03bd"
     }, 
     {
-        "text": "\u039a\u03b1\u03c4\u03ac\u03bb\u03bf\u03b3\u03bf\u03c2 \u03b5\u03b9\u03ba\u03bf\u03bd\u03b9\u03b4\u03af\u03c9\u03bd", 
-        "nameSpace": "djv::Core::FileSystem", 
         "id": "IconsDirectory", 
-        "description": ""
+        "source": "Icons Directory", 
+        "nameSpace": "djv::Core::FileSystem", 
+        "description": "", 
+        "text": "\u039a\u03b1\u03c4\u03ac\u03bb\u03bf\u03b3\u03bf\u03c2 \u03b5\u03b9\u03ba\u03bf\u03bd\u03b9\u03b4\u03af\u03c9\u03bd"
     }, 
     {
-        "text": "\u039a\u03b1\u03c4\u03ac\u03bb\u03bf\u03b3\u03bf\u03c2 \u03b5\u03b9\u03ba\u03cc\u03bd\u03c9\u03bd", 
-        "nameSpace": "djv::Core::FileSystem", 
         "id": "ImagesDirectory", 
-        "description": ""
+        "source": "Images Directory", 
+        "nameSpace": "djv::Core::FileSystem", 
+        "description": "", 
+        "text": "\u039a\u03b1\u03c4\u03ac\u03bb\u03bf\u03b3\u03bf\u03c2 \u03b5\u03b9\u03ba\u03cc\u03bd\u03c9\u03bd"
     }, 
     {
-        "text": "\u039a\u03b1\u03c4\u03ac\u03bb\u03bf\u03b3\u03bf\u03c2 \u03bc\u03bf\u03bd\u03c4\u03ad\u03bb\u03c9\u03bd", 
-        "nameSpace": "djv::Core::FileSystem", 
         "id": "ModelsDirectory", 
-        "description": ""
+        "source": "Models Directory", 
+        "nameSpace": "djv::Core::FileSystem", 
+        "description": "", 
+        "text": "\u039a\u03b1\u03c4\u03ac\u03bb\u03bf\u03b3\u03bf\u03c2 \u03bc\u03bf\u03bd\u03c4\u03ad\u03bb\u03c9\u03bd"
     }, 
     {
-        "text": "\u039a\u03b1\u03c4\u03ac\u03bb\u03bf\u03b3\u03bf\u03c2 Shaders", 
-        "nameSpace": "djv::Core::FileSystem", 
         "id": "ShadersDirectory", 
-        "description": ""
-    }, 
-    {
-        "text": "\u039a\u03b1\u03c4\u03ac\u03bb\u03bf\u03b3\u03bf\u03c2 \u03ba\u03b5\u03b9\u03bc\u03ad\u03bd\u03c9\u03bd", 
+        "source": "Shaders Directory", 
         "nameSpace": "djv::Core::FileSystem", 
+        "description": "", 
+        "text": "\u039a\u03b1\u03c4\u03ac\u03bb\u03bf\u03b3\u03bf\u03c2 Shaders"
+    }, 
+    {
         "id": "TextDirectory", 
-        "description": ""
+        "source": "Text Directory", 
+        "nameSpace": "djv::Core::FileSystem", 
+        "description": "", 
+        "text": "\u039a\u03b1\u03c4\u03ac\u03bb\u03bf\u03b3\u03bf\u03c2 \u03ba\u03b5\u03b9\u03bc\u03ad\u03bd\u03c9\u03bd"
     }, 
     {
-        "text": "\u0393\u03bf\u03bd\u03b5\u03af\u03c2", 
-        "nameSpace": "djv::Core::Event", 
         "id": "ParentChanged", 
-        "description": ""
+        "source": "ParentChanged", 
+        "nameSpace": "djv::Core::Event", 
+        "description": "", 
+        "text": "\u0393\u03bf\u03bd\u03b5\u03af\u03c2"
     }, 
     {
-        "text": "\u03c4\u03bf\u03c0\u03b9\u03ba\u03cc\u03c2", 
-        "nameSpace": "djv::Core::Event", 
         "id": "Locale", 
-        "description": ""
+        "source": "Locale", 
+        "nameSpace": "djv::Core::Event", 
+        "description": "", 
+        "text": "\u03c4\u03bf\u03c0\u03b9\u03ba\u03cc\u03c2"
     }, 
     {
-        "text": "\u03a3\u03c4\u03c5\u03bb", 
-        "nameSpace": "djv::Core::Event", 
         "id": "Style", 
-        "description": ""
+        "source": "Style", 
+        "nameSpace": "djv::Core::Event", 
+        "description": "", 
+        "text": "\u03a3\u03c4\u03c5\u03bb"
     }, 
     {
-        "text": "\u03a0\u03c1\u03bf\u03c3\u03c4\u03ad\u03b8\u03b7\u03ba\u03b5 \u03c4\u03bf \u03c0\u03b1\u03b9\u03b4\u03af", 
-        "nameSpace": "djv::Core::Event", 
         "id": "ChildAdded", 
-        "description": ""
+        "source": "ChildAdded", 
+        "nameSpace": "djv::Core::Event", 
+        "description": "", 
+        "text": "\u03a0\u03c1\u03bf\u03c3\u03c4\u03ad\u03b8\u03b7\u03ba\u03b5 \u03c4\u03bf \u03c0\u03b1\u03b9\u03b4\u03af"
     }, 
     {
-        "text": "\u03a4\u03bf \u03c0\u03b1\u03b9\u03b4\u03af \u03b1\u03c0\u03bf\u03bc\u03b1\u03ba\u03c1\u03cd\u03bd\u03b8\u03b7\u03ba\u03b5", 
-        "nameSpace": "djv::Core::Event", 
         "id": "ChildRemoved", 
-        "description": ""
+        "source": "ChildRemoved", 
+        "nameSpace": "djv::Core::Event", 
+        "description": "", 
+        "text": "\u03a4\u03bf \u03c0\u03b1\u03b9\u03b4\u03af \u03b1\u03c0\u03bf\u03bc\u03b1\u03ba\u03c1\u03cd\u03bd\u03b8\u03b7\u03ba\u03b5"
     }, 
     {
-        "text": "ChildOrder", 
-        "nameSpace": "djv::Core::Event", 
         "id": "ChildOrder", 
-        "description": ""
+        "source": "ChildOrder", 
+        "nameSpace": "djv::Core::Event", 
+        "description": "", 
+        "text": "ChildOrder"
     }, 
     {
-        "text": "PaintOverlay", 
-        "nameSpace": "djv::Core::Event", 
         "id": "PaintOverlay", 
-        "description": ""
+        "source": "PaintOverlay", 
+        "nameSpace": "djv::Core::Event", 
+        "description": "", 
+        "text": "PaintOverlay"
     }
 ]

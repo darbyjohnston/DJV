@@ -100,7 +100,6 @@ namespace djv
                         settingsLayout->addWidget(i.second);
                     }
                     auto scrollWidget = UI::ScrollWidget::create(UI::ScrollType::Vertical, context);
-                    scrollWidget->setBorder(false);
                     scrollWidget->setBackgroundRole(UI::Style::ColorRole::Background);
                     scrollWidget->addWidget(settingsLayout);
                     

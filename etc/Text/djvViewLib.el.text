@@ -1,536 +1,625 @@
 [
     {
-        "text": "\u0395\u03be\u03bf\u03b4\u03bf\u03c2", 
-        "nameSpace": "djv::ViewLib", 
         "id": "Exit", 
-        "description": ""
+        "source": "Exit", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "\u0395\u03be\u03bf\u03b4\u03bf\u03c2"
     }, 
     {
-        "text": "\u0395\u03af\u03c3\u03b1\u03b9 \u03c3\u03af\u03b3\u03bf\u03c5\u03c1\u03bf\u03c2 \u03cc\u03c4\u03b9 \u03b8\u03ad\u03bb\u03b5\u03b9\u03c2 \u03bd\u03b1 \u03c6\u03cd\u03b3\u03b5\u03b9\u03c2?", 
-        "nameSpace": "djv::ViewLib", 
         "id": "Are you sure you want to exit?", 
-        "description": ""
+        "source": "Are you sure you want to exit?", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "\u0395\u03af\u03c3\u03b1\u03b9 \u03c3\u03af\u03b3\u03bf\u03c5\u03c1\u03bf\u03c2 \u03cc\u03c4\u03b9 \u03b8\u03ad\u03bb\u03b5\u03b9\u03c2 \u03bd\u03b1 \u03c6\u03cd\u03b3\u03b5\u03b9\u03c2?"
     }, 
     {
-        "text": "\u039d\u03b1\u03af", 
-        "nameSpace": "djv::ViewLib", 
         "id": "Yes", 
-        "description": ""
+        "source": "Yes", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "\u039d\u03b1\u03af"
     }, 
     {
-        "text": "\u039f\u03c7\u03b9", 
-        "nameSpace": "djv::ViewLib", 
         "id": "No", 
-        "description": ""
+        "source": "No", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "\u039f\u03c7\u03b9"
     }, 
     {
-        "text": "\u0391\u03c1\u03c7\u03b5\u03af\u03bf", 
-        "nameSpace": "djv::ViewLib", 
         "id": "File", 
-        "description": ""
+        "source": "File", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "\u0391\u03c1\u03c7\u03b5\u03af\u03bf"
     }, 
     {
-        "text": "\u039a\u03bb\u03af\u03bc\u03b1\u03ba\u03b1 \u03bc\u03b5\u03c3\u03bf\u03bb\u03ac\u03b2\u03b7\u03c3\u03b7\u03c2", 
-        "nameSpace": "djv::ViewLib", 
         "id": "Proxy Scale", 
-        "description": ""
+        "source": "Proxy Scale", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "\u039a\u03bb\u03af\u03bc\u03b1\u03ba\u03b1 \u03bc\u03b5\u03c3\u03bf\u03bb\u03ac\u03b2\u03b7\u03c3\u03b7\u03c2"
     }, 
     {
-        "text": "\u0391\u03bd\u03bf\u03b9\u03be\u03b5", 
-        "nameSpace": "djv::ViewLib", 
         "id": "Open", 
-        "description": ""
+        "source": "Open", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "\u0391\u03bd\u03bf\u03b9\u03be\u03b5"
     }, 
     {
-        "text": "\u03a0\u03c1\u03cc\u03c3\u03c6\u03b1\u03c4\u03bf\u03c2", 
-        "nameSpace": "djv::ViewLib", 
         "id": "Recent", 
-        "description": ""
+        "source": "Recent", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "\u03a0\u03c1\u03cc\u03c3\u03c6\u03b1\u03c4\u03bf\u03c2"
     }, 
     {
-        "text": "\u03a6\u03bf\u03c1\u03c4\u03ce\u03bd\u03c9 \u03c0\u03ac\u03bb\u03b9", 
-        "nameSpace": "djv::ViewLib", 
         "id": "Reload", 
-        "description": ""
+        "source": "Reload", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "\u03a6\u03bf\u03c1\u03c4\u03ce\u03bd\u03c9 \u03c0\u03ac\u03bb\u03b9"
     }, 
     {
-        "text": "\u0395\u03c0\u03b1\u03bd\u03b1\u03c6\u03cc\u03c1\u03c4\u03c9\u03c3\u03b7 \u03c0\u03bb\u03b1\u03b9\u03c3\u03af\u03bf\u03c5", 
-        "nameSpace": "djv::ViewLib", 
         "id": "Reload Frame", 
-        "description": ""
+        "source": "Reload Frame", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "\u0395\u03c0\u03b1\u03bd\u03b1\u03c6\u03cc\u03c1\u03c4\u03c9\u03c3\u03b7 \u03c0\u03bb\u03b1\u03b9\u03c3\u03af\u03bf\u03c5"
     }, 
     {
-        "text": "\u039a\u03bf\u03bd\u03c4\u03ac", 
-        "nameSpace": "djv::ViewLib", 
         "id": "Close", 
-        "description": ""
+        "source": "Close", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "\u039a\u03bf\u03bd\u03c4\u03ac"
     }, 
     {
-        "text": "\u0395\u03be\u03b1\u03b3\u03c9\u03b3\u03ae", 
-        "nameSpace": "djv::ViewLib", 
         "id": "Export", 
-        "description": ""
+        "source": "Export", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "\u0395\u03be\u03b1\u03b3\u03c9\u03b3\u03ae"
     }, 
     {
-        "text": "\u0395\u03c0\u03af\u03c0\u03b5\u03b4\u03b1", 
-        "nameSpace": "djv::ViewLib", 
         "id": "Layers", 
-        "description": ""
+        "source": "Layers", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "\u0395\u03c0\u03af\u03c0\u03b5\u03b4\u03b1"
     }, 
     {
-        "text": "\u0395\u03c0\u03cc\u03bc\u03b5\u03bd\u03bf \u03b5\u03c0\u03af\u03c0\u03b5\u03b4\u03bf", 
-        "nameSpace": "djv::ViewLib", 
         "id": "Next Layer", 
-        "description": ""
+        "source": "Next Layer", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "\u0395\u03c0\u03cc\u03bc\u03b5\u03bd\u03bf \u03b5\u03c0\u03af\u03c0\u03b5\u03b4\u03bf"
     }, 
     {
-        "text": "\u03a0\u03c1\u03bf\u03b7\u03b3\u03bf\u03cd\u03bc\u03b5\u03bd\u03bf \u03b5\u03c0\u03af\u03c0\u03b5\u03b4\u03bf", 
-        "nameSpace": "djv::ViewLib", 
         "id": "Previous Layer", 
-        "description": ""
+        "source": "Previous Layer", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "\u03a0\u03c1\u03bf\u03b7\u03b3\u03bf\u03cd\u03bc\u03b5\u03bd\u03bf \u03b5\u03c0\u03af\u03c0\u03b5\u03b4\u03bf"
     }, 
     {
-        "text": "\u039c\u03b5\u03c4\u03b1\u03c4\u03c1\u03bf\u03c0\u03ae 8 bit", 
-        "nameSpace": "djv::ViewLib", 
         "id": "8-bit Conversion", 
-        "description": ""
+        "source": "8-bit Conversion", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "\u039c\u03b5\u03c4\u03b1\u03c4\u03c1\u03bf\u03c0\u03ae 8 bit"
     }, 
     {
-        "text": "Cache \u03bc\u03bd\u03ae\u03bc\u03b7\u03c2", 
-        "nameSpace": "djv::ViewLib", 
         "id": "Memory Cache", 
-        "description": ""
+        "source": "Memory Cache", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "Cache \u03bc\u03bd\u03ae\u03bc\u03b7\u03c2"
     }, 
     {
-        "text": "\u0395\u03ba\u03ba\u03b1\u03b8\u03ac\u03c1\u03b9\u03c3\u03b7 \u03c0\u03c1\u03bf\u03c3\u03c9\u03c1\u03b9\u03bd\u03ae\u03c2 \u03bc\u03bd\u03ae\u03bc\u03b7\u03c2", 
-        "nameSpace": "djv::ViewLib", 
         "id": "Clear Cache", 
-        "description": ""
+        "source": "Clear Cache", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "\u0395\u03ba\u03ba\u03b1\u03b8\u03ac\u03c1\u03b9\u03c3\u03b7 \u03c0\u03c1\u03bf\u03c3\u03c9\u03c1\u03b9\u03bd\u03ae\u03c2 \u03bc\u03bd\u03ae\u03bc\u03b7\u03c2"
     }, 
     {
-        "text": "\u0391\u03c0\u03cc\u03b4\u03b5\u03b9\u03be\u03b7 \u03bc\u03b5 \u03ad\u03b3\u03b3\u03c1\u03b1\u03c6\u03b1", 
-        "nameSpace": "djv::ViewLib", 
         "id": "Documentation", 
-        "description": ""
+        "source": "Documentation", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "\u0391\u03c0\u03cc\u03b4\u03b5\u03b9\u03be\u03b7 \u03bc\u03b5 \u03ad\u03b3\u03b3\u03c1\u03b1\u03c6\u03b1"
     }, 
     {
-        "text": "\u03a0\u03bb\u03b7\u03c1\u03bf\u03c6\u03bf\u03c1\u03af\u03b5\u03c2", 
-        "nameSpace": "djv::ViewLib", 
         "id": "Information", 
-        "description": ""
+        "source": "Information", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "\u03a0\u03bb\u03b7\u03c1\u03bf\u03c6\u03bf\u03c1\u03af\u03b5\u03c2"
     }, 
     {
-        "text": "\u03a3\u03c7\u03b5\u03c4\u03b9\u03ba\u03ac \u03bc\u03b5", 
-        "nameSpace": "djv::ViewLib", 
         "id": "About", 
-        "description": ""
+        "source": "About", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "\u03a3\u03c7\u03b5\u03c4\u03b9\u03ba\u03ac \u03bc\u03b5"
     }, 
     {
-        "text": "\u0392\u03bf\u03ae\u03b8\u03b5\u03b9\u03b1", 
-        "nameSpace": "djv::ViewLib", 
         "id": "Help", 
-        "description": ""
+        "source": "Help", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "\u0392\u03bf\u03ae\u03b8\u03b5\u03b9\u03b1"
     }, 
     {
-        "text": "\u0395\u03b9\u03ba\u03cc\u03bd\u03b1", 
-        "nameSpace": "djv::ViewLib", 
         "id": "Image", 
-        "description": ""
+        "source": "Image", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "\u0395\u03b9\u03ba\u03cc\u03bd\u03b1"
     }, 
     {
-        "text": "\u039a\u03bb\u03af\u03bc\u03b1\u03ba\u03b1", 
-        "nameSpace": "djv::ViewLib", 
         "id": "Scale", 
-        "description": ""
+        "source": "Scale", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "\u039a\u03bb\u03af\u03bc\u03b1\u03ba\u03b1"
     }, 
     {
-        "text": "\u0393\u03c5\u03c1\u03af\u03b6\u03c9", 
-        "nameSpace": "djv::ViewLib", 
         "id": "Rotate", 
-        "description": ""
+        "source": "Rotate", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "\u0393\u03c5\u03c1\u03af\u03b6\u03c9"
     }, 
     {
-        "text": "\u039a\u03b1\u03b8\u03c1\u03ad\u03c0\u03c4\u03b7\u03c2 \u039f\u03c1\u03b9\u03b6\u03cc\u03bd\u03c4\u03b9\u03bf\u03c2", 
-        "nameSpace": "djv::ViewLib", 
         "id": "Mirror Horizontal", 
-        "description": ""
+        "source": "Mirror Horizontal", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "\u039a\u03b1\u03b8\u03c1\u03ad\u03c0\u03c4\u03b7\u03c2 \u039f\u03c1\u03b9\u03b6\u03cc\u03bd\u03c4\u03b9\u03bf\u03c2"
     }, 
     {
-        "text": "\u039a\u03b1\u03b8\u03c1\u03ad\u03c0\u03c4\u03b7\u03c2 \u03ba\u03ac\u03b8\u03b5\u03c4\u03bf\u03c2", 
-        "nameSpace": "djv::ViewLib", 
         "id": "Mirror Vertical", 
-        "description": ""
+        "source": "Mirror Vertical", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "\u039a\u03b1\u03b8\u03c1\u03ad\u03c0\u03c4\u03b7\u03c2 \u03ba\u03ac\u03b8\u03b5\u03c4\u03bf\u03c2"
     }, 
     {
-        "text": "\u0394\u03b9\u03b1\u03c7\u03b5\u03af\u03c1\u03b9\u03c3\u03b7 \u03c7\u03c1\u03c9\u03bc\u03ac\u03c4\u03c9\u03bd", 
-        "nameSpace": "djv::ViewLib", 
         "id": "Color Manager", 
-        "description": ""
+        "source": "Color Manager", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "\u0394\u03b9\u03b1\u03c7\u03b5\u03af\u03c1\u03b9\u03c3\u03b7 \u03c7\u03c1\u03c9\u03bc\u03ac\u03c4\u03c9\u03bd"
     }, 
     {
-        "text": "\u03a0\u03c1\u03bf\u03c6\u03af\u03bb \u03c7\u03c1\u03ce\u03bc\u03b1\u03c4\u03bf\u03c2", 
-        "nameSpace": "djv::ViewLib", 
         "id": "Color Profile", 
-        "description": ""
+        "source": "Color Profile", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "\u03a0\u03c1\u03bf\u03c6\u03af\u03bb \u03c7\u03c1\u03ce\u03bc\u03b1\u03c4\u03bf\u03c2"
     }, 
     {
-        "text": "\u03a0\u03c1\u03bf\u03b2\u03bf\u03bb\u03ae \u03c0\u03c1\u03bf\u03c6\u03af\u03bb", 
-        "nameSpace": "djv::ViewLib", 
         "id": "Display Profile", 
-        "description": ""
+        "source": "Display Profile", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "\u03a0\u03c1\u03bf\u03b2\u03bf\u03bb\u03ae \u03c0\u03c1\u03bf\u03c6\u03af\u03bb"
     }, 
     {
-        "text": "\u03a0\u03c1\u03bf\u03c0\u03bb\u03b7\u03c1\u03c9\u03bc\u03ad\u03bd\u03bf Alpha", 
-        "nameSpace": "djv::ViewLib", 
         "id": "Premulitplied Alpha", 
-        "description": ""
+        "source": "Premulitplied Alpha", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "\u03a0\u03c1\u03bf\u03c0\u03bb\u03b7\u03c1\u03c9\u03bc\u03ad\u03bd\u03bf Alpha"
     }, 
     {
-        "text": "\u0395\u03bc\u03c6\u03ac\u03bd\u03b9\u03c3\u03b7 \u03c0\u03bb\u03b1\u03b9\u03c3\u03af\u03bf\u03c5 \u03b1\u03c0\u03bf\u03b8\u03ae\u03ba\u03b5\u03c5\u03c3\u03b7\u03c2", 
-        "nameSpace": "djv::ViewLib", 
         "id": "Show Frame Store", 
-        "description": ""
+        "source": "Show Frame Store", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "\u0395\u03bc\u03c6\u03ac\u03bd\u03b9\u03c3\u03b7 \u03c0\u03bb\u03b1\u03b9\u03c3\u03af\u03bf\u03c5 \u03b1\u03c0\u03bf\u03b8\u03ae\u03ba\u03b5\u03c5\u03c3\u03b7\u03c2"
     }, 
     {
-        "text": "\u039f\u03c1\u03b9\u03c3\u03bc\u03cc\u03c2 \u03c0\u03bb\u03b1\u03b9\u03c3\u03af\u03bf\u03c5 \u03b1\u03c0\u03bf\u03b8\u03ae\u03ba\u03b5\u03c5\u03c3\u03b7\u03c2", 
-        "nameSpace": "djv::ViewLib", 
         "id": "Set Frame Store", 
-        "description": ""
+        "source": "Set Frame Store", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "\u039f\u03c1\u03b9\u03c3\u03bc\u03cc\u03c2 \u03c0\u03bb\u03b1\u03b9\u03c3\u03af\u03bf\u03c5 \u03b1\u03c0\u03bf\u03b8\u03ae\u03ba\u03b5\u03c5\u03c3\u03b7\u03c2"
     }, 
     {
-        "text": "\u0398\u03ad\u03b1", 
-        "nameSpace": "djv::ViewLib", 
         "id": "View", 
-        "description": ""
+        "source": "View", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "\u0398\u03ad\u03b1"
     }, 
     {
-        "text": "\u03a0\u03bb\u03ad\u03b3\u03bc\u03b1", 
-        "nameSpace": "djv::ViewLib", 
         "id": "Grid", 
-        "description": ""
+        "source": "Grid", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "\u03a0\u03bb\u03ad\u03b3\u03bc\u03b1"
     }, 
     {
-        "text": "\u0391\u03c1\u03b9\u03c3\u03c4\u03b5\u03c1\u03ac", 
-        "nameSpace": "djv::ViewLib", 
         "id": "Left", 
-        "description": ""
+        "source": "Left", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "\u0391\u03c1\u03b9\u03c3\u03c4\u03b5\u03c1\u03ac"
     }, 
     {
-        "text": "\u03c3\u03c9\u03c3\u03c4\u03ac", 
-        "nameSpace": "djv::ViewLib", 
         "id": "Right", 
-        "description": ""
+        "source": "Right", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "\u03c3\u03c9\u03c3\u03c4\u03ac"
     }, 
     {
-        "text": "\u03a0\u03ac\u03bd\u03c9", 
-        "nameSpace": "djv::ViewLib", 
         "id": "Up", 
-        "description": ""
+        "source": "Up", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "\u03a0\u03ac\u03bd\u03c9"
     }, 
     {
-        "text": "\u039a\u03ac\u03c4\u03c9", 
-        "nameSpace": "djv::ViewLib", 
         "id": "Down", 
-        "description": ""
+        "source": "Down", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "\u039a\u03ac\u03c4\u03c9"
     }, 
     {
-        "text": "\u039a\u03ad\u03bd\u03c4\u03c1\u03bf", 
-        "nameSpace": "djv::ViewLib", 
         "id": "Center", 
-        "description": ""
+        "source": "Center", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "\u039a\u03ad\u03bd\u03c4\u03c1\u03bf"
     }, 
     {
-        "text": "\u039c\u03b5\u03b3\u03ad\u03b8\u03c5\u03bd\u03c3\u03b7", 
-        "nameSpace": "djv::ViewLib", 
         "id": "Zoom In", 
-        "description": ""
+        "source": "Zoom In", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "\u039c\u03b5\u03b3\u03ad\u03b8\u03c5\u03bd\u03c3\u03b7"
     }, 
     {
-        "text": "\u03a3\u03bc\u03af\u03ba\u03c1\u03c5\u03bd\u03c3\u03b7", 
-        "nameSpace": "djv::ViewLib", 
         "id": "Zoom Out", 
-        "description": ""
+        "source": "Zoom Out", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "\u03a3\u03bc\u03af\u03ba\u03c1\u03c5\u03bd\u03c3\u03b7"
     }, 
     {
-        "text": "\u0395\u03c0\u03b1\u03bd\u03b1\u03c6\u03ad\u03c1\u03b5\u03c4\u03b5 \u03c4\u03bf \u03b6\u03bf\u03c5\u03bc", 
-        "nameSpace": "djv::ViewLib", 
         "id": "Reset Zoom", 
-        "description": ""
+        "source": "Reset Zoom", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "\u0395\u03c0\u03b1\u03bd\u03b1\u03c6\u03ad\u03c1\u03b5\u03c4\u03b5 \u03c4\u03bf \u03b6\u03bf\u03c5\u03bc"
     }, 
     {
-        "text": "\u0395\u03c0\u03b1\u03bd\u03b1\u03c6\u03bf\u03c1\u03ac \u03b8\u03ad\u03c3\u03b7\u03c2 \u03ba\u03b1\u03b9 \u03b6\u03bf\u03c5\u03bc", 
-        "nameSpace": "djv::ViewLib", 
         "id": "Reset Position and Zoom", 
-        "description": ""
+        "source": "Reset Position and Zoom", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "\u0395\u03c0\u03b1\u03bd\u03b1\u03c6\u03bf\u03c1\u03ac \u03b8\u03ad\u03c3\u03b7\u03c2 \u03ba\u03b1\u03b9 \u03b6\u03bf\u03c5\u03bc"
     }, 
     {
-        "text": "\u039a\u03b1\u03c4\u03ac\u03bb\u03bb\u03b7\u03bb\u03bf\u03c2", 
-        "nameSpace": "djv::ViewLib", 
         "id": "Fit", 
-        "description": ""
+        "source": "Fit", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "\u039a\u03b1\u03c4\u03ac\u03bb\u03bb\u03b7\u03bb\u03bf\u03c2"
     }, 
     {
-        "text": "HUD", 
-        "nameSpace": "djv::ViewLib", 
         "id": "HUD", 
-        "description": ""
+        "source": "HUD", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "HUD"
     }, 
     {
-        "text": "\u03b4\u03b5\u03bd \u03bc\u03c0\u03bf\u03c1\u03b5\u03af \u03bd\u03b1 \u03b4\u03b7\u03bc\u03b9\u03bf\u03c5\u03c1\u03b3\u03ae\u03c3\u03b5\u03b9 OpenAL \u03c0\u03b7\u03b3\u03ae", 
-        "nameSpace": "djv::ViewLib", 
         "id": "cannot create OpenAL source", 
-        "description": ""
+        "source": "cannot create OpenAL source", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "\u03b4\u03b5\u03bd \u03bc\u03c0\u03bf\u03c1\u03b5\u03af \u03bd\u03b1 \u03b4\u03b7\u03bc\u03b9\u03bf\u03c5\u03c1\u03b3\u03ae\u03c3\u03b5\u03b9 OpenAL \u03c0\u03b7\u03b3\u03ae"
     }, 
     {
-        "text": "\u03b4\u03b5\u03bd \u03b5\u03af\u03bd\u03b1\u03b9 \u03b4\u03c5\u03bd\u03b1\u03c4\u03ae \u03b7 \u03b4\u03b7\u03bc\u03b9\u03bf\u03c5\u03c1\u03b3\u03af\u03b1 buffers OpenAL", 
-        "nameSpace": "djv::ViewLib", 
         "id": "cannot create OpenAL buffers", 
-        "description": ""
+        "source": "cannot create OpenAL buffers", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "\u03b4\u03b5\u03bd \u03b5\u03af\u03bd\u03b1\u03b9 \u03b4\u03c5\u03bd\u03b1\u03c4\u03ae \u03b7 \u03b4\u03b7\u03bc\u03b9\u03bf\u03c5\u03c1\u03b3\u03af\u03b1 buffers OpenAL"
     }, 
     {
-        "text": "\u03b4\u03b5\u03bd \u03bc\u03c0\u03bf\u03c1\u03b5\u03af \u03bd\u03b1 \u03b1\u03bd\u03bf\u03af\u03be\u03b5\u03b9", 
-        "nameSpace": "djv::ViewLib", 
         "id": "cannot open", 
-        "description": ""
+        "source": "cannot open", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "\u03b4\u03b5\u03bd \u03bc\u03c0\u03bf\u03c1\u03b5\u03af \u03bd\u03b1 \u03b1\u03bd\u03bf\u03af\u03be\u03b5\u03b9"
     }, 
     {
-        "text": "\u0391\u03bd\u03b1\u03c0\u03b1\u03c1\u03b1\u03b3\u03c9\u03b3\u03ae", 
-        "nameSpace": "djv::ViewLib", 
         "id": "Playback", 
-        "description": ""
+        "source": "Playback", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "\u0391\u03bd\u03b1\u03c0\u03b1\u03c1\u03b1\u03b3\u03c9\u03b3\u03ae"
     }, 
     {
-        "text": "\u0392\u03c1\u03cc\u03c7\u03bf\u03c2", 
-        "nameSpace": "djv::ViewLib", 
         "id": "Loop", 
-        "description": ""
+        "source": "Loop", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "\u0392\u03c1\u03cc\u03c7\u03bf\u03c2"
     }, 
     {
-        "text": "\u03a3\u03c7\u03ad\u03b4\u03b9\u03bf", 
-        "nameSpace": "djv::ViewLib", 
         "id": "Layout", 
-        "description": ""
+        "source": "Layout", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "\u03a3\u03c7\u03ad\u03b4\u03b9\u03bf"
     }, 
     {
-        "text": "\u039d\u03b1 \u03c3\u03c4\u03b1\u03bc\u03b1\u03c4\u03ae\u03c3\u03b5\u03b9", 
-        "nameSpace": "djv::ViewLib", 
         "id": "Stop", 
-        "description": ""
+        "source": "Stop", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "\u039d\u03b1 \u03c3\u03c4\u03b1\u03bc\u03b1\u03c4\u03ae\u03c3\u03b5\u03b9"
     }, 
     {
-        "text": "\u03a0\u03c1\u03bf\u03c2 \u03c4\u03b1 \u03b5\u03bc\u03c0\u03c1\u03cc\u03c2", 
-        "nameSpace": "djv::ViewLib", 
         "id": "Forward", 
-        "description": ""
+        "source": "Forward", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "\u03a0\u03c1\u03bf\u03c2 \u03c4\u03b1 \u03b5\u03bc\u03c0\u03c1\u03cc\u03c2"
     }, 
     {
-        "text": "\u0391\u039d\u03a4\u0399\u03a3\u03a4\u03a1\u039f\u03a6\u0397", 
-        "nameSpace": "djv::ViewLib", 
         "id": "Reverse", 
-        "description": ""
+        "source": "Reverse", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "\u0391\u039d\u03a4\u0399\u03a3\u03a4\u03a1\u039f\u03a6\u0397"
     }, 
     {
-        "text": "\u0395\u03bd\u03b1\u03bb\u03bb\u03b1\u03b3\u03ae \u03b1\u03bd\u03b1\u03c0\u03b1\u03c1\u03b1\u03b3\u03c9\u03b3\u03ae\u03c2", 
-        "nameSpace": "djv::ViewLib", 
         "id": "Toggle Playback", 
-        "description": ""
+        "source": "Toggle Playback", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "\u0395\u03bd\u03b1\u03bb\u03bb\u03b1\u03b3\u03ae \u03b1\u03bd\u03b1\u03c0\u03b1\u03c1\u03b1\u03b3\u03c9\u03b3\u03ae\u03c2"
     }, 
     {
-        "text": "\u0395\u03bd\u03b1\u03bb\u03bb\u03b1\u03b3\u03ae \u03b1\u03bd\u03b1\u03c0\u03b1\u03c1\u03b1\u03b3\u03c9\u03b3\u03ae\u03c2 \u03bc\u03b5 \u03b1\u03bd\u03c4\u03af\u03c3\u03c4\u03c1\u03bf\u03c6\u03b7 \u03bc\u03ad\u03c4\u03c1\u03b7\u03c3\u03b7", 
-        "nameSpace": "djv::ViewLib", 
         "id": "Toggle Reverse Playback", 
-        "description": ""
+        "source": "Toggle Reverse Playback", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "\u0395\u03bd\u03b1\u03bb\u03bb\u03b1\u03b3\u03ae \u03b1\u03bd\u03b1\u03c0\u03b1\u03c1\u03b1\u03b3\u03c9\u03b3\u03ae\u03c2 \u03bc\u03b5 \u03b1\u03bd\u03c4\u03af\u03c3\u03c4\u03c1\u03bf\u03c6\u03b7 \u03bc\u03ad\u03c4\u03c1\u03b7\u03c3\u03b7"
     }, 
     {
-        "text": "\u0391\u03bd\u03b1\u03c0\u03b1\u03c1\u03b1\u03b3\u03c9\u03b3\u03ae \u03ba\u03ac\u03b8\u03b5 \u03c0\u03bb\u03b1\u03b9\u03c3\u03af\u03bf\u03c5", 
-        "nameSpace": "djv::ViewLib", 
         "id": "Play Every Frame", 
-        "description": ""
+        "source": "Play Every Frame", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "\u0391\u03bd\u03b1\u03c0\u03b1\u03c1\u03b1\u03b3\u03c9\u03b3\u03ae \u03ba\u03ac\u03b8\u03b5 \u03c0\u03bb\u03b1\u03b9\u03c3\u03af\u03bf\u03c5"
     }, 
     {
-        "text": "\u03a0\u03b7\u03b3\u03b1\u03af\u03bd\u03b5\u03c4\u03b5 \u03c3\u03c4\u03bf \u03c3\u03b7\u03bc\u03b5\u03af\u03bf", 
-        "nameSpace": "djv::ViewLib", 
         "id": "Go To In Point", 
-        "description": ""
+        "source": "Go To In Point", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "\u03a0\u03b7\u03b3\u03b1\u03af\u03bd\u03b5\u03c4\u03b5 \u03c3\u03c4\u03bf \u03c3\u03b7\u03bc\u03b5\u03af\u03bf"
     }, 
     {
-        "text": "\u03a0\u03b7\u03b3\u03b1\u03af\u03bd\u03b5\u03c4\u03b5 \u03c3\u03c4\u03bf \u03c3\u03b7\u03bc\u03b5\u03af\u03bf \u03b5\u03be\u03cc\u03b4\u03bf\u03c5", 
-        "nameSpace": "djv::ViewLib", 
         "id": "Go To Out Point", 
-        "description": ""
+        "source": "Go To Out Point", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "\u03a0\u03b7\u03b3\u03b1\u03af\u03bd\u03b5\u03c4\u03b5 \u03c3\u03c4\u03bf \u03c3\u03b7\u03bc\u03b5\u03af\u03bf \u03b5\u03be\u03cc\u03b4\u03bf\u03c5"
     }, 
     {
-        "text": "\u03a0\u03b7\u03b3\u03b1\u03af\u03bd\u03b5\u03c4\u03b5 \u03c3\u03c4\u03bf \u03c0\u03bb\u03b1\u03af\u03c3\u03b9\u03bf \u03b5\u03ba\u03ba\u03af\u03bd\u03b7\u03c3\u03b7\u03c2", 
-        "nameSpace": "djv::ViewLib", 
         "id": "Go To Start Frame", 
-        "description": ""
+        "source": "Go To Start Frame", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "\u03a0\u03b7\u03b3\u03b1\u03af\u03bd\u03b5\u03c4\u03b5 \u03c3\u03c4\u03bf \u03c0\u03bb\u03b1\u03af\u03c3\u03b9\u03bf \u03b5\u03ba\u03ba\u03af\u03bd\u03b7\u03c3\u03b7\u03c2"
     }, 
     {
-        "text": "\u03a0\u03b7\u03b3\u03b1\u03af\u03bd\u03b5\u03c4\u03b5 \u03c3\u03c4\u03bf \u03c4\u03ad\u03bb\u03bf\u03c2 \u03c4\u03bf\u03c5 \u03c0\u03bb\u03b1\u03b9\u03c3\u03af\u03bf\u03c5", 
-        "nameSpace": "djv::ViewLib", 
         "id": "Go To End Frame", 
-        "description": ""
+        "source": "Go To End Frame", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "\u03a0\u03b7\u03b3\u03b1\u03af\u03bd\u03b5\u03c4\u03b5 \u03c3\u03c4\u03bf \u03c4\u03ad\u03bb\u03bf\u03c2 \u03c4\u03bf\u03c5 \u03c0\u03bb\u03b1\u03b9\u03c3\u03af\u03bf\u03c5"
     }, 
     {
-        "text": "\u0395\u03c0\u03cc\u03bc\u03b5\u03bd\u03bf \u03a0\u03bb\u03b1\u03af\u03c3\u03b9\u03bf", 
-        "nameSpace": "djv::ViewLib", 
         "id": "Next Frame", 
-        "description": ""
+        "source": "Next Frame", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "\u0395\u03c0\u03cc\u03bc\u03b5\u03bd\u03bf \u03a0\u03bb\u03b1\u03af\u03c3\u03b9\u03bf"
     }, 
     {
-        "text": "\u0395\u03c0\u03cc\u03bc\u03b5\u03bd\u03bf \u03a0\u03bb\u03b1\u03af\u03c3\u03b9\u03bf X10", 
-        "nameSpace": "djv::ViewLib", 
         "id": "Next Frame X10", 
-        "description": ""
+        "source": "Next Frame X10", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "\u0395\u03c0\u03cc\u03bc\u03b5\u03bd\u03bf \u03a0\u03bb\u03b1\u03af\u03c3\u03b9\u03bf X10"
     }, 
     {
-        "text": "\u0395\u03c0\u03cc\u03bc\u03b5\u03bd\u03bf \u03a0\u03bb\u03b1\u03af\u03c3\u03b9\u03bf X100", 
-        "nameSpace": "djv::ViewLib", 
         "id": "Next Frame X100", 
-        "description": ""
+        "source": "Next Frame X100", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "\u0395\u03c0\u03cc\u03bc\u03b5\u03bd\u03bf \u03a0\u03bb\u03b1\u03af\u03c3\u03b9\u03bf X100"
     }, 
     {
-        "text": "\u03a0\u03c1\u03bf\u03b7\u03b3\u03bf\u03cd\u03bc\u03b5\u03bd\u03bf \u03c0\u03bb\u03b1\u03af\u03c3\u03b9\u03bf", 
-        "nameSpace": "djv::ViewLib", 
         "id": "Previous Frame", 
-        "description": ""
+        "source": "Previous Frame", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "\u03a0\u03c1\u03bf\u03b7\u03b3\u03bf\u03cd\u03bc\u03b5\u03bd\u03bf \u03c0\u03bb\u03b1\u03af\u03c3\u03b9\u03bf"
     }, 
     {
-        "text": "\u03a0\u03c1\u03bf\u03b7\u03b3\u03bf\u03cd\u03bc\u03b5\u03bd\u03bf \u03c0\u03bb\u03b1\u03af\u03c3\u03b9\u03bf X10", 
-        "nameSpace": "djv::ViewLib", 
         "id": "Previous Frame X10", 
-        "description": ""
+        "source": "Previous Frame X10", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "\u03a0\u03c1\u03bf\u03b7\u03b3\u03bf\u03cd\u03bc\u03b5\u03bd\u03bf \u03c0\u03bb\u03b1\u03af\u03c3\u03b9\u03bf X10"
     }, 
     {
-        "text": "\u03a0\u03c1\u03bf\u03b7\u03b3\u03bf\u03cd\u03bc\u03b5\u03bd\u03bf \u03c0\u03bb\u03b1\u03af\u03c3\u03b9\u03bf X100", 
-        "nameSpace": "djv::ViewLib", 
         "id": "Previous Frame X100", 
-        "description": ""
+        "source": "Previous Frame X100", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "\u03a0\u03c1\u03bf\u03b7\u03b3\u03bf\u03cd\u03bc\u03b5\u03bd\u03bf \u03c0\u03bb\u03b1\u03af\u03c3\u03b9\u03bf X100"
     }, 
     {
-        "text": "\u0395\u03bd\u03b5\u03c1\u03b3\u03bf\u03c0\u03bf\u03af\u03b7\u03c3\u03b7 \u03c3\u03b7\u03bc\u03b5\u03af\u03c9\u03bd \u03b5\u03b9\u03c3\u03cc\u03b4\u03bf\u03c5 / \u03b5\u03be\u03cc\u03b4\u03bf\u03c5", 
-        "nameSpace": "djv::ViewLib", 
         "id": "Enable In/Out Points", 
-        "description": ""
+        "source": "Enable In/Out Points", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "\u0395\u03bd\u03b5\u03c1\u03b3\u03bf\u03c0\u03bf\u03af\u03b7\u03c3\u03b7 \u03c3\u03b7\u03bc\u03b5\u03af\u03c9\u03bd \u03b5\u03b9\u03c3\u03cc\u03b4\u03bf\u03c5 / \u03b5\u03be\u03cc\u03b4\u03bf\u03c5"
     }, 
     {
-        "text": "\u039f\u03c1\u03b9\u03c3\u03bc\u03cc\u03c2 \u03c3\u03c4\u03bf \u03c3\u03b7\u03bc\u03b5\u03af\u03bf", 
-        "nameSpace": "djv::ViewLib", 
         "id": "Set In Point", 
-        "description": ""
+        "source": "Set In Point", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "\u039f\u03c1\u03b9\u03c3\u03bc\u03cc\u03c2 \u03c3\u03c4\u03bf \u03c3\u03b7\u03bc\u03b5\u03af\u03bf"
     }, 
     {
-        "text": "\u039f\u03c1\u03b9\u03c3\u03bc\u03cc\u03c2 \u03c3\u03b7\u03bc\u03b5\u03af\u03bf\u03c5", 
-        "nameSpace": "djv::ViewLib", 
         "id": "Set Out Point", 
-        "description": ""
+        "source": "Set Out Point", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "\u039f\u03c1\u03b9\u03c3\u03bc\u03cc\u03c2 \u03c3\u03b7\u03bc\u03b5\u03af\u03bf\u03c5"
     }, 
     {
-        "text": "\u0395\u03c0\u03b1\u03bd\u03b1\u03c6\u03bf\u03c1\u03ac \u03c3\u03c4\u03bf \u03c3\u03b7\u03bc\u03b5\u03af\u03bf", 
-        "nameSpace": "djv::ViewLib", 
         "id": "Reset In Point", 
-        "description": ""
+        "source": "Reset In Point", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "\u0395\u03c0\u03b1\u03bd\u03b1\u03c6\u03bf\u03c1\u03ac \u03c3\u03c4\u03bf \u03c3\u03b7\u03bc\u03b5\u03af\u03bf"
     }, 
     {
-        "text": "\u0395\u03c0\u03b1\u03bd\u03b1\u03c6\u03bf\u03c1\u03ac \u03c3\u03b7\u03bc\u03b5\u03af\u03bf\u03c5 \u03b5\u03be\u03cc\u03b4\u03bf\u03c5", 
-        "nameSpace": "djv::ViewLib", 
         "id": "Reset Out Point", 
-        "description": ""
+        "source": "Reset Out Point", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "\u0395\u03c0\u03b1\u03bd\u03b1\u03c6\u03bf\u03c1\u03ac \u03c3\u03b7\u03bc\u03b5\u03af\u03bf\u03c5 \u03b5\u03be\u03cc\u03b4\u03bf\u03c5"
     }, 
     {
-        "text": "\u03a1\u03c5\u03b8\u03bc\u03af\u03c3\u03b5\u03b9\u03c2", 
-        "nameSpace": "djv::ViewLib", 
         "id": "Settings", 
-        "description": ""
+        "source": "Settings", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "\u03a1\u03c5\u03b8\u03bc\u03af\u03c3\u03b5\u03b9\u03c2"
     }, 
     {
-        "text": "\u0393\u03b5\u03bd\u03b9\u03ba\u03cc\u03c2", 
-        "nameSpace": "djv::ViewLib", 
         "id": "General", 
-        "description": ""
+        "source": "General", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "\u0393\u03b5\u03bd\u03b9\u03ba\u03cc\u03c2"
     }, 
     {
-        "text": "\u03a0\u03b1\u03bb\u03ad\u03c4\u03b1 \u03c7\u03c1\u03c9\u03bc\u03ac\u03c4\u03c9\u03bd", 
-        "nameSpace": "djv::ViewLib", 
         "id": "Color palette", 
-        "description": ""
+        "source": "Color palette", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "\u03a0\u03b1\u03bb\u03ad\u03c4\u03b1 \u03c7\u03c1\u03c9\u03bc\u03ac\u03c4\u03c9\u03bd"
     }, 
     {
-        "text": "DPI", 
-        "nameSpace": "djv::ViewLib", 
         "id": "DPI", 
-        "description": ""
+        "source": "DPI", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "DPI"
     }, 
     {
-        "text": "\u03c4\u03bf\u03c0\u03b9\u03ba\u03cc\u03c2", 
-        "nameSpace": "djv::ViewLib", 
         "id": "Locale", 
-        "description": ""
+        "source": "Locale", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "\u03c4\u03bf\u03c0\u03b9\u03ba\u03cc\u03c2"
     }, 
     {
-        "text": "\u03a0\u03b1\u03c1\u03ac\u03b8\u03c5\u03c1\u03bf", 
-        "nameSpace": "djv::ViewLib", 
         "id": "Window", 
-        "description": ""
+        "source": "Window", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "\u03a0\u03b1\u03c1\u03ac\u03b8\u03c5\u03c1\u03bf"
     }, 
     {
-        "text": "\u0391\u03bd\u03c4\u03af\u03b3\u03c1\u03b1\u03c6\u03bf", 
-        "nameSpace": "djv::ViewLib", 
         "id": "Duplicate", 
-        "description": ""
+        "source": "Duplicate", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "\u0391\u03bd\u03c4\u03af\u03b3\u03c1\u03b1\u03c6\u03bf"
     }, 
     {
-        "text": "\u03a0\u039b\u0397\u03a1\u0397\u03a3 \u039f\u0398\u039f\u039d\u0397", 
-        "nameSpace": "djv::ViewLib", 
         "id": "Full Screen", 
-        "description": ""
+        "source": "Full Screen", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "\u03a0\u039b\u0397\u03a1\u0397\u03a3 \u039f\u0398\u039f\u039d\u0397"
     }, 
     {
-        "text": "\u0391\u03c0\u03b5\u03b9\u03ba\u03cc\u03bd\u03b9\u03c3\u03b7", 
-        "nameSpace": "djv::ViewLib", 
         "id": "Display", 
-        "description": ""
+        "source": "Display", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "\u0391\u03c0\u03b5\u03b9\u03ba\u03cc\u03bd\u03b9\u03c3\u03b7"
     }, 
     {
-        "text": "\u0393\u03bb\u03ce\u03c3\u03c3\u03b1", 
-        "nameSpace": "djv::ViewLib", 
         "id": "Language", 
-        "description": ""
+        "source": "Language", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "\u0393\u03bb\u03ce\u03c3\u03c3\u03b1"
     }, 
     {
-        "text": "\u03a0\u03b1\u03bb\u03ad\u03c4\u03b1 \u03c7\u03c1\u03c9\u03bc\u03ac\u03c4\u03c9\u03bd", 
-        "nameSpace": "djv::ViewLib", 
         "id": "Color Palette", 
-        "description": ""
+        "source": "Color Palette", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "\u03a0\u03b1\u03bb\u03ad\u03c4\u03b1 \u03c7\u03c1\u03c9\u03bc\u03ac\u03c4\u03c9\u03bd"
     }, 
     {
-        "text": "\u0391\u03c5\u03be\u03ac\u03bd\u03c9 \u03c3\u03c4\u03bf\u03bd \u03b1\u03bd\u03ce\u03c4\u03b1\u03c4\u03bf \u03b2\u03b1\u03b8\u03bc\u03cc", 
-        "nameSpace": "djv::ViewLib", 
         "id": "Maximize", 
-        "description": ""
+        "source": "Maximize", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "\u0391\u03c5\u03be\u03ac\u03bd\u03c9 \u03c3\u03c4\u03bf\u03bd \u03b1\u03bd\u03ce\u03c4\u03b1\u03c4\u03bf \u03b2\u03b1\u03b8\u03bc\u03cc"
     }, 
     {
-        "text": "\u0395\u03c0\u03cc\u03bc\u03b5\u03bd\u03bf", 
-        "nameSpace": "djv::ViewLib", 
         "id": "Next", 
-        "description": ""
+        "source": "Next", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "\u0395\u03c0\u03cc\u03bc\u03b5\u03bd\u03bf"
     }, 
     {
-        "text": "\u03a0\u03c1\u03bf\u03b7\u03b3", 
-        "nameSpace": "djv::ViewLib", 
         "id": "Prev", 
-        "description": ""
+        "source": "Prev", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "\u03a0\u03c1\u03bf\u03b7\u03b3"
     }, 
     {
-        "text": "\u0395\u03c1\u03b3\u03b1\u03bb\u03b5\u03af\u03b1", 
-        "nameSpace": "djv::ViewLib", 
         "id": "Tools", 
-        "description": ""
+        "source": "Tools", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "\u0395\u03c1\u03b3\u03b1\u03bb\u03b5\u03af\u03b1"
     }, 
     {
-        "text": "\u03a0\u03b1\u03bb\u03ad\u03c4\u03b1", 
-        "nameSpace": "djv::ViewLib", 
         "id": "Palette", 
-        "description": ""
+        "source": "Palette", 
+        "nameSpace": "djv::ViewLib", 
+        "description": "", 
+        "text": "\u03a0\u03b1\u03bb\u03ad\u03c4\u03b1"
     }
 ]
