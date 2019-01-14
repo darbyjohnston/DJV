@@ -182,7 +182,7 @@ namespace djv
                         switch (getHAlign())
                         {
                         case HAlign::Center:
-                        case HAlign::Fill:   pos.x = c.x - size.x / 2.f; break;
+                        case HAlign::Fill:   pos.x = ceilf(c.x - size.x / 2.f); break;
                         case HAlign::Left:   pos.x = g.min.x; break;
                         case HAlign::Right:  pos.x = g.max.x - size.x; break;
                         default: break;
@@ -190,7 +190,7 @@ namespace djv
                         switch (getVAlign())
                         {
                         case VAlign::Center:
-                        case VAlign::Fill:   pos.y = c.y - size.y / 2.f; break;
+                        case VAlign::Fill:   pos.y = ceilf(c.y - size.y / 2.f); break;
                         case VAlign::Top:    pos.y = g.min.y; break;
                         case VAlign::Bottom: pos.y = g.max.y - size.y; break;
                         default: break;

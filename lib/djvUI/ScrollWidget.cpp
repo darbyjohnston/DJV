@@ -166,7 +166,7 @@ namespace djv
                 if (auto style = _getStyle().lock())
                 {
                     glm::vec2 size = glm::vec2(0.f, 0.f);
-                    size += style->getMetric(Style::MetricsRole::Margin) * 1.5f;
+                    size += style->getMetric(Style::MetricsRole::Handle);
                     _setMinimumSize(size);
                 }
             }
@@ -315,10 +315,10 @@ namespace djv
                 switch (_orientation)
                 {
                 case Orientation::Horizontal:
-                    out = g.x() + g.w() * v;
+                    out = g.x() + ceilf(g.w() * v);
                     break;
                 case Orientation::Vertical:
-                    out = g.y() + g.h() * v;
+                    out = g.y() + ceilf(g.h() * v);
                     break;
                 default: break;
                 }
@@ -448,16 +448,16 @@ namespace djv
                     switch (_scrollType)
                     {
                     case ScrollType::Both:
-                        size.x = std::min(childrenMinimumSize.x, sa * style->getScale());
-                        size.y = std::min(childrenMinimumSize.y, sa * style->getScale());
+                        size.x = std::min(childrenMinimumSize.x, ceilf(sa * style->getScale()));
+                        size.y = std::min(childrenMinimumSize.y, ceilf(sa * style->getScale()));
                         break;
                     case ScrollType::Horizontal:
-                        size.x = std::min(childrenMinimumSize.x, sa * style->getScale());
+                        size.x = std::min(childrenMinimumSize.x, ceilf(sa * style->getScale()));
                         size.y = childrenMinimumSize.y;
                         break;
                     case ScrollType::Vertical:
                         size.x = childrenMinimumSize.x;
-                        size.y = std::min(childrenMinimumSize.y, sa * style->getScale());
+                        size.y = std::min(childrenMinimumSize.y, ceilf(sa * style->getScale()));
                         break;
                     default: break;
                     }
@@ -665,7 +665,8 @@ namespace djv
                 if (auto widget = weak.lock())
                 {
                     const glm::vec2 & pos = widget->_p->scrollArea->getScrollPos();
-                    if (widget->_p->scrollArea->setScrollPos(pos + widget->_p->swipeVelocity))
+                    glm::vec2 scrollPos(ceilf(pos.x + widget->_p->swipeVelocity.x), ceilf(pos.y + widget->_p->swipeVelocity.y));
+                    if (widget->_p->scrollArea->setScrollPos(scrollPos))
                     {
                         widget->_p->swipeVelocity *= velocityDecay;
                         const float v = glm::length(widget->_p->swipeVelocity);

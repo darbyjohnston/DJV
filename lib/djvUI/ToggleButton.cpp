@@ -108,8 +108,8 @@ namespace djv
                         const glm::vec2 c = g.getCenter();
 
                         BBox2f g1;
-                        g1.min.x = c.x - (_p->lineHeight * toggleWidth) / 2.f;
-                        g1.min.y = c.y - (_p->lineHeight * toggleHeight) / 2.f;
+                        g1.min.x = ceilf(c.x - (_p->lineHeight * toggleWidth) / 2.f);
+                        g1.min.y = ceilf(c.y - (_p->lineHeight * toggleHeight) / 2.f);
                         g1.max.x = g1.min.x + _p->lineHeight * toggleWidth;
                         g1.max.y = g1.min.y + _p->lineHeight * toggleHeight;
 

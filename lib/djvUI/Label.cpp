@@ -255,7 +255,7 @@ namespace djv
                     switch (p.textHAlign)
                     {
                     case TextHAlign::Center:
-                        pos.x = c.x - p.textSize.x / 2.f;
+                        pos.x = ceilf(c.x - p.textSize.x / 2.f);
                         break;
                     case TextHAlign::Right:
                         pos.x = g.max.x - p.textSize.x;
@@ -265,16 +265,16 @@ namespace djv
                     switch (p.textVAlign)
                     {
                     case TextVAlign::Center:
-                        pos.y = c.y - p.textSize.y / 2.f;
+                        pos.y = ceilf(c.y - p.textSize.y / 2.f);
                         break;
                     case TextVAlign::Top:
                         pos.y = g.min.y;
                         break;
                     case TextVAlign::Bottom:
-                        pos.y = g.max.y - p.textSize.y;
+                        pos.y = ceilf(g.max.y - p.textSize.y);
                         break;
                     case TextVAlign::Baseline:
-                        pos.y = c.y - p.ascender / 2.f;
+                        pos.y = ceilf(c.y - p.ascender / 2.f);
                         break;
                     default: break;
                     }

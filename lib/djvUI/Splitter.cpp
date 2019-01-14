@@ -208,7 +208,7 @@ namespace djv
                         case Orientation::Horizontal:
                             bbox.min.x = g.min.x;
                             bbox.min.y = g.min.y;
-                            bbox.max.x = _valueToPos(p.split) - p.splitterWidth / 2.f;
+                            bbox.max.x = _valueToPos(p.split) - ceilf(p.splitterWidth / 2.f);
                             bbox.max.y = g.max.y;
                             children[0]->setGeometry(bbox);
                             bbox.min.x = bbox.max.x + p.splitterWidth;
@@ -221,7 +221,7 @@ namespace djv
                             bbox.min.x = g.min.x;
                             bbox.min.y = g.min.y;
                             bbox.max.x = g.max.x;
-                            bbox.max.y = _valueToPos(p.split) - p.splitterWidth / 2.f;
+                            bbox.max.y = _valueToPos(p.split) - ceilf(p.splitterWidth / 2.f);
                             children[0]->setGeometry(bbox);
                             bbox.min.x = g.min.x;
                             bbox.min.y = bbox.max.y + p.splitterWidth;
@@ -365,8 +365,7 @@ namespace djv
                 if (auto style = _getStyle().lock())
                 {
                     DJV_PRIVATE_PTR();
-                    const float m = style->getMetric(Style::MetricsRole::Margin);
-                    const float value = m * 1.5f;
+                    const float value = style->getMetric(Style::MetricsRole::Handle);
                     if (value != p.splitterWidth)
                     {
                         _resize();
@@ -383,10 +382,10 @@ namespace djv
                 switch (p.orientation)
                 {
                 case Orientation::Horizontal:
-                    out = g.x() + p.splitterWidth / 2.f + (g.w() - p.splitterWidth) * value;
+                    out = g.x() + ceilf(p.splitterWidth / 2.f + (g.w() - p.splitterWidth) * value);
                     break;
                 case Orientation::Vertical:
-                    out = g.y() + p.splitterWidth / 2.f + (g.h() - p.splitterWidth) * value;
+                    out = g.y() + ceilf(p.splitterWidth / 2.f + (g.h() - p.splitterWidth) * value);
                     break;
                 default: break;
                 }
@@ -420,14 +419,14 @@ namespace djv
                 switch (p.orientation)
                 {
                 case Orientation::Horizontal:
-                    out.min.x = _valueToPos(p.split) - p.splitterWidth / 2.f;
+                    out.min.x = _valueToPos(p.split) - ceilf(p.splitterWidth / 2.f);
                     out.min.y = g.min.y;
                     out.max.x = out.min.x + p.splitterWidth;
                     out.max.y = g.max.y;
                     break;
                 case Orientation::Vertical:
                     out.min.x = g.min.x;
-                    out.min.y = _valueToPos(p.split) - p.splitterWidth / 2.f;
+                    out.min.y = _valueToPos(p.split) - ceilf(p.splitterWidth / 2.f);
                     out.max.x = g.max.x;
                     out.max.y = out.min.y + p.splitterWidth;
                     break;
@@ -445,9 +444,9 @@ namespace djv
                 case Orientation::Horizontal:
                 {
                     const float w = g.w();
-                    out.min.x = g.min.x + w / 4.f;
+                    out.min.x = g.min.x + ceilf(w / 4.f);
                     out.min.y = g.min.y;
-                    out.max.x = g.max.x - w / 4.f;
+                    out.max.x = g.max.x - ceilf(w / 4.f);
                     out.max.y = g.max.y;
                     break;
                 }
@@ -455,9 +454,9 @@ namespace djv
                 {
                     const float h = g.h();
                     out.min.x = g.min.x;
-                    out.min.y = g.min.y + h / 4.f;
+                    out.min.y = g.min.y + ceilf(h / 4.f);
                     out.max.x = g.max.x;
-                    out.max.y = g.max.y - h / 4.f;
+                    out.max.y = g.max.y - ceilf(h / 4.f);
                     break;
                 }
                 default: break;

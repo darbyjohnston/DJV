@@ -97,6 +97,7 @@ namespace djv
                 TextColumn,
                 Dialog,
                 TooltipOffset,
+                Handle,
 
                 Count,
                 First = Border

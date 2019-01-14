@@ -358,7 +358,7 @@ namespace djv
                                     cellSize = child->getMinimumSize().x;
                                     break;
                                 case RowStretch::Expand:
-                                    cellSize = (gw - minimumSize.x) / static_cast<float>(expandCount);
+                                    cellSize = ceilf((gw - minimumSize.x) / static_cast<float>(expandCount));
                                     break;
                                 default: break;
                                 }
@@ -390,7 +390,7 @@ namespace djv
                                     }
                                     break;
                                 case RowStretch::Expand:
-                                    cellSize = (gh - minimumSize.y) / static_cast<float>(expandCount);
+                                    cellSize = ceilf((gh - minimumSize.y) / static_cast<float>(expandCount));
                                     break;
                                 default: break;
                                 }

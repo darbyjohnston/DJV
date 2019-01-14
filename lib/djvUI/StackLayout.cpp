@@ -101,7 +101,8 @@ namespace djv
                     const BBox2f& g = getMargin().bbox(getGeometry(), style);
                     for (const auto& child : getChildrenT<Widget>())
                     {
-                        child->setGeometry(Widget::getAlign(g, child->getMinimumSize(), child->getHAlign(), child->getVAlign()));
+                        const BBox2f childGeometry = Widget::getAlign(g, child->getMinimumSize(), child->getHAlign(), child->getVAlign());
+                        child->setGeometry(childGeometry);
                     }
                 }
             }

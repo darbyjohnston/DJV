@@ -304,7 +304,7 @@ namespace djv
                                 switch (p.textHAlign)
                                 {
                                 case TextHAlign::Center:
-                                    pos.x = c.x - line.size.x / 2.f;
+                                    pos.x = ceilf(c.x - line.size.x / 2.f);
                                     break;
                                 case TextHAlign::Right:
                                     pos.x = g.max.x - line.size.x;

@@ -157,6 +157,7 @@ namespace djv
                 p.metrics[MetricsRole::TextColumn]     = 200.f;
                 p.metrics[MetricsRole::Dialog]         = 400.f;
                 p.metrics[MetricsRole::TooltipOffset]  =  10.f;
+                p.metrics[MetricsRole::Handle]         =  15.f;
             }
 
             float Metrics::getMetric(MetricsRole role) const
@@ -246,7 +247,7 @@ namespace djv
 
             float Style::getMetric(MetricsRole role) const
             {
-                return _p->metrics.getMetric(role) * getScale();
+                return ceilf(_p->metrics.getMetric(role) * getScale());
             }
 
             void Style::setDPI(int value)
@@ -354,7 +355,8 @@ namespace djv
         DJV_TEXT("djv::UI::Style", "ScrollArea"),
         DJV_TEXT("djv::UI::Style", "TextColumn"),
         DJV_TEXT("djv::UI::Style", "Dialog"),
-        DJV_TEXT("djv::UI::Style", "TooltipOffset"));
+        DJV_TEXT("djv::UI::Style", "TooltipOffset"),
+        DJV_TEXT("djv::UI::Style", "Handle"));
 
 } // namespace djv
 

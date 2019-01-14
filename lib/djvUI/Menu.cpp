@@ -610,8 +610,9 @@ namespace djv
                             {
                                 return a.getArea() > b.getArea();
                             });
-                            i.first->move(geomCandidates.front().min);
-                            i.first->resize(geomCandidates.front().getSize());
+                            const auto & geom = geomCandidates.front();
+                            i.first->move(geom.min);
+                            i.first->resize(geom.getSize());
                         }
                     }
                 }

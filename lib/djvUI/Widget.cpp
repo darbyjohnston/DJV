@@ -246,7 +246,7 @@ namespace djv
                 break;
             default: break;
             }
-            return BBox2f(x, y, w, h);
+            return BBox2f(floorf(x), floorf(y), ceilf(w), ceilf(h));
         }
 
         void Widget::setBackgroundRole(Style::ColorRole value)

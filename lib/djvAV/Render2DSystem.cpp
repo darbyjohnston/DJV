@@ -454,10 +454,10 @@ namespace djv
                     const BBox2f bbox = flip(data.bbox, p.size);
                     if (bbox.intersects(p.render->viewport))
                     {
-                        mesh.v.push_back(glm::vec3(floorf(bbox.min.x), floorf(bbox.min.y), 0.f));
-                        mesh.v.push_back(glm::vec3(floorf(bbox.max.x), floorf(bbox.min.y), 0.f));
-                        mesh.v.push_back(glm::vec3(floorf(bbox.max.x), floorf(bbox.max.y), 0.f));
-                        mesh.v.push_back(glm::vec3(floorf(bbox.min.x), floorf(bbox.max.y), 0.f));
+                        mesh.v.push_back(glm::vec3(bbox.min.x, bbox.min.y, 0.f));
+                        mesh.v.push_back(glm::vec3(bbox.max.x, bbox.min.y, 0.f));
+                        mesh.v.push_back(glm::vec3(bbox.max.x, bbox.max.y, 0.f));
+                        mesh.v.push_back(glm::vec3(bbox.min.x, bbox.max.y, 0.f));
                         mesh.t.push_back(glm::vec2(data.textureU.min, data.textureV.min));
                         mesh.t.push_back(glm::vec2(data.textureU.max, data.textureV.min));
                         mesh.t.push_back(glm::vec2(data.textureU.max, data.textureV.max));
