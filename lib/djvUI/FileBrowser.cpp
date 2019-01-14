@@ -237,7 +237,6 @@ namespace djv
                 p.layout = Layout::Vertical::create(context);
                 p.layout->setSpacing(Style::MetricsRole::None);
                 p.layout->addWidget(menuBar);
-                p.layout->addSeparator();
                 p.layout->addWidget(topToolBar);
                 auto splitter = Layout::Splitter::create(Orientation::Horizontal, context);
                 splitter->setMargin(Layout::Margin(Style::MetricsRole::MarginSmall, Style::MetricsRole::MarginSmall, Style::MetricsRole::None, Style::MetricsRole::None));
@@ -808,17 +807,10 @@ namespace djv
                         setBackgroundRole(Style::ColorRole::Background);
                         setPointerEnabled(true);
 
-                        auto titleIcon = Icon::create(context);
-                        titleIcon->setIcon("djvIconDirectory");
-                        titleIcon->setMargin(Layout::Margin(
-                            Style::MetricsRole::MarginSmall,
-                            Style::MetricsRole::None,
-                            Style::MetricsRole::MarginSmall,
-                            Style::MetricsRole::MarginSmall));
-
                         _titleLabel = Label::create(context);
-                        _titleLabel->setFontSizeRole(Style::MetricsRole::FontLarge);
+                        _titleLabel->setFontSizeRole(Style::MetricsRole::FontHeader);
                         _titleLabel->setTextHAlign(TextHAlign::Left);
+                        _titleLabel->setTextColorRole(UI::Style::ColorRole::ForegroundHeader);
                         _titleLabel->setMargin(Layout::Margin(
                             Style::MetricsRole::Margin,
                             Style::MetricsRole::None,
@@ -827,6 +819,8 @@ namespace djv
 
                         _closeButton = Button::Tool::create(context);
                         _closeButton->setIcon("djvIconClose");
+                        _closeButton->setForegroundColorRole(UI::Style::ColorRole::ForegroundHeader);
+                        _closeButton->setCheckedForegroundColorRole(UI::Style::ColorRole::ForegroundHeader);
                         _closeButton->setInsideMargin(Style::MetricsRole::MarginSmall);
 
                         _widget = Widget::create(context);
@@ -837,11 +831,9 @@ namespace djv
                         auto hLayout = Layout::Horizontal::create(context);
                         hLayout->setSpacing(Style::MetricsRole::None);
                         hLayout->setBackgroundRole(Style::ColorRole::BackgroundHeader);
-                        hLayout->addWidget(titleIcon);
                         hLayout->addWidget(_titleLabel, Layout::RowStretch::Expand);
                         hLayout->addWidget(_closeButton);
                         _layout->addWidget(hLayout);
-                        _layout->addSeparator();
                         _layout->addWidget(_widget, Layout::RowStretch::Expand);
                         _layout->setParent(shared_from_this());
                     }
@@ -932,7 +924,7 @@ namespace djv
                     p.dialog = Dialog::create(context);
                     p.overlay = Layout::Overlay::create(context);
                     p.overlay->setBackgroundRole(Style::ColorRole::Overlay);
-                    p.overlay->setMargin(Style::MetricsRole::MarginLarge);
+                    p.overlay->setMargin(Style::MetricsRole::MarginDialog);
                     p.overlay->addWidget(p.dialog);
                 }
                 if (auto windowSystem = context->getSystemT<UI::IWindowSystem>().lock())

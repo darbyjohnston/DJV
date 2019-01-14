@@ -65,18 +65,11 @@ namespace djv
                     setSpacing(UI::Style::MetricsRole::None);
                     setBackgroundRole(UI::Style::ColorRole::Background);
                     setPointerEnabled(true);
-
-                    auto titleIcon = UI::Icon::create(context);
-                    titleIcon->setIcon("djvIconSettings");
-                    titleIcon->setMargin(UI::Layout::Margin(
-                        UI::Style::MetricsRole::MarginSmall,
-                        UI::Style::MetricsRole::None,
-                        UI::Style::MetricsRole::MarginSmall,
-                        UI::Style::MetricsRole::MarginSmall));
                     
                     _titleLabel = UI::Label::create(context);
-                    _titleLabel->setFontSizeRole(UI::Style::MetricsRole::FontLarge);
+                    _titleLabel->setFontSizeRole(UI::Style::MetricsRole::FontHeader);
                     _titleLabel->setTextHAlign(UI::TextHAlign::Left);
+                    _titleLabel->setTextColorRole(UI::Style::ColorRole::ForegroundHeader);
                     _titleLabel->setMargin(UI::Layout::Margin(
                         UI::Style::MetricsRole::Margin,
                         UI::Style::MetricsRole::None,
@@ -85,6 +78,8 @@ namespace djv
                     
                     _closeButton = UI::Button::Tool::create(context);
                     _closeButton->setIcon("djvIconClose");
+                    _closeButton->setForegroundColorRole(UI::Style::ColorRole::ForegroundHeader);
+                    _closeButton->setCheckedForegroundColorRole(UI::Style::ColorRole::ForegroundHeader);
                     _closeButton->setInsideMargin(UI::Style::MetricsRole::MarginSmall);
                     
                     std::map<std::string, std::shared_ptr<UI::Widget> > settingsWidgets;
@@ -112,11 +107,9 @@ namespace djv
                     auto hLayout = UI::Layout::Horizontal::create(context);
                     hLayout->setSpacing(UI::Style::MetricsRole::None);
                     hLayout->setBackgroundRole(UI::Style::ColorRole::BackgroundHeader);
-                    hLayout->addWidget(titleIcon);
                     hLayout->addWidget(_titleLabel, UI::Layout::RowStretch::Expand);
                     hLayout->addWidget(_closeButton);
                     addWidget(hLayout);
-                    addSeparator();
                     addWidget(scrollWidget, UI::Layout::RowStretch::Expand);
                 }
 
@@ -185,7 +178,7 @@ namespace djv
 
                 _p->overlay = UI::Layout::Overlay::create(context);
                 _p->overlay->setBackgroundRole(UI::Style::ColorRole::Overlay);
-                _p->overlay->setMargin(UI::Style::MetricsRole::MarginLarge);
+                _p->overlay->setMargin(UI::Style::MetricsRole::MarginDialog);
                 _p->overlay->addWidget(_p->settingsWidget);
             }
             if (auto windowSystem = context->getSystemT<UI::IWindowSystem>().lock())

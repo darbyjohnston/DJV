@@ -61,11 +61,12 @@ namespace djv
                 DJV_PRIVATE_PTR();
                 p.colors[ColorRole::None]              = AV::Image::Color();
                 p.colors[ColorRole::Background]        = AV::Image::Color( .2f,   .21f,  .23f);
-                p.colors[ColorRole::BackgroundHeader]  = AV::Image::Color(.25f,   .30f,  .33f);
                 p.colors[ColorRole::BackgroundText]    = AV::Image::Color( .15f,  .16f,  .18f);
+                p.colors[ColorRole::BackgroundHeader]  = AV::Image::Color(.25f,   .3f,   .33f);
                 p.colors[ColorRole::BackgroundTooltip] = AV::Image::Color(1.f,   1.f,    .75f);
-                p.colors[ColorRole::Foreground]        = AV::Image::Color( .9f,   .9f,   .9f);
+                p.colors[ColorRole::Foreground]        = AV::Image::Color(1.f,   1.f,   1.f);
                 p.colors[ColorRole::ForegroundDim]     = AV::Image::Color( .7f,   .7f,   .7f);
+                p.colors[ColorRole::ForegroundHeader]  = AV::Image::Color(1.f,   1.f,   1.f);
                 p.colors[ColorRole::ForegroundTooltip] = AV::Image::Color(0.f,   0.f,   0.f);
                 p.colors[ColorRole::Border]            = AV::Image::Color( .11f,  .14f,  .17f);
                 p.colors[ColorRole::Trough]            = AV::Image::Color( .15f,  .15f,  .15f);
@@ -137,6 +138,7 @@ namespace djv
                 p.metrics[MetricsRole::Margin]              =  10.f;
                 p.metrics[MetricsRole::MarginSmall]         =   5.f;
                 p.metrics[MetricsRole::MarginLarge]         =  20.f;
+                p.metrics[MetricsRole::MarginDialog]         = 50.f;
                 p.metrics[MetricsRole::Spacing]             =  10.f;
                 p.metrics[MetricsRole::SpacingSmall]        =   5.f;
                 p.metrics[MetricsRole::SpacingLarge]        =  20.f;
@@ -146,8 +148,7 @@ namespace djv
                 p.metrics[MetricsRole::FontSmall]           =   6.f;
                 p.metrics[MetricsRole::FontMedium]          =   9.f;
                 p.metrics[MetricsRole::FontLarge]           =  14.f;
-                p.metrics[MetricsRole::FontExtraLarge]      =  24.f;
-                p.metrics[MetricsRole::FontExtraExtraLarge] = 512.f;
+                p.metrics[MetricsRole::FontHeader]          =  18.f;
                 p.metrics[MetricsRole::Swatch]              =  40.f;
                 p.metrics[MetricsRole::ThumbnailSmall]      = 100.f;
                 p.metrics[MetricsRole::ThumbnailLarge]      = 200.f;
@@ -306,11 +307,12 @@ namespace djv
         ColorRole,
         DJV_TEXT("djv::UI::Style", "None"),
         DJV_TEXT("djv::UI::Style", "Background"),
-        DJV_TEXT("djv::UI::Style", "BackgroundHeader"),
         DJV_TEXT("djv::UI::Style", "BackgroundText"),
+        DJV_TEXT("djv::UI::Style", "BackgroundHeader"),
         DJV_TEXT("djv::UI::Style", "BackgroundTooltip"),
         DJV_TEXT("djv::UI::Style", "Foreground"),
         DJV_TEXT("djv::UI::Style", "ForegroundDim"),
+        DJV_TEXT("djv::UI::Style", "ForegroundHeader"),
         DJV_TEXT("djv::UI::Style", "ForegroundTooltip"),
         DJV_TEXT("djv::UI::Style", "Border"),
         DJV_TEXT("djv::UI::Style", "Trough"),
@@ -330,6 +332,7 @@ namespace djv
         DJV_TEXT("djv::UI::Style", "Margin"),
         DJV_TEXT("djv::UI::Style", "MarginSmall"),
         DJV_TEXT("djv::UI::Style", "MarginLarge"),
+        DJV_TEXT("djv::UI::Style", "MarginDialog"),
         DJV_TEXT("djv::UI::Style", "Spacing"),
         DJV_TEXT("djv::UI::Style", "SpacingSmall"),
         DJV_TEXT("djv::UI::Style", "SpacingLarge"),
@@ -339,8 +342,7 @@ namespace djv
         DJV_TEXT("djv::UI::Style", "FontSmall"),
         DJV_TEXT("djv::UI::Style", "FontMedium"),
         DJV_TEXT("djv::UI::Style", "FontLarge"),
-        DJV_TEXT("djv::UI::Style", "FontExtraLarge"),
-        DJV_TEXT("djv::UI::Style", "FontExtraExtraLarge"),
+        DJV_TEXT("djv::UI::Style", "FontHeader"),
         DJV_TEXT("djv::UI::Style", "Swatch"),
         DJV_TEXT("djv::UI::Style", "ThumbnailSmall"),
         DJV_TEXT("djv::UI::Style", "ThumbnailLarge"),

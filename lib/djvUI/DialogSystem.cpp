@@ -70,8 +70,9 @@ namespace djv
                     setVAlign(VAlign::Center);
 
                     _titleLabel = Label::create(context);
-                    _titleLabel->setFontSizeRole(Style::MetricsRole::FontLarge);
+                    _titleLabel->setFontSizeRole(UI::Style::MetricsRole::FontHeader);
                     _titleLabel->setTextHAlign(TextHAlign::Left);
+                    _titleLabel->setTextColorRole(UI::Style::ColorRole::ForegroundHeader);
                     _titleLabel->setMargin(Layout::Margin(
                         Style::MetricsRole::Margin,
                         Style::MetricsRole::None,
@@ -85,7 +86,6 @@ namespace djv
                     _layout = Layout::Vertical::create(context);
                     _layout->setSpacing(Style::MetricsRole::None);
                     _layout->addWidget(_titleLabel);
-                    _layout->addSeparator();
                     _layout->addWidget(_childLayout, Layout::RowStretch::Expand);
                     IContainer::addWidget(_layout);
                 }

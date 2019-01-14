@@ -34,7 +34,6 @@
 #include <djvUI/MDIWindow.h>
 #include <djvUI/RowLayout.h>
 #include <djvUI/StackLayout.h>
-#include <djvUI/ToolButton.h>
 
 #include <djvAV/Render2DSystem.h>
 

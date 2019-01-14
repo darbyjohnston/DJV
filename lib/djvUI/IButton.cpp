@@ -45,7 +45,9 @@ namespace djv
             {
                 ButtonType buttonType = ButtonType::Push;
                 bool checked = false;
+                Style::ColorRole foregroundColorRole = Style::ColorRole::Foreground;
                 Style::ColorRole checkedColorRole = Style::ColorRole::Checked;
+                Style::ColorRole checkedForegroundColorRole = Style::ColorRole::CheckedForeground;
 
                 std::function<void(void)> clickedCallback;
                 std::function<void(bool)> checkedCallback;
@@ -88,14 +90,43 @@ namespace djv
                 _redraw();
             }
 
+            Style::ColorRole IButton::getForegroundColorRole() const
+            {
+                return _p->foregroundColorRole;
+            }
+
             Style::ColorRole IButton::getCheckedColorRole() const
             {
                 return _p->checkedColorRole;
             }
 
+            Style::ColorRole IButton::getCheckedForegroundColorRole() const
+            {
+                return _p->checkedForegroundColorRole;
+            }
+
+            void IButton::setForegroundColorRole(Style::ColorRole value)
+            {
+                if (value == _p->foregroundColorRole)
+                    return;
+                _p->foregroundColorRole = value;
+                _redraw();
+            }
+
             void IButton::setCheckedColorRole(Style::ColorRole value)
             {
+                if (_p->checkedColorRole == value)
+                    return;
                 _p->checkedColorRole = value;
+                _redraw();
+            }
+
+            void IButton::setCheckedForegroundColorRole(Style::ColorRole value)
+            {
+                if (value == _p->checkedForegroundColorRole)
+                    return;
+                _p->checkedForegroundColorRole = value;
+                _redraw();
             }
 
             void IButton::setClickedCallback(const std::function<void(void)>& callback)
@@ -279,7 +310,7 @@ namespace djv
             Style::ColorRole IButton::_getForegroundColorRole() const
             {
                 return !isEnabled(true) ? Style::ColorRole::Disabled :
-                    (_isToggled() ? Style::ColorRole::CheckedForeground : Style::ColorRole::Foreground);
+                    (_isToggled() ? _p->checkedForegroundColorRole : _p->foregroundColorRole);
             }
 
             void IButton::_doClickedCallback()

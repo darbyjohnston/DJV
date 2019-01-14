@@ -110,6 +110,7 @@ namespace djv
                             customStyle->setPalette(i.second);
                             widget->_p->customStyles.push_back(customStyle);
                             auto button = UI::Button::Push::create(context);
+                            button->setBackgroundRole(UI::Style::ColorRole::Background);
                             button->setStyle(customStyle);
                             widget->_p->buttons.push_back(button);
                             widget->_p->buttonGroup->addButton(button);
@@ -152,7 +153,7 @@ namespace djv
 
         void ColorPaletteSettingsWidget::_localeEvent(Event::Locale &)
         {
-            setText(_getText(DJV_TEXT("djv::ViewLib", "Color Palette")));
+            setText(_getText(DJV_TEXT("djv::ViewLib", "Palette")));
             _buttonTextUpdate();
         }
 

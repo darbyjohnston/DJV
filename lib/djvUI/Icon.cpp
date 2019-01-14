@@ -45,7 +45,9 @@ namespace djv
             std::string name;
             Style::ColorRole iconColorRole = Style::ColorRole::Foreground;
             Style::MetricsRole iconSizeRole = Style::MetricsRole::None;
+            bool infoRequest = false;
             std::future<AV::IO::Info> infoFuture;
+            bool imageRequest = false;
             std::future<std::shared_ptr<AV::Image::Image> > imageFuture;
             AV::Image::Info info;
             std::shared_ptr<AV::Image::Image> image;
@@ -95,7 +97,9 @@ namespace djv
                 if (auto system = _getIconSystem().lock())
                 {
                     p.infoFuture = system->getInfo(p.name, style->getDPI());
+                    p.infoRequest = true;
                     p.imageFuture = system->getImage(p.name, style->getDPI());
+                    p.imageRequest = true;
                 }
             }
         }
@@ -138,7 +142,9 @@ namespace djv
                     if (auto system = _getIconSystem().lock())
                     {
                         p.infoFuture = system->getInfo(p.name, style->getDPI());
+                        p.infoRequest = true;
                         p.imageFuture = system->getImage(p.name, style->getDPI());
+                        p.imageRequest = true;
                     }
                 }
             }
@@ -207,9 +213,9 @@ namespace djv
         void Icon::_updateEvent(Core::Event::Update&)
         {
             DJV_PRIVATE_PTR();
-            if (p.infoFuture.valid() &&
-                p.infoFuture.wait_for(std::chrono::seconds(0)) == std::future_status::ready)
+            if (p.infoRequest)
             {
+                p.infoRequest = false;
                 try
                 {
                     const auto info = p.infoFuture.get();
@@ -225,9 +231,9 @@ namespace djv
                 }
                 _resize();
             }
-            if (p.imageFuture.valid() &&
-                p.imageFuture.wait_for(std::chrono::seconds(0)) == std::future_status::ready)
+            if (p.imageRequest)
             {
+                p.imageRequest = false;
                 try
                 {
                     p.image = p.imageFuture.get();
