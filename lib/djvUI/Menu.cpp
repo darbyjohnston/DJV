@@ -835,54 +835,59 @@ namespace djv
 
         std::shared_ptr<Widget> Menu::Private::createMenu(const std::weak_ptr<Menu> & menuWeak, MenuType type)
         {
-            auto layout = MenuLayout::create(context);
-            std::map<size_t, std::shared_ptr<Widget> > widgets;
-            for (const auto & i : actions)
+            std::shared_ptr<Widget> out;
+            if (actions.size())
             {
-                if (auto & action = i.second)
+                auto layout = MenuLayout::create(context);
+                std::map<size_t, std::shared_ptr<Widget> > widgets;
+                for (const auto & i : actions)
+                {
+                    if (auto & action = i.second)
+                    {
+                        auto button = MenuButton::create(context);
+                        button->setAction(action);
+                        widgets[i.first] = button;
+                        button->setClickedCallback(
+                            [menuWeak, action]
+                        {
+                            action->doClicked();
+                            if (auto menu = menuWeak.lock())
+                            {
+                                menu->hide();
+                            }
+                        });
+                        button->setCheckedCallback(
+                            [menuWeak, action](bool value)
+                        {
+                            action->setChecked(value);
+                            action->doChecked();
+                            if (auto menu = menuWeak.lock())
+                            {
+                                menu->hide();
+                            }
+                        });
+                    }
+                    else
+                    {
+                        widgets[i.first] = Layout::Separator::create(context);
+                    }
+                }
+                for (const auto & i : menus)
                 {
                     auto button = MenuButton::create(context);
-                    button->setAction(action);
+                    button->setMenu(i.second);
                     widgets[i.first] = button;
-                    button->setClickedCallback(
-                        [menuWeak, action]
-                    {
-                        action->doClicked();
-                        if (auto menu = menuWeak.lock())
-                        {
-                            menu->hide();
-                        }
-                    });
-                    button->setCheckedCallback(
-                        [menuWeak, action](bool value)
-                    {
-                        action->setChecked(value);
-                        action->doChecked();
-                        if (auto menu = menuWeak.lock())
-                        {
-                            menu->hide();
-                        }
-                    });
                 }
-                else
+
+                for (const auto & i : widgets)
                 {
-                    widgets[i.first] = Layout::Separator::create(context);
+                    layout->addWidget(i.second);
                 }
-            }
-            for (const auto & i : menus)
-            {
-                auto button = MenuButton::create(context);
-                button->setMenu(i.second);
-                widgets[i.first] = button;
-            }
 
-            for (const auto & i : widgets)
-            {
-                layout->addWidget(i.second);
+                auto scrollWidget = ScrollWidget::create(ScrollType::Vertical, context);
+                scrollWidget->addWidget(layout);
+                out = scrollWidget;
             }
-
-            std::shared_ptr<ScrollWidget> out = ScrollWidget::create(ScrollType::Vertical, context);
-            out->addWidget(layout);
             return out;
         }
 

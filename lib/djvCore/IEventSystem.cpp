@@ -124,6 +124,11 @@ namespace djv
                 Event::PointerMove moveEvent(_p->pointerInfo);
                 if (p.grab)
                 {
+                    /*{
+                        std::stringstream ss;
+                        ss << "Grab: " << p.grab->getClassName();
+                        _log(ss.str());
+                    }*/
                     p.grab->event(moveEvent);
                     if (!moveEvent.isAccepted())
                     {
@@ -164,7 +169,7 @@ namespace djv
                     {
                         std::stringstream ss;
                         ss << "Hover: " << hover->getClassName();
-                        getContext()->log("djv::Desktop::EventSystem", ss.str());
+                        _log(ss.str());
                     }*/
                     setHover(hover);
                 }
@@ -182,13 +187,16 @@ namespace djv
                 auto info = _p->pointerInfo;
                 info.buttons[button] = true;
                 Event::ButtonPress event(info);
-                if (p.hover)
+                auto object = p.hover;
+                while (object)
                 {
-                    p.hover->event(event);
+                    object->event(event);
                     if (event.isAccepted())
                     {
-                        p.grab = p.hover;
+                        p.grab = object;
+                        break;
                     }
+                    object = object->getParent().lock();
                 }
             }
 
