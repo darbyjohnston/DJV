@@ -35,8 +35,6 @@
 #include <djvUI/StyleSettings.h>
 #include <djvUI/UISystem.h>
 
-#include <djvAV/AVSystem.h>
-
 #include <djvCore/Context.h>
 #include <djvCore/TextSystem.h>
 
@@ -52,10 +50,11 @@ namespace djv
             std::vector<std::shared_ptr<UI::Button::Push> > buttons;
             std::shared_ptr<UI::Button::Group> buttonGroup;
             std::shared_ptr<UI::Layout::Flow> layout;
-            std::map<int, int> indexToDPI;
-            std::map<int, int> dpiToIndex;
-            std::shared_ptr<ListObserver<int> > dpiListObserver;
-            std::shared_ptr<ValueObserver<int> > dpiObserver;
+            std::map<int, std::string> indexToMetrics;
+            std::map<std::shared_ptr<UI::Button::Push>, std::string> buttonToMetrics;
+            std::map<std::string, int> metricsToIndex;
+            std::shared_ptr<MapObserver<std::string, UI::Style::Metrics> > metricsObserver;
+            std::shared_ptr<ValueObserver<std::string> > currentMetricsObserver;
         };
 
         void DisplaySettingsWidget::_init(Context * context)
@@ -76,20 +75,20 @@ namespace djv
                 {
                     if (auto uiSystem = context->getSystemT<UI::UISystem>().lock())
                     {
-                        const auto i = widget->_p->indexToDPI.find(value);
-                        if (i != widget->_p->indexToDPI.end())
+                        const auto i = widget->_p->indexToMetrics.find(value);
+                        if (i != widget->_p->indexToMetrics.end())
                         {
-                            uiSystem->getStyleSettings()->setDPI(i->second);
+                            uiSystem->getStyleSettings()->setCurrentMetrics(i->second);
                         }
                     }
                 }
             });
 
-            if (auto avSystem = context->getSystemT<AV::AVSystem>().lock())
+            if (auto uiSystem = context->getSystemT<UI::UISystem>().lock())
             {
-                p.dpiListObserver = ListObserver<int>::create(
-                    avSystem->observeDPIList(),
-                    [weak, context](const std::vector<int> & value)
+                p.metricsObserver = MapObserver<std::string, UI::Style::Metrics>::create(
+                    uiSystem->getStyleSettings()->observeMetrics(),
+                    [weak, context](const std::map<std::string, UI::Style::Metrics> & value)
                 {
                     if (auto widget = weak.lock())
                     {
@@ -101,41 +100,39 @@ namespace djv
                         widget->_p->buttons.clear();
                         widget->_p->buttonGroup->clearButtons();
                         widget->_p->layout->clearWidgets();
-                        widget->_p->indexToDPI.clear();
-                        widget->_p->dpiToIndex.clear();
+                        widget->_p->indexToMetrics.clear();
+                        widget->_p->buttonToMetrics.clear();
+                        widget->_p->metricsToIndex.clear();
                         int j = 0;
                         for (const auto & i : value)
                         {
                             auto customStyle = UI::Style::Style::create(context);
-                            customStyle->setDPI(i);
+                            customStyle->setMetrics(i.second);
                             widget->_p->customStyles.push_back(customStyle);
                             auto button = UI::Button::Push::create(context);
                             button->setStyle(customStyle);
                             widget->_p->buttons.push_back(button);
                             widget->_p->buttonGroup->addButton(button);
                             widget->_p->layout->addWidget(button);
-                            widget->_p->indexToDPI[j] = i;
-                            widget->_p->dpiToIndex[i] = j;
+                            widget->_p->indexToMetrics[j] = i.first;
+                            widget->_p->buttonToMetrics[button] = i.first;
+                            widget->_p->metricsToIndex[i.first] = j;
                             ++j;
                         }
                         widget->_p->buttonGroup->setChecked(currentItem);
                         widget->_buttonTextUpdate();
                     }
                 });
-            }
-
-            if (auto uiSystem = context->getSystemT<UI::UISystem>().lock())
-            {
-                p.dpiObserver = ValueObserver<int>::create(
-                    uiSystem->getStyleSettings()->observeDPI(),
-                    [weak](int value)
+                p.currentMetricsObserver = ValueObserver<std::string>::create(
+                    uiSystem->getStyleSettings()->observeCurrentMetricsName(),
+                    [weak](const std::string & value)
                 {
                     if (auto widget = weak.lock())
                     {
-                        const auto i = widget->_p->dpiToIndex.find(value);
-                        if (i != widget->_p->dpiToIndex.end())
+                        const auto i = widget->_p->metricsToIndex.find(value);
+                        if (i != widget->_p->metricsToIndex.end())
                         {
-                            widget->_p->buttonGroup->setChecked(i->second);
+                            widget->_p->buttonGroup->setChecked(static_cast<int>(i->second));
                         }
                     }
                 });
@@ -166,8 +163,8 @@ namespace djv
                 for (auto i : _p->customStyles)
                 {
                     i->setPalette(style->getPalette());
-                    i->setMetrics(style->getMetrics());
                     i->setFont(style->getFont());
+                    i->setDPI(style->getDPI());
                 }
             }
         }
@@ -175,17 +172,16 @@ namespace djv
         void DisplaySettingsWidget::_buttonTextUpdate()
         {
             DJV_PRIVATE_PTR();
-            int j = 0;
             for (auto i : p.buttons)
             {
-                const auto k = p.indexToDPI[j];
-                std::stringstream ss;
-                ss << k << " " << _getText(DJV_TEXT("djv::ViewLib", "DPI"));
-                i->setText(ss.str());
-                ++j;
+                const auto j = p.buttonToMetrics.find(i);
+                if (j != p.buttonToMetrics.end())
+                {
+                    i->setText(_getText(j->second));
+                }
             }
         }
-        
+
     } // namespace ViewLib
 } // namespace djv
 

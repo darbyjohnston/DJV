@@ -53,7 +53,6 @@ namespace djv
                 std::shared_ptr<MapSubject<std::string, UI::Style::Palette> > palettes;
                 std::shared_ptr<ValueSubject<UI::Style::Palette> > currentPalette;
                 std::shared_ptr<ValueSubject<std::string> > currentPaletteName;
-                std::shared_ptr<ValueSubject<int> > dpi;
                 std::shared_ptr<MapSubject<std::string, UI::Style::Metrics> > metrics;
                 std::shared_ptr<ValueSubject<UI::Style::Metrics> > currentMetrics;
                 std::shared_ptr<ValueSubject<std::string> > currentMetricsName;
@@ -68,7 +67,8 @@ namespace djv
 
                 std::map<std::string, UI::Style::Palette> palettes;
                 palettes[DJV_TEXT("djv::UI::Settings", "Dark")] = UI::Style::Palette();
-                auto palette = UI::Style::Palette();
+
+                UI::Style::Palette palette;
                 palette.setColor(UI::Style::ColorRole::Background, AV::Image::Color(1.f, 1.f, 1.f));
                 palette.setColor(UI::Style::ColorRole::BackgroundHeader, AV::Image::Color(.3f, .4f, .5f));
                 palette.setColor(UI::Style::ColorRole::BackgroundText, AV::Image::Color(.9f, .9f, .9f));
@@ -86,7 +86,7 @@ namespace djv
                 palettes[DJV_TEXT("djv::UI::Settings", "Light")] = palette;
                 
                 palette = UI::Style::Palette();
-                palette.setColor(UI::Style::ColorRole::Background, AV::Image::Color(.9f, .5f, .2f));
+                palette.setColor(UI::Style::ColorRole::Background, AV::Image::Color(.8f, .5f, .2f));
                 palette.setColor(UI::Style::ColorRole::BackgroundHeader, AV::Image::Color(.6f, .3f, .2f));
                 palette.setColor(UI::Style::ColorRole::BackgroundText, AV::Image::Color(.8f, .5f, .2f));
                 palette.setColor(UI::Style::ColorRole::Foreground, AV::Image::Color(1.f, 1.f, 1.f));
@@ -103,8 +103,8 @@ namespace djv
                 palettes[DJV_TEXT("djv::UI::Settings", "Orange")] = palette;
                 
                 palette = UI::Style::Palette();
-                palette.setColor(UI::Style::ColorRole::Background, AV::Image::Color(.2f, .5f, .9f));
-                palette.setColor(UI::Style::ColorRole::BackgroundHeader, AV::Image::Color(.2f, .3f, .6f));
+                palette.setColor(UI::Style::ColorRole::Background, AV::Image::Color(.1f, .3f, .6f));
+                palette.setColor(UI::Style::ColorRole::BackgroundHeader, AV::Image::Color(.1f, .2f, .4f));
                 palette.setColor(UI::Style::ColorRole::BackgroundText, AV::Image::Color(.2f, .5f, .8f));
                 palette.setColor(UI::Style::ColorRole::Foreground, AV::Image::Color(1.f, 1.f, 1.f));
                 palette.setColor(UI::Style::ColorRole::ForegroundDim, AV::Image::Color(.7f, .7f, .7f));
@@ -112,23 +112,35 @@ namespace djv
                 palette.setColor(UI::Style::ColorRole::Border, AV::Image::Color(.4f, .4f, .4f));
                 palette.setColor(UI::Style::ColorRole::Trough, AV::Image::Color(.5f, .5f, .5f));
                 palette.setColor(UI::Style::ColorRole::Button, AV::Image::Color(.3f, .6f, .9f));
-                palette.setColor(UI::Style::ColorRole::Checked, AV::Image::Color(.3f, .9f, .9f));
-                palette.setColor(UI::Style::ColorRole::CheckedForeground, AV::Image::Color(.1f, .3f, .5f));
+                palette.setColor(UI::Style::ColorRole::Checked, AV::Image::Color(.3f, .7f, .7f));
+                palette.setColor(UI::Style::ColorRole::CheckedForeground, AV::Image::Color(1.f, 1.f, 1.f));
                 palette.setColor(UI::Style::ColorRole::Hover, AV::Image::Color(1.f, 1.f, 1.f, .1f));
                 palette.setColor(UI::Style::ColorRole::Disabled, AV::Image::Color(.3f, .3f, .3f));
                 palette.setColor(UI::Style::ColorRole::Overlay, AV::Image::Color(0.f, 0.f, 0.f, .2f));
                 palettes[DJV_TEXT("djv::UI::Settings", "Blue")] = palette;
 
-                std::map<std::string, UI::Style::Metrics> metrics;
-                metrics[DJV_TEXT("djv::UI::Settings", "Default")] = UI::Style::Metrics();
+                std::map<std::string, UI::Style::Metrics> metricsList;
+                UI::Style::Metrics metrics;
+                metricsList[DJV_TEXT("djv::UI::Settings", "Small")] = metrics;
+
+                UI::Style::Metrics mediumMetrics;
+                UI::Style::Metrics largeMetrics;
+                for (size_t i = 0; i < static_cast<size_t>(UI::Style::MetricsRole::Count); ++i)
+                {
+                    const UI::Style::MetricsRole m = static_cast<UI::Style::MetricsRole>(i);
+                    const float v = metrics.getMetric(m);
+                    mediumMetrics.setMetric(m, v * 1.5f);
+                    largeMetrics.setMetric(m, v * 2.f);
+                }
+                metricsList[DJV_TEXT("djv::UI::Settings", "Medium")] = mediumMetrics;
+                metricsList[DJV_TEXT("djv::UI::Settings", "Large")] = largeMetrics;
 
                 DJV_PRIVATE_PTR();
                 p.palettes = MapSubject<std::string, UI::Style::Palette>::create(palettes);
                 p.currentPalette = ValueSubject<UI::Style::Palette>::create(palettes["Dark"]);
                 p.currentPaletteName = ValueSubject<std::string>::create("Dark");
-                p.dpi = ValueSubject<int>::create(AV::dpiDefault);                
-                p.metrics = MapSubject<std::string, UI::Style::Metrics>::create(metrics);
-                p.currentMetrics = ValueSubject<UI::Style::Metrics>::create(metrics["Default"]);
+                p.metrics = MapSubject<std::string, UI::Style::Metrics>::create(metricsList);
+                p.currentMetrics = ValueSubject<UI::Style::Metrics>::create(metricsList["Small"]);
                 p.currentMetricsName = ValueSubject<std::string>::create(DJV_TEXT("djv::UI::Settings", "Default"));
                 p.currentFont = ValueSubject<std::string>::create(DJV_TEXT("djv::UI::Settings", "Default"));
 
@@ -204,11 +216,6 @@ namespace djv
                 }
             }
 
-            std::shared_ptr<IValueSubject<int> > Style::observeDPI() const
-            {
-                return _p->dpi;
-            }
-
             std::shared_ptr<IMapSubject<std::string, UI::Style::Metrics> > Style::observeMetrics() const
             {
                 return _p->metrics;
@@ -227,12 +234,6 @@ namespace djv
             std::shared_ptr<IValueSubject<std::string> > Style::observeCurrentFont() const
             {
                 return _p->currentFont;
-            }
-
-            void Style::setDPI(int value)
-            {
-                DJV_PRIVATE_PTR();
-                p.dpi->setIfChanged(value);
             }
 
             void Style::setCurrentMetrics(const std::string& name)
@@ -255,7 +256,6 @@ namespace djv
                     _read("Palettes", object, p.palettes);
                     _read("CurrentPalette", object, p.currentPaletteName);
                     p.currentPalette->setIfChanged(p.palettes->getItem(p.currentPaletteName->get()));
-                    _read("DPI", object, p.dpi);
                     _read("Metrics", object, p.metrics);
                     _read("CurrentMetrics", object, p.currentMetricsName);
                     p.currentMetrics->setIfChanged(p.metrics->getItem(p.currentMetricsName->get()));
@@ -269,7 +269,6 @@ namespace djv
                 auto& object = out.get<picojson::object>();
                 _write("Palettes", p.palettes->get(), object);
                 _write("CurrentPalette", p.currentPaletteName->get(), object);
-                _write("DPI", p.dpi->get(), object);
                 _write("Metrics", p.metrics->get(), object);
                 _write("CurrentMetrics", p.currentMetricsName->get(), object);
                 return out;

@@ -1,6 +1,6 @@
 set(header
     Application.h
-    ColorPaletteSettingsWidget.h
+    PaletteSettingsWidget.h
     #ColorPickerTool.h
     #Context.h
     #ContextInline.h
@@ -33,7 +33,7 @@ set(header
     )
 set(source
     Application.cpp
-    ColorPaletteSettingsWidget.cpp
+    PaletteSettingsWidget.cpp
     #ColorPickerTool.cpp
     #Context.cpp
     #DebugTool.cpp

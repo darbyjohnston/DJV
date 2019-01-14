@@ -37,16 +37,16 @@ namespace djv
 {
     namespace ViewLib
     {
-        class ColorPaletteSettingsWidget : public UI::Layout::GroupBox
+        class PaletteSettingsWidget : public UI::Layout::GroupBox
         {
-            DJV_NON_COPYABLE(ColorPaletteSettingsWidget);
+            DJV_NON_COPYABLE(PaletteSettingsWidget);
 
         protected:
             void _init(Core::Context *);
-            ColorPaletteSettingsWidget();
+            PaletteSettingsWidget();
 
         public:
-            static std::shared_ptr<ColorPaletteSettingsWidget> create(Core::Context *);
+            static std::shared_ptr<PaletteSettingsWidget> create(Core::Context *);
 
         protected:
             void _localeEvent(Core::Event::Locale &) override;

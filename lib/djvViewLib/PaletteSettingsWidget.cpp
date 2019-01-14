@@ -27,7 +27,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvViewLib/ColorPaletteSettingsWidget.h>
+#include <djvViewLib/PaletteSettingsWidget.h>
 
 #include <djvUI/ButtonGroup.h>
 #include <djvUI/FlowLayout.h>
@@ -44,7 +44,7 @@ namespace djv
 {
     namespace ViewLib
     {
-        struct ColorPaletteSettingsWidget::Private
+        struct PaletteSettingsWidget::Private
         {
             std::vector<std::shared_ptr<UI::Style::Style> > customStyles;
             std::vector<std::shared_ptr<UI::Button::Push> > buttons;
@@ -57,7 +57,7 @@ namespace djv
             std::shared_ptr<ValueObserver<std::string> > currentPaletteObserver;
         };
 
-        void ColorPaletteSettingsWidget::_init(Context * context)
+        void PaletteSettingsWidget::_init(Context * context)
         {
             GroupBox::_init(context);
 
@@ -67,7 +67,7 @@ namespace djv
             p.layout = UI::Layout::Flow::create(context);
             addWidget(p.layout);
 
-            auto weak = std::weak_ptr<ColorPaletteSettingsWidget>(std::dynamic_pointer_cast<ColorPaletteSettingsWidget>(shared_from_this()));
+            auto weak = std::weak_ptr<PaletteSettingsWidget>(std::dynamic_pointer_cast<PaletteSettingsWidget>(shared_from_this()));
             p.buttonGroup->setRadioCallback(
                 [weak, context](int value)
             {
@@ -140,24 +140,24 @@ namespace djv
             }
         }
 
-        ColorPaletteSettingsWidget::ColorPaletteSettingsWidget() :
+        PaletteSettingsWidget::PaletteSettingsWidget() :
             _p(new Private)
         {}
 
-        std::shared_ptr<ColorPaletteSettingsWidget> ColorPaletteSettingsWidget::create(Context * context)
+        std::shared_ptr<PaletteSettingsWidget> PaletteSettingsWidget::create(Context * context)
         {
-            auto out = std::shared_ptr<ColorPaletteSettingsWidget>(new ColorPaletteSettingsWidget);
+            auto out = std::shared_ptr<PaletteSettingsWidget>(new PaletteSettingsWidget);
             out->_init(context);
             return out;
         }
 
-        void ColorPaletteSettingsWidget::_localeEvent(Event::Locale &)
+        void PaletteSettingsWidget::_localeEvent(Event::Locale &)
         {
             setText(_getText(DJV_TEXT("djv::ViewLib", "Palette")));
             _buttonTextUpdate();
         }
 
-        void ColorPaletteSettingsWidget::_styleEvent(Event::Style &)
+        void PaletteSettingsWidget::_styleEvent(Event::Style &)
         {
             if (auto style = _getStyle().lock())
             {
@@ -170,7 +170,7 @@ namespace djv
             }
         }
 
-        void ColorPaletteSettingsWidget::_buttonTextUpdate()
+        void PaletteSettingsWidget::_buttonTextUpdate()
         {
             DJV_PRIVATE_PTR();
             for (auto i : p.buttons)

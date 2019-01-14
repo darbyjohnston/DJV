@@ -39,7 +39,6 @@
 
 #include <djvCore/Context.h>
 #include <djvCore/Error.h>
-#include <djvCore/FileInfo.h>
 #include <djvCore/OS.h>
 #include <djvCore/LogSystem.h>
 #include <djvCore/String.h>
@@ -97,7 +96,6 @@ namespace djv
         struct AVSystem::Private
         {
             int dpi = dpiDefault;
-            std::shared_ptr<ListSubject<int> > dpiList;
             GLFWwindow * glfwWindow = nullptr;
             std::vector<std::shared_ptr<ISystem> > avSystems;
         };
@@ -110,29 +108,6 @@ namespace djv
 
             DJV_PRIVATE_PTR();
 
-            // Find the DPI values.
-            std::vector<int> dpiList;
-            for (const auto& i : FileSystem::FileInfo::directoryList(context->getPath(FileSystem::ResourcePath::IconsDirectory)))
-            {
-                const std::string fileName = i.getFileName(Frame::Invalid, false);
-                const size_t size = fileName.size();
-                if (size > 3 &&
-                    fileName[size - 3] == 'D' &&
-                    fileName[size - 2] == 'P' &&
-                    fileName[size - 1] == 'I')
-                {
-                    dpiList.push_back(std::stoi(fileName.substr(0, size - 3)));
-                }
-            }
-            std::sort(dpiList.begin(), dpiList.end());
-            for (const auto & i : dpiList)
-            {
-                std::stringstream ss;
-                ss << "Found DPI: " << i;
-                context->log("djv::AV::AVSystem", ss.str());
-            }
-            p.dpiList = ListSubject<int>::create(dpiList);
-
             // Initialize GLFW.
             glfwSetErrorCallback(glfwErrorCallback);
             int glfwMajor = 0;
@@ -142,7 +117,7 @@ namespace djv
             {
                 std::stringstream ss;
                 ss << "GLFW version: " << glfwMajor << "." << glfwMinor << "." << glfwRevision;
-                context->log("djv::AV::AVSystem", ss.str());
+                _log(ss.str());
             }
             if (!glfwInit())
             {
@@ -151,7 +126,7 @@ namespace djv
                 throw std::runtime_error(ss.str());
             }
 
-            // Get primary monitor information.
+            // Get the primary monitor information.
             if (auto primaryMonitor = glfwGetPrimaryMonitor())
             {
                 const GLFWvidmode * mode = glfwGetVideoMode(primaryMonitor);
@@ -168,8 +143,9 @@ namespace djv
                     ss << "Primary monitor resolution: " << mode->width << " " << mode->height << "\n";
                     ss << "Primary monitor size: " << mm << "mm\n";
                     ss << "Primary monitor DPI: " << dpi;
-                    context->log("djv::AV::AVSystem", ss.str());
+                    _log(ss.str());
                 }
+                p.dpi = static_cast<int>(dpi.x);
             }
 
             // Create an OpenGL context.
@@ -195,7 +171,7 @@ namespace djv
                 int glRevision = glfwGetWindowAttrib(_p->glfwWindow, GLFW_CONTEXT_REVISION);
                 std::stringstream ss;
                 ss << "OpenGL version: " << glMajor << "." << glMinor << "." << glRevision;
-                context->log("djv::AV::AVSystem", ss.str());
+                _log(ss.str());
             }
             glfwSetWindowUserPointer(p.glfwWindow, context);
             glfwMakeContextCurrent(p.glfwWindow);
@@ -263,9 +239,9 @@ namespace djv
             glfwMakeContextCurrent(p.glfwWindow);
         }
 
-        std::shared_ptr<Core::IListSubject<int> > AVSystem::observeDPIList() const
+        int AVSystem::getDPI() const
         {
-            return _p->dpiList;
+            return _p->dpi;
         }
 
     } // namespace AV

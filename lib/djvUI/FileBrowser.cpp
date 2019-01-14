@@ -811,11 +811,11 @@ namespace djv
                         _titleLabel->setFontSizeRole(Style::MetricsRole::FontHeader);
                         _titleLabel->setTextHAlign(TextHAlign::Left);
                         _titleLabel->setTextColorRole(UI::Style::ColorRole::ForegroundHeader);
-                        _titleLabel->setMargin(Layout::Margin(
-                            Style::MetricsRole::Margin,
-                            Style::MetricsRole::None,
-                            Style::MetricsRole::MarginSmall,
-                            Style::MetricsRole::MarginSmall));
+                        _titleLabel->setMargin(UI::Layout::Margin(
+                            UI::Style::MetricsRole::Margin,
+                            UI::Style::MetricsRole::None,
+                            UI::Style::MetricsRole::MarginSmall,
+                            UI::Style::MetricsRole::MarginSmall));
 
                         _closeButton = Button::Tool::create(context);
                         _closeButton->setIcon("djvIconClose");

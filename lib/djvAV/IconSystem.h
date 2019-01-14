@@ -65,10 +65,10 @@ namespace djv
                 static std::shared_ptr<IconSystem> create(Core::Context *);
                 
                 //! Get information about an icon.
-                std::future<IO::Info> getInfo(const std::string &, int dpi);
+                std::future<IO::Info> getInfo(const std::string &, int size);
 
                 //! Get an icon.
-                std::future<std::shared_ptr<Image> > getImage(const std::string &, int dpi);
+                std::future<std::shared_ptr<Image> > getImage(const std::string &, int size);
 
             private:
                 DJV_PRIVATE();

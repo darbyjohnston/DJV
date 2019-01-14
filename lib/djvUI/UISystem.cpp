@@ -57,7 +57,6 @@ namespace djv
             std::shared_ptr<Settings::Style> styleSettings;
             std::shared_ptr<Style::Style> style;
             std::shared_ptr<ValueObserver<UI::Style::Palette> > paletteObserver;
-            std::shared_ptr<ValueObserver<int> > dpiObserver;
             std::shared_ptr<ValueObserver<UI::Style::Metrics> > metricsObserver;
             std::shared_ptr<ValueObserver<std::string> > fontObserver;
         };
@@ -87,15 +86,6 @@ namespace djv
                 if (auto system = weak.lock())
                 {
                     system->_p->style->setPalette(value);
-                }
-            });
-            p.dpiObserver = ValueObserver<int>::create(
-                p.styleSettings->observeDPI(),
-                [weak](int value)
-            {
-                if (auto system = weak.lock())
-                {
-                    system->_p->style->setDPI(value);
                 }
             });
             p.metricsObserver = ValueObserver<UI::Style::Metrics>::create(

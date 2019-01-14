@@ -60,8 +60,8 @@ namespace djv
             //! Make the default OpenGL context current.
             void makeGLContextCurrent();
 
-            //! Observe the list of avilable DPI values.
-            std::shared_ptr<Core::IListSubject<int> > observeDPIList() const;
+            //! Get the primary monitor's DPI.
+            int getDPI() const;
 
         private:
             DJV_PRIVATE();

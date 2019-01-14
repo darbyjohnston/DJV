@@ -44,7 +44,7 @@ namespace djv
         {
             std::string name;
             Style::ColorRole iconColorRole = Style::ColorRole::Foreground;
-            Style::MetricsRole iconSizeRole = Style::MetricsRole::None;
+            Style::MetricsRole iconSizeRole = Style::MetricsRole::Icon;
             bool infoRequest = false;
             std::future<AV::IO::Info> infoFuture;
             bool imageRequest = false;
@@ -96,9 +96,9 @@ namespace djv
             {
                 if (auto system = _getIconSystem().lock())
                 {
-                    p.infoFuture = system->getInfo(p.name, style->getDPI());
+                    p.infoFuture = system->getInfo(p.name, static_cast<int>(style->getMetric(Style::MetricsRole::Icon)));
                     p.infoRequest = true;
-                    p.imageFuture = system->getImage(p.name, style->getDPI());
+                    p.imageFuture = system->getImage(p.name, static_cast<int>(style->getMetric(Style::MetricsRole::Icon)));
                     p.imageRequest = true;
                 }
             }
@@ -141,9 +141,9 @@ namespace djv
                 {
                     if (auto system = _getIconSystem().lock())
                     {
-                        p.infoFuture = system->getInfo(p.name, style->getDPI());
+                        p.infoFuture = system->getInfo(p.name, static_cast<int>(style->getMetric(p.iconSizeRole)));
                         p.infoRequest = true;
-                        p.imageFuture = system->getImage(p.name, style->getDPI());
+                        p.imageFuture = system->getImage(p.name, static_cast<int>(style->getMetric(p.iconSizeRole)));
                         p.imageRequest = true;
                     }
                 }

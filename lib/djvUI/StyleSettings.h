@@ -58,11 +58,9 @@ namespace djv
                 std::shared_ptr<Core::IValueSubject<std::string> > observeCurrentPaletteName() const;
                 void setCurrentPalette(const std::string&);
 
-                std::shared_ptr<Core::IValueSubject<int> > observeDPI() const;
                 std::shared_ptr<Core::IMapSubject<std::string, UI::Style::Metrics> > observeMetrics() const;
                 std::shared_ptr<Core::IValueSubject<UI::Style::Metrics> > observeCurrentMetrics() const;
                 std::shared_ptr<Core::IValueSubject<std::string> > observeCurrentMetricsName() const;
-                void setDPI(int);
                 void setCurrentMetrics(const std::string&);
 
                 std::shared_ptr<Core::IValueSubject<std::string> > observeCurrentFont() const;

@@ -35,6 +35,7 @@
 #include <djvAV/ThumbnailSystem.h>
 
 #include <djvCore/Context.h>
+#include <djvCore/FileInfo.h>
 
 using namespace djv::Core;
 
@@ -46,12 +47,37 @@ namespace djv
         {
             struct IconSystem::Private
             {
-                FileSystem::Path getPath(const std::string & name, int dpi, Context *);
+                std::vector<int> dpiList;
+
+                FileSystem::Path getPath(const std::string & name, int dpi, Context *) const;
+                int findClosestDPI(int) const;
             };
 
             void IconSystem::_init(Context * context)
             {
                 ISystem::_init("djv::AV::Image::IconSystem", context);
+
+                // Find the DPI values.
+                DJV_PRIVATE_PTR();
+                for (const auto& i : FileSystem::FileInfo::directoryList(context->getPath(FileSystem::ResourcePath::IconsDirectory)))
+                {
+                    const std::string fileName = i.getFileName(Frame::Invalid, false);
+                    const size_t size = fileName.size();
+                    if (size > 3 &&
+                        fileName[size - 3] == 'D' &&
+                        fileName[size - 2] == 'P' &&
+                        fileName[size - 1] == 'I')
+                    {
+                        p.dpiList.push_back(std::stoi(fileName.substr(0, size - 3)));
+                    }
+                }
+                std::sort(p.dpiList.begin(), p.dpiList.end());
+                for (const auto & i : p.dpiList)
+                {
+                    std::stringstream ss;
+                    ss << "Found DPI: " << i;
+                    _log(ss.str());
+                }
             }
 
             IconSystem::IconSystem() :
@@ -68,33 +94,33 @@ namespace djv
                 return out;
             }
 
-            std::future<IO::Info> IconSystem::getInfo(const std::string & name, int dpi)
+            std::future<IO::Info> IconSystem::getInfo(const std::string & name, int size)
             {
                 auto context = getContext();
                 if (auto avSystem = context->getSystemT<AVSystem>().lock())
                 {
                     if (auto thumbnailSystem = context->getSystemT<ThumbnailSystem>().lock())
                     {
-                        return thumbnailSystem->getInfo(_p->getPath(name, dpi, context));
+                        return thumbnailSystem->getInfo(_p->getPath(name, _p->findClosestDPI(size), context));
                     }
                 }
                 return std::future<IO::Info>();
             }
 
-            std::future<std::shared_ptr<Image> > IconSystem::getImage(const std::string & name, int dpi)
+            std::future<std::shared_ptr<Image> > IconSystem::getImage(const std::string & name, int size)
             {
                 auto context = getContext();
                 if (auto avSystem = context->getSystemT<AVSystem>().lock())
                 {
                     if (auto thumbnailSystem = context->getSystemT<ThumbnailSystem>().lock())
                     {
-                        return thumbnailSystem->getImage(_p->getPath(name, dpi, context));
+                        return thumbnailSystem->getImage(_p->getPath(name, _p->findClosestDPI(size), context));
                     }
                 }
                 return std::future<std::shared_ptr<Image> >();
             }
 
-            FileSystem::Path IconSystem::Private::getPath(const std::string & name, int dpi, Context * context)
+            FileSystem::Path IconSystem::Private::getPath(const std::string & name, int dpi, Context * context) const
             {
                 auto out = context->getPath(FileSystem::ResourcePath::IconsDirectory);
                 {
@@ -108,6 +134,17 @@ namespace djv
                     out = FileSystem::Path(out, ss.str());
                 }
                 return out;
+            }
+
+            int IconSystem::Private::findClosestDPI(int value) const
+            {
+                const int dpi = static_cast<int>(value / 24.f * 96.f);
+                std::map<int, int> differenceToDPI;
+                for (auto i : dpiList)
+                {
+                    differenceToDPI[Math::abs(dpi - i)] = i;
+                }
+                return differenceToDPI.size() ? differenceToDPI.begin()->second : dpi;
             }
 
         } // namespace Image

@@ -29,9 +29,9 @@
 
 #include <djvViewLib/SettingsSystem.h>
 
-#include <djvViewLib/ColorPaletteSettingsWidget.h>
 #include <djvViewLib/DisplaySettingsWidget.h>
 #include <djvViewLib/LanguageSettingsWidget.h>
+#include <djvViewLib/PaletteSettingsWidget.h>
 
 #include <djvUI/Action.h>
 #include <djvUI/IWindowSystem.h>
@@ -220,7 +220,7 @@ namespace djv
             {
                 { DisplaySettingsWidget::create(getContext()), "HA" },
                 { LanguageSettingsWidget::create(getContext()), "HB" },
-                { ColorPaletteSettingsWidget::create(getContext()), "HC" }
+                { PaletteSettingsWidget::create(getContext()), "HC" }
             };
         }
         

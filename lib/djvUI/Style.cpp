@@ -133,30 +133,30 @@ namespace djv
                 _p(new Private)
             {
                 DJV_PRIVATE_PTR();
-                p.metrics[MetricsRole::None]                =   0.f;
-                p.metrics[MetricsRole::Border]              =   1.f;
-                p.metrics[MetricsRole::Margin]              =  10.f;
-                p.metrics[MetricsRole::MarginSmall]         =   5.f;
-                p.metrics[MetricsRole::MarginLarge]         =  20.f;
-                p.metrics[MetricsRole::MarginDialog]         = 50.f;
-                p.metrics[MetricsRole::Spacing]             =  10.f;
-                p.metrics[MetricsRole::SpacingSmall]        =   5.f;
-                p.metrics[MetricsRole::SpacingLarge]        =  20.f;
-                p.metrics[MetricsRole::Drag]                =  20.f;
-                p.metrics[MetricsRole::Icon]                =  24.f;
-                p.metrics[MetricsRole::IconLarge]           = 100.f;
-                p.metrics[MetricsRole::FontSmall]           =   6.f;
-                p.metrics[MetricsRole::FontMedium]          =   9.f;
-                p.metrics[MetricsRole::FontLarge]           =  14.f;
-                p.metrics[MetricsRole::FontHeader]          =  18.f;
-                p.metrics[MetricsRole::Swatch]              =  40.f;
-                p.metrics[MetricsRole::ThumbnailSmall]      = 100.f;
-                p.metrics[MetricsRole::ThumbnailLarge]      = 200.f;
-                p.metrics[MetricsRole::Shadow]              =  10.f;
-                p.metrics[MetricsRole::ScrollArea]          = 200.f;
-                p.metrics[MetricsRole::TextColumn]          = 200.f;
-                p.metrics[MetricsRole::Dialog]              = 400.f;
-                p.metrics[MetricsRole::TooltipOffset]       =  10.f;
+                p.metrics[MetricsRole::None]           =   0.f;
+                p.metrics[MetricsRole::Border]         =   1.f;
+                p.metrics[MetricsRole::Margin]         =  10.f;
+                p.metrics[MetricsRole::MarginSmall]    =   5.f;
+                p.metrics[MetricsRole::MarginLarge]    =  20.f;
+                p.metrics[MetricsRole::MarginDialog]   =  50.f;
+                p.metrics[MetricsRole::Spacing]        =  10.f;
+                p.metrics[MetricsRole::SpacingSmall]   =   5.f;
+                p.metrics[MetricsRole::SpacingLarge]   =  20.f;
+                p.metrics[MetricsRole::Drag]           =  20.f;
+                p.metrics[MetricsRole::Icon]           =  24.f;
+                p.metrics[MetricsRole::IconLarge]      = 100.f;
+                p.metrics[MetricsRole::FontSmall]      =   6.f;
+                p.metrics[MetricsRole::FontMedium]     =   9.f;
+                p.metrics[MetricsRole::FontLarge]      =  14.f;
+                p.metrics[MetricsRole::FontHeader]     =  18.f;
+                p.metrics[MetricsRole::Swatch]         =  40.f;
+                p.metrics[MetricsRole::ThumbnailSmall] = 100.f;
+                p.metrics[MetricsRole::ThumbnailLarge] = 200.f;
+                p.metrics[MetricsRole::Shadow]         =  10.f;
+                p.metrics[MetricsRole::ScrollArea]     = 200.f;
+                p.metrics[MetricsRole::TextColumn]     = 200.f;
+                p.metrics[MetricsRole::Dialog]         = 400.f;
+                p.metrics[MetricsRole::TooltipOffset]  =  10.f;
             }
 
             float Metrics::getMetric(MetricsRole role) const
@@ -189,6 +189,10 @@ namespace djv
             {
                 DJV_PRIVATE_PTR();
                 p.context = context;
+                if (auto avSystem = context->getSystemT<AV::AVSystem>().lock())
+                {
+                    p.dpi = avSystem->getDPI();
+                }
                 _p->dirty = true;
             }
 
