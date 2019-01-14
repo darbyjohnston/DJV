@@ -12,15 +12,22 @@ def run():
     language = sys.argv[3]
     
     data = json.load(open(inFile))
+    oldData = json.load(open(outFile))
 
     translateClient = translate.Client()
     for item in data:
-        itemLanguage = language
-        if 'language' in item:
-            itemLanguage = item['language']
-        translation = translateClient.translate(item['text'], target_language=itemLanguage)
-        print item['text'], "=", translation['translatedText']
-        item['text'] = translation['translatedText']
+        i = None
+        for oldItem in oldData:
+            if oldItem['id'] == item['id']:
+                i = oldItem['id']
+                break
+        if None == i:
+            itemLanguage = language
+            if 'language' in item:
+                itemLanguage = item['language']
+            translation = translateClient.translate(item['text'], target_language=itemLanguage)
+            print item['text'], "=", translation['translatedText']
+            item['text'] = translation['translatedText']
 
     with open(outFile, 'w') as f:
         json.dump(data, f, indent = 4)

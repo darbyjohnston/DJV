@@ -29,12 +29,12 @@ def run():
         
         # Add new strings to the .text file.
         for string in strings:
-            count = 0
+            i = None
             for item in data:
                 if item['id'] == string[1]:
+                    i = item
                     break
-                count = count + 1
-            if count == len(data):
+            if None == i:
                 data.append({'nameSpace' : string[0], 'id' : string[1], 'text': string[1], 'description': ''})
 
         # Write the .text file.

@@ -86,7 +86,7 @@ namespace djv
                 palettes[DJV_TEXT("djv::UI::Settings", "Light")] = palette;
                 
                 palette = UI::Style::Palette();
-                palette.setColor(UI::Style::ColorRole::Background, AV::Image::Color(.8f, .5f, .2f));
+                palette.setColor(UI::Style::ColorRole::Background, AV::Image::Color(.7f, .5f, .2f));
                 palette.setColor(UI::Style::ColorRole::BackgroundHeader, AV::Image::Color(.6f, .3f, .2f));
                 palette.setColor(UI::Style::ColorRole::BackgroundText, AV::Image::Color(.8f, .5f, .2f));
                 palette.setColor(UI::Style::ColorRole::Foreground, AV::Image::Color(1.f, 1.f, 1.f));
@@ -125,15 +125,17 @@ namespace djv
 
                 UI::Style::Metrics mediumMetrics;
                 UI::Style::Metrics largeMetrics;
+                UI::Style::Metrics extraLargeMetrics;
                 for (size_t i = 0; i < static_cast<size_t>(UI::Style::MetricsRole::Count); ++i)
                 {
                     const UI::Style::MetricsRole m = static_cast<UI::Style::MetricsRole>(i);
                     const float v = metrics.getMetric(m);
                     mediumMetrics.setMetric(m, v * 1.5f);
                     largeMetrics.setMetric(m, v * 2.f);
+                    extraLargeMetrics.setMetric(m, v * 2.f);
                 }
                 metricsList[DJV_TEXT("djv::UI::Settings", "Medium")] = mediumMetrics;
-                metricsList[DJV_TEXT("djv::UI::Settings", "Large")] = largeMetrics;
+                metricsList[DJV_TEXT("djv::UI::Settings", "ExtraLarge")] = extraLargeMetrics;
 
                 DJV_PRIVATE_PTR();
                 p.palettes = MapSubject<std::string, UI::Style::Palette>::create(palettes);
@@ -141,7 +143,7 @@ namespace djv
                 p.currentPaletteName = ValueSubject<std::string>::create("Dark");
                 p.metrics = MapSubject<std::string, UI::Style::Metrics>::create(metricsList);
                 p.currentMetrics = ValueSubject<UI::Style::Metrics>::create(metricsList["Small"]);
-                p.currentMetricsName = ValueSubject<std::string>::create(DJV_TEXT("djv::UI::Settings", "Default"));
+                p.currentMetricsName = ValueSubject<std::string>::create(DJV_TEXT("djv::UI::Settings", "Small"));
                 p.currentFont = ValueSubject<std::string>::create(DJV_TEXT("djv::UI::Settings", "Default"));
 
                 _load();

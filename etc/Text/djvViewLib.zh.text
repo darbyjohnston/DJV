@@ -526,5 +526,11 @@
         "nameSpace": "djv::ViewLib", 
         "id": "Tools", 
         "description": ""
+    }, 
+    {
+        "text": "\u8c03\u8272\u677f", 
+        "nameSpace": "djv::ViewLib", 
+        "id": "Palette", 
+        "description": ""
     }
 ]

@@ -1336,5 +1336,59 @@
         "nameSpace": "djv::UI::FileBrowser", 
         "id": "Sample rate", 
         "description": ""
+    }, 
+    {
+        "text": "Sombrio", 
+        "nameSpace": "djv::UI::Settings", 
+        "id": "Dark", 
+        "description": ""
+    }, 
+    {
+        "text": "laranja", 
+        "nameSpace": "djv::UI::Settings", 
+        "id": "Orange", 
+        "description": ""
+    }, 
+    {
+        "text": "Azul", 
+        "nameSpace": "djv::UI::Settings", 
+        "id": "Blue", 
+        "description": ""
+    }, 
+    {
+        "text": "Pequeno", 
+        "nameSpace": "djv::UI::Settings", 
+        "id": "Small", 
+        "description": ""
+    }, 
+    {
+        "text": "M\u00e9dio", 
+        "nameSpace": "djv::UI::Settings", 
+        "id": "Medium", 
+        "description": ""
+    }, 
+    {
+        "text": "ampla", 
+        "nameSpace": "djv::UI::Settings", 
+        "id": "Large", 
+        "description": ""
+    }, 
+    {
+        "text": "ForegroundHeader", 
+        "nameSpace": "djv::UI::Style", 
+        "id": "ForegroundHeader", 
+        "description": ""
+    }, 
+    {
+        "text": "MarginDialog", 
+        "nameSpace": "djv::UI::Style", 
+        "id": "MarginDialog", 
+        "description": ""
+    }, 
+    {
+        "text": "FontHeader", 
+        "nameSpace": "djv::UI::Style", 
+        "id": "FontHeader", 
+        "description": ""
     }
 ]

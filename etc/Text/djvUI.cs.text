@@ -1336,5 +1336,59 @@
         "nameSpace": "djv::UI::FileBrowser", 
         "id": "Sample rate", 
         "description": ""
+    }, 
+    {
+        "text": "Temn\u00fd", 
+        "nameSpace": "djv::UI::Settings", 
+        "id": "Dark", 
+        "description": ""
+    }, 
+    {
+        "text": "oran\u017eov\u00fd", 
+        "nameSpace": "djv::UI::Settings", 
+        "id": "Orange", 
+        "description": ""
+    }, 
+    {
+        "text": "Modr\u00fd", 
+        "nameSpace": "djv::UI::Settings", 
+        "id": "Blue", 
+        "description": ""
+    }, 
+    {
+        "text": "Mal\u00fd", 
+        "nameSpace": "djv::UI::Settings", 
+        "id": "Small", 
+        "description": ""
+    }, 
+    {
+        "text": "St\u0159edn\u00ed", 
+        "nameSpace": "djv::UI::Settings", 
+        "id": "Medium", 
+        "description": ""
+    }, 
+    {
+        "text": "Velk\u00fd", 
+        "nameSpace": "djv::UI::Settings", 
+        "id": "Large", 
+        "description": ""
+    }, 
+    {
+        "text": "ForegroundHeader", 
+        "nameSpace": "djv::UI::Style", 
+        "id": "ForegroundHeader", 
+        "description": ""
+    }, 
+    {
+        "text": "MarginDialog", 
+        "nameSpace": "djv::UI::Style", 
+        "id": "MarginDialog", 
+        "description": ""
+    }, 
+    {
+        "text": "FontHeader", 
+        "nameSpace": "djv::UI::Style", 
+        "id": "FontHeader", 
+        "description": ""
     }
 ]

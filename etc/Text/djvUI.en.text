@@ -174,18 +174,6 @@
         "description": ""
     }, 
     {
-        "text": "Font Extra Large", 
-        "nameSpace": "djv::UI::Style", 
-        "id": "FontExtraLarge", 
-        "description": ""
-    }, 
-    {
-        "text": "Font Extra Extra Large", 
-        "nameSpace": "djv::UI::Style", 
-        "id": "FontExtraExtraLarge", 
-        "description": ""
-    }, 
-    {
         "text": "Swatch", 
         "nameSpace": "djv::UI::Style", 
         "id": "Swatch", 
@@ -1386,9 +1374,15 @@
         "description": ""
     }, 
     {
-        "text": "FontHeader", 
+        "text": "Font Header", 
         "nameSpace": "djv::UI::Style", 
         "id": "FontHeader", 
+        "description": ""
+    }, 
+    {
+        "text": "Extra Large", 
+        "nameSpace": "djv::UI::Settings", 
+        "id": "ExtraLarge", 
         "description": ""
     }
 ]

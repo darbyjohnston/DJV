@@ -1,6 +1,7 @@
 #!/bin/sh
 
-for file in *.en.text
+#for file in *.en.text
+for file in djvAV.en.text
 do
     if [[ -f $file ]]; then
         echo $file
