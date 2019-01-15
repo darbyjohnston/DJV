@@ -37,11 +37,3 @@
 #define DJV_VERSION_PATCH "@DJV_VERSION_PATCH@"
 #define DJV_VERSION "@DJV_VERSION@"
 
-#if defined(DJV_WINDOWS)
-#define NOMINMAX
-// warning C4290: C++ exception specification ignored except to indicate a function is not __declspec(nothrow)
-#pragma warning(disable: 4290)
-// warning C4355: 'this' : used in base member initializer list
-#pragma warning(disable: 4355)
-#endif // DJV_WINDOWS
-

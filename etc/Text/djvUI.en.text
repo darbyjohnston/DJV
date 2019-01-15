@@ -1384,5 +1384,11 @@
         "nameSpace": "djv::UI::Settings", 
         "id": "ExtraLarge", 
         "description": ""
+    }, 
+    {
+        "text": "Handle", 
+        "nameSpace": "djv::UI::Style", 
+        "id": "Handle", 
+        "description": ""
     }
 ]

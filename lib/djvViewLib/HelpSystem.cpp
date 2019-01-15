@@ -87,11 +87,7 @@ namespace djv
 
                     _textBlocks["Header"] = UI::TextBlock::create(context);
                     _textBlocks["Header"]->setFontSizeRole(UI::Style::MetricsRole::FontHeader);
-                    _textBlocks["CopyrightHeader"] = UI::TextBlock::create(context);
-                    _textBlocks["CopyrightHeader"]->setFontSizeRole(UI::Style::MetricsRole::FontLarge);
                     _textBlocks["Copyright"] = UI::TextBlock::create(context);
-                    _textBlocks["LicenseHeader"] = UI::TextBlock::create(context);
-                    _textBlocks["LicenseHeader"]->setFontSizeRole(UI::Style::MetricsRole::FontLarge);
                     _textBlocks["License"] = UI::TextBlock::create(context);
                     _textBlocks["ContributorsHeader"] = UI::TextBlock::create(context);
                     _textBlocks["ContributorsHeader"]->setFontSizeRole(UI::Style::MetricsRole::FontLarge);
@@ -107,11 +103,7 @@ namespace djv
                     textLayout->setMargin(UI::Style::MetricsRole::MarginLarge);
                     textLayout->setSpacing(UI::Style::MetricsRole::SpacingLarge);
                     textLayout->addWidget(_textBlocks["Header"]);
-                    textLayout->addSeparator();
-                    textLayout->addWidget(_textBlocks["CopyrightHeader"]);
                     textLayout->addWidget(_textBlocks["Copyright"]);
-                    textLayout->addSeparator();
-                    textLayout->addWidget(_textBlocks["LicenseHeader"]);
                     textLayout->addWidget(_textBlocks["License"]);
                     textLayout->addSeparator();
                     textLayout->addWidget(_textBlocks["ContributorsHeader"]);
@@ -165,10 +157,11 @@ namespace djv
                 void _localeEvent(Event::Locale &) override
                 {
                     _titleLabel->setText(_getText(DJV_TEXT("djv::ViewLib", "About")));
-                    _textBlocks["Header"]->setText(_getText(DJV_TEXT("djv::ViewLib", "AboutHeader")));
-                    _textBlocks["CopyrightHeader"]->setText(_getText(DJV_TEXT("djv::ViewLib", "AboutCopyrightHeader")));
+                    std::stringstream ss;
+                    ss << _getText(DJV_TEXT("djv::ViewLib", "AboutHeader"));
+                    ss << " " << DJV_VERSION;
+                    _textBlocks["Header"]->setText(ss.str());
                     _textBlocks["Copyright"]->setText(_getText(DJV_TEXT("djv::ViewLib", "AboutCopyright")));
-                    _textBlocks["LicenseHeader"]->setText(_getText(DJV_TEXT("djv::ViewLib", "AboutLicenseHeader")));
                     _textBlocks["License"]->setText(_getText(DJV_TEXT("djv::ViewLib", "AboutLicense")));
                     _textBlocks["ContributorsHeader"]->setText(_getText(DJV_TEXT("djv::ViewLib", "AboutContributorsHeader")));
                     _textBlocks["Contributors"]->setText(_getText(DJV_TEXT("djv::ViewLib", "AboutContributors")));
