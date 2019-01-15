@@ -132,6 +132,16 @@ namespace djv
                     _layout->setGeometry(getGeometry());
                 }
 
+                void _buttonPressEvent(Event::ButtonPress& event) override
+                {
+                    event.accept();
+                }
+
+                void _buttonReleaseEvent(Event::ButtonRelease& event) override
+                {
+                    event.accept();
+                }
+
             private:
                 std::shared_ptr<Label> _titleLabel;
                 std::shared_ptr<Layout::Vertical> _childLayout;

@@ -875,6 +875,16 @@ namespace djv
                         _layout->setGeometry(getGeometry());
                     }
 
+                    void _buttonPressEvent(Event::ButtonPress& event) override
+                    {
+                        event.accept();
+                    }
+
+                    void _buttonReleaseEvent(Event::ButtonRelease& event) override
+                    {
+                        event.accept();
+                    }
+
                     void _localeEvent(Event::Locale &) override
                     {
                         auto context = getContext();

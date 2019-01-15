@@ -130,6 +130,16 @@ namespace djv
                 }
 
             protected:
+                void _buttonPressEvent(Event::ButtonPress& event) override
+                {
+                    event.accept();
+                }
+
+                void _buttonReleaseEvent(Event::ButtonRelease& event) override
+                {
+                    event.accept();
+                }
+
                 void _localeEvent(Event::Locale &) override
                 {
                     _titleLabel->setText(_getText(DJV_TEXT("djv::ViewLib", "Settings")));
