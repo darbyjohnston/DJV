@@ -37,18 +37,18 @@ namespace djv
     {
         namespace MDI
         {
-            class IWindow : public Layout::IContainer
+            class IWidget : public Layout::IContainer
             {
-                DJV_NON_COPYABLE(IWindow);
+                DJV_NON_COPYABLE(IWidget);
 
             protected:
-                IWindow();
+                IWidget();
 
             public:
-                virtual ~IWindow() = 0;
+                virtual ~IWidget() = 0;
                 
                 virtual std::shared_ptr<Widget> getMoveHandle() = 0;
-                virtual std::shared_ptr<Widget> getResizeHandle() = 0;
+                virtual std::shared_ptr<Widget> getResizeHandle() { return nullptr; }
             };
             
         } // namespace MDI

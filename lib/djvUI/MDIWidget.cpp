@@ -27,7 +27,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvUI/MDIWindow.h>
+#include <djvUI/MDIWidget.h>
 
 using namespace djv::Core;
 
@@ -37,10 +37,10 @@ namespace djv
     {
         namespace MDI
         {
-            IWindow::IWindow()
+            IWidget::IWidget()
             {}
 
-            IWindow::~IWindow()
+            IWidget::~IWidget()
             {}
 
         } // namespace MDI

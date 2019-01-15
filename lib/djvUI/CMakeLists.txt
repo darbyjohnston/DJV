@@ -26,7 +26,7 @@ set(header
     LineEdit.h
     ListButton.h
     MDICanvas.h
-    MDIWindow.h
+    MDIWidget.h
     MainWindow.h
     Margin.h
     MarginInline.h
@@ -90,7 +90,7 @@ set(source
     LineEdit.cpp
     ListButton.cpp
     MDICanvas.cpp
-    MDIWindow.cpp
+    MDIWidget.cpp
     MainWindow.cpp
     Menu.cpp
     MenuBar.cpp

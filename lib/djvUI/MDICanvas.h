@@ -38,6 +38,7 @@ namespace djv
         //! This namespace provides multiple document interface (MDI) functionality.
         namespace MDI
         {
+            //! This class provides a MDI canvas widget.
             class Canvas : public Widget
             {
                 DJV_NON_COPYABLE(Canvas);
@@ -54,10 +55,15 @@ namespace djv
                 const glm::vec2 & getCanvasSize() const;
                 void setCanvasSize(const glm::vec2 &);
 
-                std::shared_ptr<Widget> getActiveWindow() const;
-                void nextWindow();
-                void prevWindow();
-                void setActiveWindowCallback(const std::function<void(const std::shared_ptr<Widget> &)> &);
+                std::shared_ptr<Widget> getActiveWidget() const;
+                void nextWidget();
+                void prevWidget();
+                void setActiveCallback(const std::function<void(const std::shared_ptr<Widget> &)> &);
+
+                const glm::vec2 & getWidgetPos(const std::shared_ptr<Widget> &) const;
+                //! \todo We should convert widgets to use local coordinates and then
+                //! we can remove this and use Widget::move() instead.
+                void setWidgetPos(const std::shared_ptr<Widget> &, const glm::vec2 &);
 
             protected:
                 void _preLayoutEvent(Core::Event::PreLayout&) override;

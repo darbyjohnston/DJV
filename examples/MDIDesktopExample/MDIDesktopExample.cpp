@@ -33,7 +33,7 @@
 #include <djvUI/Icon.h>
 #include <djvUI/Label.h>
 #include <djvUI/MDICanvas.h>
-#include <djvUI/MDIWindow.h>
+#include <djvUI/MDIWidget.h>
 #include <djvUI/RowLayout.h>
 #include <djvUI/ScrollWidget.h>
 #include <djvUI/Splitter.h>
@@ -47,16 +47,16 @@
 
 using namespace djv;
 
-class MDIWindow : public UI::MDI::IWindow
+class MDIWidget : public UI::MDI::IWidget
 {
-    DJV_NON_COPYABLE(MDIWindow);
+    DJV_NON_COPYABLE(MDIWidget);
 
 protected:
     void _init(const std::string & title, Core::Context *);
-    MDIWindow();
+    MDIWidget();
 
 public:
-    static std::shared_ptr<MDIWindow> create(const std::string & title, Core::Context *);
+    static std::shared_ptr<MDIWidget> create(const std::string & title, Core::Context *);
 
     void setClosedCallback(const std::function<void(void)> &);
 
@@ -77,9 +77,9 @@ private:
     std::function<void(void)> _closedCallback;
 };
 
-void MDIWindow::_init(const std::string & title, Core::Context * context)
+void MDIWidget::_init(const std::string & title, Core::Context * context)
 {
-    IWindow::_init(context);
+    IWidget::_init(context);
 
     setBackgroundRole(UI::Style::ColorRole::Background);
 
@@ -124,42 +124,42 @@ void MDIWindow::_init(const std::string & title, Core::Context * context)
     IContainer::addWidget(_border);
 }
 
-MDIWindow::MDIWindow()
+MDIWidget::MDIWidget()
 {}
 
-std::shared_ptr<MDIWindow> MDIWindow::create(const std::string & title, Core::Context * context)
+std::shared_ptr<MDIWidget> MDIWidget::create(const std::string & title, Core::Context * context)
 {
-    auto out = std::shared_ptr<MDIWindow>(new MDIWindow);
+    auto out = std::shared_ptr<MDIWidget>(new MDIWidget);
     out->_init(title, context);
     return out;
 }
 
-void MDIWindow::setClosedCallback(const std::function<void(void)> & callback)
+void MDIWidget::setClosedCallback(const std::function<void(void)> & callback)
 {
     _closeButton->setClickedCallback(callback);
 }
 
-std::shared_ptr<UI::Widget> MDIWindow::getMoveHandle()
+std::shared_ptr<UI::Widget> MDIWidget::getMoveHandle()
 {
     return std::dynamic_pointer_cast<Widget>(shared_from_this());
 }
 
-std::shared_ptr<UI::Widget> MDIWindow::getResizeHandle()
+std::shared_ptr<UI::Widget> MDIWidget::getResizeHandle()
 {
     return _resizeHandle;
 }
 
-float MDIWindow::getHeightForWidth(float value) const
+float MDIWidget::getHeightForWidth(float value) const
 {
     return _border->getHeightForWidth(value);
 }
 
-void MDIWindow::_preLayoutEvent(Core::Event::PreLayout&)
+void MDIWidget::_preLayoutEvent(Core::Event::PreLayout&)
 {
     _setMinimumSize(_border->getMinimumSize());
 }
 
-void MDIWindow::_layoutEvent(Core::Event::Layout&)
+void MDIWidget::_layoutEvent(Core::Event::Layout&)
 {
     _border->setGeometry(getGeometry());
 }
@@ -176,19 +176,19 @@ int main(int argc, char ** argv)
         for (size_t i = 0; i < 3; ++i)
         {
             std::stringstream ss;
-            ss << "Window " << i;
-            auto window = MDIWindow::create(ss.str(), app.get());
+            ss << "Widget " << i;
+            auto widget = MDIWidget::create(ss.str(), app.get());
             const glm::vec2 size(Core::Math::getRandom(4, 5) * 100.f, Core::Math::getRandom(3, 4) * 100.f);
-            window->resize(size);
+            widget->resize(size);
 
             const glm::vec2 pos(Core::Math::getRandom(0, 50) * 10.f, Core::Math::getRandom(0, 50) * 10.f);
-            window->setParent(canvas);
-            window->move(pos);
+            widget->setParent(canvas);
+            widget->move(pos);
 
-            window->setClosedCallback(
-                [window]
+            widget->setClosedCallback(
+                [widget]
             {
-                window->setParent(nullptr);
+                widget->setParent(nullptr);
             });
         }
 
