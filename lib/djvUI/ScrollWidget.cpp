@@ -886,8 +886,6 @@ namespace djv
                 break;
             default: break;
             }
-            visible[ScrollType::Horizontal] = visible[ScrollType::Horizontal] && (value.x > w);
-            visible[ScrollType::Vertical]   = visible[ScrollType::Vertical]   && (value.y > h);
 
             p.scrollBars[Orientation::Horizontal]->setViewSize(w);
             p.scrollBars[Orientation::Horizontal]->setContentsSize(value.x);

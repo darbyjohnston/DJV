@@ -95,7 +95,7 @@ namespace djv
             if (value == p.text)
                 return;
             p.text = value;
-            _updateText();
+            _textUpdate();
         }
 
         TextHAlign Label::getTextHAlign() const
@@ -161,7 +161,7 @@ namespace djv
             if (value == p.font)
                 return;
             p.font = value;
-            _updateText();
+            _textUpdate();
         }
 
         void Label::setFontFace(const std::string & value)
@@ -170,7 +170,7 @@ namespace djv
             if (value == p.fontFace)
                 return;
             p.fontFace = value;
-            _updateText();
+            _textUpdate();
         }
 
         void Label::setFontSizeRole(Style::MetricsRole value)
@@ -179,7 +179,7 @@ namespace djv
             if (value == p.fontSizeRole)
                 return;
             p.fontSizeRole = value;
-            _updateText();
+            _textUpdate();
         }
 
         float Label::getMinimumWidth() const
@@ -198,7 +198,7 @@ namespace djv
 
         void Label::_styleEvent(Event::Style& event)
         {
-            _updateText();
+            _textUpdate();
         }
 
         void Label::_preLayoutEvent(Event::PreLayout&)
@@ -288,7 +288,7 @@ namespace djv
             }
         }
 
-        void Label::_updateText()
+        void Label::_textUpdate()
         {
             if (auto style = _getStyle().lock())
             {

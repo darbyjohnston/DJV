@@ -42,6 +42,8 @@
 #include <djvUI/StackLayout.h>
 #include <djvUI/Window.h>
 
+#include <djvAV/IconSystem.h>
+#include <djvAV/Image.h>
 #include <djvAV/Render2DSystem.h>
 
 #include <djvCore/TextSystem.h>
@@ -54,386 +56,614 @@ namespace djv
     {
         namespace
         {
-            class MenuLayout;
-
-            class MenuSpacer : public Widget
+            class MenuWidget : public Widget
             {
-                DJV_NON_COPYABLE(MenuSpacer);
+                DJV_NON_COPYABLE(MenuWidget);
 
             protected:
-                void _init(Context *);
-                MenuSpacer();
+                void _init(
+                    const std::map<size_t, std::shared_ptr<Action> > & actions,
+                    const std::map<size_t, std::shared_ptr<Menu> > & menus,
+                    Context *);
+                MenuWidget();
 
             public:
-                static std::shared_ptr<MenuSpacer> create(Context *);
+                static std::shared_ptr<MenuWidget> create(
+                    const std::map<size_t, std::shared_ptr<Action> > & actions,
+                    const std::map<size_t, std::shared_ptr<Menu> > & menus,
+                    Context *);
 
-                void setSpacerSize(float);
-
-            protected:
-                void _preLayoutEvent(Event::PreLayout&) override;
-
-            private:
-                float _size = 0.f;
-            };
-
-            void MenuSpacer::_init(Context * context)
-            {
-                Widget::_init(context);
-
-                setClassName("djv::UI::MenuSpacer");
-            };
-
-            MenuSpacer::MenuSpacer()
-            {}
-
-            std::shared_ptr<MenuSpacer> MenuSpacer::create(Context * context)
-            {
-                auto out = std::shared_ptr<MenuSpacer>(new MenuSpacer);
-                out->_init(context);
-                return out;
-            }
-
-            void MenuSpacer::setSpacerSize(float value)
-            {
-                if (value == _size)
-                    return;
-                _size = value;
-                _setMinimumSize(glm::vec2(_size, 0.f));
-                _resize();
-            }
-
-            void MenuSpacer::_preLayoutEvent(Event::PreLayout&)
-            {
-                _setMinimumSize(glm::vec2(_size, 0.f));
-            }
-
-            class MenuButton : public Button::IButton
-            {
-                DJV_NON_COPYABLE(MenuButton);
+                void setCloseCallback(const std::function<void(void)> &);
 
             protected:
-                void _init(Context *);
-                MenuButton();
-
-            public:
-                static std::shared_ptr<MenuButton> create(Context *);
-
-                void setAction(const std::shared_ptr<Action> &);
-                void setMenu(const std::shared_ptr<Menu> &);
-
-                float getHeightForWidth(float) const override;
-
-            protected:
+                void _styleEvent(Event::Style&) override;
                 void _preLayoutEvent(Event::PreLayout&) override;
                 void _layoutEvent(Event::Layout&) override;
+                void _paintEvent(Event::Paint&) override;
+                void _pointerEnterEvent(Event::PointerEnter&) override;
+                void _pointerLeaveEvent(Event::PointerLeave&) override;
+                void _pointerMoveEvent(Event::PointerMove&) override;
+                void _buttonPressEvent(Event::ButtonPress&) override;
+                void _buttonReleaseEvent(Event::ButtonRelease&) override;
 
                 void _updateEvent(Event::Update&) override;
 
             private:
-                std::shared_ptr<Icon> _icon;
-                std::shared_ptr<MenuSpacer> _iconSpacer;
-                std::shared_ptr<Label> _textLabel;
-                std::shared_ptr<Label> _shortcutsLabel;
-                std::shared_ptr<Layout::Horizontal> _layout;
-                std::shared_ptr<ValueObserver<ButtonType> > _buttonTypeObserver;
-                std::shared_ptr<ValueObserver<bool> > _checkedObserver;
-                std::shared_ptr<ValueObserver<std::string> > _iconObserver;
-                std::shared_ptr<ValueObserver<std::string> > _textObserver;
-                std::shared_ptr<ListObserver<std::shared_ptr<Shortcut> > > _shortcutsObserver;
-                std::shared_ptr<ValueObserver<bool> > _enabledObserver;
-                std::shared_ptr<ValueObserver<std::string> > _tooltipObserver;
+                struct Item
+                {
+                    ButtonType buttonType = ButtonType::First;
+                    bool checked = false;
+                    std::string iconName;
+                    std::shared_ptr<AV::Image::Image> icon;
+                    std::string text;
+                    glm::vec2 textSize;
+                    std::string shortcutLabel;
+                    glm::vec2 shortcutSize;
+                    bool enabled = true;
+                    glm::vec2 size;
+                    BBox2f geom;
+                };
 
-                friend class MenuLayout;
+                std::shared_ptr<Item> _getItem(const glm::vec2 &) const;
+                void _itemsUpdate();
+                void _iconUpdate();
+                void _textUpdate();
+
+                std::map<size_t, std::shared_ptr<Action> > _actions;
+                std::map<size_t, std::shared_ptr<Menu> > _menus;
+                AV::Font::Metrics _fontMetrics;
+                std::future<AV::Font::Metrics> _fontMetricsFuture;
+                bool _fontMetricsRequest = false;
+                bool _hasIcons = false;
+                bool _hasShortcuts = false;
+                std::map<size_t, std::shared_ptr<Item> > _items;
+                std::map<std::shared_ptr<Action>, std::shared_ptr<Item> > _actionToItem;
+                std::map<std::shared_ptr<Item>, std::shared_ptr<Action> > _itemToAction;
+                std::map<std::shared_ptr<Menu>, std::shared_ptr<Item> > _menuToItem;
+                std::map<std::shared_ptr<Item>, std::shared_ptr<Menu> > _itemToMenu;
+                std::map<std::shared_ptr<Item>, std::future<glm::vec2> > _textSizeFutures;
+                std::map<std::shared_ptr<Item>, std::future<glm::vec2> > _shortcutSizeFutures;
+                std::map<std::shared_ptr<Item>, std::future<std::shared_ptr<AV::Image::Image> > > _iconFutures;
+                std::map<Event::PointerID, std::shared_ptr<Item> > _hoveredItems;
+                std::pair<Event::PointerID, std::shared_ptr<Item> > _pressed;
+                glm::vec2 _pressedPos = glm::vec2(0.f, 0.f);
+                std::function<void(void)> _closeCallback;
+                std::map<std::shared_ptr<Item>, std::shared_ptr<ValueObserver<bool> > > _checkedObservers;
+                std::map<std::shared_ptr<Item>, std::shared_ptr<ValueObserver<std::string> > > _iconObservers;
+                std::map<std::shared_ptr<Item>, std::shared_ptr<ValueObserver<std::string> > > _textObservers;
+                std::map<std::shared_ptr<Item>, std::shared_ptr<ListObserver<std::shared_ptr<Shortcut> > > > _shortcutsObservers;
+                std::map<std::shared_ptr<Item>, std::shared_ptr<ValueObserver<bool> > > _enabledObservers;
+                bool _iconUpdateRequest = false;
+                bool _textUpdateRequest = false;
             };
 
-            void MenuButton::_init(Context * context)
-            {
-                IButton::_init(context);
-
-                setClassName("djv::UI::MenuButton");
-
-                _icon = Icon::create(context);
-                _iconSpacer = MenuSpacer::create(context);
-                _iconSpacer->hide();
-
-                _textLabel = Label::create(context);
-                _textLabel->setHAlign(HAlign::Left);
-
-                _shortcutsLabel = Label::create(context);
-                _shortcutsLabel->hide();
-
-                _layout = Layout::Horizontal::create(context);
-                _layout->setMargin(Layout::Margin(Style::MetricsRole::Margin, Style::MetricsRole::Margin, Style::MetricsRole::MarginSmall, Style::MetricsRole::MarginSmall));
-                _layout->addWidget(_icon);
-                _layout->addWidget(_iconSpacer);
-                _layout->addWidget(_textLabel, Layout::RowStretch::Expand);
-                _layout->addWidget(_shortcutsLabel);
-                _layout->setParent(shared_from_this());
-            }
-
-            MenuButton::MenuButton()
-            {}
-
-            std::shared_ptr<MenuButton> MenuButton::create(Context * context)
-            {
-                auto out = std::shared_ptr<MenuButton>(new MenuButton);
-                out->_init(context);
-                return out;
-            }
-
-            void MenuButton::setAction(const std::shared_ptr<Action> & action)
-            {
-                auto weak = std::weak_ptr<MenuButton>(std::dynamic_pointer_cast<MenuButton>(shared_from_this()));
-                _buttonTypeObserver = ValueObserver<ButtonType>::create(
-                    action->observeButtonType(),
-                    [weak](ButtonType value)
-                {
-                    if (auto widget = weak.lock())
-                    {
-                        widget->setButtonType(value);
-                    }
-                });
-                _checkedObserver = ValueObserver<bool>::create(
-                    action->observeChecked(),
-                    [weak](bool value)
-                {
-                    if (auto widget = weak.lock())
-                    {
-                        widget->setChecked(value);
-                    }
-                });
-                _iconObserver = ValueObserver<std::string>::create(
-                    action->observeIcon(),
-                    [weak](const std::string & value)
-                {
-                    if (auto widget = weak.lock())
-                    {
-                        widget->_icon->setIcon(value);
-                        widget->_icon->setVisible(!value.empty());
-                    }
-                });
-                _textObserver = ValueObserver<std::string>::create(
-                    action->observeText(),
-                    [weak](const std::string & value)
-                {
-                    if (auto widget = weak.lock())
-                    {
-                        widget->_textLabel->setText(value);
-                    }
-                });
-                auto context = getContext();
-                _shortcutsObserver = ListObserver<std::shared_ptr<Shortcut> >::create(
-                    action->observeShortcuts(),
-                    [weak, context](const std::vector<std::shared_ptr<Shortcut> > & value)
-                {
-                    if (auto widget = weak.lock())
-                    {
-                        if (auto textSystem = context->getSystemT<TextSystem>().lock())
-                        {
-                            widget->_shortcutsLabel->setVisible(value.size());
-                            std::vector<std::string> labels;
-                            for (const auto & i : value)
-                            {
-                                labels.push_back(Shortcut::getText(
-                                    i->observeShortcutKey()->get(),
-                                    i->observeShortcutModifiers()->get(),
-                                    textSystem));
-                            }
-                            widget->_shortcutsLabel->setText(String::join(labels, ", "));
-                        }
-                    }
-                });
-                _enabledObserver = ValueObserver<bool>::create(
-                    action->observeEnabled(),
-                    [weak](bool value)
-                {
-                    if (auto widget = weak.lock())
-                    {
-                        widget->setEnabled(value);
-                    }
-                });
-                _tooltipObserver = ValueObserver<std::string>::create(
-                    action->observeTooltip(),
-                    [weak](const std::string & value)
-                {
-                    if (auto widget = weak.lock())
-                    {
-                        widget->setTooltip(value);
-                    }
-                });
-            }
-
-            void MenuButton::setMenu(const std::shared_ptr<Menu> & menu)
-            {
-                auto weak = std::weak_ptr<MenuButton>(std::dynamic_pointer_cast<MenuButton>(shared_from_this()));
-                _iconObserver = ValueObserver<std::string>::create(
-                    menu->observeMenuIcon(),
-                    [weak](const std::string & value)
-                {
-                    if (auto widget = weak.lock())
-                    {
-                        widget->_icon->setIcon(value);
-                        widget->_icon->setVisible(!value.empty());
-                    }
-                });
-                _textObserver = ValueObserver<std::string>::create(
-                    menu->observeMenuName(),
-                    [weak](const std::string & value)
-                {
-                    if (auto widget = weak.lock())
-                    {
-                        widget->_textLabel->setText(value);
-                    }
-                });
-            }
-
-            float MenuButton::getHeightForWidth(float value) const
-            {
-                return _layout->getHeightForWidth(value);
-            }
-
-            void MenuButton::_preLayoutEvent(Event::PreLayout& event)
-            {
-                _setMinimumSize(_layout->getMinimumSize());
-            }
-
-            void MenuButton::_layoutEvent(Event::Layout&)
-            {
-                _layout->setGeometry(getGeometry());
-            }
-
-            void MenuButton::_updateEvent(Event::Update& event)
-            {
-                IButton::_updateEvent(event);
-                const Style::ColorRole colorRole = _getForegroundColorRole();
-                _icon->setIconColorRole(colorRole);
-                _textLabel->setTextColorRole(colorRole);
-                _shortcutsLabel->setTextColorRole(colorRole);
-            }
-
-            class MenuLayout : public Widget
-            {
-                DJV_NON_COPYABLE(MenuLayout);
-
-            protected:
-                void _init(Context *);
-                MenuLayout();
-
-            public:
-                static std::shared_ptr<MenuLayout> create(Context *);
-
-                void addWidget(const std::shared_ptr<Widget>&);
-                void clearWidgets();
-
-                void addSeparator();
-
-            protected:
-                void _preLayoutEvent(Core::Event::PreLayout&) override;
-                void _layoutEvent(Core::Event::Layout&) override;
-            };
-
-            void MenuLayout::_init(Context * context)
+            void MenuWidget::_init(
+                const std::map<size_t, std::shared_ptr<Action> > & actions,
+                const std::map<size_t, std::shared_ptr<Menu> > & menus,
+                Context * context)
             {
                 Widget::_init(context);
-                setClassName("djv::UI::MenuLayout");
+                _actions = actions;
+                _menus = menus;
                 setBackgroundRole(Style::ColorRole::Background);
+                setPointerEnabled(true);
             }
 
-            MenuLayout::MenuLayout()
+            MenuWidget::MenuWidget()
             {}
 
-            std::shared_ptr<MenuLayout> MenuLayout::create(Context * context)
+            std::shared_ptr<MenuWidget> MenuWidget::create(
+                const std::map<size_t, std::shared_ptr<Action> > & actions,
+                const std::map<size_t, std::shared_ptr<Menu> > & menus,
+                Context * context)
             {
-                auto out = std::shared_ptr<MenuLayout>(new MenuLayout);
-                out->_init(context);
+                auto out = std::shared_ptr<MenuWidget>(new MenuWidget);
+                out->_init(actions, menus, context);
                 return out;
             }
 
-            void MenuLayout::addWidget(const std::shared_ptr<Widget>& value)
+            void MenuWidget::setCloseCallback(const std::function<void(void)> & value)
             {
-                value->setParent(shared_from_this());
-                _resize();
+                _closeCallback = value;
             }
 
-            void MenuLayout::clearWidgets()
+            void MenuWidget::_styleEvent(Event::Style&)
             {
-                auto children = getChildren();
-                for (auto& child : children)
-                {
-                    child->setParent(nullptr);
-                }
-                _resize();
+                _itemsUpdate();
             }
 
-            void MenuLayout::addSeparator()
-            {
-                addWidget(Layout::Separator::create(getContext()));
-            }
-
-            void MenuLayout::_preLayoutEvent(Event::PreLayout&)
+            void MenuWidget::_preLayoutEvent(Event::PreLayout&)
             {
                 if (auto style = _getStyle().lock())
                 {
-                    float iconWidth = 0.f;
-                    float textWidth = 0.f;
-                    float shortcutsWidth = 0.f;
-                    float spacing = 0.f;
-                    float margin = 0.f;
-                    const auto & children = getChildrenT<Widget>();
-                    for (const auto& child : children)
+                    const float m = style->getMetric(Style::MetricsRole::MarginSmall);
+                    const float s = style->getMetric(Style::MetricsRole::Spacing);
+                    const float b = style->getMetric(Style::MetricsRole::Border);
+                    const float iconSize = style->getMetric(Style::MetricsRole::Icon);
+
+                    if (_fontMetricsRequest)
                     {
-                        if (auto button = std::dynamic_pointer_cast<MenuButton>(child))
+                        _fontMetricsRequest = false;
+                        _fontMetrics = _fontMetricsFuture.get();
+                    }
+                    for (auto & i : _textSizeFutures)
+                    {
+                        i.first->textSize = i.second.get();
+                    }
+                    _textSizeFutures.clear();
+                    for (auto & i : _shortcutSizeFutures)
+                    {
+                        i.first->shortcutSize = i.second.get();
+                    }
+                    _shortcutSizeFutures.clear();
+
+                    glm::vec2 textSize(0.f, 0.f);
+                    glm::vec2 shortcutSize(0.f, 0.f);
+                    for (const auto & i : _items)
+                    {
+                        if (!i.second->text.empty())
                         {
-                            const float s = button->_layout->getSpacing().get(style).x;
-                            float childSpacing = 0.f;
-                            if (button->_icon->isVisible())
-                            {
-                                const auto & iconSize = button->_icon->getMinimumSize();
-                                iconWidth = std::max(iconSize.x, iconWidth);
-                                childSpacing += s;
-                            }
-                            const auto & textSize = button->_textLabel->getMinimumSize();
-                            textWidth = std::max(textSize.x, textWidth);
-                            if (button->_shortcutsLabel->isVisible())
-                            {
-                                const auto & shortcutsSize = button->_shortcutsLabel->getMinimumSize();
-                                shortcutsWidth = std::max(shortcutsSize.x, shortcutsWidth);
-                                childSpacing += s;
-                            }
-                            spacing = std::max(childSpacing, spacing);
-                            margin = std::max(button->_layout->getMargin().getWidth(style), margin);
+                            textSize.x = std::max(textSize.x, i.second->textSize.x);
+                            textSize.y = std::max(textSize.y, i.second->textSize.y);
+                            shortcutSize.x = std::max(shortcutSize.x, i.second->shortcutSize.x);
+                            shortcutSize.y = std::max(shortcutSize.y, i.second->shortcutSize.y);
                         }
                     }
-                    glm::vec2 minimumSize(0.f, 0.f);
-                    for (const auto& child : children)
+                    glm::vec2 itemSize(0.f, 0.f);
+                    if (_hasIcons)
                     {
-                        auto size = child->getMinimumSize();
-                        if (auto button = std::dynamic_pointer_cast<MenuButton>(child))
-                        {
-                            size.x = iconWidth + textWidth + shortcutsWidth + spacing + margin;
-                            if (iconWidth && button->_icon->getIcon().empty())
-                            {
-                                button->_iconSpacer->setVisible(true);
-                                button->_iconSpacer->setSpacerSize(iconWidth);
-                            }
-                        }
-                        minimumSize.x = std::max(size.x, minimumSize.x);
-                        minimumSize.y += size.y;
+                        itemSize.x = iconSize;
+                        itemSize.y = iconSize;
+                        itemSize.x += s;
                     }
-                    _setMinimumSize(minimumSize);
+                    itemSize.x += textSize.x;
+                    itemSize.y = std::max(itemSize.y, textSize.y);
+                    if (_hasShortcuts)
+                    {
+                        itemSize.x += s;
+                        itemSize.x += shortcutSize.x;
+                        itemSize.y = std::max(itemSize.y, shortcutSize.y);
+                    }
+
+                    std::map<size_t, glm::vec2> sizes;
+                    for (auto & i : _items)
+                    {
+                        glm::vec2 size(0.f, 0.f);
+                        if (!i.second->text.empty())
+                        {
+                            size = itemSize + m * 2.f;
+                        }
+                        else
+                        {
+                            size = glm::vec2(b, b);
+                        }
+                        i.second->size = size;
+                        sizes[i.first] = size;
+                    }
+
+                    glm::vec2 size(0.f, 0.f);
+                    for (const auto & i : sizes)
+                    {
+                        size.x = std::max(size.x, i.second.x);
+                        size.y += i.second.y;
+                    }
+                    _setMinimumSize(size);
                 }
             }
 
-            void MenuLayout::_layoutEvent(Event::Layout&)
+            void MenuWidget::_layoutEvent(Event::Layout&)
             {
-                const BBox2f & g = getGeometry();
-                const float w = g.w();
-                glm::vec2 pos = g.min;
-                for (auto& child : getChildrenT<Widget>())
+                if (auto style = _getStyle().lock())
                 {
-                    const auto & size = child->getMinimumSize();
-                    child->setGeometry(BBox2f(pos.x, pos.y, w, size.y));
-                    pos.y += size.y;
+                    const BBox2f & g = getGeometry();
+                    const float m = style->getMetric(Style::MetricsRole::MarginSmall);
+                    const float s = style->getMetric(Style::MetricsRole::Spacing);
+                    const float b = style->getMetric(Style::MetricsRole::Border);
+                    const float iconSize = style->getMetric(Style::MetricsRole::Icon);
+
+                    float y = g.min.y;
+                    for (auto & i : _items)
+                    {
+                        i.second->geom.min.x = g.min.x;
+                        i.second->geom.min.y = y;
+                        i.second->geom.max.x = g.max.x;
+                        i.second->geom.max.y = y + i.second->size.y;
+                        y += i.second->size.y;
+                    }
+                }
+            }
+
+            void MenuWidget::_paintEvent(Event::Paint& event)
+            {
+                Widget::_paintEvent(event);
+                if (auto render = _getRenderSystem().lock())
+                {
+                    if (auto style = _getStyle().lock())
+                    {
+                        const BBox2f & g = getGeometry();
+                        const float m = style->getMetric(Style::MetricsRole::MarginSmall);
+                        const float s = style->getMetric(Style::MetricsRole::Spacing);
+                        const float b = style->getMetric(Style::MetricsRole::Border);
+                        const float iconSize = style->getMetric(Style::MetricsRole::Icon);
+
+                        for (auto & i : _iconFutures)
+                        {
+                            i.first->icon = i.second.get();
+                        }
+                        _iconFutures.clear();
+
+                        for (const auto & i : _items)
+                        {
+                            Style::ColorRole colorRole = Style::ColorRole::Checked;
+                            if (i.second == _pressed.second || i.second->checked)
+                            {
+                                render->setFillColor(_getColorWithOpacity(style->getColor(Style::ColorRole::Checked)));
+                                render->drawRectangle(i.second->geom);
+                            }
+                        }
+
+                        auto hoveredItems = _hoveredItems;
+                        if (_pressed.second)
+                        {
+                            hoveredItems[_pressed.first] = _pressed.second;
+                        }
+                        for (const auto & i : hoveredItems)
+                        {
+                            if (i.second->enabled)
+                            {
+                                render->setFillColor(_getColorWithOpacity(style->getColor(Style::ColorRole::Hover)));
+                                render->drawRectangle(i.second->geom);
+                            }
+                        }
+
+                        render->setCurrentFont(style->getFontInfo(AV::Font::Info::faceDefault, Style::MetricsRole::FontMedium));
+                        for (const auto & i : _items)
+                        {
+                            Style::ColorRole colorRole = Style::ColorRole::Foreground;
+                            if (!i.second->enabled)
+                            {
+                                colorRole = Style::ColorRole::Disabled;
+                            }
+                            else if (i.second == _pressed.second)
+                            {
+                                colorRole = Style::ColorRole::CheckedForeground;
+                            }
+
+                            float x = i.second->geom.min.x + m;
+                            float y = 0.f;
+                            if (i.second->icon)
+                            {
+                                y = i.second->geom.min.y + ceilf(i.second->size.y / 2.f - iconSize / 2.f);
+                                render->setFillColor(_getColorWithOpacity(style->getColor(colorRole)));
+                                render->drawFilledImage(i.second->icon, BBox2f(x, y, iconSize, iconSize), AV::Render::Render2DSystem::ImageType::Static);
+                                x += iconSize + s;
+                            }
+                            else if (_hasIcons)
+                            {
+                                x += iconSize + s;
+                            }
+
+                            if (!i.second->text.empty())
+                            {
+                                y = i.second->geom.min.y + ceilf(i.second->size.y / 2.f) - ceilf(_fontMetrics.lineHeight / 2.f) + _fontMetrics.ascender;
+                                render->setFillColor(_getColorWithOpacity(style->getColor(colorRole)));
+                                render->drawText(i.second->text, glm::vec2(x, y));
+                                x += i.second->textSize.x;
+
+                                if (!i.second->shortcutLabel.empty())
+                                {
+                                    x = g.max.x - i.second->shortcutSize.x - m;
+                                    render->drawText(i.second->shortcutLabel, glm::vec2(x, y));
+                                }
+                            }
+                            else
+                            {
+                                render->setFillColor(_getColorWithOpacity(style->getColor(Style::ColorRole::Border)));
+                                render->drawRectangle(i.second->geom);
+                            }
+                        }
+                    }
+                }
+            }
+
+            void MenuWidget::_pointerEnterEvent(Event::PointerEnter& event)
+            {
+                event.accept();
+                const auto & pointerInfo = event.getPointerInfo();
+                if (auto item = _getItem(pointerInfo.projectedPos))
+                {
+                    _hoveredItems[pointerInfo.id] = item;
+                }
+                _redraw();
+            }
+
+            void MenuWidget::_pointerLeaveEvent(Event::PointerLeave& event)
+            {
+                event.accept();
+                const auto & pointerInfo = event.getPointerInfo();
+                const auto i = _hoveredItems.find(pointerInfo.id);
+                if (i != _hoveredItems.end())
+                {
+                    _hoveredItems.erase(i);
+                }
+                _redraw();
+            }
+
+            void MenuWidget::_pointerMoveEvent(Event::PointerMove& event)
+            {
+                event.accept();
+                const auto & pointerInfo = event.getPointerInfo();
+                const auto id = pointerInfo.id;
+                const auto & pos = pointerInfo.projectedPos;
+                if (id == _pressed.first)
+                {
+                    if (auto style = _getStyle().lock())
+                    {
+                        const float distance = glm::length(pos - _pressedPos);
+                        const bool accepted = distance < style->getMetric(Style::MetricsRole::Drag);
+                        event.setAccepted(accepted);
+                        if (!accepted)
+                        {
+                            _pressed.first = 0;
+                            _pressed.second = nullptr;
+                            _redraw();
+                        }
+                    }
+                }
+                else
+                {
+                    if (auto item = _getItem(pos))
+                    {
+                        if (_hoveredItems[id] != item)
+                        {
+                            _hoveredItems[id] = item;
+                            _redraw();
+                        }
+                    }
+                }
+            }
+
+            void MenuWidget::_buttonPressEvent(Event::ButtonPress& event)
+            {
+                if (!isEnabled() || _pressed.second)
+                    return;
+                const auto & pointerInfo = event.getPointerInfo();
+                const auto id = pointerInfo.id;
+                const auto & pos = pointerInfo.projectedPos;
+                if (auto item = _getItem(pos))
+                {
+                    if (item->enabled)
+                    {
+                        event.accept();
+                        _pressed.first = id;
+                        _pressed.second = item;
+                        _pressedPos = pos;
+                        _redraw();
+                    }
+                }
+            }
+
+            void MenuWidget::_buttonReleaseEvent(Event::ButtonRelease& event)
+            {
+                const auto & pointerInfo = event.getPointerInfo();
+                const auto id = pointerInfo.id;
+                const auto & pos = pointerInfo.projectedPos;
+                if (_pressed.second)
+                {
+                    const auto i = _itemToAction.find(_pressed.second);
+                    if (i != _itemToAction.end())
+                    {
+                        switch (i->second->observeButtonType()->get())
+                        {
+                        case ButtonType::Push:
+                            i->second->doClicked();
+                            break;
+                        case ButtonType::Toggle:
+                            i->second->setChecked(!i->second->observeChecked()->get());
+                            i->second->doChecked();
+                            break;
+                        case ButtonType::Radio:
+                            if (!i->second->observeChecked()->get())
+                            {
+                                i->second->setChecked(true);
+                                i->second->doChecked();
+                            }
+                            break;
+                        default: break;
+                        }
+                        if (_closeCallback)
+                        {
+                            _closeCallback();
+                        }
+                    }
+                    _pressed.first = 0;
+                    _pressed.second = nullptr;
+                    if (auto item = _getItem(pos))
+                    {
+                        _hoveredItems[id] = item;
+                        _redraw();
+                    }
+                }
+            }
+
+            void MenuWidget::_updateEvent(Event::Update&)
+            {
+                if (_iconUpdateRequest)
+                {
+                    _iconUpdate();
+                }
+                if (_textUpdateRequest)
+                {
+                    _textUpdate();
+                }
+            }
+
+            std::shared_ptr<MenuWidget::Item> MenuWidget::_getItem(const glm::vec2 & pos) const
+            {
+                std::shared_ptr<MenuWidget::Item> out;
+                for (const auto & i : _items)
+                {
+                    if (i.second->geom.contains(pos) && !i.second->text.empty())
+                    {
+                        out = i.second;
+                        break;
+                    }
+                }
+                return out;
+            }
+
+            void MenuWidget::_itemsUpdate()
+            {
+                auto style = _getStyle().lock();
+                auto fontSystem = _getFontSystem().lock();
+                auto iconSystem = _getIconSystem().lock();
+                auto textSystem = _getTextSystem().lock();
+                if (style && fontSystem && iconSystem && textSystem)
+                {
+                    const auto fontInfo = style->getFontInfo(AV::Font::Info::faceDefault, Style::MetricsRole::FontMedium);
+                    _fontMetricsFuture = fontSystem->getMetrics(fontInfo);
+                    _fontMetricsRequest = true;
+                    _hasIcons = false;
+                    _hasShortcuts = false;
+                    _items.clear();
+                    _actionToItem.clear();
+                    _itemToAction.clear();
+                    _menuToItem.clear();
+                    _itemToMenu.clear();
+                    _checkedObservers.clear();
+                    _iconObservers.clear();
+                    auto weak = std::weak_ptr<MenuWidget>(std::dynamic_pointer_cast<MenuWidget>(shared_from_this()));
+                    for (const auto & i : _actions)
+                    {
+                        auto item = std::shared_ptr<Item>(new Item);
+                        if (i.second)
+                        {
+                            _checkedObservers[item] = ValueObserver<bool>::create(
+                                i.second->observeChecked(),
+                                [weak, item](bool value)
+                            {
+                                if (auto widget = weak.lock())
+                                {
+                                    item->checked = value;
+                                    widget->_redraw();
+                                }
+                            });
+                            _iconObservers[item] = ValueObserver<std::string>::create(
+                                i.second->observeIcon(),
+                                [weak, item](std::string value)
+                            {
+                                if (auto widget = weak.lock())
+                                {
+                                    item->iconName = value;
+                                    widget->_iconUpdateRequest = true;
+                                }
+                            });
+                            _textObservers[item] = ValueObserver<std::string>::create(
+                                i.second->observeText(),
+                                [weak, item](std::string value)
+                            {
+                                if (auto widget = weak.lock())
+                                {
+                                    item->text = value;
+                                    widget->_textUpdateRequest = true;
+                                }
+                            });
+                            _shortcutsObservers[item] = ListObserver<std::shared_ptr<Shortcut> >::create(
+                                i.second->observeShortcuts(),
+                                [weak, item](const std::vector<std::shared_ptr<Shortcut> > & value)
+                            {
+                                if (auto widget = weak.lock())
+                                {
+                                    if (auto textSystem = widget->getContext()->getSystemT<TextSystem>().lock())
+                                    {
+                                        std::vector<std::string> labels;
+                                        for (const auto & i : value)
+                                        {
+                                            labels.push_back(Shortcut::getText(
+                                                i->observeShortcutKey()->get(),
+                                                i->observeShortcutModifiers()->get(),
+                                                textSystem));
+                                        }
+                                        item->shortcutLabel = String::join(labels, ", ");
+                                        widget->_textUpdateRequest = true;
+                                    }
+                                }
+                            });
+                            _enabledObservers[item] = ValueObserver<bool>::create(
+                                i.second->observeEnabled(),
+                                [weak, item](bool value)
+                            {
+                                if (auto widget = weak.lock())
+                                {
+                                    item->enabled = value;
+                                    widget->_redraw();
+                                }
+                            });
+                        }
+                        _items[i.first] = item;
+                        _actionToItem[i.second] = item;
+                        _itemToAction[item] = i.second;
+                    }
+                    for (const auto & i : _menus)
+                    {
+                        auto item = std::shared_ptr<Item>(new Item);
+                        if (i.second)
+                        {
+                            _textObservers[item] = ValueObserver<std::string>::create(
+                                i.second->observeMenuName(),
+                                [weak, item](std::string value)
+                            {
+                                if (auto widget = weak.lock())
+                                {
+                                    item->text = value;
+                                    widget->_textUpdateRequest = true;
+                                }
+                            });
+                        }
+                        _items[i.first] = item;
+                        _menuToItem[i.second] = item;
+                        _itemToMenu[item] = i.second;
+                    }
+                }
+                _iconUpdate();
+                _textUpdate();
+            }
+
+            void MenuWidget::_iconUpdate()
+            {
+                _iconUpdateRequest = false;
+                auto style = _getStyle().lock();
+                auto iconSystem = _getIconSystem().lock();
+                if (style && iconSystem)
+                {
+                    _hasIcons = false;
+                    for (const auto & i : _items)
+                    {
+                        if (!i.second->iconName.empty())
+                        {
+                            _hasIcons = true;
+                            _iconFutures[i.second] = iconSystem->getImage(i.second->iconName, static_cast<int>(style->getMetric(Style::MetricsRole::Icon)));
+                        }
+                    }
+                }
+            }
+
+            void MenuWidget::_textUpdate()
+            {
+                _textUpdateRequest = false;
+                auto style = _getStyle().lock();
+                auto fontSystem = _getFontSystem().lock();
+                auto textSystem = _getTextSystem().lock();
+                if (style && fontSystem && textSystem)
+                {
+                    _hasShortcuts = false;
+                    for (const auto & i : _items)
+                    {
+                        const auto fontInfo = style->getFontInfo(AV::Font::Info::faceDefault, Style::MetricsRole::FontMedium);
+                        _textSizeFutures[i.second] = fontSystem->measure(i.second->text, fontInfo);
+                        _shortcutSizeFutures[i.second] = fontSystem->measure(i.second->shortcutLabel, fontInfo);
+                        _hasShortcuts |= i.second->shortcutLabel.size() > 0;
+                    }
                 }
             }
 
@@ -653,7 +883,6 @@ namespace djv
             std::shared_ptr<Layout::Overlay> overlay;
             std::function<void(void)> closeCallback;
 
-            std::shared_ptr<Widget> createMenu(const std::weak_ptr<Menu> &, MenuType);
             std::shared_ptr<Layout::Overlay> createOverlay();
         };
 
@@ -727,21 +956,32 @@ namespace djv
             _p->actions.clear();
         }
 
-        void Menu::popup(const std::shared_ptr<Window> & window, const glm::vec2 & pos, MenuType type)
+        void Menu::popup(const std::shared_ptr<Window> & window, const glm::vec2 & pos)
         {
             hide();
 
             DJV_PRIVATE_PTR();
             auto menuOverlayLayout = MenuOverlayLayout::create(p.context);
-            if (auto menu = p.createMenu(shared_from_this(), type))
+            auto weak = std::weak_ptr<Menu>(shared_from_this());
+            if (_p->count > 0)
             {
-                menuOverlayLayout->addWidget(menu, pos, MenuOverlayLayoutType::TopLevel);
+                auto menuWidget = MenuWidget::create(_p->actions, _p->menus, p.context);
+                auto scrollWidget = ScrollWidget::create(ScrollType::Vertical, p.context);
+                scrollWidget->addWidget(menuWidget);
+                menuOverlayLayout->addWidget(scrollWidget, pos, MenuOverlayLayoutType::TopLevel);
+                menuWidget->setCloseCallback(
+                    [weak]
+                {
+                    if (auto menu = weak.lock())
+                    {
+                        menu->hide();
+                    }
+                });
             }
 
             p.overlay = p.createOverlay();
             p.overlay->addWidget(menuOverlayLayout);
 
-            auto weak = std::weak_ptr<Menu>(shared_from_this());
             p.overlay->setCloseCallback(
                 [weak]
             {
@@ -755,22 +995,33 @@ namespace djv
             p.overlay->show();
         }
 
-        void Menu::popup(const std::shared_ptr<Window> & window, const std::weak_ptr<Widget> & button, MenuType type)
+        void Menu::popup(const std::shared_ptr<Window> & window, const std::weak_ptr<Widget> & button)
         {
             hide();
 
             DJV_PRIVATE_PTR();
             auto menuOverlayLayout = MenuOverlayLayout::create(p.context);
-            if (auto menu = p.createMenu(shared_from_this(), type))
+            auto weak = std::weak_ptr<Menu>(shared_from_this());
+            if (_p->count > 0)
             {
-                menuOverlayLayout->addWidget(menu, button, MenuOverlayLayoutType::TopLevel);
+                auto menuWidget = MenuWidget::create(_p->actions, _p->menus, p.context);
+                auto scrollWidget = ScrollWidget::create(ScrollType::Vertical, p.context);
+                scrollWidget->addWidget(menuWidget);
+                menuOverlayLayout->addWidget(scrollWidget, button, MenuOverlayLayoutType::TopLevel);
+                menuWidget->setCloseCallback(
+                    [weak]
+                {
+                    if (auto menu = weak.lock())
+                    {
+                        menu->hide();
+                    }
+                });
             }
 
             p.overlay = p.createOverlay();
             p.overlay->setAnchor(button);
             p.overlay->addWidget(menuOverlayLayout);
 
-            auto weak = std::weak_ptr<Menu>(shared_from_this());
             p.overlay->setCloseCallback(
                 [weak]
             {
@@ -784,22 +1035,33 @@ namespace djv
             p.overlay->show();
         }
 
-        void Menu::popup(const std::shared_ptr<Window> & window, const std::weak_ptr<Widget> & button, const std::weak_ptr<Widget> & anchor, MenuType type)
+        void Menu::popup(const std::shared_ptr<Window> & window, const std::weak_ptr<Widget> & button, const std::weak_ptr<Widget> & anchor)
         {
             hide();
 
             DJV_PRIVATE_PTR();
             auto menuOverlayLayout = MenuOverlayLayout::create(p.context);
-            if (auto menu = p.createMenu(shared_from_this(), type))
+            auto weak = std::weak_ptr<Menu>(shared_from_this());
+            if (_p->count > 0)
             {
-                menuOverlayLayout->addWidget(menu, button, MenuOverlayLayoutType::TopLevel);
+                auto menuWidget = MenuWidget::create(_p->actions, _p->menus, p.context);
+                auto scrollWidget = ScrollWidget::create(ScrollType::Vertical, p.context);
+                scrollWidget->addWidget(menuWidget);
+                menuOverlayLayout->addWidget(scrollWidget, button, MenuOverlayLayoutType::TopLevel);
+                menuWidget->setCloseCallback(
+                    [weak]
+                {
+                    if (auto menu = weak.lock())
+                    {
+                        menu->hide();
+                    }
+                });
             }
 
             p.overlay = p.createOverlay();
             p.overlay->setAnchor(anchor);
             p.overlay->addWidget(menuOverlayLayout);
 
-            auto weak = std::weak_ptr<Menu>(shared_from_this());
             p.overlay->setCloseCallback(
                 [weak]
             {
@@ -832,64 +1094,6 @@ namespace djv
         void Menu::setCloseCallback(const std::function<void(void)> & callback)
         {
             _p->closeCallback = callback;
-        }
-
-        std::shared_ptr<Widget> Menu::Private::createMenu(const std::weak_ptr<Menu> & menuWeak, MenuType type)
-        {
-            std::shared_ptr<Widget> out;
-            if (actions.size())
-            {
-                auto layout = MenuLayout::create(context);
-                std::map<size_t, std::shared_ptr<Widget> > widgets;
-                for (const auto & i : actions)
-                {
-                    if (auto & action = i.second)
-                    {
-                        auto button = MenuButton::create(context);
-                        button->setAction(action);
-                        widgets[i.first] = button;
-                        button->setClickedCallback(
-                            [menuWeak, action]
-                        {
-                            action->doClicked();
-                            if (auto menu = menuWeak.lock())
-                            {
-                                menu->hide();
-                            }
-                        });
-                        button->setCheckedCallback(
-                            [menuWeak, action](bool value)
-                        {
-                            action->setChecked(value);
-                            action->doChecked();
-                            if (auto menu = menuWeak.lock())
-                            {
-                                menu->hide();
-                            }
-                        });
-                    }
-                    else
-                    {
-                        widgets[i.first] = Layout::Separator::create(context);
-                    }
-                }
-                for (const auto & i : menus)
-                {
-                    auto button = MenuButton::create(context);
-                    button->setMenu(i.second);
-                    widgets[i.first] = button;
-                }
-
-                for (const auto & i : widgets)
-                {
-                    layout->addWidget(i.second);
-                }
-
-                auto scrollWidget = ScrollWidget::create(ScrollType::Vertical, context);
-                scrollWidget->addWidget(layout);
-                out = scrollWidget;
-            }
-            return out;
         }
 
         std::shared_ptr<Layout::Overlay> Menu::Private::createOverlay()

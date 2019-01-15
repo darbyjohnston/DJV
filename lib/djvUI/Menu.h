@@ -48,12 +48,6 @@ namespace djv
         class Widget;
         class Window;
 
-        enum class MenuType
-        {
-            Default,
-            ComboBox
-        };
-
         //! This class provides a menu.
         //!
         //! \todo Add sub-menus.
@@ -80,9 +74,9 @@ namespace djv
             void addSeparator();
             void clearActions();
 
-            void popup(const std::shared_ptr<Window> &, const glm::vec2 &, MenuType = MenuType::Default);
-            void popup(const std::shared_ptr<Window> &, const std::weak_ptr<Widget> & button, MenuType = MenuType::Default);
-            void popup(const std::shared_ptr<Window> &, const std::weak_ptr<Widget> & button, const std::weak_ptr<Widget> & anchor, MenuType = MenuType::Default);
+            void popup(const std::shared_ptr<Window> &, const glm::vec2 &);
+            void popup(const std::shared_ptr<Window> &, const std::weak_ptr<Widget> & button);
+            void popup(const std::shared_ptr<Window> &, const std::weak_ptr<Widget> & button, const std::weak_ptr<Widget> & anchor);
             void hide();
 
             void setCloseCallback(const std::function<void(void)> &);

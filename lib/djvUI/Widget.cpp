@@ -81,8 +81,17 @@ namespace djv
             if (!_iconSystem.lock())
             {
                 _iconSystem = context->getSystemT<AV::Image::IconSystem>();
+            }
+            if (!_fontSystem.lock())
+            {
                 _fontSystem = context->getSystemT<AV::Font::System>();
+            }
+            if (!_renderSystem.lock())
+            {
                 _renderSystem = context->getSystemT<AV::Render::Render2DSystem>();
+            }
+            if (!_uiSystem.lock())
+            {
                 _uiSystem = context->getSystemT<UISystem>();
             }
         }

@@ -87,7 +87,7 @@ namespace djv
             void _paintEvent(Core::Event::Paint&) override;
 
         private:
-            void _updateText();
+            void _textUpdate();
 
             struct Private;
             std::unique_ptr<Private> _p;

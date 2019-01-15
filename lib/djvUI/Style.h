@@ -100,7 +100,7 @@ namespace djv
                 Handle,
 
                 Count,
-                First = Border
+                First = None
             };
             DJV_ENUM_HELPERS(MetricsRole);
 

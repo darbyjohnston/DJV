@@ -80,7 +80,7 @@ namespace djv
 
             //! \todo Implement me!
             p.actions["Center"] = UI::Action::create();
-            p.actions["Center"]->setShortcut(GLFW_KEY_KP_5);
+            p.actions["Center"]->addShortcut(GLFW_KEY_KP_5);
             p.actions["Center"]->setEnabled(false);
 
             //! \todo Implement me!

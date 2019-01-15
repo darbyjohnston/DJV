@@ -62,7 +62,13 @@ namespace djv
             if (!_resourceSystem.lock())
             {
                 _resourceSystem = context->getSystemT<ResourceSystem>();
+            }
+            if (!_logSystem.lock())
+            {
                 _logSystem = context->getSystemT<LogSystem>();
+            }
+            if (!_textSystem.lock())
+            {
                 _textSystem = context->getSystemT<TextSystem>();
             }
         }

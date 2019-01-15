@@ -114,7 +114,7 @@ namespace djv
                         if (auto window = widget->getWindow().lock())
                         {
                             const auto & g = widget->getGeometry();
-                            widget->_p->menu->popup(window, weak, MenuType::ComboBox);
+                            widget->_p->menu->popup(window, weak);
                         }
                     }
                 }

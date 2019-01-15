@@ -108,7 +108,7 @@ namespace djv
             p.heightForWidthHash = 0;
             p.textSizeHash = 0;
             p.breakTextHash = 0;
-            _updateText();
+            _textUpdate();
         }
 
         TextHAlign TextBlock::getTextHAlign() const
@@ -150,7 +150,7 @@ namespace djv
             if (value == p.textSizeRole)
                 return;
             p.textSizeRole = value;
-            _updateText();
+            _textUpdate();
         }
 
         const std::string & TextBlock::getFontFace() const
@@ -169,7 +169,7 @@ namespace djv
             if (value == p.fontFace)
                 return;
             p.fontFace = value;
-            _updateText();
+            _textUpdate();
         }
 
         void TextBlock::setFontSizeRole(Style::MetricsRole value)
@@ -178,7 +178,7 @@ namespace djv
             if (value == p.fontSizeRole)
                 return;
             p.fontSizeRole = value;
-            _updateText();
+            _textUpdate();
         }
 
         float TextBlock::getHeightForWidth(float value) const
@@ -210,7 +210,7 @@ namespace djv
 
         void TextBlock::_styleEvent(Event::Style& event)
         {
-            _updateText();
+            _textUpdate();
         }
 
         void TextBlock::_preLayoutEvent(Event::PreLayout& event)
@@ -325,7 +325,7 @@ namespace djv
             }
         }
 
-        void TextBlock::_updateText()
+        void TextBlock::_textUpdate()
         {
             if (auto style = _getStyle().lock())
             {

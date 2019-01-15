@@ -138,7 +138,7 @@ namespace djv
                 p.metrics[MetricsRole::Margin]         =  10.f;
                 p.metrics[MetricsRole::MarginSmall]    =   5.f;
                 p.metrics[MetricsRole::MarginLarge]    =  20.f;
-                p.metrics[MetricsRole::MarginDialog]   =  50.f;
+                p.metrics[MetricsRole::MarginDialog]   =  30.f;
                 p.metrics[MetricsRole::Spacing]        =  10.f;
                 p.metrics[MetricsRole::SpacingSmall]   =   5.f;
                 p.metrics[MetricsRole::SpacingLarge]   =  20.f;

@@ -55,6 +55,7 @@ namespace djv
         //!
         //! \bug [1.0 M] Add a minimum scroll bar handle size.
         //! \todo Add keyboard shortcuts (page up, page down, etc.).
+        //! \todo Add an auto-hide feature for the scroll bars.
         class ScrollWidget : public Layout::IContainer
         {
             DJV_NON_COPYABLE(ScrollWidget);
