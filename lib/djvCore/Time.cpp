@@ -84,12 +84,21 @@ namespace djv
             {
                 const std::time_t t = std::time(nullptr);
                 std::tm tm;
-                localtime_s(&tm, &t);
+                localtime(&t, &tm);
                 char buffer[32];
                 std::strftime(buffer, 32, "%Y-%m-%d %H:%M:%S", &tm);
                 return buffer;
             }
 
+            void localtime(const time_t * t, tm * tm)
+            {
+#if defined(DJV_PLATFORM_WINDOWS)
+                localtime_s(tm, t);
+#else // DJV_PLATFORM_WINDOWS
+                localtime_r(t, tm);
+#endif // DJV_PLATFORM_WINDOWS
+            }
+            
             std::string keycodeToString(
                 int id,
                 int type,

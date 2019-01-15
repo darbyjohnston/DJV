@@ -31,6 +31,8 @@
 
 #include <djvCore/Speed.h>
 
+#include <ctime>
+
 namespace djv
 {
     namespace Core
@@ -62,6 +64,8 @@ namespace djv
 
             std::string getLabel(double seconds);
             std::string getLabel(time_t);
+            
+            void localtime(const time_t *, tm *);
 		    
 		    ///@}
 

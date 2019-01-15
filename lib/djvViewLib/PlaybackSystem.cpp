@@ -290,7 +290,11 @@ namespace djv
         NewToolWidget PlaybackSystem::createToolWidget()
         {
             DJV_PRIVATE_PTR();
-            return { p.playbackToolWidget, "E", glm::vec2(200.f, 600.f) };
+            NewToolWidget out;
+            out.widget = p.playbackToolWidget;
+            out.sortKey = "E";
+            out.pos = glm::vec2(200.f, 600.f);
+            return out;
         }
 
         void PlaybackSystem::setCurrentMedia(const std::shared_ptr<Media> & media)

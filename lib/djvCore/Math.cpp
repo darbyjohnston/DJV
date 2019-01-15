@@ -29,7 +29,7 @@
 
 #include <djvCore/Math.h>
 
-#include <ctime>
+#include <djvCore/Time.h>
 
 #include <stdlib.h>
 
@@ -75,7 +75,7 @@ namespace djv
             {
                 const std::time_t t = std::time(nullptr);
                 std::tm tm;
-                localtime_s(&tm, &t);
+                Time::localtime(&t, &tm);
                 srand(tm.tm_sec);
             }
 

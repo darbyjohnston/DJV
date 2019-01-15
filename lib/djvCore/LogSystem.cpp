@@ -39,7 +39,6 @@
 
 #include <atomic>
 #include <condition_variable>
-#include <ctime>
 #include <iomanip>
 #include <iostream>
 #include <list>
@@ -208,7 +207,7 @@ namespace djv
                         std::stringstream s2;
                         const std::time_t t = std::time(nullptr);
                         std::tm tm;
-                        localtime_s(&tm, &t);
+                        Time::localtime(&t, &tm);
                         s2 << std::put_time(&tm, "%c") << " ";
                         s2 << std::setfill(' ');
                         s2 << std::right;
