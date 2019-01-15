@@ -99,7 +99,7 @@ namespace djv
                 float _scrollPos = 0.f;
                 std::function<void(float)> _scrollPosCallback;
                 std::map<Event::PointerID, bool> _hover;
-                Event::PointerID _pressedID = 0;
+                Event::PointerID _pressedID = Event::InvalidID;
                 float _pressedPos = 0.f;
                 float _pressedScrollPos = 0.f;
             };
@@ -302,7 +302,7 @@ namespace djv
                 if (event.getPointerInfo().id != _pressedID)
                     return;
                 event.accept();
-                _pressedID = 0;
+                _pressedID = Event::InvalidID;
                 _redraw();
             }
 
@@ -551,7 +551,7 @@ namespace djv
             std::shared_ptr<Widget> scrollAreaSwipe;
             std::map<Orientation, std::shared_ptr<ScrollBar> > scrollBars;
             std::shared_ptr<Layout::Border> border;
-            Event::PointerID pointerID = 0;
+            Event::PointerID pointerID = Event::InvalidID;
             glm::vec2 pointerPos = glm::vec2(0.f, 0.f);
             std::list<glm::vec2> pointerAverage;
             std::shared_ptr<Time::Timer> pointerAverageTimer;
@@ -830,7 +830,7 @@ namespace djv
                 if (pointerEvent.getPointerInfo().id == p.pointerID)
                 {
                     pointerEvent.accept();
-                    p.pointerID = 0;
+                    p.pointerID = Event::InvalidID;
                     p.pointerPos = pointerEvent.getPointerInfo().projectedPos;
                     const auto delta = _getPointerAverage();
                     if (glm::length(delta) < velocityStopDelta)

@@ -45,7 +45,7 @@ namespace djv
                 float split = .5f;
                 float splitterWidth = 0.f;
                 std::map<Event::PointerID, bool> hover;
-                Event::PointerID pressedID = 0;
+                Event::PointerID pressedID = Event::InvalidID;
                 std::function<void(float)> splitCallback;
             };
 
@@ -356,7 +356,7 @@ namespace djv
                 if (event.getPointerInfo().id != p.pressedID)
                     return;
                 event.accept();
-                p.pressedID = 0;
+                p.pressedID = Event::InvalidID;
                 _redraw();
             }
 

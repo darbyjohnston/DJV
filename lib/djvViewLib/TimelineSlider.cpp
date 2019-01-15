@@ -44,7 +44,7 @@ namespace djv
             Time::Duration duration = 0;
             std::shared_ptr<ValueSubject<Time::Timestamp> > currentTime;
             std::map<uint32_t, bool> hover;
-            uint32_t pressedId = 0;
+            uint32_t pressedID = Event::InvalidID;
         };
 
         void TimelineSlider::_init(Context * context)
@@ -136,11 +136,11 @@ namespace djv
             const auto& pos = event.getPointerInfo().projectedPos;
             const BBox2f& g = getGeometry();
             _p->hover[id] = g.contains(pos);
-            if (_p->hover[id] || _p->pressedId)
+            if (_p->hover[id] || _p->pressedID)
             {
                 event.accept();
             }
-            if (_p->pressedId)
+            if (_p->pressedID)
             {
                 if (_p->currentTime->setIfChanged(_posToTime(static_cast<int>(pos.x - g.min.x))))
                 {
@@ -151,7 +151,7 @@ namespace djv
 
         void TimelineSlider::_buttonPressEvent(Event::ButtonPress& event)
         {
-            if (_p->pressedId)
+            if (_p->pressedID)
                 return;
             const auto id = event.getPointerInfo().id;
             const auto& pos = event.getPointerInfo().projectedPos;
@@ -159,7 +159,7 @@ namespace djv
             if (_p->hover[id])
             {
                 event.accept();
-                _p->pressedId = id;
+                _p->pressedID = id;
                 if (_p->currentTime->setIfChanged(_posToTime(static_cast<int>(pos.x - g.min.x))))
                 {
                     _redraw();
@@ -169,10 +169,10 @@ namespace djv
 
         void TimelineSlider::_buttonReleaseEvent(Event::ButtonRelease& event)
         {
-            if (event.getPointerInfo().id != _p->pressedId)
+            if (event.getPointerInfo().id != _p->pressedID)
                 return;
             event.accept();
-            _p->pressedId = 0;
+            _p->pressedID = Event::InvalidID;
             _redraw();
         }
 

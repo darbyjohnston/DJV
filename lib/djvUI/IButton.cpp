@@ -52,7 +52,7 @@ namespace djv
                 std::function<void(void)> clickedCallback;
                 std::function<void(bool)> checkedCallback;
 
-                Event::PointerID pressedId = 0;
+                Event::PointerID pressedId = Event::InvalidID;
                 glm::vec2 pressedPos = glm::vec2(0.f, 0.f);
                 bool canRejectPressed = true;
             };
@@ -199,7 +199,7 @@ namespace djv
                         event.setAccepted(accepted);
                         if (!accepted)
                         {
-                            p.pressedId = 0;
+                            p.pressedId = Event::InvalidID;
                             _redraw();
                         }
                     }
@@ -224,7 +224,7 @@ namespace djv
                 if (id == p.pressedId)
                 {
                     event.accept();
-                    p.pressedId = 0;
+                    p.pressedId = Event::InvalidID;
                     const BBox2f& g = getGeometry();
                     const auto & hover = _getPointerHover();
                     const auto i = hover.find(id);
