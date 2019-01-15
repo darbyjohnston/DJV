@@ -50,9 +50,9 @@ namespace djv
 
             static std::shared_ptr<FileSystem> create(Core::Context *);
 
-            std::shared_ptr<Core::IValueSubject<std::shared_ptr<Media> > > observeOpened() const;
+            std::shared_ptr<Core::IValueSubject<std::pair<std::shared_ptr<Media>, glm::vec2> > > observeOpened() const;
             std::shared_ptr<Core::IValueSubject<bool> > observeClose() const;
-            void open(const std::string &);
+            void open(const std::string &, const glm::vec2 & = glm::vec2(-1.f, -1.f));
 
             std::map<std::string, std::shared_ptr<UI::Action> > getActions() override;
             NewMenu createMenu() override;

@@ -53,6 +53,7 @@ namespace djv
 
             std::map<std::string, std::shared_ptr<UI::Action> > getActions() override;
             NewMenu createMenu() override;
+            NewToolWidget createToolWidget() override;
             void setCurrentMedia(const std::shared_ptr<Media> &) override;
 
         protected:

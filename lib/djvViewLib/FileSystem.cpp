@@ -52,7 +52,7 @@ namespace djv
         {
             std::map<std::string, std::shared_ptr<UI::Action> > actions;
             std::map<std::string, std::shared_ptr<UI::Menu> > menus;
-            std::shared_ptr<ValueSubject<std::shared_ptr<Media> > > opened;
+            std::shared_ptr<ValueSubject<std::pair<std::shared_ptr<Media>, glm::vec2> > > opened;
             std::shared_ptr<ValueSubject<bool> > close;
             std::map<std::string, std::shared_ptr<ValueObserver<bool> > > clickedObservers;
         };
@@ -62,7 +62,7 @@ namespace djv
             IViewSystem::_init("djv::ViewLib::FileSystem", context);
 
             DJV_PRIVATE_PTR();
-            p.opened = ValueSubject<std::shared_ptr<Media> >::create();
+            p.opened = ValueSubject<std::pair<std::shared_ptr<Media>, glm::vec2> >::create();
             p.close = ValueSubject<bool>::create();
 
             p.actions["Open"] = UI::Action::create();
@@ -200,7 +200,7 @@ namespace djv
             return out;
         }
 
-        std::shared_ptr<IValueSubject<std::shared_ptr<Media> > > FileSystem::observeOpened() const
+        std::shared_ptr<IValueSubject<std::pair<std::shared_ptr<Media>, glm::vec2> > > FileSystem::observeOpened() const
         {
             return _p->opened;
         }
@@ -210,10 +210,10 @@ namespace djv
             return _p->close;
         }
 
-        void FileSystem::open(const std::string & value)
+        void FileSystem::open(const std::string & value, const glm::vec2 &  pos)
         {
             auto media = Media::create(value, getContext());
-            _p->opened->setAlways(media);
+            _p->opened->setAlways(std::make_pair(media, pos));
         }
 
         std::map<std::string, std::shared_ptr<UI::Action> > FileSystem::getActions()

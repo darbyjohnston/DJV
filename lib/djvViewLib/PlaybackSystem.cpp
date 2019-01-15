@@ -31,6 +31,7 @@
 
 #include <djvViewLib/Application.h>
 #include <djvViewLib/Media.h>
+#include <djvViewLib/PlaybackToolWidget.h>
 
 #include <djvUI/Action.h>
 #include <djvUI/ActionGroup.h>
@@ -52,8 +53,13 @@ namespace djv
             std::map<std::string, std::shared_ptr<UI::Action> > actions;
             std::map<std::string, std::shared_ptr<UI::Menu> > menus;
             std::shared_ptr<UI::ActionGroup> playbackActionGroup;
+            std::shared_ptr<PlaybackToolWidget> playbackToolWidget;
             std::map<std::string, std::shared_ptr<ValueObserver<bool> > > clickedObservers;
+            std::shared_ptr<ValueObserver<Time::Duration> > durationObserver;
+            std::shared_ptr<ValueObserver<Time::Timestamp> > currentTimeObserver;
+            std::shared_ptr<ValueObserver<Time::Timestamp> > currentTimeObserver2;
             std::shared_ptr<ValueObserver<Playback> > playbackObserver;
+            std::shared_ptr<ValueObserver<Playback> > playbackObserver2;
         };
 
         void PlaybackSystem::_init(Context * context)
@@ -183,15 +189,43 @@ namespace djv
             p.actions["ResetOutPoint"]->setShortcut(GLFW_KEY_O, GLFW_MOD_SHIFT);
             p.actions["ResetOutPoint"]->setEnabled(false);
 
+            p.playbackToolWidget = PlaybackToolWidget::create(context);
+
             auto weak = std::weak_ptr<PlaybackSystem>(std::dynamic_pointer_cast<PlaybackSystem>(shared_from_this()));
             p.playbackActionGroup->setRadioCallback(
                 [weak](int value)
             {
                 if (auto system = weak.lock())
                 {
-                    if (system->_p->media)
+                    if (auto media = system->_p->media)
                     {
-                        system->_p->media->setPlayback(static_cast<Playback>(value));
+                        media->setPlayback(static_cast<Playback>(value));
+                    }
+                }
+            });
+
+            p.currentTimeObserver2 = ValueObserver<Time::Timestamp>::create(
+                p.playbackToolWidget->observeCurrentTime(),
+                [weak](Time::Timestamp value)
+            {
+                if (auto system = weak.lock())
+                {
+                    if (auto media = system->_p->media)
+                    {
+                        media->setCurrentTime(value);
+                    }
+                }
+            });
+
+            p.playbackObserver2 = ValueObserver<Playback>::create(
+                p.playbackToolWidget->observePlayback(),
+                [weak](Playback value)
+            {
+                if (auto system = weak.lock())
+                {
+                    if (auto media = system->_p->media)
+                    {
+                        media->setPlayback(value);
                     }
                 }
             });
@@ -253,6 +287,12 @@ namespace djv
             return { p.menus["Playback"], "E" };
         }
 
+        NewToolWidget PlaybackSystem::createToolWidget()
+        {
+            DJV_PRIVATE_PTR();
+            return { p.playbackToolWidget, "E", glm::vec2(200.f, 600.f) };
+        }
+
         void PlaybackSystem::setCurrentMedia(const std::shared_ptr<Media> & media)
         {
             DJV_PRIVATE_PTR();
@@ -263,6 +303,24 @@ namespace djv
             if (media)
             {
                 auto weak = std::weak_ptr<PlaybackSystem>(std::dynamic_pointer_cast<PlaybackSystem>(shared_from_this()));
+                p.durationObserver = ValueObserver<Time::Duration>::create(
+                    media->observeDuration(),
+                    [weak](Time::Duration value)
+                {
+                    if (auto system = weak.lock())
+                    {
+                        system->_p->playbackToolWidget->setDuration(value);
+                    }
+                });
+                p.currentTimeObserver = ValueObserver<Time::Timestamp>::create(
+                    media->observeCurrentTime(),
+                    [weak](Time::Timestamp value)
+                {
+                    if (auto system = weak.lock())
+                    {
+                        system->_p->playbackToolWidget->setCurrentTime(value);
+                    }
+                });
                 p.playbackObserver = ValueObserver<Playback>::create(
                     media->observePlayback(),
                     [weak](Playback value)
@@ -270,6 +328,7 @@ namespace djv
                     if (auto system = weak.lock())
                     {
                         system->_p->playbackActionGroup->setChecked(static_cast<int>(value));
+                        system->_p->playbackToolWidget->setPlayback(value);
                     }
                 });
             }
@@ -309,205 +368,6 @@ namespace djv
             p.menus["Loop"]->setMenuName(_getText(DJV_TEXT("djv::ViewLib", "Loop")));
             p.menus["Layout"]->setMenuName(_getText(DJV_TEXT("djv::ViewLib", "Layout")));
         }
-
-        /*struct PlaybackObject::Private
-        {
-            std::map<QString, QPointer<QAction> > actions;
-            std::map<QString, QPointer<QActionGroup> > actionGroups;
-            std::shared_ptr<Core::ValueObserver<AV::Duration> > durationObserver;
-            std::shared_ptr<Core::ValueObserver<AV::Timestamp> > currentTimeObserver;
-            std::shared_ptr<Core::ValueObserver<Enum::Playback> > playbackObserver;
-            std::shared_ptr<Media> currentMedia;
-            std::vector<QPointer<TimelineWidget> > timelineWidgets;
-        };
-        
-        PlaybackObject::PlaybackObject(const std::shared_ptr<Context> & context, QObject * parent) :
-            IViewObject("PlaybackObject", context, parent),
-            _p(new Private)
-        {
-            DJV_PRIVATE_PTR();            
-            p.actions["Stop"] = new QAction("Stop", this);
-            p.actions["Stop"]->setCheckable(true);
-            p.actions["Stop"]->setShortcut(QKeySequence("K"));
-            p.actions["Forward"] = new QAction("Forward", this);
-            p.actions["Forward"]->setCheckable(true);
-            p.actions["Forward"]->setShortcut(QKeySequence("L"));
-            p.actions["Reverse"] = new QAction("Reverse", this);
-            p.actions["Reverse"]->setCheckable(true);
-            p.actions["Reverse"]->setShortcut(QKeySequence("J"));
-            p.actionGroups["Playback"] = new QActionGroup(this);
-            p.actionGroups["Playback"]->setExclusive(true);
-            p.actionGroups["Playback"]->addAction(p.actions["Stop"]);
-            p.actionGroups["Playback"]->addAction(p.actions["Forward"]);
-            p.actionGroups["Playback"]->addAction(p.actions["Reverse"]);
-
-            p.actions["Timeline"] = new QAction("Timeline", this);
-            p.actions["Timeline"]->setCheckable(true);
-            p.actions["Timeline"]->setChecked(true);
-
-            connect(
-                p.actionGroups["Playback"],
-                &QActionGroup::triggered,
-                [this](QAction * action)
-            {
-                DJV_PRIVATE_PTR();
-                if (p.currentMedia)
-                {
-                    Enum::Playback playback = Enum::Playback::Stop;
-                    if (p.actions["Forward"] == action)
-                    {
-                        playback = Enum::Playback::Forward;
-                    }
-                    else if (p.actions["Reverse"] == action)
-                    {
-                        playback = Enum::Playback::Reverse;
-                    }
-                    p.currentMedia->setPlayback(playback);
-                }
-            });
-        }
-        
-        PlaybackObject::~PlaybackObject()
-        {}
-
-        std::string PlaybackObject::getMenuSortKey() const
-        {
-            return "5";
-        }
-        
-        QPointer<QMenu> PlaybackObject::createMenu()
-        {
-            DJV_PRIVATE_PTR();
-            auto menu = new QMenu("Playback");
-            menu->addAction(p.actions["Stop"]);
-            menu->addAction(p.actions["Forward"]);
-            menu->addAction(p.actions["Reverse"]);
-            menu->addSeparator();
-            menu->addAction(p.actions["Timeline"]);
-            return menu;
-        }
-
-        QPointer<QDockWidget> PlaybackObject::createDockWidget()
-        {
-            DJV_PRIVATE_PTR();
-            QDockWidget * out = nullptr;
-            if (auto context = getContext().lock())
-            {
-                out = new QDockWidget("Timeline");
-                auto timelineWidget = new TimelineWidget(context);
-                timelineWidget->setEnabled(p.currentMedia ? true : false);
-                out->setWidget(timelineWidget);
-                p.timelineWidgets.push_back(timelineWidget);
-
-                connect(
-                    p.actions["Timeline"],
-                    &QAction::toggled,
-                    [out](bool value)
-                {
-                    out->setVisible(value);
-                });
-
-                connect(
-                    out,
-                    &QDockWidget::visibilityChanged,
-                    [this](bool value)
-                {
-                    _p->actions["Timeline"]->setChecked(value);
-                });
-
-                connect(
-                    timelineWidget,
-                    &TimelineWidget::currentTimeChanged,
-                    [this](AV::Timestamp value)
-                {
-                    if (_p->currentMedia)
-                    {
-                        _p->currentMedia->setCurrentTime(value);
-                    }
-                });
-                connect(
-                    timelineWidget,
-                    &TimelineWidget::playbackChanged,
-                    [this](Enum::Playback value)
-                {
-                    if (_p->currentMedia)
-                    {
-                        _p->currentMedia->setPlayback(value);
-                    }
-                });
-            }
-            return out;
-        }
-
-        Qt::DockWidgetArea PlaybackObject::getDockWidgetArea() const
-        {
-            return Qt::DockWidgetArea::BottomDockWidgetArea;
-        }
-
-        bool PlaybackObject::isDockWidgetVisible() const
-        {
-            return true;
-        }
-
-        void PlaybackObject::setCurrentMedia(const std::shared_ptr<Media> & media)
-        {
-            DJV_PRIVATE_PTR();
-            p.actionGroups["Playback"]->setEnabled(media ? true : false);
-            for (auto & i : p.timelineWidgets)
-            {
-                i->setEnabled(media ? true : false);
-            }
-
-            if (media)
-            {
-                p.durationObserver = Core::ValueObserver<AV::Duration>::create(
-                    media->getDuration(),
-                    [this](AV::Duration value)
-                {
-                    for (auto & i : _p->timelineWidgets)
-                    {
-                        i->setDuration(value);
-                    }
-                });
-                p.currentTimeObserver = Core::ValueObserver<AV::Timestamp>::create(
-                    media->getCurrentTime(),
-                    [this](AV::Timestamp value)
-                {
-                    for (auto & i : _p->timelineWidgets)
-                    {
-                        i->setCurrentTime(value);
-                    }
-                });
-                p.playbackObserver = Core::ValueObserver<Enum::Playback>::create(
-                    media->getPlayback(),
-                    [this](Enum::Playback value)
-                {
-                    switch (value)
-                    {
-                    case Enum::Playback::Stop: _p->actions["Stop"]->setChecked(true); break;
-                    case Enum::Playback::Forward: _p->actions["Forward"]->setChecked(true); break;
-                    case Enum::Playback::Reverse: _p->actions["Reverse"]->setChecked(true); break;
-                    default: break;
-                    }
-                    for (auto & i : _p->timelineWidgets)
-                    {
-                        i->setPlayback(value);
-                    }
-                });
-            }
-            else
-            {
-                p.currentTimeObserver = nullptr;
-                p.playbackObserver = nullptr;
-                for (auto & i : p.timelineWidgets)
-                {
-                    i->setDuration(0);
-                    i->setCurrentTime(0);
-                    i->setPlayback(Enum::Playback::Stop);
-                }
-            }
-            p.currentMedia = media;
-        }*/
 
     } // namespace ViewLib
 } // namespace djv

@@ -91,7 +91,12 @@ namespace djv
         }
 
         void TimelineSlider::_preLayoutEvent(Event::PreLayout& event)
-        {}
+        {
+            if (auto style = _getStyle().lock())
+            {
+                _setMinimumSize(glm::vec2(style->getMetric(UI::Style::MetricsRole::TextColumn), 0.f));
+            }
+        }
 
         void TimelineSlider::_layoutEvent(Event::Layout& event)
         {}

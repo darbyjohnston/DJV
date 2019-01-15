@@ -18,15 +18,15 @@ set(header
     #InfoTool.h
     LanguageSettingsWidget.h
     #MagnifyTool.h
-    MDIWindow.h
+    MDIWidget.h
     MainWindow.h
     Media.h
     MediaSession.h
     PlaybackSystem.h
+    PlaybackToolWidget.h
     PlaybackWidget.h
     SettingsSystem.h
     TimelineSlider.h
-    #TimelineWidget.h
     ToolSystem.h
     ViewLib.h
     WindowSystem.h
@@ -50,18 +50,17 @@ set(source
     #InfoTool.cpp
     LanguageSettingsWidget.cpp
     #MagnifyTool.cpp
-    MDIWindow.cpp
+    MDIWidget.cpp
     MainWindow.cpp
     Media.cpp
     MediaSession.cpp
     PlaybackSystem.cpp
+    PlaybackToolWidget.cpp
     PlaybackWidget.cpp
     SettingsSystem.cpp
     TimelineSlider.cpp
-    #TimelineWidget.cpp
     ToolSystem.cpp
-    WindowSystem.cpp
-    )
+    WindowSystem.cpp)
 
 add_library(djvViewLib ${header} ${source})
 target_link_libraries(djvViewLib djvDesktop)

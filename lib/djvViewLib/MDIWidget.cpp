@@ -27,7 +27,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvViewLib/MDIWindow.h>
+#include <djvViewLib/MDIWidget.h>
 
 #include <djvViewLib/ImageView.h>
 #include <djvViewLib/Media.h>
@@ -49,7 +49,7 @@ namespace djv
 {
     namespace ViewLib
     {
-        struct MDIWindow::Private
+        struct MDIWidget::Private
         {
             std::shared_ptr<ImageView> imageView;
             std::shared_ptr<UI::Label> titleLabel;
@@ -62,9 +62,9 @@ namespace djv
             std::shared_ptr<ValueObserver<std::shared_ptr<AV::Image::Image> > > imageObserver;
         };
         
-        void MDIWindow::_init(Context * context)
+        void MDIWidget::_init(Context * context)
         {
-            IWindow::_init(context);
+            IWidget::_init(context);
 
             DJV_PRIVATE_PTR();
             p.imageView = ImageView::create(context);
@@ -110,98 +110,98 @@ namespace djv
             p.layout->addWidget(vLayout);
             IContainer::addWidget(p.layout);
 
-            auto weak = std::weak_ptr<MDIWindow>(std::dynamic_pointer_cast<MDIWindow>(shared_from_this()));
+            auto weak = std::weak_ptr<MDIWidget>(std::dynamic_pointer_cast<MDIWidget>(shared_from_this()));
             maximizeButton->setClickedCallback(
                 [weak]
             {
-                if (auto window = weak.lock())
+                if (auto widget = weak.lock())
                 {
-                    if (window->_p->maximizeCallback)
+                    if (widget->_p->maximizeCallback)
                     {
-                        window->_p->maximizeCallback();
+                        widget->_p->maximizeCallback();
                     }
                 }
             });
             closeButton->setClickedCallback(
                 [weak]
             {
-                if (auto window = weak.lock())
+                if (auto widget = weak.lock())
                 {
-                    if (window->_p->closedCallback)
+                    if (widget->_p->closedCallback)
                     {
-                        window->_p->closedCallback();
+                        widget->_p->closedCallback();
                     }
                 }
             });
         }
 
-        MDIWindow::MDIWindow() :
+        MDIWidget::MDIWidget() :
             _p(new Private)
         {}
 
-        MDIWindow::~MDIWindow()
+        MDIWidget::~MDIWidget()
         {}
 
-        std::shared_ptr<MDIWindow> MDIWindow::create(Context * context)
+        std::shared_ptr<MDIWidget> MDIWidget::create(Context * context)
         {
-            auto out = std::shared_ptr<MDIWindow>(new MDIWindow);
+            auto out = std::shared_ptr<MDIWidget>(new MDIWidget);
             out->_init(context);
             return out;
         }
 
-        const std::string & MDIWindow::getTitle() const
+        const std::string & MDIWidget::getTitle() const
         {
             return _p->titleLabel->getText();
         }
 
-        void MDIWindow::setTitle(const std::string & text)
+        void MDIWidget::setTitle(const std::string & text)
         {
             _p->titleLabel->setText(text);
         }
 
-        const std::shared_ptr<Media> & MDIWindow::getMedia() const
+        const std::shared_ptr<Media> & MDIWidget::getMedia() const
         {
             return _p->imageView->getMedia();
         }
 
-        void MDIWindow::setMedia(const std::shared_ptr<Media> & value)
+        void MDIWidget::setMedia(const std::shared_ptr<Media> & value)
         {
             _p->imageView->setMedia(value);
         }
 
-        void MDIWindow::setUIVisible(bool value)
+        void MDIWidget::setUIVisible(bool value)
         {
             DJV_PRIVATE_PTR();
             p.titleBar->setVisible(value);
             p.bottomBar->setVisible(value);
         }
 
-        void MDIWindow::setClosedCallback(const std::function<void(void)> & value)
+        void MDIWidget::setClosedCallback(const std::function<void(void)> & value)
         {
             _p->closedCallback = value;
         }
 
-        void MDIWindow::setMaximizeCallback(const std::function<void(void)> & value)
+        void MDIWidget::setMaximizeCallback(const std::function<void(void)> & value)
         {
             _p->maximizeCallback = value;
         }
 
-        std::shared_ptr<UI::Widget> MDIWindow::getMoveHandle()
+        std::shared_ptr<UI::Widget> MDIWidget::getMoveHandle()
         {
             return std::dynamic_pointer_cast<Widget>(shared_from_this());
         }
 
-        std::shared_ptr<UI::Widget> MDIWindow::getResizeHandle()
+        std::shared_ptr<UI::Widget> MDIWidget::getResizeHandle()
         {
             return _p->resizeHandle;
         }
 
-        void MDIWindow::_preLayoutEvent(Event::PreLayout& event)
+        void MDIWidget::_preLayoutEvent(Event::PreLayout& event)
         {
             _setMinimumSize(_p->layout->getMinimumSize());
         }
 
-        void MDIWindow::_layoutEvent(Event::Layout&)
+        void MDIWidget::_layoutEvent(Event::Layout&)
         {
             _p->layout->setGeometry(getGeometry());
         }

@@ -30,43 +30,48 @@
 #pragma once
 
 #include <djvViewLib/Enum.h>
+#include <djvViewLib/IToolWidget.h>
 
-#include <djvAV/Time.h>
-
-#include <QWidget>
-
-class QAbstractButton;
+#include <djvCore/Time.h>
+#include <djvCore/ValueObserver.h>
 
 namespace djv
 {
     namespace ViewLib
     {
-        class Context;
-
-        class TimelineWidget : public QWidget
+        class PlaybackToolWidget : public IToolWidget
         {
-            Q_OBJECT
+            DJV_NON_COPYABLE(PlaybackToolWidget);
+
+        protected:
+            void _init(Core::Context *);
+            PlaybackToolWidget();
 
         public:
-            TimelineWidget(const std::shared_ptr<Context> &, QWidget * parent = nullptr);
-            ~TimelineWidget() override;
+            ~PlaybackToolWidget() override;
 
-        public Q_SLOTS:
-            void setDuration(AV::Duration);
-            void setCurrentTime(AV::Timestamp);
-            void setPlayback(Enum::Playback);
+            static std::shared_ptr<PlaybackToolWidget> create(Core::Context *);
 
-        Q_SIGNALS:
-            void currentTimeChanged(AV::Timestamp);
-            void playbackChanged(Enum::Playback);
+            std::shared_ptr<Core::IValueSubject<Core::Time::Timestamp> > observeCurrentTime() const;
+            std::shared_ptr<Core::IValueSubject<Playback> > observePlayback() const;
 
-        private Q_SLOTS:
-            void _buttonCallback(QAbstractButton *, bool);
-            void _widgetUpdate();
+            void setDuration(Core::Time::Duration);
+            void setCurrentTime(Core::Time::Timestamp);
+            void setPlayback(Playback);
+
+            std::shared_ptr<UI::Widget> getMoveHandle() override;
+            std::shared_ptr<UI::Widget> getResizeHandle() override;
+
+        protected:
+            void _preLayoutEvent(Core::Event::PreLayout&) override;
+            void _layoutEvent(Core::Event::Layout&) override;
+
+            void _localeEvent(Core::Event::Locale &) override;
 
         private:
             DJV_PRIVATE();
         };
+
     } // namespace ViewLib
 } // namespace djv
 

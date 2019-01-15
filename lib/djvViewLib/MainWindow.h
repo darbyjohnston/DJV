@@ -44,7 +44,7 @@ namespace djv
 
     namespace ViewLib
     {
-        class MDIWindow;
+        class MDIWidget;
 
         class MainWindow : public UI::Window
         {
@@ -60,8 +60,8 @@ namespace djv
             static std::shared_ptr<MainWindow> create(Core::Context *);
 
         protected:
-            void _setCurrent(const std::shared_ptr<MDIWindow> &);
-            void _maximize(const std::shared_ptr<MDIWindow> &, bool);
+            void _setCurrent(const std::shared_ptr<MDIWidget> &);
+            void _maximize(const std::shared_ptr<MDIWidget> &, bool);
             void _dropEvent(Core::Event::Drop&) override;
 
             DJV_PRIVATE();

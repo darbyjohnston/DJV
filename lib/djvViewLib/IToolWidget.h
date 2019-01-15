@@ -29,13 +29,13 @@
 
 #pragma once
 
-#include <djvUI/Widget.h>
+#include <djvUI/MDIWidget.h>
 
 namespace djv
 {
     namespace ViewLib
     {
-        class IToolWidget : public UI::Widget
+        class IToolWidget : public UI::MDI::IWidget
         {
             DJV_NON_COPYABLE(IToolWidget);
 
