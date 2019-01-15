@@ -39,6 +39,7 @@
 
 #include <atomic>
 #include <condition_variable>
+#include <ctime>
 #include <iomanip>
 #include <iostream>
 #include <list>
@@ -205,8 +206,9 @@ namespace djv
                     while (std::getline(s, line))
                     {
                         std::stringstream s2;
-                        std::time_t t = std::time(nullptr);
-                        std::tm tm = *std::localtime(&t);
+                        const std::time_t t = std::time(nullptr);
+                        std::tm tm;
+                        localtime_s(&tm, &t);
                         s2 << std::put_time(&tm, "%c") << " ";
                         s2 << std::setfill(' ');
                         s2 << std::right;

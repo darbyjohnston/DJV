@@ -227,7 +227,7 @@ namespace djv
                 catch (const std::exception & e)
                 {
                     p.info = AV::Image::Info();
-                    //_log(e.what(), LogLevel::Error);
+                    _log(e.what(), LogLevel::Error);
                 }
                 _resize();
             }
@@ -241,7 +241,7 @@ namespace djv
                 catch (const std::exception & e)
                 {
                     p.image = nullptr;
-                    //_log(e.what(), LogLevel::Error);
+                    _log(e.what(), LogLevel::Error);
                 }
                 _resize();
             }

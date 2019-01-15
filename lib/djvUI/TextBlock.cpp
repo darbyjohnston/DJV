@@ -227,7 +227,7 @@ namespace djv
                     }
                     catch (const std::exception& e)
                     {
-                        //_log(e.what(), LogLevel::Error);
+                        _log(e.what(), LogLevel::Error);
                     }
                 }
                 if (p.textSizeFuture.valid())
@@ -239,7 +239,7 @@ namespace djv
                     }
                     catch (const std::exception& e)
                     {
-                        //_log(e.what(), LogLevel::Error);
+                        _log(e.what(), LogLevel::Error);
                     }
                 }
 

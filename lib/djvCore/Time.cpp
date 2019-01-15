@@ -82,9 +82,11 @@ namespace djv
 
             std::string getLabel(time_t value)
             {
-                const auto tm = std::localtime(&value);
+                const std::time_t t = std::time(nullptr);
+                std::tm tm;
+                localtime_s(&tm, &t);
                 char buffer[32];
-                std::strftime(buffer, 32, "%Y-%m-%d %H:%M:%S", tm);
+                std::strftime(buffer, 32, "%Y-%m-%d %H:%M:%S", &tm);
                 return buffer;
             }
 

@@ -73,7 +73,10 @@ namespace djv
 
             void setRandomSeed()
             {
-                srand(std::time(0));
+                const std::time_t t = std::time(nullptr);
+                std::tm tm;
+                localtime_s(&tm, &t);
+                srand(tm.tm_sec);
             }
 
         } // namespace Math

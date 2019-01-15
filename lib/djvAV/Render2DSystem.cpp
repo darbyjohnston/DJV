@@ -511,14 +511,14 @@ namespace djv
                 const GLint textureSamplerLoc = glGetUniformLocation(program, "textureSampler");
 
                 const auto& staticTextures = p.render->staticTextureCache->getTextures();
-                size_t i = 0;
-                for (; i < staticTextures.size(); ++i)
+                GLuint i = 0;
+                for (; i < static_cast<GLuint>(staticTextures.size()); ++i)
                 {
                     glActiveTexture(static_cast<GLenum>(GL_TEXTURE0 + i));
                     glBindTexture(GL_TEXTURE_2D, staticTextures[i]);
                 }
                 const auto& dynamicTextures = p.render->dynamicTextureCache->getTextures();
-                for (size_t j = 0; j < dynamicTextures.size(); ++i, ++j)
+                for (GLuint j = 0; j < static_cast<GLuint>(dynamicTextures.size()); ++i, ++j)
                 {
                     glActiveTexture(static_cast<GLenum>(GL_TEXTURE0 + i));
                     glBindTexture(GL_TEXTURE_2D, dynamicTextures[j]);
