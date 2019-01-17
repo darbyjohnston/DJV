@@ -152,7 +152,7 @@ namespace djv
                 p.metrics[MetricsRole::Swatch]         =  40.f;
                 p.metrics[MetricsRole::ThumbnailSmall] = 100.f;
                 p.metrics[MetricsRole::ThumbnailLarge] = 200.f;
-                p.metrics[MetricsRole::Shadow]         =  10.f;
+                p.metrics[MetricsRole::Shadow]         =   5.f;
                 p.metrics[MetricsRole::ScrollArea]     = 200.f;
                 p.metrics[MetricsRole::TextColumn]     = 200.f;
                 p.metrics[MetricsRole::Dialog]         = 400.f;

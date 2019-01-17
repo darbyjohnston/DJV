@@ -59,7 +59,8 @@ namespace djv
             setPointerEnabled(true);
 
             _p->titleLabel = UI::Label::create(context);
-            _p->titleLabel->setHAlign(UI::HAlign::Left);
+            _p->titleLabel->setBackgroundRole(UI::Style::ColorRole::Overlay);
+            _p->titleLabel->setTextHAlign(UI::TextHAlign::Left);
             _p->titleLabel->setMargin(UI::Style::MetricsRole::MarginSmall);
 
             _p->playbackWidget = PlaybackWidget::create(context);
