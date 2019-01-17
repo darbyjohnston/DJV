@@ -36,7 +36,7 @@ else()
 endif()
 
 if(NOT OPENAL_SHARED_LIBS)
-    set(OPENAL_DEFINES -DAL_LIBTYPE_STATIC)
+    set(OPENAL_DEFINES AL_LIBTYPE_STATIC)
 endif()
 
 include(FindPackageHandleStandardArgs)
