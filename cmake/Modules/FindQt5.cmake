@@ -126,10 +126,10 @@ set(QT_LIBRARIES
     ${JPEG_LIBRARIES}
     ${ZLIB_LIBRARIES})
 
-find_program(QT_MOC moc)
-find_program(QT_LUPDATE lupdate)
-find_program(QT_LCONVERT lconvert)
-find_program(QT_RCC rcc)
+find_program(QT_MOC NAMES moc-qt5 moc)
+find_program(QT_LUPDATE NAMES lupdate-qt5 lupdate)
+find_program(QT_LCONVERT NAMES lconvert-qt5 lconvert)
+find_program(QT_RCC NAMES rcc-qt5 rcc)
 
 include(FindPackageHandleStandardArgs)
 find_package_handle_standard_args(
