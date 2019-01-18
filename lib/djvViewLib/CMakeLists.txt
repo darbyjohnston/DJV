@@ -8,6 +8,7 @@ set(header
     DisplaySettingsWidget.h
     Enum.h
     FileSystem.h
+    FileSystemSettings.h
     HelpSystem.h
     #HistogramTool.h
     IToolWidget.h
@@ -40,6 +41,7 @@ set(source
     DisplaySettingsWidget.cpp
     Enum.cpp
     FileSystem.cpp
+    FileSystemSettings.cpp
     HelpSystem.cpp
     #HistogramTool.cpp
     IToolWidget.cpp

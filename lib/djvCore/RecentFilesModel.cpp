@@ -39,7 +39,7 @@ namespace djv
         {
             namespace
             {
-                const size_t filesMaxDefault = 10;
+                const size_t filesMaxDefault = 100;
 
             } // namespace
 

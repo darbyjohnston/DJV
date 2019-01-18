@@ -134,6 +134,16 @@ namespace djv
         return picojson::value(value);
     }
 
+    picojson::value toJSON(const std::vector<std::string>& value)
+    {
+        picojson::value out(picojson::array_type, true);
+        for (const auto & i : value)
+        {
+            out.get<picojson::array>().push_back(toJSON(i));
+        }
+        return out;
+    }
+
     picojson::value toJSON(const std::map<std::string, std::string>& value)
     {
         picojson::value out(picojson::object_type, true);
@@ -173,6 +183,23 @@ namespace djv
         if (value.is<std::string>())
         {
             out = value.get<std::string>();
+        }
+        else
+        {
+            throw std::invalid_argument(DJV_TEXT("djv::Core::PicoJSON", "Cannot parse value."));
+        }
+    }
+
+    void fromJSON(const picojson::value& value, std::vector<std::string>& out)
+    {
+        if (value.is<picojson::array>())
+        {
+            for (const auto& i : value.get<picojson::array>())
+            {
+                std::string tmp;
+                fromJSON(i, tmp);
+                out.push_back(tmp);
+            }
         }
         else
         {

@@ -29,11 +29,6 @@
 
 #include <djvUI/Style.h>
 
-#include <djvUI/FontSettings.h>
-#include <djvUI/GeneralSettings.h>
-#include <djvUI/StyleSettings.h>
-#include <djvUI/UISystem.h>
-
 #include <djvAV/AVSystem.h>
 
 #include <djvCore/Context.h>

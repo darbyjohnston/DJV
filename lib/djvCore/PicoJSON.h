@@ -54,6 +54,7 @@ namespace djv
     picojson::value toJSON(int);
     picojson::value toJSON(float);
     picojson::value toJSON(const std::string&);
+    picojson::value toJSON(const std::vector<std::string>&);
     picojson::value toJSON(const std::map<std::string, std::string>&);
 
     //! Throws:
@@ -61,6 +62,7 @@ namespace djv
     void fromJSON(const picojson::value&, int&);
     void fromJSON(const picojson::value&, float&);
     void fromJSON(const picojson::value&, std::string&);
+    void fromJSON(const picojson::value&, std::vector<std::string>&);
     void fromJSON(const picojson::value&, std::map<std::string, std::string>&);
 
     //! Convert a value to JSON.

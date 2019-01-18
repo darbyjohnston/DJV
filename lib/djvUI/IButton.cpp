@@ -212,22 +212,23 @@ namespace djv
                 if (!isEnabled() || p.pressedId)
                     return;
                 event.accept();
-                p.pressedId = event.getPointerInfo().id;
-                p.pressedPos = event.getPointerInfo().projectedPos;
+                const auto & pointerInfo = event.getPointerInfo();
+                p.pressedId = pointerInfo.id;
+                p.pressedPos = pointerInfo.projectedPos;
                 _redraw();
             }
 
             void IButton::_buttonReleaseEvent(Event::ButtonRelease& event)
             {
                 DJV_PRIVATE_PTR();
-                const auto id = event.getPointerInfo().id;
-                if (id == p.pressedId)
+                const auto & pointerInfo = event.getPointerInfo();
+                if (pointerInfo.id == p.pressedId)
                 {
                     event.accept();
                     p.pressedId = Event::InvalidID;
                     const BBox2f& g = getGeometry();
                     const auto & hover = _getPointerHover();
-                    const auto i = hover.find(id);
+                    const auto i = hover.find(pointerInfo.id);
                     if (i != hover.end() && g.contains(i->second))
                     {
                         _doClickedCallback();
@@ -247,8 +248,8 @@ namespace djv
                         default: break;
                         }
                     }
+                    _redraw();
                 }
-                _redraw();
             }
 
             bool IButton::_isToggled() const

@@ -52,9 +52,8 @@ namespace djv
             Style::MetricsRole textSizeRole = Style::MetricsRole::TextColumn;
             std::string fontFace = AV::Font::Info::faceDefault;
             Style::MetricsRole fontSizeRole = Style::MetricsRole::FontMedium;
-            float ascender = 0.f;
-            std::future<AV::Font::Metrics> fontMetricsFuture;
             AV::Font::Metrics fontMetrics;
+            std::future<AV::Font::Metrics> fontMetricsFuture;
             float heightForWidth = 0.f;
             size_t heightForWidthHash = 0;
             glm::vec2 textSize = glm::vec2(0.f, 0.f);
@@ -222,7 +221,7 @@ namespace djv
                 {
                     try
                     {
-                        p.ascender = p.fontMetricsFuture.get().ascender;
+                        p.fontMetrics = p.fontMetricsFuture.get();
                         _resize();
                     }
                     catch (const std::exception& e)
@@ -316,7 +315,7 @@ namespace djv
                                 //render->drawRectangle(BBox2f(pos.x, pos.y, line.size.x, line.size.y));
 
                                 render->setFillColor(_getColorWithOpacity(style->getColor(p.textColorRole)));
-                                render->drawText(line.text, glm::vec2(pos.x, pos.y + p.ascender));
+                                render->drawText(line.text, glm::vec2(pos.x, pos.y + p.fontMetrics.ascender));
                             }
                             pos.y += line.size.y;
                         }

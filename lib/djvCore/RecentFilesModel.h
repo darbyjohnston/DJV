@@ -45,7 +45,6 @@ namespace djv
             class RecentFilesModel : public std::enable_shared_from_this<RecentFilesModel>
             {
                 void _init(Context *);
-
                 RecentFilesModel();
 
             public:

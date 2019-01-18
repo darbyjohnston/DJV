@@ -39,13 +39,13 @@ namespace djv
             template<>
             inline float getAspect<float>(const glm::vec2 & value)
             {
-                return value.y > 0.f ? value.x / value.y : 0.f;
+                return value.y > 0.f ? value.x / value.y : 1.f;
             }
 
             template<>
             inline float getAspect<int>(const glm::ivec2 & value)
             {
-                return value.y > 0 ? value.x / static_cast<float>(value.y) : 0.f;
+                return value.y > 0 ? value.x / static_cast<float>(value.y) : 1.f;
             }
 
         } // namespace Vector

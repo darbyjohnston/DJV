@@ -32,6 +32,7 @@
 #include <djvUI/Action.h>
 #include <djvUI/ActionGroup.h>
 #include <djvUI/DialogSystem.h>
+#include <djvUI/FileBrowserItemView.h>
 #include <djvUI/FileBrowserPrivate.h>
 #include <djvUI/FlowLayout.h>
 #include <djvUI/IWindowSystem.h>
@@ -70,33 +71,16 @@ namespace djv
             struct Widget::Private
             {
                 std::shared_ptr<FileSystem::DirectoryModel> directoryModel;
-                std::vector<FileSystem::FileInfo> fileInfoList;
-                std::map<std::shared_ptr<ItemButton>, FileSystem::FileInfo> buttonToFileInfo;
                 ViewType viewType = ViewType::First;
                 std::map<std::string, std::shared_ptr<Action> > actions;
                 std::map<std::string, std::shared_ptr<Menu> > menus;
                 std::shared_ptr<ActionGroup> viewTypeActionGroup;
+                std::shared_ptr<ItemView> itemView;
                 size_t itemCount = 0;
                 std::shared_ptr<Label> itemCountLabel;
-                std::shared_ptr<Layout::Flow> iconsLayout;
-                std::shared_ptr<Layout::Vertical> listLayout;
                 std::shared_ptr<ScrollWidget> scrollWidget;
                 std::shared_ptr<Layout::Vertical> layout;
                 std::function<void(const FileSystem::FileInfo &)> callback;
-
-                struct InfoFuture
-                {
-                    FileSystem::FileInfo fileInfo;
-                    std::future<AV::IO::Info> future;
-                    std::weak_ptr<ItemButton> widget;
-                };
-                std::vector<InfoFuture> infoFutures;
-                struct ImageFuture
-                {
-                    std::future<std::shared_ptr<AV::Image::Image> > future;
-                    std::weak_ptr<ItemButton> widget;
-                };
-                std::vector<ImageFuture> imageFutures;
 
                 std::shared_ptr<ValueObserver<FileSystem::Path> > pathObserver;
                 std::shared_ptr<ListObserver<FileSystem::FileInfo> > fileInfoObserver;
@@ -113,8 +97,6 @@ namespace djv
                 std::shared_ptr<ValueObserver<bool> > fileSequencesObserver;
                 std::shared_ptr<ValueObserver<bool> > showHiddenObserver;
 
-                std::string getTooltip(const FileSystem::FileInfo &, Context * context);
-                std::string getTooltip(const FileSystem::FileInfo &, const AV::IO::Info &, Context *);
                 std::string getItemCountLabel(size_t, Context *);
             };
 
@@ -226,13 +208,9 @@ namespace djv
 
                 auto shortcutsWidget = ShorcutsWidget::create(context);
 
-                p.iconsLayout = Layout::Flow::create(context);
-                p.iconsLayout->setSpacing(Style::MetricsRole::None);
-                p.listLayout = Layout::Vertical::create(context);
-                p.listLayout->setSpacing(Style::MetricsRole::None);
+                p.itemView = ItemView::create(context);
                 p.scrollWidget = ScrollWidget::create(ScrollType::Vertical, context);
-                p.scrollWidget->addWidget(p.iconsLayout);
-                p.scrollWidget->addWidget(p.listLayout);
+                p.scrollWidget->addWidget(p.itemView);
 
                 p.layout = Layout::Vertical::create(context);
                 p.layout->setSpacing(Style::MetricsRole::None);
@@ -283,6 +261,22 @@ namespace djv
                     }
                 });
                 
+                p.itemView->setCallback(
+                    [weak](const FileSystem::FileInfo & value)
+                {
+                    if (auto widget = weak.lock())
+                    {
+                        if (FileSystem::FileType::Directory == value.getType())
+                        {
+                            widget->_p->directoryModel->setPath(value.getPath());
+                        }
+                        else if (widget->_p->callback)
+                        {
+                            widget->_p->callback(value);
+                        }
+                    }
+                });
+
                 p.pathObserver = ValueObserver<FileSystem::Path>::create(
                     p.directoryModel->observePath(),
                     [weak, pathWidget](const FileSystem::Path & value)
@@ -300,8 +294,7 @@ namespace djv
                 {
                     if (auto widget = weak.lock())
                     {
-                        widget->_p->fileInfoList = value;
-                        widget->_updateItems();
+                        widget->_p->itemView->setItems(value);
                         widget->_p->itemCount = value.size();
                         widget->_p->itemCountLabel->setText(widget->_p->getItemCountLabel(value.size(), context));
                     }
@@ -462,7 +455,7 @@ namespace djv
                 if (value == p.viewType)
                     return;
                 p.viewType = value;
-                _updateItems();
+                //_updateItems();
             }
 
             void Widget::setCallback(const std::function<void(const FileSystem::FileInfo &)> & value)
@@ -473,11 +466,6 @@ namespace djv
             float Widget::getHeightForWidth(float value) const
             {
                 return _p->layout->getHeightForWidth(value);
-            }
-
-            void Widget::_styleEvent(Event::Style &)
-            {
-                _updateItems();
             }
             
             void Widget::_preLayoutEvent(Event::PreLayout& event)
@@ -527,263 +515,6 @@ namespace djv
                 p.menus["Bookmarks"]->setMenuName(context->getText(DJV_TEXT("djv::UI::FileBrowser", "Bookmarks")));
 
                 p.itemCountLabel->setText(p.getItemCountLabel(p.itemCount, context));
-            }
-
-            void Widget::_updateEvent(Event::Update& event)
-            {
-                DJV_PRIVATE_PTR();
-                {
-                    auto i = p.infoFutures.begin();
-                    while (i != p.infoFutures.end())
-                    {
-                        if (i->future.valid() &&
-                            i->future.wait_for(std::chrono::seconds(0)) == std::future_status::ready)
-                        {
-                            try
-                            {
-                                const auto info = i->future.get();
-                                auto context = getContext();
-                                auto thumbnailSystem = context->getSystemT<AV::ThumbnailSystem>().lock();
-                                auto ioSystem = context->getSystemT<AV::IO::System>().lock();
-                                auto style = _getStyle().lock();
-                                auto widget = i->widget.lock();
-                                if (thumbnailSystem && ioSystem && style && widget)
-                                {
-                                    widget->setTooltip(p.getTooltip(i->fileInfo, info, context));
-                                    int t = 0;
-                                    switch (p.viewType)
-                                    {
-                                    case ViewType::ThumbnailsLarge: t = static_cast<int>(style->getMetric(UI::Style::MetricsRole::ThumbnailLarge)); break;
-                                    case ViewType::ThumbnailsSmall: t = static_cast<int>(style->getMetric(UI::Style::MetricsRole::ThumbnailSmall)); break;
-                                    case ViewType::ListView:        t = static_cast<int>(style->getMetric(UI::Style::MetricsRole::Icon));           break;
-                                    default: break;
-                                    }
-                                    glm::ivec2 thumbnailSize(t, t);
-                                    if (info.video.size())
-                                    {
-                                        const glm::ivec2 & videoSize = info.video[0].info.size;
-                                        if (videoSize.x >= videoSize.y)
-                                        {
-                                            thumbnailSize.y = 0;
-                                        }
-                                        else
-                                        {
-                                            thumbnailSize.x = 0;
-                                        }
-                                    }
-                                    Private::ImageFuture future;
-                                    future.future = thumbnailSystem->getImage(i->fileInfo.getPath(), thumbnailSize);
-                                    future.widget = i->widget;
-                                    p.imageFutures.push_back(std::move(future));
-                                }
-                            }
-                            catch (const std::exception & e)
-                            {
-                                _log(e.what(), LogLevel::Error);
-                            }
-                            i = p.infoFutures.erase(i);
-                            continue;
-                        }
-                        ++i;
-                    }
-                }
-                {
-                    auto i = p.imageFutures.begin();
-                    while (i != p.imageFutures.end())
-                    {
-                        if (i->future.valid() &&
-                            i->future.wait_for(std::chrono::seconds(0)) == std::future_status::ready)
-                        {
-                            try
-                            {
-                                const auto icon = i->future.get();
-                                if (auto widget = i->widget.lock())
-                                {
-                                    widget->setThumbnail(icon);
-                                }
-                            }
-                            catch (const std::exception & e)
-                            {
-                                _log(e.what(), LogLevel::Error);
-                            }
-                            i = p.imageFutures.erase(i);
-                            continue;
-                        }
-                        ++i;
-                    }
-                }
-            }
-
-            bool Widget::_eventFilter(const std::shared_ptr<IObject>& object, Event::IEvent& event)
-            {
-                switch (event.getEventType())
-                {
-                case Event::Type::Clip:
-                {
-                    if (auto button = std::dynamic_pointer_cast<ItemButton>(object))
-                    {
-                        if (!button->isClipped())
-                        {
-                            DJV_PRIVATE_PTR();
-                            const auto i = p.buttonToFileInfo.find(button);
-                            if (i != p.buttonToFileInfo.end())
-                            {
-                                auto context = getContext();
-                                if (auto thumbnailSystem = context->getSystemT<AV::ThumbnailSystem>().lock())
-                                {
-                                    if (auto ioSystem = context->getSystemT<AV::IO::System>().lock())
-                                    {
-                                        if (ioSystem->canRead(i->second))
-                                        {
-                                            if (auto style = _getStyle().lock())
-                                            {
-                                                Private::InfoFuture future;
-                                                future.fileInfo = i->second;
-                                                future.future = thumbnailSystem->getInfo(i->second.getPath());
-                                                future.widget = button;
-                                                p.infoFutures.push_back(std::move(future));
-                                            }
-                                        }
-                                    }
-                                }
-                                button->removeEventFilter(shared_from_this());
-                                p.buttonToFileInfo.erase(i);
-                            }
-                        }
-                    }
-                    break;
-                }
-                default: break;
-                }
-                return false;
-            }
-
-            void Widget::_updateItems()
-            {
-                auto context = getContext();
-                DJV_PRIVATE_PTR();
-                p.buttonToFileInfo.clear();
-                p.iconsLayout->clearWidgets();
-                p.listLayout->clearWidgets();
-                p.infoFutures.clear();
-                p.imageFutures.clear();
-                auto weak = std::weak_ptr<Widget>(std::dynamic_pointer_cast<Widget>(shared_from_this()));
-                for (const auto & fileInfo : p.fileInfoList)
-                {
-                    auto button = ItemButton::create(p.viewType, context);
-                    button->setText(fileInfo.getFileName(Frame::Invalid, false));
-                    button->setTooltip(p.getTooltip(fileInfo, context));
-                    std::string name;
-                    switch (fileInfo.getType())
-                    {
-                    case FileSystem::FileType::Directory:
-                        switch (p.viewType)
-                        {
-                        case ViewType::ThumbnailsLarge: name = "djvIconFileBrowserDirectoryLarge"; break;
-                        case ViewType::ThumbnailsSmall: name = "djvIconFileBrowserDirectorySmall"; break;
-                        case ViewType::ListView:        name = "djvIconFileBrowserDirectoryList";  break;
-                        default: break;
-                        }
-                        break;
-                    default:
-                        switch (p.viewType)
-                        {
-                        case ViewType::ThumbnailsLarge: name = "djvIconFileBrowserFileLarge"; break;
-                        case ViewType::ThumbnailsSmall: name = "djvIconFileBrowserFileSmall"; break;
-                        case ViewType::ListView:        name = "djvIconFileBrowserFileList";  break;
-                        default: break;
-                        }
-                        break;
-                    }
-                    if (!name.empty())
-                    {
-                        button->setIcon(name);
-                    }
-                    Style::MetricsRole iconSizeRole = Style::MetricsRole::None;
-                    Style::MetricsRole textSizeRole = Style::MetricsRole::None;
-                    switch (p.viewType)
-                    {
-                    case ViewType::ThumbnailsLarge: textSizeRole = Style::MetricsRole::ThumbnailLarge; break;
-                    case ViewType::ThumbnailsSmall: textSizeRole = Style::MetricsRole::ThumbnailSmall; break;
-                    case ViewType::ListView:        iconSizeRole = Style::MetricsRole::Icon;           break;
-                    default: break;
-                    }
-                    button->setIconSizeRole(iconSizeRole);
-                    button->setTextSizeRole(textSizeRole);
-                    switch (p.viewType)
-                    {
-                    case ViewType::ThumbnailsLarge:
-                    case ViewType::ThumbnailsSmall: p.iconsLayout->addWidget(button); break;
-                    case ViewType::ListView:        p.listLayout->addWidget(button);  break;
-                    default: break;
-                    }
-                    p.buttonToFileInfo[button] = fileInfo;
-                    button->installEventFilter(shared_from_this());
-                    button->setClickedCallback(
-                        [weak, fileInfo]
-                    {
-                        if (auto widget = weak.lock())
-                        {
-                            if (FileSystem::FileType::Directory == fileInfo.getType())
-                            {
-                                widget->_p->directoryModel->setPath(fileInfo.getPath());
-                            }
-                            else if (widget->_p->callback)
-                            {
-                                widget->_p->callback(fileInfo);
-                            }
-                        }
-                    });
-                }
-                _resize();
-            }
-
-            std::string Widget::Private::getTooltip(const FileSystem::FileInfo & fileInfo, Context * context)
-            {
-                std::stringstream ss;
-                ss << fileInfo.getFileName(Frame::Invalid, false) << '\n';
-                ss << '\n';
-                ss << context->getText(DJV_TEXT("djv::UI::FileBrowser", "Type")) << ": " << fileInfo.getType() << '\n';
-                ss << context->getText(DJV_TEXT("djv::UI::FileBrowser", "Size")) << ": " << Memory::getSizeLabel(fileInfo.getSize()) << '\n';
-                ss << context->getText(DJV_TEXT("djv::UI::FileBrowser", "Modification time")) << ": " << Time::getLabel(fileInfo.getTime());
-                return ss.str();
-            }
-
-            std::string Widget::Private::getTooltip(const FileSystem::FileInfo & fileInfo, const AV::IO::Info & avInfo, Context * context)
-            {
-                std::stringstream ss;
-                ss << getTooltip(fileInfo, context);
-                size_t track = 0;
-                for (const auto & videoInfo : avInfo.video)
-                {
-                    ss << '\n' << '\n';
-                    ss << context->getText(DJV_TEXT("djv::UI::FileBrowser", "Video track")) << " #" << track << '\n';
-                    ss << context->getText(DJV_TEXT("djv::UI::FileBrowser", "Size")) << ": " << videoInfo.info.size << '\n';
-                    ss << context->getText(DJV_TEXT("djv::UI::FileBrowser", "Type")) << ": " << videoInfo.info.type << '\n';
-                    ss.precision(2);
-                    ss << context->getText(DJV_TEXT("djv::UI::FileBrowser", "Speed")) << ": " <<
-                        Time::Speed::speedToFloat(videoInfo.speed) <<
-                        context->getText(DJV_TEXT("djv::UI::FileBrowser", "FPS")) << '\n';
-                    ss << context->getText(DJV_TEXT("djv::UI::FileBrowser", "Duration")) << ": " <<
-                        Time::getLabel(Time::durationToSeconds(videoInfo.duration));
-                    ++track;
-                }
-                track = 0;
-                for (const auto & audioInfo : avInfo.audio)
-                {
-                    ss << '\n' << '\n';
-                    ss << context->getText(DJV_TEXT("djv::UI::FileBrowser", "Audio track")) << " #" << track << '\n';
-                    ss << context->getText(DJV_TEXT("djv::UI::FileBrowser", "Channels")) << ": " <<
-                        audioInfo.info.channelCount << '\n';
-                    ss << context->getText(DJV_TEXT("djv::UI::FileBrowser", "Type")) << ": " <<
-                        audioInfo.info.type << '\n';
-                    ss << context->getText(DJV_TEXT("djv::UI::FileBrowser", "Sample rate")) << ": " <<
-                        audioInfo.info.sampleRate / 1000.f << DJV_TEXT("djv::UI::FileBrowser", "kHz") << '\n';
-                    ss << context->getText(DJV_TEXT("djv::UI::FileBrowser", "Duration")) << ": " <<
-                        Time::getLabel(Time::durationToSeconds(audioInfo.duration));
-                    ++track;
-                }
-                return ss.str();
             }
 
             std::string Widget::Private::getItemCountLabel(size_t size, Context * context)

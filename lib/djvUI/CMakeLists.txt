@@ -8,6 +8,7 @@ set(header
     DialogSystem.h
     Enum.h
     FileBrowser.h
+    FileBrowserItemView.h
     FileBrowserPrivate.h
     FlowLayout.h
     FontSettings.h
@@ -73,7 +74,9 @@ set(source
     DialogSystem.cpp
     Enum.cpp
     FileBrowser.cpp
-    FileBrowserPrivate.cpp
+    FileBrowserItemView.cpp
+    FileBrowserPathWidget.cpp
+    FileBrowserShortcutsWidget.cpp
     FlowLayout.cpp
     FontSettings.cpp
     FormLayout.cpp

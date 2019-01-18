@@ -31,8 +31,6 @@
 
 #include <djvUI/Widget.h>
 
-#include <djvCore/ISystem.h>
-
 namespace djv
 {
     namespace Core
@@ -40,8 +38,7 @@ namespace djv
         namespace FileSystem
         {
             class FileInfo;
-            class Path;
-
+    
         } // namespace FileSystem
     } // namespace Core
 
@@ -49,71 +46,45 @@ namespace djv
     {
         namespace FileBrowser
         {
-            //! This enumeration provides the file browser view types.
-            enum class ViewType
+            class ItemView : public UI::Widget
             {
-                ThumbnailsLarge,
-                ThumbnailsSmall,
-                ListView,
-
-                Count,
-                First = ThumbnailsLarge
-            };
-
-            //! This class provides a file browser widget.
-            class Widget : public UI::Widget
-            {
-                DJV_NON_COPYABLE(Widget);
+                DJV_NON_COPYABLE(ItemView);
 
             protected:
                 void _init(Core::Context *);
-                Widget();
+                ItemView();
 
             public:
-                virtual ~Widget();
+                ~ItemView() override;
 
-                static std::shared_ptr<Widget> create(Core::Context *);
+                static std::shared_ptr<ItemView> create(Core::Context *);
 
-                void setPath(const Core::FileSystem::Path&);
-                void setViewType(ViewType);
+                void setItems(const std::vector<Core::FileSystem::FileInfo> &);
                 void setCallback(const std::function<void(const Core::FileSystem::FileInfo &)> &);
 
                 float getHeightForWidth(float) const override;
 
             protected:
+                void _styleEvent(Core::Event::Style&) override;
                 void _preLayoutEvent(Core::Event::PreLayout&) override;
                 void _layoutEvent(Core::Event::Layout&) override;
+                void _clipEvent(Core::Event::Clip&) override;
+                void _paintEvent(Core::Event::Paint&) override;
+                void _pointerEnterEvent(Core::Event::PointerEnter&) override;
+                void _pointerLeaveEvent(Core::Event::PointerLeave&) override;
+                void _pointerMoveEvent(Core::Event::PointerMove&) override;
+                void _buttonPressEvent(Core::Event::ButtonPress&) override;
+                void _buttonReleaseEvent(Core::Event::ButtonRelease&) override;
 
-                void _localeEvent(Core::Event::Locale &) override;
+                void _updateEvent(Core::Event::Update&) override;
 
             private:
+                void _itemsUpdate();
+
                 DJV_PRIVATE();
             };
 
-            //! This class provides a file browser dialog system.
-            class DialogSystem : public Core::ISystem
-            {
-                DJV_NON_COPYABLE(DialogSystem);
-
-            protected:
-                void _init(Core::Context *);
-                DialogSystem();
-
-            public:
-                virtual ~DialogSystem();
-
-                static std::shared_ptr<DialogSystem> create(Core::Context *);
-
-                void show(const std::function<void(const Core::FileSystem::FileInfo &)> &);
-
-            private:
-                DJV_PRIVATE();
-            };
-
-        } // namespace FileBrowser
+        } // namespace Layout
     } // namespace UI
-
-    DJV_ENUM_SERIALIZE_HELPERS(UI::FileBrowser::ViewType);
-
 } // namespace djv
 

@@ -29,40 +29,45 @@
 
 #pragma once
 
-#include <djvViewLib/IViewSystem.h>
-
-#include <djvCore/ValueObserver.h>
+#include <djvUI/ISettings.h>
 
 namespace djv
 {
+    namespace Core
+    {
+        namespace FileSystem
+        {
+            class FileInfo;
+
+        } // namespace FileSystem
+    } // namespace Core
+
     namespace ViewLib
     {
-        class FileSystem : public IViewSystem
+        //! This class provides file system settings.
+        class FileSystemSettings : public UI::Settings::ISettings
         {
-            DJV_NON_COPYABLE(FileSystem);
+            DJV_NON_COPYABLE(FileSystemSettings);
 
         protected:
-            void _init(Core::Context *);
-            FileSystem();
+            void _init(Core::Context * context);
+
+            FileSystemSettings();
 
         public:
-            ~FileSystem() override;
+            virtual ~FileSystemSettings();
 
-            static std::shared_ptr<FileSystem> create(Core::Context *);
+            static std::shared_ptr<FileSystemSettings> create(Core::Context *);
 
-            std::shared_ptr<Core::IValueSubject<std::pair<std::shared_ptr<Media>, glm::vec2> > > observeOpened() const;
-            std::shared_ptr<Core::IValueSubject<bool> > observeClose() const;
-            void open(const std::string &, const glm::vec2 & = glm::vec2(-1.f, -1.f));
-            void showRecentFiles();
+            std::shared_ptr<Core::IListSubject<Core::FileSystem::FileInfo> > observeRecentFiles() const;
+            void setRecentFiles(const std::vector<Core::FileSystem::FileInfo>&);
 
-            std::map<std::string, std::shared_ptr<UI::Action> > getActions() override;
-            NewMenu createMenu() override;
-            void setCurrentMedia(const std::shared_ptr<Media> &) override;
-
-        protected:
-            void _localeEvent(Core::Event::Locale &) override;
+            void load(const picojson::value&) override;
+            picojson::value save() override;
 
         private:
+            void _updateCurrentFont();
+
             DJV_PRIVATE();
         };
 

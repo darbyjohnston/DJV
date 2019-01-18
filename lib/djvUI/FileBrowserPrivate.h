@@ -51,7 +51,7 @@ namespace djv
                 PathWidget();
 
             public:
-                virtual ~PathWidget();
+                ~PathWidget() override;
 
                 static std::shared_ptr<PathWidget> create(Core::Context *);
 
@@ -67,8 +67,7 @@ namespace djv
                 void _layoutEvent(Core::Event::Layout&) override;
 
             private:
-                struct Private;
-                std::unique_ptr<Private> _p;
+                DJV_PRIVATE();
             };
 
             class ShorcutsWidget : public UI::Widget
@@ -80,7 +79,7 @@ namespace djv
                 ShorcutsWidget();
 
             public:
-                virtual ~ShorcutsWidget();
+                ~ShorcutsWidget() override;
 
                 static std::shared_ptr<ShorcutsWidget> create(Core::Context *);
 
@@ -91,40 +90,7 @@ namespace djv
                 void _layoutEvent(Core::Event::Layout&) override;
 
             private:
-                struct Private;
-                std::unique_ptr<Private> _p;
-            };
-
-            class ItemButton : public Button::IButton
-            {
-                DJV_NON_COPYABLE(ItemButton);
-
-            protected:
-                void _init(ViewType, Core::Context *);
-                ItemButton();
-
-            public:
-                virtual ~ItemButton();
-
-                static std::shared_ptr<ItemButton> create(ViewType, Core::Context *);
-
-                void setIcon(const Core::FileSystem::Path&);
-                void setIconSizeRole(Style::MetricsRole);
-                void setThumbnail(const std::shared_ptr<AV::Image::Image>&);
-                void setText(const std::string&);
-                void setTextSizeRole(Style::MetricsRole);
-
-                float getHeightForWidth(float) const override;
-
-            protected:
-                void _preLayoutEvent(Core::Event::PreLayout&) override;
-                void _layoutEvent(Core::Event::Layout&) override;
-
-                void _updateEvent(Core::Event::Update&) override;
-
-            private:
-                struct Private;
-                std::unique_ptr<Private> _p;
+                DJV_PRIVATE();
             };
 
         } // namespace Layout
