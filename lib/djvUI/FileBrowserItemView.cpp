@@ -30,8 +30,8 @@
 #include <djvUI/FileBrowserItemView.h>
 
 #include <djvAV/IO.h>
-#include <djvAV/Render2DSystem.h>
 #include <djvAV/IconSystem.h>
+#include <djvAV/Render2D.h>
 #include <djvAV/ThumbnailSystem.h>
 
 #include <djvCore/FileInfo.h>
@@ -256,7 +256,7 @@ namespace djv
                 DJV_PRIVATE_PTR();
                 if (const size_t itemCount = p.items.size())
                 {
-                    if (auto render = _getRenderSystem().lock())
+                    if (auto render = _getRender().lock())
                     {
                         if (auto style = _getStyle().lock())
                         {
@@ -306,7 +306,7 @@ namespace djv
                                             render->drawImage(
                                                 j->second,
                                                 BBox2f(x, y, static_cast<float>(size.x), static_cast<float>(size.y)),
-                                                AV::Render::Render2DSystem::ImageType::Static);
+                                                AV::Render::ImageCache::Static);
                                         }
                                     }
                                     if (!thumbnail)
@@ -321,7 +321,7 @@ namespace djv
                                             render->drawFilledImage(
                                                 j->second,
                                                 BBox2f(x, y, static_cast<float>(size.x), static_cast<float>(size.y)),
-                                                AV::Render::Render2DSystem::ImageType::Static);
+                                                AV::Render::ImageCache::Static);
                                         }
                                     }
                                     {

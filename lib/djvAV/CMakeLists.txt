@@ -38,7 +38,7 @@ set(header
     PPM.h
     Pixel.h
     PixelInline.h
-    Render2DSystem.h
+    Render2D.h
     SequenceIO.h
     Shader.h
     Shape.h
@@ -68,7 +68,7 @@ set(source
     PPMRead.cpp
     PPMWrite.cpp
     Pixel.cpp
-    Render2DSystem.cpp
+    Render2D.cpp
     SequenceIO.cpp
     Shape.cpp
     Shader.cpp

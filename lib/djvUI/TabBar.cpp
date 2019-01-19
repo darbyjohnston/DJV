@@ -35,7 +35,7 @@
 #include <djvUI/RowLayout.h>
 #include <djvUI/StackLayout.h>
 
-#include <djvAV/Render2DSystem.h>
+#include <djvAV/Render2D.h>
 
 using namespace djv::Core;
 
@@ -129,7 +129,7 @@ namespace djv
 
             void TabBarButton::_paintEvent(Event::Paint& event)
             {
-                if (auto render = _getRenderSystem().lock())
+                if (auto render = _getRender().lock())
                 {
                     if (auto style = _getStyle().lock())
                     {

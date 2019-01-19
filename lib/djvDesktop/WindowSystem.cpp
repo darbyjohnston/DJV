@@ -35,7 +35,7 @@
 #include <djvUI/Window.h>
 
 #include <djvAV/OpenGLOffscreenBuffer.h>
-#include <djvAV/Render2DSystem.h>
+#include <djvAV/Render2D.h>
 
 #include <GLFW/glfw3.h>
 
@@ -125,10 +125,10 @@ namespace djv
 
                 if (resizeRequest || redrawRequest)
                 {
-                    if (auto system = getContext()->getSystemT<AV::Render::Render2DSystem>().lock())
+                    if (auto render = getContext()->getSystemT<AV::Render::Render2D>().lock())
                     {
                         _p->offscreenBuffer->bind();
-                        system->beginFrame(size);
+                        render->beginFrame(size);
                         for (const auto& i : rootObject->getChildrenT<UI::Window>())
                         {
                             if (i->isVisible())
@@ -138,7 +138,7 @@ namespace djv
                                 _paintRecursive(i, paintEvent, paintOverlayEvent);
                             }
                         }
-                        system->endFrame();
+                        render->endFrame();
                         _p->offscreenBuffer->unbind();
                         _redraw();
                     }
@@ -160,7 +160,7 @@ namespace djv
 
         void WindowSystem::_pushClipRect(const Core::BBox2f & value)
         {
-            if (auto system = getContext()->getSystemT<AV::Render::Render2DSystem>().lock())
+            if (auto system = getContext()->getSystemT<AV::Render::Render2D>().lock())
             {
                 system->pushClipRect(value);
             }
@@ -168,7 +168,7 @@ namespace djv
 
         void WindowSystem::_popClipRect()
         {
-            if (auto system = getContext()->getSystemT<AV::Render::Render2DSystem>().lock())
+            if (auto system = getContext()->getSystemT<AV::Render::Render2D>().lock())
             {
                 system->popClipRect();
             }

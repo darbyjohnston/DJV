@@ -119,9 +119,9 @@ namespace djv
             return _fontSystem;
         }
 
-        inline const std::weak_ptr<AV::Render::Render2DSystem>& Widget::_getRenderSystem() const
+        inline const std::weak_ptr<AV::Render::Render2D>& Widget::_getRender() const
         {
-            return _renderSystem;
+            return _render;
         }
 
         inline const std::weak_ptr<Style::Style>& Widget::_getStyle() const

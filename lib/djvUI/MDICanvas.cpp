@@ -35,7 +35,7 @@
 #include <djvUI/RowLayout.h>
 #include <djvUI/StackLayout.h>
 
-#include <djvAV/Render2DSystem.h>
+#include <djvAV/Render2D.h>
 
 #include <set>
 
@@ -168,7 +168,7 @@ namespace djv
             void Canvas::_paintEvent(Event::Paint& event)
             {
                 Widget::_paintEvent(event);
-                /*if (auto render = _getRenderSystem().lock())
+                /*if (auto render = _getRender().lock())
                 {
                     if (auto style = _getStyle().lock())
                     {
@@ -189,7 +189,7 @@ namespace djv
 
             void Canvas::_paintOverlayEvent(Event::PaintOverlay& event)
             {
-                if (auto render = _getRenderSystem().lock())
+                if (auto render = _getRender().lock())
                 {
                     if (auto style = _getStyle().lock())
                     {

@@ -38,7 +38,6 @@
 #include <djvUI/StyleSettings.h>
 
 #include <djvAV/AVSystem.h>
-#include <djvAV/Render2DSystem.h>
 
 #include <djvCore/Context.h>
 #include <djvCore/TextSystem.h>
@@ -51,7 +50,7 @@ namespace djv
     {
         struct UISystem::Private
         {
-            std::vector<std::shared_ptr<ISystem> > uiSystems;
+            std::vector<std::shared_ptr<ISystem> > systems;
             std::shared_ptr<Settings::General> generalSettings;
             std::shared_ptr<Settings::Font> fontSettings;
             std::shared_ptr<Settings::Style> styleSettings;
@@ -66,8 +65,8 @@ namespace djv
             ISystem::_init("djv::UI::UISystem", context);
 
             DJV_PRIVATE_PTR();
-            p.uiSystems.push_back(AV::AVSystem::create(context));
-            p.uiSystems.push_back(Settings::System::create(context));
+            p.systems.push_back(AV::AVSystem::create(context));
+            p.systems.push_back(Settings::System::create(context));
             
             p.generalSettings = Settings::General::create(context);
             p.fontSettings = Settings::Font::create(context);
@@ -75,8 +74,8 @@ namespace djv
 
             p.style = Style::Style::create(context);
 
-            p.uiSystems.push_back(DialogSystem::create(context));
-            p.uiSystems.push_back(FileBrowser::DialogSystem::create(context));
+            p.systems.push_back(DialogSystem::create(context));
+            p.systems.push_back(FileBrowser::DialogSystem::create(context));
 
             auto weak = std::weak_ptr<UISystem>(std::dynamic_pointer_cast<UISystem>(shared_from_this()));
             p.paletteObserver = ValueObserver<UI::Style::Palette>::create(
@@ -115,11 +114,11 @@ namespace djv
         UISystem::~UISystem()
         {
             DJV_PRIVATE_PTR();
-            while (p.uiSystems.size())
+            while (p.systems.size())
             {
-                auto system = p.uiSystems.back();
+                auto system = p.systems.back();
                 system->setParent(nullptr);
-                p.uiSystems.pop_back();
+                p.systems.pop_back();
             }
         }
 

@@ -51,18 +51,24 @@ namespace djv
         //! This namespace provides rendering functionality.
         namespace Render
         {
-            class Render2DSystem : public Core::ISystem
+            enum class ImageCache
             {
-                DJV_NON_COPYABLE(Render2DSystem);
+                Static,
+                Dynamic
+            };
+
+            class Render2D : public Core::ISystem
+            {
+                DJV_NON_COPYABLE(Render2D);
 
             protected:
                 void _init(Core::Context *);
-                Render2DSystem();
+                Render2D();
 
             public:
-                ~Render2DSystem();
+                ~Render2D();
 
-                static std::shared_ptr<Render2DSystem> create(Core::Context *);
+                static std::shared_ptr<Render2D> create(Core::Context *);
 
                 void beginFrame(const glm::ivec2 &);
                 void endFrame();
@@ -76,6 +82,7 @@ namespace djv
                 ///@{
 
                 void drawRectangle(const Core::BBox2f &);
+                void drawRoundedRectangle(const Core::BBox2f &, float radius, size_t facets = 16);
                 void drawCircle(const glm::vec2 & pos, float radius, size_t facets = 64);
 
                 ///@}
@@ -83,21 +90,15 @@ namespace djv
                 //! \name Images
                 ///@{
 
-                enum class ImageType
-                {
-                    Static,
-                    Dynamic
-                };
-
                 void drawImage(
                     const std::shared_ptr<Image::Data> &,
                     const Core::BBox2f &,
-                    ImageType);
+                    ImageCache);
 
                 void drawFilledImage(
                     const std::shared_ptr<Image::Data> &,
                     const Core::BBox2f &,
-                    ImageType);
+                    ImageCache);
 
                 ///@}
 

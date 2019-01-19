@@ -42,8 +42,6 @@
 #include <djvUI/ScrollWidget.h>
 #include <djvUI/Window.h>
 
-#include <djvAV/Render2DSystem.h>
-
 using namespace djv::Core;
 
 namespace djv

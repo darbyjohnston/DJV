@@ -34,7 +34,7 @@
 #include <djvAV/IconSystem.h>
 #include <djvAV/IO.h>
 #include <djvAV/OpenGL.h>
-#include <djvAV/Render2DSystem.h>
+#include <djvAV/Render2D.h>
 #include <djvAV/ThumbnailSystem.h>
 
 #include <djvCore/Context.h>
@@ -97,7 +97,7 @@ namespace djv
         {
             int dpi = dpiDefault;
             GLFWwindow * glfwWindow = nullptr;
-            std::vector<std::shared_ptr<ISystem> > avSystems;
+            std::vector<std::shared_ptr<ISystem> > systems;
         };
 
         void AVSystem::_init(Context * context)
@@ -193,12 +193,12 @@ namespace djv
             }
 
             // Create the systems.
-            _p->avSystems.push_back(IO::System::create(context));
-            _p->avSystems.push_back(Audio::System::create(context));
-            _p->avSystems.push_back(Font::System::create(context));
-            _p->avSystems.push_back(Render::Render2DSystem::create(context));
-            _p->avSystems.push_back(ThumbnailSystem::create(context));
-            _p->avSystems.push_back(Image::IconSystem::create(context));
+            _p->systems.push_back(IO::System::create(context));
+            _p->systems.push_back(Audio::System::create(context));
+            _p->systems.push_back(Font::System::create(context));
+            _p->systems.push_back(Render::Render2D::create(context));
+            _p->systems.push_back(ThumbnailSystem::create(context));
+            _p->systems.push_back(Image::IconSystem::create(context));
         }
 
         AVSystem::AVSystem() :
@@ -208,15 +208,16 @@ namespace djv
         AVSystem::~AVSystem()
         {
             DJV_PRIVATE_PTR();
-            while (p.avSystems.size())
+            while (p.systems.size())
             {
-                auto system = p.avSystems.back();
+                auto system = p.systems.back();
                 system->setParent(nullptr);
-                p.avSystems.pop_back();
+                p.systems.pop_back();
             }
             if (p.glfwWindow)
             {
                 glfwDestroyWindow(p.glfwWindow);
+                p.glfwWindow = nullptr;
             }
             glfwTerminate();
         }

@@ -44,7 +44,7 @@
 
 #include <djvAV/IconSystem.h>
 #include <djvAV/Image.h>
-#include <djvAV/Render2DSystem.h>
+#include <djvAV/Render2D.h>
 
 #include <djvCore/TextSystem.h>
 
@@ -276,7 +276,7 @@ namespace djv
             void MenuWidget::_paintEvent(Event::Paint& event)
             {
                 Widget::_paintEvent(event);
-                if (auto render = _getRenderSystem().lock())
+                if (auto render = _getRender().lock())
                 {
                     if (auto style = _getStyle().lock())
                     {
@@ -335,7 +335,7 @@ namespace djv
                             {
                                 y = i.second->geom.min.y + ceilf(i.second->size.y / 2.f - iconSize / 2.f);
                                 render->setFillColor(_getColorWithOpacity(style->getColor(colorRole)));
-                                render->drawFilledImage(i.second->icon, BBox2f(x, y, iconSize, iconSize), AV::Render::Render2DSystem::ImageType::Static);
+                                render->drawFilledImage(i.second->icon, BBox2f(x, y, iconSize, iconSize), AV::Render::ImageCache::Static);
                                 x += iconSize + s;
                             }
                             else if (_hasIcons)
@@ -851,7 +851,7 @@ namespace djv
             void MenuOverlayLayout::_paintEvent(Event::Paint& event)
             {
                 Widget::_paintEvent(event);
-                if (auto render = _getRenderSystem().lock())
+                if (auto render = _getRender().lock())
                 {
                     if (auto style = _getStyle().lock())
                     {

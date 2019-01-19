@@ -29,7 +29,7 @@
 
 #include <djvViewLib/TimelineSlider.h>
 
-#include <djvAV/Render2DSystem.h>
+#include <djvAV/Render2D.h>
 
 #include <djvCore/Math.h>
 
@@ -103,7 +103,7 @@ namespace djv
 
         void TimelineSlider::_paintEvent(Event::Paint& event)
         {
-            if (auto render = _getRenderSystem().lock())
+            if (auto render = _getRender().lock())
             {
                 if (auto style = _getStyle().lock())
                 {

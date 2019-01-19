@@ -33,8 +33,6 @@
 #include <djvUI/RowLayout.h>
 #include <djvUI/StackLayout.h>
 
-#include <djvAV/Render2DSystem.h>
-
 using namespace djv::Core;
 
 namespace djv

@@ -33,8 +33,6 @@
 #include <djvUI/Label.h>
 #include <djvUI/RowLayout.h>
 
-#include <djvAV/Render2DSystem.h>
-
 //#pragma optimize("", off)
 
 using namespace djv::Core;

@@ -39,21 +39,15 @@
 #include <djvViewLib/ToolSystem.h>
 #include <djvViewLib/WindowSystem.h>
 
+using namespace djv::Core;
+
 namespace djv
 {
     namespace ViewLib
     {
         struct Application::Private
         {
-            std::shared_ptr<FileSystem> fileSystem;
-            std::shared_ptr<WindowSystem> windowSystem;
-            std::shared_ptr<ImageViewSystem> imageViewSystem;
-            std::shared_ptr<ImageSystem> imageSystem;
-            std::shared_ptr<PlaybackSystem> playbackSystem;
-            std::shared_ptr<ToolSystem> toolSystem;
-            std::shared_ptr<HelpSystem> helpSystem;
-            std::shared_ptr<SettingsSystem> settingsSystem;
-
+            std::vector<std::shared_ptr<ISystem> > systems;
             std::shared_ptr<MainWindow> mainWindow;
         };
         
@@ -62,14 +56,14 @@ namespace djv
             Desktop::Application::_init(argc, argv);
 
             DJV_PRIVATE_PTR();
-            p.fileSystem = FileSystem::create(this);
-            p.windowSystem = WindowSystem::create(this);
-            p.imageViewSystem = ImageViewSystem::create(this);
-            p.imageSystem = ImageSystem::create(this);
-            p.playbackSystem = PlaybackSystem::create(this);
-            p.toolSystem = ToolSystem::create(this);
-            p.helpSystem = HelpSystem::create(this);
-            p.settingsSystem = SettingsSystem::create(this);
+            p.systems.push_back(FileSystem::create(this));
+            p.systems.push_back(WindowSystem::create(this));
+            p.systems.push_back(ImageViewSystem::create(this));
+            p.systems.push_back(ImageSystem::create(this));
+            p.systems.push_back(PlaybackSystem::create(this));
+            p.systems.push_back(ToolSystem::create(this));
+            p.systems.push_back(HelpSystem::create(this));
+            p.systems.push_back(SettingsSystem::create(this));
 
             p.mainWindow = MainWindow::create(this);
             p.mainWindow->show();
@@ -80,7 +74,15 @@ namespace djv
         {}
 
         Application::~Application()
-        {}
+        {
+            DJV_PRIVATE_PTR();
+            while (p.systems.size())
+            {
+                auto system = p.systems.back();
+                system->setParent(nullptr);
+                p.systems.pop_back();
+            }
+        }
 
         std::shared_ptr<Application> Application::create(int & argc, char ** argv)
         {

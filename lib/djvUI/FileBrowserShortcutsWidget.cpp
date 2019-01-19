@@ -44,7 +44,6 @@
 #include <djvUI/TextBlock.h>
 
 #include <djvAV/IO.h>
-#include <djvAV/Render2DSystem.h>
 
 #include <djvCore/FileInfo.h>
 #include <djvCore/OS.h>

@@ -29,7 +29,7 @@
 
 #include <djvUI/ColorSwatch.h>
 
-#include <djvAV/Render2DSystem.h>
+#include <djvAV/Render2D.h>
 
 using namespace djv::Core;
 
@@ -111,7 +111,7 @@ namespace djv
         void ColorSwatch::_paintEvent(Event::Paint& event)
         {
             Widget::_paintEvent(event);
-            if (auto render = _getRenderSystem().lock())
+            if (auto render = _getRender().lock())
             {
                 const BBox2f& g = getGeometry();
                 render->setFillColor(_getColorWithOpacity(_p->color));

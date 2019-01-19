@@ -27,7 +27,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvAV/Render2DSystem.h>
+#include <djvAV/Render2D.h>
 
 #include <djvAV/Color.h>
 #include <djvAV/OpenGLMesh.h>
@@ -60,8 +60,12 @@ namespace djv
             namespace
             {
                 //! \todo [1.0 S] Should this be configurable?
-                const size_t textureCacheSize = 8192;
-                const size_t textureCacheCount = 4;
+                const size_t textureCacheSize     = 8192;
+                const size_t textureCacheCount    = 4;
+                const size_t renderDataReserve    = 10000;
+                const size_t trianglesReserve     = 1000000;
+                const size_t vertexReserve        = 3000000;
+                const size_t textureCoordsReserve = 3000000;
 
                 enum class ImageFormat
                 {
@@ -80,24 +84,13 @@ namespace djv
 
                 struct RenderData
                 {
-                    BBox2f bbox = BBox2f(0.f, 0.f, 0.f, 0.f);
-                    BBox2f clipRect = BBox2f(0.f, 0.f, 0.f, 0.f);
-                    ImageFormat imageFormat = ImageFormat::RGBA;
-                    ColorMode colorMode = ColorMode::SolidColor;
-                    Image::Color color = Image::Color(1.f, 1.f, 1.f);
-
-                    GLint texture = 0;
-                    Range::FloatRange textureU;
-                    Range::FloatRange textureV;
-                };
-
-                enum class PrimitiveType
-                {
-                    None,
-                    Rectangle,
-                    Circle,
-                    Image,
-                    Text
+                    BBox2f bbox;
+                    BBox2f clipRect;
+                    ImageFormat imageFormat;
+                    ColorMode colorMode;
+                    Image::Color color;
+                    GLint texture;
+                    size_t vaoSize;
                 };
 
                 struct Render;
@@ -111,12 +104,11 @@ namespace djv
                     virtual ~Primitive() = 0;
 
                     Render & render;
-                    PrimitiveType type = PrimitiveType::None;
-                    BBox2f clipRect = BBox2f(0.f, 0.f, 0.f, 0.f);
-                    ColorMode colorMode = ColorMode::SolidColor;
-                    Image::Color color = Image::Color(1.f, 1.f, 1.f);
+                    BBox2f clipRect;
+                    ColorMode colorMode;
+                    Image::Color color;
 
-                    virtual void getRenderData(std::vector<RenderData> &) = 0;
+                    virtual void process(std::vector<RenderData> &, Geom::TriangleMesh &) = 0;
                 };
 
                 Primitive::~Primitive()
@@ -128,8 +120,8 @@ namespace djv
                     {
                         const auto shaderPath = context->getPath(FileSystem::ResourcePath::ShadersDirectory);
                         shader = OpenGL::Shader::create(Shader::create(
-                            FileSystem::Path(shaderPath, "djvAVRender2DSystemVertex.glsl"),
-                            FileSystem::Path(shaderPath, "djvAVRender2DSystemFragment.glsl")));
+                            FileSystem::Path(shaderPath, "djvAVRender2DVertex.glsl"),
+                            FileSystem::Path(shaderPath, "djvAVRender2DFragment.glsl")));
 
                         GLint maxTextureUnits = 0;
                         GLint maxTextureSize = 0;
@@ -139,7 +131,7 @@ namespace djv
                             std::stringstream ss;
                             ss << "Maximum OpenGL texture units: " << maxTextureUnits << "\n";
                             ss << "Maximum OpenGL texture size: " << maxTextureSize;
-                            context->log("djv::AV::Render2DSystem", ss.str());
+                            context->log("djv::AV::Render::Render2D", ss.str());
                         }
                         const size_t _textureCacheCount = std::min(size_t(maxTextureUnits), textureCacheCount);
                         const int _textureCacheSize = std::min(maxTextureSize, int(textureCacheSize));
@@ -147,7 +139,7 @@ namespace djv
                             std::stringstream ss;
                             ss << "Texture cache count: " << _textureCacheCount << "\n";
                             ss << "Texture cache size: " << _textureCacheSize;
-                            context->log("djv::AV::Render2DSystem", ss.str());
+                            context->log("djv::AV::Render::Render2D", ss.str());
                         }
                         staticTextureCache.reset(new TextureCache(
                             _textureCacheCount,
@@ -178,20 +170,263 @@ namespace djv
                 {
                     RectanglePrimitive(Render & render) :
                         Primitive(render)
+                    {}
+
+                    BBox2f rect;
+
+                    void process(std::vector<RenderData> & out, Geom::TriangleMesh & mesh) override
                     {
-                        type = PrimitiveType::Rectangle;
+                        if (rect.intersects(render.viewport))
+                        {
+                            RenderData data;
+                            data.bbox = rect;
+                            data.clipRect = clipRect;
+                            data.colorMode = colorMode;
+                            data.color = color;
+                            data.texture = 0;
+                            data.vaoSize = 6;
+                            out.push_back(std::move(data));
+
+                            const size_t vCount = mesh.v.size();
+                            Geom::TriangleMesh::Triangle triangle;
+                            triangle.v0 = Geom::TriangleMesh::Vertex(vCount + 1);
+                            triangle.v1 = Geom::TriangleMesh::Vertex(vCount + 2);
+                            triangle.v2 = Geom::TriangleMesh::Vertex(vCount + 3);
+                            mesh.triangles.push_back(std::move(triangle));
+                            Geom::TriangleMesh::Triangle triangle2;
+                            triangle.v0 = Geom::TriangleMesh::Vertex(vCount + 3);
+                            triangle.v1 = Geom::TriangleMesh::Vertex(vCount + 4);
+                            triangle.v2 = Geom::TriangleMesh::Vertex(vCount + 1);
+                            mesh.triangles.push_back(std::move(triangle));
+
+                            mesh.v.push_back(glm::vec3(rect.min.x, rect.min.y, 0.f));
+                            mesh.v.push_back(glm::vec3(rect.max.x, rect.min.y, 0.f));
+                            mesh.v.push_back(glm::vec3(rect.max.x, rect.max.y, 0.f));
+                            mesh.v.push_back(glm::vec3(rect.min.x, rect.max.y, 0.f));
+                        }
                     }
+                };
 
-                    BBox2f rect = BBox2f(0.f, 0.f, 0.f, 0.f);
+                struct RoundedRectanglePrimitive : public Primitive
+                {
+                    RoundedRectanglePrimitive(Render & render) :
+                        Primitive(render)
+                    {}
 
-                    void getRenderData(std::vector<RenderData> & out) override
+                    BBox2f rect;
+                    float radius;
+                    size_t facets;
+
+                    void process(std::vector<RenderData> & out, Geom::TriangleMesh & mesh) override
                     {
-                        RenderData data;
-                        data.bbox = rect;
-                        data.clipRect = clipRect;
-                        data.colorMode = colorMode;
-                        data.color = color;
-                        out.push_back(std::move(data));
+                        if (rect.intersects(render.viewport))
+                        {
+                            RenderData data;
+                            data.bbox = rect;
+                            data.clipRect = clipRect;
+                            data.colorMode = colorMode;
+                            data.color = color;
+                            data.texture = 0;
+                            const size_t count = 3 * 2 + facets * 4;
+                            data.vaoSize = count * 3;
+                            out.push_back(std::move(data));
+
+                            size_t vCount = mesh.v.size();
+                            const size_t trianglesCount = mesh.triangles.size();
+                            mesh.v.resize(vCount + count * 3);
+                            mesh.triangles.resize(trianglesCount + count);
+                            auto vIt = mesh.v.begin() + vCount;
+                            auto triangleIt = mesh.triangles.begin() + trianglesCount;
+
+                            // Center
+                            triangleIt->v0 = Geom::TriangleMesh::Vertex(vCount + 1);
+                            triangleIt->v1 = Geom::TriangleMesh::Vertex(vCount + 2);
+                            triangleIt->v2 = Geom::TriangleMesh::Vertex(vCount + 3);
+                            ++triangleIt;
+                            triangleIt->v0 = Geom::TriangleMesh::Vertex(vCount + 3);
+                            triangleIt->v1 = Geom::TriangleMesh::Vertex(vCount + 4);
+                            triangleIt->v2 = Geom::TriangleMesh::Vertex(vCount + 1);
+                            ++triangleIt;
+                            vIt->x = rect.min.x;
+                            vIt->y = rect.min.y + radius;
+                            vIt->z = 0.f;
+                            ++vIt;
+                            vIt->x = rect.max.x;
+                            vIt->y = rect.min.y + radius;
+                            vIt->z = 0.f;
+                            ++vIt;
+                            vIt->x = rect.max.x;
+                            vIt->y = rect.max.y - radius;
+                            vIt->z = 0.f;
+                            ++vIt;
+                            vIt->x = rect.min.x;
+                            vIt->y = rect.max.y - radius;
+                            vIt->z = 0.f;
+                            ++vIt;
+                            vCount += 4;
+
+                            // Top
+                            triangleIt->v0 = Geom::TriangleMesh::Vertex(vCount + 1);
+                            triangleIt->v1 = Geom::TriangleMesh::Vertex(vCount + 2);
+                            triangleIt->v2 = Geom::TriangleMesh::Vertex(vCount + 3);
+                            ++triangleIt;
+                            triangleIt->v0 = Geom::TriangleMesh::Vertex(vCount + 3);
+                            triangleIt->v1 = Geom::TriangleMesh::Vertex(vCount + 4);
+                            triangleIt->v2 = Geom::TriangleMesh::Vertex(vCount + 1);
+                            ++triangleIt;
+                            vIt->x = rect.min.x + radius;
+                            vIt->y = rect.min.y;
+                            vIt->z = 0.f;
+                            ++vIt;
+                            vIt->x = rect.max.x - radius;
+                            vIt->y = rect.min.y;
+                            vIt->z = 0.f;
+                            ++vIt;
+                            vIt->x = rect.max.x - radius;
+                            vIt->y = rect.min.y + radius;
+                            vIt->z = 0.f;
+                            ++vIt;
+                            vIt->x = rect.min.x + radius;
+                            vIt->y = rect.min.y + radius;
+                            vIt->z = 0.f;
+                            ++vIt;
+                            vCount += 4;
+
+                            // Bottom
+                            triangleIt->v0 = Geom::TriangleMesh::Vertex(vCount + 1);
+                            triangleIt->v1 = Geom::TriangleMesh::Vertex(vCount + 2);
+                            triangleIt->v2 = Geom::TriangleMesh::Vertex(vCount + 3);
+                            ++triangleIt;
+                            triangleIt->v0 = Geom::TriangleMesh::Vertex(vCount + 3);
+                            triangleIt->v1 = Geom::TriangleMesh::Vertex(vCount + 4);
+                            triangleIt->v2 = Geom::TriangleMesh::Vertex(vCount + 1);
+                            ++triangleIt;
+                            vIt->x = rect.min.x + radius;
+                            vIt->y = rect.max.y - radius;
+                            vIt->z = 0.f;
+                            ++vIt;
+                            vIt->x = rect.max.x - radius;
+                            vIt->y = rect.max.y - radius;
+                            vIt->z = 0.f;
+                            ++vIt;
+                            vIt->x = rect.max.x - radius;
+                            vIt->y = rect.max.y;
+                            vIt->z = 0.f;
+                            ++vIt;
+                            vIt->x = rect.min.x + radius;
+                            vIt->y = rect.max.y;
+                            vIt->z = 0.f;
+                            ++vIt;
+                            vCount += 4;
+
+                            // Upper left corner
+                            for (size_t i = 0; i < facets; ++i)
+                            {
+                                triangleIt->v0 = Geom::TriangleMesh::Vertex(vCount + i * 3 + 1);
+                                triangleIt->v1 = Geom::TriangleMesh::Vertex(vCount + i * 3 + 2);
+                                triangleIt->v2 = Geom::TriangleMesh::Vertex(vCount + i * 3 + 3);
+                                ++triangleIt;
+
+                                const float x = rect.min.x + radius;
+                                const float y = rect.min.y + radius;
+                                vIt->x = x;
+                                vIt->y = y;
+                                vIt->z = 0.f;
+                                ++vIt;
+                                float degrees = i / static_cast<float>(facets) * 90.f + 180.f;
+                                vIt->x = x + cosf(Math::deg2rad(degrees)) * radius;
+                                vIt->y = y + sinf(Math::deg2rad(degrees)) * radius;
+                                vIt->z = 0.f;
+                                ++vIt;
+                                degrees = (i + 1) / static_cast<float>(facets) * 90.f + 180.f;
+                                vIt->x = x + cosf(Math::deg2rad(degrees)) * radius;
+                                vIt->y = y + sinf(Math::deg2rad(degrees)) * radius;
+                                vIt->z = 0.f;
+                                ++vIt;
+                            }
+                            vCount += facets * 3;
+
+                            // Upper right corner
+                            for (size_t i = 0; i < facets; ++i)
+                            {
+                                triangleIt->v0 = Geom::TriangleMesh::Vertex(vCount + i * 3 + 1);
+                                triangleIt->v1 = Geom::TriangleMesh::Vertex(vCount + i * 3 + 2);
+                                triangleIt->v2 = Geom::TriangleMesh::Vertex(vCount + i * 3 + 3);
+                                ++triangleIt;
+
+                                const float x = rect.max.x - radius;
+                                const float y = rect.min.y + radius;
+                                vIt->x = x;
+                                vIt->y = y;
+                                vIt->z = 0.f;
+                                ++vIt;
+                                float degrees = i / static_cast<float>(facets) * 90.f - 90.f;
+                                vIt->x = x + cosf(Math::deg2rad(degrees)) * radius;
+                                vIt->y = y + sinf(Math::deg2rad(degrees)) * radius;
+                                vIt->z = 0.f;
+                                ++vIt;
+                                degrees = (i + 1) / static_cast<float>(facets) * 90.f - 90.f;
+                                vIt->x = x + cosf(Math::deg2rad(degrees)) * radius;
+                                vIt->y = y + sinf(Math::deg2rad(degrees)) * radius;
+                                vIt->z = 0.f;
+                                ++vIt;
+                            }
+                            vCount += facets * 3;
+
+                            // Lower left corner
+                            for (size_t i = 0; i < facets; ++i)
+                            {
+                                triangleIt->v0 = Geom::TriangleMesh::Vertex(vCount + i * 3 + 1);
+                                triangleIt->v1 = Geom::TriangleMesh::Vertex(vCount + i * 3 + 2);
+                                triangleIt->v2 = Geom::TriangleMesh::Vertex(vCount + i * 3 + 3);
+                                ++triangleIt;
+
+                                const float x = rect.min.x + radius;
+                                const float y = rect.max.y - radius;
+                                vIt->x = x;
+                                vIt->y = y;
+                                vIt->z = 0.f;
+                                ++vIt;
+                                float degrees = i / static_cast<float>(facets) * 90.f + 90.f;
+                                vIt->x = x + cosf(Math::deg2rad(degrees)) * radius;
+                                vIt->y = y + sinf(Math::deg2rad(degrees)) * radius;
+                                vIt->z = 0.f;
+                                ++vIt;
+                                degrees = (i + 1) / static_cast<float>(facets) * 90.f + 90.f;
+                                vIt->x = x + cosf(Math::deg2rad(degrees)) * radius;
+                                vIt->y = y + sinf(Math::deg2rad(degrees)) * radius;
+                                vIt->z = 0.f;
+                                ++vIt;
+                            }
+                            vCount += facets * 3;
+
+                            // Lower right corner
+                            for (size_t i = 0; i < facets; ++i)
+                            {
+                                triangleIt->v0 = Geom::TriangleMesh::Vertex(vCount + i * 3 + 1);
+                                triangleIt->v1 = Geom::TriangleMesh::Vertex(vCount + i * 3 + 2);
+                                triangleIt->v2 = Geom::TriangleMesh::Vertex(vCount + i * 3 + 3);
+                                ++triangleIt;
+
+                                const float x = rect.max.x - radius;
+                                const float y = rect.max.y - radius;
+                                vIt->x = x;
+                                vIt->y = y;
+                                vIt->z = 0.f;
+                                ++vIt;
+                                float degrees = i / static_cast<float>(facets) * 90.f;
+                                vIt->x = x + cosf(Math::deg2rad(degrees)) * radius;
+                                vIt->y = y + sinf(Math::deg2rad(degrees)) * radius;
+                                vIt->z = 0.f;
+                                ++vIt;
+                                degrees = (i + 1) / static_cast<float>(facets) * 90.f;
+                                vIt->x = x + cosf(Math::deg2rad(degrees)) * radius;
+                                vIt->y = y + sinf(Math::deg2rad(degrees)) * radius;
+                                vIt->z = 0.f;
+                                ++vIt;
+                            }
+                            vCount += facets * 3;
+                        }
                     }
                 };
 
@@ -199,100 +434,159 @@ namespace djv
                 {
                     CirclePrimitive(Render & render) :
                         Primitive(render)
-                    {
-                        type = PrimitiveType::Circle;
-                    }
+                    {}
 
-                    glm::vec2 pos = glm::vec2(0.f, 0.f);
-                    float radius = 0.f;
-                    size_t facets = 64;
+                    glm::vec2 pos;
+                    float radius;
+                    size_t facets;
 
-                    void getRenderData(std::vector<RenderData> & out) override
+                    void process(std::vector<RenderData> & out, Geom::TriangleMesh & mesh) override
                     {
-                        RenderData data;
-                        data.bbox = BBox2f(pos.x - radius, pos.y - radius, radius * 2.f, radius * 2.f);
-                        data.clipRect = clipRect;
-                        data.colorMode = colorMode;
-                        data.color = color;
-                        out.push_back(std::move(data));
+                        const BBox2f rect(pos.x - radius, pos.y - radius, radius * 2.f, radius * 2.f);
+                        if (rect.intersects(render.viewport))
+                        {
+                            RenderData data;
+                            data.bbox = rect;
+                            data.clipRect = clipRect;
+                            data.colorMode = colorMode;
+                            data.color = color;
+                            data.texture = 0;
+                            data.vaoSize = 3 * facets;
+                            out.push_back(std::move(data));
+
+                            const size_t vCount = mesh.v.size();
+                            const size_t trianglesCount = mesh.triangles.size();
+                            mesh.v.resize(vCount + facets * 3);
+                            mesh.triangles.resize(trianglesCount + facets);
+                            auto vIt = mesh.v.begin() + vCount;
+                            auto triangleIt = mesh.triangles.begin() + trianglesCount;
+                            for (size_t i = 0; i < facets; ++i)
+                            {
+                                triangleIt->v0 = Geom::TriangleMesh::Vertex(vCount + i * 3 + 1);
+                                triangleIt->v1 = Geom::TriangleMesh::Vertex(vCount + i * 3 + 2);
+                                triangleIt->v2 = Geom::TriangleMesh::Vertex(vCount + i * 3 + 3);
+                                ++triangleIt;
+
+                                vIt->x = pos.x;
+                                vIt->y = pos.y;
+                                vIt->z = 0.f;
+                                ++vIt;
+                                float degrees = i / static_cast<float>(facets) * 360.f;
+                                vIt->x = pos.x + cosf(Math::deg2rad(degrees)) * radius;
+                                vIt->y = pos.y + sinf(Math::deg2rad(degrees)) * radius;
+                                vIt->z = 0.f;
+                                ++vIt;
+                                degrees = (i + 1) / static_cast<float>(facets) * 360.f;
+                                vIt->x = pos.x + cosf(Math::deg2rad(degrees)) * radius;
+                                vIt->y = pos.y + sinf(Math::deg2rad(degrees)) * radius;
+                                vIt->z = 0.f;
+                                ++vIt;
+                            }
+                        }
                     }
                 };
 
                 struct ImagePrimitive : public Primitive
                 {
-                    ImagePrimitive(Render & render, Render2DSystem::ImageType imageType) :
+                    ImagePrimitive(Render & render, ImageCache cache) :
                         Primitive(render),
-                        imageType(imageType),
-                        textureCache(Render2DSystem::ImageType::Static == imageType ? render.staticTextureCache : render.dynamicTextureCache)
-                    {
-                        type = PrimitiveType::Image;
-                    }
+                        cache(cache),
+                        textureCache(ImageCache::Static == cache ? render.staticTextureCache : render.dynamicTextureCache)
+                    {}
 
                     std::shared_ptr<Image::Data> imageData;
-                    BBox2f rect = BBox2f(0.f, 0.f, 0.f, 0.f);
-                    ImageFormat imageFormat = ImageFormat::RGBA;
-                    Render2DSystem::ImageType imageType = Render2DSystem::ImageType::Static;
+                    BBox2f rect;
+                    ImageFormat imageFormat;
+                    ImageCache cache;
                     std::shared_ptr<TextureCache> textureCache;
 
-                    void getRenderData(std::vector<RenderData> & out) override
+                    void process(std::vector<RenderData> & out, Geom::TriangleMesh & mesh) override
                     {
-                        TextureCacheItem item;
-                        const UID uid = imageData->getUID();
-                        if (uid)
+                        if (rect.intersects(render.viewport))
                         {
-                            uint64_t id = 0;
-                            auto & textureIDs = Render2DSystem::ImageType::Static == imageType ? render.staticTextureIDs : render.dynamicTextureIDs;
-                            const auto i = textureIDs.find(uid);
-                            if (i != textureIDs.end())
+                            TextureCacheItem item;
+                            const UID uid = imageData->getUID();
+                            if (uid)
                             {
-                                id = i->second;
+                                uint64_t id = 0;
+                                auto & textureIDs = ImageCache::Static == cache ? render.staticTextureIDs : render.dynamicTextureIDs;
+                                const auto i = textureIDs.find(uid);
+                                if (i != textureIDs.end())
+                                {
+                                    id = i->second;
+                                }
+                                if (!textureCache->getItem(id, item))
+                                {
+                                    textureIDs[uid] = textureCache->addItem(imageData, item);
+                                }
                             }
-                            if (!textureCache->getItem(id, item))
+                            else
                             {
-                                textureIDs[uid] = textureCache->addItem(imageData, item);
+                                textureCache->addItem(imageData, item);
                             }
-                        }
-                        else
-                        {
-                            textureCache->addItem(imageData, item);
-                        }
 
-                        RenderData data;
-                        data.bbox = rect;
-                        data.clipRect = clipRect;
-                        const auto & info = imageData->getInfo();
-                        switch (info.getGLFormat())
-                        {
-                        case GL_RED:  data.imageFormat = ImageFormat::L;    break;
-                        case GL_RG:   data.imageFormat = ImageFormat::LA;   break;
-                        case GL_RGB:  data.imageFormat = ImageFormat::RGB;  break;
-                        case GL_RGBA: data.imageFormat = ImageFormat::RGBA; break;
-                        default: break;
+                            RenderData data;
+                            data.bbox = rect;
+                            data.clipRect = clipRect;
+                            const auto & info = imageData->getInfo();
+                            switch (info.getGLFormat())
+                            {
+                            case GL_RED:  data.imageFormat = ImageFormat::L;    break;
+                            case GL_RG:   data.imageFormat = ImageFormat::LA;   break;
+                            case GL_RGB:  data.imageFormat = ImageFormat::RGB;  break;
+                            case GL_RGBA: data.imageFormat = ImageFormat::RGBA; break;
+                            default: break;
+                            }
+                            data.colorMode = colorMode;
+                            data.color = color;
+                            data.texture = static_cast<GLint>(
+                                (ImageCache::Dynamic == cache ? render.staticTextureCache->getTextureCount() : 0) +
+                                item.texture);
+                            Range::FloatRange textureU;
+                            Range::FloatRange textureV;
+                            if (info.layout.mirror.x)
+                            {
+                                textureU.min = item.textureU.max;
+                                textureU.max = item.textureU.min;
+                            }
+                            else
+                            {
+                                textureU = item.textureU;
+                            }
+                            if (info.layout.mirror.y)
+                            {
+                                textureV.min = item.textureV.max;
+                                textureV.max = item.textureV.min;
+                            }
+                            else
+                            {
+                                textureV = item.textureV;
+                            }
+                            data.vaoSize = 6;
+                            out.push_back(std::move(data));
+
+                            const size_t vCount = mesh.v.size();
+                            const size_t tCount = mesh.t.size();
+                            Geom::TriangleMesh::Triangle triangle;
+                            triangle.v0 = Geom::TriangleMesh::Vertex(vCount + 1, tCount + 1);
+                            triangle.v1 = Geom::TriangleMesh::Vertex(vCount + 2, tCount + 2);
+                            triangle.v2 = Geom::TriangleMesh::Vertex(vCount + 3, tCount + 3);
+                            mesh.triangles.push_back(std::move(triangle));
+                            Geom::TriangleMesh::Triangle triangle2;
+                            triangle.v0 = Geom::TriangleMesh::Vertex(vCount + 3, tCount + 3);
+                            triangle.v1 = Geom::TriangleMesh::Vertex(vCount + 4, tCount + 4);
+                            triangle.v2 = Geom::TriangleMesh::Vertex(vCount + 1, tCount + 1);
+                            mesh.triangles.push_back(std::move(triangle));
+
+                            mesh.v.push_back(glm::vec3(rect.min.x, rect.min.y, 0.f));
+                            mesh.v.push_back(glm::vec3(rect.max.x, rect.min.y, 0.f));
+                            mesh.v.push_back(glm::vec3(rect.max.x, rect.max.y, 0.f));
+                            mesh.v.push_back(glm::vec3(rect.min.x, rect.max.y, 0.f));
+                            mesh.t.push_back(glm::vec2(textureU.min, textureV.min));
+                            mesh.t.push_back(glm::vec2(textureU.max, textureV.min));
+                            mesh.t.push_back(glm::vec2(textureU.max, textureV.max));
+                            mesh.t.push_back(glm::vec2(textureU.min, textureV.max));
                         }
-                        data.colorMode = colorMode;
-                        data.color = color;
-                        data.texture = static_cast<GLint>(
-                            (Render2DSystem::ImageType::Dynamic == imageType ? render.staticTextureCache->getTextureCount() : 0) +
-                            item.texture);
-                        if (info.layout.mirror.x)
-                        {
-                            data.textureU.min = item.textureU.max;
-                            data.textureU.max = item.textureU.min;
-                        }
-                        else
-                        {
-                            data.textureU = item.textureU;
-                        }
-                        if (info.layout.mirror.y)
-                        {
-                            data.textureV.min = item.textureV.max;
-                            data.textureV.max = item.textureV.min;
-                        }
-                        else
-                        {
-                            data.textureV = item.textureV;
-                        }
-                        out.push_back(std::move(data));
                     }
                 };
 
@@ -300,16 +594,14 @@ namespace djv
                 {
                     TextPrimitive(Render & render) :
                         Primitive(render)
-                    {
-                        type = PrimitiveType::Text;
-                    }
+                    {}
 
                     std::string text;
                     Font::Info fontInfo;
                     std::future<std::vector<std::shared_ptr<Font::Glyph> > > glyphsFuture;
-                    glm::vec2 pos = glm::vec2(0.f, 0.f);
+                    glm::vec2 pos;
 
-                    void getRenderData(std::vector<RenderData> & out) override
+                    void process(std::vector<RenderData> & out, Geom::TriangleMesh & mesh) override
                     {
                         try
                         {
@@ -317,13 +609,11 @@ namespace djv
                             float y = 0.f;
                             const auto glyphs = glyphsFuture.get();
                             const size_t outSize = out.size();
-                            out.resize(out.size() + glyphs.size());
-                            auto it = out.begin() + outSize;
                             for (const auto & glyph : glyphs)
                             {
                                 const glm::vec2 & size = glyph->getImageData()->getSize();
                                 const glm::vec2 & offset = glyph->getOffset();
-                                BBox2f bbox(
+                                const BBox2f bbox(
                                     pos.x + x + offset.x,
                                     pos.y + y - offset.y,
                                     size.x,
@@ -344,18 +634,39 @@ namespace djv
                                         render.glyphTextureIDs[uid] = id;
                                     }
 
-                                    it->bbox = bbox;
-                                    it->clipRect = clipRect;
-                                    it->colorMode = colorMode;
-                                    it->color = color;
-                                    it->texture = static_cast<GLint>(item.texture);
-                                    it->textureU = item.textureU;
-                                    it->textureV = item.textureV;
-                                    ++it;
+                                    RenderData data;
+                                    data.bbox = bbox;
+                                    data.clipRect = clipRect;
+                                    data.colorMode = colorMode;
+                                    data.color = color;
+                                    data.texture = static_cast<GLint>(item.texture);
+                                    data.vaoSize = 6;
+                                    out.push_back(std::move(data));
+
+                                    const size_t vCount = mesh.v.size();
+                                    const size_t tCount = mesh.t.size();
+                                    Geom::TriangleMesh::Triangle triangle;
+                                    triangle.v0 = Geom::TriangleMesh::Vertex(vCount + 1, tCount + 1);
+                                    triangle.v1 = Geom::TriangleMesh::Vertex(vCount + 2, tCount + 2);
+                                    triangle.v2 = Geom::TriangleMesh::Vertex(vCount + 3, tCount + 3);
+                                    mesh.triangles.push_back(std::move(triangle));
+                                    Geom::TriangleMesh::Triangle triangle2;
+                                    triangle.v0 = Geom::TriangleMesh::Vertex(vCount + 3, tCount + 3);
+                                    triangle.v1 = Geom::TriangleMesh::Vertex(vCount + 4, tCount + 4);
+                                    triangle.v2 = Geom::TriangleMesh::Vertex(vCount + 1, tCount + 1);
+                                    mesh.triangles.push_back(std::move(triangle));
+
+                                    mesh.v.push_back(glm::vec3(bbox.min.x, bbox.min.y, 0.f));
+                                    mesh.v.push_back(glm::vec3(bbox.max.x, bbox.min.y, 0.f));
+                                    mesh.v.push_back(glm::vec3(bbox.max.x, bbox.max.y, 0.f));
+                                    mesh.v.push_back(glm::vec3(bbox.min.x, bbox.max.y, 0.f));
+                                    mesh.t.push_back(glm::vec2(item.textureU.min, item.textureV.min));
+                                    mesh.t.push_back(glm::vec2(item.textureU.max, item.textureV.min));
+                                    mesh.t.push_back(glm::vec2(item.textureU.max, item.textureV.max));
+                                    mesh.t.push_back(glm::vec2(item.textureU.min, item.textureV.max));
                                 }
                                 x += glyph->getAdvance();
                             }
-                            out.resize(it - out.begin());
                         }
                         catch (const std::exception &)
                         {}
@@ -374,7 +685,7 @@ namespace djv
 
             } // namespace
 
-            struct Render2DSystem::Private
+            struct Render2D::Private
             {
                 glm::ivec2 size = glm::ivec2(0, 0);
                 std::list<BBox2f> clipRects;
@@ -384,6 +695,8 @@ namespace djv
                 Font::Info currentFont;
                 Font::Metrics currentFontMetrics;
 
+                std::vector<RenderData> renderData;
+                Geom::TriangleMesh mesh;
                 std::unique_ptr<Render> render;
 
                 std::shared_ptr<Time::Timer> statsTimer;
@@ -394,13 +707,17 @@ namespace djv
                 void updateCurrentClipRect();
             };
 
-            void Render2DSystem::_init(Context * context)
+            void Render2D::_init(Context * context)
             {
-                ISystem::_init("djv::AV::Render2DSystem", context);
+                ISystem::_init("djv::AV::Render::Render2D", context);
 
                 DJV_PRIVATE_PTR();
                 p.fontSystem = context->getSystemT<Font::System>();
 
+                p.renderData.reserve(renderDataReserve);
+                p.mesh.triangles.reserve(trianglesReserve);
+                p.mesh.v.reserve(vertexReserve);
+                p.mesh.t.reserve(textureCoordsReserve);
                 p.render.reset(new Render(context));
 
                 p.statsTimer = Time::Timer::create(context);
@@ -435,21 +752,21 @@ namespace djv
                 });
             }
 
-            Render2DSystem::Render2DSystem() :
+            Render2D::Render2D() :
                 _p(new Private)
             {}
 
-            Render2DSystem::~Render2DSystem()
+            Render2D::~Render2D()
             {}
 
-            std::shared_ptr<Render2DSystem> Render2DSystem::create(Context * context)
+            std::shared_ptr<Render2D> Render2D::create(Context * context)
             {
-                auto out = std::shared_ptr<Render2DSystem>(new Render2DSystem);
+                auto out = std::shared_ptr<Render2D>(new Render2D);
                 out->_init(context);
                 return out;
             }
 
-            void Render2DSystem::beginFrame(const glm::ivec2 & size)
+            void Render2D::beginFrame(const glm::ivec2 & size)
             {
                 DJV_PRIVATE_PTR();
                 p.size = size;
@@ -457,50 +774,12 @@ namespace djv
                 p.render->viewport = BBox2f(0.f, 0.f, static_cast<float>(size.x), static_cast<float>(size.y));
             }
 
-            void Render2DSystem::endFrame()
+            void Render2D::endFrame()
             {
                 DJV_PRIVATE_PTR();
-                std::vector<RenderData> renderData;
                 for (auto & primitive : p.render->primitives)
                 {
-                    primitive->getRenderData(renderData);
-                }
-
-                Geom::TriangleMesh mesh;
-                mesh.v.reserve(renderData.size() * 4);
-                mesh.t.reserve(renderData.size() * 4);
-                mesh.triangles.reserve(renderData.size() * 2);
-                size_t quadsCount = 0;
-                std::vector<const RenderData *> clippedRenderData;
-                clippedRenderData.reserve(renderData.size());
-                for (const auto & data : renderData)
-                {
-                    const BBox2f bbox = data.bbox;
-                    if (bbox.intersects(p.render->viewport))
-                    {
-                        mesh.v.push_back(glm::vec3(bbox.min.x, bbox.min.y, 0.f));
-                        mesh.v.push_back(glm::vec3(bbox.max.x, bbox.min.y, 0.f));
-                        mesh.v.push_back(glm::vec3(bbox.max.x, bbox.max.y, 0.f));
-                        mesh.v.push_back(glm::vec3(bbox.min.x, bbox.max.y, 0.f));
-                        mesh.t.push_back(glm::vec2(data.textureU.min, data.textureV.min));
-                        mesh.t.push_back(glm::vec2(data.textureU.max, data.textureV.min));
-                        mesh.t.push_back(glm::vec2(data.textureU.max, data.textureV.max));
-                        mesh.t.push_back(glm::vec2(data.textureU.min, data.textureV.max));
-
-                        Geom::TriangleMesh::Triangle triangle;
-                        triangle.v0 = Geom::TriangleMesh::Vertex(quadsCount * 4 + 1, quadsCount * 4 + 1);
-                        triangle.v1 = Geom::TriangleMesh::Vertex(quadsCount * 4 + 2, quadsCount * 4 + 2);
-                        triangle.v2 = Geom::TriangleMesh::Vertex(quadsCount * 4 + 3, quadsCount * 4 + 3);
-                        mesh.triangles.push_back(std::move(triangle));
-                        Geom::TriangleMesh::Triangle triangle2;
-                        triangle.v0 = Geom::TriangleMesh::Vertex(quadsCount * 4 + 3, quadsCount * 4 + 3);
-                        triangle.v1 = Geom::TriangleMesh::Vertex(quadsCount * 4 + 4, quadsCount * 4 + 4);
-                        triangle.v2 = Geom::TriangleMesh::Vertex(quadsCount * 4 + 1, quadsCount * 4 + 1);
-                        mesh.triangles.push_back(std::move(triangle));
-                        ++quadsCount;
-
-                        clippedRenderData.push_back(&data);
-                    }
+                    primitive->process(p.renderData, p.mesh);
                 }
 
                 glEnable(GL_SCISSOR_TEST);
@@ -548,8 +827,8 @@ namespace djv
                     glBindTexture(GL_TEXTURE_2D, dynamicTextures[j]);
                 }
 
-                auto vbo = OpenGL::VBO::create(quadsCount * 2, 3, OpenGL::VBOType::Pos3_F32_UV_U16_Normal_U10);
-                vbo->copy(OpenGL::VBO::convert(mesh, vbo->getType()));
+                auto vbo = OpenGL::VBO::create(p.mesh.triangles.size(), 3, OpenGL::VBOType::Pos3_F32_UV_U16_Normal_U10);
+                vbo->copy(OpenGL::VBO::convert(p.mesh, vbo->getType()));
                 auto vao = OpenGL::VAO::create(vbo->getType(), vbo->getID());
                 vao->bind();
 
@@ -557,36 +836,38 @@ namespace djv
                 auto colorMode = static_cast<ColorMode>(0);
                 Image::Color color;
                 GLint texture = 0;
-                for (size_t i = 0; i < clippedRenderData.size(); ++i)
+                size_t vaoOffset = 0;
+                for (size_t i = 0; i < p.renderData.size(); ++i)
                 {
-                    const auto * data = clippedRenderData[i];
-                    const BBox2f clipRect = flip(data->clipRect, p.size);
+                    const auto & data = p.renderData[i];
+                    const BBox2f clipRect = flip(data.clipRect, p.size);
                     glScissor(
                         static_cast<GLint>(clipRect.min.x),
                         static_cast<GLint>(clipRect.min.y),
                         static_cast<GLsizei>(clipRect.w()),
                         static_cast<GLsizei>(clipRect.h()));
-                    if (i == 0 || data->imageFormat != imageFormat)
+                    if (i == 0 || data.imageFormat != imageFormat)
                     {
-                        imageFormat = data->imageFormat;
-                        p.render->shader->setUniform(imageFormatLoc, static_cast<int>(data->imageFormat));
+                        imageFormat = data.imageFormat;
+                        p.render->shader->setUniform(imageFormatLoc, static_cast<int>(data.imageFormat));
                     }
-                    if (i == 0 || data->colorMode != colorMode)
+                    if (i == 0 || data.colorMode != colorMode)
                     {
-                        colorMode = data->colorMode;
-                        p.render->shader->setUniform(colorModeLoc, static_cast<int>(data->colorMode));
+                        colorMode = data.colorMode;
+                        p.render->shader->setUniform(colorModeLoc, static_cast<int>(data.colorMode));
                     }
-                    if (i == 0 || data->color != color)
+                    if (i == 0 || data.color != color)
                     {
-                        color = data->color;
-                        p.render->shader->setUniform(colorLoc, data->color);
+                        color = data.color;
+                        p.render->shader->setUniform(colorLoc, data.color);
                     }
-                    if (i == 0 || data->texture != texture)
+                    if (i == 0 || data.texture != texture)
                     {
-                        texture = data->texture;
-                        p.render->shader->setUniform(textureSamplerLoc, data->texture);
+                        texture = data.texture;
+                        p.render->shader->setUniform(textureSamplerLoc, data.texture);
                     }
-                    vao->draw(i * 6, 6);
+                    vao->draw(vaoOffset, data.vaoSize);
+                    vaoOffset += data.vaoSize;
                 }
 
                 const auto now = std::chrono::system_clock::now();
@@ -599,30 +880,34 @@ namespace djv
                 }
 
                 p.clipRects.clear();
+                p.renderData.clear();
+                p.mesh.triangles.clear();
+                p.mesh.v.clear();
+                p.mesh.t.clear();
                 p.render->primitives.clear();
             }
 
-            void Render2DSystem::pushClipRect(const BBox2f & value)
+            void Render2D::pushClipRect(const BBox2f & value)
             {
                 DJV_PRIVATE_PTR();
                 p.clipRects.push_back(value);
                 p.updateCurrentClipRect();
             }
 
-            void Render2DSystem::popClipRect()
+            void Render2D::popClipRect()
             {
                 DJV_PRIVATE_PTR();
                 p.clipRects.pop_back();
                 p.updateCurrentClipRect();
             }
 
-            void Render2DSystem::setFillColor(const Image::Color & value)
+            void Render2D::setFillColor(const Image::Color & value)
             {
                 DJV_PRIVATE_PTR();
                 p.fillColor = value;
             }
 
-            void Render2DSystem::drawRectangle(const BBox2f & value)
+            void Render2D::drawRectangle(const BBox2f & value)
             {
                 DJV_PRIVATE_PTR();
                 auto primitive = std::unique_ptr<RectanglePrimitive>(new RectanglePrimitive(*p.render));
@@ -633,7 +918,20 @@ namespace djv
                 p.render->primitives.push_back(std::move(primitive));
             }
 
-            void Render2DSystem::drawCircle(const glm::vec2 & pos, float radius, size_t facets)
+            void Render2D::drawRoundedRectangle(const Core::BBox2f & rect, float radius, size_t facets)
+            {
+                DJV_PRIVATE_PTR();
+                auto primitive = std::unique_ptr<RoundedRectanglePrimitive>(new RoundedRectanglePrimitive(*p.render));
+                primitive->rect = rect;
+                primitive->radius = radius;
+                primitive->facets = facets;
+                primitive->clipRect = p.currentClipRect;
+                primitive->colorMode = ColorMode::SolidColor;
+                primitive->color = p.fillColor;
+                p.render->primitives.push_back(std::move(primitive));
+            }
+
+            void Render2D::drawCircle(const glm::vec2 & pos, float radius, size_t facets)
             {
                 DJV_PRIVATE_PTR();
                 auto primitive = std::unique_ptr<CirclePrimitive>(new CirclePrimitive(*p.render));
@@ -646,10 +944,10 @@ namespace djv
                 p.render->primitives.push_back(std::move(primitive));
             }
 
-            void Render2DSystem::drawImage(const std::shared_ptr<Image::Data> & data, const BBox2f & rect, ImageType imageType)
+            void Render2D::drawImage(const std::shared_ptr<Image::Data> & data, const BBox2f & rect, ImageCache cache)
             {
                 DJV_PRIVATE_PTR();
-                auto primitive = std::unique_ptr<ImagePrimitive>(new ImagePrimitive(*p.render, imageType));
+                auto primitive = std::unique_ptr<ImagePrimitive>(new ImagePrimitive(*p.render, cache));
                 primitive->imageData = data;
                 primitive->rect = rect;
                 primitive->clipRect = p.currentClipRect;
@@ -658,10 +956,10 @@ namespace djv
                 p.render->primitives.push_back(std::move(primitive));
             }
 
-            void Render2DSystem::drawFilledImage(const std::shared_ptr<Image::Data> & data, const BBox2f & rect, ImageType imageType)
+            void Render2D::drawFilledImage(const std::shared_ptr<Image::Data> & data, const BBox2f & rect, ImageCache cache)
             {
                 DJV_PRIVATE_PTR();
-                auto primitive = std::unique_ptr<ImagePrimitive>(new ImagePrimitive(*p.render, imageType));
+                auto primitive = std::unique_ptr<ImagePrimitive>(new ImagePrimitive(*p.render, cache));
                 primitive->imageData = data;
                 primitive->rect = rect;
                 primitive->clipRect = p.currentClipRect;
@@ -670,13 +968,13 @@ namespace djv
                 p.render->primitives.push_back(std::move(primitive));
             }
 
-            void Render2DSystem::setCurrentFont(const Font::Info & value)
+            void Render2D::setCurrentFont(const Font::Info & value)
             {
                 DJV_PRIVATE_PTR();
                 p.currentFont = value;
             }
 
-            void Render2DSystem::drawText(const std::string & value, const glm::vec2 & pos, size_t maxLineWidth)
+            void Render2D::drawText(const std::string & value, const glm::vec2 & pos, size_t maxLineWidth)
             {
                 DJV_PRIVATE_PTR();
                 if (auto fontSystem = p.fontSystem.lock())
@@ -693,7 +991,7 @@ namespace djv
                 }
             }
 
-            void Render2DSystem::Private::updateCurrentClipRect()
+            void Render2D::Private::updateCurrentClipRect()
             {
                 BBox2f clipRect = BBox2f(0.f, 0.f, static_cast<float>(size.x), static_cast<float>(size.y));
                 for (const auto & i : clipRects)

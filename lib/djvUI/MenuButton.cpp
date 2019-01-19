@@ -35,7 +35,7 @@
 #include <djvUI/RowLayout.h>
 #include <djvUI/StackLayout.h>
 
-#include <djvAV/Render2DSystem.h>
+#include <djvAV/Render2D.h>
 
 //#pragma optimize("", off)
 
@@ -185,7 +185,7 @@ namespace djv
             void Menu::_paintEvent(Event::Paint& event)
             {
                 Widget::_paintEvent(event);
-                if (auto render = _getRenderSystem().lock())
+                if (auto render = _getRender().lock())
                 {
                     if (auto style = _getStyle().lock())
                     {

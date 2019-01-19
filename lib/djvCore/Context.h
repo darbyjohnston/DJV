@@ -67,6 +67,8 @@ namespace djv
             inline Context();
 
         public:
+            virtual ~Context();
+
             //! Throws:
             //! - std::exception
             static std::unique_ptr<Context> create(int &, char **);

@@ -29,7 +29,7 @@
 
 #include <djvAV/AVSystem.h>
 #include <djvAV/Color.h>
-#include <djvAV/Render2DSystem.h>
+#include <djvAV/Render2D.h>
 
 #include <djvCore/Context.h>
 #include <djvCore/Error.h>
@@ -58,8 +58,8 @@ struct RandomColor
 struct RandomPos
 {
     RandomPos() : v(
-        Core::Math::getRandom(windowSize.x / -2.f, windowSize.x * 1.5f),
-        Core::Math::getRandom(windowSize.y / -2.f, windowSize.y * 1.5f))
+        floorf(Core::Math::getRandom(windowSize.x / -2.f, windowSize.x * 1.5f)),
+        floorf(Core::Math::getRandom(windowSize.y / -2.f, windowSize.y * 1.5f)))
     {}
     glm::vec2 v;
     RandomPos * next = nullptr;
@@ -68,8 +68,8 @@ struct RandomPos
 struct RandomSize
 {
     RandomSize() : v(
-        Core::Math::getRandom(10.f, 1000.f),
-        Core::Math::getRandom(10.f, 1000.f))
+        ceilf(Core::Math::getRandom(10.f, 500.f)),
+        ceilf(Core::Math::getRandom(10.f, 500.f)))
     {}
     glm::vec2 v;
     RandomSize * next = nullptr;
@@ -107,20 +107,22 @@ private:
     void _generateRandomNumbers();
     void _initRandomNumbers();
     void _drawRandomRectangle();
+    void _drawRandomRoundedRectangle();
+    void _drawRandomCircle();
     void _drawRandomText();
     void _render();
 
-    std::shared_ptr<AV::AVSystem> _avSystem;
-    GLFWwindow * _glfwWindow = nullptr;
-    std::shared_ptr<AV::Render::Render2DSystem> _renderer;
-    RandomColor * _randomColors = nullptr;
-    RandomColor * _currentColor = nullptr;
-    RandomPos * _randomPos = nullptr;
-    RandomPos * _currentPos = nullptr;
-    RandomSize * _randomSizes = nullptr;
-    RandomSize * _currentSize = nullptr;
-    RandomText * _randomText = nullptr;
-    RandomText * _currentText = nullptr;
+    std::shared_ptr<AV::AVSystem>         _avSystem;
+    GLFWwindow *                          _glfwWindow   = nullptr;
+    std::shared_ptr<AV::Render::Render2D> _renderer;
+    RandomColor *                         _randomColors = nullptr;
+    RandomColor *                         _currentColor = nullptr;
+    RandomPos *                           _randomPos    = nullptr;
+    RandomPos *                           _currentPos   = nullptr;
+    RandomSize *                          _randomSizes  = nullptr;
+    RandomSize *                          _currentSize  = nullptr;
+    RandomText *                          _randomText   = nullptr;
+    RandomText *                          _currentText  = nullptr;
 };
 
 void Application::_init(int & argc, char ** argv)
@@ -134,7 +136,7 @@ void Application::_init(int & argc, char ** argv)
     glfwWindowHint(GLFW_DOUBLEBUFFER, GL_FALSE);
     _glfwWindow = glfwCreateWindow(1024, 768, getName().c_str(), NULL, NULL);
     glfwMakeContextCurrent(_glfwWindow);
-    _renderer = AV::Render::Render2DSystem::create(this);
+    _renderer = AV::Render::Render2D::create(this);
     glfwShowWindow(_glfwWindow);
 }
 
@@ -156,7 +158,6 @@ int Application::run()
         glfwPollEvents();
         _render();
         glFinish();
-
         auto now = std::chrono::system_clock::now();
         std::chrono::duration<float> delta = now - time;
         time = now;
@@ -169,36 +170,36 @@ int Application::run()
 void Application::_generateRandomNumbers()
 {
     _randomColors = new RandomColor;
-    _randomPos = new RandomPos;
-    _randomSizes = new RandomSize;
-    _randomText = new RandomText;
+    _randomPos    = new RandomPos;
+    _randomSizes  = new RandomSize;
+    _randomText   = new RandomText;
     auto newColor = _randomColors;
-    auto newPos = _randomPos;
-    auto newSize = _randomSizes;
-    auto newText = _randomText;
+    auto newPos   = _randomPos;
+    auto newSize  = _randomSizes;
+    auto newText  = _randomText;
     for (size_t i = 0; i < randomCount; ++i)
     {
         newColor->next = new RandomColor;
-        newColor = newColor->next;
-        newPos->next = new RandomPos;
-        newPos = newPos->next;
-        newSize->next = new RandomSize;
-        newSize = newSize->next;
-        newText->next = new RandomText;
-        newText = newText->next;
+        newColor       = newColor->next;
+        newPos->next   = new RandomPos;
+        newPos         = newPos->next;
+        newSize->next  = new RandomSize;
+        newSize        = newSize->next;
+        newText->next  = new RandomText;
+        newText        = newText->next;
     }
     newColor->next = _randomColors;
-    newPos->next = _randomPos;
-    newSize->next = _randomSizes;
-    newText->next = _randomText;
+    newPos->next   = _randomPos;
+    newSize->next  = _randomSizes;
+    newText->next  = _randomText;
 }
 
 void Application::_initRandomNumbers()
 {
     _currentColor = _randomColors;
-    _currentPos = _randomPos;
-    _currentSize = _randomSizes;
-    _currentText = _randomText;
+    _currentPos   = _randomPos;
+    _currentSize  = _randomSizes;
+    _currentText  = _randomText;
     int random = Core::Math::getRandom(static_cast<int>(randomCount));
     for (int i = 0; i < random; ++i)
     {
@@ -226,8 +227,28 @@ void Application::_drawRandomRectangle()
     _renderer->setFillColor(_currentColor->c);
     _renderer->drawRectangle(Core::BBox2f(_currentPos->v.x, _currentPos->v.y, _currentSize->v.x, _currentSize->v.y));
     _currentColor = _currentColor->next;
-    _currentPos = _currentPos->next;
-    _currentSize = _currentSize->next;
+    _currentPos   = _currentPos->next;
+    _currentSize  = _currentSize->next;
+}
+
+void Application::_drawRandomRoundedRectangle()
+{
+    _renderer->setFillColor(_currentColor->c);
+    _renderer->drawRoundedRectangle(
+        Core::BBox2f(_currentPos->v.x, _currentPos->v.y, _currentSize->v.x, _currentSize->v.y),
+        std::min(_currentSize->v.x, _currentSize->v.y) / 4.f);
+    _currentColor = _currentColor->next;
+    _currentPos   = _currentPos->next;
+    _currentSize  = _currentSize->next;
+}
+
+void Application::_drawRandomCircle()
+{
+    _renderer->setFillColor(_currentColor->c);
+    _renderer->drawCircle(_currentPos->v, _currentSize->v.x);
+    _currentColor = _currentColor->next;
+    _currentPos   = _currentPos->next;
+    _currentSize  = _currentSize->next;
 }
 
 void Application::_drawRandomText()
@@ -238,9 +259,9 @@ void Application::_drawRandomText()
     _renderer->setCurrentFont(fontInfo);
     _renderer->drawText(_currentText->s, _currentPos->v);
     _currentColor = _currentColor->next;
-    _currentPos = _currentPos->next;
-    _currentSize = _currentSize->next;
-    _currentText = _currentText->next;
+    _currentPos   = _currentPos->next;
+    _currentSize  = _currentSize->next;
+    _currentText  = _currentText->next;
 }
 
 void Application::_render()
@@ -254,9 +275,11 @@ void Application::_render()
     }
     _initRandomNumbers();
     _renderer->beginFrame(windowSize);
-    for (size_t i = 0; i < drawCount; ++i)
+    for (size_t i = 0; i < drawCount / 4; ++i)
     {
         _drawRandomRectangle();
+        _drawRandomRoundedRectangle();
+        _drawRandomCircle();
         _drawRandomText();
     }
     _renderer->endFrame();

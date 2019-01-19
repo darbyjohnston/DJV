@@ -29,7 +29,7 @@
 
 #include <djvUI/GridLayout.h>
 
-#include <djvAV/Render2DSystem.h>
+#include <djvAV/Render2D.h>
 
 #include <djvCore/Math.h>
 
@@ -463,7 +463,7 @@ namespace djv
             void Grid::_paintEvent(Event::Paint& event)
             {
                 Widget::_paintEvent(event);
-                if (auto render = _getRenderSystem().lock())
+                if (auto render = _getRender().lock())
                 {
                     if (auto style = _getStyle().lock())
                     {

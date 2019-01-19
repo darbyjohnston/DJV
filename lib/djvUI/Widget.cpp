@@ -37,7 +37,7 @@
 
 #include <djvAV/FontSystem.h>
 #include <djvAV/IconSystem.h>
-#include <djvAV/Render2DSystem.h>
+#include <djvAV/Render2D.h>
 
 #include <djvCore/Math.h>
 
@@ -64,7 +64,7 @@ namespace djv
         std::weak_ptr<UISystem> Widget::_uiSystem;
         std::weak_ptr<AV::Image::IconSystem> Widget::_iconSystem;
         std::weak_ptr<AV::Font::System> Widget::_fontSystem;
-        std::weak_ptr<AV::Render::Render2DSystem> Widget::_renderSystem;
+        std::weak_ptr<AV::Render::Render2D> Widget::_render;
         bool Widget::_resizeRequest = true;
         bool Widget::_redrawRequest = true;
 
@@ -86,9 +86,9 @@ namespace djv
             {
                 _fontSystem = context->getSystemT<AV::Font::System>();
             }
-            if (!_renderSystem.lock())
+            if (!_render.lock())
             {
-                _renderSystem = context->getSystemT<AV::Render::Render2DSystem>();
+                _render = context->getSystemT<AV::Render::Render2D>();
             }
             if (!_uiSystem.lock())
             {
@@ -501,7 +501,7 @@ namespace djv
         {
             if (_backgroundRole != Style::ColorRole::None)
             {
-                if (auto render = _renderSystem.lock())
+                if (auto render = _render.lock())
                 {
                     if (auto style = _style.lock())
                     {

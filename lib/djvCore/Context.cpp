@@ -84,6 +84,9 @@ namespace djv
             _undoStack = UndoStack::create(this);
         }
 
+        Context::~Context()
+        {}
+
         std::unique_ptr<Context> Context::create(int & argc, char ** argv)
         {
             auto out = std::unique_ptr<Context>(new Context);

@@ -39,8 +39,6 @@
 #include <djvUI/StackLayout.h>
 #include <djvUI/Window.h>
 
-#include <djvAV/Render2DSystem.h>
-
 #include <GLFW/glfw3.h>
 
 using namespace djv::Core;

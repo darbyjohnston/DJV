@@ -58,7 +58,7 @@ namespace djv
 
         namespace Render
         {
-            class Render2DSystem;
+            class Render2D;
 
         } // namespace Render
 
@@ -203,7 +203,7 @@ namespace djv
 
             inline const std::weak_ptr<AV::Image::IconSystem>& _getIconSystem() const;
             inline const std::weak_ptr<AV::Font::System>& _getFontSystem() const;
-            inline const std::weak_ptr<AV::Render::Render2DSystem>& _getRenderSystem() const;
+            inline const std::weak_ptr<AV::Render::Render2D>& _getRender() const;
             inline const std::weak_ptr<Style::Style>& _getStyle() const;
 
             AV::Image::Color _getColorWithOpacity(const AV::Image::Color &) const;
@@ -257,7 +257,7 @@ namespace djv
             static bool _redrawRequest;
             static std::weak_ptr<AV::Image::IconSystem> _iconSystem;
             static std::weak_ptr<AV::Font::System> _fontSystem;
-            static std::weak_ptr<AV::Render::Render2DSystem> _renderSystem;
+            static std::weak_ptr<AV::Render::Render2D> _render;
             static std::weak_ptr<UISystem> _uiSystem;
             std::weak_ptr<Style::Style> _style;
             std::shared_ptr<Style::Style> _customStyle;

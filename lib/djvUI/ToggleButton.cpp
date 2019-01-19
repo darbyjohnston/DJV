@@ -98,7 +98,7 @@ namespace djv
             void Toggle::_paintEvent(Event::Paint& event)
             {
                 Widget::_paintEvent(event);
-                if (auto render = _getRenderSystem().lock())
+                if (auto render = _getRender().lock())
                 {
                     if (auto style = _getStyle().lock())
                     {

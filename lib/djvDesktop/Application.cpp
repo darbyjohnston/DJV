@@ -65,21 +65,19 @@ namespace djv
         {
             bool running = false;
             GLFWwindow * glfwWindow = nullptr;
-            std::shared_ptr<EventSystem> eventSystem;
-            std::shared_ptr<UI::UISystem> uiSystem;
-            std::shared_ptr<WindowSystem> windowSystem;
+            std::vector<std::shared_ptr<ISystem> > systems;
         };
 
         void Application::_init(int argc, char* argv[])
         {
             Context::_init(argc, argv);
             DJV_PRIVATE_PTR();
-            p.uiSystem = UI::UISystem::create(this);
+            p.systems.push_back(UI::UISystem::create(this));
             if (auto avSystem = getSystemT<AV::AVSystem>().lock())
             {
                 p.glfwWindow = avSystem->getGLFWWindow();
-                p.eventSystem = EventSystem::create(p.glfwWindow, this);
-                p.windowSystem = WindowSystem::create(p.glfwWindow, this);
+                p.systems.push_back(EventSystem::create(p.glfwWindow, this));
+                p.systems.push_back(WindowSystem::create(p.glfwWindow, this));
 
                 glfwSetWindowSize(p.glfwWindow, 1024, 768);
                 glfwShowWindow(p.glfwWindow);
@@ -93,9 +91,12 @@ namespace djv
         Application::~Application()
         {
             DJV_PRIVATE_PTR();
-            p.windowSystem->setParent(nullptr);
-            p.uiSystem->setParent(nullptr);
-            p.eventSystem->setParent(nullptr);
+            while (p.systems.size())
+            {
+                auto system = p.systems.back();
+                system->setParent(nullptr);
+                p.systems.pop_back();
+            }
         }
         
         std::unique_ptr<Application> Application::create(int argc, char* argv[])

@@ -32,7 +32,7 @@
 #include <djvAV/IO.h>
 #include <djvAV/IconSystem.h>
 #include <djvAV/Image.h>
-#include <djvAV/Render2DSystem.h>
+#include <djvAV/Render2D.h>
 
 using namespace djv::Core;
 
@@ -166,7 +166,7 @@ namespace djv
         void Icon::_paintEvent(Event::Paint& event)
         {
             Widget::_paintEvent(event);
-            if (auto render = _getRenderSystem().lock())
+            if (auto render = _getRender().lock())
             {
                 if (auto style = _getStyle().lock())
                 {
@@ -198,12 +198,12 @@ namespace djv
                         if (p.iconColorRole != Style::ColorRole::None)
                         {
                             render->setFillColor(_getColorWithOpacity(style->getColor(p.iconColorRole)));
-                            render->drawFilledImage(p.image, BBox2f(pos.x, pos.y, size.x, size.y), AV::Render::Render2DSystem::ImageType::Static);
+                            render->drawFilledImage(p.image, BBox2f(pos.x, pos.y, size.x, size.y), AV::Render::ImageCache::Static);
                         }
                         else
                         {
                             render->setFillColor(_getColorWithOpacity(AV::Image::Color(1.f, 1.f, 1.f)));
-                            render->drawImage(p.image, BBox2f(pos.x, pos.y, size.x, size.y), AV::Render::Render2DSystem::ImageType::Static);
+                            render->drawImage(p.image, BBox2f(pos.x, pos.y, size.x, size.y), AV::Render::ImageCache::Static);
                         }
                     }
                 }

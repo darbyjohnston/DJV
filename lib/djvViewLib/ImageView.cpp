@@ -31,7 +31,7 @@
 
 #include <djvViewLib/Media.h>
 
-#include <djvAV/Render2DSystem.h>
+#include <djvAV/Render2D.h>
 
 using namespace djv::Core;
 
@@ -105,7 +105,7 @@ namespace djv
 
         void ImageView::_paintEvent(Core::Event::Paint&)
         {
-            if (auto render = _getRenderSystem().lock())
+            if (auto render = _getRender().lock())
             {
                 if (auto style = _getStyle().lock())
                 {
@@ -115,7 +115,7 @@ namespace djv
                     if (_p->image)
                     {
                         render->setFillColor(AV::Image::Color(1.f, 1.f, 1.f));
-                        render->drawImage(_p->image, g, AV::Render::Render2DSystem::ImageType::Dynamic);
+                        render->drawImage(_p->image, g, AV::Render::ImageCache::Dynamic);
                     }
                 }
             }

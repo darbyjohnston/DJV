@@ -30,7 +30,7 @@
 #include <djvUI/ImageWidget.h>
 
 #include <djvAV/Image.h>
-#include <djvAV/Render2DSystem.h>
+#include <djvAV/Render2D.h>
 
 using namespace djv::Core;
 
@@ -93,7 +93,7 @@ namespace djv
         void ImageWidget::_paintEvent(Event::Paint& event)
         {
             Widget::_paintEvent(event);
-            if (auto render = _getRenderSystem().lock())
+            if (auto render = _getRender().lock())
             {
                 if (auto style = _getStyle().lock())
                 {
@@ -121,7 +121,7 @@ namespace djv
                         default: break;
                         }
                         render->setFillColor(AV::Image::Color(1.f, 1.f, 1.f, getOpacity(true)));
-                        render->drawImage(p.image, BBox2f(pos.x, pos.y, size.x, size.y), AV::Render::Render2DSystem::ImageType::Dynamic);
+                        render->drawImage(p.image, BBox2f(pos.x, pos.y, size.x, size.y), AV::Render::ImageCache::Dynamic);
                     }
                 }
             }

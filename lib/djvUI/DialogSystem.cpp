@@ -41,8 +41,6 @@
 #include <djvUI/TextBlock.h>
 #include <djvUI/Window.h>
 
-#include <djvAV/Render2DSystem.h>
-
 #include <djvCore/Animation.h>
 #include <djvCore/Timer.h>
 

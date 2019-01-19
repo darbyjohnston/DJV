@@ -37,7 +37,7 @@
 
 #include <djvCore/Math.h>
 
-#include <djvAV/Render2DSystem.h>
+#include <djvAV/Render2D.h>
 
 #include <glm/geometric.hpp>
 
@@ -174,7 +174,7 @@ namespace djv
             void ScrollBar::_paintEvent(Event::Paint& event)
             {
                 Widget::_paintEvent(event);
-                if (auto render = _getRenderSystem().lock())
+                if (auto render = _getRender().lock())
                 {
                     if (auto style = _getStyle().lock())
                     {
