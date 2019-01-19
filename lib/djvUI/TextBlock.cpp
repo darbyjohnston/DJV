@@ -59,9 +59,9 @@ namespace djv
             glm::vec2 textSize = glm::vec2(0.f, 0.f);
             size_t textSizeHash = 0;
             std::future<glm::vec2> textSizeFuture;
-            std::vector<AV::Font::TextLine> breakText;
-            size_t breakTextHash = 0;
-            std::future<std::vector<AV::Font::TextLine> > breakTextFuture;
+            std::vector<AV::Font::TextLine> breakLines;
+            size_t breakLinesHash = 0;
+            std::future<std::vector<AV::Font::TextLine> > breakLinesFuture;
             BBox2f clipRect;
         };
 
@@ -106,7 +106,7 @@ namespace djv
             p.text = value;
             p.heightForWidthHash = 0;
             p.textSizeHash = 0;
-            p.breakTextHash = 0;
+            p.breakLinesHash = 0;
             _textUpdate();
         }
 
@@ -263,10 +263,10 @@ namespace djv
                     Memory::hashCombine(hash, fontInfo.face);
                     Memory::hashCombine(hash, fontInfo.size);
                     Memory::hashCombine(hash, g.w());
-                    if (!p.breakTextHash || p.breakTextHash != hash)
+                    if (!p.breakLinesHash || p.breakLinesHash != hash)
                     {
-                        p.breakTextHash = hash;
-                        p.breakTextFuture = fontSystem->breakLines(p.text, g.w(), fontInfo);
+                        p.breakLinesHash = hash;
+                        p.breakLinesFuture = fontSystem->breakLines(p.text, g.w(), fontInfo);
                     }
                 }
             }
@@ -290,13 +290,13 @@ namespace djv
                         const BBox2f& g = getMargin().bbox(getGeometry(), style);
                         const glm::vec2 c = g.getCenter();
 
-                        if (p.breakTextFuture.valid())
+                        if (p.breakLinesFuture.valid())
                         {
-                            p.breakText = p.breakTextFuture.get();
+                            p.breakLines = p.breakLinesFuture.get();
                         }
                         glm::vec2 pos = g.min;
                         render->setCurrentFont(style->getFontInfo(p.fontFace, p.fontSizeRole));
-                        for (const auto& line : p.breakText)
+                        for (const auto& line : p.breakLines)
                         {
                             if (pos.y + line.size.y >= p.clipRect.min.y && pos.y <= p.clipRect.max.y)
                             {

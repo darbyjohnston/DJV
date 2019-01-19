@@ -61,8 +61,8 @@ namespace djv
                 std::map<size_t, BBox2f> itemGeometry;
                 std::map<FileSystem::FileType, std::shared_ptr<AV::Image::Image> > icons;
                 std::map<FileSystem::FileType, std::future<std::shared_ptr<AV::Image::Image> > > iconsFutures;
-                std::map<size_t, std::vector<AV::Font::TextLine> > breakText;
-                std::map<size_t, std::future<std::vector<AV::Font::TextLine> > > breakTextFutures;
+                std::map<size_t, std::vector<AV::Font::TextLine> > breakLines;
+                std::map<size_t, std::future<std::vector<AV::Font::TextLine> > > breakLinesFutures;
                 std::map<size_t, AV::IO::Info> ioInfo;
                 std::map<size_t, std::future<AV::IO::Info> > ioInfoFutures;
                 std::map<size_t, std::shared_ptr<AV::Image::Image> > thumbnails;
@@ -205,11 +205,11 @@ namespace djv
                     if (i.second.intersects(clipRect))
                     {
                         {
-                            const auto j = p.breakText.find(i.first);
-                            if (j == p.breakText.end())
+                            const auto j = p.breakLines.find(i.first);
+                            if (j == p.breakLines.end())
                             {
-                                const auto k = p.breakTextFutures.find(i.first);
-                                if (k == p.breakTextFutures.end())
+                                const auto k = p.breakLinesFutures.find(i.first);
+                                if (k == p.breakLinesFutures.end())
                                 {
                                     if (i.first < p.items.size())
                                     {
@@ -217,8 +217,8 @@ namespace djv
                                         const float ts = style->getMetric(Style::MetricsRole::ThumbnailLarge);
                                         const float ms = style->getMetric(Style::MetricsRole::MarginSmall);
                                         const auto fontInfo = style->getFontInfo(AV::Font::Info::faceDefault, Style::MetricsRole::FontMedium);
-                                        p.breakTextFutures[i.first] = fontSystem->breakLines(
-                                            fileInfo.getFileName(Frame::Invalid, false), ts / 2.f - ms * 2.f, fontInfo);
+                                        p.breakLinesFutures[i.first] = fontSystem->breakLines(
+                                            fileInfo.getFileName(Frame::Invalid, false), ts - ms * 2.f, fontInfo);
                                     }
                                 }
                             }
@@ -325,8 +325,8 @@ namespace djv
                                         }
                                     }
                                     {
-                                        const auto j = p.breakText.find(index);
-                                        if (j != p.breakText.end())
+                                        const auto j = p.breakLines.find(index);
+                                        if (j != p.breakLines.end())
                                         {
                                             float x = i->second.min.x;
                                             float y = i->second.max.y - p.fontMetrics.lineHeight * 2.f - ms;
@@ -484,21 +484,21 @@ namespace djv
                     }
                 }
                 {
-                    auto i = p.breakTextFutures.begin();
-                    while (i != p.breakTextFutures.end())
+                    auto i = p.breakLinesFutures.begin();
+                    while (i != p.breakLinesFutures.end())
                     {
                         if (i->second.valid())
                         {
                             try
                             {
-                                p.breakText[i->first] = i->second.get();
+                                p.breakLines[i->first] = i->second.get();
                                 _redraw();
                             }
                             catch (const std::exception& e)
                             {
                                 _log(e.what(), LogLevel::Error);
                             }
-                            i = p.breakTextFutures.erase(i);
+                            i = p.breakLinesFutures.erase(i);
                         }
                         else
                         {
@@ -629,8 +629,8 @@ namespace djv
                         }
 
                         const size_t itemCount = p.items.size();
-                        p.breakText.clear();
-                        p.breakTextFutures.clear();
+                        p.breakLines.clear();
+                        p.breakLinesFutures.clear();
                         p.ioInfo.clear();
                         p.ioInfoFutures.clear();
                         p.thumbnails.clear();
