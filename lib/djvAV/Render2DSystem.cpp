@@ -95,6 +95,7 @@ namespace djv
                 {
                     None,
                     Rectangle,
+                    Circle,
                     Image,
                     Text
                 };
@@ -103,13 +104,13 @@ namespace djv
 
                 struct Primitive
                 {
-                    Primitive(Render& render) :
+                    Primitive(Render & render) :
                         render(render)
                     {}
 
                     virtual ~Primitive() = 0;
 
-                    Render& render;
+                    Render & render;
                     PrimitiveType type = PrimitiveType::None;
                     BBox2f clipRect = BBox2f(0.f, 0.f, 0.f, 0.f);
                     ColorMode colorMode = ColorMode::SolidColor;
@@ -175,7 +176,7 @@ namespace djv
 
                 struct RectanglePrimitive : public Primitive
                 {
-                    RectanglePrimitive(Render& render) :
+                    RectanglePrimitive(Render & render) :
                         Primitive(render)
                     {
                         type = PrimitiveType::Rectangle;
@@ -194,9 +195,32 @@ namespace djv
                     }
                 };
 
+                struct CirclePrimitive : public Primitive
+                {
+                    CirclePrimitive(Render & render) :
+                        Primitive(render)
+                    {
+                        type = PrimitiveType::Circle;
+                    }
+
+                    glm::vec2 pos = glm::vec2(0.f, 0.f);
+                    float radius = 0.f;
+                    size_t facets = 64;
+
+                    void getRenderData(std::vector<RenderData> & out) override
+                    {
+                        RenderData data;
+                        data.bbox = BBox2f(pos.x - radius, pos.y - radius, radius * 2.f, radius * 2.f);
+                        data.clipRect = clipRect;
+                        data.colorMode = colorMode;
+                        data.color = color;
+                        out.push_back(std::move(data));
+                    }
+                };
+
                 struct ImagePrimitive : public Primitive
                 {
-                    ImagePrimitive(Render& render, Render2DSystem::ImageType imageType) :
+                    ImagePrimitive(Render & render, Render2DSystem::ImageType imageType) :
                         Primitive(render),
                         imageType(imageType),
                         textureCache(Render2DSystem::ImageType::Static == imageType ? render.staticTextureCache : render.dynamicTextureCache)
@@ -236,7 +260,7 @@ namespace djv
                         RenderData data;
                         data.bbox = rect;
                         data.clipRect = clipRect;
-                        const auto& info = imageData->getInfo();
+                        const auto & info = imageData->getInfo();
                         switch (info.getGLFormat())
                         {
                         case GL_RED:  data.imageFormat = ImageFormat::L;    break;
@@ -247,9 +271,9 @@ namespace djv
                         }
                         data.colorMode = colorMode;
                         data.color = color;
-                        data.texture =
-                            static_cast<GLint>((Render2DSystem::ImageType::Dynamic == imageType ? render.staticTextureCache->getTextureCount() : 0) +
-                                item.texture);
+                        data.texture = static_cast<GLint>(
+                            (Render2DSystem::ImageType::Dynamic == imageType ? render.staticTextureCache->getTextureCount() : 0) +
+                            item.texture);
                         if (info.layout.mirror.x)
                         {
                             data.textureU.min = item.textureU.max;
@@ -261,12 +285,12 @@ namespace djv
                         }
                         if (info.layout.mirror.y)
                         {
-                            data.textureV = item.textureV;
+                            data.textureV.min = item.textureV.max;
+                            data.textureV.max = item.textureV.min;
                         }
                         else
                         {
-                            data.textureV.min = item.textureV.max;
-                            data.textureV.max = item.textureV.min;
+                            data.textureV = item.textureV;
                         }
                         out.push_back(std::move(data));
                     }
@@ -274,7 +298,7 @@ namespace djv
 
                 struct TextPrimitive : public Primitive
                 {
-                    TextPrimitive(Render& render) :
+                    TextPrimitive(Render & render) :
                         Primitive(render)
                     {
                         type = PrimitiveType::Text;
@@ -295,10 +319,10 @@ namespace djv
                             const size_t outSize = out.size();
                             out.resize(out.size() + glyphs.size());
                             auto it = out.begin() + outSize;
-                            for (const auto& glyph : glyphs)
+                            for (const auto & glyph : glyphs)
                             {
-                                const glm::vec2& size = glyph->getImageData()->getSize();
-                                const glm::vec2& offset = glyph->getOffset();
+                                const glm::vec2 & size = glyph->getImageData()->getSize();
+                                const glm::vec2 & offset = glyph->getOffset();
                                 BBox2f bbox(
                                     pos.x + x + offset.x,
                                     pos.y + y - offset.y,
@@ -338,7 +362,7 @@ namespace djv
                     }
                 };
 
-                BBox2f flip(const BBox2f& value, const glm::ivec2& size)
+                BBox2f flip(const BBox2f & value, const glm::ivec2 & size)
                 {
                     BBox2f out;
                     out.min.x = value.min.x;
@@ -400,7 +424,7 @@ namespace djv
                 {
                     DJV_PRIVATE_PTR();
                     float average = 1.f;
-                    for (const auto& i : p.fpsSamples)
+                    for (const auto & i : p.fpsSamples)
                     {
                         average += i;
                     }
@@ -425,7 +449,7 @@ namespace djv
                 return out;
             }
 
-            void Render2DSystem::beginFrame(const glm::ivec2& size)
+            void Render2DSystem::beginFrame(const glm::ivec2 & size)
             {
                 DJV_PRIVATE_PTR();
                 p.size = size;
@@ -437,7 +461,7 @@ namespace djv
             {
                 DJV_PRIVATE_PTR();
                 std::vector<RenderData> renderData;
-                for (auto& primitive : p.render->primitives)
+                for (auto & primitive : p.render->primitives)
                 {
                     primitive->getRenderData(renderData);
                 }
@@ -449,9 +473,9 @@ namespace djv
                 size_t quadsCount = 0;
                 std::vector<const RenderData *> clippedRenderData;
                 clippedRenderData.reserve(renderData.size());
-                for (const auto& data : renderData)
+                for (const auto & data : renderData)
                 {
-                    const BBox2f bbox = flip(data.bbox, p.size);
+                    const BBox2f bbox = data.bbox;
                     if (bbox.intersects(p.render->viewport))
                     {
                         mesh.v.push_back(glm::vec3(bbox.min.x, bbox.min.y, 0.f));
@@ -500,8 +524,8 @@ namespace djv
                 const auto viewMatrix = glm::ortho(
                     p.render->viewport.min.x,
                     p.render->viewport.max.x,
-                    p.render->viewport.min.y,
                     p.render->viewport.max.y,
+                    p.render->viewport.min.y,
                     -1.f, 1.f);
                 p.render->shader->setUniform("transform.mvp", viewMatrix);
                 const auto program = p.render->shader->getProgram();
@@ -510,14 +534,14 @@ namespace djv
                 const GLint colorLoc = glGetUniformLocation(program, "color");
                 const GLint textureSamplerLoc = glGetUniformLocation(program, "textureSampler");
 
-                const auto& staticTextures = p.render->staticTextureCache->getTextures();
+                const auto & staticTextures = p.render->staticTextureCache->getTextures();
                 GLuint i = 0;
                 for (; i < static_cast<GLuint>(staticTextures.size()); ++i)
                 {
                     glActiveTexture(static_cast<GLenum>(GL_TEXTURE0 + i));
                     glBindTexture(GL_TEXTURE_2D, staticTextures[i]);
                 }
-                const auto& dynamicTextures = p.render->dynamicTextureCache->getTextures();
+                const auto & dynamicTextures = p.render->dynamicTextureCache->getTextures();
                 for (GLuint j = 0; j < static_cast<GLuint>(dynamicTextures.size()); ++i, ++j)
                 {
                     glActiveTexture(static_cast<GLenum>(GL_TEXTURE0 + i));
@@ -536,7 +560,6 @@ namespace djv
                 for (size_t i = 0; i < clippedRenderData.size(); ++i)
                 {
                     const auto * data = clippedRenderData[i];
-                    //! \todo [1.0 M] Should we do our own clipping?
                     const BBox2f clipRect = flip(data->clipRect, p.size);
                     glScissor(
                         static_cast<GLint>(clipRect.min.x),
@@ -579,7 +602,7 @@ namespace djv
                 p.render->primitives.clear();
             }
 
-            void Render2DSystem::pushClipRect(const BBox2f& value)
+            void Render2DSystem::pushClipRect(const BBox2f & value)
             {
                 DJV_PRIVATE_PTR();
                 p.clipRects.push_back(value);
@@ -593,13 +616,13 @@ namespace djv
                 p.updateCurrentClipRect();
             }
 
-            void Render2DSystem::setFillColor(const Image::Color& value)
+            void Render2DSystem::setFillColor(const Image::Color & value)
             {
                 DJV_PRIVATE_PTR();
                 p.fillColor = value;
             }
 
-            void Render2DSystem::drawRectangle(const BBox2f& value)
+            void Render2DSystem::drawRectangle(const BBox2f & value)
             {
                 DJV_PRIVATE_PTR();
                 auto primitive = std::unique_ptr<RectanglePrimitive>(new RectanglePrimitive(*p.render));
@@ -610,7 +633,20 @@ namespace djv
                 p.render->primitives.push_back(std::move(primitive));
             }
 
-            void Render2DSystem::drawImage(const std::shared_ptr<Image::Data>& data, const BBox2f & rect, ImageType imageType)
+            void Render2DSystem::drawCircle(const glm::vec2 & pos, float radius, size_t facets)
+            {
+                DJV_PRIVATE_PTR();
+                auto primitive = std::unique_ptr<CirclePrimitive>(new CirclePrimitive(*p.render));
+                primitive->pos = pos;
+                primitive->radius = radius;
+                primitive->facets = facets;
+                primitive->clipRect = p.currentClipRect;
+                primitive->colorMode = ColorMode::SolidColor;
+                primitive->color = p.fillColor;
+                p.render->primitives.push_back(std::move(primitive));
+            }
+
+            void Render2DSystem::drawImage(const std::shared_ptr<Image::Data> & data, const BBox2f & rect, ImageType imageType)
             {
                 DJV_PRIVATE_PTR();
                 auto primitive = std::unique_ptr<ImagePrimitive>(new ImagePrimitive(*p.render, imageType));
@@ -622,7 +658,7 @@ namespace djv
                 p.render->primitives.push_back(std::move(primitive));
             }
 
-            void Render2DSystem::drawFilledImage(const std::shared_ptr<Image::Data>& data, const BBox2f & rect, ImageType imageType)
+            void Render2DSystem::drawFilledImage(const std::shared_ptr<Image::Data> & data, const BBox2f & rect, ImageType imageType)
             {
                 DJV_PRIVATE_PTR();
                 auto primitive = std::unique_ptr<ImagePrimitive>(new ImagePrimitive(*p.render, imageType));
@@ -634,13 +670,13 @@ namespace djv
                 p.render->primitives.push_back(std::move(primitive));
             }
 
-            void Render2DSystem::setCurrentFont(const Font::Info& value)
+            void Render2DSystem::setCurrentFont(const Font::Info & value)
             {
                 DJV_PRIVATE_PTR();
                 p.currentFont = value;
             }
 
-            void Render2DSystem::drawText(const std::string& value, const glm::vec2& pos, size_t maxLineWidth)
+            void Render2DSystem::drawText(const std::string & value, const glm::vec2 & pos, size_t maxLineWidth)
             {
                 DJV_PRIVATE_PTR();
                 if (auto fontSystem = p.fontSystem.lock())
@@ -660,7 +696,7 @@ namespace djv
             void Render2DSystem::Private::updateCurrentClipRect()
             {
                 BBox2f clipRect = BBox2f(0.f, 0.f, static_cast<float>(size.x), static_cast<float>(size.y));
-                for (const auto& i : clipRects)
+                for (const auto & i : clipRects)
                 {
                     clipRect = clipRect.intersect(i);
                 }

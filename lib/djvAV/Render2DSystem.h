@@ -64,18 +64,19 @@ namespace djv
 
                 static std::shared_ptr<Render2DSystem> create(Core::Context *);
 
-                void beginFrame(const glm::ivec2&);
+                void beginFrame(const glm::ivec2 &);
                 void endFrame();
 
-                void pushClipRect(const Core::BBox2f&);
+                void pushClipRect(const Core::BBox2f &);
                 void popClipRect();
 
-                void setFillColor(const Image::Color&);
+                void setFillColor(const Image::Color &);
 
                 //! \name Primitives
                 ///@{
 
-                void drawRectangle(const Core::BBox2f&);
+                void drawRectangle(const Core::BBox2f &);
+                void drawCircle(const glm::vec2 & pos, float radius, size_t facets = 64);
 
                 ///@}
 
@@ -89,13 +90,13 @@ namespace djv
                 };
 
                 void drawImage(
-                    const std::shared_ptr<Image::Data>&,
-                    const Core::BBox2f&,
+                    const std::shared_ptr<Image::Data> &,
+                    const Core::BBox2f &,
                     ImageType);
 
                 void drawFilledImage(
-                    const std::shared_ptr<Image::Data>&,
-                    const Core::BBox2f&,
+                    const std::shared_ptr<Image::Data> &,
+                    const Core::BBox2f &,
                     ImageType);
 
                 ///@}
@@ -103,7 +104,7 @@ namespace djv
                 //! \name Text
                 ///@{
 
-                void setCurrentFont(const Font::Info&);
+                void setCurrentFont(const Font::Info &);
 
                 void drawText(
                     const std::string & text,
