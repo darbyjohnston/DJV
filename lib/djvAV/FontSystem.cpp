@@ -168,6 +168,7 @@ namespace djv
                 _code(code),
                 _info(info)
             {
+                //! \todo This is probably not a good idea.
                 static std::map<size_t, UID> map;
                 size_t hash = 0;
                 Memory::hashCombine(hash, info.dpi);
