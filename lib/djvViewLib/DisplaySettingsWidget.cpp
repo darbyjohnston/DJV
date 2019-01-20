@@ -31,7 +31,7 @@
 
 #include <djvUI/ButtonGroup.h>
 #include <djvUI/FlowLayout.h>
-#include <djvUI/PushButton.h>
+#include <djvUI/RadioButton.h>
 #include <djvUI/StyleSettings.h>
 #include <djvUI/UISystem.h>
 
@@ -47,11 +47,11 @@ namespace djv
         struct DisplaySettingsWidget::Private
         {
             std::vector<std::shared_ptr<UI::Style::Style> > customStyles;
-            std::vector<std::shared_ptr<UI::Button::Push> > buttons;
+            std::vector<std::shared_ptr<UI::Button::Radio> > buttons;
             std::shared_ptr<UI::Button::Group> buttonGroup;
             std::shared_ptr<UI::Layout::Flow> layout;
             std::map<int, std::string> indexToMetrics;
-            std::map<std::shared_ptr<UI::Button::Push>, std::string> buttonToMetrics;
+            std::map<std::shared_ptr<UI::Button::Radio>, std::string> buttonToMetrics;
             std::map<std::string, int> metricsToIndex;
             std::shared_ptr<MapObserver<std::string, UI::Style::Metrics> > metricsObserver;
             std::shared_ptr<ValueObserver<std::string> > currentMetricsObserver;
@@ -109,7 +109,7 @@ namespace djv
                             auto customStyle = UI::Style::Style::create(context);
                             customStyle->setMetrics(i.second);
                             widget->_p->customStyles.push_back(customStyle);
-                            auto button = UI::Button::Push::create(context);
+                            auto button = UI::Button::Radio::create(context);
                             button->setStyle(customStyle);
                             widget->_p->buttons.push_back(button);
                             widget->_p->buttonGroup->addButton(button);

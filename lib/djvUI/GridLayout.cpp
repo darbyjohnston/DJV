@@ -473,7 +473,7 @@ namespace djv
                         if (bg != Style::ColorRole::None)
                         {
                             render->setFillColor(_getColorWithOpacity(style->getColor(bg)));
-                            render->drawRectangle(g);
+                            render->drawRect(g);
                         }
 
                         DJV_PRIVATE_PTR();
@@ -501,7 +501,7 @@ namespace djv
                             if (j != p.rowBackgroundRoles.end())
                             {
                                 render->setFillColor(_getColorWithOpacity(style->getColor(j->second)));
-                                render->drawRectangle(i.second);
+                                render->drawRect(i.second);
                             }
                         }
 
@@ -528,7 +528,7 @@ namespace djv
                             if (j != p.columnBackgroundRoles.end())
                             {
                                 render->setFillColor(_getColorWithOpacity(style->getColor(j->second)));
-                                render->drawRectangle(i.second);
+                                render->drawRect(i.second);
                             }
                         }
                     }

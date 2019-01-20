@@ -111,7 +111,7 @@ namespace djv
                 {
                     const BBox2f& g = getMargin().bbox(getGeometry(), style);
                     render->setFillColor(AV::Image::Color(0.f, 0.f, 0.f));
-                    render->drawRectangle(g);
+                    render->drawRect(g);
                     if (_p->image)
                     {
                         render->setFillColor(AV::Image::Color(1.f, 1.f, 1.f));

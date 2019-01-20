@@ -217,10 +217,14 @@ namespace djv
                 p.layout->addWidget(menuBar);
                 p.layout->addWidget(topToolBar);
                 auto splitter = Layout::Splitter::create(Orientation::Horizontal, context);
-                splitter->setMargin(Layout::Margin(Style::MetricsRole::MarginSmall, Style::MetricsRole::MarginSmall, Style::MetricsRole::None, Style::MetricsRole::None));
                 splitter->addWidget(shortcutsWidget);
                 splitter->addWidget(p.scrollWidget);
                 splitter->setSplit(.15f);
+                splitter->setMargin(Layout::Margin(
+                    Style::MetricsRole::MarginSmall,
+                    Style::MetricsRole::MarginSmall,
+                    Style::MetricsRole::None,
+                    Style::MetricsRole::None));
                 p.layout->addWidget(splitter, Layout::RowStretch::Expand);
                 p.layout->addWidget(bottomToolBar);
                 p.layout->setParent(shared_from_this());
@@ -535,7 +539,6 @@ namespace djv
                     {
                         Widget::_init(context);
 
-                        setBackgroundRole(Style::ColorRole::Background);
                         setPointerEnabled(true);
 
                         _titleLabel = Label::create(context);
@@ -556,6 +559,7 @@ namespace djv
 
                         _widget = Widget::create(context);
                         _widget->setPath(FileSystem::Path("."));
+                        _widget->setBackgroundRole(Style::ColorRole::Background);
 
                         _layout = Layout::Vertical::create(context);
                         _layout->setSpacing(Style::MetricsRole::None);
@@ -565,6 +569,7 @@ namespace djv
                         hLayout->addWidget(_titleLabel, Layout::RowStretch::Expand);
                         hLayout->addWidget(_closeButton);
                         _layout->addWidget(hLayout);
+                        _layout->addSeparator();
                         _layout->addWidget(_widget, Layout::RowStretch::Expand);
                         _layout->setParent(shared_from_this());
                     }

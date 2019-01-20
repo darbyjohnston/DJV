@@ -31,8 +31,8 @@
 
 #include <djvUI/ButtonGroup.h>
 #include <djvUI/FlowLayout.h>
-#include <djvUI/PushButton.h>
 #include <djvUI/FontSettings.h>
+#include <djvUI/RadioButton.h>
 #include <djvUI/UISystem.h>
 
 #include <djvCore/Context.h>
@@ -46,13 +46,13 @@ namespace djv
     {
         struct LanguageSettingsWidget::Private
         {
-            std::vector<std::shared_ptr<UI::Button::Push> > buttons;
+            std::vector<std::shared_ptr<UI::Button::Radio> > buttons;
             std::shared_ptr<UI::Button::Group> buttonGroup;
             std::shared_ptr<UI::Layout::Flow> layout;
             std::map<int, std::string> indexToLocale;
             std::map<std::string, int> localeToIndex;
             std::map<std::string, std::string> localeFonts;
-            std::map<std::string, std::shared_ptr<UI::Button::Push> > localeToButton;
+            std::map<std::string, std::shared_ptr<UI::Button::Radio> > localeToButton;
             std::shared_ptr<ValueObserver<std::string> > localeObserver;
             std::shared_ptr<MapObserver<std::string, std::string> > localeFontsObserver;
         };
@@ -72,7 +72,7 @@ namespace djv
                 int j = 0;
                 for (const auto & i : textSystem->getLocales())
                 {
-                    auto button = UI::Button::Push::create(context);
+                    auto button = UI::Button::Radio::create(context);
                     button->setText(context->getText(i));
                     p.buttonGroup->addButton(button);
                     p.layout->addWidget(button);

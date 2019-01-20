@@ -39,7 +39,7 @@
 
 using namespace djv;
 
-const size_t drawCount = 10000;
+const size_t drawCount = 100;
 const size_t randomCount = 10000;
 glm::ivec2 windowSize = glm::ivec2(0, 0);
 
@@ -225,7 +225,7 @@ void Application::_initRandomNumbers()
 void Application::_drawRandomRectangle()
 {
     _renderer->setFillColor(_currentColor->c);
-    _renderer->drawRectangle(Core::BBox2f(_currentPos->v.x, _currentPos->v.y, _currentSize->v.x, _currentSize->v.y));
+    _renderer->drawRect(Core::BBox2f(_currentPos->v.x, _currentPos->v.y, _currentSize->v.x, _currentSize->v.y));
     _currentColor = _currentColor->next;
     _currentPos   = _currentPos->next;
     _currentSize  = _currentSize->next;
@@ -234,7 +234,7 @@ void Application::_drawRandomRectangle()
 void Application::_drawRandomRoundedRectangle()
 {
     _renderer->setFillColor(_currentColor->c);
-    _renderer->drawRoundedRectangle(
+    _renderer->drawRoundedRect(
         Core::BBox2f(_currentPos->v.x, _currentPos->v.y, _currentSize->v.x, _currentSize->v.y),
         std::min(_currentSize->v.x, _currentSize->v.y) / 4.f);
     _currentColor = _currentColor->next;
@@ -277,10 +277,10 @@ void Application::_render()
     _renderer->beginFrame(windowSize);
     for (size_t i = 0; i < drawCount / 4; ++i)
     {
-        _drawRandomRectangle();
+        //_drawRandomRectangle();
         _drawRandomRoundedRectangle();
-        _drawRandomCircle();
-        _drawRandomText();
+        //_drawRandomCircle();
+        //_drawRandomText();
     }
     _renderer->endFrame();
 }

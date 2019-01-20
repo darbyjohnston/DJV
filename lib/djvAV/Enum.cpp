@@ -27,20 +27,20 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#pragma once
+#include <djvAV/Enum.h>
 
-#include <djvAV/AV.h>
+using namespace djv::Core;
 
 namespace djv
 {
-    //! This namespace provides user interface functionality.
-    //! \todo [1.0 M] Add a dial widget.
-    //! \todo [1.0 XL] Add tooltips.
-    //! \todo [1.0 XL] Add menus.
-    //! \todo [1.0 L] Add a color picker.
-    //! \todo [1.0 L] Add keyboard navigation.
-    //! \todo [1.0 L] Add audio FX.
-    namespace UI
-    {
-	} // namespace UI
+    DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
+        AV,
+        Side,
+        DJV_TEXT("djv::AV", "None"),
+        DJV_TEXT("djv::AV", "Left"),
+        DJV_TEXT("djv::AV", "Top"),
+        DJV_TEXT("djv::AV", "Right"),
+        DJV_TEXT("djv::AV", "Bottom"));
+
 } // namespace djv
+

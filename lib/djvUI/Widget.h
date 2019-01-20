@@ -32,6 +32,8 @@
 #include <djvUI/Margin.h>
 #include <djvUI/Style.h>
 
+#include <djvAV/Enum.h>
+
 #include <djvCore/BBox.h>
 #include <djvCore/Context.h>
 #include <djvCore/Event.h>
@@ -141,6 +143,11 @@ namespace djv
             inline Style::ColorRole getBackgroundRole() const;
             void setBackgroundRole(Style::ColorRole);
 
+            inline Style::MetricsRole getRoundedCorners() const;
+            inline AV::Side getRoundedCornersSide() const;
+            void setRoundedCorners(Style::MetricsRole);
+            void setRoundedCornersSide(AV::Side);
+
             void setStyle(const std::shared_ptr<Style::Style> &);
 
             ///@}
@@ -243,6 +250,8 @@ namespace djv
             HAlign _hAlign = HAlign::Fill;
             VAlign _vAlign = VAlign::Fill;
             Style::ColorRole _backgroundRole = Style::ColorRole::None;
+            Style::MetricsRole _roundedCorners = Style::MetricsRole::None;
+            AV::Side _roundedCornersSide = AV::Side::None;
             bool _pointerEnabled = false;
             std::map<Core::Event::PointerID, glm::vec2> _pointerHover;
             std::vector<std::shared_ptr<Action> > _actions;

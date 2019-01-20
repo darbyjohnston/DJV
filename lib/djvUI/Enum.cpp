@@ -29,8 +29,6 @@
 
 #include <djvUI/Enum.h>
 
-#include <djvCore/PicoJSON.h>
-
 using namespace djv::Core;
 
 namespace djv

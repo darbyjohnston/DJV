@@ -73,7 +73,11 @@ namespace djv
 
             void IButton::setButtonType(ButtonType value)
             {
-                _p->buttonType = value;
+                DJV_PRIVATE_PTR();
+                if (value == p.buttonType)
+                    return;
+                p.buttonType = value;
+                _resize();
             }
 
             bool IButton::isChecked() const
@@ -153,14 +157,14 @@ namespace djv
                         if (_isToggled() && p.checkedColorRole != Style::ColorRole::None)
                         {
                             render->setFillColor(_getColorWithOpacity(style->getColor(p.checkedColorRole)));
-                            render->drawRectangle(g);
+                            render->drawRect(g);
                         }
 
                         // Draw the hovered state.
                         if (_isHovered())
                         {
                             render->setFillColor(_getColorWithOpacity(style->getColor(Style::ColorRole::Hover)));
-                            render->drawRectangle(g);
+                            render->drawRect(g);
                         }
                     }
                 }

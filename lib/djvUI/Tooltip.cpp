@@ -164,7 +164,7 @@ namespace djv
                             g.min.y += s;
                             g.max.x += s;
                             g.max.y += s;
-                            render->drawRectangle(g);
+                            render->drawRect(g);
                         }
                     }
                 }

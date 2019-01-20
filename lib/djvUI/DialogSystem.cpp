@@ -41,6 +41,8 @@
 #include <djvUI/TextBlock.h>
 #include <djvUI/Window.h>
 
+#include <djvAV/Render2D.h>
+
 #include <djvCore/Animation.h>
 #include <djvCore/Timer.h>
 
@@ -70,20 +72,22 @@ namespace djv
                     _titleLabel = Label::create(context);
                     _titleLabel->setFontSizeRole(UI::Style::MetricsRole::FontHeader);
                     _titleLabel->setTextHAlign(TextHAlign::Left);
-                    _titleLabel->setTextColorRole(UI::Style::ColorRole::ForegroundHeader);
+                    _titleLabel->setTextColorRole(Style::ColorRole::ForegroundHeader);
+                    _titleLabel->setBackgroundRole(Style::ColorRole::BackgroundHeader);
                     _titleLabel->setMargin(UI::Layout::Margin(
                         UI::Style::MetricsRole::Margin,
                         UI::Style::MetricsRole::None,
                         UI::Style::MetricsRole::MarginSmall,
                         UI::Style::MetricsRole::MarginSmall));
-                    _titleLabel->setBackgroundRole(Style::ColorRole::BackgroundHeader);
                     
                     _childLayout = Layout::Vertical::create(context);
                     _childLayout->setSpacing(Style::MetricsRole::None);
+                    _childLayout->setBackgroundRole(Style::ColorRole::Background);
 
                     _layout = Layout::Vertical::create(context);
                     _layout->setSpacing(Style::MetricsRole::None);
                     _layout->addWidget(_titleLabel);
+                    _layout->addSeparator();
                     _layout->addWidget(_childLayout, Layout::RowStretch::Expand);
                     IContainer::addWidget(_layout);
                 }
@@ -163,7 +167,6 @@ namespace djv
 
                     auto layout = Layout::Vertical::create(context);
                     layout->setMargin(Style::MetricsRole::Margin);
-                    layout->setBackgroundRole(Style::ColorRole::Background);
                     layout->addWidget(_textBlock);
                     layout->addWidget(_closeButton);
                     addWidget(layout);
@@ -218,7 +221,6 @@ namespace djv
 
                     auto layout = Layout::Vertical::create(context);
                     layout->setMargin(Style::MetricsRole::Margin);
-                    layout->setBackgroundRole(Style::ColorRole::Background);
                     layout->addWidget(_textBlock, Layout::RowStretch::Expand);
                     auto hLayout = Layout::Horizontal::create(context);
                     hLayout->addWidget(_acceptButton, Layout::RowStretch::Expand);

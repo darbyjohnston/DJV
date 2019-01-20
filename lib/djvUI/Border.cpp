@@ -172,16 +172,16 @@ namespace djv
                         DJV_PRIVATE_PTR();
                         const float borderSize = style->getMetric(p.borderSize);
                         render->setFillColor(_getColorWithOpacity(style->getColor(p.borderColor)));
-                        render->drawRectangle(BBox2f(
+                        render->drawRect(BBox2f(
                             glm::vec2(g.min.x, g.min.y),
                             glm::vec2(g.max.x, g.min.y + borderSize)));
-                        render->drawRectangle(BBox2f(
+                        render->drawRect(BBox2f(
                             glm::vec2(g.min.x, g.max.y - borderSize),
                             glm::vec2(g.max.x, g.max.y)));
-                        render->drawRectangle(BBox2f(
+                        render->drawRect(BBox2f(
                             glm::vec2(g.min.x, g.min.y + borderSize),
                             glm::vec2(g.min.x + borderSize, g.max.y - borderSize)));
-                        render->drawRectangle(BBox2f(
+                        render->drawRect(BBox2f(
                             glm::vec2(g.max.x - borderSize, g.min.y + borderSize),
                             glm::vec2(g.max.x, g.max.y - borderSize)));
                     }

@@ -36,6 +36,7 @@ set(header
     MenuButton.h
     Overlay.h
     PushButton.h
+    RadioButton.h
     RowLayout.h
     ScrollWidget.h
     SearchBox.h
@@ -100,6 +101,7 @@ set(source
     MenuButton.cpp
     Overlay.cpp
     PushButton.cpp
+    RadioButton.cpp
     RowLayout.cpp
     ScrollWidget.cpp
     SearchBox.cpp

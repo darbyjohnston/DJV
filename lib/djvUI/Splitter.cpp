@@ -258,14 +258,14 @@ namespace djv
                         if (colorRole != Style::ColorRole::None)
                         {
                             render->setFillColor(_getColorWithOpacity(style->getColor(colorRole)));
-                            render->drawRectangle(sg);
+                            render->drawRect(sg);
                         }
 
                         // Draw the pressed state.
                         if (p.pressedID)
                         {
                             render->setFillColor(_getColorWithOpacity(style->getColor(Style::ColorRole::Checked)));
-                            render->drawRectangle(hg);
+                            render->drawRect(hg);
                         }
 
                         // Draw the hovered state.
@@ -277,7 +277,7 @@ namespace djv
                         if (hover)
                         {
                             render->setFillColor(_getColorWithOpacity(style->getColor(Style::ColorRole::Hover)));
-                            render->drawRectangle(hg);
+                            render->drawRect(hg);
                         }
                     }
                 }

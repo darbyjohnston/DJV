@@ -266,6 +266,22 @@ namespace djv
             _redraw();
         }
 
+        void Widget::setRoundedCorners(Style::MetricsRole value)
+        {
+            if (value == _roundedCorners)
+                return;
+            _roundedCorners = value;
+            _redraw();
+        }
+
+        void Widget::setRoundedCornersSide(AV::Side value)
+        {
+            if (value == _roundedCornersSide)
+                return;
+            _roundedCornersSide = value;
+            _redraw();
+        }
+
         void Widget::setStyle(const std::shared_ptr<Style::Style> & value)
         {
             _customStyle = value;
@@ -506,7 +522,14 @@ namespace djv
                     if (auto style = _style.lock())
                     {
                         render->setFillColor(_getColorWithOpacity(style->getColor(_backgroundRole)));
-                        render->drawRectangle(getGeometry());
+                        if (_roundedCorners != Style::MetricsRole::None)
+                        {
+                            render->drawRoundedRect(getGeometry(), style->getMetric(_roundedCorners), _roundedCornersSide);
+                        }
+                        else
+                        {
+                            render->drawRect(getGeometry());
+                        }
                     }
                 }
             }
@@ -577,8 +600,12 @@ namespace djv
 
         AV::Image::Color Widget::_getColorWithOpacity(const AV::Image::Color & value) const
         {
-            auto out = value.convert(AV::Image::Type::RGBA_F32);
-            out.setF32(out.getF32(3) * getOpacity(true), 3);
+            AV::Image::Color out(AV::Image::Type::RGBA_F32);
+            if (value.getType() != AV::Image::Type::None)
+            {
+                out = value.convert(AV::Image::Type::RGBA_F32);
+                out.setF32(out.getF32(3) * getOpacity(true), 3);
+            }
             return out;
         }
 

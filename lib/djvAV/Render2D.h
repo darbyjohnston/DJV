@@ -29,6 +29,7 @@
 
 #pragma once
 
+#include <djvAV/Enum.h>
 #include <djvAV/FontSystem.h>
 
 #include <djvCore/BBox.h>
@@ -81,8 +82,9 @@ namespace djv
                 //! \name Primitives
                 ///@{
 
-                void drawRectangle(const Core::BBox2f &);
-                void drawRoundedRectangle(const Core::BBox2f &, float radius, size_t facets = 16);
+                void drawRect(const Core::BBox2f &);
+                void drawRoundedRect(const Core::BBox2f &, float radius, size_t facets = 16);
+                void drawRoundedRect(const Core::BBox2f &, float radius, Side, size_t facets = 16);
                 void drawCircle(const glm::vec2 & pos, float radius, size_t facets = 64);
 
                 ///@}

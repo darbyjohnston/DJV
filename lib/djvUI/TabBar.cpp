@@ -137,13 +137,13 @@ namespace djv
 
                         // Draw the toggled state.
                         render->setFillColor(_getColorWithOpacity(style->getColor(_isToggled() ? Style::ColorRole::Background : Style::ColorRole::Border)));
-                        render->drawRectangle(g);
+                        render->drawRect(g);
 
                         // Draw the hovered state.
                         if (_isHovered() && !_isToggled())
                         {
                             render->setFillColor(_getColorWithOpacity(style->getColor(Style::ColorRole::Hover)));
-                            render->drawRectangle(g);
+                            render->drawRect(g);
                         }
                     }
                 }

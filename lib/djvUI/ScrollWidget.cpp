@@ -182,7 +182,7 @@ namespace djv
 
                         // Draw the background.
                         render->setFillColor(_getColorWithOpacity(style->getColor(Style::ColorRole::Trough)));
-                        render->drawRectangle(g);
+                        render->drawRect(g);
 
                         // Draw the scroll bar handle.
                         glm::vec2 pos = glm::vec2(0.f, 0.f);
@@ -200,7 +200,7 @@ namespace djv
                         default: break;
                         }
                         render->setFillColor(_getColorWithOpacity(style->getColor(_pressedID ? Style::ColorRole::Checked : Style::ColorRole::Button)));
-                        render->drawRectangle(BBox2f(pos.x, pos.y, size.x, size.y));
+                        render->drawRect(BBox2f(pos.x, pos.y, size.x, size.y));
 
                         // Draw the hovered state.
                         bool hover = false;
@@ -211,7 +211,7 @@ namespace djv
                         if (hover)
                         {
                             render->setFillColor(_getColorWithOpacity(style->getColor(Style::ColorRole::Hover)));
-                            render->drawRectangle(BBox2f(pos.x, pos.y, size.x, size.y));
+                            render->drawRect(BBox2f(pos.x, pos.y, size.x, size.y));
                         }
                     }
                 }

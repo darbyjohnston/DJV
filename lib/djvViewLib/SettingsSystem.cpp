@@ -63,7 +63,6 @@ namespace djv
                     Vertical::_init(context);
 
                     setSpacing(UI::Style::MetricsRole::None);
-                    setBackgroundRole(UI::Style::ColorRole::Background);
                     setPointerEnabled(true);
                     
                     _titleLabel = UI::Label::create(context);
@@ -100,7 +99,7 @@ namespace djv
                         settingsLayout->addWidget(i.second);
                     }
                     auto scrollWidget = UI::ScrollWidget::create(UI::ScrollType::Vertical, context);
-                    scrollWidget->setMargin(UI::Style::MetricsRole::MarginSmall);
+                    scrollWidget->setMargin(UI::Style::MetricsRole::Margin);
                     scrollWidget->setBackgroundRole(UI::Style::ColorRole::Background);
                     scrollWidget->addWidget(settingsLayout);
                     
@@ -110,6 +109,7 @@ namespace djv
                     hLayout->addWidget(_titleLabel, UI::Layout::RowStretch::Expand);
                     hLayout->addWidget(_closeButton);
                     addWidget(hLayout);
+                    addSeparator();
                     addWidget(scrollWidget, UI::Layout::RowStretch::Expand);
                 }
 

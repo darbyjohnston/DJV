@@ -181,7 +181,7 @@ namespace djv
                             g.min.y += s;
                             g.max.x += s;
                             g.max.y += s;
-                            render->drawRectangle(g);
+                            render->drawRect(g);
                         }
                     }
                 }*/
@@ -199,10 +199,10 @@ namespace djv
                         {
                             const BBox2f g = children.back()->getGeometry().margin(b);
                             render->setFillColor(_getColorWithOpacity(style->getColor(Style::ColorRole::Checked)));
-                            render->drawRectangle(BBox2f(g.min, glm::vec2(g.max.x, g.min.y + b)));
-                            render->drawRectangle(BBox2f(glm::vec2(g.min.x, g.min.y + b), glm::vec2(g.min.x + b, g.max.y - b)));
-                            render->drawRectangle(BBox2f(glm::vec2(g.max.x - b, g.min.y + b), glm::vec2(g.max.x, g.max.y - b)));
-                            render->drawRectangle(BBox2f(glm::vec2(g.min.x, g.max.y - b), glm::vec2(g.max.x, g.max.y)));
+                            render->drawRect(BBox2f(g.min, glm::vec2(g.max.x, g.min.y + b)));
+                            render->drawRect(BBox2f(glm::vec2(g.min.x, g.min.y + b), glm::vec2(g.min.x + b, g.max.y - b)));
+                            render->drawRect(BBox2f(glm::vec2(g.max.x - b, g.min.y + b), glm::vec2(g.max.x, g.max.y - b)));
+                            render->drawRect(BBox2f(glm::vec2(g.min.x, g.max.y - b), glm::vec2(g.max.x, g.max.y)));
                         }
                     }
                 }

@@ -45,11 +45,20 @@ namespace djv
     {
         namespace OpenGL
         {
-            void OffscreenBuffer::_init(const Image::Info& info)
+            namespace
+            {
+                //! [2.0 S] \todo Should this be configurable?
+                const size_t samples = 4;
+
+            } // namespace
+
+            void OffscreenBuffer::_init(const Image::Info& info, OffscreenType type)
             {
                 _info = info;
+                _type = type;
 
                 // Create the texture.
+                //! [2.0 S] \bug Fall back to a regular offscreen buffer if multi-sampling is not available.
                 glGenTextures(1, &_textureID);
                 if (!_textureID)
                 {
@@ -57,22 +66,42 @@ namespace djv
                     ss << DJV_TEXT("djv::AV::OpenGL", "Cannot create OpenGL texture.");
                     throw std::runtime_error(ss.str());
                 }
-                glBindTexture(GL_TEXTURE_2D, _textureID);
-                glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-                glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-                glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-                glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-                glTexImage2D(
-                    GL_TEXTURE_2D,
-                    0,
-                    Texture::getInternalFormat(_info.type),
-                    _info.size.x,
-                    _info.size.y,
-                    0,
-                    _info.getGLFormat(),
-                    _info.getGLType(),
-                    0);
-                glBindTexture(GL_TEXTURE_2D, 0);
+                GLenum target = GL_TEXTURE_2D;
+                switch (type)
+                {
+                case OffscreenType::MultiSample: target = GL_TEXTURE_2D_MULTISAMPLE; break;
+                default: break;
+                }
+                glBindTexture(target, _textureID);
+                glTexParameteri(target, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+                glTexParameteri(target, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+                glTexParameteri(target, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+                glTexParameteri(target, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+                switch (type)
+                {
+                case OffscreenType::MultiSample:
+                    glTexImage2DMultisample(
+                        target,
+                        static_cast<GLsizei>(samples),
+                        Texture::getInternalFormat(_info.type),
+                        _info.size.x,
+                        _info.size.y,
+                        false);
+                    break;
+                default:
+                    glTexImage2D(
+                        target,
+                        0,
+                        Texture::getInternalFormat(_info.type),
+                        _info.size.x,
+                        _info.size.y,
+                        0,
+                        _info.getGLFormat(),
+                        _info.getGLType(),
+                        0);
+                    break;
+                }
+                glBindTexture(target, 0);
 
                 // Create the FBO.
                 glGenFramebuffers(1, &_id);
@@ -86,7 +115,7 @@ namespace djv
                 glFramebufferTexture2D(
                     GL_FRAMEBUFFER,
                     GL_COLOR_ATTACHMENT0,
-                    GL_TEXTURE_2D,
+                    target,
                     _textureID,
                     0);
                 GLenum error = glCheckFramebufferStatus(GL_FRAMEBUFFER);
@@ -112,10 +141,10 @@ namespace djv
                 }
             }
 
-            std::shared_ptr<OffscreenBuffer> OffscreenBuffer::create(const Image::Info& info)
+            std::shared_ptr<OffscreenBuffer> OffscreenBuffer::create(const Image::Info& info, OffscreenType type)
             {
                 auto out = std::shared_ptr<OffscreenBuffer>(new OffscreenBuffer);
-                out->_init(info);
+                out->_init(info, type);
                 return out;
             }
 

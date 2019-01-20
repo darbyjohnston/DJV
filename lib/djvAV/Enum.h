@@ -31,16 +31,29 @@
 
 #include <djvAV/AV.h>
 
+#include <djvCore/Enum.h>
+
 namespace djv
 {
-    //! This namespace provides user interface functionality.
-    //! \todo [1.0 M] Add a dial widget.
-    //! \todo [1.0 XL] Add tooltips.
-    //! \todo [1.0 XL] Add menus.
-    //! \todo [1.0 L] Add a color picker.
-    //! \todo [1.0 L] Add keyboard navigation.
-    //! \todo [1.0 L] Add audio FX.
-    namespace UI
+    namespace AV
     {
-	} // namespace UI
+        //! This enumeration provides sides.
+        enum class Side
+        {
+            None,
+            Left,
+            Top,
+            Right,
+            Bottom,
+
+            Count,
+            First = Left
+        };
+        DJV_ENUM_HELPERS(Side);
+
+    } // namespace UI
+
+    DJV_ENUM_SERIALIZE_HELPERS(AV::Side);
+
 } // namespace djv
+

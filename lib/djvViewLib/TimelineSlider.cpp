@@ -109,7 +109,7 @@ namespace djv
                 {
                     const BBox2f& hg = _getHandleGeometry();
                     render->setFillColor(_getColorWithOpacity(style->getColor(UI::Style::ColorRole::Foreground)));
-                    render->drawRectangle(hg);
+                    render->drawRect(hg);
                 }
             }
         }

@@ -17,6 +17,7 @@ set(header
     AudioSystem.h
     Color.h
     ColorInline.h
+    Enum.h
     FFmpeg.h
     FFmpegInline.h
     FontSystem.h
@@ -52,6 +53,7 @@ set(source
     AudioData.cpp
     AudioSystem.cpp
     Color.cpp
+    Enum.cpp
     FFmpeg.cpp
     FFmpegRead.cpp
     FontSystem.cpp

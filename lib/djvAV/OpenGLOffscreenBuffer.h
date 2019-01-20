@@ -38,19 +38,26 @@ namespace djv
     {
         namespace OpenGL
         {
+            enum class OffscreenType
+            {
+                Default,
+                MultiSample
+            };
+
             //! This class provides an OpenGL offscreen buffer.
             class OffscreenBuffer : public std::enable_shared_from_this<OffscreenBuffer>
             {
                 DJV_NON_COPYABLE(OffscreenBuffer);
-                void _init(const Image::Info &);
+                void _init(const Image::Info &, OffscreenType);
                 inline OffscreenBuffer();
 
             public:
                 ~OffscreenBuffer();
 
-                static std::shared_ptr<OffscreenBuffer> create(const Image::Info &);
+                static std::shared_ptr<OffscreenBuffer> create(const Image::Info &, OffscreenType = OffscreenType::Default);
 
                 inline const Image::Info & getInfo() const;
+                inline OffscreenType getType() const;
                 inline gl::GLuint getID() const;
                 inline gl::GLuint getTextureID() const;
 
@@ -59,6 +66,7 @@ namespace djv
 
             private:
                 Image::Info _info;
+                OffscreenType _type = OffscreenType::Default;
                 gl::GLuint _id = 0;
                 gl::GLuint _textureID = 0;
                 gl::GLint _restore = 0;

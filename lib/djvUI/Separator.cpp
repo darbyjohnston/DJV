@@ -87,7 +87,7 @@ namespace djv
                 {
                     const BBox2f& g = getGeometry();
                     render->setFillColor(_getColorWithOpacity(_p->color));
-                    render->drawRectangle(g);
+                    render->drawRect(g);
                 }
             }
 

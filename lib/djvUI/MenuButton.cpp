@@ -193,7 +193,7 @@ namespace djv
                         if (_isHovered() || _p->checked)
                         {
                             render->setFillColor(_getColorWithOpacity(style->getColor(Style::ColorRole::Hover)));
-                            render->drawRectangle(g);
+                            render->drawRect(g);
                         }
                     }
                 }

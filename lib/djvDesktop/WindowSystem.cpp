@@ -87,7 +87,9 @@ namespace djv
 
             if (_p->resizeRequest)
             {
-                _p->offscreenBuffer = AV::OpenGL::OffscreenBuffer::create(AV::Image::Info(_p->resize, AV::Image::Type::RGBA_U8));
+                _p->offscreenBuffer = AV::OpenGL::OffscreenBuffer::create(
+                    AV::Image::Info(_p->resize, AV::Image::Type::RGBA_U8),
+                    AV::OpenGL::OffscreenType::MultiSample);
             }
             auto rootObject = getContext()->getRootObject();
             if (_p->offscreenBuffer)

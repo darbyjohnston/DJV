@@ -27,14 +27,11 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvUI/PushButton.h>
+#include <djvUI/ListButton.h>
 
 #include <djvUI/Icon.h>
 #include <djvUI/Label.h>
 #include <djvUI/RowLayout.h>
-#include <djvUI/StackLayout.h>
-
-#include <djvAV/Render2D.h>
 
 //#pragma optimize("", off)
 
@@ -46,19 +43,18 @@ namespace djv
     {
         namespace Button
         {
-            struct Push::Private
+            struct List::Private
             {
                 std::shared_ptr<Icon> icon;
                 std::shared_ptr<Label> label;
                 std::shared_ptr<Layout::Horizontal> layout;
             };
 
-            void Push::_init(Context * context)
+            void List::_init(Context * context)
             {
                 IButton::_init(context);
 
-                setClassName("djv::UI::Button::Push");
-                setBackgroundRole(Style::ColorRole::Button);
+                setClassName("djv::UI::Button::List");
 
                 DJV_PRIVATE_PTR();
                 p.icon = Icon::create(context);
@@ -69,179 +65,136 @@ namespace djv
                 p.label->hide();
 
                 p.layout = Layout::Horizontal::create(context);
-                p.layout->setMargin(Layout::Margin(Style::MetricsRole::MarginLarge, Style::MetricsRole::MarginLarge, Style::MetricsRole::MarginSmall, Style::MetricsRole::MarginSmall));
+                p.layout->setMargin(Layout::Margin(Style::MetricsRole::Margin, Style::MetricsRole::Margin, Style::MetricsRole::MarginSmall, Style::MetricsRole::MarginSmall));
                 p.layout->addWidget(p.icon);
                 p.layout->addWidget(p.label, Layout::RowStretch::Expand);
                 p.layout->setParent(shared_from_this());
             }
 
-            Push::Push() :
+            List::List() :
                 _p(new Private)
             {}
 
-            Push::~Push()
+            List::~List()
             {}
 
-            std::shared_ptr<Push> Push::create(Context * context)
+            std::shared_ptr<List> List::create(Context * context)
             {
-                auto out = std::shared_ptr<Push>(new Push);
+                auto out = std::shared_ptr<List>(new List);
                 out->_init(context);
                 return out;
             }
 
-            std::shared_ptr<Push> Push::create(const std::string& text, Context * context)
+            std::shared_ptr<List> List::create(const std::string& text, Context * context)
             {
-                auto out = std::shared_ptr<Push>(new Push);
+                auto out = std::shared_ptr<List>(new List);
                 out->_init(context);
                 out->setText(text);
                 return out;
             }
 
-            std::shared_ptr<Push> Push::create(const std::string& text, const std::string& icon, Context * context)
+            std::shared_ptr<List> List::create(const std::string& text, const std::string& icon, Context * context)
             {
-                auto out = std::shared_ptr<Push>(new Push);
+                auto out = std::shared_ptr<List>(new List);
                 out->_init(context);
                 out->setIcon(icon);
                 out->setText(text);
                 return out;
             }
 
-            const std::string& Push::getIcon() const
+            const std::string& List::getIcon() const
             {
                 return _p->icon->getIcon();
             }
 
-            void Push::setIcon(const std::string& value)
+            void List::setIcon(const std::string& value)
             {
                 DJV_PRIVATE_PTR();
                 p.icon->setIcon(value);
                 p.icon->setVisible(!value.empty());
             }
 
-            const std::string& Push::getText() const
+            const std::string& List::getText() const
             {
                 return _p->label->getText();
             }
 
-            void Push::setText(const std::string& value)
+            void List::setText(const std::string& value)
             {
                 DJV_PRIVATE_PTR();
                 p.label->setText(value);
                 p.label->setVisible(!value.empty());
             }
 
-            TextHAlign Push::getTextHAlign() const
+            TextHAlign List::getTextHAlign() const
             {
                 return _p->label->getTextHAlign();
             }
 
-            TextVAlign Push::getTextVAlign() const
+            TextVAlign List::getTextVAlign() const
             {
                 return _p->label->getTextVAlign();
             }
 
-            void Push::setTextHAlign(TextHAlign value)
+            void List::setTextHAlign(TextHAlign value)
             {
                 _p->label->setTextHAlign(value);
             }
 
-            void Push::setTextVAlign(TextVAlign value)
+            void List::setTextVAlign(TextVAlign value)
             {
                 _p->label->setTextVAlign(value);
             }
 
-            const std::string & Push::getFont() const
+            Style::ColorRole List::getTextColorRole() const
             {
-                return _p->label->getFont();
+                return _p->label->getTextColorRole();
             }
 
-            const std::string & Push::getFontFace() const
+            void List::setTextColorRole(Style::ColorRole value)
+            {
+                _p->label->setTextColorRole(value);
+            }
+
+            const std::string & List::getFontFace() const
             {
                 return _p->label->getFontFace();
             }
 
-            Style::MetricsRole Push::getFontSizeRole() const
+            Style::MetricsRole List::getFontSizeRole() const
             {
                 return _p->label->getFontSizeRole();
             }
 
-            void Push::setFont(const std::string & value)
-            {
-                _p->label->setFont(value);
-            }
-
-            void Push::setFontFace(const std::string & value)
+            void List::setFontFace(const std::string & value)
             {
                 _p->label->setFontFace(value);
             }
 
-            void Push::setFontSizeRole(Style::MetricsRole value)
+            void List::setFontSizeRole(Style::MetricsRole value)
             {
                 _p->label->setFontSizeRole(value);
             }
 
-            const Layout::Margin& Push::getInsideMargin() const
-            {
-                return _p->layout->getMargin();
-            }
-
-            void Push::setInsideMargin(const Layout::Margin& value)
-            {
-                _p->layout->setMargin(value);
-            }
-
-            float Push::getHeightForWidth(float value) const
+            float List::getHeightForWidth(float value) const
             {
                 return _p->layout->getHeightForWidth(value);
             }
 
-            void Push::_preLayoutEvent(Event::PreLayout& event)
+            void List::_preLayoutEvent(Event::PreLayout& event)
             {
                 _setMinimumSize(_p->layout->getMinimumSize());
             }
 
-            void Push::_layoutEvent(Event::Layout&)
+            void List::_layoutEvent(Event::Layout&)
             {
                 _p->layout->setGeometry(getGeometry());
             }
 
-            void Push::_paintEvent(Event::Paint& event)
-            {
-                if (auto render = _getRender().lock())
-                {
-                    if (auto style = _getStyle().lock())
-                    {
-                        const BBox2f& g = getGeometry();
-                        const float ms = style->getMetric(Style::MetricsRole::MarginSmall);
-
-                        // Draw the background.
-                        render->setFillColor(_getColorWithOpacity(style->getColor(getBackgroundRole())));
-                        render->drawRect(g);
-
-                        // Draw the toggled state.
-                        if (_isToggled())
-                        {
-                            render->setFillColor(_getColorWithOpacity(style->getColor(getCheckedColorRole())));
-                            render->drawRect(g);
-                        }
-
-                        // Draw the hovered state.
-                        if (_isHovered())
-                        {
-                            render->setFillColor(_getColorWithOpacity(style->getColor(Style::ColorRole::Hover)));
-                            render->drawRect(g);
-                        }
-                    }
-                }
-            }
-
-            void Push::_updateEvent(Event::Update& event)
+            void List::_updateEvent(Event::Update& event)
             {
                 IButton::_updateEvent(event);
-                const Style::ColorRole colorRole = _getForegroundColorRole();
-                DJV_PRIVATE_PTR();
-                p.icon->setIconColorRole(colorRole);
-                p.label->setTextColorRole(colorRole);
+                _p->label->setTextColorRole(_getForegroundColorRole());
             }
 
         } // namespace Button

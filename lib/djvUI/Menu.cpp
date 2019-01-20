@@ -298,7 +298,7 @@ namespace djv
                             if (i.second == _pressed.second || i.second->checked)
                             {
                                 render->setFillColor(_getColorWithOpacity(style->getColor(Style::ColorRole::Checked)));
-                                render->drawRectangle(i.second->geom);
+                                render->drawRect(i.second->geom);
                             }
                         }
 
@@ -312,7 +312,7 @@ namespace djv
                             if (i.second->enabled)
                             {
                                 render->setFillColor(_getColorWithOpacity(style->getColor(Style::ColorRole::Hover)));
-                                render->drawRectangle(i.second->geom);
+                                render->drawRect(i.second->geom);
                             }
                         }
 
@@ -359,7 +359,7 @@ namespace djv
                             else
                             {
                                 render->setFillColor(_getColorWithOpacity(style->getColor(Style::ColorRole::Border)));
-                                render->drawRectangle(i.second->geom);
+                                render->drawRect(i.second->geom);
                             }
                         }
                     }
@@ -864,7 +864,7 @@ namespace djv
                             g.min.y += s;
                             g.max.x += s;
                             g.max.y += s;
-                            render->drawRectangle(g);
+                            render->drawRect(g);
                         }
                     }
                 }

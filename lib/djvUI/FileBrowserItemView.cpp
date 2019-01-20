@@ -268,7 +268,7 @@ namespace djv
                                 if (i != p.itemGeometry.end())
                                 {
                                     render->setFillColor(_getColorWithOpacity(style->getColor(Style::ColorRole::Checked)));
-                                    render->drawRectangle(i->second);
+                                    render->drawRect(i->second);
                                 }
                             }
                             {
@@ -276,7 +276,7 @@ namespace djv
                                 if (i != p.itemGeometry.end())
                                 {
                                     render->setFillColor(_getColorWithOpacity(style->getColor(Style::ColorRole::Hover)));
-                                    render->drawRectangle(i->second);
+                                    render->drawRect(i->second);
                                 }
                             }
                             const float ut = _getUpdateTime();

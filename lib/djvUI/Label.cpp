@@ -280,7 +280,7 @@ namespace djv
                     }
 
                     //render->setFillColor(AV::Image::Color(1.f, 0.f, 0.f));
-                    //render->drawRectangle(BBox2f(pos.x, pos.y, p.textSize.x, p.textSize.y));
+                    //render->drawRect(BBox2f(pos.x, pos.y, p.textSize.x, p.textSize.y));
 
                     render->setFillColor(_getColorWithOpacity(style->getColor(p.textColorRole)));
                     render->drawText(p.text, glm::vec2(pos.x, pos.y + p.ascender));

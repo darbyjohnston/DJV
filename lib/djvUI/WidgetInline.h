@@ -99,6 +99,16 @@ namespace djv
             return _backgroundRole;
         }
 
+        inline Style::MetricsRole Widget::getRoundedCorners() const
+        {
+            return _roundedCorners;
+        }
+
+        inline AV::Side Widget::getRoundedCornersSide() const
+        {
+            return _roundedCornersSide;
+        }
+
         inline bool Widget::isPointerEnabled() const
         {
             return _pointerEnabled;
