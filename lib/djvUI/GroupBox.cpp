@@ -61,12 +61,11 @@ namespace djv
                 p.label->setMargin(Style::MetricsRole::MarginSmall);
                 
                 p.childLayout = Layout::Stack::create(context);
-                p.childLayout->setMargin(Layout::Margin(Style::MetricsRole::MarginLarge, Style::MetricsRole::MarginLarge, Style::MetricsRole::Margin, Style::MetricsRole::Margin));
 
                 p.layout = Layout::Vertical::create(context);
-                p.layout->setSpacing(Style::MetricsRole::None);
                 p.layout->addWidget(p.label);
-                p.layout->addWidget(p.childLayout);
+                p.layout->addSeparator();
+                p.layout->addWidget(p.childLayout, Layout::RowStretch::Expand);
                 IContainer::addWidget(p.layout);
             }
 

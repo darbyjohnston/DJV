@@ -227,8 +227,10 @@ namespace djv
                         const float ms = style->getMetric(Style::MetricsRole::MarginSmall);
 
                         // Draw the background.
+                        BBox2f bgRect = g;
+                        bgRect.max.y -= ms;
                         render->setFillColor(_getColorWithOpacity(style->getColor(getBackgroundRole())));
-                        render->drawRect(g);
+                        render->drawRect(bgRect);
 
                         // Draw the toggled state.
                         if (_isToggled())
