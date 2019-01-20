@@ -28,10 +28,10 @@
 //------------------------------------------------------------------------------
 
 #include <djvAV/AVSystem.h>
+#include <djvAV/Application.h>
 #include <djvAV/Color.h>
 #include <djvAV/Render2D.h>
 
-#include <djvCore/Context.h>
 #include <djvCore/Error.h>
 #include <djvCore/String.h>
 
@@ -39,7 +39,7 @@
 
 using namespace djv;
 
-const size_t drawCount = 100;
+const size_t drawCount = 10000;
 const size_t randomCount = 10000;
 glm::ivec2 windowSize = glm::ivec2(0, 0);
 
@@ -89,17 +89,17 @@ struct RandomText
 
 const std::vector<float> RandomText::sizes = { 12.f, 24.f, 48.f, 96.f, 1000.f };
 
-class Application : public Core::Context
+class Application : public AV::Application
 {
     DJV_NON_COPYABLE(Application);
 
 protected:
-    void _init(int & argc, char ** argv);
+    void _init(int argc, char ** argv);
     
     Application();
 
 public:
-    static std::unique_ptr<Application> create(int & argc, char ** argv);
+    static std::unique_ptr<Application> create(int argc, char ** argv);
 
     int run();
 
@@ -112,38 +112,28 @@ private:
     void _drawRandomText();
     void _render();
 
-    std::shared_ptr<AV::AVSystem>         _avSystem;
-    GLFWwindow *                          _glfwWindow   = nullptr;
-    std::shared_ptr<AV::Render::Render2D> _renderer;
-    RandomColor *                         _randomColors = nullptr;
-    RandomColor *                         _currentColor = nullptr;
-    RandomPos *                           _randomPos    = nullptr;
-    RandomPos *                           _currentPos   = nullptr;
-    RandomSize *                          _randomSizes  = nullptr;
-    RandomSize *                          _currentSize  = nullptr;
-    RandomText *                          _randomText   = nullptr;
-    RandomText *                          _currentText  = nullptr;
+    RandomColor * _randomColors = nullptr;
+    RandomColor * _currentColor = nullptr;
+    RandomPos *   _randomPos    = nullptr;
+    RandomPos *   _currentPos   = nullptr;
+    RandomSize *  _randomSizes  = nullptr;
+    RandomSize *  _currentSize  = nullptr;
+    RandomText *  _randomText   = nullptr;
+    RandomText *  _currentText  = nullptr;
 };
 
-void Application::_init(int & argc, char ** argv)
+void Application::_init(int argc, char ** argv)
 {
-    Context::_init(argc, argv);
-    _avSystem = AV::AVSystem::create(this);
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 1);
-    glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
-    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-    glfwWindowHint(GLFW_DOUBLEBUFFER, GL_FALSE);
-    _glfwWindow = glfwCreateWindow(1024, 768, getName().c_str(), NULL, NULL);
-    glfwMakeContextCurrent(_glfwWindow);
-    _renderer = AV::Render::Render2D::create(this);
-    glfwShowWindow(_glfwWindow);
+    AV::Application::_init(argc, argv);
+    auto glfwWindow = getGLFWWindow();
+    glfwSetWindowSize(glfwWindow, 1024, 768);
+    glfwShowWindow(glfwWindow);
 }
 
 Application::Application()
 {}
 
-std::unique_ptr<Application> Application::create(int & argc, char ** argv)
+std::unique_ptr<Application> Application::create(int argc, char ** argv)
 {
     auto out = std::unique_ptr<Application>(new Application);
     out->_init(argc, argv);
@@ -153,11 +143,12 @@ std::unique_ptr<Application> Application::create(int & argc, char ** argv)
 int Application::run()
 {
     auto time = std::chrono::system_clock::now();
-    while (!glfwWindowShouldClose(_glfwWindow))
+    auto glfwWindow = getGLFWWindow();
+    while (!glfwWindowShouldClose(glfwWindow))
     {
         glfwPollEvents();
         _render();
-        glFinish();
+        glfwSwapBuffers(glfwWindow);
         auto now = std::chrono::system_clock::now();
         std::chrono::duration<float> delta = now - time;
         time = now;
@@ -224,65 +215,81 @@ void Application::_initRandomNumbers()
 
 void Application::_drawRandomRectangle()
 {
-    _renderer->setFillColor(_currentColor->c);
-    _renderer->drawRect(Core::BBox2f(_currentPos->v.x, _currentPos->v.y, _currentSize->v.x, _currentSize->v.y));
-    _currentColor = _currentColor->next;
-    _currentPos   = _currentPos->next;
-    _currentSize  = _currentSize->next;
+    if (auto render = getSystemT<AV::Render::Render2D>().lock())
+    {
+        render->setFillColor(_currentColor->c);
+        render->drawRect(Core::BBox2f(_currentPos->v.x, _currentPos->v.y, _currentSize->v.x, _currentSize->v.y));
+        _currentColor = _currentColor->next;
+        _currentPos = _currentPos->next;
+        _currentSize = _currentSize->next;
+    }
 }
 
 void Application::_drawRandomRoundedRectangle()
 {
-    _renderer->setFillColor(_currentColor->c);
-    _renderer->drawRoundedRect(
-        Core::BBox2f(_currentPos->v.x, _currentPos->v.y, _currentSize->v.x, _currentSize->v.y),
-        std::min(_currentSize->v.x, _currentSize->v.y) / 4.f);
-    _currentColor = _currentColor->next;
-    _currentPos   = _currentPos->next;
-    _currentSize  = _currentSize->next;
+    if (auto render = getSystemT<AV::Render::Render2D>().lock())
+    {
+        render->setFillColor(_currentColor->c);
+        render->drawRoundedRect(
+            Core::BBox2f(_currentPos->v.x, _currentPos->v.y, _currentSize->v.x, _currentSize->v.y),
+            std::min(_currentSize->v.x, _currentSize->v.y) / 4.f);
+        _currentColor = _currentColor->next;
+        _currentPos = _currentPos->next;
+        _currentSize = _currentSize->next;
+    }
 }
 
 void Application::_drawRandomCircle()
 {
-    _renderer->setFillColor(_currentColor->c);
-    _renderer->drawCircle(_currentPos->v, _currentSize->v.x);
-    _currentColor = _currentColor->next;
-    _currentPos   = _currentPos->next;
-    _currentSize  = _currentSize->next;
+    if (auto render = getSystemT<AV::Render::Render2D>().lock())
+    {
+        render->setFillColor(_currentColor->c);
+        render->drawCircle(_currentPos->v, _currentSize->v.x);
+        _currentColor = _currentColor->next;
+        _currentPos = _currentPos->next;
+        _currentSize = _currentSize->next;
+    }
 }
 
 void Application::_drawRandomText()
 {
-    _renderer->setFillColor(_currentColor->c);
-    AV::Font::Info fontInfo;
-    fontInfo.size = _currentText->size;
-    _renderer->setCurrentFont(fontInfo);
-    _renderer->drawText(_currentText->s, _currentPos->v);
-    _currentColor = _currentColor->next;
-    _currentPos   = _currentPos->next;
-    _currentSize  = _currentSize->next;
-    _currentText  = _currentText->next;
+    if (auto render = getSystemT<AV::Render::Render2D>().lock())
+    {
+        render->setFillColor(_currentColor->c);
+        AV::Font::Info fontInfo;
+        fontInfo.size = _currentText->size;
+        render->setCurrentFont(fontInfo);
+        render->drawText(_currentText->s, _currentPos->v);
+        _currentColor = _currentColor->next;
+        _currentPos = _currentPos->next;
+        _currentSize = _currentSize->next;
+        _currentText = _currentText->next;
+    }
 }
 
 void Application::_render()
 {
-    glm::ivec2 size;
-    glfwGetWindowSize(_glfwWindow, &size.x, &size.y);
-    if (size != windowSize)
+    if (auto render = getSystemT<AV::Render::Render2D>().lock())
     {
-        windowSize = size;
-        _generateRandomNumbers();
+        glm::ivec2 size;
+        auto glfwWindow = getGLFWWindow();
+        glfwGetWindowSize(glfwWindow, &size.x, &size.y);
+        if (size != windowSize)
+        {
+            windowSize = size;
+            _generateRandomNumbers();
+        }
+        _initRandomNumbers();
+        render->beginFrame(windowSize);
+        for (size_t i = 0; i < drawCount / 4; ++i)
+        {
+            _drawRandomRectangle();
+            _drawRandomRoundedRectangle();
+            _drawRandomCircle();
+            _drawRandomText();
+        }
+        render->endFrame();
     }
-    _initRandomNumbers();
-    _renderer->beginFrame(windowSize);
-    for (size_t i = 0; i < drawCount / 4; ++i)
-    {
-        //_drawRandomRectangle();
-        _drawRandomRoundedRectangle();
-        //_drawRandomCircle();
-        //_drawRandomText();
-    }
-    _renderer->endFrame();
 }
 
 int main(int argc, char ** argv)

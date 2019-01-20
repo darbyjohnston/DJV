@@ -33,6 +33,8 @@
 
 #include <djvCore/Context.h>
 
+struct GLFWwindow;
+
 namespace djv
 {
     namespace AV
@@ -50,6 +52,8 @@ namespace djv
             ~Application() override;
 
             static std::shared_ptr<Application> create(int & argc, char * argv[]);
+
+            GLFWwindow * getGLFWWindow() const;
 
         private:
             DJV_PRIVATE();

@@ -123,6 +123,7 @@ namespace djv
             glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 1);
             glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
             glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+            glfwWindowHint(GLFW_SAMPLES, 4);
             glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE);
             if (!OS::getEnv("DJV_OPENGL_DEBUG").empty())
             {
@@ -192,6 +193,11 @@ namespace djv
             auto out = std::shared_ptr<Application>(new Application);
             out->_init(argc, argv);
             return out;
+        }
+
+        GLFWwindow * Application::getGLFWWindow() const
+        {
+            return _p->glfwWindow;
         }
 
     } // namespace AV
