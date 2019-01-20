@@ -29,6 +29,8 @@
 
 #include <djvViewLib/WindowSystem.h>
 
+#include <djvDesktop/Application.h>
+
 #include <djvUI/Action.h>
 #include <djvUI/Menu.h>
 
@@ -208,9 +210,9 @@ namespace djv
 
         void WindowSystem::Private::setFullScreen(bool value, Context * context)
         {
-            if (auto avSystem = context->getSystemT<AV::AVSystem>().lock())
+            if (auto app = dynamic_cast<Desktop::Application *>(context))
             {
-                auto glfwWindow = avSystem->getGLFWWindow();
+                auto glfwWindow = app->getGLFWWindow();
                 auto glfwMonitor = glfwGetWindowMonitor(glfwWindow);
                 if (value && !glfwMonitor)
                 {

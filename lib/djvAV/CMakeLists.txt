@@ -10,6 +10,7 @@ find_package(PNG)
 set(header
     AV.h
     AVSystem.h
+    Application.h
     Audio.h
     AudioData.h
     AudioDataInline.h
@@ -49,6 +50,7 @@ set(header
     TriangleMesh.h)
 set(source
     AVSystem.cpp
+    Application.cpp
     Audio.cpp
     AudioData.cpp
     AudioSystem.cpp

@@ -53,8 +53,8 @@ namespace djv
         {
             GLFWwindow * glfwWindow = nullptr;
             glm::ivec2 resize = glm::ivec2(0, 0);
-            bool resizeRequest = false;
-            bool redrawRequest = false;
+            bool resizeRequest = true;
+            bool redrawRequest = true;
             std::shared_ptr<AV::OpenGL::OffscreenBuffer> offscreenBuffer;
         };
 
@@ -62,7 +62,9 @@ namespace djv
         {
             IWindowSystem::_init("djv::Desktop::WindowSystem", context);
 
-            _p->glfwWindow = glfwWindow;
+            DJV_PRIVATE_PTR();
+            p.glfwWindow = glfwWindow;
+            glfwGetFramebufferSize(glfwWindow, &p.resize.x, &p.resize.y);
             glfwSetFramebufferSizeCallback(glfwWindow, _resizeCallback);
             glfwSetWindowRefreshCallback(glfwWindow, _redrawCallback);
         }

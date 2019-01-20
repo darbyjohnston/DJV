@@ -31,6 +31,8 @@
 
 #include <djvCore/Context.h>
 
+struct GLFWwindow;
+
 namespace djv
 {
     namespace Desktop
@@ -40,13 +42,15 @@ namespace djv
             DJV_NON_COPYABLE(Application);
             
         protected:
-            void _init(int argc, char* argv[]);
+            void _init(int argc, char * argv[]);
             Application();
 
         public:
             virtual ~Application();
 
-            static std::unique_ptr<Application> create(int argc, char* argv[]);
+            static std::unique_ptr<Application> create(int argc, char * argv[]);
+
+            GLFWwindow * getGLFWWindow() const;
 
             int run();
             void exit();

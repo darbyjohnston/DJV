@@ -152,14 +152,14 @@ namespace djv
             class Style : public std::enable_shared_from_this<Style>
             {
                 DJV_NON_COPYABLE(Style);
-                void _init(Core::Context *);
+                void _init(int dpi, Core::Context *);
                 Style();
 
             public:
                 virtual ~Style();
 
                 //! Create a new style.
-                static std::shared_ptr<Style> create(Core::Context *);
+                static std::shared_ptr<Style> create(int dpi, Core::Context *);
 
                 //! \name Color Palette
                 ///@{
@@ -179,7 +179,6 @@ namespace djv
                 float getScale() const;
                 float getMetric(MetricsRole) const;
 
-                void setDPI(int);
                 void setMetrics(const Metrics &);
 
                 ///@}

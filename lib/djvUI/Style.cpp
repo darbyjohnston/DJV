@@ -29,8 +29,6 @@
 
 #include <djvUI/Style.h>
 
-#include <djvAV/AVSystem.h>
-
 #include <djvCore/Context.h>
 #include <djvCore/Math.h>
 #include <djvCore/Memory.h>
@@ -181,14 +179,11 @@ namespace djv
                 bool dirty = true;
             };
 
-            void Style::_init(Context * context)
+            void Style::_init(int dpi, Context * context)
             {
                 DJV_PRIVATE_PTR();
                 p.context = context;
-                if (auto avSystem = context->getSystemT<AV::AVSystem>().lock())
-                {
-                    p.dpi = avSystem->getDPI();
-                }
+                p.dpi = dpi;
                 _p->dirty = true;
             }
 
@@ -199,10 +194,10 @@ namespace djv
             Style::~Style()
             {}
 
-            std::shared_ptr<Style> Style::create(Context * context)
+            std::shared_ptr<Style> Style::create(int dpi, Context * context)
             {
                 auto out = std::shared_ptr<Style>(new Style);
-                out->_init(context);
+                out->_init(dpi, context);
                 return out;
             }
 
@@ -243,15 +238,6 @@ namespace djv
             float Style::getMetric(MetricsRole role) const
             {
                 return ceilf(_p->metrics.getMetric(role) * getScale());
-            }
-
-            void Style::setDPI(int value)
-            {
-                DJV_PRIVATE_PTR();
-                if (value == p.dpi)
-                    return;
-                p.dpi = value;
-                p.dirty = true;
             }
 
             void Style::setMetrics(const Metrics & value)

@@ -29,51 +29,31 @@
 
 #pragma once
 
-#include <djvCore/ISystem.h>
+#include <djvAV/AV.h>
+
+#include <djvCore/Context.h>
 
 namespace djv
 {
-    namespace UI
+    namespace AV
     {
-        namespace Settings
+        //! This class provides an AV application.
+        class Application : public Core::Context
         {
-            class General;
-            class Font;
-            class Style;
-
-        } // namespace Settings
-
-        namespace Style
-        {
-            class Style;
-
-        } // namespace Style
-
-        //! This class provides a UI system.
-        class UISystem : public Core::ISystem
-        {
-            DJV_NON_COPYABLE(UISystem);
+            DJV_NON_COPYABLE(Application);
 
         protected:
-            void _init(int dpi, Core::Context *);
-            UISystem();
+            void _init(int & argc, char * argv[]);
+            Application();
 
         public:
-            ~UISystem() override;
+            ~Application() override;
 
-            static std::shared_ptr<UISystem> create(int dpi, Core::Context *);
-
-            int getDPI() const;
-
-            const std::shared_ptr<Settings::General> getGeneralSettings() const;
-            const std::shared_ptr<Settings::Font> getFontSettings() const;
-            const std::shared_ptr<Settings::Style>& getStyleSettings() const;
-
-            const std::shared_ptr<Style::Style> getStyle() const;
+            static std::shared_ptr<Application> create(int & argc, char * argv[]);
 
         private:
             DJV_PRIVATE();
         };
 
-    } // namespace UI
+    } // namespace AV
 } // namespace djv

@@ -86,9 +86,10 @@ namespace djv
 
             if (auto uiSystem = context->getSystemT<UI::UISystem>().lock())
             {
+                const int dpi = uiSystem->getDPI();
                 p.metricsObserver = MapObserver<std::string, UI::Style::Metrics>::create(
                     uiSystem->getStyleSettings()->observeMetrics(),
-                    [weak, context](const std::map<std::string, UI::Style::Metrics> & value)
+                    [weak, dpi, context](const std::map<std::string, UI::Style::Metrics> & value)
                 {
                     if (auto widget = weak.lock())
                     {
@@ -106,7 +107,7 @@ namespace djv
                         int j = 0;
                         for (const auto & i : value)
                         {
-                            auto customStyle = UI::Style::Style::create(context);
+                            auto customStyle = UI::Style::Style::create(dpi, context);
                             customStyle->setMetrics(i.second);
                             widget->_p->customStyles.push_back(customStyle);
                             auto button = UI::Button::Radio::create(context);
@@ -164,7 +165,6 @@ namespace djv
                 {
                     i->setPalette(style->getPalette());
                     i->setFont(style->getFont());
-                    i->setDPI(style->getDPI());
                 }
             }
         }

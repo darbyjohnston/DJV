@@ -32,9 +32,6 @@
 #include <djvAV/AV.h>
 
 #include <djvCore/ISystem.h>
-#include <djvCore/ListObserver.h>
-
-struct GLFWwindow;
 
 namespace djv
 {
@@ -53,15 +50,6 @@ namespace djv
             ~AVSystem() override;
 
             static std::shared_ptr<AVSystem> create(Core::Context *);
-
-            //! Get the default GLFW window.
-            GLFWwindow * getGLFWWindow() const;
-
-            //! Make the default OpenGL context current.
-            void makeGLContextCurrent();
-
-            //! Get the primary monitor's DPI.
-            int getDPI() const;
 
         private:
             DJV_PRIVATE();

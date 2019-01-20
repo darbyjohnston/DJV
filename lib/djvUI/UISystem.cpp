@@ -50,6 +50,7 @@ namespace djv
     {
         struct UISystem::Private
         {
+            int dpi = AV::dpiDefault;
             std::vector<std::shared_ptr<ISystem> > systems;
             std::shared_ptr<Settings::General> generalSettings;
             std::shared_ptr<Settings::Font> fontSettings;
@@ -60,11 +61,13 @@ namespace djv
             std::shared_ptr<ValueObserver<std::string> > fontObserver;
         };
 
-        void UISystem::_init(Context * context)
+        void UISystem::_init(int dpi, Context * context)
         {
             ISystem::_init("djv::UI::UISystem", context);
 
             DJV_PRIVATE_PTR();
+            p.dpi = dpi;
+
             p.systems.push_back(AV::AVSystem::create(context));
             p.systems.push_back(Settings::System::create(context));
             
@@ -72,7 +75,7 @@ namespace djv
             p.fontSettings = Settings::Font::create(context);
             p.styleSettings = Settings::Style::create(context);
 
-            p.style = Style::Style::create(context);
+            p.style = Style::Style::create(dpi, context);
 
             p.systems.push_back(DialogSystem::create(context));
             p.systems.push_back(FileBrowser::DialogSystem::create(context));
@@ -122,11 +125,16 @@ namespace djv
             }
         }
 
-        std::shared_ptr<UISystem> UISystem::create(Context * context)
+        std::shared_ptr<UISystem> UISystem::create(int dpi, Context * context)
         {
             auto out = std::shared_ptr<UISystem>(new UISystem);
-            out->_init(context);
+            out->_init(dpi, context);
             return out;
+        }
+
+        int UISystem::getDPI() const
+        {
+            return _p->dpi;
         }
 
         const std::shared_ptr<Settings::General> UISystem::getGeneralSettings() const

@@ -27,42 +27,40 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvDesktop/Application.h>
+#include <djvAV/Application.h>
 
-#include <djvDesktop/EventSystem.h>
-#include <djvDesktop/WindowSystem.h>
+#include <djvAV/AVSystem.h>
+#include <djvAV/OpenGL.h>
 
-#include <djvUI/UISystem.h>
-#include <djvUI/Window.h>
-
-#include <djvCore/LogSystem.h>
+#include <djvCore/Context.h>
+#include <djvCore/Error.h>
 #include <djvCore/OS.h>
+#include <djvCore/LogSystem.h>
+#include <djvCore/String.h>
+#include <djvCore/Vector.h>
 
 #include <GLFW/glfw3.h>
-
-#include <chrono>
 
 using namespace djv::Core;
 
 using namespace gl;
 
+#undef GL_DEBUG_SEVERITY_HIGH
+#undef GL_DEBUG_SEVERITY_MEDIUM
+
 namespace djv
 {
-    namespace Desktop
+    namespace AV
     {
         namespace
         {
-            //! \todo [1.0 S] Should this be configurable?
-            const glm::ivec2 windowSize(1024, 768);
-            const size_t frameRate = 60;
-
             std::weak_ptr<LogSystem> logSystemWeak;
 
             void glfwErrorCallback(int error, const char * description)
             {
                 if (auto logSystem = logSystemWeak.lock())
                 {
-                    logSystem->log("djv::Desktop::Application", description);
+                    logSystem->log("djv::AV::Application", description);
                 }
             }
 
@@ -81,7 +79,7 @@ namespace djv
                 case gl::GL_DEBUG_SEVERITY_MEDIUM:
                     if (auto log = reinterpret_cast<const Context *>(userParam)->getSystemT<LogSystem>().lock())
                     {
-                        log->log("djv::Desktop::Application", message);
+                        log->log("djv::AV::Application", message);
                     }
                     break;
                 default: break;
@@ -92,17 +90,13 @@ namespace djv
 
         struct Application::Private
         {
-            bool running = false;
             GLFWwindow * glfwWindow = nullptr;
-            int dpi = AV::dpiDefault;
             std::vector<std::shared_ptr<ISystem> > systems;
         };
 
-        void Application::_init(int argc, char* argv[])
+        void Application::_init(int & argc, char * argv[])
         {
             Context::_init(argc, argv);
-
-            logSystemWeak = getSystemT<LogSystem>();
 
             DJV_PRIVATE_PTR();
 
@@ -115,51 +109,30 @@ namespace djv
             {
                 std::stringstream ss;
                 ss << "GLFW version: " << glfwMajor << "." << glfwMinor << "." << glfwRevision;
-                log("djv::Desktop::Application", ss.str());
+                log("djv::AV::Application", ss.str());
             }
             if (!glfwInit())
             {
                 std::stringstream ss;
-                ss << getText(DJV_TEXT("djv::Desktop", "Cannot initialize GLFW."));
+                ss << getText(DJV_TEXT("djv::AV", "Cannot initialize GLFW."));
                 throw std::runtime_error(ss.str());
             }
 
-            // Get the primary monitor information.
-            if (auto primaryMonitor = glfwGetPrimaryMonitor())
-            {
-                const GLFWvidmode * mode = glfwGetVideoMode(primaryMonitor);
-                glm::ivec2 mm;
-                glfwGetMonitorPhysicalSize(primaryMonitor, &mm.x, &mm.y);
-                glm::vec2 dpi;
-                if (mm.x > 0 && mm.y > 0)
-                {
-                    dpi.x = mode->width / (mm.x / 25.4f);
-                    dpi.y = mode->height / (mm.y / 25.4f);
-                }
-                {
-                    std::stringstream ss;
-                    ss << "Primary monitor resolution: " << mode->width << " " << mode->height << "\n";
-                    ss << "Primary monitor size: " << mm << "mm\n";
-                    ss << "Primary monitor DPI: " << dpi;
-                    log("djv::Desktop::Application", ss.str());
-                }
-                p.dpi = static_cast<int>(dpi.x);
-            }
-
-            // Create a window.
+            // Create an OpenGL context.
             glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
             glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 1);
             glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
             glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+            glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE);
             if (!OS::getEnv("DJV_OPENGL_DEBUG").empty())
             {
                 glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, GL_TRUE);
             }
-            p.glfwWindow = glfwCreateWindow(windowSize.x, windowSize.y, getName().c_str(), NULL, NULL);
+            p.glfwWindow = glfwCreateWindow(100, 100, getName().c_str(), NULL, NULL);
             if (!p.glfwWindow)
             {
                 std::stringstream ss;
-                ss << getText(DJV_TEXT("djv::Desktop", "Cannot create GLFW window."));
+                ss << getText(DJV_TEXT("djv::AV", "Cannot create GLFW window."));
                 throw std::runtime_error(ss.str());
             }
             {
@@ -168,7 +141,7 @@ namespace djv
                 int glRevision = glfwGetWindowAttrib(_p->glfwWindow, GLFW_CONTEXT_REVISION);
                 std::stringstream ss;
                 ss << "OpenGL version: " << glMajor << "." << glMinor << "." << glRevision;
-                log("djv::Desktop::Application", ss.str());
+                log("djv::AV::Application", ss.str());
             }
             glfwSetWindowUserPointer(p.glfwWindow, this);
             glfwMakeContextCurrent(p.glfwWindow);
@@ -189,17 +162,14 @@ namespace djv
                     GL_TRUE);
             }
 
-            p.systems.push_back(UI::UISystem::create(p.dpi, this));
-            p.systems.push_back(EventSystem::create(p.glfwWindow, this));
-            p.systems.push_back(WindowSystem::create(p.glfwWindow, this));
-
-            glfwShowWindow(p.glfwWindow);
+            // Create the systems.
+            _p->systems.push_back(AV::AVSystem::create(this));
         }
-        
+
         Application::Application() :
             _p(new Private)
         {}
-        
+
         Application::~Application()
         {
             DJV_PRIVATE_PTR();
@@ -216,47 +186,14 @@ namespace djv
             }
             glfwTerminate();
         }
-        
-        std::unique_ptr<Application> Application::create(int argc, char* argv[])
+
+        std::shared_ptr<Application> Application::create(int & argc, char * argv[])
         {
-            auto out = std::unique_ptr<Application>(new Application);
+            auto out = std::shared_ptr<Application>(new Application);
             out->_init(argc, argv);
-            return std::move(out);
+            return out;
         }
 
-        GLFWwindow* Application::getGLFWWindow() const
-        {
-            return _p->glfwWindow;
-        }
+    } // namespace AV
+} // namespace djv
 
-        int Application::run()
-        {
-            DJV_PRIVATE_PTR();
-            p.running = true;
-            auto time = std::chrono::system_clock::now();
-            while (p.running && p.glfwWindow && !glfwWindowShouldClose(p.glfwWindow))
-            {
-                auto now = std::chrono::system_clock::now();
-                std::chrono::duration<float> delta = now - time;
-                time = now;
-                float dt = delta.count();
-
-                tick(dt);
-                glfwPollEvents();
-
-                now = std::chrono::system_clock::now();
-                delta = now - time;
-                dt = delta.count();
-                const float sleep = 1 / static_cast<float>(frameRate) - dt;
-                std::this_thread::sleep_for(std::chrono::milliseconds(static_cast<int>(sleep * 1000)));
-            }
-            return 0;
-        }
-
-        void Application::exit()
-        {
-            _p->running = false;
-        }
-
-    } // namespace Desktop
-} // namespace Gp
