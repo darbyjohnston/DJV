@@ -64,7 +64,7 @@ namespace djv
 
             static std::shared_ptr<WindowSystem> create(GLFWwindow *, Core::Context *);
 
-            void tick(float dt);
+            void tick(float dt) override;
 
         protected:
             void _addWindow(const std::shared_ptr<UI::Window>&) override;

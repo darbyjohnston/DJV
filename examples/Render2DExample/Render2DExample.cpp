@@ -137,10 +137,10 @@ int Application::run()
         const std::chrono::duration<float> delta = now - time;
         time = now;
         const float dt = delta.count();
-        std::cout << "FPS: " << (dt > 0.f ? 1.f / dt : 0.f) << std::endl;
+        //std::cout << "FPS: " << (dt > 0.f ? 1.f / dt : 0.f) << std::endl;
 
-        tick(dt);
         glfwPollEvents();
+        tick(dt);
         _render();
         glfwSwapBuffers(glfwWindow);
     }

@@ -241,8 +241,8 @@ namespace djv
                 time = now;
                 float dt = delta.count();
 
-                tick(dt);
                 glfwPollEvents();
+                tick(dt);
 
                 now = std::chrono::system_clock::now();
                 delta = now - time;
