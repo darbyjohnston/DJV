@@ -63,8 +63,10 @@ namespace djv
                 p.childLayout = Layout::Stack::create(context);
 
                 p.layout = Layout::Vertical::create(context);
+                p.layout->setSpacing(Style::MetricsRole::None);
                 p.layout->addWidget(p.label);
                 p.layout->addSeparator();
+                p.layout->addSpacer();
                 p.layout->addWidget(p.childLayout, Layout::RowStretch::Expand);
                 IContainer::addWidget(p.layout);
             }

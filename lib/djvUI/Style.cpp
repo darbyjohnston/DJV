@@ -138,7 +138,7 @@ namespace djv
                 p.metrics[MetricsRole::MarginDialog]         =  50.f;
                 p.metrics[MetricsRole::Spacing]              =  10.f;
                 p.metrics[MetricsRole::SpacingSmall]         =   5.f;
-                p.metrics[MetricsRole::SpacingLarge]         =  15.f;
+                p.metrics[MetricsRole::SpacingLarge]         =  30.f;
                 p.metrics[MetricsRole::Drag]                 =  20.f;
                 p.metrics[MetricsRole::Icon]                 =  24.f;
                 p.metrics[MetricsRole::IconLarge]            = 100.f;
