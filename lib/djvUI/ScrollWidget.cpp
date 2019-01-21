@@ -413,8 +413,8 @@ namespace djv
             {
                 const BBox2f& g = getGeometry();
                 const glm::vec2 tmp(
-                    Math::clamp(value.x, 0.f, _contentsSize.x - g.w()),
-                    Math::clamp(value.y, 0.f, _contentsSize.y - g.h()));
+                    floorf(Math::clamp(value.x, 0.f, _contentsSize.x - g.w())),
+                    floorf(Math::clamp(value.y, 0.f, _contentsSize.y - g.h())));
                 if (tmp == _scrollPos)
                     return false;
                 _scrollPos = tmp;

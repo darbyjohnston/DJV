@@ -358,7 +358,7 @@ namespace djv
                                                 y = floor(i->second.min.y + m + th - size.y);
                                                 break;
                                             case ViewType::ListView:
-                                                x = i->second.min.x + m;
+                                                x = floor(i->second.min.x + m);
                                                 y = floor(i->second.min.y + i->second.h() / 2.f - size.y / 2.f);
                                                 break;
                                             default: break;
@@ -387,7 +387,7 @@ namespace djv
                                                 y = floor(i->second.min.y + m + th - size.y);
                                                 break;
                                             case ViewType::ListView:
-                                                x = i->second.min.x + m;
+                                                x = floor(i->second.min.x + m);
                                                 y = floor(i->second.min.y + i->second.h() / 2.f - size.y / 2.f);
                                                 break;
                                             default: break;
@@ -418,7 +418,11 @@ namespace djv
                                                 auto k = j->second.begin();
                                                 for (; k != j->second.end() && line < 2; ++k, ++line)
                                                 {
-                                                    render->drawText(k->text, glm::vec2(floorf(x + tw / 2.f - k->size.x / 2.f), y + p.nameFontMetrics.ascender));
+                                                    render->drawText(
+                                                        k->text,
+                                                        glm::vec2(
+                                                            floorf(x + tw / 2.f - k->size.x / 2.f),
+                                                            floorf(y + p.nameFontMetrics.ascender)));
                                                     y += p.nameFontMetrics.lineHeight;
                                                 }
                                             }
@@ -428,7 +432,11 @@ namespace djv
                                         {
                                             float x = i->second.min.x + m + tw + s;
                                             float y = i->second.min.y + i->second.h() / 2.f - p.nameFontMetrics.lineHeight / 2.f;
-                                            render->drawText(item->getFileName(Frame::Invalid, false), glm::vec2(x, y + p.nameFontMetrics.ascender));
+                                            render->drawText(
+                                                item->getFileName(Frame::Invalid, false),
+                                                glm::vec2(
+                                                    floorf(x),
+                                                    floorf(y + p.nameFontMetrics.ascender)));
                                             break;
                                         }
                                         default: break;
