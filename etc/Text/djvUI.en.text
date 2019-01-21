@@ -336,7 +336,7 @@
         "description": ""
     }, 
     {
-        "text": "Up Tooltip", 
+        "text": "Go up a directory.", 
         "nameSpace": "djv::UI::FileBrowser", 
         "id": "UpTooltip", 
         "description": ""

@@ -29,72 +29,49 @@
 
 #pragma once
 
-#include <djvAV/Pixel.h>
+#include <djvViewLib/Enum.h>
 
-#include <djvCore/ISystem.h>
-#include <djvCore/Vector.h>
-
-#include <future>
+#include <djvCore/ListObserver.h>
+#include <djvCore/ValueObserver.h>
 
 namespace djv
 {
     namespace Core
     {
-        namespace FileSystem
-        {
-            class Path;
-
-        } // namespace FileSystem
+        class Context;
+    
     } // namespace Core
 
-    namespace AV
+    namespace ViewLib
     {
-        namespace IO
-        {
-            struct Info;
+        class Media;
 
-        } // namespace IO
-
-        namespace Image
+        class Workspace : public std::enable_shared_from_this<Workspace>
         {
-            struct Info;
-            class Convert;
-            class Image;
-            
-        } // namespace Image
-        
-        //! This class provides a system for generating thumbnail images from files.
-        //!
-        //! \todo Add support for canceling requests (e.g., for the file browser).
-        class ThumbnailSystem : public Core::ISystem
-        {
-            DJV_NON_COPYABLE(ThumbnailSystem);
+            DJV_NON_COPYABLE(Workspace);
 
         protected:
             void _init(Core::Context *);
-            ThumbnailSystem();
+            Workspace();
 
         public:
-            virtual ~ThumbnailSystem();
+            ~Workspace();
 
-            static std::shared_ptr<ThumbnailSystem> create(Core::Context *);
+            static std::shared_ptr<Workspace> create(Core::Context *);
 
-            //! Get information about a file.
-            std::future<IO::Info> getInfo(const Core::FileSystem::Path&);
+            std::shared_ptr<Core::IValueSubject<std::string> > observeWorkspaceName() const;
+            std::shared_ptr<Core::IListSubject<std::shared_ptr<Media> > > observeMedia() const;
+            std::shared_ptr<Core::IValueSubject<std::shared_ptr<Media> > > observeMediaOpened() const;
+            std::shared_ptr<Core::IValueSubject<std::shared_ptr<Media> > > observeMediaClosed() const;
 
-            //! Get a thumbnail for the given file. If either the width or height is set to zero
-            //! the image will be resized maintaining it's aspect ratio.
-            std::future<std::shared_ptr<Image::Image> > getImage(
-                const Core::FileSystem::Path& path,
-                const glm::ivec2&             size,
-                Image::Type                   type = Image::Type::None);
+            void setWorkspaceName(const std::string &);
+            void openMedia(const std::string &);
+            void closeMedia(const std::shared_ptr<Media> &);
 
         private:
-            void _handleInfoRequests();
-            void _handleImageRequests(const std::shared_ptr<Image::Convert> &);
-
             DJV_PRIVATE();
         };
 
-    } // namespace AV
+    } // namespace ViewLib
 } // namespace djv
+

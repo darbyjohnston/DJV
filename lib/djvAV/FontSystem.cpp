@@ -83,11 +83,11 @@ namespace djv
                     std::promise<glm::vec2> promise;
                 };
 
-                struct BreakLinesRequest
+                struct TextLinesRequest
                 {
-                    BreakLinesRequest() {}
-                    BreakLinesRequest(BreakLinesRequest&&) = default;
-                    BreakLinesRequest& operator = (BreakLinesRequest&&) = default;
+                    TextLinesRequest() {}
+                    TextLinesRequest(TextLinesRequest&&) = default;
+                    TextLinesRequest& operator = (TextLinesRequest&&) = default;
 
                     std::string text;
                     Info info;
@@ -224,13 +224,13 @@ namespace djv
 
                 std::vector<MetricsRequest> metricsQueue;
                 std::vector<MeasureRequest> measureQueue;
-                std::vector<BreakLinesRequest> breakLinesQueue;
+                std::vector<TextLinesRequest> textLinesQueue;
                 std::vector<GlyphsRequest> glyphsQueue;
                 std::condition_variable requestCV;
                 std::mutex requestMutex;
                 std::vector<MetricsRequest> metricsRequests;
                 std::vector<MeasureRequest> measureRequests;
-                std::vector<BreakLinesRequest> breakLinesRequests;
+                std::vector<TextLinesRequest> textLinesRequests;
                 std::vector<GlyphsRequest> glyphsRequests;
 
                 std::wstring_convert<std::codecvt_utf8<djv_char_t>, djv_char_t> utf32;
@@ -293,12 +293,12 @@ namespace djv
                                 return
                                     p.metricsQueue.size() ||
                                     p.measureQueue.size() ||
-                                    p.breakLinesQueue.size() ||
+                                    p.textLinesQueue.size() ||
                                     p.glyphsQueue.size();
                             });
                             p.metricsRequests = std::move(p.metricsQueue);
                             p.measureRequests = std::move(p.measureQueue);
-                            p.breakLinesRequests = std::move(p.breakLinesQueue);
+                            p.textLinesRequests = std::move(p.textLinesQueue);
                             p.glyphsRequests = std::move(p.glyphsQueue);
                         }
                         if (p.metricsRequests.size())
@@ -309,9 +309,9 @@ namespace djv
                         {
                             _handleMeasureRequests();
                         }
-                        if (p.breakLinesRequests.size())
+                        if (p.textLinesRequests.size())
                         {
-                            _handleBreakLinesRequests();
+                            _handleTextLinesRequests();
                         }
                         if (p.glyphsRequests.size())
                         {
@@ -394,17 +394,17 @@ namespace djv
                 return future;
             }
 
-            std::future<std::vector<TextLine> > System::breakLines(const std::string& text, float maxLineWidth, const Info& info)
+            std::future<std::vector<TextLine> > System::textLines(const std::string& text, float maxLineWidth, const Info& info)
             {
                 DJV_PRIVATE_PTR();
-                BreakLinesRequest request;
+                TextLinesRequest request;
                 request.text         = text;
                 request.info         = info;
                 request.maxLineWidth = maxLineWidth;
                 auto future = request.promise.get_future();
                 {
                     std::unique_lock<std::mutex> lock(p.requestMutex);
-                    p.breakLinesQueue.push_back(std::move(request));
+                    p.textLinesQueue.push_back(std::move(request));
                 }
                 p.requestCV.notify_one();
                 return future;
@@ -548,8 +548,8 @@ namespace djv
                             const auto utf32Begin = utf32.begin();
                             glm::vec2 size = glm::vec2(0.f, 0.f);
                             glm::vec2 pos = glm::vec2(0.f, font->second->size->metrics.height / 64.f);
-                            auto breakLine = utf32.end();
-                            float breakLineX = 0.f;
+                            auto textLine = utf32.end();
+                            float textLineX = 0.f;
                             const auto glyphSizes = p.getGlyphSizes(utf32, request.info, font->second);
                             for (auto i = utf32.begin(); i != utf32.end(); ++i)
                             {
@@ -562,11 +562,11 @@ namespace djv
                                 }
                                 else if (pos.x > 0.f && pos.x + (!isSpace(*i) ? glyphSize.x : 0) >= request.maxLineWidth)
                                 {
-                                    if (breakLine != utf32.end())
+                                    if (textLine != utf32.end())
                                     {
-                                        i = breakLine;
-                                        breakLine = utf32.end();
-                                        size.x = std::max(size.x, breakLineX);
+                                        i = textLine;
+                                        textLine = utf32.end();
+                                        size.x = std::max(size.x, textLineX);
                                         pos.x = 0.f;
                                         pos.y += font->second->size->metrics.height / 64.f;
                                     }
@@ -581,8 +581,8 @@ namespace djv
                                 {
                                     if (isSpace(*i) && i != utf32.begin())
                                     {
-                                        breakLine = i;
-                                        breakLineX = pos.x;
+                                        textLine = i;
+                                        textLineX = pos.x;
                                     }
                                     pos.x += glyphSize.x;
                                 }
@@ -596,10 +596,10 @@ namespace djv
                 p.measureRequests.clear();
             }
 
-            void System::_handleBreakLinesRequests()
+            void System::_handleTextLinesRequests()
             {
                 DJV_PRIVATE_PTR();
-                for (auto& request : p.breakLinesRequests)
+                for (auto& request : p.textLinesRequests)
                 {
                     const auto family = p.fontFaces.find(request.info.family);
                     if (family != p.fontFaces.end())
@@ -622,8 +622,8 @@ namespace djv
                             std::vector<TextLine> lines;
                             glm::vec2 pos = glm::vec2(0.f, font->second->size->metrics.height / 64.f);
                             auto lineBegin = utf32Begin;
-                            auto breakLine = utf32.end();
-                            float breakLineX = 0.f;
+                            auto textLine = utf32.end();
+                            float textLineX = 0.f;
                             const auto glyphSizes = p.getGlyphSizes(utf32, request.info, font->second);
                             auto i = utf32.begin();
                             for (; i != utf32.end(); ++i)
@@ -640,13 +640,13 @@ namespace djv
                                 }
                                 else if (pos.x > 0.f && pos.x + (!isSpace(*i) ? glyphSize.x : 0) >= request.maxLineWidth)
                                 {
-                                    if (breakLine != utf32.end())
+                                    if (textLine != utf32.end())
                                     {
-                                        i = breakLine;
-                                        breakLine = utf32.end();
+                                        i = textLine;
+                                        textLine = utf32.end();
                                         lines.push_back(TextLine(
                                             p.utf32.to_bytes(utf32.substr(lineBegin - utf32.begin(), i - lineBegin)),
-                                            glm::vec2(breakLineX, font->second->size->metrics.height / 64.f)));
+                                            glm::vec2(textLineX, font->second->size->metrics.height / 64.f)));
                                         pos.x = 0.f;
                                         pos.y += font->second->size->metrics.height / 64.f;
                                         lineBegin = i + 1;
@@ -665,8 +665,8 @@ namespace djv
                                 {
                                     if (isSpace(*i) && i != utf32.begin())
                                     {
-                                        breakLine = i;
-                                        breakLineX = pos.x;
+                                        textLine = i;
+                                        textLineX = pos.x;
                                     }
                                     pos.x += glyphSize.x;
                                 }
@@ -681,7 +681,7 @@ namespace djv
                         }
                     }
                 }
-                p.breakLinesRequests.clear();
+                p.textLinesRequests.clear();
             }
 
             void System::_handleGlyphsRequests()

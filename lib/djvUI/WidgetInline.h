@@ -119,11 +119,6 @@ namespace djv
             return _actions;
         }
 
-        inline const std::weak_ptr<AV::Image::IconSystem>& Widget::_getIconSystem() const
-        {
-            return _iconSystem;
-        }
-
         inline const std::weak_ptr<AV::Font::System>& Widget::_getFontSystem() const
         {
             return _fontSystem;
@@ -132,6 +127,11 @@ namespace djv
         inline const std::weak_ptr<AV::Render::Render2D>& Widget::_getRender() const
         {
             return _render;
+        }
+
+        inline const std::weak_ptr<IconSystem>& Widget::_getIconSystem() const
+        {
+            return _iconSystem;
         }
 
         inline const std::weak_ptr<Style::Style>& Widget::_getStyle() const

@@ -27,73 +27,81 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvAV/AVSystem.h>
+#include <djvViewLib/Workspace.h>
 
-#include <djvAV/AudioSystem.h>
-#include <djvAV/FontSystem.h>
-#include <djvAV/IO.h>
-#include <djvAV/OpenGL.h>
-#include <djvAV/Render2D.h>
-#include <djvAV/ThumbnailSystem.h>
+#include <djvViewLib/Media.h>
 
 #include <djvCore/Context.h>
-#include <djvCore/Error.h>
-#include <djvCore/LogSystem.h>
-#include <djvCore/OS.h>
-
-#include <GLFW/glfw3.h>
 
 using namespace djv::Core;
 
-using namespace gl;
-
-#undef GL_DEBUG_SEVERITY_HIGH
-#undef GL_DEBUG_SEVERITY_MEDIUM
-
 namespace djv
 {
-    namespace AV
+    namespace ViewLib
     {
-        struct AVSystem::Private
+        struct Workspace::Private
         {
-            std::vector<std::shared_ptr<ISystem> > systems;
+            Context * context = nullptr;
+            std::shared_ptr<ValueSubject<std::string> > workspaceName;
+            std::shared_ptr<ListSubject<std::shared_ptr<Media> > > media;
+            std::shared_ptr<ValueSubject<std::shared_ptr<Media> > > mediaOpened;
+            std::shared_ptr<ValueSubject<std::shared_ptr<Media> > > mediaClosed;
         };
 
-        void AVSystem::_init(Context * context)
+        void Workspace::_init(Context * context)
         {
-            ISystem::_init("djv::AV::AVSystem", context);
-
-            // Create the systems.
             DJV_PRIVATE_PTR();
-            p.systems.push_back(IO::System::create(context));
-            p.systems.push_back(Audio::System::create(context));
-            p.systems.push_back(Font::System::create(context));
-            p.systems.push_back(ThumbnailSystem::create(context));
-            p.systems.push_back(Render::Render2D::create(context));
+            p.context = context;
+            p.workspaceName = ValueSubject<std::string>::create();
+            p.media = ListSubject<std::shared_ptr<Media> >::create();
         }
 
-        AVSystem::AVSystem() :
+        Workspace::Workspace() :
             _p(new Private)
         {}
 
-        AVSystem::~AVSystem()
-        {
-            DJV_PRIVATE_PTR();
-            while (p.systems.size())
-            {
-                auto system = p.systems.back();
-                system->setParent(nullptr);
-                p.systems.pop_back();
-            }
-        }
+        Workspace::~Workspace()
+        {}
 
-        std::shared_ptr<AVSystem> AVSystem::create(Context * context)
+        std::shared_ptr<Workspace> Workspace::create(Context * context)
         {
-            auto out = std::shared_ptr<AVSystem>(new AVSystem);
+            auto out = std::shared_ptr<Workspace>(new Workspace);
             out->_init(context);
             return out;
         }
 
-    } // namespace AV
+        std::shared_ptr<Core::IValueSubject<std::string> > Workspace::observeWorkspaceName() const
+        {
+            return _p->workspaceName;
+        }
+
+        std::shared_ptr<Core::IListSubject<std::shared_ptr<Media> > > Workspace::observeMedia() const
+        {
+            return _p->media;
+        }
+
+        void Workspace::setWorkspaceName(const std::string & value)
+        {
+            _p->workspaceName->setIfChanged(value);
+        }
+
+        void Workspace::openMedia(const std::string & fileName)
+        {
+            auto media = Media::create(fileName, _p->context);
+            _p->media->pushBack(media);
+            _p->mediaOpened->setAlways(media);
+        }
+
+        void Workspace::closeMedia(const std::shared_ptr<Media> & media)
+        {
+            const size_t index = _p->media->indexOf(media);
+            if (index != invalidListIndex)
+            {
+                _p->media->removeItem(index);
+                _p->mediaClosed->setAlways(media);
+            }
+        }
+
+    } // namespace ViewLib
 } // namespace djv
 

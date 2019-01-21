@@ -123,5 +123,12 @@ namespace djv
         DJV_TEXT("djv::UI", "Toggle"),
         DJV_TEXT("djv::UI", "Radio"));
 
+    DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
+        UI,
+        ViewType,
+        DJV_TEXT("djv::UI::FileBrowser", "ThumbnailsLarge"),
+        DJV_TEXT("djv::UI::FileBrowser", "ThumbnailsSmall"),
+        DJV_TEXT("djv::UI::FileBrowser", "ListView"));
+
 } // namespace djv
 

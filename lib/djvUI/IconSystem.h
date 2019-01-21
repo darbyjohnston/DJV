@@ -29,72 +29,47 @@
 
 #pragma once
 
-#include <djvAV/Pixel.h>
+#include <djvUI/Style.h>
 
 #include <djvCore/ISystem.h>
-#include <djvCore/Vector.h>
 
 #include <future>
 
 namespace djv
 {
-    namespace Core
-    {
-        namespace FileSystem
-        {
-            class Path;
-
-        } // namespace FileSystem
-    } // namespace Core
-
     namespace AV
     {
-        namespace IO
-        {
-            struct Info;
-
-        } // namespace IO
-
         namespace Image
         {
-            struct Info;
-            class Convert;
             class Image;
-            
+
         } // namespace Image
-        
-        //! This class provides a system for generating thumbnail images from files.
-        //!
-        //! \todo Add support for canceling requests (e.g., for the file browser).
-        class ThumbnailSystem : public Core::ISystem
+    } // namespace AV
+
+    namespace UI
+    {
+        //! This class provides an icon system.
+        class IconSystem : public Core::ISystem
         {
-            DJV_NON_COPYABLE(ThumbnailSystem);
+            DJV_NON_COPYABLE(IconSystem);
 
         protected:
             void _init(Core::Context *);
-            ThumbnailSystem();
+            IconSystem();
 
         public:
-            virtual ~ThumbnailSystem();
+            virtual ~IconSystem();
 
-            static std::shared_ptr<ThumbnailSystem> create(Core::Context *);
-
-            //! Get information about a file.
-            std::future<IO::Info> getInfo(const Core::FileSystem::Path&);
-
-            //! Get a thumbnail for the given file. If either the width or height is set to zero
-            //! the image will be resized maintaining it's aspect ratio.
-            std::future<std::shared_ptr<Image::Image> > getImage(
-                const Core::FileSystem::Path& path,
-                const glm::ivec2&             size,
-                Image::Type                   type = Image::Type::None);
+            static std::shared_ptr<IconSystem> create(Core::Context *);
+                
+            //! Get an icon.
+            std::future<std::shared_ptr<AV::Image::Image> > getIcon(const std::string &, int size);
 
         private:
-            void _handleInfoRequests();
-            void _handleImageRequests(const std::shared_ptr<Image::Convert> &);
+            void _handleImageRequests();
 
             DJV_PRIVATE();
         };
 
-    } // namespace AV
+    } // namespace UI
 } // namespace djv

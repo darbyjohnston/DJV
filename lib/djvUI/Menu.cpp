@@ -30,19 +30,12 @@
 #include <djvUI/Menu.h>
 
 #include <djvUI/Action.h>
-#include <djvUI/Border.h>
-#include <djvUI/IButton.h>
-#include <djvUI/Icon.h>
-#include <djvUI/Label.h>
+#include <djvUI/IconSystem.h>
 #include <djvUI/Overlay.h>
-#include <djvUI/RowLayout.h>
 #include <djvUI/ScrollWidget.h>
-#include <djvUI/Separator.h>
 #include <djvUI/Shortcut.h>
-#include <djvUI/StackLayout.h>
 #include <djvUI/Window.h>
 
-#include <djvAV/IconSystem.h>
 #include <djvAV/Image.h>
 #include <djvAV/Render2D.h>
 
@@ -516,9 +509,8 @@ namespace djv
             {
                 auto style = _getStyle().lock();
                 auto fontSystem = _getFontSystem().lock();
-                auto iconSystem = _getIconSystem().lock();
                 auto textSystem = _getTextSystem().lock();
-                if (style && fontSystem && iconSystem && textSystem)
+                if (style && fontSystem && textSystem)
                 {
                     const auto fontInfo = style->getFontInfo(AV::Font::Info::faceDefault, Style::MetricsRole::FontMedium);
                     _fontMetricsFuture = fontSystem->getMetrics(fontInfo);
@@ -632,8 +624,8 @@ namespace djv
             void MenuWidget::_iconUpdate()
             {
                 _iconUpdateRequest = false;
-                auto style = _getStyle().lock();
                 auto iconSystem = _getIconSystem().lock();
+                auto style = _getStyle().lock();
                 if (style && iconSystem)
                 {
                     _hasIcons = false;
@@ -642,7 +634,9 @@ namespace djv
                         if (!i.second->iconName.empty())
                         {
                             _hasIcons = true;
-                            _iconFutures[i.second] = iconSystem->getImage(i.second->iconName, static_cast<int>(style->getMetric(Style::MetricsRole::Icon)));
+                            _iconFutures[i.second] = iconSystem->getIcon(
+                                i.second->iconName,
+                                static_cast<int>(style->getMetric(Style::MetricsRole::Icon)));
                         }
                     }
                 }

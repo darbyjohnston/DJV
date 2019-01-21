@@ -52,12 +52,6 @@ namespace djv
 
         } // namespace Font
 
-        namespace Image
-        {
-            class IconSystem;
-
-        } // namespace Image
-
         namespace Render
         {
             class Render2D;
@@ -70,6 +64,7 @@ namespace djv
     {
         class Action;
         class IWindowSystem;
+        class IconSystem;
         class Tooltip;
         class UISystem;
         class Window;
@@ -208,9 +203,9 @@ namespace djv
             //! \name Convenience Functions
             ///@{
 
-            inline const std::weak_ptr<AV::Image::IconSystem>& _getIconSystem() const;
             inline const std::weak_ptr<AV::Font::System>& _getFontSystem() const;
             inline const std::weak_ptr<AV::Render::Render2D>& _getRender() const;
+            inline const std::weak_ptr<IconSystem>& _getIconSystem() const;
             inline const std::weak_ptr<Style::Style>& _getStyle() const;
 
             AV::Image::Color _getColorWithOpacity(const AV::Image::Color &) const;
@@ -234,6 +229,9 @@ namespace djv
             inline float _getUpdateTime() const;
             inline float _getElapsedTime() const;
             inline const std::map<Core::Event::PointerID, glm::vec2> _getPointerHover() const;
+
+            std::shared_ptr<Widget> _createTooltipDefault(const std::string &);
+            virtual std::shared_ptr<Widget> _createTooltip(const glm::vec2 & pos);
 
         private:
             bool _styleInit = false;
@@ -264,10 +262,10 @@ namespace djv
             std::map<Core::Event::PointerID, TooltipData> _pointerToTooltips;
             static bool _resizeRequest;
             static bool _redrawRequest;
-            static std::weak_ptr<AV::Image::IconSystem> _iconSystem;
             static std::weak_ptr<AV::Font::System> _fontSystem;
             static std::weak_ptr<AV::Render::Render2D> _render;
             static std::weak_ptr<UISystem> _uiSystem;
+            static std::weak_ptr<IconSystem> _iconSystem;
             std::weak_ptr<Style::Style> _style;
             std::shared_ptr<Style::Style> _customStyle;
 

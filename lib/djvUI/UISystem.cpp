@@ -32,7 +32,9 @@
 #include <djvUI/DialogSystem.h>
 #include <djvUI/GeneralSettings.h>
 #include <djvUI/FileBrowser.h>
+#include <djvUI/FileBrowserSettings.h>
 #include <djvUI/FontSettings.h>
+#include <djvUI/IconSystem.h>
 #include <djvUI/SettingsSystem.h>
 #include <djvUI/Style.h>
 #include <djvUI/StyleSettings.h>
@@ -40,6 +42,7 @@
 #include <djvAV/AVSystem.h>
 
 #include <djvCore/Context.h>
+#include <djvCore/FileInfo.h>
 #include <djvCore/TextSystem.h>
 
 using namespace djv::Core;
@@ -55,6 +58,7 @@ namespace djv
             std::shared_ptr<Settings::General> generalSettings;
             std::shared_ptr<Settings::Font> fontSettings;
             std::shared_ptr<Settings::Style> styleSettings;
+            std::shared_ptr<Settings::FileBrowser> fileBrowserSettings;
             std::shared_ptr<Style::Style> style;
             std::shared_ptr<ValueObserver<UI::Style::Palette> > paletteObserver;
             std::shared_ptr<ValueObserver<UI::Style::Metrics> > metricsObserver;
@@ -69,14 +73,16 @@ namespace djv
             p.dpi = dpi;
 
             p.systems.push_back(AV::AVSystem::create(context));
+
             p.systems.push_back(Settings::System::create(context));
-            
             p.generalSettings = Settings::General::create(context);
             p.fontSettings = Settings::Font::create(context);
             p.styleSettings = Settings::Style::create(context);
+            p.fileBrowserSettings = Settings::FileBrowser::create(context);
 
             p.style = Style::Style::create(dpi, context);
-
+            
+            p.systems.push_back(IconSystem::create(context));
             p.systems.push_back(DialogSystem::create(context));
             p.systems.push_back(FileBrowser::DialogSystem::create(context));
 
@@ -137,22 +143,27 @@ namespace djv
             return _p->dpi;
         }
 
-        const std::shared_ptr<Settings::General> UISystem::getGeneralSettings() const
+        const std::shared_ptr<Settings::General> & UISystem::getGeneralSettings() const
         {
             return _p->generalSettings;
         }
 
-        const std::shared_ptr<Settings::Font> UISystem::getFontSettings() const
+        const std::shared_ptr<Settings::Font> & UISystem::getFontSettings() const
         {
             return _p->fontSettings;
         }
 
-        const std::shared_ptr<Settings::Style>& UISystem::getStyleSettings() const
+        const std::shared_ptr<Settings::Style> & UISystem::getStyleSettings() const
         {
             return _p->styleSettings;
         }
 
-        const std::shared_ptr<Style::Style> UISystem::getStyle() const
+        const std::shared_ptr<Settings::FileBrowser> & UISystem::getFileBrowserSettings() const
+        {
+            return _p->fileBrowserSettings;
+        }
+
+        const std::shared_ptr<Style::Style> & UISystem::getStyle() const
         {
             return _p->style;
         }

@@ -22,7 +22,7 @@ set(header
     MDIWidget.h
     MainWindow.h
     Media.h
-    MediaSession.h
+    MediaWidget.h
     PlaybackSystem.h
     PlaybackToolWidget.h
     PlaybackWidget.h
@@ -31,7 +31,7 @@ set(header
     ToolSystem.h
     ViewLib.h
     WindowSystem.h
-    )
+    Workspace.h)
 set(source
     Application.cpp
     PaletteSettingsWidget.cpp
@@ -55,14 +55,15 @@ set(source
     MDIWidget.cpp
     MainWindow.cpp
     Media.cpp
-    MediaSession.cpp
+    MediaWidget.cpp
     PlaybackSystem.cpp
     PlaybackToolWidget.cpp
     PlaybackWidget.cpp
     SettingsSystem.cpp
     TimelineSlider.cpp
     ToolSystem.cpp
-    WindowSystem.cpp)
+    WindowSystem.cpp
+    Workspace.cpp)
 
 add_library(djvViewLib ${header} ${source})
 target_link_libraries(djvViewLib djvDesktop)

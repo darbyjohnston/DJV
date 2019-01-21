@@ -29,6 +29,10 @@
 
 #include <djvUI/Style.h>
 
+#include <djvAV/AVSystem.h>
+#include <djvAV/IO.h>
+#include <djvAV/ThumbnailSystem.h>
+
 #include <djvCore/Context.h>
 #include <djvCore/Math.h>
 #include <djvCore/Memory.h>
@@ -126,31 +130,33 @@ namespace djv
                 _p(new Private)
             {
                 DJV_PRIVATE_PTR();
-                p.metrics[MetricsRole::None]           =   0.f;
-                p.metrics[MetricsRole::Border]         =   1.f;
-                p.metrics[MetricsRole::Margin]         =  10.f;
-                p.metrics[MetricsRole::MarginSmall]    =   5.f;
-                p.metrics[MetricsRole::MarginLarge]    =  20.f;
-                p.metrics[MetricsRole::MarginDialog]   =  30.f;
-                p.metrics[MetricsRole::Spacing]        =  10.f;
-                p.metrics[MetricsRole::SpacingSmall]   =   5.f;
-                p.metrics[MetricsRole::SpacingLarge]   =  20.f;
-                p.metrics[MetricsRole::Drag]           =  20.f;
-                p.metrics[MetricsRole::Icon]           =  24.f;
-                p.metrics[MetricsRole::IconLarge]      = 100.f;
-                p.metrics[MetricsRole::FontSmall]      =   6.f;
-                p.metrics[MetricsRole::FontMedium]     =   9.f;
-                p.metrics[MetricsRole::FontLarge]      =  14.f;
-                p.metrics[MetricsRole::FontHeader]     =  18.f;
-                p.metrics[MetricsRole::Swatch]         =  40.f;
-                p.metrics[MetricsRole::ThumbnailSmall] = 100.f;
-                p.metrics[MetricsRole::ThumbnailLarge] = 200.f;
-                p.metrics[MetricsRole::Shadow]         =   5.f;
-                p.metrics[MetricsRole::ScrollArea]     = 200.f;
-                p.metrics[MetricsRole::TextColumn]     = 200.f;
-                p.metrics[MetricsRole::Dialog]         = 400.f;
-                p.metrics[MetricsRole::TooltipOffset]  =  10.f;
-                p.metrics[MetricsRole::Handle]         =  15.f;
+                p.metrics[MetricsRole::None]                 =   0.f;
+                p.metrics[MetricsRole::Border]               =   1.f;
+                p.metrics[MetricsRole::Margin]               =  10.f;
+                p.metrics[MetricsRole::MarginSmall]          =   5.f;
+                p.metrics[MetricsRole::MarginLarge]          =  20.f;
+                p.metrics[MetricsRole::MarginDialog]         =  30.f;
+                p.metrics[MetricsRole::Spacing]              =  10.f;
+                p.metrics[MetricsRole::SpacingSmall]         =   5.f;
+                p.metrics[MetricsRole::SpacingLarge]         =  20.f;
+                p.metrics[MetricsRole::Drag]                 =  20.f;
+                p.metrics[MetricsRole::Icon]                 =  24.f;
+                p.metrics[MetricsRole::IconLarge]            = 100.f;
+                p.metrics[MetricsRole::FontSmall]            =   6.f;
+                p.metrics[MetricsRole::FontMedium]           =   9.f;
+                p.metrics[MetricsRole::FontLarge]            =  14.f;
+                p.metrics[MetricsRole::FontHeader]           =  18.f;
+                p.metrics[MetricsRole::Swatch]               =  40.f;
+                p.metrics[MetricsRole::ThumbnailWidthSmall]  = 100.f;
+                p.metrics[MetricsRole::ThumbnailHeightSmall] =  50.f;
+                p.metrics[MetricsRole::ThumbnailWidthLarge]  = 200.f;
+                p.metrics[MetricsRole::ThumbnailHeightLarge] = 100.f;
+                p.metrics[MetricsRole::Shadow]               =   5.f;
+                p.metrics[MetricsRole::ScrollArea]           = 200.f;
+                p.metrics[MetricsRole::TextColumn]           = 200.f;
+                p.metrics[MetricsRole::Dialog]               = 400.f;
+                p.metrics[MetricsRole::TooltipOffset]        =  10.f;
+                p.metrics[MetricsRole::Handle]               =  15.f;
             }
 
             float Metrics::getMetric(MetricsRole role) const
@@ -330,8 +336,10 @@ namespace djv
         DJV_TEXT("djv::UI::Style", "FontLarge"),
         DJV_TEXT("djv::UI::Style", "FontHeader"),
         DJV_TEXT("djv::UI::Style", "Swatch"),
-        DJV_TEXT("djv::UI::Style", "ThumbnailSmall"),
-        DJV_TEXT("djv::UI::Style", "ThumbnailLarge"),
+        DJV_TEXT("djv::UI::Style", "ThumbnailWidthSmall"),
+        DJV_TEXT("djv::UI::Style", "ThumbnailHeightSmall"),
+        DJV_TEXT("djv::UI::Style", "ThumbnailWidthLarge"),
+        DJV_TEXT("djv::UI::Style", "ThumbnailHeightLarge"),
         DJV_TEXT("djv::UI::Style", "Shadow"),
         DJV_TEXT("djv::UI::Style", "ScrollArea"),
         DJV_TEXT("djv::UI::Style", "TextColumn"),

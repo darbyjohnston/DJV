@@ -7,9 +7,12 @@ set(header
     ComboBox.h
     DialogSystem.h
     Enum.h
+    EnumJSON.h
+    EnumJSONInline.h
     FileBrowser.h
     FileBrowserItemView.h
     FileBrowserPrivate.h
+    FileBrowserSettings.h
     FlowLayout.h
     FontSettings.h
     FormLayout.h
@@ -22,6 +25,7 @@ set(header
     ISettingsInline.h
     IWindowSystem.h
     Icon.h
+    IconSystem.h
     ImageWidget.h
     Label.h
     LineEdit.h
@@ -77,6 +81,7 @@ set(source
     FileBrowser.cpp
     FileBrowserItemView.cpp
     FileBrowserPathWidget.cpp
+    FileBrowserSettings.cpp
     FileBrowserShortcutsWidget.cpp
     FlowLayout.cpp
     FontSettings.cpp
@@ -89,6 +94,7 @@ set(source
     ISettings.cpp
     IWindowSystem.cpp
     Icon.cpp
+    IconSystem.cpp
     ImageWidget.cpp
     Label.cpp
     LineEdit.cpp

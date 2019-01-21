@@ -193,6 +193,12 @@ namespace djv
                 _p->layout->setGeometry(getGeometry());
             }
 
+            void PathWidget::_localeEvent(Core::Event::Locale &)
+            {
+                DJV_PRIVATE_PTR();
+                p.historyButton->setTooltip(_getText(DJV_TEXT("djv::UI::FileBrowser", "HistoryTooltip")));
+            }
+
         } // namespace FileBrowser
     } // namespace UI
 } // namespace djv

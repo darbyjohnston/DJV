@@ -27,50 +27,28 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#pragma once
-
-#include <djvViewLib/Enum.h>
-
-#include <djvCore/ListObserver.h>
-#include <djvCore/ValueObserver.h>
-
 namespace djv
 {
-    namespace Core
+    template<>
+    inline picojson::value toJSON(const UI::ViewType & value)
     {
-        class Context;
-    
-    } // namespace Core
+        std::stringstream ss;
+        ss << value;
+        return picojson::value(ss.str());
+    }
 
-    namespace ViewLib
+    template<>
+    inline void fromJSON(const picojson::value& value, UI::ViewType& out)
     {
-        class Media;
-
-        class MediaSession : public std::enable_shared_from_this<MediaSession>
+        if (value.is<std::string>())
         {
-            DJV_NON_COPYABLE(MediaSession);
+            std::stringstream ss(value.get<std::string>());
+            ss >> out;
+        }
+        else
+        {
+            throw std::invalid_argument(DJV_TEXT("djv::UI::EnumJSON", "Cannot parse value."));
+        }
+    }
 
-        protected:
-            void _init(Core::Context *);
-            MediaSession();
-
-        public:
-            ~MediaSession();
-
-            static std::shared_ptr<MediaSession> create(Core::Context *);
-
-            std::shared_ptr<Core::IValueSubject<std::string> > observeName() const;
-            std::shared_ptr<Core::IListSubject<std::shared_ptr<Media> > > observeMedia() const;
-            std::shared_ptr<Core::IValueSubject<std::shared_ptr<Media> > > observeMediaOpened() const;
-            std::shared_ptr<Core::IValueSubject<std::shared_ptr<Media> > > observeMediaClosed() const;
-            void setName(const std::string &);
-            void openMedia(const std::string &);
-            void closeMedia(const std::shared_ptr<Media> &);
-
-        private:
-            DJV_PRIVATE();
-        };
-
-    } // namespace ViewLib
 } // namespace djv
-

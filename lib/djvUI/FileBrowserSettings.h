@@ -29,51 +29,40 @@
 
 #pragma once
 
-#include <djvAV/AV.h>
-
-#include <djvCore/ISystem.h>
-
-#include <future>
+#include <djvUI/Enum.h>
+#include <djvUI/ISettings.h>
 
 namespace djv
 {
-    namespace AV
+    namespace UI
     {
-        namespace IO
+        namespace Settings
         {
-            struct Info;
-
-        } // namespace IO
-
-        namespace Image
-        {
-            struct Info;
-            class Image;
-
-            //! This class provides an icon system.
-            class IconSystem : public Core::ISystem
+            //! This class provides the file browser settings.
+            class FileBrowser : public ISettings
             {
-                DJV_NON_COPYABLE(IconSystem);
+                DJV_NON_COPYABLE(FileBrowser);
 
             protected:
-                void _init(Core::Context *);
-                IconSystem();
+                void _init(Core::Context * context);
+
+                FileBrowser();
 
             public:
-                virtual ~IconSystem();
+                virtual ~FileBrowser();
 
-                static std::shared_ptr<IconSystem> create(Core::Context *);
-                
-                //! Get information about an icon.
-                std::future<IO::Info> getInfo(const std::string &, int size);
+                static std::shared_ptr<FileBrowser> create(Core::Context *);
 
-                //! Get an icon.
-                std::future<std::shared_ptr<Image> > getImage(const std::string &, int size);
+                std::shared_ptr<Core::IValueSubject<ViewType> > observeViewType() const;
+                void setViewType(ViewType);
+
+                void load(const picojson::value&) override;
+                picojson::value save() override;
 
             private:
                 DJV_PRIVATE();
             };
 
-        } // namespace Image
-    } // namespace AV
+        } // namespace Settings
+    } // namespace UI
 } // namespace djv

@@ -163,7 +163,7 @@ namespace djv
                 std::future<glm::vec2> measure(const std::string& text, float maxLineWidth, const Info&);
 
                 //! Break text into lines for word wrapping.
-                std::future<std::vector<TextLine> > breakLines(const std::string& text, float maxLineWidth, const Info&);
+                std::future<std::vector<TextLine> > textLines(const std::string& text, float maxLineWidth, const Info&);
 
                 //! Get font glyphs.
                 std::future<std::vector<std::shared_ptr<Glyph> > > getGlyphs(const std::string& text, const Info&);
@@ -173,7 +173,7 @@ namespace djv
                 void _delFreeType();
                 void _handleMetricsRequests();
                 void _handleMeasureRequests();
-                void _handleBreakLinesRequests();
+                void _handleTextLinesRequests();
                 void _handleGlyphsRequests();
 
                 DJV_PRIVATE();

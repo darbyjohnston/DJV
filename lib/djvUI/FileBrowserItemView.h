@@ -46,6 +46,9 @@ namespace djv
     {
         namespace FileBrowser
         {
+            //! This class provides a file browser item view.
+            //!
+            //! \todo Elide names which are too long.
             class ItemView : public UI::Widget
             {
                 DJV_NON_COPYABLE(ItemView);
@@ -59,6 +62,7 @@ namespace djv
 
                 static std::shared_ptr<ItemView> create(Core::Context *);
 
+                void setViewType(ViewType);
                 void setItems(const std::vector<Core::FileSystem::FileInfo> &);
                 void setCallback(const std::function<void(const Core::FileSystem::FileInfo &)> &);
 
@@ -76,9 +80,12 @@ namespace djv
                 void _buttonPressEvent(Core::Event::ButtonPress&) override;
                 void _buttonReleaseEvent(Core::Event::ButtonRelease&) override;
 
+                std::shared_ptr<Widget> _createTooltip(const glm::vec2 & pos) override;
+
                 void _updateEvent(Core::Event::Update&) override;
 
             private:
+                void _iconsUpdate();
                 void _itemsUpdate();
 
                 DJV_PRIVATE();

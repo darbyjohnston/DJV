@@ -29,72 +29,20 @@
 
 #pragma once
 
-#include <djvAV/Pixel.h>
+#include <djvUI/Enum.h>
 
-#include <djvCore/ISystem.h>
-#include <djvCore/Vector.h>
-
-#include <future>
+#include <djvCore/PicoJSON.h>
 
 namespace djv
 {
-    namespace Core
-    {
-        namespace FileSystem
-        {
-            class Path;
+    template<>
+    inline picojson::value toJSON(const UI::ViewType &);
 
-        } // namespace FileSystem
-    } // namespace Core
+    //! Throws:
+    //! - std::exception
+    template<>
+    inline void fromJSON(const picojson::value&, UI::ViewType&);
 
-    namespace AV
-    {
-        namespace IO
-        {
-            struct Info;
-
-        } // namespace IO
-
-        namespace Image
-        {
-            struct Info;
-            class Convert;
-            class Image;
-            
-        } // namespace Image
-        
-        //! This class provides a system for generating thumbnail images from files.
-        //!
-        //! \todo Add support for canceling requests (e.g., for the file browser).
-        class ThumbnailSystem : public Core::ISystem
-        {
-            DJV_NON_COPYABLE(ThumbnailSystem);
-
-        protected:
-            void _init(Core::Context *);
-            ThumbnailSystem();
-
-        public:
-            virtual ~ThumbnailSystem();
-
-            static std::shared_ptr<ThumbnailSystem> create(Core::Context *);
-
-            //! Get information about a file.
-            std::future<IO::Info> getInfo(const Core::FileSystem::Path&);
-
-            //! Get a thumbnail for the given file. If either the width or height is set to zero
-            //! the image will be resized maintaining it's aspect ratio.
-            std::future<std::shared_ptr<Image::Image> > getImage(
-                const Core::FileSystem::Path& path,
-                const glm::ivec2&             size,
-                Image::Type                   type = Image::Type::None);
-
-        private:
-            void _handleInfoRequests();
-            void _handleImageRequests(const std::shared_ptr<Image::Convert> &);
-
-            DJV_PRIVATE();
-        };
-
-    } // namespace AV
 } // namespace djv
+
+#include <djvUI/EnumJSONInline.h>

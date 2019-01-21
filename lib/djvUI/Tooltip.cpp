@@ -55,7 +55,7 @@ namespace djv
             public:
                 static std::shared_ptr<TooltipLayout> create(Context *);
 
-                void addWidget(const std::shared_ptr<Widget>&, const std::weak_ptr<Widget> & anchor);
+                void addWidget(const std::shared_ptr<Widget>&, const glm::vec2 & pos);
                 void clearWidgets();
 
             protected:
@@ -63,7 +63,7 @@ namespace djv
                 void _paintEvent(Event::Paint&) override;
 
             private:
-                std::map<std::shared_ptr<Widget>, std::weak_ptr<Widget> > _widgetToAnchors;
+                std::map<std::shared_ptr<Widget>, glm::vec2> _widgetToPos;
             };
 
             void TooltipLayout::_init(Context * context)
@@ -82,10 +82,10 @@ namespace djv
                 return out;
             }
 
-            void TooltipLayout::addWidget(const std::shared_ptr<Widget>& value, const std::weak_ptr<Widget> & anchor)
+            void TooltipLayout::addWidget(const std::shared_ptr<Widget>& value, const glm::vec2 & pos)
             {
                 value->setParent(shared_from_this());
-                _widgetToAnchors[value] = anchor;
+                _widgetToPos[value] = pos;
                 _resize();
             }
 
@@ -96,7 +96,7 @@ namespace djv
                 {
                     child->setParent(nullptr);
                 }
-                _widgetToAnchors.clear();
+                _widgetToPos.clear();
                 _resize();
             }
 
@@ -106,44 +106,40 @@ namespace djv
                 {
                     const BBox2f & g = getGeometry();
                     const float to = style->getMetric(Style::MetricsRole::TooltipOffset);
-                    for (auto i : _widgetToAnchors)
+                    for (auto i : _widgetToPos)
                     {
-                        if (auto anchor = i.second.lock())
+                        const glm::vec2 & minimumSize = i.first->getMinimumSize();
+                        std::vector<BBox2f> geomCandidates;
+                        const BBox2f belowRight(
+                            i.second.x + to,
+                            i.second.y + to,
+                            minimumSize.x,
+                            minimumSize.y);
+                        const BBox2f aboveRight(
+                            i.second.x + to,
+                            i.second.y - minimumSize.y - to,
+                            minimumSize.x,
+                            minimumSize.y);
+                        const BBox2f belowLeft(
+                            i.second.x - minimumSize.x - to,
+                            i.second.y + to,
+                            minimumSize.x,
+                            minimumSize.y);
+                        const BBox2f aboveLeft(
+                            i.second.x - minimumSize.x - to,
+                            i.second.y - minimumSize.y - to,
+                            minimumSize.x,
+                            minimumSize.y);
+                        geomCandidates.push_back(belowRight);
+                        geomCandidates.push_back(aboveRight);
+                        geomCandidates.push_back(belowLeft);
+                        geomCandidates.push_back(aboveLeft);
+                        std::sort(geomCandidates.begin(), geomCandidates.end(),
+                            [g](const BBox2f & a, const BBox2f & b) -> bool
                         {
-                            const BBox2f & anchorBBox = anchor->getGeometry();
-                            const glm::vec2 & minimumSize = i.first->getMinimumSize();
-                            std::vector<BBox2f> geomCandidates;
-                            const BBox2f belowRight(
-                                anchorBBox.min.x,
-                                anchorBBox.max.y + to,
-                                minimumSize.x,
-                                minimumSize.y);
-                            const BBox2f aboveRight(
-                                anchorBBox.min.x,
-                                anchorBBox.min.y - to - minimumSize.y,
-                                minimumSize.x,
-                                minimumSize.y);
-                            const BBox2f belowLeft(
-                                anchorBBox.max.x - minimumSize.x,
-                                anchorBBox.max.y + to,
-                                minimumSize.x,
-                                minimumSize.y);
-                            const BBox2f aboveLeft(
-                                anchorBBox.max.x - minimumSize.x,
-                                anchorBBox.min.y - to - minimumSize.y,
-                                minimumSize.x,
-                                minimumSize.y);
-                            geomCandidates.push_back(belowRight);
-                            geomCandidates.push_back(aboveRight);
-                            geomCandidates.push_back(belowLeft);
-                            geomCandidates.push_back(aboveLeft);
-                            std::sort(geomCandidates.begin(), geomCandidates.end(),
-                                [g](const BBox2f & a, const BBox2f & b) -> bool
-                            {
-                                return a.intersect(g).getArea() > b.intersect(g).getArea();
-                            });
-                            i.first->setGeometry(geomCandidates.front());
-                        }
+                            return a.intersect(g).getArea() > b.intersect(g).getArea();
+                        });
+                        i.first->setGeometry(geomCandidates.front());
                     }
                 }
             }
@@ -175,41 +171,26 @@ namespace djv
         struct Tooltip::Private
         {
             std::shared_ptr<Layout::Overlay> overlay;
-            std::weak_ptr<Widget> anchor;
         };
 
         void Tooltip::_init(
-            const std::weak_ptr<Widget> & anchor,
-            const std::string & text,
+            const std::shared_ptr<Window> & window,
+            const glm::vec2 & pos,
+            const std::shared_ptr<Widget> & widget,
             Context * context)
         {
-            if (auto widget = anchor.lock())
-            {
-                if (auto window = widget->getWindow().lock())
-                {
-                    auto textBlock = TextBlock::create(text, context);
-                    textBlock->setTextColorRole(Style::ColorRole::ForegroundTooltip);
-                    textBlock->setBackgroundRole(Style::ColorRole::BackgroundTooltip);
-                    textBlock->setMargin(Style::MetricsRole::Margin);
+            auto layout = TooltipLayout::create(context);
+            layout->addWidget(widget, pos);
 
-                    auto border = Layout::Border::create(context);
-                    border->addWidget(textBlock);
+            DJV_PRIVATE_PTR();
+            p.overlay = Layout::Overlay::create(context);
+            p.overlay->setCapturePointer(false);
+            p.overlay->setCaptureKeyboard(false);
+            p.overlay->setBackgroundRole(Style::ColorRole::None);
+            p.overlay->addWidget(layout);
 
-                    auto layout = TooltipLayout::create(context);
-                    layout->addWidget(border, anchor);
-
-                    DJV_PRIVATE_PTR();
-                    p.overlay = Layout::Overlay::create(context);
-                    p.overlay->setCapturePointer(false);
-                    p.overlay->setCaptureKeyboard(false);
-                    p.overlay->setBackgroundRole(Style::ColorRole::None);
-                    p.overlay->addWidget(layout);
-
-                    window->addWidget(p.overlay);
-                    p.overlay->show();
-                    p.anchor = anchor;
-                }
-            }
+            window->addWidget(p.overlay);
+            p.overlay->show();
         }
 
         Tooltip::Tooltip() :
@@ -226,12 +207,13 @@ namespace djv
         }
 
         std::shared_ptr<Tooltip> Tooltip::create(
-            const std::weak_ptr<Widget> & widget,
-            const std::string & text,
+            const std::shared_ptr<Window> & window,
+            const glm::vec2 & pos,
+            const std::shared_ptr<Widget> & widget,
             Context * context)
         {
             auto out = std::shared_ptr<Tooltip>(new Tooltip);
-            out->_init(widget, text, context);
+            out->_init(window, pos, widget, context);
             return out;
         }
 

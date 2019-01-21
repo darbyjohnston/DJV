@@ -38,6 +38,7 @@ namespace djv
         namespace Settings
         {
             class General;
+            class FileBrowser;
             class Font;
             class Style;
 
@@ -65,11 +66,12 @@ namespace djv
 
             int getDPI() const;
 
-            const std::shared_ptr<Settings::General> getGeneralSettings() const;
-            const std::shared_ptr<Settings::Font> getFontSettings() const;
-            const std::shared_ptr<Settings::Style>& getStyleSettings() const;
+            const std::shared_ptr<Settings::General> & getGeneralSettings() const;
+            const std::shared_ptr<Settings::Font> & getFontSettings() const;
+            const std::shared_ptr<Settings::Style> & getStyleSettings() const;
+            const std::shared_ptr<Settings::FileBrowser> & getFileBrowserSettings() const;
 
-            const std::shared_ptr<Style::Style> getStyle() const;
+            const std::shared_ptr<Style::Style> & getStyle() const;
 
         private:
             DJV_PRIVATE();

@@ -29,8 +29,9 @@
 
 #include <djvUI/Icon.h>
 
+#include <djvUI/IconSystem.h>
+
 #include <djvAV/IO.h>
-#include <djvAV/IconSystem.h>
 #include <djvAV/Image.h>
 #include <djvAV/Render2D.h>
 
@@ -45,11 +46,8 @@ namespace djv
             std::string name;
             Style::ColorRole iconColorRole = Style::ColorRole::Foreground;
             Style::MetricsRole iconSizeRole = Style::MetricsRole::Icon;
-            bool infoRequest = false;
-            std::future<AV::IO::Info> infoFuture;
             bool imageRequest = false;
             std::future<std::shared_ptr<AV::Image::Image> > imageFuture;
-            AV::Image::Info info;
             std::shared_ptr<AV::Image::Image> image;
         };
 
@@ -94,11 +92,9 @@ namespace djv
             p.name = value;
             if (auto style = _getStyle().lock())
             {
-                if (auto system = _getIconSystem().lock())
+                if (auto iconSystem = _getIconSystem().lock())
                 {
-                    p.infoFuture = system->getInfo(p.name, static_cast<int>(style->getMetric(Style::MetricsRole::Icon)));
-                    p.infoRequest = true;
-                    p.imageFuture = system->getImage(p.name, static_cast<int>(style->getMetric(Style::MetricsRole::Icon)));
+                    p.imageFuture = iconSystem->getIcon(p.name, static_cast<int>(style->getMetric(p.iconSizeRole)));
                     p.imageRequest = true;
                 }
             }
@@ -139,11 +135,9 @@ namespace djv
             {
                 if (auto style = _getStyle().lock())
                 {
-                    if (auto system = _getIconSystem().lock())
+                    if (auto iconSystem = _getIconSystem().lock())
                     {
-                        p.infoFuture = system->getInfo(p.name, static_cast<int>(style->getMetric(p.iconSizeRole)));
-                        p.infoRequest = true;
-                        p.imageFuture = system->getImage(p.name, static_cast<int>(style->getMetric(p.iconSizeRole)));
+                        p.imageFuture = iconSystem->getIcon(p.name, static_cast<int>(style->getMetric(p.iconSizeRole)));
                         p.imageRequest = true;
                     }
                 }
@@ -156,7 +150,11 @@ namespace djv
             {
                 DJV_PRIVATE_PTR();
                 const float i = style->getMetric(p.iconSizeRole);
-                glm::vec2 size = p.info.size;
+                glm::vec2 size;
+                if (p.image)
+                {
+                    size = p.image->getSize();
+                }
                 size.x = std::max(size.x, i);
                 size.y = std::max(size.y, i);
                 _setMinimumSize(size + getMargin().getSize(style));
@@ -177,7 +175,7 @@ namespace djv
                     DJV_PRIVATE_PTR();
                     if (p.image && p.image->isValid())
                     {
-                        const glm::vec2& size = p.info.size;
+                        const glm::vec2& size = p.image->getSize();
                         glm::vec2 pos = glm::vec2(0.f, 0.f);
                         switch (getHAlign())
                         {
@@ -213,24 +211,6 @@ namespace djv
         void Icon::_updateEvent(Core::Event::Update&)
         {
             DJV_PRIVATE_PTR();
-            if (p.infoRequest)
-            {
-                p.infoRequest = false;
-                try
-                {
-                    const auto info = p.infoFuture.get();
-                    if (info.video.size())
-                    {
-                        p.info = info.video.front().info;
-                    }
-                }
-                catch (const std::exception & e)
-                {
-                    p.info = AV::Image::Info();
-                    _log(e.what(), LogLevel::Error);
-                }
-                _resize();
-            }
             if (p.imageRequest)
             {
                 p.imageRequest = false;

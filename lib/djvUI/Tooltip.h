@@ -36,6 +36,7 @@ namespace djv
     namespace UI
     {
         class Widget;
+        class Window;
 
         //! This class provides tooltips.
         //!
@@ -46,8 +47,9 @@ namespace djv
 
         protected:
             void _init(
-                const std::weak_ptr<Widget> &,
-                const std::string &,
+                const std::shared_ptr<Window> &,
+                const glm::vec2 & pos,
+                const std::shared_ptr<Widget> &,
                 Core::Context *);
             Tooltip();
 
@@ -55,8 +57,9 @@ namespace djv
             virtual ~Tooltip();
 
             static std::shared_ptr<Tooltip> create(
-                const std::weak_ptr<Widget> &,
-                const std::string &,
+                const std::shared_ptr<Window> &,
+                const glm::vec2 & pos,
+                const std::shared_ptr<Widget> &,
                 Core::Context *);
 
         private:

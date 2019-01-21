@@ -27,11 +27,21 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvViewLib/MediaSession.h>
+#include <djvViewLib/MediaWidget.h>
 
+#include <djvViewLib/ImageView.h>
 #include <djvViewLib/Media.h>
+#include <djvViewLib/PlaybackWidget.h>
+#include <djvViewLib/TimelineSlider.h>
 
-#include <djvCore/Context.h>
+#include <djvUI/Icon.h>
+#include <djvUI/Label.h>
+#include <djvUI/RowLayout.h>
+#include <djvUI/StackLayout.h>
+#include <djvUI/ToolButton.h>
+
+#include <djvCore/Memory.h>
+#include <djvCore/UID.h>
 
 using namespace djv::Core;
 
@@ -39,69 +49,65 @@ namespace djv
 {
     namespace ViewLib
     {
-        struct MediaSession::Private
+        struct MediaWidget::Private
         {
-            Context * context = nullptr;
-            std::shared_ptr<ValueSubject<std::string> > name;
-            std::shared_ptr<ListSubject<std::shared_ptr<Media> > > media;
-            std::shared_ptr<ValueSubject<std::shared_ptr<Media> > > mediaOpened;
-            std::shared_ptr<ValueSubject<std::shared_ptr<Media> > > mediaClosed;
+            std::shared_ptr<ImageView> imageView;
+            std::shared_ptr<UI::Label> titleLabel;
+            std::shared_ptr<UI::Layout::Horizontal> titleBar;
+            std::shared_ptr<UI::Icon> resizeHandle;
+            std::shared_ptr<UI::Layout::Horizontal> bottomBar;
+            std::shared_ptr<UI::Layout::Stack> layout;
+            std::function<void(void)> maximizeCallback;
+            std::function<void(void)> closedCallback;
+            std::shared_ptr<ValueObserver<std::shared_ptr<AV::Image::Image> > > imageObserver;
         };
-
-        void MediaSession::_init(Context * context)
+        
+        void MediaWidget::_init(Context * context)
         {
+            Widget::_init(context);
+
             DJV_PRIVATE_PTR();
-            p.context = context;
-            p.name = ValueSubject<std::string>::create();
-            p.media = ListSubject<std::shared_ptr<Media> >::create();
+            p.imageView = ImageView::create(context);
+
+            p.layout = UI::Layout::Stack::create(context);
+            p.layout->addWidget(p.imageView);
+            p.layout->setParent(shared_from_this());
         }
 
-        MediaSession::MediaSession() :
+        MediaWidget::MediaWidget() :
             _p(new Private)
         {}
 
-        MediaSession::~MediaSession()
+        MediaWidget::~MediaWidget()
         {}
 
-        std::shared_ptr<MediaSession> MediaSession::create(Context * context)
+        std::shared_ptr<MediaWidget> MediaWidget::create(Context * context)
         {
-            auto out = std::shared_ptr<MediaSession>(new MediaSession);
+            auto out = std::shared_ptr<MediaWidget>(new MediaWidget);
             out->_init(context);
             return out;
         }
 
-        std::shared_ptr<Core::IValueSubject<std::string> > MediaSession::observeName() const
+        const std::shared_ptr<Media> & MediaWidget::getMedia() const
         {
-            return _p->name;
+            return _p->imageView->getMedia();
         }
 
-        std::shared_ptr<Core::IListSubject<std::shared_ptr<Media> > > MediaSession::observeMedia() const
+        void MediaWidget::setMedia(const std::shared_ptr<Media> & value)
         {
-            return _p->media;
+            _p->imageView->setMedia(value);
         }
 
-        void MediaSession::setName(const std::string & value)
+        void MediaWidget::_preLayoutEvent(Event::PreLayout& event)
         {
-            _p->name->setIfChanged(value);
+            _setMinimumSize(_p->layout->getMinimumSize());
         }
 
-        void MediaSession::openMedia(const std::string & fileName)
+        void MediaWidget::_layoutEvent(Event::Layout&)
         {
-            auto media = Media::create(fileName, _p->context);
-            _p->media->pushBack(media);
-            _p->mediaOpened->setAlways(media);
+            _p->layout->setGeometry(getGeometry());
         }
-
-        void MediaSession::closeMedia(const std::shared_ptr<Media> & media)
-        {
-            const size_t index = _p->media->indexOf(media);
-            if (index != invalidListIndex)
-            {
-                _p->media->removeItem(index);
-                _p->mediaClosed->setAlways(media);
-            }
-        }
-
+        
     } // namespace ViewLib
 } // namespace djv
 

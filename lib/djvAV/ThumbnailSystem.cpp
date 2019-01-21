@@ -122,13 +122,20 @@ namespace djv
                 std::promise<std::shared_ptr<Image::Image> > promise;
             };
 
-            std::string getCacheKey(const FileSystem::Path & path, const glm::ivec2 & size, Image::Type type)
+            size_t getInfoCacheKey(const FileSystem::Path & path)
             {
-                std::stringstream ss;
-                ss << path;
-                ss << size;
-                ss << type;
-                return ss.str();
+                size_t out = 0;
+                Memory::hashCombine(out, path.get());
+                return out;
+            }
+
+            size_t getImageCacheKey(const FileSystem::Path & path, const glm::ivec2 & size, Image::Type type)
+            {
+                size_t out = 0;
+                Memory::hashCombine(out, path.get());
+                Memory::hashCombine(out, size);
+                Memory::hashCombine(out, type);
+                return out;
             }
 
         } // namespace
@@ -144,8 +151,8 @@ namespace djv
             std::list<ImageRequest> newImageRequests;
             std::list<ImageRequest> pendingImageRequests;
 
-            Memory::Cache<FileSystem::Path, IO::Info> infoCache;
-            Memory::Cache<std::string, std::shared_ptr<Image::Image> > imageCache;
+            Memory::Cache<size_t, IO::Info> infoCache;
+            Memory::Cache<size_t, std::shared_ptr<Image::Image> > imageCache;
             std::mutex cacheMutex;
 
             GLFWwindow * glfwWindow = nullptr;
@@ -186,10 +193,12 @@ namespace djv
                 [this](float)
             {
                 DJV_PRIVATE_PTR();
-                std::lock_guard<std::mutex> lock(p.cacheMutex);
                 std::stringstream s;
-                s << "Info cache: " << p.infoCache.getPercentageUsed() << "%\n";
-                s << "Image cache: " << p.imageCache.getPercentageUsed() << '%';
+                {
+                    std::lock_guard<std::mutex> lock(p.cacheMutex);
+                    s << "Info cache: " << p.infoCache.getPercentageUsed() << "%\n";
+                    s << "Image cache: " << p.imageCache.getPercentageUsed() << '%';
+                }
                 _log(s.str());
             });
 
@@ -277,20 +286,6 @@ namespace djv
             return future;
         }
 
-        std::future<std::shared_ptr<Image::Image> > ThumbnailSystem::getImage(const FileSystem::Path& path)
-        {
-            DJV_PRIVATE_PTR();
-            ImageRequest request;
-            request.path = path;
-            auto future = request.promise.get_future();
-            {
-                std::unique_lock<std::mutex> lock(p.requestMutex);
-                p.imageQueue.push_back(std::move(request));
-            }
-            p.requestCV.notify_one();
-            return future;
-        }
-
         std::future<std::shared_ptr<Image::Image> > ThumbnailSystem::getImage(
             const FileSystem::Path & path,
             const glm::ivec2 &       size,
@@ -321,9 +316,10 @@ namespace djv
                 bool cached = false;
                 {
                     std::lock_guard<std::mutex> lock(p.cacheMutex);
-                    if (p.infoCache.contains(i.path))
+                    const auto key = getInfoCacheKey(i.path);
+                    if (p.infoCache.contains(key))
                     {
-                        info = p.infoCache.get(i.path);
+                        info = p.infoCache.get(key);
                         cached = true;
                     }
                 }
@@ -365,7 +361,7 @@ namespace djv
                     try
                     {
                         const auto info = i->infoFuture.get();
-                        p.infoCache.add(i->path, info);
+                        p.infoCache.add(getInfoCacheKey(i->path), info);
                         i->promise.set_value(info);
                     }
                     catch (const std::exception & e)
@@ -399,7 +395,7 @@ namespace djv
                 std::shared_ptr<Image::Image> image;
                 {
                     std::lock_guard<std::mutex> lock(p.cacheMutex);
-                    const auto key = getCacheKey(i.path, i.size, i.type);
+                    const auto key = getImageCacheKey(i.path, i.size, i.type);
                     if (p.imageCache.contains(key))
                     {
                         image = p.imageCache.get(key);
@@ -409,25 +405,28 @@ namespace djv
                 {
                     i.promise.set_value(image);
                 }
-                else if (auto io = getContext()->getSystemT<IO::System>().lock())
+                else
                 {
-                    try
-                    {
-                        i.queue = IO::Queue::create(1, 0);
-                        i.read = io->read(i.path, i.queue);
-                        p.pendingImageRequests.push_back(std::move(i));
-                    }
-                    catch (const std::exception& e)
+                    if (auto io = getContext()->getSystemT<IO::System>().lock())
                     {
                         try
                         {
-                            i.promise.set_exception(std::current_exception());
+                            i.queue = IO::Queue::create(1, 0);
+                            i.read = io->read(i.path, i.queue);
+                            p.pendingImageRequests.push_back(std::move(i));
                         }
-                        catch (const std::exception & e)
+                        catch (const std::exception& e)
                         {
+                            try
+                            {
+                                i.promise.set_exception(std::current_exception());
+                            }
+                            catch (const std::exception & e)
+                            {
+                                _log(e.what(), LogLevel::Error);
+                            }
                             _log(e.what(), LogLevel::Error);
                         }
-                        _log(e.what(), LogLevel::Error);
                     }
                 }
             }
@@ -466,7 +465,7 @@ namespace djv
                         convert->process(*image, info, *tmp);
                         image = tmp;
                     }
-                    p.imageCache.add(getCacheKey(i->path, i->size, i->type), image);
+                    p.imageCache.add(getImageCacheKey(i->path, i->size, i->type), image);
                     i->promise.set_value(image);
                     i = p.pendingImageRequests.erase(i);
                 }

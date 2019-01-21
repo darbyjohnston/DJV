@@ -162,6 +162,17 @@ namespace djv
         };
         DJV_ENUM_HELPERS(ButtonType);
 
+        //! This enumeration provides view types.
+        enum class ViewType
+        {
+            ThumbnailsLarge,
+            ThumbnailsSmall,
+            ListView,
+
+            Count,
+            First = ThumbnailsLarge
+        };
+
     } // namespace UI
 
     DJV_ENUM_SERIALIZE_HELPERS(UI::Orientation);
@@ -174,6 +185,7 @@ namespace djv
     DJV_ENUM_SERIALIZE_HELPERS(UI::SelectionType);
     DJV_ENUM_SERIALIZE_HELPERS(UI::SortOrder);
     DJV_ENUM_SERIALIZE_HELPERS(UI::ButtonType);
+    DJV_ENUM_SERIALIZE_HELPERS(UI::ViewType);
 
 } // namespace djv
 

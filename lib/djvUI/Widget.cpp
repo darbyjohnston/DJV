@@ -30,13 +30,15 @@
 #include <djvUI/Widget.h>
 
 #include <djvUI/Action.h>
+#include <djvUI/Border.h>
+#include <djvUI/IconSystem.h>
 #include <djvUI/Shortcut.h>
+#include <djvUI/TextBlock.h>
 #include <djvUI/Tooltip.h>
 #include <djvUI/UISystem.h>
 #include <djvUI/Window.h>
 
 #include <djvAV/FontSystem.h>
-#include <djvAV/IconSystem.h>
 #include <djvAV/Render2D.h>
 
 #include <djvCore/Math.h>
@@ -61,10 +63,10 @@ namespace djv
 
         } // namespace
 
-        std::weak_ptr<UISystem> Widget::_uiSystem;
-        std::weak_ptr<AV::Image::IconSystem> Widget::_iconSystem;
         std::weak_ptr<AV::Font::System> Widget::_fontSystem;
         std::weak_ptr<AV::Render::Render2D> Widget::_render;
+        std::weak_ptr<UISystem> Widget::_uiSystem;
+        std::weak_ptr<IconSystem> Widget::_iconSystem;
         bool Widget::_resizeRequest = true;
         bool Widget::_redrawRequest = true;
 
@@ -78,10 +80,6 @@ namespace djv
             context->log("djv::UI::Widget", String::Format("widget count = %%1").arg(currentWidgetCount));*/
             ++currentWidgetCount;
 
-            if (!_iconSystem.lock())
-            {
-                _iconSystem = context->getSystemT<AV::Image::IconSystem>();
-            }
             if (!_fontSystem.lock())
             {
                 _fontSystem = context->getSystemT<AV::Font::System>();
@@ -89,6 +87,10 @@ namespace djv
             if (!_render.lock())
             {
                 _render = context->getSystemT<AV::Render::Render2D>();
+            }
+            if (!_iconSystem.lock())
+            {
+                _iconSystem = context->getSystemT<IconSystem>();
             }
             if (!_uiSystem.lock())
             {
@@ -375,13 +377,17 @@ namespace djv
                             break;
                         }
                     }
-                    if (!tooltip.empty())
+                    if (auto window = getWindow().lock())
                     {
                         for (auto & i : _pointerToTooltips)
                         {
-                            if ((_updateTime - i.second.timer) > tooltipTimeout && !i.second.tooltip)
+                            const auto j = _pointerHover.find(i.first);
+                            if ((_updateTime - i.second.timer) > tooltipTimeout && !i.second.tooltip && j != _pointerHover.end())
                             {
-                                i.second.tooltip = Tooltip::create(std::dynamic_pointer_cast<Widget>(shared_from_this()), tooltip, getContext());
+                                if (auto widget = _createTooltip(j->second))
+                                {
+                                    i.second.tooltip = Tooltip::create(window, j->second, widget, getContext());
+                                }
                             }
                         }
                     }
@@ -646,6 +652,28 @@ namespace djv
         void Widget::_childOrderEvent(Event::ChildOrder &)
         {
             _redraw();
+        }
+
+        std::shared_ptr<Widget> Widget::_createTooltipDefault(const std::string & text)
+        {
+            auto context = getContext();
+            auto textBlock = TextBlock::create(text, context);
+            textBlock->setTextColorRole(Style::ColorRole::ForegroundTooltip);
+            textBlock->setBackgroundRole(Style::ColorRole::BackgroundTooltip);
+            textBlock->setMargin(Style::MetricsRole::Margin);
+            auto border = Layout::Border::create(context);
+            border->addWidget(textBlock);
+            return border;
+        }
+
+        std::shared_ptr<Widget> Widget::_createTooltip(const glm::vec2 &)
+        {
+            std::shared_ptr<Widget> out;
+            if (!_tooltipText.empty())
+            {
+                out = _createTooltipDefault(_tooltipText);
+            }
+            return out;
         }
 
     } // namespace UI

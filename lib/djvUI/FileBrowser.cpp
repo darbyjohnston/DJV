@@ -34,6 +34,7 @@
 #include <djvUI/DialogSystem.h>
 #include <djvUI/FileBrowserItemView.h>
 #include <djvUI/FileBrowserPrivate.h>
+#include <djvUI/FileBrowserSettings.h>
 #include <djvUI/FlowLayout.h>
 #include <djvUI/IWindowSystem.h>
 #include <djvUI/Icon.h>
@@ -48,6 +49,7 @@
 #include <djvUI/Splitter.h>
 #include <djvUI/ToolButton.h>
 #include <djvUI/Toolbar.h>
+#include <djvUI/UISystem.h>
 #include <djvUI/Window.h>
 
 #include <djvAV/IO.h>
@@ -71,7 +73,6 @@ namespace djv
             struct Widget::Private
             {
                 std::shared_ptr<FileSystem::DirectoryModel> directoryModel;
-                ViewType viewType = ViewType::First;
                 std::map<std::string, std::shared_ptr<Action> > actions;
                 std::map<std::string, std::shared_ptr<Menu> > menus;
                 std::shared_ptr<ActionGroup> viewTypeActionGroup;
@@ -94,6 +95,7 @@ namespace djv
                 std::shared_ptr<ValueObserver<bool> > hasForwardObserver;
                 std::shared_ptr<ValueObserver<bool> > forwardObserver;
                 std::shared_ptr<ValueObserver<bool> > reloadObserver;
+                std::shared_ptr<ValueObserver<ViewType> > viewTypeObserver;
                 std::shared_ptr<ValueObserver<bool> > fileSequencesObserver;
                 std::shared_ptr<ValueObserver<bool> > showHiddenObserver;
 
@@ -148,7 +150,6 @@ namespace djv
                 p.viewTypeActionGroup->addAction(p.actions["LargeThumbnails"]);
                 p.viewTypeActionGroup->addAction(p.actions["SmallThumbnails"]);
                 p.viewTypeActionGroup->addAction(p.actions["ListView"]);
-                p.viewTypeActionGroup->setChecked(static_cast<int>(p.viewType));
 
                 p.actions["FileSequences"] = Action::create();
                 p.actions["FileSequences"]->setButtonType(ButtonType::Toggle);
@@ -257,11 +258,16 @@ namespace djv
                 });
 
                 p.viewTypeActionGroup->setRadioCallback(
-                    [weak](int value)
+                    [weak, context](int value)
                 {
                     if (auto widget = weak.lock())
                     {
-                        widget->setViewType(static_cast<ViewType>(value));
+                        const auto viewType = static_cast<ViewType>(value);
+                        widget->setViewType(viewType);
+                        if (auto uiSettings = context->getSystemT<UISystem>().lock())
+                        {
+                            uiSettings->getFileBrowserSettings()->setViewType(viewType);
+                        }
                     }
                 });
                 
@@ -413,6 +419,20 @@ namespace djv
                     }
                 });
 
+                ViewType viewType = ViewType::First;
+                if (auto uiSystem = context->getSystemT<UISystem>().lock())
+                {
+                    p.viewTypeObserver = ValueObserver<ViewType>::create(
+                        uiSystem->getFileBrowserSettings()->observeViewType(),
+                        [weak](ViewType value)
+                    {
+                        if (auto widget = weak.lock())
+                        {
+                            widget->setViewType(value);
+                        }
+                    });
+                }
+
                 p.fileSequencesObserver = ValueObserver<bool>::create(
                     p.actions["FileSequences"]->observeChecked(),
                     [weak](bool value)
@@ -456,10 +476,8 @@ namespace djv
             void Widget::setViewType(ViewType value)
             {
                 DJV_PRIVATE_PTR();
-                if (value == p.viewType)
-                    return;
-                p.viewType = value;
-                //_updateItems();
+                p.viewTypeActionGroup->setChecked(static_cast<int>(value));
+                p.itemView->setViewType(value);
             }
 
             void Widget::setCallback(const std::function<void(const FileSystem::FileInfo &)> & value)
@@ -712,12 +730,4 @@ namespace djv
 
         } // namespace FileBrowser
     } // namespace UI
-
-    DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
-        UI::FileBrowser,
-        ViewType,
-        DJV_TEXT("djv::UI::FileBrowser", "ThumbnailsLarge"),
-        DJV_TEXT("djv::UI::FileBrowser", "ThumbnailsSmall"),
-        DJV_TEXT("djv::UI::FileBrowser", "ListView"));
-
 } // namespace djv
