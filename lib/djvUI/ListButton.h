@@ -48,6 +48,9 @@ namespace djv
                 void setFontFace(const std::string &);
                 void setFontSizeRole(Style::MetricsRole);
 
+                const Layout::Margin& getInsideMargin() const;
+                void setInsideMargin(const Layout::Margin&);
+
                 float getHeightForWidth(float) const override;
 
             protected:

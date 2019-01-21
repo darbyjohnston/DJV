@@ -31,13 +31,13 @@
 
 #include <djvViewLib/ViewLib.h>
 
-#include <djvUI/GroupBox.h>
+#include <djvUI/Widget.h>
 
 namespace djv
 {
     namespace ViewLib
     {
-        class LanguageSettingsWidget : public UI::Layout::GroupBox
+        class LanguageSettingsWidget : public UI::Widget
         {
             DJV_NON_COPYABLE(LanguageSettingsWidget);
 
@@ -48,7 +48,12 @@ namespace djv
         public:
             static std::shared_ptr<LanguageSettingsWidget> create(Core::Context *);
 
+            float getHeightForWidth(float) const override;
+
         protected:
+            void _preLayoutEvent(Core::Event::PreLayout &) override;
+            void _layoutEvent(Core::Event::Layout &) override;
+
             void _localeEvent(Core::Event::Locale &) override;
 
         private:

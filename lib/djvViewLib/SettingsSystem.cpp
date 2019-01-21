@@ -34,12 +34,17 @@
 #include <djvViewLib/PaletteSettingsWidget.h>
 
 #include <djvUI/Action.h>
+#include <djvUI/ButtonGroup.h>
+#include <djvUI/GroupBox.h>
 #include <djvUI/IWindowSystem.h>
 #include <djvUI/Icon.h>
 #include <djvUI/Label.h>
+#include <djvUI/ListButton.h>
 #include <djvUI/RowLayout.h>
+#include <djvUI/SoloLayout.h>
 #include <djvUI/ToolButton.h>
 #include <djvUI/ScrollWidget.h>
+#include <djvUI/Splitter.h>
 #include <djvUI/Overlay.h>
 #include <djvUI/Window.h>
 
@@ -53,103 +58,258 @@ namespace djv
     {
         namespace
         {
-            class SettingsWidget : public UI::Layout::Vertical
+            class SettingsWidget : public UI::Widget
             {
                 DJV_NON_COPYABLE(SettingsWidget);
 
             protected:
-                void _init(Context * context)
-                {
-                    Vertical::_init(context);
+                void _init(Context *);
 
-                    setSpacing(UI::Style::MetricsRole::None);
-                    setPointerEnabled(true);
-                    
-                    _titleLabel = UI::Label::create(context);
-                    _titleLabel->setFontSizeRole(UI::Style::MetricsRole::FontHeader);
-                    _titleLabel->setTextHAlign(UI::TextHAlign::Left);
-                    _titleLabel->setTextColorRole(UI::Style::ColorRole::ForegroundHeader);
-                    _titleLabel->setMargin(UI::Layout::Margin(
-                        UI::Style::MetricsRole::Margin,
-                        UI::Style::MetricsRole::None,
-                        UI::Style::MetricsRole::MarginSmall,
-                        UI::Style::MetricsRole::MarginSmall));
-                    
-                    _closeButton = UI::Button::Tool::create(context);
-                    _closeButton->setIcon("djvIconClose");
-                    _closeButton->setForegroundColorRole(UI::Style::ColorRole::ForegroundHeader);
-                    _closeButton->setCheckedForegroundColorRole(UI::Style::ColorRole::ForegroundHeader);
-                    _closeButton->setInsideMargin(UI::Style::MetricsRole::MarginSmall);
-                    
-                    std::map<std::string, std::shared_ptr<UI::Widget> > settingsWidgets;
-                    for (auto i : context->getSystemsT<IViewSystem>())
-                    {
-                        if (auto system = i.lock())
-                        {
-                            for (auto j : system->createSettingsWidgets())
-                            {
-                                settingsWidgets[j.sortKey] = j.widget;
-                            }
-                        }
-                    }
-                    auto settingsLayout = UI::Layout::Vertical::create(context);
-                    settingsLayout->setMargin(UI::Style::MetricsRole::Margin);
-                    for (auto i : settingsWidgets)
-                    {
-                        settingsLayout->addWidget(i.second);
-                    }
-                    auto scrollWidget = UI::ScrollWidget::create(UI::ScrollType::Vertical, context);
-                    scrollWidget->setMargin(UI::Style::MetricsRole::Margin);
-                    scrollWidget->setBackgroundRole(UI::Style::ColorRole::Background);
-                    scrollWidget->addWidget(settingsLayout);
-                    
-                    auto hLayout = UI::Layout::Horizontal::create(context);
-                    hLayout->setSpacing(UI::Style::MetricsRole::None);
-                    hLayout->setBackgroundRole(UI::Style::ColorRole::BackgroundHeader);
-                    hLayout->addWidget(_titleLabel, UI::Layout::RowStretch::Expand);
-                    hLayout->addWidget(_closeButton);
-                    addWidget(hLayout);
-                    addSeparator();
-                    addWidget(scrollWidget, UI::Layout::RowStretch::Expand);
-                }
-
-                SettingsWidget()
-                {}
+                SettingsWidget();
 
             public:
-                static std::shared_ptr<SettingsWidget> create(Context * context)
-                {
-                    auto out = std::shared_ptr<SettingsWidget>(new SettingsWidget);
-                    out->_init(context);
-                    return out;
-                }
+                static std::shared_ptr<SettingsWidget> create(Context *);
                 
-                void setCloseCallback(const std::function<void(void)> & value)
-                {
-                    _closeButton->setClickedCallback(value);
-                }
+                void setCloseCallback(const std::function<void(void)> &);
+
+                float getHeightForWidth(float) const override;
 
             protected:
-                void _buttonPressEvent(Event::ButtonPress& event) override
-                {
-                    event.accept();
-                }
+                void _preLayoutEvent(Event::PreLayout &) override;
+                void _layoutEvent(Event::Layout &) override;
+                void _buttonPressEvent(Event::ButtonPress&) override;
+                void _buttonReleaseEvent(Event::ButtonRelease&) override;
 
-                void _buttonReleaseEvent(Event::ButtonRelease& event) override
-                {
-                    event.accept();
-                }
-
-                void _localeEvent(Event::Locale &) override
-                {
-                    _titleLabel->setText(_getText(DJV_TEXT("djv::ViewLib", "Settings")));
-                }
+                void _localeEvent(Event::Locale &) override;
 
             private:
                 std::shared_ptr<UI::Label> _titleLabel;
                 std::shared_ptr<UI::Button::Tool> _closeButton;
+                std::shared_ptr<UI::Button::Group> _buttonGroup;
+                std::map<std::string, std::string> _names;
+                std::map<std::string, std::shared_ptr<UI::Widget> > _widgets;
+                std::map<std::string, std::shared_ptr<UI::Button::List> > _buttons;
+                std::shared_ptr<UI::Layout::Vertical> _layout;
             };
-            
+
+            void SettingsWidget::_init(Context * context)
+            {
+                Widget::_init(context);
+
+                setPointerEnabled(true);
+
+                _titleLabel = UI::Label::create(context);
+                _titleLabel->setFontSizeRole(UI::Style::MetricsRole::FontHeader);
+                _titleLabel->setTextHAlign(UI::TextHAlign::Left);
+                _titleLabel->setTextColorRole(UI::Style::ColorRole::ForegroundHeader);
+                _titleLabel->setMargin(UI::Layout::Margin(
+                    UI::Style::MetricsRole::MarginLarge,
+                    UI::Style::MetricsRole::None,
+                    UI::Style::MetricsRole::Margin,
+                    UI::Style::MetricsRole::Margin));
+
+                _closeButton = UI::Button::Tool::create(context);
+                _closeButton->setIcon("djvIconClose");
+                _closeButton->setForegroundColorRole(UI::Style::ColorRole::ForegroundHeader);
+                _closeButton->setCheckedForegroundColorRole(UI::Style::ColorRole::ForegroundHeader);
+                _closeButton->setInsideMargin(UI::Style::MetricsRole::MarginSmall);
+
+                _buttonGroup = UI::Button::Group::create(UI::ButtonType::Radio);
+                for (auto i : context->getSystemsT<IViewSystem>())
+                {
+                    if (auto system = i.lock())
+                    {
+                        for (auto widget : system->createSettingsWidgets())
+                        {
+                            _names[widget.sortKey] = widget.name;
+                            _widgets[widget.sortKey] = widget.widget;
+                            auto button = UI::Button::List::create(context);
+                            button->setTextHAlign(UI::TextHAlign::Left);
+                            button->setInsideMargin(UI::Style::MetricsRole::Margin);
+                            _buttons[widget.sortKey] = button;
+                        }
+                    }
+                }
+
+                auto buttonLayout = UI::Layout::Vertical::create(context);
+                buttonLayout->setSpacing(UI::Style::MetricsRole::None);
+                for (auto i : _buttons)
+                {
+                    _buttonGroup->addButton(i.second);
+                    buttonLayout->addWidget(i.second);
+                }
+                auto buttonScrollWidget = UI::ScrollWidget::create(UI::ScrollType::Vertical, context);
+                buttonScrollWidget->addWidget(buttonLayout);
+
+                auto soloLayout = UI::Layout::Solo::create(context);
+                soloLayout->setMargin(UI::Style::MetricsRole::MarginLarge);
+                for (auto i : _widgets)
+                {
+                    soloLayout->addWidget(i.second);
+                }
+                auto scrollWidget = UI::ScrollWidget::create(UI::ScrollType::Vertical, context);
+                scrollWidget->setBackgroundRole(UI::Style::ColorRole::Background);
+                scrollWidget->addWidget(soloLayout);
+
+                _layout = UI::Layout::Vertical::create(context);
+                _layout->setSpacing(UI::Style::MetricsRole::None);
+                auto hLayout = UI::Layout::Horizontal::create(context);
+                hLayout->setSpacing(UI::Style::MetricsRole::None);
+                hLayout->setBackgroundRole(UI::Style::ColorRole::BackgroundHeader);
+                hLayout->addWidget(_titleLabel, UI::Layout::RowStretch::Expand);
+                hLayout->addWidget(_closeButton);
+                _layout->addWidget(hLayout);
+                _layout->addSeparator();
+                auto splitter = UI::Layout::Splitter::create(UI::Orientation::Horizontal, context);
+                splitter->setBackgroundRole(UI::Style::ColorRole::Background);
+                splitter->setMargin(UI::Style::MetricsRole::Margin);
+                splitter->addWidget(buttonScrollWidget);
+                splitter->addWidget(scrollWidget);
+                splitter->setSplit(.15f);
+                _layout->addWidget(splitter, UI::Layout::RowStretch::Expand);
+                _layout->setParent(shared_from_this());
+
+                auto weak = std::weak_ptr<SettingsWidget>(std::dynamic_pointer_cast<SettingsWidget>(shared_from_this()));
+                _buttonGroup->setRadioCallback(
+                    [soloLayout](int value)
+                {
+                    soloLayout->setCurrentIndex(value);
+                });
+            }
+
+            SettingsWidget::SettingsWidget()
+            {}
+
+            std::shared_ptr<SettingsWidget> SettingsWidget::create(Context * context)
+            {
+                auto out = std::shared_ptr<SettingsWidget>(new SettingsWidget);
+                out->_init(context);
+                return out;
+            }
+
+            void SettingsWidget::setCloseCallback(const std::function<void(void)> & value)
+            {
+                _closeButton->setClickedCallback(value);
+            }
+
+            float SettingsWidget::getHeightForWidth(float value) const
+            {
+                return _layout->getHeightForWidth(value);
+            }
+
+            void SettingsWidget::_preLayoutEvent(Event::PreLayout &)
+            {
+                _setMinimumSize(_layout->getMinimumSize());
+            }
+
+            void SettingsWidget::_layoutEvent(Event::Layout &)
+            {
+                _layout->setGeometry(getGeometry());
+            }
+
+            void SettingsWidget::_buttonPressEvent(Event::ButtonPress& event)
+            {
+                event.accept();
+            }
+
+            void SettingsWidget::_buttonReleaseEvent(Event::ButtonRelease& event)
+            {
+                event.accept();
+            }
+
+            void SettingsWidget::_localeEvent(Event::Locale &)
+            {
+                _titleLabel->setText(_getText(DJV_TEXT("djv::ViewLib", "Settings")));
+                for (const auto & i : _names)
+                {
+                    const auto j = _buttons.find(i.first);
+                    if (j != _buttons.end())
+                    {
+                        j->second->setText(_getText(i.second));
+                    }
+                }
+            }
+
+            class GeneralSettingsWidget : public UI::Widget
+            {
+                DJV_NON_COPYABLE(GeneralSettingsWidget);
+
+            protected:
+                void _init(Context *);
+
+                GeneralSettingsWidget();
+
+            public:
+                static std::shared_ptr<GeneralSettingsWidget> create(Context *);
+
+                float getHeightForWidth(float) const override;
+
+            protected:
+                void _preLayoutEvent(Event::PreLayout &) override;
+                void _layoutEvent(Event::Layout &) override;
+
+                void _localeEvent(Event::Locale &) override;
+
+            private:
+                std::shared_ptr<UI::Layout::GroupBox> _displayGroupBox;
+                std::shared_ptr<UI::Layout::GroupBox> _languageGroupBox;
+                std::shared_ptr<UI::Layout::GroupBox> _paletteGroupBox;
+                std::shared_ptr<UI::Layout::Vertical> _layout;
+            };
+
+            void GeneralSettingsWidget::_init(Context * context)
+            {
+                Widget::_init(context);
+
+                _displayGroupBox = UI::Layout::GroupBox::create(context);
+                _displayGroupBox->addWidget(DisplaySettingsWidget::create(context));
+
+                _languageGroupBox = UI::Layout::GroupBox::create(context);
+                _languageGroupBox->addWidget(LanguageSettingsWidget::create(context));
+
+                _paletteGroupBox = UI::Layout::GroupBox::create(context);
+                _paletteGroupBox->addWidget(PaletteSettingsWidget::create(context));
+
+                _layout = UI::Layout::Vertical::create(context);
+                _layout->setSpacing(UI::Style::MetricsRole::SpacingLarge);
+                _layout->addWidget(_displayGroupBox);
+                _layout->addWidget(_languageGroupBox);
+                _layout->addWidget(_paletteGroupBox);
+                _layout->setParent(shared_from_this());
+            }
+
+            GeneralSettingsWidget::GeneralSettingsWidget()
+            {}
+
+            std::shared_ptr<GeneralSettingsWidget> GeneralSettingsWidget::create(Context * context)
+            {
+                auto out = std::shared_ptr<GeneralSettingsWidget>(new GeneralSettingsWidget);
+                out->_init(context);
+                return out;
+            }
+
+            float GeneralSettingsWidget::getHeightForWidth(float value) const
+            {
+                return _layout->getHeightForWidth(value);
+            }
+
+            void GeneralSettingsWidget::_preLayoutEvent(Event::PreLayout &)
+            {
+                _setMinimumSize(_layout->getMinimumSize());
+            }
+
+            void GeneralSettingsWidget::_layoutEvent(Event::Layout &)
+            {
+                _layout->setGeometry(getGeometry());
+            }
+
+            void GeneralSettingsWidget::_localeEvent(Event::Locale &)
+            {
+                _displayGroupBox->setText(_getText(DJV_TEXT("djv::ViewLib", "Display")));
+                _languageGroupBox->setText(_getText(DJV_TEXT("djv::ViewLib", "Language")));
+                _paletteGroupBox->setText(_getText(DJV_TEXT("djv::ViewLib", "Palette")));
+            }
+
         } // namespace
         
         struct SettingsSystem::Private
@@ -226,12 +386,7 @@ namespace djv
 
         std::vector<NewSettingsWidget> SettingsSystem::createSettingsWidgets()
         {
-            return
-            {
-                { DisplaySettingsWidget::create(getContext()), "HA" },
-                { LanguageSettingsWidget::create(getContext()), "HB" },
-                { PaletteSettingsWidget::create(getContext()), "HC" }
-            };
+            return { { GeneralSettingsWidget::create(getContext()), DJV_TEXT("djv::ViewLib", "General"), "A", } };
         }
         
     } // namespace ViewLib

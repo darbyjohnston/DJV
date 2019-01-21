@@ -75,10 +75,10 @@ namespace djv
                     _titleLabel->setTextColorRole(Style::ColorRole::ForegroundHeader);
                     _titleLabel->setBackgroundRole(Style::ColorRole::BackgroundHeader);
                     _titleLabel->setMargin(UI::Layout::Margin(
-                        UI::Style::MetricsRole::Margin,
+                        UI::Style::MetricsRole::MarginLarge,
                         UI::Style::MetricsRole::None,
-                        UI::Style::MetricsRole::MarginSmall,
-                        UI::Style::MetricsRole::MarginSmall));
+                        UI::Style::MetricsRole::Margin,
+                        UI::Style::MetricsRole::Margin));
                     
                     _childLayout = Layout::Vertical::create(context);
                     _childLayout->setSpacing(Style::MetricsRole::None);

@@ -64,6 +64,7 @@ namespace djv
         struct NewSettingsWidget
         {
             std::shared_ptr<UI::Widget> widget;
+            std::string name;
             std::string sortKey;
         };
 

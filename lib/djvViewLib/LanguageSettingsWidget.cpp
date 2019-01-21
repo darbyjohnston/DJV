@@ -59,13 +59,14 @@ namespace djv
 
         void LanguageSettingsWidget::_init(Context * context)
         {
-            GroupBox::_init(context);
+            Widget::_init(context);
 
             DJV_PRIVATE_PTR();
             p.buttonGroup = UI::Button::Group::create(UI::ButtonType::Radio);
 
             p.layout = UI::Layout::Flow::create(context);
-            addWidget(p.layout);
+            p.layout->setSpacing(UI::Style::MetricsRole::None);
+            p.layout->setParent(shared_from_this());
 
             if (auto textSystem = context->getSystemT<TextSystem>().lock())
             {
@@ -74,6 +75,7 @@ namespace djv
                 {
                     auto button = UI::Button::Radio::create(context);
                     button->setText(context->getText(i));
+                    button->setInsideMargin(UI::Style::MetricsRole::Margin);
                     p.buttonGroup->addButton(button);
                     p.layout->addWidget(button);
                     p.indexToLocale[j] = i;
@@ -143,6 +145,21 @@ namespace djv
             return out;
         }
 
+        float LanguageSettingsWidget::getHeightForWidth(float value) const
+        {
+            return _p->layout->getHeightForWidth(value);
+        }
+
+        void LanguageSettingsWidget::_preLayoutEvent(Event::PreLayout &)
+        {
+            _setMinimumSize(_p->layout->getMinimumSize());
+        }
+
+        void LanguageSettingsWidget::_layoutEvent(Event::Layout &)
+        {
+            _p->layout->setGeometry(getGeometry());
+        }
+
         void LanguageSettingsWidget::_localeEvent(Event::Locale &)
         {
             _textUpdate();
@@ -150,7 +167,6 @@ namespace djv
         
         void LanguageSettingsWidget::_textUpdate()
         {
-            setText(_getText(DJV_TEXT("djv::ViewLib", "Language")));
             auto context = getContext();
             if (auto textSystem = context->getSystemT<TextSystem>().lock())
             {

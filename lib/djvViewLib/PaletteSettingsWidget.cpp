@@ -59,13 +59,14 @@ namespace djv
 
         void PaletteSettingsWidget::_init(Context * context)
         {
-            GroupBox::_init(context);
+            Widget::_init(context);
 
             DJV_PRIVATE_PTR();
             p.buttonGroup = UI::Button::Group::create(UI::ButtonType::Radio);                    
 
             p.layout = UI::Layout::Flow::create(context);
-            addWidget(p.layout);
+            p.layout->setSpacing(UI::Style::MetricsRole::None);
+            p.layout->setParent(shared_from_this());
 
             auto weak = std::weak_ptr<PaletteSettingsWidget>(std::dynamic_pointer_cast<PaletteSettingsWidget>(shared_from_this()));
             p.buttonGroup->setRadioCallback(
@@ -112,6 +113,7 @@ namespace djv
                             widget->_p->customStyles.push_back(customStyle);
                             auto button = UI::Button::Radio::create(context);
                             button->setBackgroundRole(UI::Style::ColorRole::Background);
+                            button->setInsideMargin(UI::Style::MetricsRole::Margin);
                             button->setStyle(customStyle);
                             widget->_p->buttons.push_back(button);
                             widget->_p->buttonGroup->addButton(button);
@@ -152,10 +154,9 @@ namespace djv
             return out;
         }
 
-        void PaletteSettingsWidget::_localeEvent(Event::Locale &)
+        float PaletteSettingsWidget::getHeightForWidth(float value) const
         {
-            setText(_getText(DJV_TEXT("djv::ViewLib", "Palette")));
-            _buttonTextUpdate();
+            return _p->layout->getHeightForWidth(value);
         }
 
         void PaletteSettingsWidget::_styleEvent(Event::Style &)
@@ -168,6 +169,21 @@ namespace djv
                     i->setFont(style->getFont());
                 }
             }
+        }
+
+        void PaletteSettingsWidget::_preLayoutEvent(Event::PreLayout &)
+        {
+            _setMinimumSize(_p->layout->getMinimumSize());
+        }
+
+        void PaletteSettingsWidget::_layoutEvent(Event::Layout &)
+        {
+            _p->layout->setGeometry(getGeometry());
+        }
+
+        void PaletteSettingsWidget::_localeEvent(Event::Locale &)
+        {
+            _buttonTextUpdate();
         }
 
         void PaletteSettingsWidget::_buttonTextUpdate()

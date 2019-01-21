@@ -59,13 +59,14 @@ namespace djv
 
         void DisplaySettingsWidget::_init(Context * context)
         {
-            GroupBox::_init(context);
+            Widget::_init(context);
 
             DJV_PRIVATE_PTR();
             p.buttonGroup = UI::Button::Group::create(UI::ButtonType::Radio);
 
             p.layout = UI::Layout::Flow::create(context);
-            addWidget(p.layout);
+            p.layout->setSpacing(UI::Style::MetricsRole::None);
+            p.layout->setParent(shared_from_this());
 
             auto weak = std::weak_ptr<DisplaySettingsWidget>(std::dynamic_pointer_cast<DisplaySettingsWidget>(shared_from_this()));
             p.buttonGroup->setRadioCallback(
@@ -111,6 +112,7 @@ namespace djv
                             customStyle->setMetrics(i.second);
                             widget->_p->customStyles.push_back(customStyle);
                             auto button = UI::Button::Radio::create(context);
+                            button->setInsideMargin(UI::Style::MetricsRole::Margin);
                             button->setStyle(customStyle);
                             widget->_p->buttons.push_back(button);
                             widget->_p->buttonGroup->addButton(button);
@@ -151,10 +153,9 @@ namespace djv
             return out;
         }
 
-        void DisplaySettingsWidget::_localeEvent(Event::Locale &)
+        float DisplaySettingsWidget::getHeightForWidth(float value) const
         {
-            setText(_getText(DJV_TEXT("djv::ViewLib", "Display")));
-            _buttonTextUpdate();
+            return _p->layout->getHeightForWidth(value);
         }
 
         void DisplaySettingsWidget::_styleEvent(Event::Style &)
@@ -167,6 +168,21 @@ namespace djv
                     i->setFont(style->getFont());
                 }
             }
+        }
+
+        void DisplaySettingsWidget::_preLayoutEvent(Event::PreLayout &)
+        {
+            _setMinimumSize(_p->layout->getMinimumSize());
+        }
+
+        void DisplaySettingsWidget::_layoutEvent(Event::Layout &)
+        {
+            _p->layout->setGeometry(getGeometry());
+        }
+
+        void DisplaySettingsWidget::_localeEvent(Event::Locale &)
+        {
+            _buttonTextUpdate();
         }
 
         void DisplaySettingsWidget::_buttonTextUpdate()

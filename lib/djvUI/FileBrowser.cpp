@@ -564,10 +564,10 @@ namespace djv
                         _titleLabel->setTextHAlign(TextHAlign::Left);
                         _titleLabel->setTextColorRole(UI::Style::ColorRole::ForegroundHeader);
                         _titleLabel->setMargin(UI::Layout::Margin(
-                            UI::Style::MetricsRole::Margin,
+                            UI::Style::MetricsRole::MarginLarge,
                             UI::Style::MetricsRole::None,
-                            UI::Style::MetricsRole::MarginSmall,
-                            UI::Style::MetricsRole::MarginSmall));
+                            UI::Style::MetricsRole::Margin,
+                            UI::Style::MetricsRole::Margin));
 
                         _closeButton = Button::Tool::create(context);
                         _closeButton->setIcon("djvIconClose");

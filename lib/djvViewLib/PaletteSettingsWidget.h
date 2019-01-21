@@ -31,13 +31,13 @@
 
 #include <djvViewLib/ViewLib.h>
 
-#include <djvUI/GroupBox.h>
+#include <djvUI/Widget.h>
 
 namespace djv
 {
     namespace ViewLib
     {
-        class PaletteSettingsWidget : public UI::Layout::GroupBox
+        class PaletteSettingsWidget : public UI::Widget
         {
             DJV_NON_COPYABLE(PaletteSettingsWidget);
 
@@ -48,9 +48,14 @@ namespace djv
         public:
             static std::shared_ptr<PaletteSettingsWidget> create(Core::Context *);
 
+            float getHeightForWidth(float) const override;
+
         protected:
-            void _localeEvent(Core::Event::Locale &) override;
             void _styleEvent(Core::Event::Style &) override;
+            void _preLayoutEvent(Core::Event::PreLayout &) override;
+            void _layoutEvent(Core::Event::Layout &) override;
+
+            void _localeEvent(Core::Event::Locale &) override;
 
         private:
             void _buttonTextUpdate();

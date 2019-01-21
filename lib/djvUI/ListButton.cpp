@@ -176,6 +176,16 @@ namespace djv
                 _p->label->setFontSizeRole(value);
             }
 
+            const Layout::Margin& List::getInsideMargin() const
+            {
+                return _p->layout->getMargin();
+            }
+
+            void List::setInsideMargin(const Layout::Margin& value)
+            {
+                _p->layout->setMargin(value);
+            }
+
             float List::getHeightForWidth(float value) const
             {
                 return _p->layout->getHeightForWidth(value);
