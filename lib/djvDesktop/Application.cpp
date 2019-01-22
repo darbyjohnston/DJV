@@ -155,7 +155,10 @@ namespace djv
             {
                 glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, GL_TRUE);
             }
-            p.glfwWindow = glfwCreateWindow(windowSize.x, windowSize.y, getName().c_str(), NULL, NULL);
+            p.glfwWindow = glfwCreateWindow(
+                static_cast<int>(ceilf(windowSize.x * (p.dpi / static_cast<float>(AV::dpiDefault)))),
+                static_cast<int>(ceilf(windowSize.y * (p.dpi / static_cast<float>(AV::dpiDefault)))),
+                getName().c_str(), NULL, NULL);
             if (!p.glfwWindow)
             {
                 std::stringstream ss;
