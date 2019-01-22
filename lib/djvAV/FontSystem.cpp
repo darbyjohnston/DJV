@@ -505,12 +505,16 @@ namespace djv
                         const auto font = family->second.find(request.info.face);
                         if (font != family->second.end())
                         {
-                            FT_Error ftError = FT_Set_Char_Size(
+                            /*FT_Error ftError = FT_Set_Char_Size(
                                 font->second,
                                 0,
                                 static_cast<int>(request.info.size * 64.f),
                                 request.info.dpi,
-                                request.info.dpi);
+                                request.info.dpi);*/
+                            FT_Error ftError = FT_Set_Pixel_Sizes(
+                                font->second,
+                                0,
+                                static_cast<int>(request.info.size));
                             if (!ftError)
                             {
                                 metrics.ascender   = font->second->size->metrics.ascender  / 64.f;
@@ -536,12 +540,16 @@ namespace djv
                         const auto font = family->second.find(request.info.face);
                         if (font != family->second.end())
                         {
-                            FT_Error ftError = FT_Set_Char_Size(
+                            /*FT_Error ftError = FT_Set_Char_Size(
                                 font->second,
                                 0,
                                 static_cast<int>(request.info.size * 64.f),
                                 request.info.dpi,
-                                request.info.dpi);
+                                request.info.dpi);*/
+                            FT_Error ftError = FT_Set_Pixel_Sizes(
+                                font->second,
+                                0,
+                                static_cast<int>(request.info.size));
                             if (ftError)
                             {
                                 continue;
@@ -609,12 +617,17 @@ namespace djv
                         const auto font = family->second.find(request.info.face);
                         if (font != family->second.end())
                         {
-                            FT_Error ftError = FT_Set_Char_Size(
+                            /*FT_Error ftError = FT_Set_Char_Size(
                                 font->second,
                                 0,
                                 static_cast<int>(request.info.size * 64.f),
                                 request.info.dpi,
-                                request.info.dpi);
+                                request.info.dpi);*/
+                            FT_Error ftError = FT_Set_Pixel_Sizes(
+                                font->second,
+                                0,
+                                static_cast<int>(request.info.size));
+
                             if (ftError)
                             {
                                 continue;
@@ -697,12 +710,16 @@ namespace djv
                         const auto font = family->second.find(request.info.face);
                         if (font != family->second.end())
                         {
-                            FT_Error ftError = FT_Set_Char_Size(
+                            /*FT_Error ftError = FT_Set_Char_Size(
                                 font->second,
                                 0,
                                 static_cast<int>(request.info.size * 64.f),
                                 request.info.dpi,
-                                request.info.dpi);
+                                request.info.dpi);*/
+                            FT_Error ftError = FT_Set_Pixel_Sizes(
+                                font->second,
+                                0,
+                                static_cast<int>(request.info.size));
                             if (ftError)
                             {
                                 //std::cout << "FT_Set_Char_Size error: " << getFTError(ftError) << std::endl;

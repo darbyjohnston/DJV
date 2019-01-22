@@ -143,7 +143,7 @@ namespace djv
                 p.metrics[MetricsRole::Icon]                 =  24.f;
                 p.metrics[MetricsRole::IconLarge]            = 100.f;
                 p.metrics[MetricsRole::FontSmall]            =   9.f;
-                p.metrics[MetricsRole::FontMedium]           =  11.f;
+                p.metrics[MetricsRole::FontMedium]           =  12.f;
                 p.metrics[MetricsRole::FontLarge]            =  16.f;
                 p.metrics[MetricsRole::FontHeader]           =  16.f;
                 p.metrics[MetricsRole::Swatch]               =  40.f;
@@ -272,13 +272,13 @@ namespace djv
             AV::Font::Info Style::getFontInfo(const std::string & family, const std::string & face, MetricsRole role) const
             {
                 DJV_PRIVATE_PTR();
-                return AV::Font::Info(family, face, p.metrics.getMetric(role), p.dpi);
+                return AV::Font::Info(family, face, ceilf(getMetric(role)), p.dpi);
             }
 
             AV::Font::Info Style::getFontInfo(const std::string & face, MetricsRole role) const
             {
                 DJV_PRIVATE_PTR();
-                return AV::Font::Info(p.font, face, p.metrics.getMetric(role), p.dpi);
+                return AV::Font::Info(p.font, face, ceilf(getMetric(role)), p.dpi);
             }
 
             bool Style::isDirty() const
