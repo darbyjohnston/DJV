@@ -216,8 +216,8 @@ namespace djv
                             dialogSystem->confirmation(
                                 context->getText(DJV_TEXT("djv::ViewLib", "Exit")),
                                 context->getText(DJV_TEXT("djv::ViewLib", "Are you sure you want to exit?")),
-                                context->getText(DJV_TEXT("djv::ViewLib", "Yesy")),
-                                context->getText(DJV_TEXT("djv::ViewLib", "Noj")),
+                                context->getText(DJV_TEXT("djv::ViewLib", "Yes")),
+                                context->getText(DJV_TEXT("djv::ViewLib", "No")),
                                 [context](bool value)
                             {
                                 if (value)
