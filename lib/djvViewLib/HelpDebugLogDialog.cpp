@@ -74,10 +74,9 @@ namespace djv
             p.clearButton = UI::Button::Push::create(context);
 
             auto layout = UI::Layout::Vertical::create(context);
-            layout->setSpacing(UI::Style::MetricsRole::None);
+            layout->setMargin(UI::Style::MetricsRole::Margin);
             layout->addWidget(scrollWidget, UI::Layout::RowStretch::Expand);
             auto hLayout = UI::Layout::Horizontal::create(context);
-            hLayout->setMargin(UI::Style::MetricsRole::Margin);
             hLayout->addWidget(p.copyButton);
             hLayout->addWidget(p.reloadButton);
             hLayout->addWidget(p.clearButton);

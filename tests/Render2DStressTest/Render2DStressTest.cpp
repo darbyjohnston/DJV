@@ -126,7 +126,7 @@ void Application::_init(int argc, char ** argv)
 {
     AV::Application::_init(argc, argv);
     auto glfwWindow = getGLFWWindow();
-    glfwSetWindowSize(glfwWindow, 1024, 768);
+    glfwSetWindowSize(glfwWindow, 1280, 720);
     glfwShowWindow(glfwWindow);
 }
 

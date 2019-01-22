@@ -86,7 +86,12 @@ namespace djv
 
             auto scrollWidget = UI::ScrollWidget::create(UI::ScrollType::Vertical, context);
             scrollWidget->addWidget(textLayout);
-            addWidget(scrollWidget, UI::Layout::RowStretch::Expand);
+
+            auto layout = UI::Layout::Vertical::create(context);
+            layout->setMargin(UI::Style::MetricsRole::Margin);
+            layout->addWidget(scrollWidget, UI::Layout::RowStretch::Expand);
+
+            addWidget(layout, UI::Layout::RowStretch::Expand);
         }
 
         HelpAboutDialog::HelpAboutDialog() :

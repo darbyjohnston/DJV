@@ -76,7 +76,7 @@ public:
 private:
     void _render();
 
-    glm::ivec2 _windowSize = glm::ivec2(1024, 768);
+    glm::ivec2 _windowSize = glm::ivec2(1280, 720);
     std::vector<Circle> _circles;
     std::shared_ptr<Core::Time::Timer> _timer;
 };

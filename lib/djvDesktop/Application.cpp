@@ -53,7 +53,7 @@ namespace djv
         namespace
         {
             //! \todo [1.0 S] Should this be configurable?
-            const glm::ivec2 windowSize(1024, 768);
+            const glm::ivec2 windowSize(1280, 720);
             const size_t frameRate = 60;
 
             std::weak_ptr<LogSystem> logSystemWeak;
