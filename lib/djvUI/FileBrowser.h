@@ -31,8 +31,6 @@
 
 #include <djvUI/Widget.h>
 
-#include <djvCore/ISystem.h>
-
 namespace djv
 {
     namespace Core
@@ -74,26 +72,6 @@ namespace djv
                 void _layoutEvent(Core::Event::Layout&) override;
 
                 void _localeEvent(Core::Event::Locale &) override;
-
-            private:
-                DJV_PRIVATE();
-            };
-
-            //! This class provides a file browser dialog system.
-            class DialogSystem : public Core::ISystem
-            {
-                DJV_NON_COPYABLE(DialogSystem);
-
-            protected:
-                void _init(Core::Context *);
-                DialogSystem();
-
-            public:
-                virtual ~DialogSystem();
-
-                static std::shared_ptr<DialogSystem> create(Core::Context *);
-
-                void show(const std::function<void(const Core::FileSystem::FileInfo &)> &);
 
             private:
                 DJV_PRIVATE();

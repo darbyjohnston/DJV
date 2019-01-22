@@ -29,62 +29,32 @@
 
 #pragma once
 
-#include <djvUI/Margin.h>
-#include <djvUI/Widget.h>
+#include <djvUI/IDialog.h>
 
 namespace djv
 {
-    namespace UI
+    namespace ViewLib
     {
-        //! This class provides a block of text.
-        class TextBlock : public Widget
+        class HelpAboutDialog : public UI::IDialog
         {
-            DJV_NON_COPYABLE(TextBlock);
-            
+            DJV_NON_COPYABLE(HelpAboutDialog);
+
         protected:
             void _init(Core::Context *);
-            TextBlock();
+            HelpAboutDialog();
 
         public:
-            virtual ~TextBlock();
+            ~HelpAboutDialog() override;
 
-            static std::shared_ptr<TextBlock> create(Core::Context *);
-            static std::shared_ptr<TextBlock> create(const std::string&, Core::Context *);
-
-            const std::string& getText() const;
-            void setText(const std::string&);
-
-            TextHAlign getTextHAlign() const;
-            void setTextHAlign(TextHAlign);
-
-            Style::ColorRole getTextColorRole() const;
-            void setTextColorRole(Style::ColorRole);
-
-            Style::MetricsRole getTextSizeRole() const;
-            void setTextSizeRole(Style::MetricsRole);
-
-            const std::string & getFontFamily() const;
-            const std::string & getFontFace() const;
-            Style::MetricsRole getFontSizeRole() const;
-            void setFontFamily(const std::string &);
-            void setFontFace(const std::string &);
-            void setFontSizeRole(Style::MetricsRole);
-
-            float getHeightForWidth(float) const override;
+            static std::shared_ptr<HelpAboutDialog> create(Core::Context *);
 
         protected:
-            void _styleEvent(Core::Event::Style&) override;
-            void _preLayoutEvent(Core::Event::PreLayout&) override;
-            void _layoutEvent(Core::Event::Layout&) override;
-            void _clipEvent(Core::Event::Clip&) override;
-            void _paintEvent(Core::Event::Paint&) override;
+            void _localeEvent(Core::Event::Locale &) override;
 
         private:
-            void _textUpdate();
-
-            struct Private;
-            std::unique_ptr<Private> _p;
+            DJV_PRIVATE();
         };
 
-    } // namespace UI
+    } // namespace ViewLib
 } // namespace djv
+

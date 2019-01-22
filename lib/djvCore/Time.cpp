@@ -161,10 +161,10 @@ namespace djv
                     *ok = true;
                 }
 
-                int hour = 0;
+                int hour   = 0;
                 int minute = 0;
                 int second = 0;
-                int frame = 0;
+                int frame  = 0;
 
                 const auto pieces = String::split(in, ':');
                 if (pieces.size() != 4 && ok)
@@ -175,10 +175,10 @@ namespace djv
                 int i = 0;
                 switch (pieces.size())
                 {
-                case 4: hour = std::stoi(pieces[i]); ++i;
+                case 4: hour   = std::stoi(pieces[i]); ++i;
                 case 3: minute = std::stoi(pieces[i]); ++i;
                 case 2: second = std::stoi(pieces[i]); ++i;
-                case 1: frame = std::stoi(pieces[i]); ++i;
+                case 1: frame  = std::stoi(pieces[i]); ++i;
                 }
 
                 out = timeToTimecode(hour, minute, second, frame);

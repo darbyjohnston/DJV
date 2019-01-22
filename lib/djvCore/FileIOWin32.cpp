@@ -108,17 +108,21 @@ namespace djv
                 {
                 case Mode::Read:
                     desiredAccess = GENERIC_READ;
-                    shareMode = FILE_SHARE_READ;
-                    disposition = OPEN_EXISTING;
+                    shareMode     = FILE_SHARE_READ;
+                    disposition   = OPEN_EXISTING;
                     break;
                 case Mode::Write:
                     desiredAccess = GENERIC_WRITE;
-                    disposition = CREATE_ALWAYS;
+                    disposition   = CREATE_ALWAYS;
                     break;
                 case Mode::ReadWrite:
                     desiredAccess = GENERIC_READ | GENERIC_WRITE;
-                    shareMode = FILE_SHARE_READ;
-                    disposition = CREATE_ALWAYS;
+                    shareMode     = FILE_SHARE_READ;
+                    disposition   = CREATE_ALWAYS;
+                    break;
+                case Mode::Append:
+                    desiredAccess = GENERIC_WRITE;
+                    disposition   = OPEN_EXISTING;
                     break;
                 default: break;
                 }
@@ -128,9 +132,9 @@ namespace djv
                     throw std::runtime_error(getOpenError(fileName));
                 }
                 _fileName = fileName;
-                _mode = mode;
-                _pos = 0;
-                _size = GetFileSize(_f, 0);
+                _mode     = mode;
+                _pos      = 0;
+                _size     = GetFileSize(_f, 0);
 
                 // Memory mapping.
                 if (Mode::Read == _mode && _size > 0)
@@ -185,7 +189,7 @@ namespace djv
                     _mmap = 0;
                 }
                 _mmapEnd = 0;
-                _mmapP = 0;
+                _mmapP   = 0;
 
                 if (_f != INVALID_HANDLE_VALUE)
                 {
@@ -194,7 +198,7 @@ namespace djv
                 }
 
                 _mode = Mode::First;
-                _pos = 0;
+                _pos  = 0;
                 _size = 0;
             }
 
@@ -246,7 +250,7 @@ namespace djv
 
             void FileIO::write(const void* in, size_t size, size_t wordSize)
             {
-                uint8_t* p = (uint8_t*)in;
+                uint8_t * p = (uint8_t *)in;
 
                 std::vector<uint8_t> tmp;
                 if (_endian && wordSize > 1)
@@ -291,6 +295,7 @@ namespace djv
                     break;
                 case Mode::Write:
                 case Mode::ReadWrite:
+                case Mode::Append:
                 {
                     LARGE_INTEGER v;
                     v.QuadPart = value;

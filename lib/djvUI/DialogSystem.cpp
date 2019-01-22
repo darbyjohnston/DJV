@@ -29,24 +29,16 @@
 
 #include <djvUI/DialogSystem.h>
 
-#include <djvUI/Action.h>
+#include <djvUI/FileBrowser.h>
+#include <djvUI/IDialog.h>
 #include <djvUI/IWindowSystem.h>
 #include <djvUI/Label.h>
 #include <djvUI/Overlay.h>
 #include <djvUI/PushButton.h>
 #include <djvUI/RowLayout.h>
-#include <djvUI/Separator.h>
-#include <djvUI/Shortcut.h>
-#include <djvUI/StackLayout.h>
 #include <djvUI/TextBlock.h>
+#include <djvUI/ToolButton.h>
 #include <djvUI/Window.h>
-
-#include <djvAV/Render2D.h>
-
-#include <djvCore/Animation.h>
-#include <djvCore/Timer.h>
-
-#include <GLFW/glfw3.h>
 
 using namespace djv::Core;
 
@@ -56,108 +48,16 @@ namespace djv
     {
         namespace
         {
-            class DialogWidget : public Layout::IContainer
-            {
-                DJV_NON_COPYABLE(DialogWidget);
-
-            protected:
-                void _init(Context * context)
-                {
-                    IContainer::_init(context);
-
-                    setPointerEnabled(true);
-                    setHAlign(HAlign::Center);
-                    setVAlign(VAlign::Center);
-
-                    _titleLabel = Label::create(context);
-                    _titleLabel->setFontSizeRole(UI::Style::MetricsRole::FontHeader);
-                    _titleLabel->setTextHAlign(TextHAlign::Left);
-                    _titleLabel->setTextColorRole(Style::ColorRole::ForegroundHeader);
-                    _titleLabel->setBackgroundRole(Style::ColorRole::BackgroundHeader);
-                    _titleLabel->setMargin(UI::Layout::Margin(
-                        UI::Style::MetricsRole::MarginLarge,
-                        UI::Style::MetricsRole::None,
-                        UI::Style::MetricsRole::Margin,
-                        UI::Style::MetricsRole::Margin));
-                    
-                    _childLayout = Layout::Vertical::create(context);
-                    _childLayout->setSpacing(Style::MetricsRole::None);
-                    _childLayout->setBackgroundRole(Style::ColorRole::Background);
-
-                    _layout = Layout::Vertical::create(context);
-                    _layout->setSpacing(Style::MetricsRole::None);
-                    _layout->addWidget(_titleLabel);
-                    _layout->addSeparator();
-                    _layout->addWidget(_childLayout, Layout::RowStretch::Expand);
-                    IContainer::addWidget(_layout);
-                }
-
-                DialogWidget()
-                {}
-
-            public:
-                static std::shared_ptr<DialogWidget> create(Context * context)
-                {
-                    auto out = std::shared_ptr<DialogWidget>(new DialogWidget);
-                    out->_init(context);
-                    return out;
-                }
-
-                void setTitle(const std::string & text)
-                {
-                    _titleLabel->setText(text);
-                }
-
-                void addWidget(const std::shared_ptr<Widget>& value) override
-                {
-                    _childLayout->addWidget(value);
-                }
-
-                void removeWidget(const std::shared_ptr<Widget>& value) override
-                {
-                    _childLayout->removeWidget(value);
-                }
-
-                void clearWidgets() override
-                {
-                    _childLayout->clearWidgets();
-                }
-
-            protected:
-                void _preLayoutEvent(Event::PreLayout&) override
-                {
-                    _setMinimumSize(_layout->getMinimumSize());
-                }
-
-                void _layoutEvent(Event::Layout&) override
-                {
-                    _layout->setGeometry(getGeometry());
-                }
-
-                void _buttonPressEvent(Event::ButtonPress& event) override
-                {
-                    event.accept();
-                }
-
-                void _buttonReleaseEvent(Event::ButtonRelease& event) override
-                {
-                    event.accept();
-                }
-
-            private:
-                std::shared_ptr<Label> _titleLabel;
-                std::shared_ptr<Layout::Vertical> _childLayout;
-                std::shared_ptr<Layout::Vertical> _layout;
-            };
-
-            class MessageDialog : public DialogWidget
+            class MessageDialog : public IDialog
             {
                 DJV_NON_COPYABLE(MessageDialog);
 
             protected:
                 void _init(Context * context)
                 {
-                    DialogWidget::_init(context);
+                    IDialog::_init(context);
+
+                    setFillLayout(false);
 
                     _textBlock = TextBlock::create(context);
                     _textBlock->setTextHAlign(TextHAlign::Center);
@@ -169,7 +69,17 @@ namespace djv
                     layout->setMargin(Style::MetricsRole::Margin);
                     layout->addWidget(_textBlock);
                     layout->addWidget(_closeButton);
-                    addWidget(layout);
+                    addWidget(layout, Layout::RowStretch::Expand);
+
+                    auto weak = std::weak_ptr<MessageDialog>(std::dynamic_pointer_cast<MessageDialog>(shared_from_this()));
+                    _closeButton->setClickedCallback(
+                        [weak]
+                    {
+                        if (auto dialog = weak.lock())
+                        {
+                            dialog->_doCloseCallback();
+                        }
+                    });
                 }
 
                 MessageDialog()
@@ -193,24 +103,21 @@ namespace djv
                     _closeButton->setText(text);
                 }
 
-                void setCloseCallback(const std::function<void(void)> & value)
-                {
-                    _closeButton->setClickedCallback(value);
-                }
-
             private:
                 std::shared_ptr<TextBlock> _textBlock;
                 std::shared_ptr<Button::Push> _closeButton;
             };
 
-            class ConfirmationDialog : public DialogWidget
+            class ConfirmationDialog : public IDialog
             {
                 DJV_NON_COPYABLE(ConfirmationDialog);
 
             protected:
                 void _init(Context * context)
                 {
-                    DialogWidget::_init(context);
+                    IDialog::_init(context);
+
+                    setFillLayout(false);
                     
                     _textBlock = TextBlock::create(context);
                     _textBlock->setTextHAlign(TextHAlign::Center);
@@ -226,7 +133,33 @@ namespace djv
                     hLayout->addWidget(_acceptButton, Layout::RowStretch::Expand);
                     hLayout->addWidget(_cancelButton, Layout::RowStretch::Expand);
                     layout->addWidget(hLayout);
-                    addWidget(layout);
+                    addWidget(layout, Layout::RowStretch::Expand);
+
+                    auto weak = std::weak_ptr<ConfirmationDialog>(std::dynamic_pointer_cast<ConfirmationDialog>(shared_from_this()));
+                    _acceptButton->setClickedCallback(
+                        [weak]
+                    {
+                        if (auto dialog = weak.lock())
+                        {
+                            if (dialog->_acceptCallback)
+                            {
+                                dialog->_acceptCallback();
+                            }
+                            dialog->_doCloseCallback();
+                        }
+                    });
+                    _cancelButton->setClickedCallback(
+                        [weak]
+                    {
+                        if (auto dialog = weak.lock())
+                        {
+                            if (dialog->_cancelCallback)
+                            {
+                                dialog->_cancelCallback();
+                            }
+                            dialog->_doCloseCallback();
+                        }
+                    });
                 }
 
                 ConfirmationDialog()
@@ -257,18 +190,70 @@ namespace djv
 
                 void setAcceptCallback(const std::function<void(void)> & value)
                 {
-                    _acceptButton->setClickedCallback(value);
+                    _acceptCallback = value;
                 }
 
                 void setCancelCallback(const std::function<void(void)> & value)
                 {
-                    _cancelButton->setClickedCallback(value);
+                    _cancelCallback = value;
                 }
 
             private:
                 std::shared_ptr<TextBlock> _textBlock;
                 std::shared_ptr<Button::Push> _acceptButton;
                 std::shared_ptr<Button::Push> _cancelButton;
+                std::function<void(void)> _acceptCallback;
+                std::function<void(void)> _cancelCallback;
+            };
+
+            class FileBrowserDialog : public IDialog
+            {
+                DJV_NON_COPYABLE(FileBrowserDialog);
+
+            protected:
+                void _init(Context * context)
+                {
+                    IDialog::_init(context);
+
+                    _widget = FileBrowser::Widget::create(context);
+                    _widget->setPath(FileSystem::Path("."));
+                    _widget->setBackgroundRole(Style::ColorRole::Background);
+                    addWidget(_widget, Layout::RowStretch::Expand);
+
+                    auto weak = std::weak_ptr<FileBrowserDialog>(std::dynamic_pointer_cast<FileBrowserDialog>(shared_from_this()));
+                    _widget->setCallback(
+                        [weak](const FileSystem::FileInfo & value)
+                    {
+                        if (auto dialog = weak.lock())
+                        {
+                            if (dialog->_callback)
+                            {
+                                dialog->_callback(value);
+                            }
+                            dialog->_doCloseCallback();
+                        }
+                    });
+                }
+
+                FileBrowserDialog()
+                {}
+
+            public:
+                static std::shared_ptr<FileBrowserDialog> create(Context * context)
+                {
+                    auto out = std::shared_ptr<FileBrowserDialog>(new FileBrowserDialog);
+                    out->_init(context);
+                    return out;
+                }
+
+                void setCallback(const std::function<void(const FileSystem::FileInfo &)> & value)
+                {
+                    _callback = value;
+                }
+
+            private:
+                std::shared_ptr<FileBrowser::Widget> _widget;
+                std::function<void(const FileSystem::FileInfo &)> _callback;
             };
 
         } // namespace
@@ -276,9 +261,8 @@ namespace djv
         struct DialogSystem::Private
         {
             std::shared_ptr<MessageDialog> messageDialog;
-            std::shared_ptr<Layout::Overlay> messageOverlay;
             std::shared_ptr<ConfirmationDialog> confirmationDialog;
-            std::shared_ptr<Layout::Overlay> confirmationOverlay;
+            std::shared_ptr<FileBrowserDialog> fileBrowserDialog;
         };
 
         void DialogSystem::_init(Context * context)
@@ -310,8 +294,6 @@ namespace djv
             if (!p.messageDialog)
             {
                 p.messageDialog = MessageDialog::create(context);
-                p.messageOverlay = Layout::Overlay::create(context);
-                p.messageOverlay->addWidget(p.messageDialog);
             }
             if (auto windowSystem = context->getSystemT<UI::IWindowSystem>().lock())
             {
@@ -320,25 +302,19 @@ namespace djv
                     p.messageDialog->setTitle(title);
                     p.messageDialog->setText(text);
                     p.messageDialog->setCloseText(closeText);
-                    window->addWidget(p.messageOverlay);
-                    p.messageOverlay->show();
+
                     auto weak = std::weak_ptr<DialogSystem>(std::dynamic_pointer_cast<DialogSystem>(shared_from_this()));
                     p.messageDialog->setCloseCallback(
                         [weak, window]
                     {
                         if (auto system = weak.lock())
                         {
-                            window->removeWidget(system->_p->messageOverlay);
+                            window->removeWidget(system->_p->messageDialog);
                         }
                     });
-                    p.messageOverlay->setCloseCallback(
-                        [weak, window]
-                    {
-                        if (auto system = weak.lock())
-                        {
-                            window->removeWidget(system->_p->messageOverlay);
-                        }
-                    });
+
+                    window->addWidget(p.messageDialog);
+                    p.messageDialog->show();
                 }
             }
         }
@@ -355,8 +331,6 @@ namespace djv
             if (!p.confirmationDialog)
             {
                 p.confirmationDialog = ConfirmationDialog::create(context);
-                p.confirmationOverlay = Layout::Overlay::create(context);
-                p.confirmationOverlay->addWidget(p.confirmationDialog);
             }
             if (auto windowSystem = context->getSystemT<UI::IWindowSystem>().lock())
             {
@@ -366,35 +340,66 @@ namespace djv
                     p.confirmationDialog->setText(text);
                     p.confirmationDialog->setAcceptText(acceptText);
                     p.confirmationDialog->setCancelText(cancelText);
-                    window->addWidget(p.confirmationOverlay);
-                    p.confirmationOverlay->show();
+
                     auto weak = std::weak_ptr<DialogSystem>(std::dynamic_pointer_cast<DialogSystem>(shared_from_this()));
                     p.confirmationDialog->setAcceptCallback(
-                        [weak, window, callback]
+                        [callback]
                     {
-                        if (auto system = weak.lock())
-                        {
-                            window->removeWidget(system->_p->confirmationOverlay);
-                            callback(true);
-                        }
+                        callback(true);
                     });
                     p.confirmationDialog->setCancelCallback(
-                        [weak, window, callback]
+                        [callback]
                     {
-                        if (auto system = weak.lock())
-                        {
-                            window->removeWidget(system->_p->confirmationOverlay);
-                            callback(false);
-                        }
+                        callback(false);
                     });
-                    p.confirmationOverlay->setCloseCallback(
+                    p.confirmationDialog->setCloseCallback(
                         [weak, window]
                     {
                         if (auto system = weak.lock())
                         {
-                            window->removeWidget(system->_p->confirmationOverlay);
+                            window->removeWidget(system->_p->confirmationDialog);
                         }
                     });
+
+                    window->addWidget(p.confirmationDialog);
+                    p.confirmationDialog->show();
+                }
+            }
+        }
+
+        void DialogSystem::fileBrowser(
+            const std::string & title,
+            const std::function<void(const Core::FileSystem::FileInfo &)> & callback)
+        {
+            auto context = getContext();
+            DJV_PRIVATE_PTR();
+            if (!p.fileBrowserDialog)
+            {
+                p.fileBrowserDialog = FileBrowserDialog::create(context);
+            }
+            if (auto windowSystem = context->getSystemT<UI::IWindowSystem>().lock())
+            {
+                if (auto window = windowSystem->observeCurrentWindow()->get())
+                {
+                    p.fileBrowserDialog->setTitle(title);
+
+                    auto weak = std::weak_ptr<DialogSystem>(std::dynamic_pointer_cast<DialogSystem>(shared_from_this()));
+                    p.fileBrowserDialog->setCallback(
+                        [callback](const Core::FileSystem::FileInfo & value)
+                    {
+                        callback(value);
+                    });
+                    p.fileBrowserDialog->setCloseCallback(
+                        [weak, window]
+                    {
+                        if (auto system = weak.lock())
+                        {
+                            window->removeWidget(system->_p->fileBrowserDialog);
+                        }
+                    });
+
+                    window->addWidget(p.fileBrowserDialog);
+                    p.fileBrowserDialog->show();
                 }
             }
         }

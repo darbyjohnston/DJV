@@ -65,7 +65,6 @@ namespace djv
             p.buttonGroup = UI::Button::Group::create(UI::ButtonType::Radio);
 
             p.layout = UI::Layout::Flow::create(context);
-            p.layout->setSpacing(UI::Style::MetricsRole::None);
             p.layout->setParent(shared_from_this());
 
             if (auto textSystem = context->getSystemT<TextSystem>().lock())

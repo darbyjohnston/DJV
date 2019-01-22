@@ -213,6 +213,7 @@ namespace djv
                     DJV_PRIVATE_PTR();
 
                     // Get the child sizes.
+                    const glm::vec2 m = getMargin().getSize(style);
                     const glm::ivec2 gridSize = getGridSize();
                     for (int y = 0; y < gridSize.y; ++y)
                     {
@@ -224,7 +225,7 @@ namespace djv
                             {
                                 if (i->second->isVisible())
                                 {
-                                    heightForWidth = std::max(i->second->getHeightForWidth(value), heightForWidth);
+                                    heightForWidth = std::max(i->second->getHeightForWidth(value - m.x), heightForWidth);
                                 }
                             }
                         }
@@ -238,7 +239,7 @@ namespace djv
                         out += s.y * (gridSize.y - 1);
                     }
 
-                    out += getMargin().getHeight(style);
+                    out += m.y;
                 }
                 return out;
             }

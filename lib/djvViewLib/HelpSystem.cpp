@@ -29,20 +29,15 @@
 
 #include <djvViewLib/HelpSystem.h>
 
+#include <djvViewLib/HelpAboutDialog.h>
+#include <djvViewLib/HelpDebugLogDialog.h>
+
 #include <djvUI/Action.h>
+#include <djvUI/IDialog.h>
 #include <djvUI/IWindowSystem.h>
-#include <djvUI/Icon.h>
-#include <djvUI/ImageWidget.h>
-#include <djvUI/Label.h>
 #include <djvUI/Menu.h>
 #include <djvUI/RowLayout.h>
-#include <djvUI/TextBlock.h>
-#include <djvUI/ToolButton.h>
-#include <djvUI/ScrollWidget.h>
-#include <djvUI/Overlay.h>
 #include <djvUI/Window.h>
-
-#include <djvAV/ThumbnailSystem.h>
 
 #include <djvCore/Context.h>
 
@@ -54,136 +49,10 @@ namespace djv
 {
     namespace ViewLib
     {
-        namespace
-        {
-            class AboutWidget : public UI::Layout::Vertical
-            {
-                DJV_NON_COPYABLE(AboutWidget);
-
-            protected:
-                void _init(Context * context)
-                {
-                    Vertical::_init(context);
-
-                    setSpacing(UI::Style::MetricsRole::None);
-                    setBackgroundRole(UI::Style::ColorRole::Background);
-                    setPointerEnabled(true);
-
-                    _titleLabel = UI::Label::create(context);
-                    _titleLabel->setFontSizeRole(UI::Style::MetricsRole::FontHeader);
-                    _titleLabel->setTextHAlign(UI::TextHAlign::Left);
-                    _titleLabel->setTextColorRole(UI::Style::ColorRole::ForegroundHeader);
-                    _titleLabel->setMargin(UI::Layout::Margin(
-                        UI::Style::MetricsRole::Margin,
-                        UI::Style::MetricsRole::None,
-                        UI::Style::MetricsRole::MarginSmall,
-                        UI::Style::MetricsRole::MarginSmall));
-
-                    _closeButton = UI::Button::Tool::create(context);
-                    _closeButton->setIcon("djvIconClose");
-                    _closeButton->setForegroundColorRole(UI::Style::ColorRole::ForegroundHeader);
-                    _closeButton->setCheckedForegroundColorRole(UI::Style::ColorRole::ForegroundHeader);
-                    _closeButton->setInsideMargin(UI::Style::MetricsRole::MarginSmall);
-
-                    _textBlocks["Header"] = UI::TextBlock::create(context);
-                    _textBlocks["Header"]->setFontSizeRole(UI::Style::MetricsRole::FontHeader);
-                    _textBlocks["Copyright"] = UI::TextBlock::create(context);
-                    _textBlocks["License"] = UI::TextBlock::create(context);
-                    _textBlocks["ContributorsHeader"] = UI::TextBlock::create(context);
-                    _textBlocks["ContributorsHeader"]->setFontSizeRole(UI::Style::MetricsRole::FontLarge);
-                    _textBlocks["Contributors"] = UI::TextBlock::create(context);
-                    _textBlocks["ThirdPartyHeader"] = UI::TextBlock::create(context);
-                    _textBlocks["ThirdPartyHeader"]->setFontSizeRole(UI::Style::MetricsRole::FontLarge);
-                    _textBlocks["ThirdParty"] = UI::TextBlock::create(context);
-                    _textBlocks["TrademarksHeader"] = UI::TextBlock::create(context);
-                    _textBlocks["TrademarksHeader"]->setFontSizeRole(UI::Style::MetricsRole::FontLarge);
-                    _textBlocks["Trademarks"] = UI::TextBlock::create(context);
-
-                    auto textLayout = UI::Layout::Vertical::create(context);
-                    textLayout->setMargin(UI::Style::MetricsRole::MarginLarge);
-                    textLayout->setSpacing(UI::Style::MetricsRole::SpacingLarge);
-                    textLayout->addWidget(_textBlocks["Header"]);
-                    textLayout->addWidget(_textBlocks["Copyright"]);
-                    textLayout->addWidget(_textBlocks["License"]);
-                    textLayout->addSeparator();
-                    textLayout->addWidget(_textBlocks["ContributorsHeader"]);
-                    textLayout->addWidget(_textBlocks["Contributors"]);
-                    textLayout->addSeparator();
-                    textLayout->addWidget(_textBlocks["ThirdPartyHeader"]);
-                    textLayout->addWidget(_textBlocks["ThirdParty"]);
-                    textLayout->addSeparator();
-                    textLayout->addWidget(_textBlocks["TrademarksHeader"]);
-                    textLayout->addWidget(_textBlocks["Trademarks"]);
-
-                    auto scrollWidget = UI::ScrollWidget::create(UI::ScrollType::Vertical, context);
-                    scrollWidget->addWidget(textLayout);
-
-                    auto hLayout = UI::Layout::Horizontal::create(context);
-                    hLayout->setSpacing(UI::Style::MetricsRole::None);
-                    hLayout->setBackgroundRole(UI::Style::ColorRole::BackgroundHeader);
-                    hLayout->addWidget(_titleLabel, UI::Layout::RowStretch::Expand);
-                    hLayout->addWidget(_closeButton);
-                    addWidget(hLayout);
-                    addWidget(scrollWidget, UI::Layout::RowStretch::Expand);
-                }
-
-                AboutWidget()
-                {}
-
-            public:
-                static std::shared_ptr<AboutWidget> create(Context * context)
-                {
-                    auto out = std::shared_ptr<AboutWidget>(new AboutWidget);
-                    out->_init(context);
-                    return out;
-                }
-
-                void setCloseCallback(const std::function<void(void)> & value)
-                {
-                    _closeButton->setClickedCallback(value);
-                }
-
-            protected:
-                void _buttonPressEvent(Event::ButtonPress& event) override
-                {
-                    event.accept();
-                }
-
-                void _buttonReleaseEvent(Event::ButtonRelease& event) override
-                {
-                    event.accept();
-                }
-
-                void _localeEvent(Event::Locale &) override
-                {
-                    _titleLabel->setText(_getText(DJV_TEXT("djv::ViewLib", "About")));
-                    std::stringstream ss;
-                    ss << _getText(DJV_TEXT("djv::ViewLib", "AboutHeader"));
-                    ss << " " << DJV_VERSION;
-                    _textBlocks["Header"]->setText(ss.str());
-                    _textBlocks["Copyright"]->setText(_getText(DJV_TEXT("djv::ViewLib", "AboutCopyright")));
-                    _textBlocks["License"]->setText(_getText(DJV_TEXT("djv::ViewLib", "AboutLicense")));
-                    _textBlocks["ContributorsHeader"]->setText(_getText(DJV_TEXT("djv::ViewLib", "AboutContributorsHeader")));
-                    _textBlocks["Contributors"]->setText(_getText(DJV_TEXT("djv::ViewLib", "AboutContributors")));
-                    _textBlocks["ThirdPartyHeader"]->setText(_getText(DJV_TEXT("djv::ViewLib", "AboutThirdPartyHeader")));
-                    _textBlocks["ThirdParty"]->setText(_getText(DJV_TEXT("djv::ViewLib", "AboutThirdParty")));
-                    _textBlocks["TrademarksHeader"]->setText(_getText(DJV_TEXT("djv::ViewLib", "AboutTrademarksHeader")));
-                    _textBlocks["Trademarks"]->setText(_getText(DJV_TEXT("djv::ViewLib", "AboutTrademarks")));
-                }
-
-            private:
-                std::shared_ptr<UI::Label> _titleLabel;
-                std::shared_ptr<UI::Button::Tool> _closeButton;
-                std::map<std::string, std::shared_ptr<UI::TextBlock> > _textBlocks;
-                std::future<std::shared_ptr<AV::Image::Image> > _imageFuture;
-            };
-
-        } // namespace
-
         struct HelpSystem::Private
         {
-            std::shared_ptr<AboutWidget> aboutWidget;
-            std::shared_ptr<UI::Layout::Overlay> overlay;
+            std::shared_ptr<HelpAboutDialog> aboutDialog;
+            std::shared_ptr<HelpDebugLogDialog> debugLogDialog;
             std::map<std::string, std::shared_ptr<UI::Action> > actions;
             std::map<std::string, std::shared_ptr<UI::Menu> > menus;
             std::map<std::string, std::shared_ptr<ValueObserver<bool> > > clickedObservers;
@@ -204,6 +73,8 @@ namespace djv
 
             p.actions["About"] = UI::Action::create();
 
+            p.actions["DebugLog"] = UI::Action::create();
+
             auto weak = std::weak_ptr<HelpSystem>(std::dynamic_pointer_cast<HelpSystem>(shared_from_this()));
             p.clickedObservers["About"] = ValueObserver<bool>::create(
                 p.actions["About"]->observeClicked(),
@@ -214,6 +85,18 @@ namespace djv
                     if (auto system = weak.lock())
                     {
                         system->showAboutDialog();
+                    }
+                }
+            });
+            p.clickedObservers["DebugLog"] = ValueObserver<bool>::create(
+                p.actions["DebugLog"]->observeClicked(),
+                [weak](bool value)
+            {
+                if (value)
+                {
+                    if (auto system = weak.lock())
+                    {
+                        system->showDebugLogDialog();
                     }
                 }
             });
@@ -242,39 +125,57 @@ namespace djv
         {
             DJV_PRIVATE_PTR();
             auto context = getContext();
-            if (!p.aboutWidget)
+            if (!p.aboutDialog)
             {
-                p.aboutWidget = AboutWidget::create(context);
-
-                p.overlay = UI::Layout::Overlay::create(context);
-                p.overlay->setBackgroundRole(UI::Style::ColorRole::Overlay);
-                p.overlay->setMargin(UI::Style::MetricsRole::MarginDialog);
-                p.overlay->addWidget(p.aboutWidget);
+                p.aboutDialog = HelpAboutDialog::create(context);
             }
             if (auto windowSystem = context->getSystemT<UI::IWindowSystem>().lock())
             {
                 if (auto window = windowSystem->observeCurrentWindow()->get())
                 {
-                    window->addWidget(p.overlay);
-                    p.overlay->show();
+                    auto weak = std::weak_ptr<HelpSystem>(std::dynamic_pointer_cast<HelpSystem>(shared_from_this()));
+                    p.aboutDialog->setCloseCallback(
+                        [weak, window]
+                    {
+                        if (auto system = weak.lock())
+                        {
+                            window->removeWidget(system->_p->aboutDialog);
+                        }
+                    });
+
+                    window->addWidget(p.aboutDialog);
+                    p.aboutDialog->show();
+                }
+            }
+        }
+
+        void HelpSystem::showDebugLogDialog()
+        {
+            DJV_PRIVATE_PTR();
+            auto context = getContext();
+            if (!p.debugLogDialog)
+            {
+                p.debugLogDialog = HelpDebugLogDialog::create(context);
+            }
+            if (auto windowSystem = context->getSystemT<UI::IWindowSystem>().lock())
+            {
+                if (auto window = windowSystem->observeCurrentWindow()->get())
+                {
+                    p.debugLogDialog->reloadLog();
 
                     auto weak = std::weak_ptr<HelpSystem>(std::dynamic_pointer_cast<HelpSystem>(shared_from_this()));
-                    p.aboutWidget->setCloseCallback(
+                    p.debugLogDialog->setCloseCallback(
                         [weak, window]
                     {
                         if (auto system = weak.lock())
                         {
-                            window->removeWidget(system->_p->overlay);
+                            window->removeWidget(system->_p->debugLogDialog);
+                            system->_p->debugLogDialog->clearLog();
                         }
                     });
-                    p.overlay->setCloseCallback(
-                        [weak, window]
-                    {
-                        if (auto system = weak.lock())
-                        {
-                            window->removeWidget(system->_p->overlay);
-                        }
-                    });
+
+                    window->addWidget(p.debugLogDialog);
+                    p.debugLogDialog->show();
                 }
             }
         }
@@ -286,6 +187,8 @@ namespace djv
             p.menus["Help"]->addAction(p.actions["Documentation"]);
             p.menus["Help"]->addAction(p.actions["Information"]);
             p.menus["Help"]->addAction(p.actions["About"]);
+            p.menus["Help"]->addSeparator();
+            p.menus["Help"]->addAction(p.actions["DebugLog"]);
             return { p.menus["Help"], "G" };
         }
 
@@ -295,6 +198,7 @@ namespace djv
             p.actions["Documentation"]->setText(_getText(DJV_TEXT("djv::ViewLib", "Documentation")));
             p.actions["Information"]->setText(_getText(DJV_TEXT("djv::ViewLib", "Information")));
             p.actions["About"]->setText(_getText(DJV_TEXT("djv::ViewLib", "About")));
+            p.actions["DebugLog"]->setText(_getText(DJV_TEXT("djv::ViewLib", "DebugLog")));
 
             p.menus["Help"]->setMenuName(_getText(DJV_TEXT("djv::ViewLib", "Help")));
         }

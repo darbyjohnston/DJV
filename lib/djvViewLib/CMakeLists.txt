@@ -7,8 +7,11 @@ set(header
     #DebugTool.h
     DisplaySettingsWidget.h
     Enum.h
+    FileRecentDialog.h
     FileSystem.h
     FileSystemSettings.h
+    HelpAboutDialog.h
+    HelpDebugLogDialog.h
     HelpSystem.h
     #HistogramTool.h
     IToolWidget.h
@@ -40,8 +43,11 @@ set(source
     #DebugTool.cpp
     DisplaySettingsWidget.cpp
     Enum.cpp
+    FileRecentDialog.cpp
     FileSystem.cpp
     FileSystemSettings.cpp
+    HelpAboutDialog.cpp
+    HelpDebugLogDialog.cpp
     HelpSystem.cpp
     #HistogramTool.cpp
     IToolWidget.cpp

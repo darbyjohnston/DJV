@@ -126,14 +126,15 @@ namespace djv
                 float out = 0.f;
                 if (auto style = _getStyle().lock())
                 {
+                    const glm::vec2 m = getMargin().getSize(style);
                     for (const auto& child : getChildrenT<Widget>())
                     {
                         if (child->isVisible())
                         {
-                            out = glm::max(out, child->getHeightForWidth(value));
+                            out = glm::max(out, child->getHeightForWidth(value - m.x));
                         }
                     }
-                    out += getMargin().getHeight(style);
+                    out += m.y;
                 }
                 return out;
             }

@@ -82,7 +82,6 @@ namespace djv
         struct LogSystem::Private
         {
             FileSystem::Path path;
-            FileSystem::FileIO io;
             std::atomic<bool> consoleOutput;
             std::list<Message> queue;
             std::condition_variable queueCV;
@@ -103,22 +102,21 @@ namespace djv
                 [this]
             {
                 DJV_PRIVATE_PTR();
+                p.consoleOutput = !OS::getEnv("DJV_LOG_CONSOLE").empty();
+
                 try
                 {
-                    p.io.open(p.path, FileSystem::FileIO::Mode::Write);
+                    FileSystem::FileIO io;
+                    io.open(p.path, FileSystem::FileIO::Mode::Write);
                 }
-                catch (const std::exception& e)
-                {
-                    std::cerr << Error::format(e) << std::endl;
-                }
-
-                p.consoleOutput = !OS::getEnv("DJV_LOG_CONSOLE").empty();
+                catch (const std::exception &)
+                {}
 
                 std::stringstream s;
                 s << "Path: " << p.path;
                 log("djv::Core::LogSystem", s.str());
 
-                const auto timeout = Time::Timer::getValue(Time::Timer::Value::Medium);
+                const auto timeout = Time::Timer::getValue(Time::Timer::Value::Slow);
                 while (p.running)
                 {
                     {
@@ -139,14 +137,6 @@ namespace djv
                     p.messages = std::move(p.queue);
                 }
                 _writeMessages();
-                try
-                {
-                    p.io.close();
-                }
-                catch (const std::exception& e)
-                {
-                    std::cerr << name << ": " << e.what() << std::endl;
-                }
             });
 
             _logSystemInit = true;
@@ -198,6 +188,9 @@ namespace djv
             DJV_PRIVATE_PTR();
             try
             {
+                FileSystem::FileIO io;
+                io.open(p.path, FileSystem::FileIO::Mode::Append);
+                io.seek(io.getSize());
                 for (const auto& message : p.messages)
                 {
                     std::string line;
@@ -219,7 +212,7 @@ namespace djv
                             s2 << label << " ";
                         }
                         s2 << line << std::endl;
-                        p.io.write(s2.str());
+                        io.write(s2.str());
                         if (p.consoleOutput)
                         {
                             std::cerr << s2.str();

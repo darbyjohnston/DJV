@@ -31,6 +31,7 @@
 
 #include <djvUI/Separator.h>
 #include <djvUI/Spacer.h>
+#include <djvUI/TextBlock.h>
 
 #include <djvCore/Math.h>
 
@@ -184,13 +185,14 @@ namespace djv
                     DJV_PRIVATE_PTR();
 
                     // Get the child sizes.
+                    const glm::vec2 m = getMargin().getSize(style);
                     const auto children = getChildrenT<Widget>();
                     size_t visibleChildren = 0;
                     for (const auto& child : children)
                     {
                         if (child->isVisible())
                         {
-                            const float heightForWidth = child->getHeightForWidth(value);
+                            const float heightForWidth = child->getHeightForWidth(value - m.x);
                             switch (p.orientation)
                             {
                             case Orientation::Horizontal:
@@ -218,7 +220,7 @@ namespace djv
                         }
                     }
 
-                    out += getMargin().getHeight(style);
+                    out += m.y;
                 }
                 return out;
             }

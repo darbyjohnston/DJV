@@ -191,7 +191,13 @@ namespace djv
 
             float Radio::getHeightForWidth(float value) const
             {
-                return _p->layout->getHeightForWidth(value);
+                float out = 0.f;
+                if (auto style = _getStyle().lock())
+                {
+                    const float ms = style->getMetric(Style::MetricsRole::MarginSmall);
+                    out = _p->layout->getHeightForWidth(value) + ms;
+                }
+                return out;
             }
 
             void Radio::_preLayoutEvent(Event::PreLayout& event)

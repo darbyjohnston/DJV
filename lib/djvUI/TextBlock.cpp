@@ -51,6 +51,7 @@ namespace djv
             Style::ColorRole textColorRole = Style::ColorRole::Foreground;
             Style::MetricsRole textSizeRole = Style::MetricsRole::TextColumn;
             std::string fontFace = AV::Font::Info::faceDefault;
+            std::string fontFamily;
             Style::MetricsRole fontSizeRole = Style::MetricsRole::FontMedium;
             AV::Font::Metrics fontMetrics;
             std::future<AV::Font::Metrics> fontMetricsFuture;
@@ -152,6 +153,11 @@ namespace djv
             _textUpdate();
         }
 
+        const std::string & TextBlock::getFontFamily() const
+        {
+            return _p->fontFace;
+        }
+
         const std::string & TextBlock::getFontFace() const
         {
             return _p->fontFace;
@@ -160,6 +166,15 @@ namespace djv
         Style::MetricsRole TextBlock::getFontSizeRole() const
         {
             return _p->fontSizeRole;
+        }
+
+        void TextBlock::setFontFamily(const std::string & value)
+        {
+            DJV_PRIVATE_PTR();
+            if (value == p.fontFamily)
+                return;
+            p.fontFamily = value;
+            _textUpdate();
         }
 
         void TextBlock::setFontFace(const std::string & value)
@@ -188,7 +203,9 @@ namespace djv
                 DJV_PRIVATE_PTR();
                 if (auto fontSystem = _getFontSystem().lock())
                 {
-                    const auto fontInfo = style->getFontInfo(p.fontFace, p.fontSizeRole);
+                    const auto fontInfo = p.fontFamily.empty() ?
+                        style->getFontInfo(p.fontFace, p.fontSizeRole) :
+                        style->getFontInfo(p.fontFamily, p.fontFace, p.fontSizeRole);
                     const float w = value - getMargin().getWidth(style);
 
                     size_t hash = 0;
@@ -256,7 +273,9 @@ namespace djv
                 {
                     DJV_PRIVATE_PTR();
                     const BBox2f& g = getMargin().bbox(getGeometry(), style);
-                    const auto fontInfo = style->getFontInfo(p.fontFace, p.fontSizeRole);
+                    const auto fontInfo = p.fontFamily.empty() ?
+                        style->getFontInfo(p.fontFace, p.fontSizeRole) :
+                        style->getFontInfo(p.fontFamily, p.fontFace, p.fontSizeRole);
 
                     size_t hash = 0;
                     Memory::hashCombine(hash, fontInfo.family);
@@ -295,7 +314,9 @@ namespace djv
                             p.textLines = p.textLinesFuture.get();
                         }
                         glm::vec2 pos = g.min;
-                        render->setCurrentFont(style->getFontInfo(p.fontFace, p.fontSizeRole));
+                        render->setCurrentFont(p.fontFamily.empty() ?
+                            style->getFontInfo(p.fontFace, p.fontSizeRole) :
+                            style->getFontInfo(p.fontFamily, p.fontFace, p.fontSizeRole));
                         for (const auto& line : p.textLines)
                         {
                             if (pos.y + line.size.y >= p.clipRect.min.y && pos.y <= p.clipRect.max.y)
@@ -315,7 +336,8 @@ namespace djv
                                 //render->drawRect(BBox2f(pos.x, pos.y, line.size.x, line.size.y));
 
                                 render->setFillColor(_getColorWithOpacity(style->getColor(p.textColorRole)));
-                                render->drawText(line.text, glm::vec2(pos.x, pos.y + p.fontMetrics.ascender));
+                                //! \todo Why the extra subtract by one here?
+                                render->drawText(line.text, glm::vec2(pos.x, pos.y + p.fontMetrics.ascender - 1.f));
                             }
                             pos.y += line.size.y;
                         }
@@ -333,7 +355,9 @@ namespace djv
                     const BBox2f& g = getMargin().bbox(getGeometry(), style);
 
                     DJV_PRIVATE_PTR();
-                    auto fontInfo = style->getFontInfo(p.fontFace, p.fontSizeRole);
+                    auto fontInfo = p.fontFamily.empty() ?
+                        style->getFontInfo(p.fontFace, p.fontSizeRole) :
+                        style->getFontInfo(p.fontFamily, p.fontFace, p.fontSizeRole);
                     p.fontMetricsFuture = fontSystem->getMetrics(fontInfo);
 
                     size_t hash = 0;
@@ -349,6 +373,7 @@ namespace djv
                     }
                 }
             }
+            _resize();
         }
 
     } // namespace UI

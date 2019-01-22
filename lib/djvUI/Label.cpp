@@ -51,7 +51,7 @@ namespace djv
             std::string fontFace = AV::Font::Info::faceDefault;
             Style::MetricsRole fontSizeRole = Style::MetricsRole::FontMedium;
             float minimumWidth = 0.f;
-            float ascender = 0.f;
+            AV::Font::Metrics fontMetrics;
             std::future<AV::Font::Metrics> fontMetricsFuture;
             glm::vec2 textSize = glm::vec2(0.f, 0.f);
             std::future<glm::vec2> textSizeFuture;
@@ -210,7 +210,7 @@ namespace djv
                 {
                     try
                     {
-                        p.ascender = p.fontMetricsFuture.get().ascender;
+                        p.fontMetrics = p.fontMetricsFuture.get();
                         _resize();
                     }
                     catch (const std::exception& e)
@@ -255,7 +255,7 @@ namespace djv
                     switch (p.textHAlign)
                     {
                     case TextHAlign::Center:
-                        pos.x = ceilf(c.x - p.textSize.x / 2.f);
+                        pos.x = c.x - p.textSize.x / 2.f;
                         break;
                     case TextHAlign::Right:
                         pos.x = g.max.x - p.textSize.x;
@@ -265,16 +265,16 @@ namespace djv
                     switch (p.textVAlign)
                     {
                     case TextVAlign::Center:
-                        pos.y = ceilf(c.y - p.textSize.y / 2.f);
+                        pos.y = c.y - p.textSize.y / 2.f;
                         break;
                     case TextVAlign::Top:
                         pos.y = g.min.y;
                         break;
                     case TextVAlign::Bottom:
-                        pos.y = ceilf(g.max.y - p.textSize.y);
+                        pos.y = g.max.y - p.textSize.y;
                         break;
                     case TextVAlign::Baseline:
-                        pos.y = ceilf(c.y - p.ascender / 2.f);
+                        pos.y = c.y - p.fontMetrics.ascender / 2.f;
                         break;
                     default: break;
                     }
@@ -283,7 +283,8 @@ namespace djv
                     //render->drawRect(BBox2f(pos.x, pos.y, p.textSize.x, p.textSize.y));
 
                     render->setFillColor(_getColorWithOpacity(style->getColor(p.textColorRole)));
-                    render->drawText(p.text, glm::vec2(pos.x, pos.y + p.ascender));
+                    //! \todo Why the extra subtract by one here?
+                    render->drawText(p.text, glm::vec2(floorf(pos.x), floorf(pos.y + p.fontMetrics.ascender - 1.f)));
                 }
             }
         }

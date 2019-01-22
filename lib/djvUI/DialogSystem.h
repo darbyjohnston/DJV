@@ -37,11 +37,20 @@
 
 namespace djv
 {
+    namespace Core
+    {
+        namespace FileSystem
+        {
+            class FileInfo;
+    
+        } // namespace FileSystem
+    } // namespace Core
+
     namespace UI
     {
         class Window;
 
-        //! This class provides a dialog system.
+        //! This class provides standard dialog widgets.
         class DialogSystem : public Core::ISystem
         {
             DJV_NON_COPYABLE(DialogSystem);
@@ -68,6 +77,11 @@ namespace djv
                 const std::string & acceptText,
                 const std::string & cancelText,
                 const std::function<void(bool)> & callback);
+
+            //! Show a file browser dialog.
+            void fileBrowser(
+                const std::string & title,
+                const std::function<void(const Core::FileSystem::FileInfo &)> &);
 
         private:
             DJV_PRIVATE();

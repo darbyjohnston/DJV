@@ -59,6 +59,7 @@ namespace djv
                     Read,
                     Write,
                     ReadWrite,
+                    Append,
 
                     Count,
                     First = Read

@@ -141,6 +141,7 @@ namespace djv
             } // namespace
 
             const std::string Info::familyDefault = "Noto Sans";
+            const std::string Info::familyMono = "Noto Sans Mono";
             const std::string Info::faceDefault = "Regular";
 
             Info::Info()
@@ -497,13 +498,13 @@ namespace djv
                 DJV_PRIVATE_PTR();
                 for (auto& request : p.metricsRequests)
                 {
+                    Metrics metrics;
                     const auto family = p.fontFaces.find(request.info.family);
                     if (family != p.fontFaces.end())
                     {
                         const auto font = family->second.find(request.info.face);
                         if (font != family->second.end())
                         {
-                            Metrics metrics;
                             FT_Error ftError = FT_Set_Char_Size(
                                 font->second,
                                 0,
@@ -512,13 +513,13 @@ namespace djv
                                 request.info.dpi);
                             if (!ftError)
                             {
-                                metrics.ascender = font->second->size->metrics.ascender / 64.f;
-                                metrics.descender = font->second->size->metrics.descender / 64.f;
-                                metrics.lineHeight = font->second->size->metrics.height / 64.f;
+                                metrics.ascender   = font->second->size->metrics.ascender  / 64.f;
+                                metrics.descender  = font->second->size->metrics.descender / 64.f;
+                                metrics.lineHeight = font->second->size->metrics.height    / 64.f;
                             }
-                            request.promise.set_value(std::move(metrics));
                         }
                     }
+                    request.promise.set_value(std::move(metrics));
                 }
                 p.metricsRequests.clear();
             }
@@ -528,6 +529,7 @@ namespace djv
                 DJV_PRIVATE_PTR();
                 for (auto& request : p.measureRequests)
                 {
+                    glm::vec2 size = glm::vec2(0.f, 0.f);
                     const auto family = p.fontFaces.find(request.info.family);
                     if (family != p.fontFaces.end())
                     {
@@ -546,8 +548,7 @@ namespace djv
                             }
                             const std::basic_string<djv_char_t> utf32 = p.utf32.from_bytes(request.text);
                             const auto utf32Begin = utf32.begin();
-                            glm::vec2 size = glm::vec2(0.f, 0.f);
-                            glm::vec2 pos = glm::vec2(0.f, font->second->size->metrics.height / 64.f);
+                            glm::vec2 pos(0.f, font->second->size->metrics.height / 64.f);
                             auto textLine = utf32.end();
                             float textLineX = 0.f;
                             const auto glyphSizes = p.getGlyphSizes(utf32, request.info, font->second);
@@ -589,9 +590,9 @@ namespace djv
                             }
                             size.x = std::max(size.x, pos.x);
                             size.y = pos.y;
-                            request.promise.set_value(size);
                         }
                     }
+                    request.promise.set_value(size);
                 }
                 p.measureRequests.clear();
             }
@@ -601,6 +602,7 @@ namespace djv
                 DJV_PRIVATE_PTR();
                 for (auto& request : p.textLinesRequests)
                 {
+                    std::vector<TextLine> lines;
                     const auto family = p.fontFaces.find(request.info.family);
                     if (family != p.fontFaces.end())
                     {
@@ -619,7 +621,6 @@ namespace djv
                             }
                             const std::basic_string<djv_char_t> utf32 = p.utf32.from_bytes(request.text);
                             const auto utf32Begin = utf32.begin();
-                            std::vector<TextLine> lines;
                             glm::vec2 pos = glm::vec2(0.f, font->second->size->metrics.height / 64.f);
                             auto lineBegin = utf32Begin;
                             auto textLine = utf32.end();
@@ -677,9 +678,9 @@ namespace djv
                                     p.utf32.to_bytes(utf32.substr(lineBegin - utf32.begin(), i - lineBegin)),
                                     glm::vec2(pos.x, font->second->size->metrics.height / 64.f)));
                             }
-                            request.promise.set_value(lines);
                         }
                     }
+                    request.promise.set_value(lines);
                 }
                 p.textLinesRequests.clear();
             }
@@ -689,6 +690,7 @@ namespace djv
                 DJV_PRIVATE_PTR();
                 for (auto& request : p.glyphsRequests)
                 {
+                    std::vector<std::shared_ptr<Glyph> > glyphs;
                     const auto family = p.fontFaces.find(request.info.family);
                     if (family != p.fontFaces.end())
                     {
@@ -707,7 +709,6 @@ namespace djv
                                 continue;
                             }
                             const std::basic_string<djv_char_t> utf32 = p.utf32.from_bytes(request.text);
-                            std::vector<std::shared_ptr<Glyph> > glyphs;
                             glyphs.reserve(utf32.size());
                             for (const auto& c : utf32)
                             {
@@ -792,9 +793,9 @@ namespace djv
                                     glyphs.push_back(glyph);
                                 }
                             }
-                            request.promise.set_value(std::move(glyphs));
                         }
                     }
+                    request.promise.set_value(std::move(glyphs));
                 }
                 p.glyphsRequests.clear();
             }

@@ -56,17 +56,17 @@ namespace djv
 
                 DJV_PRIVATE_PTR();
                 p.label = Label::create(context);
-                p.label->setFontSizeRole(Style::MetricsRole::FontLarge);
+                p.label->setTextColorRole(Style::ColorRole::ForegroundHeader);
                 p.label->setTextHAlign(TextHAlign::Left);
-                p.label->setMargin(Style::MetricsRole::MarginSmall);
+                p.label->setBackgroundRole(Style::ColorRole::BackgroundHeader);
+                p.label->setMargin(Style::MetricsRole::Margin);
                 
                 p.childLayout = Layout::Stack::create(context);
+                p.childLayout->setMargin(Style::MetricsRole::Margin);
 
                 p.layout = Layout::Vertical::create(context);
                 p.layout->setSpacing(Style::MetricsRole::None);
                 p.layout->addWidget(p.label);
-                p.layout->addSeparator();
-                p.layout->addSpacer();
                 p.layout->addWidget(p.childLayout, Layout::RowStretch::Expand);
                 IContainer::addWidget(p.layout);
             }

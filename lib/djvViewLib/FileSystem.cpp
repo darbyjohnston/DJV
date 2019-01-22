@@ -30,20 +30,15 @@
 #include <djvViewLib/FileSystem.h>
 
 #include <djvViewLib/Application.h>
+#include <djvViewLib/FileRecentDialog.h>
 #include <djvViewLib/FileSystemSettings.h>
 #include <djvViewLib/Media.h>
 
 #include <djvUI/Action.h>
 #include <djvUI/DialogSystem.h>
-#include <djvUI/FileBrowser.h>
-#include <djvUI/FileBrowserItemView.h>
 #include <djvUI/IWindowSystem.h>
-#include <djvUI/Label.h>
 #include <djvUI/Menu.h>
-#include <djvUI/Overlay.h>
 #include <djvUI/RowLayout.h>
-#include <djvUI/ScrollWidget.h>
-#include <djvUI/ToolButton.h>
 #include <djvUI/Window.h>
 
 #include <djvCore/Context.h>
@@ -58,107 +53,12 @@ namespace djv
 {
     namespace ViewLib
     {
-        namespace
-        {
-            class RecentFilesWidget : public UI::Layout::Vertical
-            {
-                DJV_NON_COPYABLE(RecentFilesWidget);
-
-            protected:
-                void _init(Context * context)
-                {
-                    Vertical::_init(context);
-
-                    setSpacing(UI::Style::MetricsRole::None);
-                    setBackgroundRole(UI::Style::ColorRole::Background);
-                    setPointerEnabled(true);
-
-                    _titleLabel = UI::Label::create(context);
-                    _titleLabel->setFontSizeRole(UI::Style::MetricsRole::FontHeader);
-                    _titleLabel->setTextHAlign(UI::TextHAlign::Left);
-                    _titleLabel->setTextColorRole(UI::Style::ColorRole::ForegroundHeader);
-                    _titleLabel->setMargin(UI::Layout::Margin(
-                        UI::Style::MetricsRole::Margin,
-                        UI::Style::MetricsRole::None,
-                        UI::Style::MetricsRole::MarginSmall,
-                        UI::Style::MetricsRole::MarginSmall));
-
-                    _closeButton = UI::Button::Tool::create(context);
-                    _closeButton->setIcon("djvIconClose");
-                    _closeButton->setForegroundColorRole(UI::Style::ColorRole::ForegroundHeader);
-                    _closeButton->setCheckedForegroundColorRole(UI::Style::ColorRole::ForegroundHeader);
-                    _closeButton->setInsideMargin(UI::Style::MetricsRole::MarginSmall);
-
-                    _itemView = UI::FileBrowser::ItemView::create(context);
-                    auto scrollWidget = UI::ScrollWidget::create(UI::ScrollType::Vertical, context);
-                    scrollWidget->addWidget(_itemView);
-
-                    auto hLayout = UI::Layout::Horizontal::create(context);
-                    hLayout->setSpacing(UI::Style::MetricsRole::None);
-                    hLayout->setBackgroundRole(UI::Style::ColorRole::BackgroundHeader);
-                    hLayout->addWidget(_titleLabel, UI::Layout::RowStretch::Expand);
-                    hLayout->addWidget(_closeButton);
-                    addWidget(hLayout);
-                    addWidget(scrollWidget, UI::Layout::RowStretch::Expand);
-                }
-
-                RecentFilesWidget()
-                {}
-
-            public:
-                static std::shared_ptr<RecentFilesWidget> create(Context * context)
-                {
-                    auto out = std::shared_ptr<RecentFilesWidget>(new RecentFilesWidget);
-                    out->_init(context);
-                    return out;
-                }
-
-                void setRecentFiles(const std::vector<Core::FileSystem::FileInfo> & value)
-                {
-                    _itemView->setItems(value);
-                }
-
-                void setCallback(const std::function<void(const Core::FileSystem::FileInfo &)> & value)
-                {
-                    _itemView->setCallback(value);
-                }
-
-                void setCloseCallback(const std::function<void(void)> & value)
-                {
-                    _closeButton->setClickedCallback(value);
-                }
-
-            protected:
-                void _buttonPressEvent(Event::ButtonPress& event) override
-                {
-                    event.accept();
-                }
-
-                void _buttonReleaseEvent(Event::ButtonRelease& event) override
-                {
-                    event.accept();
-                }
-
-                void _localeEvent(Event::Locale &) override
-                {
-                    _titleLabel->setText(_getText(DJV_TEXT("djv::ViewLib", "Recent  Files")));
-                }
-
-            private:
-                std::shared_ptr<UI::Label> _titleLabel;
-                std::shared_ptr<UI::Button::Tool> _closeButton;
-                std::shared_ptr<UI::FileBrowser::ItemView> _itemView;
-            };
-
-        } // namespace
-
         struct FileSystem::Private
         {
             std::shared_ptr<ValueSubject<std::pair<std::shared_ptr<Media>, glm::vec2> > > opened;
             std::shared_ptr<ValueSubject<bool> > close;
             std::shared_ptr<Core::FileSystem::RecentFilesModel> recentFilesModel;
-            std::shared_ptr<RecentFilesWidget> recentFilesWidget;
-            std::shared_ptr<UI::Layout::Overlay> overlay;
+            std::shared_ptr<FileRecentDialog> recentFilesDialog;
             std::map<std::string, std::shared_ptr<UI::Action> > actions;
             std::map<std::string, std::shared_ptr<UI::Menu> > menus;
             std::shared_ptr<FileSystemSettings> settings;
@@ -176,11 +76,7 @@ namespace djv
             p.close = ValueSubject<bool>::create();
             p.recentFilesModel = Core::FileSystem::RecentFilesModel::create(context);
 
-            p.recentFilesWidget = RecentFilesWidget::create(context);
-            p.overlay = UI::Layout::Overlay::create(context);
-            p.overlay->setBackgroundRole(UI::Style::ColorRole::Overlay);
-            p.overlay->setMargin(UI::Style::MetricsRole::MarginDialog);
-            p.overlay->addWidget(p.recentFilesWidget);
+            p.recentFilesDialog = FileRecentDialog::create(context);
 
             p.actions["Open"] = UI::Action::create();
             p.actions["Open"]->setShortcut(GLFW_KEY_O, GLFW_MOD_CONTROL);
@@ -256,7 +152,7 @@ namespace djv
             {
                 if (auto system = weak.lock())
                 {
-                    system->_p->recentFilesWidget->setRecentFiles(value);
+                    system->_p->recentFilesDialog->setRecentFiles(value);
                     system->_p->settings->setRecentFiles(value);
                 }
             });
@@ -268,9 +164,10 @@ namespace djv
                 {
                     if (auto system = weak.lock())
                     {
-                        if (auto fileBrowser = context->getSystemT<UI::FileBrowser::DialogSystem>().lock())
+                        if (auto dialogSystem = context->getSystemT<UI::DialogSystem>().lock())
                         {
-                            fileBrowser->show(
+                            dialogSystem->fileBrowser(
+                                context->getText(DJV_TEXT("djv::ViewLib", "File Browser")),
                                 [weak, context](const Core::FileSystem::FileInfo & value)
                             {
                                 if (auto system = weak.lock())
@@ -319,8 +216,8 @@ namespace djv
                             dialogSystem->confirmation(
                                 context->getText(DJV_TEXT("djv::ViewLib", "Exit")),
                                 context->getText(DJV_TEXT("djv::ViewLib", "Are you sure you want to exit?")),
-                                context->getText(DJV_TEXT("djv::ViewLib", "Yes")),
-                                context->getText(DJV_TEXT("djv::ViewLib", "No")),
+                                context->getText(DJV_TEXT("djv::ViewLib", "Yesy")),
+                                context->getText(DJV_TEXT("djv::ViewLib", "Noj")),
                                 [context](bool value)
                             {
                                 if (value)
@@ -373,35 +270,26 @@ namespace djv
             {
                 if (auto window = windowSystem->observeCurrentWindow()->get())
                 {
-                    window->addWidget(p.overlay);
-                    p.overlay->show();
-
                     auto weak = std::weak_ptr<FileSystem>(std::dynamic_pointer_cast<FileSystem>(shared_from_this()));
-                    p.recentFilesWidget->setCallback(
+                    p.recentFilesDialog->setCallback(
                         [weak, window](const Core::FileSystem::FileInfo & value)
                     {
                         if (auto system = weak.lock())
                         {
                             system->open(value);
-                            window->removeWidget(system->_p->overlay);
                         }
                     });
-                    p.recentFilesWidget->setCloseCallback(
+                    p.recentFilesDialog->setCloseCallback(
                         [weak, window]
                     {
                         if (auto system = weak.lock())
                         {
-                            window->removeWidget(system->_p->overlay);
+                            window->removeWidget(system->_p->recentFilesDialog);
                         }
                     });
-                    p.overlay->setCloseCallback(
-                        [weak, window]
-                    {
-                        if (auto system = weak.lock())
-                        {
-                            window->removeWidget(system->_p->overlay);
-                        }
-                    });
+
+                    window->addWidget(p.recentFilesDialog);
+                    p.recentFilesDialog->show();
                 }
             }
         }

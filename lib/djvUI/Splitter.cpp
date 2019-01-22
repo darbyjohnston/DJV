@@ -114,11 +114,12 @@ namespace djv
                     DJV_PRIVATE_PTR();
 
                     // Get the child sizes.
+                    const glm::vec2 m = getMargin().getSize(style);
                     for (const auto& child : getChildrenT<Widget>())
                     {
                         if (child->isVisible())
                         {
-                            const float heightForWidth = child->getHeightForWidth(value);
+                            const float heightForWidth = child->getHeightForWidth(value - m.x);
                             switch (p.orientation)
                             {
                             case Orientation::Horizontal:
@@ -141,7 +142,7 @@ namespace djv
                     default: break;
                     }
 
-                    out += getMargin().getHeight(style);
+                    out += m.y;
                 }
                 return out;
             }

@@ -58,6 +58,7 @@ namespace djv
                 int         dpi    = dpiDefault;
 
                 static const std::string familyDefault;
+                static const std::string familyMono;
                 static const std::string faceDefault;
             };
 

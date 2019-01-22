@@ -31,7 +31,6 @@
 
 #include <djvUI/DialogSystem.h>
 #include <djvUI/GeneralSettings.h>
-#include <djvUI/FileBrowser.h>
 #include <djvUI/FileBrowserSettings.h>
 #include <djvUI/FontSettings.h>
 #include <djvUI/IconSystem.h>
@@ -84,7 +83,6 @@ namespace djv
             
             p.systems.push_back(IconSystem::create(context));
             p.systems.push_back(DialogSystem::create(context));
-            p.systems.push_back(FileBrowser::DialogSystem::create(context));
 
             auto weak = std::weak_ptr<UISystem>(std::dynamic_pointer_cast<UISystem>(shared_from_this()));
             p.paletteObserver = ValueObserver<UI::Style::Palette>::create(

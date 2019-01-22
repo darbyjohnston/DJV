@@ -113,7 +113,7 @@ namespace djv
                 return out;
             }
 
-            std::shared_ptr<IListSubject<Path> > DrivesModel::getDrives() const
+            std::shared_ptr<IListSubject<Path> > DrivesModel::observeDrives() const
             {
                 return _p->drivesSubject;
             }

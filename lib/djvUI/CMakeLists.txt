@@ -21,6 +21,7 @@ set(header
     GroupBox.h
     IButton.h
     IContainer.h
+    IDialog.h
     ISettings.h
     ISettingsInline.h
     IWindowSystem.h
@@ -91,6 +92,7 @@ set(source
     GroupBox.cpp
     IButton.cpp
     IContainer.cpp
+    IDialog.cpp
     ISettings.cpp
     IWindowSystem.cpp
     Icon.cpp

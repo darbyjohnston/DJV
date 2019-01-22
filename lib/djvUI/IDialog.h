@@ -29,62 +29,47 @@
 
 #pragma once
 
-#include <djvUI/Margin.h>
-#include <djvUI/Widget.h>
+#include <djvUI/RowLayout.h>
 
 namespace djv
 {
     namespace UI
     {
-        //! This class provides a block of text.
-        class TextBlock : public Widget
+        //! This class provides an interface for dialogs.
+        class IDialog : public UI::Widget
         {
-            DJV_NON_COPYABLE(TextBlock);
-            
+            DJV_NON_COPYABLE(IDialog);
+
         protected:
             void _init(Core::Context *);
-            TextBlock();
+            IDialog();
 
         public:
-            virtual ~TextBlock();
+            ~IDialog() override = 0;
 
-            static std::shared_ptr<TextBlock> create(Core::Context *);
-            static std::shared_ptr<TextBlock> create(const std::string&, Core::Context *);
+            void setTitle(const std::string &);
 
-            const std::string& getText() const;
-            void setText(const std::string&);
+            void setFillLayout(bool);
 
-            TextHAlign getTextHAlign() const;
-            void setTextHAlign(TextHAlign);
+            void setCloseCallback(const std::function<void(void)> &);
 
-            Style::ColorRole getTextColorRole() const;
-            void setTextColorRole(Style::ColorRole);
+            void addWidget(const std::shared_ptr<Widget> &, Layout::RowStretch = Layout::RowStretch::None);
+            void removeWidget(const std::shared_ptr<Widget> &);
+            void clearWidgets();
 
-            Style::MetricsRole getTextSizeRole() const;
-            void setTextSizeRole(Style::MetricsRole);
-
-            const std::string & getFontFamily() const;
-            const std::string & getFontFace() const;
-            Style::MetricsRole getFontSizeRole() const;
-            void setFontFamily(const std::string &);
-            void setFontFace(const std::string &);
-            void setFontSizeRole(Style::MetricsRole);
-
+            void setVisible(bool) override;
             float getHeightForWidth(float) const override;
 
         protected:
-            void _styleEvent(Core::Event::Style&) override;
-            void _preLayoutEvent(Core::Event::PreLayout&) override;
-            void _layoutEvent(Core::Event::Layout&) override;
-            void _clipEvent(Core::Event::Clip&) override;
-            void _paintEvent(Core::Event::Paint&) override;
+            void _doCloseCallback();
+
+            void _preLayoutEvent(Core::Event::PreLayout &) override;
+            void _layoutEvent(Core::Event::Layout &) override;
 
         private:
-            void _textUpdate();
-
-            struct Private;
-            std::unique_ptr<Private> _p;
+            DJV_PRIVATE();
         };
 
     } // namespace UI
 } // namespace djv
+
