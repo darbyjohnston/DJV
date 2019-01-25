@@ -29,6 +29,7 @@
 
 #include <djvUI/IDialog.h>
 
+#include <djvUI/Border.h>
 #include <djvUI/Label.h>
 #include <djvUI/Overlay.h>
 #include <djvUI/RowLayout.h>
@@ -82,7 +83,7 @@ namespace djv
         {
             std::shared_ptr<Label> titleLabel;
             std::shared_ptr<Layout::Vertical> childLayout;
-            std::shared_ptr<Layout::Vertical> layout;
+            std::shared_ptr<Layout::Border> border;
             std::shared_ptr<Layout::Overlay> overlay;
             std::function<void(void)> closeCallback;
         };
@@ -95,7 +96,7 @@ namespace djv
             p.titleLabel = Label::create(context);
             p.titleLabel->setFontSizeRole(UI::Style::MetricsRole::FontHeader);
             p.titleLabel->setTextHAlign(TextHAlign::Left);
-            p.titleLabel->setTextColorRole(Style::ColorRole::ForegroundHeader);
+            p.titleLabel->setTextColorRole(Style::ColorRole::HeaderForeground);
             p.titleLabel->setMargin(UI::Layout::Margin(
                 UI::Style::MetricsRole::MarginLarge,
                 UI::Style::MetricsRole::None,
@@ -104,26 +105,28 @@ namespace djv
 
             auto closeButton = Button::Tool::create(context);
             closeButton->setIcon("djvIconClose");
-            closeButton->setForegroundColorRole(UI::Style::ColorRole::ForegroundHeader);
-            closeButton->setCheckedForegroundColorRole(UI::Style::ColorRole::ForegroundHeader);
+            closeButton->setForegroundColorRole(UI::Style::ColorRole::HeaderForeground);
             closeButton->setInsideMargin(Style::MetricsRole::MarginSmall);
 
             p.childLayout = Layout::Vertical::create(context);
             p.childLayout->setSpacing(Style::MetricsRole::None);
             p.childLayout->setBackgroundRole(Style::ColorRole::Background);
 
-            p.layout = DialogLayout::create(context);
-            p.layout->setSpacing(Style::MetricsRole::None);
+            auto layout = DialogLayout::create(context);
+            layout->setSpacing(Style::MetricsRole::None);
             auto hLayout = Layout::Horizontal::create(context);
-            hLayout->setBackgroundRole(Style::ColorRole::BackgroundHeader);
+            hLayout->setBackgroundRole(Style::ColorRole::HeaderBackground);
             hLayout->addWidget(p.titleLabel, Layout::RowStretch::Expand);
             hLayout->addWidget(closeButton);
-            p.layout->addWidget(hLayout);
-            p.layout->addWidget(p.childLayout, Layout::RowStretch::Expand);
+            layout->addWidget(hLayout);
+            layout->addWidget(p.childLayout, Layout::RowStretch::Expand);
+
+            p.border = Layout::Border::create(context);
+            p.border->addWidget(layout);
 
             p.overlay = Layout::Overlay::create(context);
             p.overlay->setMargin(Style::MetricsRole::MarginDialog);
-            p.overlay->addWidget(p.layout);
+            p.overlay->addWidget(p.border);
             p.overlay->setParent(shared_from_this());
 
             auto weak = std::weak_ptr<IDialog>(std::dynamic_pointer_cast<IDialog>(shared_from_this()));
@@ -160,8 +163,8 @@ namespace djv
         void IDialog::setFillLayout(bool value)
         {
             DJV_PRIVATE_PTR();
-            p.layout->setHAlign(value ? HAlign::Fill : HAlign::Center);
-            p.layout->setVAlign(value ? VAlign::Fill : VAlign::Center);
+            p.border->setHAlign(value ? HAlign::Fill : HAlign::Center);
+            p.border->setVAlign(value ? VAlign::Fill : VAlign::Center);
         }
 
         void IDialog::setCloseCallback(const std::function<void(void)> & value)

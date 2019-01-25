@@ -184,34 +184,45 @@ namespace djv
                         render->setFillColor(_getColorWithOpacity(style->getColor(Style::ColorRole::Trough)));
                         render->drawRect(g);
 
-                        // Draw the scroll bar handle.
-                        glm::vec2 pos = glm::vec2(0.f, 0.f);
-                        glm::vec2 size = glm::vec2(0.f, 0.f);
-                        switch (_orientation)
+                        if (_viewSize < _contentsSize)
                         {
-                        case Orientation::Horizontal:
-                            pos = glm::vec2(_valueToPos(_scrollPos), g.y());
-                            size = glm::vec2(_valueToPos(_scrollPos + _viewSize) - pos.x, g.h());
-                            break;
-                        case Orientation::Vertical:
-                            pos = glm::vec2(g.x(), _valueToPos(_scrollPos));
-                            size = glm::vec2(g.w(), _valueToPos(_scrollPos + _viewSize) - pos.y);
-                            break;
-                        default: break;
-                        }
-                        render->setFillColor(_getColorWithOpacity(style->getColor(_pressedID ? Style::ColorRole::Checked : Style::ColorRole::Button)));
-                        render->drawRect(BBox2f(pos.x, pos.y, size.x, size.y));
-
-                        // Draw the hovered state.
-                        bool hover = false;
-                        for (const auto& h : _hover)
-                        {
-                            hover |= h.second;
-                        }
-                        if (hover)
-                        {
-                            render->setFillColor(_getColorWithOpacity(style->getColor(Style::ColorRole::Hover)));
+                            // Draw the scroll bar handle.
+                            glm::vec2 pos = glm::vec2(0.f, 0.f);
+                            glm::vec2 size = glm::vec2(0.f, 0.f);
+                            switch (_orientation)
+                            {
+                            case Orientation::Horizontal:
+                                pos = glm::vec2(_valueToPos(_scrollPos), g.y());
+                                size = glm::vec2(_valueToPos(_scrollPos + _viewSize) - pos.x, g.h());
+                                break;
+                            case Orientation::Vertical:
+                                pos = glm::vec2(g.x(), _valueToPos(_scrollPos));
+                                size = glm::vec2(g.w(), _valueToPos(_scrollPos + _viewSize) - pos.y);
+                                break;
+                            default: break;
+                            }
+                            render->setFillColor(_getColorWithOpacity(style->getColor(Style::ColorRole::Button)));
                             render->drawRect(BBox2f(pos.x, pos.y, size.x, size.y));
+
+                            // Draw the pressed and hovered state.
+                            if (_pressedID)
+                            {
+                                render->setFillColor(_getColorWithOpacity(style->getColor(Style::ColorRole::Pressed)));
+                                render->drawRect(BBox2f(pos.x, pos.y, size.x, size.y));
+                            }
+                            else
+                            {
+                                bool hover = false;
+                                for (const auto& h : _hover)
+                                {
+                                    hover |= h.second;
+                                }
+                                if (hover)
+                                {
+                                    render->setFillColor(_getColorWithOpacity(style->getColor(Style::ColorRole::Hovered)));
+                                    render->drawRect(BBox2f(pos.x, pos.y, size.x, size.y));
+                                }
+                            }
                         }
                     }
                 }
@@ -223,7 +234,10 @@ namespace djv
                 {
                     event.accept();
                     _hover[event.getPointerInfo().id] = true;
-                    _redraw();
+                    if (isEnabled())
+                    {
+                        _redraw();
+                    }
                 }
             }
 
@@ -234,7 +248,10 @@ namespace djv
                 if (i != _hover.end())
                 {
                     _hover.erase(i);
-                    _redraw();
+                    if (isEnabled())
+                    {
+                        _redraw();
+                    }
                 }
             }
 
@@ -268,7 +285,7 @@ namespace djv
 
             void ScrollBar::_buttonPressEvent(Event::ButtonPress& event)
             {
-                if (_pressedID)
+                if (!isEnabled() || _pressedID)
                     return;
                 event.accept();
                 _pressedID = event.getPointerInfo().id;
@@ -299,7 +316,7 @@ namespace djv
 
             void ScrollBar::_buttonReleaseEvent(Event::ButtonRelease& event)
             {
-                if (event.getPointerInfo().id != _pressedID)
+                if (!isEnabled() || event.getPointerInfo().id != _pressedID)
                     return;
                 event.accept();
                 _pressedID = Event::InvalidID;
@@ -890,10 +907,12 @@ namespace djv
             p.scrollBars[Orientation::Horizontal]->setViewSize(w);
             p.scrollBars[Orientation::Horizontal]->setContentsSize(value.x);
             p.scrollBars[Orientation::Horizontal]->setVisible(visible[ScrollType::Horizontal]);
+            p.scrollBars[Orientation::Horizontal]->setEnabled(w < value.x);
 
             p.scrollBars[Orientation::Vertical]->setViewSize(h);
             p.scrollBars[Orientation::Vertical]->setContentsSize(value.y);
             p.scrollBars[Orientation::Vertical]->setVisible(visible[ScrollType::Vertical]);
+            p.scrollBars[Orientation::Vertical]->setEnabled(h < value.y);
         }
 
         void ScrollWidget::_addPointerSample(const glm::vec2& value)

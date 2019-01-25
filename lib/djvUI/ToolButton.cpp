@@ -127,32 +127,6 @@ namespace djv
                 _p->layout->setGeometry(getGeometry());
             }
 
-            void Tool::_paintEvent(Event::Paint& event)
-            {
-                Widget::_paintEvent(event);
-                if (auto render = _getRender().lock())
-                {
-                    if (auto style = _getStyle().lock())
-                    {
-                        const BBox2f& g = getGeometry();
-
-                        // Draw the toggled state.
-                        if (_isToggled())
-                        {
-                            render->setFillColor(_getColorWithOpacity(style->getColor(getCheckedColorRole())));
-                            render->drawRect(g);
-                        }
-
-                        // Draw the hovered state.
-                        if (_isHovered())
-                        {
-                            render->setFillColor(_getColorWithOpacity(style->getColor(Style::ColorRole::Hover)));
-                            render->drawRect(g);
-                        }
-                    }
-                }
-            }
-
             void Tool::_updateEvent(Event::Update& event)
             {
                 _p->icon->setIconColorRole(_getForegroundColorRole());

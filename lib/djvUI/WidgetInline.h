@@ -44,6 +44,11 @@ namespace djv
             return _clipped;
         }
 
+        inline const Core::BBox2f & Widget::getClipRect() const
+        {
+            return _clipRect;
+        }
+
         inline float Widget::getOpacity(bool parents) const
         {
             return parents ? (_opacity * _parentsOpacity) : _opacity;
@@ -97,16 +102,6 @@ namespace djv
         inline Style::ColorRole Widget::getBackgroundRole() const
         {
             return _backgroundRole;
-        }
-
-        inline Style::MetricsRole Widget::getRoundedCorners() const
-        {
-            return _roundedCorners;
-        }
-
-        inline AV::Side Widget::getRoundedCornersSide() const
-        {
-            return _roundedCornersSide;
         }
 
         inline bool Widget::isPointerEnabled() const

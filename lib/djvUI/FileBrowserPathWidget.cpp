@@ -73,7 +73,7 @@ namespace djv
                 p.label->setTextHAlign(TextHAlign::Left);
                 p.label->setTextVAlign(TextVAlign::Center);
                 p.label->setMargin(Style::MetricsRole::MarginSmall);
-                p.label->setBackgroundRole(Style::ColorRole::BackgroundText);
+                p.label->setBackgroundRole(Style::ColorRole::Trough);
 
                 p.historyActionGroup = ActionGroup::create(ButtonType::Radio);
                 p.historyMenu = Menu::create(context);

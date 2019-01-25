@@ -263,23 +263,24 @@ namespace djv
                             render->drawRect(sg);
                         }
 
-                        // Draw the pressed state.
+                        // Draw the pressed or hovered state.
                         if (p.pressedID)
                         {
-                            render->setFillColor(_getColorWithOpacity(style->getColor(Style::ColorRole::Checked)));
+                            render->setFillColor(_getColorWithOpacity(style->getColor(Style::ColorRole::Pressed)));
                             render->drawRect(hg);
                         }
-
-                        // Draw the hovered state.
-                        bool hover = p.pressedID;
-                        for (const auto& h : p.hover)
+                        else
                         {
-                            hover |= h.second;
-                        }
-                        if (hover)
-                        {
-                            render->setFillColor(_getColorWithOpacity(style->getColor(Style::ColorRole::Hover)));
-                            render->drawRect(hg);
+                            bool hover = p.pressedID;
+                            for (const auto& h : p.hover)
+                            {
+                                hover |= h.second;
+                            }
+                            if (hover)
+                            {
+                                render->setFillColor(_getColorWithOpacity(style->getColor(Style::ColorRole::Hovered)));
+                                render->drawRect(hg);
+                            }
                         }
                     }
                 }

@@ -268,22 +268,6 @@ namespace djv
             _redraw();
         }
 
-        void Widget::setRoundedCorners(Style::MetricsRole value)
-        {
-            if (value == _roundedCorners)
-                return;
-            _roundedCorners = value;
-            _redraw();
-        }
-
-        void Widget::setRoundedCornersSide(AV::Side value)
-        {
-            if (value == _roundedCornersSide)
-                return;
-            _roundedCornersSide = value;
-            _redraw();
-        }
-
         void Widget::setStyle(const std::shared_ptr<Style::Style> & value)
         {
             _customStyle = value;
@@ -410,11 +394,13 @@ namespace djv
                     {
                         _parentsVisible = parent->_visible && parent->_parentsVisible;
                         _clipped = !clipEvent.getClipRect().isValid() || !_visible || !parent->_visible || !parent->_parentsVisible;
+                        _clipRect = clipEvent.getClipRect();
                     }
                     else
                     {
                         _parentsVisible = true;
                         _clipped = false;
+                        _clipRect = BBox2f(0.f, 0.f, 0.f, 0.f);
                     }
                     _clipEvent(clipEvent);
                     break;
@@ -528,14 +514,7 @@ namespace djv
                     if (auto style = _style.lock())
                     {
                         render->setFillColor(_getColorWithOpacity(style->getColor(_backgroundRole)));
-                        if (_roundedCorners != Style::MetricsRole::None)
-                        {
-                            render->drawRoundedRect(getGeometry(), style->getMetric(_roundedCorners), _roundedCornersSide);
-                        }
-                        else
-                        {
-                            render->drawRect(getGeometry());
-                        }
+                        render->drawRect(getGeometry());
                     }
                 }
             }
@@ -636,6 +615,7 @@ namespace djv
         void Widget::_parentChangedEvent(Event::ParentChanged & event)
         {
             _clipped = event.getNewParent() ? true : false;
+            _clipRect = BBox2f(0.f, 0.f, 0.f, 0.f);
             _redraw();
         }
 
@@ -658,8 +638,8 @@ namespace djv
         {
             auto context = getContext();
             auto textBlock = TextBlock::create(text, context);
-            textBlock->setTextColorRole(Style::ColorRole::ForegroundTooltip);
-            textBlock->setBackgroundRole(Style::ColorRole::BackgroundTooltip);
+            textBlock->setTextColorRole(Style::ColorRole::TooltipForeground);
+            textBlock->setBackgroundRole(Style::ColorRole::TooltipBackground);
             textBlock->setMargin(Style::MetricsRole::Margin);
             auto border = Layout::Border::create(context);
             border->addWidget(textBlock);

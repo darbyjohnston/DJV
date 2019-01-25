@@ -112,6 +112,7 @@ namespace djv
                 buttonScrollWidget->addWidget(buttonLayout);
 
                 auto soloLayout = UI::Layout::Solo::create(context);
+                soloLayout->setMargin(UI::Style::MetricsRole::MarginLarge);
                 for (auto i : _widgets)
                 {
                     soloLayout->addWidget(i.second);

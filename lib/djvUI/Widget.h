@@ -95,6 +95,7 @@ namespace djv
 
             inline bool isVisible(bool parents = false) const;
             inline bool isClipped() const;
+            inline const Core::BBox2f & getClipRect() const;
             inline float getOpacity(bool parents = false) const;
             virtual void setVisible(bool);
             void show();
@@ -137,11 +138,6 @@ namespace djv
 
             inline Style::ColorRole getBackgroundRole() const;
             void setBackgroundRole(Style::ColorRole);
-
-            inline Style::MetricsRole getRoundedCorners() const;
-            inline AV::Side getRoundedCornersSide() const;
-            void setRoundedCorners(Style::MetricsRole);
-            void setRoundedCornersSide(AV::Side);
 
             void setStyle(const std::shared_ptr<Style::Style> &);
 
@@ -240,6 +236,7 @@ namespace djv
             bool _visible = true;
             bool _parentsVisible = true;
             bool _clipped = false;
+            Core::BBox2f _clipRect = Core::BBox2f(0.f, 0.f, 0.f, 0.f);
             float _opacity = 1.f;
             float _parentsOpacity = 1.f;
             Core::BBox2f _geometry = Core::BBox2f(0.f, 0.f, 0.f, 0.f);
@@ -248,8 +245,6 @@ namespace djv
             HAlign _hAlign = HAlign::Fill;
             VAlign _vAlign = VAlign::Fill;
             Style::ColorRole _backgroundRole = Style::ColorRole::None;
-            Style::MetricsRole _roundedCorners = Style::MetricsRole::None;
-            AV::Side _roundedCornersSide = AV::Side::None;
             bool _pointerEnabled = false;
             std::map<Core::Event::PointerID, glm::vec2> _pointerHover;
             std::vector<std::shared_ptr<Action> > _actions;

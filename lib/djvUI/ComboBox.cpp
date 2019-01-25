@@ -72,7 +72,6 @@ namespace djv
 
             p.button = Button::Menu::create(context);
             p.button->setBorder(true);
-            p.button->setBackgroundRole(Style::ColorRole::Button);
             p.button->setParent(shared_from_this());
 
             _updateCurrentItem();

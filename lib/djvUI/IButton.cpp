@@ -46,13 +46,15 @@ namespace djv
                 ButtonType buttonType = ButtonType::Push;
                 bool checked = false;
                 Style::ColorRole foregroundColorRole = Style::ColorRole::Foreground;
+                Style::ColorRole hoveredColorRole = Style::ColorRole::Hovered;
+                Style::ColorRole pressedColorRole = Style::ColorRole::Pressed;
                 Style::ColorRole checkedColorRole = Style::ColorRole::Checked;
-                Style::ColorRole checkedForegroundColorRole = Style::ColorRole::CheckedForeground;
+                Style::ColorRole disabledColorRole = Style::ColorRole::Disabled;
 
                 std::function<void(void)> clickedCallback;
                 std::function<void(bool)> checkedCallback;
 
-                Event::PointerID pressedId = Event::InvalidID;
+                Event::PointerID pressedID = Event::InvalidID;
                 glm::vec2 pressedPos = glm::vec2(0.f, 0.f);
                 bool canRejectPressed = true;
             };
@@ -99,14 +101,24 @@ namespace djv
                 return _p->foregroundColorRole;
             }
 
+            Style::ColorRole IButton::getHoveredColorRole() const
+            {
+                return _p->hoveredColorRole;
+            }
+
+            Style::ColorRole IButton::getPressedColorRole() const
+            {
+                return _p->pressedColorRole;
+            }
+
             Style::ColorRole IButton::getCheckedColorRole() const
             {
                 return _p->checkedColorRole;
             }
 
-            Style::ColorRole IButton::getCheckedForegroundColorRole() const
+            Style::ColorRole IButton::getDisabledColorRole() const
             {
-                return _p->checkedForegroundColorRole;
+                return _p->disabledColorRole;
             }
 
             void IButton::setForegroundColorRole(Style::ColorRole value)
@@ -114,6 +126,22 @@ namespace djv
                 if (value == _p->foregroundColorRole)
                     return;
                 _p->foregroundColorRole = value;
+                _redraw();
+            }
+
+            void IButton::setHoveredColorRole(Style::ColorRole value)
+            {
+                if (_p->hoveredColorRole == value)
+                    return;
+                _p->hoveredColorRole = value;
+                _redraw();
+            }
+
+            void IButton::setPressedColorRole(Style::ColorRole value)
+            {
+                if (_p->pressedColorRole == value)
+                    return;
+                _p->pressedColorRole = value;
                 _redraw();
             }
 
@@ -125,11 +153,11 @@ namespace djv
                 _redraw();
             }
 
-            void IButton::setCheckedForegroundColorRole(Style::ColorRole value)
+            void IButton::setDisabledColorRole(Style::ColorRole value)
             {
-                if (value == _p->checkedForegroundColorRole)
+                if (_p->disabledColorRole == value)
                     return;
-                _p->checkedForegroundColorRole = value;
+                _p->disabledColorRole = value;
                 _redraw();
             }
 
@@ -160,10 +188,15 @@ namespace djv
                             render->drawRect(g);
                         }
 
-                        // Draw the hovered state.
-                        if (_isHovered())
+                        // Draw the pressed or hovered state.
+                        if (_isPressed())
                         {
-                            render->setFillColor(_getColorWithOpacity(style->getColor(Style::ColorRole::Hover)));
+                            render->setFillColor(_getColorWithOpacity(style->getColor(p.pressedColorRole)));
+                            render->drawRect(g);
+                        }
+                        else if (_isHovered())
+                        {
+                            render->setFillColor(_getColorWithOpacity(style->getColor(p.hoveredColorRole)));
                             render->drawRect(g);
                         }
                     }
@@ -194,7 +227,7 @@ namespace djv
                 const auto id = event.getPointerInfo().id;
                 const auto& pos = event.getPointerInfo().projectedPos;
                 DJV_PRIVATE_PTR();
-                if (id == p.pressedId)
+                if (id == p.pressedID)
                 {
                     if (auto style = _getStyle().lock())
                     {
@@ -203,7 +236,7 @@ namespace djv
                         event.setAccepted(accepted);
                         if (!accepted)
                         {
-                            p.pressedId = Event::InvalidID;
+                            p.pressedID = Event::InvalidID;
                             _redraw();
                         }
                     }
@@ -213,11 +246,11 @@ namespace djv
             void IButton::_buttonPressEvent(Event::ButtonPress& event)
             {
                 DJV_PRIVATE_PTR();
-                if (!isEnabled() || p.pressedId)
+                if (!isEnabled() || p.pressedID)
                     return;
                 event.accept();
                 const auto & pointerInfo = event.getPointerInfo();
-                p.pressedId = pointerInfo.id;
+                p.pressedID = pointerInfo.id;
                 p.pressedPos = pointerInfo.projectedPos;
                 _redraw();
             }
@@ -226,10 +259,10 @@ namespace djv
             {
                 DJV_PRIVATE_PTR();
                 const auto & pointerInfo = event.getPointerInfo();
-                if (pointerInfo.id == p.pressedId)
+                if (pointerInfo.id == p.pressedID)
                 {
                     event.accept();
-                    p.pressedId = Event::InvalidID;
+                    p.pressedID = Event::InvalidID;
                     const BBox2f& g = getGeometry();
                     const auto & hover = _getPointerHover();
                     const auto i = hover.find(pointerInfo.id);
@@ -260,15 +293,18 @@ namespace djv
             {
                 DJV_PRIVATE_PTR();
                 bool out = false;
-                if (p.pressedId)
+                if (p.pressedID)
                 {
                     const auto & hover = _getPointerHover();
-                    const auto i = hover.find(p.pressedId);
+                    const auto i = hover.find(p.pressedID);
                     if (i != hover.end())
                     {
                         const BBox2f& g = getGeometry();
                         switch (p.buttonType)
                         {
+                        case ButtonType::Toggle:
+                            out = g.contains(i->second) ? !p.checked : p.checked;
+                            break;
                         case ButtonType::Radio:
                             if (p.checked)
                             {
@@ -279,9 +315,7 @@ namespace djv
                                 out = g.contains(i->second) ? !p.checked : p.checked;
                             }
                             break;
-                        default:
-                            out = g.contains(i->second) ? !p.checked : p.checked;
-                            break;
+                        default: break;
                         }
                     }
                 }
@@ -294,12 +328,12 @@ namespace djv
 
             bool IButton::_isHovered() const
             {
-                return isEnabled() && (_getPointerHover().size() || _isPressed());
+                return isEnabled() && _getPointerHover().size();
             }
 
             bool IButton::_isPressed() const
             {
-                return isEnabled() && _p->pressedId != 0 ? true : false;
+                return isEnabled() && _p->pressedID != 0;
             }
 
             const glm::vec2& IButton::_getPressedPos() const
@@ -314,8 +348,8 @@ namespace djv
 
             Style::ColorRole IButton::_getForegroundColorRole() const
             {
-                return !isEnabled(true) ? Style::ColorRole::Disabled :
-                    (_isToggled() ? _p->checkedForegroundColorRole : _p->foregroundColorRole);
+                DJV_PRIVATE_PTR();
+                return !isEnabled(true) ? p.disabledColorRole : p.foregroundColorRole;
             }
 
             void IButton::_doClickedCallback()

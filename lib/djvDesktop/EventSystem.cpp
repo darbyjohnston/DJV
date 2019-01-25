@@ -112,7 +112,7 @@ namespace djv
             {
                 if ((*i)->isVisible() &&
                     !(*i)->isClipped() &&
-                    (*i)->getGeometry().contains(event.getPointerInfo().projectedPos))
+                    (*i)->getClipRect().contains(event.getPointerInfo().projectedPos))
                 {
                     _hover(*i, event, hover);
                     if (event.isAccepted())

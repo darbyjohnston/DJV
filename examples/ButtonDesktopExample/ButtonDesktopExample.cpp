@@ -44,29 +44,30 @@ int main(int argc, char ** argv)
     {
         auto app = Desktop::Application::create(argc, argv);
 
-        auto button1 = UI::Button::Push::create(app.get());
-        button1->setText("Button 1");
-        button1->setFontSizeRole(UI::Style::MetricsRole::FontHeader);
-        button1->setClickedCallback(
+        auto pushButton = UI::Button::Push::create(app.get());
+        pushButton->setText("Push Button");
+        pushButton->setFontSizeRole(UI::Style::MetricsRole::FontHeader);
+        pushButton->setClickedCallback(
             []
         {
-            std::cout << "Button 1" << std::endl;
+            std::cout << "Clicked" << std::endl;
         });
 
-        auto button2 = UI::Button::Push::create(app.get());
-        button2->setText("Button 2");
-        button2->setFontSizeRole(UI::Style::MetricsRole::FontHeader);
-        button2->setClickedCallback(
-            []
+        auto toggleButton = UI::Button::Push::create(app.get());
+        toggleButton->setButtonType(UI::ButtonType::Toggle);
+        toggleButton->setText("Toggle Button");
+        toggleButton->setFontSizeRole(UI::Style::MetricsRole::FontHeader);
+        toggleButton->setCheckedCallback(
+            [](bool value)
         {
-            std::cout << "Button 2" << std::endl;
+            std::cout << value << std::endl;
         });
 
         auto layout = UI::Layout::Vertical::create(app.get());
         layout->setHAlign(UI::HAlign::Center);
         layout->setVAlign(UI::VAlign::Center);
-        layout->addWidget(button1);
-        layout->addWidget(button2);
+        layout->addWidget(pushButton);
+        layout->addWidget(toggleButton);
 
         auto window = UI::Window::create(app.get());
         window->addWidget(layout);

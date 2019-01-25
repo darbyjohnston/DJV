@@ -250,7 +250,7 @@ namespace djv
                         // Draw the hovered state.
                         if (_isHovered())
                         {
-                            render->setFillColor(_getColorWithOpacity(style->getColor(Style::ColorRole::Hover)));
+                            render->setFillColor(_getColorWithOpacity(style->getColor(Style::ColorRole::Hovered)));
                             render->drawRect(g);
                         }
                     }

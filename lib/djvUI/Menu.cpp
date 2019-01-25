@@ -287,47 +287,41 @@ namespace djv
 
                         for (const auto & i : _items)
                         {
-                            Style::ColorRole colorRole = Style::ColorRole::Checked;
-                            if (i.second == _pressed.second || i.second->checked)
-                            {
-                                render->setFillColor(_getColorWithOpacity(style->getColor(Style::ColorRole::Checked)));
-                                render->drawRect(i.second->geom);
-                            }
-                        }
-
-                        auto hoveredItems = _hoveredItems;
-                        if (_pressed.second)
-                        {
-                            hoveredItems[_pressed.first] = _pressed.second;
-                        }
-                        for (const auto & i : hoveredItems)
-                        {
                             if (i.second->enabled)
                             {
-                                render->setFillColor(_getColorWithOpacity(style->getColor(Style::ColorRole::Hover)));
-                                render->drawRect(i.second->geom);
+                                if (i.second == _pressed.second)
+                                {
+                                    render->setFillColor(_getColorWithOpacity(style->getColor(Style::ColorRole::Pressed)));
+                                    render->drawRect(i.second->geom);
+                                }
+                                else
+                                {
+                                    for (const auto & hovered : _hoveredItems)
+                                    {
+                                        if (i.second == hovered.second)
+                                        {
+                                            render->setFillColor(_getColorWithOpacity(style->getColor(Style::ColorRole::Hovered)));
+                                            render->drawRect(i.second->geom);
+                                            break;
+                                        }
+                                    }
+                                }
                             }
                         }
 
                         render->setCurrentFont(style->getFontInfo(AV::Font::Info::faceDefault, Style::MetricsRole::FontMedium));
                         for (const auto & i : _items)
                         {
-                            Style::ColorRole colorRole = Style::ColorRole::Foreground;
-                            if (!i.second->enabled)
-                            {
-                                colorRole = Style::ColorRole::Disabled;
-                            }
-                            else if (i.second == _pressed.second)
-                            {
-                                colorRole = Style::ColorRole::CheckedForeground;
-                            }
-
+                            const Style::ColorRole colorRole = i.second->enabled ? Style::ColorRole::Foreground : Style::ColorRole::Disabled;
                             float x = i.second->geom.min.x + m;
                             float y = 0.f;
                             if (i.second->icon)
                             {
                                 y = i.second->geom.min.y + ceilf(i.second->size.y / 2.f - iconSize / 2.f);
-                                render->setFillColor(_getColorWithOpacity(style->getColor(colorRole)));
+                                render->setFillColor(_getColorWithOpacity(style->getColor(
+                                    (i.second->checked || i.second == _pressed.second) ?
+                                    Style::ColorRole::Checked :
+                                    colorRole)));
                                 render->drawFilledImage(i.second->icon, BBox2f(x, y, iconSize, iconSize), AV::Render::ImageCache::Static);
                                 x += iconSize + s;
                             }
@@ -845,7 +839,7 @@ namespace djv
             void MenuOverlayLayout::_paintEvent(Event::Paint& event)
             {
                 Widget::_paintEvent(event);
-                if (auto render = _getRender().lock())
+                /*if (auto render = _getRender().lock())
                 {
                     if (auto style = _getStyle().lock())
                     {
@@ -861,7 +855,7 @@ namespace djv
                             render->drawRect(g);
                         }
                     }
-                }
+                }*/
             }
 
         } // namespace

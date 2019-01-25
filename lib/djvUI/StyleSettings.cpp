@@ -69,56 +69,8 @@ namespace djv
                 palettes[DJV_TEXT("djv::UI::Settings", "Dark")] = UI::Style::Palette();
 
                 UI::Style::Palette palette;
-                palette.setColor(UI::Style::ColorRole::Background, AV::Image::Color(1.f, 1.f, 1.f));
-                palette.setColor(UI::Style::ColorRole::BackgroundHeader, AV::Image::Color(.3f, .4f, .5f));
-                palette.setColor(UI::Style::ColorRole::BackgroundText, AV::Image::Color(.9f, .9f, .9f));
-                palette.setColor(UI::Style::ColorRole::Foreground, AV::Image::Color(0.f, 0.f, 0.f));
-                palette.setColor(UI::Style::ColorRole::ForegroundDim, AV::Image::Color(.3f, .3f, .3f));
-                palette.setColor(UI::Style::ColorRole::ForegroundHeader, AV::Image::Color(1.f, 1.f, 1.f));
-                palette.setColor(UI::Style::ColorRole::Border, AV::Image::Color(.4f, .4f, .4f));
-                palette.setColor(UI::Style::ColorRole::Trough, AV::Image::Color(.5f, .5f, .5f));
-                palette.setColor(UI::Style::ColorRole::Button, AV::Image::Color(.85f, .85f, .85f));
-                palette.setColor(UI::Style::ColorRole::Checked, AV::Image::Color(.3f, .5f, .8f));
-                palette.setColor(UI::Style::ColorRole::CheckedForeground, AV::Image::Color(1.f, 1.f, 1.f));
-                palette.setColor(UI::Style::ColorRole::Hover, AV::Image::Color(0.f, 0.f, 0.f, .1f));
-                palette.setColor(UI::Style::ColorRole::Disabled, AV::Image::Color(.5f, .5f, .5f));
-                palette.setColor(UI::Style::ColorRole::Overlay, AV::Image::Color(0.f, 0.f, 0.f, .2f));
                 palettes[DJV_TEXT("djv::UI::Settings", "Light")] = palette;
                 
-                palette = UI::Style::Palette();
-                palette.setColor(UI::Style::ColorRole::Background, AV::Image::Color(.7f, .5f, .2f));
-                palette.setColor(UI::Style::ColorRole::BackgroundHeader, AV::Image::Color(.6f, .3f, .2f));
-                palette.setColor(UI::Style::ColorRole::BackgroundText, AV::Image::Color(.8f, .5f, .2f));
-                palette.setColor(UI::Style::ColorRole::Foreground, AV::Image::Color(1.f, 1.f, 1.f));
-                palette.setColor(UI::Style::ColorRole::ForegroundDim, AV::Image::Color(.7f, .7f, .7f));
-                palette.setColor(UI::Style::ColorRole::ForegroundHeader, AV::Image::Color(1.f, 1.f, 1.f));
-                palette.setColor(UI::Style::ColorRole::Border, AV::Image::Color(.4f, .4f, .4f));
-                palette.setColor(UI::Style::ColorRole::Trough, AV::Image::Color(.5f, .5f, .5f));
-                palette.setColor(UI::Style::ColorRole::Button, AV::Image::Color(.9f, .6f, .3f));
-                palette.setColor(UI::Style::ColorRole::Checked, AV::Image::Color(.9f, .9f, .3f));
-                palette.setColor(UI::Style::ColorRole::CheckedForeground, AV::Image::Color(.5f, .3f, .1f));
-                palette.setColor(UI::Style::ColorRole::Hover, AV::Image::Color(1.f, 1.f, 1.f, .1f));
-                palette.setColor(UI::Style::ColorRole::Disabled, AV::Image::Color(.8f, .8f, .8f));
-                palette.setColor(UI::Style::ColorRole::Overlay, AV::Image::Color(0.f, 0.f, 0.f, .2f));
-                palettes[DJV_TEXT("djv::UI::Settings", "Orange")] = palette;
-                
-                palette = UI::Style::Palette();
-                palette.setColor(UI::Style::ColorRole::Background, AV::Image::Color(.1f, .3f, .6f));
-                palette.setColor(UI::Style::ColorRole::BackgroundHeader, AV::Image::Color(.1f, .2f, .4f));
-                palette.setColor(UI::Style::ColorRole::BackgroundText, AV::Image::Color(.2f, .5f, .8f));
-                palette.setColor(UI::Style::ColorRole::Foreground, AV::Image::Color(1.f, 1.f, 1.f));
-                palette.setColor(UI::Style::ColorRole::ForegroundDim, AV::Image::Color(.7f, .7f, .7f));
-                palette.setColor(UI::Style::ColorRole::ForegroundHeader, AV::Image::Color(1.f, 1.f, 1.f));
-                palette.setColor(UI::Style::ColorRole::Border, AV::Image::Color(.2f, .2f, .2f));
-                palette.setColor(UI::Style::ColorRole::Trough, AV::Image::Color(.5f, .5f, .5f));
-                palette.setColor(UI::Style::ColorRole::Button, AV::Image::Color(.3f, .6f, .9f));
-                palette.setColor(UI::Style::ColorRole::Checked, AV::Image::Color(.3f, .7f, .7f));
-                palette.setColor(UI::Style::ColorRole::CheckedForeground, AV::Image::Color(1.f, 1.f, 1.f));
-                palette.setColor(UI::Style::ColorRole::Hover, AV::Image::Color(1.f, 1.f, 1.f, .1f));
-                palette.setColor(UI::Style::ColorRole::Disabled, AV::Image::Color(.6f, .6f, .6f));
-                palette.setColor(UI::Style::ColorRole::Overlay, AV::Image::Color(0.f, 0.f, 0.f, .2f));
-                palettes[DJV_TEXT("djv::UI::Settings", "Blue")] = palette;
-
                 std::map<std::string, UI::Style::Metrics> metricsList;
                 UI::Style::Metrics metrics;
                 metricsList[DJV_TEXT("djv::UI::Settings", "Medium")] = metrics;

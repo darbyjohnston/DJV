@@ -134,7 +134,6 @@ namespace djv
                     if (auto style = _getStyle().lock())
                     {
                         const float m = style->getMetric(Style::MetricsRole::MarginSmall);
-                        const float s = style->getMetric(Style::MetricsRole::Spacing);
                         const float tw = style->getMetric(p.getThumbnailWidth());
                         const float th = style->getMetric(p.getThumbnailHeight());
                         switch (p.viewType)
@@ -150,7 +149,7 @@ namespace djv
                                 x += tw + m * 2.f;
                             }
                             const size_t rows = itemCount / columns + (itemCount % columns ? 1 : 0);
-                            out = (th + s + p.nameFontMetrics.lineHeight * 2.f + m * 2.f) * rows;
+                            out = (th + p.nameFontMetrics.lineHeight * 2.f + m * 2.f) * rows;
                             break;
                         }
                         case ViewType::ListView:
@@ -203,7 +202,6 @@ namespace djv
                     DJV_PRIVATE_PTR();
                     const BBox2f & g = getGeometry();
                     const float m = style->getMetric(Style::MetricsRole::MarginSmall);
-                    const float s = style->getMetric(Style::MetricsRole::Spacing);
                     const float tw = style->getMetric(p.getThumbnailWidth());
                     const float th = style->getMetric(p.getThumbnailHeight());
                     p.itemGeometry.clear();
@@ -217,7 +215,7 @@ namespace djv
                         case ViewType::ThumbnailsLarge:
                         case ViewType::ThumbnailsSmall:
                         {
-                            const float itemHeight = th + s + p.nameFontMetrics.lineHeight * 2.f + m * 2.f;
+                            const float itemHeight = th + p.nameFontMetrics.lineHeight * 2.f + m * 2.f;
                             p.itemGeometry[i] = BBox2f(pos.x, pos.y, tw + m * 2.f, itemHeight);
                             pos.x += tw + m * 2.f;
                             if (pos.x > g.max.x - (tw + m * 2.f))
@@ -309,7 +307,6 @@ namespace djv
                         {
                             const BBox2f & g = getGeometry();
                             const float m = style->getMetric(Style::MetricsRole::MarginSmall);
-                            const float s = style->getMetric(Style::MetricsRole::SpacingSmall);
                             const float tw = style->getMetric(p.getThumbnailWidth());
                             const float th = style->getMetric(p.getThumbnailHeight());
                             {
@@ -324,7 +321,7 @@ namespace djv
                                 const auto i = p.itemGeometry.find(p.hover);
                                 if (i != p.itemGeometry.end())
                                 {
-                                    render->setFillColor(_getColorWithOpacity(style->getColor(Style::ColorRole::Hover)));
+                                    render->setFillColor(_getColorWithOpacity(style->getColor(Style::ColorRole::Hovered)));
                                     render->drawRect(i->second);
                                 }
                             }
@@ -430,7 +427,7 @@ namespace djv
                                         }
                                         case ViewType::ListView:
                                         {
-                                            float x = i->second.min.x + m + tw + s;
+                                            float x = i->second.min.x + m + tw;
                                             float y = i->second.min.y + i->second.h() / 2.f - p.nameFontMetrics.lineHeight / 2.f;
                                             render->drawText(
                                                 item->getFileName(Frame::Invalid, false),
@@ -742,6 +739,7 @@ namespace djv
             void ItemView::_iconsUpdate()
             {
                 DJV_PRIVATE_PTR();
+                p.icons.clear();
                 if (auto style = _getStyle().lock())
                 {
                     if (auto iconSystem = getContext()->getSystemT<IconSystem>().lock())
@@ -752,13 +750,26 @@ namespace djv
                             std::string name;
                             switch (type)
                             {
-                            case FileSystem::FileType::Directory: name = "djvIconDirectory"; break;
-                            default: name = "djvIconFile"; break;
+                            case FileSystem::FileType::Directory:
+                                switch (p.viewType)
+                                {
+                                case ViewType::ThumbnailsLarge: name = "djvIconFileBrowserDirectoryLarge"; break;
+                                case ViewType::ThumbnailsSmall: name = "djvIconFileBrowserDirectorySmall"; break;
+                                case ViewType::ListView:        name = "djvIconFileBrowserDirectoryList";  break;
+                                default: break;
+                                }
+                                break;
+                            default:
+                                switch (p.viewType)
+                                {
+                                case ViewType::ThumbnailsLarge: name = "djvIconFileBrowserFileLarge"; break;
+                                case ViewType::ThumbnailsSmall: name = "djvIconFileBrowserFileSmall"; break;
+                                case ViewType::ListView:        name = "djvIconFileBrowserFileList";  break;
+                                default: break;
+                                }
+                                break;
                             }
-                            const int size = std::min(
-                                static_cast<int>(style->getMetric(p.getThumbnailWidth())),
-                                static_cast<int>(style->getMetric(p.getThumbnailHeight())));
-                            _p->iconsFutures[type] = iconSystem->getIcon(name, size);
+                            _p->iconsFutures[type] = iconSystem->getIcon(name, static_cast<int>(style->getMetric(Style::MetricsRole::Icon)));
                         }
                     }
                 }

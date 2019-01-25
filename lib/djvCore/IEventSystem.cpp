@@ -132,10 +132,13 @@ namespace djv
                     p.grab->event(moveEvent);
                     if (!moveEvent.isAccepted())
                     {
-                        // If the grabbed object did not accept the event then see if
-                        // any of the parent objects want it.
+                        // Release the grabbed object if it did not accept the move event.
+                        auto object = p.grab;
+                        p.grab = nullptr;
                         moveEvent.reject();
-                        for (auto parent = p.grab->getParent().lock(); parent; parent = parent->getParent().lock())
+
+                        // See if a parent wants the event.
+                        for (auto parent = object->getParent().lock(); parent; parent = parent->getParent().lock())
                         {
                             parent->event(moveEvent);
                             if (moveEvent.isAccepted())
@@ -151,12 +154,19 @@ namespace djv
                                     {
                                         p.grab = p.hover;
                                     }
-                                    else
-                                    {
-                                        p.grab = nullptr;
-                                    }
                                 }
                                 break;
+                            }
+                        }
+
+                        // If none of the parents wanted the event see if the original
+                        // object wants it back.
+                        if (!moveEvent.isAccepted())
+                        {
+                            object->event(moveEvent);
+                            if (moveEvent.isAccepted())
+                            {
+                                setHover(object);
                             }
                         }
                     }

@@ -85,13 +85,21 @@ void MDIWidget::_init(const std::string & title, Core::Context * context)
 
     auto titleLabel = UI::Label::create(context);
     titleLabel->setText(title);
+    titleLabel->setTextColorRole(UI::Style::ColorRole::HeaderForeground);
     titleLabel->setMargin(UI::Style::MetricsRole::Margin);
 
     _closeButton = UI::Button::Tool::create(context);
     _closeButton->setIcon("djvIconClose");
+    _closeButton->setInsideMargin(UI::Style::MetricsRole::MarginSmall);
+    _closeButton->setForegroundColorRole(UI::Style::ColorRole::HeaderForeground);
+    _closeButton->setHoveredColorRole(UI::Style::ColorRole::HeaderHovered);
+    _closeButton->setPressedColorRole(UI::Style::ColorRole::HeaderPressed);
+    _closeButton->setCheckedColorRole(UI::Style::ColorRole::HeaderChecked);
+    _closeButton->setDisabledColorRole(UI::Style::ColorRole::HeaderDisabled);
 
     auto titleBar = UI::Layout::Horizontal::create(context);
     titleBar->setClassName("djv::UI::MDI::TitleBar");
+    titleBar->setBackgroundRole(UI::Style::ColorRole::HeaderBackground);
     titleBar->addWidget(titleLabel);
     titleBar->addExpander();
     titleBar->addWidget(_closeButton);
@@ -172,24 +180,22 @@ int main(int argc, char ** argv)
         auto app = Desktop::Application::create(argc, argv);
 
         auto canvas = UI::MDI::Canvas::create(app.get());
+        glm::vec2 pos(50.f, 50.f);
         Core::Math::setRandomSeed();
         for (size_t i = 0; i < 3; ++i)
         {
             std::stringstream ss;
             ss << "Widget " << i;
             auto widget = MDIWidget::create(ss.str(), app.get());
-            const glm::vec2 size(Core::Math::getRandom(4, 5) * 100.f, Core::Math::getRandom(3, 4) * 100.f);
-            widget->resize(size);
-
-            const glm::vec2 pos(Core::Math::getRandom(0, 50) * 10.f, Core::Math::getRandom(0, 50) * 10.f);
+            widget->resize(glm::vec2(600.f, 400.f));
             widget->setParent(canvas);
-            widget->move(pos);
-
             widget->setClosedCallback(
                 [widget]
             {
                 widget->setParent(nullptr);
             });
+            canvas->setWidgetPos(widget, pos);
+            pos += glm::vec2(100.f, 100.f);
         }
 
         auto window = UI::Window::create(app.get());

@@ -190,9 +190,14 @@ namespace djv
                     if (auto style = _getStyle().lock())
                     {
                         const BBox2f & g = getGeometry();
-                        if (_isHovered() || _p->checked)
+                        if (_p->checked)
                         {
-                            render->setFillColor(_getColorWithOpacity(style->getColor(Style::ColorRole::Hover)));
+                            render->setFillColor(_getColorWithOpacity(style->getColor(Style::ColorRole::Pressed)));
+                            render->drawRect(g);
+                        }
+                        else if (_isHovered())
+                        {
+                            render->setFillColor(_getColorWithOpacity(style->getColor(Style::ColorRole::Hovered)));
                             render->drawRect(g);
                         }
                     }

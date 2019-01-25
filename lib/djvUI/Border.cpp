@@ -154,7 +154,7 @@ namespace djv
                 if (auto style = _getStyle().lock())
                 {
                     DJV_PRIVATE_PTR();
-                    const BBox2f g = getGeometry().margin(-style->getMetric(p.borderSize));
+                    const BBox2f & g = getGeometry().margin(-style->getMetric(p.borderSize));
                     p.layout->setGeometry(getMargin().bbox(g, style));
                 }
             }
@@ -166,7 +166,7 @@ namespace djv
                 {
                     if (auto style = _getStyle().lock())
                     {
-                        const BBox2f& g = getMargin().bbox(getGeometry(), style);
+                        const BBox2f & g = getMargin().bbox(getGeometry(), style);
 
                         // Draw the border.
                         DJV_PRIVATE_PTR();

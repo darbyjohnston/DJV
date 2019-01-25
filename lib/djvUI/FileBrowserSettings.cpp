@@ -54,7 +54,7 @@ namespace djv
                 ISettings::_init("djv::UI::Settings::FileBrowser", context);
                 
                 DJV_PRIVATE_PTR();
-                p.viewType = ValueSubject<ViewType>::create(ViewType::First);
+                p.viewType = ValueSubject<ViewType>::create(ViewType::ThumbnailsSmall);
 
                 _load();
             }

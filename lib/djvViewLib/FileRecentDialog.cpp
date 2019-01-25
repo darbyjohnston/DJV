@@ -54,6 +54,7 @@ namespace djv
             DJV_PRIVATE_PTR();
             p.itemView = UI::FileBrowser::ItemView::create(context);
             auto scrollWidget = UI::ScrollWidget::create(UI::ScrollType::Vertical, context);
+            scrollWidget->setMargin(UI::Style::MetricsRole::Margin);
             scrollWidget->addWidget(p.itemView);
             addWidget(scrollWidget, UI::Layout::RowStretch::Expand);
 

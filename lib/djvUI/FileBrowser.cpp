@@ -202,6 +202,9 @@ namespace djv
                 auto searchBox = SearchBox::create(context);
                 
                 auto bottomToolBar = Toolbar::create(context);
+                bottomToolBar->addAction(p.actions["LargeThumbnails"]);
+                bottomToolBar->addAction(p.actions["SmallThumbnails"]);
+                bottomToolBar->addAction(p.actions["ListView"]);
                 bottomToolBar->addExpander();
                 bottomToolBar->addWidget(p.itemCountLabel);
                 bottomToolBar->addWidget(searchBox);
@@ -215,18 +218,16 @@ namespace djv
                 p.layout = Layout::Vertical::create(context);
                 p.layout->setSpacing(Style::MetricsRole::None);
                 p.layout->addWidget(menuBar);
-                p.layout->addWidget(topToolBar);
+                p.layout->addSeparator();
+                auto vLayout = Layout::Vertical::create(context);
+                vLayout->addWidget(topToolBar);
                 auto splitter = Layout::Splitter::create(Orientation::Horizontal, context);
                 splitter->addWidget(shortcutsWidget);
                 splitter->addWidget(p.scrollWidget);
                 splitter->setSplit(.15f);
-                splitter->setMargin(Layout::Margin(
-                    Style::MetricsRole::MarginSmall,
-                    Style::MetricsRole::MarginSmall,
-                    Style::MetricsRole::None,
-                    Style::MetricsRole::None));
-                p.layout->addWidget(splitter, Layout::RowStretch::Expand);
-                p.layout->addWidget(bottomToolBar);
+                vLayout->addWidget(splitter, Layout::RowStretch::Expand);
+                vLayout->addWidget(bottomToolBar);
+                p.layout->addWidget(vLayout, Layout::RowStretch::Expand);
                 p.layout->setParent(shared_from_this());
 
                 auto weak = std::weak_ptr<Widget>(std::dynamic_pointer_cast<Widget>(shared_from_this()));
@@ -418,7 +419,6 @@ namespace djv
                     }
                 });
 
-                ViewType viewType = ViewType::First;
                 if (auto uiSystem = context->getSystemT<UISystem>().lock())
                 {
                     p.viewTypeObserver = ValueObserver<ViewType>::create(

@@ -98,17 +98,31 @@ namespace djv
 
         float Toolbar::getHeightForWidth(float value) const
         {
-            return _p->layout->getHeightForWidth(value);
+            float out = 0.f;
+            if (auto style = _getStyle().lock())
+            {
+                const glm::vec2 m = getMargin().getSize(style);
+                out = _p->layout->getHeightForWidth(value - m.x) + m.y;
+            }
+            return out;
         }
 
         void Toolbar::_preLayoutEvent(Event::PreLayout& event)
         {
-            _setMinimumSize(_p->layout->getMinimumSize());
+            if (auto style = _getStyle().lock())
+            {
+                const glm::vec2 m = getMargin().getSize(style);
+                _setMinimumSize(_p->layout->getMinimumSize() + m);
+            }
         }
 
         void Toolbar::_layoutEvent(Event::Layout& event)
         {
-            _p->layout->setGeometry(getGeometry());
+            if (auto style = _getStyle().lock())
+            {
+                const BBox2f & g = getGeometry();
+                _p->layout->setGeometry(getMargin().bbox(g, style));
+            }
         }
 
         void Toolbar::addAction(const std::shared_ptr<Action>& action)

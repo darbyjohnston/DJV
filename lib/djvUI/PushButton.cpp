@@ -29,6 +29,7 @@
 
 #include <djvUI/PushButton.h>
 
+#include <djvUI/Border.h>
 #include <djvUI/Icon.h>
 #include <djvUI/Label.h>
 #include <djvUI/RowLayout.h>
@@ -51,6 +52,7 @@ namespace djv
                 std::shared_ptr<Icon> icon;
                 std::shared_ptr<Label> label;
                 std::shared_ptr<Layout::Horizontal> layout;
+                std::shared_ptr<Layout::Border> border;
             };
 
             void Push::_init(Context * context)
@@ -58,7 +60,6 @@ namespace djv
                 IButton::_init(context);
 
                 setClassName("djv::UI::Button::Push");
-                setBackgroundRole(Style::ColorRole::Button);
 
                 DJV_PRIVATE_PTR();
                 p.icon = Icon::create(context);
@@ -72,7 +73,10 @@ namespace djv
                 p.layout->setMargin(Layout::Margin(Style::MetricsRole::MarginLarge, Style::MetricsRole::MarginLarge, Style::MetricsRole::MarginSmall, Style::MetricsRole::MarginSmall));
                 p.layout->addWidget(p.icon);
                 p.layout->addWidget(p.label, Layout::RowStretch::Expand);
-                p.layout->setParent(shared_from_this());
+
+                p.border = Layout::Border::create(context);
+                p.border->addWidget(p.layout);
+                p.border->setParent(shared_from_this());
             }
 
             Push::Push() :
@@ -182,57 +186,27 @@ namespace djv
 
             const Layout::Margin& Push::getInsideMargin() const
             {
-                return _p->layout->getMargin();
+                return _p->border->getMargin();
             }
 
             void Push::setInsideMargin(const Layout::Margin& value)
             {
-                _p->layout->setMargin(value);
+                _p->border->setMargin(value);
             }
 
             float Push::getHeightForWidth(float value) const
             {
-                return _p->layout->getHeightForWidth(value);
+                return _p->border->getHeightForWidth(value);
             }
 
             void Push::_preLayoutEvent(Event::PreLayout& event)
             {
-                _setMinimumSize(_p->layout->getMinimumSize());
+                _setMinimumSize(_p->border->getMinimumSize());
             }
 
             void Push::_layoutEvent(Event::Layout&)
             {
-                _p->layout->setGeometry(getGeometry());
-            }
-
-            void Push::_paintEvent(Event::Paint& event)
-            {
-                if (auto render = _getRender().lock())
-                {
-                    if (auto style = _getStyle().lock())
-                    {
-                        const BBox2f& g = getGeometry();
-                        const float ms = style->getMetric(Style::MetricsRole::MarginSmall);
-
-                        // Draw the background.
-                        render->setFillColor(_getColorWithOpacity(style->getColor(getBackgroundRole())));
-                        render->drawRect(g);
-
-                        // Draw the toggled state.
-                        if (_isToggled())
-                        {
-                            render->setFillColor(_getColorWithOpacity(style->getColor(getCheckedColorRole())));
-                            render->drawRect(g);
-                        }
-
-                        // Draw the hovered state.
-                        if (_isHovered())
-                        {
-                            render->setFillColor(_getColorWithOpacity(style->getColor(Style::ColorRole::Hover)));
-                            render->drawRect(g);
-                        }
-                    }
-                }
+                _p->border->setGeometry(getGeometry());
             }
 
             void Push::_updateEvent(Event::Update& event)

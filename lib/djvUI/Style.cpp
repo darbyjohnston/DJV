@@ -56,24 +56,29 @@ namespace djv
                 _p(new Private)
             {
                 DJV_PRIVATE_PTR();
-                p.colors[ColorRole::None]              = AV::Image::Color();
-                p.colors[ColorRole::Background]        = AV::Image::Color( .2f,   .21f,  .23f);
-                p.colors[ColorRole::BackgroundText]    = AV::Image::Color( .15f,  .16f,  .18f);
-                p.colors[ColorRole::BackgroundHeader]  = AV::Image::Color(.25f,   .3f,   .33f);
-                p.colors[ColorRole::BackgroundTooltip] = AV::Image::Color(1.f,   1.f,    .75f);
-                p.colors[ColorRole::Foreground]        = AV::Image::Color(1.f,   1.f,   1.f);
-                p.colors[ColorRole::ForegroundDim]     = AV::Image::Color( .7f,   .7f,   .7f);
-                p.colors[ColorRole::ForegroundHeader]  = AV::Image::Color(1.f,   1.f,   1.f);
-                p.colors[ColorRole::ForegroundTooltip] = AV::Image::Color(0.f,   0.f,   0.f);
-                p.colors[ColorRole::Border]            = AV::Image::Color( .11f,  .14f,  .17f);
-                p.colors[ColorRole::Trough]            = AV::Image::Color( .15f,  .15f,  .15f);
-                p.colors[ColorRole::Button]            = AV::Image::Color( .27f,  .3f,   .33f);
-                p.colors[ColorRole::Checked]           = AV::Image::Color( .2f,   .4f,   .7f);
-                p.colors[ColorRole::CheckedForeground] = AV::Image::Color( .9f,   .9f,   .9f);
-                p.colors[ColorRole::Hover]             = AV::Image::Color(1.f,   1.f,   1.f, .1f);
-                p.colors[ColorRole::Disabled]          = AV::Image::Color( .5f,   .5f,   .5f);
-                p.colors[ColorRole::Overlay]           = AV::Image::Color(0.f,   0.f,   0.f, .5f);
-                p.colors[ColorRole::Shadow]            = AV::Image::Color(0.f,   0.f,   0.f, .2f);
+                p.colors =
+                {
+                    { ColorRole::None, AV::Image::Color() },
+                    { ColorRole::Background, AV::Image::Color(250, 250, 250) },
+                    { ColorRole::Foreground, AV::Image::Color(0, 0, 0) },
+                    { ColorRole::Border, AV::Image::Color(200, 200, 200) },
+                    { ColorRole::Trough, AV::Image::Color(240, 240, 240) },
+                    { ColorRole::Button, AV::Image::Color(200, 200, 200) },
+                    { ColorRole::Hovered, AV::Image::Color(0, 0, 0, 15) },
+                    { ColorRole::Pressed, AV::Image::Color(0, 0, 0, 30) },
+                    { ColorRole::Checked, AV::Image::Color(225, 234, 248) },
+                    { ColorRole::Disabled, AV::Image::Color(127, 127, 127) },
+                    { ColorRole::HeaderBackground, AV::Image::Color(60, 104, 148) },
+                    { ColorRole::HeaderForeground, AV::Image::Color(255, 255, 255) },
+                    { ColorRole::HeaderHovered, AV::Image::Color(255, 255, 255, 25) },
+                    { ColorRole::HeaderPressed, AV::Image::Color(255, 255, 255, 50) },
+                    { ColorRole::HeaderChecked, AV::Image::Color(105, 150, 190) },
+                    { ColorRole::HeaderDisabled, AV::Image::Color(127, 127, 127) },
+                    { ColorRole::TooltipBackground, AV::Image::Color(255, 255, 191) },
+                    { ColorRole::TooltipForeground, AV::Image::Color(0, 0, 0) },
+                    { ColorRole::Overlay, AV::Image::Color(0, 0, 0, 127) },
+                    { ColorRole::Shadow, AV::Image::Color(0, 0, 0, 50) }
+                };
             }
 
             Palette::Palette(const Palette& other) :
@@ -130,33 +135,36 @@ namespace djv
                 _p(new Private)
             {
                 DJV_PRIVATE_PTR();
-                p.metrics[MetricsRole::None]                 =   0.f;
-                p.metrics[MetricsRole::Border]               =   1.f;
-                p.metrics[MetricsRole::Margin]               =  10.f;
-                p.metrics[MetricsRole::MarginSmall]          =   5.f;
-                p.metrics[MetricsRole::MarginLarge]          =  15.f;
-                p.metrics[MetricsRole::MarginDialog]         =  50.f;
-                p.metrics[MetricsRole::Spacing]              =  10.f;
-                p.metrics[MetricsRole::SpacingSmall]         =   5.f;
-                p.metrics[MetricsRole::SpacingLarge]         =  30.f;
-                p.metrics[MetricsRole::Drag]                 =  20.f;
-                p.metrics[MetricsRole::Icon]                 =  24.f;
-                p.metrics[MetricsRole::IconLarge]            = 100.f;
-                p.metrics[MetricsRole::FontSmall]            =  11.f;
-                p.metrics[MetricsRole::FontMedium]           =  14.f;
-                p.metrics[MetricsRole::FontLarge]            =  18.f;
-                p.metrics[MetricsRole::FontHeader]           =  18.f;
-                p.metrics[MetricsRole::Swatch]               =  40.f;
-                p.metrics[MetricsRole::ThumbnailWidthSmall]  = 100.f;
-                p.metrics[MetricsRole::ThumbnailHeightSmall] =  50.f;
-                p.metrics[MetricsRole::ThumbnailWidthLarge]  = 200.f;
-                p.metrics[MetricsRole::ThumbnailHeightLarge] = 100.f;
-                p.metrics[MetricsRole::Shadow]               =   5.f;
-                p.metrics[MetricsRole::ScrollArea]           = 200.f;
-                p.metrics[MetricsRole::TextColumn]           = 200.f;
-                p.metrics[MetricsRole::Dialog]               = 400.f;
-                p.metrics[MetricsRole::TooltipOffset]        =  10.f;
-                p.metrics[MetricsRole::Handle]               =  15.f;
+                p.metrics =
+                {
+                    { MetricsRole::None, 0.f },
+                    { MetricsRole::Border, 1.f },
+                    { MetricsRole::Margin, 10.f },
+                    { MetricsRole::MarginSmall, 5.f },
+                    { MetricsRole::MarginLarge, 15.f },
+                    { MetricsRole::MarginDialog, 50.f },
+                    { MetricsRole::Spacing, 10.f },
+                    { MetricsRole::SpacingSmall, 5.f },
+                    { MetricsRole::SpacingLarge, 30.f },
+                    { MetricsRole::Drag, 20.f },
+                    { MetricsRole::Icon, 24.f },
+                    { MetricsRole::IconLarge, 100.f },
+                    { MetricsRole::FontSmall, 11.f },
+                    { MetricsRole::FontMedium, 14.f },
+                    { MetricsRole::FontLarge, 18.f },
+                    { MetricsRole::FontHeader, 18.f },
+                    { MetricsRole::Swatch, 40.f },
+                    { MetricsRole::ThumbnailWidthSmall, 100.f },
+                    { MetricsRole::ThumbnailHeightSmall, 50.f },
+                    { MetricsRole::ThumbnailWidthLarge, 200.f },
+                    { MetricsRole::ThumbnailHeightLarge, 100.f },
+                    { MetricsRole::Shadow, 5.f },
+                    { MetricsRole::ScrollArea, 200.f },
+                    { MetricsRole::TextColumn, 200.f },
+                    { MetricsRole::Dialog, 400.f },
+                    { MetricsRole::TooltipOffset, 10.f },
+                    { MetricsRole::Handle, 15.f }
+                };
             }
 
             float Metrics::getMetric(MetricsRole role) const
@@ -299,20 +307,22 @@ namespace djv
         ColorRole,
         DJV_TEXT("djv::UI::Style", "None"),
         DJV_TEXT("djv::UI::Style", "Background"),
-        DJV_TEXT("djv::UI::Style", "BackgroundText"),
-        DJV_TEXT("djv::UI::Style", "BackgroundHeader"),
-        DJV_TEXT("djv::UI::Style", "BackgroundTooltip"),
         DJV_TEXT("djv::UI::Style", "Foreground"),
-        DJV_TEXT("djv::UI::Style", "ForegroundDim"),
-        DJV_TEXT("djv::UI::Style", "ForegroundHeader"),
-        DJV_TEXT("djv::UI::Style", "ForegroundTooltip"),
         DJV_TEXT("djv::UI::Style", "Border"),
         DJV_TEXT("djv::UI::Style", "Trough"),
         DJV_TEXT("djv::UI::Style", "Button"),
+        DJV_TEXT("djv::UI::Style", "Hovered"),
+        DJV_TEXT("djv::UI::Style", "Pressed"),
         DJV_TEXT("djv::UI::Style", "Checked"),
-        DJV_TEXT("djv::UI::Style", "CheckedForeground"),
-        DJV_TEXT("djv::UI::Style", "Hover"),
         DJV_TEXT("djv::UI::Style", "Disabled"),
+        DJV_TEXT("djv::UI::Style", "HeaderBackground"),
+        DJV_TEXT("djv::UI::Style", "HeaderForeground"),
+        DJV_TEXT("djv::UI::Style", "HeaderHovered"),
+        DJV_TEXT("djv::UI::Style", "HeaderPressed"),
+        DJV_TEXT("djv::UI::Style", "HeaderChecked"),
+        DJV_TEXT("djv::UI::Style", "HeaderDisabled"),
+        DJV_TEXT("djv::UI::Style", "TooltipBackground"),
+        DJV_TEXT("djv::UI::Style", "TooltipForeground"),
         DJV_TEXT("djv::UI::Style", "Overlay"),
         DJV_TEXT("djv::UI::Style", "Shadow"));
 

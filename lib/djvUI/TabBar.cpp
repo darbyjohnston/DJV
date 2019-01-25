@@ -68,8 +68,6 @@ namespace djv
                 void _layoutEvent(Event::Layout&) override;
                 void _paintEvent(Event::Paint&) override;
 
-                void _updateEvent(Core::Event::Update&) override;
-
             private:
                 std::shared_ptr<Label> _label;
                 std::shared_ptr<Layout::Stack> _layout;
@@ -142,17 +140,11 @@ namespace djv
                         // Draw the hovered state.
                         if (_isHovered() && !_isToggled())
                         {
-                            render->setFillColor(_getColorWithOpacity(style->getColor(Style::ColorRole::Hover)));
+                            render->setFillColor(_getColorWithOpacity(style->getColor(Style::ColorRole::Hovered)));
                             render->drawRect(g);
                         }
                     }
                 }
-            }
-
-            void TabBarButton::_updateEvent(Event::Update& event)
-            {
-                IButton::_updateEvent(event);
-                _label->setTextColorRole(_isToggled() ? Style::ColorRole::Foreground : Style::ColorRole::ForegroundDim);
             }
 
         } // namespace

@@ -54,7 +54,6 @@ namespace djv
             Widget::_init(context);
 
             setClassName("djv::UI::SearchBox");
-            setMargin(Style::MetricsRole::MarginSmall);
 
             _p->lineEdit = LineEdit::create(context);
             _p->lineEdit->setBorder(false);
@@ -66,7 +65,6 @@ namespace djv
             
             auto clearButton = Button::Tool::create(context);
             clearButton->setIcon("djvIconClear");
-            clearButton->setInsideMargin(Style::MetricsRole::None);
             clearButton->setBackgroundRole(Style::ColorRole::None);
             
             auto layout = Layout::Horizontal::create(context);
@@ -78,7 +76,7 @@ namespace djv
             layout->addWidget(_p->soloLayout);
             
             _p->border = Layout::Border::create(context);
-            _p->border->setBackgroundRole(Style::ColorRole::BackgroundText);
+            _p->border->setBackgroundRole(Style::ColorRole::Trough);
             _p->border->addWidget(layout);
             _p->border->setParent(shared_from_this());
         }

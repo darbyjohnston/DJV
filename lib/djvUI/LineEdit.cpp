@@ -47,8 +47,8 @@ namespace djv
             Widget::_init(context);
 
             setClassName("djv::UI::LineEdit");
-            setBackgroundRole(Style::ColorRole::BackgroundText);
-            setMargin(Style::MetricsRole::MarginSmall);
+            setBackgroundRole(Style::ColorRole::Trough);
+            setVAlign(VAlign::Center);
 
             DJV_PRIVATE_PTR();
             p.border = Layout::Border::create(context);

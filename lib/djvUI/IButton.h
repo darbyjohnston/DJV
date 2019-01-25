@@ -32,11 +32,15 @@ namespace djv
                 void setChecked(bool);
 
                 Style::ColorRole getForegroundColorRole() const;
+                Style::ColorRole getHoveredColorRole() const;
+                Style::ColorRole getPressedColorRole() const;
                 Style::ColorRole getCheckedColorRole() const;
-                Style::ColorRole getCheckedForegroundColorRole() const;
+                Style::ColorRole getDisabledColorRole() const;
                 void setForegroundColorRole(Style::ColorRole);
+                void setHoveredColorRole(Style::ColorRole);
+                void setPressedColorRole(Style::ColorRole);
                 void setCheckedColorRole(Style::ColorRole);
-                void setCheckedForegroundColorRole(Style::ColorRole);
+                void setDisabledColorRole(Style::ColorRole);
 
                 void setClickedCallback(const std::function<void(void)>&);
                 void setCheckedCallback(const std::function<void(bool)>&);
