@@ -107,7 +107,7 @@ namespace djv
                 AV::Font::Metrics _fontMetrics;
                 std::future<AV::Font::Metrics> _fontMetricsFuture;
                 bool _fontMetricsRequest = false;
-                bool _hasIcons = false;
+                bool _hasTextIndent = false;
                 bool _hasShortcuts = false;
                 std::map<size_t, std::shared_ptr<Item> > _items;
                 std::map<std::shared_ptr<Action>, std::shared_ptr<Item> > _actionToItem;
@@ -121,6 +121,7 @@ namespace djv
                 std::pair<Event::PointerID, std::shared_ptr<Item> > _pressed;
                 glm::vec2 _pressedPos = glm::vec2(0.f, 0.f);
                 std::function<void(void)> _closeCallback;
+                std::map<std::shared_ptr<Item>, std::shared_ptr<ValueObserver<ButtonType> > > _buttonTypeObservers;
                 std::map<std::shared_ptr<Item>, std::shared_ptr<ValueObserver<bool> > > _checkedObservers;
                 std::map<std::shared_ptr<Item>, std::shared_ptr<ValueObserver<std::string> > > _iconObservers;
                 std::map<std::shared_ptr<Item>, std::shared_ptr<ValueObserver<std::string> > > _textObservers;
@@ -192,6 +193,7 @@ namespace djv
 
                     glm::vec2 textSize(0.f, 0.f);
                     glm::vec2 shortcutSize(0.f, 0.f);
+                    _hasTextIndent = false;
                     for (const auto & i : _items)
                     {
                         if (!i.second->text.empty())
@@ -201,9 +203,15 @@ namespace djv
                             shortcutSize.x = std::max(shortcutSize.x, i.second->shortcutSize.x);
                             shortcutSize.y = std::max(shortcutSize.y, i.second->shortcutSize.y);
                         }
+                        if (!i.second->iconName.empty() ||
+                            ButtonType::Toggle == i.second->buttonType ||
+                            ButtonType::Radio == i.second->buttonType)
+                        {
+                            _hasTextIndent = true;
+                        }
                     }
                     glm::vec2 itemSize(0.f, 0.f);
-                    if (_hasIcons)
+                    if (_hasTextIndent)
                     {
                         itemSize.x = iconSize;
                         itemSize.y = iconSize;
@@ -287,6 +295,11 @@ namespace djv
 
                         for (const auto & i : _items)
                         {
+                            if (i.second->checked)
+                            {
+                                render->setFillColor(_getColorWithOpacity(style->getColor(Style::ColorRole::Checked)));
+                                render->drawRect(i.second->geom);
+                            }
                             if (i.second->enabled)
                             {
                                 if (i.second == _pressed.second)
@@ -315,17 +328,20 @@ namespace djv
                             const Style::ColorRole colorRole = i.second->enabled ? Style::ColorRole::Foreground : Style::ColorRole::Disabled;
                             float x = i.second->geom.min.x + m;
                             float y = 0.f;
+
                             if (i.second->icon)
                             {
                                 y = i.second->geom.min.y + ceilf(i.second->size.y / 2.f - iconSize / 2.f);
-                                render->setFillColor(_getColorWithOpacity(style->getColor(
-                                    (i.second->checked || i.second == _pressed.second) ?
-                                    Style::ColorRole::Checked :
-                                    colorRole)));
+                                render->setFillColor(_getColorWithOpacity(style->getColor(colorRole)));
                                 render->drawFilledImage(i.second->icon, BBox2f(x, y, iconSize, iconSize), AV::Render::ImageCache::Static);
-                                x += iconSize + s;
                             }
-                            else if (_hasIcons)
+                            else if (i.second->checked)
+                            {
+                                const float offset = ceilf(i.second->size.y / 2.f);
+                                render->setFillColor(_getColorWithOpacity(style->getColor(colorRole)));
+                                render->drawCircle(glm::vec2(i.second->geom.min.x + offset, i.second->geom.min.y + offset), m, 16);
+                            }
+                            if (_hasTextIndent)
                             {
                                 x += iconSize + s;
                             }
@@ -509,21 +525,34 @@ namespace djv
                     const auto fontInfo = style->getFontInfo(AV::Font::Info::faceDefault, Style::MetricsRole::FontMedium);
                     _fontMetricsFuture = fontSystem->getMetrics(fontInfo);
                     _fontMetricsRequest = true;
-                    _hasIcons = false;
                     _hasShortcuts = false;
                     _items.clear();
                     _actionToItem.clear();
                     _itemToAction.clear();
                     _menuToItem.clear();
                     _itemToMenu.clear();
+                    _buttonTypeObservers.clear();
                     _checkedObservers.clear();
                     _iconObservers.clear();
+                    _textObservers.clear();
+                    _shortcutsObservers.clear();
+                    _enabledObservers.clear();
                     auto weak = std::weak_ptr<MenuWidget>(std::dynamic_pointer_cast<MenuWidget>(shared_from_this()));
                     for (const auto & i : _actions)
                     {
                         auto item = std::shared_ptr<Item>(new Item);
                         if (i.second)
                         {
+                            _buttonTypeObservers[item] = ValueObserver<ButtonType>::create(
+                                i.second->observeButtonType(),
+                                [weak, item](ButtonType value)
+                            {
+                                if (auto widget = weak.lock())
+                                {
+                                    item->buttonType = value;
+                                    widget->_resize();
+                                }
+                            });
                             _checkedObservers[item] = ValueObserver<bool>::create(
                                 i.second->observeChecked(),
                                 [weak, item](bool value)
@@ -622,12 +651,10 @@ namespace djv
                 auto style = _getStyle().lock();
                 if (style && iconSystem)
                 {
-                    _hasIcons = false;
                     for (const auto & i : _items)
                     {
                         if (!i.second->iconName.empty())
                         {
-                            _hasIcons = true;
                             _iconFutures[i.second] = iconSystem->getIcon(
                                 i.second->iconName,
                                 static_cast<int>(style->getMetric(Style::MetricsRole::Icon)));
@@ -839,7 +866,7 @@ namespace djv
             void MenuOverlayLayout::_paintEvent(Event::Paint& event)
             {
                 Widget::_paintEvent(event);
-                /*if (auto render = _getRender().lock())
+                if (auto render = _getRender().lock())
                 {
                     if (auto style = _getStyle().lock())
                     {
@@ -855,7 +882,7 @@ namespace djv
                             render->drawRect(g);
                         }
                     }
-                }*/
+                }
             }
 
         } // namespace

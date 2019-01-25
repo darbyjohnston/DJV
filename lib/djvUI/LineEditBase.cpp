@@ -27,11 +27,9 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvUI/Label.h>
+#include <djvUI/LineEditBase.h>
 
 #include <djvAV/Render2D.h>
-
-//#pragma optimize("", off)
 
 using namespace djv::Core;
 
@@ -39,11 +37,9 @@ namespace djv
 {
     namespace UI
     {
-        struct Label::Private
+        struct LineEditBase::Private
         {
             std::string text;
-            TextHAlign textHAlign = TextHAlign::Center;
-            TextVAlign textVAlign = TextVAlign::Center;
             Style::ColorRole textColorRole = Style::ColorRole::Foreground;
             std::string font;
             std::string fontFace = AV::Font::Info::faceDefault;
@@ -54,39 +50,35 @@ namespace djv
             std::future<glm::vec2> textSizeFuture;
         };
 
-        void Label::_init(Context * context)
+        void LineEditBase::_init(Context * context)
         {
             Widget::_init(context);
-            setClassName("djv::UI::Label");
+
+            setClassName("djv::UI::LineEditBase");
+            setBackgroundRole(Style::ColorRole::Trough);
+            setVAlign(VAlign::Center);
         }
-        
-        Label::Label() :
+
+        LineEditBase::LineEditBase() :
             _p(new Private)
         {}
 
-        Label::~Label()
+        LineEditBase::~LineEditBase()
         {}
 
-        std::shared_ptr<Label> Label::create(Context * context)
+        std::shared_ptr<LineEditBase> LineEditBase::create(Context * context)
         {
-            auto out = std::shared_ptr<Label>(new Label);
+            auto out = std::shared_ptr<LineEditBase>(new LineEditBase);
             out->_init(context);
             return out;
         }
 
-        std::shared_ptr<Label> Label::create(const std::string& text, Context * context)
-        {
-            auto out = Label::create(context);
-            out->setText(text);
-            return out;
-        }
-
-        const std::string& Label::getText() const
+        const std::string& LineEditBase::getText() const
         {
             return _p->text;
         }
 
-        void Label::setText(const std::string& value)
+        void LineEditBase::setText(const std::string& value)
         {
             DJV_PRIVATE_PTR();
             if (value == p.text)
@@ -95,40 +87,12 @@ namespace djv
             _textUpdate();
         }
 
-        TextHAlign Label::getTextHAlign() const
-        {
-            return _p->textHAlign;
-        }
-        
-        TextVAlign Label::getTextVAlign() const
-        {
-            return _p->textVAlign;
-        }
-        
-        void Label::setTextHAlign(TextHAlign value)
-        {
-            DJV_PRIVATE_PTR();
-            if (value == p.textHAlign)
-                return;
-            p.textHAlign = value;
-            _resize();
-        }
-        
-        void Label::setTextVAlign(TextVAlign value)
-        {
-            DJV_PRIVATE_PTR();
-            if (value == p.textVAlign)
-                return;
-            p.textVAlign = value;
-            _resize();
-        }
-            
-        Style::ColorRole Label::getTextColorRole() const
+        Style::ColorRole LineEditBase::getTextColorRole() const
         {
             return _p->textColorRole;
         }
 
-        void Label::setTextColorRole(Style::ColorRole value)
+        void LineEditBase::setTextColorRole(Style::ColorRole value)
         {
             DJV_PRIVATE_PTR();
             if (value == p.textColorRole)
@@ -137,22 +101,22 @@ namespace djv
             _redraw();
         }
 
-        const std::string & Label::getFont() const
+        const std::string & LineEditBase::getFont() const
         {
             return _p->font;
         }
 
-        const std::string & Label::getFontFace() const
+        const std::string & LineEditBase::getFontFace() const
         {
             return _p->fontFace;
         }
 
-        Style::MetricsRole Label::getFontSizeRole() const
+        Style::MetricsRole LineEditBase::getFontSizeRole() const
         {
             return _p->fontSizeRole;
         }
 
-        void Label::setFont(const std::string & value)
+        void LineEditBase::setFont(const std::string & value)
         {
             DJV_PRIVATE_PTR();
             if (value == p.font)
@@ -161,7 +125,7 @@ namespace djv
             _textUpdate();
         }
 
-        void Label::setFontFace(const std::string & value)
+        void LineEditBase::setFontFace(const std::string & value)
         {
             DJV_PRIVATE_PTR();
             if (value == p.fontFace)
@@ -170,7 +134,7 @@ namespace djv
             _textUpdate();
         }
 
-        void Label::setFontSizeRole(Style::MetricsRole value)
+        void LineEditBase::setFontSizeRole(Style::MetricsRole value)
         {
             DJV_PRIVATE_PTR();
             if (value == p.fontSizeRole)
@@ -179,15 +143,17 @@ namespace djv
             _textUpdate();
         }
 
-        void Label::_styleEvent(Event::Style& event)
+        void LineEditBase::_styleEvent(Event::Style& event)
         {
             _textUpdate();
         }
-
-        void Label::_preLayoutEvent(Event::PreLayout&)
+        
+        void LineEditBase::_preLayoutEvent(Event::PreLayout& event)
         {
             if (auto style = _getStyle().lock())
             {
+                const float ms = style->getMetric(Style::MetricsRole::MarginSmall);
+                const float tc = style->getMetric(Style::MetricsRole::TextColumn);
                 DJV_PRIVATE_PTR();
                 if (p.fontMetricsFuture.valid())
                 {
@@ -214,11 +180,13 @@ namespace djv
                     }
                 }
                 glm::vec2 size = p.textSize;
+                size.x = tc;
+                size += ms * 2.f;
                 _setMinimumSize(size + getMargin().getSize(style));
             }
         }
 
-        void Label::_paintEvent(Event::Paint& event)
+        void LineEditBase::_paintEvent(Event::Paint& event)
         {
             Widget::_paintEvent(event);
             if (auto render = _getRender().lock())
@@ -227,42 +195,17 @@ namespace djv
                 {
                     const BBox2f& g = getMargin().bbox(getGeometry(), style);
                     const glm::vec2 c = g.getCenter();
+                    const float ms = style->getMetric(Style::MetricsRole::MarginSmall);
 
                     DJV_PRIVATE_PTR();
                     auto fontInfo = p.font.empty() ?
                         style->getFontInfo(p.fontFace, p.fontSizeRole) :
                         style->getFontInfo(p.font, p.fontFace, p.fontSizeRole);
                     render->setCurrentFont(fontInfo);
-                    glm::vec2 pos = g.min;
-                    switch (p.textHAlign)
-                    {
-                    case TextHAlign::Center:
-                        pos.x = c.x - p.textSize.x / 2.f;
-                        break;
-                    case TextHAlign::Right:
-                        pos.x = g.max.x - p.textSize.x;
-                        break;
-                    default: break;
-                    }
-                    switch (p.textVAlign)
-                    {
-                    case TextVAlign::Center:
-                        pos.y = c.y - p.textSize.y / 2.f;
-                        break;
-                    case TextVAlign::Top:
-                        pos.y = g.min.y;
-                        break;
-                    case TextVAlign::Bottom:
-                        pos.y = g.max.y - p.textSize.y;
-                        break;
-                    case TextVAlign::Baseline:
-                        pos.y = c.y - p.fontMetrics.ascender / 2.f;
-                        break;
-                    default: break;
-                    }
 
-                    //render->setFillColor(AV::Image::Color(1.f, 0.f, 0.f));
-                    //render->drawRect(BBox2f(pos.x, pos.y, p.textSize.x, p.textSize.y));
+                    glm::vec2 pos = g.min;
+                    pos += ms;
+                    pos.y = c.y - p.textSize.y / 2.f;
 
                     render->setFillColor(_getColorWithOpacity(style->getColor(p.textColorRole)));
                     //! \todo Why the extra subtract by one here?
@@ -271,7 +214,7 @@ namespace djv
             }
         }
 
-        void Label::_textUpdate()
+        void LineEditBase::_textUpdate()
         {
             if (auto style = _getStyle().lock())
             {

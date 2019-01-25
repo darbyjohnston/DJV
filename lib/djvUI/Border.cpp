@@ -131,8 +131,7 @@ namespace djv
                 if (auto style = _getStyle().lock())
                 {
                     DJV_PRIVATE_PTR();
-                    out = p.layout->getHeightForWidth(value) +
-                        style->getMetric(p.borderSize) * 2.f +
+                    out = p.layout->getHeightForWidth(value - style->getMetric(p.borderSize) * 2.f - getMargin().getWidth(style)) +
                         getMargin().getHeight(style);
                 }
                 return out;
@@ -143,9 +142,7 @@ namespace djv
                 if (auto style = _getStyle().lock())
                 {
                     DJV_PRIVATE_PTR();
-                    _setMinimumSize(p.layout->getMinimumSize() +
-                        style->getMetric(p.borderSize) * 2.f +
-                        getMargin().getSize(style));
+                    _setMinimumSize(p.layout->getMinimumSize() + style->getMetric(p.borderSize) * 2.f + getMargin().getSize(style));
                 }
             }
 

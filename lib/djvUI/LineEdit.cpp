@@ -30,6 +30,7 @@
 #include <djvUI/LineEdit.h>
 
 #include <djvUI/Border.h>
+#include <djvUI/LineEditBase.h>
 
 using namespace djv::Core;
 
@@ -39,6 +40,7 @@ namespace djv
     {
         struct LineEdit::Private
         {
+            std::shared_ptr<LineEditBase> lineEditBase;
             std::shared_ptr<Layout::Border> border;
         };
 
@@ -47,11 +49,13 @@ namespace djv
             Widget::_init(context);
 
             setClassName("djv::UI::LineEdit");
-            setBackgroundRole(Style::ColorRole::Trough);
             setVAlign(VAlign::Center);
 
             DJV_PRIVATE_PTR();
+            p.lineEditBase = LineEditBase::create(context);
+
             p.border = Layout::Border::create(context);
+            p.border->addWidget(p.lineEditBase);
             p.border->setParent(shared_from_this());
         }
 
@@ -69,32 +73,62 @@ namespace djv
             return out;
         }
 
-        void LineEdit::setBorder(bool value)
+        const std::string& LineEdit::getText() const
         {
-            _p->border->setBorderSize(value ? Style::MetricsRole::Border : Style::MetricsRole::None);
+            return _p->lineEditBase->getText();
         }
-        
-        float LineEdit::getHeightForWidth(float value) const
+
+        void LineEdit::setText(const std::string& value)
         {
-            float out = 0.f;
-            if (auto style = _getStyle().lock())
-            {
-                out = _p->border->getHeightForWidth(value) +
-                    getMargin().getHeight(style);
-            }
-            return out;
+            _p->lineEditBase->setText(value);
+        }
+
+        Style::ColorRole LineEdit::getTextColorRole() const
+        {
+            return _p->lineEditBase->getTextColorRole();
+        }
+
+        void LineEdit::setTextColorRole(Style::ColorRole value)
+        {
+            _p->lineEditBase->setTextColorRole(value);
+        }
+
+        const std::string & LineEdit::getFont() const
+        {
+            return _p->lineEditBase->getFont();
+        }
+
+        const std::string & LineEdit::getFontFace() const
+        {
+            return _p->lineEditBase->getFontFace();
+        }
+
+        Style::MetricsRole LineEdit::getFontSizeRole() const
+        {
+            return _p->lineEditBase->getFontSizeRole();
+        }
+
+        void LineEdit::setFont(const std::string & value)
+        {
+            _p->lineEditBase->setFont(value);
+        }
+
+        void LineEdit::setFontFace(const std::string & value)
+        {
+            _p->lineEditBase->setFontFace(value);
+        }
+
+        void LineEdit::setFontSizeRole(Style::MetricsRole value)
+        {
+            _p->lineEditBase->setFontSizeRole(value);
         }
         
         void LineEdit::_preLayoutEvent(Event::PreLayout& event)
         {
             if (auto style = _getStyle().lock())
             {
-                const float tc = style->getMetric(Style::MetricsRole::TextColumn);
-                const float i = style->getMetric(Style::MetricsRole::Icon);
-                glm::vec2 size = _p->border->getMinimumSize();
-                size.x = std::max(size.x, tc);
-                size.y = std::max(size.y, i);
-                _setMinimumSize(size + getMargin().getSize(style));
+                DJV_PRIVATE_PTR();
+                _setMinimumSize(p.border->getMinimumSize() + getMargin().getSize(style));
             }
         }
 

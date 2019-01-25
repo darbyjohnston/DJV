@@ -48,10 +48,19 @@ namespace djv
             virtual ~LineEdit();
 
             static std::shared_ptr<LineEdit> create(Core::Context *);
-            
-            void setBorder(bool);
 
-            float getHeightForWidth(float) const override;
+            const std::string& getText() const;
+            void setText(const std::string&);
+
+            Style::ColorRole getTextColorRole() const;
+            void setTextColorRole(Style::ColorRole);
+
+            const std::string & getFont() const;
+            const std::string & getFontFace() const;
+            Style::MetricsRole getFontSizeRole() const;
+            void setFont(const std::string &);
+            void setFontFace(const std::string &);
+            void setFontSizeRole(Style::MetricsRole);
 
         protected:
             void _preLayoutEvent(Core::Event::PreLayout&) override;

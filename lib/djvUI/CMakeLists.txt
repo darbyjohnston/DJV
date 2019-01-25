@@ -30,6 +30,7 @@ set(header
     ImageWidget.h
     Label.h
     LineEdit.h
+    LineEditBase.h
     ListButton.h
     MDICanvas.h
     MDIWidget.h
@@ -100,6 +101,7 @@ set(source
     ImageWidget.cpp
     Label.cpp
     LineEdit.cpp
+    LineEditBase.cpp
     ListButton.cpp
     MDICanvas.cpp
     MDIWidget.cpp

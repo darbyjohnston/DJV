@@ -97,6 +97,7 @@ namespace djv
                     });
                 }
                 auto scrollWidget = ScrollWidget::create(ScrollType::Vertical, context);
+                scrollWidget->setBorder(false);
                 scrollWidget->addWidget(itemLayout);
 
                 p.layout = Layout::Vertical::create(context);

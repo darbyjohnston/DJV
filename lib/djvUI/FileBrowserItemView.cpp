@@ -313,13 +313,14 @@ namespace djv
                                 const auto i = p.itemGeometry.find(p.grab);
                                 if (i != p.itemGeometry.end())
                                 {
-                                    render->setFillColor(_getColorWithOpacity(style->getColor(Style::ColorRole::Checked)));
+                                    render->setFillColor(_getColorWithOpacity(style->getColor(Style::ColorRole::Pressed)));
                                     render->drawRect(i->second);
                                 }
                             }
                             {
                                 const auto i = p.itemGeometry.find(p.hover);
-                                if (i != p.itemGeometry.end())
+                                const auto j = p.itemGeometry.find(p.grab);
+                                if (i != p.itemGeometry.end() && i != j)
                                 {
                                     render->setFillColor(_getColorWithOpacity(style->getColor(Style::ColorRole::Hovered)));
                                     render->drawRect(i->second);
@@ -827,9 +828,8 @@ namespace djv
                 std::stringstream ss;
                 ss << fileInfo.getFileName(Frame::Invalid, false) << '\n';
                 ss << '\n';
-                ss << context->getText(DJV_TEXT("djv::UI::FileBrowser", "Type")) << ": " << fileInfo.getType() << '\n';
                 ss << context->getText(DJV_TEXT("djv::UI::FileBrowser", "Size")) << ": " << Memory::getSizeLabel(fileInfo.getSize()) << '\n';
-                ss << context->getText(DJV_TEXT("djv::UI::FileBrowser", "Modification time")) << ": " << Time::getLabel(fileInfo.getTime());
+                ss << context->getText(DJV_TEXT("djv::UI::FileBrowser", "Last modification time")) << ": " << Time::getLabel(fileInfo.getTime());
                 return ss.str();
             }
 

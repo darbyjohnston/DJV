@@ -29,53 +29,53 @@
 
 #pragma once
 
-#include <djvUI/Enum.h>
-#include <djvUI/Style.h>
-
-#include <djvCore/BBox.h>
+#include <djvUI/Widget.h>
 
 namespace djv
 {
     namespace UI
     {
-        namespace Layout
+        //! This class provides the base functionality for line edit widgets.
+        class LineEditBase : public Widget
         {
-            //! This class provides margins.
-            class Margin
-            {
-            public:
-                inline Margin();
-                inline Margin(Style::MetricsRole);
-                //! \todo Change the ordering to match the Side enum? (left, top, right, bottom)
-                inline Margin(Style::MetricsRole left, Style::MetricsRole right, Style::MetricsRole top, Style::MetricsRole bottom);
+            DJV_NON_COPYABLE(LineEditBase);
 
-                inline void set(Style::MetricsRole);
-                inline void set(Style::MetricsRole left, Style::MetricsRole right, Style::MetricsRole top, Style::MetricsRole bottom);
+        protected:
+            void _init(Core::Context *);
+            LineEditBase();
 
-                inline float get(Side, const std::shared_ptr<Style::Style>&) const;
-                inline glm::vec2 getSize(const std::shared_ptr<Style::Style>&) const;
-                inline float getWidth(const std::shared_ptr<Style::Style>&) const;
-                inline float getHeight(const std::shared_ptr<Style::Style>&) const;
+        public:
+            virtual ~LineEditBase();
 
-                inline Core::BBox2f bbox(const Core::BBox2f&, const std::shared_ptr<Style::Style>&) const;
+            static std::shared_ptr<LineEditBase> create(Core::Context *);
 
-                inline Style::MetricsRole operator [] (Side) const;
-                inline Style::MetricsRole& operator [] (Side);
+            const std::string& getText() const;
+            void setText(const std::string&);
 
-                inline bool operator == (const Margin&) const;
+            Style::ColorRole getTextColorRole() const;
+            void setTextColorRole(Style::ColorRole);
 
-            private:
-                Style::MetricsRole _value[4] =
-                {
-                    Style::MetricsRole::None,
-                    Style::MetricsRole::None,
-                    Style::MetricsRole::None,
-                    Style::MetricsRole::None
-                };
-            };
+            const std::string & getFont() const;
+            const std::string & getFontFace() const;
+            Style::MetricsRole getFontSizeRole() const;
+            void setFont(const std::string &);
+            void setFontFace(const std::string &);
+            void setFontSizeRole(Style::MetricsRole);
 
-        } // namespace Layout
+            void setBorder(bool);
+
+        protected:
+            void _styleEvent(Core::Event::Style&) override;
+            void _preLayoutEvent(Core::Event::PreLayout&) override;
+            void _paintEvent(Core::Event::Paint&) override;
+
+        private:
+            void _textUpdate();
+
+            struct Private;
+            std::unique_ptr<Private> _p;
+        };
+
     } // namespace UI
 } // namespace djv
 
-#include <djvUI/MarginInline.h>

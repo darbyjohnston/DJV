@@ -76,9 +76,6 @@ namespace djv
             void setFontFace(const std::string &);
             void setFontSizeRole(Style::MetricsRole);
 
-            float getMinimumWidth() const;
-            void setMinimumWidth(float);
-
             ///@}
 
         protected:

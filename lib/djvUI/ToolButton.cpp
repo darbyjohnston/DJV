@@ -63,7 +63,7 @@ namespace djv
                 p.icon->hide();
 
                 p.layout = Layout::Stack::create(context);
-                p.layout->setMargin(Style::MetricsRole::Margin);
+                p.layout->setMargin(Style::MetricsRole::MarginSmall);
                 p.layout->addWidget(p.icon);
                 p.layout->setParent(shared_from_this());
             }

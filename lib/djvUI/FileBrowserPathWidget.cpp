@@ -33,7 +33,7 @@
 #include <djvUI/ActionGroup.h>
 #include <djvUI/Border.h>
 #include <djvUI/Icon.h>
-#include <djvUI/Label.h>
+#include <djvUI/LineEditBase.h>
 #include <djvUI/ListButton.h>
 #include <djvUI/Menu.h>
 #include <djvUI/MenuButton.h>
@@ -52,7 +52,7 @@ namespace djv
         {
             struct PathWidget::Private
             {
-                std::shared_ptr<Label> label;
+                std::shared_ptr<LineEditBase> lineEditBase;
                 std::vector<FileSystem::Path> history;
                 std::shared_ptr<ActionGroup> historyActionGroup;
                 std::shared_ptr<Menu> historyMenu;
@@ -69,11 +69,7 @@ namespace djv
                 setClassName("djv::UI::FileBrowser::PathWidget");
 
                 DJV_PRIVATE_PTR();
-                p.label = Label::create(context);
-                p.label->setTextHAlign(TextHAlign::Left);
-                p.label->setTextVAlign(TextVAlign::Center);
-                p.label->setMargin(Style::MetricsRole::MarginSmall);
-                p.label->setBackgroundRole(Style::ColorRole::Trough);
+                p.lineEditBase = LineEditBase::create(context);
 
                 p.historyActionGroup = ActionGroup::create(ButtonType::Radio);
                 p.historyMenu = Menu::create(context);
@@ -84,8 +80,9 @@ namespace djv
                 p.layout = Layout::Horizontal::create(context);
                 p.layout->setSpacing(Style::MetricsRole::None);
                 auto border = Layout::Border::create(context);
-                border->setMargin(Style::MetricsRole::MarginSmall);
-                border->addWidget(p.label);
+                border->setMargin(Layout::Margin(Style::MetricsRole::None, Style::MetricsRole::MarginSmall, Style::MetricsRole::MarginSmall, Style::MetricsRole::MarginSmall));
+                border->setVAlign(VAlign::Center);
+                border->addWidget(p.lineEditBase);
                 p.layout->addWidget(border, Layout::RowStretch::Expand);
                 p.layout->addWidget(p.historyButton);
                 p.layout->setParent(shared_from_this());
@@ -147,7 +144,7 @@ namespace djv
 
             void PathWidget::setPath(const FileSystem::Path & path)
             {
-                _p->label->setText(path.get());
+                _p->lineEditBase->setText(path.get());
             }
 
             void PathWidget::setPathCallback(const std::function<void(const FileSystem::Path &)> & value)

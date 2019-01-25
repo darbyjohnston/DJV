@@ -106,6 +106,10 @@ namespace djv
             auto closeButton = Button::Tool::create(context);
             closeButton->setIcon("djvIconClose");
             closeButton->setForegroundColorRole(UI::Style::ColorRole::HeaderForeground);
+            closeButton->setHoveredColorRole(UI::Style::ColorRole::HeaderHovered);
+            closeButton->setPressedColorRole(UI::Style::ColorRole::HeaderPressed);
+            closeButton->setCheckedColorRole(UI::Style::ColorRole::HeaderChecked);
+            closeButton->setDisabledColorRole(UI::Style::ColorRole::HeaderDisabled);
             closeButton->setInsideMargin(Style::MetricsRole::MarginSmall);
 
             p.childLayout = Layout::Vertical::create(context);

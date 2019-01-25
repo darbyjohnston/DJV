@@ -31,7 +31,7 @@
 
 #include <djvUI/Border.h>
 #include <djvUI/Icon.h>
-#include <djvUI/LineEdit.h>
+#include <djvUI/LineEditBase.h>
 #include <djvUI/RowLayout.h>
 #include <djvUI/SoloLayout.h>
 #include <djvUI/ToolButton.h>
@@ -44,7 +44,7 @@ namespace djv
     {
         struct SearchBox::Private
         {
-            std::shared_ptr<LineEdit> lineEdit;
+            std::shared_ptr<LineEditBase> lineEditBase;
             std::shared_ptr<Layout::Solo> soloLayout;
             std::shared_ptr<Layout::Border> border;
         };
@@ -54,11 +54,10 @@ namespace djv
             Widget::_init(context);
 
             setClassName("djv::UI::SearchBox");
+            setVAlign(VAlign::Center);
 
-            _p->lineEdit = LineEdit::create(context);
-            _p->lineEdit->setBorder(false);
-            _p->lineEdit->setMargin(Style::MetricsRole::None);
-            _p->lineEdit->setBackgroundRole(Style::ColorRole::None);
+            _p->lineEditBase = LineEditBase::create(context);
+            _p->lineEditBase->setBackgroundRole(Style::ColorRole::None);
             
             auto searchIcon = Icon::create(context);
             searchIcon->setIcon("djvIconSearch");
@@ -69,14 +68,15 @@ namespace djv
             
             auto layout = Layout::Horizontal::create(context);
             layout->setSpacing(Style::MetricsRole::None);
-            layout->addWidget(_p->lineEdit, Layout::RowStretch::Expand);
+            layout->setBackgroundRole(Style::ColorRole::Trough);
+            layout->addWidget(_p->lineEditBase, Layout::RowStretch::Expand);
             _p->soloLayout = Layout::Solo::create(context);
             _p->soloLayout->addWidget(searchIcon);
             _p->soloLayout->addWidget(clearButton);
             layout->addWidget(_p->soloLayout);
             
             _p->border = Layout::Border::create(context);
-            _p->border->setBackgroundRole(Style::ColorRole::Trough);
+            _p->border->setMargin(Style::MetricsRole::MarginSmall);
             _p->border->addWidget(layout);
             _p->border->setParent(shared_from_this());
         }
