@@ -1,230 +1,44 @@
 [
     {
-        "text": "None", 
-        "nameSpace": "djv::UI::Style", 
-        "id": "None", 
-        "description": ""
-    }, 
-    {
-        "text": "Background", 
-        "nameSpace": "djv::UI::Style", 
-        "id": "Background", 
-        "description": ""
-    }, 
-    {
-        "text": "Background Header", 
-        "nameSpace": "djv::UI::Style", 
-        "id": "BackgroundHeader", 
-        "description": ""
-    }, 
-    {
-        "text": "Background Text", 
-        "nameSpace": "djv::UI::Style", 
-        "id": "BackgroundText", 
-        "description": ""
-    }, 
-    {
-        "text": "Background Tooltip", 
-        "nameSpace": "djv::UI::Style", 
-        "id": "BackgroundTooltip", 
-        "description": ""
-    }, 
-    {
-        "text": "Foreground", 
-        "nameSpace": "djv::UI::Style", 
-        "id": "Foreground", 
-        "description": ""
-    }, 
-    {
-        "text": "Foreground Dim", 
-        "nameSpace": "djv::UI::Style", 
-        "id": "ForegroundDim", 
-        "description": ""
-    }, 
-    {
-        "text": "Foreground Tooltip", 
-        "nameSpace": "djv::UI::Style", 
-        "id": "ForegroundTooltip", 
-        "description": ""
-    }, 
-    {
-        "text": "Border", 
-        "nameSpace": "djv::UI::Style", 
-        "id": "Border", 
-        "description": ""
-    }, 
-    {
-        "text": "Trough", 
-        "nameSpace": "djv::UI::Style", 
-        "id": "Trough", 
-        "description": ""
-    }, 
-    {
-        "text": "Button", 
-        "nameSpace": "djv::UI::Style", 
-        "id": "Button", 
-        "description": ""
-    }, 
-    {
-        "text": "Checked", 
-        "nameSpace": "djv::UI::Style", 
-        "id": "Checked", 
-        "description": ""
-    }, 
-    {
-        "text": "Checked Foreground", 
-        "nameSpace": "djv::UI::Style", 
-        "id": "CheckedForeground", 
-        "description": ""
-    }, 
-    {
-        "text": "Hover", 
-        "nameSpace": "djv::UI::Style", 
-        "id": "Hover", 
-        "description": ""
-    }, 
-    {
-        "text": "Disabled", 
-        "nameSpace": "djv::UI::Style", 
-        "id": "Disabled", 
-        "description": ""
-    }, 
-    {
-        "text": "Overlay", 
-        "nameSpace": "djv::UI::Style", 
-        "id": "Overlay", 
-        "description": ""
-    }, 
-    {
-        "text": "Shadow", 
-        "nameSpace": "djv::UI::Style", 
-        "id": "Shadow", 
-        "description": ""
-    }, 
-    {
-        "text": "Margin", 
-        "nameSpace": "djv::UI::Style", 
-        "id": "Margin", 
-        "description": ""
-    }, 
-    {
-        "text": "Margin Small", 
-        "nameSpace": "djv::UI::Style", 
-        "id": "MarginSmall", 
-        "description": ""
-    }, 
-    {
-        "text": "Margin Large", 
-        "nameSpace": "djv::UI::Style", 
-        "id": "MarginLarge", 
-        "description": ""
-    }, 
-    {
-        "text": "Spacing", 
-        "nameSpace": "djv::UI::Style", 
-        "id": "Spacing", 
-        "description": ""
-    }, 
-    {
-        "text": "Spacing Small", 
-        "nameSpace": "djv::UI::Style", 
-        "id": "SpacingSmall", 
-        "description": ""
-    }, 
-    {
-        "text": "Spacing Large", 
-        "nameSpace": "djv::UI::Style", 
-        "id": "SpacingLarge", 
-        "description": ""
-    }, 
-    {
-        "text": "Drag", 
-        "nameSpace": "djv::UI::Style", 
-        "id": "Drag", 
-        "description": ""
-    }, 
-    {
-        "text": "Icon", 
-        "nameSpace": "djv::UI::Style", 
-        "id": "Icon", 
-        "description": ""
-    }, 
-    {
-        "text": "Icon Large", 
-        "nameSpace": "djv::UI::Style", 
-        "id": "IconLarge", 
-        "description": ""
-    }, 
-    {
-        "text": "Font Small", 
-        "nameSpace": "djv::UI::Style", 
-        "id": "FontSmall", 
-        "description": ""
-    }, 
-    {
-        "text": "Font Medium", 
-        "nameSpace": "djv::UI::Style", 
-        "id": "FontMedium", 
-        "description": ""
-    }, 
-    {
-        "text": "Font Large", 
-        "nameSpace": "djv::UI::Style", 
-        "id": "FontLarge", 
-        "description": ""
-    }, 
-    {
-        "text": "Swatch", 
-        "nameSpace": "djv::UI::Style", 
-        "id": "Swatch", 
-        "description": ""
-    }, 
-    {
-        "text": "Thumbnail Small", 
-        "nameSpace": "djv::UI::Style", 
-        "id": "ThumbnailSmall", 
-        "description": ""
-    }, 
-    {
-        "text": "Thumbnail Large", 
-        "nameSpace": "djv::UI::Style", 
-        "id": "ThumbnailLarge", 
-        "description": ""
-    }, 
-    {
-        "text": "Scroll Area", 
-        "nameSpace": "djv::UI::Style", 
-        "id": "ScrollArea", 
-        "description": ""
-    }, 
-    {
-        "text": "Text Column", 
-        "nameSpace": "djv::UI::Style", 
-        "id": "TextColumn", 
-        "description": ""
-    }, 
-    {
-        "text": "Dialog", 
-        "nameSpace": "djv::UI::Style", 
-        "id": "Dialog", 
-        "description": ""
-    }, 
-    {
-        "text": "Tooltip Offset", 
-        "nameSpace": "djv::UI::Style", 
-        "id": "TooltipOffset", 
-        "description": ""
-    }, 
-    {
-        "text": "Default", 
+        "text": "Dark", 
         "nameSpace": "djv::UI::Settings", 
-        "id": "Default", 
+        "id": "Dark", 
         "description": ""
     }, 
     {
         "text": "Light", 
         "nameSpace": "djv::UI::Settings", 
         "id": "Light", 
+        "description": ""
+    }, 
+    {
+        "text": "Medium", 
+        "nameSpace": "djv::UI::Settings", 
+        "id": "Medium", 
+        "description": ""
+    }, 
+    {
+        "text": "Small", 
+        "nameSpace": "djv::UI::Settings", 
+        "id": "Small", 
+        "description": ""
+    }, 
+    {
+        "text": "Large", 
+        "nameSpace": "djv::UI::Settings", 
+        "id": "Large", 
+        "description": ""
+    }, 
+    {
+        "text": "Extra Large", 
+        "nameSpace": "djv::UI::Settings", 
+        "id": "ExtraLarge", 
+        "description": ""
+    }, 
+    {
+        "text": "Default", 
+        "nameSpace": "djv::UI::Settings", 
+        "id": "Default", 
         "description": ""
     }, 
     {
@@ -261,6 +75,12 @@
         "text": "Bottom", 
         "nameSpace": "djv::UI", 
         "id": "Bottom", 
+        "description": ""
+    }, 
+    {
+        "text": "None", 
+        "nameSpace": "djv::UI", 
+        "id": "None", 
         "description": ""
     }, 
     {
@@ -330,210 +150,6 @@
         "description": ""
     }, 
     {
-        "text": "Up", 
-        "nameSpace": "djv::UI::FileBrowser", 
-        "id": "Up", 
-        "description": ""
-    }, 
-    {
-        "text": "Go up a directory.", 
-        "nameSpace": "djv::UI::FileBrowser", 
-        "id": "UpTooltip", 
-        "description": ""
-    }, 
-    {
-        "text": "Current Directory", 
-        "nameSpace": "djv::UI::FileBrowser", 
-        "id": "Current Directory", 
-        "description": ""
-    }, 
-    {
-        "text": "Go to the current directory.", 
-        "nameSpace": "djv::UI::FileBrowser", 
-        "id": "CurrentDirectoryTooltip", 
-        "description": ""
-    }, 
-    {
-        "text": "Back", 
-        "nameSpace": "djv::UI::FileBrowser", 
-        "id": "Back", 
-        "description": ""
-    }, 
-    {
-        "text": "Go back a directory.", 
-        "nameSpace": "djv::UI::FileBrowser", 
-        "id": "BackTooltip", 
-        "description": ""
-    }, 
-    {
-        "text": "Go forward a directory.", 
-        "nameSpace": "djv::UI::FileBrowser", 
-        "id": "ForwardTooltip", 
-        "description": ""
-    }, 
-    {
-        "text": "Reload", 
-        "nameSpace": "djv::UI::FileBrowser", 
-        "id": "Reload", 
-        "description": ""
-    }, 
-    {
-        "text": "Reload the current directory.", 
-        "nameSpace": "djv::UI::FileBrowser", 
-        "id": "ReloadTooltip", 
-        "description": ""
-    }, 
-    {
-        "text": "Large Thumbnails", 
-        "nameSpace": "djv::UI::FileBrowser", 
-        "id": "Large Thumbnails", 
-        "description": ""
-    }, 
-    {
-        "text": "Show large preview thumbnails.", 
-        "nameSpace": "djv::UI::FileBrowser", 
-        "id": "LargethumbnailsTooltip", 
-        "description": ""
-    }, 
-    {
-        "text": "Small Thumbnails", 
-        "nameSpace": "djv::UI::FileBrowser", 
-        "id": "Small Thumbnails", 
-        "description": ""
-    }, 
-    {
-        "text": "Show small preview thumbnails.", 
-        "nameSpace": "djv::UI::FileBrowser", 
-        "id": "SmallThumbnailsTooltip", 
-        "description": ""
-    }, 
-    {
-        "text": "List View", 
-        "nameSpace": "djv::UI::FileBrowser", 
-        "id": "List View", 
-        "description": ""
-    }, 
-    {
-        "text": "Show a detailed list view.", 
-        "nameSpace": "djv::UI::FileBrowser", 
-        "id": "ListViewTooltip", 
-        "description": ""
-    }, 
-    {
-        "text": "File Sequences", 
-        "nameSpace": "djv::UI::FileBrowser", 
-        "id": "File Sequences", 
-        "description": ""
-    }, 
-    {
-        "text": "Toggle whether file sequences are enabled.", 
-        "nameSpace": "djv::UI::FileBrowser", 
-        "id": "FileSequencesTooltip", 
-        "description": ""
-    }, 
-    {
-        "text": "Show Hidden", 
-        "nameSpace": "djv::UI::FileBrowser", 
-        "id": "Show Hidden", 
-        "description": ""
-    }, 
-    {
-        "text": "Toggle whether hidden files are shown.", 
-        "nameSpace": "djv::UI::FileBrowser", 
-        "id": "ShowHiddenTooltip", 
-        "description": ""
-    }, 
-    {
-        "text": "Directory", 
-        "nameSpace": "djv::UI::FileBrowser", 
-        "id": "Directory", 
-        "description": ""
-    }, 
-    {
-        "text": "View", 
-        "nameSpace": "djv::UI::FileBrowser", 
-        "id": "View", 
-        "description": ""
-    }, 
-    {
-        "text": "Sort", 
-        "nameSpace": "djv::UI::FileBrowser", 
-        "id": "Sort", 
-        "description": ""
-    }, 
-    {
-        "text": "Bookmarks", 
-        "nameSpace": "djv::UI::FileBrowser", 
-        "id": "Bookmarks", 
-        "description": ""
-    }, 
-    {
-        "text": "Type", 
-        "nameSpace": "djv::UI::FileBrowser", 
-        "id": "Type", 
-        "description": ""
-    }, 
-    {
-        "text": "Size", 
-        "nameSpace": "djv::UI::FileBrowser", 
-        "id": "Size", 
-        "description": ""
-    }, 
-    {
-        "text": "Modification time", 
-        "nameSpace": "djv::UI::FileBrowser", 
-        "id": "Modification time", 
-        "description": ""
-    }, 
-    {
-        "text": "Video track", 
-        "nameSpace": "djv::UI::FileBrowser", 
-        "id": "Video track", 
-        "description": ""
-    }, 
-    {
-        "text": "FPS", 
-        "nameSpace": "djv::UI::FileBrowser\", \"Speed\") << \": \" << Time::Speed::speedToFloat(videoInfo.speed) << DJV_TEXT(\"djv::UI::FileBrowser", 
-        "id": "FPS", 
-        "description": ""
-    }, 
-    {
-        "text": "Duration", 
-        "nameSpace": "djv::UI::FileBrowser", 
-        "id": "Duration", 
-        "description": ""
-    }, 
-    {
-        "text": "Audio track", 
-        "nameSpace": "djv::UI::FileBrowser", 
-        "id": "Audio track", 
-        "description": ""
-    }, 
-    {
-        "text": "Channels", 
-        "nameSpace": "djv::UI::FileBrowser", 
-        "id": "Channels", 
-        "description": ""
-    }, 
-    {
-        "text": "kHz", 
-        "nameSpace": "djv::UI::FileBrowser\", \"Sample rate\") << \": \" << audioInfo.info.sampleRate / 1000.f << DJV_TEXT(\"djv::UI::FileBrowser", 
-        "id": "kHz", 
-        "description": ""
-    }, 
-    {
-        "text": "items", 
-        "nameSpace": "djv::UI::FileBrowser", 
-        "id": "items", 
-        "description": ""
-    }, 
-    {
-        "text": "File Browser", 
-        "nameSpace": "djv::UI::FileBrowser", 
-        "id": "File Browser", 
-        "description": ""
-    }, 
-    {
         "text": "Thumbnails Large", 
         "nameSpace": "djv::UI::FileBrowser", 
         "id": "ThumbnailsLarge", 
@@ -555,6 +171,264 @@
         "text": "Expand", 
         "nameSpace": "djv::UI::Layout", 
         "id": "Expand", 
+        "description": ""
+    }, 
+    {
+        "text": "Background", 
+        "nameSpace": "djv::UI::Style", 
+        "id": "Background", 
+        "description": ""
+    }, 
+    {
+        "text": "Foreground", 
+        "nameSpace": "djv::UI::Style", 
+        "id": "Foreground", 
+        "description": ""
+    }, 
+    {
+        "text": "Border", 
+        "nameSpace": "djv::UI::Style", 
+        "id": "Border", 
+        "description": ""
+    }, 
+    {
+        "text": "Trough", 
+        "nameSpace": "djv::UI::Style", 
+        "id": "Trough", 
+        "description": ""
+    }, 
+    {
+        "text": "Button", 
+        "nameSpace": "djv::UI::Style", 
+        "id": "Button", 
+        "description": ""
+    }, 
+    {
+        "text": "Hovered", 
+        "nameSpace": "djv::UI::Style", 
+        "id": "Hovered", 
+        "description": ""
+    }, 
+    {
+        "text": "Pressed", 
+        "nameSpace": "djv::UI::Style", 
+        "id": "Pressed", 
+        "description": ""
+    }, 
+    {
+        "text": "Checked", 
+        "nameSpace": "djv::UI::Style", 
+        "id": "Checked", 
+        "description": ""
+    }, 
+    {
+        "text": "Disabled", 
+        "nameSpace": "djv::UI::Style", 
+        "id": "Disabled", 
+        "description": ""
+    }, 
+    {
+        "text": "Header Background", 
+        "nameSpace": "djv::UI::Style", 
+        "id": "HeaderBackground", 
+        "description": ""
+    }, 
+    {
+        "text": "Header Foreground", 
+        "nameSpace": "djv::UI::Style", 
+        "id": "HeaderForeground", 
+        "description": ""
+    }, 
+    {
+        "text": "Header Hovered", 
+        "nameSpace": "djv::UI::Style", 
+        "id": "HeaderHovered", 
+        "description": ""
+    }, 
+    {
+        "text": "Header Pressed", 
+        "nameSpace": "djv::UI::Style", 
+        "id": "HeaderPressed", 
+        "description": ""
+    }, 
+    {
+        "text": "Header Checked", 
+        "nameSpace": "djv::UI::Style", 
+        "id": "HeaderChecked", 
+        "description": ""
+    }, 
+    {
+        "text": "Header Disabled", 
+        "nameSpace": "djv::UI::Style", 
+        "id": "HeaderDisabled", 
+        "description": ""
+    }, 
+    {
+        "text": "Tooltip Background", 
+        "nameSpace": "djv::UI::Style", 
+        "id": "TooltipBackground", 
+        "description": ""
+    }, 
+    {
+        "text": "Tooltip Foreground", 
+        "nameSpace": "djv::UI::Style", 
+        "id": "TooltipForeground", 
+        "description": ""
+    }, 
+    {
+        "text": "Overlay", 
+        "nameSpace": "djv::UI::Style", 
+        "id": "Overlay", 
+        "description": ""
+    }, 
+    {
+        "text": "Shadow", 
+        "nameSpace": "djv::UI::Style", 
+        "id": "Shadow", 
+        "description": ""
+    }, 
+    {
+        "text": "Margin", 
+        "nameSpace": "djv::UI::Style", 
+        "id": "Margin", 
+        "description": ""
+    }, 
+    {
+        "text": "Margin Small", 
+        "nameSpace": "djv::UI::Style", 
+        "id": "MarginSmall", 
+        "description": ""
+    }, 
+    {
+        "text": "Margin Large", 
+        "nameSpace": "djv::UI::Style", 
+        "id": "MarginLarge", 
+        "description": ""
+    }, 
+    {
+        "text": "Margin Dialog", 
+        "nameSpace": "djv::UI::Style", 
+        "id": "MarginDialog", 
+        "description": ""
+    }, 
+    {
+        "text": "Spacing", 
+        "nameSpace": "djv::UI::Style", 
+        "id": "Spacing", 
+        "description": ""
+    }, 
+    {
+        "text": "Spacing Small", 
+        "nameSpace": "djv::UI::Style", 
+        "id": "SpacingSmall", 
+        "description": ""
+    }, 
+    {
+        "text": "Spacing Large", 
+        "nameSpace": "djv::UI::Style", 
+        "id": "SpacingLarge", 
+        "description": ""
+    }, 
+    {
+        "text": "Drag", 
+        "nameSpace": "djv::UI::Style", 
+        "id": "Drag", 
+        "description": ""
+    }, 
+    {
+        "text": "Icon", 
+        "nameSpace": "djv::UI::Style", 
+        "id": "Icon", 
+        "description": ""
+    }, 
+    {
+        "text": "Icon Large", 
+        "nameSpace": "djv::UI::Style", 
+        "id": "IconLarge", 
+        "description": ""
+    }, 
+    {
+        "text": "Font Small", 
+        "nameSpace": "djv::UI::Style", 
+        "id": "FontSmall", 
+        "description": ""
+    }, 
+    {
+        "text": "Font Medium", 
+        "nameSpace": "djv::UI::Style", 
+        "id": "FontMedium", 
+        "description": ""
+    }, 
+    {
+        "text": "Font Large", 
+        "nameSpace": "djv::UI::Style", 
+        "id": "FontLarge", 
+        "description": ""
+    }, 
+    {
+        "text": "Font Header", 
+        "nameSpace": "djv::UI::Style", 
+        "id": "FontHeader", 
+        "description": ""
+    }, 
+    {
+        "text": "Swatch", 
+        "nameSpace": "djv::UI::Style", 
+        "id": "Swatch", 
+        "description": ""
+    }, 
+    {
+        "text": "Thumbnail Width Small", 
+        "nameSpace": "djv::UI::Style", 
+        "id": "ThumbnailWidthSmall", 
+        "description": ""
+    }, 
+    {
+        "text": "Thumbnail Height Small", 
+        "nameSpace": "djv::UI::Style", 
+        "id": "ThumbnailHeightSmall", 
+        "description": ""
+    }, 
+    {
+        "text": "Thumbnail Width Large", 
+        "nameSpace": "djv::UI::Style", 
+        "id": "ThumbnailWidthLarge", 
+        "description": ""
+    }, 
+    {
+        "text": "Thumbnail Height Large", 
+        "nameSpace": "djv::UI::Style", 
+        "id": "ThumbnailHeightLarge", 
+        "description": ""
+    }, 
+    {
+        "text": "Scroll Area", 
+        "nameSpace": "djv::UI::Style", 
+        "id": "ScrollArea", 
+        "description": ""
+    }, 
+    {
+        "text": "Text Column", 
+        "nameSpace": "djv::UI::Style", 
+        "id": "TextColumn", 
+        "description": ""
+    }, 
+    {
+        "text": "Dialog", 
+        "nameSpace": "djv::UI::Style", 
+        "id": "Dialog", 
+        "description": ""
+    }, 
+    {
+        "text": "Tooltip Offset", 
+        "nameSpace": "djv::UI::Style", 
+        "id": "TooltipOffset", 
+        "description": ""
+    }, 
+    {
+        "text": "Handle", 
+        "nameSpace": "djv::UI::Style", 
+        "id": "Handle", 
         "description": ""
     }, 
     {
@@ -834,25 +708,25 @@
         "description": ""
     }, 
     {
-        "text": "[", 
+        "text": "Left Bracket", 
         "nameSpace": "djv::UI::Key", 
         "id": "LeftBracket", 
         "description": ""
     }, 
     {
-        "text": "\\", 
+        "text": "Backslash", 
         "nameSpace": "djv::UI::Key", 
         "id": "Backslash", 
         "description": ""
     }, 
     {
-        "text": "]", 
+        "text": "Right Bracket", 
         "nameSpace": "djv::UI::Key", 
         "id": "RightBracket", 
         "description": ""
     }, 
     {
-        "text": "GraveAccent", 
+        "text": "Grave Accent", 
         "nameSpace": "djv::UI::Key", 
         "id": "GraveAccent", 
         "description": ""
@@ -1308,9 +1182,159 @@
         "description": ""
     }, 
     {
-        "text": "Cannot parse value.", 
-        "nameSpace": "djv::UI", 
-        "id": "Cannot parse value.", 
+        "text": "Up", 
+        "nameSpace": "djv::UI::FileBrowser", 
+        "id": "Up", 
+        "description": ""
+    }, 
+    {
+        "text": "Go up a directory", 
+        "nameSpace": "djv::UI::FileBrowser", 
+        "id": "UpTooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "Current Directory", 
+        "nameSpace": "djv::UI::FileBrowser", 
+        "id": "Current Directory", 
+        "description": ""
+    }, 
+    {
+        "text": "Go to the current directory", 
+        "nameSpace": "djv::UI::FileBrowser", 
+        "id": "CurrentDirectoryTooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "Back", 
+        "nameSpace": "djv::UI::FileBrowser", 
+        "id": "Back", 
+        "description": ""
+    }, 
+    {
+        "text": "Go back in history", 
+        "nameSpace": "djv::UI::FileBrowser", 
+        "id": "BackTooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "Go forward in history", 
+        "nameSpace": "djv::UI::FileBrowser", 
+        "id": "ForwardTooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "Large Thumbnails", 
+        "nameSpace": "djv::UI::FileBrowser", 
+        "id": "Large Thumbnails", 
+        "description": ""
+    }, 
+    {
+        "text": "Large thumbnail previews", 
+        "nameSpace": "djv::UI::FileBrowser", 
+        "id": "LargethumbnailsTooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "Small Thumbnails", 
+        "nameSpace": "djv::UI::FileBrowser", 
+        "id": "Small Thumbnails", 
+        "description": ""
+    }, 
+    {
+        "text": "Small thumbnail previews", 
+        "nameSpace": "djv::UI::FileBrowser", 
+        "id": "SmallThumbnailsTooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "List View", 
+        "nameSpace": "djv::UI::FileBrowser", 
+        "id": "List View", 
+        "description": ""
+    }, 
+    {
+        "text": "Detailed list view", 
+        "nameSpace": "djv::UI::FileBrowser", 
+        "id": "ListViewTooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "File Sequences", 
+        "nameSpace": "djv::UI::FileBrowser", 
+        "id": "File Sequences", 
+        "description": ""
+    }, 
+    {
+        "text": "Toggle whether file sequences are enabled", 
+        "nameSpace": "djv::UI::FileBrowser", 
+        "id": "FileSequencesTooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "Show Hidden", 
+        "nameSpace": "djv::UI::FileBrowser", 
+        "id": "Show Hidden", 
+        "description": ""
+    }, 
+    {
+        "text": "Show hidden files", 
+        "nameSpace": "djv::UI::FileBrowser", 
+        "id": "ShowHiddenTooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "Directory", 
+        "nameSpace": "djv::UI::FileBrowser", 
+        "id": "Directory", 
+        "description": ""
+    }, 
+    {
+        "text": "View", 
+        "nameSpace": "djv::UI::FileBrowser", 
+        "id": "View", 
+        "description": ""
+    }, 
+    {
+        "text": "Sort", 
+        "nameSpace": "djv::UI::FileBrowser", 
+        "id": "Sort", 
+        "description": ""
+    }, 
+    {
+        "text": "Bookmarks", 
+        "nameSpace": "djv::UI::FileBrowser", 
+        "id": "Bookmarks", 
+        "description": ""
+    }, 
+    {
+        "text": "items", 
+        "nameSpace": "djv::UI::FileBrowser", 
+        "id": "items", 
+        "description": ""
+    }, 
+    {
+        "text": "Size", 
+        "nameSpace": "djv::UI::FileBrowser", 
+        "id": "Size", 
+        "description": ""
+    }, 
+    {
+        "text": "Last modification time", 
+        "nameSpace": "djv::UI::FileBrowser", 
+        "id": "Last modification time", 
+        "description": ""
+    }, 
+    {
+        "text": "Video track", 
+        "nameSpace": "djv::UI::FileBrowser", 
+        "id": "Video track", 
+        "description": ""
+    }, 
+    {
+        "text": "Type", 
+        "nameSpace": "djv::UI::FileBrowser", 
+        "id": "Type", 
         "description": ""
     }, 
     {
@@ -1320,75 +1344,51 @@
         "description": ""
     }, 
     {
+        "text": "FPS", 
+        "nameSpace": "djv::UI::FileBrowser", 
+        "id": "FPS", 
+        "description": ""
+    }, 
+    {
+        "text": "Duration", 
+        "nameSpace": "djv::UI::FileBrowser", 
+        "id": "Duration", 
+        "description": ""
+    }, 
+    {
+        "text": "Audio track", 
+        "nameSpace": "djv::UI::FileBrowser", 
+        "id": "Audio track", 
+        "description": ""
+    }, 
+    {
+        "text": "Channels", 
+        "nameSpace": "djv::UI::FileBrowser", 
+        "id": "Channels", 
+        "description": ""
+    }, 
+    {
         "text": "Sample rate", 
         "nameSpace": "djv::UI::FileBrowser", 
         "id": "Sample rate", 
         "description": ""
     }, 
     {
-        "text": "Dark", 
-        "nameSpace": "djv::UI::Settings", 
-        "id": "Dark", 
+        "text": "kHz", 
+        "nameSpace": "djv::UI::FileBrowser", 
+        "id": "kHz", 
         "description": ""
     }, 
     {
-        "text": "Orange", 
-        "nameSpace": "djv::UI::Settings", 
-        "id": "Orange", 
+        "text": "Show the navigation history", 
+        "nameSpace": "djv::UI::FileBrowser", 
+        "id": "HistoryTooltip", 
         "description": ""
     }, 
     {
-        "text": "Blue", 
-        "nameSpace": "djv::UI::Settings", 
-        "id": "Blue", 
-        "description": ""
-    }, 
-    {
-        "text": "Small", 
-        "nameSpace": "djv::UI::Settings", 
-        "id": "Small", 
-        "description": ""
-    }, 
-    {
-        "text": "Medium", 
-        "nameSpace": "djv::UI::Settings", 
-        "id": "Medium", 
-        "description": ""
-    }, 
-    {
-        "text": "Large", 
-        "nameSpace": "djv::UI::Settings", 
-        "id": "Large", 
-        "description": ""
-    }, 
-    {
-        "text": "Foreground Header", 
-        "nameSpace": "djv::UI::Style", 
-        "id": "ForegroundHeader", 
-        "description": ""
-    }, 
-    {
-        "text": "Margin Dialog", 
-        "nameSpace": "djv::UI::Style", 
-        "id": "MarginDialog", 
-        "description": ""
-    }, 
-    {
-        "text": "Font Header", 
-        "nameSpace": "djv::UI::Style", 
-        "id": "FontHeader", 
-        "description": ""
-    }, 
-    {
-        "text": "Extra Large", 
-        "nameSpace": "djv::UI::Settings", 
-        "id": "ExtraLarge", 
-        "description": ""
-    }, 
-    {
-        "text": "Handle", 
-        "nameSpace": "djv::UI::Style", 
-        "id": "Handle", 
+        "text": "Cannot parse value.", 
+        "nameSpace": "djv::UI", 
+        "id": "Cannot parse value.", 
         "description": ""
     }
 ]

@@ -1,41 +1,5 @@
 [
     {
-        "text": "Cannot open file", 
-        "nameSpace": "djv::Core::FileSystem", 
-        "id": "Cannot open file", 
-        "description": ""
-    }, 
-    {
-        "text": "Cannot close file", 
-        "nameSpace": "djv::Core::FileSystem", 
-        "id": "Cannot close file", 
-        "description": ""
-    }, 
-    {
-        "text": "Cannot map file", 
-        "nameSpace": "djv::Core::FileSystem", 
-        "id": "Cannot map file", 
-        "description": ""
-    }, 
-    {
-        "text": "Cannot unmap file", 
-        "nameSpace": "djv::Core::FileSystem", 
-        "id": "Cannot unmap file", 
-        "description": ""
-    }, 
-    {
-        "text": "Cannot read file", 
-        "nameSpace": "djv::Core::FileSystem", 
-        "id": "Cannot read file", 
-        "description": ""
-    }, 
-    {
-        "text": "Cannot write file", 
-        "nameSpace": "djv::Core::FileSystem", 
-        "id": "Cannot write file", 
-        "description": ""
-    }, 
-    {
         "text": "MSB", 
         "nameSpace": "djv::Core::Memory", 
         "id": "MSB", 
@@ -75,18 +39,6 @@
         "text": "Cannot create directory", 
         "nameSpace": "djv::Core::FileSystem", 
         "id": "Cannot create directory", 
-        "description": ""
-    }, 
-    {
-        "text": "Cannot parse value.", 
-        "nameSpace": "djv::Core::PicoJSON", 
-        "id": "Cannot parse value.", 
-        "description": ""
-    }, 
-    {
-        "text": "Cannot parse value", 
-        "nameSpace": "djv::Core::Time", 
-        "id": "Cannot parse value", 
         "description": ""
     }, 
     {
@@ -1290,33 +1242,9 @@
         "description": ""
     }, 
     {
-        "text": "Error reading text file", 
-        "nameSpace": "djv::Core", 
-        "id": "Error reading text file", 
-        "description": ""
-    }, 
-    {
-        "text": "Slow", 
+        "text": "Cannot parse value", 
         "nameSpace": "djv::Core::Time", 
-        "id": "Slow", 
-        "description": ""
-    }, 
-    {
-        "text": "Medium", 
-        "nameSpace": "djv::Core::Time", 
-        "id": "Medium", 
-        "description": ""
-    }, 
-    {
-        "text": "Fast", 
-        "nameSpace": "djv::Core::Time", 
-        "id": "Fast", 
-        "description": ""
-    }, 
-    {
-        "text": "Very Fast", 
-        "nameSpace": "djv::Core::Time", 
-        "id": "VeryFast", 
+        "id": "Cannot parse value", 
         "description": ""
     }, 
     {
@@ -1356,15 +1284,171 @@
         "description": ""
     }, 
     {
-        "text": "Parent", 
-        "nameSpace": "djv::Core::Event", 
-        "id": "Parent", 
+        "text": "File", 
+        "nameSpace": "djv::Core::FileSystem", 
+        "id": "File", 
         "description": ""
     }, 
     {
-        "text": "Locale Changed", 
+        "text": "Sequence", 
+        "nameSpace": "djv::Core::FileSystem", 
+        "id": "Sequence", 
+        "description": ""
+    }, 
+    {
+        "text": "Directory", 
+        "nameSpace": "djv::Core::FileSystem", 
+        "id": "Directory", 
+        "description": ""
+    }, 
+    {
+        "text": "Name", 
+        "nameSpace": "djv::Core::FileSystem", 
+        "id": "Name", 
+        "description": ""
+    }, 
+    {
+        "text": "Size", 
+        "nameSpace": "djv::Core::FileSystem", 
+        "id": "Size", 
+        "description": ""
+    }, 
+    {
+        "text": "Permissions", 
+        "nameSpace": "djv::Core::FileSystem", 
+        "id": "Permissions", 
+        "description": ""
+    }, 
+    {
+        "text": "Type", 
+        "nameSpace": "djv::Core::FileSystem", 
+        "id": "Type", 
+        "description": ""
+    }, 
+    {
+        "text": "Cannot parse value.", 
+        "nameSpace": "djv::Core::Time", 
+        "id": "Cannot parse value.", 
+        "description": ""
+    }, 
+    {
+        "text": "Application", 
+        "nameSpace": "djv::Core::FileSystem", 
+        "id": "Application", 
+        "description": ""
+    }, 
+    {
+        "text": "Log File", 
+        "nameSpace": "djv::Core::FileSystem", 
+        "id": "LogFile", 
+        "description": ""
+    }, 
+    {
+        "text": "Settings File", 
+        "nameSpace": "djv::Core::FileSystem", 
+        "id": "SettingsFile", 
+        "description": ""
+    }, 
+    {
+        "text": "Audio Directory", 
+        "nameSpace": "djv::Core::FileSystem", 
+        "id": "AudioDirectory", 
+        "description": ""
+    }, 
+    {
+        "text": "Fonts Directory", 
+        "nameSpace": "djv::Core::FileSystem", 
+        "id": "FontsDirectory", 
+        "description": ""
+    }, 
+    {
+        "text": "Icons Directory", 
+        "nameSpace": "djv::Core::FileSystem", 
+        "id": "IconsDirectory", 
+        "description": ""
+    }, 
+    {
+        "text": "Images Directory", 
+        "nameSpace": "djv::Core::FileSystem", 
+        "id": "ImagesDirectory", 
+        "description": ""
+    }, 
+    {
+        "text": "Models Directory", 
+        "nameSpace": "djv::Core::FileSystem", 
+        "id": "ModelsDirectory", 
+        "description": ""
+    }, 
+    {
+        "text": "Shaders Directory", 
+        "nameSpace": "djv::Core::FileSystem", 
+        "id": "ShadersDirectory", 
+        "description": ""
+    }, 
+    {
+        "text": "Text Directory", 
+        "nameSpace": "djv::Core::FileSystem", 
+        "id": "TextDirectory", 
+        "description": ""
+    }, 
+    {
+        "text": "Error reading text file", 
+        "nameSpace": "djv::Core", 
+        "id": "Error reading text file", 
+        "description": ""
+    }, 
+    {
+        "text": "Slow", 
+        "nameSpace": "djv::Core::Time", 
+        "id": "Slow", 
+        "description": ""
+    }, 
+    {
+        "text": "Medium", 
+        "nameSpace": "djv::Core::Time", 
+        "id": "Medium", 
+        "description": ""
+    }, 
+    {
+        "text": "Fast", 
+        "nameSpace": "djv::Core::Time", 
+        "id": "Fast", 
+        "description": ""
+    }, 
+    {
+        "text": "Very Fast", 
+        "nameSpace": "djv::Core::Time", 
+        "id": "VeryFast", 
+        "description": ""
+    }, 
+    {
+        "text": "Parent Changed", 
         "nameSpace": "djv::Core::Event", 
-        "id": "LocaleChanged", 
+        "id": "ParentChanged", 
+        "description": ""
+    }, 
+    {
+        "text": "Child Added", 
+        "nameSpace": "djv::Core::Event", 
+        "id": "ChildAdded", 
+        "description": ""
+    }, 
+    {
+        "text": "Child Removed", 
+        "nameSpace": "djv::Core::Event", 
+        "id": "ChildRemoved", 
+        "description": ""
+    }, 
+    {
+        "text": "Child Order", 
+        "nameSpace": "djv::Core::Event", 
+        "id": "ChildOrder", 
+        "description": ""
+    }, 
+    {
+        "text": "Locale", 
+        "nameSpace": "djv::Core::Event", 
+        "id": "Locale", 
         "description": ""
     }, 
     {
@@ -1374,9 +1458,9 @@
         "description": ""
     }, 
     {
-        "text": "Style Changed", 
+        "text": "Style", 
         "nameSpace": "djv::Core::Event", 
-        "id": "StyleChanged", 
+        "id": "Style", 
         "description": ""
     }, 
     {
@@ -1401,6 +1485,12 @@
         "text": "Paint", 
         "nameSpace": "djv::Core::Event", 
         "id": "Paint", 
+        "description": ""
+    }, 
+    {
+        "text": "Paint Overlay", 
+        "nameSpace": "djv::Core::Event", 
+        "id": "PaintOverlay", 
         "description": ""
     }, 
     {
@@ -1470,147 +1560,39 @@
         "description": ""
     }, 
     {
-        "text": "File", 
+        "text": "Cannot open file", 
         "nameSpace": "djv::Core::FileSystem", 
-        "id": "File", 
+        "id": "Cannot open file", 
         "description": ""
     }, 
     {
-        "text": "Sequence", 
+        "text": "Cannot close file", 
         "nameSpace": "djv::Core::FileSystem", 
-        "id": "Sequence", 
+        "id": "Cannot close file", 
         "description": ""
     }, 
     {
-        "text": "Directory", 
+        "text": "Cannot map file", 
         "nameSpace": "djv::Core::FileSystem", 
-        "id": "Directory", 
+        "id": "Cannot map file", 
         "description": ""
     }, 
     {
-        "text": "Name", 
+        "text": "Cannot unmap file", 
         "nameSpace": "djv::Core::FileSystem", 
-        "id": "Name", 
+        "id": "Cannot unmap file", 
         "description": ""
     }, 
     {
-        "text": "Size", 
+        "text": "Cannot read file", 
         "nameSpace": "djv::Core::FileSystem", 
-        "id": "Size", 
+        "id": "Cannot read file", 
         "description": ""
     }, 
     {
-        "text": "Permissions", 
+        "text": "Cannot write file", 
         "nameSpace": "djv::Core::FileSystem", 
-        "id": "Permissions", 
-        "description": ""
-    }, 
-    {
-        "text": "Type", 
-        "nameSpace": "djv::Core::FileSystem", 
-        "id": "Type", 
-        "description": ""
-    }, 
-    {
-        "text": "Application", 
-        "nameSpace": "djv::Core::FileSystem", 
-        "id": "Application", 
-        "description": ""
-    }, 
-    {
-        "text": "Log File", 
-        "nameSpace": "djv::Core::FileSystem", 
-        "id": "LogFile", 
-        "description": ""
-    }, 
-    {
-        "text": "Settings File", 
-        "nameSpace": "djv::Core::FileSystem", 
-        "id": "SettingsFile", 
-        "description": ""
-    }, 
-    {
-        "text": "Audio Directory", 
-        "nameSpace": "djv::Core::FileSystem", 
-        "id": "AudioDirectory", 
-        "description": ""
-    }, 
-    {
-        "text": "Fonts Directory", 
-        "nameSpace": "djv::Core::FileSystem", 
-        "id": "FontsDirectory", 
-        "description": ""
-    }, 
-    {
-        "text": "Icons Directory", 
-        "nameSpace": "djv::Core::FileSystem", 
-        "id": "IconsDirectory", 
-        "description": ""
-    }, 
-    {
-        "text": "Images Directory", 
-        "nameSpace": "djv::Core::FileSystem", 
-        "id": "ImagesDirectory", 
-        "description": ""
-    }, 
-    {
-        "text": "Models Directory", 
-        "nameSpace": "djv::Core::FileSystem", 
-        "id": "ModelsDirectory", 
-        "description": ""
-    }, 
-    {
-        "text": "Shaders Directory", 
-        "nameSpace": "djv::Core::FileSystem", 
-        "id": "ShadersDirectory", 
-        "description": ""
-    }, 
-    {
-        "text": "Text Directory", 
-        "nameSpace": "djv::Core::FileSystem", 
-        "id": "TextDirectory", 
-        "description": ""
-    }, 
-    {
-        "text": "ParentChanged", 
-        "nameSpace": "djv::Core::Event", 
-        "id": "ParentChanged", 
-        "description": ""
-    }, 
-    {
-        "text": "Locale", 
-        "nameSpace": "djv::Core::Event", 
-        "id": "Locale", 
-        "description": ""
-    }, 
-    {
-        "text": "Style", 
-        "nameSpace": "djv::Core::Event", 
-        "id": "Style", 
-        "description": ""
-    }, 
-    {
-        "text": "ChildAdded", 
-        "nameSpace": "djv::Core::Event", 
-        "id": "ChildAdded", 
-        "description": ""
-    }, 
-    {
-        "text": "ChildRemoved", 
-        "nameSpace": "djv::Core::Event", 
-        "id": "ChildRemoved", 
-        "description": ""
-    }, 
-    {
-        "text": "ChildOrder", 
-        "nameSpace": "djv::Core::Event", 
-        "id": "ChildOrder", 
-        "description": ""
-    }, 
-    {
-        "text": "PaintOverlay", 
-        "nameSpace": "djv::Core::Event", 
-        "id": "PaintOverlay", 
+        "id": "Cannot write file", 
         "description": ""
     }
 ]

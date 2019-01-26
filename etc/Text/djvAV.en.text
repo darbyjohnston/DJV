@@ -108,18 +108,6 @@
         "description": ""
     }, 
     {
-        "text": "Cannot initialize FreeType.", 
-        "nameSpace": "djv::AV::Font", 
-        "id": "Cannot initialize FreeType.", 
-        "description": ""
-    }, 
-    {
-        "text": "Cannot find any fonts.", 
-        "nameSpace": "djv::AV::Font", 
-        "id": "Cannot find any fonts.", 
-        "description": ""
-    }, 
-    {
         "text": "Cannot read", 
         "nameSpace": "djv::AV::IO", 
         "id": "Cannot read", 
@@ -132,15 +120,45 @@
         "description": ""
     }, 
     {
-        "text": "Cannot initialize GLFW.", 
+        "text": "Left", 
         "nameSpace": "djv::AV", 
-        "id": "Cannot initialize GLFW.", 
+        "id": "Left", 
         "description": ""
     }, 
     {
-        "text": "Cannot create GLFW window.", 
+        "text": "Top", 
         "nameSpace": "djv::AV", 
-        "id": "Cannot create GLFW window.", 
+        "id": "Top", 
+        "description": ""
+    }, 
+    {
+        "text": "Right", 
+        "nameSpace": "djv::AV", 
+        "id": "Right", 
+        "description": ""
+    }, 
+    {
+        "text": "Bottom", 
+        "nameSpace": "djv::AV", 
+        "id": "Bottom", 
+        "description": ""
+    }, 
+    {
+        "text": "Cannot create OpenGL texture.", 
+        "nameSpace": "djv::AV::OpenGL", 
+        "id": "Cannot create OpenGL texture.", 
+        "description": ""
+    }, 
+    {
+        "text": "Cannot create OpenGL frame buffer.", 
+        "nameSpace": "djv::AV::OpenGL", 
+        "id": "Cannot create OpenGL frame buffer.", 
+        "description": ""
+    }, 
+    {
+        "text": "Cannot initialize OpenGL frame buffer.", 
+        "nameSpace": "djv::AV::OpenGL", 
+        "id": "Cannot initialize OpenGL frame buffer.", 
         "description": ""
     }, 
     {
@@ -183,24 +201,6 @@
         "text": "Cannot make OpenAL context current.", 
         "nameSpace": "djv::AV::Audio", 
         "id": "Cannot make OpenAL context current.", 
-        "description": ""
-    }, 
-    {
-        "text": "Cannot create OpenGL texture.", 
-        "nameSpace": "djv::AV::OpenGL", 
-        "id": "Cannot create OpenGL texture.", 
-        "description": ""
-    }, 
-    {
-        "text": "Cannot create OpenGL frame buffer.", 
-        "nameSpace": "djv::AV::OpenGL", 
-        "id": "Cannot create OpenGL frame buffer.", 
-        "description": ""
-    }, 
-    {
-        "text": "Cannot initialize OpenGL frame buffer.", 
-        "nameSpace": "djv::AV::OpenGL", 
-        "id": "Cannot initialize OpenGL frame buffer.", 
         "description": ""
     }, 
     {
@@ -420,15 +420,33 @@
         "description": ""
     }, 
     {
+        "text": "Cannot create GLFW window.", 
+        "nameSpace": "djv::AV::IO", 
+        "id": "Cannot create GLFW window.", 
+        "description": ""
+    }, 
+    {
         "text": "Cannot create shader", 
         "nameSpace": "djv::AV::Render", 
         "id": "Cannot create shader", 
         "description": ""
     }, 
     {
-        "text": "Cannot compile foobar vertex shader", 
-        "nameSpace": "djv::AV::OpenGL", 
-        "id": "Cannot compile foobar vertex shader", 
+        "text": "Cannot initialize GLFW.", 
+        "nameSpace": "djv::AV", 
+        "id": "Cannot initialize GLFW.", 
+        "description": ""
+    }, 
+    {
+        "text": "Cannot initialize FreeType.", 
+        "nameSpace": "djv::AV::Font", 
+        "id": "Cannot initialize FreeType.", 
+        "description": ""
+    }, 
+    {
+        "text": "Cannot find any fonts.", 
+        "nameSpace": "djv::AV::Font", 
+        "id": "Cannot find any fonts.", 
         "description": ""
     }
 ]
