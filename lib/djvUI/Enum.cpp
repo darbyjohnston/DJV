@@ -29,6 +29,8 @@
 
 #include <djvUI/Enum.h>
 
+#include <algorithm>
+
 using namespace djv::Core;
 
 namespace djv

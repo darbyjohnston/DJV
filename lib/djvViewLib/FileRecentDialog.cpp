@@ -38,7 +38,7 @@
 #include <djvUI/RowLayout.h>
 #include <djvUI/ScrollWidget.h>
 #include <djvUI/SearchBox.h>
-#include <djvUI/ToolBar.h>
+#include <djvUI/Toolbar.h>
 
 #include <djvCore/Context.h>
 #include <djvCore/FileInfo.h>

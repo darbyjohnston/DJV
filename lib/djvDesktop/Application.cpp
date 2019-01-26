@@ -42,6 +42,9 @@
 
 #include <chrono>
 
+#undef GL_DEBUG_SEVERITY_HIGH
+#undef GL_DEBUG_SEVERITY_MEDIUM
+
 using namespace djv::Core;
 
 using namespace gl;

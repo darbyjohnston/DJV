@@ -73,6 +73,10 @@ namespace djv
                     openFlags = O_RDWR | O_CREAT | O_TRUNC;
                     openMode  = S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH;
                     break;
+                case Mode::Append:
+                    openFlags = O_WRONLY | O_CREAT;
+                    openMode  = S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH;
+                    break;
                 default: break;
                 }
                 _f = ::open(fileName.c_str(), openFlags, openMode);
