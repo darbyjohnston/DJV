@@ -87,7 +87,6 @@ namespace djv
 
                     auto button = Button::List::create(context);
                     button->setText(text);
-                    button->setTextHAlign(TextHAlign::Left);
                     itemLayout->addWidget(button);
 
                     button->setClickedCallback(

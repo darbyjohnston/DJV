@@ -105,6 +105,12 @@ namespace djv
             //! Convert a wide string to a regular string.
             std::string fromWide(const std::wstring &);
 
+            //! Replace '\' with '\\'.
+            std::string escape(const std::string &);
+
+            //! Replace '\\' with '\'.
+            std::string unescape(const std::string &);
+
             ///@}
 
             //! \name Testing

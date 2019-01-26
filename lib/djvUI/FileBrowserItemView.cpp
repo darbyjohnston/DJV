@@ -307,6 +307,7 @@ namespace djv
                         {
                             const BBox2f & g = getGeometry();
                             const float m = style->getMetric(Style::MetricsRole::MarginSmall);
+                            const float s = style->getMetric(Style::MetricsRole::SpacingSmall);
                             const float tw = style->getMetric(p.getThumbnailWidth());
                             const float th = style->getMetric(p.getThumbnailHeight());
                             {
@@ -366,7 +367,6 @@ namespace djv
                                                 j->second,
                                                 BBox2f(x, y, static_cast<float>(size.x), static_cast<float>(size.y)),
                                                 AV::Render::ImageCache::Static);
-                                            x += size.x;
                                         }
                                     }
                                     if (opacity < 1.f)
@@ -428,7 +428,7 @@ namespace djv
                                         }
                                         case ViewType::ListView:
                                         {
-                                            float x = i->second.min.x + m + tw;
+                                            float x = i->second.min.x + m + tw + s;
                                             float y = i->second.min.y + i->second.h() / 2.f - p.nameFontMetrics.lineHeight / 2.f;
                                             render->drawText(
                                                 item->getFileName(Frame::Invalid, false),

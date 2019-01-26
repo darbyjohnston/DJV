@@ -212,7 +212,8 @@ namespace djv
                 float out = 0.f;
                 if (auto style = _getStyle().lock())
                 {
-                    out = _p->layout->getHeightForWidth(value) + getMargin().getHeight(style);
+                    const glm::vec2 m = getMargin().getSize(style);
+                    out = _p->layout->getHeightForWidth(value - m.x) + m.y;
                 }
                 return out;
             }

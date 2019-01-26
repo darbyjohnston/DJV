@@ -172,6 +172,35 @@ namespace djv
                 return converter.to_bytes(value);
             }
 
+            std::string escape(const std::string & value)
+            {
+                std::string out;
+                for (const auto i : value)
+                {
+                    if ('\\' == i)
+                    {
+                        out.push_back('\\');
+                    }
+                    out.push_back(i);
+                }
+                return out;
+            }
+
+            std::string unescape(const std::string & value)
+            {
+                std::string out;
+                const size_t size = value.size();
+                for (size_t i = 0; i < size; ++i)
+                {
+                    if (i < size - 1 && '\\' == value[i] && '\\' == value[i + 1])
+                    {
+                        continue;
+                    }
+                    out.push_back(value[i]);
+                }
+                return out;
+            }
+
             const std::string & getAlphabetLower()
             {
                 static const std::string alphabet = "abcdefghijklmnopqrstuvwxyz";

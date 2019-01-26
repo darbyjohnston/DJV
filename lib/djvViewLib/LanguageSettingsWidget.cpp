@@ -30,9 +30,10 @@
 #include <djvViewLib/LanguageSettingsWidget.h>
 
 #include <djvUI/ButtonGroup.h>
-#include <djvUI/FlowLayout.h>
 #include <djvUI/FontSettings.h>
-#include <djvUI/RadioButton.h>
+#include <djvUI/ListButton.h>
+#include <djvUI/RowLayout.h>
+#include <djvUI/ScrollWidget.h>
 #include <djvUI/UISystem.h>
 
 #include <djvCore/Context.h>
@@ -46,13 +47,13 @@ namespace djv
     {
         struct LanguageSettingsWidget::Private
         {
-            std::vector<std::shared_ptr<UI::Button::Radio> > buttons;
+            std::vector<std::shared_ptr<UI::Button::List> > buttons;
             std::shared_ptr<UI::Button::Group> buttonGroup;
-            std::shared_ptr<UI::Layout::Flow> layout;
+            std::shared_ptr<UI::ScrollWidget> scrollWidget;
             std::map<int, std::string> indexToLocale;
             std::map<std::string, int> localeToIndex;
             std::map<std::string, std::string> localeFonts;
-            std::map<std::string, std::shared_ptr<UI::Button::Radio> > localeToButton;
+            std::map<std::string, std::shared_ptr<UI::Button::List> > localeToButton;
             std::shared_ptr<ValueObserver<std::string> > localeObserver;
             std::shared_ptr<MapObserver<std::string, std::string> > localeFontsObserver;
         };
@@ -64,22 +65,26 @@ namespace djv
             DJV_PRIVATE_PTR();
             p.buttonGroup = UI::Button::Group::create(UI::ButtonType::Radio);
 
-            p.layout = UI::Layout::Flow::create(context);
-            p.layout->setParent(shared_from_this());
+            auto layout = UI::Layout::Vertical::create(context);
+            layout->setSpacing(UI::Style::MetricsRole::None);
+
+            p.scrollWidget = UI::ScrollWidget::create(UI::ScrollType::Vertical, context);
+            p.scrollWidget->setBorder(false);
+            p.scrollWidget->addWidget(layout);
+            p.scrollWidget->setParent(shared_from_this());
 
             if (auto textSystem = context->getSystemT<TextSystem>().lock())
             {
                 int j = 0;
                 for (const auto & i : textSystem->getLocales())
                 {
-                    auto button = UI::Button::Radio::create(context);
+                    auto button = UI::Button::List::create(context);
                     button->setText(context->getText(i));
-                    button->setInsideMargin(UI::Style::MetricsRole::Margin);
                     p.buttonGroup->addButton(button);
-                    p.layout->addWidget(button);
                     p.indexToLocale[j] = i;
                     p.localeToIndex[i] = j;
                     p.localeToButton[i] = button;
+                    layout->addWidget(button);
                     ++j;
                 }
             }
@@ -117,7 +122,7 @@ namespace djv
                     }
                 });
             }
-            
+
             if (auto uiSystem = context->getSystemT<UI::UISystem>().lock())
             {
                 p.localeFontsObserver = MapObserver<std::string, std::string>::create(
@@ -146,24 +151,24 @@ namespace djv
 
         float LanguageSettingsWidget::getHeightForWidth(float value) const
         {
-            return _p->layout->getHeightForWidth(value);
+            return _p->scrollWidget->getHeightForWidth(value);
         }
 
         void LanguageSettingsWidget::_preLayoutEvent(Event::PreLayout &)
         {
-            _setMinimumSize(_p->layout->getMinimumSize());
+            _setMinimumSize(_p->scrollWidget->getMinimumSize());
         }
 
         void LanguageSettingsWidget::_layoutEvent(Event::Layout &)
         {
-            _p->layout->setGeometry(getGeometry());
+            _p->scrollWidget->setGeometry(getGeometry());
         }
 
         void LanguageSettingsWidget::_localeEvent(Event::Locale &)
         {
             _textUpdate();
         }
-        
+
         void LanguageSettingsWidget::_textUpdate()
         {
             auto context = getContext();
@@ -194,7 +199,7 @@ namespace djv
                 }
             }
         }
-        
+
     } // namespace ViewLib
 } // namespace djv
 

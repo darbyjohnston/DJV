@@ -65,6 +65,7 @@ namespace djv
             p.textBlock->setFontSizeRole(UI::Style::MetricsRole::FontSmall);
 
             auto scrollWidget = UI::ScrollWidget::create(UI::ScrollType::Vertical, context);
+            scrollWidget->setBorder(false);
             scrollWidget->addWidget(p.textBlock);
 
             //! \todo Implement me!
@@ -74,9 +75,12 @@ namespace djv
             p.clearButton = UI::Button::Push::create(context);
 
             auto layout = UI::Layout::Vertical::create(context);
-            layout->setMargin(UI::Style::MetricsRole::Margin);
+            layout->setSpacing(UI::Style::MetricsRole::None);
             layout->addWidget(scrollWidget, UI::Layout::RowStretch::Expand);
+            layout->addSeparator();
             auto hLayout = UI::Layout::Horizontal::create(context);
+            hLayout->setMargin(UI::Style::MetricsRole::MarginSmall);
+            hLayout->addExpander();
             hLayout->addWidget(p.copyButton);
             hLayout->addWidget(p.reloadButton);
             hLayout->addWidget(p.clearButton);

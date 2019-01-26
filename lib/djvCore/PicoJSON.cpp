@@ -30,6 +30,7 @@
 #include <djvCore/PicoJSON.h>
 
 #include <djvCore/FileIO.h>
+#include <djvCore/String.h>
 
 namespace djv
 {
@@ -131,7 +132,7 @@ namespace djv
 
     picojson::value toJSON(const std::string& value)
     {
-        return picojson::value(value);
+        return picojson::value(Core::String::escape(value));
     }
 
     picojson::value toJSON(const std::vector<std::string>& value)
@@ -182,7 +183,7 @@ namespace djv
     {
         if (value.is<std::string>())
         {
-            out = value.get<std::string>();
+            out = Core::String::unescape(value.get<std::string>());
         }
         else
         {

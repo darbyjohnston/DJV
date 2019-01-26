@@ -81,7 +81,6 @@ namespace djv
                 std::shared_ptr<ScrollWidget> scrollWidget;
                 std::shared_ptr<Layout::Vertical> layout;
                 std::function<void(const FileSystem::FileInfo &)> callback;
-
                 std::shared_ptr<ValueObserver<FileSystem::Path> > pathObserver;
                 std::shared_ptr<ListObserver<FileSystem::FileInfo> > fileInfoObserver;
                 std::shared_ptr<ValueObserver<bool> > hasUpObserver;
@@ -186,7 +185,6 @@ namespace djv
                 menuBar->addMenu(p.menus["Bookmarks"]);
 
                 auto pathWidget = PathWidget::create(context);
-                auto searchBox = SearchBox::create(context);
 
                 auto topToolBar = Toolbar::create(context);
                 topToolBar->addWidget(pathWidget, Layout::RowStretch::Expand);
@@ -194,18 +192,20 @@ namespace djv
                 topToolBar->addAction(p.actions["Forward"]);
                 topToolBar->addAction(p.actions["Up"]);
                 topToolBar->addAction(p.actions["EditPath"]);
-                topToolBar->addWidget(searchBox);
 
                 p.itemCountLabel = Label::create(context);
                 p.itemCountLabel->setMargin(Style::MetricsRole::MarginSmall);
+
+                auto searchBox = SearchBox::create(context);
                 
                 auto bottomToolBar = Toolbar::create(context);
+                bottomToolBar->addExpander();
+                bottomToolBar->addWidget(p.itemCountLabel);
                 bottomToolBar->addAction(p.actions["LargeThumbnails"]);
                 bottomToolBar->addAction(p.actions["SmallThumbnails"]);
                 bottomToolBar->addAction(p.actions["ListView"]);
                 bottomToolBar->addAction(p.actions["FileSequences"]);
-                bottomToolBar->addWidget(p.itemCountLabel);
-                bottomToolBar->addExpander();
+                bottomToolBar->addWidget(searchBox);
 
                 auto shortcutsWidget = ShorcutsWidget::create(context);
 
@@ -224,6 +224,7 @@ namespace djv
                 vLayout->addWidget(topToolBar);
                 vLayout->addSeparator();
                 auto hLayout = Layout::Horizontal::create(context);
+                hLayout->setSpacing(Style::MetricsRole::None);
                 hLayout->addSeparator();
                 hLayout->addWidget(p.scrollWidget, Layout::RowStretch::Expand);
                 vLayout->addWidget(hLayout, Layout::RowStretch::Expand);
@@ -271,9 +272,9 @@ namespace djv
                     {
                         const auto viewType = static_cast<ViewType>(value);
                         widget->setViewType(viewType);
-                        if (auto uiSettings = context->getSystemT<UISystem>().lock())
+                        if (auto uiSystem = context->getSystemT<UISystem>().lock())
                         {
-                            uiSettings->getFileBrowserSettings()->setViewType(viewType);
+                            uiSystem->getFileBrowserSettings()->setViewType(viewType);
                         }
                     }
                 });

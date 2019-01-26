@@ -47,7 +47,6 @@
 #include <djvUI/ScrollWidget.h>
 #include <djvUI/SoloLayout.h>
 #include <djvUI/StackLayout.h>
-#include <djvUI/TabBar.h>
 #include <djvUI/ToolButton.h>
 
 #include <djvCore/FileInfo.h>
@@ -63,7 +62,6 @@ namespace djv
         struct MainWindow::Private
         {
             std::shared_ptr<UI::MenuBar> menuBar;
-            std::shared_ptr<UI::TabBar> tabBar;
             std::shared_ptr<UI::MDI::Canvas> mdiCanvas;
             std::shared_ptr<UI::ScrollWidget> mdiScrollWidget;
             std::shared_ptr<MDIWidget> maximizedWidget;
@@ -97,11 +95,10 @@ namespace djv
                 }
             }
 
-            _p->tabBar = UI::TabBar::create(context);
-            _p->tabBar->setBackgroundRole(UI::Style::ColorRole::Overlay);
-
             _p->mdiCanvas = UI::MDI::Canvas::create(context);
+            _p->mdiCanvas->setBackgroundRole(UI::Style::ColorRole::Trough);
             _p->mdiScrollWidget = UI::ScrollWidget::create(UI::ScrollType::Both, context);
+            _p->mdiScrollWidget->setBorder(false);
             _p->mdiScrollWidget->addWidget(_p->mdiCanvas);
 
             _p->soloLayout = UI::Layout::Solo::create(context);
@@ -112,7 +109,6 @@ namespace djv
             _p->stackLayout = UI::Layout::Stack::create(context);
             _p->stackLayout->addWidget(_p->soloLayout);
             _p->stackLayout->addWidget(_p->toolCanvas);
-            addWidget(_p->stackLayout);
 
             for (auto i : viewSystems)
             {
@@ -140,7 +136,7 @@ namespace djv
                 }
             }
             _p->menuBar = UI::MenuBar::create(context);
-            _p->menuBar->setBackgroundRole(UI::Style::ColorRole::Overlay);
+            _p->menuBar->setBackgroundRole(UI::Style::ColorRole::Background);
             for (auto i : menus)
             {
                 _p->menuBar->addMenu(i.second);
@@ -153,18 +149,11 @@ namespace djv
             auto layout = UI::Layout::Vertical::create(context);
             layout->setSpacing(UI::Style::MetricsRole::None);
             layout->addWidget(_p->menuBar);
-            layout->addWidget(_p->tabBar);
+            layout->addSeparator();
+            layout->addWidget(_p->stackLayout, UI::Layout::RowStretch::Expand);
             addWidget(layout);
 
             auto weak = std::weak_ptr<MainWindow>(std::dynamic_pointer_cast<MainWindow>(shared_from_this()));
-            _p->tabBar->setCurrentTabCallback(
-                [weak](int value)
-            {
-                if (auto mainWindow = weak.lock())
-                {
-                }
-            });
-
             _p->mdiCanvas->setActiveCallback(
                 [weak, context](const std::shared_ptr<UI::Widget> & value)
             {

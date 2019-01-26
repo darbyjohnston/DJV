@@ -51,7 +51,6 @@ namespace djv
             float getHeightForWidth(float) const override;
 
         protected:
-            void _styleEvent(Core::Event::Style &) override;
             void _preLayoutEvent(Core::Event::PreLayout &) override;
             void _layoutEvent(Core::Event::Layout &) override;
 

@@ -85,10 +85,10 @@ namespace djv
             textLayout->addWidget(p.textBlocks["Trademarks"]);
 
             auto scrollWidget = UI::ScrollWidget::create(UI::ScrollType::Vertical, context);
+            scrollWidget->setBorder(false);
             scrollWidget->addWidget(textLayout);
 
             auto layout = UI::Layout::Vertical::create(context);
-            layout->setMargin(UI::Style::MetricsRole::Margin);
             layout->addWidget(scrollWidget, UI::Layout::RowStretch::Expand);
 
             addWidget(layout, UI::Layout::RowStretch::Expand);

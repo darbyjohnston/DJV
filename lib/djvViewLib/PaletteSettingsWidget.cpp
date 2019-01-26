@@ -30,8 +30,9 @@
 #include <djvViewLib/PaletteSettingsWidget.h>
 
 #include <djvUI/ButtonGroup.h>
-#include <djvUI/FlowLayout.h>
-#include <djvUI/RadioButton.h>
+#include <djvUI/ListButton.h>
+#include <djvUI/RowLayout.h>
+#include <djvUI/ScrollWidget.h>
 #include <djvUI/StyleSettings.h>
 #include <djvUI/UISystem.h>
 
@@ -46,12 +47,11 @@ namespace djv
     {
         struct PaletteSettingsWidget::Private
         {
-            std::vector<std::shared_ptr<UI::Style::Style> > customStyles;
-            std::vector<std::shared_ptr<UI::Button::Radio> > buttons;
+            std::vector<std::shared_ptr<UI::Button::List> > buttons;
             std::shared_ptr<UI::Button::Group> buttonGroup;
-            std::shared_ptr<UI::Layout::Flow> layout;
+            std::shared_ptr<UI::ScrollWidget> scrollWidget;
             std::map<int, std::string> indexToPalette;
-            std::map<std::shared_ptr<UI::Button::Radio>, std::string> buttonToPalette;
+            std::map<std::shared_ptr<UI::Button::List>, std::string> buttonToPalette;
             std::map<std::string, int> paletteToIndex;
             std::shared_ptr<MapObserver<std::string, UI::Style::Palette> > palettesObserver;
             std::shared_ptr<ValueObserver<std::string> > currentPaletteObserver;
@@ -62,10 +62,15 @@ namespace djv
             Widget::_init(context);
 
             DJV_PRIVATE_PTR();
-            p.buttonGroup = UI::Button::Group::create(UI::ButtonType::Radio);                    
+            p.buttonGroup = UI::Button::Group::create(UI::ButtonType::Radio);
 
-            p.layout = UI::Layout::Flow::create(context);
-            p.layout->setParent(shared_from_this());
+            auto layout = UI::Layout::Vertical::create(context);
+            layout->setSpacing(UI::Style::MetricsRole::None);
+
+            p.scrollWidget = UI::ScrollWidget::create(UI::ScrollType::Vertical, context);
+            p.scrollWidget->setBorder(false);
+            p.scrollWidget->addWidget(layout);
+            p.scrollWidget->setParent(shared_from_this());
 
             auto weak = std::weak_ptr<PaletteSettingsWidget>(std::dynamic_pointer_cast<PaletteSettingsWidget>(shared_from_this()));
             p.buttonGroup->setRadioCallback(
@@ -89,7 +94,7 @@ namespace djv
                 const int dpi = uiSystem->getDPI();
                 p.palettesObserver = MapObserver<std::string, UI::Style::Palette>::create(
                     uiSystem->getStyleSettings()->observePalettes(),
-                    [weak, dpi, context](const std::map<std::string, UI::Style::Palette > & value)
+                    [weak, layout, dpi, context](const std::map<std::string, UI::Style::Palette > & value)
                 {
                     if (auto widget = weak.lock())
                     {
@@ -100,26 +105,20 @@ namespace djv
                         }
                         widget->_p->buttons.clear();
                         widget->_p->buttonGroup->clearButtons();
-                        widget->_p->layout->clearWidgets();
                         widget->_p->indexToPalette.clear();
                         widget->_p->buttonToPalette.clear();
                         widget->_p->paletteToIndex.clear();
+                        layout->clearWidgets();
                         int j = 0;
                         for (const auto & i : value)
                         {
-                            auto customStyle = UI::Style::Style::create(dpi, context);
-                            customStyle->setPalette(i.second);
-                            widget->_p->customStyles.push_back(customStyle);
-                            auto button = UI::Button::Radio::create(context);
-                            button->setBackgroundRole(UI::Style::ColorRole::Background);
-                            button->setInsideMargin(UI::Style::MetricsRole::Margin);
-                            button->setStyle(customStyle);
+                            auto button = UI::Button::List::create(context);
                             widget->_p->buttons.push_back(button);
                             widget->_p->buttonGroup->addButton(button);
-                            widget->_p->layout->addWidget(button);
                             widget->_p->indexToPalette[j] = i.first;
                             widget->_p->buttonToPalette[button] = i.first;
                             widget->_p->paletteToIndex[i.first] = j;
+                            layout->addWidget(button);
                             ++j;
                         }
                         widget->_p->buttonGroup->setChecked(currentItem);
@@ -155,29 +154,17 @@ namespace djv
 
         float PaletteSettingsWidget::getHeightForWidth(float value) const
         {
-            return _p->layout->getHeightForWidth(value);
-        }
-
-        void PaletteSettingsWidget::_styleEvent(Event::Style &)
-        {
-            if (auto style = _getStyle().lock())
-            {
-                for (auto i : _p->customStyles)
-                {
-                    i->setMetrics(style->getMetrics());
-                    i->setFont(style->getFont());
-                }
-            }
+            return _p->scrollWidget->getHeightForWidth(value);
         }
 
         void PaletteSettingsWidget::_preLayoutEvent(Event::PreLayout &)
         {
-            _setMinimumSize(_p->layout->getMinimumSize());
+            _setMinimumSize(_p->scrollWidget->getMinimumSize());
         }
 
         void PaletteSettingsWidget::_layoutEvent(Event::Layout &)
         {
-            _p->layout->setGeometry(getGeometry());
+            _p->scrollWidget->setGeometry(getGeometry());
         }
 
         void PaletteSettingsWidget::_localeEvent(Event::Locale &)

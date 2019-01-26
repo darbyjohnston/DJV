@@ -33,6 +33,8 @@
 #include <djvUI/Label.h>
 #include <djvUI/RowLayout.h>
 
+#include <djvAV/Render2D.h>
+
 //#pragma optimize("", off)
 
 using namespace djv::Core;
@@ -43,9 +45,90 @@ namespace djv
     {
         namespace Button
         {
+            namespace
+            {
+                class CheckWidget : public Widget
+                {
+                    DJV_NON_COPYABLE(CheckWidget);
+
+                protected:
+                    CheckWidget();
+
+                public:
+                    static std::shared_ptr<CheckWidget> create(Context *);
+
+                    void setButtonType(ButtonType);
+                    void setChecked(bool);
+
+                protected:
+                    void _preLayoutEvent(Event::PreLayout &) override;
+                    void _paintEvent(Event::Paint &) override;
+
+                private:
+                    ButtonType _buttonType = ButtonType::First;
+                    bool _checked = false;
+                };
+
+                CheckWidget::CheckWidget()
+                {}
+
+                std::shared_ptr<CheckWidget> CheckWidget::create(Context * context)
+                {
+                    auto out = std::shared_ptr<CheckWidget>(new CheckWidget);
+                    out->_init(context);
+                    return out;
+                }
+
+                void CheckWidget::setButtonType(ButtonType value)
+                {
+                    if (value == _buttonType)
+                        return;
+                    _buttonType = value;
+                    _redraw();
+                }
+
+                void CheckWidget::setChecked(bool value)
+                {
+                    if (value == _checked)
+                        return;
+                    _checked = value;
+                    _redraw();
+                }
+
+                void CheckWidget::_preLayoutEvent(Event::PreLayout &)
+                {
+                    if (auto style = _getStyle().lock())
+                    {
+                        const float iconSize = style->getMetric(Style::MetricsRole::Icon);
+                        _setMinimumSize(glm::vec2(iconSize, iconSize));
+                    }
+                }
+
+                void CheckWidget::_paintEvent(Event::Paint & event)
+                {
+                    Widget::_paintEvent(event);
+                    if (auto render = _getRender().lock())
+                    {
+                        if (auto style = _getStyle().lock())
+                        {
+                            const BBox2f & g = getGeometry();
+                            const float m = style->getMetric(Style::MetricsRole::MarginSmall);
+
+                            if (_checked)
+                            {
+                                render->setFillColor(_getColorWithOpacity(style->getColor(Style::ColorRole::Foreground)));
+                                render->drawCircle(g.getCenter(), m, 16);
+                            }
+                        }
+                    }
+                }
+
+            } // namespace
+
             struct List::Private
             {
                 std::shared_ptr<Icon> icon;
+                std::shared_ptr<CheckWidget> checkWidget;
                 std::shared_ptr<Label> label;
                 std::shared_ptr<Layout::Horizontal> layout;
             };
@@ -59,16 +142,20 @@ namespace djv
                 DJV_PRIVATE_PTR();
                 p.icon = Icon::create(context);
                 p.icon->setVAlign(VAlign::Center);
-                p.icon->hide();
+
+                p.checkWidget = CheckWidget::create(context);
 
                 p.label = Label::create(context);
-                p.label->hide();
+                p.label->setTextHAlign(TextHAlign::Left);
 
                 p.layout = Layout::Horizontal::create(context);
                 p.layout->setMargin(Layout::Margin(Style::MetricsRole::Margin, Style::MetricsRole::Margin, Style::MetricsRole::MarginSmall, Style::MetricsRole::MarginSmall));
                 p.layout->addWidget(p.icon);
+                p.layout->addWidget(p.checkWidget);
                 p.layout->addWidget(p.label, Layout::RowStretch::Expand);
                 p.layout->setParent(shared_from_this());
+
+                _widgetUpdate();
             }
 
             List::List() :
@@ -111,7 +198,7 @@ namespace djv
             {
                 DJV_PRIVATE_PTR();
                 p.icon->setIcon(value);
-                p.icon->setVisible(!value.empty());
+                _widgetUpdate();
             }
 
             const std::string& List::getText() const
@@ -123,7 +210,7 @@ namespace djv
             {
                 DJV_PRIVATE_PTR();
                 p.label->setText(value);
-                p.label->setVisible(!value.empty());
+                _widgetUpdate();
             }
 
             TextHAlign List::getTextHAlign() const
@@ -156,6 +243,11 @@ namespace djv
                 _p->label->setTextColorRole(value);
             }
 
+            const std::string & List::getFont() const
+            {
+                return _p->label->getFont();
+            }
+
             const std::string & List::getFontFace() const
             {
                 return _p->label->getFontFace();
@@ -164,6 +256,11 @@ namespace djv
             Style::MetricsRole List::getFontSizeRole() const
             {
                 return _p->label->getFontSizeRole();
+            }
+
+            void List::setFont(const std::string & value)
+            {
+                _p->label->setFont(value);
             }
 
             void List::setFontFace(const std::string & value)
@@ -186,9 +283,16 @@ namespace djv
                 _p->layout->setMargin(value);
             }
 
-            float List::getHeightForWidth(float value) const
+            void List::setButtonType(ButtonType value)
             {
-                return _p->layout->getHeightForWidth(value);
+                IButton::setButtonType(value);
+                _widgetUpdate();
+            }
+
+            void List::setChecked(bool value)
+            {
+                IButton::setChecked(value);
+                _p->checkWidget->setChecked(value);
             }
 
             void List::_preLayoutEvent(Event::PreLayout& event)
@@ -201,10 +305,24 @@ namespace djv
                 _p->layout->setGeometry(getGeometry());
             }
 
-            void List::_updateEvent(Event::Update& event)
+            void List::_widgetUpdate()
             {
-                IButton::_updateEvent(event);
-                _p->label->setTextColorRole(_getForegroundColorRole());
+                bool iconVisible = !_p->icon->getIcon().empty();
+                _p->icon->setVisible(iconVisible);
+                switch (getButtonType())
+                {
+                case ButtonType::Toggle:
+                case ButtonType::Radio:
+                    if (!iconVisible)
+                    {
+                        _p->checkWidget->show();
+                    }
+                    break;
+                default:
+                    _p->checkWidget->hide();
+                    break;
+                }
+                _p->label->setVisible(!_p->label->getText().empty());
             }
 
         } // namespace Button

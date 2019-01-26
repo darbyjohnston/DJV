@@ -43,22 +43,26 @@ namespace djv
                 Style::ColorRole getTextColorRole() const;
                 void setTextColorRole(Style::ColorRole);
 
+                const std::string & getFont() const;
                 const std::string & getFontFace() const;
                 Style::MetricsRole getFontSizeRole() const;
+                void setFont(const std::string &);
                 void setFontFace(const std::string &);
                 void setFontSizeRole(Style::MetricsRole);
 
                 const Layout::Margin& getInsideMargin() const;
                 void setInsideMargin(const Layout::Margin&);
 
-                float getHeightForWidth(float) const override;
+                void setButtonType(ButtonType) override;
+                void setChecked(bool) override;
 
             protected:
-                void _updateEvent(Core::Event::Update&) override;
                 void _preLayoutEvent(Core::Event::PreLayout&) override;
                 void _layoutEvent(Core::Event::Layout&) override;
 
             private:
+                void _widgetUpdate();
+
                 struct Private;
                 std::unique_ptr<Private> _p;
             };

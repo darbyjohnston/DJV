@@ -60,13 +60,10 @@ namespace djv
             void setPlayback(Playback);
 
             std::shared_ptr<UI::Widget> getMoveHandle() override;
-            std::shared_ptr<UI::Widget> getResizeHandle() override;
 
         protected:
             void _preLayoutEvent(Core::Event::PreLayout&) override;
             void _layoutEvent(Core::Event::Layout&) override;
-
-            void _localeEvent(Core::Event::Locale &) override;
 
         private:
             DJV_PRIVATE();

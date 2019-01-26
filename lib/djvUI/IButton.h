@@ -26,10 +26,10 @@ namespace djv
                 virtual ~IButton() = 0;
 
                 ButtonType getButtonType() const;
-                void setButtonType(ButtonType);
+                virtual void setButtonType(ButtonType);
 
                 bool isChecked() const;
-                void setChecked(bool);
+                virtual void setChecked(bool);
 
                 Style::ColorRole getForegroundColorRole() const;
                 Style::ColorRole getHoveredColorRole() const;

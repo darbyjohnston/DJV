@@ -117,7 +117,7 @@ namespace djv
                                 const float b = style->getMetric(Style::MetricsRole::Border);
                                 const auto & labelSize = _label->getMinimumSize();
                                 render->setFillColor(_getColorWithOpacity(style->getColor(Style::ColorRole::HeaderBackground)));
-                                render->drawRoundedRect(BBox2f(g.min.x, g.min.y, labelSize.x + ml * 2.f, labelSize.y + ms * 2.f), ms, AV::Side::Top);
+                                render->drawRect(BBox2f(g.min.x, g.min.y, labelSize.x + ml * 2.f, labelSize.y + ms * 2.f));
                                 render->drawRect(BBox2f(g.min.x, g.max.y - b * 2.f, g.w(), b * 2.f));
                             }
                         }

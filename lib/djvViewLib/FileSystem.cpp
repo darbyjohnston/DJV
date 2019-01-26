@@ -55,13 +55,13 @@ namespace djv
     {
         struct FileSystem::Private
         {
+            std::shared_ptr<FileSystemSettings> settings;
             std::shared_ptr<ValueSubject<std::pair<std::shared_ptr<Media>, glm::vec2> > > opened;
             std::shared_ptr<ValueSubject<bool> > close;
             std::shared_ptr<Core::FileSystem::RecentFilesModel> recentFilesModel;
             std::shared_ptr<FileRecentDialog> recentFilesDialog;
             std::map<std::string, std::shared_ptr<UI::Action> > actions;
             std::map<std::string, std::shared_ptr<UI::Menu> > menus;
-            std::shared_ptr<FileSystemSettings> settings;
             std::shared_ptr<ListObserver<Core::FileSystem::FileInfo> > recentFilesObserver;
             std::shared_ptr<ListObserver<Core::FileSystem::FileInfo> > recentFilesObserver2;
             std::map<std::string, std::shared_ptr<ValueObserver<bool> > > clickedObservers;
@@ -72,6 +72,8 @@ namespace djv
             IViewSystem::_init("djv::ViewLib::FileSystem", context);
 
             DJV_PRIVATE_PTR();
+            p.settings = FileSystemSettings::create(context);
+
             p.opened = ValueSubject<std::pair<std::shared_ptr<Media>, glm::vec2> >::create();
             p.close = ValueSubject<bool>::create();
             p.recentFilesModel = Core::FileSystem::RecentFilesModel::create(context);
@@ -133,8 +135,6 @@ namespace djv
 
             p.actions["Exit"] = UI::Action::create();
             p.actions["Exit"]->setShortcut(GLFW_KEY_Q, GLFW_MOD_CONTROL);
-
-            p.settings = FileSystemSettings::create(context);
 
             auto weak = std::weak_ptr<FileSystem>(std::dynamic_pointer_cast<FileSystem>(shared_from_this()));
             p.recentFilesObserver = ListObserver<Core::FileSystem::FileInfo>::create(
@@ -292,6 +292,11 @@ namespace djv
                     p.recentFilesDialog->show();
                 }
             }
+        }
+
+        const std::shared_ptr<FileSystemSettings> & FileSystem::getSettings() const
+        {
+            return _p->settings;
         }
 
         std::map<std::string, std::shared_ptr<UI::Action> > FileSystem::getActions()

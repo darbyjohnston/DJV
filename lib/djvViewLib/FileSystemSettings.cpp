@@ -29,6 +29,8 @@
 
 #include <djvViewLib/FileSystemSettings.h>
 
+#include <djvUI/EnumJSON.h>
+
 #include <djvCore/Context.h>
 #include <djvCore/FileInfo.h>
 
@@ -41,6 +43,7 @@ namespace djv
         struct FileSystemSettings::Private
         {
             std::shared_ptr<ListSubject<Core::FileSystem::FileInfo> > recentFiles;
+            std::shared_ptr<ValueSubject<UI::ViewType> > recentViewType;
         };
 
         void FileSystemSettings::_init(Context * context)
@@ -49,6 +52,7 @@ namespace djv
 
             DJV_PRIVATE_PTR();
             p.recentFiles = ListSubject<Core::FileSystem::FileInfo>::create();
+            p.recentViewType = ValueSubject<UI::ViewType>::create();
             _load();
         }
 
@@ -77,6 +81,17 @@ namespace djv
             p.recentFiles->setIfChanged(value);
         }
 
+        std::shared_ptr<IValueSubject<UI::ViewType> > FileSystemSettings::observeRecentViewType() const
+        {
+            return _p->recentViewType;
+        }
+
+        void FileSystemSettings::setRecentViewType(UI::ViewType value)
+        {
+            DJV_PRIVATE_PTR();
+            p.recentViewType->setIfChanged(value);
+        }
+
         void FileSystemSettings::load(const picojson::value& value)
         {
             if (value.is<picojson::object>())
@@ -91,6 +106,7 @@ namespace djv
                     fileInfoList.push_back(i);
                 }
                 p.recentFiles->setIfChanged(fileInfoList);
+                _read("RecentViewType", object, p.recentViewType);
             }
         }
 
@@ -105,6 +121,7 @@ namespace djv
                 tmp.push_back(i);
             }
             _write("RecentFiles", tmp, object);
+            _write("RecentViewType", p.recentViewType->get(), object);
             return out;
         }
 

@@ -29,41 +29,31 @@
 
 #pragma once
 
-#include <djvUI/Enum.h>
-#include <djvUI/IDialog.h>
+#include <djvViewLib/ViewLib.h>
+
+#include <djvUI/Widget.h>
 
 namespace djv
 {
-    namespace Core
-    {
-        namespace FileSystem
-        {
-            class FileInfo;
-
-        } // namespace FileSystem
-    } // namespace Core
-
     namespace ViewLib
     {
-        class FileRecentDialog : public UI::IDialog
+        class GeneralSettingsWidget : public UI::Widget
         {
-            DJV_NON_COPYABLE(FileRecentDialog);
+            DJV_NON_COPYABLE(GeneralSettingsWidget);
 
         protected:
             void _init(Core::Context *);
-            FileRecentDialog();
+            GeneralSettingsWidget();
 
         public:
-            ~FileRecentDialog() override;
+            static std::shared_ptr<GeneralSettingsWidget> create(Core::Context *);
 
-            static std::shared_ptr<FileRecentDialog> create(Core::Context *);
-
-            void setRecentFiles(const std::vector<Core::FileSystem::FileInfo> &);
-            void setViewType(UI::ViewType);
-
-            void setCallback(const std::function<void(const Core::FileSystem::FileInfo &)> &);
+            float getHeightForWidth(float) const override;
 
         protected:
+            void _preLayoutEvent(Core::Event::PreLayout &) override;
+            void _layoutEvent(Core::Event::Layout &) override;
+
             void _localeEvent(Core::Event::Locale &) override;
 
         private:

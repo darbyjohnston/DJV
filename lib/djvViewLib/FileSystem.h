@@ -37,6 +37,8 @@ namespace djv
 {
     namespace ViewLib
     {
+        class FileSystemSettings;
+
         class FileSystem : public IViewSystem
         {
             DJV_NON_COPYABLE(FileSystem);
@@ -54,6 +56,8 @@ namespace djv
             std::shared_ptr<Core::IValueSubject<bool> > observeClose() const;
             void open(const std::string &, const glm::vec2 & = glm::vec2(-1.f, -1.f));
             void showRecentFiles();
+
+            const std::shared_ptr<FileSystemSettings> & getSettings() const;
 
             std::map<std::string, std::shared_ptr<UI::Action> > getActions() override;
             NewMenu createMenu() override;

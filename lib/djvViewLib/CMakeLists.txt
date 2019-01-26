@@ -10,6 +10,7 @@ set(header
     FileRecentDialog.h
     FileSystem.h
     FileSystemSettings.h
+    GeneralSettingsWidget.h
     HelpAboutDialog.h
     HelpDebugLogDialog.h
     HelpSystem.h
@@ -46,6 +47,7 @@ set(source
     FileRecentDialog.cpp
     FileSystem.cpp
     FileSystemSettings.cpp
+    GeneralSettingsWidget.cpp
     HelpAboutDialog.cpp
     HelpDebugLogDialog.cpp
     HelpSystem.cpp

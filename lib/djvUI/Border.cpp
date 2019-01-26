@@ -131,7 +131,9 @@ namespace djv
                 if (auto style = _getStyle().lock())
                 {
                     DJV_PRIVATE_PTR();
-                    out = p.layout->getHeightForWidth(value - style->getMetric(p.borderSize) * 2.f - getMargin().getWidth(style)) +
+                    const float b = style->getMetric(Style::MetricsRole::Border);
+                    out = p.layout->getHeightForWidth(value - b * 2.f - getMargin().getWidth(style)) +
+                        b * 2.f +
                         getMargin().getHeight(style);
                 }
                 return out;
