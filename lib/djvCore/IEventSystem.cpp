@@ -159,7 +159,7 @@ namespace djv
                             }
                         }
 
-                        // If none of the parents wanted the event see if the original
+                        // If none of the parents wanted the event, see if the original
                         // object wants it back.
                         if (!moveEvent.isAccepted())
                         {
