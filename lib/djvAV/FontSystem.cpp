@@ -166,8 +166,8 @@ namespace djv
             {}
 
             GlyphInfo::GlyphInfo(uint32_t code, const Info & info) :
-                _code(code),
-                _info(info)
+                code(code),
+                info(info)
             {
                 //! \todo This is probably not a good idea.
                 static std::map<size_t, UID> map;
@@ -180,12 +180,12 @@ namespace djv
                 const auto i = map.find(hash);
                 if (i != map.end())
                 {
-                    _uid = i->second;
+                    uid = i->second;
                 }
                 else
                 {
-                    _uid = createUID();
-                    map[hash] = _uid;
+                    uid = createUID();
+                    map[hash] = uid;
                 }
             }
 
@@ -193,12 +193,16 @@ namespace djv
                 const GlyphInfo & info,
                 const std::shared_ptr<Image::Data> & imageData,
                 const glm::vec2 & offset,
-                float advance)
+                float advance,
+                int32_t lsbDelta,
+                int32_t rsbDelta)
             {
-                _info = info;
-                _imageData = imageData;
-                _offset = offset;
-                _advance = advance;
+                this->info      = info;
+                this->imageData = imageData;
+                this->offset    = offset;
+                this->advance   = advance;
+                this->lsbDelta  = lsbDelta;
+                this->rsbDelta  = rsbDelta;
             }
 
             Glyph::Glyph()
@@ -208,10 +212,12 @@ namespace djv
                 const GlyphInfo & info,
                 const std::shared_ptr<Image::Data> & imageData,
                 const glm::vec2 & offset,
-                float advance)
+                float advance,
+                int32_t lsbDelta,
+                int32_t rsbDelta)
             {
                 auto out = std::shared_ptr<Glyph>(new Glyph);
-                out->_init(info, imageData, offset, advance);
+                out->_init(info, imageData, offset, advance, lsbDelta, rsbDelta);
                 return out;
             }
 
@@ -236,9 +242,7 @@ namespace djv
 
                 std::wstring_convert<std::codecvt_utf8<djv_char_t>, djv_char_t> utf32;
                 //! \todo [1.0 S] The Cache class provides an upper limit but using a map is much faster.
-                //Cache<UID, glm::vec2> measureCache;
                 //Cache<UID, std::shared_ptr<Glyph> > glyphCache;
-                std::map<UID, glm::vec2> measureCache;
                 std::map<UID, std::shared_ptr<Glyph> > glyphCache;
                 std::mutex cacheMutex;
 
@@ -246,7 +250,7 @@ namespace djv
                 std::thread thread;
                 std::atomic<bool> running;
 
-                std::vector<glm::vec2> getGlyphSizes(const std::basic_string<djv_char_t> &, const Info &, const FT_Face &);
+                std::shared_ptr<Glyph> getGlyph(const GlyphInfo &);
             };
 
             void System::_init(Context * context)
@@ -267,9 +271,7 @@ namespace djv
                     DJV_PRIVATE_PTR();
                     std::lock_guard<std::mutex> lock(p.cacheMutex);
                     std::stringstream s;
-                    //s << "Measure cache: " << p.measureCache.getPercentageUsed() << "%\n";
                     //s << "Glyph cache: " << p.glyphCache.getPercentageUsed() << "%";
-                    s << "Measure cache: " << p.measureCache.size() << "\n";
                     s << "Glyph cache: " << p.glyphCache.size();
                     _log(s.str());
                 });
@@ -540,36 +542,38 @@ namespace djv
                         const auto font = family->second.find(request.info.face);
                         if (font != family->second.end())
                         {
-                            /*FT_Error ftError = FT_Set_Char_Size(
-                                font->second,
-                                0,
-                                static_cast<int>(request.info.size * 64.f),
-                                request.info.dpi,
-                                request.info.dpi);*/
-                            FT_Error ftError = FT_Set_Pixel_Sizes(
-                                font->second,
-                                0,
-                                static_cast<int>(request.info.size));
-                            if (ftError)
-                            {
-                                continue;
-                            }
                             const std::basic_string<djv_char_t> utf32 = p.utf32.from_bytes(request.text);
                             const auto utf32Begin = utf32.begin();
                             glm::vec2 pos(0.f, font->second->size->metrics.height / 64.f);
                             auto textLine = utf32.end();
                             float textLineX = 0.f;
-                            const auto glyphSizes = p.getGlyphSizes(utf32, request.info, font->second);
+                            int32_t rsbDeltaPrev = 0;
                             for (auto i = utf32.begin(); i != utf32.end(); ++i)
                             {
-                                const auto & glyphSize = glyphSizes[i - utf32Begin];
+                                const auto info = GlyphInfo(*i, request.info);
+                                float x = 0.f;
+                                if (const auto glyph = p.getGlyph(info))
+                                {
+                                    x = glyph->advance;
+                                    if (rsbDeltaPrev - glyph->lsbDelta > 32)
+                                    {
+                                        x -= 1.f;
+                                    }
+                                    else if (rsbDeltaPrev - glyph->lsbDelta < -31)
+                                    {
+                                        x += 1.f;
+                                    }
+                                    rsbDeltaPrev = glyph->rsbDelta;
+                                }
+
                                 if (isNewline(*i))
                                 {
                                     size.x = std::max(size.x, pos.x);
                                     pos.x = 0.f;
                                     pos.y += font->second->size->metrics.height / 64.f;
+                                    rsbDeltaPrev = 0;
                                 }
-                                else if (pos.x > 0.f && pos.x + (!isSpace(*i) ? glyphSize.x : 0) >= request.maxLineWidth)
+                                else if (pos.x > 0.f && pos.x + (!isSpace(*i) ? x : 0.f) >= request.maxLineWidth)
                                 {
                                     if (textLine != utf32.end())
                                     {
@@ -582,9 +586,10 @@ namespace djv
                                     else
                                     {
                                         size.x = std::max(size.x, pos.x);
-                                        pos.x = glyphSize.x;
+                                        pos.x = x;
                                         pos.y += font->second->size->metrics.height / 64.f;
                                     }
+                                    rsbDeltaPrev = 0;
                                 }
                                 else
                                 {
@@ -593,7 +598,7 @@ namespace djv
                                         textLine = i;
                                         textLineX = pos.x;
                                     }
-                                    pos.x += glyphSize.x;
+                                    pos.x += x;
                                 }
                             }
                             size.x = std::max(size.x, pos.x);
@@ -617,32 +622,32 @@ namespace djv
                         const auto font = family->second.find(request.info.face);
                         if (font != family->second.end())
                         {
-                            /*FT_Error ftError = FT_Set_Char_Size(
-                                font->second,
-                                0,
-                                static_cast<int>(request.info.size * 64.f),
-                                request.info.dpi,
-                                request.info.dpi);*/
-                            FT_Error ftError = FT_Set_Pixel_Sizes(
-                                font->second,
-                                0,
-                                static_cast<int>(request.info.size));
-
-                            if (ftError)
-                            {
-                                continue;
-                            }
                             const std::basic_string<djv_char_t> utf32 = p.utf32.from_bytes(request.text);
                             const auto utf32Begin = utf32.begin();
                             glm::vec2 pos = glm::vec2(0.f, font->second->size->metrics.height / 64.f);
                             auto lineBegin = utf32Begin;
                             auto textLine = utf32.end();
                             float textLineX = 0.f;
-                            const auto glyphSizes = p.getGlyphSizes(utf32, request.info, font->second);
+                            int32_t rsbDeltaPrev = 0;
                             auto i = utf32.begin();
                             for (; i != utf32.end(); ++i)
                             {
-                                const auto & glyphSize = glyphSizes[i - utf32Begin];
+                                const auto info = GlyphInfo(*i, request.info);
+                                float x = 0.f;
+                                if (const auto glyph = p.getGlyph(info))
+                                {
+                                    x = glyph->advance;
+                                    if (rsbDeltaPrev - glyph->lsbDelta > 32)
+                                    {
+                                        x -= 1.f;
+                                    }
+                                    else if (rsbDeltaPrev - glyph->lsbDelta < -31)
+                                    {
+                                        x += 1.f;
+                                    }
+                                    rsbDeltaPrev = glyph->rsbDelta;
+                                }
+
                                 if (isNewline(*i))
                                 {
                                     lines.push_back(TextLine(
@@ -651,8 +656,9 @@ namespace djv
                                     pos.x = 0.f;
                                     pos.y += font->second->size->metrics.height / 64.f;
                                     lineBegin = i;
+                                    rsbDeltaPrev = 0;
                                 }
-                                else if (pos.x > 0.f && pos.x + (!isSpace(*i) ? glyphSize.x : 0) >= request.maxLineWidth)
+                                else if (pos.x > 0.f && pos.x + (!isSpace(*i) ? x : 0) >= request.maxLineWidth)
                                 {
                                     if (textLine != utf32.end())
                                     {
@@ -670,10 +676,11 @@ namespace djv
                                         lines.push_back(TextLine(
                                             p.utf32.to_bytes(utf32.substr(lineBegin - utf32.begin(), i - lineBegin)),
                                             glm::vec2(pos.x, font->second->size->metrics.height / 64.f)));
-                                        pos.x = glyphSize.x;
+                                        pos.x = x;
                                         pos.y += font->second->size->metrics.height / 64.f;
                                         lineBegin = i;
                                     }
+                                    rsbDeltaPrev = 0;
                                 }
                                 else
                                 {
@@ -682,7 +689,7 @@ namespace djv
                                         textLine = i;
                                         textLineX = pos.x;
                                     }
-                                    pos.x += glyphSize.x;
+                                    pos.x += x;
                                 }
                             }
                             if (i != lineBegin)
@@ -710,102 +717,11 @@ namespace djv
                         const auto font = family->second.find(request.info.face);
                         if (font != family->second.end())
                         {
-                            /*FT_Error ftError = FT_Set_Char_Size(
-                                font->second,
-                                0,
-                                static_cast<int>(request.info.size * 64.f),
-                                request.info.dpi,
-                                request.info.dpi);*/
-                            FT_Error ftError = FT_Set_Pixel_Sizes(
-                                font->second,
-                                0,
-                                static_cast<int>(request.info.size));
-                            if (ftError)
-                            {
-                                //std::cout << "FT_Set_Char_Size error: " << getFTError(ftError) << std::endl;
-                                continue;
-                            }
                             const std::basic_string<djv_char_t> utf32 = p.utf32.from_bytes(request.text);
                             glyphs.reserve(utf32.size());
                             for (const auto& c : utf32)
                             {
-                                std::shared_ptr<Glyph> glyph;
-                                const auto uid = GlyphInfo(c, request.info).getUID();
-                                bool inCache = false;
-                                {
-                                    std::lock_guard<std::mutex> lock(p.cacheMutex);
-                                    /*if (p.glyphCache.contains(uid))
-                                    {
-                                        inCache = true;
-                                        glyph = p.glyphCache.get(uid);
-                                    }*/
-                                    const auto i = p.glyphCache.find(uid);
-                                    if (i != p.glyphCache.end())
-                                    {
-                                        inCache = true;
-                                        glyph = i->second;
-                                    }
-                                }
-                                if (!inCache)
-                                {
-                                    if (auto ftGlyphIndex = FT_Get_Char_Index(font->second, c))
-                                    {
-                                        ftError = FT_Load_Glyph(font->second, ftGlyphIndex, FT_LOAD_DEFAULT);
-                                        if (ftError)
-                                        {
-                                            //std::cout << "FT_Load_Glyph error: " << getFTError(ftError) << std::endl;
-                                            continue;
-                                        }
-                                        ftError = FT_Render_Glyph(font->second->glyph, FT_RENDER_MODE_NORMAL);
-                                        if (ftError)
-                                        {
-                                            //std::cout << "FT_Render_Glyph error: " << getFTError(ftError) << std::endl;
-                                            continue;
-                                        }
-                                        FT_Glyph ftGlyph;
-                                        ftError = FT_Get_Glyph(font->second->glyph, &ftGlyph);
-                                        if (ftError)
-                                        {
-                                            //std::cout << "FT_Get_Glyph error: " << getFTError(ftError) << std::endl;
-                                            continue;
-                                        }
-                                        FT_Vector v;
-                                        v.x = 0;
-                                        v.y = 0;
-                                        ftError = FT_Glyph_To_Bitmap(&ftGlyph, FT_RENDER_MODE_NORMAL, &v, 0);
-                                        if (ftError)
-                                        {
-                                            //std::cout << "FT_Glyph_To_Bitmap error: " << getFTError(ftError) << std::endl;
-                                            FT_Done_Glyph(ftGlyph);
-                                            continue;
-                                        }
-                                        FT_BitmapGlyph bitmap = (FT_BitmapGlyph)ftGlyph;
-                                        Image::Info info = Image::Info(bitmap->bitmap.width, bitmap->bitmap.rows, Image::Type::L_U8);
-                                        auto imageData = Image::Data::create(Image::Info(bitmap->bitmap.width, bitmap->bitmap.rows, Image::Type::L_U8));
-                                        for (int y = 0; y < info.size.y; ++y)
-                                        {
-                                            memcpy(imageData->getData(y), bitmap->bitmap.buffer + y * bitmap->bitmap.pitch, info.size.x);
-                                            
-                                            //auto p = imageData->getData(info.size.y - 1 - y);
-                                            //for (int x = 0; x < info.size.x; ++x, ++p)
-                                            //{
-                                            //    *p = std::min(*p + 255, 255);
-                                            //}
-                                        }
-                                        glyph = Glyph::create(
-                                            GlyphInfo(c, request.info),
-                                            imageData,
-                                            glm::vec2(font->second->glyph->bitmap_left, font->second->glyph->bitmap_top),
-                                            font->second->glyph->advance.x / 64.f);
-                                        {
-                                            std::lock_guard<std::mutex> lock(p.cacheMutex);
-                                            //p.glyphCache.add(uid, glyph);
-                                            p.glyphCache[uid] = glyph;
-                                        }
-                                        FT_Done_Glyph(ftGlyph);
-                                    }
-                                }
-                                if (glyph)
+                                if (const auto glyph = p.getGlyph(GlyphInfo(c, request.info)))
                                 {
                                     glyphs.push_back(glyph);
                                 }
@@ -817,48 +733,107 @@ namespace djv
                 p.glyphsRequests.clear();
             }
 
-            std::vector<glm::vec2> System::Private::getGlyphSizes(const std::basic_string<djv_char_t> & s, const Info & info, const FT_Face & face)
+            std::shared_ptr<Glyph> System::Private::getGlyph(const GlyphInfo & info)
             {
-                std::vector<glm::vec2> out;
-                out.reserve(s.size());
-                std::lock_guard<std::mutex> lock(cacheMutex);
-                for (const auto & c : s)
+                std::shared_ptr<Glyph> out;
+                bool inCache = false;
                 {
-                    const auto uid = GlyphInfo(c, info).getUID();
-                    glm::vec2 size;
-                    bool inCache = false;
-                    /*if (measureCache.contains(uid))
+                    std::lock_guard<std::mutex> lock(cacheMutex);
+                    /*if (glyphCache.contains(uid))
                     {
                         inCache = true;
-                        size = measureCache.get(uid);
+                        glyph = glyphCache.get(uid);
                     }*/
-                    const auto i = measureCache.find(uid);
-                    if (i != measureCache.end())
+                    const auto i = glyphCache.find(info.uid);
+                    if (i != glyphCache.end())
                     {
                         inCache = true;
-                        size = i->second;
+                        out = i->second;
                     }
-                    if (!inCache)
+                }
+                if (!inCache)
+                {
+                    const auto family = fontFaces.find(info.info.family);
+                    if (family != fontFaces.end())
                     {
-                        if (auto ftGlyphIndex = FT_Get_Char_Index(face, c))
+                        const auto font = family->second.find(info.info.face);
+                        if (font != family->second.end())
                         {
-                            FT_Error ftError = FT_Load_Glyph(face, ftGlyphIndex, FT_LOAD_DEFAULT);
-                            if (!ftError)
+                            /*FT_Error ftError = FT_Set_Char_Size(
+                                font->second,
+                                0,
+                                static_cast<int>(request.info.size * 64.f),
+                                request.info.dpi,
+                                request.info.dpi);*/
+                            FT_Error ftError = FT_Set_Pixel_Sizes(
+                                font->second,
+                                0,
+                                static_cast<int>(info.info.size));
+                            if (ftError)
                             {
-                                FT_Glyph ftGlyph;
-                                ftError = FT_Get_Glyph(face->glyph, &ftGlyph);
-                                if (!ftError)
+                                //std::cout << "FT_Set_Char_Size error: " << getFTError(ftError) << std::endl;
+                                return nullptr;
+                            }
+
+                            if (auto ftGlyphIndex = FT_Get_Char_Index(font->second, info.code))
+                            {
+                                ftError = FT_Load_Glyph(font->second, ftGlyphIndex, FT_LOAD_FORCE_AUTOHINT);
+                                if (ftError)
                                 {
-                                    size.x = face->glyph->advance.x / 64.f;
-                                    size.y = face->glyph->metrics.height / 64.f;
-                                    FT_Done_Glyph(ftGlyph);
-                                    //measureCache.add(uid, size);
-                                    measureCache[uid] = size;
+                                    //std::cout << "FT_Load_Glyph error: " << getFTError(ftError) << std::endl;
+                                    return nullptr;
                                 }
+                                ftError = FT_Render_Glyph(font->second->glyph, FT_RENDER_MODE_NORMAL);
+                                if (ftError)
+                                {
+                                    //std::cout << "FT_Render_Glyph error: " << getFTError(ftError) << std::endl;
+                                    return nullptr;
+                                }
+                                FT_Glyph ftGlyph;
+                                ftError = FT_Get_Glyph(font->second->glyph, &ftGlyph);
+                                if (ftError)
+                                {
+                                    //std::cout << "FT_Get_Glyph error: " << getFTError(ftError) << std::endl;
+                                    return nullptr;
+                                }
+                                FT_Vector v;
+                                v.x = 0;
+                                v.y = 0;
+                                ftError = FT_Glyph_To_Bitmap(&ftGlyph, FT_RENDER_MODE_NORMAL, &v, 0);
+                                if (ftError)
+                                {
+                                    //std::cout << "FT_Glyph_To_Bitmap error: " << getFTError(ftError) << std::endl;
+                                    FT_Done_Glyph(ftGlyph);
+                                    return nullptr;
+                                }
+                                FT_BitmapGlyph bitmap = (FT_BitmapGlyph)ftGlyph;
+                                Image::Info imageInfo = Image::Info(bitmap->bitmap.width, bitmap->bitmap.rows, Image::Type::L_U8);
+                                auto imageData = Image::Data::create(Image::Info(bitmap->bitmap.width, bitmap->bitmap.rows, Image::Type::L_U8));
+                                for (int y = 0; y < imageInfo.size.y; ++y)
+                                {
+                                    memcpy(imageData->getData(y), bitmap->bitmap.buffer + y * bitmap->bitmap.pitch, imageInfo.size.x);
+                                    //auto p = imageData->getData(imageInfo.size.y - 1 - y);
+                                    //for (int x = 0; x < imageInfo.size.x; ++x, ++p)
+                                    //{
+                                    //    *p = std::min(*p + 255, 255);
+                                    //}
+                                }
+                                out = Glyph::create(
+                                    info,
+                                    imageData,
+                                    glm::vec2(font->second->glyph->bitmap_left, font->second->glyph->bitmap_top),
+                                    font->second->glyph->advance.x / 64.f,
+                                    font->second->glyph->lsb_delta,
+                                    font->second->glyph->rsb_delta);
+                                {
+                                    std::lock_guard<std::mutex> lock(cacheMutex);
+                                    //p.glyphCache.add(uid, glyph);
+                                    glyphCache[info.uid] = out;
+                                }
+                                FT_Done_Glyph(ftGlyph);
                             }
                         }
                     }
-                    out.push_back(size);
                 }
                 return out;
             }

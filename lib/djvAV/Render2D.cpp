@@ -853,12 +853,23 @@ namespace djv
                         {
                             float x = 0.f;
                             float y = 0.f;
+                            int32_t rsbDeltaPrev = 0;
                             const auto glyphs = glyphsFuture.get();
                             const size_t outSize = out.size();
                             for (const auto & glyph : glyphs)
                             {
-                                const glm::vec2 & size = glyph->getImageData()->getSize();
-                                const glm::vec2 & offset = glyph->getOffset();
+                                if (rsbDeltaPrev - glyph->lsbDelta > 32)
+                                {
+                                    x -= 1.f;
+                                }
+                                else if (rsbDeltaPrev - glyph->lsbDelta < -31)
+                                {
+                                    x += 1.f;
+                                }
+                                rsbDeltaPrev = glyph->rsbDelta;
+
+                                const glm::vec2 & size = glyph->imageData->getSize();
+                                const glm::vec2 & offset = glyph->offset;
                                 const BBox2f bbox(
                                     pos.x + x + offset.x,
                                     pos.y + y - offset.y,
@@ -866,7 +877,7 @@ namespace djv
                                     size.y);
                                 if (bbox.intersects(render.viewport))
                                 {
-                                    const auto uid = glyph->getInfo().getUID();
+                                    const auto uid = glyph->info.uid;
                                     uint64_t id = 0;
                                     const auto i = render.glyphTextureIDs.find(uid);
                                     if (i != render.glyphTextureIDs.end())
@@ -876,7 +887,7 @@ namespace djv
                                     TextureCacheItem item;
                                     if (!render.staticTextureCache->getItem(id, item))
                                     {
-                                        id = render.staticTextureCache->addItem(glyph->getImageData(), item);
+                                        id = render.staticTextureCache->addItem(glyph->imageData, item);
                                         render.glyphTextureIDs[uid] = id;
                                     }
 
@@ -911,7 +922,8 @@ namespace djv
                                     mesh.t.push_back(glm::vec2(item.textureU.max, item.textureV.max));
                                     mesh.t.push_back(glm::vec2(item.textureU.min, item.textureV.max));
                                 }
-                                x += glyph->getAdvance();
+
+                                x += glyph->advance;
                             }
                         }
                         catch (const std::exception &)

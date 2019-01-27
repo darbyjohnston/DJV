@@ -82,25 +82,19 @@ namespace djv
                 glm::vec2   size = glm::vec2(0.f, 0.f);
             };
 
-            //! This class provides font glyph information.
-            class GlyphInfo
+            //! This struct provides font glyph information.
+            struct GlyphInfo
             {
-            public:
                 GlyphInfo();
                 GlyphInfo(uint32_t code, const Info &);
 
-                inline uint32_t getCode() const;
-                inline const Info & getInfo() const;
-                inline Core::UID getUID() const;
-
-            private:
-                uint32_t  _code = 0;
-                Info      _info;
-                Core::UID _uid  = 0;
+                uint32_t  code = 0;
+                Info      info;
+                Core::UID uid  = 0;
             };
 
-            //! This class provides a font glyph.
-            class Glyph
+            //! This struct provides a font glyph.
+            struct Glyph
             {
                 DJV_NON_COPYABLE(Glyph);
 
@@ -109,8 +103,9 @@ namespace djv
                     const GlyphInfo &,
                     const std::shared_ptr<Image::Data> &,
                     const glm::vec2 & offset,
-                    float advance);
-
+                    float advance,
+                    int32_t lsbDelta,
+                    int32_t rsbDelta);
                 Glyph();
 
             public:
@@ -118,25 +113,22 @@ namespace djv
                     const GlyphInfo &,
                     const std::shared_ptr<Image::Data> &,
                     const glm::vec2 & offset,
-                    float advance);
+                    float advance,
+                    int32_t lsbDelta,
+                    int32_t rsbDelta);
 
-                inline const GlyphInfo & getInfo() const;
-                inline const std::shared_ptr<Image::Data> & getImageData() const;
-                inline glm::vec2 getOffset() const;
-                inline float getAdvance() const;
-
-            private:
-                GlyphInfo                    _info;
-                std::shared_ptr<Image::Data> _imageData;
-                glm::vec2                    _offset    = glm::vec2(0.f, 0.f);
-                float                        _advance   = 0.f;
+                GlyphInfo                    info;
+                std::shared_ptr<Image::Data> imageData;
+                glm::vec2                    offset    = glm::vec2(0.f, 0.f);
+                float                        advance   = 0.f;
+                int32_t                      lsbDelta  = 0;
+                int32_t                      rsbDelta  = 0;
             };
 
             //! This class provides a font system.
             //!
-            //! \todo Why do the fonts seem too large?
-            //! \todo Why do the glyphs seem smaller than the metrics?
-            //! \todo Add support for LCD pixel sub-sampling.
+            //! \todo Add support for LCD pixel sub-sampling and gamma correction:
+            //! - https://www.freetype.org/freetype2/docs/text-rendering-general.html
             class System : public Core::ISystem
             {
                 DJV_NON_COPYABLE(System);

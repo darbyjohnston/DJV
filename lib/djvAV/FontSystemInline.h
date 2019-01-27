@@ -33,40 +33,6 @@ namespace djv
     {
         namespace Font
         {
-            inline uint32_t GlyphInfo::getCode() const
-            {
-                return _code;
-            }
-
-            inline const Info & GlyphInfo::getInfo() const
-            {
-                return _info;
-            }
-
-            inline Core::UID GlyphInfo::getUID() const
-            {
-                return _uid;
-            }
-
-            inline const GlyphInfo & Glyph::getInfo() const
-            {
-                return _info;
-            }
-
-            inline const std::shared_ptr<Image::Data> & Glyph::getImageData() const
-            {
-                return _imageData;
-            }
-
-            inline glm::vec2 Glyph::getOffset() const
-            {
-                return _offset;
-            }
-
-            inline float Glyph::getAdvance() const
-            {
-                return _advance;
-            }
 
         } // namespace Font
     } // namespace AV
