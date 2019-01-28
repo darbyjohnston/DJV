@@ -67,6 +67,7 @@ namespace djv
                 Widget::_init(context);
 
                 setClassName("djv::UI::MDI::Canvas");
+                setBackgroundRole(Style::ColorRole::Trough);
             }
 
             Canvas::Canvas() :
@@ -189,23 +190,23 @@ namespace djv
 
             void Canvas::_paintOverlayEvent(Event::PaintOverlay& event)
             {
-                if (auto render = _getRender().lock())
+                /*if (auto render = _getRender().lock())
                 {
                     if (auto style = _getStyle().lock())
                     {
-                        const float b = style->getMetric(Style::MetricsRole::Border);
+                        const float m = style->getMetric(Style::MetricsRole::MarginSmall);
                         const auto & children = getChildrenT<Widget>();
                         if (children.size())
                         {
-                            const BBox2f g = children.back()->getGeometry().margin(b);
+                            const BBox2f g = children.back()->getGeometry().margin(m);
                             render->setFillColor(_getColorWithOpacity(style->getColor(Style::ColorRole::Checked)));
-                            render->drawRect(BBox2f(g.min, glm::vec2(g.max.x, g.min.y + b)));
-                            render->drawRect(BBox2f(glm::vec2(g.min.x, g.min.y + b), glm::vec2(g.min.x + b, g.max.y - b)));
-                            render->drawRect(BBox2f(glm::vec2(g.max.x - b, g.min.y + b), glm::vec2(g.max.x, g.max.y - b)));
-                            render->drawRect(BBox2f(glm::vec2(g.min.x, g.max.y - b), glm::vec2(g.max.x, g.max.y)));
+                            render->drawRect(BBox2f(g.min, glm::vec2(g.max.x, g.min.y + m)));
+                            render->drawRect(BBox2f(glm::vec2(g.min.x, g.min.y + m), glm::vec2(g.min.x + m, g.max.y - m)));
+                            render->drawRect(BBox2f(glm::vec2(g.max.x - m, g.min.y + m), glm::vec2(g.max.x, g.max.y - m)));
+                            render->drawRect(BBox2f(glm::vec2(g.min.x, g.max.y - m), glm::vec2(g.max.x, g.max.y)));
                         }
                     }
-                }
+                }*/
             }
 
             void Canvas::_childAddedEvent(Event::ChildAdded & value)

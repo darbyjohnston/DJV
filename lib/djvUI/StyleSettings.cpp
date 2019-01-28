@@ -69,6 +69,21 @@ namespace djv
                 palettes[DJV_TEXT("djv::UI::Settings", "Dark")] = UI::Style::Palette();
 
                 UI::Style::Palette palette;
+                palette.setColor(UI::Style::ColorRole::Background, AV::Image::Color(250, 250, 250));
+                palette.setColor(UI::Style::ColorRole::Foreground, AV::Image::Color(0, 0, 0));
+                palette.setColor(UI::Style::ColorRole::Border, AV::Image::Color(200, 200, 200));
+                palette.setColor(UI::Style::ColorRole::Trough, AV::Image::Color(240, 240, 240));
+                palette.setColor(UI::Style::ColorRole::Button, AV::Image::Color(200, 200, 200));
+                palette.setColor(UI::Style::ColorRole::Hovered, AV::Image::Color(0, 0, 0, 15));
+                palette.setColor(UI::Style::ColorRole::Pressed, AV::Image::Color(0, 0, 0, 30));
+                palette.setColor(UI::Style::ColorRole::Checked, AV::Image::Color(225, 234, 248));
+                palette.setColor(UI::Style::ColorRole::Disabled, AV::Image::Color(150, 150, 150));
+                palette.setColor(UI::Style::ColorRole::HeaderBackground, AV::Image::Color(60, 104, 148));
+                palette.setColor(UI::Style::ColorRole::HeaderForeground, AV::Image::Color(255, 255, 255));
+                palette.setColor(UI::Style::ColorRole::HeaderHovered, AV::Image::Color(255, 255, 255, 25));
+                palette.setColor(UI::Style::ColorRole::HeaderPressed, AV::Image::Color(255, 255, 255, 50));
+                palette.setColor(UI::Style::ColorRole::HeaderChecked, AV::Image::Color(105, 150, 190));
+                palette.setColor(UI::Style::ColorRole::HeaderDisabled, AV::Image::Color(127, 127, 127));
                 palettes[DJV_TEXT("djv::UI::Settings", "Light")] = palette;
                 
                 std::map<std::string, UI::Style::Metrics> metricsList;

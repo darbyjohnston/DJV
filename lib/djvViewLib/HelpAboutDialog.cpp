@@ -110,20 +110,20 @@ namespace djv
 
         void HelpAboutDialog::_localeEvent(Event::Locale &)
         {
-            setTitle(_getText(DJV_TEXT("djv::ViewLib", "About")));
+            setTitle(_getText(DJV_TEXT("djv::ViewLib::HelpAboutDialog", "About")));
             std::stringstream ss;
-            ss << _getText(DJV_TEXT("djv::ViewLib", "AboutHeader"));
+            ss << _getText(DJV_TEXT("djv::ViewLib::HelpAboutDialog", "Header"));
             ss << " " << DJV_VERSION;
             DJV_PRIVATE_PTR();
             p.textBlocks["Header"]->setText(ss.str());
-            p.textBlocks["Copyright"]->setText(_getText(DJV_TEXT("djv::ViewLib", "AboutCopyright")));
-            p.textBlocks["License"]->setText(_getText(DJV_TEXT("djv::ViewLib", "AboutLicense")));
-            p.textBlocks["ContributorsHeader"]->setText(_getText(DJV_TEXT("djv::ViewLib", "AboutContributorsHeader")));
-            p.textBlocks["Contributors"]->setText(_getText(DJV_TEXT("djv::ViewLib", "AboutContributors")));
-            p.textBlocks["ThirdPartyHeader"]->setText(_getText(DJV_TEXT("djv::ViewLib", "AboutThirdPartyHeader")));
-            p.textBlocks["ThirdParty"]->setText(_getText(DJV_TEXT("djv::ViewLib", "AboutThirdParty")));
-            p.textBlocks["TrademarksHeader"]->setText(_getText(DJV_TEXT("djv::ViewLib", "AboutTrademarksHeader")));
-            p.textBlocks["Trademarks"]->setText(_getText(DJV_TEXT("djv::ViewLib", "AboutTrademarks")));
+            p.textBlocks["Copyright"]->setText(_getText(DJV_TEXT("djv::ViewLib::HelpAboutDialog", "Copyright")));
+            p.textBlocks["License"]->setText(_getText(DJV_TEXT("djv::ViewLib::HelpAboutDialog", "License")));
+            p.textBlocks["ContributorsHeader"]->setText(_getText(DJV_TEXT("djv::ViewLib::HelpAboutDialog", "Contributors Header")));
+            p.textBlocks["Contributors"]->setText(_getText(DJV_TEXT("djv::ViewLib::HelpAboutDialog", "Contributors Text")));
+            p.textBlocks["ThirdPartyHeader"]->setText(_getText(DJV_TEXT("djv::ViewLib::HelpAboutDialog", "Third Party Header")));
+            p.textBlocks["ThirdParty"]->setText(_getText(DJV_TEXT("djv::ViewLib::HelpAboutDialog", "Third Party Text")));
+            p.textBlocks["TrademarksHeader"]->setText(_getText(DJV_TEXT("djv::ViewLib::HelpAboutDialog", "Trademarks Header")));
+            p.textBlocks["Trademarks"]->setText(_getText(DJV_TEXT("djv::ViewLib::HelpAboutDialog", "Trademarks Text")));
         }
 
     } // namespace ViewLib

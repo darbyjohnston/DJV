@@ -33,11 +33,9 @@
 #include <djvViewLib/LanguageSettingsWidget.h>
 #include <djvViewLib/PaletteSettingsWidget.h>
 
-#include <djvUI/ButtonGroup.h>
+#include <djvUI/GroupBox.h>
 #include <djvUI/ListButton.h>
 #include <djvUI/RowLayout.h>
-#include <djvUI/ScrollWidget.h>
-#include <djvUI/SoloLayout.h>
 
 #include <djvCore/Context.h>
 
@@ -49,11 +47,10 @@ namespace djv
     {
         struct GeneralSettingsWidget::Private
         {
-            std::shared_ptr<UI::Button::List> displayButton;
-            std::shared_ptr<UI::Button::List> languageButton;
-            std::shared_ptr<UI::Button::List> paletteButton;
-            std::shared_ptr<UI::Button::Group> buttonGroup;
-            std::shared_ptr<UI::Layout::Horizontal> layout;
+            std::shared_ptr<UI::Layout::GroupBox> displayGroupBox;
+            std::shared_ptr<UI::Layout::GroupBox> languageGroupBox;
+            std::shared_ptr<UI::Layout::GroupBox> paletteGroupBox;
+            std::shared_ptr<UI::Layout::Vertical> layout;
         };
 
         void GeneralSettingsWidget::_init(Context * context)
@@ -61,41 +58,20 @@ namespace djv
             Widget::_init(context);
 
             DJV_PRIVATE_PTR();
-            p.displayButton = UI::Button::List::create(context);
-            p.languageButton = UI::Button::List::create(context);
-            p.paletteButton = UI::Button::List::create(context);
+            p.displayGroupBox = UI::Layout::GroupBox::create(context);
+            p.displayGroupBox->addWidget(DisplaySettingsWidget::create(context));
+            p.languageGroupBox = UI::Layout::GroupBox::create(context);
+            p.languageGroupBox->addWidget(LanguageSettingsWidget::create(context));
+            p.paletteGroupBox = UI::Layout::GroupBox::create(context);
+            p.paletteGroupBox->addWidget(PaletteSettingsWidget::create(context));
 
-            p.buttonGroup = UI::Button::Group::create(UI::ButtonType::Radio);
-            p.buttonGroup->addButton(p.displayButton);
-            p.buttonGroup->addButton(p.languageButton);
-            p.buttonGroup->addButton(p.paletteButton);
-
-            auto buttonLayout = UI::Layout::Vertical::create(context);
-            buttonLayout->setSpacing(UI::Style::MetricsRole::None);
-            buttonLayout->addWidget(p.displayButton);
-            buttonLayout->addWidget(p.languageButton);
-            buttonLayout->addWidget(p.paletteButton);
-            auto scrollWidget = UI::ScrollWidget::create(UI::ScrollType::Vertical, context);
-            scrollWidget->setBorder(false);
-            scrollWidget->addWidget(buttonLayout);
-
-            auto soloLayout = UI::Layout::Solo::create(context);
-            soloLayout->addWidget(DisplaySettingsWidget::create(context));
-            soloLayout->addWidget(LanguageSettingsWidget::create(context));
-            soloLayout->addWidget(PaletteSettingsWidget::create(context));
-
-            p.layout = UI::Layout::Horizontal::create(context);
-            p.layout->setSpacing(UI::Style::MetricsRole::None);
-            p.layout->addWidget(scrollWidget);
-            p.layout->addWidget(soloLayout, UI::Layout::RowStretch::Expand);
+            p.layout = UI::Layout::Vertical::create(context);
+            p.layout->setMargin(UI::Style::MetricsRole::MarginLarge);
+            p.layout->setSpacing(UI::Style::MetricsRole::SpacingLarge);
+            p.layout->addWidget(p.displayGroupBox);
+            p.layout->addWidget(p.languageGroupBox);
+            p.layout->addWidget(p.paletteGroupBox);
             p.layout->setParent(shared_from_this());
-
-            auto weak = std::weak_ptr<GeneralSettingsWidget>(std::dynamic_pointer_cast<GeneralSettingsWidget>(shared_from_this()));
-            p.buttonGroup->setRadioCallback(
-                [soloLayout](int value)
-            {
-                soloLayout->setCurrentIndex(value);
-            });
         }
 
         GeneralSettingsWidget::GeneralSettingsWidget() :
@@ -127,9 +103,9 @@ namespace djv
         void GeneralSettingsWidget::_localeEvent(Event::Locale &)
         {
             DJV_PRIVATE_PTR();
-            p.displayButton->setText(_getText(DJV_TEXT("djv::ViewLib", "Display")));
-            p.languageButton->setText(_getText(DJV_TEXT("djv::ViewLib", "Language")));
-            p.paletteButton->setText(_getText(DJV_TEXT("djv::ViewLib", "Palette")));
+            p.displayGroupBox->setText(_getText(DJV_TEXT("djv::ViewLib::GeneralSettingsWidget", "Display Size")));
+            p.languageGroupBox->setText(_getText(DJV_TEXT("djv::ViewLib::GeneralSettingsWidget", "Language")));
+            p.paletteGroupBox->setText(_getText(DJV_TEXT("djv::ViewLib::GeneralSettingsWidget", "Color Palette")));
         }
 
     } // namespace ViewLib

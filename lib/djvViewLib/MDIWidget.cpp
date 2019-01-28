@@ -34,6 +34,7 @@
 #include <djvViewLib/PlaybackWidget.h>
 #include <djvViewLib/TimelineSlider.h>
 
+#include <djvUI/Border.h>
 #include <djvUI/Icon.h>
 #include <djvUI/Label.h>
 #include <djvUI/RowLayout.h>
@@ -56,7 +57,8 @@ namespace djv
             std::shared_ptr<UI::Layout::Horizontal> titleBar;
             std::shared_ptr<UI::Icon> resizeHandle;
             std::shared_ptr<UI::Layout::Horizontal> bottomBar;
-            std::shared_ptr<UI::Layout::Stack> layout;
+            std::shared_ptr<UI::Layout::Vertical> layout;
+            std::shared_ptr<UI::Layout::Border> border;
             std::function<void(void)> maximizeCallback;
             std::function<void(void)> closedCallback;
             std::shared_ptr<ValueObserver<std::shared_ptr<AV::Image::Image> > > imageObserver;
@@ -66,11 +68,14 @@ namespace djv
         {
             IWidget::_init(context);
 
+            setBackgroundRole(UI::Style::ColorRole::Background);
+
             DJV_PRIVATE_PTR();
             p.imageView = ImageView::create(context);
 
             p.titleLabel = UI::Label::create(context);
-            p.titleLabel->setMargin(UI::Style::MetricsRole::Margin);
+            p.titleLabel->setTextHAlign(UI::TextHAlign::Left);
+            p.titleLabel->setMargin(UI::Style::MetricsRole::MarginSmall);
 
             auto maximizeButton = UI::Button::Tool::create(context);
             maximizeButton->setIcon("djvIconMaximize");
@@ -80,7 +85,6 @@ namespace djv
 
             p.titleBar = UI::Layout::Horizontal::create(context);
             p.titleBar->setClassName("djv::UI::MDI::TitleBar");
-            p.titleBar->setBackgroundRole(UI::Style::ColorRole::Overlay);
             p.titleBar->addWidget(p.titleLabel, UI::Layout::RowStretch::Expand);
             auto hLayout = UI::Layout::Horizontal::create(context);
             hLayout->setSpacing(UI::Style::MetricsRole::None);
@@ -95,20 +99,18 @@ namespace djv
             p.resizeHandle->setVAlign(UI::VAlign::Bottom);
 
             p.bottomBar = UI::Layout::Horizontal::create(context);
-            p.bottomBar->setBackgroundRole(UI::Style::ColorRole::Overlay);
             p.bottomBar->addExpander();
             p.bottomBar->addWidget(p.resizeHandle);
 
-            p.layout = UI::Layout::Stack::create(context);
-            p.layout->addWidget(p.imageView);
+            p.layout = UI::Layout::Vertical::create(context);
+            p.layout->setSpacing(UI::Style::MetricsRole::None);
+            p.layout->addWidget(p.titleBar);
+            p.layout->addWidget(p.imageView, UI::Layout::RowStretch::Expand);
+            p.layout->addWidget(p.bottomBar);
 
-            auto vLayout = UI::Layout::Vertical::create(context);
-            vLayout->setSpacing(UI::Style::MetricsRole::None);
-            vLayout->addWidget(p.titleBar);
-            vLayout->addExpander();
-            vLayout->addWidget(p.bottomBar);
-            p.layout->addWidget(vLayout);
-            IContainer::addWidget(p.layout);
+            p.border = UI::Layout::Border::create(context);
+            p.border->addWidget(p.layout);
+            IContainer::addWidget(p.border);
 
             auto weak = std::weak_ptr<MDIWidget>(std::dynamic_pointer_cast<MDIWidget>(shared_from_this()));
             maximizeButton->setClickedCallback(
@@ -196,14 +198,19 @@ namespace djv
             return _p->resizeHandle;
         }
 
+        float MDIWidget::getHeightForWidth(float value) const
+        {
+            return _p->border->getHeightForWidth(value);
+        }
+
         void MDIWidget::_preLayoutEvent(Event::PreLayout& event)
         {
-            _setMinimumSize(_p->layout->getMinimumSize());
+            _setMinimumSize(_p->border->getMinimumSize());
         }
 
         void MDIWidget::_layoutEvent(Event::Layout&)
         {
-            _p->layout->setGeometry(getGeometry());
+            _p->border->setGeometry(getGeometry());
         }
         
     } // namespace ViewLib

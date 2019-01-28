@@ -193,7 +193,7 @@ namespace djv
             void PathWidget::_localeEvent(Core::Event::Locale &)
             {
                 DJV_PRIVATE_PTR();
-                p.historyButton->setTooltip(_getText(DJV_TEXT("djv::UI::FileBrowser", "HistoryTooltip")));
+                p.historyButton->setTooltip(_getText(DJV_TEXT("djv::UI::FileBrowser", "History Tooltip")));
             }
 
         } // namespace FileBrowser

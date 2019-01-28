@@ -185,7 +185,7 @@ namespace djv
         NewMenu WindowSystem::createMenu()
         {
             DJV_PRIVATE_PTR();
-            p.menus["Window"] = UI::Menu::create(_getText(DJV_TEXT("djv::ViewLib", "Window")), getContext());
+            p.menus["Window"] = UI::Menu::create(_getText(DJV_TEXT("djv::ViewLib::WindowSystem", "Window")), getContext());
             p.menus["Window"]->addAction(p.actions["Maximize"]);
             p.menus["Window"]->addAction(p.actions["Next"]);
             p.menus["Window"]->addAction(p.actions["Prev"]);
@@ -198,14 +198,20 @@ namespace djv
         void WindowSystem::_localeEvent(Event::Locale &)
         {
             DJV_PRIVATE_PTR();
-            p.actions["Maximize"]->setText(_getText(DJV_TEXT("djv::ViewLib", "Maximize")));
-            p.actions["Next"]->setText(_getText(DJV_TEXT("djv::ViewLib", "Next")));
-            p.actions["Prev"]->setText(_getText(DJV_TEXT("djv::ViewLib", "Prev")));
-            p.actions["Duplicate"]->setText(_getText(DJV_TEXT("djv::ViewLib", "Duplicate")));
-            p.actions["Fit"]->setText(_getText(DJV_TEXT("djv::ViewLib", "Fit")));
-            p.actions["FullScreen"]->setText(_getText(DJV_TEXT("djv::ViewLib", "Full Screen")));
+            p.actions["Maximize"]->setText(_getText(DJV_TEXT("djv::ViewLib::WindowSystem", "Maximize")));
+            p.actions["Maximize"]->setTooltip(_getText(DJV_TEXT("djv::ViewLib::WindowSystem", "Maximize Tooltip")));
+            p.actions["Next"]->setText(_getText(DJV_TEXT("djv::ViewLib::WindowSystem", "Next")));
+            p.actions["Next"]->setTooltip(_getText(DJV_TEXT("djv::ViewLib::WindowSystem", "Next Tooltip")));
+            p.actions["Prev"]->setText(_getText(DJV_TEXT("djv::ViewLib::WindowSystem", "Prev")));
+            p.actions["Prev"]->setTooltip(_getText(DJV_TEXT("djv::ViewLib::WindowSystem", "Prev Tooltip")));
+            p.actions["Duplicate"]->setText(_getText(DJV_TEXT("djv::ViewLib::WindowSystem", "Duplicate")));
+            p.actions["Duplicate"]->setTooltip(_getText(DJV_TEXT("djv::ViewLib::WindowSystem", "Duplicate Tooltip")));
+            p.actions["Fit"]->setText(_getText(DJV_TEXT("djv::ViewLib::WindowSystem", "Fit")));
+            p.actions["Fit"]->setTooltip(_getText(DJV_TEXT("djv::ViewLib::WindowSystem", "Fit Tooltip")));
+            p.actions["FullScreen"]->setText(_getText(DJV_TEXT("djv::ViewLib::WindowSystem", "Full Screen")));
+            p.actions["FullScreen"]->setTooltip(_getText(DJV_TEXT("djv::ViewLib::WindowSystem", "Full Screen Tooltip")));
 
-            p.menus["Window"]->setMenuName(_getText(DJV_TEXT("djv::ViewLib", "Window")));
+            p.menus["Window"]->setMenuName(_getText(DJV_TEXT("djv::ViewLib::WindowSystem", "Window")));
         }
 
         void WindowSystem::Private::setFullScreen(bool value, Context * context)

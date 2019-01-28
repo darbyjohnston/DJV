@@ -98,7 +98,14 @@ namespace djv
         }
 
         void ImageView::_preLayoutEvent(Event::PreLayout& event)
-        {}
+        {
+            if (auto style = _getStyle().lock())
+            {
+                const float tw = style->getMetric(UI::Style::MetricsRole::ThumbnailWidthLarge);
+                const float th = style->getMetric(UI::Style::MetricsRole::ThumbnailHeightLarge);
+                _setMinimumSize(glm::vec2(tw, th));
+            }
+        }
 
         void ImageView::_layoutEvent(Event::Layout&)
         {}

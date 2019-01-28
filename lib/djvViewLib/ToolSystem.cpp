@@ -79,14 +79,14 @@ namespace djv
         {
             DJV_PRIVATE_PTR();
             auto context = getContext();
-            p.menus["Tools"] = UI::Menu::create(_getText(DJV_TEXT("djv::ViewLib", "Tools")), context);
+            p.menus["Tools"] = UI::Menu::create(_getText(DJV_TEXT("djv::ViewLib::ToolSystem", "Tools")), context);
             return { p.menus["Tools"], "F" };
         }
 
         void ToolSystem::_localeEvent(Event::Locale &)
         {
             DJV_PRIVATE_PTR();
-            p.menus["Tools"]->setMenuName(_getText(DJV_TEXT("djv::ViewLib", "Tools")));
+            p.menus["Tools"]->setMenuName(_getText(DJV_TEXT("djv::ViewLib::ToolSystem", "Tools")));
         }
 
     } // namespace ViewLib

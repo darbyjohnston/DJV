@@ -195,10 +195,14 @@ namespace djv
         void HelpSystem::_localeEvent(Event::Locale &)
         {
             DJV_PRIVATE_PTR();
-            p.actions["Documentation"]->setText(_getText(DJV_TEXT("djv::ViewLib", "Documentation")));
-            p.actions["Information"]->setText(_getText(DJV_TEXT("djv::ViewLib", "Information")));
-            p.actions["About"]->setText(_getText(DJV_TEXT("djv::ViewLib", "About")));
-            p.actions["DebugLog"]->setText(_getText(DJV_TEXT("djv::ViewLib", "DebugLog")));
+            p.actions["Documentation"]->setText(_getText(DJV_TEXT("djv::ViewLib::HelpSystem", "Documentation")));
+            p.actions["Documentation"]->setTooltip(_getText(DJV_TEXT("djv::ViewLib::HelpSystem", "Documentation Tooltip")));
+            p.actions["Information"]->setText(_getText(DJV_TEXT("djv::ViewLib::HelpSystem", "Information")));
+            p.actions["Information"]->setTooltip(_getText(DJV_TEXT("djv::ViewLib::HelpSystem", "Information Tooltip")));
+            p.actions["About"]->setText(_getText(DJV_TEXT("djv::ViewLib::HelpSystem", "About")));
+            p.actions["About"]->setTooltip(_getText(DJV_TEXT("djv::ViewLib::HelpSystem", "About Tooltip")));
+            p.actions["DebugLog"]->setText(_getText(DJV_TEXT("djv::ViewLib::HelpSystem", "Debug Log")));
+            p.actions["DebugLog"]->setTooltip(_getText(DJV_TEXT("djv::ViewLib::HelpSystem", "Debug Log Tooltip")));
 
             p.menus["Help"]->setMenuName(_getText(DJV_TEXT("djv::ViewLib", "Help")));
         }

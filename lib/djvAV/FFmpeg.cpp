@@ -71,11 +71,11 @@ namespace djv
                         { AV_SAMPLE_FMT_S32, DJV_TEXT("djv::AV::IO::FFmpeg", "S32") },
                         { AV_SAMPLE_FMT_FLT, DJV_TEXT("djv::AV::IO::FFmpeg", "Float") },
                         { AV_SAMPLE_FMT_DBL, DJV_TEXT("djv::AV::IO::FFmpeg", "Double") },
-                        { AV_SAMPLE_FMT_U8P, DJV_TEXT("djv::AV::IO::FFmpeg", "U8 planar") },
-                        { AV_SAMPLE_FMT_S16P, DJV_TEXT("djv::AV::IO::FFmpeg", "S16 planar") },
-                        { AV_SAMPLE_FMT_S32P, DJV_TEXT("djv::AV::IO::FFmpeg", "S32 planar") },
-                        { AV_SAMPLE_FMT_FLTP, DJV_TEXT("djv::AV::IO::FFmpeg", "Float planar") },
-                        { AV_SAMPLE_FMT_DBLP, DJV_TEXT("djv::AV::IO::FFmpeg", "Double planar") }
+                        { AV_SAMPLE_FMT_U8P, DJV_TEXT("djv::AV::IO::FFmpeg", "U8 Planar") },
+                        { AV_SAMPLE_FMT_S16P, DJV_TEXT("djv::AV::IO::FFmpeg", "S16 Planar") },
+                        { AV_SAMPLE_FMT_S32P, DJV_TEXT("djv::AV::IO::FFmpeg", "S32 Planar") },
+                        { AV_SAMPLE_FMT_FLTP, DJV_TEXT("djv::AV::IO::FFmpeg", "Float Planar") },
+                        { AV_SAMPLE_FMT_DBLP, DJV_TEXT("djv::AV::IO::FFmpeg", "Double Planar") }
                     };
                     static const std::string unknown = DJV_TEXT("djv::AV::IO::FFmpeg", "Unknown");
                     const auto i = data.find(value);

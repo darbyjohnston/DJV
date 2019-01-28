@@ -108,11 +108,14 @@ namespace djv
                 {
                     soloLayout->addWidget(i.second);
                 }
+                auto soloScrollWidget = UI::ScrollWidget::create(UI::ScrollType::Vertical, context);
+                soloScrollWidget->setBorder(false);
+                soloScrollWidget->addWidget(soloLayout);
 
                 auto layout = UI::Layout::Horizontal::create(context);
                 layout->setSpacing(UI::Style::MetricsRole::None);
                 layout->addWidget(buttonScrollWidget);
-                layout->addWidget(soloLayout, UI::Layout::RowStretch::Expand);
+                layout->addWidget(soloScrollWidget, UI::Layout::RowStretch::Expand);
                 addWidget(layout, UI::Layout::RowStretch::Expand);
 
                 auto weak = std::weak_ptr<SettingsDialog>(std::dynamic_pointer_cast<SettingsDialog>(shared_from_this()));
@@ -135,7 +138,7 @@ namespace djv
 
             void SettingsDialog::_localeEvent(Event::Locale &)
             {
-                setTitle(_getText(DJV_TEXT("djv::ViewLib", "Settings")));
+                setTitle(_getText(DJV_TEXT("djv::ViewLib::SettingsDialog", "Settings")));
                 for (const auto & i : _names)
                 {
                     const auto j = _buttons.find(i.first);
@@ -208,7 +211,7 @@ namespace djv
 
         std::vector<NewSettingsWidget> SettingsSystem::createSettingsWidgets()
         {
-            return { { GeneralSettingsWidget::create(getContext()), DJV_TEXT("djv::ViewLib", "General"), "A", } };
+            return { { GeneralSettingsWidget::create(getContext()), DJV_TEXT("djv::ViewLib::SettingsDialog", "General"), "A", } };
         }
         
     } // namespace ViewLib

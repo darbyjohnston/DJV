@@ -30,10 +30,9 @@
 #include <djvViewLib/LanguageSettingsWidget.h>
 
 #include <djvUI/ButtonGroup.h>
+#include <djvUI/FlowLayout.h>
 #include <djvUI/FontSettings.h>
 #include <djvUI/ListButton.h>
-#include <djvUI/RowLayout.h>
-#include <djvUI/ScrollWidget.h>
 #include <djvUI/UISystem.h>
 
 #include <djvCore/Context.h>
@@ -49,7 +48,7 @@ namespace djv
         {
             std::vector<std::shared_ptr<UI::Button::List> > buttons;
             std::shared_ptr<UI::Button::Group> buttonGroup;
-            std::shared_ptr<UI::ScrollWidget> scrollWidget;
+            std::shared_ptr<UI::Layout::Flow> layout;
             std::map<int, std::string> indexToLocale;
             std::map<std::string, int> localeToIndex;
             std::map<std::string, std::string> localeFonts;
@@ -65,13 +64,8 @@ namespace djv
             DJV_PRIVATE_PTR();
             p.buttonGroup = UI::Button::Group::create(UI::ButtonType::Radio);
 
-            auto layout = UI::Layout::Vertical::create(context);
-            layout->setSpacing(UI::Style::MetricsRole::None);
-
-            p.scrollWidget = UI::ScrollWidget::create(UI::ScrollType::Vertical, context);
-            p.scrollWidget->setBorder(false);
-            p.scrollWidget->addWidget(layout);
-            p.scrollWidget->setParent(shared_from_this());
+            p.layout = UI::Layout::Flow::create(context);
+            p.layout->setParent(shared_from_this());
 
             if (auto textSystem = context->getSystemT<TextSystem>().lock())
             {
@@ -81,10 +75,10 @@ namespace djv
                     auto button = UI::Button::List::create(context);
                     button->setText(context->getText(i));
                     p.buttonGroup->addButton(button);
+                    p.layout->addWidget(button);
                     p.indexToLocale[j] = i;
                     p.localeToIndex[i] = j;
                     p.localeToButton[i] = button;
-                    layout->addWidget(button);
                     ++j;
                 }
             }
@@ -151,17 +145,17 @@ namespace djv
 
         float LanguageSettingsWidget::getHeightForWidth(float value) const
         {
-            return _p->scrollWidget->getHeightForWidth(value);
+            return _p->layout->getHeightForWidth(value);
         }
 
         void LanguageSettingsWidget::_preLayoutEvent(Event::PreLayout &)
         {
-            _setMinimumSize(_p->scrollWidget->getMinimumSize());
+            _setMinimumSize(_p->layout->getMinimumSize());
         }
 
         void LanguageSettingsWidget::_layoutEvent(Event::Layout &)
         {
-            _p->scrollWidget->setGeometry(getGeometry());
+            _p->layout->setGeometry(getGeometry());
         }
 
         void LanguageSettingsWidget::_localeEvent(Event::Locale &)

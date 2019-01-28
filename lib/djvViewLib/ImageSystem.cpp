@@ -119,14 +119,14 @@ namespace djv
         {
             DJV_PRIVATE_PTR();
             auto context = getContext();
-            p.menus["Image"] = UI::Menu::create(_getText(DJV_TEXT("djv::ViewLib", "Image")), context);
+            p.menus["Image"] = UI::Menu::create(_getText(DJV_TEXT("djv::ViewLib::ImageSystem", "Image")), context);
             p.menus["Image"]->addAction(p.actions["MirrorH"]);
             p.menus["Image"]->addAction(p.actions["MirrorV"]);
             //! \todo Implement me!
-            p.menus["Scale"] = UI::Menu::create(_getText(DJV_TEXT("djv::ViewLib", "Scale")), context);
+            p.menus["Scale"] = UI::Menu::create(_getText(DJV_TEXT("djv::ViewLib::ImageSystem", "Scale")), context);
             p.menus["Image"]->addMenu(p.menus["Scale"]);
             //! \todo Implement me!
-            p.menus["Rotate"] = UI::Menu::create(_getText(DJV_TEXT("djv::ViewLib", "Rotate")), context);
+            p.menus["Rotate"] = UI::Menu::create(_getText(DJV_TEXT("djv::ViewLib::ImageSystem", "Rotate")), context);
             p.menus["Image"]->addMenu(p.menus["Rotate"]);
             p.menus["Image"]->addSeparator();
             p.menus["Image"]->addAction(p.actions["ColorManager"]);
@@ -142,18 +142,26 @@ namespace djv
         void ImageSystem::_localeEvent(Event::Locale &)
         {
             DJV_PRIVATE_PTR();
-            p.actions["MirrorH"]->setText(_getText(DJV_TEXT("djv::ViewLib", "Mirror Horizontal")));
-            p.actions["MirrorV"]->setText(_getText(DJV_TEXT("djv::ViewLib", "Mirror Vertical")));
-            p.actions["ColorManager"]->setText(_getText(DJV_TEXT("djv::ViewLib", "Color Manager")));
-            p.actions["ColorProfile"]->setText(_getText(DJV_TEXT("djv::ViewLib", "Color Profile")));
-            p.actions["DisplayProfile"]->setText(_getText(DJV_TEXT("djv::ViewLib", "Display Profile")));
-            p.actions["PremultAlpha"]->setText(_getText(DJV_TEXT("djv::ViewLib", "Premulitplied Alpha")));
-            p.actions["ShowFrameStore"]->setText(_getText(DJV_TEXT("djv::ViewLib", "Show Frame Store")));
-            p.actions["SetFrameStore"]->setText(_getText(DJV_TEXT("djv::ViewLib", "Set Frame Store")));
+            p.actions["MirrorH"]->setText(_getText(DJV_TEXT("djv::ViewLib::ImageSystem", "Mirror Horizontal")));
+            p.actions["MirrorH"]->setTooltip(_getText(DJV_TEXT("djv::ViewLib::ImageSystem", "Mirror Horizontal Tooltip")));
+            p.actions["MirrorV"]->setText(_getText(DJV_TEXT("djv::ViewLib::ImageSystem", "Mirror Vertical")));
+            p.actions["MirrorV"]->setTooltip(_getText(DJV_TEXT("djv::ViewLib::ImageSystem", "Mirror Vertical Tooltip")));
+            p.actions["ColorManager"]->setText(_getText(DJV_TEXT("djv::ViewLib::ImageSystem", "Color Manager")));
+            p.actions["ColorManager"]->setTooltip(_getText(DJV_TEXT("djv::ViewLib::ImageSystem", "Color Manager Tooltip")));
+            p.actions["ColorProfile"]->setText(_getText(DJV_TEXT("djv::ViewLib::ImageSystem", "Color Profile")));
+            p.actions["ColorProfile"]->setTooltip(_getText(DJV_TEXT("djv::ViewLib::ImageSystem", "Color Profile Tooltip")));
+            p.actions["DisplayProfile"]->setText(_getText(DJV_TEXT("djv::ViewLib::ImageSystem", "Display Profile")));
+            p.actions["DisplayProfile"]->setTooltip(_getText(DJV_TEXT("djv::ViewLib::ImageSystem", "Display Profile Tooltip")));
+            p.actions["PremultAlpha"]->setText(_getText(DJV_TEXT("djv::ViewLib::ImageSystem", "Premulitplied Alpha")));
+            p.actions["PremultAlpha"]->setTooltip(_getText(DJV_TEXT("djv::ViewLib::ImageSystem", "Premulitplied Alpha Tooltip")));
+            p.actions["ShowFrameStore"]->setText(_getText(DJV_TEXT("djv::ViewLib::ImageSystem", "Show Frame Store")));
+            p.actions["ShowFrameStore"]->setTooltip(_getText(DJV_TEXT("djv::ViewLib::ImageSystem", "Show Frame Store Tooltip")));
+            p.actions["SetFrameStore"]->setText(_getText(DJV_TEXT("djv::ViewLib::ImageSystem", "Set Frame Store")));
+            p.actions["SetFrameStore"]->setTooltip(_getText(DJV_TEXT("djv::ViewLib::ImageSystem", "Set Frame Store Tooltip")));
 
-            p.menus["Image"]->setMenuName(_getText(DJV_TEXT("djv::ViewLib", "Image")));
-            p.menus["Scale"]->setMenuName(_getText(DJV_TEXT("djv::ViewLib", "Scale")));
-            p.menus["Rotate"]->setMenuName(_getText(DJV_TEXT("djv::ViewLib", "Rotate")));
+            p.menus["Image"]->setMenuName(_getText(DJV_TEXT("djv::ViewLib::ImageSystem", "Image")));
+            p.menus["Scale"]->setMenuName(_getText(DJV_TEXT("djv::ViewLib::ImageSystem", "Scale")));
+            p.menus["Rotate"]->setMenuName(_getText(DJV_TEXT("djv::ViewLib::ImageSystem", "Rotate")));
         }
 
     } // namespace ViewLib

@@ -63,6 +63,7 @@ namespace djv
             p.textBlock = UI::TextBlock::create(context);
             p.textBlock->setFontFamily(AV::Font::Info::familyMono);
             p.textBlock->setFontSizeRole(UI::Style::MetricsRole::FontSmall);
+            p.textBlock->setMargin(UI::Style::MetricsRole::Margin);
 
             auto scrollWidget = UI::ScrollWidget::create(UI::ScrollType::Vertical, context);
             scrollWidget->setBorder(false);
@@ -141,12 +142,12 @@ namespace djv
 
         void HelpDebugLogDialog::_localeEvent(Event::Locale &)
         {
-            setTitle(_getText(DJV_TEXT("djv::ViewLib", "Debugging Log")));
+            setTitle(_getText(DJV_TEXT("djv::ViewLib::HelpDebugLogDialog", "Debugging Log")));
 
             DJV_PRIVATE_PTR();
-            p.copyButton->setText(_getText(DJV_TEXT("djv::ViewLib", "Copy")));
-            p.reloadButton->setText(_getText(DJV_TEXT("djv::ViewLib", "Reload")));
-            p.clearButton->setText(_getText(DJV_TEXT("djv::ViewLib", "Clear")));
+            p.copyButton->setText(_getText(DJV_TEXT("djv::ViewLib::HelpDebugLogDialog", "Copy")));
+            p.reloadButton->setText(_getText(DJV_TEXT("djv::ViewLib::HelpDebugLogDialog", "Reload")));
+            p.clearButton->setText(_getText(DJV_TEXT("djv::ViewLib::HelpDebugLogDialog", "Clear")));
         }
 
     } // namespace ViewLib

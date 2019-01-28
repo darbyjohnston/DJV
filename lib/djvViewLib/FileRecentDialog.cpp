@@ -186,7 +186,7 @@ namespace djv
         void FileRecentDialog::_localeEvent(Event::Locale &)
         {
             DJV_PRIVATE_PTR();
-            setTitle(_getText(DJV_TEXT("djv::ViewLib", "Recent Files")));
+            setTitle(_getText(DJV_TEXT("djv::ViewLib::FileRecentDialog", "Recent Files")));
 
             auto context = getContext();
             p.itemCountLabel->setText(p.getItemCountLabel(p.itemCount, context));
@@ -195,7 +195,7 @@ namespace djv
         std::string FileRecentDialog::Private::getItemCountLabel(size_t size, Context * context)
         {
             std::stringstream ss;
-            ss << size << " " << context->getText(DJV_TEXT("djv::ViewLib", "items"));
+            ss << size << " " << context->getText(DJV_TEXT("djv::ViewLib::FileRecentDialog", "items"));
             return ss.str();
         }
 

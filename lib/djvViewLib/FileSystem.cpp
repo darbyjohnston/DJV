@@ -33,6 +33,7 @@
 #include <djvViewLib/FileRecentDialog.h>
 #include <djvViewLib/FileSystemSettings.h>
 #include <djvViewLib/Media.h>
+#include <djvViewLib/SettingsSystem.h>
 
 #include <djvUI/Action.h>
 #include <djvUI/DialogSystem.h>
@@ -133,6 +134,8 @@ namespace djv
             p.actions["ClearCache"] = UI::Action::create();
             p.actions["ClearCache"]->setEnabled(false);
 
+            p.actions["Settings"] = UI::Action::create();
+
             p.actions["Exit"] = UI::Action::create();
             p.actions["Exit"]->setShortcut(GLFW_KEY_Q, GLFW_MOD_CONTROL);
 
@@ -146,6 +149,7 @@ namespace djv
                     system->_p->recentFilesModel->setFiles(value);
                 }
             });
+
             p.recentFilesObserver2 = ListObserver<Core::FileSystem::FileInfo>::create(
                 p.recentFilesModel->getFiles(),
                 [weak](const std::vector<Core::FileSystem::FileInfo> & value)
@@ -156,6 +160,7 @@ namespace djv
                     system->_p->settings->setRecentFiles(value);
                 }
             });
+
             p.clickedObservers["Open"] = ValueObserver<bool>::create(
                 p.actions["Open"]->observeClicked(),
                 [weak, context](bool value)
@@ -167,7 +172,7 @@ namespace djv
                         if (auto dialogSystem = context->getSystemT<UI::DialogSystem>().lock())
                         {
                             dialogSystem->fileBrowser(
-                                context->getText(DJV_TEXT("djv::ViewLib", "File Browser")),
+                                context->getText(DJV_TEXT("djv::ViewLib::FileSystem", "File Browser")),
                                 [weak, context](const Core::FileSystem::FileInfo & value)
                             {
                                 if (auto system = weak.lock())
@@ -179,6 +184,7 @@ namespace djv
                     }
                 }
             });
+
             p.clickedObservers["Recent"] = ValueObserver<bool>::create(
                 p.actions["Recent"]->observeClicked(),
                 [weak, context](bool value)
@@ -191,6 +197,7 @@ namespace djv
                     }
                 }
             });
+
             p.clickedObservers["Close"] = ValueObserver<bool>::create(
                 p.actions["Close"]->observeClicked(),
                 [weak, context](bool value)
@@ -203,6 +210,17 @@ namespace djv
                     }
                 }
             });
+
+            p.clickedObservers["Settings"] = ValueObserver<bool>::create(
+                p.actions["Settings"]->observeClicked(),
+                [context](bool value)
+            {
+                if (auto settingsSystem = context->getSystemT<SettingsSystem>().lock())
+                {
+                    settingsSystem->showSettingsDialog();
+                }
+            });
+
             p.clickedObservers["Exit"] = ValueObserver<bool>::create(
                 p.actions["Exit"]->observeClicked(),
                 [weak, context](bool value)
@@ -214,10 +232,10 @@ namespace djv
                         if (auto dialogSystem = context->getSystemT<UI::DialogSystem>().lock())
                         {
                             dialogSystem->confirmation(
-                                context->getText(DJV_TEXT("djv::ViewLib", "Exit")),
-                                context->getText(DJV_TEXT("djv::ViewLib", "Are you sure you want to exit?")),
-                                context->getText(DJV_TEXT("djv::ViewLib", "Yes")),
-                                context->getText(DJV_TEXT("djv::ViewLib", "No")),
+                                context->getText(DJV_TEXT("djv::ViewLib::FileSystem", "Exit")),
+                                context->getText(DJV_TEXT("djv::ViewLib::FileSystem", "Are you sure you want to exit?")),
+                                context->getText(DJV_TEXT("djv::ViewLib::FileSystem", "Yes")),
+                                context->getText(DJV_TEXT("djv::ViewLib::FileSystem", "No")),
                                 [context](bool value)
                             {
                                 if (value)
@@ -308,7 +326,7 @@ namespace djv
         {
             DJV_PRIVATE_PTR();
             auto context = getContext();
-            p.menus["File"] = UI::Menu::create(_getText(DJV_TEXT("djv::ViewLib", "File")), context);
+            p.menus["File"] = UI::Menu::create(_getText(DJV_TEXT("djv::ViewLib::FileSystem", "File")), context);
             p.menus["File"]->addAction(p.actions["Open"]);
             p.menus["File"]->addAction(p.actions["Recent"]);
             p.menus["File"]->addAction(p.actions["Reload"]);
@@ -320,8 +338,10 @@ namespace djv
             p.menus["File"]->addAction(p.actions["NextLayer"]);
             p.menus["File"]->addAction(p.actions["PrevLayer"]);
             //! \todo Implement me!
-            p.menus["ProxyScale"] = UI::Menu::create(_getText(DJV_TEXT("djv::ViewLib", "Proxy Scale")), context);
+            p.menus["ProxyScale"] = UI::Menu::create(_getText(DJV_TEXT("djv::ViewLib::FileSystem", "Proxy Scale")), context);
             p.menus["File"]->addMenu(p.menus["ProxyScale"]);
+            p.menus["File"]->addSeparator();
+            p.menus["File"]->addAction(p.actions["Settings"]);
             p.menus["File"]->addSeparator();
             p.menus["File"]->addAction(p.actions["Exit"]);
             return { p.menus["File"], "A" };
@@ -337,22 +357,37 @@ namespace djv
         void FileSystem::_localeEvent(Event::Locale &)
         {
             DJV_PRIVATE_PTR();
-            p.actions["Open"]->setText(_getText(DJV_TEXT("djv::ViewLib", "Open")));
-            p.actions["Recent"]->setText(_getText(DJV_TEXT("djv::ViewLib", "Recent")));
-            p.actions["Reload"]->setText(_getText(DJV_TEXT("djv::ViewLib", "Reload")));
-            p.actions["ReloadFrame"]->setText(_getText(DJV_TEXT("djv::ViewLib", "Reload Frame")));
-            p.actions["Close"]->setText(_getText(DJV_TEXT("djv::ViewLib", "Close")));
-            p.actions["Export"]->setText(_getText(DJV_TEXT("djv::ViewLib", "Export")));
-            p.actions["Layers"]->setText(_getText(DJV_TEXT("djv::ViewLib", "Layers")));
-            p.actions["NextLayer"]->setText(_getText(DJV_TEXT("djv::ViewLib", "Next Layer")));
-            p.actions["PrevLayer"]->setText(_getText(DJV_TEXT("djv::ViewLib", "Previous Layer")));
-            p.actions["8BitConversion"]->setText(_getText(DJV_TEXT("djv::ViewLib", "8-bit Conversion")));
-            p.actions["MemoryCache"]->setText(_getText(DJV_TEXT("djv::ViewLib", "Memory Cache")));
-            p.actions["ClearCache"]->setText(_getText(DJV_TEXT("djv::ViewLib", "Clear Cache")));
-            p.actions["Exit"]->setText(_getText(DJV_TEXT("djv::ViewLib", "Exit")));
+            p.actions["Open"]->setText(_getText(DJV_TEXT("djv::ViewLib::FileSystem", "Open")));
+            p.actions["Open"]->setTooltip(_getText(DJV_TEXT("djv::ViewLib::FileSystem", "Open Tooltip")));
+            p.actions["Recent"]->setText(_getText(DJV_TEXT("djv::ViewLib::FileSystem", "Recent")));
+            p.actions["Recent"]->setTooltip(_getText(DJV_TEXT("djv::ViewLib::FileSystem", "Recent Tooltip")));
+            p.actions["Reload"]->setText(_getText(DJV_TEXT("djv::ViewLib::FileSystem", "Reload")));
+            p.actions["Reload"]->setTooltip(_getText(DJV_TEXT("djv::ViewLib::FileSystem", "Reload Tooltip")));
+            p.actions["ReloadFrame"]->setText(_getText(DJV_TEXT("djv::ViewLib::FileSystem", "Reload Frame")));
+            p.actions["ReloadFrame"]->setTooltip(_getText(DJV_TEXT("djv::ViewLib::FileSystem", "Reload Frame Tooltip")));
+            p.actions["Close"]->setText(_getText(DJV_TEXT("djv::ViewLib::FileSystem", "Close")));
+            p.actions["Close"]->setTooltip(_getText(DJV_TEXT("djv::ViewLib::FileSystem", "Close Tooltip")));
+            p.actions["Export"]->setText(_getText(DJV_TEXT("djv::ViewLib::FileSystem", "Export")));
+            p.actions["Export"]->setTooltip(_getText(DJV_TEXT("djv::ViewLib::FileSystem", "Export Tooltip")));
+            p.actions["Layers"]->setText(_getText(DJV_TEXT("djv::ViewLib::FileSystem", "Layers")));
+            p.actions["Layers"]->setTooltip(_getText(DJV_TEXT("djv::ViewLib::FileSystem", "Layers Tooltip")));
+            p.actions["NextLayer"]->setText(_getText(DJV_TEXT("djv::ViewLib::FileSystem", "Next Layer")));
+            p.actions["NextLayer"]->setTooltip(_getText(DJV_TEXT("djv::ViewLib::FileSystem", "Next Layer Tooltip")));
+            p.actions["PrevLayer"]->setText(_getText(DJV_TEXT("djv::ViewLib::FileSystem", "Previous Layer")));
+            p.actions["PrevLayer"]->setTooltip(_getText(DJV_TEXT("djv::ViewLib::FileSystem", "Previous Layer Tooltip")));
+            p.actions["8BitConversion"]->setText(_getText(DJV_TEXT("djv::ViewLib::FileSystem", "8-bit Conversion")));
+            p.actions["8BitConversion"]->setTooltip(_getText(DJV_TEXT("djv::ViewLib::FileSystem", "8-bit Conversion Tooltip")));
+            p.actions["MemoryCache"]->setText(_getText(DJV_TEXT("djv::ViewLib::FileSystem", "Memory Cache")));
+            p.actions["MemoryCache"]->setTooltip(_getText(DJV_TEXT("djv::ViewLib::FileSystem", "Memory Cache Tooltip")));
+            p.actions["ClearCache"]->setText(_getText(DJV_TEXT("djv::ViewLib::FileSystem", "Clear Cache")));
+            p.actions["ClearCache"]->setTooltip(_getText(DJV_TEXT("djv::ViewLib::FileSystem", "Clear Cache Tooltip")));
+            p.actions["Settings"]->setText(_getText(DJV_TEXT("djv::ViewLib::FileSystem", "Settings")));
+            p.actions["Settings"]->setTooltip(_getText(DJV_TEXT("djv::ViewLib::FileSystem", "Settings Tooltip")));
+            p.actions["Exit"]->setText(_getText(DJV_TEXT("djv::ViewLib::FileSystem", "Exit")));
+            p.actions["Exit"]->setTooltip(_getText(DJV_TEXT("djv::ViewLib::FileSystem", "Exit Tooltip")));
 
-            p.menus["File"]->setMenuName(_getText(DJV_TEXT("djv::ViewLib", "File")));
-            p.menus["ProxyScale"]->setMenuName(_getText(DJV_TEXT("djv::ViewLib", "Proxy Scale")));
+            p.menus["File"]->setMenuName(_getText(DJV_TEXT("djv::ViewLib::FileSystem", "File")));
+            p.menus["ProxyScale"]->setMenuName(_getText(DJV_TEXT("djv::ViewLib::FileSystem", "Proxy Scale")));
         }
 
     } // namespace ViewLib

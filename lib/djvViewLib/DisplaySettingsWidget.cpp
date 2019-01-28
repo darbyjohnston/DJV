@@ -30,9 +30,8 @@
 #include <djvViewLib/DisplaySettingsWidget.h>
 
 #include <djvUI/ButtonGroup.h>
+#include <djvUI/FlowLayout.h>
 #include <djvUI/ListButton.h>
-#include <djvUI/RowLayout.h>
-#include <djvUI/ScrollWidget.h>
 #include <djvUI/StyleSettings.h>
 #include <djvUI/UISystem.h>
 
@@ -49,7 +48,7 @@ namespace djv
         {
             std::vector<std::shared_ptr<UI::Button::List> > buttons;
             std::shared_ptr<UI::Button::Group> buttonGroup;
-            std::shared_ptr<UI::ScrollWidget> scrollWidget;
+            std::shared_ptr<UI::Layout::Flow> layout;
             std::map<int, std::string> indexToMetrics;
             std::map<std::shared_ptr<UI::Button::List>, std::string> buttonToMetrics;
             std::map<std::string, int> metricsToIndex;
@@ -64,13 +63,8 @@ namespace djv
             DJV_PRIVATE_PTR();
             p.buttonGroup = UI::Button::Group::create(UI::ButtonType::Radio);
 
-            auto layout = UI::Layout::Vertical::create(context);
-            layout->setSpacing(UI::Style::MetricsRole::None);
-
-            p.scrollWidget = UI::ScrollWidget::create(UI::ScrollType::Vertical, context);
-            p.scrollWidget->setBorder(false);
-            p.scrollWidget->addWidget(layout);
-            p.scrollWidget->setParent(shared_from_this());
+            p.layout = UI::Layout::Flow::create(context);
+            p.layout->setParent(shared_from_this());
 
             auto weak = std::weak_ptr<DisplaySettingsWidget>(std::dynamic_pointer_cast<DisplaySettingsWidget>(shared_from_this()));
             p.buttonGroup->setRadioCallback(
@@ -94,7 +88,7 @@ namespace djv
                 const int dpi = uiSystem->getDPI();
                 p.metricsObserver = MapObserver<std::string, UI::Style::Metrics>::create(
                     uiSystem->getStyleSettings()->observeMetrics(),
-                    [weak, layout, dpi, context](const std::map<std::string, UI::Style::Metrics> & value)
+                    [weak, dpi, context](const std::map<std::string, UI::Style::Metrics> & value)
                 {
                     if (auto widget = weak.lock())
                     {
@@ -105,20 +99,20 @@ namespace djv
                         }
                         widget->_p->buttons.clear();
                         widget->_p->buttonGroup->clearButtons();
+                        widget->_p->layout->clearWidgets();
                         widget->_p->indexToMetrics.clear();
                         widget->_p->buttonToMetrics.clear();
                         widget->_p->metricsToIndex.clear();
-                        layout->clearWidgets();
                         int j = 0;
                         for (const auto & i : value)
                         {
                             auto button = UI::Button::List::create(context);
                             widget->_p->buttons.push_back(button);
                             widget->_p->buttonGroup->addButton(button);
+                            widget->_p->layout->addWidget(button);
                             widget->_p->indexToMetrics[j] = i.first;
                             widget->_p->buttonToMetrics[button] = i.first;
                             widget->_p->metricsToIndex[i.first] = j;
-                            layout->addWidget(button);
                             ++j;
                         }
                         widget->_p->buttonGroup->setChecked(currentItem);
@@ -154,17 +148,17 @@ namespace djv
 
         float DisplaySettingsWidget::getHeightForWidth(float value) const
         {
-            return _p->scrollWidget->getHeightForWidth(value);
+            return _p->layout->getHeightForWidth(value);
         }
 
         void DisplaySettingsWidget::_preLayoutEvent(Event::PreLayout &)
         {
-            _setMinimumSize(_p->scrollWidget->getMinimumSize());
+            _setMinimumSize(_p->layout->getMinimumSize());
         }
 
         void DisplaySettingsWidget::_layoutEvent(Event::Layout &)
         {
-            _p->scrollWidget->setGeometry(getGeometry());
+            _p->layout->setGeometry(getGeometry());
         }
 
         void DisplaySettingsWidget::_localeEvent(Event::Locale &)

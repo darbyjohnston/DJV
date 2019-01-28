@@ -134,6 +134,7 @@ namespace djv
                     if (auto style = _getStyle().lock())
                     {
                         const float m = style->getMetric(Style::MetricsRole::MarginSmall);
+                        const float s = style->getMetric(Style::MetricsRole::SpacingSmall);
                         const float tw = style->getMetric(p.getThumbnailWidth());
                         const float th = style->getMetric(p.getThumbnailHeight());
                         switch (p.viewType)
@@ -149,7 +150,7 @@ namespace djv
                                 x += tw + m * 2.f;
                             }
                             const size_t rows = itemCount / columns + (itemCount % columns ? 1 : 0);
-                            out = (th + p.nameFontMetrics.lineHeight * 2.f + m * 2.f) * rows;
+                            out = (th + s + p.nameFontMetrics.lineHeight * 2.f + m * 2.f) * rows;
                             break;
                         }
                         case ViewType::ListView:
@@ -202,6 +203,7 @@ namespace djv
                     DJV_PRIVATE_PTR();
                     const BBox2f & g = getGeometry();
                     const float m = style->getMetric(Style::MetricsRole::MarginSmall);
+                    const float s = style->getMetric(Style::MetricsRole::SpacingSmall);
                     const float tw = style->getMetric(p.getThumbnailWidth());
                     const float th = style->getMetric(p.getThumbnailHeight());
                     p.itemGeometry.clear();
@@ -215,7 +217,7 @@ namespace djv
                         case ViewType::ThumbnailsLarge:
                         case ViewType::ThumbnailsSmall:
                         {
-                            const float itemHeight = th + p.nameFontMetrics.lineHeight * 2.f + m * 2.f;
+                            const float itemHeight = th + s + p.nameFontMetrics.lineHeight * 2.f + m * 2.f;
                             p.itemGeometry[i] = BBox2f(pos.x, pos.y, tw + m * 2.f, itemHeight);
                             pos.x += tw + m * 2.f;
                             if (pos.x > g.max.x - (tw + m * 2.f))

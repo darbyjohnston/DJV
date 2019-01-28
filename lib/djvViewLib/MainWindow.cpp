@@ -37,7 +37,6 @@
 #include <djvViewLib/MDIWidget.h>
 #include <djvViewLib/Media.h>
 #include <djvViewLib/WindowSystem.h>
-#include <djvViewLib/SettingsSystem.h>
 
 #include <djvUI/Action.h>
 #include <djvUI/MDICanvas.h>
@@ -47,7 +46,6 @@
 #include <djvUI/ScrollWidget.h>
 #include <djvUI/SoloLayout.h>
 #include <djvUI/StackLayout.h>
-#include <djvUI/ToolButton.h>
 
 #include <djvCore/FileInfo.h>
 
@@ -141,10 +139,6 @@ namespace djv
             {
                 _p->menuBar->addMenu(i.second);
             }
-            auto settingsButton = UI::Button::Tool::create(context);
-            settingsButton->setIcon("djvIconSettings");
-            settingsButton->setInsideMargin(UI::Style::MetricsRole::MarginSmall);
-            _p->menuBar->addWidget(settingsButton);
             
             auto layout = UI::Layout::Vertical::create(context);
             layout->setSpacing(UI::Style::MetricsRole::None);
@@ -174,6 +168,7 @@ namespace djv
                         if (auto mainWindow = weak.lock())
                         {
                             auto mdiWidget = MDIWidget::create(context);
+                            mdiWidget->setTitle(Core::FileSystem::FileInfo(value.first->getFileName()).getFileName(Frame::Invalid, false));
                             mdiWidget->setMedia(value.first);
                             mdiWidget->setParent(mainWindow->_p->mdiCanvas);
                             glm::vec2 widgetPos(0.f, 0.f);
@@ -302,15 +297,6 @@ namespace djv
                     }
                 });
             }
-
-            settingsButton->setClickedCallback(
-                [context]
-            {
-                if (auto settingsSystem = context->getSystemT<SettingsSystem>().lock())
-                {
-                    settingsSystem->showSettingsDialog();
-                }
-            });
         }
 
         MainWindow::MainWindow() :

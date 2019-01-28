@@ -64,6 +64,8 @@ namespace djv
             std::shared_ptr<UI::Widget> getMoveHandle() override;
             std::shared_ptr<UI::Widget> getResizeHandle() override;
 
+            float getHeightForWidth(float) const override;
+
         protected:
             void _preLayoutEvent(Core::Event::PreLayout&) override;
             void _layoutEvent(Core::Event::Layout&) override;

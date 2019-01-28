@@ -60,6 +60,7 @@ namespace djv
                 IButton::_init(context);
 
                 setClassName("djv::UI::Button::Push");
+                setBackgroundRole(Style::ColorRole::Button);
 
                 DJV_PRIVATE_PTR();
                 p.icon = Icon::create(context);
