@@ -783,7 +783,12 @@ namespace djv
                                     //std::cout << "FT_Load_Glyph error: " << getFTError(ftError) << std::endl;
                                     return nullptr;
                                 }
-                                ftError = FT_Render_Glyph(font->second->glyph, FT_RENDER_MODE_NORMAL);
+                                FT_Render_Mode renderMode = FT_RENDER_MODE_NORMAL;
+                                size_t renderModeChannels = 1;
+                                //! \todo Experimental LCD hinting.
+                                //renderMode = FT_RENDER_MODE_LCD;
+                                //renderModeChannels = 3;
+                                ftError = FT_Render_Glyph(font->second->glyph, renderMode);
                                 if (ftError)
                                 {
                                     //std::cout << "FT_Render_Glyph error: " << getFTError(ftError) << std::endl;
@@ -799,7 +804,7 @@ namespace djv
                                 FT_Vector v;
                                 v.x = 0;
                                 v.y = 0;
-                                ftError = FT_Glyph_To_Bitmap(&ftGlyph, FT_RENDER_MODE_NORMAL, &v, 0);
+                                ftError = FT_Glyph_To_Bitmap(&ftGlyph, renderMode, &v, 0);
                                 if (ftError)
                                 {
                                     //std::cout << "FT_Glyph_To_Bitmap error: " << getFTError(ftError) << std::endl;
@@ -807,16 +812,17 @@ namespace djv
                                     return nullptr;
                                 }
                                 FT_BitmapGlyph bitmap = (FT_BitmapGlyph)ftGlyph;
-                                Image::Info imageInfo = Image::Info(bitmap->bitmap.width, bitmap->bitmap.rows, Image::Type::L_U8);
-                                auto imageData = Image::Data::create(Image::Info(bitmap->bitmap.width, bitmap->bitmap.rows, Image::Type::L_U8));
+                                const Image::Info imageInfo = Image::Info(
+                                    bitmap->bitmap.width / renderModeChannels,
+                                    bitmap->bitmap.rows,
+                                    Image::getIntType(renderModeChannels, 8));
+                                auto imageData = Image::Data::create(imageInfo);
                                 for (int y = 0; y < imageInfo.size.y; ++y)
                                 {
-                                    memcpy(imageData->getData(y), bitmap->bitmap.buffer + y * bitmap->bitmap.pitch, imageInfo.size.x);
-                                    //auto p = imageData->getData(imageInfo.size.y - 1 - y);
-                                    //for (int x = 0; x < imageInfo.size.x; ++x, ++p)
-                                    //{
-                                    //    *p = std::min(*p + 255, 255);
-                                    //}
+                                    memcpy(
+                                        imageData->getData(y),
+                                        bitmap->bitmap.buffer + y * bitmap->bitmap.pitch,
+                                        imageInfo.size.x * renderModeChannels);
                                 }
                                 out = Glyph::create(
                                     info,

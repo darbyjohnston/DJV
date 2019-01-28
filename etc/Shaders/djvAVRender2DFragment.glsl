@@ -38,40 +38,72 @@ uniform int colorMode;
 uniform vec4 color;
 uniform sampler2D textureSampler;
 
+// djv::AV::Render::ImageFormat
+#define IMAGE_FORMAT_L    0
+#define IMAGE_FORMAT_LA   1
+#define IMAGE_FORMAT_RGB  2
+#define IMAGE_FORMAT_RGBA 3
+
+// djv::AV::Render::ColorMode
+#define COLOR_MODE_SOLID_COLOR                0
+#define COLOR_MODE_COLOR_WITH_TEXTURE_ALPHA   1
+#define COLOR_MODE_COLOR_WITH_TEXTURE_ALPHA_R 2
+#define COLOR_MODE_COLOR_WITH_TEXTURE_ALPHA_G 3
+#define COLOR_MODE_COLOR_WITH_TEXTURE_ALPHA_B 4
+#define COLOR_MODE_COLOR_AND_TEXTURE          5
+
 void main()
 {
     vec4 t = texture(textureSampler, Texture);
     switch (imageFormat)
     {
-    case 0:
+    case IMAGE_FORMAT_L:
         t.g = t.r;
         t.b = t.r;
         t.a = 1.0;
         break;
-    case 1:
+    case IMAGE_FORMAT_LA:
         t.a = t.g;
         t.g = t.r;
         t.b = t.r;
         break;
-    case 2:
+    case IMAGE_FORMAT_RGB:
         t.a = 1.0;
         break;
-    case 3:
+    case IMAGE_FORMAT_RGBA:
         break;
     }
-
+    
     switch (colorMode)
     {
-    case 0:
+    case COLOR_MODE_SOLID_COLOR:
         FragColor = color;
         break;
-    case 1:
+    case COLOR_MODE_COLOR_WITH_TEXTURE_ALPHA:
         FragColor.r = color.r;
         FragColor.g = color.g;
         FragColor.b = color.b;
-        FragColor.a = color.a * t.x;
+        FragColor.a = color.a * t.r;
         break;
-    case 2:
+    case COLOR_MODE_COLOR_WITH_TEXTURE_ALPHA_R:
+        FragColor.r = color.r;
+        FragColor.g = 0.f;
+        FragColor.b = 0.f;
+        FragColor.a = color.a * t.r;
+        break;
+    case COLOR_MODE_COLOR_WITH_TEXTURE_ALPHA_G:
+        FragColor.r = 0.f;
+        FragColor.g = color.g;
+        FragColor.b = 0.f;
+        FragColor.a = color.a * t.g;
+        break;
+    case COLOR_MODE_COLOR_WITH_TEXTURE_ALPHA_B:
+        FragColor.r = 0.f;
+        FragColor.g = 0.f;
+        FragColor.b = color.b;
+        FragColor.a = color.a * t.b;
+        break;
+    case COLOR_MODE_COLOR_AND_TEXTURE:
         FragColor = color * t;
         break;
     }

@@ -79,6 +79,9 @@ namespace djv
                 {
                     SolidColor,
                     ColorWithTextureAlpha,
+                    ColorWithTextureAlphaR,
+                    ColorWithTextureAlphaG,
+                    ColorWithTextureAlphaB,
                     ColorAndTexture
                 };
 
@@ -1125,7 +1128,24 @@ namespace djv
                         texture = data.texture;
                         p.render->shader->setUniform(textureSamplerLoc, data.texture);
                     }
-                    vao->draw(vaoOffset, data.vaoSize);
+                    switch (data.colorMode)
+                    {
+                    case ColorMode::ColorWithTextureAlphaR:
+                        glColorMask(GL_TRUE, GL_FALSE, GL_FALSE, GL_TRUE);
+                        vao->draw(vaoOffset, data.vaoSize);
+                        p.render->shader->setUniform(colorModeLoc, static_cast<int>(ColorMode::ColorWithTextureAlphaG));
+                        glColorMask(GL_FALSE, GL_TRUE, GL_FALSE, GL_FALSE);
+                        vao->draw(vaoOffset, data.vaoSize);
+                        p.render->shader->setUniform(colorModeLoc, static_cast<int>(ColorMode::ColorWithTextureAlphaB));
+                        glColorMask(GL_FALSE, GL_FALSE, GL_TRUE, GL_FALSE);
+                        vao->draw(vaoOffset, data.vaoSize);
+                        colorMode = ColorMode::ColorWithTextureAlphaB;
+                        glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
+                        break;
+                    default:
+                        vao->draw(vaoOffset, data.vaoSize);
+                        break;
+                    }
                     vaoOffset += data.vaoSize;
                 }
 
