@@ -1,709 +1,1584 @@
 [
     {
         "source": "Settings", 
-        "description": "", 
+        "text": "Stillingar", 
         "nameSpace": "djv::ViewLib", 
         "id": "Settings", 
-        "text": "Stillingar"
+        "description": ""
     }, 
     {
         "source": "General", 
-        "description": "", 
+        "text": "Almennt", 
         "nameSpace": "djv::ViewLib", 
         "id": "General", 
-        "text": "Almennt"
+        "description": ""
     }, 
     {
         "source": "Playback", 
-        "description": "", 
+        "text": "Spilun", 
         "nameSpace": "djv::ViewLib", 
         "id": "Playback", 
-        "text": "Spilun"
+        "description": ""
     }, 
     {
         "source": "Loop", 
-        "description": "", 
+        "text": "Loop", 
         "nameSpace": "djv::ViewLib", 
         "id": "Loop", 
-        "text": "Loop"
+        "description": ""
     }, 
     {
         "source": "Layout", 
-        "description": "", 
+        "text": "\u00datlit", 
         "nameSpace": "djv::ViewLib", 
         "id": "Layout", 
-        "text": "\u00datlit"
+        "description": ""
     }, 
     {
         "source": "Stop", 
-        "description": "", 
+        "text": "H\u00e6ttu", 
         "nameSpace": "djv::ViewLib", 
         "id": "Stop", 
-        "text": "H\u00e6ttu"
+        "description": ""
     }, 
     {
         "source": "Forward", 
-        "description": "", 
+        "text": "\u00c1fram", 
         "nameSpace": "djv::ViewLib", 
         "id": "Forward", 
-        "text": "\u00c1fram"
+        "description": ""
     }, 
     {
         "source": "Reverse", 
-        "description": "", 
+        "text": "Aftur", 
         "nameSpace": "djv::ViewLib", 
         "id": "Reverse", 
-        "text": "Aftur"
+        "description": ""
     }, 
     {
         "source": "Toggle Playback", 
-        "description": "", 
+        "text": "V\u00edxla spilun", 
         "nameSpace": "djv::ViewLib", 
         "id": "Toggle Playback", 
-        "text": "V\u00edxla spilun"
+        "description": ""
     }, 
     {
         "source": "Toggle Reverse Playback", 
-        "description": "", 
+        "text": "V\u00edxla aftur\u00e1bak", 
         "nameSpace": "djv::ViewLib", 
         "id": "Toggle Reverse Playback", 
-        "text": "V\u00edxla aftur\u00e1bak"
+        "description": ""
     }, 
     {
         "source": "Play Every Frame", 
-        "description": "", 
+        "text": "Spila hvert ramma", 
         "nameSpace": "djv::ViewLib", 
         "id": "Play Every Frame", 
-        "text": "Spila hvert ramma"
+        "description": ""
     }, 
     {
         "source": "Go To In Point", 
-        "description": "", 
+        "text": "Fara \u00ed punkt", 
         "nameSpace": "djv::ViewLib", 
         "id": "Go To In Point", 
-        "text": "Fara \u00ed punkt"
+        "description": ""
     }, 
     {
         "source": "Go To Out Point", 
-        "description": "", 
+        "text": "Fari\u00f0 \u00fat \u00far sta\u00f0", 
         "nameSpace": "djv::ViewLib", 
         "id": "Go To Out Point", 
-        "text": "Fari\u00f0 \u00fat \u00far sta\u00f0"
+        "description": ""
     }, 
     {
         "source": "Go To Start Frame", 
-        "description": "", 
+        "text": "Fara \u00ed byrjunarlista", 
         "nameSpace": "djv::ViewLib", 
         "id": "Go To Start Frame", 
-        "text": "Fara \u00ed byrjunarlista"
+        "description": ""
     }, 
     {
         "source": "Go To End Frame", 
-        "description": "", 
+        "text": "Fara \u00ed lok ramma", 
         "nameSpace": "djv::ViewLib", 
         "id": "Go To End Frame", 
-        "text": "Fara \u00ed lok ramma"
+        "description": ""
     }, 
     {
         "source": "Next Frame", 
-        "description": "", 
+        "text": "N\u00e6sta ramma", 
         "nameSpace": "djv::ViewLib", 
         "id": "Next Frame", 
-        "text": "N\u00e6sta ramma"
+        "description": ""
     }, 
     {
         "source": "Next Frame X10", 
-        "description": "", 
+        "text": "N\u00e6sta rammi X10", 
         "nameSpace": "djv::ViewLib", 
         "id": "Next Frame X10", 
-        "text": "N\u00e6sta rammi X10"
+        "description": ""
     }, 
     {
         "source": "Next Frame X100", 
-        "description": "", 
+        "text": "N\u00e6sta ramma X100", 
         "nameSpace": "djv::ViewLib", 
         "id": "Next Frame X100", 
-        "text": "N\u00e6sta ramma X100"
+        "description": ""
     }, 
     {
         "source": "Previous Frame", 
-        "description": "", 
+        "text": "Fyrri ramma", 
         "nameSpace": "djv::ViewLib", 
         "id": "Previous Frame", 
-        "text": "Fyrri ramma"
+        "description": ""
     }, 
     {
         "source": "Previous Frame X10", 
-        "description": "", 
+        "text": "Fyrri ramma X10", 
         "nameSpace": "djv::ViewLib", 
         "id": "Previous Frame X10", 
-        "text": "Fyrri ramma X10"
+        "description": ""
     }, 
     {
         "source": "Previous Frame X100", 
-        "description": "", 
+        "text": "Fyrri ramma X100", 
         "nameSpace": "djv::ViewLib", 
         "id": "Previous Frame X100", 
-        "text": "Fyrri ramma X100"
+        "description": ""
     }, 
     {
         "source": "Enable In/Out Points", 
-        "description": "", 
+        "text": "Virkja inn / \u00fat stig", 
         "nameSpace": "djv::ViewLib", 
         "id": "Enable In/Out Points", 
-        "text": "Virkja inn / \u00fat stig"
+        "description": ""
     }, 
     {
         "source": "Set In Point", 
-        "description": "", 
+        "text": "Setja \u00ed punkt", 
         "nameSpace": "djv::ViewLib", 
         "id": "Set In Point", 
-        "text": "Setja \u00ed punkt"
+        "description": ""
     }, 
     {
         "source": "Set Out Point", 
-        "description": "", 
+        "text": "Setja \u00fat punkt", 
         "nameSpace": "djv::ViewLib", 
         "id": "Set Out Point", 
-        "text": "Setja \u00fat punkt"
+        "description": ""
     }, 
     {
         "source": "Reset In Point", 
-        "description": "", 
+        "text": "Endurstilla \u00ed punkti", 
         "nameSpace": "djv::ViewLib", 
         "id": "Reset In Point", 
-        "text": "Endurstilla \u00ed punkti"
+        "description": ""
     }, 
     {
         "source": "Reset Out Point", 
-        "description": "", 
+        "text": "Endurstilla \u00fatpunkt", 
         "nameSpace": "djv::ViewLib", 
         "id": "Reset Out Point", 
-        "text": "Endurstilla \u00fatpunkt"
+        "description": ""
     }, 
     {
         "source": "Window", 
-        "description": "", 
+        "text": "Gluggi", 
         "nameSpace": "djv::ViewLib", 
         "id": "Window", 
-        "text": "Gluggi"
+        "description": ""
     }, 
     {
         "source": "Maximize", 
-        "description": "", 
+        "text": "H\u00e1marka", 
         "nameSpace": "djv::ViewLib", 
         "id": "Maximize", 
-        "text": "H\u00e1marka"
+        "description": ""
     }, 
     {
         "source": "Next", 
-        "description": "", 
+        "text": "N\u00e6st", 
         "nameSpace": "djv::ViewLib", 
         "id": "Next", 
-        "text": "N\u00e6st"
+        "description": ""
     }, 
     {
         "source": "Prev", 
-        "description": "", 
+        "text": "Fyrri", 
         "nameSpace": "djv::ViewLib", 
         "id": "Prev", 
-        "text": "Fyrri"
+        "description": ""
     }, 
     {
         "source": "Duplicate", 
-        "description": "", 
+        "text": "Afrit", 
         "nameSpace": "djv::ViewLib", 
         "id": "Duplicate", 
-        "text": "Afrit"
+        "description": ""
     }, 
     {
         "source": "Fit", 
-        "description": "", 
+        "text": "Passa", 
         "nameSpace": "djv::ViewLib", 
         "id": "Fit", 
-        "text": "Passa"
+        "description": ""
     }, 
     {
         "source": "Full Screen", 
-        "description": "", 
+        "text": "Fullskj\u00e1r", 
         "nameSpace": "djv::ViewLib", 
         "id": "Full Screen", 
-        "text": "Fullskj\u00e1r"
+        "description": ""
     }, 
     {
         "source": "cannot create OpenAL source", 
-        "description": "", 
+        "text": "Ekki er h\u00e6gt a\u00f0 b\u00faa til Open Source", 
         "nameSpace": "djv::ViewLib", 
         "id": "cannot create OpenAL source", 
-        "text": "Ekki er h\u00e6gt a\u00f0 b\u00faa til Open Source"
+        "description": ""
     }, 
     {
         "source": "cannot create OpenAL buffers", 
-        "description": "", 
+        "text": "Ekki er h\u00e6gt a\u00f0 b\u00faa til OpenAL bi\u00f0minni", 
         "nameSpace": "djv::ViewLib", 
         "id": "cannot create OpenAL buffers", 
-        "text": "Ekki er h\u00e6gt a\u00f0 b\u00faa til OpenAL bi\u00f0minni"
+        "description": ""
     }, 
     {
         "source": "cannot open", 
-        "description": "", 
+        "text": "Ekki er h\u00e6gt a\u00f0 opna", 
         "nameSpace": "djv::ViewLib", 
         "id": "cannot open", 
-        "text": "Ekki er h\u00e6gt a\u00f0 opna"
+        "description": ""
     }, 
     {
         "source": "Recent Files", 
-        "description": "", 
+        "text": "N\u00fdlegar skr\u00e1r", 
         "nameSpace": "djv::ViewLib", 
         "id": "Recent Files", 
-        "text": "N\u00fdlegar skr\u00e1r"
+        "description": ""
     }, 
     {
         "source": "items", 
-        "description": "", 
+        "text": "hlutir", 
         "nameSpace": "djv::ViewLib", 
         "id": "items", 
-        "text": "hlutir"
+        "description": ""
     }, 
     {
         "source": "Debugging Log", 
-        "description": "", 
+        "text": "Kembiforrit", 
         "nameSpace": "djv::ViewLib", 
         "id": "Debugging Log", 
-        "text": "Kembiforrit"
+        "description": ""
     }, 
     {
         "source": "Copy", 
-        "description": "", 
+        "text": "Afrita", 
         "nameSpace": "djv::ViewLib", 
         "id": "Copy", 
-        "text": "Afrita"
+        "description": ""
     }, 
     {
         "source": "Reload", 
-        "description": "", 
+        "text": "Endurhla\u00f0a", 
         "nameSpace": "djv::ViewLib", 
         "id": "Reload", 
-        "text": "Endurhla\u00f0a"
+        "description": ""
     }, 
     {
         "source": "Clear", 
-        "description": "", 
+        "text": "Hreinsa", 
         "nameSpace": "djv::ViewLib", 
         "id": "Clear", 
-        "text": "Hreinsa"
+        "description": ""
     }, 
     {
         "source": "Display", 
-        "description": "", 
+        "text": "S\u00fdna", 
         "nameSpace": "djv::ViewLib", 
         "id": "Display", 
-        "text": "S\u00fdna"
+        "description": ""
     }, 
     {
         "source": "Language", 
-        "description": "", 
+        "text": "Tungum\u00e1l", 
         "nameSpace": "djv::ViewLib", 
         "id": "Language", 
-        "text": "Tungum\u00e1l"
+        "description": ""
     }, 
     {
         "source": "Palette", 
-        "description": "", 
+        "text": "Palette", 
         "nameSpace": "djv::ViewLib", 
         "id": "Palette", 
-        "text": "Palette"
+        "description": ""
     }, 
     {
         "source": "Tools", 
-        "description": "", 
+        "text": "Verkf\u00e6ri", 
         "nameSpace": "djv::ViewLib", 
         "id": "Tools", 
-        "text": "Verkf\u00e6ri"
+        "description": ""
     }, 
     {
         "source": "About", 
-        "description": "", 
+        "text": "Um", 
         "nameSpace": "djv::ViewLib", 
         "id": "About", 
-        "text": "Um"
+        "description": ""
     }, 
     {
         "source": "About Header", 
-        "description": "", 
+        "text": "Um haus", 
         "nameSpace": "djv::ViewLib", 
         "id": "AboutHeader", 
-        "text": "Um haus"
+        "description": ""
     }, 
     {
         "source": "Copyright", 
-        "description": "", 
+        "text": "H\u00f6fundarr\u00e9ttur", 
         "nameSpace": "djv::ViewLib", 
         "id": "AboutCopyright", 
-        "text": "H\u00f6fundarr\u00e9ttur"
+        "description": ""
     }, 
     {
         "source": "License", 
-        "description": "", 
+        "text": "Leyfi", 
         "nameSpace": "djv::ViewLib", 
         "id": "AboutLicense", 
-        "text": "Leyfi"
+        "description": ""
     }, 
     {
         "source": "Contributors Header", 
-        "description": "", 
+        "text": "H\u00f6fundur H\u00f6fundur", 
         "nameSpace": "djv::ViewLib", 
         "id": "AboutContributorsHeader", 
-        "text": "H\u00f6fundur H\u00f6fundur"
+        "description": ""
+    }, 
+    {
+        "source": "Contributors", 
+        "text": "Framlag", 
+        "nameSpace": "djv::ViewLib", 
+        "id": "AboutContributors", 
+        "description": ""
+    }, 
+    {
+        "source": "Third Party Header", 
+        "text": "H\u00f3pur \u00feri\u00f0ja a\u00f0ila", 
+        "nameSpace": "djv::ViewLib", 
+        "id": "AboutThirdPartyHeader", 
+        "description": ""
+    }, 
+    {
+        "source": "Third Party", 
+        "text": "\u00deri\u00f0ji a\u00f0ili", 
+        "nameSpace": "djv::ViewLib", 
+        "id": "AboutThirdParty", 
+        "description": ""
+    }, 
+    {
+        "source": "Trademarks Header", 
+        "text": "V\u00f6rumerki Header", 
+        "nameSpace": "djv::ViewLib", 
+        "id": "AboutTrademarksHeader", 
+        "description": ""
+    }, 
+    {
+        "source": "Trademarks", 
+        "text": "V\u00f6rumerki", 
+        "nameSpace": "djv::ViewLib", 
+        "id": "AboutTrademarks", 
+        "description": ""
+    }, 
+    {
+        "source": "File Browser", 
+        "text": "File Browser", 
+        "nameSpace": "djv::ViewLib", 
+        "id": "File Browser", 
+        "description": ""
+    }, 
+    {
+        "source": "Exit", 
+        "text": "H\u00e6tta", 
+        "nameSpace": "djv::ViewLib", 
+        "id": "Exit", 
+        "description": ""
+    }, 
+    {
+        "source": "Are you sure you want to exit?", 
+        "text": "Ertu viss um a\u00f0 \u00fe\u00fa viljir fara?", 
+        "nameSpace": "djv::ViewLib", 
+        "id": "Are you sure you want to exit?", 
+        "description": ""
+    }, 
+    {
+        "source": "Yes", 
+        "text": "J\u00e1", 
+        "nameSpace": "djv::ViewLib", 
+        "id": "Yes", 
+        "description": ""
+    }, 
+    {
+        "source": "No", 
+        "text": "Nr", 
+        "nameSpace": "djv::ViewLib", 
+        "id": "No", 
+        "description": ""
+    }, 
+    {
+        "source": "File", 
+        "text": "Skr\u00e1", 
+        "nameSpace": "djv::ViewLib", 
+        "id": "File", 
+        "description": ""
+    }, 
+    {
+        "source": "Proxy Scale", 
+        "text": "Proxy Scale", 
+        "nameSpace": "djv::ViewLib", 
+        "id": "Proxy Scale", 
+        "description": ""
+    }, 
+    {
+        "source": "Open", 
+        "text": "Opna", 
+        "nameSpace": "djv::ViewLib", 
+        "id": "Open", 
+        "description": ""
+    }, 
+    {
+        "source": "Recent", 
+        "text": "N\u00fdleg", 
+        "nameSpace": "djv::ViewLib", 
+        "id": "Recent", 
+        "description": ""
+    }, 
+    {
+        "source": "Reload Frame", 
+        "text": "Endurhla\u00f0a ramma", 
+        "nameSpace": "djv::ViewLib", 
+        "id": "Reload Frame", 
+        "description": ""
+    }, 
+    {
+        "source": "Close", 
+        "text": "Loka", 
+        "nameSpace": "djv::ViewLib", 
+        "id": "Close", 
+        "description": ""
+    }, 
+    {
+        "source": "Export", 
+        "text": "\u00datflutningur", 
+        "nameSpace": "djv::ViewLib", 
+        "id": "Export", 
+        "description": ""
+    }, 
+    {
+        "source": "Layers", 
+        "text": "Lag", 
+        "nameSpace": "djv::ViewLib", 
+        "id": "Layers", 
+        "description": ""
+    }, 
+    {
+        "source": "Next Layer", 
+        "text": "N\u00e6sta lag", 
+        "nameSpace": "djv::ViewLib", 
+        "id": "Next Layer", 
+        "description": ""
+    }, 
+    {
+        "source": "Previous Layer", 
+        "text": "Fyrri lag", 
+        "nameSpace": "djv::ViewLib", 
+        "id": "Previous Layer", 
+        "description": ""
+    }, 
+    {
+        "source": "8-bit Conversion", 
+        "text": "8-bita vi\u00f0skipta", 
+        "nameSpace": "djv::ViewLib", 
+        "id": "8-bit Conversion", 
+        "description": ""
+    }, 
+    {
+        "source": "Memory Cache", 
+        "text": "Minnisskyndiminni", 
+        "nameSpace": "djv::ViewLib", 
+        "id": "Memory Cache", 
+        "description": ""
+    }, 
+    {
+        "source": "Clear Cache", 
+        "text": "Hreinsa skyndiminni", 
+        "nameSpace": "djv::ViewLib", 
+        "id": "Clear Cache", 
+        "description": ""
+    }, 
+    {
+        "source": "View", 
+        "text": "\u00dats\u00fdni", 
+        "nameSpace": "djv::ViewLib", 
+        "id": "View", 
+        "description": ""
+    }, 
+    {
+        "source": "Grid", 
+        "text": "Rist", 
+        "nameSpace": "djv::ViewLib", 
+        "id": "Grid", 
+        "description": ""
+    }, 
+    {
+        "source": "Left", 
+        "text": "Vinstri", 
+        "nameSpace": "djv::ViewLib", 
+        "id": "Left", 
+        "description": ""
+    }, 
+    {
+        "source": "Right", 
+        "text": "H\u00e6gri", 
+        "nameSpace": "djv::ViewLib", 
+        "id": "Right", 
+        "description": ""
+    }, 
+    {
+        "source": "Up", 
+        "text": "Upp", 
+        "nameSpace": "djv::ViewLib", 
+        "id": "Up", 
+        "description": ""
+    }, 
+    {
+        "source": "Down", 
+        "text": "Ni\u00f0ur", 
+        "nameSpace": "djv::ViewLib", 
+        "id": "Down", 
+        "description": ""
+    }, 
+    {
+        "source": "Center", 
+        "text": "Mi\u00f0st\u00f6\u00f0", 
+        "nameSpace": "djv::ViewLib", 
+        "id": "Center", 
+        "description": ""
+    }, 
+    {
+        "source": "Zoom In", 
+        "text": "Zoom inn", 
+        "nameSpace": "djv::ViewLib", 
+        "id": "Zoom In", 
+        "description": ""
+    }, 
+    {
+        "source": "Zoom Out", 
+        "text": "Zoom \u00fat", 
+        "nameSpace": "djv::ViewLib", 
+        "id": "Zoom Out", 
+        "description": ""
+    }, 
+    {
+        "source": "Reset Zoom", 
+        "text": "Endurstilla Zoom", 
+        "nameSpace": "djv::ViewLib", 
+        "id": "Reset Zoom", 
+        "description": ""
+    }, 
+    {
+        "source": "Reset Position and Zoom", 
+        "text": "Endurstilla st\u00f6\u00f0u og a\u00f0dr\u00e1tt", 
+        "nameSpace": "djv::ViewLib", 
+        "id": "Reset Position and Zoom", 
+        "description": ""
+    }, 
+    {
+        "source": "HUD", 
+        "text": "HUD", 
+        "nameSpace": "djv::ViewLib", 
+        "id": "HUD", 
+        "description": ""
+    }, 
+    {
+        "source": "Documentation", 
+        "text": "Skjalfesting", 
+        "nameSpace": "djv::ViewLib", 
+        "id": "Documentation", 
+        "description": ""
+    }, 
+    {
+        "source": "Information", 
+        "text": "Uppl\u00fdsingar", 
+        "nameSpace": "djv::ViewLib", 
+        "id": "Information", 
+        "description": ""
+    }, 
+    {
+        "source": "DebugLog", 
+        "text": "DebugLog", 
+        "nameSpace": "djv::ViewLib", 
+        "id": "DebugLog", 
+        "description": ""
+    }, 
+    {
+        "source": "Help", 
+        "text": "Hj\u00e1lp", 
+        "nameSpace": "djv::ViewLib", 
+        "id": "Help", 
+        "description": ""
+    }, 
+    {
+        "source": "Image", 
+        "text": "Mynd", 
+        "nameSpace": "djv::ViewLib", 
+        "id": "Image", 
+        "description": ""
+    }, 
+    {
+        "source": "Scale", 
+        "text": "Skala", 
+        "nameSpace": "djv::ViewLib", 
+        "id": "Scale", 
+        "description": ""
+    }, 
+    {
+        "source": "Rotate", 
+        "text": "Sn\u00faa", 
+        "nameSpace": "djv::ViewLib", 
+        "id": "Rotate", 
+        "description": ""
+    }, 
+    {
+        "source": "Mirror Horizontal", 
+        "text": "Mirror L\u00e1r\u00e9tt", 
+        "nameSpace": "djv::ViewLib", 
+        "id": "Mirror Horizontal", 
+        "description": ""
+    }, 
+    {
+        "source": "Mirror Vertical", 
+        "text": "Spegill l\u00f3\u00f0r\u00e9tt", 
+        "nameSpace": "djv::ViewLib", 
+        "id": "Mirror Vertical", 
+        "description": ""
+    }, 
+    {
+        "source": "Color Manager", 
+        "text": "Litastj\u00f3rnun", 
+        "nameSpace": "djv::ViewLib", 
+        "id": "Color Manager", 
+        "description": ""
+    }, 
+    {
+        "source": "Color Profile", 
+        "text": "Litur pr\u00f3f\u00edl", 
+        "nameSpace": "djv::ViewLib", 
+        "id": "Color Profile", 
+        "description": ""
+    }, 
+    {
+        "source": "Display Profile", 
+        "text": "Sko\u00f0a pr\u00f3f\u00edl", 
+        "nameSpace": "djv::ViewLib", 
+        "id": "Display Profile", 
+        "description": ""
+    }, 
+    {
+        "source": "Premulitplied Alpha", 
+        "text": "Premulitplied Alpha", 
+        "nameSpace": "djv::ViewLib", 
+        "id": "Premulitplied Alpha", 
+        "description": ""
+    }, 
+    {
+        "source": "Show Frame Store", 
+        "text": "S\u00fdna rammaverslun", 
+        "nameSpace": "djv::ViewLib", 
+        "id": "Show Frame Store", 
+        "description": ""
+    }, 
+    {
+        "source": "Set Frame Store", 
+        "text": "Setja rammaverslun", 
+        "nameSpace": "djv::ViewLib", 
+        "id": "Set Frame Store", 
+        "description": ""
+    }, 
+    {
+        "source": "Open Tooltip", 
+        "text": "Open Tooltip", 
+        "nameSpace": "djv::ViewLib::FileSystem", 
+        "description": "", 
+        "id": "Open Tooltip"
+    }, 
+    {
+        "source": "Recent Tooltip", 
+        "text": "N\u00fdtt t\u00f3ltip", 
+        "nameSpace": "djv::ViewLib::FileSystem", 
+        "description": "", 
+        "id": "Recent Tooltip"
+    }, 
+    {
+        "source": "Reload Tooltip", 
+        "text": "Endurhla\u00f0a Tooltip", 
+        "nameSpace": "djv::ViewLib::FileSystem", 
+        "description": "", 
+        "id": "Reload Tooltip"
+    }, 
+    {
+        "source": "Reload Frame Tooltip", 
+        "text": "Endurhla\u00f0a Frame Tooltip", 
+        "nameSpace": "djv::ViewLib::FileSystem", 
+        "description": "", 
+        "id": "Reload Frame Tooltip"
+    }, 
+    {
+        "source": "Close Tooltip", 
+        "text": "Loka Verkf\u00e6ri", 
+        "nameSpace": "djv::ViewLib::FileSystem", 
+        "description": "", 
+        "id": "Close Tooltip"
+    }, 
+    {
+        "source": "Export Tooltip", 
+        "text": "Export Tooltip", 
+        "nameSpace": "djv::ViewLib::FileSystem", 
+        "description": "", 
+        "id": "Export Tooltip"
+    }, 
+    {
+        "source": "Next Tooltip", 
+        "text": "Next Tooltip", 
+        "nameSpace": "djv::ViewLib::FileSystem", 
+        "description": "", 
+        "id": "Next Tooltip"
+    }, 
+    {
+        "source": "Prev Tooltip", 
+        "text": "Prev Tooltip", 
+        "nameSpace": "djv::ViewLib::FileSystem", 
+        "description": "", 
+        "id": "Prev Tooltip"
+    }, 
+    {
+        "source": "Layers Tooltip", 
+        "text": "Layer Tooltip", 
+        "nameSpace": "djv::ViewLib::FileSystem", 
+        "description": "", 
+        "id": "Layers Tooltip"
+    }, 
+    {
+        "source": "Next Layer Tooltip", 
+        "text": "Next Layer Tooltip", 
+        "nameSpace": "djv::ViewLib::FileSystem", 
+        "description": "", 
+        "id": "Next Layer Tooltip"
+    }, 
+    {
+        "source": "Previous Layer Tooltip", 
+        "text": "Fyrri Layer Tooltip", 
+        "nameSpace": "djv::ViewLib::FileSystem", 
+        "description": "", 
+        "id": "Previous Layer Tooltip"
+    }, 
+    {
+        "source": "8-bit Conversion Tooltip", 
+        "text": "8-bita vi\u00f0skipta t\u00f3ltip", 
+        "nameSpace": "djv::ViewLib::FileSystem", 
+        "description": "", 
+        "id": "8-bit Conversion Tooltip"
+    }, 
+    {
+        "source": "Memory Cache Tooltip", 
+        "text": "Minni Cache Tooltip", 
+        "nameSpace": "djv::ViewLib::FileSystem", 
+        "description": "", 
+        "id": "Memory Cache Tooltip"
+    }, 
+    {
+        "source": "Clear Cache Tooltip", 
+        "text": "Hreinsa Cache Tooltip", 
+        "nameSpace": "djv::ViewLib::FileSystem", 
+        "description": "", 
+        "id": "Clear Cache Tooltip"
+    }, 
+    {
+        "source": "Settings Tooltip", 
+        "text": "Stillingar Tooltip", 
+        "nameSpace": "djv::ViewLib::FileSystem", 
+        "description": "", 
+        "id": "Settings Tooltip"
+    }, 
+    {
+        "source": "Exit Tooltip", 
+        "text": "H\u00e6tta vi\u00f0 verkf\u00e6ri\u00f0", 
+        "nameSpace": "djv::ViewLib::FileSystem", 
+        "description": "", 
+        "id": "Exit Tooltip"
+    }, 
+    {
+        "source": "Display Size", 
+        "text": "Skj\u00e1st\u00e6r\u00f0", 
+        "nameSpace": "djv::ViewLib::GeneralSettingsWidget", 
+        "description": "", 
+        "id": "Display Size"
+    }, 
+    {
+        "source": "Color Palette", 
+        "text": "Litaspjald", 
+        "nameSpace": "djv::ViewLib::GeneralSettingsWidget", 
+        "description": "", 
+        "id": "Color Palette"
+    }, 
+    {
+        "source": "DJV Imaging", 
+        "text": "DJV Imaging", 
+        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
+        "description": "", 
+        "id": "Header"
+    }, 
+    {
+        "source": "Copyright (c) 2004-2019 Darby Johnston, All rights reserved", 
+        "text": "H\u00f6fundarr\u00e9ttur (c) 2004-2019 Darby Johnston, \u00d6ll r\u00e9ttindi \u00e1skilin", 
+        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
+        "description": "", 
+        "id": "Copyright"
+    }, 
+    {
+        "source": "Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:", 
+        "text": "Endurdreifing og notkun \u00ed uppt\u00f6kum og tv\u00f6f\u00f6ldum myndum, me\u00f0 e\u00f0a \u00e1n breytinga, er leyf\u00f0 a\u00f0 \u00fev\u00ed tilskildu a\u00f0 eftirfarandi skilyr\u00f0um s\u00e9 fulln\u00e6gt:", 
+        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
+        "description": "", 
+        "id": "License1"
+    }, 
+    {
+        "source": "* Redistributions of source code must retain the above copyright notice, this list of conditions, and the following disclaimer.", 
+        "text": "* Endurdekning k\u00f3\u00f0ans ver\u00f0ur a\u00f0 halda framangreindum h\u00f6fundarr\u00e9tti, \u00feessum lista yfir skilyr\u00f0i og eftirfarandi fyrirvari.", 
+        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
+        "description": "", 
+        "id": "License2"
+    }, 
+    {
+        "source": "* Redistributions in binary form must reproduce the above copyright notice, this list of conditions, and the following disclaimer in the documentation and/or other materials provided with the distribution.", 
+        "text": "* Endurdreifingar \u00ed tv\u00f6faldur formi ver\u00f0a a\u00f0 endurskapa framangreindan h\u00f6fundarr\u00e9ttarskilabo\u00f0, \u00feennan lista af skilyr\u00f0um og eftirfarandi fyrirvari \u00ed skj\u00f6lunum og / e\u00f0a \u00f6\u00f0ru efni sem fylgir dreifingu.", 
+        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
+        "description": "", 
+        "id": "License3"
+    }, 
+    {
+        "source": "* Neither the names of the copyright holders nor the names of any contributors may be used to endorse or promote products derived from this software without specific prior written permission.", 
+        "text": "* Hvorki n\u00f6fn handhafa h\u00f6fundarr\u00e9ttar n\u00e9 n\u00f6fn allra \u00fe\u00e1tttakenda er heimilt a\u00f0 nota til a\u00f0 sty\u00f0ja vi\u00f0 e\u00f0a kynna v\u00f6rur sem unnar eru af \u00feessari hugb\u00fana\u00f0i \u00e1n s\u00e9rstakrar skriflegs leyfis.", 
+        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
+        "description": "", 
+        "id": "License4"
+    }, 
+    {
+        "source": "THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS \"AS IS\" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.", 
+        "text": "\u00deETTA HUGB\u00daNA\u00d0UR er veitt af h\u00f6fundarr\u00e9ttarh\u00f6fum og frambo\u00f0i &quot;eins og er&quot; og hvers kyns \u00f3\u00fearfa e\u00f0a \u00f3beinar \u00e1byrg\u00f0ir, \u00fe.mt, en ekki takm\u00f6rku\u00f0 vi\u00f0, \u00fe\u00e6r \u00f3ska\u00f0legar \u00e1byrg\u00f0ir um s\u00f6luh\u00e6fni og h\u00e6fni til tiltekins markmi\u00f0ar eru \u00f3skr\u00e1\u00f0. EKKI SKAL HAFA H\u00d6FUNDARR\u00c9TTUR E\u00d0A B\u00d6RNAR \u00c1BYRG\u00d0AR VEGNA ANNA\u00d0IR, TILBYRG\u00d0AR, S\u00c9RST\u00d6KU, S\u00c9RST\u00d6KU, LYFJAFR\u00c6\u00d0I, E\u00d0A FJ\u00c1RFESTINGAR SKO\u00d0UR (\u00deAR A\u00d0 EKKI E\u00d0A TAKMARKA\u00d0 AF, SKIPTA V\u00d6RU E\u00d0A \u00deJ\u00d3NUSTU, TAPA VI\u00d0 NOTKUN, G\u00d6GN, E\u00d0A HAGNA\u00d0AR; E\u00d0A BUSINESS AFRUPTION) HVORT A\u00d0 GERA A\u00d0 SKO\u00d0A OG SKO\u00d0A \u00c1KV\u00c6\u00d0I, E\u00d0A \u00cd SAMNINGUM, \u00c1BYRG\u00d0 SKILYR\u00d0I, E\u00d0A TORT (\u00deAR A\u00d0 TAKA A\u00d0 TAKA A\u00d0 SKO\u00d0A EKKI E\u00d0A ANNAR), E\u00d0A A\u00d0 FYRIR NOTKUN \u00deESSA HUGB\u00daNA\u00d0AR, EFTIR VI\u00d0 A\u00d0 FJ\u00c1RM\u00c1LAST\u00d6\u00d0UGLEIKI.", 
+        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
+        "description": "", 
+        "id": "License5"
+    }, 
+    {
+        "source": "Contributors", 
+        "text": "Framlag", 
+        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
+        "description": "", 
+        "id": "Contributors Header"
+    }, 
+    {
+        "source": "Portions of this software are copyright (in alphabetical order):", 
+        "text": "Hlutar af \u00feessari hugb\u00fana\u00f0i eru h\u00f6fundarr\u00e9ttur (\u00ed stafr\u00f3fsr\u00f6\u00f0):", 
+        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
+        "description": "", 
+        "id": "Contributors Text 1"
+    }, 
+    {
+        "source": "* Copyright (c) 2004-2019 Darby Johnston, All rights reserved", 
+        "text": "* H\u00f6fundarr\u00e9ttur (c) 2004-2019 Darby Johnston, \u00d6ll r\u00e9ttindi \u00e1skilin", 
+        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
+        "description": "", 
+        "id": "Contributors Text 2"
+    }, 
+    {
+        "source": "* Copyright (c) 2008 Alan Jones, All rights reserved", 
+        "text": "* H\u00f6fundarr\u00e9ttur (c) 2008 Alan Jones, \u00d6ll r\u00e9ttindi \u00e1skilin", 
+        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
+        "description": "", 
+        "id": "Contributors Text 3"
+    }, 
+    {
+        "source": "* Copyright (c) 2008-2009 Mikael Sundell, All rights reserved", 
+        "text": "* H\u00f6fundarr\u00e9ttur (c) 2008-2009 Mikael Sundell, \u00d6ll r\u00e9ttindi \u00e1skilin", 
+        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
+        "description": "", 
+        "id": "Contributors Text 4"
+    }, 
+    {
+        "source": "Third Party Software", 
+        "text": "Hugb\u00fana\u00f0ur \u00feri\u00f0ja a\u00f0ila", 
+        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
+        "description": "", 
+        "id": "Third Party Header"
+    }, 
+    {
+        "source": "This software is based in part on the works of (in alphabetical order):", 
+        "text": "\u00deessi hugb\u00fana\u00f0ur er a\u00f0 hluta til bygg\u00f0ur \u00e1 verkum (\u00ed stafr\u00f3fsr\u00f6\u00f0):", 
+        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
+        "description": "", 
+        "id": "Third Party Text 1"
+    }, 
+    {
+        "source": "* CMake, http://www.cmake.org, Copyright 2000-2011 Kitware, Inc., Insight Software Consortium, All rights reserved", 
+        "text": "* CMake, http://www.cmake.org, H\u00f6fundarr\u00e9ttur 2000-2011 Kitware, Inc., Insight Software Consortium, \u00d6ll r\u00e9ttindi \u00e1skilin", 
+        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
+        "description": "", 
+        "id": "Third Party Text 2"
+    }, 
+    {
+        "source": "* dr_libs, https://github.com/mackron/dr_libs, David Reid", 
+        "text": "* dr_libs, https://github.com/mackron/dr_libs, David Reid", 
+        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
+        "description": "", 
+        "id": "Third Party Text 3"
+    }, 
+    {
+        "source": "* FFmpeg, http://www.ffmpeg.org, Licensed under the LGPLv2.1, http://www.gnu.org/pcenses/old-pcenses/lgpl-2.1.html", 
+        "text": "* FFmpeg, http://www.ffmpeg.org, Leyfisveitandi samkv\u00e6mt LGPLv2.1, http://www.gnu.org/pcenses/old-pcenses/lgpl-2.1.html", 
+        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
+        "description": "", 
+        "id": "Third Party Text 4"
+    }, 
+    {
+        "source": "* FreeType, https://www.freetype.org, Copyright (c) 2018, The FreeType Project", 
+        "text": "* FreeType, https://www.freetype.org, Copyright (c) 2018, The FreeType Project", 
+        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
+        "description": "", 
+        "id": "Third Party Text 5"
+    }, 
+    {
+        "source": "* glbinding, https://glbinding.org, Copyright (c) 2014-2015 Computer Graphics Systems Group at the Hasso-Plattner-Institute and CG Internals GmbH, Germany", 
+        "text": "* glbinding, https://glbinding.org, H\u00f6fundarr\u00e9ttur (c) 2014-2015 Computer Graphics Systems Group \u00ed Hasso-Plattner-Institute og CG Internals GmbH, \u00de\u00fdskalandi", 
+        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
+        "description": "", 
+        "id": "Third Party Text 6"
+    }, 
+    {
+        "source": "* GLFW, https://www.glfw.org, Copyright (c) 2002-2006 Marcus Geelnard, Copyright (c) 2006-2016 Camilla L\u00f6wy <elmindreda@glfw.org>", 
+        "text": "* GLFW, https://www.glfw.org, H\u00f6fundarr\u00e9ttur (c) 2002-2006 Marcus Geelnard, H\u00f6fundarr\u00e9ttur (c) 2006-2016 Camilla L\u00f6wy <elmindreda@glfw.org>", 
+        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
+        "description": "", 
+        "id": "Third Party Text 7"
+    }, 
+    {
+        "source": "* GLM, https://glm.g-truc.net/0.9.9/index.html, Copyright (c) 2005-2017 G-Truc Creation", 
+        "text": "* GLM, https://glm.g-truc.net/0.9.9/index.html, H\u00f6fundarr\u00e9ttur (c) 2005-2017 G-Truc Creation", 
+        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
+        "description": "", 
+        "id": "Third Party Text 8"
+    }, 
+    {
+        "source": "* libjpeg, http://www.ijg.org, Copyright (c) 1991-2012, Thomas G. Lane, Guido Vollbeding", 
+        "text": "* libjpeg, http://www.ijg.org, H\u00f6fundarr\u00e9ttur (c) 1991-2012, Thomas G. Lane, Guido Vollbeding", 
+        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
+        "description": "", 
+        "id": "Third Party Text 9"
+    }, 
+    {
+        "source": "* libpng, http://www.libpng.org, Copyright (c) 2004, 2006-2012 Glenn Randers-Pehrson", 
+        "text": "* libpng, http://www.libpng.org, H\u00f6fundarr\u00e9ttur (c) 2004, 2006-2012 Glenn Randers-Pehrson", 
+        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
+        "description": "", 
+        "id": "Third Party Text 10"
+    }, 
+    {
+        "source": "* libtiff, http://www.libtiff.org, Copyright (c) 1988-1997 Sam Leffler, Copyright (c) 1991-1997 Silicon Graphics, Inc", 
+        "text": "* libtiff, http://www.libtiff.org, h\u00f6fundarr\u00e9ttur (c) 1988-1997 Sam Leffler, h\u00f6fundarr\u00e9ttur (c) 1991-1997 Silicon Graphics, Inc", 
+        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
+        "description": "", 
+        "id": "Third Party Text 11"
+    }, 
+    {
+        "source": "* OpenAL, https://www.openal.org, Copyright (C) 1999-2000 by Loki Software", 
+        "text": "* OpenAL, https://www.openal.org, H\u00f6fundarr\u00e9ttur (C) 1999-2000 eftir Loki Software", 
+        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
+        "description": "", 
+        "id": "Third Party Text 12"
+    }, 
+    {
+        "source": "* OpenEXR, http://www.openexr.com, Copyright (c) 2006, Industrial Light and Magic, a division of Lucasfilm Entertainment Company Ltd.", 
+        "text": "* OpenEXR, http://www.openexr.com, H\u00f6fundarr\u00e9ttur (c) 2006, Industrial Light and Magic, deild Lucasfilm Entertainment Company Ltd.", 
+        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
+        "description": "", 
+        "id": "Third Party Text 13"
+    }, 
+    {
+        "source": "* zlib, http://www.zlib.net, Copyright (c) 1995-2013 Jean-loup Gailly and Mark Adler", 
+        "text": "* zlib, http://www.zlib.net, H\u00f6fundarr\u00e9ttur (c) 1995-2013 Jean-loup Gailly og Mark Adler", 
+        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
+        "description": "", 
+        "id": "Third Party Text 14"
+    }, 
+    {
+        "source": "Trademarks", 
+        "text": "V\u00f6rumerki", 
+        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
+        "description": "", 
+        "id": "Trademarks Header"
+    }, 
+    {
+        "source": "Trademarks named in the documentation (in alphabetical order):", 
+        "text": "V\u00f6rumerki heitir \u00ed skj\u00f6lunum (\u00ed stafr\u00f3fsr\u00f6\u00f0):", 
+        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
+        "description": "", 
+        "id": "Trademarks Text 1"
+    }, 
+    {
+        "source": "* Apple, OS X, ProRes, and QuickTime are registered trademarks of Apple, Inc.", 
+        "text": "* Apple, OS X, ProRes og QuickTime eru skr\u00e1\u00f0 v\u00f6rumerki Apple, Inc.", 
+        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
+        "description": "", 
+        "id": "Trademarks Text 2"
+    }, 
+    {
+        "source": "* AMD and ATI are registered trademarks of Advanced Micro Devices, Inc.", 
+        "text": "* AMD og ATI eru skr\u00e1\u00f0 v\u00f6rumerki Advanced Micro Devices, Inc.", 
+        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
+        "description": "", 
+        "id": "Trademarks Text 3"
+    }, 
+    {
+        "source": "* Autodesk, Inferno, Maya, Softimage, and XSI are registered trademarks of Autodesk, Inc.", 
+        "text": "* Autodesk, Inferno, Maya, Softimage og XSI eru skr\u00e1\u00f0 v\u00f6rumerki Autodesk, Inc.", 
+        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
+        "description": "", 
+        "id": "Trademarks Text 4"
+    }, 
+    {
+        "source": "* Debian is a registered trademark of Software in the Public Interest, Inc.", 
+        "text": "* Debian er skr\u00e1\u00f0 v\u00f6rumerki hugb\u00fana\u00f0ar \u00ed almannahagsmunum, Inc.", 
+        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
+        "description": "", 
+        "id": "Trademarks Text 5"
+    }, 
+    {
+        "source": "* FFmpeg is a trademark of Fabrice Bellard, originator of the FFmpeg project", 
+        "text": "* FFmpeg er v\u00f6rumerki Fabrice Bellard, frumkv\u00f6\u00f0ull FFmpeg verkefnisins", 
+        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
+        "description": "", 
+        "id": "Trademarks Text 6"
+    }, 
+    {
+        "source": "* FreeBSD is a registered trademark of The FreeBSD Foundation", 
+        "text": "* FreeBSD er skr\u00e1\u00f0 v\u00f6rumerki FreeBSD Foundation", 
+        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
+        "description": "", 
+        "id": "Trademarks Text 7"
+    }, 
+    {
+        "source": "* Intel is a registered trademark of Intel Corporation", 
+        "text": "* Intel er skr\u00e1\u00f0 v\u00f6rumerki Intel Corporation", 
+        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
+        "description": "", 
+        "id": "Trademarks Text 8"
+    }, 
+    {
+        "source": "* Industrial Light and Magic and ILM are registered trademarks of Lucasfilm Ltd.", 
+        "text": "* Industrial Light og Magic og ILM eru skr\u00e1\u00f0 v\u00f6rumerki Lucasfilm Ltd.", 
+        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
+        "description": "", 
+        "id": "Trademarks Text 9"
+    }, 
+    {
+        "source": "* Kodak and Cineon are a registered trademarks of the Eastman Kodak Company", 
+        "text": "* Kodak og Cineon eru skr\u00e1\u00f0 v\u00f6rumerki Eastman Kodak Company", 
+        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
+        "description": "", 
+        "id": "Trademarks Text 10"
+    }, 
+    {
+        "source": "* Linux is a registered trademark of Linus Torvalds", 
+        "text": "* Linux er skr\u00e1\u00f0 v\u00f6rumerki Linus Torvalds", 
+        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
+        "description": "", 
+        "id": "Trademarks Text 11"
+    }, 
+    {
+        "source": "* Microsoft and Microsoft Windows are registered trademarks of Microsoft, Inc.", 
+        "text": "* Microsoft og Microsoft Windows eru skr\u00e1\u00f0 v\u00f6rumerki Microsoft, Inc.", 
+        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
+        "description": "", 
+        "id": "Trademarks Text 12"
+    }, 
+    {
+        "source": "* MIPS is a registered trademark of MIPS Technologies, Inc.", 
+        "text": "* MIPS er skr\u00e1\u00f0 v\u00f6rumerki MIPS Technologies, Inc.", 
+        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
+        "description": "", 
+        "id": "Trademarks Text 13"
+    }, 
+    {
+        "source": "* NVIDIA is a registered trademark of NVIDIA Corporation", 
+        "text": "* NVIDIA er skr\u00e1\u00f0 v\u00f6rumerki NVIDIA Corporation", 
+        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
+        "description": "", 
+        "id": "Trademarks Text 14"
+    }, 
+    {
+        "source": "* Red Hat and Fedora are registered trademarks of Red Hat, Inc.", 
+        "text": "* Red Hat og Fedora eru skr\u00e1\u00f0ir v\u00f6rumerki Red Hat, Inc.", 
+        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
+        "description": "", 
+        "id": "Trademarks Text 15"
+    }, 
+    {
+        "source": "* Silicon Graphics, SGI, IRIX, and OpenGL are registered trademarks of Silicon Graphics International Corp.", 
+        "text": "* Silicon Graphics, SGI, IRIX og OpenGL eru skr\u00e1\u00f0ir v\u00f6rumerki Silicon Graphics International Corp.", 
+        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
+        "description": "", 
+        "id": "Trademarks Text 16"
+    }, 
+    {
+        "source": "* SMPTE is a registered trademark of the Society of Motion Picture and Television Engineers", 
+        "text": "* SMPTE er skr\u00e1\u00f0 v\u00f6rumerki myndbands kvikmynda og sj\u00f3nvarpsmanna", 
+        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
+        "description": "", 
+        "id": "Trademarks Text 17"
+    }, 
+    {
+        "source": "* SourceForge.net is a registered trademark of VA Software Corporation", 
+        "text": "* SourceForge.net er skr\u00e1\u00f0 v\u00f6rumerki VA Software Corporation", 
+        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
+        "description": "", 
+        "id": "Trademarks Text 18"
+    }, 
+    {
+        "source": "* SuSE is a registered trademark of Novell, Inc.", 
+        "text": "* SuSE er skr\u00e1\u00f0 v\u00f6rumerki Novell, Inc.", 
+        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
+        "description": "", 
+        "id": "Trademarks Text 19"
+    }, 
+    {
+        "source": "* Ubuntu is a registered trademark of Canonical Ltd.", 
+        "text": "* Ubuntu er skr\u00e1\u00f0 v\u00f6rumerki Canonical Ltd.", 
+        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
+        "description": "", 
+        "id": "Trademarks Text 20"
+    }, 
+    {
+        "source": "* UNIX is a registered trademark of The Open Group", 
+        "text": "* UNIX er skr\u00e1\u00f0 v\u00f6rumerki The Open Group", 
+        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
+        "description": "", 
+        "id": "Trademarks Text 21"
+    }, 
+    {
+        "source": "All other products named in the documentation are trademarks of their respective owners.", 
+        "text": "Allar a\u00f0rar v\u00f6rur sem nefndar eru \u00ed skj\u00f6lunum eru v\u00f6rumerki vi\u00f0komandi eigenda.", 
+        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
+        "description": "", 
+        "id": "Trademarks Text 22"
+    }, 
+    {
+        "source": "Documentation Tooltip", 
+        "text": "Documentation Tooltip", 
+        "nameSpace": "djv::ViewLib::HelpSystem", 
+        "description": "", 
+        "id": "Documentation Tooltip"
+    }, 
+    {
+        "source": "Information Tooltip", 
+        "text": "Uppl\u00fdsingar Tooltip", 
+        "nameSpace": "djv::ViewLib::HelpSystem", 
+        "description": "", 
+        "id": "Information Tooltip"
+    }, 
+    {
+        "source": "About Tooltip", 
+        "text": "Um Tooltip", 
+        "nameSpace": "djv::ViewLib::HelpSystem", 
+        "description": "", 
+        "id": "About Tooltip"
+    }, 
+    {
+        "source": "Debug Log", 
+        "text": "Debug Log", 
+        "nameSpace": "djv::ViewLib::HelpSystem", 
+        "description": "", 
+        "id": "Debug Log"
+    }, 
+    {
+        "source": "Debug Log Tooltip", 
+        "text": "Debug Log Tooltip", 
+        "nameSpace": "djv::ViewLib::HelpSystem", 
+        "description": "", 
+        "id": "Debug Log Tooltip"
+    }, 
+    {
+        "source": "Left Tooltip", 
+        "text": "Vinstri Tooltip", 
+        "nameSpace": "djv::ViewLib::ImageViewSystem", 
+        "description": "", 
+        "id": "Left Tooltip"
+    }, 
+    {
+        "source": "Right Tooltip", 
+        "text": "H\u00e6gri Tooltip", 
+        "nameSpace": "djv::ViewLib::ImageViewSystem", 
+        "description": "", 
+        "id": "Right Tooltip"
+    }, 
+    {
+        "source": "Up Tooltip", 
+        "text": "Upp Tooltip", 
+        "nameSpace": "djv::ViewLib::ImageViewSystem", 
+        "description": "", 
+        "id": "Up Tooltip"
+    }, 
+    {
+        "source": "Down Tooltip", 
+        "text": "Down Tooltip", 
+        "nameSpace": "djv::ViewLib::ImageViewSystem", 
+        "description": "", 
+        "id": "Down Tooltip"
+    }, 
+    {
+        "source": "Center Tooltip", 
+        "text": "Center Tooltip", 
+        "nameSpace": "djv::ViewLib::ImageViewSystem", 
+        "description": "", 
+        "id": "Center Tooltip"
+    }, 
+    {
+        "source": "Zoom In Tooltip", 
+        "text": "Zooma\u00f0u \u00ed Tooltip", 
+        "nameSpace": "djv::ViewLib::ImageViewSystem", 
+        "description": "", 
+        "id": "Zoom In Tooltip"
+    }, 
+    {
+        "source": "Zoom Out Tooltip", 
+        "text": "Zoom Out Tooltip", 
+        "nameSpace": "djv::ViewLib::ImageViewSystem", 
+        "description": "", 
+        "id": "Zoom Out Tooltip"
+    }, 
+    {
+        "source": "Reset Zoom Tooltip", 
+        "text": "Endurstilla Zoom Tooltip", 
+        "nameSpace": "djv::ViewLib::ImageViewSystem", 
+        "description": "", 
+        "id": "Reset Zoom Tooltip"
+    }, 
+    {
+        "source": "Reset Position and Zoom Tooltip", 
+        "text": "Endurstilla st\u00f6\u00f0u og Zoom Tooltip", 
+        "nameSpace": "djv::ViewLib::ImageViewSystem", 
+        "description": "", 
+        "id": "Reset Position and Zoom Tooltip"
+    }, 
+    {
+        "source": "Fit Tooltip", 
+        "text": "Fit Tooltip", 
+        "nameSpace": "djv::ViewLib::ImageViewSystem", 
+        "description": "", 
+        "id": "Fit Tooltip"
+    }, 
+    {
+        "source": "HUD Tooltip", 
+        "text": "HUD Tooltip", 
+        "nameSpace": "djv::ViewLib::ImageViewSystem", 
+        "description": "", 
+        "id": "HUD Tooltip"
+    }, 
+    {
+        "source": "MDI WindowMode Tooltip", 
+        "text": "MDI WindowMode Tooltip", 
+        "nameSpace": "djv::ViewLib::MainWindow", 
+        "description": "", 
+        "id": "MDI WindowMode Tooltip"
+    }, 
+    {
+        "source": "Stop Tooltip", 
+        "text": "H\u00e6ttu Tooltip", 
+        "nameSpace": "djv::ViewLib::PlaybackSystem", 
+        "description": "", 
+        "id": "Stop Tooltip"
+    }, 
+    {
+        "source": "Forward Tooltip", 
+        "text": "Forward Tooltip", 
+        "nameSpace": "djv::ViewLib::PlaybackSystem", 
+        "description": "", 
+        "id": "Forward Tooltip"
+    }, 
+    {
+        "source": "Reverse Tooltip", 
+        "text": "Reverse Tooltip", 
+        "nameSpace": "djv::ViewLib::PlaybackSystem", 
+        "description": "", 
+        "id": "Reverse Tooltip"
+    }, 
+    {
+        "source": "Toggle Playback Tooltip", 
+        "text": "V\u00edxla spilunart\u00f3li\u00f0", 
+        "nameSpace": "djv::ViewLib::PlaybackSystem", 
+        "description": "", 
+        "id": "Toggle Playback Tooltip"
+    }, 
+    {
+        "source": "Toggle Reverse Playback Tooltip", 
+        "text": "V\u00edxla Reverse Playback Tooltip", 
+        "nameSpace": "djv::ViewLib::PlaybackSystem", 
+        "description": "", 
+        "id": "Toggle Reverse Playback Tooltip"
+    }, 
+    {
+        "source": "Play Every Frame Tooltip", 
+        "text": "Spila hvert ramma Tooltip", 
+        "nameSpace": "djv::ViewLib::PlaybackSystem", 
+        "description": "", 
+        "id": "Play Every Frame Tooltip"
+    }, 
+    {
+        "source": "Go To In Point Tooltip", 
+        "text": "Fara til \u00ed Tooltip-punkti", 
+        "nameSpace": "djv::ViewLib::PlaybackSystem", 
+        "description": "", 
+        "id": "Go To In Point Tooltip"
+    }, 
+    {
+        "source": "Go To Out Point Tooltip", 
+        "text": "Fara til \u00fatdr\u00e1ttar t\u00f3ltip", 
+        "nameSpace": "djv::ViewLib::PlaybackSystem", 
+        "description": "", 
+        "id": "Go To Out Point Tooltip"
+    }, 
+    {
+        "source": "Go To Start Frame Tooltip", 
+        "text": "Far\u00f0u \u00ed Start Frame Tooltip", 
+        "nameSpace": "djv::ViewLib::PlaybackSystem", 
+        "description": "", 
+        "id": "Go To Start Frame Tooltip"
+    }, 
+    {
+        "source": "Go To End Frame Tooltip", 
+        "text": "Fara \u00ed lok ramma t\u00f3ltip", 
+        "nameSpace": "djv::ViewLib::PlaybackSystem", 
+        "description": "", 
+        "id": "Go To End Frame Tooltip"
+    }, 
+    {
+        "source": "Next Frame Tooltip", 
+        "text": "Next Frame Tooltip", 
+        "nameSpace": "djv::ViewLib::PlaybackSystem", 
+        "description": "", 
+        "id": "Next Frame Tooltip"
+    }, 
+    {
+        "source": "Next Frame X10 Tooltip", 
+        "text": "N\u00e6sta ramma X10 Tooltip", 
+        "nameSpace": "djv::ViewLib::PlaybackSystem", 
+        "description": "", 
+        "id": "Next Frame X10 Tooltip"
+    }, 
+    {
+        "source": "Next Frame X100 Tooltip", 
+        "text": "N\u00e6sta ramma X100 Tooltip", 
+        "nameSpace": "djv::ViewLib::PlaybackSystem", 
+        "description": "", 
+        "id": "Next Frame X100 Tooltip"
+    }, 
+    {
+        "source": "Previous Frame Tooltip", 
+        "text": "Fyrri Frame Tooltip", 
+        "nameSpace": "djv::ViewLib::PlaybackSystem", 
+        "description": "", 
+        "id": "Previous Frame Tooltip"
+    }, 
+    {
+        "source": "Previous Frame X10 Tooltip", 
+        "text": "Fyrri ramma X10 Tooltip", 
+        "nameSpace": "djv::ViewLib::PlaybackSystem", 
+        "description": "", 
+        "id": "Previous Frame X10 Tooltip"
+    }, 
+    {
+        "source": "Previous Frame X100 Tooltip", 
+        "text": "Fyrri ramma X100 Tooltip", 
+        "nameSpace": "djv::ViewLib::PlaybackSystem", 
+        "description": "", 
+        "id": "Previous Frame X100 Tooltip"
+    }, 
+    {
+        "source": "Enable In/Out Points Tooltip", 
+        "text": "Virkja inn / \u00fat stig t\u00f3ltip", 
+        "nameSpace": "djv::ViewLib::PlaybackSystem", 
+        "description": "", 
+        "id": "Enable In/Out Points Tooltip"
+    }, 
+    {
+        "source": "Set In Point Tooltip", 
+        "text": "Setja \u00ed benda Tooltip", 
+        "nameSpace": "djv::ViewLib::PlaybackSystem", 
+        "description": "", 
+        "id": "Set In Point Tooltip"
+    }, 
+    {
+        "source": "Set Out Point Tooltip", 
+        "text": "Setja Out Point Tooltip", 
+        "nameSpace": "djv::ViewLib::PlaybackSystem", 
+        "description": "", 
+        "id": "Set Out Point Tooltip"
+    }, 
+    {
+        "source": "Reset In Point Tooltip", 
+        "text": "Endurstilla \u00ed t\u00f3lpunkti", 
+        "nameSpace": "djv::ViewLib::PlaybackSystem", 
+        "description": "", 
+        "id": "Reset In Point Tooltip"
+    }, 
+    {
+        "source": "Reset Out Point Tooltip", 
+        "text": "Endurstilla Out Point Tooltip", 
+        "nameSpace": "djv::ViewLib::PlaybackSystem", 
+        "description": "", 
+        "id": "Reset Out Point Tooltip"
+    }, 
+    {
+        "source": "Mirror Horizontal Tooltip", 
+        "text": "Mirror Horizontal Tooltip", 
+        "nameSpace": "djv::ViewLib::ImageSystem", 
+        "description": "", 
+        "id": "Mirror Horizontal Tooltip"
+    }, 
+    {
+        "source": "Mirror Vertical Tooltip", 
+        "text": "Mirror L\u00f3\u00f0r\u00e9tt T\u00f3l", 
+        "nameSpace": "djv::ViewLib::ImageSystem", 
+        "description": "", 
+        "id": "Mirror Vertical Tooltip"
+    }, 
+    {
+        "source": "Color Manager Tooltip", 
+        "text": "Litur Manager T\u00f3l", 
+        "nameSpace": "djv::ViewLib::ImageSystem", 
+        "description": "", 
+        "id": "Color Manager Tooltip"
+    }, 
+    {
+        "source": "Color Profile Tooltip", 
+        "text": "Litur pr\u00f3f\u00edl t\u00f3latip", 
+        "nameSpace": "djv::ViewLib::ImageSystem", 
+        "description": "", 
+        "id": "Color Profile Tooltip"
+    }, 
+    {
+        "source": "Display Profile Tooltip", 
+        "text": "S\u00fdna pr\u00f3f\u00edl t\u00f3latip", 
+        "nameSpace": "djv::ViewLib::ImageSystem", 
+        "description": "", 
+        "id": "Display Profile Tooltip"
+    }, 
+    {
+        "source": "Premulitplied Alpha Tooltip", 
+        "text": "Premulitplied Alpha Tooltip", 
+        "nameSpace": "djv::ViewLib::ImageSystem", 
+        "description": "", 
+        "id": "Premulitplied Alpha Tooltip"
+    }, 
+    {
+        "source": "Show Frame Store Tooltip", 
+        "text": "S\u00fdna Frame Store Tooltip", 
+        "nameSpace": "djv::ViewLib::ImageSystem", 
+        "description": "", 
+        "id": "Show Frame Store Tooltip"
+    }, 
+    {
+        "source": "Set Frame Store Tooltip", 
+        "text": "Setji\u00f0 rammaverslunart\u00f3li\u00f0", 
+        "nameSpace": "djv::ViewLib::ImageSystem", 
+        "description": "", 
+        "id": "Set Frame Store Tooltip"
+    }, 
+    {
+        "source": "SDI", 
+        "text": "SDI", 
+        "nameSpace": "djv::ViewLib::WindowSystem", 
+        "description": "", 
+        "id": "SDI"
+    }, 
+    {
+        "source": "SDI Tooltip", 
+        "text": "SDI Tooltip", 
+        "nameSpace": "djv::ViewLib::WindowSystem", 
+        "description": "", 
+        "id": "SDI Tooltip"
+    }, 
+    {
+        "source": "MDI", 
+        "text": "MDI", 
+        "nameSpace": "djv::ViewLib::WindowSystem", 
+        "description": "", 
+        "id": "MDI"
+    }, 
+    {
+        "source": "MDI Tooltip", 
+        "text": "MDI Tooltip", 
+        "nameSpace": "djv::ViewLib::WindowSystem", 
+        "description": "", 
+        "id": "MDI Tooltip"
+    }, 
+    {
+        "source": "Duplicate Tooltip", 
+        "text": "Afrita t\u00f3latip", 
+        "nameSpace": "djv::ViewLib::WindowSystem", 
+        "description": "", 
+        "id": "Duplicate Tooltip"
+    }, 
+    {
+        "source": "Full Screen Tooltip", 
+        "text": "Full Screen Tooltip", 
+        "nameSpace": "djv::ViewLib::WindowSystem", 
+        "description": "", 
+        "id": "Full Screen Tooltip"
+    }, 
+    {
+        "source": "Copyright and License", 
+        "description": "", 
+        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
+        "id": "CopyrightAndLicense", 
+        "text": "H\u00f6fundarr\u00e9ttur og leyfi"
     }, 
     {
         "source": "Contributors", 
         "description": "", 
-        "nameSpace": "djv::ViewLib", 
-        "id": "AboutContributors", 
+        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
+        "id": "Contributors", 
         "text": "Framlag"
     }, 
     {
-        "source": "Third Party Header", 
+        "source": "Third Party Software", 
         "description": "", 
-        "nameSpace": "djv::ViewLib", 
-        "id": "AboutThirdPartyHeader", 
-        "text": "H\u00f3pur \u00feri\u00f0ja a\u00f0ila"
-    }, 
-    {
-        "source": "Third Party", 
-        "description": "", 
-        "nameSpace": "djv::ViewLib", 
-        "id": "AboutThirdParty", 
-        "text": "\u00deri\u00f0ji a\u00f0ili"
-    }, 
-    {
-        "source": "Trademarks Header", 
-        "description": "", 
-        "nameSpace": "djv::ViewLib", 
-        "id": "AboutTrademarksHeader", 
-        "text": "V\u00f6rumerki Header"
+        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
+        "id": "Third Party", 
+        "text": "Hugb\u00fana\u00f0ur \u00feri\u00f0ja a\u00f0ila"
     }, 
     {
         "source": "Trademarks", 
         "description": "", 
-        "nameSpace": "djv::ViewLib", 
-        "id": "AboutTrademarks", 
+        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
+        "id": "Trademarks", 
         "text": "V\u00f6rumerki"
     }, 
     {
-        "source": "File Browser", 
-        "description": "", 
-        "nameSpace": "djv::ViewLib", 
-        "id": "File Browser", 
-        "text": "File Browser"
-    }, 
-    {
-        "source": "Exit", 
-        "description": "", 
-        "nameSpace": "djv::ViewLib", 
-        "id": "Exit", 
-        "text": "H\u00e6tta"
-    }, 
-    {
-        "source": "Are you sure you want to exit?", 
-        "description": "", 
-        "nameSpace": "djv::ViewLib", 
-        "id": "Are you sure you want to exit?", 
-        "text": "Ertu viss um a\u00f0 \u00fe\u00fa viljir fara?"
-    }, 
-    {
-        "source": "Yes", 
-        "description": "", 
-        "nameSpace": "djv::ViewLib", 
-        "id": "Yes", 
-        "text": "J\u00e1"
-    }, 
-    {
-        "source": "No", 
-        "description": "", 
-        "nameSpace": "djv::ViewLib", 
-        "id": "No", 
-        "text": "Nr"
-    }, 
-    {
-        "source": "File", 
-        "description": "", 
-        "nameSpace": "djv::ViewLib", 
-        "id": "File", 
-        "text": "Skr\u00e1"
-    }, 
-    {
-        "source": "Proxy Scale", 
-        "description": "", 
-        "nameSpace": "djv::ViewLib", 
-        "id": "Proxy Scale", 
-        "text": "Proxy Scale"
-    }, 
-    {
-        "source": "Open", 
-        "description": "", 
-        "nameSpace": "djv::ViewLib", 
-        "id": "Open", 
-        "text": "Opna"
-    }, 
-    {
-        "source": "Recent", 
-        "description": "", 
-        "nameSpace": "djv::ViewLib", 
-        "id": "Recent", 
-        "text": "N\u00fdleg"
-    }, 
-    {
-        "source": "Reload Frame", 
-        "description": "", 
-        "nameSpace": "djv::ViewLib", 
-        "id": "Reload Frame", 
-        "text": "Endurhla\u00f0a ramma"
-    }, 
-    {
-        "source": "Close", 
-        "description": "", 
-        "nameSpace": "djv::ViewLib", 
-        "id": "Close", 
-        "text": "Loka"
-    }, 
-    {
-        "source": "Export", 
-        "description": "", 
-        "nameSpace": "djv::ViewLib", 
-        "id": "Export", 
-        "text": "\u00datflutningur"
-    }, 
-    {
-        "source": "Layers", 
-        "description": "", 
-        "nameSpace": "djv::ViewLib", 
-        "id": "Layers", 
-        "text": "Lag"
-    }, 
-    {
-        "source": "Next Layer", 
-        "description": "", 
-        "nameSpace": "djv::ViewLib", 
-        "id": "Next Layer", 
-        "text": "N\u00e6sta lag"
-    }, 
-    {
-        "source": "Previous Layer", 
-        "description": "", 
-        "nameSpace": "djv::ViewLib", 
-        "id": "Previous Layer", 
-        "text": "Fyrri lag"
-    }, 
-    {
-        "source": "8-bit Conversion", 
-        "description": "", 
-        "nameSpace": "djv::ViewLib", 
-        "id": "8-bit Conversion", 
-        "text": "8-bita vi\u00f0skipta"
-    }, 
-    {
-        "source": "Memory Cache", 
-        "description": "", 
-        "nameSpace": "djv::ViewLib", 
-        "id": "Memory Cache", 
-        "text": "Minnisskyndiminni"
-    }, 
-    {
-        "source": "Clear Cache", 
-        "description": "", 
-        "nameSpace": "djv::ViewLib", 
-        "id": "Clear Cache", 
-        "text": "Hreinsa skyndiminni"
-    }, 
-    {
-        "source": "View", 
-        "description": "", 
-        "nameSpace": "djv::ViewLib", 
-        "id": "View", 
-        "text": "\u00dats\u00fdni"
-    }, 
-    {
-        "source": "Grid", 
-        "description": "", 
-        "nameSpace": "djv::ViewLib", 
-        "id": "Grid", 
-        "text": "Rist"
-    }, 
-    {
-        "source": "Left", 
-        "description": "", 
-        "nameSpace": "djv::ViewLib", 
-        "id": "Left", 
-        "text": "Vinstri"
-    }, 
-    {
-        "source": "Right", 
-        "description": "", 
-        "nameSpace": "djv::ViewLib", 
-        "id": "Right", 
-        "text": "H\u00e6gri"
-    }, 
-    {
-        "source": "Up", 
-        "description": "", 
-        "nameSpace": "djv::ViewLib", 
-        "id": "Up", 
-        "text": "Upp"
-    }, 
-    {
-        "source": "Down", 
-        "description": "", 
-        "nameSpace": "djv::ViewLib", 
-        "id": "Down", 
-        "text": "Ni\u00f0ur"
-    }, 
-    {
-        "source": "Center", 
-        "description": "", 
-        "nameSpace": "djv::ViewLib", 
-        "id": "Center", 
-        "text": "Mi\u00f0st\u00f6\u00f0"
-    }, 
-    {
-        "source": "Zoom In", 
-        "description": "", 
-        "nameSpace": "djv::ViewLib", 
-        "id": "Zoom In", 
-        "text": "Zoom inn"
-    }, 
-    {
-        "source": "Zoom Out", 
-        "description": "", 
-        "nameSpace": "djv::ViewLib", 
-        "id": "Zoom Out", 
-        "text": "Zoom \u00fat"
-    }, 
-    {
-        "source": "Reset Zoom", 
-        "description": "", 
-        "nameSpace": "djv::ViewLib", 
-        "id": "Reset Zoom", 
-        "text": "Endurstilla Zoom"
-    }, 
-    {
-        "source": "Reset Position and Zoom", 
-        "description": "", 
-        "nameSpace": "djv::ViewLib", 
-        "id": "Reset Position and Zoom", 
-        "text": "Endurstilla st\u00f6\u00f0u og a\u00f0dr\u00e1tt"
-    }, 
-    {
-        "source": "HUD", 
-        "description": "", 
-        "nameSpace": "djv::ViewLib", 
-        "id": "HUD", 
-        "text": "HUD"
-    }, 
-    {
-        "source": "Documentation", 
-        "description": "", 
-        "nameSpace": "djv::ViewLib", 
-        "id": "Documentation", 
-        "text": "Skjalfesting"
-    }, 
-    {
-        "source": "Information", 
-        "description": "", 
-        "nameSpace": "djv::ViewLib", 
-        "id": "Information", 
-        "text": "Uppl\u00fdsingar"
-    }, 
-    {
-        "source": "DebugLog", 
-        "description": "", 
-        "nameSpace": "djv::ViewLib", 
-        "id": "DebugLog", 
-        "text": "DebugLog"
-    }, 
-    {
-        "source": "Help", 
-        "description": "", 
-        "nameSpace": "djv::ViewLib", 
-        "id": "Help", 
-        "text": "Hj\u00e1lp"
-    }, 
-    {
-        "source": "Image", 
-        "description": "", 
-        "nameSpace": "djv::ViewLib", 
-        "id": "Image", 
-        "text": "Mynd"
-    }, 
-    {
-        "source": "Scale", 
-        "description": "", 
-        "nameSpace": "djv::ViewLib", 
-        "id": "Scale", 
-        "text": "Skala"
-    }, 
-    {
-        "source": "Rotate", 
-        "description": "", 
-        "nameSpace": "djv::ViewLib", 
-        "id": "Rotate", 
-        "text": "Sn\u00faa"
-    }, 
-    {
-        "source": "Mirror Horizontal", 
-        "description": "", 
-        "nameSpace": "djv::ViewLib", 
-        "id": "Mirror Horizontal", 
-        "text": "Mirror L\u00e1r\u00e9tt"
-    }, 
-    {
-        "source": "Mirror Vertical", 
-        "description": "", 
-        "nameSpace": "djv::ViewLib", 
-        "id": "Mirror Vertical", 
-        "text": "Spegill l\u00f3\u00f0r\u00e9tt"
-    }, 
-    {
-        "source": "Color Manager", 
-        "description": "", 
-        "nameSpace": "djv::ViewLib", 
-        "id": "Color Manager", 
-        "text": "Litastj\u00f3rnun"
-    }, 
-    {
-        "source": "Color Profile", 
-        "description": "", 
-        "nameSpace": "djv::ViewLib", 
-        "id": "Color Profile", 
-        "text": "Litur pr\u00f3f\u00edl"
-    }, 
-    {
-        "source": "Display Profile", 
-        "description": "", 
-        "nameSpace": "djv::ViewLib", 
-        "id": "Display Profile", 
-        "text": "Sko\u00f0a pr\u00f3f\u00edl"
-    }, 
-    {
-        "source": "Premulitplied Alpha", 
-        "description": "", 
-        "nameSpace": "djv::ViewLib", 
-        "id": "Premulitplied Alpha", 
-        "text": "Premulitplied Alpha"
-    }, 
-    {
-        "source": "Show Frame Store", 
-        "description": "", 
-        "nameSpace": "djv::ViewLib", 
-        "id": "Show Frame Store", 
-        "text": "S\u00fdna rammaverslun"
-    }, 
-    {
-        "source": "Set Frame Store", 
-        "description": "", 
-        "nameSpace": "djv::ViewLib", 
-        "id": "Set Frame Store", 
-        "text": "Setja rammaverslun"
+        "source": "Made in Berkeley, CA, USA", 
+        "text": "Made in Berkeley, CA, USA", 
+        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
+        "id": "Made In", 
+        "description": ""
     }
 ]

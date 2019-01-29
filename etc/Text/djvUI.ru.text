@@ -1,1626 +1,1696 @@
 [
     {
         "source": "Dark", 
-        "description": "", 
+        "text": "\u0422\u0435\u043c\u043d\u043e", 
         "nameSpace": "djv::UI::Settings", 
         "id": "Dark", 
-        "text": "\u0422\u0435\u043c\u043d\u043e"
+        "description": ""
     }, 
     {
         "source": "Light", 
-        "description": "", 
+        "text": "\u0421\u0432\u0435\u0442", 
         "nameSpace": "djv::UI::Settings", 
         "id": "Light", 
-        "text": "\u0421\u0432\u0435\u0442"
+        "description": ""
     }, 
     {
         "source": "Medium", 
-        "description": "", 
+        "text": "\u0421\u0440\u0435\u0434\u043d\u044f\u044f", 
         "nameSpace": "djv::UI::Settings", 
         "id": "Medium", 
-        "text": "\u0421\u0440\u0435\u0434\u043d\u044f\u044f"
+        "description": ""
     }, 
     {
         "source": "Small", 
-        "description": "", 
+        "text": "\u041c\u0430\u043b\u0435\u043d\u044c\u043a\u0438\u0439", 
         "nameSpace": "djv::UI::Settings", 
         "id": "Small", 
-        "text": "\u041c\u0430\u043b\u0435\u043d\u044c\u043a\u0438\u0439"
+        "description": ""
     }, 
     {
         "source": "Large", 
-        "description": "", 
+        "text": "\u0431\u043e\u043b\u044c\u0448\u043e\u0439", 
         "nameSpace": "djv::UI::Settings", 
         "id": "Large", 
-        "text": "\u0431\u043e\u043b\u044c\u0448\u043e\u0439"
+        "description": ""
     }, 
     {
         "source": "Extra Large", 
-        "description": "", 
+        "text": "\u041e\u0447\u0435\u043d\u044c \u0431\u043e\u043b\u044c\u0448\u043e\u0439", 
         "nameSpace": "djv::UI::Settings", 
         "id": "ExtraLarge", 
-        "text": "\u041e\u0447\u0435\u043d\u044c \u0431\u043e\u043b\u044c\u0448\u043e\u0439"
+        "description": ""
     }, 
     {
         "source": "Default", 
-        "description": "", 
+        "text": "\u041f\u043e \u0443\u043c\u043e\u043b\u0447\u0430\u043d\u0438\u044e", 
         "nameSpace": "djv::UI::Settings", 
         "id": "Default", 
-        "text": "\u041f\u043e \u0443\u043c\u043e\u043b\u0447\u0430\u043d\u0438\u044e"
+        "description": ""
     }, 
     {
         "source": "Horizontal", 
-        "description": "", 
+        "text": "\u0433\u043e\u0440\u0438\u0437\u043e\u043d\u0442\u0430\u043b\u044c\u043d\u044b\u0439", 
         "nameSpace": "djv::UI", 
         "id": "Horizontal", 
-        "text": "\u0433\u043e\u0440\u0438\u0437\u043e\u043d\u0442\u0430\u043b\u044c\u043d\u044b\u0439"
+        "description": ""
     }, 
     {
         "source": "Vertical", 
-        "description": "", 
+        "text": "\u0432\u0435\u0440\u0442\u0438\u043a\u0430\u043b\u044c\u043d\u044b\u0439", 
         "nameSpace": "djv::UI", 
         "id": "Vertical", 
-        "text": "\u0432\u0435\u0440\u0442\u0438\u043a\u0430\u043b\u044c\u043d\u044b\u0439"
+        "description": ""
     }, 
     {
         "source": "Left", 
-        "description": "", 
+        "text": "\u041e\u0441\u0442\u0430\u0432\u0438\u043b", 
         "nameSpace": "djv::UI", 
         "id": "Left", 
-        "text": "\u041e\u0441\u0442\u0430\u0432\u0438\u043b"
+        "description": ""
     }, 
     {
         "source": "Top", 
-        "description": "", 
+        "text": "\u0432\u0435\u0440\u0445\u043d\u0438\u0439", 
         "nameSpace": "djv::UI", 
         "id": "Top", 
-        "text": "\u0432\u0435\u0440\u0445\u043d\u0438\u0439"
+        "description": ""
     }, 
     {
         "source": "Right", 
-        "description": "", 
+        "text": "\u041f\u0440\u0430\u0432\u0438\u043b\u044c\u043d\u043e", 
         "nameSpace": "djv::UI", 
         "id": "Right", 
-        "text": "\u041f\u0440\u0430\u0432\u0438\u043b\u044c\u043d\u043e"
+        "description": ""
     }, 
     {
         "source": "Bottom", 
-        "description": "", 
+        "text": "\u041d\u0438\u0437", 
         "nameSpace": "djv::UI", 
         "id": "Bottom", 
-        "text": "\u041d\u0438\u0437"
+        "description": ""
     }, 
     {
         "source": "None", 
-        "description": "", 
+        "text": "\u041d\u0438\u043a\u0442\u043e", 
         "nameSpace": "djv::UI", 
         "id": "None", 
-        "text": "\u041d\u0438\u043a\u0442\u043e"
+        "description": ""
     }, 
     {
         "source": "Both", 
-        "description": "", 
+        "text": "\u0418 \u0442\u043e \u0438 \u0434\u0440\u0443\u0433\u043e\u0435", 
         "nameSpace": "djv::UI", 
         "id": "Both", 
-        "text": "\u0418 \u0442\u043e \u0438 \u0434\u0440\u0443\u0433\u043e\u0435"
+        "description": ""
     }, 
     {
         "source": "Center", 
-        "description": "", 
+        "text": "\u0426\u0435\u043d\u0442\u0440", 
         "nameSpace": "djv::UI", 
         "id": "Center", 
-        "text": "\u0426\u0435\u043d\u0442\u0440"
+        "description": ""
     }, 
     {
         "source": "Fill", 
-        "description": "", 
+        "text": "\u0437\u0430\u043f\u043e\u043b\u043d\u0438\u0442\u044c", 
         "nameSpace": "djv::UI", 
         "id": "Fill", 
-        "text": "\u0437\u0430\u043f\u043e\u043b\u043d\u0438\u0442\u044c"
+        "description": ""
     }, 
     {
         "source": "Baseline", 
-        "description": "", 
+        "text": "\u0431\u0430\u0437\u0438\u0441\u043d\u044b\u0439", 
         "nameSpace": "djv::UI", 
         "id": "Baseline", 
-        "text": "\u0431\u0430\u0437\u0438\u0441\u043d\u044b\u0439"
+        "description": ""
     }, 
     {
         "source": "Single", 
-        "description": "", 
+        "text": "\u043d\u0435 \u0437\u0430\u043c\u0443\u0436\u0435\u043c", 
         "nameSpace": "djv::UI", 
         "id": "Single", 
-        "text": "\u043d\u0435 \u0437\u0430\u043c\u0443\u0436\u0435\u043c"
+        "description": ""
     }, 
     {
         "source": "Radio", 
-        "description": "", 
+        "text": "\u0420\u0430\u0434\u0438\u043e", 
         "nameSpace": "djv::UI", 
         "id": "Radio", 
-        "text": "\u0420\u0430\u0434\u0438\u043e"
+        "description": ""
     }, 
     {
         "source": "Multiple", 
-        "description": "", 
+        "text": "\u043c\u043d\u043e\u0436\u0435\u0441\u0442\u0432\u0435\u043d\u043d\u044b\u0439", 
         "nameSpace": "djv::UI", 
         "id": "Multiple", 
-        "text": "\u043c\u043d\u043e\u0436\u0435\u0441\u0442\u0432\u0435\u043d\u043d\u044b\u0439"
+        "description": ""
     }, 
     {
         "source": "Forward", 
-        "description": "", 
+        "text": "\u0412\u043f\u0435\u0440\u0435\u0434", 
         "nameSpace": "djv::UI", 
         "id": "Forward", 
-        "text": "\u0412\u043f\u0435\u0440\u0435\u0434"
+        "description": ""
     }, 
     {
         "source": "Reverse", 
-        "description": "", 
+        "text": "\u0417\u0430\u0434\u043d\u0438\u0439 \u0445\u043e\u0434", 
         "nameSpace": "djv::UI", 
         "id": "Reverse", 
-        "text": "\u0417\u0430\u0434\u043d\u0438\u0439 \u0445\u043e\u0434"
+        "description": ""
     }, 
     {
         "source": "Push", 
-        "description": "", 
+        "text": "\u041e\u0442 \u0441\u0435\u0431\u044f", 
         "nameSpace": "djv::UI", 
         "id": "Push", 
-        "text": "\u041e\u0442 \u0441\u0435\u0431\u044f"
+        "description": ""
     }, 
     {
         "source": "Toggle", 
-        "description": "", 
+        "text": "\u0442\u0443\u043c\u0431\u043b\u0435\u0440", 
         "nameSpace": "djv::UI", 
         "id": "Toggle", 
-        "text": "\u0442\u0443\u043c\u0431\u043b\u0435\u0440"
+        "description": ""
     }, 
     {
         "source": "Thumbnails Large", 
-        "description": "", 
+        "text": "\u0411\u043e\u043b\u044c\u0448\u0438\u0435 \u043c\u0438\u043d\u0438\u0430\u0442\u044e\u0440\u044b", 
         "nameSpace": "djv::UI::FileBrowser", 
         "id": "ThumbnailsLarge", 
-        "text": "\u0411\u043e\u043b\u044c\u0448\u0438\u0435 \u043c\u0438\u043d\u0438\u0430\u0442\u044e\u0440\u044b"
+        "description": ""
     }, 
     {
         "source": "Thumbnails Small", 
-        "description": "", 
+        "text": "\u041c\u0438\u043d\u0438\u0430\u0442\u044e\u0440\u044b \u041c\u0430\u043b\u0435\u043d\u044c\u043a\u0438\u0435", 
         "nameSpace": "djv::UI::FileBrowser", 
         "id": "ThumbnailsSmall", 
-        "text": "\u041c\u0438\u043d\u0438\u0430\u0442\u044e\u0440\u044b \u041c\u0430\u043b\u0435\u043d\u044c\u043a\u0438\u0435"
+        "description": ""
     }, 
     {
         "source": "List View", 
-        "description": "", 
+        "text": "\u041f\u043e\u0441\u043c\u043e\u0442\u0440\u0435\u0442\u044c \u0441\u043f\u0438\u0441\u043e\u043a", 
         "nameSpace": "djv::UI::FileBrowser", 
         "id": "ListView", 
-        "text": "\u041f\u043e\u0441\u043c\u043e\u0442\u0440\u0435\u0442\u044c \u0441\u043f\u0438\u0441\u043e\u043a"
+        "description": ""
     }, 
     {
         "source": "Expand", 
-        "description": "", 
+        "text": "\u0440\u0430\u0441\u0448\u0438\u0440\u044f\u0442\u044c", 
         "nameSpace": "djv::UI::Layout", 
         "id": "Expand", 
-        "text": "\u0440\u0430\u0441\u0448\u0438\u0440\u044f\u0442\u044c"
+        "description": ""
     }, 
     {
         "source": "Background", 
-        "description": "", 
+        "text": "\u0424\u043e\u043d", 
         "nameSpace": "djv::UI::Style", 
         "id": "Background", 
-        "text": "\u0424\u043e\u043d"
+        "description": ""
     }, 
     {
         "source": "Foreground", 
-        "description": "", 
+        "text": "\u043f\u0435\u0440\u0435\u0434\u043d\u0438\u0439 \u043f\u043b\u0430\u043d", 
         "nameSpace": "djv::UI::Style", 
         "id": "Foreground", 
-        "text": "\u043f\u0435\u0440\u0435\u0434\u043d\u0438\u0439 \u043f\u043b\u0430\u043d"
+        "description": ""
     }, 
     {
         "source": "Border", 
-        "description": "", 
+        "text": "\u0431\u043e\u0440\u0434\u044e\u0440", 
         "nameSpace": "djv::UI::Style", 
         "id": "Border", 
-        "text": "\u0431\u043e\u0440\u0434\u044e\u0440"
+        "description": ""
     }, 
     {
         "source": "Trough", 
-        "description": "", 
+        "text": "\u0412\u043f\u0430\u0434\u0438\u043d\u0430", 
         "nameSpace": "djv::UI::Style", 
         "id": "Trough", 
-        "text": "\u0412\u043f\u0430\u0434\u0438\u043d\u0430"
+        "description": ""
     }, 
     {
         "source": "Button", 
-        "description": "", 
+        "text": "\u043a\u043d\u043e\u043f\u043a\u0430", 
         "nameSpace": "djv::UI::Style", 
         "id": "Button", 
-        "text": "\u043a\u043d\u043e\u043f\u043a\u0430"
+        "description": ""
     }, 
     {
         "source": "Hovered", 
-        "description": "", 
+        "text": "\u043f\u0430\u0440\u0438\u043b\u0438", 
         "nameSpace": "djv::UI::Style", 
         "id": "Hovered", 
-        "text": "\u043f\u0430\u0440\u0438\u043b\u0438"
+        "description": ""
     }, 
     {
         "source": "Pressed", 
-        "description": "", 
+        "text": "\u041f\u0440\u0435\u0441\u0441\u043e\u0432\u0430\u043d\u043d\u044b\u0435", 
         "nameSpace": "djv::UI::Style", 
         "id": "Pressed", 
-        "text": "\u041f\u0440\u0435\u0441\u0441\u043e\u0432\u0430\u043d\u043d\u044b\u0435"
+        "description": ""
     }, 
     {
         "source": "Checked", 
-        "description": "", 
+        "text": "\u041f\u0440\u043e\u0432\u0435\u0440\u0435\u043d\u043e", 
         "nameSpace": "djv::UI::Style", 
         "id": "Checked", 
-        "text": "\u041f\u0440\u043e\u0432\u0435\u0440\u0435\u043d\u043e"
+        "description": ""
     }, 
     {
         "source": "Disabled", 
-        "description": "", 
+        "text": "\u0438\u043d\u0432\u0430\u043b\u0438\u0434", 
         "nameSpace": "djv::UI::Style", 
         "id": "Disabled", 
-        "text": "\u0438\u043d\u0432\u0430\u043b\u0438\u0434"
+        "description": ""
     }, 
     {
         "source": "Header Background", 
-        "description": "", 
+        "text": "\u0424\u043e\u043d \u0437\u0430\u0433\u043e\u043b\u043e\u0432\u043a\u0430", 
         "nameSpace": "djv::UI::Style", 
         "id": "HeaderBackground", 
-        "text": "\u0424\u043e\u043d \u0437\u0430\u0433\u043e\u043b\u043e\u0432\u043a\u0430"
+        "description": ""
     }, 
     {
         "source": "Header Foreground", 
-        "description": "", 
+        "text": "\u041f\u0435\u0440\u0435\u0434\u043d\u0438\u0439 \u043f\u043b\u0430\u043d \u0437\u0430\u0433\u043e\u043b\u043e\u0432\u043a\u0430", 
         "nameSpace": "djv::UI::Style", 
         "id": "HeaderForeground", 
-        "text": "\u041f\u0435\u0440\u0435\u0434\u043d\u0438\u0439 \u043f\u043b\u0430\u043d \u0437\u0430\u0433\u043e\u043b\u043e\u0432\u043a\u0430"
+        "description": ""
     }, 
     {
         "source": "Header Hovered", 
-        "description": "", 
+        "text": "\u0412\u0435\u0440\u0445\u043d\u0438\u0439 \u043a\u043e\u043b\u043b\u0435\u043a\u0442\u043e\u0440", 
         "nameSpace": "djv::UI::Style", 
         "id": "HeaderHovered", 
-        "text": "\u0412\u0435\u0440\u0445\u043d\u0438\u0439 \u043a\u043e\u043b\u043b\u0435\u043a\u0442\u043e\u0440"
+        "description": ""
     }, 
     {
         "source": "Header Pressed", 
-        "description": "", 
+        "text": "\u0417\u0430\u0433\u043e\u043b\u043e\u0432\u043e\u043a \u043d\u0430\u0436\u0430\u0442\u0430", 
         "nameSpace": "djv::UI::Style", 
         "id": "HeaderPressed", 
-        "text": "\u0417\u0430\u0433\u043e\u043b\u043e\u0432\u043e\u043a \u043d\u0430\u0436\u0430\u0442\u0430"
+        "description": ""
     }, 
     {
         "source": "Header Checked", 
-        "description": "", 
+        "text": "\u0417\u0430\u0433\u043e\u043b\u043e\u0432\u043e\u043a \u043f\u0440\u043e\u0432\u0435\u0440\u0435\u043d", 
         "nameSpace": "djv::UI::Style", 
         "id": "HeaderChecked", 
-        "text": "\u0417\u0430\u0433\u043e\u043b\u043e\u0432\u043e\u043a \u043f\u0440\u043e\u0432\u0435\u0440\u0435\u043d"
+        "description": ""
     }, 
     {
         "source": "Header Disabled", 
-        "description": "", 
+        "text": "\u0417\u0430\u0433\u043e\u043b\u043e\u0432\u043e\u043a \u043e\u0442\u043a\u043b\u044e\u0447\u0435\u043d", 
         "nameSpace": "djv::UI::Style", 
         "id": "HeaderDisabled", 
-        "text": "\u0417\u0430\u0433\u043e\u043b\u043e\u0432\u043e\u043a \u043e\u0442\u043a\u043b\u044e\u0447\u0435\u043d"
+        "description": ""
     }, 
     {
         "source": "Tooltip Background", 
-        "description": "", 
+        "text": "\u0412\u0441\u043f\u043b\u044b\u0432\u0430\u044e\u0449\u0430\u044f \u043f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0430", 
         "nameSpace": "djv::UI::Style", 
         "id": "TooltipBackground", 
-        "text": "\u0412\u0441\u043f\u043b\u044b\u0432\u0430\u044e\u0449\u0430\u044f \u043f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0430"
+        "description": ""
     }, 
     {
         "source": "Tooltip Foreground", 
-        "description": "", 
+        "text": "\u041f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0430 \u043f\u0435\u0440\u0435\u0434\u043d\u0435\u0433\u043e \u043f\u043b\u0430\u043d\u0430", 
         "nameSpace": "djv::UI::Style", 
         "id": "TooltipForeground", 
-        "text": "\u041f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0430 \u043f\u0435\u0440\u0435\u0434\u043d\u0435\u0433\u043e \u043f\u043b\u0430\u043d\u0430"
+        "description": ""
     }, 
     {
         "source": "Overlay", 
-        "description": "", 
+        "text": "\u043e\u0432\u0435\u0440\u043b\u0435\u0439", 
         "nameSpace": "djv::UI::Style", 
         "id": "Overlay", 
-        "text": "\u043e\u0432\u0435\u0440\u043b\u0435\u0439"
+        "description": ""
     }, 
     {
         "source": "Shadow", 
-        "description": "", 
+        "text": "\u0422\u0435\u043d\u044c", 
         "nameSpace": "djv::UI::Style", 
         "id": "Shadow", 
-        "text": "\u0422\u0435\u043d\u044c"
+        "description": ""
     }, 
     {
         "source": "Margin", 
-        "description": "", 
+        "text": "\u041f\u043e\u043b\u0435", 
         "nameSpace": "djv::UI::Style", 
         "id": "Margin", 
-        "text": "\u041f\u043e\u043b\u0435"
+        "description": ""
     }, 
     {
         "source": "Margin Small", 
-        "description": "", 
+        "text": "\u041d\u0435\u0431\u043e\u043b\u044c\u0448\u0430\u044f \u043c\u0430\u0440\u0436\u0430", 
         "nameSpace": "djv::UI::Style", 
         "id": "MarginSmall", 
-        "text": "\u041d\u0435\u0431\u043e\u043b\u044c\u0448\u0430\u044f \u043c\u0430\u0440\u0436\u0430"
+        "description": ""
     }, 
     {
         "source": "Margin Large", 
-        "description": "", 
+        "text": "\u0411\u043e\u043b\u044c\u0448\u0430\u044f \u043c\u0430\u0440\u0436\u0430", 
         "nameSpace": "djv::UI::Style", 
         "id": "MarginLarge", 
-        "text": "\u0411\u043e\u043b\u044c\u0448\u0430\u044f \u043c\u0430\u0440\u0436\u0430"
+        "description": ""
     }, 
     {
         "source": "Margin Dialog", 
-        "description": "", 
+        "text": "\u041c\u0430\u0440\u0436\u0438\u043d\u0430\u043b\u044c\u043d\u044b\u0439 \u0434\u0438\u0430\u043b\u043e\u0433", 
         "nameSpace": "djv::UI::Style", 
         "id": "MarginDialog", 
-        "text": "\u041c\u0430\u0440\u0436\u0438\u043d\u0430\u043b\u044c\u043d\u044b\u0439 \u0434\u0438\u0430\u043b\u043e\u0433"
+        "description": ""
     }, 
     {
         "source": "Spacing", 
-        "description": "", 
+        "text": "\u0440\u0430\u0441\u0441\u0442\u043e\u044f\u043d\u0438\u0435", 
         "nameSpace": "djv::UI::Style", 
         "id": "Spacing", 
-        "text": "\u0440\u0430\u0441\u0441\u0442\u043e\u044f\u043d\u0438\u0435"
+        "description": ""
     }, 
     {
         "source": "Spacing Small", 
-        "description": "", 
+        "text": "\u0418\u043d\u0442\u0435\u0440\u0432\u0430\u043b \u041c\u0430\u043b\u044b\u0439", 
         "nameSpace": "djv::UI::Style", 
         "id": "SpacingSmall", 
-        "text": "\u0418\u043d\u0442\u0435\u0440\u0432\u0430\u043b \u041c\u0430\u043b\u044b\u0439"
+        "description": ""
     }, 
     {
         "source": "Spacing Large", 
-        "description": "", 
+        "text": "\u0411\u043e\u043b\u044c\u0448\u043e\u0439 \u0438\u043d\u0442\u0435\u0440\u0432\u0430\u043b", 
         "nameSpace": "djv::UI::Style", 
         "id": "SpacingLarge", 
-        "text": "\u0411\u043e\u043b\u044c\u0448\u043e\u0439 \u0438\u043d\u0442\u0435\u0440\u0432\u0430\u043b"
+        "description": ""
     }, 
     {
         "source": "Drag", 
-        "description": "", 
+        "text": "\u0422\u0430\u0449\u0438\u0442\u044c, \u0442\u044f\u043d\u0443\u0442\u044c", 
         "nameSpace": "djv::UI::Style", 
         "id": "Drag", 
-        "text": "\u0422\u0430\u0449\u0438\u0442\u044c, \u0442\u044f\u043d\u0443\u0442\u044c"
+        "description": ""
     }, 
     {
         "source": "Icon", 
-        "description": "", 
+        "text": "\u0417\u043d\u0430\u0447\u043e\u043a", 
         "nameSpace": "djv::UI::Style", 
         "id": "Icon", 
-        "text": "\u0417\u043d\u0430\u0447\u043e\u043a"
+        "description": ""
     }, 
     {
         "source": "Icon Large", 
-        "description": "", 
+        "text": "\u0411\u043e\u043b\u044c\u0448\u043e\u0439 \u0437\u043d\u0430\u0447\u043e\u043a", 
         "nameSpace": "djv::UI::Style", 
         "id": "IconLarge", 
-        "text": "\u0411\u043e\u043b\u044c\u0448\u043e\u0439 \u0437\u043d\u0430\u0447\u043e\u043a"
+        "description": ""
     }, 
     {
         "source": "Font Small", 
-        "description": "", 
+        "text": "\u041c\u0430\u043b\u0435\u043d\u044c\u043a\u0438\u0439 \u0448\u0440\u0438\u0444\u0442", 
         "nameSpace": "djv::UI::Style", 
         "id": "FontSmall", 
-        "text": "\u041c\u0430\u043b\u0435\u043d\u044c\u043a\u0438\u0439 \u0448\u0440\u0438\u0444\u0442"
+        "description": ""
     }, 
     {
         "source": "Font Medium", 
-        "description": "", 
+        "text": "\u0421\u0440\u0435\u0434\u043d\u0438\u0439 \u0448\u0440\u0438\u0444\u0442", 
         "nameSpace": "djv::UI::Style", 
         "id": "FontMedium", 
-        "text": "\u0421\u0440\u0435\u0434\u043d\u0438\u0439 \u0448\u0440\u0438\u0444\u0442"
+        "description": ""
     }, 
     {
         "source": "Font Large", 
-        "description": "", 
+        "text": "\u0411\u043e\u043b\u044c\u0448\u043e\u0439 \u0448\u0440\u0438\u0444\u0442", 
         "nameSpace": "djv::UI::Style", 
         "id": "FontLarge", 
-        "text": "\u0411\u043e\u043b\u044c\u0448\u043e\u0439 \u0448\u0440\u0438\u0444\u0442"
+        "description": ""
     }, 
     {
         "source": "Font Header", 
-        "description": "", 
+        "text": "\u0417\u0430\u0433\u043e\u043b\u043e\u0432\u043e\u043a \u0448\u0440\u0438\u0444\u0442\u0430", 
         "nameSpace": "djv::UI::Style", 
         "id": "FontHeader", 
-        "text": "\u0417\u0430\u0433\u043e\u043b\u043e\u0432\u043e\u043a \u0448\u0440\u0438\u0444\u0442\u0430"
+        "description": ""
     }, 
     {
         "source": "Swatch", 
-        "description": "", 
+        "text": "\u043e\u0431\u0440\u0430\u0437\u0447\u0438\u043a \u0442\u043a\u0430\u043d\u0438", 
         "nameSpace": "djv::UI::Style", 
         "id": "Swatch", 
-        "text": "\u043e\u0431\u0440\u0430\u0437\u0447\u0438\u043a \u0442\u043a\u0430\u043d\u0438"
+        "description": ""
     }, 
     {
         "source": "Thumbnail Width Small", 
-        "description": "", 
+        "text": "\u041c\u0438\u043d\u0438\u0430\u0442\u044e\u0440\u0430 \u0428\u0438\u0440\u0438\u043d\u0430 \u041c\u0430\u043b\u0430\u044f", 
         "nameSpace": "djv::UI::Style", 
         "id": "ThumbnailWidthSmall", 
-        "text": "\u041c\u0438\u043d\u0438\u0430\u0442\u044e\u0440\u0430 \u0428\u0438\u0440\u0438\u043d\u0430 \u041c\u0430\u043b\u0430\u044f"
+        "description": ""
     }, 
     {
         "source": "Thumbnail Height Small", 
-        "description": "", 
+        "text": "\u041c\u0438\u043d\u0438\u0430\u0442\u044e\u0440\u0430 \u0412\u044b\u0441\u043e\u0442\u0430 \u041c\u0430\u043b\u0435\u043d\u044c\u043a\u0438\u0439", 
         "nameSpace": "djv::UI::Style", 
         "id": "ThumbnailHeightSmall", 
-        "text": "\u041c\u0438\u043d\u0438\u0430\u0442\u044e\u0440\u0430 \u0412\u044b\u0441\u043e\u0442\u0430 \u041c\u0430\u043b\u0435\u043d\u044c\u043a\u0438\u0439"
+        "description": ""
     }, 
     {
         "source": "Thumbnail Width Large", 
-        "description": "", 
+        "text": "\u041c\u0438\u043d\u0438\u0430\u0442\u044e\u0440\u0430 \u0428\u0438\u0440\u0438\u043d\u0430 \u0411\u043e\u043b\u044c\u0448\u0430\u044f", 
         "nameSpace": "djv::UI::Style", 
         "id": "ThumbnailWidthLarge", 
-        "text": "\u041c\u0438\u043d\u0438\u0430\u0442\u044e\u0440\u0430 \u0428\u0438\u0440\u0438\u043d\u0430 \u0411\u043e\u043b\u044c\u0448\u0430\u044f"
+        "description": ""
     }, 
     {
         "source": "Thumbnail Height Large", 
-        "description": "", 
+        "text": "\u041c\u0438\u043d\u0438\u0430\u0442\u044e\u0440\u0430 \u0412\u044b\u0441\u043e\u0442\u0430 \u0411\u043e\u043b\u044c\u0448\u0430\u044f", 
         "nameSpace": "djv::UI::Style", 
         "id": "ThumbnailHeightLarge", 
-        "text": "\u041c\u0438\u043d\u0438\u0430\u0442\u044e\u0440\u0430 \u0412\u044b\u0441\u043e\u0442\u0430 \u0411\u043e\u043b\u044c\u0448\u0430\u044f"
+        "description": ""
     }, 
     {
         "source": "Scroll Area", 
-        "description": "", 
+        "text": "\u041e\u0431\u043b\u0430\u0441\u0442\u044c \u043f\u0440\u043e\u043a\u0440\u0443\u0442\u043a\u0438", 
         "nameSpace": "djv::UI::Style", 
         "id": "ScrollArea", 
-        "text": "\u041e\u0431\u043b\u0430\u0441\u0442\u044c \u043f\u0440\u043e\u043a\u0440\u0443\u0442\u043a\u0438"
+        "description": ""
     }, 
     {
         "source": "Text Column", 
-        "description": "", 
+        "text": "\u0422\u0435\u043a\u0441\u0442\u043e\u0432\u044b\u0439 \u0441\u0442\u043e\u043b\u0431\u0435\u0446", 
         "nameSpace": "djv::UI::Style", 
         "id": "TextColumn", 
-        "text": "\u0422\u0435\u043a\u0441\u0442\u043e\u0432\u044b\u0439 \u0441\u0442\u043e\u043b\u0431\u0435\u0446"
+        "description": ""
     }, 
     {
         "source": "Dialog", 
-        "description": "", 
+        "text": "\u0434\u0438\u0430\u043b\u043e\u0433", 
         "nameSpace": "djv::UI::Style", 
         "id": "Dialog", 
-        "text": "\u0434\u0438\u0430\u043b\u043e\u0433"
+        "description": ""
     }, 
     {
         "source": "Tooltip Offset", 
-        "description": "", 
+        "text": "\u0421\u043c\u0435\u0449\u0435\u043d\u0438\u0435 \u0432\u0441\u043f\u043b\u044b\u0432\u0430\u044e\u0449\u0435\u0439 \u043f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0438", 
         "nameSpace": "djv::UI::Style", 
         "id": "TooltipOffset", 
-        "text": "\u0421\u043c\u0435\u0449\u0435\u043d\u0438\u0435 \u0432\u0441\u043f\u043b\u044b\u0432\u0430\u044e\u0449\u0435\u0439 \u043f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0438"
+        "description": ""
     }, 
     {
         "source": "Handle", 
-        "description": "", 
+        "text": "\u0421\u043f\u0440\u0430\u0432\u0438\u0442\u044c\u0441\u044f", 
         "nameSpace": "djv::UI::Style", 
         "id": "Handle", 
-        "text": "\u0421\u043f\u0440\u0430\u0432\u0438\u0442\u044c\u0441\u044f"
+        "description": ""
     }, 
     {
         "source": "Cannot read settings", 
-        "description": "", 
+        "text": "\u041d\u0435 \u043c\u043e\u0433\u0443 \u043f\u0440\u043e\u0447\u0438\u0442\u0430\u0442\u044c \u043d\u0430\u0441\u0442\u0440\u043e\u0439\u043a\u0438", 
         "nameSpace": "djv::UI::Settings", 
         "id": "Cannot read settings", 
-        "text": "\u041d\u0435 \u043c\u043e\u0433\u0443 \u043f\u0440\u043e\u0447\u0438\u0442\u0430\u0442\u044c \u043d\u0430\u0441\u0442\u0440\u043e\u0439\u043a\u0438"
+        "description": ""
     }, 
     {
         "source": "Cannot write settings", 
-        "description": "", 
+        "text": "\u041d\u0435\u0432\u043e\u0437\u043c\u043e\u0436\u043d\u043e \u0437\u0430\u043f\u0438\u0441\u0430\u0442\u044c \u043d\u0430\u0441\u0442\u0440\u043e\u0439\u043a\u0438", 
         "nameSpace": "djv::UI::Settings", 
         "id": "Cannot write settings", 
-        "text": "\u041d\u0435\u0432\u043e\u0437\u043c\u043e\u0436\u043d\u043e \u0437\u0430\u043f\u0438\u0441\u0430\u0442\u044c \u043d\u0430\u0441\u0442\u0440\u043e\u0439\u043a\u0438"
+        "description": ""
     }, 
     {
         "source": "Space", 
-        "description": "", 
+        "text": "\u041a\u043e\u0441\u043c\u043e\u0441", 
         "nameSpace": "djv::UI::Key", 
         "id": "Space", 
-        "text": "\u041a\u043e\u0441\u043c\u043e\u0441"
+        "description": ""
     }, 
     {
         "source": "Apostrophe", 
-        "description": "", 
+        "text": "\u0410\u043f\u043e\u0441\u0442\u0440\u043e\u0444", 
         "nameSpace": "djv::UI::Key", 
         "id": "Apostrophe", 
-        "text": "\u0410\u043f\u043e\u0441\u0442\u0440\u043e\u0444"
+        "description": ""
     }, 
     {
         "source": "Comma", 
-        "description": "", 
+        "text": "\u0437\u0430\u043f\u044f\u0442\u0430\u044f", 
         "nameSpace": "djv::UI::Key", 
         "id": "Comma", 
-        "text": "\u0437\u0430\u043f\u044f\u0442\u0430\u044f"
+        "description": ""
     }, 
     {
         "source": "Minus", 
-        "description": "", 
+        "text": "\u041c\u0438\u043d\u0443\u0441", 
         "nameSpace": "djv::UI::Key", 
         "id": "Minus", 
-        "text": "\u041c\u0438\u043d\u0443\u0441"
+        "description": ""
     }, 
     {
         "source": "Period", 
-        "description": "", 
+        "text": "\u043f\u0435\u0440\u0438\u043e\u0434", 
         "nameSpace": "djv::UI::Key", 
         "id": "Period", 
-        "text": "\u043f\u0435\u0440\u0438\u043e\u0434"
+        "description": ""
     }, 
     {
         "source": "Slash", 
-        "description": "", 
+        "text": "\u0420\u0430\u0441\u0441\u0435\u0447\u0435\u043d\u0438\u0435", 
         "nameSpace": "djv::UI::Key", 
         "id": "Slash", 
-        "text": "\u0420\u0430\u0441\u0441\u0435\u0447\u0435\u043d\u0438\u0435"
+        "description": ""
     }, 
     {
         "source": "0", 
-        "description": "", 
+        "text": "0", 
         "nameSpace": "djv::UI::Key", 
         "id": "0", 
-        "text": "0"
+        "description": ""
     }, 
     {
         "source": "1", 
-        "description": "", 
+        "text": "1", 
         "nameSpace": "djv::UI::Key", 
         "id": "1", 
-        "text": "1"
+        "description": ""
     }, 
     {
         "source": "2", 
-        "description": "", 
+        "text": "2", 
         "nameSpace": "djv::UI::Key", 
         "id": "2", 
-        "text": "2"
+        "description": ""
     }, 
     {
         "source": "3", 
-        "description": "", 
+        "text": "3", 
         "nameSpace": "djv::UI::Key", 
         "id": "3", 
-        "text": "3"
+        "description": ""
     }, 
     {
         "source": "4", 
-        "description": "", 
+        "text": "4", 
         "nameSpace": "djv::UI::Key", 
         "id": "4", 
-        "text": "4"
+        "description": ""
     }, 
     {
         "source": "5", 
-        "description": "", 
+        "text": "5", 
         "nameSpace": "djv::UI::Key", 
         "id": "5", 
-        "text": "5"
+        "description": ""
     }, 
     {
         "source": "6", 
-        "description": "", 
+        "text": "6", 
         "nameSpace": "djv::UI::Key", 
         "id": "6", 
-        "text": "6"
+        "description": ""
     }, 
     {
         "source": "7", 
-        "description": "", 
+        "text": "7", 
         "nameSpace": "djv::UI::Key", 
         "id": "7", 
-        "text": "7"
+        "description": ""
     }, 
     {
         "source": "8", 
-        "description": "", 
+        "text": "8", 
         "nameSpace": "djv::UI::Key", 
         "id": "8", 
-        "text": "8"
+        "description": ""
     }, 
     {
         "source": "9", 
-        "description": "", 
+        "text": "9", 
         "nameSpace": "djv::UI::Key", 
         "id": "9", 
-        "text": "9"
+        "description": ""
     }, 
     {
         "source": "Semicolon", 
-        "description": "", 
+        "text": "\u0422\u043e\u0447\u043a\u0430 \u0441 \u0437\u0430\u043f\u044f\u0442\u043e\u0439", 
         "nameSpace": "djv::UI::Key", 
         "id": "Semicolon", 
-        "text": "\u0422\u043e\u0447\u043a\u0430 \u0441 \u0437\u0430\u043f\u044f\u0442\u043e\u0439"
+        "description": ""
     }, 
     {
         "source": "Equal", 
-        "description": "", 
+        "text": "\u0440\u0430\u0432\u043d\u044b\u0445", 
         "nameSpace": "djv::UI::Key", 
         "id": "Equal", 
-        "text": "\u0440\u0430\u0432\u043d\u044b\u0445"
+        "description": ""
     }, 
     {
         "source": "A", 
-        "description": "", 
+        "text": "", 
         "nameSpace": "djv::UI::Key", 
         "id": "A", 
-        "text": ""
+        "description": ""
     }, 
     {
         "source": "B", 
-        "description": "", 
+        "text": "\u0412", 
         "nameSpace": "djv::UI::Key", 
         "id": "B", 
-        "text": "\u0412"
+        "description": ""
     }, 
     {
         "source": "C", 
-        "description": "", 
+        "text": "\u0421", 
         "nameSpace": "djv::UI::Key", 
         "id": "C", 
-        "text": "\u0421"
+        "description": ""
     }, 
     {
         "source": "D", 
-        "description": "", 
+        "text": "D", 
         "nameSpace": "djv::UI::Key", 
         "id": "D", 
-        "text": "D"
+        "description": ""
     }, 
     {
         "source": "E", 
-        "description": "", 
+        "text": "\u0438", 
         "nameSpace": "djv::UI::Key", 
         "id": "E", 
-        "text": "\u0438"
+        "description": ""
     }, 
     {
         "source": "F", 
-        "description": "", 
+        "text": "F", 
         "nameSpace": "djv::UI::Key", 
         "id": "F", 
-        "text": "F"
+        "description": ""
     }, 
     {
         "source": "G", 
-        "description": "", 
+        "text": "\u0433", 
         "nameSpace": "djv::UI::Key", 
         "id": "G", 
-        "text": "\u0433"
+        "description": ""
     }, 
     {
         "source": "H", 
-        "description": "", 
+        "text": "\u0427\u0410\u0421", 
         "nameSpace": "djv::UI::Key", 
         "id": "H", 
-        "text": "\u0427\u0410\u0421"
+        "description": ""
     }, 
     {
         "source": "I", 
-        "description": "", 
+        "text": "\u044f", 
         "nameSpace": "djv::UI::Key", 
         "id": "I", 
-        "text": "\u044f"
+        "description": ""
     }, 
     {
         "source": "J", 
-        "description": "", 
+        "text": "J", 
         "nameSpace": "djv::UI::Key", 
         "id": "J", 
-        "text": "J"
+        "description": ""
     }, 
     {
         "source": "K", 
-        "description": "", 
+        "text": "", 
         "nameSpace": "djv::UI::Key", 
         "id": "K", 
-        "text": ""
+        "description": ""
     }, 
     {
         "source": "L", 
-        "description": "", 
+        "text": "", 
         "nameSpace": "djv::UI::Key", 
         "id": "L", 
-        "text": ""
+        "description": ""
     }, 
     {
         "source": "M", 
-        "description": "", 
+        "text": "M", 
         "nameSpace": "djv::UI::Key", 
         "id": "M", 
-        "text": "M"
+        "description": ""
     }, 
     {
         "source": "N", 
-        "description": "", 
+        "text": "N", 
         "nameSpace": "djv::UI::Key", 
         "id": "N", 
-        "text": "N"
+        "description": ""
     }, 
     {
         "source": "O", 
-        "description": "", 
+        "text": "", 
         "nameSpace": "djv::UI::Key", 
         "id": "O", 
-        "text": ""
+        "description": ""
     }, 
     {
         "source": "P", 
-        "description": "", 
+        "text": "\u043f", 
         "nameSpace": "djv::UI::Key", 
         "id": "P", 
-        "text": "\u043f"
+        "description": ""
     }, 
     {
         "source": "Q", 
-        "description": "", 
+        "text": "Q", 
         "nameSpace": "djv::UI::Key", 
         "id": "Q", 
-        "text": "Q"
+        "description": ""
     }, 
     {
         "source": "R", 
-        "description": "", 
+        "text": "\u0440", 
         "nameSpace": "djv::UI::Key", 
         "id": "R", 
-        "text": "\u0440"
+        "description": ""
     }, 
     {
         "source": "S", 
-        "description": "", 
+        "text": "S", 
         "nameSpace": "djv::UI::Key", 
         "id": "S", 
-        "text": "S"
+        "description": ""
     }, 
     {
         "source": "T", 
-        "description": "", 
+        "text": "T", 
         "nameSpace": "djv::UI::Key", 
         "id": "T", 
-        "text": "T"
+        "description": ""
     }, 
     {
         "source": "U", 
-        "description": "", 
+        "text": "", 
         "nameSpace": "djv::UI::Key", 
         "id": "U", 
-        "text": ""
+        "description": ""
     }, 
     {
         "source": "V", 
-        "description": "", 
+        "text": "V", 
         "nameSpace": "djv::UI::Key", 
         "id": "V", 
-        "text": "V"
+        "description": ""
     }, 
     {
         "source": "W", 
-        "description": "", 
+        "text": "", 
         "nameSpace": "djv::UI::Key", 
         "id": "W", 
-        "text": ""
+        "description": ""
     }, 
     {
         "source": "X", 
-        "description": "", 
+        "text": "\u0418\u043a\u0441", 
         "nameSpace": "djv::UI::Key", 
         "id": "X", 
-        "text": "\u0418\u043a\u0441"
+        "description": ""
     }, 
     {
         "source": "Y", 
-        "description": "", 
+        "text": "\u0438", 
         "nameSpace": "djv::UI::Key", 
         "id": "Y", 
-        "text": "\u0438"
+        "description": ""
     }, 
     {
         "source": "Z", 
-        "description": "", 
+        "text": "\u0441", 
         "nameSpace": "djv::UI::Key", 
         "id": "Z", 
-        "text": "\u0441"
+        "description": ""
     }, 
     {
         "source": "Left Bracket", 
-        "description": "", 
+        "text": "\u041b\u0435\u0432\u044b\u0439 \u043a\u0440\u043e\u043d\u0448\u0442\u0435\u0439\u043d", 
         "nameSpace": "djv::UI::Key", 
         "id": "LeftBracket", 
-        "text": "\u041b\u0435\u0432\u044b\u0439 \u043a\u0440\u043e\u043d\u0448\u0442\u0435\u0439\u043d"
+        "description": ""
     }, 
     {
         "source": "Backslash", 
-        "description": "", 
+        "text": "\u0431\u044d\u043a\u0441\u043b\u044d\u0448", 
         "nameSpace": "djv::UI::Key", 
         "id": "Backslash", 
-        "text": "\u0431\u044d\u043a\u0441\u043b\u044d\u0448"
+        "description": ""
     }, 
     {
         "source": "Right Bracket", 
-        "description": "", 
+        "text": "\u041f\u0440\u0430\u0432\u0430\u044f \u0441\u043a\u043e\u0431\u043a\u0430", 
         "nameSpace": "djv::UI::Key", 
         "id": "RightBracket", 
-        "text": "\u041f\u0440\u0430\u0432\u0430\u044f \u0441\u043a\u043e\u0431\u043a\u0430"
+        "description": ""
     }, 
     {
         "source": "Grave Accent", 
-        "description": "", 
+        "text": "\u0421\u0435\u0440\u044c\u0435\u0437\u043d\u044b\u0439 \u0410\u043a\u0446\u0435\u043d\u0442", 
         "nameSpace": "djv::UI::Key", 
         "id": "GraveAccent", 
-        "text": "\u0421\u0435\u0440\u044c\u0435\u0437\u043d\u044b\u0439 \u0410\u043a\u0446\u0435\u043d\u0442"
+        "description": ""
     }, 
     {
         "source": "World1", 
-        "description": "", 
+        "text": "\u043c\u0438\u0440\u04301", 
         "nameSpace": "djv::UI::Key", 
         "id": "World1", 
-        "text": "\u043c\u0438\u0440\u04301"
+        "description": ""
     }, 
     {
         "source": "World2", 
-        "description": "", 
+        "text": "World2", 
         "nameSpace": "djv::UI::Key", 
         "id": "World2", 
-        "text": "World2"
+        "description": ""
     }, 
     {
         "source": "Escape", 
-        "description": "", 
+        "text": "\u041f\u043e\u0431\u0435\u0433", 
         "nameSpace": "djv::UI::Key", 
         "id": "Escape", 
-        "text": "\u041f\u043e\u0431\u0435\u0433"
+        "description": ""
     }, 
     {
         "source": "Enter", 
-        "description": "", 
+        "text": "\u0412\u043e\u0439\u0442\u0438", 
         "nameSpace": "djv::UI::Key", 
         "id": "Enter", 
-        "text": "\u0412\u043e\u0439\u0442\u0438"
+        "description": ""
     }, 
     {
         "source": "Tab", 
-        "description": "", 
+        "text": "\u0442\u0430\u0431\u0443\u043b\u044f\u0446\u0438\u044f", 
         "nameSpace": "djv::UI::Key", 
         "id": "Tab", 
-        "text": "\u0442\u0430\u0431\u0443\u043b\u044f\u0446\u0438\u044f"
+        "description": ""
     }, 
     {
         "source": "Backspace", 
-        "description": "", 
+        "text": "\u0432\u043e\u0437\u0432\u0440\u0430\u0442 \u043d\u0430 \u043e\u0434\u043d\u0443 \u043f\u043e\u0437\u0438\u0446\u0438\u044e", 
         "nameSpace": "djv::UI::Key", 
         "id": "Backspace", 
-        "text": "\u0432\u043e\u0437\u0432\u0440\u0430\u0442 \u043d\u0430 \u043e\u0434\u043d\u0443 \u043f\u043e\u0437\u0438\u0446\u0438\u044e"
+        "description": ""
     }, 
     {
         "source": "Insert", 
-        "description": "", 
+        "text": "\u0412\u0441\u0442\u0430\u0432\u0438\u0442\u044c", 
         "nameSpace": "djv::UI::Key", 
         "id": "Insert", 
-        "text": "\u0412\u0441\u0442\u0430\u0432\u0438\u0442\u044c"
+        "description": ""
     }, 
     {
         "source": "Delete", 
-        "description": "", 
+        "text": "\u0443\u0434\u0430\u043b\u044f\u0442\u044c", 
         "nameSpace": "djv::UI::Key", 
         "id": "Delete", 
-        "text": "\u0443\u0434\u0430\u043b\u044f\u0442\u044c"
+        "description": ""
     }, 
     {
         "source": "Right Arrow", 
-        "description": "", 
+        "text": "\u041f\u0440\u0430\u0432\u0430\u044f \u0441\u0442\u0440\u0435\u043b\u043a\u0430", 
         "nameSpace": "djv::UI::Key", 
         "id": "RightArrow", 
-        "text": "\u041f\u0440\u0430\u0432\u0430\u044f \u0441\u0442\u0440\u0435\u043b\u043a\u0430"
+        "description": ""
     }, 
     {
         "source": "Left Arrow", 
-        "description": "", 
+        "text": "\u0421\u0442\u0440\u0435\u043b\u043a\u0430 \u0432\u043b\u0435\u0432\u043e", 
         "nameSpace": "djv::UI::Key", 
         "id": "LeftArrow", 
-        "text": "\u0421\u0442\u0440\u0435\u043b\u043a\u0430 \u0432\u043b\u0435\u0432\u043e"
+        "description": ""
     }, 
     {
         "source": "Down Arrow", 
-        "description": "", 
+        "text": "\u0421\u0442\u0440\u0435\u043b\u043a\u0430 \u0432\u043d\u0438\u0437", 
         "nameSpace": "djv::UI::Key", 
         "id": "DownArrow", 
-        "text": "\u0421\u0442\u0440\u0435\u043b\u043a\u0430 \u0432\u043d\u0438\u0437"
+        "description": ""
     }, 
     {
         "source": "Up Arrow", 
-        "description": "", 
+        "text": "\u0421\u0442\u0440\u0435\u043b\u043a\u0430 \u0432\u0432\u0435\u0440\u0445", 
         "nameSpace": "djv::UI::Key", 
         "id": "UpArrow", 
-        "text": "\u0421\u0442\u0440\u0435\u043b\u043a\u0430 \u0432\u0432\u0435\u0440\u0445"
+        "description": ""
     }, 
     {
         "source": "Page Up", 
-        "description": "", 
+        "text": "Page Up", 
         "nameSpace": "djv::UI::Key", 
         "id": "PageUp", 
-        "text": "Page Up"
+        "description": ""
     }, 
     {
         "source": "Page Down", 
-        "description": "", 
+        "text": "\u041b\u0438\u0441\u0442\u0430\u0442\u044c \u0432\u043d\u0438\u0437", 
         "nameSpace": "djv::UI::Key", 
         "id": "PageDown", 
-        "text": "\u041b\u0438\u0441\u0442\u0430\u0442\u044c \u0432\u043d\u0438\u0437"
+        "description": ""
     }, 
     {
         "source": "Home", 
-        "description": "", 
+        "text": "\u0413\u043b\u0430\u0432\u043d\u0430\u044f", 
         "nameSpace": "djv::UI::Key", 
         "id": "Home", 
-        "text": "\u0413\u043b\u0430\u0432\u043d\u0430\u044f"
+        "description": ""
     }, 
     {
         "source": "End", 
-        "description": "", 
+        "text": "\u041a\u043e\u043d\u0435\u0446", 
         "nameSpace": "djv::UI::Key", 
         "id": "End", 
-        "text": "\u041a\u043e\u043d\u0435\u0446"
+        "description": ""
     }, 
     {
         "source": "Caps Lock", 
-        "description": "", 
+        "text": "Caps Lock", 
         "nameSpace": "djv::UI::Key", 
         "id": "CapsLock", 
-        "text": "Caps Lock"
+        "description": ""
     }, 
     {
         "source": "Scroll Lock", 
-        "description": "", 
+        "text": "Scroll Lock", 
         "nameSpace": "djv::UI::Key", 
         "id": "ScrollLock", 
-        "text": "Scroll Lock"
+        "description": ""
     }, 
     {
         "source": "Num Lock", 
-        "description": "", 
+        "text": "Num Lock", 
         "nameSpace": "djv::UI::Key", 
         "id": "NumLock", 
-        "text": "Num Lock"
+        "description": ""
     }, 
     {
         "source": "Print Screen", 
-        "description": "", 
+        "text": "\u0421\u043d\u0438\u043c\u043e\u043a \u044d\u043a\u0440\u0430\u043d\u0430", 
         "nameSpace": "djv::UI::Key", 
         "id": "PrintScreen", 
-        "text": "\u0421\u043d\u0438\u043c\u043e\u043a \u044d\u043a\u0440\u0430\u043d\u0430"
+        "description": ""
     }, 
     {
         "source": "F1", 
-        "description": "", 
+        "text": "F1", 
         "nameSpace": "djv::UI::Key", 
         "id": "F1", 
-        "text": "F1"
+        "description": ""
     }, 
     {
         "source": "F2", 
-        "description": "", 
+        "text": "F2", 
         "nameSpace": "djv::UI::Key", 
         "id": "F2", 
-        "text": "F2"
+        "description": ""
     }, 
     {
         "source": "F3", 
-        "description": "", 
+        "text": "F3", 
         "nameSpace": "djv::UI::Key", 
         "id": "F3", 
-        "text": "F3"
+        "description": ""
     }, 
     {
         "source": "F4", 
-        "description": "", 
+        "text": "F4", 
         "nameSpace": "djv::UI::Key", 
         "id": "F4", 
-        "text": "F4"
+        "description": ""
     }, 
     {
         "source": "F5", 
-        "description": "", 
+        "text": "F5", 
         "nameSpace": "djv::UI::Key", 
         "id": "F5", 
-        "text": "F5"
+        "description": ""
     }, 
     {
         "source": "F6", 
-        "description": "", 
+        "text": "F6", 
         "nameSpace": "djv::UI::Key", 
         "id": "F6", 
-        "text": "F6"
+        "description": ""
     }, 
     {
         "source": "F7", 
-        "description": "", 
+        "text": "F7", 
         "nameSpace": "djv::UI::Key", 
         "id": "F7", 
-        "text": "F7"
+        "description": ""
     }, 
     {
         "source": "F8", 
-        "description": "", 
+        "text": "F8", 
         "nameSpace": "djv::UI::Key", 
         "id": "F8", 
-        "text": "F8"
+        "description": ""
     }, 
     {
         "source": "F9", 
-        "description": "", 
+        "text": "F9", 
         "nameSpace": "djv::UI::Key", 
         "id": "F9", 
-        "text": "F9"
+        "description": ""
     }, 
     {
         "source": "F10", 
-        "description": "", 
+        "text": "F10", 
         "nameSpace": "djv::UI::Key", 
         "id": "F10", 
-        "text": "F10"
+        "description": ""
     }, 
     {
         "source": "F11", 
-        "description": "", 
+        "text": "F11", 
         "nameSpace": "djv::UI::Key", 
         "id": "F11", 
-        "text": "F11"
+        "description": ""
     }, 
     {
         "source": "F12", 
-        "description": "", 
+        "text": "F12", 
         "nameSpace": "djv::UI::Key", 
         "id": "F12", 
-        "text": "F12"
+        "description": ""
     }, 
     {
         "source": "F13", 
-        "description": "", 
+        "text": "F13", 
         "nameSpace": "djv::UI::Key", 
         "id": "F13", 
-        "text": "F13"
+        "description": ""
     }, 
     {
         "source": "F14", 
-        "description": "", 
+        "text": "F14", 
         "nameSpace": "djv::UI::Key", 
         "id": "F14", 
-        "text": "F14"
+        "description": ""
     }, 
     {
         "source": "F15", 
-        "description": "", 
+        "text": "F15", 
         "nameSpace": "djv::UI::Key", 
         "id": "F15", 
-        "text": "F15"
+        "description": ""
     }, 
     {
         "source": "F16", 
-        "description": "", 
+        "text": "F16", 
         "nameSpace": "djv::UI::Key", 
         "id": "F16", 
-        "text": "F16"
+        "description": ""
     }, 
     {
         "source": "F17", 
-        "description": "", 
+        "text": "F17", 
         "nameSpace": "djv::UI::Key", 
         "id": "F17", 
-        "text": "F17"
+        "description": ""
     }, 
     {
         "source": "F18", 
-        "description": "", 
+        "text": "F18", 
         "nameSpace": "djv::UI::Key", 
         "id": "F18", 
-        "text": "F18"
+        "description": ""
     }, 
     {
         "source": "F19", 
-        "description": "", 
+        "text": "F19", 
         "nameSpace": "djv::UI::Key", 
         "id": "F19", 
-        "text": "F19"
+        "description": ""
     }, 
     {
         "source": "F20", 
-        "description": "", 
+        "text": "F20", 
         "nameSpace": "djv::UI::Key", 
         "id": "F20", 
-        "text": "F20"
+        "description": ""
     }, 
     {
         "source": "F21", 
-        "description": "", 
+        "text": "F21", 
         "nameSpace": "djv::UI::Key", 
         "id": "F21", 
-        "text": "F21"
+        "description": ""
     }, 
     {
         "source": "F22", 
-        "description": "", 
+        "text": "F22", 
         "nameSpace": "djv::UI::Key", 
         "id": "F22", 
-        "text": "F22"
+        "description": ""
     }, 
     {
         "source": "F23", 
-        "description": "", 
+        "text": "F23", 
         "nameSpace": "djv::UI::Key", 
         "id": "F23", 
-        "text": "F23"
+        "description": ""
     }, 
     {
         "source": "F24", 
-        "description": "", 
+        "text": "F24", 
         "nameSpace": "djv::UI::Key", 
         "id": "F24", 
-        "text": "F24"
+        "description": ""
     }, 
     {
         "source": "F25", 
-        "description": "", 
+        "text": "F25", 
         "nameSpace": "djv::UI::Key", 
         "id": "F25", 
-        "text": "F25"
+        "description": ""
     }, 
     {
         "source": "Key Pad 0", 
-        "description": "", 
+        "text": "\u041a\u043b\u0430\u0432\u0438\u0430\u0442\u0443\u0440\u0430 0", 
         "nameSpace": "djv::UI::Key", 
         "id": "KeyPad0", 
-        "text": "\u041a\u043b\u0430\u0432\u0438\u0430\u0442\u0443\u0440\u0430 0"
+        "description": ""
     }, 
     {
         "source": "Key Pad 1", 
-        "description": "", 
+        "text": "\u041a\u043b\u0430\u0432\u0438\u0430\u0442\u0443\u0440\u0430 1", 
         "nameSpace": "djv::UI::Key", 
         "id": "KeyPad1", 
-        "text": "\u041a\u043b\u0430\u0432\u0438\u0430\u0442\u0443\u0440\u0430 1"
+        "description": ""
     }, 
     {
         "source": "Key Pad 2", 
-        "description": "", 
+        "text": "\u041a\u043b\u0430\u0432\u0438\u0430\u0442\u0443\u0440\u0430 2", 
         "nameSpace": "djv::UI::Key", 
         "id": "KeyPad2", 
-        "text": "\u041a\u043b\u0430\u0432\u0438\u0430\u0442\u0443\u0440\u0430 2"
+        "description": ""
     }, 
     {
         "source": "Key Pad 3", 
-        "description": "", 
+        "text": "\u041a\u043b\u0430\u0432\u0438\u0430\u0442\u0443\u0440\u0430 3", 
         "nameSpace": "djv::UI::Key", 
         "id": "KeyPad3", 
-        "text": "\u041a\u043b\u0430\u0432\u0438\u0430\u0442\u0443\u0440\u0430 3"
+        "description": ""
     }, 
     {
         "source": "Key Pad 4", 
-        "description": "", 
+        "text": "\u041a\u043b\u0430\u0432\u0438\u0430\u0442\u0443\u0440\u0430 4", 
         "nameSpace": "djv::UI::Key", 
         "id": "KeyPad4", 
-        "text": "\u041a\u043b\u0430\u0432\u0438\u0430\u0442\u0443\u0440\u0430 4"
+        "description": ""
     }, 
     {
         "source": "Key Pad 5", 
-        "description": "", 
+        "text": "\u041a\u043b\u0430\u0432\u0438\u0430\u0442\u0443\u0440\u0430 5", 
         "nameSpace": "djv::UI::Key", 
         "id": "KeyPad5", 
-        "text": "\u041a\u043b\u0430\u0432\u0438\u0430\u0442\u0443\u0440\u0430 5"
+        "description": ""
     }, 
     {
         "source": "Key Pad 6", 
-        "description": "", 
+        "text": "\u041a\u043b\u0430\u0432\u0438\u0430\u0442\u0443\u0440\u0430 6", 
         "nameSpace": "djv::UI::Key", 
         "id": "KeyPad6", 
-        "text": "\u041a\u043b\u0430\u0432\u0438\u0430\u0442\u0443\u0440\u0430 6"
+        "description": ""
     }, 
     {
         "source": "Key Pad 7", 
-        "description": "", 
+        "text": "\u041a\u043b\u0430\u0432\u0438\u0430\u0442\u0443\u0440\u0430 7", 
         "nameSpace": "djv::UI::Key", 
         "id": "KeyPad7", 
-        "text": "\u041a\u043b\u0430\u0432\u0438\u0430\u0442\u0443\u0440\u0430 7"
+        "description": ""
     }, 
     {
         "source": "Key Pad 8", 
-        "description": "", 
+        "text": "\u041a\u043b\u0430\u0432\u0438\u0430\u0442\u0443\u0440\u0430 8", 
         "nameSpace": "djv::UI::Key", 
         "id": "KeyPad8", 
-        "text": "\u041a\u043b\u0430\u0432\u0438\u0430\u0442\u0443\u0440\u0430 8"
+        "description": ""
     }, 
     {
         "source": "Key Pad 9", 
-        "description": "", 
+        "text": "\u041a\u043b\u0430\u0432\u0438\u0430\u0442\u0443\u0440\u0430 9", 
         "nameSpace": "djv::UI::Key", 
         "id": "KeyPad9", 
-        "text": "\u041a\u043b\u0430\u0432\u0438\u0430\u0442\u0443\u0440\u0430 9"
+        "description": ""
     }, 
     {
         "source": "Key Pad Decimal", 
-        "description": "", 
+        "text": "\u0414\u0435\u0441\u044f\u0442\u0438\u0447\u043d\u0430\u044f \u043a\u043b\u0430\u0432\u0438\u0430\u0442\u0443\u0440\u0430", 
         "nameSpace": "djv::UI::Key", 
         "id": "KeyPadDecimal", 
-        "text": "\u0414\u0435\u0441\u044f\u0442\u0438\u0447\u043d\u0430\u044f \u043a\u043b\u0430\u0432\u0438\u0430\u0442\u0443\u0440\u0430"
+        "description": ""
     }, 
     {
         "source": "Key Pad Divide", 
-        "description": "", 
+        "text": "\u041a\u043b\u0430\u0432\u0438\u0430\u0442\u0443\u0440\u0430 \u0440\u0430\u0437\u0434\u0435\u043b\u0438\u0442\u044c", 
         "nameSpace": "djv::UI::Key", 
         "id": "KeyPadDivide", 
-        "text": "\u041a\u043b\u0430\u0432\u0438\u0430\u0442\u0443\u0440\u0430 \u0440\u0430\u0437\u0434\u0435\u043b\u0438\u0442\u044c"
+        "description": ""
     }, 
     {
         "source": "Key Pad Multiply", 
-        "description": "", 
+        "text": "\u041a\u043b\u0430\u0432\u0438\u0430\u0442\u0443\u0440\u0430 \u0443\u043c\u043d\u043e\u0436\u0430\u0435\u0442\u0441\u044f", 
         "nameSpace": "djv::UI::Key", 
         "id": "KeyPadMultiply", 
-        "text": "\u041a\u043b\u0430\u0432\u0438\u0430\u0442\u0443\u0440\u0430 \u0443\u043c\u043d\u043e\u0436\u0430\u0435\u0442\u0441\u044f"
+        "description": ""
     }, 
     {
         "source": "Key Pad Substract", 
-        "description": "", 
+        "text": "\u041a\u043b\u0430\u0432\u0438\u0430\u0442\u0443\u0440\u0430 Substract", 
         "nameSpace": "djv::UI::Key", 
         "id": "KeyPadSubstract", 
-        "text": "\u041a\u043b\u0430\u0432\u0438\u0430\u0442\u0443\u0440\u0430 Substract"
+        "description": ""
     }, 
     {
         "source": "Key Pad Add", 
-        "description": "", 
+        "text": "\u041a\u043b\u0430\u0432\u0438\u0430\u0442\u0443\u0440\u0430 \u0414\u043e\u0431\u0430\u0432\u0438\u0442\u044c", 
         "nameSpace": "djv::UI::Key", 
         "id": "KeyPadAdd", 
-        "text": "\u041a\u043b\u0430\u0432\u0438\u0430\u0442\u0443\u0440\u0430 \u0414\u043e\u0431\u0430\u0432\u0438\u0442\u044c"
+        "description": ""
     }, 
     {
         "source": "Key Pad Enter", 
-        "description": "", 
+        "text": "\u041a\u043b\u0430\u0432\u0438\u0430\u0442\u0443\u0440\u0430 Enter", 
         "nameSpace": "djv::UI::Key", 
         "id": "KeyPadEnter", 
-        "text": "\u041a\u043b\u0430\u0432\u0438\u0430\u0442\u0443\u0440\u0430 Enter"
+        "description": ""
     }, 
     {
         "source": "Key Pad Equal", 
-        "description": "", 
+        "text": "\u041a\u043b\u0430\u0432\u0438\u0430\u0442\u0443\u0440\u0430 \u0420\u0430\u0432\u043d\u0430\u044f", 
         "nameSpace": "djv::UI::Key", 
         "id": "KeyPadEqual", 
-        "text": "\u041a\u043b\u0430\u0432\u0438\u0430\u0442\u0443\u0440\u0430 \u0420\u0430\u0432\u043d\u0430\u044f"
+        "description": ""
     }, 
     {
         "source": "Left Shift", 
-        "description": "", 
+        "text": "\u0421\u0434\u0432\u0438\u0433 \u0432\u043b\u0435\u0432\u043e", 
         "nameSpace": "djv::UI::Key", 
         "id": "LeftShift", 
-        "text": "\u0421\u0434\u0432\u0438\u0433 \u0432\u043b\u0435\u0432\u043e"
+        "description": ""
     }, 
     {
         "source": "Left Control", 
-        "description": "", 
+        "text": "\u041b\u0435\u0432\u044b\u0439 \u043a\u043e\u043d\u0442\u0440\u043e\u043b\u044c", 
         "nameSpace": "djv::UI::Key", 
         "id": "LeftControl", 
-        "text": "\u041b\u0435\u0432\u044b\u0439 \u043a\u043e\u043d\u0442\u0440\u043e\u043b\u044c"
+        "description": ""
     }, 
     {
         "source": "Left Alt", 
-        "description": "", 
+        "text": "\u041b\u0435\u0432\u044b\u0439 Alt", 
         "nameSpace": "djv::UI::Key", 
         "id": "LeftAlt", 
-        "text": "\u041b\u0435\u0432\u044b\u0439 Alt"
+        "description": ""
     }, 
     {
         "source": "Left Super", 
-        "description": "", 
+        "text": "\u041b\u0435\u0432\u044b\u0439 \u0441\u0443\u043f\u0435\u0440", 
         "nameSpace": "djv::UI::Key", 
         "id": "LeftSuper", 
-        "text": "\u041b\u0435\u0432\u044b\u0439 \u0441\u0443\u043f\u0435\u0440"
+        "description": ""
     }, 
     {
         "source": "Right Shift", 
-        "description": "", 
+        "text": "\u0421\u0434\u0432\u0438\u0433 \u0432\u043f\u0440\u0430\u0432\u043e", 
         "nameSpace": "djv::UI::Key", 
         "id": "RightShift", 
-        "text": "\u0421\u0434\u0432\u0438\u0433 \u0432\u043f\u0440\u0430\u0432\u043e"
+        "description": ""
     }, 
     {
         "source": "Right Control", 
-        "description": "", 
+        "text": "\u041f\u0440\u0430\u0432\u0438\u043b\u044c\u043d\u044b\u0439 \u043a\u043e\u043d\u0442\u0440\u043e\u043b\u044c", 
         "nameSpace": "djv::UI::Key", 
         "id": "RightControl", 
-        "text": "\u041f\u0440\u0430\u0432\u0438\u043b\u044c\u043d\u044b\u0439 \u043a\u043e\u043d\u0442\u0440\u043e\u043b\u044c"
+        "description": ""
     }, 
     {
         "source": "Right Alt", 
-        "description": "", 
+        "text": "\u041f\u0440\u0430\u0432\u043e Alt", 
         "nameSpace": "djv::UI::Key", 
         "id": "RightAlt", 
-        "text": "\u041f\u0440\u0430\u0432\u043e Alt"
+        "description": ""
     }, 
     {
         "source": "Right Super", 
-        "description": "", 
+        "text": "\u041f\u0440\u0430\u0432\u043e \u0421\u0443\u043f\u0435\u0440", 
         "nameSpace": "djv::UI::Key", 
         "id": "RightSuper", 
-        "text": "\u041f\u0440\u0430\u0432\u043e \u0421\u0443\u043f\u0435\u0440"
+        "description": ""
     }, 
     {
         "source": "Menu", 
-        "description": "", 
+        "text": "\u041c\u0435\u043d\u044e", 
         "nameSpace": "djv::UI::Key", 
         "id": "Menu", 
-        "text": "\u041c\u0435\u043d\u044e"
+        "description": ""
     }, 
     {
         "source": "Shift", 
-        "description": "", 
+        "text": "\u0441\u0434\u0432\u0438\u0433", 
         "nameSpace": "djv::UI::Key", 
         "id": "Shift", 
-        "text": "\u0441\u0434\u0432\u0438\u0433"
+        "description": ""
     }, 
     {
         "source": "Ctrl", 
-        "description": "", 
+        "text": "Ctrl", 
         "nameSpace": "djv::UI::Key", 
         "id": "Ctrl", 
-        "text": "Ctrl"
+        "description": ""
     }, 
     {
         "source": "Alt", 
-        "description": "", 
+        "text": "\u0432\u0441\u0435", 
         "nameSpace": "djv::UI::Key", 
         "id": "Alt", 
-        "text": "\u0432\u0441\u0435"
+        "description": ""
     }, 
     {
         "source": "Super", 
-        "description": "", 
+        "text": "\u0421\u0443\u043f\u0435\u0440", 
         "nameSpace": "djv::UI::Key", 
         "id": "Super", 
-        "text": "\u0421\u0443\u043f\u0435\u0440"
+        "description": ""
     }, 
     {
         "source": "Up", 
-        "description": "", 
+        "text": "\u0432\u0432\u0435\u0440\u0445", 
         "nameSpace": "djv::UI::FileBrowser", 
         "id": "Up", 
-        "text": "\u0432\u0432\u0435\u0440\u0445"
+        "description": ""
     }, 
     {
         "source": "Go up a directory", 
-        "description": "", 
+        "text": "\u041f\u0435\u0440\u0435\u0439\u0442\u0438 \u0432 \u043a\u0430\u0442\u0430\u043b\u043e\u0433", 
         "nameSpace": "djv::UI::FileBrowser", 
         "id": "UpTooltip", 
-        "text": "\u041f\u0435\u0440\u0435\u0439\u0442\u0438 \u0432 \u043a\u0430\u0442\u0430\u043b\u043e\u0433"
+        "description": ""
     }, 
     {
         "source": "Current Directory", 
-        "description": "", 
+        "text": "\u0422\u0435\u043a\u0443\u0449\u0438\u0439 \u043a\u0430\u0442\u0430\u043b\u043e\u0433", 
         "nameSpace": "djv::UI::FileBrowser", 
         "id": "Current Directory", 
-        "text": "\u0422\u0435\u043a\u0443\u0449\u0438\u0439 \u043a\u0430\u0442\u0430\u043b\u043e\u0433"
+        "description": ""
     }, 
     {
         "source": "Go to the current directory", 
-        "description": "", 
+        "text": "\u041f\u0435\u0440\u0435\u0439\u0442\u0438 \u0432 \u0442\u0435\u043a\u0443\u0449\u0438\u0439 \u043a\u0430\u0442\u0430\u043b\u043e\u0433", 
         "nameSpace": "djv::UI::FileBrowser", 
         "id": "CurrentDirectoryTooltip", 
-        "text": "\u041f\u0435\u0440\u0435\u0439\u0442\u0438 \u0432 \u0442\u0435\u043a\u0443\u0449\u0438\u0439 \u043a\u0430\u0442\u0430\u043b\u043e\u0433"
+        "description": ""
     }, 
     {
         "source": "Back", 
-        "description": "", 
+        "text": "\u043d\u0430\u0437\u0430\u0434", 
         "nameSpace": "djv::UI::FileBrowser", 
         "id": "Back", 
-        "text": "\u043d\u0430\u0437\u0430\u0434"
+        "description": ""
     }, 
     {
         "source": "Go back in history", 
-        "description": "", 
+        "text": "\u0412\u0435\u0440\u043d\u0443\u0442\u044c\u0441\u044f \u0432 \u0438\u0441\u0442\u043e\u0440\u0438\u044e", 
         "nameSpace": "djv::UI::FileBrowser", 
         "id": "BackTooltip", 
-        "text": "\u0412\u0435\u0440\u043d\u0443\u0442\u044c\u0441\u044f \u0432 \u0438\u0441\u0442\u043e\u0440\u0438\u044e"
+        "description": ""
     }, 
     {
         "source": "Go forward in history", 
-        "description": "", 
+        "text": "\u0418\u0434\u0442\u0438 \u0432\u043f\u0435\u0440\u0435\u0434 \u0432 \u0438\u0441\u0442\u043e\u0440\u0438\u0438", 
         "nameSpace": "djv::UI::FileBrowser", 
         "id": "ForwardTooltip", 
-        "text": "\u0418\u0434\u0442\u0438 \u0432\u043f\u0435\u0440\u0435\u0434 \u0432 \u0438\u0441\u0442\u043e\u0440\u0438\u0438"
+        "description": ""
     }, 
     {
         "source": "Large Thumbnails", 
-        "description": "", 
+        "text": "\u0411\u043e\u043b\u044c\u0448\u0438\u0435 \u043c\u0438\u043d\u0438\u0430\u0442\u044e\u0440\u044b", 
         "nameSpace": "djv::UI::FileBrowser", 
         "id": "Large Thumbnails", 
-        "text": "\u0411\u043e\u043b\u044c\u0448\u0438\u0435 \u043c\u0438\u043d\u0438\u0430\u0442\u044e\u0440\u044b"
+        "description": ""
     }, 
     {
         "source": "Large thumbnail previews", 
-        "description": "", 
+        "text": "\u0411\u043e\u043b\u044c\u0448\u0438\u0435 \u043c\u0438\u043d\u0438\u0430\u0442\u044e\u0440\u044b \u043f\u0440\u0435\u0432\u044c\u044e", 
         "nameSpace": "djv::UI::FileBrowser", 
         "id": "LargethumbnailsTooltip", 
-        "text": "\u0411\u043e\u043b\u044c\u0448\u0438\u0435 \u043c\u0438\u043d\u0438\u0430\u0442\u044e\u0440\u044b \u043f\u0440\u0435\u0432\u044c\u044e"
+        "description": ""
     }, 
     {
         "source": "Small Thumbnails", 
-        "description": "", 
+        "text": "\u041c\u0430\u043b\u0435\u043d\u044c\u043a\u0438\u0435 \u043c\u0438\u043d\u0438\u0430\u0442\u044e\u0440\u044b", 
         "nameSpace": "djv::UI::FileBrowser", 
         "id": "Small Thumbnails", 
-        "text": "\u041c\u0430\u043b\u0435\u043d\u044c\u043a\u0438\u0435 \u043c\u0438\u043d\u0438\u0430\u0442\u044e\u0440\u044b"
+        "description": ""
     }, 
     {
         "source": "Small thumbnail previews", 
-        "description": "", 
+        "text": "\u041d\u0435\u0431\u043e\u043b\u044c\u0448\u0438\u0435 \u044d\u0441\u043a\u0438\u0437\u044b", 
         "nameSpace": "djv::UI::FileBrowser", 
         "id": "SmallThumbnailsTooltip", 
-        "text": "\u041d\u0435\u0431\u043e\u043b\u044c\u0448\u0438\u0435 \u044d\u0441\u043a\u0438\u0437\u044b"
+        "description": ""
     }, 
     {
         "source": "List View", 
-        "description": "", 
+        "text": "\u041f\u043e\u0441\u043c\u043e\u0442\u0440\u0435\u0442\u044c \u0441\u043f\u0438\u0441\u043e\u043a", 
         "nameSpace": "djv::UI::FileBrowser", 
         "id": "List View", 
-        "text": "\u041f\u043e\u0441\u043c\u043e\u0442\u0440\u0435\u0442\u044c \u0441\u043f\u0438\u0441\u043e\u043a"
+        "description": ""
     }, 
     {
         "source": "Detailed list view", 
-        "description": "", 
+        "text": "\u041f\u043e\u0434\u0440\u043e\u0431\u043d\u044b\u0439 \u0441\u043f\u0438\u0441\u043e\u043a", 
         "nameSpace": "djv::UI::FileBrowser", 
         "id": "ListViewTooltip", 
-        "text": "\u041f\u043e\u0434\u0440\u043e\u0431\u043d\u044b\u0439 \u0441\u043f\u0438\u0441\u043e\u043a"
+        "description": ""
     }, 
     {
         "source": "File Sequences", 
-        "description": "", 
+        "text": "\u041f\u043e\u0441\u043b\u0435\u0434\u043e\u0432\u0430\u0442\u0435\u043b\u044c\u043d\u043e\u0441\u0442\u0438 \u0444\u0430\u0439\u043b\u043e\u0432", 
         "nameSpace": "djv::UI::FileBrowser", 
         "id": "File Sequences", 
-        "text": "\u041f\u043e\u0441\u043b\u0435\u0434\u043e\u0432\u0430\u0442\u0435\u043b\u044c\u043d\u043e\u0441\u0442\u0438 \u0444\u0430\u0439\u043b\u043e\u0432"
+        "description": ""
     }, 
     {
         "source": "Toggle whether file sequences are enabled", 
-        "description": "", 
+        "text": "\u041f\u0435\u0440\u0435\u043a\u043b\u044e\u0447\u0438\u0442\u044c, \u0432\u043a\u043b\u044e\u0447\u0435\u043d\u044b \u043b\u0438 \u043f\u043e\u0441\u043b\u0435\u0434\u043e\u0432\u0430\u0442\u0435\u043b\u044c\u043d\u043e\u0441\u0442\u0438 \u0444\u0430\u0439\u043b\u043e\u0432", 
         "nameSpace": "djv::UI::FileBrowser", 
         "id": "FileSequencesTooltip", 
-        "text": "\u041f\u0435\u0440\u0435\u043a\u043b\u044e\u0447\u0438\u0442\u044c, \u0432\u043a\u043b\u044e\u0447\u0435\u043d\u044b \u043b\u0438 \u043f\u043e\u0441\u043b\u0435\u0434\u043e\u0432\u0430\u0442\u0435\u043b\u044c\u043d\u043e\u0441\u0442\u0438 \u0444\u0430\u0439\u043b\u043e\u0432"
+        "description": ""
     }, 
     {
         "source": "Show Hidden", 
-        "description": "", 
+        "text": "\u041f\u043e\u043a\u0430\u0437\u0430\u0442\u044c \u0441\u043a\u0440\u044b\u0442\u043e\u0435", 
         "nameSpace": "djv::UI::FileBrowser", 
         "id": "Show Hidden", 
-        "text": "\u041f\u043e\u043a\u0430\u0437\u0430\u0442\u044c \u0441\u043a\u0440\u044b\u0442\u043e\u0435"
+        "description": ""
     }, 
     {
         "source": "Show hidden files", 
-        "description": "", 
+        "text": "\u041f\u043e\u043a\u0430\u0437\u0430\u0442\u044c \u0441\u043a\u0440\u044b\u0442\u044b\u0435 \u0444\u0430\u0439\u043b\u044b", 
         "nameSpace": "djv::UI::FileBrowser", 
         "id": "ShowHiddenTooltip", 
-        "text": "\u041f\u043e\u043a\u0430\u0437\u0430\u0442\u044c \u0441\u043a\u0440\u044b\u0442\u044b\u0435 \u0444\u0430\u0439\u043b\u044b"
+        "description": ""
     }, 
     {
         "source": "Directory", 
-        "description": "", 
+        "text": "\u043a\u0430\u0442\u0430\u043b\u043e\u0433", 
         "nameSpace": "djv::UI::FileBrowser", 
         "id": "Directory", 
-        "text": "\u043a\u0430\u0442\u0430\u043b\u043e\u0433"
+        "description": ""
     }, 
     {
         "source": "View", 
-        "description": "", 
+        "text": "\u041f\u043e\u0441\u043c\u043e\u0442\u0440\u0435\u0442\u044c", 
         "nameSpace": "djv::UI::FileBrowser", 
         "id": "View", 
-        "text": "\u041f\u043e\u0441\u043c\u043e\u0442\u0440\u0435\u0442\u044c"
+        "description": ""
     }, 
     {
         "source": "Sort", 
-        "description": "", 
+        "text": "\u0421\u043e\u0440\u0442\u0438\u0440\u043e\u0432\u0430\u0442\u044c", 
         "nameSpace": "djv::UI::FileBrowser", 
         "id": "Sort", 
-        "text": "\u0421\u043e\u0440\u0442\u0438\u0440\u043e\u0432\u0430\u0442\u044c"
+        "description": ""
     }, 
     {
         "source": "Bookmarks", 
-        "description": "", 
+        "text": "\u0437\u0430\u043a\u043b\u0430\u0434\u043a\u0438", 
         "nameSpace": "djv::UI::FileBrowser", 
         "id": "Bookmarks", 
-        "text": "\u0437\u0430\u043a\u043b\u0430\u0434\u043a\u0438"
+        "description": ""
     }, 
     {
         "source": "items", 
-        "description": "", 
+        "text": "\u041f\u0440\u0435\u0434\u043c\u0435\u0442\u044b", 
         "nameSpace": "djv::UI::FileBrowser", 
         "id": "items", 
-        "text": "\u041f\u0440\u0435\u0434\u043c\u0435\u0442\u044b"
+        "description": ""
     }, 
     {
         "source": "Size", 
-        "description": "", 
+        "text": "\u0420\u0430\u0437\u043c\u0435\u0440", 
         "nameSpace": "djv::UI::FileBrowser", 
         "id": "Size", 
-        "text": "\u0420\u0430\u0437\u043c\u0435\u0440"
+        "description": ""
     }, 
     {
         "source": "Last modification time", 
-        "description": "", 
+        "text": "\u0412\u0440\u0435\u043c\u044f \u043f\u043e\u0441\u043b\u0435\u0434\u043d\u0435\u0439 \u043c\u043e\u0434\u0438\u0444\u0438\u043a\u0430\u0446\u0438\u0438", 
         "nameSpace": "djv::UI::FileBrowser", 
         "id": "Last modification time", 
-        "text": "\u0412\u0440\u0435\u043c\u044f \u043f\u043e\u0441\u043b\u0435\u0434\u043d\u0435\u0439 \u043c\u043e\u0434\u0438\u0444\u0438\u043a\u0430\u0446\u0438\u0438"
+        "description": ""
     }, 
     {
         "source": "Video track", 
-        "description": "", 
+        "text": "\u0412\u0438\u0434\u0435\u043e\u0434\u043e\u0440\u043e\u0436\u043a\u0430", 
         "nameSpace": "djv::UI::FileBrowser", 
         "id": "Video track", 
-        "text": "\u0412\u0438\u0434\u0435\u043e\u0434\u043e\u0440\u043e\u0436\u043a\u0430"
+        "description": ""
     }, 
     {
         "source": "Type", 
-        "description": "", 
+        "text": "\u0422\u0438\u043f", 
         "nameSpace": "djv::UI::FileBrowser", 
         "id": "Type", 
-        "text": "\u0422\u0438\u043f"
+        "description": ""
     }, 
     {
         "source": "Speed", 
-        "description": "", 
+        "text": "\u0441\u043a\u043e\u0440\u043e\u0441\u0442\u044c", 
         "nameSpace": "djv::UI::FileBrowser", 
         "id": "Speed", 
-        "text": "\u0441\u043a\u043e\u0440\u043e\u0441\u0442\u044c"
+        "description": ""
     }, 
     {
         "source": "FPS", 
-        "description": "", 
+        "text": "FPS", 
         "nameSpace": "djv::UI::FileBrowser", 
         "id": "FPS", 
-        "text": "FPS"
+        "description": ""
     }, 
     {
         "source": "Duration", 
-        "description": "", 
+        "text": "\u043f\u0440\u043e\u0434\u043e\u043b\u0436\u0438\u0442\u0435\u043b\u044c\u043d\u043e\u0441\u0442\u044c", 
         "nameSpace": "djv::UI::FileBrowser", 
         "id": "Duration", 
-        "text": "\u043f\u0440\u043e\u0434\u043e\u043b\u0436\u0438\u0442\u0435\u043b\u044c\u043d\u043e\u0441\u0442\u044c"
+        "description": ""
     }, 
     {
         "source": "Audio track", 
-        "description": "", 
+        "text": "\u0417\u0432\u0443\u043a\u043e\u0432\u0430\u044f \u0434\u043e\u0440\u043e\u0436\u043a\u0430", 
         "nameSpace": "djv::UI::FileBrowser", 
         "id": "Audio track", 
-        "text": "\u0417\u0432\u0443\u043a\u043e\u0432\u0430\u044f \u0434\u043e\u0440\u043e\u0436\u043a\u0430"
+        "description": ""
     }, 
     {
         "source": "Channels", 
-        "description": "", 
+        "text": "\u043a\u0430\u043d\u0430\u043b\u044b", 
         "nameSpace": "djv::UI::FileBrowser", 
         "id": "Channels", 
-        "text": "\u043a\u0430\u043d\u0430\u043b\u044b"
+        "description": ""
     }, 
     {
         "source": "Sample rate", 
-        "description": "", 
+        "text": "\u0427\u0430\u0441\u0442\u043e\u0442\u0430 \u0434\u0438\u0441\u043a\u0440\u0435\u0442\u0438\u0437\u0430\u0446\u0438\u0438", 
         "nameSpace": "djv::UI::FileBrowser", 
         "id": "Sample rate", 
-        "text": "\u0427\u0430\u0441\u0442\u043e\u0442\u0430 \u0434\u0438\u0441\u043a\u0440\u0435\u0442\u0438\u0437\u0430\u0446\u0438\u0438"
+        "description": ""
     }, 
     {
         "source": "kHz", 
-        "description": "", 
+        "text": "\u043a\u0413\u0446", 
         "nameSpace": "djv::UI::FileBrowser", 
         "id": "kHz", 
-        "text": "\u043a\u0413\u0446"
+        "description": ""
     }, 
     {
         "source": "Show the navigation history", 
-        "description": "", 
+        "text": "\u041f\u043e\u043a\u0430\u0437\u0430\u0442\u044c \u0438\u0441\u0442\u043e\u0440\u0438\u044e \u043d\u0430\u0432\u0438\u0433\u0430\u0446\u0438\u0438", 
         "nameSpace": "djv::UI::FileBrowser", 
         "id": "HistoryTooltip", 
-        "text": "\u041f\u043e\u043a\u0430\u0437\u0430\u0442\u044c \u0438\u0441\u0442\u043e\u0440\u0438\u044e \u043d\u0430\u0432\u0438\u0433\u0430\u0446\u0438\u0438"
+        "description": ""
     }, 
     {
         "source": "Cannot parse value.", 
-        "description": "", 
+        "text": "\u041d\u0435\u0432\u043e\u0437\u043c\u043e\u0436\u043d\u043e \u0440\u0430\u0437\u043e\u0431\u0440\u0430\u0442\u044c \u0437\u043d\u0430\u0447\u0435\u043d\u0438\u0435.", 
         "nameSpace": "djv::UI", 
         "id": "Cannot parse value.", 
-        "text": "\u041d\u0435\u0432\u043e\u0437\u043c\u043e\u0436\u043d\u043e \u0440\u0430\u0437\u043e\u0431\u0440\u0430\u0442\u044c \u0437\u043d\u0430\u0447\u0435\u043d\u0438\u0435."
+        "description": ""
+    }, 
+    {
+        "source": "Up Tooltip", 
+        "text": "\u041f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0430", 
+        "nameSpace": "djv::UI::FileBrowser", 
+        "description": "", 
+        "id": "Up Tooltip"
+    }, 
+    {
+        "source": "Current Directory Tooltip", 
+        "text": "\u0422\u0435\u043a\u0443\u0449\u0430\u044f \u0434\u0438\u0440\u0435\u043a\u0442\u043e\u0440\u0438\u044f", 
+        "nameSpace": "djv::UI::FileBrowser", 
+        "description": "", 
+        "id": "Current Directory Tooltip"
+    }, 
+    {
+        "source": "Back Tooltip", 
+        "text": "\u0412\u0435\u0440\u043d\u0443\u0442\u044c\u0441\u044f \u0432\u0441\u043f\u043b\u044b\u0432\u0430\u044e\u0449\u0430\u044f \u043f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0430", 
+        "nameSpace": "djv::UI::FileBrowser", 
+        "description": "", 
+        "id": "Back Tooltip"
+    }, 
+    {
+        "source": "Forward Tooltip", 
+        "text": "\u0412\u043f\u0435\u0440\u0435\u0434 \u043f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0430", 
+        "nameSpace": "djv::UI::FileBrowser", 
+        "description": "", 
+        "id": "Forward Tooltip"
+    }, 
+    {
+        "source": "Large Thumbnails Tooltip", 
+        "text": "\u041f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0430 \u0434\u043b\u044f \u0431\u043e\u043b\u044c\u0448\u0438\u0445 \u043c\u0438\u043d\u0438\u0430\u0442\u044e\u0440", 
+        "nameSpace": "djv::UI::FileBrowser", 
+        "description": "", 
+        "id": "Large Thumbnails Tooltip"
+    }, 
+    {
+        "source": "Small Thumbnails Tooltip", 
+        "text": "\u041f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0430 \u0434\u043b\u044f \u043c\u0430\u043b\u0435\u043d\u044c\u043a\u0438\u0445 \u043c\u0438\u043d\u0438\u0430\u0442\u044e\u0440", 
+        "nameSpace": "djv::UI::FileBrowser", 
+        "description": "", 
+        "id": "Small Thumbnails Tooltip"
+    }, 
+    {
+        "source": "List View Tooltip", 
+        "text": "\u041f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0430 \u0432 \u0432\u0438\u0434\u0435 \u0441\u043f\u0438\u0441\u043a\u0430", 
+        "nameSpace": "djv::UI::FileBrowser", 
+        "description": "", 
+        "id": "List View Tooltip"
+    }, 
+    {
+        "source": "File Sequences Tooltip", 
+        "text": "\u041f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0430 \u043e \u043f\u043e\u0441\u043b\u0435\u0434\u043e\u0432\u0430\u0442\u0435\u043b\u044c\u043d\u043e\u0441\u0442\u0438 \u0444\u0430\u0439\u043b\u043e\u0432", 
+        "nameSpace": "djv::UI::FileBrowser", 
+        "description": "", 
+        "id": "File Sequences Tooltip"
+    }, 
+    {
+        "source": "Show Hidden Tooltip", 
+        "text": "\u041f\u043e\u043a\u0430\u0437\u0430\u0442\u044c \u0441\u043a\u0440\u044b\u0442\u0443\u044e \u043f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0443", 
+        "nameSpace": "djv::UI::FileBrowser", 
+        "description": "", 
+        "id": "Show Hidden Tooltip"
+    }, 
+    {
+        "source": "History Tooltip", 
+        "text": "\u041f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0430 \u043f\u043e \u0438\u0441\u0442\u043e\u0440\u0438\u0438", 
+        "nameSpace": "djv::UI::FileBrowser", 
+        "description": "", 
+        "id": "History Tooltip"
     }
 ]

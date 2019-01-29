@@ -1,23 +1,23 @@
 [
     {
         "source": "Nothing to convert", 
-        "description": "", 
+        "text": "\u5909\u63db\u3059\u308b\u3082\u306e\u304c\u3042\u308a\u307e\u305b\u3093", 
         "nameSpace": "djv::Convert", 
         "id": "Nothing to convert", 
-        "text": "\u5909\u63db\u3059\u308b\u3082\u306e\u304c\u3042\u308a\u307e\u305b\u3093"
+        "description": ""
     }, 
     {
         "source": "Cannot parse option '-resize'", 
-        "description": "", 
+        "text": "\u30aa\u30d7\u30b7\u30e7\u30f3 &#39;-resize&#39;\u3092\u89e3\u6790\u3067\u304d\u307e\u305b\u3093", 
         "nameSpace": "djv::Convert", 
         "id": "Cannot parse option '-resize'", 
-        "text": "\u30aa\u30d7\u30b7\u30e7\u30f3 &#39;-resize&#39;\u3092\u89e3\u6790\u3067\u304d\u307e\u305b\u3093"
+        "description": ""
     }, 
     {
         "source": "Usage: djv_convert (input) (output)", 
-        "description": "", 
+        "text": "\u4f7f\u7528\u6cd5\uff1adjv_convert\uff08\u5165\u529b\uff09\uff08\u51fa\u529b\uff09", 
         "nameSpace": "djv::Convert", 
         "id": "Usage: djv_convert (input) (output)", 
-        "text": "\u4f7f\u7528\u6cd5\uff1adjv_convert\uff08\u5165\u529b\uff09\uff08\u51fa\u529b\uff09"
+        "description": ""
     }
 ]

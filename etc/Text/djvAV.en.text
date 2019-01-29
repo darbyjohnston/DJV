@@ -448,5 +448,35 @@
         "nameSpace": "djv::AV::Font", 
         "id": "Cannot find any fonts.", 
         "description": ""
+    }, 
+    {
+        "text": "U8 Planar", 
+        "nameSpace": "djv::AV::IO::FFmpeg", 
+        "id": "U8 Planar", 
+        "description": ""
+    }, 
+    {
+        "text": "S16 Planar", 
+        "nameSpace": "djv::AV::IO::FFmpeg", 
+        "id": "S16 Planar", 
+        "description": ""
+    }, 
+    {
+        "text": "S32 Planar", 
+        "nameSpace": "djv::AV::IO::FFmpeg", 
+        "id": "S32 Planar", 
+        "description": ""
+    }, 
+    {
+        "text": "Float Planar", 
+        "nameSpace": "djv::AV::IO::FFmpeg", 
+        "id": "Float Planar", 
+        "description": ""
+    }, 
+    {
+        "text": "Double Planar", 
+        "nameSpace": "djv::AV::IO::FFmpeg", 
+        "id": "Double Planar", 
+        "description": ""
     }
 ]

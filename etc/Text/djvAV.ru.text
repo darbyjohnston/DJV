@@ -1,527 +1,562 @@
 [
     {
         "source": "None", 
-        "description": "", 
+        "text": "\u041d\u0438\u043a\u0442\u043e", 
         "nameSpace": "djv::AV::IO::FFmpeg", 
         "id": "None", 
-        "text": "\u041d\u0438\u043a\u0442\u043e"
+        "description": ""
     }, 
     {
         "source": "U8", 
-        "description": "", 
+        "text": "U8", 
         "nameSpace": "djv::AV::IO::FFmpeg", 
         "id": "U8", 
-        "text": "U8"
+        "description": ""
     }, 
     {
         "source": "S16", 
-        "description": "", 
+        "text": "S16", 
         "nameSpace": "djv::AV::IO::FFmpeg", 
         "id": "S16", 
-        "text": "S16"
+        "description": ""
     }, 
     {
         "source": "S32", 
-        "description": "", 
+        "text": "S32", 
         "nameSpace": "djv::AV::IO::FFmpeg", 
         "id": "S32", 
-        "text": "S32"
+        "description": ""
     }, 
     {
         "source": "Float", 
-        "description": "", 
+        "text": "\u0442\u0435\u0440\u043a\u0430", 
         "nameSpace": "djv::AV::IO::FFmpeg", 
         "id": "Float", 
-        "text": "\u0442\u0435\u0440\u043a\u0430"
+        "description": ""
     }, 
     {
         "source": "Double", 
-        "description": "", 
+        "text": "\u0434\u0432\u043e\u0439\u043d\u043e\u0439", 
         "nameSpace": "djv::AV::IO::FFmpeg", 
         "id": "Double", 
-        "text": "\u0434\u0432\u043e\u0439\u043d\u043e\u0439"
+        "description": ""
     }, 
     {
         "source": "U8 planar", 
-        "description": "", 
+        "text": "U8 \u043f\u043b\u0430\u043d\u0430\u0440\u043d\u044b\u0439", 
         "nameSpace": "djv::AV::IO::FFmpeg", 
         "id": "U8 planar", 
-        "text": "U8 \u043f\u043b\u0430\u043d\u0430\u0440\u043d\u044b\u0439"
+        "description": ""
     }, 
     {
         "source": "S16 planar", 
-        "description": "", 
+        "text": "S16 \u043f\u043b\u0430\u043d\u0430\u0440\u043d\u044b\u0439", 
         "nameSpace": "djv::AV::IO::FFmpeg", 
         "id": "S16 planar", 
-        "text": "S16 \u043f\u043b\u0430\u043d\u0430\u0440\u043d\u044b\u0439"
+        "description": ""
     }, 
     {
         "source": "S32 planar", 
-        "description": "", 
+        "text": "S32 \u043f\u043b\u0430\u043d\u0430\u0440\u043d\u044b\u0439", 
         "nameSpace": "djv::AV::IO::FFmpeg", 
         "id": "S32 planar", 
-        "text": "S32 \u043f\u043b\u0430\u043d\u0430\u0440\u043d\u044b\u0439"
+        "description": ""
     }, 
     {
         "source": "Float planar", 
-        "description": "", 
+        "text": "\u041f\u043e\u043f\u043b\u0430\u0432\u043e\u043a \u043f\u043b\u043e\u0441\u043a\u0438\u0439", 
         "nameSpace": "djv::AV::IO::FFmpeg", 
         "id": "Float planar", 
-        "text": "\u041f\u043e\u043f\u043b\u0430\u0432\u043e\u043a \u043f\u043b\u043e\u0441\u043a\u0438\u0439"
+        "description": ""
     }, 
     {
         "source": "Double planar", 
-        "description": "", 
+        "text": "\u0414\u0432\u043e\u0439\u043d\u043e\u0439 \u043f\u043b\u0430\u043d\u0430\u0440\u043d\u044b\u0439", 
         "nameSpace": "djv::AV::IO::FFmpeg", 
         "id": "Double planar", 
-        "text": "\u0414\u0432\u043e\u0439\u043d\u043e\u0439 \u043f\u043b\u0430\u043d\u0430\u0440\u043d\u044b\u0439"
+        "description": ""
     }, 
     {
         "source": "Unknown", 
-        "description": "", 
+        "text": "\u043d\u0435\u0438\u0437\u0432\u0435\u0441\u0442\u043d\u044b\u0439", 
         "nameSpace": "djv::AV::IO::FFmpeg", 
         "id": "Unknown", 
-        "text": "\u043d\u0435\u0438\u0437\u0432\u0435\u0441\u0442\u043d\u044b\u0439"
+        "description": ""
     }, 
     {
         "source": "This plugin provides FFmpeg image and audio I/O.", 
-        "description": "", 
+        "text": "\u042d\u0442\u043e\u0442 \u043f\u043b\u0430\u0433\u0438\u043d \u043e\u0431\u0435\u0441\u043f\u0435\u0447\u0438\u0432\u0430\u0435\u0442 FFmpeg \u0438\u0437\u043e\u0431\u0440\u0430\u0436\u0435\u043d\u0438\u044f \u0438 \u0430\u0443\u0434\u0438\u043e \u0432\u0432\u043e\u0434\u0430 / \u0432\u044b\u0432\u043e\u0434\u0430.", 
         "nameSpace": "djv::AV::IO::FFmpeg", 
         "id": "This plugin provides FFmpeg image and audio I/O.", 
-        "text": "\u042d\u0442\u043e\u0442 \u043f\u043b\u0430\u0433\u0438\u043d \u043e\u0431\u0435\u0441\u043f\u0435\u0447\u0438\u0432\u0430\u0435\u0442 FFmpeg \u0438\u0437\u043e\u0431\u0440\u0430\u0436\u0435\u043d\u0438\u044f \u0438 \u0430\u0443\u0434\u0438\u043e \u0432\u0432\u043e\u0434\u0430 / \u0432\u044b\u0432\u043e\u0434\u0430."
+        "description": ""
     }, 
     {
         "source": "cannot open", 
-        "description": "", 
+        "text": "\u043d\u0435 \u043c\u043e\u0433\u0443 \u043e\u0442\u043a\u0440\u044b\u0442\u044c", 
         "nameSpace": "djv::AV::IO::FFmpeg", 
         "id": "cannot open", 
-        "text": "\u043d\u0435 \u043c\u043e\u0433\u0443 \u043e\u0442\u043a\u0440\u044b\u0442\u044c"
+        "description": ""
     }, 
     {
         "source": "cannot find any streams in", 
-        "description": "", 
+        "text": "\u043d\u0435 \u043c\u043e\u0436\u0435\u0442 \u043d\u0430\u0439\u0442\u0438 \u043d\u0438\u043a\u0430\u043a\u0438\u0445 \u043f\u043e\u0442\u043e\u043a\u043e\u0432 \u0432", 
         "nameSpace": "djv::AV::IO::FFmpeg", 
         "id": "cannot find any streams in", 
-        "text": "\u043d\u0435 \u043c\u043e\u0436\u0435\u0442 \u043d\u0430\u0439\u0442\u0438 \u043d\u0438\u043a\u0430\u043a\u0438\u0445 \u043f\u043e\u0442\u043e\u043a\u043e\u0432 \u0432"
+        "description": ""
     }, 
     {
         "source": "cannot find video codec for", 
-        "description": "", 
+        "text": "\u043d\u0435 \u043c\u043e\u0433\u0443 \u043d\u0430\u0439\u0442\u0438 \u0432\u0438\u0434\u0435\u043e \u043a\u043e\u0434\u0435\u043a \u0434\u043b\u044f", 
         "nameSpace": "djv::AV::IO::FFmpeg", 
         "id": "cannot find video codec for", 
-        "text": "\u043d\u0435 \u043c\u043e\u0433\u0443 \u043d\u0430\u0439\u0442\u0438 \u0432\u0438\u0434\u0435\u043e \u043a\u043e\u0434\u0435\u043a \u0434\u043b\u044f"
+        "description": ""
     }, 
     {
         "source": "unsupported audio format ", 
-        "description": "", 
+        "text": "\u043d\u0435\u043f\u043e\u0434\u0434\u0435\u0440\u0436\u0438\u0432\u0430\u0435\u043c\u044b\u0439 \u0430\u0443\u0434\u0438\u043e\u0444\u043e\u0440\u043c\u0430\u0442", 
         "nameSpace": "djv::AV::IO::FFmpeg", 
         "id": "unsupported audio format ", 
-        "text": "\u043d\u0435\u043f\u043e\u0434\u0434\u0435\u0440\u0436\u0438\u0432\u0430\u0435\u043c\u044b\u0439 \u0430\u0443\u0434\u0438\u043e\u0444\u043e\u0440\u043c\u0430\u0442"
+        "description": ""
     }, 
     {
         "source": "cannot find audio codec for", 
-        "description": "", 
+        "text": "\u043d\u0435 \u043c\u043e\u0433\u0443 \u043d\u0430\u0439\u0442\u0438 \u0430\u0443\u0434\u0438\u043e\u043a\u043e\u0434\u0435\u043a \u0434\u043b\u044f", 
         "nameSpace": "djv::AV::IO::FFmpeg", 
         "id": "cannot find audio codec for", 
-        "text": "\u043d\u0435 \u043c\u043e\u0433\u0443 \u043d\u0430\u0439\u0442\u0438 \u0430\u0443\u0434\u0438\u043e\u043a\u043e\u0434\u0435\u043a \u0434\u043b\u044f"
+        "description": ""
     }, 
     {
         "source": "Cannot read", 
-        "description": "", 
+        "text": "\u041d\u0435 \u043c\u043e\u0433\u0443 \u043f\u0440\u043e\u0447\u0438\u0442\u0430\u0442\u044c", 
         "nameSpace": "djv::AV::IO", 
         "id": "Cannot read", 
-        "text": "\u041d\u0435 \u043c\u043e\u0433\u0443 \u043f\u0440\u043e\u0447\u0438\u0442\u0430\u0442\u044c"
+        "description": ""
     }, 
     {
         "source": "Cannot write", 
-        "description": "", 
+        "text": "\u041d\u0435 \u043c\u043e\u0433\u0443 \u043d\u0430\u043f\u0438\u0441\u0430\u0442\u044c", 
         "nameSpace": "djv::AV::IO", 
         "id": "Cannot write", 
-        "text": "\u041d\u0435 \u043c\u043e\u0433\u0443 \u043d\u0430\u043f\u0438\u0441\u0430\u0442\u044c"
+        "description": ""
     }, 
     {
         "source": "Left", 
-        "description": "", 
+        "text": "\u041e\u0441\u0442\u0430\u0432\u0438\u043b", 
         "nameSpace": "djv::AV", 
         "id": "Left", 
-        "text": "\u041e\u0441\u0442\u0430\u0432\u0438\u043b"
+        "description": ""
     }, 
     {
         "source": "Top", 
-        "description": "", 
+        "text": "\u0432\u0435\u0440\u0445\u043d\u0438\u0439", 
         "nameSpace": "djv::AV", 
         "id": "Top", 
-        "text": "\u0432\u0435\u0440\u0445\u043d\u0438\u0439"
+        "description": ""
     }, 
     {
         "source": "Right", 
-        "description": "", 
+        "text": "\u041f\u0440\u0430\u0432\u0438\u043b\u044c\u043d\u043e", 
         "nameSpace": "djv::AV", 
         "id": "Right", 
-        "text": "\u041f\u0440\u0430\u0432\u0438\u043b\u044c\u043d\u043e"
+        "description": ""
     }, 
     {
         "source": "Bottom", 
-        "description": "", 
+        "text": "\u041d\u0438\u0437", 
         "nameSpace": "djv::AV", 
         "id": "Bottom", 
-        "text": "\u041d\u0438\u0437"
+        "description": ""
     }, 
     {
         "source": "Cannot create OpenGL texture.", 
-        "description": "", 
+        "text": "\u041d\u0435\u0432\u043e\u0437\u043c\u043e\u0436\u043d\u043e \u0441\u043e\u0437\u0434\u0430\u0442\u044c \u0442\u0435\u043a\u0441\u0442\u0443\u0440\u0443 OpenGL.", 
         "nameSpace": "djv::AV::OpenGL", 
         "id": "Cannot create OpenGL texture.", 
-        "text": "\u041d\u0435\u0432\u043e\u0437\u043c\u043e\u0436\u043d\u043e \u0441\u043e\u0437\u0434\u0430\u0442\u044c \u0442\u0435\u043a\u0441\u0442\u0443\u0440\u0443 OpenGL."
+        "description": ""
     }, 
     {
         "source": "Cannot create OpenGL frame buffer.", 
-        "description": "", 
+        "text": "\u041d\u0435\u0432\u043e\u0437\u043c\u043e\u0436\u043d\u043e \u0441\u043e\u0437\u0434\u0430\u0442\u044c \u0444\u0440\u0435\u0439\u043c-\u0431\u0443\u0444\u0435\u0440 OpenGL.", 
         "nameSpace": "djv::AV::OpenGL", 
         "id": "Cannot create OpenGL frame buffer.", 
-        "text": "\u041d\u0435\u0432\u043e\u0437\u043c\u043e\u0436\u043d\u043e \u0441\u043e\u0437\u0434\u0430\u0442\u044c \u0444\u0440\u0435\u0439\u043c-\u0431\u0443\u0444\u0435\u0440 OpenGL."
+        "description": ""
     }, 
     {
         "source": "Cannot initialize OpenGL frame buffer.", 
-        "description": "", 
+        "text": "\u041d\u0435\u0432\u043e\u0437\u043c\u043e\u0436\u043d\u043e \u0438\u043d\u0438\u0446\u0438\u0430\u043b\u0438\u0437\u0438\u0440\u043e\u0432\u0430\u0442\u044c \u0444\u0440\u0435\u0439\u043c-\u0431\u0443\u0444\u0435\u0440 OpenGL.", 
         "nameSpace": "djv::AV::OpenGL", 
         "id": "Cannot initialize OpenGL frame buffer.", 
-        "text": "\u041d\u0435\u0432\u043e\u0437\u043c\u043e\u0436\u043d\u043e \u0438\u043d\u0438\u0446\u0438\u0430\u043b\u0438\u0437\u0438\u0440\u043e\u0432\u0430\u0442\u044c \u0444\u0440\u0435\u0439\u043c-\u0431\u0443\u0444\u0435\u0440 OpenGL."
+        "description": ""
     }, 
     {
         "source": "Out of memory", 
-        "description": "", 
+        "text": "\u041d\u0435\u0434\u043e\u0441\u0442\u0430\u0442\u043e\u0447\u043d\u043e \u043f\u0430\u043c\u044f\u0442\u0438", 
         "nameSpace": "djv::AV::Audio", 
         "id": "Out of memory", 
-        "text": "\u041d\u0435\u0434\u043e\u0441\u0442\u0430\u0442\u043e\u0447\u043d\u043e \u043f\u0430\u043c\u044f\u0442\u0438"
+        "description": ""
     }, 
     {
         "source": "Invalid value", 
-        "description": "", 
+        "text": "\u041d\u0435\u0432\u0435\u0440\u043d\u043e\u0435 \u0437\u043d\u0430\u0447\u0435\u043d\u0438\u0435", 
         "nameSpace": "djv::AV::Audio", 
         "id": "Invalid value", 
-        "text": "\u041d\u0435\u0432\u0435\u0440\u043d\u043e\u0435 \u0437\u043d\u0430\u0447\u0435\u043d\u0438\u0435"
+        "description": ""
     }, 
     {
         "source": "Invalid enum", 
-        "description": "", 
+        "text": "\u041d\u0435\u0432\u0435\u0440\u043d\u043e\u0435 \u043f\u0435\u0440\u0435\u0447\u0438\u0441\u043b\u0435\u043d\u0438\u0435", 
         "nameSpace": "djv::AV::Audio", 
         "id": "Invalid enum", 
-        "text": "\u041d\u0435\u0432\u0435\u0440\u043d\u043e\u0435 \u043f\u0435\u0440\u0435\u0447\u0438\u0441\u043b\u0435\u043d\u0438\u0435"
+        "description": ""
     }, 
     {
         "source": "F32", 
-        "description": "", 
+        "text": "F32", 
         "nameSpace": "djv::AV::Audio", 
         "id": "F32", 
-        "text": "F32"
+        "description": ""
     }, 
     {
         "source": "Cannot open OpenAL device.", 
-        "description": "", 
+        "text": "\u041d\u0435 \u0443\u0434\u0430\u0435\u0442\u0441\u044f \u043e\u0442\u043a\u0440\u044b\u0442\u044c \u0443\u0441\u0442\u0440\u043e\u0439\u0441\u0442\u0432\u043e OpenAL.", 
         "nameSpace": "djv::AV::Audio", 
         "id": "Cannot open OpenAL device.", 
-        "text": "\u041d\u0435 \u0443\u0434\u0430\u0435\u0442\u0441\u044f \u043e\u0442\u043a\u0440\u044b\u0442\u044c \u0443\u0441\u0442\u0440\u043e\u0439\u0441\u0442\u0432\u043e OpenAL."
+        "description": ""
     }, 
     {
         "source": "Cannot create OpenAL context.", 
-        "description": "", 
+        "text": "\u041d\u0435\u0432\u043e\u0437\u043c\u043e\u0436\u043d\u043e \u0441\u043e\u0437\u0434\u0430\u0442\u044c \u043a\u043e\u043d\u0442\u0435\u043a\u0441\u0442 OpenAL.", 
         "nameSpace": "djv::AV::Audio", 
         "id": "Cannot create OpenAL context.", 
-        "text": "\u041d\u0435\u0432\u043e\u0437\u043c\u043e\u0436\u043d\u043e \u0441\u043e\u0437\u0434\u0430\u0442\u044c \u043a\u043e\u043d\u0442\u0435\u043a\u0441\u0442 OpenAL."
+        "description": ""
     }, 
     {
         "source": "Cannot make OpenAL context current.", 
-        "description": "", 
+        "text": "\u041d\u0435\u0432\u043e\u0437\u043c\u043e\u0436\u043d\u043e \u0441\u0434\u0435\u043b\u0430\u0442\u044c \u043a\u043e\u043d\u0442\u0435\u043a\u0441\u0442 OpenAL \u0442\u0435\u043a\u0443\u0449\u0438\u043c.", 
         "nameSpace": "djv::AV::Audio", 
         "id": "Cannot make OpenAL context current.", 
-        "text": "\u041d\u0435\u0432\u043e\u0437\u043c\u043e\u0436\u043d\u043e \u0441\u0434\u0435\u043b\u0430\u0442\u044c \u043a\u043e\u043d\u0442\u0435\u043a\u0441\u0442 OpenAL \u0442\u0435\u043a\u0443\u0449\u0438\u043c."
+        "description": ""
     }, 
     {
         "source": "Cannot create OpenGL vertex shader.", 
-        "description": "", 
+        "text": "\u041d\u0435\u0432\u043e\u0437\u043c\u043e\u0436\u043d\u043e \u0441\u043e\u0437\u0434\u0430\u0442\u044c \u0432\u0435\u0440\u0448\u0438\u043d\u043d\u044b\u0439 \u0448\u0435\u0439\u0434\u0435\u0440 OpenGL.", 
         "nameSpace": "djv::AV::OpenGL", 
         "id": "Cannot create OpenGL vertex shader.", 
-        "text": "\u041d\u0435\u0432\u043e\u0437\u043c\u043e\u0436\u043d\u043e \u0441\u043e\u0437\u0434\u0430\u0442\u044c \u0432\u0435\u0440\u0448\u0438\u043d\u043d\u044b\u0439 \u0448\u0435\u0439\u0434\u0435\u0440 OpenGL."
+        "description": ""
     }, 
     {
         "source": "Cannot compile OpenGL vertex shader", 
-        "description": "", 
+        "text": "\u041d\u0435\u0432\u043e\u0437\u043c\u043e\u0436\u043d\u043e \u0441\u043a\u043e\u043c\u043f\u0438\u043b\u0438\u0440\u043e\u0432\u0430\u0442\u044c \u0432\u0435\u0440\u0448\u0438\u043d\u043d\u044b\u0439 \u0448\u0435\u0439\u0434\u0435\u0440 OpenGL", 
         "nameSpace": "djv::AV::OpenGL", 
         "id": "Cannot compile OpenGL vertex shader", 
-        "text": "\u041d\u0435\u0432\u043e\u0437\u043c\u043e\u0436\u043d\u043e \u0441\u043a\u043e\u043c\u043f\u0438\u043b\u0438\u0440\u043e\u0432\u0430\u0442\u044c \u0432\u0435\u0440\u0448\u0438\u043d\u043d\u044b\u0439 \u0448\u0435\u0439\u0434\u0435\u0440 OpenGL"
+        "description": ""
     }, 
     {
         "source": "Cannot create OpenGL fragment shader.", 
-        "description": "", 
+        "text": "\u041d\u0435\u0432\u043e\u0437\u043c\u043e\u0436\u043d\u043e \u0441\u043e\u0437\u0434\u0430\u0442\u044c \u0444\u0440\u0430\u0433\u043c\u0435\u043d\u0442\u043d\u044b\u0439 \u0448\u0435\u0439\u0434\u0435\u0440 OpenGL.", 
         "nameSpace": "djv::AV::OpenGL", 
         "id": "Cannot create OpenGL fragment shader.", 
-        "text": "\u041d\u0435\u0432\u043e\u0437\u043c\u043e\u0436\u043d\u043e \u0441\u043e\u0437\u0434\u0430\u0442\u044c \u0444\u0440\u0430\u0433\u043c\u0435\u043d\u0442\u043d\u044b\u0439 \u0448\u0435\u0439\u0434\u0435\u0440 OpenGL."
+        "description": ""
     }, 
     {
         "source": "Cannot compile OpenGL framgent shader", 
-        "description": "", 
+        "text": "\u041d\u0435\u0432\u043e\u0437\u043c\u043e\u0436\u043d\u043e \u0441\u043a\u043e\u043c\u043f\u0438\u043b\u0438\u0440\u043e\u0432\u0430\u0442\u044c OpenGL framgent shader", 
         "nameSpace": "djv::AV::OpenGL", 
         "id": "Cannot compile OpenGL framgent shader", 
-        "text": "\u041d\u0435\u0432\u043e\u0437\u043c\u043e\u0436\u043d\u043e \u0441\u043a\u043e\u043c\u043f\u0438\u043b\u0438\u0440\u043e\u0432\u0430\u0442\u044c OpenGL framgent shader"
+        "description": ""
     }, 
     {
         "source": "Cannot link program", 
-        "description": "", 
+        "text": "\u041d\u0435\u0432\u043e\u0437\u043c\u043e\u0436\u043d\u043e \u0441\u0432\u044f\u0437\u0430\u0442\u044c \u043f\u0440\u043e\u0433\u0440\u0430\u043c\u043c\u0443", 
         "nameSpace": "djv::AV::OpenGL", 
         "id": "Cannot link program", 
-        "text": "\u041d\u0435\u0432\u043e\u0437\u043c\u043e\u0436\u043d\u043e \u0441\u0432\u044f\u0437\u0430\u0442\u044c \u043f\u0440\u043e\u0433\u0440\u0430\u043c\u043c\u0443"
+        "description": ""
     }, 
     {
         "source": "This plugin provides Portable Network Graphics (PNG) image I/O.", 
-        "description": "", 
+        "text": "\u042d\u0442\u043e\u0442 \u043f\u043b\u0430\u0433\u0438\u043d \u043e\u0431\u0435\u0441\u043f\u0435\u0447\u0438\u0432\u0430\u0435\u0442 \u0432\u0432\u043e\u0434 / \u0432\u044b\u0432\u043e\u0434 \u0438\u0437\u043e\u0431\u0440\u0430\u0436\u0435\u043d\u0438\u044f Portable Network Graphics (PNG).", 
         "nameSpace": "djv::AV::IO::PNG", 
         "id": "This plugin provides Portable Network Graphics (PNG) image I/O.", 
-        "text": "\u042d\u0442\u043e\u0442 \u043f\u043b\u0430\u0433\u0438\u043d \u043e\u0431\u0435\u0441\u043f\u0435\u0447\u0438\u0432\u0430\u0435\u0442 \u0432\u0432\u043e\u0434 / \u0432\u044b\u0432\u043e\u0434 \u0438\u0437\u043e\u0431\u0440\u0430\u0436\u0435\u043d\u0438\u044f Portable Network Graphics (PNG)."
+        "description": ""
     }, 
     {
         "source": "cannot read", 
-        "description": "", 
+        "text": "\u043d\u0435 \u043c\u043e\u0433\u0443 \u043f\u0440\u043e\u0447\u0438\u0442\u0430\u0442\u044c", 
         "nameSpace": "djv::AV::IO::PNG", 
         "id": "cannot read", 
-        "text": "\u043d\u0435 \u043c\u043e\u0433\u0443 \u043f\u0440\u043e\u0447\u0438\u0442\u0430\u0442\u044c"
+        "description": ""
     }, 
     {
         "source": "cannot write", 
-        "description": "", 
+        "text": "\u043d\u0435 \u043c\u043e\u0433\u0443 \u043d\u0430\u043f\u0438\u0441\u0430\u0442\u044c", 
         "nameSpace": "djv::AV::IO::PNG", 
         "id": "cannot write", 
-        "text": "\u043d\u0435 \u043c\u043e\u0433\u0443 \u043d\u0430\u043f\u0438\u0441\u0430\u0442\u044c"
+        "description": ""
     }, 
     {
         "source": "This plugin provides NetPBM image I/O.", 
-        "description": "", 
+        "text": "\u042d\u0442\u043e\u0442 \u043f\u043b\u0430\u0433\u0438\u043d \u043e\u0431\u0435\u0441\u043f\u0435\u0447\u0438\u0432\u0430\u0435\u0442 \u0432\u0432\u043e\u0434 / \u0432\u044b\u0432\u043e\u0434 \u0438\u0437\u043e\u0431\u0440\u0430\u0436\u0435\u043d\u0438\u044f NetPBM.", 
         "nameSpace": "djv::AV::IO::PPM", 
         "id": "This plugin provides NetPBM image I/O.", 
-        "text": "\u042d\u0442\u043e\u0442 \u043f\u043b\u0430\u0433\u0438\u043d \u043e\u0431\u0435\u0441\u043f\u0435\u0447\u0438\u0432\u0430\u0435\u0442 \u0432\u0432\u043e\u0434 / \u0432\u044b\u0432\u043e\u0434 \u0438\u0437\u043e\u0431\u0440\u0430\u0436\u0435\u043d\u0438\u044f NetPBM."
+        "description": ""
     }, 
     {
         "source": "ASCII", 
-        "description": "", 
+        "text": "ASCII", 
         "nameSpace": "djv::AV::IO::PPM", 
         "id": "ASCII", 
-        "text": "ASCII"
+        "description": ""
     }, 
     {
         "source": "Binary", 
-        "description": "", 
+        "text": "\u0434\u0432\u043e\u0438\u0447\u043d\u044b\u0439", 
         "nameSpace": "djv::AV::IO::PPM", 
         "id": "Binary", 
-        "text": "\u0434\u0432\u043e\u0438\u0447\u043d\u044b\u0439"
+        "description": ""
     }, 
     {
         "source": "L U8", 
-        "description": "", 
+        "text": "50 U8", 
         "nameSpace": "djv::AV::Image", 
         "id": "L_U8", 
-        "text": "50 U8"
+        "description": ""
     }, 
     {
         "source": "L U16", 
-        "description": "", 
+        "text": "L U16", 
         "nameSpace": "djv::AV::Image", 
         "id": "L_U16", 
-        "text": "L U16"
+        "description": ""
     }, 
     {
         "source": "L U32", 
-        "description": "", 
+        "text": "L U32", 
         "nameSpace": "djv::AV::Image", 
         "id": "L_U32", 
-        "text": "L U32"
+        "description": ""
     }, 
     {
         "source": "L F16", 
-        "description": "", 
+        "text": "L F16", 
         "nameSpace": "djv::AV::Image", 
         "id": "L_F16", 
-        "text": "L F16"
+        "description": ""
     }, 
     {
         "source": "L F32", 
-        "description": "", 
+        "text": "L F32", 
         "nameSpace": "djv::AV::Image", 
         "id": "L_F32", 
-        "text": "L F32"
+        "description": ""
     }, 
     {
         "source": "LA U8", 
-        "description": "", 
+        "text": "U8", 
         "nameSpace": "djv::AV::Image", 
         "id": "LA_U8", 
-        "text": "U8"
+        "description": ""
     }, 
     {
         "source": "LA U16", 
-        "description": "", 
+        "text": "U16", 
         "nameSpace": "djv::AV::Image", 
         "id": "LA_U16", 
-        "text": "U16"
+        "description": ""
     }, 
     {
         "source": "LA U32", 
-        "description": "", 
+        "text": "U32", 
         "nameSpace": "djv::AV::Image", 
         "id": "LA_U32", 
-        "text": "U32"
+        "description": ""
     }, 
     {
         "source": "LA F16", 
-        "description": "", 
+        "text": "F16", 
         "nameSpace": "djv::AV::Image", 
         "id": "LA_F16", 
-        "text": "F16"
+        "description": ""
     }, 
     {
         "source": "LA F32", 
-        "description": "", 
+        "text": "LA F32", 
         "nameSpace": "djv::AV::Image", 
         "id": "LA_F32", 
-        "text": "LA F32"
+        "description": ""
     }, 
     {
         "source": "RGB U8", 
-        "description": "", 
+        "text": "RGB U8", 
         "nameSpace": "djv::AV::Image", 
         "id": "RGB_U8", 
-        "text": "RGB U8"
+        "description": ""
     }, 
     {
         "source": "RGB U10", 
-        "description": "", 
+        "text": "RGB U10", 
         "nameSpace": "djv::AV::Image", 
         "id": "RGB_U10", 
-        "text": "RGB U10"
+        "description": ""
     }, 
     {
         "source": "RGB U16", 
-        "description": "", 
+        "text": "RGB U16", 
         "nameSpace": "djv::AV::Image", 
         "id": "RGB_U16", 
-        "text": "RGB U16"
+        "description": ""
     }, 
     {
         "source": "RGB U32", 
-        "description": "", 
+        "text": "RGB U32", 
         "nameSpace": "djv::AV::Image", 
         "id": "RGB_U32", 
-        "text": "RGB U32"
+        "description": ""
     }, 
     {
         "source": "RGB F16", 
-        "description": "", 
+        "text": "RGB F16", 
         "nameSpace": "djv::AV::Image", 
         "id": "RGB_F16", 
-        "text": "RGB F16"
+        "description": ""
     }, 
     {
         "source": "RGB F32", 
-        "description": "", 
+        "text": "RGB F32", 
         "nameSpace": "djv::AV::Image", 
         "id": "RGB_F32", 
-        "text": "RGB F32"
+        "description": ""
     }, 
     {
         "source": "RGBA U8", 
-        "description": "", 
+        "text": "RGBA U8", 
         "nameSpace": "djv::AV::Image", 
         "id": "RGBA_U8", 
-        "text": "RGBA U8"
+        "description": ""
     }, 
     {
         "source": "RGBA U16", 
-        "description": "", 
+        "text": "RGBA U16", 
         "nameSpace": "djv::AV::Image", 
         "id": "RGBA_U16", 
-        "text": "RGBA U16"
+        "description": ""
     }, 
     {
         "source": "RGBA U32", 
-        "description": "", 
+        "text": "RGBA U32", 
         "nameSpace": "djv::AV::Image", 
         "id": "RGBA_U32", 
-        "text": "RGBA U32"
+        "description": ""
     }, 
     {
         "source": "RGBA F16", 
-        "description": "", 
+        "text": "RGBA F16", 
         "nameSpace": "djv::AV::Image", 
         "id": "RGBA_F16", 
-        "text": "RGBA F16"
+        "description": ""
     }, 
     {
         "source": "RGBA F32", 
-        "description": "", 
+        "text": "RGBA F32", 
         "nameSpace": "djv::AV::Image", 
         "id": "RGBA_F32", 
-        "text": "RGBA F32"
+        "description": ""
     }, 
     {
         "source": "U10", 
-        "description": "", 
+        "text": "U10", 
         "nameSpace": "djv::AV::Image", 
         "id": "U10", 
-        "text": "U10"
+        "description": ""
     }, 
     {
         "source": "U16", 
-        "description": "", 
+        "text": "U16", 
         "nameSpace": "djv::AV::Image", 
         "id": "U16", 
-        "text": "U16"
+        "description": ""
     }, 
     {
         "source": "U32", 
-        "description": "", 
+        "text": "U32", 
         "nameSpace": "djv::AV::Image", 
         "id": "U32", 
-        "text": "U32"
+        "description": ""
     }, 
     {
         "source": "F16", 
-        "description": "", 
+        "text": "F16", 
         "nameSpace": "djv::AV::Image", 
         "id": "F16", 
-        "text": "F16"
+        "description": ""
     }, 
     {
         "source": "Cannot create GLFW window.", 
-        "description": "", 
+        "text": "\u041d\u0435\u0432\u043e\u0437\u043c\u043e\u0436\u043d\u043e \u0441\u043e\u0437\u0434\u0430\u0442\u044c \u043e\u043a\u043d\u043e GLFW.", 
         "nameSpace": "djv::AV::IO", 
         "id": "Cannot create GLFW window.", 
-        "text": "\u041d\u0435\u0432\u043e\u0437\u043c\u043e\u0436\u043d\u043e \u0441\u043e\u0437\u0434\u0430\u0442\u044c \u043e\u043a\u043d\u043e GLFW."
+        "description": ""
     }, 
     {
         "source": "Cannot create shader", 
-        "description": "", 
+        "text": "\u041d\u0435\u0432\u043e\u0437\u043c\u043e\u0436\u043d\u043e \u0441\u043e\u0437\u0434\u0430\u0442\u044c \u0448\u0435\u0439\u0434\u0435\u0440", 
         "nameSpace": "djv::AV::Render", 
         "id": "Cannot create shader", 
-        "text": "\u041d\u0435\u0432\u043e\u0437\u043c\u043e\u0436\u043d\u043e \u0441\u043e\u0437\u0434\u0430\u0442\u044c \u0448\u0435\u0439\u0434\u0435\u0440"
+        "description": ""
     }, 
     {
         "source": "Cannot initialize GLFW.", 
-        "description": "", 
+        "text": "\u041d\u0435 \u0443\u0434\u0430\u0435\u0442\u0441\u044f \u0438\u043d\u0438\u0446\u0438\u0430\u043b\u0438\u0437\u0438\u0440\u043e\u0432\u0430\u0442\u044c GLFW.", 
         "nameSpace": "djv::AV", 
         "id": "Cannot initialize GLFW.", 
-        "text": "\u041d\u0435 \u0443\u0434\u0430\u0435\u0442\u0441\u044f \u0438\u043d\u0438\u0446\u0438\u0430\u043b\u0438\u0437\u0438\u0440\u043e\u0432\u0430\u0442\u044c GLFW."
+        "description": ""
     }, 
     {
         "source": "Cannot initialize FreeType.", 
-        "description": "", 
+        "text": "\u041d\u0435 \u0443\u0434\u0430\u0435\u0442\u0441\u044f \u0438\u043d\u0438\u0446\u0438\u0430\u043b\u0438\u0437\u0438\u0440\u043e\u0432\u0430\u0442\u044c FreeType.", 
         "nameSpace": "djv::AV::Font", 
         "id": "Cannot initialize FreeType.", 
-        "text": "\u041d\u0435 \u0443\u0434\u0430\u0435\u0442\u0441\u044f \u0438\u043d\u0438\u0446\u0438\u0430\u043b\u0438\u0437\u0438\u0440\u043e\u0432\u0430\u0442\u044c FreeType."
+        "description": ""
     }, 
     {
         "source": "Cannot find any fonts.", 
-        "description": "", 
+        "text": "\u041d\u0435 \u043c\u043e\u0433\u0443 \u043d\u0430\u0439\u0442\u0438 \u043a\u0430\u043a\u0438\u0435-\u043b\u0438\u0431\u043e \u0448\u0440\u0438\u0444\u0442\u044b.", 
         "nameSpace": "djv::AV::Font", 
         "id": "Cannot find any fonts.", 
-        "text": "\u041d\u0435 \u043c\u043e\u0433\u0443 \u043d\u0430\u0439\u0442\u0438 \u043a\u0430\u043a\u0438\u0435-\u043b\u0438\u0431\u043e \u0448\u0440\u0438\u0444\u0442\u044b."
+        "description": ""
+    }, 
+    {
+        "source": "U8 Planar", 
+        "text": "U8 Planar", 
+        "nameSpace": "djv::AV::IO::FFmpeg", 
+        "description": "", 
+        "id": "U8 Planar"
+    }, 
+    {
+        "source": "S16 Planar", 
+        "text": "S16 Planar", 
+        "nameSpace": "djv::AV::IO::FFmpeg", 
+        "description": "", 
+        "id": "S16 Planar"
+    }, 
+    {
+        "source": "S32 Planar", 
+        "text": "S32 Planar", 
+        "nameSpace": "djv::AV::IO::FFmpeg", 
+        "description": "", 
+        "id": "S32 Planar"
+    }, 
+    {
+        "source": "Float Planar", 
+        "text": "Float Planar", 
+        "nameSpace": "djv::AV::IO::FFmpeg", 
+        "description": "", 
+        "id": "Float Planar"
+    }, 
+    {
+        "source": "Double Planar", 
+        "text": "\u0414\u0432\u043e\u0439\u043d\u043e\u0439 \u041f\u043b\u0430\u043d\u0430\u0440", 
+        "nameSpace": "djv::AV::IO::FFmpeg", 
+        "description": "", 
+        "id": "Double Planar"
     }
 ]

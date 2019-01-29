@@ -29,6 +29,7 @@
 
 #include <djvViewLib/HelpAboutDialog.h>
 
+#include <djvUI/GroupBox.h>
 #include <djvUI/RowLayout.h>
 #include <djvUI/ScrollWidget.h>
 #include <djvUI/TextBlock.h>
@@ -45,6 +46,7 @@ namespace djv
     {
         struct HelpAboutDialog::Private
         {
+            std::map<std::string, std::shared_ptr<UI::Layout::GroupBox> > groupBoxes;
             std::map<std::string, std::shared_ptr<UI::TextBlock> > textBlocks;
             std::future<std::shared_ptr<AV::Image::Image> > imageFuture;
         };
@@ -55,43 +57,154 @@ namespace djv
 
             DJV_PRIVATE_PTR();
             p.textBlocks["Header"] = UI::TextBlock::create(context);
-            p.textBlocks["Header"]->setFontSizeRole(UI::Style::MetricsRole::FontHeader);
+            p.textBlocks["Header"]->setFontSizeRole(UI::Style::MetricsRole::FontLarge);
             p.textBlocks["Copyright"] = UI::TextBlock::create(context);
-            p.textBlocks["License"] = UI::TextBlock::create(context);
+            p.textBlocks["License1"] = UI::TextBlock::create(context);
+            p.textBlocks["License2"] = UI::TextBlock::create(context);
+            p.textBlocks["License3"] = UI::TextBlock::create(context);
+            p.textBlocks["License4"] = UI::TextBlock::create(context);
+            p.textBlocks["License5"] = UI::TextBlock::create(context);
             p.textBlocks["ContributorsHeader"] = UI::TextBlock::create(context);
             p.textBlocks["ContributorsHeader"]->setFontSizeRole(UI::Style::MetricsRole::FontLarge);
-            p.textBlocks["Contributors"] = UI::TextBlock::create(context);
+            p.textBlocks["Contributors1"] = UI::TextBlock::create(context);
+            p.textBlocks["Contributors2"] = UI::TextBlock::create(context);
+            p.textBlocks["Contributors3"] = UI::TextBlock::create(context);
+            p.textBlocks["Contributors4"] = UI::TextBlock::create(context);
             p.textBlocks["ThirdPartyHeader"] = UI::TextBlock::create(context);
             p.textBlocks["ThirdPartyHeader"]->setFontSizeRole(UI::Style::MetricsRole::FontLarge);
-            p.textBlocks["ThirdParty"] = UI::TextBlock::create(context);
+            p.textBlocks["ThirdParty1"] = UI::TextBlock::create(context);
+            p.textBlocks["ThirdParty2"] = UI::TextBlock::create(context);
+            p.textBlocks["ThirdParty3"] = UI::TextBlock::create(context);
+            p.textBlocks["ThirdParty4"] = UI::TextBlock::create(context);
+            p.textBlocks["ThirdParty5"] = UI::TextBlock::create(context);
+            p.textBlocks["ThirdParty6"] = UI::TextBlock::create(context);
+            p.textBlocks["ThirdParty7"] = UI::TextBlock::create(context);
+            p.textBlocks["ThirdParty8"] = UI::TextBlock::create(context);
+            p.textBlocks["ThirdParty9"] = UI::TextBlock::create(context);
+            p.textBlocks["ThirdParty10"] = UI::TextBlock::create(context);
+            p.textBlocks["ThirdParty11"] = UI::TextBlock::create(context);
+            p.textBlocks["ThirdParty12"] = UI::TextBlock::create(context);
+            p.textBlocks["ThirdParty13"] = UI::TextBlock::create(context);
+            p.textBlocks["ThirdParty14"] = UI::TextBlock::create(context);
             p.textBlocks["TrademarksHeader"] = UI::TextBlock::create(context);
             p.textBlocks["TrademarksHeader"]->setFontSizeRole(UI::Style::MetricsRole::FontLarge);
-            p.textBlocks["Trademarks"] = UI::TextBlock::create(context);
+            p.textBlocks["Trademarks1"] = UI::TextBlock::create(context);
+            p.textBlocks["Trademarks2"] = UI::TextBlock::create(context);
+            p.textBlocks["Trademarks3"] = UI::TextBlock::create(context);
+            p.textBlocks["Trademarks4"] = UI::TextBlock::create(context);
+            p.textBlocks["Trademarks5"] = UI::TextBlock::create(context);
+            p.textBlocks["Trademarks6"] = UI::TextBlock::create(context);
+            p.textBlocks["Trademarks7"] = UI::TextBlock::create(context);
+            p.textBlocks["Trademarks8"] = UI::TextBlock::create(context);
+            p.textBlocks["Trademarks9"] = UI::TextBlock::create(context);
+            p.textBlocks["Trademarks10"] = UI::TextBlock::create(context);
+            p.textBlocks["Trademarks11"] = UI::TextBlock::create(context);
+            p.textBlocks["Trademarks12"] = UI::TextBlock::create(context);
+            p.textBlocks["Trademarks13"] = UI::TextBlock::create(context);
+            p.textBlocks["Trademarks14"] = UI::TextBlock::create(context);
+            p.textBlocks["Trademarks15"] = UI::TextBlock::create(context);
+            p.textBlocks["Trademarks16"] = UI::TextBlock::create(context);
+            p.textBlocks["Trademarks17"] = UI::TextBlock::create(context);
+            p.textBlocks["Trademarks18"] = UI::TextBlock::create(context);
+            p.textBlocks["Trademarks19"] = UI::TextBlock::create(context);
+            p.textBlocks["Trademarks20"] = UI::TextBlock::create(context);
+            p.textBlocks["Trademarks21"] = UI::TextBlock::create(context);
+            p.textBlocks["Trademarks22"] = UI::TextBlock::create(context);
+            p.textBlocks["MadeIn"] = UI::TextBlock::create(context);
 
             auto textLayout = UI::Layout::Vertical::create(context);
             textLayout->setMargin(UI::Style::MetricsRole::MarginLarge);
             textLayout->setSpacing(UI::Style::MetricsRole::SpacingLarge);
             textLayout->addWidget(p.textBlocks["Header"]);
-            textLayout->addWidget(p.textBlocks["Copyright"]);
-            textLayout->addWidget(p.textBlocks["License"]);
-            textLayout->addSeparator();
-            textLayout->addWidget(p.textBlocks["ContributorsHeader"]);
-            textLayout->addWidget(p.textBlocks["Contributors"]);
-            textLayout->addSeparator();
-            textLayout->addWidget(p.textBlocks["ThirdPartyHeader"]);
-            textLayout->addWidget(p.textBlocks["ThirdParty"]);
-            textLayout->addSeparator();
-            textLayout->addWidget(p.textBlocks["TrademarksHeader"]);
-            textLayout->addWidget(p.textBlocks["Trademarks"]);
+            
+            auto vLayout = UI::Layout::Vertical::create(context);
+            vLayout->addWidget(p.textBlocks["Copyright"]);
+            vLayout->addWidget(p.textBlocks["License1"]);
+            auto vLayout2 = UI::Layout::Vertical::create(context);
+            vLayout2->setSpacing(UI::Style::MetricsRole::None);
+            vLayout2->addWidget(p.textBlocks["License2"]);
+            vLayout2->addWidget(p.textBlocks["License3"]);
+            vLayout2->addWidget(p.textBlocks["License4"]);
+            vLayout->addWidget(vLayout2);
+            vLayout->addWidget(p.textBlocks["License5"]);
+            p.groupBoxes["Copyright"] = UI::Layout::GroupBox::create(context);
+            p.groupBoxes["Copyright"]->addWidget(vLayout);
+            textLayout->addWidget(p.groupBoxes["Copyright"]);
+            
+            vLayout = UI::Layout::Vertical::create(context);
+            vLayout->addWidget(p.textBlocks["Contributors1"]);
+            vLayout2 = UI::Layout::Vertical::create(context);
+            vLayout2->setSpacing(UI::Style::MetricsRole::None);
+            vLayout2->addWidget(p.textBlocks["Contributors2"]);
+            vLayout2->addWidget(p.textBlocks["Contributors3"]);
+            vLayout2->addWidget(p.textBlocks["Contributors4"]);
+            vLayout->addWidget(vLayout2);
+            p.groupBoxes["Contributors"] = UI::Layout::GroupBox::create(context);
+            p.groupBoxes["Contributors"]->addWidget(vLayout);
+            textLayout->addWidget(p.groupBoxes["Contributors"]);
+            
+            vLayout = UI::Layout::Vertical::create(context);
+            vLayout->addWidget(p.textBlocks["ThirdParty1"]);
+            vLayout2 = UI::Layout::Vertical::create(context);
+            vLayout2->setSpacing(UI::Style::MetricsRole::None);
+            vLayout2->addWidget(p.textBlocks["ThirdParty2"]);
+            vLayout2->addWidget(p.textBlocks["ThirdParty3"]);
+            vLayout2->addWidget(p.textBlocks["ThirdParty4"]);
+            vLayout2->addWidget(p.textBlocks["ThirdParty5"]);
+            vLayout2->addWidget(p.textBlocks["ThirdParty6"]);
+            vLayout2->addWidget(p.textBlocks["ThirdParty7"]);
+            vLayout2->addWidget(p.textBlocks["ThirdParty8"]);
+            vLayout2->addWidget(p.textBlocks["ThirdParty9"]);
+            vLayout2->addWidget(p.textBlocks["ThirdParty10"]);
+            vLayout2->addWidget(p.textBlocks["ThirdParty11"]);
+            vLayout2->addWidget(p.textBlocks["ThirdParty12"]);
+            vLayout2->addWidget(p.textBlocks["ThirdParty13"]);
+            vLayout2->addWidget(p.textBlocks["ThirdParty14"]);
+            vLayout->addWidget(vLayout2);
+            p.groupBoxes["ThirdParty"] = UI::Layout::GroupBox::create(context);
+            p.groupBoxes["ThirdParty"]->addWidget(vLayout);
+            textLayout->addWidget(p.groupBoxes["ThirdParty"]);
+
+            vLayout = UI::Layout::Vertical::create(context);
+            vLayout->addWidget(p.textBlocks["Trademarks1"]);
+            vLayout2 = UI::Layout::Vertical::create(context);
+            vLayout2->setSpacing(UI::Style::MetricsRole::None);
+            vLayout2->addWidget(p.textBlocks["Trademarks2"]);
+            vLayout2->addWidget(p.textBlocks["Trademarks3"]);
+            vLayout2->addWidget(p.textBlocks["Trademarks4"]);
+            vLayout2->addWidget(p.textBlocks["Trademarks5"]);
+            vLayout2->addWidget(p.textBlocks["Trademarks6"]);
+            vLayout2->addWidget(p.textBlocks["Trademarks7"]);
+            vLayout2->addWidget(p.textBlocks["Trademarks8"]);
+            vLayout2->addWidget(p.textBlocks["Trademarks9"]);
+            vLayout2->addWidget(p.textBlocks["Trademarks10"]);
+            vLayout2->addWidget(p.textBlocks["Trademarks11"]);
+            vLayout2->addWidget(p.textBlocks["Trademarks12"]);
+            vLayout2->addWidget(p.textBlocks["Trademarks13"]);
+            vLayout2->addWidget(p.textBlocks["Trademarks14"]);
+            vLayout2->addWidget(p.textBlocks["Trademarks15"]);
+            vLayout2->addWidget(p.textBlocks["Trademarks16"]);
+            vLayout2->addWidget(p.textBlocks["Trademarks17"]);
+            vLayout2->addWidget(p.textBlocks["Trademarks18"]);
+            vLayout2->addWidget(p.textBlocks["Trademarks19"]);
+            vLayout2->addWidget(p.textBlocks["Trademarks20"]);
+            vLayout2->addWidget(p.textBlocks["Trademarks21"]);
+            vLayout->addWidget(vLayout2);
+            vLayout->addWidget(p.textBlocks["Trademarks22"]);
+            p.groupBoxes["Trademarks"] = UI::Layout::GroupBox::create(context);
+            p.groupBoxes["Trademarks"]->addWidget(vLayout);
+            textLayout->addWidget(p.groupBoxes["Trademarks"]);
+
+            vLayout = UI::Layout::Vertical::create(context);
+            vLayout->addSeparator();
+            vLayout->addWidget(p.textBlocks["MadeIn"]);
+            textLayout->addWidget(vLayout);
 
             auto scrollWidget = UI::ScrollWidget::create(UI::ScrollType::Vertical, context);
             scrollWidget->setBorder(false);
             scrollWidget->addWidget(textLayout);
 
-            auto layout = UI::Layout::Vertical::create(context);
-            layout->addWidget(scrollWidget, UI::Layout::RowStretch::Expand);
-
-            addWidget(layout, UI::Layout::RowStretch::Expand);
+            addWidget(scrollWidget, UI::Layout::RowStretch::Expand);
         }
 
         HelpAboutDialog::HelpAboutDialog() :
@@ -116,14 +229,57 @@ namespace djv
             ss << " " << DJV_VERSION;
             DJV_PRIVATE_PTR();
             p.textBlocks["Header"]->setText(ss.str());
+            p.groupBoxes["Copyright"]->setText(_getText(DJV_TEXT("djv::ViewLib::HelpAboutDialog", "CopyrightAndLicense")));
             p.textBlocks["Copyright"]->setText(_getText(DJV_TEXT("djv::ViewLib::HelpAboutDialog", "Copyright")));
-            p.textBlocks["License"]->setText(_getText(DJV_TEXT("djv::ViewLib::HelpAboutDialog", "License")));
-            p.textBlocks["ContributorsHeader"]->setText(_getText(DJV_TEXT("djv::ViewLib::HelpAboutDialog", "Contributors Header")));
-            p.textBlocks["Contributors"]->setText(_getText(DJV_TEXT("djv::ViewLib::HelpAboutDialog", "Contributors Text")));
-            p.textBlocks["ThirdPartyHeader"]->setText(_getText(DJV_TEXT("djv::ViewLib::HelpAboutDialog", "Third Party Header")));
-            p.textBlocks["ThirdParty"]->setText(_getText(DJV_TEXT("djv::ViewLib::HelpAboutDialog", "Third Party Text")));
-            p.textBlocks["TrademarksHeader"]->setText(_getText(DJV_TEXT("djv::ViewLib::HelpAboutDialog", "Trademarks Header")));
-            p.textBlocks["Trademarks"]->setText(_getText(DJV_TEXT("djv::ViewLib::HelpAboutDialog", "Trademarks Text")));
+            p.textBlocks["License1"]->setText(_getText(DJV_TEXT("djv::ViewLib::HelpAboutDialog", "License1")));
+            p.textBlocks["License2"]->setText(_getText(DJV_TEXT("djv::ViewLib::HelpAboutDialog", "License2")));
+            p.textBlocks["License3"]->setText(_getText(DJV_TEXT("djv::ViewLib::HelpAboutDialog", "License3")));
+            p.textBlocks["License4"]->setText(_getText(DJV_TEXT("djv::ViewLib::HelpAboutDialog", "License4")));
+            p.textBlocks["License5"]->setText(_getText(DJV_TEXT("djv::ViewLib::HelpAboutDialog", "License5")));
+            p.groupBoxes["Contributors"]->setText(_getText(DJV_TEXT("djv::ViewLib::HelpAboutDialog", "Contributors")));
+            p.textBlocks["Contributors1"]->setText(_getText(DJV_TEXT("djv::ViewLib::HelpAboutDialog", "Contributors Text 1")));
+            p.textBlocks["Contributors2"]->setText(_getText(DJV_TEXT("djv::ViewLib::HelpAboutDialog", "Contributors Text 2")));
+            p.textBlocks["Contributors3"]->setText(_getText(DJV_TEXT("djv::ViewLib::HelpAboutDialog", "Contributors Text 3")));
+            p.textBlocks["Contributors4"]->setText(_getText(DJV_TEXT("djv::ViewLib::HelpAboutDialog", "Contributors Text 4")));
+            p.groupBoxes["ThirdParty"]->setText(_getText(DJV_TEXT("djv::ViewLib::HelpAboutDialog", "Third Party")));
+            p.textBlocks["ThirdParty1"]->setText(_getText(DJV_TEXT("djv::ViewLib::HelpAboutDialog", "Third Party Text 1")));
+            p.textBlocks["ThirdParty2"]->setText(_getText(DJV_TEXT("djv::ViewLib::HelpAboutDialog", "Third Party Text 2")));
+            p.textBlocks["ThirdParty3"]->setText(_getText(DJV_TEXT("djv::ViewLib::HelpAboutDialog", "Third Party Text 3")));
+            p.textBlocks["ThirdParty4"]->setText(_getText(DJV_TEXT("djv::ViewLib::HelpAboutDialog", "Third Party Text 4")));
+            p.textBlocks["ThirdParty5"]->setText(_getText(DJV_TEXT("djv::ViewLib::HelpAboutDialog", "Third Party Text 5")));
+            p.textBlocks["ThirdParty6"]->setText(_getText(DJV_TEXT("djv::ViewLib::HelpAboutDialog", "Third Party Text 6")));
+            p.textBlocks["ThirdParty7"]->setText(_getText(DJV_TEXT("djv::ViewLib::HelpAboutDialog", "Third Party Text 7")));
+            p.textBlocks["ThirdParty8"]->setText(_getText(DJV_TEXT("djv::ViewLib::HelpAboutDialog", "Third Party Text 8")));
+            p.textBlocks["ThirdParty9"]->setText(_getText(DJV_TEXT("djv::ViewLib::HelpAboutDialog", "Third Party Text 9")));
+            p.textBlocks["ThirdParty10"]->setText(_getText(DJV_TEXT("djv::ViewLib::HelpAboutDialog", "Third Party Text 10")));
+            p.textBlocks["ThirdParty11"]->setText(_getText(DJV_TEXT("djv::ViewLib::HelpAboutDialog", "Third Party Text 11")));
+            p.textBlocks["ThirdParty12"]->setText(_getText(DJV_TEXT("djv::ViewLib::HelpAboutDialog", "Third Party Text 12")));
+            p.textBlocks["ThirdParty13"]->setText(_getText(DJV_TEXT("djv::ViewLib::HelpAboutDialog", "Third Party Text 13")));
+            p.textBlocks["ThirdParty14"]->setText(_getText(DJV_TEXT("djv::ViewLib::HelpAboutDialog", "Third Party Text 14")));
+            p.groupBoxes["Trademarks"]->setText(_getText(DJV_TEXT("djv::ViewLib::HelpAboutDialog", "Trademarks")));
+            p.textBlocks["Trademarks1"]->setText(_getText(DJV_TEXT("djv::ViewLib::HelpAboutDialog", "Trademarks Text 1")));
+            p.textBlocks["Trademarks2"]->setText(_getText(DJV_TEXT("djv::ViewLib::HelpAboutDialog", "Trademarks Text 2")));
+            p.textBlocks["Trademarks3"]->setText(_getText(DJV_TEXT("djv::ViewLib::HelpAboutDialog", "Trademarks Text 3")));
+            p.textBlocks["Trademarks4"]->setText(_getText(DJV_TEXT("djv::ViewLib::HelpAboutDialog", "Trademarks Text 4")));
+            p.textBlocks["Trademarks5"]->setText(_getText(DJV_TEXT("djv::ViewLib::HelpAboutDialog", "Trademarks Text 5")));
+            p.textBlocks["Trademarks6"]->setText(_getText(DJV_TEXT("djv::ViewLib::HelpAboutDialog", "Trademarks Text 6")));
+            p.textBlocks["Trademarks7"]->setText(_getText(DJV_TEXT("djv::ViewLib::HelpAboutDialog", "Trademarks Text 7")));
+            p.textBlocks["Trademarks8"]->setText(_getText(DJV_TEXT("djv::ViewLib::HelpAboutDialog", "Trademarks Text 8")));
+            p.textBlocks["Trademarks9"]->setText(_getText(DJV_TEXT("djv::ViewLib::HelpAboutDialog", "Trademarks Text 9")));
+            p.textBlocks["Trademarks10"]->setText(_getText(DJV_TEXT("djv::ViewLib::HelpAboutDialog", "Trademarks Text 10")));
+            p.textBlocks["Trademarks11"]->setText(_getText(DJV_TEXT("djv::ViewLib::HelpAboutDialog", "Trademarks Text 11")));
+            p.textBlocks["Trademarks12"]->setText(_getText(DJV_TEXT("djv::ViewLib::HelpAboutDialog", "Trademarks Text 12")));
+            p.textBlocks["Trademarks13"]->setText(_getText(DJV_TEXT("djv::ViewLib::HelpAboutDialog", "Trademarks Text 13")));
+            p.textBlocks["Trademarks14"]->setText(_getText(DJV_TEXT("djv::ViewLib::HelpAboutDialog", "Trademarks Text 14")));
+            p.textBlocks["Trademarks15"]->setText(_getText(DJV_TEXT("djv::ViewLib::HelpAboutDialog", "Trademarks Text 15")));
+            p.textBlocks["Trademarks16"]->setText(_getText(DJV_TEXT("djv::ViewLib::HelpAboutDialog", "Trademarks Text 16")));
+            p.textBlocks["Trademarks17"]->setText(_getText(DJV_TEXT("djv::ViewLib::HelpAboutDialog", "Trademarks Text 17")));
+            p.textBlocks["Trademarks18"]->setText(_getText(DJV_TEXT("djv::ViewLib::HelpAboutDialog", "Trademarks Text 18")));
+            p.textBlocks["Trademarks19"]->setText(_getText(DJV_TEXT("djv::ViewLib::HelpAboutDialog", "Trademarks Text 19")));
+            p.textBlocks["Trademarks20"]->setText(_getText(DJV_TEXT("djv::ViewLib::HelpAboutDialog", "Trademarks Text 20")));
+            p.textBlocks["Trademarks21"]->setText(_getText(DJV_TEXT("djv::ViewLib::HelpAboutDialog", "Trademarks Text 21")));
+            p.textBlocks["Trademarks22"]->setText(_getText(DJV_TEXT("djv::ViewLib::HelpAboutDialog", "Trademarks Text 22")));
+            p.textBlocks["MadeIn"]->setText(_getText(DJV_TEXT("djv::ViewLib::HelpAboutDialog", "Made In")));
         }
 
     } // namespace ViewLib
