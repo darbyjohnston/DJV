@@ -89,7 +89,7 @@ void MDIWidget::_init(const std::string & title, Core::Context * context)
     titleLabel->setMargin(UI::Style::MetricsRole::Margin);
 
     _closeButton = UI::Button::Tool::create(context);
-    _closeButton->setIcon("djvIconClose");
+    _closeButton->setIcon("djvIconCloseSmall");
     _closeButton->setInsideMargin(UI::Style::MetricsRole::MarginSmall);
     _closeButton->setForegroundColorRole(UI::Style::ColorRole::HeaderForeground);
     _closeButton->setHoveredColorRole(UI::Style::ColorRole::HeaderHovered);
@@ -113,7 +113,7 @@ void MDIWidget::_init(const std::string & title, Core::Context * context)
 
     _resizeHandle = UI::Icon::create(context);
     _resizeHandle->setPointerEnabled(true);
-    _resizeHandle->setIcon("djvIconWindowResizeHandle");
+    _resizeHandle->setIcon("djvIconResizeHandleSmall");
     _resizeHandle->setHAlign(UI::HAlign::Right);
     _resizeHandle->setVAlign(UI::VAlign::Bottom);
 

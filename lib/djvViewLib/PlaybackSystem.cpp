@@ -30,6 +30,7 @@
 #include <djvViewLib/PlaybackSystem.h>
 
 #include <djvViewLib/Application.h>
+#include <djvViewLib/FileSystem.h>
 #include <djvViewLib/Media.h>
 #include <djvViewLib/PlaybackToolWidget.h>
 
@@ -60,6 +61,7 @@ namespace djv
             std::shared_ptr<ValueObserver<Time::Timestamp> > currentTimeObserver2;
             std::shared_ptr<ValueObserver<Playback> > playbackObserver;
             std::shared_ptr<ValueObserver<Playback> > playbackObserver2;
+            std::shared_ptr<ValueObserver<std::shared_ptr<Media> > > currentMediaObserver;
         };
 
         void PlaybackSystem::_init(Context * context)
@@ -229,6 +231,58 @@ namespace djv
                     }
                 }
             });
+            
+            if (auto fileSystem = context->getSystemT<FileSystem>().lock())
+            {
+                p.currentMediaObserver = ValueObserver<std::shared_ptr<Media> >::create(
+                    fileSystem->observeCurrentMedia(),
+                    [weak](const std::shared_ptr<Media> & value)
+                {
+                    if (auto system = weak.lock())
+                    {
+                        system->_p->media = value;
+                        system->_p->actions["Stop"]->setEnabled(value ? true : false);
+                        system->_p->actions["Forward"]->setEnabled(value ? true : false);
+                        system->_p->actions["Reverse"]->setEnabled(value ? true : false);
+                        if (value)
+                        {
+                            system->_p->durationObserver = ValueObserver<Time::Duration>::create(
+                                value->observeDuration(),
+                                [weak](Time::Duration value)
+                            {
+                                if (auto system = weak.lock())
+                                {
+                                    system->_p->playbackToolWidget->setDuration(value);
+                                }
+                            });
+                            system->_p->currentTimeObserver = ValueObserver<Time::Timestamp>::create(
+                                value->observeCurrentTime(),
+                                [weak](Time::Timestamp value)
+                            {
+                                if (auto system = weak.lock())
+                                {
+                                    system->_p->playbackToolWidget->setCurrentTime(value);
+                                }
+                            });
+                            system->_p->playbackObserver = ValueObserver<Playback>::create(
+                                value->observePlayback(),
+                                [weak](Playback value)
+                            {
+                                if (auto system = weak.lock())
+                                {
+                                    system->_p->playbackActionGroup->setChecked(static_cast<int>(value));
+                                    system->_p->playbackToolWidget->setPlayback(value);
+                                }
+                            });
+                        }
+                        else
+                        {
+                            system->_p->playbackActionGroup->setChecked(0);
+                            system->_p->playbackObserver.reset();
+                        }
+                    }
+                });
+            }
         }
 
         PlaybackSystem::PlaybackSystem() :
@@ -295,52 +349,6 @@ namespace djv
             out.sortKey = "E";
             out.pos = glm::vec2(200.f, 600.f);
             return out;
-        }
-
-        void PlaybackSystem::setCurrentMedia(const std::shared_ptr<Media> & media)
-        {
-            DJV_PRIVATE_PTR();
-            p.media = media;
-            p.actions["Stop"]->setEnabled(media ? true : false);
-            p.actions["Forward"]->setEnabled(media ? true : false);
-            p.actions["Reverse"]->setEnabled(media ? true : false);
-            if (media)
-            {
-                auto weak = std::weak_ptr<PlaybackSystem>(std::dynamic_pointer_cast<PlaybackSystem>(shared_from_this()));
-                p.durationObserver = ValueObserver<Time::Duration>::create(
-                    media->observeDuration(),
-                    [weak](Time::Duration value)
-                {
-                    if (auto system = weak.lock())
-                    {
-                        system->_p->playbackToolWidget->setDuration(value);
-                    }
-                });
-                p.currentTimeObserver = ValueObserver<Time::Timestamp>::create(
-                    media->observeCurrentTime(),
-                    [weak](Time::Timestamp value)
-                {
-                    if (auto system = weak.lock())
-                    {
-                        system->_p->playbackToolWidget->setCurrentTime(value);
-                    }
-                });
-                p.playbackObserver = ValueObserver<Playback>::create(
-                    media->observePlayback(),
-                    [weak](Playback value)
-                {
-                    if (auto system = weak.lock())
-                    {
-                        system->_p->playbackActionGroup->setChecked(static_cast<int>(value));
-                        system->_p->playbackToolWidget->setPlayback(value);
-                    }
-                });
-            }
-            else
-            {
-                p.playbackActionGroup->setChecked(0);
-                p.playbackObserver.reset();
-            }
         }
 
         void PlaybackSystem::_localeEvent(Event::Locale &)

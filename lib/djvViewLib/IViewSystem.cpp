@@ -73,8 +73,5 @@ namespace djv
             return std::vector<NewSettingsWidget>();
         }
 
-        void IViewSystem::setCurrentMedia(const std::shared_ptr<Media> &)
-        {}
-
     } // namespace ViewLib
 } // namespace djv

@@ -34,8 +34,7 @@ set(header
     TimelineSlider.h
     ToolSystem.h
     ViewLib.h
-    WindowSystem.h
-    Workspace.h)
+    WindowSystem.h)
 set(source
     Application.cpp
     PaletteSettingsWidget.cpp
@@ -70,8 +69,7 @@ set(source
     SettingsSystem.cpp
     TimelineSlider.cpp
     ToolSystem.cpp
-    WindowSystem.cpp
-    Workspace.cpp)
+    WindowSystem.cpp)
 
 add_library(djvViewLib ${header} ${source})
 target_link_libraries(djvViewLib djvDesktop)

@@ -31,6 +31,7 @@
 
 #include <djvViewLib/IViewSystem.h>
 
+#include <djvCore/ListObserver.h>
 #include <djvCore/ValueObserver.h>
 
 namespace djv
@@ -53,15 +54,18 @@ namespace djv
             static std::shared_ptr<FileSystem> create(Core::Context *);
 
             std::shared_ptr<Core::IValueSubject<std::pair<std::shared_ptr<Media>, glm::vec2> > > observeOpened() const;
-            std::shared_ptr<Core::IValueSubject<bool> > observeClose() const;
+            std::shared_ptr<Core::IValueSubject<std::shared_ptr<Media> > > observeClosed() const;
+            std::shared_ptr<Core::IListSubject<std::shared_ptr<Media> > > observeMedia() const;
+            std::shared_ptr<Core::IValueSubject<std::shared_ptr<Media> > > observeCurrentMedia() const;
             void open(const std::string &, const glm::vec2 & = glm::vec2(-1.f, -1.f));
+            void close(const std::shared_ptr<Media> &);
+            void setCurrentMedia(const std::shared_ptr<Media> &);
             void showRecentFiles();
 
             const std::shared_ptr<FileSystemSettings> & getSettings() const;
 
             std::map<std::string, std::shared_ptr<UI::Action> > getActions() override;
             NewMenu createMenu() override;
-            void setCurrentMedia(const std::shared_ptr<Media> &) override;
 
         protected:
             void _localeEvent(Core::Event::Locale &) override;

@@ -86,8 +86,6 @@ namespace djv
             virtual NewToolWidget createToolWidget();
             virtual std::vector<NewSettingsWidget> createSettingsWidgets();
 
-            virtual void setCurrentMedia(const std::shared_ptr<Media> &);
-
         private:
             DJV_PRIVATE();
         };

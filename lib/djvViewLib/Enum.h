@@ -35,11 +35,10 @@ namespace djv
 {
     namespace ViewLib
     {
-        enum class WindowState
+        enum class WindowMode
         {
-            Normal,
-            Maximized,
-            Minimized
+            SDI,
+            MDI
         };
 
         enum class Playback

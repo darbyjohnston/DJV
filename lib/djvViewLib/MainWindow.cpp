@@ -36,6 +36,7 @@
 #include <djvViewLib/ImageView.h>
 #include <djvViewLib/MDIWidget.h>
 #include <djvViewLib/Media.h>
+#include <djvViewLib/MediaWidget.h>
 #include <djvViewLib/WindowSystem.h>
 
 #include <djvUI/Action.h>
@@ -46,6 +47,7 @@
 #include <djvUI/ScrollWidget.h>
 #include <djvUI/SoloLayout.h>
 #include <djvUI/StackLayout.h>
+#include <djvUI/ToolButton.h>
 
 #include <djvCore/FileInfo.h>
 
@@ -62,17 +64,17 @@ namespace djv
             std::shared_ptr<UI::MenuBar> menuBar;
             std::shared_ptr<UI::MDI::Canvas> mdiCanvas;
             std::shared_ptr<UI::ScrollWidget> mdiScrollWidget;
-            std::shared_ptr<MDIWidget> maximizedWidget;
-            glm::vec2 maximizedPos = glm::vec2(0.f, 0.f);
-            glm::vec2 maximizedSize = glm::vec2(0.f, 0.f);
+            std::shared_ptr<UI::Button::Tool> mdiButton;
+            std::map<std::shared_ptr<Media>, std::shared_ptr<MDIWidget> > mediaToMDIWidget;
+            WindowMode windowMode = WindowMode::SDI;
+            std::shared_ptr<MediaWidget> sdiWidget;
             std::shared_ptr<UI::Layout::Solo> soloLayout;
             std::shared_ptr<UI::MDI::Canvas> toolCanvas;
             std::shared_ptr<UI::Layout::Stack> stackLayout;
             std::shared_ptr<ValueObserver<std::pair<std::shared_ptr<Media>, glm::vec2> > > fileOpenedObserver;
-            std::shared_ptr<ValueObserver<bool> > fileCloseObserver;
-            std::shared_ptr<ValueObserver<bool> > widgetMaximizeObserver;
-            std::shared_ptr<ValueObserver<bool> > widgetNextObserver;
-            std::shared_ptr<ValueObserver<bool> > widgetPrevObserver;
+            std::shared_ptr<ValueObserver<std::shared_ptr<Media> > > fileClosedObserver;
+            std::shared_ptr<ValueObserver<std::shared_ptr<Media> > > currentMediaObserver;
+            std::shared_ptr<ValueObserver<WindowMode> > windowModeObserver;
         };
         
         void MainWindow::_init(Core::Context * context)
@@ -93,20 +95,27 @@ namespace djv
                 }
             }
 
-            _p->mdiCanvas = UI::MDI::Canvas::create(context);
-            _p->mdiCanvas->setBackgroundRole(UI::Style::ColorRole::Trough);
-            _p->mdiScrollWidget = UI::ScrollWidget::create(UI::ScrollType::Both, context);
-            _p->mdiScrollWidget->setBorder(false);
-            _p->mdiScrollWidget->addWidget(_p->mdiCanvas);
+            DJV_PRIVATE_PTR();
+            p.mdiCanvas = UI::MDI::Canvas::create(context);
+            p.mdiCanvas->setBackgroundRole(UI::Style::ColorRole::Trough);
+            p.mdiScrollWidget = UI::ScrollWidget::create(UI::ScrollType::Both, context);
+            p.mdiScrollWidget->setBorder(false);
+            p.mdiScrollWidget->addWidget(p.mdiCanvas);
+            p.mdiButton = UI::Button::Tool::create(context);
+            p.mdiButton->setIcon("djvIconMaximizeSmall");
+            p.mdiButton->setInsideMargin(UI::Style::MetricsRole::None);
 
-            _p->soloLayout = UI::Layout::Solo::create(context);
-            _p->soloLayout->addWidget(_p->mdiScrollWidget);
+            p.sdiWidget = MediaWidget::create(context);
 
-            _p->toolCanvas = UI::MDI::Canvas::create(context);
+            p.soloLayout = UI::Layout::Solo::create(context);
+            p.soloLayout->addWidget(p.mdiScrollWidget);
+            p.soloLayout->addWidget(p.sdiWidget);
 
-            _p->stackLayout = UI::Layout::Stack::create(context);
-            _p->stackLayout->addWidget(_p->soloLayout);
-            _p->stackLayout->addWidget(_p->toolCanvas);
+            p.toolCanvas = UI::MDI::Canvas::create(context);
+
+            p.stackLayout = UI::Layout::Stack::create(context);
+            p.stackLayout->addWidget(p.soloLayout);
+            p.stackLayout->addWidget(p.toolCanvas);
 
             for (auto i : viewSystems)
             {
@@ -115,8 +124,8 @@ namespace djv
                     auto newToolWidget = system->createToolWidget();
                     if (newToolWidget.widget)
                     {
-                        newToolWidget.widget->setParent(_p->toolCanvas);
-                        _p->toolCanvas->setWidgetPos(newToolWidget.widget, newToolWidget.pos);
+                        newToolWidget.widget->setParent(p.toolCanvas);
+                        p.toolCanvas->setWidgetPos(newToolWidget.widget, newToolWidget.pos);
                     }
                 }
             }
@@ -133,33 +142,49 @@ namespace djv
                     }
                 }
             }
-            _p->menuBar = UI::MenuBar::create(context);
-            _p->menuBar->setBackgroundRole(UI::Style::ColorRole::Background);
+            p.menuBar = UI::MenuBar::create(context);
+            p.menuBar->setBackgroundRole(UI::Style::ColorRole::Background);
             for (auto i : menus)
             {
-                _p->menuBar->addMenu(i.second);
+                p.menuBar->addMenu(i.second);
             }
+            p.menuBar->addWidget(p.mdiButton);
             
             auto layout = UI::Layout::Vertical::create(context);
             layout->setSpacing(UI::Style::MetricsRole::None);
-            layout->addWidget(_p->menuBar);
+            layout->addWidget(p.menuBar);
             layout->addSeparator();
-            layout->addWidget(_p->stackLayout, UI::Layout::RowStretch::Expand);
+            layout->addWidget(p.stackLayout, UI::Layout::RowStretch::Expand);
             addWidget(layout);
 
             auto weak = std::weak_ptr<MainWindow>(std::dynamic_pointer_cast<MainWindow>(shared_from_this()));
-            _p->mdiCanvas->setActiveCallback(
+            p.mdiCanvas->setActiveCallback(
                 [weak, context](const std::shared_ptr<UI::Widget> & value)
             {
                 if (auto mainWindow = weak.lock())
                 {
-                    mainWindow->_setCurrent(std::dynamic_pointer_cast<MDIWidget>(value));
+                    if (auto mdiWidget = std::dynamic_pointer_cast<MDIWidget>(value))
+                    {
+                        if (auto fileSystem = context->getSystemT<FileSystem>().lock())
+                        {
+                            fileSystem->setCurrentMedia(mdiWidget->getMedia());
+                        }
+                    }
+                }
+            });
+
+            p.mdiButton->setClickedCallback(
+                [context]
+            {
+                if (auto windowSystem = context->getSystemT<WindowSystem>().lock())
+                {
+                    windowSystem->setWindowMode(WindowMode::MDI);
                 }
             });
 
             if (auto fileSystem = context->getSystemT<FileSystem>().lock())
             {
-                _p->fileOpenedObserver = ValueObserver<std::pair<std::shared_ptr<Media>, glm::vec2> >::create(
+                p.fileOpenedObserver = ValueObserver<std::pair<std::shared_ptr<Media>, glm::vec2> >::create(
                     fileSystem->observeOpened(),
                     [weak, context](const std::pair<std::shared_ptr<Media>, glm::vec2> & value)
                 {
@@ -181,118 +206,76 @@ namespace djv
                                 widgetPos = mainWindow->getGeometry().getSize() / 2.f - mainWindow->_p->mdiCanvas->getGeometry().min;
                             }
                             mainWindow->_p->mdiCanvas->setWidgetPos(mdiWidget, widgetPos);
+                            mainWindow->_p->mediaToMDIWidget[value.first] = mdiWidget;
                             mdiWidget->setMaximizeCallback(
-                                [weak, mdiWidget]
+                                [context]
                             {
-                                if (auto mainWindow = weak.lock())
+                                if (auto windowSystem = context->getSystemT<WindowSystem>().lock())
                                 {
-                                    mainWindow->_maximize(mdiWidget, !mainWindow->_p->maximizedWidget);
+                                    windowSystem->setWindowMode(WindowMode::SDI);
                                 }
                             });
                             mdiWidget->setClosedCallback(
                                 [weak, mdiWidget]
                             {
-                                if (auto mainWindow = weak.lock())
-                                {
-                                    mainWindow->_p->soloLayout->setCurrentWidget(mainWindow->_p->mdiScrollWidget);
-                                }
                                 mdiWidget->setParent(nullptr);
                             });
                         }
                     }
                 });
 
-                _p->fileCloseObserver = ValueObserver<bool>::create(
-                    fileSystem->observeClose(),
-                    [weak](bool value)
+                p.fileClosedObserver = ValueObserver<std::shared_ptr<Media>>::create(
+                    fileSystem->observeClosed(),
+                    [weak](const std::shared_ptr<Media> & value)
                 {
-                    if (value)
+                    if (auto mainWindow = weak.lock())
                     {
-                        if (auto mainWindow = weak.lock())
+                        const auto i = mainWindow->_p->mediaToMDIWidget.find(value);
+                        if (i != mainWindow->_p->mediaToMDIWidget.end())
                         {
-                            if (mainWindow->_p->maximizedWidget)
-                            {
-                                mainWindow->_maximize(mainWindow->_p->maximizedWidget, false);
-                            }
-                            if (auto activeWidget = mainWindow->_p->mdiCanvas->getActiveWidget())
-                            {
-                                activeWidget->setParent(nullptr);
-                            }
+                            i->second->setParent(nullptr);
+                            mainWindow->_p->mediaToMDIWidget.erase(i);
                         }
+                    }
+                });
+
+                p.currentMediaObserver = ValueObserver<std::shared_ptr<Media>>::create(
+                    fileSystem->observeCurrentMedia(),
+                    [weak](const std::shared_ptr<Media> & value)
+                {
+                    if (auto mainWindow = weak.lock())
+                    {
+                        const auto i = mainWindow->_p->mediaToMDIWidget.find(value);
+                        if (i != mainWindow->_p->mediaToMDIWidget.end())
+                        {
+                            i->second->moveToFront();
+                        }
+                        mainWindow->_p->sdiWidget->setMedia(value);
                     }
                 });
             }
 
             if (auto windowSystem = context->getSystemT<WindowSystem>().lock())
             {
-                _p->widgetMaximizeObserver = ValueObserver<bool>::create(
-                    windowSystem->observeMaximize(),
-                    [weak](bool value)
-                {
-                    if (value)
-                    {
-                        if (auto mainWindow = weak.lock())
-                        {
-                            if (mainWindow->_p->maximizedWidget)
-                            {
-                                mainWindow->_maximize(mainWindow->_p->maximizedWidget, false);
-                            }
-                            else if (auto activeWidget = std::dynamic_pointer_cast<MDIWidget>(mainWindow->_p->mdiCanvas->getActiveWidget()))
-                            {
-                                mainWindow->_maximize(activeWidget, true);
-                            }
-                        }
-                    }
-                });
+                windowSystem->setWindowMode(p.windowMode);
 
-                _p->widgetNextObserver = ValueObserver<bool>::create(
-                    windowSystem->observeNext(),
-                    [weak](bool value)
+                _p->windowModeObserver = ValueObserver<WindowMode>::create(
+                    windowSystem->observeWindowMode(),
+                    [weak](WindowMode value)
                 {
-                    if (value)
+                    if (auto mainWindow = weak.lock())
                     {
-                        if (auto mainWindow = weak.lock())
+                        switch (value)
                         {
-                            bool maximize = false;
-                            if (mainWindow->_p->maximizedWidget)
-                            {
-                                maximize = true;
-                                mainWindow->_maximize(mainWindow->_p->maximizedWidget, false);
-                            }
-                            mainWindow->_p->mdiCanvas->nextWidget();
-                            if (maximize)
-                            {
-                                if (auto widget = std::dynamic_pointer_cast<MDIWidget>(mainWindow->_p->mdiCanvas->getActiveWidget()))
-                                {
-                                    mainWindow->_maximize(widget, true);
-                                }
-                            }
-                        }
-                    }
-                });
-
-                _p->widgetPrevObserver = ValueObserver<bool>::create(
-                    windowSystem->observePrev(),
-                    [weak](bool value)
-                {
-                    if (value)
-                    {
-                        if (auto mainWindow = weak.lock())
-                        {
-                            bool maximize = false;
-                            if (mainWindow->_p->maximizedWidget)
-                            {
-                                maximize = true;
-                                mainWindow->_maximize(mainWindow->_p->maximizedWidget, false);
-                            }
-                            mainWindow->_p->mdiCanvas->prevWidget();
-                            if (maximize)
-                            {
-                                if (auto widget = std::dynamic_pointer_cast<MDIWidget>(mainWindow->_p->mdiCanvas->getActiveWidget()))
-                                {
-                                    mainWindow->_maximize(widget, true);
-                                }
-                            }
+                        case WindowMode::SDI:
+                            mainWindow->_p->soloLayout->setCurrentWidget(mainWindow->_p->sdiWidget);
+                            mainWindow->_p->mdiButton->show();
+                            break;
+                        case WindowMode::MDI:
+                            mainWindow->_p->soloLayout->setCurrentWidget(mainWindow->_p->mdiScrollWidget);
+                            mainWindow->_p->mdiButton->hide();
+                            break;
+                        default: break;
                         }
                     }
                 });
@@ -313,64 +296,6 @@ namespace djv
             return out;
         }
 
-        void MainWindow::_setCurrent(const std::shared_ptr<MDIWidget> & widget)
-        {
-            std::shared_ptr<Media> media;
-            if (widget)
-            {
-                media = widget->getMedia();
-            }
-            auto context = getContext();
-            for (auto i : context->getSystemsT<IViewSystem>())
-            {
-                if (auto system = i.lock())
-                {
-                    system->setCurrentMedia(media);
-                }
-            }
-        }
-
-        void MainWindow::_maximize(const std::shared_ptr<MDIWidget> & widget, bool value)
-        {
-            DJV_PRIVATE_PTR();
-            if (value)
-            {
-                if (p.maximizedWidget)
-                {
-                    p.maximizedWidget->setUIVisible(true);
-                    p.maximizedWidget->setParent(p.mdiCanvas);
-                    p.maximizedWidget->resize(p.maximizedSize);
-                    p.maximizedWidget->moveToFront();
-                    p.mdiCanvas->setWidgetPos(p.maximizedWidget, p.maximizedSize);
-                }
-                p.maximizedWidget = widget;
-                if (p.maximizedWidget)
-                {
-                    p.maximizedWidget->setUIVisible(false);
-                    p.maximizedPos = _p->mdiCanvas->getWidgetPos(p.maximizedWidget);
-                    p.maximizedSize = p.maximizedWidget->getSize();
-                    p.soloLayout->addWidget(widget);
-                    p.soloLayout->setCurrentWidget(widget);
-                    _setCurrent(widget);
-                }
-            }
-            else
-            {
-                p.soloLayout->setCurrentWidget(p.mdiScrollWidget);
-                if (p.maximizedWidget)
-                {
-                    p.maximizedWidget->setUIVisible(true);
-                    p.maximizedWidget->setParent(p.mdiCanvas);
-                    p.maximizedWidget->resize(p.maximizedSize);
-                    p.maximizedWidget->moveToFront();
-                    p.mdiCanvas->setWidgetPos(p.maximizedWidget, p.maximizedPos);
-                    p.maximizedWidget.reset();
-                    p.maximizedPos = glm::vec2(0.f, 0.f);
-                    p.maximizedSize = glm::vec2(0.f, 0.f);
-                }
-            }
-        }
-
         void MainWindow::_dropEvent(Core::Event::Drop& event)
         {
             if (auto fileSystem = getContext()->getSystemT<FileSystem>().lock())
@@ -380,6 +305,12 @@ namespace djv
                     fileSystem->open(i, event.getPointerInfo().projectedPos);
                 }
             }
+        }
+
+        void MainWindow::_localeEvent(Core::Event::Locale & event)
+        {
+            DJV_PRIVATE_PTR();
+            p.mdiButton->setTooltip(_getText(DJV_TEXT("djv::ViewLib::MainWindow", "MDI WindowMode Tooltip")));
         }
 
     } // namespace ViewLib

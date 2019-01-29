@@ -58,7 +58,9 @@ namespace djv
         {
             std::shared_ptr<FileSystemSettings> settings;
             std::shared_ptr<ValueSubject<std::pair<std::shared_ptr<Media>, glm::vec2> > > opened;
-            std::shared_ptr<ValueSubject<bool> > close;
+            std::shared_ptr<ValueSubject<std::shared_ptr<Media> > > closed;
+            std::shared_ptr<ListSubject<std::shared_ptr<Media> > > media;
+            std::shared_ptr<ValueSubject<std::shared_ptr<Media> > > currentMedia;
             std::shared_ptr<Core::FileSystem::RecentFilesModel> recentFilesModel;
             std::shared_ptr<FileRecentDialog> recentFilesDialog;
             std::map<std::string, std::shared_ptr<UI::Action> > actions;
@@ -74,11 +76,12 @@ namespace djv
 
             DJV_PRIVATE_PTR();
             p.settings = FileSystemSettings::create(context);
-
             p.opened = ValueSubject<std::pair<std::shared_ptr<Media>, glm::vec2> >::create();
-            p.close = ValueSubject<bool>::create();
-            p.recentFilesModel = Core::FileSystem::RecentFilesModel::create(context);
+            p.closed = ValueSubject<std::shared_ptr<Media> >::create();
+            p.media = ListSubject<std::shared_ptr<Media> >::create();
+            p.currentMedia = ValueSubject<std::shared_ptr<Media> >::create();
 
+            p.recentFilesModel = Core::FileSystem::RecentFilesModel::create(context);
             p.recentFilesDialog = FileRecentDialog::create(context);
 
             p.actions["Open"] = UI::Action::create();
@@ -104,6 +107,12 @@ namespace djv
             p.actions["Export"] = UI::Action::create();
             p.actions["Export"]->setShortcut(GLFW_KEY_X, GLFW_MOD_CONTROL);
             p.actions["Export"]->setEnabled(false);
+
+            p.actions["Next"] = UI::Action::create();
+            p.actions["Next"]->setShortcut(GLFW_KEY_PAGE_DOWN);
+
+            p.actions["Prev"] = UI::Action::create();
+            p.actions["Prev"]->setShortcut(GLFW_KEY_PAGE_UP);
 
             //! \todo Implement me!
             p.actions["Layers"] = UI::Action::create();
@@ -206,7 +215,62 @@ namespace djv
                 {
                     if (auto system = weak.lock())
                     {
-                        system->_p->close->setAlways(true);
+                        if (auto media = system->_p->currentMedia->get())
+                        {
+                            system->close(media);
+                        }
+                    }
+                }
+            });
+
+            p.clickedObservers["Next"] = ValueObserver<bool>::create(
+                p.actions["Next"]->observeClicked(),
+                [weak, context](bool value)
+            {
+                if (value)
+                {
+                    if (auto system = weak.lock())
+                    {
+                        const size_t size = system->_p->media->getSize();
+                        if (size > 1)
+                        {
+                            size_t index = system->_p->media->indexOf(system->_p->currentMedia->get());
+                            if (index < size - 1)
+                            {
+                                ++index;
+                            }
+                            else
+                            {
+                                index = 0;
+                            }
+                            system->_p->currentMedia->setIfChanged(system->_p->media->getItem(index));
+                        }
+                    }
+                }
+            });
+
+            p.clickedObservers["Prev"] = ValueObserver<bool>::create(
+                p.actions["Prev"]->observeClicked(),
+                [weak, context](bool value)
+            {
+                if (value)
+                {
+                    if (auto system = weak.lock())
+                    {
+                        const size_t size = system->_p->media->getSize();
+                        if (size > 1)
+                        {
+                            size_t index = system->_p->media->indexOf(system->_p->currentMedia->get());
+                            if (index > 0)
+                            {
+                                --index;
+                            }
+                            else
+                            {
+                                index = size - 1;
+                            }
+                            system->_p->currentMedia->setIfChanged(system->_p->media->getItem(index));
+                        }
                     }
                 }
             });
@@ -268,16 +332,58 @@ namespace djv
             return _p->opened;
         }
 
-        std::shared_ptr<IValueSubject<bool> > FileSystem::observeClose() const
+        std::shared_ptr<IValueSubject<std::shared_ptr<Media>> > FileSystem::observeClosed() const
         {
-            return _p->close;
+            return _p->closed;
         }
 
-        void FileSystem::open(const std::string & value, const glm::vec2 & pos)
+        std::shared_ptr<IListSubject<std::shared_ptr<Media> > > FileSystem::observeMedia() const
         {
-            auto media = Media::create(value, getContext());
+            return _p->media;
+        }
+
+        std::shared_ptr<IValueSubject<std::shared_ptr<Media> > > FileSystem::observeCurrentMedia() const
+        {
+            return _p->currentMedia;
+        }
+
+        void FileSystem::open(const std::string & fileName, const glm::vec2 & pos)
+        {
+            auto media = Media::create(fileName, getContext());
+            _p->media->pushBack(media);
             _p->opened->setAlways(std::make_pair(media, pos));
-            _p->recentFilesModel->addFile(value);
+            _p->currentMedia->setAlways(media);
+        }
+
+        void FileSystem::close(const std::shared_ptr<Media> & media)
+        {
+            size_t index = _p->media->indexOf(media);
+            if (index != invalidListIndex)
+            {
+                _p->media->removeItem(index);
+                _p->closed->setAlways(media);
+                const size_t size = _p->media->getSize();
+                std::shared_ptr<Media> current;
+                if (size > 0)
+                {
+                    if (index == size)
+                    {
+                        --index;
+                    }
+                    current = _p->media->getItem(index);
+                }
+                _p->currentMedia->setIfChanged(current);
+            }
+        }
+
+        void FileSystem::setCurrentMedia(const std::shared_ptr<Media> & media)
+        {
+            DJV_PRIVATE_PTR();
+            if (_p->currentMedia->setIfChanged(media))
+            {
+                p.actions["Close"]->setEnabled(media ? true : false);
+                p.actions["Export"]->setEnabled(media ? true : false);
+            }
         }
 
         void FileSystem::showRecentFiles()
@@ -333,6 +439,8 @@ namespace djv
             p.menus["File"]->addAction(p.actions["ReloadFrame"]);
             p.menus["File"]->addAction(p.actions["Close"]);
             p.menus["File"]->addAction(p.actions["Export"]);
+            p.menus["File"]->addAction(p.actions["Next"]);
+            p.menus["File"]->addAction(p.actions["Prev"]);
             p.menus["File"]->addSeparator();
             p.menus["File"]->addAction(p.actions["Layers"]);
             p.menus["File"]->addAction(p.actions["NextLayer"]);
@@ -345,13 +453,6 @@ namespace djv
             p.menus["File"]->addSeparator();
             p.menus["File"]->addAction(p.actions["Exit"]);
             return { p.menus["File"], "A" };
-        }
-
-        void FileSystem::setCurrentMedia(const std::shared_ptr<Media> & media)
-        {
-            DJV_PRIVATE_PTR();
-            p.actions["Close"]->setEnabled(media ? true : false);
-            p.actions["Export"]->setEnabled(media ? true : false);
         }
 
         void FileSystem::_localeEvent(Event::Locale &)
@@ -369,6 +470,10 @@ namespace djv
             p.actions["Close"]->setTooltip(_getText(DJV_TEXT("djv::ViewLib::FileSystem", "Close Tooltip")));
             p.actions["Export"]->setText(_getText(DJV_TEXT("djv::ViewLib::FileSystem", "Export")));
             p.actions["Export"]->setTooltip(_getText(DJV_TEXT("djv::ViewLib::FileSystem", "Export Tooltip")));
+            p.actions["Next"]->setText(_getText(DJV_TEXT("djv::ViewLib::FileSystem", "Next")));
+            p.actions["Next"]->setTooltip(_getText(DJV_TEXT("djv::ViewLib::FileSystem", "Next Tooltip")));
+            p.actions["Prev"]->setText(_getText(DJV_TEXT("djv::ViewLib::FileSystem", "Prev")));
+            p.actions["Prev"]->setTooltip(_getText(DJV_TEXT("djv::ViewLib::FileSystem", "Prev Tooltip")));
             p.actions["Layers"]->setText(_getText(DJV_TEXT("djv::ViewLib::FileSystem", "Layers")));
             p.actions["Layers"]->setTooltip(_getText(DJV_TEXT("djv::ViewLib::FileSystem", "Layers Tooltip")));
             p.actions["NextLayer"]->setText(_getText(DJV_TEXT("djv::ViewLib::FileSystem", "Next Layer")));

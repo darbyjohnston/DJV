@@ -32,6 +32,7 @@
 #include <djvDesktop/Application.h>
 
 #include <djvUI/Action.h>
+#include <djvUI/ActionGroup.h>
 #include <djvUI/Menu.h>
 
 #include <djvAV/AVSystem.h>
@@ -48,12 +49,12 @@ namespace djv
     {
         struct WindowSystem::Private
         {
+            std::shared_ptr<ValueSubject<WindowMode> > windowMode;
             std::map<std::string, std::shared_ptr<UI::Action> > actions;
+            std::shared_ptr<UI::ActionGroup> windowModeActionGroup;
             std::map<std::string, std::shared_ptr<UI::Menu> > menus;
-            std::shared_ptr<ValueSubject<bool> > maximize;
-            std::shared_ptr<ValueSubject<bool> > next;
-            std::shared_ptr<ValueSubject<bool> > prev;
             std::map<std::string, std::shared_ptr<ValueObserver<bool> > > clickedObservers;
+            std::shared_ptr<ValueObserver<WindowMode> > windowModeObserver;
             std::shared_ptr<ValueObserver<bool> > fullScreenObserver;
             glm::ivec2 monitorSize = glm::ivec2(0, 0);
             int monitorRefresh = 0;
@@ -67,18 +68,15 @@ namespace djv
             IViewSystem::_init("djv::ViewLib::WindowSystem", context);
 
             DJV_PRIVATE_PTR();
-            p.maximize = ValueSubject<bool>::create();
-            p.next = ValueSubject<bool>::create();
-            p.prev = ValueSubject<bool>::create();
+            p.windowMode = ValueSubject<WindowMode>::create();
 
-            p.actions["Maximize"] = UI::Action::create();
-            p.actions["Maximize"]->setShortcut(GLFW_KEY_M);
-
-            p.actions["Next"] = UI::Action::create();
-            p.actions["Next"]->setShortcut(GLFW_KEY_PAGE_DOWN);
-
-            p.actions["Prev"] = UI::Action::create();
-            p.actions["Prev"]->setShortcut(GLFW_KEY_PAGE_UP);
+            p.actions["WindowModeSDI"] = UI::Action::create();
+            p.actions["WindowModeSDI"]->setShortcut(GLFW_KEY_S);
+            p.actions["WindowModeMDI"] = UI::Action::create();
+            p.actions["WindowModeMDI"]->setShortcut(GLFW_KEY_M);
+            p.windowModeActionGroup = UI::ActionGroup::create(UI::ButtonType::Radio);
+            p.windowModeActionGroup->addAction(p.actions["WindowModeSDI"]);
+            p.windowModeActionGroup->addAction(p.actions["WindowModeMDI"]);
 
             //! \todo Implement me!
             p.actions["Duplicate"] = UI::Action::create();
@@ -98,42 +96,12 @@ namespace djv
             p.actions["FullScreen"]->setShortcut(GLFW_KEY_U);
 
             auto weak = std::weak_ptr<WindowSystem>(std::dynamic_pointer_cast<WindowSystem>(shared_from_this()));
-            p.clickedObservers["Maximize"] = ValueObserver<bool>::create(
-                p.actions["Maximize"]->observeClicked(),
-                [weak, context](bool value)
+            p.windowModeActionGroup->setRadioCallback(
+                [weak](int value)
             {
-                if (value)
+                if (auto system = weak.lock())
                 {
-                    if (auto system = weak.lock())
-                    {
-                        system->_p->maximize->setAlways(true);
-                    }
-                }
-            });
-
-            p.clickedObservers["Next"] = ValueObserver<bool>::create(
-                p.actions["Next"]->observeClicked(),
-                [weak, context](bool value)
-            {
-                if (value)
-                {
-                    if (auto system = weak.lock())
-                    {
-                        system->_p->next->setAlways(true);
-                    }
-                }
-            });
-
-            p.clickedObservers["Prev"] = ValueObserver<bool>::create(
-                p.actions["Prev"]->observeClicked(),
-                [weak, context](bool value)
-            {
-                if (value)
-                {
-                    if (auto system = weak.lock())
-                    {
-                        system->_p->prev->setAlways(true);
-                    }
+                    system->_p->windowMode->setIfChanged(static_cast<WindowMode>(value));
                 }
             });
 
@@ -162,19 +130,14 @@ namespace djv
             return out;
         }
 
-        std::shared_ptr<Core::IValueSubject<bool> > WindowSystem::observeMaximize() const
+        std::shared_ptr<Core::IValueSubject<WindowMode> > WindowSystem::observeWindowMode() const
         {
-            return _p->maximize;
+            return _p->windowMode;
         }
 
-        std::shared_ptr<Core::IValueSubject<bool> > WindowSystem::observeNext() const
+        void WindowSystem::setWindowMode(WindowMode value)
         {
-            return _p->next;
-        }
-
-        std::shared_ptr<Core::IValueSubject<bool> > WindowSystem::observePrev() const
-        {
-            return _p->prev;
+            _p->windowModeActionGroup->setChecked(static_cast<int>(value));
         }
 
         std::map<std::string, std::shared_ptr<UI::Action> > WindowSystem::getActions()
@@ -186,9 +149,8 @@ namespace djv
         {
             DJV_PRIVATE_PTR();
             p.menus["Window"] = UI::Menu::create(_getText(DJV_TEXT("djv::ViewLib::WindowSystem", "Window")), getContext());
-            p.menus["Window"]->addAction(p.actions["Maximize"]);
-            p.menus["Window"]->addAction(p.actions["Next"]);
-            p.menus["Window"]->addAction(p.actions["Prev"]);
+            p.menus["Window"]->addAction(p.actions["WindowModeSDI"]);
+            p.menus["Window"]->addAction(p.actions["WindowModeMDI"]);
             p.menus["Window"]->addAction(p.actions["Duplicate"]);
             p.menus["Window"]->addAction(p.actions["Fit"]);
             p.menus["Window"]->addAction(p.actions["FullScreen"]);
@@ -198,12 +160,10 @@ namespace djv
         void WindowSystem::_localeEvent(Event::Locale &)
         {
             DJV_PRIVATE_PTR();
-            p.actions["Maximize"]->setText(_getText(DJV_TEXT("djv::ViewLib::WindowSystem", "Maximize")));
-            p.actions["Maximize"]->setTooltip(_getText(DJV_TEXT("djv::ViewLib::WindowSystem", "Maximize Tooltip")));
-            p.actions["Next"]->setText(_getText(DJV_TEXT("djv::ViewLib::WindowSystem", "Next")));
-            p.actions["Next"]->setTooltip(_getText(DJV_TEXT("djv::ViewLib::WindowSystem", "Next Tooltip")));
-            p.actions["Prev"]->setText(_getText(DJV_TEXT("djv::ViewLib::WindowSystem", "Prev")));
-            p.actions["Prev"]->setTooltip(_getText(DJV_TEXT("djv::ViewLib::WindowSystem", "Prev Tooltip")));
+            p.actions["WindowModeSDI"]->setText(_getText(DJV_TEXT("djv::ViewLib::WindowSystem", "SDI")));
+            p.actions["WindowModeSDI"]->setTooltip(_getText(DJV_TEXT("djv::ViewLib::WindowSystem", "SDI Tooltip")));
+            p.actions["WindowModeMDI"]->setText(_getText(DJV_TEXT("djv::ViewLib::WindowSystem", "MDI")));
+            p.actions["WindowModeMDI"]->setTooltip(_getText(DJV_TEXT("djv::ViewLib::WindowSystem", "MDI Tooltip")));
             p.actions["Duplicate"]->setText(_getText(DJV_TEXT("djv::ViewLib::WindowSystem", "Duplicate")));
             p.actions["Duplicate"]->setTooltip(_getText(DJV_TEXT("djv::ViewLib::WindowSystem", "Duplicate Tooltip")));
             p.actions["Fit"]->setText(_getText(DJV_TEXT("djv::ViewLib::WindowSystem", "Fit")));

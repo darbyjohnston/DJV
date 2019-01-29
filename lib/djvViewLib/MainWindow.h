@@ -60,9 +60,9 @@ namespace djv
             static std::shared_ptr<MainWindow> create(Core::Context *);
 
         protected:
-            void _setCurrent(const std::shared_ptr<MDIWidget> &);
-            void _maximize(const std::shared_ptr<MDIWidget> &, bool);
-            void _dropEvent(Core::Event::Drop&) override;
+            void _dropEvent(Core::Event::Drop &) override;
+
+            void _localeEvent(Core::Event::Locale &) override;
 
             DJV_PRIVATE();
         };

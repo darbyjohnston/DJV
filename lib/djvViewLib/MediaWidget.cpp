@@ -31,17 +31,8 @@
 
 #include <djvViewLib/ImageView.h>
 #include <djvViewLib/Media.h>
-#include <djvViewLib/PlaybackWidget.h>
-#include <djvViewLib/TimelineSlider.h>
 
-#include <djvUI/Icon.h>
-#include <djvUI/Label.h>
 #include <djvUI/RowLayout.h>
-#include <djvUI/StackLayout.h>
-#include <djvUI/ToolButton.h>
-
-#include <djvCore/Memory.h>
-#include <djvCore/UID.h>
 
 using namespace djv::Core;
 
@@ -52,14 +43,7 @@ namespace djv
         struct MediaWidget::Private
         {
             std::shared_ptr<ImageView> imageView;
-            std::shared_ptr<UI::Label> titleLabel;
-            std::shared_ptr<UI::Layout::Horizontal> titleBar;
-            std::shared_ptr<UI::Icon> resizeHandle;
-            std::shared_ptr<UI::Layout::Horizontal> bottomBar;
-            std::shared_ptr<UI::Layout::Stack> layout;
-            std::function<void(void)> maximizeCallback;
-            std::function<void(void)> closedCallback;
-            std::shared_ptr<ValueObserver<std::shared_ptr<AV::Image::Image> > > imageObserver;
+            std::shared_ptr<UI::Layout::Vertical> layout;
         };
         
         void MediaWidget::_init(Context * context)
@@ -69,8 +53,8 @@ namespace djv
             DJV_PRIVATE_PTR();
             p.imageView = ImageView::create(context);
 
-            p.layout = UI::Layout::Stack::create(context);
-            p.layout->addWidget(p.imageView);
+            p.layout = UI::Layout::Vertical::create(context);
+            p.layout->addWidget(p.imageView, UI::Layout::RowStretch::Expand);
             p.layout->setParent(shared_from_this());
         }
 

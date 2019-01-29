@@ -335,12 +335,6 @@ namespace djv
                                 render->setFillColor(_getColorWithOpacity(style->getColor(colorRole)));
                                 render->drawFilledImage(i.second->icon, BBox2f(x, y, iconSize, iconSize), AV::Render::ImageCache::Static);
                             }
-                            else if (i.second->checked)
-                            {
-                                const float offset = ceilf(i.second->size.y / 2.f);
-                                render->setFillColor(_getColorWithOpacity(style->getColor(colorRole)));
-                                render->drawCircle(glm::vec2(i.second->geom.min.x + offset, i.second->geom.min.y + offset), m, 16);
-                            }
                             if (_hasTextIndent)
                             {
                                 x += iconSize + s;

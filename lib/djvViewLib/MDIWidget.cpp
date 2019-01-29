@@ -30,7 +30,7 @@
 #include <djvViewLib/MDIWidget.h>
 
 #include <djvViewLib/ImageView.h>
-#include <djvViewLib/Media.h>
+#include <djvViewLib/MediaWidget.h>
 #include <djvViewLib/PlaybackWidget.h>
 #include <djvViewLib/TimelineSlider.h>
 
@@ -52,7 +52,7 @@ namespace djv
     {
         struct MDIWidget::Private
         {
-            std::shared_ptr<ImageView> imageView;
+            std::shared_ptr<MediaWidget> mediaWidget;
             std::shared_ptr<UI::Label> titleLabel;
             std::shared_ptr<UI::Layout::Horizontal> titleBar;
             std::shared_ptr<UI::Icon> resizeHandle;
@@ -61,7 +61,6 @@ namespace djv
             std::shared_ptr<UI::Layout::Border> border;
             std::function<void(void)> maximizeCallback;
             std::function<void(void)> closedCallback;
-            std::shared_ptr<ValueObserver<std::shared_ptr<AV::Image::Image> > > imageObserver;
         };
         
         void MDIWidget::_init(Context * context)
@@ -71,17 +70,17 @@ namespace djv
             setBackgroundRole(UI::Style::ColorRole::Background);
 
             DJV_PRIVATE_PTR();
-            p.imageView = ImageView::create(context);
+            p.mediaWidget = MediaWidget::create(context);
 
             p.titleLabel = UI::Label::create(context);
             p.titleLabel->setTextHAlign(UI::TextHAlign::Left);
             p.titleLabel->setMargin(UI::Style::MetricsRole::MarginSmall);
 
             auto maximizeButton = UI::Button::Tool::create(context);
-            maximizeButton->setIcon("djvIconMaximize");
+            maximizeButton->setIcon("djvIconMaximizeSmall");
 
             auto closeButton = UI::Button::Tool::create(context);
-            closeButton->setIcon("djvIconClose");
+            closeButton->setIcon("djvIconCloseSmall");
 
             p.titleBar = UI::Layout::Horizontal::create(context);
             p.titleBar->setClassName("djv::UI::MDI::TitleBar");
@@ -94,7 +93,7 @@ namespace djv
 
             p.resizeHandle = UI::Icon::create(context);
             p.resizeHandle->setPointerEnabled(true);
-            p.resizeHandle->setIcon("djvIconWindowResizeHandle");
+            p.resizeHandle->setIcon("djvIconResizeHandleSmall");
             p.resizeHandle->setHAlign(UI::HAlign::Right);
             p.resizeHandle->setVAlign(UI::VAlign::Bottom);
 
@@ -105,7 +104,7 @@ namespace djv
             p.layout = UI::Layout::Vertical::create(context);
             p.layout->setSpacing(UI::Style::MetricsRole::None);
             p.layout->addWidget(p.titleBar);
-            p.layout->addWidget(p.imageView, UI::Layout::RowStretch::Expand);
+            p.layout->addWidget(p.mediaWidget, UI::Layout::RowStretch::Expand);
             p.layout->addWidget(p.bottomBar);
 
             p.border = UI::Layout::Border::create(context);
@@ -163,12 +162,12 @@ namespace djv
 
         const std::shared_ptr<Media> & MDIWidget::getMedia() const
         {
-            return _p->imageView->getMedia();
+            return _p->mediaWidget->getMedia();
         }
 
         void MDIWidget::setMedia(const std::shared_ptr<Media> & value)
         {
-            _p->imageView->setMedia(value);
+            _p->mediaWidget->setMedia(value);
         }
 
         void MDIWidget::setUIVisible(bool value)
