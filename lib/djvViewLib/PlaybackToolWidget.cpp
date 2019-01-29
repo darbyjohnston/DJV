@@ -65,6 +65,7 @@ namespace djv
             _p->layout->addSpacer();
             _p->layout->addSeparator();
             _p->layout->addWidget(_p->playbackWidget);
+            _p->layout->addSeparator();
             _p->layout->addWidget(_p->timelineSlider, UI::Layout::RowStretch::Expand);
             _p->layout->addSeparator();
             _p->layout->addSpacer();
