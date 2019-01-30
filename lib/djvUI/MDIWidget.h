@@ -37,6 +37,23 @@ namespace djv
     {
         namespace MDI
         {
+            enum class Handle
+            {
+                None,
+                Move,
+                ResizeE,
+                ResizeN,
+                ResizeW,
+                ResizeS,
+                ResizeNE,
+                ResizeNW,
+                ResizeSW,
+                ResizeSE,
+
+                Count,
+                First = None
+            };
+
             class IWidget : public Layout::IContainer
             {
                 DJV_NON_COPYABLE(IWidget);
@@ -46,9 +63,9 @@ namespace djv
 
             public:
                 virtual ~IWidget() = 0;
-                
-                virtual std::shared_ptr<Widget> getMoveHandle() = 0;
-                virtual std::shared_ptr<Widget> getResizeHandle() { return nullptr; }
+
+                virtual Handle getHandle(const glm::vec2 & pos) const;
+                virtual Core::BBox2f getHandleBBox(Handle) const;
             };
             
         } // namespace MDI

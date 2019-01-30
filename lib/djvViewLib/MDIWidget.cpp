@@ -35,7 +35,6 @@
 #include <djvViewLib/TimelineSlider.h>
 
 #include <djvUI/Border.h>
-#include <djvUI/Icon.h>
 #include <djvUI/Label.h>
 #include <djvUI/RowLayout.h>
 #include <djvUI/StackLayout.h>
@@ -55,9 +54,7 @@ namespace djv
             std::shared_ptr<MediaWidget> mediaWidget;
             std::shared_ptr<UI::Label> titleLabel;
             std::shared_ptr<UI::Layout::Horizontal> titleBar;
-            std::shared_ptr<UI::Icon> resizeHandle;
-            std::shared_ptr<UI::Layout::Horizontal> bottomBar;
-            std::shared_ptr<UI::Layout::Vertical> layout;
+            std::shared_ptr<UI::Layout::Stack> layout;
             std::shared_ptr<UI::Layout::Border> border;
             std::function<void(void)> maximizeCallback;
             std::function<void(void)> closedCallback;
@@ -66,8 +63,6 @@ namespace djv
         void MDIWidget::_init(Context * context)
         {
             IWidget::_init(context);
-
-            setBackgroundRole(UI::Style::ColorRole::Background);
 
             DJV_PRIVATE_PTR();
             p.mediaWidget = MediaWidget::create(context);
@@ -83,7 +78,7 @@ namespace djv
             closeButton->setIcon("djvIconCloseSmall");
 
             p.titleBar = UI::Layout::Horizontal::create(context);
-            p.titleBar->setClassName("djv::UI::MDI::TitleBar");
+            p.titleBar->setBackgroundRole(UI::Style::ColorRole::Overlay);
             p.titleBar->addWidget(p.titleLabel, UI::Layout::RowStretch::Expand);
             auto hLayout = UI::Layout::Horizontal::create(context);
             hLayout->setSpacing(UI::Style::MetricsRole::None);
@@ -91,23 +86,16 @@ namespace djv
             hLayout->addWidget(closeButton);
             p.titleBar->addWidget(hLayout);
 
-            p.resizeHandle = UI::Icon::create(context);
-            p.resizeHandle->setPointerEnabled(true);
-            p.resizeHandle->setIcon("djvIconResizeHandleSmall");
-            p.resizeHandle->setHAlign(UI::HAlign::Right);
-            p.resizeHandle->setVAlign(UI::VAlign::Bottom);
-
-            p.bottomBar = UI::Layout::Horizontal::create(context);
-            p.bottomBar->addExpander();
-            p.bottomBar->addWidget(p.resizeHandle);
-
-            p.layout = UI::Layout::Vertical::create(context);
-            p.layout->setSpacing(UI::Style::MetricsRole::None);
-            p.layout->addWidget(p.titleBar);
-            p.layout->addWidget(p.mediaWidget, UI::Layout::RowStretch::Expand);
-            p.layout->addWidget(p.bottomBar);
+            p.layout = UI::Layout::Stack::create(context);
+            p.layout->addWidget(p.mediaWidget);
+            auto vLayout = UI::Layout::Vertical::create(context);
+            vLayout->setSpacing(UI::Style::MetricsRole::None);
+            vLayout->addWidget(p.titleBar);
+            vLayout->addExpander();
+            p.layout->addWidget(vLayout);
 
             p.border = UI::Layout::Border::create(context);
+            p.border->setMargin(UI::Style::MetricsRole::Handle);
             p.border->addWidget(p.layout);
             IContainer::addWidget(p.border);
 
@@ -170,13 +158,6 @@ namespace djv
             _p->mediaWidget->setMedia(value);
         }
 
-        void MDIWidget::setUIVisible(bool value)
-        {
-            DJV_PRIVATE_PTR();
-            p.titleBar->setVisible(value);
-            p.bottomBar->setVisible(value);
-        }
-
         void MDIWidget::setClosedCallback(const std::function<void(void)> & value)
         {
             _p->closedCallback = value;
@@ -185,16 +166,6 @@ namespace djv
         void MDIWidget::setMaximizeCallback(const std::function<void(void)> & value)
         {
             _p->maximizeCallback = value;
-        }
-
-        std::shared_ptr<UI::Widget> MDIWidget::getMoveHandle()
-        {
-            return std::dynamic_pointer_cast<Widget>(shared_from_this());
-        }
-
-        std::shared_ptr<UI::Widget> MDIWidget::getResizeHandle()
-        {
-            return _p->resizeHandle;
         }
 
         float MDIWidget::getHeightForWidth(float value) const

@@ -31,8 +31,11 @@
 
 #include <djvViewLib/ImageView.h>
 #include <djvViewLib/Media.h>
+#include <djvViewLib/PlaybackWidget.h>
+#include <djvViewLib/TimelineSlider.h>
 
 #include <djvUI/RowLayout.h>
+#include <djvUI/StackLayout.h>
 
 using namespace djv::Core;
 
@@ -42,8 +45,16 @@ namespace djv
     {
         struct MediaWidget::Private
         {
+            std::shared_ptr<Media> media;
             std::shared_ptr<ImageView> imageView;
-            std::shared_ptr<UI::Layout::Vertical> layout;
+            std::shared_ptr<PlaybackWidget> playbackWidget;
+            std::shared_ptr<TimelineSlider> timelineSlider;
+            std::shared_ptr<UI::Layout::Stack> layout;
+            std::shared_ptr<ValueObserver<Time::Duration> > durationObserver;
+            std::shared_ptr<ValueObserver<Time::Timestamp> > currentTimeObserver;
+            std::shared_ptr<ValueObserver<Time::Timestamp> > currentTimeObserver2;
+            std::shared_ptr<ValueObserver<Playback> > playbackObserver;
+            std::shared_ptr<ValueObserver<Playback> > playbackObserver2;
         };
         
         void MediaWidget::_init(Context * context)
@@ -53,9 +64,50 @@ namespace djv
             DJV_PRIVATE_PTR();
             p.imageView = ImageView::create(context);
 
-            p.layout = UI::Layout::Vertical::create(context);
-            p.layout->addWidget(p.imageView, UI::Layout::RowStretch::Expand);
+            _p->playbackWidget = PlaybackWidget::create(context);
+            _p->timelineSlider = TimelineSlider::create(context);
+
+            auto hLayout = UI::Layout::Horizontal::create(context);
+            hLayout->setSpacing(UI::Style::MetricsRole::None);
+            hLayout->setBackgroundRole(UI::Style::ColorRole::Overlay);
+            hLayout->addWidget(_p->playbackWidget);
+            hLayout->addWidget(_p->timelineSlider, UI::Layout::RowStretch::Expand);
+            auto vLayout = UI::Layout::Vertical::create(context);
+            vLayout->setSpacing(UI::Style::MetricsRole::None);
+            vLayout->addExpander();
+            vLayout->addWidget(hLayout);
+
+            p.layout = UI::Layout::Stack::create(context);
+            p.layout->addWidget(p.imageView);
+            p.layout->addWidget(vLayout);
             p.layout->setParent(shared_from_this());
+
+            auto weak = std::weak_ptr<MediaWidget>(std::dynamic_pointer_cast<MediaWidget>(shared_from_this()));
+            p.currentTimeObserver = ValueObserver<Time::Timestamp>::create(
+                p.timelineSlider->observeCurrentTime(),
+                [weak](Time::Timestamp value)
+            {
+                if (auto system = weak.lock())
+                {
+                    if (system->_p->media)
+                    {
+                        system->_p->media->setCurrentTime(value);
+                    }
+                }
+            });
+
+            p.playbackObserver = ValueObserver<Playback>::create(
+                p.playbackWidget->observePlayback(),
+                [weak](Playback value)
+            {
+                if (auto system = weak.lock())
+                {
+                    if (system->_p->media)
+                    {
+                        system->_p->media->setPlayback(value);
+                    }
+                }
+            });
         }
 
         MediaWidget::MediaWidget() :
@@ -74,12 +126,45 @@ namespace djv
 
         const std::shared_ptr<Media> & MediaWidget::getMedia() const
         {
-            return _p->imageView->getMedia();
+            return _p->media;
         }
 
         void MediaWidget::setMedia(const std::shared_ptr<Media> & value)
         {
+            if (value == _p->media)
+                return;
+
+            _p->media = value;
             _p->imageView->setMedia(value);
+
+            auto weak = std::weak_ptr<MediaWidget>(std::dynamic_pointer_cast<MediaWidget>(shared_from_this()));
+            _p->durationObserver = ValueObserver<Time::Duration>::create(
+                value->observeDuration(),
+                [weak](Time::Duration value)
+            {
+                if (auto system = weak.lock())
+                {
+                    system->_p->timelineSlider->setDuration(value);
+                }
+            });
+            _p->currentTimeObserver2 = ValueObserver<Time::Timestamp>::create(
+                value->observeCurrentTime(),
+                [weak](Time::Timestamp value)
+            {
+                if (auto system = weak.lock())
+                {
+                    system->_p->timelineSlider->setCurrentTime(value);
+                }
+            });
+            _p->playbackObserver2 = ValueObserver<Playback>::create(
+                value->observePlayback(),
+                [weak](Playback value)
+            {
+                if (auto system = weak.lock())
+                {
+                    system->_p->playbackWidget->setPlayback(value);
+                }
+            });
         }
 
         void MediaWidget::_preLayoutEvent(Event::PreLayout& event)

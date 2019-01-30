@@ -43,6 +43,103 @@ namespace djv
             IWidget::~IWidget()
             {}
 
+            namespace
+            {
+                std::map<Handle, BBox2f> _getHandleBBox(const BBox2f & bbox, float edge, float corner)
+                {
+                    return
+                    {
+                        {
+                            Handle::Move,
+                            bbox.margin(-edge)
+                        },
+                        {
+                            Handle::ResizeE,
+                            BBox2f(
+                                glm::vec2(bbox.min.x, bbox.min.y + corner),
+                                glm::vec2(bbox.min.x + edge, bbox.max.y - corner))
+                        },
+                        {
+                            Handle::ResizeN,
+                            BBox2f(
+                                glm::vec2(bbox.min.x + corner, bbox.min.y),
+                                glm::vec2(bbox.max.x - corner, bbox.min.y + edge))
+                        },
+                        {
+                            Handle::ResizeW,
+                            BBox2f(
+                                glm::vec2(bbox.max.x - edge, bbox.min.y + corner),
+                                glm::vec2(bbox.max.x, bbox.max.y - corner))
+                        },
+                        {
+                            Handle::ResizeS,
+                            BBox2f(
+                                glm::vec2(bbox.min.x + corner, bbox.max.y - edge),
+                                glm::vec2(bbox.max.x - corner, bbox.max.y))
+                        },
+                        {
+                            Handle::ResizeNE,
+                            BBox2f(
+                                glm::vec2(bbox.min.x, bbox.min.y),
+                                glm::vec2(bbox.min.x + corner, bbox.min.y + corner))
+                        },
+                        {
+                            Handle::ResizeNW,
+                            BBox2f(
+                                glm::vec2(bbox.max.x - corner, bbox.min.y),
+                                glm::vec2(bbox.max.x, bbox.min.y + corner))
+                        },
+                        {
+                            Handle::ResizeSW,
+                            BBox2f(
+                                glm::vec2(bbox.max.x - corner, bbox.max.y - corner),
+                                glm::vec2(bbox.max.x, bbox.max.y))
+                        },
+                        {
+                            Handle::ResizeSE,
+                            BBox2f(
+                                glm::vec2(bbox.min.x, bbox.max.y - corner),
+                                glm::vec2(bbox.min.x + corner, bbox.max.y))
+                        }
+                    };
+                }
+            
+            } // namespace
+
+            Handle IWidget::getHandle(const glm::vec2 & pos) const
+            {
+                Handle out = Handle::None;
+                if (auto style = _getStyle().lock())
+                {
+                    const float m = style->getMetric(Style::MetricsRole::Handle);
+                    for (const auto & i : _getHandleBBox(getGeometry(), m, m * 2.f))
+                    {
+                        if (i.second.contains(pos))
+                        {
+                            out = i.first;
+                            break;
+                        }
+                    }
+                }
+                return out;
+            }
+            
+            BBox2f IWidget::getHandleBBox(Handle value) const
+            {
+                BBox2f out = BBox2f(0.f, 0.f, 0.f, 0.f);
+                if (auto style = _getStyle().lock())
+                {
+                    const float m = style->getMetric(Style::MetricsRole::Handle);
+                    const auto & bbox = _getHandleBBox(getGeometry(), m, m * 2.f);
+                    const auto i = bbox.find(value);
+                    if (i != bbox.end())
+                    {
+                        out = i->second;
+                    }
+                }
+                return out;
+            }
+
         } // namespace MDI
     } // namespace UI
 } // namespace djdv

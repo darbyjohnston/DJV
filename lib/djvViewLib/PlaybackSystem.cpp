@@ -32,7 +32,6 @@
 #include <djvViewLib/Application.h>
 #include <djvViewLib/FileSystem.h>
 #include <djvViewLib/Media.h>
-#include <djvViewLib/PlaybackToolWidget.h>
 
 #include <djvUI/Action.h>
 #include <djvUI/ActionGroup.h>
@@ -54,13 +53,8 @@ namespace djv
             std::map<std::string, std::shared_ptr<UI::Action> > actions;
             std::map<std::string, std::shared_ptr<UI::Menu> > menus;
             std::shared_ptr<UI::ActionGroup> playbackActionGroup;
-            std::shared_ptr<PlaybackToolWidget> playbackToolWidget;
             std::map<std::string, std::shared_ptr<ValueObserver<bool> > > clickedObservers;
-            std::shared_ptr<ValueObserver<Time::Duration> > durationObserver;
-            std::shared_ptr<ValueObserver<Time::Timestamp> > currentTimeObserver;
-            std::shared_ptr<ValueObserver<Time::Timestamp> > currentTimeObserver2;
             std::shared_ptr<ValueObserver<Playback> > playbackObserver;
-            std::shared_ptr<ValueObserver<Playback> > playbackObserver2;
             std::shared_ptr<ValueObserver<std::shared_ptr<Media> > > currentMediaObserver;
         };
 
@@ -191,8 +185,6 @@ namespace djv
             p.actions["ResetOutPoint"]->setShortcut(GLFW_KEY_O, GLFW_MOD_SHIFT);
             p.actions["ResetOutPoint"]->setEnabled(false);
 
-            p.playbackToolWidget = PlaybackToolWidget::create(context);
-
             auto weak = std::weak_ptr<PlaybackSystem>(std::dynamic_pointer_cast<PlaybackSystem>(shared_from_this()));
             p.playbackActionGroup->setRadioCallback(
                 [weak](int value)
@@ -202,32 +194,6 @@ namespace djv
                     if (auto media = system->_p->media)
                     {
                         media->setPlayback(static_cast<Playback>(value));
-                    }
-                }
-            });
-
-            p.currentTimeObserver2 = ValueObserver<Time::Timestamp>::create(
-                p.playbackToolWidget->observeCurrentTime(),
-                [weak](Time::Timestamp value)
-            {
-                if (auto system = weak.lock())
-                {
-                    if (auto media = system->_p->media)
-                    {
-                        media->setCurrentTime(value);
-                    }
-                }
-            });
-
-            p.playbackObserver2 = ValueObserver<Playback>::create(
-                p.playbackToolWidget->observePlayback(),
-                [weak](Playback value)
-            {
-                if (auto system = weak.lock())
-                {
-                    if (auto media = system->_p->media)
-                    {
-                        media->setPlayback(value);
                     }
                 }
             });
@@ -246,24 +212,6 @@ namespace djv
                         system->_p->actions["Reverse"]->setEnabled(value ? true : false);
                         if (value)
                         {
-                            system->_p->durationObserver = ValueObserver<Time::Duration>::create(
-                                value->observeDuration(),
-                                [weak](Time::Duration value)
-                            {
-                                if (auto system = weak.lock())
-                                {
-                                    system->_p->playbackToolWidget->setDuration(value);
-                                }
-                            });
-                            system->_p->currentTimeObserver = ValueObserver<Time::Timestamp>::create(
-                                value->observeCurrentTime(),
-                                [weak](Time::Timestamp value)
-                            {
-                                if (auto system = weak.lock())
-                                {
-                                    system->_p->playbackToolWidget->setCurrentTime(value);
-                                }
-                            });
                             system->_p->playbackObserver = ValueObserver<Playback>::create(
                                 value->observePlayback(),
                                 [weak](Playback value)
@@ -271,7 +219,6 @@ namespace djv
                                 if (auto system = weak.lock())
                                 {
                                     system->_p->playbackActionGroup->setChecked(static_cast<int>(value));
-                                    system->_p->playbackToolWidget->setPlayback(value);
                                 }
                             });
                         }
@@ -339,16 +286,6 @@ namespace djv
             p.menus["Layout"] = UI::Menu::create(_getText(DJV_TEXT("djv::ViewLib::PlaybackSystem", "Layout")), context);
             p.menus["Playback"]->addMenu(p.menus["Layout"]);
             return { p.menus["Playback"], "E" };
-        }
-
-        NewToolWidget PlaybackSystem::createToolWidget()
-        {
-            DJV_PRIVATE_PTR();
-            NewToolWidget out;
-            out.widget = p.playbackToolWidget;
-            out.sortKey = "E";
-            out.pos = glm::vec2(200.f, 600.f);
-            return out;
         }
 
         void PlaybackSystem::_localeEvent(Event::Locale &)

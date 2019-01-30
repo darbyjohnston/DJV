@@ -195,17 +195,19 @@ namespace djv
                             auto mdiWidget = MDIWidget::create(context);
                             mdiWidget->setTitle(Core::FileSystem::FileInfo(value.first->getFileName()).getFileName(Frame::Invalid, false));
                             mdiWidget->setMedia(value.first);
+                            glm::vec2 size(mainWindow->getSize() / 2.f);
+                            mdiWidget->resize(size);
                             mdiWidget->setParent(mainWindow->_p->mdiCanvas);
-                            glm::vec2 widgetPos(0.f, 0.f);
+                            glm::vec2 pos(0.f, 0.f);
                             if (value.second.x >= 0.f && value.second.y >= 0.f)
                             {
-                                widgetPos = value.second - mainWindow->_p->mdiCanvas->getGeometry().min;
+                                pos = value.second - mainWindow->_p->mdiCanvas->getGeometry().min;
                             }
                             else
                             {
-                                widgetPos = mainWindow->getGeometry().getSize() / 2.f - mainWindow->_p->mdiCanvas->getGeometry().min;
+                                pos = mainWindow->getGeometry().getSize() / 2.f - mainWindow->_p->mdiCanvas->getGeometry().min;
                             }
-                            mainWindow->_p->mdiCanvas->setWidgetPos(mdiWidget, widgetPos);
+                            mainWindow->_p->mdiCanvas->setWidgetPos(mdiWidget, pos - size / 2.f);
                             mainWindow->_p->mediaToMDIWidget[value.first] = mdiWidget;
                             mdiWidget->setMaximizeCallback(
                                 [context]
@@ -298,11 +300,17 @@ namespace djv
 
         void MainWindow::_dropEvent(Core::Event::Drop& event)
         {
-            if (auto fileSystem = getContext()->getSystemT<FileSystem>().lock())
+            if (auto style = _getStyle().lock())
             {
-                for (const auto & i : event.getDropPaths())
+                if (auto fileSystem = getContext()->getSystemT<FileSystem>().lock())
                 {
-                    fileSystem->open(i, event.getPointerInfo().projectedPos);
+                    const float s = style->getMetric(UI::Style::MetricsRole::SpacingLarge);
+                    glm::vec2 pos = event.getPointerInfo().projectedPos;
+                    for (const auto & i : event.getDropPaths())
+                    {
+                        fileSystem->open(i, pos);
+                        pos += s;
+                    }
                 }
             }
         }

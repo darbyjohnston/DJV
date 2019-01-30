@@ -56,13 +56,8 @@ namespace djv
             const std::shared_ptr<Media> & getMedia() const;
             void setMedia(const std::shared_ptr<Media> &);
 
-            void setUIVisible(bool);
-
             void setMaximizeCallback(const std::function<void(void)> &);
             void setClosedCallback(const std::function<void(void)> &);
-
-            std::shared_ptr<UI::Widget> getMoveHandle() override;
-            std::shared_ptr<UI::Widget> getResizeHandle() override;
 
             float getHeightForWidth(float) const override;
 

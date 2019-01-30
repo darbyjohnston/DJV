@@ -47,19 +47,33 @@ namespace djv
     {
         namespace MDI
         {
+            namespace
+            {
+                struct Hovered
+                {
+                    std::shared_ptr<IWidget> widget;
+                    Handle handle = Handle::None;
+                };
+
+                struct Pressed
+                {
+                    std::shared_ptr<IWidget> widget;
+                    glm::vec2 pointer = glm::vec2(0.f, 0.f);
+                    Handle handle = Handle::None;
+                    glm::vec2 pos = glm::vec2(0.f, 0.f);
+                    glm::vec2 size = glm::vec2(0.f, 0.f);
+                };
+
+            } // namespace
+
             struct Canvas::Private
             {
                 glm::vec2 canvasSize = glm::vec2(10000.f, 10000.f);
-                std::vector<std::shared_ptr<Widget> > widgets;
-                std::map<std::shared_ptr<Widget>, glm::vec2> widgetToPos;
-                std::map<std::shared_ptr<IObject>, std::shared_ptr<Widget> > moveHandleToWidget;
-                std::map<std::shared_ptr<IObject>, std::shared_ptr<Widget> > resizeHandleToWidget;
-                std::map<std::shared_ptr<Widget>, std::shared_ptr<IObject> > widgetToMoveHandle;
-                std::map<std::shared_ptr<Widget>, std::shared_ptr<IObject> > widgetToResizeHandle;
-                Event::PointerID pressed = Event::InvalidID;
-                glm::vec2 pressedPos;
-                glm::vec2 pressedOffset;
-                std::function<void(const std::shared_ptr<Widget> &)> activeCallback;
+                std::vector<std::shared_ptr<IWidget> > widgets;
+                std::map<std::shared_ptr<IWidget>, glm::vec2> widgetToPos;
+                std::map<Event::PointerID, Hovered> hovered;
+                std::map<Event::PointerID, Pressed> pressed;
+                std::function<void(const std::shared_ptr<IWidget> &)> activeCallback;
             };
 
             void Canvas::_init(Context * context)
@@ -97,45 +111,45 @@ namespace djv
                 _resize();
             }
 
-            std::shared_ptr<Widget> Canvas::getActiveWidget() const
+            std::shared_ptr<IWidget> Canvas::getActiveWidget() const
             {
-                const auto & children = getChildrenT<Widget>();
-                return children.size() ? children.back() : nullptr;
+                DJV_PRIVATE_PTR();
+                return p.widgets.size() ? p.widgets.back() : nullptr;
             }
 
             void Canvas::nextWidget()
             {
-                const auto & children = getChildrenT<Widget>();
-                const size_t size = children.size();
+                DJV_PRIVATE_PTR();
+                const size_t size = p.widgets.size();
                 if (size > 1)
                 {
-                    children.back()->moveToBack();
+                    p.widgets.back()->moveToBack();
                 }
             }
 
             void Canvas::prevWidget()
             {
-                const auto & children = getChildrenT<Widget>();
-                const size_t size = children.size();
+                DJV_PRIVATE_PTR();
+                const size_t size = p.widgets.size();
                 if (size > 1)
                 {
-                    children.front()->moveToFront();
+                    p.widgets.front()->moveToFront();
                 }
             }
 
-            void Canvas::setActiveCallback(const std::function<void(const std::shared_ptr<Widget> &)> & value)
+            void Canvas::setActiveCallback(const std::function<void(const std::shared_ptr<IWidget> &)> & value)
             {
                 _p->activeCallback = value;
             }
 
-            const glm::vec2 & Canvas::getWidgetPos(const std::shared_ptr<Widget> & widget) const
+            const glm::vec2 & Canvas::getWidgetPos(const std::shared_ptr<IWidget> & widget) const
             {
                 static const glm::vec2 empty(0.f, 0.f);
                 const auto i = _p->widgetToPos.find(widget);
                 return i != _p->widgetToPos.end() ? i->second : empty;
             }
 
-            void Canvas::setWidgetPos(const std::shared_ptr<Widget> & widget, const glm::vec2 & pos)
+            void Canvas::setWidgetPos(const std::shared_ptr<IWidget> & widget, const glm::vec2 & pos)
             {
                 const auto i = _p->widgetToPos.find(widget);
                 if (i != _p->widgetToPos.end())
@@ -168,11 +182,12 @@ namespace djv
             void Canvas::_paintEvent(Event::Paint& event)
             {
                 Widget::_paintEvent(event);
-                /*if (auto render = _getRender().lock())
+                DJV_PRIVATE_PTR();
+                if (auto render = _getRender().lock())
                 {
                     if (auto style = _getStyle().lock())
                     {
-                        const float s = style->getMetric(Style::MetricsRole::Shadow);
+                        /*const float s = style->getMetric(Style::MetricsRole::Shadow);
                         render->setFillColor(_getColorWithOpacity(style->getColor(Style::ColorRole::Shadow)));
                         for (const auto & i : getChildrenT<Widget>())
                         {
@@ -182,55 +197,56 @@ namespace djv
                             g.max.x += s;
                             g.max.y += s;
                             render->drawRect(g);
+                        }*/
+
+                        auto hovered = p.hovered;
+                        render->setFillColor(_getColorWithOpacity(style->getColor(Style::ColorRole::Pressed)));
+                        for (const auto & i : p.pressed)
+                        {
+                            switch (i.second.handle)
+                            {
+                            case Handle::Move:
+                            case Handle::None: break;
+                            default:
+                                render->drawRect(i.second.widget->getHandleBBox(i.second.handle));
+                                break;
+                            }
+                            const auto j = hovered.find(i.first);
+                            if (j != hovered.end())
+                            {
+                                hovered.erase(j);
+                            }
+                        }
+
+                        render->setFillColor(_getColorWithOpacity(style->getColor(Style::ColorRole::Hovered)));
+                        for (const auto & i : hovered)
+                        {
+                            switch (i.second.handle)
+                            {
+                            case Handle::Move:
+                            case Handle::None: break;
+                            default:
+                                render->drawRect(i.second.widget->getHandleBBox(i.second.handle));
+                                break;
+                            }
                         }
                     }
-                }*/
+                }
             }
 
             void Canvas::_paintOverlayEvent(Event::PaintOverlay& event)
             {
-                /*if (auto render = _getRender().lock())
-                {
-                    if (auto style = _getStyle().lock())
-                    {
-                        const float m = style->getMetric(Style::MetricsRole::MarginSmall);
-                        const auto & children = getChildrenT<Widget>();
-                        if (children.size())
-                        {
-                            const BBox2f g = children.back()->getGeometry().margin(m);
-                            render->setFillColor(_getColorWithOpacity(style->getColor(Style::ColorRole::Checked)));
-                            render->drawRect(BBox2f(g.min, glm::vec2(g.max.x, g.min.y + m)));
-                            render->drawRect(BBox2f(glm::vec2(g.min.x, g.min.y + m), glm::vec2(g.min.x + m, g.max.y - m)));
-                            render->drawRect(BBox2f(glm::vec2(g.max.x - m, g.min.y + m), glm::vec2(g.max.x, g.max.y - m)));
-                            render->drawRect(BBox2f(glm::vec2(g.min.x, g.max.y - m), glm::vec2(g.max.x, g.max.y)));
-                        }
-                    }
-                }*/
             }
 
             void Canvas::_childAddedEvent(Event::ChildAdded & value)
             {
+                DJV_PRIVATE_PTR();
                 if (auto widget = std::dynamic_pointer_cast<IWidget>(value.getChild()))
                 {
-                    DJV_PRIVATE_PTR();
-                    if (auto moveHandle = widget->getMoveHandle())
-                    {
-                        moveHandle->installEventFilter(shared_from_this());
-                        p.moveHandleToWidget[moveHandle] = widget;
-                        p.widgetToMoveHandle[widget] = moveHandle;
-                    }
-                    if (auto resizeHandle = widget->getResizeHandle())
-                    {
-                        resizeHandle->installEventFilter(shared_from_this());
-                        p.resizeHandleToWidget[resizeHandle] = widget;
-                        p.widgetToResizeHandle[widget] = resizeHandle;
-                    }
-
+                    widget->installEventFilter(shared_from_this());
                     p.widgets.push_back(widget);
                     p.widgetToPos[widget] = glm::vec2(0.f, 0.f);
-
                     _redraw();
-
                     if (p.activeCallback)
                     {
                         p.activeCallback(widget);
@@ -240,9 +256,10 @@ namespace djv
 
             void Canvas::_childRemovedEvent(Event::ChildRemoved & value)
             {
+                DJV_PRIVATE_PTR();
                 if (auto widget = std::dynamic_pointer_cast<IWidget>(value.getChild()))
                 {
-                    DJV_PRIVATE_PTR();
+                    widget->removeEventFilter(shared_from_this());
                     {
                         const auto j = std::find(p.widgets.begin(), p.widgets.end(), widget);
                         if (j != p.widgets.end())
@@ -275,36 +292,13 @@ namespace djv
                             p.widgetToPos.erase(j);
                         }
                     }
-                    {
-                        const auto j = p.widgetToMoveHandle.find(widget);
-                        if (j != p.widgetToMoveHandle.end())
-                        {
-                            const auto k = p.moveHandleToWidget.find(j->second);
-                            if (k != p.moveHandleToWidget.end())
-                            {
-                                p.moveHandleToWidget.erase(k);
-                            }
-                            p.widgetToMoveHandle.erase(j);
-                        }
-                    }
-                    {
-                        const auto j = p.widgetToResizeHandle.find(widget);
-                        if (j != p.widgetToResizeHandle.end())
-                        {
-                            const auto k = p.resizeHandleToWidget.find(j->second);
-                            if (k != p.resizeHandleToWidget.end())
-                            {
-                                p.resizeHandleToWidget.erase(k);
-                            }
-                            p.widgetToResizeHandle.erase(j);
-                        }
-                    }
                     _redraw();
                 }
             }
 
             bool Canvas::_eventFilter(const std::shared_ptr<IObject>& object, Event::IEvent& event)
             {
+                DJV_PRIVATE_PTR();
                 /*{
                     std::stringstream ss;
                     ss << event.getEventType();
@@ -312,45 +306,112 @@ namespace djv
                 }*/
                 switch (event.getEventType())
                 {
+                case Event::Type::PointerEnter:
+                {
+                    event.accept();
+                    Event::PointerEnter& pointerEnterEvent = static_cast<Event::PointerEnter&>(event);
+                    const auto & pointerInfo = pointerEnterEvent.getPointerInfo();
+                    if (auto widget = std::dynamic_pointer_cast<IWidget>(object))
+                    {
+                        const Handle handle = widget->getHandle(pointerInfo.projectedPos);
+                        if (handle != Handle::None)
+                        {
+                            Hovered hovered;
+                            hovered.widget = widget;
+                            hovered.handle = handle;
+                            p.hovered[pointerInfo.id] = hovered;
+                            _redraw();
+                            break;
+                        }
+                    }
+                    break;
+                }
+                case Event::Type::PointerLeave:
+                {
+                    event.accept();
+                    Event::PointerLeave& pointerLeaveEvent = static_cast<Event::PointerLeave&>(event);
+                    const auto & pointerInfo = pointerLeaveEvent.getPointerInfo();
+                    const auto i = p.hovered.find(pointerInfo.id);
+                    if (i != p.hovered.end())
+                    {
+                        p.hovered.erase(i);
+                        _redraw();
+                    }
+                    break;
+                }
                 case Event::Type::PointerMove:
                 {
+                    event.accept();
                     Event::PointerMove& pointerMoveEvent = static_cast<Event::PointerMove&>(event);
-                    pointerMoveEvent.accept();
-                    DJV_PRIVATE_PTR();
-                    if (pointerMoveEvent.getPointerInfo().id == p.pressed)
+                    const auto & pointerInfo = pointerMoveEvent.getPointerInfo();
+                    if (auto widget = std::dynamic_pointer_cast<IWidget>(object))
                     {
-                        if (auto style = _getStyle().lock())
+                        const auto i = p.pressed.find(pointerInfo.id);
+                        if (i != p.pressed.end())
                         {
-                            const BBox2f& g = getGeometry();
-                            const float shadow = style->getMetric(Style::MetricsRole::Shadow);
-                            const auto moveHandleToWidget = p.moveHandleToWidget.find(object);
-                            const auto resizeHandleToWidget = p.resizeHandleToWidget.find(object);
-                            if (moveHandleToWidget != p.moveHandleToWidget.end())
+                            const auto j = p.widgetToPos.find(widget);
+                            if (j != p.widgetToPos.end())
                             {
-                                const auto widget = std::find(p.widgets.begin(), p.widgets.end(), moveHandleToWidget->second);
-                                if (widget != p.widgets.end())
+                                glm::vec2 size = widget->getSize();
+                                const glm::vec2 & minimumSize = widget->getMinimumSize();
+                                const glm::vec2 d = pointerInfo.projectedPos - i->second.pointer;
+                                const glm::vec2 d2(
+                                    d.x - std::max(0.f, minimumSize.x - (i->second.size.x - d.x)),
+                                    d.y - std::max(0.f, minimumSize.y - (i->second.size.y - d.y)));
+                                switch (i->second.handle)
                                 {
-                                    const glm::vec2 pos = pointerMoveEvent.getPointerInfo().projectedPos + p.pressedOffset - g.min;
-                                    glm::vec2 widgetPos;
-                                    widgetPos.x = Math::clamp(pos.x, 0.f, g.w() - (*widget)->getWidth());
-                                    widgetPos.y = Math::clamp(pos.y, 0.f, g.h() - (*widget)->getHeight());
-                                    p.widgetToPos[*widget] = widgetPos;
-                                    _resize();
+                                case Handle::Move:
+                                    j->second = i->second.pos + pointerInfo.projectedPos - i->second.pointer;
+                                    break;
+                                case Handle::ResizeE:
+                                {
+                                    j->second.x = i->second.pos.x + d2.x;
+                                    size.x = i->second.size.x - d2.x;
+                                    break;
                                 }
+                                case Handle::ResizeN:
+                                    j->second.y = i->second.pos.y + d2.y;
+                                    size.y = i->second.size.y - d2.y;
+                                    break;
+                                case Handle::ResizeW:
+                                    size.x = i->second.size.x + d.x;
+                                    break;
+                                case Handle::ResizeS:
+                                    size.y = i->second.size.y + d.y;
+                                    break;
+                                case Handle::ResizeNE:
+                                    j->second = i->second.pos + d2;
+                                    size = i->second.size - d2;
+                                    break;
+                                case Handle::ResizeNW:
+                                    j->second.y = i->second.pos.y + d2.y;
+                                    size.x = i->second.size.x + d.x;
+                                    size.y = i->second.size.y - d2.y;
+                                    break;
+                                case Handle::ResizeSW:
+                                    size = i->second.size + pointerInfo.projectedPos - i->second.pointer;
+                                    break;
+                                case Handle::ResizeSE:
+                                    j->second.x = i->second.pos.x + d2.x;
+                                    size.x = i->second.size.x - d2.x;
+                                    size.y = i->second.size.y + d.y;
+                                    break;
+                                default: break;
+                                }
+                                widget->resize(size);
+                                _resize();
                             }
-                            else if (resizeHandleToWidget != p.resizeHandleToWidget.end())
+                        }
+                        else
+                        {
+                            const Handle handle = widget->getHandle(pointerInfo.projectedPos);
+                            if (handle != Handle::None)
                             {
-                                const auto widget = std::find(p.widgets.begin(), p.widgets.end(), resizeHandleToWidget->second);
-                                if (widget != p.widgets.end())
-                                {
-                                    const BBox2f & g = getGeometry();
-                                    BBox2f widgetGeometry = (*widget)->getGeometry();
-                                    const glm::vec2 & widgetMinimumSize = (*widget)->getMinimumSize();
-                                    const glm::vec2 pointerPos = pointerMoveEvent.getPointerInfo().projectedPos + p.pressedOffset;
-                                    widgetGeometry.max.x = Math::clamp(pointerPos.x, widgetGeometry.min.x + widgetMinimumSize.x, g.max.x);
-                                    widgetGeometry.max.y = Math::clamp(pointerPos.y, widgetGeometry.min.y + widgetMinimumSize.y, g.max.y);
-                                    (*widget)->setGeometry(widgetGeometry);
-                                }
+                                Hovered hovered;
+                                hovered.widget = widget;
+                                hovered.handle = handle;
+                                p.hovered[pointerInfo.id] = hovered;
+                                _redraw();
                             }
                         }
                     }
@@ -358,47 +419,34 @@ namespace djv
                 }
                 case Event::Type::ButtonPress:
                 {
+                    event.accept();
                     Event::ButtonPress& buttonPressEvent = static_cast<Event::ButtonPress&>(event);
-                    DJV_PRIVATE_PTR();
-                    if (!p.pressed)
+                    const auto & pointerInfo = buttonPressEvent.getPointerInfo();
+                    if (auto widget = std::dynamic_pointer_cast<IWidget>(object))
                     {
-                        const auto i = p.moveHandleToWidget.find(object);
-                        const auto j = p.resizeHandleToWidget.find(object);
-                        if (i != p.moveHandleToWidget.end())
+                        const auto i = p.widgetToPos.find(widget);
+                        if (i != p.widgetToPos.end())
                         {
-                            event.accept();
-                            p.pressed = buttonPressEvent.getPointerInfo().id;
-                            p.pressedPos = buttonPressEvent.getPointerInfo().projectedPos;
-                            i->second->moveToFront();
-                            p.pressedOffset = i->second->getGeometry().min - p.pressedPos;
-                            if (p.activeCallback)
-                            {
-                                p.activeCallback(i->second);
-                            }
-                        }
-                        else if (j != p.resizeHandleToWidget.end())
-                        {
-                            event.accept();
-                            p.pressed = buttonPressEvent.getPointerInfo().id;
-                            p.pressedPos = buttonPressEvent.getPointerInfo().projectedPos;
-                            j->second->moveToFront();
-                            p.pressedOffset = j->second->getGeometry().max - p.pressedPos;
-                            if (p.activeCallback)
-                            {
-                                p.activeCallback(j->second);
-                            }
+                            Pressed pressed;
+                            pressed.widget = widget;
+                            pressed.pointer = pointerInfo.projectedPos;
+                            pressed.handle = widget->getHandle(pointerInfo.projectedPos);
+                            pressed.pos = i->second;
+                            pressed.size = widget->getSize();
+                            p.pressed[pointerInfo.id] = pressed;
                         }
                     }
                     return true;
                 }
                 case Event::Type::ButtonRelease:
                 {
+                    event.accept();
                     Event::ButtonRelease& buttonReleaseEvent = static_cast<Event::ButtonRelease&>(event);
-                    DJV_PRIVATE_PTR();
-                    if (p.pressed == buttonReleaseEvent.getPointerInfo().id)
+                    const auto & pointerInfo = buttonReleaseEvent.getPointerInfo();
+                    const auto i = p.pressed.find(pointerInfo.id);
+                    if (i != p.pressed.end())
                     {
-                        event.accept();
-                        p.pressed = 0;
+                        p.pressed.erase(i);
                     }
                     return true;
                 }

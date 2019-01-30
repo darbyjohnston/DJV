@@ -28,7 +28,6 @@ set(header
     Media.h
     MediaWidget.h
     PlaybackSystem.h
-    PlaybackToolWidget.h
     PlaybackWidget.h
     SettingsSystem.h
     TimelineSlider.h
@@ -64,7 +63,6 @@ set(source
     Media.cpp
     MediaWidget.cpp
     PlaybackSystem.cpp
-    PlaybackToolWidget.cpp
     PlaybackWidget.cpp
     SettingsSystem.cpp
     TimelineSlider.cpp
