@@ -82,6 +82,8 @@ namespace djv
             p.layout->addWidget(vLayout);
             p.layout->setParent(shared_from_this());
 
+            _widgetUpdate();
+
             auto weak = std::weak_ptr<MediaWidget>(std::dynamic_pointer_cast<MediaWidget>(shared_from_this()));
             p.currentTimeObserver = ValueObserver<Time::Timestamp>::create(
                 p.timelineSlider->observeCurrentTime(),
@@ -133,38 +135,49 @@ namespace djv
         {
             if (value == _p->media)
                 return;
-
             _p->media = value;
             _p->imageView->setMedia(value);
-
-            auto weak = std::weak_ptr<MediaWidget>(std::dynamic_pointer_cast<MediaWidget>(shared_from_this()));
-            _p->durationObserver = ValueObserver<Time::Duration>::create(
-                value->observeDuration(),
-                [weak](Time::Duration value)
+            _widgetUpdate();
+            if (_p->media)
             {
-                if (auto system = weak.lock())
+                auto weak = std::weak_ptr<MediaWidget>(std::dynamic_pointer_cast<MediaWidget>(shared_from_this()));
+                _p->durationObserver = ValueObserver<Time::Duration>::create(
+                    _p->media->observeDuration(),
+                    [weak](Time::Duration value)
                 {
-                    system->_p->timelineSlider->setDuration(value);
-                }
-            });
-            _p->currentTimeObserver2 = ValueObserver<Time::Timestamp>::create(
-                value->observeCurrentTime(),
-                [weak](Time::Timestamp value)
+                    if (auto system = weak.lock())
+                    {
+                        system->_p->timelineSlider->setDuration(value);
+                    }
+                });
+                _p->currentTimeObserver2 = ValueObserver<Time::Timestamp>::create(
+                    _p->media->observeCurrentTime(),
+                    [weak](Time::Timestamp value)
+                {
+                    if (auto system = weak.lock())
+                    {
+                        system->_p->timelineSlider->setCurrentTime(value);
+                    }
+                });
+                _p->playbackObserver2 = ValueObserver<Playback>::create(
+                    _p->media->observePlayback(),
+                    [weak](Playback value)
+                {
+                    if (auto system = weak.lock())
+                    {
+                        system->_p->playbackWidget->setPlayback(value);
+                    }
+                });
+            }
+            else
             {
-                if (auto system = weak.lock())
-                {
-                    system->_p->timelineSlider->setCurrentTime(value);
-                }
-            });
-            _p->playbackObserver2 = ValueObserver<Playback>::create(
-                value->observePlayback(),
-                [weak](Playback value)
-            {
-                if (auto system = weak.lock())
-                {
-                    system->_p->playbackWidget->setPlayback(value);
-                }
-            });
+                _p->playbackWidget->setPlayback(Playback::Stop);
+                _p->timelineSlider->setDuration(0);
+                _p->timelineSlider->setCurrentTime(0);
+                _p->durationObserver.reset();
+                _p->currentTimeObserver2.reset();
+                _p->playbackObserver2.reset();
+            }
         }
 
         void MediaWidget::_preLayoutEvent(Event::PreLayout& event)
@@ -175,6 +188,13 @@ namespace djv
         void MediaWidget::_layoutEvent(Event::Layout&)
         {
             _p->layout->setGeometry(getGeometry());
+        }
+
+        void MediaWidget::_widgetUpdate()
+        {
+            DJV_PRIVATE_PTR();
+            _p->playbackWidget->setEnabled(p.media.get());
+            _p->timelineSlider->setEnabled(p.media.get());
         }
         
     } // namespace ViewLib

@@ -29,23 +29,27 @@
 
 #pragma once
 
-#include <djvViewLib/ToolObject.h>
+#include <djvViewLib/IToolWidget.h>
 
 namespace djv
 {
     namespace ViewLib
     {
-        class HistogramTool : public IToolObject
+        class HistogramTool : public IToolWidget
         {
-            Q_OBJECT
+            DJV_NON_COPYABLE(HistogramTool);
+
+        protected:
+            void _init(Core::Context *);
+            HistogramTool();
 
         public:
-            HistogramTool(const std::shared_ptr<Context> &, QObject * parent = nullptr);
             ~HistogramTool() override;
 
-            QPointer<QDockWidget> createDockWidget() override;
-            std::string getDockWidgetSortKey() const override;
-            Qt::DockWidgetArea getDockWidgetArea() const override;
+            static std::shared_ptr<HistogramTool> create(Core::Context *);
+
+        protected:
+            void _localeEvent(Core::Event::Locale &) override;
 
         private:
             DJV_PRIVATE();

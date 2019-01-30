@@ -29,60 +29,39 @@
 
 #include <djvViewLib/ColorPickerTool.h>
 
-#include <djvViewLib/Context.h>
-
-#include <QAction>
-#include <QDockWidget>
-#include <QMenu>
+using namespace djv::Core;
 
 namespace djv
 {
     namespace ViewLib
     {
-        namespace
-        {
-            class Widget : public QWidget
-            {
-            public:
-                Widget()
-                {
-                    setBackgroundRole(QPalette::Base);
-                    setAutoFillBackground(true);
-                }
-
-                QSize sizeHint() const override { return QSize(100, 100); }
-            };
-
-        } // namespace
-
         struct ColorPickerTool::Private
         {
+
         };
 
-        ColorPickerTool::ColorPickerTool(const std::shared_ptr<Context> & context, QObject * parent) :
-            IToolObject("ColorPickerTool", context, parent),
+        void ColorPickerTool::_init(Context * context)
+        {
+            IToolWidget::_init(context);
+        }
+
+        ColorPickerTool::ColorPickerTool() :
             _p(new Private)
         {}
 
         ColorPickerTool::~ColorPickerTool()
         {}
 
-        QPointer<QDockWidget> ColorPickerTool::createDockWidget()
+        std::shared_ptr<ColorPickerTool> ColorPickerTool::create(Context * context)
         {
-            auto out = new QDockWidget("Color Picker");
-            out->setWidget(new Widget);
-            out->hide();
+            auto out = std::shared_ptr<ColorPickerTool>(new ColorPickerTool);
+            out->_init(context);
             return out;
         }
 
-        std::string ColorPickerTool::getDockWidgetSortKey() const
+        void ColorPickerTool::_localeEvent(Event::Locale &)
         {
-            return "1";
-        }
-
-        Qt::DockWidgetArea ColorPickerTool::getDockWidgetArea() const
-        {
-            return Qt::DockWidgetArea::RightDockWidgetArea;
+            setTitle(_getText(DJV_TEXT("djv::ViewLib::ColorPickerTool", "Color Picker")));
         }
 
     } // namespace ViewLib

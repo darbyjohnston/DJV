@@ -94,6 +94,24 @@ namespace djv
             p.actions["SetFrameStore"] = UI::Action::create();
             p.actions["SetFrameStore"]->setShortcut(GLFW_KEY_E, GLFW_MOD_SHIFT);
             p.actions["SetFrameStore"]->setEnabled(false);
+
+            p.menus["Image"] = UI::Menu::create(context);
+            p.menus["Image"]->addAction(p.actions["MirrorH"]);
+            p.menus["Image"]->addAction(p.actions["MirrorV"]);
+            //! \todo Implement me!
+            p.menus["Scale"] = UI::Menu::create(context);
+            p.menus["Image"]->addMenu(p.menus["Scale"]);
+            //! \todo Implement me!
+            p.menus["Rotate"] = UI::Menu::create(context);
+            p.menus["Image"]->addMenu(p.menus["Rotate"]);
+            p.menus["Image"]->addSeparator();
+            p.menus["Image"]->addAction(p.actions["ColorManager"]);
+            p.menus["Image"]->addAction(p.actions["ColorProfile"]);
+            p.menus["Image"]->addAction(p.actions["DisplayProfile"]);
+            p.menus["Image"]->addAction(p.actions["PremultAlpha"]);
+            p.menus["Image"]->addSeparator();
+            p.menus["Image"]->addAction(p.actions["ShowFrameStore"]);
+            p.menus["Image"]->addAction(p.actions["SetFrameStore"]);
         }
 
         ImageSystem::ImageSystem() :
@@ -115,27 +133,9 @@ namespace djv
             return _p->actions;
         }
 
-        NewMenu ImageSystem::createMenu()
+        NewMenu ImageSystem::getMenu()
         {
             DJV_PRIVATE_PTR();
-            auto context = getContext();
-            p.menus["Image"] = UI::Menu::create(_getText(DJV_TEXT("djv::ViewLib::ImageSystem", "Image")), context);
-            p.menus["Image"]->addAction(p.actions["MirrorH"]);
-            p.menus["Image"]->addAction(p.actions["MirrorV"]);
-            //! \todo Implement me!
-            p.menus["Scale"] = UI::Menu::create(_getText(DJV_TEXT("djv::ViewLib::ImageSystem", "Scale")), context);
-            p.menus["Image"]->addMenu(p.menus["Scale"]);
-            //! \todo Implement me!
-            p.menus["Rotate"] = UI::Menu::create(_getText(DJV_TEXT("djv::ViewLib::ImageSystem", "Rotate")), context);
-            p.menus["Image"]->addMenu(p.menus["Rotate"]);
-            p.menus["Image"]->addSeparator();
-            p.menus["Image"]->addAction(p.actions["ColorManager"]);
-            p.menus["Image"]->addAction(p.actions["ColorProfile"]);
-            p.menus["Image"]->addAction(p.actions["DisplayProfile"]);
-            p.menus["Image"]->addAction(p.actions["PremultAlpha"]);
-            p.menus["Image"]->addSeparator();
-            p.menus["Image"]->addAction(p.actions["ShowFrameStore"]);
-            p.menus["Image"]->addAction(p.actions["SetFrameStore"]);
             return { p.menus["Image"], "D" };
         }
 

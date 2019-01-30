@@ -546,7 +546,7 @@ namespace djv
 
         void Widget::_keyPressEvent(Event::KeyPress& event)
         {
-            if (isEnabled())
+            if (isEnabled(true))
             {
                 // Find the shortcuts.
                 std::vector<std::shared_ptr<Shortcut> > shortcuts;

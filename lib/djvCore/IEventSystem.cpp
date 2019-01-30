@@ -321,6 +321,7 @@ namespace djv
                 auto children = object->_children;
                 for (const auto& child : children)
                 {
+                    child->_parentsEnabled = object->_enabled && object->_parentsEnabled;
                     _updateRecursive(child, event);
                 }
             }

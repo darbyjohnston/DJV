@@ -27,29 +27,42 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#pragma once
+#include <djvViewLib/InformationTool.h>
 
-#include <djvViewLib/ToolObject.h>
+using namespace djv::Core;
 
 namespace djv
 {
     namespace ViewLib
     {
-        class MagnifyTool : public IToolObject
+        struct InformationTool::Private
         {
-            Q_OBJECT
 
-        public:
-            MagnifyTool(const std::shared_ptr<Context> &, QObject * parent = nullptr);
-            ~MagnifyTool() override;
-
-            QPointer<QDockWidget> createDockWidget() override;
-            std::string getDockWidgetSortKey() const override;
-            Qt::DockWidgetArea getDockWidgetArea() const override;
-
-        private:
-            DJV_PRIVATE();
         };
+
+        void InformationTool::_init(Context * context)
+        {
+            IToolWidget::_init(context);
+        }
+
+        InformationTool::InformationTool() :
+            _p(new Private)
+        {}
+
+        InformationTool::~InformationTool()
+        {}
+
+        std::shared_ptr<InformationTool> InformationTool::create(Context * context)
+        {
+            auto out = std::shared_ptr<InformationTool>(new InformationTool);
+            out->_init(context);
+            return out;
+        }
+
+        void InformationTool::_localeEvent(Event::Locale &)
+        {
+            setTitle(_getText(DJV_TEXT("djv::ViewLib::InformationTool", "Information")));
+        }
 
     } // namespace ViewLib
 } // namespace djv

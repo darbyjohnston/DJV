@@ -1,10 +1,8 @@
 set(header
     Application.h
     PaletteSettingsWidget.h
-    #ColorPickerTool.h
-    #Context.h
-    #ContextInline.h
-    #DebugTool.h
+    ColorPickerTool.h
+    DebugTool.h
     DisplaySettingsWidget.h
     Enum.h
     FileRecentDialog.h
@@ -14,15 +12,15 @@ set(header
     HelpAboutDialog.h
     HelpDebugLogDialog.h
     HelpSystem.h
-    #HistogramTool.h
+    HistogramTool.h
     IToolWidget.h
     IViewSystem.h
     ImageSystem.h
     ImageView.h
     ImageViewSystem.h
-    #InfoTool.h
+    InformationTool.h
     LanguageSettingsWidget.h
-    #MagnifyTool.h
+    MagnifierTool.h
     MDIWidget.h
     MainWindow.h
     Media.h
@@ -37,9 +35,8 @@ set(header
 set(source
     Application.cpp
     PaletteSettingsWidget.cpp
-    #ColorPickerTool.cpp
-    #Context.cpp
-    #DebugTool.cpp
+    ColorPickerTool.cpp
+    DebugTool.cpp
     DisplaySettingsWidget.cpp
     Enum.cpp
     FileRecentDialog.cpp
@@ -49,15 +46,15 @@ set(source
     HelpAboutDialog.cpp
     HelpDebugLogDialog.cpp
     HelpSystem.cpp
-    #HistogramTool.cpp
+    HistogramTool.cpp
     IToolWidget.cpp
     IViewSystem.cpp
     ImageSystem.cpp
     ImageView.cpp
     ImageViewSystem.cpp
-    #InfoTool.cpp
+    InformationTool.cpp
     LanguageSettingsWidget.cpp
-    #MagnifyTool.cpp
+    MagnifierTool.cpp
     MDIWidget.cpp
     MainWindow.cpp
     Media.cpp
@@ -76,4 +73,3 @@ set_target_properties(
     PROPERTIES
     FOLDER lib
     CXX_STANDARD 11)
-

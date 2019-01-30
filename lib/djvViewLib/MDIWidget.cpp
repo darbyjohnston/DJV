@@ -40,9 +40,6 @@
 #include <djvUI/StackLayout.h>
 #include <djvUI/ToolButton.h>
 
-#include <djvCore/Memory.h>
-#include <djvCore/UID.h>
-
 using namespace djv::Core;
 
 namespace djv

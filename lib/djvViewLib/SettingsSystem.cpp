@@ -82,7 +82,7 @@ namespace djv
                 {
                     if (auto system = i.lock())
                     {
-                        for (auto widget : system->createSettingsWidgets())
+                        for (auto widget : system->getSettingsWidgets())
                         {
                             _names[widget.sortKey] = widget.name;
                             _widgets[widget.sortKey] = widget.widget;
@@ -155,12 +155,16 @@ namespace djv
         {
             std::shared_ptr<SettingsDialog> settingsDialog;
             std::map<std::string, std::shared_ptr<UI::Action> > actions;
+            std::map<std::string, std::shared_ptr<UI::Widget> > settingsWidgets;
             std::map<std::string, std::shared_ptr<ValueObserver<bool> > > clickedObservers;
         };
 
         void SettingsSystem::_init(Context * context)
         {
             IViewSystem::_init("djv::ViewLib::SettingsSystem", context);
+
+            DJV_PRIVATE_PTR();
+            p.settingsWidgets["General"] = GeneralSettingsWidget::create(context);
         }
 
         SettingsSystem::SettingsSystem() :
@@ -209,9 +213,13 @@ namespace djv
             return _p->actions;
         }
 
-        std::vector<NewSettingsWidget> SettingsSystem::createSettingsWidgets()
+        std::vector<NewSettingsWidget> SettingsSystem::getSettingsWidgets()
         {
-            return { { GeneralSettingsWidget::create(getContext()), DJV_TEXT("djv::ViewLib::SettingsDialog", "General"), "A", } };
+            DJV_PRIVATE_PTR();
+            return
+            {
+                { p.settingsWidgets["General"], DJV_TEXT("djv::ViewLib::SettingsDialog", "General"), "A" }
+            };
         }
         
     } // namespace ViewLib

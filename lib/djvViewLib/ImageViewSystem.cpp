@@ -117,6 +117,23 @@ namespace djv
             p.actions["HUD"] = UI::Action::create();
             p.actions["HUD"]->setShortcut(GLFW_KEY_H);
             p.actions["HUD"]->setEnabled(false);
+
+            p.menus["View"] = UI::Menu::create(context);
+            p.menus["View"]->addAction(p.actions["Left"]);
+            p.menus["View"]->addAction(p.actions["Right"]);
+            p.menus["View"]->addAction(p.actions["Up"]);
+            p.menus["View"]->addAction(p.actions["Down"]);
+            p.menus["View"]->addAction(p.actions["Center"]);
+            p.menus["View"]->addAction(p.actions["ZoomIn"]);
+            p.menus["View"]->addAction(p.actions["ZoomOut"]);
+            p.menus["View"]->addAction(p.actions["ResetZoom"]);
+            p.menus["View"]->addAction(p.actions["ResetPosZoom"]);
+            p.menus["View"]->addAction(p.actions["Fit"]);
+            p.menus["View"]->addSeparator();
+            //! \todo Implement me!
+            p.menus["Grid"] = UI::Menu::create(context);
+            p.menus["View"]->addMenu(p.menus["Grid"]);
+            p.menus["View"]->addAction(p.actions["HUD"]);
         }
 
         ImageViewSystem::ImageViewSystem() :
@@ -138,26 +155,9 @@ namespace djv
             return _p->actions;
         }
 
-        NewMenu ImageViewSystem::createMenu()
+        NewMenu ImageViewSystem::getMenu()
         {
             DJV_PRIVATE_PTR();
-            auto context = getContext();
-            p.menus["View"] = UI::Menu::create(_getText(DJV_TEXT("djv::ViewLib::ImageViewSystem", "View")), context);
-            p.menus["View"]->addAction(p.actions["Left"]);
-            p.menus["View"]->addAction(p.actions["Right"]);
-            p.menus["View"]->addAction(p.actions["Up"]);
-            p.menus["View"]->addAction(p.actions["Down"]);
-            p.menus["View"]->addAction(p.actions["Center"]);
-            p.menus["View"]->addAction(p.actions["ZoomIn"]);
-            p.menus["View"]->addAction(p.actions["ZoomOut"]);
-            p.menus["View"]->addAction(p.actions["ResetZoom"]);
-            p.menus["View"]->addAction(p.actions["ResetPosZoom"]);
-            p.menus["View"]->addAction(p.actions["Fit"]);
-            p.menus["View"]->addSeparator();
-            //! \todo Implement me!
-            p.menus["Grid"] = UI::Menu::create(_getText(DJV_TEXT("djv::ViewLib::ImageViewSystem", "Grid")), context);
-            p.menus["View"]->addMenu(p.menus["Grid"]);
-            p.menus["View"]->addAction(p.actions["HUD"]);
             return { p.menus["View"], "C" };
         }
 

@@ -121,11 +121,10 @@ namespace djv
             {
                 if (auto system = i.lock())
                 {
-                    auto newToolWidget = system->createToolWidget();
-                    if (newToolWidget.widget)
+                    for (auto j : system->getToolWidgets())
                     {
-                        newToolWidget.widget->setParent(p.toolCanvas);
-                        p.toolCanvas->setWidgetPos(newToolWidget.widget, newToolWidget.pos);
+                        j.widget->setParent(p.toolCanvas);
+                        p.toolCanvas->setWidgetPos(j.widget, j.pos);
                     }
                 }
             }
@@ -135,7 +134,7 @@ namespace djv
             {
                 if (auto system = i.lock())
                 {
-                    auto newMenu = system->createMenu();
+                    auto newMenu = system->getMenu();
                     if (newMenu.menu)
                     {
                         menus[newMenu.sortKey] = newMenu.menu;
@@ -218,9 +217,12 @@ namespace djv
                                 }
                             });
                             mdiWidget->setClosedCallback(
-                                [weak, mdiWidget]
+                                [context, mdiWidget]
                             {
-                                mdiWidget->setParent(nullptr);
+                                if (auto fileSystem = context->getSystemT<FileSystem>().lock())
+                                {
+                                    fileSystem->close(mdiWidget->getMedia());
+                                }
                             });
                         }
                     }

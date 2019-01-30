@@ -203,9 +203,7 @@ namespace djv
                             shortcutSize.x = std::max(shortcutSize.x, i.second->shortcutSize.x);
                             shortcutSize.y = std::max(shortcutSize.y, i.second->shortcutSize.y);
                         }
-                        if (!i.second->iconName.empty() ||
-                            ButtonType::Toggle == i.second->buttonType ||
-                            ButtonType::Radio == i.second->buttonType)
+                        if (!i.second->iconName.empty())
                         {
                             _hasTextIndent = true;
                         }
@@ -422,7 +420,7 @@ namespace djv
 
             void MenuWidget::_buttonPressEvent(Event::ButtonPress& event)
             {
-                if (!isEnabled() || _pressed.second)
+                if (!isEnabled(true) || _pressed.second)
                     return;
                 const auto & pointerInfo = event.getPointerInfo();
                 const auto id = pointerInfo.id;

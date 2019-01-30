@@ -207,7 +207,7 @@ namespace djv
             void Menu::_pointerEnterEvent(Event::PointerEnter& event)
             {
                 event.accept();
-                if (isEnabled())
+                if (isEnabled(true))
                 {
                     _redraw();
                 }
@@ -216,7 +216,7 @@ namespace djv
             void Menu::_pointerLeaveEvent(Event::PointerLeave& event)
             {
                 event.accept();
-                if (isEnabled())
+                if (isEnabled(true))
                 {
                     _redraw();
                 }
@@ -229,7 +229,7 @@ namespace djv
 
             void Menu::_buttonPressEvent(Event::ButtonPress& event)
             {
-                if (isEnabled())
+                if (isEnabled(true))
                 {
                     event.accept();
                     setChecked(!_p->checked);
@@ -246,7 +246,7 @@ namespace djv
 
             bool Menu::_isHovered() const
             {
-                return isEnabled() && _getPointerHover().size();
+                return isEnabled(true) && _getPointerHover().size();
             }
 
         } // namespace Button

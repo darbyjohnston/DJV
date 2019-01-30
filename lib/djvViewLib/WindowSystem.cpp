@@ -95,6 +95,13 @@ namespace djv
             p.actions["FullScreen"]->setButtonType(UI::ButtonType::Toggle);
             p.actions["FullScreen"]->setShortcut(GLFW_KEY_U);
 
+            p.menus["Window"] = UI::Menu::create(getContext());
+            p.menus["Window"]->addAction(p.actions["WindowModeSDI"]);
+            p.menus["Window"]->addAction(p.actions["WindowModeMDI"]);
+            p.menus["Window"]->addAction(p.actions["Duplicate"]);
+            p.menus["Window"]->addAction(p.actions["Fit"]);
+            p.menus["Window"]->addAction(p.actions["FullScreen"]);
+
             auto weak = std::weak_ptr<WindowSystem>(std::dynamic_pointer_cast<WindowSystem>(shared_from_this()));
             p.windowModeActionGroup->setRadioCallback(
                 [weak](int value)
@@ -145,15 +152,9 @@ namespace djv
             return _p->actions;
         }
 
-        NewMenu WindowSystem::createMenu()
+        NewMenu WindowSystem::getMenu()
         {
             DJV_PRIVATE_PTR();
-            p.menus["Window"] = UI::Menu::create(_getText(DJV_TEXT("djv::ViewLib::WindowSystem", "Window")), getContext());
-            p.menus["Window"]->addAction(p.actions["WindowModeSDI"]);
-            p.menus["Window"]->addAction(p.actions["WindowModeMDI"]);
-            p.menus["Window"]->addAction(p.actions["Duplicate"]);
-            p.menus["Window"]->addAction(p.actions["Fit"]);
-            p.menus["Window"]->addAction(p.actions["FullScreen"]);
             return { p.menus["Window"], "B" };
         }
 

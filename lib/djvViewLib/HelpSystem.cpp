@@ -75,6 +75,13 @@ namespace djv
 
             p.actions["DebugLog"] = UI::Action::create();
 
+            p.menus["Help"] = UI::Menu::create(getContext());
+            p.menus["Help"]->addAction(p.actions["Documentation"]);
+            p.menus["Help"]->addAction(p.actions["Information"]);
+            p.menus["Help"]->addAction(p.actions["About"]);
+            p.menus["Help"]->addSeparator();
+            p.menus["Help"]->addAction(p.actions["DebugLog"]);
+
             auto weak = std::weak_ptr<HelpSystem>(std::dynamic_pointer_cast<HelpSystem>(shared_from_this()));
             p.clickedObservers["About"] = ValueObserver<bool>::create(
                 p.actions["About"]->observeClicked(),
@@ -180,15 +187,9 @@ namespace djv
             }
         }
 
-        NewMenu HelpSystem::createMenu()
+        NewMenu HelpSystem::getMenu()
         {
             DJV_PRIVATE_PTR();
-            p.menus["Help"] = UI::Menu::create(_getText("Help"), getContext());
-            p.menus["Help"]->addAction(p.actions["Documentation"]);
-            p.menus["Help"]->addAction(p.actions["Information"]);
-            p.menus["Help"]->addAction(p.actions["About"]);
-            p.menus["Help"]->addSeparator();
-            p.menus["Help"]->addAction(p.actions["DebugLog"]);
             return { p.menus["Help"], "G" };
         }
 

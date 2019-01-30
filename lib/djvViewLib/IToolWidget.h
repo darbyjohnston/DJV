@@ -46,6 +46,21 @@ namespace djv
         public:
             ~IToolWidget() override = 0;
 
+            const std::string & getTitle() const;
+            void setTitle(const std::string &);
+
+            void setClosedCallback(const std::function<void(void)> &);
+
+            void addWidget(const std::shared_ptr<Widget>&) override;
+            void removeWidget(const std::shared_ptr<Widget>&) override;
+            void clearWidgets() override;
+
+            float getHeightForWidth(float) const override;
+
+        protected:
+            void _preLayoutEvent(Core::Event::PreLayout&) override;
+            void _layoutEvent(Core::Event::Layout&) override;
+
         private:
             DJV_PRIVATE();
         };

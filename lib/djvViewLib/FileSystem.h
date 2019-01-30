@@ -65,7 +65,7 @@ namespace djv
             const std::shared_ptr<FileSystemSettings> & getSettings() const;
 
             std::map<std::string, std::shared_ptr<UI::Action> > getActions() override;
-            NewMenu createMenu() override;
+            NewMenu getMenu() override;
 
         protected:
             void _localeEvent(Core::Event::Locale &) override;

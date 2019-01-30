@@ -29,57 +29,12 @@
 
 #pragma once
 
-#include <djvViewLib/ToolObject.h>
-
-#include <djvAV/Time.h>
-
-#include <QAbstractTableModel>
+#include <djvViewLib/IToolWidget.h>
 
 namespace djv
 {
     namespace ViewLib
     {
-        class Media;
-
-        class DebugModel : public QAbstractTableModel
-        {
-            Q_OBJECT
-
-        public:
-            DebugModel(QObject * parent = nullptr);
-            ~DebugModel() override;
-
-            void setMedia(const std::shared_ptr<Media>&);
-
-            int columnCount(const QModelIndex & parent = QModelIndex()) const override;
-            int rowCount(const QModelIndex & parent = QModelIndex()) const override;
-            QVariant data(const QModelIndex & index, int role = Qt::DisplayRole) const override;
-
-        private Q_SLOTS:
-            void _updateModel();
-
-        private:
-            DJV_PRIVATE();
-        };
-
-        class DebugTool : public IToolObject
-        {
-            Q_OBJECT
-
-        public:
-            DebugTool(const std::shared_ptr<Context> &, QObject * parent = nullptr);
-            ~DebugTool() override;
-
-            QPointer<QDockWidget> createDockWidget() override;
-            std::string getDockWidgetSortKey() const override;
-            Qt::DockWidgetArea getDockWidgetArea() const override;
-
-        public Q_SLOTS:
-            void setCurrentMedia(const std::shared_ptr<Media> &) override;
-
-        private:
-            DJV_PRIVATE();
-        };
 
     } // namespace ViewLib
 } // namespace djv

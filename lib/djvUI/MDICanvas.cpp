@@ -187,16 +187,53 @@ namespace djv
                 {
                     if (auto style = _getStyle().lock())
                     {
-                        /*const float s = style->getMetric(Style::MetricsRole::Shadow);
+                        const float h = style->getMetric(Style::MetricsRole::Handle);
+                        const float sh = style->getMetric(Style::MetricsRole::Shadow);
+
                         render->setFillColor(_getColorWithOpacity(style->getColor(Style::ColorRole::Shadow)));
-                        for (const auto & i : getChildrenT<Widget>())
+                        for (const auto & i : p.widgets)
                         {
-                            BBox2f g = i->getGeometry();
-                            g.min.x += s;
-                            g.min.y += s;
-                            g.max.x += s;
-                            g.max.y += s;
-                            render->drawRect(g);
+                            if (i->isVisible())
+                            {
+                                BBox2f g = i->getGeometry().margin(-h);
+                                g.min.x += sh;
+                                g.min.y += sh;
+                                g.max.x += sh;
+                                g.max.y += sh;
+                                render->drawRect(g);
+                            }
+                        }
+                    }
+                }
+            }
+
+            void Canvas::_paintOverlayEvent(Event::PaintOverlay& event)
+            {
+                DJV_PRIVATE_PTR();
+                if (auto render = _getRender().lock())
+                {
+                    if (auto style = _getStyle().lock())
+                    {
+                        const float ms = style->getMetric(Style::MetricsRole::MarginSmall);
+                        const float h = style->getMetric(Style::MetricsRole::Handle);
+
+                        /*const auto & children = getChildrenT<IWidget>();
+                        if (children.size())
+                        {
+                            const BBox2f g = children.back()->getGeometry().margin(-h).margin(ms);
+                            render->setFillColor(_getColorWithOpacity(style->getColor(Style::ColorRole::Checked)));
+                            render->drawRect(BBox2f(
+                                glm::vec2(g.min.x, g.min.y),
+                                glm::vec2(g.max.x, g.min.y + ms)));
+                            render->drawRect(BBox2f(
+                                glm::vec2(g.min.x, g.max.y - ms),
+                                glm::vec2(g.max.x, g.max.y)));
+                            render->drawRect(BBox2f(
+                                glm::vec2(g.min.x, g.min.y + ms),
+                                glm::vec2(g.min.x + ms, g.max.y - ms)));
+                            render->drawRect(BBox2f(
+                                glm::vec2(g.max.x - ms, g.min.y + ms),
+                                glm::vec2(g.max.x, g.max.y - ms)));
                         }*/
 
                         auto hovered = p.hovered;
@@ -232,10 +269,6 @@ namespace djv
                         }
                     }
                 }
-            }
-
-            void Canvas::_paintOverlayEvent(Event::PaintOverlay& event)
-            {
             }
 
             void Canvas::_childAddedEvent(Event::ChildAdded & value)
@@ -434,6 +467,7 @@ namespace djv
                             pressed.pos = i->second;
                             pressed.size = widget->getSize();
                             p.pressed[pointerInfo.id] = pressed;
+                            widget->moveToFront();
                         }
                     }
                     return true;

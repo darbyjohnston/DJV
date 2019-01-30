@@ -49,7 +49,8 @@ namespace djv
             static std::shared_ptr<ToolSystem> create(Core::Context *);
 
             std::map<std::string, std::shared_ptr<UI::Action> > getActions() override;
-            NewMenu createMenu() override;
+            NewMenu getMenu() override;
+            std::vector<NewToolWidget> getToolWidgets() override;
 
         protected:
             void _localeEvent(Core::Event::Locale &) override;

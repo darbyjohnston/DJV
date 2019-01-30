@@ -29,60 +29,39 @@
 
 #include <djvViewLib/HistogramTool.h>
 
-#include <djvViewLib/Context.h>
-
-#include <QAction>
-#include <QDockWidget>
-#include <QMenu>
+using namespace djv::Core;
 
 namespace djv
 {
     namespace ViewLib
     {
-        namespace
-        {
-            class Widget : public QWidget
-            {
-            public:
-                Widget()
-                {
-                    setBackgroundRole(QPalette::Base);
-                    setAutoFillBackground(true);
-                }
-
-                QSize sizeHint() const override { return QSize(100, 100); }
-            };
-
-        } // namespace
-
         struct HistogramTool::Private
         {
+
         };
 
-        HistogramTool::HistogramTool(const std::shared_ptr<Context> & context, QObject * parent) :
-            IToolObject("HistogramTool", context, parent),
+        void HistogramTool::_init(Context * context)
+        {
+            IToolWidget::_init(context);
+        }
+
+        HistogramTool::HistogramTool() :
             _p(new Private)
         {}
 
         HistogramTool::~HistogramTool()
         {}
 
-        QPointer<QDockWidget> HistogramTool::createDockWidget()
+        std::shared_ptr<HistogramTool> HistogramTool::create(Context * context)
         {
-            auto out = new QDockWidget("Histogram");
-            out->setWidget(new Widget);
-            out->hide();
+            auto out = std::shared_ptr<HistogramTool>(new HistogramTool);
+            out->_init(context);
             return out;
         }
 
-        std::string HistogramTool::getDockWidgetSortKey() const
+        void HistogramTool::_localeEvent(Event::Locale &)
         {
-            return "2";
-        }
-
-        Qt::DockWidgetArea HistogramTool::getDockWidgetArea() const
-        {
-            return Qt::DockWidgetArea::RightDockWidgetArea;
+            setTitle(_getText(DJV_TEXT("djv::ViewLib::HistogramTool", "Histogram")));
         }
 
     } // namespace ViewLib

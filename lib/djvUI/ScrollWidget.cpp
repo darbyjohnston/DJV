@@ -234,7 +234,7 @@ namespace djv
                 {
                     event.accept();
                     _hover[event.getPointerInfo().id] = true;
-                    if (isEnabled())
+                    if (isEnabled(true))
                     {
                         _redraw();
                     }
@@ -248,7 +248,7 @@ namespace djv
                 if (i != _hover.end())
                 {
                     _hover.erase(i);
-                    if (isEnabled())
+                    if (isEnabled(true))
                     {
                         _redraw();
                     }
@@ -285,7 +285,7 @@ namespace djv
 
             void ScrollBar::_buttonPressEvent(Event::ButtonPress& event)
             {
-                if (!isEnabled() || _pressedID)
+                if (!isEnabled(true) || _pressedID)
                     return;
                 event.accept();
                 _pressedID = event.getPointerInfo().id;
@@ -316,7 +316,7 @@ namespace djv
 
             void ScrollBar::_buttonReleaseEvent(Event::ButtonRelease& event)
             {
-                if (!isEnabled() || event.getPointerInfo().id != _pressedID)
+                if (!isEnabled(true) || event.getPointerInfo().id != _pressedID)
                     return;
                 event.accept();
                 _pressedID = Event::InvalidID;

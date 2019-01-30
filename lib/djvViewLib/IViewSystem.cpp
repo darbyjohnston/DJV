@@ -58,17 +58,17 @@ namespace djv
             return std::map<std::string, std::shared_ptr<UI::Action> >();
         }
         
-        NewMenu IViewSystem::createMenu()
+        NewMenu IViewSystem::getMenu()
         {
             return NewMenu();
         }
 
-        NewToolWidget IViewSystem::createToolWidget()
+        std::vector<NewToolWidget> IViewSystem::getToolWidgets()
         {
-            return NewToolWidget();
+            return std::vector<NewToolWidget>();
         }
 
-        std::vector<NewSettingsWidget> IViewSystem::createSettingsWidgets()
+        std::vector<NewSettingsWidget> IViewSystem::getSettingsWidgets()
         {
             return std::vector<NewSettingsWidget>();
         }

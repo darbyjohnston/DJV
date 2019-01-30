@@ -30,7 +30,6 @@
 #include <djvDesktop/Application.h>
 
 #include <djvUI/Border.h>
-#include <djvUI/Icon.h>
 #include <djvUI/Label.h>
 #include <djvUI/MDICanvas.h>
 #include <djvUI/MDIWidget.h>
@@ -60,9 +59,6 @@ public:
 
     void setClosedCallback(const std::function<void(void)> &);
 
-    std::shared_ptr<Widget> getMoveHandle() override;
-    std::shared_ptr<Widget> getResizeHandle() override;
-
     float getHeightForWidth(float) const override;
 
 protected:
@@ -71,7 +67,6 @@ protected:
 
 private:
     std::shared_ptr<UI::Button::Tool> _closeButton;
-    std::shared_ptr<UI::Icon> _resizeHandle;
     std::shared_ptr<UI::Layout::Vertical> _layout;
     std::shared_ptr<UI::Layout::Border> _border;
     std::function<void(void)> _closedCallback;
@@ -111,21 +106,10 @@ void MDIWidget::_init(const std::string & title, Core::Context * context)
     auto scrollWidget = UI::ScrollWidget::create(UI::ScrollType::Vertical, context);
     scrollWidget->addWidget(textBlock);
 
-    _resizeHandle = UI::Icon::create(context);
-    _resizeHandle->setPointerEnabled(true);
-    _resizeHandle->setIcon("djvIconResizeHandleSmall");
-    _resizeHandle->setHAlign(UI::HAlign::Right);
-    _resizeHandle->setVAlign(UI::VAlign::Bottom);
-
-    auto bottomBar = UI::Layout::Horizontal::create(context);
-    bottomBar->addExpander();
-    bottomBar->addWidget(_resizeHandle);
-
     _layout = UI::Layout::Vertical::create(context);
     _layout->setSpacing(UI::Style::MetricsRole::None);
     _layout->addWidget(titleBar);
     _layout->addWidget(scrollWidget, UI::Layout::RowStretch::Expand);
-    _layout->addWidget(bottomBar);
 
     _border = UI::Layout::Border::create(context);
     _border->addWidget(_layout);
@@ -145,16 +129,6 @@ std::shared_ptr<MDIWidget> MDIWidget::create(const std::string & title, Core::Co
 void MDIWidget::setClosedCallback(const std::function<void(void)> & callback)
 {
     _closeButton->setClickedCallback(callback);
-}
-
-std::shared_ptr<UI::Widget> MDIWidget::getMoveHandle()
-{
-    return std::dynamic_pointer_cast<Widget>(shared_from_this());
-}
-
-std::shared_ptr<UI::Widget> MDIWidget::getResizeHandle()
-{
-    return _resizeHandle;
 }
 
 float MDIWidget::getHeightForWidth(float value) const

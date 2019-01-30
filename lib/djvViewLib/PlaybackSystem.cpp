@@ -185,6 +185,37 @@ namespace djv
             p.actions["ResetOutPoint"]->setShortcut(GLFW_KEY_O, GLFW_MOD_SHIFT);
             p.actions["ResetOutPoint"]->setEnabled(false);
 
+            p.menus["Playback"] = UI::Menu::create(context);
+            p.menus["Playback"]->addAction(p.actions["Stop"]);
+            p.menus["Playback"]->addAction(p.actions["Forward"]);
+            p.menus["Playback"]->addAction(p.actions["Reverse"]);
+            //! \todo Implement me!
+            p.menus["Loop"] = UI::Menu::create(context);
+            p.menus["Playback"]->addMenu(p.menus["Loop"]);
+            p.menus["Playback"]->addAction(p.actions["TogglePlayback"]);
+            p.menus["Playback"]->addAction(p.actions["ToggleReversePlayback"]);
+            p.menus["Playback"]->addAction(p.actions["PlayEveryFrame"]);
+            p.menus["Playback"]->addSeparator();
+            p.menus["Playback"]->addAction(p.actions["InPoint"]);
+            p.menus["Playback"]->addAction(p.actions["OutPoint"]);
+            p.menus["Playback"]->addAction(p.actions["StartFrame"]);
+            p.menus["Playback"]->addAction(p.actions["EndFrame"]);
+            p.menus["Playback"]->addAction(p.actions["NextFrame"]);
+            p.menus["Playback"]->addAction(p.actions["NextFrame10"]);
+            p.menus["Playback"]->addAction(p.actions["NextFrame100"]);
+            p.menus["Playback"]->addAction(p.actions["PrevFrame"]);
+            p.menus["Playback"]->addAction(p.actions["PrevFrame10"]);
+            p.menus["Playback"]->addAction(p.actions["PrevFrame100"]);
+            p.menus["Playback"]->addSeparator();
+            p.menus["Playback"]->addAction(p.actions["InOutPoints"]);
+            p.menus["Playback"]->addAction(p.actions["SetInPoint"]);
+            p.menus["Playback"]->addAction(p.actions["SetOutPoint"]);
+            p.menus["Playback"]->addAction(p.actions["ResetInPoint"]);
+            p.menus["Playback"]->addAction(p.actions["ResetOutPoint"]);
+            //! \todo Implement me!
+            p.menus["Layout"] = UI::Menu::create(context);
+            p.menus["Playback"]->addMenu(p.menus["Layout"]);
+
             auto weak = std::weak_ptr<PlaybackSystem>(std::dynamic_pointer_cast<PlaybackSystem>(shared_from_this()));
             p.playbackActionGroup->setRadioCallback(
                 [weak](int value)
@@ -251,40 +282,9 @@ namespace djv
             return _p->actions;
         }
 
-        NewMenu PlaybackSystem::createMenu()
+        NewMenu PlaybackSystem::getMenu()
         {
             DJV_PRIVATE_PTR();
-            auto context = getContext();
-            p.menus["Playback"] = UI::Menu::create(_getText(DJV_TEXT("djv::ViewLib::PlaybackSystem", "Playback")), context);
-            p.menus["Playback"]->addAction(p.actions["Stop"]);
-            p.menus["Playback"]->addAction(p.actions["Forward"]);
-            p.menus["Playback"]->addAction(p.actions["Reverse"]);
-            //! \todo Implement me!
-            p.menus["Loop"] = UI::Menu::create(DJV_TEXT("djv::ViewLib::PlaybackSystem", "Loop"), context);
-            p.menus["Playback"]->addMenu(p.menus["Loop"]);
-            p.menus["Playback"]->addAction(p.actions["TogglePlayback"]);
-            p.menus["Playback"]->addAction(p.actions["ToggleReversePlayback"]);
-            p.menus["Playback"]->addAction(p.actions["PlayEveryFrame"]);
-            p.menus["Playback"]->addSeparator();
-            p.menus["Playback"]->addAction(p.actions["InPoint"]);
-            p.menus["Playback"]->addAction(p.actions["OutPoint"]);
-            p.menus["Playback"]->addAction(p.actions["StartFrame"]);
-            p.menus["Playback"]->addAction(p.actions["EndFrame"]);
-            p.menus["Playback"]->addAction(p.actions["NextFrame"]);
-            p.menus["Playback"]->addAction(p.actions["NextFrame10"]);
-            p.menus["Playback"]->addAction(p.actions["NextFrame100"]);
-            p.menus["Playback"]->addAction(p.actions["PrevFrame"]);
-            p.menus["Playback"]->addAction(p.actions["PrevFrame10"]);
-            p.menus["Playback"]->addAction(p.actions["PrevFrame100"]);
-            p.menus["Playback"]->addSeparator();
-            p.menus["Playback"]->addAction(p.actions["InOutPoints"]);
-            p.menus["Playback"]->addAction(p.actions["SetInPoint"]);
-            p.menus["Playback"]->addAction(p.actions["SetOutPoint"]);
-            p.menus["Playback"]->addAction(p.actions["ResetInPoint"]);
-            p.menus["Playback"]->addAction(p.actions["ResetOutPoint"]);
-            //! \todo Implement me!
-            p.menus["Layout"] = UI::Menu::create(_getText(DJV_TEXT("djv::ViewLib::PlaybackSystem", "Layout")), context);
-            p.menus["Playback"]->addMenu(p.menus["Layout"]);
             return { p.menus["Playback"], "E" };
         }
 

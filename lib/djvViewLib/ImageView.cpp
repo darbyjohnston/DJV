@@ -101,9 +101,8 @@ namespace djv
         {
             if (auto style = _getStyle().lock())
             {
-                const float tw = style->getMetric(UI::Style::MetricsRole::ThumbnailWidthLarge);
-                const float th = style->getMetric(UI::Style::MetricsRole::ThumbnailHeightLarge);
-                _setMinimumSize(glm::vec2(tw, th));
+                const float sa = style->getMetric(UI::Style::MetricsRole::ScrollArea);
+                _setMinimumSize(glm::vec2(sa, sa));
             }
         }
 

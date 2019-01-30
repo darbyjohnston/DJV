@@ -29,23 +29,27 @@
 
 #pragma once
 
-#include <djvViewLib/ToolObject.h>
+#include <djvViewLib/IToolWidget.h>
 
 namespace djv
 {
     namespace ViewLib
     {
-        class InfoTool : public IToolObject
+        class InformationTool : public IToolWidget
         {
-            Q_OBJECT
+            DJV_NON_COPYABLE(InformationTool);
+
+        protected:
+            void _init(Core::Context *);
+            InformationTool();
 
         public:
-            InfoTool(const std::shared_ptr<Context> &, QObject * parent = nullptr);
-            ~InfoTool() override;
+            ~InformationTool() override;
 
-            QPointer<QDockWidget> createDockWidget() override;
-            std::string getDockWidgetSortKey() const override;
-            Qt::DockWidgetArea getDockWidgetArea() const override;
+            static std::shared_ptr<InformationTool> create(Core::Context *);
+
+        protected:
+            void _localeEvent(Core::Event::Locale &) override;
 
         private:
             DJV_PRIVATE();

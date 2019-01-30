@@ -148,6 +148,27 @@ namespace djv
             p.actions["Exit"] = UI::Action::create();
             p.actions["Exit"]->setShortcut(GLFW_KEY_Q, GLFW_MOD_CONTROL);
 
+            p.menus["File"] = UI::Menu::create(context);
+            p.menus["File"]->addAction(p.actions["Open"]);
+            p.menus["File"]->addAction(p.actions["Recent"]);
+            p.menus["File"]->addAction(p.actions["Reload"]);
+            p.menus["File"]->addAction(p.actions["ReloadFrame"]);
+            p.menus["File"]->addAction(p.actions["Close"]);
+            p.menus["File"]->addAction(p.actions["Export"]);
+            p.menus["File"]->addAction(p.actions["Next"]);
+            p.menus["File"]->addAction(p.actions["Prev"]);
+            p.menus["File"]->addSeparator();
+            p.menus["File"]->addAction(p.actions["Layers"]);
+            p.menus["File"]->addAction(p.actions["NextLayer"]);
+            p.menus["File"]->addAction(p.actions["PrevLayer"]);
+            //! \todo Implement me!
+            p.menus["ProxyScale"] = UI::Menu::create(context);
+            p.menus["File"]->addMenu(p.menus["ProxyScale"]);
+            p.menus["File"]->addSeparator();
+            p.menus["File"]->addAction(p.actions["Settings"]);
+            p.menus["File"]->addSeparator();
+            p.menus["File"]->addAction(p.actions["Exit"]);
+
             auto weak = std::weak_ptr<FileSystem>(std::dynamic_pointer_cast<FileSystem>(shared_from_this()));
             p.recentFilesObserver = ListObserver<Core::FileSystem::FileInfo>::create(
                 p.settings->observeRecentFiles(),
@@ -428,30 +449,9 @@ namespace djv
             return _p->actions;
         }
         
-        NewMenu FileSystem::createMenu()
+        NewMenu FileSystem::getMenu()
         {
             DJV_PRIVATE_PTR();
-            auto context = getContext();
-            p.menus["File"] = UI::Menu::create(_getText(DJV_TEXT("djv::ViewLib::FileSystem", "File")), context);
-            p.menus["File"]->addAction(p.actions["Open"]);
-            p.menus["File"]->addAction(p.actions["Recent"]);
-            p.menus["File"]->addAction(p.actions["Reload"]);
-            p.menus["File"]->addAction(p.actions["ReloadFrame"]);
-            p.menus["File"]->addAction(p.actions["Close"]);
-            p.menus["File"]->addAction(p.actions["Export"]);
-            p.menus["File"]->addAction(p.actions["Next"]);
-            p.menus["File"]->addAction(p.actions["Prev"]);
-            p.menus["File"]->addSeparator();
-            p.menus["File"]->addAction(p.actions["Layers"]);
-            p.menus["File"]->addAction(p.actions["NextLayer"]);
-            p.menus["File"]->addAction(p.actions["PrevLayer"]);
-            //! \todo Implement me!
-            p.menus["ProxyScale"] = UI::Menu::create(_getText(DJV_TEXT("djv::ViewLib::FileSystem", "Proxy Scale")), context);
-            p.menus["File"]->addMenu(p.menus["ProxyScale"]);
-            p.menus["File"]->addSeparator();
-            p.menus["File"]->addAction(p.actions["Settings"]);
-            p.menus["File"]->addSeparator();
-            p.menus["File"]->addAction(p.actions["Exit"]);
             return { p.menus["File"], "A" };
         }
 

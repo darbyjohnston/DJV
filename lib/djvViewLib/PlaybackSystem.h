@@ -52,7 +52,7 @@ namespace djv
             static std::shared_ptr<PlaybackSystem> create(Core::Context *);
 
             std::map<std::string, std::shared_ptr<UI::Action> > getActions() override;
-            NewMenu createMenu() override;
+            NewMenu getMenu() override;
 
         protected:
             void _localeEvent(Core::Event::Locale &) override;

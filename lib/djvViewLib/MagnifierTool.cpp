@@ -27,42 +27,43 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#pragma once
+#include <djvViewLib/MagnifierTool.h>
 
-#include <djvCore/Context.h>
-
-#include <QObject>
-#include <QPointer>
+using namespace djv::Core;
 
 namespace djv
 {
     namespace ViewLib
-    {        
-        class Context : public Core::Context
+    {
+        struct MagnifierTool::Private
         {
-            DJV_NON_COPYABLE(Context);
 
-        protected:
-            void _init(int &, char **);
-            Context();
-
-        public:
-            ~Context() override;
-
-            static std::shared_ptr<Context> create(int &, char **);
-
-            const std::vector<QPointer<QObject> > & getObjects() const;
-            template<typename T>
-            inline std::vector<QPointer<T> > getObjectsT() const;
-            template<typename T>
-            inline QPointer<T> getObjectT() const;
-            void addObject(const QPointer<QObject> &);
-
-        private:
-            DJV_PRIVATE();
         };
+
+        void MagnifierTool::_init(Context * context)
+        {
+            IToolWidget::_init(context);
+        }
+
+        MagnifierTool::MagnifierTool() :
+            _p(new Private)
+        {}
+
+        MagnifierTool::~MagnifierTool()
+        {}
+
+        std::shared_ptr<MagnifierTool> MagnifierTool::create(Context * context)
+        {
+            auto out = std::shared_ptr<MagnifierTool>(new MagnifierTool);
+            out->_init(context);
+            return out;
+        }
+
+        void MagnifierTool::_localeEvent(Event::Locale &)
+        {
+            setTitle(_getText(DJV_TEXT("djv::ViewLib::MagnifierTool", "Magnifier")));
+        }
 
     } // namespace ViewLib
 } // namespace djv
 
-#include <djvViewLib/ContextInline.h>

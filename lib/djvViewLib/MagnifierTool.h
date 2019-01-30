@@ -27,36 +27,34 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
+#pragma once
+
+#include <djvViewLib/IToolWidget.h>
+
 namespace djv
 {
     namespace ViewLib
-    {        
-        template<typename T>
-        inline std::vector<QPointer<T> > Context::getObjectsT() const
+    {
+        class MagnifierTool : public IToolWidget
         {
-            std::vector<QPointer<T> > out;
-            for (auto i : getObjects())
-            {
-                if (auto object = qobject_cast<T *>(i))
-                {
-                    out.push_back(object);
-                }
-            }
-            return out;
-        }
+            DJV_NON_COPYABLE(MagnifierTool);
 
-        template<typename T>
-        inline QPointer<T> Context::getObjectT() const
-        {
-            for (auto i : getObjects())
-            {
-                if (auto object = qobject_cast<T *>(i))
-                {
-                    return object;
-                }
-            }
-            return nullptr;
-        }
+        protected:
+            void _init(Core::Context *);
+            MagnifierTool();
+
+        public:
+            ~MagnifierTool() override;
+
+            static std::shared_ptr<MagnifierTool> create(Core::Context *);
+
+        protected:
+            void _localeEvent(Core::Event::Locale &) override;
+
+        private:
+            DJV_PRIVATE();
+        };
 
     } // namespace ViewLib
 } // namespace djv
+

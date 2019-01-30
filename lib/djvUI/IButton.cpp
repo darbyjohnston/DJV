@@ -206,7 +206,7 @@ namespace djv
             void IButton::_pointerEnterEvent(Event::PointerEnter& event)
             {
                 event.accept();
-                if (isEnabled())
+                if (isEnabled(true))
                 {
                     _redraw();
                 }
@@ -215,7 +215,7 @@ namespace djv
             void IButton::_pointerLeaveEvent(Event::PointerLeave& event)
             {
                 event.accept();
-                if (isEnabled())
+                if (isEnabled(true))
                 {
                     _redraw();
                 }
@@ -246,7 +246,7 @@ namespace djv
             void IButton::_buttonPressEvent(Event::ButtonPress& event)
             {
                 DJV_PRIVATE_PTR();
-                if (!isEnabled() || p.pressedID)
+                if (!isEnabled(true) || p.pressedID)
                     return;
                 event.accept();
                 const auto & pointerInfo = event.getPointerInfo();
@@ -328,12 +328,12 @@ namespace djv
 
             bool IButton::_isHovered() const
             {
-                return isEnabled() && _getPointerHover().size();
+                return isEnabled(true) && _getPointerHover().size();
             }
 
             bool IButton::_isPressed() const
             {
-                return isEnabled() && _p->pressedID != 0;
+                return isEnabled(true) && _p->pressedID != 0;
             }
 
             const glm::vec2& IButton::_getPressedPos() const

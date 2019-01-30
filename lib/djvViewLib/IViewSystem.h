@@ -80,11 +80,10 @@ namespace djv
             ~IViewSystem() override;
 
             virtual std::map<std::string, std::shared_ptr<UI::Action> > getActions();
-
-            virtual NewMenu createMenu();
-            virtual NewMenu createContextMenu() { return createMenu(); }
-            virtual NewToolWidget createToolWidget();
-            virtual std::vector<NewSettingsWidget> createSettingsWidgets();
+            virtual NewMenu getMenu();
+            virtual NewMenu getContextMenu() { return getMenu(); }
+            virtual std::vector<NewToolWidget> getToolWidgets();
+            virtual std::vector<NewSettingsWidget> getSettingsWidgets();
 
         private:
             DJV_PRIVATE();
