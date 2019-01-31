@@ -115,11 +115,9 @@ namespace djv
             {
                 if (auto style = _getStyle().lock())
                 {
-                    const BBox2f& g = getMargin().bbox(getGeometry(), style);
-                    render->setFillColor(AV::Image::Color(0.f, 0.f, 0.f));
-                    render->drawRect(g);
                     if (_p->image)
                     {
+                        const BBox2f& g = getMargin().bbox(getGeometry(), style);
                         render->setFillColor(AV::Image::Color(1.f, 1.f, 1.f));
                         render->drawImage(_p->image, g, AV::Render::ImageCache::Dynamic);
                     }

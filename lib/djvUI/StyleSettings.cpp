@@ -84,6 +84,7 @@ namespace djv
                 palette.setColor(UI::Style::ColorRole::HeaderPressed, AV::Image::Color(255, 255, 255, 50));
                 palette.setColor(UI::Style::ColorRole::HeaderChecked, AV::Image::Color(105, 150, 190));
                 palette.setColor(UI::Style::ColorRole::HeaderDisabled, AV::Image::Color(127, 127, 127));
+                palette.setColor(UI::Style::ColorRole::Overlay, AV::Image::Color(255, 255, 255, 127));
                 palettes[DJV_TEXT("djv::UI::Settings", "Light")] = palette;
                 
                 std::map<std::string, UI::Style::Metrics> metricsList;

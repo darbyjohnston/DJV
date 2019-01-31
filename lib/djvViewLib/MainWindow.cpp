@@ -82,6 +82,7 @@ namespace djv
             UI::Window::_init(context);
 
             setClassName("djv::ViewLib::MainWindow");
+            setBackgroundRole(UI::Style::ColorRole::Trough);
 
             auto viewSystems = context->getSystemsT<IViewSystem>();
             for (auto i : viewSystems)
@@ -97,7 +98,6 @@ namespace djv
 
             DJV_PRIVATE_PTR();
             p.mdiCanvas = UI::MDI::Canvas::create(context);
-            p.mdiCanvas->setBackgroundRole(UI::Style::ColorRole::Trough);
             p.mdiScrollWidget = UI::ScrollWidget::create(UI::ScrollType::Both, context);
             p.mdiScrollWidget->setBorder(false);
             p.mdiScrollWidget->addWidget(p.mdiCanvas);
@@ -112,11 +112,6 @@ namespace djv
             p.soloLayout->addWidget(p.sdiWidget);
 
             p.toolCanvas = UI::MDI::Canvas::create(context);
-
-            p.stackLayout = UI::Layout::Stack::create(context);
-            p.stackLayout->addWidget(p.soloLayout);
-            p.stackLayout->addWidget(p.toolCanvas);
-
             for (auto i : viewSystems)
             {
                 if (auto system = i.lock())
@@ -142,19 +137,23 @@ namespace djv
                 }
             }
             p.menuBar = UI::MenuBar::create(context);
-            p.menuBar->setBackgroundRole(UI::Style::ColorRole::Background);
+            p.menuBar->setBackgroundRole(UI::Style::ColorRole::Overlay);
             for (auto i : menus)
             {
                 p.menuBar->addMenu(i.second);
             }
             p.menuBar->addWidget(p.mdiButton);
             
-            auto layout = UI::Layout::Vertical::create(context);
-            layout->setSpacing(UI::Style::MetricsRole::None);
-            layout->addWidget(p.menuBar);
-            layout->addSeparator();
-            layout->addWidget(p.stackLayout, UI::Layout::RowStretch::Expand);
-            addWidget(layout);
+            p.stackLayout = UI::Layout::Stack::create(context);
+            p.stackLayout->addWidget(p.soloLayout);
+            p.stackLayout->addWidget(p.toolCanvas);
+            auto vLayout = UI::Layout::Vertical::create(context);
+            vLayout->setSpacing(UI::Style::MetricsRole::None);
+            vLayout->addWidget(p.menuBar);
+            vLayout->addSeparator();
+            vLayout->addExpander();
+            p.stackLayout->addWidget(vLayout);
+            addWidget(p.stackLayout);
 
             auto weak = std::weak_ptr<MainWindow>(std::dynamic_pointer_cast<MainWindow>(shared_from_this()));
             p.mdiCanvas->setActiveCallback(
