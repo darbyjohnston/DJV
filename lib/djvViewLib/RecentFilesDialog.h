@@ -29,24 +29,45 @@
 
 #pragma once
 
-#include <djvCore/Enum.h>
+#include <djvUI/Enum.h>
+#include <djvUI/IDialog.h>
 
 namespace djv
 {
+    namespace Core
+    {
+        namespace FileSystem
+        {
+            class FileInfo;
+
+        } // namespace FileSystem
+    } // namespace Core
+
     namespace ViewLib
     {
-        enum class WindowMode
+        class RecentFilesDialog : public UI::IDialog
         {
-            SDI,
-            MDI,
-            Playlist
-        };
+            DJV_NON_COPYABLE(RecentFilesDialog);
 
-        enum class Playback
-        {
-            Stop,
-            Forward,
-            Reverse
+        protected:
+            void _init(Core::Context *);
+            RecentFilesDialog();
+
+        public:
+            ~RecentFilesDialog() override;
+
+            static std::shared_ptr<RecentFilesDialog> create(Core::Context *);
+
+            void setRecentFiles(const std::vector<Core::FileSystem::FileInfo> &);
+            void setViewType(UI::ViewType);
+
+            void setCallback(const std::function<void(const Core::FileSystem::FileInfo &)> &);
+
+        protected:
+            void _localeEvent(Core::Event::Locale &) override;
+
+        private:
+            DJV_PRIVATE();
         };
 
     } // namespace ViewLib

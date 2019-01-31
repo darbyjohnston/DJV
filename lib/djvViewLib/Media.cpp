@@ -352,8 +352,21 @@ namespace djv
                                 p.context->log("djv::ViewLib::Media", ss.str());
                             }*/
                         }
-                        p.currentTime->setIfChanged(time);
-                        _timeUpdate();
+                        if (time < _p->duration->get())
+                        {
+                            p.currentTime->setIfChanged(time);
+                            _timeUpdate();
+                        }
+                        else
+                        {
+                            p.playback->setIfChanged(Playback::Stop);
+                            alSourceStop(p.alSource);
+                            p.playbackTimer->stop();
+                            _timeUpdate();
+                            p.queuedBytes = 0;
+                            p.timeOffset = p.currentTime->get();
+                            alSourcei(p.alSource, AL_BYTE_OFFSET, 0);
+                        }
                         break;
                     }
                     default: break;
@@ -381,8 +394,9 @@ namespace djv
 
         void Media::_timeUpdate()
         {
-            // Update the video queue.
             DJV_PRIVATE_PTR();
+
+            // Update the video queue.
             {
                 std::lock_guard<std::mutex> lock(p.queue->getMutex());
                 while (p.queue->hasVideo() && p.queue->getVideo().first < p.currentTime->get())

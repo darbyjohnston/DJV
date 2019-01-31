@@ -27,27 +27,48 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#pragma once
+#include <djvViewLib/PlaylistWidget.h>
 
-#include <djvCore/Enum.h>
+using namespace djv::Core;
 
 namespace djv
 {
     namespace ViewLib
     {
-        enum class WindowMode
+        struct PlaylistWidget::Private
         {
-            SDI,
-            MDI,
-            Playlist
         };
 
-        enum class Playback
+        void PlaylistWidget::_init(Context * context)
         {
-            Stop,
-            Forward,
-            Reverse
-        };
+            Widget::_init(context);
+        }
+
+        PlaylistWidget::PlaylistWidget() :
+            _p(new Private)
+        {}
+
+        PlaylistWidget::~PlaylistWidget()
+        {}
+
+        std::shared_ptr<PlaylistWidget> PlaylistWidget::create(Context * context)
+        {
+            auto out = std::shared_ptr<PlaylistWidget>(new PlaylistWidget);
+            out->_init(context);
+            return out;
+        }
+
+        void PlaylistWidget::_preLayoutEvent(Event::PreLayout& event)
+        {
+            if (auto style = _getStyle().lock())
+            {
+                const float sa = style->getMetric(UI::Style::MetricsRole::ScrollArea);
+                _setMinimumSize(glm::vec2(sa, sa));
+            }
+        }
+
+        void PlaylistWidget::_layoutEvent(Event::Layout&)
+        {}
 
     } // namespace ViewLib
 } // namespace djv

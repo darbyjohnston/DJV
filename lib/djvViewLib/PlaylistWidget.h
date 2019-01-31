@@ -29,27 +29,30 @@
 
 #pragma once
 
-#include <djvUI/IDialog.h>
+#include <djvUI/Widget.h>
 
 namespace djv
 {
     namespace ViewLib
     {
-        class HelpAboutDialog : public UI::IDialog
+        class Media;
+
+        class PlaylistWidget : public UI::Widget
         {
-            DJV_NON_COPYABLE(HelpAboutDialog);
+            DJV_NON_COPYABLE(PlaylistWidget);
 
         protected:
             void _init(Core::Context *);
-            HelpAboutDialog();
+            PlaylistWidget();
 
         public:
-            ~HelpAboutDialog() override;
+            ~PlaylistWidget() override;
 
-            static std::shared_ptr<HelpAboutDialog> create(Core::Context *);
+            static std::shared_ptr<PlaylistWidget> create(Core::Context *);
 
         protected:
-            void _localeEvent(Core::Event::Locale &) override;
+            void _preLayoutEvent(Core::Event::PreLayout&) override;
+            void _layoutEvent(Core::Event::Layout&) override;
 
         private:
             DJV_PRIVATE();

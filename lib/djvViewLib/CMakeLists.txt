@@ -1,16 +1,15 @@
 set(header
+    AboutDialog.h
     Application.h
     PaletteSettingsWidget.h
     ColorPickerTool.h
+    DebugLogDialog.h
     DebugTool.h
     DisplaySettingsWidget.h
     Enum.h
-    FileRecentDialog.h
     FileSystem.h
     FileSystemSettings.h
     GeneralSettingsWidget.h
-    HelpAboutDialog.h
-    HelpDebugLogDialog.h
     HelpSystem.h
     HistogramTool.h
     IToolWidget.h
@@ -27,24 +26,25 @@ set(header
     MediaWidget.h
     PlaybackSystem.h
     PlaybackWidget.h
+    PlaylistWidget.h
+    RecentFilesDialog.h
     SettingsSystem.h
     TimelineSlider.h
     ToolSystem.h
     ViewLib.h
     WindowSystem.h)
 set(source
+    AboutDialog.cpp
     Application.cpp
     PaletteSettingsWidget.cpp
     ColorPickerTool.cpp
+    DebugLogDialog.cpp
     DebugTool.cpp
     DisplaySettingsWidget.cpp
     Enum.cpp
-    FileRecentDialog.cpp
     FileSystem.cpp
     FileSystemSettings.cpp
     GeneralSettingsWidget.cpp
-    HelpAboutDialog.cpp
-    HelpDebugLogDialog.cpp
     HelpSystem.cpp
     HistogramTool.cpp
     IToolWidget.cpp
@@ -61,6 +61,8 @@ set(source
     MediaWidget.cpp
     PlaybackSystem.cpp
     PlaybackWidget.cpp
+    PlaylistWidget.cpp
+    RecentFilesDialog.cpp
     SettingsSystem.cpp
     TimelineSlider.cpp
     ToolSystem.cpp

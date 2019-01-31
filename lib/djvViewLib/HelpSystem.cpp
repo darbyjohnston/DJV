@@ -29,8 +29,8 @@
 
 #include <djvViewLib/HelpSystem.h>
 
-#include <djvViewLib/HelpAboutDialog.h>
-#include <djvViewLib/HelpDebugLogDialog.h>
+#include <djvViewLib/AboutDialog.h>
+#include <djvViewLib/DebugLogDialog.h>
 
 #include <djvUI/Action.h>
 #include <djvUI/IDialog.h>
@@ -51,8 +51,8 @@ namespace djv
     {
         struct HelpSystem::Private
         {
-            std::shared_ptr<HelpAboutDialog> aboutDialog;
-            std::shared_ptr<HelpDebugLogDialog> debugLogDialog;
+            std::shared_ptr<AboutDialog> aboutDialog;
+            std::shared_ptr<DebugLogDialog> debugLogDialog;
             std::map<std::string, std::shared_ptr<UI::Action> > actions;
             std::map<std::string, std::shared_ptr<UI::Menu> > menus;
             std::map<std::string, std::shared_ptr<ValueObserver<bool> > > clickedObservers;
@@ -134,7 +134,7 @@ namespace djv
             auto context = getContext();
             if (!p.aboutDialog)
             {
-                p.aboutDialog = HelpAboutDialog::create(context);
+                p.aboutDialog = AboutDialog::create(context);
             }
             if (auto windowSystem = context->getSystemT<UI::IWindowSystem>().lock())
             {
@@ -162,7 +162,7 @@ namespace djv
             auto context = getContext();
             if (!p.debugLogDialog)
             {
-                p.debugLogDialog = HelpDebugLogDialog::create(context);
+                p.debugLogDialog = DebugLogDialog::create(context);
             }
             if (auto windowSystem = context->getSystemT<UI::IWindowSystem>().lock())
             {

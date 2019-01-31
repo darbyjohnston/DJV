@@ -30,10 +30,11 @@
 #include <djvViewLib/FileSystem.h>
 
 #include <djvViewLib/Application.h>
-#include <djvViewLib/FileRecentDialog.h>
 #include <djvViewLib/FileSystemSettings.h>
 #include <djvViewLib/Media.h>
+#include <djvViewLib/RecentFilesDialog.h>
 #include <djvViewLib/SettingsSystem.h>
+#include <djvViewLib/WindowSystem.h>
 
 #include <djvUI/Action.h>
 #include <djvUI/DialogSystem.h>
@@ -62,7 +63,7 @@ namespace djv
             std::shared_ptr<ListSubject<std::shared_ptr<Media> > > media;
             std::shared_ptr<ValueSubject<std::shared_ptr<Media> > > currentMedia;
             std::shared_ptr<Core::FileSystem::RecentFilesModel> recentFilesModel;
-            std::shared_ptr<FileRecentDialog> recentFilesDialog;
+            std::shared_ptr<RecentFilesDialog> recentFilesDialog;
             std::map<std::string, std::shared_ptr<UI::Action> > actions;
             std::map<std::string, std::shared_ptr<UI::Menu> > menus;
             std::shared_ptr<ListObserver<Core::FileSystem::FileInfo> > recentFilesObserver;
@@ -82,7 +83,7 @@ namespace djv
             p.currentMedia = ValueSubject<std::shared_ptr<Media> >::create();
 
             p.recentFilesModel = Core::FileSystem::RecentFilesModel::create(context);
-            p.recentFilesDialog = FileRecentDialog::create(context);
+            p.recentFilesDialog = RecentFilesDialog::create(context);
 
             p.actions["Open"] = UI::Action::create();
             p.actions["Open"]->setShortcut(GLFW_KEY_O, GLFW_MOD_CONTROL);
@@ -370,10 +371,27 @@ namespace djv
 
         void FileSystem::open(const std::string & fileName, const glm::vec2 & pos)
         {
-            auto media = Media::create(fileName, getContext());
+            auto context = getContext();
+            if (auto windowSystem = context->getSystemT<WindowSystem>().lock())
+            {
+                if (WindowMode::SDI == windowSystem->observeWindowMode()->get())
+                {
+                    if (auto media = _p->currentMedia->get())
+                    {
+                        const size_t index = _p->media->indexOf(media);
+                        if (index != invalidListIndex)
+                        {
+                            _p->media->removeItem(index);
+                            _p->closed->setAlways(media);
+                        }
+                    }
+                }
+            }
+            auto media = Media::create(fileName, context);
             _p->media->pushBack(media);
             _p->opened->setAlways(std::make_pair(media, pos));
             _p->currentMedia->setAlways(media);
+            _p->recentFilesModel->addFile(fileName);
         }
 
         void FileSystem::close(const std::shared_ptr<Media> & media)

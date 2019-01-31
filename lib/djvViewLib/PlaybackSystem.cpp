@@ -32,6 +32,7 @@
 #include <djvViewLib/Application.h>
 #include <djvViewLib/FileSystem.h>
 #include <djvViewLib/Media.h>
+#include <djvViewLib/WindowSystem.h>
 
 #include <djvUI/Action.h>
 #include <djvUI/ActionGroup.h>
@@ -49,13 +50,16 @@ namespace djv
     {
         struct PlaybackSystem::Private
         {
-            std::shared_ptr<Media> media;
+            std::vector<std::shared_ptr<Media> > media;
+            std::shared_ptr<Media> currentMedia;
             std::map<std::string, std::shared_ptr<UI::Action> > actions;
             std::map<std::string, std::shared_ptr<UI::Menu> > menus;
             std::shared_ptr<UI::ActionGroup> playbackActionGroup;
             std::map<std::string, std::shared_ptr<ValueObserver<bool> > > clickedObservers;
             std::shared_ptr<ValueObserver<Playback> > playbackObserver;
+            std::shared_ptr<ListObserver<std::shared_ptr<Media> > > mediaObserver;
             std::shared_ptr<ValueObserver<std::shared_ptr<Media> > > currentMediaObserver;
+            std::shared_ptr<ValueObserver<WindowMode> > windowModeObserver;
         };
 
         void PlaybackSystem::_init(Context * context)
@@ -222,22 +226,32 @@ namespace djv
             {
                 if (auto system = weak.lock())
                 {
-                    if (auto media = system->_p->media)
+                    if (auto media = system->_p->currentMedia)
                     {
                         media->setPlayback(static_cast<Playback>(value));
                     }
                 }
             });
-            
+
             if (auto fileSystem = context->getSystemT<FileSystem>().lock())
             {
+                p.mediaObserver = ListObserver<std::shared_ptr<Media>>::create(
+                    fileSystem->observeMedia(),
+                    [weak](const std::vector<std::shared_ptr<Media> > & value)
+                {
+                    if (auto system = weak.lock())
+                    {
+                        system->_p->media = value;
+                    }
+                });
+
                 p.currentMediaObserver = ValueObserver<std::shared_ptr<Media> >::create(
                     fileSystem->observeCurrentMedia(),
                     [weak](const std::shared_ptr<Media> & value)
                 {
                     if (auto system = weak.lock())
                     {
-                        system->_p->media = value;
+                        system->_p->currentMedia = value;
                         system->_p->actions["Stop"]->setEnabled(value ? true : false);
                         system->_p->actions["Forward"]->setEnabled(value ? true : false);
                         system->_p->actions["Reverse"]->setEnabled(value ? true : false);
@@ -257,6 +271,32 @@ namespace djv
                         {
                             system->_p->playbackActionGroup->setChecked(0);
                             system->_p->playbackObserver.reset();
+                        }
+                    }
+                });
+            }
+
+            if (auto windowSystem = context->getSystemT<WindowSystem>().lock())
+            {
+                p.windowModeObserver = ValueObserver<WindowMode>::create(
+                    windowSystem->observeWindowMode(),
+                    [weak](WindowMode value)
+                {
+                    if (auto system = weak.lock())
+                    {
+                        switch (value)
+                        {
+                        case WindowMode::SDI:
+                        case WindowMode::Playlist:
+                            for (auto & i : system->_p->media)
+                            {
+                                if (i != system->_p->currentMedia)
+                                {
+                                    i->setPlayback(Playback::Stop);
+                                }
+                            }
+                            break;
+                        default: break;
                         }
                     }
                 });

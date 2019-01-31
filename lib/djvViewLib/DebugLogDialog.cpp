@@ -27,7 +27,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvViewLib/HelpDebugLogDialog.h>
+#include <djvViewLib/DebugLogDialog.h>
 
 #include <djvUI/PushButton.h>
 #include <djvUI/RowLayout.h>
@@ -45,7 +45,7 @@ namespace djv
 {
     namespace ViewLib
     {
-        struct HelpDebugLogDialog::Private
+        struct DebugLogDialog::Private
         {
             std::shared_ptr<UI::TextBlock> textBlock;
             std::shared_ptr< UI::Button::Push> copyButton;
@@ -53,11 +53,11 @@ namespace djv
             std::shared_ptr< UI::Button::Push> clearButton;
         };
 
-        void HelpDebugLogDialog::_init(Context * context)
+        void DebugLogDialog::_init(Context * context)
         {
             IDialog::_init(context);
 
-            setClassName("djv::ViewLib::HelpDebugLogDialog");
+            setClassName("djv::ViewLib::DebugLogDialog");
 
             DJV_PRIVATE_PTR();
             p.textBlock = UI::TextBlock::create(context);
@@ -88,7 +88,7 @@ namespace djv
             layout->addWidget(hLayout);
             addWidget(layout, UI::Layout::RowStretch::Expand);
 
-            auto weak = std::weak_ptr<HelpDebugLogDialog>(std::dynamic_pointer_cast<HelpDebugLogDialog>(shared_from_this()));
+            auto weak = std::weak_ptr<DebugLogDialog>(std::dynamic_pointer_cast<DebugLogDialog>(shared_from_this()));
             p.reloadButton->setClickedCallback(
                 [weak]
             {
@@ -107,21 +107,21 @@ namespace djv
             });
         }
 
-        HelpDebugLogDialog::HelpDebugLogDialog() :
+        DebugLogDialog::DebugLogDialog() :
             _p(new Private)
         {}
 
-        HelpDebugLogDialog::~HelpDebugLogDialog()
+        DebugLogDialog::~DebugLogDialog()
         {}
 
-        std::shared_ptr<HelpDebugLogDialog> HelpDebugLogDialog::create(Context * context)
+        std::shared_ptr<DebugLogDialog> DebugLogDialog::create(Context * context)
         {
-            auto out = std::shared_ptr<HelpDebugLogDialog>(new HelpDebugLogDialog);
+            auto out = std::shared_ptr<DebugLogDialog>(new DebugLogDialog);
             out->_init(context);
             return out;
         }
 
-        void HelpDebugLogDialog::reloadLog()
+        void DebugLogDialog::reloadLog()
         {
             try
             {
@@ -135,19 +135,19 @@ namespace djv
             }
         }
 
-        void HelpDebugLogDialog::clearLog()
+        void DebugLogDialog::clearLog()
         {
             _p->textBlock->setText(std::string());
         }
 
-        void HelpDebugLogDialog::_localeEvent(Event::Locale &)
+        void DebugLogDialog::_localeEvent(Event::Locale &)
         {
-            setTitle(_getText(DJV_TEXT("djv::ViewLib::HelpDebugLogDialog", "Debugging Log")));
+            setTitle(_getText(DJV_TEXT("djv::ViewLib::DebugLogDialog", "Debugging Log")));
 
             DJV_PRIVATE_PTR();
-            p.copyButton->setText(_getText(DJV_TEXT("djv::ViewLib::HelpDebugLogDialog", "Copy")));
-            p.reloadButton->setText(_getText(DJV_TEXT("djv::ViewLib::HelpDebugLogDialog", "Reload")));
-            p.clearButton->setText(_getText(DJV_TEXT("djv::ViewLib::HelpDebugLogDialog", "Clear")));
+            p.copyButton->setText(_getText(DJV_TEXT("djv::ViewLib::DebugLogDialog", "Copy")));
+            p.reloadButton->setText(_getText(DJV_TEXT("djv::ViewLib::DebugLogDialog", "Reload")));
+            p.clearButton->setText(_getText(DJV_TEXT("djv::ViewLib::DebugLogDialog", "Clear")));
         }
 
     } // namespace ViewLib

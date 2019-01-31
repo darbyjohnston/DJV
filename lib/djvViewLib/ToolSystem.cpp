@@ -62,19 +62,19 @@ namespace djv
             DJV_PRIVATE_PTR();
             p.actions["Magnifier"] = UI::Action::create();
             p.actions["Magnifier"]->setButtonType(UI::ButtonType::Toggle);
-            p.actions["Magnifier"]->setShortcut(GLFW_KEY_1);
+            p.actions["Magnifier"]->setShortcut(GLFW_KEY_4);
 
             p.actions["ColorPicker"] = UI::Action::create();
             p.actions["ColorPicker"]->setButtonType(UI::ButtonType::Toggle);
-            p.actions["ColorPicker"]->setShortcut(GLFW_KEY_2);
+            p.actions["ColorPicker"]->setShortcut(GLFW_KEY_5);
 
             p.actions["Histogram"] = UI::Action::create();
             p.actions["Histogram"]->setButtonType(UI::ButtonType::Toggle);
-            p.actions["Histogram"]->setShortcut(GLFW_KEY_3);
+            p.actions["Histogram"]->setShortcut(GLFW_KEY_6);
 
             p.actions["Information"] = UI::Action::create();
             p.actions["Information"]->setButtonType(UI::ButtonType::Toggle);
-            p.actions["Information"]->setShortcut(GLFW_KEY_4);
+            p.actions["Information"]->setShortcut(GLFW_KEY_7);
 
             p.menus["Tools"] = UI::Menu::create(context);
             p.menus["Tools"]->addAction(p.actions["Magnifier"]);

@@ -71,12 +71,15 @@ namespace djv
             p.windowMode = ValueSubject<WindowMode>::create();
 
             p.actions["WindowModeSDI"] = UI::Action::create();
-            p.actions["WindowModeSDI"]->setShortcut(GLFW_KEY_S);
+            p.actions["WindowModeSDI"]->setShortcut(GLFW_KEY_1);
             p.actions["WindowModeMDI"] = UI::Action::create();
-            p.actions["WindowModeMDI"]->setShortcut(GLFW_KEY_M);
+            p.actions["WindowModeMDI"]->setShortcut(GLFW_KEY_2);
+            p.actions["WindowModePlaylist"] = UI::Action::create();
+            p.actions["WindowModePlaylist"]->setShortcut(GLFW_KEY_3);
             p.windowModeActionGroup = UI::ActionGroup::create(UI::ButtonType::Radio);
             p.windowModeActionGroup->addAction(p.actions["WindowModeSDI"]);
             p.windowModeActionGroup->addAction(p.actions["WindowModeMDI"]);
+            p.windowModeActionGroup->addAction(p.actions["WindowModePlaylist"]);
 
             //! \todo Implement me!
             p.actions["Duplicate"] = UI::Action::create();
@@ -98,6 +101,8 @@ namespace djv
             p.menus["Window"] = UI::Menu::create(getContext());
             p.menus["Window"]->addAction(p.actions["WindowModeSDI"]);
             p.menus["Window"]->addAction(p.actions["WindowModeMDI"]);
+            p.menus["Window"]->addAction(p.actions["WindowModePlaylist"]);
+            p.menus["Window"]->addSeparator();
             p.menus["Window"]->addAction(p.actions["Duplicate"]);
             p.menus["Window"]->addAction(p.actions["Fit"]);
             p.menus["Window"]->addAction(p.actions["FullScreen"]);
@@ -165,6 +170,8 @@ namespace djv
             p.actions["WindowModeSDI"]->setTooltip(_getText(DJV_TEXT("djv::ViewLib::WindowSystem", "SDI Tooltip")));
             p.actions["WindowModeMDI"]->setText(_getText(DJV_TEXT("djv::ViewLib::WindowSystem", "MDI")));
             p.actions["WindowModeMDI"]->setTooltip(_getText(DJV_TEXT("djv::ViewLib::WindowSystem", "MDI Tooltip")));
+            p.actions["WindowModePlaylist"]->setText(_getText(DJV_TEXT("djv::ViewLib::WindowSystem", "Playlist")));
+            p.actions["WindowModePlaylist"]->setTooltip(_getText(DJV_TEXT("djv::ViewLib::WindowSystem", "Playlist Tooltip")));
             p.actions["Duplicate"]->setText(_getText(DJV_TEXT("djv::ViewLib::WindowSystem", "Duplicate")));
             p.actions["Duplicate"]->setTooltip(_getText(DJV_TEXT("djv::ViewLib::WindowSystem", "Duplicate Tooltip")));
             p.actions["Fit"]->setText(_getText(DJV_TEXT("djv::ViewLib::WindowSystem", "Fit")));

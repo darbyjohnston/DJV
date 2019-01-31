@@ -69,7 +69,7 @@ namespace djv
             p.titleLabel->setMargin(UI::Style::MetricsRole::MarginSmall);
 
             auto maximizeButton = UI::Button::Tool::create(context);
-            maximizeButton->setIcon("djvIconMaximizeSmall");
+            maximizeButton->setIcon("djvIconViewLibSDISmall");
 
             auto closeButton = UI::Button::Tool::create(context);
             closeButton->setIcon("djvIconCloseSmall");

@@ -37,9 +37,11 @@
 #include <djvViewLib/MDIWidget.h>
 #include <djvViewLib/Media.h>
 #include <djvViewLib/MediaWidget.h>
+#include <djvViewLib/PlaylistWidget.h>
 #include <djvViewLib/WindowSystem.h>
 
 #include <djvUI/Action.h>
+#include <djvUI/ButtonGroup.h>
 #include <djvUI/MDICanvas.h>
 #include <djvUI/Menu.h>
 #include <djvUI/MenuBar.h>
@@ -62,13 +64,16 @@ namespace djv
         struct MainWindow::Private
         {
             std::shared_ptr<UI::MenuBar> menuBar;
+            std::shared_ptr<MediaWidget> sdiWidget;
             std::shared_ptr<UI::MDI::Canvas> mdiCanvas;
             std::shared_ptr<UI::ScrollWidget> mdiScrollWidget;
-            std::shared_ptr<UI::Button::Tool> mdiButton;
             std::map<std::shared_ptr<Media>, std::shared_ptr<MDIWidget> > mediaToMDIWidget;
-            WindowMode windowMode = WindowMode::SDI;
-            std::shared_ptr<MediaWidget> sdiWidget;
+            std::shared_ptr<PlaylistWidget> playlistWidget;
             std::shared_ptr<UI::Layout::Solo> soloLayout;
+            std::shared_ptr<UI::Button::Tool> sdiButton;
+            std::shared_ptr<UI::Button::Tool> mdiButton;
+            std::shared_ptr<UI::Button::Tool> playlistButton;
+            std::shared_ptr<UI::Button::Group> windowButtonGroup;
             std::shared_ptr<UI::MDI::Canvas> toolCanvas;
             std::shared_ptr<UI::Layout::Stack> stackLayout;
             std::shared_ptr<ValueObserver<std::pair<std::shared_ptr<Media>, glm::vec2> > > fileOpenedObserver;
@@ -97,19 +102,33 @@ namespace djv
             }
 
             DJV_PRIVATE_PTR();
+            p.sdiWidget = MediaWidget::create(context);
+
             p.mdiCanvas = UI::MDI::Canvas::create(context);
             p.mdiScrollWidget = UI::ScrollWidget::create(UI::ScrollType::Both, context);
             p.mdiScrollWidget->setBorder(false);
             p.mdiScrollWidget->addWidget(p.mdiCanvas);
-            p.mdiButton = UI::Button::Tool::create(context);
-            p.mdiButton->setIcon("djvIconMaximizeSmall");
-            p.mdiButton->setInsideMargin(UI::Style::MetricsRole::None);
 
-            p.sdiWidget = MediaWidget::create(context);
+            p.playlistWidget = PlaylistWidget::create(context);
 
             p.soloLayout = UI::Layout::Solo::create(context);
-            p.soloLayout->addWidget(p.mdiScrollWidget);
             p.soloLayout->addWidget(p.sdiWidget);
+            p.soloLayout->addWidget(p.mdiScrollWidget);
+            p.soloLayout->addWidget(p.playlistWidget);
+
+            p.sdiButton = UI::Button::Tool::create(context);
+            p.sdiButton->setIcon("djvIconViewLibSDISmall");
+            p.sdiButton->setInsideMargin(UI::Style::MetricsRole::None);
+            p.mdiButton = UI::Button::Tool::create(context);
+            p.mdiButton->setIcon("djvIconViewLibMDISmall");
+            p.mdiButton->setInsideMargin(UI::Style::MetricsRole::None);
+            p.playlistButton = UI::Button::Tool::create(context);
+            p.playlistButton->setIcon("djvIconViewLibPlaylistSmall");
+            p.playlistButton->setInsideMargin(UI::Style::MetricsRole::None);
+            p.windowButtonGroup = UI::Button::Group::create(UI::ButtonType::Radio);
+            p.windowButtonGroup->addButton(p.sdiButton);
+            p.windowButtonGroup->addButton(p.mdiButton);
+            p.windowButtonGroup->addButton(p.playlistButton);
 
             p.toolCanvas = UI::MDI::Canvas::create(context);
             for (auto i : viewSystems)
@@ -142,7 +161,9 @@ namespace djv
             {
                 p.menuBar->addMenu(i.second);
             }
+            p.menuBar->addWidget(p.sdiButton);
             p.menuBar->addWidget(p.mdiButton);
+            p.menuBar->addWidget(p.playlistButton);
             
             p.stackLayout = UI::Layout::Stack::create(context);
             p.stackLayout->addWidget(p.soloLayout);
@@ -171,12 +192,12 @@ namespace djv
                 }
             });
 
-            p.mdiButton->setClickedCallback(
-                [context]
+            p.windowButtonGroup->setClickedCallback(
+                [context](int radio)
             {
                 if (auto windowSystem = context->getSystemT<WindowSystem>().lock())
                 {
-                    windowSystem->setWindowMode(WindowMode::MDI);
+                    windowSystem->setWindowMode(static_cast<WindowMode>(radio));
                 }
             });
 
@@ -208,8 +229,12 @@ namespace djv
                             mainWindow->_p->mdiCanvas->setWidgetPos(mdiWidget, pos - size / 2.f);
                             mainWindow->_p->mediaToMDIWidget[value.first] = mdiWidget;
                             mdiWidget->setMaximizeCallback(
-                                [context]
+                                [context, value]
                             {
+                                if (auto fileSystem = context->getSystemT<FileSystem>().lock())
+                                {
+                                    fileSystem->setCurrentMedia(value.first);
+                                }
                                 if (auto windowSystem = context->getSystemT<WindowSystem>().lock())
                                 {
                                     windowSystem->setWindowMode(WindowMode::SDI);
@@ -260,26 +285,22 @@ namespace djv
 
             if (auto windowSystem = context->getSystemT<WindowSystem>().lock())
             {
-                windowSystem->setWindowMode(p.windowMode);
-
                 _p->windowModeObserver = ValueObserver<WindowMode>::create(
                     windowSystem->observeWindowMode(),
                     [weak](WindowMode value)
                 {
                     if (auto mainWindow = weak.lock())
                     {
+                        std::shared_ptr<UI::Widget> currentWidget;
                         switch (value)
                         {
-                        case WindowMode::SDI:
-                            mainWindow->_p->soloLayout->setCurrentWidget(mainWindow->_p->sdiWidget);
-                            mainWindow->_p->mdiButton->show();
-                            break;
-                        case WindowMode::MDI:
-                            mainWindow->_p->soloLayout->setCurrentWidget(mainWindow->_p->mdiScrollWidget);
-                            mainWindow->_p->mdiButton->hide();
-                            break;
+                        case WindowMode::SDI: currentWidget = mainWindow->_p->sdiWidget; break;
+                        case WindowMode::MDI: currentWidget = mainWindow->_p->mdiScrollWidget; break;
+                        case WindowMode::Playlist: currentWidget = mainWindow->_p->playlistWidget; break;
                         default: break;
                         }
+                        mainWindow->_p->soloLayout->setCurrentWidget(currentWidget);
+                        mainWindow->_p->windowButtonGroup->setChecked(static_cast<int>(value));
                     }
                 });
             }
@@ -319,7 +340,9 @@ namespace djv
         void MainWindow::_localeEvent(Core::Event::Locale & event)
         {
             DJV_PRIVATE_PTR();
-            p.mdiButton->setTooltip(_getText(DJV_TEXT("djv::ViewLib::MainWindow", "MDI WindowMode Tooltip")));
+            p.sdiButton->setTooltip(_getText(DJV_TEXT("djv::ViewLib::MainWindow", "SDI Window Mode Tooltip")));
+            p.mdiButton->setTooltip(_getText(DJV_TEXT("djv::ViewLib::MainWindow", "MDI Window Mode Tooltip")));
+            p.playlistButton->setTooltip(_getText(DJV_TEXT("djv::ViewLib::MainWindow", "Playlist Window Mode Tooltip")));
         }
 
     } // namespace ViewLib

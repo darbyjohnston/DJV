@@ -35,18 +35,18 @@ namespace djv
 {
     namespace ViewLib
     {
-        class HelpDebugLogDialog : public UI::IDialog
+        class DebugLogDialog : public UI::IDialog
         {
-            DJV_NON_COPYABLE(HelpDebugLogDialog);
+            DJV_NON_COPYABLE(DebugLogDialog);
 
         protected:
             void _init(Core::Context *);
-            HelpDebugLogDialog();
+            DebugLogDialog();
 
         public:
-            ~HelpDebugLogDialog() override;
+            ~DebugLogDialog() override;
 
-            static std::shared_ptr<HelpDebugLogDialog> create(Core::Context *);
+            static std::shared_ptr<DebugLogDialog> create(Core::Context *);
 
             void reloadLog();
             void clearLog();
