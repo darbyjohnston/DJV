@@ -79,6 +79,8 @@ namespace djv
                 void _buttonPressEvent(Event::ButtonPress&) override;
                 void _buttonReleaseEvent(Event::ButtonRelease&) override;
 
+                std::shared_ptr<Widget> _createTooltip(const glm::vec2 & pos) override;
+
                 void _updateEvent(Event::Update&) override;
 
             private:
@@ -479,6 +481,24 @@ namespace djv
                         _redraw();
                     }
                 }
+            }
+
+            std::shared_ptr<Widget> MenuWidget::_createTooltip(const glm::vec2 & pos)
+            {
+                std::string text;
+                for (const auto & i : _items)
+                {
+                    if (i.second->geom.contains(pos))
+                    {
+                        const auto j = _itemToAction.find(i.second);
+                        if (j != _itemToAction.end())
+                        {
+                            text = j->second->observeTooltip()->get();
+                            break;
+                        }
+                    }
+                }
+                return !text.empty() ? _createTooltipDefault(text) : nullptr;
             }
 
             void MenuWidget::_updateEvent(Event::Update&)

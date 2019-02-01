@@ -214,7 +214,6 @@ namespace djv
                 {
                     if (auto style = _getStyle().lock())
                     {
-                        const float ms = style->getMetric(Style::MetricsRole::MarginSmall);
                         const float h = style->getMetric(Style::MetricsRole::Handle);
 
                         /*const auto & children = getChildrenT<IWidget>();
@@ -240,13 +239,16 @@ namespace djv
                         render->setFillColor(_getColorWithOpacity(style->getColor(Style::ColorRole::Pressed)));
                         for (const auto & i : p.pressed)
                         {
-                            switch (i.second.handle)
+                            for (const auto & j : i.second.widget->getHandleBBox(i.second.handle))
                             {
-                            case Handle::Move:
-                            case Handle::None: break;
-                            default:
-                                render->drawRect(i.second.widget->getHandleBBox(i.second.handle));
-                                break;
+                                switch (i.second.handle)
+                                {
+                                case Handle::Move:
+                                case Handle::None: break;
+                                default:
+                                    render->drawRect(j);
+                                    break;
+                                }
                             }
                             const auto j = hovered.find(i.first);
                             if (j != hovered.end())
@@ -258,13 +260,16 @@ namespace djv
                         render->setFillColor(_getColorWithOpacity(style->getColor(Style::ColorRole::Hovered)));
                         for (const auto & i : hovered)
                         {
-                            switch (i.second.handle)
+                            for (const auto & j : i.second.widget->getHandleBBox(i.second.handle))
                             {
-                            case Handle::Move:
-                            case Handle::None: break;
-                            default:
-                                render->drawRect(i.second.widget->getHandleBBox(i.second.handle));
-                                break;
+                                switch (i.second.handle)
+                                {
+                                case Handle::Move:
+                                case Handle::None: break;
+                                default:
+                                    render->drawRect(j);
+                                    break;
+                                }
                             }
                         }
                     }

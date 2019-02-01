@@ -45,61 +45,91 @@ namespace djv
 
             namespace
             {
-                std::map<Handle, BBox2f> _getHandleBBox(const BBox2f & bbox, float edge, float corner)
+                std::map<Handle, std::vector<BBox2f> > _getHandleBBox(const BBox2f & bbox, float edge, float corner)
                 {
                     return
                     {
                         {
                             Handle::Move,
-                            bbox.margin(-edge)
+                            {
+                                bbox.margin(-edge)
+                            }
                         },
                         {
                             Handle::ResizeE,
-                            BBox2f(
-                                glm::vec2(bbox.min.x, bbox.min.y + corner),
-                                glm::vec2(bbox.min.x + edge, bbox.max.y - corner))
+                            {
+                                BBox2f(
+                                    glm::vec2(bbox.min.x, bbox.min.y + corner),
+                                    glm::vec2(bbox.min.x + edge, bbox.max.y - corner))
+                            }
                         },
                         {
                             Handle::ResizeN,
-                            BBox2f(
-                                glm::vec2(bbox.min.x + corner, bbox.min.y),
-                                glm::vec2(bbox.max.x - corner, bbox.min.y + edge))
+                            {
+                                BBox2f(
+                                    glm::vec2(bbox.min.x + corner, bbox.min.y),
+                                    glm::vec2(bbox.max.x - corner, bbox.min.y + edge))
+                            }
                         },
                         {
                             Handle::ResizeW,
-                            BBox2f(
-                                glm::vec2(bbox.max.x - edge, bbox.min.y + corner),
-                                glm::vec2(bbox.max.x, bbox.max.y - corner))
+                            {
+                                BBox2f(
+                                    glm::vec2(bbox.max.x - edge, bbox.min.y + corner),
+                                    glm::vec2(bbox.max.x, bbox.max.y - corner))
+                            }
                         },
                         {
                             Handle::ResizeS,
-                            BBox2f(
-                                glm::vec2(bbox.min.x + corner, bbox.max.y - edge),
-                                glm::vec2(bbox.max.x - corner, bbox.max.y))
+                            {
+                                BBox2f(
+                                    glm::vec2(bbox.min.x + corner, bbox.max.y - edge),
+                                    glm::vec2(bbox.max.x - corner, bbox.max.y))
+                                }
                         },
                         {
                             Handle::ResizeNE,
-                            BBox2f(
-                                glm::vec2(bbox.min.x, bbox.min.y),
-                                glm::vec2(bbox.min.x + corner, bbox.min.y + corner))
+                            {
+                                BBox2f(
+                                    glm::vec2(bbox.min.x, bbox.min.y),
+                                    glm::vec2(bbox.min.x + corner, bbox.min.y + edge)),
+                                BBox2f(
+                                    glm::vec2(bbox.min.x, bbox.min.y + edge),
+                                    glm::vec2(bbox.min.x + edge, bbox.min.y + corner))
+                            }
                         },
                         {
                             Handle::ResizeNW,
-                            BBox2f(
-                                glm::vec2(bbox.max.x - corner, bbox.min.y),
-                                glm::vec2(bbox.max.x, bbox.min.y + corner))
+                            {
+                                BBox2f(
+                                    glm::vec2(bbox.max.x - corner, bbox.min.y),
+                                    glm::vec2(bbox.max.x, bbox.min.y + edge)),
+                                BBox2f(
+                                    glm::vec2(bbox.max.x - edge, bbox.min.y + edge),
+                                    glm::vec2(bbox.max.x, bbox.min.y + corner))
+                            }
                         },
                         {
                             Handle::ResizeSW,
-                            BBox2f(
-                                glm::vec2(bbox.max.x - corner, bbox.max.y - corner),
-                                glm::vec2(bbox.max.x, bbox.max.y))
+                            {
+                                BBox2f(
+                                    glm::vec2(bbox.max.x - corner, bbox.max.y - edge),
+                                    glm::vec2(bbox.max.x, bbox.max.y)),
+                                BBox2f(
+                                    glm::vec2(bbox.max.x - edge, bbox.max.y - corner),
+                                    glm::vec2(bbox.max.x, bbox.max.y - edge))
+                            }
                         },
                         {
                             Handle::ResizeSE,
-                            BBox2f(
-                                glm::vec2(bbox.min.x, bbox.max.y - corner),
-                                glm::vec2(bbox.min.x + corner, bbox.max.y))
+                            {
+                                BBox2f(
+                                    glm::vec2(bbox.min.x, bbox.max.y - edge),
+                                    glm::vec2(bbox.min.x + corner, bbox.max.y)),
+                                BBox2f(
+                                    glm::vec2(bbox.min.x, bbox.max.y - corner),
+                                    glm::vec2(bbox.min.x + edge, bbox.max.y - edge))
+                            }
                         }
                     };
                 }
@@ -114,19 +144,22 @@ namespace djv
                     const float m = style->getMetric(Style::MetricsRole::Handle);
                     for (const auto & i : _getHandleBBox(getGeometry(), m, m * 2.f))
                     {
-                        if (i.second.contains(pos))
+                        for (const auto & j : i.second)
                         {
-                            out = i.first;
-                            break;
+                            if (j.contains(pos))
+                            {
+                                out = i.first;
+                                break;
+                            }
                         }
                     }
                 }
                 return out;
             }
             
-            BBox2f IWidget::getHandleBBox(Handle value) const
+            std::vector<BBox2f> IWidget::getHandleBBox(Handle value) const
             {
-                BBox2f out = BBox2f(0.f, 0.f, 0.f, 0.f);
+                std::vector<BBox2f> out;
                 if (auto style = _getStyle().lock())
                 {
                     const float m = style->getMetric(Style::MetricsRole::Handle);
