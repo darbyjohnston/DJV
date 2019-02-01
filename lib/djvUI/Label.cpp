@@ -283,6 +283,7 @@ namespace djv
                         style->getFontInfo(p.font, p.fontFace, p.fontSizeRole);
                     p.fontMetricsFuture = fontSystem->getMetrics(fontInfo);
                     p.textSizeFuture = fontSystem->measure(p.text, fontInfo);
+                    _resize();
                 }
             }
         }

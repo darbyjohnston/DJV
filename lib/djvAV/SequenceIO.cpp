@@ -122,7 +122,7 @@ namespace djv
                                 std::chrono::milliseconds(timeout),
                                 [this]
                             {
-                                return (_queue->getVideoCount() < _queue->getVideoMax()) || _p->seek != -1;
+                                return (_queue->isFinished() ? false : (_queue->getVideoCount() < _queue->getVideoMax())) || _p->seek != -1;
                             }))
                             {
                                 read = true;
@@ -191,10 +191,6 @@ namespace djv
                             {
                                 std::lock_guard<std::mutex> lock(_queue->getMutex());
                                 _queue->setFinished(true);
-                                if (_queue->hasCloseOnFinish())
-                                {
-                                    p.running = false;
-                                }
                             }
                         }
                     }
@@ -312,10 +308,10 @@ namespace djv
                                     {
                                         image = _queue->getVideo().second;
                                         _queue->popVideo();
-                                    }
-                                    else if (_queue->isFinished())
-                                    {
-                                        p.running = false;
+                                        if (!image)
+                                        {
+                                            p.running = false;
+                                        }
                                     }
                                 }
                             }

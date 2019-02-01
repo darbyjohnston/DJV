@@ -30,6 +30,7 @@
 #include <djvViewLib/ToolSystem.h>
 
 #include <djvViewLib/ColorPickerTool.h>
+#include <djvViewLib/DebugTool.h>
 #include <djvViewLib/HistogramTool.h>
 #include <djvViewLib/InformationTool.h>
 #include <djvViewLib/MagnifierTool.h>
@@ -76,11 +77,16 @@ namespace djv
             p.actions["Information"]->setButtonType(UI::ButtonType::Toggle);
             p.actions["Information"]->setShortcut(GLFW_KEY_7);
 
+            p.actions["Debug"] = UI::Action::create();
+            p.actions["Debug"]->setButtonType(UI::ButtonType::Toggle);
+            p.actions["Debug"]->setShortcut(GLFW_KEY_8);
+
             p.menus["Tools"] = UI::Menu::create(context);
             p.menus["Tools"]->addAction(p.actions["Magnifier"]);
             p.menus["Tools"]->addAction(p.actions["ColorPicker"]);
             p.menus["Tools"]->addAction(p.actions["Histogram"]);
             p.menus["Tools"]->addAction(p.actions["Information"]);
+            p.menus["Tools"]->addAction(p.actions["Debug"]);
 
             p.toolWidgets["Magnifier"] = MagnifierTool::create(context);
             p.toolWidgets["Magnifier"]->hide();
@@ -90,6 +96,8 @@ namespace djv
             p.toolWidgets["Histogram"]->hide();
             p.toolWidgets["Information"] = InformationTool::create(context);
             p.toolWidgets["Information"]->hide();
+            p.toolWidgets["Debug"] = DebugTool::create(context);
+            p.toolWidgets["Debug"]->hide();
 
             auto weak = std::weak_ptr<ToolSystem>(std::dynamic_pointer_cast<ToolSystem>(shared_from_this()));
             p.checkedObservers["Magnifier"] = ValueObserver<bool>::create(
@@ -128,6 +136,15 @@ namespace djv
                     system->_p->toolWidgets["Information"]->setVisible(value);
                 }
             });
+            p.checkedObservers["Debug"] = ValueObserver<bool>::create(
+                p.actions["Debug"]->observeChecked(),
+                [weak](bool value)
+            {
+                if (auto system = weak.lock())
+                {
+                    system->_p->toolWidgets["Debug"]->setVisible(value);
+                }
+            });
         }
 
         ToolSystem::ToolSystem() :
@@ -163,7 +180,8 @@ namespace djv
                 { p.toolWidgets["Magnifier"], "F1" },
                 { p.toolWidgets["ColorPicker"], "F2" },
                 { p.toolWidgets["Histogram"], "F3" },
-                { p.toolWidgets["Information"], "F4" }
+                { p.toolWidgets["Information"], "F4" },
+                { p.toolWidgets["Debug"], "F5" }
             };
         }
 
@@ -179,6 +197,8 @@ namespace djv
             p.actions["Histogram"]->setTooltip(_getText(DJV_TEXT("djv::ViewLib::ToolSystem", "Histogram Tooltip")));
             p.actions["Information"]->setText(_getText(DJV_TEXT("djv::ViewLib::ToolSystem", "Information")));
             p.actions["Information"]->setTooltip(_getText(DJV_TEXT("djv::ViewLib::ToolSystem", "Information Tooltip")));
+            p.actions["Debug"]->setText(_getText(DJV_TEXT("djv::ViewLib::ToolSystem", "Debug")));
+            p.actions["Debug"]->setTooltip(_getText(DJV_TEXT("djv::ViewLib::ToolSystem", "Debug Tooltip")));
         }
 
     } // namespace ViewLib

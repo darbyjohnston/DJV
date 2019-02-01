@@ -83,7 +83,6 @@ namespace djv
             {
                 auto label = Label::create(text, getContext());
                 label->setTextHAlign(TextHAlign::Left);
-                label->setMargin(Style::MetricsRole::MarginSmall);
                 DJV_PRIVATE_PTR();
                 const glm::ivec2 gridSize = p.layout->getGridSize();
                 p.layout->addWidget(label, glm::ivec2(0, gridSize.y));
@@ -113,19 +112,42 @@ namespace djv
                 }
             }
 
+            const Spacing& Form::getSpacing() const
+            {
+                return _p->layout->getSpacing();
+            }
+
+            void Form::setSpacing(const Spacing& value)
+            {
+                _p->layout->setSpacing(value);
+            }
+
             float Form::getHeightForWidth(float value) const
             {
-                return _p->layout->getHeightForWidth(value);
+                float out = 0.f;
+                if (auto style = _getStyle().lock())
+                {
+                    out = _p->layout->getHeightForWidth(value - getMargin().getWidth(style)) + getMargin().getWidth(style);
+                }
+                return out;
             }
 
             void Form::_preLayoutEvent(Event::PreLayout& event)
             {
-                _setMinimumSize(_p->layout->getMinimumSize());
+                if (auto style = _getStyle().lock())
+                {
+                    _setMinimumSize(_p->layout->getMinimumSize() + getMargin().getSize(style));
+                }
             }
 
             void Form::_layoutEvent(Event::Layout& event)
             {
-                _p->layout->setGeometry(getGeometry());
+                if (auto style = _getStyle().lock())
+                {
+                    DJV_PRIVATE_PTR();
+                    const BBox2f & g = getGeometry();
+                    _p->layout->setGeometry(getMargin().bbox(g, style));
+                }
             }
 
         } // namespace Layout

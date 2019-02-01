@@ -40,12 +40,12 @@ namespace djv
 
             inline size_t Queue::getVideoMax() const
             {
-                return _finished ? 0 : _videoMax;
+                return _videoMax;
             }
 
             inline size_t Queue::getAudioMax() const
             {
-                return _finished ? 0 : _audioMax;
+                return _audioMax;
             }
 
             inline size_t Queue::getVideoCount() const
@@ -81,11 +81,6 @@ namespace djv
             inline bool Queue::isFinished() const
             {
                 return _finished;
-            }
-
-            inline bool Queue::hasCloseOnFinish() const
-            {
-                return _closeOnFinish;
             }
 
             inline const std::string & IPlugin::getPluginName() const

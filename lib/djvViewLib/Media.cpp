@@ -45,7 +45,7 @@ namespace djv
         namespace
         {
             //! \todo [1.0 S] Should this be configurable?
-            const size_t bufferCount = 100;
+            const size_t bufferCount = 30;
 
         } // namespace
 
@@ -96,7 +96,6 @@ namespace djv
             p.audioQueueCount = ValueSubject<size_t>::create();
             p.alUnqueuedBuffers = ValueSubject<size_t>::create();
             p.queue = AV::IO::Queue::create();
-            p.queue->setCloseOnFinish(false);
             p.queueTimer = Time::Timer::create(context);
             p.queueTimer->setRepeating(true);
             p.infoTimer = Time::Timer::create(context);
@@ -131,6 +130,7 @@ namespace djv
                 {
                     p.read = io->read(fileName, p.queue);
                     p.infoFuture = p.read->getInfo();
+
                     const auto timeout = Time::Timer::getMilliseconds(Time::Timer::Value::Fast);
                     p.infoTimer->start(
                         timeout,
@@ -141,7 +141,7 @@ namespace djv
                             p.infoFuture.wait_for(std::chrono::seconds(0)) == std::future_status::ready)
                         {
                             p.infoTimer->stop();
-                            auto info = p.infoFuture.get();
+                            const auto info = p.infoFuture.get();
                             Time::Duration duration = 0;
                             const auto & video = info.video;
                             if (video.size())
@@ -184,7 +184,7 @@ namespace djv
                     });
 
                     p.debugTimer->start(
-                        Time::Timer::getMilliseconds(Time::Timer::Value::Slow),
+                        Time::Timer::getMilliseconds(Time::Timer::Value::Fast),
                         [this](float)
                     {
                         DJV_PRIVATE_PTR();
@@ -315,12 +315,6 @@ namespace djv
                     {
                     case Playback::Forward:
                     {
-                        /*ALint alSourceState = 0;
-                        alGetSourcei(p.alSource, AL_SOURCE_STATE, &alSourceState);
-                        if ((AL_INITIAL == alSourceState || AL_STOPPED == alSourceState) && p.queue->getAudioCount() == 100)
-                        {
-                            alSourcePlay(p.alSource);
-                        }*/
                         Time::Timestamp pts = 0;
                         AVRational r;
                         Time::Timestamp time = 0;
@@ -351,14 +345,18 @@ namespace djv
                                 ss << "video time = " << time;
                                 p.context->log("djv::ViewLib::Media", ss.str());
                             }*/
+                            DJV_ASSERT(time >= p.currentTime->get());
                         }
-                        if (time < _p->duration->get())
+                        if (time < p.duration->get())
                         {
                             p.currentTime->setIfChanged(time);
                             _timeUpdate();
                         }
                         else
                         {
+                            r.num = p.videoInfo.speed.getDuration();
+                            r.den = p.videoInfo.speed.getScale();
+                            p.currentTime->setIfChanged(p.duration->get() - av_rescale_q(1, r, AV::IO::FFmpeg::getTimeBaseQ()));
                             p.playback->setIfChanged(Playback::Stop);
                             alSourceStop(p.alSource);
                             p.playbackTimer->stop();
@@ -372,12 +370,7 @@ namespace djv
                     default: break;
                     }
                 });
-                //ALint alSourceState = 0;
-                //alGetSourcei(p.alSource, AL_SOURCE_STATE, &alSourceState);
-                //if (AL_INITIAL == alSourceState || AL_STOPPED == alSourceState)
-                {
-                    alSourcePlay(p.alSource);
-                }
+                alSourcePlay(p.alSource);
                 break;
             }
             case Playback::Stop:
@@ -422,7 +415,7 @@ namespace djv
                 }
             }
 
-            if (Playback::Stop != p.playback->get())
+            if (p.audioInfo.info.isValid() && Playback::Stop != p.playback->get())
             {
                 // Fill the OpenAL queue with frames from the I/O queue.
                 ALint queued = 0;
@@ -430,10 +423,18 @@ namespace djv
                 std::vector<AV::IO::AudioFrame> frames;
                 {
                     std::lock_guard<std::mutex> lock(p.queue->getMutex());
-                    while (p.queue->hasAudio() && frames.size() < bufferCount - queued && frames.size() < p.alBuffers.size())
+                    while (p.queue->hasAudio() &&
+                       (frames.size() < (bufferCount - queued)) &&
+                       (frames.size() < p.alBuffers.size()))
                     {
-                        frames.push_back(p.queue->getAudio());
+                        const auto audioFrame = p.queue->getAudio();
                         p.queue->popAudio();
+                        frames.push_back(audioFrame);
+                    }
+                    if (!p.queue->hasAudio() && p.queue->isFinished())
+                    {
+                        p.startTime = std::chrono::system_clock::now();
+                        p.timeOffset = p.currentTime->get();
                     }
                 }
                 for (size_t i = 0; i < frames.size(); ++i)

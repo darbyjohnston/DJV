@@ -311,8 +311,8 @@ namespace djv
                                         [this]
                                     {
                                         DJV_PRIVATE_PTR();
-                                        const bool video = p.avVideoStream != -1 && (_queue->getVideoCount() < _queue->getVideoMax());
-                                        const bool audio = p.avAudioStream != -1 && (_queue->getAudioCount() < _queue->getAudioMax());
+                                        const bool video = p.avVideoStream != -1 && (_queue->isFinished() ? false : (_queue->getVideoCount() < _queue->getVideoMax()));
+                                        const bool audio = p.avAudioStream != -1 && (_queue->isFinished() ? false : (_queue->getAudioCount() < _queue->getAudioMax()));
                                         return video || audio || p.seek != -1;
                                     }))
                                     {
@@ -432,10 +432,6 @@ namespace djv
                                     {
                                         std::lock_guard<std::mutex> lock(_queue->getMutex());
                                         _queue->setFinished(true);
-                                        if (_queue->hasCloseOnFinish())
-                                        {
-                                            p.running = false;
-                                        }
                                     }
                                 }
                             }

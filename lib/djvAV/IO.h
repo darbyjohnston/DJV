@@ -115,7 +115,7 @@ namespace djv
 
             public:
                 //! \todo [1.0 S] What are good defaults for these values?
-                static std::shared_ptr<Queue> create(size_t videoMax = 30, size_t audioMax = 30);
+                static std::shared_ptr<Queue> create(size_t videoMax = 10, size_t audioMax = 30);
 
                 inline std::mutex & getMutex();
 
@@ -138,9 +138,7 @@ namespace djv
                 void clear();
 
                 inline bool isFinished() const;
-                inline bool hasCloseOnFinish() const;
                 void setFinished(bool);
-                void setCloseOnFinish(bool);
 
             private:
                 std::mutex _mutex;
@@ -149,7 +147,6 @@ namespace djv
                 std::list<VideoFrame> _video;
                 std::list<AudioFrame> _audio;
                 bool _finished = false;
-                bool _closeOnFinish = true;
             };
 
             //! This class provides an interface for reading.

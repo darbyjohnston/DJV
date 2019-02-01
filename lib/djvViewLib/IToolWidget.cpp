@@ -58,7 +58,7 @@ namespace djv
             DJV_PRIVATE_PTR();
             p.titleLabel = UI::Label::create(context);
             p.titleLabel->setTextHAlign(UI::TextHAlign::Left);
-            p.titleLabel->setMargin(UI::Style::MetricsRole::MarginSmall);
+            p.titleLabel->setMargin(UI::Style::MetricsRole::Margin);
 
             auto closeButton = UI::Button::Tool::create(context);
             closeButton->setIcon("djvIconCloseSmall");

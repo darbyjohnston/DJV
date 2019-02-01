@@ -35,6 +35,27 @@ namespace djv
 {
     namespace ViewLib
     {
+        class DebugTool : public IToolWidget
+        {
+            DJV_NON_COPYABLE(DebugTool);
+
+        protected:
+            void _init(Core::Context *);
+            DebugTool();
+
+        public:
+            ~DebugTool() override;
+
+            static std::shared_ptr<DebugTool> create(Core::Context *);
+
+        protected:
+            void _localeEvent(Core::Event::Locale &) override;
+
+        private:
+            void _widgetUpdate();
+
+            DJV_PRIVATE();
+        };
 
     } // namespace ViewLib
 } // namespace djv

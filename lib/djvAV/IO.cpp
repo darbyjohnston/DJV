@@ -165,19 +165,14 @@ namespace djv
                 _finished = value;
             }
 
-            void Queue::setCloseOnFinish(bool value)
-            {
-                _closeOnFinish = value;
-            }
-
             void IRead::_init(
-                const std::string & fileName,
+                const std::string &            fileName,
                 const std::shared_ptr<Queue> & queue,
-                Context * context)
+                Context *                      context)
             {
-                _context = context;
+                _context  = context;
                 _fileName = fileName;
-                _queue = queue;
+                _queue    = queue;
             }
 
             IRead::IRead()
@@ -190,15 +185,15 @@ namespace djv
             {}
 
             void IWrite::_init(
-                const std::string & fileName,
-                const Info & info,
+                const std::string &            fileName,
+                const Info &                   info,
                 const std::shared_ptr<Queue> & queue,
-                Context * context)
+                Context *                      context)
             {
-                _context = context;
+                _context  = context;
                 _fileName = fileName;
-                _info = info;
-                _queue = queue;
+                _info     = info;
+                _queue    = queue;
             }
 
             IWrite::IWrite()
@@ -208,14 +203,14 @@ namespace djv
             {}
 
             void IPlugin::_init(
-                const std::string & pluginName,
-                const std::string & pluginInfo,
+                const std::string &           pluginName,
+                const std::string &           pluginInfo,
                 const std::set<std::string> & fileExtensions,
-                Context * context)
+                Context *                     context)
             {
-                _context = context;
-                _pluginName = pluginName;
-                _pluginInfo = pluginInfo;
+                _context        = context;
+                _pluginName     = pluginName;
+                _pluginInfo     = pluginInfo;
                 _fileExtensions = fileExtensions;
             }
 

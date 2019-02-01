@@ -29,6 +29,7 @@
 
 #pragma once
 
+#include <djvUI/Spacing.h>
 #include <djvUI/Widget.h>
 
 namespace djv
@@ -57,6 +58,9 @@ namespace djv
                 void clearWidgets();
 
                 void setText(size_t, const std::string &);
+
+                const Spacing& getSpacing() const;
+                void setSpacing(const Spacing&);
 
                 float getHeightForWidth(float) const override;
 
