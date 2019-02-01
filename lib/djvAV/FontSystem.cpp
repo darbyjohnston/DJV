@@ -58,8 +58,8 @@ namespace djv
             namespace
             {
                 //! \todo [1.0 S] Should this be configurable?
-                //const size_t measureCacheMax = 10000;
-                //const size_t glyphCacheMax = 10000;
+                const size_t measureCacheMax = 1000;
+                const size_t glyphCacheMax = 1000;
 
                 struct MetricsRequest
                 {
@@ -241,9 +241,8 @@ namespace djv
                 std::vector<GlyphsRequest> glyphsRequests;
 
                 std::wstring_convert<std::codecvt_utf8<djv_char_t>, djv_char_t> utf32;
-                //! \todo [1.0 S] The Cache class provides an upper limit but using a map is much faster.
-                //Cache<UID, std::shared_ptr<Glyph> > glyphCache;
-                std::map<UID, std::shared_ptr<Glyph> > glyphCache;
+                Memory::Cache<UID, std::shared_ptr<Glyph> > glyphCache;
+                //std::map<UID, std::shared_ptr<Glyph> > glyphCache;
                 std::mutex cacheMutex;
 
                 std::shared_ptr<Time::Timer> statsTimer;
@@ -259,8 +258,7 @@ namespace djv
 
                 DJV_PRIVATE_PTR();
                 p.fontPath = context->getPath(FileSystem::ResourcePath::FontsDirectory);
-                //p.measureCache.setMax(measureCacheMax);
-                //p.glyphCache.setMax(glyphCacheMax);
+                p.glyphCache.setMax(glyphCacheMax);
 
                 p.statsTimer = Time::Timer::create(context);
                 p.statsTimer->setRepeating(true);
@@ -271,8 +269,8 @@ namespace djv
                     DJV_PRIVATE_PTR();
                     std::lock_guard<std::mutex> lock(p.cacheMutex);
                     std::stringstream s;
-                    //s << "Glyph cache: " << p.glyphCache.getPercentageUsed() << "%";
-                    s << "Glyph cache: " << p.glyphCache.size();
+                    s << "Glyph cache: " << p.glyphCache.getPercentageUsed() << "%";
+                    //s << "Glyph cache: " << p.glyphCache.size();
                     _log(s.str());
                 });
 
@@ -773,17 +771,17 @@ namespace djv
                 bool inCache = false;
                 {
                     std::lock_guard<std::mutex> lock(cacheMutex);
-                    /*if (glyphCache.contains(uid))
+                    if (glyphCache.contains(info.uid))
                     {
                         inCache = true;
-                        glyph = glyphCache.get(uid);
-                    }*/
-                    const auto i = glyphCache.find(info.uid);
+                        out = glyphCache.get(info.uid);
+                    }
+                    /*const auto i = glyphCache.find(info.uid);
                     if (i != glyphCache.end())
                     {
                         inCache = true;
                         out = i->second;
-                    }
+                    }*/
                 }
                 if (!inCache)
                 {
@@ -867,8 +865,8 @@ namespace djv
                                     font->second->glyph->rsb_delta);
                                 {
                                     std::lock_guard<std::mutex> lock(cacheMutex);
-                                    //p.glyphCache.add(uid, glyph);
-                                    glyphCache[info.uid] = out;
+                                    glyphCache.add(info.uid, out);
+                                    //glyphCache[info.uid] = out;
                                 }
                                 FT_Done_Glyph(ftGlyph);
                             }
