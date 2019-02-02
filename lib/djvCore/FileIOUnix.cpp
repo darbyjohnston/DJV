@@ -74,7 +74,7 @@ namespace djv
                     openMode  = S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH;
                     break;
                 case Mode::Append:
-                    openFlags = O_WRONLY | O_CREAT;
+                    openFlags = O_WRONLY | O_CREAT | O_APPEND;
                     openMode  = S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH;
                     break;
                 default: break;
