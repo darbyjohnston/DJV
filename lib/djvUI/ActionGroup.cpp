@@ -143,29 +143,29 @@ namespace djv
                     }
                     break;
                 case ButtonType::Radio:
-                    for (size_t i = 0; i < _p->actions.size(); ++i)
+                    if (value)
                     {
-                        _p->actions[i]->setChecked(i == index);
-                    }
-                    if (value && _p->radioCallback)
-                    {
-                        _p->radioCallback(index);
+                        for (size_t i = 0; i < _p->actions.size(); ++i)
+                        {
+                            _p->actions[i]->setChecked(i == index);
+                        }
+                        if (_p->radioCallback)
+                        {
+                            _p->radioCallback(index);
+                        }
                     }
                     break;
                 case ButtonType::Exclusive:
-                    if (_p->actions.size() > 0)
+                    if (value)
                     {
-                        if (value)
+                        for (size_t i = 0; i < _p->actions.size(); ++i)
                         {
-                            for (size_t i = 0; i < _p->actions.size(); ++i)
-                            {
-                                _p->actions[i]->setChecked(i == index);
-                            }
+                            _p->actions[i]->setChecked(i == index);
                         }
-                        if (_p->exclusiveCallback)
-                        {
-                            _p->exclusiveCallback(value ? index : -1);
-                        }
+                    }
+                    if (_p->exclusiveCallback)
+                    {
+                        _p->exclusiveCallback(value ? index : -1);
                     }
                     break;
                 default: break;
