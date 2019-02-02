@@ -199,4 +199,14 @@ namespace djv
 
 } // namespace djv
 
+namespace std
+{
+    template<>
+    struct hash<djv::AV::Image::Type>
+    {
+        inline std::size_t operator() (djv::AV::Image::Type) const noexcept;
+    };
+
+} // namespace std
+
 #include <djvAV/PixelInline.h>

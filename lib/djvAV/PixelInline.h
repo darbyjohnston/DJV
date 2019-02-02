@@ -28,6 +28,7 @@
 //------------------------------------------------------------------------------
 
 #include <djvCore/Math.h>
+#include <djvCore/Memory.h>
 
 namespace djv
 {
@@ -494,3 +495,14 @@ namespace djv
         } // namespace Image
     } // namespace AV
 } // namespace djv
+
+namespace std
+{
+    inline std::size_t hash<djv::AV::Image::Type>::operator() (djv::AV::Image::Type value) const noexcept
+    {
+        size_t hash = 0;
+        djv::Core::Memory::hashCombine<int>(hash, static_cast<int>(value));
+        return hash;
+    }
+
+} // namespace std

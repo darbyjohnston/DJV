@@ -810,6 +810,7 @@ namespace djv
                 case ViewType::ThumbnailsLarge: return Style::MetricsRole::ThumbnailWidthLarge;
                 case ViewType::ThumbnailsSmall: return Style::MetricsRole::ThumbnailWidthSmall;
                 case ViewType::ListView: return Style::MetricsRole::Icon;
+                default: break;
                 }
                 return Style::MetricsRole::None;
             }
@@ -821,6 +822,7 @@ namespace djv
                 case ViewType::ThumbnailsLarge: return Style::MetricsRole::ThumbnailHeightLarge;
                 case ViewType::ThumbnailsSmall: return Style::MetricsRole::ThumbnailHeightSmall;
                 case ViewType::ListView: return Style::MetricsRole::Icon;
+                default: break;
                 }
                 return Style::MetricsRole::None;
             }

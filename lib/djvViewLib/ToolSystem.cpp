@@ -177,11 +177,11 @@ namespace djv
             DJV_PRIVATE_PTR();
             return
             {
-                { p.toolWidgets["Magnifier"], "F1" },
-                { p.toolWidgets["ColorPicker"], "F2" },
-                { p.toolWidgets["Histogram"], "F3" },
-                { p.toolWidgets["Information"], "F4" },
-                { p.toolWidgets["Debug"], "F5" }
+                NewToolWidget(p.toolWidgets["Magnifier"], "F1"),
+                NewToolWidget(p.toolWidgets["ColorPicker"], "F2"),
+                NewToolWidget(p.toolWidgets["Histogram"], "F3"),
+                NewToolWidget(p.toolWidgets["Information"], "F4"),
+                NewToolWidget(p.toolWidgets["Debug"], "F5")
             };
         }
 

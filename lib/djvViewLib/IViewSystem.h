@@ -56,6 +56,11 @@ namespace djv
 
         struct NewToolWidget
         {
+            NewToolWidget();
+            NewToolWidget(
+                const std::shared_ptr<IToolWidget> &,
+                const std::string & sortKey);
+
             std::shared_ptr<IToolWidget> widget;
             std::string sortKey;
             glm::vec2 pos = glm::vec2(0.f, 0.f);

@@ -37,6 +37,16 @@ namespace djv
 {
     namespace ViewLib
     {
+        NewToolWidget::NewToolWidget()
+        {}
+        
+        NewToolWidget::NewToolWidget(
+            const std::shared_ptr<IToolWidget> & widget,
+            const std::string & sortKey) :
+            widget(widget),
+            sortKey(sortKey)
+        {}
+        
         struct IViewSystem::Private
         {
         };
