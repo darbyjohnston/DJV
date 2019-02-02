@@ -41,11 +41,12 @@
 #include <sys/mman.h>
 #include <sys/stat.h>
 #include <sys/types.h>
+#include <errno.h>
 #include <fcntl.h>
 #include <unistd.h>
 
-#define _STAT struct stat
-#define _STAT_FNC    stat
+#define _STAT     struct stat
+#define _STAT_FNC stat
 
 namespace djv
 {
@@ -82,8 +83,10 @@ namespace djv
                 _f = ::open(fileName.c_str(), openFlags, openMode);
                 if (-1 == _f)
                 {
+                    char buf[String::cStringLength] = "";
+                    strerror_r(errno, buf, String::cStringLength);
                     std::stringstream s;
-                    s << "Cannot open file: " << fileName;
+                    s << "Cannot open file" << " '" << fileName << "': " << buf;
                     throw std::runtime_error(s.str());
                 }
 
@@ -92,11 +95,12 @@ namespace djv
                 memset(&info, 0, sizeof(_STAT));
                 if (_STAT_FNC(fileName.c_str(), &info) != 0)
                 {
+                    char buf[String::cStringLength] = "";
+                    strerror_r(errno, buf, String::cStringLength);
                     std::stringstream s;
-                    s << "Cannot stat file: " << fileName;
+                    s << "Cannot stat file" << " '" << fileName << "': " << buf;
                     throw std::runtime_error(s.str());
                 }
-
                 _fileName = fileName;
                 _mode     = mode;
                 _pos      = 0;
@@ -108,11 +112,12 @@ namespace djv
                     _mmap = mmap(0, _size, PROT_READ, MAP_SHARED, _f, 0);
                     if (_mmap == (void *) - 1)
                     {
+                        char buf[String::cStringLength] = "";
+                        strerror_r(errno, buf, String::cStringLength);
                         std::stringstream s;
-                        s << "Cannot map file: " << _fileName;
+                        s << "Cannot map file" << " '" << _fileName << "': " << buf;
                         throw std::runtime_error(s.str());
                     }
-
                     _mmapStart = reinterpret_cast<const uint8_t *>(_mmap);
                     _mmapEnd   = _mmapStart + _size;
                     _mmapP     = _mmapStart;
@@ -132,8 +137,10 @@ namespace djv
                 _f = mkstemp(buf.data());
                 if (-1 == _f)
                 {
+                    char buf[String::cStringLength] = "";
+                    strerror_r(errno, buf, String::cStringLength);
                     std::stringstream s;
-                    s << "Cannot open file: " << fileName;
+                    s << "Cannot open file" << " '" << fileName << "': " << buf;
                     throw std::runtime_error(s.str());
                 }
 
@@ -142,8 +149,10 @@ namespace djv
                 memset(&info, 0, sizeof(_STAT));
                 if (_STAT_FNC(buf.data(), &info) != 0)
                 {
+                    char buf[String::cStringLength] = "";
+                    strerror_r(errno, buf, String::cStringLength);
                     std::stringstream s;
-                    s << "Cannot stat file: " << fileName;
+                    s << "Cannot stat file" << " '" << fileName << "': " << buf;
                     throw std::runtime_error(s.str());
                 }
                 _fileName = std::string(buf.data());
@@ -157,29 +166,31 @@ namespace djv
                 if (_mmap != (void *) - 1)
                 {
                     int r = munmap(_mmap, _size);
-
                     if (-1 == r)
                     {
-                        //! \bug [1.0 S] Add error code.
+                        char buf[String::cStringLength] = "";
+                        strerror_r(errno, buf, String::cStringLength);
+                        std::stringstream s;
+                        s << "Cannot unmap file" << " '" << _fileName << "': " << buf;
+                        throw std::runtime_error(s.str());
                     }
-
                     _mmap = (void *)-1;
                 }
                 _mmapStart = 0;
                 _mmapEnd   = 0;
-
                 if (_f != -1)
                 {
                     int r = ::close(_f);
-
                     if (-1 == r)
                     {
-                        //! \bug [1.0 S] Add error code.
+                        char buf[String::cStringLength] = "";
+                        strerror_r(errno, buf, String::cStringLength);
+                        std::stringstream s;
+                        s << "Cannot close file" << " '" << _fileName << "': " << buf;
+                        throw std::runtime_error(s.str());
                     }
-
                     _f = -1;
                 }
-
                 _pos  = 0;
                 _size = 0;
                 _mode = static_cast<Mode>(0);
@@ -214,8 +225,10 @@ namespace djv
                     const size_t r = ::read(_f, in, size * wordSize);
                     if (r != size * wordSize)
                     {
+                        char buf[String::cStringLength] = "";
+                        strerror_r(errno, buf, String::cStringLength);
                         std::stringstream s;
-                        s << "Cannot read file: " << _fileName;
+                        s << "Cannot read file" << " '" << _fileName << "': " << buf;
                         throw std::runtime_error(s.str());
                     }
                     if (_endian && wordSize > 1)
@@ -226,14 +239,12 @@ namespace djv
                 }
                 default: break;
                 }
-
                 _pos += size * wordSize;
             }
 
             void FileIO::write(const void* in, size_t size, size_t wordSize)
             {
                 uint8_t* inP = (uint8_t*)in;
-
                 std::vector<uint8_t> tmp;
                 if (_endian && wordSize > 1)
                 {
@@ -241,14 +252,14 @@ namespace djv
                     inP = tmp.data();
                     Memory::endian(in, inP, size, wordSize);
                 }
-
                 if (::write(_f, inP, size * wordSize) == -1)
                 {
+                    char buf[String::cStringLength] = "";
+                    strerror_r(errno, buf, String::cStringLength);
                     std::stringstream s;
-                    s << "Cannot write file: " << _fileName;
+                    s << "Cannot write file" << " '" << _fileName << "': " << buf;
                     throw std::runtime_error(s.str());
                 }
-
                 _pos += size * wordSize;
                 _size = std::max(_pos, _size);
             }
@@ -292,14 +303,15 @@ namespace djv
                 case Mode::ReadWrite:
                     if (::lseek(_f, in, ! seek ? SEEK_SET : SEEK_CUR) == (off_t) - 1)
                     {
+                        char buf[String::cStringLength] = "";
+                        strerror_r(errno, buf, String::cStringLength);
                         std::stringstream s;
-                        s << "Cannot write file: " << _fileName;
+                        s << "Cannot write file" << " '" << _fileName << "': " << buf;
                         throw std::runtime_error(s.str());
                     }
                     break;
                 default: break;
                 }
-
                 if (!seek)
                 {
                     _pos = in;
