@@ -156,6 +156,7 @@ namespace djv
             Push,
             Toggle,
             Radio,
+            Exclusive,
 
             Count,
             First = Push

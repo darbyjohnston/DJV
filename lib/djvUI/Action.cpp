@@ -212,6 +212,10 @@ namespace djv
                         action->setChecked(true);
                         action->doChecked();
                         break;
+                    case ButtonType::Exclusive:
+                        action->setChecked(!action->_p->checked->get());
+                        action->doChecked();
+                        break;
                     default: break;
                     }
                 }

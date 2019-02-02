@@ -29,6 +29,8 @@
 
 #include <djvDesktop/Application.h>
 
+#include <djvUI/ButtonGroup.h>
+#include <djvUI/GroupBox.h>
 #include <djvUI/PushButton.h>
 #include <djvUI/RowLayout.h>
 #include <djvUI/Window.h>
@@ -44,30 +46,85 @@ int main(int argc, char ** argv)
     {
         auto app = Desktop::Application::create(argc, argv);
 
-        auto pushButton = UI::Button::Push::create(app.get());
-        pushButton->setText("Push Button");
-        pushButton->setFontSizeRole(UI::Style::MetricsRole::FontHeader);
-        pushButton->setClickedCallback(
-            []
-        {
-            std::cout << "Clicked" << std::endl;
-        });
-
-        auto toggleButton = UI::Button::Push::create(app.get());
-        toggleButton->setButtonType(UI::ButtonType::Toggle);
-        toggleButton->setText("Toggle Button");
-        toggleButton->setFontSizeRole(UI::Style::MetricsRole::FontHeader);
-        toggleButton->setCheckedCallback(
-            [](bool value)
-        {
-            std::cout << value << std::endl;
-        });
-
         auto layout = UI::Layout::Vertical::create(app.get());
-        layout->setHAlign(UI::HAlign::Center);
-        layout->setVAlign(UI::VAlign::Center);
-        layout->addWidget(pushButton);
-        layout->addWidget(toggleButton);
+        layout->setMargin(UI::Style::MetricsRole::MarginLarge);
+        layout->setSpacing(UI::Style::MetricsRole::SpacingLarge);
+
+        auto pushButtonGroup = UI::Button::Group::create(UI::ButtonType::Push);
+        auto hLayout = UI::Layout::Horizontal::create(app.get());
+        for (size_t i = 0; i < 3; ++i)
+        {
+            std::stringstream ss;
+            ss << "Push " << i;
+            auto button = UI::Button::Push::create(ss.str(), app.get());
+            pushButtonGroup->addButton(button);
+            hLayout->addWidget(button);
+        }
+        pushButtonGroup->setPushCallback(
+            [](int index)
+        {
+            std::cout << "Push = " << index << std::endl;
+        });
+        auto groupBox = UI::Layout::GroupBox::create("Push Buttons", app.get());
+        groupBox->addWidget(hLayout);
+        layout->addWidget(groupBox);
+
+        auto toggleButtonGroup = UI::Button::Group::create(UI::ButtonType::Toggle);
+        hLayout = UI::Layout::Horizontal::create(app.get());
+        for (size_t i = 0; i < 3; ++i)
+        {
+            std::stringstream ss;
+            ss << "Toggle " << i;
+            auto button = UI::Button::Push::create(ss.str(), app.get());
+            toggleButtonGroup->addButton(button);
+            hLayout->addWidget(button);
+        }
+        toggleButtonGroup->setToggleCallback(
+            [](int index, bool value)
+        {
+            std::cout << "Toggle " << index << " = " << value << std::endl;
+        });
+        groupBox = UI::Layout::GroupBox::create("Toggle Buttons", app.get());
+        groupBox->addWidget(hLayout);
+        layout->addWidget(groupBox);
+
+        auto radioButtonGroup = UI::Button::Group::create(UI::ButtonType::Radio);
+        hLayout = UI::Layout::Horizontal::create(app.get());
+        for (size_t i = 0; i < 3; ++i)
+        {
+            std::stringstream ss;
+            ss << "Radio " << i;
+            auto button = UI::Button::Push::create(ss.str(), app.get());
+            radioButtonGroup->addButton(button);
+            hLayout->addWidget(button);
+        }
+        radioButtonGroup->setRadioCallback(
+            [](int index)
+        {
+            std::cout << "Radio " << index << std::endl;
+        });
+        groupBox = UI::Layout::GroupBox::create("Radio Buttons", app.get());
+        groupBox->addWidget(hLayout);
+        layout->addWidget(groupBox);
+
+        auto exclusiveButtonGroup = UI::Button::Group::create(UI::ButtonType::Exclusive);
+        hLayout = UI::Layout::Horizontal::create(app.get());
+        for (size_t i = 0; i < 3; ++i)
+        {
+            std::stringstream ss;
+            ss << "Exclusive " << i;
+            auto button = UI::Button::Push::create(ss.str(), app.get());
+            exclusiveButtonGroup->addButton(button);
+            hLayout->addWidget(button);
+        }
+        exclusiveButtonGroup->setExclusiveCallback(
+            [](int index)
+        {
+            std::cout << "Exclusive " << index << std::endl;
+        });
+        groupBox = UI::Layout::GroupBox::create("Exclusive Buttons", app.get());
+        groupBox->addWidget(hLayout);
+        layout->addWidget(groupBox);
 
         auto window = UI::Window::create(app.get());
         window->addWidget(layout);

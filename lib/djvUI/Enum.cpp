@@ -123,7 +123,8 @@ namespace djv
         ButtonType,
         DJV_TEXT("djv::UI", "Push"),
         DJV_TEXT("djv::UI", "Toggle"),
-        DJV_TEXT("djv::UI", "Radio"));
+        DJV_TEXT("djv::UI", "Radio"),
+        DJV_TEXT("djv::UI", "Exclusive"));
 
     DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
         UI,

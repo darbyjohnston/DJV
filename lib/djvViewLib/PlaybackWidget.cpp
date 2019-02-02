@@ -53,31 +53,33 @@ namespace djv
             DJV_PRIVATE_PTR();
             p.playback = ValueSubject<Playback>::create();
 
-            auto stopButton = UI::Button::Tool::create(context);
-            stopButton->setIcon("djvIconPlaybackStop");
             auto forwardButton = UI::Button::Tool::create(context);
             forwardButton->setIcon("djvIconPlaybackForward");
             auto reverseButton = UI::Button::Tool::create(context);
             reverseButton->setIcon("djvIconPlaybackReverse");
 
-            p.buttonGroup = UI::Button::Group::create(UI::ButtonType::Radio);
-            p.buttonGroup->addButton(stopButton);
+            p.buttonGroup = UI::Button::Group::create(UI::ButtonType::Exclusive);
             p.buttonGroup->addButton(forwardButton);
             p.buttonGroup->addButton(reverseButton);
 
             p.layout = UI::Layout::Horizontal::create(context);
             p.layout->setSpacing(UI::Style::MetricsRole::None);
-            p.layout->addWidget(reverseButton);
-            p.layout->addWidget(stopButton);
+            //p.layout->addWidget(reverseButton);
             p.layout->addWidget(forwardButton);
             p.layout->setParent(shared_from_this());
 
             _updateWidget();
 
-            p.buttonGroup->setRadioCallback(
+            p.buttonGroup->setExclusiveCallback(
                 [this](int index)
             {
-                _p->playback->setIfChanged(static_cast<Playback>(index));
+                Playback playback = Playback::Stop;
+                switch (index)
+                {
+                case 0: playback = Playback::Forward; break;
+                case 1: playback = Playback::Reverse; break;
+                }
+                _p->playback->setIfChanged(playback);
             });
         }
 
@@ -121,7 +123,8 @@ namespace djv
         void PlaybackWidget::_updateWidget()
         {
             DJV_PRIVATE_PTR();
-            p.buttonGroup->setChecked(static_cast<int>(p.playback->get()));
+            p.buttonGroup->setChecked(0, p.playback->get() == Playback::Forward);
+            p.buttonGroup->setChecked(1, p.playback->get() == Playback::Reverse);
         }
 
     } // namespace ViewLib

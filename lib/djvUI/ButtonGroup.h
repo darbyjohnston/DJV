@@ -43,9 +43,10 @@ namespace djv
                 int getChecked() const;
                 void setChecked(int, bool = true);
 
-                void setClickedCallback(const std::function<void(int)>&);
-                void setCheckedCallback(const std::function<void(int, bool)>&);
+                void setPushCallback(const std::function<void(int)>&);
+                void setToggleCallback(const std::function<void(int, bool)>&);
                 void setRadioCallback(const std::function<void(int)>&);
+                void setExclusiveCallback(const std::function<void(int)>&);
 
             private:
                 struct Private;

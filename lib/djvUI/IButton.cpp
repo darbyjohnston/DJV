@@ -282,6 +282,10 @@ namespace djv
                                 _doCheckedCallback(p.checked);
                             }
                             break;
+                        case ButtonType::Exclusive:
+                            p.checked = !p.checked;
+                            _doCheckedCallback(p.checked);
+                            break;
                         default: break;
                         }
                     }
@@ -314,6 +318,9 @@ namespace djv
                             {
                                 out = g.contains(i->second) ? !p.checked : p.checked;
                             }
+                            break;
+                        case ButtonType::Exclusive:
+                            out = g.contains(i->second) ? !p.checked : p.checked;
                             break;
                         default: break;
                         }

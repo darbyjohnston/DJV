@@ -100,7 +100,7 @@ namespace djv
 
             p.playbackObserver = ValueObserver<Playback>::create(
                 p.playbackWidget->observePlayback(),
-                [weak](Playback value)
+                [weak](const Playback & value)
             {
                 if (auto system = weak.lock())
                 {
@@ -171,7 +171,7 @@ namespace djv
             }
             else
             {
-                _p->playbackWidget->setPlayback(Playback::Stop);
+                _p->playbackWidget->setPlayback(Playback());
                 _p->timelineSlider->setDuration(0);
                 _p->timelineSlider->setCurrentTime(0);
                 _p->durationObserver.reset();

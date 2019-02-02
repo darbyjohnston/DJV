@@ -29,7 +29,7 @@
 
 #pragma once
 
-#include <djvViewLib/Enum.h>
+#include <djvViewLib/Media.h>
 
 #include <djvUI/Widget.h>
 

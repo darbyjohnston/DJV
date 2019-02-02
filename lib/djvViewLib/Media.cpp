@@ -302,8 +302,16 @@ namespace djv
             DJV_PRIVATE_PTR();
             switch (p.playback->get())
             {
+            case Playback::Stop:
+                alSourceStop(p.alSource);
+                p.playbackTimer->stop();
+                _timeUpdate();
+                p.queuedBytes = 0;
+                p.timeOffset = p.currentTime->get();
+                alSourcei(p.alSource, AL_BYTE_OFFSET, 0);
+                break;
             case Playback::Forward:
-            {
+            case Playback::Reverse:
                 _timeUpdate();
                 p.startTime = std::chrono::system_clock::now();
                 p.playbackTimer->start(
@@ -372,15 +380,6 @@ namespace djv
                 });
                 alSourcePlay(p.alSource);
                 break;
-            }
-            case Playback::Stop:
-                alSourceStop(p.alSource);
-                p.playbackTimer->stop();
-                _timeUpdate();
-                p.queuedBytes = 0;
-                p.timeOffset = p.currentTime->get();
-                alSourcei(p.alSource, AL_BYTE_OFFSET, 0);
-                break;
             default: break;
             }
         }
@@ -407,7 +406,7 @@ namespace djv
             for (const auto & buffer : buffers)
             {
                 p.alBuffers.push_back(buffer);
-                if (Playback::Stop != p.playback->get())
+                if (p.playback->get() != Playback::Stop)
                 {
                     ALint size = 0;
                     alGetBufferi(buffer, AL_SIZE, &size);
@@ -415,7 +414,7 @@ namespace djv
                 }
             }
 
-            if (p.audioInfo.info.isValid() && Playback::Stop != p.playback->get())
+            if (p.audioInfo.info.isValid() && p.playback->get() != Playback::Stop)
             {
                 // Fill the OpenAL queue with frames from the I/O queue.
                 ALint queued = 0;

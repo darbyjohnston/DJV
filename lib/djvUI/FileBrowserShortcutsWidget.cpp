@@ -104,7 +104,7 @@ namespace djv
                 p.layout->setParent(shared_from_this());
 
                 auto weak = std::weak_ptr<ShorcutsWidget>(std::dynamic_pointer_cast<ShorcutsWidget>(shared_from_this()));
-                p.actionGroup->setClickedCallback(
+                p.actionGroup->setPushCallback(
                     [weak](int value)
                 {
                     if (auto widget = weak.lock())

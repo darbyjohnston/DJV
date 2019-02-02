@@ -46,7 +46,10 @@ namespace djv
         {
             Stop,
             Forward,
-            Reverse
+            Reverse,
+
+            Count,
+            First = Forward
         };
 
     } // namespace ViewLib

@@ -34,10 +34,7 @@
 namespace djv
 {
     namespace ViewLib
-    {   
-        class Media;
-        class Workspace;
-
+    {
         class PlaybackSystem : public IViewSystem
         {
             DJV_NON_COPYABLE(PlaybackSystem);

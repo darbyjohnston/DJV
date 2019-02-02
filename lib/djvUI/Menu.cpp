@@ -466,6 +466,10 @@ namespace djv
                                 i->second->doChecked();
                             }
                             break;
+                        case ButtonType::Exclusive:
+                            i->second->setChecked(!i->second->observeChecked()->get());
+                            i->second->doChecked();
+                            break;
                         default: break;
                         }
                         if (_closeCallback)

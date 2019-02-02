@@ -53,8 +53,8 @@ namespace djv
             std::vector<std::shared_ptr<Media> > media;
             std::shared_ptr<Media> currentMedia;
             std::map<std::string, std::shared_ptr<UI::Action> > actions;
-            std::map<std::string, std::shared_ptr<UI::Menu> > menus;
             std::shared_ptr<UI::ActionGroup> playbackActionGroup;
+            std::map<std::string, std::shared_ptr<UI::Menu> > menus;
             std::map<std::string, std::shared_ptr<ValueObserver<bool> > > clickedObservers;
             std::shared_ptr<ValueObserver<Playback> > playbackObserver;
             std::shared_ptr<ListObserver<std::shared_ptr<Media> > > mediaObserver;
@@ -67,36 +67,18 @@ namespace djv
             IViewSystem::_init("djv::ViewLib::PlaybackSystem", context);
 
             DJV_PRIVATE_PTR();
-            p.actions["Stop"] = UI::Action::create();
-            p.actions["Stop"]->setIcon("djvIconPlaybackStop");
-            p.actions["Stop"]->setShortcut(GLFW_KEY_K);
-            p.actions["Stop"]->setEnabled(false);
-
             p.actions["Forward"] = UI::Action::create();
             p.actions["Forward"]->setIcon("djvIconPlaybackForward");
-            p.actions["Forward"]->setShortcut(GLFW_KEY_L);
-            p.actions["Forward"]->setEnabled(false);
+            p.actions["Forward"]->addShortcut(GLFW_KEY_SPACE);
+            p.actions["Forward"]->addShortcut(GLFW_KEY_UP);
 
             p.actions["Reverse"] = UI::Action::create();
             p.actions["Reverse"]->setIcon("djvIconPlaybackReverse");
-            p.actions["Reverse"]->setShortcut(GLFW_KEY_J);
-            p.actions["Reverse"]->setEnabled(false);
+            p.actions["Reverse"]->setShortcut(GLFW_KEY_DOWN);
 
-            p.playbackActionGroup = UI::ActionGroup::create(UI::ButtonType::Radio);
-            p.playbackActionGroup->addAction(p.actions["Stop"]);
+            p.playbackActionGroup = UI::ActionGroup::create(UI::ButtonType::Exclusive);
             p.playbackActionGroup->addAction(p.actions["Forward"]);
             p.playbackActionGroup->addAction(p.actions["Reverse"]);
-
-            //! \todo Implement me!
-            p.actions["TogglePlayback"] = UI::Action::create();
-            p.actions["TogglePlayback"]->addShortcut(GLFW_KEY_SPACE);
-            p.actions["TogglePlayback"]->addShortcut(GLFW_KEY_UP);
-            p.actions["TogglePlayback"]->setEnabled(false);
-
-            //! \todo Implement me!
-            p.actions["ToggleReversePlayback"] = UI::Action::create();
-            p.actions["ToggleReversePlayback"]->setShortcut(GLFW_KEY_DOWN);
-            p.actions["ToggleReversePlayback"]->setEnabled(false);
 
             //! \todo Implement me!
             p.actions["PlayEveryFrame"] = UI::Action::create();
@@ -190,14 +172,11 @@ namespace djv
             p.actions["ResetOutPoint"]->setEnabled(false);
 
             p.menus["Playback"] = UI::Menu::create(context);
-            p.menus["Playback"]->addAction(p.actions["Stop"]);
             p.menus["Playback"]->addAction(p.actions["Forward"]);
             p.menus["Playback"]->addAction(p.actions["Reverse"]);
             //! \todo Implement me!
             p.menus["Loop"] = UI::Menu::create(context);
             p.menus["Playback"]->addMenu(p.menus["Loop"]);
-            p.menus["Playback"]->addAction(p.actions["TogglePlayback"]);
-            p.menus["Playback"]->addAction(p.actions["ToggleReversePlayback"]);
             p.menus["Playback"]->addAction(p.actions["PlayEveryFrame"]);
             p.menus["Playback"]->addSeparator();
             p.menus["Playback"]->addAction(p.actions["InPoint"]);
@@ -221,14 +200,20 @@ namespace djv
             p.menus["Playback"]->addMenu(p.menus["Layout"]);
 
             auto weak = std::weak_ptr<PlaybackSystem>(std::dynamic_pointer_cast<PlaybackSystem>(shared_from_this()));
-            p.playbackActionGroup->setRadioCallback(
-                [weak](int value)
+            p.playbackActionGroup->setExclusiveCallback(
+                [weak](int index)
             {
                 if (auto system = weak.lock())
                 {
                     if (auto media = system->_p->currentMedia)
                     {
-                        media->setPlayback(static_cast<Playback>(value));
+                        Playback playback = Playback::Stop;
+                        switch (index)
+                        {
+                        case 0: playback = Playback::Forward; break;
+                        case 1: playback = Playback::Reverse; break;
+                        }
+                        media->setPlayback(playback);
                     }
                 }
             });
@@ -252,7 +237,6 @@ namespace djv
                     if (auto system = weak.lock())
                     {
                         system->_p->currentMedia = value;
-                        system->_p->actions["Stop"]->setEnabled(value ? true : false);
                         system->_p->actions["Forward"]->setEnabled(value ? true : false);
                         system->_p->actions["Reverse"]->setEnabled(value ? true : false);
                         if (value)
@@ -263,13 +247,15 @@ namespace djv
                             {
                                 if (auto system = weak.lock())
                                 {
-                                    system->_p->playbackActionGroup->setChecked(static_cast<int>(value));
+                                    system->_p->playbackActionGroup->setChecked(0, Playback::Forward == value);
+                                    system->_p->playbackActionGroup->setChecked(1, Playback::Reverse == value);
                                 }
                             });
                         }
                         else
                         {
-                            system->_p->playbackActionGroup->setChecked(0);
+                            system->_p->playbackActionGroup->setChecked(0, false);
+                            system->_p->playbackActionGroup->setChecked(1, false);
                             system->_p->playbackObserver.reset();
                         }
                     }
@@ -331,16 +317,10 @@ namespace djv
         void PlaybackSystem::_localeEvent(Event::Locale &)
         {
             DJV_PRIVATE_PTR();
-            p.actions["Stop"]->setText(_getText(DJV_TEXT("djv::ViewLib::PlaybackSystem", "Stop")));
-            p.actions["Stop"]->setTooltip(_getText(DJV_TEXT("djv::ViewLib::PlaybackSystem", "Stop Tooltip")));
             p.actions["Forward"]->setText(_getText(DJV_TEXT("djv::ViewLib::PlaybackSystem", "Forward")));
             p.actions["Forward"]->setTooltip(_getText(DJV_TEXT("djv::ViewLib::PlaybackSystem", "Forward Tooltip")));
             p.actions["Reverse"]->setText(_getText(DJV_TEXT("djv::ViewLib::PlaybackSystem", "Reverse")));
             p.actions["Reverse"]->setTooltip(_getText(DJV_TEXT("djv::ViewLib::PlaybackSystem", "Reverse Tooltip")));
-            p.actions["TogglePlayback"]->setText(_getText(DJV_TEXT("djv::ViewLib::PlaybackSystem", "Toggle Playback")));
-            p.actions["TogglePlayback"]->setTooltip(_getText(DJV_TEXT("djv::ViewLib::PlaybackSystem", "Toggle Playback Tooltip")));
-            p.actions["ToggleReversePlayback"]->setText(_getText(DJV_TEXT("djv::ViewLib::PlaybackSystem", "Toggle Reverse Playback")));
-            p.actions["ToggleReversePlayback"]->setTooltip(_getText(DJV_TEXT("djv::ViewLib::PlaybackSystem", "Toggle Reverse Playback Tooltip")));
             p.actions["PlayEveryFrame"]->setText(_getText(DJV_TEXT("djv::ViewLib::PlaybackSystem", "Play Every Frame")));
             p.actions["PlayEveryFrame"]->setTooltip(_getText(DJV_TEXT("djv::ViewLib::PlaybackSystem", "Play Every Frame Tooltip")));
             p.actions["InPoint"]->setText(_getText(DJV_TEXT("djv::ViewLib::PlaybackSystem", "Go To In Point")));

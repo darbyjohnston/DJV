@@ -192,7 +192,7 @@ namespace djv
                 }
             });
 
-            p.windowButtonGroup->setClickedCallback(
+            p.windowButtonGroup->setPushCallback(
                 [context](int radio)
             {
                 if (auto windowSystem = context->getSystemT<WindowSystem>().lock())
