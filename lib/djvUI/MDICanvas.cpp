@@ -214,8 +214,6 @@ namespace djv
                 {
                     if (auto style = _getStyle().lock())
                     {
-                        const float h = style->getMetric(Style::MetricsRole::Handle);
-
                         /*const auto & children = getChildrenT<IWidget>();
                         if (children.size())
                         {

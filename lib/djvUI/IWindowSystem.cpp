@@ -81,11 +81,11 @@ namespace djv
                 _styleInit(window);
                 _styleRecursive(window, styleEvent);
             }
-            for (auto i : _p->dirtyStyles)
+            for (auto i : p.dirtyStyles)
             {
                 i->setClean();
             }
-            _p->dirtyStyles.clear();
+            p.dirtyStyles.clear();
         }
 
         void IWindowSystem::_addWindow(const std::shared_ptr<Window>& window)

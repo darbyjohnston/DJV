@@ -257,11 +257,6 @@ namespace djv
                 if (auto style = _getStyle().lock())
                 {
                     const BBox2f & g = getGeometry();
-                    const float m = style->getMetric(Style::MetricsRole::MarginSmall);
-                    const float s = style->getMetric(Style::MetricsRole::Spacing);
-                    const float b = style->getMetric(Style::MetricsRole::Border);
-                    const float iconSize = style->getMetric(Style::MetricsRole::Icon);
-
                     float y = g.min.y;
                     for (auto & i : _items)
                     {
@@ -284,7 +279,6 @@ namespace djv
                         const BBox2f & g = getGeometry();
                         const float m = style->getMetric(Style::MetricsRole::MarginSmall);
                         const float s = style->getMetric(Style::MetricsRole::Spacing);
-                        const float b = style->getMetric(Style::MetricsRole::Border);
                         const float iconSize = style->getMetric(Style::MetricsRole::Icon);
 
                         for (auto & i : _iconFutures)

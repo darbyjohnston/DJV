@@ -858,7 +858,6 @@ namespace djv
                             float y = 0.f;
                             int32_t rsbDeltaPrev = 0;
                             const auto glyphs = glyphsFuture.get();
-                            const size_t outSize = out.size();
                             for (const auto & glyph : glyphs)
                             {
                                 if (rsbDeltaPrev - glyph->lsbDelta > 32)

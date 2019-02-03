@@ -146,7 +146,7 @@ namespace djv
                 {
                     DJV_PRIVATE_PTR();
                     const BBox2f & g = getGeometry();
-                    _p->layout->setGeometry(getMargin().bbox(g, style));
+                    p.layout->setGeometry(getMargin().bbox(g, style));
                 }
             }
 
