@@ -100,9 +100,13 @@ namespace djv
             void fromString(const char *, size_t size, float &);
 
             //! Convert a regular string to a wide string.
+            //! Throws:
+            //! - std::exception
             std::wstring toWide(const std::string &);
 
             //! Convert a wide string to a regular string.
+            //! Throws:
+            //! - std::exception
             std::string fromWide(const std::wstring &);
 
             //! Replace '\' with '\\'.

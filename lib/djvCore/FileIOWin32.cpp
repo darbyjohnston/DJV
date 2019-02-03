@@ -34,7 +34,8 @@
 #include <djvCore/Memory.h>
 #include <djvCore/Path.h>
 
-#include <atomic>
+#include <codecvt>
+#include <locale>
 
 #include <io.h>
 #include <errno.h>
@@ -126,7 +127,8 @@ namespace djv
                     break;
                 default: break;
                 }
-                _f = CreateFile(fileName.c_str(), desiredAccess, shareMode, 0, disposition, flags, 0);
+                std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>, wchar_t> utf16;
+                _f = CreateFileW(utf16.from_bytes(fileName).c_str(), desiredAccess, shareMode, 0, disposition, flags, 0);
                 if (INVALID_HANDLE_VALUE == _f)
                 {
                     throw std::runtime_error(getOpenError(fileName));
@@ -159,10 +161,11 @@ namespace djv
             void FileIO::openTempFile(const std::string& fileName)
             {
                 const Path path(fileName);
-                TCHAR buf[MAX_PATH];
-                if (GetTempFileName(path.getDirectoryName().c_str(), path.getBaseName().c_str(), 0, buf))
+                WCHAR buf[MAX_PATH];
+                std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>, wchar_t> utf16;
+                if (GetTempFileNameW(utf16.from_bytes(path.getDirectoryName()).c_str(), utf16.from_bytes(path.getBaseName()).c_str(), 0, buf))
                 {
-                    open(buf, Mode::ReadWrite);
+                    open(utf16.to_bytes(buf), Mode::ReadWrite);
                 }
                 else
                 {
@@ -322,10 +325,11 @@ namespace djv
                 }
             }
 
-            FILE* fopen(const std::string& fileName, const std::string& mode)
+            FILE * fopen(const std::string & fileName, const std::string & mode)
             {
-                FILE* out = nullptr;
-                fopen_s(&out, fileName.c_str(), mode.c_str());
+                FILE * out = nullptr;
+                std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>, wchar_t> utf16;
+                _wfopen_s(&out, utf16.from_bytes(fileName).c_str(), utf16.from_bytes(mode).c_str());
                 return out;
             }
 

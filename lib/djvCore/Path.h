@@ -178,9 +178,13 @@ namespace djv
                 static Path getAbsolute(const Path&);
 
                 //! Get the current working directory path.
+                //! Throws:
+                //! - std::exception
                 static Path getCWD();
 
                 //! Get the temp file path.
+                //! Throws:
+                //! - std::exception
                 static Path getTemp();
 
                 ///@}

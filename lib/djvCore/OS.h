@@ -53,12 +53,19 @@ namespace djv
             //! \name Environment Variables
             ///@{
 
-            std::string getEnv(const std::string& name);
-            bool setEnv(const std::string& name, const std::string&);
+            //! Throws:
+            //! - std::exception
+            std::string getEnv(const std::string & name);
+
+            //! Throws:
+            //! - std::exception
+            bool setEnv(const std::string & name, const std::string &);
             
             ///@}
 
             //! Get the current user.
+            //! Throws:
+            //! - std::exception
             std::string getUserName();
             
             //! \name Directory Shortcuts

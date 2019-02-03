@@ -551,7 +551,17 @@ namespace djv
                                 static_cast<int>(request.info.size));
                             if (!ftError)
                             {
-                                const std::basic_string<djv_char_t> utf32 = p.utf32.from_bytes(request.text);
+                                std::basic_string<djv_char_t> utf32;
+                                try
+                                {
+                                    utf32 = p.utf32.from_bytes(request.text);
+                                }
+                                catch (const std::exception & e)
+                                {
+                                    std::stringstream ss;
+                                    ss << "Error converting string" << " '" << request.text << "': " << e.what();
+                                    _log(ss.str(), LogLevel::Error);
+                                }
                                 glm::vec2 pos(0.f, font->second->size->metrics.height / 64.f);
                                 auto textLine = utf32.end();
                                 float textLineX = 0.f;
@@ -647,7 +657,17 @@ namespace djv
                                 static_cast<int>(request.info.size));
                             if (!ftError)
                             {
-                                const std::basic_string<djv_char_t> utf32 = p.utf32.from_bytes(request.text);
+                                std::basic_string<djv_char_t> utf32;
+                                try
+                                {
+                                    utf32 = p.utf32.from_bytes(request.text);
+                                }
+                                catch (const std::exception & e)
+                                {
+                                    std::stringstream ss;
+                                    ss << "Error converting string" << " '" << request.text << "': " << e.what();
+                                    _log(ss.str(), LogLevel::Error);
+                                }
                                 const auto utf32Begin = utf32.begin();
                                 glm::vec2 pos = glm::vec2(0.f, font->second->size->metrics.height / 64.f);
                                 auto lineBegin = utf32Begin;
@@ -747,7 +767,17 @@ namespace djv
                         const auto font = family->second.find(request.info.face);
                         if (font != family->second.end())
                         {
-                            const std::basic_string<djv_char_t> utf32 = p.utf32.from_bytes(request.text);
+                            std::basic_string<djv_char_t> utf32;
+                            try
+                            {
+                                utf32 = p.utf32.from_bytes(request.text);
+                            }
+                            catch (const std::exception & e)
+                            {
+                                std::stringstream ss;
+                                ss << "Error converting string" << " '" << request.text << "': " << e.what();
+                                _log(ss.str(), LogLevel::Error);
+                            }
                             glyphs.reserve(utf32.size());
                             for (const auto& c : utf32)
                             {
@@ -843,7 +873,7 @@ namespace djv
                                 }
                                 FT_BitmapGlyph bitmap = (FT_BitmapGlyph)ftGlyph;
                                 const Image::Info imageInfo = Image::Info(
-                                    bitmap->bitmap.width / renderModeChannels,
+                                    bitmap->bitmap.width / static_cast<int>(renderModeChannels),
                                     bitmap->bitmap.rows,
                                     Image::getIntType(renderModeChannels, 8));
                                 auto imageData = Image::Data::create(imageInfo);

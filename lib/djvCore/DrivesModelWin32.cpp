@@ -35,6 +35,9 @@
 #define NOMINMAX
 #include <windows.h>
 
+#include <codecvt>
+#include <locale>
+
 //#pragma optimize("", off)
 
 namespace djv
@@ -46,19 +49,20 @@ namespace djv
             std::vector<Path> DrivesModel::_getDrives()
             {
                 std::vector<Path> out;
-                DWORD result = GetLogicalDriveStrings(0, NULL);
+                DWORD result = GetLogicalDriveStringsW(0, NULL);
                 if (result)
                 {
-                    TCHAR* buf = new TCHAR[result];
-                    result = GetLogicalDriveStrings(result, buf);
+                    WCHAR * buf = new WCHAR[result];
+                    result = GetLogicalDriveStringsW(result, buf);
                     if (result)
                     {
-                        for (TCHAR* p = buf, *end = buf + result; p < end && *p; ++p)
+                        std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>, wchar_t> utf16;
+                        for (WCHAR * p = buf, *end = buf + result; p < end && *p; ++p)
                         {
-                            TCHAR* p2 = p;
+                            WCHAR* p2 = p;
                             for (; p2 < end && *p2 && *p2 != '\\'; ++p2)
                                 ;
-                            out.push_back(std::string(p, p2 - p));
+                            out.push_back(utf16.to_bytes(std::wstring(p, p2 - p)));
                             if ('\\' == *p2)
                             {
                                 p2++;
@@ -66,7 +70,7 @@ namespace djv
                             p = p2;
                         }
                     }
-                    delete[] buf;
+                    delete [] buf;
                 }
                 return out;
             }

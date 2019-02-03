@@ -34,7 +34,9 @@
 #include <djvCore/Timer.h>
 
 #include <atomic>
+#include <codecvt>
 #include <condition_variable>
+#include <locale>
 #include <mutex>
 #include <thread>
 
@@ -80,26 +82,36 @@ namespace djv
                                 pathChanged = true;
                             }
                         }
-
                         if (pathChanged)
                         {
                             if (changeHandle)
                             {
                                 FindCloseChangeNotification(changeHandle);
                             }
-                            changeHandle = FindFirstChangeNotification(
-                                path.get().c_str(),
-                                FALSE,
-                                FILE_NOTIFY_CHANGE_FILE_NAME |
-                                FILE_NOTIFY_CHANGE_DIR_NAME |
-                                FILE_NOTIFY_CHANGE_SIZE |
-                                FILE_NOTIFY_CHANGE_LAST_WRITE);
-                            if (INVALID_HANDLE_VALUE == changeHandle)
+                            try
                             {
-                                std::stringstream s;
-                                s << context->getText(DJV_TEXT("djv::Core::FileSystem", "Error finding change notification for")) <<
-                                    " '" << path << "'. " << Error::getLastError();
-                                context->log("djv::Core::FileSystem::DirectoryWatcher", s.str(), LogLevel::Error);
+                                std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>, wchar_t> utf16;
+                                changeHandle = FindFirstChangeNotificationW(
+                                    utf16.from_bytes(path.get()).c_str(),
+                                    FALSE,
+                                    FILE_NOTIFY_CHANGE_FILE_NAME |
+                                    FILE_NOTIFY_CHANGE_DIR_NAME |
+                                    FILE_NOTIFY_CHANGE_SIZE |
+                                    FILE_NOTIFY_CHANGE_LAST_WRITE);
+                                if (INVALID_HANDLE_VALUE == changeHandle)
+                                {
+                                    std::stringstream ss;
+                                    ss << context->getText(DJV_TEXT("djv::Core::FileSystem", "Error finding change notification for")) <<
+                                        " '" << path << "'. " << Error::getLastError();
+                                    context->log("djv::Core::FileSystem::DirectoryWatcher", ss.str(), LogLevel::Error);
+                                }
+                            }
+                            catch (const std::exception & e)
+                            {
+                                std::stringstream ss;
+                                ss << context->getText(DJV_TEXT("djv::Core::FileSystem", "Error watching directory")) <<
+                                    " '" << path << "'. " << e.what();
+                                context->log("djv::Core::FileSystem::DirectoryWatcher", ss.str(), LogLevel::Error);
                             }
                         }
 

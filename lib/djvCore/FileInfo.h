@@ -144,6 +144,8 @@ namespace djv
                 inline time_t getTime() const;
 
                 //! Get information from the file system.
+                //! Throws:
+                //! - std::exception
                 bool stat();
 
                 ///@}
@@ -166,9 +168,13 @@ namespace djv
                 ///@{
 
                 //! Get the contents of the given directory.
+                //! Throws:
+                //! - std::exception
                 static std::vector<FileInfo> directoryList(const Path&, const DirectoryListOptions& = DirectoryListOptions());
 
                 //! Get the file sequence for the given file.
+                //! Throws:
+                //! - std::exception
                 static FileInfo getFileSequence(const Path&);
 
                 ///@}

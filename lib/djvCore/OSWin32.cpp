@@ -38,6 +38,9 @@
 #include <Shlobj.h>
 #include <stdlib.h>
 
+#include <codecvt>
+#include <locale>
+
 //#pragma optimize("", off)
 
 namespace djv
@@ -142,12 +145,13 @@ namespace djv
             {
                 std::string out;
                 size_t size = 0;
-                char* p = 0;
-                if (0 == _dupenv_s(&p, &size, name.c_str()))
+                wchar_t * p = 0;
+                std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>, wchar_t> utf16;
+                if (0 == _wdupenv_s(&p, &size, utf16.from_bytes(name).c_str()))
                 {
                     if (p)
                     {
-                        out = p;
+                        out = utf16.to_bytes(p);
                     }
                 }
                 if (p)
@@ -159,15 +163,17 @@ namespace djv
 
             bool setEnv(const std::string& name, const std::string& value)
             {
-                return _putenv_s(name.c_str(), value.c_str()) == 0;
+                std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>, wchar_t> utf16;
+                return _wputenv_s(utf16.from_bytes(name).c_str(), utf16.from_bytes(value).c_str()) == 0;
             }
         
             std::string getUserName()
             {
-                TCHAR tmp[String::cStringLength] = { 0 };
+                WCHAR tmp[String::cStringLength] = { 0 };
                 DWORD size = String::cStringLength;
-                GetUserName(tmp, &size);
-                return std::string(tmp);
+                GetUserNameW(tmp, &size);
+                std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>, wchar_t> utf16;
+                return std::string(utf16.to_bytes(tmp));
             }
 
             FileSystem::Path getPath(DirectoryShortcut value)
@@ -182,11 +188,12 @@ namespace djv
                 case DirectoryShortcut::Downloads: id = FOLDERID_Downloads; break;
                 default: break;
                 }
-                wchar_t* path = nullptr;
+                wchar_t * path = nullptr;
                 HRESULT result = SHGetKnownFolderPath(id, 0, NULL, &path);
                 if (S_OK == result && path)
                 {
-                    out = FileSystem::Path(String::fromWide(path));
+                    std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>, wchar_t> utf16;
+                    out = FileSystem::Path(utf16.to_bytes(path));
                 }
                 CoTaskMemFree(path);
                 return out;

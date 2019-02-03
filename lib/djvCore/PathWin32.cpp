@@ -36,15 +36,19 @@
 #include <windows.h>
 #include <direct.h>
 
+#include <codecvt>
+#include <locale>
+
 namespace djv
 {
     namespace Core
     {
         namespace FileSystem
         {
-            void Path::mkdir(const Path& value)
+            void Path::mkdir(const Path & value)
             {
-                if (_mkdir(value.get().c_str()) != 0)
+                std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>, wchar_t> utf16;
+                if (_wmkdir(utf16.from_bytes(value.get()).c_str()) != 0)
                 {
                     std::stringstream s;
                     s << DJV_TEXT("djv::Core::FileSystem", "Cannot create directory") << " '" << value << "'.";
@@ -52,34 +56,37 @@ namespace djv
                 }
             }
 
-            Path Path::getAbsolute(const Path& value)
+            Path Path::getAbsolute(const Path & value)
             {
-                char buf[MAX_PATH];
-                if (!::_fullpath(buf, value._value.c_str(), MAX_PATH))
+                wchar_t buf[MAX_PATH];
+                std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>, wchar_t> utf16;
+                if (!::_wfullpath(buf, utf16.from_bytes(value._value).c_str(), MAX_PATH))
                 {
                     buf[0] = 0;
                 }
-                return Path(buf);
+                return Path(utf16.to_bytes(buf));
             }
 
             Path Path::getCWD()
             {
-                char buf[MAX_PATH];
-                if (!::_getcwd(buf, MAX_PATH))
+                wchar_t buf[MAX_PATH];
+                if (!::_wgetcwd(buf, MAX_PATH))
                 {
                     buf[0] = 0;
                 }
-                return Path(buf);
+                std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>, wchar_t> utf16;
+                return Path(utf16.to_bytes(buf));
             }
 
             Path Path::getTemp()
             {
                 Path out;
-                TCHAR buf[MAX_PATH];
-                DWORD r = GetTempPath(MAX_PATH, buf);
+                WCHAR buf[MAX_PATH];
+                DWORD r = GetTempPathW(MAX_PATH, buf);
                 if (r && r < MAX_PATH)
                 {
-                    out.set(buf);
+                    std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>, wchar_t> utf16;
+                    out.set(utf16.to_bytes(buf));
                 }
                 return out;
             }

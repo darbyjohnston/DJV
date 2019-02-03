@@ -79,9 +79,12 @@ namespace djv
                 {
                     const auto shortcut = OS::getPath(static_cast<OS::DirectoryShortcut>(i));
                     p.shortcuts.push_back(shortcut);
-
+                }
+                p.shortcuts.push_back(FileSystem::Path("//MAGURO/darby"));
+                for (const auto & i : p.shortcuts)
+                {
                     auto action = Action::create();
-                    const auto text = shortcut.getFileName();
+                    const auto text = i.getFileName();
                     action->setText(text);
                     p.actionGroup->addAction(action);
 

@@ -222,7 +222,9 @@ namespace djv
             };
 
             //! This function provides a wrapper for fopen().
-            FILE* fopen(const std::string& fileName, const std::string& mode);
+            //! Throws:
+            //! - std::exception
+            FILE * fopen(const std::string & fileName, const std::string & mode);
 
         } // namespace FileSystem
     } // namespace Core

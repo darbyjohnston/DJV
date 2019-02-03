@@ -35,6 +35,9 @@
 #include <shlobj.h>
 #include <direct.h>
 
+#include <codecvt>
+#include <locale>
+
 namespace djv
 {
     namespace Core
@@ -42,11 +45,12 @@ namespace djv
         FileSystem::Path ResourceSystem::_getDocumentsPath()
         {
             FileSystem::Path out;
-            CHAR buf[MAX_PATH];
-            HRESULT result = SHGetFolderPath(NULL, CSIDL_PERSONAL, NULL, SHGFP_TYPE_CURRENT, buf);
+            WCHAR buf[MAX_PATH];
+            HRESULT result = SHGetFolderPathW(NULL, CSIDL_PERSONAL, NULL, SHGFP_TYPE_CURRENT, buf);
             if (S_OK == result)
             {
-                out = FileSystem::Path(buf);
+                std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>, wchar_t> utf16;
+                out = FileSystem::Path(utf16.to_bytes(buf));
             }
             return out;
         }

@@ -36,10 +36,13 @@
 #include <sys/stat.h>
 #include <windows.h>
 
+#include <codecvt>
+#include <locale>
+
 //#pragma optimize("", off)
 
-#define _STAT struct _stati64
-#define _STAT_FNC    _stati64
+#define _STAT     struct _stati64
+#define _STAT_FNC        _wstati64
 
 namespace djv
 {
@@ -53,8 +56,8 @@ namespace djv
 
                 _STAT info;
                 memset(&info, 0, sizeof(_STAT));
-
-                if (_STAT_FNC(_path.get().c_str(), &info) != 0)
+                std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>, wchar_t> utf16;
+                if (_STAT_FNC(utf16.from_bytes(_path.get()).c_str(), &info) != 0)
                 {
                     std::string err;
                     char tmp[String::cStringLength] = "";
@@ -63,35 +66,36 @@ namespace djv
                     return false;
                 }
 
-                _exists = true;
-                _size = info.st_size;
-                _user = info.st_uid;
+                _exists      = true;
+                _size        = info.st_size;
+                _user        = info.st_uid;
                 _permissions = 0;
-                _time = info.st_mtime;
-                _type = FileType::File;
+                _time        = info.st_mtime;
+                _type        = FileType::File;
                 _permissions = 0;
 
                 if (info.st_mode & _S_IFDIR)
                 {
                     _type = FileType::Directory;
                 }
-                _permissions |= (info.st_mode & _S_IREAD) ? static_cast<int>(FilePermissions::Read) : 0;
+                _permissions |= (info.st_mode & _S_IREAD)  ? static_cast<int>(FilePermissions::Read)  : 0;
                 _permissions |= (info.st_mode & _S_IWRITE) ? static_cast<int>(FilePermissions::Write) : 0;
-                _permissions |= (info.st_mode & _S_IEXEC) ? static_cast<int>(FilePermissions::Exec) : 0;
+                _permissions |= (info.st_mode & _S_IEXEC)  ? static_cast<int>(FilePermissions::Exec)  : 0;
 
                 return true;
             }
 
-            std::vector<FileInfo> FileInfo::directoryList(const Path& value, const DirectoryListOptions& options)
+            std::vector<FileInfo> FileInfo::directoryList(const Path & value, const DirectoryListOptions & options)
             {
                 std::vector<FileInfo> out;
                 if (!value.isEmpty())
                 {
                     // Prepare the path.
-                    const std::string& path = value.get();
-                    TCHAR pathBuf[MAX_PATH];
+                    std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>, wchar_t> utf16;
+                    const std::wstring path = utf16.from_bytes(value.get());
+                    WCHAR pathBuf[MAX_PATH];
                     size_t size = std::min(path.size(), static_cast<size_t>(MAX_PATH - options.glob.size() - 2));
-                    memcpy(pathBuf, path.c_str(), size);
+                    memcpy(pathBuf, path.c_str(), size * sizeof(WCHAR));
                     pathBuf[size++] = Path::getCurrentPathSeparator();
                     for (size_t i = 0; i < options.glob.size(); ++i)
                     {
@@ -100,13 +104,13 @@ namespace djv
                     pathBuf[size++] = 0;
 
                     // List the directory contents.
-                    WIN32_FIND_DATA ffd;
-                    HANDLE hFind = FindFirstFile(pathBuf, &ffd);
+                    WIN32_FIND_DATAW ffd;
+                    HANDLE hFind = FindFirstFileW(pathBuf, &ffd);
                     if (hFind != INVALID_HANDLE_VALUE)
                     {
                         do
                         {
-                            const std::string fileName(ffd.cFileName);
+                            const std::string fileName = utf16.to_bytes(ffd.cFileName);
 
                             bool filter = false;
                             if (ffd.dwFileAttributes & FILE_ATTRIBUTE_HIDDEN)
@@ -154,7 +158,7 @@ namespace djv
                                     out.push_back(fileInfo);
                                 }
                             }
-                        } while (FindNextFile(hFind, &ffd) != 0);
+                        } while (FindNextFileW(hFind, &ffd) != 0);
                         FindClose(hFind);
                     }
 
