@@ -104,9 +104,7 @@ namespace djv
                 Core::UID uid = 0;
             };
 
-            //! Get a thumbnail image for the given file. If either the width
-            //! or height is set to zero the image will be resized maintaining
-            //! it's aspect ratio.
+            //! Get a thumbnail image for the given file.
             ImageFuture getImage(
                 const Core::FileSystem::Path & path,
                 const glm::ivec2&              size,

@@ -271,11 +271,9 @@ namespace djv
                             }
                         }
                         {
-                            const auto j = p.ioInfo.find(i.first);
-                            if (j == p.ioInfo.end())
+                            if (p.ioInfo.find(i.first) == p.ioInfo.end())
                             {
-                                const auto k = p.ioInfoFutures.find(i.first);
-                                if (k == p.ioInfoFutures.end())
+                                if (p.ioInfoFutures.find(i.first) == p.ioInfoFutures.end())
                                 {
                                     if (i.first < p.items.size())
                                     {
@@ -289,6 +287,30 @@ namespace djv
                                             {
                                                 p.ioInfoFutures[i.first] = thumbnailSystem->getInfo(path);
                                             }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        {
+                            if (p.thumbnails.find(i.first) == p.thumbnails.end())
+                            {
+                                if (p.thumbnailsFutures.find(i.first) == p.thumbnailsFutures.end())
+                                {
+                                    if (i.first < p.items.size())
+                                    {
+                                        const auto & fileInfo = p.items[i.first];
+                                        const auto & path = fileInfo.getPath();
+                                        auto thumbnailSystem = context->getSystemT<AV::ThumbnailSystem>().lock();
+                                        auto ioSystem = context->getSystemT<AV::IO::System>().lock();
+                                        auto style = _getStyle().lock();
+                                        if (thumbnailSystem && ioSystem && ioSystem->canRead(path) && style)
+                                        {
+                                            const float tw = style->getMetric(p.getThumbnailWidth());
+                                            const float th = style->getMetric(p.getThumbnailHeight());
+                                            p.thumbnailsFutures[i.first] = thumbnailSystem->getImage(
+                                                path,
+                                                glm::ivec2(static_cast<int>(tw), static_cast<int>(th)));
                                         }
                                     }
                                 }
@@ -608,7 +630,8 @@ namespace djv
                     auto i = p.nameLinesFutures.begin();
                     while (i != p.nameLinesFutures.end())
                     {
-                        if (i->second.valid())
+                        if (i->second.valid() &&
+                            i->second.wait_for(std::chrono::seconds(0)) == std::future_status::ready)
                         {
                             try
                             {
@@ -636,43 +659,7 @@ namespace djv
                         {
                             try
                             {
-                                const auto ioInfo = i->second.future.get();
-                                p.ioInfo[i->first] = ioInfo;
-                                auto context = getContext();
-                                auto thumbnailSystem = context->getSystemT<AV::ThumbnailSystem>().lock();
-                                auto style = _getStyle().lock();
-                                if (thumbnailSystem && style && i->first < p.items.size())
-                                {
-                                    const float tw = style->getMetric(p.getThumbnailWidth());
-                                    const float th = style->getMetric(p.getThumbnailHeight());
-                                    glm::vec2 size(tw, th);
-                                    if (ioInfo.video.size())
-                                    {
-                                        const glm::ivec2 & videoSize = ioInfo.video[0].info.size;
-                                        const float aspect = Vector::getAspect(videoSize);
-                                        if (videoSize.x >= videoSize.y)
-                                        {
-                                            size.y = tw / aspect;
-                                            if (size.y > th)
-                                            {
-                                                const float r = th / size.y;
-                                                size *= r;
-                                            }
-                                        }
-                                        else
-                                        {
-                                            size.x = tw * aspect;
-                                            if (size.x > tw)
-                                            {
-                                                const float r = tw / size.x;
-                                                size.y *= r;
-                                            }
-                                        }
-                                    }
-                                    p.thumbnailsFutures[i->first] = thumbnailSystem->getImage(
-                                        p.items[i->first].getPath(),
-                                        glm::ivec2(static_cast<int>(ceilf(size.x)), static_cast<int>(ceilf(size.y))));
-                                }
+                                p.ioInfo[i->first] = i->second.future.get();
                             }
                             catch (const std::exception& e)
                             {
@@ -695,9 +682,12 @@ namespace djv
                         {
                             try
                             {
-                                p.thumbnails[i->first] = i->second.future.get();
-                                p.thumbnailsTimers[i->first] = _getUpdateTime();
-                                _redraw();
+                                if (const auto image = i->second.future.get())
+                                {
+                                    p.thumbnails[i->first] = image;
+                                    p.thumbnailsTimers[i->first] = _getUpdateTime();
+                                    _redraw();
+                                }
                             }
                             catch (const std::exception& e)
                             {

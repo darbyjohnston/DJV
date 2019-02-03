@@ -505,7 +505,15 @@ namespace djv
                         {
                             i.queue = IO::Queue::create(1, 0);
                             i.read = io->read(i.path, i.queue);
-                            p.pendingImageRequests.push_back(std::move(i));
+                            const auto info = i.read->getInfo().get();
+                            if (info.video.size() > 0)
+                            {
+                                p.pendingImageRequests.push_back(std::move(i));
+                            }
+                            else
+                            {
+                                i.promise.set_exception(nullptr);
+                            }
                         }
                         catch (const std::exception& e)
                         {
@@ -537,7 +545,7 @@ namespace djv
                 }
                 if (image)
                 {
-                    if (i->size.x != 0 || i->size.y != 0 || i->type != Image::Type::None)
+                    if (i->size != image->getSize() || i->type != Image::Type::None)
                     {
                         auto size = i->size;
                         const float aspect = image->getAspectRatio();
