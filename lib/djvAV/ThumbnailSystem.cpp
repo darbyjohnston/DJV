@@ -172,8 +172,6 @@ namespace djv
             std::list<ImageRequest> imageRequests;
             std::condition_variable requestCV;
             std::mutex requestMutex;
-            std::list<InfoRequest> newInfoRequests;
-            std::list<ImageRequest> newImageRequests;
             std::list<InfoRequest> pendingInfoRequests;
             std::list<ImageRequest> pendingImageRequests;
 
@@ -243,6 +241,8 @@ namespace djv
                     const auto timeout = Time::Timer::getValue(Time::Timer::Value::Medium);
                     while (p.running)
                     {
+                        bool infoRequests  = p.pendingInfoRequests.size();
+                        bool imageRequests = p.pendingImageRequests.size();
                         {
                             std::unique_lock<std::mutex> lock(p.requestMutex);
                             if (p.requestCV.wait_for(
@@ -251,26 +251,19 @@ namespace djv
                                 [this]
                             {
                                 DJV_PRIVATE_PTR();
-                                return p.infoRequests.size() || p.imageRequests.size();
+                                return
+                                    p.infoRequests.size() || p.imageRequests.size();
                             }))
                             {
-                                while (p.infoRequests.size())
-                                {
-                                    p.newInfoRequests.push_back(std::move(p.infoRequests.front()));
-                                    p.infoRequests.pop_front();
-                                }
-                                while (p.imageRequests.size())
-                                {
-                                    p.newImageRequests.push_back(std::move(p.imageRequests.front()));
-                                    p.imageRequests.pop_front();
-                                }
+                                infoRequests  |= p.infoRequests.size()  > 0;
+                                imageRequests |= p.imageRequests.size() > 0;
                             }
                         }
-                        if (p.newInfoRequests.size() || p.pendingInfoRequests.size())
+                        if (infoRequests)
                         {
                             _handleInfoRequests();
                         }
-                        if (p.newImageRequests.size() || p.pendingImageRequests.size())
+                        if (imageRequests)
                         {
                             _handleImageRequests(convert);
                         }
@@ -318,6 +311,7 @@ namespace djv
                 std::unique_lock<std::mutex> lock(p.requestMutex);
                 p.infoRequests.push_back(std::move(request));
             }
+            p.requestCV.notify_one();
             return InfoFuture(future, request.uid);
         }
         
@@ -326,31 +320,16 @@ namespace djv
             DJV_PRIVATE_PTR();
             {
                 std::unique_lock<std::mutex> lock(p.requestMutex);
+                const auto i = std::find_if(
+                    p.infoRequests.rbegin(),
+                    p.infoRequests.rend(),
+                    [uid](const InfoRequest & value)
                 {
-                    const auto i = std::find_if(
-                        p.infoRequests.begin(),
-                        p.infoRequests.end(),
-                        [uid](const InfoRequest & value)
-                    {
-                        return value.uid == uid;
-                    });
-                    if (i != p.infoRequests.end())
-                    {
-                        p.infoRequests.erase(i);
-                    }
-                }
+                    return value.uid == uid;
+                });
+                if (i != p.infoRequests.rend())
                 {
-                    const auto i = std::find_if(
-                        p.newInfoRequests.begin(),
-                        p.newInfoRequests.end(),
-                        [uid](const InfoRequest & value)
-                    {
-                        return value.uid == uid;
-                    });
-                    if (i != p.newInfoRequests.end())
-                    {
-                        p.newInfoRequests.erase(i);
-                    }
+                    p.infoRequests.erase(--(i.base()));
                 }
             }
         }
@@ -370,6 +349,7 @@ namespace djv
                 std::unique_lock<std::mutex> lock(p.requestMutex);
                 p.imageRequests.push_back(std::move(request));
             }
+            p.requestCV.notify_one();
             return ImageFuture(future, request.uid);
         }
         
@@ -378,31 +358,16 @@ namespace djv
             DJV_PRIVATE_PTR();
             {
                 std::unique_lock<std::mutex> lock(p.requestMutex);
+                const auto i = std::find_if(
+                    p.imageRequests.rbegin(),
+                    p.imageRequests.rend(),
+                    [uid](const ImageRequest & value)
                 {
-                    const auto i = std::find_if(
-                        p.imageRequests.begin(),
-                        p.imageRequests.end(),
-                        [uid](const ImageRequest & value)
-                    {
-                        return value.uid == uid;
-                    });
-                    if (i != p.imageRequests.end())
-                    {
-                        p.imageRequests.erase(i);
-                    }
-                }
+                    return value.uid == uid;
+                });
+                if (i != p.imageRequests.rend())
                 {
-                    const auto i = std::find_if(
-                        p.newImageRequests.begin(),
-                        p.newImageRequests.end(),
-                        [uid](const ImageRequest & value)
-                    {
-                        return value.uid == uid;
-                    });
-                    if (i != p.newImageRequests.end())
-                    {
-                        p.newImageRequests.erase(i);
-                    }
+                    p.imageRequests.erase(--(i.base()));
                 }
             }
         }
@@ -412,10 +377,21 @@ namespace djv
             DJV_PRIVATE_PTR();
 
             // Process new requests.
-            while (p.newInfoRequests.size() && p.pendingInfoRequests.size() < infoProcessMax)
+            while (p.pendingInfoRequests.size() < infoProcessMax)
             {
-                InfoRequest i = std::move(p.newInfoRequests.front());
-                p.newInfoRequests.pop_front();
+                InfoRequest i;
+                {
+                    std::unique_lock<std::mutex> lock(p.requestMutex);
+                    if (p.infoRequests.size())
+                    {
+                        i = std::move(p.infoRequests.front());
+                        p.infoRequests.pop_front();
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
                 IO::Info info;
                 bool cached = false;
                 {
@@ -493,10 +469,21 @@ namespace djv
             DJV_PRIVATE_PTR();
 
             // Process new requests.
-            while (p.newImageRequests.size() && p.pendingImageRequests.size() < imageProcessMax)
+            while (p.pendingImageRequests.size() < imageProcessMax)
             {
-                ImageRequest i = std::move(p.newImageRequests.front());
-                p.newImageRequests.pop_front();
+                ImageRequest i;
+                {
+                    std::unique_lock<std::mutex> lock(p.requestMutex);
+                    if (p.imageRequests.size())
+                    {
+                        i = std::move(p.imageRequests.front());
+                        p.imageRequests.pop_front();
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
                 std::shared_ptr<Image::Image> image;
                 {
                     std::lock_guard<std::mutex> lock(p.cacheMutex);
