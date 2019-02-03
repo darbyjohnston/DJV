@@ -58,7 +58,6 @@ namespace djv
             namespace
             {
                 //! \todo [1.0 S] Should this be configurable?
-                const size_t measureCacheMax = 1000;
                 const size_t glyphCacheMax = 1000;
 
                 struct MetricsRequest
@@ -553,7 +552,6 @@ namespace djv
                             if (!ftError)
                             {
                                 const std::basic_string<djv_char_t> utf32 = p.utf32.from_bytes(request.text);
-                                const auto utf32Begin = utf32.begin();
                                 glm::vec2 pos(0.f, font->second->size->metrics.height / 64.f);
                                 auto textLine = utf32.end();
                                 float textLineX = 0.f;

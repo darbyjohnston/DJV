@@ -32,6 +32,7 @@
 #include <djvAV/Pixel.h>
 
 #include <djvCore/ISystem.h>
+#include <djvCore/UID.h>
 #include <djvCore/Vector.h>
 
 #include <future>
@@ -63,9 +64,11 @@ namespace djv
             
         } // namespace Image
         
-        //! This class provides a system for generating thumbnail images from files.
+        //! This class provides a system for generating thumbnail images from
+        //! files.
         //!
-        //! \todo Add support for canceling requests (e.g., for the file browser).
+        //! \todo Add support for canceling requests (e.g., for the file
+        //! browser).
         class ThumbnailSystem : public Core::ISystem
         {
             DJV_NON_COPYABLE(ThumbnailSystem);
@@ -79,15 +82,38 @@ namespace djv
 
             static std::shared_ptr<ThumbnailSystem> create(Core::Context *);
 
+            struct InfoFuture
+            {
+                InfoFuture();
+                InfoFuture(std::future<IO::Info> &, Core::UID);
+                std::future<IO::Info> future;
+                Core::UID uid = 0;
+            };
+            
             //! Get information about a file.
-            std::future<IO::Info> getInfo(const Core::FileSystem::Path&);
+            InfoFuture getInfo(const Core::FileSystem::Path &);
 
-            //! Get a thumbnail for the given file. If either the width or height is set to zero
-            //! the image will be resized maintaining it's aspect ratio.
-            std::future<std::shared_ptr<Image::Image> > getImage(
-                const Core::FileSystem::Path& path,
-                const glm::ivec2&             size,
-                Image::Type                   type = Image::Type::None);
+            //! Cancel information about a file.
+            void cancelInfo(Core::UID);
+
+            struct ImageFuture
+            {
+                ImageFuture();
+                ImageFuture(std::future<std::shared_ptr<Image::Image> > &, Core::UID);
+                std::future<std::shared_ptr<Image::Image> > future;
+                Core::UID uid = 0;
+            };
+
+            //! Get a thumbnail image for the given file. If either the width
+            //! or height is set to zero the image will be resized maintaining
+            //! it's aspect ratio.
+            ImageFuture getImage(
+                const Core::FileSystem::Path & path,
+                const glm::ivec2&              size,
+                Image::Type                    type = Image::Type::None);
+
+            //! Cancel a thumbnail image.
+            void cancelImage(Core::UID);
 
         private:
             void _handleInfoRequests();

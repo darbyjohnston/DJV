@@ -66,9 +66,9 @@ namespace djv
                 std::map<size_t, std::vector<AV::Font::TextLine> > nameLines;
                 std::map<size_t, std::future<std::vector<AV::Font::TextLine> > > nameLinesFutures;
                 std::map<size_t, AV::IO::Info> ioInfo;
-                std::map<size_t, std::future<AV::IO::Info> > ioInfoFutures;
+                std::map<size_t, AV::ThumbnailSystem::InfoFuture> ioInfoFutures;
                 std::map<size_t, std::shared_ptr<AV::Image::Image> > thumbnails;
-                std::map<size_t, std::future<std::shared_ptr<AV::Image::Image> > > thumbnailsFutures;
+                std::map<size_t, AV::ThumbnailSystem::ImageFuture> thumbnailsFutures;
                 std::map<size_t, float> thumbnailsTimers;
                 std::map<FileSystem::FileType, std::shared_ptr<AV::Image::Image> > icons;
                 std::map<FileSystem::FileType, std::future<std::shared_ptr<AV::Image::Image> > > iconsFutures;
@@ -295,152 +295,167 @@ namespace djv
                             }
                         }
                     }
+                    else if (auto thumbnailSystem = context->getSystemT<AV::ThumbnailSystem>().lock())
+                    {
+                        {
+                            const auto j = p.ioInfoFutures.find(i.first);
+                            if (j != p.ioInfoFutures.end())
+                            {
+                                thumbnailSystem->cancelInfo(j->second.uid);
+                                p.ioInfoFutures.erase(j);
+                            }
+                        }
+                        {
+                            const auto j = p.thumbnailsFutures.find(i.first);
+                            if (j != p.thumbnailsFutures.end())
+                            {
+                                thumbnailSystem->cancelImage(j->second.uid);
+                                p.thumbnailsFutures.erase(j);
+                            }
+                        }
+                    }
                 }
             }
 
             void ItemView::_paintEvent(Event::Paint& event)
             {
                 DJV_PRIVATE_PTR();
-                if (const size_t itemCount = p.items.size())
+                if (auto render = _getRender().lock())
                 {
-                    if (auto render = _getRender().lock())
+                    if (auto style = _getStyle().lock())
                     {
-                        if (auto style = _getStyle().lock())
+                        const float m = style->getMetric(Style::MetricsRole::MarginSmall);
+                        const float s = style->getMetric(Style::MetricsRole::SpacingSmall);
+                        const float tw = style->getMetric(p.getThumbnailWidth());
+                        const float th = style->getMetric(p.getThumbnailHeight());
                         {
-                            const BBox2f & g = getGeometry();
-                            const float m = style->getMetric(Style::MetricsRole::MarginSmall);
-                            const float s = style->getMetric(Style::MetricsRole::SpacingSmall);
-                            const float tw = style->getMetric(p.getThumbnailWidth());
-                            const float th = style->getMetric(p.getThumbnailHeight());
+                            const auto i = p.itemGeometry.find(p.grab);
+                            if (i != p.itemGeometry.end())
                             {
-                                const auto i = p.itemGeometry.find(p.grab);
-                                if (i != p.itemGeometry.end())
-                                {
-                                    render->setFillColor(_getColorWithOpacity(style->getColor(Style::ColorRole::Pressed)));
-                                    render->drawRect(i->second);
-                                }
+                                render->setFillColor(_getColorWithOpacity(style->getColor(Style::ColorRole::Pressed)));
+                                render->drawRect(i->second);
                             }
+                        }
+                        {
+                            const auto i = p.itemGeometry.find(p.hover);
+                            const auto j = p.itemGeometry.find(p.grab);
+                            if (i != p.itemGeometry.end() && i != j)
                             {
-                                const auto i = p.itemGeometry.find(p.hover);
-                                const auto j = p.itemGeometry.find(p.grab);
-                                if (i != p.itemGeometry.end() && i != j)
-                                {
-                                    render->setFillColor(_getColorWithOpacity(style->getColor(Style::ColorRole::Hovered)));
-                                    render->drawRect(i->second);
-                                }
+                                render->setFillColor(_getColorWithOpacity(style->getColor(Style::ColorRole::Hovered)));
+                                render->drawRect(i->second);
                             }
-                            const float ut = _getUpdateTime();
-                            auto item = p.items.begin();
-                            size_t index = 0;
-                            for (; item != p.items.end(); ++item, ++index)
+                        }
+                        const float ut = _getUpdateTime();
+                        auto item = p.items.begin();
+                        size_t index = 0;
+                        for (; item != p.items.end(); ++item, ++index)
+                        {
+                            const auto i = p.itemGeometry.find(index);
+                            if (i != p.itemGeometry.end())
                             {
-                                const auto i = p.itemGeometry.find(index);
-                                if (i != p.itemGeometry.end())
+                                float opacity = 0.f;
                                 {
-                                    float opacity = 0.f;
+                                    const auto j = p.thumbnails.find(index);
+                                    if (j != p.thumbnails.end())
                                     {
-                                        const auto j = p.thumbnails.find(index);
-                                        if (j != p.thumbnails.end())
+                                        opacity = 1.f;
+                                        const auto k = p.thumbnailsTimers.find(index);
+                                        if (k != p.thumbnailsTimers.end())
                                         {
-                                            opacity = 1.f;
-                                            const auto k = p.thumbnailsTimers.find(index);
-                                            if (k != p.thumbnailsTimers.end())
-                                            {
-                                                opacity = std::min((ut - k->second) / thumbnailsFadeTime, 1.f);
-                                            }
-                                            const auto & size = j->second->getSize();
-                                            float x = 0.f;
-                                            float y = 0.f;
-                                            switch (p.viewType)
-                                            {
-                                            case ViewType::ThumbnailsLarge:
-                                            case ViewType::ThumbnailsSmall:
-                                                x = floor(i->second.min.x + m + tw / 2.f - size.x / 2.f);
-                                                y = floor(i->second.min.y + m + th - size.y);
-                                                break;
-                                            case ViewType::ListView:
-                                                x = floor(i->second.min.x + m);
-                                                y = floor(i->second.min.y + i->second.h() / 2.f - size.y / 2.f);
-                                                break;
-                                            default: break;
-                                            }
-                                            render->setFillColor(_getColorWithOpacity(AV::Image::Color(1.f, 1.f, 1.f, opacity)));
-                                            render->drawImage(
-                                                j->second,
-                                                BBox2f(x, y, static_cast<float>(size.x), static_cast<float>(size.y)),
-                                                AV::Render::ImageCache::Static);
+                                            opacity = std::min((ut - k->second) / thumbnailsFadeTime, 1.f);
                                         }
-                                    }
-                                    if (opacity < 1.f)
-                                    {
-                                        const auto j = p.icons.find(item->getType());
-                                        if (j != p.icons.end())
-                                        {
-                                            const auto & size = j->second->getSize();
-                                            float x = 0.f;
-                                            float y = 0.f;
-                                            switch (p.viewType)
-                                            {
-                                            case ViewType::ThumbnailsLarge:
-                                            case ViewType::ThumbnailsSmall:
-                                                x = floor(i->second.min.x + m + tw / 2.f - size.x / 2.f);
-                                                y = floor(i->second.min.y + m + th - size.y);
-                                                break;
-                                            case ViewType::ListView:
-                                                x = floor(i->second.min.x + m);
-                                                y = floor(i->second.min.y + i->second.h() / 2.f - size.y / 2.f);
-                                                break;
-                                            default: break;
-                                            }
-                                            auto c = style->getColor(Style::ColorRole::Button).convert(AV::Image::Type::RGBA_F32);
-                                            c.setF32(1.f - opacity, 3);
-                                            render->setFillColor(_getColorWithOpacity(c));
-                                            render->drawFilledImage(
-                                                j->second,
-                                                BBox2f(x, y, static_cast<float>(size.x), static_cast<float>(size.y)),
-                                                AV::Render::ImageCache::Static);
-                                        }
-                                    }
-                                    {
-                                        render->setFillColor(_getColorWithOpacity(style->getColor(Style::ColorRole::Foreground)));
-                                        render->setCurrentFont(style->getFontInfo(AV::Font::Info::faceDefault, Style::MetricsRole::FontMedium));
+                                        const auto & size = j->second->getSize();
+                                        float x = 0.f;
+                                        float y = 0.f;
                                         switch (p.viewType)
                                         {
                                         case ViewType::ThumbnailsLarge:
                                         case ViewType::ThumbnailsSmall:
-                                        {
-                                            const auto j = p.nameLines.find(index);
-                                            if (j != p.nameLines.end())
-                                            {
-                                                float x = i->second.min.x + m;
-                                                float y = i->second.max.y - p.nameFontMetrics.lineHeight * 2.f - m;
-                                                size_t line = 0;
-                                                auto k = j->second.begin();
-                                                for (; k != j->second.end() && line < 2; ++k, ++line)
-                                                {
-                                                    render->drawText(
-                                                        k->text,
-                                                        glm::vec2(
-                                                            floorf(x + tw / 2.f - k->size.x / 2.f),
-                                                            floorf(y + p.nameFontMetrics.ascender)));
-                                                    y += p.nameFontMetrics.lineHeight;
-                                                }
-                                            }
+                                            x = floor(i->second.min.x + m + tw / 2.f - size.x / 2.f);
+                                            y = floor(i->second.min.y + m + th - size.y);
                                             break;
-                                        }
                                         case ViewType::ListView:
-                                        {
-                                            float x = i->second.min.x + m + tw + s;
-                                            float y = i->second.min.y + i->second.h() / 2.f - p.nameFontMetrics.lineHeight / 2.f;
-                                            render->drawText(
-                                                item->getFileName(Frame::Invalid, false),
-                                                glm::vec2(
-                                                    floorf(x),
-                                                    floorf(y + p.nameFontMetrics.ascender)));
+                                            x = floor(i->second.min.x + m);
+                                            y = floor(i->second.min.y + i->second.h() / 2.f - size.y / 2.f);
                                             break;
-                                        }
                                         default: break;
                                         }
+                                        render->setFillColor(_getColorWithOpacity(AV::Image::Color(1.f, 1.f, 1.f, opacity)));
+                                        render->drawImage(
+                                            j->second,
+                                            BBox2f(x, y, static_cast<float>(size.x), static_cast<float>(size.y)),
+                                            AV::Render::ImageCache::Static);
+                                    }
+                                }
+                                if (opacity < 1.f)
+                                {
+                                    const auto j = p.icons.find(item->getType());
+                                    if (j != p.icons.end())
+                                    {
+                                        const auto & size = j->second->getSize();
+                                        float x = 0.f;
+                                        float y = 0.f;
+                                        switch (p.viewType)
+                                        {
+                                        case ViewType::ThumbnailsLarge:
+                                        case ViewType::ThumbnailsSmall:
+                                            x = floor(i->second.min.x + m + tw / 2.f - size.x / 2.f);
+                                            y = floor(i->second.min.y + m + th - size.y);
+                                            break;
+                                        case ViewType::ListView:
+                                            x = floor(i->second.min.x + m);
+                                            y = floor(i->second.min.y + i->second.h() / 2.f - size.y / 2.f);
+                                            break;
+                                        default: break;
+                                        }
+                                        auto c = style->getColor(Style::ColorRole::Button).convert(AV::Image::Type::RGBA_F32);
+                                        c.setF32(1.f - opacity, 3);
+                                        render->setFillColor(_getColorWithOpacity(c));
+                                        render->drawFilledImage(
+                                            j->second,
+                                            BBox2f(x, y, static_cast<float>(size.x), static_cast<float>(size.y)),
+                                            AV::Render::ImageCache::Static);
+                                    }
+                                }
+                                {
+                                    render->setFillColor(_getColorWithOpacity(style->getColor(Style::ColorRole::Foreground)));
+                                    render->setCurrentFont(style->getFontInfo(AV::Font::Info::faceDefault, Style::MetricsRole::FontMedium));
+                                    switch (p.viewType)
+                                    {
+                                    case ViewType::ThumbnailsLarge:
+                                    case ViewType::ThumbnailsSmall:
+                                    {
+                                        const auto j = p.nameLines.find(index);
+                                        if (j != p.nameLines.end())
+                                        {
+                                            float x = i->second.min.x + m;
+                                            float y = i->second.max.y - p.nameFontMetrics.lineHeight * 2.f - m;
+                                            size_t line = 0;
+                                            auto k = j->second.begin();
+                                            for (; k != j->second.end() && line < 2; ++k, ++line)
+                                            {
+                                                render->drawText(
+                                                    k->text,
+                                                    glm::vec2(
+                                                        floorf(x + tw / 2.f - k->size.x / 2.f),
+                                                        floorf(y + p.nameFontMetrics.ascender)));
+                                                y += p.nameFontMetrics.lineHeight;
+                                            }
+                                        }
+                                        break;
+                                    }
+                                    case ViewType::ListView:
+                                    {
+                                        float x = i->second.min.x + m + tw + s;
+                                        float y = i->second.min.y + i->second.h() / 2.f - p.nameFontMetrics.lineHeight / 2.f;
+                                        render->drawText(
+                                            item->getFileName(Frame::Invalid, false),
+                                            glm::vec2(
+                                                floorf(x),
+                                                floorf(y + p.nameFontMetrics.ascender)));
+                                        break;
+                                    }
+                                    default: break;
                                     }
                                 }
                             }
@@ -616,12 +631,12 @@ namespace djv
                     auto i = p.ioInfoFutures.begin();
                     while (i != p.ioInfoFutures.end())
                     {
-                        if (i->second.valid() &&
-                            i->second.wait_for(std::chrono::seconds(0)) == std::future_status::ready)
+                        if (i->second.future.valid() &&
+                            i->second.future.wait_for(std::chrono::seconds(0)) == std::future_status::ready)
                         {
                             try
                             {
-                                const auto ioInfo = i->second.get();
+                                const auto ioInfo = i->second.future.get();
                                 p.ioInfo[i->first] = ioInfo;
                                 auto context = getContext();
                                 auto thumbnailSystem = context->getSystemT<AV::ThumbnailSystem>().lock();
@@ -675,12 +690,12 @@ namespace djv
                     auto i = p.thumbnailsFutures.begin();
                     while (i != p.thumbnailsFutures.end())
                     {
-                        if (i->second.valid() &&
-                            i->second.wait_for(std::chrono::seconds(0)) == std::future_status::ready)
+                        if (i->second.future.valid() &&
+                            i->second.future.wait_for(std::chrono::seconds(0)) == std::future_status::ready)
                         {
                             try
                             {
-                                p.thumbnails[i->first] = i->second.get();
+                                p.thumbnails[i->first] = i->second.future.get();
                                 p.thumbnailsTimers[i->first] = _getUpdateTime();
                                 _redraw();
                             }
@@ -790,8 +805,7 @@ namespace djv
                             style->getFontInfo(AV::Font::Info::faceDefault, Style::MetricsRole::FontMedium));
                         p.typeFontMetricsFuture = fontSystem->getMetrics(
                             style->getFontInfo(AV::Font::Info::faceDefault, Style::MetricsRole::FontMedium));
-
-                        const size_t itemCount = p.items.size();
+                        
                         p.nameLines.clear();
                         p.nameLinesFutures.clear();
                         p.ioInfo.clear();

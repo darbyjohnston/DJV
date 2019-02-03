@@ -53,15 +53,19 @@ namespace djv
         namespace
         {
             //! \todo [1.0 S] Should this be configurable?
-            const size_t infoCacheMax = 1000;
-            const size_t imageCacheMax = 1000;
+            const size_t infoProcessMax  = 4;
+            const size_t imageProcessMax = 4;
+            const size_t infoCacheMax    = 1000;
+            const size_t imageCacheMax   = 1000;
 
             struct InfoRequest
             {
-                InfoRequest()
+                InfoRequest() :
+                    uid(createUID())
                 {}
 
                 InfoRequest(InfoRequest&& other) :
+                    uid(other.uid),
                     path(other.path),
                     read(std::move(other.read)),
                     infoFuture(std::move(other.infoFuture)),
@@ -72,6 +76,7 @@ namespace djv
                 {
                     if (this != &other)
                     {
+                        uid = other.uid;
                         path = other.path;
                         read = std::move(other.read);
                         infoFuture = std::move(other.infoFuture);
@@ -80,6 +85,7 @@ namespace djv
                     return *this;
                 }
 
+                UID uid = 0;
                 FileSystem::Path path;
                 std::shared_ptr<IO::IRead> read;
                 std::future<IO::Info> infoFuture;
@@ -88,10 +94,12 @@ namespace djv
 
             struct ImageRequest
             {
-                ImageRequest()
+                ImageRequest() :
+                    uid(createUID())
                 {}
 
                 ImageRequest(ImageRequest&& other) :
+                    uid(other.uid),
                     path(other.path),
                     size(std::move(other.size)),
                     type(std::move(other.type)),
@@ -104,6 +112,7 @@ namespace djv
                 {
                     if (this != &other)
                     {
+                        uid = other.uid;
                         path = other.path;
                         size = std::move(other.size);
                         type = std::move(other.type);
@@ -114,6 +123,7 @@ namespace djv
                     return *this;
                 }
 
+                UID uid = 0;
                 FileSystem::Path path;
                 glm::ivec2 size = glm::ivec2(0, 0);
                 Image::Type type = Image::Type::None;
@@ -140,15 +150,31 @@ namespace djv
 
         } // namespace
 
+        ThumbnailSystem::InfoFuture::InfoFuture()
+        {}
+        
+        ThumbnailSystem::InfoFuture::InfoFuture(std::future<IO::Info> & future, UID uid) :
+            future(std::move(future)),
+            uid(uid)
+        {}
+
+        ThumbnailSystem::ImageFuture::ImageFuture()
+        {}
+        
+        ThumbnailSystem::ImageFuture::ImageFuture(std::future<std::shared_ptr<Image::Image> > & future, UID uid) :
+            future(std::move(future)),
+            uid(uid)
+        {}
+        
         struct ThumbnailSystem::Private
         {
-            std::list<InfoRequest> infoQueue;
-            std::list<ImageRequest> imageQueue;
+            std::list<InfoRequest> infoRequests;
+            std::list<ImageRequest> imageRequests;
             std::condition_variable requestCV;
             std::mutex requestMutex;
             std::list<InfoRequest> newInfoRequests;
-            std::list<InfoRequest> pendingInfoRequests;
             std::list<ImageRequest> newImageRequests;
+            std::list<InfoRequest> pendingInfoRequests;
             std::list<ImageRequest> pendingImageRequests;
 
             Memory::Cache<size_t, IO::Info> infoCache;
@@ -225,11 +251,19 @@ namespace djv
                                 [this]
                             {
                                 DJV_PRIVATE_PTR();
-                                return p.infoQueue.size() || p.imageQueue.size();
+                                return p.infoRequests.size() || p.imageRequests.size();
                             }))
                             {
-                                p.newInfoRequests = std::move(p.infoQueue);
-                                p.newImageRequests = std::move(p.imageQueue);
+                                while (p.infoRequests.size())
+                                {
+                                    p.newInfoRequests.push_back(std::move(p.infoRequests.front()));
+                                    p.infoRequests.pop_front();
+                                }
+                                while (p.imageRequests.size())
+                                {
+                                    p.newImageRequests.push_back(std::move(p.imageRequests.front()));
+                                    p.imageRequests.pop_front();
+                                }
                             }
                         }
                         if (p.newInfoRequests.size() || p.pendingInfoRequests.size())
@@ -274,19 +308,54 @@ namespace djv
             return out;
         }
 
-        std::future<IO::Info> ThumbnailSystem::getInfo(const FileSystem::Path& path)
+        ThumbnailSystem::InfoFuture ThumbnailSystem::getInfo(const FileSystem::Path& path)
         {
             DJV_PRIVATE_PTR();
             InfoRequest request;
             request.path = path;
             auto future = request.promise.get_future();
-            std::unique_lock<std::mutex> lock(p.requestMutex);
-            p.infoQueue.push_back(std::move(request));
-            p.requestCV.notify_one();
-            return future;
+            {
+                std::unique_lock<std::mutex> lock(p.requestMutex);
+                p.infoRequests.push_back(std::move(request));
+            }
+            return InfoFuture(future, request.uid);
+        }
+        
+        void ThumbnailSystem::cancelInfo(UID uid)
+        {
+            DJV_PRIVATE_PTR();
+            {
+                std::unique_lock<std::mutex> lock(p.requestMutex);
+                {
+                    const auto i = std::find_if(
+                        p.infoRequests.begin(),
+                        p.infoRequests.end(),
+                        [uid](const InfoRequest & value)
+                    {
+                        return value.uid == uid;
+                    });
+                    if (i != p.infoRequests.end())
+                    {
+                        p.infoRequests.erase(i);
+                    }
+                }
+                {
+                    const auto i = std::find_if(
+                        p.newInfoRequests.begin(),
+                        p.newInfoRequests.end(),
+                        [uid](const InfoRequest & value)
+                    {
+                        return value.uid == uid;
+                    });
+                    if (i != p.newInfoRequests.end())
+                    {
+                        p.newInfoRequests.erase(i);
+                    }
+                }
+            }
         }
 
-        std::future<std::shared_ptr<Image::Image> > ThumbnailSystem::getImage(
+        ThumbnailSystem::ImageFuture ThumbnailSystem::getImage(
             const FileSystem::Path & path,
             const glm::ivec2 &       size,
             Image::Type              type)
@@ -299,10 +368,43 @@ namespace djv
             auto future = request.promise.get_future();
             {
                 std::unique_lock<std::mutex> lock(p.requestMutex);
-                p.imageQueue.push_back(std::move(request));
+                p.imageRequests.push_back(std::move(request));
             }
-            p.requestCV.notify_one();
-            return future;
+            return ImageFuture(future, request.uid);
+        }
+        
+        void ThumbnailSystem::cancelImage(UID uid)
+        {
+            DJV_PRIVATE_PTR();
+            {
+                std::unique_lock<std::mutex> lock(p.requestMutex);
+                {
+                    const auto i = std::find_if(
+                        p.imageRequests.begin(),
+                        p.imageRequests.end(),
+                        [uid](const ImageRequest & value)
+                    {
+                        return value.uid == uid;
+                    });
+                    if (i != p.imageRequests.end())
+                    {
+                        p.imageRequests.erase(i);
+                    }
+                }
+                {
+                    const auto i = std::find_if(
+                        p.newImageRequests.begin(),
+                        p.newImageRequests.end(),
+                        [uid](const ImageRequest & value)
+                    {
+                        return value.uid == uid;
+                    });
+                    if (i != p.newImageRequests.end())
+                    {
+                        p.newImageRequests.erase(i);
+                    }
+                }
+            }
         }
 
         void ThumbnailSystem::_handleInfoRequests()
@@ -310,8 +412,10 @@ namespace djv
             DJV_PRIVATE_PTR();
 
             // Process new requests.
-            for (auto & i : p.newInfoRequests)
+            while (p.newInfoRequests.size() && p.pendingInfoRequests.size() < infoProcessMax)
             {
+                InfoRequest i = std::move(p.newInfoRequests.front());
+                p.newInfoRequests.pop_front();
                 IO::Info info;
                 bool cached = false;
                 {
@@ -349,7 +453,6 @@ namespace djv
                     }
                 }
             }
-            p.newInfoRequests.clear();
 
             // Process pending requests.
             auto i = p.pendingInfoRequests.begin();
@@ -390,8 +493,10 @@ namespace djv
             DJV_PRIVATE_PTR();
 
             // Process new requests.
-            for (auto & i : p.newImageRequests)
+            while (p.newImageRequests.size() && p.pendingImageRequests.size() < imageProcessMax)
             {
+                ImageRequest i = std::move(p.newImageRequests.front());
+                p.newImageRequests.pop_front();
                 std::shared_ptr<Image::Image> image;
                 {
                     std::lock_guard<std::mutex> lock(p.cacheMutex);
@@ -430,7 +535,6 @@ namespace djv
                     }
                 }
             }
-            p.newImageRequests.clear();
 
             // Process pending requests.
             auto i = p.pendingImageRequests.begin();
@@ -458,7 +562,7 @@ namespace djv
                         {
                             size.y = static_cast<int>(size.x / aspect);
                         }
-                        auto type = i->type != Image::Type::None ? i->type : image->getType();
+                        const auto type = i->type != Image::Type::None ? i->type : image->getType();
                         const auto info = Image::Info(size, type);
                         auto tmp = Image::Image::create(info);
                         tmp->setTags(image->getTags());
