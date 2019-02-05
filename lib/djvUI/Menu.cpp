@@ -762,7 +762,7 @@ namespace djv
 
 			void MenuPopupWidget::setCloseCallback(const std::function<void(void)> & callback)
 			{
-
+				_menuWidget->setCloseCallback(callback);
 			}
 
 			void MenuPopupWidget::_buttonPressEvent(Event::ButtonPress & event)
