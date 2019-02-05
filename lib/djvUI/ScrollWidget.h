@@ -78,6 +78,9 @@ namespace djv
             bool hasBorder() const;
             void setBorder(bool);
 
+			Style::MetricsRole getMinimumSizeRole() const;
+			void setMinimumSizeRole(Style::MetricsRole);
+
             void addWidget(const std::shared_ptr<Widget>&) override;
             void removeWidget(const std::shared_ptr<Widget>&) override;
             void clearWidgets() override;

@@ -379,12 +379,14 @@ namespace djv
                 void setScrollType(ScrollType);
 
                 const glm::vec2& getContentsSize() const { return _contentsSize; }
-
                 void setContentsSizeCallback(const std::function<void(const glm::vec2&)>&);
 
                 const glm::vec2& getScrollPos() const { return _scrollPos; }
                 bool setScrollPos(const glm::vec2&);
                 void setScrollPosCallback(const std::function<void(const glm::vec2&)>&);
+
+				Style::MetricsRole getMinimumSizeRole() const { return _minimumSizeRole; }
+				void setMinimumSizeRole(Style::MetricsRole);
 
             protected:
                 void _preLayoutEvent(Event::PreLayout&) override;
@@ -397,6 +399,7 @@ namespace djv
                 std::function<void(const glm::vec2&)> _contentsSizeCallback;
                 glm::vec2 _scrollPos = glm::vec2(0.f, 0.f);
                 std::function<void(const glm::vec2&)> _scrollPosCallback;
+				Style::MetricsRole _minimumSizeRole = Style::MetricsRole::ScrollArea;
             };
 
             void ScrollArea::_init(ScrollType scrollType, Context * context)
@@ -448,6 +451,14 @@ namespace djv
                 _scrollPosCallback = callback;
             }
 
+			void ScrollArea::setMinimumSizeRole(Style::MetricsRole value)
+			{
+				if (value == _minimumSizeRole)
+					return;
+				_minimumSizeRole = value;
+				_resize();
+			}
+
             void ScrollArea::_preLayoutEvent(Event::PreLayout&)
             {
                 if (auto style = _getStyle().lock())
@@ -460,21 +471,28 @@ namespace djv
                             childrenMinimumSize = glm::max(childrenMinimumSize, child->getMinimumSize());
                         }
                     }
-                    glm::vec2 size = glm::vec2(0.f, 0.f);
-                    const float sa = style->getMetric(Style::MetricsRole::ScrollArea);
+                    glm::vec2 size = childrenMinimumSize;
+                    const float minimumSize = style->getMetric(_minimumSizeRole);
                     switch (_scrollType)
                     {
                     case ScrollType::Both:
-                        size.x = std::min(childrenMinimumSize.x, ceilf(sa * style->getScale()));
-                        size.y = std::min(childrenMinimumSize.y, ceilf(sa * style->getScale()));
+						if (_minimumSizeRole != Style::MetricsRole::None)
+						{
+							size.x = std::min(childrenMinimumSize.x, minimumSize);
+							size.y = std::min(childrenMinimumSize.y, minimumSize);
+						}
                         break;
                     case ScrollType::Horizontal:
-                        size.x = std::min(childrenMinimumSize.x, ceilf(sa * style->getScale()));
-                        size.y = childrenMinimumSize.y;
+						if (_minimumSizeRole != Style::MetricsRole::None)
+						{
+							size.x = std::min(childrenMinimumSize.x, minimumSize);
+						}
                         break;
                     case ScrollType::Vertical:
-                        size.x = childrenMinimumSize.x;
-                        size.y = std::min(childrenMinimumSize.y, ceilf(sa * style->getScale()));
+						if (_minimumSizeRole != Style::MetricsRole::None)
+						{
+							size.y = std::min(childrenMinimumSize.y, minimumSize);
+						}
                         break;
                     default: break;
                     }
@@ -745,6 +763,16 @@ namespace djv
         {
             _p->border->setBorderSize(value ? Style::MetricsRole::Border : Style::MetricsRole::None);
         }
+
+		Style::MetricsRole ScrollWidget::getMinimumSizeRole() const
+		{
+			return _p->scrollArea->getMinimumSizeRole();
+		}
+
+		void ScrollWidget::setMinimumSizeRole(Style::MetricsRole value)
+		{
+			_p->scrollArea->setMinimumSizeRole(value);
+		}
 
         void ScrollWidget::addWidget(const std::shared_ptr<Widget>& widget)
         {
