@@ -213,17 +213,21 @@ namespace djv
             DJV_PRIVATE_PTR();
             if (p.imageRequest)
             {
-                p.imageRequest = false;
-                try
-                {
-                    p.image = p.imageFuture.get();
-                }
-                catch (const std::exception & e)
-                {
-                    p.image = nullptr;
-                    _log(e.what(), LogLevel::Error);
-                }
-                _resize();
+				if (p.imageFuture.valid() &&
+					p.imageFuture.wait_for(std::chrono::seconds(0)) == std::future_status::ready)
+				{
+					p.imageRequest = false;
+					try
+					{
+						p.image = p.imageFuture.get();
+					}
+					catch (const std::exception & e)
+					{
+						p.image = nullptr;
+						_log(e.what(), LogLevel::Error);
+					}
+					_resize();
+				}
             }
         }
 

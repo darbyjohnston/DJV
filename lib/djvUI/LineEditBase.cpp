@@ -155,7 +155,8 @@ namespace djv
                 const float ms = style->getMetric(Style::MetricsRole::MarginSmall);
                 const float tc = style->getMetric(Style::MetricsRole::TextColumn);
                 DJV_PRIVATE_PTR();
-                if (p.fontMetricsFuture.valid())
+                if (p.fontMetricsFuture.valid() &&
+					p.fontMetricsFuture.wait_for(std::chrono::seconds(0)) == std::future_status::ready)
                 {
                     try
                     {
@@ -167,7 +168,8 @@ namespace djv
                         _log(e.what(), LogLevel::Error);
                     }
                 }
-                if (p.textSizeFuture.valid())
+                if (p.textSizeFuture.valid() &&
+					p.textSizeFuture.wait_for(std::chrono::seconds(0)) == std::future_status::ready)
                 {
                     try
                     {

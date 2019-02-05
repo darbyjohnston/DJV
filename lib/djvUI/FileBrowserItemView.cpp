@@ -172,7 +172,8 @@ namespace djv
             void ItemView::_preLayoutEvent(Event::PreLayout& event)
             {
                 DJV_PRIVATE_PTR();
-                if (p.nameFontMetricsFuture.valid())
+                if (p.nameFontMetricsFuture.valid() &&
+					p.nameFontMetricsFuture.wait_for(std::chrono::seconds(0)) == std::future_status::ready)
                 {
                     try
                     {
@@ -183,7 +184,8 @@ namespace djv
                         _log(e.what(), LogLevel::Error);
                     }
                 }
-                if (p.typeFontMetricsFuture.valid())
+                if (p.typeFontMetricsFuture.valid() &&
+					p.typeFontMetricsFuture.wait_for(std::chrono::seconds(0)) == std::future_status::ready)
                 {
                     try
                     {
