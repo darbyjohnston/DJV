@@ -585,6 +585,7 @@ namespace djv
             std::shared_ptr<ScrollArea> scrollArea;
             std::shared_ptr<Widget> scrollAreaSwipe;
             std::map<Orientation, std::shared_ptr<ScrollBar> > scrollBars;
+			bool autoHideScrollBars = false;
             std::shared_ptr<Layout::Border> border;
             Event::PointerID pointerID = Event::InvalidID;
             glm::vec2 pointerPos = glm::vec2(0.f, 0.f);
@@ -754,6 +755,20 @@ namespace djv
             _p->scrollArea->setScrollPos(value);
         }
 
+		bool ScrollWidget::hasAutoHideScrollBars() const
+		{
+			return _p->autoHideScrollBars;
+		}
+
+		void ScrollWidget::setAutoHideScrollBars(bool value)
+		{
+			DJV_PRIVATE_PTR();
+			if (value == p.autoHideScrollBars)
+				return;
+			p.autoHideScrollBars = value;
+			_resize();
+		}
+
         bool ScrollWidget::hasBorder() const
         {
             return _p->border->getBorderSize() != Style::MetricsRole::None;
@@ -799,9 +814,9 @@ namespace djv
 
         void ScrollWidget::_layoutEvent(Event::Layout&)
         {
+			DJV_PRIVATE_PTR();
             if (auto style = _getStyle().lock())
             {
-                DJV_PRIVATE_PTR();
                 p.border->setGeometry(getMargin().bbox(getGeometry(), style));
                 _updateScrollBars(p.scrollArea->getContentsSize());
             }
@@ -931,6 +946,11 @@ namespace djv
                 break;
             default: break;
             }
+			if (p.autoHideScrollBars)
+			{
+				visible[ScrollType::Horizontal] &= w < value.x;
+				visible[ScrollType::Vertical]   &= h < value.y;
+			}
 
             p.scrollBars[Orientation::Horizontal]->setViewSize(w);
             p.scrollBars[Orientation::Horizontal]->setContentsSize(value.x);

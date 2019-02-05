@@ -738,6 +738,8 @@ namespace djv
 				_menuWidget = MenuWidget::create(actions, menus, context);
 
 				_scrollWidget = ScrollWidget::create(ScrollType::Vertical, context);
+				//! \bug This causes the menu to flicker when it's shown.
+				//_scrollWidget->setAutoHideScrollBars(true);
 				_scrollWidget->setMinimumSizeRole(Style::MetricsRole::None);
 				_scrollWidget->setBackgroundRole(Style::ColorRole::Background);
 				_scrollWidget->setPointerEnabled(true);
