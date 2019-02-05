@@ -27,14 +27,16 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
+#include <djvViewLib/RecentFilesWidget.h>
+
 #include <djvViewLib/FileSystem.h>
 #include <djvViewLib/FileSystemSettings.h>
-#include <djvViewLib/RecentFilesDialog.h>
 
 #include <djvUI/Action.h>
 #include <djvUI/ActionGroup.h>
 #include <djvUI/FileBrowserItemView.h>
 #include <djvUI/Label.h>
+#include <djvUI/MDICanvas.h>
 #include <djvUI/RowLayout.h>
 #include <djvUI/ScrollWidget.h>
 #include <djvUI/SearchBox.h>
@@ -49,8 +51,9 @@ namespace djv
 {
     namespace ViewLib
     {
-        struct RecentFilesDialog::Private
+        struct RecentFilesWidget::Private
         {
+			bool shown = false;
             std::map<std::string, std::shared_ptr<UI::Action> > actions;
             std::shared_ptr<UI::ActionGroup> viewTypeActionGroup;
             std::shared_ptr<UI::FileBrowser::ItemView> itemView;
@@ -64,9 +67,9 @@ namespace djv
             std::string getItemCountLabel(size_t, Context *);
         };
 
-        void RecentFilesDialog::_init(Context * context)
+        void RecentFilesWidget::_init(Context * context)
         {
-            IDialog::_init(context);
+            IMDIWidget::_init(MDIResize::Maximum, context);
 
             DJV_PRIVATE_PTR();
             p.actions["LargeThumbnails"] = UI::Action::create();
@@ -103,12 +106,12 @@ namespace djv
 
             p.layout = UI::Layout::Vertical::create(context);
             p.layout->setSpacing(UI::Style::MetricsRole::None);
-            p.layout->addWidget(p.itemView, UI::Layout::RowStretch::Expand);
+            p.layout->addWidget(scrollWidget, UI::Layout::RowStretch::Expand);
             p.layout->addSeparator();
             p.layout->addWidget(bottomToolBar);
-            addWidget(p.layout, UI::Layout::RowStretch::Expand);
+            addWidget(p.layout);
 
-            auto weak = std::weak_ptr<RecentFilesDialog>(std::dynamic_pointer_cast<RecentFilesDialog>(shared_from_this()));
+            auto weak = std::weak_ptr<RecentFilesWidget>(std::dynamic_pointer_cast<RecentFilesWidget>(shared_from_this()));
             p.viewTypeActionGroup->setRadioCallback(
                 [weak, context](int value)
             {
@@ -126,13 +129,12 @@ namespace djv
             p.itemView->setCallback(
                 [weak](const Core::FileSystem::FileInfo & value)
             {
-                if (auto dialog = weak.lock())
+                if (auto widget = weak.lock())
                 {
-                    if (dialog->_p->callback)
+                    if (widget->_p->callback)
                     {
-                        dialog->_p->callback(value);
+                        widget->_p->callback(value);
                     }
-                    dialog->_doCloseCallback();
                 }
             });
 
@@ -150,21 +152,21 @@ namespace djv
             }
         }
 
-        RecentFilesDialog::RecentFilesDialog() :
+        RecentFilesWidget::RecentFilesWidget() :
             _p(new Private)
         {}
 
-        RecentFilesDialog::~RecentFilesDialog()
+        RecentFilesWidget::~RecentFilesWidget()
         {}
 
-        std::shared_ptr<RecentFilesDialog> RecentFilesDialog::create(Context * context)
+        std::shared_ptr<RecentFilesWidget> RecentFilesWidget::create(Context * context)
         {
-            auto out = std::shared_ptr<RecentFilesDialog>(new RecentFilesDialog);
+            auto out = std::shared_ptr<RecentFilesWidget>(new RecentFilesWidget);
             out->_init(context);
             return out;
         }
 
-        void RecentFilesDialog::setRecentFiles(const std::vector<Core::FileSystem::FileInfo> & value)
+        void RecentFilesWidget::setRecentFiles(const std::vector<Core::FileSystem::FileInfo> & value)
         {
             DJV_PRIVATE_PTR();
             p.itemView->setItems(value);
@@ -172,31 +174,31 @@ namespace djv
             p.itemCountLabel->setText(p.getItemCountLabel(p.itemCount, getContext()));
         }
 
-        void RecentFilesDialog::setViewType(UI::ViewType value)
+        void RecentFilesWidget::setViewType(UI::ViewType value)
         {
             DJV_PRIVATE_PTR();
             p.viewTypeActionGroup->setChecked(static_cast<int>(value));
             p.itemView->setViewType(value);
         }
 
-        void RecentFilesDialog::setCallback(const std::function<void(const Core::FileSystem::FileInfo &)> & value)
+        void RecentFilesWidget::setCallback(const std::function<void(const Core::FileSystem::FileInfo &)> & value)
         {
             _p->callback = value;
         }
 
-        void RecentFilesDialog::_localeEvent(Event::Locale &)
+        void RecentFilesWidget::_localeEvent(Event::Locale &)
         {
             DJV_PRIVATE_PTR();
-            setTitle(_getText(DJV_TEXT("djv::ViewLib::RecentFilesDialog", "Recent Files")));
+            setTitle(_getText(DJV_TEXT("djv::ViewLib::RecentFilesWidget", "Recent Files")));
 
             auto context = getContext();
             p.itemCountLabel->setText(p.getItemCountLabel(p.itemCount, context));
         }
 
-        std::string RecentFilesDialog::Private::getItemCountLabel(size_t size, Context * context)
+        std::string RecentFilesWidget::Private::getItemCountLabel(size_t size, Context * context)
         {
             std::stringstream ss;
-            ss << size << " " << context->getText(DJV_TEXT("djv::ViewLib::RecentFilesDialog", "items"));
+            ss << size << " " << context->getText(DJV_TEXT("djv::ViewLib::RecentFilesWidget", "items"));
             return ss.str();
         }
 

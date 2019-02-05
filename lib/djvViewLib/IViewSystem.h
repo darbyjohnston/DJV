@@ -45,7 +45,7 @@ namespace djv
 
     namespace ViewLib
     {
-        class IToolWidget;
+        class IMDIWidget;
         class Media;
         
         struct NewMenu
@@ -54,16 +54,15 @@ namespace djv
             std::string sortKey;
         };
 
-        struct NewToolWidget
+        struct NewMDIWidget
         {
-            NewToolWidget();
-            NewToolWidget(
-                const std::shared_ptr<IToolWidget> &,
+            NewMDIWidget();
+            NewMDIWidget(
+                const std::shared_ptr<IMDIWidget> &,
                 const std::string & sortKey);
 
-            std::shared_ptr<IToolWidget> widget;
+            std::shared_ptr<IMDIWidget> widget;
             std::string sortKey;
-            glm::vec2 pos = glm::vec2(0.f, 0.f);
         };
 
         struct NewSettingsWidget
@@ -87,7 +86,7 @@ namespace djv
             virtual std::map<std::string, std::shared_ptr<UI::Action> > getActions();
             virtual NewMenu getMenu();
             virtual NewMenu getContextMenu() { return getMenu(); }
-            virtual std::vector<NewToolWidget> getToolWidgets();
+            virtual std::vector<NewMDIWidget> getMDIWidgets();
             virtual std::vector<NewSettingsWidget> getSettingsWidgets();
 
         private:

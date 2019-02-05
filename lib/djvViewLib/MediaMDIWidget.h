@@ -35,25 +35,29 @@ namespace djv
 {
     namespace ViewLib
     {
-        class IToolWidget : public UI::MDI::IWidget
+        class Media;
+
+        class MediaMDIWidget : public UI::MDI::IWidget
         {
-            DJV_NON_COPYABLE(IToolWidget);
+            DJV_NON_COPYABLE(MediaMDIWidget);
 
         protected:
             void _init(Core::Context *);
-            IToolWidget();
+			MediaMDIWidget();
 
         public:
-            ~IToolWidget() override = 0;
+            ~MediaMDIWidget() override;
+
+            static std::shared_ptr<MediaMDIWidget> create(Core::Context *);
 
             const std::string & getTitle() const;
             void setTitle(const std::string &);
 
-            void setClosedCallback(const std::function<void(void)> &);
+            const std::shared_ptr<Media> & getMedia() const;
+            void setMedia(const std::shared_ptr<Media> &);
 
-            void addWidget(const std::shared_ptr<Widget>&) override;
-            void removeWidget(const std::shared_ptr<Widget>&) override;
-            void clearWidgets() override;
+            void setMaximizeCallback(const std::function<void(void)> &);
+            void setCloseCallback(const std::function<void(void)> &);
 
             float getHeightForWidth(float) const override;
 

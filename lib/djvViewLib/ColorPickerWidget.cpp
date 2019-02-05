@@ -27,36 +27,42 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#pragma once
+#include <djvViewLib/ColorPickerWidget.h>
 
-#include <djvUI/IDialog.h>
+using namespace djv::Core;
 
 namespace djv
 {
     namespace ViewLib
     {
-        class DebugLogDialog : public UI::IDialog
+        struct ColorPickerWidget::Private
         {
-            DJV_NON_COPYABLE(DebugLogDialog);
 
-        protected:
-            void _init(Core::Context *);
-            DebugLogDialog();
-
-        public:
-            ~DebugLogDialog() override;
-
-            static std::shared_ptr<DebugLogDialog> create(Core::Context *);
-
-            void reloadLog();
-            void clearLog();
-
-        protected:
-            void _localeEvent(Core::Event::Locale &) override;
-
-        private:
-            DJV_PRIVATE();
         };
+
+        void ColorPickerWidget::_init(Context * context)
+        {
+            IMDIWidget::_init(MDIResize::Minimum, context);
+        }
+
+        ColorPickerWidget::ColorPickerWidget() :
+            _p(new Private)
+        {}
+
+        ColorPickerWidget::~ColorPickerWidget()
+        {}
+
+        std::shared_ptr<ColorPickerWidget> ColorPickerWidget::create(Context * context)
+        {
+            auto out = std::shared_ptr<ColorPickerWidget>(new ColorPickerWidget);
+            out->_init(context);
+            return out;
+        }
+
+        void ColorPickerWidget::_localeEvent(Event::Locale &)
+        {
+            setTitle(_getText(DJV_TEXT("djv::ViewLib::ColorPickerWidget", "Color Picker")));
+        }
 
     } // namespace ViewLib
 } // namespace djv

@@ -29,24 +29,24 @@
 
 #pragma once
 
-#include <djvViewLib/IToolWidget.h>
+#include <djvViewLib/IMDIWidget.h>
 
 namespace djv
 {
     namespace ViewLib
     {
-        class InformationTool : public IToolWidget
+        class AboutWidget : public IMDIWidget
         {
-            DJV_NON_COPYABLE(InformationTool);
+            DJV_NON_COPYABLE(AboutWidget);
 
         protected:
             void _init(Core::Context *);
-            InformationTool();
+            AboutWidget();
 
         public:
-            ~InformationTool() override;
+            ~AboutWidget() override;
 
-            static std::shared_ptr<InformationTool> create(Core::Context *);
+            static std::shared_ptr<AboutWidget> create(Core::Context *);
 
         protected:
             void _localeEvent(Core::Event::Locale &) override;

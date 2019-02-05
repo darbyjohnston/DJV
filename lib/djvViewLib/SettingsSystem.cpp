@@ -30,11 +30,12 @@
 #include <djvViewLib/SettingsSystem.h>
 
 #include <djvViewLib/GeneralSettingsWidget.h>
+#include <djvViewLib/IMDIWidget.h>
+#include <djvViewLib/SettingsWidget.h>
 
 #include <djvUI/Action.h>
 #include <djvUI/ButtonGroup.h>
 #include <djvUI/IWindowSystem.h>
-#include <djvUI/IDialog.h>
 #include <djvUI/ListButton.h>
 #include <djvUI/RowLayout.h>
 #include <djvUI/SoloLayout.h>
@@ -49,114 +50,12 @@ namespace djv
 {
     namespace ViewLib
     {
-        namespace
-        {
-            class SettingsDialog : public UI::IDialog
-            {
-                DJV_NON_COPYABLE(SettingsDialog);
-
-            protected:
-                void _init(Context *);
-
-                SettingsDialog();
-
-            public:
-                static std::shared_ptr<SettingsDialog> create(Context *);
-
-            protected:
-                void _localeEvent(Event::Locale &) override;
-
-            private:
-                std::shared_ptr<UI::Button::Group> _buttonGroup;
-                std::map<std::string, std::string> _names;
-                std::map<std::string, std::shared_ptr<UI::Widget> > _widgets;
-                std::map<std::string, std::shared_ptr<UI::Button::List> > _buttons;
-            };
-
-            void SettingsDialog::_init(Context * context)
-            {
-                IDialog::_init(context);
-
-                _buttonGroup = UI::Button::Group::create(UI::ButtonType::Radio);
-                for (auto i : context->getSystemsT<IViewSystem>())
-                {
-                    if (auto system = i.lock())
-                    {
-                        for (auto widget : system->getSettingsWidgets())
-                        {
-                            _names[widget.sortKey] = widget.name;
-                            _widgets[widget.sortKey] = widget.widget;
-                            auto button = UI::Button::List::create(context);
-                            _buttons[widget.sortKey] = button;
-                        }
-                    }
-                }
-
-                auto buttonLayout = UI::Layout::Vertical::create(context);
-                buttonLayout->setSpacing(UI::Style::MetricsRole::None);
-                for (auto i : _buttons)
-                {
-                    _buttonGroup->addButton(i.second);
-                    buttonLayout->addWidget(i.second);
-                }
-                auto buttonScrollWidget = UI::ScrollWidget::create(UI::ScrollType::Vertical, context);
-                buttonScrollWidget->setBorder(false);
-                buttonScrollWidget->addWidget(buttonLayout);
-
-                auto soloLayout = UI::Layout::Solo::create(context);
-                for (auto i : _widgets)
-                {
-                    soloLayout->addWidget(i.second);
-                }
-                auto soloScrollWidget = UI::ScrollWidget::create(UI::ScrollType::Vertical, context);
-                soloScrollWidget->setBorder(false);
-                soloScrollWidget->addWidget(soloLayout);
-
-                auto layout = UI::Layout::Horizontal::create(context);
-                layout->setSpacing(UI::Style::MetricsRole::None);
-                layout->addWidget(buttonScrollWidget);
-                layout->addWidget(soloScrollWidget, UI::Layout::RowStretch::Expand);
-                addWidget(layout, UI::Layout::RowStretch::Expand);
-
-                auto weak = std::weak_ptr<SettingsDialog>(std::dynamic_pointer_cast<SettingsDialog>(shared_from_this()));
-                _buttonGroup->setRadioCallback(
-                    [soloLayout](int value)
-                {
-                    soloLayout->setCurrentIndex(value);
-                });
-            }
-
-            SettingsDialog::SettingsDialog()
-            {}
-
-            std::shared_ptr<SettingsDialog> SettingsDialog::create(Context * context)
-            {
-                auto out = std::shared_ptr<SettingsDialog>(new SettingsDialog);
-                out->_init(context);
-                return out;
-            }
-
-            void SettingsDialog::_localeEvent(Event::Locale &)
-            {
-                setTitle(_getText(DJV_TEXT("djv::ViewLib::SettingsDialog", "Settings")));
-                for (const auto & i : _names)
-                {
-                    const auto j = _buttons.find(i.first);
-                    if (j != _buttons.end())
-                    {
-                        j->second->setText(_getText(i.second));
-                    }
-                }
-            }
-
-        } // namespace
-        
         struct SettingsSystem::Private
         {
-            std::shared_ptr<SettingsDialog> settingsDialog;
             std::map<std::string, std::shared_ptr<UI::Action> > actions;
             std::map<std::string, std::shared_ptr<UI::Widget> > settingsWidgets;
-            std::map<std::string, std::shared_ptr<ValueObserver<bool> > > clickedObservers;
+			std::shared_ptr<SettingsWidget> settingsWidget;
+			std::map<std::string, std::shared_ptr<ValueObserver<bool> > > clickedObservers;
         };
 
         void SettingsSystem::_init(Context * context)
@@ -164,7 +63,8 @@ namespace djv
             IViewSystem::_init("djv::ViewLib::SettingsSystem", context);
 
             DJV_PRIVATE_PTR();
-            p.settingsWidgets["General"] = GeneralSettingsWidget::create(context);
+			p.settingsWidgets["General"] = GeneralSettingsWidget::create(context);
+			p.settingsWidget = SettingsWidget::create(context);
         }
 
         SettingsSystem::SettingsSystem() :
@@ -180,34 +80,13 @@ namespace djv
             out->_init(context);
             return out;
         }
-
-        void SettingsSystem::showSettingsDialog()
-        {
-            auto context = getContext();
-            if (!_p->settingsDialog)
-            {
-                _p->settingsDialog = SettingsDialog::create(context);
-            }
-            if (auto windowSystem = context->getSystemT<UI::IWindowSystem>().lock())
-            {
-                if (auto window = windowSystem->observeCurrentWindow()->get())
-                {
-                    auto weak = std::weak_ptr<SettingsSystem>(std::dynamic_pointer_cast<SettingsSystem>(shared_from_this()));
-                    _p->settingsDialog->setCloseCallback(
-                        [weak, window]
-                    {
-                        if (auto system = weak.lock())
-                        {
-                            window->removeWidget(system->_p->settingsDialog);
-                        }
-                    });
-
-                    window->addWidget(_p->settingsDialog);
-                    _p->settingsDialog->show();
-                }
-            }
-        }
         
+		void SettingsSystem::showSettings()
+		{
+			_p->settingsWidget->moveToFront();
+			_p->settingsWidget->show();
+		}
+
         std::map<std::string, std::shared_ptr<UI::Action> > SettingsSystem::getActions()
         {
             return _p->actions;
@@ -218,9 +97,18 @@ namespace djv
             DJV_PRIVATE_PTR();
             return
             {
-                { p.settingsWidgets["General"], DJV_TEXT("djv::ViewLib::SettingsDialog", "General"), "A" }
+                { p.settingsWidgets["General"], DJV_TEXT("djv::ViewLib::SettingsWidget", "General"), "A" }
             };
         }
+
+		std::vector<NewMDIWidget> SettingsSystem::getMDIWidgets()
+		{
+			DJV_PRIVATE_PTR();
+			return
+			{
+				NewMDIWidget(p.settingsWidget, "A")
+			};
+		}
         
     } // namespace ViewLib
 } // namespace djv

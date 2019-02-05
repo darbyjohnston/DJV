@@ -27,7 +27,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvViewLib/DebugTool.h>
+#include <djvViewLib/DebugWidget.h>
 
 #include <djvViewLib/FileSystem.h>
 #include <djvViewLib/Media.h>
@@ -43,7 +43,7 @@ namespace djv
 {
     namespace ViewLib
     {
-        struct DebugTool::Private
+        struct DebugWidget::Private
         {
             Time::Duration duration = 0;
             Time::Timestamp currentTime = 0;
@@ -65,9 +65,9 @@ namespace djv
             std::shared_ptr<ValueObserver<size_t> > alUnqueuedBuffersObserver;
         };
 
-        void DebugTool::_init(Context * context)
+        void DebugWidget::_init(Context * context)
         {
-            IToolWidget::_init(context);
+            IMDIWidget::_init(MDIResize::Minimum, context);
 
             DJV_PRIVATE_PTR();
             p.labels["Duration"] = UI::Label::create(context);
@@ -89,157 +89,157 @@ namespace djv
             p.text["ALUnqueuedBuffers"] = p.layout->addWidget(std::string(), p.labels["ALUnqueuedBuffers"]);
             addWidget(p.layout);
 
-            auto weak = std::weak_ptr<DebugTool>(std::dynamic_pointer_cast<DebugTool>(shared_from_this()));
+            auto weak = std::weak_ptr<DebugWidget>(std::dynamic_pointer_cast<DebugWidget>(shared_from_this()));
             if (auto fileSystem = context->getSystemT<FileSystem>().lock())
             {
                 p.currentMediaObserver = ValueObserver<std::shared_ptr<Media>>::create(
                     fileSystem->observeCurrentMedia(),
                     [weak](const std::shared_ptr<Media> & value)
                 {
-                    if (auto tool = weak.lock())
+                    if (auto widget = weak.lock())
                     {
                         if (value)
                         {
-                            tool->_p->durationObserver = ValueObserver<Time::Duration>::create(
+                            widget->_p->durationObserver = ValueObserver<Time::Duration>::create(
                                 value->observeDuration(),
                                 [weak](Time::Duration value)
                             {
-                                if (auto tool = weak.lock())
+                                if (auto widget = weak.lock())
                                 {
-                                    tool->_p->duration = value;
-                                    tool->_widgetUpdate();
+                                    widget->_p->duration = value;
+                                    widget->_widgetUpdate();
                                 }
                             });
-                            tool->_p->currentTimeObserver = ValueObserver<Time::Timestamp>::create(
+                            widget->_p->currentTimeObserver = ValueObserver<Time::Timestamp>::create(
                                 value->observeCurrentTime(),
                                 [weak](Time::Timestamp value)
                             {
-                                if (auto tool = weak.lock())
+                                if (auto widget = weak.lock())
                                 {
-                                    tool->_p->currentTime = value;
-                                    tool->_widgetUpdate();
+									widget->_p->currentTime = value;
+									widget->_widgetUpdate();
                                 }
                             });
-                            tool->_p->videoQueueMaxObserver = ValueObserver<size_t>::create(
+							widget->_p->videoQueueMaxObserver = ValueObserver<size_t>::create(
                                 value->observeVideoQueueMax(),
                                 [weak](size_t value)
                             {
-                                if (auto tool = weak.lock())
+                                if (auto widget = weak.lock())
                                 {
-                                    tool->_p->videoQueueMax = value;
-                                    tool->_widgetUpdate();
+									widget->_p->videoQueueMax = value;
+									widget->_widgetUpdate();
                                 }
                             });
-                            tool->_p->audioQueueMaxObserver = ValueObserver<size_t>::create(
+							widget->_p->audioQueueMaxObserver = ValueObserver<size_t>::create(
                                 value->observeAudioQueueMax(),
                                 [weak](size_t value)
                             {
-                                if (auto tool = weak.lock())
+                                if (auto widget = weak.lock())
                                 {
-                                    tool->_p->audioQueueMax = value;
-                                    tool->_widgetUpdate();
+									widget->_p->audioQueueMax = value;
+									widget->_widgetUpdate();
                                 }
                             });
-                            tool->_p->videoQueueCountObserver = ValueObserver<size_t>::create(
+							widget->_p->videoQueueCountObserver = ValueObserver<size_t>::create(
                                 value->observeVideoQueueCount(),
                                 [weak](size_t value)
                             {
-                                if (auto tool = weak.lock())
+                                if (auto widget = weak.lock())
                                 {
-                                    tool->_p->videoQueueCount = value;
-                                    tool->_widgetUpdate();
+									widget->_p->videoQueueCount = value;
+									widget->_widgetUpdate();
                                 }
                             });
-                            tool->_p->audioQueueCountObserver = ValueObserver<size_t>::create(
+							widget->_p->audioQueueCountObserver = ValueObserver<size_t>::create(
                                 value->observeAudioQueueCount(),
                                 [weak](size_t value)
                             {
-                                if (auto tool = weak.lock())
+                                if (auto widget = weak.lock())
                                 {
-                                    tool->_p->audioQueueCount = value;
-                                    tool->_widgetUpdate();
+									widget->_p->audioQueueCount = value;
+									widget->_widgetUpdate();
                                 }
                             });
-                            tool->_p->alUnqueuedBuffersObserver = ValueObserver<size_t>::create(
+							widget->_p->alUnqueuedBuffersObserver = ValueObserver<size_t>::create(
                                 value->observeALUnqueuedBuffers(),
                                 [weak](size_t value)
                             {
-                                if (auto tool = weak.lock())
+                                if (auto widget = weak.lock())
                                 {
-                                    tool->_p->alUnqueuedBuffers = value;
-                                    tool->_widgetUpdate();
+									widget->_p->alUnqueuedBuffers = value;
+									widget->_widgetUpdate();
                                 }
                             });
                         }
                         else
                         {
-                            tool->_p->duration = 0;
-                            tool->_p->currentTime = 0;
-                            tool->_p->videoQueueMax = 0;
-                            tool->_p->audioQueueMax = 0;
-                            tool->_p->videoQueueCount = 0;
-                            tool->_p->audioQueueCount = 0;
-                            tool->_p->alUnqueuedBuffers = 0;
-                            tool->_p->durationObserver.reset();
-                            tool->_p->currentTimeObserver.reset();
-                            tool->_p->videoQueueMaxObserver.reset();
-                            tool->_p->audioQueueMaxObserver.reset();
-                            tool->_p->videoQueueCountObserver.reset();
-                            tool->_p->audioQueueCountObserver.reset();
-                            tool->_p->alUnqueuedBuffersObserver.reset();
-                            tool->_widgetUpdate();
+							widget->_p->duration = 0;
+							widget->_p->currentTime = 0;
+							widget->_p->videoQueueMax = 0;
+							widget->_p->audioQueueMax = 0;
+							widget->_p->videoQueueCount = 0;
+							widget->_p->audioQueueCount = 0;
+							widget->_p->alUnqueuedBuffers = 0;
+							widget->_p->durationObserver.reset();
+							widget->_p->currentTimeObserver.reset();
+							widget->_p->videoQueueMaxObserver.reset();
+							widget->_p->audioQueueMaxObserver.reset();
+							widget->_p->videoQueueCountObserver.reset();
+							widget->_p->audioQueueCountObserver.reset();
+							widget->_p->alUnqueuedBuffersObserver.reset();
+							widget->_widgetUpdate();
                         }
                     }
                 });
             }
         }
 
-        DebugTool::DebugTool() :
+        DebugWidget::DebugWidget() :
             _p(new Private)
         {}
 
-        DebugTool::~DebugTool()
+        DebugWidget::~DebugWidget()
         {}
 
-        std::shared_ptr<DebugTool> DebugTool::create(Context * context)
+        std::shared_ptr<DebugWidget> DebugWidget::create(Context * context)
         {
-            auto out = std::shared_ptr<DebugTool>(new DebugTool);
+            auto out = std::shared_ptr<DebugWidget>(new DebugWidget);
             out->_init(context);
             return out;
         }
 
-        void DebugTool::_localeEvent(Event::Locale &)
+        void DebugWidget::_localeEvent(Event::Locale &)
         {
             DJV_PRIVATE_PTR();
-            setTitle(_getText(DJV_TEXT("djv::ViewLib::DebugTool", "Debug")));
+            setTitle(_getText(DJV_TEXT("djv::ViewLib::DebugWidget", "Debug")));
             {
                 std::stringstream ss;
-                ss << _getText(DJV_TEXT("djv::ViewLib::DebugTool", "Duration")) << ":";
+                ss << _getText(DJV_TEXT("djv::ViewLib::DebugWidget", "Duration")) << ":";
                 p.layout->setText(p.text["Duration"], ss.str());
             }
             {
                 std::stringstream ss;
-                ss << _getText(DJV_TEXT("djv::ViewLib::DebugTool", "Current Time")) << ":";
+                ss << _getText(DJV_TEXT("djv::ViewLib::DebugWidget", "Current Time")) << ":";
                 p.layout->setText(p.text["CurrentTime"], ss.str());
             }
             {
                 std::stringstream ss;
-                ss << _getText(DJV_TEXT("djv::ViewLib::DebugTool", "Video Queue")) << ":";
+                ss << _getText(DJV_TEXT("djv::ViewLib::DebugWidget", "Video Queue")) << ":";
                 p.layout->setText(p.text["VideoQueue"], ss.str());
             }
             {
                 std::stringstream ss;
-                ss << _getText(DJV_TEXT("djv::ViewLib::DebugTool", "Audio Queue")) << ":";
+                ss << _getText(DJV_TEXT("djv::ViewLib::DebugWidget", "Audio Queue")) << ":";
                 p.layout->setText(p.text["AudioQueue"], ss.str());
             }
             {
                 std::stringstream ss;
-                ss << _getText(DJV_TEXT("djv::ViewLib::DebugTool", "AL Unqueued Buffers")) << ":";
+                ss << _getText(DJV_TEXT("djv::ViewLib::DebugWidget", "AL Unqueued Buffers")) << ":";
                 p.layout->setText(p.text["ALUnqueuedBuffers"], ss.str());
             }
         }
 
-        void DebugTool::_widgetUpdate()
+        void DebugWidget::_widgetUpdate()
         {
             DJV_PRIVATE_PTR();
             {

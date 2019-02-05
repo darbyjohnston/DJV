@@ -27,33 +27,42 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#pragma once
+#include <djvViewLib/MagnifierWidget.h>
 
-#include <djvViewLib/IToolWidget.h>
+using namespace djv::Core;
 
 namespace djv
 {
     namespace ViewLib
     {
-        class HistogramTool : public IToolWidget
+        struct MagnifierWidget::Private
         {
-            DJV_NON_COPYABLE(HistogramTool);
 
-        protected:
-            void _init(Core::Context *);
-            HistogramTool();
-
-        public:
-            ~HistogramTool() override;
-
-            static std::shared_ptr<HistogramTool> create(Core::Context *);
-
-        protected:
-            void _localeEvent(Core::Event::Locale &) override;
-
-        private:
-            DJV_PRIVATE();
         };
+
+        void MagnifierWidget::_init(Context * context)
+        {
+            IMDIWidget::_init(MDIResize::Minimum, context);
+        }
+
+        MagnifierWidget::MagnifierWidget() :
+            _p(new Private)
+        {}
+
+        MagnifierWidget::~MagnifierWidget()
+        {}
+
+        std::shared_ptr<MagnifierWidget> MagnifierWidget::create(Context * context)
+        {
+            auto out = std::shared_ptr<MagnifierWidget>(new MagnifierWidget);
+            out->_init(context);
+            return out;
+        }
+
+        void MagnifierWidget::_localeEvent(Event::Locale &)
+        {
+            setTitle(_getText(DJV_TEXT("djv::ViewLib::MagnifierTool", "Magnifier")));
+        }
 
     } // namespace ViewLib
 } // namespace djv

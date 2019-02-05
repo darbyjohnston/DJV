@@ -30,18 +30,17 @@
 #include <djvViewLib/FileSystem.h>
 
 #include <djvViewLib/Application.h>
+#include <djvViewLib/FileBrowserWidget.h>
 #include <djvViewLib/FileSystemSettings.h>
 #include <djvViewLib/Media.h>
-#include <djvViewLib/RecentFilesDialog.h>
+#include <djvViewLib/RecentFilesWidget.h>
 #include <djvViewLib/SettingsSystem.h>
 #include <djvViewLib/WindowSystem.h>
 
 #include <djvUI/Action.h>
 #include <djvUI/DialogSystem.h>
-#include <djvUI/IWindowSystem.h>
 #include <djvUI/Menu.h>
 #include <djvUI/RowLayout.h>
-#include <djvUI/Window.h>
 
 #include <djvCore/Context.h>
 #include <djvCore/FileInfo.h>
@@ -62,9 +61,10 @@ namespace djv
             std::shared_ptr<ValueSubject<std::shared_ptr<Media> > > closed;
             std::shared_ptr<ListSubject<std::shared_ptr<Media> > > media;
             std::shared_ptr<ValueSubject<std::shared_ptr<Media> > > currentMedia;
-            std::shared_ptr<Core::FileSystem::RecentFilesModel> recentFilesModel;
-            std::shared_ptr<RecentFilesDialog> recentFilesDialog;
-            std::map<std::string, std::shared_ptr<UI::Action> > actions;
+			std::shared_ptr<FileBrowserWidget> fileBrowserWidget;
+			std::shared_ptr<Core::FileSystem::RecentFilesModel> recentFilesModel;
+            std::shared_ptr<RecentFilesWidget> recentFilesWidget;
+			std::map<std::string, std::shared_ptr<UI::Action> > actions;
             std::map<std::string, std::shared_ptr<UI::Menu> > menus;
             std::shared_ptr<ListObserver<Core::FileSystem::FileInfo> > recentFilesObserver;
             std::shared_ptr<ListObserver<Core::FileSystem::FileInfo> > recentFilesObserver2;
@@ -82,13 +82,17 @@ namespace djv
             p.media = ListSubject<std::shared_ptr<Media> >::create();
             p.currentMedia = ValueSubject<std::shared_ptr<Media> >::create();
 
+			p.fileBrowserWidget = FileBrowserWidget::create(context);
+
             p.recentFilesModel = Core::FileSystem::RecentFilesModel::create(context);
-            p.recentFilesDialog = RecentFilesDialog::create(context);
+            p.recentFilesWidget = RecentFilesWidget::create(context);
 
             p.actions["Open"] = UI::Action::create();
+			p.actions["Open"]->setIcon("djvIconFileOpen");
             p.actions["Open"]->setShortcut(GLFW_KEY_O, GLFW_MOD_CONTROL);
 
             p.actions["Recent"] = UI::Action::create();
+			p.actions["Recent"]->setIcon("djvIconFileRecent");
             p.actions["Recent"]->setShortcut(GLFW_KEY_T, GLFW_MOD_CONTROL);
 
             //! \todo Implement me!
@@ -102,6 +106,7 @@ namespace djv
             p.actions["ReloadFrame"]->setEnabled(false);
 
             p.actions["Close"] = UI::Action::create();
+			p.actions["Close"]->setIcon("djvIconFileClose");
             p.actions["Close"]->setShortcut(GLFW_KEY_E, GLFW_MOD_CONTROL);
 
             //! \todo Implement me!
@@ -171,6 +176,24 @@ namespace djv
             p.menus["File"]->addAction(p.actions["Exit"]);
 
             auto weak = std::weak_ptr<FileSystem>(std::dynamic_pointer_cast<FileSystem>(shared_from_this()));
+			p.fileBrowserWidget->setCallback(
+				[weak](const Core::FileSystem::FileInfo & value)
+			{
+				if (auto system = weak.lock())
+				{
+					system->open(value);
+				}
+			});
+
+			p.recentFilesWidget->setCallback(
+				[weak](const Core::FileSystem::FileInfo & value)
+			{
+				if (auto system = weak.lock())
+				{
+					system->open(value);
+				}
+			});
+
             p.recentFilesObserver = ListObserver<Core::FileSystem::FileInfo>::create(
                 p.settings->observeRecentFiles(),
                 [weak](const std::vector<Core::FileSystem::FileInfo> & value)
@@ -187,7 +210,7 @@ namespace djv
             {
                 if (auto system = weak.lock())
                 {
-                    system->_p->recentFilesDialog->setRecentFiles(value);
+                    system->_p->recentFilesWidget->setRecentFiles(value);
                     system->_p->settings->setRecentFiles(value);
                 }
             });
@@ -200,18 +223,8 @@ namespace djv
                 {
                     if (auto system = weak.lock())
                     {
-                        if (auto dialogSystem = context->getSystemT<UI::DialogSystem>().lock())
-                        {
-                            dialogSystem->fileBrowser(
-                                context->getText(DJV_TEXT("djv::ViewLib::FileSystem", "File Browser")),
-                                [weak, context](const Core::FileSystem::FileInfo & value)
-                            {
-                                if (auto system = weak.lock())
-                                {
-                                    system->open(value.getPath());
-                                }
-                            });
-                        }
+						system->_p->fileBrowserWidget->moveToFront();
+						system->_p->fileBrowserWidget->show();
                     }
                 }
             });
@@ -224,8 +237,9 @@ namespace djv
                 {
                     if (auto system = weak.lock())
                     {
-                        system->showRecentFiles();
-                    }
+						system->_p->recentFilesWidget->moveToFront();
+						system->_p->recentFilesWidget->show();
+					}
                 }
             });
 
@@ -303,7 +317,7 @@ namespace djv
             {
                 if (auto settingsSystem = context->getSystemT<SettingsSystem>().lock())
                 {
-                    settingsSystem->showSettingsDialog();
+                    settingsSystem->showSettings();
                 }
             });
 
@@ -425,38 +439,6 @@ namespace djv
             }
         }
 
-        void FileSystem::showRecentFiles()
-        {
-            DJV_PRIVATE_PTR();
-            auto context = getContext();
-            if (auto windowSystem = context->getSystemT<UI::IWindowSystem>().lock())
-            {
-                if (auto window = windowSystem->observeCurrentWindow()->get())
-                {
-                    auto weak = std::weak_ptr<FileSystem>(std::dynamic_pointer_cast<FileSystem>(shared_from_this()));
-                    p.recentFilesDialog->setCallback(
-                        [weak, window](const Core::FileSystem::FileInfo & value)
-                    {
-                        if (auto system = weak.lock())
-                        {
-                            system->open(value);
-                        }
-                    });
-                    p.recentFilesDialog->setCloseCallback(
-                        [weak, window]
-                    {
-                        if (auto system = weak.lock())
-                        {
-                            window->removeWidget(system->_p->recentFilesDialog);
-                        }
-                    });
-
-                    window->addWidget(p.recentFilesDialog);
-                    p.recentFilesDialog->show();
-                }
-            }
-        }
-
         const std::shared_ptr<FileSystemSettings> & FileSystem::getSettings() const
         {
             return _p->settings;
@@ -472,6 +454,16 @@ namespace djv
             DJV_PRIVATE_PTR();
             return { p.menus["File"], "A" };
         }
+
+		std::vector<NewMDIWidget> FileSystem::getMDIWidgets()
+		{
+			DJV_PRIVATE_PTR();
+			return
+			{
+				NewMDIWidget(p.fileBrowserWidget, "A1"),
+				NewMDIWidget(p.recentFilesWidget, "A2")
+			};
+		}
 
         void FileSystem::_localeEvent(Event::Locale &)
         {

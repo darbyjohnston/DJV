@@ -27,9 +27,10 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvViewLib/AboutDialog.h>
+#include <djvViewLib/AboutWidget.h>
 
 #include <djvUI/GroupBox.h>
+#include <djvUI/MDICanvas.h>
 #include <djvUI/RowLayout.h>
 #include <djvUI/ScrollWidget.h>
 #include <djvUI/TextBlock.h>
@@ -44,16 +45,17 @@ namespace djv
 {
     namespace ViewLib
     {
-        struct AboutDialog::Private
+        struct AboutWidget::Private
         {
+			bool shown = false;
             std::map<std::string, std::shared_ptr<UI::Layout::GroupBox> > groupBoxes;
             std::map<std::string, std::shared_ptr<UI::TextBlock> > textBlocks;
-            std::future<std::shared_ptr<AV::Image::Image> > imageFuture;
+			std::future<std::shared_ptr<AV::Image::Image> > imageFuture;
         };
 
-        void AboutDialog::_init(Context * context)
+        void AboutWidget::_init(Context * context)
         {
-            IDialog::_init(context);
+            IMDIWidget::_init(MDIResize::Maximum, context);
 
             DJV_PRIVATE_PTR();
             p.textBlocks["Header"] = UI::TextBlock::create(context);
@@ -203,83 +205,82 @@ namespace djv
             auto scrollWidget = UI::ScrollWidget::create(UI::ScrollType::Vertical, context);
             scrollWidget->setBorder(false);
             scrollWidget->addWidget(textLayout);
-
-            addWidget(scrollWidget, UI::Layout::RowStretch::Expand);
+			addWidget(scrollWidget);
         }
 
-        AboutDialog::AboutDialog() :
+        AboutWidget::AboutWidget() :
             _p(new Private)
         {}
 
-        AboutDialog::~AboutDialog()
+        AboutWidget::~AboutWidget()
         {}
 
-        std::shared_ptr<AboutDialog> AboutDialog::create(Context * context)
+        std::shared_ptr<AboutWidget> AboutWidget::create(Context * context)
         {
-            auto out = std::shared_ptr<AboutDialog>(new AboutDialog);
+            auto out = std::shared_ptr<AboutWidget>(new AboutWidget);
             out->_init(context);
             return out;
         }
 
-        void AboutDialog::_localeEvent(Event::Locale &)
+        void AboutWidget::_localeEvent(Event::Locale &)
         {
-            setTitle(_getText(DJV_TEXT("djv::ViewLib::AboutDialog", "About")));
+			DJV_PRIVATE_PTR();
+			setTitle(_getText(DJV_TEXT("djv::ViewLib::AboutWidget", "About")));
             std::stringstream ss;
-            ss << _getText(DJV_TEXT("djv::ViewLib::AboutDialog", "Header"));
+            ss << _getText(DJV_TEXT("djv::ViewLib::AboutWidget", "Header"));
             ss << " " << DJV_VERSION;
-            DJV_PRIVATE_PTR();
             p.textBlocks["Header"]->setText(ss.str());
-            p.groupBoxes["Copyright"]->setText(_getText(DJV_TEXT("djv::ViewLib::AboutDialog", "CopyrightAndLicense")));
-            p.textBlocks["Copyright"]->setText(_getText(DJV_TEXT("djv::ViewLib::AboutDialog", "Copyright")));
-            p.textBlocks["License1"]->setText(_getText(DJV_TEXT("djv::ViewLib::AboutDialog", "License1")));
-            p.textBlocks["License2"]->setText(_getText(DJV_TEXT("djv::ViewLib::AboutDialog", "License2")));
-            p.textBlocks["License3"]->setText(_getText(DJV_TEXT("djv::ViewLib::AboutDialog", "License3")));
-            p.textBlocks["License4"]->setText(_getText(DJV_TEXT("djv::ViewLib::AboutDialog", "License4")));
-            p.textBlocks["License5"]->setText(_getText(DJV_TEXT("djv::ViewLib::AboutDialog", "License5")));
-            p.groupBoxes["Contributors"]->setText(_getText(DJV_TEXT("djv::ViewLib::AboutDialog", "Contributors")));
-            p.textBlocks["Contributors1"]->setText(_getText(DJV_TEXT("djv::ViewLib::AboutDialog", "Contributors Text 1")));
-            p.textBlocks["Contributors2"]->setText(_getText(DJV_TEXT("djv::ViewLib::AboutDialog", "Contributors Text 2")));
-            p.textBlocks["Contributors3"]->setText(_getText(DJV_TEXT("djv::ViewLib::AboutDialog", "Contributors Text 3")));
-            p.textBlocks["Contributors4"]->setText(_getText(DJV_TEXT("djv::ViewLib::AboutDialog", "Contributors Text 4")));
-            p.groupBoxes["ThirdParty"]->setText(_getText(DJV_TEXT("djv::ViewLib::AboutDialog", "Third Party")));
-            p.textBlocks["ThirdParty1"]->setText(_getText(DJV_TEXT("djv::ViewLib::AboutDialog", "Third Party Text 1")));
-            p.textBlocks["ThirdParty2"]->setText(_getText(DJV_TEXT("djv::ViewLib::AboutDialog", "Third Party Text 2")));
-            p.textBlocks["ThirdParty3"]->setText(_getText(DJV_TEXT("djv::ViewLib::AboutDialog", "Third Party Text 3")));
-            p.textBlocks["ThirdParty4"]->setText(_getText(DJV_TEXT("djv::ViewLib::AboutDialog", "Third Party Text 4")));
-            p.textBlocks["ThirdParty5"]->setText(_getText(DJV_TEXT("djv::ViewLib::AboutDialog", "Third Party Text 5")));
-            p.textBlocks["ThirdParty6"]->setText(_getText(DJV_TEXT("djv::ViewLib::AboutDialog", "Third Party Text 6")));
-            p.textBlocks["ThirdParty7"]->setText(_getText(DJV_TEXT("djv::ViewLib::AboutDialog", "Third Party Text 7")));
-            p.textBlocks["ThirdParty8"]->setText(_getText(DJV_TEXT("djv::ViewLib::AboutDialog", "Third Party Text 8")));
-            p.textBlocks["ThirdParty9"]->setText(_getText(DJV_TEXT("djv::ViewLib::AboutDialog", "Third Party Text 9")));
-            p.textBlocks["ThirdParty10"]->setText(_getText(DJV_TEXT("djv::ViewLib::AboutDialog", "Third Party Text 10")));
-            p.textBlocks["ThirdParty11"]->setText(_getText(DJV_TEXT("djv::ViewLib::AboutDialog", "Third Party Text 11")));
-            p.textBlocks["ThirdParty12"]->setText(_getText(DJV_TEXT("djv::ViewLib::AboutDialog", "Third Party Text 12")));
-            p.textBlocks["ThirdParty13"]->setText(_getText(DJV_TEXT("djv::ViewLib::AboutDialog", "Third Party Text 13")));
-            p.textBlocks["ThirdParty14"]->setText(_getText(DJV_TEXT("djv::ViewLib::AboutDialog", "Third Party Text 14")));
-            p.groupBoxes["Trademarks"]->setText(_getText(DJV_TEXT("djv::ViewLib::AboutDialog", "Trademarks")));
-            p.textBlocks["Trademarks1"]->setText(_getText(DJV_TEXT("djv::ViewLib::AboutDialog", "Trademarks Text 1")));
-            p.textBlocks["Trademarks2"]->setText(_getText(DJV_TEXT("djv::ViewLib::AboutDialog", "Trademarks Text 2")));
-            p.textBlocks["Trademarks3"]->setText(_getText(DJV_TEXT("djv::ViewLib::AboutDialog", "Trademarks Text 3")));
-            p.textBlocks["Trademarks4"]->setText(_getText(DJV_TEXT("djv::ViewLib::AboutDialog", "Trademarks Text 4")));
-            p.textBlocks["Trademarks5"]->setText(_getText(DJV_TEXT("djv::ViewLib::AboutDialog", "Trademarks Text 5")));
-            p.textBlocks["Trademarks6"]->setText(_getText(DJV_TEXT("djv::ViewLib::AboutDialog", "Trademarks Text 6")));
-            p.textBlocks["Trademarks7"]->setText(_getText(DJV_TEXT("djv::ViewLib::AboutDialog", "Trademarks Text 7")));
-            p.textBlocks["Trademarks8"]->setText(_getText(DJV_TEXT("djv::ViewLib::AboutDialog", "Trademarks Text 8")));
-            p.textBlocks["Trademarks9"]->setText(_getText(DJV_TEXT("djv::ViewLib::AboutDialog", "Trademarks Text 9")));
-            p.textBlocks["Trademarks10"]->setText(_getText(DJV_TEXT("djv::ViewLib::AboutDialog", "Trademarks Text 10")));
-            p.textBlocks["Trademarks11"]->setText(_getText(DJV_TEXT("djv::ViewLib::AboutDialog", "Trademarks Text 11")));
-            p.textBlocks["Trademarks12"]->setText(_getText(DJV_TEXT("djv::ViewLib::AboutDialog", "Trademarks Text 12")));
-            p.textBlocks["Trademarks13"]->setText(_getText(DJV_TEXT("djv::ViewLib::AboutDialog", "Trademarks Text 13")));
-            p.textBlocks["Trademarks14"]->setText(_getText(DJV_TEXT("djv::ViewLib::AboutDialog", "Trademarks Text 14")));
-            p.textBlocks["Trademarks15"]->setText(_getText(DJV_TEXT("djv::ViewLib::AboutDialog", "Trademarks Text 15")));
-            p.textBlocks["Trademarks16"]->setText(_getText(DJV_TEXT("djv::ViewLib::AboutDialog", "Trademarks Text 16")));
-            p.textBlocks["Trademarks17"]->setText(_getText(DJV_TEXT("djv::ViewLib::AboutDialog", "Trademarks Text 17")));
-            p.textBlocks["Trademarks18"]->setText(_getText(DJV_TEXT("djv::ViewLib::AboutDialog", "Trademarks Text 18")));
-            p.textBlocks["Trademarks19"]->setText(_getText(DJV_TEXT("djv::ViewLib::AboutDialog", "Trademarks Text 19")));
-            p.textBlocks["Trademarks20"]->setText(_getText(DJV_TEXT("djv::ViewLib::AboutDialog", "Trademarks Text 20")));
-            p.textBlocks["Trademarks21"]->setText(_getText(DJV_TEXT("djv::ViewLib::AboutDialog", "Trademarks Text 21")));
-            p.textBlocks["Trademarks22"]->setText(_getText(DJV_TEXT("djv::ViewLib::AboutDialog", "Trademarks Text 22")));
-            p.textBlocks["MadeIn"]->setText(_getText(DJV_TEXT("djv::ViewLib::AboutDialog", "Made In")));
+            p.groupBoxes["Copyright"]->setText(_getText(DJV_TEXT("djv::ViewLib::AboutWidget", "Copyright And License")));
+            p.textBlocks["Copyright"]->setText(_getText(DJV_TEXT("djv::ViewLib::AboutWidget", "Copyright")));
+            p.textBlocks["License1"]->setText(_getText(DJV_TEXT("djv::ViewLib::AboutWidget", "License 1")));
+            p.textBlocks["License2"]->setText(_getText(DJV_TEXT("djv::ViewLib::AboutWidget", "License 2")));
+            p.textBlocks["License3"]->setText(_getText(DJV_TEXT("djv::ViewLib::AboutWidget", "License 3")));
+            p.textBlocks["License4"]->setText(_getText(DJV_TEXT("djv::ViewLib::AboutWidget", "License 4")));
+            p.textBlocks["License5"]->setText(_getText(DJV_TEXT("djv::ViewLib::AboutWidget", "License 5")));
+            p.groupBoxes["Contributors"]->setText(_getText(DJV_TEXT("djv::ViewLib::AboutWidget", "Contributors")));
+            p.textBlocks["Contributors1"]->setText(_getText(DJV_TEXT("djv::ViewLib::AboutWidget", "Contributors Text 1")));
+            p.textBlocks["Contributors2"]->setText(_getText(DJV_TEXT("djv::ViewLib::AboutWidget", "Contributors Text 2")));
+            p.textBlocks["Contributors3"]->setText(_getText(DJV_TEXT("djv::ViewLib::AboutWidget", "Contributors Text 3")));
+            p.textBlocks["Contributors4"]->setText(_getText(DJV_TEXT("djv::ViewLib::AboutWidget", "Contributors Text 4")));
+            p.groupBoxes["ThirdParty"]->setText(_getText(DJV_TEXT("djv::ViewLib::AboutWidget", "Third Party")));
+            p.textBlocks["ThirdParty1"]->setText(_getText(DJV_TEXT("djv::ViewLib::AboutWidget", "Third Party Text 1")));
+            p.textBlocks["ThirdParty2"]->setText(_getText(DJV_TEXT("djv::ViewLib::AboutWidget", "Third Party Text 2")));
+            p.textBlocks["ThirdParty3"]->setText(_getText(DJV_TEXT("djv::ViewLib::AboutWidget", "Third Party Text 3")));
+            p.textBlocks["ThirdParty4"]->setText(_getText(DJV_TEXT("djv::ViewLib::AboutWidget", "Third Party Text 4")));
+            p.textBlocks["ThirdParty5"]->setText(_getText(DJV_TEXT("djv::ViewLib::AboutWidget", "Third Party Text 5")));
+            p.textBlocks["ThirdParty6"]->setText(_getText(DJV_TEXT("djv::ViewLib::AboutWidget", "Third Party Text 6")));
+            p.textBlocks["ThirdParty7"]->setText(_getText(DJV_TEXT("djv::ViewLib::AboutWidget", "Third Party Text 7")));
+            p.textBlocks["ThirdParty8"]->setText(_getText(DJV_TEXT("djv::ViewLib::AboutWidget", "Third Party Text 8")));
+            p.textBlocks["ThirdParty9"]->setText(_getText(DJV_TEXT("djv::ViewLib::AboutWidget", "Third Party Text 9")));
+            p.textBlocks["ThirdParty10"]->setText(_getText(DJV_TEXT("djv::ViewLib::AboutWidget", "Third Party Text 10")));
+            p.textBlocks["ThirdParty11"]->setText(_getText(DJV_TEXT("djv::ViewLib::AboutWidget", "Third Party Text 11")));
+            p.textBlocks["ThirdParty12"]->setText(_getText(DJV_TEXT("djv::ViewLib::AboutWidget", "Third Party Text 12")));
+            p.textBlocks["ThirdParty13"]->setText(_getText(DJV_TEXT("djv::ViewLib::AboutWidget", "Third Party Text 13")));
+            p.textBlocks["ThirdParty14"]->setText(_getText(DJV_TEXT("djv::ViewLib::AboutWidget", "Third Party Text 14")));
+            p.groupBoxes["Trademarks"]->setText(_getText(DJV_TEXT("djv::ViewLib::AboutWidget", "Trademarks")));
+            p.textBlocks["Trademarks1"]->setText(_getText(DJV_TEXT("djv::ViewLib::AboutWidget", "Trademarks Text 1")));
+            p.textBlocks["Trademarks2"]->setText(_getText(DJV_TEXT("djv::ViewLib::AboutWidget", "Trademarks Text 2")));
+            p.textBlocks["Trademarks3"]->setText(_getText(DJV_TEXT("djv::ViewLib::AboutWidget", "Trademarks Text 3")));
+            p.textBlocks["Trademarks4"]->setText(_getText(DJV_TEXT("djv::ViewLib::AboutWidget", "Trademarks Text 4")));
+            p.textBlocks["Trademarks5"]->setText(_getText(DJV_TEXT("djv::ViewLib::AboutWidget", "Trademarks Text 5")));
+            p.textBlocks["Trademarks6"]->setText(_getText(DJV_TEXT("djv::ViewLib::AboutWidget", "Trademarks Text 6")));
+            p.textBlocks["Trademarks7"]->setText(_getText(DJV_TEXT("djv::ViewLib::AboutWidget", "Trademarks Text 7")));
+            p.textBlocks["Trademarks8"]->setText(_getText(DJV_TEXT("djv::ViewLib::AboutWidget", "Trademarks Text 8")));
+            p.textBlocks["Trademarks9"]->setText(_getText(DJV_TEXT("djv::ViewLib::AboutWidget", "Trademarks Text 9")));
+            p.textBlocks["Trademarks10"]->setText(_getText(DJV_TEXT("djv::ViewLib::AboutWidget", "Trademarks Text 10")));
+            p.textBlocks["Trademarks11"]->setText(_getText(DJV_TEXT("djv::ViewLib::AboutWidget", "Trademarks Text 11")));
+            p.textBlocks["Trademarks12"]->setText(_getText(DJV_TEXT("djv::ViewLib::AboutWidget", "Trademarks Text 12")));
+            p.textBlocks["Trademarks13"]->setText(_getText(DJV_TEXT("djv::ViewLib::AboutWidget", "Trademarks Text 13")));
+            p.textBlocks["Trademarks14"]->setText(_getText(DJV_TEXT("djv::ViewLib::AboutWidget", "Trademarks Text 14")));
+            p.textBlocks["Trademarks15"]->setText(_getText(DJV_TEXT("djv::ViewLib::AboutWidget", "Trademarks Text 15")));
+            p.textBlocks["Trademarks16"]->setText(_getText(DJV_TEXT("djv::ViewLib::AboutWidget", "Trademarks Text 16")));
+            p.textBlocks["Trademarks17"]->setText(_getText(DJV_TEXT("djv::ViewLib::AboutWidget", "Trademarks Text 17")));
+            p.textBlocks["Trademarks18"]->setText(_getText(DJV_TEXT("djv::ViewLib::AboutWidget", "Trademarks Text 18")));
+            p.textBlocks["Trademarks19"]->setText(_getText(DJV_TEXT("djv::ViewLib::AboutWidget", "Trademarks Text 19")));
+            p.textBlocks["Trademarks20"]->setText(_getText(DJV_TEXT("djv::ViewLib::AboutWidget", "Trademarks Text 20")));
+            p.textBlocks["Trademarks21"]->setText(_getText(DJV_TEXT("djv::ViewLib::AboutWidget", "Trademarks Text 21")));
+            p.textBlocks["Trademarks22"]->setText(_getText(DJV_TEXT("djv::ViewLib::AboutWidget", "Trademarks Text 22")));
+            p.textBlocks["MadeIn"]->setText(_getText(DJV_TEXT("djv::ViewLib::AboutWidget", "Made In")));
         }
 
     } // namespace ViewLib

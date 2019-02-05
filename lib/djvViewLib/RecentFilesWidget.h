@@ -29,34 +29,44 @@
 
 #pragma once
 
-#include <djvViewLib/Enum.h>
-#include <djvViewLib/IViewSystem.h>
+#include <djvViewLib/IMDIWidget.h>
 
-#include <djvCore/ValueObserver.h>
+#include <djvUI/Enum.h>
 
 namespace djv
 {
+    namespace Core
+    {
+        namespace FileSystem
+        {
+            class FileInfo;
+
+        } // namespace FileSystem
+    } // namespace Core
+
     namespace ViewLib
     {
-        class SettingsSystem : public IViewSystem
+        class RecentFilesWidget : public IMDIWidget
         {
-            DJV_NON_COPYABLE(SettingsSystem);
+            DJV_NON_COPYABLE(RecentFilesWidget);
 
         protected:
             void _init(Core::Context *);
-            SettingsSystem();
+            RecentFilesWidget();
 
         public:
-            ~SettingsSystem() override;
+            ~RecentFilesWidget() override;
 
-            static std::shared_ptr<SettingsSystem> create(Core::Context *);
+            static std::shared_ptr<RecentFilesWidget> create(Core::Context *);
 
-			void showSettings();
-            
-            std::map<std::string, std::shared_ptr<UI::Action> > getActions() override;
-            std::vector<NewSettingsWidget> getSettingsWidgets() override;
-			std::vector<NewMDIWidget> getMDIWidgets() override;
-            
+            void setRecentFiles(const std::vector<Core::FileSystem::FileInfo> &);
+            void setViewType(UI::ViewType);
+
+            void setCallback(const std::function<void(const Core::FileSystem::FileInfo &)> &);
+
+        protected:
+            void _localeEvent(Core::Event::Locale &) override;
+
         private:
             DJV_PRIVATE();
         };

@@ -29,29 +29,31 @@
 
 #pragma once
 
-#include <djvViewLib/IToolWidget.h>
+#include <djvViewLib/IMDIWidget.h>
 
 namespace djv
 {
     namespace ViewLib
     {
-        class ColorPickerTool : public IToolWidget
+        class DebugWidget : public IMDIWidget
         {
-            DJV_NON_COPYABLE(ColorPickerTool);
+            DJV_NON_COPYABLE(DebugWidget);
 
         protected:
             void _init(Core::Context *);
-            ColorPickerTool();
+            DebugWidget();
 
         public:
-            ~ColorPickerTool() override;
+            ~DebugWidget() override;
 
-            static std::shared_ptr<ColorPickerTool> create(Core::Context *);
+            static std::shared_ptr<DebugWidget> create(Core::Context *);
 
         protected:
             void _localeEvent(Core::Event::Locale &) override;
 
         private:
+            void _widgetUpdate();
+
             DJV_PRIVATE();
         };
 

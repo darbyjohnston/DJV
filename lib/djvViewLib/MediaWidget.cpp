@@ -36,6 +36,7 @@
 
 #include <djvUI/RowLayout.h>
 #include <djvUI/StackLayout.h>
+#include <djvUI/ToolButton.h>
 
 using namespace djv::Core;
 
@@ -66,13 +67,16 @@ namespace djv
 
             _p->playbackWidget = PlaybackWidget::create(context);
             _p->timelineSlider = TimelineSlider::create(context);
+			auto playbackSettingsButton = UI::Button::Tool::create(context);
+			playbackSettingsButton->setIcon("djvIconPopupMenu");
 
             auto hLayout = UI::Layout::Horizontal::create(context);
             hLayout->setSpacing(UI::Style::MetricsRole::None);
             hLayout->setBackgroundRole(UI::Style::ColorRole::Overlay);
             hLayout->addWidget(_p->playbackWidget);
             hLayout->addWidget(_p->timelineSlider, UI::Layout::RowStretch::Expand);
-            auto vLayout = UI::Layout::Vertical::create(context);
+			hLayout->addWidget(playbackSettingsButton);
+			auto vLayout = UI::Layout::Vertical::create(context);
             vLayout->setSpacing(UI::Style::MetricsRole::None);
             vLayout->addExpander();
             vLayout->addWidget(hLayout);

@@ -144,7 +144,7 @@ namespace djv
             if (value == _visible)
                 return;
             _visible = value;
-            _redraw();
+            _resize();
         }
 
         void Widget::setOpacity(float value)

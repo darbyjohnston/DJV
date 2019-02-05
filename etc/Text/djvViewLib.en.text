@@ -228,9 +228,9 @@
         "description": ""
     }, 
     {
-        "text": "Debugging Log", 
+        "text": "Log", 
         "nameSpace": "djv::ViewLib", 
-        "id": "Debugging Log", 
+        "id": "Log", 
         "description": ""
     }, 
     {
@@ -528,9 +528,9 @@
         "description": ""
     }, 
     {
-        "text": "DebugLog", 
+        "text": "Log", 
         "nameSpace": "djv::ViewLib", 
-        "id": "DebugLog", 
+        "id": "Log", 
         "description": ""
     }, 
     {
@@ -715,301 +715,301 @@
     }, 
     {
         "text": "DJV Imaging", 
-        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
+        "nameSpace": "djv::ViewLib::AboutWidget", 
         "id": "Header", 
         "description": ""
     }, 
     {
         "text": "Copyright (c) 2004-2019 Darby Johnston, All rights reserved", 
-        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
+        "nameSpace": "djv::ViewLib::AboutWidget", 
         "id": "Copyright", 
         "description": ""
     }, 
     {
         "text": "Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:", 
-        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
-        "id": "License1", 
+        "nameSpace": "djv::ViewLib::AboutWidget", 
+        "id": "License 1", 
         "description": ""
     }, 
     {
         "text": "* Redistributions of source code must retain the above copyright notice, this list of conditions, and the following disclaimer.", 
-        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
-        "id": "License2", 
+        "nameSpace": "djv::ViewLib::AboutWidget", 
+        "id": "License 2", 
         "description": ""
     }, 
     {
         "text": "* Redistributions in binary form must reproduce the above copyright notice, this list of conditions, and the following disclaimer in the documentation and/or other materials provided with the distribution.", 
-        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
-        "id": "License3", 
+        "nameSpace": "djv::ViewLib::AboutWidget", 
+        "id": "License 3", 
         "description": ""
     }, 
     {
         "text": "* Neither the names of the copyright holders nor the names of any contributors may be used to endorse or promote products derived from this software without specific prior written permission.", 
-        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
-        "id": "License4", 
+        "nameSpace": "djv::ViewLib::AboutWidget", 
+        "id": "License 4", 
         "description": ""
     }, 
     {
         "text": "THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS \"AS IS\" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.", 
-        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
-        "id": "License5", 
+        "nameSpace": "djv::ViewLib::AboutWidget", 
+        "id": "License 5", 
         "description": ""
     }, 
     {
         "text": "Contributors", 
-        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
+        "nameSpace": "djv::ViewLib::AboutWidget", 
         "id": "Contributors Header", 
         "description": ""
     }, 
     {
         "text": "Portions of this software are copyright (in alphabetical order):", 
-        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
+        "nameSpace": "djv::ViewLib::AboutWidget", 
         "id": "Contributors Text 1", 
         "description": ""
     }, 
     {
         "text": "* Copyright (c) 2004-2019 Darby Johnston, All rights reserved", 
-        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
+        "nameSpace": "djv::ViewLib::AboutWidget", 
         "id": "Contributors Text 2", 
         "description": ""
     }, 
     {
         "text": "* Copyright (c) 2008 Alan Jones, All rights reserved", 
-        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
+        "nameSpace": "djv::ViewLib::AboutWidget", 
         "id": "Contributors Text 3", 
         "description": ""
     }, 
     {
         "text": "* Copyright (c) 2008-2009 Mikael Sundell, All rights reserved", 
-        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
+        "nameSpace": "djv::ViewLib::AboutWidget", 
         "id": "Contributors Text 4", 
         "description": ""
     }, 
     {
         "text": "Third Party Software", 
-        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
+        "nameSpace": "djv::ViewLib::AboutWidget", 
         "id": "Third Party Header", 
         "description": ""
     }, 
     {
         "text": "This software is based in part on the works of (in alphabetical order):", 
-        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
+        "nameSpace": "djv::ViewLib::AboutWidget", 
         "id": "Third Party Text 1", 
         "description": ""
     }, 
     {
         "text": "* CMake, http://www.cmake.org, Copyright 2000-2011 Kitware, Inc., Insight Software Consortium, All rights reserved", 
-        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
+        "nameSpace": "djv::ViewLib::AboutWidget", 
         "id": "Third Party Text 2", 
         "description": ""
     }, 
     {
         "text": "* dr_libs, https://github.com/mackron/dr_libs, David Reid", 
-        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
+        "nameSpace": "djv::ViewLib::AboutWidget", 
         "id": "Third Party Text 3", 
         "description": ""
     }, 
     {
         "text": "* FFmpeg, http://www.ffmpeg.org, Licensed under the LGPLv2.1, http://www.gnu.org/pcenses/old-pcenses/lgpl-2.1.html", 
-        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
+        "nameSpace": "djv::ViewLib::AboutWidget", 
         "id": "Third Party Text 4", 
         "description": ""
     }, 
     {
         "text": "* FreeType, https://www.freetype.org, Copyright (c) 2018, The FreeType Project", 
-        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
+        "nameSpace": "djv::ViewLib::AboutWidget", 
         "id": "Third Party Text 5", 
         "description": ""
     }, 
     {
         "text": "* glbinding, https://glbinding.org, Copyright (c) 2014-2015 Computer Graphics Systems Group at the Hasso-Plattner-Institute and CG Internals GmbH, Germany", 
-        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
+        "nameSpace": "djv::ViewLib::AboutWidget", 
         "id": "Third Party Text 6", 
         "description": ""
     }, 
     {
         "text": "* GLFW, https://www.glfw.org, Copyright (c) 2002-2006 Marcus Geelnard, Copyright (c) 2006-2016 Camilla L\u00f6wy <elmindreda@glfw.org>", 
-        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
+        "nameSpace": "djv::ViewLib::AboutWidget", 
         "id": "Third Party Text 7", 
         "description": ""
     }, 
     {
         "text": "* GLM, https://glm.g-truc.net/0.9.9/index.html, Copyright (c) 2005-2017 G-Truc Creation", 
-        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
+        "nameSpace": "djv::ViewLib::AboutWidget", 
         "id": "Third Party Text 8", 
         "description": ""
     }, 
     {
         "text": "* libjpeg, http://www.ijg.org, Copyright (c) 1991-2012, Thomas G. Lane, Guido Vollbeding", 
-        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
+        "nameSpace": "djv::ViewLib::AboutWidget", 
         "id": "Third Party Text 9", 
         "description": ""
     }, 
     {
         "text": "* libpng, http://www.libpng.org, Copyright (c) 2004, 2006-2012 Glenn Randers-Pehrson", 
-        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
+        "nameSpace": "djv::ViewLib::AboutWidget", 
         "id": "Third Party Text 10", 
         "description": ""
     }, 
     {
         "text": "* libtiff, http://www.libtiff.org, Copyright (c) 1988-1997 Sam Leffler, Copyright (c) 1991-1997 Silicon Graphics, Inc", 
-        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
+        "nameSpace": "djv::ViewLib::AboutWidget", 
         "id": "Third Party Text 11", 
         "description": ""
     }, 
     {
         "text": "* OpenAL, https://www.openal.org, Copyright (C) 1999-2000 by Loki Software", 
-        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
+        "nameSpace": "djv::ViewLib::AboutWidget", 
         "id": "Third Party Text 12", 
         "description": ""
     }, 
     {
         "text": "* OpenEXR, http://www.openexr.com, Copyright (c) 2006, Industrial Light and Magic, a division of Lucasfilm Entertainment Company Ltd.", 
-        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
+        "nameSpace": "djv::ViewLib::AboutWidget", 
         "id": "Third Party Text 13", 
         "description": ""
     }, 
     {
         "text": "* zlib, http://www.zlib.net, Copyright (c) 1995-2013 Jean-loup Gailly and Mark Adler", 
-        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
+        "nameSpace": "djv::ViewLib::AboutWidget", 
         "id": "Third Party Text 14", 
         "description": ""
     }, 
     {
         "text": "Trademarks", 
-        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
+        "nameSpace": "djv::ViewLib::AboutWidget", 
         "id": "Trademarks Header", 
         "description": ""
     }, 
     {
         "text": "Trademarks named in the documentation (in alphabetical order):", 
-        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
+        "nameSpace": "djv::ViewLib::AboutWidget", 
         "id": "Trademarks Text 1", 
         "description": ""
     }, 
     {
         "text": "* Apple, OS X, ProRes, and QuickTime are registered trademarks of Apple, Inc.", 
-        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
+        "nameSpace": "djv::ViewLib::AboutWidget", 
         "id": "Trademarks Text 2", 
         "description": ""
     }, 
     {
         "text": "* AMD and ATI are registered trademarks of Advanced Micro Devices, Inc.", 
-        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
+        "nameSpace": "djv::ViewLib::AboutWidget", 
         "id": "Trademarks Text 3", 
         "description": ""
     }, 
     {
         "text": "* Autodesk, Inferno, Maya, Softimage, and XSI are registered trademarks of Autodesk, Inc.", 
-        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
+        "nameSpace": "djv::ViewLib::AboutWidget", 
         "id": "Trademarks Text 4", 
         "description": ""
     }, 
     {
         "text": "* Debian is a registered trademark of Software in the Public Interest, Inc.", 
-        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
+        "nameSpace": "djv::ViewLib::AboutWidget", 
         "id": "Trademarks Text 5", 
         "description": ""
     }, 
     {
         "text": "* FFmpeg is a trademark of Fabrice Bellard, originator of the FFmpeg project", 
-        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
+        "nameSpace": "djv::ViewLib::AboutWidget", 
         "id": "Trademarks Text 6", 
         "description": ""
     }, 
     {
         "text": "* FreeBSD is a registered trademark of The FreeBSD Foundation", 
-        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
+        "nameSpace": "djv::ViewLib::AboutWidget", 
         "id": "Trademarks Text 7", 
         "description": ""
     }, 
     {
         "text": "* Intel is a registered trademark of Intel Corporation", 
-        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
+        "nameSpace": "djv::ViewLib::AboutWidget", 
         "id": "Trademarks Text 8", 
         "description": ""
     }, 
     {
         "text": "* Industrial Light and Magic and ILM are registered trademarks of Lucasfilm Ltd.", 
-        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
+        "nameSpace": "djv::ViewLib::AboutWidget", 
         "id": "Trademarks Text 9", 
         "description": ""
     }, 
     {
         "text": "* Kodak and Cineon are a registered trademarks of the Eastman Kodak Company", 
-        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
+        "nameSpace": "djv::ViewLib::AboutWidget", 
         "id": "Trademarks Text 10", 
         "description": ""
     }, 
     {
         "text": "* Linux is a registered trademark of Linus Torvalds", 
-        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
+        "nameSpace": "djv::ViewLib::AboutWidget", 
         "id": "Trademarks Text 11", 
         "description": ""
     }, 
     {
         "text": "* Microsoft and Microsoft Windows are registered trademarks of Microsoft, Inc.", 
-        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
+        "nameSpace": "djv::ViewLib::AboutWidget", 
         "id": "Trademarks Text 12", 
         "description": ""
     }, 
     {
         "text": "* MIPS is a registered trademark of MIPS Technologies, Inc.", 
-        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
+        "nameSpace": "djv::ViewLib::AboutWidget", 
         "id": "Trademarks Text 13", 
         "description": ""
     }, 
     {
         "text": "* NVIDIA is a registered trademark of NVIDIA Corporation", 
-        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
+        "nameSpace": "djv::ViewLib::AboutWidget", 
         "id": "Trademarks Text 14", 
         "description": ""
     }, 
     {
         "text": "* Red Hat and Fedora are registered trademarks of Red Hat, Inc.", 
-        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
+        "nameSpace": "djv::ViewLib::AboutWidget", 
         "id": "Trademarks Text 15", 
         "description": ""
     }, 
     {
         "text": "* Silicon Graphics, SGI, IRIX, and OpenGL are registered trademarks of Silicon Graphics International Corp.", 
-        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
+        "nameSpace": "djv::ViewLib::AboutWidget", 
         "id": "Trademarks Text 16", 
         "description": ""
     }, 
     {
         "text": "* SMPTE is a registered trademark of the Society of Motion Picture and Television Engineers", 
-        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
+        "nameSpace": "djv::ViewLib::AboutWidget", 
         "id": "Trademarks Text 17", 
         "description": ""
     }, 
     {
         "text": "* SourceForge.net is a registered trademark of VA Software Corporation", 
-        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
+        "nameSpace": "djv::ViewLib::AboutWidget", 
         "id": "Trademarks Text 18", 
         "description": ""
     }, 
     {
         "text": "* SuSE is a registered trademark of Novell, Inc.", 
-        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
+        "nameSpace": "djv::ViewLib::AboutWidget", 
         "id": "Trademarks Text 19", 
         "description": ""
     }, 
     {
         "text": "* Ubuntu is a registered trademark of Canonical Ltd.", 
-        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
+        "nameSpace": "djv::ViewLib::AboutWidget", 
         "id": "Trademarks Text 20", 
         "description": ""
     }, 
     {
         "text": "* UNIX is a registered trademark of The Open Group", 
-        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
+        "nameSpace": "djv::ViewLib::AboutWidget", 
         "id": "Trademarks Text 21", 
         "description": ""
     }, 
     {
         "text": "All other products named in the documentation are trademarks of their respective owners.", 
-        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
+        "nameSpace": "djv::ViewLib::AboutWidget", 
         "id": "Trademarks Text 22", 
         "description": ""
     }, 
@@ -1032,15 +1032,15 @@
         "description": ""
     }, 
     {
-        "text": "Debug Log", 
+        "text": "Log", 
         "nameSpace": "djv::ViewLib::HelpSystem", 
-        "id": "Debug Log", 
+        "id": "Log", 
         "description": ""
     }, 
     {
-        "text": "Debug Log Tooltip", 
+        "text": "Log Tooltip", 
         "nameSpace": "djv::ViewLib::HelpSystem", 
-        "id": "Debug Log Tooltip", 
+        "id": "Log Tooltip", 
         "description": ""
     }, 
     {
@@ -1327,31 +1327,31 @@
     }, 
     {
         "text": "Copyright and License", 
-        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
-        "id": "CopyrightAndLicense", 
+        "nameSpace": "djv::ViewLib::AboutWidget", 
+        "id": "Copyright And License", 
         "description": ""
     }, 
     {
         "text": "Contributors", 
-        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
+        "nameSpace": "djv::ViewLib::AboutWidget", 
         "id": "Contributors", 
         "description": ""
     }, 
     {
         "text": "Third Party Software", 
-        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
+        "nameSpace": "djv::ViewLib::AboutWidget", 
         "id": "Third Party", 
         "description": ""
     }, 
     {
         "text": "Trademarks", 
-        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
+        "nameSpace": "djv::ViewLib::AboutWidget", 
         "id": "Trademarks", 
         "description": ""
     }, 
     {
         "text": "Made in Berkeley, CA, USA", 
-        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
+        "nameSpace": "djv::ViewLib::AboutWidget", 
         "id": "Made In", 
         "description": ""
     }

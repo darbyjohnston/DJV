@@ -27,47 +27,42 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#pragma once
+#include <djvViewLib/HistogramWidget.h>
 
-#include <djvUI/MDIWidget.h>
+using namespace djv::Core;
 
 namespace djv
 {
     namespace ViewLib
     {
-        class Media;
-
-        class MDIWidget : public UI::MDI::IWidget
+        struct HistogramWidget::Private
         {
-            DJV_NON_COPYABLE(MDIWidget);
 
-        protected:
-            void _init(Core::Context *);
-            MDIWidget();
-
-        public:
-            ~MDIWidget() override;
-
-            static std::shared_ptr<MDIWidget> create(Core::Context *);
-
-            const std::string & getTitle() const;
-            void setTitle(const std::string &);
-
-            const std::shared_ptr<Media> & getMedia() const;
-            void setMedia(const std::shared_ptr<Media> &);
-
-            void setMaximizeCallback(const std::function<void(void)> &);
-            void setClosedCallback(const std::function<void(void)> &);
-
-            float getHeightForWidth(float) const override;
-
-        protected:
-            void _preLayoutEvent(Core::Event::PreLayout&) override;
-            void _layoutEvent(Core::Event::Layout&) override;
-
-        private:
-            DJV_PRIVATE();
         };
+
+        void HistogramWidget::_init(Context * context)
+        {
+            IMDIWidget::_init(MDIResize::Minimum, context);
+        }
+
+        HistogramWidget::HistogramWidget() :
+            _p(new Private)
+        {}
+
+        HistogramWidget::~HistogramWidget()
+        {}
+
+        std::shared_ptr<HistogramWidget> HistogramWidget::create(Context * context)
+        {
+            auto out = std::shared_ptr<HistogramWidget>(new HistogramWidget);
+            out->_init(context);
+            return out;
+        }
+
+        void HistogramWidget::_localeEvent(Event::Locale &)
+        {
+            setTitle(_getText(DJV_TEXT("djv::ViewLib::HistogramWidget", "Histogram")));
+        }
 
     } // namespace ViewLib
 } // namespace djv

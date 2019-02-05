@@ -27,42 +27,35 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvViewLib/InformationTool.h>
+#pragma once
 
-using namespace djv::Core;
+#include <djvViewLib/IMDIWidget.h>
+
+#include <djvUI/Enum.h>
 
 namespace djv
 {
     namespace ViewLib
     {
-        struct InformationTool::Private
+        class SettingsWidget : public IMDIWidget
         {
+            DJV_NON_COPYABLE(SettingsWidget);
 
+        protected:
+            void _init(Core::Context *);
+			SettingsWidget();
+
+        public:
+            ~SettingsWidget() override;
+
+            static std::shared_ptr<SettingsWidget> create(Core::Context *);
+
+        protected:
+            void _localeEvent(Core::Event::Locale &) override;
+
+        private:
+            DJV_PRIVATE();
         };
-
-        void InformationTool::_init(Context * context)
-        {
-            IToolWidget::_init(context);
-        }
-
-        InformationTool::InformationTool() :
-            _p(new Private)
-        {}
-
-        InformationTool::~InformationTool()
-        {}
-
-        std::shared_ptr<InformationTool> InformationTool::create(Context * context)
-        {
-            auto out = std::shared_ptr<InformationTool>(new InformationTool);
-            out->_init(context);
-            return out;
-        }
-
-        void InformationTool::_localeEvent(Event::Locale &)
-        {
-            setTitle(_getText(DJV_TEXT("djv::ViewLib::InformationTool", "Information")));
-        }
 
     } // namespace ViewLib
 } // namespace djv

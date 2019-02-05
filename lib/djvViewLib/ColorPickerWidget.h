@@ -27,42 +27,33 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvViewLib/ColorPickerTool.h>
+#pragma once
 
-using namespace djv::Core;
+#include <djvViewLib/IMDIWidget.h>
 
 namespace djv
 {
     namespace ViewLib
     {
-        struct ColorPickerTool::Private
+        class ColorPickerWidget : public IMDIWidget
         {
+            DJV_NON_COPYABLE(ColorPickerWidget);
 
+        protected:
+            void _init(Core::Context *);
+            ColorPickerWidget();
+
+        public:
+            ~ColorPickerWidget() override;
+
+            static std::shared_ptr<ColorPickerWidget> create(Core::Context *);
+
+        protected:
+            void _localeEvent(Core::Event::Locale &) override;
+
+        private:
+            DJV_PRIVATE();
         };
-
-        void ColorPickerTool::_init(Context * context)
-        {
-            IToolWidget::_init(context);
-        }
-
-        ColorPickerTool::ColorPickerTool() :
-            _p(new Private)
-        {}
-
-        ColorPickerTool::~ColorPickerTool()
-        {}
-
-        std::shared_ptr<ColorPickerTool> ColorPickerTool::create(Context * context)
-        {
-            auto out = std::shared_ptr<ColorPickerTool>(new ColorPickerTool);
-            out->_init(context);
-            return out;
-        }
-
-        void ColorPickerTool::_localeEvent(Event::Locale &)
-        {
-            setTitle(_getText(DJV_TEXT("djv::ViewLib::ColorPickerTool", "Color Picker")));
-        }
 
     } // namespace ViewLib
 } // namespace djv

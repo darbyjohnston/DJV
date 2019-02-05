@@ -27,15 +27,11 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvViewLib/MDIWidget.h>
-
-#include <djvViewLib/ImageView.h>
-#include <djvViewLib/MediaWidget.h>
-#include <djvViewLib/PlaybackWidget.h>
-#include <djvViewLib/TimelineSlider.h>
+#include <djvViewLib/IMDIWidget.h>
 
 #include <djvUI/Border.h>
 #include <djvUI/Label.h>
+#include <djvUI/MDICanvas.h>
 #include <djvUI/RowLayout.h>
 #include <djvUI/StackLayout.h>
 #include <djvUI/ToolButton.h>
@@ -46,140 +42,164 @@ namespace djv
 {
     namespace ViewLib
     {
-        struct MDIWidget::Private
+        struct IMDIWidget::Private
         {
-            std::shared_ptr<MediaWidget> mediaWidget;
+			bool shown = false;
+			MDIResize resize = MDIResize::First;
             std::shared_ptr<UI::Label> titleLabel;
             std::shared_ptr<UI::Layout::Horizontal> titleBar;
-            std::shared_ptr<UI::Layout::Stack> layout;
+            std::shared_ptr<UI::Layout::Vertical> childLayout;
+            std::shared_ptr<UI::Layout::Vertical> layout;
             std::shared_ptr<UI::Layout::Border> border;
-            std::function<void(void)> maximizeCallback;
-            std::function<void(void)> closedCallback;
+            std::function<void(void)> closeCallback;
         };
-        
-        void MDIWidget::_init(Context * context)
+
+        void IMDIWidget::_init(MDIResize resize, Context * context)
         {
             IWidget::_init(context);
 
             DJV_PRIVATE_PTR();
-            p.mediaWidget = MediaWidget::create(context);
+			p.resize = resize;
 
             p.titleLabel = UI::Label::create(context);
             p.titleLabel->setTextHAlign(UI::TextHAlign::Left);
             p.titleLabel->setMargin(UI::Style::MetricsRole::Margin);
 
-            auto maximizeButton = UI::Button::Tool::create(context);
-            maximizeButton->setIcon("djvIconViewLibSDISmall");
-
             auto closeButton = UI::Button::Tool::create(context);
             closeButton->setIcon("djvIconCloseSmall");
 
             p.titleBar = UI::Layout::Horizontal::create(context);
-            p.titleBar->setBackgroundRole(UI::Style::ColorRole::Overlay);
             p.titleBar->addWidget(p.titleLabel, UI::Layout::RowStretch::Expand);
             auto hLayout = UI::Layout::Horizontal::create(context);
             hLayout->setSpacing(UI::Style::MetricsRole::None);
-            hLayout->addWidget(maximizeButton);
             hLayout->addWidget(closeButton);
             p.titleBar->addWidget(hLayout);
 
-            p.layout = UI::Layout::Stack::create(context);
-            p.layout->addWidget(p.mediaWidget);
-            auto vLayout = UI::Layout::Vertical::create(context);
-            vLayout->setSpacing(UI::Style::MetricsRole::None);
-            vLayout->addWidget(p.titleBar);
-            vLayout->addExpander();
-            p.layout->addWidget(vLayout);
+            p.childLayout = UI::Layout::Vertical::create(context);
+
+            p.layout = UI::Layout::Vertical::create(context);
+            p.layout->setBackgroundRole(UI::Style::ColorRole::Background);
+            p.layout->setSpacing(UI::Style::MetricsRole::None);
+            p.layout->addWidget(p.titleBar);
+            p.layout->addSeparator();
+            p.layout->addWidget(p.childLayout, UI::Layout::RowStretch::Expand);
 
             p.border = UI::Layout::Border::create(context);
             p.border->setMargin(UI::Style::MetricsRole::Handle);
             p.border->addWidget(p.layout);
             IContainer::addWidget(p.border);
 
-            auto weak = std::weak_ptr<MDIWidget>(std::dynamic_pointer_cast<MDIWidget>(shared_from_this()));
-            maximizeButton->setClickedCallback(
-                [weak]
-            {
-                if (auto widget = weak.lock())
-                {
-                    if (widget->_p->maximizeCallback)
-                    {
-                        widget->_p->maximizeCallback();
-                    }
-                }
-            });
+            auto weak = std::weak_ptr<IMDIWidget>(std::dynamic_pointer_cast<IMDIWidget>(shared_from_this()));
             closeButton->setClickedCallback(
                 [weak]
             {
                 if (auto widget = weak.lock())
                 {
-                    if (widget->_p->closedCallback)
-                    {
-                        widget->_p->closedCallback();
-                    }
+					widget->hide();
                 }
             });
         }
 
-        MDIWidget::MDIWidget() :
+        IMDIWidget::IMDIWidget() :
             _p(new Private)
         {}
 
-        MDIWidget::~MDIWidget()
+        IMDIWidget::~IMDIWidget()
         {}
 
-        std::shared_ptr<MDIWidget> MDIWidget::create(Context * context)
-        {
-            auto out = std::shared_ptr<MDIWidget>(new MDIWidget);
-            out->_init(context);
-            return out;
-        }
-
-        const std::string & MDIWidget::getTitle() const
+        const std::string & IMDIWidget::getTitle() const
         {
             return _p->titleLabel->getText();
         }
 
-        void MDIWidget::setTitle(const std::string & text)
+        void IMDIWidget::setTitle(const std::string & text)
         {
             _p->titleLabel->setText(text);
         }
 
-        const std::shared_ptr<Media> & MDIWidget::getMedia() const
+        void IMDIWidget::setCloseCallback(const std::function<void(void)> & value)
         {
-            return _p->mediaWidget->getMedia();
+            _p->closeCallback = value;
         }
 
-        void MDIWidget::setMedia(const std::shared_ptr<Media> & value)
+        void IMDIWidget::addWidget(const std::shared_ptr<Widget>& widget)
         {
-            _p->mediaWidget->setMedia(value);
+            _p->childLayout->addWidget(widget, UI::Layout::RowStretch::Expand);
         }
 
-        void MDIWidget::setClosedCallback(const std::function<void(void)> & value)
+        void IMDIWidget::removeWidget(const std::shared_ptr<Widget>& widget)
         {
-            _p->closedCallback = value;
+            _p->childLayout->addWidget(widget);
         }
 
-        void MDIWidget::setMaximizeCallback(const std::function<void(void)> & value)
+        void IMDIWidget::clearWidgets()
         {
-            _p->maximizeCallback = value;
+            _p->childLayout->clearWidgets();
         }
 
-        float MDIWidget::getHeightForWidth(float value) const
+		void IMDIWidget::setVisible(bool value)
+		{
+			const bool prev = isVisible();
+			IWidget::setVisible(value);
+			DJV_PRIVATE_PTR();
+			if (prev != isVisible())
+			{
+				if (value)
+				{
+					if (!p.shown)
+					{
+						p.shown = true;
+						if (auto style = _getStyle().lock())
+						{
+							if (auto canvas = std::dynamic_pointer_cast<UI::MDI::Canvas>(getParent().lock()))
+							{
+								const BBox2f & g = canvas->getGeometry();
+								const glm::vec2 c = g.getCenter();
+								const float m = style->getMetric(UI::Style::MetricsRole::MarginDialog);
+								const glm::vec2 & minimumSize = getMinimumSize();
+								switch (p.resize)
+								{
+								case MDIResize::Minimum:
+									canvas->setWidgetPos(
+										std::dynamic_pointer_cast<IWidget>(shared_from_this()),
+										glm::vec2(floorf(c.x - minimumSize.x / 2.f), floorf(c.y - minimumSize.y / 2.f)));
+									resize(minimumSize);
+									break;
+								case MDIResize::Maximum:
+									canvas->setWidgetPos(std::dynamic_pointer_cast<IWidget>(shared_from_this()), glm::vec2(m, m));
+									resize(g.margin(-m).getSize());
+									break;
+								default: break;
+								}
+							}
+						}
+					}
+				}
+				else
+				{
+					if (p.closeCallback)
+					{
+						p.closeCallback();
+					}
+				}
+			}
+		}
+
+        float IMDIWidget::getHeightForWidth(float value) const
         {
             return _p->border->getHeightForWidth(value);
         }
 
-        void MDIWidget::_preLayoutEvent(Event::PreLayout& event)
+        void IMDIWidget::_preLayoutEvent(Event::PreLayout& event)
         {
             _setMinimumSize(_p->border->getMinimumSize());
         }
 
-        void MDIWidget::_layoutEvent(Event::Layout&)
+        void IMDIWidget::_layoutEvent(Event::Layout&)
         {
             _p->border->setGeometry(getGeometry());
         }
-        
+
     } // namespace ViewLib
 } // namespace djv
 

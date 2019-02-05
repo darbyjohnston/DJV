@@ -29,31 +29,32 @@
 
 #pragma once
 
-#include <djvViewLib/IToolWidget.h>
+#include <djvViewLib/IMDIWidget.h>
 
 namespace djv
 {
     namespace ViewLib
     {
-        class DebugTool : public IToolWidget
+        class LogWidget : public IMDIWidget
         {
-            DJV_NON_COPYABLE(DebugTool);
+            DJV_NON_COPYABLE(LogWidget);
 
         protected:
             void _init(Core::Context *);
-            DebugTool();
+			LogWidget();
 
         public:
-            ~DebugTool() override;
+            ~LogWidget() override;
 
-            static std::shared_ptr<DebugTool> create(Core::Context *);
+            static std::shared_ptr<LogWidget> create(Core::Context *);
+
+            void reloadLog();
+            void clearLog();
 
         protected:
             void _localeEvent(Core::Event::Locale &) override;
 
         private:
-            void _widgetUpdate();
-
             DJV_PRIVATE();
         };
 

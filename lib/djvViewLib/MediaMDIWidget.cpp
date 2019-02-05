@@ -27,7 +27,12 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvViewLib/IToolWidget.h>
+#include <djvViewLib/MediaMDIWidget.h>
+
+#include <djvViewLib/ImageView.h>
+#include <djvViewLib/MediaWidget.h>
+#include <djvViewLib/PlaybackWidget.h>
+#include <djvViewLib/TimelineSlider.h>
 
 #include <djvUI/Border.h>
 #include <djvUI/Label.h>
@@ -41,115 +46,140 @@ namespace djv
 {
     namespace ViewLib
     {
-        struct IToolWidget::Private
+        struct MediaMDIWidget::Private
         {
+            std::shared_ptr<MediaWidget> mediaWidget;
             std::shared_ptr<UI::Label> titleLabel;
             std::shared_ptr<UI::Layout::Horizontal> titleBar;
-            std::shared_ptr<UI::Layout::Vertical> childLayout;
-            std::shared_ptr<UI::Layout::Vertical> layout;
+            std::shared_ptr<UI::Layout::Stack> layout;
             std::shared_ptr<UI::Layout::Border> border;
-            std::function<void(void)> closedCallback;
+            std::function<void(void)> maximizeCallback;
+            std::function<void(void)> closeCallback;
         };
-
-        void IToolWidget::_init(Context * context)
+        
+        void MediaMDIWidget::_init(Context * context)
         {
             IWidget::_init(context);
 
             DJV_PRIVATE_PTR();
+            p.mediaWidget = MediaWidget::create(context);
+
             p.titleLabel = UI::Label::create(context);
             p.titleLabel->setTextHAlign(UI::TextHAlign::Left);
             p.titleLabel->setMargin(UI::Style::MetricsRole::Margin);
+
+            auto maximizeButton = UI::Button::Tool::create(context);
+            maximizeButton->setIcon("djvIconViewLibSDISmall");
 
             auto closeButton = UI::Button::Tool::create(context);
             closeButton->setIcon("djvIconCloseSmall");
 
             p.titleBar = UI::Layout::Horizontal::create(context);
+            p.titleBar->setBackgroundRole(UI::Style::ColorRole::Overlay);
             p.titleBar->addWidget(p.titleLabel, UI::Layout::RowStretch::Expand);
             auto hLayout = UI::Layout::Horizontal::create(context);
             hLayout->setSpacing(UI::Style::MetricsRole::None);
+            hLayout->addWidget(maximizeButton);
             hLayout->addWidget(closeButton);
             p.titleBar->addWidget(hLayout);
 
-            p.childLayout = UI::Layout::Vertical::create(context);
-
-            p.layout = UI::Layout::Vertical::create(context);
-            p.layout->setBackgroundRole(UI::Style::ColorRole::Background);
-            p.layout->setSpacing(UI::Style::MetricsRole::None);
-            p.layout->addWidget(p.titleBar);
-            p.layout->addSeparator();
-            p.layout->addWidget(p.childLayout);
+            p.layout = UI::Layout::Stack::create(context);
+            p.layout->addWidget(p.mediaWidget);
+            auto vLayout = UI::Layout::Vertical::create(context);
+            vLayout->setSpacing(UI::Style::MetricsRole::None);
+            vLayout->addWidget(p.titleBar);
+            vLayout->addExpander();
+            p.layout->addWidget(vLayout);
 
             p.border = UI::Layout::Border::create(context);
             p.border->setMargin(UI::Style::MetricsRole::Handle);
             p.border->addWidget(p.layout);
             IContainer::addWidget(p.border);
 
-            auto weak = std::weak_ptr<IToolWidget>(std::dynamic_pointer_cast<IToolWidget>(shared_from_this()));
+            auto weak = std::weak_ptr<MediaMDIWidget>(std::dynamic_pointer_cast<MediaMDIWidget>(shared_from_this()));
+            maximizeButton->setClickedCallback(
+                [weak]
+            {
+                if (auto widget = weak.lock())
+                {
+                    if (widget->_p->maximizeCallback)
+                    {
+                        widget->_p->maximizeCallback();
+                    }
+                }
+            });
             closeButton->setClickedCallback(
                 [weak]
             {
                 if (auto widget = weak.lock())
                 {
-                    if (widget->_p->closedCallback)
+                    if (widget->_p->closeCallback)
                     {
-                        widget->_p->closedCallback();
+                        widget->_p->closeCallback();
                     }
                 }
             });
         }
 
-        IToolWidget::IToolWidget() :
+		MediaMDIWidget::MediaMDIWidget() :
             _p(new Private)
         {}
 
-        IToolWidget::~IToolWidget()
+		MediaMDIWidget::~MediaMDIWidget()
         {}
 
-        const std::string & IToolWidget::getTitle() const
+        std::shared_ptr<MediaMDIWidget> MediaMDIWidget::create(Context * context)
+        {
+            auto out = std::shared_ptr<MediaMDIWidget>(new MediaMDIWidget);
+            out->_init(context);
+            return out;
+        }
+
+        const std::string & MediaMDIWidget::getTitle() const
         {
             return _p->titleLabel->getText();
         }
 
-        void IToolWidget::setTitle(const std::string & text)
+        void MediaMDIWidget::setTitle(const std::string & text)
         {
             _p->titleLabel->setText(text);
         }
 
-        void IToolWidget::setClosedCallback(const std::function<void(void)> & value)
+        const std::shared_ptr<Media> & MediaMDIWidget::getMedia() const
         {
-            _p->closedCallback = value;
+            return _p->mediaWidget->getMedia();
         }
 
-        void IToolWidget::addWidget(const std::shared_ptr<Widget>& widget)
+        void MediaMDIWidget::setMedia(const std::shared_ptr<Media> & value)
         {
-            _p->childLayout->addWidget(widget);
+            _p->mediaWidget->setMedia(value);
         }
 
-        void IToolWidget::removeWidget(const std::shared_ptr<Widget>& widget)
+        void MediaMDIWidget::setCloseCallback(const std::function<void(void)> & value)
         {
-            _p->childLayout->addWidget(widget);
+            _p->closeCallback = value;
         }
 
-        void IToolWidget::clearWidgets()
+        void MediaMDIWidget::setMaximizeCallback(const std::function<void(void)> & value)
         {
-            _p->childLayout->clearWidgets();
+            _p->maximizeCallback = value;
         }
 
-        float IToolWidget::getHeightForWidth(float value) const
+        float MediaMDIWidget::getHeightForWidth(float value) const
         {
             return _p->border->getHeightForWidth(value);
         }
 
-        void IToolWidget::_preLayoutEvent(Event::PreLayout& event)
+        void MediaMDIWidget::_preLayoutEvent(Event::PreLayout& event)
         {
             _setMinimumSize(_p->border->getMinimumSize());
         }
 
-        void IToolWidget::_layoutEvent(Event::Layout&)
+        void MediaMDIWidget::_layoutEvent(Event::Layout&)
         {
             _p->border->setGeometry(getGeometry());
         }
-
+        
     } // namespace ViewLib
 } // namespace djv
 

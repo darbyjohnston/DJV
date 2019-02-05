@@ -1,69 +1,73 @@
 set(header
-    AboutDialog.h
+    AboutWidget.h
     Application.h
     PaletteSettingsWidget.h
-    ColorPickerTool.h
-    DebugLogDialog.h
-    DebugTool.h
+    ColorPickerWidget.h
+    DebugWidget.h
     DisplaySettingsWidget.h
     Enum.h
+    FileBrowserWidget.h
     FileSystem.h
     FileSystemSettings.h
     GeneralSettingsWidget.h
     HelpSystem.h
-    HistogramTool.h
-    IToolWidget.h
+    HistogramWidget.h
+    IMDIWidget.h
     IViewSystem.h
     ImageSystem.h
     ImageView.h
     ImageViewSystem.h
-    InformationTool.h
+    InformationWidget.h
     LanguageSettingsWidget.h
-    MagnifierTool.h
-    MDIWidget.h
+    LogWidget.h
+    MagnifierWidget.h
     MainWindow.h
     Media.h
+    MediaMDIWidget.h
     MediaWidget.h
     PlaybackSystem.h
     PlaybackWidget.h
     PlaylistWidget.h
-    RecentFilesDialog.h
+    RecentFilesWidget.h
     SettingsSystem.h
+    SettingsWidget.h
     TimelineSlider.h
     ToolSystem.h
     ViewLib.h
     WindowSystem.h)
 set(source
-    AboutDialog.cpp
+    AboutWidget.cpp
     Application.cpp
     PaletteSettingsWidget.cpp
-    ColorPickerTool.cpp
-    DebugLogDialog.cpp
-    DebugTool.cpp
+    ColorPickerWidget.cpp
+    DebugWidget.cpp
     DisplaySettingsWidget.cpp
     Enum.cpp
+    FileBrowserWidget.cpp
     FileSystem.cpp
     FileSystemSettings.cpp
     GeneralSettingsWidget.cpp
     HelpSystem.cpp
-    HistogramTool.cpp
-    IToolWidget.cpp
+    HistogramWidget.cpp
+    IMDIWidget.cpp
     IViewSystem.cpp
     ImageSystem.cpp
     ImageView.cpp
     ImageViewSystem.cpp
-    InformationTool.cpp
+    InformationWidget.cpp
     LanguageSettingsWidget.cpp
-    MagnifierTool.cpp
-    MDIWidget.cpp
+    LogWidget.cpp
+    MagnifierWidget.cpp
     MainWindow.cpp
     Media.cpp
+    MediaMDIWidget.cpp
     MediaWidget.cpp
     PlaybackSystem.cpp
     PlaybackWidget.cpp
     PlaylistWidget.cpp
-    RecentFilesDialog.cpp
+    RecentFilesWidget.cpp
     SettingsSystem.cpp
+    SettingsWidget.cpp
     TimelineSlider.cpp
     ToolSystem.cpp
     WindowSystem.cpp)

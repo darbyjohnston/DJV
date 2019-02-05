@@ -85,18 +85,21 @@ namespace djv
 
             //! \todo Implement me!
             p.actions["ZoomIn"] = UI::Action::create();
+			p.actions["ZoomIn"]->setIcon("djvIconZoomIn");
             p.actions["ZoomIn"]->addShortcut(GLFW_KEY_EQUAL);
             p.actions["ZoomIn"]->addShortcut(GLFW_KEY_KP_ADD);
             p.actions["ZoomIn"]->setEnabled(false);
 
             //! \todo Implement me!
             p.actions["ZoomOut"] = UI::Action::create();
+			p.actions["ZoomOut"]->setIcon("djvIconZoomOut");
             p.actions["ZoomOut"]->addShortcut(GLFW_KEY_MINUS);
             p.actions["ZoomOut"]->addShortcut(GLFW_KEY_KP_SUBTRACT);
             p.actions["ZoomOut"]->setEnabled(false);
 
             //! \todo Implement me!
             p.actions["ResetZoom"] = UI::Action::create();
+			p.actions["ResetZoom"]->setIcon("djvIconZoomReset");
             p.actions["ResetZoom"]->addShortcut(GLFW_KEY_0);
             p.actions["ResetZoom"]->addShortcut(GLFW_KEY_KP_0);
             p.actions["ResetZoom"]->setEnabled(false);
@@ -109,6 +112,7 @@ namespace djv
 
             //! \todo Implement me!
             p.actions["Fit"] = UI::Action::create();
+			p.actions["Fit"]->setIcon("djvIconZoomFit");
             p.actions["Fit"]->addShortcut(GLFW_KEY_BACKSPACE);
             p.actions["Fit"]->addShortcut(GLFW_KEY_KP_ENTER);
             p.actions["Fit"]->setEnabled(false);

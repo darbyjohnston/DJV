@@ -50,7 +50,7 @@ namespace djv
 
             std::map<std::string, std::shared_ptr<UI::Action> > getActions() override;
             NewMenu getMenu() override;
-            std::vector<NewToolWidget> getToolWidgets() override;
+            std::vector<NewMDIWidget> getMDIWidgets() override;
 
         protected:
             void _localeEvent(Core::Event::Locale &) override;

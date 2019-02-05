@@ -27,7 +27,13 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvViewLib/MagnifierTool.h>
+#include <djvViewLib/FileBrowserWidget.h>
+
+#include <djvUI/FileBrowser.h>
+#include <djvUI/MDICanvas.h>
+
+#include <djvCore/Context.h>
+#include <djvCore/FileInfo.h>
 
 using namespace djv::Core;
 
@@ -35,33 +41,60 @@ namespace djv
 {
     namespace ViewLib
     {
-        struct MagnifierTool::Private
+        struct FileBrowserWidget::Private
         {
-
+			bool shown = false;
+			std::shared_ptr<UI::FileBrowser::Widget> fileBrowser;
+            std::function<void(const Core::FileSystem::FileInfo &)> callback;
         };
 
-        void MagnifierTool::_init(Context * context)
+        void FileBrowserWidget::_init(Context * context)
         {
-            IToolWidget::_init(context);
+            IMDIWidget::_init(MDIResize::Maximum, context);
+
+            DJV_PRIVATE_PTR();
+			p.fileBrowser = UI::FileBrowser::Widget::create(context);
+			p.fileBrowser->setPath(Core::FileSystem::Path("."));
+
+			addWidget(p.fileBrowser);
+
+            auto weak = std::weak_ptr<FileBrowserWidget>(std::dynamic_pointer_cast<FileBrowserWidget>(shared_from_this()));
+            p.fileBrowser->setCallback(
+                [weak](const Core::FileSystem::FileInfo & value)
+            {
+                if (auto dialog = weak.lock())
+                {
+                    if (dialog->_p->callback)
+                    {
+                        dialog->_p->callback(value);
+                    }
+                }
+            });
         }
 
-        MagnifierTool::MagnifierTool() :
+		FileBrowserWidget::FileBrowserWidget() :
             _p(new Private)
         {}
 
-        MagnifierTool::~MagnifierTool()
+		FileBrowserWidget::~FileBrowserWidget()
         {}
 
-        std::shared_ptr<MagnifierTool> MagnifierTool::create(Context * context)
+        std::shared_ptr<FileBrowserWidget> FileBrowserWidget::create(Context * context)
         {
-            auto out = std::shared_ptr<MagnifierTool>(new MagnifierTool);
+            auto out = std::shared_ptr<FileBrowserWidget>(new FileBrowserWidget);
             out->_init(context);
             return out;
         }
 
-        void MagnifierTool::_localeEvent(Event::Locale &)
+        void FileBrowserWidget::setCallback(const std::function<void(const Core::FileSystem::FileInfo &)> & value)
         {
-            setTitle(_getText(DJV_TEXT("djv::ViewLib::MagnifierTool", "Magnifier")));
+            _p->callback = value;
+        }
+
+        void FileBrowserWidget::_localeEvent(Event::Locale &)
+        {
+            DJV_PRIVATE_PTR();
+            setTitle(_getText(DJV_TEXT("djv::ViewLib::FileBrowserWidget", "File Browser")));
         }
 
     } // namespace ViewLib

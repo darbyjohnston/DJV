@@ -29,24 +29,24 @@
 
 #pragma once
 
-#include <djvViewLib/IToolWidget.h>
+#include <djvViewLib/IMDIWidget.h>
 
 namespace djv
 {
     namespace ViewLib
     {
-        class MagnifierTool : public IToolWidget
+        class MagnifierWidget : public IMDIWidget
         {
-            DJV_NON_COPYABLE(MagnifierTool);
+            DJV_NON_COPYABLE(MagnifierWidget);
 
         protected:
             void _init(Core::Context *);
-            MagnifierTool();
+            MagnifierWidget();
 
         public:
-            ~MagnifierTool() override;
+            ~MagnifierWidget() override;
 
-            static std::shared_ptr<MagnifierTool> create(Core::Context *);
+            static std::shared_ptr<MagnifierWidget> create(Core::Context *);
 
         protected:
             void _localeEvent(Core::Event::Locale &) override;

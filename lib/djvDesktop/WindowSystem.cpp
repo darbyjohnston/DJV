@@ -206,6 +206,7 @@ namespace djv
                     0, 0, size.x, size.y,
                     ClearBufferMask(GL_COLOR_BUFFER_BIT),
                     gl::GLenum(GL_NEAREST));
+				//gl::glFlush();
                 glfwSwapBuffers(p.glfwWindow);
             }
         }

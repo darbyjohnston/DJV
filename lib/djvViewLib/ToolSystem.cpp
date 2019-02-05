@@ -29,11 +29,11 @@
 
 #include <djvViewLib/ToolSystem.h>
 
-#include <djvViewLib/ColorPickerTool.h>
-#include <djvViewLib/DebugTool.h>
-#include <djvViewLib/HistogramTool.h>
-#include <djvViewLib/InformationTool.h>
-#include <djvViewLib/MagnifierTool.h>
+#include <djvViewLib/ColorPickerWidget.h>
+#include <djvViewLib/DebugWidget.h>
+#include <djvViewLib/HistogramWidget.h>
+#include <djvViewLib/InformationWidget.h>
+#include <djvViewLib/MagnifierWidget.h>
 
 #include <djvUI/Action.h>
 #include <djvUI/Menu.h>
@@ -52,7 +52,7 @@ namespace djv
         {
             std::map<std::string, std::shared_ptr<UI::Action> > actions;
             std::map<std::string, std::shared_ptr<UI::Menu> > menus;
-            std::map<std::string, std::shared_ptr<IToolWidget> > toolWidgets;
+            std::map<std::string, std::shared_ptr<IMDIWidget> > widgets;
             std::map<std::string, std::shared_ptr<ValueObserver<bool> > > checkedObservers;
         };
 
@@ -88,25 +88,60 @@ namespace djv
             p.menus["Tools"]->addAction(p.actions["Information"]);
             p.menus["Tools"]->addAction(p.actions["Debug"]);
 
-            p.toolWidgets["Magnifier"] = MagnifierTool::create(context);
-            p.toolWidgets["Magnifier"]->hide();
-            p.toolWidgets["ColorPicker"] = ColorPickerTool::create(context);
-            p.toolWidgets["ColorPicker"]->hide();
-            p.toolWidgets["Histogram"] = HistogramTool::create(context);
-            p.toolWidgets["Histogram"]->hide();
-            p.toolWidgets["Information"] = InformationTool::create(context);
-            p.toolWidgets["Information"]->hide();
-            p.toolWidgets["Debug"] = DebugTool::create(context);
-            p.toolWidgets["Debug"]->hide();
+            p.widgets["Magnifier"] = MagnifierWidget::create(context);
+            p.widgets["ColorPicker"] = ColorPickerWidget::create(context);
+            p.widgets["Histogram"] = HistogramWidget::create(context);
+            p.widgets["Information"] = InformationWidget::create(context);
+            p.widgets["Debug"] = DebugWidget::create(context);
 
             auto weak = std::weak_ptr<ToolSystem>(std::dynamic_pointer_cast<ToolSystem>(shared_from_this()));
-            p.checkedObservers["Magnifier"] = ValueObserver<bool>::create(
+			p.widgets["Magnifier"]->setCloseCallback(
+				[weak]
+			{
+				if (auto system = weak.lock())
+				{
+					system->_p->actions["Magnifier"]->setChecked(false);
+					system->_p->actions["Magnifier"]->doChecked();
+				}
+			});
+			p.widgets["ColorPicker"]->setCloseCallback(
+				[weak]
+			{
+				if (auto system = weak.lock())
+				{
+					system->_p->actions["ColorPicker"]->setChecked(false);
+					system->_p->actions["ColorPicker"]->doChecked();
+				}
+			});
+			p.widgets["Histogram"]->setCloseCallback(
+				[weak]
+			{
+				if (auto system = weak.lock())
+				{
+					system->_p->actions["Histogram"]->setChecked(false);
+					system->_p->actions["Histogram"]->doChecked();
+				}
+			});
+			p.widgets["Information"]->setCloseCallback(
+				[weak]
+			{
+				if (auto system = weak.lock())
+				{
+					system->_p->actions["Information"]->setChecked(false);
+					system->_p->actions["Information"]->doChecked();
+				}
+			});
+			p.checkedObservers["Magnifier"] = ValueObserver<bool>::create(
                 p.actions["Magnifier"]->observeChecked(),
                 [weak](bool value)
             {
                 if (auto system = weak.lock())
                 {
-                    system->_p->toolWidgets["Magnifier"]->setVisible(value);
+					if (value)
+					{
+						system->_p->widgets["Magnifier"]->moveToFront();
+					}
+                    system->_p->widgets["Magnifier"]->setVisible(value);
                 }
             });
             p.checkedObservers["ColorPicker"] = ValueObserver<bool>::create(
@@ -115,7 +150,11 @@ namespace djv
             {
                 if (auto system = weak.lock())
                 {
-                    system->_p->toolWidgets["ColorPicker"]->setVisible(value);
+					if (value)
+					{
+						system->_p->widgets["ColorPicker"]->moveToFront();
+					}
+					system->_p->widgets["ColorPicker"]->setVisible(value);
                 }
             });
             p.checkedObservers["Histogram"] = ValueObserver<bool>::create(
@@ -124,7 +163,11 @@ namespace djv
             {
                 if (auto system = weak.lock())
                 {
-                    system->_p->toolWidgets["Histogram"]->setVisible(value);
+					if (value)
+					{
+						system->_p->widgets["Histogram"]->moveToFront();
+					}
+					system->_p->widgets["Histogram"]->setVisible(value);
                 }
             });
             p.checkedObservers["Information"] = ValueObserver<bool>::create(
@@ -133,7 +176,11 @@ namespace djv
             {
                 if (auto system = weak.lock())
                 {
-                    system->_p->toolWidgets["Information"]->setVisible(value);
+					if (value)
+					{
+						system->_p->widgets["Information"]->moveToFront();
+					}
+					system->_p->widgets["Information"]->setVisible(value);
                 }
             });
             p.checkedObservers["Debug"] = ValueObserver<bool>::create(
@@ -142,7 +189,11 @@ namespace djv
             {
                 if (auto system = weak.lock())
                 {
-                    system->_p->toolWidgets["Debug"]->setVisible(value);
+					if (value)
+					{
+						system->_p->widgets["Debug"]->moveToFront();
+					}
+					system->_p->widgets["Debug"]->setVisible(value);
                 }
             });
         }
@@ -172,16 +223,16 @@ namespace djv
             return { p.menus["Tools"], "F" };
         }
 
-        std::vector<NewToolWidget> ToolSystem::getToolWidgets()
+        std::vector<NewMDIWidget> ToolSystem::getMDIWidgets()
         {
             DJV_PRIVATE_PTR();
             return
             {
-                NewToolWidget(p.toolWidgets["Magnifier"], "F1"),
-                NewToolWidget(p.toolWidgets["ColorPicker"], "F2"),
-                NewToolWidget(p.toolWidgets["Histogram"], "F3"),
-                NewToolWidget(p.toolWidgets["Information"], "F4"),
-                NewToolWidget(p.toolWidgets["Debug"], "F5")
+                NewMDIWidget(p.widgets["Magnifier"], "F1"),
+                NewMDIWidget(p.widgets["ColorPicker"], "F2"),
+                NewMDIWidget(p.widgets["Histogram"], "F3"),
+                NewMDIWidget(p.widgets["Information"], "F4"),
+                NewMDIWidget(p.widgets["Debug"], "F5")
             };
         }
 

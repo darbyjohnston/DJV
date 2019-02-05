@@ -29,27 +29,47 @@
 
 #pragma once
 
-#include <djvUI/IDialog.h>
+#include <djvUI/MDIWidget.h>
 
 namespace djv
 {
     namespace ViewLib
     {
-        class AboutDialog : public UI::IDialog
+		enum class MDIResize
+		{
+			Minimum,
+			Maximum,
+
+			Count,
+			First = Minimum
+		};
+
+        class IMDIWidget : public UI::MDI::IWidget
         {
-            DJV_NON_COPYABLE(AboutDialog);
+            DJV_NON_COPYABLE(IMDIWidget);
 
         protected:
-            void _init(Core::Context *);
-            AboutDialog();
+            void _init(MDIResize, Core::Context *);
+            IMDIWidget();
 
         public:
-            ~AboutDialog() override;
+            ~IMDIWidget() override = 0;
 
-            static std::shared_ptr<AboutDialog> create(Core::Context *);
+            const std::string & getTitle() const;
+            void setTitle(const std::string &);
+
+            void setCloseCallback(const std::function<void(void)> &);
+
+            void addWidget(const std::shared_ptr<Widget>&) override;
+            void removeWidget(const std::shared_ptr<Widget>&) override;
+            void clearWidgets() override;
+
+			void setVisible(bool) override;
+            float getHeightForWidth(float) const override;
 
         protected:
-            void _localeEvent(Core::Event::Locale &) override;
+            void _preLayoutEvent(Core::Event::PreLayout&) override;
+            void _layoutEvent(Core::Event::Layout&) override;
 
         private:
             DJV_PRIVATE();

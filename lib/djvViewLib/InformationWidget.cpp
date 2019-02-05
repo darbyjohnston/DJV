@@ -27,39 +27,42 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#pragma once
+#include <djvViewLib/InformationWidget.h>
 
-#include <djvViewLib/Enum.h>
-#include <djvViewLib/IViewSystem.h>
-
-#include <djvCore/ValueObserver.h>
+using namespace djv::Core;
 
 namespace djv
 {
     namespace ViewLib
     {
-        class SettingsSystem : public IViewSystem
+        struct InformationWidget::Private
         {
-            DJV_NON_COPYABLE(SettingsSystem);
 
-        protected:
-            void _init(Core::Context *);
-            SettingsSystem();
-
-        public:
-            ~SettingsSystem() override;
-
-            static std::shared_ptr<SettingsSystem> create(Core::Context *);
-
-			void showSettings();
-            
-            std::map<std::string, std::shared_ptr<UI::Action> > getActions() override;
-            std::vector<NewSettingsWidget> getSettingsWidgets() override;
-			std::vector<NewMDIWidget> getMDIWidgets() override;
-            
-        private:
-            DJV_PRIVATE();
         };
+
+        void InformationWidget::_init(Context * context)
+        {
+            IMDIWidget::_init(MDIResize::Minimum, context);
+        }
+
+        InformationWidget::InformationWidget() :
+            _p(new Private)
+        {}
+
+        InformationWidget::~InformationWidget()
+        {}
+
+        std::shared_ptr<InformationWidget> InformationWidget::create(Context * context)
+        {
+            auto out = std::shared_ptr<InformationWidget>(new InformationWidget);
+            out->_init(context);
+            return out;
+        }
+
+        void InformationWidget::_localeEvent(Event::Locale &)
+        {
+            setTitle(_getText(DJV_TEXT("djv::ViewLib::InformationWidget", "Information")));
+        }
 
     } // namespace ViewLib
 } // namespace djv
