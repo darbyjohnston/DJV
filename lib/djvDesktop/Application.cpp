@@ -195,6 +195,7 @@ namespace djv
                     nullptr,
                     GL_TRUE);
             }
+			glfwSwapInterval(1);
 
             p.systems.push_back(UI::UISystem::create(p.dpi, this));
             p.systems.push_back(EventSystem::create(p.glfwWindow, this));
