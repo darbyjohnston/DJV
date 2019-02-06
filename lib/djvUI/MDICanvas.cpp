@@ -456,8 +456,12 @@ namespace djv
                                 Hovered hovered;
                                 hovered.widget = widget;
                                 hovered.handle = handle;
-                                p.hovered[pointerInfo.id] = hovered;
-                                _redraw();
+								const auto j = p.hovered.find(pointerInfo.id);
+								if (j != p.hovered.end() && j->second.widget != widget && j->second.handle != handle)
+								{
+									p.hovered[pointerInfo.id] = hovered;
+									_redraw();
+								}
                             }
                         }
                     }
