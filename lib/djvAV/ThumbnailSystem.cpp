@@ -302,7 +302,7 @@ namespace djv
         }
 
         ThumbnailSystem::InfoFuture ThumbnailSystem::getInfo(const FileSystem::Path& path)
-        {
+		{
             DJV_PRIVATE_PTR();
             InfoRequest request;
             request.path = path;
@@ -512,7 +512,7 @@ namespace djv
                             }
                             else
                             {
-                                i.promise.set_exception(nullptr);
+                                i.promise.set_value(nullptr);
                             }
                         }
                         catch (const std::exception& e)
