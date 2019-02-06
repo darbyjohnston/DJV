@@ -441,6 +441,23 @@ namespace djv
                             p.infoPromise.set_value(Info());
                             context->log("djvAV::IO::FFmpeg::Read", e.what(), LogLevel::Error);
                         }
+						if (p.avFrameRgb)
+						{
+							av_frame_free(&p.avFrameRgb);
+						}
+						if (p.avFrame)
+						{
+							av_frame_free(&p.avFrame);
+						}
+						for (auto i : p.avCodecContext)
+						{
+							avcodec_close(i.second);
+							avcodec_free_context(&i.second);
+						}
+						if (p.avFormatContext)
+						{
+							avformat_close_input(&p.avFormatContext);
+						}
                     });
                 }
 
