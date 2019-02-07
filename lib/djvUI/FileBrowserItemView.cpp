@@ -200,9 +200,9 @@ namespace djv
 
             void ItemView::_layoutEvent(Event::Layout& event)
             {
+				DJV_PRIVATE_PTR();
                 if (auto style = _getStyle().lock())
                 {
-                    DJV_PRIVATE_PTR();
                     const BBox2f & g = getGeometry();
                     const float m = style->getMetric(Style::MetricsRole::MarginSmall);
                     const float s = style->getMetric(Style::MetricsRole::SpacingSmall);
@@ -244,14 +244,16 @@ namespace djv
 
             void ItemView::_clipEvent(Event::Clip& event)
             {
-                DJV_PRIVATE_PTR();
+				DJV_PRIVATE_PTR();
+				if (isClipped())
+					return;
                 auto context = getContext();
                 auto style = _getStyle().lock();
                 auto fontSystem = _getFontSystem().lock();
                 const auto & clipRect = event.getClipRect();
                 for (const auto & i : p.itemGeometry)
                 {
-                    if (i.second.intersects(clipRect))
+                    if (i.first < p.items.size() && i.second.intersects(clipRect))
                     {
                         {
                             const auto j = p.nameLines.find(i.first);
@@ -260,15 +262,12 @@ namespace djv
                                 const auto k = p.nameLinesFutures.find(i.first);
                                 if (k == p.nameLinesFutures.end())
                                 {
-                                    if (i.first < p.items.size())
-                                    {
-                                        const auto & fileInfo = p.items[i.first];
-                                        const float tw = style->getMetric(p.getThumbnailWidth());
-                                        const float m = style->getMetric(Style::MetricsRole::MarginSmall);
-                                        const auto fontInfo = style->getFontInfo(AV::Font::Info::faceDefault, Style::MetricsRole::FontMedium);
-                                        p.nameLinesFutures[i.first] = fontSystem->textLines(
-                                            fileInfo.getFileName(Frame::Invalid, false), tw - m * 2.f, fontInfo);
-                                    }
+                                    const auto & fileInfo = p.items[i.first];
+                                    const float tw = style->getMetric(p.getThumbnailWidth());
+                                    const float m = style->getMetric(Style::MetricsRole::MarginSmall);
+                                    const auto fontInfo = style->getFontInfo(AV::Font::Info::faceDefault, Style::MetricsRole::FontMedium);
+                                    p.nameLinesFutures[i.first] = fontSystem->textLines(
+                                        fileInfo.getFileName(Frame::Invalid, false), tw - m * 2.f, fontInfo);
                                 }
                             }
                         }
@@ -277,18 +276,15 @@ namespace djv
                             {
                                 if (p.ioInfoFutures.find(i.first) == p.ioInfoFutures.end())
                                 {
-                                    if (i.first < p.items.size())
+                                    const auto & fileInfo = p.items[i.first];
+                                    auto thumbnailSystem = context->getSystemT<AV::ThumbnailSystem>().lock();
+                                    auto ioSystem = context->getSystemT<AV::IO::System>().lock();
+                                    if (thumbnailSystem && ioSystem)
                                     {
-                                        const auto & fileInfo = p.items[i.first];
-                                        auto thumbnailSystem = context->getSystemT<AV::ThumbnailSystem>().lock();
-                                        auto ioSystem = context->getSystemT<AV::IO::System>().lock();
-                                        if (thumbnailSystem && ioSystem)
+                                        const auto & path = fileInfo.getPath();
+                                        if (ioSystem->canRead(path))
                                         {
-                                            const auto & path = fileInfo.getPath();
-                                            if (ioSystem->canRead(path))
-                                            {
-                                                p.ioInfoFutures[i.first] = thumbnailSystem->getInfo(path);
-                                            }
+                                            p.ioInfoFutures[i.first] = thumbnailSystem->getInfo(path);
                                         }
                                     }
                                 }
@@ -299,21 +295,18 @@ namespace djv
                             {
                                 if (p.thumbnailsFutures.find(i.first) == p.thumbnailsFutures.end())
                                 {
-                                    if (i.first < p.items.size())
+                                    const auto & fileInfo = p.items[i.first];
+                                    const auto & path = fileInfo.getPath();
+                                    auto thumbnailSystem = context->getSystemT<AV::ThumbnailSystem>().lock();
+                                    auto ioSystem = context->getSystemT<AV::IO::System>().lock();
+                                    auto style = _getStyle().lock();
+                                    if (thumbnailSystem && ioSystem && ioSystem->canRead(path) && style)
                                     {
-                                        const auto & fileInfo = p.items[i.first];
-                                        const auto & path = fileInfo.getPath();
-                                        auto thumbnailSystem = context->getSystemT<AV::ThumbnailSystem>().lock();
-                                        auto ioSystem = context->getSystemT<AV::IO::System>().lock();
-                                        auto style = _getStyle().lock();
-                                        if (thumbnailSystem && ioSystem && ioSystem->canRead(path) && style)
-                                        {
-                                            const float tw = style->getMetric(p.getThumbnailWidth());
-                                            const float th = style->getMetric(p.getThumbnailHeight());
-                                            p.thumbnailsFutures[i.first] = thumbnailSystem->getImage(
-                                                path,
-                                                glm::ivec2(static_cast<int>(tw), static_cast<int>(th)));
-                                        }
+                                        const float tw = style->getMetric(p.getThumbnailWidth());
+                                        const float th = style->getMetric(p.getThumbnailHeight());
+                                        p.thumbnailsFutures[i.first] = thumbnailSystem->getImage(
+                                            path,
+                                            glm::ivec2(static_cast<int>(tw), static_cast<int>(th)));
                                     }
                                 }
                             }
@@ -382,33 +375,36 @@ namespace djv
                                     const auto j = p.thumbnails.find(index);
                                     if (j != p.thumbnails.end())
                                     {
-                                        opacity = 1.f;
-                                        const auto k = p.thumbnailsTimers.find(index);
-                                        if (k != p.thumbnailsTimers.end())
-                                        {
-                                            opacity = std::min((ut - k->second) / thumbnailsFadeTime, 1.f);
-                                        }
-                                        const auto & size = j->second->getSize();
-                                        float x = 0.f;
-                                        float y = 0.f;
-                                        switch (p.viewType)
-                                        {
-                                        case ViewType::ThumbnailsLarge:
-                                        case ViewType::ThumbnailsSmall:
-                                            x = floor(i->second.min.x + m + tw / 2.f - size.x / 2.f);
-                                            y = floor(i->second.min.y + m + th - size.y);
-                                            break;
-                                        case ViewType::ListView:
-                                            x = floor(i->second.min.x + m);
-                                            y = floor(i->second.min.y + i->second.h() / 2.f - size.y / 2.f);
-                                            break;
-                                        default: break;
-                                        }
-                                        render->setFillColor(_getColorWithOpacity(AV::Image::Color(1.f, 1.f, 1.f, opacity)));
-                                        render->drawImage(
-                                            j->second,
-                                            BBox2f(x, y, static_cast<float>(size.x), static_cast<float>(size.y)),
-                                            AV::Render::ImageCache::Static);
+										if (j->second)
+										{
+											opacity = 1.f;
+											const auto k = p.thumbnailsTimers.find(index);
+											if (k != p.thumbnailsTimers.end())
+											{
+												opacity = std::min((ut - k->second) / thumbnailsFadeTime, 1.f);
+											}
+											const auto & size = j->second->getSize();
+											float x = 0.f;
+											float y = 0.f;
+											switch (p.viewType)
+											{
+											case ViewType::ThumbnailsLarge:
+											case ViewType::ThumbnailsSmall:
+												x = floor(i->second.min.x + m + tw / 2.f - size.x / 2.f);
+												y = floor(i->second.min.y + m + th - size.y);
+												break;
+											case ViewType::ListView:
+												x = floor(i->second.min.x + m);
+												y = floor(i->second.min.y + i->second.h() / 2.f - size.y / 2.f);
+												break;
+											default: break;
+											}
+											render->setFillColor(_getColorWithOpacity(AV::Image::Color(1.f, 1.f, 1.f, opacity)));
+											render->drawImage(
+												j->second,
+												BBox2f(x, y, static_cast<float>(size.x), static_cast<float>(size.y)),
+												AV::Render::ImageCache::Static);
+										}
                                     }
                                 }
                                 if (opacity < 1.f)
@@ -665,6 +661,7 @@ namespace djv
                             }
                             catch (const std::exception& e)
                             {
+								p.ioInfo[i->first] = AV::IO::Info();
                                 _log(e.what(), LogLevel::Error);
                             }
                             i = p.ioInfoFutures.erase(i);
@@ -682,7 +679,8 @@ namespace djv
                         if (i->second.future.valid() &&
                             i->second.future.wait_for(std::chrono::seconds(0)) == std::future_status::ready)
                         {
-                            try
+							p.thumbnails[i->first] = nullptr;
+							try
                             {
                                 if (const auto image = i->second.future.get())
                                 {
@@ -787,17 +785,15 @@ namespace djv
 
             void ItemView::_itemsUpdate()
             {
-                if (auto style = _getStyle().lock())
+				DJV_PRIVATE_PTR();
+				if (auto style = _getStyle().lock())
                 {
                     if (auto fontSystem = _getFontSystem().lock())
                     {
-                        DJV_PRIVATE_PTR();
-
                         p.nameFontMetricsFuture = fontSystem->getMetrics(
                             style->getFontInfo(AV::Font::Info::faceDefault, Style::MetricsRole::FontMedium));
                         p.typeFontMetricsFuture = fontSystem->getMetrics(
                             style->getFontInfo(AV::Font::Info::faceDefault, Style::MetricsRole::FontMedium));
-                        
                         p.nameLines.clear();
                         p.nameLinesFutures.clear();
                         p.ioInfo.clear();
