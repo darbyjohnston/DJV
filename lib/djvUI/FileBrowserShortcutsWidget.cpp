@@ -56,7 +56,7 @@ namespace djv
     {
         namespace FileBrowser
         {
-            struct ShorcutsWidget::Private
+            struct ShortcutsWidget::Private
             {
                 std::vector<FileSystem::Path> shortcuts;
                 std::shared_ptr<ActionGroup> actionGroup;
@@ -64,11 +64,11 @@ namespace djv
                 std::function<void(const FileSystem::Path &)> shortcutCallback;
             };
 
-            void ShorcutsWidget::_init(Context * context)
+            void ShortcutsWidget::_init(Context * context)
             {
                 UI::Widget::_init(context);
 
-                setClassName("djv::UI::FileBrowser::ShorcutsWidget");
+                setClassName("djv::UI::FileBrowser::ShortcutsWidget");
 
                 DJV_PRIVATE_PTR();
                 p.actionGroup = ActionGroup::create(ButtonType::Push);
@@ -106,7 +106,7 @@ namespace djv
                 p.layout->addWidget(scrollWidget, Layout::RowStretch::Expand);
                 p.layout->setParent(shared_from_this());
 
-                auto weak = std::weak_ptr<ShorcutsWidget>(std::dynamic_pointer_cast<ShorcutsWidget>(shared_from_this()));
+                auto weak = std::weak_ptr<ShortcutsWidget>(std::dynamic_pointer_cast<ShortcutsWidget>(shared_from_this()));
                 p.actionGroup->setPushCallback(
                     [weak](int value)
                 {
@@ -120,31 +120,31 @@ namespace djv
                 });
             }
 
-            ShorcutsWidget::ShorcutsWidget() :
+			ShortcutsWidget::ShortcutsWidget() :
                 _p(new Private)
             {}
 
-            ShorcutsWidget::~ShorcutsWidget()
+			ShortcutsWidget::~ShortcutsWidget()
             {}
 
-            std::shared_ptr<ShorcutsWidget> ShorcutsWidget::create(Context * context)
+            std::shared_ptr<ShortcutsWidget> ShortcutsWidget::create(Context * context)
             {
-                auto out = std::shared_ptr<ShorcutsWidget>(new ShorcutsWidget);
+                auto out = std::shared_ptr<ShortcutsWidget>(new ShortcutsWidget);
                 out->_init(context);
                 return out;
             }
 
-            void ShorcutsWidget::setShortcutCallback(const std::function<void(const FileSystem::Path &)> & value)
+            void ShortcutsWidget::setShortcutCallback(const std::function<void(const FileSystem::Path &)> & value)
             {
                 _p->shortcutCallback = value;
             }
 
-            void ShorcutsWidget::_preLayoutEvent(Event::PreLayout& event)
+            void ShortcutsWidget::_preLayoutEvent(Event::PreLayout& event)
             {
                 _setMinimumSize(_p->layout->getMinimumSize());
             }
 
-            void ShorcutsWidget::_layoutEvent(Event::Layout& event)
+            void ShortcutsWidget::_layoutEvent(Event::Layout& event)
             {
                 _p->layout->setGeometry(getGeometry());
             }

@@ -207,7 +207,7 @@ namespace djv
                 bottomToolBar->addAction(p.actions["FileSequences"]);
                 bottomToolBar->addWidget(searchBox);
 
-                auto shortcutsWidget = ShorcutsWidget::create(context);
+                auto shortcutsWidget = ShortcutsWidget::create(context);
 
                 p.itemView = ItemView::create(context);
                 p.scrollWidget = ScrollWidget::create(ScrollType::Vertical, context);
