@@ -47,7 +47,9 @@ namespace djv
 			bool shown = false;
 			MDIResize resize = MDIResize::First;
             std::shared_ptr<UI::Label> titleLabel;
-            std::shared_ptr<UI::Layout::Horizontal> titleBar;
+			std::shared_ptr<UI::Layout::Horizontal> titleBar;
+			std::shared_ptr<UI::Layout::Horizontal> titleBarWidgetLayout;
+			std::shared_ptr<UI::Button::Tool> closeButton;
             std::shared_ptr<UI::Layout::Vertical> childLayout;
             std::shared_ptr<UI::Layout::Vertical> layout;
             std::shared_ptr<UI::Layout::Border> border;
@@ -65,15 +67,16 @@ namespace djv
             p.titleLabel->setTextHAlign(UI::TextHAlign::Left);
             p.titleLabel->setMargin(UI::Style::MetricsRole::Margin);
 
-            auto closeButton = UI::Button::Tool::create(context);
-            closeButton->setIcon("djvIconCloseSmall");
+            p.closeButton = UI::Button::Tool::create(context);
+			p.closeButton->setIcon("djvIconCloseSmall");
 
             p.titleBar = UI::Layout::Horizontal::create(context);
-            p.titleBar->addWidget(p.titleLabel, UI::Layout::RowStretch::Expand);
-            auto hLayout = UI::Layout::Horizontal::create(context);
-            hLayout->setSpacing(UI::Style::MetricsRole::None);
-            hLayout->addWidget(closeButton);
-            p.titleBar->addWidget(hLayout);
+			p.titleBar->setSpacing(UI::Style::MetricsRole::None);
+			p.titleBar->addWidget(p.titleLabel, UI::Layout::RowStretch::Expand);
+			p.titleBarWidgetLayout = UI::Layout::Horizontal::create(context);
+			p.titleBarWidgetLayout->setSpacing(UI::Style::MetricsRole::None);
+			p.titleBar->addWidget(p.titleBarWidgetLayout);
+			p.titleBar->addWidget(p.closeButton);
 
             p.childLayout = UI::Layout::Vertical::create(context);
 
@@ -90,7 +93,7 @@ namespace djv
             IContainer::addWidget(p.border);
 
             auto weak = std::weak_ptr<IMDIWidget>(std::dynamic_pointer_cast<IMDIWidget>(shared_from_this()));
-            closeButton->setClickedCallback(
+            p.closeButton->setClickedCallback(
                 [weak]
             {
                 if (auto widget = weak.lock())
@@ -121,6 +124,11 @@ namespace djv
         {
             _p->closeCallback = value;
         }
+
+		void IMDIWidget::addTitleBarWidget(const std::shared_ptr<Widget> & widget)
+		{
+			_p->titleBarWidgetLayout->addWidget(widget);
+		}
 
         void IMDIWidget::addWidget(const std::shared_ptr<Widget>& widget)
         {
@@ -199,6 +207,12 @@ namespace djv
         {
             _p->border->setGeometry(getGeometry());
         }
+
+		void IMDIWidget::_localeEvent(Event::Locale &)
+		{
+			DJV_PRIVATE_PTR();
+			p.closeButton->setTooltip(_getText(DJV_TEXT("djv::ViewLib::IMDIWidget", "Close Tooltip")));
+		}
 
     } // namespace ViewLib
 } // namespace djv

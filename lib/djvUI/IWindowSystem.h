@@ -61,6 +61,7 @@ namespace djv
 
         protected:
             virtual void _addWindow(const std::shared_ptr<Window>&);
+			//! \bug This function never gets called...
             virtual void _removeWindow(const std::shared_ptr<Window>&);
 
             virtual void _pushClipRect(const Core::BBox2f &);

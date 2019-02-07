@@ -222,8 +222,9 @@ namespace djv
             return out;
         }
 
-        void AboutWidget::_localeEvent(Event::Locale &)
+        void AboutWidget::_localeEvent(Event::Locale & event)
         {
+			IMDIWidget::_localeEvent(event);
 			DJV_PRIVATE_PTR();
 			setTitle(_getText(DJV_TEXT("djv::ViewLib::AboutWidget", "About")));
             std::stringstream ss;

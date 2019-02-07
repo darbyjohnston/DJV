@@ -123,8 +123,9 @@ namespace djv
 			return out;
 		}
 
-		void SettingsWidget::_localeEvent(Event::Locale &)
+		void SettingsWidget::_localeEvent(Event::Locale & event)
 		{
+			IMDIWidget::_localeEvent(event);
 			DJV_PRIVATE_PTR();
 			setTitle(_getText(DJV_TEXT("djv::ViewLib::SettingsWidget", "Settings")));
 			for (const auto & i : p.names)

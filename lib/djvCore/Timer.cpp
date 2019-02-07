@@ -142,31 +142,17 @@ namespace djv
             void TimerSystem::tick(float dt)
             {
                 DJV_PRIVATE_PTR();
-                std::vector<std::weak_ptr<Timer> > zombies;
-                const auto timers = p.timers;
-                for (const auto& t : timers)
+				auto i = p.timers.begin();
+                while (i != p.timers.end())
                 {
-                    if (auto timer = t.lock())
+                    if (auto timer = i->lock())
                     {
                         timer->_tick(dt);
+						++i;
                     }
                     else
                     {
-                        zombies.push_back(t);
-                    }
-                }
-                for (const auto& zombie : zombies)
-                {
-                    const auto i = std::find_if(
-                        p.timers.begin(),
-                        p.timers.end(),
-                        [zombie](const std::weak_ptr<Timer>& other)
-                    {
-                        return zombie.lock() == other.lock();
-                    });
-                    if (i != p.timers.end())
-                    {
-                        p.timers.erase(i);
+						i = p.timers.erase(i);
                     }
                 }
             }

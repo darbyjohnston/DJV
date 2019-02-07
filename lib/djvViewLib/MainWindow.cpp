@@ -272,25 +272,32 @@ namespace djv
                             }
                             mainWindow->_p->mediaMDICanvas->setWidgetPos(mediaMDIWidget, pos - size / 2.f);
                             mainWindow->_p->mediaToMDIWidget[value.first] = mediaMDIWidget;
+							auto weak = std::weak_ptr<MediaMDIWidget>(std::dynamic_pointer_cast<MediaMDIWidget>(mediaMDIWidget));
 							mediaMDIWidget->setMaximizeCallback(
-                                [context, value]
+                                [weak, context]
                             {
-                                if (auto fileSystem = context->getSystemT<FileSystem>().lock())
-                                {
-                                    fileSystem->setCurrentMedia(value.first);
-                                }
-                                if (auto windowSystem = context->getSystemT<WindowSystem>().lock())
-                                {
-                                    windowSystem->setWindowMode(WindowMode::SDI);
-                                }
+								if (auto widget = weak.lock())
+								{
+									if (auto fileSystem = context->getSystemT<FileSystem>().lock())
+									{
+										fileSystem->setCurrentMedia(widget->getMedia());
+									}
+									if (auto windowSystem = context->getSystemT<WindowSystem>().lock())
+									{
+										windowSystem->setWindowMode(WindowMode::SDI);
+									}
+								}
                             });
 							mediaMDIWidget->setCloseCallback(
-                                [context, mediaMDIWidget]
+                                [weak, context]
                             {
-                                if (auto fileSystem = context->getSystemT<FileSystem>().lock())
-                                {
-                                    fileSystem->close(mediaMDIWidget->getMedia());
-                                }
+								if (auto widget = weak.lock())
+								{
+									if (auto fileSystem = context->getSystemT<FileSystem>().lock())
+									{
+										fileSystem->close(widget->getMedia());
+									}
+								}
                             });
                         }
                     }

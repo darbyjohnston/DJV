@@ -59,8 +59,9 @@ namespace djv
             return out;
         }
 
-        void MagnifierWidget::_localeEvent(Event::Locale &)
+        void MagnifierWidget::_localeEvent(Event::Locale & event)
         {
+			IMDIWidget::_localeEvent(event);
             setTitle(_getText(DJV_TEXT("djv::ViewLib::MagnifierTool", "Magnifier")));
         }
 

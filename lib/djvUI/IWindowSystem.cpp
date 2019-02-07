@@ -75,8 +75,7 @@ namespace djv
         {
             DJV_PRIVATE_PTR();
             Event::Style styleEvent;
-            auto rootObject = getContext()->getRootObject();
-            for (auto window : getContext()->getRootObject()->getChildrenT<Window>())
+            for (auto window : p.windows->get())
             {
                 _styleInit(window);
                 _styleRecursive(window, styleEvent);

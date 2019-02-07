@@ -174,30 +174,17 @@ namespace djv
             void System::tick(float dt)
             {
                 DJV_PRIVATE_PTR();
-                std::vector<std::weak_ptr<Animation> > zombies;
-                for (const auto& a : p.animations)
-                {
-                    if (auto animation = a.lock())
+				auto i = p.animations.begin();
+				while (i != p.animations.end())
+				{
+                    if (auto animation = i->lock())
                     {
                         animation->_tick(dt);
+						++i;
                     }
                     else
                     {
-                        zombies.push_back(a);
-                    }
-                }
-                for (const auto& zombie : zombies)
-                {
-                    const auto i = std::find_if(
-                        p.animations.begin(),
-                        p.animations.end(),
-                        [zombie](const std::weak_ptr<Animation>& other)
-                    {
-                        return zombie.lock() == other.lock();
-                    });
-                    if (i != p.animations.end())
-                    {
-                        p.animations.erase(i);
+						i = p.animations.erase(i);
                     }
                 }
             }

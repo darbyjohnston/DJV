@@ -31,6 +31,7 @@
 
 #include <djvUI/FileBrowser.h>
 #include <djvUI/MDICanvas.h>
+#include <djvUI/ToolButton.h>
 
 #include <djvCore/Context.h>
 #include <djvCore/FileInfo.h>
@@ -45,6 +46,7 @@ namespace djv
         {
 			bool shown = false;
 			std::shared_ptr<UI::FileBrowser::Widget> fileBrowser;
+			std::shared_ptr<UI::Button::Tool> pinButton;
             std::function<void(const Core::FileSystem::FileInfo &)> callback;
         };
 
@@ -55,18 +57,26 @@ namespace djv
             DJV_PRIVATE_PTR();
 			p.fileBrowser = UI::FileBrowser::Widget::create(context);
 			p.fileBrowser->setPath(Core::FileSystem::Path("."));
-
 			addWidget(p.fileBrowser);
+
+			p.pinButton = UI::Button::Tool::create(context);
+			p.pinButton->setButtonType(UI::ButtonType::Toggle);
+			p.pinButton->setIcon("djvIconPinSmall");
+			addTitleBarWidget(p.pinButton);
 
             auto weak = std::weak_ptr<FileBrowserWidget>(std::dynamic_pointer_cast<FileBrowserWidget>(shared_from_this()));
             p.fileBrowser->setCallback(
                 [weak](const Core::FileSystem::FileInfo & value)
             {
-                if (auto dialog = weak.lock())
+                if (auto widget = weak.lock())
                 {
-                    if (dialog->_p->callback)
+					if (!widget->_p->pinButton->isChecked())
+					{
+						widget->hide();
+					}
+                    if (widget->_p->callback)
                     {
-                        dialog->_p->callback(value);
+						widget->_p->callback(value);
                     }
                 }
             });
@@ -91,10 +101,12 @@ namespace djv
             _p->callback = value;
         }
 
-        void FileBrowserWidget::_localeEvent(Event::Locale &)
+        void FileBrowserWidget::_localeEvent(Event::Locale & event)
         {
+			IMDIWidget::_localeEvent(event);
             DJV_PRIVATE_PTR();
             setTitle(_getText(DJV_TEXT("djv::ViewLib::FileBrowserWidget", "File Browser")));
+			p.pinButton->setTooltip(_getText(DJV_TEXT("djv::ViewLib::FileBrowserWidget", "Pin Tooltip")));
         }
 
     } // namespace ViewLib

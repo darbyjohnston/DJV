@@ -41,6 +41,7 @@
 #include <djvUI/ScrollWidget.h>
 #include <djvUI/SearchBox.h>
 #include <djvUI/Toolbar.h>
+#include <djvUI/ToolButton.h>
 
 #include <djvCore/Context.h>
 #include <djvCore/FileInfo.h>
@@ -60,7 +61,8 @@ namespace djv
             size_t itemCount = 0;
             std::shared_ptr<UI::Label> itemCountLabel;
             std::shared_ptr<UI::ScrollWidget> scrollWidget;
-            std::shared_ptr<UI::Layout::Vertical> layout;
+			std::shared_ptr<UI::Button::Tool> pinButton;
+			std::shared_ptr<UI::Layout::Vertical> layout;
             std::function<void(const Core::FileSystem::FileInfo &)> callback;
             std::shared_ptr<ValueObserver<UI::ViewType> > viewTypeObserver;
 
@@ -104,6 +106,11 @@ namespace djv
             scrollWidget->setBorder(false);
             scrollWidget->addWidget(p.itemView);
 
+			p.pinButton = UI::Button::Tool::create(context);
+			p.pinButton->setButtonType(UI::ButtonType::Toggle);
+			p.pinButton->setIcon("djvIconPinSmall");
+			addTitleBarWidget(p.pinButton);
+
             p.layout = UI::Layout::Vertical::create(context);
             p.layout->setSpacing(UI::Style::MetricsRole::None);
             p.layout->addWidget(scrollWidget, UI::Layout::RowStretch::Expand);
@@ -131,6 +138,10 @@ namespace djv
             {
                 if (auto widget = weak.lock())
                 {
+					if (!widget->_p->pinButton->isChecked())
+					{
+						widget->hide();
+					}
                     if (widget->_p->callback)
                     {
                         widget->_p->callback(value);
@@ -186,13 +197,14 @@ namespace djv
             _p->callback = value;
         }
 
-        void RecentFilesWidget::_localeEvent(Event::Locale &)
+        void RecentFilesWidget::_localeEvent(Event::Locale & event)
         {
+			IMDIWidget::_localeEvent(event);
             DJV_PRIVATE_PTR();
             setTitle(_getText(DJV_TEXT("djv::ViewLib::RecentFilesWidget", "Recent Files")));
-
             auto context = getContext();
             p.itemCountLabel->setText(p.getItemCountLabel(p.itemCount, context));
+			p.pinButton->setTooltip(_getText(DJV_TEXT("djv::ViewLib::RecentFilesWidget", "Pin Tooltip")));
         }
 
         std::string RecentFilesWidget::Private::getItemCountLabel(size_t size, Context * context)

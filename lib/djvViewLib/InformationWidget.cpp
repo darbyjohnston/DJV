@@ -59,8 +59,9 @@ namespace djv
             return out;
         }
 
-        void InformationWidget::_localeEvent(Event::Locale &)
+        void InformationWidget::_localeEvent(Event::Locale & event)
         {
+			IMDIWidget::_localeEvent(event);
             setTitle(_getText(DJV_TEXT("djv::ViewLib::InformationWidget", "Information")));
         }
 

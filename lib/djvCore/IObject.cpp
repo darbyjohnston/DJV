@@ -222,25 +222,22 @@ namespace djv
         bool IObject::_eventFilter(Event::IEvent& event)
         {
             bool filtered = false;
-            std::vector<std::weak_ptr<IObject> > zombies;
-            for (const auto& filter : _filters)
-            {
-                if (auto object = filter.lock())
+			auto i = _filters.begin();
+			while (i != _filters.end())
+			{
+                if (auto object = i->lock())
                 {
                     if (object->_eventFilter(shared_from_this(), event))
                     {
                         filtered = true;
                         break;
                     }
+					++i;
                 }
                 else
                 {
-                    zombies.push_back(filter);
+					i = _filters.erase(i);
                 }
-            }
-            for (const auto& zombie : zombies)
-            {
-                removeEventFilter(zombie);
             }
             return filtered;
         }

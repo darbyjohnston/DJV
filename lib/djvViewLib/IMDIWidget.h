@@ -60,6 +60,8 @@ namespace djv
 
             void setCloseCallback(const std::function<void(void)> &);
 
+			void addTitleBarWidget(const std::shared_ptr<Widget>&);
+
             void addWidget(const std::shared_ptr<Widget>&) override;
             void removeWidget(const std::shared_ptr<Widget>&) override;
             void clearWidgets() override;
@@ -70,6 +72,8 @@ namespace djv
         protected:
             void _preLayoutEvent(Core::Event::PreLayout&) override;
             void _layoutEvent(Core::Event::Layout&) override;
+
+			void _localeEvent(Core::Event::Locale &) override;
 
         private:
             DJV_PRIVATE();
