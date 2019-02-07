@@ -83,7 +83,7 @@ namespace djv
         {
             std::shared_ptr<Label> titleLabel;
             std::shared_ptr<Layout::Vertical> childLayout;
-            std::shared_ptr<Layout::Border> border;
+            std::shared_ptr<Border> border;
             std::shared_ptr<Layout::Overlay> overlay;
             std::function<void(void)> closeCallback;
         };
@@ -103,7 +103,7 @@ namespace djv
                 UI::Style::MetricsRole::Margin,
                 UI::Style::MetricsRole::Margin));
 
-            auto closeButton = Button::Tool::create(context);
+            auto closeButton = ToolButton::create(context);
             closeButton->setIcon("djvIconClose");
             closeButton->setForegroundColorRole(UI::Style::ColorRole::HeaderForeground);
             closeButton->setHoveredColorRole(UI::Style::ColorRole::HeaderHovered);
@@ -125,7 +125,7 @@ namespace djv
             layout->addWidget(hLayout);
             layout->addWidget(p.childLayout, Layout::RowStretch::Expand);
 
-            p.border = Layout::Border::create(context);
+            p.border = Border::create(context);
             p.border->addWidget(layout);
 
             p.overlay = Layout::Overlay::create(context);

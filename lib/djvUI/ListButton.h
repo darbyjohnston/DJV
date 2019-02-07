@@ -65,5 +65,8 @@ namespace djv
             };
 
         } // namespace Button
+
+		typedef Button::List ListButton;
+
     } // namespace UI
 } // namespace djv

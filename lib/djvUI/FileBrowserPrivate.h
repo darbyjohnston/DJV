@@ -42,6 +42,7 @@ namespace djv
     {
         namespace FileBrowser
         {
+			//! This class provides the file browser path widget.
             class PathWidget : public UI::Widget
             {
                 DJV_NON_COPYABLE(PathWidget);
@@ -72,18 +73,19 @@ namespace djv
                 DJV_PRIVATE();
             };
 
-            class ShorcutsWidget : public UI::Widget
+			//! This class provides the file browser shortcuts widget.
+            class ShortcutsWidget : public UI::Widget
             {
-                DJV_NON_COPYABLE(ShorcutsWidget);
+                DJV_NON_COPYABLE(ShortcutsWidget);
 
             protected:
                 void _init(Core::Context *);
-                ShorcutsWidget();
+				ShortcutsWidget();
 
             public:
-                ~ShorcutsWidget() override;
+                ~ShortcutsWidget() override;
 
-                static std::shared_ptr<ShorcutsWidget> create(Core::Context *);
+                static std::shared_ptr<ShortcutsWidget> create(Core::Context *);
 
                 void setShortcutCallback(const std::function<void(const Core::FileSystem::Path &)> &);
 

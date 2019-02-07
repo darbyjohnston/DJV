@@ -64,5 +64,8 @@ namespace djv
             };
 
         } // namespace Button
+
+		typedef Button::Push PushButton;
+
     } // namespace UI
 } // namespace djv

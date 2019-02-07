@@ -52,7 +52,7 @@ namespace djv
             std::shared_ptr<UI::Label> titleLabel;
             std::shared_ptr<UI::Layout::Horizontal> titleBar;
             std::shared_ptr<UI::Layout::Stack> layout;
-            std::shared_ptr<UI::Layout::Border> border;
+            std::shared_ptr<UI::Border> border;
             std::function<void(void)> maximizeCallback;
             std::function<void(void)> closeCallback;
         };
@@ -68,10 +68,10 @@ namespace djv
             p.titleLabel->setTextHAlign(UI::TextHAlign::Left);
             p.titleLabel->setMargin(UI::Style::MetricsRole::Margin);
 
-            auto maximizeButton = UI::Button::Tool::create(context);
+            auto maximizeButton = UI::ToolButton::create(context);
             maximizeButton->setIcon("djvIconViewLibSDISmall");
 
-            auto closeButton = UI::Button::Tool::create(context);
+            auto closeButton = UI::ToolButton::create(context);
             closeButton->setIcon("djvIconCloseSmall");
 
             p.titleBar = UI::Layout::Horizontal::create(context);
@@ -91,7 +91,7 @@ namespace djv
             vLayout->addExpander();
             p.layout->addWidget(vLayout);
 
-            p.border = UI::Layout::Border::create(context);
+            p.border = UI::Border::create(context);
             p.border->setMargin(UI::Style::MetricsRole::Handle);
             p.border->addWidget(p.layout);
             IContainer::addWidget(p.border);

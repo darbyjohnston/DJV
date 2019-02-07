@@ -41,7 +41,7 @@ namespace djv
     {
         struct Toolbar::Private
         {
-            std::map<std::shared_ptr<Action>, std::shared_ptr<Button::Tool> > actionsToButtons;
+            std::map<std::shared_ptr<Action>, std::shared_ptr<ToolButton> > actionsToButtons;
             struct Observers
             {
                 std::shared_ptr<ValueObserver<ButtonType> > buttonType;
@@ -128,7 +128,7 @@ namespace djv
         void Toolbar::addAction(const std::shared_ptr<Action>& action)
         {
             Widget::addAction(action);
-            auto button = Button::Tool::create(getContext());
+            auto button = ToolButton::create(getContext());
             DJV_PRIVATE_PTR();
             p.layout->addWidget(button);
             button->setClickedCallback(

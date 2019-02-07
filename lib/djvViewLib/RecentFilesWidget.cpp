@@ -61,7 +61,7 @@ namespace djv
             size_t itemCount = 0;
             std::shared_ptr<UI::Label> itemCountLabel;
             std::shared_ptr<UI::ScrollWidget> scrollWidget;
-			std::shared_ptr<UI::Button::Tool> pinButton;
+			std::shared_ptr<UI::ToolButton> pinButton;
 			std::shared_ptr<UI::Layout::Vertical> layout;
             std::function<void(const Core::FileSystem::FileInfo &)> callback;
             std::shared_ptr<ValueObserver<UI::ViewType> > viewTypeObserver;
@@ -106,7 +106,7 @@ namespace djv
             scrollWidget->setBorder(false);
             scrollWidget->addWidget(p.itemView);
 
-			p.pinButton = UI::Button::Tool::create(context);
+			p.pinButton = UI::ToolButton::create(context);
 			p.pinButton->setButtonType(UI::ButtonType::Toggle);
 			p.pinButton->setIcon("djvIconPinSmall");
 			addTitleBarWidget(p.pinButton);

@@ -46,7 +46,7 @@ namespace djv
         {
 			bool shown = false;
 			std::shared_ptr<UI::FileBrowser::Widget> fileBrowser;
-			std::shared_ptr<UI::Button::Tool> pinButton;
+			std::shared_ptr<UI::ToolButton> pinButton;
             std::function<void(const Core::FileSystem::FileInfo &)> callback;
         };
 
@@ -59,7 +59,7 @@ namespace djv
 			p.fileBrowser->setPath(Core::FileSystem::Path("."));
 			addWidget(p.fileBrowser);
 
-			p.pinButton = UI::Button::Tool::create(context);
+			p.pinButton = UI::ToolButton::create(context);
 			p.pinButton->setButtonType(UI::ButtonType::Toggle);
 			p.pinButton->setIcon("djvIconPinSmall");
 			addTitleBarWidget(p.pinButton);

@@ -49,10 +49,10 @@ namespace djv
             std::shared_ptr<UI::Label> titleLabel;
 			std::shared_ptr<UI::Layout::Horizontal> titleBar;
 			std::shared_ptr<UI::Layout::Horizontal> titleBarWidgetLayout;
-			std::shared_ptr<UI::Button::Tool> closeButton;
+			std::shared_ptr<UI::ToolButton> closeButton;
             std::shared_ptr<UI::Layout::Vertical> childLayout;
             std::shared_ptr<UI::Layout::Vertical> layout;
-            std::shared_ptr<UI::Layout::Border> border;
+            std::shared_ptr<UI::Border> border;
             std::function<void(void)> closeCallback;
         };
 
@@ -67,7 +67,7 @@ namespace djv
             p.titleLabel->setTextHAlign(UI::TextHAlign::Left);
             p.titleLabel->setMargin(UI::Style::MetricsRole::Margin);
 
-            p.closeButton = UI::Button::Tool::create(context);
+            p.closeButton = UI::ToolButton::create(context);
 			p.closeButton->setIcon("djvIconCloseSmall");
 
             p.titleBar = UI::Layout::Horizontal::create(context);
@@ -87,7 +87,7 @@ namespace djv
             p.layout->addSeparator();
             p.layout->addWidget(p.childLayout, UI::Layout::RowStretch::Expand);
 
-            p.border = UI::Layout::Border::create(context);
+            p.border = UI::Border::create(context);
             p.border->setMargin(UI::Style::MetricsRole::Handle);
             p.border->addWidget(p.layout);
             IContainer::addWidget(p.border);

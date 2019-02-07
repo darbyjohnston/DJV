@@ -63,7 +63,7 @@ namespace djv
                     _textBlock->setTextHAlign(TextHAlign::Center);
                     _textBlock->setMargin(Style::MetricsRole::MarginLarge);
 
-                    _closeButton = Button::Push::create(context);
+                    _closeButton = PushButton::create(context);
 
                     auto layout = Layout::Vertical::create(context);
                     layout->setMargin(Style::MetricsRole::Margin);
@@ -105,7 +105,7 @@ namespace djv
 
             private:
                 std::shared_ptr<TextBlock> _textBlock;
-                std::shared_ptr<Button::Push> _closeButton;
+                std::shared_ptr<PushButton> _closeButton;
             };
 
             class ConfirmationDialog : public IDialog
@@ -123,8 +123,8 @@ namespace djv
                     _textBlock->setTextHAlign(TextHAlign::Center);
                     _textBlock->setMargin(Style::MetricsRole::MarginLarge);
 
-                    _acceptButton = Button::Push::create(context);
-                    _cancelButton = Button::Push::create(context);
+                    _acceptButton = PushButton::create(context);
+                    _cancelButton = PushButton::create(context);
 
                     auto layout = Layout::Vertical::create(context);
                     layout->setMargin(Style::MetricsRole::Margin);
@@ -200,8 +200,8 @@ namespace djv
 
             private:
                 std::shared_ptr<TextBlock> _textBlock;
-                std::shared_ptr<Button::Push> _acceptButton;
-                std::shared_ptr<Button::Push> _cancelButton;
+                std::shared_ptr<PushButton> _acceptButton;
+                std::shared_ptr<PushButton> _cancelButton;
                 std::function<void(void)> _acceptCallback;
                 std::function<void(void)> _cancelCallback;
             };

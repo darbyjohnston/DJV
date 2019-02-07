@@ -641,7 +641,7 @@ namespace djv
             textBlock->setTextColorRole(Style::ColorRole::TooltipForeground);
             textBlock->setBackgroundRole(Style::ColorRole::TooltipBackground);
             textBlock->setMargin(Style::MetricsRole::Margin);
-            auto border = Layout::Border::create(context);
+            auto border = Border::create(context);
             border->addWidget(textBlock);
             return border;
         }

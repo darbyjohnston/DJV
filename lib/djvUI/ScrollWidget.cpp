@@ -586,7 +586,7 @@ namespace djv
             std::shared_ptr<Widget> scrollAreaSwipe;
             std::map<Orientation, std::shared_ptr<ScrollBar> > scrollBars;
 			bool autoHideScrollBars = false;
-            std::shared_ptr<Layout::Border> border;
+            std::shared_ptr<Border> border;
             Event::PointerID pointerID = Event::InvalidID;
             glm::vec2 pointerPos = glm::vec2(0.f, 0.f);
             std::list<glm::vec2> pointerAverage;
@@ -625,7 +625,7 @@ namespace djv
             layout->addWidget(p.scrollBars[Orientation::Horizontal], glm::ivec2(0, 1));
             layout->addWidget(p.scrollBars[Orientation::Vertical], glm::ivec2(1, 0));
             
-            p.border = Layout::Border::create(context);
+            p.border = Border::create(context);
             p.border->addWidget(layout);
             IContainer::addWidget(p.border);
 

@@ -88,7 +88,7 @@ namespace djv
                     action->setText(text);
                     p.actionGroup->addAction(action);
 
-                    auto button = Button::List::create(context);
+                    auto button = ListButton::create(context);
                     button->setText(text);
                     itemLayout->addWidget(button);
 

@@ -48,5 +48,8 @@ namespace djv
             };
 
         } // namespace Button
+
+		typedef Button::Tool ToolButton;
+
     } // namespace UI
 } // namespace djv

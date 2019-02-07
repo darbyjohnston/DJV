@@ -46,11 +46,11 @@ namespace djv
     {
         struct PaletteSettingsWidget::Private
         {
-            std::vector<std::shared_ptr<UI::Button::List> > buttons;
-            std::shared_ptr<UI::Button::Group> buttonGroup;
+            std::vector<std::shared_ptr<UI::ListButton> > buttons;
+            std::shared_ptr<UI::ButtonGroup> buttonGroup;
             std::shared_ptr<UI::Layout::Flow> layout;
             std::map<int, std::string> indexToPalette;
-            std::map<std::shared_ptr<UI::Button::List>, std::string> buttonToPalette;
+            std::map<std::shared_ptr<UI::ListButton>, std::string> buttonToPalette;
             std::map<std::string, int> paletteToIndex;
             std::shared_ptr<MapObserver<std::string, UI::Style::Palette> > palettesObserver;
             std::shared_ptr<ValueObserver<std::string> > currentPaletteObserver;
@@ -61,7 +61,7 @@ namespace djv
             Widget::_init(context);
 
             DJV_PRIVATE_PTR();
-            p.buttonGroup = UI::Button::Group::create(UI::ButtonType::Radio);
+            p.buttonGroup = UI::ButtonGroup::create(UI::ButtonType::Radio);
 
             p.layout = UI::Layout::Flow::create(context);
             p.layout->setParent(shared_from_this());
@@ -106,7 +106,7 @@ namespace djv
                         int j = 0;
                         for (const auto & i : value)
                         {
-                            auto button = UI::Button::List::create(context);
+                            auto button = UI::ListButton::create(context);
                             widget->_p->buttons.push_back(button);
                             widget->_p->buttonGroup->addButton(button);
                             widget->_p->layout->addWidget(button);

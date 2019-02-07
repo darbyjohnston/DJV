@@ -151,7 +151,7 @@ namespace djv
 
         struct TabBar::Private
         {
-            std::shared_ptr<Button::Group> buttonGroup;
+            std::shared_ptr<ButtonGroup> buttonGroup;
             std::shared_ptr<Layout::Horizontal> layout;
             std::function<void(int)> callback;
             std::function<void(size_t)> removedCallback;
@@ -165,7 +165,7 @@ namespace djv
             setBackgroundRole(Style::ColorRole::Border);
 
             DJV_PRIVATE_PTR();
-            p.buttonGroup = Button::Group::create(ButtonType::Radio);
+            p.buttonGroup = ButtonGroup::create(ButtonType::Radio);
 
             p.layout = Layout::Horizontal::create(context);
             p.layout->setSpacing(Style::MetricsRole::Border);

@@ -53,7 +53,7 @@ namespace djv
                 std::shared_ptr<Icon> icon;
                 std::shared_ptr<Label> label;
                 std::shared_ptr<Layout::Horizontal> layout;
-                std::shared_ptr<Layout::Border> border;
+                std::shared_ptr<Border> border;
                 std::function<void(bool)> checkedCallback;
             };
 
@@ -78,7 +78,7 @@ namespace djv
                 p.layout->addWidget(p.icon);
                 p.layout->addWidget(p.label, Layout::RowStretch::Expand);
 
-                p.border = Layout::Border::create(context);
+                p.border = Border::create(context);
                 p.border->setBorderSize(Style::MetricsRole::None);
                 p.border->addWidget(p.layout);
                 p.border->setParent(shared_from_this());

@@ -50,13 +50,13 @@ int main(int argc, char ** argv)
         layout->setMargin(UI::Style::MetricsRole::MarginLarge);
         layout->setSpacing(UI::Style::MetricsRole::SpacingLarge);
 
-        auto pushButtonGroup = UI::Button::Group::create(UI::ButtonType::Push);
+        auto pushButtonGroup = UI::ButtonGroup::create(UI::ButtonType::Push);
         auto hLayout = UI::Layout::Horizontal::create(app.get());
         for (size_t i = 0; i < 3; ++i)
         {
             std::stringstream ss;
             ss << "Push " << i;
-            auto button = UI::Button::Push::create(ss.str(), app.get());
+            auto button = UI::PushButton::create(ss.str(), app.get());
             pushButtonGroup->addButton(button);
             hLayout->addWidget(button);
         }
@@ -69,13 +69,13 @@ int main(int argc, char ** argv)
         groupBox->addWidget(hLayout);
         layout->addWidget(groupBox);
 
-        auto toggleButtonGroup = UI::Button::Group::create(UI::ButtonType::Toggle);
+        auto toggleButtonGroup = UI::ButtonGroup::create(UI::ButtonType::Toggle);
         hLayout = UI::Layout::Horizontal::create(app.get());
         for (size_t i = 0; i < 3; ++i)
         {
             std::stringstream ss;
             ss << "Toggle " << i;
-            auto button = UI::Button::Push::create(ss.str(), app.get());
+            auto button = UI::PushButton::create(ss.str(), app.get());
             toggleButtonGroup->addButton(button);
             hLayout->addWidget(button);
         }
@@ -88,13 +88,13 @@ int main(int argc, char ** argv)
         groupBox->addWidget(hLayout);
         layout->addWidget(groupBox);
 
-        auto radioButtonGroup = UI::Button::Group::create(UI::ButtonType::Radio);
+        auto radioButtonGroup = UI::ButtonGroup::create(UI::ButtonType::Radio);
         hLayout = UI::Layout::Horizontal::create(app.get());
         for (size_t i = 0; i < 3; ++i)
         {
             std::stringstream ss;
             ss << "Radio " << i;
-            auto button = UI::Button::Push::create(ss.str(), app.get());
+            auto button = UI::PushButton::create(ss.str(), app.get());
             radioButtonGroup->addButton(button);
             hLayout->addWidget(button);
         }
@@ -107,13 +107,13 @@ int main(int argc, char ** argv)
         groupBox->addWidget(hLayout);
         layout->addWidget(groupBox);
 
-        auto exclusiveButtonGroup = UI::Button::Group::create(UI::ButtonType::Exclusive);
+        auto exclusiveButtonGroup = UI::ButtonGroup::create(UI::ButtonType::Exclusive);
         hLayout = UI::Layout::Horizontal::create(app.get());
         for (size_t i = 0; i < 3; ++i)
         {
             std::stringstream ss;
             ss << "Exclusive " << i;
-            auto button = UI::Button::Push::create(ss.str(), app.get());
+            auto button = UI::PushButton::create(ss.str(), app.get());
             exclusiveButtonGroup->addButton(button);
             hLayout->addWidget(button);
         }

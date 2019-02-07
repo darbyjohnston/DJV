@@ -72,11 +72,11 @@ namespace djv
             std::map<std::shared_ptr<Media>, std::shared_ptr<MediaMDIWidget> > mediaToMDIWidget;
             std::shared_ptr<PlaylistWidget> mediaPlaylistWidget;
             std::shared_ptr<UI::Layout::Solo> soloLayout;
-            std::shared_ptr<UI::Button::Tool> mediaSDIButton;
-            std::shared_ptr<UI::Button::Tool> mediaMDIButton;
-            std::shared_ptr<UI::Button::Tool> mediaPlaylistButton;
-            std::shared_ptr<UI::Button::Group> windowButtonGroup;
-			std::shared_ptr<UI::Button::Tool> settingsButton;
+            std::shared_ptr<UI::ToolButton> mediaSDIButton;
+            std::shared_ptr<UI::ToolButton> mediaMDIButton;
+            std::shared_ptr<UI::ToolButton> mediaPlaylistButton;
+            std::shared_ptr<UI::ButtonGroup> windowButtonGroup;
+			std::shared_ptr<UI::ToolButton> settingsButton;
             std::shared_ptr<UI::MDI::Canvas> mdiCanvas;
 			std::shared_ptr<UI::Action> mdiCloseAction;
             std::shared_ptr<UI::Layout::Stack> stackLayout;
@@ -121,21 +121,21 @@ namespace djv
             p.soloLayout->addWidget(p.mediaMDIScrollWidget);
             p.soloLayout->addWidget(p.mediaPlaylistWidget);
 
-            p.mediaSDIButton = UI::Button::Tool::create(context);
+            p.mediaSDIButton = UI::ToolButton::create(context);
             p.mediaSDIButton->setIcon("djvIconViewLibSDISmall");
             p.mediaSDIButton->setInsideMargin(UI::Style::MetricsRole::None);
-            p.mediaMDIButton = UI::Button::Tool::create(context);
+            p.mediaMDIButton = UI::ToolButton::create(context);
             p.mediaMDIButton->setIcon("djvIconViewLibMDISmall");
             p.mediaMDIButton->setInsideMargin(UI::Style::MetricsRole::None);
-            p.mediaPlaylistButton = UI::Button::Tool::create(context);
+            p.mediaPlaylistButton = UI::ToolButton::create(context);
             p.mediaPlaylistButton->setIcon("djvIconViewLibPlaylistSmall");
             p.mediaPlaylistButton->setInsideMargin(UI::Style::MetricsRole::None);
-            p.windowButtonGroup = UI::Button::Group::create(UI::ButtonType::Radio);
+            p.windowButtonGroup = UI::ButtonGroup::create(UI::ButtonType::Radio);
             p.windowButtonGroup->addButton(p.mediaSDIButton);
             p.windowButtonGroup->addButton(p.mediaMDIButton);
             p.windowButtonGroup->addButton(p.mediaPlaylistButton);
 
-			p.settingsButton = UI::Button::Tool::create(context);
+			p.settingsButton = UI::ToolButton::create(context);
 			p.settingsButton->setIcon("djvIconSettingsSmall");
 			p.settingsButton->setInsideMargin(UI::Style::MetricsRole::None);
 

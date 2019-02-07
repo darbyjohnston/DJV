@@ -66,9 +66,9 @@ protected:
     void _layoutEvent(Core::Event::Layout&) override;
 
 private:
-    std::shared_ptr<UI::Button::Tool> _closeButton;
+    std::shared_ptr<UI::ToolButton> _closeButton;
     std::shared_ptr<UI::Layout::Vertical> _layout;
-    std::shared_ptr<UI::Layout::Border> _border;
+    std::shared_ptr<UI::Border> _border;
     std::function<void(void)> _closedCallback;
 };
 
@@ -83,7 +83,7 @@ void MDIWidget::_init(const std::string & title, Core::Context * context)
     titleLabel->setTextColorRole(UI::Style::ColorRole::HeaderForeground);
     titleLabel->setMargin(UI::Style::MetricsRole::Margin);
 
-    _closeButton = UI::Button::Tool::create(context);
+    _closeButton = UI::ToolButton::create(context);
     _closeButton->setIcon("djvIconCloseSmall");
     _closeButton->setInsideMargin(UI::Style::MetricsRole::MarginSmall);
     _closeButton->setForegroundColorRole(UI::Style::ColorRole::HeaderForeground);
@@ -111,7 +111,7 @@ void MDIWidget::_init(const std::string & title, Core::Context * context)
     _layout->addWidget(titleBar);
     _layout->addWidget(scrollWidget, UI::Layout::RowStretch::Expand);
 
-    _border = UI::Layout::Border::create(context);
+    _border = UI::Border::create(context);
     _border->addWidget(_layout);
     IContainer::addWidget(_border);
 }

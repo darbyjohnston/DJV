@@ -77,6 +77,9 @@ namespace djv
             };
 
         } // namespace Layout
+
+		typedef Layout::Border Border;
+
     } // namespace UI
 } // namespace djv
 

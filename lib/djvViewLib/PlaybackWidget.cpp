@@ -42,7 +42,7 @@ namespace djv
         struct PlaybackWidget::Private
         {
             std::shared_ptr<ValueSubject<Playback> > playback;
-            std::shared_ptr<UI::Button::Group> buttonGroup;
+            std::shared_ptr<UI::ButtonGroup> buttonGroup;
             std::shared_ptr<UI::Layout::Horizontal> layout;
         };
         
@@ -53,12 +53,12 @@ namespace djv
             DJV_PRIVATE_PTR();
             p.playback = ValueSubject<Playback>::create();
 
-            auto forwardButton = UI::Button::Tool::create(context);
+            auto forwardButton = UI::ToolButton::create(context);
             forwardButton->setIcon("djvIconPlaybackForward");
-            auto reverseButton = UI::Button::Tool::create(context);
+            auto reverseButton = UI::ToolButton::create(context);
             reverseButton->setIcon("djvIconPlaybackReverse");
 
-            p.buttonGroup = UI::Button::Group::create(UI::ButtonType::Exclusive);
+            p.buttonGroup = UI::ButtonGroup::create(UI::ButtonType::Exclusive);
             p.buttonGroup->addButton(forwardButton);
             p.buttonGroup->addButton(reverseButton);
 

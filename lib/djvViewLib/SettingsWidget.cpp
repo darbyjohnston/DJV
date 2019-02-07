@@ -49,10 +49,10 @@ namespace djv
 		struct SettingsWidget::Private
 		{
 			bool shown = false;
-			std::shared_ptr<UI::Button::Group> buttonGroup;
+			std::shared_ptr<UI::ButtonGroup> buttonGroup;
 			std::map<std::string, std::string> names;
 			std::map<std::string, std::shared_ptr<UI::Widget> > widgets;
-			std::map<std::string, std::shared_ptr<UI::Button::List> > buttons;
+			std::map<std::string, std::shared_ptr<UI::ListButton> > buttons;
 		};
 
 		void SettingsWidget::_init(Context * context)
@@ -60,7 +60,7 @@ namespace djv
 			IMDIWidget::_init(MDIResize::Maximum, context);
 
 			DJV_PRIVATE_PTR();
-			p.buttonGroup = UI::Button::Group::create(UI::ButtonType::Radio);
+			p.buttonGroup = UI::ButtonGroup::create(UI::ButtonType::Radio);
 			for (auto i : context->getSystemsT<IViewSystem>())
 			{
 				if (auto system = i.lock())
@@ -69,7 +69,7 @@ namespace djv
 					{
 						p.names[widget.sortKey] = widget.name;
 						p.widgets[widget.sortKey] = widget.widget;
-						auto button = UI::Button::List::create(context);
+						auto button = UI::ListButton::create(context);
 						p.buttons[widget.sortKey] = button;
 					}
 				}

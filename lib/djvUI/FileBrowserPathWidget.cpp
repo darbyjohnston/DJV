@@ -79,7 +79,7 @@ namespace djv
 
                 p.layout = Layout::Horizontal::create(context);
                 p.layout->setSpacing(Style::MetricsRole::None);
-                auto border = Layout::Border::create(context);
+                auto border = Border::create(context);
                 border->setMargin(Layout::Margin(Style::MetricsRole::None, Style::MetricsRole::MarginSmall, Style::MetricsRole::MarginSmall, Style::MetricsRole::MarginSmall));
                 border->setVAlign(VAlign::Center);
                 border->addWidget(p.lineEditBase);

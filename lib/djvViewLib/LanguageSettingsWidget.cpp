@@ -46,13 +46,13 @@ namespace djv
     {
         struct LanguageSettingsWidget::Private
         {
-            std::vector<std::shared_ptr<UI::Button::List> > buttons;
-            std::shared_ptr<UI::Button::Group> buttonGroup;
+            std::vector<std::shared_ptr<UI::ListButton> > buttons;
+            std::shared_ptr<UI::ButtonGroup> buttonGroup;
             std::shared_ptr<UI::Layout::Flow> layout;
             std::map<int, std::string> indexToLocale;
             std::map<std::string, int> localeToIndex;
             std::map<std::string, std::string> localeFonts;
-            std::map<std::string, std::shared_ptr<UI::Button::List> > localeToButton;
+            std::map<std::string, std::shared_ptr<UI::ListButton> > localeToButton;
             std::shared_ptr<ValueObserver<std::string> > localeObserver;
             std::shared_ptr<MapObserver<std::string, std::string> > localeFontsObserver;
         };
@@ -62,7 +62,7 @@ namespace djv
             Widget::_init(context);
 
             DJV_PRIVATE_PTR();
-            p.buttonGroup = UI::Button::Group::create(UI::ButtonType::Radio);
+            p.buttonGroup = UI::ButtonGroup::create(UI::ButtonType::Radio);
 
             p.layout = UI::Layout::Flow::create(context);
             p.layout->setParent(shared_from_this());
@@ -72,7 +72,7 @@ namespace djv
                 int j = 0;
                 for (const auto & i : textSystem->getLocales())
                 {
-                    auto button = UI::Button::List::create(context);
+                    auto button = UI::ListButton::create(context);
                     button->setText(context->getText(i));
                     p.buttonGroup->addButton(button);
                     p.layout->addWidget(button);

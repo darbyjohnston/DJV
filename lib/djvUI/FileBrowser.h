@@ -45,6 +45,7 @@ namespace djv
 
     namespace UI
     {
+		//! This namespace provides file browser functionality.
         namespace FileBrowser
         {
             //! This class provides a file browser widget.

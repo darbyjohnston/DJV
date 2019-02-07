@@ -41,7 +41,7 @@ namespace djv
         struct LineEdit::Private
         {
             std::shared_ptr<LineEditBase> lineEditBase;
-            std::shared_ptr<Layout::Border> border;
+            std::shared_ptr<Border> border;
         };
 
         void LineEdit::_init(Context * context)
@@ -54,7 +54,7 @@ namespace djv
             DJV_PRIVATE_PTR();
             p.lineEditBase = LineEditBase::create(context);
 
-            p.border = Layout::Border::create(context);
+            p.border = Border::create(context);
             p.border->addWidget(p.lineEditBase);
             p.border->setParent(shared_from_this());
         }

@@ -46,7 +46,7 @@ namespace djv
         {
             std::shared_ptr<LineEditBase> lineEditBase;
             std::shared_ptr<Layout::Solo> soloLayout;
-            std::shared_ptr<Layout::Border> border;
+            std::shared_ptr<Border> border;
         };
 
         void SearchBox::_init(Context * context)
@@ -62,7 +62,7 @@ namespace djv
             auto searchIcon = Icon::create(context);
             searchIcon->setIcon("djvIconSearch");
             
-            auto clearButton = Button::Tool::create(context);
+            auto clearButton = ToolButton::create(context);
             clearButton->setIcon("djvIconClear");
             clearButton->setBackgroundRole(Style::ColorRole::None);
             
@@ -75,7 +75,7 @@ namespace djv
             _p->soloLayout->addWidget(clearButton);
             layout->addWidget(_p->soloLayout);
             
-            _p->border = Layout::Border::create(context);
+            _p->border = Border::create(context);
             _p->border->setMargin(Style::MetricsRole::MarginSmall);
             _p->border->addWidget(layout);
             _p->border->setParent(shared_from_this());

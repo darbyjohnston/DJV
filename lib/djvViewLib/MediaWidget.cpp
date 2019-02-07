@@ -67,7 +67,7 @@ namespace djv
 
             _p->playbackWidget = PlaybackWidget::create(context);
             _p->timelineSlider = TimelineSlider::create(context);
-			auto playbackSettingsButton = UI::Button::Tool::create(context);
+			auto playbackSettingsButton = UI::ToolButton::create(context);
 			playbackSettingsButton->setIcon("djvIconPopupMenu");
 
             auto hLayout = UI::Layout::Horizontal::create(context);

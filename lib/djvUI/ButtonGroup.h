@@ -54,5 +54,8 @@ namespace djv
             };
 
         } // namespace Button
+
+		typedef Button::Group ButtonGroup;
+
     } // namespace UI
 } // namespace djv

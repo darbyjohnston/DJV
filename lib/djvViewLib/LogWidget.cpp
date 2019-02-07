@@ -50,9 +50,9 @@ namespace djv
         {
 			bool shown = false;
             std::shared_ptr<UI::TextBlock> textBlock;
-            std::shared_ptr< UI::Button::Push> copyButton;
-            std::shared_ptr< UI::Button::Push> reloadButton;
-            std::shared_ptr< UI::Button::Push> clearButton;
+            std::shared_ptr< UI::PushButton> copyButton;
+            std::shared_ptr< UI::PushButton> reloadButton;
+            std::shared_ptr< UI::PushButton> clearButton;
         };
 
         void LogWidget::_init(Context * context)
@@ -72,10 +72,10 @@ namespace djv
             scrollWidget->addWidget(p.textBlock);
 
             //! \todo Implement me!
-            p.copyButton = UI::Button::Push::create(context);
+            p.copyButton = UI::PushButton::create(context);
             p.copyButton->setEnabled(false);
-            p.reloadButton = UI::Button::Push::create(context);
-            p.clearButton = UI::Button::Push::create(context);
+            p.reloadButton = UI::PushButton::create(context);
+            p.clearButton = UI::PushButton::create(context);
 
             auto layout = UI::Layout::Vertical::create(context);
             layout->setSpacing(UI::Style::MetricsRole::None);
