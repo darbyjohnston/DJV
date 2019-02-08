@@ -34,7 +34,6 @@ set(header
     ListButton.h
     MDICanvas.h
     MDIWidget.h
-    MainWindow.h
     Margin.h
     MarginInline.h
     Menu.h
@@ -104,7 +103,6 @@ set(source
     ListButton.cpp
     MDICanvas.cpp
     MDIWidget.cpp
-    MainWindow.cpp
     Menu.cpp
     MenuBar.cpp
     MenuButton.cpp
