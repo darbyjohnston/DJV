@@ -46,7 +46,6 @@ namespace djv
             std::string name;
             Style::ColorRole iconColorRole = Style::ColorRole::Foreground;
             Style::MetricsRole iconSizeRole = Style::MetricsRole::Icon;
-            bool imageRequest = false;
             std::future<std::shared_ptr<AV::Image::Image> > imageFuture;
             std::shared_ptr<AV::Image::Image> image;
         };
@@ -95,7 +94,6 @@ namespace djv
                 if (auto iconSystem = _getIconSystem().lock())
                 {
                     p.imageFuture = iconSystem->getIcon(p.name, static_cast<int>(style->getMetric(p.iconSizeRole)));
-                    p.imageRequest = true;
                 }
             }
         }
@@ -138,7 +136,6 @@ namespace djv
                     if (auto iconSystem = _getIconSystem().lock())
                     {
                         p.imageFuture = iconSystem->getIcon(p.name, static_cast<int>(style->getMetric(p.iconSizeRole)));
-                        p.imageRequest = true;
                     }
                 }
             }
@@ -146,10 +143,25 @@ namespace djv
 
         void Icon::_preLayoutEvent(Event::PreLayout& event)
         {
-            if (auto style = _getStyle().lock())
+			DJV_PRIVATE_PTR();
+			if (auto style = _getStyle().lock())
             {
-                DJV_PRIVATE_PTR();
                 const float i = style->getMetric(p.iconSizeRole);
+
+				if (p.imageFuture.valid())
+				{
+					try
+					{
+						p.image = p.imageFuture.get();
+					}
+					catch (const std::exception & e)
+					{
+						p.image = nullptr;
+						_log(e.what(), LogLevel::Error);
+					}
+					_resize();
+				}
+
                 glm::vec2 size;
                 if (p.image)
                 {
@@ -164,7 +176,8 @@ namespace djv
         void Icon::_paintEvent(Event::Paint& event)
         {
             Widget::_paintEvent(event);
-            if (auto render = _getRender().lock())
+			DJV_PRIVATE_PTR();
+			if (auto render = _getRender().lock())
             {
                 if (auto style = _getStyle().lock())
                 {
@@ -172,7 +185,6 @@ namespace djv
                     const glm::vec2 c = g.getCenter();
 
                     // Draw the icon.
-                    DJV_PRIVATE_PTR();
                     if (p.image && p.image->isValid())
                     {
                         const glm::vec2& size = p.image->getSize();
@@ -205,29 +217,6 @@ namespace djv
                         }
                     }
                 }
-            }
-        }
-
-        void Icon::_updateEvent(Core::Event::Update&)
-        {
-            DJV_PRIVATE_PTR();
-            if (p.imageRequest)
-            {
-				if (p.imageFuture.valid() &&
-					p.imageFuture.wait_for(std::chrono::seconds(0)) == std::future_status::ready)
-				{
-					p.imageRequest = false;
-					try
-					{
-						p.image = p.imageFuture.get();
-					}
-					catch (const std::exception & e)
-					{
-						p.image = nullptr;
-						_log(e.what(), LogLevel::Error);
-					}
-					_resize();
-				}
             }
         }
 

@@ -89,8 +89,7 @@ namespace djv
                 void _layoutEvent(Core::Event::Layout&) override;
 
             private:
-                struct Private;
-                std::unique_ptr<Private> _p;
+				DJV_PRIVATE();
             };
 
             //! This class provides a layout that arranges it's children in a horizontal row.

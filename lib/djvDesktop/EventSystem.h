@@ -69,8 +69,7 @@ namespace djv
             static void _keyCallback(GLFWwindow*, int key, int scancode, int action, int mods);
             static void _dropCallback(GLFWwindow*, int, const char**);
 
-            struct Private;
-            std::unique_ptr<Private> _p;
+			DJV_PRIVATE();
         };
 
     } // namespace Desktop

@@ -64,11 +64,8 @@ namespace djv
             void _preLayoutEvent(Core::Event::PreLayout&) override;
             void _paintEvent(Core::Event::Paint&) override;
 
-            void _updateEvent(Core::Event::Update&) override;
-
         private:
-            struct Private;
-            std::unique_ptr<Private> _p;
+			DJV_PRIVATE();
         };
 
     } // namespace UI

@@ -43,8 +43,7 @@ namespace djv
                 void _updateEvent(Core::Event::Update&) override;
 
             private:
-                struct Private;
-                std::unique_ptr<Private> _p;
+				DJV_PRIVATE();
             };
 
         } // namespace Button

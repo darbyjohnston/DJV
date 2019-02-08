@@ -108,7 +108,6 @@ namespace djv
 				std::map<size_t, std::shared_ptr<Menu> > _menus;
 				AV::Font::Metrics _fontMetrics;
 				std::future<AV::Font::Metrics> _fontMetricsFuture;
-				bool _fontMetricsRequest = false;
 				bool _hasTextIndent = false;
 				bool _hasShortcuts = false;
 				std::map<size_t, std::shared_ptr<Item> > _items;
@@ -175,21 +174,48 @@ namespace djv
 					const float b = style->getMetric(Style::MetricsRole::Border);
 					const float iconSize = style->getMetric(Style::MetricsRole::Icon);
 
-					if (_fontMetricsRequest)
+					if (_fontMetricsFuture.valid())
 					{
-						_fontMetricsRequest = false;
-						_fontMetrics = _fontMetricsFuture.get();
+						try
+						{
+							_fontMetrics = _fontMetricsFuture.get();
+							_resize();
+						}
+						catch (const std::exception& e)
+						{
+							_log(e.what(), LogLevel::Error);
+						}
 					}
 					for (auto & i : _textSizeFutures)
 					{
-						i.first->textSize = i.second.get();
+						if (i.second.valid())
+						{
+							try
+							{
+								i.first->textSize = i.second.get();
+								_resize();
+							}
+							catch (const std::exception& e)
+							{
+								_log(e.what(), LogLevel::Error);
+							}
+						}
 					}
-					_textSizeFutures.clear();
 					for (auto & i : _shortcutSizeFutures)
 					{
-						i.first->shortcutSize = i.second.get();
+						if (i.second.valid())
+						{
+							try
+							{
+								i.first->shortcutSize = i.second.get();
+								_resize();
+							}
+							catch (const std::exception& e)
+							{
+								_log(e.what(), LogLevel::Error);
+							}
+						}
 					}
-					_shortcutSizeFutures.clear();
 
 					glm::vec2 textSize(0.f, 0.f);
 					glm::vec2 shortcutSize(0.f, 0.f);
@@ -281,9 +307,19 @@ namespace djv
 
 						for (auto & i : _iconFutures)
 						{
-							i.first->icon = i.second.get();
+							if (i.second.valid())
+							{
+								try
+								{
+									i.first->icon = i.second.get();
+									_resize();
+								}
+								catch (const std::exception& e)
+								{
+									_log(e.what(), LogLevel::Error);
+								}
+							}
 						}
-						_iconFutures.clear();
 
 						for (const auto & i : _items)
 						{
@@ -532,7 +568,6 @@ namespace djv
 				{
 					const auto fontInfo = style->getFontInfo(AV::Font::Info::faceDefault, Style::MetricsRole::FontMedium);
 					_fontMetricsFuture = fontSystem->getMetrics(fontInfo);
-					_fontMetricsRequest = true;
 					_hasShortcuts = false;
 					_items.clear();
 					_actionToItem.clear();

@@ -234,8 +234,7 @@ namespace djv
             if (auto style = _getStyle().lock())
             {
                 DJV_PRIVATE_PTR();
-                if (p.fontMetricsFuture.valid() &&
-					p.fontMetricsFuture.wait_for(std::chrono::seconds(0)) == std::future_status::ready)
+                if (p.fontMetricsFuture.valid())
                 {
                     try
                     {
@@ -247,8 +246,7 @@ namespace djv
                         _log(e.what(), LogLevel::Error);
                     }
                 }
-                if (p.textSizeFuture.valid() &&
-					p.textSizeFuture.wait_for(std::chrono::seconds(0)) == std::future_status::ready)
+                if (p.textSizeFuture.valid())
                 {
                     try
                     {
@@ -311,8 +309,7 @@ namespace djv
                         const BBox2f& g = getMargin().bbox(getGeometry(), style);
                         const glm::vec2 c = g.getCenter();
 
-                        if (p.textLinesFuture.valid() &&
-							p.textLinesFuture.wait_for(std::chrono::seconds(0)) == std::future_status::ready)
+                        if (p.textLinesFuture.valid())
                         {
                             p.textLines = p.textLinesFuture.get();
                         }
@@ -339,7 +336,7 @@ namespace djv
                                 //render->drawRect(BBox2f(pos.x, pos.y, line.size.x, line.size.y));
 
                                 render->setFillColor(_getColorWithOpacity(style->getColor(p.textColorRole)));
-                                //! \todo Why the extra subtract by one here?
+                                //! \bug Why the extra subtract by one here?
                                 render->drawText(line.text, glm::vec2(pos.x, pos.y + p.fontMetrics.ascender - 1.f));
                             }
                             pos.y += line.size.y;

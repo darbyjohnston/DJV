@@ -186,35 +186,34 @@ namespace djv
 
         void Label::_preLayoutEvent(Event::PreLayout&)
         {
-            if (auto style = _getStyle().lock())
+			DJV_PRIVATE_PTR();
+			if (auto style = _getStyle().lock())
             {
-                DJV_PRIVATE_PTR();
-                if (p.fontMetricsFuture.valid() &&
-					p.fontMetricsFuture.wait_for(std::chrono::seconds(0)) == std::future_status::ready)
-                {
-                    try
-                    {
-                        p.fontMetrics = p.fontMetricsFuture.get();
-                        _resize();
-                    }
-                    catch (const std::exception& e)
-                    {
-                        _log(e.what(), LogLevel::Error);
-                    }
-                }
-                if (p.textSizeFuture.valid() &&
-					p.textSizeFuture.wait_for(std::chrono::seconds(0)) == std::future_status::ready)
-                {
-                    try
-                    {
-                        p.textSize = p.textSizeFuture.get();
-                        _resize();
-                    }
-                    catch (const std::exception& e)
-                    {
-                        _log(e.what(), LogLevel::Error);
-                    }
-                }
+				if (p.fontMetricsFuture.valid())
+				{
+					try
+					{
+						p.fontMetrics = p.fontMetricsFuture.get();
+						_resize();
+					}
+					catch (const std::exception& e)
+					{
+						_log(e.what(), LogLevel::Error);
+					}
+				}
+				if (p.textSizeFuture.valid())
+				{
+					try
+					{
+						p.textSize = p.textSizeFuture.get();
+						_resize();
+					}
+					catch (const std::exception& e)
+					{
+						_log(e.what(), LogLevel::Error);
+					}
+				}
+
                 glm::vec2 size = p.textSize;
                 _setMinimumSize(size + getMargin().getSize(style));
             }
@@ -223,14 +222,14 @@ namespace djv
         void Label::_paintEvent(Event::Paint& event)
         {
             Widget::_paintEvent(event);
-            if (auto render = _getRender().lock())
+			DJV_PRIVATE_PTR();
+			if (auto render = _getRender().lock())
             {
                 if (auto style = _getStyle().lock())
                 {
                     const BBox2f& g = getMargin().bbox(getGeometry(), style);
                     const glm::vec2 c = g.getCenter();
 
-                    DJV_PRIVATE_PTR();
                     auto fontInfo = p.font.empty() ?
                         style->getFontInfo(p.fontFace, p.fontSizeRole) :
                         style->getFontInfo(p.font, p.fontFace, p.fontSizeRole);
@@ -267,7 +266,7 @@ namespace djv
                     //render->drawRect(BBox2f(pos.x, pos.y, p.textSize.x, p.textSize.y));
 
                     render->setFillColor(_getColorWithOpacity(style->getColor(p.textColorRole)));
-                    //! \todo Why the extra subtract by one here?
+                    //! \bug Why the extra subtract by one here?
                     render->drawText(p.text, glm::vec2(floorf(pos.x), floorf(pos.y + p.fontMetrics.ascender - 1.f)));
                 }
             }
@@ -275,11 +274,11 @@ namespace djv
 
         void Label::_textUpdate()
         {
-            if (auto style = _getStyle().lock())
+			DJV_PRIVATE_PTR();
+			if (auto style = _getStyle().lock())
             {
                 if (auto fontSystem = _getFontSystem().lock())
                 {
-                    DJV_PRIVATE_PTR();
                     const auto fontInfo = p.font.empty() ?
                         style->getFontInfo(p.fontFace, p.fontSizeRole) :
                         style->getFontInfo(p.font, p.fontFace, p.fontSizeRole);

@@ -69,8 +69,7 @@ namespace djv
                 void _layoutEvent(Core::Event::Layout&) override;
 
             private:
-                struct Private;
-                std::unique_ptr<Private> _p;
+				DJV_PRIVATE();
             };
 
         } // namespace Layout

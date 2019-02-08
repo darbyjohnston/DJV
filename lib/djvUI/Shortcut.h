@@ -78,8 +78,7 @@ namespace djv
             static std::string getText(int key, int keyModifiers, const std::shared_ptr<Core::TextSystem> &);
 
         private:
-            struct Private;
-            std::unique_ptr<Private> _p;
+			DJV_PRIVATE();
         };
 
     } // namespace UI

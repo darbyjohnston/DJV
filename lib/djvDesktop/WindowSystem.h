@@ -79,8 +79,7 @@ namespace djv
             static void _resizeCallback(GLFWwindow*, int, int);
             static void _redrawCallback(GLFWwindow*);
 
-            struct Private;
-            std::unique_ptr<Private> _p;
+			DJV_PRIVATE();
         };
 
     } // namespace Desktop

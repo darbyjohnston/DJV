@@ -61,8 +61,7 @@ namespace djv
                 void _preLayoutEvent(Core::Event::PreLayout&) override;
 
             private:
-                struct Private;
-                std::unique_ptr<Private> _p;
+				DJV_PRIVATE();
             };
 
             //! This class provides a horizontal spacer for use in layouts.

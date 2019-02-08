@@ -79,8 +79,7 @@ namespace djv
         private:
             void _styleInit(const std::shared_ptr<Widget> &, bool = true);
 
-            struct Private;
-            std::unique_ptr<Private> _p;
+			DJV_PRIVATE();
 
             friend class Window;
         };

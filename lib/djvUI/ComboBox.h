@@ -70,8 +70,7 @@ namespace djv
             void _updateItems();
             void _updateCurrentItem();
 
-            struct Private;
-            std::unique_ptr<Private> _p;
+			DJV_PRIVATE();
         };
 
     } // namespace UI

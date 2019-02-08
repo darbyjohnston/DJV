@@ -80,8 +80,7 @@ namespace djv
                 Core::BBox2f _getSplitterGeometry() const;
                 Core::BBox2f _getHandleGeometry() const;
 
-                struct Private;
-                std::unique_ptr<Private> _p;
+				DJV_PRIVATE();
             };
 
         } // namespace Layout

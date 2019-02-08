@@ -92,8 +92,7 @@ namespace djv
                 void _paintEvent(Core::Event::Paint&) override;
 
             private:
-                struct Private;
-                std::unique_ptr<Private> _p;
+				DJV_PRIVATE();
             };
 
         } // namespace Layout

@@ -56,8 +56,7 @@ namespace djv
             private:
                 bool _isHovered() const;
 
-                struct Private;
-                std::unique_ptr<Private> _p;
+				DJV_PRIVATE();
             };
 
         } // namespace Button

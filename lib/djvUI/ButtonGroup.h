@@ -49,8 +49,7 @@ namespace djv
                 void setExclusiveCallback(const std::function<void(int)>&);
 
             private:
-                struct Private;
-                std::unique_ptr<Private> _p;
+				DJV_PRIVATE();
             };
 
         } // namespace Button

@@ -185,7 +185,6 @@ namespace djv
             auto vLayout = UI::Layout::Vertical::create(context);
             vLayout->setSpacing(UI::Style::MetricsRole::None);
             vLayout->addWidget(p.menuBar);
-            vLayout->addSeparator();
             vLayout->addExpander();
             p.stackLayout->addWidget(vLayout);
             addWidget(p.stackLayout);

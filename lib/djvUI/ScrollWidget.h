@@ -101,8 +101,7 @@ namespace djv
             void _addPointerSample(const glm::vec2&);
             glm::vec2 _getPointerAverage() const;
 
-            struct Private;
-            std::unique_ptr<Private> _p;
+			DJV_PRIVATE();
         };
 
     } // namespace UI

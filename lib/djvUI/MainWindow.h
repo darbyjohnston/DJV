@@ -57,8 +57,7 @@ namespace djv
             void setCentralWidget(const std::shared_ptr<Widget> &);
 
         private:
-            struct Private;
-            std::unique_ptr<Private> _p;
+			DJV_PRIVATE();
         };
 
     } // namespace UI

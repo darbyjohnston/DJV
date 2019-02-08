@@ -62,8 +62,6 @@ namespace djv
             void setFontFace(const std::string &);
             void setFontSizeRole(Style::MetricsRole);
 
-            void setBorder(bool);
-
         protected:
             void _styleEvent(Core::Event::Style&) override;
             void _preLayoutEvent(Core::Event::PreLayout&) override;
@@ -72,8 +70,7 @@ namespace djv
         private:
             void _textUpdate();
 
-            struct Private;
-            std::unique_ptr<Private> _p;
+			DJV_PRIVATE();
         };
 
     } // namespace UI

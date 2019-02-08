@@ -78,8 +78,7 @@ namespace djv
                 bool _eventFilter(const std::shared_ptr<Core::IObject>&, Core::Event::IEvent&) override;
 
             private:
-                struct Private;
-                std::unique_ptr<Private> _p;
+				DJV_PRIVATE();
             };
 
         } // namespace MDI

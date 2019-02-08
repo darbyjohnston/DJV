@@ -75,8 +75,7 @@ namespace djv
                 void _toTextureCacheItem(const BoxPackingNode*, TextureCacheItem&);
                 void _removeFromCache(BoxPackingNode*);
 
-                struct Private;
-                std::unique_ptr<Private> _p;
+				DJV_PRIVATE();
             };
 
         } // namespace Render

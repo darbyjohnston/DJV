@@ -86,8 +86,7 @@ namespace djv
         private:
             void _textUpdate();
 
-            struct Private;
-            std::unique_ptr<Private> _p;
+			DJV_PRIVATE();
         };
 
     } // namespace UI
