@@ -182,7 +182,7 @@ namespace djv
             p.stackLayout = UI::Layout::Stack::create(context);
             p.stackLayout->addWidget(p.soloLayout);
             p.stackLayout->addWidget(p.mdiCanvas);
-            auto vLayout = UI::Layout::Vertical::create(context);
+            auto vLayout = UI::VerticalLayout::create(context);
             vLayout->setSpacing(UI::Style::MetricsRole::None);
             vLayout->addWidget(p.menuBar);
             vLayout->addExpander();

@@ -73,6 +73,9 @@ namespace djv
             };
 
         } // namespace Layout
+
+		typedef Layout::Form FormLayout;
+
     } // namespace UI
 } // namespace djv
 

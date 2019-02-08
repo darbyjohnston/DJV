@@ -67,5 +67,8 @@ namespace djv
             };
 
         } // namespace Layout
+
+		typedef Layout::Flow FlowLayout;
+
     } // namespace UI
 } // namespace djv

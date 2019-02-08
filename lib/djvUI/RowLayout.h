@@ -119,6 +119,10 @@ namespace djv
             };
 
         } // namespace Layout
+
+		typedef Layout::Horizontal HorizontalLayout;
+		typedef Layout::Vertical VerticalLayout;
+
     } // namespace UI
 
     DJV_ENUM_SERIALIZE_HELPERS(UI::Layout::RowStretch);

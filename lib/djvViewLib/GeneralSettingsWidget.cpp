@@ -47,10 +47,10 @@ namespace djv
     {
         struct GeneralSettingsWidget::Private
         {
-            std::shared_ptr<UI::Layout::GroupBox> displayGroupBox;
-            std::shared_ptr<UI::Layout::GroupBox> languageGroupBox;
-            std::shared_ptr<UI::Layout::GroupBox> paletteGroupBox;
-            std::shared_ptr<UI::Layout::Vertical> layout;
+            std::shared_ptr<UI::GroupBox> displayGroupBox;
+            std::shared_ptr<UI::GroupBox> languageGroupBox;
+            std::shared_ptr<UI::GroupBox> paletteGroupBox;
+            std::shared_ptr<UI::VerticalLayout> layout;
         };
 
         void GeneralSettingsWidget::_init(Context * context)
@@ -58,14 +58,14 @@ namespace djv
             Widget::_init(context);
 
             DJV_PRIVATE_PTR();
-            p.displayGroupBox = UI::Layout::GroupBox::create(context);
+            p.displayGroupBox = UI::GroupBox::create(context);
             p.displayGroupBox->addWidget(DisplaySettingsWidget::create(context));
-            p.languageGroupBox = UI::Layout::GroupBox::create(context);
+            p.languageGroupBox = UI::GroupBox::create(context);
             p.languageGroupBox->addWidget(LanguageSettingsWidget::create(context));
-            p.paletteGroupBox = UI::Layout::GroupBox::create(context);
+            p.paletteGroupBox = UI::GroupBox::create(context);
             p.paletteGroupBox->addWidget(PaletteSettingsWidget::create(context));
 
-            p.layout = UI::Layout::Vertical::create(context);
+            p.layout = UI::VerticalLayout::create(context);
             p.layout->setMargin(UI::Style::MetricsRole::MarginLarge);
             p.layout->setSpacing(UI::Style::MetricsRole::SpacingLarge);
             p.layout->addWidget(p.displayGroupBox);

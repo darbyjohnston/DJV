@@ -50,7 +50,7 @@ namespace djv
         {
             std::shared_ptr<MediaWidget> mediaWidget;
             std::shared_ptr<UI::Label> titleLabel;
-            std::shared_ptr<UI::Layout::Horizontal> titleBar;
+            std::shared_ptr<UI::HorizontalLayout> titleBar;
             std::shared_ptr<UI::Layout::Stack> layout;
             std::shared_ptr<UI::Border> border;
             std::function<void(void)> maximizeCallback;
@@ -74,10 +74,10 @@ namespace djv
             auto closeButton = UI::ToolButton::create(context);
             closeButton->setIcon("djvIconCloseSmall");
 
-            p.titleBar = UI::Layout::Horizontal::create(context);
+            p.titleBar = UI::HorizontalLayout::create(context);
             p.titleBar->setBackgroundRole(UI::Style::ColorRole::Overlay);
             p.titleBar->addWidget(p.titleLabel, UI::Layout::RowStretch::Expand);
-            auto hLayout = UI::Layout::Horizontal::create(context);
+            auto hLayout = UI::HorizontalLayout::create(context);
             hLayout->setSpacing(UI::Style::MetricsRole::None);
             hLayout->addWidget(maximizeButton);
             hLayout->addWidget(closeButton);
@@ -85,7 +85,7 @@ namespace djv
 
             p.layout = UI::Layout::Stack::create(context);
             p.layout->addWidget(p.mediaWidget);
-            auto vLayout = UI::Layout::Vertical::create(context);
+            auto vLayout = UI::VerticalLayout::create(context);
             vLayout->setSpacing(UI::Style::MetricsRole::None);
             vLayout->addWidget(p.titleBar);
             vLayout->addExpander();

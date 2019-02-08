@@ -47,7 +47,7 @@ namespace djv
             {
                 std::shared_ptr<Label> titleLabel;
                 std::shared_ptr<Layout::Stack> childLayout;
-                std::shared_ptr<Layout::Vertical> layout;
+                std::shared_ptr<VerticalLayout> layout;
             };
 
             void GroupBox::_init(Context * context)
@@ -63,7 +63,7 @@ namespace djv
                 
                 p.childLayout = Layout::Stack::create(context);
 
-                p.layout = Layout::Vertical::create(context);
+                p.layout = VerticalLayout::create(context);
                 p.layout->setSpacing(Style::MetricsRole::Spacing);
                 p.layout->addWidget(p.titleLabel);
                 p.layout->addSeparator();

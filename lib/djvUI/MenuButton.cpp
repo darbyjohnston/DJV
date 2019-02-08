@@ -52,7 +52,7 @@ namespace djv
                 bool checked = false;
                 std::shared_ptr<Icon> icon;
                 std::shared_ptr<Label> label;
-                std::shared_ptr<Layout::Horizontal> layout;
+                std::shared_ptr<HorizontalLayout> layout;
                 std::shared_ptr<Border> border;
                 std::function<void(bool)> checkedCallback;
             };
@@ -73,7 +73,7 @@ namespace djv
                 p.label->setHAlign(HAlign::Left);
                 p.label->hide();
 
-                p.layout = Layout::Horizontal::create(context);
+                p.layout = HorizontalLayout::create(context);
                 p.layout->setMargin(Layout::Margin(Style::MetricsRole::Margin, Style::MetricsRole::Margin, Style::MetricsRole::MarginSmall, Style::MetricsRole::MarginSmall));
                 p.layout->addWidget(p.icon);
                 p.layout->addWidget(p.label, Layout::RowStretch::Expand);

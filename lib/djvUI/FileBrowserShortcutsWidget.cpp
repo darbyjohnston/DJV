@@ -60,7 +60,7 @@ namespace djv
             {
                 std::vector<FileSystem::Path> shortcuts;
                 std::shared_ptr<ActionGroup> actionGroup;
-                std::shared_ptr<Layout::Vertical> layout;
+                std::shared_ptr<VerticalLayout> layout;
                 std::function<void(const FileSystem::Path &)> shortcutCallback;
             };
 
@@ -73,7 +73,7 @@ namespace djv
                 DJV_PRIVATE_PTR();
                 p.actionGroup = ActionGroup::create(ButtonType::Push);
 
-                auto itemLayout = Layout::Vertical::create(context);
+                auto itemLayout = VerticalLayout::create(context);
                 itemLayout->setSpacing(Style::MetricsRole::None);
                 for (size_t i = 0; i < static_cast<size_t>(OS::DirectoryShortcut::Count); ++i)
                 {
@@ -102,7 +102,7 @@ namespace djv
                 scrollWidget->setBorder(false);
                 scrollWidget->addWidget(itemLayout);
 
-                p.layout = Layout::Vertical::create(context);
+                p.layout = VerticalLayout::create(context);
                 p.layout->addWidget(scrollWidget, Layout::RowStretch::Expand);
                 p.layout->setParent(shared_from_this());
 

@@ -62,7 +62,7 @@ int main(int argc, char ** argv)
         comboBox3->setHAlign(UI::HAlign::Right);
         comboBox3->setVAlign(UI::VAlign::Bottom);
 
-        auto layout = UI::Layout::Grid::create(app.get());
+        auto layout = UI::GridLayout::create(app.get());
         layout->setMargin(UI::Style::MetricsRole::MarginLarge);
         layout->addWidget(comboBox0, glm::ivec2(0, 0), UI::Layout::GridStretch::Both);
         layout->addWidget(comboBox1, glm::ivec2(1, 0), UI::Layout::GridStretch::Both);

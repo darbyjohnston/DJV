@@ -619,7 +619,7 @@ namespace djv
             stackLayout->addWidget(p.scrollArea);
             stackLayout->addWidget(p.scrollAreaSwipe);
             
-            auto layout = Layout::Grid::create(context);
+            auto layout = GridLayout::create(context);
             layout->setSpacing(Style::MetricsRole::None);
             layout->addWidget(stackLayout, glm::ivec2(0, 0), Layout::GridStretch::Both);
             layout->addWidget(p.scrollBars[Orientation::Horizontal], glm::ivec2(0, 1));

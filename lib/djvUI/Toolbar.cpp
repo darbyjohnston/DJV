@@ -51,7 +51,7 @@ namespace djv
                 std::shared_ptr<ValueObserver<std::string> > tooltip;
             };
             std::map<std::shared_ptr<Action>, Observers> observers;
-            std::shared_ptr<Layout::Horizontal> layout;
+            std::shared_ptr<HorizontalLayout> layout;
         };
 
         void Toolbar::_init(Context * context)
@@ -61,7 +61,7 @@ namespace djv
             setClassName("djv::UI::Toolbar");
 
             DJV_PRIVATE_PTR();
-            p.layout = Layout::Horizontal::create(context);
+            p.layout = HorizontalLayout::create(context);
             p.layout->setSpacing(Style::MetricsRole::None);
             p.layout->setParent(shared_from_this());
         }

@@ -67,7 +67,7 @@ protected:
 
 private:
     std::shared_ptr<UI::ToolButton> _closeButton;
-    std::shared_ptr<UI::Layout::Vertical> _layout;
+    std::shared_ptr<UI::VerticalLayout> _layout;
     std::shared_ptr<UI::Border> _border;
     std::function<void(void)> _closedCallback;
 };
@@ -92,7 +92,7 @@ void MDIWidget::_init(const std::string & title, Core::Context * context)
     _closeButton->setCheckedColorRole(UI::Style::ColorRole::HeaderChecked);
     _closeButton->setDisabledColorRole(UI::Style::ColorRole::HeaderDisabled);
 
-    auto titleBar = UI::Layout::Horizontal::create(context);
+    auto titleBar = UI::HorizontalLayout::create(context);
     titleBar->setClassName("djv::UI::MDI::TitleBar");
     titleBar->setBackgroundRole(UI::Style::ColorRole::HeaderBackground);
     titleBar->addWidget(titleLabel);
@@ -106,7 +106,7 @@ void MDIWidget::_init(const std::string & title, Core::Context * context)
     auto scrollWidget = UI::ScrollWidget::create(UI::ScrollType::Vertical, context);
     scrollWidget->addWidget(textBlock);
 
-    _layout = UI::Layout::Vertical::create(context);
+    _layout = UI::VerticalLayout::create(context);
     _layout->setSpacing(UI::Style::MetricsRole::None);
     _layout->addWidget(titleBar);
     _layout->addWidget(scrollWidget, UI::Layout::RowStretch::Expand);

@@ -77,11 +77,11 @@ namespace djv
             p.reloadButton = UI::PushButton::create(context);
             p.clearButton = UI::PushButton::create(context);
 
-            auto layout = UI::Layout::Vertical::create(context);
+            auto layout = UI::VerticalLayout::create(context);
             layout->setSpacing(UI::Style::MetricsRole::None);
             layout->addWidget(scrollWidget, UI::Layout::RowStretch::Expand);
             layout->addSeparator();
-            auto hLayout = UI::Layout::Horizontal::create(context);
+            auto hLayout = UI::HorizontalLayout::create(context);
             hLayout->setMargin(UI::Style::MetricsRole::MarginSmall);
             hLayout->addExpander();
             hLayout->addWidget(p.copyButton);

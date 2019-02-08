@@ -47,11 +47,11 @@ namespace djv
 			bool shown = false;
 			MDIResize resize = MDIResize::First;
             std::shared_ptr<UI::Label> titleLabel;
-			std::shared_ptr<UI::Layout::Horizontal> titleBar;
-			std::shared_ptr<UI::Layout::Horizontal> titleBarWidgetLayout;
+			std::shared_ptr<UI::HorizontalLayout> titleBar;
+			std::shared_ptr<UI::HorizontalLayout> titleBarWidgetLayout;
 			std::shared_ptr<UI::ToolButton> closeButton;
-            std::shared_ptr<UI::Layout::Vertical> childLayout;
-            std::shared_ptr<UI::Layout::Vertical> layout;
+            std::shared_ptr<UI::VerticalLayout> childLayout;
+            std::shared_ptr<UI::VerticalLayout> layout;
             std::shared_ptr<UI::Border> border;
             std::function<void(void)> closeCallback;
         };
@@ -70,17 +70,17 @@ namespace djv
             p.closeButton = UI::ToolButton::create(context);
 			p.closeButton->setIcon("djvIconCloseSmall");
 
-            p.titleBar = UI::Layout::Horizontal::create(context);
+            p.titleBar = UI::HorizontalLayout::create(context);
 			p.titleBar->setSpacing(UI::Style::MetricsRole::None);
 			p.titleBar->addWidget(p.titleLabel, UI::Layout::RowStretch::Expand);
-			p.titleBarWidgetLayout = UI::Layout::Horizontal::create(context);
+			p.titleBarWidgetLayout = UI::HorizontalLayout::create(context);
 			p.titleBarWidgetLayout->setSpacing(UI::Style::MetricsRole::None);
 			p.titleBar->addWidget(p.titleBarWidgetLayout);
 			p.titleBar->addWidget(p.closeButton);
 
-            p.childLayout = UI::Layout::Vertical::create(context);
+            p.childLayout = UI::VerticalLayout::create(context);
 
-            p.layout = UI::Layout::Vertical::create(context);
+            p.layout = UI::VerticalLayout::create(context);
             p.layout->setBackgroundRole(UI::Style::ColorRole::Background);
             p.layout->setSpacing(UI::Style::MetricsRole::None);
             p.layout->addWidget(p.titleBar);

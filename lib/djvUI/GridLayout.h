@@ -96,6 +96,9 @@ namespace djv
             };
 
         } // namespace Layout
+
+		typedef Layout::Grid GridLayout;
+
     } // namespace UI
 
     DJV_ENUM_SERIALIZE_HELPERS(UI::Layout::GridStretch);

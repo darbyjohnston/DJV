@@ -51,7 +51,7 @@ namespace djv
             {
                 std::shared_ptr<Icon> icon;
                 std::shared_ptr<Label> label;
-                std::shared_ptr<Layout::Horizontal> layout;
+                std::shared_ptr<HorizontalLayout> layout;
                 std::shared_ptr<Border> border;
             };
 
@@ -70,7 +70,7 @@ namespace djv
                 p.label = Label::create(context);
                 p.label->hide();
 
-                p.layout = Layout::Horizontal::create(context);
+                p.layout = HorizontalLayout::create(context);
                 p.layout->setMargin(Layout::Margin(Style::MetricsRole::MarginLarge, Style::MetricsRole::MarginLarge, Style::MetricsRole::MarginSmall, Style::MetricsRole::MarginSmall));
                 p.layout->addWidget(p.icon);
                 p.layout->addWidget(p.label, Layout::RowStretch::Expand);

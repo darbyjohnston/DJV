@@ -152,7 +152,7 @@ namespace djv
         struct TabBar::Private
         {
             std::shared_ptr<ButtonGroup> buttonGroup;
-            std::shared_ptr<Layout::Horizontal> layout;
+            std::shared_ptr<HorizontalLayout> layout;
             std::function<void(int)> callback;
             std::function<void(size_t)> removedCallback;
         };
@@ -167,7 +167,7 @@ namespace djv
             DJV_PRIVATE_PTR();
             p.buttonGroup = ButtonGroup::create(ButtonType::Radio);
 
-            p.layout = Layout::Horizontal::create(context);
+            p.layout = HorizontalLayout::create(context);
             p.layout->setSpacing(Style::MetricsRole::Border);
             p.layout->setParent(shared_from_this());
 

@@ -69,6 +69,9 @@ namespace djv
             };
 
         } // namespace Layout
+
+		using Layout::GroupBox;
+
     } // namespace UI
 } // namespace djv
 

@@ -57,7 +57,7 @@ namespace djv
                 std::shared_ptr<ActionGroup> historyActionGroup;
                 std::shared_ptr<Menu> historyMenu;
                 std::shared_ptr<Button::Menu> historyButton;
-                std::shared_ptr<Layout::Horizontal> layout;
+                std::shared_ptr<HorizontalLayout> layout;
                 std::function<void(const FileSystem::Path &)> pathCallback;
                 std::function<void(size_t)> historyIndexCallback;
             };
@@ -77,7 +77,7 @@ namespace djv
                 p.historyButton->setIcon("djvIconPopupMenu");
                 p.historyButton->setEnabled(false);
 
-                p.layout = Layout::Horizontal::create(context);
+                p.layout = HorizontalLayout::create(context);
                 p.layout->setSpacing(Style::MetricsRole::None);
                 auto border = Border::create(context);
                 border->setMargin(Layout::Margin(Style::MetricsRole::None, Style::MetricsRole::MarginSmall, Style::MetricsRole::MarginSmall, Style::MetricsRole::MarginSmall));

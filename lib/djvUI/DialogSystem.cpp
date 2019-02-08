@@ -65,7 +65,7 @@ namespace djv
 
                     _closeButton = PushButton::create(context);
 
-                    auto layout = Layout::Vertical::create(context);
+                    auto layout = VerticalLayout::create(context);
                     layout->setMargin(Style::MetricsRole::Margin);
                     layout->addWidget(_textBlock);
                     layout->addWidget(_closeButton);
@@ -126,10 +126,10 @@ namespace djv
                     _acceptButton = PushButton::create(context);
                     _cancelButton = PushButton::create(context);
 
-                    auto layout = Layout::Vertical::create(context);
+                    auto layout = VerticalLayout::create(context);
                     layout->setMargin(Style::MetricsRole::Margin);
                     layout->addWidget(_textBlock, Layout::RowStretch::Expand);
-                    auto hLayout = Layout::Horizontal::create(context);
+                    auto hLayout = HorizontalLayout::create(context);
                     hLayout->addWidget(_acceptButton, Layout::RowStretch::Expand);
                     hLayout->addWidget(_cancelButton, Layout::RowStretch::Expand);
                     layout->addWidget(hLayout);

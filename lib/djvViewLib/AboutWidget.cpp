@@ -48,7 +48,7 @@ namespace djv
         struct AboutWidget::Private
         {
 			bool shown = false;
-            std::map<std::string, std::shared_ptr<UI::Layout::GroupBox> > groupBoxes;
+            std::map<std::string, std::shared_ptr<UI::GroupBox> > groupBoxes;
             std::map<std::string, std::shared_ptr<UI::TextBlock> > textBlocks;
 			std::future<std::shared_ptr<AV::Image::Image> > imageFuture;
         };
@@ -114,40 +114,40 @@ namespace djv
             p.textBlocks["Trademarks22"] = UI::TextBlock::create(context);
             p.textBlocks["MadeIn"] = UI::TextBlock::create(context);
 
-            auto textLayout = UI::Layout::Vertical::create(context);
+            auto textLayout = UI::VerticalLayout::create(context);
             textLayout->setMargin(UI::Style::MetricsRole::MarginLarge);
             textLayout->setSpacing(UI::Style::MetricsRole::SpacingLarge);
             textLayout->addWidget(p.textBlocks["Header"]);
             
-            auto vLayout = UI::Layout::Vertical::create(context);
+            auto vLayout = UI::VerticalLayout::create(context);
             vLayout->addWidget(p.textBlocks["Copyright"]);
             vLayout->addWidget(p.textBlocks["License1"]);
-            auto vLayout2 = UI::Layout::Vertical::create(context);
+            auto vLayout2 = UI::VerticalLayout::create(context);
             vLayout2->setSpacing(UI::Style::MetricsRole::None);
             vLayout2->addWidget(p.textBlocks["License2"]);
             vLayout2->addWidget(p.textBlocks["License3"]);
             vLayout2->addWidget(p.textBlocks["License4"]);
             vLayout->addWidget(vLayout2);
             vLayout->addWidget(p.textBlocks["License5"]);
-            p.groupBoxes["Copyright"] = UI::Layout::GroupBox::create(context);
+            p.groupBoxes["Copyright"] = UI::GroupBox::create(context);
             p.groupBoxes["Copyright"]->addWidget(vLayout);
             textLayout->addWidget(p.groupBoxes["Copyright"]);
             
-            vLayout = UI::Layout::Vertical::create(context);
+            vLayout = UI::VerticalLayout::create(context);
             vLayout->addWidget(p.textBlocks["Contributors1"]);
-            vLayout2 = UI::Layout::Vertical::create(context);
+            vLayout2 = UI::VerticalLayout::create(context);
             vLayout2->setSpacing(UI::Style::MetricsRole::None);
             vLayout2->addWidget(p.textBlocks["Contributors2"]);
             vLayout2->addWidget(p.textBlocks["Contributors3"]);
             vLayout2->addWidget(p.textBlocks["Contributors4"]);
             vLayout->addWidget(vLayout2);
-            p.groupBoxes["Contributors"] = UI::Layout::GroupBox::create(context);
+            p.groupBoxes["Contributors"] = UI::GroupBox::create(context);
             p.groupBoxes["Contributors"]->addWidget(vLayout);
             textLayout->addWidget(p.groupBoxes["Contributors"]);
             
-            vLayout = UI::Layout::Vertical::create(context);
+            vLayout = UI::VerticalLayout::create(context);
             vLayout->addWidget(p.textBlocks["ThirdParty1"]);
-            vLayout2 = UI::Layout::Vertical::create(context);
+            vLayout2 = UI::VerticalLayout::create(context);
             vLayout2->setSpacing(UI::Style::MetricsRole::None);
             vLayout2->addWidget(p.textBlocks["ThirdParty2"]);
             vLayout2->addWidget(p.textBlocks["ThirdParty3"]);
@@ -163,13 +163,13 @@ namespace djv
             vLayout2->addWidget(p.textBlocks["ThirdParty13"]);
             vLayout2->addWidget(p.textBlocks["ThirdParty14"]);
             vLayout->addWidget(vLayout2);
-            p.groupBoxes["ThirdParty"] = UI::Layout::GroupBox::create(context);
+            p.groupBoxes["ThirdParty"] = UI::GroupBox::create(context);
             p.groupBoxes["ThirdParty"]->addWidget(vLayout);
             textLayout->addWidget(p.groupBoxes["ThirdParty"]);
 
-            vLayout = UI::Layout::Vertical::create(context);
+            vLayout = UI::VerticalLayout::create(context);
             vLayout->addWidget(p.textBlocks["Trademarks1"]);
-            vLayout2 = UI::Layout::Vertical::create(context);
+            vLayout2 = UI::VerticalLayout::create(context);
             vLayout2->setSpacing(UI::Style::MetricsRole::None);
             vLayout2->addWidget(p.textBlocks["Trademarks2"]);
             vLayout2->addWidget(p.textBlocks["Trademarks3"]);
@@ -193,11 +193,11 @@ namespace djv
             vLayout2->addWidget(p.textBlocks["Trademarks21"]);
             vLayout->addWidget(vLayout2);
             vLayout->addWidget(p.textBlocks["Trademarks22"]);
-            p.groupBoxes["Trademarks"] = UI::Layout::GroupBox::create(context);
+            p.groupBoxes["Trademarks"] = UI::GroupBox::create(context);
             p.groupBoxes["Trademarks"]->addWidget(vLayout);
             textLayout->addWidget(p.groupBoxes["Trademarks"]);
 
-            vLayout = UI::Layout::Vertical::create(context);
+            vLayout = UI::VerticalLayout::create(context);
             vLayout->addSeparator();
             vLayout->addWidget(p.textBlocks["MadeIn"]);
             textLayout->addWidget(vLayout);

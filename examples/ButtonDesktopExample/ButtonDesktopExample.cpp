@@ -46,12 +46,12 @@ int main(int argc, char ** argv)
     {
         auto app = Desktop::Application::create(argc, argv);
 
-        auto layout = UI::Layout::Vertical::create(app.get());
+        auto layout = UI::VerticalLayout::create(app.get());
         layout->setMargin(UI::Style::MetricsRole::MarginLarge);
         layout->setSpacing(UI::Style::MetricsRole::SpacingLarge);
 
         auto pushButtonGroup = UI::ButtonGroup::create(UI::ButtonType::Push);
-        auto hLayout = UI::Layout::Horizontal::create(app.get());
+        auto hLayout = UI::HorizontalLayout::create(app.get());
         for (size_t i = 0; i < 3; ++i)
         {
             std::stringstream ss;
@@ -65,12 +65,12 @@ int main(int argc, char ** argv)
         {
             std::cout << "Push = " << index << std::endl;
         });
-        auto groupBox = UI::Layout::GroupBox::create("Push Buttons", app.get());
+        auto groupBox = UI::GroupBox::create("Push Buttons", app.get());
         groupBox->addWidget(hLayout);
         layout->addWidget(groupBox);
 
         auto toggleButtonGroup = UI::ButtonGroup::create(UI::ButtonType::Toggle);
-        hLayout = UI::Layout::Horizontal::create(app.get());
+        hLayout = UI::HorizontalLayout::create(app.get());
         for (size_t i = 0; i < 3; ++i)
         {
             std::stringstream ss;
@@ -84,12 +84,12 @@ int main(int argc, char ** argv)
         {
             std::cout << "Toggle " << index << " = " << value << std::endl;
         });
-        groupBox = UI::Layout::GroupBox::create("Toggle Buttons", app.get());
+        groupBox = UI::GroupBox::create("Toggle Buttons", app.get());
         groupBox->addWidget(hLayout);
         layout->addWidget(groupBox);
 
         auto radioButtonGroup = UI::ButtonGroup::create(UI::ButtonType::Radio);
-        hLayout = UI::Layout::Horizontal::create(app.get());
+        hLayout = UI::HorizontalLayout::create(app.get());
         for (size_t i = 0; i < 3; ++i)
         {
             std::stringstream ss;
@@ -103,12 +103,12 @@ int main(int argc, char ** argv)
         {
             std::cout << "Radio " << index << std::endl;
         });
-        groupBox = UI::Layout::GroupBox::create("Radio Buttons", app.get());
+        groupBox = UI::GroupBox::create("Radio Buttons", app.get());
         groupBox->addWidget(hLayout);
         layout->addWidget(groupBox);
 
         auto exclusiveButtonGroup = UI::ButtonGroup::create(UI::ButtonType::Exclusive);
-        hLayout = UI::Layout::Horizontal::create(app.get());
+        hLayout = UI::HorizontalLayout::create(app.get());
         for (size_t i = 0; i < 3; ++i)
         {
             std::stringstream ss;
@@ -122,7 +122,7 @@ int main(int argc, char ** argv)
         {
             std::cout << "Exclusive " << index << std::endl;
         });
-        groupBox = UI::Layout::GroupBox::create("Exclusive Buttons", app.get());
+        groupBox = UI::GroupBox::create("Exclusive Buttons", app.get());
         groupBox->addWidget(hLayout);
         layout->addWidget(groupBox);
 

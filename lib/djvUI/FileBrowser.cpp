@@ -79,7 +79,7 @@ namespace djv
                 size_t itemCount = 0;
                 std::shared_ptr<Label> itemCountLabel;
                 std::shared_ptr<ScrollWidget> scrollWidget;
-                std::shared_ptr<Layout::Vertical> layout;
+                std::shared_ptr<VerticalLayout> layout;
                 std::function<void(const FileSystem::FileInfo &)> callback;
                 std::shared_ptr<ValueObserver<FileSystem::Path> > pathObserver;
                 std::shared_ptr<ListObserver<FileSystem::FileInfo> > fileInfoObserver;
@@ -214,16 +214,16 @@ namespace djv
                 p.scrollWidget->setBorder(false);
                 p.scrollWidget->addWidget(p.itemView);
 
-                p.layout = Layout::Vertical::create(context);
+                p.layout = VerticalLayout::create(context);
                 p.layout->setSpacing(Style::MetricsRole::None);
                 p.layout->addWidget(menuBar);
                 p.layout->addSeparator();
 
-                auto vLayout = Layout::Vertical::create(context);
+                auto vLayout = VerticalLayout::create(context);
                 vLayout->setSpacing(Style::MetricsRole::None);
                 vLayout->addWidget(topToolBar);
                 vLayout->addSeparator();
-                auto hLayout = Layout::Horizontal::create(context);
+                auto hLayout = HorizontalLayout::create(context);
                 hLayout->setSpacing(Style::MetricsRole::None);
                 hLayout->addSeparator();
                 hLayout->addWidget(p.scrollWidget, Layout::RowStretch::Expand);

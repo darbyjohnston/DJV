@@ -50,9 +50,9 @@ namespace djv
         struct MenuBar::Private
         {
             std::vector<std::shared_ptr<Menu> > menus;
-            std::shared_ptr<Layout::Horizontal> buttonLayout;
-            std::shared_ptr<Layout::Horizontal> widgetLayout;
-            std::shared_ptr<Layout::Horizontal> layout;
+            std::shared_ptr<HorizontalLayout> buttonLayout;
+            std::shared_ptr<HorizontalLayout> widgetLayout;
+            std::shared_ptr<HorizontalLayout> layout;
             std::map<std::shared_ptr<Menu>, std::shared_ptr<Button::Menu> > menusToButtons;
             std::map<std::shared_ptr<Menu>, std::shared_ptr<ValueObserver<std::string> > > menuIconObservers;
             std::map<std::shared_ptr<Menu>, std::shared_ptr<ValueObserver<std::string> > > menuNameObservers;
@@ -73,13 +73,13 @@ namespace djv
             addAction(closeAction);
 
             DJV_PRIVATE_PTR();
-            p.buttonLayout = Layout::Horizontal::create(context);
+            p.buttonLayout = HorizontalLayout::create(context);
             p.buttonLayout->setSpacing(Style::MetricsRole::None);
 
-            p.widgetLayout = Layout::Horizontal::create(context);
+            p.widgetLayout = HorizontalLayout::create(context);
             p.widgetLayout->setSpacing(Style::MetricsRole::None);
 
-            p.layout = Layout::Horizontal::create(context);
+            p.layout = HorizontalLayout::create(context);
             p.layout->addWidget(p.buttonLayout);
             p.layout->addExpander();
             p.layout->addWidget(p.widgetLayout);

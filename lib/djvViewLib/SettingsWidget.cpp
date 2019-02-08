@@ -75,7 +75,7 @@ namespace djv
 				}
 			}
 
-			auto buttonLayout = UI::Layout::Vertical::create(context);
+			auto buttonLayout = UI::VerticalLayout::create(context);
 			buttonLayout->setSpacing(UI::Style::MetricsRole::None);
 			for (auto i : p.buttons)
 			{
@@ -95,7 +95,7 @@ namespace djv
 			soloScrollWidget->setBorder(false);
 			soloScrollWidget->addWidget(soloLayout);
 
-			auto layout = UI::Layout::Horizontal::create(context);
+			auto layout = UI::HorizontalLayout::create(context);
 			layout->setSpacing(UI::Style::MetricsRole::None);
 			layout->addWidget(buttonScrollWidget);
 			layout->addWidget(soloScrollWidget, UI::Layout::RowStretch::Expand);

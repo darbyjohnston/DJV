@@ -66,7 +66,7 @@ namespace djv
             clearButton->setIcon("djvIconClear");
             clearButton->setBackgroundRole(Style::ColorRole::None);
             
-            auto layout = Layout::Horizontal::create(context);
+            auto layout = HorizontalLayout::create(context);
             layout->setSpacing(Style::MetricsRole::None);
             layout->setBackgroundRole(Style::ColorRole::Trough);
             layout->addWidget(_p->lineEditBase, Layout::RowStretch::Expand);

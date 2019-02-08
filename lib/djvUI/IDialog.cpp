@@ -43,7 +43,7 @@ namespace djv
     {
         namespace
         {
-            class DialogLayout : public Layout::Vertical
+            class DialogLayout : public VerticalLayout
             {
                 DJV_NON_COPYABLE(DialogLayout);
 
@@ -82,7 +82,7 @@ namespace djv
         struct IDialog::Private
         {
             std::shared_ptr<Label> titleLabel;
-            std::shared_ptr<Layout::Vertical> childLayout;
+            std::shared_ptr<VerticalLayout> childLayout;
             std::shared_ptr<Border> border;
             std::shared_ptr<Layout::Overlay> overlay;
             std::function<void(void)> closeCallback;
@@ -112,13 +112,13 @@ namespace djv
             closeButton->setDisabledColorRole(UI::Style::ColorRole::HeaderDisabled);
             closeButton->setInsideMargin(Style::MetricsRole::MarginSmall);
 
-            p.childLayout = Layout::Vertical::create(context);
+            p.childLayout = VerticalLayout::create(context);
             p.childLayout->setSpacing(Style::MetricsRole::None);
             p.childLayout->setBackgroundRole(Style::ColorRole::Background);
 
             auto layout = DialogLayout::create(context);
             layout->setSpacing(Style::MetricsRole::None);
-            auto hLayout = Layout::Horizontal::create(context);
+            auto hLayout = HorizontalLayout::create(context);
             hLayout->setBackgroundRole(Style::ColorRole::HeaderBackground);
             hLayout->addWidget(p.titleLabel, Layout::RowStretch::Expand);
             hLayout->addWidget(closeButton);

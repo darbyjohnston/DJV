@@ -54,7 +54,7 @@ namespace djv
             size_t alUnqueuedBuffers = 0;
             std::map<std::string, std::shared_ptr<UI::Label> > labels;
             std::map<std::string, size_t> text;
-            std::shared_ptr<UI::Layout::Form> layout;
+            std::shared_ptr<UI::FormLayout> layout;
             std::shared_ptr<ValueObserver<std::shared_ptr<Media> > > currentMediaObserver;
             std::shared_ptr<ValueObserver<Time::Duration> > durationObserver;
             std::shared_ptr<ValueObserver<Time::Timestamp> > currentTimeObserver;
@@ -80,7 +80,7 @@ namespace djv
                 i.second->setTextHAlign(UI::TextHAlign::Left);
             }
 
-            p.layout = UI::Layout::Form::create(context);
+            p.layout = UI::FormLayout::create(context);
             p.layout->setMargin(UI::Style::MetricsRole::Margin);
             p.text["Duration"] = p.layout->addWidget(std::string(), p.labels["Duration"]);
             p.text["CurrentTime"] = p.layout->addWidget(std::string(), p.labels["CurrentTime"]);

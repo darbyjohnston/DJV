@@ -43,7 +43,7 @@ namespace djv
         {
             std::shared_ptr<ValueSubject<Playback> > playback;
             std::shared_ptr<UI::ButtonGroup> buttonGroup;
-            std::shared_ptr<UI::Layout::Horizontal> layout;
+            std::shared_ptr<UI::HorizontalLayout> layout;
         };
         
         void PlaybackWidget::_init(Context * context)
@@ -62,7 +62,7 @@ namespace djv
             p.buttonGroup->addButton(forwardButton);
             p.buttonGroup->addButton(reverseButton);
 
-            p.layout = UI::Layout::Horizontal::create(context);
+            p.layout = UI::HorizontalLayout::create(context);
             p.layout->setSpacing(UI::Style::MetricsRole::None);
             //p.layout->addWidget(reverseButton);
             p.layout->addWidget(forwardButton);

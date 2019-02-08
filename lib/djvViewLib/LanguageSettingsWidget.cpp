@@ -48,7 +48,7 @@ namespace djv
         {
             std::vector<std::shared_ptr<UI::ListButton> > buttons;
             std::shared_ptr<UI::ButtonGroup> buttonGroup;
-            std::shared_ptr<UI::Layout::Flow> layout;
+            std::shared_ptr<UI::FlowLayout> layout;
             std::map<int, std::string> indexToLocale;
             std::map<std::string, int> localeToIndex;
             std::map<std::string, std::string> localeFonts;
@@ -64,7 +64,7 @@ namespace djv
             DJV_PRIVATE_PTR();
             p.buttonGroup = UI::ButtonGroup::create(UI::ButtonType::Radio);
 
-            p.layout = UI::Layout::Flow::create(context);
+            p.layout = UI::FlowLayout::create(context);
             p.layout->setParent(shared_from_this());
 
             if (auto textSystem = context->getSystemT<TextSystem>().lock())
