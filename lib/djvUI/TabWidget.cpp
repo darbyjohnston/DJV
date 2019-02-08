@@ -43,7 +43,7 @@ namespace djv
         {
             std::shared_ptr<TabBar> tabBar;
             std::shared_ptr<VerticalLayout> layout;
-            std::shared_ptr<Layout::Solo> soloLayout;
+            std::shared_ptr<SoloLayout> soloLayout;
             std::function<void(int)> callback;
         };
 
@@ -56,12 +56,12 @@ namespace djv
             DJV_PRIVATE_PTR();
             p.tabBar = TabBar::create(context);
 
-            p.soloLayout = Layout::Solo::create(context);
+            p.soloLayout = SoloLayout::create(context);
 
             p.layout = VerticalLayout::create(context);
-            p.layout->setSpacing(Style::MetricsRole::None);
+            p.layout->setSpacing(MetricsRole::None);
             p.layout->addWidget(p.tabBar);
-            p.layout->addWidget(p.soloLayout, Layout::RowStretch::Expand);
+            p.layout->addWidget(p.soloLayout, RowStretch::Expand);
             p.layout->setParent(shared_from_this());
 
             auto weak = std::weak_ptr<TabWidget>(std::dynamic_pointer_cast<TabWidget>(shared_from_this()));

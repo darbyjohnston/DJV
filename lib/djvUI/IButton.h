@@ -31,16 +31,16 @@ namespace djv
                 bool isChecked() const;
                 virtual void setChecked(bool);
 
-                Style::ColorRole getForegroundColorRole() const;
-                Style::ColorRole getHoveredColorRole() const;
-                Style::ColorRole getPressedColorRole() const;
-                Style::ColorRole getCheckedColorRole() const;
-                Style::ColorRole getDisabledColorRole() const;
-                void setForegroundColorRole(Style::ColorRole);
-                void setHoveredColorRole(Style::ColorRole);
-                void setPressedColorRole(Style::ColorRole);
-                void setCheckedColorRole(Style::ColorRole);
-                void setDisabledColorRole(Style::ColorRole);
+				ColorRole getForegroundColorRole() const;
+				ColorRole getHoveredColorRole() const;
+				ColorRole getPressedColorRole() const;
+				ColorRole getCheckedColorRole() const;
+				ColorRole getDisabledColorRole() const;
+                void setForegroundColorRole(ColorRole);
+                void setHoveredColorRole(ColorRole);
+                void setPressedColorRole(ColorRole);
+                void setCheckedColorRole(ColorRole);
+                void setDisabledColorRole(ColorRole);
 
                 void setClickedCallback(const std::function<void(void)>&);
                 void setCheckedCallback(const std::function<void(bool)>&);
@@ -51,7 +51,7 @@ namespace djv
                 bool _isPressed() const;
                 const glm::vec2& _getPressedPos() const;
                 void _setCanRejectPressed(bool);
-                Style::ColorRole _getForegroundColorRole() const;
+				ColorRole _getForegroundColorRole() const;
 
                 virtual void _doClickedCallback();
                 virtual void _doCheckedCallback(bool);

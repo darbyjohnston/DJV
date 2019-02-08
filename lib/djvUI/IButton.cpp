@@ -45,11 +45,11 @@ namespace djv
             {
                 ButtonType buttonType = ButtonType::Push;
                 bool checked = false;
-                Style::ColorRole foregroundColorRole = Style::ColorRole::Foreground;
-                Style::ColorRole hoveredColorRole = Style::ColorRole::Hovered;
-                Style::ColorRole pressedColorRole = Style::ColorRole::Pressed;
-                Style::ColorRole checkedColorRole = Style::ColorRole::Checked;
-                Style::ColorRole disabledColorRole = Style::ColorRole::Disabled;
+				ColorRole foregroundColorRole = ColorRole::Foreground;
+				ColorRole hoveredColorRole = ColorRole::Hovered;
+				ColorRole pressedColorRole = ColorRole::Pressed;
+				ColorRole checkedColorRole = ColorRole::Checked;
+				ColorRole disabledColorRole = ColorRole::Disabled;
 
                 std::function<void(void)> clickedCallback;
                 std::function<void(bool)> checkedCallback;
@@ -96,32 +96,32 @@ namespace djv
                 _redraw();
             }
 
-            Style::ColorRole IButton::getForegroundColorRole() const
+			ColorRole IButton::getForegroundColorRole() const
             {
                 return _p->foregroundColorRole;
             }
 
-            Style::ColorRole IButton::getHoveredColorRole() const
+			ColorRole IButton::getHoveredColorRole() const
             {
                 return _p->hoveredColorRole;
             }
 
-            Style::ColorRole IButton::getPressedColorRole() const
+			ColorRole IButton::getPressedColorRole() const
             {
                 return _p->pressedColorRole;
             }
 
-            Style::ColorRole IButton::getCheckedColorRole() const
+			ColorRole IButton::getCheckedColorRole() const
             {
                 return _p->checkedColorRole;
             }
 
-            Style::ColorRole IButton::getDisabledColorRole() const
+			ColorRole IButton::getDisabledColorRole() const
             {
                 return _p->disabledColorRole;
             }
 
-            void IButton::setForegroundColorRole(Style::ColorRole value)
+            void IButton::setForegroundColorRole(ColorRole value)
             {
                 if (value == _p->foregroundColorRole)
                     return;
@@ -129,7 +129,7 @@ namespace djv
                 _redraw();
             }
 
-            void IButton::setHoveredColorRole(Style::ColorRole value)
+            void IButton::setHoveredColorRole(ColorRole value)
             {
                 if (_p->hoveredColorRole == value)
                     return;
@@ -137,7 +137,7 @@ namespace djv
                 _redraw();
             }
 
-            void IButton::setPressedColorRole(Style::ColorRole value)
+            void IButton::setPressedColorRole(ColorRole value)
             {
                 if (_p->pressedColorRole == value)
                     return;
@@ -145,7 +145,7 @@ namespace djv
                 _redraw();
             }
 
-            void IButton::setCheckedColorRole(Style::ColorRole value)
+            void IButton::setCheckedColorRole(ColorRole value)
             {
                 if (_p->checkedColorRole == value)
                     return;
@@ -153,7 +153,7 @@ namespace djv
                 _redraw();
             }
 
-            void IButton::setDisabledColorRole(Style::ColorRole value)
+            void IButton::setDisabledColorRole(ColorRole value)
             {
                 if (_p->disabledColorRole == value)
                     return;
@@ -182,7 +182,7 @@ namespace djv
 
                         // Draw the toggled state.
                         DJV_PRIVATE_PTR();
-                        if (_isToggled() && p.checkedColorRole != Style::ColorRole::None)
+                        if (_isToggled() && p.checkedColorRole != ColorRole::None)
                         {
                             render->setFillColor(_getColorWithOpacity(style->getColor(p.checkedColorRole)));
                             render->drawRect(g);
@@ -232,7 +232,7 @@ namespace djv
                     if (auto style = _getStyle().lock())
                     {
                         const float distance = glm::length(pos - p.pressedPos);
-                        const bool accepted = p.canRejectPressed ? distance < style->getMetric(Style::MetricsRole::Drag) : true;
+                        const bool accepted = p.canRejectPressed ? distance < style->getMetric(MetricsRole::Drag) : true;
                         event.setAccepted(accepted);
                         if (!accepted)
                         {
@@ -353,7 +353,7 @@ namespace djv
                 _p->canRejectPressed = value;
             }
 
-            Style::ColorRole IButton::_getForegroundColorRole() const
+			ColorRole IButton::_getForegroundColorRole() const
             {
                 DJV_PRIVATE_PTR();
                 return !isEnabled(true) ? p.disabledColorRole : p.foregroundColorRole;

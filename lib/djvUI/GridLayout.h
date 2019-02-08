@@ -81,8 +81,8 @@ namespace djv
                 GridStretch getStretch(const std::shared_ptr<Widget>&) const;
                 void setStretch(const std::shared_ptr<Widget>&, GridStretch);
 
-                void setRowBackgroundRole(int, Style::ColorRole);
-                void setColumnBackgroundRole(int, Style::ColorRole);
+                void setRowBackgroundRole(int, ColorRole);
+                void setColumnBackgroundRole(int, ColorRole);
 
                 float getHeightForWidth(float) const override;
 
@@ -98,6 +98,7 @@ namespace djv
         } // namespace Layout
 
 		typedef Layout::Grid GridLayout;
+		using Layout::GridStretch;
 
     } // namespace UI
 

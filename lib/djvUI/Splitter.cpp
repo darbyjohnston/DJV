@@ -256,8 +256,8 @@ namespace djv
                         const BBox2f& hg = _getHandleGeometry();
 
                         // Draw the background.
-                        const Style::ColorRole colorRole = getBackgroundRole();
-                        if (colorRole != Style::ColorRole::None)
+                        const ColorRole colorRole = getBackgroundRole();
+                        if (colorRole != ColorRole::None)
                         {
                             render->setFillColor(_getColorWithOpacity(style->getColor(colorRole)));
                             render->drawRect(sg);
@@ -266,7 +266,7 @@ namespace djv
                         // Draw the pressed or hovered state.
                         if (p.pressedID)
                         {
-                            render->setFillColor(_getColorWithOpacity(style->getColor(Style::ColorRole::Pressed)));
+                            render->setFillColor(_getColorWithOpacity(style->getColor(ColorRole::Pressed)));
                             render->drawRect(hg);
                         }
                         else
@@ -278,7 +278,7 @@ namespace djv
                             }
                             if (hover)
                             {
-                                render->setFillColor(_getColorWithOpacity(style->getColor(Style::ColorRole::Hovered)));
+                                render->setFillColor(_getColorWithOpacity(style->getColor(ColorRole::Hovered)));
                                 render->drawRect(hg);
                             }
                         }
@@ -368,7 +368,7 @@ namespace djv
                 if (auto style = _getStyle().lock())
                 {
                     DJV_PRIVATE_PTR();
-                    const float value = style->getMetric(Style::MetricsRole::Handle);
+                    const float value = style->getMetric(MetricsRole::Handle);
                     if (value != p.splitterWidth)
                     {
                         _resize();

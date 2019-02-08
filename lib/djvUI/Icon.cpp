@@ -44,8 +44,8 @@ namespace djv
         struct Icon::Private
         {
             std::string name;
-            Style::ColorRole iconColorRole = Style::ColorRole::Foreground;
-            Style::MetricsRole iconSizeRole = Style::MetricsRole::Icon;
+			ColorRole iconColorRole = ColorRole::Foreground;
+			MetricsRole iconSizeRole = MetricsRole::Icon;
             std::future<std::shared_ptr<AV::Image::Image> > imageFuture;
             std::shared_ptr<AV::Image::Image> image;
         };
@@ -98,12 +98,12 @@ namespace djv
             }
         }
 
-        Style::ColorRole Icon::getIconColorRole() const
+		ColorRole Icon::getIconColorRole() const
         {
             return _p->iconColorRole;
         }
 
-        void Icon::setIconColorRole(Style::ColorRole value)
+        void Icon::setIconColorRole(ColorRole value)
         {
             DJV_PRIVATE_PTR();
             if (value == p.iconColorRole)
@@ -112,12 +112,12 @@ namespace djv
             _redraw();
         }
 
-        Style::MetricsRole Icon::getIconSizeRole() const
+		MetricsRole Icon::getIconSizeRole() const
         {
             return _p->iconSizeRole;
         }
 
-        void Icon::setIconSizeRole(Style::MetricsRole value)
+        void Icon::setIconSizeRole(MetricsRole value)
         {
             DJV_PRIVATE_PTR();
             if (value == p.iconSizeRole)
@@ -205,7 +205,7 @@ namespace djv
                         case VAlign::Bottom: pos.y = g.max.y - size.y; break;
                         default: break;
                         }
-                        if (p.iconColorRole != Style::ColorRole::None)
+                        if (p.iconColorRole != ColorRole::None)
                         {
                             render->setFillColor(_getColorWithOpacity(style->getColor(p.iconColorRole)));
                             render->drawFilledImage(p.image, BBox2f(pos.x, pos.y, size.x, size.y), AV::Render::ImageCache::Static);

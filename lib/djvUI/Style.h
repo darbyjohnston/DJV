@@ -206,6 +206,10 @@ namespace djv
             };
 
         } // namespace Style
+
+		using Style::ColorRole;
+		using Style::MetricsRole;
+
     } // namespace UI
 
     DJV_ENUM_SERIALIZE_HELPERS(UI::Style::ColorRole);

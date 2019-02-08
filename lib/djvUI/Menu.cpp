@@ -169,10 +169,10 @@ namespace djv
 			{
 				if (auto style = _getStyle().lock())
 				{
-					const float m = style->getMetric(Style::MetricsRole::MarginSmall);
-					const float s = style->getMetric(Style::MetricsRole::Spacing);
-					const float b = style->getMetric(Style::MetricsRole::Border);
-					const float iconSize = style->getMetric(Style::MetricsRole::Icon);
+					const float m = style->getMetric(MetricsRole::MarginSmall);
+					const float s = style->getMetric(MetricsRole::Spacing);
+					const float b = style->getMetric(MetricsRole::Border);
+					const float iconSize = style->getMetric(MetricsRole::Icon);
 
 					if (_fontMetricsFuture.valid())
 					{
@@ -301,9 +301,9 @@ namespace djv
 					if (auto style = _getStyle().lock())
 					{
 						const BBox2f & g = getGeometry();
-						const float m = style->getMetric(Style::MetricsRole::MarginSmall);
-						const float s = style->getMetric(Style::MetricsRole::Spacing);
-						const float iconSize = style->getMetric(Style::MetricsRole::Icon);
+						const float m = style->getMetric(MetricsRole::MarginSmall);
+						const float s = style->getMetric(MetricsRole::Spacing);
+						const float iconSize = style->getMetric(MetricsRole::Icon);
 
 						for (auto & i : _iconFutures)
 						{
@@ -325,14 +325,14 @@ namespace djv
 						{
 							if (i.second->checked)
 							{
-								render->setFillColor(_getColorWithOpacity(style->getColor(Style::ColorRole::Checked)));
+								render->setFillColor(_getColorWithOpacity(style->getColor(ColorRole::Checked)));
 								render->drawRect(i.second->geom);
 							}
 							if (i.second->enabled)
 							{
 								if (i.second == _pressed.second)
 								{
-									render->setFillColor(_getColorWithOpacity(style->getColor(Style::ColorRole::Pressed)));
+									render->setFillColor(_getColorWithOpacity(style->getColor(ColorRole::Pressed)));
 									render->drawRect(i.second->geom);
 								}
 								else
@@ -341,7 +341,7 @@ namespace djv
 									{
 										if (i.second == hovered.second)
 										{
-											render->setFillColor(_getColorWithOpacity(style->getColor(Style::ColorRole::Hovered)));
+											render->setFillColor(_getColorWithOpacity(style->getColor(ColorRole::Hovered)));
 											render->drawRect(i.second->geom);
 											break;
 										}
@@ -350,10 +350,10 @@ namespace djv
 							}
 						}
 
-						render->setCurrentFont(style->getFontInfo(AV::Font::Info::faceDefault, Style::MetricsRole::FontMedium));
+						render->setCurrentFont(style->getFontInfo(AV::Font::Info::faceDefault, MetricsRole::FontMedium));
 						for (const auto & i : _items)
 						{
-							const Style::ColorRole colorRole = i.second->enabled ? Style::ColorRole::Foreground : Style::ColorRole::Disabled;
+							const ColorRole colorRole = i.second->enabled ? ColorRole::Foreground : ColorRole::Disabled;
 							float x = i.second->geom.min.x + m;
 							float y = 0.f;
 
@@ -383,7 +383,7 @@ namespace djv
 							}
 							else
 							{
-								render->setFillColor(_getColorWithOpacity(style->getColor(Style::ColorRole::Border)));
+								render->setFillColor(_getColorWithOpacity(style->getColor(ColorRole::Border)));
 								render->drawRect(i.second->geom);
 							}
 						}
@@ -425,7 +425,7 @@ namespace djv
 					if (auto style = _getStyle().lock())
 					{
 						const float distance = glm::length(pos - _pressedPos);
-						const bool accepted = distance < style->getMetric(Style::MetricsRole::Drag);
+						const bool accepted = distance < style->getMetric(MetricsRole::Drag);
 						event.setAccepted(accepted);
 						if (!accepted)
 						{
@@ -566,7 +566,7 @@ namespace djv
 				auto textSystem = _getTextSystem().lock();
 				if (style && fontSystem && textSystem)
 				{
-					const auto fontInfo = style->getFontInfo(AV::Font::Info::faceDefault, Style::MetricsRole::FontMedium);
+					const auto fontInfo = style->getFontInfo(AV::Font::Info::faceDefault, MetricsRole::FontMedium);
 					_fontMetricsFuture = fontSystem->getMetrics(fontInfo);
 					_hasShortcuts = false;
 					_items.clear();
@@ -700,7 +700,7 @@ namespace djv
 						{
 							_iconFutures[i.second] = iconSystem->getIcon(
 								i.second->iconName,
-								static_cast<int>(style->getMetric(Style::MetricsRole::Icon)));
+								static_cast<int>(style->getMetric(MetricsRole::Icon)));
 						}
 					}
 				}
@@ -717,7 +717,7 @@ namespace djv
 					_hasShortcuts = false;
 					for (const auto & i : _items)
 					{
-						const auto fontInfo = style->getFontInfo(AV::Font::Info::faceDefault, Style::MetricsRole::FontMedium);
+						const auto fontInfo = style->getFontInfo(AV::Font::Info::faceDefault, MetricsRole::FontMedium);
 						_textSizeFutures[i.second] = fontSystem->measure(i.second->text, fontInfo);
 						_shortcutSizeFutures[i.second] = fontSystem->measure(i.second->shortcutLabel, fontInfo);
 						_hasShortcuts |= i.second->shortcutLabel.size() > 0;
@@ -767,7 +767,7 @@ namespace djv
 				Context * context)
 			{
 				Widget::_init(context);
-				setBackgroundRole(Style::ColorRole::Background);
+				setBackgroundRole(ColorRole::Background);
 				setPointerEnabled(true);
 
 				_menuWidget = MenuWidget::create(actions, menus, context);
@@ -775,8 +775,8 @@ namespace djv
 				_scrollWidget = ScrollWidget::create(ScrollType::Vertical, context);
 				//! \bug This causes the menu to flicker when it's shown.
 				//_scrollWidget->setAutoHideScrollBars(true);
-				_scrollWidget->setMinimumSizeRole(Style::MetricsRole::None);
-				_scrollWidget->setBackgroundRole(Style::ColorRole::Background);
+				_scrollWidget->setMinimumSizeRole(MetricsRole::None);
+				_scrollWidget->setBackgroundRole(ColorRole::Background);
 				_scrollWidget->setPointerEnabled(true);
 				_scrollWidget->addWidget(_menuWidget);
 				_scrollWidget->setParent(shared_from_this());
@@ -1002,8 +1002,8 @@ namespace djv
 				{
 					if (auto style = _getStyle().lock())
 					{
-						const float s = style->getMetric(Style::MetricsRole::Shadow);
-						render->setFillColor(_getColorWithOpacity(style->getColor(Style::ColorRole::Shadow)));
+						const float s = style->getMetric(MetricsRole::Shadow);
+						render->setFillColor(_getColorWithOpacity(style->getColor(ColorRole::Shadow)));
 						for (const auto & i : getChildrenT<Widget>())
 						{
 							BBox2f g = i->getGeometry();
@@ -1242,7 +1242,7 @@ namespace djv
             auto overlay = Layout::Overlay::create(context);
             overlay->setCaptureKeyboard(false);
             overlay->setFadeIn(false);
-            overlay->setBackgroundRole(Style::ColorRole::None);
+            overlay->setBackgroundRole(ColorRole::None);
             return overlay;
         }
 

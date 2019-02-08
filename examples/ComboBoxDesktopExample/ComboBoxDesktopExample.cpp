@@ -63,11 +63,11 @@ int main(int argc, char ** argv)
         comboBox3->setVAlign(UI::VAlign::Bottom);
 
         auto layout = UI::GridLayout::create(app.get());
-        layout->setMargin(UI::Style::MetricsRole::MarginLarge);
-        layout->addWidget(comboBox0, glm::ivec2(0, 0), UI::Layout::GridStretch::Both);
-        layout->addWidget(comboBox1, glm::ivec2(1, 0), UI::Layout::GridStretch::Both);
-        layout->addWidget(comboBox2, glm::ivec2(0, 1), UI::Layout::GridStretch::Both);
-        layout->addWidget(comboBox3, glm::ivec2(1, 1), UI::Layout::GridStretch::Both);
+        layout->setMargin(UI::MetricsRole::MarginLarge);
+        layout->addWidget(comboBox0, glm::ivec2(0, 0), UI::GridStretch::Both);
+        layout->addWidget(comboBox1, glm::ivec2(1, 0), UI::GridStretch::Both);
+        layout->addWidget(comboBox2, glm::ivec2(0, 1), UI::GridStretch::Both);
+        layout->addWidget(comboBox3, glm::ivec2(1, 1), UI::GridStretch::Both);
         auto window = UI::Window::create(app.get());
         window->addWidget(layout);
         window->show();

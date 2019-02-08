@@ -141,7 +141,7 @@ namespace djv
                 Handle out = Handle::None;
                 if (auto style = _getStyle().lock())
                 {
-                    const float m = style->getMetric(Style::MetricsRole::Handle);
+                    const float m = style->getMetric(MetricsRole::Handle);
                     for (const auto & i : _getHandleBBox(getGeometry(), m, m * 2.f))
                     {
                         for (const auto & j : i.second)
@@ -162,7 +162,7 @@ namespace djv
                 std::vector<BBox2f> out;
                 if (auto style = _getStyle().lock())
                 {
-                    const float m = style->getMetric(Style::MetricsRole::Handle);
+                    const float m = style->getMetric(MetricsRole::Handle);
                     const auto & bbox = _getHandleBBox(getGeometry(), m, m * 2.f);
                     const auto i = bbox.find(value);
                     if (i != bbox.end())

@@ -54,8 +54,8 @@ namespace djv
                 Orientation getOrientation() const;
                 void setOrientation(Orientation);
 
-                Style::MetricsRole getSpacerSize() const;
-                void setSpacerSize(Style::MetricsRole);
+				MetricsRole getSpacerSize() const;
+                void setSpacerSize(MetricsRole);
 
             protected:
                 void _preLayoutEvent(Core::Event::PreLayout&) override;

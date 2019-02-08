@@ -166,7 +166,7 @@ namespace djv
                 if (auto style = _getStyle().lock())
                 {
                     glm::vec2 size = glm::vec2(0.f, 0.f);
-                    size += style->getMetric(Style::MetricsRole::Handle);
+                    size += style->getMetric(MetricsRole::Handle);
                     _setMinimumSize(size);
                 }
             }
@@ -181,7 +181,7 @@ namespace djv
                         const BBox2f& g = getGeometry();
 
                         // Draw the background.
-                        render->setFillColor(_getColorWithOpacity(style->getColor(Style::ColorRole::Trough)));
+                        render->setFillColor(_getColorWithOpacity(style->getColor(ColorRole::Trough)));
                         render->drawRect(g);
 
                         if (_viewSize < _contentsSize)
@@ -201,13 +201,13 @@ namespace djv
                                 break;
                             default: break;
                             }
-                            render->setFillColor(_getColorWithOpacity(style->getColor(Style::ColorRole::Button)));
+                            render->setFillColor(_getColorWithOpacity(style->getColor(ColorRole::Button)));
                             render->drawRect(BBox2f(pos.x, pos.y, size.x, size.y));
 
                             // Draw the pressed and hovered state.
                             if (_pressedID)
                             {
-                                render->setFillColor(_getColorWithOpacity(style->getColor(Style::ColorRole::Pressed)));
+                                render->setFillColor(_getColorWithOpacity(style->getColor(ColorRole::Pressed)));
                                 render->drawRect(BBox2f(pos.x, pos.y, size.x, size.y));
                             }
                             else
@@ -219,7 +219,7 @@ namespace djv
                                 }
                                 if (hover)
                                 {
-                                    render->setFillColor(_getColorWithOpacity(style->getColor(Style::ColorRole::Hovered)));
+                                    render->setFillColor(_getColorWithOpacity(style->getColor(ColorRole::Hovered)));
                                     render->drawRect(BBox2f(pos.x, pos.y, size.x, size.y));
                                 }
                             }
@@ -385,8 +385,8 @@ namespace djv
                 bool setScrollPos(const glm::vec2&);
                 void setScrollPosCallback(const std::function<void(const glm::vec2&)>&);
 
-				Style::MetricsRole getMinimumSizeRole() const { return _minimumSizeRole; }
-				void setMinimumSizeRole(Style::MetricsRole);
+				MetricsRole getMinimumSizeRole() const { return _minimumSizeRole; }
+				void setMinimumSizeRole(MetricsRole);
 
             protected:
                 void _preLayoutEvent(Event::PreLayout&) override;
@@ -399,7 +399,7 @@ namespace djv
                 std::function<void(const glm::vec2&)> _contentsSizeCallback;
                 glm::vec2 _scrollPos = glm::vec2(0.f, 0.f);
                 std::function<void(const glm::vec2&)> _scrollPosCallback;
-				Style::MetricsRole _minimumSizeRole = Style::MetricsRole::ScrollArea;
+				MetricsRole _minimumSizeRole = MetricsRole::ScrollArea;
             };
 
             void ScrollArea::_init(ScrollType scrollType, Context * context)
@@ -451,7 +451,7 @@ namespace djv
                 _scrollPosCallback = callback;
             }
 
-			void ScrollArea::setMinimumSizeRole(Style::MetricsRole value)
+			void ScrollArea::setMinimumSizeRole(MetricsRole value)
 			{
 				if (value == _minimumSizeRole)
 					return;
@@ -476,20 +476,20 @@ namespace djv
                     switch (_scrollType)
                     {
                     case ScrollType::Both:
-						if (_minimumSizeRole != Style::MetricsRole::None)
+						if (_minimumSizeRole != MetricsRole::None)
 						{
 							size.x = std::min(childrenMinimumSize.x, minimumSize);
 							size.y = std::min(childrenMinimumSize.y, minimumSize);
 						}
                         break;
                     case ScrollType::Horizontal:
-						if (_minimumSizeRole != Style::MetricsRole::None)
+						if (_minimumSizeRole != MetricsRole::None)
 						{
 							size.x = std::min(childrenMinimumSize.x, minimumSize);
 						}
                         break;
                     case ScrollType::Vertical:
-						if (_minimumSizeRole != Style::MetricsRole::None)
+						if (_minimumSizeRole != MetricsRole::None)
 						{
 							size.y = std::min(childrenMinimumSize.y, minimumSize);
 						}
@@ -608,20 +608,20 @@ namespace djv
             p.scrollArea->installEventFilter(shared_from_this());
 
             p.scrollAreaSwipe = Widget::create(context);
-            //p.scrollAreaSwipe->setBackgroundRole(Style::ColorRole::Overlay);
+            //p.scrollAreaSwipe->setBackgroundRole(ColorRole::Overlay);
             p.scrollAreaSwipe->setVisible(false);
             p.scrollAreaSwipe->installEventFilter(shared_from_this());
 
             p.scrollBars[Orientation::Horizontal] = ScrollBar::create(Orientation::Horizontal, context);
             p.scrollBars[Orientation::Vertical] = ScrollBar::create(Orientation::Vertical, context);
 
-            auto stackLayout = Layout::Stack::create(context);
+            auto stackLayout = StackLayout::create(context);
             stackLayout->addWidget(p.scrollArea);
             stackLayout->addWidget(p.scrollAreaSwipe);
             
             auto layout = GridLayout::create(context);
-            layout->setSpacing(Style::MetricsRole::None);
-            layout->addWidget(stackLayout, glm::ivec2(0, 0), Layout::GridStretch::Both);
+            layout->setSpacing(MetricsRole::None);
+            layout->addWidget(stackLayout, glm::ivec2(0, 0), GridStretch::Both);
             layout->addWidget(p.scrollBars[Orientation::Horizontal], glm::ivec2(0, 1));
             layout->addWidget(p.scrollBars[Orientation::Vertical], glm::ivec2(1, 0));
             
@@ -771,20 +771,20 @@ namespace djv
 
         bool ScrollWidget::hasBorder() const
         {
-            return _p->border->getBorderSize() != Style::MetricsRole::None;
+            return _p->border->getBorderSize() != MetricsRole::None;
         }
 
         void ScrollWidget::setBorder(bool value)
         {
-            _p->border->setBorderSize(value ? Style::MetricsRole::Border : Style::MetricsRole::None);
+            _p->border->setBorderSize(value ? MetricsRole::Border : MetricsRole::None);
         }
 
-		Style::MetricsRole ScrollWidget::getMinimumSizeRole() const
+		MetricsRole ScrollWidget::getMinimumSizeRole() const
 		{
 			return _p->scrollArea->getMinimumSizeRole();
 		}
 
-		void ScrollWidget::setMinimumSizeRole(Style::MetricsRole value)
+		void ScrollWidget::setMinimumSizeRole(MetricsRole value)
 		{
 			_p->scrollArea->setMinimumSizeRole(value);
 		}

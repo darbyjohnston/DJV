@@ -76,7 +76,7 @@ namespace djv
 			}
 
 			auto buttonLayout = UI::VerticalLayout::create(context);
-			buttonLayout->setSpacing(UI::Style::MetricsRole::None);
+			buttonLayout->setSpacing(UI::MetricsRole::None);
 			for (auto i : p.buttons)
 			{
 				p.buttonGroup->addButton(i.second);
@@ -86,7 +86,7 @@ namespace djv
 			buttonScrollWidget->setBorder(false);
 			buttonScrollWidget->addWidget(buttonLayout);
 
-			auto soloLayout = UI::Layout::Solo::create(context);
+			auto soloLayout = UI::SoloLayout::create(context);
 			for (auto i : p.widgets)
 			{
 				soloLayout->addWidget(i.second);
@@ -96,9 +96,9 @@ namespace djv
 			soloScrollWidget->addWidget(soloLayout);
 
 			auto layout = UI::HorizontalLayout::create(context);
-			layout->setSpacing(UI::Style::MetricsRole::None);
+			layout->setSpacing(UI::MetricsRole::None);
 			layout->addWidget(buttonScrollWidget);
-			layout->addWidget(soloScrollWidget, UI::Layout::RowStretch::Expand);
+			layout->addWidget(soloScrollWidget, UI::RowStretch::Expand);
 			addWidget(layout);
 
 			auto weak = std::weak_ptr<SettingsWidget>(std::dynamic_pointer_cast<SettingsWidget>(shared_from_this()));

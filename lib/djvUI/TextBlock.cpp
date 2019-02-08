@@ -48,11 +48,11 @@ namespace djv
         {
             std::string text;
             TextHAlign textHAlign = TextHAlign::Left;
-            Style::ColorRole textColorRole = Style::ColorRole::Foreground;
-            Style::MetricsRole textSizeRole = Style::MetricsRole::TextColumn;
+			ColorRole textColorRole = ColorRole::Foreground;
+			MetricsRole textSizeRole = MetricsRole::TextColumn;
             std::string fontFace = AV::Font::Info::faceDefault;
             std::string fontFamily;
-            Style::MetricsRole fontSizeRole = Style::MetricsRole::FontMedium;
+			MetricsRole fontSizeRole = MetricsRole::FontMedium;
             AV::Font::Metrics fontMetrics;
             std::future<AV::Font::Metrics> fontMetricsFuture;
             float heightForWidth = 0.f;
@@ -125,12 +125,12 @@ namespace djv
             _resize();
         }
 
-        Style::ColorRole TextBlock::getTextColorRole() const
+		ColorRole TextBlock::getTextColorRole() const
         {
             return _p->textColorRole;
         }
 
-        void TextBlock::setTextColorRole(Style::ColorRole value)
+        void TextBlock::setTextColorRole(ColorRole value)
         {
             DJV_PRIVATE_PTR();
             if (value == p.textColorRole)
@@ -139,12 +139,12 @@ namespace djv
             _redraw();
         }
 
-        Style::MetricsRole TextBlock::getTextSizeRole() const
+		MetricsRole TextBlock::getTextSizeRole() const
         {
             return _p->textSizeRole;
         }
 
-        void TextBlock::setTextSizeRole(Style::MetricsRole value)
+        void TextBlock::setTextSizeRole(MetricsRole value)
         {
             DJV_PRIVATE_PTR();
             if (value == p.textSizeRole)
@@ -163,7 +163,7 @@ namespace djv
             return _p->fontFace;
         }
 
-        Style::MetricsRole TextBlock::getFontSizeRole() const
+		MetricsRole TextBlock::getFontSizeRole() const
         {
             return _p->fontSizeRole;
         }
@@ -186,7 +186,7 @@ namespace djv
             _textUpdate();
         }
 
-        void TextBlock::setFontSizeRole(Style::MetricsRole value)
+        void TextBlock::setFontSizeRole(MetricsRole value)
         {
             DJV_PRIVATE_PTR();
             if (value == p.fontSizeRole)

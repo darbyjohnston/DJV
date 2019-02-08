@@ -101,7 +101,7 @@ namespace djv
         {
             if (auto style = _getStyle().lock())
             {
-                const float sa = style->getMetric(UI::Style::MetricsRole::ScrollArea);
+                const float sa = style->getMetric(UI::MetricsRole::ScrollArea);
                 _setMinimumSize(glm::vec2(sa, sa));
             }
         }

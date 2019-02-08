@@ -76,40 +76,40 @@ void MDIWidget::_init(const std::string & title, Core::Context * context)
 {
     IWidget::_init(context);
 
-    setBackgroundRole(UI::Style::ColorRole::Background);
+    setBackgroundRole(UI::ColorRole::Background);
 
     auto titleLabel = UI::Label::create(context);
     titleLabel->setText(title);
-    titleLabel->setTextColorRole(UI::Style::ColorRole::HeaderForeground);
-    titleLabel->setMargin(UI::Style::MetricsRole::Margin);
+    titleLabel->setTextColorRole(UI::ColorRole::HeaderForeground);
+    titleLabel->setMargin(UI::MetricsRole::Margin);
 
     _closeButton = UI::ToolButton::create(context);
     _closeButton->setIcon("djvIconCloseSmall");
-    _closeButton->setInsideMargin(UI::Style::MetricsRole::MarginSmall);
-    _closeButton->setForegroundColorRole(UI::Style::ColorRole::HeaderForeground);
-    _closeButton->setHoveredColorRole(UI::Style::ColorRole::HeaderHovered);
-    _closeButton->setPressedColorRole(UI::Style::ColorRole::HeaderPressed);
-    _closeButton->setCheckedColorRole(UI::Style::ColorRole::HeaderChecked);
-    _closeButton->setDisabledColorRole(UI::Style::ColorRole::HeaderDisabled);
+    _closeButton->setInsideMargin(UI::MetricsRole::MarginSmall);
+    _closeButton->setForegroundColorRole(UI::ColorRole::HeaderForeground);
+    _closeButton->setHoveredColorRole(UI::ColorRole::HeaderHovered);
+    _closeButton->setPressedColorRole(UI::ColorRole::HeaderPressed);
+    _closeButton->setCheckedColorRole(UI::ColorRole::HeaderChecked);
+    _closeButton->setDisabledColorRole(UI::ColorRole::HeaderDisabled);
 
     auto titleBar = UI::HorizontalLayout::create(context);
     titleBar->setClassName("djv::UI::MDI::TitleBar");
-    titleBar->setBackgroundRole(UI::Style::ColorRole::HeaderBackground);
+    titleBar->setBackgroundRole(UI::ColorRole::HeaderBackground);
     titleBar->addWidget(titleLabel);
     titleBar->addExpander();
     titleBar->addWidget(_closeButton);
 
     auto textBlock = UI::TextBlock::create(context);
     textBlock->setText(Core::String::getRandomText(100));
-    textBlock->setMargin(UI::Style::MetricsRole::Margin);
+    textBlock->setMargin(UI::MetricsRole::Margin);
 
     auto scrollWidget = UI::ScrollWidget::create(UI::ScrollType::Vertical, context);
     scrollWidget->addWidget(textBlock);
 
     _layout = UI::VerticalLayout::create(context);
-    _layout->setSpacing(UI::Style::MetricsRole::None);
+    _layout->setSpacing(UI::MetricsRole::None);
     _layout->addWidget(titleBar);
-    _layout->addWidget(scrollWidget, UI::Layout::RowStretch::Expand);
+    _layout->addWidget(scrollWidget, UI::RowStretch::Expand);
 
     _border = UI::Border::create(context);
     _border->addWidget(_layout);

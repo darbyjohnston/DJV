@@ -36,23 +36,23 @@ namespace djv
             inline Spacing::Spacing()
             {}
 
-            inline Spacing::Spacing(Style::MetricsRole value)
+            inline Spacing::Spacing(MetricsRole value)
             {
                 set(value);
             }
 
-            inline Spacing::Spacing(Style::MetricsRole horizontal, Style::MetricsRole vertical)
+            inline Spacing::Spacing(MetricsRole horizontal, MetricsRole vertical)
             {
                 set(horizontal, vertical);
             }
 
-            inline void Spacing::set(Style::MetricsRole value)
+            inline void Spacing::set(MetricsRole value)
             {
                 _value[static_cast<size_t>(Orientation::Horizontal)] = value;
                 _value[static_cast<size_t>(Orientation::Vertical)] = value;
             }
 
-            inline void Spacing::set(Style::MetricsRole horizontal, Style::MetricsRole vertical)
+            inline void Spacing::set(MetricsRole horizontal, MetricsRole vertical)
             {
                 _value[static_cast<size_t>(Orientation::Horizontal)] = horizontal;
                 _value[static_cast<size_t>(Orientation::Vertical)] = vertical;
@@ -68,12 +68,12 @@ namespace djv
                 return style->getMetric(_value[static_cast<size_t>(value)]);
             }
 
-            inline Style::MetricsRole Spacing::operator [] (Orientation value) const
+            inline MetricsRole Spacing::operator [] (Orientation value) const
             {
                 return _value[static_cast<size_t>(value)];
             }
 
-            inline Style::MetricsRole& Spacing::operator [] (Orientation value)
+            inline MetricsRole& Spacing::operator [] (Orientation value)
             {
                 return _value[static_cast<size_t>(value)];
             }

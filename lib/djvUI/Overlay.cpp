@@ -65,7 +65,7 @@ namespace djv
                 IContainer::_init(context);
 
                 setClassName("djv::UI::Layout::Overlay");
-                setBackgroundRole(Style::ColorRole::Overlay);
+                setBackgroundRole(ColorRole::Overlay);
                 setVisible(false);
 
                 auto closeShortcut = Shortcut::create(GLFW_KEY_ESCAPE);

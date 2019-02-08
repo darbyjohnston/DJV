@@ -106,7 +106,7 @@ namespace djv
 				if (auto fontSystem = _getFontSystem().lock())
 				{
 					DJV_PRIVATE_PTR();
-					const auto fontInfo = style->getFontInfo(AV::Font::Info::faceDefault, UI::Style::MetricsRole::FontMedium);
+					const auto fontInfo = style->getFontInfo(AV::Font::Info::faceDefault, UI::MetricsRole::FontMedium);
 					p.fontMetricsFuture = fontSystem->getMetrics(fontInfo);
 					_resize();
 				}
@@ -118,10 +118,10 @@ namespace djv
 			DJV_PRIVATE_PTR();
             if (auto style = _getStyle().lock())
             {
-				const float m = style->getMetric(UI::Style::MetricsRole::MarginSmall);
-				const float h = style->getMetric(UI::Style::MetricsRole::Handle);
+				const float m = style->getMetric(UI::MetricsRole::MarginSmall);
+				const float h = style->getMetric(UI::MetricsRole::Handle);
 				glm::vec2 size = glm::vec2(0.f, 0.f);
-				size.x = style->getMetric(UI::Style::MetricsRole::TextColumn);
+				size.x = style->getMetric(UI::MetricsRole::TextColumn);
 				size.y = h + p.fontMetrics.lineHeight + m * 2.f;
                 _setMinimumSize(size);
             }
@@ -135,14 +135,14 @@ namespace djv
                 if (auto style = _getStyle().lock())
                 {
 					const BBox2f & g = getGeometry();
-					const float m = style->getMetric(UI::Style::MetricsRole::MarginSmall);
-					const float h = style->getMetric(UI::Style::MetricsRole::Handle);
+					const float m = style->getMetric(UI::MetricsRole::MarginSmall);
+					const float h = style->getMetric(UI::MetricsRole::Handle);
                     const BBox2f & hg = _getHandleGeometry();
 
-                    render->setFillColor(_getColorWithOpacity(style->getColor(UI::Style::ColorRole::Foreground)));
+                    render->setFillColor(_getColorWithOpacity(style->getColor(UI::ColorRole::Foreground)));
                     render->drawRect(hg);
 
-					const auto fontInfo = style->getFontInfo(AV::Font::Info::faceDefault, UI::Style::MetricsRole::FontMedium);
+					const auto fontInfo = style->getFontInfo(AV::Font::Info::faceDefault, UI::MetricsRole::FontMedium);
 					render->setCurrentFont(fontInfo);
 					auto i = p.text.find("CurrentTime");
 					auto j = p.textSize.find("CurrentTime");
@@ -275,7 +275,7 @@ namespace djv
 			int64_t out = 0;
 			if (auto style = _getStyle().lock())
 			{
-				const float m = style->getMetric(UI::Style::MetricsRole::MarginSmall);
+				const float m = style->getMetric(UI::MetricsRole::MarginSmall);
 				const double v = value / static_cast<double>(getGeometry().w() - m * 2.f);
 				out = _p->duration ?
 					Core::Math::clamp(static_cast<int64_t>(v * (_p->duration - 1)), static_cast<int64_t>(0), _p->duration - 1) :
@@ -290,8 +290,8 @@ namespace djv
 			if (auto style = _getStyle().lock())
 			{
 				const BBox2f& g = getGeometry();
-				const float m = style->getMetric(UI::Style::MetricsRole::MarginSmall);
-				const float h = style->getMetric(UI::Style::MetricsRole::Handle);
+				const float m = style->getMetric(UI::MetricsRole::MarginSmall);
+				const float h = style->getMetric(UI::MetricsRole::Handle);
 				const float x = floorf(_p->currentTime->get() / static_cast<float>(_p->duration) * (g.w() - 1.f - m * 2.f));
 				out = BBox2f(g.min.x + m + x, g.min.y, 1.f, h);
 			}
@@ -305,7 +305,7 @@ namespace djv
 			{
 				if (auto fontSystem = _getFontSystem().lock())
 				{
-					const auto fontInfo = style->getFontInfo(AV::Font::Info::faceDefault, UI::Style::MetricsRole::FontMedium);
+					const auto fontInfo = style->getFontInfo(AV::Font::Info::faceDefault, UI::MetricsRole::FontMedium);
 					{
 						std::stringstream ss;
 						ss << Time::getLabel(Time::timestampToSeconds(p.currentTime->get()));

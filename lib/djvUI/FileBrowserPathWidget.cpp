@@ -78,12 +78,12 @@ namespace djv
                 p.historyButton->setEnabled(false);
 
                 p.layout = HorizontalLayout::create(context);
-                p.layout->setSpacing(Style::MetricsRole::None);
+                p.layout->setSpacing(MetricsRole::None);
                 auto border = Border::create(context);
-                border->setMargin(Layout::Margin(Style::MetricsRole::None, Style::MetricsRole::MarginSmall, Style::MetricsRole::MarginSmall, Style::MetricsRole::MarginSmall));
+                border->setMargin(Layout::Margin(MetricsRole::None, MetricsRole::MarginSmall, MetricsRole::MarginSmall, MetricsRole::MarginSmall));
                 border->setVAlign(VAlign::Center);
                 border->addWidget(p.lineEditBase);
-                p.layout->addWidget(border, Layout::RowStretch::Expand);
+                p.layout->addWidget(border, RowStretch::Expand);
                 p.layout->addWidget(p.historyButton);
                 p.layout->setParent(shared_from_this());
 

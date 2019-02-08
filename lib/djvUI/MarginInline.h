@@ -36,17 +36,17 @@ namespace djv
             inline Margin::Margin()
             {}
 
-            inline Margin::Margin(Style::MetricsRole value)
+            inline Margin::Margin(MetricsRole value)
             {
                 set(value);
             }
 
-            inline Margin::Margin(Style::MetricsRole left, Style::MetricsRole right, Style::MetricsRole top, Style::MetricsRole bottom)
+            inline Margin::Margin(MetricsRole left, MetricsRole right, MetricsRole top, MetricsRole bottom)
             {
                 set(left, right, top, bottom);
             }
 
-            inline void Margin::set(Style::MetricsRole value)
+            inline void Margin::set(MetricsRole value)
             {
                 _value[static_cast<size_t>(Side::Left)] = value;
                 _value[static_cast<size_t>(Side::Top)] = value;
@@ -54,7 +54,7 @@ namespace djv
                 _value[static_cast<size_t>(Side::Bottom)] = value;
             }
 
-            inline void Margin::set(Style::MetricsRole left, Style::MetricsRole right, Style::MetricsRole top, Style::MetricsRole bottom)
+            inline void Margin::set(MetricsRole left, MetricsRole right, MetricsRole top, MetricsRole bottom)
             {
                 _value[static_cast<size_t>(Side::Left)] = left;
                 _value[static_cast<size_t>(Side::Top)] = top;
@@ -91,12 +91,12 @@ namespace djv
                     -get(Side::Bottom, style));
             }
 
-            inline Style::MetricsRole Margin::operator [] (Side side) const
+            inline MetricsRole Margin::operator [] (Side side) const
             {
                 return _value[static_cast<size_t>(side)];
             }
 
-            inline Style::MetricsRole& Margin::operator [] (Side side)
+            inline MetricsRole& Margin::operator [] (Side side)
             {
                 return _value[static_cast<size_t>(side)];
             }

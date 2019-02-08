@@ -71,7 +71,7 @@ namespace djv
             std::shared_ptr<UI::ScrollWidget> mediaMDIScrollWidget;
             std::map<std::shared_ptr<Media>, std::shared_ptr<MediaMDIWidget> > mediaToMDIWidget;
             std::shared_ptr<PlaylistWidget> mediaPlaylistWidget;
-            std::shared_ptr<UI::Layout::Solo> soloLayout;
+            std::shared_ptr<UI::SoloLayout> soloLayout;
             std::shared_ptr<UI::ToolButton> mediaSDIButton;
             std::shared_ptr<UI::ToolButton> mediaMDIButton;
             std::shared_ptr<UI::ToolButton> mediaPlaylistButton;
@@ -79,7 +79,7 @@ namespace djv
 			std::shared_ptr<UI::ToolButton> settingsButton;
             std::shared_ptr<UI::MDI::Canvas> mdiCanvas;
 			std::shared_ptr<UI::Action> mdiCloseAction;
-            std::shared_ptr<UI::Layout::Stack> stackLayout;
+            std::shared_ptr<UI::StackLayout> stackLayout;
             std::shared_ptr<ValueObserver<std::pair<std::shared_ptr<Media>, glm::vec2> > > fileOpenedObserver;
             std::shared_ptr<ValueObserver<std::shared_ptr<Media> > > fileClosedObserver;
             std::shared_ptr<ValueObserver<std::shared_ptr<Media> > > currentMediaObserver;
@@ -92,7 +92,7 @@ namespace djv
             UI::Window::_init(context);
 
             setClassName("djv::ViewLib::MainWindow");
-            setBackgroundRole(UI::Style::ColorRole::Trough);
+            setBackgroundRole(UI::ColorRole::Trough);
 
             auto viewSystems = context->getSystemsT<IViewSystem>();
             for (auto i : viewSystems)
@@ -116,20 +116,20 @@ namespace djv
 
             p.mediaPlaylistWidget = PlaylistWidget::create(context);
 
-            p.soloLayout = UI::Layout::Solo::create(context);
+            p.soloLayout = UI::SoloLayout::create(context);
             p.soloLayout->addWidget(p.mediaSDIWidget);
             p.soloLayout->addWidget(p.mediaMDIScrollWidget);
             p.soloLayout->addWidget(p.mediaPlaylistWidget);
 
             p.mediaSDIButton = UI::ToolButton::create(context);
             p.mediaSDIButton->setIcon("djvIconViewLibSDISmall");
-            p.mediaSDIButton->setInsideMargin(UI::Style::MetricsRole::None);
+            p.mediaSDIButton->setInsideMargin(UI::MetricsRole::None);
             p.mediaMDIButton = UI::ToolButton::create(context);
             p.mediaMDIButton->setIcon("djvIconViewLibMDISmall");
-            p.mediaMDIButton->setInsideMargin(UI::Style::MetricsRole::None);
+            p.mediaMDIButton->setInsideMargin(UI::MetricsRole::None);
             p.mediaPlaylistButton = UI::ToolButton::create(context);
             p.mediaPlaylistButton->setIcon("djvIconViewLibPlaylistSmall");
-            p.mediaPlaylistButton->setInsideMargin(UI::Style::MetricsRole::None);
+            p.mediaPlaylistButton->setInsideMargin(UI::MetricsRole::None);
             p.windowButtonGroup = UI::ButtonGroup::create(UI::ButtonType::Radio);
             p.windowButtonGroup->addButton(p.mediaSDIButton);
             p.windowButtonGroup->addButton(p.mediaMDIButton);
@@ -137,7 +137,7 @@ namespace djv
 
 			p.settingsButton = UI::ToolButton::create(context);
 			p.settingsButton->setIcon("djvIconSettingsSmall");
-			p.settingsButton->setInsideMargin(UI::Style::MetricsRole::None);
+			p.settingsButton->setInsideMargin(UI::MetricsRole::None);
 
             p.mdiCanvas = UI::MDI::Canvas::create(context);
             for (auto i : viewSystems)
@@ -169,7 +169,7 @@ namespace djv
                 }
             }
             p.menuBar = UI::MenuBar::create(context);
-            p.menuBar->setBackgroundRole(UI::Style::ColorRole::Overlay);
+            p.menuBar->setBackgroundRole(UI::ColorRole::Overlay);
             for (auto i : menus)
             {
                 p.menuBar->addMenu(i.second);
@@ -179,11 +179,11 @@ namespace djv
 			p.menuBar->addWidget(p.mediaPlaylistButton);
 			p.menuBar->addWidget(p.settingsButton);
             
-            p.stackLayout = UI::Layout::Stack::create(context);
+            p.stackLayout = UI::StackLayout::create(context);
             p.stackLayout->addWidget(p.soloLayout);
             p.stackLayout->addWidget(p.mdiCanvas);
             auto vLayout = UI::VerticalLayout::create(context);
-            vLayout->setSpacing(UI::Style::MetricsRole::None);
+            vLayout->setSpacing(UI::MetricsRole::None);
             vLayout->addWidget(p.menuBar);
             vLayout->addExpander();
             p.stackLayout->addWidget(vLayout);
@@ -376,7 +376,7 @@ namespace djv
             {
                 if (auto fileSystem = getContext()->getSystemT<FileSystem>().lock())
                 {
-                    const float s = style->getMetric(UI::Style::MetricsRole::SpacingLarge);
+                    const float s = style->getMetric(UI::MetricsRole::SpacingLarge);
                     glm::vec2 pos = event.getPointerInfo().projectedPos;
                     for (const auto & i : event.getDropPaths())
                     {

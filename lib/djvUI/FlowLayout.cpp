@@ -41,7 +41,7 @@ namespace djv
         {
             struct Flow::Private
             {
-                Spacing spacing = Spacing(Style::MetricsRole::Spacing, Style::MetricsRole::Spacing);
+                Spacing spacing = Spacing(MetricsRole::Spacing, MetricsRole::Spacing);
             };
 
             void Flow::_init(Context * context)

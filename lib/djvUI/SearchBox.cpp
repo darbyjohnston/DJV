@@ -45,7 +45,7 @@ namespace djv
         struct SearchBox::Private
         {
             std::shared_ptr<LineEditBase> lineEditBase;
-            std::shared_ptr<Layout::Solo> soloLayout;
+            std::shared_ptr<SoloLayout> soloLayout;
             std::shared_ptr<Border> border;
         };
 
@@ -57,26 +57,26 @@ namespace djv
             setVAlign(VAlign::Center);
 
             _p->lineEditBase = LineEditBase::create(context);
-            _p->lineEditBase->setBackgroundRole(Style::ColorRole::None);
+            _p->lineEditBase->setBackgroundRole(ColorRole::None);
             
             auto searchIcon = Icon::create(context);
             searchIcon->setIcon("djvIconSearch");
             
             auto clearButton = ToolButton::create(context);
             clearButton->setIcon("djvIconClear");
-            clearButton->setBackgroundRole(Style::ColorRole::None);
+            clearButton->setBackgroundRole(ColorRole::None);
             
             auto layout = HorizontalLayout::create(context);
-            layout->setSpacing(Style::MetricsRole::None);
-            layout->setBackgroundRole(Style::ColorRole::Trough);
-            layout->addWidget(_p->lineEditBase, Layout::RowStretch::Expand);
-            _p->soloLayout = Layout::Solo::create(context);
+            layout->setSpacing(MetricsRole::None);
+            layout->setBackgroundRole(ColorRole::Trough);
+            layout->addWidget(_p->lineEditBase, RowStretch::Expand);
+            _p->soloLayout = SoloLayout::create(context);
             _p->soloLayout->addWidget(searchIcon);
             _p->soloLayout->addWidget(clearButton);
             layout->addWidget(_p->soloLayout);
             
             _p->border = Border::create(context);
-            _p->border->setMargin(Style::MetricsRole::MarginSmall);
+            _p->border->setMargin(MetricsRole::MarginSmall);
             _p->border->addWidget(layout);
             _p->border->setParent(shared_from_this());
         }

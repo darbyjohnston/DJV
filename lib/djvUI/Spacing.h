@@ -43,25 +43,25 @@ namespace djv
             {
             public:
                 inline Spacing();
-                inline Spacing(Style::MetricsRole);
-                inline Spacing(Style::MetricsRole horizontal, Style::MetricsRole vertical);
+                inline Spacing(MetricsRole);
+                inline Spacing(MetricsRole horizontal, MetricsRole vertical);
 
-                inline void set(Style::MetricsRole);
-                inline void set(Style::MetricsRole horizontal, Style::MetricsRole vertical);
+                inline void set(MetricsRole);
+                inline void set(MetricsRole horizontal, MetricsRole vertical);
 
                 inline glm::vec2 get(const std::shared_ptr<Style::Style>&) const;
                 inline float get(Orientation, const std::shared_ptr<Style::Style>&) const;
 
-                inline Style::MetricsRole operator [] (Orientation) const;
-                inline Style::MetricsRole& operator [] (Orientation);
+                inline MetricsRole operator [] (Orientation) const;
+                inline MetricsRole& operator [] (Orientation);
 
                 inline bool operator == (const Spacing&) const;
 
             private:
-                Style::MetricsRole _value[2] =
+				MetricsRole _value[2] =
                 {
-                    Style::MetricsRole::None,
-                    Style::MetricsRole::None
+					MetricsRole::None,
+					MetricsRole::None
                 };
             };
 

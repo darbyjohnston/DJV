@@ -47,8 +47,8 @@ int main(int argc, char ** argv)
         auto app = Desktop::Application::create(argc, argv);
 
         auto layout = UI::VerticalLayout::create(app.get());
-        layout->setMargin(UI::Style::MetricsRole::MarginLarge);
-        layout->setSpacing(UI::Style::MetricsRole::SpacingLarge);
+        layout->setMargin(UI::MetricsRole::MarginLarge);
+        layout->setSpacing(UI::MetricsRole::SpacingLarge);
 
         auto pushButtonGroup = UI::ButtonGroup::create(UI::ButtonType::Push);
         auto hLayout = UI::HorizontalLayout::create(app.get());

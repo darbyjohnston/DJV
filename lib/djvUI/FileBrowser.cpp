@@ -187,14 +187,14 @@ namespace djv
                 auto pathWidget = PathWidget::create(context);
 
                 auto topToolBar = Toolbar::create(context);
-                topToolBar->addWidget(pathWidget, Layout::RowStretch::Expand);
+                topToolBar->addWidget(pathWidget, RowStretch::Expand);
                 topToolBar->addAction(p.actions["Back"]);
                 topToolBar->addAction(p.actions["Forward"]);
                 topToolBar->addAction(p.actions["Up"]);
                 topToolBar->addAction(p.actions["EditPath"]);
 
                 p.itemCountLabel = Label::create(context);
-                p.itemCountLabel->setMargin(Style::MetricsRole::MarginSmall);
+                p.itemCountLabel->setMargin(MetricsRole::MarginSmall);
 
                 auto searchBox = SearchBox::create(context);
                 
@@ -215,19 +215,19 @@ namespace djv
                 p.scrollWidget->addWidget(p.itemView);
 
                 p.layout = VerticalLayout::create(context);
-                p.layout->setSpacing(Style::MetricsRole::None);
+                p.layout->setSpacing(MetricsRole::None);
                 p.layout->addWidget(menuBar);
                 p.layout->addSeparator();
 
                 auto vLayout = VerticalLayout::create(context);
-                vLayout->setSpacing(Style::MetricsRole::None);
+                vLayout->setSpacing(MetricsRole::None);
                 vLayout->addWidget(topToolBar);
                 vLayout->addSeparator();
                 auto hLayout = HorizontalLayout::create(context);
-                hLayout->setSpacing(Style::MetricsRole::None);
+                hLayout->setSpacing(MetricsRole::None);
                 hLayout->addSeparator();
-                hLayout->addWidget(p.scrollWidget, Layout::RowStretch::Expand);
-                vLayout->addWidget(hLayout, Layout::RowStretch::Expand);
+                hLayout->addWidget(p.scrollWidget, RowStretch::Expand);
+                vLayout->addWidget(hLayout, RowStretch::Expand);
                 vLayout->addSeparator();
                 vLayout->addWidget(bottomToolBar);
 
@@ -235,7 +235,7 @@ namespace djv
                 splitter->addWidget(shortcutsWidget);
                 splitter->addWidget(vLayout);
                 splitter->setSplit(.15f);
-                p.layout->addWidget(splitter, Layout::RowStretch::Expand);
+                p.layout->addWidget(splitter, RowStretch::Expand);
                 p.layout->setParent(shared_from_this());
 
                 auto weak = std::weak_ptr<Widget>(std::dynamic_pointer_cast<Widget>(shared_from_this()));

@@ -66,8 +66,8 @@ namespace djv
             p.paletteGroupBox->addWidget(PaletteSettingsWidget::create(context));
 
             p.layout = UI::VerticalLayout::create(context);
-            p.layout->setMargin(UI::Style::MetricsRole::MarginLarge);
-            p.layout->setSpacing(UI::Style::MetricsRole::SpacingLarge);
+            p.layout->setMargin(UI::MetricsRole::MarginLarge);
+            p.layout->setSpacing(UI::MetricsRole::SpacingLarge);
             p.layout->addWidget(p.displayGroupBox);
             p.layout->addWidget(p.languageGroupBox);
             p.layout->addWidget(p.paletteGroupBox);

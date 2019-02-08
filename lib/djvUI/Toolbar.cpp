@@ -62,7 +62,7 @@ namespace djv
 
             DJV_PRIVATE_PTR();
             p.layout = HorizontalLayout::create(context);
-            p.layout->setSpacing(Style::MetricsRole::None);
+            p.layout->setSpacing(MetricsRole::None);
             p.layout->setParent(shared_from_this());
         }
 
@@ -80,7 +80,7 @@ namespace djv
             return out;
         }
 
-        void Toolbar::addWidget(const std::shared_ptr<Widget>& value, Layout::RowStretch stretch)
+        void Toolbar::addWidget(const std::shared_ptr<Widget>& value, RowStretch stretch)
         {
             _p->layout->addWidget(value, stretch);
         }

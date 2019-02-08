@@ -122,6 +122,7 @@ namespace djv
 
 		typedef Layout::Horizontal HorizontalLayout;
 		typedef Layout::Vertical VerticalLayout;
+		using Layout::RowStretch;
 
     } // namespace UI
 

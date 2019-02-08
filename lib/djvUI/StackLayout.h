@@ -62,5 +62,8 @@ namespace djv
             };
 
         } // namespace Layout
+
+		typedef Layout::Stack StackLayout;
+
     } // namespace UI
 } // namespace djv

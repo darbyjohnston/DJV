@@ -64,8 +64,8 @@ namespace djv
             DJV_PRIVATE_PTR();
             p.textBlock = UI::TextBlock::create(context);
             p.textBlock->setFontFamily(AV::Font::Info::familyMono);
-            p.textBlock->setFontSizeRole(UI::Style::MetricsRole::FontSmall);
-            p.textBlock->setMargin(UI::Style::MetricsRole::Margin);
+            p.textBlock->setFontSizeRole(UI::MetricsRole::FontSmall);
+            p.textBlock->setMargin(UI::MetricsRole::Margin);
 
             auto scrollWidget = UI::ScrollWidget::create(UI::ScrollType::Vertical, context);
             scrollWidget->setBorder(false);
@@ -78,11 +78,11 @@ namespace djv
             p.clearButton = UI::PushButton::create(context);
 
             auto layout = UI::VerticalLayout::create(context);
-            layout->setSpacing(UI::Style::MetricsRole::None);
-            layout->addWidget(scrollWidget, UI::Layout::RowStretch::Expand);
+            layout->setSpacing(UI::MetricsRole::None);
+            layout->addWidget(scrollWidget, UI::RowStretch::Expand);
             layout->addSeparator();
             auto hLayout = UI::HorizontalLayout::create(context);
-            hLayout->setMargin(UI::Style::MetricsRole::MarginSmall);
+            hLayout->setMargin(UI::MetricsRole::MarginSmall);
             hLayout->addExpander();
             hLayout->addWidget(p.copyButton);
             hLayout->addWidget(p.reloadButton);

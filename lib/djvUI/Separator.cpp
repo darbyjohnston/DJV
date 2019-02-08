@@ -71,8 +71,8 @@ namespace djv
                 if (auto style = _getStyle().lock())
                 {
                     DJV_PRIVATE_PTR();
-                    p.width = style->getMetric(Style::MetricsRole::Border);
-                    p.color = style->getColor(Style::ColorRole::Border);
+                    p.width = style->getMetric(MetricsRole::Border);
+                    p.color = style->getColor(ColorRole::Border);
 
                     glm::vec2 minimumSize = glm::vec2(0.f, 0.f);
                     minimumSize += p.width;

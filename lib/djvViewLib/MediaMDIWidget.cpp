@@ -51,7 +51,7 @@ namespace djv
             std::shared_ptr<MediaWidget> mediaWidget;
             std::shared_ptr<UI::Label> titleLabel;
             std::shared_ptr<UI::HorizontalLayout> titleBar;
-            std::shared_ptr<UI::Layout::Stack> layout;
+            std::shared_ptr<UI::StackLayout> layout;
             std::shared_ptr<UI::Border> border;
             std::function<void(void)> maximizeCallback;
             std::function<void(void)> closeCallback;
@@ -66,7 +66,7 @@ namespace djv
 
             p.titleLabel = UI::Label::create(context);
             p.titleLabel->setTextHAlign(UI::TextHAlign::Left);
-            p.titleLabel->setMargin(UI::Style::MetricsRole::Margin);
+            p.titleLabel->setMargin(UI::MetricsRole::Margin);
 
             auto maximizeButton = UI::ToolButton::create(context);
             maximizeButton->setIcon("djvIconViewLibSDISmall");
@@ -75,24 +75,24 @@ namespace djv
             closeButton->setIcon("djvIconCloseSmall");
 
             p.titleBar = UI::HorizontalLayout::create(context);
-            p.titleBar->setBackgroundRole(UI::Style::ColorRole::Overlay);
-            p.titleBar->addWidget(p.titleLabel, UI::Layout::RowStretch::Expand);
+            p.titleBar->setBackgroundRole(UI::ColorRole::Overlay);
+            p.titleBar->addWidget(p.titleLabel, UI::RowStretch::Expand);
             auto hLayout = UI::HorizontalLayout::create(context);
-            hLayout->setSpacing(UI::Style::MetricsRole::None);
+            hLayout->setSpacing(UI::MetricsRole::None);
             hLayout->addWidget(maximizeButton);
             hLayout->addWidget(closeButton);
             p.titleBar->addWidget(hLayout);
 
-            p.layout = UI::Layout::Stack::create(context);
+            p.layout = UI::StackLayout::create(context);
             p.layout->addWidget(p.mediaWidget);
             auto vLayout = UI::VerticalLayout::create(context);
-            vLayout->setSpacing(UI::Style::MetricsRole::None);
+            vLayout->setSpacing(UI::MetricsRole::None);
             vLayout->addWidget(p.titleBar);
             vLayout->addExpander();
             p.layout->addWidget(vLayout);
 
             p.border = UI::Border::create(context);
-            p.border->setMargin(UI::Style::MetricsRole::Handle);
+            p.border->setMargin(UI::MetricsRole::Handle);
             p.border->addWidget(p.layout);
             IContainer::addWidget(p.border);
 

@@ -60,7 +60,7 @@ namespace djv
                 IButton::_init(context);
 
                 setClassName("djv::UI::Button::Push");
-                setBackgroundRole(Style::ColorRole::Button);
+                setBackgroundRole(ColorRole::Button);
 
                 DJV_PRIVATE_PTR();
                 p.icon = Icon::create(context);
@@ -71,9 +71,9 @@ namespace djv
                 p.label->hide();
 
                 p.layout = HorizontalLayout::create(context);
-                p.layout->setMargin(Layout::Margin(Style::MetricsRole::MarginLarge, Style::MetricsRole::MarginLarge, Style::MetricsRole::MarginSmall, Style::MetricsRole::MarginSmall));
+                p.layout->setMargin(Layout::Margin(MetricsRole::MarginLarge, MetricsRole::MarginLarge, MetricsRole::MarginSmall, MetricsRole::MarginSmall));
                 p.layout->addWidget(p.icon);
-                p.layout->addWidget(p.label, Layout::RowStretch::Expand);
+                p.layout->addWidget(p.label, RowStretch::Expand);
 
                 p.border = Border::create(context);
                 p.border->addWidget(p.layout);
@@ -165,7 +165,7 @@ namespace djv
                 return _p->label->getFontFace();
             }
 
-            Style::MetricsRole Push::getFontSizeRole() const
+			MetricsRole Push::getFontSizeRole() const
             {
                 return _p->label->getFontSizeRole();
             }
@@ -180,7 +180,7 @@ namespace djv
                 _p->label->setFontFace(value);
             }
 
-            void Push::setFontSizeRole(Style::MetricsRole value)
+            void Push::setFontSizeRole(MetricsRole value)
             {
                 _p->label->setFontSizeRole(value);
             }
@@ -213,7 +213,7 @@ namespace djv
             void Push::_updateEvent(Event::Update& event)
             {
                 IButton::_updateEvent(event);
-                const Style::ColorRole colorRole = _getForegroundColorRole();
+                const ColorRole colorRole = _getForegroundColorRole();
                 DJV_PRIVATE_PTR();
                 p.icon->setIconColorRole(colorRole);
                 p.label->setTextColorRole(colorRole);

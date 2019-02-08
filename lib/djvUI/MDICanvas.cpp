@@ -171,7 +171,7 @@ namespace djv
 				{
 					const BBox2f & g = getGeometry();
 					const glm::vec2 c = g.getCenter();
-					const float m = style->getMetric(Style::MetricsRole::MarginDialog);
+					const float m = style->getMetric(MetricsRole::MarginDialog);
 					for (auto & i : _p->widgetToPos)
 					{
 						if (i.first->isVisible())
@@ -197,10 +197,10 @@ namespace djv
                 {
                     if (auto style = _getStyle().lock())
                     {
-                        const float h = style->getMetric(Style::MetricsRole::Handle);
-                        const float sh = style->getMetric(Style::MetricsRole::Shadow);
+                        const float h = style->getMetric(MetricsRole::Handle);
+                        const float sh = style->getMetric(MetricsRole::Shadow);
 
-                        render->setFillColor(_getColorWithOpacity(style->getColor(Style::ColorRole::Shadow)));
+                        render->setFillColor(_getColorWithOpacity(style->getColor(ColorRole::Shadow)));
                         for (const auto & i : p.widgets)
                         {
                             if (i->isVisible())
@@ -228,7 +228,7 @@ namespace djv
                         if (children.size())
                         {
                             const BBox2f g = children.back()->getGeometry().margin(-h).margin(ms);
-                            render->setFillColor(_getColorWithOpacity(style->getColor(Style::ColorRole::Checked)));
+                            render->setFillColor(_getColorWithOpacity(style->getColor(ColorRole::Checked)));
                             render->drawRect(BBox2f(
                                 glm::vec2(g.min.x, g.min.y),
                                 glm::vec2(g.max.x, g.min.y + ms)));
@@ -244,7 +244,7 @@ namespace djv
                         }*/
 
                         auto hovered = p.hovered;
-                        render->setFillColor(_getColorWithOpacity(style->getColor(Style::ColorRole::Pressed)));
+                        render->setFillColor(_getColorWithOpacity(style->getColor(ColorRole::Pressed)));
                         for (const auto & i : p.pressed)
                         {
                             for (const auto & j : i.second.widget->getHandleBBox(i.second.handle))
@@ -265,7 +265,7 @@ namespace djv
                             }
                         }
 
-                        render->setFillColor(_getColorWithOpacity(style->getColor(Style::ColorRole::Hovered)));
+                        render->setFillColor(_getColorWithOpacity(style->getColor(ColorRole::Hovered)));
                         for (const auto & i : hovered)
                         {
                             for (const auto & j : i.second.widget->getHandleBBox(i.second.handle))

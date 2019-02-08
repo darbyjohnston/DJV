@@ -42,7 +42,7 @@ namespace djv
     {
         struct Window::Private
         {
-            std::shared_ptr<Layout::Stack> layout;
+            std::shared_ptr<StackLayout> layout;
         };
 
         void Window::_init(Context * context)
@@ -51,10 +51,10 @@ namespace djv
             
             setClassName("djv::UI::Window");
             setVisible(false);
-            setBackgroundRole(Style::ColorRole::Background);
+            setBackgroundRole(ColorRole::Background);
             setPointerEnabled(true);
 
-            _p->layout = Layout::Stack::create(context);
+            _p->layout = StackLayout::create(context);
             IContainer::addWidget(_p->layout);
 
             if (auto system = context->getSystemT<IWindowSystem>().lock())

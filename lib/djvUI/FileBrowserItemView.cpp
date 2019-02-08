@@ -78,8 +78,8 @@ namespace djv
                 glm::vec2 pressedPos = glm::vec2(0.f, 0.f);
                 std::function<void(const FileSystem::FileInfo &)> callback;
 
-                Style::MetricsRole getThumbnailWidth() const;
-                Style::MetricsRole getThumbnailHeight() const;
+				MetricsRole getThumbnailWidth() const;
+				MetricsRole getThumbnailHeight() const;
                 std::string getTooltip(const FileSystem::FileInfo &, Context * context) const;
                 std::string getTooltip(const FileSystem::FileInfo &, const AV::IO::Info &, Context *) const;
             };
@@ -133,8 +133,8 @@ namespace djv
                 {
                     if (auto style = _getStyle().lock())
                     {
-                        const float m = style->getMetric(Style::MetricsRole::MarginSmall);
-                        const float s = style->getMetric(Style::MetricsRole::SpacingSmall);
+                        const float m = style->getMetric(MetricsRole::MarginSmall);
+                        const float s = style->getMetric(MetricsRole::SpacingSmall);
                         const float tw = style->getMetric(p.getThumbnailWidth());
                         const float th = style->getMetric(p.getThumbnailHeight());
                         switch (p.viewType)
@@ -204,8 +204,8 @@ namespace djv
                 if (auto style = _getStyle().lock())
                 {
                     const BBox2f & g = getGeometry();
-                    const float m = style->getMetric(Style::MetricsRole::MarginSmall);
-                    const float s = style->getMetric(Style::MetricsRole::SpacingSmall);
+                    const float m = style->getMetric(MetricsRole::MarginSmall);
+                    const float s = style->getMetric(MetricsRole::SpacingSmall);
                     const float tw = style->getMetric(p.getThumbnailWidth());
                     const float th = style->getMetric(p.getThumbnailHeight());
                     p.itemGeometry.clear();
@@ -264,8 +264,8 @@ namespace djv
                                 {
                                     const auto & fileInfo = p.items[i.first];
                                     const float tw = style->getMetric(p.getThumbnailWidth());
-                                    const float m = style->getMetric(Style::MetricsRole::MarginSmall);
-                                    const auto fontInfo = style->getFontInfo(AV::Font::Info::faceDefault, Style::MetricsRole::FontMedium);
+                                    const float m = style->getMetric(MetricsRole::MarginSmall);
+                                    const auto fontInfo = style->getFontInfo(AV::Font::Info::faceDefault, MetricsRole::FontMedium);
                                     p.nameLinesFutures[i.first] = fontSystem->textLines(
                                         fileInfo.getFileName(Frame::Invalid, false), tw - m * 2.f, fontInfo);
                                 }
@@ -341,15 +341,15 @@ namespace djv
                 {
                     if (auto style = _getStyle().lock())
                     {
-                        const float m = style->getMetric(Style::MetricsRole::MarginSmall);
-                        const float s = style->getMetric(Style::MetricsRole::SpacingSmall);
+                        const float m = style->getMetric(MetricsRole::MarginSmall);
+                        const float s = style->getMetric(MetricsRole::SpacingSmall);
                         const float tw = style->getMetric(p.getThumbnailWidth());
                         const float th = style->getMetric(p.getThumbnailHeight());
                         {
                             const auto i = p.itemGeometry.find(p.grab);
                             if (i != p.itemGeometry.end())
                             {
-                                render->setFillColor(_getColorWithOpacity(style->getColor(Style::ColorRole::Pressed)));
+                                render->setFillColor(_getColorWithOpacity(style->getColor(ColorRole::Pressed)));
                                 render->drawRect(i->second);
                             }
                         }
@@ -358,7 +358,7 @@ namespace djv
                             const auto j = p.itemGeometry.find(p.grab);
                             if (i != p.itemGeometry.end() && i != j)
                             {
-                                render->setFillColor(_getColorWithOpacity(style->getColor(Style::ColorRole::Hovered)));
+                                render->setFillColor(_getColorWithOpacity(style->getColor(ColorRole::Hovered)));
                                 render->drawRect(i->second);
                             }
                         }
@@ -428,7 +428,7 @@ namespace djv
                                             break;
                                         default: break;
                                         }
-                                        auto c = style->getColor(Style::ColorRole::Button).convert(AV::Image::Type::RGBA_F32);
+                                        auto c = style->getColor(ColorRole::Button).convert(AV::Image::Type::RGBA_F32);
                                         c.setF32(1.f - opacity, 3);
                                         render->setFillColor(_getColorWithOpacity(c));
                                         render->drawFilledImage(
@@ -438,8 +438,8 @@ namespace djv
                                     }
                                 }
                                 {
-                                    render->setFillColor(_getColorWithOpacity(style->getColor(Style::ColorRole::Foreground)));
-                                    render->setCurrentFont(style->getFontInfo(AV::Font::Info::faceDefault, Style::MetricsRole::FontMedium));
+                                    render->setFillColor(_getColorWithOpacity(style->getColor(ColorRole::Foreground)));
+                                    render->setCurrentFont(style->getFontInfo(AV::Font::Info::faceDefault, MetricsRole::FontMedium));
                                     switch (p.viewType)
                                     {
                                     case ViewType::ThumbnailsLarge:
@@ -521,7 +521,7 @@ namespace djv
                     if (auto style = _getStyle().lock())
                     {
                         const float distance = glm::length(pointerInfo.projectedPos - p.pressedPos);
-                        const bool accepted = distance < style->getMetric(Style::MetricsRole::Drag);
+                        const bool accepted = distance < style->getMetric(MetricsRole::Drag);
                         event.setAccepted(accepted);
                         if (!accepted)
                         {
@@ -777,7 +777,7 @@ namespace djv
                                 }
                                 break;
                             }
-                            _p->iconsFutures[type] = iconSystem->getIcon(name, static_cast<int>(style->getMetric(Style::MetricsRole::Icon)));
+                            _p->iconsFutures[type] = iconSystem->getIcon(name, static_cast<int>(style->getMetric(MetricsRole::Icon)));
                         }
                     }
                 }
@@ -791,9 +791,9 @@ namespace djv
                     if (auto fontSystem = _getFontSystem().lock())
                     {
                         p.nameFontMetricsFuture = fontSystem->getMetrics(
-                            style->getFontInfo(AV::Font::Info::faceDefault, Style::MetricsRole::FontMedium));
+                            style->getFontInfo(AV::Font::Info::faceDefault, MetricsRole::FontMedium));
                         p.typeFontMetricsFuture = fontSystem->getMetrics(
-                            style->getFontInfo(AV::Font::Info::faceDefault, Style::MetricsRole::FontMedium));
+                            style->getFontInfo(AV::Font::Info::faceDefault, MetricsRole::FontMedium));
                         p.nameLines.clear();
                         p.nameLinesFutures.clear();
                         p.ioInfo.clear();
@@ -805,28 +805,28 @@ namespace djv
                 _resize();
             }
 
-            Style::MetricsRole ItemView::Private::getThumbnailWidth() const
+			MetricsRole ItemView::Private::getThumbnailWidth() const
             {
                 switch (viewType)
                 {
-                case ViewType::ThumbnailsLarge: return Style::MetricsRole::ThumbnailWidthLarge;
-                case ViewType::ThumbnailsSmall: return Style::MetricsRole::ThumbnailWidthSmall;
-                case ViewType::ListView: return Style::MetricsRole::Icon;
+                case ViewType::ThumbnailsLarge: return MetricsRole::ThumbnailWidthLarge;
+                case ViewType::ThumbnailsSmall: return MetricsRole::ThumbnailWidthSmall;
+                case ViewType::ListView: return MetricsRole::Icon;
                 default: break;
                 }
-                return Style::MetricsRole::None;
+                return MetricsRole::None;
             }
 
-            Style::MetricsRole ItemView::Private::getThumbnailHeight() const
+			MetricsRole ItemView::Private::getThumbnailHeight() const
             {
                 switch (viewType)
                 {
-                case ViewType::ThumbnailsLarge: return Style::MetricsRole::ThumbnailHeightLarge;
-                case ViewType::ThumbnailsSmall: return Style::MetricsRole::ThumbnailHeightSmall;
-                case ViewType::ListView: return Style::MetricsRole::Icon;
+                case ViewType::ThumbnailsLarge: return MetricsRole::ThumbnailHeightLarge;
+                case ViewType::ThumbnailsSmall: return MetricsRole::ThumbnailHeightSmall;
+                case ViewType::ListView: return MetricsRole::Icon;
                 default: break;
                 }
-                return Style::MetricsRole::None;
+                return MetricsRole::None;
             }
 
             std::string ItemView::Private::getTooltip(const FileSystem::FileInfo & fileInfo, Context * context) const

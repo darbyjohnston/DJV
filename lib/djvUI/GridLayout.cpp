@@ -49,9 +49,9 @@ namespace djv
             {
                 std::unordered_map<glm::ivec2, std::shared_ptr<Widget> > widgets;
                 std::unordered_map<glm::ivec2, GridStretch> stretch;
-                std::map<int, Style::ColorRole> rowBackgroundRoles;
-                std::map<int, Style::ColorRole> columnBackgroundRoles;
-                Spacing spacing = Spacing(Style::MetricsRole::Spacing, Style::MetricsRole::Spacing);
+                std::map<int, ColorRole> rowBackgroundRoles;
+                std::map<int, ColorRole> columnBackgroundRoles;
+                Spacing spacing = Spacing(MetricsRole::Spacing, MetricsRole::Spacing);
             };
 
             void Grid::_init(Context * context)
@@ -177,7 +177,7 @@ namespace djv
                 }
             }
 
-            void Grid::setRowBackgroundRole(int value, Style::ColorRole role)
+            void Grid::setRowBackgroundRole(int value, ColorRole role)
             {
                 DJV_PRIVATE_PTR();
                 const auto i = p.rowBackgroundRoles.find(value);
@@ -191,7 +191,7 @@ namespace djv
                 }
             }
 
-            void Grid::setColumnBackgroundRole(int value, Style::ColorRole role)
+            void Grid::setColumnBackgroundRole(int value, ColorRole role)
             {
                 DJV_PRIVATE_PTR();
                 const auto i = p.columnBackgroundRoles.find(value);
@@ -471,7 +471,7 @@ namespace djv
                         const BBox2f& g = getMargin().bbox(getGeometry(), style);
 
                         const auto bg = getBackgroundRole();
-                        if (bg != Style::ColorRole::None)
+                        if (bg != ColorRole::None)
                         {
                             render->setFillColor(_getColorWithOpacity(style->getColor(bg)));
                             render->drawRect(g);

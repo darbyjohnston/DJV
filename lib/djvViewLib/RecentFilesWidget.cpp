@@ -89,7 +89,7 @@ namespace djv
             p.viewTypeActionGroup->addAction(p.actions["ListView"]);
 
             p.itemCountLabel = UI::Label::create(context);
-            p.itemCountLabel->setMargin(UI::Style::MetricsRole::MarginSmall);
+            p.itemCountLabel->setMargin(UI::MetricsRole::MarginSmall);
 
             auto searchBox = UI::SearchBox::create(context);
 
@@ -112,8 +112,8 @@ namespace djv
 			addTitleBarWidget(p.pinButton);
 
             p.layout = UI::VerticalLayout::create(context);
-            p.layout->setSpacing(UI::Style::MetricsRole::None);
-            p.layout->addWidget(scrollWidget, UI::Layout::RowStretch::Expand);
+            p.layout->setSpacing(UI::MetricsRole::None);
+            p.layout->addWidget(scrollWidget, UI::RowStretch::Expand);
             p.layout->addSeparator();
             p.layout->addWidget(bottomToolBar);
             addWidget(p.layout);

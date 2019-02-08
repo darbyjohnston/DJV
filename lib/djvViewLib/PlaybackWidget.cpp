@@ -63,7 +63,7 @@ namespace djv
             p.buttonGroup->addButton(reverseButton);
 
             p.layout = UI::HorizontalLayout::create(context);
-            p.layout->setSpacing(UI::Style::MetricsRole::None);
+            p.layout->setSpacing(UI::MetricsRole::None);
             //p.layout->addWidget(reverseButton);
             p.layout->addWidget(forwardButton);
             p.layout->setParent(shared_from_this());

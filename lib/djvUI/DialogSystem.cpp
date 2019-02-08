@@ -61,15 +61,15 @@ namespace djv
 
                     _textBlock = TextBlock::create(context);
                     _textBlock->setTextHAlign(TextHAlign::Center);
-                    _textBlock->setMargin(Style::MetricsRole::MarginLarge);
+                    _textBlock->setMargin(MetricsRole::MarginLarge);
 
                     _closeButton = PushButton::create(context);
 
                     auto layout = VerticalLayout::create(context);
-                    layout->setMargin(Style::MetricsRole::Margin);
+                    layout->setMargin(MetricsRole::Margin);
                     layout->addWidget(_textBlock);
                     layout->addWidget(_closeButton);
-                    addWidget(layout, Layout::RowStretch::Expand);
+                    addWidget(layout, RowStretch::Expand);
 
                     auto weak = std::weak_ptr<MessageDialog>(std::dynamic_pointer_cast<MessageDialog>(shared_from_this()));
                     _closeButton->setClickedCallback(
@@ -121,19 +121,19 @@ namespace djv
                     
                     _textBlock = TextBlock::create(context);
                     _textBlock->setTextHAlign(TextHAlign::Center);
-                    _textBlock->setMargin(Style::MetricsRole::MarginLarge);
+                    _textBlock->setMargin(MetricsRole::MarginLarge);
 
                     _acceptButton = PushButton::create(context);
                     _cancelButton = PushButton::create(context);
 
                     auto layout = VerticalLayout::create(context);
-                    layout->setMargin(Style::MetricsRole::Margin);
-                    layout->addWidget(_textBlock, Layout::RowStretch::Expand);
+                    layout->setMargin(MetricsRole::Margin);
+                    layout->addWidget(_textBlock, RowStretch::Expand);
                     auto hLayout = HorizontalLayout::create(context);
-                    hLayout->addWidget(_acceptButton, Layout::RowStretch::Expand);
-                    hLayout->addWidget(_cancelButton, Layout::RowStretch::Expand);
+                    hLayout->addWidget(_acceptButton, RowStretch::Expand);
+                    hLayout->addWidget(_cancelButton, RowStretch::Expand);
                     layout->addWidget(hLayout);
-                    addWidget(layout, Layout::RowStretch::Expand);
+                    addWidget(layout, RowStretch::Expand);
 
                     auto weak = std::weak_ptr<ConfirmationDialog>(std::dynamic_pointer_cast<ConfirmationDialog>(shared_from_this()));
                     _acceptButton->setClickedCallback(
@@ -217,8 +217,8 @@ namespace djv
 
                     _widget = FileBrowser::Widget::create(context);
                     _widget->setPath(FileSystem::Path("."));
-                    _widget->setBackgroundRole(Style::ColorRole::Background);
-                    addWidget(_widget, Layout::RowStretch::Expand);
+                    _widget->setBackgroundRole(ColorRole::Background);
+                    addWidget(_widget, RowStretch::Expand);
 
                     auto weak = std::weak_ptr<FileBrowserDialog>(std::dynamic_pointer_cast<FileBrowserDialog>(shared_from_this()));
                     _widget->setCallback(

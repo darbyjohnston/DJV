@@ -100,7 +100,7 @@ namespace djv
                     {
                         for (const auto& j : i.second.get<picojson::object>())
                         {
-                            UI::Style::ColorRole role = UI::Style::ColorRole::First;
+                            UI::ColorRole role = UI::ColorRole::First;
                             std::stringstream ss(j.first);
                             ss >> role;
                             if (j.second.is<std::string>())
@@ -159,7 +159,7 @@ namespace djv
                     {
                         for (const auto& j : i.second.get<picojson::object>())
                         {
-                            UI::Style::MetricsRole role = UI::Style::MetricsRole::First;
+                            UI::MetricsRole role = UI::MetricsRole::First;
                             std::stringstream ss(j.first);
                             ss >> role;
                             if (j.second.is<std::string>())

@@ -55,8 +55,8 @@ namespace djv
             const AV::Image::Color& getColor() const;
             void setColor(const AV::Image::Color&);
 
-            Style::MetricsRole getSwatchSize() const;
-            void setSwatchSize(Style::MetricsRole);
+			MetricsRole getSwatchSize() const;
+            void setSwatchSize(MetricsRole);
 
         protected:
             void _preLayoutEvent(Core::Event::PreLayout&) override;

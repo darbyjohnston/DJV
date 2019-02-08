@@ -48,7 +48,7 @@ namespace djv
             struct Tool::Private
             {
                 std::shared_ptr<Icon> icon;
-                std::shared_ptr<Layout::Stack> layout;
+                std::shared_ptr<StackLayout> layout;
             };
 
             void Tool::_init(Context * context)
@@ -62,8 +62,8 @@ namespace djv
                 p.icon->setVAlign(VAlign::Center);
                 p.icon->hide();
 
-                p.layout = Layout::Stack::create(context);
-                p.layout->setMargin(Style::MetricsRole::MarginSmall);
+                p.layout = StackLayout::create(context);
+                p.layout->setMargin(MetricsRole::MarginSmall);
                 p.layout->addWidget(p.icon);
                 p.layout->setParent(shared_from_this());
             }

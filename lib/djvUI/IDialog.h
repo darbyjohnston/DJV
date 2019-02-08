@@ -53,7 +53,7 @@ namespace djv
 
             void setCloseCallback(const std::function<void(void)> &);
 
-            void addWidget(const std::shared_ptr<Widget> &, Layout::RowStretch = Layout::RowStretch::None);
+            void addWidget(const std::shared_ptr<Widget> &, RowStretch = RowStretch::None);
             void removeWidget(const std::shared_ptr<Widget> &);
             void clearWidgets();
 

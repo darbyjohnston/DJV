@@ -74,12 +74,12 @@ namespace djv
                 p.label->hide();
 
                 p.layout = HorizontalLayout::create(context);
-                p.layout->setMargin(Layout::Margin(Style::MetricsRole::Margin, Style::MetricsRole::Margin, Style::MetricsRole::MarginSmall, Style::MetricsRole::MarginSmall));
+                p.layout->setMargin(Layout::Margin(MetricsRole::Margin, MetricsRole::Margin, MetricsRole::MarginSmall, MetricsRole::MarginSmall));
                 p.layout->addWidget(p.icon);
-                p.layout->addWidget(p.label, Layout::RowStretch::Expand);
+                p.layout->addWidget(p.label, RowStretch::Expand);
 
                 p.border = Border::create(context);
-                p.border->setBorderSize(Style::MetricsRole::None);
+                p.border->setBorderSize(MetricsRole::None);
                 p.border->addWidget(p.layout);
                 p.border->setParent(shared_from_this());
             }
@@ -164,12 +164,12 @@ namespace djv
 
             bool Menu::hasBorder() const
             {
-                return _p->border->getBorderSize() != Style::MetricsRole::Border;
+                return _p->border->getBorderSize() != MetricsRole::Border;
             }
 
             void Menu::setBorder(bool value)
             {
-                _p->border->setBorderSize(value ? Style::MetricsRole::Border : Style::MetricsRole::None);
+                _p->border->setBorderSize(value ? MetricsRole::Border : MetricsRole::None);
             }
 
             void Menu::_preLayoutEvent(Event::PreLayout &)
@@ -192,12 +192,12 @@ namespace djv
                         const BBox2f & g = getGeometry();
                         if (_p->checked)
                         {
-                            render->setFillColor(_getColorWithOpacity(style->getColor(Style::ColorRole::Pressed)));
+                            render->setFillColor(_getColorWithOpacity(style->getColor(ColorRole::Pressed)));
                             render->drawRect(g);
                         }
                         else if (_isHovered())
                         {
-                            render->setFillColor(_getColorWithOpacity(style->getColor(Style::ColorRole::Hovered)));
+                            render->setFillColor(_getColorWithOpacity(style->getColor(ColorRole::Hovered)));
                             render->drawRect(g);
                         }
                     }
@@ -238,7 +238,7 @@ namespace djv
 
             void Menu::_updateEvent(Event::Update& event)
             {
-                const Style::ColorRole colorRole = !isEnabled(true) ? Style::ColorRole::Disabled : Style::ColorRole::Foreground;
+                const ColorRole colorRole = !isEnabled(true) ? ColorRole::Disabled : ColorRole::Foreground;
                 DJV_PRIVATE_PTR();
                 p.icon->setIconColorRole(colorRole);
                 p.label->setTextColorRole(colorRole);

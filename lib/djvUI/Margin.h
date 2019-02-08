@@ -45,12 +45,12 @@ namespace djv
             {
             public:
                 inline Margin();
-                inline Margin(Style::MetricsRole);
+                inline Margin(MetricsRole);
                 //! \todo Change the ordering to match the Side enum? (left, top, right, bottom)
-                inline Margin(Style::MetricsRole left, Style::MetricsRole right, Style::MetricsRole top, Style::MetricsRole bottom);
+                inline Margin(MetricsRole left, MetricsRole right, MetricsRole top, MetricsRole bottom);
 
-                inline void set(Style::MetricsRole);
-                inline void set(Style::MetricsRole left, Style::MetricsRole right, Style::MetricsRole top, Style::MetricsRole bottom);
+                inline void set(MetricsRole);
+                inline void set(MetricsRole left, MetricsRole right, MetricsRole top, MetricsRole bottom);
 
                 inline float get(Side, const std::shared_ptr<Style::Style>&) const;
                 inline glm::vec2 getSize(const std::shared_ptr<Style::Style>&) const;
@@ -59,18 +59,18 @@ namespace djv
 
                 inline Core::BBox2f bbox(const Core::BBox2f&, const std::shared_ptr<Style::Style>&) const;
 
-                inline Style::MetricsRole operator [] (Side) const;
-                inline Style::MetricsRole& operator [] (Side);
+                inline MetricsRole operator [] (Side) const;
+                inline MetricsRole& operator [] (Side);
 
                 inline bool operator == (const Margin&) const;
 
             private:
-                Style::MetricsRole _value[4] =
+				MetricsRole _value[4] =
                 {
-                    Style::MetricsRole::None,
-                    Style::MetricsRole::None,
-                    Style::MetricsRole::None,
-                    Style::MetricsRole::None
+					MetricsRole::None,
+					MetricsRole::None,
+					MetricsRole::None,
+					MetricsRole::None
                 };
             };
 

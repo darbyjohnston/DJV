@@ -74,7 +74,7 @@ namespace djv
                 p.actionGroup = ActionGroup::create(ButtonType::Push);
 
                 auto itemLayout = VerticalLayout::create(context);
-                itemLayout->setSpacing(Style::MetricsRole::None);
+                itemLayout->setSpacing(MetricsRole::None);
                 for (size_t i = 0; i < static_cast<size_t>(OS::DirectoryShortcut::Count); ++i)
                 {
                     const auto shortcut = OS::getPath(static_cast<OS::DirectoryShortcut>(i));
@@ -103,7 +103,7 @@ namespace djv
                 scrollWidget->addWidget(itemLayout);
 
                 p.layout = VerticalLayout::create(context);
-                p.layout->addWidget(scrollWidget, Layout::RowStretch::Expand);
+                p.layout->addWidget(scrollWidget, RowStretch::Expand);
                 p.layout->setParent(shared_from_this());
 
                 auto weak = std::weak_ptr<ShortcutsWidget>(std::dynamic_pointer_cast<ShortcutsWidget>(shared_from_this()));

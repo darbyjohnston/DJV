@@ -48,13 +48,13 @@ int main(int argc, char ** argv)
 
         auto textBlock1 = UI::TextBlock::create(app.get());
         textBlock1->setText(Core::String::getRandomText(100));
-        textBlock1->setFontSizeRole(UI::Style::MetricsRole::FontLarge);
-        textBlock1->setMargin(UI::Style::MetricsRole::Margin);
+        textBlock1->setFontSizeRole(UI::MetricsRole::FontLarge);
+        textBlock1->setMargin(UI::MetricsRole::Margin);
 
         auto textBlock2 = UI::TextBlock::create(app.get());
         textBlock2->setText(Core::String::getRandomText(100));
-        textBlock2->setFontSizeRole(UI::Style::MetricsRole::FontLarge);
-        textBlock2->setMargin(UI::Style::MetricsRole::Margin);
+        textBlock2->setFontSizeRole(UI::MetricsRole::FontLarge);
+        textBlock2->setMargin(UI::MetricsRole::Margin);
 
         auto scrollWidget1 = UI::ScrollWidget::create(UI::ScrollType::Vertical, app.get());
         scrollWidget1->addWidget(textBlock1);

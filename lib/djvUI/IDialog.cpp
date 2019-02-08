@@ -94,42 +94,42 @@ namespace djv
 
             DJV_PRIVATE_PTR();
             p.titleLabel = Label::create(context);
-            p.titleLabel->setFontSizeRole(UI::Style::MetricsRole::FontHeader);
+            p.titleLabel->setFontSizeRole(UI::MetricsRole::FontHeader);
             p.titleLabel->setTextHAlign(TextHAlign::Left);
-            p.titleLabel->setTextColorRole(Style::ColorRole::HeaderForeground);
+            p.titleLabel->setTextColorRole(ColorRole::HeaderForeground);
             p.titleLabel->setMargin(UI::Layout::Margin(
-                UI::Style::MetricsRole::MarginLarge,
-                UI::Style::MetricsRole::None,
-                UI::Style::MetricsRole::Margin,
-                UI::Style::MetricsRole::Margin));
+                UI::MetricsRole::MarginLarge,
+                UI::MetricsRole::None,
+                UI::MetricsRole::Margin,
+                UI::MetricsRole::Margin));
 
             auto closeButton = ToolButton::create(context);
             closeButton->setIcon("djvIconClose");
-            closeButton->setForegroundColorRole(UI::Style::ColorRole::HeaderForeground);
-            closeButton->setHoveredColorRole(UI::Style::ColorRole::HeaderHovered);
-            closeButton->setPressedColorRole(UI::Style::ColorRole::HeaderPressed);
-            closeButton->setCheckedColorRole(UI::Style::ColorRole::HeaderChecked);
-            closeButton->setDisabledColorRole(UI::Style::ColorRole::HeaderDisabled);
-            closeButton->setInsideMargin(Style::MetricsRole::MarginSmall);
+            closeButton->setForegroundColorRole(UI::ColorRole::HeaderForeground);
+            closeButton->setHoveredColorRole(UI::ColorRole::HeaderHovered);
+            closeButton->setPressedColorRole(UI::ColorRole::HeaderPressed);
+            closeButton->setCheckedColorRole(UI::ColorRole::HeaderChecked);
+            closeButton->setDisabledColorRole(UI::ColorRole::HeaderDisabled);
+            closeButton->setInsideMargin(MetricsRole::MarginSmall);
 
             p.childLayout = VerticalLayout::create(context);
-            p.childLayout->setSpacing(Style::MetricsRole::None);
-            p.childLayout->setBackgroundRole(Style::ColorRole::Background);
+            p.childLayout->setSpacing(MetricsRole::None);
+            p.childLayout->setBackgroundRole(ColorRole::Background);
 
             auto layout = DialogLayout::create(context);
-            layout->setSpacing(Style::MetricsRole::None);
+            layout->setSpacing(MetricsRole::None);
             auto hLayout = HorizontalLayout::create(context);
-            hLayout->setBackgroundRole(Style::ColorRole::HeaderBackground);
-            hLayout->addWidget(p.titleLabel, Layout::RowStretch::Expand);
+            hLayout->setBackgroundRole(ColorRole::HeaderBackground);
+            hLayout->addWidget(p.titleLabel, RowStretch::Expand);
             hLayout->addWidget(closeButton);
             layout->addWidget(hLayout);
-            layout->addWidget(p.childLayout, Layout::RowStretch::Expand);
+            layout->addWidget(p.childLayout, RowStretch::Expand);
 
             p.border = Border::create(context);
             p.border->addWidget(layout);
 
             p.overlay = Layout::Overlay::create(context);
-            p.overlay->setMargin(Style::MetricsRole::MarginDialog);
+            p.overlay->setMargin(MetricsRole::MarginDialog);
             p.overlay->addWidget(p.border);
             p.overlay->setParent(shared_from_this());
 
@@ -176,7 +176,7 @@ namespace djv
             _p->closeCallback = value;
         }
 
-        void IDialog::addWidget(const std::shared_ptr<Widget>& value, Layout::RowStretch stretch)
+        void IDialog::addWidget(const std::shared_ptr<Widget>& value, RowStretch stretch)
         {
             _p->childLayout->addWidget(value, stretch);
         }

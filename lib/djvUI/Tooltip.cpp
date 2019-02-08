@@ -105,7 +105,7 @@ namespace djv
                 if (auto style = _getStyle().lock())
                 {
                     const BBox2f & g = getGeometry();
-                    const float to = style->getMetric(Style::MetricsRole::TooltipOffset);
+                    const float to = style->getMetric(MetricsRole::TooltipOffset);
                     for (auto i : _widgetToPos)
                     {
                         const glm::vec2 & minimumSize = i.first->getMinimumSize();
@@ -151,8 +151,8 @@ namespace djv
                 {
                     if (auto style = _getStyle().lock())
                     {
-                        const float s = style->getMetric(Style::MetricsRole::Shadow);
-                        render->setFillColor(_getColorWithOpacity(style->getColor(Style::ColorRole::Shadow)));
+                        const float s = style->getMetric(MetricsRole::Shadow);
+                        render->setFillColor(_getColorWithOpacity(style->getColor(ColorRole::Shadow)));
                         for (const auto & i : getChildrenT<Widget>())
                         {
                             BBox2f g = i->getGeometry();
@@ -186,7 +186,7 @@ namespace djv
             p.overlay = Layout::Overlay::create(context);
             p.overlay->setCapturePointer(false);
             p.overlay->setCaptureKeyboard(false);
-            p.overlay->setBackgroundRole(Style::ColorRole::None);
+            p.overlay->setBackgroundRole(ColorRole::None);
             p.overlay->addWidget(layout);
 
             window->addWidget(p.overlay);

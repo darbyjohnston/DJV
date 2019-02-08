@@ -59,7 +59,7 @@ namespace djv
 
             DJV_PRIVATE_PTR();
             p.textBlocks["Header"] = UI::TextBlock::create(context);
-            p.textBlocks["Header"]->setFontSizeRole(UI::Style::MetricsRole::FontLarge);
+            p.textBlocks["Header"]->setFontSizeRole(UI::MetricsRole::FontLarge);
             p.textBlocks["Copyright"] = UI::TextBlock::create(context);
             p.textBlocks["License1"] = UI::TextBlock::create(context);
             p.textBlocks["License2"] = UI::TextBlock::create(context);
@@ -67,13 +67,13 @@ namespace djv
             p.textBlocks["License4"] = UI::TextBlock::create(context);
             p.textBlocks["License5"] = UI::TextBlock::create(context);
             p.textBlocks["ContributorsHeader"] = UI::TextBlock::create(context);
-            p.textBlocks["ContributorsHeader"]->setFontSizeRole(UI::Style::MetricsRole::FontLarge);
+            p.textBlocks["ContributorsHeader"]->setFontSizeRole(UI::MetricsRole::FontLarge);
             p.textBlocks["Contributors1"] = UI::TextBlock::create(context);
             p.textBlocks["Contributors2"] = UI::TextBlock::create(context);
             p.textBlocks["Contributors3"] = UI::TextBlock::create(context);
             p.textBlocks["Contributors4"] = UI::TextBlock::create(context);
             p.textBlocks["ThirdPartyHeader"] = UI::TextBlock::create(context);
-            p.textBlocks["ThirdPartyHeader"]->setFontSizeRole(UI::Style::MetricsRole::FontLarge);
+            p.textBlocks["ThirdPartyHeader"]->setFontSizeRole(UI::MetricsRole::FontLarge);
             p.textBlocks["ThirdParty1"] = UI::TextBlock::create(context);
             p.textBlocks["ThirdParty2"] = UI::TextBlock::create(context);
             p.textBlocks["ThirdParty3"] = UI::TextBlock::create(context);
@@ -89,7 +89,7 @@ namespace djv
             p.textBlocks["ThirdParty13"] = UI::TextBlock::create(context);
             p.textBlocks["ThirdParty14"] = UI::TextBlock::create(context);
             p.textBlocks["TrademarksHeader"] = UI::TextBlock::create(context);
-            p.textBlocks["TrademarksHeader"]->setFontSizeRole(UI::Style::MetricsRole::FontLarge);
+            p.textBlocks["TrademarksHeader"]->setFontSizeRole(UI::MetricsRole::FontLarge);
             p.textBlocks["Trademarks1"] = UI::TextBlock::create(context);
             p.textBlocks["Trademarks2"] = UI::TextBlock::create(context);
             p.textBlocks["Trademarks3"] = UI::TextBlock::create(context);
@@ -115,15 +115,15 @@ namespace djv
             p.textBlocks["MadeIn"] = UI::TextBlock::create(context);
 
             auto textLayout = UI::VerticalLayout::create(context);
-            textLayout->setMargin(UI::Style::MetricsRole::MarginLarge);
-            textLayout->setSpacing(UI::Style::MetricsRole::SpacingLarge);
+            textLayout->setMargin(UI::MetricsRole::MarginLarge);
+            textLayout->setSpacing(UI::MetricsRole::SpacingLarge);
             textLayout->addWidget(p.textBlocks["Header"]);
             
             auto vLayout = UI::VerticalLayout::create(context);
             vLayout->addWidget(p.textBlocks["Copyright"]);
             vLayout->addWidget(p.textBlocks["License1"]);
             auto vLayout2 = UI::VerticalLayout::create(context);
-            vLayout2->setSpacing(UI::Style::MetricsRole::None);
+            vLayout2->setSpacing(UI::MetricsRole::None);
             vLayout2->addWidget(p.textBlocks["License2"]);
             vLayout2->addWidget(p.textBlocks["License3"]);
             vLayout2->addWidget(p.textBlocks["License4"]);
@@ -136,7 +136,7 @@ namespace djv
             vLayout = UI::VerticalLayout::create(context);
             vLayout->addWidget(p.textBlocks["Contributors1"]);
             vLayout2 = UI::VerticalLayout::create(context);
-            vLayout2->setSpacing(UI::Style::MetricsRole::None);
+            vLayout2->setSpacing(UI::MetricsRole::None);
             vLayout2->addWidget(p.textBlocks["Contributors2"]);
             vLayout2->addWidget(p.textBlocks["Contributors3"]);
             vLayout2->addWidget(p.textBlocks["Contributors4"]);
@@ -148,7 +148,7 @@ namespace djv
             vLayout = UI::VerticalLayout::create(context);
             vLayout->addWidget(p.textBlocks["ThirdParty1"]);
             vLayout2 = UI::VerticalLayout::create(context);
-            vLayout2->setSpacing(UI::Style::MetricsRole::None);
+            vLayout2->setSpacing(UI::MetricsRole::None);
             vLayout2->addWidget(p.textBlocks["ThirdParty2"]);
             vLayout2->addWidget(p.textBlocks["ThirdParty3"]);
             vLayout2->addWidget(p.textBlocks["ThirdParty4"]);
@@ -170,7 +170,7 @@ namespace djv
             vLayout = UI::VerticalLayout::create(context);
             vLayout->addWidget(p.textBlocks["Trademarks1"]);
             vLayout2 = UI::VerticalLayout::create(context);
-            vLayout2->setSpacing(UI::Style::MetricsRole::None);
+            vLayout2->setSpacing(UI::MetricsRole::None);
             vLayout2->addWidget(p.textBlocks["Trademarks2"]);
             vLayout2->addWidget(p.textBlocks["Trademarks3"]);
             vLayout2->addWidget(p.textBlocks["Trademarks4"]);

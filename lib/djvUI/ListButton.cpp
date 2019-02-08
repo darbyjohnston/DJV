@@ -66,9 +66,9 @@ namespace djv
                 p.label->setTextHAlign(TextHAlign::Left);
 
                 p.layout = HorizontalLayout::create(context);
-                p.layout->setMargin(Layout::Margin(Style::MetricsRole::Margin, Style::MetricsRole::Margin, Style::MetricsRole::MarginSmall, Style::MetricsRole::MarginSmall));
+                p.layout->setMargin(Layout::Margin(MetricsRole::Margin, MetricsRole::Margin, MetricsRole::MarginSmall, MetricsRole::MarginSmall));
                 p.layout->addWidget(p.icon);
-                p.layout->addWidget(p.label, Layout::RowStretch::Expand);
+                p.layout->addWidget(p.label, RowStretch::Expand);
                 p.layout->setParent(shared_from_this());
 
                 _widgetUpdate();
@@ -149,12 +149,12 @@ namespace djv
                 _p->label->setTextVAlign(value);
             }
 
-            Style::ColorRole List::getTextColorRole() const
+			ColorRole List::getTextColorRole() const
             {
                 return _p->label->getTextColorRole();
             }
 
-            void List::setTextColorRole(Style::ColorRole value)
+            void List::setTextColorRole(ColorRole value)
             {
                 _p->label->setTextColorRole(value);
             }
@@ -169,7 +169,7 @@ namespace djv
                 return _p->label->getFontFace();
             }
 
-            Style::MetricsRole List::getFontSizeRole() const
+			MetricsRole List::getFontSizeRole() const
             {
                 return _p->label->getFontSizeRole();
             }
@@ -184,7 +184,7 @@ namespace djv
                 _p->label->setFontFace(value);
             }
 
-            void List::setFontSizeRole(Style::MetricsRole value)
+            void List::setFontSizeRole(MetricsRole value)
             {
                 _p->label->setFontSizeRole(value);
             }

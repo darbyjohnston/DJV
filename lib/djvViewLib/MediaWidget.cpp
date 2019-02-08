@@ -50,7 +50,7 @@ namespace djv
             std::shared_ptr<ImageView> imageView;
             std::shared_ptr<PlaybackWidget> playbackWidget;
             std::shared_ptr<TimelineSlider> timelineSlider;
-            std::shared_ptr<UI::Layout::Stack> layout;
+            std::shared_ptr<UI::StackLayout> layout;
             std::shared_ptr<ValueObserver<Time::Duration> > durationObserver;
             std::shared_ptr<ValueObserver<Time::Timestamp> > currentTimeObserver;
             std::shared_ptr<ValueObserver<Time::Timestamp> > currentTimeObserver2;
@@ -71,17 +71,17 @@ namespace djv
 			playbackSettingsButton->setIcon("djvIconPopupMenu");
 
             auto hLayout = UI::HorizontalLayout::create(context);
-            hLayout->setSpacing(UI::Style::MetricsRole::None);
-            hLayout->setBackgroundRole(UI::Style::ColorRole::Overlay);
+            hLayout->setSpacing(UI::MetricsRole::None);
+            hLayout->setBackgroundRole(UI::ColorRole::Overlay);
             hLayout->addWidget(_p->playbackWidget);
-            hLayout->addWidget(_p->timelineSlider, UI::Layout::RowStretch::Expand);
+            hLayout->addWidget(_p->timelineSlider, UI::RowStretch::Expand);
 			hLayout->addWidget(playbackSettingsButton);
 			auto vLayout = UI::VerticalLayout::create(context);
-            vLayout->setSpacing(UI::Style::MetricsRole::None);
+            vLayout->setSpacing(UI::MetricsRole::None);
             vLayout->addExpander();
             vLayout->addWidget(hLayout);
 
-            p.layout = UI::Layout::Stack::create(context);
+            p.layout = UI::StackLayout::create(context);
             p.layout->addWidget(p.imageView);
             p.layout->addWidget(vLayout);
             p.layout->setParent(shared_from_this());

@@ -48,7 +48,7 @@ namespace djv
             struct Row::Private
             {
                 Orientation orientation = Orientation::Horizontal;
-                Spacing spacing = Spacing(Style::MetricsRole::Spacing, Style::MetricsRole::Spacing);
+                Spacing spacing = Spacing(MetricsRole::Spacing, MetricsRole::Spacing);
                 std::map<std::shared_ptr<Widget>, RowStretch> stretch;
             };
 

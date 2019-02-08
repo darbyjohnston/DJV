@@ -81,7 +81,7 @@ namespace djv
             }
 
             p.layout = UI::FormLayout::create(context);
-            p.layout->setMargin(UI::Style::MetricsRole::Margin);
+            p.layout->setMargin(UI::MetricsRole::Margin);
             p.text["Duration"] = p.layout->addWidget(std::string(), p.labels["Duration"]);
             p.text["CurrentTime"] = p.layout->addWidget(std::string(), p.labels["CurrentTime"]);
             p.text["VideoQueue"] = p.layout->addWidget(std::string(), p.labels["VideoQueue"]);

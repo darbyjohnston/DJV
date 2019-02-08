@@ -40,10 +40,10 @@ namespace djv
         struct LineEditBase::Private
         {
             std::string text;
-            Style::ColorRole textColorRole = Style::ColorRole::Foreground;
+			ColorRole textColorRole = ColorRole::Foreground;
             std::string font;
             std::string fontFace = AV::Font::Info::faceDefault;
-            Style::MetricsRole fontSizeRole = Style::MetricsRole::FontMedium;
+			MetricsRole fontSizeRole = MetricsRole::FontMedium;
             AV::Font::Metrics fontMetrics;
             std::future<AV::Font::Metrics> fontMetricsFuture;
             glm::vec2 textSize = glm::vec2(0.f, 0.f);
@@ -55,7 +55,7 @@ namespace djv
             Widget::_init(context);
 
             setClassName("djv::UI::LineEditBase");
-            setBackgroundRole(Style::ColorRole::Trough);
+            setBackgroundRole(ColorRole::Trough);
             setVAlign(VAlign::Center);
         }
 
@@ -87,12 +87,12 @@ namespace djv
             _textUpdate();
         }
 
-        Style::ColorRole LineEditBase::getTextColorRole() const
+		ColorRole LineEditBase::getTextColorRole() const
         {
             return _p->textColorRole;
         }
 
-        void LineEditBase::setTextColorRole(Style::ColorRole value)
+        void LineEditBase::setTextColorRole(ColorRole value)
         {
             DJV_PRIVATE_PTR();
             if (value == p.textColorRole)
@@ -111,7 +111,7 @@ namespace djv
             return _p->fontFace;
         }
 
-        Style::MetricsRole LineEditBase::getFontSizeRole() const
+		MetricsRole LineEditBase::getFontSizeRole() const
         {
             return _p->fontSizeRole;
         }
@@ -134,7 +134,7 @@ namespace djv
             _textUpdate();
         }
 
-        void LineEditBase::setFontSizeRole(Style::MetricsRole value)
+        void LineEditBase::setFontSizeRole(MetricsRole value)
         {
             DJV_PRIVATE_PTR();
             if (value == p.fontSizeRole)
@@ -153,8 +153,8 @@ namespace djv
 			DJV_PRIVATE_PTR();
 			if (auto style = _getStyle().lock())
             {
-                const float ms = style->getMetric(Style::MetricsRole::MarginSmall);
-                const float tc = style->getMetric(Style::MetricsRole::TextColumn);
+                const float ms = style->getMetric(MetricsRole::MarginSmall);
+                const float tc = style->getMetric(MetricsRole::TextColumn);
 
 				if (p.fontMetricsFuture.valid())
 				{
@@ -198,7 +198,7 @@ namespace djv
                 {
                     const BBox2f& g = getMargin().bbox(getGeometry(), style);
                     const glm::vec2 c = g.getCenter();
-                    const float ms = style->getMetric(Style::MetricsRole::MarginSmall);
+                    const float ms = style->getMetric(MetricsRole::MarginSmall);
 
                     auto fontInfo = p.font.empty() ?
                         style->getFontInfo(p.fontFace, p.fontSizeRole) :

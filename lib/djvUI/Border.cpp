@@ -43,8 +43,8 @@ namespace djv
         {
             struct Border::Private
             {
-                Style::MetricsRole borderSize = Style::MetricsRole::Border;
-                Style::ColorRole borderColor = Style::ColorRole::Border;
+				MetricsRole borderSize = MetricsRole::Border;
+				ColorRole borderColor = ColorRole::Border;
                 std::shared_ptr<Stack> layout;
             };
 
@@ -72,12 +72,12 @@ namespace djv
                 return out;
             }
 
-            Style::MetricsRole Border::getBorderSize() const
+			MetricsRole Border::getBorderSize() const
             {
                 return _p->borderSize;
             }
 
-            void Border::setBorderSize(Style::MetricsRole value)
+            void Border::setBorderSize(MetricsRole value)
             {
                 DJV_PRIVATE_PTR();
                 if (value == p.borderSize)
@@ -86,12 +86,12 @@ namespace djv
                 _resize();
             }
 
-            Style::ColorRole Border::getBorderColorRole() const
+			ColorRole Border::getBorderColorRole() const
             {
                 return _p->borderColor;
             }
 
-            void Border::setBorderColorRole(Style::ColorRole value)
+            void Border::setBorderColorRole(ColorRole value)
             {
                 DJV_PRIVATE_PTR();
                 if (value == p.borderColor)
@@ -131,7 +131,7 @@ namespace djv
                 if (auto style = _getStyle().lock())
                 {
                     DJV_PRIVATE_PTR();
-                    const float b = style->getMetric(Style::MetricsRole::Border);
+                    const float b = style->getMetric(MetricsRole::Border);
                     out = p.layout->getHeightForWidth(value - b * 2.f - getMargin().getWidth(style)) +
                         b * 2.f +
                         getMargin().getHeight(style);

@@ -136,8 +136,8 @@ namespace djv
             //! \name Widget Style
             ///@{
 
-            inline Style::ColorRole getBackgroundRole() const;
-            void setBackgroundRole(Style::ColorRole);
+            inline ColorRole getBackgroundRole() const;
+            void setBackgroundRole(ColorRole);
 
             void setStyle(const std::shared_ptr<Style::Style> &);
 
@@ -244,7 +244,7 @@ namespace djv
             Layout::Margin _margin;
             HAlign _hAlign = HAlign::Fill;
             VAlign _vAlign = VAlign::Fill;
-            Style::ColorRole _backgroundRole = Style::ColorRole::None;
+			ColorRole _backgroundRole = ColorRole::None;
             bool _pointerEnabled = false;
             std::map<Core::Event::PointerID, glm::vec2> _pointerHover;
             std::vector<std::shared_ptr<Action> > _actions;

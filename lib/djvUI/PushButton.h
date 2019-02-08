@@ -42,10 +42,10 @@ namespace djv
 
                 const std::string & getFont() const;
                 const std::string & getFontFace() const;
-                Style::MetricsRole getFontSizeRole() const;
+				MetricsRole getFontSizeRole() const;
                 void setFont(const std::string &);
                 void setFontFace(const std::string &);
-                void setFontSizeRole(Style::MetricsRole);
+                void setFontSizeRole(MetricsRole);
 
                 const Layout::Margin& getInsideMargin() const;
                 void setInsideMargin(const Layout::Margin&);

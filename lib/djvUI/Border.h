@@ -51,11 +51,11 @@ namespace djv
 
                 static std::shared_ptr<Border> create(Core::Context *);
 
-                Style::MetricsRole getBorderSize() const;
-                void setBorderSize(Style::MetricsRole);
+				MetricsRole getBorderSize() const;
+                void setBorderSize(MetricsRole);
 
-                Style::ColorRole getBorderColorRole() const;
-                void setBorderColorRole(Style::ColorRole);
+				ColorRole getBorderColorRole() const;
+                void setBorderColorRole(ColorRole);
 
                 const Margin& getInsideMargin() const;
                 void setInsideMargin(const Margin&);

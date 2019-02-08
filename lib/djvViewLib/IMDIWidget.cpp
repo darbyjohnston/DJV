@@ -65,30 +65,30 @@ namespace djv
 
             p.titleLabel = UI::Label::create(context);
             p.titleLabel->setTextHAlign(UI::TextHAlign::Left);
-            p.titleLabel->setMargin(UI::Style::MetricsRole::Margin);
+            p.titleLabel->setMargin(UI::MetricsRole::Margin);
 
             p.closeButton = UI::ToolButton::create(context);
 			p.closeButton->setIcon("djvIconCloseSmall");
 
             p.titleBar = UI::HorizontalLayout::create(context);
-			p.titleBar->setSpacing(UI::Style::MetricsRole::None);
-			p.titleBar->addWidget(p.titleLabel, UI::Layout::RowStretch::Expand);
+			p.titleBar->setSpacing(UI::MetricsRole::None);
+			p.titleBar->addWidget(p.titleLabel, UI::RowStretch::Expand);
 			p.titleBarWidgetLayout = UI::HorizontalLayout::create(context);
-			p.titleBarWidgetLayout->setSpacing(UI::Style::MetricsRole::None);
+			p.titleBarWidgetLayout->setSpacing(UI::MetricsRole::None);
 			p.titleBar->addWidget(p.titleBarWidgetLayout);
 			p.titleBar->addWidget(p.closeButton);
 
             p.childLayout = UI::VerticalLayout::create(context);
 
             p.layout = UI::VerticalLayout::create(context);
-            p.layout->setBackgroundRole(UI::Style::ColorRole::Background);
-            p.layout->setSpacing(UI::Style::MetricsRole::None);
+            p.layout->setBackgroundRole(UI::ColorRole::Background);
+            p.layout->setSpacing(UI::MetricsRole::None);
             p.layout->addWidget(p.titleBar);
             p.layout->addSeparator();
-            p.layout->addWidget(p.childLayout, UI::Layout::RowStretch::Expand);
+            p.layout->addWidget(p.childLayout, UI::RowStretch::Expand);
 
             p.border = UI::Border::create(context);
-            p.border->setMargin(UI::Style::MetricsRole::Handle);
+            p.border->setMargin(UI::MetricsRole::Handle);
             p.border->addWidget(p.layout);
             IContainer::addWidget(p.border);
 
@@ -132,7 +132,7 @@ namespace djv
 
         void IMDIWidget::addWidget(const std::shared_ptr<Widget>& widget)
         {
-            _p->childLayout->addWidget(widget, UI::Layout::RowStretch::Expand);
+            _p->childLayout->addWidget(widget, UI::RowStretch::Expand);
         }
 
         void IMDIWidget::removeWidget(const std::shared_ptr<Widget>& widget)
@@ -163,7 +163,7 @@ namespace djv
 							{
 								const BBox2f & g = canvas->getGeometry();
 								const glm::vec2 c = g.getCenter();
-								const float m = style->getMetric(UI::Style::MetricsRole::MarginDialog);
+								const float m = style->getMetric(UI::MetricsRole::MarginDialog);
 								const glm::vec2 & minimumSize = getMinimumSize();
 								switch (p.resize)
 								{

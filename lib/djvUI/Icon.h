@@ -53,11 +53,11 @@ namespace djv
             const std::string& getIcon() const;
             void setIcon(const std::string&);
 
-            Style::ColorRole getIconColorRole() const;
-            void setIconColorRole(Style::ColorRole);
+			ColorRole getIconColorRole() const;
+            void setIconColorRole(ColorRole);
 
-            Style::MetricsRole getIconSizeRole() const;
-            void setIconSizeRole(Style::MetricsRole);
+			MetricsRole getIconSizeRole() const;
+            void setIconSizeRole(MetricsRole);
 
         protected:
             void _styleEvent(Core::Event::Style&) override;

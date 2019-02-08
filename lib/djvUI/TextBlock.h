@@ -57,18 +57,18 @@ namespace djv
             TextHAlign getTextHAlign() const;
             void setTextHAlign(TextHAlign);
 
-            Style::ColorRole getTextColorRole() const;
-            void setTextColorRole(Style::ColorRole);
+			ColorRole getTextColorRole() const;
+            void setTextColorRole(ColorRole);
 
-            Style::MetricsRole getTextSizeRole() const;
-            void setTextSizeRole(Style::MetricsRole);
+			MetricsRole getTextSizeRole() const;
+            void setTextSizeRole(MetricsRole);
 
             const std::string & getFontFamily() const;
             const std::string & getFontFace() const;
-            Style::MetricsRole getFontSizeRole() const;
+			MetricsRole getFontSizeRole() const;
             void setFontFamily(const std::string &);
             void setFontFace(const std::string &);
-            void setFontSizeRole(Style::MetricsRole);
+            void setFontSizeRole(MetricsRole);
 
             float getHeightForWidth(float) const override;
 

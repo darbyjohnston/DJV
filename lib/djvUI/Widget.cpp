@@ -260,7 +260,7 @@ namespace djv
             return BBox2f(floorf(x), floorf(y), ceilf(w), ceilf(h));
         }
 
-        void Widget::setBackgroundRole(Style::ColorRole value)
+        void Widget::setBackgroundRole(ColorRole value)
         {
             if (value == _backgroundRole)
                 return;
@@ -507,7 +507,7 @@ namespace djv
 
         void Widget::_paintEvent(Event::Paint& event)
         {
-            if (_backgroundRole != Style::ColorRole::None)
+            if (_backgroundRole != ColorRole::None)
             {
                 if (auto render = _render.lock())
                 {
@@ -638,9 +638,9 @@ namespace djv
         {
             auto context = getContext();
             auto textBlock = TextBlock::create(text, context);
-            textBlock->setTextColorRole(Style::ColorRole::TooltipForeground);
-            textBlock->setBackgroundRole(Style::ColorRole::TooltipBackground);
-            textBlock->setMargin(Style::MetricsRole::Margin);
+            textBlock->setTextColorRole(ColorRole::TooltipForeground);
+            textBlock->setBackgroundRole(ColorRole::TooltipBackground);
+            textBlock->setMargin(MetricsRole::Margin);
             auto border = Border::create(context);
             border->addWidget(textBlock);
             return border;

@@ -72,5 +72,8 @@ namespace djv
             };
 
         } // namespace Layout
+
+		typedef Layout::Solo SoloLayout;
+
     } // namespace UI
 } // namespace djv

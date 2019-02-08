@@ -74,10 +74,10 @@ namespace djv
 
             DJV_PRIVATE_PTR();
             p.buttonLayout = HorizontalLayout::create(context);
-            p.buttonLayout->setSpacing(Style::MetricsRole::None);
+            p.buttonLayout->setSpacing(MetricsRole::None);
 
             p.widgetLayout = HorizontalLayout::create(context);
-            p.widgetLayout->setSpacing(Style::MetricsRole::None);
+            p.widgetLayout->setSpacing(MetricsRole::None);
 
             p.layout = HorizontalLayout::create(context);
             p.layout->addWidget(p.buttonLayout);

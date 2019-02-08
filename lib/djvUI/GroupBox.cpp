@@ -46,7 +46,7 @@ namespace djv
             struct GroupBox::Private
             {
                 std::shared_ptr<Label> titleLabel;
-                std::shared_ptr<Layout::Stack> childLayout;
+                std::shared_ptr<StackLayout> childLayout;
                 std::shared_ptr<VerticalLayout> layout;
             };
 
@@ -59,15 +59,15 @@ namespace djv
                 DJV_PRIVATE_PTR();
                 p.titleLabel = Label::create(context);
                 p.titleLabel->setTextHAlign(TextHAlign::Left);
-                p.titleLabel->setFontSizeRole(Style::MetricsRole::FontLarge);
+                p.titleLabel->setFontSizeRole(MetricsRole::FontLarge);
                 
-                p.childLayout = Layout::Stack::create(context);
+                p.childLayout = StackLayout::create(context);
 
                 p.layout = VerticalLayout::create(context);
-                p.layout->setSpacing(Style::MetricsRole::Spacing);
+                p.layout->setSpacing(MetricsRole::Spacing);
                 p.layout->addWidget(p.titleLabel);
                 p.layout->addSeparator();
-                p.layout->addWidget(p.childLayout, Layout::RowStretch::Expand);
+                p.layout->addWidget(p.childLayout, RowStretch::Expand);
                 IContainer::addWidget(p.layout);
             }
 

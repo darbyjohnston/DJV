@@ -99,7 +99,7 @@ namespace djv
             return _vAlign;
         }
 
-        inline Style::ColorRole Widget::getBackgroundRole() const
+        inline ColorRole Widget::getBackgroundRole() const
         {
             return _backgroundRole;
         }
