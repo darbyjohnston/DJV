@@ -179,10 +179,14 @@ namespace djv
 							const glm::vec2 & widgetSize = i.first->getSize();
 							const glm::vec2 & widgetMinimumSize = i.first->getMinimumSize();
 							BBox2f widgetGeometry;
-							widgetGeometry.min.x = Math::clamp(g.min.x + i.second.x, 0.f, g.max.x - widgetMinimumSize.x);
-							widgetGeometry.min.y = Math::clamp(g.min.y + i.second.y, 0.f, g.max.y - widgetMinimumSize.y);
-							widgetGeometry.max.x = Math::clamp(widgetGeometry.min.x + widgetSize.x, widgetGeometry.min.x + widgetMinimumSize.x, g.max.x);
-							widgetGeometry.max.y = Math::clamp(widgetGeometry.min.y + widgetSize.y, widgetGeometry.min.y + widgetMinimumSize.y, g.max.y);
+							//widgetGeometry.min.x = Math::clamp(g.min.x + i.second.x, 0.f, g.max.x - widgetMinimumSize.x);
+							//widgetGeometry.min.y = Math::clamp(g.min.y + i.second.y, 0.f, g.max.y - widgetMinimumSize.y);
+							//widgetGeometry.max.x = Math::clamp(widgetGeometry.min.x + widgetSize.x, widgetGeometry.min.x + widgetMinimumSize.x, g.max.x);
+							//widgetGeometry.max.y = Math::clamp(widgetGeometry.min.y + widgetSize.y, widgetGeometry.min.y + widgetMinimumSize.y, g.max.y);
+							widgetGeometry.min.x = g.min.x + i.second.x;
+							widgetGeometry.min.y = g.min.y + i.second.y;
+							widgetGeometry.max.x = widgetGeometry.min.x + widgetSize.x;
+							widgetGeometry.max.y = widgetGeometry.min.y + widgetSize.y;
 							i.first->setGeometry(widgetGeometry);
 						}
 					}
