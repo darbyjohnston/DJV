@@ -1354,5 +1354,131 @@
         "nameSpace": "djv::ViewLib::AboutWidget", 
         "id": "Made In", 
         "description": ""
+    }, 
+    {
+        "text": "SDI Window Mode Tooltip", 
+        "nameSpace": "djv::ViewLib::MainWindow", 
+        "id": "SDI Window Mode Tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "MDI Window Mode Tooltip", 
+        "nameSpace": "djv::ViewLib::MainWindow", 
+        "id": "MDI Window Mode Tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "Playlist Window Mode Tooltip", 
+        "nameSpace": "djv::ViewLib::MainWindow", 
+        "id": "Playlist Window Mode Tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "Debug", 
+        "nameSpace": "djv::ViewLib::DebugWidget", 
+        "id": "Debug", 
+        "description": ""
+    }, 
+    {
+        "text": "Duration", 
+        "nameSpace": "djv::ViewLib::DebugWidget", 
+        "id": "Duration", 
+        "description": ""
+    }, 
+    {
+        "text": "Current Time", 
+        "nameSpace": "djv::ViewLib::DebugWidget", 
+        "id": "Current Time", 
+        "description": ""
+    }, 
+    {
+        "text": "Video Queue", 
+        "nameSpace": "djv::ViewLib::DebugWidget", 
+        "id": "Video Queue", 
+        "description": ""
+    }, 
+    {
+        "text": "Audio Queue", 
+        "nameSpace": "djv::ViewLib::DebugWidget", 
+        "id": "Audio Queue", 
+        "description": ""
+    }, 
+    {
+        "text": "AL Unqueued Buffers", 
+        "nameSpace": "djv::ViewLib::DebugWidget", 
+        "id": "AL Unqueued Buffers", 
+        "description": ""
+    }, 
+    {
+        "text": "Pin Tooltip", 
+        "nameSpace": "djv::ViewLib::FileBrowserWidget", 
+        "id": "Pin Tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "Debug Log", 
+        "nameSpace": "djv::ViewLib::HelpSystem", 
+        "id": "Debug Log", 
+        "description": ""
+    }, 
+    {
+        "text": "Debug Log Tooltip", 
+        "nameSpace": "djv::ViewLib::HelpSystem", 
+        "id": "Debug Log Tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "Histogram", 
+        "nameSpace": "djv::ViewLib::HistogramWidget", 
+        "id": "Histogram", 
+        "description": ""
+    }, 
+    {
+        "text": "Playlist", 
+        "nameSpace": "djv::ViewLib::WindowSystem", 
+        "id": "Playlist", 
+        "description": ""
+    }, 
+    {
+        "text": "Playlist Tooltip", 
+        "nameSpace": "djv::ViewLib::WindowSystem", 
+        "id": "Playlist Tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "Color Picker", 
+        "nameSpace": "djv::ViewLib::ColorPickerWidget", 
+        "id": "Color Picker", 
+        "description": ""
+    }, 
+    {
+        "text": "Magnifier", 
+        "nameSpace": "djv::ViewLib::MagnifierTool", 
+        "id": "Magnifier", 
+        "description": ""
+    }, 
+    {
+        "text": "Magnifier Tooltip", 
+        "nameSpace": "djv::ViewLib::ToolSystem", 
+        "id": "Magnifier Tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "Color Picker Tooltip", 
+        "nameSpace": "djv::ViewLib::ToolSystem", 
+        "id": "Color Picker Tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "Histogram Tooltip", 
+        "nameSpace": "djv::ViewLib::ToolSystem", 
+        "id": "Histogram Tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "Debug Tooltip", 
+        "nameSpace": "djv::ViewLib::ToolSystem", 
+        "id": "Debug Tooltip", 
+        "description": ""
     }
 ]

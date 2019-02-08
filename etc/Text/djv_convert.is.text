@@ -1,23 +1,23 @@
 [
     {
         "source": "Nothing to convert", 
-        "text": "Ekkert a\u00f0 breyta", 
+        "description": "", 
         "nameSpace": "djv::Convert", 
         "id": "Nothing to convert", 
-        "description": ""
+        "text": "Ekkert a\u00f0 breyta"
     }, 
     {
         "source": "Cannot parse option '-resize'", 
-        "text": "Ekki er h\u00e6gt a\u00f0 flokka valkostinn &#39;-resize&#39;", 
+        "description": "", 
         "nameSpace": "djv::Convert", 
         "id": "Cannot parse option '-resize'", 
-        "description": ""
+        "text": "Ekki er h\u00e6gt a\u00f0 flokka valkostinn &#39;-resize&#39;"
     }, 
     {
         "source": "Usage: djv_convert (input) (output)", 
-        "text": "Notkun: djv_convert (inntak) (framlei\u00f0sla)", 
+        "description": "", 
         "nameSpace": "djv::Convert", 
         "id": "Usage: djv_convert (input) (output)", 
-        "description": ""
+        "text": "Notkun: djv_convert (inntak) (framlei\u00f0sla)"
     }
 ]

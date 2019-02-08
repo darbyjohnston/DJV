@@ -1,16 +1,16 @@
 [
     {
         "source": "Cannot initialize GLFW.", 
-        "text": "Impossible d&#39;initialiser GLFW.", 
+        "description": "", 
         "nameSpace": "djv::Desktop", 
         "id": "Cannot initialize GLFW.", 
-        "description": ""
+        "text": "Impossible d&#39;initialiser GLFW."
     }, 
     {
         "source": "Cannot create GLFW window.", 
-        "text": "Impossible de cr\u00e9er une fen\u00eatre GLFW.", 
+        "description": "", 
         "nameSpace": "djv::Desktop", 
         "id": "Cannot create GLFW window.", 
-        "description": ""
+        "text": "Impossible de cr\u00e9er une fen\u00eatre GLFW."
     }
 ]

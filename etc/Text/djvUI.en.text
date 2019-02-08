@@ -1392,63 +1392,69 @@
         "description": ""
     }, 
     {
-        "text": "Up Tooltip", 
+        "text": "Go up a directory", 
         "nameSpace": "djv::UI::FileBrowser", 
         "id": "Up Tooltip", 
         "description": ""
     }, 
     {
-        "text": "Current Directory Tooltip", 
+        "text": "Go to the current directory", 
         "nameSpace": "djv::UI::FileBrowser", 
         "id": "Current Directory Tooltip", 
         "description": ""
     }, 
     {
-        "text": "Back Tooltip", 
+        "text": "Go to the previous directory", 
         "nameSpace": "djv::UI::FileBrowser", 
         "id": "Back Tooltip", 
         "description": ""
     }, 
     {
-        "text": "Forward Tooltip", 
+        "text": "Go to the next directory", 
         "nameSpace": "djv::UI::FileBrowser", 
         "id": "Forward Tooltip", 
         "description": ""
     }, 
     {
-        "text": "Large Thumbnails Tooltip", 
+        "text": "Large thumbnail previews", 
         "nameSpace": "djv::UI::FileBrowser", 
         "id": "Large Thumbnails Tooltip", 
         "description": ""
     }, 
     {
-        "text": "Small Thumbnails Tooltip", 
+        "text": "Small thumbnail previews", 
         "nameSpace": "djv::UI::FileBrowser", 
         "id": "Small Thumbnails Tooltip", 
         "description": ""
     }, 
     {
-        "text": "List View Tooltip", 
+        "text": "List view", 
         "nameSpace": "djv::UI::FileBrowser", 
         "id": "List View Tooltip", 
         "description": ""
     }, 
     {
-        "text": "File Sequences Tooltip", 
+        "text": "Toggle whether file sequences are enabled", 
         "nameSpace": "djv::UI::FileBrowser", 
         "id": "File Sequences Tooltip", 
         "description": ""
     }, 
     {
-        "text": "Show Hidden Tooltip", 
+        "text": "Show hidden files", 
         "nameSpace": "djv::UI::FileBrowser", 
         "id": "Show Hidden Tooltip", 
         "description": ""
     }, 
     {
-        "text": "History Tooltip", 
+        "text": "Show the file browser history", 
         "nameSpace": "djv::UI::FileBrowser", 
         "id": "History Tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "Exclusive", 
+        "nameSpace": "djv::UI", 
+        "id": "Exclusive", 
         "description": ""
     }
 ]
