@@ -1,1773 +1,1773 @@
 [
     {
         "source": "Settings", 
-        "description": "", 
+        "text": "\u043d\u0430\u0441\u0442\u0440\u043e\u0439\u043a\u0438", 
         "nameSpace": "djv::ViewLib", 
-        "id": "Settings", 
-        "text": "\u043d\u0430\u0441\u0442\u0440\u043e\u0439\u043a\u0438"
+        "description": "", 
+        "id": "Settings"
     }, 
     {
         "source": "General", 
-        "description": "", 
+        "text": "\u0433\u0435\u043d\u0435\u0440\u0430\u043b\u044c\u043d\u044b\u0439", 
         "nameSpace": "djv::ViewLib", 
-        "id": "General", 
-        "text": "\u0433\u0435\u043d\u0435\u0440\u0430\u043b\u044c\u043d\u044b\u0439"
+        "description": "", 
+        "id": "General"
     }, 
     {
         "source": "Playback", 
-        "description": "", 
+        "text": "\u0432\u043e\u0441\u043f\u0440\u043e\u0438\u0437\u0432\u0435\u0434\u0435\u043d\u0438\u0435", 
         "nameSpace": "djv::ViewLib", 
-        "id": "Playback", 
-        "text": "\u0432\u043e\u0441\u043f\u0440\u043e\u0438\u0437\u0432\u0435\u0434\u0435\u043d\u0438\u0435"
+        "description": "", 
+        "id": "Playback"
     }, 
     {
         "source": "Loop", 
-        "description": "", 
+        "text": "\u043f\u0435\u0442\u043b\u044f", 
         "nameSpace": "djv::ViewLib", 
-        "id": "Loop", 
-        "text": "\u043f\u0435\u0442\u043b\u044f"
+        "description": "", 
+        "id": "Loop"
     }, 
     {
         "source": "Layout", 
-        "description": "", 
+        "text": "\u0440\u0430\u0441\u043a\u043b\u0430\u0434\u043a\u0430", 
         "nameSpace": "djv::ViewLib", 
-        "id": "Layout", 
-        "text": "\u0440\u0430\u0441\u043a\u043b\u0430\u0434\u043a\u0430"
+        "description": "", 
+        "id": "Layout"
     }, 
     {
         "source": "Stop", 
-        "description": "", 
+        "text": "\u0421\u0442\u043e\u043f", 
         "nameSpace": "djv::ViewLib", 
-        "id": "Stop", 
-        "text": "\u0421\u0442\u043e\u043f"
+        "description": "", 
+        "id": "Stop"
     }, 
     {
         "source": "Forward", 
-        "description": "", 
+        "text": "\u0412\u043f\u0435\u0440\u0435\u0434", 
         "nameSpace": "djv::ViewLib", 
-        "id": "Forward", 
-        "text": "\u0412\u043f\u0435\u0440\u0435\u0434"
+        "description": "", 
+        "id": "Forward"
     }, 
     {
         "source": "Reverse", 
-        "description": "", 
+        "text": "\u0417\u0430\u0434\u043d\u0438\u0439 \u0445\u043e\u0434", 
         "nameSpace": "djv::ViewLib", 
-        "id": "Reverse", 
-        "text": "\u0417\u0430\u0434\u043d\u0438\u0439 \u0445\u043e\u0434"
+        "description": "", 
+        "id": "Reverse"
     }, 
     {
         "source": "Toggle Playback", 
-        "description": "", 
+        "text": "\u041f\u0435\u0440\u0435\u043a\u043b\u044e\u0447\u0438\u0442\u044c \u0432\u043e\u0441\u043f\u0440\u043e\u0438\u0437\u0432\u0435\u0434\u0435\u043d\u0438\u0435", 
         "nameSpace": "djv::ViewLib", 
-        "id": "Toggle Playback", 
-        "text": "\u041f\u0435\u0440\u0435\u043a\u043b\u044e\u0447\u0438\u0442\u044c \u0432\u043e\u0441\u043f\u0440\u043e\u0438\u0437\u0432\u0435\u0434\u0435\u043d\u0438\u0435"
+        "description": "", 
+        "id": "Toggle Playback"
     }, 
     {
         "source": "Toggle Reverse Playback", 
-        "description": "", 
+        "text": "\u041f\u0435\u0440\u0435\u043a\u043b\u044e\u0447\u0438\u0442\u044c \u043e\u0431\u0440\u0430\u0442\u043d\u043e\u0435 \u0432\u043e\u0441\u043f\u0440\u043e\u0438\u0437\u0432\u0435\u0434\u0435\u043d\u0438\u0435", 
         "nameSpace": "djv::ViewLib", 
-        "id": "Toggle Reverse Playback", 
-        "text": "\u041f\u0435\u0440\u0435\u043a\u043b\u044e\u0447\u0438\u0442\u044c \u043e\u0431\u0440\u0430\u0442\u043d\u043e\u0435 \u0432\u043e\u0441\u043f\u0440\u043e\u0438\u0437\u0432\u0435\u0434\u0435\u043d\u0438\u0435"
+        "description": "", 
+        "id": "Toggle Reverse Playback"
     }, 
     {
         "source": "Play Every Frame", 
-        "description": "", 
+        "text": "\u0412\u043e\u0441\u043f\u0440\u043e\u0438\u0437\u0432\u0435\u0441\u0442\u0438 \u043a\u0430\u0436\u0434\u044b\u0439 \u043a\u0430\u0434\u0440", 
         "nameSpace": "djv::ViewLib", 
-        "id": "Play Every Frame", 
-        "text": "\u0412\u043e\u0441\u043f\u0440\u043e\u0438\u0437\u0432\u0435\u0441\u0442\u0438 \u043a\u0430\u0436\u0434\u044b\u0439 \u043a\u0430\u0434\u0440"
+        "description": "", 
+        "id": "Play Every Frame"
     }, 
     {
         "source": "Go To In Point", 
-        "description": "", 
+        "text": "\u041f\u0435\u0440\u0435\u0439\u0442\u0438 \u043a \u0442\u043e\u0447\u043a\u0435", 
         "nameSpace": "djv::ViewLib", 
-        "id": "Go To In Point", 
-        "text": "\u041f\u0435\u0440\u0435\u0439\u0442\u0438 \u043a \u0442\u043e\u0447\u043a\u0435"
+        "description": "", 
+        "id": "Go To In Point"
     }, 
     {
         "source": "Go To Out Point", 
-        "description": "", 
+        "text": "Go To Out Point", 
         "nameSpace": "djv::ViewLib", 
-        "id": "Go To Out Point", 
-        "text": "Go To Out Point"
+        "description": "", 
+        "id": "Go To Out Point"
     }, 
     {
         "source": "Go To Start Frame", 
-        "description": "", 
+        "text": "\u041f\u0435\u0440\u0435\u0439\u0442\u0438 \u043a \u043d\u0430\u0447\u0430\u043b\u0443 \u043a\u0430\u0434\u0440\u0430", 
         "nameSpace": "djv::ViewLib", 
-        "id": "Go To Start Frame", 
-        "text": "\u041f\u0435\u0440\u0435\u0439\u0442\u0438 \u043a \u043d\u0430\u0447\u0430\u043b\u0443 \u043a\u0430\u0434\u0440\u0430"
+        "description": "", 
+        "id": "Go To Start Frame"
     }, 
     {
         "source": "Go To End Frame", 
-        "description": "", 
+        "text": "\u041f\u0435\u0440\u0435\u0439\u0442\u0438 \u043a \u043a\u043e\u043d\u0446\u0443 \u043a\u0430\u0434\u0440\u0430", 
         "nameSpace": "djv::ViewLib", 
-        "id": "Go To End Frame", 
-        "text": "\u041f\u0435\u0440\u0435\u0439\u0442\u0438 \u043a \u043a\u043e\u043d\u0446\u0443 \u043a\u0430\u0434\u0440\u0430"
+        "description": "", 
+        "id": "Go To End Frame"
     }, 
     {
         "source": "Next Frame", 
-        "description": "", 
+        "text": "\u0421\u043b\u0435\u0434\u0443\u044e\u0449\u0438\u0439 \u043a\u0430\u0434\u0440", 
         "nameSpace": "djv::ViewLib", 
-        "id": "Next Frame", 
-        "text": "\u0421\u043b\u0435\u0434\u0443\u044e\u0449\u0438\u0439 \u043a\u0430\u0434\u0440"
+        "description": "", 
+        "id": "Next Frame"
     }, 
     {
         "source": "Next Frame X10", 
-        "description": "", 
+        "text": "\u0421\u043b\u0435\u0434\u0443\u044e\u0449\u0438\u0439 \u043a\u0430\u0434\u0440 X10", 
         "nameSpace": "djv::ViewLib", 
-        "id": "Next Frame X10", 
-        "text": "\u0421\u043b\u0435\u0434\u0443\u044e\u0449\u0438\u0439 \u043a\u0430\u0434\u0440 X10"
+        "description": "", 
+        "id": "Next Frame X10"
     }, 
     {
         "source": "Next Frame X100", 
-        "description": "", 
+        "text": "\u0421\u043b\u0435\u0434\u0443\u044e\u0449\u0438\u0439 \u043a\u0430\u0434\u0440 X100", 
         "nameSpace": "djv::ViewLib", 
-        "id": "Next Frame X100", 
-        "text": "\u0421\u043b\u0435\u0434\u0443\u044e\u0449\u0438\u0439 \u043a\u0430\u0434\u0440 X100"
+        "description": "", 
+        "id": "Next Frame X100"
     }, 
     {
         "source": "Previous Frame", 
-        "description": "", 
+        "text": "\u041f\u0440\u0435\u0434\u044b\u0434\u0443\u0449\u0438\u0439 \u043a\u0430\u0434\u0440", 
         "nameSpace": "djv::ViewLib", 
-        "id": "Previous Frame", 
-        "text": "\u041f\u0440\u0435\u0434\u044b\u0434\u0443\u0449\u0438\u0439 \u043a\u0430\u0434\u0440"
+        "description": "", 
+        "id": "Previous Frame"
     }, 
     {
         "source": "Previous Frame X10", 
-        "description": "", 
+        "text": "\u041f\u0440\u0435\u0434\u044b\u0434\u0443\u0449\u0430\u044f \u0440\u0430\u043c\u043a\u0430 X10", 
         "nameSpace": "djv::ViewLib", 
-        "id": "Previous Frame X10", 
-        "text": "\u041f\u0440\u0435\u0434\u044b\u0434\u0443\u0449\u0430\u044f \u0440\u0430\u043c\u043a\u0430 X10"
+        "description": "", 
+        "id": "Previous Frame X10"
     }, 
     {
         "source": "Previous Frame X100", 
-        "description": "", 
+        "text": "\u041f\u0440\u0435\u0434\u044b\u0434\u0443\u0449\u0430\u044f \u0440\u0430\u043c\u043a\u0430 X100", 
         "nameSpace": "djv::ViewLib", 
-        "id": "Previous Frame X100", 
-        "text": "\u041f\u0440\u0435\u0434\u044b\u0434\u0443\u0449\u0430\u044f \u0440\u0430\u043c\u043a\u0430 X100"
+        "description": "", 
+        "id": "Previous Frame X100"
     }, 
     {
         "source": "Enable In/Out Points", 
-        "description": "", 
+        "text": "\u0412\u043a\u043b\u044e\u0447\u0438\u0442\u044c \u0442\u043e\u0447\u043a\u0438 \u0432\u0445\u043e\u0434\u0430 / \u0432\u044b\u0445\u043e\u0434\u0430", 
         "nameSpace": "djv::ViewLib", 
-        "id": "Enable In/Out Points", 
-        "text": "\u0412\u043a\u043b\u044e\u0447\u0438\u0442\u044c \u0442\u043e\u0447\u043a\u0438 \u0432\u0445\u043e\u0434\u0430 / \u0432\u044b\u0445\u043e\u0434\u0430"
+        "description": "", 
+        "id": "Enable In/Out Points"
     }, 
     {
         "source": "Set In Point", 
-        "description": "", 
+        "text": "\u0423\u0441\u0442\u0430\u043d\u043e\u0432\u0438\u0442\u044c \u0432 \u0442\u043e\u0447\u043a\u0435", 
         "nameSpace": "djv::ViewLib", 
-        "id": "Set In Point", 
-        "text": "\u0423\u0441\u0442\u0430\u043d\u043e\u0432\u0438\u0442\u044c \u0432 \u0442\u043e\u0447\u043a\u0435"
+        "description": "", 
+        "id": "Set In Point"
     }, 
     {
         "source": "Set Out Point", 
-        "description": "", 
+        "text": "\u0423\u0441\u0442\u0430\u043d\u043e\u0432\u0438\u0442\u044c \u0442\u043e\u0447\u043a\u0443", 
         "nameSpace": "djv::ViewLib", 
-        "id": "Set Out Point", 
-        "text": "\u0423\u0441\u0442\u0430\u043d\u043e\u0432\u0438\u0442\u044c \u0442\u043e\u0447\u043a\u0443"
+        "description": "", 
+        "id": "Set Out Point"
     }, 
     {
         "source": "Reset In Point", 
-        "description": "", 
+        "text": "\u0421\u0431\u0440\u043e\u0441\u0438\u0442\u044c \u0432 \u0442\u043e\u0447\u043a\u0435", 
         "nameSpace": "djv::ViewLib", 
-        "id": "Reset In Point", 
-        "text": "\u0421\u0431\u0440\u043e\u0441\u0438\u0442\u044c \u0432 \u0442\u043e\u0447\u043a\u0435"
+        "description": "", 
+        "id": "Reset In Point"
     }, 
     {
         "source": "Reset Out Point", 
-        "description": "", 
+        "text": "Reset Out Point", 
         "nameSpace": "djv::ViewLib", 
-        "id": "Reset Out Point", 
-        "text": "Reset Out Point"
+        "description": "", 
+        "id": "Reset Out Point"
     }, 
     {
         "source": "Window", 
-        "description": "", 
+        "text": "\u041e\u043a\u043d\u043e", 
         "nameSpace": "djv::ViewLib", 
-        "id": "Window", 
-        "text": "\u041e\u043a\u043d\u043e"
+        "description": "", 
+        "id": "Window"
     }, 
     {
         "source": "Maximize", 
-        "description": "", 
+        "text": "\u043c\u0430\u043a\u0441\u0438\u043c\u0438\u0437\u0438\u0440\u043e\u0432\u0430\u0442\u044c", 
         "nameSpace": "djv::ViewLib", 
-        "id": "Maximize", 
-        "text": "\u043c\u0430\u043a\u0441\u0438\u043c\u0438\u0437\u0438\u0440\u043e\u0432\u0430\u0442\u044c"
+        "description": "", 
+        "id": "Maximize"
     }, 
     {
         "source": "Next", 
-        "description": "", 
+        "text": "\u0441\u043b\u0435\u0434\u0443\u044e\u0449\u0438\u0439", 
         "nameSpace": "djv::ViewLib", 
-        "id": "Next", 
-        "text": "\u0441\u043b\u0435\u0434\u0443\u044e\u0449\u0438\u0439"
+        "description": "", 
+        "id": "Next"
     }, 
     {
         "source": "Prev", 
-        "description": "", 
+        "text": "\u041f\u0440\u0435\u0434\u044b\u0434\u0443\u0449\u0430\u044f", 
         "nameSpace": "djv::ViewLib", 
-        "id": "Prev", 
-        "text": "\u041f\u0440\u0435\u0434\u044b\u0434\u0443\u0449\u0430\u044f"
+        "description": "", 
+        "id": "Prev"
     }, 
     {
         "source": "Duplicate", 
-        "description": "", 
+        "text": "\u0434\u0443\u0431\u043b\u0438\u0440\u043e\u0432\u0430\u0442\u044c", 
         "nameSpace": "djv::ViewLib", 
-        "id": "Duplicate", 
-        "text": "\u0434\u0443\u0431\u043b\u0438\u0440\u043e\u0432\u0430\u0442\u044c"
+        "description": "", 
+        "id": "Duplicate"
     }, 
     {
         "source": "Fit", 
-        "description": "", 
+        "text": "\u041f\u043e\u043c\u0435\u0441\u0442\u0438\u0442\u044c\u0441\u044f", 
         "nameSpace": "djv::ViewLib", 
-        "id": "Fit", 
-        "text": "\u041f\u043e\u043c\u0435\u0441\u0442\u0438\u0442\u044c\u0441\u044f"
+        "description": "", 
+        "id": "Fit"
     }, 
     {
         "source": "Full Screen", 
-        "description": "", 
+        "text": "\u041f\u043e\u043b\u043d\u043e\u044d\u043a\u0440\u0430\u043d\u043d\u044b\u0439", 
         "nameSpace": "djv::ViewLib", 
-        "id": "Full Screen", 
-        "text": "\u041f\u043e\u043b\u043d\u043e\u044d\u043a\u0440\u0430\u043d\u043d\u044b\u0439"
+        "description": "", 
+        "id": "Full Screen"
     }, 
     {
         "source": "cannot create OpenAL source", 
-        "description": "", 
+        "text": "\u043d\u0435 \u043c\u043e\u0436\u0435\u0442 \u0441\u043e\u0437\u0434\u0430\u0442\u044c \u0438\u0441\u0445\u043e\u0434\u043d\u044b\u0439 \u043a\u043e\u0434 OpenAL", 
         "nameSpace": "djv::ViewLib", 
-        "id": "cannot create OpenAL source", 
-        "text": "\u043d\u0435 \u043c\u043e\u0436\u0435\u0442 \u0441\u043e\u0437\u0434\u0430\u0442\u044c \u0438\u0441\u0445\u043e\u0434\u043d\u044b\u0439 \u043a\u043e\u0434 OpenAL"
+        "description": "", 
+        "id": "cannot create OpenAL source"
     }, 
     {
         "source": "cannot create OpenAL buffers", 
-        "description": "", 
+        "text": "\u043d\u0435 \u043c\u043e\u0436\u0435\u0442 \u0441\u043e\u0437\u0434\u0430\u0432\u0430\u0442\u044c \u0431\u0443\u0444\u0435\u0440\u044b OpenAL", 
         "nameSpace": "djv::ViewLib", 
-        "id": "cannot create OpenAL buffers", 
-        "text": "\u043d\u0435 \u043c\u043e\u0436\u0435\u0442 \u0441\u043e\u0437\u0434\u0430\u0432\u0430\u0442\u044c \u0431\u0443\u0444\u0435\u0440\u044b OpenAL"
+        "description": "", 
+        "id": "cannot create OpenAL buffers"
     }, 
     {
         "source": "cannot open", 
-        "description": "", 
+        "text": "\u043d\u0435 \u043c\u043e\u0433\u0443 \u043e\u0442\u043a\u0440\u044b\u0442\u044c", 
         "nameSpace": "djv::ViewLib", 
-        "id": "cannot open", 
-        "text": "\u043d\u0435 \u043c\u043e\u0433\u0443 \u043e\u0442\u043a\u0440\u044b\u0442\u044c"
+        "description": "", 
+        "id": "cannot open"
     }, 
     {
         "source": "Recent Files", 
-        "description": "", 
+        "text": "\u041d\u0435\u0434\u0430\u0432\u043d\u0438\u0435 \u0444\u0430\u0439\u043b\u044b", 
         "nameSpace": "djv::ViewLib", 
-        "id": "Recent Files", 
-        "text": "\u041d\u0435\u0434\u0430\u0432\u043d\u0438\u0435 \u0444\u0430\u0439\u043b\u044b"
+        "description": "", 
+        "id": "Recent Files"
     }, 
     {
         "source": "items", 
-        "description": "", 
+        "text": "\u041f\u0440\u0435\u0434\u043c\u0435\u0442\u044b", 
         "nameSpace": "djv::ViewLib", 
-        "id": "items", 
-        "text": "\u041f\u0440\u0435\u0434\u043c\u0435\u0442\u044b"
+        "description": "", 
+        "id": "items"
     }, 
     {
         "source": "Debugging Log", 
-        "description": "", 
+        "text": "\u0416\u0443\u0440\u043d\u0430\u043b \u043e\u0442\u043b\u0430\u0434\u043a\u0438", 
         "nameSpace": "djv::ViewLib", 
-        "id": "Debugging Log", 
-        "text": "\u0416\u0443\u0440\u043d\u0430\u043b \u043e\u0442\u043b\u0430\u0434\u043a\u0438"
+        "description": "", 
+        "id": "Debugging Log"
     }, 
     {
         "source": "Copy", 
-        "description": "", 
+        "text": "\u043a\u043e\u043f\u0438\u044f", 
         "nameSpace": "djv::ViewLib", 
-        "id": "Copy", 
-        "text": "\u043a\u043e\u043f\u0438\u044f"
+        "description": "", 
+        "id": "Copy"
     }, 
     {
         "source": "Reload", 
-        "description": "", 
+        "text": "\u043f\u0435\u0440\u0435\u0437\u0430\u0433\u0440\u0443\u0436\u0430\u0442\u044c", 
         "nameSpace": "djv::ViewLib", 
-        "id": "Reload", 
-        "text": "\u043f\u0435\u0440\u0435\u0437\u0430\u0433\u0440\u0443\u0436\u0430\u0442\u044c"
+        "description": "", 
+        "id": "Reload"
     }, 
     {
         "source": "Clear", 
-        "description": "", 
+        "text": "\u041e\u0447\u0438\u0441\u0442\u0438\u0442\u044c", 
         "nameSpace": "djv::ViewLib", 
-        "id": "Clear", 
-        "text": "\u041e\u0447\u0438\u0441\u0442\u0438\u0442\u044c"
+        "description": "", 
+        "id": "Clear"
     }, 
     {
         "source": "Display", 
-        "description": "", 
+        "text": "\u0434\u0438\u0441\u043f\u043b\u0435\u0439", 
         "nameSpace": "djv::ViewLib", 
-        "id": "Display", 
-        "text": "\u0434\u0438\u0441\u043f\u043b\u0435\u0439"
+        "description": "", 
+        "id": "Display"
     }, 
     {
         "source": "Language", 
-        "description": "", 
+        "text": "\u044f\u0437\u044b\u043a", 
         "nameSpace": "djv::ViewLib", 
-        "id": "Language", 
-        "text": "\u044f\u0437\u044b\u043a"
+        "description": "", 
+        "id": "Language"
     }, 
     {
         "source": "Palette", 
-        "description": "", 
+        "text": "\u043f\u0430\u043b\u0438\u0442\u0440\u0430", 
         "nameSpace": "djv::ViewLib", 
-        "id": "Palette", 
-        "text": "\u043f\u0430\u043b\u0438\u0442\u0440\u0430"
+        "description": "", 
+        "id": "Palette"
     }, 
     {
         "source": "Tools", 
-        "description": "", 
+        "text": "\u0438\u043d\u0441\u0442\u0440\u0443\u043c\u0435\u043d\u0442\u044b", 
         "nameSpace": "djv::ViewLib", 
-        "id": "Tools", 
-        "text": "\u0438\u043d\u0441\u0442\u0440\u0443\u043c\u0435\u043d\u0442\u044b"
+        "description": "", 
+        "id": "Tools"
     }, 
     {
         "source": "About", 
-        "description": "", 
+        "text": "\u041e\u043a\u043e\u043b\u043e", 
         "nameSpace": "djv::ViewLib", 
-        "id": "About", 
-        "text": "\u041e\u043a\u043e\u043b\u043e"
+        "description": "", 
+        "id": "About"
     }, 
     {
         "source": "About Header", 
-        "description": "", 
+        "text": "\u041e \u0437\u0430\u0433\u043e\u043b\u043e\u0432\u043a\u0435", 
         "nameSpace": "djv::ViewLib", 
-        "id": "AboutHeader", 
-        "text": "\u041e \u0437\u0430\u0433\u043e\u043b\u043e\u0432\u043a\u0435"
+        "description": "", 
+        "id": "AboutHeader"
     }, 
     {
         "source": "Copyright", 
-        "description": "", 
+        "text": "\u0430\u0432\u0442\u043e\u0440\u0441\u043a\u043e\u0435 \u043f\u0440\u0430\u0432\u043e", 
         "nameSpace": "djv::ViewLib", 
-        "id": "AboutCopyright", 
-        "text": "\u0430\u0432\u0442\u043e\u0440\u0441\u043a\u043e\u0435 \u043f\u0440\u0430\u0432\u043e"
+        "description": "", 
+        "id": "AboutCopyright"
     }, 
     {
         "source": "License", 
-        "description": "", 
+        "text": "\u041b\u0438\u0446\u0435\u043d\u0437\u0438\u044f", 
         "nameSpace": "djv::ViewLib", 
-        "id": "AboutLicense", 
-        "text": "\u041b\u0438\u0446\u0435\u043d\u0437\u0438\u044f"
+        "description": "", 
+        "id": "AboutLicense"
     }, 
     {
         "source": "Contributors Header", 
-        "description": "", 
+        "text": "\u0417\u0430\u0433\u043e\u043b\u043e\u0432\u043e\u043a \u0443\u0447\u0430\u0441\u0442\u043d\u0438\u043a\u043e\u0432", 
         "nameSpace": "djv::ViewLib", 
-        "id": "AboutContributorsHeader", 
-        "text": "\u0417\u0430\u0433\u043e\u043b\u043e\u0432\u043e\u043a \u0443\u0447\u0430\u0441\u0442\u043d\u0438\u043a\u043e\u0432"
+        "description": "", 
+        "id": "AboutContributorsHeader"
     }, 
     {
         "source": "Contributors", 
-        "description": "", 
+        "text": "\u0410\u0432\u0442\u043e\u0440\u044b", 
         "nameSpace": "djv::ViewLib", 
-        "id": "AboutContributors", 
-        "text": "\u0410\u0432\u0442\u043e\u0440\u044b"
+        "description": "", 
+        "id": "AboutContributors"
     }, 
     {
         "source": "Third Party Header", 
-        "description": "", 
+        "text": "\u0421\u0442\u043e\u0440\u043e\u043d\u043d\u0438\u0439 \u0437\u0430\u0433\u043e\u043b\u043e\u0432\u043e\u043a", 
         "nameSpace": "djv::ViewLib", 
-        "id": "AboutThirdPartyHeader", 
-        "text": "\u0421\u0442\u043e\u0440\u043e\u043d\u043d\u0438\u0439 \u0437\u0430\u0433\u043e\u043b\u043e\u0432\u043e\u043a"
+        "description": "", 
+        "id": "AboutThirdPartyHeader"
     }, 
     {
         "source": "Third Party", 
-        "description": "", 
+        "text": "\u0422\u0440\u0435\u0442\u044c\u044f \u0432\u0435\u0447\u0435\u0440\u0438\u043d\u043a\u0430", 
         "nameSpace": "djv::ViewLib", 
-        "id": "AboutThirdParty", 
-        "text": "\u0422\u0440\u0435\u0442\u044c\u044f \u0432\u0435\u0447\u0435\u0440\u0438\u043d\u043a\u0430"
+        "description": "", 
+        "id": "AboutThirdParty"
     }, 
     {
         "source": "Trademarks Header", 
-        "description": "", 
+        "text": "\u0417\u0430\u0433\u043e\u043b\u043e\u0432\u043e\u043a \u0442\u043e\u0432\u0430\u0440\u043d\u044b\u0445 \u0437\u043d\u0430\u043a\u043e\u0432", 
         "nameSpace": "djv::ViewLib", 
-        "id": "AboutTrademarksHeader", 
-        "text": "\u0417\u0430\u0433\u043e\u043b\u043e\u0432\u043e\u043a \u0442\u043e\u0432\u0430\u0440\u043d\u044b\u0445 \u0437\u043d\u0430\u043a\u043e\u0432"
+        "description": "", 
+        "id": "AboutTrademarksHeader"
     }, 
     {
         "source": "Trademarks", 
-        "description": "", 
+        "text": "\u0422\u043e\u0440\u0433\u043e\u0432\u0430\u044f \u043c\u0430\u0440\u043a\u0430", 
         "nameSpace": "djv::ViewLib", 
-        "id": "AboutTrademarks", 
-        "text": "\u0422\u043e\u0440\u0433\u043e\u0432\u0430\u044f \u043c\u0430\u0440\u043a\u0430"
+        "description": "", 
+        "id": "AboutTrademarks"
     }, 
     {
         "source": "File Browser", 
-        "description": "", 
+        "text": "\u0411\u0440\u0430\u0443\u0437\u0435\u0440 \u0444\u0430\u0439\u043b\u043e\u0432", 
         "nameSpace": "djv::ViewLib", 
-        "id": "File Browser", 
-        "text": "\u0411\u0440\u0430\u0443\u0437\u0435\u0440 \u0444\u0430\u0439\u043b\u043e\u0432"
+        "description": "", 
+        "id": "File Browser"
     }, 
     {
         "source": "Exit", 
-        "description": "", 
+        "text": "\u0412\u044b\u0445\u043e\u0434", 
         "nameSpace": "djv::ViewLib", 
-        "id": "Exit", 
-        "text": "\u0412\u044b\u0445\u043e\u0434"
+        "description": "", 
+        "id": "Exit"
     }, 
     {
         "source": "Are you sure you want to exit?", 
-        "description": "", 
+        "text": "\u0422\u044b \u0443\u0432\u0435\u0440\u0435\u043d, \u0447\u0442\u043e \u0445\u043e\u0447\u0435\u0448\u044c \u0432\u044b\u0439\u0442\u0438?", 
         "nameSpace": "djv::ViewLib", 
-        "id": "Are you sure you want to exit?", 
-        "text": "\u0422\u044b \u0443\u0432\u0435\u0440\u0435\u043d, \u0447\u0442\u043e \u0445\u043e\u0447\u0435\u0448\u044c \u0432\u044b\u0439\u0442\u0438?"
+        "description": "", 
+        "id": "Are you sure you want to exit?"
     }, 
     {
         "source": "Yes", 
-        "description": "", 
+        "text": "\u0434\u0430", 
         "nameSpace": "djv::ViewLib", 
-        "id": "Yes", 
-        "text": "\u0434\u0430"
+        "description": "", 
+        "id": "Yes"
     }, 
     {
         "source": "No", 
-        "description": "", 
+        "text": "\u043d\u0435\u0442", 
         "nameSpace": "djv::ViewLib", 
-        "id": "No", 
-        "text": "\u043d\u0435\u0442"
+        "description": "", 
+        "id": "No"
     }, 
     {
         "source": "File", 
-        "description": "", 
+        "text": "\u0444\u0430\u0439\u043b", 
         "nameSpace": "djv::ViewLib", 
-        "id": "File", 
-        "text": "\u0444\u0430\u0439\u043b"
+        "description": "", 
+        "id": "File"
     }, 
     {
         "source": "Proxy Scale", 
-        "description": "", 
+        "text": "\u041c\u0430\u0441\u0448\u0442\u0430\u0431 \u043f\u0440\u043e\u043a\u0441\u0438", 
         "nameSpace": "djv::ViewLib", 
-        "id": "Proxy Scale", 
-        "text": "\u041c\u0430\u0441\u0448\u0442\u0430\u0431 \u043f\u0440\u043e\u043a\u0441\u0438"
+        "description": "", 
+        "id": "Proxy Scale"
     }, 
     {
         "source": "Open", 
-        "description": "", 
+        "text": "\u043e\u0442\u043a\u0440\u044b\u0442\u043e", 
         "nameSpace": "djv::ViewLib", 
-        "id": "Open", 
-        "text": "\u043e\u0442\u043a\u0440\u044b\u0442\u043e"
+        "description": "", 
+        "id": "Open"
     }, 
     {
         "source": "Recent", 
-        "description": "", 
+        "text": "\u043f\u043e\u0441\u043b\u0435\u0434\u043d\u0438\u0439", 
         "nameSpace": "djv::ViewLib", 
-        "id": "Recent", 
-        "text": "\u043f\u043e\u0441\u043b\u0435\u0434\u043d\u0438\u0439"
+        "description": "", 
+        "id": "Recent"
     }, 
     {
         "source": "Reload Frame", 
-        "description": "", 
+        "text": "\u041f\u0435\u0440\u0435\u0437\u0430\u0433\u0440\u0443\u0437\u0438\u0442\u044c \u043a\u0430\u0434\u0440", 
         "nameSpace": "djv::ViewLib", 
-        "id": "Reload Frame", 
-        "text": "\u041f\u0435\u0440\u0435\u0437\u0430\u0433\u0440\u0443\u0437\u0438\u0442\u044c \u043a\u0430\u0434\u0440"
+        "description": "", 
+        "id": "Reload Frame"
     }, 
     {
         "source": "Close", 
-        "description": "", 
+        "text": "\u0431\u043b\u0438\u0437\u043a\u043e", 
         "nameSpace": "djv::ViewLib", 
-        "id": "Close", 
-        "text": "\u0431\u043b\u0438\u0437\u043a\u043e"
+        "description": "", 
+        "id": "Close"
     }, 
     {
         "source": "Export", 
-        "description": "", 
+        "text": "\u044d\u043a\u0441\u043f\u043e\u0440\u0442", 
         "nameSpace": "djv::ViewLib", 
-        "id": "Export", 
-        "text": "\u044d\u043a\u0441\u043f\u043e\u0440\u0442"
+        "description": "", 
+        "id": "Export"
     }, 
     {
         "source": "Layers", 
-        "description": "", 
+        "text": "\u0421\u043b\u043e\u0438", 
         "nameSpace": "djv::ViewLib", 
-        "id": "Layers", 
-        "text": "\u0421\u043b\u043e\u0438"
+        "description": "", 
+        "id": "Layers"
     }, 
     {
         "source": "Next Layer", 
-        "description": "", 
+        "text": "\u0421\u043b\u0435\u0434\u0443\u044e\u0449\u0438\u0439 \u0441\u043b\u043e\u0439", 
         "nameSpace": "djv::ViewLib", 
-        "id": "Next Layer", 
-        "text": "\u0421\u043b\u0435\u0434\u0443\u044e\u0449\u0438\u0439 \u0441\u043b\u043e\u0439"
+        "description": "", 
+        "id": "Next Layer"
     }, 
     {
         "source": "Previous Layer", 
-        "description": "", 
+        "text": "\u041f\u0440\u0435\u0434\u044b\u0434\u0443\u0449\u0438\u0439 \u0441\u043b\u043e\u0439", 
         "nameSpace": "djv::ViewLib", 
-        "id": "Previous Layer", 
-        "text": "\u041f\u0440\u0435\u0434\u044b\u0434\u0443\u0449\u0438\u0439 \u0441\u043b\u043e\u0439"
+        "description": "", 
+        "id": "Previous Layer"
     }, 
     {
         "source": "8-bit Conversion", 
-        "description": "", 
+        "text": "8-\u0431\u0438\u0442\u043d\u043e\u0435 \u043f\u0440\u0435\u043e\u0431\u0440\u0430\u0437\u043e\u0432\u0430\u043d\u0438\u0435", 
         "nameSpace": "djv::ViewLib", 
-        "id": "8-bit Conversion", 
-        "text": "8-\u0431\u0438\u0442\u043d\u043e\u0435 \u043f\u0440\u0435\u043e\u0431\u0440\u0430\u0437\u043e\u0432\u0430\u043d\u0438\u0435"
+        "description": "", 
+        "id": "8-bit Conversion"
     }, 
     {
         "source": "Memory Cache", 
-        "description": "", 
+        "text": "\u041a\u044d\u0448 \u043f\u0430\u043c\u044f\u0442\u0438", 
         "nameSpace": "djv::ViewLib", 
-        "id": "Memory Cache", 
-        "text": "\u041a\u044d\u0448 \u043f\u0430\u043c\u044f\u0442\u0438"
+        "description": "", 
+        "id": "Memory Cache"
     }, 
     {
         "source": "Clear Cache", 
-        "description": "", 
+        "text": "\u041e\u0447\u0438\u0441\u0442\u0438\u0442\u044c \u043a\u044d\u0448", 
         "nameSpace": "djv::ViewLib", 
-        "id": "Clear Cache", 
-        "text": "\u041e\u0447\u0438\u0441\u0442\u0438\u0442\u044c \u043a\u044d\u0448"
+        "description": "", 
+        "id": "Clear Cache"
     }, 
     {
         "source": "View", 
-        "description": "", 
+        "text": "\u041f\u043e\u0441\u043c\u043e\u0442\u0440\u0435\u0442\u044c", 
         "nameSpace": "djv::ViewLib", 
-        "id": "View", 
-        "text": "\u041f\u043e\u0441\u043c\u043e\u0442\u0440\u0435\u0442\u044c"
+        "description": "", 
+        "id": "View"
     }, 
     {
         "source": "Grid", 
-        "description": "", 
+        "text": "\u0441\u0435\u0442\u043a\u0430", 
         "nameSpace": "djv::ViewLib", 
-        "id": "Grid", 
-        "text": "\u0441\u0435\u0442\u043a\u0430"
+        "description": "", 
+        "id": "Grid"
     }, 
     {
         "source": "Left", 
-        "description": "", 
+        "text": "\u041e\u0441\u0442\u0430\u0432\u0438\u043b", 
         "nameSpace": "djv::ViewLib", 
-        "id": "Left", 
-        "text": "\u041e\u0441\u0442\u0430\u0432\u0438\u043b"
+        "description": "", 
+        "id": "Left"
     }, 
     {
         "source": "Right", 
-        "description": "", 
+        "text": "\u041f\u0440\u0430\u0432\u0438\u043b\u044c\u043d\u043e", 
         "nameSpace": "djv::ViewLib", 
-        "id": "Right", 
-        "text": "\u041f\u0440\u0430\u0432\u0438\u043b\u044c\u043d\u043e"
+        "description": "", 
+        "id": "Right"
     }, 
     {
         "source": "Up", 
-        "description": "", 
+        "text": "\u0432\u0432\u0435\u0440\u0445", 
         "nameSpace": "djv::ViewLib", 
-        "id": "Up", 
-        "text": "\u0432\u0432\u0435\u0440\u0445"
+        "description": "", 
+        "id": "Up"
     }, 
     {
         "source": "Down", 
-        "description": "", 
+        "text": "\u0432\u043d\u0438\u0437", 
         "nameSpace": "djv::ViewLib", 
-        "id": "Down", 
-        "text": "\u0432\u043d\u0438\u0437"
+        "description": "", 
+        "id": "Down"
     }, 
     {
         "source": "Center", 
-        "description": "", 
+        "text": "\u0426\u0435\u043d\u0442\u0440", 
         "nameSpace": "djv::ViewLib", 
-        "id": "Center", 
-        "text": "\u0426\u0435\u043d\u0442\u0440"
+        "description": "", 
+        "id": "Center"
     }, 
     {
         "source": "Zoom In", 
-        "description": "", 
+        "text": "\u041f\u0440\u0438\u0431\u043b\u0438\u0437\u0438\u0442\u044c", 
         "nameSpace": "djv::ViewLib", 
-        "id": "Zoom In", 
-        "text": "\u041f\u0440\u0438\u0431\u043b\u0438\u0437\u0438\u0442\u044c"
+        "description": "", 
+        "id": "Zoom In"
     }, 
     {
         "source": "Zoom Out", 
-        "description": "", 
+        "text": "\u0423\u043c\u0435\u043d\u044c\u0448\u0438\u0442\u044c", 
         "nameSpace": "djv::ViewLib", 
-        "id": "Zoom Out", 
-        "text": "\u0423\u043c\u0435\u043d\u044c\u0448\u0438\u0442\u044c"
+        "description": "", 
+        "id": "Zoom Out"
     }, 
     {
         "source": "Reset Zoom", 
-        "description": "", 
+        "text": "\u0421\u0431\u0440\u043e\u0441\u0438\u0442\u044c \u043c\u0430\u0441\u0448\u0442\u0430\u0431", 
         "nameSpace": "djv::ViewLib", 
-        "id": "Reset Zoom", 
-        "text": "\u0421\u0431\u0440\u043e\u0441\u0438\u0442\u044c \u043c\u0430\u0441\u0448\u0442\u0430\u0431"
+        "description": "", 
+        "id": "Reset Zoom"
     }, 
     {
         "source": "Reset Position and Zoom", 
-        "description": "", 
+        "text": "\u0421\u0431\u0440\u043e\u0441\u0438\u0442\u044c \u043f\u043e\u043b\u043e\u0436\u0435\u043d\u0438\u0435 \u0438 \u043c\u0430\u0441\u0448\u0442\u0430\u0431", 
         "nameSpace": "djv::ViewLib", 
-        "id": "Reset Position and Zoom", 
-        "text": "\u0421\u0431\u0440\u043e\u0441\u0438\u0442\u044c \u043f\u043e\u043b\u043e\u0436\u0435\u043d\u0438\u0435 \u0438 \u043c\u0430\u0441\u0448\u0442\u0430\u0431"
+        "description": "", 
+        "id": "Reset Position and Zoom"
     }, 
     {
         "source": "HUD", 
-        "description": "", 
+        "text": "HUD", 
         "nameSpace": "djv::ViewLib", 
-        "id": "HUD", 
-        "text": "HUD"
+        "description": "", 
+        "id": "HUD"
     }, 
     {
         "source": "Documentation", 
-        "description": "", 
+        "text": "\u0414\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u0430\u0446\u0438\u044f", 
         "nameSpace": "djv::ViewLib", 
-        "id": "Documentation", 
-        "text": "\u0414\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u0430\u0446\u0438\u044f"
+        "description": "", 
+        "id": "Documentation"
     }, 
     {
         "source": "Information", 
-        "description": "", 
+        "text": "\u0418\u043d\u0444\u043e\u0440\u043c\u0430\u0446\u0438\u044f", 
         "nameSpace": "djv::ViewLib", 
-        "id": "Information", 
-        "text": "\u0418\u043d\u0444\u043e\u0440\u043c\u0430\u0446\u0438\u044f"
+        "description": "", 
+        "id": "Information"
     }, 
     {
         "source": "DebugLog", 
-        "description": "", 
+        "text": "DebugLog", 
         "nameSpace": "djv::ViewLib", 
-        "id": "DebugLog", 
-        "text": "DebugLog"
+        "description": "", 
+        "id": "DebugLog"
     }, 
     {
         "source": "Help", 
-        "description": "", 
+        "text": "\u041f\u043e\u043c\u043e\u0433\u0438\u0442\u0435", 
         "nameSpace": "djv::ViewLib", 
-        "id": "Help", 
-        "text": "\u041f\u043e\u043c\u043e\u0433\u0438\u0442\u0435"
+        "description": "", 
+        "id": "Help"
     }, 
     {
         "source": "Image", 
-        "description": "", 
+        "text": "\u041e\u0431\u0440\u0430\u0437", 
         "nameSpace": "djv::ViewLib", 
-        "id": "Image", 
-        "text": "\u041e\u0431\u0440\u0430\u0437"
+        "description": "", 
+        "id": "Image"
     }, 
     {
         "source": "Scale", 
-        "description": "", 
+        "text": "\u041c\u0430\u0441\u0448\u0442\u0430\u0431", 
         "nameSpace": "djv::ViewLib", 
-        "id": "Scale", 
-        "text": "\u041c\u0430\u0441\u0448\u0442\u0430\u0431"
+        "description": "", 
+        "id": "Scale"
     }, 
     {
         "source": "Rotate", 
-        "description": "", 
+        "text": "\u041f\u043e\u0432\u043e\u0440\u043e\u0442", 
         "nameSpace": "djv::ViewLib", 
-        "id": "Rotate", 
-        "text": "\u041f\u043e\u0432\u043e\u0440\u043e\u0442"
+        "description": "", 
+        "id": "Rotate"
     }, 
     {
         "source": "Mirror Horizontal", 
-        "description": "", 
+        "text": "\u0417\u0435\u0440\u043a\u0430\u043b\u043e \u0413\u043e\u0440\u0438\u0437\u043e\u043d\u0442\u0430\u043b\u044c\u043d\u043e\u0435", 
         "nameSpace": "djv::ViewLib", 
-        "id": "Mirror Horizontal", 
-        "text": "\u0417\u0435\u0440\u043a\u0430\u043b\u043e \u0413\u043e\u0440\u0438\u0437\u043e\u043d\u0442\u0430\u043b\u044c\u043d\u043e\u0435"
+        "description": "", 
+        "id": "Mirror Horizontal"
     }, 
     {
         "source": "Mirror Vertical", 
-        "description": "", 
+        "text": "\u0417\u0435\u0440\u043a\u0430\u043b\u043e \u0412\u0435\u0440\u0442\u0438\u043a\u0430\u043b\u044c\u043d\u043e\u0435", 
         "nameSpace": "djv::ViewLib", 
-        "id": "Mirror Vertical", 
-        "text": "\u0417\u0435\u0440\u043a\u0430\u043b\u043e \u0412\u0435\u0440\u0442\u0438\u043a\u0430\u043b\u044c\u043d\u043e\u0435"
+        "description": "", 
+        "id": "Mirror Vertical"
     }, 
     {
         "source": "Color Manager", 
-        "description": "", 
+        "text": "\u0414\u0438\u0441\u043f\u0435\u0442\u0447\u0435\u0440 \u0446\u0432\u0435\u0442\u0430", 
         "nameSpace": "djv::ViewLib", 
-        "id": "Color Manager", 
-        "text": "\u0414\u0438\u0441\u043f\u0435\u0442\u0447\u0435\u0440 \u0446\u0432\u0435\u0442\u0430"
+        "description": "", 
+        "id": "Color Manager"
     }, 
     {
         "source": "Color Profile", 
-        "description": "", 
+        "text": "\u0426\u0432\u0435\u0442\u043e\u0432\u043e\u0439 \u043f\u0440\u043e\u0444\u0438\u043b\u044c", 
         "nameSpace": "djv::ViewLib", 
-        "id": "Color Profile", 
-        "text": "\u0426\u0432\u0435\u0442\u043e\u0432\u043e\u0439 \u043f\u0440\u043e\u0444\u0438\u043b\u044c"
+        "description": "", 
+        "id": "Color Profile"
     }, 
     {
         "source": "Display Profile", 
-        "description": "", 
+        "text": "\u041f\u043e\u043a\u0430\u0437\u0430\u0442\u044c \u043f\u0440\u043e\u0444\u0438\u043b\u044c", 
         "nameSpace": "djv::ViewLib", 
-        "id": "Display Profile", 
-        "text": "\u041f\u043e\u043a\u0430\u0437\u0430\u0442\u044c \u043f\u0440\u043e\u0444\u0438\u043b\u044c"
+        "description": "", 
+        "id": "Display Profile"
     }, 
     {
         "source": "Premulitplied Alpha", 
-        "description": "", 
+        "text": "\u041f\u0440\u0435\u043c\u0443\u043b\u0438\u0442\u043f\u043b\u0438\u0444 \u0410\u043b\u044c\u0444\u0430", 
         "nameSpace": "djv::ViewLib", 
-        "id": "Premulitplied Alpha", 
-        "text": "\u041f\u0440\u0435\u043c\u0443\u043b\u0438\u0442\u043f\u043b\u0438\u0444 \u0410\u043b\u044c\u0444\u0430"
+        "description": "", 
+        "id": "Premulitplied Alpha"
     }, 
     {
         "source": "Show Frame Store", 
-        "description": "", 
+        "text": "\u041f\u043e\u043a\u0430\u0437\u0430\u0442\u044c \u043c\u0430\u0433\u0430\u0437\u0438\u043d \u043a\u0430\u0434\u0440\u043e\u0432", 
         "nameSpace": "djv::ViewLib", 
-        "id": "Show Frame Store", 
-        "text": "\u041f\u043e\u043a\u0430\u0437\u0430\u0442\u044c \u043c\u0430\u0433\u0430\u0437\u0438\u043d \u043a\u0430\u0434\u0440\u043e\u0432"
+        "description": "", 
+        "id": "Show Frame Store"
     }, 
     {
         "source": "Set Frame Store", 
-        "description": "", 
+        "text": "Set Frame Store", 
         "nameSpace": "djv::ViewLib", 
-        "id": "Set Frame Store", 
-        "text": "Set Frame Store"
+        "description": "", 
+        "id": "Set Frame Store"
     }, 
     {
-        "id": "Open Tooltip", 
         "source": "Open Tooltip", 
+        "text": "\u041e\u0442\u043a\u0440\u044b\u0442\u044c \u043f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0443", 
         "nameSpace": "djv::ViewLib::FileSystem", 
-        "description": "", 
-        "text": "\u041e\u0442\u043a\u0440\u044b\u0442\u044c \u043f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0443"
+        "id": "Open Tooltip", 
+        "description": ""
     }, 
     {
-        "id": "Recent Tooltip", 
         "source": "Recent Tooltip", 
+        "text": "\u041d\u0435\u0434\u0430\u0432\u043d\u044f\u044f \u043f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0430", 
         "nameSpace": "djv::ViewLib::FileSystem", 
-        "description": "", 
-        "text": "\u041d\u0435\u0434\u0430\u0432\u043d\u044f\u044f \u043f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0430"
+        "id": "Recent Tooltip", 
+        "description": ""
     }, 
     {
-        "id": "Reload Tooltip", 
         "source": "Reload Tooltip", 
+        "text": "\u041f\u0435\u0440\u0435\u0437\u0430\u0433\u0440\u0443\u0437\u0438\u0442\u044c \u043f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0443", 
         "nameSpace": "djv::ViewLib::FileSystem", 
-        "description": "", 
-        "text": "\u041f\u0435\u0440\u0435\u0437\u0430\u0433\u0440\u0443\u0437\u0438\u0442\u044c \u043f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0443"
+        "id": "Reload Tooltip", 
+        "description": ""
     }, 
     {
-        "id": "Reload Frame Tooltip", 
         "source": "Reload Frame Tooltip", 
+        "text": "\u041f\u0435\u0440\u0435\u0437\u0430\u0433\u0440\u0443\u0437\u0438\u0442\u044c \u0432\u0441\u043f\u043b\u044b\u0432\u0430\u044e\u0449\u0443\u044e \u043f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0443", 
         "nameSpace": "djv::ViewLib::FileSystem", 
-        "description": "", 
-        "text": "\u041f\u0435\u0440\u0435\u0437\u0430\u0433\u0440\u0443\u0437\u0438\u0442\u044c \u0432\u0441\u043f\u043b\u044b\u0432\u0430\u044e\u0449\u0443\u044e \u043f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0443"
+        "id": "Reload Frame Tooltip", 
+        "description": ""
     }, 
     {
-        "id": "Close Tooltip", 
         "source": "Close Tooltip", 
+        "text": "\u0417\u0430\u043a\u0440\u044b\u0442\u044c \u043f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0443", 
         "nameSpace": "djv::ViewLib::FileSystem", 
-        "description": "", 
-        "text": "\u0417\u0430\u043a\u0440\u044b\u0442\u044c \u043f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0443"
+        "id": "Close Tooltip", 
+        "description": ""
     }, 
     {
-        "id": "Export Tooltip", 
         "source": "Export Tooltip", 
+        "text": "\u042d\u043a\u0441\u043f\u043e\u0440\u0442 \u043f\u043e\u0434\u0441\u043a\u0430\u0437\u043e\u043a", 
         "nameSpace": "djv::ViewLib::FileSystem", 
-        "description": "", 
-        "text": "\u042d\u043a\u0441\u043f\u043e\u0440\u0442 \u043f\u043e\u0434\u0441\u043a\u0430\u0437\u043e\u043a"
+        "id": "Export Tooltip", 
+        "description": ""
     }, 
     {
-        "id": "Next Tooltip", 
         "source": "Next Tooltip", 
+        "text": "\u0421\u043b\u0435\u0434\u0443\u044e\u0449\u0430\u044f \u043f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0430", 
         "nameSpace": "djv::ViewLib::FileSystem", 
-        "description": "", 
-        "text": "\u0421\u043b\u0435\u0434\u0443\u044e\u0449\u0430\u044f \u043f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0430"
+        "id": "Next Tooltip", 
+        "description": ""
     }, 
     {
-        "id": "Prev Tooltip", 
         "source": "Prev Tooltip", 
+        "text": "\u041f\u0440\u0435\u0434\u044b\u0434\u0443\u0449\u0430\u044f \u043f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0430", 
         "nameSpace": "djv::ViewLib::FileSystem", 
-        "description": "", 
-        "text": "\u041f\u0440\u0435\u0434\u044b\u0434\u0443\u0449\u0430\u044f \u043f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0430"
+        "id": "Prev Tooltip", 
+        "description": ""
     }, 
     {
-        "id": "Layers Tooltip", 
         "source": "Layers Tooltip", 
+        "text": "\u0421\u043b\u043e\u0438 \u041f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0430", 
         "nameSpace": "djv::ViewLib::FileSystem", 
-        "description": "", 
-        "text": "\u0421\u043b\u043e\u0438 \u041f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0430"
+        "id": "Layers Tooltip", 
+        "description": ""
     }, 
     {
-        "id": "Next Layer Tooltip", 
         "source": "Next Layer Tooltip", 
+        "text": "\u041f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0430 \u0441\u043b\u0435\u0434\u0443\u044e\u0449\u0435\u0433\u043e \u0441\u043b\u043e\u044f", 
         "nameSpace": "djv::ViewLib::FileSystem", 
-        "description": "", 
-        "text": "\u041f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0430 \u0441\u043b\u0435\u0434\u0443\u044e\u0449\u0435\u0433\u043e \u0441\u043b\u043e\u044f"
+        "id": "Next Layer Tooltip", 
+        "description": ""
     }, 
     {
-        "id": "Previous Layer Tooltip", 
         "source": "Previous Layer Tooltip", 
+        "text": "\u041f\u0440\u0435\u0434\u044b\u0434\u0443\u0449\u0430\u044f \u043f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0430 \u0441\u043b\u043e\u044f", 
         "nameSpace": "djv::ViewLib::FileSystem", 
-        "description": "", 
-        "text": "\u041f\u0440\u0435\u0434\u044b\u0434\u0443\u0449\u0430\u044f \u043f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0430 \u0441\u043b\u043e\u044f"
+        "id": "Previous Layer Tooltip", 
+        "description": ""
     }, 
     {
-        "id": "8-bit Conversion Tooltip", 
         "source": "8-bit Conversion Tooltip", 
+        "text": "\u041f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0430 8-\u0431\u0438\u0442\u043d\u043e\u0433\u043e \u043f\u0440\u0435\u043e\u0431\u0440\u0430\u0437\u043e\u0432\u0430\u043d\u0438\u044f", 
         "nameSpace": "djv::ViewLib::FileSystem", 
-        "description": "", 
-        "text": "\u041f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0430 8-\u0431\u0438\u0442\u043d\u043e\u0433\u043e \u043f\u0440\u0435\u043e\u0431\u0440\u0430\u0437\u043e\u0432\u0430\u043d\u0438\u044f"
+        "id": "8-bit Conversion Tooltip", 
+        "description": ""
     }, 
     {
-        "id": "Memory Cache Tooltip", 
         "source": "Memory Cache Tooltip", 
+        "text": "\u041f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0430 \u043a\u0435\u0448\u0430 \u043f\u0430\u043c\u044f\u0442\u0438", 
         "nameSpace": "djv::ViewLib::FileSystem", 
-        "description": "", 
-        "text": "\u041f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0430 \u043a\u0435\u0448\u0430 \u043f\u0430\u043c\u044f\u0442\u0438"
+        "id": "Memory Cache Tooltip", 
+        "description": ""
     }, 
     {
-        "id": "Clear Cache Tooltip", 
         "source": "Clear Cache Tooltip", 
+        "text": "Clear Cache Tooltip", 
         "nameSpace": "djv::ViewLib::FileSystem", 
-        "description": "", 
-        "text": "Clear Cache Tooltip"
+        "id": "Clear Cache Tooltip", 
+        "description": ""
     }, 
     {
-        "id": "Settings Tooltip", 
         "source": "Settings Tooltip", 
+        "text": "\u041f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0430 \u043d\u0430\u0441\u0442\u0440\u043e\u0435\u043a", 
         "nameSpace": "djv::ViewLib::FileSystem", 
-        "description": "", 
-        "text": "\u041f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0430 \u043d\u0430\u0441\u0442\u0440\u043e\u0435\u043a"
+        "id": "Settings Tooltip", 
+        "description": ""
     }, 
     {
-        "id": "Exit Tooltip", 
         "source": "Exit Tooltip", 
+        "text": "\u0412\u0441\u043f\u043b\u044b\u0432\u0430\u044e\u0449\u0430\u044f \u043f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0430", 
         "nameSpace": "djv::ViewLib::FileSystem", 
-        "description": "", 
-        "text": "\u0412\u0441\u043f\u043b\u044b\u0432\u0430\u044e\u0449\u0430\u044f \u043f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0430"
+        "id": "Exit Tooltip", 
+        "description": ""
     }, 
     {
-        "id": "Display Size", 
         "source": "Display Size", 
+        "text": "\u0420\u0430\u0437\u043c\u0435\u0440 \u0434\u0438\u0441\u043f\u043b\u0435\u044f", 
         "nameSpace": "djv::ViewLib::GeneralSettingsWidget", 
-        "description": "", 
-        "text": "\u0420\u0430\u0437\u043c\u0435\u0440 \u0434\u0438\u0441\u043f\u043b\u0435\u044f"
+        "id": "Display Size", 
+        "description": ""
     }, 
     {
-        "id": "Color Palette", 
         "source": "Color Palette", 
+        "text": "\u0426\u0432\u0435\u0442\u043e\u0432\u0430\u044f \u043f\u0430\u043b\u0438\u0442\u0440\u0430", 
         "nameSpace": "djv::ViewLib::GeneralSettingsWidget", 
-        "description": "", 
-        "text": "\u0426\u0432\u0435\u0442\u043e\u0432\u0430\u044f \u043f\u0430\u043b\u0438\u0442\u0440\u0430"
+        "id": "Color Palette", 
+        "description": ""
     }, 
     {
-        "id": "Header", 
         "source": "DJV Imaging", 
+        "text": "DJV Imaging", 
         "nameSpace": "djv::ViewLib::HelpAboutDialog", 
-        "description": "", 
-        "text": "DJV Imaging"
+        "id": "Header", 
+        "description": ""
     }, 
     {
-        "id": "Copyright", 
         "source": "Copyright (c) 2004-2019 Darby Johnston, All rights reserved", 
+        "text": "Copyright (c) 2004-2019 Darby Johnston, \u0412\u0441\u0435 \u043f\u0440\u0430\u0432\u0430 \u0437\u0430\u0449\u0438\u0449\u0435\u043d\u044b.", 
         "nameSpace": "djv::ViewLib::HelpAboutDialog", 
-        "description": "", 
-        "text": "Copyright (c) 2004-2019 Darby Johnston, \u0412\u0441\u0435 \u043f\u0440\u0430\u0432\u0430 \u0437\u0430\u0449\u0438\u0449\u0435\u043d\u044b."
+        "id": "Copyright", 
+        "description": ""
     }, 
     {
-        "id": "License1", 
         "source": "Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:", 
+        "text": "\u041f\u0435\u0440\u0435\u0440\u0430\u0441\u043f\u0440\u0435\u0434\u0435\u043b\u0435\u043d\u0438\u0435 \u0438 \u0438\u0441\u043f\u043e\u043b\u044c\u0437\u043e\u0432\u0430\u043d\u0438\u0435 \u0432 \u0438\u0441\u0445\u043e\u0434\u043d\u043e\u0439 \u0438 \u0434\u0432\u043e\u0438\u0447\u043d\u043e\u0439 \u0444\u043e\u0440\u043c\u0430\u0445, \u0441 \u0438\u0437\u043c\u0435\u043d\u0435\u043d\u0438\u044f\u043c\u0438 \u0438\u043b\u0438 \u0431\u0435\u0437 \u043d\u0438\u0445, \u0440\u0430\u0437\u0440\u0435\u0448\u0430\u0435\u0442\u0441\u044f \u043f\u0440\u0438 \u0443\u0441\u043b\u043e\u0432\u0438\u0438 \u0441\u043e\u0431\u043b\u044e\u0434\u0435\u043d\u0438\u044f \u0441\u043b\u0435\u0434\u0443\u044e\u0449\u0438\u0445 \u0443\u0441\u043b\u043e\u0432\u0438\u0439:", 
         "nameSpace": "djv::ViewLib::HelpAboutDialog", 
-        "description": "", 
-        "text": "\u041f\u0435\u0440\u0435\u0440\u0430\u0441\u043f\u0440\u0435\u0434\u0435\u043b\u0435\u043d\u0438\u0435 \u0438 \u0438\u0441\u043f\u043e\u043b\u044c\u0437\u043e\u0432\u0430\u043d\u0438\u0435 \u0432 \u0438\u0441\u0445\u043e\u0434\u043d\u043e\u0439 \u0438 \u0434\u0432\u043e\u0438\u0447\u043d\u043e\u0439 \u0444\u043e\u0440\u043c\u0430\u0445, \u0441 \u0438\u0437\u043c\u0435\u043d\u0435\u043d\u0438\u044f\u043c\u0438 \u0438\u043b\u0438 \u0431\u0435\u0437 \u043d\u0438\u0445, \u0440\u0430\u0437\u0440\u0435\u0448\u0430\u0435\u0442\u0441\u044f \u043f\u0440\u0438 \u0443\u0441\u043b\u043e\u0432\u0438\u0438 \u0441\u043e\u0431\u043b\u044e\u0434\u0435\u043d\u0438\u044f \u0441\u043b\u0435\u0434\u0443\u044e\u0449\u0438\u0445 \u0443\u0441\u043b\u043e\u0432\u0438\u0439:"
+        "id": "License1", 
+        "description": ""
     }, 
     {
-        "id": "License2", 
         "source": "* Redistributions of source code must retain the above copyright notice, this list of conditions, and the following disclaimer.", 
+        "text": "* \u041f\u0440\u0438 \u043f\u043e\u0432\u0442\u043e\u0440\u043d\u043e\u043c \u0440\u0430\u0441\u043f\u0440\u043e\u0441\u0442\u0440\u0430\u043d\u0435\u043d\u0438\u0438 \u0438\u0441\u0445\u043e\u0434\u043d\u043e\u0433\u043e \u043a\u043e\u0434\u0430 \u0434\u043e\u043b\u0436\u043d\u044b \u0441\u043e\u0445\u0440\u0430\u043d\u044f\u0442\u044c\u0441\u044f \u0443\u043a\u0430\u0437\u0430\u043d\u043d\u043e\u0435 \u0432\u044b\u0448\u0435 \u0443\u0432\u0435\u0434\u043e\u043c\u043b\u0435\u043d\u0438\u0435 \u043e\u0431 \u0430\u0432\u0442\u043e\u0440\u0441\u043a\u0438\u0445 \u043f\u0440\u0430\u0432\u0430\u0445, \u044d\u0442\u043e\u0442 \u0441\u043f\u0438\u0441\u043e\u043a \u0443\u0441\u043b\u043e\u0432\u0438\u0439 \u0438 \u0441\u043b\u0435\u0434\u0443\u044e\u0449\u0438\u0439 \u043e\u0442\u043a\u0430\u0437 \u043e\u0442 \u043e\u0442\u0432\u0435\u0442\u0441\u0442\u0432\u0435\u043d\u043d\u043e\u0441\u0442\u0438.", 
         "nameSpace": "djv::ViewLib::HelpAboutDialog", 
-        "description": "", 
-        "text": "* \u041f\u0440\u0438 \u043f\u043e\u0432\u0442\u043e\u0440\u043d\u043e\u043c \u0440\u0430\u0441\u043f\u0440\u043e\u0441\u0442\u0440\u0430\u043d\u0435\u043d\u0438\u0438 \u0438\u0441\u0445\u043e\u0434\u043d\u043e\u0433\u043e \u043a\u043e\u0434\u0430 \u0434\u043e\u043b\u0436\u043d\u044b \u0441\u043e\u0445\u0440\u0430\u043d\u044f\u0442\u044c\u0441\u044f \u0443\u043a\u0430\u0437\u0430\u043d\u043d\u043e\u0435 \u0432\u044b\u0448\u0435 \u0443\u0432\u0435\u0434\u043e\u043c\u043b\u0435\u043d\u0438\u0435 \u043e\u0431 \u0430\u0432\u0442\u043e\u0440\u0441\u043a\u0438\u0445 \u043f\u0440\u0430\u0432\u0430\u0445, \u044d\u0442\u043e\u0442 \u0441\u043f\u0438\u0441\u043e\u043a \u0443\u0441\u043b\u043e\u0432\u0438\u0439 \u0438 \u0441\u043b\u0435\u0434\u0443\u044e\u0449\u0438\u0439 \u043e\u0442\u043a\u0430\u0437 \u043e\u0442 \u043e\u0442\u0432\u0435\u0442\u0441\u0442\u0432\u0435\u043d\u043d\u043e\u0441\u0442\u0438."
+        "id": "License2", 
+        "description": ""
     }, 
     {
-        "id": "License3", 
         "source": "* Redistributions in binary form must reproduce the above copyright notice, this list of conditions, and the following disclaimer in the documentation and/or other materials provided with the distribution.", 
+        "text": "* \u041f\u0440\u0438 \u043f\u043e\u0432\u0442\u043e\u0440\u043d\u043e\u043c \u0440\u0430\u0441\u043f\u0440\u043e\u0441\u0442\u0440\u0430\u043d\u0435\u043d\u0438\u0438 \u0432 \u0434\u0432\u043e\u0438\u0447\u043d\u043e\u0439 \u0444\u043e\u0440\u043c\u0435 \u0434\u043e\u043b\u0436\u043d\u043e \u0431\u044b\u0442\u044c \u0432\u043e\u0441\u043f\u0440\u043e\u0438\u0437\u0432\u0435\u0434\u0435\u043d\u043e \u0443\u043a\u0430\u0437\u0430\u043d\u043d\u043e\u0435 \u0432\u044b\u0448\u0435 \u0443\u0432\u0435\u0434\u043e\u043c\u043b\u0435\u043d\u0438\u0435 \u043e\u0431 \u0430\u0432\u0442\u043e\u0440\u0441\u043a\u0438\u0445 \u043f\u0440\u0430\u0432\u0430\u0445, \u044d\u0442\u043e\u0442 \u0441\u043f\u0438\u0441\u043e\u043a \u0443\u0441\u043b\u043e\u0432\u0438\u0439 \u0438 \u0441\u043b\u0435\u0434\u0443\u044e\u0449\u0438\u0439 \u043e\u0442\u043a\u0430\u0437 \u043e\u0442 \u043e\u0442\u0432\u0435\u0442\u0441\u0442\u0432\u0435\u043d\u043d\u043e\u0441\u0442\u0438 \u0432 \u0434\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u0430\u0446\u0438\u0438 \u0438 / \u0438\u043b\u0438 \u0434\u0440\u0443\u0433\u0438\u0445 \u043c\u0430\u0442\u0435\u0440\u0438\u0430\u043b\u0430\u0445, \u043f\u0440\u0435\u0434\u043e\u0441\u0442\u0430\u0432\u043b\u0435\u043d\u043d\u044b\u0445 \u043f\u0440\u0438 \u0440\u0430\u0441\u043f\u0440\u043e\u0441\u0442\u0440\u0430\u043d\u0435\u043d\u0438\u0438.", 
         "nameSpace": "djv::ViewLib::HelpAboutDialog", 
-        "description": "", 
-        "text": "* \u041f\u0440\u0438 \u043f\u043e\u0432\u0442\u043e\u0440\u043d\u043e\u043c \u0440\u0430\u0441\u043f\u0440\u043e\u0441\u0442\u0440\u0430\u043d\u0435\u043d\u0438\u0438 \u0432 \u0434\u0432\u043e\u0438\u0447\u043d\u043e\u0439 \u0444\u043e\u0440\u043c\u0435 \u0434\u043e\u043b\u0436\u043d\u043e \u0431\u044b\u0442\u044c \u0432\u043e\u0441\u043f\u0440\u043e\u0438\u0437\u0432\u0435\u0434\u0435\u043d\u043e \u0443\u043a\u0430\u0437\u0430\u043d\u043d\u043e\u0435 \u0432\u044b\u0448\u0435 \u0443\u0432\u0435\u0434\u043e\u043c\u043b\u0435\u043d\u0438\u0435 \u043e\u0431 \u0430\u0432\u0442\u043e\u0440\u0441\u043a\u0438\u0445 \u043f\u0440\u0430\u0432\u0430\u0445, \u044d\u0442\u043e\u0442 \u0441\u043f\u0438\u0441\u043e\u043a \u0443\u0441\u043b\u043e\u0432\u0438\u0439 \u0438 \u0441\u043b\u0435\u0434\u0443\u044e\u0449\u0438\u0439 \u043e\u0442\u043a\u0430\u0437 \u043e\u0442 \u043e\u0442\u0432\u0435\u0442\u0441\u0442\u0432\u0435\u043d\u043d\u043e\u0441\u0442\u0438 \u0432 \u0434\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u0430\u0446\u0438\u0438 \u0438 / \u0438\u043b\u0438 \u0434\u0440\u0443\u0433\u0438\u0445 \u043c\u0430\u0442\u0435\u0440\u0438\u0430\u043b\u0430\u0445, \u043f\u0440\u0435\u0434\u043e\u0441\u0442\u0430\u0432\u043b\u0435\u043d\u043d\u044b\u0445 \u043f\u0440\u0438 \u0440\u0430\u0441\u043f\u0440\u043e\u0441\u0442\u0440\u0430\u043d\u0435\u043d\u0438\u0438."
+        "id": "License3", 
+        "description": ""
     }, 
     {
-        "id": "License4", 
         "source": "* Neither the names of the copyright holders nor the names of any contributors may be used to endorse or promote products derived from this software without specific prior written permission.", 
+        "text": "* \u041d\u0438 \u0438\u043c\u0435\u043d\u0430 \u0432\u043b\u0430\u0434\u0435\u043b\u044c\u0446\u0435\u0432 \u0430\u0432\u0442\u043e\u0440\u0441\u043a\u0438\u0445 \u043f\u0440\u0430\u0432, \u043d\u0438 \u0438\u043c\u0435\u043d\u0430 \u043a\u0430\u043a\u0438\u0445-\u043b\u0438\u0431\u043e \u0430\u0432\u0442\u043e\u0440\u043e\u0432 \u043d\u0435 \u043c\u043e\u0433\u0443\u0442 \u0431\u044b\u0442\u044c \u0438\u0441\u043f\u043e\u043b\u044c\u0437\u043e\u0432\u0430\u043d\u044b \u0434\u043b\u044f \u043f\u043e\u0434\u0434\u0435\u0440\u0436\u043a\u0438 \u0438\u043b\u0438 \u043f\u0440\u043e\u0434\u0432\u0438\u0436\u0435\u043d\u0438\u044f \u043f\u0440\u043e\u0434\u0443\u043a\u0442\u043e\u0432, \u0441\u043e\u0437\u0434\u0430\u043d\u043d\u044b\u0445 \u043d\u0430 \u043e\u0441\u043d\u043e\u0432\u0435 \u0434\u0430\u043d\u043d\u043e\u0433\u043e \u043f\u0440\u043e\u0433\u0440\u0430\u043c\u043c\u043d\u043e\u0433\u043e \u043e\u0431\u0435\u0441\u043f\u0435\u0447\u0435\u043d\u0438\u044f, \u0431\u0435\u0437 \u0441\u043f\u0435\u0446\u0438\u0430\u043b\u044c\u043d\u043e\u0433\u043e \u043f\u0440\u0435\u0434\u0432\u0430\u0440\u0438\u0442\u0435\u043b\u044c\u043d\u043e\u0433\u043e \u043f\u0438\u0441\u044c\u043c\u0435\u043d\u043d\u043e\u0433\u043e \u0440\u0430\u0437\u0440\u0435\u0448\u0435\u043d\u0438\u044f.", 
         "nameSpace": "djv::ViewLib::HelpAboutDialog", 
-        "description": "", 
-        "text": "* \u041d\u0438 \u0438\u043c\u0435\u043d\u0430 \u0432\u043b\u0430\u0434\u0435\u043b\u044c\u0446\u0435\u0432 \u0430\u0432\u0442\u043e\u0440\u0441\u043a\u0438\u0445 \u043f\u0440\u0430\u0432, \u043d\u0438 \u0438\u043c\u0435\u043d\u0430 \u043a\u0430\u043a\u0438\u0445-\u043b\u0438\u0431\u043e \u0430\u0432\u0442\u043e\u0440\u043e\u0432 \u043d\u0435 \u043c\u043e\u0433\u0443\u0442 \u0431\u044b\u0442\u044c \u0438\u0441\u043f\u043e\u043b\u044c\u0437\u043e\u0432\u0430\u043d\u044b \u0434\u043b\u044f \u043f\u043e\u0434\u0434\u0435\u0440\u0436\u043a\u0438 \u0438\u043b\u0438 \u043f\u0440\u043e\u0434\u0432\u0438\u0436\u0435\u043d\u0438\u044f \u043f\u0440\u043e\u0434\u0443\u043a\u0442\u043e\u0432, \u0441\u043e\u0437\u0434\u0430\u043d\u043d\u044b\u0445 \u043d\u0430 \u043e\u0441\u043d\u043e\u0432\u0435 \u0434\u0430\u043d\u043d\u043e\u0433\u043e \u043f\u0440\u043e\u0433\u0440\u0430\u043c\u043c\u043d\u043e\u0433\u043e \u043e\u0431\u0435\u0441\u043f\u0435\u0447\u0435\u043d\u0438\u044f, \u0431\u0435\u0437 \u0441\u043f\u0435\u0446\u0438\u0430\u043b\u044c\u043d\u043e\u0433\u043e \u043f\u0440\u0435\u0434\u0432\u0430\u0440\u0438\u0442\u0435\u043b\u044c\u043d\u043e\u0433\u043e \u043f\u0438\u0441\u044c\u043c\u0435\u043d\u043d\u043e\u0433\u043e \u0440\u0430\u0437\u0440\u0435\u0448\u0435\u043d\u0438\u044f."
+        "id": "License4", 
+        "description": ""
     }, 
     {
-        "id": "License5", 
         "source": "THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS \"AS IS\" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.", 
+        "text": "\u041d\u0410\u0421\u0422\u041e\u042f\u0429\u0415\u0415 \u041f\u0420\u041e\u0413\u0420\u0410\u041c\u041c\u041d\u041e\u0415 \u041e\u0411\u0415\u0421\u041f\u0415\u0427\u0415\u041d\u0418\u0415 \u041f\u0420\u0415\u0414\u041e\u0421\u0422\u0410\u0412\u041b\u042f\u0415\u0422\u0421\u042f \u0414\u0418\u0420\u0415\u041a\u0422\u041e\u0420\u0410\u041c\u0418 \u0418 \u0412\u0417\u041d\u041e\u0421\u0410\u041c\u0418 \u0410\u0412\u0422\u041e\u0420\u0421\u041a\u041e\u0413\u041e \u041f\u0420\u0410\u0412\u0410 \u00ab\u041a\u0410\u041a \u0415\u0421\u0422\u042c\u00bb \u0418 \u041b\u042e\u0411\u042b\u041c\u0418 \u042f\u0412\u041d\u042b\u041c\u0418 \u0418\u041b\u0418 \u041f\u041e\u0414\u0420\u0410\u0417\u0423\u041c\u0415\u0412\u0410\u0415\u041c\u042b\u041c\u0418 \u0413\u0410\u0420\u0410\u041d\u0422\u0418\u0418, \u0412\u041a\u041b\u042e\u0427\u0410\u042f, \u041d\u041e \u041d\u0415 \u041e\u0413\u0420\u0410\u041d\u0418\u0427\u0418\u0412\u0410\u042f\u0421\u042f, \u041f\u041e\u0414\u0420\u0410\u0417\u0423\u041c\u0415\u0412\u0410\u0415\u041c\u042b\u0415 \u0413\u0410\u0420\u0410\u041d\u0422\u0418\u0418 \u0422\u041e\u0412\u0410\u0420\u041d\u041e\u0413\u041e \u041e\u0411\u0415\u0421\u041f\u0415\u0427\u0415\u041d\u0418\u042f \u0418 \u041f\u0420\u0418\u0413\u041e\u0414\u041d\u041e\u0421\u0422\u0418 \u0414\u041b\u042f \u041e\u0421\u041e\u0411\u042b\u0425 \u0426\u0415\u041b\u0415\u0419. \u041d\u0418 \u041f\u0420\u0418 \u041a\u0410\u041a\u0418\u0425 \u041e\u0411\u0421\u0422\u041e\u042f\u0422\u0415\u041b\u042c\u0421\u0422\u0412\u0410\u0425 \u041f\u0420\u0415\u0414\u041e\u0421\u0422\u0410\u0412\u041b\u042f\u0415\u0422\u0421\u042f \u041e\u0422\u0414\u0415\u041b\u0418\u0422\u0415\u041b\u042c \u0410\u0412\u0422\u041e\u0420\u0421\u041a\u041e\u0413\u041e \u041f\u0420\u0410\u0412\u0410 \u0418\u041b\u0418 \u0412\u0417\u041d\u041e\u0421\u042b \u041f\u041e \u041e\u0422\u0412\u0415\u0422\u0421\u0422\u0412\u0415\u041d\u041d\u041e\u0421\u0422\u0418 \u0417\u0410 \u041b\u042e\u0411\u041e\u0419 \u041f\u0420\u042f\u041c\u041e\u0419, \u041d\u0415\u041f\u0420\u0410\u0412\u0418\u041b\u042c\u041d\u042b\u0419, \u0421\u041b\u0423\u0427\u0410\u0419\u041d\u042b\u0419, \u0421\u041f\u0415\u0426\u0418\u0410\u041b\u042c\u041d\u042b\u0419, \u0418\u0421\u041a\u041b\u042e\u0427\u0418\u0422\u0415\u041b\u042c\u041d\u042b\u0419 \u0418\u041b\u0418 \u041a\u041e\u0421\u0412\u0415\u041d\u041d\u042b\u0419 \u0423\u0429\u0415\u0420\u0411 (\u0412\u041a\u041b\u042e\u0427\u0410\u042f, \u041d\u041e \u041d\u0415 \u041e\u0413\u0420\u0410\u041d\u0418\u0427\u0418\u0412\u0410\u042f\u0421\u042f, \u0417\u0410\u041a\u0423\u041f\u041a\u0423 \u0417\u0410\u041c\u0415\u0429\u0410\u0415\u041c\u042b\u0425 \u0422\u041e\u0412\u0410\u0420\u041e\u0412 \u0418\u041b\u0418 \u0423\u0421\u041b\u0423\u0413; \u041f\u041e\u0422\u0415\u0420\u042e \u0418\u0421\u041f\u041e\u041b\u042c\u0417\u041e\u0412\u0410\u041d\u0418\u042f, \u0414\u0410\u041d\u041d\u042b\u0415 \u0418\u041b\u0418 \u0414\u0410\u041d\u041d\u042b\u0415; \u0418\u041b\u0418 \u041f\u0420\u0415\u041a\u0420\u0410\u0429\u0415\u041d\u0418\u0415 \u0411\u0418\u0417\u041d\u0415\u0421\u0410) \u041e\u0414\u041d\u0410\u041a\u041e \u0412\u042b\u0417\u042b\u0412\u0410\u0415\u0422\u0421\u042f \u0418 \u041d\u0410 \u041b\u042e\u0411\u041e\u0419 \u0422\u0415\u041e\u0420\u0418\u0418 \u041e\u0422\u0412\u0415\u0422\u0421\u0422\u0412\u0415\u041d\u041d\u041e\u0421\u0422\u0418, \u041b\u0418\u0411\u041e \u0412 \u041a\u041e\u041d\u0422\u0420\u0410\u041a\u0422\u0415, \u0421\u0422\u0420\u041e\u0413\u041e \u041e\u0422\u0412\u0415\u0422\u0421\u0422\u0412\u0415\u041d\u041d\u041e\u0421\u0422\u0418, \u0418\u041b\u0418 \u0418\u0421\u041f\u042b\u0422\u0410\u041d\u0418\u0418 (\u0412\u041a\u041b\u042e\u0427\u0410\u042f \u0425\u0410\u0420\u0410\u041a\u0422\u0415\u0420\u0418\u0421\u0422\u0418\u041a\u0423 \u0418\u041b\u0418 \u0418\u041d\u042b\u041c \u041e\u0411\u0420\u0410\u0417\u041e\u041c), \u0412\u041e\u0417\u041d\u0418\u041a\u0410\u042e\u0429\u0418\u0425 \u0412 \u041b\u042e\u0411\u041e\u0419 \u041f\u0415\u0420\u0415\u0414 \u0418\u0421\u041f\u041e\u041b\u042c\u0417\u041e\u0412\u0410\u041d\u0418\u0415\u041c \u042d\u0422\u041e\u0413\u041e \u041f\u0420\u041e\u0413\u0420\u0410\u041c\u041c\u041d\u041e\u0413\u041e \u041e\u0411\u0415\u0421\u041f\u0415\u0427\u0415\u041d\u0418\u042f, \u0414\u0410\u0416\u0415 \u041f\u041e\u041b\u0423\u0427\u0418\u041b\u0418 \u041f\u041e\u0413\u041e\u0414\u0423.", 
         "nameSpace": "djv::ViewLib::HelpAboutDialog", 
-        "description": "", 
-        "text": "\u041d\u0410\u0421\u0422\u041e\u042f\u0429\u0415\u0415 \u041f\u0420\u041e\u0413\u0420\u0410\u041c\u041c\u041d\u041e\u0415 \u041e\u0411\u0415\u0421\u041f\u0415\u0427\u0415\u041d\u0418\u0415 \u041f\u0420\u0415\u0414\u041e\u0421\u0422\u0410\u0412\u041b\u042f\u0415\u0422\u0421\u042f \u0414\u0418\u0420\u0415\u041a\u0422\u041e\u0420\u0410\u041c\u0418 \u0418 \u0412\u0417\u041d\u041e\u0421\u0410\u041c\u0418 \u0410\u0412\u0422\u041e\u0420\u0421\u041a\u041e\u0413\u041e \u041f\u0420\u0410\u0412\u0410 \u00ab\u041a\u0410\u041a \u0415\u0421\u0422\u042c\u00bb \u0418 \u041b\u042e\u0411\u042b\u041c\u0418 \u042f\u0412\u041d\u042b\u041c\u0418 \u0418\u041b\u0418 \u041f\u041e\u0414\u0420\u0410\u0417\u0423\u041c\u0415\u0412\u0410\u0415\u041c\u042b\u041c\u0418 \u0413\u0410\u0420\u0410\u041d\u0422\u0418\u0418, \u0412\u041a\u041b\u042e\u0427\u0410\u042f, \u041d\u041e \u041d\u0415 \u041e\u0413\u0420\u0410\u041d\u0418\u0427\u0418\u0412\u0410\u042f\u0421\u042f, \u041f\u041e\u0414\u0420\u0410\u0417\u0423\u041c\u0415\u0412\u0410\u0415\u041c\u042b\u0415 \u0413\u0410\u0420\u0410\u041d\u0422\u0418\u0418 \u0422\u041e\u0412\u0410\u0420\u041d\u041e\u0413\u041e \u041e\u0411\u0415\u0421\u041f\u0415\u0427\u0415\u041d\u0418\u042f \u0418 \u041f\u0420\u0418\u0413\u041e\u0414\u041d\u041e\u0421\u0422\u0418 \u0414\u041b\u042f \u041e\u0421\u041e\u0411\u042b\u0425 \u0426\u0415\u041b\u0415\u0419. \u041d\u0418 \u041f\u0420\u0418 \u041a\u0410\u041a\u0418\u0425 \u041e\u0411\u0421\u0422\u041e\u042f\u0422\u0415\u041b\u042c\u0421\u0422\u0412\u0410\u0425 \u041f\u0420\u0415\u0414\u041e\u0421\u0422\u0410\u0412\u041b\u042f\u0415\u0422\u0421\u042f \u041e\u0422\u0414\u0415\u041b\u0418\u0422\u0415\u041b\u042c \u0410\u0412\u0422\u041e\u0420\u0421\u041a\u041e\u0413\u041e \u041f\u0420\u0410\u0412\u0410 \u0418\u041b\u0418 \u0412\u0417\u041d\u041e\u0421\u042b \u041f\u041e \u041e\u0422\u0412\u0415\u0422\u0421\u0422\u0412\u0415\u041d\u041d\u041e\u0421\u0422\u0418 \u0417\u0410 \u041b\u042e\u0411\u041e\u0419 \u041f\u0420\u042f\u041c\u041e\u0419, \u041d\u0415\u041f\u0420\u0410\u0412\u0418\u041b\u042c\u041d\u042b\u0419, \u0421\u041b\u0423\u0427\u0410\u0419\u041d\u042b\u0419, \u0421\u041f\u0415\u0426\u0418\u0410\u041b\u042c\u041d\u042b\u0419, \u0418\u0421\u041a\u041b\u042e\u0427\u0418\u0422\u0415\u041b\u042c\u041d\u042b\u0419 \u0418\u041b\u0418 \u041a\u041e\u0421\u0412\u0415\u041d\u041d\u042b\u0419 \u0423\u0429\u0415\u0420\u0411 (\u0412\u041a\u041b\u042e\u0427\u0410\u042f, \u041d\u041e \u041d\u0415 \u041e\u0413\u0420\u0410\u041d\u0418\u0427\u0418\u0412\u0410\u042f\u0421\u042f, \u0417\u0410\u041a\u0423\u041f\u041a\u0423 \u0417\u0410\u041c\u0415\u0429\u0410\u0415\u041c\u042b\u0425 \u0422\u041e\u0412\u0410\u0420\u041e\u0412 \u0418\u041b\u0418 \u0423\u0421\u041b\u0423\u0413; \u041f\u041e\u0422\u0415\u0420\u042e \u0418\u0421\u041f\u041e\u041b\u042c\u0417\u041e\u0412\u0410\u041d\u0418\u042f, \u0414\u0410\u041d\u041d\u042b\u0415 \u0418\u041b\u0418 \u0414\u0410\u041d\u041d\u042b\u0415; \u0418\u041b\u0418 \u041f\u0420\u0415\u041a\u0420\u0410\u0429\u0415\u041d\u0418\u0415 \u0411\u0418\u0417\u041d\u0415\u0421\u0410) \u041e\u0414\u041d\u0410\u041a\u041e \u0412\u042b\u0417\u042b\u0412\u0410\u0415\u0422\u0421\u042f \u0418 \u041d\u0410 \u041b\u042e\u0411\u041e\u0419 \u0422\u0415\u041e\u0420\u0418\u0418 \u041e\u0422\u0412\u0415\u0422\u0421\u0422\u0412\u0415\u041d\u041d\u041e\u0421\u0422\u0418, \u041b\u0418\u0411\u041e \u0412 \u041a\u041e\u041d\u0422\u0420\u0410\u041a\u0422\u0415, \u0421\u0422\u0420\u041e\u0413\u041e \u041e\u0422\u0412\u0415\u0422\u0421\u0422\u0412\u0415\u041d\u041d\u041e\u0421\u0422\u0418, \u0418\u041b\u0418 \u0418\u0421\u041f\u042b\u0422\u0410\u041d\u0418\u0418 (\u0412\u041a\u041b\u042e\u0427\u0410\u042f \u0425\u0410\u0420\u0410\u041a\u0422\u0415\u0420\u0418\u0421\u0422\u0418\u041a\u0423 \u0418\u041b\u0418 \u0418\u041d\u042b\u041c \u041e\u0411\u0420\u0410\u0417\u041e\u041c), \u0412\u041e\u0417\u041d\u0418\u041a\u0410\u042e\u0429\u0418\u0425 \u0412 \u041b\u042e\u0411\u041e\u0419 \u041f\u0415\u0420\u0415\u0414 \u0418\u0421\u041f\u041e\u041b\u042c\u0417\u041e\u0412\u0410\u041d\u0418\u0415\u041c \u042d\u0422\u041e\u0413\u041e \u041f\u0420\u041e\u0413\u0420\u0410\u041c\u041c\u041d\u041e\u0413\u041e \u041e\u0411\u0415\u0421\u041f\u0415\u0427\u0415\u041d\u0418\u042f, \u0414\u0410\u0416\u0415 \u041f\u041e\u041b\u0423\u0427\u0418\u041b\u0418 \u041f\u041e\u0413\u041e\u0414\u0423."
+        "id": "License5", 
+        "description": ""
     }, 
     {
+        "source": "Contributors", 
+        "text": "\u0410\u0432\u0442\u043e\u0440\u044b", 
+        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
         "id": "Contributors Header", 
+        "description": ""
+    }, 
+    {
+        "source": "Portions of this software are copyright (in alphabetical order):", 
+        "text": "\u041d\u0430 \u043d\u0435\u043a\u043e\u0442\u043e\u0440\u044b\u0435 \u0447\u0430\u0441\u0442\u0438 \u0434\u0430\u043d\u043d\u043e\u0433\u043e \u043f\u0440\u043e\u0433\u0440\u0430\u043c\u043c\u043d\u043e\u0433\u043e \u043e\u0431\u0435\u0441\u043f\u0435\u0447\u0435\u043d\u0438\u044f \u0440\u0430\u0441\u043f\u0440\u043e\u0441\u0442\u0440\u0430\u043d\u044f\u0435\u0442\u0441\u044f \u0430\u0432\u0442\u043e\u0440\u0441\u043a\u043e\u0435 \u043f\u0440\u0430\u0432\u043e (\u0432 \u0430\u043b\u0444\u0430\u0432\u0438\u0442\u043d\u043e\u043c \u043f\u043e\u0440\u044f\u0434\u043a\u0435):", 
+        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
+        "id": "Contributors Text 1", 
+        "description": ""
+    }, 
+    {
+        "source": "* Copyright (c) 2004-2019 Darby Johnston, All rights reserved", 
+        "text": "* Copyright (c) 2004-2019 Darby Johnston, \u0412\u0441\u0435 \u043f\u0440\u0430\u0432\u0430 \u0437\u0430\u0449\u0438\u0449\u0435\u043d\u044b.", 
+        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
+        "id": "Contributors Text 2", 
+        "description": ""
+    }, 
+    {
+        "source": "* Copyright (c) 2008 Alan Jones, All rights reserved", 
+        "text": "* Copyright (c) 2008 Alan Jones, \u0412\u0441\u0435 \u043f\u0440\u0430\u0432\u0430 \u0437\u0430\u0449\u0438\u0449\u0435\u043d\u044b", 
+        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
+        "id": "Contributors Text 3", 
+        "description": ""
+    }, 
+    {
+        "source": "* Copyright (c) 2008-2009 Mikael Sundell, All rights reserved", 
+        "text": "* Copyright (c) 2008-2009 Mikael Sundell, \u0412\u0441\u0435 \u043f\u0440\u0430\u0432\u0430 \u0437\u0430\u0449\u0438\u0449\u0435\u043d\u044b.", 
+        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
+        "id": "Contributors Text 4", 
+        "description": ""
+    }, 
+    {
+        "source": "Third Party Software", 
+        "text": "\u041f\u0440\u043e\u0433\u0440\u0430\u043c\u043c\u043d\u043e\u0435 \u043e\u0431\u0435\u0441\u043f\u0435\u0447\u0435\u043d\u0438\u0435 \u0441\u0442\u043e\u0440\u043e\u043d\u043d\u0438\u0445 \u043f\u0440\u043e\u0438\u0437\u0432\u043e\u0434\u0438\u0442\u0435\u043b\u0435\u0439", 
+        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
+        "id": "Third Party Header", 
+        "description": ""
+    }, 
+    {
+        "source": "This software is based in part on the works of (in alphabetical order):", 
+        "text": "\u042d\u0442\u043e \u043f\u0440\u043e\u0433\u0440\u0430\u043c\u043c\u043d\u043e\u0435 \u043e\u0431\u0435\u0441\u043f\u0435\u0447\u0435\u043d\u0438\u0435 \u0447\u0430\u0441\u0442\u0438\u0447\u043d\u043e \u043e\u0441\u043d\u043e\u0432\u0430\u043d\u043e \u043d\u0430 \u0440\u0430\u0431\u043e\u0442\u0430\u0445 (\u0432 \u0430\u043b\u0444\u0430\u0432\u0438\u0442\u043d\u043e\u043c \u043f\u043e\u0440\u044f\u0434\u043a\u0435):", 
+        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
+        "id": "Third Party Text 1", 
+        "description": ""
+    }, 
+    {
+        "source": "* CMake, http://www.cmake.org, Copyright 2000-2011 Kitware, Inc., Insight Software Consortium, All rights reserved", 
+        "text": "* CMake, http://www.cmake.org, Copyright 2000-2011 Kitware, Inc., \u041a\u043e\u043d\u0441\u043e\u0440\u0446\u0438\u0443\u043c Insight Software, \u0412\u0441\u0435 \u043f\u0440\u0430\u0432\u0430 \u0437\u0430\u0449\u0438\u0449\u0435\u043d\u044b", 
+        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
+        "id": "Third Party Text 2", 
+        "description": ""
+    }, 
+    {
+        "source": "* dr_libs, https://github.com/mackron/dr_libs, David Reid", 
+        "text": "* dr_libs, https://github.com/mackron/dr_libs, \u0414\u044d\u0432\u0438\u0434 \u0420\u0435\u0439\u0434", 
+        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
+        "id": "Third Party Text 3", 
+        "description": ""
+    }, 
+    {
+        "source": "* FFmpeg, http://www.ffmpeg.org, Licensed under the LGPLv2.1, http://www.gnu.org/pcenses/old-pcenses/lgpl-2.1.html", 
+        "text": "* FFmpeg, http://www.ffmpeg.org, \u043f\u043e \u043b\u0438\u0446\u0435\u043d\u0437\u0438\u0438 LGPLv2.1, http://www.gnu.org/pcenses/old-pcenses/lgpl-2.1.html.", 
+        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
+        "id": "Third Party Text 4", 
+        "description": ""
+    }, 
+    {
+        "source": "* FreeType, https://www.freetype.org, Copyright (c) 2018, The FreeType Project", 
+        "text": "* FreeType, https://www.freetype.org, Copyright (c) 2018, \u041f\u0440\u043e\u0435\u043a\u0442 FreeType", 
+        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
+        "id": "Third Party Text 5", 
+        "description": ""
+    }, 
+    {
+        "source": "* glbinding, https://glbinding.org, Copyright (c) 2014-2015 Computer Graphics Systems Group at the Hasso-Plattner-Institute and CG Internals GmbH, Germany", 
+        "text": "* glbinding, https://glbinding.org, Copyright (c) 2014-2015 \u0413\u0440\u0443\u043f\u043f\u0430 \u043a\u043e\u043c\u043f\u044c\u044e\u0442\u0435\u0440\u043d\u044b\u0445 \u0433\u0440\u0430\u0444\u0438\u0447\u0435\u0441\u043a\u0438\u0445 \u0441\u0438\u0441\u0442\u0435\u043c \u0432 \u0418\u043d\u0441\u0442\u0438\u0442\u0443\u0442\u0435 \u0425\u0430\u0441\u0441\u043e-\u041f\u043b\u0430\u0442\u0442\u043d\u0435\u0440\u0430 \u0438 CG Internals GmbH, \u0413\u0435\u0440\u043c\u0430\u043d\u0438\u044f", 
+        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
+        "id": "Third Party Text 6", 
+        "description": ""
+    }, 
+    {
+        "source": "* GLFW, https://www.glfw.org, Copyright (c) 2002-2006 Marcus Geelnard, Copyright (c) 2006-2016 Camilla L\u00f6wy <elmindreda@glfw.org>", 
+        "text": "* GLFW, https://www.glfw.org, Copyright (c) 2002-2006 Marcus Geelnard, Copyright (c) 2006-2016 Camilla L\u00f6wy <elmindreda@glfw.org>", 
+        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
+        "id": "Third Party Text 7", 
+        "description": ""
+    }, 
+    {
+        "source": "* GLM, https://glm.g-truc.net/0.9.9/index.html, Copyright (c) 2005-2017 G-Truc Creation", 
+        "text": "* GLM, https://glm.g-truc.net/0.9.9/index.html, Copyright (c) 2005-2017 G-Truc Creation", 
+        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
+        "id": "Third Party Text 8", 
+        "description": ""
+    }, 
+    {
+        "source": "* libjpeg, http://www.ijg.org, Copyright (c) 1991-2012, Thomas G. Lane, Guido Vollbeding", 
+        "text": "* libjpeg, http://www.ijg.org, Copyright (c) 1991-2012, Thomas G. Lane, Guido Vollbeding", 
+        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
+        "id": "Third Party Text 9", 
+        "description": ""
+    }, 
+    {
+        "source": "* libpng, http://www.libpng.org, Copyright (c) 2004, 2006-2012 Glenn Randers-Pehrson", 
+        "text": "* libpng, http://www.libpng.org, Copyright (c) 2004, 2006-2012 Glenn Randers-Pehrson", 
+        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
+        "id": "Third Party Text 10", 
+        "description": ""
+    }, 
+    {
+        "source": "* libtiff, http://www.libtiff.org, Copyright (c) 1988-1997 Sam Leffler, Copyright (c) 1991-1997 Silicon Graphics, Inc", 
+        "text": "* libtiff, http://www.libtiff.org, Copyright (c) 1988-1997 \u0421\u044d\u043c \u041b\u0435\u0444\u0444\u043b\u0435\u0440, Copyright (c) 1991-1997 Silicon Graphics, Inc", 
+        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
+        "id": "Third Party Text 11", 
+        "description": ""
+    }, 
+    {
+        "source": "* OpenAL, https://www.openal.org, Copyright (C) 1999-2000 by Loki Software", 
+        "text": "* OpenAL, https://www.openal.org, Copyright (C) 1999-2000, Loki Software", 
+        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
+        "id": "Third Party Text 12", 
+        "description": ""
+    }, 
+    {
+        "source": "* OpenEXR, http://www.openexr.com, Copyright (c) 2006, Industrial Light and Magic, a division of Lucasfilm Entertainment Company Ltd.", 
+        "text": "* OpenEXR, http://www.openexr.com, Copyright (c) 2006, Industrial Light and Magic, \u043f\u043e\u0434\u0440\u0430\u0437\u0434\u0435\u043b\u0435\u043d\u0438\u0435 Lucasfilm Entertainment Company Ltd.", 
+        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
+        "id": "Third Party Text 13", 
+        "description": ""
+    }, 
+    {
+        "source": "* zlib, http://www.zlib.net, Copyright (c) 1995-2013 Jean-loup Gailly and Mark Adler", 
+        "text": "* zlib, http://www.zlib.net, Copyright (c) 1995-2013 \u0416\u0430\u043d-\u041b\u0443 \u0413\u0430\u0439\u043b\u0438 \u0438 \u041c\u0430\u0440\u043a \u0410\u0434\u043b\u0435\u0440", 
+        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
+        "id": "Third Party Text 14", 
+        "description": ""
+    }, 
+    {
+        "source": "Trademarks", 
+        "text": "\u0422\u043e\u0440\u0433\u043e\u0432\u0430\u044f \u043c\u0430\u0440\u043a\u0430", 
+        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
+        "id": "Trademarks Header", 
+        "description": ""
+    }, 
+    {
+        "source": "Trademarks named in the documentation (in alphabetical order):", 
+        "text": "\u0422\u043e\u0440\u0433\u043e\u0432\u044b\u0435 \u043c\u0430\u0440\u043a\u0438, \u043d\u0430\u0437\u0432\u0430\u043d\u043d\u044b\u0435 \u0432 \u0434\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u0430\u0446\u0438\u0438 (\u0432 \u0430\u043b\u0444\u0430\u0432\u0438\u0442\u043d\u043e\u043c \u043f\u043e\u0440\u044f\u0434\u043a\u0435):", 
+        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
+        "id": "Trademarks Text 1", 
+        "description": ""
+    }, 
+    {
+        "source": "* Apple, OS X, ProRes, and QuickTime are registered trademarks of Apple, Inc.", 
+        "text": "* Apple, OS X, ProRes \u0438 QuickTime \u044f\u0432\u043b\u044f\u044e\u0442\u0441\u044f \u0437\u0430\u0440\u0435\u0433\u0438\u0441\u0442\u0440\u0438\u0440\u043e\u0432\u0430\u043d\u043d\u044b\u043c\u0438 \u0442\u043e\u0432\u0430\u0440\u043d\u044b\u043c\u0438 \u0437\u043d\u0430\u043a\u0430\u043c\u0438 Apple, Inc.", 
+        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
+        "id": "Trademarks Text 2", 
+        "description": ""
+    }, 
+    {
+        "source": "* AMD and ATI are registered trademarks of Advanced Micro Devices, Inc.", 
+        "text": "* AMD \u0438 ATI \u044f\u0432\u043b\u044f\u044e\u0442\u0441\u044f \u0437\u0430\u0440\u0435\u0433\u0438\u0441\u0442\u0440\u0438\u0440\u043e\u0432\u0430\u043d\u043d\u044b\u043c\u0438 \u0442\u043e\u0432\u0430\u0440\u043d\u044b\u043c\u0438 \u0437\u043d\u0430\u043a\u0430\u043c\u0438 Advanced Micro Devices, Inc.", 
+        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
+        "id": "Trademarks Text 3", 
+        "description": ""
+    }, 
+    {
+        "source": "* Autodesk, Inferno, Maya, Softimage, and XSI are registered trademarks of Autodesk, Inc.", 
+        "text": "* Autodesk, Inferno, Maya, Softimage \u0438 XSI \u044f\u0432\u043b\u044f\u044e\u0442\u0441\u044f \u0437\u0430\u0440\u0435\u0433\u0438\u0441\u0442\u0440\u0438\u0440\u043e\u0432\u0430\u043d\u043d\u044b\u043c\u0438 \u0442\u043e\u0432\u0430\u0440\u043d\u044b\u043c\u0438 \u0437\u043d\u0430\u043a\u0430\u043c\u0438 Autodesk, Inc.", 
+        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
+        "id": "Trademarks Text 4", 
+        "description": ""
+    }, 
+    {
+        "source": "* Debian is a registered trademark of Software in the Public Interest, Inc.", 
+        "text": "* Debian \u044f\u0432\u043b\u044f\u0435\u0442\u0441\u044f \u0437\u0430\u0440\u0435\u0433\u0438\u0441\u0442\u0440\u0438\u0440\u043e\u0432\u0430\u043d\u043d\u044b\u043c \u0442\u043e\u0432\u0430\u0440\u043d\u044b\u043c \u0437\u043d\u0430\u043a\u043e\u043c Software \u0432 Public Interest, Inc.", 
+        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
+        "id": "Trademarks Text 5", 
+        "description": ""
+    }, 
+    {
+        "source": "* FFmpeg is a trademark of Fabrice Bellard, originator of the FFmpeg project", 
+        "text": "* FFmpeg \u044f\u0432\u043b\u044f\u0435\u0442\u0441\u044f \u0442\u043e\u0440\u0433\u043e\u0432\u043e\u0439 \u043c\u0430\u0440\u043a\u043e\u0439 Fabrice Bellard, \u0441\u043e\u0437\u0434\u0430\u0442\u0435\u043b\u044f \u043f\u0440\u043e\u0435\u043a\u0442\u0430 FFmpeg", 
+        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
+        "id": "Trademarks Text 6", 
+        "description": ""
+    }, 
+    {
+        "source": "* FreeBSD is a registered trademark of The FreeBSD Foundation", 
+        "text": "* FreeBSD \u044f\u0432\u043b\u044f\u0435\u0442\u0441\u044f \u0437\u0430\u0440\u0435\u0433\u0438\u0441\u0442\u0440\u0438\u0440\u043e\u0432\u0430\u043d\u043d\u044b\u043c \u0442\u043e\u0432\u0430\u0440\u043d\u044b\u043c \u0437\u043d\u0430\u043a\u043e\u043c The FreeBSD Foundation", 
+        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
+        "id": "Trademarks Text 7", 
+        "description": ""
+    }, 
+    {
+        "source": "* Intel is a registered trademark of Intel Corporation", 
+        "text": "* Intel \u044f\u0432\u043b\u044f\u0435\u0442\u0441\u044f \u0437\u0430\u0440\u0435\u0433\u0438\u0441\u0442\u0440\u0438\u0440\u043e\u0432\u0430\u043d\u043d\u044b\u043c \u0442\u043e\u0432\u0430\u0440\u043d\u044b\u043c \u0437\u043d\u0430\u043a\u043e\u043c Intel Corporation", 
+        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
+        "id": "Trademarks Text 8", 
+        "description": ""
+    }, 
+    {
+        "source": "* Industrial Light and Magic and ILM are registered trademarks of Lucasfilm Ltd.", 
+        "text": "* Industrial Light and Magic \u0438 ILM \u044f\u0432\u043b\u044f\u044e\u0442\u0441\u044f \u0437\u0430\u0440\u0435\u0433\u0438\u0441\u0442\u0440\u0438\u0440\u043e\u0432\u0430\u043d\u043d\u044b\u043c\u0438 \u0442\u043e\u0432\u0430\u0440\u043d\u044b\u043c\u0438 \u0437\u043d\u0430\u043a\u0430\u043c\u0438 Lucasfilm Ltd.", 
+        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
+        "id": "Trademarks Text 9", 
+        "description": ""
+    }, 
+    {
+        "source": "* Kodak and Cineon are a registered trademarks of the Eastman Kodak Company", 
+        "text": "* Kodak \u0438 Cineon \u044f\u0432\u043b\u044f\u044e\u0442\u0441\u044f \u0437\u0430\u0440\u0435\u0433\u0438\u0441\u0442\u0440\u0438\u0440\u043e\u0432\u0430\u043d\u043d\u044b\u043c\u0438 \u0442\u043e\u0432\u0430\u0440\u043d\u044b\u043c\u0438 \u0437\u043d\u0430\u043a\u0430\u043c\u0438 \u043a\u043e\u043c\u043f\u0430\u043d\u0438\u0438 Eastman Kodak", 
+        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
+        "id": "Trademarks Text 10", 
+        "description": ""
+    }, 
+    {
+        "source": "* Linux is a registered trademark of Linus Torvalds", 
+        "text": "* Linux \u044f\u0432\u043b\u044f\u0435\u0442\u0441\u044f \u0437\u0430\u0440\u0435\u0433\u0438\u0441\u0442\u0440\u0438\u0440\u043e\u0432\u0430\u043d\u043d\u044b\u043c \u0442\u043e\u0432\u0430\u0440\u043d\u044b\u043c \u0437\u043d\u0430\u043a\u043e\u043c \u041b\u0438\u043d\u0443\u0441\u0430 \u0422\u043e\u0440\u0432\u0430\u043b\u044c\u0434\u0441\u0430", 
+        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
+        "id": "Trademarks Text 11", 
+        "description": ""
+    }, 
+    {
+        "source": "* Microsoft and Microsoft Windows are registered trademarks of Microsoft, Inc.", 
+        "text": "* Microsoft \u0438 Microsoft Windows \u044f\u0432\u043b\u044f\u044e\u0442\u0441\u044f \u0437\u0430\u0440\u0435\u0433\u0438\u0441\u0442\u0440\u0438\u0440\u043e\u0432\u0430\u043d\u043d\u044b\u043c\u0438 \u0442\u043e\u0432\u0430\u0440\u043d\u044b\u043c\u0438 \u0437\u043d\u0430\u043a\u0430\u043c\u0438 Microsoft, Inc.", 
+        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
+        "id": "Trademarks Text 12", 
+        "description": ""
+    }, 
+    {
+        "source": "* MIPS is a registered trademark of MIPS Technologies, Inc.", 
+        "text": "* MIPS \u044f\u0432\u043b\u044f\u0435\u0442\u0441\u044f \u0437\u0430\u0440\u0435\u0433\u0438\u0441\u0442\u0440\u0438\u0440\u043e\u0432\u0430\u043d\u043d\u044b\u043c \u0442\u043e\u0432\u0430\u0440\u043d\u044b\u043c \u0437\u043d\u0430\u043a\u043e\u043c MIPS Technologies, Inc.", 
+        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
+        "id": "Trademarks Text 13", 
+        "description": ""
+    }, 
+    {
+        "source": "* NVIDIA is a registered trademark of NVIDIA Corporation", 
+        "text": "* NVIDIA \u044f\u0432\u043b\u044f\u0435\u0442\u0441\u044f \u0437\u0430\u0440\u0435\u0433\u0438\u0441\u0442\u0440\u0438\u0440\u043e\u0432\u0430\u043d\u043d\u044b\u043c \u0442\u043e\u0432\u0430\u0440\u043d\u044b\u043c \u0437\u043d\u0430\u043a\u043e\u043c NVIDIA Corporation", 
+        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
+        "id": "Trademarks Text 14", 
+        "description": ""
+    }, 
+    {
+        "source": "* Red Hat and Fedora are registered trademarks of Red Hat, Inc.", 
+        "text": "* Red Hat \u0438 Fedora \u044f\u0432\u043b\u044f\u044e\u0442\u0441\u044f \u0437\u0430\u0440\u0435\u0433\u0438\u0441\u0442\u0440\u0438\u0440\u043e\u0432\u0430\u043d\u043d\u044b\u043c\u0438 \u0442\u043e\u0432\u0430\u0440\u043d\u044b\u043c\u0438 \u0437\u043d\u0430\u043a\u0430\u043c\u0438 Red Hat, Inc.", 
+        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
+        "id": "Trademarks Text 15", 
+        "description": ""
+    }, 
+    {
+        "source": "* Silicon Graphics, SGI, IRIX, and OpenGL are registered trademarks of Silicon Graphics International Corp.", 
+        "text": "* Silicon Graphics, SGI, IRIX \u0438 OpenGL \u044f\u0432\u043b\u044f\u044e\u0442\u0441\u044f \u0437\u0430\u0440\u0435\u0433\u0438\u0441\u0442\u0440\u0438\u0440\u043e\u0432\u0430\u043d\u043d\u044b\u043c\u0438 \u0442\u043e\u0432\u0430\u0440\u043d\u044b\u043c\u0438 \u0437\u043d\u0430\u043a\u0430\u043c\u0438 Silicon Graphics International Corp.", 
+        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
+        "id": "Trademarks Text 16", 
+        "description": ""
+    }, 
+    {
+        "source": "* SMPTE is a registered trademark of the Society of Motion Picture and Television Engineers", 
+        "text": "* SMPTE \u044f\u0432\u043b\u044f\u0435\u0442\u0441\u044f \u0437\u0430\u0440\u0435\u0433\u0438\u0441\u0442\u0440\u0438\u0440\u043e\u0432\u0430\u043d\u043d\u044b\u043c \u0442\u043e\u0432\u0430\u0440\u043d\u044b\u043c \u0437\u043d\u0430\u043a\u043e\u043c \u041e\u0431\u0449\u0435\u0441\u0442\u0432\u0430 \u0438\u043d\u0436\u0435\u043d\u0435\u0440\u043e\u0432 \u043a\u0438\u043d\u043e \u0438 \u0442\u0435\u043b\u0435\u0432\u0438\u0434\u0435\u043d\u0438\u044f", 
+        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
+        "id": "Trademarks Text 17", 
+        "description": ""
+    }, 
+    {
+        "source": "* SourceForge.net is a registered trademark of VA Software Corporation", 
+        "text": "* SourceForge.net \u044f\u0432\u043b\u044f\u0435\u0442\u0441\u044f \u0437\u0430\u0440\u0435\u0433\u0438\u0441\u0442\u0440\u0438\u0440\u043e\u0432\u0430\u043d\u043d\u044b\u043c \u0442\u043e\u0432\u0430\u0440\u043d\u044b\u043c \u0437\u043d\u0430\u043a\u043e\u043c VA Software Corporation", 
+        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
+        "id": "Trademarks Text 18", 
+        "description": ""
+    }, 
+    {
+        "source": "* SuSE is a registered trademark of Novell, Inc.", 
+        "text": "* SuSE \u044f\u0432\u043b\u044f\u0435\u0442\u0441\u044f \u0437\u0430\u0440\u0435\u0433\u0438\u0441\u0442\u0440\u0438\u0440\u043e\u0432\u0430\u043d\u043d\u044b\u043c \u0442\u043e\u0432\u0430\u0440\u043d\u044b\u043c \u0437\u043d\u0430\u043a\u043e\u043c Novell, Inc.", 
+        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
+        "id": "Trademarks Text 19", 
+        "description": ""
+    }, 
+    {
+        "source": "* Ubuntu is a registered trademark of Canonical Ltd.", 
+        "text": "* Ubuntu \u044f\u0432\u043b\u044f\u0435\u0442\u0441\u044f \u0437\u0430\u0440\u0435\u0433\u0438\u0441\u0442\u0440\u0438\u0440\u043e\u0432\u0430\u043d\u043d\u044b\u043c \u0442\u043e\u0432\u0430\u0440\u043d\u044b\u043c \u0437\u043d\u0430\u043a\u043e\u043c Canonical Ltd.", 
+        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
+        "id": "Trademarks Text 20", 
+        "description": ""
+    }, 
+    {
+        "source": "* UNIX is a registered trademark of The Open Group", 
+        "text": "* UNIX \u044f\u0432\u043b\u044f\u0435\u0442\u0441\u044f \u0437\u0430\u0440\u0435\u0433\u0438\u0441\u0442\u0440\u0438\u0440\u043e\u0432\u0430\u043d\u043d\u044b\u043c \u0442\u043e\u0432\u0430\u0440\u043d\u044b\u043c \u0437\u043d\u0430\u043a\u043e\u043c The Open Group", 
+        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
+        "id": "Trademarks Text 21", 
+        "description": ""
+    }, 
+    {
+        "source": "All other products named in the documentation are trademarks of their respective owners.", 
+        "text": "\u0412\u0441\u0435 \u043e\u0441\u0442\u0430\u043b\u044c\u043d\u044b\u0435 \u043f\u0440\u043e\u0434\u0443\u043a\u0442\u044b, \u0443\u043a\u0430\u0437\u0430\u043d\u043d\u044b\u0435 \u0432 \u0434\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u0430\u0446\u0438\u0438, \u044f\u0432\u043b\u044f\u044e\u0442\u0441\u044f \u0442\u043e\u0432\u0430\u0440\u043d\u044b\u043c\u0438 \u0437\u043d\u0430\u043a\u0430\u043c\u0438 \u0441\u043e\u043e\u0442\u0432\u0435\u0442\u0441\u0442\u0432\u0443\u044e\u0449\u0438\u0445 \u0432\u043b\u0430\u0434\u0435\u043b\u044c\u0446\u0435\u0432.", 
+        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
+        "id": "Trademarks Text 22", 
+        "description": ""
+    }, 
+    {
+        "source": "Documentation Tooltip", 
+        "text": "\u041f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0430 \u043f\u043e \u0434\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u0430\u0446\u0438\u0438", 
+        "nameSpace": "djv::ViewLib::HelpSystem", 
+        "id": "Documentation Tooltip", 
+        "description": ""
+    }, 
+    {
+        "source": "Information Tooltip", 
+        "text": "\u0418\u043d\u0444\u043e\u0440\u043c\u0430\u0446\u0438\u043e\u043d\u043d\u0430\u044f \u043f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0430", 
+        "nameSpace": "djv::ViewLib::HelpSystem", 
+        "id": "Information Tooltip", 
+        "description": ""
+    }, 
+    {
+        "source": "About Tooltip", 
+        "text": "\u041e \u0432\u0441\u043f\u043b\u044b\u0432\u0430\u044e\u0449\u0435\u0439 \u043f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0435", 
+        "nameSpace": "djv::ViewLib::HelpSystem", 
+        "id": "About Tooltip", 
+        "description": ""
+    }, 
+    {
+        "source": "Debug Log", 
+        "text": "\u0416\u0443\u0440\u043d\u0430\u043b \u043e\u0442\u043b\u0430\u0434\u043a\u0438", 
+        "nameSpace": "djv::ViewLib::HelpSystem", 
+        "id": "Debug Log", 
+        "description": ""
+    }, 
+    {
+        "source": "Debug Log Tooltip", 
+        "text": "\u041f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0430 \u0436\u0443\u0440\u043d\u0430\u043b\u0430 \u043e\u0442\u043b\u0430\u0434\u043a\u0438", 
+        "nameSpace": "djv::ViewLib::HelpSystem", 
+        "id": "Debug Log Tooltip", 
+        "description": ""
+    }, 
+    {
+        "source": "Left Tooltip", 
+        "text": "\u041b\u0435\u0432\u0430\u044f \u043f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0430", 
+        "nameSpace": "djv::ViewLib::ImageViewSystem", 
+        "id": "Left Tooltip", 
+        "description": ""
+    }, 
+    {
+        "source": "Right Tooltip", 
+        "text": "\u041f\u0440\u0430\u0432\u0430\u044f \u043f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0430", 
+        "nameSpace": "djv::ViewLib::ImageViewSystem", 
+        "id": "Right Tooltip", 
+        "description": ""
+    }, 
+    {
+        "source": "Up Tooltip", 
+        "text": "\u041f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0430", 
+        "nameSpace": "djv::ViewLib::ImageViewSystem", 
+        "id": "Up Tooltip", 
+        "description": ""
+    }, 
+    {
+        "source": "Down Tooltip", 
+        "text": "\u041f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0430 \u0432\u043d\u0438\u0437", 
+        "nameSpace": "djv::ViewLib::ImageViewSystem", 
+        "id": "Down Tooltip", 
+        "description": ""
+    }, 
+    {
+        "source": "Center Tooltip", 
+        "text": "\u0426\u0435\u043d\u0442\u0440 \u043f\u043e\u0434\u0441\u043a\u0430\u0437\u043e\u043a", 
+        "nameSpace": "djv::ViewLib::ImageViewSystem", 
+        "id": "Center Tooltip", 
+        "description": ""
+    }, 
+    {
+        "source": "Zoom In Tooltip", 
+        "text": "\u0423\u0432\u0435\u043b\u0438\u0447\u0438\u0442\u044c \u043f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0443", 
+        "nameSpace": "djv::ViewLib::ImageViewSystem", 
+        "id": "Zoom In Tooltip", 
+        "description": ""
+    }, 
+    {
+        "source": "Zoom Out Tooltip", 
+        "text": "\u0423\u043c\u0435\u043d\u044c\u0448\u0438\u0442\u044c \u043f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0443", 
+        "nameSpace": "djv::ViewLib::ImageViewSystem", 
+        "id": "Zoom Out Tooltip", 
+        "description": ""
+    }, 
+    {
+        "source": "Reset Zoom Tooltip", 
+        "text": "Reset Zoom Tooltip", 
+        "nameSpace": "djv::ViewLib::ImageViewSystem", 
+        "id": "Reset Zoom Tooltip", 
+        "description": ""
+    }, 
+    {
+        "source": "Reset Position and Zoom Tooltip", 
+        "text": "Reset Position \u0438 Zoom Tooltip", 
+        "nameSpace": "djv::ViewLib::ImageViewSystem", 
+        "id": "Reset Position and Zoom Tooltip", 
+        "description": ""
+    }, 
+    {
+        "source": "Fit Tooltip", 
+        "text": "Fit Tooltip", 
+        "nameSpace": "djv::ViewLib::ImageViewSystem", 
+        "id": "Fit Tooltip", 
+        "description": ""
+    }, 
+    {
+        "source": "HUD Tooltip", 
+        "text": "HUD Tooltip", 
+        "nameSpace": "djv::ViewLib::ImageViewSystem", 
+        "id": "HUD Tooltip", 
+        "description": ""
+    }, 
+    {
+        "source": "MDI WindowMode Tooltip", 
+        "text": "MDI WindowMode Tooltip", 
+        "nameSpace": "djv::ViewLib::MainWindow", 
+        "id": "MDI WindowMode Tooltip", 
+        "description": ""
+    }, 
+    {
+        "source": "Stop Tooltip", 
+        "text": "\u041e\u0441\u0442\u0430\u043d\u043e\u0432\u0438\u0442\u044c \u043f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0443", 
+        "nameSpace": "djv::ViewLib::PlaybackSystem", 
+        "id": "Stop Tooltip", 
+        "description": ""
+    }, 
+    {
+        "source": "Forward Tooltip", 
+        "text": "\u0412\u043f\u0435\u0440\u0435\u0434 \u043f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0430", 
+        "nameSpace": "djv::ViewLib::PlaybackSystem", 
+        "id": "Forward Tooltip", 
+        "description": ""
+    }, 
+    {
+        "source": "Reverse Tooltip", 
+        "text": "\u0412\u0441\u043f\u043b\u044b\u0432\u0430\u044e\u0449\u0430\u044f \u043f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0430", 
+        "nameSpace": "djv::ViewLib::PlaybackSystem", 
+        "id": "Reverse Tooltip", 
+        "description": ""
+    }, 
+    {
+        "source": "Toggle Playback Tooltip", 
+        "text": "\u041f\u0435\u0440\u0435\u043a\u043b\u044e\u0447\u0438\u0442\u044c \u043f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0443 \u043f\u0440\u0438 \u0432\u043e\u0441\u043f\u0440\u043e\u0438\u0437\u0432\u0435\u0434\u0435\u043d\u0438\u0438", 
+        "nameSpace": "djv::ViewLib::PlaybackSystem", 
+        "id": "Toggle Playback Tooltip", 
+        "description": ""
+    }, 
+    {
+        "source": "Toggle Reverse Playback Tooltip", 
+        "text": "\u041f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0430 \u043e\u0431\u0440\u0430\u0442\u043d\u043e\u0433\u043e \u0432\u043e\u0441\u043f\u0440\u043e\u0438\u0437\u0432\u0435\u0434\u0435\u043d\u0438\u044f", 
+        "nameSpace": "djv::ViewLib::PlaybackSystem", 
+        "id": "Toggle Reverse Playback Tooltip", 
+        "description": ""
+    }, 
+    {
+        "source": "Play Every Frame Tooltip", 
+        "text": "\u041f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0430 \u00ab\u0412\u043e\u0441\u043f\u0440\u043e\u0438\u0437\u0432\u0435\u0441\u0442\u0438 \u043a\u0430\u0436\u0434\u044b\u0439 \u043a\u0430\u0434\u0440\u00bb", 
+        "nameSpace": "djv::ViewLib::PlaybackSystem", 
+        "id": "Play Every Frame Tooltip", 
+        "description": ""
+    }, 
+    {
+        "source": "Go To In Point Tooltip", 
+        "text": "\u041f\u0435\u0440\u0435\u0439\u0442\u0438 \u043a \u043f\u0443\u043d\u043a\u0442\u0443 \u043f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0438", 
+        "nameSpace": "djv::ViewLib::PlaybackSystem", 
+        "id": "Go To In Point Tooltip", 
+        "description": ""
+    }, 
+    {
+        "source": "Go To Out Point Tooltip", 
+        "text": "\u041f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0430 \u00ab\u041f\u0435\u0440\u0435\u0439\u0442\u0438 \u043a \u0442\u043e\u0447\u043a\u0435\u00bb", 
+        "nameSpace": "djv::ViewLib::PlaybackSystem", 
+        "id": "Go To Out Point Tooltip", 
+        "description": ""
+    }, 
+    {
+        "source": "Go To Start Frame Tooltip", 
+        "text": "\u041f\u0435\u0440\u0435\u0439\u0442\u0438 \u043a \u043d\u0430\u0447\u0430\u043b\u0443 \u043f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0438 \u0444\u0440\u0435\u0439\u043c\u0430", 
+        "nameSpace": "djv::ViewLib::PlaybackSystem", 
+        "id": "Go To Start Frame Tooltip", 
+        "description": ""
+    }, 
+    {
+        "source": "Go To End Frame Tooltip", 
+        "text": "\u041f\u0435\u0440\u0435\u0439\u0442\u0438 \u043a \u043a\u043e\u043d\u0446\u0443 \u0444\u0440\u0435\u0439\u043c\u0430 \u043f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0430", 
+        "nameSpace": "djv::ViewLib::PlaybackSystem", 
+        "id": "Go To End Frame Tooltip", 
+        "description": ""
+    }, 
+    {
+        "source": "Next Frame Tooltip", 
+        "text": "\u041f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0430 \u0441\u043b\u0435\u0434\u0443\u044e\u0449\u0435\u0433\u043e \u043a\u0430\u0434\u0440\u0430", 
+        "nameSpace": "djv::ViewLib::PlaybackSystem", 
+        "id": "Next Frame Tooltip", 
+        "description": ""
+    }, 
+    {
+        "source": "Next Frame X10 Tooltip", 
+        "text": "Next Frame X10 Tooltip", 
+        "nameSpace": "djv::ViewLib::PlaybackSystem", 
+        "id": "Next Frame X10 Tooltip", 
+        "description": ""
+    }, 
+    {
+        "source": "Next Frame X100 Tooltip", 
+        "text": "\u0421\u043b\u0435\u0434\u0443\u044e\u0449\u0430\u044f \u0440\u0430\u043c\u043a\u0430 X100 \u041f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0430", 
+        "nameSpace": "djv::ViewLib::PlaybackSystem", 
+        "id": "Next Frame X100 Tooltip", 
+        "description": ""
+    }, 
+    {
+        "source": "Previous Frame Tooltip", 
+        "text": "\u041f\u0440\u0435\u0434\u044b\u0434\u0443\u0449\u0430\u044f \u0432\u0441\u043f\u043b\u044b\u0432\u0430\u044e\u0449\u0430\u044f \u043f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0430", 
+        "nameSpace": "djv::ViewLib::PlaybackSystem", 
+        "id": "Previous Frame Tooltip", 
+        "description": ""
+    }, 
+    {
+        "source": "Previous Frame X10 Tooltip", 
+        "text": "\u041f\u0440\u0435\u0434\u044b\u0434\u0443\u0449\u0430\u044f \u0440\u0430\u043c\u043a\u0430 X10 \u041f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0430", 
+        "nameSpace": "djv::ViewLib::PlaybackSystem", 
+        "id": "Previous Frame X10 Tooltip", 
+        "description": ""
+    }, 
+    {
+        "source": "Previous Frame X100 Tooltip", 
+        "text": "\u041f\u0440\u0435\u0434\u044b\u0434\u0443\u0449\u0430\u044f \u0440\u0430\u043c\u043a\u0430 X100 Tooltip", 
+        "nameSpace": "djv::ViewLib::PlaybackSystem", 
+        "id": "Previous Frame X100 Tooltip", 
+        "description": ""
+    }, 
+    {
+        "source": "Enable In/Out Points Tooltip", 
+        "text": "\u0412\u043a\u043b\u044e\u0447\u0438\u0442\u044c \u043f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0438 \u0442\u043e\u0447\u0435\u043a \u0432\u0445\u043e\u0434\u0430 / \u0432\u044b\u0445\u043e\u0434\u0430", 
+        "nameSpace": "djv::ViewLib::PlaybackSystem", 
+        "id": "Enable In/Out Points Tooltip", 
+        "description": ""
+    }, 
+    {
+        "source": "Set In Point Tooltip", 
+        "text": "\u041f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0430 \u00ab\u0417\u0430\u0434\u0430\u0442\u044c \u0442\u043e\u0447\u043a\u0443\u00bb", 
+        "nameSpace": "djv::ViewLib::PlaybackSystem", 
+        "id": "Set In Point Tooltip", 
+        "description": ""
+    }, 
+    {
+        "source": "Set Out Point Tooltip", 
+        "text": "\u0412\u0441\u043f\u043b\u044b\u0432\u0430\u044e\u0449\u0430\u044f \u043f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0430", 
+        "nameSpace": "djv::ViewLib::PlaybackSystem", 
+        "id": "Set Out Point Tooltip", 
+        "description": ""
+    }, 
+    {
+        "source": "Reset In Point Tooltip", 
+        "text": "Reset In Point Tooltip", 
+        "nameSpace": "djv::ViewLib::PlaybackSystem", 
+        "id": "Reset In Point Tooltip", 
+        "description": ""
+    }, 
+    {
+        "source": "Reset Out Point Tooltip", 
+        "text": "\u0412\u0441\u043f\u043b\u044b\u0432\u0430\u044e\u0449\u0430\u044f \u043f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0430", 
+        "nameSpace": "djv::ViewLib::PlaybackSystem", 
+        "id": "Reset Out Point Tooltip", 
+        "description": ""
+    }, 
+    {
+        "source": "Mirror Horizontal Tooltip", 
+        "text": "\u0417\u0435\u0440\u043a\u0430\u043b\u044c\u043d\u0430\u044f \u0433\u043e\u0440\u0438\u0437\u043e\u043d\u0442\u0430\u043b\u044c\u043d\u0430\u044f \u043f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0430", 
+        "nameSpace": "djv::ViewLib::ImageSystem", 
+        "id": "Mirror Horizontal Tooltip", 
+        "description": ""
+    }, 
+    {
+        "source": "Mirror Vertical Tooltip", 
+        "text": "\u0417\u0435\u0440\u043a\u0430\u043b\u044c\u043d\u0430\u044f \u0432\u0435\u0440\u0442\u0438\u043a\u0430\u043b\u044c\u043d\u0430\u044f \u043f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0430", 
+        "nameSpace": "djv::ViewLib::ImageSystem", 
+        "id": "Mirror Vertical Tooltip", 
+        "description": ""
+    }, 
+    {
+        "source": "Color Manager Tooltip", 
+        "text": "Color Manager Tooltip", 
+        "nameSpace": "djv::ViewLib::ImageSystem", 
+        "id": "Color Manager Tooltip", 
+        "description": ""
+    }, 
+    {
+        "source": "Color Profile Tooltip", 
+        "text": "\u041f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0430 \u0446\u0432\u0435\u0442\u043e\u0432\u043e\u0433\u043e \u043f\u0440\u043e\u0444\u0438\u043b\u044f", 
+        "nameSpace": "djv::ViewLib::ImageSystem", 
+        "id": "Color Profile Tooltip", 
+        "description": ""
+    }, 
+    {
+        "source": "Display Profile Tooltip", 
+        "text": "\u041e\u0442\u043e\u0431\u0440\u0430\u0436\u0430\u0442\u044c \u043f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0443 \u043f\u0440\u043e\u0444\u0438\u043b\u044f", 
+        "nameSpace": "djv::ViewLib::ImageSystem", 
+        "id": "Display Profile Tooltip", 
+        "description": ""
+    }, 
+    {
+        "source": "Premulitplied Alpha Tooltip", 
+        "text": "Premulitplied Alpha Tooltip", 
+        "nameSpace": "djv::ViewLib::ImageSystem", 
+        "id": "Premulitplied Alpha Tooltip", 
+        "description": ""
+    }, 
+    {
+        "source": "Show Frame Store Tooltip", 
+        "text": "\u041f\u043e\u043a\u0430\u0437\u0430\u0442\u044c \u043f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0443 \u043c\u0430\u0433\u0430\u0437\u0438\u043d\u0430 \u043a\u0430\u0434\u0440\u043e\u0432", 
+        "nameSpace": "djv::ViewLib::ImageSystem", 
+        "id": "Show Frame Store Tooltip", 
+        "description": ""
+    }, 
+    {
+        "source": "Set Frame Store Tooltip", 
+        "text": "\u0423\u0441\u0442\u0430\u043d\u043e\u0432\u0438\u0442\u044c \u0432\u0441\u043f\u043b\u044b\u0432\u0430\u044e\u0449\u0443\u044e \u043f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0443 Store Store", 
+        "nameSpace": "djv::ViewLib::ImageSystem", 
+        "id": "Set Frame Store Tooltip", 
+        "description": ""
+    }, 
+    {
+        "source": "SDI", 
+        "text": "SDI", 
+        "nameSpace": "djv::ViewLib::WindowSystem", 
+        "id": "SDI", 
+        "description": ""
+    }, 
+    {
+        "source": "SDI Tooltip", 
+        "text": "SDI Tooltip", 
+        "nameSpace": "djv::ViewLib::WindowSystem", 
+        "id": "SDI Tooltip", 
+        "description": ""
+    }, 
+    {
+        "source": "MDI", 
+        "text": "MDI", 
+        "nameSpace": "djv::ViewLib::WindowSystem", 
+        "id": "MDI", 
+        "description": ""
+    }, 
+    {
+        "source": "MDI Tooltip", 
+        "text": "MDI Tooltip", 
+        "nameSpace": "djv::ViewLib::WindowSystem", 
+        "id": "MDI Tooltip", 
+        "description": ""
+    }, 
+    {
+        "source": "Duplicate Tooltip", 
+        "text": "\u0414\u0432\u043e\u0439\u043d\u0430\u044f \u043f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0430", 
+        "nameSpace": "djv::ViewLib::WindowSystem", 
+        "id": "Duplicate Tooltip", 
+        "description": ""
+    }, 
+    {
+        "source": "Full Screen Tooltip", 
+        "text": "\u041f\u043e\u043b\u043d\u043e\u044d\u043a\u0440\u0430\u043d\u043d\u0430\u044f \u043f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0430", 
+        "nameSpace": "djv::ViewLib::WindowSystem", 
+        "id": "Full Screen Tooltip", 
+        "description": ""
+    }, 
+    {
+        "id": "CopyrightAndLicense", 
+        "source": "Copyright and License", 
+        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
+        "description": "", 
+        "text": "\u0410\u0432\u0442\u043e\u0440\u0441\u043a\u043e\u0435 \u043f\u0440\u0430\u0432\u043e \u0438 \u043b\u0438\u0446\u0435\u043d\u0437\u0438\u044f"
+    }, 
+    {
+        "id": "Contributors", 
         "source": "Contributors", 
         "nameSpace": "djv::ViewLib::HelpAboutDialog", 
         "description": "", 
         "text": "\u0410\u0432\u0442\u043e\u0440\u044b"
     }, 
     {
-        "id": "Contributors Text 1", 
-        "source": "Portions of this software are copyright (in alphabetical order):", 
-        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
-        "description": "", 
-        "text": "\u041d\u0430 \u043d\u0435\u043a\u043e\u0442\u043e\u0440\u044b\u0435 \u0447\u0430\u0441\u0442\u0438 \u0434\u0430\u043d\u043d\u043e\u0433\u043e \u043f\u0440\u043e\u0433\u0440\u0430\u043c\u043c\u043d\u043e\u0433\u043e \u043e\u0431\u0435\u0441\u043f\u0435\u0447\u0435\u043d\u0438\u044f \u0440\u0430\u0441\u043f\u0440\u043e\u0441\u0442\u0440\u0430\u043d\u044f\u0435\u0442\u0441\u044f \u0430\u0432\u0442\u043e\u0440\u0441\u043a\u043e\u0435 \u043f\u0440\u0430\u0432\u043e (\u0432 \u0430\u043b\u0444\u0430\u0432\u0438\u0442\u043d\u043e\u043c \u043f\u043e\u0440\u044f\u0434\u043a\u0435):"
-    }, 
-    {
-        "id": "Contributors Text 2", 
-        "source": "* Copyright (c) 2004-2019 Darby Johnston, All rights reserved", 
-        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
-        "description": "", 
-        "text": "* Copyright (c) 2004-2019 Darby Johnston, \u0412\u0441\u0435 \u043f\u0440\u0430\u0432\u0430 \u0437\u0430\u0449\u0438\u0449\u0435\u043d\u044b."
-    }, 
-    {
-        "id": "Contributors Text 3", 
-        "source": "* Copyright (c) 2008 Alan Jones, All rights reserved", 
-        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
-        "description": "", 
-        "text": "* Copyright (c) 2008 Alan Jones, \u0412\u0441\u0435 \u043f\u0440\u0430\u0432\u0430 \u0437\u0430\u0449\u0438\u0449\u0435\u043d\u044b"
-    }, 
-    {
-        "id": "Contributors Text 4", 
-        "source": "* Copyright (c) 2008-2009 Mikael Sundell, All rights reserved", 
-        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
-        "description": "", 
-        "text": "* Copyright (c) 2008-2009 Mikael Sundell, \u0412\u0441\u0435 \u043f\u0440\u0430\u0432\u0430 \u0437\u0430\u0449\u0438\u0449\u0435\u043d\u044b."
-    }, 
-    {
-        "id": "Third Party Header", 
+        "id": "Third Party", 
         "source": "Third Party Software", 
         "nameSpace": "djv::ViewLib::HelpAboutDialog", 
         "description": "", 
         "text": "\u041f\u0440\u043e\u0433\u0440\u0430\u043c\u043c\u043d\u043e\u0435 \u043e\u0431\u0435\u0441\u043f\u0435\u0447\u0435\u043d\u0438\u0435 \u0441\u0442\u043e\u0440\u043e\u043d\u043d\u0438\u0445 \u043f\u0440\u043e\u0438\u0437\u0432\u043e\u0434\u0438\u0442\u0435\u043b\u0435\u0439"
     }, 
     {
-        "id": "Third Party Text 1", 
-        "source": "This software is based in part on the works of (in alphabetical order):", 
-        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
-        "description": "", 
-        "text": "\u042d\u0442\u043e \u043f\u0440\u043e\u0433\u0440\u0430\u043c\u043c\u043d\u043e\u0435 \u043e\u0431\u0435\u0441\u043f\u0435\u0447\u0435\u043d\u0438\u0435 \u0447\u0430\u0441\u0442\u0438\u0447\u043d\u043e \u043e\u0441\u043d\u043e\u0432\u0430\u043d\u043e \u043d\u0430 \u0440\u0430\u0431\u043e\u0442\u0430\u0445 (\u0432 \u0430\u043b\u0444\u0430\u0432\u0438\u0442\u043d\u043e\u043c \u043f\u043e\u0440\u044f\u0434\u043a\u0435):"
-    }, 
-    {
-        "id": "Third Party Text 2", 
-        "source": "* CMake, http://www.cmake.org, Copyright 2000-2011 Kitware, Inc., Insight Software Consortium, All rights reserved", 
-        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
-        "description": "", 
-        "text": "* CMake, http://www.cmake.org, Copyright 2000-2011 Kitware, Inc., \u041a\u043e\u043d\u0441\u043e\u0440\u0446\u0438\u0443\u043c Insight Software, \u0412\u0441\u0435 \u043f\u0440\u0430\u0432\u0430 \u0437\u0430\u0449\u0438\u0449\u0435\u043d\u044b"
-    }, 
-    {
-        "id": "Third Party Text 3", 
-        "source": "* dr_libs, https://github.com/mackron/dr_libs, David Reid", 
-        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
-        "description": "", 
-        "text": "* dr_libs, https://github.com/mackron/dr_libs, \u0414\u044d\u0432\u0438\u0434 \u0420\u0435\u0439\u0434"
-    }, 
-    {
-        "id": "Third Party Text 4", 
-        "source": "* FFmpeg, http://www.ffmpeg.org, Licensed under the LGPLv2.1, http://www.gnu.org/pcenses/old-pcenses/lgpl-2.1.html", 
-        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
-        "description": "", 
-        "text": "* FFmpeg, http://www.ffmpeg.org, \u043f\u043e \u043b\u0438\u0446\u0435\u043d\u0437\u0438\u0438 LGPLv2.1, http://www.gnu.org/pcenses/old-pcenses/lgpl-2.1.html."
-    }, 
-    {
-        "id": "Third Party Text 5", 
-        "source": "* FreeType, https://www.freetype.org, Copyright (c) 2018, The FreeType Project", 
-        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
-        "description": "", 
-        "text": "* FreeType, https://www.freetype.org, Copyright (c) 2018, \u041f\u0440\u043e\u0435\u043a\u0442 FreeType"
-    }, 
-    {
-        "id": "Third Party Text 6", 
-        "source": "* glbinding, https://glbinding.org, Copyright (c) 2014-2015 Computer Graphics Systems Group at the Hasso-Plattner-Institute and CG Internals GmbH, Germany", 
-        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
-        "description": "", 
-        "text": "* glbinding, https://glbinding.org, Copyright (c) 2014-2015 \u0413\u0440\u0443\u043f\u043f\u0430 \u043a\u043e\u043c\u043f\u044c\u044e\u0442\u0435\u0440\u043d\u044b\u0445 \u0433\u0440\u0430\u0444\u0438\u0447\u0435\u0441\u043a\u0438\u0445 \u0441\u0438\u0441\u0442\u0435\u043c \u0432 \u0418\u043d\u0441\u0442\u0438\u0442\u0443\u0442\u0435 \u0425\u0430\u0441\u0441\u043e-\u041f\u043b\u0430\u0442\u0442\u043d\u0435\u0440\u0430 \u0438 CG Internals GmbH, \u0413\u0435\u0440\u043c\u0430\u043d\u0438\u044f"
-    }, 
-    {
-        "id": "Third Party Text 7", 
-        "source": "* GLFW, https://www.glfw.org, Copyright (c) 2002-2006 Marcus Geelnard, Copyright (c) 2006-2016 Camilla L\u00f6wy <elmindreda@glfw.org>", 
-        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
-        "description": "", 
-        "text": "* GLFW, https://www.glfw.org, Copyright (c) 2002-2006 Marcus Geelnard, Copyright (c) 2006-2016 Camilla L\u00f6wy <elmindreda@glfw.org>"
-    }, 
-    {
-        "id": "Third Party Text 8", 
-        "source": "* GLM, https://glm.g-truc.net/0.9.9/index.html, Copyright (c) 2005-2017 G-Truc Creation", 
-        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
-        "description": "", 
-        "text": "* GLM, https://glm.g-truc.net/0.9.9/index.html, Copyright (c) 2005-2017 G-Truc Creation"
-    }, 
-    {
-        "id": "Third Party Text 9", 
-        "source": "* libjpeg, http://www.ijg.org, Copyright (c) 1991-2012, Thomas G. Lane, Guido Vollbeding", 
-        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
-        "description": "", 
-        "text": "* libjpeg, http://www.ijg.org, Copyright (c) 1991-2012, Thomas G. Lane, Guido Vollbeding"
-    }, 
-    {
-        "id": "Third Party Text 10", 
-        "source": "* libpng, http://www.libpng.org, Copyright (c) 2004, 2006-2012 Glenn Randers-Pehrson", 
-        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
-        "description": "", 
-        "text": "* libpng, http://www.libpng.org, Copyright (c) 2004, 2006-2012 Glenn Randers-Pehrson"
-    }, 
-    {
-        "id": "Third Party Text 11", 
-        "source": "* libtiff, http://www.libtiff.org, Copyright (c) 1988-1997 Sam Leffler, Copyright (c) 1991-1997 Silicon Graphics, Inc", 
-        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
-        "description": "", 
-        "text": "* libtiff, http://www.libtiff.org, Copyright (c) 1988-1997 \u0421\u044d\u043c \u041b\u0435\u0444\u0444\u043b\u0435\u0440, Copyright (c) 1991-1997 Silicon Graphics, Inc"
-    }, 
-    {
-        "id": "Third Party Text 12", 
-        "source": "* OpenAL, https://www.openal.org, Copyright (C) 1999-2000 by Loki Software", 
-        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
-        "description": "", 
-        "text": "* OpenAL, https://www.openal.org, Copyright (C) 1999-2000, Loki Software"
-    }, 
-    {
-        "id": "Third Party Text 13", 
-        "source": "* OpenEXR, http://www.openexr.com, Copyright (c) 2006, Industrial Light and Magic, a division of Lucasfilm Entertainment Company Ltd.", 
-        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
-        "description": "", 
-        "text": "* OpenEXR, http://www.openexr.com, Copyright (c) 2006, Industrial Light and Magic, \u043f\u043e\u0434\u0440\u0430\u0437\u0434\u0435\u043b\u0435\u043d\u0438\u0435 Lucasfilm Entertainment Company Ltd."
-    }, 
-    {
-        "id": "Third Party Text 14", 
-        "source": "* zlib, http://www.zlib.net, Copyright (c) 1995-2013 Jean-loup Gailly and Mark Adler", 
-        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
-        "description": "", 
-        "text": "* zlib, http://www.zlib.net, Copyright (c) 1995-2013 \u0416\u0430\u043d-\u041b\u0443 \u0413\u0430\u0439\u043b\u0438 \u0438 \u041c\u0430\u0440\u043a \u0410\u0434\u043b\u0435\u0440"
-    }, 
-    {
-        "id": "Trademarks Header", 
+        "id": "Trademarks", 
         "source": "Trademarks", 
         "nameSpace": "djv::ViewLib::HelpAboutDialog", 
         "description": "", 
         "text": "\u0422\u043e\u0440\u0433\u043e\u0432\u0430\u044f \u043c\u0430\u0440\u043a\u0430"
     }, 
     {
-        "id": "Trademarks Text 1", 
-        "source": "Trademarks named in the documentation (in alphabetical order):", 
-        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
-        "description": "", 
-        "text": "\u0422\u043e\u0440\u0433\u043e\u0432\u044b\u0435 \u043c\u0430\u0440\u043a\u0438, \u043d\u0430\u0437\u0432\u0430\u043d\u043d\u044b\u0435 \u0432 \u0434\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u0430\u0446\u0438\u0438 (\u0432 \u0430\u043b\u0444\u0430\u0432\u0438\u0442\u043d\u043e\u043c \u043f\u043e\u0440\u044f\u0434\u043a\u0435):"
-    }, 
-    {
-        "id": "Trademarks Text 2", 
-        "source": "* Apple, OS X, ProRes, and QuickTime are registered trademarks of Apple, Inc.", 
-        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
-        "description": "", 
-        "text": "* Apple, OS X, ProRes \u0438 QuickTime \u044f\u0432\u043b\u044f\u044e\u0442\u0441\u044f \u0437\u0430\u0440\u0435\u0433\u0438\u0441\u0442\u0440\u0438\u0440\u043e\u0432\u0430\u043d\u043d\u044b\u043c\u0438 \u0442\u043e\u0432\u0430\u0440\u043d\u044b\u043c\u0438 \u0437\u043d\u0430\u043a\u0430\u043c\u0438 Apple, Inc."
-    }, 
-    {
-        "id": "Trademarks Text 3", 
-        "source": "* AMD and ATI are registered trademarks of Advanced Micro Devices, Inc.", 
-        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
-        "description": "", 
-        "text": "* AMD \u0438 ATI \u044f\u0432\u043b\u044f\u044e\u0442\u0441\u044f \u0437\u0430\u0440\u0435\u0433\u0438\u0441\u0442\u0440\u0438\u0440\u043e\u0432\u0430\u043d\u043d\u044b\u043c\u0438 \u0442\u043e\u0432\u0430\u0440\u043d\u044b\u043c\u0438 \u0437\u043d\u0430\u043a\u0430\u043c\u0438 Advanced Micro Devices, Inc."
-    }, 
-    {
-        "id": "Trademarks Text 4", 
-        "source": "* Autodesk, Inferno, Maya, Softimage, and XSI are registered trademarks of Autodesk, Inc.", 
-        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
-        "description": "", 
-        "text": "* Autodesk, Inferno, Maya, Softimage \u0438 XSI \u044f\u0432\u043b\u044f\u044e\u0442\u0441\u044f \u0437\u0430\u0440\u0435\u0433\u0438\u0441\u0442\u0440\u0438\u0440\u043e\u0432\u0430\u043d\u043d\u044b\u043c\u0438 \u0442\u043e\u0432\u0430\u0440\u043d\u044b\u043c\u0438 \u0437\u043d\u0430\u043a\u0430\u043c\u0438 Autodesk, Inc."
-    }, 
-    {
-        "id": "Trademarks Text 5", 
-        "source": "* Debian is a registered trademark of Software in the Public Interest, Inc.", 
-        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
-        "description": "", 
-        "text": "* Debian \u044f\u0432\u043b\u044f\u0435\u0442\u0441\u044f \u0437\u0430\u0440\u0435\u0433\u0438\u0441\u0442\u0440\u0438\u0440\u043e\u0432\u0430\u043d\u043d\u044b\u043c \u0442\u043e\u0432\u0430\u0440\u043d\u044b\u043c \u0437\u043d\u0430\u043a\u043e\u043c Software \u0432 Public Interest, Inc."
-    }, 
-    {
-        "id": "Trademarks Text 6", 
-        "source": "* FFmpeg is a trademark of Fabrice Bellard, originator of the FFmpeg project", 
-        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
-        "description": "", 
-        "text": "* FFmpeg \u044f\u0432\u043b\u044f\u0435\u0442\u0441\u044f \u0442\u043e\u0440\u0433\u043e\u0432\u043e\u0439 \u043c\u0430\u0440\u043a\u043e\u0439 Fabrice Bellard, \u0441\u043e\u0437\u0434\u0430\u0442\u0435\u043b\u044f \u043f\u0440\u043e\u0435\u043a\u0442\u0430 FFmpeg"
-    }, 
-    {
-        "id": "Trademarks Text 7", 
-        "source": "* FreeBSD is a registered trademark of The FreeBSD Foundation", 
-        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
-        "description": "", 
-        "text": "* FreeBSD \u044f\u0432\u043b\u044f\u0435\u0442\u0441\u044f \u0437\u0430\u0440\u0435\u0433\u0438\u0441\u0442\u0440\u0438\u0440\u043e\u0432\u0430\u043d\u043d\u044b\u043c \u0442\u043e\u0432\u0430\u0440\u043d\u044b\u043c \u0437\u043d\u0430\u043a\u043e\u043c The FreeBSD Foundation"
-    }, 
-    {
-        "id": "Trademarks Text 8", 
-        "source": "* Intel is a registered trademark of Intel Corporation", 
-        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
-        "description": "", 
-        "text": "* Intel \u044f\u0432\u043b\u044f\u0435\u0442\u0441\u044f \u0437\u0430\u0440\u0435\u0433\u0438\u0441\u0442\u0440\u0438\u0440\u043e\u0432\u0430\u043d\u043d\u044b\u043c \u0442\u043e\u0432\u0430\u0440\u043d\u044b\u043c \u0437\u043d\u0430\u043a\u043e\u043c Intel Corporation"
-    }, 
-    {
-        "id": "Trademarks Text 9", 
-        "source": "* Industrial Light and Magic and ILM are registered trademarks of Lucasfilm Ltd.", 
-        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
-        "description": "", 
-        "text": "* Industrial Light and Magic \u0438 ILM \u044f\u0432\u043b\u044f\u044e\u0442\u0441\u044f \u0437\u0430\u0440\u0435\u0433\u0438\u0441\u0442\u0440\u0438\u0440\u043e\u0432\u0430\u043d\u043d\u044b\u043c\u0438 \u0442\u043e\u0432\u0430\u0440\u043d\u044b\u043c\u0438 \u0437\u043d\u0430\u043a\u0430\u043c\u0438 Lucasfilm Ltd."
-    }, 
-    {
-        "id": "Trademarks Text 10", 
-        "source": "* Kodak and Cineon are a registered trademarks of the Eastman Kodak Company", 
-        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
-        "description": "", 
-        "text": "* Kodak \u0438 Cineon \u044f\u0432\u043b\u044f\u044e\u0442\u0441\u044f \u0437\u0430\u0440\u0435\u0433\u0438\u0441\u0442\u0440\u0438\u0440\u043e\u0432\u0430\u043d\u043d\u044b\u043c\u0438 \u0442\u043e\u0432\u0430\u0440\u043d\u044b\u043c\u0438 \u0437\u043d\u0430\u043a\u0430\u043c\u0438 \u043a\u043e\u043c\u043f\u0430\u043d\u0438\u0438 Eastman Kodak"
-    }, 
-    {
-        "id": "Trademarks Text 11", 
-        "source": "* Linux is a registered trademark of Linus Torvalds", 
-        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
-        "description": "", 
-        "text": "* Linux \u044f\u0432\u043b\u044f\u0435\u0442\u0441\u044f \u0437\u0430\u0440\u0435\u0433\u0438\u0441\u0442\u0440\u0438\u0440\u043e\u0432\u0430\u043d\u043d\u044b\u043c \u0442\u043e\u0432\u0430\u0440\u043d\u044b\u043c \u0437\u043d\u0430\u043a\u043e\u043c \u041b\u0438\u043d\u0443\u0441\u0430 \u0422\u043e\u0440\u0432\u0430\u043b\u044c\u0434\u0441\u0430"
-    }, 
-    {
-        "id": "Trademarks Text 12", 
-        "source": "* Microsoft and Microsoft Windows are registered trademarks of Microsoft, Inc.", 
-        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
-        "description": "", 
-        "text": "* Microsoft \u0438 Microsoft Windows \u044f\u0432\u043b\u044f\u044e\u0442\u0441\u044f \u0437\u0430\u0440\u0435\u0433\u0438\u0441\u0442\u0440\u0438\u0440\u043e\u0432\u0430\u043d\u043d\u044b\u043c\u0438 \u0442\u043e\u0432\u0430\u0440\u043d\u044b\u043c\u0438 \u0437\u043d\u0430\u043a\u0430\u043c\u0438 Microsoft, Inc."
-    }, 
-    {
-        "id": "Trademarks Text 13", 
-        "source": "* MIPS is a registered trademark of MIPS Technologies, Inc.", 
-        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
-        "description": "", 
-        "text": "* MIPS \u044f\u0432\u043b\u044f\u0435\u0442\u0441\u044f \u0437\u0430\u0440\u0435\u0433\u0438\u0441\u0442\u0440\u0438\u0440\u043e\u0432\u0430\u043d\u043d\u044b\u043c \u0442\u043e\u0432\u0430\u0440\u043d\u044b\u043c \u0437\u043d\u0430\u043a\u043e\u043c MIPS Technologies, Inc."
-    }, 
-    {
-        "id": "Trademarks Text 14", 
-        "source": "* NVIDIA is a registered trademark of NVIDIA Corporation", 
-        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
-        "description": "", 
-        "text": "* NVIDIA \u044f\u0432\u043b\u044f\u0435\u0442\u0441\u044f \u0437\u0430\u0440\u0435\u0433\u0438\u0441\u0442\u0440\u0438\u0440\u043e\u0432\u0430\u043d\u043d\u044b\u043c \u0442\u043e\u0432\u0430\u0440\u043d\u044b\u043c \u0437\u043d\u0430\u043a\u043e\u043c NVIDIA Corporation"
-    }, 
-    {
-        "id": "Trademarks Text 15", 
-        "source": "* Red Hat and Fedora are registered trademarks of Red Hat, Inc.", 
-        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
-        "description": "", 
-        "text": "* Red Hat \u0438 Fedora \u044f\u0432\u043b\u044f\u044e\u0442\u0441\u044f \u0437\u0430\u0440\u0435\u0433\u0438\u0441\u0442\u0440\u0438\u0440\u043e\u0432\u0430\u043d\u043d\u044b\u043c\u0438 \u0442\u043e\u0432\u0430\u0440\u043d\u044b\u043c\u0438 \u0437\u043d\u0430\u043a\u0430\u043c\u0438 Red Hat, Inc."
-    }, 
-    {
-        "id": "Trademarks Text 16", 
-        "source": "* Silicon Graphics, SGI, IRIX, and OpenGL are registered trademarks of Silicon Graphics International Corp.", 
-        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
-        "description": "", 
-        "text": "* Silicon Graphics, SGI, IRIX \u0438 OpenGL \u044f\u0432\u043b\u044f\u044e\u0442\u0441\u044f \u0437\u0430\u0440\u0435\u0433\u0438\u0441\u0442\u0440\u0438\u0440\u043e\u0432\u0430\u043d\u043d\u044b\u043c\u0438 \u0442\u043e\u0432\u0430\u0440\u043d\u044b\u043c\u0438 \u0437\u043d\u0430\u043a\u0430\u043c\u0438 Silicon Graphics International Corp."
-    }, 
-    {
-        "id": "Trademarks Text 17", 
-        "source": "* SMPTE is a registered trademark of the Society of Motion Picture and Television Engineers", 
-        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
-        "description": "", 
-        "text": "* SMPTE \u044f\u0432\u043b\u044f\u0435\u0442\u0441\u044f \u0437\u0430\u0440\u0435\u0433\u0438\u0441\u0442\u0440\u0438\u0440\u043e\u0432\u0430\u043d\u043d\u044b\u043c \u0442\u043e\u0432\u0430\u0440\u043d\u044b\u043c \u0437\u043d\u0430\u043a\u043e\u043c \u041e\u0431\u0449\u0435\u0441\u0442\u0432\u0430 \u0438\u043d\u0436\u0435\u043d\u0435\u0440\u043e\u0432 \u043a\u0438\u043d\u043e \u0438 \u0442\u0435\u043b\u0435\u0432\u0438\u0434\u0435\u043d\u0438\u044f"
-    }, 
-    {
-        "id": "Trademarks Text 18", 
-        "source": "* SourceForge.net is a registered trademark of VA Software Corporation", 
-        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
-        "description": "", 
-        "text": "* SourceForge.net \u044f\u0432\u043b\u044f\u0435\u0442\u0441\u044f \u0437\u0430\u0440\u0435\u0433\u0438\u0441\u0442\u0440\u0438\u0440\u043e\u0432\u0430\u043d\u043d\u044b\u043c \u0442\u043e\u0432\u0430\u0440\u043d\u044b\u043c \u0437\u043d\u0430\u043a\u043e\u043c VA Software Corporation"
-    }, 
-    {
-        "id": "Trademarks Text 19", 
-        "source": "* SuSE is a registered trademark of Novell, Inc.", 
-        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
-        "description": "", 
-        "text": "* SuSE \u044f\u0432\u043b\u044f\u0435\u0442\u0441\u044f \u0437\u0430\u0440\u0435\u0433\u0438\u0441\u0442\u0440\u0438\u0440\u043e\u0432\u0430\u043d\u043d\u044b\u043c \u0442\u043e\u0432\u0430\u0440\u043d\u044b\u043c \u0437\u043d\u0430\u043a\u043e\u043c Novell, Inc."
-    }, 
-    {
-        "id": "Trademarks Text 20", 
-        "source": "* Ubuntu is a registered trademark of Canonical Ltd.", 
-        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
-        "description": "", 
-        "text": "* Ubuntu \u044f\u0432\u043b\u044f\u0435\u0442\u0441\u044f \u0437\u0430\u0440\u0435\u0433\u0438\u0441\u0442\u0440\u0438\u0440\u043e\u0432\u0430\u043d\u043d\u044b\u043c \u0442\u043e\u0432\u0430\u0440\u043d\u044b\u043c \u0437\u043d\u0430\u043a\u043e\u043c Canonical Ltd."
-    }, 
-    {
-        "id": "Trademarks Text 21", 
-        "source": "* UNIX is a registered trademark of The Open Group", 
-        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
-        "description": "", 
-        "text": "* UNIX \u044f\u0432\u043b\u044f\u0435\u0442\u0441\u044f \u0437\u0430\u0440\u0435\u0433\u0438\u0441\u0442\u0440\u0438\u0440\u043e\u0432\u0430\u043d\u043d\u044b\u043c \u0442\u043e\u0432\u0430\u0440\u043d\u044b\u043c \u0437\u043d\u0430\u043a\u043e\u043c The Open Group"
-    }, 
-    {
-        "id": "Trademarks Text 22", 
-        "source": "All other products named in the documentation are trademarks of their respective owners.", 
-        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
-        "description": "", 
-        "text": "\u0412\u0441\u0435 \u043e\u0441\u0442\u0430\u043b\u044c\u043d\u044b\u0435 \u043f\u0440\u043e\u0434\u0443\u043a\u0442\u044b, \u0443\u043a\u0430\u0437\u0430\u043d\u043d\u044b\u0435 \u0432 \u0434\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u0430\u0446\u0438\u0438, \u044f\u0432\u043b\u044f\u044e\u0442\u0441\u044f \u0442\u043e\u0432\u0430\u0440\u043d\u044b\u043c\u0438 \u0437\u043d\u0430\u043a\u0430\u043c\u0438 \u0441\u043e\u043e\u0442\u0432\u0435\u0442\u0441\u0442\u0432\u0443\u044e\u0449\u0438\u0445 \u0432\u043b\u0430\u0434\u0435\u043b\u044c\u0446\u0435\u0432."
-    }, 
-    {
-        "id": "Documentation Tooltip", 
-        "source": "Documentation Tooltip", 
-        "nameSpace": "djv::ViewLib::HelpSystem", 
-        "description": "", 
-        "text": "\u041f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0430 \u043f\u043e \u0434\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u0430\u0446\u0438\u0438"
-    }, 
-    {
-        "id": "Information Tooltip", 
-        "source": "Information Tooltip", 
-        "nameSpace": "djv::ViewLib::HelpSystem", 
-        "description": "", 
-        "text": "\u0418\u043d\u0444\u043e\u0440\u043c\u0430\u0446\u0438\u043e\u043d\u043d\u0430\u044f \u043f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0430"
-    }, 
-    {
-        "id": "About Tooltip", 
-        "source": "About Tooltip", 
-        "nameSpace": "djv::ViewLib::HelpSystem", 
-        "description": "", 
-        "text": "\u041e \u0432\u0441\u043f\u043b\u044b\u0432\u0430\u044e\u0449\u0435\u0439 \u043f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0435"
-    }, 
-    {
-        "id": "Debug Log", 
-        "source": "Debug Log", 
-        "nameSpace": "djv::ViewLib::HelpSystem", 
-        "description": "", 
-        "text": "\u0416\u0443\u0440\u043d\u0430\u043b \u043e\u0442\u043b\u0430\u0434\u043a\u0438"
-    }, 
-    {
-        "id": "Debug Log Tooltip", 
-        "source": "Debug Log Tooltip", 
-        "nameSpace": "djv::ViewLib::HelpSystem", 
-        "description": "", 
-        "text": "\u041f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0430 \u0436\u0443\u0440\u043d\u0430\u043b\u0430 \u043e\u0442\u043b\u0430\u0434\u043a\u0438"
-    }, 
-    {
-        "id": "Left Tooltip", 
-        "source": "Left Tooltip", 
-        "nameSpace": "djv::ViewLib::ImageViewSystem", 
-        "description": "", 
-        "text": "\u041b\u0435\u0432\u0430\u044f \u043f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0430"
-    }, 
-    {
-        "id": "Right Tooltip", 
-        "source": "Right Tooltip", 
-        "nameSpace": "djv::ViewLib::ImageViewSystem", 
-        "description": "", 
-        "text": "\u041f\u0440\u0430\u0432\u0430\u044f \u043f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0430"
-    }, 
-    {
-        "id": "Up Tooltip", 
-        "source": "Up Tooltip", 
-        "nameSpace": "djv::ViewLib::ImageViewSystem", 
-        "description": "", 
-        "text": "\u041f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0430"
-    }, 
-    {
-        "id": "Down Tooltip", 
-        "source": "Down Tooltip", 
-        "nameSpace": "djv::ViewLib::ImageViewSystem", 
-        "description": "", 
-        "text": "\u041f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0430 \u0432\u043d\u0438\u0437"
-    }, 
-    {
-        "id": "Center Tooltip", 
-        "source": "Center Tooltip", 
-        "nameSpace": "djv::ViewLib::ImageViewSystem", 
-        "description": "", 
-        "text": "\u0426\u0435\u043d\u0442\u0440 \u043f\u043e\u0434\u0441\u043a\u0430\u0437\u043e\u043a"
-    }, 
-    {
-        "id": "Zoom In Tooltip", 
-        "source": "Zoom In Tooltip", 
-        "nameSpace": "djv::ViewLib::ImageViewSystem", 
-        "description": "", 
-        "text": "\u0423\u0432\u0435\u043b\u0438\u0447\u0438\u0442\u044c \u043f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0443"
-    }, 
-    {
-        "id": "Zoom Out Tooltip", 
-        "source": "Zoom Out Tooltip", 
-        "nameSpace": "djv::ViewLib::ImageViewSystem", 
-        "description": "", 
-        "text": "\u0423\u043c\u0435\u043d\u044c\u0448\u0438\u0442\u044c \u043f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0443"
-    }, 
-    {
-        "id": "Reset Zoom Tooltip", 
-        "source": "Reset Zoom Tooltip", 
-        "nameSpace": "djv::ViewLib::ImageViewSystem", 
-        "description": "", 
-        "text": "Reset Zoom Tooltip"
-    }, 
-    {
-        "id": "Reset Position and Zoom Tooltip", 
-        "source": "Reset Position and Zoom Tooltip", 
-        "nameSpace": "djv::ViewLib::ImageViewSystem", 
-        "description": "", 
-        "text": "Reset Position \u0438 Zoom Tooltip"
-    }, 
-    {
-        "id": "Fit Tooltip", 
-        "source": "Fit Tooltip", 
-        "nameSpace": "djv::ViewLib::ImageViewSystem", 
-        "description": "", 
-        "text": "Fit Tooltip"
-    }, 
-    {
-        "id": "HUD Tooltip", 
-        "source": "HUD Tooltip", 
-        "nameSpace": "djv::ViewLib::ImageViewSystem", 
-        "description": "", 
-        "text": "HUD Tooltip"
-    }, 
-    {
-        "id": "MDI WindowMode Tooltip", 
-        "source": "MDI WindowMode Tooltip", 
-        "nameSpace": "djv::ViewLib::MainWindow", 
-        "description": "", 
-        "text": "MDI WindowMode Tooltip"
-    }, 
-    {
-        "id": "Stop Tooltip", 
-        "source": "Stop Tooltip", 
-        "nameSpace": "djv::ViewLib::PlaybackSystem", 
-        "description": "", 
-        "text": "\u041e\u0441\u0442\u0430\u043d\u043e\u0432\u0438\u0442\u044c \u043f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0443"
-    }, 
-    {
-        "id": "Forward Tooltip", 
-        "source": "Forward Tooltip", 
-        "nameSpace": "djv::ViewLib::PlaybackSystem", 
-        "description": "", 
-        "text": "\u0412\u043f\u0435\u0440\u0435\u0434 \u043f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0430"
-    }, 
-    {
-        "id": "Reverse Tooltip", 
-        "source": "Reverse Tooltip", 
-        "nameSpace": "djv::ViewLib::PlaybackSystem", 
-        "description": "", 
-        "text": "\u0412\u0441\u043f\u043b\u044b\u0432\u0430\u044e\u0449\u0430\u044f \u043f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0430"
-    }, 
-    {
-        "id": "Toggle Playback Tooltip", 
-        "source": "Toggle Playback Tooltip", 
-        "nameSpace": "djv::ViewLib::PlaybackSystem", 
-        "description": "", 
-        "text": "\u041f\u0435\u0440\u0435\u043a\u043b\u044e\u0447\u0438\u0442\u044c \u043f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0443 \u043f\u0440\u0438 \u0432\u043e\u0441\u043f\u0440\u043e\u0438\u0437\u0432\u0435\u0434\u0435\u043d\u0438\u0438"
-    }, 
-    {
-        "id": "Toggle Reverse Playback Tooltip", 
-        "source": "Toggle Reverse Playback Tooltip", 
-        "nameSpace": "djv::ViewLib::PlaybackSystem", 
-        "description": "", 
-        "text": "\u041f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0430 \u043e\u0431\u0440\u0430\u0442\u043d\u043e\u0433\u043e \u0432\u043e\u0441\u043f\u0440\u043e\u0438\u0437\u0432\u0435\u0434\u0435\u043d\u0438\u044f"
-    }, 
-    {
-        "id": "Play Every Frame Tooltip", 
-        "source": "Play Every Frame Tooltip", 
-        "nameSpace": "djv::ViewLib::PlaybackSystem", 
-        "description": "", 
-        "text": "\u041f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0430 \u00ab\u0412\u043e\u0441\u043f\u0440\u043e\u0438\u0437\u0432\u0435\u0441\u0442\u0438 \u043a\u0430\u0436\u0434\u044b\u0439 \u043a\u0430\u0434\u0440\u00bb"
-    }, 
-    {
-        "id": "Go To In Point Tooltip", 
-        "source": "Go To In Point Tooltip", 
-        "nameSpace": "djv::ViewLib::PlaybackSystem", 
-        "description": "", 
-        "text": "\u041f\u0435\u0440\u0435\u0439\u0442\u0438 \u043a \u043f\u0443\u043d\u043a\u0442\u0443 \u043f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0438"
-    }, 
-    {
-        "id": "Go To Out Point Tooltip", 
-        "source": "Go To Out Point Tooltip", 
-        "nameSpace": "djv::ViewLib::PlaybackSystem", 
-        "description": "", 
-        "text": "\u041f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0430 \u00ab\u041f\u0435\u0440\u0435\u0439\u0442\u0438 \u043a \u0442\u043e\u0447\u043a\u0435\u00bb"
-    }, 
-    {
-        "id": "Go To Start Frame Tooltip", 
-        "source": "Go To Start Frame Tooltip", 
-        "nameSpace": "djv::ViewLib::PlaybackSystem", 
-        "description": "", 
-        "text": "\u041f\u0435\u0440\u0435\u0439\u0442\u0438 \u043a \u043d\u0430\u0447\u0430\u043b\u0443 \u043f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0438 \u0444\u0440\u0435\u0439\u043c\u0430"
-    }, 
-    {
-        "id": "Go To End Frame Tooltip", 
-        "source": "Go To End Frame Tooltip", 
-        "nameSpace": "djv::ViewLib::PlaybackSystem", 
-        "description": "", 
-        "text": "\u041f\u0435\u0440\u0435\u0439\u0442\u0438 \u043a \u043a\u043e\u043d\u0446\u0443 \u0444\u0440\u0435\u0439\u043c\u0430 \u043f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0430"
-    }, 
-    {
-        "id": "Next Frame Tooltip", 
-        "source": "Next Frame Tooltip", 
-        "nameSpace": "djv::ViewLib::PlaybackSystem", 
-        "description": "", 
-        "text": "\u041f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0430 \u0441\u043b\u0435\u0434\u0443\u044e\u0449\u0435\u0433\u043e \u043a\u0430\u0434\u0440\u0430"
-    }, 
-    {
-        "id": "Next Frame X10 Tooltip", 
-        "source": "Next Frame X10 Tooltip", 
-        "nameSpace": "djv::ViewLib::PlaybackSystem", 
-        "description": "", 
-        "text": "Next Frame X10 Tooltip"
-    }, 
-    {
-        "id": "Next Frame X100 Tooltip", 
-        "source": "Next Frame X100 Tooltip", 
-        "nameSpace": "djv::ViewLib::PlaybackSystem", 
-        "description": "", 
-        "text": "\u0421\u043b\u0435\u0434\u0443\u044e\u0449\u0430\u044f \u0440\u0430\u043c\u043a\u0430 X100 \u041f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0430"
-    }, 
-    {
-        "id": "Previous Frame Tooltip", 
-        "source": "Previous Frame Tooltip", 
-        "nameSpace": "djv::ViewLib::PlaybackSystem", 
-        "description": "", 
-        "text": "\u041f\u0440\u0435\u0434\u044b\u0434\u0443\u0449\u0430\u044f \u0432\u0441\u043f\u043b\u044b\u0432\u0430\u044e\u0449\u0430\u044f \u043f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0430"
-    }, 
-    {
-        "id": "Previous Frame X10 Tooltip", 
-        "source": "Previous Frame X10 Tooltip", 
-        "nameSpace": "djv::ViewLib::PlaybackSystem", 
-        "description": "", 
-        "text": "\u041f\u0440\u0435\u0434\u044b\u0434\u0443\u0449\u0430\u044f \u0440\u0430\u043c\u043a\u0430 X10 \u041f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0430"
-    }, 
-    {
-        "id": "Previous Frame X100 Tooltip", 
-        "source": "Previous Frame X100 Tooltip", 
-        "nameSpace": "djv::ViewLib::PlaybackSystem", 
-        "description": "", 
-        "text": "\u041f\u0440\u0435\u0434\u044b\u0434\u0443\u0449\u0430\u044f \u0440\u0430\u043c\u043a\u0430 X100 Tooltip"
-    }, 
-    {
-        "id": "Enable In/Out Points Tooltip", 
-        "source": "Enable In/Out Points Tooltip", 
-        "nameSpace": "djv::ViewLib::PlaybackSystem", 
-        "description": "", 
-        "text": "\u0412\u043a\u043b\u044e\u0447\u0438\u0442\u044c \u043f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0438 \u0442\u043e\u0447\u0435\u043a \u0432\u0445\u043e\u0434\u0430 / \u0432\u044b\u0445\u043e\u0434\u0430"
-    }, 
-    {
-        "id": "Set In Point Tooltip", 
-        "source": "Set In Point Tooltip", 
-        "nameSpace": "djv::ViewLib::PlaybackSystem", 
-        "description": "", 
-        "text": "\u041f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0430 \u00ab\u0417\u0430\u0434\u0430\u0442\u044c \u0442\u043e\u0447\u043a\u0443\u00bb"
-    }, 
-    {
-        "id": "Set Out Point Tooltip", 
-        "source": "Set Out Point Tooltip", 
-        "nameSpace": "djv::ViewLib::PlaybackSystem", 
-        "description": "", 
-        "text": "\u0412\u0441\u043f\u043b\u044b\u0432\u0430\u044e\u0449\u0430\u044f \u043f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0430"
-    }, 
-    {
-        "id": "Reset In Point Tooltip", 
-        "source": "Reset In Point Tooltip", 
-        "nameSpace": "djv::ViewLib::PlaybackSystem", 
-        "description": "", 
-        "text": "Reset In Point Tooltip"
-    }, 
-    {
-        "id": "Reset Out Point Tooltip", 
-        "source": "Reset Out Point Tooltip", 
-        "nameSpace": "djv::ViewLib::PlaybackSystem", 
-        "description": "", 
-        "text": "\u0412\u0441\u043f\u043b\u044b\u0432\u0430\u044e\u0449\u0430\u044f \u043f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0430"
-    }, 
-    {
-        "id": "Mirror Horizontal Tooltip", 
-        "source": "Mirror Horizontal Tooltip", 
-        "nameSpace": "djv::ViewLib::ImageSystem", 
-        "description": "", 
-        "text": "\u0417\u0435\u0440\u043a\u0430\u043b\u044c\u043d\u0430\u044f \u0433\u043e\u0440\u0438\u0437\u043e\u043d\u0442\u0430\u043b\u044c\u043d\u0430\u044f \u043f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0430"
-    }, 
-    {
-        "id": "Mirror Vertical Tooltip", 
-        "source": "Mirror Vertical Tooltip", 
-        "nameSpace": "djv::ViewLib::ImageSystem", 
-        "description": "", 
-        "text": "\u0417\u0435\u0440\u043a\u0430\u043b\u044c\u043d\u0430\u044f \u0432\u0435\u0440\u0442\u0438\u043a\u0430\u043b\u044c\u043d\u0430\u044f \u043f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0430"
-    }, 
-    {
-        "id": "Color Manager Tooltip", 
-        "source": "Color Manager Tooltip", 
-        "nameSpace": "djv::ViewLib::ImageSystem", 
-        "description": "", 
-        "text": "Color Manager Tooltip"
-    }, 
-    {
-        "id": "Color Profile Tooltip", 
-        "source": "Color Profile Tooltip", 
-        "nameSpace": "djv::ViewLib::ImageSystem", 
-        "description": "", 
-        "text": "\u041f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0430 \u0446\u0432\u0435\u0442\u043e\u0432\u043e\u0433\u043e \u043f\u0440\u043e\u0444\u0438\u043b\u044f"
-    }, 
-    {
-        "id": "Display Profile Tooltip", 
-        "source": "Display Profile Tooltip", 
-        "nameSpace": "djv::ViewLib::ImageSystem", 
-        "description": "", 
-        "text": "\u041e\u0442\u043e\u0431\u0440\u0430\u0436\u0430\u0442\u044c \u043f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0443 \u043f\u0440\u043e\u0444\u0438\u043b\u044f"
-    }, 
-    {
-        "id": "Premulitplied Alpha Tooltip", 
-        "source": "Premulitplied Alpha Tooltip", 
-        "nameSpace": "djv::ViewLib::ImageSystem", 
-        "description": "", 
-        "text": "Premulitplied Alpha Tooltip"
-    }, 
-    {
-        "id": "Show Frame Store Tooltip", 
-        "source": "Show Frame Store Tooltip", 
-        "nameSpace": "djv::ViewLib::ImageSystem", 
-        "description": "", 
-        "text": "\u041f\u043e\u043a\u0430\u0437\u0430\u0442\u044c \u043f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0443 \u043c\u0430\u0433\u0430\u0437\u0438\u043d\u0430 \u043a\u0430\u0434\u0440\u043e\u0432"
-    }, 
-    {
-        "id": "Set Frame Store Tooltip", 
-        "source": "Set Frame Store Tooltip", 
-        "nameSpace": "djv::ViewLib::ImageSystem", 
-        "description": "", 
-        "text": "\u0423\u0441\u0442\u0430\u043d\u043e\u0432\u0438\u0442\u044c \u0432\u0441\u043f\u043b\u044b\u0432\u0430\u044e\u0449\u0443\u044e \u043f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0443 Store Store"
-    }, 
-    {
-        "id": "SDI", 
-        "source": "SDI", 
-        "nameSpace": "djv::ViewLib::WindowSystem", 
-        "description": "", 
-        "text": "SDI"
-    }, 
-    {
-        "id": "SDI Tooltip", 
-        "source": "SDI Tooltip", 
-        "nameSpace": "djv::ViewLib::WindowSystem", 
-        "description": "", 
-        "text": "SDI Tooltip"
-    }, 
-    {
-        "id": "MDI", 
-        "source": "MDI", 
-        "nameSpace": "djv::ViewLib::WindowSystem", 
-        "description": "", 
-        "text": "MDI"
-    }, 
-    {
-        "id": "MDI Tooltip", 
-        "source": "MDI Tooltip", 
-        "nameSpace": "djv::ViewLib::WindowSystem", 
-        "description": "", 
-        "text": "MDI Tooltip"
-    }, 
-    {
-        "id": "Duplicate Tooltip", 
-        "source": "Duplicate Tooltip", 
-        "nameSpace": "djv::ViewLib::WindowSystem", 
-        "description": "", 
-        "text": "\u0414\u0432\u043e\u0439\u043d\u0430\u044f \u043f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0430"
-    }, 
-    {
-        "id": "Full Screen Tooltip", 
-        "source": "Full Screen Tooltip", 
-        "nameSpace": "djv::ViewLib::WindowSystem", 
-        "description": "", 
-        "text": "\u041f\u043e\u043b\u043d\u043e\u044d\u043a\u0440\u0430\u043d\u043d\u0430\u044f \u043f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0430"
-    }, 
-    {
-        "source": "Copyright and License", 
-        "text": "\u0410\u0432\u0442\u043e\u0440\u0441\u043a\u043e\u0435 \u043f\u0440\u0430\u0432\u043e \u0438 \u043b\u0438\u0446\u0435\u043d\u0437\u0438\u044f", 
-        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
-        "description": "", 
-        "id": "CopyrightAndLicense"
-    }, 
-    {
-        "source": "Contributors", 
-        "text": "\u0410\u0432\u0442\u043e\u0440\u044b", 
-        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
-        "description": "", 
-        "id": "Contributors"
-    }, 
-    {
-        "source": "Third Party Software", 
-        "text": "\u041f\u0440\u043e\u0433\u0440\u0430\u043c\u043c\u043d\u043e\u0435 \u043e\u0431\u0435\u0441\u043f\u0435\u0447\u0435\u043d\u0438\u0435 \u0441\u0442\u043e\u0440\u043e\u043d\u043d\u0438\u0445 \u043f\u0440\u043e\u0438\u0437\u0432\u043e\u0434\u0438\u0442\u0435\u043b\u0435\u0439", 
-        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
-        "description": "", 
-        "id": "Third Party"
-    }, 
-    {
-        "source": "Trademarks", 
-        "text": "\u0422\u043e\u0440\u0433\u043e\u0432\u0430\u044f \u043c\u0430\u0440\u043a\u0430", 
-        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
-        "description": "", 
-        "id": "Trademarks"
-    }, 
-    {
         "source": "Made in Berkeley, CA, USA", 
-        "description": "", 
+        "text": "\u0421\u0434\u0435\u043b\u0430\u043d\u043e \u0432 \u0411\u0435\u0440\u043a\u043b\u0438, \u041a\u0430\u043b\u0438\u0444\u043e\u0440\u043d\u0438\u044f, \u0421\u0428\u0410", 
         "nameSpace": "djv::ViewLib::HelpAboutDialog", 
-        "id": "Made In", 
-        "text": "\u0421\u0434\u0435\u043b\u0430\u043d\u043e \u0432 \u0411\u0435\u0440\u043a\u043b\u0438, \u041a\u0430\u043b\u0438\u0444\u043e\u0440\u043d\u0438\u044f, \u0421\u0428\u0410"
+        "description": "", 
+        "id": "Made In"
     }, 
     {
         "source": "Log", 
-        "text": "\u0416\u0443\u0440\u043d\u0430\u043b", 
+        "description": "", 
         "nameSpace": "djv::ViewLib", 
         "id": "Log", 
-        "description": ""
+        "text": "\u0416\u0443\u0440\u043d\u0430\u043b"
     }, 
     {
         "source": "Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:", 
-        "text": "\u041f\u0435\u0440\u0435\u0440\u0430\u0441\u043f\u0440\u0435\u0434\u0435\u043b\u0435\u043d\u0438\u0435 \u0438 \u0438\u0441\u043f\u043e\u043b\u044c\u0437\u043e\u0432\u0430\u043d\u0438\u0435 \u0432 \u0438\u0441\u0445\u043e\u0434\u043d\u043e\u0439 \u0438 \u0434\u0432\u043e\u0438\u0447\u043d\u043e\u0439 \u0444\u043e\u0440\u043c\u0430\u0445, \u0441 \u0438\u0437\u043c\u0435\u043d\u0435\u043d\u0438\u044f\u043c\u0438 \u0438\u043b\u0438 \u0431\u0435\u0437 \u043d\u0438\u0445, \u0440\u0430\u0437\u0440\u0435\u0448\u0430\u0435\u0442\u0441\u044f \u043f\u0440\u0438 \u0443\u0441\u043b\u043e\u0432\u0438\u0438 \u0441\u043e\u0431\u043b\u044e\u0434\u0435\u043d\u0438\u044f \u0441\u043b\u0435\u0434\u0443\u044e\u0449\u0438\u0445 \u0443\u0441\u043b\u043e\u0432\u0438\u0439:", 
+        "description": "", 
         "nameSpace": "djv::ViewLib::AboutWidget", 
         "id": "License 1", 
-        "description": ""
+        "text": "\u041f\u0435\u0440\u0435\u0440\u0430\u0441\u043f\u0440\u0435\u0434\u0435\u043b\u0435\u043d\u0438\u0435 \u0438 \u0438\u0441\u043f\u043e\u043b\u044c\u0437\u043e\u0432\u0430\u043d\u0438\u0435 \u0432 \u0438\u0441\u0445\u043e\u0434\u043d\u043e\u0439 \u0438 \u0434\u0432\u043e\u0438\u0447\u043d\u043e\u0439 \u0444\u043e\u0440\u043c\u0430\u0445, \u0441 \u0438\u0437\u043c\u0435\u043d\u0435\u043d\u0438\u044f\u043c\u0438 \u0438\u043b\u0438 \u0431\u0435\u0437 \u043d\u0438\u0445, \u0440\u0430\u0437\u0440\u0435\u0448\u0430\u0435\u0442\u0441\u044f \u043f\u0440\u0438 \u0443\u0441\u043b\u043e\u0432\u0438\u0438 \u0441\u043e\u0431\u043b\u044e\u0434\u0435\u043d\u0438\u044f \u0441\u043b\u0435\u0434\u0443\u044e\u0449\u0438\u0445 \u0443\u0441\u043b\u043e\u0432\u0438\u0439:"
     }, 
     {
         "source": "* Redistributions of source code must retain the above copyright notice, this list of conditions, and the following disclaimer.", 
-        "text": "* \u041f\u0440\u0438 \u043f\u043e\u0432\u0442\u043e\u0440\u043d\u043e\u043c \u0440\u0430\u0441\u043f\u0440\u043e\u0441\u0442\u0440\u0430\u043d\u0435\u043d\u0438\u0438 \u0438\u0441\u0445\u043e\u0434\u043d\u043e\u0433\u043e \u043a\u043e\u0434\u0430 \u0434\u043e\u043b\u0436\u043d\u044b \u0441\u043e\u0445\u0440\u0430\u043d\u044f\u0442\u044c\u0441\u044f \u0443\u043a\u0430\u0437\u0430\u043d\u043d\u043e\u0435 \u0432\u044b\u0448\u0435 \u0443\u0432\u0435\u0434\u043e\u043c\u043b\u0435\u043d\u0438\u0435 \u043e\u0431 \u0430\u0432\u0442\u043e\u0440\u0441\u043a\u0438\u0445 \u043f\u0440\u0430\u0432\u0430\u0445, \u044d\u0442\u043e\u0442 \u0441\u043f\u0438\u0441\u043e\u043a \u0443\u0441\u043b\u043e\u0432\u0438\u0439 \u0438 \u0441\u043b\u0435\u0434\u0443\u044e\u0449\u0438\u0439 \u043e\u0442\u043a\u0430\u0437 \u043e\u0442 \u043e\u0442\u0432\u0435\u0442\u0441\u0442\u0432\u0435\u043d\u043d\u043e\u0441\u0442\u0438.", 
+        "description": "", 
         "nameSpace": "djv::ViewLib::AboutWidget", 
         "id": "License 2", 
-        "description": ""
+        "text": "* \u041f\u0440\u0438 \u043f\u043e\u0432\u0442\u043e\u0440\u043d\u043e\u043c \u0440\u0430\u0441\u043f\u0440\u043e\u0441\u0442\u0440\u0430\u043d\u0435\u043d\u0438\u0438 \u0438\u0441\u0445\u043e\u0434\u043d\u043e\u0433\u043e \u043a\u043e\u0434\u0430 \u0434\u043e\u043b\u0436\u043d\u044b \u0441\u043e\u0445\u0440\u0430\u043d\u044f\u0442\u044c\u0441\u044f \u0443\u043a\u0430\u0437\u0430\u043d\u043d\u043e\u0435 \u0432\u044b\u0448\u0435 \u0443\u0432\u0435\u0434\u043e\u043c\u043b\u0435\u043d\u0438\u0435 \u043e\u0431 \u0430\u0432\u0442\u043e\u0440\u0441\u043a\u0438\u0445 \u043f\u0440\u0430\u0432\u0430\u0445, \u044d\u0442\u043e\u0442 \u0441\u043f\u0438\u0441\u043e\u043a \u0443\u0441\u043b\u043e\u0432\u0438\u0439 \u0438 \u0441\u043b\u0435\u0434\u0443\u044e\u0449\u0438\u0439 \u043e\u0442\u043a\u0430\u0437 \u043e\u0442 \u043e\u0442\u0432\u0435\u0442\u0441\u0442\u0432\u0435\u043d\u043d\u043e\u0441\u0442\u0438."
     }, 
     {
         "source": "* Redistributions in binary form must reproduce the above copyright notice, this list of conditions, and the following disclaimer in the documentation and/or other materials provided with the distribution.", 
-        "text": "* \u041f\u0440\u0438 \u043f\u043e\u0432\u0442\u043e\u0440\u043d\u043e\u043c \u0440\u0430\u0441\u043f\u0440\u043e\u0441\u0442\u0440\u0430\u043d\u0435\u043d\u0438\u0438 \u0432 \u0434\u0432\u043e\u0438\u0447\u043d\u043e\u0439 \u0444\u043e\u0440\u043c\u0435 \u0434\u043e\u043b\u0436\u043d\u043e \u0431\u044b\u0442\u044c \u0432\u043e\u0441\u043f\u0440\u043e\u0438\u0437\u0432\u0435\u0434\u0435\u043d\u043e \u0443\u043a\u0430\u0437\u0430\u043d\u043d\u043e\u0435 \u0432\u044b\u0448\u0435 \u0443\u0432\u0435\u0434\u043e\u043c\u043b\u0435\u043d\u0438\u0435 \u043e\u0431 \u0430\u0432\u0442\u043e\u0440\u0441\u043a\u0438\u0445 \u043f\u0440\u0430\u0432\u0430\u0445, \u044d\u0442\u043e\u0442 \u0441\u043f\u0438\u0441\u043e\u043a \u0443\u0441\u043b\u043e\u0432\u0438\u0439 \u0438 \u0441\u043b\u0435\u0434\u0443\u044e\u0449\u0438\u0439 \u043e\u0442\u043a\u0430\u0437 \u043e\u0442 \u043e\u0442\u0432\u0435\u0442\u0441\u0442\u0432\u0435\u043d\u043d\u043e\u0441\u0442\u0438 \u0432 \u0434\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u0430\u0446\u0438\u0438 \u0438 / \u0438\u043b\u0438 \u0434\u0440\u0443\u0433\u0438\u0445 \u043c\u0430\u0442\u0435\u0440\u0438\u0430\u043b\u0430\u0445, \u043f\u0440\u0435\u0434\u043e\u0441\u0442\u0430\u0432\u043b\u0435\u043d\u043d\u044b\u0445 \u043f\u0440\u0438 \u0440\u0430\u0441\u043f\u0440\u043e\u0441\u0442\u0440\u0430\u043d\u0435\u043d\u0438\u0438.", 
+        "description": "", 
         "nameSpace": "djv::ViewLib::AboutWidget", 
         "id": "License 3", 
-        "description": ""
+        "text": "* \u041f\u0440\u0438 \u043f\u043e\u0432\u0442\u043e\u0440\u043d\u043e\u043c \u0440\u0430\u0441\u043f\u0440\u043e\u0441\u0442\u0440\u0430\u043d\u0435\u043d\u0438\u0438 \u0432 \u0434\u0432\u043e\u0438\u0447\u043d\u043e\u0439 \u0444\u043e\u0440\u043c\u0435 \u0434\u043e\u043b\u0436\u043d\u043e \u0431\u044b\u0442\u044c \u0432\u043e\u0441\u043f\u0440\u043e\u0438\u0437\u0432\u0435\u0434\u0435\u043d\u043e \u0443\u043a\u0430\u0437\u0430\u043d\u043d\u043e\u0435 \u0432\u044b\u0448\u0435 \u0443\u0432\u0435\u0434\u043e\u043c\u043b\u0435\u043d\u0438\u0435 \u043e\u0431 \u0430\u0432\u0442\u043e\u0440\u0441\u043a\u0438\u0445 \u043f\u0440\u0430\u0432\u0430\u0445, \u044d\u0442\u043e\u0442 \u0441\u043f\u0438\u0441\u043e\u043a \u0443\u0441\u043b\u043e\u0432\u0438\u0439 \u0438 \u0441\u043b\u0435\u0434\u0443\u044e\u0449\u0438\u0439 \u043e\u0442\u043a\u0430\u0437 \u043e\u0442 \u043e\u0442\u0432\u0435\u0442\u0441\u0442\u0432\u0435\u043d\u043d\u043e\u0441\u0442\u0438 \u0432 \u0434\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u0430\u0446\u0438\u0438 \u0438 / \u0438\u043b\u0438 \u0434\u0440\u0443\u0433\u0438\u0445 \u043c\u0430\u0442\u0435\u0440\u0438\u0430\u043b\u0430\u0445, \u043f\u0440\u0435\u0434\u043e\u0441\u0442\u0430\u0432\u043b\u0435\u043d\u043d\u044b\u0445 \u043f\u0440\u0438 \u0440\u0430\u0441\u043f\u0440\u043e\u0441\u0442\u0440\u0430\u043d\u0435\u043d\u0438\u0438."
     }, 
     {
         "source": "* Neither the names of the copyright holders nor the names of any contributors may be used to endorse or promote products derived from this software without specific prior written permission.", 
-        "text": "* \u041d\u0438 \u0438\u043c\u0435\u043d\u0430 \u0432\u043b\u0430\u0434\u0435\u043b\u044c\u0446\u0435\u0432 \u0430\u0432\u0442\u043e\u0440\u0441\u043a\u0438\u0445 \u043f\u0440\u0430\u0432, \u043d\u0438 \u0438\u043c\u0435\u043d\u0430 \u043a\u0430\u043a\u0438\u0445-\u043b\u0438\u0431\u043e \u0430\u0432\u0442\u043e\u0440\u043e\u0432 \u043d\u0435 \u043c\u043e\u0433\u0443\u0442 \u0438\u0441\u043f\u043e\u043b\u044c\u0437\u043e\u0432\u0430\u0442\u044c\u0441\u044f \u0434\u043b\u044f \u043f\u043e\u0434\u0434\u0435\u0440\u0436\u043a\u0438 \u0438\u043b\u0438 \u043f\u0440\u043e\u0434\u0432\u0438\u0436\u0435\u043d\u0438\u044f \u043f\u0440\u043e\u0434\u0443\u043a\u0442\u043e\u0432, \u0441\u043e\u0437\u0434\u0430\u043d\u043d\u044b\u0445 \u043d\u0430 \u043e\u0441\u043d\u043e\u0432\u0435 \u0434\u0430\u043d\u043d\u043e\u0433\u043e \u043f\u0440\u043e\u0433\u0440\u0430\u043c\u043c\u043d\u043e\u0433\u043e \u043e\u0431\u0435\u0441\u043f\u0435\u0447\u0435\u043d\u0438\u044f, \u0431\u0435\u0437 \u0441\u043f\u0435\u0446\u0438\u0430\u043b\u044c\u043d\u043e\u0433\u043e \u043f\u0440\u0435\u0434\u0432\u0430\u0440\u0438\u0442\u0435\u043b\u044c\u043d\u043e\u0433\u043e \u043f\u0438\u0441\u044c\u043c\u0435\u043d\u043d\u043e\u0433\u043e \u0440\u0430\u0437\u0440\u0435\u0448\u0435\u043d\u0438\u044f.", 
+        "description": "", 
         "nameSpace": "djv::ViewLib::AboutWidget", 
         "id": "License 4", 
-        "description": ""
+        "text": "* \u041d\u0438 \u0438\u043c\u0435\u043d\u0430 \u0432\u043b\u0430\u0434\u0435\u043b\u044c\u0446\u0435\u0432 \u0430\u0432\u0442\u043e\u0440\u0441\u043a\u0438\u0445 \u043f\u0440\u0430\u0432, \u043d\u0438 \u0438\u043c\u0435\u043d\u0430 \u043a\u0430\u043a\u0438\u0445-\u043b\u0438\u0431\u043e \u0430\u0432\u0442\u043e\u0440\u043e\u0432 \u043d\u0435 \u043c\u043e\u0433\u0443\u0442 \u0438\u0441\u043f\u043e\u043b\u044c\u0437\u043e\u0432\u0430\u0442\u044c\u0441\u044f \u0434\u043b\u044f \u043f\u043e\u0434\u0434\u0435\u0440\u0436\u043a\u0438 \u0438\u043b\u0438 \u043f\u0440\u043e\u0434\u0432\u0438\u0436\u0435\u043d\u0438\u044f \u043f\u0440\u043e\u0434\u0443\u043a\u0442\u043e\u0432, \u0441\u043e\u0437\u0434\u0430\u043d\u043d\u044b\u0445 \u043d\u0430 \u043e\u0441\u043d\u043e\u0432\u0435 \u0434\u0430\u043d\u043d\u043e\u0433\u043e \u043f\u0440\u043e\u0433\u0440\u0430\u043c\u043c\u043d\u043e\u0433\u043e \u043e\u0431\u0435\u0441\u043f\u0435\u0447\u0435\u043d\u0438\u044f, \u0431\u0435\u0437 \u0441\u043f\u0435\u0446\u0438\u0430\u043b\u044c\u043d\u043e\u0433\u043e \u043f\u0440\u0435\u0434\u0432\u0430\u0440\u0438\u0442\u0435\u043b\u044c\u043d\u043e\u0433\u043e \u043f\u0438\u0441\u044c\u043c\u0435\u043d\u043d\u043e\u0433\u043e \u0440\u0430\u0437\u0440\u0435\u0448\u0435\u043d\u0438\u044f."
     }, 
     {
         "source": "THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS \"AS IS\" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.", 
-        "text": "\u041d\u0410\u0421\u0422\u041e\u042f\u0429\u0415\u0415 \u041f\u0420\u041e\u0413\u0420\u0410\u041c\u041c\u041d\u041e\u0415 \u041e\u0411\u0415\u0421\u041f\u0415\u0427\u0415\u041d\u0418\u0415 \u041f\u0420\u0415\u0414\u041e\u0421\u0422\u0410\u0412\u041b\u042f\u0415\u0422\u0421\u042f \u0414\u0418\u0420\u0415\u041a\u0422\u041e\u0420\u0410\u041c\u0418 \u0418 \u0412\u0417\u041d\u041e\u0421\u0410\u041c\u0418 \u0410\u0412\u0422\u041e\u0420\u0421\u041a\u041e\u0413\u041e \u041f\u0420\u0410\u0412\u0410 \u00ab\u041a\u0410\u041a \u0415\u0421\u0422\u042c\u00bb \u0418 \u041b\u042e\u0411\u042b\u041c\u0418 \u042f\u0412\u041d\u042b\u041c\u0418 \u0418\u041b\u0418 \u041f\u041e\u0414\u0420\u0410\u0417\u0423\u041c\u0415\u0412\u0410\u0415\u041c\u042b\u041c\u0418 \u0413\u0410\u0420\u0410\u041d\u0422\u0418\u0418, \u0412\u041a\u041b\u042e\u0427\u0410\u042f, \u041d\u041e \u041d\u0415 \u041e\u0413\u0420\u0410\u041d\u0418\u0427\u0418\u0412\u0410\u042f\u0421\u042f, \u041f\u041e\u0414\u0420\u0410\u0417\u0423\u041c\u0415\u0412\u0410\u0415\u041c\u042b\u0415 \u0413\u0410\u0420\u0410\u041d\u0422\u0418\u0418 \u0422\u041e\u0412\u0410\u0420\u041d\u041e\u0413\u041e \u041e\u0411\u0415\u0421\u041f\u0415\u0427\u0415\u041d\u0418\u042f \u0418 \u041f\u0420\u0418\u0413\u041e\u0414\u041d\u041e\u0421\u0422\u0418 \u0414\u041b\u042f \u041e\u0421\u041e\u0411\u042b\u0425 \u0426\u0415\u041b\u0415\u0419. \u041d\u0418 \u041f\u0420\u0418 \u041a\u0410\u041a\u0418\u0425 \u041e\u0411\u0421\u0422\u041e\u042f\u0422\u0415\u041b\u042c\u0421\u0422\u0412\u0410\u0425 \u041f\u0420\u0415\u0414\u041e\u0421\u0422\u0410\u0412\u041b\u042f\u0415\u0422\u0421\u042f \u041e\u0422\u0414\u0415\u041b\u0418\u0422\u0415\u041b\u042c \u0410\u0412\u0422\u041e\u0420\u0421\u041a\u041e\u0413\u041e \u041f\u0420\u0410\u0412\u0410 \u0418\u041b\u0418 \u0412\u0417\u041d\u041e\u0421\u042b \u041f\u041e \u041e\u0422\u0412\u0415\u0422\u0421\u0422\u0412\u0415\u041d\u041d\u041e\u0421\u0422\u0418 \u0417\u0410 \u041b\u042e\u0411\u041e\u0419 \u041f\u0420\u042f\u041c\u041e\u0419, \u041d\u0415\u041f\u0420\u0410\u0412\u0418\u041b\u042c\u041d\u042b\u0419, \u0421\u041b\u0423\u0427\u0410\u0419\u041d\u042b\u0419, \u0421\u041f\u0415\u0426\u0418\u0410\u041b\u042c\u041d\u042b\u0419, \u0418\u0421\u041a\u041b\u042e\u0427\u0418\u0422\u0415\u041b\u042c\u041d\u042b\u0419 \u0418\u041b\u0418 \u041a\u041e\u0421\u0412\u0415\u041d\u041d\u042b\u0419 \u0423\u0429\u0415\u0420\u0411 (\u0412\u041a\u041b\u042e\u0427\u0410\u042f, \u041d\u041e \u041d\u0415 \u041e\u0413\u0420\u0410\u041d\u0418\u0427\u0418\u0412\u0410\u042f\u0421\u042f, \u0417\u0410\u041a\u0423\u041f\u041a\u0423 \u0417\u0410\u041c\u0415\u0429\u0410\u0415\u041c\u042b\u0425 \u0422\u041e\u0412\u0410\u0420\u041e\u0412 \u0418\u041b\u0418 \u0423\u0421\u041b\u0423\u0413; \u041f\u041e\u0422\u0415\u0420\u042e \u0418\u0421\u041f\u041e\u041b\u042c\u0417\u041e\u0412\u0410\u041d\u0418\u042f, \u0414\u0410\u041d\u041d\u042b\u0415 \u0418\u041b\u0418 \u0414\u0410\u041d\u041d\u042b\u0415; \u0418\u041b\u0418 \u041f\u0420\u0415\u041a\u0420\u0410\u0429\u0415\u041d\u0418\u0415 \u0411\u0418\u0417\u041d\u0415\u0421\u0410) \u041e\u0414\u041d\u0410\u041a\u041e \u0412\u042b\u0417\u042b\u0412\u0410\u0415\u0422\u0421\u042f \u0418 \u041d\u0410 \u041b\u042e\u0411\u041e\u0419 \u0422\u0415\u041e\u0420\u0418\u0418 \u041e\u0422\u0412\u0415\u0422\u0421\u0422\u0412\u0415\u041d\u041d\u041e\u0421\u0422\u0418, \u041b\u0418\u0411\u041e \u0412 \u041a\u041e\u041d\u0422\u0420\u0410\u041a\u0422\u0415, \u0421\u0422\u0420\u041e\u0413\u041e \u041e\u0422\u0412\u0415\u0422\u0421\u0422\u0412\u0415\u041d\u041d\u041e\u0421\u0422\u0418, \u0418\u041b\u0418 \u0418\u0421\u041f\u042b\u0422\u0410\u041d\u0418\u0418 (\u0412\u041a\u041b\u042e\u0427\u0410\u042f \u0425\u0410\u0420\u0410\u041a\u0422\u0415\u0420\u0418\u0421\u0422\u0418\u041a\u0423 \u0418\u041b\u0418 \u0418\u041d\u042b\u041c \u041e\u0411\u0420\u0410\u0417\u041e\u041c), \u0412\u041e\u0417\u041d\u0418\u041a\u0410\u042e\u0429\u0418\u0425 \u0412 \u041b\u042e\u0411\u041e\u0419 \u041f\u0415\u0420\u0415\u0414 \u0418\u0421\u041f\u041e\u041b\u042c\u0417\u041e\u0412\u0410\u041d\u0418\u0415\u041c \u042d\u0422\u041e\u0413\u041e \u041f\u0420\u041e\u0413\u0420\u0410\u041c\u041c\u041d\u041e\u0413\u041e \u041e\u0411\u0415\u0421\u041f\u0415\u0427\u0415\u041d\u0418\u042f, \u0414\u0410\u0416\u0415 \u041f\u041e\u041b\u0423\u0427\u0418\u041b\u0418 \u041f\u041e\u0413\u041e\u0414\u0423.", 
+        "description": "", 
         "nameSpace": "djv::ViewLib::AboutWidget", 
         "id": "License 5", 
-        "description": ""
+        "text": "\u041d\u0410\u0421\u0422\u041e\u042f\u0429\u0415\u0415 \u041f\u0420\u041e\u0413\u0420\u0410\u041c\u041c\u041d\u041e\u0415 \u041e\u0411\u0415\u0421\u041f\u0415\u0427\u0415\u041d\u0418\u0415 \u041f\u0420\u0415\u0414\u041e\u0421\u0422\u0410\u0412\u041b\u042f\u0415\u0422\u0421\u042f \u0414\u0418\u0420\u0415\u041a\u0422\u041e\u0420\u0410\u041c\u0418 \u0418 \u0412\u0417\u041d\u041e\u0421\u0410\u041c\u0418 \u0410\u0412\u0422\u041e\u0420\u0421\u041a\u041e\u0413\u041e \u041f\u0420\u0410\u0412\u0410 \u00ab\u041a\u0410\u041a \u0415\u0421\u0422\u042c\u00bb \u0418 \u041b\u042e\u0411\u042b\u041c\u0418 \u042f\u0412\u041d\u042b\u041c\u0418 \u0418\u041b\u0418 \u041f\u041e\u0414\u0420\u0410\u0417\u0423\u041c\u0415\u0412\u0410\u0415\u041c\u042b\u041c\u0418 \u0413\u0410\u0420\u0410\u041d\u0422\u0418\u0418, \u0412\u041a\u041b\u042e\u0427\u0410\u042f, \u041d\u041e \u041d\u0415 \u041e\u0413\u0420\u0410\u041d\u0418\u0427\u0418\u0412\u0410\u042f\u0421\u042f, \u041f\u041e\u0414\u0420\u0410\u0417\u0423\u041c\u0415\u0412\u0410\u0415\u041c\u042b\u0415 \u0413\u0410\u0420\u0410\u041d\u0422\u0418\u0418 \u0422\u041e\u0412\u0410\u0420\u041d\u041e\u0413\u041e \u041e\u0411\u0415\u0421\u041f\u0415\u0427\u0415\u041d\u0418\u042f \u0418 \u041f\u0420\u0418\u0413\u041e\u0414\u041d\u041e\u0421\u0422\u0418 \u0414\u041b\u042f \u041e\u0421\u041e\u0411\u042b\u0425 \u0426\u0415\u041b\u0415\u0419. \u041d\u0418 \u041f\u0420\u0418 \u041a\u0410\u041a\u0418\u0425 \u041e\u0411\u0421\u0422\u041e\u042f\u0422\u0415\u041b\u042c\u0421\u0422\u0412\u0410\u0425 \u041f\u0420\u0415\u0414\u041e\u0421\u0422\u0410\u0412\u041b\u042f\u0415\u0422\u0421\u042f \u041e\u0422\u0414\u0415\u041b\u0418\u0422\u0415\u041b\u042c \u0410\u0412\u0422\u041e\u0420\u0421\u041a\u041e\u0413\u041e \u041f\u0420\u0410\u0412\u0410 \u0418\u041b\u0418 \u0412\u0417\u041d\u041e\u0421\u042b \u041f\u041e \u041e\u0422\u0412\u0415\u0422\u0421\u0422\u0412\u0415\u041d\u041d\u041e\u0421\u0422\u0418 \u0417\u0410 \u041b\u042e\u0411\u041e\u0419 \u041f\u0420\u042f\u041c\u041e\u0419, \u041d\u0415\u041f\u0420\u0410\u0412\u0418\u041b\u042c\u041d\u042b\u0419, \u0421\u041b\u0423\u0427\u0410\u0419\u041d\u042b\u0419, \u0421\u041f\u0415\u0426\u0418\u0410\u041b\u042c\u041d\u042b\u0419, \u0418\u0421\u041a\u041b\u042e\u0427\u0418\u0422\u0415\u041b\u042c\u041d\u042b\u0419 \u0418\u041b\u0418 \u041a\u041e\u0421\u0412\u0415\u041d\u041d\u042b\u0419 \u0423\u0429\u0415\u0420\u0411 (\u0412\u041a\u041b\u042e\u0427\u0410\u042f, \u041d\u041e \u041d\u0415 \u041e\u0413\u0420\u0410\u041d\u0418\u0427\u0418\u0412\u0410\u042f\u0421\u042f, \u0417\u0410\u041a\u0423\u041f\u041a\u0423 \u0417\u0410\u041c\u0415\u0429\u0410\u0415\u041c\u042b\u0425 \u0422\u041e\u0412\u0410\u0420\u041e\u0412 \u0418\u041b\u0418 \u0423\u0421\u041b\u0423\u0413; \u041f\u041e\u0422\u0415\u0420\u042e \u0418\u0421\u041f\u041e\u041b\u042c\u0417\u041e\u0412\u0410\u041d\u0418\u042f, \u0414\u0410\u041d\u041d\u042b\u0415 \u0418\u041b\u0418 \u0414\u0410\u041d\u041d\u042b\u0415; \u0418\u041b\u0418 \u041f\u0420\u0415\u041a\u0420\u0410\u0429\u0415\u041d\u0418\u0415 \u0411\u0418\u0417\u041d\u0415\u0421\u0410) \u041e\u0414\u041d\u0410\u041a\u041e \u0412\u042b\u0417\u042b\u0412\u0410\u0415\u0422\u0421\u042f \u0418 \u041d\u0410 \u041b\u042e\u0411\u041e\u0419 \u0422\u0415\u041e\u0420\u0418\u0418 \u041e\u0422\u0412\u0415\u0422\u0421\u0422\u0412\u0415\u041d\u041d\u041e\u0421\u0422\u0418, \u041b\u0418\u0411\u041e \u0412 \u041a\u041e\u041d\u0422\u0420\u0410\u041a\u0422\u0415, \u0421\u0422\u0420\u041e\u0413\u041e \u041e\u0422\u0412\u0415\u0422\u0421\u0422\u0412\u0415\u041d\u041d\u041e\u0421\u0422\u0418, \u0418\u041b\u0418 \u0418\u0421\u041f\u042b\u0422\u0410\u041d\u0418\u0418 (\u0412\u041a\u041b\u042e\u0427\u0410\u042f \u0425\u0410\u0420\u0410\u041a\u0422\u0415\u0420\u0418\u0421\u0422\u0418\u041a\u0423 \u0418\u041b\u0418 \u0418\u041d\u042b\u041c \u041e\u0411\u0420\u0410\u0417\u041e\u041c), \u0412\u041e\u0417\u041d\u0418\u041a\u0410\u042e\u0429\u0418\u0425 \u0412 \u041b\u042e\u0411\u041e\u0419 \u041f\u0415\u0420\u0415\u0414 \u0418\u0421\u041f\u041e\u041b\u042c\u0417\u041e\u0412\u0410\u041d\u0418\u0415\u041c \u042d\u0422\u041e\u0413\u041e \u041f\u0420\u041e\u0413\u0420\u0410\u041c\u041c\u041d\u041e\u0413\u041e \u041e\u0411\u0415\u0421\u041f\u0415\u0427\u0415\u041d\u0418\u042f, \u0414\u0410\u0416\u0415 \u041f\u041e\u041b\u0423\u0427\u0418\u041b\u0418 \u041f\u041e\u0413\u041e\u0414\u0423."
     }, 
     {
         "source": "Log Tooltip", 
-        "text": "Log Tooltip", 
+        "description": "", 
         "nameSpace": "djv::ViewLib::HelpSystem", 
         "id": "Log Tooltip", 
-        "description": ""
+        "text": "Log Tooltip"
     }, 
     {
         "source": "Copyright and License", 
-        "text": "\u0410\u0432\u0442\u043e\u0440\u0441\u043a\u043e\u0435 \u043f\u0440\u0430\u0432\u043e \u0438 \u043b\u0438\u0446\u0435\u043d\u0437\u0438\u044f", 
+        "description": "", 
         "nameSpace": "djv::ViewLib::AboutWidget", 
         "id": "Copyright And License", 
-        "description": ""
+        "text": "\u0410\u0432\u0442\u043e\u0440\u0441\u043a\u043e\u0435 \u043f\u0440\u0430\u0432\u043e \u0438 \u043b\u0438\u0446\u0435\u043d\u0437\u0438\u044f"
     }, 
     {
         "source": "SDI Window Mode Tooltip", 
-        "text": "\u041f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0430 \u043e \u0440\u0435\u0436\u0438\u043c\u0435 \u043e\u043a\u043d\u0430 SDI", 
+        "description": "", 
         "nameSpace": "djv::ViewLib::MainWindow", 
         "id": "SDI Window Mode Tooltip", 
-        "description": ""
+        "text": "\u041f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0430 \u043e \u0440\u0435\u0436\u0438\u043c\u0435 \u043e\u043a\u043d\u0430 SDI"
     }, 
     {
         "source": "MDI Window Mode Tooltip", 
-        "text": "MDI Window Mode \u041f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0430", 
+        "description": "", 
         "nameSpace": "djv::ViewLib::MainWindow", 
         "id": "MDI Window Mode Tooltip", 
-        "description": ""
+        "text": "MDI Window Mode \u041f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0430"
     }, 
     {
         "source": "Playlist Window Mode Tooltip", 
-        "text": "\u041f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0430 \u043e \u0440\u0435\u0436\u0438\u043c\u0435 \u043e\u043a\u043d\u0430 \u0432\u043e\u0441\u043f\u0440\u043e\u0438\u0437\u0432\u0435\u0434\u0435\u043d\u0438\u044f", 
+        "description": "", 
         "nameSpace": "djv::ViewLib::MainWindow", 
         "id": "Playlist Window Mode Tooltip", 
-        "description": ""
+        "text": "\u041f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0430 \u043e \u0440\u0435\u0436\u0438\u043c\u0435 \u043e\u043a\u043d\u0430 \u0432\u043e\u0441\u043f\u0440\u043e\u0438\u0437\u0432\u0435\u0434\u0435\u043d\u0438\u044f"
     }, 
     {
         "source": "Debug", 
-        "text": "\u043e\u0442\u043b\u0430\u0436\u0438\u0432\u0430\u0442\u044c", 
+        "description": "", 
         "nameSpace": "djv::ViewLib::DebugWidget", 
         "id": "Debug", 
-        "description": ""
+        "text": "\u043e\u0442\u043b\u0430\u0436\u0438\u0432\u0430\u0442\u044c"
     }, 
     {
         "source": "Duration", 
-        "text": "\u043f\u0440\u043e\u0434\u043e\u043b\u0436\u0438\u0442\u0435\u043b\u044c\u043d\u043e\u0441\u0442\u044c", 
+        "description": "", 
         "nameSpace": "djv::ViewLib::DebugWidget", 
         "id": "Duration", 
-        "description": ""
+        "text": "\u043f\u0440\u043e\u0434\u043e\u043b\u0436\u0438\u0442\u0435\u043b\u044c\u043d\u043e\u0441\u0442\u044c"
     }, 
     {
         "source": "Current Time", 
-        "text": "\u0422\u0435\u043a\u0443\u0449\u0435\u0435 \u0432\u0440\u0435\u043c\u044f", 
+        "description": "", 
         "nameSpace": "djv::ViewLib::DebugWidget", 
         "id": "Current Time", 
-        "description": ""
+        "text": "\u0422\u0435\u043a\u0443\u0449\u0435\u0435 \u0432\u0440\u0435\u043c\u044f"
     }, 
     {
         "source": "Video Queue", 
-        "text": "\u0412\u0438\u0434\u0435\u043e-\u043e\u0447\u0435\u0440\u0435\u0434\u044c", 
+        "description": "", 
         "nameSpace": "djv::ViewLib::DebugWidget", 
         "id": "Video Queue", 
-        "description": ""
+        "text": "\u0412\u0438\u0434\u0435\u043e-\u043e\u0447\u0435\u0440\u0435\u0434\u044c"
     }, 
     {
         "source": "Audio Queue", 
-        "text": "\u0410\u0443\u0434\u0438\u043e \u0425\u0432\u043e\u0441\u0442", 
+        "description": "", 
         "nameSpace": "djv::ViewLib::DebugWidget", 
         "id": "Audio Queue", 
-        "description": ""
+        "text": "\u0410\u0443\u0434\u0438\u043e \u0425\u0432\u043e\u0441\u0442"
     }, 
     {
         "source": "AL Unqueued Buffers", 
-        "text": "AL \u0431\u0443\u0444\u0435\u0440\u044b \u0431\u0435\u0437 \u043e\u0447\u0435\u0440\u0435\u0434\u0438", 
+        "description": "", 
         "nameSpace": "djv::ViewLib::DebugWidget", 
         "id": "AL Unqueued Buffers", 
-        "description": ""
+        "text": "AL \u0431\u0443\u0444\u0435\u0440\u044b \u0431\u0435\u0437 \u043e\u0447\u0435\u0440\u0435\u0434\u0438"
     }, 
     {
         "source": "Pin Tooltip", 
-        "text": "Pin Tooltip", 
+        "description": "", 
         "nameSpace": "djv::ViewLib::FileBrowserWidget", 
         "id": "Pin Tooltip", 
-        "description": ""
+        "text": "Pin Tooltip"
     }, 
     {
         "source": "Histogram", 
-        "text": "\u0413\u0438\u0441\u0442\u043e\u0433\u0440\u0430\u043c\u043c\u0430", 
+        "description": "", 
         "nameSpace": "djv::ViewLib::HistogramWidget", 
         "id": "Histogram", 
-        "description": ""
+        "text": "\u0413\u0438\u0441\u0442\u043e\u0433\u0440\u0430\u043c\u043c\u0430"
     }, 
     {
         "source": "Playlist", 
-        "text": "Playlist", 
+        "description": "", 
         "nameSpace": "djv::ViewLib::WindowSystem", 
         "id": "Playlist", 
-        "description": ""
+        "text": "Playlist"
     }, 
     {
         "source": "Playlist Tooltip", 
-        "text": "\u041f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0430 \u043a \u043f\u043b\u0435\u0439\u043b\u0438\u0441\u0442\u0443", 
+        "description": "", 
         "nameSpace": "djv::ViewLib::WindowSystem", 
         "id": "Playlist Tooltip", 
-        "description": ""
+        "text": "\u041f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0430 \u043a \u043f\u043b\u0435\u0439\u043b\u0438\u0441\u0442\u0443"
     }, 
     {
         "source": "Color Picker", 
-        "text": "\u041f\u0430\u043b\u0438\u0442\u0440\u0430 \u0446\u0432\u0435\u0442\u043e\u0432", 
+        "description": "", 
         "nameSpace": "djv::ViewLib::ColorPickerWidget", 
         "id": "Color Picker", 
-        "description": ""
+        "text": "\u041f\u0430\u043b\u0438\u0442\u0440\u0430 \u0446\u0432\u0435\u0442\u043e\u0432"
     }, 
     {
         "source": "Magnifier", 
-        "text": "\u0443\u0432\u0435\u043b\u0438\u0447\u0438\u0442\u0435\u043b\u044c\u043d\u043e\u0435 \u0441\u0442\u0435\u043a\u043b\u043e", 
+        "description": "", 
         "nameSpace": "djv::ViewLib::MagnifierTool", 
         "id": "Magnifier", 
-        "description": ""
+        "text": "\u0443\u0432\u0435\u043b\u0438\u0447\u0438\u0442\u0435\u043b\u044c\u043d\u043e\u0435 \u0441\u0442\u0435\u043a\u043b\u043e"
     }, 
     {
         "source": "Magnifier Tooltip", 
-        "text": "\u0412\u0441\u043f\u043b\u044b\u0432\u0430\u044e\u0449\u0430\u044f \u043f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0430", 
+        "description": "", 
         "nameSpace": "djv::ViewLib::ToolSystem", 
         "id": "Magnifier Tooltip", 
-        "description": ""
+        "text": "\u0412\u0441\u043f\u043b\u044b\u0432\u0430\u044e\u0449\u0430\u044f \u043f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0430"
     }, 
     {
         "source": "Color Picker Tooltip", 
-        "text": "\u041f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0430 \u0434\u043b\u044f \u043f\u0430\u043b\u0438\u0442\u0440\u044b \u0446\u0432\u0435\u0442\u043e\u0432", 
+        "description": "", 
         "nameSpace": "djv::ViewLib::ToolSystem", 
         "id": "Color Picker Tooltip", 
-        "description": ""
+        "text": "\u041f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0430 \u0434\u043b\u044f \u043f\u0430\u043b\u0438\u0442\u0440\u044b \u0446\u0432\u0435\u0442\u043e\u0432"
     }, 
     {
         "source": "Histogram Tooltip", 
-        "text": "\u041f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0430 \u043f\u043e \u0433\u0438\u0441\u0442\u043e\u0433\u0440\u0430\u043c\u043c\u0435", 
+        "description": "", 
         "nameSpace": "djv::ViewLib::ToolSystem", 
         "id": "Histogram Tooltip", 
-        "description": ""
+        "text": "\u041f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0430 \u043f\u043e \u0433\u0438\u0441\u0442\u043e\u0433\u0440\u0430\u043c\u043c\u0435"
     }, 
     {
         "source": "Debug Tooltip", 
-        "text": "\u041f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0430 \u043e\u0442\u043b\u0430\u0434\u043a\u0438", 
+        "description": "", 
         "nameSpace": "djv::ViewLib::ToolSystem", 
         "id": "Debug Tooltip", 
-        "description": ""
+        "text": "\u041f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0430 \u043e\u0442\u043b\u0430\u0434\u043a\u0438"
     }
 ]

@@ -1,16 +1,16 @@
 [
     {
         "source": "Cannot initialize GLFW.", 
-        "description": "", 
+        "text": "\u65e0\u6cd5\u521d\u59cb\u5316GLFW\u3002", 
         "nameSpace": "djv::Desktop", 
-        "id": "Cannot initialize GLFW.", 
-        "text": "\u65e0\u6cd5\u521d\u59cb\u5316GLFW\u3002"
+        "description": "", 
+        "id": "Cannot initialize GLFW."
     }, 
     {
         "source": "Cannot create GLFW window.", 
-        "description": "", 
+        "text": "\u65e0\u6cd5\u521b\u5efaGLFW\u7a97\u53e3\u3002", 
         "nameSpace": "djv::Desktop", 
-        "id": "Cannot create GLFW window.", 
-        "text": "\u65e0\u6cd5\u521b\u5efaGLFW\u7a97\u53e3\u3002"
+        "description": "", 
+        "id": "Cannot create GLFW window."
     }
 ]

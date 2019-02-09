@@ -1,562 +1,562 @@
 [
     {
         "source": "None", 
-        "description": "", 
+        "text": "Aucun", 
         "nameSpace": "djv::AV::IO::FFmpeg", 
-        "id": "None", 
-        "text": "Aucun"
+        "description": "", 
+        "id": "None"
     }, 
     {
         "source": "U8", 
-        "description": "", 
+        "text": "U8", 
         "nameSpace": "djv::AV::IO::FFmpeg", 
-        "id": "U8", 
-        "text": "U8"
+        "description": "", 
+        "id": "U8"
     }, 
     {
         "source": "S16", 
-        "description": "", 
+        "text": "S16", 
         "nameSpace": "djv::AV::IO::FFmpeg", 
-        "id": "S16", 
-        "text": "S16"
+        "description": "", 
+        "id": "S16"
     }, 
     {
         "source": "S32", 
-        "description": "", 
+        "text": "S32", 
         "nameSpace": "djv::AV::IO::FFmpeg", 
-        "id": "S32", 
-        "text": "S32"
+        "description": "", 
+        "id": "S32"
     }, 
     {
         "source": "Float", 
-        "description": "", 
+        "text": "Flotte", 
         "nameSpace": "djv::AV::IO::FFmpeg", 
-        "id": "Float", 
-        "text": "Flotte"
+        "description": "", 
+        "id": "Float"
     }, 
     {
         "source": "Double", 
-        "description": "", 
+        "text": "Double", 
         "nameSpace": "djv::AV::IO::FFmpeg", 
-        "id": "Double", 
-        "text": "Double"
+        "description": "", 
+        "id": "Double"
     }, 
     {
         "source": "U8 planar", 
-        "description": "", 
+        "text": "U8 planaire", 
         "nameSpace": "djv::AV::IO::FFmpeg", 
-        "id": "U8 planar", 
-        "text": "U8 planaire"
+        "description": "", 
+        "id": "U8 planar"
     }, 
     {
         "source": "S16 planar", 
-        "description": "", 
+        "text": "S16 planaire", 
         "nameSpace": "djv::AV::IO::FFmpeg", 
-        "id": "S16 planar", 
-        "text": "S16 planaire"
+        "description": "", 
+        "id": "S16 planar"
     }, 
     {
         "source": "S32 planar", 
-        "description": "", 
+        "text": "S32 planaire", 
         "nameSpace": "djv::AV::IO::FFmpeg", 
-        "id": "S32 planar", 
-        "text": "S32 planaire"
+        "description": "", 
+        "id": "S32 planar"
     }, 
     {
         "source": "Float planar", 
-        "description": "", 
+        "text": "Flotteur planaire", 
         "nameSpace": "djv::AV::IO::FFmpeg", 
-        "id": "Float planar", 
-        "text": "Flotteur planaire"
+        "description": "", 
+        "id": "Float planar"
     }, 
     {
         "source": "Double planar", 
-        "description": "", 
+        "text": "Double planaire", 
         "nameSpace": "djv::AV::IO::FFmpeg", 
-        "id": "Double planar", 
-        "text": "Double planaire"
+        "description": "", 
+        "id": "Double planar"
     }, 
     {
         "source": "Unknown", 
-        "description": "", 
+        "text": "Inconnu", 
         "nameSpace": "djv::AV::IO::FFmpeg", 
-        "id": "Unknown", 
-        "text": "Inconnu"
+        "description": "", 
+        "id": "Unknown"
     }, 
     {
         "source": "This plugin provides FFmpeg image and audio I/O.", 
-        "description": "", 
+        "text": "Ce plugin fournit des E / S image et audio FFmpeg.", 
         "nameSpace": "djv::AV::IO::FFmpeg", 
-        "id": "This plugin provides FFmpeg image and audio I/O.", 
-        "text": "Ce plugin fournit des E / S image et audio FFmpeg."
+        "description": "", 
+        "id": "This plugin provides FFmpeg image and audio I/O."
     }, 
     {
         "source": "cannot open", 
-        "description": "", 
+        "text": "ne peut pas ouvrir", 
         "nameSpace": "djv::AV::IO::FFmpeg", 
-        "id": "cannot open", 
-        "text": "ne peut pas ouvrir"
+        "description": "", 
+        "id": "cannot open"
     }, 
     {
         "source": "cannot find any streams in", 
-        "description": "", 
+        "text": "ne trouve pas de flux dans", 
         "nameSpace": "djv::AV::IO::FFmpeg", 
-        "id": "cannot find any streams in", 
-        "text": "ne trouve pas de flux dans"
+        "description": "", 
+        "id": "cannot find any streams in"
     }, 
     {
         "source": "cannot find video codec for", 
-        "description": "", 
+        "text": "ne trouve pas de codec vid\u00e9o pour", 
         "nameSpace": "djv::AV::IO::FFmpeg", 
-        "id": "cannot find video codec for", 
-        "text": "ne trouve pas de codec vid\u00e9o pour"
+        "description": "", 
+        "id": "cannot find video codec for"
     }, 
     {
         "source": "unsupported audio format ", 
-        "description": "", 
+        "text": "format audio non pris en charge", 
         "nameSpace": "djv::AV::IO::FFmpeg", 
-        "id": "unsupported audio format ", 
-        "text": "format audio non pris en charge"
+        "description": "", 
+        "id": "unsupported audio format "
     }, 
     {
         "source": "cannot find audio codec for", 
-        "description": "", 
+        "text": "ne trouve pas de codec audio pour", 
         "nameSpace": "djv::AV::IO::FFmpeg", 
-        "id": "cannot find audio codec for", 
-        "text": "ne trouve pas de codec audio pour"
+        "description": "", 
+        "id": "cannot find audio codec for"
     }, 
     {
         "source": "Cannot read", 
-        "description": "", 
+        "text": "Ne peut pas lire", 
         "nameSpace": "djv::AV::IO", 
-        "id": "Cannot read", 
-        "text": "Ne peut pas lire"
+        "description": "", 
+        "id": "Cannot read"
     }, 
     {
         "source": "Cannot write", 
-        "description": "", 
+        "text": "Ne peut pas \u00e9crire", 
         "nameSpace": "djv::AV::IO", 
-        "id": "Cannot write", 
-        "text": "Ne peut pas \u00e9crire"
+        "description": "", 
+        "id": "Cannot write"
     }, 
     {
         "source": "Left", 
-        "description": "", 
+        "text": "La gauche", 
         "nameSpace": "djv::AV", 
-        "id": "Left", 
-        "text": "La gauche"
+        "description": "", 
+        "id": "Left"
     }, 
     {
         "source": "Top", 
-        "description": "", 
+        "text": "Haut", 
         "nameSpace": "djv::AV", 
-        "id": "Top", 
-        "text": "Haut"
+        "description": "", 
+        "id": "Top"
     }, 
     {
         "source": "Right", 
-        "description": "", 
+        "text": "Droite", 
         "nameSpace": "djv::AV", 
-        "id": "Right", 
-        "text": "Droite"
+        "description": "", 
+        "id": "Right"
     }, 
     {
         "source": "Bottom", 
-        "description": "", 
+        "text": "Bas", 
         "nameSpace": "djv::AV", 
-        "id": "Bottom", 
-        "text": "Bas"
+        "description": "", 
+        "id": "Bottom"
     }, 
     {
         "source": "Cannot create OpenGL texture.", 
-        "description": "", 
+        "text": "Impossible de cr\u00e9er une texture OpenGL.", 
         "nameSpace": "djv::AV::OpenGL", 
-        "id": "Cannot create OpenGL texture.", 
-        "text": "Impossible de cr\u00e9er une texture OpenGL."
+        "description": "", 
+        "id": "Cannot create OpenGL texture."
     }, 
     {
         "source": "Cannot create OpenGL frame buffer.", 
-        "description": "", 
+        "text": "Impossible de cr\u00e9er le tampon de trame OpenGL.", 
         "nameSpace": "djv::AV::OpenGL", 
-        "id": "Cannot create OpenGL frame buffer.", 
-        "text": "Impossible de cr\u00e9er le tampon de trame OpenGL."
+        "description": "", 
+        "id": "Cannot create OpenGL frame buffer."
     }, 
     {
         "source": "Cannot initialize OpenGL frame buffer.", 
-        "description": "", 
+        "text": "Impossible d&#39;initialiser le tampon de trame OpenGL.", 
         "nameSpace": "djv::AV::OpenGL", 
-        "id": "Cannot initialize OpenGL frame buffer.", 
-        "text": "Impossible d&#39;initialiser le tampon de trame OpenGL."
+        "description": "", 
+        "id": "Cannot initialize OpenGL frame buffer."
     }, 
     {
         "source": "Out of memory", 
-        "description": "", 
+        "text": "M\u00e9moire insuffisante", 
         "nameSpace": "djv::AV::Audio", 
-        "id": "Out of memory", 
-        "text": "M\u00e9moire insuffisante"
+        "description": "", 
+        "id": "Out of memory"
     }, 
     {
         "source": "Invalid value", 
-        "description": "", 
+        "text": "valeur invalide", 
         "nameSpace": "djv::AV::Audio", 
-        "id": "Invalid value", 
-        "text": "valeur invalide"
+        "description": "", 
+        "id": "Invalid value"
     }, 
     {
         "source": "Invalid enum", 
-        "description": "", 
+        "text": "Enum invalide", 
         "nameSpace": "djv::AV::Audio", 
-        "id": "Invalid enum", 
-        "text": "Enum invalide"
+        "description": "", 
+        "id": "Invalid enum"
     }, 
     {
         "source": "F32", 
-        "description": "", 
+        "text": "F32", 
         "nameSpace": "djv::AV::Audio", 
-        "id": "F32", 
-        "text": "F32"
+        "description": "", 
+        "id": "F32"
     }, 
     {
         "source": "Cannot open OpenAL device.", 
-        "description": "", 
+        "text": "Impossible d&#39;ouvrir le p\u00e9riph\u00e9rique OpenAL.", 
         "nameSpace": "djv::AV::Audio", 
-        "id": "Cannot open OpenAL device.", 
-        "text": "Impossible d&#39;ouvrir le p\u00e9riph\u00e9rique OpenAL."
+        "description": "", 
+        "id": "Cannot open OpenAL device."
     }, 
     {
         "source": "Cannot create OpenAL context.", 
-        "description": "", 
+        "text": "Impossible de cr\u00e9er le contexte OpenAL.", 
         "nameSpace": "djv::AV::Audio", 
-        "id": "Cannot create OpenAL context.", 
-        "text": "Impossible de cr\u00e9er le contexte OpenAL."
+        "description": "", 
+        "id": "Cannot create OpenAL context."
     }, 
     {
         "source": "Cannot make OpenAL context current.", 
-        "description": "", 
+        "text": "Impossible de rendre le contexte OpenAL actuel.", 
         "nameSpace": "djv::AV::Audio", 
-        "id": "Cannot make OpenAL context current.", 
-        "text": "Impossible de rendre le contexte OpenAL actuel."
+        "description": "", 
+        "id": "Cannot make OpenAL context current."
     }, 
     {
         "source": "Cannot create OpenGL vertex shader.", 
-        "description": "", 
+        "text": "Impossible de cr\u00e9er un vertex shader OpenGL.", 
         "nameSpace": "djv::AV::OpenGL", 
-        "id": "Cannot create OpenGL vertex shader.", 
-        "text": "Impossible de cr\u00e9er un vertex shader OpenGL."
+        "description": "", 
+        "id": "Cannot create OpenGL vertex shader."
     }, 
     {
         "source": "Cannot compile OpenGL vertex shader", 
-        "description": "", 
+        "text": "Impossible de compiler le vertex shader OpenGL", 
         "nameSpace": "djv::AV::OpenGL", 
-        "id": "Cannot compile OpenGL vertex shader", 
-        "text": "Impossible de compiler le vertex shader OpenGL"
+        "description": "", 
+        "id": "Cannot compile OpenGL vertex shader"
     }, 
     {
         "source": "Cannot create OpenGL fragment shader.", 
-        "description": "", 
+        "text": "Impossible de cr\u00e9er le fragment shader OpenGL.", 
         "nameSpace": "djv::AV::OpenGL", 
-        "id": "Cannot create OpenGL fragment shader.", 
-        "text": "Impossible de cr\u00e9er le fragment shader OpenGL."
+        "description": "", 
+        "id": "Cannot create OpenGL fragment shader."
     }, 
     {
         "source": "Cannot compile OpenGL framgent shader", 
-        "description": "", 
+        "text": "Impossible de compiler le shader OpenGL framgent", 
         "nameSpace": "djv::AV::OpenGL", 
-        "id": "Cannot compile OpenGL framgent shader", 
-        "text": "Impossible de compiler le shader OpenGL framgent"
+        "description": "", 
+        "id": "Cannot compile OpenGL framgent shader"
     }, 
     {
         "source": "Cannot link program", 
-        "description": "", 
+        "text": "Impossible de lier le programme", 
         "nameSpace": "djv::AV::OpenGL", 
-        "id": "Cannot link program", 
-        "text": "Impossible de lier le programme"
+        "description": "", 
+        "id": "Cannot link program"
     }, 
     {
         "source": "This plugin provides Portable Network Graphics (PNG) image I/O.", 
-        "description": "", 
+        "text": "Ce plugin fournit des E / S d\u2019image PNG (Portable Network Graphics).", 
         "nameSpace": "djv::AV::IO::PNG", 
-        "id": "This plugin provides Portable Network Graphics (PNG) image I/O.", 
-        "text": "Ce plugin fournit des E / S d\u2019image PNG (Portable Network Graphics)."
+        "description": "", 
+        "id": "This plugin provides Portable Network Graphics (PNG) image I/O."
     }, 
     {
         "source": "cannot read", 
-        "description": "", 
+        "text": "ne peut pas lire", 
         "nameSpace": "djv::AV::IO::PNG", 
-        "id": "cannot read", 
-        "text": "ne peut pas lire"
+        "description": "", 
+        "id": "cannot read"
     }, 
     {
         "source": "cannot write", 
-        "description": "", 
+        "text": "ne peut pas \u00e9crire", 
         "nameSpace": "djv::AV::IO::PNG", 
-        "id": "cannot write", 
-        "text": "ne peut pas \u00e9crire"
+        "description": "", 
+        "id": "cannot write"
     }, 
     {
         "source": "This plugin provides NetPBM image I/O.", 
-        "description": "", 
+        "text": "Ce plugin fournit des E / S d\u2019image NetPBM.", 
         "nameSpace": "djv::AV::IO::PPM", 
-        "id": "This plugin provides NetPBM image I/O.", 
-        "text": "Ce plugin fournit des E / S d\u2019image NetPBM."
+        "description": "", 
+        "id": "This plugin provides NetPBM image I/O."
     }, 
     {
         "source": "ASCII", 
-        "description": "", 
+        "text": "ASCII", 
         "nameSpace": "djv::AV::IO::PPM", 
-        "id": "ASCII", 
-        "text": "ASCII"
+        "description": "", 
+        "id": "ASCII"
     }, 
     {
         "source": "Binary", 
-        "description": "", 
+        "text": "Binaire", 
         "nameSpace": "djv::AV::IO::PPM", 
-        "id": "Binary", 
-        "text": "Binaire"
+        "description": "", 
+        "id": "Binary"
     }, 
     {
         "source": "L U8", 
-        "description": "", 
+        "text": "50 U8", 
         "nameSpace": "djv::AV::Image", 
-        "id": "L_U8", 
-        "text": "50 U8"
+        "description": "", 
+        "id": "L_U8"
     }, 
     {
         "source": "L U16", 
-        "description": "", 
+        "text": "L U16", 
         "nameSpace": "djv::AV::Image", 
-        "id": "L_U16", 
-        "text": "L U16"
+        "description": "", 
+        "id": "L_U16"
     }, 
     {
         "source": "L U32", 
-        "description": "", 
+        "text": "L U32", 
         "nameSpace": "djv::AV::Image", 
-        "id": "L_U32", 
-        "text": "L U32"
+        "description": "", 
+        "id": "L_U32"
     }, 
     {
         "source": "L F16", 
-        "description": "", 
+        "text": "L F16", 
         "nameSpace": "djv::AV::Image", 
-        "id": "L_F16", 
-        "text": "L F16"
+        "description": "", 
+        "id": "L_F16"
     }, 
     {
         "source": "L F32", 
-        "description": "", 
+        "text": "L F32", 
         "nameSpace": "djv::AV::Image", 
-        "id": "L_F32", 
-        "text": "L F32"
+        "description": "", 
+        "id": "L_F32"
     }, 
     {
         "source": "LA U8", 
-        "description": "", 
+        "text": "LE U8", 
         "nameSpace": "djv::AV::Image", 
-        "id": "LA_U8", 
-        "text": "LE U8"
+        "description": "", 
+        "id": "LA_U8"
     }, 
     {
         "source": "LA U16", 
-        "description": "", 
+        "text": "LES U16", 
         "nameSpace": "djv::AV::Image", 
-        "id": "LA_U16", 
-        "text": "LES U16"
+        "description": "", 
+        "id": "LA_U16"
     }, 
     {
         "source": "LA U32", 
-        "description": "", 
+        "text": "LE U32", 
         "nameSpace": "djv::AV::Image", 
-        "id": "LA_U32", 
-        "text": "LE U32"
+        "description": "", 
+        "id": "LA_U32"
     }, 
     {
         "source": "LA F16", 
-        "description": "", 
+        "text": "LA F16", 
         "nameSpace": "djv::AV::Image", 
-        "id": "LA_F16", 
-        "text": "LA F16"
+        "description": "", 
+        "id": "LA_F16"
     }, 
     {
         "source": "LA F32", 
-        "description": "", 
+        "text": "LA F32", 
         "nameSpace": "djv::AV::Image", 
-        "id": "LA_F32", 
-        "text": "LA F32"
+        "description": "", 
+        "id": "LA_F32"
     }, 
     {
         "source": "RGB U8", 
-        "description": "", 
+        "text": "RGB U8", 
         "nameSpace": "djv::AV::Image", 
-        "id": "RGB_U8", 
-        "text": "RGB U8"
+        "description": "", 
+        "id": "RGB_U8"
     }, 
     {
         "source": "RGB U10", 
-        "description": "", 
+        "text": "RGB U10", 
         "nameSpace": "djv::AV::Image", 
-        "id": "RGB_U10", 
-        "text": "RGB U10"
+        "description": "", 
+        "id": "RGB_U10"
     }, 
     {
         "source": "RGB U16", 
-        "description": "", 
+        "text": "RGB U16", 
         "nameSpace": "djv::AV::Image", 
-        "id": "RGB_U16", 
-        "text": "RGB U16"
+        "description": "", 
+        "id": "RGB_U16"
     }, 
     {
         "source": "RGB U32", 
-        "description": "", 
+        "text": "RGB U32", 
         "nameSpace": "djv::AV::Image", 
-        "id": "RGB_U32", 
-        "text": "RGB U32"
+        "description": "", 
+        "id": "RGB_U32"
     }, 
     {
         "source": "RGB F16", 
-        "description": "", 
+        "text": "RVB F16", 
         "nameSpace": "djv::AV::Image", 
-        "id": "RGB_F16", 
-        "text": "RVB F16"
+        "description": "", 
+        "id": "RGB_F16"
     }, 
     {
         "source": "RGB F32", 
-        "description": "", 
+        "text": "RVB F32", 
         "nameSpace": "djv::AV::Image", 
-        "id": "RGB_F32", 
-        "text": "RVB F32"
+        "description": "", 
+        "id": "RGB_F32"
     }, 
     {
         "source": "RGBA U8", 
-        "description": "", 
+        "text": "RGBA U8", 
         "nameSpace": "djv::AV::Image", 
-        "id": "RGBA_U8", 
-        "text": "RGBA U8"
+        "description": "", 
+        "id": "RGBA_U8"
     }, 
     {
         "source": "RGBA U16", 
-        "description": "", 
+        "text": "RGBA U16", 
         "nameSpace": "djv::AV::Image", 
-        "id": "RGBA_U16", 
-        "text": "RGBA U16"
+        "description": "", 
+        "id": "RGBA_U16"
     }, 
     {
         "source": "RGBA U32", 
-        "description": "", 
+        "text": "RGBA U32", 
         "nameSpace": "djv::AV::Image", 
-        "id": "RGBA_U32", 
-        "text": "RGBA U32"
+        "description": "", 
+        "id": "RGBA_U32"
     }, 
     {
         "source": "RGBA F16", 
-        "description": "", 
+        "text": "RGBA F16", 
         "nameSpace": "djv::AV::Image", 
-        "id": "RGBA_F16", 
-        "text": "RGBA F16"
+        "description": "", 
+        "id": "RGBA_F16"
     }, 
     {
         "source": "RGBA F32", 
-        "description": "", 
+        "text": "RGBA F32", 
         "nameSpace": "djv::AV::Image", 
-        "id": "RGBA_F32", 
-        "text": "RGBA F32"
+        "description": "", 
+        "id": "RGBA_F32"
     }, 
     {
         "source": "U10", 
-        "description": "", 
+        "text": "U10", 
         "nameSpace": "djv::AV::Image", 
-        "id": "U10", 
-        "text": "U10"
+        "description": "", 
+        "id": "U10"
     }, 
     {
         "source": "U16", 
-        "description": "", 
+        "text": "U16", 
         "nameSpace": "djv::AV::Image", 
-        "id": "U16", 
-        "text": "U16"
+        "description": "", 
+        "id": "U16"
     }, 
     {
         "source": "U32", 
-        "description": "", 
+        "text": "U32", 
         "nameSpace": "djv::AV::Image", 
-        "id": "U32", 
-        "text": "U32"
+        "description": "", 
+        "id": "U32"
     }, 
     {
         "source": "F16", 
-        "description": "", 
+        "text": "F16", 
         "nameSpace": "djv::AV::Image", 
-        "id": "F16", 
-        "text": "F16"
+        "description": "", 
+        "id": "F16"
     }, 
     {
         "source": "Cannot create GLFW window.", 
-        "description": "", 
+        "text": "Impossible de cr\u00e9er une fen\u00eatre GLFW.", 
         "nameSpace": "djv::AV::IO", 
-        "id": "Cannot create GLFW window.", 
-        "text": "Impossible de cr\u00e9er une fen\u00eatre GLFW."
+        "description": "", 
+        "id": "Cannot create GLFW window."
     }, 
     {
         "source": "Cannot create shader", 
-        "description": "", 
+        "text": "Impossible de cr\u00e9er un shader", 
         "nameSpace": "djv::AV::Render", 
-        "id": "Cannot create shader", 
-        "text": "Impossible de cr\u00e9er un shader"
+        "description": "", 
+        "id": "Cannot create shader"
     }, 
     {
         "source": "Cannot initialize GLFW.", 
-        "description": "", 
+        "text": "Impossible d&#39;initialiser GLFW.", 
         "nameSpace": "djv::AV", 
-        "id": "Cannot initialize GLFW.", 
-        "text": "Impossible d&#39;initialiser GLFW."
+        "description": "", 
+        "id": "Cannot initialize GLFW."
     }, 
     {
         "source": "Cannot initialize FreeType.", 
-        "description": "", 
+        "text": "Impossible d&#39;initialiser FreeType.", 
         "nameSpace": "djv::AV::Font", 
-        "id": "Cannot initialize FreeType.", 
-        "text": "Impossible d&#39;initialiser FreeType."
+        "description": "", 
+        "id": "Cannot initialize FreeType."
     }, 
     {
         "source": "Cannot find any fonts.", 
-        "description": "", 
+        "text": "Impossible de trouver des polices.", 
         "nameSpace": "djv::AV::Font", 
-        "id": "Cannot find any fonts.", 
-        "text": "Impossible de trouver des polices."
+        "description": "", 
+        "id": "Cannot find any fonts."
     }, 
     {
-        "id": "U8 Planar", 
         "source": "U8 Planar", 
+        "text": "U8 Planaire", 
         "nameSpace": "djv::AV::IO::FFmpeg", 
-        "description": "", 
-        "text": "U8 Planaire"
+        "id": "U8 Planar", 
+        "description": ""
     }, 
     {
-        "id": "S16 Planar", 
         "source": "S16 Planar", 
+        "text": "S16 Planaire", 
         "nameSpace": "djv::AV::IO::FFmpeg", 
-        "description": "", 
-        "text": "S16 Planaire"
+        "id": "S16 Planar", 
+        "description": ""
     }, 
     {
-        "id": "S32 Planar", 
         "source": "S32 Planar", 
+        "text": "S32 Planaire", 
         "nameSpace": "djv::AV::IO::FFmpeg", 
-        "description": "", 
-        "text": "S32 Planaire"
+        "id": "S32 Planar", 
+        "description": ""
     }, 
     {
-        "id": "Float Planar", 
         "source": "Float Planar", 
+        "text": "Flotteur Planaire", 
         "nameSpace": "djv::AV::IO::FFmpeg", 
-        "description": "", 
-        "text": "Flotteur Planaire"
+        "id": "Float Planar", 
+        "description": ""
     }, 
     {
-        "id": "Double Planar", 
         "source": "Double Planar", 
+        "text": "Double planaire", 
         "nameSpace": "djv::AV::IO::FFmpeg", 
-        "description": "", 
-        "text": "Double planaire"
+        "id": "Double Planar", 
+        "description": ""
     }
 ]
