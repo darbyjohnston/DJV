@@ -76,7 +76,7 @@ namespace djv
                     { ColorRole::HeaderDisabled, AV::Image::Color(127, 127, 127) },
                     { ColorRole::TooltipBackground, AV::Image::Color(255, 255, 191) },
                     { ColorRole::TooltipForeground, AV::Image::Color(0, 0, 0) },
-                    { ColorRole::Overlay, AV::Image::Color(0, 0, 0, 127) },
+                    { ColorRole::Overlay, AV::Image::Color(0, 0, 0, 160) },
                     { ColorRole::Shadow, AV::Image::Color(0, 0, 0, 50) }
                 };
             }

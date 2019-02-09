@@ -217,11 +217,6 @@ namespace djv
             //! Set the minimum size. This is computed and set in the pre-layout event.
             void _setMinimumSize(const glm::vec2&);
 
-            void _parentChangedEvent(Core::Event::ParentChanged &) override;
-            void _childAddedEvent(Core::Event::ChildAdded &) override;
-            void _childRemovedEvent(Core::Event::ChildRemoved &) override;
-            void _childOrderEvent(Core::Event::ChildOrder &) override;
-
             inline float _getUpdateTime() const;
             inline float _getElapsedTime() const;
             inline const std::map<Core::Event::PointerID, glm::vec2> _getPointerHover() const;
@@ -233,8 +228,9 @@ namespace djv
             bool _styleInit = false;
             float _updateTime = 0.f;
             float _elapsedTime = 0.f;
-            bool _visible = true;
-            bool _parentsVisible = true;
+			bool _visible = true;
+			bool _visibleInit = true;
+			bool _parentsVisible = true;
             bool _clipped = false;
             Core::BBox2f _clipRect = Core::BBox2f(0.f, 0.f, 0.f, 0.f);
             float _opacity = 1.f;

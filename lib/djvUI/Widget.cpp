@@ -144,6 +144,7 @@ namespace djv
             if (value == _visible)
                 return;
             _visible = value;
+			_visibleInit = value;
             _resize();
         }
 
@@ -317,9 +318,13 @@ namespace djv
                     {
                         _styleInit = false;
                     }
-                    break;
-                }
-                case Event::Type::ChildRemoved:
+					_clipped = parentChangedEvent.getNewParent() ? true : false;
+					_clipRect = BBox2f(0.f, 0.f, 0.f, 0.f);
+					_redraw();
+					break;
+				}
+				case Event::Type::ChildAdded:
+				case Event::Type::ChildRemoved:
                 case Event::Type::ChildOrder:
                 case Event::Type::Locale:
                     _resize();
@@ -382,6 +387,7 @@ namespace djv
                     _resize();
                     break;
                 case Event::Type::PreLayout:
+					_visibleInit = false;
                     _preLayoutEvent(static_cast<Event::PreLayout&>(event));
                     break;
                 case Event::Type::Layout:
@@ -415,12 +421,18 @@ namespace djv
                     {
                         _parentsOpacity = 1.f;
                     }
-                    _paintEvent(static_cast<Event::Paint&>(event));
+					if (!_visibleInit)
+					{
+						_paintEvent(static_cast<Event::Paint&>(event));
+					}
                     break;
                 }
                 case Event::Type::PaintOverlay:
                 {
-                    _paintOverlayEvent(static_cast<Event::PaintOverlay&>(event));
+					if (!_visibleInit)
+					{
+						_paintOverlayEvent(static_cast<Event::PaintOverlay&>(event));
+					}
                     break;
                 }
                 case Event::Type::PointerEnter:
@@ -610,28 +622,6 @@ namespace djv
                 return;
             _minimumSize = value;
             _resize();
-        }
-
-        void Widget::_parentChangedEvent(Event::ParentChanged & event)
-        {
-            _clipped = event.getNewParent() ? true : false;
-            _clipRect = BBox2f(0.f, 0.f, 0.f, 0.f);
-            _redraw();
-        }
-
-        void Widget::_childAddedEvent(Event::ChildAdded &)
-        {
-            _redraw();
-        }
-
-        void Widget::_childRemovedEvent(Event::ChildRemoved &)
-        {
-            _redraw();
-        }
-
-        void Widget::_childOrderEvent(Event::ChildOrder &)
-        {
-            _redraw();
         }
 
         std::shared_ptr<Widget> Widget::_createTooltipDefault(const std::string & text)

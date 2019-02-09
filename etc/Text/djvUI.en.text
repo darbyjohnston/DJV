@@ -450,33 +450,33 @@
         "description": ""
     }, 
     {
-        "text": "Apostrophe", 
+        "text": "'", 
         "nameSpace": "djv::UI::Key", 
-        "id": "Apostrophe", 
+        "id": "'", 
         "description": ""
     }, 
     {
-        "text": "Comma", 
+        "text": ",", 
         "nameSpace": "djv::UI::Key", 
-        "id": "Comma", 
+        "id": ",", 
         "description": ""
     }, 
     {
-        "text": "Minus", 
+        "text": "-", 
         "nameSpace": "djv::UI::Key", 
-        "id": "Minus", 
+        "id": "-", 
         "description": ""
     }, 
     {
-        "text": "Period", 
+        "text": ".", 
         "nameSpace": "djv::UI::Key", 
-        "id": "Period", 
+        "id": ".", 
         "description": ""
     }, 
     {
-        "text": "Slash", 
+        "text": "/", 
         "nameSpace": "djv::UI::Key", 
-        "id": "Slash", 
+        "id": "/", 
         "description": ""
     }, 
     {
@@ -540,15 +540,15 @@
         "description": ""
     }, 
     {
-        "text": "Semicolon", 
+        "text": ";", 
         "nameSpace": "djv::UI::Key", 
-        "id": "Semicolon", 
+        "id": ";", 
         "description": ""
     }, 
     {
-        "text": "Equal", 
+        "text": "=", 
         "nameSpace": "djv::UI::Key", 
-        "id": "Equal", 
+        "id": "=", 
         "description": ""
     }, 
     {
@@ -708,27 +708,27 @@
         "description": ""
     }, 
     {
-        "text": "Left Bracket", 
+        "text": "[", 
         "nameSpace": "djv::UI::Key", 
-        "id": "LeftBracket", 
+        "id": "[", 
         "description": ""
     }, 
     {
-        "text": "Backslash", 
+        "text": "\\", 
         "nameSpace": "djv::UI::Key", 
-        "id": "Backslash", 
+        "id": "\\", 
         "description": ""
     }, 
     {
-        "text": "Right Bracket", 
+        "text": "]", 
         "nameSpace": "djv::UI::Key", 
-        "id": "RightBracket", 
+        "id": "]", 
         "description": ""
     }, 
     {
-        "text": "Grave Accent", 
+        "text": "`", 
         "nameSpace": "djv::UI::Key", 
-        "id": "GraveAccent", 
+        "id": "`", 
         "description": ""
     }, 
     {
@@ -1062,31 +1062,31 @@
         "description": ""
     }, 
     {
-        "text": "Key Pad Decimal", 
+        "text": "Key Pad .", 
         "nameSpace": "djv::UI::Key", 
         "id": "KeyPadDecimal", 
         "description": ""
     }, 
     {
-        "text": "Key Pad Divide", 
+        "text": "Key Pad /", 
         "nameSpace": "djv::UI::Key", 
         "id": "KeyPadDivide", 
         "description": ""
     }, 
     {
-        "text": "Key Pad Multiply", 
+        "text": "Key Pad *", 
         "nameSpace": "djv::UI::Key", 
         "id": "KeyPadMultiply", 
         "description": ""
     }, 
     {
-        "text": "Key Pad Substract", 
+        "text": "Key Pad -", 
         "nameSpace": "djv::UI::Key", 
         "id": "KeyPadSubstract", 
         "description": ""
     }, 
     {
-        "text": "Key Pad Add", 
+        "text": "Key Pad +", 
         "nameSpace": "djv::UI::Key", 
         "id": "KeyPadAdd", 
         "description": ""
@@ -1098,7 +1098,7 @@
         "description": ""
     }, 
     {
-        "text": "Key Pad Equal", 
+        "text": "Key Pad =", 
         "nameSpace": "djv::UI::Key", 
         "id": "KeyPadEqual", 
         "description": ""

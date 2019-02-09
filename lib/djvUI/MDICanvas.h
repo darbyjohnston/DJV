@@ -57,7 +57,7 @@ namespace djv
                 const glm::vec2 & getCanvasSize() const;
                 void setCanvasSize(const glm::vec2 &);
 
-                std::shared_ptr<IWidget> getActiveWidget() const;
+                const std::shared_ptr<IWidget> & getActiveWidget() const;
                 void nextWidget();
                 void prevWidget();
                 void setActiveCallback(const std::function<void(const std::shared_ptr<IWidget> &)> &);
@@ -68,14 +68,15 @@ namespace djv
                 void setWidgetPos(const std::shared_ptr<IWidget> &, const glm::vec2 &);
 
             protected:
-                void _preLayoutEvent(Core::Event::PreLayout&) override;
-                void _layoutEvent(Core::Event::Layout&) override;
-                void _paintEvent(Core::Event::Paint&) override;
-                void _paintOverlayEvent(Core::Event::PaintOverlay&) override;
+                void _preLayoutEvent(Core::Event::PreLayout &) override;
+                void _layoutEvent(Core::Event::Layout &) override;
+                void _paintEvent(Core::Event::Paint &) override;
+                void _paintOverlayEvent(Core::Event::PaintOverlay &) override;
 
                 void _childAddedEvent(Core::Event::ChildAdded &) override;
                 void _childRemovedEvent(Core::Event::ChildRemoved &) override;
-                bool _eventFilter(const std::shared_ptr<Core::IObject>&, Core::Event::IEvent&) override;
+				void _childOrderEvent(Core::Event::ChildOrder &) override;
+                bool _eventFilter(const std::shared_ptr<Core::IObject> &, Core::Event::IEvent&) override;
 
             private:
 				DJV_PRIVATE();

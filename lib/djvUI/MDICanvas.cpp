@@ -69,12 +69,13 @@ namespace djv
             struct Canvas::Private
             {
                 glm::vec2 canvasSize = glm::vec2(10000.f, 10000.f);
-                std::vector<std::shared_ptr<IWidget> > widgets;
+                //std::vector<std::shared_ptr<IWidget> > widgets;
 				std::map<std::shared_ptr<IWidget>, glm::vec2> widgetToPos;
 				std::map<std::shared_ptr<IWidget>, bool> widgetResized;
                 std::map<Event::PointerID, Hovered> hovered;
                 std::map<Event::PointerID, Pressed> pressed;
-                std::function<void(const std::shared_ptr<IWidget> &)> activeCallback;
+				std::shared_ptr<IWidget> activeWidget;
+				std::function<void(const std::shared_ptr<IWidget> &)> activeCallback;
             };
 
             void Canvas::_init(Context * context)
@@ -112,29 +113,30 @@ namespace djv
                 _resize();
             }
 
-            std::shared_ptr<IWidget> Canvas::getActiveWidget() const
+            const std::shared_ptr<IWidget> & Canvas::getActiveWidget() const
             {
-                DJV_PRIVATE_PTR();
-                return p.widgets.size() ? p.widgets.back() : nullptr;
+				return _p->activeWidget;
             }
 
             void Canvas::nextWidget()
             {
                 DJV_PRIVATE_PTR();
-                const size_t size = p.widgets.size();
+				const auto & children = getChildrenT<IWidget>();
+                const size_t size = children.size();
                 if (size > 1)
                 {
-                    p.widgets.back()->moveToBack();
+					children.back()->moveToBack();
                 }
             }
 
             void Canvas::prevWidget()
             {
                 DJV_PRIVATE_PTR();
-                const size_t size = p.widgets.size();
+				const auto & children = getChildrenT<IWidget>();
+                const size_t size = children.size();
                 if (size > 1)
                 {
-                    p.widgets.front()->moveToFront();
+					children.front()->moveToFront();
                 }
             }
 
@@ -160,12 +162,12 @@ namespace djv
                 }
             }
 
-            void Canvas::_preLayoutEvent(Event::PreLayout&)
+            void Canvas::_preLayoutEvent(Event::PreLayout &)
             {
                 _setMinimumSize(_p->canvasSize);
             }
 
-            void Canvas::_layoutEvent(Event::Layout&)
+            void Canvas::_layoutEvent(Event::Layout &)
             {
 				if (auto style = _getStyle().lock())
 				{
@@ -189,10 +191,10 @@ namespace djv
 				}
             }
 
-            void Canvas::_paintEvent(Event::Paint& event)
+            void Canvas::_paintEvent(Event::Paint & event)
             {
                 Widget::_paintEvent(event);
-                DJV_PRIVATE_PTR();
+                /*DJV_PRIVATE_PTR();
                 if (auto render = _getRender().lock())
                 {
                     if (auto style = _getStyle().lock())
@@ -201,7 +203,7 @@ namespace djv
                         const float sh = style->getMetric(MetricsRole::Shadow);
 
                         render->setFillColor(_getColorWithOpacity(style->getColor(ColorRole::Shadow)));
-                        for (const auto & i : p.widgets)
+                        for (const auto & i : getChildrenT<IWidget>())
                         {
                             if (i->isVisible())
                             {
@@ -214,34 +216,36 @@ namespace djv
                             }
                         }
                     }
-                }
+                }*/
             }
 
-            void Canvas::_paintOverlayEvent(Event::PaintOverlay& event)
+            void Canvas::_paintOverlayEvent(Event::PaintOverlay & event)
             {
                 DJV_PRIVATE_PTR();
                 if (auto render = _getRender().lock())
                 {
                     if (auto style = _getStyle().lock())
                     {
-                        /*const auto & children = getChildrenT<IWidget>();
-                        if (children.size())
+						const float b = style->getMetric(MetricsRole::Border);
+						const float h = style->getMetric(MetricsRole::Handle);
+
+                        if (p.activeWidget && p.activeWidget->isVisible() && !p.activeWidget->isClipped())
                         {
-                            const BBox2f g = children.back()->getGeometry().margin(-h).margin(ms);
+                            const BBox2f g = p.activeWidget->getGeometry().margin(-h).margin(b);
                             render->setFillColor(_getColorWithOpacity(style->getColor(ColorRole::Checked)));
                             render->drawRect(BBox2f(
                                 glm::vec2(g.min.x, g.min.y),
-                                glm::vec2(g.max.x, g.min.y + ms)));
+                                glm::vec2(g.max.x, g.min.y + b)));
                             render->drawRect(BBox2f(
-                                glm::vec2(g.min.x, g.max.y - ms),
+                                glm::vec2(g.min.x, g.max.y - b),
                                 glm::vec2(g.max.x, g.max.y)));
                             render->drawRect(BBox2f(
-                                glm::vec2(g.min.x, g.min.y + ms),
-                                glm::vec2(g.min.x + ms, g.max.y - ms)));
+                                glm::vec2(g.min.x, g.min.y + b),
+                                glm::vec2(g.min.x + b, g.max.y - b)));
                             render->drawRect(BBox2f(
-                                glm::vec2(g.max.x - ms, g.min.y + ms),
-                                glm::vec2(g.max.x, g.max.y - ms)));
-                        }*/
+                                glm::vec2(g.max.x - b, g.min.y + b),
+                                glm::vec2(g.max.x, g.max.y - b)));
+                        }
 
                         auto hovered = p.hovered;
                         render->setFillColor(_getColorWithOpacity(style->getColor(ColorRole::Pressed)));
@@ -290,12 +294,12 @@ namespace djv
                 if (auto widget = std::dynamic_pointer_cast<IWidget>(value.getChild()))
                 {
                     widget->installEventFilter(shared_from_this());
-                    p.widgets.push_back(widget);
                     p.widgetToPos[widget] = glm::vec2(0.f, 0.f);
+					p.activeWidget = widget;
                     _resize();
                     if (p.activeCallback)
                     {
-                        p.activeCallback(widget);
+                        p.activeCallback(p.activeWidget);
                     }
                 }
             }
@@ -307,29 +311,15 @@ namespace djv
                 {
                     widget->removeEventFilter(shared_from_this());
                     {
-                        const auto j = std::find(p.widgets.begin(), p.widgets.end(), widget);
-                        if (j != p.widgets.end())
+                        if (widget == p.activeWidget)
                         {
-                            const bool active = j == p.widgets.begin();
-                            p.widgets.erase(j);
-                            if (active)
-                            {
-                                if (p.widgets.size())
-                                {
-                                    if (p.activeCallback)
-                                    {
-                                        p.activeCallback(p.widgets.back());
-                                    }
-                                }
-                                else
-                                {
-                                    if (p.activeCallback)
-                                    {
-                                        p.activeCallback(nullptr);
-                                    }
-                                }
-                            }
-                        }
+							const auto & children = getChildrenT<IWidget>();
+							p.activeWidget = children.size() ? children.back() : nullptr;
+							if (p.activeCallback)
+							{
+								p.activeCallback(nullptr);
+							}
+						}
                     }
                     {
                         const auto j = p.widgetToPos.find(widget);
@@ -341,6 +331,24 @@ namespace djv
 					_resize();
                 }
             }
+
+			void Canvas::_childOrderEvent(Core::Event::ChildOrder &)
+			{
+				DJV_PRIVATE_PTR();
+				const auto & children = getChildrenT<IWidget>();
+				if (children.size())
+				{
+					auto widget = children.back();
+					if (widget != p.activeWidget)
+					{
+						p.activeWidget = widget;
+						if (p.activeCallback)
+						{
+							p.activeCallback(widget);
+						}
+					}
+				}
+			}
 
             bool Canvas::_eventFilter(const std::shared_ptr<IObject>& object, Event::IEvent& event)
             {

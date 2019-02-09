@@ -652,6 +652,14 @@ namespace djv
                     }
                 }
             });
+			p.scrollArea->setContentsSizeCallback(
+				[weak](const glm::vec2 & value)
+			{
+				if (auto scroll = weak.lock())
+				{
+					scroll->_updateScrollBars(value);
+				}
+			});
 
             p.scrollBars[Orientation::Horizontal]->setScrollPosCallback(
                 [weak](float value)
@@ -818,7 +826,6 @@ namespace djv
             if (auto style = _getStyle().lock())
             {
                 p.border->setGeometry(getMargin().bbox(getGeometry(), style));
-                _updateScrollBars(p.scrollArea->getContentsSize());
             }
         }
 

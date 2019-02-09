@@ -773,7 +773,7 @@ namespace djv
 				_menuWidget = MenuWidget::create(actions, menus, context);
 
 				_scrollWidget = ScrollWidget::create(ScrollType::Vertical, context);
-				//! \bug This causes the menu to flicker when it's shown.
+				//! \bug This causes the menus to flicker when they are shown.
 				//_scrollWidget->setAutoHideScrollBars(true);
 				_scrollWidget->setMinimumSizeRole(MetricsRole::None);
 				_scrollWidget->setBackgroundRole(ColorRole::Background);
@@ -998,7 +998,7 @@ namespace djv
 			void MenuOverlayLayout::_paintEvent(Event::Paint& event)
 			{
 				Widget::_paintEvent(event);
-				if (auto render = _getRender().lock())
+				/*if (auto render = _getRender().lock())
 				{
 					if (auto style = _getStyle().lock())
 					{
@@ -1014,7 +1014,7 @@ namespace djv
 							render->drawRect(g);
 						}
 					}
-				}
+				}*/
 			}
 
         } // namespace
