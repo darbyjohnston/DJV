@@ -58,7 +58,16 @@ namespace djv
                 s << getName() << " exiting...";
                 _log(s.str());
             }
-        }
+			while (_dependencies.size())
+			{
+				_dependencies.pop_back();
+			}
+		}
+
+		void ISystem::addDependency(const std::shared_ptr<ISystem> & value)
+		{
+			_dependencies.push_back(value);
+		}
         
     } // namespace Core
 } // namespace djv

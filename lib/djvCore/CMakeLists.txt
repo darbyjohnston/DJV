@@ -13,6 +13,7 @@ set(header
     Context.h
     ContextInline.h
     Core.h
+    CoreSystem.h
     DirectoryModel.h
     DirectoryWatcher.h
     DrivesModel.h
@@ -72,6 +73,7 @@ set(source
     Animation.cpp
     Context.cpp
     Core.cpp
+    CoreSystem.cpp
     DirectoryModel.cpp
     DrivesModel.cpp
     Event.cpp

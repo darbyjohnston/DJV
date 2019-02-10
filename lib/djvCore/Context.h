@@ -38,24 +38,9 @@ namespace djv
 {
     namespace Core
     {
+		class CoreSystem;
         class IObject;
         class ISystem;
-        class LogSystem;
-        class ResourceSystem;
-        class TextSystem;
-        class UndoStack;
-
-        namespace Animation
-        {
-            class System;
-            
-        } // namespace Time
-
-        namespace Time
-        {
-            class TimerSystem;
-
-        } // namespace Time
 
         //! This class provides core functionality.
         class Context
@@ -99,14 +84,11 @@ namespace djv
             template<typename T>
             inline std::weak_ptr<T> getSystemT() const;
 
+			//! Get the core system.
+			inline const std::shared_ptr<CoreSystem> & getCoreSystem() const;
+
             //! This function is called by the application's event loop.
             virtual void tick(float dt);
-
-            //! Get the resource system.
-            const std::shared_ptr<ResourceSystem> & getResourceSystem() const;
-
-            //! Get the log system.
-            const std::shared_ptr<LogSystem> & getLogSystem() const;
 
             //! \name Utilities
             ///@{
@@ -125,8 +107,6 @@ namespace djv
 
             ///@}
 
-            const std::shared_ptr<UndoStack> & getUndoStack() const;
-
         protected:
             void _addSystem(const std::shared_ptr<ISystem> &);
 
@@ -136,15 +116,10 @@ namespace djv
             class RootObject;
             std::shared_ptr<RootObject> _rootObject;
             std::vector<std::weak_ptr<ISystem> > _systems;
-            std::shared_ptr<Time::TimerSystem> _timerSystem;
-            std::shared_ptr<ResourceSystem> _resourceSystem;
-            std::shared_ptr<LogSystem> _logSystem;
-            std::shared_ptr<TextSystem> _textSystem;
-            std::shared_ptr<Animation::System> _animationSystem;
+			std::shared_ptr<CoreSystem> _coreSystem;
             std::chrono::time_point<std::chrono::system_clock> _fpsTime = std::chrono::system_clock::now();
             std::list<float> _fpsSamples;
             float _fpsAverage = 0.f;
-            std::shared_ptr<UndoStack> _undoStack;
 
             friend class ISystem;
         };

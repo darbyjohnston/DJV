@@ -58,7 +58,7 @@ namespace djv
 
             void IEventSystem::_init(const std::string& systemName, Context * context)
             {
-                ISystem::_init("djv::Core::Event::IEventSystem", context);
+                ISystem::_init(systemName, context);
 
                 _p->textSystem = context->getSystemT<TextSystem>();
                 if (auto textSystem = _p->textSystem.lock())

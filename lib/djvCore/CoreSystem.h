@@ -27,60 +27,31 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvUIComponents/UIComponentsSystem.h>
+#pragma once
 
-#include <djvUIComponents/FileBrowserDialog.h>
-#include <djvUIComponents/FileBrowserSettings.h>
-
-#include <djvUI/UISystem.h>
-
-#include <djvCore/Context.h>
-
-using namespace djv::Core;
+#include <djvCore/ISystem.h>
 
 namespace djv
 {
-    namespace UI
+    namespace Core
     {
-        struct UIComponentsSystem::Private
+        //! This class provides the core systems.
+        class CoreSystem : public Core::ISystem
         {
-            std::shared_ptr<Settings::FileBrowser> fileBrowserSettings;
+            DJV_NON_COPYABLE(CoreSystem);
+
+        protected:
+            void _init(const std::string& argv0, Core::Context *);
+			CoreSystem();
+
+        public:
+            ~CoreSystem() override;
+
+            static std::shared_ptr<CoreSystem> create(const std::string& argv0, Core::Context *);
+
+        private:
+			DJV_PRIVATE();
         };
 
-        void UIComponentsSystem::_init(int dpi, Context * context)
-        {
-            ISystem::_init("djv::UI::UIComponentsSystem", context);
-
-            DJV_PRIVATE_PTR();
-
-			auto uiSystem = UISystem::create(dpi, context);
-			addDependency(uiSystem);
-
-			p.fileBrowserSettings = Settings::FileBrowser::create(context);
-
-			auto fileBrowserDialogSystem = FileBrowser::DialogSystem::create(context);
-			addDependency(fileBrowserDialogSystem);
-        }
-
-		UIComponentsSystem::UIComponentsSystem() :
-            _p(new Private)
-        {}
-
-		UIComponentsSystem::~UIComponentsSystem()
-        {}
-
-        std::shared_ptr<UIComponentsSystem> UIComponentsSystem::create(int dpi, Context * context)
-        {
-            auto out = std::shared_ptr<UIComponentsSystem>(new UIComponentsSystem);
-            out->_init(dpi, context);
-            return out;
-        }
-
-        const std::shared_ptr<Settings::FileBrowser> & UIComponentsSystem::getFileBrowserSettings() const
-        {
-            return _p->fileBrowserSettings;
-        }
-
-    } // namespace UI
+    } // namespace Core
 } // namespace djv
-

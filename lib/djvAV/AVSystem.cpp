@@ -37,6 +37,7 @@
 #include <djvAV/ThumbnailSystem.h>
 
 #include <djvCore/Context.h>
+#include <djvCore/CoreSystem.h>
 #include <djvCore/Error.h>
 #include <djvCore/LogSystem.h>
 #include <djvCore/OS.h>
@@ -54,38 +55,43 @@ namespace djv
 {
     namespace AV
     {
-        struct AVSystem::Private
-        {
-            std::vector<std::shared_ptr<ISystem> > systems;
-        };
+		struct AVSystem::Private
+		{
+
+		};
 
         void AVSystem::_init(Context * context)
         {
             ISystem::_init("djv::AV::AVSystem", context);
 
-            // Create the systems.
             DJV_PRIVATE_PTR();
-            p.systems.push_back(IO::System::create(context));
-            p.systems.push_back(Audio::System::create(context));
-            p.systems.push_back(Font::System::create(context));
-            p.systems.push_back(ThumbnailSystem::create(context));
-            p.systems.push_back(Render::Render2D::create(context));
-        }
+
+			addDependency(context->getCoreSystem());
+
+            auto ioSystem = IO::System::create(context);
+			addDependency(ioSystem);
+
+            auto audioSystem = Audio::System::create(context);
+			addDependency(audioSystem);
+
+            auto fontSystem = Font::System::create(context);
+			addDependency(fontSystem);
+
+            auto thumbnailSystem = ThumbnailSystem::create(context);
+			thumbnailSystem->addDependency(ioSystem);
+			addDependency(thumbnailSystem);
+            
+			auto render2D = Render::Render2D::create(context);
+			render2D->addDependency(fontSystem);
+			addDependency(render2D);
+		}
 
         AVSystem::AVSystem() :
             _p(new Private)
         {}
 
         AVSystem::~AVSystem()
-        {
-            DJV_PRIVATE_PTR();
-            while (p.systems.size())
-            {
-                auto system = p.systems.back();
-                system->setParent(nullptr);
-                p.systems.pop_back();
-            }
-        }
+        {}
 
         std::shared_ptr<AVSystem> AVSystem::create(Context * context)
         {

@@ -27,60 +27,37 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvUIComponents/UIComponentsSystem.h>
+#pragma once
 
-#include <djvUIComponents/FileBrowserDialog.h>
-#include <djvUIComponents/FileBrowserSettings.h>
+#include <djvCore/ISystem.h>
 
-#include <djvUI/UISystem.h>
-
-#include <djvCore/Context.h>
-
-using namespace djv::Core;
+struct GLFWwindow;
 
 namespace djv
 {
-    namespace UI
+    namespace Desktop
     {
-        struct UIComponentsSystem::Private
+        class GLFWSystem : public Core::ISystem
         {
-            std::shared_ptr<Settings::FileBrowser> fileBrowserSettings;
+            DJV_NON_COPYABLE(GLFWSystem);
+            
+        protected:
+            void _init(Core::Context *);
+			GLFWSystem();
+
+        public:
+            virtual ~GLFWSystem();
+
+            static std::shared_ptr<GLFWSystem> create(Core::Context *);
+
+			int getDPI() const;
+			GLFWwindow * getGLFWWindow() const;
+
+            void tick(float dt) override;
+
+        private:
+			DJV_PRIVATE();
         };
 
-        void UIComponentsSystem::_init(int dpi, Context * context)
-        {
-            ISystem::_init("djv::UI::UIComponentsSystem", context);
-
-            DJV_PRIVATE_PTR();
-
-			auto uiSystem = UISystem::create(dpi, context);
-			addDependency(uiSystem);
-
-			p.fileBrowserSettings = Settings::FileBrowser::create(context);
-
-			auto fileBrowserDialogSystem = FileBrowser::DialogSystem::create(context);
-			addDependency(fileBrowserDialogSystem);
-        }
-
-		UIComponentsSystem::UIComponentsSystem() :
-            _p(new Private)
-        {}
-
-		UIComponentsSystem::~UIComponentsSystem()
-        {}
-
-        std::shared_ptr<UIComponentsSystem> UIComponentsSystem::create(int dpi, Context * context)
-        {
-            auto out = std::shared_ptr<UIComponentsSystem>(new UIComponentsSystem);
-            out->_init(dpi, context);
-            return out;
-        }
-
-        const std::shared_ptr<Settings::FileBrowser> & UIComponentsSystem::getFileBrowserSettings() const
-        {
-            return _p->fileBrowserSettings;
-        }
-
-    } // namespace UI
+    } // namespace Desktop
 } // namespace djv
-

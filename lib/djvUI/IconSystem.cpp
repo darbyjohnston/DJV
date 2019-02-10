@@ -109,12 +109,10 @@ namespace djv
 
         void IconSystem::_init(Context * context)
         {
-            ISystem::_init("djv::AV::Image::IconSystem", context);
+            ISystem::_init("djv::UI::IconSystem", context);
 
             DJV_PRIVATE_PTR();
             p.imageCache.setMax(imageCacheMax);
-
-
 
             p.statsTimer = Time::Timer::create(context);
             p.statsTimer->setRepeating(true);

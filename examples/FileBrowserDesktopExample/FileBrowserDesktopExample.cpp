@@ -29,7 +29,8 @@
 
 #include <djvDesktop/Application.h>
 
-#include <djvUI/FileBrowser.h>
+#include <djvUIComponents/FileBrowser.h>
+
 #include <djvUI/Window.h>
 
 #include <djvCore/Error.h>

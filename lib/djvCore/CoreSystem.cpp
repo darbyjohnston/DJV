@@ -27,60 +27,68 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvUIComponents/UIComponentsSystem.h>
+#include <djvCore/CoreSystem.h>
 
-#include <djvUIComponents/FileBrowserDialog.h>
-#include <djvUIComponents/FileBrowserSettings.h>
-
-#include <djvUI/UISystem.h>
-
+#include <djvCore/Animation.h>
 #include <djvCore/Context.h>
+#include <djvCore/LogSystem.h>
+#include <djvCore/ResourceSystem.h>
+#include <djvCore/TextSystem.h>
+#include <djvCore/Timer.h>
 
 using namespace djv::Core;
 
 namespace djv
 {
-    namespace UI
+    namespace Core
     {
-        struct UIComponentsSystem::Private
+		struct CoreSystem::Private
+		{
+			std::shared_ptr<Time::TimerSystem> timerSystem;
+			std::shared_ptr<ResourceSystem> resourceSystem;
+			std::shared_ptr<LogSystem> logSystem;
+			std::shared_ptr<TextSystem> textSystem;
+			std::shared_ptr<Animation::System> animationSystem;
+		};
+
+        void CoreSystem::_init(const std::string& argv0, Context * context)
         {
-            std::shared_ptr<Settings::FileBrowser> fileBrowserSettings;
-        };
+            ISystem::_init("djv::Core::CoreSystem", context);
 
-        void UIComponentsSystem::_init(int dpi, Context * context)
-        {
-            ISystem::_init("djv::UI::UIComponentsSystem", context);
+			DJV_PRIVATE_PTR();
+			p.timerSystem = Time::TimerSystem::create(context);
+			addDependency(p.timerSystem);
 
-            DJV_PRIVATE_PTR();
+			p.resourceSystem = ResourceSystem::create(argv0, context);
+			addDependency(p.resourceSystem);
 
-			auto uiSystem = UISystem::create(dpi, context);
-			addDependency(uiSystem);
+			p.logSystem = LogSystem::create(p.resourceSystem->getPath(FileSystem::ResourcePath::LogFile), context);
+			p.logSystem->addDependency(p.timerSystem);
+			p.logSystem->addDependency(p.resourceSystem);
+			addDependency(p.logSystem);
 
-			p.fileBrowserSettings = Settings::FileBrowser::create(context);
+			p.textSystem = TextSystem::create(context);
+			p.textSystem->addDependency(p.logSystem);
+			addDependency(p.textSystem);
 
-			auto fileBrowserDialogSystem = FileBrowser::DialogSystem::create(context);
-			addDependency(fileBrowserDialogSystem);
-        }
+			p.animationSystem = Animation::System::create(context);
+			addDependency(p.animationSystem);
+		}
 
-		UIComponentsSystem::UIComponentsSystem() :
-            _p(new Private)
+        CoreSystem::CoreSystem() :
+			_p(new Private)
         {}
 
-		UIComponentsSystem::~UIComponentsSystem()
+		CoreSystem::~CoreSystem()
         {}
 
-        std::shared_ptr<UIComponentsSystem> UIComponentsSystem::create(int dpi, Context * context)
+        std::shared_ptr<CoreSystem> CoreSystem::create(const std::string& argv0, Context * context)
         {
-            auto out = std::shared_ptr<UIComponentsSystem>(new UIComponentsSystem);
-            out->_init(dpi, context);
+            auto out = std::shared_ptr<CoreSystem>(new CoreSystem);
+            out->_init(argv0, context);
             return out;
         }
 
-        const std::shared_ptr<Settings::FileBrowser> & UIComponentsSystem::getFileBrowserSettings() const
-        {
-            return _p->fileBrowserSettings;
-        }
-
-    } // namespace UI
+    } // namespace Core
 } // namespace djv
 

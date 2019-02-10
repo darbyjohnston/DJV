@@ -52,7 +52,6 @@ namespace djv
         struct UISystem::Private
         {
             int dpi = AV::dpiDefault;
-            std::vector<std::shared_ptr<ISystem> > systems;
             std::shared_ptr<Settings::General> generalSettings;
             std::shared_ptr<Settings::Font> fontSettings;
             std::shared_ptr<Settings::Style> styleSettings;
@@ -69,17 +68,22 @@ namespace djv
             DJV_PRIVATE_PTR();
             p.dpi = dpi;
 
-            p.systems.push_back(AV::AVSystem::create(context));
+            auto avSystem = AV::AVSystem::create(context);
+			addDependency(avSystem);
 
-            p.systems.push_back(Settings::System::create(context));
+            auto settingsSystem = Settings::System::create(context);
+			addDependency(settingsSystem);
+
             p.generalSettings = Settings::General::create(context);
             p.fontSettings = Settings::Font::create(context);
             p.styleSettings = Settings::Style::create(context);
 
             p.style = Style::Style::create(dpi, context);
             
-            p.systems.push_back(IconSystem::create(context));
-            p.systems.push_back(DialogSystem::create(context));
+            auto iconSystem = IconSystem::create(context);
+			addDependency(iconSystem);
+            auto dialogSystem = DialogSystem::create(context);
+			addDependency(dialogSystem);
 
             auto weak = std::weak_ptr<UISystem>(std::dynamic_pointer_cast<UISystem>(shared_from_this()));
             p.paletteObserver = ValueObserver<UI::Style::Palette>::create(
@@ -116,15 +120,7 @@ namespace djv
         {}
 
         UISystem::~UISystem()
-        {
-            DJV_PRIVATE_PTR();
-            while (p.systems.size())
-            {
-                auto system = p.systems.back();
-                system->setParent(nullptr);
-                p.systems.pop_back();
-            }
-        }
+        {}
 
         std::shared_ptr<UISystem> UISystem::create(int dpi, Context * context)
         {

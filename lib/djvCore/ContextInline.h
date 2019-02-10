@@ -81,19 +81,9 @@ namespace djv
             return std::weak_ptr<T>();
         }
         
-        inline const std::shared_ptr<ResourceSystem> & Context::getResourceSystem() const
+        inline const std::shared_ptr<CoreSystem> & Context::getCoreSystem() const
         {
-            return _resourceSystem;
-        }
-
-        inline const std::shared_ptr<LogSystem> & Context::getLogSystem() const
-        {
-            return _logSystem;
-        }
-        
-        inline const std::shared_ptr<UndoStack> & Context::getUndoStack() const
-        {
-            return _undoStack;
+            return _coreSystem;
         }
 
     } // namespace Core

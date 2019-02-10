@@ -98,13 +98,13 @@ namespace djv
                     _endCallback(_end);
                 }*/
 
-                _active = true;
-                _begin = begin;
-                _end = end;
-                _timeout = timeout;
-                _callback = callback;
+                _active      = true;
+                _begin       = begin;
+                _end         = end;
+                _timeout     = timeout;
+                _callback    = callback;
                 _endCallback = endCallback;
-                _start = std::chrono::system_clock::now();
+                _start       = std::chrono::system_clock::now();
             }
 
             void Animation::_tick(float dt)

@@ -54,7 +54,7 @@ namespace djv
             EventSystem();
 
         public:
-            virtual ~EventSystem();
+            ~EventSystem() override;
 
             static std::shared_ptr<EventSystem> create(GLFWwindow*, Core::Context *);
 

@@ -50,8 +50,6 @@ namespace djv
 
             static std::unique_ptr<Application> create(int argc, char * argv[]);
 
-            GLFWwindow * getGLFWWindow() const;
-
             int run();
             void exit();
 

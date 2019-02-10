@@ -29,14 +29,14 @@
 
 #include <djvCore/Context.h>
 
-#include <djvCore/Animation.h>
+#include <djvCore/CoreSystem.h>
 #include <djvCore/IObject.h>
 #include <djvCore/LogSystem.h>
 #include <djvCore/OS.h>
 #include <djvCore/ResourceSystem.h>
 #include <djvCore/TextSystem.h>
-#include <djvCore/Timer.h>
-#include <djvCore/UndoStack.h>
+
+#include <thread>
 
 namespace
 {
@@ -48,7 +48,17 @@ namespace djv
 {
     namespace Core
     {
-        class Context::RootObject : public IObject {};
+        class Context::RootObject : public IObject
+		{
+		public:
+			RootObject()
+			{
+				setClassName("djv::Core::Context::RootObject");
+			}
+
+			~RootObject() override
+			{}
+		};
 
         void Context::_init(int & argc, char ** argv)
         {
@@ -62,30 +72,36 @@ namespace djv
             // Create the root object.
             _rootObject = std::shared_ptr<RootObject>(new RootObject);
 
-            // Create the core systems.
-            _timerSystem = Time::TimerSystem::create(this);
-            _resourceSystem = ResourceSystem::create(argv0, this);
-            _logSystem = LogSystem::create(_resourceSystem->getPath(FileSystem::ResourcePath::LogFile), this);
-            _textSystem = TextSystem::create(this);
-            _animationSystem = Animation::System::create(this);
+            // Create the core system.
+			_coreSystem = CoreSystem::create(argv0, this);
 
             // Log information.
-            std::stringstream s;
-            s << "Application: " << _name << '\n';
-            s << "System information: " << OS::getInformation() << '\n';
-            s << "Hardware concurrency: " << std::thread::hardware_concurrency() << '\n';
-            s << "Resource paths:" << '\n';
-            for (auto path : FileSystem::getResourcePathEnums())
-            {
-                s << "    " << path << ": " << _resourceSystem->getPath(path) << '\n';
-            }
-            _logSystem->log("djv::Core::Context", s.str());
-
-            _undoStack = UndoStack::create(this);
+			if (auto logSystem = getSystemT<LogSystem>().lock())
+			{
+				std::stringstream s;
+				s << "Application: " << _name << '\n';
+				s << "System information: " << OS::getInformation() << '\n';
+				s << "Hardware concurrency: " << std::thread::hardware_concurrency() << '\n';
+				if (auto resourceSystem = getSystemT<ResourceSystem>().lock())
+				{
+					s << "Resource paths:" << '\n';
+					for (auto path : FileSystem::getResourcePathEnums())
+					{
+						s << "    " << path << ": " << resourceSystem->getPath(path) << '\n';
+					}
+				}
+				logSystem->log("djv::Core::Context", s.str());
+			}
         }
 
         Context::~Context()
-        {}
+        {
+			auto children = _rootObject->getChildren();
+			for (auto i = children.rbegin(); i != children.rend(); ++i)
+			{
+				(*i)->setParent(nullptr);
+			}
+		}
 
         std::unique_ptr<Context> Context::create(int & argc, char ** argv)
         {
@@ -101,22 +117,40 @@ namespace djv
 
         void Context::log(const std::string& prefix, const std::string& message, LogLevel level)
         {
-            _logSystem->log(prefix, message, level);
+			if (auto logSystem = getSystemT<LogSystem>().lock())
+			{
+				logSystem->log(prefix, message, level);
+			}
         }
 
         FileSystem::Path Context::getPath(FileSystem::ResourcePath value) const
         {
-            return _resourceSystem->getPath(value);
+			FileSystem::Path out;
+			if (auto resourceSystem = getSystemT<ResourceSystem>().lock())
+			{
+				out = resourceSystem->getPath(value);
+			}
+			return out;
         }
 
         FileSystem::Path Context::getPath(FileSystem::ResourcePath value, const std::string & fileName) const
         {
-            return FileSystem::Path(_resourceSystem->getPath(value), fileName);
+			FileSystem::Path out;
+			if (auto resourceSystem = getSystemT<ResourceSystem>().lock())
+			{
+				out = FileSystem::Path(resourceSystem->getPath(value), fileName);
+			}
+			return out;
         }
 
         std::string Context::getText(const std::string & id) const
         {
-            return _textSystem->getText(id);
+			std::string out;
+			if (auto textSystem = getSystemT<TextSystem>().lock())
+			{
+				out = textSystem->getText(id);
+			}
+            return out;
         }
 
         void Context::tick(float dt)
