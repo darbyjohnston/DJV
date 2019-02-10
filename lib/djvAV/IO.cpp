@@ -31,6 +31,9 @@
 
 #include <djvAV/FFmpeg.h>
 #include <djvAV/PPM.h>
+#if defined(JPEG_FOUND)
+#include <djvAV/JPEG.h>
+#endif // JPEG_FOUND
 #if defined(PNG_FOUND)
 #include <djvAV/PNG.h>
 #endif // PNG_FOUND
@@ -261,34 +264,12 @@ namespace djv
                 DJV_PRIVATE_PTR();
                 p.plugins[FFmpeg::pluginName] = FFmpeg::Plugin::create(context);
                 p.plugins[PPM::pluginName] = PPM::Plugin::create(context);
+#if defined(JPEG_FOUND)
+				p.plugins[JPEG::pluginName] = JPEG::Plugin::create(context);
+#endif // JPEG_FOUND
 #if defined(PNG_FOUND)
-                p.plugins[PNG::pluginName] = PNG::Plugin::create(context);
+				p.plugins[PNG::pluginName] = PNG::Plugin::create(context);
 #endif // PNG_FOUND
-
-                /*
-                p.plugins[Cineon::pluginName].reset(new Cineon::Plugin(context));
-                p.plugins[DPX::pluginName].reset(new DPX::Plugin(context));
-                p.plugins[IFF::pluginName].reset(new IFF::Plugin(context));
-                p.plugins[IFL::pluginName].reset(new IFL::Plugin(context));
-                p.plugins[LUT::pluginName].reset(new LUT::Plugin(context));
-                p.plugins[PIC::pluginName].reset(new PIC::Plugin(context));
-                p.plugins[PPM::pluginName].reset(new PPM::Plugin(context));
-                p.plugins[RLA::pluginName].reset(new RLA::Plugin(context));
-                p.plugins[SGI::pluginName].reset(new SGI::Plugin(context));
-                p.plugins[Targa::pluginName].reset(new Targa::Plugin(context));
-#if defined(DJV_THIRD_PARTY_OPENEXR)
-                p.plugins[EXR::pluginName].reset(new EXR::Plugin(context));
-#endif // DJV_THIRD_PARTY_OPENEXR
-#if defined(DJV_THIRD_PARTY_JPEG)
-                p.plugins[JPEG::pluginName].reset(new JPEG::Plugin(context));
-#endif // DJV_THIRD_PARTY_JPEG
-#if defined(DJV_THIRD_PARTY_PNG)
-                p.plugins[PNG::pluginName].reset(new PNG::Plugin(context));
-#endif // DJV_THIRD_PARTY_PNG
-#if defined(DJV_THIRD_PARTY_TIFF)
-                p.plugins[TIFFPlugin::pluginName].reset(new TIFFPlugin::Plugin(context));
-#endif // DJV_THIRD_PARTY_TIFF
-                */
 
                 for (const auto & i : p.plugins)
                 {

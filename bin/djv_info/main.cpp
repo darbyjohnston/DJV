@@ -27,6 +27,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
+#include <djvAV/Application.h>
 #include <djvAV/IO.h>
 
 #include <djvCore/Context.h>
@@ -42,14 +43,14 @@ namespace djv
     //! This namespace provides functionality for djv_info.
     namespace info
     {
-        class Application : public Core::Context
+        class Application : public AV::Application
         {
             DJV_NON_COPYABLE(Application);
 
         protected:
             void _init(int & argc, char ** argv)
             {
-                Core::Context::_init(argc, argv);
+                AV::Application::_init(argc, argv);
 
                 _io = AV::IO::System::create(this);
 

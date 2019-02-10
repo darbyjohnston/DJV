@@ -123,7 +123,7 @@ namespace djv
             glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 1);
             glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
             glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-            glfwWindowHint(GLFW_SAMPLES, 4);
+            glfwWindowHint(GLFW_SAMPLES, 1);
             glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE);
             if (!OS::getEnv("DJV_OPENGL_DEBUG").empty())
             {

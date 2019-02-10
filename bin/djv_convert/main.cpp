@@ -27,6 +27,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
+#include <djvAV/Application.h>
 #include <djvAV/AVSystem.h>
 #include <djvAV/IO.h>
 
@@ -45,14 +46,14 @@ namespace djv
     //! This namespace provides functionality for djv_convert.
     namespace convert
     {
-        class Application : public Core::Context
+        class Application : public AV::Application
         {
             DJV_NON_COPYABLE(Application);
 
         protected:
             void _init(int & argc, char ** argv)
             {
-                Context::_init(argc, argv);
+                AV::Application::_init(argc, argv);
 
                 _avSystem = AV::AVSystem::create(this);
                 _parseArgs();

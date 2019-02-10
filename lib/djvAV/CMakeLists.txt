@@ -5,6 +5,7 @@ find_package(OpenGL REQUIRED)
 find_package(GLFW REQUIRED)
 find_package(glbinding REQUIRED)
 
+find_package(JPEG)
 find_package(PNG)
 
 set(header
@@ -78,6 +79,16 @@ set(source
     TextureCache.cpp
     ThumbnailSystem.cpp
     TriangleMesh.cpp)
+if(JPEG_FOUND)
+    set(header
+        ${header}
+        JPEG.h)
+    set(source
+        ${source}
+        JPEG.cpp
+        JPEGRead.cpp
+        JPEGWrite.cpp)
+endif()
 if(PNG_FOUND)
     set(header
         ${header}
@@ -98,6 +109,9 @@ set(LIBRARIES
     OpenAL
     OpenGL::GL
     djvCore)
+if(JPEG_FOUND)
+    set(LIBRARIES ${LIBRARIES} JPEG)
+endif()
 if(PNG_FOUND)
     set(LIBRARIES ${LIBRARIES} PNG)
 endif()
