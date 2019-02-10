@@ -33,7 +33,9 @@
 
 #include <djvCore/String.h>
 
+#if defined(DJV_PLATFORM_WINDOWS)
 #include <basetsd.h>
+#endif // DJV_PLATFORM_WINDOWS
 
 #include <jpeglib.h>
 
