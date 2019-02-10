@@ -49,11 +49,11 @@ namespace djv
                         if (png || pngInfo || pngInfoEnd)
                         {
                             png_destroy_read_struct(
-                                png ? &png : nullptr,
-                                pngInfo ? &pngInfo : nullptr,
+                                png        ? &png        : nullptr,
+                                pngInfo    ? &pngInfo    : nullptr,
                                 pngInfoEnd ? &pngInfoEnd : nullptr);
-                            png = nullptr;
-                            pngInfo = nullptr;
+                            png        = nullptr;
+                            pngInfo    = nullptr;
                             pngInfoEnd = nullptr;
                         }
                         if (f)
@@ -63,10 +63,10 @@ namespace djv
                         }
                     }
 
-                    FILE * f = nullptr;
-                    png_structp png = nullptr;
-                    png_infop pngInfo = nullptr;
-                    png_infop pngInfoEnd = nullptr;
+                    FILE *      f          = nullptr;
+                    png_structp png        = nullptr;
+                    png_infop   pngInfo    = nullptr;
+                    png_infop   pngInfoEnd = nullptr;
                     ErrorStruct pngError;
                 };
 

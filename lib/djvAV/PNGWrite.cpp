@@ -68,9 +68,9 @@ namespace djv
                 {
                     struct File
                     {
-                        FILE * f = nullptr;
-                        png_structp png = nullptr;
-                        png_infop pngInfo = nullptr;
+                        FILE *      f        = nullptr;
+                        png_structp png      = nullptr;
+                        png_infop   pngInfo  = nullptr;
                         ErrorStruct pngError;
                     };
 
@@ -94,10 +94,10 @@ namespace djv
                         int colorType = 0;
                         switch (info.getGLFormat())
                         {
-                        case GL_R: colorType = PNG_COLOR_TYPE_GRAY; break;
-                        case GL_RG: colorType = PNG_COLOR_TYPE_GRAY_ALPHA; break;
-                        case GL_RGB: colorType = PNG_COLOR_TYPE_RGB; break;
-                        case GL_RGBA: colorType = PNG_COLOR_TYPE_RGB_ALPHA; break;
+                        case GL_R:    colorType = PNG_COLOR_TYPE_GRAY;       break;
+                        case GL_RG:   colorType = PNG_COLOR_TYPE_GRAY_ALPHA; break;
+                        case GL_RGB:  colorType = PNG_COLOR_TYPE_RGB;        break;
+                        case GL_RGBA: colorType = PNG_COLOR_TYPE_RGB_ALPHA;  break;
                         default: break;
                         }
 

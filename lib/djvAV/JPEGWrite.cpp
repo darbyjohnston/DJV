@@ -68,10 +68,24 @@ namespace djv
                 {
                     struct File
                     {
-						FILE *               _f = nullptr;
-						jpeg_compress_struct _jpeg;
-						bool                 _jpegInit = false;
-						JPEGErrorStruct      _jpegError;
+                        ~File()
+                        {
+                            if (jpegInit)
+                            {
+                                jpeg_destroy_compress(&jpeg);
+                                jpegInit = false;
+                            }
+                            if (f)
+                            {
+                                fclose(f);
+                                f = nullptr;
+                            }
+                        }
+                        
+						FILE *               f = nullptr;
+						jpeg_compress_struct jpeg;
+						bool                 jpegInit = false;
+						JPEGErrorStruct      jpegError;
                     };
 
 					bool jpegInit(jpeg_compress_struct * jpeg, JPEGErrorStruct * error)
@@ -198,21 +212,21 @@ namespace djv
                     }
 
                     File f;
-					f._jpeg.err = jpeg_std_error(&f._jpegError.pub);
-					f._jpegError.pub.error_exit = djvJPEGError;
-					f._jpegError.pub.emit_message = djvJPEGWarning;
-					f._jpegError.msg[0] = 0;
-					if (!jpegInit(&f._jpeg, &f._jpegError))
+					f.jpeg.err = jpeg_std_error(&f.jpegError.pub);
+					f.jpegError.pub.error_exit = djvJPEGError;
+					f.jpegError.pub.emit_message = djvJPEGWarning;
+					f.jpegError.msg[0] = 0;
+					if (!jpegInit(&f.jpeg, &f.jpegError))
 					{
 						std::stringstream s;
 						s << pluginName << " " << _context->getText(DJV_TEXT("djv::AV::IO::JPEG", "cannot open")) <<
-							" '" << fileName << "': " << f._jpegError.msg;
+							" '" << fileName << "': " << f.jpegError.msg;
 						throw std::runtime_error(s.str());
 					}
-					f._jpegInit = true;
+					f.jpegInit = true;
 
-					f._f = FileSystem::fopen(fileName.c_str(), "wb");
-					if (!f._f)
+					f.f = FileSystem::fopen(fileName.c_str(), "wb");
+					if (!f.f)
 					{
 						std::stringstream s;
 						s << pluginName << " " << _context->getText(DJV_TEXT("djv::AV::IO::JPEG", "cannot open"))
@@ -221,31 +235,31 @@ namespace djv
 					}
 
 					//! \todo Add an option for quality.
-					if (!jpegOpen(f._f, &f._jpeg, info, _info.tags, 90, &f._jpegError))
+					if (!jpegOpen(f.f, &f.jpeg, info, _info.tags, 90, &f.jpegError))
 					{
 						std::stringstream s;
 						s << pluginName << " " << _context->getText(DJV_TEXT("djv::AV::IO::JPEG", "cannot open")) <<
-							" '" << fileName << "': " << f._jpegError.msg;
+							" '" << fileName << "': " << f.jpegError.msg;
 						throw std::runtime_error(s.str());
 					}
 
 					const auto & size = imageData->getSize();
 					for (int y = 0; y < size.y; ++y)
 					{
-						if (!jpegScanline(&f._jpeg, imageData->getData(y), &f._jpegError))
+						if (!jpegScanline(&f.jpeg, imageData->getData(y), &f.jpegError))
 						{
 							std::stringstream s;
 							s << pluginName << " " << _context->getText(DJV_TEXT("djv::AV::IO::JPEG", "cannot write")) <<
-								" '" << fileName << "': " << f._jpegError.msg;
+								" '" << fileName << "': " << f.jpegError.msg;
 							throw std::runtime_error(s.str());
 						}
 					}
 
-					if (!jpeg_end(&f._jpeg, &f._jpegError))
+					if (!jpeg_end(&f.jpeg, &f.jpegError))
 					{
 						std::stringstream s;
 						s << pluginName << " " << _context->getText(DJV_TEXT("djv::AV::IO::JPEG", "cannot write")) <<
-							" '" << fileName << "': " << f._jpegError.msg;
+							" '" << fileName << "': " << f.jpegError.msg;
 						throw std::runtime_error(s.str());
 					}
                 }

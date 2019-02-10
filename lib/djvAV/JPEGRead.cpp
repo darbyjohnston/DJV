@@ -46,22 +46,22 @@ namespace djv
                 {
                     ~File()
                     {
-						if (_jpegInit)
+						if (jpegInit)
 						{
-							jpeg_destroy_decompress(&_jpeg);
-							_jpegInit = false;
+							jpeg_destroy_decompress(&jpeg);
+							jpegInit = false;
 						}
-						if (_f)
+						if (f)
 						{
-							fclose(_f);
-							_f = nullptr;
+							fclose(f);
+							f = nullptr;
 						}
                     }
 
-					FILE *                 _f = nullptr;
-					jpeg_decompress_struct _jpeg;
-					bool                   _jpegInit = false;
-					JPEGErrorStruct        _jpegError;
+					FILE *                 f         = nullptr;
+					jpeg_decompress_struct jpeg;
+					bool                   jpegInit  = false;
+					JPEGErrorStruct        jpegError;
                 };
 
                 Read::Read()
@@ -123,19 +123,19 @@ namespace djv
                         out = Image::Image::create(info.video[0].info);
                         for (int y = 0; y < info.video[0].info.size.y; ++y)
                         {
-                            if (!jpegScanline(&f._jpeg, out->getData(y), &f._jpegError))
+                            if (!jpegScanline(&f.jpeg, out->getData(y), &f.jpegError))
                             {
                                 std::stringstream s;
                                 s << pluginName << " " << _context->getText(DJV_TEXT("djv::AV::IO::JPEG", "cannot read")) <<
-                                    " '" << fileName << "': " << f._jpegError.msg;
+                                    " '" << fileName << "': " << f.jpegError.msg;
                                 throw std::runtime_error(s.str());
                             }
                         }
-						if (!jpegEnd(&f._jpeg, &f._jpegError))
+						if (!jpegEnd(&f.jpeg, &f.jpegError))
 						{
 							std::stringstream s;
 							s << pluginName << " " << _context->getText(DJV_TEXT("djv::AV::IO::JPEG", "cannot read")) <<
-								" '" << fileName << "': " << f._jpegError.msg;
+								" '" << fileName << "': " << f.jpegError.msg;
 							throw std::runtime_error(s.str());
 						}
                     }
@@ -182,37 +182,37 @@ namespace djv
 
                 Info Read::_open(const std::string& fileName, File & f)
                 {
-					f._jpeg.err = jpeg_std_error(&f._jpegError.pub);
-					f._jpegError.pub.error_exit = djvJPEGError;
-					f._jpegError.pub.emit_message = djvJPEGWarning;
-					f._jpegError.msg[0] = 0;
-					if (!jpegInit(&f._jpeg, &f._jpegError))
+					f.jpeg.err = jpeg_std_error(&f.jpegError.pub);
+					f.jpegError.pub.error_exit = djvJPEGError;
+					f.jpegError.pub.emit_message = djvJPEGWarning;
+					f.jpegError.msg[0] = 0;
+					if (!jpegInit(&f.jpeg, &f.jpegError))
 					{
 						std::stringstream s;
 						s << pluginName << " " << _context->getText(DJV_TEXT("djv::AV::IO::JPEG", "cannot open")) <<
-							" '" << fileName << "': " << f._jpegError.msg;
+							" '" << fileName << "': " << f.jpegError.msg;
 						throw std::runtime_error(s.str());
 					}
-					f._jpegInit = true;
+					f.jpegInit = true;
 
-					f._f = FileSystem::fopen(fileName, "rb");
-                    if (!f._f)
+					f.f = FileSystem::fopen(fileName, "rb");
+                    if (!f.f)
                     {
                         std::stringstream s;
                         s << pluginName << " " << _context->getText(DJV_TEXT("djv::AV::IO::JPEG", "cannot open")) <<
                             " '" << fileName << "'.";
                         throw std::runtime_error(s.str());
                     }
-                    if (!jpegOpen(f._f, &f._jpeg, &f._jpegError))
+                    if (!jpegOpen(f.f, &f.jpeg, &f.jpegError))
                     {
                         std::stringstream s;
                         s << pluginName << " " << _context->getText(DJV_TEXT("djv::AV::IO::JPEG", "cannot open")) <<
-                            " '" << fileName << "': " << f._jpegError.msg;
+                            " '" << fileName << "': " << f.jpegError.msg;
                         throw std::runtime_error(s.str());
                     }
 
-					const glm::ivec2 size = glm::ivec2(f._jpeg.output_width, f._jpeg.output_height);
-                    Image::Type imageType = Image::getIntType(f._jpeg.out_color_components, 8);
+					const glm::ivec2 size = glm::ivec2(f.jpeg.output_width, f.jpeg.output_height);
+                    Image::Type imageType = Image::getIntType(f.jpeg.out_color_components, 8);
                     if (Image::Type::None == imageType)
                     {
                         std::stringstream s;
@@ -222,7 +222,7 @@ namespace djv
                     }
 					auto info = Info(fileName, VideoInfo(Image::Info(size, imageType), _speed, _duration));
 
-					const jpeg_saved_marker_ptr marker = f._jpeg.marker_list;
+					const jpeg_saved_marker_ptr marker = f.jpeg.marker_list;
 					if (marker)
 					{
 						info.tags.setTag("Description", std::string((const char *)marker->data, marker->data_length));
