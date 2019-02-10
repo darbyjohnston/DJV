@@ -147,7 +147,7 @@ namespace djv
                     { MetricsRole::SpacingSmall, 5.f },
                     { MetricsRole::SpacingLarge, 30.f },
                     { MetricsRole::Drag, 20.f },
-                    { MetricsRole::Icon, 24.f },
+                    { MetricsRole::Icon, static_cast<float>(iconSizeDefault) },
                     { MetricsRole::IconLarge, 100.f },
                     { MetricsRole::FontSmall, 9.f },
                     { MetricsRole::FontMedium, 12.f },

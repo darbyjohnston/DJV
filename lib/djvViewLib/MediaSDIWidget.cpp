@@ -27,7 +27,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvViewLib/MediaWidget.h>
+#include <djvViewLib/MediaSDIWidget.h>
 
 #include <djvViewLib/ImageView.h>
 #include <djvViewLib/Media.h>
@@ -44,7 +44,7 @@ namespace djv
 {
     namespace ViewLib
     {
-        struct MediaWidget::Private
+        struct MediaSDIWidget::Private
         {
             std::shared_ptr<Media> media;
             std::shared_ptr<ImageView> imageView;
@@ -58,7 +58,7 @@ namespace djv
             std::shared_ptr<ValueObserver<Playback> > playbackObserver2;
         };
         
-        void MediaWidget::_init(Context * context)
+        void MediaSDIWidget::_init(Context * context)
         {
             Widget::_init(context);
 
@@ -88,16 +88,16 @@ namespace djv
 
             _widgetUpdate();
 
-            auto weak = std::weak_ptr<MediaWidget>(std::dynamic_pointer_cast<MediaWidget>(shared_from_this()));
+            auto weak = std::weak_ptr<MediaSDIWidget>(std::dynamic_pointer_cast<MediaSDIWidget>(shared_from_this()));
             p.currentTimeObserver = ValueObserver<Time::Timestamp>::create(
                 p.timelineSlider->observeCurrentTime(),
                 [weak](Time::Timestamp value)
             {
-                if (auto system = weak.lock())
+                if (auto widget = weak.lock())
                 {
-                    if (system->_p->media)
+                    if (widget->_p->media)
                     {
-                        system->_p->media->setCurrentTime(value);
+						widget->_p->media->setCurrentTime(value);
                     }
                 }
             });
@@ -106,36 +106,36 @@ namespace djv
                 p.playbackWidget->observePlayback(),
                 [weak](const Playback & value)
             {
-                if (auto system = weak.lock())
+                if (auto widget = weak.lock())
                 {
-                    if (system->_p->media)
+                    if (widget->_p->media)
                     {
-                        system->_p->media->setPlayback(value);
+						widget->_p->media->setPlayback(value);
                     }
                 }
             });
         }
 
-        MediaWidget::MediaWidget() :
+		MediaSDIWidget::MediaSDIWidget() :
             _p(new Private)
         {}
 
-        MediaWidget::~MediaWidget()
+		MediaSDIWidget::~MediaSDIWidget()
         {}
 
-        std::shared_ptr<MediaWidget> MediaWidget::create(Context * context)
+        std::shared_ptr<MediaSDIWidget> MediaSDIWidget::create(Context * context)
         {
-            auto out = std::shared_ptr<MediaWidget>(new MediaWidget);
+            auto out = std::shared_ptr<MediaSDIWidget>(new MediaSDIWidget);
             out->_init(context);
             return out;
         }
 
-        const std::shared_ptr<Media> & MediaWidget::getMedia() const
+        const std::shared_ptr<Media> & MediaSDIWidget::getMedia() const
         {
             return _p->media;
         }
 
-        void MediaWidget::setMedia(const std::shared_ptr<Media> & value)
+        void MediaSDIWidget::setMedia(const std::shared_ptr<Media> & value)
         {
             if (value == _p->media)
                 return;
@@ -144,7 +144,7 @@ namespace djv
             _widgetUpdate();
             if (_p->media)
             {
-                auto weak = std::weak_ptr<MediaWidget>(std::dynamic_pointer_cast<MediaWidget>(shared_from_this()));
+                auto weak = std::weak_ptr<MediaSDIWidget>(std::dynamic_pointer_cast<MediaSDIWidget>(shared_from_this()));
                 _p->durationObserver = ValueObserver<Time::Duration>::create(
                     _p->media->observeDuration(),
                     [weak](Time::Duration value)
@@ -184,21 +184,21 @@ namespace djv
             }
         }
 
-        void MediaWidget::_preLayoutEvent(Event::PreLayout& event)
+        void MediaSDIWidget::_preLayoutEvent(Event::PreLayout& event)
         {
             _setMinimumSize(_p->layout->getMinimumSize());
         }
 
-        void MediaWidget::_layoutEvent(Event::Layout&)
+        void MediaSDIWidget::_layoutEvent(Event::Layout&)
         {
             _p->layout->setGeometry(getGeometry());
         }
 
-        void MediaWidget::_widgetUpdate()
+        void MediaSDIWidget::_widgetUpdate()
         {
             DJV_PRIVATE_PTR();
-            _p->playbackWidget->setEnabled(p.media.get());
-            _p->timelineSlider->setEnabled(p.media.get());
+            p.playbackWidget->setEnabled(p.media.get());
+            p.timelineSlider->setEnabled(p.media.get());
         }
         
     } // namespace ViewLib

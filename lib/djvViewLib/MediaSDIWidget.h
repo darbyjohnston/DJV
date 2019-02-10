@@ -37,24 +37,29 @@ namespace djv
     {
         class Media;
 
-        class PlaylistWidget : public UI::Widget
+        class MediaSDIWidget : public UI::Widget
         {
-            DJV_NON_COPYABLE(PlaylistWidget);
+            DJV_NON_COPYABLE(MediaSDIWidget);
 
         protected:
             void _init(Core::Context *);
-            PlaylistWidget();
+			MediaSDIWidget();
 
         public:
-            ~PlaylistWidget() override;
+            ~MediaSDIWidget() override;
 
-            static std::shared_ptr<PlaylistWidget> create(Core::Context *);
+            static std::shared_ptr<MediaSDIWidget> create(Core::Context *);
+
+            const std::shared_ptr<Media> & getMedia() const;
+            void setMedia(const std::shared_ptr<Media> &);
 
         protected:
             void _preLayoutEvent(Core::Event::PreLayout&) override;
             void _layoutEvent(Core::Event::Layout&) override;
 
         private:
+            void _widgetUpdate();
+
             DJV_PRIVATE();
         };
 

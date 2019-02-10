@@ -37,6 +37,7 @@
 #include <djvUI/RowLayout.h>
 #include <djvUI/ScrollWidget.h>
 #include <djvUI/SoloLayout.h>
+#include <djvUI/Splitter.h>
 
 #include <djvCore/Context.h>
 
@@ -95,11 +96,11 @@ namespace djv
 			soloScrollWidget->setBorder(false);
 			soloScrollWidget->addWidget(soloLayout);
 
-			auto layout = UI::HorizontalLayout::create(context);
-			layout->setSpacing(UI::MetricsRole::None);
-			layout->addWidget(buttonScrollWidget);
-			layout->addWidget(soloScrollWidget, UI::RowStretch::Expand);
-			addWidget(layout);
+			auto splitter = UI::Layout::Splitter::create(UI::Orientation::Horizontal, context);
+			splitter->setSplit(.15f);
+			splitter->addWidget(buttonScrollWidget);
+			splitter->addWidget(soloScrollWidget);
+			addWidget(splitter);
 
 			auto weak = std::weak_ptr<SettingsWidget>(std::dynamic_pointer_cast<SettingsWidget>(shared_from_this()));
 			p.buttonGroup->setRadioCallback(

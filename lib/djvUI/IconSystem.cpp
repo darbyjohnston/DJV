@@ -314,7 +314,7 @@ namespace djv
 
         int IconSystem::Private::findClosestDPI(int value) const
         {
-            const int dpi = static_cast<int>(value / 24.f * 96.f);
+            const int dpi = static_cast<int>(value / static_cast<float>(Style::iconSizeDefault) * static_cast<float>(AV::dpiDefault));
             std::map<int, int> differenceToDPI;
             for (auto i : dpiList)
             {

@@ -24,10 +24,10 @@ set(header
     MainWindow.h
     Media.h
     MediaMDIWidget.h
-    MediaWidget.h
+    MediaPlaylistWidget.h
+    MediaSDIWidget.h
     PlaybackSystem.h
     PlaybackWidget.h
-    PlaylistWidget.h
     RecentFilesWidget.h
     SettingsSystem.h
     SettingsWidget.h
@@ -61,10 +61,10 @@ set(source
     MainWindow.cpp
     Media.cpp
     MediaMDIWidget.cpp
-    MediaWidget.cpp
+    MediaPlaylistWidget.cpp
+    MediaSDIWidget.cpp
     PlaybackSystem.cpp
     PlaybackWidget.cpp
-    PlaylistWidget.cpp
     RecentFilesWidget.cpp
     SettingsSystem.cpp
     SettingsWidget.cpp

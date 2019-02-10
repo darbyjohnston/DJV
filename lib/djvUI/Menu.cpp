@@ -88,7 +88,6 @@ namespace djv
 				{
 					ButtonType buttonType = ButtonType::First;
 					bool checked = false;
-					std::string iconName;
 					std::shared_ptr<AV::Image::Image> icon;
 					std::string text;
 					glm::vec2 textSize;
@@ -101,14 +100,12 @@ namespace djv
 
 				std::shared_ptr<Item> _getItem(const glm::vec2 &) const;
 				void _itemsUpdate();
-				void _iconUpdate();
 				void _textUpdate();
 
 				std::map<size_t, std::shared_ptr<Action> > _actions;
 				std::map<size_t, std::shared_ptr<Menu> > _menus;
 				AV::Font::Metrics _fontMetrics;
 				std::future<AV::Font::Metrics> _fontMetricsFuture;
-				bool _hasTextIndent = false;
 				bool _hasShortcuts = false;
 				std::map<size_t, std::shared_ptr<Item> > _items;
 				std::map<std::shared_ptr<Action>, std::shared_ptr<Item> > _actionToItem;
@@ -117,18 +114,15 @@ namespace djv
 				std::map<std::shared_ptr<Item>, std::shared_ptr<Menu> > _itemToMenu;
 				std::map<std::shared_ptr<Item>, std::future<glm::vec2> > _textSizeFutures;
 				std::map<std::shared_ptr<Item>, std::future<glm::vec2> > _shortcutSizeFutures;
-				std::map<std::shared_ptr<Item>, std::future<std::shared_ptr<AV::Image::Image> > > _iconFutures;
 				std::map<Event::PointerID, std::shared_ptr<Item> > _hoveredItems;
 				std::pair<Event::PointerID, std::shared_ptr<Item> > _pressed;
 				glm::vec2 _pressedPos = glm::vec2(0.f, 0.f);
 				std::function<void(void)> _closeCallback;
 				std::map<std::shared_ptr<Item>, std::shared_ptr<ValueObserver<ButtonType> > > _buttonTypeObservers;
 				std::map<std::shared_ptr<Item>, std::shared_ptr<ValueObserver<bool> > > _checkedObservers;
-				std::map<std::shared_ptr<Item>, std::shared_ptr<ValueObserver<std::string> > > _iconObservers;
 				std::map<std::shared_ptr<Item>, std::shared_ptr<ValueObserver<std::string> > > _textObservers;
 				std::map<std::shared_ptr<Item>, std::shared_ptr<ListObserver<std::shared_ptr<Shortcut> > > > _shortcutsObservers;
 				std::map<std::shared_ptr<Item>, std::shared_ptr<ValueObserver<bool> > > _enabledObservers;
-				bool _iconUpdateRequest = false;
 				bool _textUpdateRequest = false;
 			};
 
@@ -172,7 +166,6 @@ namespace djv
 					const float m = style->getMetric(MetricsRole::MarginSmall);
 					const float s = style->getMetric(MetricsRole::Spacing);
 					const float b = style->getMetric(MetricsRole::Border);
-					const float iconSize = style->getMetric(MetricsRole::Icon);
 
 					if (_fontMetricsFuture.valid())
 					{
@@ -219,7 +212,6 @@ namespace djv
 
 					glm::vec2 textSize(0.f, 0.f);
 					glm::vec2 shortcutSize(0.f, 0.f);
-					_hasTextIndent = false;
 					for (const auto & i : _items)
 					{
 						if (!i.second->text.empty())
@@ -229,19 +221,9 @@ namespace djv
 							shortcutSize.x = std::max(shortcutSize.x, i.second->shortcutSize.x);
 							shortcutSize.y = std::max(shortcutSize.y, i.second->shortcutSize.y);
 						}
-						if (!i.second->iconName.empty())
-						{
-							_hasTextIndent = true;
-						}
 					}
 					glm::vec2 itemSize(0.f, 0.f);
-					if (_hasTextIndent)
-					{
-						itemSize.x = iconSize;
-						itemSize.y = iconSize;
-						itemSize.x += s;
-					}
-					itemSize.x += textSize.x;
+					itemSize.x = textSize.x;
 					itemSize.y = std::max(itemSize.y, textSize.y);
 					if (_hasShortcuts)
 					{
@@ -305,22 +287,6 @@ namespace djv
 						const float s = style->getMetric(MetricsRole::Spacing);
 						const float iconSize = style->getMetric(MetricsRole::Icon);
 
-						for (auto & i : _iconFutures)
-						{
-							if (i.second.valid())
-							{
-								try
-								{
-									i.first->icon = i.second.get();
-									_resize();
-								}
-								catch (const std::exception& e)
-								{
-									_log(e.what(), LogLevel::Error);
-								}
-							}
-						}
-
 						for (const auto & i : _items)
 						{
 							if (i.second->checked)
@@ -362,10 +328,6 @@ namespace djv
 								y = i.second->geom.min.y + ceilf(i.second->size.y / 2.f - iconSize / 2.f);
 								render->setFillColor(_getColorWithOpacity(style->getColor(colorRole)));
 								render->drawFilledImage(i.second->icon, BBox2f(x, y, iconSize, iconSize), AV::Render::ImageCache::Static);
-							}
-							if (_hasTextIndent)
-							{
-								x += iconSize + s;
 							}
 
 							if (!i.second->text.empty())
@@ -535,10 +497,6 @@ namespace djv
 
 			void MenuWidget::_updateEvent(Event::Update&)
 			{
-				if (_iconUpdateRequest)
-				{
-					_iconUpdate();
-				}
 				if (_textUpdateRequest)
 				{
 					_textUpdate();
@@ -576,7 +534,6 @@ namespace djv
 					_itemToMenu.clear();
 					_buttonTypeObservers.clear();
 					_checkedObservers.clear();
-					_iconObservers.clear();
 					_textObservers.clear();
 					_shortcutsObservers.clear();
 					_enabledObservers.clear();
@@ -604,16 +561,6 @@ namespace djv
 								{
 									item->checked = value;
 									widget->_redraw();
-								}
-							});
-							_iconObservers[item] = ValueObserver<std::string>::create(
-								i.second->observeIcon(),
-								[weak, item](std::string value)
-							{
-								if (auto widget = weak.lock())
-								{
-									item->iconName = value;
-									widget->_iconUpdateRequest = true;
 								}
 							});
 							_textObservers[item] = ValueObserver<std::string>::create(
@@ -683,27 +630,7 @@ namespace djv
 						_itemToMenu[item] = i.second;
 					}
 				}
-				_iconUpdate();
 				_textUpdate();
-			}
-
-			void MenuWidget::_iconUpdate()
-			{
-				_iconUpdateRequest = false;
-				auto iconSystem = _getIconSystem().lock();
-				auto style = _getStyle().lock();
-				if (style && iconSystem)
-				{
-					for (const auto & i : _items)
-					{
-						if (!i.second->iconName.empty())
-						{
-							_iconFutures[i.second] = iconSystem->getIcon(
-								i.second->iconName,
-								static_cast<int>(style->getMetric(MetricsRole::Icon)));
-						}
-					}
-				}
 			}
 
 			void MenuWidget::_textUpdate()

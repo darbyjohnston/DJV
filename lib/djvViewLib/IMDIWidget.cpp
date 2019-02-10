@@ -64,14 +64,23 @@ namespace djv
 			p.resize = resize;
 
             p.titleLabel = UI::Label::create(context);
+			p.titleLabel->setFontSizeRole(UI::MetricsRole::FontHeader);
             p.titleLabel->setTextHAlign(UI::TextHAlign::Left);
+			p.titleLabel->setTextColorRole(UI::ColorRole::HeaderForeground);
             p.titleLabel->setMargin(UI::MetricsRole::Margin);
 
             p.closeButton = UI::ToolButton::create(context);
-			p.closeButton->setIcon("djvIconCloseSmall");
+			p.closeButton->setIcon("djvIconClose");
+			p.closeButton->setForegroundColorRole(UI::ColorRole::HeaderForeground);
+			p.closeButton->setHoveredColorRole(UI::ColorRole::HeaderHovered);
+			p.closeButton->setPressedColorRole(UI::ColorRole::HeaderPressed);
+			p.closeButton->setCheckedColorRole(UI::ColorRole::HeaderChecked);
+			p.closeButton->setDisabledColorRole(UI::ColorRole::HeaderDisabled);
+			p.closeButton->setInsideMargin(UI::MetricsRole::MarginSmall);
 
             p.titleBar = UI::HorizontalLayout::create(context);
 			p.titleBar->setSpacing(UI::MetricsRole::None);
+			p.titleBar->setBackgroundRole(UI::ColorRole::HeaderBackground);
 			p.titleBar->addWidget(p.titleLabel, UI::RowStretch::Expand);
 			p.titleBarWidgetLayout = UI::HorizontalLayout::create(context);
 			p.titleBarWidgetLayout->setSpacing(UI::MetricsRole::None);
@@ -88,6 +97,7 @@ namespace djv
             p.layout->addWidget(p.childLayout, UI::RowStretch::Expand);
 
             p.border = UI::Border::create(context);
+			p.border->setBorderColorRole(UI::ColorRole::None);
             p.border->setMargin(UI::MetricsRole::Handle);
             p.border->addWidget(p.layout);
             IContainer::addWidget(p.border);

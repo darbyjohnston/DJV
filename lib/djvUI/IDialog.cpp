@@ -82,6 +82,7 @@ namespace djv
         struct IDialog::Private
         {
             std::shared_ptr<Label> titleLabel;
+			std::shared_ptr<UI::ToolButton> closeButton;
             std::shared_ptr<VerticalLayout> childLayout;
             std::shared_ptr<Border> border;
             std::shared_ptr<Layout::Overlay> overlay;
@@ -103,14 +104,14 @@ namespace djv
                 UI::MetricsRole::Margin,
                 UI::MetricsRole::Margin));
 
-            auto closeButton = ToolButton::create(context);
-            closeButton->setIcon("djvIconClose");
-            closeButton->setForegroundColorRole(UI::ColorRole::HeaderForeground);
-            closeButton->setHoveredColorRole(UI::ColorRole::HeaderHovered);
-            closeButton->setPressedColorRole(UI::ColorRole::HeaderPressed);
-            closeButton->setCheckedColorRole(UI::ColorRole::HeaderChecked);
-            closeButton->setDisabledColorRole(UI::ColorRole::HeaderDisabled);
-            closeButton->setInsideMargin(MetricsRole::MarginSmall);
+            p.closeButton = ToolButton::create(context);
+			p.closeButton->setIcon("djvIconClose");
+			p.closeButton->setForegroundColorRole(UI::ColorRole::HeaderForeground);
+			p.closeButton->setHoveredColorRole(UI::ColorRole::HeaderHovered);
+			p.closeButton->setPressedColorRole(UI::ColorRole::HeaderPressed);
+			p.closeButton->setCheckedColorRole(UI::ColorRole::HeaderChecked);
+			p.closeButton->setDisabledColorRole(UI::ColorRole::HeaderDisabled);
+			p.closeButton->setInsideMargin(MetricsRole::MarginSmall);
 
             p.childLayout = VerticalLayout::create(context);
             p.childLayout->setSpacing(MetricsRole::None);
@@ -121,7 +122,7 @@ namespace djv
             auto hLayout = HorizontalLayout::create(context);
             hLayout->setBackgroundRole(ColorRole::HeaderBackground);
             hLayout->addWidget(p.titleLabel, RowStretch::Expand);
-            hLayout->addWidget(closeButton);
+            hLayout->addWidget(p.closeButton);
             layout->addWidget(hLayout);
             layout->addWidget(p.childLayout, RowStretch::Expand);
 
@@ -134,7 +135,7 @@ namespace djv
             p.overlay->setParent(shared_from_this());
 
             auto weak = std::weak_ptr<IDialog>(std::dynamic_pointer_cast<IDialog>(shared_from_this()));
-            closeButton->setClickedCallback(
+			p.closeButton->setClickedCallback(
                 [weak]
             {
                 if (auto dialog = weak.lock())

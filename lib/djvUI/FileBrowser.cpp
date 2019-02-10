@@ -187,10 +187,10 @@ namespace djv
                 auto pathWidget = PathWidget::create(context);
 
                 auto topToolBar = Toolbar::create(context);
-                topToolBar->addWidget(pathWidget, RowStretch::Expand);
-                topToolBar->addAction(p.actions["Back"]);
-                topToolBar->addAction(p.actions["Forward"]);
-                topToolBar->addAction(p.actions["Up"]);
+				topToolBar->addAction(p.actions["Back"]);
+				topToolBar->addAction(p.actions["Forward"]);
+				topToolBar->addAction(p.actions["Up"]);
+				topToolBar->addWidget(pathWidget, RowStretch::Expand);
                 topToolBar->addAction(p.actions["EditPath"]);
 
                 p.itemCountLabel = Label::create(context);
@@ -232,9 +232,9 @@ namespace djv
                 vLayout->addWidget(bottomToolBar);
 
                 auto splitter = Layout::Splitter::create(Orientation::Horizontal, context);
-                splitter->addWidget(shortcutsWidget);
+				splitter->setSplit(.15f);
+				splitter->addWidget(shortcutsWidget);
                 splitter->addWidget(vLayout);
-                splitter->setSplit(.15f);
                 p.layout->addWidget(splitter, RowStretch::Expand);
                 p.layout->setParent(shared_from_this());
 

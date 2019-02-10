@@ -27,7 +27,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvViewLib/PlaylistWidget.h>
+#include <djvViewLib/MediaPlaylistWidget.h>
 
 using namespace djv::Core;
 
@@ -35,30 +35,30 @@ namespace djv
 {
     namespace ViewLib
     {
-        struct PlaylistWidget::Private
+        struct MediaPlaylistWidget::Private
         {
         };
 
-        void PlaylistWidget::_init(Context * context)
+        void MediaPlaylistWidget::_init(Context * context)
         {
             Widget::_init(context);
         }
 
-        PlaylistWidget::PlaylistWidget() :
+		MediaPlaylistWidget::MediaPlaylistWidget() :
             _p(new Private)
         {}
 
-        PlaylistWidget::~PlaylistWidget()
+		MediaPlaylistWidget::~MediaPlaylistWidget()
         {}
 
-        std::shared_ptr<PlaylistWidget> PlaylistWidget::create(Context * context)
+        std::shared_ptr<MediaPlaylistWidget> MediaPlaylistWidget::create(Context * context)
         {
-            auto out = std::shared_ptr<PlaylistWidget>(new PlaylistWidget);
+            auto out = std::shared_ptr<MediaPlaylistWidget>(new MediaPlaylistWidget);
             out->_init(context);
             return out;
         }
 
-        void PlaylistWidget::_preLayoutEvent(Event::PreLayout& event)
+        void MediaPlaylistWidget::_preLayoutEvent(Event::PreLayout& event)
         {
             if (auto style = _getStyle().lock())
             {
@@ -67,7 +67,7 @@ namespace djv
             }
         }
 
-        void PlaylistWidget::_layoutEvent(Event::Layout&)
+        void MediaPlaylistWidget::_layoutEvent(Event::Layout&)
         {}
 
     } // namespace ViewLib

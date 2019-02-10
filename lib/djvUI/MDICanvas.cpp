@@ -231,7 +231,7 @@ namespace djv
 
                         if (p.activeWidget && p.activeWidget->isVisible() && !p.activeWidget->isClipped())
                         {
-                            const BBox2f g = p.activeWidget->getGeometry().margin(-h).margin(b);
+                            const BBox2f g = p.activeWidget->getGeometry().margin(-h);
                             render->setFillColor(_getColorWithOpacity(style->getColor(ColorRole::Checked)));
                             render->drawRect(BBox2f(
                                 glm::vec2(g.min.x, g.min.y),

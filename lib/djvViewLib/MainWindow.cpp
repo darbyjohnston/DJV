@@ -34,10 +34,10 @@
 #include <djvViewLib/IMDIWidget.h>
 #include <djvViewLib/IViewSystem.h>
 #include <djvViewLib/ImageView.h>
-#include <djvViewLib/MediaMDIWidget.h>
 #include <djvViewLib/Media.h>
-#include <djvViewLib/MediaWidget.h>
-#include <djvViewLib/PlaylistWidget.h>
+#include <djvViewLib/MediaMDIWidget.h>
+#include <djvViewLib/MediaPlaylistWidget.h>
+#include <djvViewLib/MediaSDIWidget.h>
 #include <djvViewLib/SettingsSystem.h>
 #include <djvViewLib/WindowSystem.h>
 
@@ -66,11 +66,11 @@ namespace djv
         struct MainWindow::Private
         {
             std::shared_ptr<UI::MenuBar> menuBar;
-            std::shared_ptr<MediaWidget> mediaSDIWidget;
+            std::shared_ptr<MediaSDIWidget> mediaSDIWidget;
             std::shared_ptr<UI::MDI::Canvas> mediaMDICanvas;
             std::shared_ptr<UI::ScrollWidget> mediaMDIScrollWidget;
             std::map<std::shared_ptr<Media>, std::shared_ptr<MediaMDIWidget> > mediaToMDIWidget;
-            std::shared_ptr<PlaylistWidget> mediaPlaylistWidget;
+            std::shared_ptr<MediaPlaylistWidget> mediaPlaylistWidget;
             std::shared_ptr<UI::SoloLayout> soloLayout;
             std::shared_ptr<UI::ToolButton> mediaSDIButton;
             std::shared_ptr<UI::ToolButton> mediaMDIButton;
@@ -107,14 +107,14 @@ namespace djv
             }
 
             DJV_PRIVATE_PTR();
-            p.mediaSDIWidget = MediaWidget::create(context);
+            p.mediaSDIWidget = MediaSDIWidget::create(context);
 
             p.mediaMDICanvas = UI::MDI::Canvas::create(context);
             p.mediaMDIScrollWidget = UI::ScrollWidget::create(UI::ScrollType::Both, context);
             p.mediaMDIScrollWidget->setBorder(false);
             p.mediaMDIScrollWidget->addWidget(p.mediaMDICanvas);
 
-            p.mediaPlaylistWidget = PlaylistWidget::create(context);
+            p.mediaPlaylistWidget = MediaPlaylistWidget::create(context);
 
             p.soloLayout = UI::SoloLayout::create(context);
             p.soloLayout->addWidget(p.mediaSDIWidget);
