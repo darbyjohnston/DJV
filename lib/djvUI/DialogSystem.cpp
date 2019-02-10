@@ -29,7 +29,6 @@
 
 #include <djvUI/DialogSystem.h>
 
-#include <djvUI/FileBrowser.h>
 #include <djvUI/IDialog.h>
 #include <djvUI/IWindowSystem.h>
 #include <djvUI/Label.h>
@@ -206,63 +205,12 @@ namespace djv
                 std::function<void(void)> _cancelCallback;
             };
 
-            class FileBrowserDialog : public IDialog
-            {
-                DJV_NON_COPYABLE(FileBrowserDialog);
-
-            protected:
-                void _init(Context * context)
-                {
-                    IDialog::_init(context);
-
-                    _widget = FileBrowser::Widget::create(context);
-                    _widget->setPath(FileSystem::Path("."));
-                    _widget->setBackgroundRole(ColorRole::Background);
-                    addWidget(_widget, RowStretch::Expand);
-
-                    auto weak = std::weak_ptr<FileBrowserDialog>(std::dynamic_pointer_cast<FileBrowserDialog>(shared_from_this()));
-                    _widget->setCallback(
-                        [weak](const FileSystem::FileInfo & value)
-                    {
-                        if (auto dialog = weak.lock())
-                        {
-                            if (dialog->_callback)
-                            {
-                                dialog->_callback(value);
-                            }
-                            dialog->_doCloseCallback();
-                        }
-                    });
-                }
-
-                FileBrowserDialog()
-                {}
-
-            public:
-                static std::shared_ptr<FileBrowserDialog> create(Context * context)
-                {
-                    auto out = std::shared_ptr<FileBrowserDialog>(new FileBrowserDialog);
-                    out->_init(context);
-                    return out;
-                }
-
-                void setCallback(const std::function<void(const FileSystem::FileInfo &)> & value)
-                {
-                    _callback = value;
-                }
-
-            private:
-                std::shared_ptr<FileBrowser::Widget> _widget;
-                std::function<void(const FileSystem::FileInfo &)> _callback;
-            };
-
         } // namespace
 
         struct DialogSystem::Private
         {
             std::shared_ptr<MessageDialog> messageDialog;
             std::shared_ptr<ConfirmationDialog> confirmationDialog;
-            std::shared_ptr<FileBrowserDialog> fileBrowserDialog;
         };
 
         void DialogSystem::_init(Context * context)
@@ -363,43 +311,6 @@ namespace djv
 
                     window->addWidget(p.confirmationDialog);
                     p.confirmationDialog->show();
-                }
-            }
-        }
-
-        void DialogSystem::fileBrowser(
-            const std::string & title,
-            const std::function<void(const Core::FileSystem::FileInfo &)> & callback)
-        {
-            auto context = getContext();
-            DJV_PRIVATE_PTR();
-            if (!p.fileBrowserDialog)
-            {
-                p.fileBrowserDialog = FileBrowserDialog::create(context);
-            }
-            if (auto windowSystem = context->getSystemT<UI::IWindowSystem>().lock())
-            {
-                if (auto window = windowSystem->observeCurrentWindow()->get())
-                {
-                    p.fileBrowserDialog->setTitle(title);
-
-                    auto weak = std::weak_ptr<DialogSystem>(std::dynamic_pointer_cast<DialogSystem>(shared_from_this()));
-                    p.fileBrowserDialog->setCallback(
-                        [callback](const Core::FileSystem::FileInfo & value)
-                    {
-                        callback(value);
-                    });
-                    p.fileBrowserDialog->setCloseCallback(
-                        [weak, window]
-                    {
-                        if (auto system = weak.lock())
-                        {
-                            window->removeWidget(system->_p->fileBrowserDialog);
-                        }
-                    });
-
-                    window->addWidget(p.fileBrowserDialog);
-                    p.fileBrowserDialog->show();
                 }
             }
         }

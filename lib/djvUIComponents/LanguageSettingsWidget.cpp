@@ -27,7 +27,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvViewLib/LanguageSettingsWidget.h>
+#include <djvUIComponents/LanguageSettingsWidget.h>
 
 #include <djvUI/ButtonGroup.h>
 #include <djvUI/FlowLayout.h>
@@ -42,17 +42,17 @@ using namespace djv::Core;
 
 namespace djv
 {
-    namespace ViewLib
+    namespace UI
     {
         struct LanguageSettingsWidget::Private
         {
-            std::vector<std::shared_ptr<UI::ListButton> > buttons;
-            std::shared_ptr<UI::ButtonGroup> buttonGroup;
-            std::shared_ptr<UI::FlowLayout> layout;
+            std::vector<std::shared_ptr<ListButton> > buttons;
+            std::shared_ptr<ButtonGroup> buttonGroup;
+            std::shared_ptr<FlowLayout> layout;
             std::map<int, std::string> indexToLocale;
             std::map<std::string, int> localeToIndex;
             std::map<std::string, std::string> localeFonts;
-            std::map<std::string, std::shared_ptr<UI::ListButton> > localeToButton;
+            std::map<std::string, std::shared_ptr<ListButton> > localeToButton;
             std::shared_ptr<ValueObserver<std::string> > localeObserver;
             std::shared_ptr<MapObserver<std::string, std::string> > localeFontsObserver;
         };
@@ -62,9 +62,9 @@ namespace djv
             Widget::_init(context);
 
             DJV_PRIVATE_PTR();
-            p.buttonGroup = UI::ButtonGroup::create(UI::ButtonType::Radio);
+            p.buttonGroup = ButtonGroup::create(ButtonType::Radio);
 
-            p.layout = UI::FlowLayout::create(context);
+            p.layout = FlowLayout::create(context);
             p.layout->setParent(shared_from_this());
 
             if (auto textSystem = context->getSystemT<TextSystem>().lock())
@@ -72,7 +72,7 @@ namespace djv
                 int j = 0;
                 for (const auto & i : textSystem->getLocales())
                 {
-                    auto button = UI::ListButton::create(context);
+                    auto button = ListButton::create(context);
                     button->setText(context->getText(i));
                     p.buttonGroup->addButton(button);
                     p.layout->addWidget(button);
@@ -117,7 +117,7 @@ namespace djv
                 });
             }
 
-            if (auto uiSystem = context->getSystemT<UI::UISystem>().lock())
+            if (auto uiSystem = context->getSystemT<UISystem>().lock())
             {
                 p.localeFontsObserver = MapObserver<std::string, std::string>::create(
                     uiSystem->getFontSettings()->observeLocaleFonts(),
@@ -194,6 +194,6 @@ namespace djv
             }
         }
 
-    } // namespace ViewLib
+    } // namespace UI
 } // namespace djv
 

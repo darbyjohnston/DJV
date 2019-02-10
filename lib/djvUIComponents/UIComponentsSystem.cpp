@@ -27,49 +27,65 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#pragma once
+#include <djvUIComponents/UIComponentsSystem.h>
 
-#include <djvUI/UI.h>
+#include <djvUIComponents/FileBrowserDialog.h>
+#include <djvUIComponents/FileBrowserSettings.h>
 
-#include <djvCore/ISystem.h>
+#include <djvUI/UISystem.h>
 
-#include <functional>
+#include <djvCore/Context.h>
+
+using namespace djv::Core;
 
 namespace djv
 {
     namespace UI
     {
-        //! This class provides standard dialog widgets.
-        class DialogSystem : public Core::ISystem
+        struct UIComponentsSystem::Private
         {
-            DJV_NON_COPYABLE(DialogSystem);
-
-        protected:
-            void _init(Core::Context *);
-            DialogSystem();
-
-        public:
-            virtual ~DialogSystem();
-
-            static std::shared_ptr<DialogSystem> create(Core::Context *);
-
-            //! Show a message dialog.
-            void message(
-                const std::string & title,
-                const std::string & text,
-                const std::string & closeText);
-
-            //! Show a confirmation dialog.
-            void confirmation(
-                const std::string & title,
-                const std::string & text,
-                const std::string & acceptText,
-                const std::string & cancelText,
-                const std::function<void(bool)> & callback);
-
-        private:
-            DJV_PRIVATE();
+            std::vector<std::shared_ptr<ISystem> > systems;
+            std::shared_ptr<Settings::FileBrowser> fileBrowserSettings;
         };
+
+        void UIComponentsSystem::_init(int dpi, Context * context)
+        {
+            ISystem::_init("djv::UI::UIComponentsSystem", context);
+
+            DJV_PRIVATE_PTR();
+
+            p.fileBrowserSettings = Settings::FileBrowser::create(context);
+
+			p.systems.push_back(UISystem::create(dpi, context));
+            p.systems.push_back(FileBrowser::DialogSystem::create(context));
+        }
+
+		UIComponentsSystem::UIComponentsSystem() :
+            _p(new Private)
+        {}
+
+		UIComponentsSystem::~UIComponentsSystem()
+        {
+            DJV_PRIVATE_PTR();
+            while (p.systems.size())
+            {
+                auto system = p.systems.back();
+                system->setParent(nullptr);
+                p.systems.pop_back();
+            }
+        }
+
+        std::shared_ptr<UIComponentsSystem> UIComponentsSystem::create(int dpi, Context * context)
+        {
+            auto out = std::shared_ptr<UIComponentsSystem>(new UIComponentsSystem);
+            out->_init(dpi, context);
+            return out;
+        }
+
+        const std::shared_ptr<Settings::FileBrowser> & UIComponentsSystem::getFileBrowserSettings() const
+        {
+            return _p->fileBrowserSettings;
+        }
 
     } // namespace UI
 } // namespace djv

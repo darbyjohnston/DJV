@@ -29,39 +29,39 @@
 
 #pragma once
 
-#include <djvViewLib/ViewLib.h>
-
-#include <djvUI/Widget.h>
+#include <djvCore/ISystem.h>
 
 namespace djv
 {
-    namespace ViewLib
+    namespace UI
     {
-        class DisplaySettingsWidget : public UI::Widget
+        namespace Settings
         {
-            DJV_NON_COPYABLE(DisplaySettingsWidget);
+            class FileBrowser;
+
+        } // namespace Settings
+
+        //! This class provides a UI system.
+        class UIComponentsSystem : public Core::ISystem
+        {
+            DJV_NON_COPYABLE(UIComponentsSystem);
 
         protected:
-            void _init(Core::Context *);
-            DisplaySettingsWidget();
+            void _init(int dpi, Core::Context *);
+			UIComponentsSystem();
 
         public:
-            static std::shared_ptr<DisplaySettingsWidget> create(Core::Context *);
+            ~UIComponentsSystem() override;
 
-            float getHeightForWidth(float) const override;
+            static std::shared_ptr<UIComponentsSystem> create(int dpi, Core::Context *);
 
-        protected:
-            void _preLayoutEvent(Core::Event::PreLayout &) override;
-            void _layoutEvent(Core::Event::Layout &) override;
+            int getDPI() const;
 
-            void _localeEvent(Core::Event::Locale &) override;
+            const std::shared_ptr<Settings::FileBrowser> & getFileBrowserSettings() const;
 
         private:
-            void _buttonTextUpdate();
-
             DJV_PRIVATE();
         };
 
-    } // namespace ViewLib
+    } // namespace UI
 } // namespace djv
-

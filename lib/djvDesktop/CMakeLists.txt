@@ -9,7 +9,7 @@ set(source
     WindowSystem.cpp)
 
 add_library(djvDesktop ${header} ${source})
-target_link_libraries(djvDesktop djvUI)
+target_link_libraries(djvDesktop djvUIComponents)
 set_target_properties(
     djvDesktop
     PROPERTIES

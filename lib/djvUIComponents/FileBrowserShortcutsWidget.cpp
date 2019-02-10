@@ -27,7 +27,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvUI/FileBrowserPrivate.h>
+#include <djvUIComponents/FileBrowserPrivate.h>
 
 #include <djvUI/Action.h>
 #include <djvUI/ActionGroup.h>

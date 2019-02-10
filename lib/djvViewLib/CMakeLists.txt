@@ -1,15 +1,12 @@
 set(header
     AboutWidget.h
     Application.h
-    PaletteSettingsWidget.h
     ColorPickerWidget.h
     DebugWidget.h
-    DisplaySettingsWidget.h
     Enum.h
     FileBrowserWidget.h
     FileSystem.h
     FileSystemSettings.h
-    GeneralSettingsWidget.h
     HelpSystem.h
     HistogramWidget.h
     IMDIWidget.h
@@ -18,7 +15,6 @@ set(header
     ImageView.h
     ImageViewSystem.h
     InformationWidget.h
-    LanguageSettingsWidget.h
     LogWidget.h
     MagnifierWidget.h
     MainWindow.h
@@ -38,15 +34,12 @@ set(header
 set(source
     AboutWidget.cpp
     Application.cpp
-    PaletteSettingsWidget.cpp
     ColorPickerWidget.cpp
     DebugWidget.cpp
-    DisplaySettingsWidget.cpp
     Enum.cpp
     FileBrowserWidget.cpp
     FileSystem.cpp
     FileSystemSettings.cpp
-    GeneralSettingsWidget.cpp
     HelpSystem.cpp
     HistogramWidget.cpp
     IMDIWidget.cpp
@@ -55,7 +48,6 @@ set(source
     ImageView.cpp
     ImageViewSystem.cpp
     InformationWidget.cpp
-    LanguageSettingsWidget.cpp
     LogWidget.cpp
     MagnifierWidget.cpp
     MainWindow.cpp

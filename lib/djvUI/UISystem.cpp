@@ -31,7 +31,6 @@
 
 #include <djvUI/DialogSystem.h>
 #include <djvUI/GeneralSettings.h>
-#include <djvUI/FileBrowserSettings.h>
 #include <djvUI/FontSettings.h>
 #include <djvUI/IconSystem.h>
 #include <djvUI/SettingsSystem.h>
@@ -57,7 +56,6 @@ namespace djv
             std::shared_ptr<Settings::General> generalSettings;
             std::shared_ptr<Settings::Font> fontSettings;
             std::shared_ptr<Settings::Style> styleSettings;
-            std::shared_ptr<Settings::FileBrowser> fileBrowserSettings;
             std::shared_ptr<Style::Style> style;
             std::shared_ptr<ValueObserver<UI::Style::Palette> > paletteObserver;
             std::shared_ptr<ValueObserver<UI::Style::Metrics> > metricsObserver;
@@ -77,7 +75,6 @@ namespace djv
             p.generalSettings = Settings::General::create(context);
             p.fontSettings = Settings::Font::create(context);
             p.styleSettings = Settings::Style::create(context);
-            p.fileBrowserSettings = Settings::FileBrowser::create(context);
 
             p.style = Style::Style::create(dpi, context);
             
@@ -154,11 +151,6 @@ namespace djv
         const std::shared_ptr<Settings::Style> & UISystem::getStyleSettings() const
         {
             return _p->styleSettings;
-        }
-
-        const std::shared_ptr<Settings::FileBrowser> & UISystem::getFileBrowserSettings() const
-        {
-            return _p->fileBrowserSettings;
         }
 
         const std::shared_ptr<Style::Style> & UISystem::getStyle() const

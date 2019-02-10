@@ -32,7 +32,8 @@
 #include <djvDesktop/EventSystem.h>
 #include <djvDesktop/WindowSystem.h>
 
-#include <djvUI/UISystem.h>
+#include <djvUIComponents/UIComponentsSystem.h>
+
 #include <djvUI/Window.h>
 
 #include <djvCore/LogSystem.h>
@@ -197,7 +198,7 @@ namespace djv
             }
 			glfwSwapInterval(1);
 
-            p.systems.push_back(UI::UISystem::create(p.dpi, this));
+            p.systems.push_back(UI::UIComponentsSystem::create(p.dpi, this));
             p.systems.push_back(EventSystem::create(p.glfwWindow, this));
             p.systems.push_back(WindowSystem::create(p.glfwWindow, this));
 

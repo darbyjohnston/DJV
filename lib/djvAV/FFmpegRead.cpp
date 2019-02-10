@@ -217,7 +217,7 @@ namespace djv
                                 }
                                 const Time::Speed speed(avVideoStream->r_frame_rate.num, avVideoStream->r_frame_rate.den);
                                 p.videoInfo = VideoInfo(pixelDataInfo, speed, duration);
-                                info.setVideo(p.videoInfo);
+                                info.video.push_back(p.videoInfo);
                                 {
                                     std::stringstream ss;
                                     ss << fileName << ": image size " << pixelDataInfo.size << "\n";
@@ -295,7 +295,7 @@ namespace djv
                                         audioType,
                                         p.avCodecParameters[p.avAudioStream]->sample_rate),
                                     duration);
-                                info.setAudio(p.audioInfo);
+                                info.audio.push_back(p.audioInfo);
                             }
                             p.infoPromise.set_value(info);
 

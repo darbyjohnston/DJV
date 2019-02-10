@@ -1,0 +1,35 @@
+set(header
+    AVIOSettings.h
+    AVIOSettingsWidget.h
+    DisplaySettingsWidget.h
+    FileBrowser.h
+    FileBrowserDialog.h
+    FileBrowserItemView.h
+    FileBrowserPrivate.h
+    FileBrowserSettings.h
+    GeneralSettingsWidget.h
+    LanguageSettingsWidget.h
+    PaletteSettingsWidget.h
+    UIComponentsSystem.h)
+set(source
+    AVIOSettings.cpp
+    AVIOSettingsWidget.cpp
+    DisplaySettingsWidget.cpp
+    FileBrowser.cpp
+    FileBrowserDialog.cpp
+    FileBrowserItemView.cpp
+    FileBrowserPathWidget.cpp
+    FileBrowserSettings.cpp
+    FileBrowserShortcutsWidget.cpp
+    GeneralSettingsWidget.cpp
+    LanguageSettingsWidget.cpp
+    PaletteSettingsWidget.cpp
+    UIComponentsSystem.cpp)
+
+add_library(djvUIComponents ${header} ${source})
+target_link_libraries(djvUIComponents djvUI)
+set_target_properties(
+    djvUIComponents
+    PROPERTIES
+    FOLDER lib
+    CXX_STANDARD 11)

@@ -9,10 +9,6 @@ set(header
     Enum.h
     EnumJSON.h
     EnumJSONInline.h
-    FileBrowser.h
-    FileBrowserItemView.h
-    FileBrowserPrivate.h
-    FileBrowserSettings.h
     FlowLayout.h
     FontSettings.h
     FormLayout.h
@@ -78,11 +74,6 @@ set(source
     ComboBox.cpp
     DialogSystem.cpp
     Enum.cpp
-    FileBrowser.cpp
-    FileBrowserItemView.cpp
-    FileBrowserPathWidget.cpp
-    FileBrowserSettings.cpp
-    FileBrowserShortcutsWidget.cpp
     FlowLayout.cpp
     FontSettings.cpp
     FormLayout.cpp

@@ -29,75 +29,38 @@
 
 #pragma once
 
-#include <djvUI/FileBrowser.h>
-#include <djvUI/IButton.h>
-
-#include <djvAV/Image.h>
-
-#include <djvCore/Path.h>
+#include <djvUI/ISettings.h>
 
 namespace djv
 {
     namespace UI
     {
-        namespace FileBrowser
+        namespace Settings
         {
-			//! This class provides the file browser path widget.
-            class PathWidget : public UI::Widget
+            //! This class provides the AV I/O settings.
+            class AVIO : public ISettings
             {
-                DJV_NON_COPYABLE(PathWidget);
+                DJV_NON_COPYABLE(AVIO);
 
             protected:
-                void _init(Core::Context *);
-                PathWidget();
+                void _init(Core::Context * context);
+
+				AVIO();
 
             public:
-                ~PathWidget() override;
+                virtual ~AVIO();
 
-                static std::shared_ptr<PathWidget> create(Core::Context *);
+                static std::shared_ptr<AVIO> create(Core::Context *);
 
-                void setPath(const Core::FileSystem::Path &);
-                void setPathCallback(const std::function<void(const Core::FileSystem::Path &)> &);
-
-                void setHistory(const std::vector<Core::FileSystem::Path> &);
-                void setHistoryIndex(size_t);
-                void setHistoryIndexCallback(const std::function<void(size_t)> &);
-
-            protected:
-                void _preLayoutEvent(Core::Event::PreLayout&) override;
-                void _layoutEvent(Core::Event::Layout&) override;
-
-                void _localeEvent(Core::Event::Locale &) override;
+                void load(const picojson::value&) override;
+                picojson::value save() override;
 
             private:
+                void _updateCurrentFont();
+
                 DJV_PRIVATE();
             };
 
-			//! This class provides the file browser shortcuts widget.
-            class ShortcutsWidget : public UI::Widget
-            {
-                DJV_NON_COPYABLE(ShortcutsWidget);
-
-            protected:
-                void _init(Core::Context *);
-				ShortcutsWidget();
-
-            public:
-                ~ShortcutsWidget() override;
-
-                static std::shared_ptr<ShortcutsWidget> create(Core::Context *);
-
-                void setShortcutCallback(const std::function<void(const Core::FileSystem::Path &)> &);
-
-            protected:
-                void _preLayoutEvent(Core::Event::PreLayout&) override;
-                void _layoutEvent(Core::Event::Layout&) override;
-
-            private:
-                DJV_PRIVATE();
-            };
-
-        } // namespace Layout
+        } // namespace Settings
     } // namespace UI
 } // namespace djv
-

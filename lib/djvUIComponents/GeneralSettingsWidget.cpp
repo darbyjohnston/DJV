@@ -27,11 +27,11 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvViewLib/GeneralSettingsWidget.h>
+#include <djvUIComponents/GeneralSettingsWidget.h>
 
-#include <djvViewLib/DisplaySettingsWidget.h>
-#include <djvViewLib/LanguageSettingsWidget.h>
-#include <djvViewLib/PaletteSettingsWidget.h>
+#include <djvUIComponents/DisplaySettingsWidget.h>
+#include <djvUIComponents/LanguageSettingsWidget.h>
+#include <djvUIComponents/PaletteSettingsWidget.h>
 
 #include <djvUI/GroupBox.h>
 #include <djvUI/ListButton.h>
@@ -43,14 +43,14 @@ using namespace djv::Core;
 
 namespace djv
 {
-    namespace ViewLib
+    namespace UI
     {
         struct GeneralSettingsWidget::Private
         {
-            std::shared_ptr<UI::GroupBox> displayGroupBox;
-            std::shared_ptr<UI::GroupBox> languageGroupBox;
-            std::shared_ptr<UI::GroupBox> paletteGroupBox;
-            std::shared_ptr<UI::VerticalLayout> layout;
+            std::shared_ptr<GroupBox> displayGroupBox;
+            std::shared_ptr<GroupBox> languageGroupBox;
+            std::shared_ptr<GroupBox> paletteGroupBox;
+            std::shared_ptr<VerticalLayout> layout;
         };
 
         void GeneralSettingsWidget::_init(Context * context)
@@ -58,16 +58,16 @@ namespace djv
             Widget::_init(context);
 
             DJV_PRIVATE_PTR();
-            p.displayGroupBox = UI::GroupBox::create(context);
+            p.displayGroupBox = GroupBox::create(context);
             p.displayGroupBox->addWidget(DisplaySettingsWidget::create(context));
-            p.languageGroupBox = UI::GroupBox::create(context);
+            p.languageGroupBox = GroupBox::create(context);
             p.languageGroupBox->addWidget(LanguageSettingsWidget::create(context));
-            p.paletteGroupBox = UI::GroupBox::create(context);
+            p.paletteGroupBox = GroupBox::create(context);
             p.paletteGroupBox->addWidget(PaletteSettingsWidget::create(context));
 
-            p.layout = UI::VerticalLayout::create(context);
-            p.layout->setMargin(UI::MetricsRole::MarginLarge);
-            p.layout->setSpacing(UI::MetricsRole::SpacingLarge);
+            p.layout = VerticalLayout::create(context);
+            p.layout->setMargin(MetricsRole::MarginLarge);
+            p.layout->setSpacing(MetricsRole::SpacingLarge);
             p.layout->addWidget(p.displayGroupBox);
             p.layout->addWidget(p.languageGroupBox);
             p.layout->addWidget(p.paletteGroupBox);
@@ -108,6 +108,6 @@ namespace djv
             p.paletteGroupBox->setText(_getText(DJV_TEXT("djv::ViewLib::GeneralSettingsWidget", "Color Palette")));
         }
 
-    } // namespace ViewLib
+    } // namespace UI
 } // namespace djv
 

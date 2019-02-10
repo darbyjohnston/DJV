@@ -27,12 +27,9 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvUI/FileBrowserSettings.h>
-
-#include <djvUI/EnumJSON.h>
+#include <djvUIComponents/AVIOSettings.h>
 
 #include <djvCore/Context.h>
-#include <djvCore/TextSystem.h>
 
 //#pragma optimize("", off)
 
@@ -44,62 +41,49 @@ namespace djv
     {
         namespace Settings
         {
-            struct FileBrowser::Private
+            struct AVIO::Private
             {
-                std::shared_ptr<ValueSubject<ViewType> > viewType;
             };
 
-            void FileBrowser::_init(Context * context)
+            void AVIO::_init(Context * context)
             {
-                ISettings::_init("djv::UI::Settings::FileBrowser", context);
-                
-                DJV_PRIVATE_PTR();
-                p.viewType = ValueSubject<ViewType>::create(ViewType::ThumbnailsSmall);
+                ISettings::_init("djv::UI::Settings::AVIO", context);
 
-                _load();
+                DJV_PRIVATE_PTR();
+
+				_load();
+
+                auto weak = std::weak_ptr<AVIO>(std::dynamic_pointer_cast<AVIO>(shared_from_this()));
             }
 
-            FileBrowser::FileBrowser() :
+			AVIO::AVIO() :
                 _p(new Private)
             {}
 
-            FileBrowser::~FileBrowser()
+			AVIO::~AVIO()
             {}
 
-            std::shared_ptr<FileBrowser> FileBrowser::create(Context * context)
+            std::shared_ptr<AVIO> AVIO::create(Context * context)
             {
-                auto out = std::shared_ptr<FileBrowser>(new FileBrowser);
+                auto out = std::shared_ptr<AVIO>(new AVIO);
                 out->_init(context);
                 return out;
             }
 
-            std::shared_ptr<IValueSubject<ViewType> > FileBrowser::observeViewType() const
-            {
-                return _p->viewType;
-            }
-
-            void FileBrowser::setViewType(ViewType value)
-            {
-                DJV_PRIVATE_PTR();
-                p.viewType->setIfChanged(value);
-            }
-
-            void FileBrowser::load(const picojson::value& value)
+            void AVIO::load(const picojson::value& value)
             {
                 if (value.is<picojson::object>())
                 {
                     DJV_PRIVATE_PTR();
-                    const auto& object = value.get<picojson::object>();
-                    _read("ViewType", object, p.viewType);
+                    const auto & object = value.get<picojson::object>();
                 }
             }
 
-            picojson::value FileBrowser::save()
+            picojson::value AVIO::save()
             {
                 DJV_PRIVATE_PTR();
                 picojson::value out(picojson::object_type, true);
-                auto& object = out.get<picojson::object>();
-                _write("ViewType", p.viewType->get(), object);
+                auto & object = out.get<picojson::object>();
                 return out;
             }
 

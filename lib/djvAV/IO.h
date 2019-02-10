@@ -93,9 +93,6 @@ namespace djv
                 std::vector<AudioInfo> audio;
                 Tags tags;
 
-                void setVideo(const VideoInfo &);
-                void setAudio(const AudioInfo &);
-
                 bool operator == (const Info &) const;
             };
 

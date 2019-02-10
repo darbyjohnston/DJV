@@ -29,45 +29,36 @@
 
 #pragma once
 
-#include <djvUI/UI.h>
+#include <djvViewLib/ViewLib.h>
 
-#include <djvCore/ISystem.h>
-
-#include <functional>
+#include <djvUI/Widget.h>
 
 namespace djv
 {
     namespace UI
     {
-        //! This class provides standard dialog widgets.
-        class DialogSystem : public Core::ISystem
+        class LanguageSettingsWidget : public Widget
         {
-            DJV_NON_COPYABLE(DialogSystem);
+            DJV_NON_COPYABLE(LanguageSettingsWidget);
 
         protected:
             void _init(Core::Context *);
-            DialogSystem();
+            LanguageSettingsWidget();
 
         public:
-            virtual ~DialogSystem();
+            static std::shared_ptr<LanguageSettingsWidget> create(Core::Context *);
 
-            static std::shared_ptr<DialogSystem> create(Core::Context *);
+            float getHeightForWidth(float) const override;
 
-            //! Show a message dialog.
-            void message(
-                const std::string & title,
-                const std::string & text,
-                const std::string & closeText);
+        protected:
+            void _preLayoutEvent(Core::Event::PreLayout &) override;
+            void _layoutEvent(Core::Event::Layout &) override;
 
-            //! Show a confirmation dialog.
-            void confirmation(
-                const std::string & title,
-                const std::string & text,
-                const std::string & acceptText,
-                const std::string & cancelText,
-                const std::function<void(bool)> & callback);
+            void _localeEvent(Core::Event::Locale &) override;
 
         private:
+            void _textUpdate();
+            
             DJV_PRIVATE();
         };
 

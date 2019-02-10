@@ -105,18 +105,6 @@ namespace djv
                 audio(audio)
             {}
 
-            void Info::setVideo(const VideoInfo & info)
-            {
-                video.clear();
-                video.push_back(info);
-            }
-
-            void Info::setAudio(const AudioInfo & info)
-            {
-                audio.clear();
-                audio.push_back(info);
-            }
-
             bool Info::operator == (const Info & other) const
             {
                 return

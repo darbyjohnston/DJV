@@ -27,7 +27,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvViewLib/DisplaySettingsWidget.h>
+#include <djvUIComponents/DisplaySettingsWidget.h>
 
 #include <djvUI/ButtonGroup.h>
 #include <djvUI/FlowLayout.h>
@@ -42,17 +42,17 @@ using namespace djv::Core;
 
 namespace djv
 {
-    namespace ViewLib
+    namespace UI
     {
         struct DisplaySettingsWidget::Private
         {
-            std::vector<std::shared_ptr<UI::ListButton> > buttons;
-            std::shared_ptr<UI::ButtonGroup> buttonGroup;
-            std::shared_ptr<UI::FlowLayout> layout;
+            std::vector<std::shared_ptr<ListButton> > buttons;
+            std::shared_ptr<ButtonGroup> buttonGroup;
+            std::shared_ptr<FlowLayout> layout;
             std::map<int, std::string> indexToMetrics;
-            std::map<std::shared_ptr<UI::ListButton>, std::string> buttonToMetrics;
+            std::map<std::shared_ptr<ListButton>, std::string> buttonToMetrics;
             std::map<std::string, int> metricsToIndex;
-            std::shared_ptr<MapObserver<std::string, UI::Style::Metrics> > metricsObserver;
+            std::shared_ptr<MapObserver<std::string, Style::Metrics> > metricsObserver;
             std::shared_ptr<ValueObserver<std::string> > currentMetricsObserver;
         };
 
@@ -61,9 +61,9 @@ namespace djv
             Widget::_init(context);
 
             DJV_PRIVATE_PTR();
-            p.buttonGroup = UI::ButtonGroup::create(UI::ButtonType::Radio);
+            p.buttonGroup = ButtonGroup::create(ButtonType::Radio);
 
-            p.layout = UI::FlowLayout::create(context);
+            p.layout = FlowLayout::create(context);
             p.layout->setParent(shared_from_this());
 
             auto weak = std::weak_ptr<DisplaySettingsWidget>(std::dynamic_pointer_cast<DisplaySettingsWidget>(shared_from_this()));
@@ -72,7 +72,7 @@ namespace djv
             {
                 if (auto widget = weak.lock())
                 {
-                    if (auto uiSystem = context->getSystemT<UI::UISystem>().lock())
+                    if (auto uiSystem = context->getSystemT<UISystem>().lock())
                     {
                         const auto i = widget->_p->indexToMetrics.find(value);
                         if (i != widget->_p->indexToMetrics.end())
@@ -83,12 +83,12 @@ namespace djv
                 }
             });
 
-            if (auto uiSystem = context->getSystemT<UI::UISystem>().lock())
+            if (auto uiSystem = context->getSystemT<UISystem>().lock())
             {
                 const int dpi = uiSystem->getDPI();
-                p.metricsObserver = MapObserver<std::string, UI::Style::Metrics>::create(
+                p.metricsObserver = MapObserver<std::string, Style::Metrics>::create(
                     uiSystem->getStyleSettings()->observeMetrics(),
-                    [weak, dpi, context](const std::map<std::string, UI::Style::Metrics> & value)
+                    [weak, dpi, context](const std::map<std::string, Style::Metrics> & value)
                 {
                     if (auto widget = weak.lock())
                     {
@@ -106,7 +106,7 @@ namespace djv
                         int j = 0;
                         for (const auto & i : value)
                         {
-                            auto button = UI::ListButton::create(context);
+                            auto button = ListButton::create(context);
                             widget->_p->buttons.push_back(button);
                             widget->_p->buttonGroup->addButton(button);
                             widget->_p->layout->addWidget(button);
@@ -179,6 +179,6 @@ namespace djv
             }
         }
 
-    } // namespace ViewLib
+    } // namespace UI
 } // namespace djv
 

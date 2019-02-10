@@ -27,7 +27,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvUI/FileBrowserItemView.h>
+#include <djvUIComponents/FileBrowserItemView.h>
 
 #include <djvUI/IconSystem.h>
 

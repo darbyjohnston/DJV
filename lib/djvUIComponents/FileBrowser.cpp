@@ -27,14 +27,16 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvUI/FileBrowser.h>
+#include <djvUIComponents/FileBrowser.h>
+
+#include <djvUIComponents/FileBrowserItemView.h>
+#include <djvUIComponents/FileBrowserPrivate.h>
+#include <djvUIComponents/FileBrowserSettings.h>
+#include <djvUIComponents/UIComponentsSystem.h>
 
 #include <djvUI/Action.h>
 #include <djvUI/ActionGroup.h>
 #include <djvUI/DialogSystem.h>
-#include <djvUI/FileBrowserItemView.h>
-#include <djvUI/FileBrowserPrivate.h>
-#include <djvUI/FileBrowserSettings.h>
 #include <djvUI/FlowLayout.h>
 #include <djvUI/IWindowSystem.h>
 #include <djvUI/Icon.h>
@@ -48,7 +50,6 @@
 #include <djvUI/Splitter.h>
 #include <djvUI/ToolButton.h>
 #include <djvUI/Toolbar.h>
-#include <djvUI/UISystem.h>
 #include <djvUI/Window.h>
 
 #include <djvAV/IO.h>
@@ -272,9 +273,9 @@ namespace djv
                     {
                         const auto viewType = static_cast<ViewType>(value);
                         widget->setViewType(viewType);
-                        if (auto uiSystem = context->getSystemT<UISystem>().lock())
+                        if (auto uiComponentsSystem = context->getSystemT<UIComponentsSystem>().lock())
                         {
-                            uiSystem->getFileBrowserSettings()->setViewType(viewType);
+                            uiComponentsSystem->getFileBrowserSettings()->setViewType(viewType);
                         }
                     }
                 });
@@ -414,10 +415,10 @@ namespace djv
                     }
                 });
 
-                if (auto uiSystem = context->getSystemT<UISystem>().lock())
+                if (auto uiComponentsSystem = context->getSystemT<UIComponentsSystem>().lock())
                 {
                     p.viewTypeObserver = ValueObserver<ViewType>::create(
-                        uiSystem->getFileBrowserSettings()->observeViewType(),
+                        uiComponentsSystem->getFileBrowserSettings()->observeViewType(),
                         [weak](ViewType value)
                     {
                         if (auto widget = weak.lock())

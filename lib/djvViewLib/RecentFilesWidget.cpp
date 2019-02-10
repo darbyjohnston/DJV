@@ -32,9 +32,10 @@
 #include <djvViewLib/FileSystem.h>
 #include <djvViewLib/FileSystemSettings.h>
 
+#include <djvUIComponents/FileBrowserItemView.h>
+
 #include <djvUI/Action.h>
 #include <djvUI/ActionGroup.h>
-#include <djvUI/FileBrowserItemView.h>
 #include <djvUI/Label.h>
 #include <djvUI/MDICanvas.h>
 #include <djvUI/RowLayout.h>

@@ -27,21 +27,9 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvViewLib/SettingsSystem.h>
+#include <djvUIComponents/AVIOSettingsWidget.h>
 
-#include <djvViewLib/IMDIWidget.h>
-#include <djvViewLib/SettingsWidget.h>
-
-#include <djvUIComponents/GeneralSettingsWidget.h>
-
-#include <djvUI/Action.h>
-#include <djvUI/ButtonGroup.h>
-#include <djvUI/IWindowSystem.h>
-#include <djvUI/ListButton.h>
 #include <djvUI/RowLayout.h>
-#include <djvUI/SoloLayout.h>
-#include <djvUI/ScrollWidget.h>
-#include <djvUI/Window.h>
 
 #include <djvCore/Context.h>
 
@@ -49,68 +37,54 @@ using namespace djv::Core;
 
 namespace djv
 {
-    namespace ViewLib
+    namespace UI
     {
-        struct SettingsSystem::Private
+        struct AVIOSettingsWidget::Private
         {
-            std::map<std::string, std::shared_ptr<UI::Action> > actions;
-            std::map<std::string, std::shared_ptr<UI::Widget> > settingsWidgets;
-			std::shared_ptr<SettingsWidget> settingsWidget;
-			std::map<std::string, std::shared_ptr<ValueObserver<bool> > > clickedObservers;
+			std::shared_ptr<VerticalLayout> layout;
         };
 
-        void SettingsSystem::_init(Context * context)
+        void AVIOSettingsWidget::_init(Context * context)
         {
-            IViewSystem::_init("djv::ViewLib::SettingsSystem", context);
+            Widget::_init(context);
 
             DJV_PRIVATE_PTR();
-			p.settingsWidgets["General"] = UI::GeneralSettingsWidget::create(context);
-			p.settingsWidget = SettingsWidget::create(context);
+			p.layout = VerticalLayout::create(context);
+			p.layout->setParent(shared_from_this());
+
+            auto weak = std::weak_ptr<AVIOSettingsWidget>(std::dynamic_pointer_cast<AVIOSettingsWidget>(shared_from_this()));
         }
 
-        SettingsSystem::SettingsSystem() :
+		AVIOSettingsWidget::AVIOSettingsWidget() :
             _p(new Private)
         {}
 
-        SettingsSystem::~SettingsSystem()
-        {}
-
-        std::shared_ptr<SettingsSystem> SettingsSystem::create(Context * context)
+        std::shared_ptr<AVIOSettingsWidget> AVIOSettingsWidget::create(Context * context)
         {
-            auto out = std::shared_ptr<SettingsSystem>(new SettingsSystem);
+            auto out = std::shared_ptr<AVIOSettingsWidget>(new AVIOSettingsWidget);
             out->_init(context);
             return out;
         }
-        
-		void SettingsSystem::showSettings()
-		{
-			_p->settingsWidget->moveToFront();
-			_p->settingsWidget->show();
-		}
 
-        std::map<std::string, std::shared_ptr<UI::Action> > SettingsSystem::getActions()
+        float AVIOSettingsWidget::getHeightForWidth(float value) const
         {
-            return _p->actions;
+            return _p->layout->getHeightForWidth(value);
         }
 
-        std::vector<NewSettingsWidget> SettingsSystem::getSettingsWidgets()
+        void AVIOSettingsWidget::_preLayoutEvent(Event::PreLayout &)
         {
-            DJV_PRIVATE_PTR();
-            return
-            {
-                { p.settingsWidgets["General"], DJV_TEXT("djv::ViewLib::SettingsWidget", "General"), "A" }
-            };
+            _setMinimumSize(_p->layout->getMinimumSize());
         }
 
-		std::vector<NewMDIWidget> SettingsSystem::getMDIWidgets()
-		{
-			DJV_PRIVATE_PTR();
-			return
-			{
-				NewMDIWidget(p.settingsWidget, "A")
-			};
-		}
-        
-    } // namespace ViewLib
+        void AVIOSettingsWidget::_layoutEvent(Event::Layout &)
+        {
+            _p->layout->setGeometry(getGeometry());
+        }
+
+        void AVIOSettingsWidget::_localeEvent(Event::Locale &)
+        {
+        }
+
+    } // namespace UI
 } // namespace djv
 

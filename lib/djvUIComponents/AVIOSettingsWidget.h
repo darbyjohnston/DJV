@@ -29,24 +29,22 @@
 
 #pragma once
 
-#include <djvViewLib/ViewLib.h>
-
 #include <djvUI/Widget.h>
 
 namespace djv
 {
-    namespace ViewLib
+    namespace UI
     {
-        class PaletteSettingsWidget : public UI::Widget
+        class AVIOSettingsWidget : public Widget
         {
-            DJV_NON_COPYABLE(PaletteSettingsWidget);
+            DJV_NON_COPYABLE(AVIOSettingsWidget);
 
         protected:
             void _init(Core::Context *);
-            PaletteSettingsWidget();
+			AVIOSettingsWidget();
 
         public:
-            static std::shared_ptr<PaletteSettingsWidget> create(Core::Context *);
+            static std::shared_ptr<AVIOSettingsWidget> create(Core::Context *);
 
             float getHeightForWidth(float) const override;
 
@@ -57,11 +55,9 @@ namespace djv
             void _localeEvent(Core::Event::Locale &) override;
 
         private:
-            void _buttonTextUpdate();
-
             DJV_PRIVATE();
         };
 
-    } // namespace ViewLib
+    } // namespace UI
 } // namespace djv
 

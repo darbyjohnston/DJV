@@ -29,7 +29,8 @@
 
 #include <djvViewLib/FileBrowserWidget.h>
 
-#include <djvUI/FileBrowser.h>
+#include <djvUIComponents/FileBrowser.h>
+
 #include <djvUI/MDICanvas.h>
 #include <djvUI/ToolButton.h>
 
