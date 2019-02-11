@@ -1,1773 +1,1780 @@
 [
     {
+        "id": "Settings", 
         "source": "Settings", 
-        "text": "Ajustes", 
         "nameSpace": "djv::ViewLib", 
         "description": "", 
-        "id": "Settings"
+        "text": "Ajustes"
     }, 
     {
+        "id": "General", 
         "source": "General", 
-        "text": "General", 
         "nameSpace": "djv::ViewLib", 
         "description": "", 
-        "id": "General"
+        "text": "General"
     }, 
     {
+        "id": "Playback", 
         "source": "Playback", 
-        "text": "Reproducci\u00f3n", 
         "nameSpace": "djv::ViewLib", 
         "description": "", 
-        "id": "Playback"
+        "text": "Reproducci\u00f3n"
     }, 
     {
+        "id": "Loop", 
         "source": "Loop", 
-        "text": "Lazo", 
         "nameSpace": "djv::ViewLib", 
         "description": "", 
-        "id": "Loop"
+        "text": "Lazo"
     }, 
     {
+        "id": "Layout", 
         "source": "Layout", 
-        "text": "Dise\u00f1o", 
         "nameSpace": "djv::ViewLib", 
         "description": "", 
-        "id": "Layout"
+        "text": "Dise\u00f1o"
     }, 
     {
+        "id": "Stop", 
         "source": "Stop", 
-        "text": "Detener", 
         "nameSpace": "djv::ViewLib", 
         "description": "", 
-        "id": "Stop"
+        "text": "Detener"
     }, 
     {
+        "id": "Forward", 
         "source": "Forward", 
-        "text": "Adelante", 
         "nameSpace": "djv::ViewLib", 
         "description": "", 
-        "id": "Forward"
+        "text": "Adelante"
     }, 
     {
+        "id": "Reverse", 
         "source": "Reverse", 
-        "text": "Marcha atr\u00e1s", 
         "nameSpace": "djv::ViewLib", 
         "description": "", 
-        "id": "Reverse"
+        "text": "Marcha atr\u00e1s"
     }, 
     {
+        "id": "Toggle Playback", 
         "source": "Toggle Playback", 
-        "text": "Reproducci\u00f3n de palanca", 
         "nameSpace": "djv::ViewLib", 
         "description": "", 
-        "id": "Toggle Playback"
+        "text": "Reproducci\u00f3n de palanca"
     }, 
     {
+        "id": "Toggle Reverse Playback", 
         "source": "Toggle Reverse Playback", 
-        "text": "Alternar reproducci\u00f3n inversa", 
         "nameSpace": "djv::ViewLib", 
         "description": "", 
-        "id": "Toggle Reverse Playback"
+        "text": "Alternar reproducci\u00f3n inversa"
     }, 
     {
+        "id": "Play Every Frame", 
         "source": "Play Every Frame", 
-        "text": "Jugar cada cuadro", 
         "nameSpace": "djv::ViewLib", 
         "description": "", 
-        "id": "Play Every Frame"
+        "text": "Jugar cada cuadro"
     }, 
     {
+        "id": "Go To In Point", 
         "source": "Go To In Point", 
-        "text": "Ir al punto de entrada", 
         "nameSpace": "djv::ViewLib", 
         "description": "", 
-        "id": "Go To In Point"
+        "text": "Ir al punto de entrada"
     }, 
     {
+        "id": "Go To Out Point", 
         "source": "Go To Out Point", 
-        "text": "Ir al punto de salida", 
         "nameSpace": "djv::ViewLib", 
         "description": "", 
-        "id": "Go To Out Point"
+        "text": "Ir al punto de salida"
     }, 
     {
+        "id": "Go To Start Frame", 
         "source": "Go To Start Frame", 
-        "text": "Ir al cuadro de inicio", 
         "nameSpace": "djv::ViewLib", 
         "description": "", 
-        "id": "Go To Start Frame"
+        "text": "Ir al cuadro de inicio"
     }, 
     {
+        "id": "Go To End Frame", 
         "source": "Go To End Frame", 
-        "text": "Ir al cuadro final", 
         "nameSpace": "djv::ViewLib", 
         "description": "", 
-        "id": "Go To End Frame"
+        "text": "Ir al cuadro final"
     }, 
     {
+        "id": "Next Frame", 
         "source": "Next Frame", 
-        "text": "Siguiente fotograma", 
         "nameSpace": "djv::ViewLib", 
         "description": "", 
-        "id": "Next Frame"
+        "text": "Siguiente fotograma"
     }, 
     {
+        "id": "Next Frame X10", 
         "source": "Next Frame X10", 
-        "text": "Siguiente fotograma X10", 
         "nameSpace": "djv::ViewLib", 
         "description": "", 
-        "id": "Next Frame X10"
+        "text": "Siguiente fotograma X10"
     }, 
     {
+        "id": "Next Frame X100", 
         "source": "Next Frame X100", 
-        "text": "Siguiente fotograma X100", 
         "nameSpace": "djv::ViewLib", 
         "description": "", 
-        "id": "Next Frame X100"
+        "text": "Siguiente fotograma X100"
     }, 
     {
+        "id": "Previous Frame", 
         "source": "Previous Frame", 
-        "text": "Marco anterior", 
         "nameSpace": "djv::ViewLib", 
         "description": "", 
-        "id": "Previous Frame"
+        "text": "Marco anterior"
     }, 
     {
+        "id": "Previous Frame X10", 
         "source": "Previous Frame X10", 
-        "text": "Marco anterior X10", 
         "nameSpace": "djv::ViewLib", 
         "description": "", 
-        "id": "Previous Frame X10"
+        "text": "Marco anterior X10"
     }, 
     {
+        "id": "Previous Frame X100", 
         "source": "Previous Frame X100", 
-        "text": "Marco anterior X100", 
         "nameSpace": "djv::ViewLib", 
         "description": "", 
-        "id": "Previous Frame X100"
+        "text": "Marco anterior X100"
     }, 
     {
+        "id": "Enable In/Out Points", 
         "source": "Enable In/Out Points", 
-        "text": "Habilitar puntos de entrada / salida", 
         "nameSpace": "djv::ViewLib", 
         "description": "", 
-        "id": "Enable In/Out Points"
+        "text": "Habilitar puntos de entrada / salida"
     }, 
     {
+        "id": "Set In Point", 
         "source": "Set In Point", 
-        "text": "Punto de entrada", 
         "nameSpace": "djv::ViewLib", 
         "description": "", 
-        "id": "Set In Point"
+        "text": "Punto de entrada"
     }, 
     {
+        "id": "Set Out Point", 
         "source": "Set Out Point", 
-        "text": "Punto de salida", 
         "nameSpace": "djv::ViewLib", 
         "description": "", 
-        "id": "Set Out Point"
+        "text": "Punto de salida"
     }, 
     {
+        "id": "Reset In Point", 
         "source": "Reset In Point", 
-        "text": "Restablecer el punto de entrada", 
         "nameSpace": "djv::ViewLib", 
         "description": "", 
-        "id": "Reset In Point"
+        "text": "Restablecer el punto de entrada"
     }, 
     {
+        "id": "Reset Out Point", 
         "source": "Reset Out Point", 
-        "text": "Restablecer el punto de salida", 
         "nameSpace": "djv::ViewLib", 
         "description": "", 
-        "id": "Reset Out Point"
+        "text": "Restablecer el punto de salida"
     }, 
     {
+        "id": "Window", 
         "source": "Window", 
-        "text": "Ventana", 
         "nameSpace": "djv::ViewLib", 
         "description": "", 
-        "id": "Window"
+        "text": "Ventana"
     }, 
     {
+        "id": "Maximize", 
         "source": "Maximize", 
-        "text": "Maximizar", 
         "nameSpace": "djv::ViewLib", 
         "description": "", 
-        "id": "Maximize"
+        "text": "Maximizar"
     }, 
     {
+        "id": "Next", 
         "source": "Next", 
-        "text": "Siguiente", 
         "nameSpace": "djv::ViewLib", 
         "description": "", 
-        "id": "Next"
+        "text": "Siguiente"
     }, 
     {
+        "id": "Prev", 
         "source": "Prev", 
-        "text": "Prev", 
         "nameSpace": "djv::ViewLib", 
         "description": "", 
-        "id": "Prev"
+        "text": "Prev"
     }, 
     {
+        "id": "Duplicate", 
         "source": "Duplicate", 
-        "text": "Duplicar", 
         "nameSpace": "djv::ViewLib", 
         "description": "", 
-        "id": "Duplicate"
+        "text": "Duplicar"
     }, 
     {
+        "id": "Fit", 
         "source": "Fit", 
-        "text": "Ajuste", 
         "nameSpace": "djv::ViewLib", 
         "description": "", 
-        "id": "Fit"
+        "text": "Ajuste"
     }, 
     {
+        "id": "Full Screen", 
         "source": "Full Screen", 
-        "text": "Pantalla completa", 
         "nameSpace": "djv::ViewLib", 
         "description": "", 
-        "id": "Full Screen"
+        "text": "Pantalla completa"
     }, 
     {
+        "id": "cannot create OpenAL source", 
         "source": "cannot create OpenAL source", 
-        "text": "no se puede crear una fuente OpenAL", 
         "nameSpace": "djv::ViewLib", 
         "description": "", 
-        "id": "cannot create OpenAL source"
+        "text": "no se puede crear una fuente OpenAL"
     }, 
     {
+        "id": "cannot create OpenAL buffers", 
         "source": "cannot create OpenAL buffers", 
-        "text": "no se pueden crear buffers de OpenAL", 
         "nameSpace": "djv::ViewLib", 
         "description": "", 
-        "id": "cannot create OpenAL buffers"
+        "text": "no se pueden crear buffers de OpenAL"
     }, 
     {
+        "id": "cannot open", 
         "source": "cannot open", 
-        "text": "no puedo abrir", 
         "nameSpace": "djv::ViewLib", 
         "description": "", 
-        "id": "cannot open"
+        "text": "no puedo abrir"
     }, 
     {
+        "id": "Recent Files", 
         "source": "Recent Files", 
-        "text": "Archivos recientes", 
         "nameSpace": "djv::ViewLib", 
         "description": "", 
-        "id": "Recent Files"
+        "text": "Archivos recientes"
     }, 
     {
+        "id": "items", 
         "source": "items", 
-        "text": "art\u00edculos", 
         "nameSpace": "djv::ViewLib", 
         "description": "", 
-        "id": "items"
+        "text": "art\u00edculos"
     }, 
     {
+        "id": "Debugging Log", 
         "source": "Debugging Log", 
-        "text": "Registro de depuraci\u00f3n", 
         "nameSpace": "djv::ViewLib", 
         "description": "", 
-        "id": "Debugging Log"
+        "text": "Registro de depuraci\u00f3n"
     }, 
     {
+        "id": "Copy", 
         "source": "Copy", 
-        "text": "Dupdo", 
         "nameSpace": "djv::ViewLib", 
         "description": "", 
-        "id": "Copy"
+        "text": "Dupdo"
     }, 
     {
+        "id": "Reload", 
         "source": "Reload", 
-        "text": "Recargar", 
         "nameSpace": "djv::ViewLib", 
         "description": "", 
-        "id": "Reload"
+        "text": "Recargar"
     }, 
     {
+        "id": "Clear", 
         "source": "Clear", 
-        "text": "Claro", 
         "nameSpace": "djv::ViewLib", 
         "description": "", 
-        "id": "Clear"
+        "text": "Claro"
     }, 
     {
+        "id": "Display", 
         "source": "Display", 
-        "text": "Monitor", 
         "nameSpace": "djv::ViewLib", 
         "description": "", 
-        "id": "Display"
+        "text": "Monitor"
     }, 
     {
+        "id": "Language", 
         "source": "Language", 
-        "text": "Idioma", 
         "nameSpace": "djv::ViewLib", 
         "description": "", 
-        "id": "Language"
+        "text": "Idioma"
     }, 
     {
+        "id": "Palette", 
         "source": "Palette", 
-        "text": "Paleta", 
         "nameSpace": "djv::ViewLib", 
         "description": "", 
-        "id": "Palette"
+        "text": "Paleta"
     }, 
     {
+        "id": "Tools", 
         "source": "Tools", 
-        "text": "Herramientas", 
         "nameSpace": "djv::ViewLib", 
         "description": "", 
-        "id": "Tools"
+        "text": "Herramientas"
     }, 
     {
+        "id": "About", 
         "source": "About", 
-        "text": "Acerca de", 
         "nameSpace": "djv::ViewLib", 
         "description": "", 
-        "id": "About"
+        "text": "Acerca de"
     }, 
     {
+        "id": "AboutHeader", 
         "source": "About Header", 
-        "text": "Acerca de encabezado", 
         "nameSpace": "djv::ViewLib", 
         "description": "", 
-        "id": "AboutHeader"
+        "text": "Acerca de encabezado"
     }, 
     {
+        "id": "AboutCopyright", 
         "source": "Copyright", 
-        "text": "Derechos de autor", 
         "nameSpace": "djv::ViewLib", 
         "description": "", 
-        "id": "AboutCopyright"
+        "text": "Derechos de autor"
     }, 
     {
+        "id": "AboutLicense", 
         "source": "License", 
-        "text": "Licencia", 
         "nameSpace": "djv::ViewLib", 
         "description": "", 
-        "id": "AboutLicense"
+        "text": "Licencia"
     }, 
     {
+        "id": "AboutContributorsHeader", 
         "source": "Contributors Header", 
-        "text": "Cabecera de colaboradores", 
         "nameSpace": "djv::ViewLib", 
         "description": "", 
-        "id": "AboutContributorsHeader"
+        "text": "Cabecera de colaboradores"
     }, 
     {
+        "id": "AboutContributors", 
         "source": "Contributors", 
-        "text": "Contribuyentes", 
         "nameSpace": "djv::ViewLib", 
         "description": "", 
-        "id": "AboutContributors"
+        "text": "Contribuyentes"
     }, 
     {
+        "id": "AboutThirdPartyHeader", 
         "source": "Third Party Header", 
-        "text": "Encabezado de terceros", 
         "nameSpace": "djv::ViewLib", 
         "description": "", 
-        "id": "AboutThirdPartyHeader"
+        "text": "Encabezado de terceros"
     }, 
     {
+        "id": "AboutThirdParty", 
         "source": "Third Party", 
-        "text": "Tercero", 
         "nameSpace": "djv::ViewLib", 
         "description": "", 
-        "id": "AboutThirdParty"
+        "text": "Tercero"
     }, 
     {
+        "id": "AboutTrademarksHeader", 
         "source": "Trademarks Header", 
-        "text": "Cabecera de Marcas", 
         "nameSpace": "djv::ViewLib", 
         "description": "", 
-        "id": "AboutTrademarksHeader"
+        "text": "Cabecera de Marcas"
     }, 
     {
+        "id": "AboutTrademarks", 
         "source": "Trademarks", 
-        "text": "Marcas comerciales", 
         "nameSpace": "djv::ViewLib", 
         "description": "", 
-        "id": "AboutTrademarks"
+        "text": "Marcas comerciales"
     }, 
     {
+        "id": "File Browser", 
         "source": "File Browser", 
-        "text": "Explorador de archivos", 
         "nameSpace": "djv::ViewLib", 
         "description": "", 
-        "id": "File Browser"
+        "text": "Explorador de archivos"
     }, 
     {
+        "id": "Exit", 
         "source": "Exit", 
-        "text": "Salida", 
         "nameSpace": "djv::ViewLib", 
         "description": "", 
-        "id": "Exit"
+        "text": "Salida"
     }, 
     {
+        "id": "Are you sure you want to exit?", 
         "source": "Are you sure you want to exit?", 
-        "text": "\u00bfSeguro que quieres salir?", 
         "nameSpace": "djv::ViewLib", 
         "description": "", 
-        "id": "Are you sure you want to exit?"
+        "text": "\u00bfSeguro que quieres salir?"
     }, 
     {
+        "id": "Yes", 
         "source": "Yes", 
-        "text": "S\u00ed", 
         "nameSpace": "djv::ViewLib", 
         "description": "", 
-        "id": "Yes"
+        "text": "S\u00ed"
     }, 
     {
+        "id": "No", 
         "source": "No", 
-        "text": "No", 
         "nameSpace": "djv::ViewLib", 
         "description": "", 
-        "id": "No"
+        "text": "No"
     }, 
     {
+        "id": "File", 
         "source": "File", 
-        "text": "Expediente", 
         "nameSpace": "djv::ViewLib", 
         "description": "", 
-        "id": "File"
+        "text": "Expediente"
     }, 
     {
+        "id": "Proxy Scale", 
         "source": "Proxy Scale", 
-        "text": "Escala Proxy", 
         "nameSpace": "djv::ViewLib", 
         "description": "", 
-        "id": "Proxy Scale"
+        "text": "Escala Proxy"
     }, 
     {
+        "id": "Open", 
         "source": "Open", 
-        "text": "Abierto", 
         "nameSpace": "djv::ViewLib", 
         "description": "", 
-        "id": "Open"
+        "text": "Abierto"
     }, 
     {
+        "id": "Recent", 
         "source": "Recent", 
-        "text": "Reciente", 
         "nameSpace": "djv::ViewLib", 
         "description": "", 
-        "id": "Recent"
+        "text": "Reciente"
     }, 
     {
+        "id": "Reload Frame", 
         "source": "Reload Frame", 
-        "text": "Marco de recarga", 
         "nameSpace": "djv::ViewLib", 
         "description": "", 
-        "id": "Reload Frame"
+        "text": "Marco de recarga"
     }, 
     {
+        "id": "Close", 
         "source": "Close", 
-        "text": "Cerrar", 
         "nameSpace": "djv::ViewLib", 
         "description": "", 
-        "id": "Close"
+        "text": "Cerrar"
     }, 
     {
+        "id": "Export", 
         "source": "Export", 
-        "text": "Exportar", 
         "nameSpace": "djv::ViewLib", 
         "description": "", 
-        "id": "Export"
+        "text": "Exportar"
     }, 
     {
+        "id": "Layers", 
         "source": "Layers", 
-        "text": "Capas", 
         "nameSpace": "djv::ViewLib", 
         "description": "", 
-        "id": "Layers"
+        "text": "Capas"
     }, 
     {
+        "id": "Next Layer", 
         "source": "Next Layer", 
-        "text": "Siguiente capa", 
         "nameSpace": "djv::ViewLib", 
         "description": "", 
-        "id": "Next Layer"
+        "text": "Siguiente capa"
     }, 
     {
+        "id": "Previous Layer", 
         "source": "Previous Layer", 
-        "text": "Capa Anterior", 
         "nameSpace": "djv::ViewLib", 
         "description": "", 
-        "id": "Previous Layer"
+        "text": "Capa Anterior"
     }, 
     {
+        "id": "8-bit Conversion", 
         "source": "8-bit Conversion", 
-        "text": "Conversi\u00f3n de 8 bits", 
         "nameSpace": "djv::ViewLib", 
         "description": "", 
-        "id": "8-bit Conversion"
+        "text": "Conversi\u00f3n de 8 bits"
     }, 
     {
+        "id": "Memory Cache", 
         "source": "Memory Cache", 
-        "text": "Memoria cach\u00e9", 
         "nameSpace": "djv::ViewLib", 
         "description": "", 
-        "id": "Memory Cache"
+        "text": "Memoria cach\u00e9"
     }, 
     {
+        "id": "Clear Cache", 
         "source": "Clear Cache", 
-        "text": "Limpiar cache", 
         "nameSpace": "djv::ViewLib", 
         "description": "", 
-        "id": "Clear Cache"
+        "text": "Limpiar cache"
     }, 
     {
+        "id": "View", 
         "source": "View", 
-        "text": "Ver", 
         "nameSpace": "djv::ViewLib", 
         "description": "", 
-        "id": "View"
+        "text": "Ver"
     }, 
     {
+        "id": "Grid", 
         "source": "Grid", 
-        "text": "Cuadr\u00edcula", 
         "nameSpace": "djv::ViewLib", 
         "description": "", 
-        "id": "Grid"
+        "text": "Cuadr\u00edcula"
     }, 
     {
+        "id": "Left", 
         "source": "Left", 
-        "text": "Izquierda", 
         "nameSpace": "djv::ViewLib", 
         "description": "", 
-        "id": "Left"
+        "text": "Izquierda"
     }, 
     {
+        "id": "Right", 
         "source": "Right", 
-        "text": "Derecha", 
         "nameSpace": "djv::ViewLib", 
         "description": "", 
-        "id": "Right"
+        "text": "Derecha"
     }, 
     {
+        "id": "Up", 
         "source": "Up", 
-        "text": "Arriba", 
         "nameSpace": "djv::ViewLib", 
         "description": "", 
-        "id": "Up"
+        "text": "Arriba"
     }, 
     {
+        "id": "Down", 
         "source": "Down", 
-        "text": "Abajo", 
         "nameSpace": "djv::ViewLib", 
         "description": "", 
-        "id": "Down"
+        "text": "Abajo"
     }, 
     {
+        "id": "Center", 
         "source": "Center", 
-        "text": "Centrar", 
         "nameSpace": "djv::ViewLib", 
         "description": "", 
-        "id": "Center"
+        "text": "Centrar"
     }, 
     {
+        "id": "Zoom In", 
         "source": "Zoom In", 
-        "text": "Acercarse", 
         "nameSpace": "djv::ViewLib", 
         "description": "", 
-        "id": "Zoom In"
+        "text": "Acercarse"
     }, 
     {
+        "id": "Zoom Out", 
         "source": "Zoom Out", 
-        "text": "Disminuir el zoom", 
         "nameSpace": "djv::ViewLib", 
         "description": "", 
-        "id": "Zoom Out"
+        "text": "Disminuir el zoom"
     }, 
     {
+        "id": "Reset Zoom", 
         "source": "Reset Zoom", 
-        "text": "Restablecer zoom", 
         "nameSpace": "djv::ViewLib", 
         "description": "", 
-        "id": "Reset Zoom"
+        "text": "Restablecer zoom"
     }, 
     {
+        "id": "Reset Position and Zoom", 
         "source": "Reset Position and Zoom", 
-        "text": "Restablecer posici\u00f3n y zoom", 
         "nameSpace": "djv::ViewLib", 
         "description": "", 
-        "id": "Reset Position and Zoom"
+        "text": "Restablecer posici\u00f3n y zoom"
     }, 
     {
+        "id": "HUD", 
         "source": "HUD", 
-        "text": "HUD", 
         "nameSpace": "djv::ViewLib", 
         "description": "", 
-        "id": "HUD"
+        "text": "HUD"
     }, 
     {
+        "id": "Documentation", 
         "source": "Documentation", 
-        "text": "Documentaci\u00f3n", 
         "nameSpace": "djv::ViewLib", 
         "description": "", 
-        "id": "Documentation"
+        "text": "Documentaci\u00f3n"
     }, 
     {
+        "id": "Information", 
         "source": "Information", 
-        "text": "Informaci\u00f3n", 
         "nameSpace": "djv::ViewLib", 
         "description": "", 
-        "id": "Information"
+        "text": "Informaci\u00f3n"
     }, 
     {
+        "id": "DebugLog", 
         "source": "DebugLog", 
-        "text": "DebugLog", 
         "nameSpace": "djv::ViewLib", 
         "description": "", 
-        "id": "DebugLog"
+        "text": "DebugLog"
     }, 
     {
+        "id": "Help", 
         "source": "Help", 
-        "text": "Ayuda", 
         "nameSpace": "djv::ViewLib", 
         "description": "", 
-        "id": "Help"
+        "text": "Ayuda"
     }, 
     {
+        "id": "Image", 
         "source": "Image", 
-        "text": "Imagen", 
         "nameSpace": "djv::ViewLib", 
         "description": "", 
-        "id": "Image"
+        "text": "Imagen"
     }, 
     {
+        "id": "Scale", 
         "source": "Scale", 
-        "text": "Escala", 
         "nameSpace": "djv::ViewLib", 
         "description": "", 
-        "id": "Scale"
+        "text": "Escala"
     }, 
     {
+        "id": "Rotate", 
         "source": "Rotate", 
-        "text": "Girar", 
         "nameSpace": "djv::ViewLib", 
         "description": "", 
-        "id": "Rotate"
+        "text": "Girar"
     }, 
     {
+        "id": "Mirror Horizontal", 
         "source": "Mirror Horizontal", 
-        "text": "Espejo horizontal", 
         "nameSpace": "djv::ViewLib", 
         "description": "", 
-        "id": "Mirror Horizontal"
+        "text": "Espejo horizontal"
     }, 
     {
+        "id": "Mirror Vertical", 
         "source": "Mirror Vertical", 
-        "text": "Espejo vertical", 
         "nameSpace": "djv::ViewLib", 
         "description": "", 
-        "id": "Mirror Vertical"
+        "text": "Espejo vertical"
     }, 
     {
+        "id": "Color Manager", 
         "source": "Color Manager", 
-        "text": "Gestor de color", 
         "nameSpace": "djv::ViewLib", 
         "description": "", 
-        "id": "Color Manager"
+        "text": "Gestor de color"
     }, 
     {
+        "id": "Color Profile", 
         "source": "Color Profile", 
-        "text": "Perfil de color", 
         "nameSpace": "djv::ViewLib", 
         "description": "", 
-        "id": "Color Profile"
+        "text": "Perfil de color"
     }, 
     {
+        "id": "Display Profile", 
         "source": "Display Profile", 
-        "text": "Mostrar perfil", 
         "nameSpace": "djv::ViewLib", 
         "description": "", 
-        "id": "Display Profile"
+        "text": "Mostrar perfil"
     }, 
     {
+        "id": "Premulitplied Alpha", 
         "source": "Premulitplied Alpha", 
-        "text": "Alfa premulitulada", 
         "nameSpace": "djv::ViewLib", 
         "description": "", 
-        "id": "Premulitplied Alpha"
+        "text": "Alfa premulitulada"
     }, 
     {
+        "id": "Show Frame Store", 
         "source": "Show Frame Store", 
-        "text": "Mostrar tienda de cuadros", 
         "nameSpace": "djv::ViewLib", 
         "description": "", 
-        "id": "Show Frame Store"
+        "text": "Mostrar tienda de cuadros"
     }, 
     {
+        "id": "Set Frame Store", 
         "source": "Set Frame Store", 
-        "text": "Set Frame Store", 
         "nameSpace": "djv::ViewLib", 
         "description": "", 
-        "id": "Set Frame Store"
+        "text": "Set Frame Store"
     }, 
     {
         "source": "Open Tooltip", 
-        "text": "Abrir informaci\u00f3n sobre herramientas", 
+        "description": "", 
         "nameSpace": "djv::ViewLib::FileSystem", 
         "id": "Open Tooltip", 
-        "description": ""
+        "text": "Abrir informaci\u00f3n sobre herramientas"
     }, 
     {
         "source": "Recent Tooltip", 
-        "text": "Tooltip reciente", 
+        "description": "", 
         "nameSpace": "djv::ViewLib::FileSystem", 
         "id": "Recent Tooltip", 
-        "description": ""
+        "text": "Tooltip reciente"
     }, 
     {
         "source": "Reload Tooltip", 
-        "text": "Recargar informaci\u00f3n sobre herramientas", 
+        "description": "", 
         "nameSpace": "djv::ViewLib::FileSystem", 
         "id": "Reload Tooltip", 
-        "description": ""
+        "text": "Recargar informaci\u00f3n sobre herramientas"
     }, 
     {
         "source": "Reload Frame Tooltip", 
-        "text": "Recargar cuadro Tooltip", 
+        "description": "", 
         "nameSpace": "djv::ViewLib::FileSystem", 
         "id": "Reload Frame Tooltip", 
-        "description": ""
+        "text": "Recargar cuadro Tooltip"
     }, 
     {
         "source": "Close Tooltip", 
-        "text": "Cerrar informaci\u00f3n sobre herramientas", 
+        "description": "", 
         "nameSpace": "djv::ViewLib::FileSystem", 
         "id": "Close Tooltip", 
-        "description": ""
+        "text": "Cerrar informaci\u00f3n sobre herramientas"
     }, 
     {
         "source": "Export Tooltip", 
-        "text": "Informaci\u00f3n sobre herramientas de exportaci\u00f3n", 
+        "description": "", 
         "nameSpace": "djv::ViewLib::FileSystem", 
         "id": "Export Tooltip", 
-        "description": ""
+        "text": "Informaci\u00f3n sobre herramientas de exportaci\u00f3n"
     }, 
     {
         "source": "Next Tooltip", 
-        "text": "Siguiente informaci\u00f3n sobre herramientas", 
+        "description": "", 
         "nameSpace": "djv::ViewLib::FileSystem", 
         "id": "Next Tooltip", 
-        "description": ""
+        "text": "Siguiente informaci\u00f3n sobre herramientas"
     }, 
     {
         "source": "Prev Tooltip", 
-        "text": "Anterior Tooltip", 
+        "description": "", 
         "nameSpace": "djv::ViewLib::FileSystem", 
         "id": "Prev Tooltip", 
-        "description": ""
+        "text": "Anterior Tooltip"
     }, 
     {
         "source": "Layers Tooltip", 
-        "text": "Tooltip de capas", 
+        "description": "", 
         "nameSpace": "djv::ViewLib::FileSystem", 
         "id": "Layers Tooltip", 
-        "description": ""
+        "text": "Tooltip de capas"
     }, 
     {
         "source": "Next Layer Tooltip", 
-        "text": "Descripci\u00f3n de la capa siguiente", 
+        "description": "", 
         "nameSpace": "djv::ViewLib::FileSystem", 
         "id": "Next Layer Tooltip", 
-        "description": ""
+        "text": "Descripci\u00f3n de la capa siguiente"
     }, 
     {
         "source": "Previous Layer Tooltip", 
-        "text": "Herramienta de capa anterior", 
+        "description": "", 
         "nameSpace": "djv::ViewLib::FileSystem", 
         "id": "Previous Layer Tooltip", 
-        "description": ""
+        "text": "Herramienta de capa anterior"
     }, 
     {
         "source": "8-bit Conversion Tooltip", 
-        "text": "Informaci\u00f3n sobre herramientas de conversi\u00f3n de 8 bits", 
+        "description": "", 
         "nameSpace": "djv::ViewLib::FileSystem", 
         "id": "8-bit Conversion Tooltip", 
-        "description": ""
+        "text": "Informaci\u00f3n sobre herramientas de conversi\u00f3n de 8 bits"
     }, 
     {
         "source": "Memory Cache Tooltip", 
-        "text": "Informaci\u00f3n sobre la memoria cach\u00e9", 
+        "description": "", 
         "nameSpace": "djv::ViewLib::FileSystem", 
         "id": "Memory Cache Tooltip", 
-        "description": ""
+        "text": "Informaci\u00f3n sobre la memoria cach\u00e9"
     }, 
     {
         "source": "Clear Cache Tooltip", 
-        "text": "Borrar informaci\u00f3n de la herramienta de cach\u00e9", 
+        "description": "", 
         "nameSpace": "djv::ViewLib::FileSystem", 
         "id": "Clear Cache Tooltip", 
-        "description": ""
+        "text": "Borrar informaci\u00f3n de la herramienta de cach\u00e9"
     }, 
     {
         "source": "Settings Tooltip", 
-        "text": "Herramienta de configuraci\u00f3n", 
+        "description": "", 
         "nameSpace": "djv::ViewLib::FileSystem", 
         "id": "Settings Tooltip", 
-        "description": ""
+        "text": "Herramienta de configuraci\u00f3n"
     }, 
     {
         "source": "Exit Tooltip", 
-        "text": "Exit Tooltip", 
+        "description": "", 
         "nameSpace": "djv::ViewLib::FileSystem", 
         "id": "Exit Tooltip", 
-        "description": ""
+        "text": "Exit Tooltip"
     }, 
     {
         "source": "Display Size", 
-        "text": "tama\u00f1o de la pantalla", 
+        "description": "", 
         "nameSpace": "djv::ViewLib::GeneralSettingsWidget", 
         "id": "Display Size", 
-        "description": ""
+        "text": "tama\u00f1o de la pantalla"
     }, 
     {
         "source": "Color Palette", 
-        "text": "Paleta de color", 
+        "description": "", 
         "nameSpace": "djv::ViewLib::GeneralSettingsWidget", 
         "id": "Color Palette", 
-        "description": ""
+        "text": "Paleta de color"
     }, 
     {
         "source": "DJV Imaging", 
-        "text": "DJV Imaging", 
+        "description": "", 
         "nameSpace": "djv::ViewLib::HelpAboutDialog", 
         "id": "Header", 
-        "description": ""
+        "text": "DJV Imaging"
     }, 
     {
         "source": "Copyright (c) 2004-2019 Darby Johnston, All rights reserved", 
-        "text": "Copyright (c) 2004-2019 Darby Johnston, Todos los derechos reservados", 
+        "description": "", 
         "nameSpace": "djv::ViewLib::HelpAboutDialog", 
         "id": "Copyright", 
-        "description": ""
+        "text": "Copyright (c) 2004-2019 Darby Johnston, Todos los derechos reservados"
     }, 
     {
         "source": "Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:", 
-        "text": "Se permite la redistribuci\u00f3n y uso en formas fuente y binarias, con o sin modificaci\u00f3n, siempre que se cumplan las siguientes condiciones:", 
+        "description": "", 
         "nameSpace": "djv::ViewLib::HelpAboutDialog", 
         "id": "License1", 
-        "description": ""
+        "text": "Se permite la redistribuci\u00f3n y uso en formas fuente y binarias, con o sin modificaci\u00f3n, siempre que se cumplan las siguientes condiciones:"
     }, 
     {
         "source": "* Redistributions of source code must retain the above copyright notice, this list of conditions, and the following disclaimer.", 
-        "text": "* Las redistribuciones del c\u00f3digo fuente deben conservar el aviso de copyright anterior, esta lista de condiciones y el siguiente descargo de responsabilidad.", 
+        "description": "", 
         "nameSpace": "djv::ViewLib::HelpAboutDialog", 
         "id": "License2", 
-        "description": ""
+        "text": "* Las redistribuciones del c\u00f3digo fuente deben conservar el aviso de copyright anterior, esta lista de condiciones y el siguiente descargo de responsabilidad."
     }, 
     {
         "source": "* Redistributions in binary form must reproduce the above copyright notice, this list of conditions, and the following disclaimer in the documentation and/or other materials provided with the distribution.", 
-        "text": "* Las redistribuciones en formato binario deben reproducir el aviso de copyright anterior, esta lista de condiciones y el siguiente descargo de responsabilidad en la documentaci\u00f3n y / u otros materiales proporcionados con la distribuci\u00f3n.", 
+        "description": "", 
         "nameSpace": "djv::ViewLib::HelpAboutDialog", 
         "id": "License3", 
-        "description": ""
+        "text": "* Las redistribuciones en formato binario deben reproducir el aviso de copyright anterior, esta lista de condiciones y el siguiente descargo de responsabilidad en la documentaci\u00f3n y / u otros materiales proporcionados con la distribuci\u00f3n."
     }, 
     {
         "source": "* Neither the names of the copyright holders nor the names of any contributors may be used to endorse or promote products derived from this software without specific prior written permission.", 
-        "text": "* Ni los nombres de los titulares de los derechos de autor ni los nombres de los contribuyentes pueden usarse para respaldar o promocionar productos derivados de este software sin un permiso previo por escrito espec\u00edfico.", 
+        "description": "", 
         "nameSpace": "djv::ViewLib::HelpAboutDialog", 
         "id": "License4", 
-        "description": ""
+        "text": "* Ni los nombres de los titulares de los derechos de autor ni los nombres de los contribuyentes pueden usarse para respaldar o promocionar productos derivados de este software sin un permiso previo por escrito espec\u00edfico."
     }, 
     {
         "source": "THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS \"AS IS\" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.", 
-        "text": "ESTE SOFTWARE ES PROPORCIONADO POR LOS TITULARES Y CONTRIBUYENTES DEL DERECHO DE AUTOR &quot;TAL CUAL&quot; Y CUALQUIER GARANT\u00cdA EXPRESA O IMPL\u00cdCITA, INCLUYENDO, PERO NO EST\u00c1 LIMITADA A, LAS GARANT\u00cdAS IMPL\u00cdCITAS DE COMERCIABILIDAD Y ADECUACI\u00d3N PARA UN PARTICULAR PROP\u00d3SITO EST\u00c1N DISPONIBLES. EN NING\u00daN CASO, EL TITULAR DE LOS DERECHOS DE AUTOR O LOS CONTRIBUYENTES SER\u00c1N RESPONSABLES POR CUALQUIER DA\u00d1O DIRECTO, INDIRECTO, INCIDENTAL, ESPECIAL, EJEMPLO O CONSECUENTE (INCLUYENDO, PERO NO EST\u00c1 LIMITADO A, PROCESO DE BIENES O SERVICIOS SUBSTITUIDOS; O INTERRUPCI\u00d3N DE NEGOCIOS) SIN EMBARGO Y POR CUALQUIER TEOR\u00cdA DE RESPONSABILIDAD, YA SEA CONTRATO, ESTE ESTRICTO DE RESPONSABILIDAD, O EL CORTO (INCLUYENDO NEGLIGENCIA U OTRA MANERA) DERIVADO DE CUALQUIER MANERA FUERA DE LA UTILIZACI\u00d3N DE ESTE SOFTWARE, INCLUSO SI SE AVANZA DE LA POSIBILIDAD DE LA ESTACI\u00d3N DE VENTAS.", 
+        "description": "", 
         "nameSpace": "djv::ViewLib::HelpAboutDialog", 
         "id": "License5", 
+        "text": "ESTE SOFTWARE ES PROPORCIONADO POR LOS TITULARES Y CONTRIBUYENTES DEL DERECHO DE AUTOR &quot;TAL CUAL&quot; Y CUALQUIER GARANT\u00cdA EXPRESA O IMPL\u00cdCITA, INCLUYENDO, PERO NO EST\u00c1 LIMITADA A, LAS GARANT\u00cdAS IMPL\u00cdCITAS DE COMERCIABILIDAD Y ADECUACI\u00d3N PARA UN PARTICULAR PROP\u00d3SITO EST\u00c1N DISPONIBLES. EN NING\u00daN CASO, EL TITULAR DE LOS DERECHOS DE AUTOR O LOS CONTRIBUYENTES SER\u00c1N RESPONSABLES POR CUALQUIER DA\u00d1O DIRECTO, INDIRECTO, INCIDENTAL, ESPECIAL, EJEMPLO O CONSECUENTE (INCLUYENDO, PERO NO EST\u00c1 LIMITADO A, PROCESO DE BIENES O SERVICIOS SUBSTITUIDOS; O INTERRUPCI\u00d3N DE NEGOCIOS) SIN EMBARGO Y POR CUALQUIER TEOR\u00cdA DE RESPONSABILIDAD, YA SEA CONTRATO, ESTE ESTRICTO DE RESPONSABILIDAD, O EL CORTO (INCLUYENDO NEGLIGENCIA U OTRA MANERA) DERIVADO DE CUALQUIER MANERA FUERA DE LA UTILIZACI\u00d3N DE ESTE SOFTWARE, INCLUSO SI SE AVANZA DE LA POSIBILIDAD DE LA ESTACI\u00d3N DE VENTAS."
+    }, 
+    {
+        "source": "Contributors", 
+        "description": "", 
+        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
+        "id": "Contributors Header", 
+        "text": "Contribuyentes"
+    }, 
+    {
+        "source": "Portions of this software are copyright (in alphabetical order):", 
+        "description": "", 
+        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
+        "id": "Contributors Text 1", 
+        "text": "Algunas partes de este software tienen derechos de autor (en orden alfab\u00e9tico):"
+    }, 
+    {
+        "source": "* Copyright (c) 2004-2019 Darby Johnston, All rights reserved", 
+        "description": "", 
+        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
+        "id": "Contributors Text 2", 
+        "text": "* Copyright (c) 2004-2019 Darby Johnston, Todos los derechos reservados"
+    }, 
+    {
+        "source": "* Copyright (c) 2008 Alan Jones, All rights reserved", 
+        "description": "", 
+        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
+        "id": "Contributors Text 3", 
+        "text": "* Copyright (c) 2008 Alan Jones, Todos los derechos reservados."
+    }, 
+    {
+        "source": "* Copyright (c) 2008-2009 Mikael Sundell, All rights reserved", 
+        "description": "", 
+        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
+        "id": "Contributors Text 4", 
+        "text": "* Copyright (c) 2008-2009 Mikael Sundell, Todos los derechos reservados"
+    }, 
+    {
+        "source": "Third Party Software", 
+        "description": "", 
+        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
+        "id": "Third Party Header", 
+        "text": "Software de terceros"
+    }, 
+    {
+        "source": "This software is based in part on the works of (in alphabetical order):", 
+        "description": "", 
+        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
+        "id": "Third Party Text 1", 
+        "text": "Este software se basa en parte en los trabajos de (en orden alfab\u00e9tico):"
+    }, 
+    {
+        "source": "* CMake, http://www.cmake.org, Copyright 2000-2011 Kitware, Inc., Insight Software Consortium, All rights reserved", 
+        "description": "", 
+        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
+        "id": "Third Party Text 2", 
+        "text": "* CMake, http://www.cmake.org, Copyright 2000-2011 Kitware, Inc., Insight Software Consortium, Todos los derechos reservados"
+    }, 
+    {
+        "source": "* dr_libs, https://github.com/mackron/dr_libs, David Reid", 
+        "description": "", 
+        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
+        "id": "Third Party Text 3", 
+        "text": "* dr_libs, https://github.com/mackron/dr_libs, David Reid"
+    }, 
+    {
+        "source": "* FFmpeg, http://www.ffmpeg.org, Licensed under the LGPLv2.1, http://www.gnu.org/pcenses/old-pcenses/lgpl-2.1.html", 
+        "description": "", 
+        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
+        "id": "Third Party Text 4", 
+        "text": "* FFmpeg, http://www.ffmpeg.org, licenciado bajo LGPLv2.1, http://www.gnu.org/pcenses/old-pcenses/lgpl-2.1.html"
+    }, 
+    {
+        "source": "* FreeType, https://www.freetype.org, Copyright (c) 2018, The FreeType Project", 
+        "description": "", 
+        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
+        "id": "Third Party Text 5", 
+        "text": "* FreeType, https://www.freetype.org, Copyright (c) 2018, The FreeType Project"
+    }, 
+    {
+        "source": "* glbinding, https://glbinding.org, Copyright (c) 2014-2015 Computer Graphics Systems Group at the Hasso-Plattner-Institute and CG Internals GmbH, Germany", 
+        "description": "", 
+        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
+        "id": "Third Party Text 6", 
+        "text": "* glbinding, https://glbinding.org, Copyright (c) 2014-2015 Computer Graphics Systems Group en el Instituto Hasso-Plattner y CG Internals GmbH, Alemania"
+    }, 
+    {
+        "source": "* GLFW, https://www.glfw.org, Copyright (c) 2002-2006 Marcus Geelnard, Copyright (c) 2006-2016 Camilla L\u00f6wy <elmindreda@glfw.org>", 
+        "description": "", 
+        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
+        "id": "Third Party Text 7", 
+        "text": "* GLFW, https://www.glfw.org, Copyright (c) 2002-2006 Marcus Geelnard, Copyright (c) 2006-2016 Camilla L\u00f6wy <elmindreda@glfw.org>"
+    }, 
+    {
+        "source": "* GLM, https://glm.g-truc.net/0.9.9/index.html, Copyright (c) 2005-2017 G-Truc Creation", 
+        "description": "", 
+        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
+        "id": "Third Party Text 8", 
+        "text": "* GLM, https://glm.g-truc.net/0.9.9/index.html, Copyright (c) 2005-2017 Creaci\u00f3n de G-Truc"
+    }, 
+    {
+        "source": "* libjpeg, http://www.ijg.org, Copyright (c) 1991-2012, Thomas G. Lane, Guido Vollbeding", 
+        "description": "", 
+        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
+        "id": "Third Party Text 9", 
+        "text": "* libjpeg, http://www.ijg.org, Copyright (c) 1991-2012, Thomas G. Lane, Guido Vollbeding"
+    }, 
+    {
+        "source": "* libpng, http://www.libpng.org, Copyright (c) 2004, 2006-2012 Glenn Randers-Pehrson", 
+        "description": "", 
+        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
+        "id": "Third Party Text 10", 
+        "text": "* libpng, http://www.libpng.org, Copyright (c) 2004, 2006-2012 Glenn Randers-Pehrson"
+    }, 
+    {
+        "source": "* libtiff, http://www.libtiff.org, Copyright (c) 1988-1997 Sam Leffler, Copyright (c) 1991-1997 Silicon Graphics, Inc", 
+        "description": "", 
+        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
+        "id": "Third Party Text 11", 
+        "text": "* libtiff, http://www.libtiff.org, Copyright (c) 1988-1997 Sam Leffler, Copyright (c) 1991-1997 Silicon Graphics, Inc"
+    }, 
+    {
+        "source": "* OpenAL, https://www.openal.org, Copyright (C) 1999-2000 by Loki Software", 
+        "description": "", 
+        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
+        "id": "Third Party Text 12", 
+        "text": "* OpenAL, https://www.openal.org, Copyright (C) 1999-2000 por Loki Software"
+    }, 
+    {
+        "source": "* OpenEXR, http://www.openexr.com, Copyright (c) 2006, Industrial Light and Magic, a division of Lucasfilm Entertainment Company Ltd.", 
+        "description": "", 
+        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
+        "id": "Third Party Text 13", 
+        "text": "* OpenEXR, http://www.openexr.com, Copyright (c) 2006, Industrial Light and Magic, una divisi\u00f3n de Lucasfilm Entertainment Company Ltd."
+    }, 
+    {
+        "source": "* zlib, http://www.zlib.net, Copyright (c) 1995-2013 Jean-loup Gailly and Mark Adler", 
+        "description": "", 
+        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
+        "id": "Third Party Text 14", 
+        "text": "* zlib, http://www.zlib.net, Copyright (c) 1995-2013 Jean-loup Gailly y Mark Adler"
+    }, 
+    {
+        "source": "Trademarks", 
+        "description": "", 
+        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
+        "id": "Trademarks Header", 
+        "text": "Marcas comerciales"
+    }, 
+    {
+        "source": "Trademarks named in the documentation (in alphabetical order):", 
+        "description": "", 
+        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
+        "id": "Trademarks Text 1", 
+        "text": "Marcas registradas nombradas en la documentaci\u00f3n (en orden alfab\u00e9tico):"
+    }, 
+    {
+        "source": "* Apple, OS X, ProRes, and QuickTime are registered trademarks of Apple, Inc.", 
+        "description": "", 
+        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
+        "id": "Trademarks Text 2", 
+        "text": "* Apple, OS X, ProRes y QuickTime son marcas comerciales registradas de Apple, Inc."
+    }, 
+    {
+        "source": "* AMD and ATI are registered trademarks of Advanced Micro Devices, Inc.", 
+        "description": "", 
+        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
+        "id": "Trademarks Text 3", 
+        "text": "* AMD y ATI son marcas registradas de Advanced Micro Devices, Inc."
+    }, 
+    {
+        "source": "* Autodesk, Inferno, Maya, Softimage, and XSI are registered trademarks of Autodesk, Inc.", 
+        "description": "", 
+        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
+        "id": "Trademarks Text 4", 
+        "text": "* Autodesk, Inferno, Maya, Softimage y XSI son marcas registradas de Autodesk, Inc."
+    }, 
+    {
+        "source": "* Debian is a registered trademark of Software in the Public Interest, Inc.", 
+        "description": "", 
+        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
+        "id": "Trademarks Text 5", 
+        "text": "* Debian es una marca registrada de Software en Public Interest, Inc."
+    }, 
+    {
+        "source": "* FFmpeg is a trademark of Fabrice Bellard, originator of the FFmpeg project", 
+        "description": "", 
+        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
+        "id": "Trademarks Text 6", 
+        "text": "* FFmpeg es una marca comercial de Fabrice Bellard, creador del proyecto FFmpeg"
+    }, 
+    {
+        "source": "* FreeBSD is a registered trademark of The FreeBSD Foundation", 
+        "description": "", 
+        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
+        "id": "Trademarks Text 7", 
+        "text": "* FreeBSD es una marca registrada de The FreeBSD Foundation"
+    }, 
+    {
+        "source": "* Intel is a registered trademark of Intel Corporation", 
+        "description": "", 
+        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
+        "id": "Trademarks Text 8", 
+        "text": "* Intel es una marca registrada de Intel Corporation."
+    }, 
+    {
+        "source": "* Industrial Light and Magic and ILM are registered trademarks of Lucasfilm Ltd.", 
+        "description": "", 
+        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
+        "id": "Trademarks Text 9", 
+        "text": "* Industrial Light and Magic e ILM son marcas registradas de Lucasfilm Ltd."
+    }, 
+    {
+        "source": "* Kodak and Cineon are a registered trademarks of the Eastman Kodak Company", 
+        "description": "", 
+        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
+        "id": "Trademarks Text 10", 
+        "text": "* Kodak y Cineon son marcas comerciales registradas de Eastman Kodak Company"
+    }, 
+    {
+        "source": "* Linux is a registered trademark of Linus Torvalds", 
+        "description": "", 
+        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
+        "id": "Trademarks Text 11", 
+        "text": "* Linux es una marca registrada de Linus Torvalds."
+    }, 
+    {
+        "source": "* Microsoft and Microsoft Windows are registered trademarks of Microsoft, Inc.", 
+        "description": "", 
+        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
+        "id": "Trademarks Text 12", 
+        "text": "* Microsoft y Microsoft Windows son marcas registradas de Microsoft, Inc."
+    }, 
+    {
+        "source": "* MIPS is a registered trademark of MIPS Technologies, Inc.", 
+        "description": "", 
+        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
+        "id": "Trademarks Text 13", 
+        "text": "* MIPS es una marca registrada de MIPS Technologies, Inc."
+    }, 
+    {
+        "source": "* NVIDIA is a registered trademark of NVIDIA Corporation", 
+        "description": "", 
+        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
+        "id": "Trademarks Text 14", 
+        "text": "* NVIDIA es una marca registrada de NVIDIA Corporation"
+    }, 
+    {
+        "source": "* Red Hat and Fedora are registered trademarks of Red Hat, Inc.", 
+        "description": "", 
+        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
+        "id": "Trademarks Text 15", 
+        "text": "* Red Hat y Fedora son marcas registradas de Red Hat, Inc."
+    }, 
+    {
+        "source": "* Silicon Graphics, SGI, IRIX, and OpenGL are registered trademarks of Silicon Graphics International Corp.", 
+        "description": "", 
+        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
+        "id": "Trademarks Text 16", 
+        "text": "* Silicon Graphics, SGI, IRIX y OpenGL son marcas comerciales registradas de Silicon Graphics International Corp."
+    }, 
+    {
+        "source": "* SMPTE is a registered trademark of the Society of Motion Picture and Television Engineers", 
+        "description": "", 
+        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
+        "id": "Trademarks Text 17", 
+        "text": "* SMPTE es una marca registrada de la Society of Motion Picture and Television Engineers"
+    }, 
+    {
+        "source": "* SourceForge.net is a registered trademark of VA Software Corporation", 
+        "description": "", 
+        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
+        "id": "Trademarks Text 18", 
+        "text": "* SourceForge.net es una marca registrada de VA Software Corporation"
+    }, 
+    {
+        "source": "* SuSE is a registered trademark of Novell, Inc.", 
+        "description": "", 
+        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
+        "id": "Trademarks Text 19", 
+        "text": "* SuSE es una marca registrada de Novell, Inc."
+    }, 
+    {
+        "source": "* Ubuntu is a registered trademark of Canonical Ltd.", 
+        "description": "", 
+        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
+        "id": "Trademarks Text 20", 
+        "text": "* Ubuntu es una marca registrada de Canonical Ltd."
+    }, 
+    {
+        "source": "* UNIX is a registered trademark of The Open Group", 
+        "description": "", 
+        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
+        "id": "Trademarks Text 21", 
+        "text": "* UNIX es una marca registrada de The Open Group"
+    }, 
+    {
+        "source": "All other products named in the documentation are trademarks of their respective owners.", 
+        "description": "", 
+        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
+        "id": "Trademarks Text 22", 
+        "text": "Todos los dem\u00e1s productos mencionados en la documentaci\u00f3n son marcas comerciales de sus respectivos propietarios."
+    }, 
+    {
+        "source": "Documentation Tooltip", 
+        "description": "", 
+        "nameSpace": "djv::ViewLib::HelpSystem", 
+        "id": "Documentation Tooltip", 
+        "text": "Documentaci\u00f3n Tooltip"
+    }, 
+    {
+        "source": "Information Tooltip", 
+        "description": "", 
+        "nameSpace": "djv::ViewLib::HelpSystem", 
+        "id": "Information Tooltip", 
+        "text": "Informaci\u00f3n sobre herramientas"
+    }, 
+    {
+        "source": "About Tooltip", 
+        "description": "", 
+        "nameSpace": "djv::ViewLib::HelpSystem", 
+        "id": "About Tooltip", 
+        "text": "Acerca de Tooltip"
+    }, 
+    {
+        "source": "Debug Log", 
+        "description": "", 
+        "nameSpace": "djv::ViewLib::HelpSystem", 
+        "id": "Debug Log", 
+        "text": "Registro de depuraci\u00f3n"
+    }, 
+    {
+        "source": "Debug Log Tooltip", 
+        "description": "", 
+        "nameSpace": "djv::ViewLib::HelpSystem", 
+        "id": "Debug Log Tooltip", 
+        "text": "Herramienta de registro de depuraci\u00f3n"
+    }, 
+    {
+        "source": "Left Tooltip", 
+        "description": "", 
+        "nameSpace": "djv::ViewLib::ImageViewSystem", 
+        "id": "Left Tooltip", 
+        "text": "Tooltip izquierda"
+    }, 
+    {
+        "source": "Right Tooltip", 
+        "description": "", 
+        "nameSpace": "djv::ViewLib::ImageViewSystem", 
+        "id": "Right Tooltip", 
+        "text": "Tooltip derecho"
+    }, 
+    {
+        "source": "Up Tooltip", 
+        "description": "", 
+        "nameSpace": "djv::ViewLib::ImageViewSystem", 
+        "id": "Up Tooltip", 
+        "text": "Subir informaci\u00f3n sobre herramientas"
+    }, 
+    {
+        "source": "Down Tooltip", 
+        "description": "", 
+        "nameSpace": "djv::ViewLib::ImageViewSystem", 
+        "id": "Down Tooltip", 
+        "text": "Tooltip abajo"
+    }, 
+    {
+        "source": "Center Tooltip", 
+        "description": "", 
+        "nameSpace": "djv::ViewLib::ImageViewSystem", 
+        "id": "Center Tooltip", 
+        "text": "Informaci\u00f3n sobre el centro"
+    }, 
+    {
+        "source": "Zoom In Tooltip", 
+        "description": "", 
+        "nameSpace": "djv::ViewLib::ImageViewSystem", 
+        "id": "Zoom In Tooltip", 
+        "text": "Ampliar informaci\u00f3n sobre herramientas"
+    }, 
+    {
+        "source": "Zoom Out Tooltip", 
+        "description": "", 
+        "nameSpace": "djv::ViewLib::ImageViewSystem", 
+        "id": "Zoom Out Tooltip", 
+        "text": "Reducir la informaci\u00f3n sobre herramientas"
+    }, 
+    {
+        "source": "Reset Zoom Tooltip", 
+        "description": "", 
+        "nameSpace": "djv::ViewLib::ImageViewSystem", 
+        "id": "Reset Zoom Tooltip", 
+        "text": "Restablecer zoom Tooltip"
+    }, 
+    {
+        "source": "Reset Position and Zoom Tooltip", 
+        "description": "", 
+        "nameSpace": "djv::ViewLib::ImageViewSystem", 
+        "id": "Reset Position and Zoom Tooltip", 
+        "text": "Restablecer posici\u00f3n y herramienta de zoom"
+    }, 
+    {
+        "source": "Fit Tooltip", 
+        "description": "", 
+        "nameSpace": "djv::ViewLib::ImageViewSystem", 
+        "id": "Fit Tooltip", 
+        "text": "Ajustar informaci\u00f3n sobre herramientas"
+    }, 
+    {
+        "source": "HUD Tooltip", 
+        "description": "", 
+        "nameSpace": "djv::ViewLib::ImageViewSystem", 
+        "id": "HUD Tooltip", 
+        "text": "Informaci\u00f3n sobre herramientas de HUD"
+    }, 
+    {
+        "source": "MDI WindowMode Tooltip", 
+        "description": "", 
+        "nameSpace": "djv::ViewLib::MainWindow", 
+        "id": "MDI WindowMode Tooltip", 
+        "text": "Informaci\u00f3n sobre la herramienta MDI WindowMode"
+    }, 
+    {
+        "source": "Stop Tooltip", 
+        "description": "", 
+        "nameSpace": "djv::ViewLib::PlaybackSystem", 
+        "id": "Stop Tooltip", 
+        "text": "Detener informaci\u00f3n sobre herramientas"
+    }, 
+    {
+        "source": "Forward Tooltip", 
+        "description": "", 
+        "nameSpace": "djv::ViewLib::PlaybackSystem", 
+        "id": "Forward Tooltip", 
+        "text": "Herramienta de avance"
+    }, 
+    {
+        "source": "Reverse Tooltip", 
+        "description": "", 
+        "nameSpace": "djv::ViewLib::PlaybackSystem", 
+        "id": "Reverse Tooltip", 
+        "text": "Informaci\u00f3n sobre herramientas inversa"
+    }, 
+    {
+        "source": "Toggle Playback Tooltip", 
+        "description": "", 
+        "nameSpace": "djv::ViewLib::PlaybackSystem", 
+        "id": "Toggle Playback Tooltip", 
+        "text": "Herramienta de reproducci\u00f3n de palanca"
+    }, 
+    {
+        "source": "Toggle Reverse Playback Tooltip", 
+        "description": "", 
+        "nameSpace": "djv::ViewLib::PlaybackSystem", 
+        "id": "Toggle Reverse Playback Tooltip", 
+        "text": "Herramienta de reproducci\u00f3n inversa de palanca"
+    }, 
+    {
+        "source": "Play Every Frame Tooltip", 
+        "description": "", 
+        "nameSpace": "djv::ViewLib::PlaybackSystem", 
+        "id": "Play Every Frame Tooltip", 
+        "text": "Reproducir cada cuadro Tooltip marco"
+    }, 
+    {
+        "source": "Go To In Point Tooltip", 
+        "description": "", 
+        "nameSpace": "djv::ViewLib::PlaybackSystem", 
+        "id": "Go To In Point Tooltip", 
+        "text": "Ir a la herramienta de puntaje en el punto"
+    }, 
+    {
+        "source": "Go To Out Point Tooltip", 
+        "description": "", 
+        "nameSpace": "djv::ViewLib::PlaybackSystem", 
+        "id": "Go To Out Point Tooltip", 
+        "text": "Ir a la herramienta de punto de salida"
+    }, 
+    {
+        "source": "Go To Start Frame Tooltip", 
+        "description": "", 
+        "nameSpace": "djv::ViewLib::PlaybackSystem", 
+        "id": "Go To Start Frame Tooltip", 
+        "text": "Ir a inicio Informaci\u00f3n sobre el cuadro"
+    }, 
+    {
+        "source": "Go To End Frame Tooltip", 
+        "description": "", 
+        "nameSpace": "djv::ViewLib::PlaybackSystem", 
+        "id": "Go To End Frame Tooltip", 
+        "text": "Ir a Herramienta de marco de finalizaci\u00f3n"
+    }, 
+    {
+        "source": "Next Frame Tooltip", 
+        "description": "", 
+        "nameSpace": "djv::ViewLib::PlaybackSystem", 
+        "id": "Next Frame Tooltip", 
+        "text": "Sugerencia de cuadro siguiente"
+    }, 
+    {
+        "source": "Next Frame X10 Tooltip", 
+        "description": "", 
+        "nameSpace": "djv::ViewLib::PlaybackSystem", 
+        "id": "Next Frame X10 Tooltip", 
+        "text": "Siguiente marco X10 Tooltip"
+    }, 
+    {
+        "source": "Next Frame X100 Tooltip", 
+        "description": "", 
+        "nameSpace": "djv::ViewLib::PlaybackSystem", 
+        "id": "Next Frame X100 Tooltip", 
+        "text": "Siguiente marco X100 Tooltip"
+    }, 
+    {
+        "source": "Previous Frame Tooltip", 
+        "description": "", 
+        "nameSpace": "djv::ViewLib::PlaybackSystem", 
+        "id": "Previous Frame Tooltip", 
+        "text": "Herramienta de marco anterior"
+    }, 
+    {
+        "source": "Previous Frame X10 Tooltip", 
+        "description": "", 
+        "nameSpace": "djv::ViewLib::PlaybackSystem", 
+        "id": "Previous Frame X10 Tooltip", 
+        "text": "Descripci\u00f3n anterior del cuadro de di\u00e1logo X10"
+    }, 
+    {
+        "source": "Previous Frame X100 Tooltip", 
+        "description": "", 
+        "nameSpace": "djv::ViewLib::PlaybackSystem", 
+        "id": "Previous Frame X100 Tooltip", 
+        "text": "Anterior Frame X100 Tooltip"
+    }, 
+    {
+        "source": "Enable In/Out Points Tooltip", 
+        "description": "", 
+        "nameSpace": "djv::ViewLib::PlaybackSystem", 
+        "id": "Enable In/Out Points Tooltip", 
+        "text": "Habilitar informaci\u00f3n sobre puntos de entrada / salida"
+    }, 
+    {
+        "source": "Set In Point Tooltip", 
+        "description": "", 
+        "nameSpace": "djv::ViewLib::PlaybackSystem", 
+        "id": "Set In Point Tooltip", 
+        "text": "Establecer informaci\u00f3n sobre herramientas en el punto"
+    }, 
+    {
+        "source": "Set Out Point Tooltip", 
+        "description": "", 
+        "nameSpace": "djv::ViewLib::PlaybackSystem", 
+        "id": "Set Out Point Tooltip", 
+        "text": "Herramienta de punto de salida"
+    }, 
+    {
+        "source": "Reset In Point Tooltip", 
+        "description": "", 
+        "nameSpace": "djv::ViewLib::PlaybackSystem", 
+        "id": "Reset In Point Tooltip", 
+        "text": "Restablecer In Point Tooltip"
+    }, 
+    {
+        "source": "Reset Out Point Tooltip", 
+        "description": "", 
+        "nameSpace": "djv::ViewLib::PlaybackSystem", 
+        "id": "Reset Out Point Tooltip", 
+        "text": "Herramienta de punto de reposici\u00f3n"
+    }, 
+    {
+        "source": "Mirror Horizontal Tooltip", 
+        "description": "", 
+        "nameSpace": "djv::ViewLib::ImageSystem", 
+        "id": "Mirror Horizontal Tooltip", 
+        "text": "Herramienta de espejo horizontal"
+    }, 
+    {
+        "source": "Mirror Vertical Tooltip", 
+        "description": "", 
+        "nameSpace": "djv::ViewLib::ImageSystem", 
+        "id": "Mirror Vertical Tooltip", 
+        "text": "Descripci\u00f3n de la herramienta de espejo vertical"
+    }, 
+    {
+        "source": "Color Manager Tooltip", 
+        "description": "", 
+        "nameSpace": "djv::ViewLib::ImageSystem", 
+        "id": "Color Manager Tooltip", 
+        "text": "Color Manager Tooltip"
+    }, 
+    {
+        "source": "Color Profile Tooltip", 
+        "description": "", 
+        "nameSpace": "djv::ViewLib::ImageSystem", 
+        "id": "Color Profile Tooltip", 
+        "text": "Descripci\u00f3n del perfil de color"
+    }, 
+    {
+        "source": "Display Profile Tooltip", 
+        "description": "", 
+        "nameSpace": "djv::ViewLib::ImageSystem", 
+        "id": "Display Profile Tooltip", 
+        "text": "Mostrar informaci\u00f3n sobre el perfil"
+    }, 
+    {
+        "source": "Premulitplied Alpha Tooltip", 
+        "description": "", 
+        "nameSpace": "djv::ViewLib::ImageSystem", 
+        "id": "Premulitplied Alpha Tooltip", 
+        "text": "Herramienta de alfa premulitpliada"
+    }, 
+    {
+        "source": "Show Frame Store Tooltip", 
+        "description": "", 
+        "nameSpace": "djv::ViewLib::ImageSystem", 
+        "id": "Show Frame Store Tooltip", 
+        "text": "Mostrar informaci\u00f3n sobre herramientas de Frame Store"
+    }, 
+    {
+        "source": "Set Frame Store Tooltip", 
+        "description": "", 
+        "nameSpace": "djv::ViewLib::ImageSystem", 
+        "id": "Set Frame Store Tooltip", 
+        "text": "Establecer informaci\u00f3n sobre herramientas de Frame Store"
+    }, 
+    {
+        "source": "SDI", 
+        "description": "", 
+        "nameSpace": "djv::ViewLib::WindowSystem", 
+        "id": "SDI", 
+        "text": "IDE"
+    }, 
+    {
+        "source": "SDI Tooltip", 
+        "description": "", 
+        "nameSpace": "djv::ViewLib::WindowSystem", 
+        "id": "SDI Tooltip", 
+        "text": "Informaci\u00f3n sobre herramientas SDI"
+    }, 
+    {
+        "source": "MDI", 
+        "description": "", 
+        "nameSpace": "djv::ViewLib::WindowSystem", 
+        "id": "MDI", 
+        "text": "MDI"
+    }, 
+    {
+        "source": "MDI Tooltip", 
+        "description": "", 
+        "nameSpace": "djv::ViewLib::WindowSystem", 
+        "id": "MDI Tooltip", 
+        "text": "Informaci\u00f3n sobre herramientas de MDI"
+    }, 
+    {
+        "source": "Duplicate Tooltip", 
+        "description": "", 
+        "nameSpace": "djv::ViewLib::WindowSystem", 
+        "id": "Duplicate Tooltip", 
+        "text": "Informaci\u00f3n sobre herramientas duplicada"
+    }, 
+    {
+        "source": "Full Screen Tooltip", 
+        "description": "", 
+        "nameSpace": "djv::ViewLib::WindowSystem", 
+        "id": "Full Screen Tooltip", 
+        "text": "Informaci\u00f3n de pantalla completa"
+    }, 
+    {
+        "source": "Copyright and License", 
+        "text": "Copyright y licencia", 
+        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
+        "id": "CopyrightAndLicense", 
         "description": ""
     }, 
     {
         "source": "Contributors", 
         "text": "Contribuyentes", 
         "nameSpace": "djv::ViewLib::HelpAboutDialog", 
-        "id": "Contributors Header", 
-        "description": ""
-    }, 
-    {
-        "source": "Portions of this software are copyright (in alphabetical order):", 
-        "text": "Algunas partes de este software tienen derechos de autor (en orden alfab\u00e9tico):", 
-        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
-        "id": "Contributors Text 1", 
-        "description": ""
-    }, 
-    {
-        "source": "* Copyright (c) 2004-2019 Darby Johnston, All rights reserved", 
-        "text": "* Copyright (c) 2004-2019 Darby Johnston, Todos los derechos reservados", 
-        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
-        "id": "Contributors Text 2", 
-        "description": ""
-    }, 
-    {
-        "source": "* Copyright (c) 2008 Alan Jones, All rights reserved", 
-        "text": "* Copyright (c) 2008 Alan Jones, Todos los derechos reservados.", 
-        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
-        "id": "Contributors Text 3", 
-        "description": ""
-    }, 
-    {
-        "source": "* Copyright (c) 2008-2009 Mikael Sundell, All rights reserved", 
-        "text": "* Copyright (c) 2008-2009 Mikael Sundell, Todos los derechos reservados", 
-        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
-        "id": "Contributors Text 4", 
+        "id": "Contributors", 
         "description": ""
     }, 
     {
         "source": "Third Party Software", 
         "text": "Software de terceros", 
         "nameSpace": "djv::ViewLib::HelpAboutDialog", 
-        "id": "Third Party Header", 
-        "description": ""
-    }, 
-    {
-        "source": "This software is based in part on the works of (in alphabetical order):", 
-        "text": "Este software se basa en parte en los trabajos de (en orden alfab\u00e9tico):", 
-        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
-        "id": "Third Party Text 1", 
-        "description": ""
-    }, 
-    {
-        "source": "* CMake, http://www.cmake.org, Copyright 2000-2011 Kitware, Inc., Insight Software Consortium, All rights reserved", 
-        "text": "* CMake, http://www.cmake.org, Copyright 2000-2011 Kitware, Inc., Insight Software Consortium, Todos los derechos reservados", 
-        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
-        "id": "Third Party Text 2", 
-        "description": ""
-    }, 
-    {
-        "source": "* dr_libs, https://github.com/mackron/dr_libs, David Reid", 
-        "text": "* dr_libs, https://github.com/mackron/dr_libs, David Reid", 
-        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
-        "id": "Third Party Text 3", 
-        "description": ""
-    }, 
-    {
-        "source": "* FFmpeg, http://www.ffmpeg.org, Licensed under the LGPLv2.1, http://www.gnu.org/pcenses/old-pcenses/lgpl-2.1.html", 
-        "text": "* FFmpeg, http://www.ffmpeg.org, licenciado bajo LGPLv2.1, http://www.gnu.org/pcenses/old-pcenses/lgpl-2.1.html", 
-        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
-        "id": "Third Party Text 4", 
-        "description": ""
-    }, 
-    {
-        "source": "* FreeType, https://www.freetype.org, Copyright (c) 2018, The FreeType Project", 
-        "text": "* FreeType, https://www.freetype.org, Copyright (c) 2018, The FreeType Project", 
-        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
-        "id": "Third Party Text 5", 
-        "description": ""
-    }, 
-    {
-        "source": "* glbinding, https://glbinding.org, Copyright (c) 2014-2015 Computer Graphics Systems Group at the Hasso-Plattner-Institute and CG Internals GmbH, Germany", 
-        "text": "* glbinding, https://glbinding.org, Copyright (c) 2014-2015 Computer Graphics Systems Group en el Instituto Hasso-Plattner y CG Internals GmbH, Alemania", 
-        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
-        "id": "Third Party Text 6", 
-        "description": ""
-    }, 
-    {
-        "source": "* GLFW, https://www.glfw.org, Copyright (c) 2002-2006 Marcus Geelnard, Copyright (c) 2006-2016 Camilla L\u00f6wy <elmindreda@glfw.org>", 
-        "text": "* GLFW, https://www.glfw.org, Copyright (c) 2002-2006 Marcus Geelnard, Copyright (c) 2006-2016 Camilla L\u00f6wy <elmindreda@glfw.org>", 
-        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
-        "id": "Third Party Text 7", 
-        "description": ""
-    }, 
-    {
-        "source": "* GLM, https://glm.g-truc.net/0.9.9/index.html, Copyright (c) 2005-2017 G-Truc Creation", 
-        "text": "* GLM, https://glm.g-truc.net/0.9.9/index.html, Copyright (c) 2005-2017 Creaci\u00f3n de G-Truc", 
-        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
-        "id": "Third Party Text 8", 
-        "description": ""
-    }, 
-    {
-        "source": "* libjpeg, http://www.ijg.org, Copyright (c) 1991-2012, Thomas G. Lane, Guido Vollbeding", 
-        "text": "* libjpeg, http://www.ijg.org, Copyright (c) 1991-2012, Thomas G. Lane, Guido Vollbeding", 
-        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
-        "id": "Third Party Text 9", 
-        "description": ""
-    }, 
-    {
-        "source": "* libpng, http://www.libpng.org, Copyright (c) 2004, 2006-2012 Glenn Randers-Pehrson", 
-        "text": "* libpng, http://www.libpng.org, Copyright (c) 2004, 2006-2012 Glenn Randers-Pehrson", 
-        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
-        "id": "Third Party Text 10", 
-        "description": ""
-    }, 
-    {
-        "source": "* libtiff, http://www.libtiff.org, Copyright (c) 1988-1997 Sam Leffler, Copyright (c) 1991-1997 Silicon Graphics, Inc", 
-        "text": "* libtiff, http://www.libtiff.org, Copyright (c) 1988-1997 Sam Leffler, Copyright (c) 1991-1997 Silicon Graphics, Inc", 
-        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
-        "id": "Third Party Text 11", 
-        "description": ""
-    }, 
-    {
-        "source": "* OpenAL, https://www.openal.org, Copyright (C) 1999-2000 by Loki Software", 
-        "text": "* OpenAL, https://www.openal.org, Copyright (C) 1999-2000 por Loki Software", 
-        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
-        "id": "Third Party Text 12", 
-        "description": ""
-    }, 
-    {
-        "source": "* OpenEXR, http://www.openexr.com, Copyright (c) 2006, Industrial Light and Magic, a division of Lucasfilm Entertainment Company Ltd.", 
-        "text": "* OpenEXR, http://www.openexr.com, Copyright (c) 2006, Industrial Light and Magic, una divisi\u00f3n de Lucasfilm Entertainment Company Ltd.", 
-        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
-        "id": "Third Party Text 13", 
-        "description": ""
-    }, 
-    {
-        "source": "* zlib, http://www.zlib.net, Copyright (c) 1995-2013 Jean-loup Gailly and Mark Adler", 
-        "text": "* zlib, http://www.zlib.net, Copyright (c) 1995-2013 Jean-loup Gailly y Mark Adler", 
-        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
-        "id": "Third Party Text 14", 
+        "id": "Third Party", 
         "description": ""
     }, 
     {
         "source": "Trademarks", 
         "text": "Marcas comerciales", 
         "nameSpace": "djv::ViewLib::HelpAboutDialog", 
-        "id": "Trademarks Header", 
-        "description": ""
-    }, 
-    {
-        "source": "Trademarks named in the documentation (in alphabetical order):", 
-        "text": "Marcas registradas nombradas en la documentaci\u00f3n (en orden alfab\u00e9tico):", 
-        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
-        "id": "Trademarks Text 1", 
-        "description": ""
-    }, 
-    {
-        "source": "* Apple, OS X, ProRes, and QuickTime are registered trademarks of Apple, Inc.", 
-        "text": "* Apple, OS X, ProRes y QuickTime son marcas comerciales registradas de Apple, Inc.", 
-        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
-        "id": "Trademarks Text 2", 
-        "description": ""
-    }, 
-    {
-        "source": "* AMD and ATI are registered trademarks of Advanced Micro Devices, Inc.", 
-        "text": "* AMD y ATI son marcas registradas de Advanced Micro Devices, Inc.", 
-        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
-        "id": "Trademarks Text 3", 
-        "description": ""
-    }, 
-    {
-        "source": "* Autodesk, Inferno, Maya, Softimage, and XSI are registered trademarks of Autodesk, Inc.", 
-        "text": "* Autodesk, Inferno, Maya, Softimage y XSI son marcas registradas de Autodesk, Inc.", 
-        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
-        "id": "Trademarks Text 4", 
-        "description": ""
-    }, 
-    {
-        "source": "* Debian is a registered trademark of Software in the Public Interest, Inc.", 
-        "text": "* Debian es una marca registrada de Software en Public Interest, Inc.", 
-        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
-        "id": "Trademarks Text 5", 
-        "description": ""
-    }, 
-    {
-        "source": "* FFmpeg is a trademark of Fabrice Bellard, originator of the FFmpeg project", 
-        "text": "* FFmpeg es una marca comercial de Fabrice Bellard, creador del proyecto FFmpeg", 
-        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
-        "id": "Trademarks Text 6", 
-        "description": ""
-    }, 
-    {
-        "source": "* FreeBSD is a registered trademark of The FreeBSD Foundation", 
-        "text": "* FreeBSD es una marca registrada de The FreeBSD Foundation", 
-        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
-        "id": "Trademarks Text 7", 
-        "description": ""
-    }, 
-    {
-        "source": "* Intel is a registered trademark of Intel Corporation", 
-        "text": "* Intel es una marca registrada de Intel Corporation.", 
-        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
-        "id": "Trademarks Text 8", 
-        "description": ""
-    }, 
-    {
-        "source": "* Industrial Light and Magic and ILM are registered trademarks of Lucasfilm Ltd.", 
-        "text": "* Industrial Light and Magic e ILM son marcas registradas de Lucasfilm Ltd.", 
-        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
-        "id": "Trademarks Text 9", 
-        "description": ""
-    }, 
-    {
-        "source": "* Kodak and Cineon are a registered trademarks of the Eastman Kodak Company", 
-        "text": "* Kodak y Cineon son marcas comerciales registradas de Eastman Kodak Company", 
-        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
-        "id": "Trademarks Text 10", 
-        "description": ""
-    }, 
-    {
-        "source": "* Linux is a registered trademark of Linus Torvalds", 
-        "text": "* Linux es una marca registrada de Linus Torvalds.", 
-        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
-        "id": "Trademarks Text 11", 
-        "description": ""
-    }, 
-    {
-        "source": "* Microsoft and Microsoft Windows are registered trademarks of Microsoft, Inc.", 
-        "text": "* Microsoft y Microsoft Windows son marcas registradas de Microsoft, Inc.", 
-        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
-        "id": "Trademarks Text 12", 
-        "description": ""
-    }, 
-    {
-        "source": "* MIPS is a registered trademark of MIPS Technologies, Inc.", 
-        "text": "* MIPS es una marca registrada de MIPS Technologies, Inc.", 
-        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
-        "id": "Trademarks Text 13", 
-        "description": ""
-    }, 
-    {
-        "source": "* NVIDIA is a registered trademark of NVIDIA Corporation", 
-        "text": "* NVIDIA es una marca registrada de NVIDIA Corporation", 
-        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
-        "id": "Trademarks Text 14", 
-        "description": ""
-    }, 
-    {
-        "source": "* Red Hat and Fedora are registered trademarks of Red Hat, Inc.", 
-        "text": "* Red Hat y Fedora son marcas registradas de Red Hat, Inc.", 
-        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
-        "id": "Trademarks Text 15", 
-        "description": ""
-    }, 
-    {
-        "source": "* Silicon Graphics, SGI, IRIX, and OpenGL are registered trademarks of Silicon Graphics International Corp.", 
-        "text": "* Silicon Graphics, SGI, IRIX y OpenGL son marcas comerciales registradas de Silicon Graphics International Corp.", 
-        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
-        "id": "Trademarks Text 16", 
-        "description": ""
-    }, 
-    {
-        "source": "* SMPTE is a registered trademark of the Society of Motion Picture and Television Engineers", 
-        "text": "* SMPTE es una marca registrada de la Society of Motion Picture and Television Engineers", 
-        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
-        "id": "Trademarks Text 17", 
-        "description": ""
-    }, 
-    {
-        "source": "* SourceForge.net is a registered trademark of VA Software Corporation", 
-        "text": "* SourceForge.net es una marca registrada de VA Software Corporation", 
-        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
-        "id": "Trademarks Text 18", 
-        "description": ""
-    }, 
-    {
-        "source": "* SuSE is a registered trademark of Novell, Inc.", 
-        "text": "* SuSE es una marca registrada de Novell, Inc.", 
-        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
-        "id": "Trademarks Text 19", 
-        "description": ""
-    }, 
-    {
-        "source": "* Ubuntu is a registered trademark of Canonical Ltd.", 
-        "text": "* Ubuntu es una marca registrada de Canonical Ltd.", 
-        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
-        "id": "Trademarks Text 20", 
-        "description": ""
-    }, 
-    {
-        "source": "* UNIX is a registered trademark of The Open Group", 
-        "text": "* UNIX es una marca registrada de The Open Group", 
-        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
-        "id": "Trademarks Text 21", 
-        "description": ""
-    }, 
-    {
-        "source": "All other products named in the documentation are trademarks of their respective owners.", 
-        "text": "Todos los dem\u00e1s productos mencionados en la documentaci\u00f3n son marcas comerciales de sus respectivos propietarios.", 
-        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
-        "id": "Trademarks Text 22", 
-        "description": ""
-    }, 
-    {
-        "source": "Documentation Tooltip", 
-        "text": "Documentaci\u00f3n Tooltip", 
-        "nameSpace": "djv::ViewLib::HelpSystem", 
-        "id": "Documentation Tooltip", 
-        "description": ""
-    }, 
-    {
-        "source": "Information Tooltip", 
-        "text": "Informaci\u00f3n sobre herramientas", 
-        "nameSpace": "djv::ViewLib::HelpSystem", 
-        "id": "Information Tooltip", 
-        "description": ""
-    }, 
-    {
-        "source": "About Tooltip", 
-        "text": "Acerca de Tooltip", 
-        "nameSpace": "djv::ViewLib::HelpSystem", 
-        "id": "About Tooltip", 
-        "description": ""
-    }, 
-    {
-        "source": "Debug Log", 
-        "text": "Registro de depuraci\u00f3n", 
-        "nameSpace": "djv::ViewLib::HelpSystem", 
-        "id": "Debug Log", 
-        "description": ""
-    }, 
-    {
-        "source": "Debug Log Tooltip", 
-        "text": "Herramienta de registro de depuraci\u00f3n", 
-        "nameSpace": "djv::ViewLib::HelpSystem", 
-        "id": "Debug Log Tooltip", 
-        "description": ""
-    }, 
-    {
-        "source": "Left Tooltip", 
-        "text": "Tooltip izquierda", 
-        "nameSpace": "djv::ViewLib::ImageViewSystem", 
-        "id": "Left Tooltip", 
-        "description": ""
-    }, 
-    {
-        "source": "Right Tooltip", 
-        "text": "Tooltip derecho", 
-        "nameSpace": "djv::ViewLib::ImageViewSystem", 
-        "id": "Right Tooltip", 
-        "description": ""
-    }, 
-    {
-        "source": "Up Tooltip", 
-        "text": "Subir informaci\u00f3n sobre herramientas", 
-        "nameSpace": "djv::ViewLib::ImageViewSystem", 
-        "id": "Up Tooltip", 
-        "description": ""
-    }, 
-    {
-        "source": "Down Tooltip", 
-        "text": "Tooltip abajo", 
-        "nameSpace": "djv::ViewLib::ImageViewSystem", 
-        "id": "Down Tooltip", 
-        "description": ""
-    }, 
-    {
-        "source": "Center Tooltip", 
-        "text": "Informaci\u00f3n sobre el centro", 
-        "nameSpace": "djv::ViewLib::ImageViewSystem", 
-        "id": "Center Tooltip", 
-        "description": ""
-    }, 
-    {
-        "source": "Zoom In Tooltip", 
-        "text": "Ampliar informaci\u00f3n sobre herramientas", 
-        "nameSpace": "djv::ViewLib::ImageViewSystem", 
-        "id": "Zoom In Tooltip", 
-        "description": ""
-    }, 
-    {
-        "source": "Zoom Out Tooltip", 
-        "text": "Reducir la informaci\u00f3n sobre herramientas", 
-        "nameSpace": "djv::ViewLib::ImageViewSystem", 
-        "id": "Zoom Out Tooltip", 
-        "description": ""
-    }, 
-    {
-        "source": "Reset Zoom Tooltip", 
-        "text": "Restablecer zoom Tooltip", 
-        "nameSpace": "djv::ViewLib::ImageViewSystem", 
-        "id": "Reset Zoom Tooltip", 
-        "description": ""
-    }, 
-    {
-        "source": "Reset Position and Zoom Tooltip", 
-        "text": "Restablecer posici\u00f3n y herramienta de zoom", 
-        "nameSpace": "djv::ViewLib::ImageViewSystem", 
-        "id": "Reset Position and Zoom Tooltip", 
-        "description": ""
-    }, 
-    {
-        "source": "Fit Tooltip", 
-        "text": "Ajustar informaci\u00f3n sobre herramientas", 
-        "nameSpace": "djv::ViewLib::ImageViewSystem", 
-        "id": "Fit Tooltip", 
-        "description": ""
-    }, 
-    {
-        "source": "HUD Tooltip", 
-        "text": "Informaci\u00f3n sobre herramientas de HUD", 
-        "nameSpace": "djv::ViewLib::ImageViewSystem", 
-        "id": "HUD Tooltip", 
-        "description": ""
-    }, 
-    {
-        "source": "MDI WindowMode Tooltip", 
-        "text": "Informaci\u00f3n sobre la herramienta MDI WindowMode", 
-        "nameSpace": "djv::ViewLib::MainWindow", 
-        "id": "MDI WindowMode Tooltip", 
-        "description": ""
-    }, 
-    {
-        "source": "Stop Tooltip", 
-        "text": "Detener informaci\u00f3n sobre herramientas", 
-        "nameSpace": "djv::ViewLib::PlaybackSystem", 
-        "id": "Stop Tooltip", 
-        "description": ""
-    }, 
-    {
-        "source": "Forward Tooltip", 
-        "text": "Herramienta de avance", 
-        "nameSpace": "djv::ViewLib::PlaybackSystem", 
-        "id": "Forward Tooltip", 
-        "description": ""
-    }, 
-    {
-        "source": "Reverse Tooltip", 
-        "text": "Informaci\u00f3n sobre herramientas inversa", 
-        "nameSpace": "djv::ViewLib::PlaybackSystem", 
-        "id": "Reverse Tooltip", 
-        "description": ""
-    }, 
-    {
-        "source": "Toggle Playback Tooltip", 
-        "text": "Herramienta de reproducci\u00f3n de palanca", 
-        "nameSpace": "djv::ViewLib::PlaybackSystem", 
-        "id": "Toggle Playback Tooltip", 
-        "description": ""
-    }, 
-    {
-        "source": "Toggle Reverse Playback Tooltip", 
-        "text": "Herramienta de reproducci\u00f3n inversa de palanca", 
-        "nameSpace": "djv::ViewLib::PlaybackSystem", 
-        "id": "Toggle Reverse Playback Tooltip", 
-        "description": ""
-    }, 
-    {
-        "source": "Play Every Frame Tooltip", 
-        "text": "Reproducir cada cuadro Tooltip marco", 
-        "nameSpace": "djv::ViewLib::PlaybackSystem", 
-        "id": "Play Every Frame Tooltip", 
-        "description": ""
-    }, 
-    {
-        "source": "Go To In Point Tooltip", 
-        "text": "Ir a la herramienta de puntaje en el punto", 
-        "nameSpace": "djv::ViewLib::PlaybackSystem", 
-        "id": "Go To In Point Tooltip", 
-        "description": ""
-    }, 
-    {
-        "source": "Go To Out Point Tooltip", 
-        "text": "Ir a la herramienta de punto de salida", 
-        "nameSpace": "djv::ViewLib::PlaybackSystem", 
-        "id": "Go To Out Point Tooltip", 
-        "description": ""
-    }, 
-    {
-        "source": "Go To Start Frame Tooltip", 
-        "text": "Ir a inicio Informaci\u00f3n sobre el cuadro", 
-        "nameSpace": "djv::ViewLib::PlaybackSystem", 
-        "id": "Go To Start Frame Tooltip", 
-        "description": ""
-    }, 
-    {
-        "source": "Go To End Frame Tooltip", 
-        "text": "Ir a Herramienta de marco de finalizaci\u00f3n", 
-        "nameSpace": "djv::ViewLib::PlaybackSystem", 
-        "id": "Go To End Frame Tooltip", 
-        "description": ""
-    }, 
-    {
-        "source": "Next Frame Tooltip", 
-        "text": "Sugerencia de cuadro siguiente", 
-        "nameSpace": "djv::ViewLib::PlaybackSystem", 
-        "id": "Next Frame Tooltip", 
-        "description": ""
-    }, 
-    {
-        "source": "Next Frame X10 Tooltip", 
-        "text": "Siguiente marco X10 Tooltip", 
-        "nameSpace": "djv::ViewLib::PlaybackSystem", 
-        "id": "Next Frame X10 Tooltip", 
-        "description": ""
-    }, 
-    {
-        "source": "Next Frame X100 Tooltip", 
-        "text": "Siguiente marco X100 Tooltip", 
-        "nameSpace": "djv::ViewLib::PlaybackSystem", 
-        "id": "Next Frame X100 Tooltip", 
-        "description": ""
-    }, 
-    {
-        "source": "Previous Frame Tooltip", 
-        "text": "Herramienta de marco anterior", 
-        "nameSpace": "djv::ViewLib::PlaybackSystem", 
-        "id": "Previous Frame Tooltip", 
-        "description": ""
-    }, 
-    {
-        "source": "Previous Frame X10 Tooltip", 
-        "text": "Descripci\u00f3n anterior del cuadro de di\u00e1logo X10", 
-        "nameSpace": "djv::ViewLib::PlaybackSystem", 
-        "id": "Previous Frame X10 Tooltip", 
-        "description": ""
-    }, 
-    {
-        "source": "Previous Frame X100 Tooltip", 
-        "text": "Anterior Frame X100 Tooltip", 
-        "nameSpace": "djv::ViewLib::PlaybackSystem", 
-        "id": "Previous Frame X100 Tooltip", 
-        "description": ""
-    }, 
-    {
-        "source": "Enable In/Out Points Tooltip", 
-        "text": "Habilitar informaci\u00f3n sobre puntos de entrada / salida", 
-        "nameSpace": "djv::ViewLib::PlaybackSystem", 
-        "id": "Enable In/Out Points Tooltip", 
-        "description": ""
-    }, 
-    {
-        "source": "Set In Point Tooltip", 
-        "text": "Establecer informaci\u00f3n sobre herramientas en el punto", 
-        "nameSpace": "djv::ViewLib::PlaybackSystem", 
-        "id": "Set In Point Tooltip", 
-        "description": ""
-    }, 
-    {
-        "source": "Set Out Point Tooltip", 
-        "text": "Herramienta de punto de salida", 
-        "nameSpace": "djv::ViewLib::PlaybackSystem", 
-        "id": "Set Out Point Tooltip", 
-        "description": ""
-    }, 
-    {
-        "source": "Reset In Point Tooltip", 
-        "text": "Restablecer In Point Tooltip", 
-        "nameSpace": "djv::ViewLib::PlaybackSystem", 
-        "id": "Reset In Point Tooltip", 
-        "description": ""
-    }, 
-    {
-        "source": "Reset Out Point Tooltip", 
-        "text": "Herramienta de punto de reposici\u00f3n", 
-        "nameSpace": "djv::ViewLib::PlaybackSystem", 
-        "id": "Reset Out Point Tooltip", 
-        "description": ""
-    }, 
-    {
-        "source": "Mirror Horizontal Tooltip", 
-        "text": "Herramienta de espejo horizontal", 
-        "nameSpace": "djv::ViewLib::ImageSystem", 
-        "id": "Mirror Horizontal Tooltip", 
-        "description": ""
-    }, 
-    {
-        "source": "Mirror Vertical Tooltip", 
-        "text": "Descripci\u00f3n de la herramienta de espejo vertical", 
-        "nameSpace": "djv::ViewLib::ImageSystem", 
-        "id": "Mirror Vertical Tooltip", 
-        "description": ""
-    }, 
-    {
-        "source": "Color Manager Tooltip", 
-        "text": "Color Manager Tooltip", 
-        "nameSpace": "djv::ViewLib::ImageSystem", 
-        "id": "Color Manager Tooltip", 
-        "description": ""
-    }, 
-    {
-        "source": "Color Profile Tooltip", 
-        "text": "Descripci\u00f3n del perfil de color", 
-        "nameSpace": "djv::ViewLib::ImageSystem", 
-        "id": "Color Profile Tooltip", 
-        "description": ""
-    }, 
-    {
-        "source": "Display Profile Tooltip", 
-        "text": "Mostrar informaci\u00f3n sobre el perfil", 
-        "nameSpace": "djv::ViewLib::ImageSystem", 
-        "id": "Display Profile Tooltip", 
-        "description": ""
-    }, 
-    {
-        "source": "Premulitplied Alpha Tooltip", 
-        "text": "Herramienta de alfa premulitpliada", 
-        "nameSpace": "djv::ViewLib::ImageSystem", 
-        "id": "Premulitplied Alpha Tooltip", 
-        "description": ""
-    }, 
-    {
-        "source": "Show Frame Store Tooltip", 
-        "text": "Mostrar informaci\u00f3n sobre herramientas de Frame Store", 
-        "nameSpace": "djv::ViewLib::ImageSystem", 
-        "id": "Show Frame Store Tooltip", 
-        "description": ""
-    }, 
-    {
-        "source": "Set Frame Store Tooltip", 
-        "text": "Establecer informaci\u00f3n sobre herramientas de Frame Store", 
-        "nameSpace": "djv::ViewLib::ImageSystem", 
-        "id": "Set Frame Store Tooltip", 
-        "description": ""
-    }, 
-    {
-        "source": "SDI", 
-        "text": "IDE", 
-        "nameSpace": "djv::ViewLib::WindowSystem", 
-        "id": "SDI", 
-        "description": ""
-    }, 
-    {
-        "source": "SDI Tooltip", 
-        "text": "Informaci\u00f3n sobre herramientas SDI", 
-        "nameSpace": "djv::ViewLib::WindowSystem", 
-        "id": "SDI Tooltip", 
-        "description": ""
-    }, 
-    {
-        "source": "MDI", 
-        "text": "MDI", 
-        "nameSpace": "djv::ViewLib::WindowSystem", 
-        "id": "MDI", 
-        "description": ""
-    }, 
-    {
-        "source": "MDI Tooltip", 
-        "text": "Informaci\u00f3n sobre herramientas de MDI", 
-        "nameSpace": "djv::ViewLib::WindowSystem", 
-        "id": "MDI Tooltip", 
-        "description": ""
-    }, 
-    {
-        "source": "Duplicate Tooltip", 
-        "text": "Informaci\u00f3n sobre herramientas duplicada", 
-        "nameSpace": "djv::ViewLib::WindowSystem", 
-        "id": "Duplicate Tooltip", 
-        "description": ""
-    }, 
-    {
-        "source": "Full Screen Tooltip", 
-        "text": "Informaci\u00f3n de pantalla completa", 
-        "nameSpace": "djv::ViewLib::WindowSystem", 
-        "id": "Full Screen Tooltip", 
-        "description": ""
-    }, 
-    {
-        "id": "CopyrightAndLicense", 
-        "source": "Copyright and License", 
-        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
-        "description": "", 
-        "text": "Copyright y licencia"
-    }, 
-    {
-        "id": "Contributors", 
-        "source": "Contributors", 
-        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
-        "description": "", 
-        "text": "Contribuyentes"
-    }, 
-    {
-        "id": "Third Party", 
-        "source": "Third Party Software", 
-        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
-        "description": "", 
-        "text": "Software de terceros"
-    }, 
-    {
         "id": "Trademarks", 
-        "source": "Trademarks", 
-        "nameSpace": "djv::ViewLib::HelpAboutDialog", 
-        "description": "", 
-        "text": "Marcas comerciales"
+        "description": ""
     }, 
     {
+        "id": "Made In", 
         "source": "Made in Berkeley, CA, USA", 
-        "text": "Hecho en Berkeley, CA, EE.UU.", 
         "nameSpace": "djv::ViewLib::HelpAboutDialog", 
         "description": "", 
-        "id": "Made In"
+        "text": "Hecho en Berkeley, CA, EE.UU."
     }, 
     {
         "source": "Log", 
-        "description": "", 
+        "text": "Iniciar sesi\u00f3n", 
         "nameSpace": "djv::ViewLib", 
-        "id": "Log", 
-        "text": "Iniciar sesi\u00f3n"
+        "description": "", 
+        "id": "Log"
     }, 
     {
         "source": "Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:", 
-        "description": "", 
+        "text": "Se permite la redistribuci\u00f3n y uso en formas fuente y binarias, con o sin modificaci\u00f3n, siempre que se cumplan las siguientes condiciones:", 
         "nameSpace": "djv::ViewLib::AboutWidget", 
-        "id": "License 1", 
-        "text": "Se permite la redistribuci\u00f3n y uso en formas fuente y binarias, con o sin modificaci\u00f3n, siempre que se cumplan las siguientes condiciones:"
+        "description": "", 
+        "id": "License 1"
     }, 
     {
         "source": "* Redistributions of source code must retain the above copyright notice, this list of conditions, and the following disclaimer.", 
-        "description": "", 
+        "text": "* Las redistribuciones del c\u00f3digo fuente deben conservar el aviso de copyright anterior, esta lista de condiciones y el siguiente descargo de responsabilidad.", 
         "nameSpace": "djv::ViewLib::AboutWidget", 
-        "id": "License 2", 
-        "text": "* Las redistribuciones del c\u00f3digo fuente deben conservar el aviso de copyright anterior, esta lista de condiciones y el siguiente descargo de responsabilidad."
+        "description": "", 
+        "id": "License 2"
     }, 
     {
         "source": "* Redistributions in binary form must reproduce the above copyright notice, this list of conditions, and the following disclaimer in the documentation and/or other materials provided with the distribution.", 
-        "description": "", 
+        "text": "* Las redistribuciones en formato binario deben reproducir el aviso de copyright anterior, esta lista de condiciones y el siguiente descargo de responsabilidad en la documentaci\u00f3n y / u otros materiales proporcionados con la distribuci\u00f3n.", 
         "nameSpace": "djv::ViewLib::AboutWidget", 
-        "id": "License 3", 
-        "text": "* Las redistribuciones en formato binario deben reproducir el aviso de copyright anterior, esta lista de condiciones y el siguiente descargo de responsabilidad en la documentaci\u00f3n y / u otros materiales proporcionados con la distribuci\u00f3n."
+        "description": "", 
+        "id": "License 3"
     }, 
     {
         "source": "* Neither the names of the copyright holders nor the names of any contributors may be used to endorse or promote products derived from this software without specific prior written permission.", 
-        "description": "", 
+        "text": "* Ni los nombres de los titulares de los derechos de autor ni los nombres de los contribuyentes se pueden usar para respaldar o promocionar productos derivados de este software sin un permiso previo espec\u00edfico por escrito.", 
         "nameSpace": "djv::ViewLib::AboutWidget", 
-        "id": "License 4", 
-        "text": "* Ni los nombres de los titulares de los derechos de autor ni los nombres de los contribuyentes se pueden usar para respaldar o promocionar productos derivados de este software sin un permiso previo espec\u00edfico por escrito."
+        "description": "", 
+        "id": "License 4"
     }, 
     {
         "source": "THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS \"AS IS\" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.", 
-        "description": "", 
+        "text": "ESTE SOFTWARE ES PROPORCIONADO POR LOS TITULARES Y CONTRIBUYENTES DEL DERECHO DE AUTOR &quot;TAL CUAL&quot; Y CUALQUIER GARANT\u00cdA EXPRESA O IMPL\u00cdCITA, INCLUYENDO, PERO NO EST\u00c1 LIMITADA A, LAS GARANT\u00cdAS IMPL\u00cdCITAS DE COMERCIABILIDAD Y ADECUACI\u00d3N PARA UN PARTICULAR PROP\u00d3SITO EST\u00c1N DISPONIBLES. EN NING\u00daN CASO, EL TITULAR DE LOS DERECHOS DE AUTOR O LOS CONTRIBUYENTES SER\u00c1N RESPONSABLES POR CUALQUIER DA\u00d1O DIRECTO, INDIRECTO, INCIDENTAL, ESPECIAL, EJEMPLO O CONSECUENTE (INCLUYENDO, PERO NO EST\u00c1 LIMITADO A, PROCESO DE BIENES O SERVICIOS SUBSTITUIDOS; O INTERRUPCI\u00d3N DE NEGOCIOS) SIN EMBARGO Y POR CUALQUIER TEOR\u00cdA DE RESPONSABILIDAD, YA SEA CONTRATO, ESTE ESTRICTO DE RESPONSABILIDAD, O EL CORTO (INCLUYENDO NEGLIGENCIA U OTRA MANERA) DERIVADO DE CUALQUIER MANERA FUERA DE LA UTILIZACI\u00d3N DE ESTE SOFTWARE, INCLUSO SI SE AVANZA DE LA POSIBILIDAD DE LA ESTACI\u00d3N DE VENTAS.", 
         "nameSpace": "djv::ViewLib::AboutWidget", 
-        "id": "License 5", 
-        "text": "ESTE SOFTWARE ES PROPORCIONADO POR LOS TITULARES Y CONTRIBUYENTES DEL DERECHO DE AUTOR &quot;TAL CUAL&quot; Y CUALQUIER GARANT\u00cdA EXPRESA O IMPL\u00cdCITA, INCLUYENDO, PERO NO EST\u00c1 LIMITADA A, LAS GARANT\u00cdAS IMPL\u00cdCITAS DE COMERCIABILIDAD Y ADECUACI\u00d3N PARA UN PARTICULAR PROP\u00d3SITO EST\u00c1N DISPONIBLES. EN NING\u00daN CASO, EL TITULAR DE LOS DERECHOS DE AUTOR O LOS CONTRIBUYENTES SER\u00c1N RESPONSABLES POR CUALQUIER DA\u00d1O DIRECTO, INDIRECTO, INCIDENTAL, ESPECIAL, EJEMPLO O CONSECUENTE (INCLUYENDO, PERO NO EST\u00c1 LIMITADO A, PROCESO DE BIENES O SERVICIOS SUBSTITUIDOS; O INTERRUPCI\u00d3N DE NEGOCIOS) SIN EMBARGO Y POR CUALQUIER TEOR\u00cdA DE RESPONSABILIDAD, YA SEA CONTRATO, ESTE ESTRICTO DE RESPONSABILIDAD, O EL CORTO (INCLUYENDO NEGLIGENCIA U OTRA MANERA) DERIVADO DE CUALQUIER MANERA FUERA DE LA UTILIZACI\u00d3N DE ESTE SOFTWARE, INCLUSO SI SE AVANZA DE LA POSIBILIDAD DE LA ESTACI\u00d3N DE VENTAS."
+        "description": "", 
+        "id": "License 5"
     }, 
     {
         "source": "Log Tooltip", 
-        "description": "", 
+        "text": "Herramienta de registro", 
         "nameSpace": "djv::ViewLib::HelpSystem", 
-        "id": "Log Tooltip", 
-        "text": "Herramienta de registro"
+        "description": "", 
+        "id": "Log Tooltip"
     }, 
     {
         "source": "Copyright and License", 
-        "description": "", 
+        "text": "Copyright y licencia", 
         "nameSpace": "djv::ViewLib::AboutWidget", 
-        "id": "Copyright And License", 
-        "text": "Copyright y licencia"
+        "description": "", 
+        "id": "Copyright And License"
     }, 
     {
         "source": "SDI Window Mode Tooltip", 
-        "description": "", 
+        "text": "Herramienta de modo de ventana SDI", 
         "nameSpace": "djv::ViewLib::MainWindow", 
-        "id": "SDI Window Mode Tooltip", 
-        "text": "Herramienta de modo de ventana SDI"
+        "description": "", 
+        "id": "SDI Window Mode Tooltip"
     }, 
     {
         "source": "MDI Window Mode Tooltip", 
-        "description": "", 
+        "text": "Informaci\u00f3n sobre el modo de ventana MDI", 
         "nameSpace": "djv::ViewLib::MainWindow", 
-        "id": "MDI Window Mode Tooltip", 
-        "text": "Informaci\u00f3n sobre el modo de ventana MDI"
+        "description": "", 
+        "id": "MDI Window Mode Tooltip"
     }, 
     {
         "source": "Playlist Window Mode Tooltip", 
-        "description": "", 
+        "text": "Herramienta de modo de ventana de lista de reproducci\u00f3n", 
         "nameSpace": "djv::ViewLib::MainWindow", 
-        "id": "Playlist Window Mode Tooltip", 
-        "text": "Herramienta de modo de ventana de lista de reproducci\u00f3n"
+        "description": "", 
+        "id": "Playlist Window Mode Tooltip"
     }, 
     {
         "source": "Debug", 
-        "description": "", 
+        "text": "Depurar", 
         "nameSpace": "djv::ViewLib::DebugWidget", 
-        "id": "Debug", 
-        "text": "Depurar"
+        "description": "", 
+        "id": "Debug"
     }, 
     {
         "source": "Duration", 
-        "description": "", 
+        "text": "Duraci\u00f3n", 
         "nameSpace": "djv::ViewLib::DebugWidget", 
-        "id": "Duration", 
-        "text": "Duraci\u00f3n"
+        "description": "", 
+        "id": "Duration"
     }, 
     {
         "source": "Current Time", 
-        "description": "", 
+        "text": "Tiempo actual", 
         "nameSpace": "djv::ViewLib::DebugWidget", 
-        "id": "Current Time", 
-        "text": "Tiempo actual"
+        "description": "", 
+        "id": "Current Time"
     }, 
     {
         "source": "Video Queue", 
-        "description": "", 
+        "text": "Video Queue", 
         "nameSpace": "djv::ViewLib::DebugWidget", 
-        "id": "Video Queue", 
-        "text": "Video Queue"
+        "description": "", 
+        "id": "Video Queue"
     }, 
     {
         "source": "Audio Queue", 
-        "description": "", 
+        "text": "Cola de audio", 
         "nameSpace": "djv::ViewLib::DebugWidget", 
-        "id": "Audio Queue", 
-        "text": "Cola de audio"
+        "description": "", 
+        "id": "Audio Queue"
     }, 
     {
         "source": "AL Unqueued Buffers", 
-        "description": "", 
+        "text": "Buffers Sin Cola AL", 
         "nameSpace": "djv::ViewLib::DebugWidget", 
-        "id": "AL Unqueued Buffers", 
-        "text": "Buffers Sin Cola AL"
+        "description": "", 
+        "id": "AL Unqueued Buffers"
     }, 
     {
         "source": "Pin Tooltip", 
-        "description": "", 
+        "text": "Pin Tooltip", 
         "nameSpace": "djv::ViewLib::FileBrowserWidget", 
-        "id": "Pin Tooltip", 
-        "text": "Pin Tooltip"
+        "description": "", 
+        "id": "Pin Tooltip"
     }, 
     {
         "source": "Histogram", 
-        "description": "", 
+        "text": "Histograma", 
         "nameSpace": "djv::ViewLib::HistogramWidget", 
-        "id": "Histogram", 
-        "text": "Histograma"
+        "description": "", 
+        "id": "Histogram"
     }, 
     {
         "source": "Playlist", 
-        "description": "", 
+        "text": "Playlist", 
         "nameSpace": "djv::ViewLib::WindowSystem", 
-        "id": "Playlist", 
-        "text": "Playlist"
+        "description": "", 
+        "id": "Playlist"
     }, 
     {
         "source": "Playlist Tooltip", 
-        "description": "", 
+        "text": "Informaci\u00f3n sobre la lista de reproducci\u00f3n", 
         "nameSpace": "djv::ViewLib::WindowSystem", 
-        "id": "Playlist Tooltip", 
-        "text": "Informaci\u00f3n sobre la lista de reproducci\u00f3n"
+        "description": "", 
+        "id": "Playlist Tooltip"
     }, 
     {
         "source": "Color Picker", 
-        "description": "", 
+        "text": "Selector de color", 
         "nameSpace": "djv::ViewLib::ColorPickerWidget", 
-        "id": "Color Picker", 
-        "text": "Selector de color"
+        "description": "", 
+        "id": "Color Picker"
     }, 
     {
         "source": "Magnifier", 
-        "description": "", 
+        "text": "Lupa", 
         "nameSpace": "djv::ViewLib::MagnifierTool", 
-        "id": "Magnifier", 
-        "text": "Lupa"
+        "description": "", 
+        "id": "Magnifier"
     }, 
     {
         "source": "Magnifier Tooltip", 
-        "description": "", 
+        "text": "Descripci\u00f3n de la lupa", 
         "nameSpace": "djv::ViewLib::ToolSystem", 
-        "id": "Magnifier Tooltip", 
-        "text": "Descripci\u00f3n de la lupa"
+        "description": "", 
+        "id": "Magnifier Tooltip"
     }, 
     {
         "source": "Color Picker Tooltip", 
-        "description": "", 
+        "text": "Sugerencia de selecci\u00f3n de color", 
         "nameSpace": "djv::ViewLib::ToolSystem", 
-        "id": "Color Picker Tooltip", 
-        "text": "Sugerencia de selecci\u00f3n de color"
+        "description": "", 
+        "id": "Color Picker Tooltip"
     }, 
     {
         "source": "Histogram Tooltip", 
-        "description": "", 
+        "text": "Herramienta de histograma", 
         "nameSpace": "djv::ViewLib::ToolSystem", 
-        "id": "Histogram Tooltip", 
-        "text": "Herramienta de histograma"
+        "description": "", 
+        "id": "Histogram Tooltip"
     }, 
     {
         "source": "Debug Tooltip", 
-        "description": "", 
+        "text": "Descripci\u00f3n de la herramienta de depuraci\u00f3n", 
         "nameSpace": "djv::ViewLib::ToolSystem", 
-        "id": "Debug Tooltip", 
-        "text": "Descripci\u00f3n de la herramienta de depuraci\u00f3n"
+        "description": "", 
+        "id": "Debug Tooltip"
+    }, 
+    {
+        "source": "I/O", 
+        "text": "I / O", 
+        "nameSpace": "djv::ViewLib::SettingsWidget", 
+        "id": "I/O", 
+        "description": ""
     }
 ]

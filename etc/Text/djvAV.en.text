@@ -478,5 +478,17 @@
         "nameSpace": "djv::AV::IO::FFmpeg", 
         "id": "Double Planar", 
         "description": ""
+    }, 
+    {
+        "text": "This plugin provides Joint Photographic Experts Group (JPEG) image I/O.", 
+        "nameSpace": "djv::AV::IO::JPEG", 
+        "id": "This plugin provides Joint Photographic Experts Group (JPEG) image I/O.", 
+        "description": ""
+    }, 
+    {
+        "text": "Cannot parse value.", 
+        "nameSpace": "djv::AV::IO::JPEG", 
+        "id": "Cannot parse value.", 
+        "description": ""
     }
 ]
