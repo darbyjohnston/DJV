@@ -46,21 +46,21 @@ namespace djv
             {
                 struct Write::Private
                 {
-                    Data data = Data::First;
+					Settings settings;
                 };
 
-                Write::Write(Data data) :
+                Write::Write(const Settings & settings) :
                     _p(new Private)
                 {
-                    _p->data = data;
+                    _p->settings = settings;
                 }
 
                 Write::~Write()
                 {}
 
-                std::shared_ptr<Write> Write::create(const std::string & fileName, const Info & info, Data data, const std::shared_ptr<Queue> & queue, Context * context)
+                std::shared_ptr<Write> Write::create(const std::string & fileName, const Settings & settings, const Info & info, const std::shared_ptr<Queue> & queue, Context * context)
                 {
-                    auto out = std::shared_ptr<Write>(new Write(data));
+                    auto out = std::shared_ptr<Write>(new Write(settings));
                     out->_init(fileName, info, queue, context);
                     return out;
                 }
@@ -101,7 +101,7 @@ namespace djv
                         throw std::runtime_error(s.str());
                     }
                     Image::Layout layout;
-                    layout.endian = p.data != Data::ASCII ? Memory::Endian::MSB : Memory::getEndian();
+                    layout.endian = p.settings.data != Data::ASCII ? Memory::Endian::MSB : Memory::getEndian();
                     Image::Info info(_imageInfo.size, imageType, layout);
 
                     std::shared_ptr<Image::Data> imageData = image;
@@ -112,7 +112,7 @@ namespace djv
                         imageData = tmp;
                     }
 
-                    int ppmType = Data::ASCII == p.data ? 2 : 5;
+                    int ppmType = Data::ASCII == p.settings.data ? 2 : 5;
                     const size_t channelCount = Image::getChannelCount(info.type);
                     if (3 == channelCount)
                     {
@@ -135,7 +135,7 @@ namespace djv
                     io.write(s.str());
                     io.writeU8('\n');
 
-                    switch (p.data)
+                    switch (p.settings.data)
                     {
                     case Data::ASCII:
                     {

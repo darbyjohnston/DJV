@@ -32,8 +32,8 @@
 #include <djvUI/ButtonGroup.h>
 #include <djvUI/FlowLayout.h>
 #include <djvUI/ListButton.h>
+#include <djvUI/SettingsSystem.h>
 #include <djvUI/StyleSettings.h>
-#include <djvUI/UISystem.h>
 
 #include <djvCore/Context.h>
 #include <djvCore/TextSystem.h>
@@ -72,66 +72,71 @@ namespace djv
             {
                 if (auto widget = weak.lock())
                 {
-                    if (auto uiSystem = context->getSystemT<UISystem>().lock())
+                    if (auto settingsSystem = context->getSystemT<Settings::System>().lock())
                     {
-                        const auto i = widget->_p->indexToPalette.find(value);
-                        if (i != widget->_p->indexToPalette.end())
-                        {
-                            uiSystem->getStyleSettings()->setCurrentPalette(i->second);
-                        }
+						if (auto styleSettings = settingsSystem->getSettingsT<Settings::Style>())
+						{
+							const auto i = widget->_p->indexToPalette.find(value);
+							if (i != widget->_p->indexToPalette.end())
+							{
+								styleSettings->setCurrentPalette(i->second);
+							}
+						}
                     }
                 }
             });
 
-            if (auto uiSystem = context->getSystemT<UISystem>().lock())
+            if (auto settingsSystem = context->getSystemT<Settings::System>().lock())
             {
-                const int dpi = uiSystem->getDPI();
-                p.palettesObserver = MapObserver<std::string, Style::Palette>::create(
-                    uiSystem->getStyleSettings()->observePalettes(),
-                    [weak, dpi, context](const std::map<std::string, Style::Palette > & value)
-                {
-                    if (auto widget = weak.lock())
-                    {
-                        int currentItem = widget->_p->buttonGroup->getChecked();
-                        if (-1 == currentItem && value.size())
-                        {
-                            currentItem = 0;
-                        }
-                        widget->_p->buttons.clear();
-                        widget->_p->buttonGroup->clearButtons();
-                        widget->_p->layout->clearWidgets();
-                        widget->_p->indexToPalette.clear();
-                        widget->_p->buttonToPalette.clear();
-                        widget->_p->paletteToIndex.clear();
-                        int j = 0;
-                        for (const auto & i : value)
-                        {
-                            auto button = ListButton::create(context);
-                            widget->_p->buttons.push_back(button);
-                            widget->_p->buttonGroup->addButton(button);
-                            widget->_p->layout->addWidget(button);
-                            widget->_p->indexToPalette[j] = i.first;
-                            widget->_p->buttonToPalette[button] = i.first;
-                            widget->_p->paletteToIndex[i.first] = j;
-                            ++j;
-                        }
-                        widget->_p->buttonGroup->setChecked(currentItem);
-                        widget->_buttonTextUpdate();
-                    }
-                });
-                p.currentPaletteObserver = ValueObserver<std::string>::create(
-                    uiSystem->getStyleSettings()->observeCurrentPaletteName(),
-                    [weak](const std::string & value)
-                {
-                    if (auto widget = weak.lock())
-                    {
-                        const auto i = widget->_p->paletteToIndex.find(value);
-                        if (i != widget->_p->paletteToIndex.end())
-                        {
-                            widget->_p->buttonGroup->setChecked(static_cast<int>(i->second));
-                        }
-                    }
-                });
+				if (auto styleSettings = settingsSystem->getSettingsT<Settings::Style>())
+				{
+					p.palettesObserver = MapObserver<std::string, Style::Palette>::create(
+						styleSettings->observePalettes(),
+						[weak, context](const std::map<std::string, Style::Palette > & value)
+					{
+						if (auto widget = weak.lock())
+						{
+							int currentItem = widget->_p->buttonGroup->getChecked();
+							if (-1 == currentItem && value.size())
+							{
+								currentItem = 0;
+							}
+							widget->_p->buttons.clear();
+							widget->_p->buttonGroup->clearButtons();
+							widget->_p->layout->clearWidgets();
+							widget->_p->indexToPalette.clear();
+							widget->_p->buttonToPalette.clear();
+							widget->_p->paletteToIndex.clear();
+							int j = 0;
+							for (const auto & i : value)
+							{
+								auto button = ListButton::create(context);
+								widget->_p->buttons.push_back(button);
+								widget->_p->buttonGroup->addButton(button);
+								widget->_p->layout->addWidget(button);
+								widget->_p->indexToPalette[j] = i.first;
+								widget->_p->buttonToPalette[button] = i.first;
+								widget->_p->paletteToIndex[i.first] = j;
+								++j;
+							}
+							widget->_p->buttonGroup->setChecked(currentItem);
+							widget->_buttonTextUpdate();
+						}
+					});
+					p.currentPaletteObserver = ValueObserver<std::string>::create(
+						styleSettings->observeCurrentPaletteName(),
+						[weak](const std::string & value)
+					{
+						if (auto widget = weak.lock())
+						{
+							const auto i = widget->_p->paletteToIndex.find(value);
+							if (i != widget->_p->paletteToIndex.end())
+							{
+								widget->_p->buttonGroup->setChecked(static_cast<int>(i->second));
+							}
+						}
+					});
+				}
             }
         }
 

@@ -29,6 +29,8 @@
 
 #include <djvAV/PPM.h>
 
+#include <djvAV/PPMJSON.h>
+
 #include <djvCore/Context.h>
 #include <djvCore/FileIO.h>
 #include <djvCore/String.h>
@@ -44,14 +46,14 @@ namespace djv
             namespace PPM
             {
                 size_t getScanlineByteCount(
-                    int width,
+                    int    width,
                     size_t channelCount,
                     size_t bitDepth)
                 {
                     size_t chars = 0;
                     switch (bitDepth)
                     {
-                    case 8: chars = 3; break;
+                    case  8: chars = 3; break;
                     case 16: chars = 5; break;
                     default: break;
                     }
@@ -80,7 +82,7 @@ namespace djv
                 {
                     switch (bitDepth)
                     {
-                    case 8: _readASCII<uint8_t>(io, out, size); break;
+                    case  8: _readASCII<uint8_t> (io, out, size); break;
                     case 16: _readASCII<uint16_t>(io, out, size); break;
                     default: break;
                     }
@@ -113,7 +115,7 @@ namespace djv
                 {
                     switch (bitDepth)
                     {
-                    case 8: return _writeASCII<uint8_t>(in, out, size);
+                    case  8: return _writeASCII<uint8_t> (in, out, size);
                     case 16: return _writeASCII<uint16_t>(in, out, size);
                     default: break;
                     }
@@ -122,7 +124,7 @@ namespace djv
 
                 struct Plugin::Private
                 {
-                    Data data = Data::Binary;
+					Settings settings;
                 };
 
                 Plugin::Plugin() :
@@ -142,30 +144,12 @@ namespace djv
 
                 picojson::value Plugin::getOptions() const
                 {
-                    picojson::value out(picojson::object_type, true);
-                    std::stringstream ss;
-                    ss << _p->data;
-                    out.get<picojson::object>()["Data"] = picojson::value(ss.str());
-                    return out;
+					return toJSON(_p->settings);
                 }
 
                 void Plugin::setOptions(const picojson::value& value)
                 {
-                    if (value.is<picojson::object>())
-                    {
-                        for (const auto& i : value.get<picojson::object>())
-                        {
-                            if ("Data" == i.first)
-                            {
-                                std::stringstream ss(i.second.get<std::string>());
-                                ss >> _p->data;
-                            }
-                        }
-                    }
-                    else
-                    {
-                        throw std::invalid_argument("Cannot parse value.");
-                    }
+					fromJSON(value, _p->settings);
                 }
 
                 std::shared_ptr<IRead> Plugin::read(
@@ -180,7 +164,7 @@ namespace djv
                     const Info & info,
                     const std::shared_ptr<Queue> & queue) const
                 {
-                    return Write::create(fileName, info, _p->data, queue, _context);
+                    return Write::create(fileName, _p->settings, info, queue, _context);
                 }
 
             } // namespace PPM

@@ -29,73 +29,30 @@
 
 #pragma once
 
-#include <djvCore/ISystem.h>
-#include <djvCore/ValueObserver.h>
-
-#include <future>
+#include <djvUI/RowLayout.h>
 
 namespace djv
 {
-    namespace Core
+    namespace UI
     {
-        namespace FileSystem
+        class PPMSettingsWidget : public VerticalLayout
         {
-            class Path;
-        
-        } // namespace FileSystem
-
-        //! This class provides text and translations.
-        //!
-        //! The current locale is determined in this order:
-        //! - DJV_LANG environment variable
-        //! - std::locale("")
-        class TextSystem : public ISystem
-        {
-            DJV_NON_COPYABLE(TextSystem);
+            DJV_NON_COPYABLE(PPMSettingsWidget);
 
         protected:
-            void _init(Context *);
-            TextSystem();
+            void _init(Core::Context *);
+			PPMSettingsWidget();
 
         public:
-            virtual ~TextSystem();
-            
-            //! Create a new text system.
-            static std::shared_ptr<TextSystem> create(Context *);
+            static std::shared_ptr<PPMSettingsWidget> create(Core::Context *);
 
-            //! \name Language Locale
-            ///@{
-
-            //! Get the list of locales.
-            const std::vector<std::string> & getLocales() const;
-
-            //! Get the current locale.
-            const std::string & getCurrentLocale() const;
-
-            //! Observe the current locale.
-            std::shared_ptr<IValueSubject<std::string> > observeCurrentLocale() const;
-
-            //! Set the current locale.
-            void setCurrentLocale(const std::string &);
-
-            ///@}
-
-            //! \name Text
-            ///@{
-
-            //! Get the text for the given ID.
-			//!
-			//! \todo Add a namespace argument.
-            const std::string & getText(const std::string& id) const;
-
-            ///@}
+        protected:
+            void _localeEvent(Core::Event::Locale &) override;
 
         private:
-            void _readText(const FileSystem::Path &);
-
             DJV_PRIVATE();
         };
 
-    } // namespace Core
+    } // namespace UI
 } // namespace djv
 

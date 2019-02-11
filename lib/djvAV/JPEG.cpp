@@ -29,6 +29,8 @@
 
 #include <djvAV/JPEG.h>
 
+#include <djvAV/JPEGJSON.h>
+
 #include <djvCore/Context.h>
 #include <djvCore/String.h>
 
@@ -42,8 +44,17 @@ namespace djv
         {
             namespace JPEG
             {
-                Plugin::Plugin()
+				struct Plugin::Private
+				{
+					Settings settings;
+				};
+
+                Plugin::Plugin() :
+					_p(new Private)
                 {}
+
+				Plugin::~Plugin()
+				{}
 
                 std::shared_ptr<Plugin> Plugin::create(Context * context)
                 {
@@ -55,6 +66,16 @@ namespace djv
                         context);
                     return out;
                 }
+
+				picojson::value Plugin::getOptions() const
+				{
+					return toJSON(_p->settings);
+				}
+
+				void Plugin::setOptions(const picojson::value& value)
+				{
+					fromJSON(value, _p->settings);
+				}
 
                 std::shared_ptr<IRead> Plugin::read(
                     const std::string & fileName,
@@ -68,7 +89,7 @@ namespace djv
                     const Info & info,
                     const std::shared_ptr<Queue> & queue) const
                 {
-                    return Write::create(fileName, info, queue, _context);
+                    return Write::create(fileName, _p->settings, info, queue, _context);
                 }
 
                 extern "C"

@@ -44,22 +44,14 @@ namespace djv
     {
         namespace Settings
         {
-            struct System::Private
-            {
-                std::map<std::string, picojson::value> json;
-                std::map<std::string, std::shared_ptr<ISettings> > settings;
-                FileSystem::Path settingsPath;
-            };
-
             void System::_init(Core::Context * context)
             {
                 ISystem::_init("djv::UI::Settings::System", context);
-                _p->settingsPath = context->getPath(FileSystem::ResourcePath::SettingsFile);
-                _readSettingsFile(_p->settingsPath, _p->json);
+                _settingsPath = context->getPath(FileSystem::ResourcePath::SettingsFile);
+                _readSettingsFile(_settingsPath, _json);
             }
 
-            System::System() :
-                _p(new Private)
+            System::System()
             {}
 
             System::~System()
@@ -76,27 +68,27 @@ namespace djv
 
             void System::_addSettings(const std::shared_ptr<ISettings>& value)
             {
-                _p->settings[value->getName()] = value;
+                _settings.push_back(value);
             }
 
             void System::_removeSettings(const std::shared_ptr<ISettings>& value)
             {
-                const auto i = _p->settings.find(value->getName());
-                if (i != _p->settings.end())
+				const auto i = std::find(_settings.begin(), _settings.end(), value);
+                if (i != _settings.end())
                 {
-                    _p->settings.erase(i);
+                    _settings.erase(i);
                 }
             }
 
             void System::_loadSettings(const std::shared_ptr<ISettings>& settings)
             {
-                std::stringstream s;
+				std::stringstream s;
                 s << "Loading settings: " << settings->getName();
                 _log(s.str());
 
                 picojson::value json;
-                auto i = _p->json.find(settings->getName());
-                if (i != _p->json.end())
+                auto i = _json.find(settings->getName());
+                if (i != _json.end())
                 {
                     settings->load(i->second);
                 }
@@ -104,16 +96,16 @@ namespace djv
 
             void System::_saveSettings()
             {
-                picojson::value object(picojson::object_type, true);
+				picojson::value object(picojson::object_type, true);
 
                 // Serialize the settings.
-                for (const auto& settings : _p->settings)
+                for (const auto& settings : _settings)
                 {
-                    object.get<picojson::object>()[settings.second->getName()] = settings.second->save();
+                    object.get<picojson::object>()[settings->getName()] = settings->save();
                 }
 
                 // Write the JSON to disk.
-                _writeSettingsFile(_p->settingsPath, object);
+                _writeSettingsFile(_settingsPath, object);
             }
 
             void System::_readSettingsFile(const FileSystem::Path& path, std::map<std::string, picojson::value>& out)

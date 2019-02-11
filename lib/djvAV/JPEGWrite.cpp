@@ -48,18 +48,21 @@ namespace djv
             {
                 struct Write::Private
                 {
+					Settings settings;
                 };
 
-                Write::Write() :
+                Write::Write(const Settings & settings) :
                     _p(new Private)
-                {}
+                {
+					_p->settings = settings;
+				}
 
                 Write::~Write()
                 {}
 
-                std::shared_ptr<Write> Write::create(const std::string & fileName, const Info & info, const std::shared_ptr<Queue> & queue, Context * context)
+                std::shared_ptr<Write> Write::create(const std::string & fileName, const Settings & settings, const Info & info, const std::shared_ptr<Queue> & queue, Context * context)
                 {
-                    auto out = std::shared_ptr<Write>(new Write);
+                    auto out = std::shared_ptr<Write>(new Write(settings));
                     out->_init(fileName, info, queue, context);
                     return out;
                 }
@@ -82,9 +85,9 @@ namespace djv
                             }
                         }
                         
-						FILE *               f = nullptr;
+						FILE *               f         = nullptr;
 						jpeg_compress_struct jpeg;
-						bool                 jpegInit = false;
+						bool                 jpegInit  = false;
 						JPEGErrorStruct      jpegError;
                     };
 
@@ -103,7 +106,7 @@ namespace djv
 						jpeg_compress_struct * jpeg,
 						const Image::Info &    info,
 						const Tags &           tags,
-						int                    quality,
+						const Settings &	   settings,
 						JPEGErrorStruct *      error)
 					{
 						if (setjmp(error->jump))
@@ -124,7 +127,7 @@ namespace djv
 							jpeg->in_color_space = JCS_RGB;
 						}
 						jpeg_set_defaults(jpeg);
-						jpeg_set_quality(jpeg, quality, static_cast<boolean>(1));
+						jpeg_set_quality(jpeg, settings.quality, static_cast<boolean>(1));
 						jpeg_start_compress(jpeg, static_cast<boolean>(1));
 						std::string tag = tags.getTag("Description");
 						if (tag.length())
@@ -234,8 +237,7 @@ namespace djv
 						throw std::runtime_error(s.str());
 					}
 
-					//! \todo Add an option for quality.
-					if (!jpegOpen(f.f, &f.jpeg, info, _info.tags, 90, &f.jpegError))
+					if (!jpegOpen(f.f, &f.jpeg, info, _info.tags, _p->settings, &f.jpegError))
 					{
 						std::stringstream s;
 						s << pluginName << " " << _context->getText(DJV_TEXT("djv::AV::IO::JPEG", "cannot open")) <<

@@ -56,6 +56,12 @@ namespace djv
                 static const std::string pluginName = "JPEG";
                 static const std::set<std::string> fileExtensions = { ".jpeg", ".jpg", ".jfif" };
 
+				//! This struct provides the JPEG settings.
+				struct Settings
+				{
+					int quality = 90;
+				};
+
 				//! This struct provides libjpeg error handling.
 				struct JPEGErrorStruct
 				{
@@ -91,13 +97,14 @@ namespace djv
                     DJV_NON_COPYABLE(Write);
 
                 protected:
-                    Write();
+                    Write(const Settings &);
 
                 public:
                     ~Write();
 
                     static std::shared_ptr<Write> create(
                         const std::string & fileName,
+						const Settings &,
                         const Info &,
                         const std::shared_ptr<Queue> &,
                         Core::Context *);
@@ -117,7 +124,12 @@ namespace djv
                     Plugin();
 
                 public:
+					~Plugin() override;
+
                     static std::shared_ptr<Plugin> create(Core::Context *);
+
+					picojson::value getOptions() const override;
+					void setOptions(const picojson::value&) override;
 
                     std::shared_ptr<IRead> read(
                         const std::string & fileName,
@@ -126,6 +138,9 @@ namespace djv
                         const std::string & fileName,
                         const Info &,
                         const std::shared_ptr<Queue> &) const override;
+
+				private:
+					DJV_PRIVATE();
                 };
 
                 extern "C"

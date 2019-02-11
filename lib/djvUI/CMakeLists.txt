@@ -42,6 +42,7 @@ set(header
     SearchBox.h
     Separator.h
     SettingsSystem.h
+    SettingsSystemInline.h
     Shortcut.h
     Spacer.h
     Spacing.h

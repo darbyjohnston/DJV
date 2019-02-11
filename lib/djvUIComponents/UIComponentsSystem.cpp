@@ -29,6 +29,7 @@
 
 #include <djvUIComponents/UIComponentsSystem.h>
 
+#include <djvUIComponents/AVIOSettings.h>
 #include <djvUIComponents/FileBrowserDialog.h>
 #include <djvUIComponents/FileBrowserSettings.h>
 
@@ -44,7 +45,6 @@ namespace djv
     {
         struct UIComponentsSystem::Private
         {
-            std::shared_ptr<Settings::FileBrowser> fileBrowserSettings;
         };
 
         void UIComponentsSystem::_init(int dpi, Context * context)
@@ -56,7 +56,8 @@ namespace djv
 			auto uiSystem = UISystem::create(dpi, context);
 			addDependency(uiSystem);
 
-			p.fileBrowserSettings = Settings::FileBrowser::create(context);
+			Settings::AVIO::create(context);
+			Settings::FileBrowser::create(context);
 
 			auto fileBrowserDialogSystem = FileBrowser::DialogSystem::create(context);
 			addDependency(fileBrowserDialogSystem);
@@ -74,11 +75,6 @@ namespace djv
             auto out = std::shared_ptr<UIComponentsSystem>(new UIComponentsSystem);
             out->_init(dpi, context);
             return out;
-        }
-
-        const std::shared_ptr<Settings::FileBrowser> & UIComponentsSystem::getFileBrowserSettings() const
-        {
-            return _p->fileBrowserSettings;
         }
 
     } // namespace UI

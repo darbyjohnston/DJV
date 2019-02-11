@@ -27,75 +27,65 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#pragma once
+#include <djvUIComponents/JPEGSettingsWidget.h>
 
-#include <djvCore/ISystem.h>
-#include <djvCore/ValueObserver.h>
+#include <djvUI/GroupBox.h>
+#include <djvUI/RowLayout.h>
 
-#include <future>
+#include <djvAV/JPEG.h>
+#include <djvAV/JPEGJSON.h>
+
+#include <djvCore/Context.h>
+
+using namespace djv::Core;
 
 namespace djv
 {
-    namespace Core
+    namespace UI
     {
-        namespace FileSystem
-        {
-            class Path;
-        
-        } // namespace FileSystem
+		struct JPEGSettingsWidget::Private
+		{
+			std::shared_ptr<GroupBox> qualityGroupBox;
+		};
 
-        //! This class provides text and translations.
-        //!
-        //! The current locale is determined in this order:
-        //! - DJV_LANG environment variable
-        //! - std::locale("")
-        class TextSystem : public ISystem
-        {
-            DJV_NON_COPYABLE(TextSystem);
+		void JPEGSettingsWidget::_init(Context * context)
+		{
+			VerticalLayout::_init(context);
 
-        protected:
-            void _init(Context *);
-            TextSystem();
+			DJV_PRIVATE_PTR();
 
-        public:
-            virtual ~TextSystem();
-            
-            //! Create a new text system.
-            static std::shared_ptr<TextSystem> create(Context *);
+			setMargin(MetricsRole::MarginLarge);
+			setSpacing(MetricsRole::SpacingLarge);
 
-            //! \name Language Locale
-            ///@{
+			p.qualityGroupBox = GroupBox::create(context);
+			addWidget(p.qualityGroupBox);
 
-            //! Get the list of locales.
-            const std::vector<std::string> & getLocales() const;
+			if (auto io = context->getSystemT<AV::IO::System>().lock())
+			{
+				AV::IO::JPEG::Settings settings;
+				fromJSON(io->getOptions(AV::IO::JPEG::pluginName), settings);
+			}
 
-            //! Get the current locale.
-            const std::string & getCurrentLocale() const;
+			auto weak = std::weak_ptr<JPEGSettingsWidget>(std::dynamic_pointer_cast<JPEGSettingsWidget>(shared_from_this()));
+		}
 
-            //! Observe the current locale.
-            std::shared_ptr<IValueSubject<std::string> > observeCurrentLocale() const;
+		JPEGSettingsWidget::JPEGSettingsWidget() :
+			_p(new Private)
+		{}
 
-            //! Set the current locale.
-            void setCurrentLocale(const std::string &);
+		std::shared_ptr<JPEGSettingsWidget> JPEGSettingsWidget::create(Context * context)
+		{
+			auto out = std::shared_ptr<JPEGSettingsWidget>(new JPEGSettingsWidget);
+			out->_init(context);
+			return out;
+		}
 
-            ///@}
+		void JPEGSettingsWidget::_localeEvent(Event::Locale &)
+		{
+			DJV_PRIVATE_PTR();
+			p.qualityGroupBox->setText(DJV_TEXT("djv::UI::JPEGSettingsWidget", "Compression Quality"));
+		}
 
-            //! \name Text
-            ///@{
-
-            //! Get the text for the given ID.
-			//!
-			//! \todo Add a namespace argument.
-            const std::string & getText(const std::string& id) const;
-
-            ///@}
-
-        private:
-            void _readText(const FileSystem::Path &);
-
-            DJV_PRIVATE();
-        };
-
-    } // namespace Core
+    } // namespace UI
 } // namespace djv
 

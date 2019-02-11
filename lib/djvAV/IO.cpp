@@ -234,7 +234,7 @@ namespace djv
 
             picojson::value IPlugin::getOptions() const
             {
-                return picojson::value();
+                return picojson::value(std::string());
             }
 
             void IPlugin::setOptions(const picojson::value &)
@@ -282,6 +282,17 @@ namespace djv
                 out->_init(context);
                 return out;
             }
+
+			std::vector<std::string> System::getPluginNames() const
+			{
+				DJV_PRIVATE_PTR();
+				std::vector<std::string> out;
+				for (const auto & i : p.plugins)
+				{
+					out.push_back(i.second->getPluginName());
+				}
+				return out;
+			}
 
             picojson::value System::getOptions(const std::string & pluginName) const
             {

@@ -35,14 +35,6 @@ namespace djv
 {
     namespace UI
     {
-        namespace Settings
-        {
-            class General;
-            class Font;
-            class Style;
-
-        } // namespace Settings
-
         namespace Style
         {
             class Style;
@@ -64,10 +56,6 @@ namespace djv
             static std::shared_ptr<UISystem> create(int dpi, Core::Context *);
 
             int getDPI() const;
-
-            const std::shared_ptr<Settings::General> & getGeneralSettings() const;
-            const std::shared_ptr<Settings::Font> & getFontSettings() const;
-            const std::shared_ptr<Settings::Style> & getStyleSettings() const;
 
             const std::shared_ptr<Style::Style> & getStyle() const;
 

@@ -30,8 +30,8 @@
 #include <djvUI/StyleSettings.h>
 
 #include <djvUI/FontSettings.h>
+#include <djvUI/SettingsSystem.h>
 #include <djvUI/StyleJSON.h>
-#include <djvUI/UISystem.h>
 
 #include <djvCore/Context.h>
 #include <djvCore/TextSystem.h>
@@ -132,18 +132,21 @@ namespace djv
                     });
                 }
 
-                if (auto uiSystem = context->getSystemT<UISystem>().lock())
+                if (auto settingsSystem = context->getSystemT<System>().lock())
                 {
-                    p.localeFontsObserver = MapObserver<std::string, std::string>::create(
-                        uiSystem->getFontSettings()->observeLocaleFonts(),
-                        [weak](const std::map<std::string, std::string>& value)
-                    {
-                        if (auto style = weak.lock())
-                        {
-                            style->_p->localeFonts = value;
-                            style->_updateCurrentFont();
-                        }
-                    });
+					if (auto fontSettings = settingsSystem->getSettingsT<Settings::Font>())
+					{
+						p.localeFontsObserver = MapObserver<std::string, std::string>::create(
+							fontSettings->observeLocaleFonts(),
+							[weak](const std::map<std::string, std::string>& value)
+						{
+							if (auto style = weak.lock())
+							{
+								style->_p->localeFonts = value;
+								style->_updateCurrentFont();
+							}
+						});
+					}
                 }
             }
 

@@ -27,94 +27,30 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvUIComponents/AVIOSettings.h>
-
-#include <djvAV/IO.h>
-
-#include <djvCore/Context.h>
-
-//#pragma optimize("", off)
-
-using namespace djv::Core;
-
 namespace djv
 {
     namespace UI
     {
         namespace Settings
         {
-            struct AVIO::Private
-            {
-            };
+			inline const std::vector<std::shared_ptr<ISettings> > & System::getSettings() const
+			{
+				return _settings;
+			}
 
-            void AVIO::_init(Context * context)
-            {
-                ISettings::_init("djv::UI::Settings::AVIO", context);
-
-                DJV_PRIVATE_PTR();
-
-				_load();
-
-                auto weak = std::weak_ptr<AVIO>(std::dynamic_pointer_cast<AVIO>(shared_from_this()));
-            }
-
-			AVIO::AVIO() :
-                _p(new Private)
-            {}
-
-			AVIO::~AVIO()
-            {}
-
-            std::shared_ptr<AVIO> AVIO::create(Context * context)
-            {
-                auto out = std::shared_ptr<AVIO>(new AVIO);
-                out->_init(context);
-                return out;
-            }
-
-            void AVIO::load(const picojson::value& value)
-            {
-				DJV_PRIVATE_PTR();
-				if (value.is<picojson::object>())
-                {
-					if (auto io = getContext()->getSystemT<AV::IO::System>().lock())
-					{
-						const auto & object = value.get<picojson::object>();
-						for (const auto & i : io->getPluginNames())
-						{
-							const auto j = object.find(i);
-							if (j != object.end())
-							{
-								try
-								{
-									io->setOptions(i, j->second);
-								}
-								catch (const std::exception& e)
-								{
-									_readError(i, e.what());
-								}
-							}
-						}
-					}
-                }
-            }
-
-            picojson::value AVIO::save()
-            {
-                DJV_PRIVATE_PTR();
-                picojson::value out(picojson::object_type, true);
-				if (auto io = getContext()->getSystemT<AV::IO::System>().lock())
+			template<typename T>
+			inline std::shared_ptr<T> System::getSettingsT() const
+			{
+				for (const auto & i : _settings)
 				{
-					auto & object = out.get<picojson::object>();
-					for (const auto & i : io->getPluginNames())
+					if (auto settings = std::dynamic_pointer_cast<T>(i))
 					{
-						object[i] = io->getOptions(i);
+						return settings;
 					}
 				}
-                return out;
-            }
+				return nullptr;
+			}
 
         } // namespace Settings
     } // namespace UI
 } // namespace djv
-

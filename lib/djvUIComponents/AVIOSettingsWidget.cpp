@@ -29,7 +29,24 @@
 
 #include <djvUIComponents/AVIOSettingsWidget.h>
 
+#include <djvUIComponents/PPMSettingsWidget.h>
+#if defined(JPEG_FOUND)
+#include <djvUIComponents/JPEGSettingsWidget.h>
+#endif // JPEG_FOUND
+
+#include <djvUI/ButtonGroup.h>
+#include <djvUI/FlowLayout.h>
+#include <djvUI/GroupBox.h>
+#include <djvUI/ListButton.h>
 #include <djvUI/RowLayout.h>
+#include <djvUI/ScrollWidget.h>
+#include <djvUI/SoloLayout.h>
+#include <djvUI/Splitter.h>
+
+#include <djvAV/PPM.h>
+#if defined(JPEG_FOUND)
+#include <djvAV/JPEG.h>
+#endif // JPEG_FOUND
 
 #include <djvCore/Context.h>
 
@@ -41,7 +58,10 @@ namespace djv
     {
         struct AVIOSettingsWidget::Private
         {
-			std::shared_ptr<VerticalLayout> layout;
+			std::map<std::string, std::shared_ptr<Widget> > widgets;
+			std::map<std::string, std::shared_ptr<ListButton> > buttons;
+			std::shared_ptr<ButtonGroup> buttonGroup;
+			std::shared_ptr<Layout::Splitter> splitter;
         };
 
         void AVIOSettingsWidget::_init(Context * context)
@@ -49,10 +69,50 @@ namespace djv
             Widget::_init(context);
 
             DJV_PRIVATE_PTR();
-			p.layout = VerticalLayout::create(context);
-			p.layout->setParent(shared_from_this());
+			p.widgets[AV::IO::PPM::pluginName] = PPMSettingsWidget::create(context);
+#if defined(JPEG_FOUND)
+			p.widgets[AV::IO::JPEG::pluginName] = JPEGSettingsWidget::create(context);
+#endif // JPEG_FOUND
 
-            auto weak = std::weak_ptr<AVIOSettingsWidget>(std::dynamic_pointer_cast<AVIOSettingsWidget>(shared_from_this()));
+			p.buttonGroup = ButtonGroup::create(ButtonType::Radio);
+			for (auto i : p.widgets)
+			{
+				auto button = ListButton::create(context);
+				p.buttons[i.first] = button;
+			}
+
+			auto buttonLayout = VerticalLayout::create(context);
+			buttonLayout->setSpacing(MetricsRole::None);
+			for (auto i : p.buttons)
+			{
+				p.buttonGroup->addButton(i.second);
+				buttonLayout->addWidget(i.second);
+			}
+			auto buttonScrollWidget = ScrollWidget::create(ScrollType::Vertical, context);
+			buttonScrollWidget->setBorder(false);
+			buttonScrollWidget->addWidget(buttonLayout);
+
+			auto soloLayout = SoloLayout::create(context);
+			for (auto i : p.widgets)
+			{
+				soloLayout->addWidget(i.second);
+			}
+			auto soloScrollWidget = ScrollWidget::create(ScrollType::Vertical, context);
+			soloScrollWidget->setBorder(false);
+			soloScrollWidget->addWidget(soloLayout);
+
+			p.splitter = Layout::Splitter::create(Orientation::Horizontal, context);
+			p.splitter->setSplit(.15f);
+			p.splitter->addWidget(buttonScrollWidget);
+			p.splitter->addWidget(soloScrollWidget);
+			p.splitter->setParent(shared_from_this());
+
+            auto weak = std::weak_ptr<AVIOSettingsWidget>(std::dynamic_pointer_cast<AVIOSettingsWidget>(shared_from_this()));;
+			p.buttonGroup->setRadioCallback(
+				[soloLayout](int value)
+			{
+				soloLayout->setCurrentIndex(value);
+			});
         }
 
 		AVIOSettingsWidget::AVIOSettingsWidget() :
@@ -68,21 +128,26 @@ namespace djv
 
         float AVIOSettingsWidget::getHeightForWidth(float value) const
         {
-            return _p->layout->getHeightForWidth(value);
+            return _p->splitter->getHeightForWidth(value);
         }
 
         void AVIOSettingsWidget::_preLayoutEvent(Event::PreLayout &)
         {
-            _setMinimumSize(_p->layout->getMinimumSize());
+            _setMinimumSize(_p->splitter->getMinimumSize());
         }
 
         void AVIOSettingsWidget::_layoutEvent(Event::Layout &)
         {
-            _p->layout->setGeometry(getGeometry());
+            _p->splitter->setGeometry(getGeometry());
         }
 
         void AVIOSettingsWidget::_localeEvent(Event::Locale &)
         {
+			DJV_PRIVATE_PTR();
+			for (const auto & i : p.buttons)
+			{
+				i.second->setText(_getText(i.first));
+			}
         }
 
     } // namespace UI

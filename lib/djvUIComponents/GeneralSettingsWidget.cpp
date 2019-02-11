@@ -36,6 +36,7 @@
 #include <djvUI/GroupBox.h>
 #include <djvUI/ListButton.h>
 #include <djvUI/RowLayout.h>
+#include <djvUI/ScrollWidget.h>
 
 #include <djvCore/Context.h>
 
@@ -50,7 +51,7 @@ namespace djv
             std::shared_ptr<GroupBox> displayGroupBox;
             std::shared_ptr<GroupBox> languageGroupBox;
             std::shared_ptr<GroupBox> paletteGroupBox;
-            std::shared_ptr<VerticalLayout> layout;
+            std::shared_ptr<ScrollWidget> scrollWidget;
         };
 
         void GeneralSettingsWidget::_init(Context * context)
@@ -65,13 +66,17 @@ namespace djv
             p.paletteGroupBox = GroupBox::create(context);
             p.paletteGroupBox->addWidget(PaletteSettingsWidget::create(context));
 
-            p.layout = VerticalLayout::create(context);
-            p.layout->setMargin(MetricsRole::MarginLarge);
-            p.layout->setSpacing(MetricsRole::SpacingLarge);
-            p.layout->addWidget(p.displayGroupBox);
-            p.layout->addWidget(p.languageGroupBox);
-            p.layout->addWidget(p.paletteGroupBox);
-            p.layout->setParent(shared_from_this());
+            auto layout = VerticalLayout::create(context);
+            layout->setMargin(MetricsRole::MarginLarge);
+            layout->setSpacing(MetricsRole::SpacingLarge);
+            layout->addWidget(p.displayGroupBox);
+            layout->addWidget(p.languageGroupBox);
+            layout->addWidget(p.paletteGroupBox);
+
+			p.scrollWidget = ScrollWidget::create(ScrollType::Vertical, context);
+			p.scrollWidget->setBorder(false);
+			p.scrollWidget->addWidget(layout);
+            p.scrollWidget->setParent(shared_from_this());
         }
 
         GeneralSettingsWidget::GeneralSettingsWidget() :
@@ -87,17 +92,17 @@ namespace djv
 
         float GeneralSettingsWidget::getHeightForWidth(float value) const
         {
-            return _p->layout->getHeightForWidth(value);
+            return _p->scrollWidget->getHeightForWidth(value);
         }
 
         void GeneralSettingsWidget::_preLayoutEvent(Event::PreLayout &)
         {
-            _setMinimumSize(_p->layout->getMinimumSize());
+            _setMinimumSize(_p->scrollWidget->getMinimumSize());
         }
 
         void GeneralSettingsWidget::_layoutEvent(Event::Layout &)
         {
-            _p->layout->setGeometry(getGeometry());
+            _p->scrollWidget->setGeometry(getGeometry());
         }
 
         void GeneralSettingsWidget::_localeEvent(Event::Locale &)

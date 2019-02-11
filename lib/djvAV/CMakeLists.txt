@@ -38,6 +38,8 @@ set(header
     OpenGLTexture.h
     OpenGLTextureInline.h
     PPM.h
+    PPMJSON.h
+    PPMJSONInline.h
     Pixel.h
     PixelInline.h
     Render2D.h
@@ -82,7 +84,9 @@ set(source
 if(JPEG_FOUND)
     set(header
         ${header}
-        JPEG.h)
+        JPEG.h
+        JPEGJSON.h
+        JPEGJSONInline.h)
     set(source
         ${source}
         JPEG.cpp

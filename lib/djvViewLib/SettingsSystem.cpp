@@ -32,6 +32,7 @@
 #include <djvViewLib/IMDIWidget.h>
 #include <djvViewLib/SettingsWidget.h>
 
+#include <djvUIComponents/AVIOSettingsWidget.h>
 #include <djvUIComponents/GeneralSettingsWidget.h>
 
 #include <djvUI/Action.h>
@@ -65,6 +66,7 @@ namespace djv
 
             DJV_PRIVATE_PTR();
 			p.settingsWidgets["General"] = UI::GeneralSettingsWidget::create(context);
+			p.settingsWidgets["IO"] = UI::AVIOSettingsWidget::create(context);
 			p.settingsWidget = SettingsWidget::create(context);
         }
 
@@ -98,7 +100,8 @@ namespace djv
             DJV_PRIVATE_PTR();
             return
             {
-                { p.settingsWidgets["General"], DJV_TEXT("djv::ViewLib::SettingsWidget", "General"), "A" }
+				{ p.settingsWidgets["General"], DJV_TEXT("djv::ViewLib::SettingsWidget", "General"), "A" },
+				{ p.settingsWidgets["IO"], DJV_TEXT("djv::ViewLib::SettingsWidget", "I/O"), "Z" }
             };
         }
 

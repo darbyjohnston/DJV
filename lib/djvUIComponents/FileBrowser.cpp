@@ -32,7 +32,6 @@
 #include <djvUIComponents/FileBrowserItemView.h>
 #include <djvUIComponents/FileBrowserPrivate.h>
 #include <djvUIComponents/FileBrowserSettings.h>
-#include <djvUIComponents/UIComponentsSystem.h>
 
 #include <djvUI/Action.h>
 #include <djvUI/ActionGroup.h>
@@ -45,6 +44,7 @@
 #include <djvUI/MenuBar.h>
 #include <djvUI/RowLayout.h>
 #include <djvUI/SearchBox.h>
+#include <djvUI/SettingsSystem.h>
 #include <djvUI/StackLayout.h>
 #include <djvUI/ScrollWidget.h>
 #include <djvUI/Splitter.h>
@@ -273,9 +273,12 @@ namespace djv
                     {
                         const auto viewType = static_cast<ViewType>(value);
                         widget->setViewType(viewType);
-                        if (auto uiComponentsSystem = context->getSystemT<UIComponentsSystem>().lock())
+                        if (auto settingsSystem = context->getSystemT<Settings::System>().lock())
                         {
-                            uiComponentsSystem->getFileBrowserSettings()->setViewType(viewType);
+							if (auto fileBrowserSettings = settingsSystem->getSettingsT<Settings::FileBrowser>())
+							{
+								fileBrowserSettings->setViewType(viewType);
+							}
                         }
                     }
                 });
@@ -415,18 +418,21 @@ namespace djv
                     }
                 });
 
-                if (auto uiComponentsSystem = context->getSystemT<UIComponentsSystem>().lock())
-                {
-                    p.viewTypeObserver = ValueObserver<ViewType>::create(
-                        uiComponentsSystem->getFileBrowserSettings()->observeViewType(),
-                        [weak](ViewType value)
-                    {
-                        if (auto widget = weak.lock())
-                        {
-                            widget->setViewType(value);
-                        }
-                    });
-                }
+				if (auto settingsSystem = context->getSystemT<Settings::System>().lock())
+				{
+					if (auto fileBrowserSettings = settingsSystem->getSettingsT<Settings::FileBrowser>())
+					{
+						p.viewTypeObserver = ValueObserver<ViewType>::create(
+							fileBrowserSettings->observeViewType(),
+							[weak](ViewType value)
+						{
+							if (auto widget = weak.lock())
+							{
+								widget->setViewType(value);
+							}
+						});
+					}
+				}
 
                 p.fileSequencesObserver = ValueObserver<bool>::create(
                     p.actions["FileSequences"]->observeChecked(),

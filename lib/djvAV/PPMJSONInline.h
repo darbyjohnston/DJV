@@ -27,75 +27,38 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#pragma once
-
-#include <djvCore/ISystem.h>
-#include <djvCore/ValueObserver.h>
-
-#include <future>
-
 namespace djv
 {
-    namespace Core
+    template<>
+    inline picojson::value toJSON<AV::IO::PPM::Settings>(const AV::IO::PPM::Settings & value)
     {
-        namespace FileSystem
+        picojson::value out(picojson::object_type, true);
         {
-            class Path;
-        
-        } // namespace FileSystem
+			std::stringstream ss;
+			ss << value.data;
+			out.get<picojson::object>()["Data"] = picojson::value(ss.str());
+        }
+        return out;
+    }
 
-        //! This class provides text and translations.
-        //!
-        //! The current locale is determined in this order:
-        //! - DJV_LANG environment variable
-        //! - std::locale("")
-        class TextSystem : public ISystem
+    template<>
+    inline void fromJSON<AV::IO::PPM::Settings>(const picojson::value& value, AV::IO::PPM::Settings & out)
+    {
+        if (value.is<picojson::object>())
         {
-            DJV_NON_COPYABLE(TextSystem);
+            for (const auto& i : value.get<picojson::object>())
+            {
+                if ("Data" == i.first)
+                {
+					std::stringstream ss(i.second.get<std::string>());
+					ss >> out.data;
+				}
+            }
+        }
+        else
+        {
+            throw std::invalid_argument(DJV_TEXT("djv::AV::IO::PPM", "Cannot parse value."));
+        }
+    }
 
-        protected:
-            void _init(Context *);
-            TextSystem();
-
-        public:
-            virtual ~TextSystem();
-            
-            //! Create a new text system.
-            static std::shared_ptr<TextSystem> create(Context *);
-
-            //! \name Language Locale
-            ///@{
-
-            //! Get the list of locales.
-            const std::vector<std::string> & getLocales() const;
-
-            //! Get the current locale.
-            const std::string & getCurrentLocale() const;
-
-            //! Observe the current locale.
-            std::shared_ptr<IValueSubject<std::string> > observeCurrentLocale() const;
-
-            //! Set the current locale.
-            void setCurrentLocale(const std::string &);
-
-            ///@}
-
-            //! \name Text
-            ///@{
-
-            //! Get the text for the given ID.
-			//!
-			//! \todo Add a namespace argument.
-            const std::string & getText(const std::string& id) const;
-
-            ///@}
-
-        private:
-            void _readText(const FileSystem::Path &);
-
-            DJV_PRIVATE();
-        };
-
-    } // namespace Core
 } // namespace djv
-

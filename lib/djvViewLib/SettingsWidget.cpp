@@ -92,14 +92,11 @@ namespace djv
 			{
 				soloLayout->addWidget(i.second);
 			}
-			auto soloScrollWidget = UI::ScrollWidget::create(UI::ScrollType::Vertical, context);
-			soloScrollWidget->setBorder(false);
-			soloScrollWidget->addWidget(soloLayout);
 
 			auto splitter = UI::Layout::Splitter::create(UI::Orientation::Horizontal, context);
 			splitter->setSplit(.15f);
 			splitter->addWidget(buttonScrollWidget);
-			splitter->addWidget(soloScrollWidget);
+			splitter->addWidget(soloLayout);
 			addWidget(splitter);
 
 			auto weak = std::weak_ptr<SettingsWidget>(std::dynamic_pointer_cast<SettingsWidget>(shared_from_this()));

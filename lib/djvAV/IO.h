@@ -264,11 +264,13 @@ namespace djv
 
                 static std::shared_ptr<System> create(Core::Context *);
 
-                virtual picojson::value getOptions(const std::string & pluginName) const;
+				std::vector<std::string> getPluginNames() const;
+
+                picojson::value getOptions(const std::string & pluginName) const;
 
                 //! Throws:
                 //! - std::exception
-                virtual void setOptions(const std::string & pluginName, const picojson::value &);
+                void setOptions(const std::string & pluginName, const picojson::value &);
 
                 bool canRead(const std::string &) const;
                 bool canWrite(const std::string &, const Info &) const;

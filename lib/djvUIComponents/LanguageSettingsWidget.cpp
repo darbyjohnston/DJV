@@ -33,7 +33,7 @@
 #include <djvUI/FlowLayout.h>
 #include <djvUI/FontSettings.h>
 #include <djvUI/ListButton.h>
-#include <djvUI/UISystem.h>
+#include <djvUI/SettingsSystem.h>
 
 #include <djvCore/Context.h>
 #include <djvCore/TextSystem.h>
@@ -117,18 +117,21 @@ namespace djv
                 });
             }
 
-            if (auto uiSystem = context->getSystemT<UISystem>().lock())
-            {
-                p.localeFontsObserver = MapObserver<std::string, std::string>::create(
-                    uiSystem->getFontSettings()->observeLocaleFonts(),
-                    [weak](const std::map<std::string, std::string> & value)
-                {
-                    if (auto widget = weak.lock())
-                    {
-                        widget->_p->localeFonts = value;
-                        widget->_textUpdate();
-                    }
-                });
+			if (auto settingsSystem = context->getSystemT<Settings::System>().lock())
+			{
+				if (auto fontSettings = settingsSystem->getSettingsT<Settings::Font>())
+				{
+					p.localeFontsObserver = MapObserver<std::string, std::string>::create(
+						fontSettings->observeLocaleFonts(),
+						[weak](const std::map<std::string, std::string> & value)
+					{
+						if (auto widget = weak.lock())
+						{
+							widget->_p->localeFonts = value;
+							widget->_textUpdate();
+						}
+					});
+				}
             }
         }
 

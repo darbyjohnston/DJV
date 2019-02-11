@@ -8,7 +8,9 @@ set(header
     FileBrowserPrivate.h
     FileBrowserSettings.h
     GeneralSettingsWidget.h
+    JPEGSettingsWidget.h
     LanguageSettingsWidget.h
+    PPMSettingsWidget.h
     PaletteSettingsWidget.h
     UIComponentsSystem.h)
 set(source
@@ -22,7 +24,9 @@ set(source
     FileBrowserSettings.cpp
     FileBrowserShortcutsWidget.cpp
     GeneralSettingsWidget.cpp
+    JPEGSettingsWidget.cpp
     LanguageSettingsWidget.cpp
+    PPMSettingsWidget.cpp
     PaletteSettingsWidget.cpp
     UIComponentsSystem.cpp)
 

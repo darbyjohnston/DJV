@@ -35,12 +35,6 @@ namespace djv
 {
     namespace UI
     {
-        namespace Settings
-        {
-            class FileBrowser;
-
-        } // namespace Settings
-
         //! This class provides a UI system.
         class UIComponentsSystem : public Core::ISystem
         {
@@ -54,10 +48,6 @@ namespace djv
             ~UIComponentsSystem() override;
 
             static std::shared_ptr<UIComponentsSystem> create(int dpi, Core::Context *);
-
-            int getDPI() const;
-
-            const std::shared_ptr<Settings::FileBrowser> & getFileBrowserSettings() const;
 
         private:
             DJV_PRIVATE();

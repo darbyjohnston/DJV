@@ -52,9 +52,6 @@ namespace djv
         struct UISystem::Private
         {
             int dpi = AV::dpiDefault;
-            std::shared_ptr<Settings::General> generalSettings;
-            std::shared_ptr<Settings::Font> fontSettings;
-            std::shared_ptr<Settings::Style> styleSettings;
             std::shared_ptr<Style::Style> style;
             std::shared_ptr<ValueObserver<UI::Style::Palette> > paletteObserver;
             std::shared_ptr<ValueObserver<UI::Style::Metrics> > metricsObserver;
@@ -73,10 +70,9 @@ namespace djv
 
             auto settingsSystem = Settings::System::create(context);
 			addDependency(settingsSystem);
-
-            p.generalSettings = Settings::General::create(context);
-            p.fontSettings = Settings::Font::create(context);
-            p.styleSettings = Settings::Style::create(context);
+            Settings::General::create(context);
+            Settings::Font::create(context);
+            auto styleSettings = Settings::Style::create(context);
 
             p.style = Style::Style::create(dpi, context);
             
@@ -87,7 +83,7 @@ namespace djv
 
             auto weak = std::weak_ptr<UISystem>(std::dynamic_pointer_cast<UISystem>(shared_from_this()));
             p.paletteObserver = ValueObserver<UI::Style::Palette>::create(
-                p.styleSettings->observeCurrentPalette(),
+                styleSettings->observeCurrentPalette(),
                 [weak](const UI::Style::Palette & value)
             {
                 if (auto system = weak.lock())
@@ -96,7 +92,7 @@ namespace djv
                 }
             });
             p.metricsObserver = ValueObserver<UI::Style::Metrics>::create(
-                p.styleSettings->observeCurrentMetrics(),
+                styleSettings->observeCurrentMetrics(),
                 [weak](const UI::Style::Metrics & value)
             {
                 if (auto system = weak.lock())
@@ -105,7 +101,7 @@ namespace djv
                 }
             });
             p.fontObserver = ValueObserver<std::string>::create(
-                p.styleSettings->observeCurrentFont(),
+                styleSettings->observeCurrentFont(),
                 [weak](const std::string & value)
             {
                 if (auto system = weak.lock())
@@ -132,21 +128,6 @@ namespace djv
         int UISystem::getDPI() const
         {
             return _p->dpi;
-        }
-
-        const std::shared_ptr<Settings::General> & UISystem::getGeneralSettings() const
-        {
-            return _p->generalSettings;
-        }
-
-        const std::shared_ptr<Settings::Font> & UISystem::getFontSettings() const
-        {
-            return _p->fontSettings;
-        }
-
-        const std::shared_ptr<Settings::Style> & UISystem::getStyleSettings() const
-        {
-            return _p->styleSettings;
         }
 
         const std::shared_ptr<Style::Style> & UISystem::getStyle() const
