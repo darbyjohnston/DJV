@@ -1,0 +1,282 @@
+[
+    {
+        "source": "Up", 
+        "text": "Upp", 
+        "nameSpace": "djv::UI::FileBrowser", 
+        "id": "Up", 
+        "description": ""
+    }, 
+    {
+        "source": "Up Tooltip", 
+        "text": "Upp Tooltip", 
+        "nameSpace": "djv::UI::FileBrowser", 
+        "id": "Up Tooltip", 
+        "description": ""
+    }, 
+    {
+        "source": "Current Directory", 
+        "text": "N\u00faverandi skr\u00e1", 
+        "nameSpace": "djv::UI::FileBrowser", 
+        "id": "Current Directory", 
+        "description": ""
+    }, 
+    {
+        "source": "Current Directory Tooltip", 
+        "text": "Current Directory Tooltip", 
+        "nameSpace": "djv::UI::FileBrowser", 
+        "id": "Current Directory Tooltip", 
+        "description": ""
+    }, 
+    {
+        "source": "Back", 
+        "text": "Til baka", 
+        "nameSpace": "djv::UI::FileBrowser", 
+        "id": "Back", 
+        "description": ""
+    }, 
+    {
+        "source": "Back Tooltip", 
+        "text": "Til baka Tooltip", 
+        "nameSpace": "djv::UI::FileBrowser", 
+        "id": "Back Tooltip", 
+        "description": ""
+    }, 
+    {
+        "source": "Forward", 
+        "text": "\u00c1fram", 
+        "nameSpace": "djv::UI::FileBrowser", 
+        "id": "Forward", 
+        "description": ""
+    }, 
+    {
+        "source": "Forward Tooltip", 
+        "text": "Forward Tooltip", 
+        "nameSpace": "djv::UI::FileBrowser", 
+        "id": "Forward Tooltip", 
+        "description": ""
+    }, 
+    {
+        "source": "Large Thumbnails", 
+        "text": "St\u00f3rt sm\u00e1mynd", 
+        "nameSpace": "djv::UI::FileBrowser", 
+        "id": "Large Thumbnails", 
+        "description": ""
+    }, 
+    {
+        "source": "Large Thumbnails Tooltip", 
+        "text": "St\u00f3r Sm\u00e1myndir Tooltip", 
+        "nameSpace": "djv::UI::FileBrowser", 
+        "id": "Large Thumbnails Tooltip", 
+        "description": ""
+    }, 
+    {
+        "source": "Small Thumbnails", 
+        "text": "Sm\u00e1 Sm\u00e1myndir", 
+        "nameSpace": "djv::UI::FileBrowser", 
+        "id": "Small Thumbnails", 
+        "description": ""
+    }, 
+    {
+        "source": "Small Thumbnails Tooltip", 
+        "text": "Sm\u00e1 Sm\u00e1myndir Tooltip", 
+        "nameSpace": "djv::UI::FileBrowser", 
+        "id": "Small Thumbnails Tooltip", 
+        "description": ""
+    }, 
+    {
+        "source": "List View", 
+        "text": "Listalisti", 
+        "nameSpace": "djv::UI::FileBrowser", 
+        "id": "List View", 
+        "description": ""
+    }, 
+    {
+        "source": "List View Tooltip", 
+        "text": "Listi yfir verkf\u00e6ri", 
+        "nameSpace": "djv::UI::FileBrowser", 
+        "id": "List View Tooltip", 
+        "description": ""
+    }, 
+    {
+        "source": "File Sequences", 
+        "text": "Skr\u00e1ar\u00f6\u00f0var", 
+        "nameSpace": "djv::UI::FileBrowser", 
+        "id": "File Sequences", 
+        "description": ""
+    }, 
+    {
+        "source": "File Sequences Tooltip", 
+        "text": "File Sequences Tooltip", 
+        "nameSpace": "djv::UI::FileBrowser", 
+        "id": "File Sequences Tooltip", 
+        "description": ""
+    }, 
+    {
+        "source": "Show Hidden", 
+        "text": "S\u00fdna falinn", 
+        "nameSpace": "djv::UI::FileBrowser", 
+        "id": "Show Hidden", 
+        "description": ""
+    }, 
+    {
+        "source": "Show Hidden Tooltip", 
+        "text": "S\u00fdna falinn t\u00f3latip", 
+        "nameSpace": "djv::UI::FileBrowser", 
+        "id": "Show Hidden Tooltip", 
+        "description": ""
+    }, 
+    {
+        "source": "Directory", 
+        "text": "Skr\u00e1", 
+        "nameSpace": "djv::UI::FileBrowser", 
+        "id": "Directory", 
+        "description": ""
+    }, 
+    {
+        "source": "View", 
+        "text": "\u00dats\u00fdni", 
+        "nameSpace": "djv::UI::FileBrowser", 
+        "id": "View", 
+        "description": ""
+    }, 
+    {
+        "source": "Sort", 
+        "text": "Ra\u00f0a", 
+        "nameSpace": "djv::UI::FileBrowser", 
+        "id": "Sort", 
+        "description": ""
+    }, 
+    {
+        "source": "Bookmarks", 
+        "text": "B\u00f3kamerki", 
+        "nameSpace": "djv::UI::FileBrowser", 
+        "id": "Bookmarks", 
+        "description": ""
+    }, 
+    {
+        "source": "items", 
+        "text": "hlutir", 
+        "nameSpace": "djv::UI::FileBrowser", 
+        "id": "items", 
+        "description": ""
+    }, 
+    {
+        "source": "Size", 
+        "text": "St\u00e6r\u00f0", 
+        "nameSpace": "djv::UI::FileBrowser", 
+        "id": "Size", 
+        "description": ""
+    }, 
+    {
+        "source": "Last modification time", 
+        "text": "S\u00ed\u00f0asti breytingart\u00edmi", 
+        "nameSpace": "djv::UI::FileBrowser", 
+        "id": "Last modification time", 
+        "description": ""
+    }, 
+    {
+        "source": "Video track", 
+        "text": "Video lag", 
+        "nameSpace": "djv::UI::FileBrowser", 
+        "id": "Video track", 
+        "description": ""
+    }, 
+    {
+        "source": "Type", 
+        "text": "Tegund", 
+        "nameSpace": "djv::UI::FileBrowser", 
+        "id": "Type", 
+        "description": ""
+    }, 
+    {
+        "source": "Speed", 
+        "text": "Hra\u00f0i", 
+        "nameSpace": "djv::UI::FileBrowser", 
+        "id": "Speed", 
+        "description": ""
+    }, 
+    {
+        "source": "FPS", 
+        "text": "FPS", 
+        "nameSpace": "djv::UI::FileBrowser", 
+        "id": "FPS", 
+        "description": ""
+    }, 
+    {
+        "source": "Duration", 
+        "text": "Lengd", 
+        "nameSpace": "djv::UI::FileBrowser", 
+        "id": "Duration", 
+        "description": ""
+    }, 
+    {
+        "source": "Audio track", 
+        "text": "Hlj\u00f3\u00f0skr\u00e1", 
+        "nameSpace": "djv::UI::FileBrowser", 
+        "id": "Audio track", 
+        "description": ""
+    }, 
+    {
+        "source": "Channels", 
+        "text": "R\u00e1sir", 
+        "nameSpace": "djv::UI::FileBrowser", 
+        "id": "Channels", 
+        "description": ""
+    }, 
+    {
+        "source": "Sample rate", 
+        "text": "S\u00fdnishorn", 
+        "nameSpace": "djv::UI::FileBrowser", 
+        "id": "Sample rate", 
+        "description": ""
+    }, 
+    {
+        "source": "kHz", 
+        "text": "kHz", 
+        "nameSpace": "djv::UI::FileBrowser", 
+        "id": "kHz", 
+        "description": ""
+    }, 
+    {
+        "source": "History Tooltip", 
+        "text": "Saga Verkf\u00e6ri", 
+        "nameSpace": "djv::UI::FileBrowser", 
+        "id": "History Tooltip", 
+        "description": ""
+    }, 
+    {
+        "source": "Display Size", 
+        "text": "Skj\u00e1st\u00e6r\u00f0", 
+        "nameSpace": "djv::ViewLib::GeneralSettingsWidget", 
+        "id": "Display Size", 
+        "description": ""
+    }, 
+    {
+        "source": "Language", 
+        "text": "Tungum\u00e1l", 
+        "nameSpace": "djv::ViewLib::GeneralSettingsWidget", 
+        "id": "Language", 
+        "description": ""
+    }, 
+    {
+        "source": "Color Palette", 
+        "text": "Litaspjald", 
+        "nameSpace": "djv::ViewLib::GeneralSettingsWidget", 
+        "id": "Color Palette", 
+        "description": ""
+    }, 
+    {
+        "source": "Compression Quality", 
+        "text": "\u00dej\u00f6ppunarg\u00e6\u00f0i", 
+        "nameSpace": "djv::UI::JPEGSettingsWidget", 
+        "id": "Compression Quality", 
+        "description": ""
+    }, 
+    {
+        "source": "Data Type", 
+        "text": "G\u00f6gn ger\u00f0", 
+        "nameSpace": "djv::UI::PPMSettingsWidget", 
+        "id": "Data Type", 
+        "description": ""
+    }
+]

@@ -1456,5 +1456,11 @@
         "nameSpace": "djv::UI", 
         "id": "Exclusive", 
         "description": ""
+    }, 
+    {
+        "text": "\\\\", 
+        "nameSpace": "djv::UI::Key", 
+        "id": "\\\\", 
+        "description": ""
     }
 ]

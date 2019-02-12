@@ -1480,5 +1480,11 @@
         "nameSpace": "djv::ViewLib::ToolSystem", 
         "id": "Debug Tooltip", 
         "description": ""
+    }, 
+    {
+        "text": "I/O", 
+        "nameSpace": "djv::ViewLib::SettingsWidget", 
+        "id": "I/O", 
+        "description": ""
     }
 ]

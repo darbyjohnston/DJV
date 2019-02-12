@@ -1,0 +1,282 @@
+[
+    {
+        "source": "Up", 
+        "text": "\ucabd\uc73c\ub85c", 
+        "nameSpace": "djv::UI::FileBrowser", 
+        "id": "Up", 
+        "description": ""
+    }, 
+    {
+        "source": "Up Tooltip", 
+        "text": "\ub3c4\uad6c \uc124\uba85 \uc704\ub85c", 
+        "nameSpace": "djv::UI::FileBrowser", 
+        "id": "Up Tooltip", 
+        "description": ""
+    }, 
+    {
+        "source": "Current Directory", 
+        "text": "\ud604\uc7ac \ub514\ub809\ud1a0\ub9ac", 
+        "nameSpace": "djv::UI::FileBrowser", 
+        "id": "Current Directory", 
+        "description": ""
+    }, 
+    {
+        "source": "Current Directory Tooltip", 
+        "text": "\ud604\uc7ac \ub514\ub809\ud1a0\ub9ac \ud234\ud301", 
+        "nameSpace": "djv::UI::FileBrowser", 
+        "id": "Current Directory Tooltip", 
+        "description": ""
+    }, 
+    {
+        "source": "Back", 
+        "text": "\ub4a4\ub85c", 
+        "nameSpace": "djv::UI::FileBrowser", 
+        "id": "Back", 
+        "description": ""
+    }, 
+    {
+        "source": "Back Tooltip", 
+        "text": "\ub4a4\ub85c \ub3c4\uad6c \ub3c4\uc6c0\ub9d0", 
+        "nameSpace": "djv::UI::FileBrowser", 
+        "id": "Back Tooltip", 
+        "description": ""
+    }, 
+    {
+        "source": "Forward", 
+        "text": "\uc55e\uc73c\ub85c", 
+        "nameSpace": "djv::UI::FileBrowser", 
+        "id": "Forward", 
+        "description": ""
+    }, 
+    {
+        "source": "Forward Tooltip", 
+        "text": "\uc55e\uc73c\ub85c \ub3c4\uad6c \uc124\uba85", 
+        "nameSpace": "djv::UI::FileBrowser", 
+        "id": "Forward Tooltip", 
+        "description": ""
+    }, 
+    {
+        "source": "Large Thumbnails", 
+        "text": "\ud070 \ucd95\uc18c\ud310", 
+        "nameSpace": "djv::UI::FileBrowser", 
+        "id": "Large Thumbnails", 
+        "description": ""
+    }, 
+    {
+        "source": "Large Thumbnails Tooltip", 
+        "text": "\ud070 \ucd95\uc18c\ud310 \uc124\uba85", 
+        "nameSpace": "djv::UI::FileBrowser", 
+        "id": "Large Thumbnails Tooltip", 
+        "description": ""
+    }, 
+    {
+        "source": "Small Thumbnails", 
+        "text": "\uc791\uc740 \ubbf8\ub9ac\ubcf4\uae30 \uc774\ubbf8\uc9c0", 
+        "nameSpace": "djv::UI::FileBrowser", 
+        "id": "Small Thumbnails", 
+        "description": ""
+    }, 
+    {
+        "source": "Small Thumbnails Tooltip", 
+        "text": "\uc791\uc740 \ubbf8\ub9ac\ubcf4\uae30 \uc124\uba85", 
+        "nameSpace": "djv::UI::FileBrowser", 
+        "id": "Small Thumbnails Tooltip", 
+        "description": ""
+    }, 
+    {
+        "source": "List View", 
+        "text": "\ubaa9\ub85d\ubcf4\uae30", 
+        "nameSpace": "djv::UI::FileBrowser", 
+        "id": "List View", 
+        "description": ""
+    }, 
+    {
+        "source": "List View Tooltip", 
+        "text": "\ubaa9\ub85d\ubcf4\uae30 \ub3c4\uad6c \uc124\uba85", 
+        "nameSpace": "djv::UI::FileBrowser", 
+        "id": "List View Tooltip", 
+        "description": ""
+    }, 
+    {
+        "source": "File Sequences", 
+        "text": "\ud30c\uc77c \uc2dc\ud000\uc2a4", 
+        "nameSpace": "djv::UI::FileBrowser", 
+        "id": "File Sequences", 
+        "description": ""
+    }, 
+    {
+        "source": "File Sequences Tooltip", 
+        "text": "\ud30c\uc77c \uc2dc\ud000\uc2a4 \ub3c4\uad6c \uc124\uba85", 
+        "nameSpace": "djv::UI::FileBrowser", 
+        "id": "File Sequences Tooltip", 
+        "description": ""
+    }, 
+    {
+        "source": "Show Hidden", 
+        "text": "\uc228\uae40 \ud45c\uc2dc", 
+        "nameSpace": "djv::UI::FileBrowser", 
+        "id": "Show Hidden", 
+        "description": ""
+    }, 
+    {
+        "source": "Show Hidden Tooltip", 
+        "text": "\uc228\uaca8\uc9c4 \ud234\ud301 \ud45c\uc2dc", 
+        "nameSpace": "djv::UI::FileBrowser", 
+        "id": "Show Hidden Tooltip", 
+        "description": ""
+    }, 
+    {
+        "source": "Directory", 
+        "text": "\uc608\ubc30 \uaddc\uce59\uc11c", 
+        "nameSpace": "djv::UI::FileBrowser", 
+        "id": "Directory", 
+        "description": ""
+    }, 
+    {
+        "source": "View", 
+        "text": "\uc804\ub9dd", 
+        "nameSpace": "djv::UI::FileBrowser", 
+        "id": "View", 
+        "description": ""
+    }, 
+    {
+        "source": "Sort", 
+        "text": "\uc885\ub958", 
+        "nameSpace": "djv::UI::FileBrowser", 
+        "id": "Sort", 
+        "description": ""
+    }, 
+    {
+        "source": "Bookmarks", 
+        "text": "\ubd81\ub9c8\ud06c", 
+        "nameSpace": "djv::UI::FileBrowser", 
+        "id": "Bookmarks", 
+        "description": ""
+    }, 
+    {
+        "source": "items", 
+        "text": "\ud56d\ubaa9", 
+        "nameSpace": "djv::UI::FileBrowser", 
+        "id": "items", 
+        "description": ""
+    }, 
+    {
+        "source": "Size", 
+        "text": "\ud06c\uae30", 
+        "nameSpace": "djv::UI::FileBrowser", 
+        "id": "Size", 
+        "description": ""
+    }, 
+    {
+        "source": "Last modification time", 
+        "text": "\ucd5c\uc885 \uc218\uc815 \uc2dc\uac04", 
+        "nameSpace": "djv::UI::FileBrowser", 
+        "id": "Last modification time", 
+        "description": ""
+    }, 
+    {
+        "source": "Video track", 
+        "text": "\ube44\ub514\uc624 \ud2b8\ub799", 
+        "nameSpace": "djv::UI::FileBrowser", 
+        "id": "Video track", 
+        "description": ""
+    }, 
+    {
+        "source": "Type", 
+        "text": "\uc720\ud615", 
+        "nameSpace": "djv::UI::FileBrowser", 
+        "id": "Type", 
+        "description": ""
+    }, 
+    {
+        "source": "Speed", 
+        "text": "\uc18d\ub3c4", 
+        "nameSpace": "djv::UI::FileBrowser", 
+        "id": "Speed", 
+        "description": ""
+    }, 
+    {
+        "source": "FPS", 
+        "text": "FPS", 
+        "nameSpace": "djv::UI::FileBrowser", 
+        "id": "FPS", 
+        "description": ""
+    }, 
+    {
+        "source": "Duration", 
+        "text": "\uc9c0\uc18d", 
+        "nameSpace": "djv::UI::FileBrowser", 
+        "id": "Duration", 
+        "description": ""
+    }, 
+    {
+        "source": "Audio track", 
+        "text": "\uc624\ub514\uc624 \ud2b8\ub799", 
+        "nameSpace": "djv::UI::FileBrowser", 
+        "id": "Audio track", 
+        "description": ""
+    }, 
+    {
+        "source": "Channels", 
+        "text": "\ucc44\ub110", 
+        "nameSpace": "djv::UI::FileBrowser", 
+        "id": "Channels", 
+        "description": ""
+    }, 
+    {
+        "source": "Sample rate", 
+        "text": "\uc0d8\ud50c \uc18d\ub3c4", 
+        "nameSpace": "djv::UI::FileBrowser", 
+        "id": "Sample rate", 
+        "description": ""
+    }, 
+    {
+        "source": "kHz", 
+        "text": "kHz", 
+        "nameSpace": "djv::UI::FileBrowser", 
+        "id": "kHz", 
+        "description": ""
+    }, 
+    {
+        "source": "History Tooltip", 
+        "text": "\uae30\ub85d \ub3c4\uad6c \uc124\uba85", 
+        "nameSpace": "djv::UI::FileBrowser", 
+        "id": "History Tooltip", 
+        "description": ""
+    }, 
+    {
+        "source": "Display Size", 
+        "text": "\ub514\uc2a4\ud50c\ub808\uc774 \ud06c\uae30", 
+        "nameSpace": "djv::ViewLib::GeneralSettingsWidget", 
+        "id": "Display Size", 
+        "description": ""
+    }, 
+    {
+        "source": "Language", 
+        "text": "\uc5b8\uc5b4", 
+        "nameSpace": "djv::ViewLib::GeneralSettingsWidget", 
+        "id": "Language", 
+        "description": ""
+    }, 
+    {
+        "source": "Color Palette", 
+        "text": "\uc0c9\uc0c1 \ud314\ub808\ud2b8", 
+        "nameSpace": "djv::ViewLib::GeneralSettingsWidget", 
+        "id": "Color Palette", 
+        "description": ""
+    }, 
+    {
+        "source": "Compression Quality", 
+        "text": "\uc555\ucd95 \ud488\uc9c8", 
+        "nameSpace": "djv::UI::JPEGSettingsWidget", 
+        "id": "Compression Quality", 
+        "description": ""
+    }, 
+    {
+        "source": "Data Type", 
+        "text": "\ub370\uc774\ud130 \ud615\uc2dd", 
+        "nameSpace": "djv::UI::PPMSettingsWidget", 
+        "id": "Data Type", 
+        "description": ""
+    }
+]

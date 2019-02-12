@@ -37,6 +37,9 @@
 
 #include <GLFW/glfw3.h>
 
+#undef GL_DEBUG_SEVERITY_HIGH
+#undef GL_DEBUG_SEVERITY_MEDIUM
+
 //#pragma optimize("", off)
 
 using namespace djv::Core;

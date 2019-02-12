@@ -1,1780 +1,1787 @@
 [
     {
+        "id": "Dark", 
         "source": "Dark", 
-        "text": "Oscuro", 
         "nameSpace": "djv::UI::Settings", 
         "description": "", 
-        "id": "Dark"
+        "text": "Oscuro"
     }, 
     {
+        "id": "Light", 
         "source": "Light", 
-        "text": "Ligero", 
         "nameSpace": "djv::UI::Settings", 
         "description": "", 
-        "id": "Light"
+        "text": "Ligero"
     }, 
     {
+        "id": "Medium", 
         "source": "Medium", 
-        "text": "Medio", 
         "nameSpace": "djv::UI::Settings", 
         "description": "", 
-        "id": "Medium"
+        "text": "Medio"
     }, 
     {
+        "id": "Small", 
         "source": "Small", 
-        "text": "Peque\u00f1a", 
         "nameSpace": "djv::UI::Settings", 
         "description": "", 
-        "id": "Small"
+        "text": "Peque\u00f1a"
     }, 
     {
+        "id": "Large", 
         "source": "Large", 
-        "text": "Grande", 
         "nameSpace": "djv::UI::Settings", 
         "description": "", 
-        "id": "Large"
+        "text": "Grande"
     }, 
     {
+        "id": "ExtraLarge", 
         "source": "Extra Large", 
-        "text": "Extra grande", 
         "nameSpace": "djv::UI::Settings", 
         "description": "", 
-        "id": "ExtraLarge"
+        "text": "Extra grande"
     }, 
     {
+        "id": "Default", 
         "source": "Default", 
-        "text": "Defecto", 
         "nameSpace": "djv::UI::Settings", 
         "description": "", 
-        "id": "Default"
+        "text": "Defecto"
     }, 
     {
+        "id": "Horizontal", 
         "source": "Horizontal", 
-        "text": "Horizontal", 
         "nameSpace": "djv::UI", 
         "description": "", 
-        "id": "Horizontal"
+        "text": "Horizontal"
     }, 
     {
+        "id": "Vertical", 
         "source": "Vertical", 
-        "text": "Vertical", 
         "nameSpace": "djv::UI", 
         "description": "", 
-        "id": "Vertical"
+        "text": "Vertical"
     }, 
     {
+        "id": "Left", 
         "source": "Left", 
-        "text": "Izquierda", 
         "nameSpace": "djv::UI", 
         "description": "", 
-        "id": "Left"
+        "text": "Izquierda"
     }, 
     {
+        "id": "Top", 
         "source": "Top", 
-        "text": "Parte superior", 
         "nameSpace": "djv::UI", 
         "description": "", 
-        "id": "Top"
+        "text": "Parte superior"
     }, 
     {
+        "id": "Right", 
         "source": "Right", 
-        "text": "Derecha", 
         "nameSpace": "djv::UI", 
         "description": "", 
-        "id": "Right"
+        "text": "Derecha"
     }, 
     {
+        "id": "Bottom", 
         "source": "Bottom", 
-        "text": "Fondo", 
         "nameSpace": "djv::UI", 
         "description": "", 
-        "id": "Bottom"
+        "text": "Fondo"
     }, 
     {
+        "id": "None", 
         "source": "None", 
-        "text": "Ninguna", 
         "nameSpace": "djv::UI", 
         "description": "", 
-        "id": "None"
+        "text": "Ninguna"
     }, 
     {
+        "id": "Both", 
         "source": "Both", 
-        "text": "Ambos", 
         "nameSpace": "djv::UI", 
         "description": "", 
-        "id": "Both"
+        "text": "Ambos"
     }, 
     {
+        "id": "Center", 
         "source": "Center", 
-        "text": "Centrar", 
         "nameSpace": "djv::UI", 
         "description": "", 
-        "id": "Center"
+        "text": "Centrar"
     }, 
     {
+        "id": "Fill", 
         "source": "Fill", 
-        "text": "Llenar", 
         "nameSpace": "djv::UI", 
         "description": "", 
-        "id": "Fill"
+        "text": "Llenar"
     }, 
     {
+        "id": "Baseline", 
         "source": "Baseline", 
-        "text": "Base", 
         "nameSpace": "djv::UI", 
         "description": "", 
-        "id": "Baseline"
+        "text": "Base"
     }, 
     {
+        "id": "Single", 
         "source": "Single", 
-        "text": "Soltero", 
         "nameSpace": "djv::UI", 
         "description": "", 
-        "id": "Single"
+        "text": "Soltero"
     }, 
     {
+        "id": "Radio", 
         "source": "Radio", 
-        "text": "Radio", 
         "nameSpace": "djv::UI", 
         "description": "", 
-        "id": "Radio"
+        "text": "Radio"
     }, 
     {
+        "id": "Multiple", 
         "source": "Multiple", 
-        "text": "M\u00faltiple", 
         "nameSpace": "djv::UI", 
         "description": "", 
-        "id": "Multiple"
+        "text": "M\u00faltiple"
     }, 
     {
+        "id": "Forward", 
         "source": "Forward", 
-        "text": "Adelante", 
         "nameSpace": "djv::UI", 
         "description": "", 
-        "id": "Forward"
+        "text": "Adelante"
     }, 
     {
+        "id": "Reverse", 
         "source": "Reverse", 
-        "text": "Marcha atr\u00e1s", 
         "nameSpace": "djv::UI", 
         "description": "", 
-        "id": "Reverse"
+        "text": "Marcha atr\u00e1s"
     }, 
     {
+        "id": "Push", 
         "source": "Push", 
-        "text": "empujar", 
         "nameSpace": "djv::UI", 
         "description": "", 
-        "id": "Push"
+        "text": "empujar"
     }, 
     {
+        "id": "Toggle", 
         "source": "Toggle", 
-        "text": "Palanca", 
         "nameSpace": "djv::UI", 
         "description": "", 
-        "id": "Toggle"
+        "text": "Palanca"
     }, 
     {
+        "id": "ThumbnailsLarge", 
         "source": "Thumbnails Large", 
-        "text": "Miniaturas grandes", 
         "nameSpace": "djv::UI::FileBrowser", 
         "description": "", 
-        "id": "ThumbnailsLarge"
+        "text": "Miniaturas grandes"
     }, 
     {
+        "id": "ThumbnailsSmall", 
         "source": "Thumbnails Small", 
-        "text": "Miniaturas peque\u00f1as", 
         "nameSpace": "djv::UI::FileBrowser", 
         "description": "", 
-        "id": "ThumbnailsSmall"
+        "text": "Miniaturas peque\u00f1as"
     }, 
     {
+        "id": "ListView", 
         "source": "List View", 
-        "text": "Vista de la lista", 
         "nameSpace": "djv::UI::FileBrowser", 
         "description": "", 
-        "id": "ListView"
+        "text": "Vista de la lista"
     }, 
     {
+        "id": "Expand", 
         "source": "Expand", 
-        "text": "Expandir", 
         "nameSpace": "djv::UI::Layout", 
         "description": "", 
-        "id": "Expand"
+        "text": "Expandir"
     }, 
     {
+        "id": "Background", 
         "source": "Background", 
-        "text": "Fondo", 
         "nameSpace": "djv::UI::Style", 
         "description": "", 
-        "id": "Background"
+        "text": "Fondo"
     }, 
     {
+        "id": "Foreground", 
         "source": "Foreground", 
-        "text": "Primer plano", 
         "nameSpace": "djv::UI::Style", 
         "description": "", 
-        "id": "Foreground"
+        "text": "Primer plano"
     }, 
     {
+        "id": "Border", 
         "source": "Border", 
-        "text": "Frontera", 
         "nameSpace": "djv::UI::Style", 
         "description": "", 
-        "id": "Border"
+        "text": "Frontera"
     }, 
     {
+        "id": "Trough", 
         "source": "Trough", 
-        "text": "Canal", 
         "nameSpace": "djv::UI::Style", 
         "description": "", 
-        "id": "Trough"
+        "text": "Canal"
     }, 
     {
+        "id": "Button", 
         "source": "Button", 
-        "text": "Bot\u00f3n", 
         "nameSpace": "djv::UI::Style", 
         "description": "", 
-        "id": "Button"
+        "text": "Bot\u00f3n"
     }, 
     {
+        "id": "Hovered", 
         "source": "Hovered", 
-        "text": "Suspendido", 
         "nameSpace": "djv::UI::Style", 
         "description": "", 
-        "id": "Hovered"
+        "text": "Suspendido"
     }, 
     {
+        "id": "Pressed", 
         "source": "Pressed", 
-        "text": "Presionado", 
         "nameSpace": "djv::UI::Style", 
         "description": "", 
-        "id": "Pressed"
+        "text": "Presionado"
     }, 
     {
+        "id": "Checked", 
         "source": "Checked", 
-        "text": "Comprobado", 
         "nameSpace": "djv::UI::Style", 
         "description": "", 
-        "id": "Checked"
+        "text": "Comprobado"
     }, 
     {
+        "id": "Disabled", 
         "source": "Disabled", 
-        "text": "Discapacitado", 
         "nameSpace": "djv::UI::Style", 
         "description": "", 
-        "id": "Disabled"
+        "text": "Discapacitado"
     }, 
     {
+        "id": "HeaderBackground", 
         "source": "Header Background", 
-        "text": "Fondo del encabezado", 
         "nameSpace": "djv::UI::Style", 
         "description": "", 
-        "id": "HeaderBackground"
+        "text": "Fondo del encabezado"
     }, 
     {
+        "id": "HeaderForeground", 
         "source": "Header Foreground", 
-        "text": "Encabezado de primer plano", 
         "nameSpace": "djv::UI::Style", 
         "description": "", 
-        "id": "HeaderForeground"
+        "text": "Encabezado de primer plano"
     }, 
     {
+        "id": "HeaderHovered", 
         "source": "Header Hovered", 
-        "text": "Encabezado", 
         "nameSpace": "djv::UI::Style", 
         "description": "", 
-        "id": "HeaderHovered"
+        "text": "Encabezado"
     }, 
     {
+        "id": "HeaderPressed", 
         "source": "Header Pressed", 
-        "text": "Cabecera presionada", 
         "nameSpace": "djv::UI::Style", 
         "description": "", 
-        "id": "HeaderPressed"
+        "text": "Cabecera presionada"
     }, 
     {
+        "id": "HeaderChecked", 
         "source": "Header Checked", 
-        "text": "Encabezado comprobado", 
         "nameSpace": "djv::UI::Style", 
         "description": "", 
-        "id": "HeaderChecked"
+        "text": "Encabezado comprobado"
     }, 
     {
+        "id": "HeaderDisabled", 
         "source": "Header Disabled", 
-        "text": "Encabezado deshabilitado", 
         "nameSpace": "djv::UI::Style", 
         "description": "", 
-        "id": "HeaderDisabled"
+        "text": "Encabezado deshabilitado"
     }, 
     {
+        "id": "TooltipBackground", 
         "source": "Tooltip Background", 
-        "text": "Fondo de Tooltip", 
         "nameSpace": "djv::UI::Style", 
         "description": "", 
-        "id": "TooltipBackground"
+        "text": "Fondo de Tooltip"
     }, 
     {
+        "id": "TooltipForeground", 
         "source": "Tooltip Foreground", 
-        "text": "Herramienta de primer plano", 
         "nameSpace": "djv::UI::Style", 
         "description": "", 
-        "id": "TooltipForeground"
+        "text": "Herramienta de primer plano"
     }, 
     {
+        "id": "Overlay", 
         "source": "Overlay", 
-        "text": "Cubrir", 
         "nameSpace": "djv::UI::Style", 
         "description": "", 
-        "id": "Overlay"
+        "text": "Cubrir"
     }, 
     {
+        "id": "Shadow", 
         "source": "Shadow", 
-        "text": "Sombra", 
         "nameSpace": "djv::UI::Style", 
         "description": "", 
-        "id": "Shadow"
+        "text": "Sombra"
     }, 
     {
+        "id": "Margin", 
         "source": "Margin", 
-        "text": "Margen", 
         "nameSpace": "djv::UI::Style", 
         "description": "", 
-        "id": "Margin"
+        "text": "Margen"
     }, 
     {
+        "id": "MarginSmall", 
         "source": "Margin Small", 
-        "text": "Margen peque\u00f1o", 
         "nameSpace": "djv::UI::Style", 
         "description": "", 
-        "id": "MarginSmall"
+        "text": "Margen peque\u00f1o"
     }, 
     {
+        "id": "MarginLarge", 
         "source": "Margin Large", 
-        "text": "Margen grande", 
         "nameSpace": "djv::UI::Style", 
         "description": "", 
-        "id": "MarginLarge"
+        "text": "Margen grande"
     }, 
     {
+        "id": "MarginDialog", 
         "source": "Margin Dialog", 
-        "text": "Di\u00e1logo de margen", 
         "nameSpace": "djv::UI::Style", 
         "description": "", 
-        "id": "MarginDialog"
+        "text": "Di\u00e1logo de margen"
     }, 
     {
+        "id": "Spacing", 
         "source": "Spacing", 
-        "text": "Espaciado", 
         "nameSpace": "djv::UI::Style", 
         "description": "", 
-        "id": "Spacing"
+        "text": "Espaciado"
     }, 
     {
+        "id": "SpacingSmall", 
         "source": "Spacing Small", 
-        "text": "Espaciado peque\u00f1o", 
         "nameSpace": "djv::UI::Style", 
         "description": "", 
-        "id": "SpacingSmall"
+        "text": "Espaciado peque\u00f1o"
     }, 
     {
+        "id": "SpacingLarge", 
         "source": "Spacing Large", 
-        "text": "Espaciado grande", 
         "nameSpace": "djv::UI::Style", 
         "description": "", 
-        "id": "SpacingLarge"
+        "text": "Espaciado grande"
     }, 
     {
+        "id": "Drag", 
         "source": "Drag", 
-        "text": "Arrastrar", 
         "nameSpace": "djv::UI::Style", 
         "description": "", 
-        "id": "Drag"
+        "text": "Arrastrar"
     }, 
     {
+        "id": "Icon", 
         "source": "Icon", 
-        "text": "Icono", 
         "nameSpace": "djv::UI::Style", 
         "description": "", 
-        "id": "Icon"
+        "text": "Icono"
     }, 
     {
+        "id": "IconLarge", 
         "source": "Icon Large", 
-        "text": "Icono grande", 
         "nameSpace": "djv::UI::Style", 
         "description": "", 
-        "id": "IconLarge"
+        "text": "Icono grande"
     }, 
     {
+        "id": "FontSmall", 
         "source": "Font Small", 
-        "text": "Fuente peque\u00f1a", 
         "nameSpace": "djv::UI::Style", 
         "description": "", 
-        "id": "FontSmall"
+        "text": "Fuente peque\u00f1a"
     }, 
     {
+        "id": "FontMedium", 
         "source": "Font Medium", 
-        "text": "Medio de fuente", 
         "nameSpace": "djv::UI::Style", 
         "description": "", 
-        "id": "FontMedium"
+        "text": "Medio de fuente"
     }, 
     {
+        "id": "FontLarge", 
         "source": "Font Large", 
-        "text": "Fuente grande", 
         "nameSpace": "djv::UI::Style", 
         "description": "", 
-        "id": "FontLarge"
+        "text": "Fuente grande"
     }, 
     {
+        "id": "FontHeader", 
         "source": "Font Header", 
-        "text": "Encabezado de fuente", 
         "nameSpace": "djv::UI::Style", 
         "description": "", 
-        "id": "FontHeader"
+        "text": "Encabezado de fuente"
     }, 
     {
+        "id": "Swatch", 
         "source": "Swatch", 
-        "text": "Muestra de tela", 
         "nameSpace": "djv::UI::Style", 
         "description": "", 
-        "id": "Swatch"
+        "text": "Muestra de tela"
     }, 
     {
+        "id": "ThumbnailWidthSmall", 
         "source": "Thumbnail Width Small", 
-        "text": "Ancho de miniatura peque\u00f1o", 
         "nameSpace": "djv::UI::Style", 
         "description": "", 
-        "id": "ThumbnailWidthSmall"
+        "text": "Ancho de miniatura peque\u00f1o"
     }, 
     {
+        "id": "ThumbnailHeightSmall", 
         "source": "Thumbnail Height Small", 
-        "text": "Altura de la miniatura peque\u00f1a", 
         "nameSpace": "djv::UI::Style", 
         "description": "", 
-        "id": "ThumbnailHeightSmall"
+        "text": "Altura de la miniatura peque\u00f1a"
     }, 
     {
+        "id": "ThumbnailWidthLarge", 
         "source": "Thumbnail Width Large", 
-        "text": "Ancho de la miniatura grande", 
         "nameSpace": "djv::UI::Style", 
         "description": "", 
-        "id": "ThumbnailWidthLarge"
+        "text": "Ancho de la miniatura grande"
     }, 
     {
+        "id": "ThumbnailHeightLarge", 
         "source": "Thumbnail Height Large", 
-        "text": "Altura de la miniatura grande", 
         "nameSpace": "djv::UI::Style", 
         "description": "", 
-        "id": "ThumbnailHeightLarge"
+        "text": "Altura de la miniatura grande"
     }, 
     {
+        "id": "ScrollArea", 
         "source": "Scroll Area", 
-        "text": "\u00c1rea de desplazamiento", 
         "nameSpace": "djv::UI::Style", 
         "description": "", 
-        "id": "ScrollArea"
+        "text": "\u00c1rea de desplazamiento"
     }, 
     {
+        "id": "TextColumn", 
         "source": "Text Column", 
-        "text": "Columna de texto", 
         "nameSpace": "djv::UI::Style", 
         "description": "", 
-        "id": "TextColumn"
+        "text": "Columna de texto"
     }, 
     {
+        "id": "Dialog", 
         "source": "Dialog", 
-        "text": "Di\u00e1logo", 
         "nameSpace": "djv::UI::Style", 
         "description": "", 
-        "id": "Dialog"
+        "text": "Di\u00e1logo"
     }, 
     {
+        "id": "TooltipOffset", 
         "source": "Tooltip Offset", 
-        "text": "Desplazamiento de informaci\u00f3n sobre herramientas", 
         "nameSpace": "djv::UI::Style", 
         "description": "", 
-        "id": "TooltipOffset"
+        "text": "Desplazamiento de informaci\u00f3n sobre herramientas"
     }, 
     {
+        "id": "Handle", 
         "source": "Handle", 
-        "text": "Encargarse de", 
         "nameSpace": "djv::UI::Style", 
         "description": "", 
-        "id": "Handle"
+        "text": "Encargarse de"
     }, 
     {
+        "id": "Cannot read settings", 
         "source": "Cannot read settings", 
-        "text": "No se puede leer la configuraci\u00f3n", 
         "nameSpace": "djv::UI::Settings", 
         "description": "", 
-        "id": "Cannot read settings"
+        "text": "No se puede leer la configuraci\u00f3n"
     }, 
     {
+        "id": "Cannot write settings", 
         "source": "Cannot write settings", 
-        "text": "No se puede escribir la configuraci\u00f3n", 
         "nameSpace": "djv::UI::Settings", 
         "description": "", 
-        "id": "Cannot write settings"
+        "text": "No se puede escribir la configuraci\u00f3n"
     }, 
     {
+        "id": "Space", 
         "source": "Space", 
-        "text": "Espacio", 
         "nameSpace": "djv::UI::Key", 
         "description": "", 
-        "id": "Space"
+        "text": "Espacio"
     }, 
     {
+        "id": "Apostrophe", 
         "source": "Apostrophe", 
-        "text": "Ap\u00f3strofe", 
         "nameSpace": "djv::UI::Key", 
         "description": "", 
-        "id": "Apostrophe"
+        "text": "Ap\u00f3strofe"
     }, 
     {
+        "id": "Comma", 
         "source": "Comma", 
-        "text": "coma", 
         "nameSpace": "djv::UI::Key", 
         "description": "", 
-        "id": "Comma"
+        "text": "coma"
     }, 
     {
+        "id": "Minus", 
         "source": "Minus", 
-        "text": "Menos", 
         "nameSpace": "djv::UI::Key", 
         "description": "", 
-        "id": "Minus"
+        "text": "Menos"
     }, 
     {
+        "id": "Period", 
         "source": "Period", 
-        "text": "Per\u00edodo", 
         "nameSpace": "djv::UI::Key", 
         "description": "", 
-        "id": "Period"
+        "text": "Per\u00edodo"
     }, 
     {
+        "id": "Slash", 
         "source": "Slash", 
-        "text": "Barra oblicua", 
         "nameSpace": "djv::UI::Key", 
         "description": "", 
-        "id": "Slash"
+        "text": "Barra oblicua"
     }, 
     {
+        "id": "0", 
         "source": "0", 
-        "text": "0", 
         "nameSpace": "djv::UI::Key", 
         "description": "", 
-        "id": "0"
+        "text": "0"
     }, 
     {
+        "id": "1", 
         "source": "1", 
-        "text": "1", 
         "nameSpace": "djv::UI::Key", 
         "description": "", 
-        "id": "1"
+        "text": "1"
     }, 
     {
+        "id": "2", 
         "source": "2", 
-        "text": "2", 
         "nameSpace": "djv::UI::Key", 
         "description": "", 
-        "id": "2"
+        "text": "2"
     }, 
     {
+        "id": "3", 
         "source": "3", 
-        "text": "3", 
         "nameSpace": "djv::UI::Key", 
         "description": "", 
-        "id": "3"
+        "text": "3"
     }, 
     {
+        "id": "4", 
         "source": "4", 
-        "text": "4", 
         "nameSpace": "djv::UI::Key", 
         "description": "", 
-        "id": "4"
+        "text": "4"
     }, 
     {
+        "id": "5", 
         "source": "5", 
-        "text": "5", 
         "nameSpace": "djv::UI::Key", 
         "description": "", 
-        "id": "5"
+        "text": "5"
     }, 
     {
+        "id": "6", 
         "source": "6", 
-        "text": "6", 
         "nameSpace": "djv::UI::Key", 
         "description": "", 
-        "id": "6"
+        "text": "6"
     }, 
     {
+        "id": "7", 
         "source": "7", 
-        "text": "7", 
         "nameSpace": "djv::UI::Key", 
         "description": "", 
-        "id": "7"
+        "text": "7"
     }, 
     {
+        "id": "8", 
         "source": "8", 
-        "text": "8", 
         "nameSpace": "djv::UI::Key", 
         "description": "", 
-        "id": "8"
+        "text": "8"
     }, 
     {
+        "id": "9", 
         "source": "9", 
-        "text": "9", 
         "nameSpace": "djv::UI::Key", 
         "description": "", 
-        "id": "9"
+        "text": "9"
     }, 
     {
+        "id": "Semicolon", 
         "source": "Semicolon", 
-        "text": "Punto y coma", 
         "nameSpace": "djv::UI::Key", 
         "description": "", 
-        "id": "Semicolon"
+        "text": "Punto y coma"
     }, 
     {
+        "id": "Equal", 
         "source": "Equal", 
-        "text": "Igual", 
         "nameSpace": "djv::UI::Key", 
         "description": "", 
-        "id": "Equal"
+        "text": "Igual"
     }, 
     {
+        "id": "A", 
         "source": "A", 
-        "text": "UNA", 
         "nameSpace": "djv::UI::Key", 
         "description": "", 
-        "id": "A"
+        "text": "UNA"
     }, 
     {
+        "id": "B", 
         "source": "B", 
-        "text": "segundo", 
         "nameSpace": "djv::UI::Key", 
         "description": "", 
-        "id": "B"
+        "text": "segundo"
     }, 
     {
+        "id": "C", 
         "source": "C", 
-        "text": "do", 
         "nameSpace": "djv::UI::Key", 
         "description": "", 
-        "id": "C"
+        "text": "do"
     }, 
     {
+        "id": "D", 
         "source": "D", 
-        "text": "re", 
         "nameSpace": "djv::UI::Key", 
         "description": "", 
-        "id": "D"
+        "text": "re"
     }, 
     {
+        "id": "E", 
         "source": "E", 
-        "text": "y", 
         "nameSpace": "djv::UI::Key", 
         "description": "", 
-        "id": "E"
+        "text": "y"
     }, 
     {
+        "id": "F", 
         "source": "F", 
-        "text": "F", 
         "nameSpace": "djv::UI::Key", 
         "description": "", 
-        "id": "F"
+        "text": "F"
     }, 
     {
+        "id": "G", 
         "source": "G", 
-        "text": "sol", 
         "nameSpace": "djv::UI::Key", 
         "description": "", 
-        "id": "G"
+        "text": "sol"
     }, 
     {
+        "id": "H", 
         "source": "H", 
-        "text": "H", 
         "nameSpace": "djv::UI::Key", 
         "description": "", 
-        "id": "H"
+        "text": "H"
     }, 
     {
+        "id": "I", 
         "source": "I", 
-        "text": "yo", 
         "nameSpace": "djv::UI::Key", 
         "description": "", 
-        "id": "I"
+        "text": "yo"
     }, 
     {
+        "id": "J", 
         "source": "J", 
-        "text": "J", 
         "nameSpace": "djv::UI::Key", 
         "description": "", 
-        "id": "J"
+        "text": "J"
     }, 
     {
+        "id": "K", 
         "source": "K", 
-        "text": "K", 
         "nameSpace": "djv::UI::Key", 
         "description": "", 
-        "id": "K"
+        "text": "K"
     }, 
     {
+        "id": "L", 
         "source": "L", 
-        "text": "la", 
         "nameSpace": "djv::UI::Key", 
         "description": "", 
-        "id": "L"
+        "text": "la"
     }, 
     {
+        "id": "M", 
         "source": "M", 
-        "text": "METRO", 
         "nameSpace": "djv::UI::Key", 
         "description": "", 
-        "id": "M"
+        "text": "METRO"
     }, 
     {
+        "id": "N", 
         "source": "N", 
-        "text": "norte", 
         "nameSpace": "djv::UI::Key", 
         "description": "", 
-        "id": "N"
+        "text": "norte"
     }, 
     {
+        "id": "O", 
         "source": "O", 
-        "text": "la", 
         "nameSpace": "djv::UI::Key", 
         "description": "", 
-        "id": "O"
+        "text": "la"
     }, 
     {
+        "id": "P", 
         "source": "P", 
-        "text": "PAG", 
         "nameSpace": "djv::UI::Key", 
         "description": "", 
-        "id": "P"
+        "text": "PAG"
     }, 
     {
+        "id": "Q", 
         "source": "Q", 
-        "text": "Q", 
         "nameSpace": "djv::UI::Key", 
         "description": "", 
-        "id": "Q"
+        "text": "Q"
     }, 
     {
+        "id": "R", 
         "source": "R", 
-        "text": "R", 
         "nameSpace": "djv::UI::Key", 
         "description": "", 
-        "id": "R"
+        "text": "R"
     }, 
     {
+        "id": "S", 
         "source": "S", 
-        "text": "S", 
         "nameSpace": "djv::UI::Key", 
         "description": "", 
-        "id": "S"
+        "text": "S"
     }, 
     {
+        "id": "T", 
         "source": "T", 
-        "text": "T", 
         "nameSpace": "djv::UI::Key", 
         "description": "", 
-        "id": "T"
+        "text": "T"
     }, 
     {
+        "id": "U", 
         "source": "U", 
-        "text": "U", 
         "nameSpace": "djv::UI::Key", 
         "description": "", 
-        "id": "U"
+        "text": "U"
     }, 
     {
+        "id": "V", 
         "source": "V", 
-        "text": "V", 
         "nameSpace": "djv::UI::Key", 
         "description": "", 
-        "id": "V"
+        "text": "V"
     }, 
     {
+        "id": "W", 
         "source": "W", 
-        "text": "la", 
         "nameSpace": "djv::UI::Key", 
         "description": "", 
-        "id": "W"
+        "text": "la"
     }, 
     {
+        "id": "X", 
         "source": "X", 
-        "text": "X", 
         "nameSpace": "djv::UI::Key", 
         "description": "", 
-        "id": "X"
+        "text": "X"
     }, 
     {
+        "id": "Y", 
         "source": "Y", 
-        "text": "Y", 
         "nameSpace": "djv::UI::Key", 
         "description": "", 
-        "id": "Y"
+        "text": "Y"
     }, 
     {
+        "id": "Z", 
         "source": "Z", 
-        "text": "con", 
         "nameSpace": "djv::UI::Key", 
         "description": "", 
-        "id": "Z"
+        "text": "con"
     }, 
     {
+        "id": "LeftBracket", 
         "source": "Left Bracket", 
-        "text": "Soporte izquierdo", 
         "nameSpace": "djv::UI::Key", 
         "description": "", 
-        "id": "LeftBracket"
+        "text": "Soporte izquierdo"
     }, 
     {
+        "id": "Backslash", 
         "source": "Backslash", 
-        "text": "Barra invertida", 
         "nameSpace": "djv::UI::Key", 
         "description": "", 
-        "id": "Backslash"
+        "text": "Barra invertida"
     }, 
     {
+        "id": "RightBracket", 
         "source": "Right Bracket", 
-        "text": "Soporte derecho", 
         "nameSpace": "djv::UI::Key", 
         "description": "", 
-        "id": "RightBracket"
+        "text": "Soporte derecho"
     }, 
     {
+        "id": "GraveAccent", 
         "source": "Grave Accent", 
-        "text": "Acento serio", 
         "nameSpace": "djv::UI::Key", 
         "description": "", 
-        "id": "GraveAccent"
+        "text": "Acento serio"
     }, 
     {
+        "id": "World1", 
         "source": "World1", 
-        "text": "Mundo1", 
         "nameSpace": "djv::UI::Key", 
         "description": "", 
-        "id": "World1"
+        "text": "Mundo1"
     }, 
     {
+        "id": "World2", 
         "source": "World2", 
-        "text": "Mundo2", 
         "nameSpace": "djv::UI::Key", 
         "description": "", 
-        "id": "World2"
+        "text": "Mundo2"
     }, 
     {
+        "id": "Escape", 
         "source": "Escape", 
-        "text": "Escapar", 
         "nameSpace": "djv::UI::Key", 
         "description": "", 
-        "id": "Escape"
+        "text": "Escapar"
     }, 
     {
+        "id": "Enter", 
         "source": "Enter", 
-        "text": "Entrar", 
         "nameSpace": "djv::UI::Key", 
         "description": "", 
-        "id": "Enter"
+        "text": "Entrar"
     }, 
     {
+        "id": "Tab", 
         "source": "Tab", 
-        "text": "Leng\u00fceta", 
         "nameSpace": "djv::UI::Key", 
         "description": "", 
-        "id": "Tab"
+        "text": "Leng\u00fceta"
     }, 
     {
+        "id": "Backspace", 
         "source": "Backspace", 
-        "text": "Retroceso", 
         "nameSpace": "djv::UI::Key", 
         "description": "", 
-        "id": "Backspace"
+        "text": "Retroceso"
     }, 
     {
+        "id": "Insert", 
         "source": "Insert", 
-        "text": "Insertar", 
         "nameSpace": "djv::UI::Key", 
         "description": "", 
-        "id": "Insert"
+        "text": "Insertar"
     }, 
     {
+        "id": "Delete", 
         "source": "Delete", 
-        "text": "Borrar", 
         "nameSpace": "djv::UI::Key", 
         "description": "", 
-        "id": "Delete"
+        "text": "Borrar"
     }, 
     {
+        "id": "RightArrow", 
         "source": "Right Arrow", 
-        "text": "Flecha correcta", 
         "nameSpace": "djv::UI::Key", 
         "description": "", 
-        "id": "RightArrow"
+        "text": "Flecha correcta"
     }, 
     {
+        "id": "LeftArrow", 
         "source": "Left Arrow", 
-        "text": "Flecha izquierda", 
         "nameSpace": "djv::UI::Key", 
         "description": "", 
-        "id": "LeftArrow"
+        "text": "Flecha izquierda"
     }, 
     {
+        "id": "DownArrow", 
         "source": "Down Arrow", 
-        "text": "Flecha hacia abajo", 
         "nameSpace": "djv::UI::Key", 
         "description": "", 
-        "id": "DownArrow"
+        "text": "Flecha hacia abajo"
     }, 
     {
+        "id": "UpArrow", 
         "source": "Up Arrow", 
-        "text": "Flecha arriba", 
         "nameSpace": "djv::UI::Key", 
         "description": "", 
-        "id": "UpArrow"
+        "text": "Flecha arriba"
     }, 
     {
+        "id": "PageUp", 
         "source": "Page Up", 
-        "text": "P\u00e1gina arriba", 
         "nameSpace": "djv::UI::Key", 
         "description": "", 
-        "id": "PageUp"
+        "text": "P\u00e1gina arriba"
     }, 
     {
+        "id": "PageDown", 
         "source": "Page Down", 
-        "text": "P\u00e1gina abajo", 
         "nameSpace": "djv::UI::Key", 
         "description": "", 
-        "id": "PageDown"
+        "text": "P\u00e1gina abajo"
     }, 
     {
+        "id": "Home", 
         "source": "Home", 
-        "text": "Casa", 
         "nameSpace": "djv::UI::Key", 
         "description": "", 
-        "id": "Home"
+        "text": "Casa"
     }, 
     {
+        "id": "End", 
         "source": "End", 
-        "text": "Fin", 
         "nameSpace": "djv::UI::Key", 
         "description": "", 
-        "id": "End"
+        "text": "Fin"
     }, 
     {
+        "id": "CapsLock", 
         "source": "Caps Lock", 
-        "text": "Bloq May\u00fas", 
         "nameSpace": "djv::UI::Key", 
         "description": "", 
-        "id": "CapsLock"
+        "text": "Bloq May\u00fas"
     }, 
     {
+        "id": "ScrollLock", 
         "source": "Scroll Lock", 
-        "text": "Bloqueo de desplazamiento", 
         "nameSpace": "djv::UI::Key", 
         "description": "", 
-        "id": "ScrollLock"
+        "text": "Bloqueo de desplazamiento"
     }, 
     {
+        "id": "NumLock", 
         "source": "Num Lock", 
-        "text": "Num lock", 
         "nameSpace": "djv::UI::Key", 
         "description": "", 
-        "id": "NumLock"
+        "text": "Num lock"
     }, 
     {
+        "id": "PrintScreen", 
         "source": "Print Screen", 
-        "text": "Imprimir pantalla", 
         "nameSpace": "djv::UI::Key", 
         "description": "", 
-        "id": "PrintScreen"
+        "text": "Imprimir pantalla"
     }, 
     {
+        "id": "F1", 
         "source": "F1", 
-        "text": "F1", 
         "nameSpace": "djv::UI::Key", 
         "description": "", 
-        "id": "F1"
+        "text": "F1"
     }, 
     {
+        "id": "F2", 
         "source": "F2", 
-        "text": "F2", 
         "nameSpace": "djv::UI::Key", 
         "description": "", 
-        "id": "F2"
+        "text": "F2"
     }, 
     {
+        "id": "F3", 
         "source": "F3", 
-        "text": "F3", 
         "nameSpace": "djv::UI::Key", 
         "description": "", 
-        "id": "F3"
+        "text": "F3"
     }, 
     {
+        "id": "F4", 
         "source": "F4", 
-        "text": "F4", 
         "nameSpace": "djv::UI::Key", 
         "description": "", 
-        "id": "F4"
+        "text": "F4"
     }, 
     {
+        "id": "F5", 
         "source": "F5", 
-        "text": "F5", 
         "nameSpace": "djv::UI::Key", 
         "description": "", 
-        "id": "F5"
+        "text": "F5"
     }, 
     {
+        "id": "F6", 
         "source": "F6", 
-        "text": "F6", 
         "nameSpace": "djv::UI::Key", 
         "description": "", 
-        "id": "F6"
+        "text": "F6"
     }, 
     {
+        "id": "F7", 
         "source": "F7", 
-        "text": "F7", 
         "nameSpace": "djv::UI::Key", 
         "description": "", 
-        "id": "F7"
+        "text": "F7"
     }, 
     {
+        "id": "F8", 
         "source": "F8", 
-        "text": "F8", 
         "nameSpace": "djv::UI::Key", 
         "description": "", 
-        "id": "F8"
+        "text": "F8"
     }, 
     {
+        "id": "F9", 
         "source": "F9", 
-        "text": "F9", 
         "nameSpace": "djv::UI::Key", 
         "description": "", 
-        "id": "F9"
+        "text": "F9"
     }, 
     {
+        "id": "F10", 
         "source": "F10", 
-        "text": "F10", 
         "nameSpace": "djv::UI::Key", 
         "description": "", 
-        "id": "F10"
+        "text": "F10"
     }, 
     {
+        "id": "F11", 
         "source": "F11", 
-        "text": "F11", 
         "nameSpace": "djv::UI::Key", 
         "description": "", 
-        "id": "F11"
+        "text": "F11"
     }, 
     {
+        "id": "F12", 
         "source": "F12", 
-        "text": "F12", 
         "nameSpace": "djv::UI::Key", 
         "description": "", 
-        "id": "F12"
+        "text": "F12"
     }, 
     {
+        "id": "F13", 
         "source": "F13", 
-        "text": "F13", 
         "nameSpace": "djv::UI::Key", 
         "description": "", 
-        "id": "F13"
+        "text": "F13"
     }, 
     {
+        "id": "F14", 
         "source": "F14", 
-        "text": "F14", 
         "nameSpace": "djv::UI::Key", 
         "description": "", 
-        "id": "F14"
+        "text": "F14"
     }, 
     {
+        "id": "F15", 
         "source": "F15", 
-        "text": "F15", 
         "nameSpace": "djv::UI::Key", 
         "description": "", 
-        "id": "F15"
+        "text": "F15"
     }, 
     {
+        "id": "F16", 
         "source": "F16", 
-        "text": "F16", 
         "nameSpace": "djv::UI::Key", 
         "description": "", 
-        "id": "F16"
+        "text": "F16"
     }, 
     {
+        "id": "F17", 
         "source": "F17", 
-        "text": "F17", 
         "nameSpace": "djv::UI::Key", 
         "description": "", 
-        "id": "F17"
+        "text": "F17"
     }, 
     {
+        "id": "F18", 
         "source": "F18", 
-        "text": "F18", 
         "nameSpace": "djv::UI::Key", 
         "description": "", 
-        "id": "F18"
+        "text": "F18"
     }, 
     {
+        "id": "F19", 
         "source": "F19", 
-        "text": "F19", 
         "nameSpace": "djv::UI::Key", 
         "description": "", 
-        "id": "F19"
+        "text": "F19"
     }, 
     {
+        "id": "F20", 
         "source": "F20", 
-        "text": "F20", 
         "nameSpace": "djv::UI::Key", 
         "description": "", 
-        "id": "F20"
+        "text": "F20"
     }, 
     {
+        "id": "F21", 
         "source": "F21", 
-        "text": "F21", 
         "nameSpace": "djv::UI::Key", 
         "description": "", 
-        "id": "F21"
+        "text": "F21"
     }, 
     {
+        "id": "F22", 
         "source": "F22", 
-        "text": "F22", 
         "nameSpace": "djv::UI::Key", 
         "description": "", 
-        "id": "F22"
+        "text": "F22"
     }, 
     {
+        "id": "F23", 
         "source": "F23", 
-        "text": "F23", 
         "nameSpace": "djv::UI::Key", 
         "description": "", 
-        "id": "F23"
+        "text": "F23"
     }, 
     {
+        "id": "F24", 
         "source": "F24", 
-        "text": "F24", 
         "nameSpace": "djv::UI::Key", 
         "description": "", 
-        "id": "F24"
+        "text": "F24"
     }, 
     {
+        "id": "F25", 
         "source": "F25", 
-        "text": "F25", 
         "nameSpace": "djv::UI::Key", 
         "description": "", 
-        "id": "F25"
+        "text": "F25"
     }, 
     {
+        "id": "KeyPad0", 
         "source": "Key Pad 0", 
-        "text": "Teclado 0", 
         "nameSpace": "djv::UI::Key", 
         "description": "", 
-        "id": "KeyPad0"
+        "text": "Teclado 0"
     }, 
     {
+        "id": "KeyPad1", 
         "source": "Key Pad 1", 
-        "text": "Teclado 1", 
         "nameSpace": "djv::UI::Key", 
         "description": "", 
-        "id": "KeyPad1"
+        "text": "Teclado 1"
     }, 
     {
+        "id": "KeyPad2", 
         "source": "Key Pad 2", 
-        "text": "Teclado 2", 
         "nameSpace": "djv::UI::Key", 
         "description": "", 
-        "id": "KeyPad2"
+        "text": "Teclado 2"
     }, 
     {
+        "id": "KeyPad3", 
         "source": "Key Pad 3", 
-        "text": "Teclado 3", 
         "nameSpace": "djv::UI::Key", 
         "description": "", 
-        "id": "KeyPad3"
+        "text": "Teclado 3"
     }, 
     {
+        "id": "KeyPad4", 
         "source": "Key Pad 4", 
-        "text": "Teclado 4", 
         "nameSpace": "djv::UI::Key", 
         "description": "", 
-        "id": "KeyPad4"
+        "text": "Teclado 4"
     }, 
     {
+        "id": "KeyPad5", 
         "source": "Key Pad 5", 
-        "text": "Teclado 5", 
         "nameSpace": "djv::UI::Key", 
         "description": "", 
-        "id": "KeyPad5"
+        "text": "Teclado 5"
     }, 
     {
+        "id": "KeyPad6", 
         "source": "Key Pad 6", 
-        "text": "Teclado 6", 
         "nameSpace": "djv::UI::Key", 
         "description": "", 
-        "id": "KeyPad6"
+        "text": "Teclado 6"
     }, 
     {
+        "id": "KeyPad7", 
         "source": "Key Pad 7", 
-        "text": "Teclado 7", 
         "nameSpace": "djv::UI::Key", 
         "description": "", 
-        "id": "KeyPad7"
+        "text": "Teclado 7"
     }, 
     {
+        "id": "KeyPad8", 
         "source": "Key Pad 8", 
-        "text": "Teclado 8", 
         "nameSpace": "djv::UI::Key", 
         "description": "", 
-        "id": "KeyPad8"
+        "text": "Teclado 8"
     }, 
     {
+        "id": "KeyPad9", 
         "source": "Key Pad 9", 
-        "text": "Teclado 9", 
         "nameSpace": "djv::UI::Key", 
         "description": "", 
-        "id": "KeyPad9"
+        "text": "Teclado 9"
     }, 
     {
+        "id": "KeyPadDecimal", 
         "source": "Key Pad .", 
-        "text": "Teclado", 
         "nameSpace": "djv::UI::Key", 
         "description": "", 
-        "id": "KeyPadDecimal"
+        "text": "Teclado"
     }, 
     {
+        "id": "KeyPadDivide", 
         "source": "Key Pad /", 
-        "text": "Teclado /", 
         "nameSpace": "djv::UI::Key", 
         "description": "", 
-        "id": "KeyPadDivide"
+        "text": "Teclado /"
     }, 
     {
+        "id": "KeyPadMultiply", 
         "source": "Key Pad *", 
-        "text": "Teclado *", 
         "nameSpace": "djv::UI::Key", 
         "description": "", 
-        "id": "KeyPadMultiply"
+        "text": "Teclado *"
     }, 
     {
+        "id": "KeyPadSubstract", 
         "source": "Key Pad -", 
-        "text": "Teclado -", 
         "nameSpace": "djv::UI::Key", 
         "description": "", 
-        "id": "KeyPadSubstract"
+        "text": "Teclado -"
     }, 
     {
+        "id": "KeyPadAdd", 
         "source": "Key Pad +", 
-        "text": "Teclado +", 
         "nameSpace": "djv::UI::Key", 
         "description": "", 
-        "id": "KeyPadAdd"
+        "text": "Teclado +"
     }, 
     {
+        "id": "KeyPadEnter", 
         "source": "Key Pad Enter", 
-        "text": "Teclado del teclado Enter", 
         "nameSpace": "djv::UI::Key", 
         "description": "", 
-        "id": "KeyPadEnter"
+        "text": "Teclado del teclado Enter"
     }, 
     {
+        "id": "KeyPadEqual", 
         "source": "Key Pad =", 
-        "text": "Teclado =", 
         "nameSpace": "djv::UI::Key", 
         "description": "", 
-        "id": "KeyPadEqual"
+        "text": "Teclado ="
     }, 
     {
+        "id": "LeftShift", 
         "source": "Left Shift", 
-        "text": "Shift izquierdo", 
         "nameSpace": "djv::UI::Key", 
         "description": "", 
-        "id": "LeftShift"
+        "text": "Shift izquierdo"
     }, 
     {
+        "id": "LeftControl", 
         "source": "Left Control", 
-        "text": "Control izquierdo", 
         "nameSpace": "djv::UI::Key", 
         "description": "", 
-        "id": "LeftControl"
+        "text": "Control izquierdo"
     }, 
     {
+        "id": "LeftAlt", 
         "source": "Left Alt", 
-        "text": "Alt izquierda", 
         "nameSpace": "djv::UI::Key", 
         "description": "", 
-        "id": "LeftAlt"
+        "text": "Alt izquierda"
     }, 
     {
+        "id": "LeftSuper", 
         "source": "Left Super", 
-        "text": "Izquierda super", 
         "nameSpace": "djv::UI::Key", 
         "description": "", 
-        "id": "LeftSuper"
+        "text": "Izquierda super"
     }, 
     {
+        "id": "RightShift", 
         "source": "Right Shift", 
-        "text": "Giro a la derecha", 
         "nameSpace": "djv::UI::Key", 
         "description": "", 
-        "id": "RightShift"
+        "text": "Giro a la derecha"
     }, 
     {
+        "id": "RightControl", 
         "source": "Right Control", 
-        "text": "Control correcto", 
         "nameSpace": "djv::UI::Key", 
         "description": "", 
-        "id": "RightControl"
+        "text": "Control correcto"
     }, 
     {
+        "id": "RightAlt", 
         "source": "Right Alt", 
-        "text": "Alt derecha", 
         "nameSpace": "djv::UI::Key", 
         "description": "", 
-        "id": "RightAlt"
+        "text": "Alt derecha"
     }, 
     {
+        "id": "RightSuper", 
         "source": "Right Super", 
-        "text": "Derecho super", 
         "nameSpace": "djv::UI::Key", 
         "description": "", 
-        "id": "RightSuper"
+        "text": "Derecho super"
     }, 
     {
+        "id": "Menu", 
         "source": "Menu", 
-        "text": "Men\u00fa", 
         "nameSpace": "djv::UI::Key", 
         "description": "", 
-        "id": "Menu"
+        "text": "Men\u00fa"
     }, 
     {
+        "id": "Shift", 
         "source": "Shift", 
-        "text": "Cambio", 
         "nameSpace": "djv::UI::Key", 
         "description": "", 
-        "id": "Shift"
+        "text": "Cambio"
     }, 
     {
+        "id": "Ctrl", 
         "source": "Ctrl", 
-        "text": "Ctrl", 
         "nameSpace": "djv::UI::Key", 
         "description": "", 
-        "id": "Ctrl"
+        "text": "Ctrl"
     }, 
     {
+        "id": "Alt", 
         "source": "Alt", 
-        "text": "todo", 
         "nameSpace": "djv::UI::Key", 
         "description": "", 
-        "id": "Alt"
+        "text": "todo"
     }, 
     {
+        "id": "Super", 
         "source": "Super", 
-        "text": "s\u00faper", 
         "nameSpace": "djv::UI::Key", 
         "description": "", 
-        "id": "Super"
+        "text": "s\u00faper"
     }, 
     {
+        "id": "Up", 
         "source": "Up", 
-        "text": "Arriba", 
         "nameSpace": "djv::UI::FileBrowser", 
         "description": "", 
-        "id": "Up"
+        "text": "Arriba"
     }, 
     {
+        "id": "UpTooltip", 
         "source": "Go up a directory", 
-        "text": "Subir un directorio", 
         "nameSpace": "djv::UI::FileBrowser", 
         "description": "", 
-        "id": "UpTooltip"
+        "text": "Subir un directorio"
     }, 
     {
+        "id": "Current Directory", 
         "source": "Current Directory", 
-        "text": "Directorio actual", 
         "nameSpace": "djv::UI::FileBrowser", 
         "description": "", 
-        "id": "Current Directory"
+        "text": "Directorio actual"
     }, 
     {
+        "id": "CurrentDirectoryTooltip", 
         "source": "Go to the current directory", 
-        "text": "Ir al directorio actual", 
         "nameSpace": "djv::UI::FileBrowser", 
         "description": "", 
-        "id": "CurrentDirectoryTooltip"
+        "text": "Ir al directorio actual"
     }, 
     {
+        "id": "Back", 
         "source": "Back", 
-        "text": "Espalda", 
         "nameSpace": "djv::UI::FileBrowser", 
         "description": "", 
-        "id": "Back"
+        "text": "Espalda"
     }, 
     {
+        "id": "BackTooltip", 
         "source": "Go back in history", 
-        "text": "Volver a la historia", 
         "nameSpace": "djv::UI::FileBrowser", 
         "description": "", 
-        "id": "BackTooltip"
+        "text": "Volver a la historia"
     }, 
     {
+        "id": "ForwardTooltip", 
         "source": "Go forward in history", 
-        "text": "Seguir adelante en la historia", 
         "nameSpace": "djv::UI::FileBrowser", 
         "description": "", 
-        "id": "ForwardTooltip"
+        "text": "Seguir adelante en la historia"
     }, 
     {
+        "id": "Large Thumbnails", 
         "source": "Large Thumbnails", 
-        "text": "Miniaturas grandes", 
         "nameSpace": "djv::UI::FileBrowser", 
         "description": "", 
-        "id": "Large Thumbnails"
+        "text": "Miniaturas grandes"
     }, 
     {
+        "id": "LargethumbnailsTooltip", 
         "source": "Large thumbnail previews", 
-        "text": "Vistas previas en miniatura grandes", 
         "nameSpace": "djv::UI::FileBrowser", 
         "description": "", 
-        "id": "LargethumbnailsTooltip"
+        "text": "Vistas previas en miniatura grandes"
     }, 
     {
+        "id": "Small Thumbnails", 
         "source": "Small Thumbnails", 
-        "text": "Miniaturas peque\u00f1as", 
         "nameSpace": "djv::UI::FileBrowser", 
         "description": "", 
-        "id": "Small Thumbnails"
+        "text": "Miniaturas peque\u00f1as"
     }, 
     {
+        "id": "SmallThumbnailsTooltip", 
         "source": "Small thumbnail previews", 
-        "text": "Vistas previas en miniatura peque\u00f1as", 
         "nameSpace": "djv::UI::FileBrowser", 
         "description": "", 
-        "id": "SmallThumbnailsTooltip"
+        "text": "Vistas previas en miniatura peque\u00f1as"
     }, 
     {
+        "id": "List View", 
         "source": "List View", 
-        "text": "Vista de la lista", 
         "nameSpace": "djv::UI::FileBrowser", 
         "description": "", 
-        "id": "List View"
+        "text": "Vista de la lista"
     }, 
     {
+        "id": "ListViewTooltip", 
         "source": "Detailed list view", 
-        "text": "Vista de lista detallada", 
         "nameSpace": "djv::UI::FileBrowser", 
         "description": "", 
-        "id": "ListViewTooltip"
+        "text": "Vista de lista detallada"
     }, 
     {
+        "id": "File Sequences", 
         "source": "File Sequences", 
-        "text": "Secuencias de archivos", 
         "nameSpace": "djv::UI::FileBrowser", 
         "description": "", 
-        "id": "File Sequences"
+        "text": "Secuencias de archivos"
     }, 
     {
+        "id": "FileSequencesTooltip", 
         "source": "Toggle whether file sequences are enabled", 
-        "text": "Alternar si las secuencias de archivos est\u00e1n habilitadas", 
         "nameSpace": "djv::UI::FileBrowser", 
         "description": "", 
-        "id": "FileSequencesTooltip"
+        "text": "Alternar si las secuencias de archivos est\u00e1n habilitadas"
     }, 
     {
+        "id": "Show Hidden", 
         "source": "Show Hidden", 
-        "text": "Mostrar oculto", 
         "nameSpace": "djv::UI::FileBrowser", 
         "description": "", 
-        "id": "Show Hidden"
+        "text": "Mostrar oculto"
     }, 
     {
+        "id": "ShowHiddenTooltip", 
         "source": "Show hidden files", 
-        "text": "Mostrar archivos ocultos", 
         "nameSpace": "djv::UI::FileBrowser", 
         "description": "", 
-        "id": "ShowHiddenTooltip"
+        "text": "Mostrar archivos ocultos"
     }, 
     {
+        "id": "Directory", 
         "source": "Directory", 
-        "text": "Directorio", 
         "nameSpace": "djv::UI::FileBrowser", 
         "description": "", 
-        "id": "Directory"
+        "text": "Directorio"
     }, 
     {
+        "id": "View", 
         "source": "View", 
-        "text": "Ver", 
         "nameSpace": "djv::UI::FileBrowser", 
         "description": "", 
-        "id": "View"
+        "text": "Ver"
     }, 
     {
+        "id": "Sort", 
         "source": "Sort", 
-        "text": "Ordenar", 
         "nameSpace": "djv::UI::FileBrowser", 
         "description": "", 
-        "id": "Sort"
+        "text": "Ordenar"
     }, 
     {
+        "id": "Bookmarks", 
         "source": "Bookmarks", 
-        "text": "Marcadores", 
         "nameSpace": "djv::UI::FileBrowser", 
         "description": "", 
-        "id": "Bookmarks"
+        "text": "Marcadores"
     }, 
     {
+        "id": "items", 
         "source": "items", 
-        "text": "art\u00edculos", 
         "nameSpace": "djv::UI::FileBrowser", 
         "description": "", 
-        "id": "items"
+        "text": "art\u00edculos"
     }, 
     {
+        "id": "Size", 
         "source": "Size", 
-        "text": "tama\u00f1o", 
         "nameSpace": "djv::UI::FileBrowser", 
         "description": "", 
-        "id": "Size"
+        "text": "tama\u00f1o"
     }, 
     {
+        "id": "Last modification time", 
         "source": "Last modification time", 
-        "text": "Hora de ultima modificacion", 
         "nameSpace": "djv::UI::FileBrowser", 
         "description": "", 
-        "id": "Last modification time"
+        "text": "Hora de ultima modificacion"
     }, 
     {
+        "id": "Video track", 
         "source": "Video track", 
-        "text": "Pista de video", 
         "nameSpace": "djv::UI::FileBrowser", 
         "description": "", 
-        "id": "Video track"
+        "text": "Pista de video"
     }, 
     {
+        "id": "Type", 
         "source": "Type", 
-        "text": "Tipo", 
         "nameSpace": "djv::UI::FileBrowser", 
         "description": "", 
-        "id": "Type"
+        "text": "Tipo"
     }, 
     {
+        "id": "Speed", 
         "source": "Speed", 
-        "text": "Velocidad", 
         "nameSpace": "djv::UI::FileBrowser", 
         "description": "", 
-        "id": "Speed"
+        "text": "Velocidad"
     }, 
     {
+        "id": "FPS", 
         "source": "FPS", 
-        "text": "FPS", 
         "nameSpace": "djv::UI::FileBrowser", 
         "description": "", 
-        "id": "FPS"
+        "text": "FPS"
     }, 
     {
+        "id": "Duration", 
         "source": "Duration", 
-        "text": "Duraci\u00f3n", 
         "nameSpace": "djv::UI::FileBrowser", 
         "description": "", 
-        "id": "Duration"
+        "text": "Duraci\u00f3n"
     }, 
     {
+        "id": "Audio track", 
         "source": "Audio track", 
-        "text": "Pista de audio", 
         "nameSpace": "djv::UI::FileBrowser", 
         "description": "", 
-        "id": "Audio track"
+        "text": "Pista de audio"
     }, 
     {
+        "id": "Channels", 
         "source": "Channels", 
-        "text": "Los canales", 
         "nameSpace": "djv::UI::FileBrowser", 
         "description": "", 
-        "id": "Channels"
+        "text": "Los canales"
     }, 
     {
+        "id": "Sample rate", 
         "source": "Sample rate", 
-        "text": "Frecuencia de muestreo", 
         "nameSpace": "djv::UI::FileBrowser", 
         "description": "", 
-        "id": "Sample rate"
+        "text": "Frecuencia de muestreo"
     }, 
     {
+        "id": "kHz", 
         "source": "kHz", 
-        "text": "kHz", 
         "nameSpace": "djv::UI::FileBrowser", 
         "description": "", 
-        "id": "kHz"
+        "text": "kHz"
     }, 
     {
+        "id": "HistoryTooltip", 
         "source": "Show the navigation history", 
-        "text": "Mostrar el historial de navegaci\u00f3n", 
         "nameSpace": "djv::UI::FileBrowser", 
         "description": "", 
-        "id": "HistoryTooltip"
+        "text": "Mostrar el historial de navegaci\u00f3n"
     }, 
     {
+        "id": "Cannot parse value.", 
         "source": "Cannot parse value.", 
-        "text": "No se puede analizar el valor.", 
         "nameSpace": "djv::UI", 
         "description": "", 
-        "id": "Cannot parse value."
+        "text": "No se puede analizar el valor."
     }, 
     {
         "source": "Go up a directory", 
-        "text": "Subir un directorio", 
+        "description": "", 
         "nameSpace": "djv::UI::FileBrowser", 
         "id": "Up Tooltip", 
-        "description": ""
+        "text": "Subir un directorio"
     }, 
     {
         "source": "Go to the current directory", 
-        "text": "Ir al directorio actual", 
+        "description": "", 
         "nameSpace": "djv::UI::FileBrowser", 
         "id": "Current Directory Tooltip", 
-        "description": ""
+        "text": "Ir al directorio actual"
     }, 
     {
         "source": "Go to the previous directory", 
-        "text": "Ir al directorio anterior", 
+        "description": "", 
         "nameSpace": "djv::UI::FileBrowser", 
         "id": "Back Tooltip", 
-        "description": ""
+        "text": "Ir al directorio anterior"
     }, 
     {
         "source": "Go to the next directory", 
-        "text": "Ir al siguiente directorio", 
+        "description": "", 
         "nameSpace": "djv::UI::FileBrowser", 
         "id": "Forward Tooltip", 
-        "description": ""
+        "text": "Ir al siguiente directorio"
     }, 
     {
         "source": "Large thumbnail previews", 
-        "text": "Vistas previas en miniatura grandes", 
+        "description": "", 
         "nameSpace": "djv::UI::FileBrowser", 
         "id": "Large Thumbnails Tooltip", 
-        "description": ""
+        "text": "Vistas previas en miniatura grandes"
     }, 
     {
         "source": "Small thumbnail previews", 
-        "text": "Vistas previas en miniatura peque\u00f1as", 
+        "description": "", 
         "nameSpace": "djv::UI::FileBrowser", 
         "id": "Small Thumbnails Tooltip", 
-        "description": ""
+        "text": "Vistas previas en miniatura peque\u00f1as"
     }, 
     {
         "source": "List view", 
-        "text": "Vista de la lista", 
+        "description": "", 
         "nameSpace": "djv::UI::FileBrowser", 
         "id": "List View Tooltip", 
-        "description": ""
+        "text": "Vista de la lista"
     }, 
     {
         "source": "Toggle whether file sequences are enabled", 
-        "text": "Alternar si las secuencias de archivos est\u00e1n habilitadas", 
+        "description": "", 
         "nameSpace": "djv::UI::FileBrowser", 
         "id": "File Sequences Tooltip", 
-        "description": ""
+        "text": "Alternar si las secuencias de archivos est\u00e1n habilitadas"
     }, 
     {
         "source": "Show hidden files", 
-        "text": "Mostrar archivos ocultos", 
+        "description": "", 
         "nameSpace": "djv::UI::FileBrowser", 
         "id": "Show Hidden Tooltip", 
-        "description": ""
+        "text": "Mostrar archivos ocultos"
     }, 
     {
         "source": "Show the file browser history", 
-        "text": "Mostrar el historial del navegador de archivos", 
+        "description": "", 
         "nameSpace": "djv::UI::FileBrowser", 
         "id": "History Tooltip", 
-        "description": ""
+        "text": "Mostrar el historial del navegador de archivos"
     }, 
     {
         "source": "Exclusive", 
-        "description": "", 
+        "text": "Exclusivo", 
         "nameSpace": "djv::UI", 
-        "id": "Exclusive", 
-        "text": "Exclusivo"
+        "description": "", 
+        "id": "Exclusive"
     }, 
     {
         "source": "'", 
-        "text": "&#39;", 
+        "description": "", 
         "nameSpace": "djv::UI::Key", 
         "id": "'", 
-        "description": ""
+        "text": "&#39;"
     }, 
     {
         "source": ",", 
-        "text": ",", 
+        "description": "", 
         "nameSpace": "djv::UI::Key", 
         "id": ",", 
-        "description": ""
+        "text": ","
     }, 
     {
         "source": "-", 
-        "text": "-", 
+        "description": "", 
         "nameSpace": "djv::UI::Key", 
         "id": "-", 
-        "description": ""
+        "text": "-"
     }, 
     {
         "source": ".", 
-        "text": ".", 
+        "description": "", 
         "nameSpace": "djv::UI::Key", 
         "id": ".", 
-        "description": ""
+        "text": "."
     }, 
     {
         "source": "/", 
-        "text": "/", 
+        "description": "", 
         "nameSpace": "djv::UI::Key", 
         "id": "/", 
-        "description": ""
+        "text": "/"
     }, 
     {
         "source": ";", 
-        "text": ";", 
+        "description": "", 
         "nameSpace": "djv::UI::Key", 
         "id": ";", 
-        "description": ""
+        "text": ";"
     }, 
     {
         "source": "=", 
-        "text": "=", 
+        "description": "", 
         "nameSpace": "djv::UI::Key", 
         "id": "=", 
-        "description": ""
+        "text": "="
     }, 
     {
         "source": "[", 
-        "text": "El", 
+        "description": "", 
         "nameSpace": "djv::UI::Key", 
         "id": "[", 
-        "description": ""
+        "text": "El"
     }, 
     {
         "source": "\\", 
-        "text": "\\", 
+        "description": "", 
         "nameSpace": "djv::UI::Key", 
         "id": "\\", 
-        "description": ""
+        "text": "\\"
     }, 
     {
         "source": "]", 
-        "text": "]", 
+        "description": "", 
         "nameSpace": "djv::UI::Key", 
         "id": "]", 
-        "description": ""
+        "text": "]"
     }, 
     {
         "source": "`", 
-        "text": "`", 
+        "description": "", 
         "nameSpace": "djv::UI::Key", 
         "id": "`", 
+        "text": "`"
+    }, 
+    {
+        "source": "\\\\", 
+        "text": "\\\\", 
+        "nameSpace": "djv::UI::Key", 
+        "id": "\\\\", 
         "description": ""
     }
 ]
