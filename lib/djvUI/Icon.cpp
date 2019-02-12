@@ -208,12 +208,12 @@ namespace djv
                         if (p.iconColorRole != ColorRole::None)
                         {
                             render->setFillColor(_getColorWithOpacity(style->getColor(p.iconColorRole)));
-                            render->drawFilledImage(p.image, BBox2f(pos.x, pos.y, size.x, size.y), AV::Render::ImageCache::Static);
+                            render->drawFilledImage(p.image, BBox2f(pos.x, pos.y, size.x, size.y));
                         }
                         else
                         {
                             render->setFillColor(_getColorWithOpacity(AV::Image::Color(1.f, 1.f, 1.f)));
-                            render->drawImage(p.image, BBox2f(pos.x, pos.y, size.x, size.y), AV::Render::ImageCache::Static);
+                            render->drawImage(p.image, BBox2f(pos.x, pos.y, size.x, size.y));
                         }
                     }
                 }

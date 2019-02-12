@@ -39,31 +39,31 @@ namespace djv
     {
         namespace Render
         {
-            //! This struct provides information about a texture cache item.
-            struct TextureCacheItem
+            //! This struct provides information about a texture atlas item.
+            struct TextureAtlasItem
             {
                 glm::ivec2 size;
-                gl::GLuint texture = 0;
+                size_t textureIndex = 0;
                 Core::Range::FloatRange textureU;
                 Core::Range::FloatRange textureV;
             };
 
-            //! This class provides a texture cache.
-            class TextureCache
+            //! This class provides a texture atlas.
+            class TextureAtlas
             {
-                DJV_NON_COPYABLE(TextureCache);
+                DJV_NON_COPYABLE(TextureAtlas);
 
             public:
-                TextureCache(size_t textureCount, int textureSize, Image::Type, gl::GLenum filter = gl::GL_LINEAR, int border = 1);
-                ~TextureCache();
+                TextureAtlas(size_t textureCount, int textureSize, Image::Type, gl::GLenum filter = gl::GL_LINEAR, int border = 1);
+                ~TextureAtlas();
 
                 size_t getTextureCount() const;
                 int getTextureSize() const;
                 Image::Type getTextureType() const;
                 std::vector<gl::GLuint> getTextures() const;
 
-                bool getItem(Core::UID, TextureCacheItem&);
-                Core::UID addItem(const std::shared_ptr<Image::Data>&, TextureCacheItem&);
+                bool getItem(Core::UID, TextureAtlasItem&);
+                Core::UID addItem(const std::shared_ptr<Image::Data>&, TextureAtlasItem&);
 
                 float getPercentageUsed() const;
 
@@ -72,8 +72,8 @@ namespace djv
 
                 void _getAllNodes(BoxPackingNode*, std::vector<BoxPackingNode*>&);
                 void _getLeafNodes(const BoxPackingNode*, std::vector<const BoxPackingNode*>&) const;
-                void _toTextureCacheItem(const BoxPackingNode*, TextureCacheItem&);
-                void _removeFromCache(BoxPackingNode*);
+                void _toTextureAtlasItem(const BoxPackingNode*, TextureAtlasItem&);
+                void _removeFromAtlas(BoxPackingNode*);
 
 				DJV_PRIVATE();
             };

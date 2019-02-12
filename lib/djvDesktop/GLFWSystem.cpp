@@ -63,13 +63,13 @@ namespace djv
 			}
 
 			void APIENTRY glDebugOutput(
-				gl::GLenum source,
-				gl::GLenum type,
-				GLuint id,
-				gl::GLenum severity,
-				GLsizei length,
+				gl::GLenum     source,
+				gl::GLenum     type,
+				GLuint         id,
+				gl::GLenum     severity,
+				GLsizei        length,
 				const GLchar * message,
-				const void * userParam)
+				const void *   userParam)
 			{
 				switch (severity)
 				{
@@ -177,7 +177,7 @@ namespace djv
 			{
 				glEnable(GL_DEBUG_OUTPUT);
 				glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS);
-				glDebugMessageCallback(glDebugOutput, this);
+				glDebugMessageCallback(glDebugOutput, context);
 				glDebugMessageControl(
 					static_cast<gl::GLenum>(GL_DONT_CARE),
 					static_cast<gl::GLenum>(GL_DONT_CARE),

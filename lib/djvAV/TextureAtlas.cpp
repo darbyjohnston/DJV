@@ -27,7 +27,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include "TextureCache.h"
+#include "TextureAtlas.h"
 
 #include <djvAV/OpenGLTexture.h>
 
@@ -53,7 +53,7 @@ namespace djv
             //!
             //! References:
             //! - http://blackpawn.com/texts/lightmaps/
-            struct TextureCache::BoxPackingNode
+            struct TextureAtlas::BoxPackingNode
             {
                 BoxPackingNode(int border);
                 ~BoxPackingNode();
@@ -63,7 +63,7 @@ namespace djv
 
                 BBox2i bbox;
                 int border = 0;
-                GLuint texture = 0;
+                size_t textureIndex = 0;
                 BoxPackingNode* children[2] = { nullptr, nullptr };
 
                 bool isBranch() const { return children[0]; }
@@ -72,18 +72,18 @@ namespace djv
                 BoxPackingNode* insert(const std::shared_ptr<Image::Data>&);
             };
 
-            TextureCache::BoxPackingNode::BoxPackingNode(int border) :
+            TextureAtlas::BoxPackingNode::BoxPackingNode(int border) :
                 timestamp(++_timestamp),
                 border(border)
             {}
 
-            TextureCache::BoxPackingNode::~BoxPackingNode()
+            TextureAtlas::BoxPackingNode::~BoxPackingNode()
             {
                 delete children[0];
                 delete children[1];
             }
 
-            TextureCache::BoxPackingNode* TextureCache::BoxPackingNode::insert(const std::shared_ptr<Image::Data>& data)
+            TextureAtlas::BoxPackingNode* TextureAtlas::BoxPackingNode::insert(const std::shared_ptr<Image::Data>& data)
             {
                 if (isBranch())
                 {
@@ -135,13 +135,13 @@ namespace djv
                         children[1]->bbox.max.x = bbox.max.x;
                         children[1]->bbox.max.y = bbox.max.y;
                     }
-                    children[0]->texture = texture;
-                    children[1]->texture = texture;
+                    children[0]->textureIndex = textureIndex;
+                    children[1]->textureIndex = textureIndex;
                     return children[0]->insert(data);
                 }
             }
 
-            struct TextureCache::Private
+            struct TextureAtlas::Private
             {
                 size_t textureCount = 0;
                 int textureSize = 0;
@@ -152,7 +152,7 @@ namespace djv
                 std::map<UID, BoxPackingNode*> cache;
             };
 
-            TextureCache::TextureCache(size_t textureCount, int textureSize, Image::Type textureType, GLenum filter, int border) :
+            TextureAtlas::TextureAtlas(size_t textureCount, int textureSize, Image::Type textureType, GLenum filter, int border) :
                 _p(new Private)
             {
                 _p->textureCount = textureCount;
@@ -169,12 +169,12 @@ namespace djv
                     node->bbox.min.y = 0;
                     node->bbox.max.x = textureSize - 1;
                     node->bbox.max.y = textureSize - 1;
-                    node->texture = static_cast<GLuint>(i);
+					node->textureIndex = i;
                     _p->boxPackingNodes.push_back(node);
                 }
             }
 
-            TextureCache::~TextureCache()
+            TextureAtlas::~TextureAtlas()
             {
                 for (auto i : _p->boxPackingNodes)
                 {
@@ -182,22 +182,22 @@ namespace djv
                 }
             }
 
-            size_t TextureCache::getTextureCount() const
+            size_t TextureAtlas::getTextureCount() const
             {
                 return _p->textureCount;
             }
 
-            int TextureCache::getTextureSize() const
+            int TextureAtlas::getTextureSize() const
             {
                 return _p->textureSize;
             }
 
-            Image::Type TextureCache::getTextureType() const
+            Image::Type TextureAtlas::getTextureType() const
             {
                 return _p->textureType;
             }
 
-            std::vector<GLuint> TextureCache::getTextures() const
+            std::vector<GLuint> TextureAtlas::getTextures() const
             {
                 std::vector<GLuint> out;
                 for (const auto& i : _p->textures)
@@ -207,18 +207,18 @@ namespace djv
                 return out;
             }
 
-            bool TextureCache::getItem(UID uid, TextureCacheItem& out)
+            bool TextureAtlas::getItem(UID uid, TextureAtlasItem& out)
             {
                 const auto& i = _p->cache.find(uid);
                 if (i != _p->cache.end())
                 {
-                    _toTextureCacheItem(i->second, out);
+                    _toTextureAtlasItem(i->second, out);
                     return true;
                 }
                 return false;
             }
 
-            UID TextureCache::addItem(const std::shared_ptr<Image::Data>& data, TextureCacheItem& out)
+            UID TextureAtlas::addItem(const std::shared_ptr<Image::Data>& data, TextureAtlasItem& out)
             {
                 static UID _uid = 0;
 
@@ -226,16 +226,16 @@ namespace djv
                 {
                     if (auto node = _p->boxPackingNodes[i]->insert(data))
                     {
-                        // The data has been added to the cache.
+                        // The data has been added to the atlas.
                         node->uid = ++_uid;
-                        _p->textures[node->texture]->copy(*data, node->bbox.min + _p->border);
+                        _p->textures[node->textureIndex]->copy(*data, node->bbox.min + _p->border);
                         _p->cache[node->uid] = node;
-                        _toTextureCacheItem(node, out);
+                        _toTextureAtlasItem(node, out);
                         return node->uid;
                     }
                 }
 
-                // The cache is full, over-write older data.
+                // The atlas is full, over-write older data.
                 std::vector<BoxPackingNode*> nodes;
                 for (size_t i = 0; i < _p->textureCount; ++i)
                 {
@@ -253,7 +253,7 @@ namespace djv
                     if (dataSize.x <= nodeSize.x && dataSize.y <= nodeSize.y)
                     {
                         auto old = node;
-                        _removeFromCache(old);
+                        _removeFromAtlas(old);
                         if (old->isBranch())
                         {
                             for (size_t i = 0; i < 2; ++i)
@@ -273,9 +273,9 @@ namespace djv
                             //zero->zero();
                             //_p->textures[node->texture]->copy(zero, node->bbox.min);
 
-                            _p->textures[node->texture]->copy(*data, node->bbox.min + _p->border);
+                            _p->textures[node->textureIndex]->copy(*data, node->bbox.min + _p->border);
                             _p->cache[node->uid] = node;
-                            _toTextureCacheItem(node, out);
+                            _toTextureAtlasItem(node, out);
 
                             return node->uid;
                         }
@@ -284,7 +284,7 @@ namespace djv
                 return 0;
             }
 
-            float TextureCache::getPercentageUsed() const
+            float TextureAtlas::getPercentageUsed() const
             {
                 float out = 0.f;
                 for (size_t i = 0; i < _p->textureCount; ++i)
@@ -304,7 +304,7 @@ namespace djv
                 return out / static_cast<float>(_p->textureSize * _p->textureSize) / static_cast<float>(_p->textureCount) * 100.f;
             }
 
-            void TextureCache::_getAllNodes(BoxPackingNode* node, std::vector<BoxPackingNode*>& out)
+            void TextureAtlas::_getAllNodes(BoxPackingNode* node, std::vector<BoxPackingNode*>& out)
             {
                 out.push_back(node);
                 if (node->isBranch())
@@ -314,7 +314,7 @@ namespace djv
                 }
             }
 
-            void TextureCache::_getLeafNodes(const BoxPackingNode* node, std::vector<const BoxPackingNode*>& out) const
+            void TextureAtlas::_getLeafNodes(const BoxPackingNode* node, std::vector<const BoxPackingNode*>& out) const
             {
                 if (node->isBranch())
                 {
@@ -327,10 +327,10 @@ namespace djv
                 }
             }
 
-            void TextureCache::_toTextureCacheItem(const BoxPackingNode* node, TextureCacheItem& out)
+            void TextureAtlas::_toTextureAtlasItem(const BoxPackingNode* node, TextureAtlasItem& out)
             {
                 out.size = node->bbox.getSize();
-                out.texture = node->texture;
+                out.textureIndex = node->textureIndex;
                 out.textureU = Range::FloatRange(
                     (node->bbox.min.x + _p->border) / static_cast<float>(_p->textureSize),
                     (node->bbox.max.x - _p->border + 1) / static_cast<float>(_p->textureSize));
@@ -339,7 +339,7 @@ namespace djv
                     (node->bbox.max.y - _p->border + 1) / static_cast<float>(_p->textureSize));
             }
 
-            void TextureCache::_removeFromCache(BoxPackingNode* node)
+            void TextureAtlas::_removeFromAtlas(BoxPackingNode* node)
             {
                 auto i = _p->cache.find(node->uid);
                 if (i != _p->cache.end())
@@ -349,8 +349,8 @@ namespace djv
                 }
                 if (node->isBranch())
                 {
-                    _removeFromCache(node->children[0]);
-                    _removeFromCache(node->children[1]);
+                    _removeFromAtlas(node->children[0]);
+                    _removeFromAtlas(node->children[1]);
                 }
             }
 

@@ -327,7 +327,7 @@ namespace djv
 							{
 								y = i.second->geom.min.y + ceilf(i.second->size.y / 2.f - iconSize / 2.f);
 								render->setFillColor(_getColorWithOpacity(style->getColor(colorRole)));
-								render->drawFilledImage(i.second->icon, BBox2f(x, y, iconSize, iconSize), AV::Render::ImageCache::Static);
+								render->drawFilledImage(i.second->icon, BBox2f(x, y, iconSize, iconSize));
 							}
 
 							if (!i.second->text.empty())

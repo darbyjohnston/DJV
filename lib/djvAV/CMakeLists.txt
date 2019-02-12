@@ -47,7 +47,7 @@ set(header
     Shader.h
     Shape.h
     Tags.h
-    TextureCache.h
+    TextureAtlas.h
     ThumbnailSystem.h
     TriangleMesh.h)
 set(source
@@ -78,7 +78,7 @@ set(source
     Shape.cpp
     Shader.cpp
     Tags.cpp
-    TextureCache.cpp
+    TextureAtlas.cpp
     ThumbnailSystem.cpp
     TriangleMesh.cpp)
 if(JPEG_FOUND)

@@ -402,8 +402,7 @@ namespace djv
 											render->setFillColor(_getColorWithOpacity(AV::Image::Color(1.f, 1.f, 1.f, opacity)));
 											render->drawImage(
 												j->second,
-												BBox2f(x, y, static_cast<float>(size.x), static_cast<float>(size.y)),
-												AV::Render::ImageCache::Static);
+												BBox2f(x, y, static_cast<float>(size.x), static_cast<float>(size.y)));
 										}
                                     }
                                 }
@@ -433,8 +432,7 @@ namespace djv
                                         render->setFillColor(_getColorWithOpacity(c));
                                         render->drawFilledImage(
                                             j->second,
-                                            BBox2f(x, y, static_cast<float>(size.x), static_cast<float>(size.y)),
-                                            AV::Render::ImageCache::Static);
+                                            BBox2f(x, y, static_cast<float>(size.x), static_cast<float>(size.y)));
                                     }
                                 }
                                 {

@@ -54,7 +54,7 @@ namespace djv
         {
             enum class ImageCache
             {
-                Static,
+                Atlas,
                 Dynamic
             };
 
@@ -95,12 +95,12 @@ namespace djv
                 void drawImage(
                     const std::shared_ptr<Image::Data> &,
                     const Core::BBox2f &,
-                    ImageCache);
+                    ImageCache = ImageCache::Atlas);
 
                 void drawFilledImage(
                     const std::shared_ptr<Image::Data> &,
                     const Core::BBox2f &,
-                    ImageCache);
+                    ImageCache = ImageCache::Atlas);
 
                 ///@}
 
