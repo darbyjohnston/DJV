@@ -108,11 +108,10 @@ namespace djv
 
             float Splitter::getHeightForWidth(float value) const
             {
+                DJV_PRIVATE_PTR();
                 float out = 0.f;
                 if (auto style = _getStyle().lock())
                 {
-                    DJV_PRIVATE_PTR();
-
                     // Get the child sizes.
                     const glm::vec2 m = getMargin().getSize(style);
                     for (const auto& child : getChildrenT<Widget>())
@@ -149,10 +148,9 @@ namespace djv
 
             void Splitter::_preLayoutEvent(Event::PreLayout& event)
             {
+                DJV_PRIVATE_PTR();
                 if (auto style = _getStyle().lock())
                 {
-                    DJV_PRIVATE_PTR();
-
                     // Get the child sizes.
                     glm::vec2 minimumSize = glm::vec2(0.f, 0.f);
                     for (const auto& child : getChildrenT<Widget>())
@@ -193,10 +191,9 @@ namespace djv
 
             void Splitter::_layoutEvent(Event::Layout& event)
             {
+                DJV_PRIVATE_PTR();
                 if (auto style = _getStyle().lock())
                 {
-                    DJV_PRIVATE_PTR();
-
                     const BBox2f& g = getMargin().bbox(getGeometry(), style);
 
                     const auto children = getChildrenT<Widget>();
@@ -246,12 +243,11 @@ namespace djv
             void Splitter::_paintEvent(Event::Paint& event)
             {
                 Widget::_paintEvent(event);
+                DJV_PRIVATE_PTR();
                 if (auto render = _getRender().lock())
                 {
                     if (auto style = _getStyle().lock())
                     {
-                        DJV_PRIVATE_PTR();
-
                         const BBox2f& sg = _getSplitterGeometry();
                         const BBox2f& hg = _getHandleGeometry();
 
@@ -298,8 +294,8 @@ namespace djv
 
             void Splitter::_pointerLeaveEvent(Event::PointerLeave& event)
             {
-                event.accept();
                 DJV_PRIVATE_PTR();
+                event.accept();
                 auto i = p.hover.find(event.getPointerInfo().id);
                 if (i != p.hover.end())
                 {
@@ -311,7 +307,6 @@ namespace djv
             void Splitter::_pointerMoveEvent(Event::PointerMove& event)
             {
                 DJV_PRIVATE_PTR();
-
                 const auto id = event.getPointerInfo().id;
                 const auto& pos = event.getPointerInfo().projectedPos;
                 p.hover[id] = _getSplitterGeometry().contains(pos);
@@ -365,9 +360,9 @@ namespace djv
 
             void Splitter::_updateEvent(Event::Update&)
             {
+                DJV_PRIVATE_PTR();
                 if (auto style = _getStyle().lock())
                 {
-                    DJV_PRIVATE_PTR();
                     const float value = style->getMetric(MetricsRole::Handle);
                     if (value != p.splitterWidth)
                     {
@@ -379,9 +374,9 @@ namespace djv
 
             float Splitter::_valueToPos(float value) const
             {
+                DJV_PRIVATE_PTR();
                 const BBox2f& g = getGeometry();
                 float out = 0.f;
-                DJV_PRIVATE_PTR();
                 switch (p.orientation)
                 {
                 case Orientation::Horizontal:
@@ -397,9 +392,9 @@ namespace djv
 
             float Splitter::_posToValue(float value) const
             {
+                DJV_PRIVATE_PTR();
                 const BBox2f& g = getGeometry();
                 float out = 0.f;
-                DJV_PRIVATE_PTR();
                 switch (p.orientation)
                 {
                 case Orientation::Horizontal:
@@ -415,10 +410,10 @@ namespace djv
 
             BBox2f Splitter::_getSplitterGeometry() const
             {
+                DJV_PRIVATE_PTR();
                 BBox2f out;
                 const auto style = _getStyle();
                 const BBox2f& g = getGeometry();
-                DJV_PRIVATE_PTR();
                 switch (p.orientation)
                 {
                 case Orientation::Horizontal:

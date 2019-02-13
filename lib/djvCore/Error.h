@@ -37,10 +37,11 @@ namespace djv
 {
     namespace Core
     {
-        //! This namespace provides error functionality.
+        //! This namespace provides error handling functionality.
         namespace Error
         {
-            std::string format(const std::exception&);
+			//! Format a std::exception for display to the user.
+            std::string format(const std::exception &);
 
 #if defined(DJV_PLATFORM_WINDOWS)
             //! Get an error string from a Windows system call.

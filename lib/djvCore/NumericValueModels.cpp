@@ -27,71 +27,45 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#pragma once
-
-#include <djvCore/String.h>
+#include <djvCore/NumericValueModels.h>
 
 namespace djv
 {
     namespace Core
     {
-        //! This namespace provides number range functionality.
-        namespace Range
+        void IntValueModel::_init()
         {
-            //! This class provides a range of numbers.
-            template<typename T>
-            struct tRange
-            {
-                inline tRange();
-                inline tRange(T minMax);
-                inline tRange(T min, T max);
-                virtual inline ~tRange();
+            INumericValueModel<int>::_init();
+            setRange(IntRange(0, 100));
+            setIncrement(1);
+        }
 
-                //! \name Range Components
-                ///@{
+        IntValueModel::IntValueModel()
+        {}
 
-                T min = static_cast<T>(0);
-                T max = static_cast<T>(0);
+        std::shared_ptr<IntValueModel> IntValueModel::create()
+        {
+            auto out = std::shared_ptr<IntValueModel>(new IntValueModel);
+            out->_init();
+            return out;
+        }
 
-                ///@}
+        void FloatValueModel::_init()
+        {
+            INumericValueModel<float>::_init();
+            setRange(FloatRange(0.f, 1.f));
+            setIncrement(.1f);
+        }
 
-                //! \name Range Utilities
-                ///@{
+        FloatValueModel::FloatValueModel()
+        {}
 
-                inline T getSize() const;
-                inline void zero();
-
-                inline bool contains(T) const;
-
-                inline bool intersects(const tRange<T>&) const;
-
-                inline void expand(T);
-                inline void expand(const tRange<T>&);
-
-                inline T getRandom() const;
-
-                ///@}
-
-                inline bool operator == (const tRange<T>&) const;
-                inline bool operator != (const tRange<T>&) const;
-                inline bool operator  < (const tRange<T>&) const;
-            };
-
-        } // namespace Range
-
-        //! This typedef provides an integer range.
-		typedef Range::tRange<int> IntRange;
-
-		//! This typedef provides a floating point range.
-		typedef Range::tRange<float> FloatRange;
+        std::shared_ptr<FloatValueModel> FloatValueModel::create()
+        {
+            auto out = std::shared_ptr<FloatValueModel>(new FloatValueModel);
+            out->_init();
+            return out;
+        }
 
     } // namespace Core
-
-    template<typename T>
-    inline std::ostream& operator << (std::ostream&, const Core::Range::tRange<T>&);
-    template<typename T>
-    inline std::istream& operator >> (std::istream&, Core::Range::tRange<T>&);
-
 } // namespace djv
-
-#include <djvCore/RangeInline.h>

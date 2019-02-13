@@ -29,69 +29,56 @@
 
 #pragma once
 
-#include <djvCore/String.h>
+#include <djvCore/Range.h>
+#include <djvCore/ValueObserver.h>
 
 namespace djv
 {
-    namespace Core
-    {
-        //! This namespace provides number range functionality.
-        namespace Range
-        {
-            //! This class provides a range of numbers.
-            template<typename T>
-            struct tRange
-            {
-                inline tRange();
-                inline tRange(T minMax);
-                inline tRange(T min, T max);
-                virtual inline ~tRange();
+	namespace Core
+	{
+		//! This enumeration provides options for what happens when the
+		//! value range is exceeded.
+		enum class NumericValueOverflow
+		{
+			Clamp,
+			Wrap
+		};
 
-                //! \name Range Components
-                ///@{
+		//! This class provides an interface for numeric value models.
+        template<typename T>
+		class INumericValueModel
+		{
+			DJV_NON_COPYABLE(INumericValueModel);
 
-                T min = static_cast<T>(0);
-                T max = static_cast<T>(0);
+        protected:
+			inline void _init();
+            inline INumericValueModel();
 
-                ///@}
+		public:
+            inline virtual ~INumericValueModel() = 0;
 
-                //! \name Range Utilities
-                ///@{
+            inline std::shared_ptr<IValueSubject<Range::tRange<T> > > observeRange() const;
+            inline void setRange(const Range::tRange<T> &);
 
-                inline T getSize() const;
-                inline void zero();
+            inline std::shared_ptr<IValueSubject<T> > observeValue() const;
+            inline void setValue(T);
 
-                inline bool contains(T) const;
+            inline std::shared_ptr<IValueSubject<T> > observeIncrement() const;
+            inline void incrementValue();
+            inline void decrementValue();
+            inline void setIncrement(T);
 
-                inline bool intersects(const tRange<T>&) const;
+            inline std::shared_ptr<IValueSubject<NumericValueOverflow> > observeOverflow() const;
+            inline void setOverflow(NumericValueOverflow);
 
-                inline void expand(T);
-                inline void expand(const tRange<T>&);
+		private:
+            std::shared_ptr<ValueSubject<Range::tRange<T> > >    _range;
+            std::shared_ptr<ValueSubject<T> >                    _value;
+            std::shared_ptr<ValueSubject<T> >                    _increment;
+            std::shared_ptr<ValueSubject<NumericValueOverflow> > _overflow;
+		};
 
-                inline T getRandom() const;
-
-                ///@}
-
-                inline bool operator == (const tRange<T>&) const;
-                inline bool operator != (const tRange<T>&) const;
-                inline bool operator  < (const tRange<T>&) const;
-            };
-
-        } // namespace Range
-
-        //! This typedef provides an integer range.
-		typedef Range::tRange<int> IntRange;
-
-		//! This typedef provides a floating point range.
-		typedef Range::tRange<float> FloatRange;
-
-    } // namespace Core
-
-    template<typename T>
-    inline std::ostream& operator << (std::ostream&, const Core::Range::tRange<T>&);
-    template<typename T>
-    inline std::istream& operator >> (std::istream&, Core::Range::tRange<T>&);
-
+	} // namespace Core
 } // namespace djv
 
-#include <djvCore/RangeInline.h>
+#include <djvCore/INumericValueModelInline.h>

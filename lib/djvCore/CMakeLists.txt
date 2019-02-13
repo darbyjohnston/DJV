@@ -29,6 +29,8 @@ set(header
     FrameInline.h
     ICommand.h
     IEventSystem.h
+    INumericValueModel.h
+    INumericValueModelInline.h
     IObject.h
     IObjectInline.h
     ISystem.h
@@ -44,6 +46,7 @@ set(header
     MatrixInline.h
     Memory.h
     MemoryInline.h
+    NumericValueModels.h
     OS.h
     Path.h
     PathInline.h
@@ -88,6 +91,7 @@ set(source
     LogSystem.cpp
     Math.cpp
     Memory.cpp
+    NumericValueModels.cpp
     OS.cpp
     RecentFilesModel.cpp
     ResourceSystem.cpp

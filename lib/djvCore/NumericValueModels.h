@@ -29,69 +29,35 @@
 
 #pragma once
 
-#include <djvCore/String.h>
+#include <djvCore/INumericValueModel.h>
 
 namespace djv
 {
     namespace Core
     {
-        //! This namespace provides number range functionality.
-        namespace Range
+        class IntValueModel : public INumericValueModel<int>
         {
-            //! This class provides a range of numbers.
-            template<typename T>
-            struct tRange
-            {
-                inline tRange();
-                inline tRange(T minMax);
-                inline tRange(T min, T max);
-                virtual inline ~tRange();
+            DJV_NON_COPYABLE(IntValueModel);
 
-                //! \name Range Components
-                ///@{
+        protected:
+            void _init();
+            IntValueModel();
 
-                T min = static_cast<T>(0);
-                T max = static_cast<T>(0);
+        public:
+            static std::shared_ptr<IntValueModel> create();
+        };
 
-                ///@}
+        class FloatValueModel : public INumericValueModel<float>
+        {
+            DJV_NON_COPYABLE(FloatValueModel);
 
-                //! \name Range Utilities
-                ///@{
+        protected:
+            void _init();
+            FloatValueModel();
 
-                inline T getSize() const;
-                inline void zero();
-
-                inline bool contains(T) const;
-
-                inline bool intersects(const tRange<T>&) const;
-
-                inline void expand(T);
-                inline void expand(const tRange<T>&);
-
-                inline T getRandom() const;
-
-                ///@}
-
-                inline bool operator == (const tRange<T>&) const;
-                inline bool operator != (const tRange<T>&) const;
-                inline bool operator  < (const tRange<T>&) const;
-            };
-
-        } // namespace Range
-
-        //! This typedef provides an integer range.
-		typedef Range::tRange<int> IntRange;
-
-		//! This typedef provides a floating point range.
-		typedef Range::tRange<float> FloatRange;
+        public:
+            static std::shared_ptr<FloatValueModel> create();
+        };
 
     } // namespace Core
-
-    template<typename T>
-    inline std::ostream& operator << (std::ostream&, const Core::Range::tRange<T>&);
-    template<typename T>
-    inline std::istream& operator >> (std::istream&, Core::Range::tRange<T>&);
-
 } // namespace djv
-
-#include <djvCore/RangeInline.h>

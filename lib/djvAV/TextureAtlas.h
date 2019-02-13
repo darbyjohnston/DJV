@@ -44,8 +44,8 @@ namespace djv
             {
                 glm::ivec2 size;
                 size_t textureIndex = 0;
-                Core::Range::FloatRange textureU;
-                Core::Range::FloatRange textureV;
+                Core::FloatRange textureU;
+                Core::FloatRange textureV;
             };
 
             //! This class provides a texture atlas.

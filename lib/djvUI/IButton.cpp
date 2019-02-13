@@ -174,6 +174,7 @@ namespace djv
             void IButton::_paintEvent(Event::Paint& event)
             {
                 Widget::_paintEvent(event);
+                DJV_PRIVATE_PTR();
                 if (auto render = _getRender().lock())
                 {
                     if (auto style = _getStyle().lock())
@@ -181,7 +182,6 @@ namespace djv
                         const BBox2f& g = getGeometry();
 
                         // Draw the toggled state.
-                        DJV_PRIVATE_PTR();
                         if (_isToggled() && p.checkedColorRole != ColorRole::None)
                         {
                             render->setFillColor(_getColorWithOpacity(style->getColor(p.checkedColorRole)));
@@ -223,10 +223,10 @@ namespace djv
 
             void IButton::_pointerMoveEvent(Event::PointerMove& event)
             {
+                DJV_PRIVATE_PTR();
                 event.accept();
                 const auto id = event.getPointerInfo().id;
-                const auto& pos = event.getPointerInfo().projectedPos;
-                DJV_PRIVATE_PTR();
+                const auto & pos = event.getPointerInfo().projectedPos;
                 if (id == p.pressedID)
                 {
                     if (auto style = _getStyle().lock())
@@ -250,7 +250,7 @@ namespace djv
                     return;
                 event.accept();
                 const auto & pointerInfo = event.getPointerInfo();
-                p.pressedID = pointerInfo.id;
+                p.pressedID  = pointerInfo.id;
                 p.pressedPos = pointerInfo.projectedPos;
                 _redraw();
             }

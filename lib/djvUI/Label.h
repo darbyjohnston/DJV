@@ -51,15 +51,15 @@ namespace djv
             ///@{
 
             static std::shared_ptr<Label> create(Core::Context *);
-            static std::shared_ptr<Label> create(const std::string&, Core::Context *);
+            static std::shared_ptr<Label> create(const std::string &, Core::Context *);
 
             ///@}
 
             //! \name Label Text
             ///@{
 
-            const std::string& getText() const;
-            void setText(const std::string&);
+            const std::string & getText() const;
+            void setText(const std::string &);
 
             TextHAlign getTextHAlign() const;
             TextVAlign getTextVAlign() const;
@@ -76,12 +76,15 @@ namespace djv
             void setFontFace(const std::string &);
             void setFontSizeRole(MetricsRole);
 
+            const std::string & getSizeString() const;
+            void setSizeString(const std::string &);
+
             ///@}
 
         protected:
-            void _styleEvent(Core::Event::Style&) override;
-            void _preLayoutEvent(Core::Event::PreLayout&) override;
-            void _paintEvent(Core::Event::Paint&) override;
+            void _styleEvent(Core::Event::Style &) override;
+            void _preLayoutEvent(Core::Event::PreLayout &) override;
+            void _paintEvent(Core::Event::Paint &) override;
 
         private:
             void _textUpdate();

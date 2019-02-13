@@ -9,6 +9,8 @@ set(header
     Enum.h
     EnumJSON.h
     EnumJSONInline.h
+    FloatValueLabel.h
+    FloatValueSlider.h
     FlowLayout.h
     FontSettings.h
     FormLayout.h
@@ -24,6 +26,8 @@ set(header
     Icon.h
     IconSystem.h
     ImageWidget.h
+    IntValueLabel.h
+    IntValueSlider.h
     Label.h
     LineEdit.h
     LineEditBase.h
@@ -75,6 +79,8 @@ set(source
     ComboBox.cpp
     DialogSystem.cpp
     Enum.cpp
+    FloatValueLabel.cpp
+    FloatValueSlider.cpp
     FlowLayout.cpp
     FontSettings.cpp
     FormLayout.cpp
@@ -89,6 +95,8 @@ set(source
     Icon.cpp
     IconSystem.cpp
     ImageWidget.cpp
+    IntValueLabel.cpp
+    IntValueSlider.cpp
     Label.cpp
     LineEdit.cpp
     LineEditBase.cpp

@@ -761,8 +761,8 @@ namespace djv
                             data.color = color;
 
 							data.imageCache = cache;
-							Range::FloatRange textureU;
-							Range::FloatRange textureV;
+							FloatRange textureU;
+							FloatRange textureV;
 							const UID uid = imageData->getUID();
 							switch (cache)
 							{

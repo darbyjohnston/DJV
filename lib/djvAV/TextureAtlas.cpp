@@ -331,11 +331,11 @@ namespace djv
             {
                 out.size = node->bbox.getSize();
                 out.textureIndex = node->textureIndex;
-                out.textureU = Range::FloatRange(
-                    (node->bbox.min.x + _p->border) / static_cast<float>(_p->textureSize),
+                out.textureU = FloatRange(
+                    (node->bbox.min.x + _p->border)     / static_cast<float>(_p->textureSize),
                     (node->bbox.max.x - _p->border + 1) / static_cast<float>(_p->textureSize));
-                out.textureV = Range::FloatRange(
-                    (node->bbox.min.y + _p->border) / static_cast<float>(_p->textureSize),
+                out.textureV = FloatRange(
+                    (node->bbox.min.y + _p->border)     / static_cast<float>(_p->textureSize),
                     (node->bbox.max.y - _p->border + 1) / static_cast<float>(_p->textureSize));
             }
 

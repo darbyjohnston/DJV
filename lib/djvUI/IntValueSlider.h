@@ -29,69 +29,59 @@
 
 #pragma once
 
-#include <djvCore/String.h>
+#include <djvUI/Widget.h>
 
 namespace djv
 {
     namespace Core
     {
-        //! This namespace provides number range functionality.
-        namespace Range
-        {
-            //! This class provides a range of numbers.
-            template<typename T>
-            struct tRange
-            {
-                inline tRange();
-                inline tRange(T minMax);
-                inline tRange(T min, T max);
-                virtual inline ~tRange();
-
-                //! \name Range Components
-                ///@{
-
-                T min = static_cast<T>(0);
-                T max = static_cast<T>(0);
-
-                ///@}
-
-                //! \name Range Utilities
-                ///@{
-
-                inline T getSize() const;
-                inline void zero();
-
-                inline bool contains(T) const;
-
-                inline bool intersects(const tRange<T>&) const;
-
-                inline void expand(T);
-                inline void expand(const tRange<T>&);
-
-                inline T getRandom() const;
-
-                ///@}
-
-                inline bool operator == (const tRange<T>&) const;
-                inline bool operator != (const tRange<T>&) const;
-                inline bool operator  < (const tRange<T>&) const;
-            };
-
-        } // namespace Range
-
-        //! This typedef provides an integer range.
-		typedef Range::tRange<int> IntRange;
-
-		//! This typedef provides a floating point range.
-		typedef Range::tRange<float> FloatRange;
+        class IntValueModel;
 
     } // namespace Core
 
-    template<typename T>
-    inline std::ostream& operator << (std::ostream&, const Core::Range::tRange<T>&);
-    template<typename T>
-    inline std::istream& operator >> (std::istream&, Core::Range::tRange<T>&);
+    namespace UI
+    {
+        //! This namespace provides slider widgets.
+        namespace Slider
+        {
+            //! This class provides an integer value slider.
+            class IntValue : public Widget
+            {
+                DJV_NON_COPYABLE(IntValue);
 
+            protected:
+                void _init(Orientation, Core::Context *);
+                IntValue();
+
+            public:
+                virtual ~IntValue();
+
+                static std::shared_ptr<IntValue> create(Orientation, Core::Context *);
+
+                const std::shared_ptr<Core::IntValueModel> & getModel() const;
+                void setModel(const std::shared_ptr<Core::IntValueModel> &);
+
+            protected:
+                void _preLayoutEvent(Core::Event::PreLayout&) override;
+                void _paintEvent(Core::Event::Paint&) override;
+                void _pointerEnterEvent(Core::Event::PointerEnter&) override;
+                void _pointerLeaveEvent(Core::Event::PointerLeave&) override;
+                void _pointerMoveEvent(Core::Event::PointerMove&) override;
+                void _buttonPressEvent(Core::Event::ButtonPress&) override;
+                void _buttonReleaseEvent(Core::Event::ButtonRelease&) override;
+
+            private:
+                ColorRole _getColorRole() const;
+
+                float _valueToPos(int) const;
+                int _posToValue(float) const;
+
+                DJV_PRIVATE();
+            };
+
+        } // namespace Slider
+
+        typedef Slider::IntValue IntValueSlider;
+
+    } // namespace UI
 } // namespace djv
-
-#include <djvCore/RangeInline.h>

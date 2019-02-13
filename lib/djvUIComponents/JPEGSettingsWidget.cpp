@@ -30,12 +30,15 @@
 #include <djvUIComponents/JPEGSettingsWidget.h>
 
 #include <djvUI/GroupBox.h>
+#include <djvUI/IntValueLabel.h>
+#include <djvUI/IntValueSlider.h>
 #include <djvUI/RowLayout.h>
 
 #include <djvAV/JPEG.h>
 #include <djvAV/JPEGJSON.h>
 
 #include <djvCore/Context.h>
+#include <djvCore/NumericValueModels.h>
 
 using namespace djv::Core;
 
@@ -45,7 +48,9 @@ namespace djv
     {
 		struct JPEGSettingsWidget::Private
 		{
+            AV::IO::JPEG::Settings settings;
 			std::shared_ptr<GroupBox> qualityGroupBox;
+            std::shared_ptr<ValueObserver<int> > qualityObserver;
 		};
 
 		void JPEGSettingsWidget::_init(Context * context)
@@ -57,16 +62,38 @@ namespace djv
 			setMargin(MetricsRole::MarginLarge);
 			setSpacing(MetricsRole::SpacingLarge);
 
-			p.qualityGroupBox = GroupBox::create(context);
+            auto qualitySlider = IntValueSlider::create(Orientation::Horizontal, context);
+            auto qualityLabel = IntValueLabel::create(context);
+            auto qualityModel = qualitySlider->getModel();
+            qualityModel->setRange(IntRange(0, 100));
+            qualityLabel->setModel(qualityModel);
+            p.qualityGroupBox = GroupBox::create(context);
+            auto hLayout = HorizontalLayout::create(context);
+            hLayout->addWidget(qualityLabel);
+            hLayout->addWidget(qualitySlider);
+            p.qualityGroupBox->addWidget(hLayout);
 			addWidget(p.qualityGroupBox);
 
 			if (auto io = context->getSystemT<AV::IO::System>().lock())
 			{
-				AV::IO::JPEG::Settings settings;
-				fromJSON(io->getOptions(AV::IO::JPEG::pluginName), settings);
+				fromJSON(io->getOptions(AV::IO::JPEG::pluginName), p.settings);
+                qualityModel->setValue(p.settings.quality);
 			}
 
 			auto weak = std::weak_ptr<JPEGSettingsWidget>(std::dynamic_pointer_cast<JPEGSettingsWidget>(shared_from_this()));
+            p.qualityObserver = ValueObserver<int>::create(
+                qualityModel->observeValue(),
+                [weak, context](int value)
+            {
+                if (auto widget = weak.lock())
+                {
+                    if (auto io = context->getSystemT<AV::IO::System>().lock())
+                    {
+                        widget->_p->settings.quality = value;
+                        io->setOptions(AV::IO::JPEG::pluginName, toJSON(widget->_p->settings));
+                    }
+                }
+            });
 		}
 
 		JPEGSettingsWidget::JPEGSettingsWidget() :

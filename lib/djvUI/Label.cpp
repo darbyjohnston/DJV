@@ -52,6 +52,9 @@ namespace djv
             std::future<AV::Font::Metrics> fontMetricsFuture;
             glm::vec2 textSize = glm::vec2(0.f, 0.f);
             std::future<glm::vec2> textSizeFuture;
+            std::string sizeString;
+            glm::vec2 sizeStringSize = glm::vec2(0.f, 0.f);
+            std::future<glm::vec2> sizeStringFuture;
         };
 
         void Label::_init(Context * context)
@@ -74,19 +77,19 @@ namespace djv
             return out;
         }
 
-        std::shared_ptr<Label> Label::create(const std::string& text, Context * context)
+        std::shared_ptr<Label> Label::create(const std::string & text, Context * context)
         {
             auto out = Label::create(context);
             out->setText(text);
             return out;
         }
 
-        const std::string& Label::getText() const
+        const std::string & Label::getText() const
         {
             return _p->text;
         }
 
-        void Label::setText(const std::string& value)
+        void Label::setText(const std::string & value)
         {
             DJV_PRIVATE_PTR();
             if (value == p.text)
@@ -179,12 +182,26 @@ namespace djv
             _textUpdate();
         }
 
-        void Label::_styleEvent(Event::Style& event)
+        const std::string & Label::getSizeString() const
+        {
+            return _p->sizeString;
+        }
+
+        void Label::setSizeString(const std::string & value)
+        {
+            DJV_PRIVATE_PTR();
+            if (value == p.sizeString)
+                return;
+            p.sizeString = value;
+            _textUpdate();
+        }
+
+        void Label::_styleEvent(Event::Style & event)
         {
             _textUpdate();
         }
 
-        void Label::_preLayoutEvent(Event::PreLayout&)
+        void Label::_preLayoutEvent(Event::PreLayout &)
         {
 			DJV_PRIVATE_PTR();
 			if (auto style = _getStyle().lock())
@@ -196,30 +213,42 @@ namespace djv
 						p.fontMetrics = p.fontMetricsFuture.get();
 						_resize();
 					}
-					catch (const std::exception& e)
+					catch (const std::exception & e)
 					{
 						_log(e.what(), LogLevel::Error);
 					}
 				}
-				if (p.textSizeFuture.valid())
-				{
-					try
-					{
-						p.textSize = p.textSizeFuture.get();
-						_resize();
-					}
-					catch (const std::exception& e)
-					{
-						_log(e.what(), LogLevel::Error);
-					}
-				}
+                if (p.textSizeFuture.valid())
+                {
+                    try
+                    {
+                        p.textSize = p.textSizeFuture.get();
+                        _resize();
+                    }
+                    catch (const std::exception & e)
+                    {
+                        _log(e.what(), LogLevel::Error);
+                    }
+                }
+                if (p.sizeStringFuture.valid())
+                {
+                    try
+                    {
+                        p.sizeStringSize = p.sizeStringFuture.get();
+                        _resize();
+                    }
+                    catch (const std::exception & e)
+                    {
+                        _log(e.what(), LogLevel::Error);
+                    }
+                }
 
-                glm::vec2 size = p.textSize;
+                glm::vec2 size = glm::max(p.textSize, p.sizeStringSize);
                 _setMinimumSize(size + getMargin().getSize(style));
             }
         }
 
-        void Label::_paintEvent(Event::Paint& event)
+        void Label::_paintEvent(Event::Paint & event)
         {
             Widget::_paintEvent(event);
 			DJV_PRIVATE_PTR();
@@ -227,7 +256,7 @@ namespace djv
             {
                 if (auto style = _getStyle().lock())
                 {
-                    const BBox2f& g = getMargin().bbox(getGeometry(), style);
+                    const BBox2f & g = getMargin().bbox(getGeometry(), style);
                     const glm::vec2 c = g.getCenter();
 
                     auto fontInfo = p.font.empty() ?
@@ -284,6 +313,10 @@ namespace djv
                         style->getFontInfo(p.font, p.fontFace, p.fontSizeRole);
                     p.fontMetricsFuture = fontSystem->getMetrics(fontInfo);
                     p.textSizeFuture = fontSystem->measure(p.text, fontInfo);
+                    if (!p.sizeString.empty())
+                    {
+                        p.sizeStringFuture = fontSystem->measure(p.sizeString, fontInfo);
+                    }
                     _resize();
                 }
             }
