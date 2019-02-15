@@ -32,8 +32,13 @@
 #include <djvViewLib/IMDIWidget.h>
 #include <djvViewLib/SettingsWidget.h>
 
-#include <djvUIComponents/AVIOSettingsWidget.h>
-#include <djvUIComponents/GeneralSettingsWidget.h>
+#include <djvUIComponents/DisplaySettingsWidget.h>
+#include <djvUIComponents/LanguageSettingsWidget.h>
+#include <djvUIComponents/PPMSettingsWidget.h>
+#include <djvUIComponents/PaletteSettingsWidget.h>
+#if defined(JPEG_FOUND)
+#include <djvUIComponents/JPEGSettingsWidget.h>
+#endif
 
 #include <djvUI/Action.h>
 #include <djvUI/ButtonGroup.h>
@@ -55,7 +60,7 @@ namespace djv
         struct SettingsSystem::Private
         {
             std::map<std::string, std::shared_ptr<UI::Action> > actions;
-            std::map<std::string, std::shared_ptr<UI::Widget> > settingsWidgets;
+            std::vector<std::shared_ptr<UI::ISettingsWidget> > settingsWidgets;
 			std::shared_ptr<SettingsWidget> settingsWidget;
 			std::map<std::string, std::shared_ptr<ValueObserver<bool> > > clickedObservers;
         };
@@ -65,8 +70,13 @@ namespace djv
             IViewSystem::_init("djv::ViewLib::SettingsSystem", context);
 
             DJV_PRIVATE_PTR();
-			p.settingsWidgets["General"] = UI::GeneralSettingsWidget::create(context);
-			p.settingsWidgets["IO"] = UI::AVIOSettingsWidget::create(context);
+            p.settingsWidgets.push_back(UI::DisplaySettingsWidget::create(context));
+            p.settingsWidgets.push_back(UI::LanguageSettingsWidget::create(context));
+            p.settingsWidgets.push_back(UI::PPMSettingsWidget::create(context));
+            p.settingsWidgets.push_back(UI::PaletteSettingsWidget::create(context));
+#if defined(JPEG_FOUND)
+            p.settingsWidgets.push_back(UI::JPEGSettingsWidget::create(context));
+#endif
 			p.settingsWidget = SettingsWidget::create(context);
         }
 
@@ -95,14 +105,9 @@ namespace djv
             return _p->actions;
         }
 
-        std::vector<NewSettingsWidget> SettingsSystem::getSettingsWidgets()
+        std::vector<std::shared_ptr<UI::ISettingsWidget> > SettingsSystem::getSettingsWidgets()
         {
-            DJV_PRIVATE_PTR();
-            return
-            {
-				{ p.settingsWidgets["General"], DJV_TEXT("djv::ViewLib::SettingsWidget", "General"), "A" },
-				{ p.settingsWidgets["IO"], DJV_TEXT("djv::ViewLib::SettingsWidget", "I/O"), "Z" }
-            };
+            return _p->settingsWidgets;
         }
 
 		std::vector<NewMDIWidget> SettingsSystem::getMDIWidgets()

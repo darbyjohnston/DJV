@@ -53,12 +53,9 @@ namespace djv
 
 		void PPMSettingsWidget::_init(Context * context)
 		{
-			VerticalLayout::_init(context);
+            ISettingsWidget::_init(context);
 
 			DJV_PRIVATE_PTR();
-
-			setMargin(MetricsRole::MarginLarge);
-			setSpacing(MetricsRole::SpacingLarge);
 
 			p.dataButtonGroup = ButtonGroup::create(ButtonType::Radio);
 			auto flowLayout = FlowLayout::create(context);
@@ -103,8 +100,24 @@ namespace djv
 			return out;
 		}
 
-		void PPMSettingsWidget::_localeEvent(Event::Locale &)
+        std::string PPMSettingsWidget::getName() const
+        {
+            return DJV_TEXT("djv::UI::PPMSettingsWidget", "PPM");
+        }
+
+        std::string PPMSettingsWidget::getGroup() const
+        {
+            return DJV_TEXT("djv::UI::Settings", "IO");
+        }
+
+        std::string PPMSettingsWidget::getGroupSortKey() const
+        {
+            return DJV_TEXT("djv::UI::Settings", "B");
+        }
+
+		void PPMSettingsWidget::_localeEvent(Event::Locale & event)
 		{
+            ISettingsWidget::_localeEvent(event);
 			DJV_PRIVATE_PTR();
 			const auto & buttons = p.dataButtonGroup->getButtons();
 			for (size_t i = 0; i < buttons.size(); ++i)

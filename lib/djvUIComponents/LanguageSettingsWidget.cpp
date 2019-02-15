@@ -59,13 +59,13 @@ namespace djv
 
         void LanguageSettingsWidget::_init(Context * context)
         {
-            Widget::_init(context);
+            ISettingsWidget::_init(context);
 
             DJV_PRIVATE_PTR();
             p.buttonGroup = ButtonGroup::create(ButtonType::Radio);
 
             p.layout = FlowLayout::create(context);
-            p.layout->setParent(shared_from_this());
+            addWidget(p.layout);
 
             if (auto textSystem = context->getSystemT<TextSystem>().lock())
             {
@@ -146,23 +146,24 @@ namespace djv
             return out;
         }
 
-        float LanguageSettingsWidget::getHeightForWidth(float value) const
+        std::string LanguageSettingsWidget::getName() const
         {
-            return _p->layout->getHeightForWidth(value);
+            return DJV_TEXT("djv::UI::LanguageSettingsWidget", "Language");
         }
 
-        void LanguageSettingsWidget::_preLayoutEvent(Event::PreLayout &)
+        std::string LanguageSettingsWidget::getGroup() const
         {
-            _setMinimumSize(_p->layout->getMinimumSize());
+            return DJV_TEXT("djv::UI::Settings", "General");
         }
 
-        void LanguageSettingsWidget::_layoutEvent(Event::Layout &)
+        std::string LanguageSettingsWidget::getGroupSortKey() const
         {
-            _p->layout->setGeometry(getGeometry());
+            return DJV_TEXT("djv::UI::Settings", "A");
         }
 
-        void LanguageSettingsWidget::_localeEvent(Event::Locale &)
+        void LanguageSettingsWidget::_localeEvent(Event::Locale & event)
         {
+            ISettingsWidget::_localeEvent(event);
             _textUpdate();
         }
 

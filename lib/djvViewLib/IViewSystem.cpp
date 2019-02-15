@@ -78,9 +78,9 @@ namespace djv
             return std::vector<NewMDIWidget>();
         }
 
-        std::vector<NewSettingsWidget> IViewSystem::getSettingsWidgets()
+        std::vector<std::shared_ptr<UI::ISettingsWidget> > IViewSystem::getSettingsWidgets()
         {
-            return std::vector<NewSettingsWidget>();
+            return std::vector<std::shared_ptr<UI::ISettingsWidget> >();
         }
 
     } // namespace ViewLib

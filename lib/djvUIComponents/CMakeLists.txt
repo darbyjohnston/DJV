@@ -1,13 +1,12 @@
 set(header
     AVIOSettings.h
-    AVIOSettingsWidget.h
     DisplaySettingsWidget.h
     FileBrowser.h
     FileBrowserDialog.h
     FileBrowserItemView.h
     FileBrowserPrivate.h
     FileBrowserSettings.h
-    GeneralSettingsWidget.h
+    ISettingsWidget.h
     JPEGSettingsWidget.h
     LanguageSettingsWidget.h
     PPMSettingsWidget.h
@@ -15,7 +14,6 @@ set(header
     UIComponentsSystem.h)
 set(source
     AVIOSettings.cpp
-    AVIOSettingsWidget.cpp
     DisplaySettingsWidget.cpp
     FileBrowser.cpp
     FileBrowserDialog.cpp
@@ -23,7 +21,7 @@ set(source
     FileBrowserPathWidget.cpp
     FileBrowserSettings.cpp
     FileBrowserShortcutsWidget.cpp
-    GeneralSettingsWidget.cpp
+    ISettingsWidget.cpp
     JPEGSettingsWidget.cpp
     LanguageSettingsWidget.cpp
     PPMSettingsWidget.cpp

@@ -31,13 +31,15 @@
 
 #include <djvViewLib/IViewSystem.h>
 
-#include <djvUI/ButtonGroup.h>
-#include <djvUI/MDICanvas.h>
+#include <djvUIComponents/ISettingsWidget.h>
+
+#include <djvUI/GroupBox.h>
+#include <djvUI/FlowLayout.h>
 #include <djvUI/ListButton.h>
 #include <djvUI/RowLayout.h>
 #include <djvUI/ScrollWidget.h>
 #include <djvUI/SoloLayout.h>
-#include <djvUI/Splitter.h>
+#include <djvUI/ToolButton.h>
 
 #include <djvCore/Context.h>
 
@@ -47,13 +49,154 @@ namespace djv
 {
     namespace ViewLib
     {
+        namespace
+        {
+            class MainWidget : public UI::Widget
+            {
+                DJV_NON_COPYABLE(MainWidget);
+
+            protected:
+                void _init(Context *);
+                MainWidget();
+
+            public:
+                virtual ~MainWidget();
+
+                static std::shared_ptr<MainWidget> create(Context *);
+
+                void setWidgetCallback(const std::function<void(const std::shared_ptr<UI::ISettingsWidget> &)> &);
+
+                float getHeightForWidth(float) const override;
+
+            protected:
+                void _preLayoutEvent(Event::PreLayout &) override;
+                void _layoutEvent(Event::Layout &) override;
+
+                void _localeEvent(Event::Locale &) override;
+
+            private:
+                struct Group
+                {
+                    std::string name;
+                    std::shared_ptr<UI::GroupBox> groupBox;
+                    std::map<std::string, std::shared_ptr<UI::ListButton> > buttons;
+                };
+                std::map<std::string, Group> _groups;
+                std::shared_ptr<UI::VerticalLayout> _layout;
+                std::function<void(const std::shared_ptr<UI::ISettingsWidget> &)> _widgetCallback;
+            };
+
+            void MainWidget::_init(Context * context)
+            {
+                Widget::_init(context);
+
+                auto weak = std::weak_ptr<MainWidget>(std::dynamic_pointer_cast<MainWidget>(shared_from_this()));
+                for (auto i : context->getSystemsT<IViewSystem>())
+                {
+                    if (auto system = i.lock())
+                    {
+                        for (auto widget : system->getSettingsWidgets())
+                        {
+                            auto button = UI::ListButton::create(context);
+                            button->setClickedCallback(
+                                [weak, widget]
+                            {
+                                if (auto mainWidget = weak.lock())
+                                {
+                                    if (mainWidget->_widgetCallback)
+                                    {
+                                        mainWidget->_widgetCallback(widget);
+                                    }
+                                }
+                            });
+
+                            const auto & sortKey = widget->getGroupSortKey();
+                            const auto j = _groups.find(sortKey);
+                            if (j == _groups.end())
+                            {
+                                Group group;
+                                group.name = widget->getGroup();
+                                group.groupBox = UI::GroupBox::create(context);
+                                group.buttons[widget->getName()] = button;
+                                _groups[sortKey] = group;
+                            }
+                            else
+                            {
+                                j->second.buttons[widget->getName()] = button;
+                            }
+                        }
+                    }
+                }
+
+                _layout = UI::VerticalLayout::create(context);
+                _layout->setMargin(UI::MetricsRole::MarginLarge);
+                _layout->setSpacing(UI::MetricsRole::SpacingLarge);
+                for (const auto & i : _groups)
+                {
+                    _layout->addWidget(i.second.groupBox);
+                    auto flowLayout = UI::FlowLayout::create(context);
+                    for (const auto & j : i.second.buttons)
+                    {
+                        flowLayout->addWidget(j.second);
+                    }
+                    i.second.groupBox->addWidget(flowLayout);
+                }
+                _layout->setParent(shared_from_this());
+            }
+
+            MainWidget::MainWidget()
+            {}
+
+            MainWidget::~MainWidget()
+            {}
+
+            std::shared_ptr<MainWidget> MainWidget::create(Context * context)
+            {
+                auto out = std::shared_ptr<MainWidget>(new MainWidget);
+                out->_init(context);
+                return out;
+            }
+
+            void MainWidget::setWidgetCallback(const std::function<void(const std::shared_ptr<UI::ISettingsWidget> &)> & value)
+            {
+                _widgetCallback = value;
+            }
+
+            float MainWidget::getHeightForWidth(float value) const
+            {
+                return _layout->getHeightForWidth(value);
+            }
+
+            void MainWidget::_preLayoutEvent(Event::PreLayout &)
+            {
+                _setMinimumSize(_layout->getMinimumSize());
+            }
+
+            void MainWidget::_layoutEvent(Event::Layout &)
+            {
+                _layout->setGeometry(getGeometry());
+            }
+
+            void MainWidget::_localeEvent(Event::Locale & event)
+            {
+                for (auto & i : _groups)
+                {
+                    i.second.groupBox->setText(_getText(i.second.name));
+                    for (auto & j : i.second.buttons)
+                    {
+                        j.second->setText(_getText(j.first));
+                    }
+                }
+            }
+
+        } // namespace
+
 		struct SettingsWidget::Private
 		{
 			bool shown = false;
-			std::shared_ptr<UI::ButtonGroup> buttonGroup;
-			std::map<std::string, std::string> names;
-			std::map<std::string, std::shared_ptr<UI::Widget> > widgets;
-			std::map<std::string, std::shared_ptr<UI::ListButton> > buttons;
+            std::shared_ptr<MainWidget> mainWidget;
+            std::shared_ptr<UI::SoloLayout> soloLayout;
+            std::map<std::shared_ptr<UI::Widget>, std::string> titles;
 		};
 
 		void SettingsWidget::_init(Context * context)
@@ -61,51 +204,57 @@ namespace djv
 			IMDIWidget::_init(MDIResize::Maximum, context);
 
 			DJV_PRIVATE_PTR();
-			p.buttonGroup = UI::ButtonGroup::create(UI::ButtonType::Radio);
-			for (auto i : context->getSystemsT<IViewSystem>())
-			{
-				if (auto system = i.lock())
-				{
-					for (auto widget : system->getSettingsWidgets())
-					{
-						p.names[widget.sortKey] = widget.name;
-						p.widgets[widget.sortKey] = widget.widget;
-						auto button = UI::ListButton::create(context);
-						p.buttons[widget.sortKey] = button;
-					}
-				}
-			}
 
-			auto buttonLayout = UI::VerticalLayout::create(context);
-			buttonLayout->setSpacing(UI::MetricsRole::None);
-			for (auto i : p.buttons)
-			{
-				p.buttonGroup->addButton(i.second);
-				buttonLayout->addWidget(i.second);
-			}
-			auto buttonScrollWidget = UI::ScrollWidget::create(UI::ScrollType::Vertical, context);
-			buttonScrollWidget->setBorder(false);
-			buttonScrollWidget->addWidget(buttonLayout);
+            auto backButton = UI::ToolButton::create(context);
+            backButton->setIcon("djvIconArrowLeft");
+            backButton->hide();
+            addBackButton(backButton);
 
-			auto soloLayout = UI::SoloLayout::create(context);
-			for (auto i : p.widgets)
-			{
-				soloLayout->addWidget(i.second);
-			}
+            p.mainWidget = MainWidget::create(context);
+            p.titles[p.mainWidget] = DJV_TEXT("djv::ViewLib::SettingsWidget", "Settings");
 
-			auto splitter = UI::Layout::Splitter::create(UI::Orientation::Horizontal, context);
-			splitter->setSplit(.15f);
-			splitter->addWidget(buttonScrollWidget);
-			splitter->addWidget(soloLayout);
-			addWidget(splitter);
+			p.soloLayout = UI::SoloLayout::create(context);
+            p.soloLayout->addWidget(p.mainWidget);
+            auto weak = std::weak_ptr<SettingsWidget>(std::dynamic_pointer_cast<SettingsWidget>(shared_from_this()));
+            for (auto i : context->getSystemsT<IViewSystem>())
+            {
+                if (auto system = i.lock())
+                {
+                    for (auto widget : system->getSettingsWidgets())
+                    {
+                        p.soloLayout->addWidget(widget);
+                        p.titles[widget] = widget->getName();
+                    }
+                }
+            }
 
-			auto weak = std::weak_ptr<SettingsWidget>(std::dynamic_pointer_cast<SettingsWidget>(shared_from_this()));
-			p.buttonGroup->setRadioCallback(
-				[soloLayout](int value)
-			{
-				soloLayout->setCurrentIndex(value);
-			});
-		}
+            auto scrollWidget = UI::ScrollWidget::create(UI::ScrollType::Vertical, context);
+            scrollWidget->setBorder(false);
+            scrollWidget->addWidget(p.soloLayout);
+            addWidget(scrollWidget);
+
+            p.mainWidget->setWidgetCallback(
+                [weak, backButton](const std::shared_ptr<UI::ISettingsWidget> & value)
+            {
+                if (auto widget = weak.lock())
+                {
+                    widget->_p->soloLayout->setCurrentWidget(value);
+                    widget->_textUpdate();
+                    backButton->show();
+                }
+            });
+
+            backButton->setClickedCallback(
+                [weak, backButton]
+            {
+                if (auto widget = weak.lock())
+                {
+                    widget->_p->soloLayout->setCurrentWidget(widget->_p->mainWidget);
+                    widget->_textUpdate();
+                    backButton->hide();
+                }
+            });
+        }
 
 		SettingsWidget::SettingsWidget() :
 			_p(new Private)
@@ -121,20 +270,20 @@ namespace djv
 			return out;
 		}
 
-		void SettingsWidget::_localeEvent(Event::Locale & event)
-		{
-			IMDIWidget::_localeEvent(event);
-			DJV_PRIVATE_PTR();
-			setTitle(_getText(DJV_TEXT("djv::ViewLib::SettingsWidget", "Settings")));
-			for (const auto & i : p.names)
-			{
-				const auto j = p.buttons.find(i.first);
-				if (j != p.buttons.end())
-				{
-					j->second->setText(_getText(i.second));
-				}
-			}
-		}
+        void SettingsWidget::_localeEvent(Event::Locale &)
+        {
+            _textUpdate();
+        }
+
+        void SettingsWidget::_textUpdate()
+        {
+            DJV_PRIVATE_PTR();
+            const auto i = p.titles.find(p.soloLayout->getCurrentWidget());
+            if (i != p.titles.end())
+            {
+                setTitle(_getText(i->second));
+            }
+        }
 
     } // namespace ViewLib
 } // namespace djv

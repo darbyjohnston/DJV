@@ -38,6 +38,7 @@ namespace djv
     namespace UI
     {
         class Action;
+        class ISettingsWidget;
         class Menu;
         class Widget;
     
@@ -65,13 +66,6 @@ namespace djv
             std::string sortKey;
         };
 
-        struct NewSettingsWidget
-        {
-            std::shared_ptr<UI::Widget> widget;
-            std::string name;
-            std::string sortKey;
-        };
-
         class IViewSystem : public Core::ISystem
         {
             DJV_NON_COPYABLE(IViewSystem);
@@ -87,7 +81,7 @@ namespace djv
             virtual NewMenu getMenu();
             virtual NewMenu getContextMenu() { return getMenu(); }
             virtual std::vector<NewMDIWidget> getMDIWidgets();
-            virtual std::vector<NewSettingsWidget> getSettingsWidgets();
+            virtual std::vector<std::shared_ptr<UI::ISettingsWidget> > getSettingsWidgets();
 
         private:
             DJV_PRIVATE();

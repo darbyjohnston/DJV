@@ -60,6 +60,7 @@ namespace djv
 
             void setCloseCallback(const std::function<void(void)> &);
 
+            void addBackButton(const std::shared_ptr<Widget>&);
 			void addTitleBarWidget(const std::shared_ptr<Widget>&);
 
             void addWidget(const std::shared_ptr<Widget>&) override;

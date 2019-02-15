@@ -29,6 +29,7 @@
 
 #include <djvUI/IDialog.h>
 
+#include <djvUI/Border.h>
 #include <djvUI/Label.h>
 #include <djvUI/Overlay.h>
 #include <djvUI/RowLayout.h>
@@ -83,7 +84,8 @@ namespace djv
             std::shared_ptr<Label> titleLabel;
 			std::shared_ptr<UI::ToolButton> closeButton;
 			std::shared_ptr<VerticalLayout> childLayout;
-			std::shared_ptr<VerticalLayout> layout;
+            std::shared_ptr<VerticalLayout> layout;
+            std::shared_ptr<Layout::Border> border;
 			std::shared_ptr<Layout::Overlay> overlay;
             std::function<void(void)> closeCallback;
         };
@@ -125,9 +127,12 @@ namespace djv
 			p.layout->addWidget(hLayout);
 			p.layout->addWidget(p.childLayout, RowStretch::Expand);
 
+            p.border = Layout::Border::create(context);
+            p.border->addWidget(p.layout);
+
             p.overlay = Layout::Overlay::create(context);
             p.overlay->setMargin(MetricsRole::MarginDialog);
-            p.overlay->addWidget(p.layout);
+            p.overlay->addWidget(p.border);
             p.overlay->setParent(shared_from_this());
 
             auto weak = std::weak_ptr<IDialog>(std::dynamic_pointer_cast<IDialog>(shared_from_this()));
@@ -164,8 +169,8 @@ namespace djv
         void IDialog::setFillLayout(bool value)
         {
             DJV_PRIVATE_PTR();
-            p.layout->setHAlign(value ? HAlign::Fill : HAlign::Center);
-            p.layout->setVAlign(value ? VAlign::Fill : VAlign::Center);
+            p.border->setHAlign(value ? HAlign::Fill : HAlign::Center);
+            p.border->setVAlign(value ? VAlign::Fill : VAlign::Center);
         }
 
         void IDialog::setCloseCallback(const std::function<void(void)> & value)

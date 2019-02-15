@@ -29,13 +29,13 @@
 
 #pragma once
 
-#include <djvUI/RowLayout.h>
+#include <djvUIComponents/ISettingsWidget.h>
 
 namespace djv
 {
     namespace UI
     {
-        class PPMSettingsWidget : public VerticalLayout
+        class PPMSettingsWidget : public ISettingsWidget
         {
             DJV_NON_COPYABLE(PPMSettingsWidget);
 
@@ -45,6 +45,10 @@ namespace djv
 
         public:
             static std::shared_ptr<PPMSettingsWidget> create(Core::Context *);
+
+            std::string getName() const override;
+            std::string getGroup() const override;
+            std::string getGroupSortKey() const override;
 
         protected:
             void _localeEvent(Core::Event::Locale &) override;

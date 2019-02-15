@@ -54,7 +54,7 @@ namespace djv
 			void showSettings();
             
             std::map<std::string, std::shared_ptr<UI::Action> > getActions() override;
-            std::vector<NewSettingsWidget> getSettingsWidgets() override;
+            std::vector<std::shared_ptr<UI::ISettingsWidget> > getSettingsWidgets() override;
 			std::vector<NewMDIWidget> getMDIWidgets() override;
             
         private:

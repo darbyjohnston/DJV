@@ -29,22 +29,32 @@
 
 #pragma once
 
-#include <djvUI/Widget.h>
+#include <djvUI/IContainer.h>
+
+#include <djvCore/ValueObserver.h>
 
 namespace djv
 {
     namespace UI
     {
-        class GeneralSettingsWidget : public Widget
+        class ISettingsWidget : public Layout::IContainer
         {
-            DJV_NON_COPYABLE(GeneralSettingsWidget);
+            DJV_NON_COPYABLE(ISettingsWidget);
 
         protected:
             void _init(Core::Context *);
-            GeneralSettingsWidget();
+            ISettingsWidget();
 
         public:
-            static std::shared_ptr<GeneralSettingsWidget> create(Core::Context *);
+            ~ISettingsWidget() override = 0;
+
+            virtual std::string getName() const = 0;
+            virtual std::string getGroup() const = 0;
+            virtual std::string getGroupSortKey() const = 0;
+
+            void addWidget(const std::shared_ptr<Widget> &) override;
+            void removeWidget(const std::shared_ptr<Widget> &) override;
+            void clearWidgets() override;
 
             float getHeightForWidth(float) const override;
 
@@ -52,12 +62,10 @@ namespace djv
             void _preLayoutEvent(Core::Event::PreLayout &) override;
             void _layoutEvent(Core::Event::Layout &) override;
 
-            void _localeEvent(Core::Event::Locale &) override;
-
         private:
             DJV_PRIVATE();
         };
 
-    } // namespace UI
+    } // namespace ViewLib
 } // namespace djv
 

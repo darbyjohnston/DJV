@@ -55,12 +55,9 @@ namespace djv
 
 		void JPEGSettingsWidget::_init(Context * context)
 		{
-			VerticalLayout::_init(context);
+			ISettingsWidget::_init(context);
 
 			DJV_PRIVATE_PTR();
-
-			setMargin(MetricsRole::MarginLarge);
-			setSpacing(MetricsRole::SpacingLarge);
 
             auto qualitySlider = IntValueSlider::create(Orientation::Horizontal, context);
             auto qualityLabel = IntValueLabel::create(context);
@@ -107,8 +104,24 @@ namespace djv
 			return out;
 		}
 
-		void JPEGSettingsWidget::_localeEvent(Event::Locale &)
+        std::string JPEGSettingsWidget::getName() const
+        {
+            return DJV_TEXT("djv::UI::JPEGSettingsWidget", "JPEG");
+        }
+
+        std::string JPEGSettingsWidget::getGroup() const
+        {
+            return DJV_TEXT("djv::UI::Settings", "IO");
+        }
+
+        std::string JPEGSettingsWidget::getGroupSortKey() const
+        {
+            return DJV_TEXT("djv::UI::Settings", "B");
+        }
+
+		void JPEGSettingsWidget::_localeEvent(Event::Locale & event)
 		{
+            ISettingsWidget::_localeEvent(event);
 			DJV_PRIVATE_PTR();
 			p.qualityGroupBox->setText(DJV_TEXT("djv::UI::JPEGSettingsWidget", "Compression Quality"));
 		}

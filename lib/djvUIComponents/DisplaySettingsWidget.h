@@ -29,13 +29,13 @@
 
 #pragma once
 
-#include <djvUI/Widget.h>
+#include <djvUIComponents/ISettingsWidget.h>
 
 namespace djv
 {
     namespace UI
     {
-        class DisplaySettingsWidget : public Widget
+        class DisplaySettingsWidget : public ISettingsWidget
         {
             DJV_NON_COPYABLE(DisplaySettingsWidget);
 
@@ -46,12 +46,11 @@ namespace djv
         public:
             static std::shared_ptr<DisplaySettingsWidget> create(Core::Context *);
 
-            float getHeightForWidth(float) const override;
+            std::string getName() const override;
+            std::string getGroup() const override;
+            std::string getGroupSortKey() const override;
 
         protected:
-            void _preLayoutEvent(Core::Event::PreLayout &) override;
-            void _layoutEvent(Core::Event::Layout &) override;
-
             void _localeEvent(Core::Event::Locale &) override;
 
         private:

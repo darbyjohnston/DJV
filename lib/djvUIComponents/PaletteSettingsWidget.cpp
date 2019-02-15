@@ -58,13 +58,13 @@ namespace djv
 
         void PaletteSettingsWidget::_init(Context * context)
         {
-            Widget::_init(context);
+            ISettingsWidget::_init(context);
 
             DJV_PRIVATE_PTR();
             p.buttonGroup = ButtonGroup::create(ButtonType::Radio);
 
             p.layout = FlowLayout::create(context);
-            p.layout->setParent(shared_from_this());
+            addWidget(p.layout);
 
             auto weak = std::weak_ptr<PaletteSettingsWidget>(std::dynamic_pointer_cast<PaletteSettingsWidget>(shared_from_this()));
             p.buttonGroup->setRadioCallback(
@@ -151,23 +151,24 @@ namespace djv
             return out;
         }
 
-        float PaletteSettingsWidget::getHeightForWidth(float value) const
+        std::string PaletteSettingsWidget::getName() const
         {
-            return _p->layout->getHeightForWidth(value);
+            return DJV_TEXT("djv::UI::PaletteSettingsWidget", "Palette");
         }
 
-        void PaletteSettingsWidget::_preLayoutEvent(Event::PreLayout &)
+        std::string PaletteSettingsWidget::getGroup() const
         {
-            _setMinimumSize(_p->layout->getMinimumSize());
+            return DJV_TEXT("djv::UI::Settings", "General");
         }
 
-        void PaletteSettingsWidget::_layoutEvent(Event::Layout &)
+        std::string PaletteSettingsWidget::getGroupSortKey() const
         {
-            _p->layout->setGeometry(getGeometry());
+            return DJV_TEXT("djv::UI::Settings", "A");
         }
 
-        void PaletteSettingsWidget::_localeEvent(Event::Locale &)
+        void PaletteSettingsWidget::_localeEvent(Event::Locale & event)
         {
+            ISettingsWidget::_localeEvent(event);
             _buttonTextUpdate();
         }
 

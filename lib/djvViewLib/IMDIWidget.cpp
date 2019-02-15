@@ -48,7 +48,8 @@ namespace djv
 			MDIResize resize = MDIResize::First;
             std::shared_ptr<UI::Label> titleLabel;
 			std::shared_ptr<UI::HorizontalLayout> titleBar;
-			std::shared_ptr<UI::HorizontalLayout> titleBarWidgetLayout;
+            std::shared_ptr<UI::HorizontalLayout> titleBarBackButtonLayout;
+            std::shared_ptr<UI::HorizontalLayout> titleBarWidgetLayout;
 			std::shared_ptr<UI::ToolButton> closeButton;
             std::shared_ptr<UI::VerticalLayout> childLayout;
             std::shared_ptr<UI::VerticalLayout> layout;
@@ -81,7 +82,10 @@ namespace djv
             p.titleBar = UI::HorizontalLayout::create(context);
 			p.titleBar->setSpacing(UI::MetricsRole::None);
 			p.titleBar->setBackgroundRole(UI::ColorRole::HeaderBackground);
-			p.titleBar->addWidget(p.titleLabel, UI::RowStretch::Expand);
+            p.titleBarBackButtonLayout = UI::HorizontalLayout::create(context);
+            p.titleBarBackButtonLayout->setSpacing(UI::MetricsRole::None);
+            p.titleBar->addWidget(p.titleBarBackButtonLayout);
+            p.titleBar->addWidget(p.titleLabel, UI::RowStretch::Expand);
 			p.titleBarWidgetLayout = UI::HorizontalLayout::create(context);
 			p.titleBarWidgetLayout->setSpacing(UI::MetricsRole::None);
 			p.titleBar->addWidget(p.titleBarWidgetLayout);
@@ -97,7 +101,6 @@ namespace djv
             p.layout->addWidget(p.childLayout, UI::RowStretch::Expand);
 
             p.border = UI::Border::create(context);
-			p.border->setBorderColorRole(UI::ColorRole::None);
             p.border->setMargin(UI::MetricsRole::Handle);
             p.border->addWidget(p.layout);
             IContainer::addWidget(p.border);
@@ -135,10 +138,15 @@ namespace djv
             _p->closeCallback = value;
         }
 
-		void IMDIWidget::addTitleBarWidget(const std::shared_ptr<Widget> & widget)
-		{
-			_p->titleBarWidgetLayout->addWidget(widget);
-		}
+        void IMDIWidget::addBackButton(const std::shared_ptr<Widget> & widget)
+        {
+            _p->titleBarBackButtonLayout->addWidget(widget);
+        }
+
+        void IMDIWidget::addTitleBarWidget(const std::shared_ptr<Widget> & widget)
+        {
+            _p->titleBarWidgetLayout->addWidget(widget);
+        }
 
         void IMDIWidget::addWidget(const std::shared_ptr<Widget>& widget)
         {
