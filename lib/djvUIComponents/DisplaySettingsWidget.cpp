@@ -158,6 +158,7 @@ namespace djv
 
         std::string DisplaySettingsWidget::getGroup() const
         {
+            return DJV_TEXT("General");
         }
 
         std::string DisplaySettingsWidget::getGroupSortKey() const
