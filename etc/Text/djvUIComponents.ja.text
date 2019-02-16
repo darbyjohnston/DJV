@@ -1,282 +1,338 @@
 [
     {
         "source": "Up", 
-        "text": "\u30a2\u30c3\u30d7", 
+        "description": "", 
         "nameSpace": "djv::UI::FileBrowser", 
         "id": "Up", 
-        "description": ""
+        "text": "\u30a2\u30c3\u30d7"
     }, 
     {
         "source": "Up Tooltip", 
-        "text": "\u30c4\u30fc\u30eb\u30c1\u30c3\u30d7", 
+        "description": "", 
         "nameSpace": "djv::UI::FileBrowser", 
         "id": "Up Tooltip", 
-        "description": ""
+        "text": "\u30c4\u30fc\u30eb\u30c1\u30c3\u30d7"
     }, 
     {
         "source": "Current Directory", 
-        "text": "\u30ab\u30ec\u30f3\u30c8\u30c7\u30a3\u30ec\u30af\u30c8\u30ea", 
+        "description": "", 
         "nameSpace": "djv::UI::FileBrowser", 
         "id": "Current Directory", 
-        "description": ""
+        "text": "\u30ab\u30ec\u30f3\u30c8\u30c7\u30a3\u30ec\u30af\u30c8\u30ea"
     }, 
     {
         "source": "Current Directory Tooltip", 
-        "text": "\u30ab\u30ec\u30f3\u30c8\u30c7\u30a3\u30ec\u30af\u30c8\u30ea\u306e\u30c4\u30fc\u30eb\u30c1\u30c3\u30d7", 
+        "description": "", 
         "nameSpace": "djv::UI::FileBrowser", 
         "id": "Current Directory Tooltip", 
-        "description": ""
+        "text": "\u30ab\u30ec\u30f3\u30c8\u30c7\u30a3\u30ec\u30af\u30c8\u30ea\u306e\u30c4\u30fc\u30eb\u30c1\u30c3\u30d7"
     }, 
     {
         "source": "Back", 
-        "text": "\u30d0\u30c3\u30af", 
+        "description": "", 
         "nameSpace": "djv::UI::FileBrowser", 
         "id": "Back", 
-        "description": ""
+        "text": "\u30d0\u30c3\u30af"
     }, 
     {
         "source": "Back Tooltip", 
-        "text": "\u623b\u308b\u30c4\u30fc\u30eb\u30c1\u30c3\u30d7", 
+        "description": "", 
         "nameSpace": "djv::UI::FileBrowser", 
         "id": "Back Tooltip", 
-        "description": ""
+        "text": "\u623b\u308b\u30c4\u30fc\u30eb\u30c1\u30c3\u30d7"
     }, 
     {
         "source": "Forward", 
-        "text": "\u9032\u3080", 
+        "description": "", 
         "nameSpace": "djv::UI::FileBrowser", 
         "id": "Forward", 
-        "description": ""
+        "text": "\u9032\u3080"
     }, 
     {
         "source": "Forward Tooltip", 
-        "text": "\u524d\u65b9\u30c4\u30fc\u30eb\u30c1\u30c3\u30d7", 
+        "description": "", 
         "nameSpace": "djv::UI::FileBrowser", 
         "id": "Forward Tooltip", 
-        "description": ""
+        "text": "\u524d\u65b9\u30c4\u30fc\u30eb\u30c1\u30c3\u30d7"
     }, 
     {
         "source": "Large Thumbnails", 
-        "text": "\u5927\u304d\u306a\u30b5\u30e0\u30cd\u30a4\u30eb", 
+        "description": "", 
         "nameSpace": "djv::UI::FileBrowser", 
         "id": "Large Thumbnails", 
-        "description": ""
+        "text": "\u5927\u304d\u306a\u30b5\u30e0\u30cd\u30a4\u30eb"
     }, 
     {
         "source": "Large Thumbnails Tooltip", 
-        "text": "\u5927\u304d\u306a\u30b5\u30e0\u30cd\u30a4\u30eb\u30c4\u30fc\u30eb\u30c1\u30c3\u30d7", 
+        "description": "", 
         "nameSpace": "djv::UI::FileBrowser", 
         "id": "Large Thumbnails Tooltip", 
-        "description": ""
+        "text": "\u5927\u304d\u306a\u30b5\u30e0\u30cd\u30a4\u30eb\u30c4\u30fc\u30eb\u30c1\u30c3\u30d7"
     }, 
     {
         "source": "Small Thumbnails", 
-        "text": "\u5c0f\u3055\u306a\u30b5\u30e0\u30cd\u30a4\u30eb", 
+        "description": "", 
         "nameSpace": "djv::UI::FileBrowser", 
         "id": "Small Thumbnails", 
-        "description": ""
+        "text": "\u5c0f\u3055\u306a\u30b5\u30e0\u30cd\u30a4\u30eb"
     }, 
     {
         "source": "Small Thumbnails Tooltip", 
-        "text": "\u5c0f\u3055\u306a\u30b5\u30e0\u30cd\u30a4\u30eb\u30c4\u30fc\u30eb\u30c1\u30c3\u30d7", 
+        "description": "", 
         "nameSpace": "djv::UI::FileBrowser", 
         "id": "Small Thumbnails Tooltip", 
-        "description": ""
+        "text": "\u5c0f\u3055\u306a\u30b5\u30e0\u30cd\u30a4\u30eb\u30c4\u30fc\u30eb\u30c1\u30c3\u30d7"
     }, 
     {
         "source": "List View", 
-        "text": "\u30ea\u30b9\u30c8\u30d3\u30e5\u30fc", 
+        "description": "", 
         "nameSpace": "djv::UI::FileBrowser", 
         "id": "List View", 
-        "description": ""
+        "text": "\u30ea\u30b9\u30c8\u30d3\u30e5\u30fc"
     }, 
     {
         "source": "List View Tooltip", 
-        "text": "\u30ea\u30b9\u30c8\u30d3\u30e5\u30fc\u30c4\u30fc\u30eb\u30c1\u30c3\u30d7", 
+        "description": "", 
         "nameSpace": "djv::UI::FileBrowser", 
         "id": "List View Tooltip", 
-        "description": ""
+        "text": "\u30ea\u30b9\u30c8\u30d3\u30e5\u30fc\u30c4\u30fc\u30eb\u30c1\u30c3\u30d7"
     }, 
     {
         "source": "File Sequences", 
-        "text": "\u30d5\u30a1\u30a4\u30eb\u30b7\u30fc\u30b1\u30f3\u30b9", 
+        "description": "", 
         "nameSpace": "djv::UI::FileBrowser", 
         "id": "File Sequences", 
-        "description": ""
+        "text": "\u30d5\u30a1\u30a4\u30eb\u30b7\u30fc\u30b1\u30f3\u30b9"
     }, 
     {
         "source": "File Sequences Tooltip", 
-        "text": "\u30d5\u30a1\u30a4\u30eb\u30b7\u30fc\u30b1\u30f3\u30b9\u30c4\u30fc\u30eb\u30c1\u30c3\u30d7", 
+        "description": "", 
         "nameSpace": "djv::UI::FileBrowser", 
         "id": "File Sequences Tooltip", 
-        "description": ""
+        "text": "\u30d5\u30a1\u30a4\u30eb\u30b7\u30fc\u30b1\u30f3\u30b9\u30c4\u30fc\u30eb\u30c1\u30c3\u30d7"
     }, 
     {
         "source": "Show Hidden", 
-        "text": "\u96a0\u3057\u30b7\u30e7\u30fc", 
+        "description": "", 
         "nameSpace": "djv::UI::FileBrowser", 
         "id": "Show Hidden", 
-        "description": ""
+        "text": "\u96a0\u3057\u30b7\u30e7\u30fc"
     }, 
     {
         "source": "Show Hidden Tooltip", 
-        "text": "\u96a0\u308c\u305f\u30c4\u30fc\u30eb\u30c1\u30c3\u30d7\u3092\u8868\u793a", 
+        "description": "", 
         "nameSpace": "djv::UI::FileBrowser", 
         "id": "Show Hidden Tooltip", 
-        "description": ""
+        "text": "\u96a0\u308c\u305f\u30c4\u30fc\u30eb\u30c1\u30c3\u30d7\u3092\u8868\u793a"
     }, 
     {
         "source": "Directory", 
-        "text": "\u30c7\u30a3\u30ec\u30af\u30c8\u30ea", 
+        "description": "", 
         "nameSpace": "djv::UI::FileBrowser", 
         "id": "Directory", 
-        "description": ""
+        "text": "\u30c7\u30a3\u30ec\u30af\u30c8\u30ea"
     }, 
     {
         "source": "View", 
-        "text": "\u898b\u308b", 
+        "description": "", 
         "nameSpace": "djv::UI::FileBrowser", 
         "id": "View", 
-        "description": ""
+        "text": "\u898b\u308b"
     }, 
     {
         "source": "Sort", 
-        "text": "\u30bd\u30fc\u30c8", 
+        "description": "", 
         "nameSpace": "djv::UI::FileBrowser", 
         "id": "Sort", 
-        "description": ""
+        "text": "\u30bd\u30fc\u30c8"
     }, 
     {
         "source": "Bookmarks", 
-        "text": "\u30d6\u30c3\u30af\u30de\u30fc\u30af", 
+        "description": "", 
         "nameSpace": "djv::UI::FileBrowser", 
         "id": "Bookmarks", 
-        "description": ""
+        "text": "\u30d6\u30c3\u30af\u30de\u30fc\u30af"
     }, 
     {
         "source": "items", 
-        "text": "\u30a2\u30a4\u30c6\u30e0", 
+        "description": "", 
         "nameSpace": "djv::UI::FileBrowser", 
         "id": "items", 
-        "description": ""
+        "text": "\u30a2\u30a4\u30c6\u30e0"
     }, 
     {
         "source": "Size", 
-        "text": "\u30b5\u30a4\u30ba", 
+        "description": "", 
         "nameSpace": "djv::UI::FileBrowser", 
         "id": "Size", 
-        "description": ""
+        "text": "\u30b5\u30a4\u30ba"
     }, 
     {
         "source": "Last modification time", 
-        "text": "\u6700\u7d42\u4fee\u6b63\u6642\u523b", 
+        "description": "", 
         "nameSpace": "djv::UI::FileBrowser", 
         "id": "Last modification time", 
-        "description": ""
+        "text": "\u6700\u7d42\u4fee\u6b63\u6642\u523b"
     }, 
     {
         "source": "Video track", 
-        "text": "\u30d3\u30c7\u30aa\u30c8\u30e9\u30c3\u30af", 
+        "description": "", 
         "nameSpace": "djv::UI::FileBrowser", 
         "id": "Video track", 
-        "description": ""
+        "text": "\u30d3\u30c7\u30aa\u30c8\u30e9\u30c3\u30af"
     }, 
     {
         "source": "Type", 
-        "text": "\u30bf\u30a4\u30d7", 
+        "description": "", 
         "nameSpace": "djv::UI::FileBrowser", 
         "id": "Type", 
-        "description": ""
+        "text": "\u30bf\u30a4\u30d7"
     }, 
     {
         "source": "Speed", 
-        "text": "\u901f\u5ea6", 
+        "description": "", 
         "nameSpace": "djv::UI::FileBrowser", 
         "id": "Speed", 
-        "description": ""
+        "text": "\u901f\u5ea6"
     }, 
     {
         "source": "FPS", 
-        "text": "FPS", 
+        "description": "", 
         "nameSpace": "djv::UI::FileBrowser", 
         "id": "FPS", 
-        "description": ""
+        "text": "FPS"
     }, 
     {
         "source": "Duration", 
-        "text": "\u671f\u9593", 
+        "description": "", 
         "nameSpace": "djv::UI::FileBrowser", 
         "id": "Duration", 
-        "description": ""
+        "text": "\u671f\u9593"
     }, 
     {
         "source": "Audio track", 
-        "text": "\u30aa\u30fc\u30c7\u30a3\u30aa\u30c8\u30e9\u30c3\u30af", 
+        "description": "", 
         "nameSpace": "djv::UI::FileBrowser", 
         "id": "Audio track", 
-        "description": ""
+        "text": "\u30aa\u30fc\u30c7\u30a3\u30aa\u30c8\u30e9\u30c3\u30af"
     }, 
     {
         "source": "Channels", 
-        "text": "\u30c1\u30e3\u30f3\u30cd\u30eb", 
+        "description": "", 
         "nameSpace": "djv::UI::FileBrowser", 
         "id": "Channels", 
-        "description": ""
+        "text": "\u30c1\u30e3\u30f3\u30cd\u30eb"
     }, 
     {
         "source": "Sample rate", 
-        "text": "\u30b5\u30f3\u30d7\u30eb\u30ec\u30fc\u30c8", 
+        "description": "", 
         "nameSpace": "djv::UI::FileBrowser", 
         "id": "Sample rate", 
-        "description": ""
+        "text": "\u30b5\u30f3\u30d7\u30eb\u30ec\u30fc\u30c8"
     }, 
     {
         "source": "kHz", 
-        "text": "kHz", 
+        "description": "", 
         "nameSpace": "djv::UI::FileBrowser", 
         "id": "kHz", 
-        "description": ""
+        "text": "kHz"
     }, 
     {
         "source": "History Tooltip", 
-        "text": "\u5c65\u6b74\u30c4\u30fc\u30eb\u30c1\u30c3\u30d7", 
+        "description": "", 
         "nameSpace": "djv::UI::FileBrowser", 
         "id": "History Tooltip", 
-        "description": ""
+        "text": "\u5c65\u6b74\u30c4\u30fc\u30eb\u30c1\u30c3\u30d7"
     }, 
     {
         "source": "Display Size", 
-        "text": "\u30c7\u30a3\u30b9\u30d7\u30ec\u30a4\u30b5\u30a4\u30ba", 
+        "description": "", 
         "nameSpace": "djv::ViewLib::GeneralSettingsWidget", 
         "id": "Display Size", 
-        "description": ""
+        "text": "\u30c7\u30a3\u30b9\u30d7\u30ec\u30a4\u30b5\u30a4\u30ba"
     }, 
     {
         "source": "Language", 
-        "text": "\u8a00\u8a9e", 
+        "description": "", 
         "nameSpace": "djv::ViewLib::GeneralSettingsWidget", 
         "id": "Language", 
-        "description": ""
+        "text": "\u8a00\u8a9e"
     }, 
     {
         "source": "Color Palette", 
-        "text": "\u30ab\u30e9\u30fc\u30d1\u30ec\u30c3\u30c8", 
+        "description": "", 
         "nameSpace": "djv::ViewLib::GeneralSettingsWidget", 
         "id": "Color Palette", 
-        "description": ""
+        "text": "\u30ab\u30e9\u30fc\u30d1\u30ec\u30c3\u30c8"
     }, 
     {
         "source": "Compression Quality", 
-        "text": "\u5727\u7e2e\u54c1\u8cea", 
+        "description": "", 
         "nameSpace": "djv::UI::JPEGSettingsWidget", 
         "id": "Compression Quality", 
-        "description": ""
+        "text": "\u5727\u7e2e\u54c1\u8cea"
     }, 
     {
         "source": "Data Type", 
-        "text": "\u30c7\u30fc\u30bf\u30fb\u30bf\u30a4\u30d7", 
+        "description": "", 
         "nameSpace": "djv::UI::PPMSettingsWidget", 
         "id": "Data Type", 
+        "text": "\u30c7\u30fc\u30bf\u30fb\u30bf\u30a4\u30d7"
+    }, 
+    {
+        "source": "Display", 
+        "text": "\u8868\u793a", 
+        "nameSpace": "djv::UI::DisplaySettingsWidget", 
+        "id": "Display", 
+        "description": ""
+    }, 
+    {
+        "source": "General", 
+        "text": "\u5168\u822c", 
+        "nameSpace": "djv::UI::Settings", 
+        "id": "General", 
+        "description": ""
+    }, 
+    {
+        "source": "A", 
+        "text": "A", 
+        "nameSpace": "djv::UI::Settings", 
+        "id": "A", 
+        "description": ""
+    }, 
+    {
+        "source": "JPEG", 
+        "text": "JPEG", 
+        "nameSpace": "djv::UI::JPEGSettingsWidget", 
+        "id": "JPEG", 
+        "description": ""
+    }, 
+    {
+        "source": "I/O", 
+        "text": "\u5165\u51fa\u529b", 
+        "nameSpace": "djv::UI::Settings", 
+        "id": "IO", 
+        "description": ""
+    }, 
+    {
+        "source": "B", 
+        "text": "B", 
+        "nameSpace": "djv::UI::Settings", 
+        "id": "B", 
+        "description": ""
+    }, 
+    {
+        "source": "PPM", 
+        "text": "PPM", 
+        "nameSpace": "djv::UI::PPMSettingsWidget", 
+        "id": "PPM", 
+        "description": ""
+    }, 
+    {
+        "source": "Palette", 
+        "text": "\u30d1\u30ec\u30c3\u30c8", 
+        "nameSpace": "djv::UI::PaletteSettingsWidget", 
+        "id": "Palette", 
         "description": ""
     }
 ]

@@ -1,282 +1,338 @@
 [
     {
         "source": "Up", 
-        "text": "Nahoru", 
+        "description": "", 
         "nameSpace": "djv::UI::FileBrowser", 
         "id": "Up", 
-        "description": ""
+        "text": "Nahoru"
     }, 
     {
         "source": "Up Tooltip", 
-        "text": "Up Tip n\u00e1stroje", 
+        "description": "", 
         "nameSpace": "djv::UI::FileBrowser", 
         "id": "Up Tooltip", 
-        "description": ""
+        "text": "Up Tip n\u00e1stroje"
     }, 
     {
         "source": "Current Directory", 
-        "text": "Aktu\u00e1ln\u00ed adres\u00e1\u0159", 
+        "description": "", 
         "nameSpace": "djv::UI::FileBrowser", 
         "id": "Current Directory", 
-        "description": ""
+        "text": "Aktu\u00e1ln\u00ed adres\u00e1\u0159"
     }, 
     {
         "source": "Current Directory Tooltip", 
-        "text": "Aktu\u00e1ln\u00ed popis adres\u00e1\u0159e", 
+        "description": "", 
         "nameSpace": "djv::UI::FileBrowser", 
         "id": "Current Directory Tooltip", 
-        "description": ""
+        "text": "Aktu\u00e1ln\u00ed popis adres\u00e1\u0159e"
     }, 
     {
         "source": "Back", 
-        "text": "Zadn\u00ed", 
+        "description": "", 
         "nameSpace": "djv::UI::FileBrowser", 
         "id": "Back", 
-        "description": ""
+        "text": "Zadn\u00ed"
     }, 
     {
         "source": "Back Tooltip", 
-        "text": "Zp\u011bt N\u00e1pov\u011bda", 
+        "description": "", 
         "nameSpace": "djv::UI::FileBrowser", 
         "id": "Back Tooltip", 
-        "description": ""
+        "text": "Zp\u011bt N\u00e1pov\u011bda"
     }, 
     {
         "source": "Forward", 
-        "text": "Vp\u0159ed", 
+        "description": "", 
         "nameSpace": "djv::UI::FileBrowser", 
         "id": "Forward", 
-        "description": ""
+        "text": "Vp\u0159ed"
     }, 
     {
         "source": "Forward Tooltip", 
-        "text": "Dop\u0159edn\u00fd popis n\u00e1stroje", 
+        "description": "", 
         "nameSpace": "djv::UI::FileBrowser", 
         "id": "Forward Tooltip", 
-        "description": ""
+        "text": "Dop\u0159edn\u00fd popis n\u00e1stroje"
     }, 
     {
         "source": "Large Thumbnails", 
-        "text": "Velk\u00e9 miniatury", 
+        "description": "", 
         "nameSpace": "djv::UI::FileBrowser", 
         "id": "Large Thumbnails", 
-        "description": ""
+        "text": "Velk\u00e9 miniatury"
     }, 
     {
         "source": "Large Thumbnails Tooltip", 
-        "text": "Velk\u00fd n\u00e1hled Tooltip", 
+        "description": "", 
         "nameSpace": "djv::UI::FileBrowser", 
         "id": "Large Thumbnails Tooltip", 
-        "description": ""
+        "text": "Velk\u00fd n\u00e1hled Tooltip"
     }, 
     {
         "source": "Small Thumbnails", 
-        "text": "Mal\u00e9 miniatury", 
+        "description": "", 
         "nameSpace": "djv::UI::FileBrowser", 
         "id": "Small Thumbnails", 
-        "description": ""
+        "text": "Mal\u00e9 miniatury"
     }, 
     {
         "source": "Small Thumbnails Tooltip", 
-        "text": "Mal\u00fd n\u00e1hled Tooltip", 
+        "description": "", 
         "nameSpace": "djv::UI::FileBrowser", 
         "id": "Small Thumbnails Tooltip", 
-        "description": ""
+        "text": "Mal\u00fd n\u00e1hled Tooltip"
     }, 
     {
         "source": "List View", 
-        "text": "Zobrazen\u00ed seznamu", 
+        "description": "", 
         "nameSpace": "djv::UI::FileBrowser", 
         "id": "List View", 
-        "description": ""
+        "text": "Zobrazen\u00ed seznamu"
     }, 
     {
         "source": "List View Tooltip", 
-        "text": "Popisek seznamu zobrazen\u00ed seznamu", 
+        "description": "", 
         "nameSpace": "djv::UI::FileBrowser", 
         "id": "List View Tooltip", 
-        "description": ""
+        "text": "Popisek seznamu zobrazen\u00ed seznamu"
     }, 
     {
         "source": "File Sequences", 
-        "text": "Sekvence soubor\u016f", 
+        "description": "", 
         "nameSpace": "djv::UI::FileBrowser", 
         "id": "File Sequences", 
-        "description": ""
+        "text": "Sekvence soubor\u016f"
     }, 
     {
         "source": "File Sequences Tooltip", 
-        "text": "Sekvence soubor\u016f sady n\u00e1stroj\u016f", 
+        "description": "", 
         "nameSpace": "djv::UI::FileBrowser", 
         "id": "File Sequences Tooltip", 
-        "description": ""
+        "text": "Sekvence soubor\u016f sady n\u00e1stroj\u016f"
     }, 
     {
         "source": "Show Hidden", 
-        "text": "Zobrazit skryt\u00e9", 
+        "description": "", 
         "nameSpace": "djv::UI::FileBrowser", 
         "id": "Show Hidden", 
-        "description": ""
+        "text": "Zobrazit skryt\u00e9"
     }, 
     {
         "source": "Show Hidden Tooltip", 
-        "text": "Zobrazit skryt\u00fd popisek", 
+        "description": "", 
         "nameSpace": "djv::UI::FileBrowser", 
         "id": "Show Hidden Tooltip", 
-        "description": ""
+        "text": "Zobrazit skryt\u00fd popisek"
     }, 
     {
         "source": "Directory", 
-        "text": "Adres\u00e1\u0159", 
+        "description": "", 
         "nameSpace": "djv::UI::FileBrowser", 
         "id": "Directory", 
-        "description": ""
+        "text": "Adres\u00e1\u0159"
     }, 
     {
         "source": "View", 
-        "text": "Pohled", 
+        "description": "", 
         "nameSpace": "djv::UI::FileBrowser", 
         "id": "View", 
-        "description": ""
+        "text": "Pohled"
     }, 
     {
         "source": "Sort", 
-        "text": "T\u0159\u00eddit", 
+        "description": "", 
         "nameSpace": "djv::UI::FileBrowser", 
         "id": "Sort", 
-        "description": ""
+        "text": "T\u0159\u00eddit"
     }, 
     {
         "source": "Bookmarks", 
-        "text": "Z\u00e1lo\u017eky", 
+        "description": "", 
         "nameSpace": "djv::UI::FileBrowser", 
         "id": "Bookmarks", 
-        "description": ""
+        "text": "Z\u00e1lo\u017eky"
     }, 
     {
         "source": "items", 
-        "text": "polo\u017eek", 
+        "description": "", 
         "nameSpace": "djv::UI::FileBrowser", 
         "id": "items", 
-        "description": ""
+        "text": "polo\u017eek"
     }, 
     {
         "source": "Size", 
-        "text": "Velikost", 
+        "description": "", 
         "nameSpace": "djv::UI::FileBrowser", 
         "id": "Size", 
-        "description": ""
+        "text": "Velikost"
     }, 
     {
         "source": "Last modification time", 
-        "text": "Posledn\u00ed zm\u011bna \u010dasu", 
+        "description": "", 
         "nameSpace": "djv::UI::FileBrowser", 
         "id": "Last modification time", 
-        "description": ""
+        "text": "Posledn\u00ed zm\u011bna \u010dasu"
     }, 
     {
         "source": "Video track", 
-        "text": "Video stopa", 
+        "description": "", 
         "nameSpace": "djv::UI::FileBrowser", 
         "id": "Video track", 
-        "description": ""
+        "text": "Video stopa"
     }, 
     {
         "source": "Type", 
-        "text": "Typ", 
+        "description": "", 
         "nameSpace": "djv::UI::FileBrowser", 
         "id": "Type", 
-        "description": ""
+        "text": "Typ"
     }, 
     {
         "source": "Speed", 
-        "text": "Rychlost", 
+        "description": "", 
         "nameSpace": "djv::UI::FileBrowser", 
         "id": "Speed", 
-        "description": ""
+        "text": "Rychlost"
     }, 
     {
         "source": "FPS", 
-        "text": "FPS", 
+        "description": "", 
         "nameSpace": "djv::UI::FileBrowser", 
         "id": "FPS", 
-        "description": ""
+        "text": "FPS"
     }, 
     {
         "source": "Duration", 
-        "text": "Doba trv\u00e1n\u00ed", 
+        "description": "", 
         "nameSpace": "djv::UI::FileBrowser", 
         "id": "Duration", 
-        "description": ""
+        "text": "Doba trv\u00e1n\u00ed"
     }, 
     {
         "source": "Audio track", 
-        "text": "Audio stopa", 
+        "description": "", 
         "nameSpace": "djv::UI::FileBrowser", 
         "id": "Audio track", 
-        "description": ""
+        "text": "Audio stopa"
     }, 
     {
         "source": "Channels", 
-        "text": "Kan\u00e1ly", 
+        "description": "", 
         "nameSpace": "djv::UI::FileBrowser", 
         "id": "Channels", 
-        "description": ""
+        "text": "Kan\u00e1ly"
     }, 
     {
         "source": "Sample rate", 
-        "text": "Vzorkovac\u00ed frekvence", 
+        "description": "", 
         "nameSpace": "djv::UI::FileBrowser", 
         "id": "Sample rate", 
-        "description": ""
+        "text": "Vzorkovac\u00ed frekvence"
     }, 
     {
         "source": "kHz", 
-        "text": "kHz", 
+        "description": "", 
         "nameSpace": "djv::UI::FileBrowser", 
         "id": "kHz", 
-        "description": ""
+        "text": "kHz"
     }, 
     {
         "source": "History Tooltip", 
-        "text": "Popiska historie", 
+        "description": "", 
         "nameSpace": "djv::UI::FileBrowser", 
         "id": "History Tooltip", 
-        "description": ""
+        "text": "Popiska historie"
     }, 
     {
         "source": "Display Size", 
-        "text": "Velikost Displeje", 
+        "description": "", 
         "nameSpace": "djv::ViewLib::GeneralSettingsWidget", 
         "id": "Display Size", 
-        "description": ""
+        "text": "Velikost Displeje"
     }, 
     {
         "source": "Language", 
-        "text": "Jazyk", 
+        "description": "", 
         "nameSpace": "djv::ViewLib::GeneralSettingsWidget", 
         "id": "Language", 
-        "description": ""
+        "text": "Jazyk"
     }, 
     {
         "source": "Color Palette", 
-        "text": "Paleta barev", 
+        "description": "", 
         "nameSpace": "djv::ViewLib::GeneralSettingsWidget", 
         "id": "Color Palette", 
-        "description": ""
+        "text": "Paleta barev"
     }, 
     {
         "source": "Compression Quality", 
-        "text": "Kvalita komprese", 
+        "description": "", 
         "nameSpace": "djv::UI::JPEGSettingsWidget", 
         "id": "Compression Quality", 
-        "description": ""
+        "text": "Kvalita komprese"
     }, 
     {
         "source": "Data Type", 
-        "text": "Datov\u00fd typ", 
+        "description": "", 
         "nameSpace": "djv::UI::PPMSettingsWidget", 
         "id": "Data Type", 
+        "text": "Datov\u00fd typ"
+    }, 
+    {
+        "source": "Display", 
+        "text": "Zobrazit", 
+        "nameSpace": "djv::UI::DisplaySettingsWidget", 
+        "id": "Display", 
+        "description": ""
+    }, 
+    {
+        "source": "General", 
+        "text": "V\u0161eobecn\u00e9", 
+        "nameSpace": "djv::UI::Settings", 
+        "id": "General", 
+        "description": ""
+    }, 
+    {
+        "source": "A", 
+        "text": "A", 
+        "nameSpace": "djv::UI::Settings", 
+        "id": "A", 
+        "description": ""
+    }, 
+    {
+        "source": "JPEG", 
+        "text": "JPEG", 
+        "nameSpace": "djv::UI::JPEGSettingsWidget", 
+        "id": "JPEG", 
+        "description": ""
+    }, 
+    {
+        "source": "I/O", 
+        "text": "I / O", 
+        "nameSpace": "djv::UI::Settings", 
+        "id": "IO", 
+        "description": ""
+    }, 
+    {
+        "source": "B", 
+        "text": "B", 
+        "nameSpace": "djv::UI::Settings", 
+        "id": "B", 
+        "description": ""
+    }, 
+    {
+        "source": "PPM", 
+        "text": "PPM", 
+        "nameSpace": "djv::UI::PPMSettingsWidget", 
+        "id": "PPM", 
+        "description": ""
+    }, 
+    {
+        "source": "Palette", 
+        "text": "Paleta", 
+        "nameSpace": "djv::UI::PaletteSettingsWidget", 
+        "id": "Palette", 
         "description": ""
     }
 ]

@@ -158,7 +158,7 @@ namespace djv
 
         std::string LanguageSettingsWidget::getGroupSortKey() const
         {
-            return DJV_TEXT("djv::UI::Settings", "A");
+            return "A";
         }
 
         void LanguageSettingsWidget::_localeEvent(Event::Locale & event)

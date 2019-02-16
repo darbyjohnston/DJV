@@ -115,7 +115,7 @@ namespace djv
 
         std::string JPEGSettingsWidget::getGroupSortKey() const
         {
-            return DJV_TEXT("djv::UI::Settings", "B");
+            return "B";
         }
 
 		void JPEGSettingsWidget::_localeEvent(Event::Locale & event)

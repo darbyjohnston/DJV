@@ -1,1871 +1,1871 @@
 [
     {
-        "id": "MSB", 
         "source": "MSB", 
+        "text": "MSB", 
         "nameSpace": "djv::Core::Memory", 
-        "description": "", 
-        "text": "MSB"
+        "id": "MSB", 
+        "description": ""
     }, 
     {
-        "id": "LSB", 
         "source": "LSB", 
+        "text": "LSB", 
         "nameSpace": "djv::Core::Memory", 
-        "description": "", 
-        "text": "LSB"
+        "id": "LSB", 
+        "description": ""
     }, 
     {
-        "id": "Home", 
         "source": "Home", 
+        "text": "Casa", 
         "nameSpace": "djv::Core::OS", 
-        "description": "", 
-        "text": "Casa"
+        "id": "Home", 
+        "description": ""
     }, 
     {
-        "id": "Desktop", 
         "source": "Desktop", 
+        "text": "Desktop", 
         "nameSpace": "djv::Core::OS", 
-        "description": "", 
-        "text": "Desktop"
+        "id": "Desktop", 
+        "description": ""
     }, 
     {
-        "id": "Documents", 
         "source": "Documents", 
+        "text": "Documenti", 
         "nameSpace": "djv::Core::OS", 
-        "description": "", 
-        "text": "Documenti"
+        "id": "Documents", 
+        "description": ""
     }, 
     {
-        "id": "Downloads", 
         "source": "Downloads", 
+        "text": "download", 
         "nameSpace": "djv::Core::OS", 
-        "description": "", 
-        "text": "download"
+        "id": "Downloads", 
+        "description": ""
     }, 
     {
-        "id": "Cannot create directory", 
         "source": "Cannot create directory", 
+        "text": "Impossibile creare la directory", 
         "nameSpace": "djv::Core::FileSystem", 
-        "description": "", 
-        "text": "Impossibile creare la directory"
+        "id": "Cannot create directory", 
+        "description": ""
     }, 
     {
-        "id": "Amargosa Canyon Speckled Dace", 
         "source": "Amargosa Canyon Speckled Dace", 
+        "text": "Amargosa Canyon Speckled Dace", 
         "nameSpace": "djv::Core::String", 
-        "description": "", 
-        "text": "Amargosa Canyon Speckled Dace"
+        "id": "Amargosa Canyon Speckled Dace", 
+        "description": ""
     }, 
     {
-        "id": "Amargosa River Pupfish", 
         "source": "Amargosa River Pupfish", 
+        "text": "Amargosa River Pupfish", 
         "nameSpace": "djv::Core::String", 
-        "description": "", 
-        "text": "Amargosa River Pupfish"
+        "id": "Amargosa River Pupfish", 
+        "description": ""
     }, 
     {
-        "id": "American Shad", 
         "source": "American Shad", 
+        "text": "Shad americana", 
         "nameSpace": "djv::Core::String", 
-        "description": "", 
-        "text": "Shad americana"
+        "id": "American Shad", 
+        "description": ""
     }, 
     {
-        "id": "Arroyo Chub", 
         "source": "Arroyo Chub", 
+        "text": "Arroyo Chub", 
         "nameSpace": "djv::Core::String", 
-        "description": "", 
-        "text": "Arroyo Chub"
+        "id": "Arroyo Chub", 
+        "description": ""
     }, 
     {
-        "id": "Bigeye Marbled Sculpin", 
         "source": "Bigeye Marbled Sculpin", 
+        "text": "Mostro marmorizzato marmorizzato", 
         "nameSpace": "djv::Core::String", 
-        "description": "", 
-        "text": "Mostro marmorizzato marmorizzato"
+        "id": "Bigeye Marbled Sculpin", 
+        "description": ""
     }, 
     {
-        "id": "Bigscale Logperch", 
         "source": "Bigscale Logperch", 
+        "text": "Bigscale Logperch", 
         "nameSpace": "djv::Core::String", 
-        "description": "", 
-        "text": "Bigscale Logperch"
+        "id": "Bigscale Logperch", 
+        "description": ""
     }, 
     {
-        "id": "Black Bullhead", 
         "source": "Black Bullhead", 
+        "text": "Black Bullhead", 
         "nameSpace": "djv::Core::String", 
-        "description": "", 
-        "text": "Black Bullhead"
+        "id": "Black Bullhead", 
+        "description": ""
     }, 
     {
-        "id": "Black Crappie", 
         "source": "Black Crappie", 
+        "text": "Crappie nero", 
         "nameSpace": "djv::Core::String", 
-        "description": "", 
-        "text": "Crappie nero"
+        "id": "Black Crappie", 
+        "description": ""
     }, 
     {
-        "id": "Blue Catfish", 
         "source": "Blue Catfish", 
+        "text": "Pesce gatto blu", 
         "nameSpace": "djv::Core::String", 
-        "description": "", 
-        "text": "Pesce gatto blu"
+        "id": "Blue Catfish", 
+        "description": ""
     }, 
     {
-        "id": "Blue Chub", 
         "source": "Blue Chub", 
+        "text": "Cavedano blu", 
         "nameSpace": "djv::Core::String", 
-        "description": "", 
-        "text": "Cavedano blu"
+        "id": "Blue Chub", 
+        "description": ""
     }, 
     {
-        "id": "Bluefin Killifish", 
         "source": "Bluefin Killifish", 
+        "text": "Bluefin Killifish", 
         "nameSpace": "djv::Core::String", 
-        "description": "", 
-        "text": "Bluefin Killifish"
+        "id": "Bluefin Killifish", 
+        "description": ""
     }, 
     {
-        "id": "Bluegill", 
         "source": "Bluegill", 
+        "text": "Bluegill", 
         "nameSpace": "djv::Core::String", 
-        "description": "", 
-        "text": "Bluegill"
+        "id": "Bluegill", 
+        "description": ""
     }, 
     {
-        "id": "Lepomis macrochirus", 
         "source": "Lepomis macrochirus", 
+        "text": "Lepomis macrochirus", 
         "nameSpace": "djv::Core::String", 
-        "description": "", 
-        "text": "Lepomis macrochirus"
+        "id": "Lepomis macrochirus", 
+        "description": ""
     }, 
     {
-        "id": "Bonytail", 
         "source": "Bonytail", 
+        "text": "Bonytail", 
         "nameSpace": "djv::Core::String", 
-        "description": "", 
-        "text": "Bonytail"
+        "id": "Bonytail", 
+        "description": ""
     }, 
     {
-        "id": "Brook Stickleback", 
         "source": "Brook Stickleback", 
+        "text": "Brook Stickleback", 
         "nameSpace": "djv::Core::String", 
-        "description": "", 
-        "text": "Brook Stickleback"
+        "id": "Brook Stickleback", 
+        "description": ""
     }, 
     {
-        "id": "Brook Trout", 
         "source": "Brook Trout", 
+        "text": "Brook Trout", 
         "nameSpace": "djv::Core::String", 
-        "description": "", 
-        "text": "Brook Trout"
+        "id": "Brook Trout", 
+        "description": ""
     }, 
     {
-        "id": "Brown Bullhead", 
         "source": "Brown Bullhead", 
+        "text": "Testa di toro marrone", 
         "nameSpace": "djv::Core::String", 
-        "description": "", 
-        "text": "Testa di toro marrone"
+        "id": "Brown Bullhead", 
+        "description": ""
     }, 
     {
-        "id": "Brown Trout", 
         "source": "Brown Trout", 
+        "text": "Trota fario", 
         "nameSpace": "djv::Core::String", 
-        "description": "", 
-        "text": "Trota fario"
+        "id": "Brown Trout", 
+        "description": ""
     }, 
     {
-        "id": "Bull Trout", 
         "source": "Bull Trout", 
+        "text": "Trota toro", 
         "nameSpace": "djv::Core::String", 
-        "description": "", 
-        "text": "Trota toro"
+        "id": "Bull Trout", 
+        "description": ""
     }, 
     {
-        "id": "California Coast Fall Chinook Salmon", 
         "source": "California Coast Fall Chinook Salmon", 
+        "text": "Salmone alla chinook di California Coast Fall", 
         "nameSpace": "djv::Core::String", 
-        "description": "", 
-        "text": "Salmone alla chinook di California Coast Fall"
+        "id": "California Coast Fall Chinook Salmon", 
+        "description": ""
     }, 
     {
-        "id": "California Golden Trout", 
         "source": "California Golden Trout", 
+        "text": "Trota dorata della California", 
         "nameSpace": "djv::Core::String", 
-        "description": "", 
-        "text": "Trota dorata della California"
+        "id": "California Golden Trout", 
+        "description": ""
     }, 
     {
-        "id": "California Killifish", 
         "source": "California Killifish", 
+        "text": "California Killifish", 
         "nameSpace": "djv::Core::String", 
-        "description": "", 
-        "text": "California Killifish"
+        "id": "California Killifish", 
+        "description": ""
     }, 
     {
-        "id": "California Tilapia", 
         "source": "California Tilapia", 
+        "text": "Tilapia della California", 
         "nameSpace": "djv::Core::String", 
-        "description": "", 
-        "text": "Tilapia della California"
+        "id": "California Tilapia", 
+        "description": ""
     }, 
     {
-        "id": "Central California Coast Winter Steelhead", 
         "source": "Central California Coast Winter Steelhead", 
+        "text": "Steelhead di Central California Coast Winter", 
         "nameSpace": "djv::Core::String", 
-        "description": "", 
-        "text": "Steelhead di Central California Coast Winter"
+        "id": "Central California Coast Winter Steelhead", 
+        "description": ""
     }, 
     {
-        "id": "Central California Roach", 
         "source": "Central California Roach", 
+        "text": "Scarafaggio della California centrale", 
         "nameSpace": "djv::Core::String", 
-        "description": "", 
-        "text": "Scarafaggio della California centrale"
+        "id": "Central California Roach", 
+        "description": ""
     }, 
     {
-        "id": "Central Coast Coho Salmon", 
         "source": "Central Coast Coho Salmon", 
+        "text": "Salmone di Coho della costa centrale", 
         "nameSpace": "djv::Core::String", 
-        "description": "", 
-        "text": "Salmone di Coho della costa centrale"
+        "id": "Central Coast Coho Salmon", 
+        "description": ""
     }, 
     {
-        "id": "Central Valley Fall Chinook Salmon", 
         "source": "Central Valley Fall Chinook Salmon", 
+        "text": "Salmone Chinook di Central Valley Fall", 
         "nameSpace": "djv::Core::String", 
-        "description": "", 
-        "text": "Salmone Chinook di Central Valley Fall"
+        "id": "Central Valley Fall Chinook Salmon", 
+        "description": ""
     }, 
     {
-        "id": "Central Valley late Fall Chinook Salmon", 
         "source": "Central Valley late Fall Chinook Salmon", 
+        "text": "Salmone Chinook di fine autunno nella Central Valley", 
         "nameSpace": "djv::Core::String", 
-        "description": "", 
-        "text": "Salmone Chinook di fine autunno nella Central Valley"
+        "id": "Central Valley late Fall Chinook Salmon", 
+        "description": ""
     }, 
     {
-        "id": "Oncorhynchus tshawytscha", 
         "source": "Oncorhynchus tshawytscha", 
+        "text": "Oncorhynchus tshawytscha", 
         "nameSpace": "djv::Core::String", 
-        "description": "", 
-        "text": "Oncorhynchus tshawytscha"
+        "id": "Oncorhynchus tshawytscha", 
+        "description": ""
     }, 
     {
-        "id": "Central Valley spring Chinook Salmon", 
         "source": "Central Valley spring Chinook Salmon", 
+        "text": "Salmone Chinook primavera Central Valley", 
         "nameSpace": "djv::Core::String", 
-        "description": "", 
-        "text": "Salmone Chinook primavera Central Valley"
+        "id": "Central Valley spring Chinook Salmon", 
+        "description": ""
     }, 
     {
-        "id": "Central Valley Steelhead", 
         "source": "Central Valley Steelhead", 
+        "text": "Steelhead della Central Valley", 
         "nameSpace": "djv::Core::String", 
-        "description": "", 
-        "text": "Steelhead della Central Valley"
+        "id": "Central Valley Steelhead", 
+        "description": ""
     }, 
     {
-        "id": "Central Valley Winter Chinook Salmon", 
         "source": "Central Valley Winter Chinook Salmon", 
+        "text": "Salmone di Chinook di Central Valley Winter", 
         "nameSpace": "djv::Core::String", 
-        "description": "", 
-        "text": "Salmone di Chinook di Central Valley Winter"
+        "id": "Central Valley Winter Chinook Salmon", 
+        "description": ""
     }, 
     {
-        "id": "Channel Catfish", 
         "source": "Channel Catfish", 
+        "text": "Catfish del canale", 
         "nameSpace": "djv::Core::String", 
-        "description": "", 
-        "text": "Catfish del canale"
+        "id": "Channel Catfish", 
+        "description": ""
     }, 
     {
-        "id": "Chum Salmon", 
         "source": "Chum Salmon", 
+        "text": "Chum Salmon", 
         "nameSpace": "djv::Core::String", 
-        "description": "", 
-        "text": "Chum Salmon"
+        "id": "Chum Salmon", 
+        "description": ""
     }, 
     {
-        "id": "Clear Lake Hitch", 
         "source": "Clear Lake Hitch", 
+        "text": "Clear Lake Hitch", 
         "nameSpace": "djv::Core::String", 
-        "description": "", 
-        "text": "Clear Lake Hitch"
+        "id": "Clear Lake Hitch", 
+        "description": ""
     }, 
     {
-        "id": "Clear Lake Prickly Sculpin", 
         "source": "Clear Lake Prickly Sculpin", 
+        "text": "Clear Lake Sculpin spinoso", 
         "nameSpace": "djv::Core::String", 
-        "description": "", 
-        "text": "Clear Lake Sculpin spinoso"
+        "id": "Clear Lake Prickly Sculpin", 
+        "description": ""
     }, 
     {
-        "id": "Clear Lake Roach", 
         "source": "Clear Lake Roach", 
+        "text": "Clear Lake Roach", 
         "nameSpace": "djv::Core::String", 
-        "description": "", 
-        "text": "Clear Lake Roach"
+        "id": "Clear Lake Roach", 
+        "description": ""
     }, 
     {
-        "id": "Clear Lake Splittail", 
         "source": "Clear Lake Splittail", 
+        "text": "Clear Lake Splittail", 
         "nameSpace": "djv::Core::String", 
-        "description": "", 
-        "text": "Clear Lake Splittail"
+        "id": "Clear Lake Splittail", 
+        "description": ""
     }, 
     {
-        "id": "Clear Lake Tule Perch", 
         "source": "Clear Lake Tule Perch", 
+        "text": "Clear Lake Tule Perch", 
         "nameSpace": "djv::Core::String", 
-        "description": "", 
-        "text": "Clear Lake Tule Perch"
+        "id": "Clear Lake Tule Perch", 
+        "description": ""
     }, 
     {
-        "id": "Coastal Cutthroat Trout", 
         "source": "Coastal Cutthroat Trout", 
+        "text": "Trota costiera di tagliagole", 
         "nameSpace": "djv::Core::String", 
-        "description": "", 
-        "text": "Trota costiera di tagliagole"
+        "id": "Coastal Cutthroat Trout", 
+        "description": ""
     }, 
     {
-        "id": "Coastal Rainbow Trout", 
         "source": "Coastal Rainbow Trout", 
+        "text": "Trota arcobaleno costiera", 
         "nameSpace": "djv::Core::String", 
-        "description": "", 
-        "text": "Trota arcobaleno costiera"
+        "id": "Coastal Rainbow Trout", 
+        "description": ""
     }, 
     {
-        "id": "Coastal Threespine Stickleback", 
         "source": "Coastal Threespine Stickleback", 
+        "text": "Coastal Threespine Stickleback", 
         "nameSpace": "djv::Core::String", 
-        "description": "", 
-        "text": "Coastal Threespine Stickleback"
+        "id": "Coastal Threespine Stickleback", 
+        "description": ""
     }, 
     {
-        "id": "Coastrange Sculpin", 
         "source": "Coastrange Sculpin", 
+        "text": "Sculpin di pietra", 
         "nameSpace": "djv::Core::String", 
-        "description": "", 
-        "text": "Sculpin di pietra"
+        "id": "Coastrange Sculpin", 
+        "description": ""
     }, 
     {
-        "id": "Colorado Pikeminnow", 
         "source": "Colorado Pikeminnow", 
+        "text": "Colorado Pikeminnow", 
         "nameSpace": "djv::Core::String", 
-        "description": "", 
-        "text": "Colorado Pikeminnow"
+        "id": "Colorado Pikeminnow", 
+        "description": ""
     }, 
     {
-        "id": "Colorado River Cutthroat Trout", 
         "source": "Colorado River Cutthroat Trout", 
+        "text": "Trota tagliata del fiume Colorado", 
         "nameSpace": "djv::Core::String", 
-        "description": "", 
-        "text": "Trota tagliata del fiume Colorado"
+        "id": "Colorado River Cutthroat Trout", 
+        "description": ""
     }, 
     {
-        "id": "Common Carp", 
         "source": "Common Carp", 
+        "text": "Carpa comune", 
         "nameSpace": "djv::Core::String", 
-        "description": "", 
-        "text": "Carpa comune"
+        "id": "Common Carp", 
+        "description": ""
     }, 
     {
-        "id": "Cottonball Marsh Pupfish", 
         "source": "Cottonball Marsh Pupfish", 
+        "text": "Cottonball Marsh Pupfish", 
         "nameSpace": "djv::Core::String", 
-        "description": "", 
-        "text": "Cottonball Marsh Pupfish"
+        "id": "Cottonball Marsh Pupfish", 
+        "description": ""
     }, 
     {
-        "id": "Cow Head Tui Chub", 
         "source": "Cow Head Tui Chub", 
+        "text": "Testa di mucca Tui Chub", 
         "nameSpace": "djv::Core::String", 
-        "description": "", 
-        "text": "Testa di mucca Tui Chub"
+        "id": "Cow Head Tui Chub", 
+        "description": ""
     }, 
     {
-        "id": "Delta Smelt", 
         "source": "Delta Smelt", 
+        "text": "Delta Melt", 
         "nameSpace": "djv::Core::String", 
-        "description": "", 
-        "text": "Delta Melt"
+        "id": "Delta Smelt", 
+        "description": ""
     }, 
     {
-        "id": "Desert Pupfish", 
         "source": "Desert Pupfish", 
+        "text": "Pupfish del deserto", 
         "nameSpace": "djv::Core::String", 
-        "description": "", 
-        "text": "Pupfish del deserto"
+        "id": "Desert Pupfish", 
+        "description": ""
     }, 
     {
-        "id": "Eagle Lake Rainbow Trout", 
         "source": "Eagle Lake Rainbow Trout", 
+        "text": "Eagle Lake Rainbow Trout", 
         "nameSpace": "djv::Core::String", 
-        "description": "", 
-        "text": "Eagle Lake Rainbow Trout"
+        "id": "Eagle Lake Rainbow Trout", 
+        "description": ""
     }, 
     {
-        "id": "Eagle Lake Tui Chub", 
         "source": "Eagle Lake Tui Chub", 
+        "text": "Cavedano del lago Eagle Tui", 
         "nameSpace": "djv::Core::String", 
-        "description": "", 
-        "text": "Cavedano del lago Eagle Tui"
+        "id": "Eagle Lake Tui Chub", 
+        "description": ""
     }, 
     {
-        "id": "Eulachon", 
         "source": "Eulachon", 
+        "text": "Eulachon", 
         "nameSpace": "djv::Core::String", 
-        "description": "", 
-        "text": "Eulachon"
+        "id": "Eulachon", 
+        "description": ""
     }, 
     {
-        "id": "Fathead Minnow", 
         "source": "Fathead Minnow", 
+        "text": "Fathead Minnow", 
         "nameSpace": "djv::Core::String", 
-        "description": "", 
-        "text": "Fathead Minnow"
+        "id": "Fathead Minnow", 
+        "description": ""
     }, 
     {
-        "id": "Flannelmouth Sucker", 
         "source": "Flannelmouth Sucker", 
+        "text": "Flannelmouth Sucker", 
         "nameSpace": "djv::Core::String", 
-        "description": "", 
-        "text": "Flannelmouth Sucker"
+        "id": "Flannelmouth Sucker", 
+        "description": ""
     }, 
     {
-        "id": "Flathead Catfish", 
         "source": "Flathead Catfish", 
+        "text": "Pesce gatto a testa piatta", 
         "nameSpace": "djv::Core::String", 
-        "description": "", 
-        "text": "Pesce gatto a testa piatta"
+        "id": "Flathead Catfish", 
+        "description": ""
     }, 
     {
-        "id": "Golden Shiner", 
         "source": "Golden Shiner", 
+        "text": "Golden Shiner", 
         "nameSpace": "djv::Core::String", 
-        "description": "", 
-        "text": "Golden Shiner"
+        "id": "Golden Shiner", 
+        "description": ""
     }, 
     {
-        "id": "Goldfish", 
         "source": "Goldfish", 
+        "text": "pesce rosso", 
         "nameSpace": "djv::Core::String", 
-        "description": "", 
-        "text": "pesce rosso"
+        "id": "Goldfish", 
+        "description": ""
     }, 
     {
-        "id": "Goose Lake Lamprey", 
         "source": "Goose Lake Lamprey", 
+        "text": "Lago d&#39;oca Lamprey", 
         "nameSpace": "djv::Core::String", 
-        "description": "", 
-        "text": "Lago d&#39;oca Lamprey"
+        "id": "Goose Lake Lamprey", 
+        "description": ""
     }, 
     {
-        "id": "Goose Lake Redband Trout", 
         "source": "Goose Lake Redband Trout", 
+        "text": "Trota di Redband del Lago d&#39;oca", 
         "nameSpace": "djv::Core::String", 
-        "description": "", 
-        "text": "Trota di Redband del Lago d&#39;oca"
+        "id": "Goose Lake Redband Trout", 
+        "description": ""
     }, 
     {
-        "id": "Goose Lake Sucker", 
         "source": "Goose Lake Sucker", 
+        "text": "Goose Lake Sucker", 
         "nameSpace": "djv::Core::String", 
-        "description": "", 
-        "text": "Goose Lake Sucker"
+        "id": "Goose Lake Sucker", 
+        "description": ""
     }, 
     {
-        "id": "Goose Lake Tui Chub", 
         "source": "Goose Lake Tui Chub", 
+        "text": "Cavedano d&#39;oca Tui Chub", 
         "nameSpace": "djv::Core::String", 
-        "description": "", 
-        "text": "Cavedano d&#39;oca Tui Chub"
+        "id": "Goose Lake Tui Chub", 
+        "description": ""
     }, 
     {
-        "id": "Grass Carp", 
         "source": "Grass Carp", 
+        "text": "Carpa erbosa", 
         "nameSpace": "djv::Core::String", 
-        "description": "", 
-        "text": "Carpa erbosa"
+        "id": "Grass Carp", 
+        "description": ""
     }, 
     {
-        "id": "Green Sunfish", 
         "source": "Green Sunfish", 
+        "text": "Sunfish verde", 
         "nameSpace": "djv::Core::String", 
-        "description": "", 
-        "text": "Sunfish verde"
+        "id": "Green Sunfish", 
+        "description": ""
     }, 
     {
-        "id": "Gualala Roach", 
         "source": "Gualala Roach", 
+        "text": "Gualala Roach", 
         "nameSpace": "djv::Core::String", 
-        "description": "", 
-        "text": "Gualala Roach"
+        "id": "Gualala Roach", 
+        "description": ""
     }, 
     {
-        "id": "Hardhead", 
         "source": "Hardhead", 
+        "text": "testa dura", 
         "nameSpace": "djv::Core::String", 
-        "description": "", 
-        "text": "testa dura"
+        "id": "Hardhead", 
+        "description": ""
     }, 
     {
-        "id": "High Rock Springs Tui Chub", 
         "source": "High Rock Springs Tui Chub", 
+        "text": "High Rock Springs Tui Chub", 
         "nameSpace": "djv::Core::String", 
-        "description": "", 
-        "text": "High Rock Springs Tui Chub"
+        "id": "High Rock Springs Tui Chub", 
+        "description": ""
     }, 
     {
-        "id": "Humboldt Sucker", 
         "source": "Humboldt Sucker", 
+        "text": "Humboldt Sucker", 
         "nameSpace": "djv::Core::String", 
-        "description": "", 
-        "text": "Humboldt Sucker"
+        "id": "Humboldt Sucker", 
+        "description": ""
     }, 
     {
-        "id": "Inland Threespine Stickleback", 
         "source": "Inland Threespine Stickleback", 
+        "text": "Inland Threespine Stickleback", 
         "nameSpace": "djv::Core::String", 
-        "description": "", 
-        "text": "Inland Threespine Stickleback"
+        "id": "Inland Threespine Stickleback", 
+        "description": ""
     }, 
     {
-        "id": "Kern Brook Lamprey", 
         "source": "Kern Brook Lamprey", 
+        "text": "Kern Brook Lamprey", 
         "nameSpace": "djv::Core::String", 
-        "description": "", 
-        "text": "Kern Brook Lamprey"
+        "id": "Kern Brook Lamprey", 
+        "description": ""
     }, 
     {
-        "id": "Kern River Rainbow Trout", 
         "source": "Kern River Rainbow Trout", 
+        "text": "Trota iridea del fiume Kern", 
         "nameSpace": "djv::Core::String", 
-        "description": "", 
-        "text": "Trota iridea del fiume Kern"
+        "id": "Kern River Rainbow Trout", 
+        "description": ""
     }, 
     {
-        "id": "Klamath Largescale Sucker", 
         "source": "Klamath Largescale Sucker", 
+        "text": "Klamath Largescale Sucker", 
         "nameSpace": "djv::Core::String", 
-        "description": "", 
-        "text": "Klamath Largescale Sucker"
+        "id": "Klamath Largescale Sucker", 
+        "description": ""
     }, 
     {
-        "id": "Klamath Mountains Province Summer Steelhead", 
         "source": "Klamath Mountains Province Summer Steelhead", 
+        "text": "Steelhead di estate della provincia delle montagne di Klamath", 
         "nameSpace": "djv::Core::String", 
-        "description": "", 
-        "text": "Steelhead di estate della provincia delle montagne di Klamath"
+        "id": "Klamath Mountains Province Summer Steelhead", 
+        "description": ""
     }, 
     {
-        "id": "Klamath Mountains Province Winter Steelhead", 
         "source": "Klamath Mountains Province Winter Steelhead", 
+        "text": "Steelhead della provincia delle montagne di Klamath", 
         "nameSpace": "djv::Core::String", 
-        "description": "", 
-        "text": "Steelhead della provincia delle montagne di Klamath"
+        "id": "Klamath Mountains Province Winter Steelhead", 
+        "description": ""
     }, 
     {
-        "id": "Klamath River Lamprey", 
         "source": "Klamath River Lamprey", 
+        "text": "Lampreda del fiume Klamath", 
         "nameSpace": "djv::Core::String", 
-        "description": "", 
-        "text": "Lampreda del fiume Klamath"
+        "id": "Klamath River Lamprey", 
+        "description": ""
     }, 
     {
-        "id": "Klamath Smallscale Sucker", 
         "source": "Klamath Smallscale Sucker", 
+        "text": "Klamath Smallscale Sucker", 
         "nameSpace": "djv::Core::String", 
-        "description": "", 
-        "text": "Klamath Smallscale Sucker"
+        "id": "Klamath Smallscale Sucker", 
+        "description": ""
     }, 
     {
-        "id": "Klamath Speckled Dace", 
         "source": "Klamath Speckled Dace", 
+        "text": "Klamath Speckled Dace", 
         "nameSpace": "djv::Core::String", 
-        "description": "", 
-        "text": "Klamath Speckled Dace"
+        "id": "Klamath Speckled Dace", 
+        "description": ""
     }, 
     {
-        "id": "Klamath Tui Chub", 
         "source": "Klamath Tui Chub", 
+        "text": "Klamath Tui Chub", 
         "nameSpace": "djv::Core::String", 
-        "description": "", 
-        "text": "Klamath Tui Chub"
+        "id": "Klamath Tui Chub", 
+        "description": ""
     }, 
     {
-        "id": "Lahontan Cutthroat Trout", 
         "source": "Lahontan Cutthroat Trout", 
+        "text": "La trota tagliagole Lahontan", 
         "nameSpace": "djv::Core::String", 
-        "description": "", 
-        "text": "La trota tagliagole Lahontan"
+        "id": "Lahontan Cutthroat Trout", 
+        "description": ""
     }, 
     {
-        "id": "Lahontan Lake Tui Chub", 
         "source": "Lahontan Lake Tui Chub", 
+        "text": "Cavedano di Lahontan Lake Tui", 
         "nameSpace": "djv::Core::String", 
-        "description": "", 
-        "text": "Cavedano di Lahontan Lake Tui"
+        "id": "Lahontan Lake Tui Chub", 
+        "description": ""
     }, 
     {
-        "id": "Lahontan Mountain Sucker", 
         "source": "Lahontan Mountain Sucker", 
+        "text": "Lahontan Mountain Sucker", 
         "nameSpace": "djv::Core::String", 
-        "description": "", 
-        "text": "Lahontan Mountain Sucker"
+        "id": "Lahontan Mountain Sucker", 
+        "description": ""
     }, 
     {
-        "id": "Lahontan Redside", 
         "source": "Lahontan Redside", 
+        "text": "Lahontan Redside", 
         "nameSpace": "djv::Core::String", 
-        "description": "", 
-        "text": "Lahontan Redside"
+        "id": "Lahontan Redside", 
+        "description": ""
     }, 
     {
-        "id": "Lahontan Speckled Dace", 
         "source": "Lahontan Speckled Dace", 
+        "text": "Lahontan Speckled Dace", 
         "nameSpace": "djv::Core::String", 
-        "description": "", 
-        "text": "Lahontan Speckled Dace"
+        "id": "Lahontan Speckled Dace", 
+        "description": ""
     }, 
     {
-        "id": "Lahontan Stream Tui Chub", 
         "source": "Lahontan Stream Tui Chub", 
+        "text": "Lahontan Stream Tui Chub", 
         "nameSpace": "djv::Core::String", 
-        "description": "", 
-        "text": "Lahontan Stream Tui Chub"
+        "id": "Lahontan Stream Tui Chub", 
+        "description": ""
     }, 
     {
-        "id": "Lake Trout", 
         "source": "Lake Trout", 
+        "text": "Trota di lago", 
         "nameSpace": "djv::Core::String", 
-        "description": "", 
-        "text": "Trota di lago"
+        "id": "Lake Trout", 
+        "description": ""
     }, 
     {
-        "id": "Largemouth Bass", 
         "source": "Largemouth Bass", 
+        "text": "Persico trota", 
         "nameSpace": "djv::Core::String", 
-        "description": "", 
-        "text": "Persico trota"
+        "id": "Largemouth Bass", 
+        "description": ""
     }, 
     {
-        "id": "Little Kern Golden Trout", 
         "source": "Little Kern Golden Trout", 
+        "text": "Little Kern Golden Trout", 
         "nameSpace": "djv::Core::String", 
-        "description": "", 
-        "text": "Little Kern Golden Trout"
+        "id": "Little Kern Golden Trout", 
+        "description": ""
     }, 
     {
-        "id": "Long Valley Speckled Dace", 
         "source": "Long Valley Speckled Dace", 
+        "text": "Dace di Long Valley Speckled", 
         "nameSpace": "djv::Core::String", 
-        "description": "", 
-        "text": "Dace di Long Valley Speckled"
+        "id": "Long Valley Speckled Dace", 
+        "description": ""
     }, 
     {
-        "id": "Longfin Smelt", 
         "source": "Longfin Smelt", 
+        "text": "Longfin Smelt", 
         "nameSpace": "djv::Core::String", 
-        "description": "", 
-        "text": "Longfin Smelt"
+        "id": "Longfin Smelt", 
+        "description": ""
     }, 
     {
-        "id": "Longjaw Mudsucker", 
         "source": "Longjaw Mudsucker", 
+        "text": "Mudsucker Longjaw", 
         "nameSpace": "djv::Core::String", 
-        "description": "", 
-        "text": "Mudsucker Longjaw"
+        "id": "Longjaw Mudsucker", 
+        "description": ""
     }, 
     {
-        "id": "Lost River Sucker", 
         "source": "Lost River Sucker", 
+        "text": "Lost River Sucker", 
         "nameSpace": "djv::Core::String", 
-        "description": "", 
-        "text": "Lost River Sucker"
+        "id": "Lost River Sucker", 
+        "description": ""
     }, 
     {
-        "id": "Lower Klamath Marbled Sculpin", 
         "source": "Lower Klamath Marbled Sculpin", 
+        "text": "Lower Klamath Marbled Sculpin", 
         "nameSpace": "djv::Core::String", 
-        "description": "", 
-        "text": "Lower Klamath Marbled Sculpin"
+        "id": "Lower Klamath Marbled Sculpin", 
+        "description": ""
     }, 
     {
-        "id": "McCloud River Redband Trout", 
         "source": "McCloud River Redband Trout", 
+        "text": "McCloud River Redband Trout", 
         "nameSpace": "djv::Core::String", 
-        "description": "", 
-        "text": "McCloud River Redband Trout"
+        "id": "McCloud River Redband Trout", 
+        "description": ""
     }, 
     {
-        "id": "Mississippi Silversides", 
         "source": "Mississippi Silversides", 
+        "text": "Silversidi del Mississippi", 
         "nameSpace": "djv::Core::String", 
-        "description": "", 
-        "text": "Silversidi del Mississippi"
+        "id": "Mississippi Silversides", 
+        "description": ""
     }, 
     {
-        "id": "Modoc Sucker", 
         "source": "Modoc Sucker", 
+        "text": "Modoc Sucker", 
         "nameSpace": "djv::Core::String", 
-        "description": "", 
-        "text": "Modoc Sucker"
+        "id": "Modoc Sucker", 
+        "description": ""
     }, 
     {
-        "id": "Mojave Tui Chub", 
         "source": "Mojave Tui Chub", 
+        "text": "Mojave Tui Chub", 
         "nameSpace": "djv::Core::String", 
-        "description": "", 
-        "text": "Mojave Tui Chub"
+        "id": "Mojave Tui Chub", 
+        "description": ""
     }, 
     {
-        "id": "Monterey Hitch", 
         "source": "Monterey Hitch", 
+        "text": "Monterey Hitch", 
         "nameSpace": "djv::Core::String", 
-        "description": "", 
-        "text": "Monterey Hitch"
+        "id": "Monterey Hitch", 
+        "description": ""
     }, 
     {
-        "id": "Monterey Roach", 
         "source": "Monterey Roach", 
+        "text": "Monterey Roach", 
         "nameSpace": "djv::Core::String", 
-        "description": "", 
-        "text": "Monterey Roach"
+        "id": "Monterey Roach", 
+        "description": ""
     }, 
     {
-        "id": "Monterey Sucker", 
         "source": "Monterey Sucker", 
+        "text": "Monterey Sucker", 
         "nameSpace": "djv::Core::String", 
-        "description": "", 
-        "text": "Monterey Sucker"
+        "id": "Monterey Sucker", 
+        "description": ""
     }, 
     {
-        "id": "Mountain Whitefish", 
         "source": "Mountain Whitefish", 
+        "text": "Coregone di montagna", 
         "nameSpace": "djv::Core::String", 
-        "description": "", 
-        "text": "Coregone di montagna"
+        "id": "Mountain Whitefish", 
+        "description": ""
     }, 
     {
-        "id": "Navarro Roach", 
         "source": "Navarro Roach", 
+        "text": "Navarro Roach", 
         "nameSpace": "djv::Core::String", 
-        "description": "", 
-        "text": "Navarro Roach"
+        "id": "Navarro Roach", 
+        "description": ""
     }, 
     {
-        "id": "Northern (Pit) Roach", 
         "source": "Northern (Pit) Roach", 
+        "text": "Triotto Nordico (Pit)", 
         "nameSpace": "djv::Core::String", 
-        "description": "", 
-        "text": "Triotto Nordico (Pit)"
+        "id": "Northern (Pit) Roach", 
+        "description": ""
     }, 
     {
-        "id": "Northern California Brook Lamprey", 
         "source": "Northern California Brook Lamprey", 
+        "text": "Northern California Brook Lamprey", 
         "nameSpace": "djv::Core::String", 
-        "description": "", 
-        "text": "Northern California Brook Lamprey"
+        "id": "Northern California Brook Lamprey", 
+        "description": ""
     }, 
     {
-        "id": "Northern California Coast Summer Steelhead", 
         "source": "Northern California Coast Summer Steelhead", 
+        "text": "Steelhead di estate della costa nordica della California", 
         "nameSpace": "djv::Core::String", 
-        "description": "", 
-        "text": "Steelhead di estate della costa nordica della California"
+        "id": "Northern California Coast Summer Steelhead", 
+        "description": ""
     }, 
     {
-        "id": "Northern California Coast Winter Steelhead", 
         "source": "Northern California Coast Winter Steelhead", 
+        "text": "Steelhead della costa della California del Nord", 
         "nameSpace": "djv::Core::String", 
-        "description": "", 
-        "text": "Steelhead della costa della California del Nord"
+        "id": "Northern California Coast Winter Steelhead", 
+        "description": ""
     }, 
     {
-        "id": "Northern Green Sturgeon", 
         "source": "Northern Green Sturgeon", 
+        "text": "Storione verde nordico", 
         "nameSpace": "djv::Core::String", 
-        "description": "", 
-        "text": "Storione verde nordico"
+        "id": "Northern Green Sturgeon", 
+        "description": ""
     }, 
     {
-        "id": "Owens Pupfish", 
         "source": "Owens Pupfish", 
+        "text": "Owens Pupfish", 
         "nameSpace": "djv::Core::String", 
-        "description": "", 
-        "text": "Owens Pupfish"
+        "id": "Owens Pupfish", 
+        "description": ""
     }, 
     {
-        "id": "Owens Speckled Dace", 
         "source": "Owens Speckled Dace", 
+        "text": "Owens Speckled Dace", 
         "nameSpace": "djv::Core::String", 
-        "description": "", 
-        "text": "Owens Speckled Dace"
+        "id": "Owens Speckled Dace", 
+        "description": ""
     }, 
     {
-        "id": "Owens Sucker", 
         "source": "Owens Sucker", 
+        "text": "Owens Sucker", 
         "nameSpace": "djv::Core::String", 
-        "description": "", 
-        "text": "Owens Sucker"
+        "id": "Owens Sucker", 
+        "description": ""
     }, 
     {
-        "id": "Owens Tui Chub", 
         "source": "Owens Tui Chub", 
+        "text": "Owens Tui Chub", 
         "nameSpace": "djv::Core::String", 
-        "description": "", 
-        "text": "Owens Tui Chub"
+        "id": "Owens Tui Chub", 
+        "description": ""
     }, 
     {
-        "id": "Pacific Lamprey", 
         "source": "Pacific Lamprey", 
+        "text": "Pacific Lamprey", 
         "nameSpace": "djv::Core::String", 
-        "description": "", 
-        "text": "Pacific Lamprey"
+        "id": "Pacific Lamprey", 
+        "description": ""
     }, 
     {
-        "id": "Paiute Cutthroat Trout", 
         "source": "Paiute Cutthroat Trout", 
+        "text": "Paiute Cutthroat Trout", 
         "nameSpace": "djv::Core::String", 
-        "description": "", 
-        "text": "Paiute Cutthroat Trout"
+        "id": "Paiute Cutthroat Trout", 
+        "description": ""
     }, 
     {
-        "id": "Paiute Sculpin", 
         "source": "Paiute Sculpin", 
+        "text": "Paiute Sculpin", 
         "nameSpace": "djv::Core::String", 
-        "description": "", 
-        "text": "Paiute Sculpin"
+        "id": "Paiute Sculpin", 
+        "description": ""
     }, 
     {
-        "id": "Pink Salmon", 
         "source": "Pink Salmon", 
+        "text": "Salmone rosa", 
         "nameSpace": "djv::Core::String", 
-        "description": "", 
-        "text": "Salmone rosa"
+        "id": "Pink Salmon", 
+        "description": ""
     }, 
     {
-        "id": "Pit River Tui Chub", 
         "source": "Pit River Tui Chub", 
+        "text": "Pit River Tui Chub", 
         "nameSpace": "djv::Core::String", 
-        "description": "", 
-        "text": "Pit River Tui Chub"
+        "id": "Pit River Tui Chub", 
+        "description": ""
     }, 
     {
-        "id": "Pit Sculpin", 
         "source": "Pit Sculpin", 
+        "text": "Pit Sculpin", 
         "nameSpace": "djv::Core::String", 
-        "description": "", 
-        "text": "Pit Sculpin"
+        "id": "Pit Sculpin", 
+        "description": ""
     }, 
     {
-        "id": "Pit-Klamath Brook Lamprey", 
         "source": "Pit-Klamath Brook Lamprey", 
+        "text": "Pit-Klamath Brook Lamprey", 
         "nameSpace": "djv::Core::String", 
-        "description": "", 
-        "text": "Pit-Klamath Brook Lamprey"
+        "id": "Pit-Klamath Brook Lamprey", 
+        "description": ""
     }, 
     {
-        "id": "Porthole Livebearer", 
         "source": "Porthole Livebearer", 
+        "text": "Obl\u00f2 Livebearer", 
         "nameSpace": "djv::Core::String", 
-        "description": "", 
-        "text": "Obl\u00f2 Livebearer"
+        "id": "Porthole Livebearer", 
+        "description": ""
     }, 
     {
-        "id": "Prickly Sculpin", 
         "source": "Prickly Sculpin", 
+        "text": "Sculpin pungente", 
         "nameSpace": "djv::Core::String", 
-        "description": "", 
-        "text": "Sculpin pungente"
+        "id": "Prickly Sculpin", 
+        "description": ""
     }, 
     {
-        "id": "Pumpkinseed", 
         "source": "Pumpkinseed", 
+        "text": "Seme di zucca", 
         "nameSpace": "djv::Core::String", 
-        "description": "", 
-        "text": "Seme di zucca"
+        "id": "Pumpkinseed", 
+        "description": ""
     }, 
     {
-        "id": "Rainwater Killifish", 
         "source": "Rainwater Killifish", 
+        "text": "L&#39;acqua piovana Killifish", 
         "nameSpace": "djv::Core::String", 
-        "description": "", 
-        "text": "L&#39;acqua piovana Killifish"
+        "id": "Rainwater Killifish", 
+        "description": ""
     }, 
     {
-        "id": "Razorback Sucker", 
         "source": "Razorback Sucker", 
+        "text": "Razorback Sucker", 
         "nameSpace": "djv::Core::String", 
-        "description": "", 
-        "text": "Razorback Sucker"
+        "id": "Razorback Sucker", 
+        "description": ""
     }, 
     {
-        "id": "Red Hills Roach", 
         "source": "Red Hills Roach", 
+        "text": "Red Hills Roach", 
         "nameSpace": "djv::Core::String", 
-        "description": "", 
-        "text": "Red Hills Roach"
+        "id": "Red Hills Roach", 
+        "description": ""
     }, 
     {
-        "id": "Red Shiner", 
         "source": "Red Shiner", 
+        "text": "Red Shiner", 
         "nameSpace": "djv::Core::String", 
-        "description": "", 
-        "text": "Red Shiner"
+        "id": "Red Shiner", 
+        "description": ""
     }, 
     {
-        "id": "Redear Sunfish", 
         "source": "Redear Sunfish", 
+        "text": "Redear Sunfish", 
         "nameSpace": "djv::Core::String", 
-        "description": "", 
-        "text": "Redear Sunfish"
+        "id": "Redear Sunfish", 
+        "description": ""
     }, 
     {
-        "id": "Redeye Bass", 
         "source": "Redeye Bass", 
+        "text": "Redeye Bass", 
         "nameSpace": "djv::Core::String", 
-        "description": "", 
-        "text": "Redeye Bass"
+        "id": "Redeye Bass", 
+        "description": ""
     }, 
     {
-        "id": "Reticulate Sculpin", 
         "source": "Reticulate Sculpin", 
+        "text": "Reticolare Sculpin", 
         "nameSpace": "djv::Core::String", 
-        "description": "", 
-        "text": "Reticolare Sculpin"
+        "id": "Reticulate Sculpin", 
+        "description": ""
     }, 
     {
-        "id": "Riffle Sculpin", 
         "source": "Riffle Sculpin", 
+        "text": "Riffle Sculpin", 
         "nameSpace": "djv::Core::String", 
-        "description": "", 
-        "text": "Riffle Sculpin"
+        "id": "Riffle Sculpin", 
+        "description": ""
     }, 
     {
-        "id": "River Lamprey", 
         "source": "River Lamprey", 
+        "text": "Fiume Lamprey", 
         "nameSpace": "djv::Core::String", 
-        "description": "", 
-        "text": "Fiume Lamprey"
+        "id": "River Lamprey", 
+        "description": ""
     }, 
     {
-        "id": "Rough Sculpin", 
         "source": "Rough Sculpin", 
+        "text": "Sculpin ruvido", 
         "nameSpace": "djv::Core::String", 
-        "description": "", 
-        "text": "Sculpin ruvido"
+        "id": "Rough Sculpin", 
+        "description": ""
     }, 
     {
-        "id": "Russian River Roach", 
         "source": "Russian River Roach", 
+        "text": "Trippa russa", 
         "nameSpace": "djv::Core::String", 
-        "description": "", 
-        "text": "Trippa russa"
+        "id": "Russian River Roach", 
+        "description": ""
     }, 
     {
-        "id": "Russian River Tule Perch", 
         "source": "Russian River Tule Perch", 
+        "text": "Russian River Tule Perch", 
         "nameSpace": "djv::Core::String", 
-        "description": "", 
-        "text": "Russian River Tule Perch"
+        "id": "Russian River Tule Perch", 
+        "description": ""
     }, 
     {
-        "id": "Sacramento Blackfish", 
         "source": "Sacramento Blackfish", 
+        "text": "Blackfish di Sacramento", 
         "nameSpace": "djv::Core::String", 
-        "description": "", 
-        "text": "Blackfish di Sacramento"
+        "id": "Sacramento Blackfish", 
+        "description": ""
     }, 
     {
-        "id": "Sacramento Hitch", 
         "source": "Sacramento Hitch", 
+        "text": "Sacramento Hitch", 
         "nameSpace": "djv::Core::String", 
-        "description": "", 
-        "text": "Sacramento Hitch"
+        "id": "Sacramento Hitch", 
+        "description": ""
     }, 
     {
-        "id": "Sacramento Perch", 
         "source": "Sacramento Perch", 
+        "text": "Sacramento Persico", 
         "nameSpace": "djv::Core::String", 
-        "description": "", 
-        "text": "Sacramento Persico"
+        "id": "Sacramento Perch", 
+        "description": ""
     }, 
     {
-        "id": "Sacramento Pikeminnow", 
         "source": "Sacramento Pikeminnow", 
+        "text": "Sacramento Pikeminnow", 
         "nameSpace": "djv::Core::String", 
-        "description": "", 
-        "text": "Sacramento Pikeminnow"
+        "id": "Sacramento Pikeminnow", 
+        "description": ""
     }, 
     {
-        "id": "Sacramento Speckled Dace", 
         "source": "Sacramento Speckled Dace", 
+        "text": "Sacramento Speckled Dace", 
         "nameSpace": "djv::Core::String", 
-        "description": "", 
-        "text": "Sacramento Speckled Dace"
+        "id": "Sacramento Speckled Dace", 
+        "description": ""
     }, 
     {
-        "id": "Sacramento Splittail", 
         "source": "Sacramento Splittail", 
+        "text": "Sacramento Splittail", 
         "nameSpace": "djv::Core::String", 
-        "description": "", 
-        "text": "Sacramento Splittail"
+        "id": "Sacramento Splittail", 
+        "description": ""
     }, 
     {
-        "id": "Sacramento Sucker", 
         "source": "Sacramento Sucker", 
+        "text": "Sacramento Sucker", 
         "nameSpace": "djv::Core::String", 
-        "description": "", 
-        "text": "Sacramento Sucker"
+        "id": "Sacramento Sucker", 
+        "description": ""
     }, 
     {
-        "id": "Sacramento Tule Perch", 
         "source": "Sacramento Tule Perch", 
+        "text": "Sacramento Tule Perch", 
         "nameSpace": "djv::Core::String", 
-        "description": "", 
-        "text": "Sacramento Tule Perch"
+        "id": "Sacramento Tule Perch", 
+        "description": ""
     }, 
     {
-        "id": "Sailfin Molly", 
         "source": "Sailfin Molly", 
+        "text": "Sailfin Molly", 
         "nameSpace": "djv::Core::String", 
-        "description": "", 
-        "text": "Sailfin Molly"
+        "id": "Sailfin Molly", 
+        "description": ""
     }, 
     {
-        "id": "Salt Creek Pupfish", 
         "source": "Salt Creek Pupfish", 
+        "text": "Salt Creek Pupfish", 
         "nameSpace": "djv::Core::String", 
-        "description": "", 
-        "text": "Salt Creek Pupfish"
+        "id": "Salt Creek Pupfish", 
+        "description": ""
     }, 
     {
-        "id": "Santa Ana Speckled Dace", 
         "source": "Santa Ana Speckled Dace", 
+        "text": "Dora di Santa Ana maculato", 
         "nameSpace": "djv::Core::String", 
-        "description": "", 
-        "text": "Dora di Santa Ana maculato"
+        "id": "Santa Ana Speckled Dace", 
+        "description": ""
     }, 
     {
-        "id": "Santa Ana Sucker", 
         "source": "Santa Ana Sucker", 
+        "text": "Santa Ana Sucker", 
         "nameSpace": "djv::Core::String", 
-        "description": "", 
-        "text": "Santa Ana Sucker"
+        "id": "Santa Ana Sucker", 
+        "description": ""
     }, 
     {
-        "id": "Saratoga Springs Pupfish", 
         "source": "Saratoga Springs Pupfish", 
+        "text": "Saratoga Springs Pupfish", 
         "nameSpace": "djv::Core::String", 
-        "description": "", 
-        "text": "Saratoga Springs Pupfish"
+        "id": "Saratoga Springs Pupfish", 
+        "description": ""
     }, 
     {
-        "id": "Shay Creek Stickleback", 
         "source": "Shay Creek Stickleback", 
+        "text": "Shay Creek Stickleback", 
         "nameSpace": "djv::Core::String", 
-        "description": "", 
-        "text": "Shay Creek Stickleback"
+        "id": "Shay Creek Stickleback", 
+        "description": ""
     }, 
     {
-        "id": "Shimofuri Goby", 
         "source": "Shimofuri Goby", 
+        "text": "Shimofuri Goby", 
         "nameSpace": "djv::Core::String", 
-        "description": "", 
-        "text": "Shimofuri Goby"
+        "id": "Shimofuri Goby", 
+        "description": ""
     }, 
     {
-        "id": "Shiner Perch", 
         "source": "Shiner Perch", 
+        "text": "Shiner Persico", 
         "nameSpace": "djv::Core::String", 
-        "description": "", 
-        "text": "Shiner Persico"
+        "id": "Shiner Perch", 
+        "description": ""
     }, 
     {
-        "id": "Shortfin Molly", 
         "source": "Shortfin Molly", 
+        "text": "Shortfin Molly", 
         "nameSpace": "djv::Core::String", 
-        "description": "", 
-        "text": "Shortfin Molly"
+        "id": "Shortfin Molly", 
+        "description": ""
     }, 
     {
-        "id": "Shortnose Sucker", 
         "source": "Shortnose Sucker", 
+        "text": "Short Sose", 
         "nameSpace": "djv::Core::String", 
-        "description": "", 
-        "text": "Short Sose"
+        "id": "Shortnose Sucker", 
+        "description": ""
     }, 
     {
-        "id": "Shoshone Pupfish", 
         "source": "Shoshone Pupfish", 
+        "text": "Shoshone Pupfish", 
         "nameSpace": "djv::Core::String", 
-        "description": "", 
-        "text": "Shoshone Pupfish"
+        "id": "Shoshone Pupfish", 
+        "description": ""
     }, 
     {
-        "id": "Smallmouth Bass", 
         "source": "Smallmouth Bass", 
+        "text": "Smallmouth Bass", 
         "nameSpace": "djv::Core::String", 
-        "description": "", 
-        "text": "Smallmouth Bass"
+        "id": "Smallmouth Bass", 
+        "description": ""
     }, 
     {
-        "id": "Sockeye (Kokanee) Salmon", 
         "source": "Sockeye (Kokanee) Salmon", 
+        "text": "Salmone di Sockeye (Kokanee)", 
         "nameSpace": "djv::Core::String", 
-        "description": "", 
-        "text": "Salmone di Sockeye (Kokanee)"
+        "id": "Sockeye (Kokanee) Salmon", 
+        "description": ""
     }, 
     {
-        "id": "South Central California Coast Steelhead", 
         "source": "South Central California Coast Steelhead", 
+        "text": "Costa centro meridionale della California Steelhead", 
         "nameSpace": "djv::Core::String", 
-        "description": "", 
-        "text": "Costa centro meridionale della California Steelhead"
+        "id": "South Central California Coast Steelhead", 
+        "description": ""
     }, 
     {
-        "id": "Southern California Steelhead", 
         "source": "Southern California Steelhead", 
+        "text": "Steelhead del sud della California", 
         "nameSpace": "djv::Core::String", 
-        "description": "", 
-        "text": "Steelhead del sud della California"
+        "id": "Southern California Steelhead", 
+        "description": ""
     }, 
     {
-        "id": "Southern Green Sturgeon", 
         "source": "Southern Green Sturgeon", 
+        "text": "Storione verde meridionale", 
         "nameSpace": "djv::Core::String", 
-        "description": "", 
-        "text": "Storione verde meridionale"
+        "id": "Southern Green Sturgeon", 
+        "description": ""
     }, 
     {
-        "id": "Southern Oregon Northern California Coast Coho Salmon", 
         "source": "Southern Oregon Northern California Coast Coho Salmon", 
+        "text": "Salmone di Coho della costa della California del Nord dell&#39;Oregon del sud", 
         "nameSpace": "djv::Core::String", 
-        "description": "", 
-        "text": "Salmone di Coho della costa della California del Nord dell&#39;Oregon del sud"
+        "id": "Southern Oregon Northern California Coast Coho Salmon", 
+        "description": ""
     }, 
     {
-        "id": "Southern Oregon Northern California Coast Fall Chinook Salmon", 
         "source": "Southern Oregon Northern California Coast Fall Chinook Salmon", 
+        "text": "Salmone di Chinook di caduta della costa nordica della California del sud dell&#39;Oregon", 
         "nameSpace": "djv::Core::String", 
-        "description": "", 
-        "text": "Salmone di Chinook di caduta della costa nordica della California del sud dell&#39;Oregon"
+        "id": "Southern Oregon Northern California Coast Fall Chinook Salmon", 
+        "description": ""
     }, 
     {
-        "id": "Spotted Bass", 
         "source": "Spotted Bass", 
+        "text": "Basso maculato", 
         "nameSpace": "djv::Core::String", 
-        "description": "", 
-        "text": "Basso maculato"
+        "id": "Spotted Bass", 
+        "description": ""
     }, 
     {
-        "id": "Staghorn Sculpin", 
         "source": "Staghorn Sculpin", 
+        "text": "Staghorn Sculpin", 
         "nameSpace": "djv::Core::String", 
-        "description": "", 
-        "text": "Staghorn Sculpin"
+        "id": "Staghorn Sculpin", 
+        "description": ""
     }, 
     {
-        "id": "Starry Flounder", 
         "source": "Starry Flounder", 
+        "text": "Flounder stellato", 
         "nameSpace": "djv::Core::String", 
-        "description": "", 
-        "text": "Flounder stellato"
+        "id": "Starry Flounder", 
+        "description": ""
     }, 
     {
-        "id": "Striped Bass", 
         "source": "Striped Bass", 
+        "text": "Bassi a strisce", 
         "nameSpace": "djv::Core::String", 
-        "description": "", 
-        "text": "Bassi a strisce"
+        "id": "Striped Bass", 
+        "description": ""
     }, 
     {
-        "id": "Striped Mullet", 
         "source": "Striped Mullet", 
+        "text": "Triglia a strisce", 
         "nameSpace": "djv::Core::String", 
-        "description": "", 
-        "text": "Triglia a strisce"
+        "id": "Striped Mullet", 
+        "description": ""
     }, 
     {
-        "id": "Surf Smelt", 
         "source": "Surf Smelt", 
+        "text": "Surf Smelt", 
         "nameSpace": "djv::Core::String", 
-        "description": "", 
-        "text": "Surf Smelt"
+        "id": "Surf Smelt", 
+        "description": ""
     }, 
     {
-        "id": "Tahoe Sucker", 
         "source": "Tahoe Sucker", 
+        "text": "Tahoe Sucker", 
         "nameSpace": "djv::Core::String", 
-        "description": "", 
-        "text": "Tahoe Sucker"
+        "id": "Tahoe Sucker", 
+        "description": ""
     }, 
     {
-        "id": "Tecopa Pupfish", 
         "source": "Tecopa Pupfish", 
+        "text": "Tecopa Pupfish", 
         "nameSpace": "djv::Core::String", 
-        "description": "", 
-        "text": "Tecopa Pupfish"
+        "id": "Tecopa Pupfish", 
+        "description": ""
     }, 
     {
-        "id": "Tench", 
         "source": "Tench", 
+        "text": "Tinca", 
         "nameSpace": "djv::Core::String", 
-        "description": "", 
-        "text": "Tinca"
+        "id": "Tench", 
+        "description": ""
     }, 
     {
-        "id": "Thicktail Chub", 
         "source": "Thicktail Chub", 
+        "text": "Cavedano grosso", 
         "nameSpace": "djv::Core::String", 
-        "description": "", 
-        "text": "Cavedano grosso"
+        "id": "Thicktail Chub", 
+        "description": ""
     }, 
     {
-        "id": "Threadfin Shad", 
         "source": "Threadfin Shad", 
+        "text": "Shadfin di Threadfin", 
         "nameSpace": "djv::Core::String", 
-        "description": "", 
-        "text": "Shadfin di Threadfin"
+        "id": "Threadfin Shad", 
+        "description": ""
     }, 
     {
-        "id": "Tidewater Goby", 
         "source": "Tidewater Goby", 
+        "text": "Tidewater Goby", 
         "nameSpace": "djv::Core::String", 
-        "description": "", 
-        "text": "Tidewater Goby"
+        "id": "Tidewater Goby", 
+        "description": ""
     }, 
     {
-        "id": "Tomales Roach", 
         "source": "Tomales Roach", 
+        "text": "Tomales Roach", 
         "nameSpace": "djv::Core::String", 
-        "description": "", 
-        "text": "Tomales Roach"
+        "id": "Tomales Roach", 
+        "description": ""
     }, 
     {
-        "id": "Topsmelt", 
         "source": "Topsmelt", 
+        "text": "Topsmelt", 
         "nameSpace": "djv::Core::String", 
-        "description": "", 
-        "text": "Topsmelt"
+        "id": "Topsmelt", 
+        "description": ""
     }, 
     {
-        "id": "Unarmored Threespine Stickleback", 
         "source": "Unarmored Threespine Stickleback", 
+        "text": "Unarmored Threespine Stickleback", 
         "nameSpace": "djv::Core::String", 
-        "description": "", 
-        "text": "Unarmored Threespine Stickleback"
+        "id": "Unarmored Threespine Stickleback", 
+        "description": ""
     }, 
     {
-        "id": "Upper Klamath Marbled Sculpin", 
         "source": "Upper Klamath Marbled Sculpin", 
+        "text": "Upper Klamath Marmorizzato Sculpin", 
         "nameSpace": "djv::Core::String", 
-        "description": "", 
-        "text": "Upper Klamath Marmorizzato Sculpin"
+        "id": "Upper Klamath Marbled Sculpin", 
+        "description": ""
     }, 
     {
-        "id": "Upper Klamath-Trinity Fall Chinook Salmon", 
         "source": "Upper Klamath-Trinity Fall Chinook Salmon", 
+        "text": "Salmone di Chinook di caduta Klamath-Trinity superiore", 
         "nameSpace": "djv::Core::String", 
-        "description": "", 
-        "text": "Salmone di Chinook di caduta Klamath-Trinity superiore"
+        "id": "Upper Klamath-Trinity Fall Chinook Salmon", 
+        "description": ""
     }, 
     {
-        "id": "Upper Klamath-Trinity Spring Chinook Salmon", 
         "source": "Upper Klamath-Trinity Spring Chinook Salmon", 
+        "text": "Salmone Chinook di primavera Klamath-Trinity superiore", 
         "nameSpace": "djv::Core::String", 
-        "description": "", 
-        "text": "Salmone Chinook di primavera Klamath-Trinity superiore"
+        "id": "Upper Klamath-Trinity Spring Chinook Salmon", 
+        "description": ""
     }, 
     {
-        "id": "Wakasagi", 
         "source": "Wakasagi", 
+        "text": "Wakasagi", 
         "nameSpace": "djv::Core::String", 
-        "description": "", 
-        "text": "Wakasagi"
+        "id": "Wakasagi", 
+        "description": ""
     }, 
     {
-        "id": "Warmouth", 
         "source": "Warmouth", 
+        "text": "Warmouth", 
         "nameSpace": "djv::Core::String", 
-        "description": "", 
-        "text": "Warmouth"
+        "id": "Warmouth", 
+        "description": ""
     }, 
     {
-        "id": "Western Brook Lamprey", 
         "source": "Western Brook Lamprey", 
+        "text": "Western Brook Lamprey", 
         "nameSpace": "djv::Core::String", 
-        "description": "", 
-        "text": "Western Brook Lamprey"
+        "id": "Western Brook Lamprey", 
+        "description": ""
     }, 
     {
-        "id": "Western Mosquitofish", 
         "source": "Western Mosquitofish", 
+        "text": "Mosquitofish occidentale", 
         "nameSpace": "djv::Core::String", 
-        "description": "", 
-        "text": "Mosquitofish occidentale"
+        "id": "Western Mosquitofish", 
+        "description": ""
     }, 
     {
-        "id": "White Bass", 
         "source": "White Bass", 
+        "text": "Basso bianco", 
         "nameSpace": "djv::Core::String", 
-        "description": "", 
-        "text": "Basso bianco"
+        "id": "White Bass", 
+        "description": ""
     }, 
     {
-        "id": "White Catfish", 
         "source": "White Catfish", 
+        "text": "Pesce gatto bianco", 
         "nameSpace": "djv::Core::String", 
-        "description": "", 
-        "text": "Pesce gatto bianco"
+        "id": "White Catfish", 
+        "description": ""
     }, 
     {
-        "id": "White Crappie", 
         "source": "White Crappie", 
+        "text": "Crappie bianco", 
         "nameSpace": "djv::Core::String", 
-        "description": "", 
-        "text": "Crappie bianco"
+        "id": "White Crappie", 
+        "description": ""
     }, 
     {
-        "id": "White Sturgeon", 
         "source": "White Sturgeon", 
+        "text": "Storione bianco", 
         "nameSpace": "djv::Core::String", 
-        "description": "", 
-        "text": "Storione bianco"
+        "id": "White Sturgeon", 
+        "description": ""
     }, 
     {
-        "id": "Yellow Bullhead", 
         "source": "Yellow Bullhead", 
+        "text": "Bullhead giallo", 
         "nameSpace": "djv::Core::String", 
-        "description": "", 
-        "text": "Bullhead giallo"
+        "id": "Yellow Bullhead", 
+        "description": ""
     }, 
     {
-        "id": "Yellow Perch", 
         "source": "Yellow Perch", 
+        "text": "Pesce persico giallo", 
         "nameSpace": "djv::Core::String", 
-        "description": "", 
-        "text": "Pesce persico giallo"
+        "id": "Yellow Perch", 
+        "description": ""
     }, 
     {
-        "id": "Yellowfin Goby", 
         "source": "Yellowfin Goby", 
+        "text": "Ghiozzo pinna gialla", 
         "nameSpace": "djv::Core::String", 
-        "description": "", 
-        "text": "Ghiozzo pinna gialla"
+        "id": "Yellowfin Goby", 
+        "description": ""
     }, 
     {
-        "id": "Speckled Dace are capable of living in an array of habitats from small springs or streams to large rivers and deep lakes.", 
         "source": "Speckled Dace are capable of living in an array of habitats from small springs or streams to large rivers and deep lakes.", 
+        "text": "Dace macchiato sono in grado di vivere in una serie di habitat da piccole sorgenti o corsi d&#39;acqua a grandi fiumi e laghi profondi.", 
         "nameSpace": "djv::Core::String", 
-        "description": "", 
-        "text": "Dace macchiato sono in grado di vivere in una serie di habitat da piccole sorgenti o corsi d&#39;acqua a grandi fiumi e laghi profondi."
+        "id": "Speckled Dace are capable of living in an array of habitats from small springs or streams to large rivers and deep lakes.", 
+        "description": ""
     }, 
     {
-        "id": "Speckled Dace prefer habitat that includes clear, well oxygenated water, with movement due to a current or waves.", 
         "source": "Speckled Dace prefer habitat that includes clear, well oxygenated water, with movement due to a current or waves.", 
+        "text": "Dace maculato preferisce l&#39;habitat che include acqua chiara e ben ossigenata, con movimento dovuto a corrente o onde.", 
         "nameSpace": "djv::Core::String", 
-        "description": "", 
-        "text": "Dace maculato preferisce l&#39;habitat che include acqua chiara e ben ossigenata, con movimento dovuto a corrente o onde."
+        "id": "Speckled Dace prefer habitat that includes clear, well oxygenated water, with movement due to a current or waves.", 
+        "description": ""
     }, 
     {
-        "id": "In addition the fish thrive in areas with deep cover or overhead protection from vegetation or woody debris.", 
         "source": "In addition the fish thrive in areas with deep cover or overhead protection from vegetation or woody debris.", 
+        "text": "Inoltre, i pesci prosperano in aree con copertura profonda o protezione aerea da vegetazione o detriti legnosi.", 
         "nameSpace": "djv::Core::String", 
-        "description": "", 
-        "text": "Inoltre, i pesci prosperano in aree con copertura profonda o protezione aerea da vegetazione o detriti legnosi."
+        "id": "In addition the fish thrive in areas with deep cover or overhead protection from vegetation or woody debris.", 
+        "description": ""
     }, 
     {
-        "id": "Speckled Dace predominantly occupy small streams of the second to third order where they feed and forage for aquatic insects.", 
         "source": "Speckled Dace predominantly occupy small streams of the second to third order where they feed and forage for aquatic insects.", 
+        "text": "I Dace macchiati occupano prevalentemente piccoli ruscelli di secondo e terzo ordine dove si nutrono e si nutrono di insetti acquatici.", 
         "nameSpace": "djv::Core::String", 
-        "description": "", 
-        "text": "I Dace macchiati occupano prevalentemente piccoli ruscelli di secondo e terzo ordine dove si nutrono e si nutrono di insetti acquatici."
+        "id": "Speckled Dace predominantly occupy small streams of the second to third order where they feed and forage for aquatic insects.", 
+        "description": ""
     }, 
     {
-        "id": "The species is very adaptable and is found in cold alpine lakes such as Lake Tahoe, but has also been able to survive adversity in temperatures at or above 31\\u2103 with a dissolved oxygen concentration of 1 mg / L.", 
         "source": "The species is very adaptable and is found in cold alpine lakes such as Lake Tahoe, but has also been able to survive adversity in temperatures at or above 31\\u2103 with a dissolved oxygen concentration of 1 mg / L.", 
+        "text": "La specie \u00e8 molto adattabile e si trova nei laghi alpini freddi come il lago Tahoe, ma \u00e8 anche stata in grado di sopravvivere alle avversit\u00e0 a temperature pari o superiori a 31 \\ u2103 con una concentrazione di ossigeno disciolto di 1 mg / L.", 
         "nameSpace": "djv::Core::String", 
-        "description": "", 
-        "text": "La specie \u00e8 molto adattabile e si trova nei laghi alpini freddi come il lago Tahoe, ma \u00e8 anche stata in grado di sopravvivere alle avversit\u00e0 a temperature pari o superiori a 31 \\ u2103 con una concentrazione di ossigeno disciolto di 1 mg / L."
+        "id": "The species is very adaptable and is found in cold alpine lakes such as Lake Tahoe, but has also been able to survive adversity in temperatures at or above 31\\u2103 with a dissolved oxygen concentration of 1 mg / L.", 
+        "description": ""
     }, 
     {
-        "id": "In streams speckled dace swim along the bottom looking for small invertebrates while in lakes they are opportunistic feeders that may feed on zooplankton, algae, nymphs, or the resulting flying insects.", 
         "source": "In streams speckled dace swim along the bottom looking for small invertebrates while in lakes they are opportunistic feeders that may feed on zooplankton, algae, nymphs, or the resulting flying insects.", 
+        "text": "In torrenti il dace maculato nuota lungo il fondo alla ricerca di piccoli invertebrati mentre nei laghi sono alimentatori opportunistici che possono nutrirsi di zooplancton, alghe, ninfe o insetti volanti.", 
         "nameSpace": "djv::Core::String", 
-        "description": "", 
-        "text": "In torrenti il dace maculato nuota lungo il fondo alla ricerca di piccoli invertebrati mentre nei laghi sono alimentatori opportunistici che possono nutrirsi di zooplancton, alghe, ninfe o insetti volanti."
+        "id": "In streams speckled dace swim along the bottom looking for small invertebrates while in lakes they are opportunistic feeders that may feed on zooplankton, algae, nymphs, or the resulting flying insects.", 
+        "description": ""
     }, 
     {
-        "id": "Speckled Dace typically have a life span of three years, but may live 6 or more years, during which time females typically grow more rapidly than males.", 
         "source": "Speckled Dace typically have a life span of three years, but may live 6 or more years, during which time females typically grow more rapidly than males.", 
+        "text": "I Dace macchiati hanno in genere una durata di tre anni, ma possono vivere 6 o pi\u00f9 anni, durante i quali le femmine di solito crescono pi\u00f9 rapidamente dei maschi.", 
         "nameSpace": "djv::Core::String", 
-        "description": "", 
-        "text": "I Dace macchiati hanno in genere una durata di tre anni, ma possono vivere 6 o pi\u00f9 anni, durante i quali le femmine di solito crescono pi\u00f9 rapidamente dei maschi."
+        "id": "Speckled Dace typically have a life span of three years, but may live 6 or more years, during which time females typically grow more rapidly than males.", 
+        "description": ""
     }, 
     {
-        "id": "The fish become sexually mature in their second year and during the summer months the dace spawn.", 
         "source": "The fish become sexually mature in their second year and during the summer months the dace spawn.", 
+        "text": "Il pesce diventa sessualmente maturo al secondo anno e durante i mesi estivi il dace spawn.", 
         "nameSpace": "djv::Core::String", 
-        "description": "", 
-        "text": "Il pesce diventa sessualmente maturo al secondo anno e durante i mesi estivi il dace spawn."
+        "id": "The fish become sexually mature in their second year and during the summer months the dace spawn.", 
+        "description": ""
     }, 
     {
-        "id": "Stream dwellers spawn in riffles or gravely areas, while the lake inhabitants spawn in tributaries or in shallow shoreline regions.", 
         "source": "Stream dwellers spawn in riffles or gravely areas, while the lake inhabitants spawn in tributaries or in shallow shoreline regions.", 
+        "text": "Gli abitanti dei torrenti si riproducono nei riffles o nelle aree pietrose, mentre gli abitanti del lago depongono le uova in affluenti o in regioni poco profonde del litorale.", 
         "nameSpace": "djv::Core::String", 
-        "description": "", 
-        "text": "Gli abitanti dei torrenti si riproducono nei riffles o nelle aree pietrose, mentre gli abitanti del lago depongono le uova in affluenti o in regioni poco profonde del litorale."
+        "id": "Stream dwellers spawn in riffles or gravely areas, while the lake inhabitants spawn in tributaries or in shallow shoreline regions.", 
+        "description": ""
     }, 
     {
-        "id": "The embryos hatch in 6 days, and the larvae remain in the safety of the gravel for 7 - 8 days.", 
         "source": "The embryos hatch in 6 days, and the larvae remain in the safety of the gravel for 7 - 8 days.", 
+        "text": "Gli embrioni si schiudono in 6 giorni e le larve rimangono nella sicurezza della ghiaia per 7 - 8 giorni.", 
         "nameSpace": "djv::Core::String", 
-        "description": "", 
-        "text": "Gli embrioni si schiudono in 6 giorni e le larve rimangono nella sicurezza della ghiaia per 7 - 8 giorni."
+        "id": "The embryos hatch in 6 days, and the larvae remain in the safety of the gravel for 7 - 8 days.", 
+        "description": ""
     }, 
     {
-        "id": "The young fry then spend the early part of their lives in the shallow warm areas of the stream or lake where they hatched.", 
         "source": "The young fry then spend the early part of their lives in the shallow warm areas of the stream or lake where they hatched.", 
+        "text": "I giovani avannotti passano la prima parte della loro vita nelle zone poco calde del torrente o del lago dove sono nati.", 
         "nameSpace": "djv::Core::String", 
-        "description": "", 
-        "text": "I giovani avannotti passano la prima parte della loro vita nelle zone poco calde del torrente o del lago dove sono nati."
+        "id": "The young fry then spend the early part of their lives in the shallow warm areas of the stream or lake where they hatched.", 
+        "description": ""
     }, 
     {
-        "id": "False", 
         "source": "False", 
+        "text": "falso", 
         "nameSpace": "djv::Core::String", 
-        "description": "", 
-        "text": "falso"
+        "id": "False", 
+        "description": ""
     }, 
     {
-        "id": "True", 
         "source": "True", 
+        "text": "Vero", 
         "nameSpace": "djv::Core::String", 
-        "description": "", 
-        "text": "Vero"
+        "id": "True", 
+        "description": ""
     }, 
     {
-        "id": "Cannot parse value", 
         "source": "Cannot parse value", 
+        "text": "Impossibile analizzare il valore", 
         "nameSpace": "djv::Core::Time", 
-        "description": "", 
-        "text": "Impossibile analizzare il valore"
+        "id": "Cannot parse value", 
+        "description": ""
     }, 
     {
-        "id": "Linear", 
         "source": "Linear", 
+        "text": "Lineare", 
         "nameSpace": "djv:::Core::Animation", 
-        "description": "", 
-        "text": "Lineare"
+        "id": "Linear", 
+        "description": ""
     }, 
     {
-        "id": "EaseIn", 
         "source": "Ease In", 
+        "text": "Facilit\u00e0 di accesso", 
         "nameSpace": "djv:::Core::Animation", 
-        "description": "", 
-        "text": "Facilit\u00e0 di accesso"
+        "id": "EaseIn", 
+        "description": ""
     }, 
     {
-        "id": "EaseOut", 
         "source": "Ease Out", 
+        "text": "Ease fuori", 
         "nameSpace": "djv:::Core::Animation", 
-        "description": "", 
-        "text": "Ease fuori"
+        "id": "EaseOut", 
+        "description": ""
     }, 
     {
-        "id": "SmoothStep", 
         "source": "Smooth Step", 
+        "text": "Passo liscio", 
         "nameSpace": "djv:::Core::Animation", 
-        "description": "", 
-        "text": "Passo liscio"
+        "id": "SmoothStep", 
+        "description": ""
     }, 
     {
-        "id": "Sine", 
         "source": "Sine", 
+        "text": "la sua", 
         "nameSpace": "djv:::Core::Animation", 
-        "description": "", 
-        "text": "la sua"
+        "id": "Sine", 
+        "description": ""
     }, 
     {
-        "id": "Error finding change notification for", 
         "source": "Error finding change notification for", 
+        "text": "Errore nel trovare la notifica di modifica per", 
         "nameSpace": "djv::Core::FileSystem", 
-        "description": "", 
-        "text": "Errore nel trovare la notifica di modifica per"
+        "id": "Error finding change notification for", 
+        "description": ""
     }, 
     {
-        "id": "File", 
         "source": "File", 
+        "text": "File", 
         "nameSpace": "djv::Core::FileSystem", 
-        "description": "", 
-        "text": "File"
+        "id": "File", 
+        "description": ""
     }, 
     {
-        "id": "Sequence", 
         "source": "Sequence", 
+        "text": "Sequenza", 
         "nameSpace": "djv::Core::FileSystem", 
-        "description": "", 
-        "text": "Sequenza"
+        "id": "Sequence", 
+        "description": ""
     }, 
     {
-        "id": "Directory", 
         "source": "Directory", 
+        "text": "elenco", 
         "nameSpace": "djv::Core::FileSystem", 
-        "description": "", 
-        "text": "elenco"
+        "id": "Directory", 
+        "description": ""
     }, 
     {
-        "id": "Name", 
         "source": "Name", 
+        "text": "Nome", 
         "nameSpace": "djv::Core::FileSystem", 
-        "description": "", 
-        "text": "Nome"
+        "id": "Name", 
+        "description": ""
     }, 
     {
-        "id": "Size", 
         "source": "Size", 
+        "text": "Taglia", 
         "nameSpace": "djv::Core::FileSystem", 
-        "description": "", 
-        "text": "Taglia"
+        "id": "Size", 
+        "description": ""
     }, 
     {
-        "id": "Permissions", 
         "source": "Permissions", 
+        "text": "permessi", 
         "nameSpace": "djv::Core::FileSystem", 
-        "description": "", 
-        "text": "permessi"
+        "id": "Permissions", 
+        "description": ""
     }, 
     {
-        "id": "Type", 
         "source": "Type", 
+        "text": "genere", 
         "nameSpace": "djv::Core::FileSystem", 
-        "description": "", 
-        "text": "genere"
+        "id": "Type", 
+        "description": ""
     }, 
     {
-        "id": "Cannot parse value.", 
         "source": "Cannot parse value.", 
+        "text": "Impossibile analizzare il valore.", 
         "nameSpace": "djv::Core::Time", 
-        "description": "", 
-        "text": "Impossibile analizzare il valore."
+        "id": "Cannot parse value.", 
+        "description": ""
     }, 
     {
-        "id": "Application", 
         "source": "Application", 
+        "text": "Applicazione", 
         "nameSpace": "djv::Core::FileSystem", 
-        "description": "", 
-        "text": "Applicazione"
+        "id": "Application", 
+        "description": ""
     }, 
     {
-        "id": "LogFile", 
         "source": "Log File", 
+        "text": "File di registro", 
         "nameSpace": "djv::Core::FileSystem", 
-        "description": "", 
-        "text": "File di registro"
+        "id": "LogFile", 
+        "description": ""
     }, 
     {
-        "id": "SettingsFile", 
         "source": "Settings File", 
+        "text": "File delle impostazioni", 
         "nameSpace": "djv::Core::FileSystem", 
-        "description": "", 
-        "text": "File delle impostazioni"
+        "id": "SettingsFile", 
+        "description": ""
     }, 
     {
-        "id": "AudioDirectory", 
         "source": "Audio Directory", 
+        "text": "Directory audio", 
         "nameSpace": "djv::Core::FileSystem", 
-        "description": "", 
-        "text": "Directory audio"
+        "id": "AudioDirectory", 
+        "description": ""
     }, 
     {
-        "id": "FontsDirectory", 
         "source": "Fonts Directory", 
+        "text": "Elenco di caratteri", 
         "nameSpace": "djv::Core::FileSystem", 
-        "description": "", 
-        "text": "Elenco di caratteri"
+        "id": "FontsDirectory", 
+        "description": ""
     }, 
     {
-        "id": "IconsDirectory", 
         "source": "Icons Directory", 
+        "text": "Directory delle icone", 
         "nameSpace": "djv::Core::FileSystem", 
-        "description": "", 
-        "text": "Directory delle icone"
+        "id": "IconsDirectory", 
+        "description": ""
     }, 
     {
-        "id": "ImagesDirectory", 
         "source": "Images Directory", 
+        "text": "Directory delle immagini", 
         "nameSpace": "djv::Core::FileSystem", 
-        "description": "", 
-        "text": "Directory delle immagini"
+        "id": "ImagesDirectory", 
+        "description": ""
     }, 
     {
-        "id": "ModelsDirectory", 
         "source": "Models Directory", 
+        "text": "Directory dei modelli", 
         "nameSpace": "djv::Core::FileSystem", 
-        "description": "", 
-        "text": "Directory dei modelli"
+        "id": "ModelsDirectory", 
+        "description": ""
     }, 
     {
-        "id": "ShadersDirectory", 
         "source": "Shaders Directory", 
+        "text": "Elenco degli shaders", 
         "nameSpace": "djv::Core::FileSystem", 
-        "description": "", 
-        "text": "Elenco degli shaders"
+        "id": "ShadersDirectory", 
+        "description": ""
     }, 
     {
-        "id": "TextDirectory", 
         "source": "Text Directory", 
+        "text": "Directory di testo", 
         "nameSpace": "djv::Core::FileSystem", 
-        "description": "", 
-        "text": "Directory di testo"
+        "id": "TextDirectory", 
+        "description": ""
     }, 
     {
-        "id": "Error reading text file", 
         "source": "Error reading text file", 
+        "text": "Errore durante la lettura del file di testo", 
         "nameSpace": "djv::Core", 
-        "description": "", 
-        "text": "Errore durante la lettura del file di testo"
+        "id": "Error reading text file", 
+        "description": ""
     }, 
     {
-        "id": "Slow", 
         "source": "Slow", 
+        "text": "Lento", 
         "nameSpace": "djv::Core::Time", 
-        "description": "", 
-        "text": "Lento"
+        "id": "Slow", 
+        "description": ""
     }, 
     {
-        "id": "Medium", 
         "source": "Medium", 
+        "text": "medio", 
         "nameSpace": "djv::Core::Time", 
-        "description": "", 
-        "text": "medio"
+        "id": "Medium", 
+        "description": ""
     }, 
     {
-        "id": "Fast", 
         "source": "Fast", 
+        "text": "Veloce", 
         "nameSpace": "djv::Core::Time", 
-        "description": "", 
-        "text": "Veloce"
+        "id": "Fast", 
+        "description": ""
     }, 
     {
-        "id": "VeryFast", 
         "source": "Very Fast", 
+        "text": "Molto veloce", 
         "nameSpace": "djv::Core::Time", 
-        "description": "", 
-        "text": "Molto veloce"
+        "id": "VeryFast", 
+        "description": ""
     }, 
     {
-        "id": "ParentChanged", 
         "source": "Parent Changed", 
+        "text": "Genitore cambiato", 
         "nameSpace": "djv::Core::Event", 
-        "description": "", 
-        "text": "Genitore cambiato"
+        "id": "ParentChanged", 
+        "description": ""
     }, 
     {
-        "id": "ChildAdded", 
         "source": "Child Added", 
+        "text": "Aggiunto bambino", 
         "nameSpace": "djv::Core::Event", 
-        "description": "", 
-        "text": "Aggiunto bambino"
+        "id": "ChildAdded", 
+        "description": ""
     }, 
     {
-        "id": "ChildRemoved", 
         "source": "Child Removed", 
+        "text": "Bambino rimosso", 
         "nameSpace": "djv::Core::Event", 
-        "description": "", 
-        "text": "Bambino rimosso"
+        "id": "ChildRemoved", 
+        "description": ""
     }, 
     {
-        "id": "ChildOrder", 
         "source": "Child Order", 
+        "text": "Ordine dei bambini", 
         "nameSpace": "djv::Core::Event", 
-        "description": "", 
-        "text": "Ordine dei bambini"
+        "id": "ChildOrder", 
+        "description": ""
     }, 
     {
-        "id": "Locale", 
         "source": "Locale", 
+        "text": "Locale", 
         "nameSpace": "djv::Core::Event", 
-        "description": "", 
-        "text": "Locale"
+        "id": "Locale", 
+        "description": ""
     }, 
     {
-        "id": "Update", 
         "source": "Update", 
+        "text": "Aggiornare", 
         "nameSpace": "djv::Core::Event", 
-        "description": "", 
-        "text": "Aggiornare"
+        "id": "Update", 
+        "description": ""
     }, 
     {
-        "id": "Style", 
         "source": "Style", 
+        "text": "Stile", 
         "nameSpace": "djv::Core::Event", 
-        "description": "", 
-        "text": "Stile"
+        "id": "Style", 
+        "description": ""
     }, 
     {
-        "id": "PreLayout", 
         "source": "Pre Layout", 
+        "text": "Pre layout", 
         "nameSpace": "djv::Core::Event", 
-        "description": "", 
-        "text": "Pre layout"
+        "id": "PreLayout", 
+        "description": ""
     }, 
     {
-        "id": "Layout", 
         "source": "Layout", 
+        "text": "disposizione", 
         "nameSpace": "djv::Core::Event", 
-        "description": "", 
-        "text": "disposizione"
+        "id": "Layout", 
+        "description": ""
     }, 
     {
-        "id": "Clip", 
         "source": "Clip", 
+        "text": "Clip", 
         "nameSpace": "djv::Core::Event", 
-        "description": "", 
-        "text": "Clip"
+        "id": "Clip", 
+        "description": ""
     }, 
     {
-        "id": "Paint", 
         "source": "Paint", 
+        "text": "Dipingere", 
         "nameSpace": "djv::Core::Event", 
-        "description": "", 
-        "text": "Dipingere"
+        "id": "Paint", 
+        "description": ""
     }, 
     {
-        "id": "PaintOverlay", 
         "source": "Paint Overlay", 
+        "text": "Sovrapposizione di vernice", 
         "nameSpace": "djv::Core::Event", 
-        "description": "", 
-        "text": "Sovrapposizione di vernice"
+        "id": "PaintOverlay", 
+        "description": ""
     }, 
     {
-        "id": "PointerEnter", 
         "source": "Pointer Enter", 
+        "text": "Puntatore Invio", 
         "nameSpace": "djv::Core::Event", 
-        "description": "", 
-        "text": "Puntatore Invio"
+        "id": "PointerEnter", 
+        "description": ""
     }, 
     {
-        "id": "PointerLeave", 
         "source": "Pointer Leave", 
+        "text": "Pointer Leave", 
         "nameSpace": "djv::Core::Event", 
-        "description": "", 
-        "text": "Pointer Leave"
+        "id": "PointerLeave", 
+        "description": ""
     }, 
     {
-        "id": "PointerMove", 
         "source": "Pointer Move", 
+        "text": "Spostamento puntatore", 
         "nameSpace": "djv::Core::Event", 
-        "description": "", 
-        "text": "Spostamento puntatore"
+        "id": "PointerMove", 
+        "description": ""
     }, 
     {
-        "id": "ButtonPress", 
         "source": "Button Press", 
+        "text": "Pulsante Premere", 
         "nameSpace": "djv::Core::Event", 
-        "description": "", 
-        "text": "Pulsante Premere"
+        "id": "ButtonPress", 
+        "description": ""
     }, 
     {
-        "id": "ButtonRelease", 
         "source": "Button Release", 
+        "text": "Rilascio del pulsante", 
         "nameSpace": "djv::Core::Event", 
-        "description": "", 
-        "text": "Rilascio del pulsante"
+        "id": "ButtonRelease", 
+        "description": ""
     }, 
     {
-        "id": "Scroll", 
         "source": "Scroll", 
+        "text": "Scorrere", 
         "nameSpace": "djv::Core::Event", 
-        "description": "", 
-        "text": "Scorrere"
+        "id": "Scroll", 
+        "description": ""
     }, 
     {
-        "id": "Drop", 
         "source": "Drop", 
+        "text": "Far cadere", 
         "nameSpace": "djv::Core::Event", 
-        "description": "", 
-        "text": "Far cadere"
+        "id": "Drop", 
+        "description": ""
     }, 
     {
-        "id": "KeyboardFocus", 
         "source": "Keyboard Focus", 
+        "text": "Messa a fuoco della tastiera", 
         "nameSpace": "djv::Core::Event", 
-        "description": "", 
-        "text": "Messa a fuoco della tastiera"
+        "id": "KeyboardFocus", 
+        "description": ""
     }, 
     {
-        "id": "KeyboardFocusLost", 
         "source": "Keyboard Focus Lost", 
+        "text": "Keyboard Focus Lost", 
         "nameSpace": "djv::Core::Event", 
-        "description": "", 
-        "text": "Keyboard Focus Lost"
+        "id": "KeyboardFocusLost", 
+        "description": ""
     }, 
     {
-        "id": "Key", 
         "source": "Key", 
+        "text": "Chiave", 
         "nameSpace": "djv::Core::Event", 
-        "description": "", 
-        "text": "Chiave"
+        "id": "Key", 
+        "description": ""
     }, 
     {
-        "id": "Text", 
         "source": "Text", 
+        "text": "Testo", 
         "nameSpace": "djv::Core::Event", 
-        "description": "", 
-        "text": "Testo"
+        "id": "Text", 
+        "description": ""
     }, 
     {
-        "id": "Cannot open file", 
         "source": "Cannot open file", 
+        "text": "Non \u00e8 possibile aprire questo file", 
         "nameSpace": "djv::Core::FileSystem", 
-        "description": "", 
-        "text": "Non \u00e8 possibile aprire questo file"
+        "id": "Cannot open file", 
+        "description": ""
     }, 
     {
-        "id": "Cannot close file", 
         "source": "Cannot close file", 
+        "text": "Impossibile chiudere il file", 
         "nameSpace": "djv::Core::FileSystem", 
-        "description": "", 
-        "text": "Impossibile chiudere il file"
+        "id": "Cannot close file", 
+        "description": ""
     }, 
     {
-        "id": "Cannot map file", 
         "source": "Cannot map file", 
+        "text": "Impossibile mappare il file", 
         "nameSpace": "djv::Core::FileSystem", 
-        "description": "", 
-        "text": "Impossibile mappare il file"
+        "id": "Cannot map file", 
+        "description": ""
     }, 
     {
-        "id": "Cannot unmap file", 
         "source": "Cannot unmap file", 
+        "text": "Impossibile rimuovere il file", 
         "nameSpace": "djv::Core::FileSystem", 
-        "description": "", 
-        "text": "Impossibile rimuovere il file"
+        "id": "Cannot unmap file", 
+        "description": ""
     }, 
     {
-        "id": "Cannot read file", 
         "source": "Cannot read file", 
+        "text": "Impossibile leggere il file", 
         "nameSpace": "djv::Core::FileSystem", 
-        "description": "", 
-        "text": "Impossibile leggere il file"
+        "id": "Cannot read file", 
+        "description": ""
     }, 
     {
-        "id": "Cannot write file", 
         "source": "Cannot write file", 
+        "text": "Impossibile scrivere il file", 
         "nameSpace": "djv::Core::FileSystem", 
-        "description": "", 
-        "text": "Impossibile scrivere il file"
+        "id": "Cannot write file", 
+        "description": ""
     }, 
     {
+        "id": "Error watching directory", 
         "source": "Error watching directory", 
-        "text": "Errore durante la visualizzazione della directory", 
         "nameSpace": "djv::Core::FileSystem", 
         "description": "", 
-        "id": "Error watching directory"
+        "text": "Errore durante la visualizzazione della directory"
     }
 ]

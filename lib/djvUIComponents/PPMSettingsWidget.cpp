@@ -111,7 +111,7 @@ namespace djv
 
         std::string PPMSettingsWidget::getGroupSortKey() const
         {
-            return DJV_TEXT("djv::UI::Settings", "B");
+            return "B";
         }
 
 		void PPMSettingsWidget::_localeEvent(Event::Locale & event)

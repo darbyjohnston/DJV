@@ -1,282 +1,338 @@
 [
     {
         "source": "Up", 
-        "text": "Acima", 
+        "description": "", 
         "nameSpace": "djv::UI::FileBrowser", 
         "id": "Up", 
-        "description": ""
+        "text": "Acima"
     }, 
     {
         "source": "Up Tooltip", 
-        "text": "Sugest\u00e3o para cima", 
+        "description": "", 
         "nameSpace": "djv::UI::FileBrowser", 
         "id": "Up Tooltip", 
-        "description": ""
+        "text": "Sugest\u00e3o para cima"
     }, 
     {
         "source": "Current Directory", 
-        "text": "Diret\u00f3rio atual", 
+        "description": "", 
         "nameSpace": "djv::UI::FileBrowser", 
         "id": "Current Directory", 
-        "description": ""
+        "text": "Diret\u00f3rio atual"
     }, 
     {
         "source": "Current Directory Tooltip", 
-        "text": "Dica de ferramenta do diret\u00f3rio atual", 
+        "description": "", 
         "nameSpace": "djv::UI::FileBrowser", 
         "id": "Current Directory Tooltip", 
-        "description": ""
+        "text": "Dica de ferramenta do diret\u00f3rio atual"
     }, 
     {
         "source": "Back", 
-        "text": "De volta", 
+        "description": "", 
         "nameSpace": "djv::UI::FileBrowser", 
         "id": "Back", 
-        "description": ""
+        "text": "De volta"
     }, 
     {
         "source": "Back Tooltip", 
-        "text": "Voltar Tooltip", 
+        "description": "", 
         "nameSpace": "djv::UI::FileBrowser", 
         "id": "Back Tooltip", 
-        "description": ""
+        "text": "Voltar Tooltip"
     }, 
     {
         "source": "Forward", 
-        "text": "frente", 
+        "description": "", 
         "nameSpace": "djv::UI::FileBrowser", 
         "id": "Forward", 
-        "description": ""
+        "text": "frente"
     }, 
     {
         "source": "Forward Tooltip", 
-        "text": "Sugest\u00e3o para a frente", 
+        "description": "", 
         "nameSpace": "djv::UI::FileBrowser", 
         "id": "Forward Tooltip", 
-        "description": ""
+        "text": "Sugest\u00e3o para a frente"
     }, 
     {
         "source": "Large Thumbnails", 
-        "text": "Miniaturas Grandes", 
+        "description": "", 
         "nameSpace": "djv::UI::FileBrowser", 
         "id": "Large Thumbnails", 
-        "description": ""
+        "text": "Miniaturas Grandes"
     }, 
     {
         "source": "Large Thumbnails Tooltip", 
-        "text": "Dica de Miniatura de Grandes Miniaturas", 
+        "description": "", 
         "nameSpace": "djv::UI::FileBrowser", 
         "id": "Large Thumbnails Tooltip", 
-        "description": ""
+        "text": "Dica de Miniatura de Grandes Miniaturas"
     }, 
     {
         "source": "Small Thumbnails", 
-        "text": "Miniaturas Pequenas", 
+        "description": "", 
         "nameSpace": "djv::UI::FileBrowser", 
         "id": "Small Thumbnails", 
-        "description": ""
+        "text": "Miniaturas Pequenas"
     }, 
     {
         "source": "Small Thumbnails Tooltip", 
-        "text": "Dica de Miniatura de Pequenas Miniaturas", 
+        "description": "", 
         "nameSpace": "djv::UI::FileBrowser", 
         "id": "Small Thumbnails Tooltip", 
-        "description": ""
+        "text": "Dica de Miniatura de Pequenas Miniaturas"
     }, 
     {
         "source": "List View", 
-        "text": "Exibi\u00e7\u00e3o de lista", 
+        "description": "", 
         "nameSpace": "djv::UI::FileBrowser", 
         "id": "List View", 
-        "description": ""
+        "text": "Exibi\u00e7\u00e3o de lista"
     }, 
     {
         "source": "List View Tooltip", 
-        "text": "Dica de vista da lista", 
+        "description": "", 
         "nameSpace": "djv::UI::FileBrowser", 
         "id": "List View Tooltip", 
-        "description": ""
+        "text": "Dica de vista da lista"
     }, 
     {
         "source": "File Sequences", 
-        "text": "Sequ\u00eancias de arquivos", 
+        "description": "", 
         "nameSpace": "djv::UI::FileBrowser", 
         "id": "File Sequences", 
-        "description": ""
+        "text": "Sequ\u00eancias de arquivos"
     }, 
     {
         "source": "File Sequences Tooltip", 
-        "text": "Dica de Seq\u00fc\u00eancias de Arquivo", 
+        "description": "", 
         "nameSpace": "djv::UI::FileBrowser", 
         "id": "File Sequences Tooltip", 
-        "description": ""
+        "text": "Dica de Seq\u00fc\u00eancias de Arquivo"
     }, 
     {
         "source": "Show Hidden", 
-        "text": "Mostrar oculto", 
+        "description": "", 
         "nameSpace": "djv::UI::FileBrowser", 
         "id": "Show Hidden", 
-        "description": ""
+        "text": "Mostrar oculto"
     }, 
     {
         "source": "Show Hidden Tooltip", 
-        "text": "Mostrar a dica de ferramenta oculta", 
+        "description": "", 
         "nameSpace": "djv::UI::FileBrowser", 
         "id": "Show Hidden Tooltip", 
-        "description": ""
+        "text": "Mostrar a dica de ferramenta oculta"
     }, 
     {
         "source": "Directory", 
-        "text": "Diret\u00f3rio", 
+        "description": "", 
         "nameSpace": "djv::UI::FileBrowser", 
         "id": "Directory", 
-        "description": ""
+        "text": "Diret\u00f3rio"
     }, 
     {
         "source": "View", 
-        "text": "Vis\u00e3o", 
+        "description": "", 
         "nameSpace": "djv::UI::FileBrowser", 
         "id": "View", 
-        "description": ""
+        "text": "Vis\u00e3o"
     }, 
     {
         "source": "Sort", 
-        "text": "Ordenar", 
+        "description": "", 
         "nameSpace": "djv::UI::FileBrowser", 
         "id": "Sort", 
-        "description": ""
+        "text": "Ordenar"
     }, 
     {
         "source": "Bookmarks", 
-        "text": "Favoritos", 
+        "description": "", 
         "nameSpace": "djv::UI::FileBrowser", 
         "id": "Bookmarks", 
-        "description": ""
+        "text": "Favoritos"
     }, 
     {
         "source": "items", 
-        "text": "Unid", 
+        "description": "", 
         "nameSpace": "djv::UI::FileBrowser", 
         "id": "items", 
-        "description": ""
+        "text": "Unid"
     }, 
     {
         "source": "Size", 
-        "text": "Tamanho", 
+        "description": "", 
         "nameSpace": "djv::UI::FileBrowser", 
         "id": "Size", 
-        "description": ""
+        "text": "Tamanho"
     }, 
     {
         "source": "Last modification time", 
-        "text": "\u00daltima hora da modifica\u00e7\u00e3o", 
+        "description": "", 
         "nameSpace": "djv::UI::FileBrowser", 
         "id": "Last modification time", 
-        "description": ""
+        "text": "\u00daltima hora da modifica\u00e7\u00e3o"
     }, 
     {
         "source": "Video track", 
-        "text": "Faixa de v\u00eddeo", 
+        "description": "", 
         "nameSpace": "djv::UI::FileBrowser", 
         "id": "Video track", 
-        "description": ""
+        "text": "Faixa de v\u00eddeo"
     }, 
     {
         "source": "Type", 
-        "text": "Tipo", 
+        "description": "", 
         "nameSpace": "djv::UI::FileBrowser", 
         "id": "Type", 
-        "description": ""
+        "text": "Tipo"
     }, 
     {
         "source": "Speed", 
-        "text": "Rapidez", 
+        "description": "", 
         "nameSpace": "djv::UI::FileBrowser", 
         "id": "Speed", 
-        "description": ""
+        "text": "Rapidez"
     }, 
     {
         "source": "FPS", 
-        "text": "FPS", 
+        "description": "", 
         "nameSpace": "djv::UI::FileBrowser", 
         "id": "FPS", 
-        "description": ""
+        "text": "FPS"
     }, 
     {
         "source": "Duration", 
-        "text": "Dura\u00e7\u00e3o", 
+        "description": "", 
         "nameSpace": "djv::UI::FileBrowser", 
         "id": "Duration", 
-        "description": ""
+        "text": "Dura\u00e7\u00e3o"
     }, 
     {
         "source": "Audio track", 
-        "text": "Faixa de \u00e1udio", 
+        "description": "", 
         "nameSpace": "djv::UI::FileBrowser", 
         "id": "Audio track", 
-        "description": ""
+        "text": "Faixa de \u00e1udio"
     }, 
     {
         "source": "Channels", 
-        "text": "Canais", 
+        "description": "", 
         "nameSpace": "djv::UI::FileBrowser", 
         "id": "Channels", 
-        "description": ""
+        "text": "Canais"
     }, 
     {
         "source": "Sample rate", 
-        "text": "Taxa de amostragem", 
+        "description": "", 
         "nameSpace": "djv::UI::FileBrowser", 
         "id": "Sample rate", 
-        "description": ""
+        "text": "Taxa de amostragem"
     }, 
     {
         "source": "kHz", 
-        "text": "kHz", 
+        "description": "", 
         "nameSpace": "djv::UI::FileBrowser", 
         "id": "kHz", 
-        "description": ""
+        "text": "kHz"
     }, 
     {
         "source": "History Tooltip", 
-        "text": "Dica de Hist\u00f3ria", 
+        "description": "", 
         "nameSpace": "djv::UI::FileBrowser", 
         "id": "History Tooltip", 
-        "description": ""
+        "text": "Dica de Hist\u00f3ria"
     }, 
     {
         "source": "Display Size", 
-        "text": "Tamanho da exibi\u00e7\u00e3o", 
+        "description": "", 
         "nameSpace": "djv::ViewLib::GeneralSettingsWidget", 
         "id": "Display Size", 
-        "description": ""
+        "text": "Tamanho da exibi\u00e7\u00e3o"
     }, 
     {
         "source": "Language", 
-        "text": "L\u00edngua", 
+        "description": "", 
         "nameSpace": "djv::ViewLib::GeneralSettingsWidget", 
         "id": "Language", 
-        "description": ""
+        "text": "L\u00edngua"
     }, 
     {
         "source": "Color Palette", 
-        "text": "Paleta de cores", 
+        "description": "", 
         "nameSpace": "djv::ViewLib::GeneralSettingsWidget", 
         "id": "Color Palette", 
-        "description": ""
+        "text": "Paleta de cores"
     }, 
     {
         "source": "Compression Quality", 
-        "text": "Qualidade de Compress\u00e3o", 
+        "description": "", 
         "nameSpace": "djv::UI::JPEGSettingsWidget", 
         "id": "Compression Quality", 
-        "description": ""
+        "text": "Qualidade de Compress\u00e3o"
     }, 
     {
         "source": "Data Type", 
-        "text": "Tipo de dados", 
+        "description": "", 
         "nameSpace": "djv::UI::PPMSettingsWidget", 
         "id": "Data Type", 
+        "text": "Tipo de dados"
+    }, 
+    {
+        "source": "Display", 
+        "text": "Exibi\u00e7\u00e3o", 
+        "nameSpace": "djv::UI::DisplaySettingsWidget", 
+        "id": "Display", 
+        "description": ""
+    }, 
+    {
+        "source": "General", 
+        "text": "Geral", 
+        "nameSpace": "djv::UI::Settings", 
+        "id": "General", 
+        "description": ""
+    }, 
+    {
+        "source": "A", 
+        "text": "UMA", 
+        "nameSpace": "djv::UI::Settings", 
+        "id": "A", 
+        "description": ""
+    }, 
+    {
+        "source": "JPEG", 
+        "text": "JPEG", 
+        "nameSpace": "djv::UI::JPEGSettingsWidget", 
+        "id": "JPEG", 
+        "description": ""
+    }, 
+    {
+        "source": "I/O", 
+        "text": "E / S", 
+        "nameSpace": "djv::UI::Settings", 
+        "id": "IO", 
+        "description": ""
+    }, 
+    {
+        "source": "B", 
+        "text": "B", 
+        "nameSpace": "djv::UI::Settings", 
+        "id": "B", 
+        "description": ""
+    }, 
+    {
+        "source": "PPM", 
+        "text": "PPM", 
+        "nameSpace": "djv::UI::PPMSettingsWidget", 
+        "id": "PPM", 
+        "description": ""
+    }, 
+    {
+        "source": "Palette", 
+        "text": "Paleta", 
+        "nameSpace": "djv::UI::PaletteSettingsWidget", 
+        "id": "Palette", 
         "description": ""
     }
 ]

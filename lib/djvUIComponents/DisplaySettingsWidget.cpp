@@ -163,7 +163,7 @@ namespace djv
 
         std::string DisplaySettingsWidget::getGroupSortKey() const
         {
-            return DJV_TEXT("djv::UI::Settings", "A");
+            return "A";
         }
 
         void DisplaySettingsWidget::_localeEvent(Event::Locale & event)
