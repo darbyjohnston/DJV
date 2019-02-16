@@ -29,8 +29,6 @@
 
 #include <djvAV/PPM.h>
 
-#include <djvAV/PPMJSON.h>
-
 #include <djvCore/Context.h>
 #include <djvCore/FileIO.h>
 #include <djvCore/String.h>

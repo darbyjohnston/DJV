@@ -35,7 +35,6 @@
 #include <djvUI/RowLayout.h>
 
 #include <djvAV/JPEG.h>
-#include <djvAV/JPEGJSON.h>
 
 #include <djvCore/Context.h>
 #include <djvCore/NumericValueModels.h>

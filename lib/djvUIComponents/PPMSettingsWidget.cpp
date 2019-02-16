@@ -35,7 +35,6 @@
 #include <djvUI/ListButton.h>
 
 #include <djvAV/PPM.h>
-#include <djvAV/PPMJSON.h>
 
 #include <djvCore/Context.h>
 

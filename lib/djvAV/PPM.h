@@ -31,6 +31,7 @@
 
 #include <djvAV/SequenceIO.h>
 
+#include <djvCore/PicoJSON.h>
 #include <djvCore/String.h>
 
 namespace djv
@@ -161,5 +162,15 @@ namespace djv
     } // namespace AV
 
     DJV_ENUM_SERIALIZE_HELPERS(AV::IO::PPM::Data);
+    
+    template<>
+    inline picojson::value toJSON<AV::IO::PPM::Settings>(const AV::IO::PPM::Settings &);
+
+    //! Throws:
+    //! - std::exception
+    template<>
+    inline void fromJSON<AV::IO::PPM::Settings>(const picojson::value &, AV::IO::PPM::Settings &);
 
 } // namespace djv
+
+#include <djvAV/PPMInline.h>

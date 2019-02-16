@@ -31,6 +31,7 @@
 
 #include <djvAV/SequenceIO.h>
 
+#include <djvCore/PicoJSON.h>
 #include <djvCore/String.h>
 
 #if defined(DJV_PLATFORM_WINDOWS)
@@ -153,4 +154,15 @@ namespace djv
             } // namespace JPEG
         } // namespace IO
     } // namespace AV
+
+    template<>
+    inline picojson::value toJSON<AV::IO::JPEG::Settings>(const AV::IO::JPEG::Settings &);
+
+    //! Throws:
+    //! - std::exception
+    template<>
+    inline void fromJSON<AV::IO::JPEG::Settings>(const picojson::value &, AV::IO::JPEG::Settings &);
+
 } // namespace djv
+
+#include <djvAV/JPEGInline.h>
