@@ -212,30 +212,30 @@ namespace djv
         {
 			IMDIWidget::_localeEvent(event);
             DJV_PRIVATE_PTR();
-            setTitle(_getText(DJV_TEXT("djv::ViewLib::DebugWidget", "Debug")));
+            setTitle(_getText(DJV_TEXT("Debug")));
             {
                 std::stringstream ss;
-                ss << _getText(DJV_TEXT("djv::ViewLib::DebugWidget", "Duration")) << ":";
+                ss << _getText(DJV_TEXT("Duration")) << ":";
                 p.layout->setText(p.text["Duration"], ss.str());
             }
             {
                 std::stringstream ss;
-                ss << _getText(DJV_TEXT("djv::ViewLib::DebugWidget", "Current Time")) << ":";
+                ss << _getText(DJV_TEXT("Current Time")) << ":";
                 p.layout->setText(p.text["CurrentTime"], ss.str());
             }
             {
                 std::stringstream ss;
-                ss << _getText(DJV_TEXT("djv::ViewLib::DebugWidget", "Video Queue")) << ":";
+                ss << _getText(DJV_TEXT("Video Queue")) << ":";
                 p.layout->setText(p.text["VideoQueue"], ss.str());
             }
             {
                 std::stringstream ss;
-                ss << _getText(DJV_TEXT("djv::ViewLib::DebugWidget", "Audio Queue")) << ":";
+                ss << _getText(DJV_TEXT("Audio Queue")) << ":";
                 p.layout->setText(p.text["AudioQueue"], ss.str());
             }
             {
                 std::stringstream ss;
-                ss << _getText(DJV_TEXT("djv::ViewLib::DebugWidget", "AL Unqueued Buffers")) << ":";
+                ss << _getText(DJV_TEXT("AL Unqueued Buffers")) << ":";
                 p.layout->setText(p.text["ALUnqueuedBuffers"], ss.str());
             }
         }

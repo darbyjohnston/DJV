@@ -201,16 +201,16 @@ namespace djv
     DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
         Core::FileSystem,
         FileType,
-        DJV_TEXT("djv::Core::FileSystem", "File"),
-        DJV_TEXT("djv::Core::FileSystem", "Sequence"),
-        DJV_TEXT("djv::Core::FileSystem", "Directory"));
+        DJV_TEXT("File"),
+        DJV_TEXT("Sequence"),
+        DJV_TEXT("Directory"));
 
     DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
         Core::FileSystem,
         DirectoryListSort,
-        DJV_TEXT("djv::Core::FileSystem", "Name"),
-        DJV_TEXT("djv::Core::FileSystem", "Size"),
-        DJV_TEXT("djv::Core::FileSystem", "Permissions"),
-        DJV_TEXT("djv::Core::FileSystem", "Type"));
+        DJV_TEXT("Name"),
+        DJV_TEXT("Size"),
+        DJV_TEXT("Permissions"),
+        DJV_TEXT("Type"));
 
 } // namespace djv

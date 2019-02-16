@@ -50,7 +50,7 @@ namespace djv
                     auto out = std::shared_ptr<Plugin>(new Plugin);
                     out->_init(
                         pluginName,
-                        context->getText(DJV_TEXT("djv::AV::IO::PNG", "This plugin provides Portable Network Graphics (PNG) image I/O.")),
+                        context->getText(DJV_TEXT("This plugin provides Portable Network Graphics (PNG) image I/O.")),
                         fileExtensions,
                         context);
                     return out;

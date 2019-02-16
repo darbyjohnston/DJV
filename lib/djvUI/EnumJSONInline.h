@@ -47,7 +47,7 @@ namespace djv
         }
         else
         {
-            throw std::invalid_argument(DJV_TEXT("djv::UI::EnumJSON", "Cannot parse value."));
+            throw std::invalid_argument(DJV_TEXT("Cannot parse value."));
         }
     }
 

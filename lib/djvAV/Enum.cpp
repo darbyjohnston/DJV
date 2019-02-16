@@ -38,11 +38,11 @@ namespace djv
     DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
         AV,
         Side,
-        DJV_TEXT("djv::AV", "None"),
-        DJV_TEXT("djv::AV", "Left"),
-        DJV_TEXT("djv::AV", "Top"),
-        DJV_TEXT("djv::AV", "Right"),
-        DJV_TEXT("djv::AV", "Bottom"));
+        DJV_TEXT("None"),
+        DJV_TEXT("Left"),
+        DJV_TEXT("Top"),
+        DJV_TEXT("Right"),
+        DJV_TEXT("Bottom"));
 
 } // namespace djv
 

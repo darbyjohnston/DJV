@@ -1,19 +1,16 @@
 [
     {
         "text": "Nothing to convert", 
-        "nameSpace": "djv::Convert", 
         "id": "Nothing to convert", 
         "description": ""
     }, 
     {
         "text": "Cannot parse option '-resize'", 
-        "nameSpace": "djv::Convert", 
         "id": "Cannot parse option '-resize'", 
         "description": ""
     }, 
     {
         "text": "Usage: djv_convert (input) (output)", 
-        "nameSpace": "djv::Convert", 
         "id": "Usage: djv_convert (input) (output)", 
         "description": ""
     }

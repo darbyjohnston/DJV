@@ -54,84 +54,84 @@ namespace djv
     DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
         UI,
         Orientation,
-        DJV_TEXT("djv::UI", "Horizontal"),
-        DJV_TEXT("djv::UI", "Vertical"));
+        DJV_TEXT("Horizontal"),
+        DJV_TEXT("Vertical"));
 
     DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
         UI,
         Side,
-        DJV_TEXT("djv::UI", "Left"),
-        DJV_TEXT("djv::UI", "Top"),
-        DJV_TEXT("djv::UI", "Right"),
-        DJV_TEXT("djv::UI", "Bottom"));
+        DJV_TEXT("Left"),
+        DJV_TEXT("Top"),
+        DJV_TEXT("Right"),
+        DJV_TEXT("Bottom"));
 
     DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
         UI,
         Expand,
-        DJV_TEXT("djv::UI", "None"),
-        DJV_TEXT("djv::UI", "Horizontal"),
-        DJV_TEXT("djv::UI", "Vertical"),
-        DJV_TEXT("djv::UI", "Both"));
+        DJV_TEXT("None"),
+        DJV_TEXT("Horizontal"),
+        DJV_TEXT("Vertical"),
+        DJV_TEXT("Both"));
 
     DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
         UI,
         HAlign,
-        DJV_TEXT("djv::UI", "Center"),
-        DJV_TEXT("djv::UI", "Left"),
-        DJV_TEXT("djv::UI", "Right"),
-        DJV_TEXT("djv::UI", "Fill"));
+        DJV_TEXT("Center"),
+        DJV_TEXT("Left"),
+        DJV_TEXT("Right"),
+        DJV_TEXT("Fill"));
 
     DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
         UI,
         VAlign,
-        DJV_TEXT("djv::UI", "Center"),
-        DJV_TEXT("djv::UI", "Top"),
-        DJV_TEXT("djv::UI", "Bottom"),
-        DJV_TEXT("djv::UI", "Fill"));
+        DJV_TEXT("Center"),
+        DJV_TEXT("Top"),
+        DJV_TEXT("Bottom"),
+        DJV_TEXT("Fill"));
 
     DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
         UI,
         TextHAlign,
-        DJV_TEXT("djv::UI", "Center"),
-        DJV_TEXT("djv::UI", "Left"),
-        DJV_TEXT("djv::UI", "Right"));
+        DJV_TEXT("Center"),
+        DJV_TEXT("Left"),
+        DJV_TEXT("Right"));
 
     DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
         UI,
         TextVAlign,
-        DJV_TEXT("djv::UI", "Center"),
-        DJV_TEXT("djv::UI", "Top"),
-        DJV_TEXT("djv::UI", "Bottom"),
-        DJV_TEXT("djv::UI", "Baseline"));
+        DJV_TEXT("Center"),
+        DJV_TEXT("Top"),
+        DJV_TEXT("Bottom"),
+        DJV_TEXT("Baseline"));
 
     DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
         UI,
         SelectionType,
-        DJV_TEXT("djv::UI", "None"),
-        DJV_TEXT("djv::UI", "Single"),
-        DJV_TEXT("djv::UI", "Radio"),
-        DJV_TEXT("djv::UI", "Multiple"));
+        DJV_TEXT("None"),
+        DJV_TEXT("Single"),
+        DJV_TEXT("Radio"),
+        DJV_TEXT("Multiple"));
 
     DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
         UI,
         SortOrder,
-        DJV_TEXT("djv::UI", "Forward"),
-        DJV_TEXT("djv::UI", "Reverse"));
+        DJV_TEXT("Forward"),
+        DJV_TEXT("Reverse"));
 
     DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
         UI,
         ButtonType,
-        DJV_TEXT("djv::UI", "Push"),
-        DJV_TEXT("djv::UI", "Toggle"),
-        DJV_TEXT("djv::UI", "Radio"),
-        DJV_TEXT("djv::UI", "Exclusive"));
+        DJV_TEXT("Push"),
+        DJV_TEXT("Toggle"),
+        DJV_TEXT("Radio"),
+        DJV_TEXT("Exclusive"));
 
     DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
         UI,
         ViewType,
-        DJV_TEXT("djv::UI::FileBrowser", "ThumbnailsLarge"),
-        DJV_TEXT("djv::UI::FileBrowser", "ThumbnailsSmall"),
-        DJV_TEXT("djv::UI::FileBrowser", "ListView"));
+        DJV_TEXT("ThumbnailsLarge"),
+        DJV_TEXT("ThumbnailsSmall"),
+        DJV_TEXT("ListView"));
 
 } // namespace djv
 

@@ -148,12 +148,12 @@ namespace djv
 
         std::string LanguageSettingsWidget::getName() const
         {
-            return DJV_TEXT("djv::UI::LanguageSettingsWidget", "Language");
+            return DJV_TEXT("Language");
         }
 
         std::string LanguageSettingsWidget::getGroup() const
         {
-            return DJV_TEXT("djv::UI::Settings", "General");
+            return DJV_TEXT("General");
         }
 
         std::string LanguageSettingsWidget::getGroupSortKey() const

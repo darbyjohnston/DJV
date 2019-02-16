@@ -239,17 +239,17 @@ namespace djv
         void ToolSystem::_localeEvent(Event::Locale &)
         {
             DJV_PRIVATE_PTR();
-            p.menus["Tools"]->setMenuName(_getText(DJV_TEXT("djv::ViewLib::ToolSystem", "Tools")));
-            p.actions["Magnifier"]->setText(_getText(DJV_TEXT("djv::ViewLib::ToolSystem", "Magnifier")));
-            p.actions["Magnifier"]->setTooltip(_getText(DJV_TEXT("djv::ViewLib::ToolSystem", "Magnifier Tooltip")));
-            p.actions["ColorPicker"]->setText(_getText(DJV_TEXT("djv::ViewLib::ToolSystem", "Color Picker")));
-            p.actions["ColorPicker"]->setTooltip(_getText(DJV_TEXT("djv::ViewLib::ToolSystem", "Color Picker Tooltip")));
-            p.actions["Histogram"]->setText(_getText(DJV_TEXT("djv::ViewLib::ToolSystem", "Histogram")));
-            p.actions["Histogram"]->setTooltip(_getText(DJV_TEXT("djv::ViewLib::ToolSystem", "Histogram Tooltip")));
-            p.actions["Information"]->setText(_getText(DJV_TEXT("djv::ViewLib::ToolSystem", "Information")));
-            p.actions["Information"]->setTooltip(_getText(DJV_TEXT("djv::ViewLib::ToolSystem", "Information Tooltip")));
-            p.actions["Debug"]->setText(_getText(DJV_TEXT("djv::ViewLib::ToolSystem", "Debug")));
-            p.actions["Debug"]->setTooltip(_getText(DJV_TEXT("djv::ViewLib::ToolSystem", "Debug Tooltip")));
+            p.menus["Tools"]->setMenuName(_getText(DJV_TEXT("Tools")));
+            p.actions["Magnifier"]->setText(_getText(DJV_TEXT("Magnifier")));
+            p.actions["Magnifier"]->setTooltip(_getText(DJV_TEXT("Magnifier Tooltip")));
+            p.actions["ColorPicker"]->setText(_getText(DJV_TEXT("Color Picker")));
+            p.actions["ColorPicker"]->setTooltip(_getText(DJV_TEXT("Color Picker Tooltip")));
+            p.actions["Histogram"]->setText(_getText(DJV_TEXT("Histogram")));
+            p.actions["Histogram"]->setTooltip(_getText(DJV_TEXT("Histogram Tooltip")));
+            p.actions["Information"]->setText(_getText(DJV_TEXT("Information")));
+            p.actions["Information"]->setTooltip(_getText(DJV_TEXT("Information Tooltip")));
+            p.actions["Debug"]->setText(_getText(DJV_TEXT("Debug")));
+            p.actions["Debug"]->setTooltip(_getText(DJV_TEXT("Debug Tooltip")));
         }
 
     } // namespace ViewLib

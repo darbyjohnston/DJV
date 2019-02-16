@@ -105,12 +105,12 @@ namespace djv
 
         std::string JPEGSettingsWidget::getName() const
         {
-            return DJV_TEXT("djv::UI::JPEGSettingsWidget", "JPEG");
+            return DJV_TEXT("JPEG");
         }
 
         std::string JPEGSettingsWidget::getGroup() const
         {
-            return DJV_TEXT("djv::UI::Settings", "IO");
+            return DJV_TEXT("I/O");
         }
 
         std::string JPEGSettingsWidget::getGroupSortKey() const
@@ -122,7 +122,7 @@ namespace djv
 		{
             ISettingsWidget::_localeEvent(event);
 			DJV_PRIVATE_PTR();
-			p.qualityGroupBox->setText(DJV_TEXT("djv::UI::JPEGSettingsWidget", "Compression Quality"));
+			p.qualityGroupBox->setText(DJV_TEXT("Compression Quality"));
 		}
 
     } // namespace UI

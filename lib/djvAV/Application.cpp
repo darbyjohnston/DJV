@@ -114,7 +114,7 @@ namespace djv
             if (!glfwInit())
             {
                 std::stringstream ss;
-                ss << getText(DJV_TEXT("djv::AV", "Cannot initialize GLFW."));
+                ss << getText(DJV_TEXT("Cannot initialize GLFW."));
                 throw std::runtime_error(ss.str());
             }
 
@@ -133,7 +133,7 @@ namespace djv
             if (!p.glfwWindow)
             {
                 std::stringstream ss;
-                ss << getText(DJV_TEXT("djv::AV", "Cannot create GLFW window."));
+                ss << getText(DJV_TEXT("Cannot create GLFW window."));
                 throw std::runtime_error(ss.str());
             }
             {

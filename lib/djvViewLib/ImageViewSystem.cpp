@@ -168,31 +168,31 @@ namespace djv
         void ImageViewSystem::_localeEvent(Event::Locale &)
         {
             DJV_PRIVATE_PTR();
-            p.actions["Left"]->setText(_getText(DJV_TEXT("djv::ViewLib::ImageViewSystem", "Left")));
-            p.actions["Left"]->setTooltip(_getText(DJV_TEXT("djv::ViewLib::ImageViewSystem", "Left Tooltip")));
-            p.actions["Right"]->setText(_getText(DJV_TEXT("djv::ViewLib::ImageViewSystem", "Right")));
-            p.actions["Right"]->setTooltip(_getText(DJV_TEXT("djv::ViewLib::ImageViewSystem", "Right Tooltip")));
-            p.actions["Up"]->setText(_getText(DJV_TEXT("djv::ViewLib::ImageViewSystem", "Up")));
-            p.actions["Up"]->setTooltip(_getText(DJV_TEXT("djv::ViewLib::ImageViewSystem", "Up Tooltip")));
-            p.actions["Down"]->setText(_getText(DJV_TEXT("djv::ViewLib::ImageViewSystem", "Down")));
-            p.actions["Down"]->setTooltip(_getText(DJV_TEXT("djv::ViewLib::ImageViewSystem", "Down Tooltip")));
-            p.actions["Center"]->setText(_getText(DJV_TEXT("djv::ViewLib::ImageViewSystem", "Center")));
-            p.actions["Center"]->setTooltip(_getText(DJV_TEXT("djv::ViewLib::ImageViewSystem", "Center Tooltip")));
-            p.actions["ZoomIn"]->setText(_getText(DJV_TEXT("djv::ViewLib::ImageViewSystem", "Zoom In")));
-            p.actions["ZoomIn"]->setTooltip(_getText(DJV_TEXT("djv::ViewLib::ImageViewSystem", "Zoom In Tooltip")));
-            p.actions["ZoomOut"]->setText(_getText(DJV_TEXT("djv::ViewLib::ImageViewSystem", "Zoom Out")));
-            p.actions["ZoomOut"]->setTooltip(_getText(DJV_TEXT("djv::ViewLib::ImageViewSystem", "Zoom Out Tooltip")));
-            p.actions["ResetZoom"]->setText(_getText(DJV_TEXT("djv::ViewLib::ImageViewSystem", "Reset Zoom")));
-            p.actions["ResetZoom"]->setTooltip(_getText(DJV_TEXT("djv::ViewLib::ImageViewSystem", "Reset Zoom Tooltip")));
-            p.actions["ResetPosZoom"]->setText(_getText(DJV_TEXT("djv::ViewLib::ImageViewSystem", "Reset Position and Zoom")));
-            p.actions["ResetPosZoom"]->setTooltip(_getText(DJV_TEXT("djv::ViewLib::ImageViewSystem", "Reset Position and Zoom Tooltip")));
-            p.actions["Fit"]->setText(_getText(DJV_TEXT("djv::ViewLib::ImageViewSystem", "Fit")));
-            p.actions["Fit"]->setTooltip(_getText(DJV_TEXT("djv::ViewLib::ImageViewSystem", "Fit Tooltip")));
-            p.actions["HUD"]->setText(_getText(DJV_TEXT("djv::ViewLib::ImageViewSystem", "HUD")));
-            p.actions["HUD"]->setTooltip(_getText(DJV_TEXT("djv::ViewLib::ImageViewSystem", "HUD Tooltip")));
+            p.actions["Left"]->setText(_getText(DJV_TEXT("Left")));
+            p.actions["Left"]->setTooltip(_getText(DJV_TEXT("Left Tooltip")));
+            p.actions["Right"]->setText(_getText(DJV_TEXT("Right")));
+            p.actions["Right"]->setTooltip(_getText(DJV_TEXT("Right Tooltip")));
+            p.actions["Up"]->setText(_getText(DJV_TEXT("Up")));
+            p.actions["Up"]->setTooltip(_getText(DJV_TEXT("Up Tooltip")));
+            p.actions["Down"]->setText(_getText(DJV_TEXT("Down")));
+            p.actions["Down"]->setTooltip(_getText(DJV_TEXT("Down Tooltip")));
+            p.actions["Center"]->setText(_getText(DJV_TEXT("Center")));
+            p.actions["Center"]->setTooltip(_getText(DJV_TEXT("Center Tooltip")));
+            p.actions["ZoomIn"]->setText(_getText(DJV_TEXT("Zoom In")));
+            p.actions["ZoomIn"]->setTooltip(_getText(DJV_TEXT("Zoom In Tooltip")));
+            p.actions["ZoomOut"]->setText(_getText(DJV_TEXT("Zoom Out")));
+            p.actions["ZoomOut"]->setTooltip(_getText(DJV_TEXT("Zoom Out Tooltip")));
+            p.actions["ResetZoom"]->setText(_getText(DJV_TEXT("Reset Zoom")));
+            p.actions["ResetZoom"]->setTooltip(_getText(DJV_TEXT("Reset Zoom Tooltip")));
+            p.actions["ResetPosZoom"]->setText(_getText(DJV_TEXT("Reset Position and Zoom")));
+            p.actions["ResetPosZoom"]->setTooltip(_getText(DJV_TEXT("Reset Position and Zoom Tooltip")));
+            p.actions["Fit"]->setText(_getText(DJV_TEXT("Fit")));
+            p.actions["Fit"]->setTooltip(_getText(DJV_TEXT("Fit Tooltip")));
+            p.actions["HUD"]->setText(_getText(DJV_TEXT("HUD")));
+            p.actions["HUD"]->setTooltip(_getText(DJV_TEXT("HUD Tooltip")));
 
-            p.menus["View"]->setMenuName(_getText(DJV_TEXT("djv::ViewLib::ImageViewSystem", "View")));
-            p.menus["Grid"]->setMenuName(_getText(DJV_TEXT("djv::ViewLib::ImageViewSystem", "Grid")));
+            p.menus["View"]->setMenuName(_getText(DJV_TEXT("View")));
+            p.menus["Grid"]->setMenuName(_getText(DJV_TEXT("Grid")));
         }
 
     } // namespace ViewLib

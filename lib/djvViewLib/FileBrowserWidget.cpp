@@ -106,8 +106,8 @@ namespace djv
         {
 			IMDIWidget::_localeEvent(event);
             DJV_PRIVATE_PTR();
-            setTitle(_getText(DJV_TEXT("djv::ViewLib::FileBrowserWidget", "File Browser")));
-			p.pinButton->setTooltip(_getText(DJV_TEXT("djv::ViewLib::FileBrowserWidget", "Pin Tooltip")));
+            setTitle(_getText(DJV_TEXT("File Browser")));
+			p.pinButton->setTooltip(_getText(DJV_TEXT("Pin Tooltip")));
         }
 
     } // namespace ViewLib

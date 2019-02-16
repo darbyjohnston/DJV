@@ -66,7 +66,7 @@ namespace djv
                 ISettings::_init("djv::UI::Settings::Style", context);
 
                 std::map<std::string, UI::Style::Palette> palettes;
-                palettes[DJV_TEXT("djv::UI::Settings", "Dark")] = UI::Style::Palette();
+                palettes[DJV_TEXT("Dark")] = UI::Style::Palette();
 
                 UI::Style::Palette palette;
                 palette.setColor(ColorRole::Background, AV::Image::Color(250, 250, 250));
@@ -85,11 +85,11 @@ namespace djv
                 palette.setColor(ColorRole::HeaderChecked, AV::Image::Color(105, 150, 190));
                 palette.setColor(ColorRole::HeaderDisabled, AV::Image::Color(127, 127, 127));
                 palette.setColor(ColorRole::Overlay, AV::Image::Color(255, 255, 255, 160));
-                palettes[DJV_TEXT("djv::UI::Settings", "Light")] = palette;
+                palettes[DJV_TEXT("Light")] = palette;
                 
                 std::map<std::string, UI::Style::Metrics> metricsList;
                 UI::Style::Metrics metrics;
-                metricsList[DJV_TEXT("djv::UI::Settings", "Medium")] = metrics;
+                metricsList[DJV_TEXT("Medium")] = metrics;
 
                 UI::Style::Metrics smallMetrics;
                 UI::Style::Metrics largeMetrics;
@@ -102,9 +102,9 @@ namespace djv
                     largeMetrics.setMetric(m, ceilf(v * 1.5f));
                     extraLargeMetrics.setMetric(m, ceilf(v * 2.f));
                 }
-                metricsList[DJV_TEXT("djv::UI::Settings", "Small")] = smallMetrics;
-                metricsList[DJV_TEXT("djv::UI::Settings", "Large")] = largeMetrics;
-                metricsList[DJV_TEXT("djv::UI::Settings", "ExtraLarge")] = extraLargeMetrics;
+                metricsList[DJV_TEXT("Small")] = smallMetrics;
+                metricsList[DJV_TEXT("Large")] = largeMetrics;
+                metricsList[DJV_TEXT("ExtraLarge")] = extraLargeMetrics;
 
                 DJV_PRIVATE_PTR();
                 p.palettes = MapSubject<std::string, UI::Style::Palette>::create(palettes);
@@ -112,8 +112,8 @@ namespace djv
                 p.currentPaletteName = ValueSubject<std::string>::create("Dark");
                 p.metrics = MapSubject<std::string, UI::Style::Metrics>::create(metricsList);
                 p.currentMetrics = ValueSubject<UI::Style::Metrics>::create(metricsList["Medium"]);
-                p.currentMetricsName = ValueSubject<std::string>::create(DJV_TEXT("djv::UI::Settings", "Medium"));
-                p.currentFont = ValueSubject<std::string>::create(DJV_TEXT("djv::UI::Settings", "Default"));
+                p.currentMetricsName = ValueSubject<std::string>::create(DJV_TEXT("Medium"));
+                p.currentFont = ValueSubject<std::string>::create(DJV_TEXT("Default"));
 
                 _load();
 

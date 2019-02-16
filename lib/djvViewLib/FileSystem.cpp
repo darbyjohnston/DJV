@@ -332,10 +332,10 @@ namespace djv
                         if (auto dialogSystem = context->getSystemT<UI::DialogSystem>().lock())
                         {
                             dialogSystem->confirmation(
-                                context->getText(DJV_TEXT("djv::ViewLib::FileSystem", "Exit")),
-                                context->getText(DJV_TEXT("djv::ViewLib::FileSystem", "Are you sure you want to exit?")),
-                                context->getText(DJV_TEXT("djv::ViewLib::FileSystem", "Yes")),
-                                context->getText(DJV_TEXT("djv::ViewLib::FileSystem", "No")),
+                                context->getText(DJV_TEXT("Exit")),
+                                context->getText(DJV_TEXT("Are you sure you want to exit?")),
+                                context->getText(DJV_TEXT("Yes")),
+                                context->getText(DJV_TEXT("No")),
                                 [context](bool value)
                             {
                                 if (value)
@@ -468,41 +468,41 @@ namespace djv
         void FileSystem::_localeEvent(Event::Locale &)
         {
             DJV_PRIVATE_PTR();
-            p.actions["Open"]->setText(_getText(DJV_TEXT("djv::ViewLib::FileSystem", "Open")));
-            p.actions["Open"]->setTooltip(_getText(DJV_TEXT("djv::ViewLib::FileSystem", "Open Tooltip")));
-            p.actions["Recent"]->setText(_getText(DJV_TEXT("djv::ViewLib::FileSystem", "Recent")));
-            p.actions["Recent"]->setTooltip(_getText(DJV_TEXT("djv::ViewLib::FileSystem", "Recent Tooltip")));
-            p.actions["Reload"]->setText(_getText(DJV_TEXT("djv::ViewLib::FileSystem", "Reload")));
-            p.actions["Reload"]->setTooltip(_getText(DJV_TEXT("djv::ViewLib::FileSystem", "Reload Tooltip")));
-            p.actions["ReloadFrame"]->setText(_getText(DJV_TEXT("djv::ViewLib::FileSystem", "Reload Frame")));
-            p.actions["ReloadFrame"]->setTooltip(_getText(DJV_TEXT("djv::ViewLib::FileSystem", "Reload Frame Tooltip")));
-            p.actions["Close"]->setText(_getText(DJV_TEXT("djv::ViewLib::FileSystem", "Close")));
-            p.actions["Close"]->setTooltip(_getText(DJV_TEXT("djv::ViewLib::FileSystem", "Close Tooltip")));
-            p.actions["Export"]->setText(_getText(DJV_TEXT("djv::ViewLib::FileSystem", "Export")));
-            p.actions["Export"]->setTooltip(_getText(DJV_TEXT("djv::ViewLib::FileSystem", "Export Tooltip")));
-            p.actions["Next"]->setText(_getText(DJV_TEXT("djv::ViewLib::FileSystem", "Next")));
-            p.actions["Next"]->setTooltip(_getText(DJV_TEXT("djv::ViewLib::FileSystem", "Next Tooltip")));
-            p.actions["Prev"]->setText(_getText(DJV_TEXT("djv::ViewLib::FileSystem", "Prev")));
-            p.actions["Prev"]->setTooltip(_getText(DJV_TEXT("djv::ViewLib::FileSystem", "Prev Tooltip")));
-            p.actions["Layers"]->setText(_getText(DJV_TEXT("djv::ViewLib::FileSystem", "Layers")));
-            p.actions["Layers"]->setTooltip(_getText(DJV_TEXT("djv::ViewLib::FileSystem", "Layers Tooltip")));
-            p.actions["NextLayer"]->setText(_getText(DJV_TEXT("djv::ViewLib::FileSystem", "Next Layer")));
-            p.actions["NextLayer"]->setTooltip(_getText(DJV_TEXT("djv::ViewLib::FileSystem", "Next Layer Tooltip")));
-            p.actions["PrevLayer"]->setText(_getText(DJV_TEXT("djv::ViewLib::FileSystem", "Previous Layer")));
-            p.actions["PrevLayer"]->setTooltip(_getText(DJV_TEXT("djv::ViewLib::FileSystem", "Previous Layer Tooltip")));
-            p.actions["8BitConversion"]->setText(_getText(DJV_TEXT("djv::ViewLib::FileSystem", "8-bit Conversion")));
-            p.actions["8BitConversion"]->setTooltip(_getText(DJV_TEXT("djv::ViewLib::FileSystem", "8-bit Conversion Tooltip")));
-            p.actions["MemoryCache"]->setText(_getText(DJV_TEXT("djv::ViewLib::FileSystem", "Memory Cache")));
-            p.actions["MemoryCache"]->setTooltip(_getText(DJV_TEXT("djv::ViewLib::FileSystem", "Memory Cache Tooltip")));
-            p.actions["ClearCache"]->setText(_getText(DJV_TEXT("djv::ViewLib::FileSystem", "Clear Cache")));
-            p.actions["ClearCache"]->setTooltip(_getText(DJV_TEXT("djv::ViewLib::FileSystem", "Clear Cache Tooltip")));
-            p.actions["Settings"]->setText(_getText(DJV_TEXT("djv::ViewLib::FileSystem", "Settings")));
-            p.actions["Settings"]->setTooltip(_getText(DJV_TEXT("djv::ViewLib::FileSystem", "Settings Tooltip")));
-            p.actions["Exit"]->setText(_getText(DJV_TEXT("djv::ViewLib::FileSystem", "Exit")));
-            p.actions["Exit"]->setTooltip(_getText(DJV_TEXT("djv::ViewLib::FileSystem", "Exit Tooltip")));
+            p.actions["Open"]->setText(_getText(DJV_TEXT("Open")));
+            p.actions["Open"]->setTooltip(_getText(DJV_TEXT("Open Tooltip")));
+            p.actions["Recent"]->setText(_getText(DJV_TEXT("Recent")));
+            p.actions["Recent"]->setTooltip(_getText(DJV_TEXT("Recent Tooltip")));
+            p.actions["Reload"]->setText(_getText(DJV_TEXT("Reload")));
+            p.actions["Reload"]->setTooltip(_getText(DJV_TEXT("Reload Tooltip")));
+            p.actions["ReloadFrame"]->setText(_getText(DJV_TEXT("Reload Frame")));
+            p.actions["ReloadFrame"]->setTooltip(_getText(DJV_TEXT("Reload Frame Tooltip")));
+            p.actions["Close"]->setText(_getText(DJV_TEXT("Close")));
+            p.actions["Close"]->setTooltip(_getText(DJV_TEXT("Close Tooltip")));
+            p.actions["Export"]->setText(_getText(DJV_TEXT("Export")));
+            p.actions["Export"]->setTooltip(_getText(DJV_TEXT("Export Tooltip")));
+            p.actions["Next"]->setText(_getText(DJV_TEXT("Next")));
+            p.actions["Next"]->setTooltip(_getText(DJV_TEXT("Next Tooltip")));
+            p.actions["Prev"]->setText(_getText(DJV_TEXT("Prev")));
+            p.actions["Prev"]->setTooltip(_getText(DJV_TEXT("Prev Tooltip")));
+            p.actions["Layers"]->setText(_getText(DJV_TEXT("Layers")));
+            p.actions["Layers"]->setTooltip(_getText(DJV_TEXT("Layers Tooltip")));
+            p.actions["NextLayer"]->setText(_getText(DJV_TEXT("Next Layer")));
+            p.actions["NextLayer"]->setTooltip(_getText(DJV_TEXT("Next Layer Tooltip")));
+            p.actions["PrevLayer"]->setText(_getText(DJV_TEXT("Previous Layer")));
+            p.actions["PrevLayer"]->setTooltip(_getText(DJV_TEXT("Previous Layer Tooltip")));
+            p.actions["8BitConversion"]->setText(_getText(DJV_TEXT("8-bit Conversion")));
+            p.actions["8BitConversion"]->setTooltip(_getText(DJV_TEXT("8-bit Conversion Tooltip")));
+            p.actions["MemoryCache"]->setText(_getText(DJV_TEXT("Memory Cache")));
+            p.actions["MemoryCache"]->setTooltip(_getText(DJV_TEXT("Memory Cache Tooltip")));
+            p.actions["ClearCache"]->setText(_getText(DJV_TEXT("Clear Cache")));
+            p.actions["ClearCache"]->setTooltip(_getText(DJV_TEXT("Clear Cache Tooltip")));
+            p.actions["Settings"]->setText(_getText(DJV_TEXT("Settings")));
+            p.actions["Settings"]->setTooltip(_getText(DJV_TEXT("Settings Tooltip")));
+            p.actions["Exit"]->setText(_getText(DJV_TEXT("Exit")));
+            p.actions["Exit"]->setTooltip(_getText(DJV_TEXT("Exit Tooltip")));
 
-            p.menus["File"]->setMenuName(_getText(DJV_TEXT("djv::ViewLib::FileSystem", "File")));
-            p.menus["ProxyScale"]->setMenuName(_getText(DJV_TEXT("djv::ViewLib::FileSystem", "Proxy Scale")));
+            p.menus["File"]->setMenuName(_getText(DJV_TEXT("File")));
+            p.menus["ProxyScale"]->setMenuName(_getText(DJV_TEXT("Proxy Scale")));
         }
 
     } // namespace ViewLib

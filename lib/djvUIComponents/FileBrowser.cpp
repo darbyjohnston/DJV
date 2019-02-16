@@ -511,29 +511,29 @@ namespace djv
             {
                 DJV_PRIVATE_PTR();
                 auto context = getContext();
-                p.actions["Up"]->setText(context->getText(DJV_TEXT("djv::UI::FileBrowser", "Up")));
-                p.actions["Up"]->setTooltip(context->getText(DJV_TEXT("djv::UI::FileBrowser", "Up Tooltip")));
-                p.actions["Current"]->setText(context->getText(DJV_TEXT("djv::UI::FileBrowser", "Current Directory")));
-                p.actions["Current"]->setTooltip(context->getText(DJV_TEXT("djv::UI::FileBrowser", "Current Directory Tooltip")));
-                p.actions["Back"]->setText(context->getText(DJV_TEXT("djv::UI::FileBrowser", "Back")));
-                p.actions["Back"]->setTooltip(context->getText(DJV_TEXT("djv::UI::FileBrowser", "Back Tooltip")));
-                p.actions["Forward"]->setText(context->getText(DJV_TEXT("djv::UI::FileBrowser", "Forward")));
-                p.actions["Forward"]->setTooltip(context->getText(DJV_TEXT("djv::UI::FileBrowser", "Forward Tooltip")));
-                p.actions["LargeThumbnails"]->setText(context->getText(DJV_TEXT("djv::UI::FileBrowser", "Large Thumbnails")));
-                p.actions["LargeThumbnails"]->setTooltip(context->getText(DJV_TEXT("djv::UI::FileBrowser", "Large Thumbnails Tooltip")));
-                p.actions["SmallThumbnails"]->setText(context->getText(DJV_TEXT("djv::UI::FileBrowser", "Small Thumbnails")));
-                p.actions["SmallThumbnails"]->setTooltip(context->getText(DJV_TEXT("djv::UI::FileBrowser", "Small Thumbnails Tooltip")));
-                p.actions["ListView"]->setText(context->getText(DJV_TEXT("djv::UI::FileBrowser", "List View")));
-                p.actions["ListView"]->setTooltip(context->getText(DJV_TEXT("djv::UI::FileBrowser", "List View Tooltip")));
-                p.actions["FileSequences"]->setText(context->getText(DJV_TEXT("djv::UI::FileBrowser", "File Sequences")));
-                p.actions["FileSequences"]->setTooltip(context->getText(DJV_TEXT("djv::UI::FileBrowser", "File Sequences Tooltip")));
-                p.actions["ShowHidden"]->setText(context->getText(DJV_TEXT("djv::UI::FileBrowser", "Show Hidden")));
-                p.actions["ShowHidden"]->setTooltip(context->getText(DJV_TEXT("djv::UI::FileBrowser", "Show Hidden Tooltip")));
+                p.actions["Up"]->setText(context->getText(DJV_TEXT("Up")));
+                p.actions["Up"]->setTooltip(context->getText(DJV_TEXT("Up Tooltip")));
+                p.actions["Current"]->setText(context->getText(DJV_TEXT("Current Directory")));
+                p.actions["Current"]->setTooltip(context->getText(DJV_TEXT("Current Directory Tooltip")));
+                p.actions["Back"]->setText(context->getText(DJV_TEXT("Back")));
+                p.actions["Back"]->setTooltip(context->getText(DJV_TEXT("Back Tooltip")));
+                p.actions["Forward"]->setText(context->getText(DJV_TEXT("Forward")));
+                p.actions["Forward"]->setTooltip(context->getText(DJV_TEXT("Forward Tooltip")));
+                p.actions["LargeThumbnails"]->setText(context->getText(DJV_TEXT("Large Thumbnails")));
+                p.actions["LargeThumbnails"]->setTooltip(context->getText(DJV_TEXT("Large Thumbnails Tooltip")));
+                p.actions["SmallThumbnails"]->setText(context->getText(DJV_TEXT("Small Thumbnails")));
+                p.actions["SmallThumbnails"]->setTooltip(context->getText(DJV_TEXT("Small Thumbnails Tooltip")));
+                p.actions["ListView"]->setText(context->getText(DJV_TEXT("List View")));
+                p.actions["ListView"]->setTooltip(context->getText(DJV_TEXT("List View Tooltip")));
+                p.actions["FileSequences"]->setText(context->getText(DJV_TEXT("File Sequences")));
+                p.actions["FileSequences"]->setTooltip(context->getText(DJV_TEXT("File Sequences Tooltip")));
+                p.actions["ShowHidden"]->setText(context->getText(DJV_TEXT("Show Hidden")));
+                p.actions["ShowHidden"]->setTooltip(context->getText(DJV_TEXT("Show Hidden Tooltip")));
 
-                p.menus["Directory"]->setMenuName(context->getText(DJV_TEXT("djv::UI::FileBrowser", "Directory")));
-                p.menus["View"]->setMenuName(context->getText(DJV_TEXT("djv::UI::FileBrowser", "View")));
-                p.menus["Sort"]->setMenuName(context->getText(DJV_TEXT("djv::UI::FileBrowser", "Sort")));
-                p.menus["Bookmarks"]->setMenuName(context->getText(DJV_TEXT("djv::UI::FileBrowser", "Bookmarks")));
+                p.menus["Directory"]->setMenuName(context->getText(DJV_TEXT("Directory")));
+                p.menus["View"]->setMenuName(context->getText(DJV_TEXT("View")));
+                p.menus["Sort"]->setMenuName(context->getText(DJV_TEXT("Sort")));
+                p.menus["Bookmarks"]->setMenuName(context->getText(DJV_TEXT("Bookmarks")));
 
                 p.itemCountLabel->setText(p.getItemCountLabel(p.itemCount, context));
             }
@@ -541,7 +541,7 @@ namespace djv
             std::string Widget::Private::getItemCountLabel(size_t size, Context * context)
             {
                 std::stringstream ss;
-                ss << size << " " << context->getText(DJV_TEXT("djv::UI::FileBrowser", "items"));
+                ss << size << " " << context->getText(DJV_TEXT("items"));
                 return ss.str();
             }
 

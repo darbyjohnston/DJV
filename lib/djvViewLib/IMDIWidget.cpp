@@ -229,7 +229,7 @@ namespace djv
 		void IMDIWidget::_localeEvent(Event::Locale &)
 		{
 			DJV_PRIVATE_PTR();
-			p.closeButton->setTooltip(_getText(DJV_TEXT("djv::ViewLib::IMDIWidget", "Close Tooltip")));
+			p.closeButton->setTooltip(_getText(DJV_TEXT("Close Tooltip")));
 		}
 
     } // namespace ViewLib

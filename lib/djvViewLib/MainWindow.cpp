@@ -390,9 +390,9 @@ namespace djv
         void MainWindow::_localeEvent(Core::Event::Locale & event)
         {
             DJV_PRIVATE_PTR();
-            p.mediaSDIButton->setTooltip(_getText(DJV_TEXT("djv::ViewLib::MainWindow", "SDI Window Mode Tooltip")));
-            p.mediaMDIButton->setTooltip(_getText(DJV_TEXT("djv::ViewLib::MainWindow", "MDI Window Mode Tooltip")));
-            p.mediaPlaylistButton->setTooltip(_getText(DJV_TEXT("djv::ViewLib::MainWindow", "Playlist Window Mode Tooltip")));
+            p.mediaSDIButton->setTooltip(_getText(DJV_TEXT("SDI Window Mode Tooltip")));
+            p.mediaMDIButton->setTooltip(_getText(DJV_TEXT("MDI Window Mode Tooltip")));
+            p.mediaPlaylistButton->setTooltip(_getText(DJV_TEXT("Playlist Window Mode Tooltip")));
         }
 
     } // namespace ViewLib

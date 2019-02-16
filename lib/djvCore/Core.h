@@ -71,7 +71,7 @@ namespace djv
     name & operator = (const name &) = delete
 
 //! This macro marks strings for extraction.
-#define DJV_TEXT(nameSpace, arg) (arg)
+#define DJV_TEXT(arg) (arg)
 
 //! This macro provides an assert.
 #if defined(DJV_ASSERT)

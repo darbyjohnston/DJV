@@ -142,26 +142,26 @@ namespace djv
         void ImageSystem::_localeEvent(Event::Locale &)
         {
             DJV_PRIVATE_PTR();
-            p.actions["MirrorH"]->setText(_getText(DJV_TEXT("djv::ViewLib::ImageSystem", "Mirror Horizontal")));
-            p.actions["MirrorH"]->setTooltip(_getText(DJV_TEXT("djv::ViewLib::ImageSystem", "Mirror Horizontal Tooltip")));
-            p.actions["MirrorV"]->setText(_getText(DJV_TEXT("djv::ViewLib::ImageSystem", "Mirror Vertical")));
-            p.actions["MirrorV"]->setTooltip(_getText(DJV_TEXT("djv::ViewLib::ImageSystem", "Mirror Vertical Tooltip")));
-            p.actions["ColorManager"]->setText(_getText(DJV_TEXT("djv::ViewLib::ImageSystem", "Color Manager")));
-            p.actions["ColorManager"]->setTooltip(_getText(DJV_TEXT("djv::ViewLib::ImageSystem", "Color Manager Tooltip")));
-            p.actions["ColorProfile"]->setText(_getText(DJV_TEXT("djv::ViewLib::ImageSystem", "Color Profile")));
-            p.actions["ColorProfile"]->setTooltip(_getText(DJV_TEXT("djv::ViewLib::ImageSystem", "Color Profile Tooltip")));
-            p.actions["DisplayProfile"]->setText(_getText(DJV_TEXT("djv::ViewLib::ImageSystem", "Display Profile")));
-            p.actions["DisplayProfile"]->setTooltip(_getText(DJV_TEXT("djv::ViewLib::ImageSystem", "Display Profile Tooltip")));
-            p.actions["PremultAlpha"]->setText(_getText(DJV_TEXT("djv::ViewLib::ImageSystem", "Premulitplied Alpha")));
-            p.actions["PremultAlpha"]->setTooltip(_getText(DJV_TEXT("djv::ViewLib::ImageSystem", "Premulitplied Alpha Tooltip")));
-            p.actions["ShowFrameStore"]->setText(_getText(DJV_TEXT("djv::ViewLib::ImageSystem", "Show Frame Store")));
-            p.actions["ShowFrameStore"]->setTooltip(_getText(DJV_TEXT("djv::ViewLib::ImageSystem", "Show Frame Store Tooltip")));
-            p.actions["SetFrameStore"]->setText(_getText(DJV_TEXT("djv::ViewLib::ImageSystem", "Set Frame Store")));
-            p.actions["SetFrameStore"]->setTooltip(_getText(DJV_TEXT("djv::ViewLib::ImageSystem", "Set Frame Store Tooltip")));
+            p.actions["MirrorH"]->setText(_getText(DJV_TEXT("Mirror Horizontal")));
+            p.actions["MirrorH"]->setTooltip(_getText(DJV_TEXT("Mirror Horizontal Tooltip")));
+            p.actions["MirrorV"]->setText(_getText(DJV_TEXT("Mirror Vertical")));
+            p.actions["MirrorV"]->setTooltip(_getText(DJV_TEXT("Mirror Vertical Tooltip")));
+            p.actions["ColorManager"]->setText(_getText(DJV_TEXT("Color Manager")));
+            p.actions["ColorManager"]->setTooltip(_getText(DJV_TEXT("Color Manager Tooltip")));
+            p.actions["ColorProfile"]->setText(_getText(DJV_TEXT("Color Profile")));
+            p.actions["ColorProfile"]->setTooltip(_getText(DJV_TEXT("Color Profile Tooltip")));
+            p.actions["DisplayProfile"]->setText(_getText(DJV_TEXT("Display Profile")));
+            p.actions["DisplayProfile"]->setTooltip(_getText(DJV_TEXT("Display Profile Tooltip")));
+            p.actions["PremultAlpha"]->setText(_getText(DJV_TEXT("Premulitplied Alpha")));
+            p.actions["PremultAlpha"]->setTooltip(_getText(DJV_TEXT("Premulitplied Alpha Tooltip")));
+            p.actions["ShowFrameStore"]->setText(_getText(DJV_TEXT("Show Frame Store")));
+            p.actions["ShowFrameStore"]->setTooltip(_getText(DJV_TEXT("Show Frame Store Tooltip")));
+            p.actions["SetFrameStore"]->setText(_getText(DJV_TEXT("Set Frame Store")));
+            p.actions["SetFrameStore"]->setTooltip(_getText(DJV_TEXT("Set Frame Store Tooltip")));
 
-            p.menus["Image"]->setMenuName(_getText(DJV_TEXT("djv::ViewLib::ImageSystem", "Image")));
-            p.menus["Scale"]->setMenuName(_getText(DJV_TEXT("djv::ViewLib::ImageSystem", "Scale")));
-            p.menus["Rotate"]->setMenuName(_getText(DJV_TEXT("djv::ViewLib::ImageSystem", "Rotate")));
+            p.menus["Image"]->setMenuName(_getText(DJV_TEXT("Image")));
+            p.menus["Scale"]->setMenuName(_getText(DJV_TEXT("Scale")));
+            p.menus["Rotate"]->setMenuName(_getText(DJV_TEXT("Rotate")));
         }
 
     } // namespace ViewLib

@@ -832,8 +832,8 @@ namespace djv
                 std::stringstream ss;
                 ss << fileInfo.getFileName(Frame::Invalid, false) << '\n';
                 ss << '\n';
-                ss << context->getText(DJV_TEXT("djv::UI::FileBrowser", "Size")) << ": " << Memory::getSizeLabel(fileInfo.getSize()) << '\n';
-                ss << context->getText(DJV_TEXT("djv::UI::FileBrowser", "Last modification time")) << ": " << Time::getLabel(fileInfo.getTime());
+                ss << context->getText(DJV_TEXT("Size")) << ": " << Memory::getSizeLabel(fileInfo.getSize()) << '\n';
+                ss << context->getText(DJV_TEXT("Last modification time")) << ": " << Time::getLabel(fileInfo.getTime());
                 return ss.str();
             }
 
@@ -845,14 +845,14 @@ namespace djv
                 for (const auto & videoInfo : avInfo.video)
                 {
                     ss << '\n' << '\n';
-                    ss << context->getText(DJV_TEXT("djv::UI::FileBrowser", "Video track")) << " #" << track << '\n';
-                    ss << context->getText(DJV_TEXT("djv::UI::FileBrowser", "Size")) << ": " << videoInfo.info.size << '\n';
-                    ss << context->getText(DJV_TEXT("djv::UI::FileBrowser", "Type")) << ": " << videoInfo.info.type << '\n';
+                    ss << context->getText(DJV_TEXT("Video track")) << " #" << track << '\n';
+                    ss << context->getText(DJV_TEXT("Size")) << ": " << videoInfo.info.size << '\n';
+                    ss << context->getText(DJV_TEXT("Type")) << ": " << videoInfo.info.type << '\n';
                     ss.precision(2);
-                    ss << context->getText(DJV_TEXT("djv::UI::FileBrowser", "Speed")) << ": " <<
+                    ss << context->getText(DJV_TEXT("Speed")) << ": " <<
                         Time::Speed::speedToFloat(videoInfo.speed) <<
-                        context->getText(DJV_TEXT("djv::UI::FileBrowser", "FPS")) << '\n';
-                    ss << context->getText(DJV_TEXT("djv::UI::FileBrowser", "Duration")) << ": " <<
+                        context->getText(DJV_TEXT("FPS")) << '\n';
+                    ss << context->getText(DJV_TEXT("Duration")) << ": " <<
                         Time::getLabel(Time::durationToSeconds(videoInfo.duration));
                     ++track;
                 }
@@ -860,14 +860,12 @@ namespace djv
                 for (const auto & audioInfo : avInfo.audio)
                 {
                     ss << '\n' << '\n';
-                    ss << context->getText(DJV_TEXT("djv::UI::FileBrowser", "Audio track")) << " #" << track << '\n';
-                    ss << context->getText(DJV_TEXT("djv::UI::FileBrowser", "Channels")) << ": " <<
-                        audioInfo.info.channelCount << '\n';
-                    ss << context->getText(DJV_TEXT("djv::UI::FileBrowser", "Type")) << ": " <<
-                        audioInfo.info.type << '\n';
-                    ss << context->getText(DJV_TEXT("djv::UI::FileBrowser", "Sample rate")) << ": " <<
-                        audioInfo.info.sampleRate / 1000.f << DJV_TEXT("djv::UI::FileBrowser", "kHz") << '\n';
-                    ss << context->getText(DJV_TEXT("djv::UI::FileBrowser", "Duration")) << ": " <<
+                    ss << context->getText(DJV_TEXT("Audio track")) << " #" << track << '\n';
+                    ss << context->getText(DJV_TEXT("Channels")) << ": " << audioInfo.info.channelCount << '\n';
+                    ss << context->getText(DJV_TEXT("Type")) << ": " << audioInfo.info.type << '\n';
+                    ss << context->getText(DJV_TEXT("Sample rate")) << ": " <<
+                        audioInfo.info.sampleRate / 1000.f << DJV_TEXT("kHz") << '\n';
+                    ss << context->getText(DJV_TEXT("Duration")) << ": " <<
                         Time::getLabel(Time::durationToSeconds(audioInfo.duration));
                     ++track;
                 }

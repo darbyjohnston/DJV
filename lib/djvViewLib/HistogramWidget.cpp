@@ -62,7 +62,7 @@ namespace djv
         void HistogramWidget::_localeEvent(Event::Locale & event)
         {
 			IMDIWidget::_localeEvent(event);
-            setTitle(_getText(DJV_TEXT("djv::ViewLib::HistogramWidget", "Histogram")));
+            setTitle(_getText(DJV_TEXT("Histogram")));
         }
 
     } // namespace ViewLib

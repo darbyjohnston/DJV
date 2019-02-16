@@ -15,29 +15,31 @@ def run():
     for sourceFile in sourceFiles:
         with open(sourceFile) as f:
             for line in f:
-                match = re.findall('DJV_TEXT\("(.*)"\s*,\s*"(.*)"\)', line)
-                strings.extend(match)
+                match = re.findall('DJV_TEXT\("(.*)"\)', line)
+                for m in match:
+                    if m not in strings:
+                        strings.append(m)
     
     if len(strings):
     
-        # Read the .text file.
+        # Read the existing .text file.
         try:
             with open(outFile, 'r') as f:
-                data = json.load(f)
+                existing = json.load(f)
         except IOError:
-            data = []
+            existing = []
         
-        # Add new strings to the .text file.
+        # Create the new .text file.
+        data = []
         for string in strings:
-            i = None
-            for item in data:
-                if item['id'] == string[1]:
-                    i = item
+            found = False
+            for item in existing:
+                if item['id'] == string:
+                    found = True
+                    data.append(item)
                     break
-            if None == i:
-                data.append({'nameSpace' : string[0], 'id' : string[1], 'text': string[1], 'description': ''})
-
-        # Write the .text file.
+            if not found:
+                data.append({'id' : string, 'text': string, 'description': ''})
         with open(outFile, 'w') as f:
             json.dump(data, f, indent = 4)
     

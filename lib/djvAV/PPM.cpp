@@ -134,7 +134,7 @@ namespace djv
                     auto out = std::shared_ptr<Plugin>(new Plugin);
                     out->_init(
                         pluginName,
-                        context->getText(DJV_TEXT("djv::AV::IO::PPM", "This plugin provides NetPBM image I/O.")),
+                        context->getText(DJV_TEXT("This plugin provides NetPBM image I/O.")),
                         fileExtensions,
                         context);
                     return out;
@@ -172,8 +172,8 @@ namespace djv
     DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
         AV::IO::PPM,
         Data,
-        DJV_TEXT("djv::AV::IO::PPM", "ASCII"),
-        DJV_TEXT("djv::AV::IO::PPM", "Binary"));
+        DJV_TEXT("ASCII"),
+        DJV_TEXT("Binary"));
 
 } // namespace djv
 

@@ -211,7 +211,7 @@ namespace djv
             addBackButton(backButton);
 
             p.mainWidget = MainWidget::create(context);
-            p.titles[p.mainWidget] = DJV_TEXT("djv::ViewLib::SettingsWidget", "Settings");
+            p.titles[p.mainWidget] = DJV_TEXT("Settings");
 
 			p.soloLayout = UI::SoloLayout::create(context);
             p.soloLayout->addWidget(p.mainWidget);

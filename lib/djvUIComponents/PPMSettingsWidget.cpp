@@ -101,12 +101,12 @@ namespace djv
 
         std::string PPMSettingsWidget::getName() const
         {
-            return DJV_TEXT("djv::UI::PPMSettingsWidget", "PPM");
+            return DJV_TEXT("PPM");
         }
 
         std::string PPMSettingsWidget::getGroup() const
         {
-            return DJV_TEXT("djv::UI::Settings", "IO");
+            return DJV_TEXT("I/O");
         }
 
         std::string PPMSettingsWidget::getGroupSortKey() const
@@ -128,7 +128,7 @@ namespace djv
 					button->setText(_getText(ss.str()));
 				}
 			}
-			p.dataGroupBox->setText(_getText(DJV_TEXT("djv::UI::PPMSettingsWidget", "Data Type")));
+			p.dataGroupBox->setText(_getText(DJV_TEXT("Data Type")));
 		}
 
     } // namespace UI

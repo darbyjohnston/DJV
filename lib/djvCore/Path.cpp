@@ -321,16 +321,16 @@ namespace djv
     DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
         Core::FileSystem,
         ResourcePath,
-        DJV_TEXT("djv::Core::FileSystem", "Application"),
-        DJV_TEXT("djv::Core::FileSystem", "LogFile"),
-        DJV_TEXT("djv::Core::FileSystem", "SettingsFile"),
-        DJV_TEXT("djv::Core::FileSystem", "AudioDirectory"),
-        DJV_TEXT("djv::Core::FileSystem", "FontsDirectory"),
-        DJV_TEXT("djv::Core::FileSystem", "IconsDirectory"),
-        DJV_TEXT("djv::Core::FileSystem", "ImagesDirectory"),
-        DJV_TEXT("djv::Core::FileSystem", "ModelsDirectory"),
-        DJV_TEXT("djv::Core::FileSystem", "ShadersDirectory"),
-        DJV_TEXT("djv::Core::FileSystem", "TextDirectory"));
+        DJV_TEXT("Application"),
+        DJV_TEXT("LogFile"),
+        DJV_TEXT("SettingsFile"),
+        DJV_TEXT("AudioDirectory"),
+        DJV_TEXT("FontsDirectory"),
+        DJV_TEXT("IconsDirectory"),
+        DJV_TEXT("ImagesDirectory"),
+        DJV_TEXT("ModelsDirectory"),
+        DJV_TEXT("ShadersDirectory"),
+        DJV_TEXT("TextDirectory"));
 
 } // namespace djv
 

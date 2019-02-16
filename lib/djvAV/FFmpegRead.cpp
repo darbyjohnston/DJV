@@ -100,7 +100,7 @@ namespace djv
                             if (r < 0)
                             {
                                 std::stringstream ss;
-                                ss << pluginName << " " << context->getText(DJV_TEXT("djv::AV::IO::FFmpeg", "cannot open")) <<
+                                ss << pluginName << " " << context->getText(DJV_TEXT("cannot open")) <<
                                     " '" << fileName << "'. " << FFmpeg::getErrorString(r);
                                 throw std::runtime_error(ss.str());
                             }
@@ -108,7 +108,7 @@ namespace djv
                             if (r < 0)
                             {
                                 std::stringstream ss;
-                                ss << pluginName << " " << context->getText(DJV_TEXT("djv::AV::IO::FFmpeg", "cannot open")) <<
+                                ss << pluginName << " " << context->getText(DJV_TEXT("cannot open")) <<
                                     " '" << fileName << "'. " << FFmpeg::getErrorString(r);
                                 throw std::runtime_error(ss.str());
                             }
@@ -129,7 +129,7 @@ namespace djv
                             if (-1 == p.avVideoStream && -1 == p.avAudioStream)
                             {
                                 std::stringstream ss;
-                                ss << pluginName << " " << context->getText(DJV_TEXT("djv::AV::IO::FFmpeg", "cannot find any streams in")) <<
+                                ss << pluginName << " " << context->getText(DJV_TEXT("cannot find any streams in")) <<
                                     " '" << fileName << "'.";
                                 throw std::runtime_error(ss.str());
                             }
@@ -152,7 +152,7 @@ namespace djv
                                 if (!avVideoCodec)
                                 {
                                     std::stringstream ss;
-                                    ss << pluginName << " " << context->getText(DJV_TEXT("djv::AV::IO::FFmpeg", "cannot find video codec for")) <<
+                                    ss << pluginName << " " << context->getText(DJV_TEXT("cannot find video codec for")) <<
                                         " '" << fileName << "'.";
                                     throw std::runtime_error(ss.str());
                                 }
@@ -161,7 +161,7 @@ namespace djv
                                 if (r < 0)
                                 {
                                     std::stringstream ss;
-                                    ss << pluginName << " " << context->getText(DJV_TEXT("djv::AV::IO::FFmpeg", "cannot open"))
+                                    ss << pluginName << " " << context->getText(DJV_TEXT("cannot open"))
                                         << " '" << fileName << "'. " << FFmpeg::getErrorString(r);
                                     throw std::runtime_error(ss.str());
                                 }
@@ -170,7 +170,7 @@ namespace djv
                                 if (r < 0)
                                 {
                                     std::stringstream ss;
-                                    ss << pluginName << " " << context->getText(DJV_TEXT("djv::AV::IO::FFmpeg", "cannot open")) <<
+                                    ss << pluginName << " " << context->getText(DJV_TEXT("cannot open")) <<
                                         " '" << fileName << "'. " << FFmpeg::getErrorString(r);
                                     throw std::runtime_error(ss.str());
                                 }
@@ -178,7 +178,7 @@ namespace djv
                                 if (r < 0)
                                 {
                                     std::stringstream ss;
-                                    ss << pluginName << " " << context->getText(DJV_TEXT("djv::AV::IO::FFmpeg", "cannot open")) <<
+                                    ss << pluginName << " " << context->getText(DJV_TEXT("cannot open")) <<
                                         " '" << fileName << "'. " << FFmpeg::getErrorString(r);
                                     throw std::runtime_error(ss.str());
                                 }
@@ -237,7 +237,7 @@ namespace djv
                                 if (Audio::Type::None == audioType)
                                 {
                                     std::stringstream ss;
-                                    ss << pluginName << " " << context->getText(DJV_TEXT("djv::AV::IO::FFmpeg", "unsupported audio format ")) <<
+                                    ss << pluginName << " " << context->getText(DJV_TEXT("unsupported audio format ")) <<
                                         " '" << FFmpeg::toString(static_cast<AVSampleFormat>(avAudioCodecParameters->format)) << "'.";
                                     throw std::runtime_error(ss.str());
                                 }
@@ -245,7 +245,7 @@ namespace djv
                                 if (!avAudioCodec)
                                 {
                                     std::stringstream ss;
-                                    ss << pluginName << " " << context->getText(DJV_TEXT("djv::AV::IO::FFmpeg", "cannot find audio codec for")) <<
+                                    ss << pluginName << " " << context->getText(DJV_TEXT("cannot find audio codec for")) <<
                                         " '" << fileName << "'.";
                                     throw std::runtime_error(ss.str());
                                 }
@@ -254,7 +254,7 @@ namespace djv
                                 if (r < 0)
                                 {
                                     std::stringstream ss;
-                                    ss << pluginName << " " << context->getText(DJV_TEXT("djv::AV::IO::FFmpeg", "cannot open")) <<
+                                    ss << pluginName << " " << context->getText(DJV_TEXT("cannot open")) <<
                                         " '" << fileName << "'. " << FFmpeg::getErrorString(r);
                                     throw std::runtime_error(ss.str());
                                 }
@@ -263,7 +263,7 @@ namespace djv
                                 if (r < 0)
                                 {
                                     std::stringstream ss;
-                                    ss << pluginName << " " << context->getText(DJV_TEXT("djv::AV::IO::FFmpeg", "cannot open")) <<
+                                    ss << pluginName << " " << context->getText(DJV_TEXT("cannot open")) <<
                                         " '" << fileName << "'. " << FFmpeg::getErrorString(r);
                                     throw std::runtime_error(ss.str());
                                 }
@@ -271,7 +271,7 @@ namespace djv
                                 if (r < 0)
                                 {
                                     std::stringstream ss;
-                                    ss << pluginName << " " << context->getText(DJV_TEXT("djv::AV::IO::FFmpeg", "cannot open")) <<
+                                    ss << pluginName << " " << context->getText(DJV_TEXT("cannot open")) <<
                                         " '" << fileName << "'. " << FFmpeg::getErrorString(r);
                                     throw std::runtime_error(ss.str());
                                 }

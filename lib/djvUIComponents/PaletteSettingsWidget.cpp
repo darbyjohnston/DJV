@@ -153,12 +153,12 @@ namespace djv
 
         std::string PaletteSettingsWidget::getName() const
         {
-            return DJV_TEXT("djv::UI::PaletteSettingsWidget", "Palette");
+            return DJV_TEXT("Palette");
         }
 
         std::string PaletteSettingsWidget::getGroup() const
         {
-            return DJV_TEXT("djv::UI::Settings", "General");
+            return DJV_TEXT("General");
         }
 
         std::string PaletteSettingsWidget::getGroupSortKey() const

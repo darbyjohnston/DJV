@@ -101,7 +101,7 @@ namespace djv
                     if (magic[0] != 'P')
                     {
                         std::stringstream s;
-                        s << pluginName << " " << _context->getText(DJV_TEXT("djv::AV::IO::PPM", "cannot open")) <<
+                        s << pluginName << " " << _context->getText(DJV_TEXT("cannot open")) <<
                             " '" << fileName << "'.";
                         throw std::runtime_error(s.str());
                     }
@@ -114,7 +114,7 @@ namespace djv
                     default:
                     {
                         std::stringstream s;
-                        s << pluginName << " " << _context->getText(DJV_TEXT("djv::AV::IO::PPM", "cannot open")) <<
+                        s << pluginName << " " << _context->getText(DJV_TEXT("cannot open")) <<
                             " '" << fileName << "'.";
                         throw std::runtime_error(s.str());
                     }
@@ -142,7 +142,7 @@ namespace djv
                     if (Image::Type::None == imageType)
                     {
                         std::stringstream s;
-                        s << pluginName << " " << _context->getText(DJV_TEXT("djv::AV::IO::PPM", "cannot open")) <<
+                        s << pluginName << " " << _context->getText(DJV_TEXT("cannot open")) <<
                             " '" << fileName << "'.";
                         throw std::runtime_error(s.str());
                     }

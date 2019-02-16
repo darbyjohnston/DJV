@@ -51,7 +51,7 @@ namespace djv
                 if (_wmkdir(utf16.from_bytes(value.get()).c_str()) != 0)
                 {
                     std::stringstream s;
-                    s << DJV_TEXT("djv::Core::FileSystem", "Cannot create directory") << " '" << value << "'.";
+                    s << DJV_TEXT("Cannot create directory") << " '" << value << "'.";
                     throw std::invalid_argument(s.str());
                 }
             }

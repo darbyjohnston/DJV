@@ -53,7 +53,7 @@ namespace djv
                 if (!_vertex)
                 {
                     std::stringstream ss;
-                    ss << DJV_TEXT("djv::AV::OpenGL", "Cannot create OpenGL vertex shader.");
+                    ss << DJV_TEXT("Cannot create OpenGL vertex shader.");
                     throw std::runtime_error(ss.str());
                 }
                 const char* src = _shader->getVertexSource().c_str();
@@ -66,7 +66,7 @@ namespace djv
                 {
                     glGetShaderInfoLog(_vertex, String::cStringLength, NULL, infoLog);
                     std::stringstream ss;
-                    ss << DJV_TEXT("djv::AV::OpenGL", "Cannot compile OpenGL vertex shader") << " '" << _shader->getVertexName() << "': " << infoLog;
+                    ss << DJV_TEXT("Cannot compile OpenGL vertex shader") << " '" << _shader->getVertexName() << "': " << infoLog;
                     throw std::runtime_error(ss.str());
                 }
 
@@ -74,7 +74,7 @@ namespace djv
                 if (!_fragment)
                 {
                     std::stringstream ss;
-                    ss << DJV_TEXT("djv::AV::OpenGL", "Cannot create OpenGL fragment shader.");
+                    ss << DJV_TEXT("Cannot create OpenGL fragment shader.");
                     throw std::runtime_error(ss.str());
                 }
                 src = _shader->getFragmentSource().c_str();
@@ -85,7 +85,7 @@ namespace djv
                 {
                     glGetShaderInfoLog(_fragment, String::cStringLength, NULL, infoLog);
                     std::stringstream s;
-                    s << DJV_TEXT("djv::AV::OpenGL", "Cannot compile OpenGL framgent shader") << " '" << _shader->getFragmentName() << "': " << infoLog;
+                    s << DJV_TEXT("Cannot compile OpenGL framgent shader") << " '" << _shader->getFragmentName() << "': " << infoLog;
                     throw std::runtime_error(s.str());
                 }
 
@@ -98,7 +98,7 @@ namespace djv
                 {
                     glGetProgramInfoLog(_program, String::cStringLength, NULL, infoLog);
                     std::stringstream s;
-                    s << DJV_TEXT("djv::AV::OpenGL", "Cannot link program") << " '" << _shader->getVertexName() << "': " << infoLog;
+                    s << DJV_TEXT("Cannot link program") << " '" << _shader->getVertexName() << "': " << infoLog;
                     throw std::invalid_argument(s.str());
                 }
             }

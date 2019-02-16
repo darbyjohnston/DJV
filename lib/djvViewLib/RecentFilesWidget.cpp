@@ -202,16 +202,16 @@ namespace djv
         {
 			IMDIWidget::_localeEvent(event);
             DJV_PRIVATE_PTR();
-            setTitle(_getText(DJV_TEXT("djv::ViewLib::RecentFilesWidget", "Recent Files")));
+            setTitle(_getText(DJV_TEXT("Recent Files")));
             auto context = getContext();
             p.itemCountLabel->setText(p.getItemCountLabel(p.itemCount, context));
-			p.pinButton->setTooltip(_getText(DJV_TEXT("djv::ViewLib::RecentFilesWidget", "Pin Tooltip")));
+			p.pinButton->setTooltip(_getText(DJV_TEXT("Pin Tooltip")));
         }
 
         std::string RecentFilesWidget::Private::getItemCountLabel(size_t size, Context * context)
         {
             std::stringstream ss;
-            ss << size << " " << context->getText(DJV_TEXT("djv::ViewLib::RecentFilesWidget", "items"));
+            ss << size << " " << context->getText(DJV_TEXT("items"));
             return ss.str();
         }
 

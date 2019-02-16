@@ -146,10 +146,10 @@ namespace djv
         {
 			IMDIWidget::_localeEvent(event);
 			DJV_PRIVATE_PTR();
-			setTitle(_getText(DJV_TEXT("djv::ViewLib::LogWidget", "Log")));
-            p.copyButton->setText(_getText(DJV_TEXT("djv::ViewLib::LogWidget", "Copy")));
-            p.reloadButton->setText(_getText(DJV_TEXT("djv::ViewLib::LogWidget", "Reload")));
-            p.clearButton->setText(_getText(DJV_TEXT("djv::ViewLib::LogWidget", "Clear")));
+			setTitle(_getText(DJV_TEXT("Log")));
+            p.copyButton->setText(_getText(DJV_TEXT("Copy")));
+            p.reloadButton->setText(_getText(DJV_TEXT("Reload")));
+            p.clearButton->setText(_getText(DJV_TEXT("Clear")));
         }
 
     } // namespace ViewLib

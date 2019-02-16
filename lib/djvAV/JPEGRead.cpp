@@ -126,7 +126,7 @@ namespace djv
                             if (!jpegScanline(&f.jpeg, out->getData(y), &f.jpegError))
                             {
                                 std::stringstream s;
-                                s << pluginName << " " << _context->getText(DJV_TEXT("djv::AV::IO::JPEG", "cannot read")) <<
+                                s << pluginName << " " << _context->getText(DJV_TEXT("cannot read")) <<
                                     " '" << fileName << "': " << f.jpegError.msg;
                                 throw std::runtime_error(s.str());
                             }
@@ -134,7 +134,7 @@ namespace djv
 						if (!jpegEnd(&f.jpeg, &f.jpegError))
 						{
 							std::stringstream s;
-							s << pluginName << " " << _context->getText(DJV_TEXT("djv::AV::IO::JPEG", "cannot read")) <<
+							s << pluginName << " " << _context->getText(DJV_TEXT("cannot read")) <<
 								" '" << fileName << "': " << f.jpegError.msg;
 							throw std::runtime_error(s.str());
 						}
@@ -189,7 +189,7 @@ namespace djv
 					if (!jpegInit(&f.jpeg, &f.jpegError))
 					{
 						std::stringstream s;
-						s << pluginName << " " << _context->getText(DJV_TEXT("djv::AV::IO::JPEG", "cannot open")) <<
+						s << pluginName << " " << _context->getText(DJV_TEXT("cannot open")) <<
 							" '" << fileName << "': " << f.jpegError.msg;
 						throw std::runtime_error(s.str());
 					}
@@ -199,14 +199,14 @@ namespace djv
                     if (!f.f)
                     {
                         std::stringstream s;
-                        s << pluginName << " " << _context->getText(DJV_TEXT("djv::AV::IO::JPEG", "cannot open")) <<
+                        s << pluginName << " " << _context->getText(DJV_TEXT("cannot open")) <<
                             " '" << fileName << "'.";
                         throw std::runtime_error(s.str());
                     }
                     if (!jpegOpen(f.f, &f.jpeg, &f.jpegError))
                     {
                         std::stringstream s;
-                        s << pluginName << " " << _context->getText(DJV_TEXT("djv::AV::IO::JPEG", "cannot open")) <<
+                        s << pluginName << " " << _context->getText(DJV_TEXT("cannot open")) <<
                             " '" << fileName << "': " << f.jpegError.msg;
                         throw std::runtime_error(s.str());
                     }
@@ -216,7 +216,7 @@ namespace djv
                     if (Image::Type::None == imageType)
                     {
                         std::stringstream s;
-                        s << pluginName << " " << _context->getText(DJV_TEXT("djv::AV::IO::JPEG", "cannot open")) <<
+                        s << pluginName << " " << _context->getText(DJV_TEXT("cannot open")) <<
                             " '" << fileName << "'.";
                         throw std::runtime_error(s.str());
                     }

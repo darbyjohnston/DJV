@@ -280,7 +280,7 @@ namespace djv
                 if (!p.glfwWindow)
                 {
                     std::stringstream ss;
-                    ss << context->getText(DJV_TEXT("djv::AV::IO", "Cannot create GLFW window."));
+                    ss << context->getText(DJV_TEXT("Cannot create GLFW window."));
                     throw std::runtime_error(ss.str());
                 }
 

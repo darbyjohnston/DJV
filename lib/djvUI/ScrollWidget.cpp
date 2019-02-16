@@ -1000,8 +1000,8 @@ namespace djv
     DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
         UI,
         ScrollType,
-        DJV_TEXT("djv::UI", "Both"),
-        DJV_TEXT("djv::UI", "Horizontal"),
-        DJV_TEXT("djv::UI", "Vertical"));
+        DJV_TEXT("Both"),
+        DJV_TEXT("Horizontal"),
+        DJV_TEXT("Vertical"));
 
 } // namespace djv
