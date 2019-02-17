@@ -433,7 +433,7 @@ namespace djv
                     FT_Error ftError = FT_Init_FreeType(&p.ftLibrary);
                     if (ftError)
                     {
-                        throw std::runtime_error(_getText(DJV_TEXT("Cannot initialize FreeType.")));
+                        throw std::runtime_error(_getText(DJV_TEXT("FreeType cannot be initialized.")));
                     }
                     for (const auto& i : FileSystem::FileInfo::directoryList(p.fontPath))
                     {
@@ -466,7 +466,7 @@ namespace djv
                     }
                     if (!p.fontFaces.size())
                     {
-                        throw std::runtime_error(_getText(DJV_TEXT("Cannot find any fonts.")));
+                        throw std::runtime_error(_getText(DJV_TEXT("No fonts were found.")));
                     }
                     p.fontNamesPromise.set_value(p.fontNames);
                 }

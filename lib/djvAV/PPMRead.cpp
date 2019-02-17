@@ -101,8 +101,8 @@ namespace djv
                     if (magic[0] != 'P')
                     {
                         std::stringstream s;
-                        s << pluginName << " " << _context->getText(DJV_TEXT("cannot open")) <<
-                            " '" << fileName << "'.";
+                        s << pluginName << " " << _context->getText(DJV_TEXT("The file")) <<
+                            " '" << fileName << "' " << DJV_TEXT("cannot be opened") << ".";
                         throw std::runtime_error(s.str());
                     }
                     switch (magic[1])
@@ -114,8 +114,8 @@ namespace djv
                     default:
                     {
                         std::stringstream s;
-                        s << pluginName << " " << _context->getText(DJV_TEXT("cannot open")) <<
-                            " '" << fileName << "'.";
+                        s << pluginName << " " << _context->getText(DJV_TEXT("The file")) <<
+                            " '" << fileName << "' " << DJV_TEXT("cannot be opened") << ".";
                         throw std::runtime_error(s.str());
                     }
                     }
@@ -142,8 +142,8 @@ namespace djv
                     if (Image::Type::None == imageType)
                     {
                         std::stringstream s;
-                        s << pluginName << " " << _context->getText(DJV_TEXT("cannot open")) <<
-                            " '" << fileName << "'.";
+                        s << pluginName << " " << _context->getText(DJV_TEXT("The file")) <<
+                            " '" << fileName << "' " << DJV_TEXT("cannot be opened") << ".";
                         throw std::runtime_error(s.str());
                     }
                     Image::Layout layout;

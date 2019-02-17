@@ -126,21 +126,21 @@ namespace djv
                 const auto pieces = String::split(string, ':');
                 if (pieces.size() != 5)
                 {
-                    throw std::invalid_argument(DJV_TEXT("Cannot parse value."));
+                    throw std::invalid_argument(DJV_TEXT("Cannot parse the value."));
                 }
-                id = std::stoi(pieces[0]);
-                type = std::stoi(pieces[1]);
+                id     = std::stoi(pieces[0]);
+                type   = std::stoi(pieces[1]);
                 prefix = std::stoi(pieces[2]);
-                count = std::stoi(pieces[3]);
+                count  = std::stoi(pieces[3]);
                 offset = std::stoi(pieces[4]);
             }
 
             std::string timecodeToString(uint32_t in)
             {
-                int hour = 0;
+                int hour   = 0;
                 int minute = 0;
                 int second = 0;
-                int frame = 0;
+                int frame  = 0;
                 timecodeToTime(in, hour, minute, second, frame);
 
                 std::stringstream s;

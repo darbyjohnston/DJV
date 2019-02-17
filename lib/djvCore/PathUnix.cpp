@@ -54,7 +54,7 @@ namespace djv
                 if (::mkdir(value.get().c_str(), S_IRWXU) != 0)
                 {
                     std::stringstream s;
-                    s << "Cannot create directory: " << value;
+                    s << DJV_TEXT("The directory") << " '" << value << "' " << DJV_TEXT("cannot be created") << ".";
                     throw std::runtime_error(s.str());
                 }
             }

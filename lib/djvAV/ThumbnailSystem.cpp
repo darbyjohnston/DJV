@@ -206,7 +206,7 @@ namespace djv
             if (!p.glfwWindow)
             {
                 std::stringstream ss;
-                ss << context->getText(DJV_TEXT("Cannot create GLFW window."));
+                ss << context->getText(DJV_TEXT("The GLFW window cannot be created."));
                 throw std::runtime_error(ss.str());
             }
 

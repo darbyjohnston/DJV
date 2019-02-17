@@ -146,7 +146,7 @@ namespace djv
                         else
                         {
                             std::stringstream ss;
-                            ss << DJV_TEXT("Cannot parse option '-resize'");
+                            ss << DJV_TEXT("Cannot parse the option '-resize'");
                             throw std::runtime_error(ss.str());
                         }
                     }

@@ -76,8 +76,11 @@ namespace djv
         Application::~Application()
         {
             DJV_PRIVATE_PTR();
-			p.mainWindow->setParent(nullptr);
-			p.mainWindow.reset();
+            if (p.mainWindow)
+            {
+                p.mainWindow->setParent(nullptr);
+                p.mainWindow.reset();
+            }
             while (p.systems.size())
             {
                 auto system = p.systems.back();

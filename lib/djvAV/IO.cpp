@@ -354,7 +354,7 @@ namespace djv
                     }
                 }
                 std::stringstream s;
-                s << _getText(DJV_TEXT("Cannot read")) << " '" << fileName << "'.";
+                s << _getText(DJV_TEXT("The file")) << " '" << fileName << "' " << DJV_TEXT("cannot be read") << ".";
                 throw std::runtime_error(s.str());
                 return nullptr;
             }
@@ -373,7 +373,7 @@ namespace djv
                     }
                 }
                 std::stringstream s;
-                s << _getText(DJV_TEXT("Cannot write")) << " '" << fileName << "'.";
+                s << _getText(DJV_TEXT("The file")) << " '" << fileName << "' " << DJV_TEXT("cannot be written") << ".";
                 throw std::runtime_error(s.str());
                 return nullptr;
             }

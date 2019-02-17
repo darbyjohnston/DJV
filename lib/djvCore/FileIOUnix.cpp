@@ -86,7 +86,7 @@ namespace djv
                     char buf[String::cStringLength] = "";
                     strerror_r(errno, buf, String::cStringLength);
                     std::stringstream s;
-                    s << "Cannot open file" << " '" << fileName << "': " << buf;
+                    s << DJV_TEXT("The file") << " '" << fileName << "' " << DJV_TEXT("cannot be opened") << ". " << buf;
                     throw std::runtime_error(s.str());
                 }
 
@@ -98,7 +98,7 @@ namespace djv
                     char buf[String::cStringLength] = "";
                     strerror_r(errno, buf, String::cStringLength);
                     std::stringstream s;
-                    s << "Cannot stat file" << " '" << fileName << "': " << buf;
+                    s << DJV_TEXT("The file") << " '" << fileName << "' " << DJV_TEXT("cannot be queried") << ". " << buf;
                     throw std::runtime_error(s.str());
                 }
                 _fileName = fileName;
@@ -115,7 +115,7 @@ namespace djv
                         char buf[String::cStringLength] = "";
                         strerror_r(errno, buf, String::cStringLength);
                         std::stringstream s;
-                        s << "Cannot map file" << " '" << _fileName << "': " << buf;
+                        s << DJV_TEXT("The file") << " '" << _fileName << "' " << DJV_TEXT("cannot be mapped") << ". " << buf;
                         throw std::runtime_error(s.str());
                     }
                     _mmapStart = reinterpret_cast<const uint8_t *>(_mmap);
@@ -140,7 +140,7 @@ namespace djv
                     char buf[String::cStringLength] = "";
                     strerror_r(errno, buf, String::cStringLength);
                     std::stringstream s;
-                    s << "Cannot open file" << " '" << fileName << "': " << buf;
+                    s << DJV_TEXT("The file") << " '" << fileName << "' " << DJV_TEXT("cannot be opened") << ". " << buf;
                     throw std::runtime_error(s.str());
                 }
 
@@ -152,7 +152,7 @@ namespace djv
                     char buf[String::cStringLength] = "";
                     strerror_r(errno, buf, String::cStringLength);
                     std::stringstream s;
-                    s << "Cannot stat file" << " '" << fileName << "': " << buf;
+                    s << DJV_TEXT("The file") << " '" << fileName << "' " << DJV_TEXT("cannot be queried) << ". " << buf;
                     throw std::runtime_error(s.str());
                 }
                 _fileName = std::string(buf.data());
@@ -171,7 +171,7 @@ namespace djv
                         char buf[String::cStringLength] = "";
                         strerror_r(errno, buf, String::cStringLength);
                         std::stringstream s;
-                        s << "Cannot unmap file" << " '" << _fileName << "': " << buf;
+                        s << DJV_TEXT("The file") << " '" << _fileName << "' " << DJV_TEXT("cannot be unmapped") << ". " << buf;
                         throw std::runtime_error(s.str());
                     }
                     _mmap = (void *)-1;
@@ -186,7 +186,7 @@ namespace djv
                         char buf[String::cStringLength] = "";
                         strerror_r(errno, buf, String::cStringLength);
                         std::stringstream s;
-                        s << "Cannot close file" << " '" << _fileName << "': " << buf;
+                        s << DJV_TEXT("The file") << " '" << _fileName << "' " << DJV_TEXT("cannot be closed") << ". " << buf;
                         throw std::runtime_error(s.str());
                     }
                     _f = -1;
@@ -206,7 +206,7 @@ namespace djv
                     if (mmapP > _mmapEnd)
                     {
                         std::stringstream s;
-                        s << "Cannot read file: " << _fileName;
+                        s << DJV_TEXT("The file") << " '" << _fileName << "' " << DJV_TEXT("cannot be read") << ".";
                         throw std::runtime_error(s.str());
                     }
                     if (_endian && wordSize > 1)
@@ -228,7 +228,7 @@ namespace djv
                         char buf[String::cStringLength] = "";
                         strerror_r(errno, buf, String::cStringLength);
                         std::stringstream s;
-                        s << "Cannot read file" << " '" << _fileName << "': " << buf;
+                        s << DJV_TEXT("The file") << " '" << _fileName << "' " << DJV_TEXT("cannot be read") << ".";
                         throw std::runtime_error(s.str());
                     }
                     if (_endian && wordSize > 1)
@@ -257,7 +257,7 @@ namespace djv
                     char buf[String::cStringLength] = "";
                     strerror_r(errno, buf, String::cStringLength);
                     std::stringstream s;
-                    s << "Cannot write file" << " '" << _fileName << "': " << buf;
+                        s << DJV_TEXT("The file") << " '" << _fileName << "' " << DJV_TEXT("cannot be written") << ".";
                     throw std::runtime_error(s.str());
                 }
                 _pos += size * wordSize;
@@ -295,7 +295,7 @@ namespace djv
                     if (_mmapP > _mmapEnd)
                     {
                         std::stringstream s;
-                        s << "Cannot read file: " << _fileName;
+                        s << DJV_TEXT("The file") << " '" << _fileName << "' " << DJV_TEXT("cannot be read") << ".";
                         throw std::runtime_error(s.str());
                     }
                     break;
@@ -306,7 +306,7 @@ namespace djv
                         char buf[String::cStringLength] = "";
                         strerror_r(errno, buf, String::cStringLength);
                         std::stringstream s;
-                        s << "Cannot write file" << " '" << _fileName << "': " << buf;
+                        s << DJV_TEXT("The file") << " '" << _fileName << "' " << DJV_TEXT("cannot be written") << ". " << buf;
                         throw std::runtime_error(s.str());
                     }
                     break;

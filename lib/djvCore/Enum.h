@@ -83,7 +83,7 @@
         if (i == strings.end()) \
         { \
             std::stringstream ss; \
-            ss << DJV_TEXT("Cannot parse value") << " '" << s << "'."; \
+            ss << DJV_TEXT("Cannot parse the value") << " '" << s << "'."; \
             throw std::invalid_argument(ss.str()); \
         } \
         value = static_cast<prefix::name>(i - strings.begin()); \

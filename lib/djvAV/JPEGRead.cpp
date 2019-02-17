@@ -126,16 +126,16 @@ namespace djv
                             if (!jpegScanline(&f.jpeg, out->getData(y), &f.jpegError))
                             {
                                 std::stringstream s;
-                                s << pluginName << " " << _context->getText(DJV_TEXT("cannot read")) <<
-                                    " '" << fileName << "': " << f.jpegError.msg;
+                                s << pluginName << " " << _context->getText(DJV_TEXT("The file")) <<
+                                    " '" << fileName << "' " << DJV_TEXT("cannot be opened") << ". " << f.jpegError.msg;
                                 throw std::runtime_error(s.str());
                             }
                         }
 						if (!jpegEnd(&f.jpeg, &f.jpegError))
 						{
 							std::stringstream s;
-							s << pluginName << " " << _context->getText(DJV_TEXT("cannot read")) <<
-								" '" << fileName << "': " << f.jpegError.msg;
+							s << pluginName << " " << _context->getText(DJV_TEXT("The file")) <<
+								" '" << fileName << "' " << DJV_TEXT("cannot be read") << ". " << f.jpegError.msg;
 							throw std::runtime_error(s.str());
 						}
                     }
@@ -189,9 +189,9 @@ namespace djv
 					if (!jpegInit(&f.jpeg, &f.jpegError))
 					{
 						std::stringstream s;
-						s << pluginName << " " << _context->getText(DJV_TEXT("cannot open")) <<
-							" '" << fileName << "': " << f.jpegError.msg;
-						throw std::runtime_error(s.str());
+                        s << pluginName << " " << _context->getText(DJV_TEXT("The file")) <<
+                            " '" << fileName << "' " << DJV_TEXT("cannot be opened") << ". " << f.jpegError.msg;
+                        throw std::runtime_error(s.str());
 					}
 					f.jpegInit = true;
 
@@ -199,15 +199,15 @@ namespace djv
                     if (!f.f)
                     {
                         std::stringstream s;
-                        s << pluginName << " " << _context->getText(DJV_TEXT("cannot open")) <<
-                            " '" << fileName << "'.";
+                        s << pluginName << " " << _context->getText(DJV_TEXT("The file")) <<
+                            " '" << fileName << "' " << DJV_TEXT("cannot be opened") << ".";
                         throw std::runtime_error(s.str());
                     }
                     if (!jpegOpen(f.f, &f.jpeg, &f.jpegError))
                     {
                         std::stringstream s;
-                        s << pluginName << " " << _context->getText(DJV_TEXT("cannot open")) <<
-                            " '" << fileName << "': " << f.jpegError.msg;
+                        s << pluginName << " " << _context->getText(DJV_TEXT("The file")) <<
+                            " '" << fileName << "' " << DJV_TEXT("cannot be opened") << ". " << f.jpegError.msg;
                         throw std::runtime_error(s.str());
                     }
 
@@ -216,8 +216,8 @@ namespace djv
                     if (Image::Type::None == imageType)
                     {
                         std::stringstream s;
-                        s << pluginName << " " << _context->getText(DJV_TEXT("cannot open")) <<
-                            " '" << fileName << "'.";
+                        s << pluginName << " " << _context->getText(DJV_TEXT("The file")) <<
+                            " '" << fileName << "' " << DJV_TEXT("cannot be opened") << ".";
                         throw std::runtime_error(s.str());
                     }
 					auto info = Info(fileName, VideoInfo(Image::Info(size, imageType), _speed, _duration));

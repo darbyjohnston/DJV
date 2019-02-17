@@ -101,7 +101,7 @@ namespace djv
                                 if (INVALID_HANDLE_VALUE == changeHandle)
                                 {
                                     std::stringstream ss;
-                                    ss << context->getText(DJV_TEXT("Error finding change notification for")) <<
+                                    ss << context->getText(DJV_TEXT("Error finding the change notification for")) <<
                                         " '" << path << "'. " << Error::getLastError();
                                     context->log("djv::Core::FileSystem::DirectoryWatcher", ss.str(), LogLevel::Error);
                                 }
@@ -109,7 +109,7 @@ namespace djv
                             catch (const std::exception & e)
                             {
                                 std::stringstream ss;
-                                ss << context->getText(DJV_TEXT("Error watching directory")) <<
+                                ss << context->getText(DJV_TEXT("Error watching the directory")) <<
                                     " '" << path << "'. " << e.what();
                                 context->log("djv::Core::FileSystem::DirectoryWatcher", ss.str(), LogLevel::Error);
                             }
