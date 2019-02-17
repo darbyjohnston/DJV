@@ -1,0 +1,464 @@
+[
+    {
+        "source": "None", 
+        "text": "Ingen", 
+        "id": "None", 
+        "description": ""
+    }, 
+    {
+        "source": "Left", 
+        "text": "V\u00e4nster", 
+        "id": "Left", 
+        "description": ""
+    }, 
+    {
+        "source": "Top", 
+        "text": "Topp", 
+        "id": "Top", 
+        "description": ""
+    }, 
+    {
+        "source": "Right", 
+        "text": "H\u00f6ger", 
+        "id": "Right", 
+        "description": ""
+    }, 
+    {
+        "source": "Bottom", 
+        "text": "Botten", 
+        "id": "Bottom", 
+        "description": ""
+    }, 
+    {
+        "source": "Cannot read", 
+        "text": "Kan inte l\u00e4sa", 
+        "id": "Cannot read", 
+        "description": ""
+    }, 
+    {
+        "source": "Cannot write", 
+        "text": "Kan inte skriva", 
+        "id": "Cannot write", 
+        "description": ""
+    }, 
+    {
+        "source": "cannot write", 
+        "text": "kan inte skriva", 
+        "id": "cannot write", 
+        "description": ""
+    }, 
+    {
+        "source": "Unknown", 
+        "text": "Ok\u00e4nd", 
+        "id": "Unknown", 
+        "description": ""
+    }, 
+    {
+        "source": "Out of memory", 
+        "text": "Slut p\u00e5 minne", 
+        "id": "Out of memory", 
+        "description": ""
+    }, 
+    {
+        "source": "Invalid value", 
+        "text": "ogiltigt v\u00e4rde", 
+        "id": "Invalid value", 
+        "description": ""
+    }, 
+    {
+        "source": "Invalid enum", 
+        "text": "Ogiltig enum", 
+        "id": "Invalid enum", 
+        "description": ""
+    }, 
+    {
+        "source": "U8", 
+        "text": "U8", 
+        "id": "U8", 
+        "description": ""
+    }, 
+    {
+        "source": "S16", 
+        "text": "S16", 
+        "id": "S16", 
+        "description": ""
+    }, 
+    {
+        "source": "S32", 
+        "text": "S32", 
+        "id": "S32", 
+        "description": ""
+    }, 
+    {
+        "source": "F32", 
+        "text": "F32", 
+        "id": "F32", 
+        "description": ""
+    }, 
+    {
+        "source": "Cannot create OpenGL vertex shader.", 
+        "text": "Kan inte skapa OpenGL vertex shader.", 
+        "id": "Cannot create OpenGL vertex shader.", 
+        "description": ""
+    }, 
+    {
+        "source": "Cannot compile OpenGL vertex shader", 
+        "text": "Kan inte kompilera OpenGL vertex shader", 
+        "id": "Cannot compile OpenGL vertex shader", 
+        "description": ""
+    }, 
+    {
+        "source": "Cannot create OpenGL fragment shader.", 
+        "text": "Kan inte skapa OpenGL-fragmentsk\u00e4rare.", 
+        "id": "Cannot create OpenGL fragment shader.", 
+        "description": ""
+    }, 
+    {
+        "source": "Cannot compile OpenGL framgent shader", 
+        "text": "Kan inte kompilera OpenGL framtr\u00e4dande shader", 
+        "id": "Cannot compile OpenGL framgent shader", 
+        "description": ""
+    }, 
+    {
+        "source": "Cannot link program", 
+        "text": "Kan inte l\u00e4nka programmet", 
+        "id": "Cannot link program", 
+        "description": ""
+    }, 
+    {
+        "source": "cannot read", 
+        "text": "kan inte l\u00e4sa", 
+        "id": "cannot read", 
+        "description": ""
+    }, 
+    {
+        "source": "cannot open", 
+        "text": "kan inte \u00f6ppna", 
+        "id": "cannot open", 
+        "description": ""
+    }, 
+    {
+        "source": "Cannot open OpenAL device.", 
+        "text": "Kan inte \u00f6ppna OpenAL-enheten.", 
+        "id": "Cannot open OpenAL device.", 
+        "description": ""
+    }, 
+    {
+        "source": "Cannot create OpenAL context.", 
+        "text": "Det g\u00e5r inte att skapa OpenAL-kontext.", 
+        "id": "Cannot create OpenAL context.", 
+        "description": ""
+    }, 
+    {
+        "source": "Cannot make OpenAL context current.", 
+        "text": "Kan inte g\u00f6ra OpenAL-kontext aktuellt.", 
+        "id": "Cannot make OpenAL context current.", 
+        "description": ""
+    }, 
+    {
+        "source": "Cannot create GLFW window.", 
+        "text": "Kan inte skapa GLFW-f\u00f6nster.", 
+        "id": "Cannot create GLFW window.", 
+        "description": ""
+    }, 
+    {
+        "source": "This plugin provides Portable Network Graphics (PNG) image I/O.", 
+        "text": "Detta plugin tillhandah\u00e5ller portabel n\u00e4tverksgrafik (PNG) bild I / O.", 
+        "id": "This plugin provides Portable Network Graphics (PNG) image I/O.", 
+        "description": ""
+    }, 
+    {
+        "source": "Cannot create shader", 
+        "text": "Kan inte skapa skuggning", 
+        "id": "Cannot create shader", 
+        "description": ""
+    }, 
+    {
+        "source": "Float", 
+        "text": "Flyta", 
+        "id": "Float", 
+        "description": ""
+    }, 
+    {
+        "source": "Double", 
+        "text": "Dubbel", 
+        "id": "Double", 
+        "description": ""
+    }, 
+    {
+        "source": "U8 Planar", 
+        "text": "U8 Planar", 
+        "id": "U8 Planar", 
+        "description": ""
+    }, 
+    {
+        "source": "S16 Planar", 
+        "text": "S16 Planar", 
+        "id": "S16 Planar", 
+        "description": ""
+    }, 
+    {
+        "source": "S32 Planar", 
+        "text": "S32 Planar", 
+        "id": "S32 Planar", 
+        "description": ""
+    }, 
+    {
+        "source": "Float Planar", 
+        "text": "Float Planar", 
+        "id": "Float Planar", 
+        "description": ""
+    }, 
+    {
+        "source": "Double Planar", 
+        "text": "Double Planar", 
+        "id": "Double Planar", 
+        "description": ""
+    }, 
+    {
+        "source": "This plugin provides FFmpeg image and audio I/O.", 
+        "text": "Detta plugin ger FFmpeg-bild och ljud I / O.", 
+        "id": "This plugin provides FFmpeg image and audio I/O.", 
+        "description": ""
+    }, 
+    {
+        "source": "cannot find any streams in", 
+        "text": "kan inte hitta n\u00e5gra str\u00f6mmar i", 
+        "id": "cannot find any streams in", 
+        "description": ""
+    }, 
+    {
+        "source": "cannot find video codec for", 
+        "text": "kan inte hitta video codec f\u00f6r", 
+        "id": "cannot find video codec for", 
+        "description": ""
+    }, 
+    {
+        "source": "unsupported audio format ", 
+        "text": "ost\u00f6dda ljudformat", 
+        "id": "unsupported audio format ", 
+        "description": ""
+    }, 
+    {
+        "source": "cannot find audio codec for", 
+        "text": "kan inte hitta ljudkoder f\u00f6r", 
+        "id": "cannot find audio codec for", 
+        "description": ""
+    }, 
+    {
+        "source": "This plugin provides Joint Photographic Experts Group (JPEG) image I/O.", 
+        "text": "Det h\u00e4r pluginet ger JPEG-bild I / O.", 
+        "id": "This plugin provides Joint Photographic Experts Group (JPEG) image I/O.", 
+        "description": ""
+    }, 
+    {
+        "source": "Cannot initialize GLFW.", 
+        "text": "Kan inte initiera GLFW.", 
+        "id": "Cannot initialize GLFW.", 
+        "description": ""
+    }, 
+    {
+        "source": "Cannot create OpenGL texture.", 
+        "text": "Kan inte skapa OpenGL-textur.", 
+        "id": "Cannot create OpenGL texture.", 
+        "description": ""
+    }, 
+    {
+        "source": "Cannot create OpenGL frame buffer.", 
+        "text": "Kan inte skapa OpenGL-rambuffert.", 
+        "id": "Cannot create OpenGL frame buffer.", 
+        "description": ""
+    }, 
+    {
+        "source": "Cannot initialize OpenGL frame buffer.", 
+        "text": "Kan inte initiera OpenGL-rambuffert.", 
+        "id": "Cannot initialize OpenGL frame buffer.", 
+        "description": ""
+    }, 
+    {
+        "source": "L U8", 
+        "text": "50 U8", 
+        "id": "L_U8", 
+        "description": ""
+    }, 
+    {
+        "source": "L U16", 
+        "text": "L U16", 
+        "id": "L_U16", 
+        "description": ""
+    }, 
+    {
+        "source": "L U32", 
+        "text": "L U32", 
+        "id": "L_U32", 
+        "description": ""
+    }, 
+    {
+        "source": "L F16", 
+        "text": "L F16", 
+        "id": "L_F16", 
+        "description": ""
+    }, 
+    {
+        "source": "L F32", 
+        "text": "L F32", 
+        "id": "L_F32", 
+        "description": ""
+    }, 
+    {
+        "source": "LA U8", 
+        "text": "U8", 
+        "id": "LA_U8", 
+        "description": ""
+    }, 
+    {
+        "source": "LA U16", 
+        "text": "U16", 
+        "id": "LA_U16", 
+        "description": ""
+    }, 
+    {
+        "source": "LA U32", 
+        "text": "U32", 
+        "id": "LA_U32", 
+        "description": ""
+    }, 
+    {
+        "source": "LA F16", 
+        "text": "F16", 
+        "id": "LA_F16", 
+        "description": ""
+    }, 
+    {
+        "source": "LA F32", 
+        "text": "LA F32", 
+        "id": "LA_F32", 
+        "description": ""
+    }, 
+    {
+        "source": "RGB U8", 
+        "text": "RGB U8", 
+        "id": "RGB_U8", 
+        "description": ""
+    }, 
+    {
+        "source": "RGB U10", 
+        "text": "RGB U10", 
+        "id": "RGB_U10", 
+        "description": ""
+    }, 
+    {
+        "source": "RGB U16", 
+        "text": "RGB U16", 
+        "id": "RGB_U16", 
+        "description": ""
+    }, 
+    {
+        "source": "RGB U32", 
+        "text": "RGB U32", 
+        "id": "RGB_U32", 
+        "description": ""
+    }, 
+    {
+        "source": "RGB F16", 
+        "text": "RGB F16", 
+        "id": "RGB_F16", 
+        "description": ""
+    }, 
+    {
+        "source": "RGB F32", 
+        "text": "RGB F32", 
+        "id": "RGB_F32", 
+        "description": ""
+    }, 
+    {
+        "source": "RGBA U8", 
+        "text": "RGBA U8", 
+        "id": "RGBA_U8", 
+        "description": ""
+    }, 
+    {
+        "source": "RGBA U16", 
+        "text": "RGBA U16", 
+        "id": "RGBA_U16", 
+        "description": ""
+    }, 
+    {
+        "source": "RGBA U32", 
+        "text": "RGBA U32", 
+        "id": "RGBA_U32", 
+        "description": ""
+    }, 
+    {
+        "source": "RGBA F16", 
+        "text": "RGBA F16", 
+        "id": "RGBA_F16", 
+        "description": ""
+    }, 
+    {
+        "source": "RGBA F32", 
+        "text": "RGBA F32", 
+        "id": "RGBA_F32", 
+        "description": ""
+    }, 
+    {
+        "source": "U10", 
+        "text": "U10", 
+        "id": "U10", 
+        "description": ""
+    }, 
+    {
+        "source": "U16", 
+        "text": "U16", 
+        "id": "U16", 
+        "description": ""
+    }, 
+    {
+        "source": "U32", 
+        "text": "U32", 
+        "id": "U32", 
+        "description": ""
+    }, 
+    {
+        "source": "F16", 
+        "text": "F16", 
+        "id": "F16", 
+        "description": ""
+    }, 
+    {
+        "source": "Cannot initialize FreeType.", 
+        "text": "Kan inte initiera FreeType.", 
+        "id": "Cannot initialize FreeType.", 
+        "description": ""
+    }, 
+    {
+        "source": "Cannot find any fonts.", 
+        "text": "Det g\u00e5r inte att hitta n\u00e5gra teckensnitt.", 
+        "id": "Cannot find any fonts.", 
+        "description": ""
+    }, 
+    {
+        "source": "This plugin provides NetPBM image I/O.", 
+        "text": "Detta plugin tillhandah\u00e5ller NetPBM-bild I / O.", 
+        "id": "This plugin provides NetPBM image I/O.", 
+        "description": ""
+    }, 
+    {
+        "source": "ASCII", 
+        "text": "ASCII", 
+        "id": "ASCII", 
+        "description": ""
+    }, 
+    {
+        "source": "Binary", 
+        "text": "Bin\u00e4r", 
+        "id": "Binary", 
+        "description": ""
+    }, 
+    {
+        "source": "Cannot parse value.", 
+        "text": "Kan inte analysera v\u00e4rde.", 
+        "id": "Cannot parse value.", 
+        "description": ""
+    }
+]

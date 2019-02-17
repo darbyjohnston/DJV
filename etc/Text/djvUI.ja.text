@@ -1,0 +1,1196 @@
+[
+    {
+        "source": "Dark", 
+        "text": "\u30c0\u30fc\u30af", 
+        "id": "Dark", 
+        "description": ""
+    }, 
+    {
+        "source": "Light", 
+        "text": "\u5149", 
+        "id": "Light", 
+        "description": ""
+    }, 
+    {
+        "source": "Medium", 
+        "text": "\u4e2d", 
+        "id": "Medium", 
+        "description": ""
+    }, 
+    {
+        "source": "Small", 
+        "text": "\u5c0f\u3055\u3044", 
+        "id": "Small", 
+        "description": ""
+    }, 
+    {
+        "source": "Large", 
+        "text": "\u5927", 
+        "id": "Large", 
+        "description": ""
+    }, 
+    {
+        "source": "Extra Large", 
+        "text": "\u7279\u5927", 
+        "id": "ExtraLarge", 
+        "description": ""
+    }, 
+    {
+        "source": "Default", 
+        "text": "\u30c7\u30d5\u30a9\u30eb\u30c8", 
+        "id": "Default", 
+        "description": ""
+    }, 
+    {
+        "source": "Horizontal", 
+        "text": "\u6c34\u5e73", 
+        "id": "Horizontal", 
+        "description": ""
+    }, 
+    {
+        "source": "Vertical", 
+        "text": "\u5782\u76f4", 
+        "id": "Vertical", 
+        "description": ""
+    }, 
+    {
+        "source": "Left", 
+        "text": "\u5de6", 
+        "id": "Left", 
+        "description": ""
+    }, 
+    {
+        "source": "Top", 
+        "text": "\u4e0a", 
+        "id": "Top", 
+        "description": ""
+    }, 
+    {
+        "source": "Right", 
+        "text": "\u53f3", 
+        "id": "Right", 
+        "description": ""
+    }, 
+    {
+        "source": "Bottom", 
+        "text": "\u5e95", 
+        "id": "Bottom", 
+        "description": ""
+    }, 
+    {
+        "source": "None", 
+        "text": "\u7121\u3057", 
+        "id": "None", 
+        "description": ""
+    }, 
+    {
+        "source": "Both", 
+        "text": "\u4e21\u65b9", 
+        "id": "Both", 
+        "description": ""
+    }, 
+    {
+        "source": "Center", 
+        "text": "\u30bb\u30f3\u30bf\u30fc", 
+        "id": "Center", 
+        "description": ""
+    }, 
+    {
+        "source": "Fill", 
+        "text": "\u5857\u308a\u3064\u3076\u3057", 
+        "id": "Fill", 
+        "description": ""
+    }, 
+    {
+        "source": "Baseline", 
+        "text": "\u30d9\u30fc\u30b9\u30e9\u30a4\u30f3", 
+        "id": "Baseline", 
+        "description": ""
+    }, 
+    {
+        "source": "Single", 
+        "text": "\u30b7\u30f3\u30b0\u30eb", 
+        "id": "Single", 
+        "description": ""
+    }, 
+    {
+        "source": "Radio", 
+        "text": "\u7121\u7dda", 
+        "id": "Radio", 
+        "description": ""
+    }, 
+    {
+        "source": "Multiple", 
+        "text": "\u8907\u6570", 
+        "id": "Multiple", 
+        "description": ""
+    }, 
+    {
+        "source": "Forward", 
+        "text": "\u9032\u3080", 
+        "id": "Forward", 
+        "description": ""
+    }, 
+    {
+        "source": "Reverse", 
+        "text": "\u9006", 
+        "id": "Reverse", 
+        "description": ""
+    }, 
+    {
+        "source": "Push", 
+        "text": "\u62bc\u3059", 
+        "id": "Push", 
+        "description": ""
+    }, 
+    {
+        "source": "Toggle", 
+        "text": "\u30c8\u30b0\u30eb", 
+        "id": "Toggle", 
+        "description": ""
+    }, 
+    {
+        "source": "Exclusive", 
+        "text": "\u72ec\u5360", 
+        "id": "Exclusive", 
+        "description": ""
+    }, 
+    {
+        "source": "Thumbnails Large", 
+        "text": "\u30b5\u30e0\u30cd\u30a4\u30eb\u5927", 
+        "id": "ThumbnailsLarge", 
+        "description": ""
+    }, 
+    {
+        "source": "Thumbnails Small", 
+        "text": "\u30b5\u30e0\u30cd\u30a4\u30eb\u5c0f", 
+        "id": "ThumbnailsSmall", 
+        "description": ""
+    }, 
+    {
+        "source": "List View", 
+        "text": "\u30ea\u30b9\u30c8\u30d3\u30e5\u30fc", 
+        "id": "ListView", 
+        "description": ""
+    }, 
+    {
+        "source": "Background", 
+        "text": "\u30d0\u30c3\u30af\u30b0\u30e9\u30a6\u30f3\u30c9", 
+        "id": "Background", 
+        "description": ""
+    }, 
+    {
+        "source": "Foreground", 
+        "text": "\u524d\u666f", 
+        "id": "Foreground", 
+        "description": ""
+    }, 
+    {
+        "source": "Border", 
+        "text": "\u5883\u754c", 
+        "id": "Border", 
+        "description": ""
+    }, 
+    {
+        "source": "Trough", 
+        "text": "\u30c8\u30e9\u30d5", 
+        "id": "Trough", 
+        "description": ""
+    }, 
+    {
+        "source": "Button", 
+        "text": "\u30dc\u30bf\u30f3", 
+        "id": "Button", 
+        "description": ""
+    }, 
+    {
+        "source": "Hovered", 
+        "text": "\u30db\u30d0\u30fc", 
+        "id": "Hovered", 
+        "description": ""
+    }, 
+    {
+        "source": "Pressed", 
+        "text": "\u62bc\u3055\u308c\u305f", 
+        "id": "Pressed", 
+        "description": ""
+    }, 
+    {
+        "source": "Checked", 
+        "text": "\u30c1\u30a7\u30c3\u30af\u3042\u308a", 
+        "id": "Checked", 
+        "description": ""
+    }, 
+    {
+        "source": "Disabled", 
+        "text": "\u7121\u52b9", 
+        "id": "Disabled", 
+        "description": ""
+    }, 
+    {
+        "source": "Header Background", 
+        "text": "\u30d8\u30c3\u30c0\u30fc\u306e\u80cc\u666f", 
+        "id": "HeaderBackground", 
+        "description": ""
+    }, 
+    {
+        "source": "Header Foreground", 
+        "text": "\u30d8\u30c3\u30c0\u30fc\u524d\u666f", 
+        "id": "HeaderForeground", 
+        "description": ""
+    }, 
+    {
+        "source": "Header Hovered", 
+        "text": "\u30d8\u30c3\u30c0\u30fc\u304c\u8986\u308f\u308c\u3066\u3044\u307e\u3059", 
+        "id": "HeaderHovered", 
+        "description": ""
+    }, 
+    {
+        "source": "Header Pressed", 
+        "text": "\u62bc\u3055\u308c\u305f\u30d8\u30c3\u30c0\u30fc", 
+        "id": "HeaderPressed", 
+        "description": ""
+    }, 
+    {
+        "source": "Header Checked", 
+        "text": "\u30d8\u30c3\u30c0\u30fc\u30c1\u30a7\u30c3\u30af\u6e08\u307f", 
+        "id": "HeaderChecked", 
+        "description": ""
+    }, 
+    {
+        "source": "Header Disabled", 
+        "text": "\u30d8\u30c3\u30c0\u7121\u52b9", 
+        "id": "HeaderDisabled", 
+        "description": ""
+    }, 
+    {
+        "source": "Tooltip Background", 
+        "text": "\u30c4\u30fc\u30eb\u30c1\u30c3\u30d7\u306e\u80cc\u666f", 
+        "id": "TooltipBackground", 
+        "description": ""
+    }, 
+    {
+        "source": "Tooltip Foreground", 
+        "text": "\u30c4\u30fc\u30eb\u30c1\u30c3\u30d7\u524d\u666f", 
+        "id": "TooltipForeground", 
+        "description": ""
+    }, 
+    {
+        "source": "Overlay", 
+        "text": "\u30aa\u30fc\u30d0\u30fc\u30ec\u30a4", 
+        "id": "Overlay", 
+        "description": ""
+    }, 
+    {
+        "source": "Shadow", 
+        "text": "\u5f71", 
+        "id": "Shadow", 
+        "description": ""
+    }, 
+    {
+        "source": "Margin", 
+        "text": "\u30de\u30fc\u30b8\u30f3", 
+        "id": "Margin", 
+        "description": ""
+    }, 
+    {
+        "source": "Margin Small", 
+        "text": "\u30de\u30fc\u30b8\u30f3\u5c0f", 
+        "id": "MarginSmall", 
+        "description": ""
+    }, 
+    {
+        "source": "Margin Large", 
+        "text": "\u30de\u30fc\u30b8\u30f3\u5927", 
+        "id": "MarginLarge", 
+        "description": ""
+    }, 
+    {
+        "source": "Margin Dialog", 
+        "text": "\u30de\u30fc\u30b8\u30f3\u30c0\u30a4\u30a2\u30ed\u30b0", 
+        "id": "MarginDialog", 
+        "description": ""
+    }, 
+    {
+        "source": "Spacing", 
+        "text": "\u9593\u9694", 
+        "id": "Spacing", 
+        "description": ""
+    }, 
+    {
+        "source": "Spacing Small", 
+        "text": "\u30b9\u30da\u30fc\u30b7\u30f3\u30b0\u30b9\u30e2\u30fc\u30eb", 
+        "id": "SpacingSmall", 
+        "description": ""
+    }, 
+    {
+        "source": "Spacing Large", 
+        "text": "\u5927\u304d\u3044\u9593\u9694", 
+        "id": "SpacingLarge", 
+        "description": ""
+    }, 
+    {
+        "source": "Drag", 
+        "text": "\u30c9\u30e9\u30c3\u30b0", 
+        "id": "Drag", 
+        "description": ""
+    }, 
+    {
+        "source": "Icon", 
+        "text": "\u30a2\u30a4\u30b3\u30f3", 
+        "id": "Icon", 
+        "description": ""
+    }, 
+    {
+        "source": "Icon Large", 
+        "text": "\u30a2\u30a4\u30b3\u30f3\u5927", 
+        "id": "IconLarge", 
+        "description": ""
+    }, 
+    {
+        "source": "Font Small", 
+        "text": "\u5c0f\u3055\u3044\u30d5\u30a9\u30f3\u30c8", 
+        "id": "FontSmall", 
+        "description": ""
+    }, 
+    {
+        "source": "Font Medium", 
+        "text": "\u30d5\u30a9\u30f3\u30c8\u30df\u30c7\u30a3\u30a2\u30e0", 
+        "id": "FontMedium", 
+        "description": ""
+    }, 
+    {
+        "source": "Font Large", 
+        "text": "\u30d5\u30a9\u30f3\u30c8\u5927", 
+        "id": "FontLarge", 
+        "description": ""
+    }, 
+    {
+        "source": "Font Header", 
+        "text": "\u30d5\u30a9\u30f3\u30c8\u30d8\u30c3\u30c0", 
+        "id": "FontHeader", 
+        "description": ""
+    }, 
+    {
+        "source": "Swatch", 
+        "text": "\u898b\u672c", 
+        "id": "Swatch", 
+        "description": ""
+    }, 
+    {
+        "source": "Thumbnail Width Small", 
+        "text": "\u30b5\u30e0\u30cd\u30a4\u30eb\u5e45\u5c0f", 
+        "id": "ThumbnailWidthSmall", 
+        "description": ""
+    }, 
+    {
+        "source": "Thumbnail Height Small", 
+        "text": "\u30b5\u30e0\u30cd\u30a4\u30eb\u9ad8\u3055\u5c0f", 
+        "id": "ThumbnailHeightSmall", 
+        "description": ""
+    }, 
+    {
+        "source": "Thumbnail Width Large", 
+        "text": "\u30b5\u30e0\u30cd\u30a4\u30eb\u5e45\u5927", 
+        "id": "ThumbnailWidthLarge", 
+        "description": ""
+    }, 
+    {
+        "source": "Thumbnail Height Large", 
+        "text": "\u30b5\u30e0\u30cd\u30a4\u30eb\u306e\u9ad8\u3055\u5927", 
+        "id": "ThumbnailHeightLarge", 
+        "description": ""
+    }, 
+    {
+        "source": "Scroll Area", 
+        "text": "\u30b9\u30af\u30ed\u30fc\u30eb\u9818\u57df", 
+        "id": "ScrollArea", 
+        "description": ""
+    }, 
+    {
+        "source": "Text Column", 
+        "text": "\u30c6\u30ad\u30b9\u30c8\u5217", 
+        "id": "TextColumn", 
+        "description": ""
+    }, 
+    {
+        "source": "Dialog", 
+        "text": "\u30c0\u30a4\u30a2\u30ed\u30b0", 
+        "id": "Dialog", 
+        "description": ""
+    }, 
+    {
+        "source": "Tooltip Offset", 
+        "text": "\u30c4\u30fc\u30eb\u30c1\u30c3\u30d7\u30aa\u30d5\u30bb\u30c3\u30c8", 
+        "id": "TooltipOffset", 
+        "description": ""
+    }, 
+    {
+        "source": "Handle", 
+        "text": "\u30cf\u30f3\u30c9\u30eb", 
+        "id": "Handle", 
+        "description": ""
+    }, 
+    {
+        "source": "Space", 
+        "text": "\u30b9\u30da\u30fc\u30b9", 
+        "id": "Space", 
+        "description": ""
+    }, 
+    {
+        "source": "'", 
+        "text": "&#39;", 
+        "id": "'", 
+        "description": ""
+    }, 
+    {
+        "source": ",", 
+        "text": "\u3001", 
+        "id": ",", 
+        "description": ""
+    }, 
+    {
+        "source": "-", 
+        "text": "-", 
+        "id": "-", 
+        "description": ""
+    }, 
+    {
+        "source": ".", 
+        "text": "\u3002", 
+        "id": ".", 
+        "description": ""
+    }, 
+    {
+        "source": "/", 
+        "text": "/", 
+        "id": "/", 
+        "description": ""
+    }, 
+    {
+        "source": "0", 
+        "text": "0", 
+        "id": "0", 
+        "description": ""
+    }, 
+    {
+        "source": "1", 
+        "text": "1", 
+        "id": "1", 
+        "description": ""
+    }, 
+    {
+        "source": "2", 
+        "text": "2", 
+        "id": "2", 
+        "description": ""
+    }, 
+    {
+        "source": "3", 
+        "text": "3", 
+        "id": "3", 
+        "description": ""
+    }, 
+    {
+        "source": "4", 
+        "text": "4", 
+        "id": "4", 
+        "description": ""
+    }, 
+    {
+        "source": "5", 
+        "text": "5", 
+        "id": "5", 
+        "description": ""
+    }, 
+    {
+        "source": "6", 
+        "text": "6", 
+        "id": "6", 
+        "description": ""
+    }, 
+    {
+        "source": "7", 
+        "text": "7", 
+        "id": "7", 
+        "description": ""
+    }, 
+    {
+        "source": "8", 
+        "text": "8", 
+        "id": "8", 
+        "description": ""
+    }, 
+    {
+        "source": "9", 
+        "text": "9", 
+        "id": "9", 
+        "description": ""
+    }, 
+    {
+        "source": ";", 
+        "text": ";", 
+        "id": ";", 
+        "description": ""
+    }, 
+    {
+        "source": "=", 
+        "text": "=", 
+        "id": "=", 
+        "description": ""
+    }, 
+    {
+        "source": "A", 
+        "text": "A", 
+        "id": "A", 
+        "description": ""
+    }, 
+    {
+        "source": "B", 
+        "text": "B", 
+        "id": "B", 
+        "description": ""
+    }, 
+    {
+        "source": "C", 
+        "text": "C", 
+        "id": "C", 
+        "description": ""
+    }, 
+    {
+        "source": "D", 
+        "text": "D", 
+        "id": "D", 
+        "description": ""
+    }, 
+    {
+        "source": "E", 
+        "text": "\u3068", 
+        "id": "E", 
+        "description": ""
+    }, 
+    {
+        "source": "F", 
+        "text": "F", 
+        "id": "F", 
+        "description": ""
+    }, 
+    {
+        "source": "G", 
+        "text": "G", 
+        "id": "G", 
+        "description": ""
+    }, 
+    {
+        "source": "H", 
+        "text": "H", 
+        "id": "H", 
+        "description": ""
+    }, 
+    {
+        "source": "I", 
+        "text": "\u79c1", 
+        "id": "I", 
+        "description": ""
+    }, 
+    {
+        "source": "J", 
+        "text": "J", 
+        "id": "J", 
+        "description": ""
+    }, 
+    {
+        "source": "K", 
+        "text": "K", 
+        "id": "K", 
+        "description": ""
+    }, 
+    {
+        "source": "L", 
+        "text": "\u30b6\u30fb", 
+        "id": "L", 
+        "description": ""
+    }, 
+    {
+        "source": "M", 
+        "text": "M", 
+        "id": "M", 
+        "description": ""
+    }, 
+    {
+        "source": "N", 
+        "text": "N", 
+        "id": "N", 
+        "description": ""
+    }, 
+    {
+        "source": "O", 
+        "text": "\u25cb", 
+        "id": "O", 
+        "description": ""
+    }, 
+    {
+        "source": "P", 
+        "text": "P", 
+        "id": "P", 
+        "description": ""
+    }, 
+    {
+        "source": "Q", 
+        "text": "Q", 
+        "id": "Q", 
+        "description": ""
+    }, 
+    {
+        "source": "R", 
+        "text": "R", 
+        "id": "R", 
+        "description": ""
+    }, 
+    {
+        "source": "S", 
+        "text": "S", 
+        "id": "S", 
+        "description": ""
+    }, 
+    {
+        "source": "T", 
+        "text": "T", 
+        "id": "T", 
+        "description": ""
+    }, 
+    {
+        "source": "U", 
+        "text": "U", 
+        "id": "U", 
+        "description": ""
+    }, 
+    {
+        "source": "V", 
+        "text": "V", 
+        "id": "V", 
+        "description": ""
+    }, 
+    {
+        "source": "W", 
+        "text": "\u30b6\u30fb", 
+        "id": "W", 
+        "description": ""
+    }, 
+    {
+        "source": "X", 
+        "text": "\u30d0\u30c4", 
+        "id": "X", 
+        "description": ""
+    }, 
+    {
+        "source": "Y", 
+        "text": "Y", 
+        "id": "Y", 
+        "description": ""
+    }, 
+    {
+        "source": "Z", 
+        "text": "\u3068\u3068\u3082\u306b", 
+        "id": "Z", 
+        "description": ""
+    }, 
+    {
+        "source": "[", 
+        "text": "[", 
+        "id": "[", 
+        "description": ""
+    }, 
+    {
+        "source": "\\\\", 
+        "text": "\\\\", 
+        "id": "\\\\", 
+        "description": ""
+    }, 
+    {
+        "source": "]", 
+        "text": "]", 
+        "id": "]", 
+        "description": ""
+    }, 
+    {
+        "source": "`", 
+        "text": "`", 
+        "id": "`", 
+        "description": ""
+    }, 
+    {
+        "source": "World 1", 
+        "text": "\u30ef\u30fc\u30eb\u30c91", 
+        "id": "World1", 
+        "description": ""
+    }, 
+    {
+        "source": "World 2", 
+        "text": "\u30ef\u30fc\u30eb\u30c92", 
+        "id": "World2", 
+        "description": ""
+    }, 
+    {
+        "source": "Escape", 
+        "text": "\u30a8\u30b9\u30b1\u30fc\u30d7", 
+        "id": "Escape", 
+        "description": ""
+    }, 
+    {
+        "source": "Enter", 
+        "text": "\u5165\u308b", 
+        "id": "Enter", 
+        "description": ""
+    }, 
+    {
+        "source": "Tab", 
+        "text": "\u30bf\u30d6", 
+        "id": "Tab", 
+        "description": ""
+    }, 
+    {
+        "source": "Backspace", 
+        "text": "\u30d0\u30c3\u30af\u30b9\u30da\u30fc\u30b9", 
+        "id": "Backspace", 
+        "description": ""
+    }, 
+    {
+        "source": "Insert", 
+        "text": "\u30a4\u30f3\u30b5\u30fc\u30c8", 
+        "id": "Insert", 
+        "description": ""
+    }, 
+    {
+        "source": "Delete", 
+        "text": "\u524a\u9664\u3059\u308b", 
+        "id": "Delete", 
+        "description": ""
+    }, 
+    {
+        "source": "Right Arrow", 
+        "text": "\u53f3\u77e2\u5370", 
+        "id": "RightArrow", 
+        "description": ""
+    }, 
+    {
+        "source": "Left Arrow", 
+        "text": "\u5de6\u77e2\u5370", 
+        "id": "LeftArrow", 
+        "description": ""
+    }, 
+    {
+        "source": "Down Arrow", 
+        "text": "\u4e0b\u77e2\u5370", 
+        "id": "DownArrow", 
+        "description": ""
+    }, 
+    {
+        "source": "Up Arrow", 
+        "text": "\u4e0a\u77e2\u5370", 
+        "id": "UpArrow", 
+        "description": ""
+    }, 
+    {
+        "source": "Page Up", 
+        "text": "\u30da\u30fc\u30b8\u30a2\u30c3\u30d7", 
+        "id": "PageUp", 
+        "description": ""
+    }, 
+    {
+        "source": "Page Down", 
+        "text": "\u30da\u30fc\u30b8\u30c0\u30a6\u30f3", 
+        "id": "PageDown", 
+        "description": ""
+    }, 
+    {
+        "source": "Home", 
+        "text": "\u30db\u30fc\u30e0", 
+        "id": "Home", 
+        "description": ""
+    }, 
+    {
+        "source": "End", 
+        "text": "\u7d42\u308f\u308a", 
+        "id": "End", 
+        "description": ""
+    }, 
+    {
+        "source": "Caps Lock", 
+        "text": "\u30ad\u30e3\u30c3\u30d7\u30b9\u30ed\u30c3\u30af", 
+        "id": "CapsLock", 
+        "description": ""
+    }, 
+    {
+        "source": "Scroll Lock", 
+        "text": "\u30b9\u30af\u30ed\u30fc\u30eb\u30ed\u30c3\u30af", 
+        "id": "ScrollLock", 
+        "description": ""
+    }, 
+    {
+        "source": "Num Lock", 
+        "text": "Num Lock", 
+        "id": "NumLock", 
+        "description": ""
+    }, 
+    {
+        "source": "Print Screen", 
+        "text": "\u5370\u5237\u753b\u9762", 
+        "id": "PrintScreen", 
+        "description": ""
+    }, 
+    {
+        "source": "F1", 
+        "text": "F1", 
+        "id": "F1", 
+        "description": ""
+    }, 
+    {
+        "source": "F2", 
+        "text": "F2", 
+        "id": "F2", 
+        "description": ""
+    }, 
+    {
+        "source": "F3", 
+        "text": "F3", 
+        "id": "F3", 
+        "description": ""
+    }, 
+    {
+        "source": "F4", 
+        "text": "F4", 
+        "id": "F4", 
+        "description": ""
+    }, 
+    {
+        "source": "F5", 
+        "text": "F5", 
+        "id": "F5", 
+        "description": ""
+    }, 
+    {
+        "source": "F6", 
+        "text": "F6", 
+        "id": "F6", 
+        "description": ""
+    }, 
+    {
+        "source": "F7", 
+        "text": "F7", 
+        "id": "F7", 
+        "description": ""
+    }, 
+    {
+        "source": "F8", 
+        "text": "F8", 
+        "id": "F8", 
+        "description": ""
+    }, 
+    {
+        "source": "F9", 
+        "text": "F9", 
+        "id": "F9", 
+        "description": ""
+    }, 
+    {
+        "source": "F10", 
+        "text": "F10", 
+        "id": "F10", 
+        "description": ""
+    }, 
+    {
+        "source": "F11", 
+        "text": "F11", 
+        "id": "F11", 
+        "description": ""
+    }, 
+    {
+        "source": "F12", 
+        "text": "F12", 
+        "id": "F12", 
+        "description": ""
+    }, 
+    {
+        "source": "F13", 
+        "text": "F13", 
+        "id": "F13", 
+        "description": ""
+    }, 
+    {
+        "source": "F14", 
+        "text": "F14", 
+        "id": "F14", 
+        "description": ""
+    }, 
+    {
+        "source": "F15", 
+        "text": "F15", 
+        "id": "F15", 
+        "description": ""
+    }, 
+    {
+        "source": "F16", 
+        "text": "F16", 
+        "id": "F16", 
+        "description": ""
+    }, 
+    {
+        "source": "F17", 
+        "text": "F17", 
+        "id": "F17", 
+        "description": ""
+    }, 
+    {
+        "source": "F18", 
+        "text": "F18", 
+        "id": "F18", 
+        "description": ""
+    }, 
+    {
+        "source": "F19", 
+        "text": "F19", 
+        "id": "F19", 
+        "description": ""
+    }, 
+    {
+        "source": "F20", 
+        "text": "F20", 
+        "id": "F20", 
+        "description": ""
+    }, 
+    {
+        "source": "F21", 
+        "text": "F21", 
+        "id": "F21", 
+        "description": ""
+    }, 
+    {
+        "source": "F22", 
+        "text": "F22", 
+        "id": "F22", 
+        "description": ""
+    }, 
+    {
+        "source": "F23", 
+        "text": "F23", 
+        "id": "F23", 
+        "description": ""
+    }, 
+    {
+        "source": "F24", 
+        "text": "F24", 
+        "id": "F24", 
+        "description": ""
+    }, 
+    {
+        "source": "F25", 
+        "text": "F25", 
+        "id": "F25", 
+        "description": ""
+    }, 
+    {
+        "source": "Key Pad 0", 
+        "text": "\u30ad\u30fc\u30d1\u30c3\u30c90", 
+        "id": "KeyPad0", 
+        "description": ""
+    }, 
+    {
+        "source": "Key Pad 1", 
+        "text": "\u30ad\u30fc\u30d1\u30c3\u30c91", 
+        "id": "KeyPad1", 
+        "description": ""
+    }, 
+    {
+        "source": "Key Pad 2", 
+        "text": "\u30ad\u30fc\u30d1\u30c3\u30c92", 
+        "id": "KeyPad2", 
+        "description": ""
+    }, 
+    {
+        "source": "Key Pad 3", 
+        "text": "\u30ad\u30fc\u30d1\u30c3\u30c93", 
+        "id": "KeyPad3", 
+        "description": ""
+    }, 
+    {
+        "source": "Key Pad 4", 
+        "text": "\u30ad\u30fc\u30d1\u30c3\u30c94", 
+        "id": "KeyPad4", 
+        "description": ""
+    }, 
+    {
+        "source": "Key Pad 5", 
+        "text": "\u30ad\u30fc\u30d1\u30c3\u30c95", 
+        "id": "KeyPad5", 
+        "description": ""
+    }, 
+    {
+        "source": "Key Pad 6", 
+        "text": "\u30ad\u30fc\u30d1\u30c3\u30c96", 
+        "id": "KeyPad6", 
+        "description": ""
+    }, 
+    {
+        "source": "Key Pad 7", 
+        "text": "\u30ad\u30fc\u30d1\u30c3\u30c97", 
+        "id": "KeyPad7", 
+        "description": ""
+    }, 
+    {
+        "source": "Key Pad 8", 
+        "text": "\u30ad\u30fc\u30d1\u30c3\u30c98", 
+        "id": "KeyPad8", 
+        "description": ""
+    }, 
+    {
+        "source": "Key Pad 9", 
+        "text": "\u30ad\u30fc\u30d1\u30c3\u30c99", 
+        "id": "KeyPad9", 
+        "description": ""
+    }, 
+    {
+        "source": "Key Pad Decimal", 
+        "text": "\u30ad\u30fc\u30d1\u30c3\u30c910\u9032\u6570", 
+        "id": "KeyPadDecimal", 
+        "description": ""
+    }, 
+    {
+        "source": "Key Pad Divide", 
+        "text": "\u30ad\u30fc\u30d1\u30c3\u30c9\u5206\u5272", 
+        "id": "KeyPadDivide", 
+        "description": ""
+    }, 
+    {
+        "source": "Key Pad Multiply", 
+        "text": "\u30ad\u30fc\u30d1\u30c3\u30c9\u4e57\u7b97", 
+        "id": "KeyPadMultiply", 
+        "description": ""
+    }, 
+    {
+        "source": "Key Pad Substract", 
+        "text": "\u30ad\u30fc\u30d1\u30c3\u30c9", 
+        "id": "KeyPadSubstract", 
+        "description": ""
+    }, 
+    {
+        "source": "Key Pad Add", 
+        "text": "\u30ad\u30fc\u30d1\u30c3\u30c9\u8ffd\u52a0", 
+        "id": "KeyPadAdd", 
+        "description": ""
+    }, 
+    {
+        "source": "Key Pad Enter", 
+        "text": "\u30ad\u30fc\u30d1\u30c3\u30c9", 
+        "id": "KeyPadEnter", 
+        "description": ""
+    }, 
+    {
+        "source": "Key Pad Equal", 
+        "text": "\u540c\u7b49\u306e\u30ad\u30fc\u30d1\u30c3\u30c9", 
+        "id": "KeyPadEqual", 
+        "description": ""
+    }, 
+    {
+        "source": "Left Shift", 
+        "text": "\u5de6\u65b9\u79fb\u52d5", 
+        "id": "LeftShift", 
+        "description": ""
+    }, 
+    {
+        "source": "Left Control", 
+        "text": "\u5de6\u30b3\u30f3\u30c8\u30ed\u30fc\u30eb", 
+        "id": "LeftControl", 
+        "description": ""
+    }, 
+    {
+        "source": "Left Alt", 
+        "text": "\u5de6Alt", 
+        "id": "LeftAlt", 
+        "description": ""
+    }, 
+    {
+        "source": "Left Super", 
+        "text": "\u5de6\u30b9\u30fc\u30d1\u30fc", 
+        "id": "LeftSuper", 
+        "description": ""
+    }, 
+    {
+        "source": "Right Shift", 
+        "text": "\u53f3\u30b7\u30d5\u30c8", 
+        "id": "RightShift", 
+        "description": ""
+    }, 
+    {
+        "source": "Right Control", 
+        "text": "\u6b63\u3057\u3044\u7ba1\u7406", 
+        "id": "RightControl", 
+        "description": ""
+    }, 
+    {
+        "source": "Right Alt", 
+        "text": "\u53f3Alt", 
+        "id": "RightAlt", 
+        "description": ""
+    }, 
+    {
+        "source": "Right Super", 
+        "text": "\u53f3\u30b9\u30fc\u30d1\u30fc", 
+        "id": "RightSuper", 
+        "description": ""
+    }, 
+    {
+        "source": "Menu", 
+        "text": "\u30e1\u30cb\u30e5\u30fc", 
+        "id": "Menu", 
+        "description": ""
+    }, 
+    {
+        "source": "Shift", 
+        "text": "\u30b7\u30d5\u30c8", 
+        "id": "Shift", 
+        "description": ""
+    }, 
+    {
+        "source": "Ctrl", 
+        "text": "Ctrl", 
+        "id": "Ctrl", 
+        "description": ""
+    }, 
+    {
+        "source": "Alt", 
+        "text": "\u3059\u3079\u3066", 
+        "id": "Alt", 
+        "description": ""
+    }, 
+    {
+        "source": "Super", 
+        "text": "\u30b9\u30fc\u30d1\u30fc", 
+        "id": "Super", 
+        "description": ""
+    }, 
+    {
+        "source": "Cannot read settings", 
+        "text": "\u8a2d\u5b9a\u3092\u8aad\u307f\u53d6\u308c\u307e\u305b\u3093", 
+        "id": "Cannot read settings", 
+        "description": ""
+    }, 
+    {
+        "source": "Cannot write settings", 
+        "text": "\u8a2d\u5b9a\u3092\u66f8\u304d\u8fbc\u3081\u307e\u305b\u3093", 
+        "id": "Cannot write settings", 
+        "description": ""
+    }, 
+    {
+        "source": "Expand", 
+        "text": "\u5c55\u958b\u3059\u308b", 
+        "id": "Expand", 
+        "description": ""
+    }, 
+    {
+        "source": "Cannot parse value.", 
+        "text": "\u5024\u3092\u89e3\u6790\u3067\u304d\u307e\u305b\u3093\u3002", 
+        "id": "Cannot parse value.", 
+        "description": ""
+    }
+]

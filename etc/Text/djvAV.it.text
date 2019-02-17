@@ -1,0 +1,464 @@
+[
+    {
+        "source": "None", 
+        "text": "Nessuna", 
+        "id": "None", 
+        "description": ""
+    }, 
+    {
+        "source": "Left", 
+        "text": "Sinistra", 
+        "id": "Left", 
+        "description": ""
+    }, 
+    {
+        "source": "Top", 
+        "text": "Superiore", 
+        "id": "Top", 
+        "description": ""
+    }, 
+    {
+        "source": "Right", 
+        "text": "Destra", 
+        "id": "Right", 
+        "description": ""
+    }, 
+    {
+        "source": "Bottom", 
+        "text": "Parte inferiore", 
+        "id": "Bottom", 
+        "description": ""
+    }, 
+    {
+        "source": "Cannot read", 
+        "text": "Non posso leggere", 
+        "id": "Cannot read", 
+        "description": ""
+    }, 
+    {
+        "source": "Cannot write", 
+        "text": "Non posso scrivere", 
+        "id": "Cannot write", 
+        "description": ""
+    }, 
+    {
+        "source": "cannot write", 
+        "text": "non posso scrivere", 
+        "id": "cannot write", 
+        "description": ""
+    }, 
+    {
+        "source": "Unknown", 
+        "text": "Sconosciuto", 
+        "id": "Unknown", 
+        "description": ""
+    }, 
+    {
+        "source": "Out of memory", 
+        "text": "Fuori dalla memoria", 
+        "id": "Out of memory", 
+        "description": ""
+    }, 
+    {
+        "source": "Invalid value", 
+        "text": "valore non valido", 
+        "id": "Invalid value", 
+        "description": ""
+    }, 
+    {
+        "source": "Invalid enum", 
+        "text": "Enum non valido", 
+        "id": "Invalid enum", 
+        "description": ""
+    }, 
+    {
+        "source": "U8", 
+        "text": "U8", 
+        "id": "U8", 
+        "description": ""
+    }, 
+    {
+        "source": "S16", 
+        "text": "S16", 
+        "id": "S16", 
+        "description": ""
+    }, 
+    {
+        "source": "S32", 
+        "text": "S32", 
+        "id": "S32", 
+        "description": ""
+    }, 
+    {
+        "source": "F32", 
+        "text": "F32", 
+        "id": "F32", 
+        "description": ""
+    }, 
+    {
+        "source": "Cannot create OpenGL vertex shader.", 
+        "text": "Impossibile creare vertex shader OpenGL.", 
+        "id": "Cannot create OpenGL vertex shader.", 
+        "description": ""
+    }, 
+    {
+        "source": "Cannot compile OpenGL vertex shader", 
+        "text": "Impossibile compilare il vertex shader di OpenGL", 
+        "id": "Cannot compile OpenGL vertex shader", 
+        "description": ""
+    }, 
+    {
+        "source": "Cannot create OpenGL fragment shader.", 
+        "text": "Impossibile creare shader di frammenti OpenGL.", 
+        "id": "Cannot create OpenGL fragment shader.", 
+        "description": ""
+    }, 
+    {
+        "source": "Cannot compile OpenGL framgent shader", 
+        "text": "Impossibile compilare lo shader framgent OpenGL", 
+        "id": "Cannot compile OpenGL framgent shader", 
+        "description": ""
+    }, 
+    {
+        "source": "Cannot link program", 
+        "text": "Impossibile collegare il programma", 
+        "id": "Cannot link program", 
+        "description": ""
+    }, 
+    {
+        "source": "cannot read", 
+        "text": "non posso leggere", 
+        "id": "cannot read", 
+        "description": ""
+    }, 
+    {
+        "source": "cannot open", 
+        "text": "non si pu\u00f2 aprire", 
+        "id": "cannot open", 
+        "description": ""
+    }, 
+    {
+        "source": "Cannot open OpenAL device.", 
+        "text": "Impossibile aprire il dispositivo OpenAL.", 
+        "id": "Cannot open OpenAL device.", 
+        "description": ""
+    }, 
+    {
+        "source": "Cannot create OpenAL context.", 
+        "text": "Impossibile creare il contesto OpenAL.", 
+        "id": "Cannot create OpenAL context.", 
+        "description": ""
+    }, 
+    {
+        "source": "Cannot make OpenAL context current.", 
+        "text": "Impossibile rendere attuale il contesto OpenAL.", 
+        "id": "Cannot make OpenAL context current.", 
+        "description": ""
+    }, 
+    {
+        "source": "Cannot create GLFW window.", 
+        "text": "Impossibile creare la finestra GLFW.", 
+        "id": "Cannot create GLFW window.", 
+        "description": ""
+    }, 
+    {
+        "source": "This plugin provides Portable Network Graphics (PNG) image I/O.", 
+        "text": "Questo plugin fornisce I / O immagine Portable Network Graphics (PNG).", 
+        "id": "This plugin provides Portable Network Graphics (PNG) image I/O.", 
+        "description": ""
+    }, 
+    {
+        "source": "Cannot create shader", 
+        "text": "Impossibile creare shader", 
+        "id": "Cannot create shader", 
+        "description": ""
+    }, 
+    {
+        "source": "Float", 
+        "text": "Galleggiante", 
+        "id": "Float", 
+        "description": ""
+    }, 
+    {
+        "source": "Double", 
+        "text": "Doppio", 
+        "id": "Double", 
+        "description": ""
+    }, 
+    {
+        "source": "U8 Planar", 
+        "text": "U8 planare", 
+        "id": "U8 Planar", 
+        "description": ""
+    }, 
+    {
+        "source": "S16 Planar", 
+        "text": "S16 planare", 
+        "id": "S16 Planar", 
+        "description": ""
+    }, 
+    {
+        "source": "S32 Planar", 
+        "text": "S32 planare", 
+        "id": "S32 Planar", 
+        "description": ""
+    }, 
+    {
+        "source": "Float Planar", 
+        "text": "Float Planar", 
+        "id": "Float Planar", 
+        "description": ""
+    }, 
+    {
+        "source": "Double Planar", 
+        "text": "Doppia planare", 
+        "id": "Double Planar", 
+        "description": ""
+    }, 
+    {
+        "source": "This plugin provides FFmpeg image and audio I/O.", 
+        "text": "Questo plugin fornisce immagini FFmpeg e I / O audio.", 
+        "id": "This plugin provides FFmpeg image and audio I/O.", 
+        "description": ""
+    }, 
+    {
+        "source": "cannot find any streams in", 
+        "text": "non riesco a trovare alcun flusso in", 
+        "id": "cannot find any streams in", 
+        "description": ""
+    }, 
+    {
+        "source": "cannot find video codec for", 
+        "text": "non riesci a trovare il codec video per", 
+        "id": "cannot find video codec for", 
+        "description": ""
+    }, 
+    {
+        "source": "unsupported audio format ", 
+        "text": "formato audio non supportato", 
+        "id": "unsupported audio format ", 
+        "description": ""
+    }, 
+    {
+        "source": "cannot find audio codec for", 
+        "text": "non riesci a trovare il codec audio per", 
+        "id": "cannot find audio codec for", 
+        "description": ""
+    }, 
+    {
+        "source": "This plugin provides Joint Photographic Experts Group (JPEG) image I/O.", 
+        "text": "Questo plugin fornisce I / O immagine di Joint Photographic Experts Group (JPEG).", 
+        "id": "This plugin provides Joint Photographic Experts Group (JPEG) image I/O.", 
+        "description": ""
+    }, 
+    {
+        "source": "Cannot initialize GLFW.", 
+        "text": "Impossibile inizializzare GLFW.", 
+        "id": "Cannot initialize GLFW.", 
+        "description": ""
+    }, 
+    {
+        "source": "Cannot create OpenGL texture.", 
+        "text": "Impossibile creare la trama OpenGL.", 
+        "id": "Cannot create OpenGL texture.", 
+        "description": ""
+    }, 
+    {
+        "source": "Cannot create OpenGL frame buffer.", 
+        "text": "Impossibile creare il buffer del frame OpenGL.", 
+        "id": "Cannot create OpenGL frame buffer.", 
+        "description": ""
+    }, 
+    {
+        "source": "Cannot initialize OpenGL frame buffer.", 
+        "text": "Impossibile inizializzare il buffer del frame OpenGL.", 
+        "id": "Cannot initialize OpenGL frame buffer.", 
+        "description": ""
+    }, 
+    {
+        "source": "L U8", 
+        "text": "50 U8", 
+        "id": "L_U8", 
+        "description": ""
+    }, 
+    {
+        "source": "L U16", 
+        "text": "L U16", 
+        "id": "L_U16", 
+        "description": ""
+    }, 
+    {
+        "source": "L U32", 
+        "text": "L U32", 
+        "id": "L_U32", 
+        "description": ""
+    }, 
+    {
+        "source": "L F16", 
+        "text": "L F16", 
+        "id": "L_F16", 
+        "description": ""
+    }, 
+    {
+        "source": "L F32", 
+        "text": "L F32", 
+        "id": "L_F32", 
+        "description": ""
+    }, 
+    {
+        "source": "LA U8", 
+        "text": "L&#39;U8", 
+        "id": "LA_U8", 
+        "description": ""
+    }, 
+    {
+        "source": "LA U16", 
+        "text": "THE U16", 
+        "id": "LA_U16", 
+        "description": ""
+    }, 
+    {
+        "source": "LA U32", 
+        "text": "L&#39;U32", 
+        "id": "LA_U32", 
+        "description": ""
+    }, 
+    {
+        "source": "LA F16", 
+        "text": "THE F16", 
+        "id": "LA_F16", 
+        "description": ""
+    }, 
+    {
+        "source": "LA F32", 
+        "text": "LA F32", 
+        "id": "LA_F32", 
+        "description": ""
+    }, 
+    {
+        "source": "RGB U8", 
+        "text": "RGB U8", 
+        "id": "RGB_U8", 
+        "description": ""
+    }, 
+    {
+        "source": "RGB U10", 
+        "text": "RGB U10", 
+        "id": "RGB_U10", 
+        "description": ""
+    }, 
+    {
+        "source": "RGB U16", 
+        "text": "RGB U16", 
+        "id": "RGB_U16", 
+        "description": ""
+    }, 
+    {
+        "source": "RGB U32", 
+        "text": "RGB U32", 
+        "id": "RGB_U32", 
+        "description": ""
+    }, 
+    {
+        "source": "RGB F16", 
+        "text": "RGB F16", 
+        "id": "RGB_F16", 
+        "description": ""
+    }, 
+    {
+        "source": "RGB F32", 
+        "text": "RGB F32", 
+        "id": "RGB_F32", 
+        "description": ""
+    }, 
+    {
+        "source": "RGBA U8", 
+        "text": "RGBA U8", 
+        "id": "RGBA_U8", 
+        "description": ""
+    }, 
+    {
+        "source": "RGBA U16", 
+        "text": "RGBA U16", 
+        "id": "RGBA_U16", 
+        "description": ""
+    }, 
+    {
+        "source": "RGBA U32", 
+        "text": "RGBA U32", 
+        "id": "RGBA_U32", 
+        "description": ""
+    }, 
+    {
+        "source": "RGBA F16", 
+        "text": "RGBA F16", 
+        "id": "RGBA_F16", 
+        "description": ""
+    }, 
+    {
+        "source": "RGBA F32", 
+        "text": "RGBA F32", 
+        "id": "RGBA_F32", 
+        "description": ""
+    }, 
+    {
+        "source": "U10", 
+        "text": "U10", 
+        "id": "U10", 
+        "description": ""
+    }, 
+    {
+        "source": "U16", 
+        "text": "U16", 
+        "id": "U16", 
+        "description": ""
+    }, 
+    {
+        "source": "U32", 
+        "text": "U32", 
+        "id": "U32", 
+        "description": ""
+    }, 
+    {
+        "source": "F16", 
+        "text": "F16", 
+        "id": "F16", 
+        "description": ""
+    }, 
+    {
+        "source": "Cannot initialize FreeType.", 
+        "text": "Impossibile inizializzare FreeType.", 
+        "id": "Cannot initialize FreeType.", 
+        "description": ""
+    }, 
+    {
+        "source": "Cannot find any fonts.", 
+        "text": "Non riesci a trovare alcun carattere.", 
+        "id": "Cannot find any fonts.", 
+        "description": ""
+    }, 
+    {
+        "source": "This plugin provides NetPBM image I/O.", 
+        "text": "Questo plugin fornisce I / O immagine NetPBM.", 
+        "id": "This plugin provides NetPBM image I/O.", 
+        "description": ""
+    }, 
+    {
+        "source": "ASCII", 
+        "text": "ASCII", 
+        "id": "ASCII", 
+        "description": ""
+    }, 
+    {
+        "source": "Binary", 
+        "text": "Binario", 
+        "id": "Binary", 
+        "description": ""
+    }, 
+    {
+        "source": "Cannot parse value.", 
+        "text": "Impossibile analizzare il valore.", 
+        "id": "Cannot parse value.", 
+        "description": ""
+    }
+]

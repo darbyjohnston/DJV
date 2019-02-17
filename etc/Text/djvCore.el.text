@@ -1,0 +1,1604 @@
+[
+    {
+        "source": "Home", 
+        "text": "\u03a3\u03c0\u03af\u03c4\u03b9", 
+        "id": "Home", 
+        "description": ""
+    }, 
+    {
+        "source": "Desktop", 
+        "text": "\u0395\u03c0\u03b9\u03c6\u03ac\u03bd\u03b5\u03b9\u03b1 \u03b5\u03c1\u03b3\u03b1\u03c3\u03af\u03b1\u03c2", 
+        "id": "Desktop", 
+        "description": ""
+    }, 
+    {
+        "source": "Documents", 
+        "text": "\u0395\u03b3\u03b3\u03c1\u03b1\u03c6\u03b1", 
+        "id": "Documents", 
+        "description": ""
+    }, 
+    {
+        "source": "Downloads", 
+        "text": "\u039b\u03ae\u03c8\u03b5\u03b9\u03c2", 
+        "id": "Downloads", 
+        "description": ""
+    }, 
+    {
+        "source": "Application", 
+        "text": "\u0395\u03c6\u03b1\u03c1\u03bc\u03bf\u03b3\u03ae", 
+        "id": "Application", 
+        "description": ""
+    }, 
+    {
+        "source": "Log File", 
+        "text": "\u0391\u03c1\u03c7\u03b5\u03af\u03bf \u03ba\u03b1\u03c4\u03b1\u03b3\u03c1\u03b1\u03c6\u03ae\u03c2", 
+        "id": "LogFile", 
+        "description": ""
+    }, 
+    {
+        "source": "Settings File", 
+        "text": "\u0391\u03c1\u03c7\u03b5\u03af\u03bf \u03c1\u03c5\u03b8\u03bc\u03af\u03c3\u03b5\u03c9\u03bd", 
+        "id": "SettingsFile", 
+        "description": ""
+    }, 
+    {
+        "source": "Audio Directory", 
+        "text": "\u039a\u03b1\u03c4\u03ac\u03bb\u03bf\u03b3\u03bf\u03c2 \u03ae\u03c7\u03bf\u03c5", 
+        "id": "AudioDirectory", 
+        "description": ""
+    }, 
+    {
+        "source": "Fonts Directory", 
+        "text": "\u039a\u03b1\u03c4\u03ac\u03bb\u03bf\u03b3\u03bf\u03c2 \u03b3\u03c1\u03b1\u03bc\u03bc\u03b1\u03c4\u03bf\u03c3\u03b5\u03b9\u03c1\u03ce\u03bd", 
+        "id": "FontsDirectory", 
+        "description": ""
+    }, 
+    {
+        "source": "Icons Directory", 
+        "text": "\u039a\u03b1\u03c4\u03ac\u03bb\u03bf\u03b3\u03bf\u03c2 \u03b5\u03b9\u03ba\u03bf\u03bd\u03b9\u03b4\u03af\u03c9\u03bd", 
+        "id": "IconsDirectory", 
+        "description": ""
+    }, 
+    {
+        "source": "Images Directory", 
+        "text": "\u039a\u03b1\u03c4\u03ac\u03bb\u03bf\u03b3\u03bf\u03c2 \u03b5\u03b9\u03ba\u03cc\u03bd\u03c9\u03bd", 
+        "id": "ImagesDirectory", 
+        "description": ""
+    }, 
+    {
+        "source": "Models Directory", 
+        "text": "\u039a\u03b1\u03c4\u03ac\u03bb\u03bf\u03b3\u03bf\u03c2 \u03bc\u03bf\u03bd\u03c4\u03ad\u03bb\u03c9\u03bd", 
+        "id": "ModelsDirectory", 
+        "description": ""
+    }, 
+    {
+        "source": "Shaders Directory", 
+        "text": "\u039a\u03b1\u03c4\u03ac\u03bb\u03bf\u03b3\u03bf\u03c2 Shaders", 
+        "id": "ShadersDirectory", 
+        "description": ""
+    }, 
+    {
+        "source": "Text Directory", 
+        "text": "\u039a\u03b1\u03c4\u03ac\u03bb\u03bf\u03b3\u03bf\u03c2 \u03ba\u03b5\u03b9\u03bc\u03ad\u03bd\u03c9\u03bd", 
+        "id": "TextDirectory", 
+        "description": ""
+    }, 
+    {
+        "source": "Cannot parse value", 
+        "text": "\u0394\u03b5\u03bd \u03b5\u03af\u03bd\u03b1\u03b9 \u03b4\u03c5\u03bd\u03b1\u03c4\u03ae \u03b7 \u03b1\u03bd\u03ac\u03bb\u03c5\u03c3\u03b7 \u03c4\u03b7\u03c2 \u03c4\u03b9\u03bc\u03ae\u03c2", 
+        "id": "Cannot parse value", 
+        "description": ""
+    }, 
+    {
+        "source": "Linear", 
+        "text": "\u0393\u03c1\u03b1\u03bc\u03bc\u03b9\u03ba\u03cc\u03c2", 
+        "id": "Linear", 
+        "description": ""
+    }, 
+    {
+        "source": "Ease In", 
+        "text": "\u0395\u03c5\u03ba\u03bf\u03bb\u03af\u03b1 \u03c3\u03c4\u03bf", 
+        "id": "EaseIn", 
+        "description": ""
+    }, 
+    {
+        "source": "Ease Out", 
+        "text": "Ease Out", 
+        "id": "EaseOut", 
+        "description": ""
+    }, 
+    {
+        "source": "Smooth Step", 
+        "text": "\u039f\u03bc\u03b1\u03bb\u03ae \u0392\u03ae\u03bc\u03b1", 
+        "id": "SmoothStep", 
+        "description": ""
+    }, 
+    {
+        "source": "Sine", 
+        "text": "\u03c4\u03bf\u03c5", 
+        "id": "Sine", 
+        "description": ""
+    }, 
+    {
+        "source": "Error finding change notification for", 
+        "text": "\u03a3\u03c6\u03ac\u03bb\u03bc\u03b1 \u03ba\u03b1\u03c4\u03ac \u03c4\u03b7\u03bd \u03b5\u03cd\u03c1\u03b5\u03c3\u03b7 \u03b5\u03b9\u03b4\u03bf\u03c0\u03bf\u03af\u03b7\u03c3\u03b7\u03c2 \u03b1\u03bb\u03bb\u03b1\u03b3\u03ae\u03c2 \u03b3\u03b9\u03b1", 
+        "id": "Error finding change notification for", 
+        "description": ""
+    }, 
+    {
+        "source": "Error watching directory", 
+        "text": "\u03a3\u03c6\u03ac\u03bb\u03bc\u03b1 \u03ba\u03b1\u03c4\u03ac \u03c4\u03b7\u03bd \u03c0\u03b1\u03c1\u03b1\u03ba\u03bf\u03bb\u03bf\u03cd\u03b8\u03b7\u03c3\u03b7 \u03ba\u03b1\u03c4\u03b1\u03bb\u03cc\u03b3\u03bf\u03c5", 
+        "id": "Error watching directory", 
+        "description": ""
+    }, 
+    {
+        "source": "Cannot open file", 
+        "text": "\u0394\u03b5\u03bd \u03b5\u03af\u03bd\u03b1\u03b9 \u03b4\u03c5\u03bd\u03b1\u03c4\u03cc \u03bd\u03b1 \u03b1\u03bd\u03bf\u03af\u03be\u03b5\u03b9 \u03c4\u03bf \u03b1\u03c1\u03c7\u03b5\u03af\u03bf", 
+        "id": "Cannot open file", 
+        "description": ""
+    }, 
+    {
+        "source": "Cannot close file", 
+        "text": "\u0394\u03b5\u03bd \u03b5\u03af\u03bd\u03b1\u03b9 \u03b4\u03c5\u03bd\u03b1\u03c4\u03ae \u03b7 \u03ba\u03bb\u03b5\u03af\u03c3\u03b9\u03bc\u03bf \u03b1\u03c1\u03c7\u03b5\u03af\u03bf\u03c5", 
+        "id": "Cannot close file", 
+        "description": ""
+    }, 
+    {
+        "source": "Cannot map file", 
+        "text": "\u0394\u03b5\u03bd \u03b5\u03af\u03bd\u03b1\u03b9 \u03b4\u03c5\u03bd\u03b1\u03c4\u03ae \u03b7 \u03c7\u03b1\u03c1\u03c4\u03bf\u03b3\u03c1\u03ac\u03c6\u03b7\u03c3\u03b7 \u03b1\u03c1\u03c7\u03b5\u03af\u03bf\u03c5", 
+        "id": "Cannot map file", 
+        "description": ""
+    }, 
+    {
+        "source": "Cannot unmap file", 
+        "text": "\u0394\u03b5\u03bd \u03b5\u03af\u03bd\u03b1\u03b9 \u03b4\u03c5\u03bd\u03b1\u03c4\u03ae \u03b7 \u03b1\u03c0\u03b5\u03b3\u03ba\u03b1\u03c4\u03ac\u03c3\u03c4\u03b1\u03c3\u03b7 \u03c4\u03bf\u03c5 \u03b1\u03c1\u03c7\u03b5\u03af\u03bf\u03c5", 
+        "id": "Cannot unmap file", 
+        "description": ""
+    }, 
+    {
+        "source": "Cannot read file", 
+        "text": "\u0394\u03b5\u03bd \u03b5\u03af\u03bd\u03b1\u03b9 \u03b4\u03c5\u03bd\u03b1\u03c4\u03ae \u03b7 \u03b1\u03bd\u03ac\u03b3\u03bd\u03c9\u03c3\u03b7 \u03b1\u03c1\u03c7\u03b5\u03af\u03bf\u03c5", 
+        "id": "Cannot read file", 
+        "description": ""
+    }, 
+    {
+        "source": "Cannot write file", 
+        "text": "\u0394\u03b5\u03bd \u03b5\u03af\u03bd\u03b1\u03b9 \u03b4\u03c5\u03bd\u03b1\u03c4\u03ae \u03b7 \u03b5\u03b3\u03b3\u03c1\u03b1\u03c6\u03ae \u03b1\u03c1\u03c7\u03b5\u03af\u03bf\u03c5", 
+        "id": "Cannot write file", 
+        "description": ""
+    }, 
+    {
+        "source": "Slow", 
+        "text": "\u0391\u03c1\u03b3\u03cc\u03c2", 
+        "id": "Slow", 
+        "description": ""
+    }, 
+    {
+        "source": "Medium", 
+        "text": "\u039c\u03b5\u03c3\u03b1\u03af\u03bf", 
+        "id": "Medium", 
+        "description": ""
+    }, 
+    {
+        "source": "Fast", 
+        "text": "\u0393\u03c1\u03ae\u03b3\u03bf\u03c1\u03b1", 
+        "id": "Fast", 
+        "description": ""
+    }, 
+    {
+        "source": "Very Fast", 
+        "text": "\u03a0\u03bf\u03bb\u03cd \u03b3\u03c1\u03ae\u03b3\u03bf\u03c1\u03b1", 
+        "id": "VeryFast", 
+        "description": ""
+    }, 
+    {
+        "source": "Parent Changed", 
+        "text": "\u039f \u03b3\u03bf\u03bd\u03ad\u03b1\u03c2 \u03ac\u03bb\u03bb\u03b1\u03be\u03b5", 
+        "id": "ParentChanged", 
+        "description": ""
+    }, 
+    {
+        "source": "Child Added", 
+        "text": "\u03a0\u03c1\u03bf\u03c3\u03c4\u03ad\u03b8\u03b7\u03ba\u03b5 \u03c0\u03b1\u03b9\u03b4\u03af", 
+        "id": "ChildAdded", 
+        "description": ""
+    }, 
+    {
+        "source": "Child Removed", 
+        "text": "\u03a4\u03bf \u03c0\u03b1\u03b9\u03b4\u03af \u03b1\u03c6\u03b1\u03b9\u03c1\u03ad\u03b8\u03b7\u03ba\u03b5", 
+        "id": "ChildRemoved", 
+        "description": ""
+    }, 
+    {
+        "source": "Child Order", 
+        "text": "\u03a0\u03b1\u03b9\u03b4\u03b9\u03ba\u03ae \u03a0\u03b1\u03c1\u03b1\u03b3\u03b3\u03b5\u03bb\u03af\u03b1", 
+        "id": "ChildOrder", 
+        "description": ""
+    }, 
+    {
+        "source": "Locale", 
+        "text": "\u03c4\u03bf\u03c0\u03b9\u03ba\u03cc\u03c2", 
+        "id": "Locale", 
+        "description": ""
+    }, 
+    {
+        "source": "Update", 
+        "text": "\u0395\u03ba\u03c3\u03c5\u03b3\u03c7\u03c1\u03bf\u03bd\u03af\u03b6\u03c9", 
+        "id": "Update", 
+        "description": ""
+    }, 
+    {
+        "source": "Style", 
+        "text": "\u03a3\u03c4\u03c5\u03bb", 
+        "id": "Style", 
+        "description": ""
+    }, 
+    {
+        "source": "Pre Layout", 
+        "text": "\u03a0\u03c1\u03bf\u03c1\u03cd\u03b8\u03bc\u03b9\u03c3\u03b7", 
+        "id": "PreLayout", 
+        "description": ""
+    }, 
+    {
+        "source": "Layout", 
+        "text": "\u03a3\u03c7\u03ad\u03b4\u03b9\u03bf", 
+        "id": "Layout", 
+        "description": ""
+    }, 
+    {
+        "source": "Clip", 
+        "text": "\u03a3\u03c5\u03bd\u03b4\u03b5\u03c4\u03ae\u03c1\u03b1\u03c2", 
+        "id": "Clip", 
+        "description": ""
+    }, 
+    {
+        "source": "Paint", 
+        "text": "\u03a7\u03c1\u03ce\u03bc\u03b1", 
+        "id": "Paint", 
+        "description": ""
+    }, 
+    {
+        "source": "Paint Overlay", 
+        "text": "\u0395\u03c0\u03b9\u03ba\u03ac\u03bb\u03c5\u03c8\u03b7 \u03c7\u03c1\u03c9\u03bc\u03ac\u03c4\u03c9\u03bd", 
+        "id": "PaintOverlay", 
+        "description": ""
+    }, 
+    {
+        "source": "Pointer Enter", 
+        "text": "\u0395\u03b9\u03c3\u03b1\u03b3\u03c9\u03b3\u03ae \u03b4\u03b5\u03af\u03ba\u03c4\u03b7", 
+        "id": "PointerEnter", 
+        "description": ""
+    }, 
+    {
+        "source": "Pointer Leave", 
+        "text": "\u0388\u03be\u03bf\u03b4\u03bf\u03c2 \u03b4\u03b5\u03af\u03ba\u03c4\u03b7", 
+        "id": "PointerLeave", 
+        "description": ""
+    }, 
+    {
+        "source": "Pointer Move", 
+        "text": "\u039c\u03b5\u03c4\u03b1\u03ba\u03af\u03bd\u03b7\u03c3\u03b7 \u03b4\u03b5\u03af\u03ba\u03c4\u03b7", 
+        "id": "PointerMove", 
+        "description": ""
+    }, 
+    {
+        "source": "Button Press", 
+        "text": "\u039a\u03bf\u03c5\u03bc\u03c0\u03af \u03a0\u03b9\u03ad\u03c3\u03c4\u03b5", 
+        "id": "ButtonPress", 
+        "description": ""
+    }, 
+    {
+        "source": "Button Release", 
+        "text": "\u0391\u03c0\u03b5\u03bb\u03b5\u03c5\u03b8\u03ad\u03c1\u03c9\u03c3\u03b7 \u03ba\u03bf\u03c5\u03bc\u03c0\u03b9\u03bf\u03cd", 
+        "id": "ButtonRelease", 
+        "description": ""
+    }, 
+    {
+        "source": "Scroll", 
+        "text": "\u03a0\u03ac\u03c0\u03c5\u03c1\u03bf\u03c2", 
+        "id": "Scroll", 
+        "description": ""
+    }, 
+    {
+        "source": "Drop", 
+        "text": "\u03a0\u03c4\u03ce\u03c3\u03b7", 
+        "id": "Drop", 
+        "description": ""
+    }, 
+    {
+        "source": "Keyboard Focus", 
+        "text": "Focus Focus", 
+        "id": "KeyboardFocus", 
+        "description": ""
+    }, 
+    {
+        "source": "Keyboard Focus Lost", 
+        "text": "\u03a3\u03c6\u03ac\u03bb\u03bc\u03b1 \u03b5\u03c3\u03c4\u03af\u03b1\u03c3\u03b7\u03c2 \u03c0\u03bb\u03b7\u03ba\u03c4\u03c1\u03bf\u03bb\u03bf\u03b3\u03af\u03bf\u03c5", 
+        "id": "KeyboardFocusLost", 
+        "description": ""
+    }, 
+    {
+        "source": "Key", 
+        "text": "\u039a\u03bb\u03b5\u03b9\u03b4\u03af", 
+        "id": "Key", 
+        "description": ""
+    }, 
+    {
+        "source": "Text", 
+        "text": "\u039a\u03b5\u03af\u03bc\u03b5\u03bd\u03bf", 
+        "id": "Text", 
+        "description": ""
+    }, 
+    {
+        "source": "File", 
+        "text": "\u0391\u03c1\u03c7\u03b5\u03af\u03bf", 
+        "id": "File", 
+        "description": ""
+    }, 
+    {
+        "source": "Sequence", 
+        "text": "\u0391\u03bb\u03bb\u03b7\u03bb\u03bf\u03c5\u03c7\u03af\u03b1", 
+        "id": "Sequence", 
+        "description": ""
+    }, 
+    {
+        "source": "Directory", 
+        "text": "\u0395\u03c5\u03c1\u03b5\u03c4\u03ae\u03c1\u03b9\u03bf", 
+        "id": "Directory", 
+        "description": ""
+    }, 
+    {
+        "source": "Name", 
+        "text": "\u039f\u03bd\u03bf\u03bc\u03b1", 
+        "id": "Name", 
+        "description": ""
+    }, 
+    {
+        "source": "Size", 
+        "text": "\u039c\u03ad\u03b3\u03b5\u03b8\u03bf\u03c2", 
+        "id": "Size", 
+        "description": ""
+    }, 
+    {
+        "source": "Permissions", 
+        "text": "\u0394\u03b9\u03ba\u03b1\u03b9\u03ce\u03bc\u03b1\u03c4\u03b1", 
+        "id": "Permissions", 
+        "description": ""
+    }, 
+    {
+        "source": "Type", 
+        "text": "\u03a4\u03cd\u03c0\u03bf\u03c2", 
+        "id": "Type", 
+        "description": ""
+    }, 
+    {
+        "source": "Cannot parse value.", 
+        "text": "\u0394\u03b5\u03bd \u03b5\u03af\u03bd\u03b1\u03b9 \u03b4\u03c5\u03bd\u03b1\u03c4\u03ae \u03b7 \u03b1\u03bd\u03ac\u03bb\u03c5\u03c3\u03b7 \u03c4\u03b7\u03c2 \u03c4\u03b9\u03bc\u03ae\u03c2.", 
+        "id": "Cannot parse value.", 
+        "description": ""
+    }, 
+    {
+        "source": "MSB", 
+        "text": "MSB", 
+        "id": "MSB", 
+        "description": ""
+    }, 
+    {
+        "source": "LSB", 
+        "text": "LSB", 
+        "id": "LSB", 
+        "description": ""
+    }, 
+    {
+        "source": "Amargosa Canyon Speckled Dace", 
+        "text": "\u03a6\u03b1\u03c1\u03ac\u03b3\u03b3\u03b9 Amargosa Speckled Dace", 
+        "id": "Amargosa Canyon Speckled Dace", 
+        "description": ""
+    }, 
+    {
+        "source": "Amargosa River Pupfish", 
+        "text": "Amargosa River Pupfish", 
+        "id": "Amargosa River Pupfish", 
+        "description": ""
+    }, 
+    {
+        "source": "American Shad", 
+        "text": "American Shad", 
+        "id": "American Shad", 
+        "description": ""
+    }, 
+    {
+        "source": "Arroyo Chub", 
+        "text": "Arroyo Chub", 
+        "id": "Arroyo Chub", 
+        "description": ""
+    }, 
+    {
+        "source": "Bigeye Marbled Sculpin", 
+        "text": "\u039c\u03b5\u03c3\u03bf\u03b3\u03b5\u03b9\u03b1\u03ba\u03cc \u03bc\u03b1\u03c1\u03bc\u03ac\u03c1\u03b9\u03bd\u03bf Sculpin", 
+        "id": "Bigeye Marbled Sculpin", 
+        "description": ""
+    }, 
+    {
+        "source": "Bigscale Logperch", 
+        "text": "\u039c\u03b5\u03b3\u03ac\u03bb\u03b7 \u03ba\u03bb\u03af\u03bc\u03b1\u03ba\u03b1 Logperch", 
+        "id": "Bigscale Logperch", 
+        "description": ""
+    }, 
+    {
+        "source": "Black Bullhead", 
+        "text": "Black Bullhead", 
+        "id": "Black Bullhead", 
+        "description": ""
+    }, 
+    {
+        "source": "Black Crappie", 
+        "text": "\u039c\u03b1\u03cd\u03c1\u03bf Crappie", 
+        "id": "Black Crappie", 
+        "description": ""
+    }, 
+    {
+        "source": "Blue Catfish", 
+        "text": "\u039c\u03c0\u03bb\u03b5 \u03b3\u03b1\u03c4\u03cc\u03c8\u03b1\u03c1\u03bf", 
+        "id": "Blue Catfish", 
+        "description": ""
+    }, 
+    {
+        "source": "Blue Chub", 
+        "text": "Blue Chub", 
+        "id": "Blue Chub", 
+        "description": ""
+    }, 
+    {
+        "source": "Bluefin Killifish", 
+        "text": "\u039a\u03c5\u03b1\u03bd\u03cc\u03c8\u03b1\u03c1\u03bf", 
+        "id": "Bluefin Killifish", 
+        "description": ""
+    }, 
+    {
+        "source": "Bluegill", 
+        "text": "Bluegill", 
+        "id": "Bluegill", 
+        "description": ""
+    }, 
+    {
+        "source": "Lepomis macrochirus", 
+        "text": "Lepomis macrochirus", 
+        "id": "Lepomis macrochirus", 
+        "description": ""
+    }, 
+    {
+        "source": "Bonytail", 
+        "text": "\u039f\u03c3\u03bc\u03ae", 
+        "id": "Bonytail", 
+        "description": ""
+    }, 
+    {
+        "source": "Brook Stickleback", 
+        "text": "Brook Stickleback", 
+        "id": "Brook Stickleback", 
+        "description": ""
+    }, 
+    {
+        "source": "Brook Trout", 
+        "text": "\u03a0\u03ad\u03c3\u03c4\u03c1\u03bf\u03c6\u03b1", 
+        "id": "Brook Trout", 
+        "description": ""
+    }, 
+    {
+        "source": "Brown Bullhead", 
+        "text": "Brown Bullhead", 
+        "id": "Brown Bullhead", 
+        "description": ""
+    }, 
+    {
+        "source": "Brown Trout", 
+        "text": "\u039a\u03b1\u03c6\u03ad \u03c0\u03ad\u03c3\u03c4\u03c1\u03bf\u03c6\u03b1", 
+        "id": "Brown Trout", 
+        "description": ""
+    }, 
+    {
+        "source": "Bull Trout", 
+        "text": "\u03a0\u03ad\u03c3\u03c4\u03c1\u03bf\u03c6\u03b5\u03c2 \u03c4\u03b1\u03cd\u03c1\u03c9\u03bd", 
+        "id": "Bull Trout", 
+        "description": ""
+    }, 
+    {
+        "source": "California Coast Fall Chinook Salmon", 
+        "text": "\u039a\u03b1\u03bb\u03b9\u03c6\u03cc\u03c1\u03bd\u03b9\u03b1 \u0391\u03ba\u03c4\u03ae \u03a6\u03b8\u03b9\u03bd\u03cc\u03c0\u03c9\u03c1\u03bf Chinook \u03a3\u03bf\u03bb\u03bf\u03bc\u03cc\u03c2", 
+        "id": "California Coast Fall Chinook Salmon", 
+        "description": ""
+    }, 
+    {
+        "source": "California Golden Trout", 
+        "text": "\u039a\u03b1\u03bb\u03b9\u03c6\u03cc\u03c1\u03bd\u03b9\u03b1 Golden Trout", 
+        "id": "California Golden Trout", 
+        "description": ""
+    }, 
+    {
+        "source": "California Killifish", 
+        "text": "\u039a\u03b1\u03bb\u03b9\u03c6\u03cc\u03c1\u03bd\u03b9\u03b1 Killifish", 
+        "id": "California Killifish", 
+        "description": ""
+    }, 
+    {
+        "source": "California Tilapia", 
+        "text": "\u039a\u03b1\u03bb\u03b9\u03c6\u03cc\u03c1\u03bd\u03b9\u03b1 Tilapia", 
+        "id": "California Tilapia", 
+        "description": ""
+    }, 
+    {
+        "source": "Central California Coast Winter Steelhead", 
+        "text": "\u039a\u03b5\u03bd\u03c4\u03c1\u03b9\u03ba\u03ae \u039a\u03b1\u03bb\u03b9\u03c6\u03cc\u03c1\u03bd\u03b9\u03b1 \u0391\u03ba\u03c4\u03ae \u03a7\u03b5\u03b9\u03bc\u03ce\u03bd\u03b1\u03c2 Steelhead", 
+        "id": "Central California Coast Winter Steelhead", 
+        "description": ""
+    }, 
+    {
+        "source": "Central California Roach", 
+        "text": "\u039a\u03b5\u03bd\u03c4\u03c1\u03b9\u03ba\u03ae \u039a\u03b1\u03bb\u03b9\u03c6\u03cc\u03c1\u03bd\u03b9\u03b1 Roach", 
+        "id": "Central California Roach", 
+        "description": ""
+    }, 
+    {
+        "source": "Central Coast Coho Salmon", 
+        "text": "\u039a\u03b5\u03bd\u03c4\u03c1\u03b9\u03ba\u03ae \u0391\u03ba\u03c4\u03ae Coho Salmon", 
+        "id": "Central Coast Coho Salmon", 
+        "description": ""
+    }, 
+    {
+        "source": "Central Valley Fall Chinook Salmon", 
+        "text": "\u039a\u03b5\u03bd\u03c4\u03c1\u03b9\u03ba\u03ae \u039a\u03bf\u03b9\u03bb\u03ac\u03b4\u03b1 \u03c4\u03b7\u03c2 \u039a\u03bf\u03b9\u03bb\u03ac\u03b4\u03b1\u03c2 Chinook Salmon", 
+        "id": "Central Valley Fall Chinook Salmon", 
+        "description": ""
+    }, 
+    {
+        "source": "Central Valley late Fall Chinook Salmon", 
+        "text": "\u039a\u03b5\u03bd\u03c4\u03c1\u03b9\u03ba\u03ae \u03ba\u03bf\u03b9\u03bb\u03ac\u03b4\u03b1 \u03b1\u03c1\u03b3\u03ac Fall Chinook \u03a3\u03bf\u03bb\u03bf\u03bc\u03cc\u03c2", 
+        "id": "Central Valley late Fall Chinook Salmon", 
+        "description": ""
+    }, 
+    {
+        "source": "Oncorhynchus tshawytscha", 
+        "text": "Oncorhynchus tshawytscha", 
+        "id": "Oncorhynchus tshawytscha", 
+        "description": ""
+    }, 
+    {
+        "source": "Central Valley spring Chinook Salmon", 
+        "text": "\u039a\u03b5\u03bd\u03c4\u03c1\u03b9\u03ba\u03ae \u03ac\u03bd\u03bf\u03b9\u03be\u03b7 \u03c4\u03b7\u03c2 \u03ba\u03bf\u03b9\u03bb\u03ac\u03b4\u03b1\u03c2 Chinook Salmon", 
+        "id": "Central Valley spring Chinook Salmon", 
+        "description": ""
+    }, 
+    {
+        "source": "Central Valley Steelhead", 
+        "text": "\u039a\u03b5\u03bd\u03c4\u03c1\u03b9\u03ba\u03ae \u03ba\u03bf\u03b9\u03bb\u03ac\u03b4\u03b1 Steelhead", 
+        "id": "Central Valley Steelhead", 
+        "description": ""
+    }, 
+    {
+        "source": "Central Valley Winter Chinook Salmon", 
+        "text": "\u039a\u03b5\u03bd\u03c4\u03c1\u03b9\u03ba\u03ae \u03ba\u03bf\u03b9\u03bb\u03ac\u03b4\u03b1 Chinook \u03c3\u03bf\u03bb\u03bf\u03bc\u03bf\u03cd \u03c7\u03b5\u03b9\u03bc\u03ce\u03bd\u03b1", 
+        "id": "Central Valley Winter Chinook Salmon", 
+        "description": ""
+    }, 
+    {
+        "source": "Channel Catfish", 
+        "text": "Channel Catfish", 
+        "id": "Channel Catfish", 
+        "description": ""
+    }, 
+    {
+        "source": "Chum Salmon", 
+        "text": "Chum Salmon", 
+        "id": "Chum Salmon", 
+        "description": ""
+    }, 
+    {
+        "source": "Clear Lake Hitch", 
+        "text": "Clear Lake Hitch", 
+        "id": "Clear Lake Hitch", 
+        "description": ""
+    }, 
+    {
+        "source": "Clear Lake Prickly Sculpin", 
+        "text": "\u039a\u03b1\u03b8\u03b1\u03c1\u03ae \u03bb\u03af\u03bc\u03bd\u03b7 Prickly Sculpin", 
+        "id": "Clear Lake Prickly Sculpin", 
+        "description": ""
+    }, 
+    {
+        "source": "Clear Lake Roach", 
+        "text": "Clear Lake Roach", 
+        "id": "Clear Lake Roach", 
+        "description": ""
+    }, 
+    {
+        "source": "Clear Lake Splittail", 
+        "text": "Clear Lake Splittail", 
+        "id": "Clear Lake Splittail", 
+        "description": ""
+    }, 
+    {
+        "source": "Clear Lake Tule Perch", 
+        "text": "Clear Lake Tule", 
+        "id": "Clear Lake Tule Perch", 
+        "description": ""
+    }, 
+    {
+        "source": "Coastal Cutthroat Trout", 
+        "text": "\u03a0\u03b1\u03c1\u03b1\u03b8\u03b1\u03bb\u03ac\u03c3\u03c3\u03b9\u03b1 \u03c0\u03ad\u03c3\u03c4\u03c1\u03bf\u03c6\u03b1", 
+        "id": "Coastal Cutthroat Trout", 
+        "description": ""
+    }, 
+    {
+        "source": "Coastal Rainbow Trout", 
+        "text": "\u03a0\u03b1\u03c1\u03ac\u03ba\u03c4\u03b9\u03b1 \u03c4\u03c1\u03bf\u03c0\u03b9\u03ba\u03ae \u03c0\u03ad\u03c3\u03c4\u03c1\u03bf\u03c6\u03b1", 
+        "id": "Coastal Rainbow Trout", 
+        "description": ""
+    }, 
+    {
+        "source": "Coastal Threespine Stickleback", 
+        "text": "Coastle Threepine Stickleback", 
+        "id": "Coastal Threespine Stickleback", 
+        "description": ""
+    }, 
+    {
+        "source": "Coastrange Sculpin", 
+        "text": "\u0391\u03ba\u03c4\u03bf\u03c0\u03bb\u03bf\u03ca\u03ba\u03ae Sculpin", 
+        "id": "Coastrange Sculpin", 
+        "description": ""
+    }, 
+    {
+        "source": "Colorado Pikeminnow", 
+        "text": "\u039a\u03bf\u03bb\u03bf\u03c1\u03ac\u03bd\u03c4\u03bf Pikeminnow", 
+        "id": "Colorado Pikeminnow", 
+        "description": ""
+    }, 
+    {
+        "source": "Colorado River Cutthroat Trout", 
+        "text": "\u03a0\u03ad\u03c3\u03c4\u03c1\u03bf\u03c6\u03b1 \u03ba\u03bf\u03c1\u03b1\u03bb\u03bb\u03b9\u03bf\u03b3\u03b5\u03bd\u03ce\u03bd \u03c0\u03bf\u03c4\u03b1\u03bc\u03ce\u03bd \u03c4\u03bf\u03c5 \u039a\u03bf\u03bb\u03bf\u03c1\u03ac\u03bd\u03c4\u03bf", 
+        "id": "Colorado River Cutthroat Trout", 
+        "description": ""
+    }, 
+    {
+        "source": "Common Carp", 
+        "text": "\u039a\u03bf\u03b9\u03bd\u03cc\u03c2 \u039a\u03c5\u03c0\u03c1\u03af\u03bd\u03bf\u03c2", 
+        "id": "Common Carp", 
+        "description": ""
+    }, 
+    {
+        "source": "Cottonball Marsh Pupfish", 
+        "text": "\u0392\u03b1\u03bc\u03b2\u03ac\u03ba\u03b9 \u03b2\u03b1\u03ba\u03b1\u03bb\u03ac\u03bf\u03c5", 
+        "id": "Cottonball Marsh Pupfish", 
+        "description": ""
+    }, 
+    {
+        "source": "Cow Head Tui Chub", 
+        "text": "\u0391\u03b3\u03b5\u03bb\u03ac\u03b4\u03b1 \u03ba\u03b5\u03c6\u03ac\u03bb\u03b9 Tui Chub", 
+        "id": "Cow Head Tui Chub", 
+        "description": ""
+    }, 
+    {
+        "source": "Delta Smelt", 
+        "text": "Delta Melt", 
+        "id": "Delta Smelt", 
+        "description": ""
+    }, 
+    {
+        "source": "Desert Pupfish", 
+        "text": "\u0388\u03c1\u03b7\u03bc\u03bf\u03c2 \u03ba\u03bf\u03c5\u03c4\u03ac\u03b2\u03b9", 
+        "id": "Desert Pupfish", 
+        "description": ""
+    }, 
+    {
+        "source": "Eagle Lake Rainbow Trout", 
+        "text": "\u03a0\u03ad\u03c3\u03c4\u03c1\u03bf\u03c6\u03b1\u03c2 \u03bf\u03c5\u03c1\u03ac\u03bd\u03b9\u03bf\u03c5 \u03c4\u03cc\u03be\u03bf\u03c5", 
+        "id": "Eagle Lake Rainbow Trout", 
+        "description": ""
+    }, 
+    {
+        "source": "Eagle Lake Tui Chub", 
+        "text": "\u039b\u03af\u03bc\u03bd\u03b7 \u03b1\u03b5\u03c4\u03ce\u03bd Tui Chub", 
+        "id": "Eagle Lake Tui Chub", 
+        "description": ""
+    }, 
+    {
+        "source": "Eulachon", 
+        "text": "Eulachon", 
+        "id": "Eulachon", 
+        "description": ""
+    }, 
+    {
+        "source": "Fathead Minnow", 
+        "text": "Fathead Minnow", 
+        "id": "Fathead Minnow", 
+        "description": ""
+    }, 
+    {
+        "source": "Flannelmouth Sucker", 
+        "text": "Flannelmouth Sucker", 
+        "id": "Flannelmouth Sucker", 
+        "description": ""
+    }, 
+    {
+        "source": "Flathead Catfish", 
+        "text": "Flathead \u03b3\u03b1\u03c4\u03cc\u03c8\u03b1\u03c1\u03bf", 
+        "id": "Flathead Catfish", 
+        "description": ""
+    }, 
+    {
+        "source": "Golden Shiner", 
+        "text": "Golden Shiner", 
+        "id": "Golden Shiner", 
+        "description": ""
+    }, 
+    {
+        "source": "Goldfish", 
+        "text": "\u03a7\u03c1\u03c5\u03c3\u03cc\u03c8\u03b1\u03c1\u03bf", 
+        "id": "Goldfish", 
+        "description": ""
+    }, 
+    {
+        "source": "Goose Lake Lamprey", 
+        "text": "\u0393\u03ba\u03cc\u03b6 \u039b\u03ac\u03bc\u03c0\u03b5\u03c1\u03b9", 
+        "id": "Goose Lake Lamprey", 
+        "description": ""
+    }, 
+    {
+        "source": "Goose Lake Redband Trout", 
+        "text": "\u039b\u03af\u03bc\u03bd\u03b7 \u03c4\u03b7\u03c2 \u03c7\u03ae\u03bd\u03b1\u03c2 Redband \u03a0\u03ad\u03c3\u03c4\u03c1\u03bf\u03c6\u03b1", 
+        "id": "Goose Lake Redband Trout", 
+        "description": ""
+    }, 
+    {
+        "source": "Goose Lake Sucker", 
+        "text": "\u0393\u03b1\u03bb\u03ac\u03b6\u03b9\u03b5\u03c2 \u03bb\u03af\u03bc\u03bd\u03b5\u03c2", 
+        "id": "Goose Lake Sucker", 
+        "description": ""
+    }, 
+    {
+        "source": "Goose Lake Tui Chub", 
+        "text": "\u03a7\u03ae\u03bd\u03b1 \u03bb\u03af\u03bc\u03bd\u03b7 Tui Chub", 
+        "id": "Goose Lake Tui Chub", 
+        "description": ""
+    }, 
+    {
+        "source": "Grass Carp", 
+        "text": "\u03a7\u03bb\u03bf\u03bf\u03c4\u03ac\u03c0\u03b7\u03c4\u03b1", 
+        "id": "Grass Carp", 
+        "description": ""
+    }, 
+    {
+        "source": "Green Sunfish", 
+        "text": "Green Sunfish", 
+        "id": "Green Sunfish", 
+        "description": ""
+    }, 
+    {
+        "source": "Gualala Roach", 
+        "text": "Gualala Roach", 
+        "id": "Gualala Roach", 
+        "description": ""
+    }, 
+    {
+        "source": "Hardhead", 
+        "text": "Hardhead", 
+        "id": "Hardhead", 
+        "description": ""
+    }, 
+    {
+        "source": "High Rock Springs Tui Chub", 
+        "text": "High Rock Springs Tui Chub", 
+        "id": "High Rock Springs Tui Chub", 
+        "description": ""
+    }, 
+    {
+        "source": "Humboldt Sucker", 
+        "text": "Humboldt Sucker", 
+        "id": "Humboldt Sucker", 
+        "description": ""
+    }, 
+    {
+        "source": "Inland Threespine Stickleback", 
+        "text": "\u0395\u03bd\u03b4\u03bf\u03b4\u03b1\u03c0\u03ad\u03b4\u03b9\u03bf Stickleback \u03b5\u03c3\u03c9\u03c4\u03b5\u03c1\u03b9\u03ba\u03bf\u03cd \u03c7\u03ce\u03c1\u03bf\u03c5", 
+        "id": "Inland Threespine Stickleback", 
+        "description": ""
+    }, 
+    {
+        "source": "Kern Brook Lamprey", 
+        "text": "Kern Brook Lamprey", 
+        "id": "Kern Brook Lamprey", 
+        "description": ""
+    }, 
+    {
+        "source": "Kern River Rainbow Trout", 
+        "text": "\u03a0\u03ad\u03c3\u03c4\u03c1\u03bf\u03c6\u03b5\u03c2 \u03c4\u03bf\u03c5 \u03bf\u03c5\u03c1\u03ac\u03bd\u03b9\u03bf\u03c5 \u03c4\u03cc\u03be\u03bf\u03c5", 
+        "id": "Kern River Rainbow Trout", 
+        "description": ""
+    }, 
+    {
+        "source": "Klamath Largescale Sucker", 
+        "text": "Klamath Largescale Sucker", 
+        "id": "Klamath Largescale Sucker", 
+        "description": ""
+    }, 
+    {
+        "source": "Klamath Mountains Province Summer Steelhead", 
+        "text": "\u0395\u03c0\u03b1\u03c1\u03c7\u03af\u03b1 Klamath Mountains \u039a\u03b1\u03bb\u03bf\u03ba\u03b1\u03b9\u03c1\u03b9\u03bd\u03cc Steelhead", 
+        "id": "Klamath Mountains Province Summer Steelhead", 
+        "description": ""
+    }, 
+    {
+        "source": "Klamath Mountains Province Winter Steelhead", 
+        "text": "Klamath \u03b2\u03bf\u03c5\u03bd\u03cc \u03b5\u03c0\u03b1\u03c1\u03c7\u03af\u03b1 \u03a7\u03b5\u03b9\u03bc\u03ce\u03bd\u03b1\u03c2 Steelhead", 
+        "id": "Klamath Mountains Province Winter Steelhead", 
+        "description": ""
+    }, 
+    {
+        "source": "Klamath River Lamprey", 
+        "text": "\u039f \u03c0\u03bf\u03c4\u03b1\u03bc\u03cc\u03c2 Klamath Lamprey", 
+        "id": "Klamath River Lamprey", 
+        "description": ""
+    }, 
+    {
+        "source": "Klamath Smallscale Sucker", 
+        "text": "Klamath Smallscale Sucker", 
+        "id": "Klamath Smallscale Sucker", 
+        "description": ""
+    }, 
+    {
+        "source": "Klamath Speckled Dace", 
+        "text": "Klamath Speckled Dace", 
+        "id": "Klamath Speckled Dace", 
+        "description": ""
+    }, 
+    {
+        "source": "Klamath Tui Chub", 
+        "text": "Klamath Tui Chub", 
+        "id": "Klamath Tui Chub", 
+        "description": ""
+    }, 
+    {
+        "source": "Lahontan Cutthroat Trout", 
+        "text": "\u039b\u03b9\u03b8\u03cc\u03c3\u03c4\u03c1\u03c9\u03c4\u03b1 \u039b\u03ac\u03bf\u03c4\u03bf\u03bd", 
+        "id": "Lahontan Cutthroat Trout", 
+        "description": ""
+    }, 
+    {
+        "source": "Lahontan Lake Tui Chub", 
+        "text": "Lahontan \u03bb\u03af\u03bc\u03bd\u03b7 Tui Chub", 
+        "id": "Lahontan Lake Tui Chub", 
+        "description": ""
+    }, 
+    {
+        "source": "Lahontan Mountain Sucker", 
+        "text": "\u0395\u03ba\u03c4\u03bf\u03be\u03b5\u03c5\u03c4\u03ae\u03c2 \u03b2\u03bf\u03c5\u03bd\u03ce\u03bd Lahontan", 
+        "id": "Lahontan Mountain Sucker", 
+        "description": ""
+    }, 
+    {
+        "source": "Lahontan Redside", 
+        "text": "Lahontan Redside", 
+        "id": "Lahontan Redside", 
+        "description": ""
+    }, 
+    {
+        "source": "Lahontan Speckled Dace", 
+        "text": "Lahontan Speckled Dace", 
+        "id": "Lahontan Speckled Dace", 
+        "description": ""
+    }, 
+    {
+        "source": "Lahontan Stream Tui Chub", 
+        "text": "Lahontan \u03c1\u03b5\u03cd\u03bc\u03b1 Tui Chub", 
+        "id": "Lahontan Stream Tui Chub", 
+        "description": ""
+    }, 
+    {
+        "source": "Lake Trout", 
+        "text": "\u039b\u03af\u03bc\u03bd\u03b7 \u03a0\u03ad\u03c3\u03c4\u03c1\u03bf\u03c6\u03b1", 
+        "id": "Lake Trout", 
+        "description": ""
+    }, 
+    {
+        "source": "Largemouth Bass", 
+        "text": "\u039b\u03b1\u03c5\u03c1\u03ac\u03ba\u03b9", 
+        "id": "Largemouth Bass", 
+        "description": ""
+    }, 
+    {
+        "source": "Little Kern Golden Trout", 
+        "text": "\u039c\u03b9\u03ba\u03c1\u03ae Kern \u03c7\u03c1\u03c5\u03c3\u03ae \u03c0\u03ad\u03c3\u03c4\u03c1\u03bf\u03c6\u03b1", 
+        "id": "Little Kern Golden Trout", 
+        "description": ""
+    }, 
+    {
+        "source": "Long Valley Speckled Dace", 
+        "text": "Long Valley Speckled Dace", 
+        "id": "Long Valley Speckled Dace", 
+        "description": ""
+    }, 
+    {
+        "source": "Longfin Smelt", 
+        "text": "Longfin Smelt", 
+        "id": "Longfin Smelt", 
+        "description": ""
+    }, 
+    {
+        "source": "Longjaw Mudsucker", 
+        "text": "Longjaw Mudsucker", 
+        "id": "Longjaw Mudsucker", 
+        "description": ""
+    }, 
+    {
+        "source": "Lost River Sucker", 
+        "text": "\u0391\u03c0\u03ce\u03bb\u03b5\u03b9\u03b1 \u03c0\u03bf\u03c4\u03b1\u03bc\u03ce\u03bd", 
+        "id": "Lost River Sucker", 
+        "description": ""
+    }, 
+    {
+        "source": "Lower Klamath Marbled Sculpin", 
+        "text": "\u039a\u03ac\u03c4\u03c9 \u039a\u03bb\u03b1\u03bc\u03b1\u03b8 \u039c\u03ac\u03c1\u03bc\u03c0\u03bb\u03b5\u03c1 \u03a3\u03ba\u03bb\u03af\u03c0\u03b9\u03bd", 
+        "id": "Lower Klamath Marbled Sculpin", 
+        "description": ""
+    }, 
+    {
+        "source": "McCloud River Redband Trout", 
+        "text": "McCloud \u03c0\u03bf\u03c4\u03b1\u03bc\u03cc\u03c2 Redband \u03c0\u03ad\u03c3\u03c4\u03c1\u03bf\u03c6\u03b1\u03c2", 
+        "id": "McCloud River Redband Trout", 
+        "description": ""
+    }, 
+    {
+        "source": "Mississippi Silversides", 
+        "text": "\u039c\u03b9\u03c3\u03c3\u03af\u03c3\u03c3\u03b9 \u03a3\u03af\u03bb\u03b2\u03b5\u03c1\u03c3\u03c2", 
+        "id": "Mississippi Silversides", 
+        "description": ""
+    }, 
+    {
+        "source": "Modoc Sucker", 
+        "text": "Modoc Sucker", 
+        "id": "Modoc Sucker", 
+        "description": ""
+    }, 
+    {
+        "source": "Mojave Tui Chub", 
+        "text": "Mojave Tui Chub", 
+        "id": "Mojave Tui Chub", 
+        "description": ""
+    }, 
+    {
+        "source": "Monterey Hitch", 
+        "text": "Monterey Hitch", 
+        "id": "Monterey Hitch", 
+        "description": ""
+    }, 
+    {
+        "source": "Monterey Roach", 
+        "text": "Monterey Roach", 
+        "id": "Monterey Roach", 
+        "description": ""
+    }, 
+    {
+        "source": "Monterey Sucker", 
+        "text": "Monterey Sucker", 
+        "id": "Monterey Sucker", 
+        "description": ""
+    }, 
+    {
+        "source": "Mountain Whitefish", 
+        "text": "Mountainfish Whitefish", 
+        "id": "Mountain Whitefish", 
+        "description": ""
+    }, 
+    {
+        "source": "Navarro Roach", 
+        "text": "\u039d\u03b1\u03b2\u03ac\u03c1\u03bf \u03a1\u03cc\u03bf\u03c5\u03c4\u03c2", 
+        "id": "Navarro Roach", 
+        "description": ""
+    }, 
+    {
+        "source": "Northern (Pit) Roach", 
+        "text": "\u0392\u03cc\u03c1\u03b5\u03b9\u03bf (Pit) Roach", 
+        "id": "Northern (Pit) Roach", 
+        "description": ""
+    }, 
+    {
+        "source": "Northern California Brook Lamprey", 
+        "text": "\u0392\u03cc\u03c1\u03b5\u03b9\u03b1 \u039a\u03b1\u03bb\u03b9\u03c6\u03cc\u03c1\u03bd\u03b9\u03b1 Brook Lamprey", 
+        "id": "Northern California Brook Lamprey", 
+        "description": ""
+    }, 
+    {
+        "source": "Northern California Coast Summer Steelhead", 
+        "text": "\u03a0\u03b1\u03c1\u03b1\u03bb\u03af\u03b1 \u03c4\u03b7\u03c2 \u0392\u03cc\u03c1\u03b5\u03b9\u03b1\u03c2 \u039a\u03b1\u03bb\u03b9\u03c6\u03cc\u03c1\u03bd\u03b9\u03b1\u03c2 Summer Steel", 
+        "id": "Northern California Coast Summer Steelhead", 
+        "description": ""
+    }, 
+    {
+        "source": "Northern California Coast Winter Steelhead", 
+        "text": "\u0391\u03ba\u03c4\u03ae \u03c4\u03b7\u03c2 \u0392\u03cc\u03c1\u03b5\u03b9\u03b1\u03c2 \u039a\u03b1\u03bb\u03b9\u03c6\u03cc\u03c1\u03bd\u03b9\u03b1\u03c2 Winter Steelhead", 
+        "id": "Northern California Coast Winter Steelhead", 
+        "description": ""
+    }, 
+    {
+        "source": "Northern Green Sturgeon", 
+        "text": "\u0392\u03cc\u03c1\u03b5\u03b9\u03bf \u03a0\u03c1\u03ac\u03c3\u03b9\u03bd\u03bf \u03a3\u03c4\u03c1\u03bf\u03c5\u03b3\u03b3\u03ac\u03c1\u03b9", 
+        "id": "Northern Green Sturgeon", 
+        "description": ""
+    }, 
+    {
+        "source": "Owens Pupfish", 
+        "text": "Owens Pupfish", 
+        "id": "Owens Pupfish", 
+        "description": ""
+    }, 
+    {
+        "source": "Owens Speckled Dace", 
+        "text": "Owens Speckled Dace", 
+        "id": "Owens Speckled Dace", 
+        "description": ""
+    }, 
+    {
+        "source": "Owens Sucker", 
+        "text": "Owens Sucker", 
+        "id": "Owens Sucker", 
+        "description": ""
+    }, 
+    {
+        "source": "Owens Tui Chub", 
+        "text": "Owens Tui Chub", 
+        "id": "Owens Tui Chub", 
+        "description": ""
+    }, 
+    {
+        "source": "Pacific Lamprey", 
+        "text": "Pacific Lamprey", 
+        "id": "Pacific Lamprey", 
+        "description": ""
+    }, 
+    {
+        "source": "Paiute Cutthroat Trout", 
+        "text": "\u03a0\u03ad\u03c3\u03c4\u03c1\u03bf\u03c6\u03b1 \u03c4\u03b7\u03c2 \u03c0\u03ad\u03c3\u03c4\u03c1\u03bf\u03c6\u03b1\u03c2", 
+        "id": "Paiute Cutthroat Trout", 
+        "description": ""
+    }, 
+    {
+        "source": "Paiute Sculpin", 
+        "text": "Paiute Sculpin", 
+        "id": "Paiute Sculpin", 
+        "description": ""
+    }, 
+    {
+        "source": "Pink Salmon", 
+        "text": "\u03a1\u03bf\u03b6 \u03c3\u03bf\u03bb\u03bf\u03bc\u03cc\u03c2", 
+        "id": "Pink Salmon", 
+        "description": ""
+    }, 
+    {
+        "source": "Pit River Tui Chub", 
+        "text": "\u03a0\u03bf\u03c4\u03b1\u03bc\u03cc\u03c2 Tui Chub", 
+        "id": "Pit River Tui Chub", 
+        "description": ""
+    }, 
+    {
+        "source": "Pit Sculpin", 
+        "text": "\u03a3\u03ba\u03bf\u03c5\u03c0\u03b9\u03ad\u03c1\u03b1", 
+        "id": "Pit Sculpin", 
+        "description": ""
+    }, 
+    {
+        "source": "Pit-Klamath Brook Lamprey", 
+        "text": "\u03a0\u03b9\u03c4-\u039a\u03bb\u03b1\u03bc\u03ac\u03c4 \u039c\u03c0\u03c1\u03bf\u03c5\u03ba \u039b\u03ac\u03bc\u03c0\u03c1\u03b5\u03ca", 
+        "id": "Pit-Klamath Brook Lamprey", 
+        "description": ""
+    }, 
+    {
+        "source": "Porthole Livebearer", 
+        "text": "\u0398\u03c5\u03bc\u03ac\u03c1\u03b9 \u03b6\u03c9\u03bd\u03ce\u03bd", 
+        "id": "Porthole Livebearer", 
+        "description": ""
+    }, 
+    {
+        "source": "Prickly Sculpin", 
+        "text": "\u03a6\u03c1\u03b1\u03b3\u03ba\u03cc\u03c3\u03c5\u03ba\u03bf Sculpin", 
+        "id": "Prickly Sculpin", 
+        "description": ""
+    }, 
+    {
+        "source": "Pumpkinseed", 
+        "text": "\u03a3\u03c0\u03cc\u03c1\u03bf\u03c2 \u03ba\u03bf\u03bb\u03bf\u03ba\u03cd\u03b8\u03b1\u03c2", 
+        "id": "Pumpkinseed", 
+        "description": ""
+    }, 
+    {
+        "source": "Rainwater Killifish", 
+        "text": "\u0392\u03c1\u03bf\u03c7\u03cc\u03c0\u03c4\u03c9\u03c3\u03b7 Killifish", 
+        "id": "Rainwater Killifish", 
+        "description": ""
+    }, 
+    {
+        "source": "Razorback Sucker", 
+        "text": "\u039e\u03cd\u03c0\u03bd\u03b7\u03bc\u03b1", 
+        "id": "Razorback Sucker", 
+        "description": ""
+    }, 
+    {
+        "source": "Red Hills Roach", 
+        "text": "Red Hills Roach", 
+        "id": "Red Hills Roach", 
+        "description": ""
+    }, 
+    {
+        "source": "Red Shiner", 
+        "text": "Red Shiner", 
+        "id": "Red Shiner", 
+        "description": ""
+    }, 
+    {
+        "source": "Redear Sunfish", 
+        "text": "Redear Sunfish", 
+        "id": "Redear Sunfish", 
+        "description": ""
+    }, 
+    {
+        "source": "Redeye Bass", 
+        "text": "Redeye Bass", 
+        "id": "Redeye Bass", 
+        "description": ""
+    }, 
+    {
+        "source": "Reticulate Sculpin", 
+        "text": "\u03a3\u03ba\u03b5\u03bb\u03b5\u03c4\u03cc\u03c2 \u03bc\u03b5 \u03c3\u03ba\u03b5\u03bb\u03b5\u03c4\u03cc", 
+        "id": "Reticulate Sculpin", 
+        "description": ""
+    }, 
+    {
+        "source": "Riffle Sculpin", 
+        "text": "Riffle Sculpin", 
+        "id": "Riffle Sculpin", 
+        "description": ""
+    }, 
+    {
+        "source": "River Lamprey", 
+        "text": "\u03a4\u03bf\u03bd \u03c0\u03bf\u03c4\u03b1\u03bc\u03cc Lamprey", 
+        "id": "River Lamprey", 
+        "description": ""
+    }, 
+    {
+        "source": "Rough Sculpin", 
+        "text": "\u03a3\u03ba\u03bb\u03b7\u03c1\u03cc Sculpin", 
+        "id": "Rough Sculpin", 
+        "description": ""
+    }, 
+    {
+        "source": "Russian River Roach", 
+        "text": "\u03a1\u03ce\u03c3\u03b9\u03ba\u03b1 \u03c0\u03bf\u03c4\u03b1\u03bc\u03bf\u03cd \u03a1\u03cc\u03bf\u03c5\u03ba", 
+        "id": "Russian River Roach", 
+        "description": ""
+    }, 
+    {
+        "source": "Russian River Tule Perch", 
+        "text": "\u03a1\u03ce\u03c3\u03b9\u03ba\u03b1 \u03c0\u03bf\u03c4\u03b1\u03bc\u03bf\u03cd Tule", 
+        "id": "Russian River Tule Perch", 
+        "description": ""
+    }, 
+    {
+        "source": "Sacramento Blackfish", 
+        "text": "Sacramento Blackfish", 
+        "id": "Sacramento Blackfish", 
+        "description": ""
+    }, 
+    {
+        "source": "Sacramento Hitch", 
+        "text": "Sacramento Hitch", 
+        "id": "Sacramento Hitch", 
+        "description": ""
+    }, 
+    {
+        "source": "Sacramento Perch", 
+        "text": "Sacramento \u03c0\u03ad\u03c1\u03ba\u03b1", 
+        "id": "Sacramento Perch", 
+        "description": ""
+    }, 
+    {
+        "source": "Sacramento Pikeminnow", 
+        "text": "Sacramento Pikeminnow", 
+        "id": "Sacramento Pikeminnow", 
+        "description": ""
+    }, 
+    {
+        "source": "Sacramento Speckled Dace", 
+        "text": "Sacramento Speckled Dace", 
+        "id": "Sacramento Speckled Dace", 
+        "description": ""
+    }, 
+    {
+        "source": "Sacramento Splittail", 
+        "text": "\u03a3\u03b1\u03ba\u03c1\u03b1\u03bc\u03ad\u03bd\u03c4\u03bf", 
+        "id": "Sacramento Splittail", 
+        "description": ""
+    }, 
+    {
+        "source": "Sacramento Sucker", 
+        "text": "Sacramento Sucker", 
+        "id": "Sacramento Sucker", 
+        "description": ""
+    }, 
+    {
+        "source": "Sacramento Tule Perch", 
+        "text": "Sacramento Tule", 
+        "id": "Sacramento Tule Perch", 
+        "description": ""
+    }, 
+    {
+        "source": "Sailfin Molly", 
+        "text": "Sailfin Molly", 
+        "id": "Sailfin Molly", 
+        "description": ""
+    }, 
+    {
+        "source": "Salt Creek Pupfish", 
+        "text": "Salt Creek Pupfish", 
+        "id": "Salt Creek Pupfish", 
+        "description": ""
+    }, 
+    {
+        "source": "Santa Ana Speckled Dace", 
+        "text": "\u0397 \u03a3\u03ac\u03bd\u03c4\u03b1 \u0386\u03bd\u03b1 \u0386\u03ba\u03c1\u03b7", 
+        "id": "Santa Ana Speckled Dace", 
+        "description": ""
+    }, 
+    {
+        "source": "Santa Ana Sucker", 
+        "text": "Santa Ana Sucker", 
+        "id": "Santa Ana Sucker", 
+        "description": ""
+    }, 
+    {
+        "source": "Saratoga Springs Pupfish", 
+        "text": "Saratoga Springs Pupfish", 
+        "id": "Saratoga Springs Pupfish", 
+        "description": ""
+    }, 
+    {
+        "source": "Shay Creek Stickleback", 
+        "text": "\u03a3\u03ba\u03ad\u03b9\u03c3\u03b9\u03c2 \u03c4\u03bf\u03c5 \u03a3\u03ac\u03b9 \u039a\u03c1\u03cd\u03c0", 
+        "id": "Shay Creek Stickleback", 
+        "description": ""
+    }, 
+    {
+        "source": "Shimofuri Goby", 
+        "text": "Shimofuri Goby", 
+        "id": "Shimofuri Goby", 
+        "description": ""
+    }, 
+    {
+        "source": "Shiner Perch", 
+        "text": "Shinch Perch", 
+        "id": "Shiner Perch", 
+        "description": ""
+    }, 
+    {
+        "source": "Shortfin Molly", 
+        "text": "Shortfin Molly", 
+        "id": "Shortfin Molly", 
+        "description": ""
+    }, 
+    {
+        "source": "Shortnose Sucker", 
+        "text": "\u0392\u03c1\u03b1\u03c3\u03c4\u03ae\u03c1\u03b1 \u03b2\u03c1\u03b1\u03c7\u03c5\u03c0\u03c1\u03cc\u03b8\u03b5\u03c3\u03bc\u03b1", 
+        "id": "Shortnose Sucker", 
+        "description": ""
+    }, 
+    {
+        "source": "Shoshone Pupfish", 
+        "text": "Shoshone Pupfish", 
+        "id": "Shoshone Pupfish", 
+        "description": ""
+    }, 
+    {
+        "source": "Smallmouth Bass", 
+        "text": "Smallmouth Bass", 
+        "id": "Smallmouth Bass", 
+        "description": ""
+    }, 
+    {
+        "source": "Sockeye (Kokanee) Salmon", 
+        "text": "Sockeye (Kokanee) \u03a3\u03bf\u03bb\u03bf\u03bc\u03cc\u03c2", 
+        "id": "Sockeye (Kokanee) Salmon", 
+        "description": ""
+    }, 
+    {
+        "source": "South Central California Coast Steelhead", 
+        "text": "\u039d\u03cc\u03c4\u03b9\u03b1 \u039a\u03b5\u03bd\u03c4\u03c1\u03b9\u03ba\u03ae \u039a\u03b1\u03bb\u03b9\u03c6\u03cc\u03c1\u03bd\u03b9\u03b1 Coast Steelhead", 
+        "id": "South Central California Coast Steelhead", 
+        "description": ""
+    }, 
+    {
+        "source": "Southern California Steelhead", 
+        "text": "\u039d\u03cc\u03c4\u03b9\u03b1 \u039a\u03b1\u03bb\u03b9\u03c6\u03cc\u03c1\u03bd\u03b9\u03b1 Steelhead", 
+        "id": "Southern California Steelhead", 
+        "description": ""
+    }, 
+    {
+        "source": "Southern Green Sturgeon", 
+        "text": "\u039d\u03cc\u03c4\u03b9\u03b1 \u03a0\u03c1\u03ac\u03c3\u03b9\u03bd\u03b7 \u03a3\u03c4\u03c1\u03bf\u03c5\u03b8\u03bf\u03ba\u03b1\u03bc\u03ae\u03bb\u03bf\u03c5", 
+        "id": "Southern Green Sturgeon", 
+        "description": ""
+    }, 
+    {
+        "source": "Southern Oregon Northern California Coast Coho Salmon", 
+        "text": "\u039d\u03cc\u03c4\u03b9\u03bf \u038c\u03c1\u03b5\u03b3\u03ba\u03bf\u03bd \u0392\u03cc\u03c1\u03b5\u03b9\u03b1 \u039a\u03b1\u03bb\u03b9\u03c6\u03cc\u03c1\u03bd\u03b9\u03b1 \u0391\u03ba\u03c4\u03ae Coho Salmon", 
+        "id": "Southern Oregon Northern California Coast Coho Salmon", 
+        "description": ""
+    }, 
+    {
+        "source": "Southern Oregon Northern California Coast Fall Chinook Salmon", 
+        "text": "\u039d\u03cc\u03c4\u03b9\u03b1 \u038c\u03c1\u03b5\u03b3\u03ba\u03bf\u03bd \u0392\u03cc\u03c1\u03b5\u03b9\u03b1 \u039a\u03b1\u03bb\u03b9\u03c6\u03cc\u03c1\u03bd\u03b9\u03b1 \u0391\u03ba\u03c4\u03ae Fall Chinook \u03a3\u03bf\u03bb\u03bf\u03bc\u03cc\u03c2", 
+        "id": "Southern Oregon Northern California Coast Fall Chinook Salmon", 
+        "description": ""
+    }, 
+    {
+        "source": "Spotted Bass", 
+        "text": "\u03a3\u03ba\u03bf\u03cd\u03c1\u03bf \u03bc\u03c0\u03ac\u03c3\u03bf", 
+        "id": "Spotted Bass", 
+        "description": ""
+    }, 
+    {
+        "source": "Staghorn Sculpin", 
+        "text": "Staghorn Sculpin", 
+        "id": "Staghorn Sculpin", 
+        "description": ""
+    }, 
+    {
+        "source": "Starry Flounder", 
+        "text": "\u0391\u03c3\u03c4\u03b5\u03c1\u03bf\u03b5\u03b9\u03b4\u03ae\u03c2 \u03c7\u03bb\u03bf\u03bf\u03c4\u03ac\u03c0\u03b7\u03c4\u03b1", 
+        "id": "Starry Flounder", 
+        "description": ""
+    }, 
+    {
+        "source": "Striped Bass", 
+        "text": "\u03a1\u03b1\u03b2\u03b4\u03c9\u03c4\u03ae \u03c0\u03ad\u03c1\u03ba\u03b1", 
+        "id": "Striped Bass", 
+        "description": ""
+    }, 
+    {
+        "source": "Striped Mullet", 
+        "text": "\u03a1\u03b9\u03b3\u03ad Mullet", 
+        "id": "Striped Mullet", 
+        "description": ""
+    }, 
+    {
+        "source": "Surf Smelt", 
+        "text": "Surf Smelt", 
+        "id": "Surf Smelt", 
+        "description": ""
+    }, 
+    {
+        "source": "Tahoe Sucker", 
+        "text": "Tahoe Sucker", 
+        "id": "Tahoe Sucker", 
+        "description": ""
+    }, 
+    {
+        "source": "Tecopa Pupfish", 
+        "text": "Tecopa Pupfish", 
+        "id": "Tecopa Pupfish", 
+        "description": ""
+    }, 
+    {
+        "source": "Tench", 
+        "text": "\u0395\u03af\u03b4\u03bf\u03c2 \u03ba\u03c5\u03c0\u03c1\u03af\u03bd\u03bf\u03c5", 
+        "id": "Tench", 
+        "description": ""
+    }, 
+    {
+        "source": "Thicktail Chub", 
+        "text": "\u03a0\u03bb\u03bf\u03cd\u03c3\u03b9\u03bf \u03c4\u03c3\u03bf\u03cd\u03bc", 
+        "id": "Thicktail Chub", 
+        "description": ""
+    }, 
+    {
+        "source": "Threadfin Shad", 
+        "text": "Threadfin Shad", 
+        "id": "Threadfin Shad", 
+        "description": ""
+    }, 
+    {
+        "source": "Tidewater Goby", 
+        "text": "Tidewater Goby", 
+        "id": "Tidewater Goby", 
+        "description": ""
+    }, 
+    {
+        "source": "Tomales Roach", 
+        "text": "Tomales Roach", 
+        "id": "Tomales Roach", 
+        "description": ""
+    }, 
+    {
+        "source": "Topsmelt", 
+        "text": "Topsmelt", 
+        "id": "Topsmelt", 
+        "description": ""
+    }, 
+    {
+        "source": "Unarmored Threespine Stickleback", 
+        "text": "\u0386\u03bd\u03b5\u03c5 \u03b1\u03bd\u03c4\u03b9\u03ba\u03b5\u03b9\u03bc\u03ad\u03bd\u03bf\u03c5", 
+        "id": "Unarmored Threespine Stickleback", 
+        "description": ""
+    }, 
+    {
+        "source": "Upper Klamath Marbled Sculpin", 
+        "text": "\u0386\u03bd\u03c9 \u039a\u03bb\u03b1\u03bc\u03b1\u03b8 \u039c\u03ac\u03c1\u03bc\u03c0\u03bb\u03b5\u03c1 \u03a3\u03ba\u03bb\u03af\u03c0\u03b9\u03bd", 
+        "id": "Upper Klamath Marbled Sculpin", 
+        "description": ""
+    }, 
+    {
+        "source": "Upper Klamath-Trinity Fall Chinook Salmon", 
+        "text": "\u0386\u03bd\u03c9 \u039a\u03bb\u03b1\u03bc\u03b1\u03b8\u03af\u03b1-\u03a4\u03c1\u03b9\u03ac\u03b4\u03b1 \u03a0\u03c4\u03ce\u03c3\u03b7 Chinook \u03a3\u03bf\u03bb\u03bf\u03bc\u03cc\u03c2", 
+        "id": "Upper Klamath-Trinity Fall Chinook Salmon", 
+        "description": ""
+    }, 
+    {
+        "source": "Upper Klamath-Trinity Spring Chinook Salmon", 
+        "text": "\u0386\u03bd\u03bf\u03b9\u03be\u03b7 Klamath-Trinity \u0386\u03bd\u03bf\u03b9\u03be\u03b7 Chinook \u03a3\u03bf\u03bb\u03bf\u03bc\u03cc\u03c2", 
+        "id": "Upper Klamath-Trinity Spring Chinook Salmon", 
+        "description": ""
+    }, 
+    {
+        "source": "Wakasagi", 
+        "text": "Wakasagi", 
+        "id": "Wakasagi", 
+        "description": ""
+    }, 
+    {
+        "source": "Warmouth", 
+        "text": "Warmouth", 
+        "id": "Warmouth", 
+        "description": ""
+    }, 
+    {
+        "source": "Western Brook Lamprey", 
+        "text": "\u0394\u03c5\u03c4\u03b9\u03ba\u03cc Brook Lamprey", 
+        "id": "Western Brook Lamprey", 
+        "description": ""
+    }, 
+    {
+        "source": "Western Mosquitofish", 
+        "text": "\u0394\u03c5\u03c4\u03b9\u03ba\u03cc Mosquitofish", 
+        "id": "Western Mosquitofish", 
+        "description": ""
+    }, 
+    {
+        "source": "White Bass", 
+        "text": "\u039b\u03b5\u03c5\u03ba\u03cc \u03bc\u03c0\u03ac\u03c3\u03bf", 
+        "id": "White Bass", 
+        "description": ""
+    }, 
+    {
+        "source": "White Catfish", 
+        "text": "\u039b\u03b5\u03c5\u03ba\u03cc \u03b3\u03b1\u03c4\u03cc\u03c8\u03b1\u03c1\u03bf", 
+        "id": "White Catfish", 
+        "description": ""
+    }, 
+    {
+        "source": "White Crappie", 
+        "text": "\u039b\u03b5\u03c5\u03ba\u03cc Crappie", 
+        "id": "White Crappie", 
+        "description": ""
+    }, 
+    {
+        "source": "White Sturgeon", 
+        "text": "\u0386\u03c3\u03c0\u03c1\u03bf\u03c2 \u03a3\u03c4\u03c1\u03bf\u03c5\u03b8\u03bf\u03ba\u03b1\u03bc\u03ae\u03bb\u03bf\u03c2", 
+        "id": "White Sturgeon", 
+        "description": ""
+    }, 
+    {
+        "source": "Yellow Bullhead", 
+        "text": "\u039a\u03af\u03c4\u03c1\u03b9\u03bd\u03bf Bullhead", 
+        "id": "Yellow Bullhead", 
+        "description": ""
+    }, 
+    {
+        "source": "Yellow Perch", 
+        "text": "\u039a\u03af\u03c4\u03c1\u03b9\u03bd\u03bf \u03c0\u03ad\u03c1\u03ba\u03b1", 
+        "id": "Yellow Perch", 
+        "description": ""
+    }, 
+    {
+        "source": "Yellowfin Goby", 
+        "text": "\u0393\u03b1\u03bb\u03bf\u03c0\u03bf\u03cd\u03bb\u03b1 Goby", 
+        "id": "Yellowfin Goby", 
+        "description": ""
+    }, 
+    {
+        "source": "Speckled Dace are capable of living in an array of habitats from small springs or streams to large rivers and deep lakes.", 
+        "text": "\u03a4\u03bf Speckled Dace \u03b5\u03af\u03bd\u03b1\u03b9 \u03b9\u03ba\u03b1\u03bd\u03cc \u03bd\u03b1 \u03b6\u03b5\u03b9 \u03c3\u03b5 \u03bc\u03b9\u03b1 \u03c3\u03b5\u03b9\u03c1\u03ac \u03b1\u03c0\u03cc \u03b5\u03bd\u03b4\u03b9\u03b1\u03b9\u03c4\u03ae\u03bc\u03b1\u03c4\u03b1 \u03b1\u03c0\u03cc \u03bc\u03b9\u03ba\u03c1\u03ad\u03c2 \u03c0\u03b7\u03b3\u03ad\u03c2 \u03ae \u03c1\u03c5\u03ac\u03ba\u03b9\u03b1 \u03c3\u03b5 \u03bc\u03b5\u03b3\u03ac\u03bb\u03bf\u03c5\u03c2 \u03c0\u03bf\u03c4\u03b1\u03bc\u03bf\u03cd\u03c2 \u03ba\u03b1\u03b9 \u03b2\u03b1\u03b8\u03b9\u03ad\u03c2 \u03bb\u03af\u03bc\u03bd\u03b5\u03c2.", 
+        "id": "Speckled Dace are capable of living in an array of habitats from small springs or streams to large rivers and deep lakes.", 
+        "description": ""
+    }, 
+    {
+        "source": "Speckled Dace prefer habitat that includes clear, well oxygenated water, with movement due to a current or waves.", 
+        "text": "\u03a4\u03bf Speckled Dace \u03c0\u03c1\u03bf\u03c4\u03b9\u03bc\u03ac \u03c4\u03bf \u03b2\u03b9\u03cc\u03c4\u03bf\u03c0\u03bf \u03c0\u03bf\u03c5 \u03c0\u03b5\u03c1\u03b9\u03bb\u03b1\u03bc\u03b2\u03ac\u03bd\u03b5\u03b9 \u03ba\u03b1\u03b8\u03b1\u03c1\u03cc, \u03ba\u03b1\u03bb\u03ac \u03bf\u03be\u03c5\u03b3\u03bf\u03bd\u03c9\u03bc\u03ad\u03bd\u03bf \u03bd\u03b5\u03c1\u03cc, \u03bc\u03b5 \u03ba\u03af\u03bd\u03b7\u03c3\u03b7 \u03bb\u03cc\u03b3\u03c9 \u03c1\u03b5\u03cd\u03bc\u03b1\u03c4\u03bf\u03c2 \u03ae \u03ba\u03c5\u03bc\u03ac\u03c4\u03c9\u03bd.", 
+        "id": "Speckled Dace prefer habitat that includes clear, well oxygenated water, with movement due to a current or waves.", 
+        "description": ""
+    }, 
+    {
+        "source": "In addition the fish thrive in areas with deep cover or overhead protection from vegetation or woody debris.", 
+        "text": "\u0395\u03c0\u03b9\u03c0\u03bb\u03ad\u03bf\u03bd, \u03c4\u03b1 \u03c8\u03ac\u03c1\u03b9\u03b1 \u03b5\u03c5\u03b4\u03bf\u03ba\u03b9\u03bc\u03bf\u03cd\u03bd \u03c3\u03b5 \u03c0\u03b5\u03c1\u03b9\u03bf\u03c7\u03ad\u03c2 \u03bc\u03b5 \u03b2\u03b1\u03b8\u03b9\u03ac \u03ba\u03ac\u03bb\u03c5\u03c8\u03b7 \u03ae \u03b5\u03bd\u03b1\u03ad\u03c1\u03b9\u03b1 \u03c0\u03c1\u03bf\u03c3\u03c4\u03b1\u03c3\u03af\u03b1 \u03b1\u03c0\u03cc \u03b2\u03bb\u03ac\u03c3\u03c4\u03b7\u03c3\u03b7 \u03ae \u03be\u03c5\u03bb\u03ce\u03b4\u03b7 \u03c3\u03c5\u03bd\u03c4\u03c1\u03af\u03bc\u03bc\u03b9\u03b1.", 
+        "id": "In addition the fish thrive in areas with deep cover or overhead protection from vegetation or woody debris.", 
+        "description": ""
+    }, 
+    {
+        "source": "Speckled Dace predominantly occupy small streams of the second to third order where they feed and forage for aquatic insects.", 
+        "text": "\u03a4\u03bf Speckled Dace \u03ba\u03b1\u03c4\u03ad\u03c7\u03b5\u03b9 \u03ba\u03b1\u03c4\u03ac \u03ba\u03cd\u03c1\u03b9\u03bf \u03bb\u03cc\u03b3\u03bf \u03bc\u03b9\u03ba\u03c1\u03ad\u03c2 \u03c1\u03bf\u03ad\u03c2 \u03c4\u03b7\u03c2 \u03b4\u03b5\u03cd\u03c4\u03b5\u03c1\u03b7\u03c2 \u03ad\u03c9\u03c2 \u03c4\u03c1\u03af\u03c4\u03b7\u03c2 \u03c4\u03ac\u03be\u03b7\u03c2 \u03cc\u03c0\u03bf\u03c5 \u03c4\u03c1\u03bf\u03c6\u03bf\u03b4\u03bf\u03c4\u03bf\u03cd\u03bd \u03ba\u03b1\u03b9 \u03c7\u03bf\u03c1\u03c4\u03bf\u03ba\u03bf\u03c0\u03bf\u03cd\u03bd\u03bf\u03c5\u03bd \u03b3\u03b9\u03b1 \u03c5\u03b4\u03c1\u03cc\u03b2\u03b9\u03b1 \u03ad\u03bd\u03c4\u03bf\u03bc\u03b1.", 
+        "id": "Speckled Dace predominantly occupy small streams of the second to third order where they feed and forage for aquatic insects.", 
+        "description": ""
+    }, 
+    {
+        "source": "The species is very adaptable and is found in cold alpine lakes such as Lake Tahoe, but has also been able to survive adversity in temperatures at or above 31\\u2103 with a dissolved oxygen concentration of 1 mg / L.", 
+        "text": "\u03a4\u03bf \u03b5\u03af\u03b4\u03bf\u03c2 \u03b5\u03af\u03bd\u03b1\u03b9 \u03c0\u03bf\u03bb\u03cd \u03b5\u03c5\u03c0\u03c1\u03bf\u03c3\u03ac\u03c1\u03bc\u03bf\u03c3\u03c4\u03bf \u03ba\u03b1\u03b9 \u03b2\u03c1\u03af\u03c3\u03ba\u03b5\u03c4\u03b1\u03b9 \u03c3\u03b5 \u03c8\u03c5\u03c7\u03c1\u03ad\u03c2 \u03b1\u03bb\u03c0\u03b9\u03ba\u03ad\u03c2 \u03bb\u03af\u03bc\u03bd\u03b5\u03c2 \u03cc\u03c0\u03c9\u03c2 \u03b7 Lake Tahoe, \u03b1\u03bb\u03bb\u03ac \u03ad\u03c7\u03b5\u03b9 \u03b5\u03c0\u03af\u03c3\u03b7\u03c2 \u03b5\u03c0\u03b9\u03c4\u03cd\u03c7\u03b5\u03b9 \u03bd\u03b1 \u03b5\u03c0\u03b9\u03b2\u03b9\u03ce\u03c3\u03b5\u03b9 \u03c3\u03c4\u03b9\u03c2 \u03b1\u03bd\u03c4\u03b9\u03be\u03bf\u03cc\u03c4\u03b7\u03c4\u03b5\u03c2 \u03c3\u03b5 \u03b8\u03b5\u03c1\u03bc\u03bf\u03ba\u03c1\u03b1\u03c3\u03af\u03b5\u03c2 \u03af\u03c3\u03b5\u03c2 \u03ae \u03b1\u03bd\u03ce\u03c4\u03b5\u03c1\u03b5\u03c2 \u03c4\u03c9\u03bd 31 \u03bc2103 \u03bc\u03b5 \u03c3\u03c5\u03b3\u03ba\u03ad\u03bd\u03c4\u03c1\u03c9\u03c3\u03b7 \u03b4\u03b9\u03b1\u03bb\u03c5\u03bc\u03ad\u03bd\u03bf\u03c5 \u03bf\u03be\u03c5\u03b3\u03cc\u03bd\u03bf\u03c5 1 mg / l.", 
+        "id": "The species is very adaptable and is found in cold alpine lakes such as Lake Tahoe, but has also been able to survive adversity in temperatures at or above 31\\u2103 with a dissolved oxygen concentration of 1 mg / L.", 
+        "description": ""
+    }, 
+    {
+        "source": "In streams speckled dace swim along the bottom looking for small invertebrates while in lakes they are opportunistic feeders that may feed on zooplankton, algae, nymphs, or the resulting flying insects.", 
+        "text": "\u03a3\u03c4\u03b1 \u03c1\u03ad\u03bc\u03b1\u03c4\u03b1 \u03c0\u03bf\u03c5 \u03c3\u03c0\u03c1\u03ce\u03c7\u03bd\u03bf\u03c5\u03bd \u03c4\u03bf \u03b4\u03ad\u03bd\u03c4\u03c1\u03bf \u03ba\u03bf\u03bb\u03c5\u03bc\u03c0\u03bf\u03cd\u03bd \u03ba\u03b1\u03c4\u03ac \u03bc\u03ae\u03ba\u03bf\u03c2 \u03c4\u03bf\u03c5 \u03c0\u03c5\u03b8\u03bc\u03ad\u03bd\u03b1 \u03c8\u03ac\u03c7\u03bd\u03bf\u03bd\u03c4\u03b1\u03c2 \u03b3\u03b9\u03b1 \u03bc\u03b9\u03ba\u03c1\u03ac \u03b1\u03c3\u03c0\u03cc\u03bd\u03b4\u03c5\u03bb\u03b1, \u03b5\u03bd\u03ce \u03c3\u03c4\u03b9\u03c2 \u03bb\u03af\u03bc\u03bd\u03b5\u03c2 \u03b5\u03af\u03bd\u03b1\u03b9 \u03b5\u03c5\u03ba\u03b1\u03b9\u03c1\u03b9\u03b1\u03ba\u03bf\u03af \u03c4\u03c1\u03bf\u03c6\u03bf\u03b4\u03cc\u03c4\u03b5\u03c2 \u03c0\u03bf\u03c5 \u03bc\u03c0\u03bf\u03c1\u03bf\u03cd\u03bd \u03bd\u03b1 \u03c4\u03c1\u03ad\u03c6\u03bf\u03bd\u03c4\u03b1\u03b9 \u03bc\u03b5 \u03b6\u03c9\u03bf\u03c0\u03bb\u03b1\u03b3\u03ba\u03c4\u03cc\u03bd, \u03ac\u03bb\u03b3\u03b7, \u03bd\u03cd\u03bc\u03c6\u03b5\u03c2 \u03ae \u03c4\u03b1 \u03b9\u03c0\u03c4\u03ac\u03bc\u03b5\u03bd\u03b1 \u03ad\u03bd\u03c4\u03bf\u03bc\u03b1 \u03c0\u03bf\u03c5 \u03c0\u03c1\u03bf\u03ba\u03cd\u03c0\u03c4\u03bf\u03c5\u03bd.", 
+        "id": "In streams speckled dace swim along the bottom looking for small invertebrates while in lakes they are opportunistic feeders that may feed on zooplankton, algae, nymphs, or the resulting flying insects.", 
+        "description": ""
+    }, 
+    {
+        "source": "Speckled Dace typically have a life span of three years, but may live 6 or more years, during which time females typically grow more rapidly than males.", 
+        "text": "\u03a4\u03bf Speckled Dace \u03ad\u03c7\u03b5\u03b9 \u03c3\u03c5\u03bd\u03ae\u03b8\u03c9\u03c2 \u03b4\u03b9\u03ac\u03c1\u03ba\u03b5\u03b9\u03b1 \u03b6\u03c9\u03ae\u03c2 \u03c4\u03c1\u03b9\u03ce\u03bd \u03b5\u03c4\u03ce\u03bd, \u03b1\u03bb\u03bb\u03ac \u03bc\u03c0\u03bf\u03c1\u03b5\u03af \u03bd\u03b1 \u03b6\u03ae\u03c3\u03b5\u03b9 6 \u03ae \u03c0\u03b5\u03c1\u03b9\u03c3\u03c3\u03cc\u03c4\u03b5\u03c1\u03b1 \u03c7\u03c1\u03cc\u03bd\u03b9\u03b1, \u03ba\u03b1\u03c4\u03ac \u03c4\u03b7 \u03b4\u03b9\u03ac\u03c1\u03ba\u03b5\u03b9\u03b1 \u03c4\u03c9\u03bd \u03bf\u03c0\u03bf\u03af\u03c9\u03bd \u03bf\u03b9 \u03b3\u03c5\u03bd\u03b1\u03af\u03ba\u03b5\u03c2 \u03c3\u03c5\u03bd\u03ae\u03b8\u03c9\u03c2 \u03bc\u03b5\u03b3\u03b1\u03bb\u03ce\u03bd\u03bf\u03c5\u03bd \u03c4\u03b1\u03c7\u03cd\u03c4\u03b5\u03c1\u03b1 \u03b1\u03c0\u03cc \u03c4\u03bf\u03c5\u03c2 \u03ac\u03bd\u03b4\u03c1\u03b5\u03c2.", 
+        "id": "Speckled Dace typically have a life span of three years, but may live 6 or more years, during which time females typically grow more rapidly than males.", 
+        "description": ""
+    }, 
+    {
+        "source": "The fish become sexually mature in their second year and during the summer months the dace spawn.", 
+        "text": "\u03a4\u03b1 \u03c8\u03ac\u03c1\u03b9\u03b1 \u03b3\u03af\u03bd\u03bf\u03bd\u03c4\u03b1\u03b9 \u03c3\u03b5\u03be\u03bf\u03c5\u03b1\u03bb\u03b9\u03ba\u03ac \u03ce\u03c1\u03b9\u03bc\u03b1 \u03c3\u03c4\u03b7 \u03b4\u03b5\u03cd\u03c4\u03b5\u03c1\u03b7 \u03c7\u03c1\u03bf\u03bd\u03b9\u03ac \u03c4\u03bf\u03c5\u03c2 \u03ba\u03b1\u03b9 \u03ba\u03b1\u03c4\u03ac \u03c4\u03b7 \u03b4\u03b9\u03ac\u03c1\u03ba\u03b5\u03b9\u03b1 \u03c4\u03c9\u03bd \u03ba\u03b1\u03bb\u03bf\u03ba\u03b1\u03b9\u03c1\u03b9\u03bd\u03ce\u03bd \u03bc\u03b7\u03bd\u03ce\u03bd \u03c4\u03bf \u03bc\u03c0\u03b1\u03ba\u03b1\u03bb\u03b9\u03ac\u03c1\u03bf.", 
+        "id": "The fish become sexually mature in their second year and during the summer months the dace spawn.", 
+        "description": ""
+    }, 
+    {
+        "source": "Stream dwellers spawn in riffles or gravely areas, while the lake inhabitants spawn in tributaries or in shallow shoreline regions.", 
+        "text": "\u039f\u03b9 \u03ba\u03ac\u03c4\u03bf\u03b9\u03ba\u03bf\u03b9 \u03c1\u03b5\u03cd\u03bc\u03b1\u03c4\u03bf\u03c2 \u03b5\u03ba\u03c4\u03c1\u03ad\u03c6\u03bf\u03bd\u03c4\u03b1\u03b9 \u03c3\u03b5 \u03ba\u03ce\u03bd\u03bf\u03b9 \u03ae \u03c3\u03b5 \u03c3\u03bf\u03b2\u03b1\u03c1\u03ad\u03c2 \u03c0\u03b5\u03c1\u03b9\u03bf\u03c7\u03ad\u03c2, \u03b5\u03bd\u03ce \u03bf\u03b9 \u03ba\u03ac\u03c4\u03bf\u03b9\u03ba\u03bf\u03b9 \u03c4\u03b7\u03c2 \u03bb\u03af\u03bc\u03bd\u03b7\u03c2 \u03b1\u03bd\u03b1\u03c0\u03c4\u03cd\u03c3\u03c3\u03bf\u03bd\u03c4\u03b1\u03b9 \u03c3\u03b5 \u03c0\u03b1\u03c1\u03b1\u03c0\u03cc\u03c4\u03b1\u03bc\u03bf\u03c5\u03c2 \u03ae \u03c3\u03b5 \u03c1\u03b7\u03c7\u03ad\u03c2 \u03c0\u03b5\u03c1\u03b9\u03bf\u03c7\u03ad\u03c2 \u03b1\u03ba\u03c4\u03bf\u03b3\u03c1\u03b1\u03bc\u03bc\u03ae\u03c2.", 
+        "id": "Stream dwellers spawn in riffles or gravely areas, while the lake inhabitants spawn in tributaries or in shallow shoreline regions.", 
+        "description": ""
+    }, 
+    {
+        "source": "The embryos hatch in 6 days, and the larvae remain in the safety of the gravel for 7 - 8 days.", 
+        "text": "\u03a4\u03b1 \u03ad\u03bc\u03b2\u03c1\u03c5\u03b1 \u03b5\u03ba\u03ba\u03bf\u03bb\u03ac\u03c0\u03c4\u03bf\u03bd\u03c4\u03b1\u03b9 \u03c3\u03b5 6 \u03b7\u03bc\u03ad\u03c1\u03b5\u03c2 \u03ba\u03b1\u03b9 \u03bf\u03b9 \u03c0\u03c1\u03bf\u03bd\u03cd\u03bc\u03c6\u03b5\u03c2 \u03c0\u03b1\u03c1\u03b1\u03bc\u03ad\u03bd\u03bf\u03c5\u03bd \u03c3\u03c4\u03b7\u03bd \u03b1\u03c3\u03c6\u03ac\u03bb\u03b5\u03b9\u03b1 \u03c4\u03bf\u03c5 \u03c7\u03b1\u03bb\u03b9\u03ba\u03b9\u03bf\u03cd \u03b3\u03b9\u03b1 7 - 8 \u03b7\u03bc\u03ad\u03c1\u03b5\u03c2.", 
+        "id": "The embryos hatch in 6 days, and the larvae remain in the safety of the gravel for 7 - 8 days.", 
+        "description": ""
+    }, 
+    {
+        "source": "The young fry then spend the early part of their lives in the shallow warm areas of the stream or lake where they hatched.", 
+        "text": "\u03a4\u03b1 \u03bd\u03b5\u03b1\u03c1\u03ac \u03c4\u03b7\u03b3\u03b1\u03bd\u03b7\u03c4\u03ac \u03c3\u03c4\u03b7 \u03c3\u03c5\u03bd\u03ad\u03c7\u03b5\u03b9\u03b1 \u03c0\u03b5\u03c1\u03bd\u03bf\u03cd\u03bd \u03c4\u03bf \u03b1\u03c1\u03c7\u03b9\u03ba\u03cc \u03bc\u03ad\u03c1\u03bf\u03c2 \u03c4\u03b7\u03c2 \u03b6\u03c9\u03ae\u03c2 \u03c4\u03bf\u03c5\u03c2 \u03c3\u03c4\u03b9\u03c2 \u03c1\u03b7\u03c7\u03ad\u03c2 \u03b6\u03b5\u03c3\u03c4\u03ad\u03c2 \u03c0\u03b5\u03c1\u03b9\u03bf\u03c7\u03ad\u03c2 \u03c4\u03bf\u03c5 \u03c1\u03ad\u03bc\u03b1\u03c4\u03bf\u03c2 \u03ae \u03c4\u03b7\u03c2 \u03bb\u03af\u03bc\u03bd\u03b7\u03c2 \u03cc\u03c0\u03bf\u03c5 \u03b5\u03ba\u03c4\u03bf\u03be\u03b5\u03cd\u03b8\u03b7\u03ba\u03b1\u03bd.", 
+        "id": "The young fry then spend the early part of their lives in the shallow warm areas of the stream or lake where they hatched.", 
+        "description": ""
+    }, 
+    {
+        "source": "False", 
+        "text": "\u03a8\u03b5\u03c5\u03b4\u03ae\u03c2", 
+        "id": "False", 
+        "description": ""
+    }, 
+    {
+        "source": "True", 
+        "text": "\u0391\u03bb\u03b7\u03b8\u03ae\u03c2", 
+        "id": "True", 
+        "description": ""
+    }, 
+    {
+        "source": "Error reading text file", 
+        "text": "\u03a3\u03c6\u03ac\u03bb\u03bc\u03b1 \u03ba\u03b1\u03c4\u03ac \u03c4\u03b7\u03bd \u03b1\u03bd\u03ac\u03b3\u03bd\u03c9\u03c3\u03b7 \u03b1\u03c1\u03c7\u03b5\u03af\u03bf\u03c5 \u03ba\u03b5\u03b9\u03bc\u03ad\u03bd\u03bf\u03c5", 
+        "id": "Error reading text file", 
+        "description": ""
+    }, 
+    {
+        "source": "Cannot create directory", 
+        "text": "\u0394\u03b5\u03bd \u03b5\u03af\u03bd\u03b1\u03b9 \u03b4\u03c5\u03bd\u03b1\u03c4\u03ae \u03b7 \u03b4\u03b7\u03bc\u03b9\u03bf\u03c5\u03c1\u03b3\u03af\u03b1 \u03ba\u03b1\u03c4\u03b1\u03bb\u03cc\u03b3\u03bf\u03c5", 
+        "id": "Cannot create directory", 
+        "description": ""
+    }
+]

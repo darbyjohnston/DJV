@@ -1,0 +1,1310 @@
+[
+    {
+        "source": "Recent Files", 
+        "text": "N\u00fdlegar skr\u00e1r", 
+        "id": "Recent Files", 
+        "description": ""
+    }, 
+    {
+        "source": "Pin Tooltip", 
+        "text": "Pin Tooltip", 
+        "id": "Pin Tooltip", 
+        "description": ""
+    }, 
+    {
+        "source": "items", 
+        "text": "hlutir", 
+        "id": "items", 
+        "description": ""
+    }, 
+    {
+        "source": "Left", 
+        "text": "Vinstri", 
+        "id": "Left", 
+        "description": ""
+    }, 
+    {
+        "source": "Left Tooltip", 
+        "text": "Vinstri Tooltip", 
+        "id": "Left Tooltip", 
+        "description": ""
+    }, 
+    {
+        "source": "Right", 
+        "text": "H\u00e6gri", 
+        "id": "Right", 
+        "description": ""
+    }, 
+    {
+        "source": "Right Tooltip", 
+        "text": "H\u00e6gri Tooltip", 
+        "id": "Right Tooltip", 
+        "description": ""
+    }, 
+    {
+        "source": "Up", 
+        "text": "Upp", 
+        "id": "Up", 
+        "description": ""
+    }, 
+    {
+        "source": "Up Tooltip", 
+        "text": "Upp Tooltip", 
+        "id": "Up Tooltip", 
+        "description": ""
+    }, 
+    {
+        "source": "Down", 
+        "text": "Ni\u00f0ur", 
+        "id": "Down", 
+        "description": ""
+    }, 
+    {
+        "source": "Down Tooltip", 
+        "text": "Down Tooltip", 
+        "id": "Down Tooltip", 
+        "description": ""
+    }, 
+    {
+        "source": "Center", 
+        "text": "Mi\u00f0st\u00f6\u00f0", 
+        "id": "Center", 
+        "description": ""
+    }, 
+    {
+        "source": "Center Tooltip", 
+        "text": "Center Tooltip", 
+        "id": "Center Tooltip", 
+        "description": ""
+    }, 
+    {
+        "source": "Zoom In", 
+        "text": "Zoom inn", 
+        "id": "Zoom In", 
+        "description": ""
+    }, 
+    {
+        "source": "Zoom In Tooltip", 
+        "text": "Zooma\u00f0u \u00ed Tooltip", 
+        "id": "Zoom In Tooltip", 
+        "description": ""
+    }, 
+    {
+        "source": "Zoom Out", 
+        "text": "Zoom \u00fat", 
+        "id": "Zoom Out", 
+        "description": ""
+    }, 
+    {
+        "source": "Zoom Out Tooltip", 
+        "text": "Zoom Out Tooltip", 
+        "id": "Zoom Out Tooltip", 
+        "description": ""
+    }, 
+    {
+        "source": "Reset Zoom", 
+        "text": "Endurstilla Zoom", 
+        "id": "Reset Zoom", 
+        "description": ""
+    }, 
+    {
+        "source": "Reset Zoom Tooltip", 
+        "text": "Endurstilla Zoom Tooltip", 
+        "id": "Reset Zoom Tooltip", 
+        "description": ""
+    }, 
+    {
+        "source": "Reset Position and Zoom", 
+        "text": "Endurstilla st\u00f6\u00f0u og a\u00f0dr\u00e1tt", 
+        "id": "Reset Position and Zoom", 
+        "description": ""
+    }, 
+    {
+        "source": "Reset Position and Zoom Tooltip", 
+        "text": "Endurstilla st\u00f6\u00f0u og Zoom Tooltip", 
+        "id": "Reset Position and Zoom Tooltip", 
+        "description": ""
+    }, 
+    {
+        "source": "Fit", 
+        "text": "Passa", 
+        "id": "Fit", 
+        "description": ""
+    }, 
+    {
+        "source": "Fit Tooltip", 
+        "text": "Fit Tooltip", 
+        "id": "Fit Tooltip", 
+        "description": ""
+    }, 
+    {
+        "source": "HUD", 
+        "text": "HUD", 
+        "id": "HUD", 
+        "description": ""
+    }, 
+    {
+        "source": "HUD Tooltip", 
+        "text": "HUD Tooltip", 
+        "id": "HUD Tooltip", 
+        "description": ""
+    }, 
+    {
+        "source": "View", 
+        "text": "\u00dats\u00fdni", 
+        "id": "View", 
+        "description": ""
+    }, 
+    {
+        "source": "Grid", 
+        "text": "Rist", 
+        "id": "Grid", 
+        "description": ""
+    }, 
+    {
+        "source": "Information", 
+        "text": "Uppl\u00fdsingar", 
+        "id": "Information", 
+        "description": ""
+    }, 
+    {
+        "source": "Forward", 
+        "text": "\u00c1fram", 
+        "id": "Forward", 
+        "description": ""
+    }, 
+    {
+        "source": "Forward Tooltip", 
+        "text": "Forward Tooltip", 
+        "id": "Forward Tooltip", 
+        "description": ""
+    }, 
+    {
+        "source": "Reverse", 
+        "text": "Aftur", 
+        "id": "Reverse", 
+        "description": ""
+    }, 
+    {
+        "source": "Reverse Tooltip", 
+        "text": "Reverse Tooltip", 
+        "id": "Reverse Tooltip", 
+        "description": ""
+    }, 
+    {
+        "source": "Play Every Frame", 
+        "text": "Spila hvert ramma", 
+        "id": "Play Every Frame", 
+        "description": ""
+    }, 
+    {
+        "source": "Play Every Frame Tooltip", 
+        "text": "Spila hvert ramma Tooltip", 
+        "id": "Play Every Frame Tooltip", 
+        "description": ""
+    }, 
+    {
+        "source": "Go To In Point", 
+        "text": "Fara \u00ed punkt", 
+        "id": "Go To In Point", 
+        "description": ""
+    }, 
+    {
+        "source": "Go To In Point Tooltip", 
+        "text": "Fara til \u00ed Tooltip-punkti", 
+        "id": "Go To In Point Tooltip", 
+        "description": ""
+    }, 
+    {
+        "source": "Go To Out Point", 
+        "text": "Fari\u00f0 \u00fat \u00far sta\u00f0", 
+        "id": "Go To Out Point", 
+        "description": ""
+    }, 
+    {
+        "source": "Go To Out Point Tooltip", 
+        "text": "Fara til \u00fatdr\u00e1ttar t\u00f3ltip", 
+        "id": "Go To Out Point Tooltip", 
+        "description": ""
+    }, 
+    {
+        "source": "Go To Start Frame", 
+        "text": "Fara \u00ed byrjunarlista", 
+        "id": "Go To Start Frame", 
+        "description": ""
+    }, 
+    {
+        "source": "Go To Start Frame Tooltip", 
+        "text": "Far\u00f0u \u00ed Start Frame Tooltip", 
+        "id": "Go To Start Frame Tooltip", 
+        "description": ""
+    }, 
+    {
+        "source": "Go To End Frame", 
+        "text": "Fara \u00ed lok ramma", 
+        "id": "Go To End Frame", 
+        "description": ""
+    }, 
+    {
+        "source": "Go To End Frame Tooltip", 
+        "text": "Fara \u00ed lok ramma t\u00f3ltip", 
+        "id": "Go To End Frame Tooltip", 
+        "description": ""
+    }, 
+    {
+        "source": "Next Frame", 
+        "text": "N\u00e6sta ramma", 
+        "id": "Next Frame", 
+        "description": ""
+    }, 
+    {
+        "source": "Next Frame Tooltip", 
+        "text": "Next Frame Tooltip", 
+        "id": "Next Frame Tooltip", 
+        "description": ""
+    }, 
+    {
+        "source": "Next Frame X10", 
+        "text": "N\u00e6sta rammi X10", 
+        "id": "Next Frame X10", 
+        "description": ""
+    }, 
+    {
+        "source": "Next Frame X10 Tooltip", 
+        "text": "N\u00e6sta ramma X10 Tooltip", 
+        "id": "Next Frame X10 Tooltip", 
+        "description": ""
+    }, 
+    {
+        "source": "Next Frame X100", 
+        "text": "N\u00e6sta ramma X100", 
+        "id": "Next Frame X100", 
+        "description": ""
+    }, 
+    {
+        "source": "Next Frame X100 Tooltip", 
+        "text": "N\u00e6sta ramma X100 Tooltip", 
+        "id": "Next Frame X100 Tooltip", 
+        "description": ""
+    }, 
+    {
+        "source": "Previous Frame", 
+        "text": "Fyrri ramma", 
+        "id": "Previous Frame", 
+        "description": ""
+    }, 
+    {
+        "source": "Previous Frame Tooltip", 
+        "text": "Fyrri Frame Tooltip", 
+        "id": "Previous Frame Tooltip", 
+        "description": ""
+    }, 
+    {
+        "source": "Previous Frame X10", 
+        "text": "Fyrri ramma X10", 
+        "id": "Previous Frame X10", 
+        "description": ""
+    }, 
+    {
+        "source": "Previous Frame X10 Tooltip", 
+        "text": "Fyrri ramma X10 Tooltip", 
+        "id": "Previous Frame X10 Tooltip", 
+        "description": ""
+    }, 
+    {
+        "source": "Previous Frame X100", 
+        "text": "Fyrri ramma X100", 
+        "id": "Previous Frame X100", 
+        "description": ""
+    }, 
+    {
+        "source": "Previous Frame X100 Tooltip", 
+        "text": "Fyrri ramma X100 Tooltip", 
+        "id": "Previous Frame X100 Tooltip", 
+        "description": ""
+    }, 
+    {
+        "source": "Enable In/Out Points", 
+        "text": "Virkja inn / \u00fat stig", 
+        "id": "Enable In/Out Points", 
+        "description": ""
+    }, 
+    {
+        "source": "Enable In/Out Points Tooltip", 
+        "text": "Virkja inn / \u00fat stig t\u00f3ltip", 
+        "id": "Enable In/Out Points Tooltip", 
+        "description": ""
+    }, 
+    {
+        "source": "Set In Point", 
+        "text": "Setja \u00ed punkt", 
+        "id": "Set In Point", 
+        "description": ""
+    }, 
+    {
+        "source": "Set In Point Tooltip", 
+        "text": "Setja \u00ed benda Tooltip", 
+        "id": "Set In Point Tooltip", 
+        "description": ""
+    }, 
+    {
+        "source": "Set Out Point", 
+        "text": "Setja \u00fat punkt", 
+        "id": "Set Out Point", 
+        "description": ""
+    }, 
+    {
+        "source": "Set Out Point Tooltip", 
+        "text": "Setja Out Point Tooltip", 
+        "id": "Set Out Point Tooltip", 
+        "description": ""
+    }, 
+    {
+        "source": "Reset In Point", 
+        "text": "Endurstilla \u00ed punkti", 
+        "id": "Reset In Point", 
+        "description": ""
+    }, 
+    {
+        "source": "Reset In Point Tooltip", 
+        "text": "Endurstilla \u00ed t\u00f3lpunkti", 
+        "id": "Reset In Point Tooltip", 
+        "description": ""
+    }, 
+    {
+        "source": "Reset Out Point", 
+        "text": "Endurstilla \u00fatpunkt", 
+        "id": "Reset Out Point", 
+        "description": ""
+    }, 
+    {
+        "source": "Reset Out Point Tooltip", 
+        "text": "Endurstilla Out Point Tooltip", 
+        "id": "Reset Out Point Tooltip", 
+        "description": ""
+    }, 
+    {
+        "source": "Playback", 
+        "text": "Spilun", 
+        "id": "Playback", 
+        "description": ""
+    }, 
+    {
+        "source": "Loop", 
+        "text": "Loop", 
+        "id": "Loop", 
+        "description": ""
+    }, 
+    {
+        "source": "Layout", 
+        "text": "\u00datlit", 
+        "id": "Layout", 
+        "description": ""
+    }, 
+    {
+        "source": "File Browser", 
+        "text": "File Browser", 
+        "id": "File Browser", 
+        "description": ""
+    }, 
+    {
+        "source": "SDI", 
+        "text": "SDI", 
+        "id": "SDI", 
+        "description": ""
+    }, 
+    {
+        "source": "SDI Tooltip", 
+        "text": "SDI Tooltip", 
+        "id": "SDI Tooltip", 
+        "description": ""
+    }, 
+    {
+        "source": "MDI", 
+        "text": "MDI", 
+        "id": "MDI", 
+        "description": ""
+    }, 
+    {
+        "source": "MDI Tooltip", 
+        "text": "MDI Tooltip", 
+        "id": "MDI Tooltip", 
+        "description": ""
+    }, 
+    {
+        "source": "Playlist", 
+        "text": "Spilunarlisti", 
+        "id": "Playlist", 
+        "description": ""
+    }, 
+    {
+        "source": "Playlist Tooltip", 
+        "text": "Spilunarlistinn", 
+        "id": "Playlist Tooltip", 
+        "description": ""
+    }, 
+    {
+        "source": "Duplicate", 
+        "text": "Afrit", 
+        "id": "Duplicate", 
+        "description": ""
+    }, 
+    {
+        "source": "Duplicate Tooltip", 
+        "text": "Afrita t\u00f3latip", 
+        "id": "Duplicate Tooltip", 
+        "description": ""
+    }, 
+    {
+        "source": "Full Screen", 
+        "text": "Fullskj\u00e1r", 
+        "id": "Full Screen", 
+        "description": ""
+    }, 
+    {
+        "source": "Full Screen Tooltip", 
+        "text": "Full Screen Tooltip", 
+        "id": "Full Screen Tooltip", 
+        "description": ""
+    }, 
+    {
+        "source": "Window", 
+        "text": "Gluggi", 
+        "id": "Window", 
+        "description": ""
+    }, 
+    {
+        "source": "Close Tooltip", 
+        "text": "Loka Verkf\u00e6ri", 
+        "id": "Close Tooltip", 
+        "description": ""
+    }, 
+    {
+        "source": "Documentation", 
+        "text": "Skjalfesting", 
+        "id": "Documentation", 
+        "description": ""
+    }, 
+    {
+        "source": "Documentation Tooltip", 
+        "text": "Documentation Tooltip", 
+        "id": "Documentation Tooltip", 
+        "description": ""
+    }, 
+    {
+        "source": "Information Tooltip", 
+        "text": "Uppl\u00fdsingar Tooltip", 
+        "id": "Information Tooltip", 
+        "description": ""
+    }, 
+    {
+        "source": "About", 
+        "text": "Um", 
+        "id": "About", 
+        "description": ""
+    }, 
+    {
+        "source": "About Tooltip", 
+        "text": "Um Tooltip", 
+        "id": "About Tooltip", 
+        "description": ""
+    }, 
+    {
+        "source": "Debug Log", 
+        "text": "Debug Log", 
+        "id": "Debug Log", 
+        "description": ""
+    }, 
+    {
+        "source": "Debug Log Tooltip", 
+        "text": "Debug Log Tooltip", 
+        "id": "Debug Log Tooltip", 
+        "description": ""
+    }, 
+    {
+        "source": "Help", 
+        "text": "Hj\u00e1lp", 
+        "id": "Help", 
+        "description": ""
+    }, 
+    {
+        "source": "cannot create OpenAL source", 
+        "text": "Ekki er h\u00e6gt a\u00f0 b\u00faa til Open Source", 
+        "id": "cannot create OpenAL source", 
+        "description": ""
+    }, 
+    {
+        "source": "cannot create OpenAL buffers", 
+        "text": "Ekki er h\u00e6gt a\u00f0 b\u00faa til OpenAL bi\u00f0minni", 
+        "id": "cannot create OpenAL buffers", 
+        "description": ""
+    }, 
+    {
+        "source": "cannot open", 
+        "text": "Ekki er h\u00e6gt a\u00f0 opna", 
+        "id": "cannot open", 
+        "description": ""
+    }, 
+    {
+        "source": "Histogram", 
+        "text": "Histogram", 
+        "id": "Histogram", 
+        "description": ""
+    }, 
+    {
+        "source": "Mirror Horizontal", 
+        "text": "Mirror L\u00e1r\u00e9tt", 
+        "id": "Mirror Horizontal", 
+        "description": ""
+    }, 
+    {
+        "source": "Mirror Horizontal Tooltip", 
+        "text": "Mirror Horizontal Tooltip", 
+        "id": "Mirror Horizontal Tooltip", 
+        "description": ""
+    }, 
+    {
+        "source": "Mirror Vertical", 
+        "text": "Spegill l\u00f3\u00f0r\u00e9tt", 
+        "id": "Mirror Vertical", 
+        "description": ""
+    }, 
+    {
+        "source": "Mirror Vertical Tooltip", 
+        "text": "Mirror L\u00f3\u00f0r\u00e9tt T\u00f3l", 
+        "id": "Mirror Vertical Tooltip", 
+        "description": ""
+    }, 
+    {
+        "source": "Color Manager", 
+        "text": "Litastj\u00f3rnun", 
+        "id": "Color Manager", 
+        "description": ""
+    }, 
+    {
+        "source": "Color Manager Tooltip", 
+        "text": "Litur Manager T\u00f3l", 
+        "id": "Color Manager Tooltip", 
+        "description": ""
+    }, 
+    {
+        "source": "Color Profile", 
+        "text": "Litur pr\u00f3f\u00edl", 
+        "id": "Color Profile", 
+        "description": ""
+    }, 
+    {
+        "source": "Color Profile Tooltip", 
+        "text": "Litur pr\u00f3f\u00edl t\u00f3latip", 
+        "id": "Color Profile Tooltip", 
+        "description": ""
+    }, 
+    {
+        "source": "Display Profile", 
+        "text": "Sko\u00f0a pr\u00f3f\u00edl", 
+        "id": "Display Profile", 
+        "description": ""
+    }, 
+    {
+        "source": "Display Profile Tooltip", 
+        "text": "S\u00fdna pr\u00f3f\u00edl t\u00f3latip", 
+        "id": "Display Profile Tooltip", 
+        "description": ""
+    }, 
+    {
+        "source": "Premulitplied Alpha", 
+        "text": "Premulitplied Alpha", 
+        "id": "Premulitplied Alpha", 
+        "description": ""
+    }, 
+    {
+        "source": "Premulitplied Alpha Tooltip", 
+        "text": "Premulitplied Alpha Tooltip", 
+        "id": "Premulitplied Alpha Tooltip", 
+        "description": ""
+    }, 
+    {
+        "source": "Show Frame Store", 
+        "text": "S\u00fdna rammaverslun", 
+        "id": "Show Frame Store", 
+        "description": ""
+    }, 
+    {
+        "source": "Show Frame Store Tooltip", 
+        "text": "S\u00fdna Frame Store Tooltip", 
+        "id": "Show Frame Store Tooltip", 
+        "description": ""
+    }, 
+    {
+        "source": "Set Frame Store", 
+        "text": "Setja rammaverslun", 
+        "id": "Set Frame Store", 
+        "description": ""
+    }, 
+    {
+        "source": "Set Frame Store Tooltip", 
+        "text": "Setji\u00f0 rammaverslunart\u00f3li\u00f0", 
+        "id": "Set Frame Store Tooltip", 
+        "description": ""
+    }, 
+    {
+        "source": "Image", 
+        "text": "Mynd", 
+        "id": "Image", 
+        "description": ""
+    }, 
+    {
+        "source": "Scale", 
+        "text": "Skala", 
+        "id": "Scale", 
+        "description": ""
+    }, 
+    {
+        "source": "Rotate", 
+        "text": "Sn\u00faa", 
+        "id": "Rotate", 
+        "description": ""
+    }, 
+    {
+        "source": "Color Picker", 
+        "text": "Litaplokkari", 
+        "id": "Color Picker", 
+        "description": ""
+    }, 
+    {
+        "source": "Magnifier", 
+        "text": "St\u00e6kkari", 
+        "id": "Magnifier", 
+        "description": ""
+    }, 
+    {
+        "source": "DJV Imaging", 
+        "text": "DJV Imaging", 
+        "id": "About Header", 
+        "description": ""
+    }, 
+    {
+        "source": "Copyright and License", 
+        "text": "H\u00f6fundarr\u00e9ttur og leyfi", 
+        "id": "Copyright and License", 
+        "description": ""
+    }, 
+    {
+        "source": "Copyright (c) 2004-2019 Darby Johnston. All rights reserved.", 
+        "text": "H\u00f6fundarr\u00e9ttur (c) 2004-2019 Darby Johnston. Allur r\u00e9ttur \u00e1skilinn.", 
+        "id": "Copyright", 
+        "description": ""
+    }, 
+    {
+        "source": "Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:", 
+        "text": "Endurdreifing og notkun \u00ed uppt\u00f6kum og tv\u00f6f\u00f6ldum myndum, me\u00f0 e\u00f0a \u00e1n breytinga, er leyf\u00f0 a\u00f0 \u00fev\u00ed tilskildu a\u00f0 eftirfarandi skilyr\u00f0um s\u00e9 fulln\u00e6gt:", 
+        "id": "License 1", 
+        "description": ""
+    }, 
+    {
+        "source": "* Redistributions of source code must retain the above copyright notice, this list of conditions, and the following disclaimer.", 
+        "text": "* Endurdekning k\u00f3\u00f0ans ver\u00f0ur a\u00f0 halda framangreindum h\u00f6fundarr\u00e9tti, \u00feessum lista yfir skilyr\u00f0i og eftirfarandi fyrirvari.", 
+        "id": "License 2", 
+        "description": ""
+    }, 
+    {
+        "source": "* Redistributions in binary form must reproduce the above copyright notice, this list of conditions, and the following disclaimer in the documentation and/or other materials provided with the distribution.", 
+        "text": "* Endurdreifingar \u00ed tv\u00f6faldur formi ver\u00f0a a\u00f0 endurskapa framangreindan h\u00f6fundarr\u00e9ttarskilabo\u00f0, \u00feennan lista af skilyr\u00f0um og eftirfarandi fyrirvari \u00ed skj\u00f6lunum og / e\u00f0a \u00f6\u00f0ru efni sem fylgir dreifingu.", 
+        "id": "License 3", 
+        "description": ""
+    }, 
+    {
+        "source": "* Neither the names of the copyright holders nor the names of any contributors may be used to endorse or promote products derived from this software without specific prior written permission.", 
+        "text": "* Hvorki n\u00f6fn handhafa h\u00f6fundarr\u00e9ttar n\u00e9 n\u00f6fn allra \u00fe\u00e1tttakenda er heimilt a\u00f0 nota til a\u00f0 sty\u00f0ja vi\u00f0 e\u00f0a kynna v\u00f6rur sem unnar eru af \u00feessari hugb\u00fana\u00f0i \u00e1n s\u00e9rstakrar skriflegs leyfis.", 
+        "id": "License 4", 
+        "description": ""
+    }, 
+    {
+        "source": "THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS 'AS IS' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.", 
+        "text": "\u00deETTA HUGB\u00daNA\u00d0UR ER A\u00d0GER\u00d0 AF H\u00d6FUNDARR\u00c9TTUM OG \u00deJ\u00d3NUSTU OG SKILGREININGAR &quot;OG \u00deAR EIGINLEGAR FRAMLEI\u00d0SLU E\u00d0A \u00c1BYRG\u00d0AR \u00c1BYRG\u00d0, ME\u00d0 \u00deAR A\u00d0 EKKI TAKMARKA\u00d0 \u00deESS A\u00d0 SKILGREINAR \u00c1BYRG\u00d0AR \u00c1BYRG\u00d0AR S\u00d6LU OG EIGINLEIKAR TIL A\u00d0 \u00c1KV\u00c6\u00d0I MARKMI\u00d0 ER FRAMKV\u00c6MD. EKKI SKAL HAFA H\u00d6FUNDARR\u00c9TTUR E\u00d0A B\u00d6RNAR \u00c1BYRG\u00d0AR VEGNA ANNA\u00d0IR, TILBYRG\u00d0AR, S\u00c9RST\u00d6KU, S\u00c9RST\u00d6KU, LYFJAFR\u00c6\u00d0I, E\u00d0A FJ\u00c1RFESTINGAR SKO\u00d0UR (\u00deAR A\u00d0 EKKI E\u00d0A TAKMARKA\u00d0 AF, SKIPTA V\u00d6RU E\u00d0A \u00deJ\u00d3NUSTU, TAPA VI\u00d0 NOTKUN, G\u00d6GN, E\u00d0A HAGNA\u00d0AR; E\u00d0A BUSINESS AFRUPTION) HVORT A\u00d0 GERA A\u00d0 SKO\u00d0A OG SKO\u00d0A \u00c1KV\u00c6\u00d0I, E\u00d0A \u00cd SAMNINGUM, \u00c1BYRG\u00d0 SKILYR\u00d0I, E\u00d0A TORT (\u00deAR A\u00d0 TAKA A\u00d0 TAKA A\u00d0 SKO\u00d0A EKKI E\u00d0A ANNAR), E\u00d0A A\u00d0 FYRIR NOTKUN \u00deESSA HUGB\u00daNA\u00d0AR, EFTIR VI\u00d0 A\u00d0 FJ\u00c1RM\u00c1LAST\u00d6\u00d0UGLEIKI.", 
+        "id": "License 5", 
+        "description": ""
+    }, 
+    {
+        "source": "Contributors", 
+        "text": "Framlag", 
+        "id": "Contributors", 
+        "description": ""
+    }, 
+    {
+        "source": "Portions of this software are copyright (in alphabetical order):", 
+        "text": "Hlutar af \u00feessari hugb\u00fana\u00f0i eru h\u00f6fundarr\u00e9ttur (\u00ed stafr\u00f3fsr\u00f6\u00f0):", 
+        "id": "Contributors Text 1", 
+        "description": ""
+    }, 
+    {
+        "source": "Copyright (c) 2004-2018 Darby Johnston. All rights reserved.", 
+        "text": "H\u00f6fundarr\u00e9ttur (c) 2004-2018 Darby Johnston. Allur r\u00e9ttur \u00e1skilinn.", 
+        "id": "Contributors Text 2", 
+        "description": ""
+    }, 
+    {
+        "source": "Copyright (c) 2008 Alan Jones. All rights reserved.", 
+        "text": "H\u00f6fundarr\u00e9ttur (c) 2008 Alan Jones. Allur r\u00e9ttur \u00e1skilinn.", 
+        "id": "Contributors Text 3", 
+        "description": ""
+    }, 
+    {
+        "source": "Copyright (c) 2008-2009 Mikael Sundell. All rights reserved.", 
+        "text": "H\u00f6fundarr\u00e9ttur (c) 2008-2009 Mikael Sundell. Allur r\u00e9ttur \u00e1skilinn.", 
+        "id": "Contributors Text 4", 
+        "description": ""
+    }, 
+    {
+        "source": "Third Party Software", 
+        "text": "Hugb\u00fana\u00f0ur \u00feri\u00f0ja a\u00f0ila", 
+        "id": "Third Party", 
+        "description": ""
+    }, 
+    {
+        "source": "This software is based in part on the works of (in alphabetical order):", 
+        "text": "\u00deessi hugb\u00fana\u00f0ur er a\u00f0 hluta til bygg\u00f0ur \u00e1 verkum (\u00ed stafr\u00f3fsr\u00f6\u00f0):", 
+        "id": "Third Party Text 1", 
+        "description": ""
+    }, 
+    {
+        "source": "CMake, http://www.cmake.org, Copyright 2000-2011 Kitware, Inc., Insight Software Consortium. All rights reserved.", 
+        "text": "CMake, http://www.cmake.org, H\u00f6fundarr\u00e9ttur 2000-2011 Kitware, Inc., Insight Software Consortium. Allur r\u00e9ttur \u00e1skilinn.", 
+        "id": "Third Party Text 2", 
+        "description": ""
+    }, 
+    {
+        "source": "dr_libs, David Reid", 
+        "text": "dr_libs, david reid", 
+        "id": "Third Party Text 3", 
+        "description": ""
+    }, 
+    {
+        "source": "FFMpeg, http://www.ffmpeg.org, Licensed under the LGPLv2.1, http://www.gnu.org/pcenses/old-pcenses/lgpl-2.1.html", 
+        "text": "FFMpeg, http://www.ffmpeg.org, Leyfisveitandi samkv\u00e6mt LGPLv2.1, http://www.gnu.org/pcenses/old-pcenses/lgpl-2.1.html", 
+        "id": "Third Party Text 4", 
+        "description": ""
+    }, 
+    {
+        "source": "FreeType, https://www.freetype.org, Copyright (c) 2018, The FreeType Project", 
+        "text": "FreeType, https://www.freetype.org, Copyright (c) 2018, The FreeType Project", 
+        "id": "Third Party Text 5", 
+        "description": ""
+    }, 
+    {
+        "source": "GLFW, https://www.glfw.org, Copyright (c) 2002-2006 Marcus Geelnard, Copyright (c) 2006-2016 Camilla L\u00f6wy <elmindreda@glfw.org>", 
+        "text": "GLFW, https://www.glfw.org, H\u00f6fundarr\u00e9ttur (c) 2002-2006 Marcus Geelnard, H\u00f6fundarr\u00e9ttur (c) 2006-2016 Camilla L\u00f6wy <elmindreda@glfw.org>", 
+        "id": "Third Party Text 6", 
+        "description": ""
+    }, 
+    {
+        "source": "GLM, https://glm.g-truc.net/0.9.9/index.html, Copyright (c) 2005-2017 G-Truc Creation", 
+        "text": "GLM, https://glm.g-truc.net/0.9.9/index.html, H\u00f6fundarr\u00e9ttur (c) 2005-2017 G-Truc Creation", 
+        "id": "Third Party Text 7", 
+        "description": ""
+    }, 
+    {
+        "source": "glbinding, https://github.com/cginternals/glbinding, Copyright (c) 2014-2015 Computer Graphics Systems Group at the Hasso-Plattner-Institute and CG Internals GmbH, Germany", 
+        "text": "glbinding, https://github.com/cginternals/glbinding, H\u00f6fundarr\u00e9ttur (c) 2014-2015 Computer Graphics Systems Group \u00ed Hasso-Plattner-Institute og CG Internals GmbH, \u00de\u00fdskalandi", 
+        "id": "Third Party Text 8", 
+        "description": ""
+    }, 
+    {
+        "source": "libjpeg, http://www.ijg.org, Copyright (c) 1991-2012, Thomas G. Lane, Guido Vollbeding", 
+        "text": "libjpeg, http://www.ijg.org, H\u00f6fundarr\u00e9ttur (c) 1991-2012, Thomas G. Lane, Guido Vollbeding", 
+        "id": "Third Party Text 9", 
+        "description": ""
+    }, 
+    {
+        "source": "libpng, http://www.libpng.org, Copyright (c) 2004, 2006-2012 Glenn Randers-Pehrson", 
+        "text": "libpng, http://www.libpng.org, H\u00f6fundarr\u00e9ttur (c) 2004, 2006-2012 Glenn Randers-Pehrson", 
+        "id": "Third Party Text 10", 
+        "description": ""
+    }, 
+    {
+        "source": "libtiff, http://www.libtiff.org, Copyright (c) 1988-1997 Sam Leffler, Copyright (c) 1991-1997 Silicon Graphics, Inc", 
+        "text": "libtiff, http://www.libtiff.org, h\u00f6fundarr\u00e9ttur (c) 1988-1997 Sam Leffler, h\u00f6fundarr\u00e9ttur (c) 1991-1997 Silicon Graphics, Inc", 
+        "id": "Third Party Text 11", 
+        "description": ""
+    }, 
+    {
+        "source": "OpenAL, https://www.openal.org, Copyright (C) 1999-2000 by Loki Software", 
+        "text": "OpenAL, https://www.openal.org, H\u00f6fundarr\u00e9ttur (C) 1999-2000 eftir Loki Software", 
+        "id": "Third Party Text 12", 
+        "description": ""
+    }, 
+    {
+        "source": "OpenEXR, http://www.openexr.com, Copyright (c) 2006, Industrial Light and Magic, a division of Lucasfilm Entertainment Company Ltd.", 
+        "text": "OpenEXR, http://www.openexr.com, H\u00f6fundarr\u00e9ttur (c) 2006, Industrial Light and Magic, deild Lucasfilm Entertainment Company Ltd.", 
+        "id": "Third Party Text 13", 
+        "description": ""
+    }, 
+    {
+        "source": "zlib, http://www.zlib.net, Copyright (c) 1995-2013 Jean-loup Gailly and Mark Adler", 
+        "text": "zlib, http://www.zlib.net, H\u00f6fundarr\u00e9ttur (c) 1995-2013 Jean-loup Gailly og Mark Adler", 
+        "id": "Third Party Text 14", 
+        "description": ""
+    }, 
+    {
+        "source": "Trademarks", 
+        "text": "V\u00f6rumerki", 
+        "id": "Trademarks", 
+        "description": ""
+    }, 
+    {
+        "source": "Trademarks named in the documentation (in alphabetical order):", 
+        "text": "V\u00f6rumerki heitir \u00ed skj\u00f6lunum (\u00ed stafr\u00f3fsr\u00f6\u00f0):", 
+        "id": "Trademarks Text 1", 
+        "description": ""
+    }, 
+    {
+        "source": "Apple, OS X, ProRes, and QuickTime are registered trademarks of Apple, Inc.", 
+        "text": "Apple, OS X, ProRes og QuickTime eru skr\u00e1\u00f0 v\u00f6rumerki Apple, Inc.", 
+        "id": "Trademarks Text 2", 
+        "description": ""
+    }, 
+    {
+        "source": "AMD and ATI are registered trademarks of Advanced Micro Devices, Inc.", 
+        "text": "AMD og ATI eru skr\u00e1\u00f0 v\u00f6rumerki Advanced Micro Devices, Inc.", 
+        "id": "Trademarks Text 3", 
+        "description": ""
+    }, 
+    {
+        "source": "Autodesk, Inferno, Maya, Softimage, and XSI are registered trademarks of Autodesk, Inc.", 
+        "text": "Autodesk, Inferno, Maya, Softimage og XSI eru skr\u00e1\u00f0 v\u00f6rumerki Autodesk, Inc.", 
+        "id": "Trademarks Text 4", 
+        "description": ""
+    }, 
+    {
+        "source": "Debian is a registered trademark of Software in the Public Interest, Inc.", 
+        "text": "Debian er skr\u00e1\u00f0 v\u00f6rumerki hugb\u00fana\u00f0ar \u00ed almannahagsmunum, Inc.", 
+        "id": "Trademarks Text 5", 
+        "description": ""
+    }, 
+    {
+        "source": "FFmpeg is a trademark of Fabrice Bellard, originator of the FFmpeg project", 
+        "text": "FFmpeg er v\u00f6rumerki Fabrice Bellard, frumkv\u00f6\u00f0ull FFmpeg verkefnisins", 
+        "id": "Trademarks Text 6", 
+        "description": ""
+    }, 
+    {
+        "source": "FreeBSD is a registered trademark of The FreeBSD Foundation", 
+        "text": "FreeBSD er skr\u00e1\u00f0 v\u00f6rumerki The FreeBSD Foundation", 
+        "id": "Trademarks Text 7", 
+        "description": ""
+    }, 
+    {
+        "source": "Intel is a registered trademark of Intel Corporation", 
+        "text": "Intel er skr\u00e1\u00f0 v\u00f6rumerki Intel Corporation", 
+        "id": "Trademarks Text 8", 
+        "description": ""
+    }, 
+    {
+        "source": "Industrial Light and Magic and ILM are registered trademarks of Lucasfilm Ltd.", 
+        "text": "Industrial Light og Magic og ILM eru skr\u00e1\u00f0 v\u00f6rumerki Lucasfilm Ltd.", 
+        "id": "Trademarks Text 9", 
+        "description": ""
+    }, 
+    {
+        "source": "Kodak and Cineon are a registered trademarks of the Eastman Kodak Company", 
+        "text": "Kodak og Cineon eru skr\u00e1\u00f0 v\u00f6rumerki Eastman Kodak Company", 
+        "id": "Trademarks Text 10", 
+        "description": ""
+    }, 
+    {
+        "source": "Linux is a registered trademark of Linus Torvalds", 
+        "text": "Linux er skr\u00e1\u00f0 v\u00f6rumerki Linus Torvalds", 
+        "id": "Trademarks Text 11", 
+        "description": ""
+    }, 
+    {
+        "source": "Microsoft and Microsoft Windows are registered trademarks of Microsoft, Inc.", 
+        "text": "Microsoft og Microsoft Windows eru skr\u00e1\u00f0 v\u00f6rumerki Microsoft, Inc.", 
+        "id": "Trademarks Text 12", 
+        "description": ""
+    }, 
+    {
+        "source": "MIPS is a registered trademark of MIPS Technologies, Inc.", 
+        "text": "MIPS er skr\u00e1\u00f0 v\u00f6rumerki MIPS Technologies, Inc.", 
+        "id": "Trademarks Text 13", 
+        "description": ""
+    }, 
+    {
+        "source": "NVIDIA is a registered trademark of NVIDIA Corporation", 
+        "text": "NVIDIA er skr\u00e1\u00f0 v\u00f6rumerki NVIDIA Corporation", 
+        "id": "Trademarks Text 14", 
+        "description": ""
+    }, 
+    {
+        "source": "Red Hat and Fedora are registered trademarks of Red Hat, Inc.", 
+        "text": "Red Hat og Fedora eru skr\u00e1\u00f0ir v\u00f6rumerki Red Hat, Inc.", 
+        "id": "Trademarks Text 15", 
+        "description": ""
+    }, 
+    {
+        "source": "Silicon Graphics, SGI, IRIX, and OpenGL are registered trademarks of Silicon Graphics International Corp.", 
+        "text": "Silicon Graphics, SGI, IRIX og OpenGL eru skr\u00e1\u00f0ir v\u00f6rumerki Silicon Graphics International Corp.", 
+        "id": "Trademarks Text 16", 
+        "description": ""
+    }, 
+    {
+        "source": "SMPTE is a registered trademark of the Society of Motion Picture and Television Engineers", 
+        "text": "SMPTE er skr\u00e1\u00f0 v\u00f6rumerki myndbands kvikmynda og sj\u00f3nvarpsmanna", 
+        "id": "Trademarks Text 17", 
+        "description": ""
+    }, 
+    {
+        "source": "SourceForge.net is a registered trademark of VA Software Corporation", 
+        "text": "SourceForge.net er skr\u00e1\u00f0 v\u00f6rumerki VA Software Corporation", 
+        "id": "Trademarks Text 18", 
+        "description": ""
+    }, 
+    {
+        "source": "SuSE is a registered trademark of Novell, Inc.", 
+        "text": "SuSE er skr\u00e1\u00f0 v\u00f6rumerki Novell, Inc.", 
+        "id": "Trademarks Text 19", 
+        "description": ""
+    }, 
+    {
+        "source": "Ubuntu is a registered trademark of Canonical Ltd.", 
+        "text": "Ubuntu er skr\u00e1\u00f0 v\u00f6rumerki Canonical Ltd.", 
+        "id": "Trademarks Text 20", 
+        "description": ""
+    }, 
+    {
+        "source": "UNIX is a registered trademark of The Open Group", 
+        "text": "UNIX er skr\u00e1\u00f0 v\u00f6rumerki The Open Group", 
+        "id": "Trademarks Text 21", 
+        "description": ""
+    }, 
+    {
+        "source": "All other products named in the documentation are trademarks of their respective owners.", 
+        "text": "Allar a\u00f0rar v\u00f6rur sem nefndar eru \u00ed skj\u00f6lunum eru v\u00f6rumerki vi\u00f0komandi eigenda.", 
+        "id": "Trademarks Text 22", 
+        "description": ""
+    }, 
+    {
+        "source": "Made in Berkeley, CA, USA", 
+        "text": "Made in Berkeley, CA, USA", 
+        "id": "Made In", 
+        "description": ""
+    }, 
+    {
+        "source": "Exit", 
+        "text": "H\u00e6tta", 
+        "id": "Exit", 
+        "description": ""
+    }, 
+    {
+        "source": "Are you sure you want to exit?", 
+        "text": "Ertu viss um a\u00f0 \u00fe\u00fa viljir fara?", 
+        "id": "Are you sure you want to exit?", 
+        "description": ""
+    }, 
+    {
+        "source": "Yes", 
+        "text": "J\u00e1", 
+        "id": "Yes", 
+        "description": ""
+    }, 
+    {
+        "source": "No", 
+        "text": "Nr", 
+        "id": "No", 
+        "description": ""
+    }, 
+    {
+        "source": "Open", 
+        "text": "Opna", 
+        "id": "Open", 
+        "description": ""
+    }, 
+    {
+        "source": "Open Tooltip", 
+        "text": "Open Tooltip", 
+        "id": "Open Tooltip", 
+        "description": ""
+    }, 
+    {
+        "source": "Recent", 
+        "text": "N\u00fdleg", 
+        "id": "Recent", 
+        "description": ""
+    }, 
+    {
+        "source": "Recent Tooltip", 
+        "text": "N\u00fdtt t\u00f3ltip", 
+        "id": "Recent Tooltip", 
+        "description": ""
+    }, 
+    {
+        "source": "Reload", 
+        "text": "Endurhla\u00f0a", 
+        "id": "Reload", 
+        "description": ""
+    }, 
+    {
+        "source": "Reload Tooltip", 
+        "text": "Endurhla\u00f0a Tooltip", 
+        "id": "Reload Tooltip", 
+        "description": ""
+    }, 
+    {
+        "source": "Reload Frame", 
+        "text": "Endurhla\u00f0a ramma", 
+        "id": "Reload Frame", 
+        "description": ""
+    }, 
+    {
+        "source": "Reload Frame Tooltip", 
+        "text": "Endurhla\u00f0a Frame Tooltip", 
+        "id": "Reload Frame Tooltip", 
+        "description": ""
+    }, 
+    {
+        "source": "Close", 
+        "text": "Loka", 
+        "id": "Close", 
+        "description": ""
+    }, 
+    {
+        "source": "Export", 
+        "text": "\u00datflutningur", 
+        "id": "Export", 
+        "description": ""
+    }, 
+    {
+        "source": "Export Tooltip", 
+        "text": "Export Tooltip", 
+        "id": "Export Tooltip", 
+        "description": ""
+    }, 
+    {
+        "source": "Next", 
+        "text": "N\u00e6st", 
+        "id": "Next", 
+        "description": ""
+    }, 
+    {
+        "source": "Next Tooltip", 
+        "text": "Next Tooltip", 
+        "id": "Next Tooltip", 
+        "description": ""
+    }, 
+    {
+        "source": "Prev", 
+        "text": "Fyrri", 
+        "id": "Prev", 
+        "description": ""
+    }, 
+    {
+        "source": "Prev Tooltip", 
+        "text": "Prev Tooltip", 
+        "id": "Prev Tooltip", 
+        "description": ""
+    }, 
+    {
+        "source": "Layers", 
+        "text": "Lag", 
+        "id": "Layers", 
+        "description": ""
+    }, 
+    {
+        "source": "Layers Tooltip", 
+        "text": "Layer Tooltip", 
+        "id": "Layers Tooltip", 
+        "description": ""
+    }, 
+    {
+        "source": "Next Layer", 
+        "text": "N\u00e6sta lag", 
+        "id": "Next Layer", 
+        "description": ""
+    }, 
+    {
+        "source": "Next Layer Tooltip", 
+        "text": "Next Layer Tooltip", 
+        "id": "Next Layer Tooltip", 
+        "description": ""
+    }, 
+    {
+        "source": "Previous Layer", 
+        "text": "Fyrri lag", 
+        "id": "Previous Layer", 
+        "description": ""
+    }, 
+    {
+        "source": "Previous Layer Tooltip", 
+        "text": "Fyrri Layer Tooltip", 
+        "id": "Previous Layer Tooltip", 
+        "description": ""
+    }, 
+    {
+        "source": "8-bit Conversion", 
+        "text": "8-bita vi\u00f0skipta", 
+        "id": "8-bit Conversion", 
+        "description": ""
+    }, 
+    {
+        "source": "8-bit Conversion Tooltip", 
+        "text": "8-bita vi\u00f0skipta t\u00f3ltip", 
+        "id": "8-bit Conversion Tooltip", 
+        "description": ""
+    }, 
+    {
+        "source": "Memory Cache", 
+        "text": "Minnisskyndiminni", 
+        "id": "Memory Cache", 
+        "description": ""
+    }, 
+    {
+        "source": "Memory Cache Tooltip", 
+        "text": "Minni Cache Tooltip", 
+        "id": "Memory Cache Tooltip", 
+        "description": ""
+    }, 
+    {
+        "source": "Clear Cache", 
+        "text": "Hreinsa skyndiminni", 
+        "id": "Clear Cache", 
+        "description": ""
+    }, 
+    {
+        "source": "Clear Cache Tooltip", 
+        "text": "Hreinsa Cache Tooltip", 
+        "id": "Clear Cache Tooltip", 
+        "description": ""
+    }, 
+    {
+        "source": "Settings", 
+        "text": "Stillingar", 
+        "id": "Settings", 
+        "description": ""
+    }, 
+    {
+        "source": "Settings Tooltip", 
+        "text": "Stillingar Tooltip", 
+        "id": "Settings Tooltip", 
+        "description": ""
+    }, 
+    {
+        "source": "Exit Tooltip", 
+        "text": "H\u00e6tta vi\u00f0 verkf\u00e6ri\u00f0", 
+        "id": "Exit Tooltip", 
+        "description": ""
+    }, 
+    {
+        "source": "File", 
+        "text": "Skr\u00e1", 
+        "id": "File", 
+        "description": ""
+    }, 
+    {
+        "source": "Proxy Scale", 
+        "text": "Proxy Scale", 
+        "id": "Proxy Scale", 
+        "description": ""
+    }, 
+    {
+        "source": "Debug", 
+        "text": "Kemba", 
+        "id": "Debug", 
+        "description": ""
+    }, 
+    {
+        "source": "Duration", 
+        "text": "Lengd", 
+        "id": "Duration", 
+        "description": ""
+    }, 
+    {
+        "source": "Current Time", 
+        "text": "N\u00faverandi t\u00edmi", 
+        "id": "Current Time", 
+        "description": ""
+    }, 
+    {
+        "source": "Video Queue", 
+        "text": "Video bi\u00f0r\u00f6\u00f0", 
+        "id": "Video Queue", 
+        "description": ""
+    }, 
+    {
+        "source": "Audio Queue", 
+        "text": "Audio Tail", 
+        "id": "Audio Queue", 
+        "description": ""
+    }, 
+    {
+        "source": "AL Unqueued Buffers", 
+        "text": "AL Unqueued Buffers", 
+        "id": "AL Unqueued Buffers", 
+        "description": ""
+    }, 
+    {
+        "source": "Log", 
+        "text": "Log", 
+        "id": "Log", 
+        "description": ""
+    }, 
+    {
+        "source": "Copy", 
+        "text": "Afrita", 
+        "id": "Copy", 
+        "description": ""
+    }, 
+    {
+        "source": "Clear", 
+        "text": "Hreinsa", 
+        "id": "Clear", 
+        "description": ""
+    }, 
+    {
+        "source": "SDI Window Mode Tooltip", 
+        "text": "SDI gluggahnappur t\u00f3ltip", 
+        "id": "SDI Window Mode Tooltip", 
+        "description": ""
+    }, 
+    {
+        "source": "MDI Window Mode Tooltip", 
+        "text": "MDI gluggahnappur t\u00f3ltip", 
+        "id": "MDI Window Mode Tooltip", 
+        "description": ""
+    }, 
+    {
+        "source": "Playlist Window Mode Tooltip", 
+        "text": "Spilunarlisti Gluggahle\u00f0ill t\u00f3ltip", 
+        "id": "Playlist Window Mode Tooltip", 
+        "description": ""
+    }, 
+    {
+        "source": "Tools", 
+        "text": "Verkf\u00e6ri", 
+        "id": "Tools", 
+        "description": ""
+    }, 
+    {
+        "source": "Magnifier Tooltip", 
+        "text": "Magnifier Tooltip", 
+        "id": "Magnifier Tooltip", 
+        "description": ""
+    }, 
+    {
+        "source": "Color Picker Tooltip", 
+        "text": "Color Picker Tooltip", 
+        "id": "Color Picker Tooltip", 
+        "description": ""
+    }, 
+    {
+        "source": "Histogram Tooltip", 
+        "text": "Histogram Tooltip", 
+        "id": "Histogram Tooltip", 
+        "description": ""
+    }, 
+    {
+        "source": "Debug Tooltip", 
+        "text": "Debug Tooltip", 
+        "id": "Debug Tooltip", 
+        "description": ""
+    }
+]
