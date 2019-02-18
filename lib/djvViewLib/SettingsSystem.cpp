@@ -29,8 +29,7 @@
 
 #include <djvViewLib/SettingsSystem.h>
 
-#include <djvViewLib/IMDIWidget.h>
-#include <djvViewLib/SettingsWidget.h>
+#include <djvViewLib/SettingsDialog.h>
 
 #include <djvUIComponents/DisplaySettingsWidget.h>
 #include <djvUIComponents/LanguageSettingsWidget.h>
@@ -61,7 +60,7 @@ namespace djv
         {
             std::map<std::string, std::shared_ptr<UI::Action> > actions;
             std::vector<std::shared_ptr<UI::ISettingsWidget> > settingsWidgets;
-			std::shared_ptr<SettingsWidget> settingsWidget;
+			std::shared_ptr<SettingsDialog> settingsDialog;
 			std::map<std::string, std::shared_ptr<ValueObserver<bool> > > clickedObservers;
         };
 
@@ -77,7 +76,7 @@ namespace djv
 #if defined(JPEG_FOUND)
             p.settingsWidgets.push_back(UI::JPEGSettingsWidget::create(context));
 #endif
-			p.settingsWidget = SettingsWidget::create(context);
+			p.settingsDialog = SettingsDialog::create(context);
         }
 
         SettingsSystem::SettingsSystem() :
@@ -96,8 +95,7 @@ namespace djv
         
 		void SettingsSystem::showSettings()
 		{
-			_p->settingsWidget->moveToFront();
-			_p->settingsWidget->show();
+			_p->settingsDialog->show();
 		}
 
         std::map<std::string, std::shared_ptr<UI::Action> > SettingsSystem::getActions()
@@ -109,15 +107,6 @@ namespace djv
         {
             return _p->settingsWidgets;
         }
-
-		std::vector<NewMDIWidget> SettingsSystem::getMDIWidgets()
-		{
-			DJV_PRIVATE_PTR();
-			return
-			{
-				NewMDIWidget(p.settingsWidget, "A")
-			};
-		}
         
     } // namespace ViewLib
 } // namespace djv

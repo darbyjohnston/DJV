@@ -34,8 +34,6 @@ namespace djv
                 const Layout::Margin& getInsideMargin() const;
                 void setInsideMargin(const Layout::Margin&);
 
-                float getHeightForWidth(float) const override;
-
             protected:
                 void _preLayoutEvent(Core::Event::PreLayout&) override;
                 void _layoutEvent(Core::Event::Layout&) override;

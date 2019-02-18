@@ -29,8 +29,8 @@
 
 #include <djvViewLib/HelpSystem.h>
 
-#include <djvViewLib/AboutWidget.h>
-#include <djvViewLib/LogWidget.h>
+#include <djvViewLib/AboutDialog.h>
+#include <djvViewLib/LogDialog.h>
 
 #include <djvUI/Action.h>
 #include <djvUI/IWindowSystem.h>
@@ -52,8 +52,8 @@ namespace djv
         {
             std::map<std::string, std::shared_ptr<UI::Action> > actions;
             std::map<std::string, std::shared_ptr<UI::Menu> > menus;
-			std::shared_ptr<AboutWidget> aboutWidget;
-			std::shared_ptr<LogWidget> logWidget;
+			std::shared_ptr<AboutDialog> aboutDialog;
+			std::shared_ptr<LogDialog> logDialog;
 			std::map<std::string, std::shared_ptr<ValueObserver<bool> > > clickedObservers;
         };
 
@@ -81,9 +81,9 @@ namespace djv
             p.menus["Help"]->addSeparator();
             p.menus["Help"]->addAction(p.actions["Log"]);
 
-			p.aboutWidget = AboutWidget::create(context);
+			p.aboutDialog = AboutDialog::create(context);
 
-			p.logWidget = LogWidget::create(context);
+			p.logDialog = LogDialog::create(context);
 
             auto weak = std::weak_ptr<HelpSystem>(std::dynamic_pointer_cast<HelpSystem>(shared_from_this()));
             p.clickedObservers["About"] = ValueObserver<bool>::create(
@@ -94,8 +94,7 @@ namespace djv
 				{
 					if (auto system = weak.lock())
 					{
-						system->_p->aboutWidget->moveToFront();
-						system->_p->aboutWidget->show();
+						system->_p->aboutDialog->show();
 					}
 				}
             });
@@ -110,14 +109,13 @@ namespace djv
 					{
 						if (value)
 						{
-							system->_p->logWidget->reloadLog();
+							system->_p->logDialog->reloadLog();
 						}
 						else
 						{
-							system->_p->logWidget->clearLog();
+							system->_p->logDialog->clearLog();
 						}
-						system->_p->logWidget->moveToFront();
-						system->_p->logWidget->show();
+						system->_p->logDialog->show();
 					}
 				}
             });
@@ -141,22 +139,6 @@ namespace djv
         {
             return _p->actions;
         }
-
-        NewMenu HelpSystem::getMenu()
-        {
-            DJV_PRIVATE_PTR();
-            return { p.menus["Help"], "G" };
-        }
-
-		std::vector<NewMDIWidget> HelpSystem::getMDIWidgets()
-		{
-			DJV_PRIVATE_PTR();
-			return 
-			{
-				NewMDIWidget(p.aboutWidget, "G1"),
-				NewMDIWidget(p.logWidget, "G2")
-			};
-		}
 
         void HelpSystem::_localeEvent(Event::Locale &)
         {

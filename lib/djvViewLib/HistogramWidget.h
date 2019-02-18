@@ -29,13 +29,13 @@
 
 #pragma once
 
-#include <djvViewLib/IMDIWidget.h>
+#include <djvViewLib/IToolWidget.h>
 
 namespace djv
 {
     namespace ViewLib
     {
-        class HistogramWidget : public IMDIWidget
+        class HistogramWidget : public IToolWidget
         {
             DJV_NON_COPYABLE(HistogramWidget);
 

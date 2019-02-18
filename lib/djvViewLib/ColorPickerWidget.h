@@ -29,13 +29,13 @@
 
 #pragma once
 
-#include <djvViewLib/IMDIWidget.h>
+#include <djvViewLib/IToolWidget.h>
 
 namespace djv
 {
     namespace ViewLib
     {
-        class ColorPickerWidget : public IMDIWidget
+        class ColorPickerWidget : public IToolWidget
         {
             DJV_NON_COPYABLE(ColorPickerWidget);
 

@@ -1,65 +1,63 @@
 set(header
-    AboutWidget.h
+    AboutDialog.h
     Application.h
     ColorPickerWidget.h
     DebugWidget.h
     Enum.h
-    FileBrowserWidget.h
+    FileBrowserDialog.h
     FileSystem.h
     FileSystemSettings.h
     HelpSystem.h
     HistogramWidget.h
-    IMDIWidget.h
+    IToolWidget.h
     IViewSystem.h
     ImageSystem.h
     ImageView.h
     ImageViewSystem.h
     InformationWidget.h
-    LogWidget.h
+    LogDialog.h
     MagnifierWidget.h
     MainWindow.h
     Media.h
-    MediaMDIWidget.h
-    MediaPlaylistWidget.h
-    MediaSDIWidget.h
+    MediaWidget.h
     PlaybackSystem.h
     PlaybackWidget.h
-    RecentFilesWidget.h
+    PlaylistDialog.h
+    RecentFilesDialog.h
     SettingsSystem.h
-    SettingsWidget.h
+    SettingsDialog.h
     TimelineSlider.h
     ToolSystem.h
     ViewLib.h
     WindowSystem.h)
 set(source
-    AboutWidget.cpp
+    AboutDialog.cpp
     Application.cpp
     ColorPickerWidget.cpp
     DebugWidget.cpp
     Enum.cpp
-    FileBrowserWidget.cpp
+    FileBrowserDialog.cpp
     FileSystem.cpp
     FileSystemSettings.cpp
     HelpSystem.cpp
     HistogramWidget.cpp
-    IMDIWidget.cpp
+    IToolWidget.cpp
     IViewSystem.cpp
     ImageSystem.cpp
     ImageView.cpp
     ImageViewSystem.cpp
     InformationWidget.cpp
-    LogWidget.cpp
+    LogDialog.cpp
     MagnifierWidget.cpp
     MainWindow.cpp
     Media.cpp
-    MediaMDIWidget.cpp
-    MediaPlaylistWidget.cpp
-    MediaSDIWidget.cpp
+    MediaWidget.cpp
     PlaybackSystem.cpp
     PlaybackWidget.cpp
-    RecentFilesWidget.cpp
+    PlaylistDialog.cpp
+    RecentFilesDialog.cpp
     SettingsSystem.cpp
-    SettingsWidget.cpp
+    SettingsDialog.cpp
     TimelineSlider.cpp
     ToolSystem.cpp
     WindowSystem.cpp)

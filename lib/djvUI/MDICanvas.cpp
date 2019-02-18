@@ -172,8 +172,6 @@ namespace djv
 				if (auto style = _getStyle().lock())
 				{
 					const BBox2f & g = getGeometry();
-					const glm::vec2 c = g.getCenter();
-					const float m = style->getMetric(MetricsRole::MarginDialog);
 					for (auto & i : _p->widgetToPos)
 					{
 						if (i.first->isVisible())

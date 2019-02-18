@@ -112,11 +112,6 @@ namespace djv
                 _p->layout->setMargin(value);
             }
 
-            float Tool::getHeightForWidth(float value) const
-            {
-                return _p->layout->getHeightForWidth(value);
-            }
-
             void Tool::_preLayoutEvent(Event::PreLayout& event)
             {
                 _setMinimumSize(_p->layout->getMinimumSize());

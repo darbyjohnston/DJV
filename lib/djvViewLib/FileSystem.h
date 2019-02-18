@@ -61,11 +61,7 @@ namespace djv
             void close(const std::shared_ptr<Media> &);
             void setCurrentMedia(const std::shared_ptr<Media> &);
 
-            const std::shared_ptr<FileSystemSettings> & getSettings() const;
-
             std::map<std::string, std::shared_ptr<UI::Action> > getActions() override;
-            NewMenu getMenu() override;
-			std::vector<NewMDIWidget> getMDIWidgets() override;
 
         protected:
             void _localeEvent(Core::Event::Locale &) override;

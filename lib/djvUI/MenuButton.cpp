@@ -74,7 +74,7 @@ namespace djv
                 p.label->hide();
 
                 p.layout = HorizontalLayout::create(context);
-                p.layout->setMargin(Layout::Margin(MetricsRole::Margin, MetricsRole::Margin, MetricsRole::MarginSmall, MetricsRole::MarginSmall));
+                p.layout->setMargin(MetricsRole::MarginSmall);
                 p.layout->addWidget(p.icon);
                 p.layout->addWidget(p.label, RowStretch::Expand);
 

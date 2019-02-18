@@ -133,12 +133,6 @@ namespace djv
             return _p->actions;
         }
 
-        NewMenu ImageSystem::getMenu()
-        {
-            DJV_PRIVATE_PTR();
-            return { p.menus["Image"], "D" };
-        }
-
         void ImageSystem::_localeEvent(Event::Locale &)
         {
             DJV_PRIVATE_PTR();

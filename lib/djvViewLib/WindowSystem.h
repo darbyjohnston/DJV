@@ -29,10 +29,7 @@
 
 #pragma once
 
-#include <djvViewLib/Enum.h>
 #include <djvViewLib/IViewSystem.h>
-
-#include <djvCore/ValueObserver.h>
 
 namespace djv
 {
@@ -51,11 +48,7 @@ namespace djv
 
             static std::shared_ptr<WindowSystem> create(Core::Context *);
 
-            std::shared_ptr<Core::IValueSubject<WindowMode> > observeWindowMode() const;
-            void setWindowMode(WindowMode);
-
             std::map<std::string, std::shared_ptr<UI::Action> > getActions() override;
-            NewMenu getMenu() override;
 
         protected:
             void _localeEvent(Core::Event::Locale &) override;

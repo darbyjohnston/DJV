@@ -37,16 +37,6 @@ namespace djv
 {
     namespace ViewLib
     {
-        NewMDIWidget::NewMDIWidget()
-        {}
-        
-        NewMDIWidget::NewMDIWidget(
-            const std::shared_ptr<IMDIWidget> & widget,
-            const std::string & sortKey) :
-            widget(widget),
-            sortKey(sortKey)
-        {}
-        
         struct IViewSystem::Private
         {
         };
@@ -67,15 +57,15 @@ namespace djv
         {
             return std::map<std::string, std::shared_ptr<UI::Action> >();
         }
-        
-        NewMenu IViewSystem::getMenu()
+
+        PanelData IViewSystem::getPanel()
         {
-            return NewMenu();
+            return PanelData();
         }
 
-        std::vector<NewMDIWidget> IViewSystem::getMDIWidgets()
+        std::vector<std::shared_ptr<IToolWidget> > IViewSystem::getToolWidgets()
         {
-            return std::vector<NewMDIWidget>();
+            return std::vector<std::shared_ptr<IToolWidget> >();
         }
 
         std::vector<std::shared_ptr<UI::ISettingsWidget> > IViewSystem::getSettingsWidgets()

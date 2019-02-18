@@ -39,7 +39,6 @@
 #include <djvUI/Menu.h>
 #include <djvUI/MenuButton.h>
 #include <djvUI/RowLayout.h>
-#include <djvUI/ScrollWidget.h>
 #include <djvUI/StackLayout.h>
 #include <djvUI/TextBlock.h>
 
@@ -98,12 +97,9 @@ namespace djv
                         action->doClicked();
                     });
                 }
-                auto scrollWidget = ScrollWidget::create(ScrollType::Vertical, context);
-                scrollWidget->setBorder(false);
-                scrollWidget->addWidget(itemLayout);
 
                 p.layout = VerticalLayout::create(context);
-                p.layout->addWidget(scrollWidget, RowStretch::Expand);
+                p.layout->addWidget(itemLayout, RowStretch::Expand);
                 p.layout->setParent(shared_from_this());
 
                 auto weak = std::weak_ptr<ShortcutsWidget>(std::dynamic_pointer_cast<ShortcutsWidget>(shared_from_this()));

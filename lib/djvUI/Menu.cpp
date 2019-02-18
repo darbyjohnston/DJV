@@ -703,8 +703,6 @@ namespace djv
 				//! \bug This causes the menus to flicker when they are shown.
 				//_scrollWidget->setAutoHideScrollBars(true);
 				_scrollWidget->setMinimumSizeRole(MetricsRole::None);
-				_scrollWidget->setBackgroundRole(ColorRole::Background);
-				_scrollWidget->setPointerEnabled(true);
 				_scrollWidget->addWidget(_menuWidget);
 				_scrollWidget->setParent(shared_from_this());
 			}

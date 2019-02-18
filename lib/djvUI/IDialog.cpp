@@ -98,7 +98,6 @@ namespace djv
             p.titleLabel = Label::create(context);
             p.titleLabel->setFontSizeRole(UI::MetricsRole::FontHeader);
             p.titleLabel->setTextHAlign(TextHAlign::Left);
-            p.titleLabel->setTextColorRole(ColorRole::HeaderForeground);
             p.titleLabel->setMargin(UI::Layout::Margin(
                 UI::MetricsRole::MarginLarge,
                 UI::MetricsRole::None,
@@ -107,31 +106,25 @@ namespace djv
 
             p.closeButton = ToolButton::create(context);
 			p.closeButton->setIcon("djvIconClose");
-			p.closeButton->setForegroundColorRole(UI::ColorRole::HeaderForeground);
-			p.closeButton->setHoveredColorRole(UI::ColorRole::HeaderHovered);
-			p.closeButton->setPressedColorRole(UI::ColorRole::HeaderPressed);
-			p.closeButton->setCheckedColorRole(UI::ColorRole::HeaderChecked);
-			p.closeButton->setDisabledColorRole(UI::ColorRole::HeaderDisabled);
 			p.closeButton->setInsideMargin(MetricsRole::MarginSmall);
 
             p.childLayout = VerticalLayout::create(context);
             p.childLayout->setSpacing(MetricsRole::None);
-            p.childLayout->setBackgroundRole(ColorRole::Background);
 
             p.layout = DialogLayout::create(context);
 			p.layout->setSpacing(MetricsRole::None);
+            p.layout->setBackgroundRole(ColorRole::Background);
             auto hLayout = HorizontalLayout::create(context);
-            hLayout->setBackgroundRole(ColorRole::HeaderBackground);
             hLayout->addWidget(p.titleLabel, RowStretch::Expand);
             hLayout->addWidget(p.closeButton);
 			p.layout->addWidget(hLayout);
+            p.layout->addSeparator();
 			p.layout->addWidget(p.childLayout, RowStretch::Expand);
 
             p.border = Layout::Border::create(context);
             p.border->addWidget(p.layout);
 
             p.overlay = Layout::Overlay::create(context);
-            p.overlay->setMargin(MetricsRole::MarginDialog);
             p.overlay->addWidget(p.border);
             p.overlay->setParent(shared_from_this());
 

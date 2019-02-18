@@ -59,7 +59,6 @@ namespace djv
             std::shared_ptr<ValueObserver<Playback> > playbackObserver;
             std::shared_ptr<ListObserver<std::shared_ptr<Media> > > mediaObserver;
             std::shared_ptr<ValueObserver<std::shared_ptr<Media> > > currentMediaObserver;
-            std::shared_ptr<ValueObserver<WindowMode> > windowModeObserver;
         };
 
         void PlaybackSystem::_init(Context * context)
@@ -261,32 +260,6 @@ namespace djv
                     }
                 });
             }
-
-            if (auto windowSystem = context->getSystemT<WindowSystem>().lock())
-            {
-                p.windowModeObserver = ValueObserver<WindowMode>::create(
-                    windowSystem->observeWindowMode(),
-                    [weak](WindowMode value)
-                {
-                    if (auto system = weak.lock())
-                    {
-                        switch (value)
-                        {
-                        case WindowMode::SDI:
-                        case WindowMode::Playlist:
-                            for (auto & i : system->_p->media)
-                            {
-                                if (i != system->_p->currentMedia)
-                                {
-                                    i->setPlayback(Playback::Stop);
-                                }
-                            }
-                            break;
-                        default: break;
-                        }
-                    }
-                });
-            }
         }
 
         PlaybackSystem::PlaybackSystem() :
@@ -306,12 +279,6 @@ namespace djv
         std::map<std::string, std::shared_ptr<UI::Action> > PlaybackSystem::getActions()
         {
             return _p->actions;
-        }
-
-        NewMenu PlaybackSystem::getMenu()
-        {
-            DJV_PRIVATE_PTR();
-            return { p.menus["Playback"], "E" };
         }
 
         void PlaybackSystem::_localeEvent(Event::Locale &)

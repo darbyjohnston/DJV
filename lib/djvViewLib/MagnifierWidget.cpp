@@ -42,7 +42,7 @@ namespace djv
 
         void MagnifierWidget::_init(Context * context)
         {
-            IMDIWidget::_init(MDIResize::Minimum, context);
+            IToolWidget::_init(context);
         }
 
         MagnifierWidget::MagnifierWidget() :
@@ -61,7 +61,7 @@ namespace djv
 
         void MagnifierWidget::_localeEvent(Event::Locale & event)
         {
-			IMDIWidget::_localeEvent(event);
+			IToolWidget::_localeEvent(event);
             setTitle(_getText(DJV_TEXT("Magnifier")));
         }
 

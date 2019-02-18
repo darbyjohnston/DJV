@@ -42,7 +42,7 @@ namespace djv
 
         void InformationWidget::_init(Context * context)
         {
-            IMDIWidget::_init(MDIResize::Minimum, context);
+            IToolWidget::_init(context);
         }
 
         InformationWidget::InformationWidget() :
@@ -61,7 +61,7 @@ namespace djv
 
         void InformationWidget::_localeEvent(Event::Locale & event)
         {
-			IMDIWidget::_localeEvent(event);
+			IToolWidget::_localeEvent(event);
             setTitle(_getText(DJV_TEXT("Information")));
         }
 

@@ -67,7 +67,7 @@ namespace djv
 
         void DebugWidget::_init(Context * context)
         {
-            IMDIWidget::_init(MDIResize::Minimum, context);
+            IToolWidget::_init(context);
 
             DJV_PRIVATE_PTR();
             p.labels["Duration"] = UI::Label::create(context);
@@ -210,7 +210,7 @@ namespace djv
 
         void DebugWidget::_localeEvent(Event::Locale & event)
         {
-			IMDIWidget::_localeEvent(event);
+			IToolWidget::_localeEvent(event);
             DJV_PRIVATE_PTR();
             setTitle(_getText(DJV_TEXT("Debug")));
             {

@@ -52,7 +52,7 @@ namespace djv
         {
             std::map<std::string, std::shared_ptr<UI::Action> > actions;
             std::map<std::string, std::shared_ptr<UI::Menu> > menus;
-            std::map<std::string, std::shared_ptr<IMDIWidget> > widgets;
+            std::map<std::string, std::shared_ptr<IToolWidget> > widgets;
             std::map<std::string, std::shared_ptr<ValueObserver<bool> > > checkedObservers;
         };
 
@@ -217,22 +217,16 @@ namespace djv
             return _p->actions;
         }
 
-        NewMenu ToolSystem::getMenu()
-        {
-            DJV_PRIVATE_PTR();
-            return { p.menus["Tools"], "F" };
-        }
-
-        std::vector<NewMDIWidget> ToolSystem::getMDIWidgets()
+        std::vector<std::shared_ptr<IToolWidget> > ToolSystem::getToolWidgets()
         {
             DJV_PRIVATE_PTR();
             return
             {
-                NewMDIWidget(p.widgets["Magnifier"], "F1"),
-                NewMDIWidget(p.widgets["ColorPicker"], "F2"),
-                NewMDIWidget(p.widgets["Histogram"], "F3"),
-                NewMDIWidget(p.widgets["Information"], "F4"),
-                NewMDIWidget(p.widgets["Debug"], "F5")
+                p.widgets["Magnifier"],
+                p.widgets["ColorPicker"],
+                p.widgets["Histogram"],
+                p.widgets["Information"],
+                p.widgets["Debug"]
             };
         }
 

@@ -35,13 +35,6 @@ namespace djv
 {
     namespace ViewLib
     {
-        enum class WindowMode
-        {
-            SDI,
-            MDI,
-            Playlist
-        };
-
         enum class Playback
         {
             Stop,

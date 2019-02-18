@@ -40,6 +40,7 @@ set(header
     MenuBar.h
     MenuButton.h
     Overlay.h
+    PopupWidget.h
     PushButton.h
     RowLayout.h
     ScrollWidget.h
@@ -107,6 +108,7 @@ set(source
     MenuBar.cpp
     MenuButton.cpp
     Overlay.cpp
+    PopupWidget.cpp
     PushButton.cpp
     RowLayout.cpp
     ScrollWidget.cpp

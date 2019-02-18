@@ -37,10 +37,11 @@
 #include <djvUI/ListButton.h>
 #include <djvUI/Menu.h>
 #include <djvUI/MenuButton.h>
-#include <djvUI/Overlay.h>
 #include <djvUI/RowLayout.h>
 #include <djvUI/ScrollWidget.h>
 #include <djvUI/Window.h>
+
+#include <GLFW/glfw3.h>
 
 using namespace djv::Core;
 
@@ -52,11 +53,12 @@ namespace djv
         {
             std::vector<std::string> items;
             int currentItem = -1;
+            std::shared_ptr<Action> closeAction;
             std::shared_ptr<ActionGroup> actionGroup;
             std::shared_ptr<Menu> menu;
             std::shared_ptr<Button::Menu> button;
-            std::shared_ptr<Layout::Overlay> overlay;
             std::function<void(int)> callback;
+            std::shared_ptr<ValueObserver<bool> > closeObserver;
         };
 
         void ComboBox::_init(Context * context)
@@ -66,6 +68,10 @@ namespace djv
             setClassName("djv::UI::ComboBox");
 
             DJV_PRIVATE_PTR();
+            p.closeAction = Action::create();
+            p.closeAction->setShortcut(GLFW_KEY_ESCAPE);
+            addAction(p.closeAction);
+
             p.actionGroup = ActionGroup::create(ButtonType::Radio);
 
             p.menu = Menu::create(context);
@@ -97,6 +103,7 @@ namespace djv
             {
                 if (auto widget = weak.lock())
                 {
+                    widget->_p->closeAction->setEnabled(false);
                     widget->_p->button->setChecked(false);
                 }
             });
@@ -111,8 +118,24 @@ namespace djv
                     {
                         if (auto window = widget->getWindow().lock())
                         {
+                            widget->_p->closeAction->setEnabled(true);
                             widget->_p->menu->popup(window, weak);
                         }
+                    }
+                }
+            });
+
+            p.closeObserver = ValueObserver<bool>::create(
+                p.closeAction->observeClicked(),
+                [weak](bool value)
+            {
+                if (value)
+                {
+                    if (auto widget = weak.lock())
+                    {
+                        widget->_p->closeAction->setEnabled(false);
+                        widget->_p->button->setChecked(false);
+                        widget->_p->menu->hide();
                     }
                 }
             });

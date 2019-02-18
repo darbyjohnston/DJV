@@ -30,7 +30,6 @@
 #include <djvUI/Overlay.h>
 
 #include <djvUI/Action.h>
-#include <djvUI/Shortcut.h>
 #include <djvUI/StackLayout.h>
 
 #include <djvCore/Animation.h>
@@ -68,9 +67,8 @@ namespace djv
                 setBackgroundRole(ColorRole::Overlay);
                 setVisible(false);
 
-                auto closeShortcut = Shortcut::create(GLFW_KEY_ESCAPE);
                 auto closeAction = Action::create();
-                closeAction->setShortcut(closeShortcut);
+                closeAction->setShortcut(GLFW_KEY_ESCAPE);
                 addAction(closeAction);
 
                 DJV_PRIVATE_PTR();

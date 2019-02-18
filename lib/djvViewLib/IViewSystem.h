@@ -46,24 +46,14 @@ namespace djv
 
     namespace ViewLib
     {
-        class IMDIWidget;
+        class IToolWidget;
         class Media;
         
-        struct NewMenu
+        struct PanelData
         {
-            std::shared_ptr<UI::Menu> menu;
+            std::string title;
             std::string sortKey;
-        };
-
-        struct NewMDIWidget
-        {
-            NewMDIWidget();
-            NewMDIWidget(
-                const std::shared_ptr<IMDIWidget> &,
-                const std::string & sortKey);
-
-            std::shared_ptr<IMDIWidget> widget;
-            std::string sortKey;
+            std::shared_ptr<UI::Widget> widget;
         };
 
         class IViewSystem : public Core::ISystem
@@ -78,9 +68,8 @@ namespace djv
             ~IViewSystem() override;
 
             virtual std::map<std::string, std::shared_ptr<UI::Action> > getActions();
-            virtual NewMenu getMenu();
-            virtual NewMenu getContextMenu() { return getMenu(); }
-            virtual std::vector<NewMDIWidget> getMDIWidgets();
+            virtual PanelData getPanel();
+            virtual std::vector<std::shared_ptr<IToolWidget> > getToolWidgets();
             virtual std::vector<std::shared_ptr<UI::ISettingsWidget> > getSettingsWidgets();
 
         private:

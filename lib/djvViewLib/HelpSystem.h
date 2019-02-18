@@ -49,8 +49,6 @@ namespace djv
             static std::shared_ptr<HelpSystem> create(Core::Context *);
 
             std::map<std::string, std::shared_ptr<UI::Action> > getActions() override;
-            NewMenu getMenu() override;
-			std::vector<NewMDIWidget> getMDIWidgets() override;
 
         protected:
             void _localeEvent(Core::Event::Locale &) override;
