@@ -30,8 +30,8 @@
 #include <djvViewLib/PlaybackWidget.h>
 
 #include <djvUI/ButtonGroup.h>
+#include <djvUI/FlatButton.h>
 #include <djvUI/RowLayout.h>
-#include <djvUI/ToolButton.h>
 
 using namespace djv::Core;
 
@@ -53,9 +53,9 @@ namespace djv
             DJV_PRIVATE_PTR();
             p.playback = ValueSubject<Playback>::create();
 
-            auto forwardButton = UI::ToolButton::create(context);
+            auto forwardButton = UI::FlatButton::create(context);
             forwardButton->setIcon("djvIconPlaybackForward");
-            auto reverseButton = UI::ToolButton::create(context);
+            auto reverseButton = UI::FlatButton::create(context);
             reverseButton->setIcon("djvIconPlaybackReverse");
 
             p.buttonGroup = UI::ButtonGroup::create(UI::ButtonType::Exclusive);
@@ -64,7 +64,7 @@ namespace djv
 
             p.layout = UI::HorizontalLayout::create(context);
             p.layout->setSpacing(UI::MetricsRole::None);
-            //p.layout->addWidget(reverseButton);
+            p.layout->addWidget(reverseButton);
             p.layout->addWidget(forwardButton);
             p.layout->setParent(shared_from_this());
 

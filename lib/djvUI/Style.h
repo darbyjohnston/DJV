@@ -74,6 +74,7 @@ namespace djv
                 Margin,
                 MarginSmall,
                 MarginLarge,
+                MarginDialog,
                 Spacing,
                 SpacingSmall,
                 SpacingLarge,

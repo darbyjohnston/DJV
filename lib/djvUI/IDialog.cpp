@@ -30,10 +30,10 @@
 #include <djvUI/IDialog.h>
 
 #include <djvUI/Border.h>
+#include <djvUI/FlatButton.h>
 #include <djvUI/Label.h>
 #include <djvUI/Overlay.h>
 #include <djvUI/RowLayout.h>
-#include <djvUI/ToolButton.h>
 
 using namespace djv::Core;
 
@@ -82,7 +82,7 @@ namespace djv
         struct IDialog::Private
         {
             std::shared_ptr<Label> titleLabel;
-			std::shared_ptr<UI::ToolButton> closeButton;
+			std::shared_ptr<UI::FlatButton> closeButton;
 			std::shared_ptr<VerticalLayout> childLayout;
             std::shared_ptr<VerticalLayout> layout;
             std::shared_ptr<Layout::Border> border;
@@ -104,7 +104,7 @@ namespace djv
                 UI::MetricsRole::Margin,
                 UI::MetricsRole::Margin));
 
-            p.closeButton = ToolButton::create(context);
+            p.closeButton = FlatButton::create(context);
 			p.closeButton->setIcon("djvIconClose");
 			p.closeButton->setInsideMargin(MetricsRole::MarginSmall);
 
@@ -122,6 +122,7 @@ namespace djv
 			p.layout->addWidget(p.childLayout, RowStretch::Expand);
 
             p.border = Layout::Border::create(context);
+            p.border->setMargin(MetricsRole::MarginDialog);
             p.border->addWidget(p.layout);
 
             p.overlay = Layout::Overlay::create(context);

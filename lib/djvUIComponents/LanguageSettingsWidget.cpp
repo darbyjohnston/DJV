@@ -30,9 +30,9 @@
 #include <djvUIComponents/LanguageSettingsWidget.h>
 
 #include <djvUI/ButtonGroup.h>
+#include <djvUI/FlatButton.h>
 #include <djvUI/FlowLayout.h>
 #include <djvUI/FontSettings.h>
-#include <djvUI/ListButton.h>
 #include <djvUI/SettingsSystem.h>
 
 #include <djvCore/Context.h>
@@ -46,13 +46,13 @@ namespace djv
     {
         struct LanguageSettingsWidget::Private
         {
-            std::vector<std::shared_ptr<ListButton> > buttons;
+            std::vector<std::shared_ptr<FlatButton> > buttons;
             std::shared_ptr<ButtonGroup> buttonGroup;
             std::shared_ptr<FlowLayout> layout;
             std::map<int, std::string> indexToLocale;
             std::map<std::string, int> localeToIndex;
             std::map<std::string, std::string> localeFonts;
-            std::map<std::string, std::shared_ptr<ListButton> > localeToButton;
+            std::map<std::string, std::shared_ptr<FlatButton> > localeToButton;
             std::shared_ptr<ValueObserver<std::string> > localeObserver;
             std::shared_ptr<MapObserver<std::string, std::string> > localeFontsObserver;
         };
@@ -72,8 +72,8 @@ namespace djv
                 int j = 0;
                 for (const auto & i : textSystem->getLocales())
                 {
-                    auto button = ListButton::create(context);
-                    button->setText(context->getText(i));
+                    auto button = FlatButton::create(context);
+                    button->setText(_getText(i));
                     p.buttonGroup->addButton(button);
                     p.layout->addWidget(button);
                     p.indexToLocale[j] = i;
@@ -191,7 +191,7 @@ namespace djv
                     const auto k = _p->localeToButton.find(i);
                     if (k != _p->localeToButton.end())
                     {
-                        k->second->setText(context->getText(i));
+                        k->second->setText(_getText(i));
                         k->second->setFont(font);
                     }
                 }

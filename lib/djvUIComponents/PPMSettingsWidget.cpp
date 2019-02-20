@@ -30,9 +30,9 @@
 #include <djvUIComponents/PPMSettingsWidget.h>
 
 #include <djvUI/ButtonGroup.h>
+#include <djvUI/FlatButton.h>
 #include <djvUI/FlowLayout.h>
 #include <djvUI/GroupBox.h>
-#include <djvUI/ListButton.h>
 
 #include <djvAV/PPM.h>
 
@@ -60,7 +60,7 @@ namespace djv
 			auto flowLayout = FlowLayout::create(context);
 			for (size_t i = 0; i < static_cast<size_t>(AV::IO::PPM::Data::Count); ++i)
 			{
-				auto button = ListButton::create(context);
+				auto button = FlatButton::create(context);
 				p.dataButtonGroup->addButton(button);
 				flowLayout->addWidget(button);
 			}
@@ -121,7 +121,7 @@ namespace djv
 			const auto & buttons = p.dataButtonGroup->getButtons();
 			for (size_t i = 0; i < buttons.size(); ++i)
 			{
-				if (auto button = std::dynamic_pointer_cast<ListButton>(buttons[i]))
+				if (auto button = std::dynamic_pointer_cast<FlatButton>(buttons[i]))
 				{
 					std::stringstream ss;
 					ss << static_cast<AV::IO::PPM::Data>(i);

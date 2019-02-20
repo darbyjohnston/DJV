@@ -96,7 +96,7 @@ namespace djv
                     if (Image::Type::None == imageType)
                     {
                         std::stringstream s;
-                        s << pluginName << " " << _context->getText(DJV_TEXT("The file")) <<
+                        s << _context->getText(DJV_TEXT("The PPM file")) <<
                             " '" << fileName << "' " << DJV_TEXT("cannot be written") << ".";
                         throw std::runtime_error(s.str());
                     }

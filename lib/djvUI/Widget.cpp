@@ -356,16 +356,7 @@ namespace djv
 
                     _updateTime = updateEvent.getTime();
                     _elapsedTime += updateEvent.getDeltaTime();
-                    std::string tooltip = _tooltipText;
-                    for (const auto & action : _actions)
-                    {
-                        const auto & actionTooltip = action->observeTooltip()->get();
-                        if (!actionTooltip.empty())
-                        {
-                            tooltip = actionTooltip;
-                            break;
-                        }
-                    }
+
                     if (auto window = getWindow().lock())
                     {
                         for (auto & i : _pointerToTooltips)
@@ -373,9 +364,16 @@ namespace djv
                             const auto j = _pointerHover.find(i.first);
                             if ((_updateTime - i.second.timer) > tooltipTimeout && !i.second.tooltip && j != _pointerHover.end())
                             {
-                                if (auto widget = _createTooltip(j->second))
+                                for (
+                                    auto widget = std::dynamic_pointer_cast<Widget>(shared_from_this());
+                                    widget;
+                                    widget = std::dynamic_pointer_cast<Widget>(widget->getParent().lock()))
                                 {
-                                    i.second.tooltip = Tooltip::create(window, j->second, widget, getContext());
+                                    if (auto tooltipWidget = widget->_createTooltip(j->second))
+                                    {
+                                        i.second.tooltip = Tooltip::create(window, j->second, tooltipWidget, getContext());
+                                        break;
+                                    }
                                 }
                             }
                         }
@@ -624,6 +622,25 @@ namespace djv
             _resize();
         }
 
+        std::string Widget::_getTooltipText() const
+        {
+            std::string out;
+            for (const auto & action : _actions)
+            {
+                const auto & actionTooltip = action->observeTooltip()->get();
+                if (!actionTooltip.empty())
+                {
+                    out = actionTooltip;
+                    break;
+                }
+            }
+            if (!_tooltipText.empty())
+            {
+                out = _tooltipText;
+            }
+            return out;
+        }
+
         std::shared_ptr<Widget> Widget::_createTooltipDefault(const std::string & text)
         {
             auto context = getContext();
@@ -641,7 +658,7 @@ namespace djv
             std::shared_ptr<Widget> out;
             if (!_tooltipText.empty())
             {
-                out = _createTooltipDefault(_tooltipText);
+                out = _createTooltipDefault(_getTooltipText());
             }
             return out;
         }

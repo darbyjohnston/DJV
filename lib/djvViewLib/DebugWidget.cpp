@@ -212,7 +212,7 @@ namespace djv
         {
 			IToolWidget::_localeEvent(event);
             DJV_PRIVATE_PTR();
-            setTitle(_getText(DJV_TEXT("Debug")));
+            setTitle(_getText(DJV_TEXT("Debugging")));
             {
                 std::stringstream ss;
                 ss << _getText(DJV_TEXT("Duration")) << ":";

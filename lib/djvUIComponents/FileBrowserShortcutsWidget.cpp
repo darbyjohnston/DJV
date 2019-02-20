@@ -32,9 +32,9 @@
 #include <djvUI/Action.h>
 #include <djvUI/ActionGroup.h>
 #include <djvUI/Border.h>
+#include <djvUI/FlatButton.h>
 #include <djvUI/Icon.h>
 #include <djvUI/Label.h>
-#include <djvUI/ListButton.h>
 #include <djvUI/ImageWidget.h>
 #include <djvUI/Menu.h>
 #include <djvUI/MenuButton.h>
@@ -87,7 +87,7 @@ namespace djv
                     action->setText(text);
                     p.actionGroup->addAction(action);
 
-                    auto button = ListButton::create(context);
+                    auto button = FlatButton::create(context);
                     button->setText(text);
                     itemLayout->addWidget(button);
 

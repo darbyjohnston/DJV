@@ -221,6 +221,7 @@ namespace djv
             inline float _getElapsedTime() const;
             inline const std::map<Core::Event::PointerID, glm::vec2> _getPointerHover() const;
 
+            std::string _getTooltipText() const;
             std::shared_ptr<Widget> _createTooltipDefault(const std::string &);
             virtual std::shared_ptr<Widget> _createTooltip(const glm::vec2 & pos);
 

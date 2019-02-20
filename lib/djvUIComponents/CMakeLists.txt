@@ -1,6 +1,6 @@
 set(header
     AVIOSettings.h
-    ActionWidget.h
+    ActionButton.h
     DisplaySettingsWidget.h
     FileBrowser.h
     FileBrowserDialog.h
@@ -15,7 +15,7 @@ set(header
     UIComponentsSystem.h)
 set(source
     AVIOSettings.cpp
-    ActionWidget.cpp
+    ActionButton.cpp
     DisplaySettingsWidget.cpp
     FileBrowser.cpp
     FileBrowserDialog.cpp

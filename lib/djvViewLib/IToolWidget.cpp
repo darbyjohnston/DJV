@@ -30,11 +30,11 @@
 #include <djvViewLib/IToolWidget.h>
 
 #include <djvUI/Border.h>
+#include <djvUI/FlatButton.h>
 #include <djvUI/Label.h>
 #include <djvUI/MDICanvas.h>
 #include <djvUI/RowLayout.h>
 #include <djvUI/StackLayout.h>
-#include <djvUI/ToolButton.h>
 
 using namespace djv::Core;
 
@@ -46,7 +46,7 @@ namespace djv
         {
             std::shared_ptr<UI::Label> titleLabel;
 			std::shared_ptr<UI::HorizontalLayout> titleBar;
-			std::shared_ptr<UI::ToolButton> closeButton;
+			std::shared_ptr<UI::FlatButton> closeButton;
             std::shared_ptr<UI::VerticalLayout> childLayout;
             std::shared_ptr<UI::VerticalLayout> layout;
             std::shared_ptr<UI::Border> border;
@@ -64,7 +64,7 @@ namespace djv
             p.titleLabel->setTextHAlign(UI::TextHAlign::Left);
             p.titleLabel->setMargin(UI::MetricsRole::Margin);
 
-            p.closeButton = UI::ToolButton::create(context);
+            p.closeButton = UI::FlatButton::create(context);
 			p.closeButton->setIcon("djvIconClose");
 			p.closeButton->setInsideMargin(UI::MetricsRole::MarginSmall);
 
@@ -93,7 +93,7 @@ namespace djv
             {
                 if (auto widget = weak.lock())
                 {
-					widget->hide();
+                    widget->close();
                 }
             });
         }
@@ -113,6 +113,16 @@ namespace djv
         void IToolWidget::setTitle(const std::string & text)
         {
             _p->titleLabel->setText(text);
+        }
+
+        void IToolWidget::close()
+        {
+            DJV_PRIVATE_PTR();
+            hide();
+            if (p.closeCallback)
+            {
+                p.closeCallback();
+            }
         }
 
         void IToolWidget::setCloseCallback(const std::function<void(void)> & value)
@@ -153,7 +163,7 @@ namespace djv
 		void IToolWidget::_localeEvent(Event::Locale &)
 		{
 			DJV_PRIVATE_PTR();
-			p.closeButton->setTooltip(_getText(DJV_TEXT("Close Tooltip")));
+			p.closeButton->setTooltip(_getText(DJV_TEXT("Close tooltip")));
 		}
 
     } // namespace ViewLib

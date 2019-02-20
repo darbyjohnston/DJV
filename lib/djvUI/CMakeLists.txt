@@ -9,6 +9,7 @@ set(header
     Enum.h
     EnumJSON.h
     EnumJSONInline.h
+    FlatButton.h
     FloatValueLabel.h
     FloatValueSlider.h
     FlowLayout.h
@@ -31,7 +32,6 @@ set(header
     Label.h
     LineEdit.h
     LineEditBase.h
-    ListButton.h
     MDICanvas.h
     MDIWidget.h
     Margin.h
@@ -63,7 +63,6 @@ set(header
     TabWidget.h
     TextBlock.h
     ToggleButton.h
-    ToolButton.h
     Toolbar.h
     Tooltip.h
     UI.h
@@ -80,6 +79,7 @@ set(source
     ComboBox.cpp
     DialogSystem.cpp
     Enum.cpp
+    FlatButton.cpp
     FloatValueLabel.cpp
     FloatValueSlider.cpp
     FlowLayout.cpp
@@ -101,7 +101,6 @@ set(source
     Label.cpp
     LineEdit.cpp
     LineEditBase.cpp
-    ListButton.cpp
     MDICanvas.cpp
     MDIWidget.cpp
     Menu.cpp
@@ -126,7 +125,6 @@ set(source
     TabWidget.cpp
     TextBlock.cpp
     ToggleButton.cpp
-    ToolButton.cpp
     Toolbar.cpp
     Tooltip.cpp
     UISystem.cpp

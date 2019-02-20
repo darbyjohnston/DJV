@@ -13,7 +13,8 @@ namespace djv
     {
         namespace Button
         {
-            //! This class provides a push button widget.
+            //! This class provides a button widget with a raised appearance. It is
+            //! generally used for confirmation buttons.
             class Push : public IButton
             {
                 DJV_NON_COPYABLE(Push);

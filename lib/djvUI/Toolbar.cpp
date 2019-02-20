@@ -30,8 +30,8 @@
 #include <djvUI/Toolbar.h>
 
 #include <djvUI/Action.h>
+#include <djvUI/FlatButton.h>
 #include <djvUI/RowLayout.h>
-#include <djvUI/ToolButton.h>
 
 using namespace djv::Core;
 
@@ -41,12 +41,13 @@ namespace djv
     {
         struct Toolbar::Private
         {
-            std::map<std::shared_ptr<Action>, std::shared_ptr<ToolButton> > actionsToButtons;
+            std::map<std::shared_ptr<Action>, std::shared_ptr<FlatButton> > actionsToButtons;
             struct Observers
             {
                 std::shared_ptr<ValueObserver<ButtonType> > buttonType;
                 std::shared_ptr<ValueObserver<bool> > checked;
                 std::shared_ptr<ValueObserver<std::string> > icon;
+                std::shared_ptr<ValueObserver<std::string> > text;
                 std::shared_ptr<ValueObserver<bool> > enabled;
                 std::shared_ptr<ValueObserver<std::string> > tooltip;
             };
@@ -128,7 +129,7 @@ namespace djv
         void Toolbar::addAction(const std::shared_ptr<Action>& action)
         {
             Widget::addAction(action);
-            auto button = ToolButton::create(getContext());
+            auto button = FlatButton::create(getContext());
             DJV_PRIVATE_PTR();
             p.layout->addWidget(button);
             button->setClickedCallback(
@@ -161,6 +162,12 @@ namespace djv
             {
                 button->setIcon(value);
             });
+            /*p.observers[action].text = ValueObserver<std::string>::create(
+                action->observeText(),
+                [button](const std::string & value)
+            {
+                button->setText(value);
+            });*/
             p.observers[action].enabled = ValueObserver<bool>::create(
                 action->observeEnabled(),
                 [button](bool value)

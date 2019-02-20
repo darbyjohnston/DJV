@@ -30,6 +30,7 @@
 #include <djvDesktop/Application.h>
 
 #include <djvUI/Border.h>
+#include <djvUI/FlatButton.h>
 #include <djvUI/Label.h>
 #include <djvUI/MDICanvas.h>
 #include <djvUI/MDIWidget.h>
@@ -38,7 +39,6 @@
 #include <djvUI/Splitter.h>
 #include <djvUI/StackLayout.h>
 #include <djvUI/TextBlock.h>
-#include <djvUI/ToolButton.h>
 #include <djvUI/Window.h>
 
 #include <djvCore/Error.h>
@@ -66,7 +66,7 @@ protected:
     void _layoutEvent(Core::Event::Layout&) override;
 
 private:
-    std::shared_ptr<UI::ToolButton> _closeButton;
+    std::shared_ptr<UI::FlatButton> _closeButton;
     std::shared_ptr<UI::VerticalLayout> _layout;
     std::shared_ptr<UI::Border> _border;
     std::function<void(void)> _closedCallback;
@@ -80,21 +80,14 @@ void MDIWidget::_init(const std::string & title, Core::Context * context)
 
     auto titleLabel = UI::Label::create(context);
     titleLabel->setText(title);
-    titleLabel->setTextColorRole(UI::ColorRole::HeaderForeground);
     titleLabel->setMargin(UI::MetricsRole::Margin);
 
-    _closeButton = UI::ToolButton::create(context);
+    _closeButton = UI::FlatButton::create(context);
     _closeButton->setIcon("djvIconCloseSmall");
     _closeButton->setInsideMargin(UI::MetricsRole::MarginSmall);
-    _closeButton->setForegroundColorRole(UI::ColorRole::HeaderForeground);
-    _closeButton->setHoveredColorRole(UI::ColorRole::HeaderHovered);
-    _closeButton->setPressedColorRole(UI::ColorRole::HeaderPressed);
-    _closeButton->setCheckedColorRole(UI::ColorRole::HeaderChecked);
-    _closeButton->setDisabledColorRole(UI::ColorRole::HeaderDisabled);
 
     auto titleBar = UI::HorizontalLayout::create(context);
     titleBar->setClassName("djv::UI::MDI::TitleBar");
-    titleBar->setBackgroundRole(UI::ColorRole::HeaderBackground);
     titleBar->addWidget(titleLabel);
     titleBar->addExpander();
     titleBar->addWidget(_closeButton);

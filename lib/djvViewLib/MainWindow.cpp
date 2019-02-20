@@ -32,23 +32,21 @@
 #include <djvViewLib/Application.h>
 #include <djvViewLib/FileSystem.h>
 #include <djvViewLib/IToolWidget.h>
-#include <djvViewLib/IViewSystem.h>
 #include <djvViewLib/Media.h>
 #include <djvViewLib/MediaWidget.h>
-#include <djvViewLib/SettingsSystem.h>
+#include <djvViewLib/PlaybackSystem.h>
 #include <djvViewLib/WindowSystem.h>
 
 #include <djvUI/Action.h>
-#include <djvUI/ButtonGroup.h>
+#include <djvUI/Label.h>
 #include <djvUI/MDICanvas.h>
 #include <djvUI/RowLayout.h>
-#include <djvUI/ScrollWidget.h>
 #include <djvUI/Shortcut.h>
-#include <djvUI/SoloLayout.h>
 #include <djvUI/StackLayout.h>
-#include <djvUI/ToolButton.h>
+#include <djvUI/ToolBar.h>
 
 #include <djvCore/FileInfo.h>
+#include <djvCore/Path.h>
 
 #include <GLFW/glfw3.h>
 
@@ -60,22 +58,29 @@ namespace djv
     {
         struct MainWindow::Private
         {
+            std::map<std::string, std::shared_ptr<UI::Action> > actions;
+            std::shared_ptr<UI::Label> currentMediaLabel;
+            std::shared_ptr<UI::Toolbar> toolBar;
             std::shared_ptr<MediaWidget> mediaWidget;
             std::shared_ptr<UI::MDI::Canvas> mdiCanvas;
-			std::shared_ptr<UI::Action> mdiCloseAction;
             std::shared_ptr<UI::StackLayout> stackLayout;
             std::shared_ptr<ValueObserver<std::shared_ptr<Media> > > currentMediaObserver;
-			std::shared_ptr<ValueObserver<bool> > mdiCloseObserver;
+            std::shared_ptr<ValueObserver<bool> > closeToolActionObserver;
         };
         
         void MainWindow::_init(Core::Context * context)
         {
             UI::Window::_init(context);
 
+            DJV_PRIVATE_PTR();
+
             setClassName("djv::ViewLib::MainWindow");
             setBackgroundRole(UI::ColorRole::Trough);
 
             auto viewSystems = context->getSystemsT<IViewSystem>();
+            auto fileSystem = context->getSystemT<FileSystem>().lock();
+            auto playbackSystem = context->getSystemT<PlaybackSystem>().lock();
+            std::map<std::string, std::shared_ptr<UI::Widget> > toolBarWidgets;
             for (auto i : viewSystems)
             {
                 if (auto system = i.lock())
@@ -84,10 +89,37 @@ namespace djv
                     {
                         addAction(action.second);
                     }
+                    if (system != fileSystem && system != playbackSystem)
+                    {
+                        auto toolBarWidget = system->getToolBarWidget();
+                        if (toolBarWidget.widget)
+                        {
+                            toolBarWidgets[toolBarWidget.sortKey] = toolBarWidget.widget;
+                        }
+                    }
                 }
             }
 
-            DJV_PRIVATE_PTR();
+            p.actions["CloseTool"] = UI::Action::create();
+            p.actions["CloseTool"]->setShortcut(GLFW_KEY_ESCAPE);
+            for (auto i : p.actions)
+            {
+                addAction(i.second);
+            }
+
+            p.currentMediaLabel = UI::Label::create(context);
+            p.currentMediaLabel->setMargin(UI::MetricsRole::MarginSmall);
+
+            p.toolBar = UI::Toolbar::create(context);
+            p.toolBar->setBackgroundRole(UI::ColorRole::Overlay);
+            p.toolBar->addWidget(fileSystem->getToolBarWidget().widget);
+            p.toolBar->addWidget(p.currentMediaLabel);
+            p.toolBar->addExpander();
+            for (auto i : toolBarWidgets)
+            {
+                p.toolBar->addWidget(i.second);
+            }
+
             p.mediaWidget = MediaWidget::create(context);
 
             p.mdiCanvas = UI::MDI::Canvas::create(context);
@@ -102,53 +134,49 @@ namespace djv
                     }
                 }
             }
-
-			p.mdiCloseAction = UI::Action::create();
-			p.mdiCloseAction->setShortcut(GLFW_KEY_ESCAPE);
-			addAction(p.mdiCloseAction);
             
             p.stackLayout = UI::StackLayout::create(context);
             p.stackLayout->addWidget(p.mediaWidget);
             auto vLayout = UI::VerticalLayout::create(context);
+            vLayout->addWidget(p.toolBar);
             vLayout->setSpacing(UI::MetricsRole::None);
             vLayout->addExpander();
             p.stackLayout->addWidget(vLayout);
+            p.stackLayout->addWidget(p.mdiCanvas);
             addWidget(p.stackLayout);
 
             auto weak = std::weak_ptr<MainWindow>(std::dynamic_pointer_cast<MainWindow>(shared_from_this()));
-			p.mdiCloseObserver = ValueObserver<bool>::create(
-				p.mdiCloseAction->observeClicked(),
-				[weak](bool value)
-			{
-				if (value)
-				{
-					if (auto mainWindow = weak.lock())
-					{
-						const auto children = mainWindow->_p->mdiCanvas->getChildrenT<UI::MDI::IWidget>();
-						for (auto i = children.rbegin(); i != children.rend(); ++i)
-						{
-							if ((*i)->isVisible())
-							{
-								(*i)->hide();
-								break;
-							}
-						}
-					}
-				}
-			});
-
-            if (auto fileSystem = context->getSystemT<FileSystem>().lock())
+            p.closeToolActionObserver = ValueObserver<bool>::create(
+                p.actions["CloseTool"]->observeClicked(),
+                [weak](bool value)
             {
-                p.currentMediaObserver = ValueObserver<std::shared_ptr<Media>>::create(
-                    fileSystem->observeCurrentMedia(),
-                    [weak](const std::shared_ptr<Media> & value)
+                if (value)
                 {
                     if (auto mainWindow = weak.lock())
                     {
-                        mainWindow->_p->mediaWidget->setMedia(value);
+                        const auto children = mainWindow->_p->mdiCanvas->getChildrenT<IToolWidget>();
+                        for (auto i = children.rbegin(); i != children.rend(); ++i)
+                        {
+                            if ((*i)->isVisible())
+                            {
+                                (*i)->close();
+                                break;
+                            }
+                        }
                     }
-                });
-            }
+                }
+            });
+
+            p.currentMediaObserver = ValueObserver<std::shared_ptr<Media>>::create(
+                fileSystem->observeCurrentMedia(),
+                [weak](const std::shared_ptr<Media> & value)
+            {
+                if (auto mainWindow = weak.lock())
+                {
+                    mainWindow->_p->mediaWidget->setMedia(value);
+                    mainWindow->_textUpdate();
+                }
+            });
         }
 
         MainWindow::MainWindow() :
@@ -185,6 +213,18 @@ namespace djv
         void MainWindow::_localeEvent(Core::Event::Locale & event)
         {
             DJV_PRIVATE_PTR();
+            _textUpdate();
+        }
+
+        void MainWindow::_textUpdate()
+        {
+            DJV_PRIVATE_PTR();
+            std::string currentMediaText;
+            if (auto media = p.mediaWidget->getMedia())
+            {
+                currentMediaText = Core::FileSystem::Path(media->getFileName()).getFileName();
+            }
+            p.currentMediaLabel->setText(currentMediaText);
         }
 
     } // namespace ViewLib

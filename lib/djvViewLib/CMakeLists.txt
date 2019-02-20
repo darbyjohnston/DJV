@@ -22,7 +22,6 @@ set(header
     MediaWidget.h
     PlaybackSystem.h
     PlaybackWidget.h
-    PlaylistDialog.h
     RecentFilesDialog.h
     SettingsSystem.h
     SettingsDialog.h
@@ -54,7 +53,6 @@ set(source
     MediaWidget.cpp
     PlaybackSystem.cpp
     PlaybackWidget.cpp
-    PlaylistDialog.cpp
     RecentFilesDialog.cpp
     SettingsSystem.cpp
     SettingsDialog.cpp

@@ -145,7 +145,7 @@ namespace djv
         {
 			IDialog::_localeEvent(event);
 			DJV_PRIVATE_PTR();
-			setTitle(_getText(DJV_TEXT("Log")));
+			setTitle(_getText(DJV_TEXT("System Log")));
             p.copyButton->setText(_getText(DJV_TEXT("Copy")));
             p.reloadButton->setText(_getText(DJV_TEXT("Reload")));
             p.clearButton->setText(_getText(DJV_TEXT("Clear")));

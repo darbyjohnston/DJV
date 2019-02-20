@@ -31,18 +31,19 @@
 
 #include <djvViewLib/FileSystemSettings.h>
 
+#include <djvUIComponents/ActionButton.h>
 #include <djvUIComponents/FileBrowserItemView.h>
 
 #include <djvUI/Action.h>
 #include <djvUI/ActionGroup.h>
 #include <djvUI/Label.h>
 #include <djvUI/MDICanvas.h>
+#include <djvUI/PopupWidget.h>
 #include <djvUI/RowLayout.h>
 #include <djvUI/ScrollWidget.h>
 #include <djvUI/SearchBox.h>
 #include <djvUI/SettingsSystem.h>
 #include <djvUI/Toolbar.h>
-#include <djvUI/ToolButton.h>
 
 #include <djvCore/Context.h>
 #include <djvCore/FileInfo.h>
@@ -60,6 +61,8 @@ namespace djv
             std::shared_ptr<UI::FileBrowser::ItemView> itemView;
             size_t itemCount = 0;
             std::shared_ptr<UI::Label> itemCountLabel;
+            std::shared_ptr<UI::PopupWidget> searchPopupWidget;
+            std::shared_ptr<UI::PopupWidget> settingsPopupWidget;
             std::shared_ptr<UI::ScrollWidget> scrollWidget;
 			std::shared_ptr<UI::VerticalLayout> layout;
             std::function<void(const Core::FileSystem::FileInfo &)> callback;
@@ -75,30 +78,45 @@ namespace djv
             DJV_PRIVATE_PTR();
             p.actions["LargeThumbnails"] = UI::Action::create();
             p.actions["LargeThumbnails"]->setIcon("djvIconThumbnailsLarge");
-            addAction(p.actions["LargeThumbnails"]);
             p.actions["SmallThumbnails"] = UI::Action::create();
             p.actions["SmallThumbnails"]->setIcon("djvIconThumbnailsSmall");
-            addAction(p.actions["SmallThumbnails"]);
             p.actions["ListView"] = UI::Action::create();
             p.actions["ListView"]->setIcon("djvIconListView");
-            addAction(p.actions["ListView"]);
             p.viewTypeActionGroup = UI::ActionGroup::create(UI::ButtonType::Radio);
             p.viewTypeActionGroup->addAction(p.actions["LargeThumbnails"]);
             p.viewTypeActionGroup->addAction(p.actions["SmallThumbnails"]);
             p.viewTypeActionGroup->addAction(p.actions["ListView"]);
-
-            p.itemCountLabel = UI::Label::create(context);
-            p.itemCountLabel->setMargin(UI::MetricsRole::MarginSmall);
+            for (auto action : p.actions)
+            {
+                addAction(action.second);
+            }
 
             auto searchBox = UI::SearchBox::create(context);
+            p.itemCountLabel = UI::Label::create(context);
+            p.itemCountLabel->setTextHAlign(UI::TextHAlign::Right);
+            p.itemCountLabel->setMargin(UI::MetricsRole::MarginSmall);
+            auto vLayout = UI::VerticalLayout::create(context);
+            vLayout->setSpacing(UI::MetricsRole::None);
+            vLayout->addWidget(searchBox);
+            vLayout->addWidget(p.itemCountLabel);
+            p.searchPopupWidget = UI::PopupWidget::create(context);
+            p.searchPopupWidget->setIcon("djvIconSearch");
+            p.searchPopupWidget->setWidget(vLayout);
+            p.searchPopupWidget->setCapturePointer(false);
+
+            vLayout = UI::VerticalLayout::create(context);
+            vLayout->setSpacing(UI::MetricsRole::None);
+            vLayout->addWidget(UI::ActionButton::create(p.actions["LargeThumbnails"], context));
+            vLayout->addWidget(UI::ActionButton::create(p.actions["SmallThumbnails"], context));
+            vLayout->addWidget(UI::ActionButton::create(p.actions["ListView"], context));
+            p.settingsPopupWidget = UI::PopupWidget::create(context);
+            p.settingsPopupWidget->setIcon("djvIconSettings");
+            p.settingsPopupWidget->setWidget(vLayout);
 
             auto bottomToolBar = UI::Toolbar::create(context);
             bottomToolBar->addExpander();
-            bottomToolBar->addWidget(p.itemCountLabel);
-            bottomToolBar->addAction(p.actions["LargeThumbnails"]);
-            bottomToolBar->addAction(p.actions["SmallThumbnails"]);
-            bottomToolBar->addAction(p.actions["ListView"]);
-            bottomToolBar->addWidget(searchBox);
+            bottomToolBar->addWidget(p.searchPopupWidget);
+            bottomToolBar->addWidget(p.settingsPopupWidget);
 
             p.itemView = UI::FileBrowser::ItemView::create(context);
             auto scrollWidget = UI::ScrollWidget::create(UI::ScrollType::Vertical, context);
@@ -198,6 +216,14 @@ namespace djv
 			IDialog::_localeEvent(event);
             DJV_PRIVATE_PTR();
             setTitle(_getText(DJV_TEXT("Recent Files")));
+
+            p.actions["LargeThumbnails"]->setText(_getText(DJV_TEXT("Large thumbnails")));
+            p.actions["LargeThumbnails"]->setTooltip(_getText(DJV_TEXT("Recent files large thumbnails tooltip")));
+            p.actions["SmallThumbnails"]->setText(_getText(DJV_TEXT("Small thumbnails")));
+            p.actions["SmallThumbnails"]->setTooltip(_getText(DJV_TEXT("Recent files small thumbnails tooltip")));
+            p.actions["ListView"]->setText(_getText(DJV_TEXT("List view")));
+            p.actions["ListView"]->setTooltip(_getText(DJV_TEXT("Recent files list view tooltip")));
+
             auto context = getContext();
             p.itemCountLabel->setText(p.getItemCountLabel(p.itemCount, context));
         }

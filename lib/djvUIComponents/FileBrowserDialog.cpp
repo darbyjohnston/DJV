@@ -38,7 +38,6 @@
 #include <djvUI/PushButton.h>
 #include <djvUI/RowLayout.h>
 #include <djvUI/TextBlock.h>
-#include <djvUI/ToolButton.h>
 #include <djvUI/Window.h>
 
 using namespace djv::Core;

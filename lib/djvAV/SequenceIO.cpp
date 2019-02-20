@@ -98,9 +98,14 @@ namespace djv
                     }
                     catch (const std::exception & e)
                     {
-                        p.running = false;
                         try
                         {
+                            if (_queue)
+                            {
+                                std::lock_guard<std::mutex> lock(_queue->getMutex());
+                                _queue->setFinished(true);
+                            }
+                            p.running = false;
                             p.infoPromise.set_exception(std::current_exception());
                         }
                         catch (const std::exception & e)

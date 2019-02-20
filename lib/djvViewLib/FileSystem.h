@@ -57,11 +57,13 @@ namespace djv
             std::shared_ptr<Core::IValueSubject<std::shared_ptr<Media> > > observeClosed() const;
             std::shared_ptr<Core::IListSubject<std::shared_ptr<Media> > > observeMedia() const;
             std::shared_ptr<Core::IValueSubject<std::shared_ptr<Media> > > observeCurrentMedia() const;
+            void open();
             void open(const std::string &, const glm::vec2 & = glm::vec2(-1.f, -1.f));
             void close(const std::shared_ptr<Media> &);
             void setCurrentMedia(const std::shared_ptr<Media> &);
 
             std::map<std::string, std::shared_ptr<UI::Action> > getActions() override;
+            ToolBarWidget getToolBarWidget() override;
 
         protected:
             void _localeEvent(Core::Event::Locale &) override;

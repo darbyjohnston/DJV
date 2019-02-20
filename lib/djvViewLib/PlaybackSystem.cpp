@@ -34,9 +34,12 @@
 #include <djvViewLib/Media.h>
 #include <djvViewLib/WindowSystem.h>
 
+#include <djvUIComponents/ActionButton.h>
+
 #include <djvUI/Action.h>
 #include <djvUI/ActionGroup.h>
-#include <djvUI/Menu.h>
+#include <djvUI/PopupWidget.h>
+#include <djvUI/RowLayout.h>
 
 #include <djvCore/Context.h>
 
@@ -54,7 +57,7 @@ namespace djv
             std::shared_ptr<Media> currentMedia;
             std::map<std::string, std::shared_ptr<UI::Action> > actions;
             std::shared_ptr<UI::ActionGroup> playbackActionGroup;
-            std::map<std::string, std::shared_ptr<UI::Menu> > menus;
+            std::shared_ptr<UI::PopupWidget> toolBarWidget;
             std::map<std::string, std::shared_ptr<ValueObserver<bool> > > clickedObservers;
             std::shared_ptr<ValueObserver<Playback> > playbackObserver;
             std::shared_ptr<ListObserver<std::shared_ptr<Media> > > mediaObserver;
@@ -70,11 +73,9 @@ namespace djv
             p.actions["Forward"]->setIcon("djvIconPlaybackForward");
             p.actions["Forward"]->addShortcut(GLFW_KEY_SPACE);
             p.actions["Forward"]->addShortcut(GLFW_KEY_UP);
-
             p.actions["Reverse"] = UI::Action::create();
             p.actions["Reverse"]->setIcon("djvIconPlaybackReverse");
             p.actions["Reverse"]->setShortcut(GLFW_KEY_DOWN);
-
             p.playbackActionGroup = UI::ActionGroup::create(UI::ButtonType::Exclusive);
             p.playbackActionGroup->addAction(p.actions["Forward"]);
             p.playbackActionGroup->addAction(p.actions["Reverse"]);
@@ -83,120 +84,104 @@ namespace djv
             p.actions["PlayEveryFrame"] = UI::Action::create();
             p.actions["PlayEveryFrame"]->setButtonType(UI::ButtonType::Toggle);
             p.actions["PlayEveryFrame"]->setEnabled(false);
-
             //! \todo Implement me!
             p.actions["InPoint"] = UI::Action::create();
             p.actions["InPoint"]->setIcon("djvIconFrameStart");
             p.actions["InPoint"]->setShortcut(GLFW_KEY_HOME);
             p.actions["InPoint"]->setEnabled(false);
-
             //! \todo Implement me!
             p.actions["OutPoint"] = UI::Action::create();
             p.actions["OutPoint"]->setIcon("djvIconFrameEnd");
             p.actions["OutPoint"]->setShortcut(GLFW_KEY_END);
             p.actions["OutPoint"]->setEnabled(false);
-
             //! \todo Implement me!
             p.actions["StartFrame"] = UI::Action::create();
             p.actions["StartFrame"]->setShortcut(GLFW_KEY_HOME, GLFW_MOD_SHIFT);
             p.actions["StartFrame"]->setEnabled(false);
-
             //! \todo Implement me!
             p.actions["EndFrame"] = UI::Action::create();
             p.actions["EndFrame"]->setShortcut(GLFW_KEY_END, GLFW_MOD_SHIFT);
             p.actions["EndFrame"]->setEnabled(false);
-
             //! \todo Implement me!
             p.actions["NextFrame"] = UI::Action::create();
             p.actions["NextFrame"]->setIcon("djvIconFrameNext");
             p.actions["NextFrame"]->addShortcut(GLFW_KEY_RIGHT);
             p.actions["NextFrame"]->addShortcut(GLFW_KEY_RIGHT_BRACKET);
             p.actions["NextFrame"]->setEnabled(false);
-
             //! \todo Implement me!
             p.actions["NextFrame10"] = UI::Action::create();
             p.actions["NextFrame10"]->addShortcut(GLFW_KEY_RIGHT, GLFW_MOD_SHIFT);
             p.actions["NextFrame10"]->addShortcut(GLFW_KEY_RIGHT_BRACKET, GLFW_MOD_SHIFT);
             p.actions["NextFrame10"]->setEnabled(false);
-
             //! \todo Implement me!
             p.actions["NextFrame100"] = UI::Action::create();
             p.actions["NextFrame100"]->addShortcut(GLFW_KEY_RIGHT, GLFW_MOD_CONTROL);
             p.actions["NextFrame100"]->addShortcut(GLFW_KEY_RIGHT_BRACKET, GLFW_MOD_CONTROL);
             p.actions["NextFrame100"]->setEnabled(false);
-
             //! \todo Implement me!
             p.actions["PrevFrame"] = UI::Action::create();
             p.actions["PrevFrame"]->setIcon("djvIconFramePrev");
             p.actions["PrevFrame"]->addShortcut(GLFW_KEY_LEFT);
             p.actions["PrevFrame"]->addShortcut(GLFW_KEY_LEFT_BRACKET);
             p.actions["PrevFrame"]->setEnabled(false);
-
             //! \todo Implement me!
             p.actions["PrevFrame10"] = UI::Action::create();
             p.actions["PrevFrame10"]->addShortcut(GLFW_KEY_LEFT, GLFW_MOD_SHIFT);
             p.actions["PrevFrame10"]->addShortcut(GLFW_KEY_LEFT_BRACKET, GLFW_MOD_SHIFT);
             p.actions["PrevFrame10"]->setEnabled(false);
-
             //! \todo Implement me!
             p.actions["PrevFrame100"] = UI::Action::create();
             p.actions["PrevFrame100"]->addShortcut(GLFW_KEY_LEFT, GLFW_MOD_CONTROL);
             p.actions["PrevFrame100"]->addShortcut(GLFW_KEY_LEFT_BRACKET, GLFW_MOD_CONTROL);
             p.actions["PrevFrame100"]->setEnabled(false);
-
             //! \todo Implement me!
             p.actions["InOutPoints"] = UI::Action::create();
             p.actions["InOutPoints"]->setButtonType(UI::ButtonType::Toggle);
             p.actions["InOutPoints"]->setShortcut(GLFW_KEY_P);
             p.actions["InOutPoints"]->setEnabled(false);
-
             //! \todo Implement me!
             p.actions["SetInPoint"] = UI::Action::create();
             p.actions["SetInPoint"]->setShortcut(GLFW_KEY_I);
             p.actions["SetInPoint"]->setEnabled(false);
-
             //! \todo Implement me!
             p.actions["SetOutPoint"] = UI::Action::create();
             p.actions["SetOutPoint"]->setShortcut(GLFW_KEY_O);
             p.actions["SetOutPoint"]->setEnabled(false);
-
             //! \todo Implement me!
             p.actions["ResetInPoint"] = UI::Action::create();
             p.actions["ResetInPoint"]->setShortcut(GLFW_KEY_I, GLFW_MOD_SHIFT);
             p.actions["ResetInPoint"]->setEnabled(false);
-
             //! \todo Implement me!
             p.actions["ResetOutPoint"] = UI::Action::create();
             p.actions["ResetOutPoint"]->setShortcut(GLFW_KEY_O, GLFW_MOD_SHIFT);
             p.actions["ResetOutPoint"]->setEnabled(false);
 
-            p.menus["Playback"] = UI::Menu::create(context);
-            p.menus["Playback"]->addAction(p.actions["Forward"]);
-            p.menus["Playback"]->addAction(p.actions["Reverse"]);
-            //! \todo Implement me!
-            p.menus["Loop"] = UI::Menu::create(context);
-            p.menus["Playback"]->addMenu(p.menus["Loop"]);
-            p.menus["Playback"]->addAction(p.actions["PlayEveryFrame"]);
-            p.menus["Playback"]->addSeparator();
-            p.menus["Playback"]->addAction(p.actions["InPoint"]);
-            p.menus["Playback"]->addAction(p.actions["OutPoint"]);
-            p.menus["Playback"]->addAction(p.actions["StartFrame"]);
-            p.menus["Playback"]->addAction(p.actions["EndFrame"]);
-            p.menus["Playback"]->addAction(p.actions["NextFrame"]);
-            p.menus["Playback"]->addAction(p.actions["NextFrame10"]);
-            p.menus["Playback"]->addAction(p.actions["NextFrame100"]);
-            p.menus["Playback"]->addAction(p.actions["PrevFrame"]);
-            p.menus["Playback"]->addAction(p.actions["PrevFrame10"]);
-            p.menus["Playback"]->addAction(p.actions["PrevFrame100"]);
-            p.menus["Playback"]->addSeparator();
-            p.menus["Playback"]->addAction(p.actions["InOutPoints"]);
-            p.menus["Playback"]->addAction(p.actions["SetInPoint"]);
-            p.menus["Playback"]->addAction(p.actions["SetOutPoint"]);
-            p.menus["Playback"]->addAction(p.actions["ResetInPoint"]);
-            p.menus["Playback"]->addAction(p.actions["ResetOutPoint"]);
-            //! \todo Implement me!
-            p.menus["Layout"] = UI::Menu::create(context);
-            p.menus["Playback"]->addMenu(p.menus["Layout"]);
+            auto vLayout = UI::VerticalLayout::create(context);
+            vLayout->setSpacing(UI::MetricsRole::None);
+            vLayout->addWidget(UI::ActionButton::create(p.actions["Forward"], context));
+            vLayout->addWidget(UI::ActionButton::create(p.actions["Reverse"], context));
+            vLayout->addSeparator();
+            vLayout->addWidget(UI::ActionButton::create(p.actions["PlayEveryFrame"], context));
+            vLayout->addSeparator();
+            vLayout->addWidget(UI::ActionButton::create(p.actions["InPoint"], context));
+            vLayout->addWidget(UI::ActionButton::create(p.actions["OutPoint"], context));
+            vLayout->addWidget(UI::ActionButton::create(p.actions["StartFrame"], context));
+            vLayout->addWidget(UI::ActionButton::create(p.actions["EndFrame"], context));
+            vLayout->addWidget(UI::ActionButton::create(p.actions["NextFrame"], context));
+            vLayout->addWidget(UI::ActionButton::create(p.actions["NextFrame10"], context));
+            vLayout->addWidget(UI::ActionButton::create(p.actions["NextFrame100"], context));
+            vLayout->addWidget(UI::ActionButton::create(p.actions["PrevFrame"], context));
+            vLayout->addWidget(UI::ActionButton::create(p.actions["PrevFrame10"], context));
+            vLayout->addWidget(UI::ActionButton::create(p.actions["PrevFrame100"], context));
+            vLayout->addSeparator();
+            vLayout->addWidget(UI::ActionButton::create(p.actions["InOutPoints"], context));
+            vLayout->addWidget(UI::ActionButton::create(p.actions["SetInPoint"], context));
+            vLayout->addWidget(UI::ActionButton::create(p.actions["SetOutPoint"], context));
+            vLayout->addWidget(UI::ActionButton::create(p.actions["ResetInPoint"], context));
+            vLayout->addWidget(UI::ActionButton::create(p.actions["ResetOutPoint"], context));
+            p.toolBarWidget = UI::PopupWidget::create(context);
+            p.toolBarWidget->setIcon("djvIconPlaybackForward");
+            p.toolBarWidget->setWidget(vLayout);
 
             auto weak = std::weak_ptr<PlaybackSystem>(std::dynamic_pointer_cast<PlaybackSystem>(shared_from_this()));
             p.playbackActionGroup->setExclusiveCallback(
@@ -281,49 +266,56 @@ namespace djv
             return _p->actions;
         }
 
+        ToolBarWidget PlaybackSystem::getToolBarWidget()
+        {
+            return
+            {
+                _p->toolBarWidget,
+                "D"
+            };
+        }
+
         void PlaybackSystem::_localeEvent(Event::Locale &)
         {
             DJV_PRIVATE_PTR();
             p.actions["Forward"]->setText(_getText(DJV_TEXT("Forward")));
-            p.actions["Forward"]->setTooltip(_getText(DJV_TEXT("Forward Tooltip")));
+            p.actions["Forward"]->setTooltip(_getText(DJV_TEXT("Forward tooltip")));
             p.actions["Reverse"]->setText(_getText(DJV_TEXT("Reverse")));
-            p.actions["Reverse"]->setTooltip(_getText(DJV_TEXT("Reverse Tooltip")));
-            p.actions["PlayEveryFrame"]->setText(_getText(DJV_TEXT("Play Every Frame")));
-            p.actions["PlayEveryFrame"]->setTooltip(_getText(DJV_TEXT("Play Every Frame Tooltip")));
-            p.actions["InPoint"]->setText(_getText(DJV_TEXT("Go To In Point")));
-            p.actions["InPoint"]->setTooltip(_getText(DJV_TEXT("Go To In Point Tooltip")));
-            p.actions["OutPoint"]->setText(_getText(DJV_TEXT("Go To Out Point")));
-            p.actions["OutPoint"]->setTooltip(_getText(DJV_TEXT("Go To Out Point Tooltip")));
-            p.actions["StartFrame"]->setText(_getText(DJV_TEXT("Go To Start Frame")));
-            p.actions["StartFrame"]->setTooltip(_getText(DJV_TEXT("Go To Start Frame Tooltip")));
-            p.actions["EndFrame"]->setText(_getText(DJV_TEXT("Go To End Frame")));
-            p.actions["EndFrame"]->setTooltip(_getText(DJV_TEXT("Go To End Frame Tooltip")));
-            p.actions["NextFrame"]->setText(_getText(DJV_TEXT("Next Frame")));
-            p.actions["NextFrame"]->setTooltip(_getText(DJV_TEXT("Next Frame Tooltip")));
-            p.actions["NextFrame10"]->setText(_getText(DJV_TEXT("Next Frame X10")));
-            p.actions["NextFrame10"]->setTooltip(_getText(DJV_TEXT("Next Frame X10 Tooltip")));
-            p.actions["NextFrame100"]->setText(_getText(DJV_TEXT("Next Frame X100")));
-            p.actions["NextFrame100"]->setTooltip(_getText(DJV_TEXT("Next Frame X100 Tooltip")));
-            p.actions["PrevFrame"]->setText(_getText(DJV_TEXT("Previous Frame")));
-            p.actions["PrevFrame"]->setTooltip(_getText(DJV_TEXT("Previous Frame Tooltip")));
-            p.actions["PrevFrame10"]->setText(_getText(DJV_TEXT("Previous Frame X10")));
-            p.actions["PrevFrame10"]->setTooltip(_getText(DJV_TEXT("Previous Frame X10 Tooltip")));
-            p.actions["PrevFrame100"]->setText(_getText(DJV_TEXT("Previous Frame X100")));
-            p.actions["PrevFrame100"]->setTooltip(_getText(DJV_TEXT("Previous Frame X100 Tooltip")));
-            p.actions["InOutPoints"]->setText(_getText(DJV_TEXT("Enable In/Out Points")));
-            p.actions["InOutPoints"]->setTooltip(_getText(DJV_TEXT("Enable In/Out Points Tooltip")));
-            p.actions["SetInPoint"]->setText(_getText(DJV_TEXT("Set In Point")));
-            p.actions["SetInPoint"]->setTooltip(_getText(DJV_TEXT("Set In Point Tooltip")));
-            p.actions["SetOutPoint"]->setText(_getText(DJV_TEXT("Set Out Point")));
-            p.actions["SetOutPoint"]->setTooltip(_getText(DJV_TEXT("Set Out Point Tooltip")));
-            p.actions["ResetInPoint"]->setText(_getText(DJV_TEXT("Reset In Point")));
-            p.actions["ResetInPoint"]->setTooltip(_getText(DJV_TEXT("Reset In Point Tooltip")));
-            p.actions["ResetOutPoint"]->setText(_getText(DJV_TEXT("Reset Out Point")));
-            p.actions["ResetOutPoint"]->setTooltip(_getText(DJV_TEXT("Reset Out Point Tooltip")));
+            p.actions["Reverse"]->setTooltip(_getText(DJV_TEXT("Reverse tooltip")));
+            p.actions["PlayEveryFrame"]->setText(_getText(DJV_TEXT("Play every frame")));
+            p.actions["PlayEveryFrame"]->setTooltip(_getText(DJV_TEXT("Play every frame tooltip")));
+            p.actions["InPoint"]->setText(_getText(DJV_TEXT("Go to the in point")));
+            p.actions["InPoint"]->setTooltip(_getText(DJV_TEXT("Go to in point tooltip")));
+            p.actions["OutPoint"]->setText(_getText(DJV_TEXT("Go to the out point")));
+            p.actions["OutPoint"]->setTooltip(_getText(DJV_TEXT("Go to out point tooltip")));
+            p.actions["StartFrame"]->setText(_getText(DJV_TEXT("Go to the start frame")));
+            p.actions["StartFrame"]->setTooltip(_getText(DJV_TEXT("Go to start frame tooltip")));
+            p.actions["EndFrame"]->setText(_getText(DJV_TEXT("Go to the end frame")));
+            p.actions["EndFrame"]->setTooltip(_getText(DJV_TEXT("Go to end frame tooltip")));
+            p.actions["NextFrame"]->setText(_getText(DJV_TEXT("Next frame")));
+            p.actions["NextFrame"]->setTooltip(_getText(DJV_TEXT("Next frame tooltip")));
+            p.actions["NextFrame10"]->setText(_getText(DJV_TEXT("Next frame X10")));
+            p.actions["NextFrame10"]->setTooltip(_getText(DJV_TEXT("Next frame X10 tooltip")));
+            p.actions["NextFrame100"]->setText(_getText(DJV_TEXT("Next frame X100")));
+            p.actions["NextFrame100"]->setTooltip(_getText(DJV_TEXT("Next frame X100 tooltip")));
+            p.actions["PrevFrame"]->setText(_getText(DJV_TEXT("Previous frame")));
+            p.actions["PrevFrame"]->setTooltip(_getText(DJV_TEXT("Previous frame tooltip")));
+            p.actions["PrevFrame10"]->setText(_getText(DJV_TEXT("Previous frame X10")));
+            p.actions["PrevFrame10"]->setTooltip(_getText(DJV_TEXT("Previous frame X10 tooltip")));
+            p.actions["PrevFrame100"]->setText(_getText(DJV_TEXT("Previous frame X100")));
+            p.actions["PrevFrame100"]->setTooltip(_getText(DJV_TEXT("Previous frame X100 tooltip")));
+            p.actions["InOutPoints"]->setText(_getText(DJV_TEXT("Enable in/out points")));
+            p.actions["InOutPoints"]->setTooltip(_getText(DJV_TEXT("Enable in/out points tooltip")));
+            p.actions["SetInPoint"]->setText(_getText(DJV_TEXT("Set the in point")));
+            p.actions["SetInPoint"]->setTooltip(_getText(DJV_TEXT("Set in point tooltip")));
+            p.actions["SetOutPoint"]->setText(_getText(DJV_TEXT("Set the out point")));
+            p.actions["SetOutPoint"]->setTooltip(_getText(DJV_TEXT("Set out point tooltip")));
+            p.actions["ResetInPoint"]->setText(_getText(DJV_TEXT("Reset the in point")));
+            p.actions["ResetInPoint"]->setTooltip(_getText(DJV_TEXT("Reset in point tooltip")));
+            p.actions["ResetOutPoint"]->setText(_getText(DJV_TEXT("Reset the out point")));
+            p.actions["ResetOutPoint"]->setTooltip(_getText(DJV_TEXT("Reset out point tooltip")));
 
-            p.menus["Playback"]->setMenuName(_getText(DJV_TEXT("Playback")));
-            p.menus["Loop"]->setMenuName(_getText(DJV_TEXT("Loop")));
-            p.menus["Layout"]->setMenuName(_getText(DJV_TEXT("Layout")));
+            p.toolBarWidget->setTooltip(_getText(DJV_TEXT("Playback system tool bar tooltip")));
         }
 
     } // namespace ViewLib

@@ -34,12 +34,11 @@
 #include <djvUIComponents/ISettingsWidget.h>
 
 #include <djvUI/GroupBox.h>
+#include <djvUI/FlatButton.h>
 #include <djvUI/FlowLayout.h>
-#include <djvUI/ListButton.h>
 #include <djvUI/RowLayout.h>
 #include <djvUI/ScrollWidget.h>
 #include <djvUI/SoloLayout.h>
-#include <djvUI/ToolButton.h>
 
 #include <djvCore/Context.h>
 
@@ -79,7 +78,7 @@ namespace djv
                 {
                     std::string name;
                     std::shared_ptr<UI::GroupBox> groupBox;
-                    std::map<std::string, std::shared_ptr<UI::ListButton> > buttons;
+                    std::map<std::string, std::shared_ptr<UI::FlatButton> > buttons;
                 };
                 std::map<std::string, Group> _groups;
                 std::shared_ptr<UI::VerticalLayout> _layout;
@@ -97,7 +96,7 @@ namespace djv
                     {
                         for (auto widget : system->getSettingsWidgets())
                         {
-                            auto button = UI::ListButton::create(context);
+                            auto button = UI::FlatButton::create(context);
                             button->setClickedCallback(
                                 [weak, widget]
                             {
@@ -204,7 +203,7 @@ namespace djv
 
 			DJV_PRIVATE_PTR();
 
-            //auto backButton = UI::ToolButton::create(context);
+            //auto backButton = UI::FlatButton::create(context);
             //backButton->setIcon("djvIconArrowLeft");
             //backButton->hide();
             //addBackButton(backButton);

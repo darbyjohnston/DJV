@@ -30,8 +30,8 @@
 #include <djvUIComponents/PaletteSettingsWidget.h>
 
 #include <djvUI/ButtonGroup.h>
+#include <djvUI/FlatButton.h>
 #include <djvUI/FlowLayout.h>
-#include <djvUI/ListButton.h>
 #include <djvUI/SettingsSystem.h>
 #include <djvUI/StyleSettings.h>
 
@@ -46,11 +46,11 @@ namespace djv
     {
         struct PaletteSettingsWidget::Private
         {
-            std::vector<std::shared_ptr<ListButton> > buttons;
+            std::vector<std::shared_ptr<FlatButton> > buttons;
             std::shared_ptr<ButtonGroup> buttonGroup;
             std::shared_ptr<FlowLayout> layout;
             std::map<int, std::string> indexToPalette;
-            std::map<std::shared_ptr<ListButton>, std::string> buttonToPalette;
+            std::map<std::shared_ptr<FlatButton>, std::string> buttonToPalette;
             std::map<std::string, int> paletteToIndex;
             std::shared_ptr<MapObserver<std::string, Style::Palette> > palettesObserver;
             std::shared_ptr<ValueObserver<std::string> > currentPaletteObserver;
@@ -110,7 +110,7 @@ namespace djv
 							int j = 0;
 							for (const auto & i : value)
 							{
-								auto button = ListButton::create(context);
+								auto button = FlatButton::create(context);
 								widget->_p->buttons.push_back(button);
 								widget->_p->buttonGroup->addButton(button);
 								widget->_p->layout->addWidget(button);

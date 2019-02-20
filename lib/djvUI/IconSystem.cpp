@@ -274,17 +274,41 @@ namespace djv
             while (i != p.pendingImageRequests.end())
             {
                 std::shared_ptr<AV::Image::Image> image;
+                bool finished = false;
                 {
                     std::lock_guard<std::mutex> lock(i->queue->getMutex());
                     if (i->queue->hasVideo())
                     {
                         image = i->queue->getVideo().second;
                     }
+                    else if (i->queue->isFinished())
+                    {
+                        finished = true;
+                    }
                 }
                 if (image)
                 {
                     p.imageCache.add(getImageCacheKey(i->path), image);
                     i->promise.set_value(image);
+                    i = p.pendingImageRequests.erase(i);
+                }
+                else if (finished)
+                {
+                    try
+                    {
+                        std::stringstream ss;
+                        ss << "Error loading image" << " '" << i->path << "'.";
+                        throw std::runtime_error(ss.str());
+                    }
+                    catch (const std::exception &)
+                    {
+                        try
+                        {
+                            i->promise.set_exception(std::current_exception());
+                        }
+                        catch (const std::exception &)
+                        {}
+                    }
                     i = p.pendingImageRequests.erase(i);
                 }
                 else

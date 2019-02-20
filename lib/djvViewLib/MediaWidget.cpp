@@ -31,12 +31,12 @@
 
 #include <djvViewLib/ImageView.h>
 #include <djvViewLib/Media.h>
-#include <djvViewLib/PlaybackWidget.h>
+#include <djvViewLib/PlaybackSystem.h>
 #include <djvViewLib/TimelineSlider.h>
 
 #include <djvUI/RowLayout.h>
 #include <djvUI/StackLayout.h>
-#include <djvUI/ToolButton.h>
+#include <djvUI/ToolBar.h>
 
 using namespace djv::Core;
 
@@ -48,14 +48,12 @@ namespace djv
         {
             std::shared_ptr<Media> media;
             std::shared_ptr<ImageView> imageView;
-            std::shared_ptr<PlaybackWidget> playbackWidget;
             std::shared_ptr<TimelineSlider> timelineSlider;
+            std::shared_ptr<UI::Toolbar> toolbar;
             std::shared_ptr<UI::StackLayout> layout;
             std::shared_ptr<ValueObserver<Time::Duration> > durationObserver;
             std::shared_ptr<ValueObserver<Time::Timestamp> > currentTimeObserver;
             std::shared_ptr<ValueObserver<Time::Timestamp> > currentTimeObserver2;
-            std::shared_ptr<ValueObserver<Playback> > playbackObserver;
-            std::shared_ptr<ValueObserver<Playback> > playbackObserver2;
         };
         
         void MediaWidget::_init(Context * context)
@@ -65,21 +63,24 @@ namespace djv
             DJV_PRIVATE_PTR();
             p.imageView = ImageView::create(context);
 
-            _p->playbackWidget = PlaybackWidget::create(context);
-            _p->timelineSlider = TimelineSlider::create(context);
-			auto playbackSettingsButton = UI::ToolButton::create(context);
-			playbackSettingsButton->setIcon("djvIconPopupMenu");
+            p.timelineSlider = TimelineSlider::create(context);
 
-            auto hLayout = UI::HorizontalLayout::create(context);
-            hLayout->setSpacing(UI::MetricsRole::None);
-            hLayout->setBackgroundRole(UI::ColorRole::Overlay);
-            hLayout->addWidget(_p->playbackWidget);
-            hLayout->addWidget(_p->timelineSlider, UI::RowStretch::Expand);
-			hLayout->addWidget(playbackSettingsButton);
+            p.toolbar = UI::Toolbar::create(context);
+            p.toolbar->setBackgroundRole(UI::ColorRole::Overlay);
+            auto playbackSystem = context->getSystemT<PlaybackSystem>().lock();
+            auto actions = playbackSystem->getActions();
+            p.toolbar->addAction(actions["Reverse"]);
+            p.toolbar->addAction(actions["Forward"]);
+            p.toolbar->addAction(actions["InPoint"]);
+            p.toolbar->addAction(actions["PrevFrame"]);
+            p.toolbar->addAction(actions["NextFrame"]);
+            p.toolbar->addAction(actions["OutPoint"]);
+            p.toolbar->addWidget(p.timelineSlider, UI::RowStretch::Expand);
+
 			auto vLayout = UI::VerticalLayout::create(context);
             vLayout->setSpacing(UI::MetricsRole::None);
             vLayout->addExpander();
-            vLayout->addWidget(hLayout);
+            vLayout->addWidget(p.toolbar);
 
             p.layout = UI::StackLayout::create(context);
             p.layout->addWidget(p.imageView);
@@ -98,19 +99,6 @@ namespace djv
                     if (widget->_p->media)
                     {
 						widget->_p->media->setCurrentTime(value);
-                    }
-                }
-            });
-
-            p.playbackObserver = ValueObserver<Playback>::create(
-                p.playbackWidget->observePlayback(),
-                [weak](const Playback & value)
-            {
-                if (auto widget = weak.lock())
-                {
-                    if (widget->_p->media)
-                    {
-						widget->_p->media->setPlayback(value);
                     }
                 }
             });
@@ -149,38 +137,27 @@ namespace djv
                     _p->media->observeDuration(),
                     [weak](Time::Duration value)
                 {
-                    if (auto system = weak.lock())
+                    if (auto widget = weak.lock())
                     {
-                        system->_p->timelineSlider->setDuration(value);
+                        widget->_p->timelineSlider->setDuration(value);
                     }
                 });
                 _p->currentTimeObserver2 = ValueObserver<Time::Timestamp>::create(
                     _p->media->observeCurrentTime(),
                     [weak](Time::Timestamp value)
                 {
-                    if (auto system = weak.lock())
+                    if (auto widget = weak.lock())
                     {
-                        system->_p->timelineSlider->setCurrentTime(value);
-                    }
-                });
-                _p->playbackObserver2 = ValueObserver<Playback>::create(
-                    _p->media->observePlayback(),
-                    [weak](Playback value)
-                {
-                    if (auto system = weak.lock())
-                    {
-                        system->_p->playbackWidget->setPlayback(value);
+                        widget->_p->timelineSlider->setCurrentTime(value);
                     }
                 });
             }
             else
             {
-                _p->playbackWidget->setPlayback(Playback());
                 _p->timelineSlider->setDuration(0);
                 _p->timelineSlider->setCurrentTime(0);
                 _p->durationObserver.reset();
                 _p->currentTimeObserver2.reset();
-                _p->playbackObserver2.reset();
             }
         }
 
@@ -197,7 +174,6 @@ namespace djv
         void MediaWidget::_widgetUpdate()
         {
             DJV_PRIVATE_PTR();
-            p.playbackWidget->setEnabled(p.media.get());
             p.timelineSlider->setEnabled(p.media.get());
         }
         

@@ -32,7 +32,6 @@
 #include <djvUIComponents/FileBrowser.h>
 
 #include <djvUI/MDICanvas.h>
-#include <djvUI/ToolButton.h>
 
 #include <djvCore/Context.h>
 #include <djvCore/FileInfo.h>

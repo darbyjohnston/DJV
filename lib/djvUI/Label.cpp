@@ -294,7 +294,7 @@ namespace djv
                     //render->setFillColor(AV::Image::Color(1.f, 0.f, 0.f));
                     //render->drawRect(BBox2f(pos.x, pos.y, p.textSize.x, p.textSize.y));
 
-                    render->setFillColor(_getColorWithOpacity(style->getColor(p.textColorRole)));
+                    render->setFillColor(_getColorWithOpacity(style->getColor(isEnabled(true) ? p.textColorRole : ColorRole::Disabled)));
                     //! \bug Why the extra subtract by one here?
                     render->drawText(p.text, glm::vec2(floorf(pos.x), floorf(pos.y + p.fontMetrics.ascender - 1.f)));
                 }

@@ -49,6 +49,7 @@ namespace djv
             static std::shared_ptr<HelpSystem> create(Core::Context *);
 
             std::map<std::string, std::shared_ptr<UI::Action> > getActions() override;
+            ToolBarWidget getToolBarWidget() override;
 
         protected:
             void _localeEvent(Core::Event::Locale &) override;

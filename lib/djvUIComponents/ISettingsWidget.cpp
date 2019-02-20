@@ -29,7 +29,6 @@
 
 #include <djvUIComponents/ISettingsWidget.h>
 
-#include <djvUI/ListButton.h>
 #include <djvUI/RowLayout.h>
 #include <djvUI/StackLayout.h>
 

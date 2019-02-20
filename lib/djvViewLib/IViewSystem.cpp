@@ -58,9 +58,9 @@ namespace djv
             return std::map<std::string, std::shared_ptr<UI::Action> >();
         }
 
-        PanelData IViewSystem::getPanel()
+        ToolBarWidget IViewSystem::getToolBarWidget()
         {
-            return PanelData();
+            return ToolBarWidget();
         }
 
         std::vector<std::shared_ptr<IToolWidget> > IViewSystem::getToolWidgets()

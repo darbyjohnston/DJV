@@ -32,9 +32,11 @@
 #include <djvViewLib/AboutDialog.h>
 #include <djvViewLib/LogDialog.h>
 
+#include <djvUIComponents/ActionButton.h>
+
 #include <djvUI/Action.h>
 #include <djvUI/IWindowSystem.h>
-#include <djvUI/Menu.h>
+#include <djvUI/PopupWidget.h>
 #include <djvUI/RowLayout.h>
 #include <djvUI/Window.h>
 
@@ -51,9 +53,9 @@ namespace djv
         struct HelpSystem::Private
         {
             std::map<std::string, std::shared_ptr<UI::Action> > actions;
-            std::map<std::string, std::shared_ptr<UI::Menu> > menus;
 			std::shared_ptr<AboutDialog> aboutDialog;
 			std::shared_ptr<LogDialog> logDialog;
+            std::shared_ptr<UI::PopupWidget> toolBarWidget;
 			std::map<std::string, std::shared_ptr<ValueObserver<bool> > > clickedObservers;
         };
 
@@ -65,57 +67,93 @@ namespace djv
             //! \todo Implement me!
             p.actions["Documentation"] = UI::Action::create();
             p.actions["Documentation"]->setEnabled(false);
-
             //! \todo Implement me!
             p.actions["Information"] = UI::Action::create();
             p.actions["Information"]->setEnabled(false);
-
             p.actions["About"] = UI::Action::create();
-
             p.actions["Log"] = UI::Action::create();
 
-            p.menus["Help"] = UI::Menu::create(getContext());
-            p.menus["Help"]->addAction(p.actions["Documentation"]);
-            p.menus["Help"]->addAction(p.actions["Information"]);
-            p.menus["Help"]->addAction(p.actions["About"]);
-            p.menus["Help"]->addSeparator();
-            p.menus["Help"]->addAction(p.actions["Log"]);
+            p.aboutDialog = AboutDialog::create(context);
+            p.logDialog = LogDialog::create(context);
 
-			p.aboutDialog = AboutDialog::create(context);
-
-			p.logDialog = LogDialog::create(context);
+            auto vLayout = UI::VerticalLayout::create(context);
+            vLayout->setSpacing(UI::MetricsRole::None);
+            vLayout->addWidget(UI::ActionButton::create(p.actions["Documentation"], context));
+            vLayout->addSeparator();
+            vLayout->addWidget(UI::ActionButton::create(p.actions["About"], context));
+            vLayout->addSeparator();
+            vLayout->addWidget(UI::ActionButton::create(p.actions["Log"], context));
+            p.toolBarWidget = UI::PopupWidget::create(context);
+            p.toolBarWidget->setIcon("djvIconHelp");
+            p.toolBarWidget->setWidget(vLayout);
 
             auto weak = std::weak_ptr<HelpSystem>(std::dynamic_pointer_cast<HelpSystem>(shared_from_this()));
+            p.aboutDialog->setCloseCallback(
+                [weak, context]
+            {
+                if (auto system = weak.lock())
+                {
+                    system->_p->aboutDialog->hide();
+                    system->_p->aboutDialog->setParent(nullptr);
+                }
+            });
+
+            p.logDialog->setCloseCallback(
+                [weak, context]
+            {
+                if (auto system = weak.lock())
+                {
+                    system->_p->logDialog->hide();
+                    system->_p->logDialog->setParent(nullptr);
+                }
+            });
+
             p.clickedObservers["About"] = ValueObserver<bool>::create(
                 p.actions["About"]->observeClicked(),
-                [weak](bool value)
+                [weak, context](bool value)
             {
 				if (value)
 				{
 					if (auto system = weak.lock())
 					{
-						system->_p->aboutDialog->show();
+                        if (auto windowSystem = context->getSystemT<UI::IWindowSystem>().lock())
+                        {
+                            if (auto window = windowSystem->observeCurrentWindow()->get())
+                            {
+                                system->_p->toolBarWidget->close();
+                                window->addWidget(system->_p->aboutDialog);
+                                system->_p->aboutDialog->show();
+                            }
+                        }
 					}
 				}
             });
 
             p.clickedObservers["Log"] = ValueObserver<bool>::create(
                 p.actions["Log"]->observeClicked(),
-                [weak](bool value)
+                [weak, context](bool value)
             {
 				if (value)
 				{
 					if (auto system = weak.lock())
 					{
-						if (value)
-						{
-							system->_p->logDialog->reloadLog();
-						}
-						else
-						{
-							system->_p->logDialog->clearLog();
-						}
-						system->_p->logDialog->show();
+                        if (auto windowSystem = context->getSystemT<UI::IWindowSystem>().lock())
+                        {
+                            if (auto window = windowSystem->observeCurrentWindow()->get())
+                            {
+                                system->_p->toolBarWidget->close();
+                                if (value)
+                                {
+                                    system->_p->logDialog->reloadLog();
+                                }
+                                else
+                                {
+                                    system->_p->logDialog->clearLog();
+                                }
+                                window->addWidget(system->_p->logDialog);
+                                system->_p->logDialog->show();
+                            }
+                        }
 					}
 				}
             });
@@ -140,19 +178,26 @@ namespace djv
             return _p->actions;
         }
 
+        ToolBarWidget HelpSystem::getToolBarWidget()
+        {
+            return
+            {
+                _p->toolBarWidget,
+                "F"
+            };
+        }
+
         void HelpSystem::_localeEvent(Event::Locale &)
         {
             DJV_PRIVATE_PTR();
             p.actions["Documentation"]->setText(_getText(DJV_TEXT("Documentation")));
-            p.actions["Documentation"]->setTooltip(_getText(DJV_TEXT("Documentation Tooltip")));
-            p.actions["Information"]->setText(_getText(DJV_TEXT("Information")));
-            p.actions["Information"]->setTooltip(_getText(DJV_TEXT("Information Tooltip")));
+            p.actions["Documentation"]->setTooltip(_getText(DJV_TEXT("Documentation tooltip")));
             p.actions["About"]->setText(_getText(DJV_TEXT("About")));
-            p.actions["About"]->setTooltip(_getText(DJV_TEXT("About Tooltip")));
-            p.actions["Log"]->setText(_getText(DJV_TEXT("Debug Log")));
-            p.actions["Log"]->setTooltip(_getText(DJV_TEXT("Debug Log Tooltip")));
+            p.actions["About"]->setTooltip(_getText(DJV_TEXT("About tooltip")));
+            p.actions["Log"]->setText(_getText(DJV_TEXT("System Log")));
+            p.actions["Log"]->setTooltip(_getText(DJV_TEXT("System log tooltip")));
 
-            p.menus["Help"]->setMenuName(_getText(DJV_TEXT("Help")));
+            p.toolBarWidget->setTooltip(_getText(DJV_TEXT("Help system tool bar tooltip")));
         }
 
     } // namespace ViewLib

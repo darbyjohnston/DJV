@@ -49,6 +49,7 @@ namespace djv
             const std::string & getTitle() const;
             void setTitle(const std::string &);
 
+            void close();
             void setCloseCallback(const std::function<void(void)> &);
 
             void addWidget(const std::shared_ptr<Widget>&) override;

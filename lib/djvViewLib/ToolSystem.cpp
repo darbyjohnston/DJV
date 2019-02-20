@@ -35,8 +35,11 @@
 #include <djvViewLib/InformationWidget.h>
 #include <djvViewLib/MagnifierWidget.h>
 
+#include <djvUIComponents/ActionButton.h>
+
 #include <djvUI/Action.h>
-#include <djvUI/Menu.h>
+#include <djvUI/PopupWidget.h>
+#include <djvUI/RowLayout.h>
 
 #include <djvCore/Context.h>
 
@@ -51,7 +54,7 @@ namespace djv
         struct ToolSystem::Private
         {
             std::map<std::string, std::shared_ptr<UI::Action> > actions;
-            std::map<std::string, std::shared_ptr<UI::Menu> > menus;
+            std::shared_ptr<UI::PopupWidget> toolBarWidget;
             std::map<std::string, std::shared_ptr<IToolWidget> > widgets;
             std::map<std::string, std::shared_ptr<ValueObserver<bool> > > checkedObservers;
         };
@@ -64,29 +67,29 @@ namespace djv
             p.actions["Magnifier"] = UI::Action::create();
             p.actions["Magnifier"]->setButtonType(UI::ButtonType::Toggle);
             p.actions["Magnifier"]->setShortcut(GLFW_KEY_4);
-
             p.actions["ColorPicker"] = UI::Action::create();
             p.actions["ColorPicker"]->setButtonType(UI::ButtonType::Toggle);
             p.actions["ColorPicker"]->setShortcut(GLFW_KEY_5);
-
             p.actions["Histogram"] = UI::Action::create();
             p.actions["Histogram"]->setButtonType(UI::ButtonType::Toggle);
             p.actions["Histogram"]->setShortcut(GLFW_KEY_6);
-
             p.actions["Information"] = UI::Action::create();
             p.actions["Information"]->setButtonType(UI::ButtonType::Toggle);
             p.actions["Information"]->setShortcut(GLFW_KEY_7);
-
             p.actions["Debug"] = UI::Action::create();
             p.actions["Debug"]->setButtonType(UI::ButtonType::Toggle);
             p.actions["Debug"]->setShortcut(GLFW_KEY_8);
 
-            p.menus["Tools"] = UI::Menu::create(context);
-            p.menus["Tools"]->addAction(p.actions["Magnifier"]);
-            p.menus["Tools"]->addAction(p.actions["ColorPicker"]);
-            p.menus["Tools"]->addAction(p.actions["Histogram"]);
-            p.menus["Tools"]->addAction(p.actions["Information"]);
-            p.menus["Tools"]->addAction(p.actions["Debug"]);
+            auto vLayout = UI::VerticalLayout::create(context);
+            vLayout->setSpacing(UI::MetricsRole::None);
+            vLayout->addWidget(UI::ActionButton::create(p.actions["Magnifier"], context));
+            vLayout->addWidget(UI::ActionButton::create(p.actions["ColorPicker"], context));
+            vLayout->addWidget(UI::ActionButton::create(p.actions["Histogram"], context));
+            vLayout->addWidget(UI::ActionButton::create(p.actions["Information"], context));
+            vLayout->addWidget(UI::ActionButton::create(p.actions["Debug"], context));
+            p.toolBarWidget = UI::PopupWidget::create(context);
+            p.toolBarWidget->setIcon("djvIconColorPicker");
+            p.toolBarWidget->setWidget(vLayout);
 
             p.widgets["Magnifier"] = MagnifierWidget::create(context);
             p.widgets["ColorPicker"] = ColorPickerWidget::create(context);
@@ -122,15 +125,25 @@ namespace djv
 					system->_p->actions["Histogram"]->doChecked();
 				}
 			});
-			p.widgets["Information"]->setCloseCallback(
-				[weak]
-			{
-				if (auto system = weak.lock())
-				{
-					system->_p->actions["Information"]->setChecked(false);
-					system->_p->actions["Information"]->doChecked();
-				}
-			});
+            p.widgets["Information"]->setCloseCallback(
+                [weak]
+            {
+                if (auto system = weak.lock())
+                {
+                    system->_p->actions["Information"]->setChecked(false);
+                    system->_p->actions["Information"]->doChecked();
+                }
+            });
+            p.widgets["Debug"]->setCloseCallback(
+                [weak]
+            {
+                if (auto system = weak.lock())
+                {
+                    system->_p->actions["Debug"]->setChecked(false);
+                    system->_p->actions["Debug"]->doChecked();
+                }
+            });
+
 			p.checkedObservers["Magnifier"] = ValueObserver<bool>::create(
                 p.actions["Magnifier"]->observeChecked(),
                 [weak](bool value)
@@ -230,20 +243,30 @@ namespace djv
             };
         }
 
+        ToolBarWidget ToolSystem::getToolBarWidget()
+        {
+            return
+            {
+                _p->toolBarWidget,
+                "E"
+            };
+        }
+
         void ToolSystem::_localeEvent(Event::Locale &)
         {
             DJV_PRIVATE_PTR();
-            p.menus["Tools"]->setMenuName(_getText(DJV_TEXT("Tools")));
             p.actions["Magnifier"]->setText(_getText(DJV_TEXT("Magnifier")));
-            p.actions["Magnifier"]->setTooltip(_getText(DJV_TEXT("Magnifier Tooltip")));
-            p.actions["ColorPicker"]->setText(_getText(DJV_TEXT("Color Picker")));
-            p.actions["ColorPicker"]->setTooltip(_getText(DJV_TEXT("Color Picker Tooltip")));
+            p.actions["Magnifier"]->setTooltip(_getText(DJV_TEXT("Magnifier tooltip")));
+            p.actions["ColorPicker"]->setText(_getText(DJV_TEXT("Color picker")));
+            p.actions["ColorPicker"]->setTooltip(_getText(DJV_TEXT("Color picker tooltip")));
             p.actions["Histogram"]->setText(_getText(DJV_TEXT("Histogram")));
-            p.actions["Histogram"]->setTooltip(_getText(DJV_TEXT("Histogram Tooltip")));
+            p.actions["Histogram"]->setTooltip(_getText(DJV_TEXT("Histogram tooltip")));
             p.actions["Information"]->setText(_getText(DJV_TEXT("Information")));
-            p.actions["Information"]->setTooltip(_getText(DJV_TEXT("Information Tooltip")));
-            p.actions["Debug"]->setText(_getText(DJV_TEXT("Debug")));
-            p.actions["Debug"]->setTooltip(_getText(DJV_TEXT("Debug Tooltip")));
+            p.actions["Information"]->setTooltip(_getText(DJV_TEXT("Information tooltip")));
+            p.actions["Debug"]->setText(_getText(DJV_TEXT("Debugging")));
+            p.actions["Debug"]->setTooltip(_getText(DJV_TEXT("Debugging tooltip")));
+
+            p.toolBarWidget->setTooltip(_getText(DJV_TEXT("Tool system tool bar tooltip")));
         }
 
     } // namespace ViewLib

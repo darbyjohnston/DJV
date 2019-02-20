@@ -29,8 +29,11 @@
 
 #include <djvViewLib/ImageSystem.h>
 
+#include <djvUIComponents/ActionButton.h>
+
 #include <djvUI/Action.h>
-#include <djvUI/Menu.h>
+#include <djvUI/PopupWidget.h>
+#include <djvUI/RowLayout.h>
 
 #include <djvCore/Context.h>
 
@@ -45,7 +48,7 @@ namespace djv
         struct ImageSystem::Private
         {
             std::map<std::string, std::shared_ptr<UI::Action> > actions;
-            std::map<std::string, std::shared_ptr<UI::Menu> > menus;
+            std::shared_ptr<UI::PopupWidget> toolBarWidget;
             std::map<std::string, std::shared_ptr<ValueObserver<bool> > > clickedObservers;
         };
 
@@ -58,60 +61,51 @@ namespace djv
             p.actions["MirrorH"] = UI::Action::create();
             p.actions["MirrorH"]->setButtonType(UI::ButtonType::Toggle);
             p.actions["MirrorH"]->setEnabled(false);
-
             //! \todo Implement me!
             p.actions["MirrorV"] = UI::Action::create();
             p.actions["MirrorV"]->setButtonType(UI::ButtonType::Toggle);
             p.actions["MirrorV"]->setEnabled(false);
-
             //! \todo Implement me!
             p.actions["ColorManager"] = UI::Action::create();
             p.actions["ColorManager"]->setButtonType(UI::ButtonType::Toggle);
             p.actions["ColorManager"]->setEnabled(false);
-
             //! \todo Implement me!
             p.actions["ColorProfile"] = UI::Action::create();
             p.actions["ColorProfile"]->setButtonType(UI::ButtonType::Toggle);
             p.actions["ColorProfile"]->setEnabled(false);
-
             //! \todo Implement me!
             p.actions["DisplayProfile"] = UI::Action::create();
             p.actions["DisplayProfile"]->setButtonType(UI::ButtonType::Toggle);
             p.actions["DisplayProfile"]->setEnabled(false);
-
             //! \todo Implement me!
             p.actions["PremultAlpha"] = UI::Action::create();
             p.actions["PremultAlpha"]->setButtonType(UI::ButtonType::Toggle);
             p.actions["PremultAlpha"]->setEnabled(false);
-
             //! \todo Implement me!
             p.actions["ShowFrameStore"] = UI::Action::create();
             p.actions["ShowFrameStore"]->setButtonType(UI::ButtonType::Toggle);
             p.actions["ShowFrameStore"]->setShortcut(GLFW_KEY_E);
             p.actions["ShowFrameStore"]->setEnabled(false);
-
             //! \todo Implement me!
             p.actions["SetFrameStore"] = UI::Action::create();
             p.actions["SetFrameStore"]->setShortcut(GLFW_KEY_E, GLFW_MOD_SHIFT);
             p.actions["SetFrameStore"]->setEnabled(false);
 
-            p.menus["Image"] = UI::Menu::create(context);
-            p.menus["Image"]->addAction(p.actions["MirrorH"]);
-            p.menus["Image"]->addAction(p.actions["MirrorV"]);
-            //! \todo Implement me!
-            p.menus["Scale"] = UI::Menu::create(context);
-            p.menus["Image"]->addMenu(p.menus["Scale"]);
-            //! \todo Implement me!
-            p.menus["Rotate"] = UI::Menu::create(context);
-            p.menus["Image"]->addMenu(p.menus["Rotate"]);
-            p.menus["Image"]->addSeparator();
-            p.menus["Image"]->addAction(p.actions["ColorManager"]);
-            p.menus["Image"]->addAction(p.actions["ColorProfile"]);
-            p.menus["Image"]->addAction(p.actions["DisplayProfile"]);
-            p.menus["Image"]->addAction(p.actions["PremultAlpha"]);
-            p.menus["Image"]->addSeparator();
-            p.menus["Image"]->addAction(p.actions["ShowFrameStore"]);
-            p.menus["Image"]->addAction(p.actions["SetFrameStore"]);
+            auto vLayout = UI::VerticalLayout::create(context);
+            vLayout->setSpacing(UI::MetricsRole::None);
+            vLayout->addWidget(UI::ActionButton::create(p.actions["MirrorH"], context));
+            vLayout->addWidget(UI::ActionButton::create(p.actions["MirrorV"], context));
+            vLayout->addSeparator();
+            vLayout->addWidget(UI::ActionButton::create(p.actions["ColorManager"], context));
+            vLayout->addWidget(UI::ActionButton::create(p.actions["ColorProfile"], context));
+            vLayout->addWidget(UI::ActionButton::create(p.actions["DisplayProfile"], context));
+            vLayout->addWidget(UI::ActionButton::create(p.actions["PremultAlpha"], context));
+            vLayout->addSeparator();
+            vLayout->addWidget(UI::ActionButton::create(p.actions["ShowFrameStore"], context));
+            vLayout->addWidget(UI::ActionButton::create(p.actions["SetFrameStore"], context));
+            p.toolBarWidget = UI::PopupWidget::create(context);
+            p.toolBarWidget->setIcon("djvIconImage");
+            p.toolBarWidget->setWidget(vLayout);
         }
 
         ImageSystem::ImageSystem() :
@@ -133,29 +127,36 @@ namespace djv
             return _p->actions;
         }
 
+        ToolBarWidget ImageSystem::getToolBarWidget()
+        {
+            return
+            {
+                _p->toolBarWidget,
+                "C"
+            };
+        }
+
         void ImageSystem::_localeEvent(Event::Locale &)
         {
             DJV_PRIVATE_PTR();
-            p.actions["MirrorH"]->setText(_getText(DJV_TEXT("Mirror Horizontal")));
-            p.actions["MirrorH"]->setTooltip(_getText(DJV_TEXT("Mirror Horizontal Tooltip")));
-            p.actions["MirrorV"]->setText(_getText(DJV_TEXT("Mirror Vertical")));
-            p.actions["MirrorV"]->setTooltip(_getText(DJV_TEXT("Mirror Vertical Tooltip")));
-            p.actions["ColorManager"]->setText(_getText(DJV_TEXT("Color Manager")));
-            p.actions["ColorManager"]->setTooltip(_getText(DJV_TEXT("Color Manager Tooltip")));
-            p.actions["ColorProfile"]->setText(_getText(DJV_TEXT("Color Profile")));
-            p.actions["ColorProfile"]->setTooltip(_getText(DJV_TEXT("Color Profile Tooltip")));
-            p.actions["DisplayProfile"]->setText(_getText(DJV_TEXT("Display Profile")));
-            p.actions["DisplayProfile"]->setTooltip(_getText(DJV_TEXT("Display Profile Tooltip")));
-            p.actions["PremultAlpha"]->setText(_getText(DJV_TEXT("Premulitplied Alpha")));
-            p.actions["PremultAlpha"]->setTooltip(_getText(DJV_TEXT("Premulitplied Alpha Tooltip")));
-            p.actions["ShowFrameStore"]->setText(_getText(DJV_TEXT("Show Frame Store")));
-            p.actions["ShowFrameStore"]->setTooltip(_getText(DJV_TEXT("Show Frame Store Tooltip")));
-            p.actions["SetFrameStore"]->setText(_getText(DJV_TEXT("Set Frame Store")));
-            p.actions["SetFrameStore"]->setTooltip(_getText(DJV_TEXT("Set Frame Store Tooltip")));
+            p.actions["MirrorH"]->setText(_getText(DJV_TEXT("Mirror horizontal")));
+            p.actions["MirrorH"]->setTooltip(_getText(DJV_TEXT("Mirror horizontal tooltip")));
+            p.actions["MirrorV"]->setText(_getText(DJV_TEXT("Mirror vertical")));
+            p.actions["MirrorV"]->setTooltip(_getText(DJV_TEXT("Mirror vertical tooltip")));
+            p.actions["ColorManager"]->setText(_getText(DJV_TEXT("Show the color manager")));
+            p.actions["ColorManager"]->setTooltip(_getText(DJV_TEXT("Color manager tooltip")));
+            p.actions["ColorProfile"]->setText(_getText(DJV_TEXT("Enable the color profile")));
+            p.actions["ColorProfile"]->setTooltip(_getText(DJV_TEXT("Color profile tooltip")));
+            p.actions["DisplayProfile"]->setText(_getText(DJV_TEXT("Enable the display profile")));
+            p.actions["DisplayProfile"]->setTooltip(_getText(DJV_TEXT("Display profile tooltip")));
+            p.actions["PremultAlpha"]->setText(_getText(DJV_TEXT("Enable premulitplied alpha")));
+            p.actions["PremultAlpha"]->setTooltip(_getText(DJV_TEXT("Premulitplied alpha tooltip")));
+            p.actions["ShowFrameStore"]->setText(_getText(DJV_TEXT("Show the frame store")));
+            p.actions["ShowFrameStore"]->setTooltip(_getText(DJV_TEXT("Show frame store tooltip")));
+            p.actions["SetFrameStore"]->setText(_getText(DJV_TEXT("Set the frame store")));
+            p.actions["SetFrameStore"]->setTooltip(_getText(DJV_TEXT("Set frame store tooltip")));
 
-            p.menus["Image"]->setMenuName(_getText(DJV_TEXT("Image")));
-            p.menus["Scale"]->setMenuName(_getText(DJV_TEXT("Scale")));
-            p.menus["Rotate"]->setMenuName(_getText(DJV_TEXT("Rotate")));
+            p.toolBarWidget->setTooltip(_getText(DJV_TEXT("Image system tool bar tooltip")));
         }
 
     } // namespace ViewLib
