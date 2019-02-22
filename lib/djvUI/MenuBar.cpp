@@ -36,7 +36,6 @@
 #include <djvUI/Overlay.h>
 #include <djvUI/RowLayout.h>
 #include <djvUI/Shortcut.h>
-#include <djvUI/StackLayout.h>
 #include <djvUI/Window.h>
 
 #include <GLFW/glfw3.h>
@@ -50,7 +49,7 @@ namespace djv
         struct MenuBar::Private
         {
             std::vector<std::shared_ptr<Menu> > menus;
-            std::shared_ptr<HorizontalLayout> buttonLayout;
+            std::shared_ptr<HorizontalLayout> menuLayout;
             std::shared_ptr<HorizontalLayout> widgetLayout;
             std::shared_ptr<HorizontalLayout> layout;
             std::map<std::shared_ptr<Menu>, std::shared_ptr<Button::Menu> > menusToButtons;
@@ -73,14 +72,14 @@ namespace djv
             addAction(closeAction);
 
             DJV_PRIVATE_PTR();
-            p.buttonLayout = HorizontalLayout::create(context);
-            p.buttonLayout->setSpacing(MetricsRole::None);
+            p.menuLayout = HorizontalLayout::create(context);
+            p.menuLayout->setSpacing(MetricsRole::None);
 
             p.widgetLayout = HorizontalLayout::create(context);
             p.widgetLayout->setSpacing(MetricsRole::None);
 
             p.layout = HorizontalLayout::create(context);
-            p.layout->addWidget(p.buttonLayout);
+            p.layout->addWidget(p.menuLayout);
             p.layout->addExpander();
             p.layout->addWidget(p.widgetLayout);
             p.layout->setParent(shared_from_this());
@@ -120,8 +119,9 @@ namespace djv
             p.menus.push_back(menu);
             
             auto button = Button::Menu::create(getContext());
+            button->setInsideMargin(Layout::Margin(MetricsRole::Margin, MetricsRole::Margin, MetricsRole::MarginSmall, MetricsRole::MarginSmall));
             button->installEventFilter(shared_from_this());
-            p.buttonLayout->addWidget(button);
+            p.menuLayout->addWidget(button);
 
             p.menusToButtons[menu] = button;
 
@@ -136,7 +136,7 @@ namespace djv
                     {
                         if (auto window = widget->getWindow().lock())
                         {
-                            menu->popup(window, button, widget->_p->buttonLayout);
+                            menu->popup(window, button, widget->_p->menuLayout);
                         }
                     }
                 }
@@ -174,18 +174,18 @@ namespace djv
         {
             _p->widgetLayout->addWidget(widget);
         }
-            
+
         float MenuBar::getHeightForWidth(float value) const
         {
             return _p->layout->getHeightForWidth(value);
         }
 
-        void MenuBar::_preLayoutEvent(Event::PreLayout& event)
+        void MenuBar::_preLayoutEvent(Event::PreLayout & event)
         {
             _setMinimumSize(_p->layout->getMinimumSize());
         }
 
-        void MenuBar::_layoutEvent(Event::Layout& event)
+        void MenuBar::_layoutEvent(Event::Layout & event)
         {
             if (auto style = _getStyle().lock())
             {
@@ -194,7 +194,7 @@ namespace djv
             }
         }
 
-        bool MenuBar::_eventFilter(const std::shared_ptr<IObject>& object, Event::IEvent& event)
+        bool MenuBar::_eventFilter(const std::shared_ptr<IObject> & object, Event::IEvent & event)
         {
             switch (event.getEventType())
             {

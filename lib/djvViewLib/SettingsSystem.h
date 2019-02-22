@@ -54,7 +54,6 @@ namespace djv
 			void showSettings();
 
             std::map<std::string, std::shared_ptr<UI::Action> > getActions() override;
-            ToolBarWidget getToolBarWidget() override;
             std::vector<std::shared_ptr<UI::ISettingsWidget> > getSettingsWidgets() override;
 
         protected:

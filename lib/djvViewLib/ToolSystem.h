@@ -49,7 +49,7 @@ namespace djv
             static std::shared_ptr<ToolSystem> create(Core::Context *);
 
             std::map<std::string, std::shared_ptr<UI::Action> > getActions() override;
-            ToolBarWidget getToolBarWidget() override;
+            MenuData getMenu() override;
             std::vector<std::shared_ptr<IToolWidget> > getToolWidgets() override;
 
         protected:

@@ -34,11 +34,8 @@
 #include <djvViewLib/Media.h>
 #include <djvViewLib/WindowSystem.h>
 
-#include <djvUIComponents/ActionButton.h>
-
 #include <djvUI/Action.h>
 #include <djvUI/ActionGroup.h>
-#include <djvUI/PopupWidget.h>
 #include <djvUI/RowLayout.h>
 
 #include <djvCore/Context.h>
@@ -57,7 +54,6 @@ namespace djv
             std::shared_ptr<Media> currentMedia;
             std::map<std::string, std::shared_ptr<UI::Action> > actions;
             std::shared_ptr<UI::ActionGroup> playbackActionGroup;
-            std::shared_ptr<UI::PopupWidget> toolBarWidget;
             std::map<std::string, std::shared_ptr<ValueObserver<bool> > > clickedObservers;
             std::shared_ptr<ValueObserver<Playback> > playbackObserver;
             std::shared_ptr<ListObserver<std::shared_ptr<Media> > > mediaObserver;
@@ -156,33 +152,6 @@ namespace djv
             p.actions["ResetOutPoint"]->setShortcut(GLFW_KEY_O, GLFW_MOD_SHIFT);
             p.actions["ResetOutPoint"]->setEnabled(false);
 
-            auto vLayout = UI::VerticalLayout::create(context);
-            vLayout->setSpacing(UI::MetricsRole::None);
-            vLayout->addWidget(UI::ActionButton::create(p.actions["Forward"], context));
-            vLayout->addWidget(UI::ActionButton::create(p.actions["Reverse"], context));
-            vLayout->addSeparator();
-            vLayout->addWidget(UI::ActionButton::create(p.actions["PlayEveryFrame"], context));
-            vLayout->addSeparator();
-            vLayout->addWidget(UI::ActionButton::create(p.actions["InPoint"], context));
-            vLayout->addWidget(UI::ActionButton::create(p.actions["OutPoint"], context));
-            vLayout->addWidget(UI::ActionButton::create(p.actions["StartFrame"], context));
-            vLayout->addWidget(UI::ActionButton::create(p.actions["EndFrame"], context));
-            vLayout->addWidget(UI::ActionButton::create(p.actions["NextFrame"], context));
-            vLayout->addWidget(UI::ActionButton::create(p.actions["NextFrame10"], context));
-            vLayout->addWidget(UI::ActionButton::create(p.actions["NextFrame100"], context));
-            vLayout->addWidget(UI::ActionButton::create(p.actions["PrevFrame"], context));
-            vLayout->addWidget(UI::ActionButton::create(p.actions["PrevFrame10"], context));
-            vLayout->addWidget(UI::ActionButton::create(p.actions["PrevFrame100"], context));
-            vLayout->addSeparator();
-            vLayout->addWidget(UI::ActionButton::create(p.actions["InOutPoints"], context));
-            vLayout->addWidget(UI::ActionButton::create(p.actions["SetInPoint"], context));
-            vLayout->addWidget(UI::ActionButton::create(p.actions["SetOutPoint"], context));
-            vLayout->addWidget(UI::ActionButton::create(p.actions["ResetInPoint"], context));
-            vLayout->addWidget(UI::ActionButton::create(p.actions["ResetOutPoint"], context));
-            p.toolBarWidget = UI::PopupWidget::create(context);
-            p.toolBarWidget->setIcon("djvIconPlaybackForward");
-            p.toolBarWidget->setWidget(vLayout);
-
             auto weak = std::weak_ptr<PlaybackSystem>(std::dynamic_pointer_cast<PlaybackSystem>(shared_from_this()));
             p.playbackActionGroup->setExclusiveCallback(
                 [weak](int index)
@@ -266,15 +235,6 @@ namespace djv
             return _p->actions;
         }
 
-        ToolBarWidget PlaybackSystem::getToolBarWidget()
-        {
-            return
-            {
-                _p->toolBarWidget,
-                "D"
-            };
-        }
-
         void PlaybackSystem::_localeEvent(Event::Locale &)
         {
             DJV_PRIVATE_PTR();
@@ -314,8 +274,6 @@ namespace djv
             p.actions["ResetInPoint"]->setTooltip(_getText(DJV_TEXT("Reset in point tooltip")));
             p.actions["ResetOutPoint"]->setText(_getText(DJV_TEXT("Reset the out point")));
             p.actions["ResetOutPoint"]->setTooltip(_getText(DJV_TEXT("Reset out point tooltip")));
-
-            p.toolBarWidget->setTooltip(_getText(DJV_TEXT("Playback system tool bar tooltip")));
         }
 
     } // namespace ViewLib

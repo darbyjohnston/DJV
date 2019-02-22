@@ -41,7 +41,6 @@
 
 #include <djvUI/Action.h>
 #include <djvUI/ButtonGroup.h>
-#include <djvUI/FlatButton.h>
 #include <djvUI/IWindowSystem.h>
 #include <djvUI/RowLayout.h>
 #include <djvUI/SoloLayout.h>
@@ -61,7 +60,6 @@ namespace djv
             std::map<std::string, std::shared_ptr<UI::Action> > actions;
             std::vector<std::shared_ptr<UI::ISettingsWidget> > settingsWidgets;
 			std::shared_ptr<SettingsDialog> settingsDialog;
-            std::shared_ptr<UI::FlatButton> toolBarWidget;
 			std::map<std::string, std::shared_ptr<ValueObserver<bool> > > clickedObservers;
         };
 
@@ -79,9 +77,6 @@ namespace djv
 #endif
 			p.settingsDialog = SettingsDialog::create(context);
 
-            p.toolBarWidget = UI::FlatButton::create(context);
-            p.toolBarWidget->setIcon("djvIconSettings");
-
             auto weak = std::weak_ptr<SettingsSystem>(std::dynamic_pointer_cast<SettingsSystem>(shared_from_this()));
             p.settingsDialog->setCloseCallback(
                 [weak, context]
@@ -90,15 +85,6 @@ namespace djv
                 {
                     system->_p->settingsDialog->hide();
                     system->_p->settingsDialog->setParent(nullptr);
-                }
-            });
-
-            p.toolBarWidget->setClickedCallback(
-                [weak]
-            {
-                if (auto system = weak.lock())
-                {
-                    system->showSettings();
                 }
             });
         }
@@ -135,15 +121,6 @@ namespace djv
             return _p->actions;
         }
 
-        ToolBarWidget SettingsSystem::getToolBarWidget()
-        {
-            return
-            {
-                _p->toolBarWidget,
-                "Z"
-            };
-        }
-
         std::vector<std::shared_ptr<UI::ISettingsWidget> > SettingsSystem::getSettingsWidgets()
         {
             return _p->settingsWidgets;
@@ -152,7 +129,6 @@ namespace djv
         void SettingsSystem::_localeEvent(Event::Locale &)
         {
             DJV_PRIVATE_PTR();
-            p.toolBarWidget->setTooltip(_getText(DJV_TEXT("Settings system tool bar tooltip")));
         }
         
     } // namespace ViewLib

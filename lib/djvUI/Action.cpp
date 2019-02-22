@@ -43,10 +43,8 @@ namespace djv
             std::shared_ptr<ValueSubject<bool> > clicked;
             std::shared_ptr<ValueSubject<bool> > checked;
             std::shared_ptr<ValueSubject<std::string> > icon;
-            std::shared_ptr<ValueSubject<MetricsRole> > iconSizeRole;
+            std::shared_ptr<ValueSubject<std::string> > title;
             std::shared_ptr<ValueSubject<std::string> > text;
-            std::shared_ptr<ValueSubject<std::string> > fontFace;
-            std::shared_ptr<ValueSubject<MetricsRole> > fontSizeRole;
             std::shared_ptr<ListSubject<std::shared_ptr<Shortcut> > > shortcuts;
             std::shared_ptr<ValueSubject<bool> > enabled;
             std::shared_ptr<ValueSubject<std::string> > tooltip;
@@ -59,10 +57,8 @@ namespace djv
             p.clicked = ValueSubject<bool>::create(false);
             p.checked = ValueSubject<bool>::create(false);
             p.icon = ValueSubject<std::string>::create();
-            p.iconSizeRole = ValueSubject<MetricsRole>::create(MetricsRole::Icon);
+            p.title = ValueSubject<std::string>::create();
             p.text = ValueSubject<std::string>::create();
-            p.fontFace = ValueSubject<std::string>::create(AV::Font::Info::faceDefault);
-            p.fontSizeRole = ValueSubject<MetricsRole>::create(MetricsRole::FontMedium);
             p.shortcuts = ListSubject<std::shared_ptr<Shortcut> >::create();
             p.enabled = ValueSubject<bool>::create(true);
             p.tooltip = ValueSubject<std::string>::create();
@@ -124,19 +120,19 @@ namespace djv
             return _p->icon;
         }
 
-        std::shared_ptr<IValueSubject<MetricsRole> > Action::observeIconSizeRole() const
-        {
-            return _p->iconSizeRole;
-        }
-
-        void Action::setIconSizeRole(MetricsRole value)
-        {
-            _p->iconSizeRole->setIfChanged(value);
-        }
-
         void Action::setIcon(const std::string& value)
         {
             _p->icon->setIfChanged(value);
+        }
+
+        std::shared_ptr<IValueSubject<std::string> > Action::observeTitle() const
+        {
+            return _p->title;
+        }
+
+        void Action::setTitle(const std::string& value)
+        {
+            _p->title->setIfChanged(value);
         }
 
         std::shared_ptr<IValueSubject<std::string> > Action::observeText() const
@@ -147,26 +143,6 @@ namespace djv
         void Action::setText(const std::string& value)
         {
             _p->text->setIfChanged(value);
-        }
-
-        std::shared_ptr<Core::IValueSubject<std::string> > Action::observeFontFace() const
-        {
-            return _p->fontFace;
-        }
-
-        std::shared_ptr<Core::IValueSubject<MetricsRole> > Action::observeFontSizeRole() const
-        {
-            return _p->fontSizeRole;
-        }
-
-        void Action::setFontFace(const std::string & value)
-        {
-            _p->fontFace->setIfChanged(value);
-        }
-
-        void Action::setFontSizeRole(MetricsRole value)
-        {
-            _p->fontSizeRole->setIfChanged(value);
         }
 
         std::shared_ptr<Core::IListSubject<std::shared_ptr<Shortcut> > > Action::observeShortcuts() const

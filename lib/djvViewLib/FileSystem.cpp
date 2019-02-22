@@ -37,13 +37,11 @@
 #include <djvViewLib/SettingsSystem.h>
 #include <djvViewLib/WindowSystem.h>
 
-#include <djvUIComponents/ActionButton.h>
-
 #include <djvUI/Action.h>
 #include <djvUI/DialogSystem.h>
 #include <djvUI/GroupBox.h>
 #include <djvUI/IWindowSystem.h>
-#include <djvUI/PopupWidget.h>
+#include <djvUI/Menu.h>
 #include <djvUI/RowLayout.h>
 #include <djvUI/Window.h>
 
@@ -67,11 +65,10 @@ namespace djv
             std::shared_ptr<ListSubject<std::shared_ptr<Media> > > media;
             std::shared_ptr<ValueSubject<std::shared_ptr<Media> > > currentMedia;
             std::map<std::string, std::shared_ptr<UI::Action> > actions;
-            std::map<std::string, std::shared_ptr<UI::GroupBox> > groupBox;
+            std::shared_ptr<UI::Menu> menu;
             std::shared_ptr<FileBrowserDialog> fileBrowserDialog;
             std::shared_ptr<Core::FileSystem::RecentFilesModel> recentFilesModel;
             std::shared_ptr<RecentFilesDialog> recentFilesDialog;
-            std::shared_ptr<UI::PopupWidget> toolBarWidget;
             std::shared_ptr<ListObserver<Core::FileSystem::FileInfo> > recentFilesObserver;
             std::shared_ptr<ListObserver<Core::FileSystem::FileInfo> > recentFilesObserver2;
             std::map<std::string, std::shared_ptr<ValueObserver<bool> > > clickedObservers;
@@ -98,10 +95,6 @@ namespace djv
             p.actions["Reload"] = UI::Action::create();
             p.actions["Reload"]->setShortcut(GLFW_KEY_R, GLFW_MOD_CONTROL);
             p.actions["Reload"]->setEnabled(false);
-            //! \todo Implement me!
-            p.actions["ReloadFrame"] = UI::Action::create();
-            p.actions["ReloadFrame"]->setShortcut(GLFW_KEY_R, GLFW_MOD_CONTROL | GLFW_MOD_SHIFT);
-            p.actions["ReloadFrame"]->setEnabled(false);
             p.actions["Close"] = UI::Action::create();
 			p.actions["Close"]->setIcon("djvIconFileClose");
             p.actions["Close"]->setShortcut(GLFW_KEY_E, GLFW_MOD_CONTROL);
@@ -139,34 +132,27 @@ namespace djv
             p.actions["Exit"] = UI::Action::create();
             p.actions["Exit"]->setShortcut(GLFW_KEY_Q, GLFW_MOD_CONTROL);
 
+            p.menu = UI::Menu::create(context);
+            p.menu->addAction(p.actions["Open"]);
+            p.menu->addAction(p.actions["Recent"]);
+            p.menu->addAction(p.actions["Reload"]);
+            p.menu->addAction(p.actions["Close"]);
+            p.menu->addAction(p.actions["Export"]);
+            p.menu->addAction(p.actions["Next"]);
+            p.menu->addAction(p.actions["Prev"]);
+            p.menu->addSeparator();
+            p.menu->addAction(p.actions["Layers"]);
+            p.menu->addSeparator();
+            p.menu->addAction(p.actions["8BitConversion"]);
+            p.menu->addSeparator();
+            p.menu->addAction(p.actions["MemoryCache"]);
+            p.menu->addAction(p.actions["ClearCache"]);
+            p.menu->addSeparator();
+            p.menu->addAction(p.actions["Exit"]);
+
             p.fileBrowserDialog = FileBrowserDialog::create(context);
             p.recentFilesModel = Core::FileSystem::RecentFilesModel::create(context);
             p.recentFilesDialog = RecentFilesDialog::create(context);
-
-            auto vLayout = UI::VerticalLayout::create(context);
-            vLayout->setSpacing(UI::MetricsRole::None);
-            vLayout->addWidget(UI::ActionButton::create(p.actions["Open"], context));
-            vLayout->addWidget(UI::ActionButton::create(p.actions["Recent"], context));
-            vLayout->addWidget(UI::ActionButton::create(p.actions["Reload"], context));
-            vLayout->addWidget(UI::ActionButton::create(p.actions["ReloadFrame"], context));
-            vLayout->addWidget(UI::ActionButton::create(p.actions["Close"], context));
-            vLayout->addWidget(UI::ActionButton::create(p.actions["Export"], context));
-            vLayout->addWidget(UI::ActionButton::create(p.actions["Next"], context));
-            vLayout->addWidget(UI::ActionButton::create(p.actions["Prev"], context));
-            vLayout->addSeparator();
-            vLayout->addWidget(UI::ActionButton::create(p.actions["Layers"], context));
-            vLayout->addWidget(UI::ActionButton::create(p.actions["NextLayer"], context));
-            vLayout->addWidget(UI::ActionButton::create(p.actions["PrevLayer"], context));
-            vLayout->addSeparator();
-            vLayout->addWidget(UI::ActionButton::create(p.actions["8BitConversion"], context));
-            vLayout->addSeparator();
-            vLayout->addWidget(UI::ActionButton::create(p.actions["MemoryCache"], context));
-            vLayout->addWidget(UI::ActionButton::create(p.actions["ClearCache"], context));
-            vLayout->addSeparator();
-            vLayout->addWidget(UI::ActionButton::create(p.actions["Exit"], context));
-            p.toolBarWidget = UI::PopupWidget::create(context);
-            p.toolBarWidget->setIcon("djvIconMenu");
-            p.toolBarWidget->setWidget(vLayout);
 
             auto weak = std::weak_ptr<FileSystem>(std::dynamic_pointer_cast<FileSystem>(shared_from_this()));
             p.fileBrowserDialog->setCallback(
@@ -237,7 +223,6 @@ namespace djv
                 {
                     if (auto system = weak.lock())
                     {
-                        system->_p->toolBarWidget->close();
                         system->open();
                     }
                 }
@@ -255,7 +240,6 @@ namespace djv
                         {
                             if (auto window = windowSystem->observeCurrentWindow()->get())
                             {
-                                system->_p->toolBarWidget->close();
                                 window->addWidget(system->_p->recentFilesDialog);
                                 system->_p->recentFilesDialog->show();
                             }
@@ -274,7 +258,6 @@ namespace djv
                     {
                         if (auto media = system->_p->currentMedia->get())
                         {
-                            system->_p->toolBarWidget->close();
                             system->close(media);
                         }
                     }
@@ -289,7 +272,6 @@ namespace djv
                 {
                     if (auto system = weak.lock())
                     {
-                        system->_p->toolBarWidget->close();
                         const size_t size = system->_p->media->getSize();
                         if (size > 1)
                         {
@@ -316,7 +298,6 @@ namespace djv
                 {
                     if (auto system = weak.lock())
                     {
-                        system->_p->toolBarWidget->close();
                         const size_t size = system->_p->media->getSize();
                         if (size > 1)
                         {
@@ -343,7 +324,6 @@ namespace djv
                 {
                     if (auto system = weak.lock())
                     {
-                        system->_p->toolBarWidget->close();
                         if (auto dialogSystem = context->getSystemT<UI::DialogSystem>().lock())
                         {
                             dialogSystem->confirmation(
@@ -466,50 +446,44 @@ namespace djv
             return _p->actions;
         }
 
-        ToolBarWidget FileSystem::getToolBarWidget()
+        MenuData FileSystem::getMenu()
         {
             return
             {
-                _p->toolBarWidget,
-                std::string()
+                _p->menu,
+                "A"
             };
         }
 
         void FileSystem::_localeEvent(Event::Locale &)
         {
             DJV_PRIVATE_PTR();
-            p.actions["Open"]->setText(_getText(DJV_TEXT("Open a file")));
+            p.actions["Open"]->setTitle(_getText(DJV_TEXT("Open")));
             p.actions["Open"]->setTooltip(_getText(DJV_TEXT("Open tooltip")));
-            p.actions["Recent"]->setText(_getText(DJV_TEXT("Browse recent files")));
+            p.actions["Recent"]->setTitle(_getText(DJV_TEXT("Recent")));
             p.actions["Recent"]->setTooltip(_getText(DJV_TEXT("Recent tooltip")));
-            p.actions["Reload"]->setText(_getText(DJV_TEXT("Reload the current file")));
+            p.actions["Reload"]->setTitle(_getText(DJV_TEXT("Reload")));
             p.actions["Reload"]->setTooltip(_getText(DJV_TEXT("Reload tooltip")));
-            p.actions["ReloadFrame"]->setText(_getText(DJV_TEXT("Reload the current frame")));
-            p.actions["ReloadFrame"]->setTooltip(_getText(DJV_TEXT("Reload frame tooltip")));
-            p.actions["Close"]->setText(_getText(DJV_TEXT("Close the current file")));
+            p.actions["Close"]->setTitle(_getText(DJV_TEXT("Close")));
             p.actions["Close"]->setTooltip(_getText(DJV_TEXT("Close tooltip")));
-            p.actions["Export"]->setText(_getText(DJV_TEXT("Export the current file")));
+            p.actions["Export"]->setTitle(_getText(DJV_TEXT("Export")));
             p.actions["Export"]->setTooltip(_getText(DJV_TEXT("Export tooltip")));
-            p.actions["Next"]->setText(_getText(DJV_TEXT("Go to the next file")));
+            p.actions["Next"]->setTitle(_getText(DJV_TEXT("Next")));
             p.actions["Next"]->setTooltip(_getText(DJV_TEXT("Next tooltip")));
-            p.actions["Prev"]->setText(_getText(DJV_TEXT("Go to the previous file")));
+            p.actions["Prev"]->setTitle(_getText(DJV_TEXT("Previous")));
             p.actions["Prev"]->setTooltip(_getText(DJV_TEXT("Prev tooltip")));
-            p.actions["Layers"]->setText(_getText(DJV_TEXT("Show the layers")));
+            p.actions["Layers"]->setTitle(_getText(DJV_TEXT("Layers")));
             p.actions["Layers"]->setTooltip(_getText(DJV_TEXT("Layers tooltip")));
-            p.actions["NextLayer"]->setText(_getText(DJV_TEXT("Go to the next layer")));
-            p.actions["NextLayer"]->setTooltip(_getText(DJV_TEXT("Next layer tooltip")));
-            p.actions["PrevLayer"]->setText(_getText(DJV_TEXT("Go to the previous layer")));
-            p.actions["PrevLayer"]->setTooltip(_getText(DJV_TEXT("Previous layer tooltip")));
-            p.actions["8BitConversion"]->setText(_getText(DJV_TEXT("Enable 8-bit conversion")));
+            p.actions["8BitConversion"]->setTitle(_getText(DJV_TEXT("8-bit Conversion")));
             p.actions["8BitConversion"]->setTooltip(_getText(DJV_TEXT("8-bit conversion tooltip")));
-            p.actions["MemoryCache"]->setText(_getText(DJV_TEXT("Enable the memory cache")));
+            p.actions["MemoryCache"]->setTitle(_getText(DJV_TEXT("Memory Cache")));
             p.actions["MemoryCache"]->setTooltip(_getText(DJV_TEXT("Memory cache tooltip")));
-            p.actions["ClearCache"]->setText(_getText(DJV_TEXT("Clear the memory cache")));
+            p.actions["ClearCache"]->setTitle(_getText(DJV_TEXT("Clear Memory Cache")));
             p.actions["ClearCache"]->setTooltip(_getText(DJV_TEXT("Clear cache tooltip")));
-            p.actions["Exit"]->setText(_getText(DJV_TEXT("Exit")));
+            p.actions["Exit"]->setTitle(_getText(DJV_TEXT("Exit")));
             p.actions["Exit"]->setTooltip(_getText(DJV_TEXT("Exit tooltip")));
 
-            p.toolBarWidget->setTooltip(_getText(DJV_TEXT("File system tool bar tooltip")));
+            p.menu->setMenuName(_getText(DJV_TEXT("File")));
         }
 
     } // namespace ViewLib

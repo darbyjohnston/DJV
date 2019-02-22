@@ -39,7 +39,7 @@ namespace djv
     {
         class Action;
         class ISettingsWidget;
-        class PopupWidget;
+        class Menu;
         class Widget;
     
     } // namespace UI
@@ -49,9 +49,9 @@ namespace djv
         class IToolWidget;
         class Media;
         
-        struct ToolBarWidget
+        struct MenuData
         {
-            std::shared_ptr<UI::Widget> widget;
+            std::shared_ptr<UI::Menu> menu;
             std::string sortKey;
         };
 
@@ -67,7 +67,7 @@ namespace djv
             ~IViewSystem() override;
 
             virtual std::map<std::string, std::shared_ptr<UI::Action> > getActions();
-            virtual ToolBarWidget getToolBarWidget();
+            virtual MenuData getMenu();
             virtual std::vector<std::shared_ptr<IToolWidget> > getToolWidgets();
             virtual std::vector<std::shared_ptr<UI::ISettingsWidget> > getSettingsWidgets();
 

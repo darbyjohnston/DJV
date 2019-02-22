@@ -52,15 +52,15 @@ namespace djv
             static std::shared_ptr<MenuBar> create(Core::Context *);
 
             void addMenu(const std::shared_ptr<Menu> &);
-            void addWidget(const std::shared_ptr<Widget>&);
+            void addWidget(const std::shared_ptr<Widget> &);
 
             float getHeightForWidth(float) const override;
 
         protected:
-            void _preLayoutEvent(Core::Event::PreLayout&) override;
-            void _layoutEvent(Core::Event::Layout&) override;
+            void _preLayoutEvent(Core::Event::PreLayout &) override;
+            void _layoutEvent(Core::Event::Layout &) override;
 
-            bool _eventFilter(const std::shared_ptr<IObject>&, Core::Event::IEvent&) override;
+            bool _eventFilter(const std::shared_ptr<IObject> &, Core::Event::IEvent &) override;
 
         private:
 			DJV_PRIVATE();

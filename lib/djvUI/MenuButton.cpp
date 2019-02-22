@@ -74,12 +74,12 @@ namespace djv
                 p.label->hide();
 
                 p.layout = HorizontalLayout::create(context);
-                p.layout->setMargin(MetricsRole::MarginSmall);
                 p.layout->addWidget(p.icon);
                 p.layout->addWidget(p.label, RowStretch::Expand);
 
                 p.border = Border::create(context);
                 p.border->setBorderSize(MetricsRole::None);
+                p.border->setInsideMargin(MetricsRole::MarginSmall);
                 p.border->addWidget(p.layout);
                 p.border->setParent(shared_from_this());
             }
@@ -98,7 +98,7 @@ namespace djv
                 return out;
             }
 
-            std::shared_ptr<Menu> Menu::create(const std::string& text, Context * context)
+            std::shared_ptr<Menu> Menu::create(const std::string & text, Context * context)
             {
                 auto out = std::shared_ptr<Menu>(new Menu);
                 out->_init(context);
@@ -106,7 +106,7 @@ namespace djv
                 return out;
             }
 
-            std::shared_ptr<Menu> Menu::create(const std::string& text, const std::string& icon, Context * context)
+            std::shared_ptr<Menu> Menu::create(const std::string & text, const std::string & icon, Context * context)
             {
                 auto out = std::shared_ptr<Menu>(new Menu);
                 out->_init(context);
@@ -115,24 +115,24 @@ namespace djv
                 return out;
             }
 
-            const std::string& Menu::getIcon() const
+            const std::string & Menu::getIcon() const
             {
                 return _p->icon->getIcon();
             }
 
-            void Menu::setIcon(const std::string& value)
+            void Menu::setIcon(const std::string & value)
             {
                 DJV_PRIVATE_PTR();
                 p.icon->setIcon(value);
                 p.icon->setVisible(!value.empty());
             }
 
-            const std::string& Menu::getText() const
+            const std::string & Menu::getText() const
             {
                 return _p->label->getText();
             }
 
-            void Menu::setText(const std::string& value)
+            void Menu::setText(const std::string & value)
             {
                 DJV_PRIVATE_PTR();
                 p.label->setText(value);
@@ -172,24 +172,42 @@ namespace djv
                 _p->border->setBorderSize(value ? MetricsRole::Border : MetricsRole::None);
             }
 
+            const Layout::Margin & Menu::getInsideMargin() const
+            {
+                return _p->border->getInsideMargin();
+            }
+
+            void Menu::setInsideMargin(const Layout::Margin & value)
+            {
+                _p->border->setInsideMargin(value);
+            }
+
             void Menu::_preLayoutEvent(Event::PreLayout &)
             {
-                _setMinimumSize(_p->border->getMinimumSize());
+                DJV_PRIVATE_PTR();
+                if (auto style = _getStyle().lock())
+                {
+                    _setMinimumSize(p.border->getMinimumSize() + getMargin().getSize(style));
+                }
             }
 
             void Menu::_layoutEvent(Event::Layout &)
             {
-                _p->border->setGeometry(getGeometry());
+                DJV_PRIVATE_PTR();
+                if (auto style = _getStyle().lock())
+                {
+                    p.border->setGeometry(getMargin().bbox(getGeometry(), style));
+                }
             }
 
-            void Menu::_paintEvent(Event::Paint& event)
+            void Menu::_paintEvent(Event::Paint & event)
             {
                 Widget::_paintEvent(event);
                 if (auto render = _getRender().lock())
                 {
                     if (auto style = _getStyle().lock())
                     {
-                        const BBox2f & g = getGeometry();
+                        const BBox2f & g = getMargin().bbox(getGeometry(), style);
                         if (_p->checked)
                         {
                             render->setFillColor(_getColorWithOpacity(style->getColor(ColorRole::Pressed)));
@@ -204,7 +222,7 @@ namespace djv
                 }
             }
 
-            void Menu::_pointerEnterEvent(Event::PointerEnter& event)
+            void Menu::_pointerEnterEvent(Event::PointerEnter & event)
             {
                 event.accept();
                 if (isEnabled(true))
@@ -213,7 +231,7 @@ namespace djv
                 }
             }
 
-            void Menu::_pointerLeaveEvent(Event::PointerLeave& event)
+            void Menu::_pointerLeaveEvent(Event::PointerLeave & event)
             {
                 event.accept();
                 if (isEnabled(true))
@@ -222,12 +240,12 @@ namespace djv
                 }
             }
 
-            void Menu::_pointerMoveEvent(Event::PointerMove& event)
+            void Menu::_pointerMoveEvent(Event::PointerMove & event)
             {
                 event.accept();
             }
 
-            void Menu::_buttonPressEvent(Event::ButtonPress& event)
+            void Menu::_buttonPressEvent(Event::ButtonPress & event)
             {
                 if (isEnabled(true))
                 {
@@ -236,7 +254,7 @@ namespace djv
                 }
             }
 
-            void Menu::_updateEvent(Event::Update& event)
+            void Menu::_updateEvent(Event::Update & event)
             {
                 const ColorRole colorRole = !isEnabled(true) ? ColorRole::Disabled : ColorRole::Foreground;
                 DJV_PRIVATE_PTR();

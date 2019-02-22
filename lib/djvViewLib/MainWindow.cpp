@@ -34,12 +34,14 @@
 #include <djvViewLib/IToolWidget.h>
 #include <djvViewLib/Media.h>
 #include <djvViewLib/MediaWidget.h>
-#include <djvViewLib/PlaybackSystem.h>
+#include <djvViewLib/SettingsSystem.h>
 #include <djvViewLib/WindowSystem.h>
 
 #include <djvUI/Action.h>
-#include <djvUI/Label.h>
+#include <djvUI/FlatButton.h>
 #include <djvUI/MDICanvas.h>
+#include <djvUI/MenuBar.h>
+#include <djvUI/Menu.h>
 #include <djvUI/RowLayout.h>
 #include <djvUI/Shortcut.h>
 #include <djvUI/StackLayout.h>
@@ -59,8 +61,8 @@ namespace djv
         struct MainWindow::Private
         {
             std::map<std::string, std::shared_ptr<UI::Action> > actions;
-            std::shared_ptr<UI::Label> currentMediaLabel;
-            std::shared_ptr<UI::Toolbar> toolBar;
+            std::shared_ptr<UI::FlatButton> settingsButton;
+            std::shared_ptr<UI::MenuBar> menuBar;
             std::shared_ptr<MediaWidget> mediaWidget;
             std::shared_ptr<UI::MDI::Canvas> mdiCanvas;
             std::shared_ptr<UI::StackLayout> stackLayout;
@@ -78,9 +80,7 @@ namespace djv
             setBackgroundRole(UI::ColorRole::Trough);
 
             auto viewSystems = context->getSystemsT<IViewSystem>();
-            auto fileSystem = context->getSystemT<FileSystem>().lock();
-            auto playbackSystem = context->getSystemT<PlaybackSystem>().lock();
-            std::map<std::string, std::shared_ptr<UI::Widget> > toolBarWidgets;
+            std::map<std::string, std::shared_ptr<UI::Menu> > menus;
             for (auto i : viewSystems)
             {
                 if (auto system = i.lock())
@@ -89,13 +89,10 @@ namespace djv
                     {
                         addAction(action.second);
                     }
-                    if (system != fileSystem && system != playbackSystem)
+                    auto menu = system->getMenu();
+                    if (menu.menu)
                     {
-                        auto toolBarWidget = system->getToolBarWidget();
-                        if (toolBarWidget.widget)
-                        {
-                            toolBarWidgets[toolBarWidget.sortKey] = toolBarWidget.widget;
-                        }
+                        menus[menu.sortKey] = menu.menu;
                     }
                 }
             }
@@ -107,18 +104,16 @@ namespace djv
                 addAction(i.second);
             }
 
-            p.currentMediaLabel = UI::Label::create(context);
-            p.currentMediaLabel->setMargin(UI::MetricsRole::MarginSmall);
+            p.settingsButton = UI::FlatButton::create(context);
+            p.settingsButton->setIcon("djvIconSettings");
 
-            p.toolBar = UI::Toolbar::create(context);
-            p.toolBar->setBackgroundRole(UI::ColorRole::Overlay);
-            p.toolBar->addWidget(fileSystem->getToolBarWidget().widget);
-            p.toolBar->addWidget(p.currentMediaLabel);
-            p.toolBar->addExpander();
-            for (auto i : toolBarWidgets)
+            p.menuBar = UI::MenuBar::create(context);
+            p.menuBar->setBackgroundRole(UI::ColorRole::Overlay);
+            for (auto i : menus)
             {
-                p.toolBar->addWidget(i.second);
+                p.menuBar->addMenu(i.second);
             }
+            p.menuBar->addWidget(p.settingsButton);
 
             p.mediaWidget = MediaWidget::create(context);
 
@@ -138,7 +133,7 @@ namespace djv
             p.stackLayout = UI::StackLayout::create(context);
             p.stackLayout->addWidget(p.mediaWidget);
             auto vLayout = UI::VerticalLayout::create(context);
-            vLayout->addWidget(p.toolBar);
+            vLayout->addWidget(p.menuBar);
             vLayout->setSpacing(UI::MetricsRole::None);
             vLayout->addExpander();
             p.stackLayout->addWidget(vLayout);
@@ -146,6 +141,15 @@ namespace djv
             addWidget(p.stackLayout);
 
             auto weak = std::weak_ptr<MainWindow>(std::dynamic_pointer_cast<MainWindow>(shared_from_this()));
+            p.settingsButton->setClickedCallback(
+                [context]
+            {
+                if (auto settingsSystem = context->getSystemT<SettingsSystem>().lock())
+                {
+                    settingsSystem->showSettings();
+                }
+            });
+
             p.closeToolActionObserver = ValueObserver<bool>::create(
                 p.actions["CloseTool"]->observeClicked(),
                 [weak](bool value)
@@ -167,16 +171,19 @@ namespace djv
                 }
             });
 
-            p.currentMediaObserver = ValueObserver<std::shared_ptr<Media>>::create(
-                fileSystem->observeCurrentMedia(),
-                [weak](const std::shared_ptr<Media> & value)
+            if (auto fileSystem = context->getSystemT<FileSystem>().lock())
             {
-                if (auto mainWindow = weak.lock())
+                p.currentMediaObserver = ValueObserver<std::shared_ptr<Media>>::create(
+                    fileSystem->observeCurrentMedia(),
+                    [weak](const std::shared_ptr<Media> & value)
                 {
-                    mainWindow->_p->mediaWidget->setMedia(value);
-                    mainWindow->_textUpdate();
-                }
-            });
+                    if (auto mainWindow = weak.lock())
+                    {
+                        mainWindow->_p->mediaWidget->setMedia(value);
+                        mainWindow->_textUpdate();
+                    }
+                });
+            }
         }
 
         MainWindow::MainWindow() :
@@ -219,12 +226,6 @@ namespace djv
         void MainWindow::_textUpdate()
         {
             DJV_PRIVATE_PTR();
-            std::string currentMediaText;
-            if (auto media = p.mediaWidget->getMedia())
-            {
-                currentMediaText = Core::FileSystem::Path(media->getFileName()).getFileName();
-            }
-            p.currentMediaLabel->setText(currentMediaText);
         }
 
     } // namespace ViewLib

@@ -127,10 +127,10 @@ namespace djv
 
             float Border::getHeightForWidth(float value) const
             {
+                DJV_PRIVATE_PTR();
                 float out = 0.f;
                 if (auto style = _getStyle().lock())
                 {
-                    DJV_PRIVATE_PTR();
                     const float b = style->getMetric(MetricsRole::Border);
                     out = p.layout->getHeightForWidth(value - b * 2.f - getMargin().getWidth(style)) +
                         b * 2.f +
@@ -141,18 +141,18 @@ namespace djv
 
             void Border::_preLayoutEvent(Event::PreLayout& event)
             {
+                DJV_PRIVATE_PTR();
                 if (auto style = _getStyle().lock())
                 {
-                    DJV_PRIVATE_PTR();
                     _setMinimumSize(p.layout->getMinimumSize() + style->getMetric(p.borderSize) * 2.f + getMargin().getSize(style));
                 }
             }
 
             void Border::_layoutEvent(Event::Layout& event)
             {
+                DJV_PRIVATE_PTR();
                 if (auto style = _getStyle().lock())
                 {
-                    DJV_PRIVATE_PTR();
                     const BBox2f & g = getGeometry().margin(-style->getMetric(p.borderSize));
                     p.layout->setGeometry(getMargin().bbox(g, style));
                 }
@@ -161,6 +161,7 @@ namespace djv
             void Border::_paintEvent(Event::Paint& event)
             {
                 Widget::_paintEvent(event);
+                DJV_PRIVATE_PTR();
                 if (auto render = _getRender().lock())
                 {
                     if (auto style = _getStyle().lock())
@@ -168,7 +169,6 @@ namespace djv
                         const BBox2f & g = getMargin().bbox(getGeometry(), style);
 
                         // Draw the border.
-                        DJV_PRIVATE_PTR();
                         const float borderSize = style->getMetric(p.borderSize);
                         render->setFillColor(_getColorWithOpacity(style->getColor(p.borderColor)));
                         render->drawRect(BBox2f(

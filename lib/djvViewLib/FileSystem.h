@@ -63,7 +63,7 @@ namespace djv
             void setCurrentMedia(const std::shared_ptr<Media> &);
 
             std::map<std::string, std::shared_ptr<UI::Action> > getActions() override;
-            ToolBarWidget getToolBarWidget() override;
+            MenuData getMenu() override;
 
         protected:
             void _localeEvent(Core::Event::Locale &) override;

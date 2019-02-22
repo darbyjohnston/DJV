@@ -246,7 +246,7 @@ namespace djv
                         }
 
                         auto hovered = p.hovered;
-                        render->setFillColor(_getColorWithOpacity(style->getColor(ColorRole::Pressed)));
+                        render->setFillColor(_getColorWithOpacity(style->getColor(ColorRole::Checked)));
                         for (const auto & i : p.pressed)
                         {
                             for (const auto & j : i.second.widget->getHandleBBox(i.second.handle))
@@ -267,7 +267,7 @@ namespace djv
                             }
                         }
 
-                        render->setFillColor(_getColorWithOpacity(style->getColor(ColorRole::Hovered)));
+                        render->setFillColor(_getColorWithOpacity(style->getColor(ColorRole::Checked)));
                         for (const auto & i : hovered)
                         {
                             for (const auto & j : i.second.widget->getHandleBBox(i.second.handle))

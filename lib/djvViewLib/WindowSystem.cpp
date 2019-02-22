@@ -32,11 +32,9 @@
 #include <djvDesktop/Application.h>
 #include <djvDesktop/GLFWSystem.h>
 
-#include <djvUIComponents/ActionButton.h>
-
 #include <djvUI/Action.h>
 #include <djvUI/ActionGroup.h>
-#include <djvUI/PopupWidget.h>
+#include <djvUI/Menu.h>
 #include <djvUI/RowLayout.h>
 
 #include <djvAV/AVSystem.h>
@@ -54,7 +52,7 @@ namespace djv
         struct WindowSystem::Private
         {
             std::map<std::string, std::shared_ptr<UI::Action> > actions;
-            std::shared_ptr<UI::PopupWidget> toolBarWidget;
+            std::shared_ptr<UI::Menu> menu;
             std::map<std::string, std::shared_ptr<ValueObserver<bool> > > clickedObservers;
             std::shared_ptr<ValueObserver<bool> > fullScreenObserver;
             glm::ivec2 monitorSize = glm::ivec2(0, 0);
@@ -81,13 +79,9 @@ namespace djv
             p.actions["FullScreen"]->setButtonType(UI::ButtonType::Toggle);
             p.actions["FullScreen"]->setShortcut(GLFW_KEY_U);
 
-            auto vLayout = UI::VerticalLayout::create(context);
-            vLayout->setSpacing(UI::MetricsRole::None);
-            vLayout->addWidget(UI::ActionButton::create(p.actions["Fit"], context));
-            vLayout->addWidget(UI::ActionButton::create(p.actions["FullScreen"], context));
-            p.toolBarWidget = UI::PopupWidget::create(context);
-            p.toolBarWidget->setIcon("djvIconWindow");
-            p.toolBarWidget->setWidget(vLayout);
+            p.menu = UI::Menu::create(context);
+            p.menu->addAction(p.actions["Fit"]);
+            p.menu->addAction(p.actions["FullScreen"]);
 
             auto weak = std::weak_ptr<WindowSystem>(std::dynamic_pointer_cast<WindowSystem>(shared_from_this()));
             p.fullScreenObserver = ValueObserver<bool>::create(
@@ -120,24 +114,24 @@ namespace djv
             return _p->actions;
         }
 
-        ToolBarWidget WindowSystem::getToolBarWidget()
+        MenuData WindowSystem::getMenu()
         {
             return
             {
-                _p->toolBarWidget,
-                "A"
+                _p->menu,
+                "B"
             };
         }
 
         void WindowSystem::_localeEvent(Event::Locale &)
         {
             DJV_PRIVATE_PTR();
-            p.actions["Fit"]->setText(_getText(DJV_TEXT("Fit the window to the image")));
+            p.actions["Fit"]->setTitle(_getText(DJV_TEXT("Fit")));
             p.actions["Fit"]->setTooltip(_getText(DJV_TEXT("Fit tooltip")));
-            p.actions["FullScreen"]->setText(_getText(DJV_TEXT("Show the window full screen")));
+            p.actions["FullScreen"]->setTitle(_getText(DJV_TEXT("Full Screen")));
             p.actions["FullScreen"]->setTooltip(_getText(DJV_TEXT("Full screen tooltip")));
 
-            p.toolBarWidget->setTooltip(_getText(DJV_TEXT("Window system tool bar tooltip")));
+            p.menu->setMenuName(_getText(DJV_TEXT("Window")));
         }
 
         void WindowSystem::Private::setFullScreen(bool value, Context * context)
