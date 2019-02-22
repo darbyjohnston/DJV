@@ -116,6 +116,8 @@ namespace djv
         void MenuBar::addMenu(const std::shared_ptr<Menu> & menu)
         {
             DJV_PRIVATE_PTR();
+            menu->setParent(shared_from_this());
+            menu->hide();
             p.menus.push_back(menu);
             
             auto button = Button::Menu::create(getContext());
@@ -134,10 +136,7 @@ namespace djv
                     widget->_p->closeMenus();
                     if (value)
                     {
-                        if (auto window = widget->getWindow().lock())
-                        {
-                            menu->popup(window, button, widget->_p->menuLayout);
-                        }
+                        menu->popup(button, widget->_p->menuLayout);
                     }
                 }
             });

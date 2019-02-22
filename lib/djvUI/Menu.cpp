@@ -54,17 +54,13 @@ namespace djv
 				DJV_NON_COPYABLE(MenuWidget);
 
 			protected:
-				void _init(
-					const std::map<size_t, std::shared_ptr<Action> > & actions,
-					const std::map<size_t, std::shared_ptr<Menu> > & menus,
-					Context *);
+				void _init(Context *);
 				MenuWidget();
 
 			public:
-				static std::shared_ptr<MenuWidget> create(
-					const std::map<size_t, std::shared_ptr<Action> > & actions,
-					const std::map<size_t, std::shared_ptr<Menu> > & menus,
-					Context *);
+				static std::shared_ptr<MenuWidget> create(Context *);
+
+                void setActions(const std::map<size_t, std::shared_ptr<Action> > &);
 
 				void setCloseCallback(const std::function<void(void)> &);
 
@@ -103,15 +99,12 @@ namespace djv
 				void _textUpdate();
 
 				std::map<size_t, std::shared_ptr<Action> > _actions;
-				std::map<size_t, std::shared_ptr<Menu> > _menus;
 				AV::Font::Metrics _fontMetrics;
 				std::future<AV::Font::Metrics> _fontMetricsFuture;
 				bool _hasShortcuts = false;
 				std::map<size_t, std::shared_ptr<Item> > _items;
 				std::map<std::shared_ptr<Action>, std::shared_ptr<Item> > _actionToItem;
 				std::map<std::shared_ptr<Item>, std::shared_ptr<Action> > _itemToAction;
-				std::map<std::shared_ptr<Menu>, std::shared_ptr<Item> > _menuToItem;
-				std::map<std::shared_ptr<Item>, std::shared_ptr<Menu> > _itemToMenu;
 				std::map<std::shared_ptr<Item>, std::future<glm::vec2> > _titleSizeFutures;
 				std::map<std::shared_ptr<Item>, std::future<glm::vec2> > _shortcutSizeFutures;
 				std::map<Event::PointerID, std::shared_ptr<Item> > _hoveredItems;
@@ -126,28 +119,26 @@ namespace djv
 				bool _textUpdateRequest = false;
 			};
 
-			void MenuWidget::_init(
-				const std::map<size_t, std::shared_ptr<Action> > & actions,
-				const std::map<size_t, std::shared_ptr<Menu> > & menus,
-				Context * context)
+			void MenuWidget::_init(Context * context)
 			{
 				Widget::_init(context);
-				_actions = actions;
-				_menus = menus;
 			}
 
 			MenuWidget::MenuWidget()
 			{}
 
-			std::shared_ptr<MenuWidget> MenuWidget::create(
-				const std::map<size_t, std::shared_ptr<Action> > & actions,
-				const std::map<size_t, std::shared_ptr<Menu> > & menus,
-				Context * context)
+			std::shared_ptr<MenuWidget> MenuWidget::create(Context * context)
 			{
 				auto out = std::shared_ptr<MenuWidget>(new MenuWidget);
-				out->_init(actions, menus, context);
+				out->_init(context);
 				return out;
 			}
+
+            void MenuWidget::setActions(const std::map<size_t, std::shared_ptr<Action> > & actions)
+            {
+                _actions = actions;
+                _itemsUpdate();
+            }
 
 			void MenuWidget::setCloseCallback(const std::function<void(void)> & value)
 			{
@@ -530,8 +521,6 @@ namespace djv
 					_items.clear();
 					_actionToItem.clear();
 					_itemToAction.clear();
-					_menuToItem.clear();
-					_itemToMenu.clear();
 					_buttonTypeObservers.clear();
 					_checkedObservers.clear();
 					_titleObservers.clear();
@@ -609,26 +598,6 @@ namespace djv
 						_actionToItem[i.second] = item;
 						_itemToAction[item] = i.second;
 					}
-					for (const auto & i : _menus)
-					{
-						auto item = std::shared_ptr<Item>(new Item);
-						if (i.second)
-						{
-							_titleObservers[item] = ValueObserver<std::string>::create(
-								i.second->observeMenuName(),
-								[weak, item](std::string value)
-							{
-								if (auto widget = weak.lock())
-								{
-									item->title = value;
-									widget->_textUpdateRequest = true;
-								}
-							});
-						}
-						_items[i.first] = item;
-						_menuToItem[i.second] = item;
-						_itemToMenu[item] = i.second;
-					}
 				}
 				_textUpdate();
 			}
@@ -652,30 +621,20 @@ namespace djv
 				}
 			}
 
-			enum class MenuOverlayLayoutType
-			{
-				TopLevel,
-				SubMenu
-			};
-
 			class MenuPopupWidget : public Widget
 			{
 				DJV_NON_COPYABLE(MenuPopupWidget);
 
 			protected:
-				void _init(
-					const std::map<size_t, std::shared_ptr<Action> > & actions,
-					const std::map<size_t, std::shared_ptr<Menu> > & menus,
-					Context *);
+				void _init(Context *);
 				MenuPopupWidget();
 
 			public:
-				static std::shared_ptr<MenuPopupWidget> create(
-					const std::map<size_t, std::shared_ptr<Action> > & actions,
-					const std::map<size_t, std::shared_ptr<Menu> > & menus,
-					Context *);
+				static std::shared_ptr<MenuPopupWidget> create(Context *);
 
-				void setCloseCallback(const std::function<void(void)> &);
+                void setActions(const std::map<size_t, std::shared_ptr<Action> > &);
+                
+                void setCloseCallback(const std::function<void(void)> &);
 
 			protected:
 				void _preLayoutEvent(Event::PreLayout&) override;
@@ -688,20 +647,16 @@ namespace djv
 				std::shared_ptr<MenuWidget> _menuWidget;
 			};
 
-			void MenuPopupWidget::_init(
-				const std::map<size_t, std::shared_ptr<Action> > & actions,
-				const std::map<size_t, std::shared_ptr<Menu> > & menus,
-				Context * context)
+			void MenuPopupWidget::_init(Context * context)
 			{
 				Widget::_init(context);
 				setBackgroundRole(ColorRole::Background);
 				setPointerEnabled(true);
 
-				_menuWidget = MenuWidget::create(actions, menus, context);
+				_menuWidget = MenuWidget::create(context);
 
 				_scrollWidget = ScrollWidget::create(ScrollType::Vertical, context);
-				//! \bug This causes the menus to flicker when they are shown.
-				//_scrollWidget->setAutoHideScrollBars(true);
+				_scrollWidget->setAutoHideScrollBars(true);
 				_scrollWidget->setMinimumSizeRole(MetricsRole::None);
 				_scrollWidget->addWidget(_menuWidget);
 				_scrollWidget->setParent(shared_from_this());
@@ -710,17 +665,19 @@ namespace djv
 			MenuPopupWidget::MenuPopupWidget()
 			{}
 
-			std::shared_ptr<MenuPopupWidget> MenuPopupWidget::create(
-				const std::map<size_t, std::shared_ptr<Action> > & actions,
-				const std::map<size_t, std::shared_ptr<Menu> > & menus,
-				Context * context)
+			std::shared_ptr<MenuPopupWidget> MenuPopupWidget::create(Context * context)
 			{
 				auto out = std::shared_ptr< MenuPopupWidget>(new MenuPopupWidget);
-				out->_init(actions, menus, context);
+				out->_init(context);
 				return out;
 			}
 
-			void MenuPopupWidget::setCloseCallback(const std::function<void(void)> & callback)
+            void MenuPopupWidget::setActions(const std::map<size_t, std::shared_ptr<Action> > & actions)
+            {
+                _menuWidget->setActions(actions);
+            }
+
+            void MenuPopupWidget::setCloseCallback(const std::function<void(void)> & callback)
 			{
 				_menuWidget->setCloseCallback(callback);
 			}
@@ -756,18 +713,20 @@ namespace djv
 			public:
 				static std::shared_ptr<MenuOverlayLayout> create(Context *);
 
-				void addWidget(const std::shared_ptr<Widget>&, const glm::vec2 &, MenuOverlayLayoutType);
-				void addWidget(const std::shared_ptr<Widget>&, const std::weak_ptr<Widget> &, MenuOverlayLayoutType);
+				void addWidget(const std::shared_ptr<Widget>&);
 				void removeWidget(const std::shared_ptr<Widget>&);
 				void clearWidgets();
+
+                void setPos(const std::shared_ptr<Widget>&, const glm::vec2 &);
+                void setButton(const std::shared_ptr<Widget>&, const std::weak_ptr<Widget> &);
 
 			protected:
 				void _layoutEvent(Event::Layout&) override;
 				void _paintEvent(Event::Paint&) override;
 
 			private:
-				std::map<std::shared_ptr<Widget>, std::pair<glm::vec2, MenuOverlayLayoutType> > _widgetToPos;
-				std::map<std::shared_ptr<Widget>, std::pair<std::weak_ptr<Widget>, MenuOverlayLayoutType> > _widgetToButton;
+				std::map<std::shared_ptr<Widget>, glm::vec2> _widgetToPos;
+				std::map<std::shared_ptr<Widget>, std::weak_ptr<Widget> > _widgetToButton;
 			};
 
 			void MenuOverlayLayout::_init(Context * context)
@@ -785,16 +744,9 @@ namespace djv
 				return out;
 			}
 
-			void MenuOverlayLayout::addWidget(const std::shared_ptr<Widget>& widget, const glm::vec2 & pos, MenuOverlayLayoutType type)
+			void MenuOverlayLayout::addWidget(const std::shared_ptr<Widget>& widget)
 			{
 				widget->setParent(shared_from_this());
-				_widgetToPos[widget] = std::make_pair(pos, type);
-			}
-
-			void MenuOverlayLayout::addWidget(const std::shared_ptr<Widget>& widget, const std::weak_ptr<Widget> & button, MenuOverlayLayoutType type)
-			{
-				widget->setParent(shared_from_this());
-				_widgetToButton[widget] = std::make_pair(button, type);
 			}
 
 			void MenuOverlayLayout::removeWidget(const std::shared_ptr<Widget>& value)
@@ -808,7 +760,7 @@ namespace djv
 				const auto j = _widgetToButton.find(value);
 				if (j != _widgetToButton.end())
 				{
-					_widgetToButton.erase(j);
+                    _widgetToButton.erase(j);
 				}
 			}
 
@@ -820,102 +772,82 @@ namespace djv
 					child->setParent(nullptr);
 				}
 				_widgetToPos.clear();
-				_widgetToButton.clear();
+                _widgetToButton.clear();
 			}
+
+            void MenuOverlayLayout::setPos(const std::shared_ptr<Widget>& widget, const glm::vec2 & pos)
+            {
+                _widgetToPos[widget] = pos;
+            }
+
+            void MenuOverlayLayout::setButton(const std::shared_ptr<Widget>& widget, const std::weak_ptr<Widget> & button)
+            {
+                _widgetToButton[widget] = button;
+            }
 
 			void MenuOverlayLayout::_layoutEvent(Event::Layout&)
 			{
 				const BBox2f & g = getGeometry();
 				for (const auto & i : _widgetToPos)
 				{
-					const auto & pos = i.second.first;
+					const auto & pos = i.second;
 					const auto & minimumSize = i.first->getMinimumSize();
 					std::vector<BBox2f> geomCandidates;
-					switch (i.second.second)
+					const BBox2f aboveLeft(
+						glm::vec2(pos.x - minimumSize.x, pos.y - minimumSize.y),
+						glm::vec2(pos.x, pos.y));
+					const BBox2f aboveRight(
+						glm::vec2(pos.x, pos.y - minimumSize.y),
+						glm::vec2(pos.x + minimumSize.x, pos.y));
+					const BBox2f belowLeft(
+						glm::vec2(pos.x - minimumSize.x, pos.y),
+						glm::vec2(pos.x, pos.y + minimumSize.y));
+					const BBox2f belowRight(
+						glm::vec2(pos.x, pos.y),
+						glm::vec2(pos.x + minimumSize.x, pos.y + minimumSize.y));
+					geomCandidates.push_back(belowRight.intersect(g));
+					geomCandidates.push_back(belowLeft.intersect(g));
+					geomCandidates.push_back(aboveRight.intersect(g));
+					geomCandidates.push_back(aboveLeft.intersect(g));
+					std::sort(geomCandidates.begin(), geomCandidates.end(),
+						[](const BBox2f & a, const BBox2f & b) -> bool
 					{
-					case MenuOverlayLayoutType::TopLevel:
+						return a.getArea() > b.getArea();
+					});
+					i.first->move(geomCandidates.front().min);
+					i.first->resize(geomCandidates.front().getSize());
+				}
+				for (const auto & i : _widgetToButton)
+				{
+					if (auto button = i.second.lock())
 					{
+						const auto & buttonBBox = button->getGeometry();
+						const auto & minimumSize = i.first->getMinimumSize();
+						std::vector<BBox2f> geomCandidates;
 						const BBox2f aboveLeft(
-							glm::vec2(pos.x - minimumSize.x, pos.y - minimumSize.y),
-							glm::vec2(pos.x, pos.y));
+							glm::vec2(std::min(buttonBBox.max.x - minimumSize.x, buttonBBox.min.x), buttonBBox.min.y + 1 - minimumSize.y),
+							glm::vec2(buttonBBox.max.x, buttonBBox.min.y + 1));
 						const BBox2f aboveRight(
-							glm::vec2(pos.x, pos.y - minimumSize.y),
-							glm::vec2(pos.x + minimumSize.x, pos.y));
+							glm::vec2(buttonBBox.min.x, buttonBBox.min.y + 1 - minimumSize.y),
+							glm::vec2(std::max(buttonBBox.min.x + minimumSize.x, buttonBBox.max.x), buttonBBox.min.y + 1));
 						const BBox2f belowLeft(
-							glm::vec2(pos.x - minimumSize.x, pos.y),
-							glm::vec2(pos.x, pos.y + minimumSize.y));
+							glm::vec2(std::min(buttonBBox.max.x - minimumSize.x, buttonBBox.min.x), buttonBBox.max.y - 1),
+							glm::vec2(buttonBBox.max.x, buttonBBox.max.y - 1 + minimumSize.y));
 						const BBox2f belowRight(
-							glm::vec2(pos.x, pos.y),
-							glm::vec2(pos.x + minimumSize.x, pos.y + minimumSize.y));
+							glm::vec2(buttonBBox.min.x, buttonBBox.max.y - 1),
+							glm::vec2(std::max(buttonBBox.min.x + minimumSize.x, buttonBBox.max.x), buttonBBox.max.y - 1 + minimumSize.y));
 						geomCandidates.push_back(belowRight.intersect(g));
 						geomCandidates.push_back(belowLeft.intersect(g));
 						geomCandidates.push_back(aboveRight.intersect(g));
 						geomCandidates.push_back(aboveLeft.intersect(g));
-						break;
-					}
-					case MenuOverlayLayoutType::SubMenu:
-					{
-						break;
-					}
-					default: break;
-					}
-					if (geomCandidates.size())
-					{
 						std::sort(geomCandidates.begin(), geomCandidates.end(),
 							[](const BBox2f & a, const BBox2f & b) -> bool
 						{
 							return a.getArea() > b.getArea();
 						});
-						i.first->move(geomCandidates.front().min);
-						i.first->resize(geomCandidates.front().getSize());
-					}
-				}
-				for (const auto & i : _widgetToButton)
-				{
-					if (auto button = i.second.first.lock())
-					{
-						const auto & buttonBBox = button->getGeometry();
-						const auto & minimumSize = i.first->getMinimumSize();
-						std::vector<BBox2f> geomCandidates;
-						switch (i.second.second)
-						{
-						case MenuOverlayLayoutType::TopLevel:
-						{
-							const BBox2f aboveLeft(
-								glm::vec2(std::min(buttonBBox.max.x - minimumSize.x, buttonBBox.min.x), buttonBBox.min.y + 1 - minimumSize.y),
-								glm::vec2(buttonBBox.max.x, buttonBBox.min.y + 1));
-							const BBox2f aboveRight(
-								glm::vec2(buttonBBox.min.x, buttonBBox.min.y + 1 - minimumSize.y),
-								glm::vec2(std::max(buttonBBox.min.x + minimumSize.x, buttonBBox.max.x), buttonBBox.min.y + 1));
-							const BBox2f belowLeft(
-								glm::vec2(std::min(buttonBBox.max.x - minimumSize.x, buttonBBox.min.x), buttonBBox.max.y - 1),
-								glm::vec2(buttonBBox.max.x, buttonBBox.max.y - 1 + minimumSize.y));
-							const BBox2f belowRight(
-								glm::vec2(buttonBBox.min.x, buttonBBox.max.y - 1),
-								glm::vec2(std::max(buttonBBox.min.x + minimumSize.x, buttonBBox.max.x), buttonBBox.max.y - 1 + minimumSize.y));
-							geomCandidates.push_back(belowRight.intersect(g));
-							geomCandidates.push_back(belowLeft.intersect(g));
-							geomCandidates.push_back(aboveRight.intersect(g));
-							geomCandidates.push_back(aboveLeft.intersect(g));
-							break;
-						}
-						case MenuOverlayLayoutType::SubMenu:
-						{
-							break;
-						}
-						default: break;
-						}
-						if (geomCandidates.size())
-						{
-							std::sort(geomCandidates.begin(), geomCandidates.end(),
-								[](const BBox2f & a, const BBox2f & b) -> bool
-							{
-								return a.getArea() > b.getArea();
-							});
-							const auto & geom = geomCandidates.front();
-							i.first->move(geom.min);
-							i.first->resize(geom.getSize());
-						}
+						const auto & geom = geomCandidates.front();
+						i.first->move(geom.min);
+						i.first->resize(geom.getSize());
 					}
 				}
 			}
@@ -946,12 +878,12 @@ namespace djv
 
         struct Menu::Private
         {
-            Context * context = nullptr;
             std::shared_ptr<ValueSubject<std::string> > menuIcon;
             std::shared_ptr<ValueSubject<std::string> > menuName;
             std::map<size_t, std::shared_ptr<Action> > actions;
-            std::map<size_t, std::shared_ptr<Menu> > menus;
             size_t count = 0;
+            std::shared_ptr<MenuPopupWidget> popupWidget;
+            std::shared_ptr< MenuOverlayLayout> overlayLayout;
             std::shared_ptr<Layout::Overlay> overlay;
             std::function<void(void)> closeCallback;
 
@@ -960,10 +892,43 @@ namespace djv
 
         void Menu::_init(Context * context)
         {
+            Widget::_init(context);
+
             DJV_PRIVATE_PTR();
-            p.context = context;
             p.menuIcon = ValueSubject<std::string>::create();
             p.menuName = ValueSubject<std::string>::create();
+
+            p.popupWidget = MenuPopupWidget::create(context);
+
+            p.overlayLayout = MenuOverlayLayout::create(context);
+            p.overlayLayout->addWidget(p.popupWidget);
+
+            p.overlay = Layout::Overlay::create(context);
+            p.overlay->setCaptureKeyboard(false);
+            p.overlay->setFadeIn(false);
+            p.overlay->setVisible(true);
+            p.overlay->setBackgroundRole(ColorRole::None);
+            p.overlay->addWidget(p.overlayLayout);
+            p.overlay->setParent(shared_from_this());
+
+            auto weak = std::weak_ptr<Menu>(std::dynamic_pointer_cast<Menu>(shared_from_this()));
+            p.popupWidget->setCloseCallback(
+                [weak]
+            {
+                if (auto menu = weak.lock())
+                {
+                    menu->hide();
+                }
+            });
+
+            p.overlay->setCloseCallback(
+                [weak]
+            {
+                if (auto menu = weak.lock())
+                {
+                    menu->hide();
+                }
+            });
         }
 
         Menu::Menu() :
@@ -1008,151 +973,52 @@ namespace djv
             _p->menuName->setIfChanged(value);
         }
 
-        void Menu::addAction(const std::shared_ptr<Action> & action)
-        {
-            _p->actions[_p->count++] = action;
-        }
-
-        void Menu::addMenu(const std::shared_ptr<Menu> & menu)
-        {
-            _p->menus[_p->count++] = menu;
-        }
-
         void Menu::addSeparator()
         {
-            _p->actions[_p->count++] = nullptr;
-        }
-
-        void Menu::clearActions()
-        {
-            _p->actions.clear();
-        }
-
-        void Menu::popup(const std::shared_ptr<Window> & window, const glm::vec2 & pos)
-        {
-            hide();
-
             DJV_PRIVATE_PTR();
-            auto menuOverlayLayout = MenuOverlayLayout::create(p.context);
-            auto weak = std::weak_ptr<Menu>(shared_from_this());
+            p.actions[p.count++] = nullptr;
+        }
+
+        void Menu::popup(const glm::vec2 & pos)
+        {
+            DJV_PRIVATE_PTR();
             if (_p->count > 0)
             {
-                auto widget = MenuPopupWidget::create(_p->actions, _p->menus, p.context);
-                menuOverlayLayout->addWidget(widget, pos, MenuOverlayLayoutType::TopLevel);
-				widget->setCloseCallback(
-                    [weak]
+                if (auto window = getWindow().lock())
                 {
-                    if (auto menu = weak.lock())
-                    {
-                        menu->hide();
-                    }
-                });
-            }
-
-            p.overlay = p.createOverlay();
-            p.overlay->addWidget(menuOverlayLayout);
-
-            p.overlay->setCloseCallback(
-                [weak]
-            {
-                if (auto menu = weak.lock())
-                {
-                    menu->hide();
+                    p.overlayLayout->setPos(p.popupWidget, pos);
+                    window->addWidget(std::dynamic_pointer_cast<Widget>(shared_from_this()));
+                    show();
                 }
-            });
-
-            window->addWidget(p.overlay);
-            p.overlay->show();
+            }
         }
 
-        void Menu::popup(const std::shared_ptr<Window> & window, const std::weak_ptr<Widget> & button)
+        void Menu::popup(const std::weak_ptr<Widget> & button)
         {
-            hide();
-
             DJV_PRIVATE_PTR();
-            auto menuOverlayLayout = MenuOverlayLayout::create(p.context);
-            auto weak = std::weak_ptr<Menu>(shared_from_this());
             if (_p->count > 0)
             {
-                auto widget = MenuPopupWidget::create(_p->actions, _p->menus, p.context);
-                menuOverlayLayout->addWidget(widget, button, MenuOverlayLayoutType::TopLevel);
-				widget->setCloseCallback(
-                    [weak]
+                if (auto window = getWindow().lock())
                 {
-                    if (auto menu = weak.lock())
-                    {
-                        menu->hide();
-                    }
-                });
-            }
-
-            p.overlay = p.createOverlay();
-            p.overlay->setAnchor(button);
-            p.overlay->addWidget(menuOverlayLayout);
-
-            p.overlay->setCloseCallback(
-                [weak]
-            {
-                if (auto menu = weak.lock())
-                {
-                    menu->hide();
+                    p.overlayLayout->setButton(p.popupWidget, button);
+                    p.overlay->setAnchor(button);
+                    window->addWidget(std::dynamic_pointer_cast<Widget>(shared_from_this()));
+                    show();
                 }
-            });
-
-            window->addWidget(p.overlay);
-            p.overlay->show();
+            }
         }
 
-        void Menu::popup(const std::shared_ptr<Window> & window, const std::weak_ptr<Widget> & button, const std::weak_ptr<Widget> & anchor)
+        void Menu::popup(const std::weak_ptr<Widget> & button, const std::weak_ptr<Widget> & anchor)
         {
-            hide();
-
             DJV_PRIVATE_PTR();
-            auto menuOverlayLayout = MenuOverlayLayout::create(p.context);
-            auto weak = std::weak_ptr<Menu>(shared_from_this());
             if (_p->count > 0)
             {
-                auto widget = MenuPopupWidget::create(_p->actions, _p->menus, p.context);
-                menuOverlayLayout->addWidget(widget, button, MenuOverlayLayoutType::TopLevel);
-				widget->setCloseCallback(
-                    [weak]
+                if (auto window = getWindow().lock())
                 {
-                    if (auto menu = weak.lock())
-                    {
-                        menu->hide();
-                    }
-                });
-            }
-
-            p.overlay = p.createOverlay();
-            p.overlay->setAnchor(anchor);
-            p.overlay->addWidget(menuOverlayLayout);
-
-            p.overlay->setCloseCallback(
-                [weak]
-            {
-                if (auto menu = weak.lock())
-                {
-                    menu->hide();
-                }
-            });
-
-            window->addWidget(p.overlay);
-            p.overlay->show();
-        }
-
-        void Menu::hide()
-        {
-            DJV_PRIVATE_PTR();
-            if (p.overlay)
-            {
-                bool visible = p.overlay->isVisible();
-                p.overlay->hide();
-                p.overlay->setParent(nullptr);
-                p.overlay = nullptr;
-                if (visible && p.closeCallback)
-                {
-                    p.closeCallback();
+                    p.overlayLayout->setButton(p.popupWidget, button);
+                    p.overlay->setAnchor(anchor);
+                    window->addWidget(std::dynamic_pointer_cast<Widget>(shared_from_this()));
+                    show();
                 }
             }
         }
@@ -1162,13 +1028,60 @@ namespace djv
             _p->closeCallback = callback;
         }
 
-        std::shared_ptr<Layout::Overlay> Menu::Private::createOverlay()
+        void Menu::setVisible(bool value)
         {
-            auto overlay = Layout::Overlay::create(context);
-            overlay->setCaptureKeyboard(false);
-            overlay->setFadeIn(false);
-            overlay->setBackgroundRole(ColorRole::None);
-            return overlay;
+            const bool visible = isVisible();
+            Widget::setVisible(value);
+            DJV_PRIVATE_PTR();
+            if (visible && p.closeCallback)
+            {
+                p.closeCallback();
+            }
+        }
+
+        void Menu::addAction(const std::shared_ptr<Action> & action)
+        {
+            Widget::addAction(action);
+            DJV_PRIVATE_PTR();
+            p.actions[p.count++] = action;
+            p.popupWidget->setActions(p.actions);
+        }
+
+        void Menu::removeAction(const std::shared_ptr<Action> & action)
+        {
+            Widget::removeAction(action);
+            DJV_PRIVATE_PTR();
+            auto i = p.actions.begin();
+            while (i != p.actions.end())
+            {
+                if (i->second == action)
+                {
+                    i = p.actions.erase(i);
+                }
+                else
+                {
+                    ++i;
+                }
+            }
+            p.popupWidget->setActions(p.actions);
+        }
+
+        void Menu::clearActions()
+        {
+            Widget::clearActions();
+            DJV_PRIVATE_PTR();
+            p.actions.clear();
+            p.popupWidget->setActions(p.actions);
+        }
+
+        void Menu::_preLayoutEvent(Event::PreLayout &)
+        {
+            _setMinimumSize(_p->overlay->getMinimumSize());
+        }
+
+        void Menu::_layoutEvent(Event::Layout &)
+        {
+            _p->overlay->setGeometry(getGeometry());
         }
 
     } // namespace UI

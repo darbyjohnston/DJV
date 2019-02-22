@@ -29,29 +29,16 @@
 
 #pragma once
 
-#include <djvUI/UI.h>
+#include <djvUI/Widget.h>
 
-#include <djvCore/BBox.h>
 #include <djvCore/ValueObserver.h>
 
 namespace djv
 {
-    namespace Core
-    {
-        class Context;
-    
-    } // namespace Core
-
     namespace UI
     {
-        class Action;
-        class Widget;
-        class Window;
-
         //! This class provides a menu.
-        //!
-        //! \todo Add sub-menus.
-        class Menu : public std::enable_shared_from_this<Menu>
+        class Menu : public Widget
         {
             DJV_NON_COPYABLE(Menu);
 
@@ -69,17 +56,22 @@ namespace djv
             void setMenuIcon(const std::string &);
             void setMenuName(const std::string &);
 
-            void addAction(const std::shared_ptr<Action> &);
-            void addMenu(const std::shared_ptr<Menu> &);
             void addSeparator();
-            void clearActions();
 
-            void popup(const std::shared_ptr<Window> &, const glm::vec2 &);
-            void popup(const std::shared_ptr<Window> &, const std::weak_ptr<Widget> & button);
-            void popup(const std::shared_ptr<Window> &, const std::weak_ptr<Widget> & button, const std::weak_ptr<Widget> & anchor);
-            void hide();
+            void popup(const glm::vec2 &);
+            void popup(const std::weak_ptr<Widget> & button);
+            void popup(const std::weak_ptr<Widget> & button, const std::weak_ptr<Widget> & anchor);
 
             void setCloseCallback(const std::function<void(void)> &);
+
+            void setVisible(bool) override;
+            void addAction(const std::shared_ptr<Action> &) override;
+            void removeAction(const std::shared_ptr<Action> &) override;
+            void clearActions() override;
+
+        protected:
+            void _preLayoutEvent(Core::Event::PreLayout &) override;
+            void _layoutEvent(Core::Event::Layout &) override;
 
         private:
 			DJV_PRIVATE();

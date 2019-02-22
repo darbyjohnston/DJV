@@ -74,6 +74,7 @@ namespace djv
             p.actionGroup = ActionGroup::create(ButtonType::Radio);
 
             p.menu = Menu::create(context);
+            p.menu->setParent(shared_from_this());
 
             p.button = Button::Menu::create(context);
             p.button->setBorder(true);
@@ -118,7 +119,7 @@ namespace djv
                         if (auto window = widget->getWindow().lock())
                         {
                             widget->_p->closeAction->setEnabled(true);
-                            widget->_p->menu->popup(window, weak);
+                            widget->_p->menu->popup(weak);
                         }
                     }
                 }
@@ -181,7 +182,7 @@ namespace djv
             DJV_PRIVATE_PTR();
             p.items.push_back(value);
             auto action = Action::create();
-            action->setText(value);
+            action->setTitle(value);
             p.actionGroup->addAction(action);
             p.menu->addAction(action);
             if (-1 == p.currentItem)
@@ -241,7 +242,7 @@ namespace djv
             for (const auto & i : p.items)
             {
                 auto action = Action::create();
-                action->setText(i);
+                action->setTitle(i);
                 p.actionGroup->addAction(action);
                 p.menu->addAction(action);
             }

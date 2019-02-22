@@ -149,6 +149,7 @@ namespace djv
             p.menu->addAction(p.actions["ClearCache"]);
             p.menu->addSeparator();
             p.menu->addAction(p.actions["Exit"]);
+            p.menu->setParent(shared_from_this());
 
             p.fileBrowserDialog = FileBrowserDialog::create(context);
             p.recentFilesModel = Core::FileSystem::RecentFilesModel::create(context);

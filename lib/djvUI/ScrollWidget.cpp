@@ -817,6 +817,7 @@ namespace djv
             if (auto style = _getStyle().lock())
             {
                 _setMinimumSize(_p->border->getMinimumSize() + getMargin().getSize(style));
+                _updateScrollBars(_p->scrollArea->getContentsSize());
             }
         }
 

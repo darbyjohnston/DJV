@@ -72,6 +72,7 @@ namespace djv
 
                 p.historyActionGroup = ActionGroup::create(ButtonType::Radio);
                 p.historyMenu = Menu::create(context);
+                p.historyMenu->setParent(shared_from_this());
                 p.historyButton = Button::Menu::create(context);
                 p.historyButton->setIcon("djvIconPopupMenu");
                 p.historyButton->setEnabled(false);
@@ -117,10 +118,7 @@ namespace djv
                         widget->_p->historyMenu->hide();
                         if (value)
                         {
-                            if (auto window = widget->getWindow().lock())
-                            {
-                                widget->_p->historyMenu->popup(window, weak);
-                            }
+                            widget->_p->historyMenu->popup(weak);
                         }
                     }
                 });
@@ -161,7 +159,7 @@ namespace djv
                 for (const auto & i : p.history)
                 {
                     auto action = Action::create();
-                    action->setText(i);
+                    action->setTitle(i);
                     p.historyActionGroup->addAction(action);
                     p.historyMenu->addAction(action);
                 }
