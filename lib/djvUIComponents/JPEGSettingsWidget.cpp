@@ -65,6 +65,7 @@ namespace djv
             qualityLabel->setModel(qualityModel);
             p.qualityGroupBox = GroupBox::create(context);
             auto hLayout = HorizontalLayout::create(context);
+            hLayout->setMargin(MetricsRole::MarginSmall);
             hLayout->addWidget(qualityLabel);
             hLayout->addWidget(qualitySlider);
             p.qualityGroupBox->addWidget(hLayout);

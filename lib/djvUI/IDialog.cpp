@@ -82,7 +82,7 @@ namespace djv
         struct IDialog::Private
         {
             std::shared_ptr<Label> titleLabel;
-			std::shared_ptr<UI::FlatButton> closeButton;
+			std::shared_ptr<FlatButton> closeButton;
 			std::shared_ptr<VerticalLayout> childLayout;
             std::shared_ptr<VerticalLayout> layout;
             std::shared_ptr<Layout::Border> border;
@@ -96,13 +96,9 @@ namespace djv
 
             DJV_PRIVATE_PTR();
             p.titleLabel = Label::create(context);
-            p.titleLabel->setFontSizeRole(UI::MetricsRole::FontHeader);
+            p.titleLabel->setFontSizeRole(MetricsRole::FontHeader);
             p.titleLabel->setTextHAlign(TextHAlign::Left);
-            p.titleLabel->setMargin(UI::Layout::Margin(
-                UI::MetricsRole::MarginLarge,
-                UI::MetricsRole::None,
-                UI::MetricsRole::Margin,
-                UI::MetricsRole::Margin));
+            p.titleLabel->setMargin(MetricsRole::Margin);
 
             p.closeButton = FlatButton::create(context);
 			p.closeButton->setIcon("djvIconClose");

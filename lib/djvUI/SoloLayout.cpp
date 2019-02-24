@@ -40,6 +40,7 @@ namespace djv
             struct Solo::Private
             {
                 int currentIndex = -1;
+                bool sizeForAll = true;
             };
 
             void Solo::_init(Context * context)
@@ -102,6 +103,20 @@ namespace djv
                 }
             }
 
+            bool Solo::hasSizeForAll() const
+            {
+                return _p->sizeForAll;
+            }
+
+            void Solo::setSizeForAll(bool value)
+            {
+                DJV_PRIVATE_PTR();
+                if (value == p.sizeForAll)
+                    return;
+                p.sizeForAll = value;
+                _resize();
+            }
+
             void Solo::addWidget(const std::shared_ptr<Widget>& value)
             {
                 IContainer::addWidget(value);
@@ -141,12 +156,13 @@ namespace djv
 
             void Solo::_preLayoutEvent(Event::PreLayout&)
             {
+                DJV_PRIVATE_PTR();
                 if (auto style = _getStyle().lock())
                 {
                     glm::vec2 minimumSize = glm::vec2(0.f, 0.f);
-                    for (const auto& child : getChildrenT<Widget>())
+                    for (const auto & child : getChildrenT<Widget>())
                     {
-                        if (child->isVisible())
+                        if (child->isVisible() || p.sizeForAll)
                         {
                             minimumSize = glm::max(minimumSize, child->getMinimumSize());
                         }

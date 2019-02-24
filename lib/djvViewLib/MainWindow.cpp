@@ -35,9 +35,11 @@
 #include <djvViewLib/Media.h>
 #include <djvViewLib/MediaWidget.h>
 #include <djvViewLib/SettingsSystem.h>
+#include <djvViewLib/SettingsWidget.h>
 #include <djvViewLib/WindowSystem.h>
 
 #include <djvUI/Action.h>
+#include <djvUI/Drawer.h>
 #include <djvUI/FlatButton.h>
 #include <djvUI/MDICanvas.h>
 #include <djvUI/MenuBar.h>
@@ -104,7 +106,11 @@ namespace djv
                 addAction(i.second);
             }
 
+            auto settingsDrawer = UI::Drawer::create(context);
+            settingsDrawer->setSide(UI::Side::Right);
+            settingsDrawer->addWidget(SettingsWidget::create(context));
             p.settingsButton = UI::FlatButton::create(context);
+            p.settingsButton->setButtonType(UI::ButtonType::Toggle);
             p.settingsButton->setIcon("djvIconSettings");
 
             p.menuBar = UI::MenuBar::create(context);
@@ -133,21 +139,18 @@ namespace djv
             p.stackLayout = UI::StackLayout::create(context);
             p.stackLayout->addWidget(p.mediaWidget);
             auto vLayout = UI::VerticalLayout::create(context);
-            vLayout->addWidget(p.menuBar);
             vLayout->setSpacing(UI::MetricsRole::None);
-            vLayout->addExpander();
+            vLayout->addWidget(p.menuBar);
+            vLayout->addWidget(settingsDrawer, UI::RowStretch::Expand);
             p.stackLayout->addWidget(vLayout);
             p.stackLayout->addWidget(p.mdiCanvas);
             addWidget(p.stackLayout);
 
             auto weak = std::weak_ptr<MainWindow>(std::dynamic_pointer_cast<MainWindow>(shared_from_this()));
-            p.settingsButton->setClickedCallback(
-                [context]
+            p.settingsButton->setCheckedCallback(
+                [settingsDrawer](bool value)
             {
-                if (auto settingsSystem = context->getSystemT<SettingsSystem>().lock())
-                {
-                    settingsSystem->showSettings();
-                }
+                settingsDrawer->setOpen(value);
             });
 
             p.closeToolActionObserver = ValueObserver<bool>::create(

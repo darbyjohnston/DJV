@@ -119,6 +119,7 @@ namespace djv
             textLayout->addWidget(p.textBlocks["Header"]);
             
             auto vLayout = UI::VerticalLayout::create(context);
+            vLayout->setMargin(UI::MetricsRole::MarginSmall);
             vLayout->addWidget(p.textBlocks["Copyright"]);
             vLayout->addWidget(p.textBlocks["License1"]);
             auto vLayout2 = UI::VerticalLayout::create(context);
@@ -133,6 +134,7 @@ namespace djv
             textLayout->addWidget(p.groupBoxes["Copyright"]);
             
             vLayout = UI::VerticalLayout::create(context);
+            vLayout->setMargin(UI::MetricsRole::MarginSmall);
             vLayout->addWidget(p.textBlocks["Contributors1"]);
             vLayout2 = UI::VerticalLayout::create(context);
             vLayout2->setSpacing(UI::MetricsRole::None);
@@ -145,6 +147,7 @@ namespace djv
             textLayout->addWidget(p.groupBoxes["Contributors"]);
             
             vLayout = UI::VerticalLayout::create(context);
+            vLayout->setMargin(UI::MetricsRole::MarginSmall);
             vLayout->addWidget(p.textBlocks["ThirdParty1"]);
             vLayout2 = UI::VerticalLayout::create(context);
             vLayout2->setSpacing(UI::MetricsRole::None);
@@ -167,6 +170,7 @@ namespace djv
             textLayout->addWidget(p.groupBoxes["ThirdParty"]);
 
             vLayout = UI::VerticalLayout::create(context);
+            vLayout->setMargin(UI::MetricsRole::MarginSmall);
             vLayout->addWidget(p.textBlocks["Trademarks1"]);
             vLayout2 = UI::VerticalLayout::create(context);
             vLayout2->setSpacing(UI::MetricsRole::None);
@@ -197,8 +201,12 @@ namespace djv
             textLayout->addWidget(p.groupBoxes["Trademarks"]);
 
             vLayout = UI::VerticalLayout::create(context);
+            vLayout->setSpacing(UI::MetricsRole::None);
             vLayout->addSeparator();
-            vLayout->addWidget(p.textBlocks["MadeIn"]);
+            vLayout2 = UI::VerticalLayout::create(context);
+            vLayout2->setMargin(UI::MetricsRole::MarginSmall);
+            vLayout2->addWidget(p.textBlocks["MadeIn"]);
+            vLayout->addWidget(vLayout2);
             textLayout->addWidget(vLayout);
 
             auto scrollWidget = UI::ScrollWidget::create(UI::ScrollType::Vertical, context);

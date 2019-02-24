@@ -13,7 +13,7 @@ namespace djv
     {
         namespace Button
         {
-            //! This class provides a menu button widget.
+            //! This class provides a button for menu widgets.
             class Menu : public Widget
             {
                 DJV_NON_COPYABLE(Menu);

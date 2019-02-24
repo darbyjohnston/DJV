@@ -45,7 +45,7 @@ namespace djv
             struct DirectoryModel::Private
             {
                 std::shared_ptr<ValueSubject<Path> > path;
-                std::shared_ptr<ListSubject<FileInfo> > fileInfos;
+                std::shared_ptr<ListSubject<FileInfo> > fileInfo;
                 std::shared_ptr<ListSubject<std::string> > fileNames;
                 std::shared_ptr<ListSubject<Path> > history;
                 std::shared_ptr<ValueSubject<size_t> > historyIndex;
@@ -65,7 +65,7 @@ namespace djv
             {
                 DJV_PRIVATE_PTR();
                 p.path = ValueSubject<Path>::create();
-                p.fileInfos = ListSubject<FileInfo>::create();
+                p.fileInfo = ListSubject<FileInfo>::create();
                 p.fileNames = ListSubject<std::string>::create();
                 p.history = ListSubject<Path>::create();
                 p.historyIndex = ValueSubject<size_t>::create(0);
@@ -146,9 +146,9 @@ namespace djv
                 _updatePath();
             }
 
-            std::shared_ptr<IListSubject<FileInfo> > DirectoryModel::observeFileInfoList() const
+            std::shared_ptr<IListSubject<FileInfo> > DirectoryModel::observeFileInfo() const
             {
-                return _p->fileInfos;
+                return _p->fileInfo;
             }
 
             std::shared_ptr<IListSubject<std::string> > DirectoryModel::observeFileNames() const
@@ -325,7 +325,7 @@ namespace djv
                         p.futureTimer->stop();
 
                         const auto& out = p.future.get();
-                        p.fileInfos->setIfChanged(out.first);
+                        p.fileInfo->setIfChanged(out.first);
                         p.fileNames->setIfChanged(out.second);
                     }
                 });

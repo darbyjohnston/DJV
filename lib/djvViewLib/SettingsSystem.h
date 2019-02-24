@@ -51,8 +51,6 @@ namespace djv
 
             static std::shared_ptr<SettingsSystem> create(Core::Context *);
 
-			void showSettings();
-
             std::map<std::string, std::shared_ptr<UI::Action> > getActions() override;
             std::vector<std::shared_ptr<UI::ISettingsWidget> > getSettingsWidgets() override;
 

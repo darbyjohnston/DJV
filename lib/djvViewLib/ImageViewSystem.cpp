@@ -108,8 +108,8 @@ namespace djv
             DJV_PRIVATE_PTR();
             p.actions["Navigation"]->setTitle(_getText(DJV_TEXT("Navigation")));
             p.actions["Navigation"]->setTooltip(_getText(DJV_TEXT("Navigation tooltip")));
-            p.actions["Fit"]->setTitle(_getText(DJV_TEXT("Fit")));
-            p.actions["Fit"]->setTooltip(_getText(DJV_TEXT("Fit tooltip")));
+            p.actions["Fit"]->setTitle(_getText(DJV_TEXT("Fit To Image")));
+            p.actions["Fit"]->setTooltip(_getText(DJV_TEXT("Fit to image tooltip")));
             p.actions["HUD"]->setTitle(_getText(DJV_TEXT("HUD")));
             p.actions["HUD"]->setTooltip(_getText(DJV_TEXT("HUD tooltip")));
 

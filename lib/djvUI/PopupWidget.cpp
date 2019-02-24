@@ -257,7 +257,7 @@ namespace djv
 
         void PopupWidget::_init(Context * context)
         {
-            Widget::_init(context);
+            IContainer::_init(context);
 
             setClassName("djv::UI::PopupWidget");
 

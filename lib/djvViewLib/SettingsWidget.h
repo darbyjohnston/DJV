@@ -27,69 +27,38 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvUIComponents/ISettingsWidget.h>
+#pragma once
 
-#include <djvUI/RowLayout.h>
-#include <djvUI/StackLayout.h>
-
-using namespace djv::Core;
+#include <djvUI/Widget.h>
 
 namespace djv
 {
-    namespace UI
+    namespace ViewLib
     {
-        struct ISettingsWidget::Private
+        class SettingsWidget : public UI::Widget
         {
-            std::shared_ptr<StackLayout> layout;
+            DJV_NON_COPYABLE(SettingsWidget);
+
+        protected:
+            void _init(Core::Context *);
+			SettingsWidget();
+
+        public:
+            ~SettingsWidget() override;
+
+            static std::shared_ptr<SettingsWidget> create(Core::Context *);
+
+        protected:
+            void _preLayoutEvent(Core::Event::PreLayout&) override;
+            void _layoutEvent(Core::Event::Layout&) override;
+            void _localeEvent(Core::Event::Locale &) override;
+
+        private:
+            void _textUpdate();
+
+            DJV_PRIVATE();
         };
 
-        void ISettingsWidget::_init(Context * context)
-        {
-            Widget::_init(context);
-
-            DJV_PRIVATE_PTR();
-
-            p.layout = StackLayout::create(context);
-            IContainer::addWidget(p.layout);
-        }
-
-        ISettingsWidget::ISettingsWidget() :
-            _p(new Private)
-        {}
-
-        ISettingsWidget::~ISettingsWidget()
-        {}
-
-        void ISettingsWidget::addWidget(const std::shared_ptr<Widget>& widget)
-        {
-            _p->layout->addWidget(widget);
-        }
-
-        void ISettingsWidget::removeWidget(const std::shared_ptr<Widget>& widget)
-        {
-            _p->layout->addWidget(widget);
-        }
-
-        void ISettingsWidget::clearWidgets()
-        {
-            _p->layout->clearWidgets();
-        }
-
-        float ISettingsWidget::getHeightForWidth(float value) const
-        {
-            return _p->layout->getHeightForWidth(value);
-        }
-
-        void ISettingsWidget::_preLayoutEvent(Event::PreLayout& event)
-        {
-            _setMinimumSize(_p->layout->getMinimumSize());
-        }
-
-        void ISettingsWidget::_layoutEvent(Event::Layout&)
-        {
-            _p->layout->setGeometry(getGeometry());
-        }
-
-    } // namespace UI
+    } // namespace ViewLib
 } // namespace djv
 

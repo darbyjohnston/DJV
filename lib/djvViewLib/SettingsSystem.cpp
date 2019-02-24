@@ -29,8 +29,6 @@
 
 #include <djvViewLib/SettingsSystem.h>
 
-#include <djvViewLib/SettingsDialog.h>
-
 #include <djvUIComponents/DisplaySettingsWidget.h>
 #include <djvUIComponents/LanguageSettingsWidget.h>
 #include <djvUIComponents/PPMSettingsWidget.h>
@@ -59,7 +57,6 @@ namespace djv
         {
             std::map<std::string, std::shared_ptr<UI::Action> > actions;
             std::vector<std::shared_ptr<UI::ISettingsWidget> > settingsWidgets;
-			std::shared_ptr<SettingsDialog> settingsDialog;
 			std::map<std::string, std::shared_ptr<ValueObserver<bool> > > clickedObservers;
         };
 
@@ -75,18 +72,6 @@ namespace djv
 #if defined(JPEG_FOUND)
             p.settingsWidgets.push_back(UI::JPEGSettingsWidget::create(context));
 #endif
-			p.settingsDialog = SettingsDialog::create(context);
-
-            auto weak = std::weak_ptr<SettingsSystem>(std::dynamic_pointer_cast<SettingsSystem>(shared_from_this()));
-            p.settingsDialog->setCloseCallback(
-                [weak, context]
-            {
-                if (auto system = weak.lock())
-                {
-                    system->_p->settingsDialog->hide();
-                    system->_p->settingsDialog->setParent(nullptr);
-                }
-            });
         }
 
         SettingsSystem::SettingsSystem() :
@@ -103,19 +88,6 @@ namespace djv
             return out;
         }
         
-		void SettingsSystem::showSettings()
-		{
-            DJV_PRIVATE_PTR();
-            if (auto windowSystem = getContext()->getSystemT<UI::IWindowSystem>().lock())
-            {
-                if (auto window = windowSystem->observeCurrentWindow()->get())
-                {
-                    window->addWidget(p.settingsDialog);
-                    p.settingsDialog->show();
-                }
-            }
-		}
-
         std::map<std::string, std::shared_ptr<UI::Action> > SettingsSystem::getActions()
         {
             return _p->actions;

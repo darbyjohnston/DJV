@@ -60,11 +60,12 @@ namespace djv
                 p.titleLabel = Label::create(context);
                 p.titleLabel->setTextHAlign(TextHAlign::Left);
                 p.titleLabel->setFontSizeRole(MetricsRole::FontLarge);
+                p.titleLabel->setMargin(MetricsRole::MarginSmall);
                 
                 p.childLayout = StackLayout::create(context);
 
                 p.layout = VerticalLayout::create(context);
-                p.layout->setSpacing(MetricsRole::Spacing);
+                p.layout->setSpacing(MetricsRole::None);
                 p.layout->addWidget(p.titleLabel);
                 p.layout->addSeparator();
                 p.layout->addWidget(p.childLayout, RowStretch::Expand);

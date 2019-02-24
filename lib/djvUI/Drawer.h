@@ -27,68 +27,56 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvUIComponents/ISettingsWidget.h>
+#pragma once
 
-#include <djvUI/RowLayout.h>
-#include <djvUI/StackLayout.h>
-
-using namespace djv::Core;
+#include <djvUI/IContainer.h>
 
 namespace djv
 {
     namespace UI
     {
-        struct ISettingsWidget::Private
+        namespace Layout
         {
-            std::shared_ptr<StackLayout> layout;
-        };
+            //! This class provides a drawer widget.
+            //!
+            //! \todo Add animation.
+            class Drawer : public IContainer
+            {
+                DJV_NON_COPYABLE(Drawer);
 
-        void ISettingsWidget::_init(Context * context)
-        {
-            Widget::_init(context);
+            protected:
+                void _init(Core::Context *);
+                Drawer();
 
-            DJV_PRIVATE_PTR();
+            public:
+                virtual ~Drawer();
 
-            p.layout = StackLayout::create(context);
-            IContainer::addWidget(p.layout);
-        }
+                static std::shared_ptr<Drawer> create(Core::Context *);
 
-        ISettingsWidget::ISettingsWidget() :
-            _p(new Private)
-        {}
+                bool isOpen() const;
+                void setOpen(bool);
+                void open();
+                void close();
 
-        ISettingsWidget::~ISettingsWidget()
-        {}
+                Side getSide() const;
+                void setSide(Side);
 
-        void ISettingsWidget::addWidget(const std::shared_ptr<Widget>& widget)
-        {
-            _p->layout->addWidget(widget);
-        }
+                void addWidget(const std::shared_ptr<Widget>&) override;
+                void removeWidget(const std::shared_ptr<Widget>&) override;
+                void clearWidgets() override;
 
-        void ISettingsWidget::removeWidget(const std::shared_ptr<Widget>& widget)
-        {
-            _p->layout->addWidget(widget);
-        }
+            protected:
+                void _preLayoutEvent(Core::Event::PreLayout&) override;
+                void _layoutEvent(Core::Event::Layout&) override;
+                void _paintEvent(Core::Event::Paint&) override;
 
-        void ISettingsWidget::clearWidgets()
-        {
-            _p->layout->clearWidgets();
-        }
+            private:
+				DJV_PRIVATE();
+            };
 
-        float ISettingsWidget::getHeightForWidth(float value) const
-        {
-            return _p->layout->getHeightForWidth(value);
-        }
+        } // namespace Layout
 
-        void ISettingsWidget::_preLayoutEvent(Event::PreLayout& event)
-        {
-            _setMinimumSize(_p->layout->getMinimumSize());
-        }
-
-        void ISettingsWidget::_layoutEvent(Event::Layout&)
-        {
-            _p->layout->setGeometry(getGeometry());
-        }
+		typedef Layout::Drawer Drawer;
 
     } // namespace UI
 } // namespace djv

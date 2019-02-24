@@ -46,6 +46,7 @@ namespace djv
 
         public:
             virtual ~PopupWidget();
+
             static std::shared_ptr<PopupWidget> create(Core::Context *);
 
             void setWidget(const std::shared_ptr<Widget>&);

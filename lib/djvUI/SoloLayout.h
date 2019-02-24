@@ -56,6 +56,9 @@ namespace djv
                 std::shared_ptr<Widget> getCurrentWidget() const;
                 void setCurrentWidget(const std::shared_ptr<Widget> &);
 
+                bool hasSizeForAll() const;
+                void setSizeForAll(bool);
+
                 void addWidget(const std::shared_ptr<Widget>&) override;
                 void removeWidget(const std::shared_ptr<Widget>&) override;
 

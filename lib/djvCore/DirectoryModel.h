@@ -64,7 +64,7 @@ namespace djv
 
                 void reload();
 
-                std::shared_ptr<IListSubject<FileInfo> > observeFileInfoList() const;
+                std::shared_ptr<IListSubject<FileInfo> > observeFileInfo() const;
                 std::shared_ptr<IListSubject<std::string> > observeFileNames() const;
 
                 void cdUp();

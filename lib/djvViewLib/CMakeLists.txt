@@ -24,7 +24,7 @@ set(header
     PlaybackWidget.h
     RecentFilesDialog.h
     SettingsSystem.h
-    SettingsDialog.h
+    SettingsWidget.h
     TimelineSlider.h
     ToolSystem.h
     ViewLib.h
@@ -55,7 +55,7 @@ set(source
     PlaybackWidget.cpp
     RecentFilesDialog.cpp
     SettingsSystem.cpp
-    SettingsDialog.cpp
+    SettingsWidget.cpp
     TimelineSlider.cpp
     ToolSystem.cpp
     WindowSystem.cpp)

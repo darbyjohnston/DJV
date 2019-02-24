@@ -35,15 +35,25 @@
 
 #include <djvAV/Image.h>
 
+#include <djvCore/ListObserver.h>
 #include <djvCore/Path.h>
 
 namespace djv
 {
+    namespace Core
+    {
+        namespace FileSystem
+        {
+            class Path;
+
+        } // namespace FileSystem
+    } // namespace Core
+
     namespace UI
     {
         namespace FileBrowser
         {
-			//! This class provides the file browser path widget.
+			//! This class provides a file browser path widget.
             class PathWidget : public UI::Widget
             {
                 DJV_NON_COPYABLE(PathWidget);
@@ -74,14 +84,34 @@ namespace djv
                 DJV_PRIVATE();
             };
 
-			//! This class provides the file browser shortcuts widget.
+            //! This class provides ahe file browser shortcuts model.
+            class ShortcutsModel : public std::enable_shared_from_this<ShortcutsModel>
+            {
+                DJV_NON_COPYABLE(ShortcutsModel);
+
+            protected:
+                void _init(Core::Context *);
+                ShortcutsModel();
+
+            public:
+                virtual ~ShortcutsModel();
+
+                static std::shared_ptr<ShortcutsModel> create(Core::Context *);
+
+                std::shared_ptr<Core::IListSubject<Core::FileSystem::Path> > observeShortcuts() const;
+
+            private:
+                DJV_PRIVATE();
+            };
+
+            //! This class provides ahe file browser shortcuts widget.
             class ShortcutsWidget : public UI::Widget
             {
                 DJV_NON_COPYABLE(ShortcutsWidget);
 
             protected:
                 void _init(Core::Context *);
-				ShortcutsWidget();
+                ShortcutsWidget();
 
             public:
                 ~ShortcutsWidget() override;

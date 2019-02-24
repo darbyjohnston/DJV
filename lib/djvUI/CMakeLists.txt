@@ -6,6 +6,7 @@ set(header
     ColorSwatch.h
     ComboBox.h
     DialogSystem.h
+    Drawer.h
     Enum.h
     EnumJSON.h
     EnumJSONInline.h
@@ -40,6 +41,7 @@ set(header
     MenuBar.h
     MenuButton.h
     Overlay.h
+    PopupMenu.h
     PopupWidget.h
     PushButton.h
     RowLayout.h
@@ -78,6 +80,7 @@ set(source
     ColorSwatch.cpp
     ComboBox.cpp
     DialogSystem.cpp
+    Drawer.cpp
     Enum.cpp
     FlatButton.cpp
     FloatValueLabel.cpp
@@ -107,6 +110,7 @@ set(source
     MenuBar.cpp
     MenuButton.cpp
     Overlay.cpp
+    PopupMenu.cpp
     PopupWidget.cpp
     PushButton.cpp
     RowLayout.cpp

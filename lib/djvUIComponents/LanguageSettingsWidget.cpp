@@ -31,8 +31,8 @@
 
 #include <djvUI/ButtonGroup.h>
 #include <djvUI/FlatButton.h>
-#include <djvUI/FlowLayout.h>
 #include <djvUI/FontSettings.h>
+#include <djvUI/RowLayout.h>
 #include <djvUI/SettingsSystem.h>
 
 #include <djvCore/Context.h>
@@ -48,7 +48,7 @@ namespace djv
         {
             std::vector<std::shared_ptr<FlatButton> > buttons;
             std::shared_ptr<ButtonGroup> buttonGroup;
-            std::shared_ptr<FlowLayout> layout;
+            std::shared_ptr<VerticalLayout> layout;
             std::map<int, std::string> indexToLocale;
             std::map<std::string, int> localeToIndex;
             std::map<std::string, std::string> localeFonts;
@@ -64,7 +64,8 @@ namespace djv
             DJV_PRIVATE_PTR();
             p.buttonGroup = ButtonGroup::create(ButtonType::Radio);
 
-            p.layout = FlowLayout::create(context);
+            p.layout = VerticalLayout::create(context);
+            p.layout->setSpacing(MetricsRole::None);
             addWidget(p.layout);
 
             if (auto textSystem = context->getSystemT<TextSystem>().lock())

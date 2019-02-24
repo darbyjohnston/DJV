@@ -27,10 +27,10 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvUIComponents/ISettingsWidget.h>
+#include <djvUIComponents/FileBrowserPrivate.h>
 
-#include <djvUI/RowLayout.h>
-#include <djvUI/StackLayout.h>
+#include <djvCore/Path.h>
+#include <djvCore/OS.h>
 
 using namespace djv::Core;
 
@@ -38,58 +38,48 @@ namespace djv
 {
     namespace UI
     {
-        struct ISettingsWidget::Private
+        namespace FileBrowser
         {
-            std::shared_ptr<StackLayout> layout;
-        };
+            struct ShortcutsModel::Private
+            {
+                std::shared_ptr<ListSubject<FileSystem::Path> > shortcuts;
+            };
 
-        void ISettingsWidget::_init(Context * context)
-        {
-            Widget::_init(context);
+            void ShortcutsModel::_init(Context * context)
+            {
+                DJV_PRIVATE_PTR();
 
-            DJV_PRIVATE_PTR();
+                std::vector<FileSystem::Path> shortcuts;
+                for (size_t i = 0; i < static_cast<size_t>(OS::DirectoryShortcut::Count); ++i)
+                {
+                    const auto shortcut = OS::getPath(static_cast<OS::DirectoryShortcut>(i));
+                    shortcuts.push_back(shortcut);
+                }
+                //! \todo Remove
+                shortcuts.push_back(FileSystem::Path("//MAGURO/darby"));
 
-            p.layout = StackLayout::create(context);
-            IContainer::addWidget(p.layout);
-        }
+                p.shortcuts = ListSubject<FileSystem::Path>::create(shortcuts);
+            }
 
-        ISettingsWidget::ISettingsWidget() :
-            _p(new Private)
-        {}
+			ShortcutsModel::ShortcutsModel() :
+                _p(new Private)
+            {}
 
-        ISettingsWidget::~ISettingsWidget()
-        {}
+			ShortcutsModel::~ShortcutsModel()
+            {}
 
-        void ISettingsWidget::addWidget(const std::shared_ptr<Widget>& widget)
-        {
-            _p->layout->addWidget(widget);
-        }
+            std::shared_ptr<ShortcutsModel> ShortcutsModel::create(Context * context)
+            {
+                auto out = std::shared_ptr<ShortcutsModel>(new ShortcutsModel);
+                out->_init(context);
+                return out;
+            }
 
-        void ISettingsWidget::removeWidget(const std::shared_ptr<Widget>& widget)
-        {
-            _p->layout->addWidget(widget);
-        }
+            std::shared_ptr<IListSubject<FileSystem::Path> > ShortcutsModel::observeShortcuts() const
+            {
+                return _p->shortcuts;
+            }
 
-        void ISettingsWidget::clearWidgets()
-        {
-            _p->layout->clearWidgets();
-        }
-
-        float ISettingsWidget::getHeightForWidth(float value) const
-        {
-            return _p->layout->getHeightForWidth(value);
-        }
-
-        void ISettingsWidget::_preLayoutEvent(Event::PreLayout& event)
-        {
-            _setMinimumSize(_p->layout->getMinimumSize());
-        }
-
-        void ISettingsWidget::_layoutEvent(Event::Layout&)
-        {
-            _p->layout->setGeometry(getGeometry());
-        }
-
+        } // namespace FileBrowser
     } // namespace UI
 } // namespace djv
-

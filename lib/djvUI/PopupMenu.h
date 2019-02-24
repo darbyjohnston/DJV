@@ -29,36 +29,47 @@
 
 #pragma once
 
-#include <djvUI/IDialog.h>
-
-#include <djvUI/Enum.h>
+#include <djvUI/Widget.h>
 
 namespace djv
 {
-    namespace ViewLib
+    namespace UI
     {
-        class SettingsDialog : public UI::IDialog
+        class Menu;
+
+        //! This class provides a menu that is shown by clicking a button.
+        class PopupMenu : public Widget
         {
-            DJV_NON_COPYABLE(SettingsDialog);
+            DJV_NON_COPYABLE(PopupMenu);
 
         protected:
             void _init(Core::Context *);
-			SettingsDialog();
+            PopupMenu();
 
         public:
-            ~SettingsDialog() override;
+            virtual ~PopupMenu();
 
-            static std::shared_ptr<SettingsDialog> create(Core::Context *);
+            static std::shared_ptr<PopupMenu> create(Core::Context *);
+
+            void setMenu(const std::shared_ptr<Menu>&);
+
+            void open();
+            void close();
+
+            const std::string& getIcon() const;
+            void setIcon(const std::string&);
+
+            const std::string& getText() const;
+            void setText(const std::string&);
 
         protected:
-            void _localeEvent(Core::Event::Locale &) override;
+            void _preLayoutEvent(Core::Event::PreLayout &) override;
+            void _layoutEvent(Core::Event::Layout &) override;
 
         private:
-            void _textUpdate();
-
-            DJV_PRIVATE();
+			DJV_PRIVATE();
         };
 
-    } // namespace ViewLib
+    } // namespace UI
 } // namespace djv
 

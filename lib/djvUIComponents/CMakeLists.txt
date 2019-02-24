@@ -22,6 +22,7 @@ set(source
     FileBrowserItemView.cpp
     FileBrowserPathWidget.cpp
     FileBrowserSettings.cpp
+    FileBrowserShortcutsModel.cpp
     FileBrowserShortcutsWidget.cpp
     ISettingsWidget.cpp
     JPEGSettingsWidget.cpp

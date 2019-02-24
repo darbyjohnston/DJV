@@ -31,7 +31,7 @@
 
 #include <djvUI/ButtonGroup.h>
 #include <djvUI/FlatButton.h>
-#include <djvUI/FlowLayout.h>
+#include <djvUI/RowLayout.h>
 #include <djvUI/SettingsSystem.h>
 #include <djvUI/StyleSettings.h>
 
@@ -48,7 +48,7 @@ namespace djv
         {
             std::vector<std::shared_ptr<FlatButton> > buttons;
             std::shared_ptr<ButtonGroup> buttonGroup;
-            std::shared_ptr<FlowLayout> layout;
+            std::shared_ptr<VerticalLayout> layout;
             std::map<int, std::string> indexToPalette;
             std::map<std::shared_ptr<FlatButton>, std::string> buttonToPalette;
             std::map<std::string, int> paletteToIndex;
@@ -63,7 +63,8 @@ namespace djv
             DJV_PRIVATE_PTR();
             p.buttonGroup = ButtonGroup::create(ButtonType::Radio);
 
-            p.layout = FlowLayout::create(context);
+            p.layout = VerticalLayout::create(context);
+            p.layout->setSpacing(MetricsRole::None);
             addWidget(p.layout);
 
             auto weak = std::weak_ptr<PaletteSettingsWidget>(std::dynamic_pointer_cast<PaletteSettingsWidget>(shared_from_this()));
