@@ -31,58 +31,49 @@
 
 #include <djvAV/SequenceIO.h>
 
+#include <tiffio.h>
+
 namespace djv
 {
     namespace AV
     {
         namespace IO
         {
-            //! This namespace provides NetPBM image I/O.
+            //! This namespace provides Tagged Image File Format (TIFF) image I/O.
             //!
             //! References:
-            //! - Netpbm, "PPM Format Specification"
-            //!   http://netpbm.sourceforge.net/doc/ppm.html
-            namespace PPM
+            //! - http://www.libtiff.org
+            namespace TIFF
             {
-                static const std::string pluginName = "PPM";
-                static const std::set<std::string> fileExtensions = { ".ppm" };
+                static const std::string pluginName = "TIFF";
+                static const std::set<std::string> fileExtensions = { ".tif", ".tiff" };
 
-                //! This enumeration provides the PPM data types.
-                enum class Data
+                //! This enumeration provides the TIFF compression types.
+                enum class Compression
                 {
-                    ASCII,
-                    Binary,
+                    None,
+                    RLE,
+                    LZW,
 
                     Count,
-                    First = ASCII
+                    First
                 };
-                DJV_ENUM_HELPERS(Data);
+                DJV_ENUM_HELPERS(Compression);
 
-				//! This struct provides the PPM settings.
-				struct Settings
-				{
-					Data data = Data::Binary;
-				};
+                //! This struct provides the TIFF settings.
+                struct Settings
+                {
+                    Compression compression = Compression::LZW;
+                };
 
-                //! Get the number of bytes in a scanline.
-                size_t getScanlineByteCount(
-                    int    width,
-                    size_t channelCount,
-                    size_t componentSize);
-
-                //! Read ASCII data.
-                void readASCII(
-                    Core::FileSystem::FileIO& io,
-                    uint8_t*                  out,
-                    size_t                    size,
-                    size_t                    componentSize);
-
-                //! Save ASCII data.
-                size_t writeASCII(
-                    const uint8_t* in,
-                    char*          out,
-                    size_t         size,
-                    size_t         componentSize);
+                //! Load a TIFF palette.
+                void paletteLoad(
+                    uint8_t *  out,
+                    int        size,
+                    int        bytes,
+                    uint16_t * red,
+                    uint16_t * green,
+                    uint16_t * blue);
 
                 class Read : public ISequenceRead
                 {
@@ -98,11 +89,12 @@ namespace djv
                         Core::Context *);
 
                 protected:
-                    Info _readInfo(const std::string &) override;
-                    std::shared_ptr<Image::Image> _readImage(const std::string &) override;
+                    Info _readInfo(const std::string & fileName) override;
+                    std::shared_ptr<Image::Image> _readImage(const std::string & fileName) override;
 
                 private:
-                    Info _open(const std::string &, Core::FileSystem::FileIO &, Data &);
+                    struct File;
+                    Info _open(const std::string &, File &);
                 };
                 
                 class Write : public ISequenceWrite
@@ -117,7 +109,7 @@ namespace djv
 
                     static std::shared_ptr<Write> create(
                         const std::string & fileName,
-						const Settings &,
+                        const Settings &,
                         const Info &,
                         const std::shared_ptr<Queue> &,
                         Core::Context *);
@@ -154,20 +146,20 @@ namespace djv
                     DJV_PRIVATE();
                 };
 
-            } // namespace PNG
+            } // namespace TIFF
         } // namespace IO
     } // namespace AV
 
-    DJV_ENUM_SERIALIZE_HELPERS(AV::IO::PPM::Data);
-    
+    DJV_ENUM_SERIALIZE_HELPERS(AV::IO::TIFF::Compression);
+
     template<>
-    inline picojson::value toJSON<AV::IO::PPM::Settings>(const AV::IO::PPM::Settings &);
+    inline picojson::value toJSON<AV::IO::TIFF::Settings>(const AV::IO::TIFF::Settings &);
 
     //! Throws:
     //! - std::exception
     template<>
-    inline void fromJSON<AV::IO::PPM::Settings>(const picojson::value &, AV::IO::PPM::Settings &);
+    inline void fromJSON<AV::IO::TIFF::Settings>(const picojson::value &, AV::IO::TIFF::Settings &);
 
 } // namespace djv
 
-#include <djvAV/PPMInline.h>
+#include <djvAV/TIFFInline.h>

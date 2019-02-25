@@ -37,6 +37,9 @@
 #if defined(PNG_FOUND)
 #include <djvAV/PNG.h>
 #endif // PNG_FOUND
+#if defined(TIFF_FOUND)
+#include <djvAV/TIFF.h>
+#endif // TIFF_FOUND
 
 #include <djvCore/Context.h>
 #include <djvCore/Path.h>
@@ -256,8 +259,11 @@ namespace djv
 				p.plugins[JPEG::pluginName] = JPEG::Plugin::create(context);
 #endif // JPEG_FOUND
 #if defined(PNG_FOUND)
-				p.plugins[PNG::pluginName] = PNG::Plugin::create(context);
+                p.plugins[PNG::pluginName] = PNG::Plugin::create(context);
 #endif // PNG_FOUND
+#if defined(TIFF_FOUND)
+                p.plugins[TIFF::pluginName] = TIFF::Plugin::create(context);
+#endif // TIFF_FOUND
 
                 for (const auto & i : p.plugins)
                 {

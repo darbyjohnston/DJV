@@ -1033,7 +1033,7 @@ namespace djv
             const bool visible = isVisible();
             Widget::setVisible(value);
             DJV_PRIVATE_PTR();
-            if (visible && p.closeCallback)
+            if (value != visible && visible && p.closeCallback)
             {
                 p.closeCallback();
             }

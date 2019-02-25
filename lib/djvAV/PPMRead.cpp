@@ -67,27 +67,24 @@ namespace djv
                     FileSystem::FileIO io;
                     Data data = Data::First;
                     const auto info = _open(fileName, io, data);
-                    if (info.video.size())
+                    switch (data)
                     {
-                        switch (data)
+                    case Data::ASCII:
+                    {
+                        out = Image::Image::create(info.video[0].info);
+                        const size_t channelCount = Image::getChannelCount(info.video[0].info.type);
+                        const size_t bitDepth = Image::getBitDepth(info.video[0].info.type);
+                        for (int y = 0; y < info.video[0].info.size.y; ++y)
                         {
-                        case Data::ASCII:
-                        {
-                            out = Image::Image::create(info.video[0].info);
-                            const size_t channelCount = Image::getChannelCount(info.video[0].info.type);
-                            const size_t bitDepth = Image::getBitDepth(info.video[0].info.type);
-                            for (int y = 0; y < info.video[0].info.size.y; ++y)
-                            {
-                                readASCII(io, out->getData(y), info.video[0].info.size.x * channelCount, bitDepth);
-                            }
-                            break;
+                            readASCII(io, out->getData(y), info.video[0].info.size.x * channelCount, bitDepth);
                         }
-                        case Data::Binary:
-                            out = Image::Image::create(info.video[0].info);
-                            io.read(out->getData(), info.video[0].info.getDataByteCount());
-                            break;
-                        default: break;
-                        }
+                        break;
+                    }
+                    case Data::Binary:
+                        out = Image::Image::create(info.video[0].info);
+                        io.read(out->getData(), info.video[0].info.getDataByteCount());
+                        break;
+                    default: break;
                     }
                     return out;
                 }

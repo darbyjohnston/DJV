@@ -83,6 +83,7 @@ namespace djv
                     case Image::Type::LA_U32:
                     case Image::Type::LA_F16:
                     case Image::Type::LA_F32:   imageType = Image::Type::L_U16; break;
+                    case Image::Type::RGB_U10:
                     case Image::Type::RGB_U32:
                     case Image::Type::RGB_F16:
                     case Image::Type::RGB_F32:  imageType = Image::Type::RGB_U16; break;

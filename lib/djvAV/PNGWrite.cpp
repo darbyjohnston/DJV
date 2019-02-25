@@ -68,6 +68,23 @@ namespace djv
                 {
                     struct File
                     {
+                        ~File()
+                        {
+                            if (png || pngInfo)
+                            {
+                                png_destroy_write_struct(
+                                    png     ? &png     : nullptr,
+                                    pngInfo ? &pngInfo : nullptr);
+                                png     = nullptr;
+                                pngInfo = nullptr;
+                            }
+                            if (f)
+                            {
+                                fclose(f);
+                                f = nullptr;
+                            }
+                        }
+
                         FILE *      f        = nullptr;
                         png_structp png      = nullptr;
                         png_infop   pngInfo  = nullptr;
@@ -152,6 +169,7 @@ namespace djv
                     case Image::Type::LA_U32:
                     case Image::Type::LA_F16:
                     case Image::Type::LA_F32:   imageType = Image::Type::LA_U16; break;
+                    case Image::Type::RGB_U10:
                     case Image::Type::RGB_U32:
                     case Image::Type::RGB_F16:
                     case Image::Type::RGB_F32:  imageType = Image::Type::RGB_U16; break;
@@ -210,8 +228,7 @@ namespace djv
                         png_set_swap(f.png);
                     }
 
-                    const auto & size = imageData->getSize();
-                    for (int y = 0; y < size.y; ++y)
+                    for (int y = 0; y < info.size.y; ++y)
                     {
                         if (!pngScanline(f.png, imageData->getData(y)))
                         {

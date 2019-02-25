@@ -31,8 +31,6 @@
 
 #include <djvAV/SequenceIO.h>
 
-#include <djvCore/String.h>
-
 #include <png.h>
 
 namespace djv

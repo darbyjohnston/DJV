@@ -162,21 +162,18 @@ namespace djv
                     std::shared_ptr<Image::Image> out;
                     File f;
                     const auto info = _open(fileName, f);
-                    if (info.video.size())
+                    out = Image::Image::create(info.video[0].info);
+                    for (int y = 0; y < info.video[0].info.size.y; ++y)
                     {
-                        out = Image::Image::create(info.video[0].info);
-                        for (int y = 0; y < info.video[0].info.size.y; ++y)
+                        if (!pngScanline(f.png, out->getData(y)))
                         {
-                            if (!pngScanline(f.png, out->getData(y)))
-                            {
-                                std::stringstream s;
-                                s << _context->getText(DJV_TEXT("The PNG file")) <<
-                                    " '" << fileName << "' " << DJV_TEXT("cannot be read") << ". " << f.pngError.msg;
-                                throw std::runtime_error(s.str());
-                            }
+                            std::stringstream s;
+                            s << _context->getText(DJV_TEXT("The PNG file")) <<
+                                " '" << fileName << "' " << DJV_TEXT("cannot be read") << ". " << f.pngError.msg;
+                            throw std::runtime_error(s.str());
                         }
-                        pngEnd(f.png, f.pngInfoEnd);
                     }
+                    pngEnd(f.png, f.pngInfoEnd);
                     return out;
                 }
 

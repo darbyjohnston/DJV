@@ -7,6 +7,7 @@ find_package(glbinding REQUIRED)
 
 find_package(JPEG)
 find_package(PNG)
+find_package(TIFF)
 
 set(header
     AV.h
@@ -101,6 +102,17 @@ if(PNG_FOUND)
         PNGRead.cpp
         PNGWrite.cpp)
 endif()
+if(TIFF_FOUND)
+    set(header
+        ${header}
+        TIFF.h
+        TIFFInline.h)
+    set(source
+        ${source}
+        TIFF.cpp
+        TIFFRead.cpp
+        TIFFWrite.cpp)
+endif()
 
 add_library(djvAV ${header} ${source})
 set(LIBRARIES
@@ -116,6 +128,9 @@ if(JPEG_FOUND)
 endif()
 if(PNG_FOUND)
     set(LIBRARIES ${LIBRARIES} PNG)
+endif()
+if(TIFF_FOUND)
+    set(LIBRARIES ${LIBRARIES} TIFF)
 endif()
 target_link_libraries(djvAV ${LIBRARIES})
 set_target_properties(
