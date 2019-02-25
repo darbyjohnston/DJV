@@ -566,7 +566,7 @@
     }, 
     {
         "text": "DJV Imaging", 
-        "id": "About Header", 
+        "id": "About Title", 
         "description": ""
     }, 
     {
@@ -615,7 +615,7 @@
         "description": ""
     }, 
     {
-        "text": "* Copyright (c) 2004-2018 Darby Johnston. All rights reserved.", 
+        "text": "* Copyright (c) 2004-2019 Darby Johnston. All rights reserved.", 
         "id": "Contributors Text 2", 
         "description": ""
     }, 

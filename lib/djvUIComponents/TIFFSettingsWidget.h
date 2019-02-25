@@ -29,39 +29,32 @@
 
 #pragma once
 
-#include <djvUI/Widget.h>
+#include <djvUIComponents/ISettingsWidget.h>
 
 namespace djv
 {
     namespace UI
     {
-        class Menu;
-
-        //! This class provides a menu that is shown by clicking a button.
-        class PopupMenu : public Widget
+        class TIFFSettingsWidget : public ISettingsWidget
         {
-            DJV_NON_COPYABLE(PopupMenu);
+            DJV_NON_COPYABLE(TIFFSettingsWidget);
 
         protected:
             void _init(Core::Context *);
-            PopupMenu();
+            TIFFSettingsWidget();
 
         public:
-            virtual ~PopupMenu();
+            static std::shared_ptr<TIFFSettingsWidget> create(Core::Context *);
 
-            static std::shared_ptr<PopupMenu> create(Core::Context *);
-
-            void setMenu(const std::shared_ptr<Menu>&);
-
-            void open();
-            void close();
+            std::string getName() const override;
+            std::string getGroup() const override;
+            std::string getGroupSortKey() const override;
 
         protected:
-            void _preLayoutEvent(Core::Event::PreLayout &) override;
-            void _layoutEvent(Core::Event::Layout &) override;
+            void _localeEvent(Core::Event::Locale &) override;
 
         private:
-			DJV_PRIVATE();
+            DJV_PRIVATE();
         };
 
     } // namespace UI

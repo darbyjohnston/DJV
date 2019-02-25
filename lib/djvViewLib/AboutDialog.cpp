@@ -57,8 +57,6 @@ namespace djv
             IDialog::_init(context);
 
             DJV_PRIVATE_PTR();
-            p.textBlocks["Header"] = UI::TextBlock::create(context);
-            p.textBlocks["Header"]->setFontSizeRole(UI::MetricsRole::FontLarge);
             p.textBlocks["Copyright"] = UI::TextBlock::create(context);
             p.textBlocks["License1"] = UI::TextBlock::create(context);
             p.textBlocks["License2"] = UI::TextBlock::create(context);
@@ -116,7 +114,6 @@ namespace djv
             auto textLayout = UI::VerticalLayout::create(context);
             textLayout->setMargin(UI::MetricsRole::MarginLarge);
             textLayout->setSpacing(UI::MetricsRole::SpacingLarge);
-            textLayout->addWidget(p.textBlocks["Header"]);
             
             auto vLayout = UI::VerticalLayout::create(context);
             vLayout->setMargin(UI::MetricsRole::MarginSmall);
@@ -233,11 +230,10 @@ namespace djv
         {
 			IDialog::_localeEvent(event);
 			DJV_PRIVATE_PTR();
-			setTitle(_getText(DJV_TEXT("About")));
             std::stringstream ss;
-            ss << _getText(DJV_TEXT("About Header"));
+            ss << _getText(DJV_TEXT("About Title"));
             ss << " " << DJV_VERSION;
-            p.textBlocks["Header"]->setText(ss.str());
+            setTitle(ss.str());
             p.groupBoxes["Copyright"]->setText(_getText(DJV_TEXT("Copyright and License")));
             p.textBlocks["Copyright"]->setText(_getText(DJV_TEXT("Copyright")));
             p.textBlocks["License1"]->setText(_getText(DJV_TEXT("License 1")));

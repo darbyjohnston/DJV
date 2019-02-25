@@ -131,10 +131,9 @@ namespace djv
                 float out = 0.f;
                 if (auto style = _getStyle().lock())
                 {
+                    const glm::vec2 m = getMargin().getSize(style);
                     const float b = style->getMetric(MetricsRole::Border);
-                    out = p.layout->getHeightForWidth(value - b * 2.f - getMargin().getWidth(style)) +
-                        b * 2.f +
-                        getMargin().getHeight(style);
+                    out = p.layout->getHeightForWidth(value - b * 2.f - m.x) + b * 2.f + m.y;
                 }
                 return out;
             }

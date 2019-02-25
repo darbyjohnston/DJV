@@ -55,13 +55,13 @@ namespace djv
                 IContainer::_init(context);
 
                 setClassName("djv::UI::Layout::GroupBox");
+                setVAlign(VAlign::Top);
 
                 DJV_PRIVATE_PTR();
                 p.titleLabel = Label::create(context);
                 p.titleLabel->setTextHAlign(TextHAlign::Left);
-                p.titleLabel->setFontSizeRole(MetricsRole::FontLarge);
                 p.titleLabel->setMargin(MetricsRole::MarginSmall);
-                
+
                 p.childLayout = StackLayout::create(context);
 
                 p.layout = VerticalLayout::create(context);

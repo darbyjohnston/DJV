@@ -36,6 +36,9 @@
 #if defined(JPEG_FOUND)
 #include <djvUIComponents/JPEGSettingsWidget.h>
 #endif
+#if defined(TIFF_FOUND)
+#include <djvUIComponents/TIFFSettingsWidget.h>
+#endif
 
 #include <djvUI/Action.h>
 #include <djvUI/ButtonGroup.h>
@@ -71,6 +74,9 @@ namespace djv
             p.settingsWidgets.push_back(UI::PaletteSettingsWidget::create(context));
 #if defined(JPEG_FOUND)
             p.settingsWidgets.push_back(UI::JPEGSettingsWidget::create(context));
+#endif
+#if defined(TIFF_FOUND)
+            p.settingsWidgets.push_back(UI::TIFFSettingsWidget::create(context));
 #endif
         }
 

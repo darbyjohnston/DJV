@@ -42,6 +42,8 @@ namespace djv
         {
             std::shared_ptr<Menu> menu;
             std::shared_ptr<Button::Menu> button;
+            std::shared_ptr<ValueObserver<std::string> > nameObserver;
+            std::shared_ptr<ValueObserver<std::string> > iconObserver;
         };
 
         void PopupMenu::_init(Context * context)
@@ -89,15 +91,20 @@ namespace djv
 
         void PopupMenu::setMenu(const std::shared_ptr<Menu>& menu)
         {
-            if (_p->menu)
+            DJV_PRIVATE_PTR();
+            if (p.menu)
             {
-                _p->menu->setParent(nullptr);
-                _p->menu->setCloseCallback(nullptr);
+                p.menu->setParent(nullptr);
+                p.menu->setCloseCallback(nullptr);
+                p.iconObserver.reset();
+                p.nameObserver.reset();
             }
-            _p->menu = menu;
-            if (_p->menu)
+
+            p.menu = menu;
+
+            if (p.menu)
             {
-                _p->menu->setParent(shared_from_this());
+                p.menu->setParent(shared_from_this());
 
                 auto weak = std::weak_ptr<PopupMenu>(std::dynamic_pointer_cast<PopupMenu>(shared_from_this()));
                 menu->setCloseCallback(
@@ -106,6 +113,26 @@ namespace djv
                     if (auto widget = weak.lock())
                     {
                         widget->_p->button->setChecked(false);
+                    }
+                });
+
+                p.iconObserver = ValueObserver<std::string>::create(
+                    p.menu->observeMenuIcon(),
+                    [weak](const std::string & value)
+                {
+                    if (auto widget = weak.lock())
+                    {
+                        widget->_p->button->setIcon(value);
+                    }
+                });
+
+                p.nameObserver = ValueObserver<std::string>::create(
+                    p.menu->observeMenuName(),
+                    [weak](const std::string & value)
+                {
+                    if (auto widget = weak.lock())
+                    {
+                        widget->_p->button->setText(value);
                     }
                 });
             }
@@ -127,26 +154,6 @@ namespace djv
             {
                 p.menu->hide();
             }
-        }
-
-        const std::string& PopupMenu::getIcon() const
-        {
-            return _p->button->getIcon();
-        }
-
-        void PopupMenu::setIcon(const std::string& value)
-        {
-            _p->button->setIcon(value);
-        }
-
-        const std::string& PopupMenu::getText() const
-        {
-            return _p->button->getText();
-        }
-
-        void PopupMenu::setText(const std::string& value)
-        {
-            _p->button->setText(value);
         }
 
         void PopupMenu::_preLayoutEvent(Event::PreLayout& event)

@@ -1,3 +1,6 @@
+find_package(JPEG)
+find_package(TIFF)
+
 set(header
     AVIOSettings.h
     ActionButton.h
@@ -8,7 +11,6 @@ set(header
     FileBrowserPrivate.h
     FileBrowserSettings.h
     ISettingsWidget.h
-    JPEGSettingsWidget.h
     LanguageSettingsWidget.h
     PPMSettingsWidget.h
     PaletteSettingsWidget.h
@@ -25,11 +27,27 @@ set(source
     FileBrowserShortcutsModel.cpp
     FileBrowserShortcutsWidget.cpp
     ISettingsWidget.cpp
-    JPEGSettingsWidget.cpp
     LanguageSettingsWidget.cpp
     PPMSettingsWidget.cpp
     PaletteSettingsWidget.cpp
     UIComponentsSystem.cpp)
+
+if(JPEG_FOUND)
+    set(header
+        ${header}
+        JPEGSettingsWidget.h)
+    set(source
+        ${source}
+        JPEGSettingsWidget.cpp)
+endif()
+if(TIFF_FOUND)
+    set(header
+        ${header}
+        TIFFSettingsWidget.h)
+    set(source
+        ${source}
+        TIFFSettingsWidget.cpp)
+endif()
 
 add_library(djvUIComponents ${header} ${source})
 target_link_libraries(djvUIComponents djvUI)

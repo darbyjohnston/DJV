@@ -138,13 +138,14 @@ namespace djv
 
             float Solo::getHeightForWidth(float value) const
             {
+                DJV_PRIVATE_PTR();
                 float out = 0.f;
                 if (auto style = _getStyle().lock())
                 {
                     const glm::vec2 m = getMargin().getSize(style);
                     for (const auto& child : getChildrenT<Widget>())
                     {
-                        if (child->isVisible())
+                        if (child->isVisible() || p.sizeForAll)
                         {
                             out = glm::max(out, child->getHeightForWidth(value - m.x));
                         }

@@ -44,7 +44,6 @@
 #include <djvUI/Icon.h>
 #include <djvUI/Label.h>
 #include <djvUI/Menu.h>
-#include <djvUI/MenuBar.h>
 #include <djvUI/PopupMenu.h>
 #include <djvUI/PopupWidget.h>
 #include <djvUI/RowLayout.h>
@@ -81,11 +80,11 @@ namespace djv
 
                 std::map<std::string, std::shared_ptr<Action> > actions;
                 std::shared_ptr<ActionGroup> viewTypeActionGroup;
+                std::shared_ptr<Menu> navigationMenu;
+                std::shared_ptr<PopupMenu> navigationPopupMenu;
                 std::shared_ptr<Menu> shortcutsMenu;
                 std::shared_ptr<PopupMenu> shortcutsPopupMenu;
                 std::shared_ptr<ShortcutsWidget> shortcutsWidget;
-                std::shared_ptr<Menu> navigationMenu;
-                std::shared_ptr<PopupMenu> navigationPopupMenu;
                 std::shared_ptr<Label> itemCountLabel;
                 std::shared_ptr<FlatButton> settingsButton;
                 std::shared_ptr<PopupWidget> searchPopupWidget;
@@ -166,23 +165,21 @@ namespace djv
                     addAction(action.second);
                 }
 
-                auto pathWidget = PathWidget::create(context);
+                p.navigationMenu = Menu::create(context);
+                p.navigationMenu->setMenuIcon("djvIconNavigation");
+                p.navigationMenu->addAction(p.actions["Back"]);
+                p.navigationMenu->addAction(p.actions["Forward"]);
+                p.navigationMenu->addAction(p.actions["Up"]);
+                p.navigationMenu->addAction(p.actions["Current"]);
+                p.navigationMenu->addAction(p.actions["EditPath"]);
+                p.navigationPopupMenu = PopupMenu::create(context);
+                p.navigationPopupMenu->setMenu(p.navigationMenu);
 
-                p.shortcutsPopupMenu = PopupMenu::create(context);
-                p.shortcutsPopupMenu->setIcon("djvIconFavorite");
                 p.shortcutsMenu = Menu::create(context);
+                p.shortcutsMenu->setMenuIcon("djvIconFavorite");
+                p.shortcutsPopupMenu = PopupMenu::create(context);
                 p.shortcutsPopupMenu->setMenu(p.shortcutsMenu);
                 p.shortcutsWidget = ShortcutsWidget::create(context);
-
-                auto navigationMenu = Menu::create(context);
-                navigationMenu->addAction(p.actions["Back"]);
-                navigationMenu->addAction(p.actions["Forward"]);
-                navigationMenu->addAction(p.actions["Up"]);
-                navigationMenu->addAction(p.actions["Current"]);
-                navigationMenu->addAction(p.actions["EditPath"]);
-                p.navigationPopupMenu = PopupMenu::create(context);
-                p.navigationPopupMenu->setIcon("djvIconArrowLeft");
-                p.navigationPopupMenu->setMenu(navigationMenu);
 
                 auto vLayout = VerticalLayout::create(context);
                 vLayout->setSpacing(MetricsRole::None);
@@ -201,10 +198,16 @@ namespace djv
                 p.settingsButton->setButtonType(ButtonType::Toggle);
                 p.settingsButton->setIcon("djvIconSettings");
 
+                auto pathWidget = PathWidget::create(context);
+
                 auto topToolBar = Toolbar::create(context);
-                topToolBar->addWidget(p.shortcutsPopupMenu);
                 topToolBar->addWidget(p.navigationPopupMenu);
+                topToolBar->addWidget(p.shortcutsPopupMenu);
+                topToolBar->addAction(p.actions["Up"]);
+                topToolBar->addAction(p.actions["Back"]);
+                topToolBar->addAction(p.actions["Forward"]);
                 topToolBar->addWidget(pathWidget, RowStretch::Expand);
+                topToolBar->addAction(p.actions["EditPath"]);
                 topToolBar->addWidget(p.settingsButton);
 
                 auto searchBox = SearchBox::create(context);
@@ -231,17 +234,17 @@ namespace djv
 
                 p.layout = VerticalLayout::create(context);
                 p.layout->setSpacing(MetricsRole::None);
+                p.layout->addWidget(topToolBar);
+                p.layout->addSeparator();
+                auto stackLayout = StackLayout::create(context);
                 vLayout = VerticalLayout::create(context);
                 vLayout->setSpacing(MetricsRole::None);
-                vLayout->addWidget(topToolBar);
-                vLayout->addSeparator();
-                auto stackLayout = StackLayout::create(context);
-                stackLayout->addWidget(p.scrollWidget);
-                stackLayout->addWidget(settingsDrawer);
-                vLayout->addWidget(stackLayout, RowStretch::Expand);
+                vLayout->addWidget(p.scrollWidget, RowStretch::Expand);
                 vLayout->addSeparator();
                 vLayout->addWidget(bottomToolBar);
-                p.layout->addWidget(vLayout, RowStretch::Expand);
+                stackLayout->addWidget(vLayout);
+                stackLayout->addWidget(settingsDrawer);
+                p.layout->addWidget(stackLayout, RowStretch::Expand);
                 p.layout->setParent(shared_from_this());
 
                 auto weak = std::weak_ptr<Widget>(std::dynamic_pointer_cast<Widget>(shared_from_this()));
@@ -557,9 +560,9 @@ namespace djv
                 p.actions["Forward"]->setTooltip(_getText(DJV_TEXT("File browser forward tooltip")));
                 p.actions["Up"]->setTitle(_getText(DJV_TEXT("Up")));
                 p.actions["Up"]->setTooltip(_getText(DJV_TEXT("File browser up tooltip")));
-                p.actions["Current"]->setTitle(_getText(DJV_TEXT("Current")));
+                p.actions["Current"]->setTitle(_getText(DJV_TEXT("Current Directory")));
                 p.actions["Current"]->setTooltip(_getText(DJV_TEXT("File browser current directory tooltip")));
-                p.actions["EditPath"]->setTitle(_getText(DJV_TEXT("Edit")));
+                p.actions["EditPath"]->setTitle(_getText(DJV_TEXT("Edit Path")));
                 p.actions["EditPath"]->setTooltip(_getText(DJV_TEXT("File browser edit path tooltip")));
                 p.actions["LargeThumbnails"]->setText(_getText(DJV_TEXT("Large thumbnails")));
                 p.actions["LargeThumbnails"]->setTooltip(_getText(DJV_TEXT("File browser large thumbnails tooltip")));
@@ -572,8 +575,8 @@ namespace djv
                 p.actions["ShowHidden"]->setText(_getText(DJV_TEXT("Show hidden files")));
                 p.actions["ShowHidden"]->setTooltip(_getText(DJV_TEXT("File browser show hidden tooltip")));
 
-                p.shortcutsPopupMenu->setTooltip(_getText(DJV_TEXT("File browser shortcuts popup tooltip")));
                 p.navigationPopupMenu->setTooltip(_getText(DJV_TEXT("File browser navigation popup tooltip")));
+                p.shortcutsPopupMenu->setTooltip(_getText(DJV_TEXT("File browser shortcuts popup tooltip")));
                 p.settingsButton->setTooltip(_getText(DJV_TEXT("File browser settings popup tooltip")));
                 p.searchPopupWidget->setTooltip(_getText(DJV_TEXT("File browser search popup tooltip")));
 

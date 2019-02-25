@@ -154,7 +154,7 @@ namespace djv
 
         std::string DisplaySettingsWidget::getName() const
         {
-            return DJV_TEXT("Display");
+            return DJV_TEXT("Display Size");
         }
 
         std::string DisplaySettingsWidget::getGroup() const

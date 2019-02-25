@@ -129,6 +129,7 @@ namespace djv
                 }
 
                 _layout = UI::VerticalLayout::create(context);
+                _layout->setSpacing(UI::MetricsRole::SpacingLarge);
                 for (const auto & i : _groups)
                 {
                     _layout->addWidget(i.second.groupBox);
@@ -211,7 +212,7 @@ namespace djv
 
             p.backButton = UI::FlatButton::create(context);
             p.backButton->setIcon("djvIconArrowLeft");
-            p.backButton->setEnabled(false);
+            p.backButton->hide();
 
             p.titleLabel = UI::Label::create(context);
             p.titleLabel->setFontSizeRole(UI::MetricsRole::FontHeader);
@@ -222,6 +223,7 @@ namespace djv
             p.titles[p.mainWidget] = DJV_TEXT("Settings");
 
 			p.soloLayout = UI::SoloLayout::create(context);
+            p.soloLayout->setMargin(UI::MetricsRole::Margin);
             p.soloLayout->addWidget(p.mainWidget);
             auto weak = std::weak_ptr<SettingsWidget>(std::dynamic_pointer_cast<SettingsWidget>(shared_from_this()));
             for (auto i : context->getSystemsT<IViewSystem>())
@@ -259,7 +261,7 @@ namespace djv
                 {
                     widget->_p->soloLayout->setCurrentWidget(value);
                     widget->_textUpdate();
-                    widget->_p->backButton->setEnabled(true);
+                    widget->_p->backButton->show();
                 }
             });
 
@@ -270,7 +272,7 @@ namespace djv
                 {
                     widget->_p->soloLayout->setCurrentWidget(widget->_p->mainWidget);
                     widget->_textUpdate();
-                    widget->_p->backButton->setEnabled(false);
+                    widget->_p->backButton->hide();
                 }
             });
         }
