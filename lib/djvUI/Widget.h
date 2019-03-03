@@ -84,27 +84,26 @@ namespace djv
             //! Create a new widget.
             static std::shared_ptr<Widget> create(Core::Context *);
 
-            //! Get the number of widgets that currently exist.
-            static size_t getCurrentWidgetCount();
-
             //! Get the top-level window.
             std::weak_ptr<Window> getWindow();
 
-            //! \name Widget Visibility
+            //! \name Visibility
             ///@{
 
             inline bool isVisible(bool parents = false) const;
-            inline bool isClipped() const;
-            inline const Core::BBox2f & getClipRect() const;
-            inline float getOpacity(bool parents = false) const;
             virtual void setVisible(bool);
             void show();
             void hide();
+
+            inline bool isClipped() const;
+            inline const Core::BBox2f & getClipRect() const;
+
+            inline float getOpacity(bool parents = false) const;
             void setOpacity(float);
 
             ///@}
 
-            //! \name Widget Layout
+            //! \name Layout
             ///@{
 
             inline const glm::vec2& getMinimumSize() const;
@@ -129,21 +128,20 @@ namespace djv
             void setHAlign(HAlign);
             void setVAlign(VAlign);
 
+            //! Utility function for computing the widget geometry.
             static Core::BBox2f getAlign(const Core::BBox2f&, const glm::vec2& minimumSize, HAlign, VAlign);
 
             ///@}
 
-            //! \name Widget Style
+            //! \name Style
             ///@{
 
             inline ColorRole getBackgroundRole() const;
             void setBackgroundRole(ColorRole);
 
-            void setStyle(const std::shared_ptr<Style::Style> &);
-
             ///@}
 
-            //! \name Widget Input
+            //! \name Input
             ///@{
 
             inline bool isPointerEnabled() const;
@@ -151,7 +149,7 @@ namespace djv
 
             ///@}
 
-            //! \name Widget Actions
+            //! \name Actions
             ///@{
 
             inline const std::vector<std::shared_ptr<Action> > & getActions() const;
@@ -161,7 +159,7 @@ namespace djv
 
             ///@}
 
-            //! \name Widget Tooltip
+            //! \name Tooltip
             ///@{
 
             inline const std::string & getTooltip() const;
@@ -169,10 +167,13 @@ namespace djv
 
             ///@}
 
+            //! Get the number of widgets that currently exist.
+            static size_t getCurrentWidgetCount();
+
             bool event(Core::Event::IEvent&) override;
 
         protected:
-            //! \name Widget Events
+            //! \name Events
             ///@{
 
             virtual void _styleEvent(Core::Event::Style&) {}
@@ -226,40 +227,47 @@ namespace djv
             virtual std::shared_ptr<Widget> _createTooltip(const glm::vec2 & pos);
 
         private:
-            bool _styleInit = false;
-            float _updateTime = 0.f;
+            float _updateTime  = 0.f;
             float _elapsedTime = 0.f;
-            bool _visible = true;
-            bool _visibleInit = true;
-            bool _parentsVisible = true;
-            bool _clipped = false;
-            Core::BBox2f _clipRect = Core::BBox2f(0.f, 0.f, 0.f, 0.f);
-            float _opacity = 1.f;
-            float _parentsOpacity = 1.f;
-            Core::BBox2f _geometry = Core::BBox2f(0.f, 0.f, 0.f, 0.f);
-            glm::vec2 _minimumSize = glm::vec2(0.f, 0.f);
+            bool  _styleInit   = false;
+
+            bool         _visible        = true;
+            bool         _visibleInit    = true;
+            bool         _parentsVisible = true;
+            bool         _clipped        = false;
+            Core::BBox2f _clipRect       = Core::BBox2f(0.f, 0.f, 0.f, 0.f);
+            float        _opacity        = 1.f;
+            float        _parentsOpacity = 1.f;
+
+            Core::BBox2f   _geometry    = Core::BBox2f(0.f, 0.f, 0.f, 0.f);
+            glm::vec2      _minimumSize = glm::vec2(0.f, 0.f);
             Layout::Margin _margin;
-            HAlign _hAlign = HAlign::Fill;
-            VAlign _vAlign = VAlign::Fill;
+            HAlign         _hAlign      = HAlign::Fill;
+            VAlign         _vAlign      = VAlign::Fill;
+
             ColorRole _backgroundRole = ColorRole::None;
-            bool _pointerEnabled = false;
+
+            bool                                        _pointerEnabled = false;
             std::map<Core::Event::PointerID, glm::vec2> _pointerHover;
+
             std::vector<std::shared_ptr<Action> > _actions;
+
             std::string _tooltipText;
             struct TooltipData
             {
-                float timer = 0.f;
+                float                    timer   = 0.f;
                 std::shared_ptr<Tooltip> tooltip;
             };
             std::map<Core::Event::PointerID, TooltipData> _pointerToTooltips;
+
             static bool _resizeRequest;
             static bool _redrawRequest;
-            static std::weak_ptr<AV::Font::System> _fontSystem;
+
+            static std::weak_ptr<AV::Font::System>     _fontSystem;
             static std::weak_ptr<AV::Render::Render2D> _render;
-            static std::weak_ptr<UISystem> _uiSystem;
-            static std::weak_ptr<IconSystem> _iconSystem;
-            std::weak_ptr<Style::Style> _style;
-            std::shared_ptr<Style::Style> _customStyle;
+            static std::weak_ptr<UISystem>             _uiSystem;
+            static std::weak_ptr<IconSystem>           _iconSystem;
+            static std::weak_ptr<Style::Style>         _style;
 
             friend class IWindowSystem;
         };

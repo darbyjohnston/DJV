@@ -56,19 +56,21 @@ namespace djv
         namespace
         {
             //! \todo [2.0 S] Should this be configurable?
-            static const float tooltipTimeout = .5f;
+            static const float tooltipTimeout   =  .5f;
             static const float tooltipHideDelta = 1.f;
 
             static size_t currentWidgetCount = 0;
 
         } // namespace
 
-        std::weak_ptr<AV::Font::System> Widget::_fontSystem;
-        std::weak_ptr<AV::Render::Render2D> Widget::_render;
-        std::weak_ptr<UISystem> Widget::_uiSystem;
-        std::weak_ptr<IconSystem> Widget::_iconSystem;
         bool Widget::_resizeRequest = true;
         bool Widget::_redrawRequest = true;
+
+        std::weak_ptr<AV::Font::System>     Widget::_fontSystem;
+        std::weak_ptr<AV::Render::Render2D> Widget::_render;
+        std::weak_ptr<UISystem>             Widget::_uiSystem;
+        std::weak_ptr<IconSystem>           Widget::_iconSystem;
+        std::weak_ptr<Style::Style>         Widget::_style;
 
         void Widget::_init(Core::Context * context)
         {
@@ -88,13 +90,20 @@ namespace djv
             {
                 _render = context->getSystemT<AV::Render::Render2D>();
             }
+            if (!_uiSystem.lock())
+            {
+                _uiSystem = context->getSystemT<UISystem>();
+            }
             if (!_iconSystem.lock())
             {
                 _iconSystem = context->getSystemT<IconSystem>();
             }
-            if (!_uiSystem.lock())
+            if (!_style.lock())
             {
-                _uiSystem = context->getSystemT<UISystem>();
+                if (auto uiSystem = _uiSystem.lock())
+                {
+                    _style = uiSystem->getStyle();
+                }
             }
         }
 
@@ -108,11 +117,6 @@ namespace djv
             }*/
         }
         
-        size_t Widget::getCurrentWidgetCount()
-        {
-            return currentWidgetCount;
-        }
-
         std::shared_ptr<Widget> Widget::create(Context * context)
         {
             //! \bug It would be prefereable to use std::make_shared() here, but how can we do that
@@ -269,12 +273,6 @@ namespace djv
             _redraw();
         }
 
-        void Widget::setStyle(const std::shared_ptr<Style::Style> & value)
-        {
-            _customStyle = value;
-            _redraw();
-        }
-
         void Widget::setPointerEnabled(bool value)
         {
             _pointerEnabled = value;
@@ -304,6 +302,11 @@ namespace djv
             _tooltipText = value;
         }
 
+        size_t Widget::getCurrentWidgetCount()
+        {
+            return currentWidgetCount;
+        }
+
         bool Widget::event(Event::IEvent& event)
         {
             bool out = IObject::event(event);
@@ -314,10 +317,6 @@ namespace djv
                 case Event::Type::ParentChanged:
                 {
                     auto& parentChangedEvent = static_cast<Event::ParentChanged&>(event);
-                    if (!parentChangedEvent.getPrevParent() && parentChangedEvent.getNewParent())
-                    {
-                        _styleInit = false;
-                    }
                     _clipped = parentChangedEvent.getNewParent() ? true : false;
                     _clipRect = BBox2f(0.f, 0.f, 0.f, 0.f);
                     _redraw();
@@ -332,27 +331,6 @@ namespace djv
                 case Event::Type::Update:
                 {
                     auto& updateEvent = static_cast<Event::Update&>(event);
-
-                    auto style = _customStyle;
-                    if (!style)
-                    {
-                        if (auto parent = std::dynamic_pointer_cast<Widget>(getParent().lock()))
-                        {
-                            style = parent->_style.lock();
-                        }
-                    }
-                    if (!style)
-                    {
-                        if (auto uiSystem = _uiSystem.lock())
-                        {
-                            style = uiSystem->getStyle();
-                        }
-                    }
-                    if (style != _style.lock())
-                    {
-                        _styleInit = false;
-                        _style = style;
-                    }
 
                     _updateTime = updateEvent.getTime();
                     _elapsedTime += updateEvent.getDeltaTime();

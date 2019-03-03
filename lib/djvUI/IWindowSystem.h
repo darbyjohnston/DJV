@@ -77,8 +77,6 @@ namespace djv
             void _paintRecursive(const std::shared_ptr<Widget>&, Core::Event::Paint&, Core::Event::PaintOverlay&);
 
         private:
-            void _styleInit(const std::shared_ptr<Widget> &, bool = true);
-
             DJV_PRIVATE();
 
             friend class Window;

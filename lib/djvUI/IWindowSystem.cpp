@@ -29,6 +29,7 @@
 
 #include <djvUI/IWindowSystem.h>
 
+#include <djvUI/UISystem.h>
 #include <djvUI/Window.h>
 
 //#pragma optimize("", off)
@@ -74,17 +75,19 @@ namespace djv
         void IWindowSystem::tick(float dt)
         {
             DJV_PRIVATE_PTR();
-            Event::Style styleEvent;
-            for (auto window : p.windows->get())
+            if (auto uiSystem = getContext()->getSystemT<UISystem>().lock())
             {
-                _styleInit(window);
-                _styleRecursive(window, styleEvent);
+                auto style = uiSystem->getStyle();
+                if (style->isDirty())
+                {
+                    Event::Style styleEvent;
+                    for (auto window : p.windows->get())
+                    {
+                        _styleRecursive(window, styleEvent);
+                    }
+                    style->setClean();
+                }
             }
-            for (auto i : p.dirtyStyles)
-            {
-                i->setClean();
-            }
-            p.dirtyStyles.clear();
         }
 
         void IWindowSystem::_addWindow(const std::shared_ptr<Window>& window)
@@ -131,11 +134,7 @@ namespace djv
 
         void IWindowSystem::_styleRecursive(const std::shared_ptr<UI::Widget>& widget, Event::Style& event)
         {
-            if (!widget->_styleInit)
-            {
-                widget->_styleInit = true;
-                widget->event(event);
-            }
+            widget->event(event);
             for (const auto& child : widget->getChildrenT<UI::Widget>())
             {
                 _styleRecursive(child, event);
@@ -193,31 +192,6 @@ namespace djv
                 _popClipRect();
                 event.setClipRect(clipRect);
                 overlayEvent.setClipRect(clipRect);
-            }
-        }
-
-        void IWindowSystem::_styleInit(const std::shared_ptr<Widget>& widget, bool childrenInit)
-        {
-            bool init = false;
-            init |= !widget->_styleInit;
-            init |= !childrenInit;
-            if (auto style = widget->_getStyle().lock())
-            {
-                if (style->isDirty())
-                {
-                    init = true;
-                    _p->dirtyStyles.insert(style);
-                }
-            }
-            if (init)
-            {
-                widget->_styleInit = false;
-                childrenInit = false;
-            }
-            const auto children = widget->getChildrenT<Widget>();
-            for (const auto& child : children)
-            {
-                _styleInit(child, childrenInit);
             }
         }
 
