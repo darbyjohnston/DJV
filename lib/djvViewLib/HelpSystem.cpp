@@ -65,9 +65,6 @@ namespace djv
             //! \todo Implement me!
             p.actions["Documentation"] = UI::Action::create();
             p.actions["Documentation"]->setEnabled(false);
-            //! \todo Implement me!
-            p.actions["Information"] = UI::Action::create();
-            p.actions["Information"]->setEnabled(false);
             p.actions["About"] = UI::Action::create();
             p.actions["SystemLog"] = UI::Action::create();
 
