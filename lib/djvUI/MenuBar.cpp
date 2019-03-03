@@ -53,8 +53,8 @@ namespace djv
             std::shared_ptr<HorizontalLayout> widgetLayout;
             std::shared_ptr<HorizontalLayout> layout;
             std::map<std::shared_ptr<Menu>, std::shared_ptr<Button::Menu> > menusToButtons;
-            std::map<std::shared_ptr<Menu>, std::shared_ptr<ValueObserver<std::string> > > menuIconObservers;
-            std::map<std::shared_ptr<Menu>, std::shared_ptr<ValueObserver<std::string> > > menuNameObservers;
+            std::map<std::shared_ptr<Menu>, std::shared_ptr<ValueObserver<std::string> > > iconObservers;
+            std::map<std::shared_ptr<Menu>, std::shared_ptr<ValueObserver<std::string> > > textObservers;
             std::shared_ptr<ValueObserver<bool> > closeObserver;
 
             void closeMenus();
@@ -79,6 +79,7 @@ namespace djv
             p.widgetLayout->setSpacing(MetricsRole::None);
 
             p.layout = HorizontalLayout::create(context);
+            p.layout->setSpacing(MetricsRole::None);
             p.layout->addWidget(p.menuLayout);
             p.layout->addExpander();
             p.layout->addWidget(p.widgetLayout);
@@ -154,15 +155,15 @@ namespace djv
                 }
             });
 
-            _p->menuIconObservers[menu] = ValueObserver<std::string>::create(
-                menu->observeMenuIcon(),
+            _p->iconObservers[menu] = ValueObserver<std::string>::create(
+                menu->observeIcon(),
                 [button](const std::string & value)
             {
                 button->setIcon(value);
             });
 
-            _p->menuNameObservers[menu] = ValueObserver<std::string>::create(
-                menu->observeMenuName(),
+            _p->textObservers[menu] = ValueObserver<std::string>::create(
+                menu->observeText(),
                 [button](const std::string & value)
             {
                 button->setText(value);

@@ -585,7 +585,7 @@ namespace djv
             std::shared_ptr<ScrollArea> scrollArea;
             std::shared_ptr<Widget> scrollAreaSwipe;
             std::map<Orientation, std::shared_ptr<ScrollBar> > scrollBars;
-			bool autoHideScrollBars = false;
+			bool autoHideScrollBars = true;
             std::shared_ptr<Border> border;
             Event::PointerID pointerID = Event::InvalidID;
             glm::vec2 pointerPos = glm::vec2(0.f, 0.f);

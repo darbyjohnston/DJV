@@ -131,7 +131,7 @@ namespace djv
             p.actions["FullScreen"]->setTitle(_getText(DJV_TEXT("Full Screen")));
             p.actions["FullScreen"]->setTooltip(_getText(DJV_TEXT("Full screen tooltip")));
 
-            p.menu->setMenuName(_getText(DJV_TEXT("Window")));
+            p.menu->setText(_getText(DJV_TEXT("Window")));
         }
 
         void WindowSystem::Private::setFullScreen(bool value, Context * context)

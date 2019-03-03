@@ -162,12 +162,42 @@ namespace djv
                         FindClose(hFind);
                     }
 
-                    for (auto& i : out)
+                    for (auto & i : out)
                     {
                         if (i.isSequenceValid())
                         {
                             i.sortSequence();
                         }
+                    }
+
+                    switch (options.sort)
+                    {
+                    case DirectoryListSort::Size:
+                        std::sort(
+                            out.begin(), out.end(),
+                            [&options](const FileInfo & a, const FileInfo & b)
+                        {
+                            return options.reverseSort ? (a.getSize() < b.getSize()) : (a.getSize() > b.getSize());
+                        });
+                        break;
+                    case DirectoryListSort::Time:
+                        std::sort(
+                            out.begin(), out.end(),
+                            [&options](const FileInfo & a, const FileInfo & b)
+                        {
+                            return options.reverseSort ? (a.getTime() < b.getTime()) : (a.getTime() > b.getTime());
+                        });
+                        break;
+                    default: break;
+                    }
+                    if (options.sortDirectoriesFirst)
+                    {
+                        std::stable_sort(
+                            out.begin(), out.end(),
+                            [](const FileInfo & a, const FileInfo & b)
+                        {
+                            return FileType::Directory == a.getType() && b.getType() != FileType::Directory;
+                        });
                     }
                 }
                 return out;

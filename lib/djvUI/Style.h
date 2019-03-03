@@ -80,7 +80,7 @@ namespace djv
                 SpacingLarge,
                 Drag,
                 Icon,
-                IconLarge,
+                IconSmall,
                 FontSmall,
                 FontMedium,
                 FontLarge,

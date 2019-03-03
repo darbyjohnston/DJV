@@ -51,7 +51,8 @@ namespace djv
 
                 static std::shared_ptr<GroupBox> create(Core::Context *);
                 static std::shared_ptr<GroupBox> create(const std::string &, Core::Context *);
-                
+
+                const std::string & getText() const;
                 void setText(const std::string &);
 
                 void addWidget(const std::shared_ptr<Widget>&) override;

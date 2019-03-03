@@ -42,8 +42,8 @@ namespace djv
         {
             std::shared_ptr<Menu> menu;
             std::shared_ptr<Button::Menu> button;
-            std::shared_ptr<ValueObserver<std::string> > nameObserver;
             std::shared_ptr<ValueObserver<std::string> > iconObserver;
+            std::shared_ptr<ValueObserver<std::string> > textObserver;
         };
 
         void PopupMenu::_init(Context * context)
@@ -97,7 +97,7 @@ namespace djv
                 p.menu->setParent(nullptr);
                 p.menu->setCloseCallback(nullptr);
                 p.iconObserver.reset();
-                p.nameObserver.reset();
+                p.textObserver.reset();
             }
 
             p.menu = menu;
@@ -117,7 +117,7 @@ namespace djv
                 });
 
                 p.iconObserver = ValueObserver<std::string>::create(
-                    p.menu->observeMenuIcon(),
+                    p.menu->observeIcon(),
                     [weak](const std::string & value)
                 {
                     if (auto widget = weak.lock())
@@ -126,8 +126,8 @@ namespace djv
                     }
                 });
 
-                p.nameObserver = ValueObserver<std::string>::create(
-                    p.menu->observeMenuName(),
+                p.textObserver = ValueObserver<std::string>::create(
+                    p.menu->observeText(),
                     [weak](const std::string & value)
                 {
                     if (auto widget = weak.lock())

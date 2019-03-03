@@ -23,6 +23,8 @@ set(header
     Error.h
     FileInfo.h
     FileInfoInline.h
+    FileInfoJSON.h
+    FileInfoJSONInline.h
     FileIO.h
     FileIOInline.h
     Frame.h
@@ -134,7 +136,9 @@ set(LIBRARIES
     PicoJSON
     Threads::Threads
     ${CMAKE_DL_LIBS})
-if (APPLE)
+if (WIN32)
+    set(LIBRARIES ${LIBRARIES} Netapi32.lib mpr.lib)
+elseif (APPLE)
     find_library(CORE_SERVICES CoreServices)
     set(LIBRARIES ${LIBRARIES} ${CORE_SERVICES})
 endif()

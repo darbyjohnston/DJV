@@ -96,6 +96,7 @@ namespace djv
                     p.imageFuture = iconSystem->getIcon(p.name, static_cast<int>(style->getMetric(p.iconSizeRole)));
                 }
             }
+            _resize();
         }
 
 		ColorRole Icon::getIconColorRole() const

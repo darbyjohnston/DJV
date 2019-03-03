@@ -55,6 +55,9 @@ namespace djv
                 std::shared_ptr<ValueSubject<bool> > hasForward;
                 std::shared_ptr<ValueSubject<bool> > fileSequences;
                 std::shared_ptr<ValueSubject<bool> > showHidden;
+                std::shared_ptr<ValueSubject<DirectoryListSort> > sort;
+                std::shared_ptr<ValueSubject<bool> > reverseSort;
+                std::shared_ptr<ValueSubject<bool> > sortDirectoriesFirst;
                 std::shared_ptr<ValueSubject<std::string> > filter;
                 std::future<std::pair<std::vector<FileInfo>, std::vector<std::string> > > future;
                 std::shared_ptr<Time::Timer> futureTimer;
@@ -74,6 +77,9 @@ namespace djv
                 p.hasForward = ValueSubject<bool>::create(false);
                 p.fileSequences = ValueSubject<bool>::create(false);
                 p.showHidden = ValueSubject<bool>::create(false);
+                p.sort = ValueSubject<DirectoryListSort>::create(DirectoryListSort::First);
+                p.reverseSort = ValueSubject<bool>::create(false);
+                p.sortDirectoriesFirst = ValueSubject<bool>::create(true);
                 p.filter = ValueSubject<std::string>::create();
 
                 p.futureTimer = Time::Timer::create(context);
@@ -106,7 +112,7 @@ namespace djv
                 return out;
             }
 
-            std::shared_ptr<DirectoryModel> DirectoryModel::create(const Path& path, Context * context)
+            std::shared_ptr<DirectoryModel> DirectoryModel::create(const Path & path, Context * context)
             {
                 auto out = std::shared_ptr<DirectoryModel>(new DirectoryModel);
                 out->_init(context);
@@ -119,7 +125,7 @@ namespace djv
                 return _p->path;
             }
 
-            void DirectoryModel::setPath(const Path& value)
+            void DirectoryModel::setPath(const Path & value)
             {
                 DJV_PRIVATE_PTR();
                 const auto absolute = FileSystem::Path::getAbsolute(value);
@@ -279,6 +285,45 @@ namespace djv
                 }
             }
 
+            std::shared_ptr<IValueSubject<DirectoryListSort> > DirectoryModel::observeSort() const
+            {
+                return _p->sort;
+            }
+
+            std::shared_ptr<IValueSubject<bool> > DirectoryModel::observeReverseSort() const
+            {
+                return _p->reverseSort;
+            }
+
+            std::shared_ptr<IValueSubject<bool> > DirectoryModel::observeSortDirectoriesFirst() const
+            {
+                return _p->sortDirectoriesFirst;
+            }
+
+            void DirectoryModel::setSort(DirectoryListSort value)
+            {
+                if (_p->sort->setIfChanged(value))
+                {
+                    _updatePath();
+                }
+            }
+
+            void DirectoryModel::setReverseSort(bool value)
+            {
+                if (_p->reverseSort->setIfChanged(value))
+                {
+                    _updatePath();
+                }
+            }
+
+            void DirectoryModel::setSortDirectoriesFirst(bool value)
+            {
+                if (_p->sortDirectoriesFirst->setIfChanged(value))
+                {
+                    _updatePath();
+                }
+            }
+
             std::shared_ptr<IValueSubject<std::string> > DirectoryModel::observeFilter() const
             {
                 return _p->filter;
@@ -292,6 +337,11 @@ namespace djv
                 }
             }
 
+            void DirectoryModel::clearFilter()
+            {
+                setFilter(std::string());
+            }
+
             void DirectoryModel::_updatePath()
             {
                 DJV_PRIVATE_PTR();
@@ -299,6 +349,9 @@ namespace djv
                 DirectoryListOptions options;
                 options.fileSequences = p.fileSequences->get();
                 options.showHidden = p.showHidden->get();
+                options.sort = p.sort->get();
+                options.reverseSort = p.reverseSort->get();
+                options.sortDirectoriesFirst = p.sortDirectoriesFirst->get();
                 const auto filter = p.filter->get();
                 options.glob = !filter.empty() ? filter : "*";
                 p.future = std::async(
@@ -307,7 +360,7 @@ namespace djv
                 {
                     std::pair<std::vector<FileInfo>, std::vector<std::string> > out;
                     out.first = FileInfo::directoryList(path, options);
-                    for (const auto& fileInfo : out.first)
+                    for (const auto & fileInfo : out.first)
                     {
                         out.second.push_back(fileInfo.getFileName(-1, false));
                     }
@@ -324,7 +377,7 @@ namespace djv
                     {
                         p.futureTimer->stop();
 
-                        const auto& out = p.future.get();
+                        const auto & out = p.future.get();
                         p.fileInfo->setIfChanged(out.first);
                         p.fileNames->setIfChanged(out.second);
                     }

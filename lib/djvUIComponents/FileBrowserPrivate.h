@@ -74,6 +74,8 @@ namespace djv
                 void setHistoryIndex(size_t);
                 void setHistoryIndexCallback(const std::function<void(size_t)> &);
 
+                void setEdit(bool);
+
             protected:
                 void _preLayoutEvent(Core::Event::PreLayout&) override;
                 void _layoutEvent(Core::Event::Layout&) override;
@@ -118,7 +120,31 @@ namespace djv
 
                 static std::shared_ptr<ShortcutsWidget> create(Core::Context *);
 
-                void setShortcutCallback(const std::function<void(const Core::FileSystem::Path &)> &);
+                void setCallback(const std::function<void(const Core::FileSystem::Path &)> &);
+
+            protected:
+                void _preLayoutEvent(Core::Event::PreLayout&) override;
+                void _layoutEvent(Core::Event::Layout&) override;
+
+            private:
+                DJV_PRIVATE();
+            };
+
+            //! This class provides ahe file browser drives widget.
+            class DrivesWidget : public UI::Widget
+            {
+                DJV_NON_COPYABLE(DrivesWidget);
+
+            protected:
+                void _init(Core::Context *);
+                DrivesWidget();
+
+            public:
+                ~DrivesWidget() override;
+
+                static std::shared_ptr<DrivesWidget> create(Core::Context *);
+
+                void setCallback(const std::function<void(const Core::FileSystem::Path &)> &);
 
             protected:
                 void _preLayoutEvent(Core::Event::PreLayout&) override;

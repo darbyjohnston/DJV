@@ -85,9 +85,9 @@ namespace djv
 					ButtonType buttonType = ButtonType::First;
 					bool checked = false;
 					std::shared_ptr<AV::Image::Image> icon;
-					std::string title;
-					glm::vec2 titleSize;
-					std::string shortcutLabel;
+                    std::string title;
+                    glm::vec2 titleSize;
+                    std::string shortcutLabel;
 					glm::vec2 shortcutSize;
 					bool enabled = true;
 					glm::vec2 size;
@@ -105,16 +105,16 @@ namespace djv
 				std::map<size_t, std::shared_ptr<Item> > _items;
 				std::map<std::shared_ptr<Action>, std::shared_ptr<Item> > _actionToItem;
 				std::map<std::shared_ptr<Item>, std::shared_ptr<Action> > _itemToAction;
-				std::map<std::shared_ptr<Item>, std::future<glm::vec2> > _titleSizeFutures;
-				std::map<std::shared_ptr<Item>, std::future<glm::vec2> > _shortcutSizeFutures;
+                std::map<std::shared_ptr<Item>, std::future<glm::vec2> > _titleSizeFutures;
+                std::map<std::shared_ptr<Item>, std::future<glm::vec2> > _shortcutSizeFutures;
 				std::map<Event::PointerID, std::shared_ptr<Item> > _hoveredItems;
 				std::pair<Event::PointerID, std::shared_ptr<Item> > _pressed;
 				glm::vec2 _pressedPos = glm::vec2(0.f, 0.f);
 				std::function<void(void)> _closeCallback;
 				std::map<std::shared_ptr<Item>, std::shared_ptr<ValueObserver<ButtonType> > > _buttonTypeObservers;
 				std::map<std::shared_ptr<Item>, std::shared_ptr<ValueObserver<bool> > > _checkedObservers;
-				std::map<std::shared_ptr<Item>, std::shared_ptr<ValueObserver<std::string> > > _titleObservers;
-				std::map<std::shared_ptr<Item>, std::shared_ptr<ListObserver<std::shared_ptr<Shortcut> > > > _shortcutsObservers;
+                std::map<std::shared_ptr<Item>, std::shared_ptr<ValueObserver<std::string> > > _titleObservers;
+                std::map<std::shared_ptr<Item>, std::shared_ptr<ListObserver<std::shared_ptr<Shortcut> > > > _shortcutsObservers;
 				std::map<std::shared_ptr<Item>, std::shared_ptr<ValueObserver<bool> > > _enabledObservers;
 				bool _textUpdateRequest = false;
 			};
@@ -170,21 +170,21 @@ namespace djv
 							_log(e.what(), LogLevel::Error);
 						}
 					}
-					for (auto & i : _titleSizeFutures)
-					{
-						if (i.second.valid())
-						{
-							try
-							{
-								i.first->titleSize = i.second.get();
-								_resize();
-							}
-							catch (const std::exception& e)
-							{
-								_log(e.what(), LogLevel::Error);
-							}
-						}
-					}
+                    for (auto & i : _titleSizeFutures)
+                    {
+                        if (i.second.valid())
+                        {
+                            try
+                            {
+                                i.first->titleSize = i.second.get();
+                                _resize();
+                            }
+                            catch (const std::exception& e)
+                            {
+                                _log(e.what(), LogLevel::Error);
+                            }
+                        }
+                    }
 					for (auto & i : _shortcutSizeFutures)
 					{
 						if (i.second.valid())
@@ -201,18 +201,22 @@ namespace djv
 						}
 					}
 
-					glm::vec2 titleSize(0.f, 0.f);
-					glm::vec2 shortcutSize(0.f, 0.f);
+                    glm::vec2 titleSize(0.f, 0.f);
+                    glm::vec2 shortcutSize(0.f, 0.f);
 					for (const auto & i : _items)
 					{
 						if (!i.second->title.empty())
 						{
                             titleSize.x = std::max(titleSize.x, i.second->titleSize.x);
                             titleSize.y = std::max(titleSize.y, i.second->titleSize.y);
-							shortcutSize.x = std::max(shortcutSize.x, i.second->shortcutSize.x);
-							shortcutSize.y = std::max(shortcutSize.y, i.second->shortcutSize.y);
 						}
+                        if (!i.second->shortcutLabel.empty())
+                        {
+                            shortcutSize.x = std::max(shortcutSize.x, i.second->shortcutSize.x);
+                            shortcutSize.y = std::max(shortcutSize.y, i.second->shortcutSize.y);
+                        }
 					}
+
 					glm::vec2 itemSize(0.f, 0.f);
 					itemSize.x = titleSize.x;
 					itemSize.y = std::max(itemSize.y, titleSize.y);
@@ -656,7 +660,6 @@ namespace djv
 				_menuWidget = MenuWidget::create(context);
 
 				_scrollWidget = ScrollWidget::create(ScrollType::Vertical, context);
-				_scrollWidget->setAutoHideScrollBars(true);
 				_scrollWidget->setMinimumSizeRole(MetricsRole::None);
 				_scrollWidget->addWidget(_menuWidget);
 				_scrollWidget->setParent(shared_from_this());
@@ -878,8 +881,8 @@ namespace djv
 
         struct Menu::Private
         {
-            std::shared_ptr<ValueSubject<std::string> > menuIcon;
-            std::shared_ptr<ValueSubject<std::string> > menuName;
+            std::shared_ptr<ValueSubject<std::string> > icon;
+            std::shared_ptr<ValueSubject<std::string> > text;
             std::map<size_t, std::shared_ptr<Action> > actions;
             size_t count = 0;
             std::shared_ptr<MenuPopupWidget> popupWidget;
@@ -895,8 +898,8 @@ namespace djv
             Widget::_init(context);
 
             DJV_PRIVATE_PTR();
-            p.menuIcon = ValueSubject<std::string>::create();
-            p.menuName = ValueSubject<std::string>::create();
+            p.icon = ValueSubject<std::string>::create();
+            p.text = ValueSubject<std::string>::create();
 
             p.popupWidget = MenuPopupWidget::create(context);
 
@@ -945,32 +948,32 @@ namespace djv
             return out;
         }
 
-        std::shared_ptr<Menu> Menu::create(const std::string & name, Context * context)
+        std::shared_ptr<Menu> Menu::create(const std::string & text, Context * context)
         {
             auto out = std::shared_ptr<Menu>(new Menu);
             out->_init(context);
-            out->setMenuName(name);
+            out->setText(text);
             return out;
         }
 
-        std::shared_ptr<IValueSubject<std::string> > Menu::observeMenuIcon() const
+        std::shared_ptr<IValueSubject<std::string> > Menu::observeIcon() const
         {
-            return _p->menuIcon;
+            return _p->icon;
         }
 
-        std::shared_ptr<IValueSubject<std::string> > Menu::observeMenuName() const
+        std::shared_ptr<IValueSubject<std::string> > Menu::observeText() const
         {
-            return _p->menuName;
+            return _p->text;
         }
 
-        void Menu::setMenuIcon(const std::string & value)
+        void Menu::setIcon(const std::string & value)
         {
-            _p->menuIcon->setIfChanged(value);
+            _p->icon->setIfChanged(value);
         }
 
-        void Menu::setMenuName(const std::string & value)
+        void Menu::setText(const std::string & value)
         {
-            _p->menuName->setIfChanged(value);
+            _p->text->setIfChanged(value);
         }
 
         void Menu::addSeparator()

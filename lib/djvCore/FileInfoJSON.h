@@ -29,54 +29,20 @@
 
 #pragma once
 
-#include <djvUI/Widget.h>
+#include <djvCore/FileInfo.h>
 
-#include <djvCore/ValueObserver.h>
+#include <djvCore/PicoJSON.h>
 
 namespace djv
 {
-    namespace UI
-    {
-        //! This class provides a popup menu widget.
-        class Menu : public Widget
-        {
-            DJV_NON_COPYABLE(Menu);
+    template<>
+    inline picojson::value toJSON(const Core::FileSystem::DirectoryListSort &);
 
-        protected:
-            void _init(Core::Context *);
-            Menu();
+    //! Throws:
+    //! - std::exception
+    template<>
+    inline void fromJSON(const picojson::value &, Core::FileSystem::DirectoryListSort &);
 
-        public:
-            virtual ~Menu();
-            static std::shared_ptr<Menu> create(Core::Context *);
-            static std::shared_ptr<Menu> create(const std::string & text, Core::Context *);
-
-            std::shared_ptr<Core::IValueSubject<std::string> > observeIcon() const;
-            std::shared_ptr<Core::IValueSubject<std::string> > observeText() const;
-            void setIcon(const std::string &);
-            void setText(const std::string &);
-
-            void addSeparator();
-
-            void popup(const glm::vec2 &);
-            void popup(const std::weak_ptr<Widget> & button);
-            void popup(const std::weak_ptr<Widget> & button, const std::weak_ptr<Widget> & anchor);
-
-            void setCloseCallback(const std::function<void(void)> &);
-
-            void setVisible(bool) override;
-            void addAction(const std::shared_ptr<Action> &) override;
-            void removeAction(const std::shared_ptr<Action> &) override;
-            void clearActions() override;
-
-        protected:
-            void _preLayoutEvent(Core::Event::PreLayout &) override;
-            void _layoutEvent(Core::Event::Layout &) override;
-
-        private:
-			DJV_PRIVATE();
-        };
-
-    } // namespace UI
 } // namespace djv
 
+#include <djvCore/FileInfoJSONInline.h>

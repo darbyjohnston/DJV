@@ -64,7 +64,7 @@ namespace djv
             p.textBlock = UI::TextBlock::create(context);
             p.textBlock->setFontFamily(AV::Font::Info::familyMono);
             p.textBlock->setFontSizeRole(UI::MetricsRole::FontSmall);
-            p.textBlock->setMargin(UI::MetricsRole::Margin);
+            p.textBlock->setMargin(UI::MetricsRole::MarginSmall);
 
             auto scrollWidget = UI::ScrollWidget::create(UI::ScrollType::Vertical, context);
             scrollWidget->setBorder(false);

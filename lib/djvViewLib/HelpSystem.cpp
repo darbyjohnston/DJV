@@ -189,7 +189,7 @@ namespace djv
             p.actions["Log"]->setTitle(_getText(DJV_TEXT("System Log")));
             p.actions["Log"]->setTooltip(_getText(DJV_TEXT("System log tooltip")));
 
-            p.menu->setMenuName(_getText(DJV_TEXT("Help")));
+            p.menu->setText(_getText(DJV_TEXT("Help")));
         }
 
     } // namespace ViewLib

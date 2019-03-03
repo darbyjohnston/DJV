@@ -32,12 +32,13 @@
 #include <djvUI/Action.h>
 #include <djvUI/ActionGroup.h>
 #include <djvUI/Border.h>
+#include <djvUI/FlatButton.h>
 #include <djvUI/Icon.h>
 #include <djvUI/LineEditBase.h>
 #include <djvUI/Menu.h>
 #include <djvUI/MenuButton.h>
 #include <djvUI/RowLayout.h>
-#include <djvUI/StackLayout.h>
+#include <djvUI/SoloLayout.h>
 
 #include <djvCore/FileInfo.h>
 
@@ -51,11 +52,13 @@ namespace djv
         {
             struct PathWidget::Private
             {
-                std::shared_ptr<LineEditBase> lineEditBase;
                 std::vector<FileSystem::Path> history;
                 std::shared_ptr<ActionGroup> historyActionGroup;
                 std::shared_ptr<Menu> historyMenu;
                 std::shared_ptr<Button::Menu> historyButton;
+                std::shared_ptr<HorizontalLayout> buttonLayout;
+                std::shared_ptr<LineEditBase> lineEditBase;
+                std::shared_ptr<SoloLayout> soloLayout;
                 std::shared_ptr<HorizontalLayout> layout;
                 std::function<void(const FileSystem::Path &)> pathCallback;
                 std::function<void(size_t)> historyIndexCallback;
@@ -68,8 +71,6 @@ namespace djv
                 setClassName("djv::UI::FileBrowser::PathWidget");
 
                 DJV_PRIVATE_PTR();
-                p.lineEditBase = LineEditBase::create(context);
-
                 p.historyActionGroup = ActionGroup::create(ButtonType::Radio);
                 p.historyMenu = Menu::create(context);
                 p.historyMenu->setParent(shared_from_this());
@@ -77,14 +78,23 @@ namespace djv
                 p.historyButton->setIcon("djvIconPopupMenu");
                 p.historyButton->setEnabled(false);
 
+                p.buttonLayout = HorizontalLayout::create(context);
+                p.buttonLayout->setSpacing(MetricsRole::Border);
+                p.buttonLayout->setBackgroundRole(ColorRole::Trough);
+
+                p.lineEditBase = LineEditBase::create(context);
+
                 p.layout = HorizontalLayout::create(context);
                 p.layout->setSpacing(MetricsRole::None);
-                auto border = Border::create(context);
-                border->setMargin(Layout::Margin(MetricsRole::None, MetricsRole::MarginSmall, MetricsRole::MarginSmall, MetricsRole::MarginSmall));
-                border->setVAlign(VAlign::Center);
-                border->addWidget(p.lineEditBase);
-                p.layout->addWidget(border, RowStretch::Expand);
                 p.layout->addWidget(p.historyButton);
+                auto border = Border::create(context);
+                border->setMargin(MetricsRole::MarginSmall);
+                border->setVAlign(VAlign::Center);
+                p.soloLayout = SoloLayout::create(context);
+                p.soloLayout->addWidget(p.buttonLayout);
+                p.soloLayout->addWidget(p.lineEditBase);
+                border->addWidget(p.soloLayout);
+                p.layout->addWidget(border, RowStretch::Expand);
                 p.layout->setParent(shared_from_this());
 
                 auto weak = std::weak_ptr<PathWidget>(std::dynamic_pointer_cast<PathWidget>(shared_from_this()));
@@ -140,6 +150,39 @@ namespace djv
 
             void PathWidget::setPath(const FileSystem::Path & path)
             {
+                auto split = FileSystem::Path::splitDir(path);
+                std::vector<FileSystem::Path> paths;
+                while (split.size())
+                {
+                    paths.push_back(FileSystem::Path::joinDirs(split));
+                    split.pop_back();
+                }
+
+                auto context = getContext();
+                _p->buttonLayout->clearWidgets();
+                for (auto i = paths.rbegin(); i != paths.rend(); ++i)
+                {
+                    auto button = FlatButton::create(context);
+                    button->setText(i->isRoot() ? i->get() : i->getFileName());
+                    button->setBackgroundRole(ColorRole::Background);
+
+                    _p->buttonLayout->addWidget(button);
+
+                    const auto path = *i;
+                    auto weak = std::weak_ptr<PathWidget>(std::dynamic_pointer_cast<PathWidget>(shared_from_this()));
+                    button->setClickedCallback(
+                        [weak, path]
+                    {
+                        if (auto widget = weak.lock())
+                        {
+                            if (widget->_p->pathCallback)
+                            {
+                                widget->_p->pathCallback(path);
+                            }
+                        }
+                    });
+                }
+
                 _p->lineEditBase->setText(path.get());
             }
 
@@ -176,6 +219,15 @@ namespace djv
                 _p->historyIndexCallback = value;
             }
 
+            void PathWidget::setEdit(bool value)
+            {
+                DJV_PRIVATE_PTR();
+                _p->soloLayout->setCurrentWidget(
+                    value ?
+                    std::static_pointer_cast<Widget>(p.lineEditBase) :
+                    std::static_pointer_cast<Widget>(p.buttonLayout));
+            }
+
             void PathWidget::_preLayoutEvent(Event::PreLayout& event)
             {
                 _setMinimumSize(_p->layout->getMinimumSize());
@@ -189,7 +241,7 @@ namespace djv
             void PathWidget::_localeEvent(Core::Event::Locale &)
             {
                 DJV_PRIVATE_PTR();
-                p.historyButton->setTooltip(_getText(DJV_TEXT("History Tooltip")));
+                p.historyButton->setTooltip(_getText(DJV_TEXT("File browser history tooltip")));
             }
 
         } // namespace FileBrowser

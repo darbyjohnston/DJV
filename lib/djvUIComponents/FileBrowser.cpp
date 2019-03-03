@@ -36,19 +36,19 @@
 
 #include <djvUI/Action.h>
 #include <djvUI/ActionGroup.h>
+#include <djvUI/Bellows.h>
 #include <djvUI/DialogSystem.h>
-#include <djvUI/Drawer.h>
-#include <djvUI/FlatButton.h>
 #include <djvUI/FlowLayout.h>
 #include <djvUI/IWindowSystem.h>
 #include <djvUI/Icon.h>
 #include <djvUI/Label.h>
 #include <djvUI/Menu.h>
-#include <djvUI/PopupMenu.h>
+#include <djvUI/MenuBar.h>
 #include <djvUI/PopupWidget.h>
 #include <djvUI/RowLayout.h>
 #include <djvUI/SearchBox.h>
 #include <djvUI/SettingsSystem.h>
+#include <djvUI/Splitter.h>
 #include <djvUI/StackLayout.h>
 #include <djvUI/ScrollWidget.h>
 #include <djvUI/Toolbar.h>
@@ -75,18 +75,20 @@ namespace djv
             struct Widget::Private
             {
                 std::shared_ptr<FileSystem::DirectoryModel> directoryModel;
-                std::shared_ptr<ShortcutsModel> shortcutsModel;
                 size_t itemCount = 0;
 
                 std::map<std::string, std::shared_ptr<Action> > actions;
                 std::shared_ptr<ActionGroup> viewTypeActionGroup;
-                std::shared_ptr<Menu> navigationMenu;
-                std::shared_ptr<PopupMenu> navigationPopupMenu;
+                std::shared_ptr<ActionGroup> sortActionGroup;
+                std::shared_ptr<Menu> directoryMenu;
                 std::shared_ptr<Menu> shortcutsMenu;
-                std::shared_ptr<PopupMenu> shortcutsPopupMenu;
+                std::shared_ptr<Menu> viewMenu;
+                std::shared_ptr<Menu> sortMenu;
                 std::shared_ptr<ShortcutsWidget> shortcutsWidget;
+                std::shared_ptr<DrivesWidget> drivesWidget;
+                std::map<std::string, std::shared_ptr<Bellows> > shortcutsBellows;
+                std::shared_ptr<ScrollWidget> shortcutsScrollWidget;
                 std::shared_ptr<Label> itemCountLabel;
-                std::shared_ptr<FlatButton> settingsButton;
                 std::shared_ptr<PopupWidget> searchPopupWidget;
                 std::shared_ptr<ItemView> itemView;
                 std::shared_ptr<ScrollWidget> scrollWidget;
@@ -96,8 +98,6 @@ namespace djv
 
                 std::shared_ptr<ValueObserver<FileSystem::Path> > pathObserver;
                 std::shared_ptr<ListObserver<FileSystem::FileInfo> > fileInfoObserver;
-                std::shared_ptr<ListObserver<FileSystem::Path> > shortcutsObserver;
-                std::vector<std::shared_ptr<ValueObserver<bool> > > shortcutClickedObservers;
                 std::shared_ptr<ValueObserver<bool> > hasUpObserver;
                 std::shared_ptr<ValueObserver<bool> > upObserver;
                 std::shared_ptr<ValueObserver<bool> > currentObserver;
@@ -107,9 +107,21 @@ namespace djv
                 std::shared_ptr<ValueObserver<bool> > backObserver;
                 std::shared_ptr<ValueObserver<bool> > hasForwardObserver;
                 std::shared_ptr<ValueObserver<bool> > forwardObserver;
-                std::shared_ptr<ValueObserver<ViewType> > viewTypeObserver;
+                std::shared_ptr<ValueObserver<bool> > editPathObserver;
+                std::shared_ptr<ValueObserver<bool> > showShortcutsObserver;
+                std::shared_ptr<ValueObserver<bool> > showShortcutsSettingsObserver;
+                std::shared_ptr<MapObserver<std::string, bool> > shortcutsBellowsSettingsObserver;
+                std::shared_ptr<ValueObserver<float> > shortcutsSplitterSettingsObserver;
+                std::shared_ptr<ValueObserver<ViewType> > viewTypeSettingsObserver;
                 std::shared_ptr<ValueObserver<bool> > fileSequencesObserver;
+                std::shared_ptr<ValueObserver<bool> > fileSequencesSettingsObserver;
                 std::shared_ptr<ValueObserver<bool> > showHiddenObserver;
+                std::shared_ptr<ValueObserver<bool> > showHiddenSettingsObserver;
+                std::shared_ptr<ValueObserver<FileSystem::DirectoryListSort> > sortSettingsObserver;
+                std::shared_ptr<ValueObserver<bool> > reverseSortObserver;
+                std::shared_ptr<ValueObserver<bool> > reverseSortSettingsObserver;
+                std::shared_ptr<ValueObserver<bool> > sortDirectoriesFirstObserver;
+                std::shared_ptr<ValueObserver<bool> > sortDirectoriesFirstSettingsObserver;
 
                 std::string getItemCountLabel(size_t, Context *);
             };
@@ -122,7 +134,6 @@ namespace djv
 
                 DJV_PRIVATE_PTR();
                 p.directoryModel = FileSystem::DirectoryModel::create(context);
-                p.shortcutsModel = ShortcutsModel::create(context);
 
                 p.actions["Back"] = Action::create();
                 p.actions["Back"]->setIcon("djvIconArrowLeft");
@@ -136,7 +147,16 @@ namespace djv
                 p.actions["Current"] = Action::create();
                 p.actions["Current"]->setShortcut(GLFW_KEY_PERIOD);
                 p.actions["EditPath"] = Action::create();
+                p.actions["EditPath"]->setButtonType(ButtonType::Toggle);
                 p.actions["EditPath"]->setIcon("djvIconEdit");
+
+                p.actions["ShowShortcuts"] = Action::create();
+                p.actions["ShowShortcuts"]->setButtonType(ButtonType::Toggle);
+                p.actions["ShowShortcuts"]->setChecked(true);
+                p.actions["ShowShortcuts"]->setShortcut(GLFW_KEY_GRAVE_ACCENT);
+                p.actions["AddFavorite"] = Action::create();
+                p.actions["AddFavorite"]->setIcon("djvIconFavorite");
+                p.actions["AddFavorite"]->setShortcut(GLFW_KEY_F, GLFW_MOD_CONTROL);
 
                 p.actions["LargeThumbnails"] = Action::create();
                 p.actions["LargeThumbnails"]->setIcon("djvIconThumbnailsLarge");
@@ -160,61 +180,76 @@ namespace djv
                 p.actions["ShowHidden"]->setButtonType(ButtonType::Toggle);
                 p.actions["ShowHidden"]->setShortcut(GLFW_KEY_N);
 
+                p.actions["SortByName"] = Action::create();
+                p.actions["SortByName"]->setShortcut(GLFW_KEY_4);
+                p.actions["SortBySize"] = Action::create();
+                p.actions["SortBySize"]->setShortcut(GLFW_KEY_5);
+                p.actions["SortByTime"] = Action::create();
+                p.actions["SortByTime"]->setShortcut(GLFW_KEY_6);
+                p.sortActionGroup = ActionGroup::create(ButtonType::Radio);
+                p.sortActionGroup->addAction(p.actions["SortByName"]);
+                p.sortActionGroup->addAction(p.actions["SortBySize"]);
+                p.sortActionGroup->addAction(p.actions["SortByTime"]);
+                p.actions["ReverseSort"] = Action::create();
+                p.actions["ReverseSort"]->setButtonType(ButtonType::Toggle);
+                p.actions["ReverseSort"]->setShortcut(GLFW_KEY_R);
+                p.actions["SortDirectoriesFirst"] = Action::create();
+                p.actions["SortDirectoriesFirst"]->setButtonType(ButtonType::Toggle);
+                p.actions["SortDirectoriesFirst"]->setShortcut(GLFW_KEY_D);
+
                 for (auto action : p.actions)
                 {
                     addAction(action.second);
                 }
 
-                p.navigationMenu = Menu::create(context);
-                p.navigationMenu->setMenuIcon("djvIconNavigation");
-                p.navigationMenu->addAction(p.actions["Back"]);
-                p.navigationMenu->addAction(p.actions["Forward"]);
-                p.navigationMenu->addAction(p.actions["Up"]);
-                p.navigationMenu->addAction(p.actions["Current"]);
-                p.navigationMenu->addAction(p.actions["EditPath"]);
-                p.navigationPopupMenu = PopupMenu::create(context);
-                p.navigationPopupMenu->setMenu(p.navigationMenu);
+                p.directoryMenu = Menu::create(context);
+                p.directoryMenu->addAction(p.actions["Back"]);
+                p.directoryMenu->addAction(p.actions["Forward"]);
+                p.directoryMenu->addAction(p.actions["Up"]);
+                p.directoryMenu->addAction(p.actions["Current"]);
+                p.directoryMenu->addAction(p.actions["EditPath"]);
 
                 p.shortcutsMenu = Menu::create(context);
-                p.shortcutsMenu->setMenuIcon("djvIconFavorite");
-                p.shortcutsPopupMenu = PopupMenu::create(context);
-                p.shortcutsPopupMenu->setMenu(p.shortcutsMenu);
-                p.shortcutsWidget = ShortcutsWidget::create(context);
+                p.shortcutsMenu->addAction(p.actions["ShowShortcuts"]);
+                p.shortcutsMenu->addAction(p.actions["AddFavorite"]);
 
-                auto vLayout = VerticalLayout::create(context);
-                vLayout->setSpacing(MetricsRole::None);
-                vLayout->setBackgroundRole(ColorRole::Background);
-                vLayout->setPointerEnabled(true);
-                vLayout->addWidget(ActionButton::create(p.actions["LargeThumbnails"], context));
-                vLayout->addWidget(ActionButton::create(p.actions["SmallThumbnails"], context));
-                vLayout->addWidget(ActionButton::create(p.actions["ListView"], context));
-                vLayout->addSeparator();
-                vLayout->addWidget(ActionButton::create(p.actions["FileSequences"], context));
-                vLayout->addWidget(ActionButton::create(p.actions["ShowHidden"], context));
-                auto settingsDrawer = Drawer::create(context);
-                settingsDrawer->setSide(Side::Right);
-                settingsDrawer->addWidget(vLayout);
-                p.settingsButton = FlatButton::create(context);
-                p.settingsButton->setButtonType(ButtonType::Toggle);
-                p.settingsButton->setIcon("djvIconSettings");
+                p.viewMenu = Menu::create(context);
+                p.viewMenu->addAction(p.actions["LargeThumbnails"]);
+                p.viewMenu->addAction(p.actions["SmallThumbnails"]);
+                p.viewMenu->addAction(p.actions["ListView"]);
+                p.viewMenu->addSeparator();
+                p.viewMenu->addAction(p.actions["FileSequences"]);
+                p.viewMenu->addAction(p.actions["ShowHidden"]);
+
+                p.sortMenu = Menu::create(context);
+                p.sortMenu->addAction(p.actions["SortByName"]);
+                p.sortMenu->addAction(p.actions["SortBySize"]);
+                p.sortMenu->addAction(p.actions["SortByTime"]);
+                p.sortMenu->addSeparator();
+                p.sortMenu->addAction(p.actions["ReverseSort"]);
+                p.sortMenu->addSeparator();
+                p.sortMenu->addAction(p.actions["SortDirectoriesFirst"]);
+
+                auto menuBar = MenuBar::create(context);
+                menuBar->addMenu(p.directoryMenu);
+                menuBar->addMenu(p.shortcutsMenu);
+                menuBar->addMenu(p.viewMenu);
+                menuBar->addMenu(p.sortMenu);
 
                 auto pathWidget = PathWidget::create(context);
 
                 auto topToolBar = Toolbar::create(context);
-                topToolBar->addWidget(p.navigationPopupMenu);
-                topToolBar->addWidget(p.shortcutsPopupMenu);
                 topToolBar->addAction(p.actions["Up"]);
                 topToolBar->addAction(p.actions["Back"]);
                 topToolBar->addAction(p.actions["Forward"]);
                 topToolBar->addWidget(pathWidget, RowStretch::Expand);
                 topToolBar->addAction(p.actions["EditPath"]);
-                topToolBar->addWidget(p.settingsButton);
 
                 auto searchBox = SearchBox::create(context);
                 p.itemCountLabel = Label::create(context);
                 p.itemCountLabel->setTextHAlign(TextHAlign::Right);
                 p.itemCountLabel->setMargin(MetricsRole::MarginSmall);
-                vLayout = VerticalLayout::create(context);
+                auto vLayout = VerticalLayout::create(context);
                 vLayout->setSpacing(MetricsRole::None);
                 vLayout->addWidget(searchBox);
                 vLayout->addWidget(p.itemCountLabel);
@@ -227,6 +262,24 @@ namespace djv
                 bottomToolBar->addExpander();
                 bottomToolBar->addWidget(p.searchPopupWidget);
 
+                p.shortcutsWidget = ShortcutsWidget::create(context);
+                p.drivesWidget = DrivesWidget::create(context);
+                p.shortcutsBellows["Shortcuts"] = Bellows::create(context);
+                p.shortcutsBellows["Shortcuts"]->addWidget(p.shortcutsWidget);
+                p.shortcutsBellows["Drives"] = Bellows::create(context);
+                p.shortcutsBellows["Drives"]->addWidget(p.drivesWidget);
+                p.shortcutsBellows["Favorites"] = Bellows::create(context);
+                p.shortcutsBellows["Recent"] = Bellows::create(context);
+                auto shortcutsLayout = VerticalLayout::create(context);
+                shortcutsLayout->setSpacing(MetricsRole::None);
+                shortcutsLayout->addWidget(p.shortcutsBellows["Shortcuts"]);
+                shortcutsLayout->addWidget(p.shortcutsBellows["Drives"]);
+                shortcutsLayout->addWidget(p.shortcutsBellows["Favorites"]);
+                shortcutsLayout->addWidget(p.shortcutsBellows["Recent"]);
+                p.shortcutsScrollWidget = ScrollWidget::create(ScrollType::Vertical, context);
+                p.shortcutsScrollWidget->setBorder(false);
+                p.shortcutsScrollWidget->addWidget(shortcutsLayout);
+
                 p.itemView = ItemView::create(context);
                 p.scrollWidget = ScrollWidget::create(ScrollType::Vertical, context);
                 p.scrollWidget->setBorder(false);
@@ -234,17 +287,16 @@ namespace djv
 
                 p.layout = VerticalLayout::create(context);
                 p.layout->setSpacing(MetricsRole::None);
+                p.layout->addWidget(menuBar);
+                p.layout->addSeparator();
                 p.layout->addWidget(topToolBar);
                 p.layout->addSeparator();
-                auto stackLayout = StackLayout::create(context);
-                vLayout = VerticalLayout::create(context);
-                vLayout->setSpacing(MetricsRole::None);
-                vLayout->addWidget(p.scrollWidget, RowStretch::Expand);
-                vLayout->addSeparator();
-                vLayout->addWidget(bottomToolBar);
-                stackLayout->addWidget(vLayout);
-                stackLayout->addWidget(settingsDrawer);
-                p.layout->addWidget(stackLayout, RowStretch::Expand);
+                auto splitter = Layout::Splitter::create(Orientation::Horizontal, context);
+                splitter->addWidget(p.shortcutsScrollWidget);
+                splitter->addWidget(p.scrollWidget);
+                p.layout->addWidget(splitter, RowStretch::Expand);
+                p.layout->addSeparator();
+                p.layout->addWidget(bottomToolBar);
                 p.layout->setParent(shared_from_this());
 
                 auto weak = std::weak_ptr<Widget>(std::dynamic_pointer_cast<Widget>(shared_from_this()));
@@ -265,7 +317,7 @@ namespace djv
                     }
                 });
 
-                p.shortcutsWidget->setShortcutCallback(
+                p.shortcutsWidget->setCallback(
                     [weak](const FileSystem::Path & value)
                 {
                     if (auto widget = weak.lock())
@@ -274,27 +326,13 @@ namespace djv
                     }
                 });
 
-                p.viewTypeActionGroup->setRadioCallback(
-                    [weak, context](int value)
+                p.drivesWidget->setCallback(
+                    [weak](const FileSystem::Path & value)
                 {
                     if (auto widget = weak.lock())
                     {
-                        const auto viewType = static_cast<ViewType>(value);
-                        widget->setViewType(viewType);
-                        if (auto settingsSystem = context->getSystemT<Settings::System>().lock())
-                        {
-							if (auto fileBrowserSettings = settingsSystem->getSettingsT<Settings::FileBrowser>())
-							{
-								fileBrowserSettings->setViewType(viewType);
-							}
-                        }
+                        widget->_p->directoryModel->setPath(value);
                     }
-                });
-
-                p.settingsButton->setCheckedCallback(
-                    [settingsDrawer](bool value)
-                {
-                    settingsDrawer->setOpen(value);
                 });
 
                 p.itemView->setCallback(
@@ -333,36 +371,6 @@ namespace djv
                         widget->_p->itemView->setItems(value);
                         widget->_p->itemCount = value.size();
                         widget->_p->itemCountLabel->setText(widget->_p->getItemCountLabel(value.size(), context));
-                    }
-                });
-
-                p.shortcutsObserver = ListObserver<FileSystem::Path>::create(
-                    p.shortcutsModel->observeShortcuts(),
-                    [weak, context](const std::vector<FileSystem::Path> & value)
-                {
-                    if (auto widget = weak.lock())
-                    {
-                        widget->_p->shortcutsMenu->clearActions();
-                        widget->_p->shortcutClickedObservers.clear();
-                        for (const auto & i : value)
-                        {
-                            auto action = Action::create();
-                            action->setTitle(i.getFileName());
-                            widget->_p->shortcutsMenu->addAction(action);
-                            widget->_p->shortcutClickedObservers.push_back(
-                                ValueObserver<bool>::create(
-                                    action->observeClicked(),
-                                    [weak, i](bool value)
-                            {
-                                if (value)
-                                {
-                                    if (auto widget = weak.lock())
-                                    {
-                                        widget->_p->directoryModel->setPath(i);
-                                    }
-                                }
-                            }));
-                        }
                     }
                 });
 
@@ -462,39 +470,236 @@ namespace djv
                     }
                 });
 
-				if (auto settingsSystem = context->getSystemT<Settings::System>().lock())
-				{
-					if (auto fileBrowserSettings = settingsSystem->getSettingsT<Settings::FileBrowser>())
-					{
-						p.viewTypeObserver = ValueObserver<ViewType>::create(
-							fileBrowserSettings->observeViewType(),
-							[weak](ViewType value)
-						{
-							if (auto widget = weak.lock())
-							{
-								widget->setViewType(value);
-							}
-						});
-					}
-				}
+                p.editPathObserver = ValueObserver<bool>::create(
+                    p.actions["EditPath"]->observeChecked(),
+                    [pathWidget](bool value)
+                {
+                        pathWidget->setEdit(value);
+                });
+
+                if (auto settingsSystem = context->getSystemT<Settings::System>().lock())
+                {
+                    if (auto fileBrowserSettings = settingsSystem->getSettingsT<Settings::FileBrowser>())
+                    {
+                        p.showShortcutsSettingsObserver = ValueObserver<bool>::create(
+                            fileBrowserSettings->observeShowShortcuts(),
+                            [weak](bool value)
+                        {
+                            if (auto widget = weak.lock())
+                            {
+                                widget->_p->actions["ShowShortcuts"]->setChecked(value);
+                                widget->_p->shortcutsScrollWidget->setVisible(value);
+                            }
+                        });
+
+                        p.shortcutsBellowsSettingsObserver = MapObserver<std::string, bool>::create(
+                            fileBrowserSettings->observeShortcutsBellows(),
+                            [weak](const std::map<std::string, bool> & value)
+                        {
+                            if (auto widget = weak.lock())
+                            {
+                                for (const auto & i : value)
+                                {
+                                    widget->_p->shortcutsBellows[i.first]->setOpen(i.second);
+                                }
+                            }
+                        });
+
+                        p.shortcutsSplitterSettingsObserver = ValueObserver<float>::create(
+                            fileBrowserSettings->observeShortcutsSplitter(),
+                            [splitter](float value)
+                        {
+                            splitter->setSplit(value);
+                        });
+
+                        p.viewTypeSettingsObserver = ValueObserver<ViewType>::create(
+                            fileBrowserSettings->observeViewType(),
+                            [weak](ViewType value)
+                        {
+                            if (auto widget = weak.lock())
+                            {
+                                widget->setViewType(value);
+                            }
+                        });
+
+                        p.fileSequencesSettingsObserver = ValueObserver<bool>::create(
+                            fileBrowserSettings->observeFileSequences(),
+                            [weak](bool value)
+                        {
+                            if (auto widget = weak.lock())
+                            {
+                                widget->_p->directoryModel->setFileSequences(value);
+                                widget->_p->actions["FileSequences"]->setChecked(value);
+                            }
+                        });
+
+                        p.showHiddenSettingsObserver = ValueObserver<bool>::create(
+                            fileBrowserSettings->observeShowHidden(),
+                            [weak](bool value)
+                        {
+                            if (auto widget = weak.lock())
+                            {
+                                widget->_p->directoryModel->setShowHidden(value);
+                                widget->_p->actions["ShowHidden"]->setChecked(value);
+                            }
+                        });
+
+                        p.sortSettingsObserver = ValueObserver<FileSystem::DirectoryListSort>::create(
+                            fileBrowserSettings->observeSort(),
+                            [weak](FileSystem::DirectoryListSort value)
+                        {
+                            if (auto widget = weak.lock())
+                            {
+                                widget->_p->directoryModel->setSort(value);
+                                widget->_p->sortActionGroup->setChecked(static_cast<int>(value));
+                            }
+                        });
+
+                        p.reverseSortSettingsObserver = ValueObserver<bool>::create(
+                            fileBrowserSettings->observeReverseSort(),
+                            [weak](bool value)
+                        {
+                            if (auto widget = weak.lock())
+                            {
+                                widget->_p->directoryModel->setReverseSort(value);
+                                widget->_p->actions["ReverseSort"]->setChecked(value);
+                            }
+                        });
+
+                        p.sortDirectoriesFirstSettingsObserver = ValueObserver<bool>::create(
+                            fileBrowserSettings->observeSortDirectoriesFirst(),
+                            [weak](bool value)
+                        {
+                            if (auto widget = weak.lock())
+                            {
+                                widget->_p->directoryModel->setSortDirectoriesFirst(value);
+                                widget->_p->actions["SortDirectoriesFirst"]->setChecked(value);
+                            }
+                        });
+                    }
+                }
+
+                p.viewTypeActionGroup->setRadioCallback(
+                    [context](int value)
+                {
+                    if (auto settingsSystem = context->getSystemT<Settings::System>().lock())
+                    {
+                        if (auto fileBrowserSettings = settingsSystem->getSettingsT<Settings::FileBrowser>())
+                        {
+                            fileBrowserSettings->setViewType(static_cast<ViewType>(value));
+                        }
+                    }
+                });
+
+                p.sortActionGroup->setRadioCallback(
+                    [context](int value)
+                {
+                    if (auto settingsSystem = context->getSystemT<Settings::System>().lock())
+                    {
+                        if (auto fileBrowserSettings = settingsSystem->getSettingsT<Settings::FileBrowser>())
+                        {
+                            fileBrowserSettings->setSort(static_cast<FileSystem::DirectoryListSort>(value));
+                        }
+                    }
+                });
+
+                for (auto & i : p.shortcutsBellows)
+                {
+                    i.second->setOpenCallback(
+                        [weak, context](bool)
+                    {
+                        if (auto widget = weak.lock())
+                        {
+                            if (auto settingsSystem = context->getSystemT<Settings::System>().lock())
+                            {
+                                if (auto fileBrowserSettings = settingsSystem->getSettingsT<Settings::FileBrowser>())
+                                {
+                                    std::map<std::string, bool> bellows;
+                                    for (const auto & i : widget->_p->shortcutsBellows)
+                                    {
+                                        bellows[i.first] = i.second->isOpen();
+                                    }
+                                    fileBrowserSettings->setShortcutsBellows(bellows);
+                                }
+                            }
+                        }
+                    });
+                }
+
+                splitter->setSplitCallback(
+                    [context](float value)
+                {
+                    if (auto settingsSystem = context->getSystemT<Settings::System>().lock())
+                    {
+                        if (auto fileBrowserSettings = settingsSystem->getSettingsT<Settings::FileBrowser>())
+                        {
+                            fileBrowserSettings->setShortcutsSplitter(value);
+                        }
+                    }
+                });
+
+                p.showShortcutsObserver = ValueObserver<bool>::create(
+                    p.actions["ShowShortcuts"]->observeChecked(),
+                    [context](bool value)
+                {
+                    if (auto settingsSystem = context->getSystemT<Settings::System>().lock())
+                    {
+                        if (auto fileBrowserSettings = settingsSystem->getSettingsT<Settings::FileBrowser>())
+                        {
+                            fileBrowserSettings->setShowShortcuts(value);
+                        }
+                    }
+                });
 
                 p.fileSequencesObserver = ValueObserver<bool>::create(
                     p.actions["FileSequences"]->observeChecked(),
-                    [weak](bool value)
+                    [context](bool value)
                 {
-                    if (auto widget = weak.lock())
+                    if (auto settingsSystem = context->getSystemT<Settings::System>().lock())
                     {
-                        widget->_p->directoryModel->setFileSequences(value);
+                        if (auto fileBrowserSettings = settingsSystem->getSettingsT<Settings::FileBrowser>())
+                        {
+                            fileBrowserSettings->setFileSequences(value);
+                        }
                     }
                 });
 
                 p.showHiddenObserver = ValueObserver<bool>::create(
                     p.actions["ShowHidden"]->observeChecked(),
-                    [weak](bool value)
+                    [context](bool value)
                 {
-                    if (auto widget = weak.lock())
+                    if (auto settingsSystem = context->getSystemT<Settings::System>().lock())
                     {
-                        widget->_p->directoryModel->setShowHidden(value);
+                        if (auto fileBrowserSettings = settingsSystem->getSettingsT<Settings::FileBrowser>())
+                        {
+                            fileBrowserSettings->setShowHidden(value);
+                        }
+                    }
+                });
+
+                p.reverseSortObserver = ValueObserver<bool>::create(
+                    p.actions["ReverseSort"]->observeChecked(),
+                    [context](bool value)
+                {
+                    if (auto settingsSystem = context->getSystemT<Settings::System>().lock())
+                    {
+                        if (auto fileBrowserSettings = settingsSystem->getSettingsT<Settings::FileBrowser>())
+                        {
+                            fileBrowserSettings->setReverseSort(value);
+                        }
+                    }
+                });
+
+                p.sortDirectoriesFirstObserver = ValueObserver<bool>::create(
+                    p.actions["SortDirectoriesFirst"]->observeChecked(),
+                    [context](bool value)
+                {
+                    if (auto settingsSystem = context->getSystemT<Settings::System>().lock())
+                    {
+                        if (auto fileBrowserSettings = settingsSystem->getSettingsT<Settings::FileBrowser>())
+                        {
+                            fileBrowserSettings->setSortDirectoriesFirst(value);
+                        }
                     }
                 });
             }
@@ -564,21 +769,45 @@ namespace djv
                 p.actions["Current"]->setTooltip(_getText(DJV_TEXT("File browser current directory tooltip")));
                 p.actions["EditPath"]->setTitle(_getText(DJV_TEXT("Edit Path")));
                 p.actions["EditPath"]->setTooltip(_getText(DJV_TEXT("File browser edit path tooltip")));
-                p.actions["LargeThumbnails"]->setText(_getText(DJV_TEXT("Large thumbnails")));
+
+                p.actions["ShowShortcuts"]->setTitle(_getText(DJV_TEXT("Show Shortcuts")));
+                p.actions["ShowShortcuts"]->setTooltip(_getText(DJV_TEXT("File browser show shortcuts tooltip")));
+                p.actions["AddFavorite"]->setTitle(_getText(DJV_TEXT("Add To Favorites")));
+                p.actions["AddFavorite"]->setTooltip(_getText(DJV_TEXT("File browser add to favorites tooltip")));
+
+                p.actions["LargeThumbnails"]->setTitle(_getText(DJV_TEXT("Large thumbnails")));
                 p.actions["LargeThumbnails"]->setTooltip(_getText(DJV_TEXT("File browser large thumbnails tooltip")));
-                p.actions["SmallThumbnails"]->setText(_getText(DJV_TEXT("Small thumbnails")));
+                p.actions["SmallThumbnails"]->setTitle(_getText(DJV_TEXT("Small thumbnails")));
                 p.actions["SmallThumbnails"]->setTooltip(_getText(DJV_TEXT("File browser small thumbnails tooltip")));
-                p.actions["ListView"]->setText(_getText(DJV_TEXT("List view")));
+                p.actions["ListView"]->setTitle(_getText(DJV_TEXT("List view")));
                 p.actions["ListView"]->setTooltip(_getText(DJV_TEXT("File browser list view tooltip")));
-                p.actions["FileSequences"]->setText(_getText(DJV_TEXT("Enable file sequences")));
+                p.actions["FileSequences"]->setTitle(_getText(DJV_TEXT("Enable file sequences")));
                 p.actions["FileSequences"]->setTooltip(_getText(DJV_TEXT("File browser file sequences tooltip")));
-                p.actions["ShowHidden"]->setText(_getText(DJV_TEXT("Show hidden files")));
+                p.actions["ShowHidden"]->setTitle(_getText(DJV_TEXT("Show hidden files")));
                 p.actions["ShowHidden"]->setTooltip(_getText(DJV_TEXT("File browser show hidden tooltip")));
 
-                p.navigationPopupMenu->setTooltip(_getText(DJV_TEXT("File browser navigation popup tooltip")));
-                p.shortcutsPopupMenu->setTooltip(_getText(DJV_TEXT("File browser shortcuts popup tooltip")));
-                p.settingsButton->setTooltip(_getText(DJV_TEXT("File browser settings popup tooltip")));
+                p.actions["SortByName"]->setTitle(_getText(DJV_TEXT("Sort By Name")));
+                p.actions["SortByName"]->setTooltip(_getText(DJV_TEXT("File browser sort by name tooltip")));
+                p.actions["SortBySize"]->setTitle(_getText(DJV_TEXT("Sort By Size")));
+                p.actions["SortBySize"]->setTooltip(_getText(DJV_TEXT("File browser sort by size tooltip")));
+                p.actions["SortByTime"]->setTitle(_getText(DJV_TEXT("Sort By Time")));
+                p.actions["SortByTime"]->setTooltip(_getText(DJV_TEXT("File browser sort by time tooltip")));
+                p.actions["ReverseSort"]->setTitle(_getText(DJV_TEXT("Reverse Sort")));
+                p.actions["ReverseSort"]->setTooltip(_getText(DJV_TEXT("File browser reverse sort tooltip")));
+                p.actions["SortDirectoriesFirst"]->setTitle(_getText(DJV_TEXT("Sort Directories First")));
+                p.actions["SortDirectoriesFirst"]->setTooltip(_getText(DJV_TEXT("File browser sort directories first tooltip")));
+
+                p.directoryMenu->setText(_getText(DJV_TEXT("Directory")));
+                p.shortcutsMenu->setText(_getText(DJV_TEXT("Shortcuts")));
+                p.viewMenu->setText(_getText(DJV_TEXT("View")));
+                p.sortMenu->setText(_getText(DJV_TEXT("Sort")));
+
                 p.searchPopupWidget->setTooltip(_getText(DJV_TEXT("File browser search popup tooltip")));
+
+                p.shortcutsBellows["Shortcuts"]->setText(_getText(DJV_TEXT("Shortcuts")));
+                p.shortcutsBellows["Drives"]->setText(_getText(DJV_TEXT("Drives")));
+                p.shortcutsBellows["Favorites"]->setText(_getText(DJV_TEXT("Favorites")));
+                p.shortcutsBellows["Recent"]->setText(_getText(DJV_TEXT("Recent")));
 
                 auto context = getContext();
                 p.itemCountLabel->setText(p.getItemCountLabel(p.itemCount, context));

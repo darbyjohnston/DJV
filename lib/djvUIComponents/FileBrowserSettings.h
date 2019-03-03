@@ -32,6 +32,8 @@
 #include <djvUI/Enum.h>
 #include <djvUI/ISettings.h>
 
+#include <djvCore/FileInfo.h>
+
 namespace djv
 {
     namespace UI
@@ -53,8 +55,32 @@ namespace djv
 
                 static std::shared_ptr<FileBrowser> create(Core::Context *);
 
+                std::shared_ptr<Core::IValueSubject<bool> > observeShowShortcuts() const;
+                void setShowShortcuts(bool);
+
+                std::shared_ptr<Core::IMapSubject<std::string, bool> > observeShortcutsBellows() const;
+                void setShortcutsBellows(const std::map<std::string, bool> &);
+
+                std::shared_ptr<Core::IValueSubject<float> > observeShortcutsSplitter() const;
+                void setShortcutsSplitter(float);
+
                 std::shared_ptr<Core::IValueSubject<ViewType> > observeViewType() const;
                 void setViewType(ViewType);
+
+                std::shared_ptr<Core::IValueSubject<bool> > observeFileSequences() const;
+                void setFileSequences(bool);
+
+                std::shared_ptr<Core::IValueSubject<bool> > observeShowHidden() const;
+                void setShowHidden(bool);
+
+                std::shared_ptr<Core::IValueSubject<Core::FileSystem::DirectoryListSort> > observeSort() const;
+                void setSort(Core::FileSystem::DirectoryListSort);
+
+                std::shared_ptr<Core::IValueSubject<bool> > observeReverseSort() const;
+                void setReverseSort(bool);
+
+                std::shared_ptr<Core::IValueSubject<bool> > observeSortDirectoriesFirst() const;
+                void setSortDirectoriesFirst(bool);
 
                 void load(const picojson::value&) override;
                 picojson::value save() override;

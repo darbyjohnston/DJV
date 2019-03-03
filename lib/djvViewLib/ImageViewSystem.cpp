@@ -113,7 +113,7 @@ namespace djv
             p.actions["HUD"]->setTitle(_getText(DJV_TEXT("HUD")));
             p.actions["HUD"]->setTooltip(_getText(DJV_TEXT("HUD tooltip")));
 
-            p.menu->setMenuName(_getText(DJV_TEXT("View")));
+            p.menu->setText(_getText(DJV_TEXT("View")));
         }
 
     } // namespace ViewLib

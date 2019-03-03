@@ -46,35 +46,43 @@ namespace djv
         //! This namespace provides JSON functionality.
         namespace PicoJSON
         {
-            void write(const picojson::value&, FileSystem::FileIO&, size_t indent = 0, bool continueLine = false);
+            void write(const picojson::value &, FileSystem::FileIO &, size_t indent = 0, bool continueLine = false);
 
         } // namespace PicoJSON
     } // namespace Core
 
+    picojson::value toJSON(bool);
     picojson::value toJSON(int);
     picojson::value toJSON(float);
-    picojson::value toJSON(const std::string&);
-    picojson::value toJSON(const std::vector<std::string>&);
-    picojson::value toJSON(const std::map<std::string, std::string>&);
+    picojson::value toJSON(const std::string &);
+    picojson::value toJSON(const std::vector<std::string> &);
+    picojson::value toJSON(const std::map<std::string, bool> &);
+    picojson::value toJSON(const std::map<std::string, int> &);
+    picojson::value toJSON(const std::map<std::string, float> &);
+    picojson::value toJSON(const std::map<std::string, std::string> &);
 
     //! Throws:
     //! - std::exception
-    void fromJSON(const picojson::value&, int&);
-    void fromJSON(const picojson::value&, float&);
-    void fromJSON(const picojson::value&, std::string&);
-    void fromJSON(const picojson::value&, std::vector<std::string>&);
-    void fromJSON(const picojson::value&, std::map<std::string, std::string>&);
+    void fromJSON(const picojson::value &, bool &);
+    void fromJSON(const picojson::value &, int &);
+    void fromJSON(const picojson::value &, float &);
+    void fromJSON(const picojson::value &, std::string &);
+    void fromJSON(const picojson::value &, std::vector<std::string> &);
+    void fromJSON(const picojson::value &, std::map<std::string, bool> &);
+    void fromJSON(const picojson::value &, std::map<std::string, int> &);
+    void fromJSON(const picojson::value &, std::map<std::string, float> &);
+    void fromJSON(const picojson::value &, std::map<std::string, std::string> &);
 
     //! Convert a value to JSON.
     template<typename T>
-    inline picojson::value toJSON(const T&);
+    inline picojson::value toJSON(const T &);
 
     //! Convert JSON to a value.
     //!
     //! Throws:
     //! - Error
     template<typename T>
-    inline void fromJSON(const picojson::value&, T&);
+    inline void fromJSON(const picojson::value &, T &);
 
 } // namespace djv
 

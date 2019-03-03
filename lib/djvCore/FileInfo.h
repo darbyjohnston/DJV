@@ -66,14 +66,13 @@ namespace djv
 
                 Count = 3
             };
-            const std::string& getFilePermissionsLabel(int);
+            const std::string & getFilePermissionsLabel(int);
 
             //! This enumeration provides the directory listing sort options.
             enum class DirectoryListSort
             {
                 Name,
                 Size,
-                Permissions,
                 Time,
 
                 Count,
@@ -86,9 +85,9 @@ namespace djv
             {
                 bool fileSequences = false;
                 bool showHidden = false;
-                DirectoryListSort sort = DirectoryListSort::Name; //! \todo Implement me!
-                bool reverseSort = false; //! \todo Implement me!
-                bool sortDirectoriesFirst = true; //! \todo Implement me!
+                DirectoryListSort sort = DirectoryListSort::Name;
+                bool reverseSort = false;
+                bool sortDirectoriesFirst = true;
                 std::string glob = "*";
             };
 
@@ -113,16 +112,16 @@ namespace djv
             {
             public:
                 FileInfo();
-                FileInfo(const Path&, bool stat = true);
-                FileInfo(const std::string&, bool stat = true);
+                FileInfo(const Path &, bool stat = true);
+                FileInfo(const std::string &, bool stat = true);
 
                 //! \name File Path
                 ///@{
 
-                const Path& getPath() const { return _path; }
+                const Path & getPath() const { return _path; }
                 bool isEmpty() const { return _path.isEmpty(); }
-                void setPath(const Path&, bool stat = true);
-                void setPath(const std::string&, bool stat = true);
+                void setPath(const Path &, bool stat = true);
+                void setPath(const std::string &, bool stat = true);
 
                 ///@}
 
@@ -150,17 +149,17 @@ namespace djv
 
                 ///@}
 
-                //! \name File Sequence
+                //! \name File Sequences
                 ///@{
 
-                const Frame::Sequence& getSequence() const { return _sequence; }
-                void setSequence(const Frame::Sequence&);
+                const Frame::Sequence & getSequence() const { return _sequence; }
+                void setSequence(const Frame::Sequence &);
                 void evalSequence();
                 void sortSequence();
                 inline bool isSequenceValid() const;
                 inline bool isSequenceWildcard() const;
-                inline bool sequenceContains(const FileInfo&) const;
-                inline bool addToSequence(const FileInfo&);
+                inline bool sequenceContains(const FileInfo &) const;
+                inline bool addToSequence(const FileInfo &);
 
                 ///@}
 
@@ -170,18 +169,18 @@ namespace djv
                 //! Get the contents of the given directory.
                 //! Throws:
                 //! - std::exception
-                static std::vector<FileInfo> directoryList(const Path&, const DirectoryListOptions& = DirectoryListOptions());
+                static std::vector<FileInfo> directoryList(const Path &, const DirectoryListOptions & = DirectoryListOptions());
 
                 //! Get the file sequence for the given file.
                 //! Throws:
                 //! - std::exception
-                static FileInfo getFileSequence(const Path&);
+                static FileInfo getFileSequence(const Path &);
 
                 ///@}
 
-                inline bool operator == (const FileInfo&) const;
-                inline bool operator != (const FileInfo&) const;
-                inline bool operator < (const FileInfo&) const;
+                inline bool operator == (const FileInfo &) const;
+                inline bool operator != (const FileInfo &) const;
+                inline bool operator < (const FileInfo &) const;
 
                 inline operator std::string() const;
 
@@ -204,7 +203,7 @@ namespace djv
     DJV_ENUM_SERIALIZE_HELPERS(Core::FileSystem::FileType);
     DJV_ENUM_SERIALIZE_HELPERS(Core::FileSystem::DirectoryListSort);
 
-    std::ostream& operator << (std::ostream&, const Core::FileSystem::FileInfo&);
+    std::ostream & operator << (std::ostream &, const Core::FileSystem::FileInfo &);
     
 } // namespace djv
 

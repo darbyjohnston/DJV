@@ -36,6 +36,8 @@
 #include <djvUI/FlatButton.h>
 #include <djvUI/FlowLayout.h>
 #include <djvUI/GroupBox.h>
+#include <djvUI/IButton.h>
+#include <djvUI/Icon.h>
 #include <djvUI/Label.h>
 #include <djvUI/RowLayout.h>
 #include <djvUI/ScrollWidget.h>
@@ -51,6 +53,86 @@ namespace djv
     {
         namespace
         {
+            class Button : public UI::Button::IButton
+            {
+                DJV_NON_COPYABLE(Button);
+
+            protected:
+                void _init(Context *);
+                Button();
+
+            public:
+                virtual ~Button();
+
+                static std::shared_ptr<Button> create(Context *);
+
+                void setText(const std::string &);
+
+                float getHeightForWidth(float) const override;
+
+            protected:
+                void _preLayoutEvent(Event::PreLayout &) override;
+                void _layoutEvent(Event::Layout &) override;
+
+            private:
+                std::shared_ptr<UI::Label> _label;
+                std::shared_ptr<UI::Icon> _icon;
+                std::shared_ptr<UI::HorizontalLayout> _layout;
+            };
+
+            void Button::_init(Context * context)
+            {
+                Widget::_init(context);
+
+                _label = UI::Label::create(context);
+                _label->setTextHAlign(UI::TextHAlign::Left);
+                
+                _icon = UI::Icon::create(context);
+                _icon->setIcon("djvIconArrowSmallRight");
+                _icon->setIconSizeRole(UI::MetricsRole::IconSmall);
+                _icon->setVAlign(UI::VAlign::Center);
+
+                _layout = UI::HorizontalLayout::create(context);
+                _layout->setMargin(UI::MetricsRole::MarginSmall);
+                _layout->setSpacing(UI::MetricsRole::SpacingSmall);
+                _layout->addWidget(_label, UI::RowStretch::Expand);
+                _layout->addWidget(_icon);
+                _layout->setParent(shared_from_this());
+            }
+
+            Button::Button()
+            {}
+
+            Button::~Button()
+            {}
+
+            std::shared_ptr<Button> Button::create(Context * context)
+            {
+                auto out = std::shared_ptr<Button>(new Button);
+                out->_init(context);
+                return out;
+            }
+
+            void Button::setText(const std::string & value)
+            {
+                _label->setText(value);
+            }
+
+            float Button::getHeightForWidth(float value) const
+            {
+                return _layout->getHeightForWidth(value);
+            }
+
+            void Button::_preLayoutEvent(Event::PreLayout &)
+            {
+                _setMinimumSize(_layout->getMinimumSize());
+            }
+
+            void Button::_layoutEvent(Event::Layout &)
+            {
+                _layout->setGeometry(getGeometry());
+            }
+
             class MainWidget : public UI::Widget
             {
                 DJV_NON_COPYABLE(MainWidget);
@@ -79,10 +161,11 @@ namespace djv
                 {
                     std::string name;
                     std::shared_ptr<UI::GroupBox> groupBox;
-                    std::map<std::string, std::shared_ptr<UI::FlatButton> > buttons;
+                    std::map<std::string, std::shared_ptr<Button> > buttons;
                 };
                 std::map<std::string, Group> _groups;
                 std::shared_ptr<UI::VerticalLayout> _layout;
+                std::shared_ptr<UI::ScrollWidget> _scrollWidget;
                 std::function<void(const std::shared_ptr<UI::ISettingsWidget> &)> _widgetCallback;
             };
 
@@ -97,7 +180,7 @@ namespace djv
                     {
                         for (auto widget : system->getSettingsWidgets())
                         {
-                            auto button = UI::FlatButton::create(context);
+                            auto button = Button::create(context);
                             button->setClickedCallback(
                                 [weak, widget]
                             {
@@ -129,19 +212,24 @@ namespace djv
                 }
 
                 _layout = UI::VerticalLayout::create(context);
-                _layout->setSpacing(UI::MetricsRole::SpacingLarge);
-                for (const auto & i : _groups)
+                _layout->setSpacing(UI::MetricsRole::None);
+                for (auto i = _groups.begin(); i != _groups.end(); ++i)
                 {
-                    _layout->addWidget(i.second.groupBox);
+                    _layout->addWidget(i->second.groupBox);
                     auto vLayout = UI::VerticalLayout::create(context);
                     vLayout->setSpacing(UI::MetricsRole::None);
-                    for (const auto & j : i.second.buttons)
+                    for (const auto & j : i->second.buttons)
                     {
                         vLayout->addWidget(j.second);
                     }
-                    i.second.groupBox->addWidget(vLayout);
+                    i->second.groupBox->addWidget(vLayout);
+                    _layout->addSeparator();
                 }
-                _layout->setParent(shared_from_this());
+
+                _scrollWidget = UI::ScrollWidget::create(UI::ScrollType::Vertical, context);
+                _scrollWidget->setBorder(false);
+                _scrollWidget->addWidget(_layout);
+                _scrollWidget->setParent(shared_from_this());
             }
 
             MainWidget::MainWidget()
@@ -164,17 +252,17 @@ namespace djv
 
             float MainWidget::getHeightForWidth(float value) const
             {
-                return _layout->getHeightForWidth(value);
+                return _scrollWidget->getHeightForWidth(value);
             }
 
             void MainWidget::_preLayoutEvent(Event::PreLayout &)
             {
-                _setMinimumSize(_layout->getMinimumSize());
+                _setMinimumSize(_scrollWidget->getMinimumSize());
             }
 
             void MainWidget::_layoutEvent(Event::Layout &)
             {
-                _layout->setGeometry(getGeometry());
+                _scrollWidget->setGeometry(getGeometry());
             }
 
             void MainWidget::_localeEvent(Event::Locale & event)
@@ -223,7 +311,6 @@ namespace djv
             p.titles[p.mainWidget] = DJV_TEXT("Settings");
 
 			p.soloLayout = UI::SoloLayout::create(context);
-            p.soloLayout->setMargin(UI::MetricsRole::Margin);
             p.soloLayout->addWidget(p.mainWidget);
             auto weak = std::weak_ptr<SettingsWidget>(std::dynamic_pointer_cast<SettingsWidget>(shared_from_this()));
             for (auto i : context->getSystemsT<IViewSystem>())
@@ -238,11 +325,6 @@ namespace djv
                 }
             }
 
-            auto scrollWidget = UI::ScrollWidget::create(UI::ScrollType::Vertical, context);
-            scrollWidget->setAutoHideScrollBars(true);
-            scrollWidget->setBorder(false);
-            scrollWidget->addWidget(p.soloLayout);
-
             p.layout = UI::VerticalLayout::create(context);
             p.layout->setSpacing(UI::MetricsRole::None);
             auto hLayout = UI::HorizontalLayout::create(context);
@@ -251,7 +333,7 @@ namespace djv
             hLayout->addWidget(p.titleLabel);
             p.layout->addWidget(hLayout);
             p.layout->addSeparator();
-            p.layout->addWidget(scrollWidget, UI::RowStretch::Expand);
+            p.layout->addWidget(p.soloLayout, UI::RowStretch::Expand);
             p.layout->setParent(shared_from_this());
 
             p.mainWidget->setWidgetCallback(

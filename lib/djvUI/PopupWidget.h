@@ -29,14 +29,14 @@
 
 #pragma once
 
-#include <djvUI/IContainer.h>
+#include <djvUI/Widget.h>
 
 namespace djv
 {
     namespace UI
     {
         //! This class provides a popup widget.
-        class PopupWidget : public Layout::IContainer
+        class PopupWidget : public Widget
         {
             DJV_NON_COPYABLE(PopupWidget);
 

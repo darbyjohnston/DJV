@@ -112,7 +112,6 @@ namespace djv
             p.textBlocks["MadeIn"] = UI::TextBlock::create(context);
 
             auto textLayout = UI::VerticalLayout::create(context);
-            textLayout->setMargin(UI::MetricsRole::MarginLarge);
             textLayout->setSpacing(UI::MetricsRole::SpacingLarge);
             
             auto vLayout = UI::VerticalLayout::create(context);

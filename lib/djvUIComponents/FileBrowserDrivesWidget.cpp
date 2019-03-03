@@ -34,8 +34,8 @@
 #include <djvUI/GroupBox.h>
 #include <djvUI/RowLayout.h>
 
+#include <djvCore/DrivesModel.h>
 #include <djvCore/FileInfo.h>
-#include <djvCore/OS.h>
 
 using namespace djv::Core;
 
@@ -45,78 +45,89 @@ namespace djv
     {
         namespace FileBrowser
         {
-            struct ShortcutsWidget::Private
+            struct DrivesWidget::Private
             {
-                std::vector<FileSystem::Path> shortcuts;
+                std::vector<FileSystem::Path> drives;
+                std::shared_ptr<FileSystem::DrivesModel> model;
                 std::shared_ptr<VerticalLayout> layout;
+                std::shared_ptr<VerticalLayout> itemLayout;
                 std::function<void(const FileSystem::Path &)> callback;
+                std::shared_ptr<ListObserver<FileSystem::Path> > drivesObserver;
             };
 
-            void ShortcutsWidget::_init(Context * context)
+            void DrivesWidget::_init(Context * context)
             {
                 UI::Widget::_init(context);
 
-                setClassName("djv::UI::FileBrowser::ShortcutsWidget");
+                setClassName("djv::UI::FileBrowser::DrivesWidget");
 
                 DJV_PRIVATE_PTR();
-                auto itemLayout = VerticalLayout::create(context);
-                itemLayout->setSpacing(MetricsRole::None);
-                for (size_t i = 0; i < static_cast<size_t>(OS::DirectoryShortcut::Count); ++i)
-                {
-                    const auto shortcut = OS::getPath(static_cast<OS::DirectoryShortcut>(i));
-                    p.shortcuts.push_back(shortcut);
-                }
-                auto weak = std::weak_ptr<ShortcutsWidget>(std::dynamic_pointer_cast<ShortcutsWidget>(shared_from_this()));
-                for (const auto & i : p.shortcuts)
-                {
-                    auto button = FlatButton::create(context);
-                    button->setText(i.getFileName());
-                    itemLayout->addWidget(button);
+                p.model = FileSystem::DrivesModel::create(context);
 
-                    const auto path = i;
-                    button->setClickedCallback(
-                        [weak, path]
-                    {
-                        if (auto widget = weak.lock())
-                        {
-                            if (widget->_p->callback)
-                            {
-                                widget->_p->callback(path);
-                            }
-                        }
-                    });
-                }
+                p.itemLayout = VerticalLayout::create(context);
+                p.itemLayout->setSpacing(MetricsRole::None);
 
                 p.layout = VerticalLayout::create(context);
-                p.layout->addWidget(itemLayout, RowStretch::Expand);
+                p.layout->addWidget(p.itemLayout, RowStretch::Expand);
                 p.layout->setParent(shared_from_this());
+
+                auto weak = std::weak_ptr<DrivesWidget>(std::dynamic_pointer_cast<DrivesWidget>(shared_from_this()));
+                p.drivesObserver = ListObserver<FileSystem::Path>::create(
+                    p.model->observeDrives(),
+                    [weak, context](const std::vector<FileSystem::Path> & value)
+                {
+                    if (auto widget = weak.lock())
+                    {
+                        widget->_p->itemLayout->clearWidgets();
+                        for (const auto & i : value)
+                        {
+                            auto button = FlatButton::create(context);
+                            button->setText(i.get());
+
+                            widget->_p->itemLayout->addWidget(button);
+
+                            const auto path = i;
+                            button->setClickedCallback(
+                                [weak, path]
+                            {
+                                if (auto widget = weak.lock())
+                                {
+                                    if (widget->_p->callback)
+                                    {
+                                        widget->_p->callback(path);
+                                    }
+                                }
+                            });
+                        }
+                    }
+                });
             }
 
-			ShortcutsWidget::ShortcutsWidget() :
+            DrivesWidget::DrivesWidget() :
                 _p(new Private)
             {}
 
-			ShortcutsWidget::~ShortcutsWidget()
+            DrivesWidget::~DrivesWidget()
             {}
 
-            std::shared_ptr<ShortcutsWidget> ShortcutsWidget::create(Context * context)
+            std::shared_ptr<DrivesWidget> DrivesWidget::create(Context * context)
             {
-                auto out = std::shared_ptr<ShortcutsWidget>(new ShortcutsWidget);
+                auto out = std::shared_ptr<DrivesWidget>(new DrivesWidget);
                 out->_init(context);
                 return out;
             }
 
-            void ShortcutsWidget::setCallback(const std::function<void(const FileSystem::Path &)> & value)
+            void DrivesWidget::setCallback(const std::function<void(const FileSystem::Path &)> & value)
             {
                 _p->callback = value;
             }
 
-            void ShortcutsWidget::_preLayoutEvent(Event::PreLayout& event)
+            void DrivesWidget::_preLayoutEvent(Event::PreLayout& event)
             {
                 _setMinimumSize(_p->layout->getMinimumSize());
             }
 
-            void ShortcutsWidget::_layoutEvent(Event::Layout& event)
+            void DrivesWidget::_layoutEvent(Event::Layout& event)
             {
                 _p->layout->setGeometry(getGeometry());
             }

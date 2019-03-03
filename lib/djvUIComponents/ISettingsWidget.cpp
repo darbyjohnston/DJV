@@ -30,7 +30,7 @@
 #include <djvUIComponents/ISettingsWidget.h>
 
 #include <djvUI/RowLayout.h>
-#include <djvUI/StackLayout.h>
+#include <djvUI/ScrollWidget.h>
 
 using namespace djv::Core;
 
@@ -40,7 +40,7 @@ namespace djv
     {
         struct ISettingsWidget::Private
         {
-            std::shared_ptr<StackLayout> layout;
+            std::shared_ptr<ScrollWidget> scrollWidget;
         };
 
         void ISettingsWidget::_init(Context * context)
@@ -49,8 +49,9 @@ namespace djv
 
             DJV_PRIVATE_PTR();
 
-            p.layout = StackLayout::create(context);
-            IContainer::addWidget(p.layout);
+            p.scrollWidget = ScrollWidget::create(ScrollType::Vertical, context);
+            p.scrollWidget->setBorder(false);
+            IContainer::addWidget(p.scrollWidget);
         }
 
         ISettingsWidget::ISettingsWidget() :
@@ -62,32 +63,32 @@ namespace djv
 
         void ISettingsWidget::addWidget(const std::shared_ptr<Widget>& widget)
         {
-            _p->layout->addWidget(widget);
+            _p->scrollWidget->addWidget(widget);
         }
 
         void ISettingsWidget::removeWidget(const std::shared_ptr<Widget>& widget)
         {
-            _p->layout->addWidget(widget);
+            _p->scrollWidget->addWidget(widget);
         }
 
         void ISettingsWidget::clearWidgets()
         {
-            _p->layout->clearWidgets();
+            _p->scrollWidget->clearWidgets();
         }
 
         float ISettingsWidget::getHeightForWidth(float value) const
         {
-            return _p->layout->getHeightForWidth(value);
+            return _p->scrollWidget->getHeightForWidth(value);
         }
 
         void ISettingsWidget::_preLayoutEvent(Event::PreLayout& event)
         {
-            _setMinimumSize(_p->layout->getMinimumSize());
+            _setMinimumSize(_p->scrollWidget->getMinimumSize());
         }
 
         void ISettingsWidget::_layoutEvent(Event::Layout&)
         {
-            _p->layout->setGeometry(getGeometry());
+            _p->scrollWidget->setGeometry(getGeometry());
         }
 
     } // namespace UI

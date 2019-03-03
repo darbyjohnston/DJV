@@ -94,6 +94,11 @@ namespace djv
                 return out;
             }
 
+            const std::string & GroupBox::getText() const
+            {
+                return _p->titleLabel->getText();
+            }
+
             void GroupBox::setText(const std::string & text)
             {
                 _p->titleLabel->setText(text);

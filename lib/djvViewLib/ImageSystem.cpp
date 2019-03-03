@@ -105,7 +105,7 @@ namespace djv
             p.actions["FrameStore"]->setTitle(_getText(DJV_TEXT("Frame Store")));
             p.actions["FrameStore"]->setTooltip(_getText(DJV_TEXT("Frame store tooltip")));
 
-            p.menu->setMenuName(_getText(DJV_TEXT("Image")));
+            p.menu->setText(_getText(DJV_TEXT("Image")));
         }
 
     } // namespace ViewLib

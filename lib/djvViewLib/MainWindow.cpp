@@ -39,11 +39,10 @@
 #include <djvViewLib/WindowSystem.h>
 
 #include <djvUI/Action.h>
-#include <djvUI/Drawer.h>
-#include <djvUI/FlatButton.h>
 #include <djvUI/MDICanvas.h>
 #include <djvUI/MenuBar.h>
 #include <djvUI/Menu.h>
+#include <djvUI/PopupWidget.h>
 #include <djvUI/RowLayout.h>
 #include <djvUI/Shortcut.h>
 #include <djvUI/StackLayout.h>
@@ -63,7 +62,7 @@ namespace djv
         struct MainWindow::Private
         {
             std::map<std::string, std::shared_ptr<UI::Action> > actions;
-            std::shared_ptr<UI::FlatButton> settingsButton;
+            std::shared_ptr<UI::PopupWidget> settingsPopupWidget;
             std::shared_ptr<UI::MenuBar> menuBar;
             std::shared_ptr<MediaWidget> mediaWidget;
             std::shared_ptr<UI::MDI::Canvas> mdiCanvas;
@@ -106,12 +105,9 @@ namespace djv
                 addAction(i.second);
             }
 
-            auto settingsDrawer = UI::Drawer::create(context);
-            settingsDrawer->setSide(UI::Side::Right);
-            settingsDrawer->addWidget(SettingsWidget::create(context));
-            p.settingsButton = UI::FlatButton::create(context);
-            p.settingsButton->setButtonType(UI::ButtonType::Toggle);
-            p.settingsButton->setIcon("djvIconSettings");
+            p.settingsPopupWidget = UI::PopupWidget::create(context);
+            p.settingsPopupWidget->setIcon("djvIconSettings");
+            p.settingsPopupWidget->setWidget(SettingsWidget::create(context));
 
             p.menuBar = UI::MenuBar::create(context);
             p.menuBar->setBackgroundRole(UI::ColorRole::Overlay);
@@ -119,7 +115,7 @@ namespace djv
             {
                 p.menuBar->addMenu(i.second);
             }
-            p.menuBar->addWidget(p.settingsButton);
+            p.menuBar->addWidget(p.settingsPopupWidget);
 
             p.mediaWidget = MediaWidget::create(context);
 
@@ -141,18 +137,12 @@ namespace djv
             auto vLayout = UI::VerticalLayout::create(context);
             vLayout->setSpacing(UI::MetricsRole::None);
             vLayout->addWidget(p.menuBar);
-            vLayout->addWidget(settingsDrawer, UI::RowStretch::Expand);
+            vLayout->addExpander();
             p.stackLayout->addWidget(vLayout);
             p.stackLayout->addWidget(p.mdiCanvas);
             addWidget(p.stackLayout);
 
             auto weak = std::weak_ptr<MainWindow>(std::dynamic_pointer_cast<MainWindow>(shared_from_this()));
-            p.settingsButton->setCheckedCallback(
-                [settingsDrawer](bool value)
-            {
-                settingsDrawer->setOpen(value);
-            });
-
             p.closeToolActionObserver = ValueObserver<bool>::create(
                 p.actions["CloseTool"]->observeClicked(),
                 [weak](bool value)
@@ -229,6 +219,7 @@ namespace djv
         void MainWindow::_textUpdate()
         {
             DJV_PRIVATE_PTR();
+            p.settingsPopupWidget->setTooltip(_getText(DJV_TEXT("ViewLib settings popup tooltip")));
         }
 
     } // namespace ViewLib

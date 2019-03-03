@@ -484,7 +484,7 @@ namespace djv
             p.actions["Exit"]->setTitle(_getText(DJV_TEXT("Exit")));
             p.actions["Exit"]->setTooltip(_getText(DJV_TEXT("Exit tooltip")));
 
-            p.menu->setMenuName(_getText(DJV_TEXT("File")));
+            p.menu->setText(_getText(DJV_TEXT("File")));
         }
 
     } // namespace ViewLib

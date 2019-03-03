@@ -29,6 +29,7 @@
 
 #pragma once
 
+#include <djvCore/FileInfo.h>
 #include <djvCore/ListObserver.h>
 #include <djvCore/ValueObserver.h>
 
@@ -40,9 +41,6 @@ namespace djv
 
         namespace FileSystem
         {
-            class FileInfo;
-            class Path;
-
             //! This class provides a directory model.
             class DirectoryModel : public std::enable_shared_from_this<DirectoryModel>
             {
@@ -83,6 +81,13 @@ namespace djv
                 std::shared_ptr<IValueSubject<bool> > observeShowHidden() const;
                 void setFileSequences(bool);
                 void setShowHidden(bool);
+
+                std::shared_ptr<IValueSubject<DirectoryListSort> > observeSort() const;
+                std::shared_ptr<IValueSubject<bool> > observeReverseSort() const;
+                std::shared_ptr<IValueSubject<bool> > observeSortDirectoriesFirst() const;
+                void setSort(DirectoryListSort);
+                void setReverseSort(bool);
+                void setSortDirectoriesFirst(bool);
 
                 std::shared_ptr<IValueSubject<std::string> > observeFilter() const;
                 void setFilter(const std::string &);

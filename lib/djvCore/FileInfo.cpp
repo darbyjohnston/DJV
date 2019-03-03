@@ -210,7 +210,6 @@ namespace djv
         DirectoryListSort,
         DJV_TEXT("Name"),
         DJV_TEXT("Size"),
-        DJV_TEXT("Permissions"),
         DJV_TEXT("Type"));
 
 } // namespace djv

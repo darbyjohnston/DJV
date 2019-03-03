@@ -29,53 +29,57 @@
 
 #pragma once
 
-#include <djvUI/Widget.h>
-
-#include <djvCore/ValueObserver.h>
+#include <djvUI/IContainer.h>
 
 namespace djv
 {
     namespace UI
     {
-        //! This class provides a popup menu widget.
-        class Menu : public Widget
+        namespace Layout
         {
-            DJV_NON_COPYABLE(Menu);
+            //! This class provides a bellows widget.
+            class Bellows : public IContainer
+            {
+                DJV_NON_COPYABLE(Bellows);
 
-        protected:
-            void _init(Core::Context *);
-            Menu();
+            protected:
+                void _init(Core::Context *);
+                Bellows();
 
-        public:
-            virtual ~Menu();
-            static std::shared_ptr<Menu> create(Core::Context *);
-            static std::shared_ptr<Menu> create(const std::string & text, Core::Context *);
+            public:
+                virtual ~Bellows();
 
-            std::shared_ptr<Core::IValueSubject<std::string> > observeIcon() const;
-            std::shared_ptr<Core::IValueSubject<std::string> > observeText() const;
-            void setIcon(const std::string &);
-            void setText(const std::string &);
+                static std::shared_ptr<Bellows> create(Core::Context *);
+                static std::shared_ptr<Bellows> create(const std::string &, Core::Context *);
+                
+                const std::string & getText() const;
+                void setText(const std::string &);
 
-            void addSeparator();
+                bool isOpen() const;
+                void setOpen(bool);
+                void open();
+                void close();
+                void setOpenCallback(const std::function<void(bool)> &);
 
-            void popup(const glm::vec2 &);
-            void popup(const std::weak_ptr<Widget> & button);
-            void popup(const std::weak_ptr<Widget> & button, const std::weak_ptr<Widget> & anchor);
+                void addWidget(const std::shared_ptr<Widget>&) override;
+                void removeWidget(const std::shared_ptr<Widget>&) override;
+                void clearWidgets() override;
 
-            void setCloseCallback(const std::function<void(void)> &);
+                float getHeightForWidth(float) const override;
 
-            void setVisible(bool) override;
-            void addAction(const std::shared_ptr<Action> &) override;
-            void removeAction(const std::shared_ptr<Action> &) override;
-            void clearActions() override;
+            protected:
+                void _preLayoutEvent(Core::Event::PreLayout&) override;
+                void _layoutEvent(Core::Event::Layout&) override;
 
-        protected:
-            void _preLayoutEvent(Core::Event::PreLayout &) override;
-            void _layoutEvent(Core::Event::Layout &) override;
+            private:
+                void _childrenUpdate();
 
-        private:
-			DJV_PRIVATE();
-        };
+				DJV_PRIVATE();
+            };
+
+        } // namespace Layout
+
+		using Layout::Bellows;
 
     } // namespace UI
 } // namespace djv

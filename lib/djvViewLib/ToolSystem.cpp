@@ -260,7 +260,7 @@ namespace djv
             p.actions["Debug"]->setTitle(_getText(DJV_TEXT("Debugging")));
             p.actions["Debug"]->setTooltip(_getText(DJV_TEXT("Debugging tooltip")));
 
-            p.menu->setMenuName(_getText(DJV_TEXT("Tools")));
+            p.menu->setText(_getText(DJV_TEXT("Tools")));
         }
 
     } // namespace ViewLib

@@ -44,6 +44,8 @@ namespace djv
                 Orientation orientation = Orientation::Horizontal;
                 float split = .5f;
                 float splitterWidth = 0.f;
+                ColorRole handleColorRole = ColorRole::Button;
+                size_t visibleChildCount = 0;
                 std::map<Event::PointerID, bool> hover;
                 Event::PointerID pressedID = Event::InvalidID;
                 std::function<void(float)> splitCallback;
@@ -106,6 +108,20 @@ namespace djv
                 _p->splitCallback = callback;
             }
 
+            ColorRole Splitter::getHandleColorRole() const
+            {
+                return _p->handleColorRole;
+            }
+
+            void Splitter::setHandleColorRole(ColorRole value)
+            {
+                DJV_PRIVATE_PTR();
+                if (value == p.handleColorRole)
+                    return;
+                p.handleColorRole = value;
+                _redraw();
+            }
+
             float Splitter::getHeightForWidth(float value) const
             {
                 DJV_PRIVATE_PTR();
@@ -153,10 +169,12 @@ namespace djv
                 {
                     // Get the child sizes.
                     glm::vec2 minimumSize = glm::vec2(0.f, 0.f);
-                    for (const auto& child : getChildrenT<Widget>())
+                    p.visibleChildCount = 0;
+                    for (const auto & child : getChildrenT<Widget>())
                     {
                         if (child->isVisible())
                         {
+                            ++p.visibleChildCount;
                             const glm::vec2& size = child->getMinimumSize();
                             switch (p.orientation)
                             {
@@ -174,15 +192,18 @@ namespace djv
                     }
 
                     // Add the splitter size.
-                    switch (p.orientation)
+                    if (p.visibleChildCount)
                     {
-                    case Orientation::Horizontal:
-                        minimumSize.x += p.splitterWidth;
-                        break;
-                    case Orientation::Vertical:
-                        minimumSize.y += p.splitterWidth;
-                        break;
-                    default: break;
+                        switch (p.orientation)
+                        {
+                        case Orientation::Horizontal:
+                            minimumSize.x += p.splitterWidth;
+                            break;
+                        case Orientation::Vertical:
+                            minimumSize.y += p.splitterWidth;
+                            break;
+                        default: break;
+                        }
                     }
 
                     _setMinimumSize(minimumSize + getMargin().getSize(style));
@@ -194,11 +215,10 @@ namespace djv
                 DJV_PRIVATE_PTR();
                 if (auto style = _getStyle().lock())
                 {
-                    const BBox2f& g = getMargin().bbox(getGeometry(), style);
+                    const BBox2f & g = getMargin().bbox(getGeometry(), style);
 
                     const auto children = getChildrenT<Widget>();
-                    const size_t childrenSize = children.size();
-                    if (2 == childrenSize)
+                    if (2 == p.visibleChildCount)
                     {
                         BBox2f bbox;
                         switch (p.orientation)
@@ -232,7 +252,7 @@ namespace djv
                     }
                     else
                     {
-                        for (const auto& child : children)
+                        for (const auto & child : children)
                         {
                             child->setGeometry(g);
                         }
@@ -242,40 +262,41 @@ namespace djv
 
             void Splitter::_paintEvent(Event::Paint& event)
             {
-                Widget::_paintEvent(event);
                 DJV_PRIVATE_PTR();
-                if (auto render = _getRender().lock())
+                if (2 == p.visibleChildCount)
                 {
-                    if (auto style = _getStyle().lock())
+                    if (auto render = _getRender().lock())
                     {
-                        const BBox2f& sg = _getSplitterGeometry();
-                        const BBox2f& hg = _getHandleGeometry();
+                        if (auto style = _getStyle().lock())
+                        {
+                            const BBox2f& sg = _getSplitterGeometry();
+                            const BBox2f& hg = _getHandleGeometry();
 
-                        // Draw the background.
-                        const ColorRole colorRole = getBackgroundRole();
-                        if (colorRole != ColorRole::None)
-                        {
-                            render->setFillColor(_getColorWithOpacity(style->getColor(colorRole)));
-                            render->drawRect(sg);
-                        }
-
-                        // Draw the pressed or hovered state.
-                        if (p.pressedID)
-                        {
-                            render->setFillColor(_getColorWithOpacity(style->getColor(ColorRole::Pressed)));
-                            render->drawRect(hg);
-                        }
-                        else
-                        {
-                            bool hover = p.pressedID;
-                            for (const auto& h : p.hover)
+                            // Draw the background.
+                            if (p.handleColorRole != ColorRole::None)
                             {
-                                hover |= h.second;
-                            }
-                            if (hover)
-                            {
-                                render->setFillColor(_getColorWithOpacity(style->getColor(ColorRole::Hovered)));
+                                render->setFillColor(_getColorWithOpacity(style->getColor(p.handleColorRole)));
                                 render->drawRect(hg);
+                            }
+
+                            // Draw the pressed or hovered state.
+                            if (p.pressedID)
+                            {
+                                render->setFillColor(_getColorWithOpacity(style->getColor(ColorRole::Pressed)));
+                                render->drawRect(hg);
+                            }
+                            else
+                            {
+                                bool hover = p.pressedID;
+                                for (const auto& h : p.hover)
+                                {
+                                    hover |= h.second;
+                                }
+                                if (hover)
+                                {
+                                    render->setFillColor(_getColorWithOpacity(style->getColor(ColorRole::Hovered)));
+                                    render->drawRect(hg);
+                                }
                             }
                         }
                     }
@@ -284,10 +305,11 @@ namespace djv
 
             void Splitter::_pointerEnterEvent(Event::PointerEnter& event)
             {
-                if (!event.isRejected())
+                DJV_PRIVATE_PTR();
+                if (2 == p.visibleChildCount && !event.isRejected())
                 {
                     event.accept();
-                    _p->hover[event.getPointerInfo().id] = _getSplitterGeometry().contains(event.getPointerInfo().projectedPos);
+                    p.hover[event.getPointerInfo().id] = _getSplitterGeometry().contains(event.getPointerInfo().projectedPos);
                     _redraw();
                 }
             }

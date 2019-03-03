@@ -1,6 +1,7 @@
 set(header
     Action.h
     ActionGroup.h
+    Bellows.h
     Border.h
     ButtonGroup.h
     ColorSwatch.h
@@ -75,6 +76,7 @@ set(header
 set(source
     Action.cpp
     ActionGroup.cpp
+    Bellows.cpp
     Border.cpp
     ButtonGroup.cpp
     ColorSwatch.cpp
