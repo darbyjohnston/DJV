@@ -41,7 +41,7 @@ namespace djv
 
         protected:
             void _init(Core::Context *);
-			SettingsWidget();
+            SettingsWidget();
 
         public:
             ~SettingsWidget() override;

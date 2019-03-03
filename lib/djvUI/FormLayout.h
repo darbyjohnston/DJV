@@ -69,12 +69,12 @@ namespace djv
                 void _layoutEvent(Core::Event::Layout&) override;
 
             private:
-				DJV_PRIVATE();
+                DJV_PRIVATE();
             };
 
         } // namespace Layout
 
-		typedef Layout::Form FormLayout;
+        typedef Layout::Form FormLayout;
 
     } // namespace UI
 } // namespace djv

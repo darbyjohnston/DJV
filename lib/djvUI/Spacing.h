@@ -58,10 +58,10 @@ namespace djv
                 inline bool operator == (const Spacing&) const;
 
             private:
-				MetricsRole _value[2] =
+                MetricsRole _value[2] =
                 {
-					MetricsRole::None,
-					MetricsRole::None
+                    MetricsRole::None,
+                    MetricsRole::None
                 };
             };
 

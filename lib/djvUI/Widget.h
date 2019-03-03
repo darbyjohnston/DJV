@@ -229,9 +229,9 @@ namespace djv
             bool _styleInit = false;
             float _updateTime = 0.f;
             float _elapsedTime = 0.f;
-			bool _visible = true;
-			bool _visibleInit = true;
-			bool _parentsVisible = true;
+            bool _visible = true;
+            bool _visibleInit = true;
+            bool _parentsVisible = true;
             bool _clipped = false;
             Core::BBox2f _clipRect = Core::BBox2f(0.f, 0.f, 0.f, 0.f);
             float _opacity = 1.f;
@@ -241,7 +241,7 @@ namespace djv
             Layout::Margin _margin;
             HAlign _hAlign = HAlign::Fill;
             VAlign _vAlign = VAlign::Fill;
-			ColorRole _backgroundRole = ColorRole::None;
+            ColorRole _backgroundRole = ColorRole::None;
             bool _pointerEnabled = false;
             std::map<Core::Event::PointerID, glm::vec2> _pointerHover;
             std::vector<std::shared_ptr<Action> > _actions;

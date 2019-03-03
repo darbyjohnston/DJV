@@ -38,7 +38,7 @@ namespace djv
 {
     namespace Core
     {
-		class CoreSystem;
+        class CoreSystem;
         class IObject;
         class ISystem;
 
@@ -84,8 +84,8 @@ namespace djv
             template<typename T>
             inline std::weak_ptr<T> getSystemT() const;
 
-			//! Get the core system.
-			inline const std::shared_ptr<CoreSystem> & getCoreSystem() const;
+            //! Get the core system.
+            inline const std::shared_ptr<CoreSystem> & getCoreSystem() const;
 
             //! This function is called by the application's event loop.
             virtual void tick(float dt);
@@ -116,7 +116,7 @@ namespace djv
             class RootObject;
             std::shared_ptr<RootObject> _rootObject;
             std::vector<std::weak_ptr<ISystem> > _systems;
-			std::shared_ptr<CoreSystem> _coreSystem;
+            std::shared_ptr<CoreSystem> _coreSystem;
             std::chrono::time_point<std::chrono::system_clock> _fpsTime = std::chrono::system_clock::now();
             std::list<float> _fpsSamples;
             float _fpsAverage = 0.f;

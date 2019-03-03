@@ -64,7 +64,7 @@ namespace djv
             public:
                 virtual ~IWidget() = 0;
 
-				virtual Handle getHandle(const glm::vec2 & pos) const;
+                virtual Handle getHandle(const glm::vec2 & pos) const;
                 virtual std::vector<Core::BBox2f> getHandleBBox(Handle) const;
             };
             

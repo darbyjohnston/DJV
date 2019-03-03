@@ -52,12 +52,12 @@ namespace djv
             const std::string& getText() const;
             void setText(const std::string&);
 
-			ColorRole getTextColorRole() const;
+            ColorRole getTextColorRole() const;
             void setTextColorRole(ColorRole);
 
             const std::string & getFont() const;
             const std::string & getFontFace() const;
-			MetricsRole getFontSizeRole() const;
+            MetricsRole getFontSizeRole() const;
             void setFont(const std::string &);
             void setFontFace(const std::string &);
             void setFontSizeRole(MetricsRole);
@@ -67,7 +67,7 @@ namespace djv
             void _layoutEvent(Core::Event::Layout&) override;
 
         private:
-			DJV_PRIVATE();
+            DJV_PRIVATE();
         };
 
     } // namespace UI

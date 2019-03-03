@@ -65,12 +65,12 @@ namespace djv
                 inline bool operator == (const Margin&) const;
 
             private:
-				MetricsRole _value[4] =
+                MetricsRole _value[4] =
                 {
-					MetricsRole::None,
-					MetricsRole::None,
-					MetricsRole::None,
-					MetricsRole::None
+                    MetricsRole::None,
+                    MetricsRole::None,
+                    MetricsRole::None,
+                    MetricsRole::None
                 };
             };
 

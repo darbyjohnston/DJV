@@ -84,7 +84,7 @@ namespace djv
             private:
                 bool _isInsideAnchor(const glm::vec2 &) const;
 
-				DJV_PRIVATE();
+                DJV_PRIVATE();
             };
 
         } // namespace Layout

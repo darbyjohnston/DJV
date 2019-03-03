@@ -61,7 +61,7 @@ namespace djv
 
         void ColorPickerWidget::_localeEvent(Event::Locale & event)
         {
-			IToolWidget::_localeEvent(event);
+            IToolWidget::_localeEvent(event);
             setTitle(_getText(DJV_TEXT("Color Picker")));
         }
 

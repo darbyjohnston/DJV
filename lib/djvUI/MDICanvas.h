@@ -75,11 +75,11 @@ namespace djv
 
                 void _childAddedEvent(Core::Event::ChildAdded &) override;
                 void _childRemovedEvent(Core::Event::ChildRemoved &) override;
-				void _childOrderEvent(Core::Event::ChildOrder &) override;
+                void _childOrderEvent(Core::Event::ChildOrder &) override;
                 bool _eventFilter(const std::shared_ptr<Core::IObject> &, Core::Event::IEvent&) override;
 
             private:
-				DJV_PRIVATE();
+                DJV_PRIVATE();
             };
 
         } // namespace MDI

@@ -82,11 +82,11 @@ namespace djv
         struct IDialog::Private
         {
             std::shared_ptr<Label> titleLabel;
-			std::shared_ptr<FlatButton> closeButton;
-			std::shared_ptr<VerticalLayout> childLayout;
+            std::shared_ptr<FlatButton> closeButton;
+            std::shared_ptr<VerticalLayout> childLayout;
             std::shared_ptr<VerticalLayout> layout;
             std::shared_ptr<Layout::Border> border;
-			std::shared_ptr<Layout::Overlay> overlay;
+            std::shared_ptr<Layout::Overlay> overlay;
             std::function<void(void)> closeCallback;
         };
 
@@ -101,21 +101,21 @@ namespace djv
             p.titleLabel->setMargin(MetricsRole::Margin);
 
             p.closeButton = FlatButton::create(context);
-			p.closeButton->setIcon("djvIconClose");
-			p.closeButton->setInsideMargin(MetricsRole::MarginSmall);
+            p.closeButton->setIcon("djvIconClose");
+            p.closeButton->setInsideMargin(MetricsRole::MarginSmall);
 
             p.childLayout = VerticalLayout::create(context);
             p.childLayout->setSpacing(MetricsRole::None);
 
             p.layout = DialogLayout::create(context);
-			p.layout->setSpacing(MetricsRole::None);
+            p.layout->setSpacing(MetricsRole::None);
             p.layout->setBackgroundRole(ColorRole::Background);
             auto hLayout = HorizontalLayout::create(context);
             hLayout->addWidget(p.titleLabel, RowStretch::Expand);
             hLayout->addWidget(p.closeButton);
-			p.layout->addWidget(hLayout);
+            p.layout->addWidget(hLayout);
             p.layout->addSeparator();
-			p.layout->addWidget(p.childLayout, RowStretch::Expand);
+            p.layout->addWidget(p.childLayout, RowStretch::Expand);
 
             p.border = Layout::Border::create(context);
             p.border->setMargin(MetricsRole::MarginDialog);
@@ -126,7 +126,7 @@ namespace djv
             p.overlay->setParent(shared_from_this());
 
             auto weak = std::weak_ptr<IDialog>(std::dynamic_pointer_cast<IDialog>(shared_from_this()));
-			p.closeButton->setClickedCallback(
+            p.closeButton->setClickedCallback(
                 [weak]
             {
                 if (auto dialog = weak.lock())

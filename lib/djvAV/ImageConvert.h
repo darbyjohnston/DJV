@@ -41,8 +41,8 @@ namespace djv
 
     namespace AV
     {
-	    namespace Image
-	    {
+        namespace Image
+        {
             //! This class provides image data conversion.
             class Convert
             {
@@ -67,6 +67,6 @@ namespace djv
                 DJV_PRIVATE();
             };
 
-	    } // namespace Image
-	} // namespace AV
+        } // namespace Image
+    } // namespace AV
 } // namespace djv

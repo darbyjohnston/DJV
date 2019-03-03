@@ -60,7 +60,7 @@ namespace djv
         {
             std::map<std::string, std::shared_ptr<UI::Action> > actions;
             std::vector<std::shared_ptr<UI::ISettingsWidget> > settingsWidgets;
-			std::map<std::string, std::shared_ptr<ValueObserver<bool> > > clickedObservers;
+            std::map<std::string, std::shared_ptr<ValueObserver<bool> > > clickedObservers;
         };
 
         void SettingsSystem::_init(Context * context)

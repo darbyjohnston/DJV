@@ -279,21 +279,21 @@ namespace djv
 
         } // namespace
 
-		struct SettingsWidget::Private
-		{
+        struct SettingsWidget::Private
+        {
             std::shared_ptr<UI::Label> titleLabel;
             std::map<std::shared_ptr<UI::Widget>, std::string> titles;
             std::shared_ptr<UI::FlatButton> backButton;
             std::shared_ptr<MainWidget> mainWidget;
             std::shared_ptr<UI::SoloLayout> soloLayout;
             std::shared_ptr<UI::VerticalLayout> layout;
-		};
+        };
 
-		void SettingsWidget::_init(Context * context)
-		{
+        void SettingsWidget::_init(Context * context)
+        {
             Widget::_init(context);
 
-			DJV_PRIVATE_PTR();
+            DJV_PRIVATE_PTR();
 
             setBackgroundRole(UI::ColorRole::Background);
             setPointerEnabled(true);
@@ -310,7 +310,7 @@ namespace djv
             p.mainWidget = MainWidget::create(context);
             p.titles[p.mainWidget] = DJV_TEXT("Settings");
 
-			p.soloLayout = UI::SoloLayout::create(context);
+            p.soloLayout = UI::SoloLayout::create(context);
             p.soloLayout->addWidget(p.mainWidget);
             auto weak = std::weak_ptr<SettingsWidget>(std::dynamic_pointer_cast<SettingsWidget>(shared_from_this()));
             for (auto i : context->getSystemsT<IViewSystem>())
@@ -359,19 +359,19 @@ namespace djv
             });
         }
 
-		SettingsWidget::SettingsWidget() :
-			_p(new Private)
-		{}
+        SettingsWidget::SettingsWidget() :
+            _p(new Private)
+        {}
 
-		SettingsWidget::~SettingsWidget()
-		{}
+        SettingsWidget::~SettingsWidget()
+        {}
 
-		std::shared_ptr<SettingsWidget> SettingsWidget::create(Context * context)
-		{
-			auto out = std::shared_ptr<SettingsWidget>(new SettingsWidget);
-			out->_init(context);
-			return out;
-		}
+        std::shared_ptr<SettingsWidget> SettingsWidget::create(Context * context)
+        {
+            auto out = std::shared_ptr<SettingsWidget>(new SettingsWidget);
+            out->_init(context);
+            return out;
+        }
         void SettingsWidget::_preLayoutEvent(Event::PreLayout&)
         {
             _setMinimumSize(_p->layout->getMinimumSize());

@@ -71,12 +71,12 @@ namespace djv
                 void _updateEvent(Core::Event::Update&) override;
 
             private:
-				DJV_PRIVATE();
+                DJV_PRIVATE();
             };
 
         } // namespace Layout
 
-		typedef Layout::Solo SoloLayout;
+        typedef Layout::Solo SoloLayout;
 
     } // namespace UI
 } // namespace djv

@@ -45,7 +45,7 @@ namespace djv
             {
                 struct Write::Private
                 {
-					Settings settings;
+                    Settings settings;
                 };
 
                 Write::Write(const Settings & settings) :

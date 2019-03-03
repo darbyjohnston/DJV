@@ -39,7 +39,7 @@ namespace djv
 {
     namespace Core
     {
-		//! This namespace provides vector functionality.
+        //! This namespace provides vector functionality.
         namespace Vector
         {
             template<typename T, glm::precision P = glm::defaultp>

@@ -86,17 +86,17 @@ namespace djv
             p.currentMedia = ValueSubject<std::shared_ptr<Media> >::create();
 
             p.actions["Open"] = UI::Action::create();
-			p.actions["Open"]->setIcon("djvIconFileOpen");
+            p.actions["Open"]->setIcon("djvIconFileOpen");
             p.actions["Open"]->setShortcut(GLFW_KEY_O, GLFW_MOD_CONTROL);
             p.actions["Recent"] = UI::Action::create();
-			p.actions["Recent"]->setIcon("djvIconFileRecent");
+            p.actions["Recent"]->setIcon("djvIconFileRecent");
             p.actions["Recent"]->setShortcut(GLFW_KEY_T, GLFW_MOD_CONTROL);
             //! \todo Implement me!
             p.actions["Reload"] = UI::Action::create();
             p.actions["Reload"]->setShortcut(GLFW_KEY_R, GLFW_MOD_CONTROL);
             p.actions["Reload"]->setEnabled(false);
             p.actions["Close"] = UI::Action::create();
-			p.actions["Close"]->setIcon("djvIconFileClose");
+            p.actions["Close"]->setIcon("djvIconFileClose");
             p.actions["Close"]->setShortcut(GLFW_KEY_E, GLFW_MOD_CONTROL);
             //! \todo Implement me!
             p.actions["Export"] = UI::Action::create();
@@ -176,16 +176,16 @@ namespace djv
                 }
             });
 
-			p.recentFilesDialog->setCallback(
-				[weak](const Core::FileSystem::FileInfo & value)
-			{
-				if (auto system = weak.lock())
-				{
+            p.recentFilesDialog->setCallback(
+                [weak](const Core::FileSystem::FileInfo & value)
+            {
+                if (auto system = weak.lock())
+                {
                     system->_p->recentFilesDialog->hide();
                     system->_p->recentFilesDialog->setParent(nullptr);
                     system->open(value);
-				}
-			});
+                }
+            });
             p.recentFilesDialog->setCloseCallback(
                 [weak, context]
             {
@@ -245,7 +245,7 @@ namespace djv
                                 system->_p->recentFilesDialog->show();
                             }
                         }
-					}
+                    }
                 }
             });
 

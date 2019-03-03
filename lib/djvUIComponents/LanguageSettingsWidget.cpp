@@ -118,21 +118,21 @@ namespace djv
                 });
             }
 
-			if (auto settingsSystem = context->getSystemT<Settings::System>().lock())
-			{
-				if (auto fontSettings = settingsSystem->getSettingsT<Settings::Font>())
-				{
-					p.localeFontsObserver = MapObserver<std::string, std::string>::create(
-						fontSettings->observeLocaleFonts(),
-						[weak](const std::map<std::string, std::string> & value)
-					{
-						if (auto widget = weak.lock())
-						{
-							widget->_p->localeFonts = value;
-							widget->_textUpdate();
-						}
-					});
-				}
+            if (auto settingsSystem = context->getSystemT<Settings::System>().lock())
+            {
+                if (auto fontSettings = settingsSystem->getSettingsT<Settings::Font>())
+                {
+                    p.localeFontsObserver = MapObserver<std::string, std::string>::create(
+                        fontSettings->observeLocaleFonts(),
+                        [weak](const std::map<std::string, std::string> & value)
+                    {
+                        if (auto widget = weak.lock())
+                        {
+                            widget->_p->localeFonts = value;
+                            widget->_textUpdate();
+                        }
+                    });
+                }
             }
         }
 

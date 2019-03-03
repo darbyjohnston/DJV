@@ -38,8 +38,8 @@ namespace djv
     namespace Core
     {
         //! This namespace provides time functionality.
-	    namespace Time
-	    {
+        namespace Time
+        {
             class Speed;
 
             //! This typedef provides a timestamp.
@@ -56,18 +56,18 @@ namespace djv
             Timestamp secondsToTimestamp(double);
             Duration secondsToDuration(double);
 
-		    inline void secondsToTime(
+            inline void secondsToTime(
                 double,
-			    int&    hours,
-			    int&    minutes,
+                int&    hours,
+                int&    minutes,
                 double& seconds);
 
             std::string getLabel(double seconds);
             std::string getLabel(time_t);
             
             void localtime(const time_t *, tm *);
-		    
-		    ///@}
+            
+            ///@}
 
             //! \name Keycode
             ///@{
@@ -114,8 +114,8 @@ namespace djv
 
             ///@}
 
-	    } // namespace Time
-	} // namespace Core
+        } // namespace Time
+    } // namespace Core
 } // namespace djv
 
 #include <djvCore/TimeInline.h>

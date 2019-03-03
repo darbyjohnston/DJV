@@ -63,12 +63,12 @@ namespace djv
                 void _layoutEvent(Core::Event::Layout&) override;
 
             private:
-				DJV_PRIVATE();
+                DJV_PRIVATE();
             };
 
         } // namespace Layout
 
-		typedef Layout::Flow FlowLayout;
+        typedef Layout::Flow FlowLayout;
 
     } // namespace UI
 } // namespace djv

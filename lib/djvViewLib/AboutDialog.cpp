@@ -49,7 +49,7 @@ namespace djv
         {
             std::map<std::string, std::shared_ptr<UI::GroupBox> > groupBoxes;
             std::map<std::string, std::shared_ptr<UI::TextBlock> > textBlocks;
-			std::future<std::shared_ptr<AV::Image::Image> > imageFuture;
+            std::future<std::shared_ptr<AV::Image::Image> > imageFuture;
         };
 
         void AboutDialog::_init(Context * context)
@@ -208,7 +208,7 @@ namespace djv
             auto scrollWidget = UI::ScrollWidget::create(UI::ScrollType::Vertical, context);
             scrollWidget->setBorder(false);
             scrollWidget->addWidget(textLayout);
-			addWidget(scrollWidget, UI::RowStretch::Expand);
+            addWidget(scrollWidget, UI::RowStretch::Expand);
         }
 
         AboutDialog::AboutDialog() :
@@ -227,8 +227,8 @@ namespace djv
 
         void AboutDialog::_localeEvent(Event::Locale & event)
         {
-			IDialog::_localeEvent(event);
-			DJV_PRIVATE_PTR();
+            IDialog::_localeEvent(event);
+            DJV_PRIVATE_PTR();
             std::stringstream ss;
             ss << _getText(DJV_TEXT("About Title"));
             ss << " " << DJV_VERSION;

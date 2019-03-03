@@ -57,12 +57,12 @@ namespace djv
                 //! Create a new settings system.
                 static std::shared_ptr<System> create(Core::Context *);
 
-				//! Get the list of settings.
-				inline const std::vector<std::shared_ptr<ISettings> > & getSettings() const;
+                //! Get the list of settings.
+                inline const std::vector<std::shared_ptr<ISettings> > & getSettings() const;
 
-				//! Get a setting of the given type.
-				template<typename T>
-				inline std::shared_ptr<T> getSettingsT() const;
+                //! Get a setting of the given type.
+                template<typename T>
+                inline std::shared_ptr<T> getSettingsT() const;
 
             private:
                 void _addSettings(const std::shared_ptr<ISettings>&);
@@ -74,9 +74,9 @@ namespace djv
                 void _readSettingsFile(const Core::FileSystem::Path&, std::map<std::string, picojson::value>&);
                 void _writeSettingsFile(const Core::FileSystem::Path&, const picojson::value&);
 
-				std::map<std::string, picojson::value> _json;
-				std::vector<std::shared_ptr<ISettings> > _settings;
-				Core::FileSystem::Path _settingsPath;
+                std::map<std::string, picojson::value> _json;
+                std::vector<std::shared_ptr<ISettings> > _settings;
+                Core::FileSystem::Path _settingsPath;
 
                 friend class ISettings;
             };

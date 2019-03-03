@@ -70,7 +70,7 @@ namespace djv
             void setExclusiveCallback(const std::function<void(int)>&);
 
         private:
-			DJV_PRIVATE();
+            DJV_PRIVATE();
         };
 
     } // namespace UI

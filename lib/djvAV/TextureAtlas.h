@@ -75,7 +75,7 @@ namespace djv
                 void _toTextureAtlasItem(const BoxPackingNode*, TextureAtlasItem&);
                 void _removeFromAtlas(BoxPackingNode*);
 
-				DJV_PRIVATE();
+                DJV_PRIVATE();
             };
 
         } // namespace Render

@@ -31,11 +31,11 @@ namespace djv
                 bool isChecked() const;
                 virtual void setChecked(bool);
 
-				ColorRole getForegroundColorRole() const;
-				ColorRole getHoveredColorRole() const;
-				ColorRole getPressedColorRole() const;
-				ColorRole getCheckedColorRole() const;
-				ColorRole getDisabledColorRole() const;
+                ColorRole getForegroundColorRole() const;
+                ColorRole getHoveredColorRole() const;
+                ColorRole getPressedColorRole() const;
+                ColorRole getCheckedColorRole() const;
+                ColorRole getDisabledColorRole() const;
                 void setForegroundColorRole(ColorRole);
                 void setHoveredColorRole(ColorRole);
                 void setPressedColorRole(ColorRole);
@@ -51,7 +51,7 @@ namespace djv
                 bool _isPressed() const;
                 const glm::vec2& _getPressedPos() const;
                 void _setCanRejectPressed(bool);
-				ColorRole _getForegroundColorRole() const;
+                ColorRole _getForegroundColorRole() const;
 
                 virtual void _doClickedCallback();
                 virtual void _doCheckedCallback(bool);

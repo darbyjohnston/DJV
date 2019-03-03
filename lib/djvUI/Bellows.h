@@ -74,12 +74,12 @@ namespace djv
             private:
                 void _childrenUpdate();
 
-				DJV_PRIVATE();
+                DJV_PRIVATE();
             };
 
         } // namespace Layout
 
-		using Layout::Bellows;
+        using Layout::Bellows;
 
     } // namespace UI
 } // namespace djv

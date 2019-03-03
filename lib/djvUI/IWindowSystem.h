@@ -61,7 +61,7 @@ namespace djv
 
         protected:
             virtual void _addWindow(const std::shared_ptr<Window>&);
-			//! \bug This function never gets called...
+            //! \bug This function never gets called...
             virtual void _removeWindow(const std::shared_ptr<Window>&);
 
             virtual void _pushClipRect(const Core::BBox2f &);
@@ -79,7 +79,7 @@ namespace djv
         private:
             void _styleInit(const std::shared_ptr<Widget> &, bool = true);
 
-			DJV_PRIVATE();
+            DJV_PRIVATE();
 
             friend class Window;
         };

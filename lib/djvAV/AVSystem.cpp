@@ -55,10 +55,10 @@ namespace djv
 {
     namespace AV
     {
-		struct AVSystem::Private
-		{
+        struct AVSystem::Private
+        {
 
-		};
+        };
 
         void AVSystem::_init(Context * context)
         {
@@ -66,25 +66,25 @@ namespace djv
 
             DJV_PRIVATE_PTR();
 
-			addDependency(context->getCoreSystem());
+            addDependency(context->getCoreSystem());
 
             auto ioSystem = IO::System::create(context);
-			addDependency(ioSystem);
+            addDependency(ioSystem);
 
             auto audioSystem = Audio::System::create(context);
-			addDependency(audioSystem);
+            addDependency(audioSystem);
 
             auto fontSystem = Font::System::create(context);
-			addDependency(fontSystem);
+            addDependency(fontSystem);
 
             auto thumbnailSystem = ThumbnailSystem::create(context);
-			thumbnailSystem->addDependency(ioSystem);
-			addDependency(thumbnailSystem);
+            thumbnailSystem->addDependency(ioSystem);
+            addDependency(thumbnailSystem);
             
-			auto render2D = Render::Render2D::create(context);
-			render2D->addDependency(fontSystem);
-			addDependency(render2D);
-		}
+            auto render2D = Render::Render2D::create(context);
+            render2D->addDependency(fontSystem);
+            addDependency(render2D);
+        }
 
         AVSystem::AVSystem() :
             _p(new Private)

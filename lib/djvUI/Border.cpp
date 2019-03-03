@@ -43,8 +43,8 @@ namespace djv
         {
             struct Border::Private
             {
-				MetricsRole borderSize = MetricsRole::Border;
-				ColorRole borderColor = ColorRole::Border;
+                MetricsRole borderSize = MetricsRole::Border;
+                ColorRole borderColor = ColorRole::Border;
                 std::shared_ptr<Stack> layout;
             };
 
@@ -72,7 +72,7 @@ namespace djv
                 return out;
             }
 
-			MetricsRole Border::getBorderSize() const
+            MetricsRole Border::getBorderSize() const
             {
                 return _p->borderSize;
             }
@@ -86,7 +86,7 @@ namespace djv
                 _resize();
             }
 
-			ColorRole Border::getBorderColorRole() const
+            ColorRole Border::getBorderColorRole() const
             {
                 return _p->borderColor;
             }

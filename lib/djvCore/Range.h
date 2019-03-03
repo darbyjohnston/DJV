@@ -80,10 +80,10 @@ namespace djv
         } // namespace Range
 
         //! This typedef provides an integer range.
-		typedef Range::tRange<int> IntRange;
+        typedef Range::tRange<int> IntRange;
 
-		//! This typedef provides a floating point range.
-		typedef Range::tRange<float> FloatRange;
+        //! This typedef provides a floating point range.
+        typedef Range::tRange<float> FloatRange;
 
     } // namespace Core
 

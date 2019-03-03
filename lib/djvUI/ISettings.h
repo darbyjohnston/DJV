@@ -87,8 +87,8 @@ namespace djv
 
                 void _readError(const std::string& name, const std::string& what);
 
-			private:
-				DJV_PRIVATE();
+            private:
+                DJV_PRIVATE();
             };
 
         } // namespace Settings

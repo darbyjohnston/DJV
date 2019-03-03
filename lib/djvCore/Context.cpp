@@ -49,16 +49,16 @@ namespace djv
     namespace Core
     {
         class Context::RootObject : public IObject
-		{
-		public:
-			RootObject()
-			{
-				setClassName("djv::Core::Context::RootObject");
-			}
+        {
+        public:
+            RootObject()
+            {
+                setClassName("djv::Core::Context::RootObject");
+            }
 
-			~RootObject() override
-			{}
-		};
+            ~RootObject() override
+            {}
+        };
 
         void Context::_init(int & argc, char ** argv)
         {
@@ -73,35 +73,35 @@ namespace djv
             _rootObject = std::shared_ptr<RootObject>(new RootObject);
 
             // Create the core system.
-			_coreSystem = CoreSystem::create(argv0, this);
+            _coreSystem = CoreSystem::create(argv0, this);
 
             // Log information.
-			if (auto logSystem = getSystemT<LogSystem>().lock())
-			{
-				std::stringstream s;
-				s << "Application: " << _name << '\n';
-				s << "System information: " << OS::getInformation() << '\n';
-				s << "Hardware concurrency: " << std::thread::hardware_concurrency() << '\n';
-				if (auto resourceSystem = getSystemT<ResourceSystem>().lock())
-				{
-					s << "Resource paths:" << '\n';
-					for (auto path : FileSystem::getResourcePathEnums())
-					{
-						s << "    " << path << ": " << resourceSystem->getPath(path) << '\n';
-					}
-				}
-				logSystem->log("djv::Core::Context", s.str());
-			}
+            if (auto logSystem = getSystemT<LogSystem>().lock())
+            {
+                std::stringstream s;
+                s << "Application: " << _name << '\n';
+                s << "System information: " << OS::getInformation() << '\n';
+                s << "Hardware concurrency: " << std::thread::hardware_concurrency() << '\n';
+                if (auto resourceSystem = getSystemT<ResourceSystem>().lock())
+                {
+                    s << "Resource paths:" << '\n';
+                    for (auto path : FileSystem::getResourcePathEnums())
+                    {
+                        s << "    " << path << ": " << resourceSystem->getPath(path) << '\n';
+                    }
+                }
+                logSystem->log("djv::Core::Context", s.str());
+            }
         }
 
         Context::~Context()
         {
-			auto children = _rootObject->getChildren();
-			for (auto i = children.rbegin(); i != children.rend(); ++i)
-			{
-				(*i)->setParent(nullptr);
-			}
-		}
+            auto children = _rootObject->getChildren();
+            for (auto i = children.rbegin(); i != children.rend(); ++i)
+            {
+                (*i)->setParent(nullptr);
+            }
+        }
 
         std::unique_ptr<Context> Context::create(int & argc, char ** argv)
         {
@@ -117,39 +117,39 @@ namespace djv
 
         void Context::log(const std::string& prefix, const std::string& message, LogLevel level)
         {
-			if (auto logSystem = getSystemT<LogSystem>().lock())
-			{
-				logSystem->log(prefix, message, level);
-			}
+            if (auto logSystem = getSystemT<LogSystem>().lock())
+            {
+                logSystem->log(prefix, message, level);
+            }
         }
 
         FileSystem::Path Context::getPath(FileSystem::ResourcePath value) const
         {
-			FileSystem::Path out;
-			if (auto resourceSystem = getSystemT<ResourceSystem>().lock())
-			{
-				out = resourceSystem->getPath(value);
-			}
-			return out;
+            FileSystem::Path out;
+            if (auto resourceSystem = getSystemT<ResourceSystem>().lock())
+            {
+                out = resourceSystem->getPath(value);
+            }
+            return out;
         }
 
         FileSystem::Path Context::getPath(FileSystem::ResourcePath value, const std::string & fileName) const
         {
-			FileSystem::Path out;
-			if (auto resourceSystem = getSystemT<ResourceSystem>().lock())
-			{
-				out = FileSystem::Path(resourceSystem->getPath(value), fileName);
-			}
-			return out;
+            FileSystem::Path out;
+            if (auto resourceSystem = getSystemT<ResourceSystem>().lock())
+            {
+                out = FileSystem::Path(resourceSystem->getPath(value), fileName);
+            }
+            return out;
         }
 
         std::string Context::getText(const std::string & id) const
         {
-			std::string out;
-			if (auto textSystem = getSystemT<TextSystem>().lock())
-			{
-				out = textSystem->getText(id);
-			}
+            std::string out;
+            if (auto textSystem = getSystemT<TextSystem>().lock())
+            {
+                out = textSystem->getText(id);
+            }
             return out;
         }
 

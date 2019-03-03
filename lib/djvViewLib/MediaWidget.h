@@ -43,7 +43,7 @@ namespace djv
 
         protected:
             void _init(Core::Context *);
-			MediaWidget();
+            MediaWidget();
 
         public:
             ~MediaWidget() override;

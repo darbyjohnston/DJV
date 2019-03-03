@@ -264,7 +264,7 @@ namespace djv
 
                 static std::shared_ptr<System> create(Core::Context *);
 
-				std::vector<std::string> getPluginNames() const;
+                std::vector<std::string> getPluginNames() const;
 
                 picojson::value getOptions(const std::string & pluginName) const;
 

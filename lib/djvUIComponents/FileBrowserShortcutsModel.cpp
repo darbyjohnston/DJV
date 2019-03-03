@@ -61,11 +61,11 @@ namespace djv
                 p.shortcuts = ListSubject<FileSystem::Path>::create(shortcuts);
             }
 
-			ShortcutsModel::ShortcutsModel() :
+            ShortcutsModel::ShortcutsModel() :
                 _p(new Private)
             {}
 
-			ShortcutsModel::~ShortcutsModel()
+            ShortcutsModel::~ShortcutsModel()
             {}
 
             std::shared_ptr<ShortcutsModel> ShortcutsModel::create(Context * context)

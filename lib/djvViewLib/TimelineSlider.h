@@ -60,7 +60,7 @@ namespace djv
             void setCurrentTime(Core::Time::Timestamp);
 
         protected:
-			void _styleEvent(Core::Event::Style &) override;
+            void _styleEvent(Core::Event::Style &) override;
             void _preLayoutEvent(Core::Event::PreLayout &) override;
             void _paintEvent(Core::Event::Paint &) override;
             void _pointerEnterEvent(Core::Event::PointerEnter &) override;
@@ -69,12 +69,12 @@ namespace djv
             void _buttonPressEvent(Core::Event::ButtonPress &) override;
             void _buttonReleaseEvent(Core::Event::ButtonRelease &) override;
 
-			void _updateEvent(Core::Event::Update &) override;
+            void _updateEvent(Core::Event::Update &) override;
 
         private:
             Core::Time::Timestamp _posToTime(int) const;
             Core::BBox2f _getHandleGeometry() const;
-			void _textUpdate();
+            void _textUpdate();
 
             DJV_PRIVATE();
         };

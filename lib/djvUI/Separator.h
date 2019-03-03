@@ -56,7 +56,7 @@ namespace djv
                 void _paintEvent(Core::Event::Paint&) override;
 
             private:
-				DJV_PRIVATE();
+                DJV_PRIVATE();
             };
 
         } // namespace Layout

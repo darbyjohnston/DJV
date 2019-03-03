@@ -40,7 +40,7 @@ namespace djv
         //! This namespace provides error handling functionality.
         namespace Error
         {
-			//! Format a std::exception for display to the user.
+            //! Format a std::exception for display to the user.
             std::string format(const std::exception &);
 
 #if defined(DJV_PLATFORM_WINDOWS)

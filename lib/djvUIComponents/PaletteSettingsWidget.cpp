@@ -75,69 +75,69 @@ namespace djv
                 {
                     if (auto settingsSystem = context->getSystemT<Settings::System>().lock())
                     {
-						if (auto styleSettings = settingsSystem->getSettingsT<Settings::Style>())
-						{
-							const auto i = widget->_p->indexToPalette.find(value);
-							if (i != widget->_p->indexToPalette.end())
-							{
-								styleSettings->setCurrentPalette(i->second);
-							}
-						}
+                        if (auto styleSettings = settingsSystem->getSettingsT<Settings::Style>())
+                        {
+                            const auto i = widget->_p->indexToPalette.find(value);
+                            if (i != widget->_p->indexToPalette.end())
+                            {
+                                styleSettings->setCurrentPalette(i->second);
+                            }
+                        }
                     }
                 }
             });
 
             if (auto settingsSystem = context->getSystemT<Settings::System>().lock())
             {
-				if (auto styleSettings = settingsSystem->getSettingsT<Settings::Style>())
-				{
-					p.palettesObserver = MapObserver<std::string, Style::Palette>::create(
-						styleSettings->observePalettes(),
-						[weak, context](const std::map<std::string, Style::Palette > & value)
-					{
-						if (auto widget = weak.lock())
-						{
-							int currentItem = widget->_p->buttonGroup->getChecked();
-							if (-1 == currentItem && value.size())
-							{
-								currentItem = 0;
-							}
-							widget->_p->buttons.clear();
-							widget->_p->buttonGroup->clearButtons();
-							widget->_p->layout->clearWidgets();
-							widget->_p->indexToPalette.clear();
-							widget->_p->buttonToPalette.clear();
-							widget->_p->paletteToIndex.clear();
-							int j = 0;
-							for (const auto & i : value)
-							{
-								auto button = FlatButton::create(context);
-								widget->_p->buttons.push_back(button);
-								widget->_p->buttonGroup->addButton(button);
-								widget->_p->layout->addWidget(button);
-								widget->_p->indexToPalette[j] = i.first;
-								widget->_p->buttonToPalette[button] = i.first;
-								widget->_p->paletteToIndex[i.first] = j;
-								++j;
-							}
-							widget->_p->buttonGroup->setChecked(currentItem);
-							widget->_buttonTextUpdate();
-						}
-					});
-					p.currentPaletteObserver = ValueObserver<std::string>::create(
-						styleSettings->observeCurrentPaletteName(),
-						[weak](const std::string & value)
-					{
-						if (auto widget = weak.lock())
-						{
-							const auto i = widget->_p->paletteToIndex.find(value);
-							if (i != widget->_p->paletteToIndex.end())
-							{
-								widget->_p->buttonGroup->setChecked(static_cast<int>(i->second));
-							}
-						}
-					});
-				}
+                if (auto styleSettings = settingsSystem->getSettingsT<Settings::Style>())
+                {
+                    p.palettesObserver = MapObserver<std::string, Style::Palette>::create(
+                        styleSettings->observePalettes(),
+                        [weak, context](const std::map<std::string, Style::Palette > & value)
+                    {
+                        if (auto widget = weak.lock())
+                        {
+                            int currentItem = widget->_p->buttonGroup->getChecked();
+                            if (-1 == currentItem && value.size())
+                            {
+                                currentItem = 0;
+                            }
+                            widget->_p->buttons.clear();
+                            widget->_p->buttonGroup->clearButtons();
+                            widget->_p->layout->clearWidgets();
+                            widget->_p->indexToPalette.clear();
+                            widget->_p->buttonToPalette.clear();
+                            widget->_p->paletteToIndex.clear();
+                            int j = 0;
+                            for (const auto & i : value)
+                            {
+                                auto button = FlatButton::create(context);
+                                widget->_p->buttons.push_back(button);
+                                widget->_p->buttonGroup->addButton(button);
+                                widget->_p->layout->addWidget(button);
+                                widget->_p->indexToPalette[j] = i.first;
+                                widget->_p->buttonToPalette[button] = i.first;
+                                widget->_p->paletteToIndex[i.first] = j;
+                                ++j;
+                            }
+                            widget->_p->buttonGroup->setChecked(currentItem);
+                            widget->_buttonTextUpdate();
+                        }
+                    });
+                    p.currentPaletteObserver = ValueObserver<std::string>::create(
+                        styleSettings->observeCurrentPaletteName(),
+                        [weak](const std::string & value)
+                    {
+                        if (auto widget = weak.lock())
+                        {
+                            const auto i = widget->_p->paletteToIndex.find(value);
+                            if (i != widget->_p->paletteToIndex.end())
+                            {
+                                widget->_p->buttonGroup->setChecked(static_cast<int>(i->second));
+                            }
+                        }
+                    });
+                }
             }
         }
 

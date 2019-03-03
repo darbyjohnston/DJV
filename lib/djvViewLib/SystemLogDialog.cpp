@@ -47,7 +47,7 @@ namespace djv
     {
         struct SystemLogDialog::Private
         {
-			bool shown = false;
+            bool shown = false;
             std::shared_ptr<UI::TextBlock> textBlock;
             std::shared_ptr< UI::PushButton> copyButton;
             std::shared_ptr< UI::PushButton> reloadButton;
@@ -143,9 +143,9 @@ namespace djv
 
         void SystemLogDialog::_localeEvent(Event::Locale & event)
         {
-			IDialog::_localeEvent(event);
-			DJV_PRIVATE_PTR();
-			setTitle(_getText(DJV_TEXT("System Log")));
+            IDialog::_localeEvent(event);
+            DJV_PRIVATE_PTR();
+            setTitle(_getText(DJV_TEXT("System Log")));
             p.copyButton->setText(_getText(DJV_TEXT("Copy")));
             p.reloadButton->setText(_getText(DJV_TEXT("Reload")));
             p.clearButton->setText(_getText(DJV_TEXT("Clear")));

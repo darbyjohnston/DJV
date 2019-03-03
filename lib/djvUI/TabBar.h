@@ -66,7 +66,7 @@ namespace djv
             void _layoutEvent(Core::Event::Layout&) override;
 
         private:
-			DJV_PRIVATE();
+            DJV_PRIVATE();
         };
 
     } // namespace UI

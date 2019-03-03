@@ -169,7 +169,7 @@ namespace djv
                     node->bbox.min.y = 0;
                     node->bbox.max.x = textureSize - 1;
                     node->bbox.max.y = textureSize - 1;
-					node->textureIndex = i;
+                    node->textureIndex = i;
                     _p->boxPackingNodes.push_back(node);
                 }
             }

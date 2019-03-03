@@ -117,7 +117,7 @@ namespace djv
                 ///@}
 
             private:
-				DJV_PRIVATE();
+                DJV_PRIVATE();
             };
 
         } // namespace Render

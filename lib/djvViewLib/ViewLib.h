@@ -36,5 +36,5 @@ namespace djv
     //! This namespace provides functionality for djv_view.
     namespace ViewLib
     {
-	} // namespace ViewLib
+    } // namespace ViewLib
 } // namespace djv

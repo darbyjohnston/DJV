@@ -69,7 +69,7 @@ namespace djv
             static void _keyCallback(GLFWwindow*, int key, int scancode, int action, int mods);
             static void _dropCallback(GLFWwindow*, int, const char**);
 
-			DJV_PRIVATE();
+            DJV_PRIVATE();
         };
 
     } // namespace Desktop

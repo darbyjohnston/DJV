@@ -77,7 +77,7 @@ namespace djv
             p.toolbar->addAction(actions["OutPoint"]);
             p.toolbar->addWidget(p.timelineSlider, UI::RowStretch::Expand);
 
-			auto vLayout = UI::VerticalLayout::create(context);
+            auto vLayout = UI::VerticalLayout::create(context);
             vLayout->setSpacing(UI::MetricsRole::None);
             vLayout->addExpander();
             vLayout->addWidget(p.toolbar);
@@ -98,17 +98,17 @@ namespace djv
                 {
                     if (widget->_p->media)
                     {
-						widget->_p->media->setCurrentTime(value);
+                        widget->_p->media->setCurrentTime(value);
                     }
                 }
             });
         }
 
-		MediaWidget::MediaWidget() :
+        MediaWidget::MediaWidget() :
             _p(new Private)
         {}
 
-		MediaWidget::~MediaWidget()
+        MediaWidget::~MediaWidget()
         {}
 
         std::shared_ptr<MediaWidget> MediaWidget::create(Context * context)

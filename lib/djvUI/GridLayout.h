@@ -92,13 +92,13 @@ namespace djv
                 void _paintEvent(Core::Event::Paint&) override;
 
             private:
-				DJV_PRIVATE();
+                DJV_PRIVATE();
             };
 
         } // namespace Layout
 
-		typedef Layout::Grid GridLayout;
-		using Layout::GridStretch;
+        typedef Layout::Grid GridLayout;
+        using Layout::GridStretch;
 
     } // namespace UI
 

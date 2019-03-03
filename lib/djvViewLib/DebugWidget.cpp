@@ -116,78 +116,78 @@ namespace djv
                             {
                                 if (auto widget = weak.lock())
                                 {
-									widget->_p->currentTime = value;
-									widget->_widgetUpdate();
+                                    widget->_p->currentTime = value;
+                                    widget->_widgetUpdate();
                                 }
                             });
-							widget->_p->videoQueueMaxObserver = ValueObserver<size_t>::create(
+                            widget->_p->videoQueueMaxObserver = ValueObserver<size_t>::create(
                                 value->observeVideoQueueMax(),
                                 [weak](size_t value)
                             {
                                 if (auto widget = weak.lock())
                                 {
-									widget->_p->videoQueueMax = value;
-									widget->_widgetUpdate();
+                                    widget->_p->videoQueueMax = value;
+                                    widget->_widgetUpdate();
                                 }
                             });
-							widget->_p->audioQueueMaxObserver = ValueObserver<size_t>::create(
+                            widget->_p->audioQueueMaxObserver = ValueObserver<size_t>::create(
                                 value->observeAudioQueueMax(),
                                 [weak](size_t value)
                             {
                                 if (auto widget = weak.lock())
                                 {
-									widget->_p->audioQueueMax = value;
-									widget->_widgetUpdate();
+                                    widget->_p->audioQueueMax = value;
+                                    widget->_widgetUpdate();
                                 }
                             });
-							widget->_p->videoQueueCountObserver = ValueObserver<size_t>::create(
+                            widget->_p->videoQueueCountObserver = ValueObserver<size_t>::create(
                                 value->observeVideoQueueCount(),
                                 [weak](size_t value)
                             {
                                 if (auto widget = weak.lock())
                                 {
-									widget->_p->videoQueueCount = value;
-									widget->_widgetUpdate();
+                                    widget->_p->videoQueueCount = value;
+                                    widget->_widgetUpdate();
                                 }
                             });
-							widget->_p->audioQueueCountObserver = ValueObserver<size_t>::create(
+                            widget->_p->audioQueueCountObserver = ValueObserver<size_t>::create(
                                 value->observeAudioQueueCount(),
                                 [weak](size_t value)
                             {
                                 if (auto widget = weak.lock())
                                 {
-									widget->_p->audioQueueCount = value;
-									widget->_widgetUpdate();
+                                    widget->_p->audioQueueCount = value;
+                                    widget->_widgetUpdate();
                                 }
                             });
-							widget->_p->alUnqueuedBuffersObserver = ValueObserver<size_t>::create(
+                            widget->_p->alUnqueuedBuffersObserver = ValueObserver<size_t>::create(
                                 value->observeALUnqueuedBuffers(),
                                 [weak](size_t value)
                             {
                                 if (auto widget = weak.lock())
                                 {
-									widget->_p->alUnqueuedBuffers = value;
-									widget->_widgetUpdate();
+                                    widget->_p->alUnqueuedBuffers = value;
+                                    widget->_widgetUpdate();
                                 }
                             });
                         }
                         else
                         {
-							widget->_p->duration = 0;
-							widget->_p->currentTime = 0;
-							widget->_p->videoQueueMax = 0;
-							widget->_p->audioQueueMax = 0;
-							widget->_p->videoQueueCount = 0;
-							widget->_p->audioQueueCount = 0;
-							widget->_p->alUnqueuedBuffers = 0;
-							widget->_p->durationObserver.reset();
-							widget->_p->currentTimeObserver.reset();
-							widget->_p->videoQueueMaxObserver.reset();
-							widget->_p->audioQueueMaxObserver.reset();
-							widget->_p->videoQueueCountObserver.reset();
-							widget->_p->audioQueueCountObserver.reset();
-							widget->_p->alUnqueuedBuffersObserver.reset();
-							widget->_widgetUpdate();
+                            widget->_p->duration = 0;
+                            widget->_p->currentTime = 0;
+                            widget->_p->videoQueueMax = 0;
+                            widget->_p->audioQueueMax = 0;
+                            widget->_p->videoQueueCount = 0;
+                            widget->_p->audioQueueCount = 0;
+                            widget->_p->alUnqueuedBuffers = 0;
+                            widget->_p->durationObserver.reset();
+                            widget->_p->currentTimeObserver.reset();
+                            widget->_p->videoQueueMaxObserver.reset();
+                            widget->_p->audioQueueMaxObserver.reset();
+                            widget->_p->videoQueueCountObserver.reset();
+                            widget->_p->audioQueueCountObserver.reset();
+                            widget->_p->alUnqueuedBuffersObserver.reset();
+                            widget->_widgetUpdate();
                         }
                     }
                 });
@@ -210,7 +210,7 @@ namespace djv
 
         void DebugWidget::_localeEvent(Event::Locale & event)
         {
-			IToolWidget::_localeEvent(event);
+            IToolWidget::_localeEvent(event);
             DJV_PRIVATE_PTR();
             setTitle(_getText(DJV_TEXT("Debugging")));
             {

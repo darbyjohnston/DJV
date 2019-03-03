@@ -70,7 +70,7 @@ namespace djv
             void _updateItems();
             void _updateCurrentItem();
 
-			DJV_PRIVATE();
+            DJV_PRIVATE();
         };
 
     } // namespace UI

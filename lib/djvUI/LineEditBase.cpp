@@ -40,10 +40,10 @@ namespace djv
         struct LineEditBase::Private
         {
             std::string text;
-			ColorRole textColorRole = ColorRole::Foreground;
+            ColorRole textColorRole = ColorRole::Foreground;
             std::string font;
             std::string fontFace = AV::Font::Info::faceDefault;
-			MetricsRole fontSizeRole = MetricsRole::FontMedium;
+            MetricsRole fontSizeRole = MetricsRole::FontMedium;
             AV::Font::Metrics fontMetrics;
             std::future<AV::Font::Metrics> fontMetricsFuture;
             glm::vec2 textSize = glm::vec2(0.f, 0.f);
@@ -87,7 +87,7 @@ namespace djv
             _textUpdate();
         }
 
-		ColorRole LineEditBase::getTextColorRole() const
+        ColorRole LineEditBase::getTextColorRole() const
         {
             return _p->textColorRole;
         }
@@ -111,7 +111,7 @@ namespace djv
             return _p->fontFace;
         }
 
-		MetricsRole LineEditBase::getFontSizeRole() const
+        MetricsRole LineEditBase::getFontSizeRole() const
         {
             return _p->fontSizeRole;
         }
@@ -150,36 +150,36 @@ namespace djv
         
         void LineEditBase::_preLayoutEvent(Event::PreLayout& event)
         {
-			DJV_PRIVATE_PTR();
-			if (auto style = _getStyle().lock())
+            DJV_PRIVATE_PTR();
+            if (auto style = _getStyle().lock())
             {
                 const float ms = style->getMetric(MetricsRole::MarginSmall);
                 const float tc = style->getMetric(MetricsRole::TextColumn);
 
-				if (p.fontMetricsFuture.valid())
-				{
-					try
-					{
-						p.fontMetrics = p.fontMetricsFuture.get();
-						_resize();
-					}
-					catch (const std::exception& e)
-					{
-						_log(e.what(), LogLevel::Error);
-					}
-				}
-				if (p.textSizeFuture.valid())
-				{
-					try
-					{
-						p.textSize = p.textSizeFuture.get();
-						_resize();
-					}
-					catch (const std::exception& e)
-					{
-						_log(e.what(), LogLevel::Error);
-					}
-				}
+                if (p.fontMetricsFuture.valid())
+                {
+                    try
+                    {
+                        p.fontMetrics = p.fontMetricsFuture.get();
+                        _resize();
+                    }
+                    catch (const std::exception& e)
+                    {
+                        _log(e.what(), LogLevel::Error);
+                    }
+                }
+                if (p.textSizeFuture.valid())
+                {
+                    try
+                    {
+                        p.textSize = p.textSizeFuture.get();
+                        _resize();
+                    }
+                    catch (const std::exception& e)
+                    {
+                        _log(e.what(), LogLevel::Error);
+                    }
+                }
 
                 glm::vec2 size = p.textSize;
                 size.x = tc;
@@ -191,8 +191,8 @@ namespace djv
         void LineEditBase::_paintEvent(Event::Paint& event)
         {
             Widget::_paintEvent(event);
-			DJV_PRIVATE_PTR();
-			if (auto render = _getRender().lock())
+            DJV_PRIVATE_PTR();
+            if (auto render = _getRender().lock())
             {
                 if (auto style = _getStyle().lock())
                 {
@@ -218,8 +218,8 @@ namespace djv
 
         void LineEditBase::_textUpdate()
         {
-			DJV_PRIVATE_PTR();
-			if (auto style = _getStyle().lock())
+            DJV_PRIVATE_PTR();
+            if (auto style = _getStyle().lock())
             {
                 if (auto fontSystem = _getFontSystem().lock())
                 {

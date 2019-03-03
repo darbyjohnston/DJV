@@ -34,27 +34,27 @@
 
 namespace djv
 {
-	namespace Core
-	{
-		//! This enumeration provides options for what happens when the
-		//! value range is exceeded.
-		enum class NumericValueOverflow
-		{
-			Clamp,
-			Wrap
-		};
+    namespace Core
+    {
+        //! This enumeration provides options for what happens when the
+        //! value range is exceeded.
+        enum class NumericValueOverflow
+        {
+            Clamp,
+            Wrap
+        };
 
-		//! This class provides an interface for numeric value models.
+        //! This class provides an interface for numeric value models.
         template<typename T>
-		class INumericValueModel
-		{
-			DJV_NON_COPYABLE(INumericValueModel);
+        class INumericValueModel
+        {
+            DJV_NON_COPYABLE(INumericValueModel);
 
         protected:
-			inline void _init();
+            inline void _init();
             inline INumericValueModel();
 
-		public:
+        public:
             inline virtual ~INumericValueModel() = 0;
 
             inline std::shared_ptr<IValueSubject<Range::tRange<T> > > observeRange() const;
@@ -71,14 +71,14 @@ namespace djv
             inline std::shared_ptr<IValueSubject<NumericValueOverflow> > observeOverflow() const;
             inline void setOverflow(NumericValueOverflow);
 
-		private:
+        private:
             std::shared_ptr<ValueSubject<Range::tRange<T> > >    _range;
             std::shared_ptr<ValueSubject<T> >                    _value;
             std::shared_ptr<ValueSubject<T> >                    _increment;
             std::shared_ptr<ValueSubject<NumericValueOverflow> > _overflow;
-		};
+        };
 
-	} // namespace Core
+    } // namespace Core
 } // namespace djv
 
 #include <djvCore/INumericValueModelInline.h>

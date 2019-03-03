@@ -92,11 +92,11 @@ namespace djv
                 p.layout->setParent(shared_from_this());
             }
 
-			ShortcutsWidget::ShortcutsWidget() :
+            ShortcutsWidget::ShortcutsWidget() :
                 _p(new Private)
             {}
 
-			ShortcutsWidget::~ShortcutsWidget()
+            ShortcutsWidget::~ShortcutsWidget()
             {}
 
             std::shared_ptr<ShortcutsWidget> ShortcutsWidget::create(Context * context)

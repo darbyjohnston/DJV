@@ -58,12 +58,12 @@ namespace djv
                 void _layoutEvent(Core::Event::Layout&) override;
 
             private:
-				DJV_PRIVATE();
+                DJV_PRIVATE();
             };
 
         } // namespace Layout
 
-		typedef Layout::Stack StackLayout;
+        typedef Layout::Stack StackLayout;
 
     } // namespace UI
 } // namespace djv

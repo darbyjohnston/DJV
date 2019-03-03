@@ -66,12 +66,12 @@ namespace djv
             void setTextHAlign(TextHAlign);
             void setTextVAlign(TextVAlign);
 
-			ColorRole getTextColorRole() const;
+            ColorRole getTextColorRole() const;
             void setTextColorRole(ColorRole);
 
             const std::string & getFont() const;
             const std::string & getFontFace() const;
-			MetricsRole getFontSizeRole() const;
+            MetricsRole getFontSizeRole() const;
             void setFont(const std::string &);
             void setFontFace(const std::string &);
             void setFontSizeRole(MetricsRole);
@@ -89,7 +89,7 @@ namespace djv
         private:
             void _textUpdate();
 
-			DJV_PRIVATE();
+            DJV_PRIVATE();
         };
 
     } // namespace UI

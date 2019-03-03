@@ -64,7 +64,7 @@ namespace djv
             std::shared_ptr<UI::PopupWidget> searchPopupWidget;
             std::shared_ptr<UI::PopupWidget> settingsPopupWidget;
             std::shared_ptr<UI::ScrollWidget> scrollWidget;
-			std::shared_ptr<UI::VerticalLayout> layout;
+            std::shared_ptr<UI::VerticalLayout> layout;
             std::function<void(const Core::FileSystem::FileInfo &)> callback;
             std::shared_ptr<ValueObserver<UI::ViewType> > viewTypeObserver;
 
@@ -213,7 +213,7 @@ namespace djv
 
         void RecentFilesDialog::_localeEvent(Event::Locale & event)
         {
-			IDialog::_localeEvent(event);
+            IDialog::_localeEvent(event);
             DJV_PRIVATE_PTR();
             setTitle(_getText(DJV_TEXT("Recent Files")));
 

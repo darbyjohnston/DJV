@@ -42,44 +42,44 @@ namespace djv
 {
     namespace Core
     {
-		struct CoreSystem::Private
-		{
-			std::shared_ptr<Time::TimerSystem> timerSystem;
-			std::shared_ptr<ResourceSystem> resourceSystem;
-			std::shared_ptr<LogSystem> logSystem;
-			std::shared_ptr<TextSystem> textSystem;
-			std::shared_ptr<Animation::System> animationSystem;
-		};
+        struct CoreSystem::Private
+        {
+            std::shared_ptr<Time::TimerSystem> timerSystem;
+            std::shared_ptr<ResourceSystem> resourceSystem;
+            std::shared_ptr<LogSystem> logSystem;
+            std::shared_ptr<TextSystem> textSystem;
+            std::shared_ptr<Animation::System> animationSystem;
+        };
 
         void CoreSystem::_init(const std::string& argv0, Context * context)
         {
             ISystem::_init("djv::Core::CoreSystem", context);
 
-			DJV_PRIVATE_PTR();
-			p.timerSystem = Time::TimerSystem::create(context);
-			addDependency(p.timerSystem);
+            DJV_PRIVATE_PTR();
+            p.timerSystem = Time::TimerSystem::create(context);
+            addDependency(p.timerSystem);
 
-			p.resourceSystem = ResourceSystem::create(argv0, context);
-			addDependency(p.resourceSystem);
+            p.resourceSystem = ResourceSystem::create(argv0, context);
+            addDependency(p.resourceSystem);
 
-			p.logSystem = LogSystem::create(p.resourceSystem->getPath(FileSystem::ResourcePath::LogFile), context);
-			p.logSystem->addDependency(p.timerSystem);
-			p.logSystem->addDependency(p.resourceSystem);
-			addDependency(p.logSystem);
+            p.logSystem = LogSystem::create(p.resourceSystem->getPath(FileSystem::ResourcePath::LogFile), context);
+            p.logSystem->addDependency(p.timerSystem);
+            p.logSystem->addDependency(p.resourceSystem);
+            addDependency(p.logSystem);
 
-			p.textSystem = TextSystem::create(context);
-			p.textSystem->addDependency(p.logSystem);
-			addDependency(p.textSystem);
+            p.textSystem = TextSystem::create(context);
+            p.textSystem->addDependency(p.logSystem);
+            addDependency(p.textSystem);
 
-			p.animationSystem = Animation::System::create(context);
-			addDependency(p.animationSystem);
-		}
+            p.animationSystem = Animation::System::create(context);
+            addDependency(p.animationSystem);
+        }
 
         CoreSystem::CoreSystem() :
-			_p(new Private)
+            _p(new Private)
         {}
 
-		CoreSystem::~CoreSystem()
+        CoreSystem::~CoreSystem()
         {}
 
         std::shared_ptr<CoreSystem> CoreSystem::create(const std::string& argv0, Context * context)

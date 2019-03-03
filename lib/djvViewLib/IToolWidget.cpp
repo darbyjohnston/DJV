@@ -45,8 +45,8 @@ namespace djv
         struct IToolWidget::Private
         {
             std::shared_ptr<UI::Label> titleLabel;
-			std::shared_ptr<UI::HorizontalLayout> titleBar;
-			std::shared_ptr<UI::FlatButton> closeButton;
+            std::shared_ptr<UI::HorizontalLayout> titleBar;
+            std::shared_ptr<UI::FlatButton> closeButton;
             std::shared_ptr<UI::VerticalLayout> childLayout;
             std::shared_ptr<UI::VerticalLayout> layout;
             std::shared_ptr<UI::Border> border;
@@ -60,18 +60,18 @@ namespace djv
             DJV_PRIVATE_PTR();
 
             p.titleLabel = UI::Label::create(context);
-			p.titleLabel->setFontSizeRole(UI::MetricsRole::FontHeader);
+            p.titleLabel->setFontSizeRole(UI::MetricsRole::FontHeader);
             p.titleLabel->setTextHAlign(UI::TextHAlign::Left);
             p.titleLabel->setMargin(UI::MetricsRole::Margin);
 
             p.closeButton = UI::FlatButton::create(context);
-			p.closeButton->setIcon("djvIconClose");
-			p.closeButton->setInsideMargin(UI::MetricsRole::MarginSmall);
+            p.closeButton->setIcon("djvIconClose");
+            p.closeButton->setInsideMargin(UI::MetricsRole::MarginSmall);
 
             p.titleBar = UI::HorizontalLayout::create(context);
-			p.titleBar->setSpacing(UI::MetricsRole::None);
+            p.titleBar->setSpacing(UI::MetricsRole::None);
             p.titleBar->addWidget(p.titleLabel, UI::RowStretch::Expand);
-			p.titleBar->addWidget(p.closeButton);
+            p.titleBar->addWidget(p.closeButton);
 
             p.childLayout = UI::VerticalLayout::create(context);
 
@@ -160,11 +160,11 @@ namespace djv
             _p->border->setGeometry(getGeometry());
         }
 
-		void IToolWidget::_localeEvent(Event::Locale &)
-		{
-			DJV_PRIVATE_PTR();
-			p.closeButton->setTooltip(_getText(DJV_TEXT("Close tooltip")));
-		}
+        void IToolWidget::_localeEvent(Event::Locale &)
+        {
+            DJV_PRIVATE_PTR();
+            p.closeButton->setTooltip(_getText(DJV_TEXT("Close tooltip")));
+        }
 
     } // namespace ViewLib
 } // namespace djv

@@ -55,7 +55,7 @@ namespace djv
             const AV::Image::Color& getColor() const;
             void setColor(const AV::Image::Color&);
 
-			MetricsRole getSwatchSize() const;
+            MetricsRole getSwatchSize() const;
             void setSwatchSize(MetricsRole);
 
         protected:
@@ -63,7 +63,7 @@ namespace djv
             void _paintEvent(Core::Event::Paint&) override;
 
         private:
-			DJV_PRIVATE();
+            DJV_PRIVATE();
         };
 
     } // namespace UI

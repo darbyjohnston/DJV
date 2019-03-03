@@ -89,7 +89,7 @@ namespace djv
                 void _layoutEvent(Core::Event::Layout&) override;
 
             private:
-				DJV_PRIVATE();
+                DJV_PRIVATE();
             };
 
             //! This class provides a layout that arranges it's children in a horizontal row.
@@ -120,9 +120,9 @@ namespace djv
 
         } // namespace Layout
 
-		typedef Layout::Horizontal HorizontalLayout;
-		typedef Layout::Vertical VerticalLayout;
-		using Layout::RowStretch;
+        typedef Layout::Horizontal HorizontalLayout;
+        typedef Layout::Vertical VerticalLayout;
+        using Layout::RowStretch;
 
     } // namespace UI
 

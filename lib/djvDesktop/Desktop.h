@@ -36,5 +36,5 @@ namespace djv
     //! This namespace provides desktop application functionality.
     namespace Desktop
     {
-	} // namespace Desktop
+    } // namespace Desktop
 } // namespace djv

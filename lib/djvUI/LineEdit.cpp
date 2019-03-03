@@ -83,7 +83,7 @@ namespace djv
             _p->lineEditBase->setText(value);
         }
 
-		ColorRole LineEdit::getTextColorRole() const
+        ColorRole LineEdit::getTextColorRole() const
         {
             return _p->lineEditBase->getTextColorRole();
         }
@@ -103,7 +103,7 @@ namespace djv
             return _p->lineEditBase->getFontFace();
         }
 
-		MetricsRole LineEdit::getFontSizeRole() const
+        MetricsRole LineEdit::getFontSizeRole() const
         {
             return _p->lineEditBase->getFontSizeRole();
         }

@@ -58,11 +58,11 @@ namespace djv
                 };
                 DJV_ENUM_HELPERS(Data);
 
-				//! This struct provides the PPM settings.
-				struct Settings
-				{
-					Data data = Data::Binary;
-				};
+                //! This struct provides the PPM settings.
+                struct Settings
+                {
+                    Data data = Data::Binary;
+                };
 
                 //! Get the number of bytes in a scanline.
                 size_t getScanlineByteCount(
@@ -117,7 +117,7 @@ namespace djv
 
                     static std::shared_ptr<Write> create(
                         const std::string & fileName,
-						const Settings &,
+                        const Settings &,
                         const Info &,
                         const std::shared_ptr<Queue> &,
                         Core::Context *);

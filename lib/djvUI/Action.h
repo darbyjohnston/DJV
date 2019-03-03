@@ -88,7 +88,7 @@ namespace djv
             void setTooltip(const std::string&);
 
         private:
-			DJV_PRIVATE();
+            DJV_PRIVATE();
         };
 
     } // namespace UI

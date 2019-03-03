@@ -53,7 +53,7 @@ namespace djv
     {
         namespace FileBrowser
         {
-			//! This class provides a file browser path widget.
+            //! This class provides a file browser path widget.
             class PathWidget : public UI::Widget
             {
                 DJV_NON_COPYABLE(PathWidget);

@@ -57,7 +57,7 @@ namespace djv
                 picojson::value save() override;
 
             private:
-				DJV_PRIVATE();
+                DJV_PRIVATE();
             };
 
         } // namespace Settings

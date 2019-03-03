@@ -31,16 +31,16 @@ namespace djv
 {
     namespace Core
     {
-	    namespace Time
-	    {
-		    inline void secondsToTime(double in, int & hour, int & minute, double & seconds)
-		    {
-			    hour = static_cast<int>(in) / (60 * 60);
-			    in -= hour * 60 * 60;
-			    minute = static_cast<int>(in) / 60;
-			    in -= minute * 60;
-			    seconds = in;
-		    }
+        namespace Time
+        {
+            inline void secondsToTime(double in, int & hour, int & minute, double & seconds)
+            {
+                hour = static_cast<int>(in) / (60 * 60);
+                in -= hour * 60 * 60;
+                minute = static_cast<int>(in) / 60;
+                in -= minute * 60;
+                seconds = in;
+            }
 
             inline void timecodeToTime(
                 uint32_t in,
@@ -94,6 +94,6 @@ namespace djv
                 return timeToTimecode(hour, minute, second, static_cast<int>(frame));
             }
 
-	    } // namespace Time
-	} // namespace Core
+        } // namespace Time
+    } // namespace Core
 } // namespace djv

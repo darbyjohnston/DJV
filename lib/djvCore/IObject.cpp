@@ -222,9 +222,9 @@ namespace djv
         bool IObject::_eventFilter(Event::IEvent& event)
         {
             bool filtered = false;
-			auto i = _filters.begin();
-			while (i != _filters.end())
-			{
+            auto i = _filters.begin();
+            while (i != _filters.end())
+            {
                 if (auto object = i->lock())
                 {
                     if (object->_eventFilter(shared_from_this(), event))
@@ -232,11 +232,11 @@ namespace djv
                         filtered = true;
                         break;
                     }
-					++i;
+                    ++i;
                 }
                 else
                 {
-					i = _filters.erase(i);
+                    i = _filters.erase(i);
                 }
             }
             return filtered;

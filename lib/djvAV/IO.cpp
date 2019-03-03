@@ -256,7 +256,7 @@ namespace djv
                 p.plugins[FFmpeg::pluginName] = FFmpeg::Plugin::create(context);
                 p.plugins[PPM::pluginName] = PPM::Plugin::create(context);
 #if defined(JPEG_FOUND)
-				p.plugins[JPEG::pluginName] = JPEG::Plugin::create(context);
+                p.plugins[JPEG::pluginName] = JPEG::Plugin::create(context);
 #endif // JPEG_FOUND
 #if defined(PNG_FOUND)
                 p.plugins[PNG::pluginName] = PNG::Plugin::create(context);
@@ -289,16 +289,16 @@ namespace djv
                 return out;
             }
 
-			std::vector<std::string> System::getPluginNames() const
-			{
-				DJV_PRIVATE_PTR();
-				std::vector<std::string> out;
-				for (const auto & i : p.plugins)
-				{
-					out.push_back(i.second->getPluginName());
-				}
-				return out;
-			}
+            std::vector<std::string> System::getPluginNames() const
+            {
+                DJV_PRIVATE_PTR();
+                std::vector<std::string> out;
+                for (const auto & i : p.plugins)
+                {
+                    out.push_back(i.second->getPluginName());
+                }
+                return out;
+            }
 
             picojson::value System::getOptions(const std::string & pluginName) const
             {

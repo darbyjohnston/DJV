@@ -43,8 +43,8 @@ namespace djv
 {
     namespace Core
     {
-	    namespace Time
-	    {
+        namespace Time
+        {
             double timestampToSeconds(Timestamp value)
             {
                 return value / static_cast<double>(AV_TIME_BASE);
@@ -65,20 +65,20 @@ namespace djv
                 return static_cast<Duration>(value * static_cast<double>(AV_TIME_BASE));
             }
 
-		    std::string getLabel(double value)
-		    {
-			    int    hours   = 0;
-			    int    minutes = 0;
+            std::string getLabel(double value)
+            {
+                int    hours   = 0;
+                int    minutes = 0;
                 double seconds = 0.0;
-			    secondsToTime(value, hours, minutes, seconds);
-			    std::stringstream s;
-			    s << std::setfill('0') << std::setw(2) << hours;
-			    s << std::setw(0) << ":";
-			    s << std::setfill('0') << std::setw(2) << minutes;
-			    s << std::setw(0) << ":";
-			    s << std::setfill('0') << std::setw(2) << static_cast<int>(seconds);
-			    return s.str();
-		    }
+                secondsToTime(value, hours, minutes, seconds);
+                std::stringstream s;
+                s << std::setfill('0') << std::setw(2) << hours;
+                s << std::setw(0) << ":";
+                s << std::setfill('0') << std::setw(2) << minutes;
+                s << std::setw(0) << ":";
+                s << std::setfill('0') << std::setw(2) << static_cast<int>(seconds);
+                return s.str();
+            }
 
             std::string getLabel(time_t value)
             {
@@ -184,6 +184,6 @@ namespace djv
                 out = timeToTimecode(hour, minute, second, frame);
             }
 
-	    } // namespace Time
-	} // namespace Core
+        } // namespace Time
+    } // namespace Core
 } // namespace djv

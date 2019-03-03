@@ -53,21 +53,21 @@ namespace djv
 
             DJV_PRIVATE_PTR();
 
-			auto uiSystem = UISystem::create(dpi, context);
-			addDependency(uiSystem);
+            auto uiSystem = UISystem::create(dpi, context);
+            addDependency(uiSystem);
 
-			Settings::AVIO::create(context);
-			Settings::FileBrowser::create(context);
+            Settings::AVIO::create(context);
+            Settings::FileBrowser::create(context);
 
-			auto fileBrowserDialogSystem = FileBrowser::DialogSystem::create(context);
-			addDependency(fileBrowserDialogSystem);
+            auto fileBrowserDialogSystem = FileBrowser::DialogSystem::create(context);
+            addDependency(fileBrowserDialogSystem);
         }
 
-		UIComponentsSystem::UIComponentsSystem() :
+        UIComponentsSystem::UIComponentsSystem() :
             _p(new Private)
         {}
 
-		UIComponentsSystem::~UIComponentsSystem()
+        UIComponentsSystem::~UIComponentsSystem()
         {}
 
         std::shared_ptr<UIComponentsSystem> UIComponentsSystem::create(int dpi, Context * context)

@@ -34,9 +34,9 @@ namespace djv
     {
         picojson::value out(picojson::object_type, true);
         {
-			std::stringstream ss;
-			ss << value.data;
-			out.get<picojson::object>()["Data"] = picojson::value(ss.str());
+            std::stringstream ss;
+            ss << value.data;
+            out.get<picojson::object>()["Data"] = picojson::value(ss.str());
         }
         return out;
     }
@@ -50,9 +50,9 @@ namespace djv
             {
                 if ("Data" == i.first)
                 {
-					std::stringstream ss(i.second.get<std::string>());
-					ss >> out.data;
-				}
+                    std::stringstream ss(i.second.get<std::string>());
+                    ss >> out.data;
+                }
             }
         }
         else

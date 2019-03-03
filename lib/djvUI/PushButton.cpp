@@ -165,7 +165,7 @@ namespace djv
                 return _p->label->getFontFace();
             }
 
-			MetricsRole Push::getFontSizeRole() const
+            MetricsRole Push::getFontSizeRole() const
             {
                 return _p->label->getFontSizeRole();
             }

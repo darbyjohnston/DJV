@@ -73,7 +73,7 @@ namespace djv
 
             void System::_removeSettings(const std::shared_ptr<ISettings>& value)
             {
-				const auto i = std::find(_settings.begin(), _settings.end(), value);
+                const auto i = std::find(_settings.begin(), _settings.end(), value);
                 if (i != _settings.end())
                 {
                     _settings.erase(i);
@@ -82,7 +82,7 @@ namespace djv
 
             void System::_loadSettings(const std::shared_ptr<ISettings>& settings)
             {
-				std::stringstream s;
+                std::stringstream s;
                 s << "Loading settings: " << settings->getName();
                 _log(s.str());
 
@@ -96,7 +96,7 @@ namespace djv
 
             void System::_saveSettings()
             {
-				picojson::value object(picojson::object_type, true);
+                picojson::value object(picojson::object_type, true);
 
                 // Serialize the settings.
                 for (const auto& settings : _settings)

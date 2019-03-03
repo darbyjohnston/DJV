@@ -75,14 +75,14 @@ namespace djv
             const glm::vec2& getScrollPos() const;
             void setScrollPos(const glm::vec2&);
 
-			bool hasAutoHideScrollBars() const;
-			void setAutoHideScrollBars(bool);
+            bool hasAutoHideScrollBars() const;
+            void setAutoHideScrollBars(bool);
 
             bool hasBorder() const;
             void setBorder(bool);
 
-			MetricsRole getMinimumSizeRole() const;
-			void setMinimumSizeRole(MetricsRole);
+            MetricsRole getMinimumSizeRole() const;
+            void setMinimumSizeRole(MetricsRole);
 
             void addWidget(const std::shared_ptr<Widget>&) override;
             void removeWidget(const std::shared_ptr<Widget>&) override;
@@ -101,7 +101,7 @@ namespace djv
             void _addPointerSample(const glm::vec2&);
             glm::vec2 _getPointerAverage() const;
 
-			DJV_PRIVATE();
+            DJV_PRIVATE();
         };
 
     } // namespace UI

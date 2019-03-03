@@ -48,11 +48,11 @@ namespace djv
         {
             std::string text;
             TextHAlign textHAlign = TextHAlign::Left;
-			ColorRole textColorRole = ColorRole::Foreground;
-			MetricsRole textSizeRole = MetricsRole::TextColumn;
+            ColorRole textColorRole = ColorRole::Foreground;
+            MetricsRole textSizeRole = MetricsRole::TextColumn;
             std::string fontFace = AV::Font::Info::faceDefault;
             std::string fontFamily;
-			MetricsRole fontSizeRole = MetricsRole::FontMedium;
+            MetricsRole fontSizeRole = MetricsRole::FontMedium;
             AV::Font::Metrics fontMetrics;
             std::future<AV::Font::Metrics> fontMetricsFuture;
             float heightForWidth = 0.f;
@@ -125,7 +125,7 @@ namespace djv
             _resize();
         }
 
-		ColorRole TextBlock::getTextColorRole() const
+        ColorRole TextBlock::getTextColorRole() const
         {
             return _p->textColorRole;
         }
@@ -139,7 +139,7 @@ namespace djv
             _redraw();
         }
 
-		MetricsRole TextBlock::getTextSizeRole() const
+        MetricsRole TextBlock::getTextSizeRole() const
         {
             return _p->textSizeRole;
         }
@@ -163,7 +163,7 @@ namespace djv
             return _p->fontFace;
         }
 
-		MetricsRole TextBlock::getFontSizeRole() const
+        MetricsRole TextBlock::getFontSizeRole() const
         {
             return _p->fontSizeRole;
         }

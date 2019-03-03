@@ -44,8 +44,8 @@ namespace djv
     {
         struct FileBrowserDialog::Private
         {
-			bool shown = false;
-			std::shared_ptr<UI::FileBrowser::Widget> fileBrowser;
+            bool shown = false;
+            std::shared_ptr<UI::FileBrowser::Widget> fileBrowser;
             std::function<void(const Core::FileSystem::FileInfo &)> callback;
         };
 
@@ -54,9 +54,9 @@ namespace djv
             IDialog::_init(context);
 
             DJV_PRIVATE_PTR();
-			p.fileBrowser = UI::FileBrowser::Widget::create(context);
-			p.fileBrowser->setPath(Core::FileSystem::Path("."));
-			addWidget(p.fileBrowser, UI::RowStretch::Expand);
+            p.fileBrowser = UI::FileBrowser::Widget::create(context);
+            p.fileBrowser->setPath(Core::FileSystem::Path("."));
+            addWidget(p.fileBrowser, UI::RowStretch::Expand);
 
             auto weak = std::weak_ptr<FileBrowserDialog>(std::dynamic_pointer_cast<FileBrowserDialog>(shared_from_this()));
             p.fileBrowser->setCallback(
@@ -66,17 +66,17 @@ namespace djv
                 {
                     if (widget->_p->callback)
                     {
-						widget->_p->callback(value);
+                        widget->_p->callback(value);
                     }
                 }
             });
         }
 
-		FileBrowserDialog::FileBrowserDialog() :
+        FileBrowserDialog::FileBrowserDialog() :
             _p(new Private)
         {}
 
-		FileBrowserDialog::~FileBrowserDialog()
+        FileBrowserDialog::~FileBrowserDialog()
         {}
 
         std::shared_ptr<FileBrowserDialog> FileBrowserDialog::create(Context * context)
@@ -93,7 +93,7 @@ namespace djv
 
         void FileBrowserDialog::_localeEvent(Event::Locale & event)
         {
-			IDialog::_localeEvent(event);
+            IDialog::_localeEvent(event);
             DJV_PRIVATE_PTR();
             setTitle(_getText(DJV_TEXT("File Browser")));
         }

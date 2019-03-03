@@ -44,61 +44,61 @@ namespace djv
 {
     namespace UI
     {
-		struct PPMSettingsWidget::Private
-		{
-			std::shared_ptr<ButtonGroup> dataButtonGroup;
-			std::shared_ptr<GroupBox> dataGroupBox;
-		};
+        struct PPMSettingsWidget::Private
+        {
+            std::shared_ptr<ButtonGroup> dataButtonGroup;
+            std::shared_ptr<GroupBox> dataGroupBox;
+        };
 
-		void PPMSettingsWidget::_init(Context * context)
-		{
+        void PPMSettingsWidget::_init(Context * context)
+        {
             ISettingsWidget::_init(context);
 
-			DJV_PRIVATE_PTR();
+            DJV_PRIVATE_PTR();
 
-			p.dataButtonGroup = ButtonGroup::create(ButtonType::Radio);
-			auto layout = VerticalLayout::create(context);
+            p.dataButtonGroup = ButtonGroup::create(ButtonType::Radio);
+            auto layout = VerticalLayout::create(context);
             layout->setSpacing(MetricsRole::None);
-			for (size_t i = 0; i < static_cast<size_t>(AV::IO::PPM::Data::Count); ++i)
-			{
-				auto button = FlatButton::create(context);
-				p.dataButtonGroup->addButton(button);
-				layout->addWidget(button);
-			}
-			p.dataGroupBox = GroupBox::create(context);
-			p.dataGroupBox->addWidget(layout);
-			addWidget(p.dataGroupBox);
+            for (size_t i = 0; i < static_cast<size_t>(AV::IO::PPM::Data::Count); ++i)
+            {
+                auto button = FlatButton::create(context);
+                p.dataButtonGroup->addButton(button);
+                layout->addWidget(button);
+            }
+            p.dataGroupBox = GroupBox::create(context);
+            p.dataGroupBox->addWidget(layout);
+            addWidget(p.dataGroupBox);
 
-			if (auto io = context->getSystemT<AV::IO::System>().lock())
-			{
-				AV::IO::PPM::Settings settings;
-				fromJSON(io->getOptions(AV::IO::PPM::pluginName), settings);
-				p.dataButtonGroup->setChecked(static_cast<int>(settings.data));
-			}
+            if (auto io = context->getSystemT<AV::IO::System>().lock())
+            {
+                AV::IO::PPM::Settings settings;
+                fromJSON(io->getOptions(AV::IO::PPM::pluginName), settings);
+                p.dataButtonGroup->setChecked(static_cast<int>(settings.data));
+            }
 
-			auto weak = std::weak_ptr<PPMSettingsWidget>(std::dynamic_pointer_cast<PPMSettingsWidget>(shared_from_this()));
-			p.dataButtonGroup->setRadioCallback(
-				[weak, context](int value)
-			{
-				if (auto io = context->getSystemT<AV::IO::System>().lock())
-				{
-					AV::IO::PPM::Settings settings;
-					settings.data = static_cast<AV::IO::PPM::Data>(value);
-					io->setOptions(AV::IO::PPM::pluginName, toJSON(settings));
-				}
-			});
-		}
+            auto weak = std::weak_ptr<PPMSettingsWidget>(std::dynamic_pointer_cast<PPMSettingsWidget>(shared_from_this()));
+            p.dataButtonGroup->setRadioCallback(
+                [weak, context](int value)
+            {
+                if (auto io = context->getSystemT<AV::IO::System>().lock())
+                {
+                    AV::IO::PPM::Settings settings;
+                    settings.data = static_cast<AV::IO::PPM::Data>(value);
+                    io->setOptions(AV::IO::PPM::pluginName, toJSON(settings));
+                }
+            });
+        }
 
-		PPMSettingsWidget::PPMSettingsWidget() :
-			_p(new Private)
-		{}
+        PPMSettingsWidget::PPMSettingsWidget() :
+            _p(new Private)
+        {}
 
-		std::shared_ptr<PPMSettingsWidget> PPMSettingsWidget::create(Context * context)
-		{
-			auto out = std::shared_ptr<PPMSettingsWidget>(new PPMSettingsWidget);
-			out->_init(context);
-			return out;
-		}
+        std::shared_ptr<PPMSettingsWidget> PPMSettingsWidget::create(Context * context)
+        {
+            auto out = std::shared_ptr<PPMSettingsWidget>(new PPMSettingsWidget);
+            out->_init(context);
+            return out;
+        }
 
         std::string PPMSettingsWidget::getName() const
         {
@@ -115,22 +115,22 @@ namespace djv
             return "B";
         }
 
-		void PPMSettingsWidget::_localeEvent(Event::Locale & event)
-		{
+        void PPMSettingsWidget::_localeEvent(Event::Locale & event)
+        {
             ISettingsWidget::_localeEvent(event);
-			DJV_PRIVATE_PTR();
-			const auto & buttons = p.dataButtonGroup->getButtons();
-			for (size_t i = 0; i < buttons.size(); ++i)
-			{
-				if (auto button = std::dynamic_pointer_cast<FlatButton>(buttons[i]))
-				{
-					std::stringstream ss;
-					ss << static_cast<AV::IO::PPM::Data>(i);
-					button->setText(_getText(ss.str()));
-				}
-			}
-			p.dataGroupBox->setText(_getText(DJV_TEXT("Data Type")));
-		}
+            DJV_PRIVATE_PTR();
+            const auto & buttons = p.dataButtonGroup->getButtons();
+            for (size_t i = 0; i < buttons.size(); ++i)
+            {
+                if (auto button = std::dynamic_pointer_cast<FlatButton>(buttons[i]))
+                {
+                    std::stringstream ss;
+                    ss << static_cast<AV::IO::PPM::Data>(i);
+                    button->setText(_getText(ss.str()));
+                }
+            }
+            p.dataGroupBox->setText(_getText(DJV_TEXT("Data Type")));
+        }
 
     } // namespace UI
 } // namespace djv

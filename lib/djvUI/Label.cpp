@@ -44,10 +44,10 @@ namespace djv
             std::string text;
             TextHAlign textHAlign = TextHAlign::Center;
             TextVAlign textVAlign = TextVAlign::Center;
-			ColorRole textColorRole = ColorRole::Foreground;
+            ColorRole textColorRole = ColorRole::Foreground;
             std::string font;
             std::string fontFace = AV::Font::Info::faceDefault;
-			MetricsRole fontSizeRole = MetricsRole::FontMedium;
+            MetricsRole fontSizeRole = MetricsRole::FontMedium;
             AV::Font::Metrics fontMetrics;
             std::future<AV::Font::Metrics> fontMetricsFuture;
             glm::vec2 textSize = glm::vec2(0.f, 0.f);
@@ -126,7 +126,7 @@ namespace djv
             _resize();
         }
             
-		ColorRole Label::getTextColorRole() const
+        ColorRole Label::getTextColorRole() const
         {
             return _p->textColorRole;
         }
@@ -150,7 +150,7 @@ namespace djv
             return _p->fontFace;
         }
 
-		MetricsRole Label::getFontSizeRole() const
+        MetricsRole Label::getFontSizeRole() const
         {
             return _p->fontSizeRole;
         }
@@ -203,21 +203,21 @@ namespace djv
 
         void Label::_preLayoutEvent(Event::PreLayout &)
         {
-			DJV_PRIVATE_PTR();
-			if (auto style = _getStyle().lock())
+            DJV_PRIVATE_PTR();
+            if (auto style = _getStyle().lock())
             {
-				if (p.fontMetricsFuture.valid())
-				{
-					try
-					{
-						p.fontMetrics = p.fontMetricsFuture.get();
-						_resize();
-					}
-					catch (const std::exception & e)
-					{
-						_log(e.what(), LogLevel::Error);
-					}
-				}
+                if (p.fontMetricsFuture.valid())
+                {
+                    try
+                    {
+                        p.fontMetrics = p.fontMetricsFuture.get();
+                        _resize();
+                    }
+                    catch (const std::exception & e)
+                    {
+                        _log(e.what(), LogLevel::Error);
+                    }
+                }
                 if (p.textSizeFuture.valid())
                 {
                     try
@@ -251,8 +251,8 @@ namespace djv
         void Label::_paintEvent(Event::Paint & event)
         {
             Widget::_paintEvent(event);
-			DJV_PRIVATE_PTR();
-			if (auto render = _getRender().lock())
+            DJV_PRIVATE_PTR();
+            if (auto render = _getRender().lock())
             {
                 if (auto style = _getStyle().lock())
                 {
@@ -303,8 +303,8 @@ namespace djv
 
         void Label::_textUpdate()
         {
-			DJV_PRIVATE_PTR();
-			if (auto style = _getStyle().lock())
+            DJV_PRIVATE_PTR();
+            if (auto style = _getStyle().lock())
             {
                 if (auto fontSystem = _getFontSystem().lock())
                 {

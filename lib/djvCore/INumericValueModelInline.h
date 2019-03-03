@@ -31,106 +31,106 @@
 
 namespace djv
 {
-	namespace Core
-	{
+    namespace Core
+    {
         template<typename T>
         inline void INumericValueModel<T>::_init()
-		{
-			_range     = ValueSubject<Range::tRange<T> >::create();
-			_value     = ValueSubject<T>::create();
-			_increment = ValueSubject<T>::create();
-			_overflow  = ValueSubject<NumericValueOverflow>::create();
-		}
+        {
+            _range     = ValueSubject<Range::tRange<T> >::create();
+            _value     = ValueSubject<T>::create();
+            _increment = ValueSubject<T>::create();
+            _overflow  = ValueSubject<NumericValueOverflow>::create();
+        }
 
         template<typename T>
         inline INumericValueModel<T>::INumericValueModel()
-		{}
+        {}
 
         template<typename T>
         inline INumericValueModel<T>::~INumericValueModel()
-		{}
+        {}
 
         template<typename T>
         inline std::shared_ptr<IValueSubject<Range::tRange<T> > > INumericValueModel<T>::observeRange() const
-		{
-			return _range;
-		}
+        {
+            return _range;
+        }
 
         template<typename T>
         inline void INumericValueModel<T>::setRange(const Range::tRange<T> & value)
-		{
-			_range->setIfChanged(value);
+        {
+            _range->setIfChanged(value);
             setValue(_value->get());
-		}
+        }
 
         template<typename T>
         inline std::shared_ptr<IValueSubject<T> > INumericValueModel<T>::observeValue() const
-		{
-			return _value;
-		}
+        {
+            return _value;
+        }
 
         template<typename T>
         inline void INumericValueModel<T>::setValue(T value)
-		{
-			const auto & range = _range->get();
-			switch (_overflow->get())
-			{
-			case NumericValueOverflow::Clamp:
-				value = Math::clamp(value, range.min, range.max);
-				break;
-			case NumericValueOverflow::Wrap:
-				if (range.min != range.max)
-				{
-					while (value > range.max)
-					{
-						value -= range.max;
-					}
-					while (value < range.min)
-					{
-						value += range.min;
-					}
-				}
-				break;
-			default: break;
-			}
-			_value->setIfChanged(value);
-		}
+        {
+            const auto & range = _range->get();
+            switch (_overflow->get())
+            {
+            case NumericValueOverflow::Clamp:
+                value = Math::clamp(value, range.min, range.max);
+                break;
+            case NumericValueOverflow::Wrap:
+                if (range.min != range.max)
+                {
+                    while (value > range.max)
+                    {
+                        value -= range.max;
+                    }
+                    while (value < range.min)
+                    {
+                        value += range.min;
+                    }
+                }
+                break;
+            default: break;
+            }
+            _value->setIfChanged(value);
+        }
 
         template<typename T>
         inline std::shared_ptr<IValueSubject<T> > INumericValueModel<T>::observeIncrement() const
-		{
-			return _increment;
-		}
+        {
+            return _increment;
+        }
 
         template<typename T>
         inline void INumericValueModel<T>::incrementValue()
-		{
-			setValue(_value->get() + _increment->get());
-		}
+        {
+            setValue(_value->get() + _increment->get());
+        }
 
         template<typename T>
         inline void INumericValueModel<T>::decrementValue()
-		{
-			setValue(_value->get() - _increment->get());
-		}
+        {
+            setValue(_value->get() - _increment->get());
+        }
 
         template<typename T>
         inline void INumericValueModel<T>::setIncrement(T value)
-		{
-			_increment->setIfChanged(value);
-		}
+        {
+            _increment->setIfChanged(value);
+        }
 
         template<typename T>
         inline std::shared_ptr<IValueSubject<NumericValueOverflow> > INumericValueModel<T>::observeOverflow() const
-		{
-			return _overflow;
-		}
+        {
+            return _overflow;
+        }
 
         template<typename T>
         inline void INumericValueModel<T>::setOverflow(NumericValueOverflow value)
-		{
-			_overflow->setIfChanged(value);
-		}
+        {
+            _overflow->setIfChanged(value);
+        }
 
-	} // namespace Core
+    } // namespace Core
 } // namespace djv

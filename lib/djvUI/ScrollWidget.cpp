@@ -385,8 +385,8 @@ namespace djv
                 bool setScrollPos(const glm::vec2&);
                 void setScrollPosCallback(const std::function<void(const glm::vec2&)>&);
 
-				MetricsRole getMinimumSizeRole() const { return _minimumSizeRole; }
-				void setMinimumSizeRole(MetricsRole);
+                MetricsRole getMinimumSizeRole() const { return _minimumSizeRole; }
+                void setMinimumSizeRole(MetricsRole);
 
             protected:
                 void _preLayoutEvent(Event::PreLayout&) override;
@@ -399,7 +399,7 @@ namespace djv
                 std::function<void(const glm::vec2&)> _contentsSizeCallback;
                 glm::vec2 _scrollPos = glm::vec2(0.f, 0.f);
                 std::function<void(const glm::vec2&)> _scrollPosCallback;
-				MetricsRole _minimumSizeRole = MetricsRole::ScrollArea;
+                MetricsRole _minimumSizeRole = MetricsRole::ScrollArea;
             };
 
             void ScrollArea::_init(ScrollType scrollType, Context * context)
@@ -451,13 +451,13 @@ namespace djv
                 _scrollPosCallback = callback;
             }
 
-			void ScrollArea::setMinimumSizeRole(MetricsRole value)
-			{
-				if (value == _minimumSizeRole)
-					return;
-				_minimumSizeRole = value;
-				_resize();
-			}
+            void ScrollArea::setMinimumSizeRole(MetricsRole value)
+            {
+                if (value == _minimumSizeRole)
+                    return;
+                _minimumSizeRole = value;
+                _resize();
+            }
 
             void ScrollArea::_preLayoutEvent(Event::PreLayout&)
             {
@@ -476,23 +476,23 @@ namespace djv
                     switch (_scrollType)
                     {
                     case ScrollType::Both:
-						if (_minimumSizeRole != MetricsRole::None)
-						{
-							size.x = std::min(childrenMinimumSize.x, minimumSize);
-							size.y = std::min(childrenMinimumSize.y, minimumSize);
-						}
+                        if (_minimumSizeRole != MetricsRole::None)
+                        {
+                            size.x = std::min(childrenMinimumSize.x, minimumSize);
+                            size.y = std::min(childrenMinimumSize.y, minimumSize);
+                        }
                         break;
                     case ScrollType::Horizontal:
-						if (_minimumSizeRole != MetricsRole::None)
-						{
-							size.x = std::min(childrenMinimumSize.x, minimumSize);
-						}
+                        if (_minimumSizeRole != MetricsRole::None)
+                        {
+                            size.x = std::min(childrenMinimumSize.x, minimumSize);
+                        }
                         break;
                     case ScrollType::Vertical:
-						if (_minimumSizeRole != MetricsRole::None)
-						{
-							size.y = std::min(childrenMinimumSize.y, minimumSize);
-						}
+                        if (_minimumSizeRole != MetricsRole::None)
+                        {
+                            size.y = std::min(childrenMinimumSize.y, minimumSize);
+                        }
                         break;
                     default: break;
                     }
@@ -585,7 +585,7 @@ namespace djv
             std::shared_ptr<ScrollArea> scrollArea;
             std::shared_ptr<Widget> scrollAreaSwipe;
             std::map<Orientation, std::shared_ptr<ScrollBar> > scrollBars;
-			bool autoHideScrollBars = true;
+            bool autoHideScrollBars = true;
             std::shared_ptr<Border> border;
             Event::PointerID pointerID = Event::InvalidID;
             glm::vec2 pointerPos = glm::vec2(0.f, 0.f);
@@ -652,14 +652,14 @@ namespace djv
                     }
                 }
             });
-			p.scrollArea->setContentsSizeCallback(
-				[weak](const glm::vec2 & value)
-			{
-				if (auto scroll = weak.lock())
-				{
-					scroll->_updateScrollBars(value);
-				}
-			});
+            p.scrollArea->setContentsSizeCallback(
+                [weak](const glm::vec2 & value)
+            {
+                if (auto scroll = weak.lock())
+                {
+                    scroll->_updateScrollBars(value);
+                }
+            });
 
             p.scrollBars[Orientation::Horizontal]->setScrollPosCallback(
                 [weak](float value)
@@ -763,19 +763,19 @@ namespace djv
             _p->scrollArea->setScrollPos(value);
         }
 
-		bool ScrollWidget::hasAutoHideScrollBars() const
-		{
-			return _p->autoHideScrollBars;
-		}
+        bool ScrollWidget::hasAutoHideScrollBars() const
+        {
+            return _p->autoHideScrollBars;
+        }
 
-		void ScrollWidget::setAutoHideScrollBars(bool value)
-		{
-			DJV_PRIVATE_PTR();
-			if (value == p.autoHideScrollBars)
-				return;
-			p.autoHideScrollBars = value;
-			_resize();
-		}
+        void ScrollWidget::setAutoHideScrollBars(bool value)
+        {
+            DJV_PRIVATE_PTR();
+            if (value == p.autoHideScrollBars)
+                return;
+            p.autoHideScrollBars = value;
+            _resize();
+        }
 
         bool ScrollWidget::hasBorder() const
         {
@@ -787,15 +787,15 @@ namespace djv
             _p->border->setBorderSize(value ? MetricsRole::Border : MetricsRole::None);
         }
 
-		MetricsRole ScrollWidget::getMinimumSizeRole() const
-		{
-			return _p->scrollArea->getMinimumSizeRole();
-		}
+        MetricsRole ScrollWidget::getMinimumSizeRole() const
+        {
+            return _p->scrollArea->getMinimumSizeRole();
+        }
 
-		void ScrollWidget::setMinimumSizeRole(MetricsRole value)
-		{
-			_p->scrollArea->setMinimumSizeRole(value);
-		}
+        void ScrollWidget::setMinimumSizeRole(MetricsRole value)
+        {
+            _p->scrollArea->setMinimumSizeRole(value);
+        }
 
         void ScrollWidget::addWidget(const std::shared_ptr<Widget>& widget)
         {
@@ -823,7 +823,7 @@ namespace djv
 
         void ScrollWidget::_layoutEvent(Event::Layout&)
         {
-			DJV_PRIVATE_PTR();
+            DJV_PRIVATE_PTR();
             if (auto style = _getStyle().lock())
             {
                 p.border->setGeometry(getMargin().bbox(getGeometry(), style));
@@ -954,11 +954,11 @@ namespace djv
                 break;
             default: break;
             }
-			if (p.autoHideScrollBars)
-			{
-				visible[ScrollType::Horizontal] &= w < value.x;
-				visible[ScrollType::Vertical]   &= h < value.y;
-			}
+            if (p.autoHideScrollBars)
+            {
+                visible[ScrollType::Horizontal] &= w < value.x;
+                visible[ScrollType::Vertical]   &= h < value.y;
+            }
 
             p.scrollBars[Orientation::Horizontal]->setViewSize(w);
             p.scrollBars[Orientation::Horizontal]->setContentsSize(value.x);

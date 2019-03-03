@@ -122,7 +122,7 @@ namespace djv
 
                 struct Plugin::Private
                 {
-					Settings settings;
+                    Settings settings;
                 };
 
                 Plugin::Plugin() :
@@ -142,12 +142,12 @@ namespace djv
 
                 picojson::value Plugin::getOptions() const
                 {
-					return toJSON(_p->settings);
+                    return toJSON(_p->settings);
                 }
 
                 void Plugin::setOptions(const picojson::value& value)
                 {
-					fromJSON(value, _p->settings);
+                    fromJSON(value, _p->settings);
                 }
 
                 std::shared_ptr<IRead> Plugin::read(

@@ -63,9 +63,9 @@ namespace djv
                 //! \todo [1.0 S] Should this be configurable?
                 const size_t textureAtlasCount        = 4;
                 const size_t textureAtlasSize         = 2048;
-				const size_t dynamicTextureCacheCount = 16;
-                const size_t renderDataReserve		  = 10000;
-                const size_t trianglesReserve	      = 1000000;
+                const size_t dynamicTextureCacheCount = 16;
+                const size_t renderDataReserve          = 10000;
+                const size_t trianglesReserve          = 1000000;
                 const size_t vertexReserve            = 3000000;
                 const size_t textureCoordsReserve     = 3000000;
 
@@ -94,8 +94,8 @@ namespace djv
                     ImageFormat  imageFormat;
                     ColorMode    colorMode;
                     Image::Color color;
-					ImageCache   imageCache  = ImageCache::Atlas;
-					size_t       atlasIndex  = 0;
+                    ImageCache   imageCache  = ImageCache::Atlas;
+                    size_t       atlasIndex  = 0;
                     GLuint       textureID   = 0;
                     size_t       vaoSize;
                 };
@@ -162,7 +162,7 @@ namespace djv
                     std::shared_ptr<TextureAtlas>                    textureAtlas;
                     std::map<UID, uint64_t>                          textureIDs;
                     std::map<UID, uint64_t>                          glyphTextureIDs;
-					std::map<UID, std::shared_ptr<OpenGL::Texture> > dynamicTextureCache;
+                    std::map<UID, std::shared_ptr<OpenGL::Texture> > dynamicTextureCache;
                 };
 
                 struct RectPrimitive : public Primitive
@@ -760,68 +760,68 @@ namespace djv
                             data.colorMode = colorMode;
                             data.color = color;
 
-							data.imageCache = cache;
-							FloatRange textureU;
-							FloatRange textureV;
-							const UID uid = imageData->getUID();
-							switch (cache)
-							{
-							case ImageCache::Atlas:
-							{
-								TextureAtlasItem item;
-								uint64_t id = 0;
-								const auto i = render.textureIDs.find(uid);
-								if (i != render.textureIDs.end())
-								{
-									id = i->second;
-								}
-								if (!render.textureAtlas->getItem(id, item))
-								{
-									render.textureIDs[uid] = render.textureAtlas->addItem(imageData, item);
-								}
-								data.atlasIndex = item.textureIndex;
-								if (info.layout.mirror.x)
-								{
-									textureU.min = item.textureU.max;
-									textureU.max = item.textureU.min;
-								}
-								else
-								{
-									textureU = item.textureU;
-								}
-								if (info.layout.mirror.y)
-								{
-									textureV.min = item.textureV.max;
-									textureV.max = item.textureV.min;
-								}
-								else
-								{
-									textureV = item.textureV;
-								}
-								break;
-							}
-							case ImageCache::Dynamic:
-							{
-								const auto i = render.dynamicTextureCache.find(uid);
-								if (i != render.dynamicTextureCache.end())
-								{
-									data.textureID = i->second->getID();
-								}
-								else
-								{
-									auto texture = OpenGL::Texture::create(imageData->getInfo());
-									texture->copy(*imageData);
-									render.dynamicTextureCache[uid] = texture;
-									data.textureID = texture->getID();
-								}
-								textureU.min = 0.f;
-								textureU.max = 1.f;
-								textureV.min = 0.f;
-								textureV.max = 1.f;
-								break;
-							}
-							default: break;
-							}
+                            data.imageCache = cache;
+                            FloatRange textureU;
+                            FloatRange textureV;
+                            const UID uid = imageData->getUID();
+                            switch (cache)
+                            {
+                            case ImageCache::Atlas:
+                            {
+                                TextureAtlasItem item;
+                                uint64_t id = 0;
+                                const auto i = render.textureIDs.find(uid);
+                                if (i != render.textureIDs.end())
+                                {
+                                    id = i->second;
+                                }
+                                if (!render.textureAtlas->getItem(id, item))
+                                {
+                                    render.textureIDs[uid] = render.textureAtlas->addItem(imageData, item);
+                                }
+                                data.atlasIndex = item.textureIndex;
+                                if (info.layout.mirror.x)
+                                {
+                                    textureU.min = item.textureU.max;
+                                    textureU.max = item.textureU.min;
+                                }
+                                else
+                                {
+                                    textureU = item.textureU;
+                                }
+                                if (info.layout.mirror.y)
+                                {
+                                    textureV.min = item.textureV.max;
+                                    textureV.max = item.textureV.min;
+                                }
+                                else
+                                {
+                                    textureV = item.textureV;
+                                }
+                                break;
+                            }
+                            case ImageCache::Dynamic:
+                            {
+                                const auto i = render.dynamicTextureCache.find(uid);
+                                if (i != render.dynamicTextureCache.end())
+                                {
+                                    data.textureID = i->second->getID();
+                                }
+                                else
+                                {
+                                    auto texture = OpenGL::Texture::create(imageData->getInfo());
+                                    texture->copy(*imageData);
+                                    render.dynamicTextureCache[uid] = texture;
+                                    data.textureID = texture->getID();
+                                }
+                                textureU.min = 0.f;
+                                textureU.max = 1.f;
+                                textureV.min = 0.f;
+                                textureV.max = 1.f;
+                                break;
+                            }
+                            default: break;
+                            }
                             data.vaoSize = 6;
                             out.push_back(std::move(data));
 
@@ -974,7 +974,7 @@ namespace djv
                 std::shared_ptr<Time::Timer> fpsTimer;
                 std::vector<float>           fpsSamples;
                 std::chrono::time_point<std::chrono::system_clock>
-					                         fpsTime            = std::chrono::system_clock::now();
+                                             fpsTime            = std::chrono::system_clock::now();
 
                 void updateCurrentClipRect();
             };
@@ -1087,7 +1087,7 @@ namespace djv
                 const GLint textureSamplerLoc = glGetUniformLocation(program, "textureSampler");
 
                 const auto & atlasTextures = p.render->textureAtlas->getTextures();
-				const size_t atlasTexturesCount = atlasTextures.size();
+                const size_t atlasTexturesCount = atlasTextures.size();
                 for (GLuint i = 0; i < static_cast<GLuint>(atlasTexturesCount); ++i)
                 {
                     glActiveTexture(static_cast<GLenum>(GL_TEXTURE0 + i));
@@ -1102,9 +1102,9 @@ namespace djv
                 auto imageFormat = static_cast<ImageFormat>(0);
                 auto colorMode = static_cast<ColorMode>(0);
                 Image::Color color;
-				ImageCache imageCache = ImageCache::Atlas;
+                ImageCache imageCache = ImageCache::Atlas;
                 size_t atlasIndex = 0;
-				GLuint textureID = 0;
+                GLuint textureID = 0;
                 size_t vaoOffset = 0;
                 for (size_t i = 0; i < p.renderData.size(); ++i)
                 {
@@ -1130,28 +1130,28 @@ namespace djv
                         color = data.color;
                         p.render->shader->setUniform(colorLoc, data.color);
                     }
-					switch (data.imageCache)
-					{
-					case ImageCache::Atlas:
-						if (i == 0 || data.imageCache != imageCache || data.atlasIndex != atlasIndex)
-						{
-							imageCache = data.imageCache;
-							atlasIndex = data.atlasIndex;
-							p.render->shader->setUniform(textureSamplerLoc, static_cast<int>(data.atlasIndex));
-						}
-						break;
-					case ImageCache::Dynamic:
-						if (i == 0 || data.imageCache != imageCache || data.textureID != textureID)
-						{
-							imageCache = data.imageCache;
-							textureID = data.textureID;
-							glActiveTexture(static_cast<GLenum>(GL_TEXTURE0 + atlasTexturesCount));
-							glBindTexture(GL_TEXTURE_2D, textureID);
-							p.render->shader->setUniform(textureSamplerLoc, static_cast<int>(atlasTexturesCount));
-						}
-						break;
-					default: break;
-					}
+                    switch (data.imageCache)
+                    {
+                    case ImageCache::Atlas:
+                        if (i == 0 || data.imageCache != imageCache || data.atlasIndex != atlasIndex)
+                        {
+                            imageCache = data.imageCache;
+                            atlasIndex = data.atlasIndex;
+                            p.render->shader->setUniform(textureSamplerLoc, static_cast<int>(data.atlasIndex));
+                        }
+                        break;
+                    case ImageCache::Dynamic:
+                        if (i == 0 || data.imageCache != imageCache || data.textureID != textureID)
+                        {
+                            imageCache = data.imageCache;
+                            textureID = data.textureID;
+                            glActiveTexture(static_cast<GLenum>(GL_TEXTURE0 + atlasTexturesCount));
+                            glBindTexture(GL_TEXTURE_2D, textureID);
+                            p.render->shader->setUniform(textureSamplerLoc, static_cast<int>(atlasTexturesCount));
+                        }
+                        break;
+                    default: break;
+                    }
                     switch (data.colorMode)
                     {
                     case ColorMode::ColorWithTextureAlphaR:
@@ -1188,10 +1188,10 @@ namespace djv
                 p.mesh.v.clear();
                 p.mesh.t.clear();
                 p.render->primitives.clear();
-				while (p.render->dynamicTextureCache.size() > dynamicTextureCacheCount)
-				{
-					p.render->dynamicTextureCache.erase(p.render->dynamicTextureCache.begin());
-				}
+                while (p.render->dynamicTextureCache.size() > dynamicTextureCacheCount)
+                {
+                    p.render->dynamicTextureCache.erase(p.render->dynamicTextureCache.begin());
+                }
             }
 
             void Render2D::pushClipRect(const BBox2f & value)

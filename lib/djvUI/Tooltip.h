@@ -61,7 +61,7 @@ namespace djv
                 Core::Context *);
 
         private:
-			DJV_PRIVATE();
+            DJV_PRIVATE();
         };
 
     } // namespace UI

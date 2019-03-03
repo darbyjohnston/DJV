@@ -53,8 +53,8 @@ namespace djv
             std::map<std::string, std::shared_ptr<UI::Action> > actions;
             std::shared_ptr<UI::Menu> menu;
             std::shared_ptr<AboutDialog> aboutDialog;
-			std::shared_ptr<SystemLogDialog> systemLogDialog;
-			std::map<std::string, std::shared_ptr<ValueObserver<bool> > > clickedObservers;
+            std::shared_ptr<SystemLogDialog> systemLogDialog;
+            std::map<std::string, std::shared_ptr<ValueObserver<bool> > > clickedObservers;
         };
 
         void HelpSystem::_init(Context * context)
@@ -103,10 +103,10 @@ namespace djv
                 p.actions["About"]->observeClicked(),
                 [weak, context](bool value)
             {
-				if (value)
-				{
-					if (auto system = weak.lock())
-					{
+                if (value)
+                {
+                    if (auto system = weak.lock())
+                    {
                         if (auto windowSystem = context->getSystemT<UI::IWindowSystem>().lock())
                         {
                             if (auto window = windowSystem->observeCurrentWindow()->get())
@@ -115,18 +115,18 @@ namespace djv
                                 system->_p->aboutDialog->show();
                             }
                         }
-					}
-				}
+                    }
+                }
             });
 
             p.clickedObservers["SystemLog"] = ValueObserver<bool>::create(
                 p.actions["SystemLog"]->observeClicked(),
                 [weak, context](bool value)
             {
-				if (value)
-				{
-					if (auto system = weak.lock())
-					{
+                if (value)
+                {
+                    if (auto system = weak.lock())
+                    {
                         if (auto windowSystem = context->getSystemT<UI::IWindowSystem>().lock())
                         {
                             if (auto window = windowSystem->observeCurrentWindow()->get())
@@ -143,8 +143,8 @@ namespace djv
                                 system->_p->systemLogDialog->show();
                             }
                         }
-					}
-				}
+                    }
+                }
             });
         }
 

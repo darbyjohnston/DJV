@@ -78,8 +78,8 @@ namespace djv
                 glm::vec2 pressedPos = glm::vec2(0.f, 0.f);
                 std::function<void(const FileSystem::FileInfo &)> callback;
 
-				MetricsRole getThumbnailWidth() const;
-				MetricsRole getThumbnailHeight() const;
+                MetricsRole getThumbnailWidth() const;
+                MetricsRole getThumbnailHeight() const;
                 std::string getTooltip(const FileSystem::FileInfo &, Context * context) const;
                 std::string getTooltip(const FileSystem::FileInfo &, const AV::IO::Info &, Context *) const;
             };
@@ -173,7 +173,7 @@ namespace djv
             {
                 DJV_PRIVATE_PTR();
                 if (p.nameFontMetricsFuture.valid() &&
-					p.nameFontMetricsFuture.wait_for(std::chrono::seconds(0)) == std::future_status::ready)
+                    p.nameFontMetricsFuture.wait_for(std::chrono::seconds(0)) == std::future_status::ready)
                 {
                     try
                     {
@@ -185,7 +185,7 @@ namespace djv
                     }
                 }
                 if (p.typeFontMetricsFuture.valid() &&
-					p.typeFontMetricsFuture.wait_for(std::chrono::seconds(0)) == std::future_status::ready)
+                    p.typeFontMetricsFuture.wait_for(std::chrono::seconds(0)) == std::future_status::ready)
                 {
                     try
                     {
@@ -200,7 +200,7 @@ namespace djv
 
             void ItemView::_layoutEvent(Event::Layout& event)
             {
-				DJV_PRIVATE_PTR();
+                DJV_PRIVATE_PTR();
                 if (auto style = _getStyle().lock())
                 {
                     const BBox2f & g = getGeometry();
@@ -244,9 +244,9 @@ namespace djv
 
             void ItemView::_clipEvent(Event::Clip& event)
             {
-				DJV_PRIVATE_PTR();
-				if (isClipped())
-					return;
+                DJV_PRIVATE_PTR();
+                if (isClipped())
+                    return;
                 auto context = getContext();
                 auto style = _getStyle().lock();
                 auto fontSystem = _getFontSystem().lock();
@@ -375,35 +375,35 @@ namespace djv
                                     const auto j = p.thumbnails.find(index);
                                     if (j != p.thumbnails.end())
                                     {
-										if (j->second)
-										{
-											opacity = 1.f;
-											const auto k = p.thumbnailsTimers.find(index);
-											if (k != p.thumbnailsTimers.end())
-											{
-												opacity = std::min((ut - k->second) / thumbnailsFadeTime, 1.f);
-											}
-											const auto & size = j->second->getSize();
-											float x = 0.f;
-											float y = 0.f;
-											switch (p.viewType)
-											{
-											case ViewType::ThumbnailsLarge:
-											case ViewType::ThumbnailsSmall:
-												x = floor(i->second.min.x + m + tw / 2.f - size.x / 2.f);
-												y = floor(i->second.min.y + m + th - size.y);
-												break;
-											case ViewType::ListView:
-												x = floor(i->second.min.x + m);
-												y = floor(i->second.min.y + i->second.h() / 2.f - size.y / 2.f);
-												break;
-											default: break;
-											}
-											render->setFillColor(_getColorWithOpacity(AV::Image::Color(1.f, 1.f, 1.f, opacity)));
-											render->drawImage(
-												j->second,
-												BBox2f(x, y, static_cast<float>(size.x), static_cast<float>(size.y)));
-										}
+                                        if (j->second)
+                                        {
+                                            opacity = 1.f;
+                                            const auto k = p.thumbnailsTimers.find(index);
+                                            if (k != p.thumbnailsTimers.end())
+                                            {
+                                                opacity = std::min((ut - k->second) / thumbnailsFadeTime, 1.f);
+                                            }
+                                            const auto & size = j->second->getSize();
+                                            float x = 0.f;
+                                            float y = 0.f;
+                                            switch (p.viewType)
+                                            {
+                                            case ViewType::ThumbnailsLarge:
+                                            case ViewType::ThumbnailsSmall:
+                                                x = floor(i->second.min.x + m + tw / 2.f - size.x / 2.f);
+                                                y = floor(i->second.min.y + m + th - size.y);
+                                                break;
+                                            case ViewType::ListView:
+                                                x = floor(i->second.min.x + m);
+                                                y = floor(i->second.min.y + i->second.h() / 2.f - size.y / 2.f);
+                                                break;
+                                            default: break;
+                                            }
+                                            render->setFillColor(_getColorWithOpacity(AV::Image::Color(1.f, 1.f, 1.f, opacity)));
+                                            render->drawImage(
+                                                j->second,
+                                                BBox2f(x, y, static_cast<float>(size.x), static_cast<float>(size.y)));
+                                        }
                                     }
                                 }
                                 if (opacity < 1.f)
@@ -659,7 +659,7 @@ namespace djv
                             }
                             catch (const std::exception& e)
                             {
-								p.ioInfo[i->first] = AV::IO::Info();
+                                p.ioInfo[i->first] = AV::IO::Info();
                                 _log(e.what(), LogLevel::Error);
                             }
                             i = p.ioInfoFutures.erase(i);
@@ -677,8 +677,8 @@ namespace djv
                         if (i->second.future.valid() &&
                             i->second.future.wait_for(std::chrono::seconds(0)) == std::future_status::ready)
                         {
-							p.thumbnails[i->first] = nullptr;
-							try
+                            p.thumbnails[i->first] = nullptr;
+                            try
                             {
                                 if (const auto image = i->second.future.get())
                                 {
@@ -783,8 +783,8 @@ namespace djv
 
             void ItemView::_itemsUpdate()
             {
-				DJV_PRIVATE_PTR();
-				if (auto style = _getStyle().lock())
+                DJV_PRIVATE_PTR();
+                if (auto style = _getStyle().lock())
                 {
                     if (auto fontSystem = _getFontSystem().lock())
                     {
@@ -803,7 +803,7 @@ namespace djv
                 _resize();
             }
 
-			MetricsRole ItemView::Private::getThumbnailWidth() const
+            MetricsRole ItemView::Private::getThumbnailWidth() const
             {
                 switch (viewType)
                 {
@@ -815,7 +815,7 @@ namespace djv
                 return MetricsRole::None;
             }
 
-			MetricsRole ItemView::Private::getThumbnailHeight() const
+            MetricsRole ItemView::Private::getThumbnailHeight() const
             {
                 switch (viewType)
                 {

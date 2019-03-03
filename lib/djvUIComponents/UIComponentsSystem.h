@@ -42,7 +42,7 @@ namespace djv
 
         protected:
             void _init(int dpi, Core::Context *);
-			UIComponentsSystem();
+            UIComponentsSystem();
 
         public:
             ~UIComponentsSystem() override;

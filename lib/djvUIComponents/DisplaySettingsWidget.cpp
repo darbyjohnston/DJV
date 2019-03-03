@@ -75,70 +75,70 @@ namespace djv
                 {
                     if (auto settingsSystem = context->getSystemT<Settings::System>().lock())
                     {
-						if (auto styleSettings = settingsSystem->getSettingsT<Settings::Style>())
-						{
-							const auto i = widget->_p->indexToMetrics.find(value);
-							if (i != widget->_p->indexToMetrics.end())
-							{
-								styleSettings->setCurrentMetrics(i->second);
-							}
-						}
+                        if (auto styleSettings = settingsSystem->getSettingsT<Settings::Style>())
+                        {
+                            const auto i = widget->_p->indexToMetrics.find(value);
+                            if (i != widget->_p->indexToMetrics.end())
+                            {
+                                styleSettings->setCurrentMetrics(i->second);
+                            }
+                        }
                     }
                 }
             });
 
-			if (auto settingsSystem = context->getSystemT<Settings::System>().lock())
-			{
-				if (auto styleSettings = settingsSystem->getSettingsT<Settings::Style>())
-				{
-					p.metricsObserver = MapObserver<std::string, Style::Metrics>::create(
-						styleSettings->observeMetrics(),
-						[weak, context](const std::map<std::string, Style::Metrics> & value)
-					{
-						if (auto widget = weak.lock())
-						{
-							int currentItem = widget->_p->buttonGroup->getChecked();
-							if (-1 == currentItem && value.size())
-							{
-								currentItem = 0;
-							}
-							widget->_p->buttons.clear();
-							widget->_p->buttonGroup->clearButtons();
-							widget->_p->layout->clearWidgets();
-							widget->_p->indexToMetrics.clear();
-							widget->_p->buttonToMetrics.clear();
-							widget->_p->metricsToIndex.clear();
-							int j = 0;
-							for (const auto & i : value)
-							{
-								auto button = FlatButton::create(context);
-								widget->_p->buttons.push_back(button);
-								widget->_p->buttonGroup->addButton(button);
-								widget->_p->layout->addWidget(button);
-								widget->_p->indexToMetrics[j] = i.first;
-								widget->_p->buttonToMetrics[button] = i.first;
-								widget->_p->metricsToIndex[i.first] = j;
-								++j;
-							}
-							widget->_p->buttonGroup->setChecked(currentItem);
-							widget->_buttonTextUpdate();
-						}
-					});
-					p.currentMetricsObserver = ValueObserver<std::string>::create(
-						styleSettings->observeCurrentMetricsName(),
-						[weak](const std::string & value)
-					{
-						if (auto widget = weak.lock())
-						{
-							const auto i = widget->_p->metricsToIndex.find(value);
-							if (i != widget->_p->metricsToIndex.end())
-							{
-								widget->_p->buttonGroup->setChecked(static_cast<int>(i->second));
-							}
-						}
-					});
-				}
-			}
+            if (auto settingsSystem = context->getSystemT<Settings::System>().lock())
+            {
+                if (auto styleSettings = settingsSystem->getSettingsT<Settings::Style>())
+                {
+                    p.metricsObserver = MapObserver<std::string, Style::Metrics>::create(
+                        styleSettings->observeMetrics(),
+                        [weak, context](const std::map<std::string, Style::Metrics> & value)
+                    {
+                        if (auto widget = weak.lock())
+                        {
+                            int currentItem = widget->_p->buttonGroup->getChecked();
+                            if (-1 == currentItem && value.size())
+                            {
+                                currentItem = 0;
+                            }
+                            widget->_p->buttons.clear();
+                            widget->_p->buttonGroup->clearButtons();
+                            widget->_p->layout->clearWidgets();
+                            widget->_p->indexToMetrics.clear();
+                            widget->_p->buttonToMetrics.clear();
+                            widget->_p->metricsToIndex.clear();
+                            int j = 0;
+                            for (const auto & i : value)
+                            {
+                                auto button = FlatButton::create(context);
+                                widget->_p->buttons.push_back(button);
+                                widget->_p->buttonGroup->addButton(button);
+                                widget->_p->layout->addWidget(button);
+                                widget->_p->indexToMetrics[j] = i.first;
+                                widget->_p->buttonToMetrics[button] = i.first;
+                                widget->_p->metricsToIndex[i.first] = j;
+                                ++j;
+                            }
+                            widget->_p->buttonGroup->setChecked(currentItem);
+                            widget->_buttonTextUpdate();
+                        }
+                    });
+                    p.currentMetricsObserver = ValueObserver<std::string>::create(
+                        styleSettings->observeCurrentMetricsName(),
+                        [weak](const std::string & value)
+                    {
+                        if (auto widget = weak.lock())
+                        {
+                            const auto i = widget->_p->metricsToIndex.find(value);
+                            if (i != widget->_p->metricsToIndex.end())
+                            {
+                                widget->_p->buttonGroup->setChecked(static_cast<int>(i->second));
+                            }
+                        }
+                    });
+                }
+            }
         }
 
         DisplaySettingsWidget::DisplaySettingsWidget() :

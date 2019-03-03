@@ -66,10 +66,10 @@ namespace djv
             p.dpi = dpi;
 
             auto avSystem = AV::AVSystem::create(context);
-			addDependency(avSystem);
+            addDependency(avSystem);
 
             auto settingsSystem = Settings::System::create(context);
-			addDependency(settingsSystem);
+            addDependency(settingsSystem);
             Settings::General::create(context);
             Settings::Font::create(context);
             auto styleSettings = Settings::Style::create(context);
@@ -77,9 +77,9 @@ namespace djv
             p.style = Style::Style::create(dpi, context);
             
             auto iconSystem = IconSystem::create(context);
-			addDependency(iconSystem);
+            addDependency(iconSystem);
             auto dialogSystem = DialogSystem::create(context);
-			addDependency(dialogSystem);
+            addDependency(dialogSystem);
 
             auto weak = std::weak_ptr<UISystem>(std::dynamic_pointer_cast<UISystem>(shared_from_this()));
             p.paletteObserver = ValueObserver<UI::Style::Palette>::create(

@@ -174,17 +174,17 @@ namespace djv
             void System::tick(float dt)
             {
                 DJV_PRIVATE_PTR();
-				auto i = p.animations.begin();
-				while (i != p.animations.end())
-				{
+                auto i = p.animations.begin();
+                while (i != p.animations.end())
+                {
                     if (auto animation = i->lock())
                     {
                         animation->_tick(dt);
-						++i;
+                        ++i;
                     }
                     else
                     {
-						i = p.animations.erase(i);
+                        i = p.animations.erase(i);
                     }
                 }
             }

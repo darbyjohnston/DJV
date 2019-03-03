@@ -92,33 +92,33 @@ namespace djv
             p.widgets["Debug"] = DebugWidget::create(context);
 
             auto weak = std::weak_ptr<ToolSystem>(std::dynamic_pointer_cast<ToolSystem>(shared_from_this()));
-			p.widgets["Magnifier"]->setCloseCallback(
-				[weak]
-			{
-				if (auto system = weak.lock())
-				{
-					system->_p->actions["Magnifier"]->setChecked(false);
-					system->_p->actions["Magnifier"]->doChecked();
-				}
-			});
-			p.widgets["ColorPicker"]->setCloseCallback(
-				[weak]
-			{
-				if (auto system = weak.lock())
-				{
-					system->_p->actions["ColorPicker"]->setChecked(false);
-					system->_p->actions["ColorPicker"]->doChecked();
-				}
-			});
-			p.widgets["Histogram"]->setCloseCallback(
-				[weak]
-			{
-				if (auto system = weak.lock())
-				{
-					system->_p->actions["Histogram"]->setChecked(false);
-					system->_p->actions["Histogram"]->doChecked();
-				}
-			});
+            p.widgets["Magnifier"]->setCloseCallback(
+                [weak]
+            {
+                if (auto system = weak.lock())
+                {
+                    system->_p->actions["Magnifier"]->setChecked(false);
+                    system->_p->actions["Magnifier"]->doChecked();
+                }
+            });
+            p.widgets["ColorPicker"]->setCloseCallback(
+                [weak]
+            {
+                if (auto system = weak.lock())
+                {
+                    system->_p->actions["ColorPicker"]->setChecked(false);
+                    system->_p->actions["ColorPicker"]->doChecked();
+                }
+            });
+            p.widgets["Histogram"]->setCloseCallback(
+                [weak]
+            {
+                if (auto system = weak.lock())
+                {
+                    system->_p->actions["Histogram"]->setChecked(false);
+                    system->_p->actions["Histogram"]->doChecked();
+                }
+            });
             p.widgets["Information"]->setCloseCallback(
                 [weak]
             {
@@ -138,16 +138,16 @@ namespace djv
                 }
             });
 
-			p.checkedObservers["Magnifier"] = ValueObserver<bool>::create(
+            p.checkedObservers["Magnifier"] = ValueObserver<bool>::create(
                 p.actions["Magnifier"]->observeChecked(),
                 [weak](bool value)
             {
                 if (auto system = weak.lock())
                 {
-					if (value)
-					{
-						system->_p->widgets["Magnifier"]->moveToFront();
-					}
+                    if (value)
+                    {
+                        system->_p->widgets["Magnifier"]->moveToFront();
+                    }
                     system->_p->widgets["Magnifier"]->setVisible(value);
                 }
             });
@@ -157,11 +157,11 @@ namespace djv
             {
                 if (auto system = weak.lock())
                 {
-					if (value)
-					{
-						system->_p->widgets["ColorPicker"]->moveToFront();
-					}
-					system->_p->widgets["ColorPicker"]->setVisible(value);
+                    if (value)
+                    {
+                        system->_p->widgets["ColorPicker"]->moveToFront();
+                    }
+                    system->_p->widgets["ColorPicker"]->setVisible(value);
                 }
             });
             p.checkedObservers["Histogram"] = ValueObserver<bool>::create(
@@ -170,11 +170,11 @@ namespace djv
             {
                 if (auto system = weak.lock())
                 {
-					if (value)
-					{
-						system->_p->widgets["Histogram"]->moveToFront();
-					}
-					system->_p->widgets["Histogram"]->setVisible(value);
+                    if (value)
+                    {
+                        system->_p->widgets["Histogram"]->moveToFront();
+                    }
+                    system->_p->widgets["Histogram"]->setVisible(value);
                 }
             });
             p.checkedObservers["Information"] = ValueObserver<bool>::create(
@@ -183,11 +183,11 @@ namespace djv
             {
                 if (auto system = weak.lock())
                 {
-					if (value)
-					{
-						system->_p->widgets["Information"]->moveToFront();
-					}
-					system->_p->widgets["Information"]->setVisible(value);
+                    if (value)
+                    {
+                        system->_p->widgets["Information"]->moveToFront();
+                    }
+                    system->_p->widgets["Information"]->setVisible(value);
                 }
             });
             p.checkedObservers["Debug"] = ValueObserver<bool>::create(
@@ -196,11 +196,11 @@ namespace djv
             {
                 if (auto system = weak.lock())
                 {
-					if (value)
-					{
-						system->_p->widgets["Debug"]->moveToFront();
-					}
-					system->_p->widgets["Debug"]->setVisible(value);
+                    if (value)
+                    {
+                        system->_p->widgets["Debug"]->moveToFront();
+                    }
+                    system->_p->widgets["Debug"]->setVisible(value);
                 }
             });
         }

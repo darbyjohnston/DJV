@@ -45,7 +45,7 @@ namespace djv
             protected:
                 void _init(Core::Context * context);
 
-				AVIO();
+                AVIO();
 
             public:
                 virtual ~AVIO();

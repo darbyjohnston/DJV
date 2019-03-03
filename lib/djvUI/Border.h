@@ -51,10 +51,10 @@ namespace djv
 
                 static std::shared_ptr<Border> create(Core::Context *);
 
-				MetricsRole getBorderSize() const;
+                MetricsRole getBorderSize() const;
                 void setBorderSize(MetricsRole);
 
-				ColorRole getBorderColorRole() const;
+                ColorRole getBorderColorRole() const;
                 void setBorderColorRole(ColorRole);
 
                 const Margin& getInsideMargin() const;
@@ -72,12 +72,12 @@ namespace djv
                 void _paintEvent(Core::Event::Paint&) override;
 
             private:
-				DJV_PRIVATE();
+                DJV_PRIVATE();
             };
 
         } // namespace Layout
 
-		typedef Layout::Border Border;
+        typedef Layout::Border Border;
 
     } // namespace UI
 } // namespace djv

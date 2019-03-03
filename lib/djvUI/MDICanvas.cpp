@@ -70,12 +70,12 @@ namespace djv
             {
                 glm::vec2 canvasSize = glm::vec2(10000.f, 10000.f);
                 //std::vector<std::shared_ptr<IWidget> > widgets;
-				std::map<std::shared_ptr<IWidget>, glm::vec2> widgetToPos;
-				std::map<std::shared_ptr<IWidget>, bool> widgetResized;
+                std::map<std::shared_ptr<IWidget>, glm::vec2> widgetToPos;
+                std::map<std::shared_ptr<IWidget>, bool> widgetResized;
                 std::map<Event::PointerID, Hovered> hovered;
                 std::map<Event::PointerID, Pressed> pressed;
-				std::shared_ptr<IWidget> activeWidget;
-				std::function<void(const std::shared_ptr<IWidget> &)> activeCallback;
+                std::shared_ptr<IWidget> activeWidget;
+                std::function<void(const std::shared_ptr<IWidget> &)> activeCallback;
             };
 
             void Canvas::_init(Context * context)
@@ -115,28 +115,28 @@ namespace djv
 
             const std::shared_ptr<IWidget> & Canvas::getActiveWidget() const
             {
-				return _p->activeWidget;
+                return _p->activeWidget;
             }
 
             void Canvas::nextWidget()
             {
                 DJV_PRIVATE_PTR();
-				const auto & children = getChildrenT<IWidget>();
+                const auto & children = getChildrenT<IWidget>();
                 const size_t size = children.size();
                 if (size > 1)
                 {
-					children.back()->moveToBack();
+                    children.back()->moveToBack();
                 }
             }
 
             void Canvas::prevWidget()
             {
                 DJV_PRIVATE_PTR();
-				const auto & children = getChildrenT<IWidget>();
+                const auto & children = getChildrenT<IWidget>();
                 const size_t size = children.size();
                 if (size > 1)
                 {
-					children.front()->moveToFront();
+                    children.front()->moveToFront();
                 }
             }
 
@@ -169,24 +169,24 @@ namespace djv
 
             void Canvas::_layoutEvent(Event::Layout &)
             {
-				if (auto style = _getStyle().lock())
-				{
-					const BBox2f & g = getGeometry();
-					for (auto & i : _p->widgetToPos)
-					{
-						if (i.first->isVisible())
-						{
-							const glm::vec2 & widgetSize = i.first->getSize();
-							const glm::vec2 & widgetMinimumSize = i.first->getMinimumSize();
-							BBox2f widgetGeometry;
-							widgetGeometry.min.x = Math::clamp(g.min.x + i.second.x, g.min.x, g.max.x - widgetMinimumSize.x);
-							widgetGeometry.min.y = Math::clamp(g.min.y + i.second.y, g.min.y, g.max.y - widgetMinimumSize.y);
-							widgetGeometry.max.x = Math::clamp(widgetGeometry.min.x + widgetSize.x, widgetGeometry.min.x + widgetMinimumSize.x, g.max.x);
-							widgetGeometry.max.y = Math::clamp(widgetGeometry.min.y + widgetSize.y, widgetGeometry.min.y + widgetMinimumSize.y, g.max.y);
-							i.first->setGeometry(widgetGeometry);
-						}
-					}
-				}
+                if (auto style = _getStyle().lock())
+                {
+                    const BBox2f & g = getGeometry();
+                    for (auto & i : _p->widgetToPos)
+                    {
+                        if (i.first->isVisible())
+                        {
+                            const glm::vec2 & widgetSize = i.first->getSize();
+                            const glm::vec2 & widgetMinimumSize = i.first->getMinimumSize();
+                            BBox2f widgetGeometry;
+                            widgetGeometry.min.x = Math::clamp(g.min.x + i.second.x, g.min.x, g.max.x - widgetMinimumSize.x);
+                            widgetGeometry.min.y = Math::clamp(g.min.y + i.second.y, g.min.y, g.max.y - widgetMinimumSize.y);
+                            widgetGeometry.max.x = Math::clamp(widgetGeometry.min.x + widgetSize.x, widgetGeometry.min.x + widgetMinimumSize.x, g.max.x);
+                            widgetGeometry.max.y = Math::clamp(widgetGeometry.min.y + widgetSize.y, widgetGeometry.min.y + widgetMinimumSize.y, g.max.y);
+                            i.first->setGeometry(widgetGeometry);
+                        }
+                    }
+                }
             }
 
             void Canvas::_paintEvent(Event::Paint & event)
@@ -224,8 +224,8 @@ namespace djv
                 {
                     if (auto style = _getStyle().lock())
                     {
-						const float b = style->getMetric(MetricsRole::Border);
-						const float h = style->getMetric(MetricsRole::Handle);
+                        const float b = style->getMetric(MetricsRole::Border);
+                        const float h = style->getMetric(MetricsRole::Handle);
 
                         if (p.activeWidget && p.activeWidget->isVisible() && !p.activeWidget->isClipped())
                         {
@@ -293,7 +293,7 @@ namespace djv
                 {
                     widget->installEventFilter(shared_from_this());
                     p.widgetToPos[widget] = glm::vec2(0.f, 0.f);
-					p.activeWidget = widget;
+                    p.activeWidget = widget;
                     _resize();
                     if (p.activeCallback)
                     {
@@ -311,13 +311,13 @@ namespace djv
                     {
                         if (widget == p.activeWidget)
                         {
-							const auto & children = getChildrenT<IWidget>();
-							p.activeWidget = children.size() ? children.back() : nullptr;
-							if (p.activeCallback)
-							{
-								p.activeCallback(nullptr);
-							}
-						}
+                            const auto & children = getChildrenT<IWidget>();
+                            p.activeWidget = children.size() ? children.back() : nullptr;
+                            if (p.activeCallback)
+                            {
+                                p.activeCallback(nullptr);
+                            }
+                        }
                     }
                     {
                         const auto j = p.widgetToPos.find(widget);
@@ -326,27 +326,27 @@ namespace djv
                             p.widgetToPos.erase(j);
                         }
                     }
-					_resize();
+                    _resize();
                 }
             }
 
-			void Canvas::_childOrderEvent(Core::Event::ChildOrder &)
-			{
-				DJV_PRIVATE_PTR();
-				const auto & children = getChildrenT<IWidget>();
-				if (children.size())
-				{
-					auto widget = children.back();
-					if (widget != p.activeWidget)
-					{
-						p.activeWidget = widget;
-						if (p.activeCallback)
-						{
-							p.activeCallback(widget);
-						}
-					}
-				}
-			}
+            void Canvas::_childOrderEvent(Core::Event::ChildOrder &)
+            {
+                DJV_PRIVATE_PTR();
+                const auto & children = getChildrenT<IWidget>();
+                if (children.size())
+                {
+                    auto widget = children.back();
+                    if (widget != p.activeWidget)
+                    {
+                        p.activeWidget = widget;
+                        if (p.activeCallback)
+                        {
+                            p.activeCallback(widget);
+                        }
+                    }
+                }
+            }
 
             bool Canvas::_eventFilter(const std::shared_ptr<IObject>& object, Event::IEvent& event)
             {
@@ -462,12 +462,12 @@ namespace djv
                                 Hovered hovered;
                                 hovered.widget = widget;
                                 hovered.handle = handle;
-								const auto j = p.hovered.find(pointerInfo.id);
-								if (j != p.hovered.end() && (j->second.widget != widget || j->second.handle != handle))
-								{
-									p.hovered[pointerInfo.id] = hovered;
-									_redraw();
-								}
+                                const auto j = p.hovered.find(pointerInfo.id);
+                                if (j != p.hovered.end() && (j->second.widget != widget || j->second.handle != handle))
+                                {
+                                    p.hovered[pointerInfo.id] = hovered;
+                                    _redraw();
+                                }
                             }
                         }
                     }

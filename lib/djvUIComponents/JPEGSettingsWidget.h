@@ -41,7 +41,7 @@ namespace djv
 
         protected:
             void _init(Core::Context *);
-			JPEGSettingsWidget();
+            JPEGSettingsWidget();
 
         public:
             static std::shared_ptr<JPEGSettingsWidget> create(Core::Context *);

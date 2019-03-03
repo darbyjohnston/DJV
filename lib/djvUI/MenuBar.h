@@ -63,7 +63,7 @@ namespace djv
             bool _eventFilter(const std::shared_ptr<IObject> &, Core::Event::IEvent &) override;
 
         private:
-			DJV_PRIVATE();
+            DJV_PRIVATE();
         };
 
     } // namespace UI

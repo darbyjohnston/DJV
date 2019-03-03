@@ -45,11 +45,11 @@ namespace djv
             {
                 ButtonType buttonType = ButtonType::Push;
                 bool checked = false;
-				ColorRole foregroundColorRole = ColorRole::Foreground;
-				ColorRole hoveredColorRole = ColorRole::Hovered;
-				ColorRole pressedColorRole = ColorRole::Pressed;
-				ColorRole checkedColorRole = ColorRole::Checked;
-				ColorRole disabledColorRole = ColorRole::Disabled;
+                ColorRole foregroundColorRole = ColorRole::Foreground;
+                ColorRole hoveredColorRole = ColorRole::Hovered;
+                ColorRole pressedColorRole = ColorRole::Pressed;
+                ColorRole checkedColorRole = ColorRole::Checked;
+                ColorRole disabledColorRole = ColorRole::Disabled;
 
                 std::function<void(void)> clickedCallback;
                 std::function<void(bool)> checkedCallback;
@@ -96,27 +96,27 @@ namespace djv
                 _redraw();
             }
 
-			ColorRole IButton::getForegroundColorRole() const
+            ColorRole IButton::getForegroundColorRole() const
             {
                 return _p->foregroundColorRole;
             }
 
-			ColorRole IButton::getHoveredColorRole() const
+            ColorRole IButton::getHoveredColorRole() const
             {
                 return _p->hoveredColorRole;
             }
 
-			ColorRole IButton::getPressedColorRole() const
+            ColorRole IButton::getPressedColorRole() const
             {
                 return _p->pressedColorRole;
             }
 
-			ColorRole IButton::getCheckedColorRole() const
+            ColorRole IButton::getCheckedColorRole() const
             {
                 return _p->checkedColorRole;
             }
 
-			ColorRole IButton::getDisabledColorRole() const
+            ColorRole IButton::getDisabledColorRole() const
             {
                 return _p->disabledColorRole;
             }
@@ -353,7 +353,7 @@ namespace djv
                 _p->canRejectPressed = value;
             }
 
-			ColorRole IButton::_getForegroundColorRole() const
+            ColorRole IButton::_getForegroundColorRole() const
             {
                 DJV_PRIVATE_PTR();
                 return !isEnabled(true) ? p.disabledColorRole : p.foregroundColorRole;

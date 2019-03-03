@@ -41,7 +41,7 @@ namespace djv
 
         protected:
             void _init(Core::Context *);
-			PPMSettingsWidget();
+            PPMSettingsWidget();
 
         public:
             static std::shared_ptr<PPMSettingsWidget> create(Core::Context *);

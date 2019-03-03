@@ -54,7 +54,7 @@ namespace djv
             void exit();
 
         private:
-			DJV_PRIVATE();
+            DJV_PRIVATE();
         };
 
     } // namespace Desktop

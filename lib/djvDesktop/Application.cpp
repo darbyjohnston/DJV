@@ -49,20 +49,20 @@ namespace djv
 {
     namespace Desktop
     {
-		namespace
-		{
-			//! \todo [1.0 S] Should this be configurable?
-			const size_t frameRate = 60;
-		
-		} // namespace
+        namespace
+        {
+            //! \todo [1.0 S] Should this be configurable?
+            const size_t frameRate = 60;
+        
+        } // namespace
 
         struct Application::Private
         {
             bool running = false;
-			std::shared_ptr<GLFWSystem> glfwSystem;
-			std::shared_ptr<UI::UIComponentsSystem> uiComponentsSystem;
-			std::shared_ptr<EventSystem> eventSystem;
-			std::shared_ptr<WindowSystem> windowSystem;
+            std::shared_ptr<GLFWSystem> glfwSystem;
+            std::shared_ptr<UI::UIComponentsSystem> uiComponentsSystem;
+            std::shared_ptr<EventSystem> eventSystem;
+            std::shared_ptr<WindowSystem> windowSystem;
         };
 
         void Application::_init(int argc, char* argv[])
@@ -71,17 +71,17 @@ namespace djv
 
             DJV_PRIVATE_PTR();
 
-			p.glfwSystem = GLFWSystem::create(this);
-			
-			p.uiComponentsSystem = UI::UIComponentsSystem::create(p.glfwSystem->getDPI(), this);
-			p.uiComponentsSystem->addDependency(p.glfwSystem);
+            p.glfwSystem = GLFWSystem::create(this);
+            
+            p.uiComponentsSystem = UI::UIComponentsSystem::create(p.glfwSystem->getDPI(), this);
+            p.uiComponentsSystem->addDependency(p.glfwSystem);
 
             p.eventSystem = EventSystem::create(p.glfwSystem->getGLFWWindow(), this);
-			p.eventSystem->addDependency(p.uiComponentsSystem);
+            p.eventSystem->addDependency(p.uiComponentsSystem);
 
             p.windowSystem = WindowSystem::create(p.glfwSystem->getGLFWWindow(), this);
-			p.windowSystem->addDependency(p.eventSystem);
-		}
+            p.windowSystem->addDependency(p.eventSystem);
+        }
         
         Application::Application() :
             _p(new Private)
@@ -100,27 +100,27 @@ namespace djv
         int Application::run()
         {
             DJV_PRIVATE_PTR();
-			if (auto glfwWindow = p.glfwSystem->getGLFWWindow())
-			{
-				p.running = true;
-				auto time = std::chrono::system_clock::now();
-				while (p.running && glfwWindow && !glfwWindowShouldClose(glfwWindow))
-				{
-					auto now = std::chrono::system_clock::now();
-					std::chrono::duration<float> delta = now - time;
-					time = now;
-					float dt = delta.count();
+            if (auto glfwWindow = p.glfwSystem->getGLFWWindow())
+            {
+                p.running = true;
+                auto time = std::chrono::system_clock::now();
+                while (p.running && glfwWindow && !glfwWindowShouldClose(glfwWindow))
+                {
+                    auto now = std::chrono::system_clock::now();
+                    std::chrono::duration<float> delta = now - time;
+                    time = now;
+                    float dt = delta.count();
 
-					glfwPollEvents();
-					tick(dt);
+                    glfwPollEvents();
+                    tick(dt);
 
-					now = std::chrono::system_clock::now();
-					delta = now - time;
-					dt = delta.count();
-					const float sleep = 1 / static_cast<float>(frameRate) - dt;
-					std::this_thread::sleep_for(std::chrono::milliseconds(static_cast<int>(sleep * 1000)));
-				}
-			}
+                    now = std::chrono::system_clock::now();
+                    delta = now - time;
+                    dt = delta.count();
+                    const float sleep = 1 / static_cast<float>(frameRate) - dt;
+                    std::this_thread::sleep_for(std::chrono::milliseconds(static_cast<int>(sleep * 1000)));
+                }
+            }
             return 0;
         }
 

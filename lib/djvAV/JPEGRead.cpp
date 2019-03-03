@@ -46,22 +46,22 @@ namespace djv
                 {
                     ~File()
                     {
-						if (jpegInit)
-						{
-							jpeg_destroy_decompress(&jpeg);
-							jpegInit = false;
-						}
-						if (f)
-						{
-							fclose(f);
-							f = nullptr;
-						}
+                        if (jpegInit)
+                        {
+                            jpeg_destroy_decompress(&jpeg);
+                            jpegInit = false;
+                        }
+                        if (f)
+                        {
+                            fclose(f);
+                            f = nullptr;
+                        }
                     }
 
-					FILE *                 f         = nullptr;
-					jpeg_decompress_struct jpeg;
-					bool                   jpegInit  = false;
-					JPEGErrorStruct        jpegError;
+                    FILE *                 f         = nullptr;
+                    jpeg_decompress_struct jpeg;
+                    bool                   jpegInit  = false;
+                    JPEGErrorStruct        jpegError;
                 };
 
                 Read::Read()
@@ -82,34 +82,34 @@ namespace djv
 
                 namespace
                 {
-					bool jpegScanline(
-						jpeg_decompress_struct * jpeg,
-						uint8_t *                out,
-						JPEGErrorStruct *        error)
-					{
-						if (::setjmp(error->jump))
-						{
-							return false;
-						}
-						JSAMPROW p[] = { (JSAMPLE *)(out) };
-						if (!jpeg_read_scanlines(jpeg, p, 1))
-						{
-							return false;
-						}
-						return true;
-					}
+                    bool jpegScanline(
+                        jpeg_decompress_struct * jpeg,
+                        uint8_t *                out,
+                        JPEGErrorStruct *        error)
+                    {
+                        if (::setjmp(error->jump))
+                        {
+                            return false;
+                        }
+                        JSAMPROW p[] = { (JSAMPLE *)(out) };
+                        if (!jpeg_read_scanlines(jpeg, p, 1))
+                        {
+                            return false;
+                        }
+                        return true;
+                    }
 
-					bool jpegEnd(
-						jpeg_decompress_struct * jpeg,
-						JPEGErrorStruct *        error)
-					{
-						if (::setjmp(error->jump))
-						{
-							return false;
-						}
-						jpeg_finish_decompress(jpeg);
-						return true;
-					}
+                    bool jpegEnd(
+                        jpeg_decompress_struct * jpeg,
+                        JPEGErrorStruct *        error)
+                    {
+                        if (::setjmp(error->jump))
+                        {
+                            return false;
+                        }
+                        jpeg_finish_decompress(jpeg);
+                        return true;
+                    }
 
                 } // namespace
 
@@ -131,71 +131,71 @@ namespace djv
                                 throw std::runtime_error(s.str());
                             }
                         }
-						if (!jpegEnd(&f.jpeg, &f.jpegError))
-						{
-							std::stringstream s;
-							s << _context->getText(DJV_TEXT("The JPEG file")) <<
-								" '" << fileName << "' " << DJV_TEXT("cannot be read") << ". " << f.jpegError.msg;
-							throw std::runtime_error(s.str());
-						}
+                        if (!jpegEnd(&f.jpeg, &f.jpegError))
+                        {
+                            std::stringstream s;
+                            s << _context->getText(DJV_TEXT("The JPEG file")) <<
+                                " '" << fileName << "' " << DJV_TEXT("cannot be read") << ". " << f.jpegError.msg;
+                            throw std::runtime_error(s.str());
+                        }
                     }
                     return out;
                 }
 
-				namespace
-				{
-					bool jpegInit(
-						jpeg_decompress_struct * jpeg,
-						JPEGErrorStruct *        error)
-					{
-						if (::setjmp(error->jump))
-						{
-							return false;
-						}
-						jpeg_create_decompress(jpeg);
-						return true;
-					}
+                namespace
+                {
+                    bool jpegInit(
+                        jpeg_decompress_struct * jpeg,
+                        JPEGErrorStruct *        error)
+                    {
+                        if (::setjmp(error->jump))
+                        {
+                            return false;
+                        }
+                        jpeg_create_decompress(jpeg);
+                        return true;
+                    }
 
-					bool jpegOpen(
-						FILE *                   f,
-						jpeg_decompress_struct * jpeg,
-						JPEGErrorStruct *        error)
-					{
-						if (::setjmp(error->jump))
-						{
-							return false;
-						}
-						jpeg_stdio_src(jpeg, f);
-						jpeg_save_markers(jpeg, JPEG_COM, 0xFFFF);
-						if (!jpeg_read_header(jpeg, static_cast<boolean>(1)))
-						{
-							return false;
-						}
-						if (!jpeg_start_decompress(jpeg))
-						{
-							return false;
-						}
-						return true;
-					}
+                    bool jpegOpen(
+                        FILE *                   f,
+                        jpeg_decompress_struct * jpeg,
+                        JPEGErrorStruct *        error)
+                    {
+                        if (::setjmp(error->jump))
+                        {
+                            return false;
+                        }
+                        jpeg_stdio_src(jpeg, f);
+                        jpeg_save_markers(jpeg, JPEG_COM, 0xFFFF);
+                        if (!jpeg_read_header(jpeg, static_cast<boolean>(1)))
+                        {
+                            return false;
+                        }
+                        if (!jpeg_start_decompress(jpeg))
+                        {
+                            return false;
+                        }
+                        return true;
+                    }
 
-				} // namespace
+                } // namespace
 
                 Info Read::_open(const std::string& fileName, File & f)
                 {
-					f.jpeg.err = jpeg_std_error(&f.jpegError.pub);
-					f.jpegError.pub.error_exit = djvJPEGError;
-					f.jpegError.pub.emit_message = djvJPEGWarning;
-					f.jpegError.msg[0] = 0;
-					if (!jpegInit(&f.jpeg, &f.jpegError))
-					{
-						std::stringstream s;
+                    f.jpeg.err = jpeg_std_error(&f.jpegError.pub);
+                    f.jpegError.pub.error_exit = djvJPEGError;
+                    f.jpegError.pub.emit_message = djvJPEGWarning;
+                    f.jpegError.msg[0] = 0;
+                    if (!jpegInit(&f.jpeg, &f.jpegError))
+                    {
+                        std::stringstream s;
                         s << _context->getText(DJV_TEXT("The JPEG file")) <<
                             " '" << fileName << "' " << DJV_TEXT("cannot be opened") << ". " << f.jpegError.msg;
                         throw std::runtime_error(s.str());
-					}
-					f.jpegInit = true;
+                    }
+                    f.jpegInit = true;
 
-					f.f = FileSystem::fopen(fileName, "rb");
+                    f.f = FileSystem::fopen(fileName, "rb");
                     if (!f.f)
                     {
                         std::stringstream s;
@@ -211,7 +211,7 @@ namespace djv
                         throw std::runtime_error(s.str());
                     }
 
-					const glm::ivec2 size = glm::ivec2(f.jpeg.output_width, f.jpeg.output_height);
+                    const glm::ivec2 size = glm::ivec2(f.jpeg.output_width, f.jpeg.output_height);
                     Image::Type imageType = Image::getIntType(f.jpeg.out_color_components, 8);
                     if (Image::Type::None == imageType)
                     {
@@ -220,13 +220,13 @@ namespace djv
                             " '" << fileName << "' " << DJV_TEXT("cannot be opened") << ".";
                         throw std::runtime_error(s.str());
                     }
-					auto info = Info(fileName, VideoInfo(Image::Info(size, imageType), _speed, _duration));
+                    auto info = Info(fileName, VideoInfo(Image::Info(size, imageType), _speed, _duration));
 
-					const jpeg_saved_marker_ptr marker = f.jpeg.marker_list;
-					if (marker)
-					{
-						info.tags.setTag("Description", std::string((const char *)marker->data, marker->data_length));
-					}
+                    const jpeg_saved_marker_ptr marker = f.jpeg.marker_list;
+                    if (marker)
+                    {
+                        info.tags.setTag("Description", std::string((const char *)marker->data, marker->data_length));
+                    }
 
                     return info;
                 }

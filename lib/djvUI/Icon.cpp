@@ -44,8 +44,8 @@ namespace djv
         struct Icon::Private
         {
             std::string name;
-			ColorRole iconColorRole = ColorRole::Foreground;
-			MetricsRole iconSizeRole = MetricsRole::Icon;
+            ColorRole iconColorRole = ColorRole::Foreground;
+            MetricsRole iconSizeRole = MetricsRole::Icon;
             std::future<std::shared_ptr<AV::Image::Image> > imageFuture;
             std::shared_ptr<AV::Image::Image> image;
         };
@@ -99,7 +99,7 @@ namespace djv
             _resize();
         }
 
-		ColorRole Icon::getIconColorRole() const
+        ColorRole Icon::getIconColorRole() const
         {
             return _p->iconColorRole;
         }
@@ -113,7 +113,7 @@ namespace djv
             _redraw();
         }
 
-		MetricsRole Icon::getIconSizeRole() const
+        MetricsRole Icon::getIconSizeRole() const
         {
             return _p->iconSizeRole;
         }
@@ -144,24 +144,24 @@ namespace djv
 
         void Icon::_preLayoutEvent(Event::PreLayout& event)
         {
-			DJV_PRIVATE_PTR();
-			if (auto style = _getStyle().lock())
+            DJV_PRIVATE_PTR();
+            if (auto style = _getStyle().lock())
             {
                 const float i = style->getMetric(p.iconSizeRole);
 
-				if (p.imageFuture.valid())
-				{
-					try
-					{
-						p.image = p.imageFuture.get();
-					}
-					catch (const std::exception & e)
-					{
-						p.image = nullptr;
-						_log(e.what(), LogLevel::Error);
-					}
-					_resize();
-				}
+                if (p.imageFuture.valid())
+                {
+                    try
+                    {
+                        p.image = p.imageFuture.get();
+                    }
+                    catch (const std::exception & e)
+                    {
+                        p.image = nullptr;
+                        _log(e.what(), LogLevel::Error);
+                    }
+                    _resize();
+                }
 
                 glm::vec2 size;
                 if (p.image)
@@ -177,8 +177,8 @@ namespace djv
         void Icon::_paintEvent(Event::Paint& event)
         {
             Widget::_paintEvent(event);
-			DJV_PRIVATE_PTR();
-			if (auto render = _getRender().lock())
+            DJV_PRIVATE_PTR();
+            if (auto render = _getRender().lock())
             {
                 if (auto style = _getStyle().lock())
                 {

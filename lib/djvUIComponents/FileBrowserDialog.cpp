@@ -46,123 +46,123 @@ namespace djv
 {
     namespace UI
     {
-		namespace FileBrowser
-		{
-			namespace
-			{
-				class Dialog : public IDialog
-				{
-					DJV_NON_COPYABLE(Dialog);
+        namespace FileBrowser
+        {
+            namespace
+            {
+                class Dialog : public IDialog
+                {
+                    DJV_NON_COPYABLE(Dialog);
 
-				protected:
-					void _init(Context * context)
-					{
-						IDialog::_init(context);
+                protected:
+                    void _init(Context * context)
+                    {
+                        IDialog::_init(context);
 
-						_widget = FileBrowser::Widget::create(context);
-						_widget->setPath(FileSystem::Path("."));
-						_widget->setBackgroundRole(ColorRole::Background);
-						addWidget(_widget, RowStretch::Expand);
+                        _widget = FileBrowser::Widget::create(context);
+                        _widget->setPath(FileSystem::Path("."));
+                        _widget->setBackgroundRole(ColorRole::Background);
+                        addWidget(_widget, RowStretch::Expand);
 
-						auto weak = std::weak_ptr<Dialog>(std::dynamic_pointer_cast<Dialog>(shared_from_this()));
-						_widget->setCallback(
-							[weak](const FileSystem::FileInfo & value)
-						{
-							if (auto dialog = weak.lock())
-							{
-								if (dialog->_callback)
-								{
-									dialog->_callback(value);
-								}
-								dialog->_doCloseCallback();
-							}
-						});
-					}
+                        auto weak = std::weak_ptr<Dialog>(std::dynamic_pointer_cast<Dialog>(shared_from_this()));
+                        _widget->setCallback(
+                            [weak](const FileSystem::FileInfo & value)
+                        {
+                            if (auto dialog = weak.lock())
+                            {
+                                if (dialog->_callback)
+                                {
+                                    dialog->_callback(value);
+                                }
+                                dialog->_doCloseCallback();
+                            }
+                        });
+                    }
 
-					Dialog()
-					{}
+                    Dialog()
+                    {}
 
-				public:
-					static std::shared_ptr<Dialog> create(Context * context)
-					{
-						auto out = std::shared_ptr<Dialog>(new Dialog);
-						out->_init(context);
-						return out;
-					}
+                public:
+                    static std::shared_ptr<Dialog> create(Context * context)
+                    {
+                        auto out = std::shared_ptr<Dialog>(new Dialog);
+                        out->_init(context);
+                        return out;
+                    }
 
-					void setCallback(const std::function<void(const FileSystem::FileInfo &)> & value)
-					{
-						_callback = value;
-					}
+                    void setCallback(const std::function<void(const FileSystem::FileInfo &)> & value)
+                    {
+                        _callback = value;
+                    }
 
-				private:
-					std::shared_ptr<FileBrowser::Widget> _widget;
-					std::function<void(const FileSystem::FileInfo &)> _callback;
-				};
+                private:
+                    std::shared_ptr<FileBrowser::Widget> _widget;
+                    std::function<void(const FileSystem::FileInfo &)> _callback;
+                };
 
-			} // namespace
+            } // namespace
 
-			struct DialogSystem::Private
-			{
-				std::shared_ptr<Dialog> dialog;
-			};
+            struct DialogSystem::Private
+            {
+                std::shared_ptr<Dialog> dialog;
+            };
 
-			void DialogSystem::_init(Context * context)
-			{
-				ISystem::_init("djv::UI::FileBrowser::DialogSystem", context);
-			}
+            void DialogSystem::_init(Context * context)
+            {
+                ISystem::_init("djv::UI::FileBrowser::DialogSystem", context);
+            }
 
-			DialogSystem::DialogSystem() :
-				_p(new Private)
-			{}
+            DialogSystem::DialogSystem() :
+                _p(new Private)
+            {}
 
-			DialogSystem::~DialogSystem()
-			{}
+            DialogSystem::~DialogSystem()
+            {}
 
-			std::shared_ptr<DialogSystem> DialogSystem::create(Context * context)
-			{
-				auto out = std::shared_ptr<DialogSystem>(new DialogSystem);
-				out->_init(context);
-				return out;
-			}
+            std::shared_ptr<DialogSystem> DialogSystem::create(Context * context)
+            {
+                auto out = std::shared_ptr<DialogSystem>(new DialogSystem);
+                out->_init(context);
+                return out;
+            }
 
-			void DialogSystem::fileBrowser(
-				const std::string & title,
-				const std::function<void(const Core::FileSystem::FileInfo &)> & callback)
-			{
-				auto context = getContext();
-				DJV_PRIVATE_PTR();
-				if (!p.dialog)
-				{
-					p.dialog = Dialog::create(context);
-				}
-				if (auto windowSystem = context->getSystemT<UI::IWindowSystem>().lock())
-				{
-					if (auto window = windowSystem->observeCurrentWindow()->get())
-					{
-						p.dialog->setTitle(title);
+            void DialogSystem::fileBrowser(
+                const std::string & title,
+                const std::function<void(const Core::FileSystem::FileInfo &)> & callback)
+            {
+                auto context = getContext();
+                DJV_PRIVATE_PTR();
+                if (!p.dialog)
+                {
+                    p.dialog = Dialog::create(context);
+                }
+                if (auto windowSystem = context->getSystemT<UI::IWindowSystem>().lock())
+                {
+                    if (auto window = windowSystem->observeCurrentWindow()->get())
+                    {
+                        p.dialog->setTitle(title);
 
-						auto weak = std::weak_ptr<DialogSystem>(std::dynamic_pointer_cast<DialogSystem>(shared_from_this()));
-						p.dialog->setCallback(
-							[callback](const Core::FileSystem::FileInfo & value)
-						{
-							callback(value);
-						});
-						p.dialog->setCloseCallback(
-							[weak, window]
-						{
-							if (auto system = weak.lock())
-							{
-								window->removeWidget(system->_p->dialog);
-							}
-						});
+                        auto weak = std::weak_ptr<DialogSystem>(std::dynamic_pointer_cast<DialogSystem>(shared_from_this()));
+                        p.dialog->setCallback(
+                            [callback](const Core::FileSystem::FileInfo & value)
+                        {
+                            callback(value);
+                        });
+                        p.dialog->setCloseCallback(
+                            [weak, window]
+                        {
+                            if (auto system = weak.lock())
+                            {
+                                window->removeWidget(system->_p->dialog);
+                            }
+                        });
 
-						window->addWidget(p.dialog);
-						p.dialog->show();
-					}
-				}
-			}
+                        window->addWidget(p.dialog);
+                        p.dialog->show();
+                    }
+                }
+            }
 
-		} // namespace FileBrowser
+        } // namespace FileBrowser
     } // namespace UI
 } // namespace djv

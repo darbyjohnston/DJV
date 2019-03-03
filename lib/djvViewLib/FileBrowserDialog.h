@@ -52,7 +52,7 @@ namespace djv
 
         protected:
             void _init(Core::Context *);
-			FileBrowserDialog();
+            FileBrowserDialog();
 
         public:
             ~FileBrowserDialog() override;

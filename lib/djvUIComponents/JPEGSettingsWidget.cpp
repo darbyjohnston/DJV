@@ -45,18 +45,18 @@ namespace djv
 {
     namespace UI
     {
-		struct JPEGSettingsWidget::Private
-		{
+        struct JPEGSettingsWidget::Private
+        {
             AV::IO::JPEG::Settings settings;
-			std::shared_ptr<GroupBox> qualityGroupBox;
+            std::shared_ptr<GroupBox> qualityGroupBox;
             std::shared_ptr<ValueObserver<int> > qualityObserver;
-		};
+        };
 
-		void JPEGSettingsWidget::_init(Context * context)
-		{
-			ISettingsWidget::_init(context);
+        void JPEGSettingsWidget::_init(Context * context)
+        {
+            ISettingsWidget::_init(context);
 
-			DJV_PRIVATE_PTR();
+            DJV_PRIVATE_PTR();
 
             auto qualitySlider = IntValueSlider::create(Orientation::Horizontal, context);
             auto qualityLabel = IntValueLabel::create(context);
@@ -69,15 +69,15 @@ namespace djv
             hLayout->addWidget(qualityLabel);
             hLayout->addWidget(qualitySlider);
             p.qualityGroupBox->addWidget(hLayout);
-			addWidget(p.qualityGroupBox);
+            addWidget(p.qualityGroupBox);
 
-			if (auto io = context->getSystemT<AV::IO::System>().lock())
-			{
-				fromJSON(io->getOptions(AV::IO::JPEG::pluginName), p.settings);
+            if (auto io = context->getSystemT<AV::IO::System>().lock())
+            {
+                fromJSON(io->getOptions(AV::IO::JPEG::pluginName), p.settings);
                 qualityModel->setValue(p.settings.quality);
-			}
+            }
 
-			auto weak = std::weak_ptr<JPEGSettingsWidget>(std::dynamic_pointer_cast<JPEGSettingsWidget>(shared_from_this()));
+            auto weak = std::weak_ptr<JPEGSettingsWidget>(std::dynamic_pointer_cast<JPEGSettingsWidget>(shared_from_this()));
             p.qualityObserver = ValueObserver<int>::create(
                 qualityModel->observeValue(),
                 [weak, context](int value)
@@ -91,18 +91,18 @@ namespace djv
                     }
                 }
             });
-		}
+        }
 
-		JPEGSettingsWidget::JPEGSettingsWidget() :
-			_p(new Private)
-		{}
+        JPEGSettingsWidget::JPEGSettingsWidget() :
+            _p(new Private)
+        {}
 
-		std::shared_ptr<JPEGSettingsWidget> JPEGSettingsWidget::create(Context * context)
-		{
-			auto out = std::shared_ptr<JPEGSettingsWidget>(new JPEGSettingsWidget);
-			out->_init(context);
-			return out;
-		}
+        std::shared_ptr<JPEGSettingsWidget> JPEGSettingsWidget::create(Context * context)
+        {
+            auto out = std::shared_ptr<JPEGSettingsWidget>(new JPEGSettingsWidget);
+            out->_init(context);
+            return out;
+        }
 
         std::string JPEGSettingsWidget::getName() const
         {
@@ -119,12 +119,12 @@ namespace djv
             return "B";
         }
 
-		void JPEGSettingsWidget::_localeEvent(Event::Locale & event)
-		{
+        void JPEGSettingsWidget::_localeEvent(Event::Locale & event)
+        {
             ISettingsWidget::_localeEvent(event);
-			DJV_PRIVATE_PTR();
-			p.qualityGroupBox->setText(DJV_TEXT("Compression Quality"));
-		}
+            DJV_PRIVATE_PTR();
+            p.qualityGroupBox->setText(DJV_TEXT("Compression Quality"));
+        }
 
     } // namespace UI
 } // namespace djv

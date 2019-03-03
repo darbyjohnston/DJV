@@ -84,8 +84,8 @@ namespace djv
             ///@{
 
             //! Get the text for the given ID.
-			//!
-			//! \todo Add a namespace argument.
+            //!
+            //! \todo Add a namespace argument.
             const std::string & getText(const std::string& id) const;
 
             ///@}

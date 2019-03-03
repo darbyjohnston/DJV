@@ -59,7 +59,7 @@ namespace djv
             private:
                 bool _isHovered() const;
 
-				DJV_PRIVATE();
+                DJV_PRIVATE();
             };
 
         } // namespace Button

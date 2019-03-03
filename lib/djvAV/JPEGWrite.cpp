@@ -48,14 +48,14 @@ namespace djv
             {
                 struct Write::Private
                 {
-					Settings settings;
+                    Settings settings;
                 };
 
                 Write::Write(const Settings & settings) :
                     _p(new Private)
                 {
-					_p->settings = settings;
-				}
+                    _p->settings = settings;
+                }
 
                 Write::~Write()
                 {}
@@ -85,88 +85,88 @@ namespace djv
                             }
                         }
                         
-						FILE *               f         = nullptr;
-						jpeg_compress_struct jpeg;
-						bool                 jpegInit  = false;
-						JPEGErrorStruct      jpegError;
+                        FILE *               f         = nullptr;
+                        jpeg_compress_struct jpeg;
+                        bool                 jpegInit  = false;
+                        JPEGErrorStruct      jpegError;
                     };
 
-					bool jpegInit(jpeg_compress_struct * jpeg, JPEGErrorStruct * error)
-					{
-						if (setjmp(error->jump))
-						{
-							return false;
-						}
-						jpeg_create_compress(jpeg);
-						return true;
-					}
+                    bool jpegInit(jpeg_compress_struct * jpeg, JPEGErrorStruct * error)
+                    {
+                        if (setjmp(error->jump))
+                        {
+                            return false;
+                        }
+                        jpeg_create_compress(jpeg);
+                        return true;
+                    }
 
-					bool jpegOpen(
-						FILE *                 f,
-						jpeg_compress_struct * jpeg,
-						const Image::Info &    info,
-						const Tags &           tags,
-						const Settings &	   settings,
-						JPEGErrorStruct *      error)
-					{
-						if (setjmp(error->jump))
-						{
-							return false;
-						}
-						jpeg_stdio_dest(jpeg, f);
-						jpeg->image_width = info.size.x;
-						jpeg->image_height = info.size.y;
-						if (Image::Type::L_U8 == info.type)
-						{
-							jpeg->input_components = 1;
-							jpeg->in_color_space = JCS_GRAYSCALE;
-						}
-						else if (Image::Type::RGB_U8 == info.type)
-						{
-							jpeg->input_components = 3;
-							jpeg->in_color_space = JCS_RGB;
-						}
-						jpeg_set_defaults(jpeg);
-						jpeg_set_quality(jpeg, settings.quality, static_cast<boolean>(1));
-						jpeg_start_compress(jpeg, static_cast<boolean>(1));
-						std::string tag = tags.getTag("Description");
-						if (tag.length())
-						{
-							jpeg_write_marker(
-								jpeg,
-								JPEG_COM,
-								(JOCTET *)tag.c_str(),
-								static_cast<unsigned int>(tag.size()));
-						}
-						return true;
-					}
+                    bool jpegOpen(
+                        FILE *                 f,
+                        jpeg_compress_struct * jpeg,
+                        const Image::Info &    info,
+                        const Tags &           tags,
+                        const Settings &       settings,
+                        JPEGErrorStruct *      error)
+                    {
+                        if (setjmp(error->jump))
+                        {
+                            return false;
+                        }
+                        jpeg_stdio_dest(jpeg, f);
+                        jpeg->image_width = info.size.x;
+                        jpeg->image_height = info.size.y;
+                        if (Image::Type::L_U8 == info.type)
+                        {
+                            jpeg->input_components = 1;
+                            jpeg->in_color_space = JCS_GRAYSCALE;
+                        }
+                        else if (Image::Type::RGB_U8 == info.type)
+                        {
+                            jpeg->input_components = 3;
+                            jpeg->in_color_space = JCS_RGB;
+                        }
+                        jpeg_set_defaults(jpeg);
+                        jpeg_set_quality(jpeg, settings.quality, static_cast<boolean>(1));
+                        jpeg_start_compress(jpeg, static_cast<boolean>(1));
+                        std::string tag = tags.getTag("Description");
+                        if (tag.length())
+                        {
+                            jpeg_write_marker(
+                                jpeg,
+                                JPEG_COM,
+                                (JOCTET *)tag.c_str(),
+                                static_cast<unsigned int>(tag.size()));
+                        }
+                        return true;
+                    }
 
-					bool jpegScanline(
-						jpeg_compress_struct * jpeg,
-						const uint8_t *        in,
-						JPEGErrorStruct *      error)
-					{
-						if (::setjmp(error->jump))
-						{
-							return false;
-						}
-						JSAMPROW p[] = { (JSAMPLE *)(in) };
-						if (!jpeg_write_scanlines(jpeg, p, 1))
-						{
-							return false;
-						}
-						return true;
-					}
+                    bool jpegScanline(
+                        jpeg_compress_struct * jpeg,
+                        const uint8_t *        in,
+                        JPEGErrorStruct *      error)
+                    {
+                        if (::setjmp(error->jump))
+                        {
+                            return false;
+                        }
+                        JSAMPROW p[] = { (JSAMPLE *)(in) };
+                        if (!jpeg_write_scanlines(jpeg, p, 1))
+                        {
+                            return false;
+                        }
+                        return true;
+                    }
 
-					bool jpeg_end(jpeg_compress_struct * jpeg, JPEGErrorStruct * error)
-					{
-						if (::setjmp(error->jump))
-						{
-							return false;
-						}
-						jpeg_finish_compress(jpeg);
-						return true;
-					}
+                    bool jpeg_end(jpeg_compress_struct * jpeg, JPEGErrorStruct * error)
+                    {
+                        if (::setjmp(error->jump))
+                        {
+                            return false;
+                        }
+                        jpeg_finish_compress(jpeg);
+                        return true;
+                    }
 
                 } // namespace
 
@@ -176,23 +176,23 @@ namespace djv
                     switch (image->getType())
                     {
                     case Image::Type::L_U8:
-					case Image::Type::RGB_U8:   imageType = image->getType(); break;
-					case Image::Type::L_U16:
-					case Image::Type::L_U32:
+                    case Image::Type::RGB_U8:   imageType = image->getType(); break;
+                    case Image::Type::L_U16:
+                    case Image::Type::L_U32:
                     case Image::Type::L_F16:
                     case Image::Type::L_F32:
-					case Image::Type::LA_U8:
-					case Image::Type::LA_U16:
-					case Image::Type::LA_U32:
+                    case Image::Type::LA_U8:
+                    case Image::Type::LA_U16:
+                    case Image::Type::LA_U32:
                     case Image::Type::LA_F16:
                     case Image::Type::LA_F32:   imageType = Image::Type::LA_U8; break;
-					case Image::Type::RGB_U16:
-					case Image::Type::RGB_U32:
+                    case Image::Type::RGB_U16:
+                    case Image::Type::RGB_U32:
                     case Image::Type::RGB_F16:
                     case Image::Type::RGB_F32:
-					case Image::Type::RGBA_U8:
-					case Image::Type::RGBA_U16:
-					case Image::Type::RGBA_U32:
+                    case Image::Type::RGBA_U8:
+                    case Image::Type::RGBA_U16:
+                    case Image::Type::RGBA_U32:
                     case Image::Type::RGBA_F16:
                     case Image::Type::RGBA_F32: imageType = Image::Type::RGB_U8; break;
                     default: break;
@@ -215,55 +215,55 @@ namespace djv
                     }
 
                     File f;
-					f.jpeg.err = jpeg_std_error(&f.jpegError.pub);
-					f.jpegError.pub.error_exit = djvJPEGError;
-					f.jpegError.pub.emit_message = djvJPEGWarning;
-					f.jpegError.msg[0] = 0;
-					if (!jpegInit(&f.jpeg, &f.jpegError))
-					{
-						std::stringstream s;
-						s << pluginName << " " << _context->getText(DJV_TEXT("The file")) <<
-							" '" << fileName << "' " << DJV_TEXT("cannot be opened") << ". " << f.jpegError.msg;
-						throw std::runtime_error(s.str());
-					}
-					f.jpegInit = true;
-
-					f.f = FileSystem::fopen(fileName.c_str(), "wb");
-					if (!f.f)
-					{
-						std::stringstream s;
-                        s << pluginName << " " << _context->getText(DJV_TEXT("The file")) <<
-                            " '" << fileName << "' " << DJV_TEXT("cannot be opened") << ".";
-                        throw std::runtime_error(s.str());
-					}
-
-					if (!jpegOpen(f.f, &f.jpeg, info, _info.tags, _p->settings, &f.jpegError))
-					{
-						std::stringstream s;
+                    f.jpeg.err = jpeg_std_error(&f.jpegError.pub);
+                    f.jpegError.pub.error_exit = djvJPEGError;
+                    f.jpegError.pub.emit_message = djvJPEGWarning;
+                    f.jpegError.msg[0] = 0;
+                    if (!jpegInit(&f.jpeg, &f.jpegError))
+                    {
+                        std::stringstream s;
                         s << pluginName << " " << _context->getText(DJV_TEXT("The file")) <<
                             " '" << fileName << "' " << DJV_TEXT("cannot be opened") << ". " << f.jpegError.msg;
                         throw std::runtime_error(s.str());
-					}
+                    }
+                    f.jpegInit = true;
 
-					const auto & size = imageData->getSize();
-					for (int y = 0; y < size.y; ++y)
-					{
-						if (!jpegScanline(&f.jpeg, imageData->getData(y), &f.jpegError))
-						{
-							std::stringstream s;
-							s << pluginName << " " << _context->getText(DJV_TEXT("The file")) <<
-								" '" << fileName << "' " << DJV_TEXT("cannot be written") << ". " << f.jpegError.msg;
-							throw std::runtime_error(s.str());
-						}
-					}
+                    f.f = FileSystem::fopen(fileName.c_str(), "wb");
+                    if (!f.f)
+                    {
+                        std::stringstream s;
+                        s << pluginName << " " << _context->getText(DJV_TEXT("The file")) <<
+                            " '" << fileName << "' " << DJV_TEXT("cannot be opened") << ".";
+                        throw std::runtime_error(s.str());
+                    }
 
-					if (!jpeg_end(&f.jpeg, &f.jpegError))
-					{
-						std::stringstream s;
+                    if (!jpegOpen(f.f, &f.jpeg, info, _info.tags, _p->settings, &f.jpegError))
+                    {
+                        std::stringstream s;
+                        s << pluginName << " " << _context->getText(DJV_TEXT("The file")) <<
+                            " '" << fileName << "' " << DJV_TEXT("cannot be opened") << ". " << f.jpegError.msg;
+                        throw std::runtime_error(s.str());
+                    }
+
+                    const auto & size = imageData->getSize();
+                    for (int y = 0; y < size.y; ++y)
+                    {
+                        if (!jpegScanline(&f.jpeg, imageData->getData(y), &f.jpegError))
+                        {
+                            std::stringstream s;
+                            s << pluginName << " " << _context->getText(DJV_TEXT("The file")) <<
+                                " '" << fileName << "' " << DJV_TEXT("cannot be written") << ". " << f.jpegError.msg;
+                            throw std::runtime_error(s.str());
+                        }
+                    }
+
+                    if (!jpeg_end(&f.jpeg, &f.jpegError))
+                    {
+                        std::stringstream s;
                         s << pluginName << " " << _context->getText(DJV_TEXT("The file")) <<
                             " '" << fileName << "' " << DJV_TEXT("cannot be written") << ". " << f.jpegError.msg;
                         throw std::runtime_error(s.str());
-					}
+                    }
                 }
 
             } // namespace JPEG

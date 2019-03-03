@@ -42,7 +42,7 @@ namespace djv
 
         protected:
             void _init(const std::string& argv0, Core::Context *);
-			CoreSystem();
+            CoreSystem();
 
         public:
             ~CoreSystem() override;
@@ -50,7 +50,7 @@ namespace djv
             static std::shared_ptr<CoreSystem> create(const std::string& argv0, Core::Context *);
 
         private:
-			DJV_PRIVATE();
+            DJV_PRIVATE();
         };
 
     } // namespace Core

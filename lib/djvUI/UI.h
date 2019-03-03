@@ -40,5 +40,5 @@ namespace djv
     //! \todo [1.0 L] Add audio FX.
     namespace UI
     {
-	} // namespace UI
+    } // namespace UI
 } // namespace djv

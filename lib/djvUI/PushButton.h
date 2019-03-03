@@ -43,7 +43,7 @@ namespace djv
 
                 const std::string & getFont() const;
                 const std::string & getFontFace() const;
-				MetricsRole getFontSizeRole() const;
+                MetricsRole getFontSizeRole() const;
                 void setFont(const std::string &);
                 void setFontFace(const std::string &);
                 void setFontSizeRole(MetricsRole);
@@ -60,12 +60,12 @@ namespace djv
                 void _updateEvent(Core::Event::Update&) override;
 
             private:
-				DJV_PRIVATE();
+                DJV_PRIVATE();
             };
 
         } // namespace Button
 
-		typedef Button::Push PushButton;
+        typedef Button::Push PushButton;
 
     } // namespace UI
 } // namespace djv

@@ -42,17 +42,17 @@ namespace djv
         {
             namespace JPEG
             {
-				struct Plugin::Private
-				{
-					Settings settings;
-				};
+                struct Plugin::Private
+                {
+                    Settings settings;
+                };
 
                 Plugin::Plugin() :
-					_p(new Private)
+                    _p(new Private)
                 {}
 
-				Plugin::~Plugin()
-				{}
+                Plugin::~Plugin()
+                {}
 
                 std::shared_ptr<Plugin> Plugin::create(Context * context)
                 {
@@ -65,15 +65,15 @@ namespace djv
                     return out;
                 }
 
-				picojson::value Plugin::getOptions() const
-				{
-					return toJSON(_p->settings);
-				}
+                picojson::value Plugin::getOptions() const
+                {
+                    return toJSON(_p->settings);
+                }
 
-				void Plugin::setOptions(const picojson::value& value)
-				{
-					fromJSON(value, _p->settings);
-				}
+                void Plugin::setOptions(const picojson::value& value)
+                {
+                    fromJSON(value, _p->settings);
+                }
 
                 std::shared_ptr<IRead> Plugin::read(
                     const std::string & fileName,
@@ -92,24 +92,24 @@ namespace djv
 
                 extern "C"
                 {
-					void djvJPEGError(j_common_ptr in)
-					{
-						auto error = reinterpret_cast<JPEGErrorStruct *>(in->err);
-						in->err->format_message(in, error->msg);
-						::longjmp(error->jump, 1);
-					}
+                    void djvJPEGError(j_common_ptr in)
+                    {
+                        auto error = reinterpret_cast<JPEGErrorStruct *>(in->err);
+                        in->err->format_message(in, error->msg);
+                        ::longjmp(error->jump, 1);
+                    }
 
-					void djvJPEGWarning(j_common_ptr in, int level)
-					{
-						if (level > 0)
-						{
-							//! \todo Should we send "trace" messages to the debug log?
-							return;
-						}
-						auto error = reinterpret_cast<JPEGErrorStruct *>(in->err);
-						in->err->format_message(in, error->msg);
-						::longjmp(error->jump, 1);
-					}
+                    void djvJPEGWarning(j_common_ptr in, int level)
+                    {
+                        if (level > 0)
+                        {
+                            //! \todo Should we send "trace" messages to the debug log?
+                            return;
+                        }
+                        auto error = reinterpret_cast<JPEGErrorStruct *>(in->err);
+                        in->err->format_message(in, error->msg);
+                        ::longjmp(error->jump, 1);
+                    }
 
                 } // extern "C"
 

@@ -144,7 +144,7 @@ namespace djv
             if (value == _visible)
                 return;
             _visible = value;
-			_visibleInit = value;
+            _visibleInit = value;
             _resize();
         }
 
@@ -318,13 +318,13 @@ namespace djv
                     {
                         _styleInit = false;
                     }
-					_clipped = parentChangedEvent.getNewParent() ? true : false;
-					_clipRect = BBox2f(0.f, 0.f, 0.f, 0.f);
-					_redraw();
-					break;
-				}
-				case Event::Type::ChildAdded:
-				case Event::Type::ChildRemoved:
+                    _clipped = parentChangedEvent.getNewParent() ? true : false;
+                    _clipRect = BBox2f(0.f, 0.f, 0.f, 0.f);
+                    _redraw();
+                    break;
+                }
+                case Event::Type::ChildAdded:
+                case Event::Type::ChildRemoved:
                 case Event::Type::ChildOrder:
                 case Event::Type::Locale:
                     _resize();
@@ -385,7 +385,7 @@ namespace djv
                     _resize();
                     break;
                 case Event::Type::PreLayout:
-					_visibleInit = false;
+                    _visibleInit = false;
                     _preLayoutEvent(static_cast<Event::PreLayout&>(event));
                     break;
                 case Event::Type::Layout:
@@ -419,18 +419,18 @@ namespace djv
                     {
                         _parentsOpacity = 1.f;
                     }
-					if (!_visibleInit)
-					{
-						_paintEvent(static_cast<Event::Paint&>(event));
-					}
+                    if (!_visibleInit)
+                    {
+                        _paintEvent(static_cast<Event::Paint&>(event));
+                    }
                     break;
                 }
                 case Event::Type::PaintOverlay:
                 {
-					if (!_visibleInit)
-					{
-						_paintOverlayEvent(static_cast<Event::PaintOverlay&>(event));
-					}
+                    if (!_visibleInit)
+                    {
+                        _paintOverlayEvent(static_cast<Event::PaintOverlay&>(event));
+                    }
                     break;
                 }
                 case Event::Type::PointerEnter:

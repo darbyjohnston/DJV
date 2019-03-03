@@ -49,8 +49,8 @@ namespace djv
 {
     namespace AV
     {
-	    namespace Image
-	    {
+        namespace Image
+        {
             struct Convert::Private
             {
                 glm::ivec2 size;
@@ -170,6 +170,6 @@ namespace djv
                     out.getData());
             }
 
-	    } // namespace Image
-	} // namespace AV
+        } // namespace Image
+    } // namespace AV
 } // namespace djv

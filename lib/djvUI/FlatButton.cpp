@@ -149,7 +149,7 @@ namespace djv
                 _p->label->setTextVAlign(value);
             }
 
-			ColorRole Flat::getTextColorRole() const
+            ColorRole Flat::getTextColorRole() const
             {
                 return _p->label->getTextColorRole();
             }
@@ -169,7 +169,7 @@ namespace djv
                 return _p->label->getFontFace();
             }
 
-			MetricsRole Flat::getFontSizeRole() const
+            MetricsRole Flat::getFontSizeRole() const
             {
                 return _p->label->getFontSizeRole();
             }

@@ -44,12 +44,12 @@ namespace djv
         public:
             ~ISystem() override = 0;
 
-			void addDependency(const std::shared_ptr<ISystem> &);
+            void addDependency(const std::shared_ptr<ISystem> &);
 
             virtual void tick(float dt) {};
 
-		private:
-			std::vector<std::shared_ptr<ISystem> > _dependencies;
+        private:
+            std::vector<std::shared_ptr<ISystem> > _dependencies;
         };
 
     } // namespace Core

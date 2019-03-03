@@ -314,10 +314,10 @@ namespace djv
                                         image = _queue->getVideo().second;
                                         _queue->popVideo();
                                     }
-									else if (_queue->isFinished())
-									{
-										p.running = false;
-									}
+                                    else if (_queue->isFinished())
+                                    {
+                                        p.running = false;
+                                    }
                                 }
                             }
                             if (image)

@@ -54,14 +54,14 @@ namespace djv
                 Orientation getOrientation() const;
                 void setOrientation(Orientation);
 
-				MetricsRole getSpacerSize() const;
+                MetricsRole getSpacerSize() const;
                 void setSpacerSize(MetricsRole);
 
             protected:
                 void _preLayoutEvent(Core::Event::PreLayout&) override;
 
             private:
-				DJV_PRIVATE();
+                DJV_PRIVATE();
             };
 
             //! This class provides a horizontal spacer for use in layouts.

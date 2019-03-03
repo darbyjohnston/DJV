@@ -49,12 +49,12 @@ namespace djv
                 void setExclusiveCallback(const std::function<void(int)>&);
 
             private:
-				DJV_PRIVATE();
+                DJV_PRIVATE();
             };
 
         } // namespace Button
 
-		typedef Button::Group ButtonGroup;
+        typedef Button::Group ButtonGroup;
 
     } // namespace UI
 } // namespace djv

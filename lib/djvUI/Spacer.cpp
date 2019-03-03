@@ -40,7 +40,7 @@ namespace djv
             struct Spacer::Private
             {
                 Orientation orientation = Orientation::First;
-				MetricsRole spacerSize = MetricsRole::Spacing;
+                MetricsRole spacerSize = MetricsRole::Spacing;
             };
 
             void Spacer::_init(Context * context)
@@ -79,7 +79,7 @@ namespace djv
                 _resize();
             }
 
-			MetricsRole Spacer::getSpacerSize() const
+            MetricsRole Spacer::getSpacerSize() const
             {
                 return _p->spacerSize;
             }

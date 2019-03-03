@@ -57,19 +57,19 @@ namespace djv
                 static const std::string pluginName = "JPEG";
                 static const std::set<std::string> fileExtensions = { ".jpeg", ".jpg", ".jfif" };
 
-				//! This struct provides the JPEG settings.
-				struct Settings
-				{
-					int quality = 90;
-				};
+                //! This struct provides the JPEG settings.
+                struct Settings
+                {
+                    int quality = 90;
+                };
 
-				//! This struct provides libjpeg error handling.
-				struct JPEGErrorStruct
-				{
-					struct jpeg_error_mgr pub;
-					char msg[JMSG_LENGTH_MAX] = "";
-					jmp_buf jump;
-				};
+                //! This struct provides libjpeg error handling.
+                struct JPEGErrorStruct
+                {
+                    struct jpeg_error_mgr pub;
+                    char msg[JMSG_LENGTH_MAX] = "";
+                    jmp_buf jump;
+                };
 
                 class Read : public ISequenceRead
                 {
@@ -105,7 +105,7 @@ namespace djv
 
                     static std::shared_ptr<Write> create(
                         const std::string & fileName,
-						const Settings &,
+                        const Settings &,
                         const Info &,
                         const std::shared_ptr<Queue> &,
                         Core::Context *);
@@ -125,12 +125,12 @@ namespace djv
                     Plugin();
 
                 public:
-					~Plugin() override;
+                    ~Plugin() override;
 
                     static std::shared_ptr<Plugin> create(Core::Context *);
 
-					picojson::value getOptions() const override;
-					void setOptions(const picojson::value&) override;
+                    picojson::value getOptions() const override;
+                    void setOptions(const picojson::value&) override;
 
                     std::shared_ptr<IRead> read(
                         const std::string & fileName,
@@ -140,14 +140,14 @@ namespace djv
                         const Info &,
                         const std::shared_ptr<Queue> &) const override;
 
-				private:
-					DJV_PRIVATE();
+                private:
+                    DJV_PRIVATE();
                 };
 
                 extern "C"
                 {
-					void djvJPEGError(j_common_ptr);
-					void djvJPEGWarning(j_common_ptr, int);
+                    void djvJPEGError(j_common_ptr);
+                    void djvJPEGWarning(j_common_ptr, int);
 
                 } // extern "C"
 

@@ -102,8 +102,8 @@ namespace djv
             };
             DJV_ENUM_HELPERS(MetricsRole);
 
-			//! This constant provides the default icon size.
-			const int iconSizeDefault = 24;
+            //! This constant provides the default icon size.
+            const int iconSizeDefault = 24;
 
             //! This class provides a color palette.
             class Palette
@@ -204,8 +204,8 @@ namespace djv
 
         } // namespace Style
 
-		using Style::ColorRole;
-		using Style::MetricsRole;
+        using Style::ColorRole;
+        using Style::MetricsRole;
 
     } // namespace UI
 

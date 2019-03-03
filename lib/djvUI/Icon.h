@@ -53,10 +53,10 @@ namespace djv
             const std::string& getIcon() const;
             void setIcon(const std::string&);
 
-			ColorRole getIconColorRole() const;
+            ColorRole getIconColorRole() const;
             void setIconColorRole(ColorRole);
 
-			MetricsRole getIconSizeRole() const;
+            MetricsRole getIconSizeRole() const;
             void setIconSizeRole(MetricsRole);
 
         protected:
@@ -65,7 +65,7 @@ namespace djv
             void _paintEvent(Core::Event::Paint&) override;
 
         private:
-			DJV_PRIVATE();
+            DJV_PRIVATE();
         };
 
     } // namespace UI

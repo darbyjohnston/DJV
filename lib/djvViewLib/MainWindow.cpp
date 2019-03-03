@@ -127,7 +127,7 @@ namespace djv
                     for (auto j : system->getToolWidgets())
                     {
                         j->setParent(p.mdiCanvas);
-						j->setVisible(false);
+                        j->setVisible(false);
                     }
                 }
             }

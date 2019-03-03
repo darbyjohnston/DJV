@@ -43,20 +43,20 @@ namespace djv
             
         protected:
             void _init(Core::Context *);
-			GLFWSystem();
+            GLFWSystem();
 
         public:
             virtual ~GLFWSystem();
 
             static std::shared_ptr<GLFWSystem> create(Core::Context *);
 
-			int getDPI() const;
-			GLFWwindow * getGLFWWindow() const;
+            int getDPI() const;
+            GLFWwindow * getGLFWWindow() const;
 
             void tick(float dt) override;
 
         private:
-			DJV_PRIVATE();
+            DJV_PRIVATE();
         };
 
     } // namespace Desktop

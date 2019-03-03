@@ -128,19 +128,19 @@ namespace djv
 
                 if (auto settingsSystem = context->getSystemT<System>().lock())
                 {
-					if (auto fontSettings = settingsSystem->getSettingsT<Settings::Font>())
-					{
-						p.localeFontsObserver = MapObserver<std::string, std::string>::create(
-							fontSettings->observeLocaleFonts(),
-							[weak](const std::map<std::string, std::string>& value)
-						{
-							if (auto style = weak.lock())
-							{
-								style->_p->localeFonts = value;
-								style->_updateCurrentFont();
-							}
-						});
-					}
+                    if (auto fontSettings = settingsSystem->getSettingsT<Settings::Font>())
+                    {
+                        p.localeFontsObserver = MapObserver<std::string, std::string>::create(
+                            fontSettings->observeLocaleFonts(),
+                            [weak](const std::map<std::string, std::string>& value)
+                        {
+                            if (auto style = weak.lock())
+                            {
+                                style->_p->localeFonts = value;
+                                style->_updateCurrentFont();
+                            }
+                        });
+                    }
                 }
             }
 

@@ -142,17 +142,17 @@ namespace djv
             void TimerSystem::tick(float dt)
             {
                 DJV_PRIVATE_PTR();
-				auto i = p.timers.begin();
+                auto i = p.timers.begin();
                 while (i != p.timers.end())
                 {
                     if (auto timer = i->lock())
                     {
                         timer->_tick(dt);
-						++i;
+                        ++i;
                     }
                     else
                     {
-						i = p.timers.erase(i);
+                        i = p.timers.erase(i);
                     }
                 }
             }

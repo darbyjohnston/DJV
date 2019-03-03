@@ -83,7 +83,7 @@ namespace djv
                 Core::BBox2f _getSplitterGeometry() const;
                 Core::BBox2f _getHandleGeometry() const;
 
-				DJV_PRIVATE();
+                DJV_PRIVATE();
             };
 
         } // namespace Layout

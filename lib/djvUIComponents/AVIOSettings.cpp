@@ -53,16 +53,16 @@ namespace djv
 
                 DJV_PRIVATE_PTR();
 
-				_load();
+                _load();
 
                 auto weak = std::weak_ptr<AVIO>(std::dynamic_pointer_cast<AVIO>(shared_from_this()));
             }
 
-			AVIO::AVIO() :
+            AVIO::AVIO() :
                 _p(new Private)
             {}
 
-			AVIO::~AVIO()
+            AVIO::~AVIO()
             {}
 
             std::shared_ptr<AVIO> AVIO::create(Context * context)
@@ -74,28 +74,28 @@ namespace djv
 
             void AVIO::load(const picojson::value& value)
             {
-				DJV_PRIVATE_PTR();
-				if (value.is<picojson::object>())
+                DJV_PRIVATE_PTR();
+                if (value.is<picojson::object>())
                 {
-					if (auto io = getContext()->getSystemT<AV::IO::System>().lock())
-					{
-						const auto & object = value.get<picojson::object>();
-						for (const auto & i : io->getPluginNames())
-						{
-							const auto j = object.find(i);
-							if (j != object.end())
-							{
-								try
-								{
-									io->setOptions(i, j->second);
-								}
-								catch (const std::exception& e)
-								{
-									_readError(i, e.what());
-								}
-							}
-						}
-					}
+                    if (auto io = getContext()->getSystemT<AV::IO::System>().lock())
+                    {
+                        const auto & object = value.get<picojson::object>();
+                        for (const auto & i : io->getPluginNames())
+                        {
+                            const auto j = object.find(i);
+                            if (j != object.end())
+                            {
+                                try
+                                {
+                                    io->setOptions(i, j->second);
+                                }
+                                catch (const std::exception& e)
+                                {
+                                    _readError(i, e.what());
+                                }
+                            }
+                        }
+                    }
                 }
             }
 
@@ -103,14 +103,14 @@ namespace djv
             {
                 DJV_PRIVATE_PTR();
                 picojson::value out(picojson::object_type, true);
-				if (auto io = getContext()->getSystemT<AV::IO::System>().lock())
-				{
-					auto & object = out.get<picojson::object>();
-					for (const auto & i : io->getPluginNames())
-					{
-						object[i] = io->getOptions(i);
-					}
-				}
+                if (auto io = getContext()->getSystemT<AV::IO::System>().lock())
+                {
+                    auto & object = out.get<picojson::object>();
+                    for (const auto & i : io->getPluginNames())
+                    {
+                        object[i] = io->getOptions(i);
+                    }
+                }
                 return out;
             }
 

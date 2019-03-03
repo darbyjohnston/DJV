@@ -79,7 +79,7 @@ namespace djv
             static void _resizeCallback(GLFWwindow*, int, int);
             static void _redrawCallback(GLFWwindow*);
 
-			DJV_PRIVATE();
+            DJV_PRIVATE();
         };
 
     } // namespace Desktop

@@ -60,7 +60,7 @@ namespace djv
             p.actions["Navigation"]->setEnabled(false);
             //! \todo Implement me!
             p.actions["Fit"] = UI::Action::create();
-			p.actions["Fit"]->setIcon("djvIconZoomFit");
+            p.actions["Fit"]->setIcon("djvIconZoomFit");
             p.actions["Fit"]->addShortcut(GLFW_KEY_BACKSPACE);
             p.actions["Fit"]->addShortcut(GLFW_KEY_KP_ENTER);
             p.actions["Fit"]->setEnabled(false);
