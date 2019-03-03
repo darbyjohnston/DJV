@@ -15,7 +15,6 @@ set(header
     ImageView.h
     ImageViewSystem.h
     InformationWidget.h
-    LogDialog.h
     MagnifierWidget.h
     MainWindow.h
     Media.h
@@ -25,6 +24,7 @@ set(header
     RecentFilesDialog.h
     SettingsSystem.h
     SettingsWidget.h
+    SystemLogDialog.h
     TimelineSlider.h
     ToolSystem.h
     ViewLib.h
@@ -46,7 +46,6 @@ set(source
     ImageView.cpp
     ImageViewSystem.cpp
     InformationWidget.cpp
-    LogDialog.cpp
     MagnifierWidget.cpp
     MainWindow.cpp
     Media.cpp
@@ -56,6 +55,7 @@ set(source
     RecentFilesDialog.cpp
     SettingsSystem.cpp
     SettingsWidget.cpp
+    SystemLogDialog.cpp
     TimelineSlider.cpp
     ToolSystem.cpp
     WindowSystem.cpp)

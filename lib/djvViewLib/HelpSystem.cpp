@@ -30,7 +30,7 @@
 #include <djvViewLib/HelpSystem.h>
 
 #include <djvViewLib/AboutDialog.h>
-#include <djvViewLib/LogDialog.h>
+#include <djvViewLib/SystemLogDialog.h>
 
 #include <djvUI/Action.h>
 #include <djvUI/IWindowSystem.h>
@@ -53,7 +53,7 @@ namespace djv
             std::map<std::string, std::shared_ptr<UI::Action> > actions;
             std::shared_ptr<UI::Menu> menu;
             std::shared_ptr<AboutDialog> aboutDialog;
-			std::shared_ptr<LogDialog> logDialog;
+			std::shared_ptr<SystemLogDialog> systemLogDialog;
 			std::map<std::string, std::shared_ptr<ValueObserver<bool> > > clickedObservers;
         };
 
@@ -69,17 +69,17 @@ namespace djv
             p.actions["Information"] = UI::Action::create();
             p.actions["Information"]->setEnabled(false);
             p.actions["About"] = UI::Action::create();
-            p.actions["Log"] = UI::Action::create();
+            p.actions["SystemLog"] = UI::Action::create();
 
             p.menu = UI::Menu::create(context);
             p.menu->addAction(p.actions["Documentation"]);
             p.menu->addSeparator();
             p.menu->addAction(p.actions["About"]);
             p.menu->addSeparator();
-            p.menu->addAction(p.actions["Log"]);
+            p.menu->addAction(p.actions["SystemLog"]);
 
             p.aboutDialog = AboutDialog::create(context);
-            p.logDialog = LogDialog::create(context);
+            p.systemLogDialog = SystemLogDialog::create(context);
 
             auto weak = std::weak_ptr<HelpSystem>(std::dynamic_pointer_cast<HelpSystem>(shared_from_this()));
             p.aboutDialog->setCloseCallback(
@@ -92,13 +92,13 @@ namespace djv
                 }
             });
 
-            p.logDialog->setCloseCallback(
+            p.systemLogDialog->setCloseCallback(
                 [weak, context]
             {
                 if (auto system = weak.lock())
                 {
-                    system->_p->logDialog->hide();
-                    system->_p->logDialog->setParent(nullptr);
+                    system->_p->systemLogDialog->hide();
+                    system->_p->systemLogDialog->setParent(nullptr);
                 }
             });
 
@@ -122,8 +122,8 @@ namespace djv
 				}
             });
 
-            p.clickedObservers["Log"] = ValueObserver<bool>::create(
-                p.actions["Log"]->observeClicked(),
+            p.clickedObservers["SystemLog"] = ValueObserver<bool>::create(
+                p.actions["SystemLog"]->observeClicked(),
                 [weak, context](bool value)
             {
 				if (value)
@@ -136,14 +136,14 @@ namespace djv
                             {
                                 if (value)
                                 {
-                                    system->_p->logDialog->reloadLog();
+                                    system->_p->systemLogDialog->reloadLog();
                                 }
                                 else
                                 {
-                                    system->_p->logDialog->clearLog();
+                                    system->_p->systemLogDialog->clearLog();
                                 }
-                                window->addWidget(system->_p->logDialog);
-                                system->_p->logDialog->show();
+                                window->addWidget(system->_p->systemLogDialog);
+                                system->_p->systemLogDialog->show();
                             }
                         }
 					}
@@ -186,8 +186,8 @@ namespace djv
             p.actions["Documentation"]->setTooltip(_getText(DJV_TEXT("Documentation tooltip")));
             p.actions["About"]->setTitle(_getText(DJV_TEXT("About")));
             p.actions["About"]->setTooltip(_getText(DJV_TEXT("About tooltip")));
-            p.actions["Log"]->setTitle(_getText(DJV_TEXT("System Log")));
-            p.actions["Log"]->setTooltip(_getText(DJV_TEXT("System log tooltip")));
+            p.actions["SystemLog"]->setTitle(_getText(DJV_TEXT("System Log")));
+            p.actions["SystemLog"]->setTooltip(_getText(DJV_TEXT("System log tooltip")));
 
             p.menu->setText(_getText(DJV_TEXT("Help")));
         }

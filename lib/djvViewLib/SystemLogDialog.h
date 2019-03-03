@@ -35,18 +35,18 @@ namespace djv
 {
     namespace ViewLib
     {
-        class LogDialog : public UI::IDialog
+        class SystemLogDialog : public UI::IDialog
         {
-            DJV_NON_COPYABLE(LogDialog);
+            DJV_NON_COPYABLE(SystemLogDialog);
 
         protected:
             void _init(Core::Context *);
-			LogDialog();
+            SystemLogDialog();
 
         public:
-            ~LogDialog() override;
+            ~SystemLogDialog() override;
 
-            static std::shared_ptr<LogDialog> create(Core::Context *);
+            static std::shared_ptr<SystemLogDialog> create(Core::Context *);
 
             void reloadLog();
             void clearLog();

@@ -27,7 +27,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvViewLib/LogDialog.h>
+#include <djvViewLib/SystemLogDialog.h>
 
 #include <djvUI/PushButton.h>
 #include <djvUI/RowLayout.h>
@@ -45,7 +45,7 @@ namespace djv
 {
     namespace ViewLib
     {
-        struct LogDialog::Private
+        struct SystemLogDialog::Private
         {
 			bool shown = false;
             std::shared_ptr<UI::TextBlock> textBlock;
@@ -54,11 +54,11 @@ namespace djv
             std::shared_ptr< UI::PushButton> clearButton;
         };
 
-        void LogDialog::_init(Context * context)
+        void SystemLogDialog::_init(Context * context)
         {
             IDialog::_init(context);
 
-            setClassName("djv::ViewLib::LogDialog");
+            setClassName("djv::ViewLib::SystemLogDialog");
 
             DJV_PRIVATE_PTR();
             p.textBlock = UI::TextBlock::create(context);
@@ -89,7 +89,7 @@ namespace djv
             layout->addWidget(hLayout);
             addWidget(layout, UI::RowStretch::Expand);
 
-            auto weak = std::weak_ptr<LogDialog>(std::dynamic_pointer_cast<LogDialog>(shared_from_this()));
+            auto weak = std::weak_ptr<SystemLogDialog>(std::dynamic_pointer_cast<SystemLogDialog>(shared_from_this()));
             p.reloadButton->setClickedCallback(
                 [weak]
             {
@@ -108,21 +108,21 @@ namespace djv
             });
         }
 
-		LogDialog::LogDialog() :
+        SystemLogDialog::SystemLogDialog() :
             _p(new Private)
         {}
 
-		LogDialog::~LogDialog()
+        SystemLogDialog::~SystemLogDialog()
         {}
 
-        std::shared_ptr<LogDialog> LogDialog::create(Context * context)
+        std::shared_ptr<SystemLogDialog> SystemLogDialog::create(Context * context)
         {
-            auto out = std::shared_ptr<LogDialog>(new LogDialog);
+            auto out = std::shared_ptr<SystemLogDialog>(new SystemLogDialog);
             out->_init(context);
             return out;
         }
 
-        void LogDialog::reloadLog()
+        void SystemLogDialog::reloadLog()
         {
             try
             {
@@ -136,12 +136,12 @@ namespace djv
             }
         }
 
-        void LogDialog::clearLog()
+        void SystemLogDialog::clearLog()
         {
             _p->textBlock->setText(std::string());
         }
 
-        void LogDialog::_localeEvent(Event::Locale & event)
+        void SystemLogDialog::_localeEvent(Event::Locale & event)
         {
 			IDialog::_localeEvent(event);
 			DJV_PRIVATE_PTR();
