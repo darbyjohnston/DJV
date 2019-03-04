@@ -152,7 +152,7 @@ namespace djv
                     char buf[String::cStringLength] = "";
                     strerror_r(errno, buf, String::cStringLength);
                     std::stringstream s;
-                    s << DJV_TEXT("The file") << " '" << fileName << "' " << DJV_TEXT("cannot be queried) << ". " << buf;
+                    s << DJV_TEXT("The file") << " '" << fileName << "' " << DJV_TEXT("cannot be queried") << ". " << buf;
                     throw std::runtime_error(s.str());
                 }
                 _fileName = std::string(buf.data());
