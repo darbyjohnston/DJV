@@ -31,6 +31,7 @@
 
 #include <djvCore/Frame.h>
 #include <djvCore/Path.h>
+#include <djvCore/PicoJSON.h>
 
 #include <sys/types.h>
 
@@ -199,6 +200,12 @@ namespace djv
         } // namespace Core
 
     } // namespace FileSystem
+
+    picojson::value toJSON(const Core::FileSystem::DirectoryListSort &);
+
+    //! Throws:
+    //! - std::exception
+    void fromJSON(const picojson::value &, Core::FileSystem::DirectoryListSort &);
 
     DJV_ENUM_SERIALIZE_HELPERS(Core::FileSystem::FileType);
     DJV_ENUM_SERIALIZE_HELPERS(Core::FileSystem::DirectoryListSort);

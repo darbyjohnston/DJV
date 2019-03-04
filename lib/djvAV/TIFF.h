@@ -152,14 +152,10 @@ namespace djv
 
     DJV_ENUM_SERIALIZE_HELPERS(AV::IO::TIFF::Compression);
 
-    template<>
-    inline picojson::value toJSON<AV::IO::TIFF::Settings>(const AV::IO::TIFF::Settings &);
+    picojson::value toJSON(const AV::IO::TIFF::Settings &);
 
     //! Throws:
     //! - std::exception
-    template<>
-    inline void fromJSON<AV::IO::TIFF::Settings>(const picojson::value &, AV::IO::TIFF::Settings &);
+    void fromJSON(const picojson::value &, AV::IO::TIFF::Settings &);
 
 } // namespace djv
-
-#include <djvAV/TIFFInline.h>

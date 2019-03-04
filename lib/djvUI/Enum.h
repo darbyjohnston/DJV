@@ -32,6 +32,7 @@
 #include <djvUI/UI.h>
 
 #include <djvCore/Enum.h>
+#include <djvCore/PicoJSON.h>
 
 namespace djv
 {
@@ -175,6 +176,12 @@ namespace djv
         };
 
     } // namespace UI
+
+    picojson::value toJSON(const UI::ViewType &);
+
+    //! Throws:
+    //! - std::exception
+    void fromJSON(const picojson::value &, UI::ViewType &);
 
     DJV_ENUM_SERIALIZE_HELPERS(UI::Orientation);
     DJV_ENUM_SERIALIZE_HELPERS(UI::Side);

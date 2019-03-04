@@ -34,6 +34,8 @@
 #include <djvAV/Color.h>
 #include <djvAV/FontSystem.h>
 
+#include <djvCore/PicoJSON.h>
+
 #include <glm/vec2.hpp>
 
 namespace djv
@@ -208,6 +210,18 @@ namespace djv
         using Style::MetricsRole;
 
     } // namespace UI
+
+    picojson::value toJSON(const UI::Style::Palette &);
+    picojson::value toJSON(const std::map<std::string, UI::Style::Palette> &);
+    picojson::value toJSON(const UI::Style::Metrics &);
+    picojson::value toJSON(const std::map<std::string, UI::Style::Metrics> &);
+
+    //! Throws:
+    //! - std::exception
+    void fromJSON(const picojson::value &, UI::Style::Palette &);
+    void fromJSON(const picojson::value &, std::map<std::string, UI::Style::Palette> &);
+    void fromJSON(const picojson::value &, UI::Style::Metrics &);
+    void fromJSON(const picojson::value &, std::map<std::string, UI::Style::Metrics> &);
 
     DJV_ENUM_SERIALIZE_HELPERS(UI::Style::ColorRole);
     DJV_ENUM_SERIALIZE_HELPERS(UI::Style::MetricsRole);

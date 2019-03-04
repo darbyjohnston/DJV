@@ -129,6 +129,36 @@ namespace djv
         } // namespace IO
     } // namespace AV
 
+    picojson::value toJSON(const AV::IO::TIFF::Settings & value)
+    {
+        picojson::value out(picojson::object_type, true);
+        {
+            std::stringstream ss;
+            ss << value.compression;
+            out.get<picojson::object>()["Compression"] = picojson::value(ss.str());
+        }
+        return out;
+    }
+
+    void fromJSON(const picojson::value& value, AV::IO::TIFF::Settings & out)
+    {
+        if (value.is<picojson::object>())
+        {
+            for (const auto& i : value.get<picojson::object>())
+            {
+                if ("Compression" == i.first)
+                {
+                    std::stringstream ss(i.second.get<std::string>());
+                    ss >> out.compression;
+                }
+            }
+        }
+        else
+        {
+            throw std::invalid_argument(DJV_TEXT("Cannot parse the value."));
+        }
+    }
+
     DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
         AV::IO::TIFF,
         Compression,

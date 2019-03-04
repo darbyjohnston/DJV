@@ -31,7 +31,6 @@
 
 #include <djvUI/FontSettings.h>
 #include <djvUI/SettingsSystem.h>
-#include <djvUI/StyleJSON.h>
 
 #include <djvCore/Context.h>
 #include <djvCore/TextSystem.h>

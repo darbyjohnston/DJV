@@ -50,6 +50,26 @@ namespace djv
         }
 
     } // namespace UI
+   
+    picojson::value toJSON(const UI::ViewType & value)
+    {
+        std::stringstream ss;
+        ss << value;
+        return picojson::value(ss.str());
+    }
+
+    void fromJSON(const picojson::value & value, UI::ViewType & out)
+    {
+        if (value.is<std::string>())
+        {
+            std::stringstream ss(value.get<std::string>());
+            ss >> out;
+        }
+        else
+        {
+            throw std::invalid_argument(DJV_TEXT("Cannot parse the value."));
+        }
+    }
 
     DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
         UI,

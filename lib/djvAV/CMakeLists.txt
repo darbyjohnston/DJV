@@ -39,7 +39,6 @@ set(header
     OpenGLTexture.h
     OpenGLTextureInline.h
     PPM.h
-    PPMInline.h
     Pixel.h
     PixelInline.h
     Render2D.h
@@ -84,8 +83,7 @@ set(source
 if(JPEG_FOUND)
     set(header
         ${header}
-        JPEG.h
-        JPEGInline.h)
+        JPEG.h)
     set(source
         ${source}
         JPEG.cpp
@@ -105,8 +103,7 @@ endif()
 if(TIFF_FOUND)
     set(header
         ${header}
-        TIFF.h
-        TIFFInline.h)
+        TIFF.h)
     set(source
         ${source}
         TIFF.cpp

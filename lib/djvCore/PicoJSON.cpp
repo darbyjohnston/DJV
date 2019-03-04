@@ -142,6 +142,36 @@ namespace djv
         return picojson::value(Core::String::escape(value));
     }
 
+    picojson::value toJSON(const std::vector<bool> & value)
+    {
+        picojson::value out(picojson::array_type, true);
+        for (const auto & i : value)
+        {
+            out.get<picojson::array>().push_back(toJSON(i));
+        }
+        return out;
+    }
+
+    picojson::value toJSON(const std::vector<int> & value)
+    {
+        picojson::value out(picojson::array_type, true);
+        for (const auto & i : value)
+        {
+            out.get<picojson::array>().push_back(toJSON(i));
+        }
+        return out;
+    }
+
+    picojson::value toJSON(const std::vector<float> & value)
+    {
+        picojson::value out(picojson::array_type, true);
+        for (const auto & i : value)
+        {
+            out.get<picojson::array>().push_back(toJSON(i));
+        }
+        return out;
+    }
+
     picojson::value toJSON(const std::vector<std::string> & value)
     {
         picojson::value out(picojson::array_type, true);
@@ -233,6 +263,57 @@ namespace djv
         if (value.is<std::string>())
         {
             out = Core::String::unescape(value.get<std::string>());
+        }
+        else
+        {
+            throw std::invalid_argument(DJV_TEXT("Cannot parse the value."));
+        }
+    }
+
+    void fromJSON(const picojson::value & value, std::vector<bool> & out)
+    {
+        if (value.is<picojson::array>())
+        {
+            for (const auto & i : value.get<picojson::array>())
+            {
+                bool tmp = false;
+                fromJSON(i, tmp);
+                out.push_back(tmp);
+            }
+        }
+        else
+        {
+            throw std::invalid_argument(DJV_TEXT("Cannot parse the value."));
+        }
+    }
+
+    void fromJSON(const picojson::value & value, std::vector<int> & out)
+    {
+        if (value.is<picojson::array>())
+        {
+            for (const auto & i : value.get<picojson::array>())
+            {
+                int tmp = 0;
+                fromJSON(i, tmp);
+                out.push_back(tmp);
+            }
+        }
+        else
+        {
+            throw std::invalid_argument(DJV_TEXT("Cannot parse the value."));
+        }
+    }
+
+    void fromJSON(const picojson::value & value, std::vector<float> & out)
+    {
+        if (value.is<picojson::array>())
+        {
+            for (const auto & i : value.get<picojson::array>())
+            {
+                float tmp = 0.f;
+                fromJSON(i, tmp);
+                out.push_back(tmp);
+            }
         }
         else
         {

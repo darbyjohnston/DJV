@@ -160,14 +160,10 @@ namespace djv
 
     DJV_ENUM_SERIALIZE_HELPERS(AV::IO::PPM::Data);
     
-    template<>
-    inline picojson::value toJSON<AV::IO::PPM::Settings>(const AV::IO::PPM::Settings &);
+    picojson::value toJSON(const AV::IO::PPM::Settings &);
 
     //! Throws:
     //! - std::exception
-    template<>
-    inline void fromJSON<AV::IO::PPM::Settings>(const picojson::value &, AV::IO::PPM::Settings &);
+    void fromJSON(const picojson::value &, AV::IO::PPM::Settings &);
 
 } // namespace djv
-
-#include <djvAV/PPMInline.h>

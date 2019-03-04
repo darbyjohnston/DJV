@@ -29,11 +29,8 @@
 
 #include <djvUIComponents/FileBrowserSettings.h>
 
-#include <djvUI/EnumJSON.h>
-
 #include <djvCore/Context.h>
 #include <djvCore/FileInfo.h>
-#include <djvCore/FileInfoJSON.h>
 #include <djvCore/TextSystem.h>
 
 //#pragma optimize("", off)

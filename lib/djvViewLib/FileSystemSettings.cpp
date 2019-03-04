@@ -29,8 +29,6 @@
 
 #include <djvViewLib/FileSystemSettings.h>
 
-#include <djvUI/EnumJSON.h>
-
 #include <djvCore/Context.h>
 #include <djvCore/FileInfo.h>
 
@@ -75,7 +73,7 @@ namespace djv
             return _p->recentFiles;
         }
 
-        void FileSystemSettings::setRecentFiles(const std::vector<Core::FileSystem::FileInfo>& value)
+        void FileSystemSettings::setRecentFiles(const std::vector<Core::FileSystem::FileInfo> & value)
         {
             DJV_PRIVATE_PTR();
             p.recentFiles->setIfChanged(value);
@@ -92,12 +90,12 @@ namespace djv
             p.recentViewType->setIfChanged(value);
         }
 
-        void FileSystemSettings::load(const picojson::value& value)
+        void FileSystemSettings::load(const picojson::value & value)
         {
             if (value.is<picojson::object>())
             {
                 DJV_PRIVATE_PTR();
-                const auto& object = value.get<picojson::object>();
+                const auto & object = value.get<picojson::object>();
                 std::vector<std::string> tmp;
                 _read("RecentFiles", object, tmp);
                 std::vector<Core::FileSystem::FileInfo> fileInfoList;
@@ -114,7 +112,7 @@ namespace djv
         {
             DJV_PRIVATE_PTR();
             picojson::value out(picojson::object_type, true);
-            auto& object = out.get<picojson::object>();
+            auto & object = out.get<picojson::object>();
             std::vector<std::string> tmp;
             for (const auto & i : p.recentFiles->get())
             {

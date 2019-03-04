@@ -116,5 +116,35 @@ namespace djv
             } // namespace JPEG
         } // namespace IO
     } // namespace AV
+    
+    picojson::value toJSON(const AV::IO::JPEG::Settings & value)
+    {
+        picojson::value out(picojson::object_type, true);
+        {
+            std::stringstream ss;
+            ss << value.quality;
+            out.get<picojson::object>()["Quality"] = picojson::value(ss.str());
+        }
+        return out;
+    }
+
+    void fromJSON(const picojson::value& value, AV::IO::JPEG::Settings & out)
+    {
+        if (value.is<picojson::object>())
+        {
+            for (const auto& i : value.get<picojson::object>())
+            {
+                if ("Quality" == i.first)
+                {
+                    std::stringstream ss(i.second.get<std::string>());
+                    ss >> out.quality;
+                }
+            }
+        }
+        else
+        {
+            throw std::invalid_argument(DJV_TEXT("Cannot parse the value."));
+        }
+    }
 } // namespace djv
 

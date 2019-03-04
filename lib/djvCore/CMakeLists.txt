@@ -23,8 +23,6 @@ set(header
     Error.h
     FileInfo.h
     FileInfoInline.h
-    FileInfoJSON.h
-    FileInfoJSONInline.h
     FileIO.h
     FileIOInline.h
     Frame.h

@@ -155,14 +155,10 @@ namespace djv
         } // namespace IO
     } // namespace AV
 
-    template<>
-    inline picojson::value toJSON<AV::IO::JPEG::Settings>(const AV::IO::JPEG::Settings &);
+    picojson::value toJSON(const AV::IO::JPEG::Settings &);
 
     //! Throws:
     //! - std::exception
-    template<>
-    inline void fromJSON<AV::IO::JPEG::Settings>(const picojson::value &, AV::IO::JPEG::Settings &);
+    void fromJSON(const picojson::value &, AV::IO::JPEG::Settings &);
 
 } // namespace djv
-
-#include <djvAV/JPEGInline.h>

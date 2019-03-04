@@ -9,8 +9,6 @@ set(header
     DialogSystem.h
     Drawer.h
     Enum.h
-    EnumJSON.h
-    EnumJSONInline.h
     FlatButton.h
     FloatValueLabel.h
     FloatValueSlider.h
@@ -59,8 +57,6 @@ set(header
     SoloLayout.h
     StackLayout.h
     Style.h
-    StyleJSON.h
-    StyleJSONInline.h
     StyleSettings.h
     TabBar.h
     TabWidget.h

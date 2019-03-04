@@ -296,6 +296,170 @@ namespace djv
         } // namespace Style
     } // namespace UI
 
+    picojson::value toJSON(const UI::Style::Palette& value)
+    {
+        picojson::value out(picojson::object_type, true);
+        {
+            picojson::value object(picojson::object_type, true);
+            for (auto role : UI::Style::getColorRoleEnums())
+            {
+                std::stringstream ss;
+                ss << role;
+                std::stringstream ss2;
+                ss2 << value.getColor(role);
+                object.get<picojson::object>()[ss.str()] = picojson::value(ss2.str());
+            }
+            out.get<picojson::object>()["Roles"] = object;
+        }
+        return out;
+    }
+
+    picojson::value toJSON(const std::map<std::string, UI::Style::Palette>& value)
+    {
+        picojson::value out(picojson::object_type, true);
+        for (const auto& i : value)
+        {
+            out.get<picojson::object>()[i.first] = toJSON(i.second);
+        }
+        return out;
+    }
+
+    picojson::value toJSON(const UI::Style::Metrics& value)
+    {
+        picojson::value out(picojson::object_type, true);
+        {
+            picojson::value object(picojson::object_type, true);
+            for (auto role : UI::Style::getMetricsRoleEnums())
+            {
+                std::stringstream ss;
+                ss << role;
+                object.get<picojson::object>()[ss.str()] = picojson::value(std::to_string(value.getMetric(role)));
+            }
+            out.get<picojson::object>()["Roles"] = object;
+        }
+        return out;
+    }
+
+    picojson::value toJSON(const std::map<std::string, UI::Style::Metrics>& value)
+    {
+        picojson::value out(picojson::object_type, true);
+        for (const auto& i : value)
+        {
+            out.get<picojson::object>()[i.first] = toJSON(i.second);
+        }
+        return out;
+    }
+
+    void fromJSON(const picojson::value& value, UI::Style::Palette& out)
+    {
+        if (value.is<picojson::object>())
+        {
+            for (const auto& i : value.get<picojson::object>())
+            {
+                if ("Roles" == i.first)
+                {
+                    if (i.second.is<picojson::object>())
+                    {
+                        for (const auto& j : i.second.get<picojson::object>())
+                        {
+                            UI::ColorRole role = UI::ColorRole::First;
+                            std::stringstream ss(j.first);
+                            ss >> role;
+                            if (j.second.is<std::string>())
+                            {
+                                AV::Image::Color color;
+                                std::stringstream ss2;
+                                ss2.str(j.second.get<std::string>());
+                                ss2 >> color;
+                                out.setColor(role, color);
+                            }
+                            else
+                            {
+                                throw std::invalid_argument(DJV_TEXT("Cannot parse the value."));
+                            }
+                        }
+                    }
+                    else
+                    {
+                        throw std::invalid_argument(DJV_TEXT("Cannot parse the value."));
+                    }
+                }
+            }
+        }
+        else
+        {
+            throw std::invalid_argument(DJV_TEXT("Cannot parse the value."));
+        }
+    }
+
+    void fromJSON(const picojson::value& value, std::map<std::string, UI::Style::Palette>& out)
+    {
+        if (value.is<picojson::object>())
+        {
+            for (const auto& i : value.get<picojson::object>())
+            {
+                fromJSON(i.second, out[i.first]);
+            }
+        }
+        else
+        {
+            throw std::invalid_argument(DJV_TEXT("Cannot parse the value."));
+        }
+    }
+
+    void fromJSON(const picojson::value& value, UI::Style::Metrics& out)
+    {
+        if (value.is<picojson::object>())
+        {
+            for (const auto& i : value.get<picojson::object>())
+            {
+                if ("Roles" == i.first)
+                {
+                    if (i.second.is<picojson::object>())
+                    {
+                        for (const auto& j : i.second.get<picojson::object>())
+                        {
+                            UI::MetricsRole role = UI::MetricsRole::First;
+                            std::stringstream ss(j.first);
+                            ss >> role;
+                            if (j.second.is<std::string>())
+                            {
+                                out.setMetric(role, std::stof(j.second.get<std::string>()));
+                            }
+                            else
+                            {
+                                throw std::invalid_argument(DJV_TEXT("Cannot parse the value."));
+                            }
+                        }
+                    }
+                    else
+                    {
+                        throw std::invalid_argument(DJV_TEXT("Cannot parse the value."));
+                    }
+                }
+            }
+        }
+        else
+        {
+            throw std::invalid_argument(DJV_TEXT("Cannot parse the value."));
+        }
+    }
+
+    void fromJSON(const picojson::value& value, std::map<std::string, UI::Style::Metrics>& out)
+    {
+        if (value.is<picojson::object>())
+        {
+            for (const auto& i : value.get<picojson::object>())
+            {
+                fromJSON(i.second, out[i.first]);
+            }
+        }
+        else
+        {
+            throw std::invalid_argument(DJV_TEXT("Cannot parse the value."));
+        }
+    }
+
     DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
         UI::Style,
         ColorRole,
