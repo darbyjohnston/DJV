@@ -151,51 +151,9 @@ namespace djv
             p.menu->addAction(p.actions["Exit"]);
             p.menu->setParent(shared_from_this());
 
-            p.fileBrowserDialog = FileBrowserDialog::create(context);
             p.recentFilesModel = Core::FileSystem::RecentFilesModel::create(context);
-            p.recentFilesDialog = RecentFilesDialog::create(context);
 
             auto weak = std::weak_ptr<FileSystem>(std::dynamic_pointer_cast<FileSystem>(shared_from_this()));
-            p.fileBrowserDialog->setCallback(
-                [weak](const Core::FileSystem::FileInfo & value)
-            {
-                if (auto system = weak.lock())
-                {
-                    system->_p->fileBrowserDialog->hide();
-                    system->_p->fileBrowserDialog->setParent(nullptr);
-                    system->open(value);
-                }
-            });
-            p.fileBrowserDialog->setCloseCallback(
-                [weak, context]
-            {
-                if (auto system = weak.lock())
-                {
-                    system->_p->fileBrowserDialog->hide();
-                    system->_p->fileBrowserDialog->setParent(nullptr);
-                }
-            });
-
-            p.recentFilesDialog->setCallback(
-                [weak](const Core::FileSystem::FileInfo & value)
-            {
-                if (auto system = weak.lock())
-                {
-                    system->_p->recentFilesDialog->hide();
-                    system->_p->recentFilesDialog->setParent(nullptr);
-                    system->open(value);
-                }
-            });
-            p.recentFilesDialog->setCloseCallback(
-                [weak, context]
-            {
-                if (auto system = weak.lock())
-                {
-                    system->_p->recentFilesDialog->hide();
-                    system->_p->recentFilesDialog->setParent(nullptr);
-                }
-            });
-
             p.recentFilesObserver = ListObserver<Core::FileSystem::FileInfo>::create(
                 p.settings->observeRecentFiles(),
                 [weak](const std::vector<Core::FileSystem::FileInfo> & value)
@@ -211,7 +169,10 @@ namespace djv
             {
                 if (auto system = weak.lock())
                 {
-                    system->_p->recentFilesDialog->setRecentFiles(value);
+                    if (system->_p->recentFilesDialog)
+                    {
+                        system->_p->recentFilesDialog->setRecentFiles(value);
+                    }
                     system->_p->settings->setRecentFiles(value);
                 }
             });
@@ -237,14 +198,7 @@ namespace djv
                 {
                     if (auto system = weak.lock())
                     {
-                        if (auto windowSystem = context->getSystemT<UI::IWindowSystem>().lock())
-                        {
-                            if (auto window = windowSystem->observeCurrentWindow()->get())
-                            {
-                                window->addWidget(system->_p->recentFilesDialog);
-                                system->_p->recentFilesDialog->show();
-                            }
-                        }
+                        system->_showRecentFilesDialog();
                     }
                 }
             });
@@ -323,23 +277,20 @@ namespace djv
             {
                 if (value)
                 {
-                    if (auto system = weak.lock())
+                    if (auto dialogSystem = context->getSystemT<UI::DialogSystem>().lock())
                     {
-                        if (auto dialogSystem = context->getSystemT<UI::DialogSystem>().lock())
+                        dialogSystem->confirmation(
+                            std::string(),
+                            context->getText(DJV_TEXT("Are you sure you want to exit?")),
+                            context->getText(DJV_TEXT("Yes")),
+                            context->getText(DJV_TEXT("No")),
+                            [context](bool value)
                         {
-                            dialogSystem->confirmation(
-                                std::string(),
-                                context->getText(DJV_TEXT("Are you sure you want to exit?")),
-                                context->getText(DJV_TEXT("Yes")),
-                                context->getText(DJV_TEXT("No")),
-                                [context](bool value)
+                            if (value)
                             {
-                                if (value)
-                                {
-                                    dynamic_cast<Application *>(context)->exit();
-                                }
-                            });
-                        }
+                                dynamic_cast<Application *>(context)->exit();
+                            }
+                        });
                     }
                 }
             });
@@ -381,15 +332,7 @@ namespace djv
 
         void FileSystem::open()
         {
-            DJV_PRIVATE_PTR();
-            if (auto windowSystem = getContext()->getSystemT<UI::IWindowSystem>().lock())
-            {
-                if (auto window = windowSystem->observeCurrentWindow()->get())
-                {
-                    window->addWidget(p.fileBrowserDialog);
-                    p.fileBrowserDialog->show();
-                }
-            }
+            _showFileBrowserDialog();
         }
 
         void FileSystem::open(const std::string & fileName, const glm::vec2 & pos)
@@ -485,6 +428,81 @@ namespace djv
             p.actions["Exit"]->setTooltip(_getText(DJV_TEXT("Exit tooltip")));
 
             p.menu->setText(_getText(DJV_TEXT("File")));
+        }
+
+        void FileSystem::_showFileBrowserDialog()
+        {
+            DJV_PRIVATE_PTR();
+            auto context = getContext();
+            if (auto windowSystem = context->getSystemT<UI::IWindowSystem>().lock())
+            {
+                if (auto window = windowSystem->observeCurrentWindow()->get())
+                {
+                    if (!p.fileBrowserDialog)
+                    {
+                        p.fileBrowserDialog = FileBrowserDialog::create(context);
+                        auto weak = std::weak_ptr<FileSystem>(std::dynamic_pointer_cast<FileSystem>(shared_from_this()));
+                        p.fileBrowserDialog->setCallback(
+                            [weak](const Core::FileSystem::FileInfo & value)
+                        {
+                            if (auto system = weak.lock())
+                            {
+                                system->_p->fileBrowserDialog->hide();
+                                system->_p->fileBrowserDialog->setParent(nullptr);
+                                system->open(value);
+                            }
+                        });
+                        p.fileBrowserDialog->setCloseCallback(
+                            [weak, context]
+                        {
+                            if (auto system = weak.lock())
+                            {
+                                system->_p->fileBrowserDialog->hide();
+                                system->_p->fileBrowserDialog->setParent(nullptr);
+                            }
+                        });
+                    }
+                    window->addWidget(p.fileBrowserDialog);
+                    p.fileBrowserDialog->show();
+                }
+            }
+        }
+
+        void FileSystem::_showRecentFilesDialog()
+        {
+            DJV_PRIVATE_PTR();
+            auto context = getContext();
+            if (auto windowSystem = context->getSystemT<UI::IWindowSystem>().lock())
+            {
+                if (auto window = windowSystem->observeCurrentWindow()->get())
+                {
+                    if (!p.recentFilesDialog)
+                    {
+                        auto weak = std::weak_ptr<FileSystem>(std::dynamic_pointer_cast<FileSystem>(shared_from_this()));
+                        p.recentFilesDialog->setCallback(
+                            [weak](const Core::FileSystem::FileInfo & value)
+                        {
+                            if (auto system = weak.lock())
+                            {
+                                system->_p->recentFilesDialog->hide();
+                                system->_p->recentFilesDialog->setParent(nullptr);
+                                system->open(value);
+                            }
+                        });
+                        p.recentFilesDialog->setCloseCallback(
+                            [weak, context]
+                        {
+                            if (auto system = weak.lock())
+                            {
+                                system->_p->recentFilesDialog->hide();
+                                system->_p->recentFilesDialog->setParent(nullptr);
+                            }
+                        });
+                    }
+                    window->addWidget(p.recentFilesDialog);
+                    p.recentFilesDialog->show();
+                }
+            }
         }
 
     } // namespace ViewLib

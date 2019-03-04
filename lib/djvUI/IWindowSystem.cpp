@@ -44,7 +44,6 @@ namespace djv
         {
             std::shared_ptr<ListSubject<std::shared_ptr<Window> > > windows;
             std::shared_ptr<ValueSubject<std::shared_ptr<Window> > > currentWindow;
-            std::set<std::shared_ptr<Style::Style> > dirtyStyles;
         };
 
         void IWindowSystem::_init(const std::string & name, Core::Context * context)

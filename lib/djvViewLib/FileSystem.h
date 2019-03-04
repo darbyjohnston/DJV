@@ -69,6 +69,9 @@ namespace djv
             void _localeEvent(Core::Event::Locale &) override;
 
         private:
+            void _showFileBrowserDialog();
+            void _showRecentFilesDialog();
+
             DJV_PRIVATE();
         };
 
