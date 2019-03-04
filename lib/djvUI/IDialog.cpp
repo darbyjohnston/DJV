@@ -99,6 +99,7 @@ namespace djv
             p.titleLabel->setFontSizeRole(MetricsRole::FontHeader);
             p.titleLabel->setTextHAlign(TextHAlign::Left);
             p.titleLabel->setMargin(MetricsRole::Margin);
+            p.titleLabel->hide();
 
             p.closeButton = FlatButton::create(context);
             p.closeButton->setIcon("djvIconClose");
@@ -111,7 +112,8 @@ namespace djv
             p.layout->setSpacing(MetricsRole::None);
             p.layout->setBackgroundRole(ColorRole::Background);
             auto hLayout = HorizontalLayout::create(context);
-            hLayout->addWidget(p.titleLabel, RowStretch::Expand);
+            hLayout->addWidget(p.titleLabel);
+            hLayout->addExpander();
             hLayout->addWidget(p.closeButton);
             p.layout->addWidget(hLayout);
             p.layout->addSeparator();
@@ -154,6 +156,7 @@ namespace djv
         void IDialog::setTitle(const std::string & text)
         {
             _p->titleLabel->setText(text);
+            _p->titleLabel->setVisible(!text.empty());
         }
 
         void IDialog::setFillLayout(bool value)
