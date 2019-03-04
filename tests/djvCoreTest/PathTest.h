@@ -27,33 +27,22 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvCore/OS.h>
+#pragma once
 
-#include <algorithm>
-
-//#pragma optimize("", off)
+#include <djvTestLib/Test.h>
 
 namespace djv
 {
-    namespace Core
+    namespace CoreTest
     {
-        namespace OS
+        class PathTest : public Test::ITest
         {
-            int getIntEnv(const std::string & name)
-            {
-                const std::string env = getEnv(name);
-                return !env.empty() ? std::stoi(env) : 0;
-            }
-
-        } // namespace OS
-    } // namespace Core
-
-    DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
-        Core::OS,
-        DirectoryShortcut,
-        DJV_TEXT("Home"),
-        DJV_TEXT("Desktop"),
-        DJV_TEXT("Documents"),
-        DJV_TEXT("Downloads"));
-
+        public:
+            PathTest(Core::Context *);
+            
+            void run(int & argc, char ** argv) override;
+        };
+        
+    } // namespace CoreTest
 } // namespace djv
+

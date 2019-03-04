@@ -27,33 +27,43 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvCore/OS.h>
+#include <djvCoreTest/StringTest.h>
 
-#include <algorithm>
-
-//#pragma optimize("", off)
+#include <djvCore/String.h>
 
 namespace djv
 {
-    namespace Core
+    using namespace Core;
+
+    namespace CoreTest
     {
-        namespace OS
+        StringTest::StringTest(Core::Context * context) :
+            ITest("djv::CoreTest::StringTest", context)
+        {}
+        
+        void StringTest::run(int & argc, char ** argv)
         {
-            int getIntEnv(const std::string & name)
             {
-                const std::string env = getEnv(name);
-                return !env.empty() ? std::stoi(env) : 0;
+                std::vector<std::string> data =
+                {
+                    "",
+                    "\\",
+                    "\\\\",
+                    "\\a\\b",
+                    "\\\\a\\b",
+                };
+                for (const auto & d : data)
+                {
+                    const auto a = String::escape(d);
+                    const auto b = String::unescape(a);
+                    std::stringstream s;
+                    s << "escape()/unescape(): " << d << " = " << b;
+                    _print(s.str());
+                    DJV_ASSERT(d == b);
+                }
             }
-
-        } // namespace OS
-    } // namespace Core
-
-    DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
-        Core::OS,
-        DirectoryShortcut,
-        DJV_TEXT("Home"),
-        DJV_TEXT("Desktop"),
-        DJV_TEXT("Documents"),
-        DJV_TEXT("Downloads"));
-
+        }
+        
+    } // namespace CoreTest
 } // namespace djv
+

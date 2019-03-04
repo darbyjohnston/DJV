@@ -270,7 +270,12 @@ namespace djv
 
                 // Save the root path.
                 std::string tmp = value;
-                if (tmp.size() && isPathSeparator(tmp[0]))
+                if (tmp.size() > 1 && isPathSeparator(tmp[0]) && isPathSeparator(tmp[1]))
+                {
+                    out.push_back(std::string(2, tmp[0]));
+                    tmp.erase(tmp.begin(), tmp.begin() + 1);
+                }
+                else if (tmp.size() > 0 && isPathSeparator(tmp[0]))
                 {
                     out.push_back(std::string(1, tmp[0]));
                     tmp.erase(tmp.begin());
@@ -290,9 +295,14 @@ namespace djv
 
                 // Restore the root path.
                 std::vector<std::string> tmp = value;
-                if (tmp.size() && tmp[0].size() == 1 && isPathSeparator(tmp[0][0]))
+                if (tmp.size() && tmp[0].size() == 2 && isPathSeparator(tmp[0][0]) && isPathSeparator(tmp[0][1]))
                 {
-                    out += std::string(1, getCurrentPathSeparator());
+                    out += std::string(2, separator);
+                    tmp.erase(tmp.begin());
+                }
+                else if (tmp.size() && tmp[0].size() == 1 && isPathSeparator(tmp[0][0]))
+                {
+                    out += std::string(1, separator);
                     tmp.erase(tmp.begin());
                 }
 

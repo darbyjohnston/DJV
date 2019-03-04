@@ -102,7 +102,7 @@ namespace djv
                 [this]
             {
                 DJV_PRIVATE_PTR();
-                p.consoleOutput = !OS::getEnv("DJV_LOG_CONSOLE").empty();
+                p.consoleOutput = OS::getIntEnv("DJV_LOG_CONSOLE") != 0;
 
                 try
                 {

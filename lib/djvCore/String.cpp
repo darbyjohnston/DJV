@@ -192,11 +192,11 @@ namespace djv
                 const size_t size = value.size();
                 for (size_t i = 0; i < size; ++i)
                 {
+                    out.push_back(value[i]);
                     if (i < size - 1 && '\\' == value[i] && '\\' == value[i + 1])
                     {
-                        continue;
+                        ++i;
                     }
-                    out.push_back(value[i]);
                 }
                 return out;
             }

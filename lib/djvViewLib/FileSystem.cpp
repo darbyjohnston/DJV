@@ -478,6 +478,8 @@ namespace djv
                 {
                     if (!p.recentFilesDialog)
                     {
+                        p.recentFilesDialog = RecentFilesDialog::create(context);
+                        p.recentFilesDialog->setRecentFiles(p.recentFilesModel->getFiles()->get());
                         auto weak = std::weak_ptr<FileSystem>(std::dynamic_pointer_cast<FileSystem>(shared_from_this()));
                         p.recentFilesDialog->setCallback(
                             [weak](const Core::FileSystem::FileInfo & value)

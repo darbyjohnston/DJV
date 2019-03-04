@@ -149,7 +149,7 @@ namespace djv
             glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
             glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
             //glfwWindowHint(GLFW_DOUBLEBUFFER, GL_FALSE);
-            if (!OS::getEnv("DJV_OPENGL_DEBUG").empty())
+            if (OS::getIntEnv("DJV_OPENGL_DEBUG") != 0)
             {
                 glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, GL_TRUE);
             }

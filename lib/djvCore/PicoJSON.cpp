@@ -182,7 +182,8 @@ namespace djv
     {
         if (value.is<std::string>())
         {
-            out = Core::String::unescape(value.get<std::string>());
+            //out = Core::String::unescape(value.get<std::string>());
+            out = value.get<std::string>();
         }
         else
         {
