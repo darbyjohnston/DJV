@@ -29,10 +29,7 @@
 
 #pragma once
 
-#include <djvCore/ListObserver.h>
-#include <djvCore/MapObserver.h>
 #include <djvCore/PicoJSON.h>
-#include <djvCore/ValueObserver.h>
 
 namespace djv
 {
@@ -73,20 +70,6 @@ namespace djv
                 //! \todo This function needs to be called by derived classes at the end of their _init() function.
                 void _load();
 
-                template<typename T>
-                inline void _read(const std::string& name, const picojson::object&, T&);
-                template<typename T>
-                inline void _read(const std::string& name, const picojson::object&, std::shared_ptr<Core::ValueSubject<T> >&);
-                template<typename T>
-                inline void _read(const std::string& name, const picojson::object&, std::shared_ptr<Core::ListSubject<T> >&);
-                template<typename T, typename U>
-                inline void _read(const std::string& name, const picojson::object&, std::shared_ptr<Core::MapSubject<T, U> >&);
-
-                template<typename T>
-                inline void _write(const std::string& name, const T&, picojson::object&);
-
-                void _readError(const std::string& name, const std::string& what);
-
             private:
                 DJV_PRIVATE();
             };
@@ -94,5 +77,3 @@ namespace djv
         } // namespace Settings
     } // namespace UI
 } // namespace djv
-
-#include <djvUI/ISettingsInline.h>

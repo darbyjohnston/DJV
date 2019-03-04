@@ -32,6 +32,9 @@
 #include <djvUI/ISettings.h>
 #include <djvUI/Style.h>
 
+#include <djvCore/MapObserver.h>
+#include <djvCore/ValueObserver.h>
+
 namespace djv
 {
     namespace UI

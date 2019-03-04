@@ -27,16 +27,12 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvUI/GeneralSettings.h>
+#pragma once
 
-#include <djvCore/Context.h>
-#include <djvCore/TextSystem.h>
-
-// These need to be included last on OSX.
-#include <djvCore/PicoJSONTemplates.h>
-#include <djvUI/ISettingsTemplates.h>
-
-using namespace djv::Core;
+#include <djvCore/ListObserver.h>
+#include <djvCore/MapObserver.h>
+#include <djvCore/PicoJSON.h>
+#include <djvCore/ValueObserver.h>
 
 namespace djv
 {
@@ -44,55 +40,22 @@ namespace djv
     {
         namespace Settings
         {
-            struct General::Private
-            {};
+            //! Throws:
+            //! - std::exception
+            template<typename T>
+            inline void read(const std::string & name, const picojson::object &, T &);
+            template<typename T>
+            inline void read(const std::string & name, const picojson::object &, std::shared_ptr<Core::ValueSubject<T> > &);
+            template<typename T>
+            inline void read(const std::string & name, const picojson::object &, std::shared_ptr<Core::ListSubject<T> > &);
+            template<typename T>
+            inline void read(const std::string & name, const picojson::object &, std::shared_ptr<Core::MapSubject<std::string, T> > &);
 
-            void General::_init(Context * context)
-            {
-                ISettings::_init("djv::UI::Settings::General", context);
-                _load();
-            }
-
-            General::General() :
-                _p(new Private)
-            {}
-
-            General::~General()
-            {}
-
-            std::shared_ptr<General> General::create(Context * context)
-            {
-                auto out = std::shared_ptr<General>(new General);
-                out->_init(context);
-                return out;
-            }
-
-            void General::load(const picojson::value& value)
-            {
-                if (value.is<picojson::object>())
-                {
-                    std::string currentLocale;
-                    const auto& object = value.get<picojson::object>();
-                    read("CurrentLocale", object, currentLocale);
-                    if (auto textSystem = getContext()->getSystemT<TextSystem>().lock())
-                    {
-                        textSystem->setCurrentLocale(currentLocale);
-                    }
-                }
-            }
-
-            picojson::value General::save()
-            {
-                picojson::value out(picojson::object_type, true);
-                auto& object = out.get<picojson::object>();
-                if (auto textSystem = getContext()->getSystemT<TextSystem>().lock())
-                {
-                    write("CurrentLocale", textSystem->getCurrentLocale(), object);
-                }
-                return out;
-            }
+            template<typename T>
+            inline void write(const std::string & name, const T &, picojson::object &);
 
         } // namespace Settings
     } // namespace UI
 } // namespace djv
 
+#include <djvUI/ISettingsTemplatesInline.h>

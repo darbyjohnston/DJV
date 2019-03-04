@@ -32,6 +32,9 @@
 #include <djvUI/Enum.h>
 #include <djvUI/ISettings.h>
 
+#include <djvCore/ListObserver.h>
+#include <djvCore/ValueObserver.h>
+
 namespace djv
 {
     namespace Core

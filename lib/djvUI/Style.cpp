@@ -314,16 +314,6 @@ namespace djv
         return out;
     }
 
-    picojson::value toJSON(const std::map<std::string, UI::Style::Palette>& value)
-    {
-        picojson::value out(picojson::object_type, true);
-        for (const auto& i : value)
-        {
-            out.get<picojson::object>()[i.first] = toJSON(i.second);
-        }
-        return out;
-    }
-
     picojson::value toJSON(const UI::Style::Metrics& value)
     {
         picojson::value out(picojson::object_type, true);
@@ -336,16 +326,6 @@ namespace djv
                 object.get<picojson::object>()[ss.str()] = picojson::value(std::to_string(value.getMetric(role)));
             }
             out.get<picojson::object>()["Roles"] = object;
-        }
-        return out;
-    }
-
-    picojson::value toJSON(const std::map<std::string, UI::Style::Metrics>& value)
-    {
-        picojson::value out(picojson::object_type, true);
-        for (const auto& i : value)
-        {
-            out.get<picojson::object>()[i.first] = toJSON(i.second);
         }
         return out;
     }
@@ -392,21 +372,6 @@ namespace djv
         }
     }
 
-    void fromJSON(const picojson::value& value, std::map<std::string, UI::Style::Palette>& out)
-    {
-        if (value.is<picojson::object>())
-        {
-            for (const auto& i : value.get<picojson::object>())
-            {
-                fromJSON(i.second, out[i.first]);
-            }
-        }
-        else
-        {
-            throw std::invalid_argument(DJV_TEXT("Cannot parse the value."));
-        }
-    }
-
     void fromJSON(const picojson::value& value, UI::Style::Metrics& out)
     {
         if (value.is<picojson::object>())
@@ -437,21 +402,6 @@ namespace djv
                         throw std::invalid_argument(DJV_TEXT("Cannot parse the value."));
                     }
                 }
-            }
-        }
-        else
-        {
-            throw std::invalid_argument(DJV_TEXT("Cannot parse the value."));
-        }
-    }
-
-    void fromJSON(const picojson::value& value, std::map<std::string, UI::Style::Metrics>& out)
-    {
-        if (value.is<picojson::object>())
-        {
-            for (const auto& i : value.get<picojson::object>())
-            {
-                fromJSON(i.second, out[i.first]);
             }
         }
         else

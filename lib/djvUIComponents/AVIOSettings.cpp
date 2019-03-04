@@ -85,14 +85,7 @@ namespace djv
                             const auto j = object.find(i);
                             if (j != object.end())
                             {
-                                try
-                                {
-                                    io->setOptions(i, j->second);
-                                }
-                                catch (const std::exception& e)
-                                {
-                                    _readError(i, e.what());
-                                }
+                                io->setOptions(i, j->second);
                             }
                         }
                     }

@@ -35,7 +35,9 @@
 #include <djvCore/Context.h>
 #include <djvCore/TextSystem.h>
 
-//#pragma optimize("", off)
+// These need to be included last on OSX.
+#include <djvCore/PicoJSONTemplates.h>
+#include <djvUI/ISettingsTemplates.h>
 
 using namespace djv::Core;
 
@@ -216,15 +218,15 @@ namespace djv
 
             void Style::load(const picojson::value& value)
             {
+                DJV_PRIVATE_PTR();
                 if (value.is<picojson::object>())
                 {
-                    DJV_PRIVATE_PTR();
                     const auto& object = value.get<picojson::object>();
-                    _read("Palettes", object, p.palettes);
-                    _read("CurrentPalette", object, p.currentPaletteName);
+                    read("Palettes", object, p.palettes);
+                    read("CurrentPalette", object, p.currentPaletteName);
                     p.currentPalette->setIfChanged(p.palettes->getItem(p.currentPaletteName->get()));
-                    _read("Metrics", object, p.metrics);
-                    _read("CurrentMetrics", object, p.currentMetricsName);
+                    read("Metrics", object, p.metrics);
+                    read("CurrentMetrics", object, p.currentMetricsName);
                     p.currentMetrics->setIfChanged(p.metrics->getItem(p.currentMetricsName->get()));
                 }
             }
@@ -234,10 +236,10 @@ namespace djv
                 DJV_PRIVATE_PTR();
                 picojson::value out(picojson::object_type, true);
                 auto& object = out.get<picojson::object>();
-                _write("Palettes", p.palettes->get(), object);
-                _write("CurrentPalette", p.currentPaletteName->get(), object);
-                _write("Metrics", p.metrics->get(), object);
-                _write("CurrentMetrics", p.currentMetricsName->get(), object);
+                write("Palettes", p.palettes->get(), object);
+                write("CurrentPalette", p.currentPaletteName->get(), object);
+                write("Metrics", p.metrics->get(), object);
+                write("CurrentMetrics", p.currentMetricsName->get(), object);
                 return out;
             }
 

@@ -33,6 +33,8 @@
 #include <djvUI/ISettings.h>
 
 #include <djvCore/FileInfo.h>
+#include <djvCore/MapObserver.h>
+#include <djvCore/ValueObserver.h>
 
 namespace djv
 {

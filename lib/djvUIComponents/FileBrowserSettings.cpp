@@ -33,6 +33,10 @@
 #include <djvCore/FileInfo.h>
 #include <djvCore/TextSystem.h>
 
+// These need to be included last on OSX.
+#include <djvCore/PicoJSONTemplates.h>
+#include <djvUI/ISettingsTemplates.h>
+
 //#pragma optimize("", off)
 
 using namespace djv::Core;
@@ -200,15 +204,15 @@ namespace djv
                 {
                     DJV_PRIVATE_PTR();
                     const auto& object = value.get<picojson::object>();
-                    _read("ShowShortcuts", object, p.showShortcuts);
-                    _read("ShortcutsBellows", object, p.shortcutsBellows);
-                    _read("ShortcutsSplitter", object, p.shortcutsSplitter);
-                    _read("ViewType", object, p.viewType);
-                    _read("FileSequences", object, p.fileSequences);
-                    _read("ShowHidden", object, p.showHidden);
-                    _read("Sort", object, p.sort);
-                    _read("ReverseSort", object, p.reverseSort);
-                    _read("SortDirectoriesFirst", object, p.sortDirectoriesFirst);
+                    read("ShowShortcuts", object, p.showShortcuts);
+                    read("ShortcutsBellows", object, p.shortcutsBellows);
+                    read("ShortcutsSplitter", object, p.shortcutsSplitter);
+                    read("ViewType", object, p.viewType);
+                    read("FileSequences", object, p.fileSequences);
+                    read("ShowHidden", object, p.showHidden);
+                    read("Sort", object, p.sort);
+                    read("ReverseSort", object, p.reverseSort);
+                    read("SortDirectoriesFirst", object, p.sortDirectoriesFirst);
                 }
             }
 
@@ -217,15 +221,15 @@ namespace djv
                 DJV_PRIVATE_PTR();
                 picojson::value out(picojson::object_type, true);
                 auto& object = out.get<picojson::object>();
-                _write("ShowShortcuts", p.showShortcuts->get(), object);
-                _write("ShortcutsBellows", p.shortcutsBellows->get(), object);
-                _write("ShortcutsSplitter", p.shortcutsSplitter->get(), object);
-                _write("ViewType", p.viewType->get(), object);
-                _write("FileSequences", p.fileSequences->get(), object);
-                _write("ShowHidden", p.showHidden->get(), object);
-                _write("Sort", p.sort->get(), object);
-                _write("ReverseSort", p.reverseSort->get(), object);
-                _write("SortDirectoriesFirst", p.sortDirectoriesFirst->get(), object);
+                write("ShowShortcuts", p.showShortcuts->get(), object);
+                write("ShortcutsBellows", p.shortcutsBellows->get(), object);
+                write("ShortcutsSplitter", p.shortcutsSplitter->get(), object);
+                write("ViewType", p.viewType->get(), object);
+                write("FileSequences", p.fileSequences->get(), object);
+                write("ShowHidden", p.showHidden->get(), object);
+                write("Sort", p.sort->get(), object);
+                write("ReverseSort", p.reverseSort->get(), object);
+                write("SortDirectoriesFirst", p.sortDirectoriesFirst->get(), object);
                 return out;
             }
 

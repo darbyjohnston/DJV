@@ -51,6 +51,8 @@ set(header
     Path.h
     PathInline.h
     PicoJSON.h
+    PicoJSONTemplates.h
+    PicoJSONTemplatesInline.h
     Range.h
     RangeInline.h
     Ray.h

@@ -27,62 +27,24 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvUI/ISettings.h>
+#pragma once
 
-#include <djvUI/SettingsSystem.h>
-
-#include <djvCore/Context.h>
-
-using namespace djv::Core;
+#include <djvCore/PicoJSON.h>
 
 namespace djv
 {
-    namespace UI
-    {
-        namespace Settings
-        {
-            struct ISettings::Private
-            {
-                Context * context = nullptr;
-                std::string name;
-            };
+    template<typename T>
+    inline picojson::value toJSON(const std::vector<T> &);
+    template<typename T>
+    picojson::value toJSON(const std::map<std::string, T> &);
 
-            void ISettings::_init(const std::string& name, Context * context)
-            {
-                _p->context = context;
-                _p->name = name;
+    //! Throws:
+    //! - std::exception
+    template<typename T>
+    void fromJSON(const picojson::value &, std::vector<T> &);
+    template<typename T>
+    void fromJSON(const picojson::value &, std::map<std::string, T> &);
 
-                if (auto system = context->getSystemT<System>().lock())
-                {
-                    system->_addSettings(shared_from_this());
-                }
-            }
-
-            ISettings::ISettings() :
-                _p(new Private)
-            {}
-
-            ISettings::~ISettings()
-            {}
-
-            Context * ISettings::getContext() const
-            {
-                return _p->context;
-            }
-
-            const std::string& ISettings::getName() const
-            {
-                return _p->name;
-            }
-
-            void ISettings::_load()
-            {
-                if (auto system = _p->context->getSystemT<System>().lock())
-                {
-                    system->_loadSettings(shared_from_this());
-                }
-            }
-
-        } // namespace Settings
-    } // namespace UI
 } // namespace djv
+
+#include <djvCore/PicoJSONTemplatesInline.h>

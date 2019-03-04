@@ -34,7 +34,7 @@ namespace djv
         namespace Settings
         {
             template<typename T>
-            inline void ISettings::_read(const std::string& name, const picojson::object& object, T& out)
+            inline void read(const std::string & name, const picojson::object & object, T & out)
             {
                 const auto i = object.find(name);
                 if (i != object.end())
@@ -43,15 +43,17 @@ namespace djv
                     {
                         fromJSON(i->second, out);
                     }
-                    catch (const std::exception& e)
+                    catch (const std::exception & e)
                     {
-                        _readError(name, e.what());
+                        std::stringstream s;
+                        s << "Cannot read settings '" << name << "'. " << e.what();
+                        throw std::invalid_argument(s.str());
                     }
                 }
             }
 
             template<typename T>
-            inline void ISettings::_read(const std::string& name, const picojson::object& object, std::shared_ptr<Core::ValueSubject<T> >& out)
+            inline void read(const std::string & name, const picojson::object & object, std::shared_ptr<Core::ValueSubject<T> > & out)
             {
                 const auto i = object.find(name);
                 if (i != object.end())
@@ -62,15 +64,17 @@ namespace djv
                         fromJSON(i->second, v);
                         out->setIfChanged(v);
                     }
-                    catch (const std::exception& e)
+                    catch (const std::exception & e)
                     {
-                        _readError(name, e.what());
+                        std::stringstream s;
+                        s << "Cannot read settings '" << name << "'. " << e.what();
+                        throw std::invalid_argument(s.str());
                     }
                 }
             }
 
             template<typename T>
-            inline void ISettings::_read(const std::string& name, const picojson::object& object, std::shared_ptr<Core::ListSubject<T> >& out)
+            inline void read(const std::string & name, const picojson::object & object, std::shared_ptr<Core::ListSubject<T> > & out)
             {
                 const auto i = object.find(name);
                 if (i != object.end())
@@ -81,34 +85,38 @@ namespace djv
                         fromJSON(i->second, v);
                         out->setIfChanged(v);
                     }
-                    catch (const std::exception& e)
+                    catch (const std::exception & e)
                     {
-                        _readError(name, e.what());
+                        std::stringstream s;
+                        s << "Cannot read settings '" << name << "'. " << e.what();
+                        throw std::invalid_argument(s.str());
                     }
                 }
             }
 
-            template<typename T, typename U>
-            inline void ISettings::_read(const std::string& name, const picojson::object& object, std::shared_ptr<Core::MapSubject<T, U> >& out)
+            template<typename T>
+            inline void read(const std::string & name, const picojson::object & object, std::shared_ptr<Core::MapSubject<std::string, T> > & out)
             {
                 const auto i = object.find(name);
                 if (i != object.end())
                 {
                     try
                     {
-                        std::map<T, U> v;
+                        std::map<std::string, T> v;
                         fromJSON(i->second, v);
                         out->setIfChanged(v);
                     }
-                    catch (const std::exception& e)
+                    catch (const std::exception & e)
                     {
-                        _readError(name, e.what());
+                        std::stringstream s;
+                        s << "Cannot read settings '" << name << "'. " << e.what();
+                        throw std::invalid_argument(s.str());
                     }
                 }
             }
 
             template<typename T>
-            inline void ISettings::_write(const std::string& name, const T& value, picojson::object& out)
+            inline void write(const std::string & name, const T & value, picojson::object & out)
             {
                 out[name] = toJSON(value);
             }

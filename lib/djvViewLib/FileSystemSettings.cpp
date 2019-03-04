@@ -32,6 +32,10 @@
 #include <djvCore/Context.h>
 #include <djvCore/FileInfo.h>
 
+// These need to be included last on OSX.
+#include <djvCore/PicoJSONTemplates.h>
+#include <djvUI/ISettingsTemplates.h>
+
 using namespace djv::Core;
 
 namespace djv
@@ -97,14 +101,14 @@ namespace djv
                 DJV_PRIVATE_PTR();
                 const auto & object = value.get<picojson::object>();
                 std::vector<std::string> tmp;
-                _read("RecentFiles", object, tmp);
+                UI::Settings::read("RecentFiles", object, tmp);
                 std::vector<Core::FileSystem::FileInfo> fileInfoList;
                 for (const auto & i : tmp)
                 {
                     fileInfoList.push_back(i);
                 }
                 p.recentFiles->setIfChanged(fileInfoList);
-                _read("RecentViewType", object, p.recentViewType);
+                UI::Settings::read("RecentViewType", object, p.recentViewType);
             }
         }
 
@@ -118,8 +122,8 @@ namespace djv
             {
                 tmp.push_back(i);
             }
-            _write("RecentFiles", tmp, object);
-            _write("RecentViewType", p.recentViewType->get(), object);
+            UI::Settings::write("RecentFiles", tmp, object);
+            UI::Settings::write("RecentViewType", p.recentViewType->get(), object);
             return out;
         }
 

@@ -22,7 +22,8 @@ set(header
     IContainer.h
     IDialog.h
     ISettings.h
-    ISettingsInline.h
+    ISettingsTemplates.h
+    ISettingsTemplatesInline.h
     IWindowSystem.h
     Icon.h
     IconSystem.h

@@ -212,16 +212,12 @@ namespace djv
     } // namespace UI
 
     picojson::value toJSON(const UI::Style::Palette &);
-    picojson::value toJSON(const std::map<std::string, UI::Style::Palette> &);
     picojson::value toJSON(const UI::Style::Metrics &);
-    picojson::value toJSON(const std::map<std::string, UI::Style::Metrics> &);
 
     //! Throws:
     //! - std::exception
     void fromJSON(const picojson::value &, UI::Style::Palette &);
-    void fromJSON(const picojson::value &, std::map<std::string, UI::Style::Palette> &);
     void fromJSON(const picojson::value &, UI::Style::Metrics &);
-    void fromJSON(const picojson::value &, std::map<std::string, UI::Style::Metrics> &);
 
     DJV_ENUM_SERIALIZE_HELPERS(UI::Style::ColorRole);
     DJV_ENUM_SERIALIZE_HELPERS(UI::Style::MetricsRole);

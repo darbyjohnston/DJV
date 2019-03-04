@@ -55,14 +55,6 @@ namespace djv
     picojson::value toJSON(int);
     picojson::value toJSON(float);
     picojson::value toJSON(const std::string &);
-    picojson::value toJSON(const std::vector<bool> &);
-    picojson::value toJSON(const std::vector<int> &);
-    picojson::value toJSON(const std::vector<float> &);
-    picojson::value toJSON(const std::vector<std::string> &);
-    picojson::value toJSON(const std::map<std::string, bool> &);
-    picojson::value toJSON(const std::map<std::string, int> &);
-    picojson::value toJSON(const std::map<std::string, float> &);
-    picojson::value toJSON(const std::map<std::string, std::string> &);
 
     //! Throws:
     //! - std::exception
@@ -70,14 +62,5 @@ namespace djv
     void fromJSON(const picojson::value &, int &);
     void fromJSON(const picojson::value &, float &);
     void fromJSON(const picojson::value &, std::string &);
-    void fromJSON(const picojson::value &, std::vector<bool> &);
-    void fromJSON(const picojson::value &, std::vector<int> &);
-    void fromJSON(const picojson::value &, std::vector<float> &);
-    void fromJSON(const picojson::value &, std::vector<std::string> &);
-    void fromJSON(const picojson::value &, std::map<std::string, bool> &);
-    void fromJSON(const picojson::value &, std::map<std::string, int> &);
-    void fromJSON(const picojson::value &, std::map<std::string, float> &);
-    void fromJSON(const picojson::value &, std::map<std::string, std::string> &);
 
 } // namespace djv
-

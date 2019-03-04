@@ -33,6 +33,10 @@
 
 #include <djvCore/Context.h>
 
+// These need to be included last on OSX.
+#include <djvCore/PicoJSONTemplates.h>
+#include <djvUI/ISettingsTemplates.h>
+
 using namespace djv::Core;
 
 namespace djv
@@ -84,7 +88,7 @@ namespace djv
                 if (value.is<picojson::object>())
                 {
                     const auto& object = value.get<picojson::object>();
-                    _read("LocaleFonts", object, _p->localeFonts);
+                    read("LocaleFonts", object, _p->localeFonts);
                 }
             }
 
@@ -92,7 +96,7 @@ namespace djv
             {
                 picojson::value out(picojson::object_type, true);
                 auto& object = out.get<picojson::object>();
-                _write("LocaleFonts", _p->localeFonts->get(), object);
+                write("LocaleFonts", _p->localeFonts->get(), object);
                 return out;
             }
 

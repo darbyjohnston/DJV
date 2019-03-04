@@ -236,9 +236,7 @@ namespace djv
         template<typename T, typename U>
         inline const U& MapSubject<T, U>::getItem(const T& key) const
         {
-            const auto i = _value.find(key);
-            static const U empty;
-            return i != _value.end() ? i->second : empty;
+            return _value.find(key)->second;
         }
 
     } // namespace Core

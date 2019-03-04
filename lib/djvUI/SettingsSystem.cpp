@@ -87,10 +87,20 @@ namespace djv
                 _log(s.str());
 
                 picojson::value json;
-                auto i = _json.find(settings->getName());
+                const auto & name = settings->getName();
+                auto i = _json.find(name);
                 if (i != _json.end())
                 {
-                    settings->load(i->second);
+                    try
+                    {
+                        settings->load(i->second);
+                    }
+                    catch (const std::exception & e)
+                    {
+                        std::stringstream s;
+                        s << _getText(DJV_TEXT("Cannot read settings")) << " '" << name << "'. " << e.what();
+                        _log(s.str(), LogLevel::Error);
+                    }
                 }
             }
 

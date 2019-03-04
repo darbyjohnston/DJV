@@ -27,62 +27,62 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvUI/ISettings.h>
-
-#include <djvUI/SettingsSystem.h>
-
-#include <djvCore/Context.h>
-
-using namespace djv::Core;
-
 namespace djv
 {
-    namespace UI
+    template<typename T>
+    inline picojson::value toJSON(const std::vector<T> & value)
     {
-        namespace Settings
+        picojson::value out(picojson::array_type, true);
+        for (const auto & i : value)
         {
-            struct ISettings::Private
-            {
-                Context * context = nullptr;
-                std::string name;
-            };
+            out.get<picojson::array>().push_back(toJSON(i));
+        }
+        return out;
+    }
+    
+    template<typename T>
+    picojson::value toJSON(const std::map<std::string, T> & value)
+    {
+        picojson::value out(picojson::object_type, true);
+        for (auto i : value)
+        {
+            out.get<picojson::object>()[i.first] = toJSON(i.second);
+        }
+        return out;
+    }
 
-            void ISettings::_init(const std::string& name, Context * context)
+    template<typename T>
+    void fromJSON(const picojson::value & value, std::vector<T> & out)
+    {
+        if (value.is<picojson::array>())
+        {
+            for (const auto & i : value.get<picojson::array>())
             {
-                _p->context = context;
-                _p->name = name;
-
-                if (auto system = context->getSystemT<System>().lock())
-                {
-                    system->_addSettings(shared_from_this());
-                }
+                T tmp;
+                fromJSON(i, tmp);
+                out.push_back(tmp);
             }
-
-            ISettings::ISettings() :
-                _p(new Private)
-            {}
-
-            ISettings::~ISettings()
-            {}
-
-            Context * ISettings::getContext() const
+        }
+        else
+        {
+            throw std::invalid_argument(DJV_TEXT("Cannot parse the value."));
+        }
+    }
+    
+    template<typename T>
+    void fromJSON(const picojson::value & value, std::map<std::string, T> & out)
+    {
+        if (value.is<picojson::object>())
+        {
+            for (const auto & i : value.get<picojson::object>())
             {
-                return _p->context;
+                fromJSON(i.second, out[i.first]);
             }
+        }
+        else
+        {
+            throw std::invalid_argument(DJV_TEXT("Cannot parse the value."));
+        }
+    }
 
-            const std::string& ISettings::getName() const
-            {
-                return _p->name;
-            }
-
-            void ISettings::_load()
-            {
-                if (auto system = _p->context->getSystemT<System>().lock())
-                {
-                    system->_loadSettings(shared_from_this());
-                }
-            }
-
-        } // namespace Settings
-    } // namespace UI
 } // namespace djv
