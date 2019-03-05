@@ -168,7 +168,7 @@ namespace djv
             ///@}
 
             //! Get the number of widgets that currently exist.
-            static size_t getCurrentWidgetCount();
+            static size_t getGlobalWidgetCount();
 
             bool event(Core::Event::IEvent&) override;
 

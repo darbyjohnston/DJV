@@ -125,7 +125,7 @@ namespace djv
 
             ///@}
 
-            //! \name Number Conversion
+            //! \name Conversion
             ///@{
 
             //! Get the value after the decimal.
@@ -143,7 +143,7 @@ namespace djv
 
             ///@{
 
-            //! \name Number Comparison
+            //! \name Comparison
             ///@{
 
             //! Are the signs of both numbers the same?

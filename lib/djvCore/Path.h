@@ -134,7 +134,7 @@ namespace djv
 
                 ///@}
 
-                //! \name Path Utilities
+                //! \name Utilities
                 ///@{
 
                 inline static bool isPathSeparator(char);

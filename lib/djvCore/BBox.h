@@ -62,7 +62,7 @@ namespace djv
 
                 ///@}
 
-                //! \name Box Utilities
+                //! \name Utilities
                 ///@{
 
                 inline bool isValid() const;
@@ -100,7 +100,7 @@ namespace djv
                 inline tBBox3(const glm::tvec3<T, P> & min, const glm::tvec3<T, P> & max);
                 inline tBBox3(T x, T y, T z, T w, T h, T d);
 
-                //! \name Box Components
+                //! \name Components
                 ///@{
 
                 glm::tvec3<T, P> min, max;

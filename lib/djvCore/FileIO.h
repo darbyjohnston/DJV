@@ -101,7 +101,7 @@ namespace djv
 
                 ///@}
 
-                //! \name File Read
+                //! \name Reading
                 //! Throws:
                 //! - std::exception
                 ///@{
@@ -118,7 +118,7 @@ namespace djv
 
                 ///@}
 
-                //! \name File Write
+                //! \name Writing
                 //! Throws:
                 //! - std::exception
                 ///@{
@@ -145,7 +145,7 @@ namespace djv
 
                 ///@}
 
-                //! \name File Memory Mapping
+                //! \name Memory Mapping
                 ///@{
 
                 //! Get the current memory-map position.
@@ -156,7 +156,7 @@ namespace djv
 
                 ///@}
 
-                //! \name File Endian
+                //! \name Endian
                 ///@{
 
                 //! Get whether automatic endian conversion is performed.
@@ -167,7 +167,7 @@ namespace djv
 
                 ///@}
 
-                //! \name File Utilities
+                //! \name Utilities
                 ///@{
 
                 //! Read the contents from a file.
@@ -197,27 +197,27 @@ namespace djv
                 void _setPos(size_t, bool seek);
 
 #if defined(DJV_PLATFORM_WINDOWS)
-                HANDLE         _f = INVALID_HANDLE_VALUE;
+                HANDLE         _f         = INVALID_HANDLE_VALUE;
                 std::string    _fileName;
-                Mode           _mode = Mode::First;
-                size_t         _pos = 0;
-                size_t         _size = 0;
-                bool           _endian = false;
-                void*          _mmap = nullptr;
+                Mode           _mode      = Mode::First;
+                size_t         _pos       = 0;
+                size_t         _size      = 0;
+                bool           _endian    = false;
+                void*          _mmap      = nullptr;
                 const uint8_t* _mmapStart = nullptr;
-                const uint8_t* _mmapEnd = nullptr;
-                const uint8_t* _mmapP = nullptr;
+                const uint8_t* _mmapEnd   = nullptr;
+                const uint8_t* _mmapP     = nullptr;
 #else // DJV_PLATFORM_WINDOWS
-                int            _f = -1;
+                int            _f         = -1;
                 std::string    _fileName;
-                Mode           _mode = Mode::First;
-                size_t         _pos = 0;
-                size_t         _size = 0;
-                bool           _endian = false;
-                void*          _mmap = (void *)-1;
+                Mode           _mode      = Mode::First;
+                size_t         _pos       = 0;
+                size_t         _size      = 0;
+                bool           _endian    = false;
+                void*          _mmap      = (void *)-1;
                 const uint8_t* _mmapStart = nullptr;
-                const uint8_t* _mmapEnd = nullptr;
-                const uint8_t* _mmapP = nullptr;
+                const uint8_t* _mmapEnd   = nullptr;
+                const uint8_t* _mmapP     = nullptr;
 #endif //DJV_PLATFORM_WINDOWS
             };
 

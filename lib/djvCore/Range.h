@@ -55,7 +55,7 @@ namespace djv
 
                 ///@}
 
-                //! \name Range Utilities
+                //! \name Utilities
                 ///@{
 
                 inline T getSize() const;

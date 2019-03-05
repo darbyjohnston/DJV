@@ -68,7 +68,7 @@ namespace djv
 
                 bool isValid() const { return ranges.size() > 0; }
 
-                //! \name Sequence Utilities
+                //! \name Utilities
                 ///@{
                 
                 //! Sort the sequence so that the numbers are in ascending order.
@@ -80,7 +80,7 @@ namespace djv
                 inline bool operator != (const Sequence&) const;
             };
 
-            //! \name Frame Number Utilities
+            //! \name Utilities
             ///@{
 
             inline bool isValid(const Range&);
@@ -91,7 +91,7 @@ namespace djv
 
             ///@}
 
-            //! \name Frame Number Conversion
+            //! \name Conversion
             ///@{
 
             inline std::vector<Number> toFrames(const Range&);

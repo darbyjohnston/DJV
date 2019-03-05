@@ -42,7 +42,7 @@ namespace djv
     {
         namespace
         {
-            static size_t currentObjectCount = 0;
+            size_t globalObjectCount = 0;
 
         } // namespace
 
@@ -54,7 +54,7 @@ namespace djv
 
         void IObject::_init(Context * context)
         {
-            ++currentObjectCount;
+            ++globalObjectCount;
 
             _context = context;
             _className = "djv::Core::IObject";
@@ -75,7 +75,7 @@ namespace djv
 
         IObject::~IObject()
         {
-            --currentObjectCount;
+            --globalObjectCount;
         }
 
         void IObject::moveToFront()
@@ -207,6 +207,11 @@ namespace djv
                 out = event.isAccepted();
             }
             return out;
+        }
+
+        size_t IObject::getGlobalObjectCount()
+        {
+            return globalObjectCount;
         }
 
         std::string IObject::_getText(const std::string & id) const

@@ -43,7 +43,7 @@ namespace djv
             //! Default size for char buffers.
             static const size_t cStringLength = 255;
 
-            //! \name String Splitting and Joining
+            //! \name Splitting and Joining
             ///@{
 
             inline std::vector<std::string> split(const char *, size_t, char delimeter, bool keepEmpty = false);
@@ -60,7 +60,7 @@ namespace djv
 
             ///@}
 
-            //! \name String Formatting
+            //! \name Formatting
             ///@{
 
             //! Upper case.
@@ -77,7 +77,7 @@ namespace djv
 
             ///@}
 
-            //! \name String Conversion
+            //! \name Conversion
             ///@{
 
             //! Low-level function for converting an integer type to a string.

@@ -32,6 +32,8 @@
 #include <djvUI/UISystem.h>
 #include <djvUI/Window.h>
 
+#include <djvCore/Timer.h>
+
 //#pragma optimize("", off)
 
 using namespace djv::Core;
@@ -44,14 +46,29 @@ namespace djv
         {
             std::shared_ptr<ListSubject<std::shared_ptr<Window> > > windows;
             std::shared_ptr<ValueSubject<std::shared_ptr<Window> > > currentWindow;
+            std::shared_ptr<Time::Timer> statsTimer;
         };
 
         void IWindowSystem::_init(const std::string & name, Core::Context * context)
         {
             ISystem::_init(name, context);
+
             DJV_PRIVATE_PTR();
+
             p.windows = ListSubject< std::shared_ptr<Window> >::create();
             p.currentWindow = ValueSubject<std::shared_ptr<Window> >::create();
+
+            p.statsTimer = Time::Timer::create(context);
+            p.statsTimer->setRepeating(true);
+            p.statsTimer->start(
+                Time::Timer::getMilliseconds(Time::Timer::Value::VerySlow),
+                [this](float)
+            {
+                DJV_PRIVATE_PTR();
+                std::stringstream s;
+                s << "Global widget count: " << Widget::getGlobalWidgetCount();
+                _log(s.str());
+            });
         }
 
         IWindowSystem::IWindowSystem() :

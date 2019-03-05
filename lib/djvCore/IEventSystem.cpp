@@ -33,6 +33,7 @@
 #include <djvCore/Event.h>
 #include <djvCore/IObject.h>
 #include <djvCore/TextSystem.h>
+#include <djvCore/Timer.h>
 
 #include <map>
 
@@ -54,17 +55,20 @@ namespace djv
                 std::shared_ptr<ValueObserver<std::string> > localeObserver;
                 std::string locale;
                 bool localeInit = true;
+                std::shared_ptr<Time::Timer> statsTimer;
             };
 
             void IEventSystem::_init(const std::string& systemName, Context * context)
             {
                 ISystem::_init(systemName, context);
 
-                _p->textSystem = context->getSystemT<TextSystem>();
-                if (auto textSystem = _p->textSystem.lock())
+                DJV_PRIVATE_PTR();
+
+                p.textSystem = context->getSystemT<TextSystem>();
+                if (auto textSystem = p.textSystem.lock())
                 {
                     auto weak = std::weak_ptr<IEventSystem>(std::dynamic_pointer_cast<IEventSystem>(shared_from_this()));
-                    _p->localeObserver = ValueObserver<std::string>::create(
+                    p.localeObserver = ValueObserver<std::string>::create(
                         textSystem->observeCurrentLocale(),
                         [weak, context](const std::string & value)
                     {
@@ -75,6 +79,18 @@ namespace djv
                         }
                     });
                 }
+
+                p.statsTimer = Time::Timer::create(context);
+                p.statsTimer->setRepeating(true);
+                p.statsTimer->start(
+                    Time::Timer::getMilliseconds(Time::Timer::Value::VerySlow),
+                    [this](float)
+                {
+                    DJV_PRIVATE_PTR();
+                    std::stringstream s;
+                    s << "Global object count: " << IObject::getGlobalObjectCount();
+                    _log(s.str());
+                });
             }
 
             IEventSystem::IEventSystem() :

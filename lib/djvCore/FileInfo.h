@@ -116,7 +116,7 @@ namespace djv
                 FileInfo(const Path &, bool stat = true);
                 FileInfo(const std::string &, bool stat = true);
 
-                //! \name File Path
+                //! \name Path
                 ///@{
 
                 const Path & getPath() const { return _path; }
@@ -164,7 +164,7 @@ namespace djv
 
                 ///@}
 
-                //! \name File Utilities
+                //! \name Utilities
                 ///@{
 
                 //! Get the contents of the given directory.
@@ -189,12 +189,12 @@ namespace djv
                 void _init();
 
                 Path            _path;
-                bool            _exists = false;
-                FileType        _type = FileType::File;
-                uint64_t        _size = 0;
-                uid_t           _user = 0;
+                bool            _exists      = false;
+                FileType        _type        = FileType::File;
+                uint64_t        _size        = 0;
+                uid_t           _user        = 0;
                 int             _permissions = 0;
-                time_t          _time = 0;
+                time_t          _time        = 0;
                 Frame::Sequence _sequence;
             };
         } // namespace Core

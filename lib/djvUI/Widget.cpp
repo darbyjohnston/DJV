@@ -59,7 +59,7 @@ namespace djv
             static const float tooltipTimeout   =  .5f;
             static const float tooltipHideDelta = 1.f;
 
-            static size_t currentWidgetCount = 0;
+            size_t globalWidgetCount = 0;
 
         } // namespace
 
@@ -79,8 +79,8 @@ namespace djv
             setClassName("djv::UI::Widget");
 
             /*context->log("djv::UI::Widget", "Widget::Widget");
-            context->log("djv::UI::Widget", String::Format("widget count = %%1").arg(currentWidgetCount));*/
-            ++currentWidgetCount;
+            context->log("djv::UI::Widget", String::Format("widget count = %%1").arg(globalWidgetCount));*/
+            ++globalWidgetCount;
 
             if (!_fontSystem.lock())
             {
@@ -109,11 +109,11 @@ namespace djv
 
         Widget::~Widget()
         {
-            --currentWidgetCount;
+            --globalWidgetCount;
             /*if (auto context = getContext().lock())
             {
               context->log("djv::UI::Widget", "Widget::~Widget");
-              context->log("djv::UI::Widget", String::Format("widget count = %%1").arg(currentWidgetCount));
+              context->log("djv::UI::Widget", String::Format("widget count = %%1").arg(globalWidgetCount));
             }*/
         }
         
@@ -302,9 +302,9 @@ namespace djv
             _tooltipText = value;
         }
 
-        size_t Widget::getCurrentWidgetCount()
+        size_t Widget::getGlobalWidgetCount()
         {
-            return currentWidgetCount;
+            return globalWidgetCount;
         }
 
         bool Widget::event(Event::IEvent& event)

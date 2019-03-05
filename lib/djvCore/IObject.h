@@ -46,6 +46,7 @@ namespace djv
 
         } // namespace Event
 
+        //! This class provides the base functionality for objects.
         class IObject : public std::enable_shared_from_this<IObject>
         {
             DJV_NON_COPYABLE(IObject);
@@ -60,21 +61,11 @@ namespace djv
 
             inline Context * getContext() const;
 
-            //! \name Object Class Name
-            ///@{
-
             inline const std::string& getClassName() const;
             inline void setClassName(const std::string&);
 
-            ///@}
-
-            //! \name Object Name
-            ///@{
-
             inline const std::string& getName() const;
             inline void setName(const std::string&);
-
-            ///@}
 
             //! \name Object Hierarchy
             ///@{
@@ -106,7 +97,7 @@ namespace djv
             inline std::shared_ptr<T> getFirstChildRecursiveT() const;
 
             //! Set the parent.
-            virtual void setParent(const std::shared_ptr<IObject>&, int insert = -1);
+            void setParent(const std::shared_ptr<IObject>&, int insert = -1);
 
             //! Move this object to the front of the child list.
             virtual void moveToFront();
@@ -116,7 +107,7 @@ namespace djv
 
             ///@}
 
-            //! \name Object Enabled State
+            //! \name Enabled State
             ///@{
 
             inline bool isEnabled(bool parents = false) const;
@@ -124,7 +115,7 @@ namespace djv
 
             ///@}
 
-            //! \name Object Events
+            //! \name Events
             ///@{
 
             //! Install an event filter.
@@ -138,8 +129,11 @@ namespace djv
 
             ///@}
 
+            //! Get the number of objects that currently exist.
+            static size_t getGlobalObjectCount();
+
         protected:
-            //! \name Object Events
+            //! \name Events
             ///@{
 
             virtual void _parentChangedEvent(Event::ParentChanged &) {}
@@ -178,17 +172,23 @@ namespace djv
             inline static void _getFirstChildRecursiveT(const std::shared_ptr<IObject>&, std::shared_ptr<T>&);
 
             static Context * _context;
+
             std::string _className;
             std::string _name;
-            bool _localeInit = false;
-            std::weak_ptr<IObject> _parent;
+
+            std::weak_ptr<IObject>                 _parent;
             std::vector<std::shared_ptr<IObject> > _children;
+
             bool _enabled = true;
             bool _parentsEnabled = true;
+
             std::vector<std::weak_ptr<IObject> > _filters;
+
+            bool _localeInit = false;
+
             static std::weak_ptr<ResourceSystem> _resourceSystem;
-            static std::weak_ptr<LogSystem> _logSystem;
-            static std::weak_ptr<TextSystem> _textSystem;
+            static std::weak_ptr<LogSystem>      _logSystem;
+            static std::weak_ptr<TextSystem>     _textSystem;
 
             friend class Event::IEventSystem;
         };
