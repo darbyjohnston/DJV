@@ -29,7 +29,7 @@
 
 #pragma once
 
-#include <djvUI/IContainer.h>
+#include <djvUI/Widget.h>
 
 namespace djv
 {
@@ -38,7 +38,7 @@ namespace djv
         class IWindowSystem;
 
         //! This class provides a top-level window.
-        class Window : public Layout::IContainer
+        class Window : public Widget
         {
             DJV_NON_COPYABLE(Window);
             
@@ -51,9 +51,8 @@ namespace djv
 
             static std::shared_ptr<Window> create(Core::Context *);
 
-            void addWidget(const std::shared_ptr<Widget>&) override;
-            void removeWidget(const std::shared_ptr<Widget>&) override;
-            void clearWidgets() override;
+            void addChild(const std::shared_ptr<IObject>&) override;
+            void removeChild(const std::shared_ptr<IObject>&) override;
 
         protected:
             void _preLayoutEvent(Core::Event::PreLayout&) override;

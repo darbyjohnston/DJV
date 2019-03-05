@@ -58,7 +58,7 @@ namespace djv
 
             p.label = Label::create(context);
             p.label->setTextHAlign(TextHAlign::Right);
-            p.label->setParent(shared_from_this());
+            addChild(p.label);
 
             _textUpdate();
         }

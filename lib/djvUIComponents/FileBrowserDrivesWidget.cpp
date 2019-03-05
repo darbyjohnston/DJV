@@ -68,8 +68,9 @@ namespace djv
                 p.itemLayout->setSpacing(MetricsRole::None);
 
                 p.layout = VerticalLayout::create(context);
-                p.layout->addWidget(p.itemLayout, RowStretch::Expand);
-                p.layout->setParent(shared_from_this());
+                p.layout->addChild(p.itemLayout);
+                p.layout->setStretch(p.itemLayout, RowStretch::Expand);
+                addChild(p.layout);
 
                 auto weak = std::weak_ptr<DrivesWidget>(std::dynamic_pointer_cast<DrivesWidget>(shared_from_this()));
                 p.drivesObserver = ListObserver<FileSystem::Path>::create(
@@ -78,13 +79,13 @@ namespace djv
                 {
                     if (auto widget = weak.lock())
                     {
-                        widget->_p->itemLayout->clearWidgets();
+                        widget->_p->itemLayout->clearChildren();
                         for (const auto & i : value)
                         {
                             auto button = FlatButton::create(context);
                             button->setText(i.get());
 
-                            widget->_p->itemLayout->addWidget(button);
+                            widget->_p->itemLayout->addChild(button);
 
                             const auto path = i;
                             button->setClickedCallback(

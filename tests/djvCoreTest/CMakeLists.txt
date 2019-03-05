@@ -2,12 +2,14 @@ set(header
     EnumTest.h
     MathTest.h
     MemoryTest.h
+    ObjectTest.h
     PathTest.h
     StringTest.h)
 set(source
     EnumTest.cpp
     MathTest.cpp
     MemoryTest.cpp
+    ObjectTest.cpp
     PathTest.cpp
     StringTest.cpp)
 

@@ -95,9 +95,10 @@ namespace djv
                 _layout = UI::HorizontalLayout::create(context);
                 _layout->setMargin(UI::MetricsRole::MarginSmall);
                 _layout->setSpacing(UI::MetricsRole::SpacingSmall);
-                _layout->addWidget(_label, UI::RowStretch::Expand);
-                _layout->addWidget(_icon);
-                _layout->setParent(shared_from_this());
+                _layout->addChild(_label);
+                _layout->setStretch(_label, UI::RowStretch::Expand);
+                _layout->addChild(_icon);
+                addChild(_layout);
             }
 
             Button::Button()
@@ -215,21 +216,21 @@ namespace djv
                 _layout->setSpacing(UI::MetricsRole::None);
                 for (auto i = _groups.begin(); i != _groups.end(); ++i)
                 {
-                    _layout->addWidget(i->second.groupBox);
+                    _layout->addChild(i->second.groupBox);
                     auto vLayout = UI::VerticalLayout::create(context);
                     vLayout->setSpacing(UI::MetricsRole::None);
                     for (const auto & j : i->second.buttons)
                     {
-                        vLayout->addWidget(j.second);
+                        vLayout->addChild(j.second);
                     }
-                    i->second.groupBox->addWidget(vLayout);
+                    i->second.groupBox->addChild(vLayout);
                     _layout->addSeparator();
                 }
 
                 _scrollWidget = UI::ScrollWidget::create(UI::ScrollType::Vertical, context);
                 _scrollWidget->setBorder(false);
-                _scrollWidget->addWidget(_layout);
-                _scrollWidget->setParent(shared_from_this());
+                _scrollWidget->addChild(_layout);
+                addChild(_scrollWidget);
             }
 
             MainWidget::MainWidget()
@@ -311,7 +312,7 @@ namespace djv
             p.titles[p.mainWidget] = DJV_TEXT("Settings");
 
             p.soloLayout = UI::SoloLayout::create(context);
-            p.soloLayout->addWidget(p.mainWidget);
+            p.soloLayout->addChild(p.mainWidget);
             auto weak = std::weak_ptr<SettingsWidget>(std::dynamic_pointer_cast<SettingsWidget>(shared_from_this()));
             for (auto i : context->getSystemsT<IViewSystem>())
             {
@@ -319,7 +320,7 @@ namespace djv
                 {
                     for (auto widget : system->getSettingsWidgets())
                     {
-                        p.soloLayout->addWidget(widget);
+                        p.soloLayout->addChild(widget);
                         p.titles[widget] = widget->getName();
                     }
                 }
@@ -329,12 +330,13 @@ namespace djv
             p.layout->setSpacing(UI::MetricsRole::None);
             auto hLayout = UI::HorizontalLayout::create(context);
             hLayout->setSpacing(UI::MetricsRole::None);
-            hLayout->addWidget(p.backButton);
-            hLayout->addWidget(p.titleLabel);
-            p.layout->addWidget(hLayout);
+            hLayout->addChild(p.backButton);
+            hLayout->addChild(p.titleLabel);
+            p.layout->addChild(hLayout);
             p.layout->addSeparator();
-            p.layout->addWidget(p.soloLayout, UI::RowStretch::Expand);
-            p.layout->setParent(shared_from_this());
+            p.layout->addChild(p.soloLayout);
+            p.layout->setStretch(p.soloLayout, UI::RowStretch::Expand);
+            addChild(p.layout);
 
             p.mainWidget->setWidgetCallback(
                 [weak](const std::shared_ptr<UI::ISettingsWidget> & value)

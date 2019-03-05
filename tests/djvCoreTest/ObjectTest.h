@@ -29,34 +29,20 @@
 
 #pragma once
 
-#include <djvUI/Widget.h>
+#include <djvTestLib/Test.h>
 
 namespace djv
 {
-    namespace UI
+    namespace CoreTest
     {
-        //! This namespace provides layouts.
-        namespace Layout
+        class ObjectTest : public Test::ITest
         {
-            //! This class provides an interface for widgets that can contain other widgets.
-            //!
-            //! \todo How can we use this class for all layouts?
-            class IContainer : public Widget
-            {
-                DJV_NON_COPYABLE(IContainer);
-
-            protected:
-                IContainer();
-
-            public:
-                virtual ~IContainer() = 0;
-
-                virtual void addWidget(const std::shared_ptr<Widget>&);
-                virtual void removeWidget(const std::shared_ptr<Widget>&);
-                virtual void clearWidgets();
-            };
-
-        } // namespace Layout
-    } // namespace UI
+        public:
+            ObjectTest(Core::Context *);
+            
+            void run(int & argc, char ** argv) override;
+        };
+        
+    } // namespace CoreTest
 } // namespace djv
 

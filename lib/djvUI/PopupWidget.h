@@ -49,8 +49,6 @@ namespace djv
 
             static std::shared_ptr<PopupWidget> create(Core::Context *);
 
-            void setWidget(const std::shared_ptr<Widget>&);
-
             void open();
             void close();
 
@@ -64,6 +62,9 @@ namespace djv
             bool hasCaptureKeyboard() const;
             void setCapturePointer(bool);
             void setCaptureKeyboard(bool);
+
+            void addChild(const std::shared_ptr<IObject>&) override;
+            void removeChild(const std::shared_ptr<IObject>&) override;
 
         protected:
             void _preLayoutEvent(Core::Event::PreLayout &) override;

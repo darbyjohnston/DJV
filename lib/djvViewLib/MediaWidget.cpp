@@ -75,17 +75,18 @@ namespace djv
             p.toolbar->addAction(actions["PrevFrame"]);
             p.toolbar->addAction(actions["NextFrame"]);
             p.toolbar->addAction(actions["OutPoint"]);
-            p.toolbar->addWidget(p.timelineSlider, UI::RowStretch::Expand);
+            p.toolbar->addChild(p.timelineSlider);
+            p.toolbar->setStretch(p.timelineSlider, UI::RowStretch::Expand);
 
             auto vLayout = UI::VerticalLayout::create(context);
             vLayout->setSpacing(UI::MetricsRole::None);
             vLayout->addExpander();
-            vLayout->addWidget(p.toolbar);
+            vLayout->addChild(p.toolbar);
 
             p.layout = UI::StackLayout::create(context);
-            p.layout->addWidget(p.imageView);
-            p.layout->addWidget(vLayout);
-            p.layout->setParent(shared_from_this());
+            p.layout->addChild(p.imageView);
+            p.layout->addChild(vLayout);
+            addChild(p.layout);
 
             _widgetUpdate();
 

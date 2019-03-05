@@ -107,15 +107,16 @@ namespace djv
 
             p.settingsPopupWidget = UI::PopupWidget::create(context);
             p.settingsPopupWidget->setIcon("djvIconSettings");
-            p.settingsPopupWidget->setWidget(SettingsWidget::create(context));
+            p.settingsPopupWidget->addChild(SettingsWidget::create(context));
 
             p.menuBar = UI::MenuBar::create(context);
             p.menuBar->setBackgroundRole(UI::ColorRole::Overlay);
             for (auto i : menus)
             {
-                p.menuBar->addMenu(i.second);
+                p.menuBar->addChild(i.second);
             }
-            p.menuBar->addWidget(p.settingsPopupWidget);
+            p.menuBar->addExpander();
+            p.menuBar->addChild(p.settingsPopupWidget);
 
             p.mediaWidget = MediaWidget::create(context);
 
@@ -126,21 +127,21 @@ namespace djv
                 {
                     for (auto j : system->getToolWidgets())
                     {
-                        j->setParent(p.mdiCanvas);
+                        p.mdiCanvas->addChild(j);
                         j->setVisible(false);
                     }
                 }
             }
             
             p.stackLayout = UI::StackLayout::create(context);
-            p.stackLayout->addWidget(p.mediaWidget);
+            p.stackLayout->addChild(p.mediaWidget);
             auto vLayout = UI::VerticalLayout::create(context);
             vLayout->setSpacing(UI::MetricsRole::None);
-            vLayout->addWidget(p.menuBar);
+            vLayout->addChild(p.menuBar);
             vLayout->addExpander();
-            p.stackLayout->addWidget(vLayout);
-            p.stackLayout->addWidget(p.mdiCanvas);
-            addWidget(p.stackLayout);
+            p.stackLayout->addChild(vLayout);
+            p.stackLayout->addChild(p.mdiCanvas);
+            addChild(p.stackLayout);
 
             auto weak = std::weak_ptr<MainWindow>(std::dynamic_pointer_cast<MainWindow>(shared_from_this()));
             p.closeToolActionObserver = ValueObserver<bool>::create(

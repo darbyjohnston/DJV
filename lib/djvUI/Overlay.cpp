@@ -61,7 +61,7 @@ namespace djv
 
             void Overlay::_init(Context * context)
             {
-                IContainer::_init(context);
+                Widget::_init(context);
 
                 setClassName("djv::UI::Layout::Overlay");
                 setBackgroundRole(ColorRole::Overlay);
@@ -73,7 +73,7 @@ namespace djv
 
                 DJV_PRIVATE_PTR();
                 p.layout = Stack::create(context);
-                IContainer::addWidget(p.layout);
+                Widget::addChild(p.layout);
 
                 p.fadeAnimation = Animation::Animation::create(context);
 
@@ -155,24 +155,9 @@ namespace djv
                 _p->closeCallback = callback;
             }
 
-            void Overlay::addWidget(const std::shared_ptr<Widget>& value)
-            {
-                _p->layout->addWidget(value);
-            }
-
-            void Overlay::removeWidget(const std::shared_ptr<Widget>& value)
-            {
-                _p->layout->removeWidget(value);
-            }
-
-            void Overlay::clearWidgets()
-            {
-                _p->layout->clearWidgets();
-            }
-
             void Overlay::setVisible(bool value)
             {
-                IContainer::setVisible(value);
+                Widget::setVisible(value);
                 if (_p->fadeIn && _p->fadeAnimation)
                 {
                     setOpacity(0.f);
@@ -214,6 +199,16 @@ namespace djv
                     out = _p->layout->getHeightForWidth(value - m.x) + m.y;
                 }
                 return out;
+            }
+
+            void Overlay::addChild(const std::shared_ptr<IObject>& value)
+            {
+                _p->layout->addChild(value);
+            }
+
+            void Overlay::removeChild(const std::shared_ptr<IObject>& value)
+            {
+                _p->layout->removeChild(value);
             }
 
             void Overlay::_preLayoutEvent(Event::PreLayout& event)

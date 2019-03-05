@@ -29,7 +29,7 @@
 
 #pragma once
 
-#include <djvUI/IContainer.h>
+#include <djvUI/Widget.h>
 
 #include <djvCore/ValueObserver.h>
 
@@ -37,7 +37,7 @@ namespace djv
 {
     namespace UI
     {
-        class ISettingsWidget : public Layout::IContainer
+        class ISettingsWidget : public Widget
         {
             DJV_NON_COPYABLE(ISettingsWidget);
 
@@ -52,11 +52,10 @@ namespace djv
             virtual std::string getGroup() const = 0;
             virtual std::string getGroupSortKey() const = 0;
 
-            void addWidget(const std::shared_ptr<Widget> &) override;
-            void removeWidget(const std::shared_ptr<Widget> &) override;
-            void clearWidgets() override;
-
             float getHeightForWidth(float) const override;
+
+            void addChild(const std::shared_ptr<IObject> &) override;
+            void removeChild(const std::shared_ptr<IObject> &) override;
 
         protected:
             void _preLayoutEvent(Core::Event::PreLayout &) override;

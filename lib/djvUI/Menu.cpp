@@ -661,8 +661,8 @@ namespace djv
 
                 _scrollWidget = ScrollWidget::create(ScrollType::Vertical, context);
                 _scrollWidget->setMinimumSizeRole(MetricsRole::None);
-                _scrollWidget->addWidget(_menuWidget);
-                _scrollWidget->setParent(shared_from_this());
+                _scrollWidget->addChild(_menuWidget);
+                addChild(_scrollWidget);
             }
 
             MenuPopupWidget::MenuPopupWidget()
@@ -716,12 +716,10 @@ namespace djv
             public:
                 static std::shared_ptr<MenuOverlayLayout> create(Context *);
 
-                void addWidget(const std::shared_ptr<Widget>&);
-                void removeWidget(const std::shared_ptr<Widget>&);
-                void clearWidgets();
-
                 void setPos(const std::shared_ptr<Widget>&, const glm::vec2 &);
                 void setButton(const std::shared_ptr<Widget>&, const std::weak_ptr<Widget> &);
+
+                void removeChild(const std::shared_ptr<IObject>&) override;
 
             protected:
                 void _layoutEvent(Event::Layout&) override;
@@ -747,37 +745,6 @@ namespace djv
                 return out;
             }
 
-            void MenuOverlayLayout::addWidget(const std::shared_ptr<Widget>& widget)
-            {
-                widget->setParent(shared_from_this());
-            }
-
-            void MenuOverlayLayout::removeWidget(const std::shared_ptr<Widget>& value)
-            {
-                value->setParent(nullptr);
-                const auto i = _widgetToPos.find(value);
-                if (i != _widgetToPos.end())
-                {
-                    _widgetToPos.erase(i);
-                }
-                const auto j = _widgetToButton.find(value);
-                if (j != _widgetToButton.end())
-                {
-                    _widgetToButton.erase(j);
-                }
-            }
-
-            void MenuOverlayLayout::clearWidgets()
-            {
-                auto children = getChildren();
-                for (auto& child : children)
-                {
-                    child->setParent(nullptr);
-                }
-                _widgetToPos.clear();
-                _widgetToButton.clear();
-            }
-
             void MenuOverlayLayout::setPos(const std::shared_ptr<Widget>& widget, const glm::vec2 & pos)
             {
                 _widgetToPos[widget] = pos;
@@ -786,6 +753,24 @@ namespace djv
             void MenuOverlayLayout::setButton(const std::shared_ptr<Widget>& widget, const std::weak_ptr<Widget> & button)
             {
                 _widgetToButton[widget] = button;
+            }
+
+            void MenuOverlayLayout::removeChild(const std::shared_ptr<IObject>& value)
+            {
+                Widget::removeChild(value);
+                if (auto widget = std::dynamic_pointer_cast<Widget>(value))
+                {
+                    const auto i = _widgetToPos.find(widget);
+                    if (i != _widgetToPos.end())
+                    {
+                        _widgetToPos.erase(i);
+                    }
+                    const auto j = _widgetToButton.find(widget);
+                    if (j != _widgetToButton.end())
+                    {
+                        _widgetToButton.erase(j);
+                    }
+                }
             }
 
             void MenuOverlayLayout::_layoutEvent(Event::Layout&)
@@ -904,15 +889,15 @@ namespace djv
             p.popupWidget = MenuPopupWidget::create(context);
 
             p.overlayLayout = MenuOverlayLayout::create(context);
-            p.overlayLayout->addWidget(p.popupWidget);
+            p.overlayLayout->addChild(p.popupWidget);
 
             p.overlay = Layout::Overlay::create(context);
             p.overlay->setCaptureKeyboard(false);
             p.overlay->setFadeIn(false);
             p.overlay->setVisible(true);
             p.overlay->setBackgroundRole(ColorRole::None);
-            p.overlay->addWidget(p.overlayLayout);
-            p.overlay->setParent(shared_from_this());
+            p.overlay->addChild(p.overlayLayout);
+            addChild(p.overlay);
 
             auto weak = std::weak_ptr<Menu>(std::dynamic_pointer_cast<Menu>(shared_from_this()));
             p.popupWidget->setCloseCallback(
@@ -990,7 +975,7 @@ namespace djv
                 if (auto window = getWindow().lock())
                 {
                     p.overlayLayout->setPos(p.popupWidget, pos);
-                    window->addWidget(std::dynamic_pointer_cast<Widget>(shared_from_this()));
+                    window->addChild(std::dynamic_pointer_cast<Widget>(shared_from_this()));
                     show();
                 }
             }
@@ -1005,7 +990,7 @@ namespace djv
                 {
                     p.overlayLayout->setButton(p.popupWidget, button);
                     p.overlay->setAnchor(button);
-                    window->addWidget(std::dynamic_pointer_cast<Widget>(shared_from_this()));
+                    window->addChild(std::dynamic_pointer_cast<Widget>(shared_from_this()));
                     show();
                 }
             }
@@ -1020,7 +1005,7 @@ namespace djv
                 {
                     p.overlayLayout->setButton(p.popupWidget, button);
                     p.overlay->setAnchor(anchor);
-                    window->addWidget(std::dynamic_pointer_cast<Widget>(shared_from_this()));
+                    window->addChild(std::dynamic_pointer_cast<Widget>(shared_from_this()));
                     show();
                 }
             }

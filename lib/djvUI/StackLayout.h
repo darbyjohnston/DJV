@@ -29,7 +29,7 @@
 
 #pragma once
 
-#include <djvUI/IContainer.h>
+#include <djvUI/Widget.h>
 
 namespace djv
 {
@@ -38,7 +38,7 @@ namespace djv
         namespace Layout
         {
             //! This class provides a layout that arranges it's children into a stack.
-            class Stack : public IContainer
+            class Stack : public Widget
             {
                 DJV_NON_COPYABLE(Stack);
 

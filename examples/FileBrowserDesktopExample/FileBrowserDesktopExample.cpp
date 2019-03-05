@@ -54,7 +54,7 @@ int main(int argc, char ** argv)
         });
 
         auto window = UI::Window::create(app.get());
-        window->addWidget(fileBrowser);
+        window->addChild(fileBrowser);
         window->show();
 
         return app->run();

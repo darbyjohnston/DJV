@@ -96,9 +96,10 @@ namespace djv
                     _layout = UI::HorizontalLayout::create(context);
                     _layout->setMargin(UI::MetricsRole::MarginSmall);
                     _layout->setSpacing(UI::MetricsRole::SpacingSmall);
-                    _layout->addWidget(_icon);
-                    _layout->addWidget(_label, UI::RowStretch::Expand);
-                    _layout->setParent(shared_from_this());
+                    _layout->addChild(_icon);
+                    _layout->addChild(_label);
+                    _layout->setStretch(_label, UI::RowStretch::Expand);
+                    addChild(_layout);
                 }
 
                 Button::Button()
@@ -174,7 +175,7 @@ namespace djv
 
             void Bellows::_init(Context * context)
             {
-                IContainer::_init(context);
+                Widget::_init(context);
 
                 setClassName("djv::UI::Layout::Bellows");
                 setVAlign(VAlign::Top);
@@ -186,15 +187,16 @@ namespace djv
 
                 p.separatorLayout = VerticalLayout::create(context);
                 p.separatorLayout->setSpacing(MetricsRole::None);
-                p.separatorLayout->addWidget(p.childLayout);
+                p.separatorLayout->addChild(p.childLayout);
                 p.separatorLayout->addSeparator();
 
                 p.layout = VerticalLayout::create(context);
                 p.layout->setSpacing(MetricsRole::None);
-                p.layout->addWidget(p.button);
+                p.layout->addChild(p.button);
                 p.layout->addSeparator();
-                p.layout->addWidget(p.separatorLayout, RowStretch::Expand);
-                IContainer::addWidget(p.layout);
+                p.layout->addChild(p.separatorLayout);
+                p.layout->setStretch(p.separatorLayout, RowStretch::Expand);
+                Widget::addChild(p.layout);
 
                 setOpen(true);
 
@@ -273,21 +275,15 @@ namespace djv
                 _p->openCallback = callback;
             }
 
-            void Bellows::addWidget(const std::shared_ptr<Widget>& value)
+            void Bellows::addChild(const std::shared_ptr<IObject>& value)
             {
-                _p->childLayout->addWidget(value);
+                _p->childLayout->addChild(value);
                 _childrenUpdate();
             }
 
-            void Bellows::removeWidget(const std::shared_ptr<Widget>& value)
+            void Bellows::removeChild(const std::shared_ptr<IObject>& value)
             {
-                _p->childLayout->removeWidget(value);
-                _childrenUpdate();
-            }
-
-            void Bellows::clearWidgets()
-            {
-                _p->childLayout->clearWidgets();
+                _p->childLayout->removeChild(value);
                 _childrenUpdate();
             }
 

@@ -75,57 +75,22 @@ namespace djv
                 return out;
             }
 
-            void Row::addWidget(const std::shared_ptr<Widget>& value, RowStretch stretch)
-            {
-                value->setParent(shared_from_this());
-                _p->stretch[value] = stretch;
-                _resize();
-            }
-
-            void Row::insertWidget(const std::shared_ptr<Widget>& value, int index, RowStretch stretch)
-            {
-                value->setParent(shared_from_this(), index);
-                _p->stretch[value] = stretch;
-                _resize();
-            }
-
-            void Row::removeWidget(const std::shared_ptr<Widget>& value)
-            {
-                value->setParent(nullptr);
-                DJV_PRIVATE_PTR();
-                const auto i = p.stretch.find(value);
-                if (i != p.stretch.end())
-                {
-                    p.stretch.erase(i);
-                }
-                _resize();
-            }
-
-            void Row::clearWidgets()
-            {
-                auto children = getChildren();
-                for (auto& child : children)
-                {
-                    child->setParent(nullptr);
-                }
-                _p->stretch.clear();
-                _resize();
-            }
-
             void Row::addSeparator()
             {
-                addWidget(Separator::create(getContext()));
+                addChild(Separator::create(getContext()));
             }
 
             void Row::addSpacer()
             {
                 auto spacer = Spacer::create(_p->orientation, getContext());
-                addWidget(spacer);
+                addChild(spacer);
             }
 
             void Row::addExpander()
             {
-                addWidget(Widget::create(getContext()), RowStretch::Expand);
+                auto widget = Widget::create(getContext());
+                addChild(widget);
+                setStretch(widget, RowStretch::Expand);
             }
 
             Orientation Row::getOrientation() const
@@ -223,6 +188,31 @@ namespace djv
                     out += m.y;
                 }
                 return out;
+            }
+
+            void Row::addChild(const std::shared_ptr<IObject>& value)
+            {
+                Widget::addChild(value);
+                if (auto widget = std::dynamic_pointer_cast<Widget>(value))
+                {
+                    _p->stretch[widget] = RowStretch::None;
+                    _resize();
+                }
+            }
+
+            void Row::removeChild(const std::shared_ptr<IObject>& value)
+            {
+                Widget::removeChild(value);
+                DJV_PRIVATE_PTR();
+                if (auto widget = std::dynamic_pointer_cast<Widget>(value))
+                {
+                    const auto i = p.stretch.find(widget);
+                    if (i != p.stretch.end())
+                    {
+                        p.stretch.erase(i);
+                    }
+                    _resize();
+                }
             }
 
             void Row::_preLayoutEvent(Event::PreLayout&)

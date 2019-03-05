@@ -45,7 +45,7 @@ namespace djv
 
             void Solo::_init(Context * context)
             {
-                IContainer::_init(context);
+                Widget::_init(context);
 
                 setClassName("djv::UI::Layout::Solo");
             }
@@ -117,25 +117,6 @@ namespace djv
                 _resize();
             }
 
-            void Solo::addWidget(const std::shared_ptr<Widget>& value)
-            {
-                IContainer::addWidget(value);
-                DJV_PRIVATE_PTR();
-                if (-1 == p.currentIndex)
-                {
-                    p.currentIndex = 0;
-                }
-            }
-
-            void Solo::removeWidget(const std::shared_ptr<Widget>& value)
-            {
-                IContainer::removeWidget(value);
-                if (0 == getChildren().size())
-                {
-                    _p->currentIndex = -1;
-                }
-            }
-
             float Solo::getHeightForWidth(float value) const
             {
                 DJV_PRIVATE_PTR();
@@ -153,6 +134,25 @@ namespace djv
                     out += m.y;
                 }
                 return out;
+            }
+
+            void Solo::addChild(const std::shared_ptr<IObject>& value)
+            {
+                Widget::addChild(value);
+                DJV_PRIVATE_PTR();
+                if (-1 == p.currentIndex)
+                {
+                    p.currentIndex = 0;
+                }
+            }
+
+            void Solo::removeChild(const std::shared_ptr<IObject>& value)
+            {
+                Widget::removeChild(value);
+                if (0 == getChildren().size())
+                {
+                    _p->currentIndex = -1;
+                }
             }
 
             void Solo::_preLayoutEvent(Event::PreLayout&)

@@ -52,7 +52,7 @@ namespace djv
 
             void GroupBox::_init(Context * context)
             {
-                IContainer::_init(context);
+                Widget::_init(context);
 
                 setClassName("djv::UI::Layout::GroupBox");
                 setVAlign(VAlign::Top);
@@ -66,10 +66,11 @@ namespace djv
 
                 p.layout = VerticalLayout::create(context);
                 p.layout->setSpacing(MetricsRole::None);
-                p.layout->addWidget(p.titleLabel);
+                p.layout->addChild(p.titleLabel);
                 p.layout->addSeparator();
-                p.layout->addWidget(p.childLayout, RowStretch::Expand);
-                IContainer::addWidget(p.layout);
+                p.layout->addChild(p.childLayout);
+                p.layout->setStretch(p.childLayout, RowStretch::Expand);
+                Widget::addChild(p.layout);
             }
 
             GroupBox::GroupBox() :
@@ -103,25 +104,20 @@ namespace djv
             {
                 _p->titleLabel->setText(text);
             }
-            
-            void GroupBox::addWidget(const std::shared_ptr<Widget>& value)
-            {
-                _p->childLayout->addWidget(value);
-            }
-
-            void GroupBox::removeWidget(const std::shared_ptr<Widget>& value)
-            {
-                _p->childLayout->removeWidget(value);
-            }
-
-            void GroupBox::clearWidgets()
-            {
-                _p->childLayout->clearWidgets();
-            }
 
             float GroupBox::getHeightForWidth(float value) const
             {
                 return _p->layout->getHeightForWidth(value);
+            }
+
+            void GroupBox::addChild(const std::shared_ptr<IObject>& value)
+            {
+                _p->childLayout->addChild(value);
+            }
+
+            void GroupBox::removeChild(const std::shared_ptr<IObject>& value)
+            {
+                _p->childLayout->removeChild(value);
             }
 
             void GroupBox::_preLayoutEvent(Event::PreLayout& event)

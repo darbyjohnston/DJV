@@ -52,11 +52,10 @@ namespace djv
             void close();
             void setCloseCallback(const std::function<void(void)> &);
 
-            void addWidget(const std::shared_ptr<Widget>&) override;
-            void removeWidget(const std::shared_ptr<Widget>&) override;
-            void clearWidgets() override;
-
             float getHeightForWidth(float) const override;
+
+            void addChild(const std::shared_ptr<IObject>&) override;
+            void removeChild(const std::shared_ptr<IObject>&) override;
 
         protected:
             void _preLayoutEvent(Core::Event::PreLayout&) override;

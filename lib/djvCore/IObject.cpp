@@ -135,39 +135,57 @@ namespace djv
             }
         }
 
-        void IObject::setParent(const std::shared_ptr<IObject>& value, int insert)
+        void IObject::addChild(const std::shared_ptr<IObject>& value)
         {
             std::shared_ptr<IObject> prevParent;
-            if (auto parent = _parent.lock())
+            if (auto parent = value->_parent.lock())
             {
                 prevParent = parent;
-                const auto i = std::find(parent->_children.begin(), parent->_children.end(), shared_from_this());
+
+                const auto i = std::find(parent->_children.begin(), parent->_children.end(), value);
                 if (i != parent->_children.end())
                 {
                     parent->_children.erase(i);
                 }
-                _parent.reset();
-                Event::ChildRemoved childRemovedEvent(shared_from_this());
+
+                Event::ChildRemoved childRemovedEvent(value);
                 parent->event(childRemovedEvent);
             }
-            std::shared_ptr<IObject> newParent;
-            if (value)
+
+            value->_parent = shared_from_this();
+            _children.push_back(value);
+            
+            Event::ChildAdded childAddedEvent(value);
+            event(childAddedEvent);
+
+            Event::ParentChanged parentChangedEvent(prevParent, shared_from_this());
+            value->event(parentChangedEvent);
+        }
+
+        void IObject::removeChild(const std::shared_ptr<IObject> & value)
+        {
+            auto child = value;
+            const auto i = std::find(_children.begin(), _children.end(), child);
+            if (i != _children.end())
             {
-                if (-1 == insert)
-                {
-                    insert = static_cast<int>(value->_children.size());
-                }
-                auto i = value->_children.begin();
-                for (int j = 0; i != value->_children.end() && j < insert; ++i, ++j)
-                    ;
-                value->_children.insert(i, shared_from_this());
-                _parent = value;
-                newParent = value;
-                Event::ChildAdded childAddedEvent(shared_from_this());
-                value->event(childAddedEvent);
+                _children.erase(i);
+
+                child->_parent.reset();
+
+                Event::ChildRemoved childRemovedEvent(child);
+                event(childRemovedEvent);
+
+                Event::ParentChanged parentChangedEvent(shared_from_this(), nullptr);
+                child->event(parentChangedEvent);
             }
-            Event::ParentChanged parentChangedEvent(prevParent, newParent);
-            event(parentChangedEvent);
+        }
+
+        void IObject::clearChildren()
+        {
+            while (_children.size())
+            {
+                removeChild(_children.back());
+            }
         }
 
         bool IObject::event(Event::IEvent& event)

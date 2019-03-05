@@ -52,13 +52,14 @@ int main(int argc, char ** argv)
 
         auto pushButtonGroup = UI::ButtonGroup::create(UI::ButtonType::Push);
         auto hLayout = UI::HorizontalLayout::create(app.get());
+        hLayout->setMargin(UI::MetricsRole::Margin);
         for (size_t i = 0; i < 3; ++i)
         {
             std::stringstream ss;
             ss << "Push " << i;
             auto button = UI::PushButton::create(ss.str(), app.get());
             pushButtonGroup->addButton(button);
-            hLayout->addWidget(button);
+            hLayout->addChild(button);
         }
         pushButtonGroup->setPushCallback(
             [](int index)
@@ -66,18 +67,19 @@ int main(int argc, char ** argv)
             std::cout << "Push = " << index << std::endl;
         });
         auto groupBox = UI::GroupBox::create("Push Buttons", app.get());
-        groupBox->addWidget(hLayout);
-        layout->addWidget(groupBox);
+        groupBox->addChild(hLayout);
+        layout->addChild(groupBox);
 
         auto toggleButtonGroup = UI::ButtonGroup::create(UI::ButtonType::Toggle);
         hLayout = UI::HorizontalLayout::create(app.get());
+        hLayout->setMargin(UI::MetricsRole::Margin);
         for (size_t i = 0; i < 3; ++i)
         {
             std::stringstream ss;
             ss << "Toggle " << i;
             auto button = UI::PushButton::create(ss.str(), app.get());
             toggleButtonGroup->addButton(button);
-            hLayout->addWidget(button);
+            hLayout->addChild(button);
         }
         toggleButtonGroup->setToggleCallback(
             [](int index, bool value)
@@ -85,18 +87,19 @@ int main(int argc, char ** argv)
             std::cout << "Toggle " << index << " = " << value << std::endl;
         });
         groupBox = UI::GroupBox::create("Toggle Buttons", app.get());
-        groupBox->addWidget(hLayout);
-        layout->addWidget(groupBox);
+        groupBox->addChild(hLayout);
+        layout->addChild(groupBox);
 
         auto radioButtonGroup = UI::ButtonGroup::create(UI::ButtonType::Radio);
         hLayout = UI::HorizontalLayout::create(app.get());
+        hLayout->setMargin(UI::MetricsRole::Margin);
         for (size_t i = 0; i < 3; ++i)
         {
             std::stringstream ss;
             ss << "Radio " << i;
             auto button = UI::PushButton::create(ss.str(), app.get());
             radioButtonGroup->addButton(button);
-            hLayout->addWidget(button);
+            hLayout->addChild(button);
         }
         radioButtonGroup->setRadioCallback(
             [](int index)
@@ -104,18 +107,19 @@ int main(int argc, char ** argv)
             std::cout << "Radio " << index << std::endl;
         });
         groupBox = UI::GroupBox::create("Radio Buttons", app.get());
-        groupBox->addWidget(hLayout);
-        layout->addWidget(groupBox);
+        groupBox->addChild(hLayout);
+        layout->addChild(groupBox);
 
         auto exclusiveButtonGroup = UI::ButtonGroup::create(UI::ButtonType::Exclusive);
         hLayout = UI::HorizontalLayout::create(app.get());
+        hLayout->setMargin(UI::MetricsRole::Margin);
         for (size_t i = 0; i < 3; ++i)
         {
             std::stringstream ss;
             ss << "Exclusive " << i;
             auto button = UI::PushButton::create(ss.str(), app.get());
             exclusiveButtonGroup->addButton(button);
-            hLayout->addWidget(button);
+            hLayout->addChild(button);
         }
         exclusiveButtonGroup->setExclusiveCallback(
             [](int index)
@@ -123,11 +127,11 @@ int main(int argc, char ** argv)
             std::cout << "Exclusive " << index << std::endl;
         });
         groupBox = UI::GroupBox::create("Exclusive Buttons", app.get());
-        groupBox->addWidget(hLayout);
-        layout->addWidget(groupBox);
+        groupBox->addChild(hLayout);
+        layout->addChild(groupBox);
 
         auto window = UI::Window::create(app.get());
-        window->addWidget(layout);
+        window->addChild(layout);
         window->show();
 
         return app->run();

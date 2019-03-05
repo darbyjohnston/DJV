@@ -55,8 +55,8 @@ namespace djv
             p.lineEditBase = LineEditBase::create(context);
 
             p.border = Border::create(context);
-            p.border->addWidget(p.lineEditBase);
-            p.border->setParent(shared_from_this());
+            p.border->addChild(p.lineEditBase);
+            addChild(p.border);
         }
 
         LineEdit::LineEdit() :

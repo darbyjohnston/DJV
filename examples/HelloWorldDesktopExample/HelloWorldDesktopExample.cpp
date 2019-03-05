@@ -48,7 +48,7 @@ int main(int argc, char ** argv)
         label->setFontSizeRole(UI::MetricsRole::FontHeader);
 
         auto window = UI::Window::create(app.get());
-        window->addWidget(label);
+        window->addChild(label);
         window->show();
 
         return app->run();

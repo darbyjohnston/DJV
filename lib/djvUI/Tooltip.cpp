@@ -84,18 +84,14 @@ namespace djv
 
             void TooltipLayout::addWidget(const std::shared_ptr<Widget>& value, const glm::vec2 & pos)
             {
-                value->setParent(shared_from_this());
+                addChild(value);
                 _widgetToPos[value] = pos;
                 _resize();
             }
 
             void TooltipLayout::clearWidgets()
             {
-                auto children = getChildren();
-                for (auto& child : children)
-                {
-                    child->setParent(nullptr);
-                }
+                clearChildren();
                 _widgetToPos.clear();
                 _resize();
             }
@@ -187,9 +183,9 @@ namespace djv
             p.overlay->setCapturePointer(false);
             p.overlay->setCaptureKeyboard(false);
             p.overlay->setBackgroundRole(ColorRole::None);
-            p.overlay->addWidget(layout);
+            p.overlay->addChild(layout);
 
-            window->addWidget(p.overlay);
+            window->addChild(p.overlay);
             p.overlay->show();
         }
 
@@ -202,7 +198,7 @@ namespace djv
             DJV_PRIVATE_PTR();
             if (auto window = p.overlay->getWindow().lock())
             {
-                window->removeWidget(p.overlay);
+                window->removeChild(p.overlay);
             }
         }
 

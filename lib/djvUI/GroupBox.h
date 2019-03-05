@@ -29,7 +29,7 @@
 
 #pragma once
 
-#include <djvUI/IContainer.h>
+#include <djvUI/Widget.h>
 
 namespace djv
 {
@@ -38,7 +38,7 @@ namespace djv
         namespace Layout
         {
             //! This class provides a group box widget.
-            class GroupBox : public IContainer
+            class GroupBox : public Widget
             {
                 DJV_NON_COPYABLE(GroupBox);
 
@@ -55,11 +55,10 @@ namespace djv
                 const std::string & getText() const;
                 void setText(const std::string &);
 
-                void addWidget(const std::shared_ptr<Widget>&) override;
-                void removeWidget(const std::shared_ptr<Widget>&) override;
-                void clearWidgets() override;
-
                 float getHeightForWidth(float) const override;
+
+                void addChild(const std::shared_ptr<IObject>&) override;
+                void removeChild(const std::shared_ptr<IObject>&) override;
 
             protected:
                 void _preLayoutEvent(Core::Event::PreLayout&) override;

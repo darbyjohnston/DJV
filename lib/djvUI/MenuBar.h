@@ -29,7 +29,7 @@
 
 #pragma once
 
-#include <djvUI/Widget.h>
+#include <djvUI/RowLayout.h>
 
 namespace djv
 {
@@ -51,10 +51,16 @@ namespace djv
 
             static std::shared_ptr<MenuBar> create(Core::Context *);
 
-            void addMenu(const std::shared_ptr<Menu> &);
-            void addWidget(const std::shared_ptr<Widget> &);
+            void setStretch(const std::shared_ptr<Widget>&, Layout::RowStretch);
+
+            void addSeparator();
+            void addSpacer();
+            void addExpander();
 
             float getHeightForWidth(float) const override;
+
+            void addChild(const std::shared_ptr<IObject> &) override;
+            void removeChild(const std::shared_ptr<IObject> &) override;
 
         protected:
             void _preLayoutEvent(Core::Event::PreLayout &) override;

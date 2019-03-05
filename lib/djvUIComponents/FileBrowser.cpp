@@ -231,10 +231,10 @@ namespace djv
                 p.sortMenu->addAction(p.actions["SortDirectoriesFirst"]);
 
                 auto menuBar = MenuBar::create(context);
-                menuBar->addMenu(p.directoryMenu);
-                menuBar->addMenu(p.shortcutsMenu);
-                menuBar->addMenu(p.viewMenu);
-                menuBar->addMenu(p.sortMenu);
+                menuBar->addChild(p.directoryMenu);
+                menuBar->addChild(p.shortcutsMenu);
+                menuBar->addChild(p.viewMenu);
+                menuBar->addChild(p.sortMenu);
 
                 auto pathWidget = PathWidget::create(context);
 
@@ -242,7 +242,8 @@ namespace djv
                 topToolBar->addAction(p.actions["Up"]);
                 topToolBar->addAction(p.actions["Back"]);
                 topToolBar->addAction(p.actions["Forward"]);
-                topToolBar->addWidget(pathWidget, RowStretch::Expand);
+                topToolBar->addChild(pathWidget);
+                topToolBar->setStretch(pathWidget, RowStretch::Expand);
                 topToolBar->addAction(p.actions["EditPath"]);
 
                 auto searchBox = SearchBox::create(context);
@@ -251,53 +252,54 @@ namespace djv
                 p.itemCountLabel->setMargin(MetricsRole::MarginSmall);
                 auto vLayout = VerticalLayout::create(context);
                 vLayout->setSpacing(MetricsRole::None);
-                vLayout->addWidget(searchBox);
-                vLayout->addWidget(p.itemCountLabel);
+                vLayout->addChild(searchBox);
+                vLayout->addChild(p.itemCountLabel);
                 p.searchPopupWidget = PopupWidget::create(context);
                 p.searchPopupWidget->setIcon("djvIconSearch");
-                p.searchPopupWidget->setWidget(vLayout);
+                p.searchPopupWidget->addChild(vLayout);
                 p.searchPopupWidget->setCapturePointer(false);
 
                 auto bottomToolBar = Toolbar::create(context);
                 bottomToolBar->addExpander();
-                bottomToolBar->addWidget(p.searchPopupWidget);
+                bottomToolBar->addChild(p.searchPopupWidget);
 
                 p.shortcutsWidget = ShortcutsWidget::create(context);
                 p.drivesWidget = DrivesWidget::create(context);
                 p.shortcutsBellows["Shortcuts"] = Bellows::create(context);
-                p.shortcutsBellows["Shortcuts"]->addWidget(p.shortcutsWidget);
+                p.shortcutsBellows["Shortcuts"]->addChild(p.shortcutsWidget);
                 p.shortcutsBellows["Drives"] = Bellows::create(context);
-                p.shortcutsBellows["Drives"]->addWidget(p.drivesWidget);
+                p.shortcutsBellows["Drives"]->addChild(p.drivesWidget);
                 p.shortcutsBellows["Favorites"] = Bellows::create(context);
                 p.shortcutsBellows["Recent"] = Bellows::create(context);
                 auto shortcutsLayout = VerticalLayout::create(context);
                 shortcutsLayout->setSpacing(MetricsRole::None);
-                shortcutsLayout->addWidget(p.shortcutsBellows["Shortcuts"]);
-                shortcutsLayout->addWidget(p.shortcutsBellows["Drives"]);
-                shortcutsLayout->addWidget(p.shortcutsBellows["Favorites"]);
-                shortcutsLayout->addWidget(p.shortcutsBellows["Recent"]);
+                shortcutsLayout->addChild(p.shortcutsBellows["Shortcuts"]);
+                shortcutsLayout->addChild(p.shortcutsBellows["Drives"]);
+                shortcutsLayout->addChild(p.shortcutsBellows["Favorites"]);
+                shortcutsLayout->addChild(p.shortcutsBellows["Recent"]);
                 p.shortcutsScrollWidget = ScrollWidget::create(ScrollType::Vertical, context);
                 p.shortcutsScrollWidget->setBorder(false);
-                p.shortcutsScrollWidget->addWidget(shortcutsLayout);
+                p.shortcutsScrollWidget->addChild(shortcutsLayout);
 
                 p.itemView = ItemView::create(context);
                 p.scrollWidget = ScrollWidget::create(ScrollType::Vertical, context);
                 p.scrollWidget->setBorder(false);
-                p.scrollWidget->addWidget(p.itemView);
+                p.scrollWidget->addChild(p.itemView);
 
                 p.layout = VerticalLayout::create(context);
                 p.layout->setSpacing(MetricsRole::None);
-                p.layout->addWidget(menuBar);
+                p.layout->addChild(menuBar);
                 p.layout->addSeparator();
-                p.layout->addWidget(topToolBar);
+                p.layout->addChild(topToolBar);
                 p.layout->addSeparator();
                 auto splitter = Layout::Splitter::create(Orientation::Horizontal, context);
-                splitter->addWidget(p.shortcutsScrollWidget);
-                splitter->addWidget(p.scrollWidget);
-                p.layout->addWidget(splitter, RowStretch::Expand);
+                splitter->addChild(p.shortcutsScrollWidget);
+                splitter->addChild(p.scrollWidget);
+                p.layout->addChild(splitter);
+                p.layout->setStretch(splitter, RowStretch::Expand);
                 p.layout->addSeparator();
-                p.layout->addWidget(bottomToolBar);
-                p.layout->setParent(shared_from_this());
+                p.layout->addChild(bottomToolBar);
+                addChild(p.layout);
 
                 auto weak = std::weak_ptr<Widget>(std::dynamic_pointer_cast<Widget>(shared_from_this()));
                 pathWidget->setPathCallback(

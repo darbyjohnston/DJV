@@ -68,7 +68,7 @@ namespace djv
 
             auto scrollWidget = UI::ScrollWidget::create(UI::ScrollType::Vertical, context);
             scrollWidget->setBorder(false);
-            scrollWidget->addWidget(p.textBlock);
+            scrollWidget->addChild(p.textBlock);
 
             //! \todo Implement me!
             p.copyButton = UI::PushButton::create(context);
@@ -78,16 +78,18 @@ namespace djv
 
             auto layout = UI::VerticalLayout::create(context);
             layout->setSpacing(UI::MetricsRole::None);
-            layout->addWidget(scrollWidget, UI::RowStretch::Expand);
+            layout->addChild(scrollWidget);
+            layout->setStretch(scrollWidget, UI::RowStretch::Expand);
             layout->addSeparator();
             auto hLayout = UI::HorizontalLayout::create(context);
             hLayout->setMargin(UI::MetricsRole::MarginSmall);
             hLayout->addExpander();
-            hLayout->addWidget(p.copyButton);
-            hLayout->addWidget(p.reloadButton);
-            hLayout->addWidget(p.clearButton);
-            layout->addWidget(hLayout);
-            addWidget(layout, UI::RowStretch::Expand);
+            hLayout->addChild(p.copyButton);
+            hLayout->addChild(p.reloadButton);
+            hLayout->addChild(p.clearButton);
+            layout->addChild(hLayout);
+            addChild(layout);
+            setStretch(layout, UI::RowStretch::Expand);
 
             auto weak = std::weak_ptr<SystemLogDialog>(std::dynamic_pointer_cast<SystemLogDialog>(shared_from_this()));
             p.reloadButton->setClickedCallback(

@@ -19,7 +19,6 @@ set(header
     GridLayout.h
     GroupBox.h
     IButton.h
-    IContainer.h
     IDialog.h
     ISettings.h
     ISettingsTemplates.h
@@ -91,7 +90,6 @@ set(source
     GridLayout.cpp
     GroupBox.cpp
     IButton.cpp
-    IContainer.cpp
     IDialog.cpp
     ISettings.cpp
     IWindowSystem.cpp

@@ -72,12 +72,13 @@ namespace djv
 
                 p.layout = HorizontalLayout::create(context);
                 p.layout->setMargin(Layout::Margin(MetricsRole::MarginLarge, MetricsRole::MarginLarge, MetricsRole::MarginSmall, MetricsRole::MarginSmall));
-                p.layout->addWidget(p.icon);
-                p.layout->addWidget(p.label, RowStretch::Expand);
+                p.layout->addChild(p.icon);
+                p.layout->addChild(p.label);
+                p.layout->setStretch(p.label, RowStretch::Expand);
 
                 p.border = Border::create(context);
-                p.border->addWidget(p.layout);
-                p.border->setParent(shared_from_this());
+                p.border->addChild(p.layout);
+                addChild(p.border);
             }
 
             Push::Push() :

@@ -55,7 +55,7 @@ namespace djv
             setClassName("djv::UI::PopupMenu");
 
             p.button = Button::Menu::create(context);
-            p.button->setParent(shared_from_this());
+            addChild(p.button);
 
             auto weak = std::weak_ptr<PopupMenu>(std::dynamic_pointer_cast<PopupMenu>(shared_from_this()));
             p.button->setCheckedCallback(
@@ -94,7 +94,10 @@ namespace djv
             DJV_PRIVATE_PTR();
             if (p.menu)
             {
-                p.menu->setParent(nullptr);
+                if (auto parent = p.menu->getParent().lock())
+                {
+                    parent->removeChild(p.menu);
+                }
                 p.menu->setCloseCallback(nullptr);
                 p.iconObserver.reset();
                 p.textObserver.reset();
@@ -104,7 +107,7 @@ namespace djv
 
             if (p.menu)
             {
-                p.menu->setParent(shared_from_this());
+                addChild(p.menu);
 
                 auto weak = std::weak_ptr<PopupMenu>(std::dynamic_pointer_cast<PopupMenu>(shared_from_this()));
                 menu->setCloseCallback(

@@ -29,7 +29,7 @@
 
 #pragma once
 
-#include <djvUI/IContainer.h>
+#include <djvUI/Widget.h>
 
 namespace djv
 {
@@ -40,7 +40,7 @@ namespace djv
             //! This class provides a drawer widget.
             //!
             //! \todo Add animation.
-            class Drawer : public IContainer
+            class Drawer : public Widget
             {
                 DJV_NON_COPYABLE(Drawer);
 
@@ -61,9 +61,8 @@ namespace djv
                 Side getSide() const;
                 void setSide(Side);
 
-                void addWidget(const std::shared_ptr<Widget>&) override;
-                void removeWidget(const std::shared_ptr<Widget>&) override;
-                void clearWidgets() override;
+                void addChild(const std::shared_ptr<IObject>&) override;
+                void removeChild(const std::shared_ptr<IObject>&) override;
 
             protected:
                 void _preLayoutEvent(Core::Event::PreLayout&) override;

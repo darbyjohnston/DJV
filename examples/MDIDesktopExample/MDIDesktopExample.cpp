@@ -76,8 +76,6 @@ void MDIWidget::_init(const std::string & title, Core::Context * context)
 {
     IWidget::_init(context);
 
-    setBackgroundRole(UI::ColorRole::Background);
-
     auto titleLabel = UI::Label::create(context);
     titleLabel->setText(title);
     titleLabel->setMargin(UI::MetricsRole::Margin);
@@ -88,25 +86,28 @@ void MDIWidget::_init(const std::string & title, Core::Context * context)
 
     auto titleBar = UI::HorizontalLayout::create(context);
     titleBar->setClassName("djv::UI::MDI::TitleBar");
-    titleBar->addWidget(titleLabel);
+    titleBar->addChild(titleLabel);
     titleBar->addExpander();
-    titleBar->addWidget(_closeButton);
+    titleBar->addChild(_closeButton);
 
     auto textBlock = UI::TextBlock::create(context);
     textBlock->setText(Core::String::getRandomText(100));
     textBlock->setMargin(UI::MetricsRole::Margin);
 
     auto scrollWidget = UI::ScrollWidget::create(UI::ScrollType::Vertical, context);
-    scrollWidget->addWidget(textBlock);
+    scrollWidget->addChild(textBlock);
 
     _layout = UI::VerticalLayout::create(context);
     _layout->setSpacing(UI::MetricsRole::None);
-    _layout->addWidget(titleBar);
-    _layout->addWidget(scrollWidget, UI::RowStretch::Expand);
+    _layout->setBackgroundRole(UI::ColorRole::Background);
+    _layout->addChild(titleBar);
+    _layout->addChild(scrollWidget);
+    _layout->setStretch(scrollWidget, UI::RowStretch::Expand);
 
     _border = UI::Border::create(context);
-    _border->addWidget(_layout);
-    IContainer::addWidget(_border);
+    _border->setMargin(UI::MetricsRole::Handle);
+    _border->addChild(_layout);
+    addChild(_border);
 }
 
 MDIWidget::MDIWidget()
@@ -155,18 +156,21 @@ int main(int argc, char ** argv)
             ss << "Widget " << i;
             auto widget = MDIWidget::create(ss.str(), app.get());
             widget->resize(glm::vec2(600.f, 400.f));
-            widget->setParent(canvas);
+            canvas->addChild(widget);
             widget->setClosedCallback(
                 [widget]
             {
-                widget->setParent(nullptr);
+                if (auto parent = widget->getParent().lock())
+                {
+                    parent->removeChild(widget);
+                }
             });
             canvas->setWidgetPos(widget, pos);
             pos += glm::vec2(100.f, 100.f);
         }
 
         auto window = UI::Window::create(app.get());
-        window->addWidget(canvas);
+        window->addChild(canvas);
         window->show();
 
         return app->run();

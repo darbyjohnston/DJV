@@ -64,7 +64,7 @@ namespace djv
             DJV_PRIVATE_PTR();
             p.layout = HorizontalLayout::create(context);
             p.layout->setSpacing(MetricsRole::None);
-            p.layout->setParent(shared_from_this());
+            Widget::addChild(p.layout);
         }
 
         Toolbar::Toolbar() :
@@ -81,20 +81,24 @@ namespace djv
             return out;
         }
 
-        void Toolbar::addWidget(const std::shared_ptr<Widget>& value, RowStretch stretch)
+        void Toolbar::setStretch(const std::shared_ptr<Widget>& widget, RowStretch value)
         {
-            _p->layout->addWidget(value, stretch);
+            _p->layout->setStretch(widget, value);
         }
 
-        void Toolbar::removeWidget(const std::shared_ptr<Widget>& value)
+        void Toolbar::addSeparator()
         {
-            _p->layout->removeWidget(value);
+            _p->layout->addSeparator();
         }
 
-        void Toolbar::clearWidgets()
+        void Toolbar::addSpacer()
         {
-            _p->layout->clearWidgets();
-            clearActions();
+            _p->layout->addSpacer();
+        }
+
+        void Toolbar::addExpander()
+        {
+            _p->layout->addExpander();
         }
 
         float Toolbar::getHeightForWidth(float value) const
@@ -108,30 +112,12 @@ namespace djv
             return out;
         }
 
-        void Toolbar::_preLayoutEvent(Event::PreLayout& event)
-        {
-            if (auto style = _getStyle().lock())
-            {
-                const glm::vec2 m = getMargin().getSize(style);
-                _setMinimumSize(_p->layout->getMinimumSize() + m);
-            }
-        }
-
-        void Toolbar::_layoutEvent(Event::Layout& event)
-        {
-            if (auto style = _getStyle().lock())
-            {
-                const BBox2f & g = getGeometry();
-                _p->layout->setGeometry(getMargin().bbox(g, style));
-            }
-        }
-
         void Toolbar::addAction(const std::shared_ptr<Action>& action)
         {
             Widget::addAction(action);
             auto button = FlatButton::create(getContext());
             DJV_PRIVATE_PTR();
-            p.layout->addWidget(button);
+            p.layout->addChild(button);
             button->setClickedCallback(
                 [action]
             {
@@ -204,25 +190,38 @@ namespace djv
             DJV_PRIVATE_PTR();
             for (auto i : p.actionsToButtons)
             {
-                p.layout->removeWidget(i.second);
+                p.layout->removeChild(i.second);
             }
             p.actionsToButtons.clear();
             p.observers.clear();
         }
 
-        void Toolbar::addSeparator()
+        void Toolbar::addChild(const std::shared_ptr<IObject>& value)
         {
-            _p->layout->addSeparator();
+            _p->layout->addChild(value);
         }
 
-        void Toolbar::addSpacer()
+        void Toolbar::removeChild(const std::shared_ptr<IObject>& value)
         {
-            _p->layout->addSpacer();
+            _p->layout->removeChild(value);
         }
 
-        void Toolbar::addExpander()
+        void Toolbar::_preLayoutEvent(Event::PreLayout& event)
         {
-            _p->layout->addExpander();
+            if (auto style = _getStyle().lock())
+            {
+                const glm::vec2 m = getMargin().getSize(style);
+                _setMinimumSize(_p->layout->getMinimumSize() + m);
+            }
+        }
+
+        void Toolbar::_layoutEvent(Event::Layout& event)
+        {
+            if (auto style = _getStyle().lock())
+            {
+                const BBox2f & g = getGeometry();
+                _p->layout->setGeometry(getMargin().bbox(g, style));
+            }
         }
 
     } // namespace UI

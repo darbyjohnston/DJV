@@ -29,8 +29,8 @@
 
 #pragma once
 
-#include <djvUI/IContainer.h>
 #include <djvUI/Margin.h>
+#include <djvUI/Widget.h>
 
 #include <djvCore/Range.h>
 #include <djvCore/Timer.h>
@@ -56,7 +56,7 @@ namespace djv
         //! \bug [1.0 M] Add a minimum scroll bar handle size.
         //! \todo Add keyboard shortcuts (page up, page down, etc.).
         //! \todo Add an auto-hide feature for the scroll bars.
-        class ScrollWidget : public Layout::IContainer
+        class ScrollWidget : public Widget
         {
             DJV_NON_COPYABLE(ScrollWidget);
 
@@ -84,9 +84,8 @@ namespace djv
             MetricsRole getMinimumSizeRole() const;
             void setMinimumSizeRole(MetricsRole);
 
-            void addWidget(const std::shared_ptr<Widget>&) override;
-            void removeWidget(const std::shared_ptr<Widget>&) override;
-            void clearWidgets() override;
+            void addChild(const std::shared_ptr<IObject>&) override;
+            void removeChild(const std::shared_ptr<IObject>&) override;
 
         protected:
             void _preLayoutEvent(Core::Event::PreLayout&) override;

@@ -49,16 +49,16 @@ namespace djv
 
             void setTitle(const std::string &);
 
+            void setStretch(const std::shared_ptr<Widget> &, RowStretch = RowStretch::None);
             void setFillLayout(bool);
 
             void setCloseCallback(const std::function<void(void)> &);
 
-            void addWidget(const std::shared_ptr<Widget> &, RowStretch = RowStretch::None);
-            void removeWidget(const std::shared_ptr<Widget> &);
-            void clearWidgets();
-
             void setVisible(bool) override;
             float getHeightForWidth(float) const override;
+
+            void addChild(const std::shared_ptr<IObject> &) override;
+            void removeChild(const std::shared_ptr<IObject> &) override;
 
         protected:
             void _doCloseCallback();

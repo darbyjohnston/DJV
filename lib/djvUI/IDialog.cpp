@@ -112,20 +112,21 @@ namespace djv
             p.layout->setSpacing(MetricsRole::None);
             p.layout->setBackgroundRole(ColorRole::Background);
             auto hLayout = HorizontalLayout::create(context);
-            hLayout->addWidget(p.titleLabel);
+            hLayout->addChild(p.titleLabel);
             hLayout->addExpander();
-            hLayout->addWidget(p.closeButton);
-            p.layout->addWidget(hLayout);
+            hLayout->addChild(p.closeButton);
+            p.layout->addChild(hLayout);
             p.layout->addSeparator();
-            p.layout->addWidget(p.childLayout, RowStretch::Expand);
+            p.layout->addChild(p.childLayout);
+            p.layout->setStretch(p.childLayout, RowStretch::Expand);
 
             p.border = Layout::Border::create(context);
             p.border->setMargin(MetricsRole::MarginDialog);
-            p.border->addWidget(p.layout);
+            p.border->addChild(p.layout);
 
             p.overlay = Layout::Overlay::create(context);
-            p.overlay->addWidget(p.border);
-            p.overlay->setParent(shared_from_this());
+            p.overlay->addChild(p.border);
+            Widget::addChild(p.overlay);
 
             auto weak = std::weak_ptr<IDialog>(std::dynamic_pointer_cast<IDialog>(shared_from_this()));
             p.closeButton->setClickedCallback(
@@ -134,6 +135,7 @@ namespace djv
                 if (auto dialog = weak.lock())
                 {
                     dialog->_doCloseCallback();
+                    dialog->hide();
                 }
             });
             p.overlay->setCloseCallback(
@@ -142,6 +144,7 @@ namespace djv
                 if (auto dialog = weak.lock())
                 {
                     dialog->_doCloseCallback();
+                    dialog->hide();
                 }
             });
         }
@@ -159,6 +162,11 @@ namespace djv
             _p->titleLabel->setVisible(!text.empty());
         }
 
+        void IDialog::setStretch(const std::shared_ptr<Widget> & widget, RowStretch value)
+        {
+            _p->childLayout->setStretch(widget, value);
+        }
+
         void IDialog::setFillLayout(bool value)
         {
             DJV_PRIVATE_PTR();
@@ -171,30 +179,26 @@ namespace djv
             _p->closeCallback = value;
         }
 
-        void IDialog::addWidget(const std::shared_ptr<Widget>& value, RowStretch stretch)
-        {
-            _p->childLayout->addWidget(value, stretch);
-        }
-
-        void IDialog::removeWidget(const std::shared_ptr<Widget>& value)
-        {
-            _p->childLayout->removeWidget(value);
-        }
-
-        void IDialog::clearWidgets()
-        {
-            _p->childLayout->clearWidgets();
-        }
-
         void IDialog::setVisible(bool value)
         {
             Widget::setVisible(value);
+            _p->overlay->moveToFront();
             _p->overlay->setVisible(value);
         }
 
         float IDialog::getHeightForWidth(float value) const
         {
             return _p->overlay->getHeightForWidth(value);
+        }
+
+        void IDialog::addChild(const std::shared_ptr<IObject>& value)
+        {
+            _p->childLayout->addChild(value);
+        }
+
+        void IDialog::removeChild(const std::shared_ptr<IObject>& value)
+        {
+            _p->childLayout->removeChild(value);
         }
 
         void IDialog::_doCloseCallback()

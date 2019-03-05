@@ -64,12 +64,20 @@ int main(int argc, char ** argv)
 
         auto layout = UI::GridLayout::create(app.get());
         layout->setMargin(UI::MetricsRole::MarginLarge);
-        layout->addWidget(comboBox0, glm::ivec2(0, 0), UI::GridStretch::Both);
-        layout->addWidget(comboBox1, glm::ivec2(1, 0), UI::GridStretch::Both);
-        layout->addWidget(comboBox2, glm::ivec2(0, 1), UI::GridStretch::Both);
-        layout->addWidget(comboBox3, glm::ivec2(1, 1), UI::GridStretch::Both);
+        layout->addChild(comboBox0);
+        layout->setGridPos(comboBox0, glm::ivec2(0, 0));
+        layout->setStretch(comboBox0, UI::GridStretch::Both);
+        layout->addChild(comboBox1);
+        layout->setGridPos(comboBox1, glm::ivec2(1, 0));
+        layout->setStretch(comboBox1, UI::GridStretch::Both);
+        layout->addChild(comboBox2);
+        layout->setGridPos(comboBox2, glm::ivec2(0, 1));
+        layout->setStretch(comboBox2, UI::GridStretch::Both);
+        layout->addChild(comboBox3);
+        layout->setGridPos(comboBox3, glm::ivec2(1, 1));
+        layout->setStretch(comboBox3, UI::GridStretch::Both);
         auto window = UI::Window::create(app.get());
-        window->addWidget(layout);
+        window->addChild(layout);
         window->show();
 
         return app->run();

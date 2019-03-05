@@ -43,8 +43,7 @@ namespace djv
             struct Form::Private
             {
                 std::shared_ptr<Grid> layout;
-                size_t labelID = 0;
-                std::map<size_t, std::shared_ptr<Label>> labelIDToLabel;
+                std::map<std::shared_ptr<Widget>, std::shared_ptr<Label>> widgetToLabel;
             };
 
             void Form::_init(Context * context)
@@ -55,7 +54,7 @@ namespace djv
 
                 DJV_PRIVATE_PTR();
                 p.layout = Grid::create(context);
-                p.layout->setParent(shared_from_this());
+                addChild(p.layout);
             }
 
             Form::Form() :
@@ -72,43 +71,23 @@ namespace djv
                 return out;
             }
 
-            void Form::addWidget(const std::shared_ptr<Widget>& value)
+            void Form::setText(const std::shared_ptr<Widget>& value, const std::string & text)
             {
                 DJV_PRIVATE_PTR();
-                const glm::ivec2 gridSize = p.layout->getGridSize();
-                p.layout->addWidget(value, glm::ivec2(0, gridSize.y));
-            }
-
-            size_t Form::addWidget(const std::string & text, const std::shared_ptr<Widget>& value)
-            {
-                auto label = Label::create(text, getContext());
-                label->setTextHAlign(TextHAlign::Left);
-                DJV_PRIVATE_PTR();
-                const glm::ivec2 gridSize = p.layout->getGridSize();
-                p.layout->addWidget(label, glm::ivec2(0, gridSize.y));
-                p.layout->addWidget(value, glm::ivec2(1, gridSize.y));
-                ++p.labelID;
-                p.labelIDToLabel[p.labelID] = label;
-                return p.labelID;
-            }
-
-            void Form::removeWidget(const std::shared_ptr<Widget>& value)
-            {
-                _p->layout->removeWidget(value);
-            }
-
-            void Form::clearWidgets()
-            {
-                _p->layout->clearWidgets();
-            }
-
-            void Form::setText(size_t id, const std::string & text)
-            {
-                DJV_PRIVATE_PTR();
-                const auto i = p.labelIDToLabel.find(id);
-                if (i != p.labelIDToLabel.end())
+                const auto i = p.widgetToLabel.find(value);
+                if (i != p.widgetToLabel.end())
                 {
                     i->second->setText(text);
+                }
+                else
+                {
+                    auto label = Label::create(text, getContext());
+                    label->setTextHAlign(TextHAlign::Left);
+                    glm::ivec2 gridPos = p.layout->getGridPos(value);
+                    p.layout->addChild(label);
+                    p.layout->setGridPos(label, glm::ivec2(0, gridPos.y));
+                    p.layout->setGridPos(value, glm::ivec2(1, gridPos.y));
+                    p.widgetToLabel[value] = label;
                 }
             }
 
@@ -130,6 +109,22 @@ namespace djv
                     out = _p->layout->getHeightForWidth(value - getMargin().getWidth(style)) + getMargin().getWidth(style);
                 }
                 return out;
+            }
+
+            void Form::addChild(const std::shared_ptr<IObject>& value)
+            {
+                DJV_PRIVATE_PTR();
+                const glm::ivec2 gridSize = p.layout->getGridSize();
+                p.layout->addChild(value);
+                if (auto widget = std::dynamic_pointer_cast<Widget>(value))
+                {
+                    p.layout->setGridPos(widget, glm::ivec2(0, gridSize.y));
+                }
+            }
+
+            void Form::removeChild(const std::shared_ptr<IObject>& value)
+            {
+                _p->layout->removeChild(value);
             }
 
             void Form::_preLayoutEvent(Event::PreLayout& event)

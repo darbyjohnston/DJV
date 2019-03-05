@@ -56,10 +56,11 @@ int main(int argc, char ** argv)
         layout->setSpacing(UI::MetricsRole::SpacingLarge);
 
         auto gridLayout = UI::GridLayout::create(app.get());
+        gridLayout->setMargin(UI::MetricsRole::Margin);
         const std::vector<Core::IntRange> intRange =
         {
-            Core::IntRange(0, 10),
-            Core::IntRange(1, 100),
+            Core::IntRange(    0,   10),
+            Core::IntRange(    1,  100),
             Core::IntRange(-1000, 1000)
         };
         for (size_t i = 0; i < 3; ++i)
@@ -69,14 +70,17 @@ int main(int argc, char ** argv)
             model->setRange(intRange[i]);
             auto label = UI::IntValueLabel::create(app.get());
             label->setModel(model);
-            gridLayout->addWidget(label, glm::ivec2(0, i));
-            gridLayout->addWidget(slider, glm::ivec2(1, i));
+            gridLayout->addChild(label);
+            gridLayout->setGridPos(label, glm::ivec2(0, i));
+            gridLayout->addChild(slider);
+            gridLayout->setGridPos(slider, glm::ivec2(1, i));
         }
         auto groupBox = UI::GroupBox::create("Integer Sliders", app.get());
-        groupBox->addWidget(gridLayout);
-        layout->addWidget(groupBox);
+        groupBox->addChild(gridLayout);
+        layout->addChild(groupBox);
         
         gridLayout = UI::GridLayout::create(app.get());
+        gridLayout->setMargin(UI::MetricsRole::Margin);
         const std::vector<Core::FloatRange> floatRange =
         {
             Core::FloatRange(0.f, 1.f),
@@ -90,15 +94,17 @@ int main(int argc, char ** argv)
             model->setRange(floatRange[i]);
             auto label = UI::FloatValueLabel::create(app.get());
             label->setModel(model);
-            gridLayout->addWidget(label, glm::ivec2(0, i));
-            gridLayout->addWidget(slider, glm::ivec2(1, i));
+            gridLayout->addChild(label);
+            gridLayout->setGridPos(label, glm::ivec2(0, i));
+            gridLayout->addChild(slider);
+            gridLayout->setGridPos(slider, glm::ivec2(1, i));
         }
         groupBox = UI::GroupBox::create("Floating-Point Sliders", app.get());
-        groupBox->addWidget(gridLayout);
-        layout->addWidget(groupBox);
+        groupBox->addChild(gridLayout);
+        layout->addChild(groupBox);
 
         auto window = UI::Window::create(app.get());
-        window->addWidget(layout);
+        window->addChild(layout);
         window->show();
 
         return app->run();

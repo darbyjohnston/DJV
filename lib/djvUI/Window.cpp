@@ -47,7 +47,7 @@ namespace djv
 
         void Window::_init(Context * context)
         {
-            IContainer::_init(context);
+            Widget::_init(context);
             
             setClassName("djv::UI::Window");
             setVisible(false);
@@ -55,7 +55,7 @@ namespace djv
             setPointerEnabled(true);
 
             _p->layout = StackLayout::create(context);
-            IContainer::addWidget(_p->layout);
+            Widget::addChild(_p->layout);
 
             if (auto system = context->getSystemT<IWindowSystem>().lock())
             {
@@ -77,19 +77,14 @@ namespace djv
             return out;
         }
 
-        void Window::addWidget(const std::shared_ptr<Widget>& value)
+        void Window::addChild(const std::shared_ptr<IObject>& value)
         {
-            _p->layout->addWidget(value);
+            _p->layout->addChild(value);
         }
 
-        void Window::removeWidget(const std::shared_ptr<Widget>& value)
+        void Window::removeChild(const std::shared_ptr<IObject>& value)
         {
-            _p->layout->removeWidget(value);
-        }
-
-        void Window::clearWidgets()
-        {
-            _p->layout->clearWidgets();
+            _p->layout->removeChild(value);
         }
 
         void Window::_preLayoutEvent(Event::PreLayout&)

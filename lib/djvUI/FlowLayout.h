@@ -29,9 +29,9 @@
 
 #pragma once
 
-#include <djvUI/IContainer.h>
 #include <djvUI/Margin.h>
 #include <djvUI/Spacing.h>
+#include <djvUI/Widget.h>
 
 namespace djv
 {
@@ -40,7 +40,7 @@ namespace djv
         namespace Layout
         {
             //! This class provides a layout that arranges it's children similar to a text paragraph.
-            class Flow : public IContainer
+            class Flow : public Widget
             {
                 DJV_NON_COPYABLE(Flow);
 

@@ -29,7 +29,7 @@
 
 #pragma once
 
-#include <djvUI/IContainer.h>
+#include <djvUI/Widget.h>
 
 namespace djv
 {
@@ -38,7 +38,7 @@ namespace djv
         namespace Layout
         {
             //! This class provides a bellows widget.
-            class Bellows : public IContainer
+            class Bellows : public Widget
             {
                 DJV_NON_COPYABLE(Bellows);
 
@@ -61,11 +61,10 @@ namespace djv
                 void close();
                 void setOpenCallback(const std::function<void(bool)> &);
 
-                void addWidget(const std::shared_ptr<Widget>&) override;
-                void removeWidget(const std::shared_ptr<Widget>&) override;
-                void clearWidgets() override;
-
                 float getHeightForWidth(float) const override;
+
+                void addChild(const std::shared_ptr<IObject>&) override;
+                void removeChild(const std::shared_ptr<IObject>&) override;
 
             protected:
                 void _preLayoutEvent(Core::Event::PreLayout&) override;

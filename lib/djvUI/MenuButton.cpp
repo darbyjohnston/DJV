@@ -74,14 +74,15 @@ namespace djv
                 p.label->hide();
 
                 p.layout = HorizontalLayout::create(context);
-                p.layout->addWidget(p.icon);
-                p.layout->addWidget(p.label, RowStretch::Expand);
+                p.layout->addChild(p.icon);
+                p.layout->addChild(p.label);
+                p.layout->setStretch(p.label, RowStretch::Expand);
 
                 p.border = Border::create(context);
                 p.border->setBorderSize(MetricsRole::None);
                 p.border->setInsideMargin(MetricsRole::MarginSmall);
-                p.border->addWidget(p.layout);
-                p.border->setParent(shared_from_this());
+                p.border->addChild(p.layout);
+                addChild(p.border);
             }
 
             Menu::Menu() :

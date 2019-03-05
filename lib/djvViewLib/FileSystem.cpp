@@ -149,7 +149,7 @@ namespace djv
             p.menu->addAction(p.actions["ClearCache"]);
             p.menu->addSeparator();
             p.menu->addAction(p.actions["Exit"]);
-            p.menu->setParent(shared_from_this());
+            addChild(p.menu);
 
             p.recentFilesModel = Core::FileSystem::RecentFilesModel::create(context);
 
@@ -448,7 +448,6 @@ namespace djv
                             if (auto system = weak.lock())
                             {
                                 system->_p->fileBrowserDialog->hide();
-                                system->_p->fileBrowserDialog->setParent(nullptr);
                                 system->open(value);
                             }
                         });
@@ -458,11 +457,10 @@ namespace djv
                             if (auto system = weak.lock())
                             {
                                 system->_p->fileBrowserDialog->hide();
-                                system->_p->fileBrowserDialog->setParent(nullptr);
                             }
                         });
                     }
-                    window->addWidget(p.fileBrowserDialog);
+                    window->addChild(p.fileBrowserDialog);
                     p.fileBrowserDialog->show();
                 }
             }
@@ -487,7 +485,6 @@ namespace djv
                             if (auto system = weak.lock())
                             {
                                 system->_p->recentFilesDialog->hide();
-                                system->_p->recentFilesDialog->setParent(nullptr);
                                 system->open(value);
                             }
                         });
@@ -497,11 +494,10 @@ namespace djv
                             if (auto system = weak.lock())
                             {
                                 system->_p->recentFilesDialog->hide();
-                                system->_p->recentFilesDialog->setParent(nullptr);
                             }
                         });
                     }
-                    window->addWidget(p.recentFilesDialog);
+                    window->addChild(p.recentFilesDialog);
                     p.recentFilesDialog->show();
                 }
             }

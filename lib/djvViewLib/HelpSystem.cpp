@@ -85,7 +85,6 @@ namespace djv
                 if (auto system = weak.lock())
                 {
                     system->_p->aboutDialog->hide();
-                    system->_p->aboutDialog->setParent(nullptr);
                 }
             });
 
@@ -95,7 +94,6 @@ namespace djv
                 if (auto system = weak.lock())
                 {
                     system->_p->systemLogDialog->hide();
-                    system->_p->systemLogDialog->setParent(nullptr);
                 }
             });
 
@@ -111,7 +109,7 @@ namespace djv
                         {
                             if (auto window = windowSystem->observeCurrentWindow()->get())
                             {
-                                window->addWidget(system->_p->aboutDialog);
+                                window->addChild(system->_p->aboutDialog);
                                 system->_p->aboutDialog->show();
                             }
                         }
@@ -139,7 +137,7 @@ namespace djv
                                 {
                                     system->_p->systemLogDialog->clearLog();
                                 }
-                                window->addWidget(system->_p->systemLogDialog);
+                                window->addChild(system->_p->systemLogDialog);
                                 system->_p->systemLogDialog->show();
                             }
                         }

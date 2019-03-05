@@ -66,7 +66,7 @@ namespace djv
 
             p.layout = VerticalLayout::create(context);
             p.layout->setSpacing(MetricsRole::None);
-            addWidget(p.layout);
+            addChild(p.layout);
 
             if (auto textSystem = context->getSystemT<TextSystem>().lock())
             {
@@ -76,7 +76,7 @@ namespace djv
                     auto button = FlatButton::create(context);
                     button->setText(_getText(i));
                     p.buttonGroup->addButton(button);
-                    p.layout->addWidget(button);
+                    p.layout->addChild(button);
                     p.indexToLocale[j] = i;
                     p.localeToIndex[i] = j;
                     p.localeToButton[i] = button;

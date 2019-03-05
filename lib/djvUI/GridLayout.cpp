@@ -75,53 +75,6 @@ namespace djv
                 return out;
             }
 
-            void Grid::addWidget(const std::shared_ptr<Widget>& widget, const glm::ivec2& pos, GridStretch stretch)
-            {
-                widget->setParent(shared_from_this());
-                DJV_PRIVATE_PTR();
-                p.widgets[pos] = widget;
-                p.stretch[pos] = stretch;
-                _resize();
-            }
-
-            void Grid::addWidget(const std::shared_ptr<Widget>& widget, int x, int y, GridStretch stretch)
-            {
-                widget->setParent(shared_from_this());
-                DJV_PRIVATE_PTR();
-                p.widgets[glm::vec2(x, y)] = widget;
-                p.stretch[glm::vec2(x, y)] = stretch;
-                _resize();
-            }
-
-            void Grid::removeWidget(const std::shared_ptr<Widget>& widget)
-            {
-                DJV_PRIVATE_PTR();
-                for (auto i : p.widgets)
-                {
-                    if (i.second == widget)
-                    {
-                        p.widgets.erase(i.first);
-                        p.stretch.erase(i.first);
-                        break;
-                    }
-                }
-                widget->setParent(nullptr);
-                _resize();
-            }
-
-            void Grid::clearWidgets()
-            {
-                auto children = getChildren();
-                for (auto& child : children)
-                {
-                    child->setParent(nullptr);
-                }
-                DJV_PRIVATE_PTR();
-                p.widgets.clear();
-                p.stretch.clear();
-                _resize();
-            }
-
             glm::ivec2 Grid::getGridSize() const
             {
                 glm::ivec2 out = glm::ivec2(0, 0);
@@ -130,6 +83,47 @@ namespace djv
                     out = glm::max(widget.first + 1, out);
                 }
                 return out;
+            }
+
+            glm::ivec2 Grid::getGridPos(const std::shared_ptr<Widget>& value)
+            {
+                DJV_PRIVATE_PTR();
+                glm::ivec2 out(-1, -1);
+                for (auto i : p.widgets)
+                {
+                    if (value == i.second)
+                    {
+                        out = i.first;
+                        break;
+                    }
+                }
+                return out;
+            }
+
+            void Grid::setGridPos(const std::shared_ptr<Widget>& widget, const glm::ivec2& pos, GridStretch stretch)
+            {
+                DJV_PRIVATE_PTR();
+                for (auto i = p.widgets.begin(); i != p.widgets.end(); ++i)
+                {
+                    if (widget == i->second)
+                    {
+                        const auto j = p.stretch.find(i->first);
+                        if (j != p.stretch.end())
+                        {
+                            p.stretch.erase(j);
+                        }
+                        p.widgets.erase(i);
+                        break;
+                    }
+                }
+                p.widgets[pos] = widget;
+                p.stretch[pos] = stretch;
+                _resize();
+            }
+
+            void Grid::setGridPos(const std::shared_ptr<Widget>& widget, int x, int y, GridStretch stretch)
+            {
+                setGridPos(widget, glm::ivec2(x, y), stretch);
             }
 
             const Spacing& Grid::getSpacing() const
@@ -242,6 +236,38 @@ namespace djv
                     out += m.y;
                 }
                 return out;
+            }
+
+            void Grid::addChild(const std::shared_ptr<IObject>& value)
+            {
+                Widget::addChild(value);
+                DJV_PRIVATE_PTR();
+                if (auto widget = std::dynamic_pointer_cast<Widget>(value))
+                {
+                    const glm::vec2 pos(0, getGridSize().y);
+                    p.widgets[pos] = widget;
+                    p.stretch[pos] = GridStretch::None;
+                    _resize();
+                }
+            }
+
+            void Grid::removeChild(const std::shared_ptr<IObject>& value)
+            {
+                Widget::removeChild(value);
+                DJV_PRIVATE_PTR();
+                if (auto widget = std::dynamic_pointer_cast<Widget>(value))
+                {
+                    for (auto i : p.widgets)
+                    {
+                        if (i.second == widget)
+                        {
+                            p.widgets.erase(i.first);
+                            p.stretch.erase(i.first);
+                            _resize();
+                            break;
+                        }
+                    }
+                }
             }
 
             void Grid::_preLayoutEvent(Event::PreLayout&)

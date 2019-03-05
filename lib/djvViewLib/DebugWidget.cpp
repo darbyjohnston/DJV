@@ -53,7 +53,6 @@ namespace djv
             size_t audioQueueCount = 0;
             size_t alUnqueuedBuffers = 0;
             std::map<std::string, std::shared_ptr<UI::Label> > labels;
-            std::map<std::string, size_t> text;
             std::shared_ptr<UI::FormLayout> layout;
             std::shared_ptr<ValueObserver<std::shared_ptr<Media> > > currentMediaObserver;
             std::shared_ptr<ValueObserver<Time::Duration> > durationObserver;
@@ -82,12 +81,12 @@ namespace djv
 
             p.layout = UI::FormLayout::create(context);
             p.layout->setMargin(UI::MetricsRole::Margin);
-            p.text["Duration"] = p.layout->addWidget(std::string(), p.labels["Duration"]);
-            p.text["CurrentTime"] = p.layout->addWidget(std::string(), p.labels["CurrentTime"]);
-            p.text["VideoQueue"] = p.layout->addWidget(std::string(), p.labels["VideoQueue"]);
-            p.text["AudioQueue"] = p.layout->addWidget(std::string(), p.labels["AudioQueue"]);
-            p.text["ALUnqueuedBuffers"] = p.layout->addWidget(std::string(), p.labels["ALUnqueuedBuffers"]);
-            addWidget(p.layout);
+            p.layout->addChild(p.labels["Duration"]);
+            p.layout->addChild(p.labels["CurrentTime"]);
+            p.layout->addChild(p.labels["VideoQueue"]);
+            p.layout->addChild(p.labels["AudioQueue"]);
+            p.layout->addChild(p.labels["ALUnqueuedBuffers"]);
+            addChild(p.layout);
 
             auto weak = std::weak_ptr<DebugWidget>(std::dynamic_pointer_cast<DebugWidget>(shared_from_this()));
             if (auto fileSystem = context->getSystemT<FileSystem>().lock())
@@ -216,27 +215,27 @@ namespace djv
             {
                 std::stringstream ss;
                 ss << _getText(DJV_TEXT("Duration")) << ":";
-                p.layout->setText(p.text["Duration"], ss.str());
+                p.layout->setText(p.labels["Duration"], ss.str());
             }
             {
                 std::stringstream ss;
                 ss << _getText(DJV_TEXT("Current Time")) << ":";
-                p.layout->setText(p.text["CurrentTime"], ss.str());
+                p.layout->setText(p.labels["CurrentTime"], ss.str());
             }
             {
                 std::stringstream ss;
                 ss << _getText(DJV_TEXT("Video Queue")) << ":";
-                p.layout->setText(p.text["VideoQueue"], ss.str());
+                p.layout->setText(p.labels["VideoQueue"], ss.str());
             }
             {
                 std::stringstream ss;
                 ss << _getText(DJV_TEXT("Audio Queue")) << ":";
-                p.layout->setText(p.text["AudioQueue"], ss.str());
+                p.layout->setText(p.labels["AudioQueue"], ss.str());
             }
             {
                 std::stringstream ss;
                 ss << _getText(DJV_TEXT("AL Unqueued Buffers")) << ":";
-                p.layout->setText(p.text["ALUnqueuedBuffers"], ss.str());
+                p.layout->setText(p.labels["ALUnqueuedBuffers"], ss.str());
             }
         }
 

@@ -29,7 +29,7 @@
 
 #pragma once
 
-#include <djvUI/IContainer.h>
+#include <djvUI/Widget.h>
 
 namespace djv
 {
@@ -38,7 +38,7 @@ namespace djv
         namespace Layout
         {
             //! This class provides an overlay widget for capturing pointer and key events.
-            class Overlay : public IContainer
+            class Overlay : public Widget
             {
                 DJV_NON_COPYABLE(Overlay);
 
@@ -63,12 +63,11 @@ namespace djv
 
                 void setCloseCallback(const std::function<void(void)> &);
 
-                void addWidget(const std::shared_ptr<Widget>&) override;
-                void removeWidget(const std::shared_ptr<Widget>&) override;
-                void clearWidgets() override;
-
                 void setVisible(bool) override;
                 float getHeightForWidth(float) const override;
+
+                void addChild(const std::shared_ptr<IObject>&) override;
+                void removeChild(const std::shared_ptr<IObject>&) override;
 
             protected:
                 void _preLayoutEvent(Core::Event::PreLayout&) override;

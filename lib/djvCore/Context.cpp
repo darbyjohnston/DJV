@@ -96,11 +96,7 @@ namespace djv
 
         Context::~Context()
         {
-            auto children = _rootObject->getChildren();
-            for (auto i = children.rbegin(); i != children.rend(); ++i)
-            {
-                (*i)->setParent(nullptr);
-            }
+            _rootObject->clearChildren();
         }
 
         std::unique_ptr<Context> Context::create(int & argc, char ** argv)
@@ -195,7 +191,7 @@ namespace djv
 
         void Context::_addSystem(const std::shared_ptr<ISystem> & system)
         {
-            system->setParent(_rootObject);
+            _rootObject->addChild(system);
             _systems.push_back(system);
         }
 

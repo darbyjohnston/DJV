@@ -360,7 +360,7 @@ namespace djv
                 return v * _contentsSize;
             }
 
-            class ScrollArea : public Layout::IContainer
+            class ScrollArea : public Widget
             {
                 DJV_NON_COPYABLE(ScrollArea);
                 
@@ -404,7 +404,7 @@ namespace djv
 
             void ScrollArea::_init(ScrollType scrollType, Context * context)
             {
-                IContainer::_init(context);
+                Widget::_init(context);
                 setClassName("djv::UI::ScrollArea");
                 _scrollType = scrollType;
             }
@@ -597,7 +597,7 @@ namespace djv
 
         void ScrollWidget::_init(ScrollType scrollType, Context * context)
         {
-            IContainer::_init(context);
+            Widget::_init(context);
 
             setClassName("djv::UI::ScrollWidget");
 
@@ -616,18 +616,21 @@ namespace djv
             p.scrollBars[Orientation::Vertical] = ScrollBar::create(Orientation::Vertical, context);
 
             auto stackLayout = StackLayout::create(context);
-            stackLayout->addWidget(p.scrollArea);
-            stackLayout->addWidget(p.scrollAreaSwipe);
+            stackLayout->addChild(p.scrollArea);
+            stackLayout->addChild(p.scrollAreaSwipe);
             
             auto layout = GridLayout::create(context);
             layout->setSpacing(MetricsRole::None);
-            layout->addWidget(stackLayout, glm::ivec2(0, 0), GridStretch::Both);
-            layout->addWidget(p.scrollBars[Orientation::Horizontal], glm::ivec2(0, 1));
-            layout->addWidget(p.scrollBars[Orientation::Vertical], glm::ivec2(1, 0));
-            
+            layout->addChild(stackLayout);
+            layout->setGridPos(stackLayout, glm::ivec2(0, 0), GridStretch::Both);
+            layout->addChild(p.scrollBars[Orientation::Horizontal]);
+            layout->setGridPos(p.scrollBars[Orientation::Horizontal], glm::ivec2(0, 1));
+            layout->addChild(p.scrollBars[Orientation::Vertical]);
+            layout->setGridPos(p.scrollBars[Orientation::Vertical], glm::ivec2(1, 0));
+
             p.border = Border::create(context);
-            p.border->addWidget(layout);
-            IContainer::addWidget(p.border);
+            p.border->addChild(layout);
+            Widget::addChild(p.border);
 
             _updateScrollBars(glm::vec2(0.f, 0.f));
 
@@ -797,19 +800,14 @@ namespace djv
             _p->scrollArea->setMinimumSizeRole(value);
         }
 
-        void ScrollWidget::addWidget(const std::shared_ptr<Widget>& widget)
+        void ScrollWidget::addChild(const std::shared_ptr<IObject>& value)
         {
-            _p->scrollArea->addWidget(widget);
+            _p->scrollArea->addChild(value);
         }
 
-        void ScrollWidget::removeWidget(const std::shared_ptr<Widget>& widget)
+        void ScrollWidget::removeChild(const std::shared_ptr<IObject>& value)
         {
-            _p->scrollArea->removeWidget(widget);
-        }
-
-        void ScrollWidget::clearWidgets()
-        {
-            _p->scrollArea->clearWidgets();
+            _p->scrollArea->removeChild(value);
         }
 
         void ScrollWidget::_preLayoutEvent(Event::PreLayout&)

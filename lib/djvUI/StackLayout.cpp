@@ -42,7 +42,7 @@ namespace djv
 
             void Stack::_init(Context * context)
             {
-                IContainer::_init(context);
+                Widget::_init(context);
 
                 setClassName("djv::UI::Layout::Stack");
             }

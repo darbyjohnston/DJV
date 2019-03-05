@@ -29,7 +29,7 @@
 
 #pragma once
 
-#include <djvUI/IContainer.h>
+#include <djvUI/Widget.h>
 
 namespace djv
 {
@@ -40,7 +40,7 @@ namespace djv
             //! This class provides a splitter widget.
             //!
             //! \bug Add support for more than two child widgets.
-            class Splitter : public IContainer
+            class Splitter : public Widget
             {
                 DJV_NON_COPYABLE(Splitter);
 

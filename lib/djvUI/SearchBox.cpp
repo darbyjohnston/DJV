@@ -69,16 +69,17 @@ namespace djv
             auto layout = HorizontalLayout::create(context);
             layout->setSpacing(MetricsRole::None);
             layout->setBackgroundRole(ColorRole::Trough);
-            layout->addWidget(_p->lineEditBase, RowStretch::Expand);
+            layout->addChild(_p->lineEditBase);
+            layout->setStretch(_p->lineEditBase, RowStretch::Expand);
             _p->soloLayout = SoloLayout::create(context);
-            _p->soloLayout->addWidget(searchIcon);
-            _p->soloLayout->addWidget(clearButton);
-            layout->addWidget(_p->soloLayout);
+            _p->soloLayout->addChild(searchIcon);
+            _p->soloLayout->addChild(clearButton);
+            layout->addChild(_p->soloLayout);
             
             _p->border = Border::create(context);
             _p->border->setMargin(MetricsRole::MarginSmall);
-            _p->border->addWidget(layout);
-            _p->border->setParent(shared_from_this());
+            _p->border->addChild(layout);
+            addChild(_p->border);
         }
 
         SearchBox::SearchBox() :

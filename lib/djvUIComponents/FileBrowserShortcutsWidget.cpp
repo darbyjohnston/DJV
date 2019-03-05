@@ -71,7 +71,7 @@ namespace djv
                 {
                     auto button = FlatButton::create(context);
                     button->setText(i.getFileName());
-                    itemLayout->addWidget(button);
+                    itemLayout->addChild(button);
 
                     const auto path = i;
                     button->setClickedCallback(
@@ -88,8 +88,9 @@ namespace djv
                 }
 
                 p.layout = VerticalLayout::create(context);
-                p.layout->addWidget(itemLayout, RowStretch::Expand);
-                p.layout->setParent(shared_from_this());
+                p.layout->addChild(itemLayout);
+                p.layout->setStretch(itemLayout, RowStretch::Expand);
+                addChild(p.layout);
             }
 
             ShortcutsWidget::ShortcutsWidget() :

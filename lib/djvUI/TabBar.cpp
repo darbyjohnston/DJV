@@ -83,8 +83,8 @@ namespace djv
                 _label->setMargin(Layout::Margin(MetricsRole::Margin, MetricsRole::Margin, MetricsRole::MarginSmall, MetricsRole::MarginSmall));
 
                 _layout = StackLayout::create(context);
-                _layout->addWidget(_label);
-                _layout->setParent(shared_from_this());
+                _layout->addChild(_label);
+                addChild(_layout);
             }
 
             TabBarButton::TabBarButton()
@@ -169,7 +169,7 @@ namespace djv
 
             p.layout = HorizontalLayout::create(context);
             p.layout->setSpacing(MetricsRole::Border);
-            p.layout->setParent(shared_from_this());
+            addChild(p.layout);
 
             auto weak = std::weak_ptr<TabBar>(std::dynamic_pointer_cast<TabBar>(shared_from_this()));
             p.buttonGroup->setRadioCallback(
@@ -210,7 +210,7 @@ namespace djv
             const size_t out = p.buttonGroup->getButtonCount();
             auto button = TabBarButton::create(text, getContext());
             p.buttonGroup->addButton(button);
-            p.layout->addWidget(button);
+            p.layout->addChild(button);
             return out;
         }
 
@@ -221,7 +221,7 @@ namespace djv
             if (value < buttons.size())
             {
                 p.buttonGroup->removeButton(buttons[value]);
-                p.layout->removeWidget(buttons[value]);
+                p.layout->removeChild(buttons[value]);
                 if (p.removedCallback)
                 {
                     p.removedCallback(value);

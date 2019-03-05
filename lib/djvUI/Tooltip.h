@@ -29,10 +29,18 @@
 
 #pragma once
 
-#include <djvUI/IContainer.h>
+#include <djvUI/UI.h>
+
+#include <djvCore/Vector.h>
 
 namespace djv
 {
+    namespace Core
+    {
+        class Context;
+    
+    } // namespace Core
+
     namespace UI
     {
         class Widget;

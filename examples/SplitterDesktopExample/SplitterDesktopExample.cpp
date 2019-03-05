@@ -57,17 +57,17 @@ int main(int argc, char ** argv)
         textBlock2->setMargin(UI::MetricsRole::Margin);
 
         auto scrollWidget1 = UI::ScrollWidget::create(UI::ScrollType::Vertical, app.get());
-        scrollWidget1->addWidget(textBlock1);
+        scrollWidget1->addChild(textBlock1);
 
         auto scrollWidget2 = UI::ScrollWidget::create(UI::ScrollType::Vertical, app.get());
-        scrollWidget2->addWidget(textBlock2);
+        scrollWidget2->addChild(textBlock2);
 
         auto splitter = UI::Layout::Splitter::create(UI::Orientation::Horizontal, app.get());
-        splitter->addWidget(scrollWidget1);
-        splitter->addWidget(scrollWidget2);
+        splitter->addChild(scrollWidget1);
+        splitter->addChild(scrollWidget2);
 
         auto window = UI::Window::create(app.get());
-        window->addWidget(splitter);
+        window->addChild(splitter);
         window->show();
 
         return app->run();

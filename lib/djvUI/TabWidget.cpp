@@ -60,9 +60,10 @@ namespace djv
 
             p.layout = VerticalLayout::create(context);
             p.layout->setSpacing(MetricsRole::None);
-            p.layout->addWidget(p.tabBar);
-            p.layout->addWidget(p.soloLayout, RowStretch::Expand);
-            p.layout->setParent(shared_from_this());
+            p.layout->addChild(p.tabBar);
+            p.layout->addChild(p.soloLayout);
+            p.layout->setStretch(p.soloLayout, RowStretch::Expand);
+            addChild(p.layout);
 
             auto weak = std::weak_ptr<TabWidget>(std::dynamic_pointer_cast<TabWidget>(shared_from_this()));
             p.tabBar->setCurrentTabCallback(
@@ -102,7 +103,7 @@ namespace djv
         {
             DJV_PRIVATE_PTR();
             const size_t out = p.tabBar->addTab(text);
-            p.soloLayout->addWidget(value);
+            p.soloLayout->addChild(value);
             return out;
         }
 
@@ -123,12 +124,12 @@ namespace djv
             {
                 p.tabBar->removeTab(i);
             }
-            p.soloLayout->removeWidget(value);
+            p.soloLayout->removeChild(value);
         }
 
         void TabWidget::clearTabs()
         {
-            _p->soloLayout->clearWidgets();
+            _p->soloLayout->clearChildren();
         }
 
         int TabWidget::getCurrentTab() const

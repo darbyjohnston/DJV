@@ -65,7 +65,7 @@ namespace djv
 
             p.layout = VerticalLayout::create(context);
             p.layout->setSpacing(MetricsRole::None);
-            addWidget(p.layout);
+            addChild(p.layout);
 
             auto weak = std::weak_ptr<PaletteSettingsWidget>(std::dynamic_pointer_cast<PaletteSettingsWidget>(shared_from_this()));
             p.buttonGroup->setRadioCallback(
@@ -104,7 +104,7 @@ namespace djv
                             }
                             widget->_p->buttons.clear();
                             widget->_p->buttonGroup->clearButtons();
-                            widget->_p->layout->clearWidgets();
+                            widget->_p->layout->clearChildren();
                             widget->_p->indexToPalette.clear();
                             widget->_p->buttonToPalette.clear();
                             widget->_p->paletteToIndex.clear();
@@ -114,7 +114,7 @@ namespace djv
                                 auto button = FlatButton::create(context);
                                 widget->_p->buttons.push_back(button);
                                 widget->_p->buttonGroup->addButton(button);
-                                widget->_p->layout->addWidget(button);
+                                widget->_p->layout->addChild(button);
                                 widget->_p->indexToPalette[j] = i.first;
                                 widget->_p->buttonToPalette[button] = i.first;
                                 widget->_p->paletteToIndex[i.first] = j;

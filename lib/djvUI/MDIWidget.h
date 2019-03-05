@@ -29,7 +29,7 @@
 
 #pragma once
 
-#include <djvUI/IContainer.h>
+#include <djvUI/Widget.h>
 
 namespace djv
 {
@@ -54,7 +54,7 @@ namespace djv
                 First = None
             };
 
-            class IWidget : public Layout::IContainer
+            class IWidget : public Widget
             {
                 DJV_NON_COPYABLE(IWidget);
 

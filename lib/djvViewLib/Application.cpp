@@ -78,13 +78,13 @@ namespace djv
             DJV_PRIVATE_PTR();
             if (p.mainWindow)
             {
-                p.mainWindow->setParent(nullptr);
+                getRootObject()->removeChild(p.mainWindow);
                 p.mainWindow.reset();
             }
             while (p.systems.size())
             {
                 auto system = p.systems.back();
-                system->setParent(nullptr);
+                getRootObject()->removeChild(system);
                 p.systems.pop_back();
             }
         }

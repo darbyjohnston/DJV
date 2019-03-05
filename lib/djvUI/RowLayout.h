@@ -64,11 +64,6 @@ namespace djv
 
                 static std::shared_ptr<Row> create(Orientation, Core::Context *);
 
-                void addWidget(const std::shared_ptr<Widget>&, RowStretch = RowStretch::None);
-                void insertWidget(const std::shared_ptr<Widget>&, int index, RowStretch = RowStretch::None);
-                void removeWidget(const std::shared_ptr<Widget>&);
-                void clearWidgets();
-
                 void addSeparator();
                 void addSpacer();
                 void addExpander();
@@ -83,6 +78,9 @@ namespace djv
                 void setStretch(const std::shared_ptr<Widget>&, RowStretch);
 
                 float getHeightForWidth(float) const override;
+
+                void addChild(const std::shared_ptr<IObject>&) override;
+                void removeChild(const std::shared_ptr<IObject>&) override;
 
             protected:
                 void _preLayoutEvent(Core::Event::PreLayout&) override;

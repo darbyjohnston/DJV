@@ -50,12 +50,12 @@ namespace djv
 
             void Border::_init(Context * context)
             {
-                IContainer::_init(context);
+                Widget::_init(context);
 
                 setClassName("djv::UI::Layout::Border");
 
                 _p->layout = Stack::create(context);
-                IContainer::addWidget(_p->layout);
+                Widget::addChild(_p->layout);
             }
 
             Border::Border() :
@@ -110,21 +110,6 @@ namespace djv
                 _p->layout->setMargin(value);
             }
 
-            void Border::addWidget(const std::shared_ptr<Widget>& value)
-            {
-                _p->layout->addWidget(value);
-            }
-
-            void Border::removeWidget(const std::shared_ptr<Widget>& value)
-            {
-                _p->layout->removeWidget(value);
-            }
-
-            void Border::clearWidgets()
-            {
-                _p->layout->clearWidgets();
-            }
-
             float Border::getHeightForWidth(float value) const
             {
                 DJV_PRIVATE_PTR();
@@ -136,6 +121,16 @@ namespace djv
                     out = p.layout->getHeightForWidth(value - b * 2.f - m.x) + b * 2.f + m.y;
                 }
                 return out;
+            }
+
+            void Border::addChild(const std::shared_ptr<IObject>& value)
+            {
+                _p->layout->addChild(value);
+            }
+
+            void Border::removeChild(const std::shared_ptr<IObject>& value)
+            {
+                _p->layout->removeChild(value);
             }
 
             void Border::_preLayoutEvent(Event::PreLayout& event)

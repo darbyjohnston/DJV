@@ -70,22 +70,24 @@ namespace djv
 
             p.titleBar = UI::HorizontalLayout::create(context);
             p.titleBar->setSpacing(UI::MetricsRole::None);
-            p.titleBar->addWidget(p.titleLabel, UI::RowStretch::Expand);
-            p.titleBar->addWidget(p.closeButton);
+            p.titleBar->addChild(p.titleLabel);
+            p.titleBar->setStretch(p.titleLabel, UI::RowStretch::Expand);
+            p.titleBar->addChild(p.closeButton);
 
             p.childLayout = UI::VerticalLayout::create(context);
 
             p.layout = UI::VerticalLayout::create(context);
             p.layout->setBackgroundRole(UI::ColorRole::Background);
             p.layout->setSpacing(UI::MetricsRole::None);
-            p.layout->addWidget(p.titleBar);
+            p.layout->addChild(p.titleBar);
             p.layout->addSeparator();
-            p.layout->addWidget(p.childLayout, UI::RowStretch::Expand);
+            p.layout->addChild(p.childLayout);
+            p.layout->setStretch(p.childLayout, UI::RowStretch::Expand);
 
             p.border = UI::Border::create(context);
             p.border->setMargin(UI::MetricsRole::Handle);
-            p.border->addWidget(p.layout);
-            IContainer::addWidget(p.border);
+            p.border->addChild(p.layout);
+            IWidget::addChild(p.border);
 
             auto weak = std::weak_ptr<IToolWidget>(std::dynamic_pointer_cast<IToolWidget>(shared_from_this()));
             p.closeButton->setClickedCallback(
@@ -130,24 +132,23 @@ namespace djv
             _p->closeCallback = value;
         }
 
-        void IToolWidget::addWidget(const std::shared_ptr<Widget>& widget)
-        {
-            _p->childLayout->addWidget(widget, UI::RowStretch::Expand);
-        }
-
-        void IToolWidget::removeWidget(const std::shared_ptr<Widget>& widget)
-        {
-            _p->childLayout->addWidget(widget);
-        }
-
-        void IToolWidget::clearWidgets()
-        {
-            _p->childLayout->clearWidgets();
-        }
-
         float IToolWidget::getHeightForWidth(float value) const
         {
             return _p->border->getHeightForWidth(value);
+        }
+
+        void IToolWidget::addChild(const std::shared_ptr<IObject>& value)
+        {
+            _p->childLayout->addChild(value);
+            if (auto widget = std::dynamic_pointer_cast<Widget>(value))
+            {
+                _p->childLayout->setStretch(widget, UI::RowStretch::Expand);
+            }
+        }
+
+        void IToolWidget::removeChild(const std::shared_ptr<IObject>& value)
+        {
+            _p->childLayout->removeChild(value);
         }
 
         void IToolWidget::_preLayoutEvent(Event::PreLayout& event)

@@ -56,7 +56,8 @@ namespace djv
             DJV_PRIVATE_PTR();
             p.fileBrowser = UI::FileBrowser::Widget::create(context);
             p.fileBrowser->setPath(Core::FileSystem::Path("."));
-            addWidget(p.fileBrowser, UI::RowStretch::Expand);
+            addChild(p.fileBrowser);
+            setStretch(p.fileBrowser, UI::RowStretch::Expand);
 
             auto weak = std::weak_ptr<FileBrowserDialog>(std::dynamic_pointer_cast<FileBrowserDialog>(shared_from_this()));
             p.fileBrowser->setCallback(

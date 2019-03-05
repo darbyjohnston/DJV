@@ -174,10 +174,11 @@ namespace djv
         Application::~Application()
         {
             DJV_PRIVATE_PTR();
+            auto rootObject = getRootObject();
             while (p.systems.size())
             {
                 auto system = p.systems.back();
-                system->setParent(nullptr);
+                rootObject->removeChild(system);
                 p.systems.pop_back();
             }
             if (p.glfwWindow)

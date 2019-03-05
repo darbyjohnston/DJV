@@ -73,7 +73,7 @@ namespace djv
                 DJV_PRIVATE_PTR();
                 p.historyActionGroup = ActionGroup::create(ButtonType::Radio);
                 p.historyMenu = Menu::create(context);
-                p.historyMenu->setParent(shared_from_this());
+                addChild(p.historyMenu);
                 p.historyButton = Button::Menu::create(context);
                 p.historyButton->setIcon("djvIconPopupMenu");
                 p.historyButton->setEnabled(false);
@@ -86,16 +86,17 @@ namespace djv
 
                 p.layout = HorizontalLayout::create(context);
                 p.layout->setSpacing(MetricsRole::None);
-                p.layout->addWidget(p.historyButton);
+                p.layout->addChild(p.historyButton);
                 auto border = Border::create(context);
                 border->setMargin(MetricsRole::MarginSmall);
                 border->setVAlign(VAlign::Center);
                 p.soloLayout = SoloLayout::create(context);
-                p.soloLayout->addWidget(p.buttonLayout);
-                p.soloLayout->addWidget(p.lineEditBase);
-                border->addWidget(p.soloLayout);
-                p.layout->addWidget(border, RowStretch::Expand);
-                p.layout->setParent(shared_from_this());
+                p.soloLayout->addChild(p.buttonLayout);
+                p.soloLayout->addChild(p.lineEditBase);
+                border->addChild(p.soloLayout);
+                p.layout->addChild(border);
+                p.layout->setStretch(border, RowStretch::Expand);
+                addChild(p.layout);
 
                 auto weak = std::weak_ptr<PathWidget>(std::dynamic_pointer_cast<PathWidget>(shared_from_this()));
                 p.historyActionGroup->setRadioCallback(
@@ -159,14 +160,14 @@ namespace djv
                 }
 
                 auto context = getContext();
-                _p->buttonLayout->clearWidgets();
+                _p->buttonLayout->clearChildren();
                 for (auto i = paths.rbegin(); i != paths.rend(); ++i)
                 {
                     auto button = FlatButton::create(context);
                     button->setText(i->isRoot() ? i->get() : i->getFileName());
                     button->setBackgroundRole(ColorRole::Background);
 
-                    _p->buttonLayout->addWidget(button);
+                    _p->buttonLayout->addChild(button);
 
                     const auto path = *i;
                     auto weak = std::weak_ptr<PathWidget>(std::dynamic_pointer_cast<PathWidget>(shared_from_this()));

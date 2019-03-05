@@ -65,9 +65,10 @@ namespace djv
 
                     auto layout = VerticalLayout::create(context);
                     layout->setMargin(MetricsRole::Margin);
-                    layout->addWidget(_textBlock);
-                    layout->addWidget(_closeButton);
-                    addWidget(layout, RowStretch::Expand);
+                    layout->addChild(_textBlock);
+                    layout->addChild(_closeButton);
+                    addChild(layout);
+                    setStretch(layout, RowStretch::Expand);
 
                     auto weak = std::weak_ptr<MessageDialog>(std::dynamic_pointer_cast<MessageDialog>(shared_from_this()));
                     _closeButton->setClickedCallback(
@@ -126,12 +127,16 @@ namespace djv
 
                     auto layout = VerticalLayout::create(context);
                     layout->setMargin(MetricsRole::Margin);
-                    layout->addWidget(_textBlock, RowStretch::Expand);
+                    layout->addChild(_textBlock);
+                    layout->setStretch(_textBlock, RowStretch::Expand);
                     auto hLayout = HorizontalLayout::create(context);
-                    hLayout->addWidget(_acceptButton, RowStretch::Expand);
-                    hLayout->addWidget(_cancelButton, RowStretch::Expand);
-                    layout->addWidget(hLayout);
-                    addWidget(layout, RowStretch::Expand);
+                    hLayout->addChild(_acceptButton);
+                    hLayout->setStretch(_acceptButton, RowStretch::Expand);
+                    hLayout->addChild(_cancelButton);
+                    hLayout->setStretch(_cancelButton, RowStretch::Expand);
+                    layout->addChild(hLayout);
+                    addChild(layout);
+                    setStretch(layout, RowStretch::Expand);
 
                     auto weak = std::weak_ptr<ConfirmationDialog>(std::dynamic_pointer_cast<ConfirmationDialog>(shared_from_this()));
                     _acceptButton->setClickedCallback(
@@ -250,17 +255,7 @@ namespace djv
                     p.messageDialog->setText(text);
                     p.messageDialog->setCloseText(closeText);
 
-                    auto weak = std::weak_ptr<DialogSystem>(std::dynamic_pointer_cast<DialogSystem>(shared_from_this()));
-                    p.messageDialog->setCloseCallback(
-                        [weak, window]
-                    {
-                        if (auto system = weak.lock())
-                        {
-                            window->removeWidget(system->_p->messageDialog);
-                        }
-                    });
-
-                    window->addWidget(p.messageDialog);
+                    window->removeChild(p.messageDialog);
                     p.messageDialog->show();
                 }
             }
@@ -299,16 +294,8 @@ namespace djv
                     {
                         callback(false);
                     });
-                    p.confirmationDialog->setCloseCallback(
-                        [weak, window]
-                    {
-                        if (auto system = weak.lock())
-                        {
-                            window->removeWidget(system->_p->confirmationDialog);
-                        }
-                    });
 
-                    window->addWidget(p.confirmationDialog);
+                    window->addChild(p.confirmationDialog);
                     p.confirmationDialog->show();
                 }
             }

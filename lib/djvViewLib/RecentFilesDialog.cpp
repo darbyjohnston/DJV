@@ -97,38 +97,40 @@ namespace djv
             p.itemCountLabel->setMargin(UI::MetricsRole::MarginSmall);
             auto vLayout = UI::VerticalLayout::create(context);
             vLayout->setSpacing(UI::MetricsRole::None);
-            vLayout->addWidget(searchBox);
-            vLayout->addWidget(p.itemCountLabel);
+            vLayout->addChild(searchBox);
+            vLayout->addChild(p.itemCountLabel);
             p.searchPopupWidget = UI::PopupWidget::create(context);
             p.searchPopupWidget->setIcon("djvIconSearch");
-            p.searchPopupWidget->setWidget(vLayout);
+            p.searchPopupWidget->addChild(vLayout);
             p.searchPopupWidget->setCapturePointer(false);
 
             vLayout = UI::VerticalLayout::create(context);
             vLayout->setSpacing(UI::MetricsRole::None);
-            vLayout->addWidget(UI::ActionButton::create(p.actions["LargeThumbnails"], context));
-            vLayout->addWidget(UI::ActionButton::create(p.actions["SmallThumbnails"], context));
-            vLayout->addWidget(UI::ActionButton::create(p.actions["ListView"], context));
+            vLayout->addChild(UI::ActionButton::create(p.actions["LargeThumbnails"], context));
+            vLayout->addChild(UI::ActionButton::create(p.actions["SmallThumbnails"], context));
+            vLayout->addChild(UI::ActionButton::create(p.actions["ListView"], context));
             p.settingsPopupWidget = UI::PopupWidget::create(context);
             p.settingsPopupWidget->setIcon("djvIconSettings");
-            p.settingsPopupWidget->setWidget(vLayout);
+            p.settingsPopupWidget->addChild(vLayout);
 
             auto bottomToolBar = UI::Toolbar::create(context);
             bottomToolBar->addExpander();
-            bottomToolBar->addWidget(p.searchPopupWidget);
-            bottomToolBar->addWidget(p.settingsPopupWidget);
+            bottomToolBar->addChild(p.searchPopupWidget);
+            bottomToolBar->addChild(p.settingsPopupWidget);
 
             p.itemView = UI::FileBrowser::ItemView::create(context);
             auto scrollWidget = UI::ScrollWidget::create(UI::ScrollType::Vertical, context);
             scrollWidget->setBorder(false);
-            scrollWidget->addWidget(p.itemView);
+            scrollWidget->addChild(p.itemView);
 
             p.layout = UI::VerticalLayout::create(context);
             p.layout->setSpacing(UI::MetricsRole::None);
-            p.layout->addWidget(scrollWidget, UI::RowStretch::Expand);
+            p.layout->addChild(scrollWidget);
+            p.layout->setStretch(scrollWidget, UI::RowStretch::Expand);
             p.layout->addSeparator();
-            p.layout->addWidget(bottomToolBar);
-            addWidget(p.layout, UI::RowStretch::Expand);
+            p.layout->addChild(bottomToolBar);
+            addChild(p.layout);
+            setStretch(p.layout, UI::RowStretch::Expand);
 
             auto weak = std::weak_ptr<RecentFilesDialog>(std::dynamic_pointer_cast<RecentFilesDialog>(shared_from_this()));
             p.viewTypeActionGroup->setRadioCallback(

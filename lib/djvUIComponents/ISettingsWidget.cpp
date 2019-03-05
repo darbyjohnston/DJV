@@ -51,7 +51,7 @@ namespace djv
 
             p.scrollWidget = ScrollWidget::create(ScrollType::Vertical, context);
             p.scrollWidget->setBorder(false);
-            IContainer::addWidget(p.scrollWidget);
+            Widget::addChild(p.scrollWidget);
         }
 
         ISettingsWidget::ISettingsWidget() :
@@ -61,24 +61,19 @@ namespace djv
         ISettingsWidget::~ISettingsWidget()
         {}
 
-        void ISettingsWidget::addWidget(const std::shared_ptr<Widget>& widget)
-        {
-            _p->scrollWidget->addWidget(widget);
-        }
-
-        void ISettingsWidget::removeWidget(const std::shared_ptr<Widget>& widget)
-        {
-            _p->scrollWidget->addWidget(widget);
-        }
-
-        void ISettingsWidget::clearWidgets()
-        {
-            _p->scrollWidget->clearWidgets();
-        }
-
         float ISettingsWidget::getHeightForWidth(float value) const
         {
             return _p->scrollWidget->getHeightForWidth(value);
+        }
+
+        void ISettingsWidget::addChild(const std::shared_ptr<IObject>& value)
+        {
+            _p->scrollWidget->addChild(value);
+        }
+
+        void ISettingsWidget::removeChild(const std::shared_ptr<IObject>& value)
+        {
+            _p->scrollWidget->removeChild(value);
         }
 
         void ISettingsWidget::_preLayoutEvent(Event::PreLayout& event)

@@ -53,7 +53,7 @@ namespace djv
 
             void Splitter::_init(Context * context)
             {
-                IContainer::_init(context);
+                Widget::_init(context);
 
                 setClassName("djv::UI::Layout::Splitter");
                 setPointerEnabled(true);

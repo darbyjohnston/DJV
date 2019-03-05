@@ -63,11 +63,11 @@ namespace djv
             {
                 auto button = FlatButton::create(context);
                 p.compressionButtonGroup->addButton(button);
-                layout->addWidget(button);
+                layout->addChild(button);
             }
             p.compressionGroupBox = GroupBox::create(context);
-            p.compressionGroupBox->addWidget(layout);
-            addWidget(p.compressionGroupBox);
+            p.compressionGroupBox->addChild(layout);
+            addChild(p.compressionGroupBox);
 
             if (auto io = context->getSystemT<AV::IO::System>().lock())
             {

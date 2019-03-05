@@ -62,7 +62,8 @@ namespace djv
                         _widget = FileBrowser::Widget::create(context);
                         _widget->setPath(FileSystem::Path("."));
                         _widget->setBackgroundRole(ColorRole::Background);
-                        addWidget(_widget, RowStretch::Expand);
+                        addChild(_widget);
+                        setStretch(_widget, RowStretch::Expand);
 
                         auto weak = std::weak_ptr<Dialog>(std::dynamic_pointer_cast<Dialog>(shared_from_this()));
                         _widget->setCallback(
@@ -142,22 +143,15 @@ namespace djv
                     {
                         p.dialog->setTitle(title);
 
+                        window->addChild(p.dialog);
+
                         auto weak = std::weak_ptr<DialogSystem>(std::dynamic_pointer_cast<DialogSystem>(shared_from_this()));
                         p.dialog->setCallback(
                             [callback](const Core::FileSystem::FileInfo & value)
                         {
                             callback(value);
                         });
-                        p.dialog->setCloseCallback(
-                            [weak, window]
-                        {
-                            if (auto system = weak.lock())
-                            {
-                                window->removeWidget(system->_p->dialog);
-                            }
-                        });
 
-                        window->addWidget(p.dialog);
                         p.dialog->show();
                     }
                 }

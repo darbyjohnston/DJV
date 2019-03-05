@@ -153,13 +153,13 @@ namespace djv
         void WindowSystem::_addWindow(const std::shared_ptr<UI::Window>& window)
         {
             IWindowSystem::_addWindow(window);
-            window->setParent(getContext()->getRootObject());
+            getContext()->getRootObject()->addChild(window);
         }
 
         void WindowSystem::_removeWindow(const std::shared_ptr<UI::Window>& window)
         {
             IWindowSystem::_removeWindow(window);
-            window->setParent(nullptr);
+            getContext()->getRootObject()->removeChild(window);
         }
 
         void WindowSystem::_pushClipRect(const Core::BBox2f & value)

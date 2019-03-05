@@ -66,10 +66,10 @@ namespace djv
             p.qualityGroupBox = GroupBox::create(context);
             auto hLayout = HorizontalLayout::create(context);
             hLayout->setMargin(MetricsRole::MarginSmall);
-            hLayout->addWidget(qualityLabel);
-            hLayout->addWidget(qualitySlider);
-            p.qualityGroupBox->addWidget(hLayout);
-            addWidget(p.qualityGroupBox);
+            hLayout->addChild(qualityLabel);
+            hLayout->addChild(qualitySlider);
+            p.qualityGroupBox->addChild(hLayout);
+            addChild(p.qualityGroupBox);
 
             if (auto io = context->getSystemT<AV::IO::System>().lock())
             {

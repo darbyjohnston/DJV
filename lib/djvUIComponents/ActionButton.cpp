@@ -75,10 +75,11 @@ namespace djv
 
                 p.layout = HorizontalLayout::create(context);
                 p.layout->setMargin(MetricsRole::MarginSmall);
-                p.layout->addWidget(p.icon);
-                p.layout->addWidget(p.textLabel, RowStretch::Expand);
-                p.layout->addWidget(p.shortcutsLabel);
-                p.layout->setParent(shared_from_this());
+                p.layout->addChild(p.icon);
+                p.layout->addChild(p.textLabel);
+                p.layout->setStretch(p.textLabel, RowStretch::Expand);
+                p.layout->addChild(p.shortcutsLabel);
+                addChild(p.layout);
 
                 _actionUpdate();
 

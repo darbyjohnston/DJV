@@ -96,8 +96,15 @@ namespace djv
             template <typename T>
             inline std::shared_ptr<T> getFirstChildRecursiveT() const;
 
-            //! Set the parent.
-            void setParent(const std::shared_ptr<IObject>&, int insert = -1);
+            //! Add a child object.
+            virtual void addChild(const std::shared_ptr<IObject> &);
+
+            //! Remove a child object.
+            virtual void removeChild(const std::shared_ptr<IObject> &);
+
+            //! Remove all child objects. The child objects are removed in order
+            //! from last to first.
+            void clearChildren();
 
             //! Move this object to the front of the child list.
             virtual void moveToFront();

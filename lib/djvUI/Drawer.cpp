@@ -50,12 +50,12 @@ namespace djv
 
             void Drawer::_init(Context * context)
             {
-                IContainer::_init(context);
+                Widget::_init(context);
 
                 setClassName("djv::UI::Layout::Drawer");
 
                 _p->layout = Stack::create(context);
-                IContainer::addWidget(_p->layout);
+                Widget::addChild(_p->layout);
             }
 
             Drawer::Drawer() :
@@ -110,20 +110,14 @@ namespace djv
                 _resize();
             }
 
-            void Drawer::addWidget(const std::shared_ptr<Widget>& value)
+            void Drawer::addChild(const std::shared_ptr<IObject>& value)
             {
-                DJV_PRIVATE_PTR();
-                p.layout->addWidget(value);
+                _p->layout->addChild(value);
             }
 
-            void Drawer::removeWidget(const std::shared_ptr<Widget>& value)
+            void Drawer::removeChild(const std::shared_ptr<IObject>& value)
             {
-                _p->layout->removeWidget(value);
-            }
-
-            void Drawer::clearWidgets()
-            {
-                _p->layout->clearWidgets();
+                _p->layout->removeChild(value);
             }
 
             void Drawer::_preLayoutEvent(Event::PreLayout& event)

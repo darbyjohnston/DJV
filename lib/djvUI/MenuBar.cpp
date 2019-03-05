@@ -80,10 +80,10 @@ namespace djv
 
             p.layout = HorizontalLayout::create(context);
             p.layout->setSpacing(MetricsRole::None);
-            p.layout->addWidget(p.menuLayout);
-            p.layout->addExpander();
-            p.layout->addWidget(p.widgetLayout);
-            p.layout->setParent(shared_from_this());
+            p.layout->addChild(p.menuLayout);
+            p.layout->addChild(p.widgetLayout);
+            p.layout->setStretch(p.widgetLayout, RowStretch::Expand);
+            Widget::addChild(p.layout);
 
             auto weak = std::weak_ptr<MenuBar>(std::dynamic_pointer_cast<MenuBar>(shared_from_this()));
             p.closeObserver = ValueObserver<bool>::create(
@@ -114,70 +114,129 @@ namespace djv
             return out;
         }
 
-        void MenuBar::addMenu(const std::shared_ptr<Menu> & menu)
+        void MenuBar::setStretch(const std::shared_ptr<Widget>& widget, RowStretch value)
         {
-            DJV_PRIVATE_PTR();
-            menu->setParent(shared_from_this());
-            menu->hide();
-            p.menus.push_back(menu);
-            
-            auto button = Button::Menu::create(getContext());
-            button->setInsideMargin(Layout::Margin(MetricsRole::Margin, MetricsRole::Margin, MetricsRole::MarginSmall, MetricsRole::MarginSmall));
-            button->installEventFilter(shared_from_this());
-            p.menuLayout->addWidget(button);
-
-            p.menusToButtons[menu] = button;
-
-            auto weak = std::weak_ptr<MenuBar>(std::dynamic_pointer_cast<MenuBar>(shared_from_this()));
-            button->setCheckedCallback(
-                [weak, menu, button](bool value)
-            {
-                if (auto widget = weak.lock())
-                {
-                    widget->_p->closeMenus();
-                    if (value)
-                    {
-                        menu->popup(button, widget->_p->menuLayout);
-                    }
-                }
-            });
-
-            menu->setCloseCallback(
-                [weak, menu]
-            {
-                if (auto widget = weak.lock())
-                {
-                    const auto i = widget->_p->menusToButtons.find(menu);
-                    if (i != widget->_p->menusToButtons.end())
-                    {
-                        i->second->setChecked(false);
-                    }
-                }
-            });
-
-            _p->iconObservers[menu] = ValueObserver<std::string>::create(
-                menu->observeIcon(),
-                [button](const std::string & value)
-            {
-                button->setIcon(value);
-            });
-
-            _p->textObservers[menu] = ValueObserver<std::string>::create(
-                menu->observeText(),
-                [button](const std::string & value)
-            {
-                button->setText(value);
-            });
+            _p->layout->setStretch(widget, value);
         }
 
-        void MenuBar::addWidget(const std::shared_ptr<Widget> & widget)
+        void MenuBar::addSeparator()
         {
-            _p->widgetLayout->addWidget(widget);
+            _p->widgetLayout->addSeparator();
+        }
+
+        void MenuBar::addSpacer()
+        {
+            _p->widgetLayout->addSpacer();
+        }
+
+        void MenuBar::addExpander()
+        {
+            _p->widgetLayout->addExpander();
         }
 
         float MenuBar::getHeightForWidth(float value) const
         {
             return _p->layout->getHeightForWidth(value);
+        }
+
+        void MenuBar::addChild(const std::shared_ptr<IObject> & value)
+        {
+            Widget::addChild(value);
+            DJV_PRIVATE_PTR();
+            if (auto menu = std::dynamic_pointer_cast<Menu>(value))
+            {
+                menu->hide();
+                p.menus.push_back(menu);
+
+                auto button = Button::Menu::create(getContext());
+                button->setInsideMargin(Layout::Margin(MetricsRole::Margin, MetricsRole::Margin, MetricsRole::MarginSmall, MetricsRole::MarginSmall));
+                button->installEventFilter(shared_from_this());
+
+                p.menuLayout->addChild(button);
+
+                p.menusToButtons[menu] = button;
+
+                auto weak = std::weak_ptr<MenuBar>(std::dynamic_pointer_cast<MenuBar>(shared_from_this()));
+                button->setCheckedCallback(
+                    [weak, menu, button](bool value)
+                {
+                    if (auto widget = weak.lock())
+                    {
+                        widget->_p->closeMenus();
+                        if (value)
+                        {
+                            menu->popup(button, widget->_p->menuLayout);
+                        }
+                    }
+                });
+
+                menu->setCloseCallback(
+                    [weak, menu]
+                {
+                    if (auto widget = weak.lock())
+                    {
+                        const auto i = widget->_p->menusToButtons.find(menu);
+                        if (i != widget->_p->menusToButtons.end())
+                        {
+                            i->second->setChecked(false);
+                        }
+                    }
+                });
+
+                _p->iconObservers[menu] = ValueObserver<std::string>::create(
+                    menu->observeIcon(),
+                    [button](const std::string & value)
+                {
+                    button->setIcon(value);
+                });
+
+                _p->textObservers[menu] = ValueObserver<std::string>::create(
+                    menu->observeText(),
+                    [button](const std::string & value)
+                {
+                    button->setText(value);
+                });
+            }
+            else if (auto widget = std::dynamic_pointer_cast<Widget>(value))
+            {
+                _p->widgetLayout->addChild(widget);
+            }
+        }
+
+        void MenuBar::removeChild(const std::shared_ptr<IObject> & value)
+        {
+            Widget::removeChild(value);
+            DJV_PRIVATE_PTR();
+            if (auto menu = std::dynamic_pointer_cast<Menu>(value))
+            {
+                {
+                    const auto i = p.menusToButtons.find(menu);
+                    if (i != p.menusToButtons.end())
+                    {
+                        _p->menuLayout->removeChild(i->second);
+                        p.menusToButtons.erase(i);
+                    }
+                }
+                menu->setCloseCallback(nullptr);
+                {
+                    const auto i = p.iconObservers.find(menu);
+                    if (i != p.iconObservers.end())
+                    {
+                        p.iconObservers.erase(i);
+                    }
+                }
+                {
+                    const auto i = p.textObservers.find(menu);
+                    if (i != p.textObservers.end())
+                    {
+                        p.textObservers.erase(i);
+                    }
+                }
+            }
+            else if (auto widget = std::dynamic_pointer_cast<Widget>(value))
+            {
+                _p->widgetLayout->removeChild(widget);
+            }
         }
 
         void MenuBar::_preLayoutEvent(Event::PreLayout & event)

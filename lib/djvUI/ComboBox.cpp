@@ -74,12 +74,12 @@ namespace djv
             p.actionGroup = ActionGroup::create(ButtonType::Radio);
 
             p.menu = Menu::create(context);
-            p.menu->setParent(shared_from_this());
+            addChild(p.menu);
 
             p.button = Button::Menu::create(context);
             p.button->setBorder(true);
             p.button->setBackgroundRole(ColorRole::Button);
-            p.button->setParent(shared_from_this());
+            addChild(p.button);
 
             _updateCurrentItem();
 
