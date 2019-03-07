@@ -131,7 +131,8 @@ namespace djv
                     delete [] buf;
                 }
 
-                LPNETRESOURCE lpnr = NULL;
+                //! \todo Windows network shares need more work/testing before being enabled.
+                /*LPNETRESOURCE lpnr = NULL;
                 std::vector<std::string> servers;
                 EnumerateFunc(lpnr, servers);
                 for (const auto & i : servers)
@@ -159,7 +160,7 @@ namespace djv
                             NetApiBufferFree(BufPtr);
                         }
                     } while (res == ERROR_MORE_DATA);
-                }
+                }*/
 
                 return out;
             }
