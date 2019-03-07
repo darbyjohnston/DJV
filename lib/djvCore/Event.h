@@ -68,10 +68,10 @@ namespace djv
                 ButtonRelease,
                 Scroll,
                 Drop,
-                KeyboardFocus,
-                KeyboardFocusLost,
                 KeyPress,
                 KeyRelease,
+                TextFocus,
+                TextFocusLost,
                 Text,
 
                 Count,
@@ -326,29 +326,15 @@ namespace djv
                 std::vector<std::string> _dropPaths;
             };
 
-            //! This class provides a keyboard focus event.
-            class KeyboardFocus : public IEvent
-            {
-            public:
-                inline KeyboardFocus();
-            };
-
-            //! This class provides a keyboard focus lost event.
-            class KeyboardFocusLost : public IEvent
-            {
-            public:
-                inline KeyboardFocusLost();
-            };
-
             //! This class provides the interface for key events.
             class IKey : public IPointer
             {
             protected:
                 inline IKey(int key, int keyModifiers, const PointerInfo&, Type);
-
+                
             public:
                 inline ~IKey() override = 0;
-
+                
                 inline int getKey() const;
                 inline int getKeyModifiers() const;
 
@@ -371,16 +357,32 @@ namespace djv
                 inline KeyRelease(int key, int keyModifiers, const PointerInfo&);
             };
 
-            //! This class provides a text entry event.
+            //! This class provides a text focus event.
+            class TextFocus : public IEvent
+            {
+            public:
+                inline TextFocus();
+            };
+
+            //! This class provides a text focus lost event.
+            class TextFocusLost : public IEvent
+            {
+            public:
+                inline TextFocusLost();
+            };
+
+            //! This class provides a text event.
             class Text : public IEvent
             {
             public:
-                inline Text(const std::string&);
+                inline Text(const std::string& text, int texttModifiers);
 
                 inline const std::string& getText() const;
+                inline int getTextModifiers() const;
 
             private:
                 std::string _text;
+                int _textModifiers;
             };
 
         } // namespace Event

@@ -38,7 +38,8 @@
 
 #include <GLFW/glfw3.h>
 
-#include <sstream>
+#include <codecvt>
+#include <locale>
 
 using namespace djv::Core;
 
@@ -74,8 +75,9 @@ namespace djv
 
             glfwSetCursorPosCallback(glfwWindow, _pointerCallback);
             glfwSetMouseButtonCallback(glfwWindow, _buttonCallback);
-            glfwSetKeyCallback(glfwWindow, _keyCallback);
             glfwSetDropCallback(glfwWindow, _dropCallback);
+            glfwSetKeyCallback(glfwWindow, _keyCallback);
+            glfwSetCharModsCallback(glfwWindow, _charCallback);
         }
 
         EventSystem::EventSystem() :
@@ -149,7 +151,7 @@ namespace djv
             }
         }
 
-        void EventSystem::_buttonCallback(GLFWwindow* window, int button, int action, int mods)
+        void EventSystem::_buttonCallback(GLFWwindow* window, int button, int action, int modifiers)
         {
             Context* context = reinterpret_cast<Context*>(glfwGetWindowUserPointer(window));
             if (auto system = context->getSystemT<EventSystem>().lock())
@@ -158,19 +160,6 @@ namespace djv
                 {
                 case GLFW_PRESS:   system->_buttonPress  (fromGLFWPointerButton(button)); break;
                 case GLFW_RELEASE: system->_buttonRelease(fromGLFWPointerButton(button)); break;
-                }
-            }
-        }
-
-        void EventSystem::_keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods)
-        {
-            Context* context = reinterpret_cast<Context*>(glfwGetWindowUserPointer(window));
-            if (auto system = context->getSystemT<EventSystem>().lock())
-            {
-                switch (action)
-                {
-                case GLFW_PRESS:   system->_keyPress  (key, mods); break;
-                case GLFW_RELEASE: system->_keyRelease(key, mods); break;
                 }
             }
         }
@@ -186,6 +175,41 @@ namespace djv
                     list.push_back(paths[i]);
                 }
                 system->_drop(list);
+            }
+        }
+
+        void EventSystem::_keyCallback(GLFWwindow* window, int key, int scancode, int action, int modifiers)
+        {
+            Context* context = reinterpret_cast<Context*>(glfwGetWindowUserPointer(window));
+            if (auto system = context->getSystemT<EventSystem>().lock())
+            {
+                switch (action)
+                {
+                case GLFW_PRESS:   system->_keyPress(key, modifiers);   break;
+                case GLFW_REPEAT:  system->_keyPress(key, modifiers);   break;
+                case GLFW_RELEASE: system->_keyRelease(key, modifiers); break;
+                }
+            }
+        }
+
+        void EventSystem::_charCallback(GLFWwindow* window, unsigned int character, int modifiers)
+        {
+            Context* context = reinterpret_cast<Context*>(glfwGetWindowUserPointer(window));
+            if (auto system = context->getSystemT<EventSystem>().lock())
+            {
+                std::string text;
+                try
+                {
+                    std::wstring_convert<std::codecvt_utf8<djv_char_t>, djv_char_t> utf32;
+                    text = utf32.to_bytes(character);
+                }
+                catch (const std::exception & e)
+                {
+                    std::stringstream ss;
+                    ss << "Error converting character" << " '" << character << "': " << e.what();
+                    system->_log(ss.str(), LogLevel::Error);
+                }
+                system->_text(text, modifiers);
             }
         }
 

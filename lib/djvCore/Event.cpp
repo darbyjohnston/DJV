@@ -62,9 +62,10 @@ namespace djv
         DJV_TEXT("ButtonRelease"),
         DJV_TEXT("Scroll"),
         DJV_TEXT("Drop"),
-        DJV_TEXT("KeyboardFocus"),
-        DJV_TEXT("KeyboardFocusLost"),
-        DJV_TEXT("Key"),
+        DJV_TEXT("KeyPress"),
+        DJV_TEXT("KeyRelease"),
+        DJV_TEXT("TextFocus"),
+        DJV_TEXT("TextFocusLost"),
         DJV_TEXT("Text"));
 
 } // namespace djv

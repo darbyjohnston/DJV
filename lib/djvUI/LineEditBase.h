@@ -36,6 +36,10 @@ namespace djv
     namespace UI
     {
         //! This class provides the base functionality for line edit widgets.
+        //!
+        //! \todo Add selection.
+        //! \todo Add cut/copy/paste.
+        //! \todo Add scrolling.
         class LineEditBase : public Widget
         {
             DJV_NON_COPYABLE(LineEditBase);
@@ -62,13 +66,28 @@ namespace djv
             void setFontFace(const std::string &);
             void setFontSizeRole(MetricsRole);
 
+            void setTextChangedCallback(const std::function<void(const std::string &)> &);
+            void setTextFinishedCallback(const std::function<void(const std::string &)> &);
+            void setFocusCallback(const std::function<void(bool)> &);
+
         protected:
             void _styleEvent(Core::Event::Style&) override;
             void _preLayoutEvent(Core::Event::PreLayout&) override;
+            void _clipEvent(Core::Event::Clip&) override;
             void _paintEvent(Core::Event::Paint&) override;
+            void _pointerEnterEvent(Core::Event::PointerEnter&) override;
+            void _pointerLeaveEvent(Core::Event::PointerLeave&) override;
+            void _pointerMoveEvent(Core::Event::PointerMove&) override;
+            void _buttonPressEvent(Core::Event::ButtonPress&) override;
+            void _buttonReleaseEvent(Core::Event::ButtonRelease&) override;
+            void _keyPressEvent(Core::Event::KeyPress&) override;
+            void _textFocusEvent(Core::Event::TextFocus&) override;
+            void _textFocusLostEvent(Core::Event::TextFocusLost&) override;
+            void _textEvent(Core::Event::Text&) override;
 
         private:
             void _textUpdate();
+            void _cursorUpdate();
 
             DJV_PRIVATE();
         };

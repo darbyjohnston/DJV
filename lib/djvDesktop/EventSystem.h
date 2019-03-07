@@ -66,8 +66,9 @@ namespace djv
 
             static void _pointerCallback(GLFWwindow*, double, double);
             static void _buttonCallback(GLFWwindow*, int button, int action, int mods);
-            static void _keyCallback(GLFWwindow*, int key, int scancode, int action, int mods);
             static void _dropCallback(GLFWwindow*, int, const char**);
+            static void _keyCallback(GLFWwindow*, int key, int scancode, int action, int modifiers);
+            static void _charCallback(GLFWwindow*, unsigned int character, int modifiers);
 
             DJV_PRIVATE();
         };

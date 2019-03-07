@@ -41,6 +41,7 @@
 #include <djvAV/FontSystem.h>
 #include <djvAV/Render2D.h>
 
+#include <djvCore/IEventSystem.h>
 #include <djvCore/Math.h>
 
 #include <algorithm>
@@ -278,6 +279,35 @@ namespace djv
             _pointerEnabled = value;
         }
 
+        bool Widget::hasTextFocus() const
+        {
+            bool out = false;
+            if (auto eventSystem = getContext()->getSystemT<Event::IEventSystem>().lock())
+            {
+                out = eventSystem->getTextFocus() == shared_from_this();
+            }
+            return out;
+        }
+
+        void Widget::takeTextFocus()
+        {
+            if (auto eventSystem = getContext()->getSystemT<Event::IEventSystem>().lock())
+            {
+                eventSystem->setTextFocus(shared_from_this());
+            }
+        }
+
+        void Widget::releaseTextFocus()
+        {
+            if (auto eventSystem = getContext()->getSystemT<Event::IEventSystem>().lock())
+            {
+                if (eventSystem->getTextFocus() == shared_from_this())
+                {
+                    eventSystem->setTextFocus(nullptr);
+                }
+            }
+        }
+
         void Widget::addAction(const std::shared_ptr<Action>& action)
         {
             _actions.push_back(action);
@@ -471,17 +501,17 @@ namespace djv
                 case Event::Type::Drop:
                     _dropEvent(static_cast<Event::Drop&>(event));
                     break;
-                case Event::Type::KeyboardFocus:
-                    _keyboardFocusEvent(static_cast<Event::KeyboardFocus&>(event));
-                    break;
-                case Event::Type::KeyboardFocusLost:
-                    _keyboardFocusLostEvent(static_cast<Event::KeyboardFocusLost&>(event));
-                    break;
                 case Event::Type::KeyPress:
                     _keyPressEvent(static_cast<Event::KeyPress&>(event));
                     break;
                 case Event::Type::KeyRelease:
                     _keyReleaseEvent(static_cast<Event::KeyRelease&>(event));
+                    break;
+                case Event::Type::TextFocus:
+                    _textFocusEvent(static_cast<Event::TextFocus&>(event));
+                    break;
+                case Event::Type::TextFocusLost:
+                    _textFocusLostEvent(static_cast<Event::TextFocusLost&>(event));
                     break;
                 case Event::Type::Text:
                     _textEvent(static_cast<Event::Text&>(event));

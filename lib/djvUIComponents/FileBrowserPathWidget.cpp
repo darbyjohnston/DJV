@@ -133,6 +133,24 @@ namespace djv
                         }
                     }
                 });
+
+                p.lineEditBase->setTextFinishedCallback(
+                    [weak](const std::string & value)
+                {
+                    if (auto widget = weak.lock())
+                    {
+                        if (widget->_p->pathCallback)
+                        {
+                            widget->_p->pathCallback(value);
+                        }
+                    }
+                });
+
+                p.lineEditBase->setFocusCallback(
+                    [border](bool value)
+                {
+                    border->setBorderColorRole(value ? ColorRole::Checked : ColorRole::Border);
+                });
             }
 
             PathWidget::PathWidget() :
@@ -223,7 +241,8 @@ namespace djv
             void PathWidget::setEdit(bool value)
             {
                 DJV_PRIVATE_PTR();
-                _p->soloLayout->setCurrentWidget(
+                p.lineEditBase->takeTextFocus();
+                p.soloLayout->setCurrentWidget(
                     value ?
                     std::static_pointer_cast<Widget>(p.lineEditBase) :
                     std::static_pointer_cast<Widget>(p.buttonLayout));

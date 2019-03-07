@@ -48,7 +48,6 @@ namespace djv
         //! This class provides a keyboard shortcut.
         //!
         //! \todo [1.0 S] Use the command key modifier on OSX.
-        //! \todo Add key repeat.
         class Shortcut : public std::enable_shared_from_this<Shortcut>
         {
             DJV_NON_COPYABLE(Shortcut);

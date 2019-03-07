@@ -53,11 +53,13 @@ namespace djv
         {
             Widget::_init(context);
 
+            DJV_PRIVATE_PTR();
+
             setClassName("djv::UI::SearchBox");
             setVAlign(VAlign::Center);
 
-            _p->lineEditBase = LineEditBase::create(context);
-            _p->lineEditBase->setBackgroundRole(ColorRole::None);
+            p.lineEditBase = LineEditBase::create(context);
+            p.lineEditBase->setBackgroundRole(ColorRole::None);
             
             auto searchIcon = Icon::create(context);
             searchIcon->setIcon("djvIconSearch");
@@ -69,17 +71,27 @@ namespace djv
             auto layout = HorizontalLayout::create(context);
             layout->setSpacing(MetricsRole::None);
             layout->setBackgroundRole(ColorRole::Trough);
-            layout->addChild(_p->lineEditBase);
-            layout->setStretch(_p->lineEditBase, RowStretch::Expand);
-            _p->soloLayout = SoloLayout::create(context);
-            _p->soloLayout->addChild(searchIcon);
-            _p->soloLayout->addChild(clearButton);
-            layout->addChild(_p->soloLayout);
+            layout->addChild(p.lineEditBase);
+            layout->setStretch(p.lineEditBase, RowStretch::Expand);
+            p.soloLayout = SoloLayout::create(context);
+            p.soloLayout->addChild(searchIcon);
+            p.soloLayout->addChild(clearButton);
+            layout->addChild(p.soloLayout);
             
-            _p->border = Border::create(context);
-            _p->border->setMargin(MetricsRole::MarginSmall);
-            _p->border->addChild(layout);
+            p.border = Border::create(context);
+            p.border->setMargin(MetricsRole::MarginSmall);
+            p.border->addChild(layout);
             addChild(_p->border);
+
+            auto weak = std::weak_ptr<SearchBox>(std::dynamic_pointer_cast<SearchBox>(shared_from_this()));
+            p.lineEditBase->setFocusCallback(
+                [weak](bool value)
+            {
+                if (auto widget = weak.lock())
+                {
+                    widget->_p->border->setBorderColorRole(value ? ColorRole::Checked : ColorRole::Border);
+                }
+            });
         }
 
         SearchBox::SearchBox() :

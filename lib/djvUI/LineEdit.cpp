@@ -57,6 +57,16 @@ namespace djv
             p.border = Border::create(context);
             p.border->addChild(p.lineEditBase);
             addChild(p.border);
+
+            auto weak = std::weak_ptr<LineEdit>(std::dynamic_pointer_cast<LineEdit>(shared_from_this()));
+            p.lineEditBase->setFocusCallback(
+                [weak](bool value)
+            {
+                if (auto widget = weak.lock())
+                {
+                    widget->_p->border->setBorderColorRole(value ? ColorRole::Checked : ColorRole::Border);
+                }
+            });
         }
 
         LineEdit::LineEdit() :

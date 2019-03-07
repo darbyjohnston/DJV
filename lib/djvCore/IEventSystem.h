@@ -51,8 +51,8 @@ namespace djv
             public:
                 virtual ~IEventSystem() = 0;
 
-                const std::shared_ptr<IObject> & getHover() const;
-                void setHover(const std::shared_ptr<IObject> &);
+                const std::shared_ptr<IObject> & getTextFocus() const;
+                void setTextFocus(const std::shared_ptr<IObject> &);
 
                 void tick(float dt) override;
 
@@ -60,9 +60,10 @@ namespace djv
                 void _pointerMove(const Event::PointerInfo&);
                 void _buttonPress(int);
                 void _buttonRelease(int);
-                void _keyPress(int key, int mods);
-                void _keyRelease(int key, int mods);
                 void _drop(const std::vector<std::string> &);
+                void _keyPress(int key, int modifiers);
+                void _keyRelease(int key, int modifiers);
+                void _text(const std::string &, int modifiers);
 
                 virtual void _hover(Event::PointerMove &, std::shared_ptr<IObject> &) = 0;
 
@@ -70,6 +71,7 @@ namespace djv
                 void _localeInit(const std::shared_ptr<IObject> &, bool = true);
                 void _localeRecursive(const std::shared_ptr<IObject> &, Locale &);
                 void _updateRecursive(const std::shared_ptr<IObject> &, Update &);
+                void _setHover(const std::shared_ptr<IObject> &);
 
                 DJV_PRIVATE();
             };

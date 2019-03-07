@@ -147,6 +147,10 @@ namespace djv
             inline bool isPointerEnabled() const;
             void setPointerEnabled(bool);
 
+            bool hasTextFocus() const;
+            void takeTextFocus();
+            void releaseTextFocus();
+
             ///@}
 
             //! \name Actions
@@ -189,10 +193,10 @@ namespace djv
             virtual void _buttonReleaseEvent(Core::Event::ButtonRelease&) {}
             virtual void _scrollEvent(Core::Event::Scroll&) {}
             virtual void _dropEvent(Core::Event::Drop&) {}
-            virtual void _keyboardFocusEvent(Core::Event::KeyboardFocus&) {}
-            virtual void _keyboardFocusLostEvent(Core::Event::KeyboardFocusLost&) {}
             virtual void _keyPressEvent(Core::Event::KeyPress&);
             virtual void _keyReleaseEvent(Core::Event::KeyRelease&) {}
+            virtual void _textFocusEvent(Core::Event::TextFocus&) {}
+            virtual void _textFocusLostEvent(Core::Event::TextFocusLost&) {}
             virtual void _textEvent(Core::Event::Text&) {}
 
             ///@}

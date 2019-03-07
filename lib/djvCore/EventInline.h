@@ -251,14 +251,6 @@ namespace djv
                 return _dropPaths;
             }
 
-            inline KeyboardFocus::KeyboardFocus() :
-                IEvent(Type::KeyboardFocus)
-            {}
-
-            inline KeyboardFocusLost::KeyboardFocusLost() :
-                IEvent(Type::KeyboardFocusLost)
-            {}
-
             inline IKey::IKey(int key, int keyModifiers, const PointerInfo& info, Type type) :
                 IPointer(info, type),
                 _key(key),
@@ -278,12 +270,7 @@ namespace djv
                 return _keyModifiers;
             }
 
-            inline const std::string& Text::getText() const
-            {
-                return _text;
-            }
-
-            inline KeyPress::KeyPress(int key, int keyModifiers, const PointerInfo& info) :
+            inline KeyPress::KeyPress(int key, int keyModifiers, const PointerInfo& info)  :
                 IKey(key, keyModifiers, info, Type::KeyPress)
             {}
 
@@ -291,10 +278,29 @@ namespace djv
                 IKey(key, keyModifiers, info, Type::KeyRelease)
             {}
 
-            inline Text::Text(const std::string& text) :
-                IEvent(Type::Text),
-                _text(text)
+            inline TextFocus::TextFocus() :
+                IEvent(Type::TextFocus)
             {}
+
+            inline TextFocusLost::TextFocusLost() :
+                IEvent(Type::TextFocusLost)
+            {}
+
+            inline Text::Text(const std::string & text, int textModifiers) :
+                IEvent(Type::Text),
+                _text(text),
+                _textModifiers(textModifiers)
+            {}
+
+            inline const std::string & Text::getText() const
+            {
+                return _text;
+            }
+
+            inline int Text::getTextModifiers() const
+            {
+                return _textModifiers;
+            }
 
         } // namespace Event
     } // namespace Core
