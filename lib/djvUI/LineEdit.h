@@ -62,6 +62,10 @@ namespace djv
             void setFontFace(const std::string &);
             void setFontSizeRole(MetricsRole);
 
+            void setTextChangedCallback(const std::function<void(const std::string &)> &);
+            void setTextFinishedCallback(const std::function<void(const std::string &)> &);
+            void setFocusCallback(const std::function<void(bool)> &);
+
         protected:
             void _preLayoutEvent(Core::Event::PreLayout&) override;
             void _layoutEvent(Core::Event::Layout&) override;

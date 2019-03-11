@@ -47,6 +47,7 @@ namespace djv
             std::shared_ptr<LineEditBase> lineEditBase;
             std::shared_ptr<SoloLayout> soloLayout;
             std::shared_ptr<Border> border;
+            std::function<void(const std::string &)> filterCallback;
         };
 
         void SearchBox::_init(Context * context)
@@ -67,6 +68,7 @@ namespace djv
             auto clearButton = FlatButton::create(context);
             clearButton->setIcon("djvIconClear");
             clearButton->setBackgroundRole(ColorRole::None);
+            clearButton->setInsideMargin(MetricsRole::None);
             
             auto layout = HorizontalLayout::create(context);
             layout->setSpacing(MetricsRole::None);
@@ -92,6 +94,33 @@ namespace djv
                     widget->_p->border->setBorderColorRole(value ? ColorRole::Checked : ColorRole::Border);
                 }
             });
+
+            p.lineEditBase->setTextChangedCallback(
+                [weak, searchIcon, clearButton](const std::string & value)
+            {
+                if (auto widget = weak.lock())
+                {
+                    std::shared_ptr<Widget> currentWidget = searchIcon;
+                    if (!value.empty())
+                    {
+                        currentWidget = clearButton;
+                    }
+                    widget->_p->soloLayout->setCurrentWidget(currentWidget);
+                    if (widget->_p->filterCallback)
+                    {
+                        widget->_p->filterCallback(value);
+                    }
+                }
+            });
+
+            clearButton->setClickedCallback(
+                [weak]
+            {
+                if (auto widget = weak.lock())
+                {
+                    widget->clearFilter();
+                }
+            });
         }
 
         SearchBox::SearchBox() :
@@ -106,6 +135,26 @@ namespace djv
             auto out = std::shared_ptr<SearchBox>(new SearchBox);
             out->_init(context);
             return out;
+        }
+
+        const std::string & SearchBox::getFilter() const
+        {
+            return _p->lineEditBase->getText();
+        }
+
+        void SearchBox::setFilter(const std::string & value)
+        {
+            _p->lineEditBase->setText(value);
+        }
+
+        void SearchBox::clearFilter()
+        {
+            _p->lineEditBase->setText(std::string());
+        }
+
+        void SearchBox::setFilterCallback(const std::function<void(const std::string &)> & value)
+        {
+            _p->filterCallback = value;
         }
 
         float SearchBox::getHeightForWidth(float value) const

@@ -44,7 +44,6 @@
 #include <djvUI/Label.h>
 #include <djvUI/Menu.h>
 #include <djvUI/MenuBar.h>
-#include <djvUI/PopupWidget.h>
 #include <djvUI/RowLayout.h>
 #include <djvUI/SearchBox.h>
 #include <djvUI/SettingsSystem.h>
@@ -88,8 +87,8 @@ namespace djv
                 std::shared_ptr<DrivesWidget> drivesWidget;
                 std::map<std::string, std::shared_ptr<Bellows> > shortcutsBellows;
                 std::shared_ptr<ScrollWidget> shortcutsScrollWidget;
+                std::shared_ptr<SearchBox> searchBox;
                 std::shared_ptr<Label> itemCountLabel;
-                std::shared_ptr<PopupWidget> searchPopupWidget;
                 std::shared_ptr<ItemView> itemView;
                 std::shared_ptr<ScrollWidget> scrollWidget;
                 std::shared_ptr<VerticalLayout> layout;
@@ -246,22 +245,15 @@ namespace djv
                 topToolBar->setStretch(pathWidget, RowStretch::Expand);
                 topToolBar->addAction(p.actions["EditPath"]);
 
-                auto searchBox = SearchBox::create(context);
+                p.searchBox = SearchBox::create(context);
                 p.itemCountLabel = Label::create(context);
                 p.itemCountLabel->setTextHAlign(TextHAlign::Right);
                 p.itemCountLabel->setMargin(MetricsRole::MarginSmall);
-                auto vLayout = VerticalLayout::create(context);
-                vLayout->setSpacing(MetricsRole::None);
-                vLayout->addChild(searchBox);
-                vLayout->addChild(p.itemCountLabel);
-                p.searchPopupWidget = PopupWidget::create(context);
-                p.searchPopupWidget->setIcon("djvIconSearch");
-                p.searchPopupWidget->addChild(vLayout);
-                p.searchPopupWidget->setCapturePointer(false);
 
                 auto bottomToolBar = Toolbar::create(context);
                 bottomToolBar->addExpander();
-                bottomToolBar->addChild(p.searchPopupWidget);
+                bottomToolBar->addChild(p.itemCountLabel);
+                bottomToolBar->addChild(p.searchBox);
 
                 p.shortcutsWidget = ShortcutsWidget::create(context);
                 p.drivesWidget = DrivesWidget::create(context);
@@ -350,6 +342,15 @@ namespace djv
                         {
                             widget->_p->callback(value);
                         }
+                    }
+                });
+
+                p.searchBox->setFilterCallback(
+                    [weak](const std::string & value)
+                {
+                    if (auto widget = weak.lock())
+                    {
+                        widget->_p->directoryModel->setFilter(value);
                     }
                 });
 
@@ -804,7 +805,7 @@ namespace djv
                 p.viewMenu->setText(_getText(DJV_TEXT("View")));
                 p.sortMenu->setText(_getText(DJV_TEXT("Sort")));
 
-                p.searchPopupWidget->setTooltip(_getText(DJV_TEXT("File browser search popup tooltip")));
+                p.searchBox->setTooltip(_getText(DJV_TEXT("File browser search tooltip")));
 
                 p.shortcutsBellows["Shortcuts"]->setText(_getText(DJV_TEXT("Shortcuts")));
                 p.shortcutsBellows["Drives"]->setText(_getText(DJV_TEXT("Drives")));

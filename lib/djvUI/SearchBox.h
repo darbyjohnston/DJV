@@ -48,7 +48,12 @@ namespace djv
             virtual ~SearchBox();
 
             static std::shared_ptr<SearchBox> create(Core::Context *);
-            
+
+            const std::string & getFilter() const;
+            void setFilter(const std::string &);
+            void clearFilter();
+            void setFilterCallback(const std::function<void(const std::string &)> &);
+
             float getHeightForWidth(float) const override;
 
         protected:

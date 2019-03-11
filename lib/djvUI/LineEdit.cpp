@@ -132,6 +132,21 @@ namespace djv
         {
             _p->lineEditBase->setFontSizeRole(value);
         }
+
+        void LineEdit::setTextChangedCallback(const std::function<void(const std::string &)> & callback)
+        {
+            _p->lineEditBase->setTextChangedCallback(callback);
+        }
+
+        void LineEdit::setTextFinishedCallback(const std::function<void(const std::string &)> & callback)
+        {
+            _p->lineEditBase->setTextFinishedCallback(callback);
+        }
+
+        void LineEdit::setFocusCallback(const std::function<void(bool)> & callback)
+        {
+            _p->lineEditBase->setFocusCallback(callback);
+        }
         
         void LineEdit::_preLayoutEvent(Event::PreLayout& event)
         {

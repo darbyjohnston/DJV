@@ -353,7 +353,7 @@ namespace djv
                 options.reverseSort = p.reverseSort->get();
                 options.sortDirectoriesFirst = p.sortDirectoriesFirst->get();
                 const auto filter = p.filter->get();
-                options.glob = !filter.empty() ? filter : "*";
+                options.glob = !filter.empty() ? ("*" + filter + "*") : "*";
                 p.future = std::async(
                     std::launch::async,
                     [path, options]

@@ -111,6 +111,10 @@ namespace djv
             p.cursorPos = value.size();
             _textUpdate();
             _cursorUpdate();
+            if (p.textChangedCallback)
+            {
+                p.textChangedCallback(p.text);
+            }
         }
 
         ColorRole LineEditBase::getTextColorRole() const
@@ -326,6 +330,7 @@ namespace djv
             switch (event.getKey())
             {
             case GLFW_KEY_BACKSPACE:
+                event.accept();
                 if (size > 0 && p.cursorPos > 0)
                 {
                     p.text.erase(p.cursorPos - 1, 1);
@@ -338,6 +343,7 @@ namespace djv
                 }
                 break;
             case GLFW_KEY_DELETE:
+                event.accept();
                 if (size > 0 && p.cursorPos < size)
                 {
                     p.text.erase(p.cursorPos, 1);
@@ -350,6 +356,7 @@ namespace djv
                 }
                 break;
             case GLFW_KEY_ENTER:
+                event.accept();
                 if (p.textFinishedCallback)
                 {
                     p.textFinishedCallback(p.text);
@@ -390,6 +397,12 @@ namespace djv
             case GLFW_KEY_ESCAPE:
                 event.accept();
                 releaseTextFocus();
+                break;
+            default:
+                if (!event.getKeyModifiers())
+                {
+                    event.accept();
+                }
                 break;
             }
         }
