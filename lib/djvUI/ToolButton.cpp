@@ -178,7 +178,7 @@ namespace djv
         
         void ToolButton::widgetUpdate()
         {
-            //djvSignalBlocker signalBlocker(this);
+            //Core::SignalBlocker signalBlocker(this);
             if (_p->defaultAction)
             {
                 setText(_p->defaultAction->text());
