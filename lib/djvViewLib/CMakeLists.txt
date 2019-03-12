@@ -194,9 +194,9 @@ set(source
 
 QT5_WRAP_CPP(mocSource ${mocHeader})
 QT5_ADD_RESOURCES(rccSource djvViewLib.qrc)
-QT5_CREATE_TRANSLATION(qmSource ${source}
-    djvViewLib_en_US.ts
-    djvViewLib_cs_CZ.ts)
+#QT5_CREATE_TRANSLATION(qmSource ${source}
+#    djvViewLib_en_US.ts
+#    djvViewLib_cs_CZ.ts)
 
 include_directories(${OPENGL_INCLUDE_DIRS})
 add_library(djvViewLib ${header} ${source} ${mocSource} ${rccSource} ${qmSource})

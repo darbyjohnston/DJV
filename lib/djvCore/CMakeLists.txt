@@ -85,9 +85,9 @@ set(source
 
 QT5_WRAP_CPP(mocSource ${mocHeader})
 QT5_ADD_RESOURCES(rccSource djvCore.qrc)
-QT5_CREATE_TRANSLATION(qmSource ${source}
-    djvCore_en_US.ts
-    djvCore_cs_CZ.ts)
+#QT5_CREATE_TRANSLATION(qmSource ${source}
+#    djvCore_en_US.ts
+#    djvCore_cs_CZ.ts)
 
 add_library(djvCore ${header} ${source} ${mocSource} ${rccSource} ${qmSource})
 target_link_libraries(djvCore

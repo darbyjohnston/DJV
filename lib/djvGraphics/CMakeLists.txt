@@ -209,9 +209,9 @@ endif()
 
 QT5_WRAP_CPP(mocSource ${mocHeader})
 QT5_ADD_RESOURCES(rccSource djvGraphics.qrc)
-QT5_CREATE_TRANSLATION(qmSource ${source}
-    djvGraphics_en_US.ts
-    djvGraphics_cs_CZ.ts)
+#QT5_CREATE_TRANSLATION(qmSource ${source}
+#    djvGraphics_en_US.ts
+#    djvGraphics_cs_CZ.ts)
 
 add_library(djvGraphics ${header} ${source} ${mocSource} ${rccSource} ${qmSource})
 set(djvGraphicsLibs
