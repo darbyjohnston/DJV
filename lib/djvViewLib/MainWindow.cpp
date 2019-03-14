@@ -304,6 +304,8 @@ namespace djv
         MainWindow::~MainWindow()
         {
             //DJV_DEBUG("MainWindow::~MainWindow");
+            _p->context->makeGLContextCurrent();
+            _p->openGLImage.reset();
         }
 
         const Graphics::ImageIOInfo & MainWindow::imageIOInfo() const
