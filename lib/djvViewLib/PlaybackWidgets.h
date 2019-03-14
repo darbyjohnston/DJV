@@ -94,7 +94,7 @@ namespace djv
             ~LoopWidget() override;
                         
         private Q_SLOTS:
-            void actionCallback(QAction *);
+            void actionCallback(bool);
             void widgetUpdate();
 
         private:

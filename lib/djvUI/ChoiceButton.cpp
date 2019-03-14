@@ -52,7 +52,6 @@ namespace djv
         {
             QPointer<QActionGroup> actionGroup;
             int currentIndex = 0;
-            bool mousePress = false;
         };
 
         ChoiceButton::ChoiceButton(const QPointer<UIContext> & context, QWidget * parent) :
@@ -112,24 +111,31 @@ namespace djv
             if (actionGroup == _p->actionGroup)
                 return;
 
-            // Disconnect the old action group.
+            // Disconnect the old actions.
             if (_p->actionGroup)
             {
-                disconnect(
-                    _p->actionGroup,
-                    SIGNAL(triggered(QAction *)),
-                    this,
-                    SLOT(actionGroupCallback(QAction *)));
+                Q_FOREACH(auto action, _p->actionGroup->actions())
+                {
+                    disconnect(
+                        action,
+                        SIGNAL(toggled(bool)),
+                        this,
+                        SLOT(actionCallback(bool)));
+                }
             }
 
             // Set the new action group.
             _p->actionGroup = actionGroup;
             if (_p->actionGroup)
             {
-                connect(
-                    _p->actionGroup,
-                    SIGNAL(triggered(QAction *)),
-                    SLOT(actionGroupCallback(QAction *)));
+                Q_FOREACH(auto action, _p->actionGroup->actions())
+                {
+                    connect(
+                        action,
+                        SIGNAL(toggled(bool)),
+                        this,
+                        SLOT(actionCallback(bool)));
+                }
             }
 
             // Set the current index.
@@ -137,13 +143,11 @@ namespace djv
             if (_p->actionGroup)
             {
                 const QList<QAction *> actions = _p->actionGroup->actions();
-
                 for (int i = 0; i < actions.count(); ++i)
                 {
                     if (actions[i]->isChecked())
                     {
                         currentIndex = i;
-
                         break;
                     }
                 }
@@ -181,20 +185,6 @@ namespace djv
             Q_EMIT currentIndexChanged(_p->currentIndex);
         }
 
-        void ChoiceButton::mousePressEvent(QMouseEvent * event)
-        {
-            QAbstractButton::mousePressEvent(event);
-            _p->mousePress = true;
-            update();
-        }
-
-        void ChoiceButton::mouseReleaseEvent(QMouseEvent * event)
-        {
-            QAbstractButton::mouseReleaseEvent(event);
-            _p->mousePress = false;
-            update();
-        }
-
         void ChoiceButton::paintEvent(QPaintEvent * event)
         {
             AbstractToolButton::paintEvent(event);
@@ -230,11 +220,11 @@ namespace djv
             return AbstractToolButton::event(event);
         }
 
-        void ChoiceButton::actionGroupCallback(QAction * action)
+        void ChoiceButton::actionCallback(bool value)
         {
-            if (_p->actionGroup)
+            if (value && _p->actionGroup)
             {
-                setCurrentIndex(_p->actionGroup->actions().indexOf(action));
+                setCurrentIndex(_p->actionGroup->actions().indexOf(qobject_cast<QAction *>(sender())));
             }
         }
 

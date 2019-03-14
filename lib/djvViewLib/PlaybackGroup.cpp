@@ -67,6 +67,7 @@ namespace djv
         struct PlaybackGroup::Private
         {
             Private(const QPointer<ViewContext> & context) :
+                loop(context->playbackPrefs()->loop()),
                 everyFrame(context->playbackPrefs()->hasEveryFrame()),
                 layout(context->playbackPrefs()->layout())
             {}
@@ -223,6 +224,10 @@ namespace djv
                 SLOT(setOutPoint(qint64)));
 
             // Setup the preferences callbacks.
+            connect(
+                context->playbackPrefs(),
+                SIGNAL(loopChanged(djv::ViewLib::Enum::LOOP)),
+                SLOT(setLoop(djv::ViewLib::Enum::LOOP)));
             connect(
                 context->playbackPrefs(),
                 SIGNAL(everyFrameChanged(bool)),
