@@ -24,8 +24,9 @@ set(FreeType_INCLUDE_DIRS
     ${ZLIB_INCLUDE_DIRS})
 
 if(CMAKE_BUILD_TYPE MATCHES "^Debug$")
-    find_library(FreeType_LIBRARY NAMES freetyped freetype)
-else()
+    find_library(FreeType_LIBRARY NAMES freetyped)
+endif()
+if(NOT FreeType_LIBRARY)
     find_library(FreeType_LIBRARY NAMES freetype)
 endif()
 set(FreeType_LIBRARIES ${FreeType_LIBRARY} ${ZLIB_LIBRARIES})

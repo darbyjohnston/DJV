@@ -24,7 +24,8 @@ set(PNG_INCLUDE_DIRS
 
 if(CMAKE_BUILD_TYPE MATCHES "^Debug$")
     find_library(PNG_LIBRARY NAMES pngd png16d libpng16_staticd)
-else()
+endif()
+if (NOT PNG_LIBRARY)
     find_library(PNG_LIBRARY NAMES png png16 png16_static libpng16_static)
 endif()
 set(PNG_LIBRARIES
