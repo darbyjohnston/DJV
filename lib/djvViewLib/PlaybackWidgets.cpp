@@ -145,6 +145,14 @@ namespace djv
             layout->setMargin(0);
             layout->addWidget(_p->button);
 
+            Q_FOREACH(auto action, actionGroup->actions())
+            {
+                if (action->isChecked())
+                {
+                    _p->text = action->text();
+                    break;
+                }
+            }
             widgetUpdate();
 
             Q_FOREACH(auto action, actionGroup->actions())
