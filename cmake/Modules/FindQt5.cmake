@@ -15,10 +15,6 @@
 # * Qt5::QtOpenGL
 # * Qt5::QtPrintSupport
 # * Qt5::QtSql
-# * Qt5::QtSvg
-# * Qt5::QtUiPlugin
-# * Qt5::QtUiTools
-# * Qt5::QtWaylandClient
 # * Qt5::QtWidgets
 # * Qt5::QtXml
 #
@@ -29,6 +25,7 @@
 find_package(ZLIB REQUIRED)
 find_package(JPEG REQUIRED)
 find_package(PNG REQUIRED)
+find_package(FreeType REQUIRED)
 
 find_path(QT_INCLUDE_DIR
     NAMES QtCore/QtCore
@@ -53,6 +50,10 @@ find_path(QT_OPENGL_INCLUDE_DIR
     NAMES QtOpenGL
     PATH_SUFFIXES qt5/QtOpenGL
     PATH_SUFFIXES QtOpenGL)
+find_path(QT_PLATFORM_HEADERS_INCLUDE_DIR
+    NAMES QtPlatformHeaders
+    PATH_SUFFIXES qt5/QtPlatformHeaders
+    PATH_SUFFIXES QtPlatformHeaders)
 find_path(QT_INCLUDE_DIR
     NAMES QtPrintSupport/QtPrintSupport
     PATH_SUFFIXES qt5)
@@ -60,10 +61,6 @@ find_path(QT_SQL_INCLUDE_DIR
     NAMES QtSql
     PATH_SUFFIXES qt5/QtSql
     PATH_SUFFIXES QtSql)
-find_path(QT_SVG_INCLUDE_DIR
-    NAMES QtSvg
-    PATH_SUFFIXES qt5/QtSvg
-    PATH_SUFFIXES QtSvg)
 find_path(QT_WIDGETS_INCLUDE_DIR
     NAMES QtWidgets
     PATH_SUFFIXES qt5/QtWidgets
@@ -79,11 +76,12 @@ set(QT_INCLUDE_DIRS
     ${QT_GUI_INCLUDE_DIR}
     ${QT_NETWORK_INCLUDE_DIR}
     ${QT_OPENGL_INCLUDE_DIR}
+    ${QT_PLATFORM_HEADERS_INCLUDE_DIR}
     ${QT_PRINT_SUPPORT_INCLUDE_DIR}
     ${QT_SQL_INCLUDE_DIR}
-    ${QT_SVG_INCLUDE_DIR}
     ${QT_WIDGETS_INCLUDE_DIR}
     ${QT_XML_INCLUDE_DIR}
+    ${FreeType_INCLUDE_DIRS}
     ${PNG_INCLUDE_DIRS}
     ${JPEG_INCLUDE_DIRS}
     ${ZLIB_INCLUDE_DIRS})
@@ -96,7 +94,6 @@ if(CMAKE_BUILD_TYPE MATCHES "^Debug$")
     find_library(QT_OPENGL_LIBRARY NAMES Qt5OpenGLd Qt5OpenGL_debug Qt5OpenGL)
     find_library(QT_PRINT_SUPPORT_LIBRARY NAMES Qt5PrintSupportd Qt5PrintSupport_debug Qt5PrintSupport)
     find_library(QT_SQL_LIBRARY NAMES Qt5Sqld Qt5Sql_debug Qt5Sql)
-    find_library(QT_SVG_LIBRARY NAMES Qt5Svgd Qt5Svg_debug  Qt5Svg)
     find_library(QT_WIDGETS_LIBRARY NAMES Qt5Widgetsd  Qt5Widgets_debug  Qt5Widgets)
     find_library(QT_XML_LIBRARY NAMES Qt5Xmld Qt5Xml_debug Qt5Xml)
 else()
@@ -107,7 +104,6 @@ else()
     find_library(QT_OPENGL_LIBRARY NAMES Qt5OpenGL)
     find_library(QT_PRINT_SUPPORT_LIBRARY NAMES Qt5PrintSupport)
     find_library(QT_SQL_LIBRARY NAMES Qt5Sql)
-    find_library(QT_SVG_LIBRARY NAMES Qt5Svg)
     find_library(QT_WIDGETS_LIBRARY NAMES Qt5Widgets)
     find_library(QT_XML_LIBRARY NAMES Qt5Xml)
 endif()
@@ -119,9 +115,9 @@ set(QT_LIBRARIES
     ${QT_OPENGL_LIBRARY}
     ${QT_PRINT_SUPPORT_LIBRARY}
     ${QT_SQL_LIBRARY}
-    ${QT_SVG_LIBRARY}
     ${QT_WIDGETS_LIBRARY}
     ${QT_XML_LIBRARY}
+    ${FreeType_LIBRARIES}
     ${PNG_LIBRARIES}
     ${JPEG_LIBRARIES}
     ${ZLIB_LIBRARIES})
@@ -150,7 +146,6 @@ mark_as_advanced(
     QT_OPENGL_INCLUDE_DIR
     QT_PRINT_SUPPORT_INCLUDE_DIR
     QT_SQL_INCLUDE_DIR
-    QT_SVG_INCLUDE_DIR
     QT_WIDGETS_INCLUDE_DIR
     QT_XML_INCLUDE_DIR
     QT_CORE_LIBRARY
@@ -160,7 +155,6 @@ mark_as_advanced(
     QT_OPENGL_LIBRARY
     QT_PRINT_SUPPORT_LIBRARY
     QT_SQL_LIBRARY
-    QT_SVG_LIBRARY
     QT_WIDGETS_LIBRARY
     QT_XML_LIBRARY
     QT_MOC
@@ -275,13 +269,6 @@ if(QT_FOUND AND NOT TARGET Qt5::QtPrintSupport)
         IMPORTED_LINK_INTERFACE_LIBRARIES PNG JPEG ZLIB
         INTERFACE_INCLUDE_DIRECTORIES "${QT_INCLUDE_DIRS}")
 endif()
-if(QT_FOUND AND NOT TARGET Qt5::QtSvg)
-    add_library(Qt5::QtSvg UNKNOWN IMPORTED)
-    set_target_properties(Qt5::QtSvg PROPERTIES
-        IMPORTED_LOCATION "${QT_SVG_LIBRARY}"
-        IMPORTED_LINK_INTERFACE_LIBRARIES PNG JPEG ZLIB
-        INTERFACE_INCLUDE_DIRECTORIES "${QT_INCLUDE_DIRS}")
-endif()
 if(QT_FOUND AND NOT TARGET Qt5::QtSql)
     add_library(Qt5::QtSql UNKNOWN IMPORTED)
     set_target_properties(Qt5::QtSql PROPERTIES
@@ -312,7 +299,6 @@ if(QT_FOUND AND NOT TARGET Qt5)
     target_link_libraries(Qt5 INTERFACE Qt5::QtOpenGL)
     target_link_libraries(Qt5 INTERFACE Qt5::QtPrintSupport)
     target_link_libraries(Qt5 INTERFACE Qt5::QtSql)
-    target_link_libraries(Qt5 INTERFACE Qt5::QtSvg)
     target_link_libraries(Qt5 INTERFACE Qt5::QtWidgets)
     target_link_libraries(Qt5 INTERFACE Qt5::QtXml)
 endif()
@@ -328,7 +314,6 @@ if(DJV_THIRD_PARTY)
             ${DJV_THIRD_PARTY}/bin/Qt5OpenGL.dll
             ${DJV_THIRD_PARTY}/bin/Qt5PrintSupport.dll
             ${DJV_THIRD_PARTY}/bin/Qt5Sql.dll
-            ${DJV_THIRD_PARTY}/bin/Qt5Svg.dll
             ${DJV_THIRD_PARTY}/bin/Qt5Widgets.dll
             ${DJV_THIRD_PARTY}/bin/Qt5Xml.dll
             DESTINATION ${DJV_INSTALL_BIN})
@@ -375,10 +360,6 @@ if(DJV_THIRD_PARTY)
             ${DJV_THIRD_PARTY}/lib/libQt5Sql.5.dylib
             ${DJV_THIRD_PARTY}/lib/libQt5Sql.5.6.dylib
             ${DJV_THIRD_PARTY}/lib/libQt5Sql.5.6.3.dylib
-            ${DJV_THIRD_PARTY}/lib/libQt5Svg.dylib
-            ${DJV_THIRD_PARTY}/lib/libQt5Svg.5.dylib
-            ${DJV_THIRD_PARTY}/lib/libQt5Svg.5.6.dylib
-            ${DJV_THIRD_PARTY}/lib/libQt5Svg.5.6.3.dylib
             ${DJV_THIRD_PARTY}/lib/libQt5Widgets.dylib
             ${DJV_THIRD_PARTY}/lib/libQt5Widgets.5.dylib
             ${DJV_THIRD_PARTY}/lib/libQt5Widgets.5.6.dylib
@@ -431,10 +412,6 @@ if(DJV_THIRD_PARTY)
             ${QT_SQL_LIBRARY}.5
             ${QT_SQL_LIBRARY}.5.6
             ${QT_SQL_LIBRARY}.5.6.3
-            ${QT_SVG_LIBRARY}
-            ${QT_SVG_LIBRARY}.5
-            ${QT_SVG_LIBRARY}.5.6
-            ${QT_SVG_LIBRARY}.5.6.3
             ${QT_WIDGETS_LIBRARY}
             ${QT_WIDGETS_LIBRARY}.5
             ${QT_WIDGETS_LIBRARY}.5.6

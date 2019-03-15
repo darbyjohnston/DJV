@@ -103,8 +103,11 @@ namespace djv
             //DJV_DEBUG("FileExport::~FileExport");
             delete _p->dialog;
 
-            _p->context->makeGLContextCurrent();
-            _p->openGLImage.reset();
+            if (_p->openGLImage)
+            {
+                _p->context->makeGLContextCurrent();
+                _p->openGLImage.reset();
+            }
         }
 
         void FileExport::start(const FileExportInfo & info)

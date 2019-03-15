@@ -72,7 +72,6 @@ set(header
     ShortcutsModel.h
     ShortcutsWidget.h
     ShuttleButton.h
-    Spinner.h
     StylePrefs.h
     StylePrefsWidget.h
     TargaWidget.h
@@ -146,7 +145,6 @@ set(mocHeader
     ShortcutsModel.h
     ShortcutsWidget.h
     ShuttleButton.h
-    Spinner.h
     StylePrefs.h
     StylePrefsWidget.h
     TargaWidget.h
@@ -222,7 +220,6 @@ set(source
     ShortcutsModel.cpp
     ShortcutsWidget.cpp
     ShuttleButton.cpp
-    Spinner.cpp
     StylePrefs.cpp
     StylePrefsWidget.cpp
     TargaWidget.cpp
@@ -280,9 +277,9 @@ endif()
 
 QT5_WRAP_CPP(mocSource ${mocHeader})
 QT5_ADD_RESOURCES(rccSource djvUI.qrc)
-QT5_CREATE_TRANSLATION(qmSource ${source}
-    djvUI_en_US.ts
-    djvUI_cs_CZ.ts)
+#QT5_CREATE_TRANSLATION(qmSource ${source}
+#    djvUI_en_US.ts
+#    djvUI_cs_CZ.ts)
 
 include_directories(${OPENGL_INCLUDE_DIRS})
 add_library(djvUI ${header} ${source} ${mocSource} ${rccSource} ${qmSource})

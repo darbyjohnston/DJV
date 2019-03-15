@@ -64,7 +64,7 @@ namespace djv
         {
             _p->session = session;
 
-            setWindowFlags(Qt::Dialog | Qt::Tool);
+            setWindowFlags(Qt::Dialog);
 
             menuBar()->setNativeMenuBar(false);
             menuBar()->addMenu(session->fileGroup()->createMenu());

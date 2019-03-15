@@ -222,9 +222,9 @@ endif()
 
 QT5_WRAP_CPP(mocSource ${mocHeader})
 QT5_ADD_RESOURCES(rccSource djvAV.qrc)
-QT5_CREATE_TRANSLATION(qmSource ${source}
-    djvAV_en_US.ts
-    djvAV_cs_CZ.ts)
+#QT5_CREATE_TRANSLATION(qmSource ${source}
+#    djvGraphics_en_US.ts
+#    djvGraphics_cs_CZ.ts)
 
 add_library(djvAV ${header} ${source} ${mocSource} ${rccSource} ${qmSource})
 set(djvAVLibs

@@ -229,8 +229,11 @@ namespace djv
             prefs.set("displayProfile", _p->displayProfile);
             prefs.set("lock", _p->lock);
 
-            context()->makeGLContextCurrent();
-            _p->openGLImage.reset();
+            if (_p->openGLImage)
+            {
+                context()->makeGLContextCurrent();
+                _p->openGLImage.reset();
+            }
         }
 
         void ColorPickerTool::showEvent(QShowEvent *)

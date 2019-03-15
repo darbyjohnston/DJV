@@ -73,13 +73,11 @@ namespace djv
             void currentIndexChanged(int);
 
         protected:
-            void mousePressEvent(QMouseEvent *) override;
-            void mouseReleaseEvent(QMouseEvent *) override;
             void paintEvent(QPaintEvent *) override;
             bool event(QEvent*) override;
 
         private Q_SLOTS:
-            void actionGroupCallback(QAction *);
+            void actionCallback(bool);
             void clickedCallback();
             
             void styleUpdate();

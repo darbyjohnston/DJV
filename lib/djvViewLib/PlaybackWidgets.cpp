@@ -147,10 +147,13 @@ namespace djv
 
             widgetUpdate();
 
-            connect(
-                actionGroup,
-                SIGNAL(triggered(QAction *)),
-                SLOT(actionCallback(QAction *)));
+            Q_FOREACH(auto action, actionGroup->actions())
+            {
+                connect(
+                    action,
+                    SIGNAL(toggled(bool)),
+                    SLOT(actionCallback(bool)));
+            }
             connect(
                 context->shortcutPrefs(),
                 SIGNAL(shortcutsChanged(const QVector<djv::UI::Shortcut> &)),
@@ -160,9 +163,9 @@ namespace djv
         LoopWidget::~LoopWidget()
         {}
 
-        void LoopWidget::actionCallback(QAction * action)
+        void LoopWidget::actionCallback(bool)
         {
-            _p->text = action->text();
+            _p->text = qobject_cast<QAction *>(sender())->text();
             widgetUpdate();
         }
         
@@ -172,13 +175,13 @@ namespace djv
             _p->button->setShortcut(shortcuts[Enum::SHORTCUT_PLAYBACK_LOOP].value);
 
             _p->button->setToolTip(
-                qApp->translate("djv::ViewLib::PlaybackButtons",
+                qApp->translate("djv::ViewLib::LoopWidget",
                 "Loop mode: %1<br><br>"
                 "Keyboard shortcut: %2").
                 arg(_p->text).
                 arg(shortcuts[Enum::SHORTCUT_PLAYBACK_LOOP].value.toString()));
             _p->button->setWhatsThis(
-                qApp->translate("djv::ViewLib::PlaybackButtons",
+                qApp->translate("djv::ViewLib::LoopWidget",
                 "Loop mode: %1<br><br>"
                 "Keyboard shortcut: %2<br><br>"
                 "<a href=\"ViewPlayback.html\">Documentation</a>").
@@ -219,10 +222,10 @@ namespace djv
 
             _p->shuttle = new UI::ShuttleButton(context);
             _p->shuttle->setToolTip(
-                qApp->translate("djv::ViewLib::PlaybackButtons",
+                qApp->translate("djv::ViewLib::FrameButtons",
                 "Click and drag to change the current frame"));
             _p->shuttle->setWhatsThis(
-                qApp->translate("djv::ViewLib::PlaybackButtons",
+                qApp->translate("djv::ViewLib::FrameButtons",
                 "Click and drag to change the current frame<br><br>"
                 "<a href=\"ViewPlayback.html\">Documentation</a>"));
 

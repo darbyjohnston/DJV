@@ -141,7 +141,13 @@ namespace djv
         }
 
         StatusBar::~StatusBar()
-        {}
+        {
+            if (_p->openGLImage)
+            {
+                _p->context->makeGLContextCurrent();
+                _p->openGLImage.reset();
+            }
+        }
 
         void StatusBar::pickCallback(const glm::ivec2 & value)
         {

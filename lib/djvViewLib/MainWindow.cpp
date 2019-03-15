@@ -67,6 +67,10 @@
 #include <QTimer>
 #include <QToolBar>
 
+#if defined(DJV_WINDOWS)
+#include <QWindowsWindowFunctions>
+#endif // DJV_WINDOWS
+
 namespace djv
 {
     namespace ViewLib
@@ -287,6 +291,12 @@ namespace djv
         {
             //DJV_DEBUG("MainWindow::showEvent");    
             QMainWindow::showEvent(event);
+
+#if defined(DJV_WINDOWS)
+            //! \bug https://doc.qt.io/qt-5/windows-issues.html#fullscreen-opengl-based-windows
+            QWindowsWindowFunctions::setHasBorderInFullScreen(windowHandle(), true);
+#endif // DJV_WINDOWS
+
             const QSize& sizeHint = this->sizeHint();
             const glm::ivec2 size(sizeHint.width(), sizeHint.height());
             //DJV_DEBUG_PRINT("size = " << size);

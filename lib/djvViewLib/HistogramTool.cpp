@@ -337,8 +337,11 @@ namespace djv
             prefs.set("colorProfile", _p->colorProfile);
             prefs.set("displayProfile", _p->displayProfile);
 
-            context()->makeGLContextCurrent();
-            _p->openGLImage.reset();
+            if (_p->openGLImage)
+            {
+                context()->makeGLContextCurrent();
+                _p->openGLImage.reset();
+            }
         }
 
         void HistogramTool::sizeCallback(int in)

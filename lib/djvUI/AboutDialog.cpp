@@ -81,7 +81,7 @@ namespace djv
 
             // Initialize.
             setWindowTitle(qApp->translate("djv::UI::AboutDialog", "About"));
-            setWindowFlags(Qt::Dialog | Qt::Tool | Qt::WindowCloseButtonHint | Qt::WindowMaximizeButtonHint);
+            setWindowFlags(Qt::Dialog | Qt::WindowCloseButtonHint | Qt::WindowMaximizeButtonHint);
             resize(800, 600);
 
             // Setup callbacks.

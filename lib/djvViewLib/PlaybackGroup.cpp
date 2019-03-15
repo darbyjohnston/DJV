@@ -41,6 +41,7 @@
 #include <djvUI/ToolButton.h>
 
 #include <djvCore/ListUtil.h>
+#include <djvCore/SignalBlocker.h>
 #include <djvCore/Timer.h>
 
 namespace djv
@@ -59,13 +60,14 @@ namespace djv
         struct PlaybackGroup::Private
         {
             Private(const QPointer<ViewContext> & context) :
+                loop(context->playbackPrefs()->loop()),
                 everyFrame(context->playbackPrefs()->hasEveryFrame()),
                 layout(context->playbackPrefs()->layout())
             {}
 
             Core::Sequence    sequence;
             Enum::PLAYBACK    playback = Enum::STOP;
-            Enum::PLAYBACK    playbackPrev = Enum::STOP;
+            Enum::PLAYBACK    playbackPrev = Enum::FORWARD;
             Enum::LOOP        loop = Enum::LOOP_REPEAT;
             Core::Speed       speed;
             float             actualSpeed = 0.f;
@@ -154,6 +156,10 @@ namespace djv
                 SLOT(layoutCallback(QAction *)));
 
             // Setup the preferences callbacks.
+            connect(
+                context->playbackPrefs(),
+                SIGNAL(loopChanged(djv::ViewLib::Enum::LOOP)),
+                SLOT(setLoop(djv::ViewLib::Enum::LOOP)));
             connect(
                 context->playbackPrefs(),
                 SIGNAL(everyFrameChanged(bool)),
@@ -787,6 +793,10 @@ namespace djv
             //DJV_DEBUG_PRINT("playback = " << _p->playback);
             //DJV_DEBUG_PRINT("loop = " << _p->loop);
 
+            Core::SignalBlocker signalBlocker(QObjectList() <<
+                _p->actions->group(PlaybackActions::PLAYBACK_GROUP) <<
+                _p->actions->group(PlaybackActions::LOOP_GROUP));
+
             _p->actions->group(PlaybackActions::PLAYBACK_GROUP)->actions()[_p->playback]->setChecked(true);
             _p->actions->group(PlaybackActions::LOOP_GROUP)->actions()[_p->loop]->setChecked(true);
 
@@ -829,6 +839,8 @@ namespace djv
 
         void PlaybackGroup::timeUpdate()
         {
+            Core::SignalBlocker signalBlocker(QObjectList() <<
+                _p->actions->group(PlaybackActions::IN_OUT_GROUP));
             _p->actions->group(PlaybackActions::IN_OUT_GROUP)->actions()[Enum::IN_OUT_ENABLE]->setChecked(_p->inOutEnabled);
         }
 
@@ -839,6 +851,8 @@ namespace djv
 
         void PlaybackGroup::layoutUpdate()
         {
+            Core::SignalBlocker signalBlocker(QObjectList() <<
+                _p->actions->group(PlaybackActions::LAYOUT_GROUP));
             _p->actions->group(PlaybackActions::LAYOUT_GROUP)->actions()[_p->layout]->setChecked(true);
         }
 

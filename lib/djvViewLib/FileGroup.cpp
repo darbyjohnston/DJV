@@ -237,8 +237,11 @@ namespace djv
                 _p->preloadTimer = 0;
             }
             cacheDel();
-            context()->makeGLContextCurrent();
-            _p->openGLImage.reset();
+            if (_p->openGLImage)
+            {
+                context()->makeGLContextCurrent();
+                _p->openGLImage.reset();
+            }
         }
 
         const Core::FileInfo & FileGroup::fileInfo() const
