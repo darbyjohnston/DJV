@@ -51,8 +51,9 @@ namespace djv
             {
                 std::shared_ptr<ValueSubject<bool> > showShortcuts;
                 std::shared_ptr<MapSubject<std::string, bool> > shortcutsBellows;
-                std::shared_ptr<ValueSubject<float> > shortcutsSplitter;
+                std::shared_ptr<ListSubject<float> > shortcutsSplit;
                 std::shared_ptr<ValueSubject<ViewType> > viewType;
+                std::shared_ptr<ListSubject<float> > listViewHeaderSplit;
                 std::shared_ptr<ValueSubject<bool> > fileSequences;
                 std::shared_ptr<ValueSubject<bool> > showHidden;
                 std::shared_ptr<ValueSubject<FileSystem::DirectoryListSort> > sort;
@@ -74,8 +75,9 @@ namespace djv
                         { "Recent",    true }
                     }
                 );
-                p.shortcutsSplitter = ValueSubject<float>::create(.1f);
+                p.shortcutsSplit = ListSubject<float>::create({ .1f, 1.f });
                 p.viewType = ValueSubject<ViewType>::create(ViewType::ThumbnailsSmall);
+                p.listViewHeaderSplit = ListSubject<float>::create({ .7f, .8f, .9f });
                 p.fileSequences = ValueSubject<bool>::create(false);
                 p.showHidden = ValueSubject<bool>::create(false);
                 p.sort = ValueSubject<FileSystem::DirectoryListSort>::create(FileSystem::DirectoryListSort::Name);
@@ -121,15 +123,15 @@ namespace djv
                 p.shortcutsBellows->setIfChanged(value);
             }
 
-            std::shared_ptr<IValueSubject<float> > FileBrowser::observeShortcutsSplitter() const
+            std::shared_ptr<IListSubject<float> > FileBrowser::observeShortcutsSplit() const
             {
-                return _p->shortcutsSplitter;
+                return _p->shortcutsSplit;
             }
 
-            void FileBrowser::setShortcutsSplitter(float value)
+            void FileBrowser::setShortcutsSplit(const std::vector<float> & value)
             {
                 DJV_PRIVATE_PTR();
-                p.shortcutsSplitter->setIfChanged(value);
+                p.shortcutsSplit->setIfChanged(value);
             }
 
             std::shared_ptr<IValueSubject<ViewType> > FileBrowser::observeViewType() const
@@ -141,6 +143,17 @@ namespace djv
             {
                 DJV_PRIVATE_PTR();
                 p.viewType->setIfChanged(value);
+            }
+
+            std::shared_ptr<IListSubject<float> > FileBrowser::observeListViewHeaderSplit() const
+            {
+                return _p->listViewHeaderSplit;
+            }
+
+            void FileBrowser::setListViewHeaderSplit(const std::vector<float> & value)
+            {
+                DJV_PRIVATE_PTR();
+                p.listViewHeaderSplit->setIfChanged(value);
             }
 
             std::shared_ptr<IValueSubject<bool> > FileBrowser::observeFileSequences() const
@@ -206,8 +219,9 @@ namespace djv
                     const auto& object = value.get<picojson::object>();
                     read("ShowShortcuts", object, p.showShortcuts);
                     read("ShortcutsBellows", object, p.shortcutsBellows);
-                    read("ShortcutsSplitter", object, p.shortcutsSplitter);
+                    read("ShortcutsSplit", object, p.shortcutsSplit);
                     read("ViewType", object, p.viewType);
+                    read("ListViewHeaderSplit", object, p.listViewHeaderSplit);
                     read("FileSequences", object, p.fileSequences);
                     read("ShowHidden", object, p.showHidden);
                     read("Sort", object, p.sort);
@@ -223,8 +237,9 @@ namespace djv
                 auto& object = out.get<picojson::object>();
                 write("ShowShortcuts", p.showShortcuts->get(), object);
                 write("ShortcutsBellows", p.shortcutsBellows->get(), object);
-                write("ShortcutsSplitter", p.shortcutsSplitter->get(), object);
+                write("ShortcutsSplit", p.shortcutsSplit->get(), object);
                 write("ViewType", p.viewType->get(), object);
+                write("ListViewHeaderSplit", p.listViewHeaderSplit->get(), object);
                 write("FileSequences", p.fileSequences->get(), object);
                 write("ShowHidden", p.showHidden->get(), object);
                 write("Sort", p.sort->get(), object);

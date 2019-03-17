@@ -56,8 +56,7 @@ namespace djv
 
                 _STAT info;
                 memset(&info, 0, sizeof(_STAT));
-                std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>, wchar_t> utf16;
-                if (_STAT_FNC(utf16.from_bytes(_path.get()).c_str(), &info) != 0)
+                if (_STAT_FNC(String::toWide(_path.get()).c_str(), &info) != 0)
                 {
                     std::string err;
                     char tmp[String::cStringLength] = "";
@@ -91,19 +90,14 @@ namespace djv
                 if (!value.isEmpty())
                 {
                     // Prepare the path.
-                    std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>, wchar_t> utf16;
-                    const std::wstring path = utf16.from_bytes(value.get());
+                    const std::wstring path = String::toWide(value.get() + Path::getCurrentPathSeparator() + '*');
                     WCHAR pathBuf[MAX_PATH];
-                    size_t size = std::min(path.size(), static_cast<size_t>(MAX_PATH - options.glob.size() - 2));
+                    size_t size = std::min(path.size(), static_cast<size_t>(MAX_PATH - 1));
                     memcpy(pathBuf, path.c_str(), size * sizeof(WCHAR));
-                    pathBuf[size++] = Path::getCurrentPathSeparator();
-                    for (size_t i = 0; i < options.glob.size(); ++i)
-                    {
-                        pathBuf[size++] = options.glob[i];
-                    }
                     pathBuf[size++] = 0;
 
                     // List the directory contents.
+                    std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>, wchar_t> utf16;
                     WIN32_FIND_DATAW ffd;
                     HANDLE hFind = FindFirstFileW(pathBuf, &ffd);
                     if (hFind != INVALID_HANDLE_VALUE)
@@ -122,6 +116,10 @@ namespace djv
                                 filter = true;
                             }
                             if (fileName.size() == 2 && '.' == fileName[0] && '.' == fileName[1])
+                            {
+                                filter = true;
+                            }
+                            if (options.filter.size() && !String::match(fileName, options.filter))
                             {
                                 filter = true;
                             }
@@ -172,12 +170,22 @@ namespace djv
 
                     switch (options.sort)
                     {
+                    case DirectoryListSort::Name:
+                        std::sort(
+                            out.begin(), out.end(),
+                            [&options](const FileInfo & a, const FileInfo & b)
+                        {
+                            return options.reverseSort ?
+                                (a.getFileName(Frame::Invalid, false) > b.getFileName(Frame::Invalid, false)) :
+                                (a.getFileName(Frame::Invalid, false) < b.getFileName(Frame::Invalid, false));
+                        });
+                        break;
                     case DirectoryListSort::Size:
                         std::sort(
                             out.begin(), out.end(),
                             [&options](const FileInfo & a, const FileInfo & b)
                         {
-                            return options.reverseSort ? (a.getSize() < b.getSize()) : (a.getSize() > b.getSize());
+                            return options.reverseSort ? (a.getSize() > b.getSize()) : (a.getSize() < b.getSize());
                         });
                         break;
                     case DirectoryListSort::Time:
@@ -185,7 +193,7 @@ namespace djv
                             out.begin(), out.end(),
                             [&options](const FileInfo & a, const FileInfo & b)
                         {
-                            return options.reverseSort ? (a.getTime() < b.getTime()) : (a.getTime() > b.getTime());
+                            return options.reverseSort ? (a.getTime() > b.getTime()) : (a.getTime() < b.getTime());
                         });
                         break;
                     default: break;

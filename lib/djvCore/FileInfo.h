@@ -89,7 +89,7 @@ namespace djv
                 DirectoryListSort sort = DirectoryListSort::Name;
                 bool reverseSort = false;
                 bool sortDirectoriesFirst = true;
-                std::string glob = "*";
+                std::string filter;
             };
 
             //! This class provides information about files and file sequences.

@@ -38,8 +38,6 @@ namespace djv
         namespace Layout
         {
             //! This class provides a splitter widget.
-            //!
-            //! \bug Add support for more than two child widgets.
             class Splitter : public Widget
             {
                 DJV_NON_COPYABLE(Splitter);
@@ -56,32 +54,31 @@ namespace djv
                 Orientation getOrientation() const;
                 void setOrientation(Orientation);
 
-                float getSplit() const;
-                void setSplit(float);
-                void setSplitCallback(const std::function<void(float)> &);
-
-                ColorRole getHandleColorRole() const;
-                void setHandleColorRole(ColorRole);
+                const std::vector<float> & getSplit() const;
+                void setSplit(const std::vector<float> &);
+                void setSplitCallback(const std::function<void(const std::vector<float> &)> &);
 
                 float getHeightForWidth(float) const override;
 
+                void addChild(const std::shared_ptr<IObject> &) override;
+                void removeChild(const std::shared_ptr<IObject> &) override;
+
             protected:
+                void _styleEvent(Core::Event::Style &) override;
                 void _preLayoutEvent(Core::Event::PreLayout &) override;
                 void _layoutEvent(Core::Event::Layout &) override;
                 void _paintEvent(Core::Event::Paint &) override;
-                void _pointerEnterEvent(Core::Event::PointerEnter &) override;
-                void _pointerLeaveEvent(Core::Event::PointerLeave &) override;
+                void _pointerLeaveEvent(Core::Event::PointerLeave&) override;
                 void _pointerMoveEvent(Core::Event::PointerMove &) override;
                 void _buttonPressEvent(Core::Event::ButtonPress &) override;
                 void _buttonReleaseEvent(Core::Event::ButtonRelease &) override;
 
-                void _updateEvent(Core::Event::Update &) override;
-
             private:
                 float _valueToPos(float) const;
                 float _posToValue(float) const;
-                Core::BBox2f _getSplitterGeometry() const;
-                Core::BBox2f _getHandleGeometry() const;
+                std::vector<Core::BBox2f> _getChildGeometry() const;
+                std::vector<Core::BBox2f> _getHandleGeometry() const;
+                void _distributeChildren();
 
                 DJV_PRIVATE();
             };

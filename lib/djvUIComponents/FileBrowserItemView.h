@@ -63,6 +63,7 @@ namespace djv
                 static std::shared_ptr<ItemView> create(Core::Context *);
 
                 void setViewType(ViewType);
+                void setSplit(const std::vector<float> &);
                 void setItems(const std::vector<Core::FileSystem::FileInfo> &);
                 void setCallback(const std::function<void(const Core::FileSystem::FileInfo &)> &);
 
@@ -83,6 +84,7 @@ namespace djv
                 std::shared_ptr<Widget> _createTooltip(const glm::vec2 & pos) override;
 
                 void _updateEvent(Core::Event::Update&) override;
+                void _localeEvent(Core::Event::Locale &) override;
 
             private:
                 void _iconsUpdate();

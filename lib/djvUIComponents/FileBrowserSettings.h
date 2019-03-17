@@ -34,6 +34,7 @@
 
 #include <djvCore/FileInfo.h>
 #include <djvCore/MapObserver.h>
+#include <djvCore/ListObserver.h>
 #include <djvCore/ValueObserver.h>
 
 namespace djv
@@ -63,11 +64,14 @@ namespace djv
                 std::shared_ptr<Core::IMapSubject<std::string, bool> > observeShortcutsBellows() const;
                 void setShortcutsBellows(const std::map<std::string, bool> &);
 
-                std::shared_ptr<Core::IValueSubject<float> > observeShortcutsSplitter() const;
-                void setShortcutsSplitter(float);
+                std::shared_ptr<Core::IListSubject<float> > observeShortcutsSplit() const;
+                void setShortcutsSplit(const std::vector<float> &);
 
                 std::shared_ptr<Core::IValueSubject<ViewType> > observeViewType() const;
                 void setViewType(ViewType);
+
+                std::shared_ptr<Core::IListSubject<float> > observeListViewHeaderSplit() const;
+                void setListViewHeaderSplit(const std::vector<float> &);
 
                 std::shared_ptr<Core::IValueSubject<bool> > observeFileSequences() const;
                 void setFileSequences(bool);

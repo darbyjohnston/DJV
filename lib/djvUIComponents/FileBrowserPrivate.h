@@ -75,12 +75,15 @@ namespace djv
                 void setHistoryIndexCallback(const std::function<void(size_t)> &);
 
                 void setEdit(bool);
+                void setEditCallback(const std::function<void(bool)> &);
 
             protected:
-                void _preLayoutEvent(Core::Event::PreLayout&) override;
-                void _layoutEvent(Core::Event::Layout&) override;
+                void _preLayoutEvent(Core::Event::PreLayout &) override;
+                void _layoutEvent(Core::Event::Layout &) override;
+                void _buttonPressEvent(Core::Event::ButtonPress &) override;
 
                 void _localeEvent(Core::Event::Locale &) override;
+                bool _eventFilter(const std::shared_ptr<Core::IObject> &, Core::Event::IEvent&) override;
 
             private:
                 DJV_PRIVATE();
@@ -123,8 +126,8 @@ namespace djv
                 void setCallback(const std::function<void(const Core::FileSystem::Path &)> &);
 
             protected:
-                void _preLayoutEvent(Core::Event::PreLayout&) override;
-                void _layoutEvent(Core::Event::Layout&) override;
+                void _preLayoutEvent(Core::Event::PreLayout &) override;
+                void _layoutEvent(Core::Event::Layout &) override;
 
             private:
                 DJV_PRIVATE();
@@ -147,8 +150,8 @@ namespace djv
                 void setCallback(const std::function<void(const Core::FileSystem::Path &)> &);
 
             protected:
-                void _preLayoutEvent(Core::Event::PreLayout&) override;
-                void _layoutEvent(Core::Event::Layout&) override;
+                void _preLayoutEvent(Core::Event::PreLayout &) override;
+                void _layoutEvent(Core::Event::Layout &) override;
 
             private:
                 DJV_PRIVATE();

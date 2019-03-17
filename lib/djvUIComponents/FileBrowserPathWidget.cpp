@@ -62,6 +62,7 @@ namespace djv
                 std::shared_ptr<HorizontalLayout> layout;
                 std::function<void(const FileSystem::Path &)> pathCallback;
                 std::function<void(size_t)> historyIndexCallback;
+                std::function<void(bool)> editCallback;
             };
 
             void PathWidget::_init(Context * context)
@@ -69,6 +70,7 @@ namespace djv
                 UI::Widget::_init(context);
 
                 setClassName("djv::UI::FileBrowser::PathWidget");
+                setPointerEnabled(true);
 
                 DJV_PRIVATE_PTR();
                 p.historyActionGroup = ActionGroup::create(ButtonType::Radio);
@@ -83,6 +85,7 @@ namespace djv
                 p.buttonLayout->setBackgroundRole(ColorRole::Trough);
 
                 p.lineEditBase = LineEditBase::create(context);
+                p.lineEditBase->installEventFilter(shared_from_this());
 
                 p.layout = HorizontalLayout::create(context);
                 p.layout->setSpacing(MetricsRole::None);
@@ -248,6 +251,11 @@ namespace djv
                     std::static_pointer_cast<Widget>(p.buttonLayout));
             }
 
+            void PathWidget::setEditCallback(const std::function<void(bool)> & value)
+            {
+                _p->editCallback = value;
+            }
+
             void PathWidget::_preLayoutEvent(Event::PreLayout& event)
             {
                 _setMinimumSize(_p->layout->getMinimumSize());
@@ -258,10 +266,38 @@ namespace djv
                 _p->layout->setGeometry(getGeometry());
             }
 
-            void PathWidget::_localeEvent(Core::Event::Locale &)
+            void PathWidget::_buttonPressEvent(Event::ButtonPress & event)
+            {
+                DJV_PRIVATE_PTR();
+                event.accept();
+                setEdit(true);
+                if (p.editCallback)
+                {
+                    p.editCallback(true);
+                }
+            }
+
+            void PathWidget::_localeEvent(Event::Locale &)
             {
                 DJV_PRIVATE_PTR();
                 p.historyButton->setTooltip(_getText(DJV_TEXT("File browser history tooltip")));
+            }
+
+            bool PathWidget::_eventFilter(const std::shared_ptr<IObject>& object, Event::IEvent& event)
+            {
+                DJV_PRIVATE_PTR();
+                switch (event.getEventType())
+                {
+                case Event::Type::TextFocusLost:
+                    setEdit(false);
+                    if (p.editCallback)
+                    {
+                        p.editCallback(false);
+                    }
+                    break;
+                default: break;
+                }
+                return false;
             }
 
         } // namespace FileBrowser

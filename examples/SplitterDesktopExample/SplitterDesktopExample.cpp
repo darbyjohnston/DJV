@@ -46,25 +46,21 @@ int main(int argc, char ** argv)
     {
         auto app = Desktop::Application::create(argc, argv);
 
-        auto textBlock1 = UI::TextBlock::create(app.get());
-        textBlock1->setText(Core::String::getRandomText(100));
-        textBlock1->setFontSizeRole(UI::MetricsRole::FontLarge);
-        textBlock1->setMargin(UI::MetricsRole::Margin);
-
-        auto textBlock2 = UI::TextBlock::create(app.get());
-        textBlock2->setText(Core::String::getRandomText(100));
-        textBlock2->setFontSizeRole(UI::MetricsRole::FontLarge);
-        textBlock2->setMargin(UI::MetricsRole::Margin);
-
-        auto scrollWidget1 = UI::ScrollWidget::create(UI::ScrollType::Vertical, app.get());
-        scrollWidget1->addChild(textBlock1);
-
-        auto scrollWidget2 = UI::ScrollWidget::create(UI::ScrollType::Vertical, app.get());
-        scrollWidget2->addChild(textBlock2);
-
         auto splitter = UI::Layout::Splitter::create(UI::Orientation::Horizontal, app.get());
-        splitter->addChild(scrollWidget1);
-        splitter->addChild(scrollWidget2);
+        splitter->setMargin(UI::MetricsRole::Margin);
+
+        for (size_t i = 0; i < 3; ++i)
+        {
+            auto textBlock = UI::TextBlock::create(app.get());
+            textBlock->setText(Core::String::getRandomText(10));
+            textBlock->setFontSizeRole(UI::MetricsRole::FontLarge);
+            textBlock->setMargin(UI::MetricsRole::Margin);
+
+            auto scrollWidget = UI::ScrollWidget::create(UI::ScrollType::Vertical, app.get());
+            scrollWidget->addChild(textBlock);
+
+            splitter->addChild(scrollWidget);
+        }
 
         auto window = UI::Window::create(app.get());
         window->addChild(splitter);

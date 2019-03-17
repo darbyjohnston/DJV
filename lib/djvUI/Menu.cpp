@@ -105,6 +105,9 @@ namespace djv
                 std::map<size_t, std::shared_ptr<Item> > _items;
                 std::map<std::shared_ptr<Action>, std::shared_ptr<Item> > _actionToItem;
                 std::map<std::shared_ptr<Item>, std::shared_ptr<Action> > _itemToAction;
+                bool _hasIcons = false;
+                std::shared_ptr<AV::Image::Image> _checkedIcon;
+                std::future<std::shared_ptr<AV::Image::Image> > _checkedIconFuture;
                 std::map<std::shared_ptr<Item>, std::future<glm::vec2> > _titleSizeFutures;
                 std::map<std::shared_ptr<Item>, std::future<glm::vec2> > _shortcutSizeFutures;
                 std::map<Event::PointerID, std::shared_ptr<Item> > _hoveredItems;
@@ -147,6 +150,15 @@ namespace djv
 
             void MenuWidget::_styleEvent(Event::Style&)
             {
+                auto context = getContext();
+                if (auto style = _getStyle().lock())
+                {
+                    if (auto iconSystem = context->getSystemT<IconSystem>().lock())
+                    {
+                        const float iconSize = style->getMetric(MetricsRole::IconSmall);
+                        _checkedIconFuture = iconSystem->getIcon("djvIconCheckSmall", static_cast<int>(iconSize));
+                    }
+                }
                 _itemsUpdate();
             }
 
@@ -157,6 +169,7 @@ namespace djv
                     const float m = style->getMetric(MetricsRole::MarginSmall);
                     const float s = style->getMetric(MetricsRole::Spacing);
                     const float b = style->getMetric(MetricsRole::Border);
+                    const float iconSize = style->getMetric(MetricsRole::IconSmall);
 
                     if (_fontMetricsFuture.valid())
                     {
@@ -218,7 +231,12 @@ namespace djv
                     }
 
                     glm::vec2 itemSize(0.f, 0.f);
-                    itemSize.x = titleSize.x;
+                    if (_hasIcons)
+                    {
+                        itemSize.x += iconSize + s;
+                        itemSize.y = std::max(itemSize.y, iconSize);
+                    }
+                    itemSize.x += titleSize.x;
                     itemSize.y = std::max(itemSize.y, titleSize.y);
                     if (_hasShortcuts)
                     {
@@ -280,15 +298,10 @@ namespace djv
                         const BBox2f & g = getGeometry();
                         const float m = style->getMetric(MetricsRole::MarginSmall);
                         const float s = style->getMetric(MetricsRole::Spacing);
-                        const float iconSize = style->getMetric(MetricsRole::Icon);
+                        const float iconSize = style->getMetric(MetricsRole::IconSmall);
 
                         for (const auto & i : _items)
                         {
-                            if (i.second->checked)
-                            {
-                                render->setFillColor(_getColorWithOpacity(style->getColor(ColorRole::Checked)));
-                                render->drawRect(i.second->geom);
-                            }
                             if (i.second->enabled)
                             {
                                 if (i.second == _pressed.second)
@@ -311,6 +324,18 @@ namespace djv
                             }
                         }
 
+                        if (_checkedIconFuture.valid())
+                        {
+                            try
+                            {
+                                _checkedIcon = _checkedIconFuture.get();
+                            }
+                            catch (const std::exception& e)
+                            {
+                                _log(e.what(), LogLevel::Error);
+                            }
+                        }
+
                         render->setCurrentFont(style->getFontInfo(AV::Font::Info::faceDefault, MetricsRole::FontMedium));
                         for (const auto & i : _items)
                         {
@@ -318,11 +343,15 @@ namespace djv
                             float x = i.second->geom.min.x + m;
                             float y = 0.f;
 
-                            if (i.second->icon)
+                            if (i.second->checked && _checkedIcon)
                             {
                                 y = i.second->geom.min.y + ceilf(i.second->size.y / 2.f - iconSize / 2.f);
                                 render->setFillColor(_getColorWithOpacity(style->getColor(colorRole)));
-                                render->drawFilledImage(i.second->icon, BBox2f(x, y, iconSize, iconSize));
+                                render->drawFilledImage(_checkedIcon, BBox2f(x, y, iconSize, iconSize));
+                            }
+                            if (_hasIcons)
+                            {
+                                x += iconSize + s;
                             }
 
                             if (!i.second->title.empty())
@@ -543,6 +572,14 @@ namespace djv
                                 if (auto widget = weak.lock())
                                 {
                                     item->buttonType = value;
+                                    switch (value)
+                                    {
+                                    case ButtonType::Toggle:
+                                    case ButtonType::Radio:
+                                        widget->_hasIcons = true;
+                                        break;
+                                    default: break;
+                                    }
                                     widget->_resize();
                                 }
                             });

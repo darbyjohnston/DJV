@@ -132,7 +132,7 @@ namespace djv
 
                 // Find the .text files.
                 FileSystem::DirectoryListOptions options;
-                options.glob = "*.text";
+                options.filter = "\\.text$";
                 const auto fileInfos = FileSystem::FileInfo::directoryList(path, options);
 
                 // Extract the locale names.
@@ -261,7 +261,7 @@ namespace djv
             p.text.clear();
             _log("Reading text files:");
             FileSystem::DirectoryListOptions options;
-            options.glob = "*.text";
+            options.filter = "\\.text$";
             for (const auto & i : FileSystem::FileInfo::directoryList(path, options))
             {
                 _log(String::indent(1) + i.getPath().get());

@@ -12,8 +12,10 @@ set(header
     FileBrowserSettings.h
     ISettingsWidget.h
     LanguageSettingsWidget.h
+    ListViewHeader.h
     PPMSettingsWidget.h
     PaletteSettingsWidget.h
+    SearchBox.h
     UIComponentsSystem.h)
 set(source
     AVIOSettings.cpp
@@ -29,8 +31,10 @@ set(source
     FileBrowserShortcutsWidget.cpp
     ISettingsWidget.cpp
     LanguageSettingsWidget.cpp
+    ListViewHeader.cpp
     PPMSettingsWidget.cpp
     PaletteSettingsWidget.cpp
+    SearchBox.cpp
     UIComponentsSystem.cpp)
 
 if(JPEG_FOUND)

@@ -37,6 +37,7 @@ namespace djv
     {
         //! This class provides the base functionality for line edit widgets.
         //!
+        //! \todo Click to set the cursor position.
         //! \todo Add selection.
         //! \todo Add cut/copy/paste.
         //! \todo Add scrolling.

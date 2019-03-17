@@ -45,7 +45,6 @@ set(header
     PushButton.h
     RowLayout.h
     ScrollWidget.h
-    SearchBox.h
     Separator.h
     SettingsSystem.h
     SettingsSystemInline.h
@@ -112,7 +111,6 @@ set(source
     PushButton.cpp
     RowLayout.cpp
     ScrollWidget.cpp
-    SearchBox.cpp
     Separator.cpp
     SettingsSystem.cpp
     Shortcut.cpp

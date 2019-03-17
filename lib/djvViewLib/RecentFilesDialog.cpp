@@ -33,20 +33,23 @@
 
 #include <djvUIComponents/ActionButton.h>
 #include <djvUIComponents/FileBrowserItemView.h>
+#include <djvUIComponents/SearchBox.h>
 
 #include <djvUI/Action.h>
 #include <djvUI/ActionGroup.h>
 #include <djvUI/Label.h>
 #include <djvUI/MDICanvas.h>
-#include <djvUI/PopupWidget.h>
+#include <djvUI/Menu.h>
+#include <djvUI/MenuBar.h>
 #include <djvUI/RowLayout.h>
 #include <djvUI/ScrollWidget.h>
-#include <djvUI/SearchBox.h>
 #include <djvUI/SettingsSystem.h>
 #include <djvUI/Toolbar.h>
 
 #include <djvCore/Context.h>
 #include <djvCore/FileInfo.h>
+
+#include <regex>
 
 using namespace djv::Core;
 
@@ -56,14 +59,16 @@ namespace djv
     {
         struct RecentFilesDialog::Private
         {
+            std::vector<Core::FileSystem::FileInfo> recentFiles;
+            std::string filter;
             std::map<std::string, std::shared_ptr<UI::Action> > actions;
             std::shared_ptr<UI::ActionGroup> viewTypeActionGroup;
+            std::shared_ptr<UI::Menu> viewMenu;
             std::shared_ptr<UI::FileBrowser::ItemView> itemView;
+            std::shared_ptr<UI::ScrollWidget> scrollWidget;
             size_t itemCount = 0;
             std::shared_ptr<UI::Label> itemCountLabel;
-            std::shared_ptr<UI::PopupWidget> searchPopupWidget;
-            std::shared_ptr<UI::PopupWidget> settingsPopupWidget;
-            std::shared_ptr<UI::ScrollWidget> scrollWidget;
+            std::shared_ptr<UI::SearchBox> searchBox;
             std::shared_ptr<UI::VerticalLayout> layout;
             std::function<void(const Core::FileSystem::FileInfo &)> callback;
             std::shared_ptr<ValueObserver<UI::ViewType> > viewTypeObserver;
@@ -91,46 +96,41 @@ namespace djv
                 addAction(action.second);
             }
 
-            auto searchBox = UI::SearchBox::create(context);
-            p.itemCountLabel = UI::Label::create(context);
-            p.itemCountLabel->setTextHAlign(UI::TextHAlign::Right);
-            p.itemCountLabel->setMargin(UI::MetricsRole::MarginSmall);
-            auto vLayout = UI::VerticalLayout::create(context);
-            vLayout->setSpacing(UI::MetricsRole::None);
-            vLayout->addChild(searchBox);
-            vLayout->addChild(p.itemCountLabel);
-            p.searchPopupWidget = UI::PopupWidget::create(context);
-            p.searchPopupWidget->setIcon("djvIconSearch");
-            p.searchPopupWidget->addChild(vLayout);
-            p.searchPopupWidget->setCapturePointer(false);
+            p.viewMenu = UI::Menu::create(context);
+            p.viewMenu->addAction(p.actions["LargeThumbnails"]);
+            p.viewMenu->addAction(p.actions["SmallThumbnails"]);
+            p.viewMenu->addAction(p.actions["ListView"]);
 
-            vLayout = UI::VerticalLayout::create(context);
-            vLayout->setSpacing(UI::MetricsRole::None);
-            vLayout->addChild(UI::ActionButton::create(p.actions["LargeThumbnails"], context));
-            vLayout->addChild(UI::ActionButton::create(p.actions["SmallThumbnails"], context));
-            vLayout->addChild(UI::ActionButton::create(p.actions["ListView"], context));
-            p.settingsPopupWidget = UI::PopupWidget::create(context);
-            p.settingsPopupWidget->setIcon("djvIconSettings");
-            p.settingsPopupWidget->addChild(vLayout);
-
-            auto bottomToolBar = UI::Toolbar::create(context);
-            bottomToolBar->addExpander();
-            bottomToolBar->addChild(p.searchPopupWidget);
-            bottomToolBar->addChild(p.settingsPopupWidget);
+            auto menuBar = UI::MenuBar::create(context);
+            menuBar->addChild(p.viewMenu);
 
             p.itemView = UI::FileBrowser::ItemView::create(context);
             auto scrollWidget = UI::ScrollWidget::create(UI::ScrollType::Vertical, context);
             scrollWidget->setBorder(false);
             scrollWidget->addChild(p.itemView);
 
+            p.searchBox = UI::SearchBox::create(context);
+            p.itemCountLabel = UI::Label::create(context);
+            p.itemCountLabel->setTextHAlign(UI::TextHAlign::Right);
+            p.itemCountLabel->setMargin(UI::MetricsRole::MarginSmall);
+
+            auto bottomToolBar = UI::Toolbar::create(context);
+            bottomToolBar->addExpander();
+            bottomToolBar->addChild(p.itemCountLabel);
+            bottomToolBar->addChild(p.searchBox);
+
             p.layout = UI::VerticalLayout::create(context);
             p.layout->setSpacing(UI::MetricsRole::None);
+            p.layout->addChild(menuBar);
+            p.layout->addSeparator();
             p.layout->addChild(scrollWidget);
             p.layout->setStretch(scrollWidget, UI::RowStretch::Expand);
             p.layout->addSeparator();
             p.layout->addChild(bottomToolBar);
             addChild(p.layout);
             setStretch(p.layout, UI::RowStretch::Expand);
+
+            _recentFilesUpdate();
 
             auto weak = std::weak_ptr<RecentFilesDialog>(std::dynamic_pointer_cast<RecentFilesDialog>(shared_from_this()));
             p.viewTypeActionGroup->setRadioCallback(
@@ -159,6 +159,16 @@ namespace djv
                     {
                         widget->_p->callback(value);
                     }
+                }
+            });
+
+            p.searchBox->setFilterCallback(
+                [weak](const std::string & value)
+            {
+                if (auto widget = weak.lock())
+                {
+                    widget->_p->filter = value;
+                    widget->_recentFilesUpdate();
                 }
             });
 
@@ -195,10 +205,8 @@ namespace djv
 
         void RecentFilesDialog::setRecentFiles(const std::vector<Core::FileSystem::FileInfo> & value)
         {
-            DJV_PRIVATE_PTR();
-            p.itemView->setItems(value);
-            p.itemCount = value.size();
-            p.itemCountLabel->setText(p.getItemCountLabel(p.itemCount, getContext()));
+            _p->recentFiles = value;
+            _recentFilesUpdate();
         }
 
         void RecentFilesDialog::setViewType(UI::ViewType value)
@@ -230,10 +238,27 @@ namespace djv
             p.itemCountLabel->setText(p.getItemCountLabel(p.itemCount, context));
         }
 
+        void RecentFilesDialog::_recentFilesUpdate()
+        {
+            DJV_PRIVATE_PTR();
+            std::vector<Core::FileSystem::FileInfo> recentFiles;
+            std::regex r(p.filter);
+            for (const auto & i : p.recentFiles)
+            {
+                if (String::match(i.getFileName(), p.filter))
+                {
+                    recentFiles.push_back(i);
+                }
+            }
+            p.itemView->setItems(recentFiles);
+            p.itemCount = recentFiles.size();
+            p.itemCountLabel->setText(p.getItemCountLabel(p.itemCount, getContext()));
+        }
+
         std::string RecentFilesDialog::Private::getItemCountLabel(size_t size, Context * context)
         {
             std::stringstream ss;
-            ss << size << " " << context->getText(DJV_TEXT("items"));
+            ss << size << " " << context->getText(DJV_TEXT("Items"));
             return ss.str();
         }
 

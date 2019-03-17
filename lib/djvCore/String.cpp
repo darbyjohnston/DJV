@@ -35,6 +35,7 @@
 #include <codecvt>
 #include <iomanip>
 #include <locale>
+#include <regex>
 
 namespace djv
 {
@@ -78,6 +79,14 @@ namespace djv
                 {
                     value.pop_back();
                 }
+            }
+
+            bool match(const std::string & value, const std::string & expression)
+            {
+                std::regex r(expression);
+                std::smatch m;
+                std::regex_search(value, m, r);
+                return m.size() > 0 ? true : false;
             }
 
             void fromString(const char * s, size_t size, float & out)

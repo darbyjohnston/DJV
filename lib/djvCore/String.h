@@ -80,6 +80,13 @@ namespace djv
             //! \name Conversion
             ///@{
 
+            bool match(const std::string & value, const std::string & expression);
+
+            ///@}
+
+            //! \name Conversion
+            ///@{
+
             //! Low-level function for converting an integer type to a string.
             template<typename T>
             inline size_t intToString(

@@ -81,6 +81,8 @@ namespace djv
 
             p.cursorBlinkTimer = Time::Timer::create(context);
             p.cursorBlinkTimer->setRepeating(true);
+
+            _textUpdate();
         }
 
         LineEditBase::LineEditBase() :
@@ -242,10 +244,8 @@ namespace djv
                     }
                 }
 
-                glm::vec2 size = p.textSize;
-                size.x = tc;
-                size += m * 2.f;
-                _setMinimumSize(size + getMargin().getSize(style));
+                const glm::vec2 size(tc, p.fontMetrics.lineHeight);
+                _setMinimumSize(size + m * 2.f + getMargin().getSize(style));
             }
         }
 

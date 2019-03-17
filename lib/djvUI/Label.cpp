@@ -242,8 +242,7 @@ namespace djv
                         _log(e.what(), LogLevel::Error);
                     }
                 }
-
-                glm::vec2 size = glm::max(p.textSize, p.sizeStringSize);
+                const glm::vec2 size(glm::max(p.textSize.x, p.sizeStringSize.x), p.fontMetrics.lineHeight);
                 _setMinimumSize(size + getMargin().getSize(style));
             }
         }

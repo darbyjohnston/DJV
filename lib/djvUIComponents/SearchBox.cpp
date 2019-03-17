@@ -27,7 +27,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvUI/SearchBox.h>
+#include <djvUIComponents/SearchBox.h>
 
 #include <djvUI/Border.h>
 #include <djvUI/FlatButton.h>

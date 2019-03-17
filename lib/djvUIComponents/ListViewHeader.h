@@ -29,50 +29,41 @@
 
 #pragma once
 
-#include <djvUI/IDialog.h>
-
-#include <djvUI/Enum.h>
+#include <djvUI/Widget.h>
 
 namespace djv
 {
-    namespace Core
+    namespace UI
     {
-        namespace FileSystem
+        //! This class provides a list view header widget.
+        class ListViewHeader : public Widget
         {
-            class FileInfo;
-
-        } // namespace FileSystem
-    } // namespace Core
-
-    namespace ViewLib
-    {
-        class RecentFilesDialog : public UI::IDialog
-        {
-            DJV_NON_COPYABLE(RecentFilesDialog);
+            DJV_NON_COPYABLE(ListViewHeader);
 
         protected:
             void _init(Core::Context *);
-            RecentFilesDialog();
+            ListViewHeader();
 
         public:
-            ~RecentFilesDialog() override;
+            virtual ~ListViewHeader();
 
-            static std::shared_ptr<RecentFilesDialog> create(Core::Context *);
+            static std::shared_ptr<ListViewHeader> create(Core::Context *);
 
-            void setRecentFiles(const std::vector<Core::FileSystem::FileInfo> &);
-            void setViewType(UI::ViewType);
+            const std::vector<std::string> & getText() const;
+            void setText(const std::vector<std::string> &);
 
-            void setCallback(const std::function<void(const Core::FileSystem::FileInfo &)> &);
+            const std::vector<float> & getSplit() const;
+            void setSplit(const std::vector<float> &);
+            void setSplitCallback(const std::function<void(const std::vector<float> &)> &);
 
         protected:
-            void _localeEvent(Core::Event::Locale &) override;
+            void _preLayoutEvent(Core::Event::PreLayout &) override;
+            void _layoutEvent(Core::Event::Layout &) override;
 
         private:
-            void _recentFilesUpdate();
-
             DJV_PRIVATE();
         };
 
-    } // namespace ViewLib
+    } // namespace UI
 } // namespace djv
 

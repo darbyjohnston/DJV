@@ -58,8 +58,6 @@ namespace djv
             {
                 ViewType viewType = ViewType::First;
                 std::vector<FileSystem::FileInfo> items;
-                AV::Font::Metrics typeFontMetrics;
-                std::future<AV::Font::Metrics> typeFontMetricsFuture;
                 AV::Font::Metrics nameFontMetrics;
                 std::future<AV::Font::Metrics> nameFontMetricsFuture;
                 std::map<size_t, BBox2f> itemGeometry;
@@ -72,6 +70,10 @@ namespace djv
                 std::map<size_t, float> thumbnailsTimers;
                 std::map<FileSystem::FileType, std::shared_ptr<AV::Image::Image> > icons;
                 std::map<FileSystem::FileType, std::future<std::shared_ptr<AV::Image::Image> > > iconsFutures;
+                std::map<size_t, std::string> sizeText;
+                std::map<size_t, std::string> timeText;
+                std::vector<float> split;
+
                 size_t hover = invalid;
                 size_t grab = invalid;
                 Event::PointerID pressedId = Event::InvalidID;
@@ -87,7 +89,9 @@ namespace djv
             void ItemView::_init(Context * context)
             {
                 UI::Widget::_init(context);
+                DJV_PRIVATE_PTR();
                 setClassName("djv::UI::FileBrowser::ItemView");
+                p.split = { .7f, .8f, .9f };
             }
 
             ItemView::ItemView() :
@@ -112,6 +116,15 @@ namespace djv
                 p.viewType = value;
                 _iconsUpdate();
                 _itemsUpdate();
+            }
+
+            void ItemView::setSplit(const std::vector<float> & value)
+            {
+                DJV_PRIVATE_PTR();
+                if (value == p.split)
+                    return;
+                p.split = value;
+                _redraw();
             }
 
             void ItemView::setItems(const std::vector<FileSystem::FileInfo> & value)
@@ -184,18 +197,6 @@ namespace djv
                         _log(e.what(), LogLevel::Error);
                     }
                 }
-                if (p.typeFontMetricsFuture.valid() &&
-                    p.typeFontMetricsFuture.wait_for(std::chrono::seconds(0)) == std::future_status::ready)
-                {
-                    try
-                    {
-                        p.typeFontMetrics = p.typeFontMetricsFuture.get();
-                    }
-                    catch (const std::exception& e)
-                    {
-                        _log(e.what(), LogLevel::Error);
-                    }
-                }
             }
 
             void ItemView::_layoutEvent(Event::Layout& event)
@@ -255,6 +256,7 @@ namespace djv
                 {
                     if (i.first < p.items.size() && i.second.intersects(clipRect))
                     {
+                        const auto & fileInfo = p.items[i.first];
                         {
                             const auto j = p.nameLines.find(i.first);
                             if (j == p.nameLines.end())
@@ -262,7 +264,6 @@ namespace djv
                                 const auto k = p.nameLinesFutures.find(i.first);
                                 if (k == p.nameLinesFutures.end())
                                 {
-                                    const auto & fileInfo = p.items[i.first];
                                     const float tw = style->getMetric(p.getThumbnailWidth());
                                     const float m = style->getMetric(MetricsRole::MarginSmall);
                                     const auto fontInfo = style->getFontInfo(AV::Font::Info::faceDefault, MetricsRole::FontMedium);
@@ -271,44 +272,52 @@ namespace djv
                                 }
                             }
                         }
+                        if (p.ioInfo.find(i.first) == p.ioInfo.end())
                         {
-                            if (p.ioInfo.find(i.first) == p.ioInfo.end())
+                            if (p.ioInfoFutures.find(i.first) == p.ioInfoFutures.end())
                             {
-                                if (p.ioInfoFutures.find(i.first) == p.ioInfoFutures.end())
+                                auto thumbnailSystem = context->getSystemT<AV::ThumbnailSystem>().lock();
+                                auto ioSystem = context->getSystemT<AV::IO::System>().lock();
+                                if (thumbnailSystem && ioSystem)
                                 {
-                                    const auto & fileInfo = p.items[i.first];
-                                    auto thumbnailSystem = context->getSystemT<AV::ThumbnailSystem>().lock();
-                                    auto ioSystem = context->getSystemT<AV::IO::System>().lock();
-                                    if (thumbnailSystem && ioSystem)
+                                    const auto & path = fileInfo.getPath();
+                                    if (ioSystem->canRead(path))
                                     {
-                                        const auto & path = fileInfo.getPath();
-                                        if (ioSystem->canRead(path))
-                                        {
-                                            p.ioInfoFutures[i.first] = thumbnailSystem->getInfo(path);
-                                        }
+                                        p.ioInfoFutures[i.first] = thumbnailSystem->getInfo(path);
                                     }
                                 }
                             }
                         }
+                        if (p.thumbnails.find(i.first) == p.thumbnails.end())
                         {
-                            if (p.thumbnails.find(i.first) == p.thumbnails.end())
+                            if (p.thumbnailsFutures.find(i.first) == p.thumbnailsFutures.end())
                             {
-                                if (p.thumbnailsFutures.find(i.first) == p.thumbnailsFutures.end())
+                                const auto & path = fileInfo.getPath();
+                                auto thumbnailSystem = context->getSystemT<AV::ThumbnailSystem>().lock();
+                                auto ioSystem = context->getSystemT<AV::IO::System>().lock();
+                                auto style = _getStyle().lock();
+                                if (thumbnailSystem && ioSystem && ioSystem->canRead(path) && style)
                                 {
-                                    const auto & fileInfo = p.items[i.first];
-                                    const auto & path = fileInfo.getPath();
-                                    auto thumbnailSystem = context->getSystemT<AV::ThumbnailSystem>().lock();
-                                    auto ioSystem = context->getSystemT<AV::IO::System>().lock();
-                                    auto style = _getStyle().lock();
-                                    if (thumbnailSystem && ioSystem && ioSystem->canRead(path) && style)
-                                    {
-                                        const float tw = style->getMetric(p.getThumbnailWidth());
-                                        const float th = style->getMetric(p.getThumbnailHeight());
-                                        p.thumbnailsFutures[i.first] = thumbnailSystem->getImage(
-                                            path,
-                                            glm::ivec2(static_cast<int>(tw), static_cast<int>(th)));
-                                    }
+                                    const float tw = style->getMetric(p.getThumbnailWidth());
+                                    const float th = style->getMetric(p.getThumbnailHeight());
+                                    p.thumbnailsFutures[i.first] = thumbnailSystem->getImage(
+                                        path,
+                                        glm::ivec2(static_cast<int>(tw), static_cast<int>(th)));
                                 }
+                            }
+                        }
+                        {
+                            const auto j = p.sizeText.find(i.first);
+                            if (j == p.sizeText.end())
+                            {
+                                p.sizeText[i.first] = Memory::getSizeLabel(fileInfo.getSize());
+                            }
+                        }
+                        {
+                            const auto j = p.timeText.find(i.first);
+                            if (j == p.timeText.end())
+                            {
+                                p.timeText[i.first] = Time::getLabel(fileInfo.getTime());
                             }
                         }
                     }
@@ -452,11 +461,12 @@ namespace djv
                                             auto k = j->second.begin();
                                             for (; k != j->second.end() && line < 2; ++k, ++line)
                                             {
+                                                //! \bug Why the extra subtract by one here?
                                                 render->drawText(
                                                     k->text,
                                                     glm::vec2(
                                                         floorf(x + tw / 2.f - k->size.x / 2.f),
-                                                        floorf(y + p.nameFontMetrics.ascender)));
+                                                        floorf(y + p.nameFontMetrics.ascender - 1.f)));
                                                 y += p.nameFontMetrics.lineHeight;
                                             }
                                         }
@@ -466,11 +476,34 @@ namespace djv
                                     {
                                         float x = i->second.min.x + m + tw + s;
                                         float y = i->second.min.y + i->second.h() / 2.f - p.nameFontMetrics.lineHeight / 2.f;
+                                        //! \bug Why the extra subtract by one here?
                                         render->drawText(
                                             item->getFileName(Frame::Invalid, false),
                                             glm::vec2(
                                                 floorf(x),
-                                                floorf(y + p.nameFontMetrics.ascender)));
+                                                floorf(y + p.nameFontMetrics.ascender - 1.f)));
+                                        x = i->second.min.x + i->second.w() * p.split[0] + m;
+                                        auto j = p.sizeText.find(index);
+                                        if (j != p.sizeText.end())
+                                        {
+                                            //! \bug Why the extra subtract by one here?
+                                            render->drawText(
+                                                j->second,
+                                                glm::vec2(
+                                                    floorf(x),
+                                                    floorf(y + p.nameFontMetrics.ascender - 1.f)));
+                                        }
+                                        x = i->second.min.x + i->second.w() * p.split[1] + m;
+                                        j = p.timeText.find(index);
+                                        if (j != p.timeText.end())
+                                        {
+                                            //! \bug Why the extra subtract by one here?
+                                            render->drawText(
+                                                j->second,
+                                                glm::vec2(
+                                                    floorf(x),
+                                                    floorf(y + p.nameFontMetrics.ascender - 1.f)));
+                                        }
                                         break;
                                     }
                                     default: break;
@@ -742,6 +775,11 @@ namespace djv
                 }
             }
 
+            void ItemView::_localeEvent(Event::Locale &)
+            {
+                _itemsUpdate();
+            }
+
             void ItemView::_iconsUpdate()
             {
                 DJV_PRIVATE_PTR();
@@ -790,14 +828,14 @@ namespace djv
                     {
                         p.nameFontMetricsFuture = fontSystem->getMetrics(
                             style->getFontInfo(AV::Font::Info::faceDefault, MetricsRole::FontMedium));
-                        p.typeFontMetricsFuture = fontSystem->getMetrics(
-                            style->getFontInfo(AV::Font::Info::faceDefault, MetricsRole::FontMedium));
                         p.nameLines.clear();
                         p.nameLinesFutures.clear();
                         p.ioInfo.clear();
                         p.ioInfoFutures.clear();
                         p.thumbnails.clear();
                         p.thumbnailsFutures.clear();
+                        p.sizeText.clear();
+                        p.timeText.clear();
                     }
                 }
                 _resize();
