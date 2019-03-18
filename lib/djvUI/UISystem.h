@@ -60,6 +60,7 @@ namespace djv
             const std::shared_ptr<Style::Style> & getStyle() const;
 
         private:
+
             DJV_PRIVATE();
         };
 

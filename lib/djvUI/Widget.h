@@ -63,7 +63,7 @@ namespace djv
     namespace UI
     {
         class Action;
-        class IWindowSystem;
+        class EventSystem;
         class IconSystem;
         class Tooltip;
         class UISystem;
@@ -233,7 +233,6 @@ namespace djv
         private:
             float _updateTime  = 0.f;
             float _elapsedTime = 0.f;
-            bool  _styleInit   = false;
 
             bool         _visible        = true;
             bool         _visibleInit    = true;
@@ -273,7 +272,7 @@ namespace djv
             static std::weak_ptr<IconSystem>           _iconSystem;
             static std::weak_ptr<Style::Style>         _style;
 
-            friend class IWindowSystem;
+            friend class EventSystem;
         };
 
     } // namespace UI

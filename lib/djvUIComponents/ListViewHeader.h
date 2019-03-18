@@ -52,6 +52,12 @@ namespace djv
             const std::vector<std::string> & getText() const;
             void setText(const std::vector<std::string> &);
 
+            size_t getSort() const;
+            bool getReverseSort() const;
+            void setSort(size_t);
+            void setReverseSort(bool);
+            void setSortCallback(const std::function<void(size_t, bool)> &);
+
             const std::vector<float> & getSplit() const;
             void setSplit(const std::vector<float> &);
             void setSplitCallback(const std::function<void(const std::vector<float> &)> &);
@@ -61,6 +67,8 @@ namespace djv
             void _layoutEvent(Core::Event::Layout &) override;
 
         private:
+            void _sortUpdate();
+
             DJV_PRIVATE();
         };
 

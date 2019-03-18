@@ -29,7 +29,6 @@
 
 #include <djvUI/Window.h>
 
-#include <djvUI/IWindowSystem.h>
 #include <djvUI/StackLayout.h>
 
 //#pragma optimize("", off)
@@ -56,11 +55,6 @@ namespace djv
 
             _p->layout = StackLayout::create(context);
             Widget::addChild(_p->layout);
-
-            if (auto system = context->getSystemT<IWindowSystem>().lock())
-            {
-                system->_addWindow(std::dynamic_pointer_cast<Window>(shared_from_this()));
-            }
         }
 
         Window::Window() :

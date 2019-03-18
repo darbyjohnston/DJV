@@ -42,7 +42,6 @@
 
 #include <djvUI/Action.h>
 #include <djvUI/ButtonGroup.h>
-#include <djvUI/IWindowSystem.h>
 #include <djvUI/RowLayout.h>
 #include <djvUI/SoloLayout.h>
 #include <djvUI/ScrollWidget.h>

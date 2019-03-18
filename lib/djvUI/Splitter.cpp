@@ -44,7 +44,8 @@ namespace djv
                 Orientation orientation = Orientation::Horizontal;
                 std::vector<float> split;
                 float splitterWidth = 0.f;
-                size_t visibleChildCount = 0;
+                SplitterHandleStyle handleStyle = SplitterHandleStyle::Center;
+                ColorRole handleColorRole = ColorRole::Background;
                 std::map<Event::PointerID, size_t> hover;
                 std::pair<Event::PointerID, size_t> pressedID;
                 std::function<void(const std::vector<float> &)> splitCallback;
@@ -105,6 +106,49 @@ namespace djv
                 _p->splitCallback = callback;
             }
 
+            void Splitter::distributeEvenly()
+            {
+                DJV_PRIVATE_PTR();
+                const auto children = getChildrenT<Widget>();
+                p.split.resize(children.size());
+                const float size = children.size() ? 1.f / children.size() : 0.f;
+                float x = size;
+                for (size_t i = 0; i < children.size(); ++i)
+                {
+                    p.split[i] = x;
+                    x += size;
+                }
+                _resize();
+            }
+
+            SplitterHandleStyle Splitter::getHandleStyle() const
+            {
+                return _p->handleStyle;
+            }
+
+            ColorRole Splitter::getHandleColorRole() const
+            {
+                return _p->handleColorRole;
+            }
+
+            void Splitter::setHandleColorRole(ColorRole value)
+            {
+                DJV_PRIVATE_PTR();
+                if (value == p.handleColorRole)
+                    return;
+                p.handleColorRole = value;
+                _redraw();
+            }
+
+            void Splitter::setHandleStyle(SplitterHandleStyle value)
+            {
+                DJV_PRIVATE_PTR();
+                if (value == p.handleStyle)
+                    return;
+                p.handleStyle = value;
+                _redraw();
+            }
+
             float Splitter::getHeightForWidth(float value) const
             {
                 DJV_PRIVATE_PTR();
@@ -149,18 +193,13 @@ namespace djv
             void Splitter::addChild(const std::shared_ptr<IObject>& child)
             {
                 Widget::addChild(child);
-                DJV_PRIVATE_PTR();
-                const auto children = getChildrenT<Widget>();
-                if (p.split.size() < children.size())
-                {
-                    p.split.resize(children.size());
-                }
+                distributeEvenly();
             }
 
             void Splitter::removeChild(const std::shared_ptr<IObject>& child)
             {
                 Widget::removeChild(child);
-                _distributeChildren();
+                distributeEvenly();
             }
 
             void Splitter::_styleEvent(Event::Style &)
@@ -179,13 +218,11 @@ namespace djv
                 if (auto style = _getStyle().lock())
                 {
                     glm::vec2 minimumSize = glm::vec2(0.f, 0.f);
-                    p.visibleChildCount = 0;
                     size_t i = 0;
                     for (const auto & child : getChildrenT<Widget>())
                     {
                         if (child->isVisible())
                         {
-                            ++p.visibleChildCount;
                             const glm::vec2& size = child->getMinimumSize();
                             switch (p.orientation)
                             {
@@ -238,12 +275,13 @@ namespace djv
                     if (auto style = _getStyle().lock())
                     {
                         const auto hg = _getHandleGeometry();
+                        const float h = style->getMetric(MetricsRole::Handle);
                         const float b = style->getMetric(MetricsRole::Border);
 
                         size_t i = 0;
                         for (const auto & g : hg)
                         {
-                            render->setFillColor(_getColorWithOpacity(style->getColor(ColorRole::Background)));
+                            render->setFillColor(_getColorWithOpacity(style->getColor(p.handleColorRole)));
                             render->drawRect(g);
 
                             if (p.pressedID.first && p.pressedID.second == i)
@@ -268,10 +306,30 @@ namespace djv
                             switch (p.orientation)
                             {
                             case Orientation::Horizontal:
-                                render->drawRect(BBox2f(floorf(g.min.x + g.w() / 2.f - b / 2.f), g.min.y, b, g.h()));
+                                switch (p.handleStyle)
+                                {
+                                case SplitterHandleStyle::Center:
+                                    render->drawRect(BBox2f(floorf(g.min.x + g.w() / 2.f - b / 2.f), g.min.y, b, g.h()));
+                                    break;
+                                case SplitterHandleStyle::Edges:
+                                    render->drawRect(BBox2f(g.min.x, g.min.y, b, g.h()));
+                                    render->drawRect(BBox2f(g.max.x - b, g.min.y, b, g.h()));
+                                    break;
+                                default: break;
+                                }
                                 break;
                             case Orientation::Vertical:
-                                render->drawRect(BBox2f(g.min.x, (g.min.y + g.h() / 2.f - b / 2.f), g.w(), b));
+                                switch (p.handleStyle)
+                                {
+                                case SplitterHandleStyle::Center:
+                                    render->drawRect(BBox2f(g.min.x, floorf(g.min.y + g.h() / 2.f - b / 2.f), g.w(), b));
+                                    break;
+                                case SplitterHandleStyle::Edges:
+                                    render->drawRect(BBox2f(g.min.x, g.min.y, g.w(), b));
+                                    render->drawRect(BBox2f(g.max.x, g.min.y - b, g.w(), b));
+                                    break;
+                                default: break;
+                                }
                                 break;
                             default: break;
                             }
@@ -513,21 +571,6 @@ namespace djv
                     }
                 }
                 return out;
-            }
-
-            void Splitter::_distributeChildren()
-            {
-                DJV_PRIVATE_PTR();
-                const auto children = getChildrenT<Widget>();
-                p.split.resize(children.size());
-                const float size = children.size() ? 1.f / children.size() : 0.f;
-                float x = size;
-                for (size_t i = 0; i < children.size(); ++i)
-                {
-                    p.split[i] = x;
-                    x += size;
-                }
-                _resize();
             }
 
         } // namespace Layout

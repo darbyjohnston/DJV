@@ -39,27 +39,27 @@ namespace djv
             return _context;
         }
 
-        inline const std::string& IObject::getClassName() const
+        inline const std::string & IObject::getClassName() const
         {
             return _className;
         }
 
-        inline void IObject::setClassName(const std::string& name)
+        inline void IObject::setClassName(const std::string & name)
         {
             _className = name;
         }
 
-        inline const std::string& IObject::getName() const
+        inline const std::string & IObject::getName() const
         {
             return _name;
         }
 
-        inline void IObject::setName(const std::string& name)
+        inline void IObject::setName(const std::string & name)
         {
             _name = name;
         }
 
-        inline const std::weak_ptr<IObject>& IObject::getParent() const
+        inline const std::weak_ptr<IObject> & IObject::getParent() const
         {
             return _parent;
         }
@@ -77,7 +77,7 @@ namespace djv
             return nullptr;
         }
 
-        inline const std::vector<std::shared_ptr<IObject> >& IObject::getChildren() const
+        inline const std::vector<std::shared_ptr<IObject> > & IObject::getChildren() const
         {
             return _children;
         }
@@ -86,7 +86,7 @@ namespace djv
         inline std::vector<std::shared_ptr<T> > IObject::getChildrenT() const
         {
             std::vector<std::shared_ptr<T> > out;
-            for (const auto& child : _children)
+            for (const auto & child : _children)
             {
                 if (auto childT = std::dynamic_pointer_cast<T>(child))
                 {
@@ -100,7 +100,7 @@ namespace djv
         inline std::vector<std::shared_ptr<T> > IObject::getChildrenRecursiveT() const
         {
             std::vector<std::shared_ptr<T> > out;
-            for (const auto& child : _children)
+            for (const auto & child : _children)
             {
                 _getChildrenRecursiveT(child, out);
             }
@@ -110,7 +110,7 @@ namespace djv
         template <typename T>
         inline std::shared_ptr<T> IObject::getFirstChildT() const
         {
-            for (const auto& child : _children)
+            for (const auto & child : _children)
             {
                 if (auto childT = std::dynamic_pointer_cast<T>(child))
                 {
@@ -124,7 +124,7 @@ namespace djv
         inline std::shared_ptr<T> IObject::getFirstChildRecursiveT() const
         {
             std::shared_ptr<T> out;
-            for (const auto& child : _children)
+            for (const auto & child : _children)
             {
                 _getFirstChildRecursiveT(child, out);
                 if (out.get())
@@ -146,27 +146,27 @@ namespace djv
         }
 
         template<typename T>
-        inline void IObject::_getChildrenRecursiveT(const std::shared_ptr<IObject>& value, std::vector<std::shared_ptr<T> >& out)
+        inline void IObject::_getChildrenRecursiveT(const std::shared_ptr<IObject> & value, std::vector<std::shared_ptr<T> > & out)
         {
             if (auto valueT = std::dynamic_pointer_cast<T>(value))
             {
                 out.push_back(valueT);
             }
-            for (const auto& child : value->_children)
+            for (const auto & child : value->_children)
             {
                 _getChildrenRecursiveT(child, out);
             }
         }
 
         template<typename T>
-        inline void IObject::_getFirstChildRecursiveT(const std::shared_ptr<IObject>& value, std::shared_ptr<T>& out)
+        inline void IObject::_getFirstChildRecursiveT(const std::shared_ptr<IObject> & value, std::shared_ptr<T> & out)
         {
             if (auto valueT = std::dynamic_pointer_cast<T>(value))
             {
                 out = valueT;
                 return;
             }
-            for (const auto& child : value->_children)
+            for (const auto & child : value->_children)
             {
                 _getFirstChildRecursiveT(child, out);
             }

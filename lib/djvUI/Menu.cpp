@@ -880,7 +880,7 @@ namespace djv
             void MenuOverlayLayout::_paintEvent(Event::Paint& event)
             {
                 Widget::_paintEvent(event);
-                /*if (auto render = _getRender().lock())
+                if (auto render = _getRender().lock())
                 {
                     if (auto style = _getStyle().lock())
                     {
@@ -896,7 +896,7 @@ namespace djv
                             render->drawRect(g);
                         }
                     }
-                }*/
+                }
             }
 
         } // namespace

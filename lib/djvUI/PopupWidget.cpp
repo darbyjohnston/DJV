@@ -31,7 +31,7 @@
 
 #include <djvUI/Action.h>
 #include <djvUI/Border.h>
-#include <djvUI/IWindowSystem.h>
+#include <djvUI/EventSystem.h>
 #include <djvUI/MenuButton.h>
 #include <djvUI/Overlay.h>
 #include <djvUI/RowLayout.h>
@@ -332,7 +332,7 @@ namespace djv
         void PopupWidget::open()
         {
             DJV_PRIVATE_PTR();
-            if (auto windowSystem = getContext()->getSystemT<IWindowSystem>().lock())
+            if (auto windowSystem = getContext()->getSystemT<EventSystem>().lock())
             {
                 if (auto window = windowSystem->observeCurrentWindow()->get())
                 {

@@ -27,7 +27,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvUI/IWindowSystem.h>
+#include <djvUI/EventSystem.h>
 
 #include <djvUI/UISystem.h>
 #include <djvUI/Window.h>
@@ -42,16 +42,16 @@ namespace djv
 {
     namespace UI
     {
-        struct IWindowSystem::Private
+        struct EventSystem::Private
         {
             std::shared_ptr<ListSubject<std::shared_ptr<Window> > > windows;
             std::shared_ptr<ValueSubject<std::shared_ptr<Window> > > currentWindow;
             std::shared_ptr<Time::Timer> statsTimer;
         };
 
-        void IWindowSystem::_init(const std::string & name, Core::Context * context)
+        void EventSystem::_init(const std::string & name, Core::Context * context)
         {
-            ISystem::_init(name, context);
+            IEventSystem::_init(name, context);
 
             DJV_PRIVATE_PTR();
 
@@ -71,118 +71,100 @@ namespace djv
             });
         }
 
-        IWindowSystem::IWindowSystem() :
+        EventSystem::EventSystem() :
             _p(new Private)
         {}
 
-        IWindowSystem::~IWindowSystem()
+        EventSystem::~EventSystem()
         {}
 
-        std::shared_ptr<Core::IListSubject<std::shared_ptr<Window> > > IWindowSystem::observeWindows() const
+        std::shared_ptr<Core::IListSubject<std::shared_ptr<Window> > > EventSystem::observeWindows() const
         {
             return _p->windows;
         }
 
-        std::shared_ptr<Core::IValueSubject<std::shared_ptr<Window> > > IWindowSystem::observeCurrentWindow() const
+        std::shared_ptr<Core::IValueSubject<std::shared_ptr<Window> > > EventSystem::observeCurrentWindow() const
         {
             return _p->currentWindow;
         }
 
-        void IWindowSystem::tick(float dt)
+        void EventSystem::tick(float dt)
         {
+            IEventSystem::tick(dt);
             DJV_PRIVATE_PTR();
-            if (auto uiSystem = getContext()->getSystemT<UISystem>().lock())
+            if (p.windows)
             {
-                auto style = uiSystem->getStyle();
-                if (style->isDirty())
+                if (auto uiSystem = getContext()->getSystemT<UISystem>().lock())
                 {
-                    Event::Style styleEvent;
-                    for (auto window : p.windows->get())
+                    auto style = uiSystem->getStyle();
+                    if (style->isDirty())
                     {
-                        _styleRecursive(window, styleEvent);
+                        Event::Style styleEvent;
+                        for (auto window : p.windows->get())
+                        {
+                            _styleRecursive(window, styleEvent);
+                        }
+                        style->setClean();
                     }
-                    style->setClean();
                 }
             }
         }
 
-        void IWindowSystem::_addWindow(const std::shared_ptr<Window>& window)
-        {
-            DJV_PRIVATE_PTR();
-            p.windows->pushBack(window);
-            p.currentWindow->setIfChanged(window);
-        }
-
-        void IWindowSystem::_removeWindow(const std::shared_ptr<Window>& window)
-        {
-            DJV_PRIVATE_PTR();
-            const size_t index = p.windows->indexOf(window);
-            if (index != invalidListIndex)
-            {
-                p.windows->removeItem(index);
-            }
-            if (window == p.currentWindow->get())
-            {
-                const size_t size = p.windows->getSize();
-                p.currentWindow->setIfChanged(size > 0 ? p.windows->getItem(size - 1) : nullptr);
-            }
-        }
-
-        void IWindowSystem::_pushClipRect(const Core::BBox2f &)
+        void EventSystem::_pushClipRect(const Core::BBox2f &)
         {}
 
-        void IWindowSystem::_popClipRect()
+        void EventSystem::_popClipRect()
         {}
 
-        bool IWindowSystem::_resizeRequest(const std::shared_ptr<UI::Widget>& widget) const
+        bool EventSystem::_resizeRequest(const std::shared_ptr<UI::Widget> & widget) const
         {
             bool out = widget->_resizeRequest;
             widget->_resizeRequest = false;
             return out;
         }
 
-        bool IWindowSystem::_redrawRequest(const std::shared_ptr<UI::Widget>& widget) const
+        bool EventSystem::_redrawRequest(const std::shared_ptr<UI::Widget> & widget) const
         {
             bool out = widget->_redrawRequest;
             widget->_redrawRequest = false;
             return out;
         }
 
-        void IWindowSystem::_styleRecursive(const std::shared_ptr<UI::Widget>& widget, Event::Style& event)
+        void EventSystem::_styleRecursive(const std::shared_ptr<UI::Widget> & widget, Event::Style & event)
         {
             widget->event(event);
-            for (const auto& child : widget->getChildrenT<UI::Widget>())
+            for (const auto & child : widget->getChildrenT<UI::Widget>())
             {
                 _styleRecursive(child, event);
             }
         }
 
-        void IWindowSystem::_preLayoutRecursive(const std::shared_ptr<UI::Widget>& widget, Event::PreLayout& event)
+        void EventSystem::_preLayoutRecursive(const std::shared_ptr<UI::Widget> & widget, Event::PreLayout & event)
         {
-            for (const auto& child : widget->getChildrenT<UI::Widget>())
+            for (const auto & child : widget->getChildrenT<UI::Widget>())
             {
                 _preLayoutRecursive(child, event);
             }
             widget->event(event);
         }
 
-        void IWindowSystem::_layoutRecursive(const std::shared_ptr<UI::Widget>& widget, Event::Layout& event)
+        void EventSystem::_layoutRecursive(const std::shared_ptr<UI::Widget> & widget, Event::Layout & event)
         {
             if (widget->isVisible())
             {
                 widget->event(event);
-                for (const auto& child : widget->getChildrenT<UI::Widget>())
+                for (const auto & child : widget->getChildrenT<UI::Widget>())
                 {
                     _layoutRecursive(child, event);
                 }
             }
         }
 
-        void IWindowSystem::_clipRecursive(const std::shared_ptr<UI::Widget>& widget, Event::Clip& event)
+        void EventSystem::_clipRecursive(const std::shared_ptr<UI::Widget> & widget, Event::Clip & event)
         {
             widget->event(event);
             const BBox2f clipRect = event.getClipRect();
-            for (const auto& child : widget->getChildrenT<UI::Widget>())
+            for (const auto & child : widget->getChildrenT<UI::Widget>())
             {
                 event.setClipRect(clipRect.intersect(child->getGeometry()));
                 _clipRecursive(child, event);
@@ -190,24 +172,40 @@ namespace djv
             event.setClipRect(clipRect);
         }
 
-        void IWindowSystem::_paintRecursive(const std::shared_ptr<UI::Widget>& widget, Event::Paint& event, Event::PaintOverlay& overlayEvent)
+        void EventSystem::_paintRecursive(const std::shared_ptr<UI::Widget> & widget, Event::Paint & event, Event::PaintOverlay & overlayEvent)
         {
             if (widget->isVisible() && !widget->isClipped())
             {
                 const BBox2f clipRect = event.getClipRect();
                 _pushClipRect(clipRect);
                 widget->event(event);
-                for (const auto& child : widget->getChildrenT<UI::Widget>())
+                for (const auto & child : widget->getChildrenT<UI::Widget>())
                 {
-                    const BBox2f newClipRect = clipRect.intersect(child->getGeometry());
-                    event.setClipRect(newClipRect);
-                    overlayEvent.setClipRect(newClipRect);
+                    const BBox2f childClipRect = clipRect.intersect(child->getGeometry());
+                    event.setClipRect(childClipRect);
+                    overlayEvent.setClipRect(childClipRect);
                     _paintRecursive(child, event, overlayEvent);
                 }
                 widget->event(overlayEvent);
                 _popClipRect();
                 event.setClipRect(clipRect);
                 overlayEvent.setClipRect(clipRect);
+            }
+        }
+
+        void EventSystem::_initObject(const std::shared_ptr<IObject> & object)
+        {
+            IEventSystem::_initObject(object);
+            DJV_PRIVATE_PTR();
+            if (p.windows && p.currentWindow)
+            {
+                if (auto window = std::dynamic_pointer_cast<Window>(object))
+                {
+                    p.windows->pushBack(window);
+                    p.currentWindow->setIfChanged(window);
+                }
+                Event::Style styleEvent;
+                object->event(styleEvent);
             }
         }
 

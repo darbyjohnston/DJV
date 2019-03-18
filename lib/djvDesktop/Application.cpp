@@ -31,19 +31,15 @@
 
 #include <djvDesktop/EventSystem.h>
 #include <djvDesktop/GLFWSystem.h>
-#include <djvDesktop/WindowSystem.h>
 
 #include <djvUIComponents/UIComponentsSystem.h>
-
-#include <djvUI/Window.h>
 
 #include <GLFW/glfw3.h>
 
 #include <chrono>
+#include <thread>
 
 using namespace djv::Core;
-
-using namespace gl;
 
 namespace djv
 {
@@ -62,7 +58,6 @@ namespace djv
             std::shared_ptr<GLFWSystem> glfwSystem;
             std::shared_ptr<UI::UIComponentsSystem> uiComponentsSystem;
             std::shared_ptr<EventSystem> eventSystem;
-            std::shared_ptr<WindowSystem> windowSystem;
         };
 
         void Application::_init(int argc, char* argv[])
@@ -78,9 +73,6 @@ namespace djv
 
             p.eventSystem = EventSystem::create(p.glfwSystem->getGLFWWindow(), this);
             p.eventSystem->addDependency(p.uiComponentsSystem);
-
-            p.windowSystem = WindowSystem::create(p.glfwSystem->getGLFWWindow(), this);
-            p.windowSystem->addDependency(p.eventSystem);
         }
         
         Application::Application() :

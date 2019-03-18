@@ -35,8 +35,6 @@ namespace djv
 {
     namespace UI
     {
-        class IWindowSystem;
-
         //! This class provides a top-level window.
         class Window : public Widget
         {

@@ -29,8 +29,13 @@
 
 #include <djvDesktop/EventSystem.h>
 
+#include <djvUI/Style.h>
+#include <djvUI/StyleSettings.h>
 #include <djvUI/Widget.h>
 #include <djvUI/Window.h>
+
+#include <djvAV/OpenGLOffscreenBuffer.h>
+#include <djvAV/Render2D.h>
 
 #include <djvCore/Context.h>
 #include <djvCore/Event.h>
@@ -42,6 +47,8 @@
 #include <locale>
 
 using namespace djv::Core;
+
+using namespace gl;
 
 namespace djv
 {
@@ -67,12 +74,23 @@ namespace djv
         } // namespace
 
         struct EventSystem::Private
-        {};
-
-        void EventSystem::_init(GLFWwindow* glfwWindow, Context * context)
         {
-            IEventSystem::_init("djv::Desktop::EventSystem", context);
+            GLFWwindow * glfwWindow = nullptr;
+            glm::ivec2 resize = glm::ivec2(0, 0);
+            bool resizeRequest = true;
+            bool redrawRequest = true;
+            std::shared_ptr<AV::OpenGL::OffscreenBuffer> offscreenBuffer;
+        };
 
+        void EventSystem::_init(GLFWwindow * glfwWindow, Context * context)
+        {
+            UI::EventSystem::_init("djv::Desktop::EventSystem", context);
+
+            DJV_PRIVATE_PTR();
+            p.glfwWindow = glfwWindow;
+            glfwGetFramebufferSize(glfwWindow, &p.resize.x, &p.resize.y);
+            glfwSetFramebufferSizeCallback(glfwWindow, _resizeCallback);
+            glfwSetWindowRefreshCallback(glfwWindow, _redrawCallback);
             glfwSetCursorPosCallback(glfwWindow, _pointerCallback);
             glfwSetMouseButtonCallback(glfwWindow, _buttonCallback);
             glfwSetDropCallback(glfwWindow, _dropCallback);
@@ -92,6 +110,132 @@ namespace djv
             auto out = std::shared_ptr<EventSystem>(new EventSystem);
             out->_init(glfwWindow, context);
             return out;
+        }
+
+        void EventSystem::tick(float dt)
+        {
+            UI::EventSystem::tick(dt);
+
+            if (_p->resizeRequest)
+            {
+                _p->offscreenBuffer = AV::OpenGL::OffscreenBuffer::create(
+                    AV::Image::Info(_p->resize, AV::Image::Type::RGBA_U8),
+                    AV::OpenGL::OffscreenType::MultiSample);
+            }
+            auto rootObject = getContext()->getRootObject();
+            if (_p->offscreenBuffer)
+            {
+                bool resizeRequest = _p->resizeRequest;
+                bool redrawRequest = _p->redrawRequest;
+                _p->resizeRequest = false;
+                _p->redrawRequest = false;
+                for (const auto& i : rootObject->getChildrenT<UI::Window>())
+                {
+                    resizeRequest |= _resizeRequest(i);
+                    redrawRequest |= _redrawRequest(i);
+                }
+
+                const auto & size = _p->offscreenBuffer->getInfo().size;
+                if (resizeRequest)
+                {
+                    for (const auto& i : rootObject->getChildrenT<UI::Window>())
+                    {
+                        i->resize(size);
+
+                        Event::PreLayout preLayout;
+                        _preLayoutRecursive(i, preLayout);
+
+                        if (i->isVisible())
+                        {
+                            Event::Layout layout;
+                            _layoutRecursive(i, layout);
+
+                            Event::Clip clip(BBox2f(0.f, 0.f, static_cast<float>(size.x), static_cast<float>(size.y)));
+                            _clipRecursive(i, clip);
+                        }
+                    }
+                }
+
+                if (resizeRequest || redrawRequest)
+                {
+                    if (auto render = getContext()->getSystemT<AV::Render::Render2D>().lock())
+                    {
+                        _p->offscreenBuffer->bind();
+                        render->beginFrame(size);
+                        for (const auto& i : rootObject->getChildrenT<UI::Window>())
+                        {
+                            if (i->isVisible())
+                            {
+                                Event::Paint paintEvent(BBox2f(0.f, 0.f, static_cast<float>(size.x), static_cast<float>(size.y)));
+                                Event::PaintOverlay paintOverlayEvent(BBox2f(0.f, 0.f, static_cast<float>(size.x), static_cast<float>(size.y)));
+                                _paintRecursive(i, paintEvent, paintOverlayEvent);
+                            }
+                        }
+                        render->endFrame();
+                        _p->offscreenBuffer->unbind();
+                        _redraw();
+                    }
+                }
+            }
+        }
+
+        void EventSystem::_pushClipRect(const Core::BBox2f & value)
+        {
+            if (auto system = getContext()->getSystemT<AV::Render::Render2D>().lock())
+            {
+                system->pushClipRect(value);
+            }
+        }
+
+        void EventSystem::_popClipRect()
+        {
+            if (auto system = getContext()->getSystemT<AV::Render::Render2D>().lock())
+            {
+                system->popClipRect();
+            }
+        }
+
+        void EventSystem::_initObject(const std::shared_ptr<IObject> & object)
+        {
+            UI::EventSystem::_initObject(object);
+            if (auto window = std::dynamic_pointer_cast<UI::Window>(object))
+            {
+                getContext()->getRootObject()->addChild(window);
+            }
+        }
+
+        void EventSystem::_resize(const glm::ivec2 & size)
+        {
+            DJV_PRIVATE_PTR();
+            p.resize = size;
+            p.resizeRequest = true;
+        }
+
+        void EventSystem::_redraw()
+        {
+            DJV_PRIVATE_PTR();
+            if (p.offscreenBuffer)
+            {
+                glDisable(GL_SCISSOR_TEST);
+                glDisable(GL_BLEND);
+                const auto & size = p.offscreenBuffer->getInfo().size;
+                gl::glViewport(
+                    0,
+                    0,
+                    GLsizei(size.x),
+                    GLsizei(size.y));
+                gl::glClearColor(0.f, 0.f, 0.f, 0.f);
+                glClear(GL_COLOR_BUFFER_BIT);
+                glBindFramebuffer(gl::GLenum(GL_READ_FRAMEBUFFER), p.offscreenBuffer->getID());
+                glBindFramebuffer(gl::GLenum(GL_DRAW_FRAMEBUFFER), gl::GLuint(0));
+                glBlitFramebuffer(
+                    0, 0, size.x, size.y,
+                    0, 0, size.x, size.y,
+                    ClearBufferMask(GL_COLOR_BUFFER_BIT),
+                    gl::GLenum(GL_NEAREST));
+                //gl::glFlush();
+                glfwSwapBuffers(p.glfwWindow);
+            }
         }
 
         void EventSystem::_hover(Event::PointerMove& event, std::shared_ptr<IObject>& hover)
@@ -130,6 +274,24 @@ namespace djv
                 {
                     hover = widget;
                 }
+            }
+        }
+
+        void EventSystem::_resizeCallback(GLFWwindow* window, int width, int height)
+        {
+            Context* context = reinterpret_cast<Context*>(glfwGetWindowUserPointer(window));
+            if (auto system = context->getSystemT<EventSystem>().lock())
+            {
+                system->_resize(glm::ivec2(width, height));
+            }
+        }
+
+        void EventSystem::_redrawCallback(GLFWwindow* window)
+        {
+            Context* context = reinterpret_cast<Context*>(glfwGetWindowUserPointer(window));
+            if (auto system = context->getSystemT<EventSystem>().lock())
+            {
+                system->_redraw();
             }
         }
 

@@ -63,7 +63,7 @@ namespace djv
                     { ColorRole::Foreground, AV::Image::Color(255, 255, 255) },
                     { ColorRole::Border, AV::Image::Color(30, 30, 30) },
                     { ColorRole::Trough, AV::Image::Color(33, 40, 47) },
-                    { ColorRole::Button, AV::Image::Color(91, 102, 113) },
+                    { ColorRole::Button, AV::Image::Color(71, 82, 93) },
                     { ColorRole::Hovered, AV::Image::Color(255, 255, 255, 15) },
                     { ColorRole::Pressed, AV::Image::Color(255, 255, 255, 30) },
                     { ColorRole::Checked, AV::Image::Color(171, 134, 48, 127) },

@@ -61,24 +61,24 @@ namespace djv
 
             inline Context * getContext() const;
 
-            inline const std::string& getClassName() const;
-            inline void setClassName(const std::string&);
+            inline const std::string & getClassName() const;
+            inline void setClassName(const std::string &);
 
-            inline const std::string& getName() const;
-            inline void setName(const std::string&);
+            inline const std::string & getName() const;
+            inline void setName(const std::string &);
 
             //! \name Object Hierarchy
             ///@{
 
             //! Get the parent object.
-            inline const std::weak_ptr<IObject>& getParent() const;
+            inline const std::weak_ptr<IObject> & getParent() const;
 
             //! Walk up the object hierarchy looking for a parent of the given type.
             template<typename T>
             inline std::shared_ptr<T> getParentRecursiveT() const;
 
             //! Get the list of child objects.
-            inline const std::vector<std::shared_ptr<IObject> >& getChildren() const;
+            inline const std::vector<std::shared_ptr<IObject> > & getChildren() const;
 
             //! Get the list of child objects of the given type.
             template<typename T>
@@ -126,13 +126,13 @@ namespace djv
             ///@{
 
             //! Install an event filter.
-            void installEventFilter(const std::weak_ptr<IObject>&);
+            void installEventFilter(const std::weak_ptr<IObject> &);
 
             //! Remove an event filter.
-            void removeEventFilter(const std::weak_ptr<IObject>&);
+            void removeEventFilter(const std::weak_ptr<IObject> &);
 
             //! This function receives events for the object.
-            virtual bool event(Event::IEvent&);
+            virtual bool event(Event::IEvent &);
 
             ///@}
 
@@ -151,7 +151,7 @@ namespace djv
             virtual void _updateEvent(Event::Update &) {}
 
             //! Over-ride this function to filter events for other objects.
-            virtual bool _eventFilter(const std::shared_ptr<IObject>&, Event::IEvent&) { return false; }
+            virtual bool _eventFilter(const std::shared_ptr<IObject> &, Event::IEvent &) { return false; }
 
             ///@}
 
@@ -160,7 +160,7 @@ namespace djv
 
             std::string _getText(const std::string & id) const;
 
-            void _log(const std::string& message, Core::LogLevel = Core::LogLevel::Information);
+            void _log(const std::string & message, Core::LogLevel = Core::LogLevel::Information);
 
             std::weak_ptr<ResourceSystem> _getResourceSystem() const { return _resourceSystem; }
             std::weak_ptr<LogSystem> _getLogSystem() const { return _logSystem; }
@@ -171,12 +171,12 @@ namespace djv
             static bool _logSystemInit;
 
         private:
-            bool _eventFilter(Event::IEvent&);
+            bool _eventFilter(Event::IEvent &);
 
             template<typename T>
-            inline static void _getChildrenRecursiveT(const std::shared_ptr<IObject>&, std::vector<std::shared_ptr<T> >&);
+            inline static void _getChildrenRecursiveT(const std::shared_ptr<IObject> &, std::vector<std::shared_ptr<T> > &);
             template<typename T>
-            inline static void _getFirstChildRecursiveT(const std::shared_ptr<IObject>&, std::shared_ptr<T>&);
+            inline static void _getFirstChildRecursiveT(const std::shared_ptr<IObject> &, std::shared_ptr<T> &);
 
             static Context * _context;
 
@@ -193,9 +193,10 @@ namespace djv
 
             bool _localeInit = false;
 
-            static std::weak_ptr<ResourceSystem> _resourceSystem;
-            static std::weak_ptr<LogSystem>      _logSystem;
-            static std::weak_ptr<TextSystem>     _textSystem;
+            static std::weak_ptr<ResourceSystem>      _resourceSystem;
+            static std::weak_ptr<LogSystem>           _logSystem;
+            static std::weak_ptr<TextSystem>          _textSystem;
+            static std::weak_ptr<Event::IEventSystem> _eventSystem;
 
             friend class Event::IEventSystem;
         };

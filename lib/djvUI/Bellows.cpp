@@ -45,7 +45,6 @@ namespace djv
     {
         namespace Layout
         {
-
             namespace
             {
                 class Button : public UI::Button::IButton
@@ -74,9 +73,9 @@ namespace djv
                     void _paintEvent(Event::Paint &) override;
 
                 private:
-                    std::shared_ptr<UI::Icon> _icon;
-                    std::shared_ptr<UI::Label> _label;
-                    std::shared_ptr<UI::HorizontalLayout> _layout;
+                    std::shared_ptr<Icon> _icon;
+                    std::shared_ptr<Label> _label;
+                    std::shared_ptr<HorizontalLayout> _layout;
                 };
 
                 void Button::_init(Context * context)
@@ -84,21 +83,22 @@ namespace djv
                     Widget::_init(context);
 
                     setButtonType(ButtonType::Toggle);
+                    setBackgroundRole(ColorRole::Button);
 
-                    _icon = UI::Icon::create(context);
+                    _icon = Icon::create(context);
                     _icon->setIcon("djvIconArrowSmallRight");
-                    _icon->setIconSizeRole(UI::MetricsRole::IconSmall);
-                    _icon->setVAlign(UI::VAlign::Center);
+                    _icon->setIconSizeRole(MetricsRole::IconSmall);
+                    _icon->setVAlign(VAlign::Center);
 
-                    _label = UI::Label::create(context);
-                    _label->setTextHAlign(UI::TextHAlign::Left);
+                    _label = Label::create(context);
+                    _label->setTextHAlign(TextHAlign::Left);
 
-                    _layout = UI::HorizontalLayout::create(context);
-                    _layout->setMargin(UI::MetricsRole::MarginSmall);
-                    _layout->setSpacing(UI::MetricsRole::SpacingSmall);
+                    _layout = HorizontalLayout::create(context);
+                    _layout->setMargin(MetricsRole::MarginSmall);
+                    _layout->setSpacing(MetricsRole::SpacingSmall);
                     _layout->addChild(_icon);
                     _layout->addChild(_label);
-                    _layout->setStretch(_label, UI::RowStretch::Expand);
+                    _layout->setStretch(_label, RowStretch::Expand);
                     addChild(_layout);
                 }
 

@@ -29,8 +29,7 @@
 
 #pragma once
 
-#include <djvCore/Event.h>
-#include <djvCore/ISystem.h>
+#include <djvCore/IEventSystem.h>
 #include <djvCore/ListObserver.h>
 #include <djvCore/ValueObserver.h>
 
@@ -42,17 +41,17 @@ namespace djv
         class Window;
 
         //! This class provides a window system interface.
-        class IWindowSystem : public Core::ISystem
+        class EventSystem : public Core::Event::IEventSystem
         {
-            DJV_NON_COPYABLE(IWindowSystem);
+            DJV_NON_COPYABLE(EventSystem);
             
         protected:
             void _init(const std::string &, Core::Context *);
 
-            IWindowSystem();
+            EventSystem();
 
         public:
-            virtual ~IWindowSystem() = 0;
+            virtual ~EventSystem() = 0;
 
             std::shared_ptr<Core::IListSubject<std::shared_ptr<Window> > > observeWindows() const;
             std::shared_ptr<Core::IValueSubject<std::shared_ptr<Window> > > observeCurrentWindow() const;
@@ -60,26 +59,22 @@ namespace djv
             void tick(float dt) override;
 
         protected:
-            virtual void _addWindow(const std::shared_ptr<Window>&);
-            //! \bug This function never gets called...
-            virtual void _removeWindow(const std::shared_ptr<Window>&);
-
             virtual void _pushClipRect(const Core::BBox2f &);
             virtual void _popClipRect();
 
-            bool _resizeRequest(const std::shared_ptr<Widget>&) const;
-            bool _redrawRequest(const std::shared_ptr<Widget>&) const;
+            bool _resizeRequest(const std::shared_ptr<Widget> &) const;
+            bool _redrawRequest(const std::shared_ptr<Widget> &) const;
 
-            void _styleRecursive(const std::shared_ptr<Widget>&, Core::Event::Style&);
-            void _preLayoutRecursive(const std::shared_ptr<Widget>&, Core::Event::PreLayout&);
-            void _layoutRecursive(const std::shared_ptr<Widget>&, Core::Event::Layout&);
-            void _clipRecursive(const std::shared_ptr<Widget>&, Core::Event::Clip&);
-            void _paintRecursive(const std::shared_ptr<Widget>&, Core::Event::Paint&, Core::Event::PaintOverlay&);
+            void _styleRecursive(const std::shared_ptr<Widget> &, Core::Event::Style &);
+            void _preLayoutRecursive(const std::shared_ptr<Widget> &, Core::Event::PreLayout &);
+            void _layoutRecursive(const std::shared_ptr<Widget> &, Core::Event::Layout &);
+            void _clipRecursive(const std::shared_ptr<Widget> &, Core::Event::Clip &);
+            void _paintRecursive(const std::shared_ptr<Widget> &, Core::Event::Paint &, Core::Event::PaintOverlay &);
+
+            void _initObject(const std::shared_ptr<IObject> &) override;
 
         private:
             DJV_PRIVATE();
-
-            friend class Window;
         };
 
     } // namespace UI

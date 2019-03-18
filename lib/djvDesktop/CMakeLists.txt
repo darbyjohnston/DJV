@@ -2,13 +2,11 @@ set(header
     Application.h
     Desktop.h
     EventSystem.h
-    GLFWSystem.h
-    WindowSystem.h)
+    GLFWSystem.h)
 set(source
     Application.cpp
     EventSystem.cpp
-    GLFWSystem.cpp
-    WindowSystem.cpp)
+    GLFWSystem.cpp)
 
 add_library(djvDesktop ${header} ${source})
 target_link_libraries(djvDesktop djvUIComponents)

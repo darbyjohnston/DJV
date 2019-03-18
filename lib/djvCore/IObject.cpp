@@ -30,6 +30,7 @@
 #include <djvCore/IObject.h>
 
 #include <djvCore/Context.h>
+#include <djvCore/IEventSystem.h>
 #include <djvCore/LogSystem.h>
 #include <djvCore/ResourceSystem.h>
 #include <djvCore/TextSystem.h>
@@ -46,17 +47,18 @@ namespace djv
 
         } // namespace
 
-        bool IObject::_logSystemInit = false;
-        Context * IObject::_context = nullptr;
-        std::weak_ptr<ResourceSystem> IObject::_resourceSystem;
-        std::weak_ptr<LogSystem> IObject::_logSystem;
-        std::weak_ptr<TextSystem> IObject::_textSystem;
+        bool                               IObject::_logSystemInit  = false;
+        Context *                          IObject::_context        = nullptr;
+        std::weak_ptr<ResourceSystem>      IObject::_resourceSystem;
+        std::weak_ptr<LogSystem>           IObject::_logSystem;
+        std::weak_ptr<TextSystem>          IObject::_textSystem;
+        std::weak_ptr<Event::IEventSystem> IObject::_eventSystem;
 
         void IObject::_init(Context * context)
         {
             ++globalObjectCount;
 
-            _context = context;
+            _context   = context;
             _className = "djv::Core::IObject";
 
             if (!_resourceSystem.lock())
@@ -71,6 +73,14 @@ namespace djv
             {
                 _textSystem = context->getSystemT<TextSystem>();
             }
+            if (!_eventSystem.lock())
+            {
+                _eventSystem = context->getSystemT<Event::IEventSystem>();
+            }
+            if (auto eventSystem = _eventSystem.lock())
+            {
+                eventSystem->_objectCreated(shared_from_this());
+            }
         }
 
         IObject::~IObject()
@@ -83,7 +93,7 @@ namespace djv
             if (auto parent = _parent.lock())
             {
                 auto object = shared_from_this();
-                auto& siblings = parent->_children;
+                auto & siblings = parent->_children;
                 const auto i = std::find(siblings.begin(), siblings.end(), object);
                 if (i != siblings.end())
                 {
@@ -100,7 +110,7 @@ namespace djv
             if (auto parent = _parent.lock())
             {
                 auto object = shared_from_this();
-                auto& siblings = parent->_children;
+                auto & siblings = parent->_children;
                 const auto i = std::find(siblings.begin(), siblings.end(), object);
                 if (i != siblings.end())
                 {
@@ -112,18 +122,18 @@ namespace djv
             }
         }
 
-        void IObject::installEventFilter(const std::weak_ptr<IObject>& value)
+        void IObject::installEventFilter(const std::weak_ptr<IObject> & value)
         {
             removeEventFilter(value);
             _filters.push_back(value);
         }
 
-        void IObject::removeEventFilter(const std::weak_ptr<IObject>& value)
+        void IObject::removeEventFilter(const std::weak_ptr<IObject> & value)
         {
             const auto i = std::find_if(
                 _filters.begin(),
                 _filters.end(),
-                [value](const std::weak_ptr<IObject>& other)
+                [value](const std::weak_ptr<IObject> & other)
             {
                 auto a = value.lock();
                 auto b = other.lock();
@@ -135,7 +145,7 @@ namespace djv
             }
         }
 
-        void IObject::addChild(const std::shared_ptr<IObject>& value)
+        void IObject::addChild(const std::shared_ptr<IObject> & value)
         {
             std::shared_ptr<IObject> prevParent;
             if (auto parent = value->_parent.lock())

@@ -39,8 +39,8 @@
 
 #include <djvUI/Action.h>
 #include <djvUI/DialogSystem.h>
+#include <djvUI/EventSystem.h>
 #include <djvUI/GroupBox.h>
-#include <djvUI/IWindowSystem.h>
 #include <djvUI/Menu.h>
 #include <djvUI/RowLayout.h>
 #include <djvUI/Window.h>
@@ -434,7 +434,7 @@ namespace djv
         {
             DJV_PRIVATE_PTR();
             auto context = getContext();
-            if (auto windowSystem = context->getSystemT<UI::IWindowSystem>().lock())
+            if (auto windowSystem = context->getSystemT<UI::EventSystem>().lock())
             {
                 if (auto window = windowSystem->observeCurrentWindow()->get())
                 {
@@ -470,7 +470,7 @@ namespace djv
         {
             DJV_PRIVATE_PTR();
             auto context = getContext();
-            if (auto windowSystem = context->getSystemT<UI::IWindowSystem>().lock())
+            if (auto windowSystem = context->getSystemT<UI::EventSystem>().lock())
             {
                 if (auto window = windowSystem->observeCurrentWindow()->get())
                 {

@@ -72,7 +72,7 @@ namespace djv
                 std::map<FileSystem::FileType, std::future<std::shared_ptr<AV::Image::Image> > > iconsFutures;
                 std::map<size_t, std::string> sizeText;
                 std::map<size_t, std::string> timeText;
-                std::vector<float> split;
+                std::vector<float> split = { .7f, .8f, 1.f };
 
                 size_t hover = invalid;
                 size_t grab = invalid;
@@ -91,7 +91,6 @@ namespace djv
                 UI::Widget::_init(context);
                 DJV_PRIVATE_PTR();
                 setClassName("djv::UI::FileBrowser::ItemView");
-                p.split = { .7f, .8f, .9f };
             }
 
             ItemView::ItemView() :
@@ -350,10 +349,13 @@ namespace djv
                 {
                     if (auto style = _getStyle().lock())
                     {
+                        const BBox2f & g = getGeometry();
                         const float m = style->getMetric(MetricsRole::MarginSmall);
                         const float s = style->getMetric(MetricsRole::SpacingSmall);
+                        const float b = style->getMetric(MetricsRole::Border);
                         const float tw = style->getMetric(p.getThumbnailWidth());
                         const float th = style->getMetric(p.getThumbnailHeight());
+
                         {
                             const auto i = p.itemGeometry.find(p.grab);
                             if (i != p.itemGeometry.end())
@@ -362,6 +364,7 @@ namespace djv
                                 render->drawRect(i->second);
                             }
                         }
+
                         {
                             const auto i = p.itemGeometry.find(p.hover);
                             const auto j = p.itemGeometry.find(p.grab);
@@ -371,6 +374,7 @@ namespace djv
                                 render->drawRect(i->second);
                             }
                         }
+
                         const float ut = _getUpdateTime();
                         auto item = p.items.begin();
                         size_t index = 0;
@@ -379,6 +383,15 @@ namespace djv
                             const auto i = p.itemGeometry.find(index);
                             if (i != p.itemGeometry.end())
                             {
+                                const BBox2f & itemGeometry = i->second;
+                                if (ViewType::ListView == p.viewType)
+                                {
+                                    render->pushClipRect(BBox2f(
+                                        itemGeometry.min.x,
+                                        itemGeometry.min.y,
+                                        itemGeometry.w() * p.split[0],
+                                        itemGeometry.h()));
+                                }
                                 float opacity = 0.f;
                                 {
                                     const auto j = p.thumbnails.find(index);
@@ -482,27 +495,47 @@ namespace djv
                                             glm::vec2(
                                                 floorf(x),
                                                 floorf(y + p.nameFontMetrics.ascender - 1.f)));
+
+                                        render->popClipRect();
+
                                         x = i->second.min.x + i->second.w() * p.split[0] + m;
                                         auto j = p.sizeText.find(index);
                                         if (j != p.sizeText.end())
                                         {
+                                            render->pushClipRect(BBox2f(
+                                                itemGeometry.min.x + itemGeometry.w() * p.split[0],
+                                                itemGeometry.min.y,
+                                                itemGeometry.w() * (p.split[1] - p.split[0]),
+                                                itemGeometry.h()));
+
                                             //! \bug Why the extra subtract by one here?
                                             render->drawText(
                                                 j->second,
                                                 glm::vec2(
                                                     floorf(x),
                                                     floorf(y + p.nameFontMetrics.ascender - 1.f)));
+
+                                            render->popClipRect();
                                         }
+
                                         x = i->second.min.x + i->second.w() * p.split[1] + m;
                                         j = p.timeText.find(index);
                                         if (j != p.timeText.end())
                                         {
+                                            render->pushClipRect(BBox2f(
+                                                itemGeometry.min.x + itemGeometry.w() * p.split[1],
+                                                itemGeometry.min.y,
+                                                itemGeometry.w() * (p.split[2] - p.split[1]),
+                                                itemGeometry.h()));
+
                                             //! \bug Why the extra subtract by one here?
                                             render->drawText(
                                                 j->second,
                                                 glm::vec2(
                                                     floorf(x),
                                                     floorf(y + p.nameFontMetrics.ascender - 1.f)));
+
+                                            render->popClipRect();
                                         }
                                         break;
                                     }

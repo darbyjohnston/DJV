@@ -29,7 +29,7 @@
 
 #pragma once
 
-#include <djvCore/IEventSystem.h>
+#include <djvUI/EventSystem.h>
 
 #include <glm/vec2.hpp>
 
@@ -45,7 +45,7 @@ namespace djv
 
     namespace Desktop
     {
-        class EventSystem : public Core::Event::IEventSystem
+        class EventSystem : public UI::EventSystem
         {
             DJV_NON_COPYABLE(EventSystem);
 
@@ -58,17 +58,27 @@ namespace djv
 
             static std::shared_ptr<EventSystem> create(GLFWwindow*, Core::Context *);
 
+            void tick(float dt) override;
+
         protected:
-            void _hover(Core::Event::PointerMove&, std::shared_ptr<Core::IObject>&) override;
+            void _pushClipRect(const Core::BBox2f &) override;
+            void _popClipRect() override;
+
+            void _initObject(const std::shared_ptr<IObject> &) override;
+            void _hover(Core::Event::PointerMove &, std::shared_ptr<Core::IObject> &) override;
 
         private:
-            void _hover(const std::shared_ptr<UI::Widget> &, Core::Event::PointerMove&, std::shared_ptr<Core::IObject>&);
+            void _resize(const glm::ivec2 &);
+            void _redraw();
+            void _hover(const std::shared_ptr<UI::Widget> &, Core::Event::PointerMove &, std::shared_ptr<Core::IObject> &);
 
-            static void _pointerCallback(GLFWwindow*, double, double);
-            static void _buttonCallback(GLFWwindow*, int button, int action, int mods);
-            static void _dropCallback(GLFWwindow*, int, const char**);
-            static void _keyCallback(GLFWwindow*, int key, int scancode, int action, int modifiers);
-            static void _charCallback(GLFWwindow*, unsigned int character, int modifiers);
+            static void _resizeCallback(GLFWwindow *, int, int);
+            static void _redrawCallback(GLFWwindow *);
+            static void _pointerCallback(GLFWwindow *, double, double);
+            static void _buttonCallback(GLFWwindow *, int button, int action, int mods);
+            static void _dropCallback(GLFWwindow *, int, const char **);
+            static void _keyCallback(GLFWwindow *, int key, int scancode, int action, int modifiers);
+            static void _charCallback(GLFWwindow *, unsigned int character, int modifiers);
 
             DJV_PRIVATE();
         };

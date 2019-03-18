@@ -31,8 +31,8 @@
 
 #include <djvUIComponents/FileBrowser.h>
 
+#include <djvUI/EventSystem.h>
 #include <djvUI/IDialog.h>
-#include <djvUI/IWindowSystem.h>
 #include <djvUI/Label.h>
 #include <djvUI/Overlay.h>
 #include <djvUI/PushButton.h>
@@ -137,7 +137,7 @@ namespace djv
                 {
                     p.dialog = Dialog::create(context);
                 }
-                if (auto windowSystem = context->getSystemT<UI::IWindowSystem>().lock())
+                if (auto windowSystem = context->getSystemT<EventSystem>().lock())
                 {
                     if (auto window = windowSystem->observeCurrentWindow()->get())
                     {

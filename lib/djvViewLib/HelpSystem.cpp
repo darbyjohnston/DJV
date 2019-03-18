@@ -33,7 +33,7 @@
 #include <djvViewLib/SystemLogDialog.h>
 
 #include <djvUI/Action.h>
-#include <djvUI/IWindowSystem.h>
+#include <djvUI/EventSystem.h>
 #include <djvUI/Menu.h>
 #include <djvUI/RowLayout.h>
 #include <djvUI/Window.h>
@@ -105,7 +105,7 @@ namespace djv
                 {
                     if (auto system = weak.lock())
                     {
-                        if (auto windowSystem = context->getSystemT<UI::IWindowSystem>().lock())
+                        if (auto windowSystem = context->getSystemT<UI::EventSystem>().lock())
                         {
                             if (auto window = windowSystem->observeCurrentWindow()->get())
                             {
@@ -125,7 +125,7 @@ namespace djv
                 {
                     if (auto system = weak.lock())
                     {
-                        if (auto windowSystem = context->getSystemT<UI::IWindowSystem>().lock())
+                        if (auto windowSystem = context->getSystemT<UI::EventSystem>().lock())
                         {
                             if (auto window = windowSystem->observeCurrentWindow()->get())
                             {

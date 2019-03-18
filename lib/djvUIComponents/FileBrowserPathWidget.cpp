@@ -186,7 +186,7 @@ namespace djv
                 {
                     auto button = FlatButton::create(context);
                     button->setText(i->isRoot() ? i->get() : i->getFileName());
-                    button->setBackgroundRole(ColorRole::Background);
+                    button->setBackgroundRole(ColorRole::Button);
 
                     _p->buttonLayout->addChild(button);
 

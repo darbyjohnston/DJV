@@ -30,7 +30,7 @@
 #include <djvUI/DialogSystem.h>
 
 #include <djvUI/IDialog.h>
-#include <djvUI/IWindowSystem.h>
+#include <djvUI/EventSystem.h>
 #include <djvUI/Label.h>
 #include <djvUI/Overlay.h>
 #include <djvUI/PushButton.h>
@@ -247,7 +247,7 @@ namespace djv
             {
                 p.messageDialog = MessageDialog::create(context);
             }
-            if (auto windowSystem = context->getSystemT<UI::IWindowSystem>().lock())
+            if (auto windowSystem = context->getSystemT<UI::EventSystem>().lock())
             {
                 if (auto window = windowSystem->observeCurrentWindow()->get())
                 {
@@ -274,7 +274,7 @@ namespace djv
             {
                 p.confirmationDialog = ConfirmationDialog::create(context);
             }
-            if (auto windowSystem = context->getSystemT<UI::IWindowSystem>().lock())
+            if (auto windowSystem = context->getSystemT<UI::EventSystem>().lock())
             {
                 if (auto window = windowSystem->observeCurrentWindow()->get())
                 {

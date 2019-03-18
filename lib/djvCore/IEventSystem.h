@@ -57,6 +57,8 @@ namespace djv
                 void tick(float dt) override;
 
             protected:
+                virtual void _initObject(const std::shared_ptr<IObject> &);
+
                 void _pointerMove(const Event::PointerInfo&);
                 void _buttonPress(int);
                 void _buttonRelease(int);
@@ -68,12 +70,14 @@ namespace djv
                 virtual void _hover(Event::PointerMove &, std::shared_ptr<IObject> &) = 0;
 
             private:
-                void _localeInit(const std::shared_ptr<IObject> &, bool = true);
+                DJV_PRIVATE();
+
+                void _objectCreated(const std::shared_ptr<IObject> &);
                 void _localeRecursive(const std::shared_ptr<IObject> &, Locale &);
                 void _updateRecursive(const std::shared_ptr<IObject> &, Update &);
                 void _setHover(const std::shared_ptr<IObject> &);
 
-                DJV_PRIVATE();
+                friend class IObject;
             };
 
         } // namespace Event

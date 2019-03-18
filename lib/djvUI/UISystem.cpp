@@ -36,11 +36,13 @@
 #include <djvUI/SettingsSystem.h>
 #include <djvUI/Style.h>
 #include <djvUI/StyleSettings.h>
+#include <djvUI/Window.h>
 
 #include <djvAV/AVSystem.h>
 
 #include <djvCore/Context.h>
 #include <djvCore/FileInfo.h>
+#include <djvCore/IEventSystem.h>
 #include <djvCore/TextSystem.h>
 
 using namespace djv::Core;
@@ -91,6 +93,7 @@ namespace djv
                     system->_p->style->setPalette(value);
                 }
             });
+
             p.metricsObserver = ValueObserver<UI::Style::Metrics>::create(
                 styleSettings->observeCurrentMetrics(),
                 [weak](const UI::Style::Metrics & value)
@@ -100,6 +103,7 @@ namespace djv
                     system->_p->style->setMetrics(value);
                 }
             });
+
             p.fontObserver = ValueObserver<std::string>::create(
                 styleSettings->observeCurrentFont(),
                 [weak](const std::string & value)

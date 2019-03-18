@@ -49,7 +49,6 @@ namespace djv
         {
             struct FileBrowser::Private
             {
-                std::shared_ptr<ValueSubject<bool> > showShortcuts;
                 std::shared_ptr<MapSubject<std::string, bool> > shortcutsBellows;
                 std::shared_ptr<ListSubject<float> > shortcutsSplit;
                 std::shared_ptr<ValueSubject<ViewType> > viewType;
@@ -66,7 +65,6 @@ namespace djv
                 ISettings::_init("djv::UI::Settings::FileBrowser", context);
                 
                 DJV_PRIVATE_PTR();
-                p.showShortcuts = ValueSubject<bool>::create(true);
                 p.shortcutsBellows = MapSubject<std::string, bool>::create(
                     {
                         { "Shortcuts", true },
@@ -77,7 +75,7 @@ namespace djv
                 );
                 p.shortcutsSplit = ListSubject<float>::create({ .1f, 1.f });
                 p.viewType = ValueSubject<ViewType>::create(ViewType::ThumbnailsSmall);
-                p.listViewHeaderSplit = ListSubject<float>::create({ .7f, .8f, .9f });
+                p.listViewHeaderSplit = ListSubject<float>::create({ .7f, .8f, 1.f });
                 p.fileSequences = ValueSubject<bool>::create(false);
                 p.showHidden = ValueSubject<bool>::create(false);
                 p.sort = ValueSubject<FileSystem::DirectoryListSort>::create(FileSystem::DirectoryListSort::Name);
@@ -99,17 +97,6 @@ namespace djv
                 auto out = std::shared_ptr<FileBrowser>(new FileBrowser);
                 out->_init(context);
                 return out;
-            }
-
-            std::shared_ptr<IValueSubject<bool> > FileBrowser::observeShowShortcuts() const
-            {
-                return _p->showShortcuts;
-            }
-
-            void FileBrowser::setShowShortcuts(bool value)
-            {
-                DJV_PRIVATE_PTR();
-                p.showShortcuts->setIfChanged(value);
             }
 
             std::shared_ptr<IMapSubject<std::string, bool> > FileBrowser::observeShortcutsBellows() const
@@ -217,7 +204,6 @@ namespace djv
                 {
                     DJV_PRIVATE_PTR();
                     const auto& object = value.get<picojson::object>();
-                    read("ShowShortcuts", object, p.showShortcuts);
                     read("ShortcutsBellows", object, p.shortcutsBellows);
                     read("ShortcutsSplit", object, p.shortcutsSplit);
                     read("ViewType", object, p.viewType);
@@ -235,7 +221,6 @@ namespace djv
                 DJV_PRIVATE_PTR();
                 picojson::value out(picojson::object_type, true);
                 auto& object = out.get<picojson::object>();
-                write("ShowShortcuts", p.showShortcuts->get(), object);
                 write("ShortcutsBellows", p.shortcutsBellows->get(), object);
                 write("ShortcutsSplit", p.shortcutsSplit->get(), object);
                 write("ViewType", p.viewType->get(), object);

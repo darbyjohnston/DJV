@@ -58,9 +58,6 @@ namespace djv
 
                 static std::shared_ptr<FileBrowser> create(Core::Context *);
 
-                std::shared_ptr<Core::IValueSubject<bool> > observeShowShortcuts() const;
-                void setShowShortcuts(bool);
-
                 std::shared_ptr<Core::IMapSubject<std::string, bool> > observeShortcutsBellows() const;
                 void setShortcutsBellows(const std::map<std::string, bool> &);
 

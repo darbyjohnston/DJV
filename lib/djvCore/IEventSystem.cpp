@@ -45,6 +45,7 @@ namespace djv
         {
             struct IEventSystem::Private
             {
+                std::vector<std::shared_ptr<IObject> > objectsCreated;
                 std::weak_ptr<TextSystem> textSystem;
                 float t = 0.f;
                 Event::PointerInfo pointerInfo;
@@ -52,13 +53,13 @@ namespace djv
                 std::shared_ptr<IObject> grab;
                 std::shared_ptr<IObject> keyGrab;
                 std::shared_ptr<IObject> textFocus;
-                std::shared_ptr<ValueObserver<std::string> > localeObserver;
                 std::string locale;
-                bool localeInit = true;
+                bool localeInit = false;
+                std::shared_ptr<ValueObserver<std::string> > localeObserver;
                 std::shared_ptr<Time::Timer> statsTimer;
             };
 
-            void IEventSystem::_init(const std::string& systemName, Context * context)
+            void IEventSystem::_init(const std::string & systemName, Context * context)
             {
                 ISystem::_init(systemName, context);
 
@@ -75,7 +76,7 @@ namespace djv
                         if (auto system = weak.lock())
                         {
                             system->_p->locale = value;
-                            system->_p->localeInit = false;
+                            system->_p->localeInit = true;
                         }
                     });
                 }
@@ -100,12 +101,12 @@ namespace djv
             IEventSystem::~IEventSystem()
             {}
 
-            const std::shared_ptr<IObject>& IEventSystem::getTextFocus() const
+            const std::shared_ptr<IObject> & IEventSystem::getTextFocus() const
             {
                 return _p->textFocus;
             }
 
-            void IEventSystem::setTextFocus(const std::shared_ptr<IObject>& value)
+            void IEventSystem::setTextFocus(const std::shared_ptr<IObject> & value)
             {
                 DJV_PRIVATE_PTR();
                 if (value == p.textFocus)
@@ -126,11 +127,19 @@ namespace djv
                 DJV_PRIVATE_PTR();
                 p.t += dt;
 
-                Event::Locale localeEvent(p.locale);
+                for (const auto & i : p.objectsCreated)
+                {
+                    _initObject(i);
+                }
+                p.objectsCreated.clear();
+
                 auto rootObject = getContext()->getRootObject();
-                _localeInit(rootObject, p.localeInit);
-                _localeRecursive(rootObject, localeEvent);
-                p.localeInit = true;
+                if (p.localeInit)
+                {
+                    p.localeInit = false;
+                    Event::Locale localeEvent(p.locale);
+                    _localeRecursive(rootObject, localeEvent);
+                }
 
                 Update updateEvent(p.t, dt);
                 _updateRecursive(rootObject, updateEvent);
@@ -199,7 +208,14 @@ namespace djv
                 }
             }
 
-            void IEventSystem::_pointerMove(const Event::PointerInfo& info)
+            void IEventSystem::_initObject(const std::shared_ptr<IObject> & object)
+            {
+                DJV_PRIVATE_PTR();
+                Event::Locale localeEvent(p.locale);
+                object->event(localeEvent);
+            }
+
+            void IEventSystem::_pointerMove(const Event::PointerInfo & info)
             {
                 DJV_PRIVATE_PTR();
                 p.pointerInfo = info;
@@ -309,47 +325,32 @@ namespace djv
                 }
             }
 
-            void IEventSystem::_localeInit(const std::shared_ptr<IObject>& object, bool childrenInit)
+            void IEventSystem::_objectCreated(const std::shared_ptr<IObject> & object)
             {
-                bool init = false;
-                init |= !object->_localeInit;
-                init |= !childrenInit;
-                if (init)
-                {
-                    object->_localeInit = false;
-                    childrenInit = false;
-                }
-                for (const auto& child : object->_children)
-                {
-                    _localeInit(child, childrenInit);
-                }
+                _p->objectsCreated.push_back(object);
             }
 
-            void IEventSystem::_localeRecursive(const std::shared_ptr<IObject>& object, Locale& event)
+            void IEventSystem::_localeRecursive(const std::shared_ptr<IObject> & object, Locale & event)
             {
-                if (!object->_localeInit)
-                {
-                    object->_localeInit = true;
-                    object->event(event);
-                }
-                for (const auto& child : object->_children)
+                object->event(event);
+                for (const auto & child : object->_children)
                 {
                     _localeRecursive(child, event);
                 }
             }
 
-            void IEventSystem::_updateRecursive(const std::shared_ptr<IObject>& object, Update& event)
+            void IEventSystem::_updateRecursive(const std::shared_ptr<IObject> & object, Update & event)
             {
                 object->event(event);
                 auto children = object->_children;
-                for (const auto& child : children)
+                for (const auto & child : children)
                 {
                     child->_parentsEnabled = object->_enabled && object->_parentsEnabled;
                     _updateRecursive(child, event);
                 }
             }
 
-            void IEventSystem::_setHover(const std::shared_ptr<IObject>& value)
+            void IEventSystem::_setHover(const std::shared_ptr<IObject> & value)
             {
                 DJV_PRIVATE_PTR();
                 if (value == p.hover)

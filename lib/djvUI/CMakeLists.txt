@@ -9,6 +9,7 @@ set(header
     DialogSystem.h
     Drawer.h
     Enum.h
+    EventSystem.h
     FlatButton.h
     FloatValueLabel.h
     FloatValueSlider.h
@@ -23,7 +24,6 @@ set(header
     ISettings.h
     ISettingsTemplates.h
     ISettingsTemplatesInline.h
-    IWindowSystem.h
     Icon.h
     IconSystem.h
     ImageWidget.h
@@ -79,6 +79,7 @@ set(source
     DialogSystem.cpp
     Drawer.cpp
     Enum.cpp
+    EventSystem.cpp
     FlatButton.cpp
     FloatValueLabel.cpp
     FloatValueSlider.cpp
@@ -91,7 +92,6 @@ set(source
     IButton.cpp
     IDialog.cpp
     ISettings.cpp
-    IWindowSystem.cpp
     Icon.cpp
     IconSystem.cpp
     ImageWidget.cpp
