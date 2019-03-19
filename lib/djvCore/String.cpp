@@ -83,9 +83,14 @@ namespace djv
 
             bool match(const std::string & value, const std::string & expression)
             {
-                std::regex r(expression);
                 std::smatch m;
-                std::regex_search(value, m, r);
+                try
+                {
+                    std::regex r(expression);
+                    std::regex_search(value, m, r);
+                }
+                catch (const std::exception &)
+                {}
                 return m.size() > 0 ? true : false;
             }
 
