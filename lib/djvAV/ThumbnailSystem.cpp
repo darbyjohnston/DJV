@@ -213,7 +213,7 @@ namespace djv
             p.statsTimer = Time::Timer::create(context);
             p.statsTimer->setRepeating(true);
             p.statsTimer->start(
-                Time::Timer::getMilliseconds(Time::Timer::Value::VerySlow),
+                Time::getMilliseconds(Time::TimerValue::VerySlow),
                 [this](float)
             {
                 DJV_PRIVATE_PTR();
@@ -238,7 +238,7 @@ namespace djv
 
                     auto convert = Image::Convert::create(context);
 
-                    const auto timeout = Time::Timer::getValue(Time::Timer::Value::Medium);
+                    const auto timeout = Time::getValue(Time::TimerValue::Medium);
                     while (p.running)
                     {
                         bool infoRequests  = p.pendingInfoRequests.size();

@@ -81,7 +81,7 @@ namespace djv
                 _statsTimer = Core::Time::Timer::create(this);
                 _statsTimer->setRepeating(true);
                 _statsTimer->start(
-                    Core::Time::Timer::getMilliseconds(Core::Time::Timer::Value::Slow),
+                    Core::Time::getMilliseconds(Core::Time::TimerValue::Slow),
                     [this, duration](float)
                 {
                     Core::Time::Timestamp timestamp = 0;

@@ -58,6 +58,9 @@ namespace djv
             std::future<AV::Font::Metrics> fontMetricsFuture;
             glm::vec2 textSize = glm::vec2(0.f, 0.f);
             std::future<glm::vec2> textSizeFuture;
+            std::string sizeString;
+            glm::vec2 sizeStringSize = glm::vec2(0.f, 0.f);
+            std::future<glm::vec2> sizeStringFuture;
             size_t cursorPos = 0;
             std::future<glm::vec2> cursorTextSizeFuture;
             glm::vec2 cursorTextSize = glm::vec2(0.f, 0.f);
@@ -178,6 +181,20 @@ namespace djv
             _cursorUpdate();
         }
 
+        const std::string & LineEditBase::getSizeString() const
+        {
+            return _p->sizeString;
+        }
+
+        void LineEditBase::setSizeString(const std::string & value)
+        {
+            DJV_PRIVATE_PTR();
+            if (value == p.sizeString)
+                return;
+            p.sizeString = value;
+            _textUpdate();
+        }
+
         void LineEditBase::setTextChangedCallback(const std::function<void(const std::string &)> & value)
         {
             _p->textChangedCallback = value;
@@ -212,7 +229,6 @@ namespace djv
                     try
                     {
                         p.fontMetrics = p.fontMetricsFuture.get();
-                        _resize();
                     }
                     catch (const std::exception& e)
                     {
@@ -224,9 +240,19 @@ namespace djv
                     try
                     {
                         p.textSize = p.textSizeFuture.get();
-                        _resize();
                     }
                     catch (const std::exception& e)
+                    {
+                        _log(e.what(), LogLevel::Error);
+                    }
+                }
+                if (p.sizeStringFuture.valid())
+                {
+                    try
+                    {
+                        p.sizeStringSize = p.sizeStringFuture.get();
+                    }
+                    catch (const std::exception & e)
                     {
                         _log(e.what(), LogLevel::Error);
                     }
@@ -236,7 +262,6 @@ namespace djv
                     try
                     {
                         p.cursorTextSize = p.cursorTextSizeFuture.get();
-                        _resize();
                     }
                     catch (const std::exception& e)
                     {
@@ -244,7 +269,7 @@ namespace djv
                     }
                 }
 
-                const glm::vec2 size(tc, p.fontMetrics.lineHeight);
+                const glm::vec2 size(p.sizeString.empty() ? tc : p.sizeStringSize.x, p.fontMetrics.lineHeight);
                 _setMinimumSize(size + m * 2.f + getMargin().getSize(style));
             }
         }
@@ -334,6 +359,7 @@ namespace djv
                 if (size > 0 && p.cursorPos > 0)
                 {
                     p.text.erase(p.cursorPos - 1, 1);
+                    --p.cursorPos;
                     _textUpdate();
                     _cursorUpdate();
                     if (p.textChangedCallback)
@@ -398,6 +424,11 @@ namespace djv
                 event.accept();
                 releaseTextFocus();
                 break;
+            case GLFW_KEY_UP:
+            case GLFW_KEY_DOWN:
+            case GLFW_KEY_PAGE_UP:
+            case GLFW_KEY_PAGE_DOWN:
+                break;
             default:
                 if (!event.getKeyModifiers())
                 {
@@ -439,9 +470,15 @@ namespace djv
         {
             DJV_PRIVATE_PTR();
             event.accept();
-            const auto & text = event.getText();
-            p.text.insert(p.cursorPos, text);
-            p.cursorPos += text.size();
+            const size_t size = p.text.size();
+            auto text = p.text;
+            const auto & eventText = event.getText();
+            text.insert(p.cursorPos, eventText);
+            p.text = text;
+            if (size < p.text.size())
+            {
+                p.cursorPos += p.text.size() - size;
+            }
             _textUpdate();
             _cursorUpdate();
             if (p.textChangedCallback)
@@ -462,6 +499,10 @@ namespace djv
                         style->getFontInfo(p.font, p.fontFace, p.fontSizeRole);
                     p.fontMetricsFuture = fontSystem->getMetrics(fontInfo);
                     p.textSizeFuture = fontSystem->measure(p.text, fontInfo);
+                    if (!p.sizeString.empty())
+                    {
+                        p.sizeStringFuture = fontSystem->measure(p.sizeString, fontInfo);
+                    }
                     _resize();
                 }
             }

@@ -34,9 +34,6 @@
 #include <djvUI/GroupBox.h>
 #include <djvUI/RowLayout.h>
 
-#include <djvCore/FileInfo.h>
-#include <djvCore/OS.h>
-
 using namespace djv::Core;
 
 namespace djv
@@ -47,50 +44,55 @@ namespace djv
         {
             struct ShortcutsWidget::Private
             {
-                std::vector<FileSystem::Path> shortcuts;
                 std::shared_ptr<VerticalLayout> layout;
                 std::function<void(const FileSystem::Path &)> callback;
+                std::shared_ptr<ListObserver<FileSystem::Path> > shortcutsObserver;
             };
 
-            void ShortcutsWidget::_init(Context * context)
+            void ShortcutsWidget::_init(const std::shared_ptr<ShortcutsModel> & model, Context * context)
             {
                 UI::Widget::_init(context);
 
+                DJV_PRIVATE_PTR();
+
                 setClassName("djv::UI::FileBrowser::ShortcutsWidget");
 
-                DJV_PRIVATE_PTR();
+                p.layout = VerticalLayout::create(context);
                 auto itemLayout = VerticalLayout::create(context);
                 itemLayout->setSpacing(MetricsRole::None);
-                for (size_t i = 0; i < static_cast<size_t>(OS::DirectoryShortcut::Count); ++i)
-                {
-                    const auto shortcut = OS::getPath(static_cast<OS::DirectoryShortcut>(i));
-                    p.shortcuts.push_back(shortcut);
-                }
-                auto weak = std::weak_ptr<ShortcutsWidget>(std::dynamic_pointer_cast<ShortcutsWidget>(shared_from_this()));
-                for (const auto & i : p.shortcuts)
-                {
-                    auto button = FlatButton::create(context);
-                    button->setText(i.getFileName());
-                    itemLayout->addChild(button);
-
-                    const auto path = i;
-                    button->setClickedCallback(
-                        [weak, path]
-                    {
-                        if (auto widget = weak.lock())
-                        {
-                            if (widget->_p->callback)
-                            {
-                                widget->_p->callback(path);
-                            }
-                        }
-                    });
-                }
-
-                p.layout = VerticalLayout::create(context);
                 p.layout->addChild(itemLayout);
                 p.layout->setStretch(itemLayout, RowStretch::Expand);
                 addChild(p.layout);
+
+                auto weak = std::weak_ptr<ShortcutsWidget>(std::dynamic_pointer_cast<ShortcutsWidget>(shared_from_this()));
+                p.shortcutsObserver = ListObserver<FileSystem::Path>::create(
+                    model->observeShortcuts(),
+                    [weak, itemLayout, context](const std::vector<FileSystem::Path> & value)
+                {
+                    if (auto widget = weak.lock())
+                    {
+                        itemLayout->clearChildren();
+                        for (const auto & i : value)
+                        {
+                            auto button = FlatButton::create(context);
+                            button->setText(i.getFileName());
+                            itemLayout->addChild(button);
+
+                            const auto path = i;
+                            button->setClickedCallback(
+                                [weak, path]
+                            {
+                                if (auto widget = weak.lock())
+                                {
+                                    if (widget->_p->callback)
+                                    {
+                                        widget->_p->callback(path);
+                                    }
+                                }
+                            });
+                        }
+                    }
+                });
             }
 
             ShortcutsWidget::ShortcutsWidget() :
@@ -100,10 +102,10 @@ namespace djv
             ShortcutsWidget::~ShortcutsWidget()
             {}
 
-            std::shared_ptr<ShortcutsWidget> ShortcutsWidget::create(Context * context)
+            std::shared_ptr<ShortcutsWidget> ShortcutsWidget::create(const std::shared_ptr<ShortcutsModel> & model, Context * context)
             {
                 auto out = std::shared_ptr<ShortcutsWidget>(new ShortcutsWidget);
-                out->_init(context);
+                out->_init(model, context);
                 return out;
             }
 

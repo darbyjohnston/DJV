@@ -133,6 +133,16 @@ namespace djv
             _p->lineEditBase->setFontSizeRole(value);
         }
 
+        const std::string & LineEdit::getSizeString() const
+        {
+            return _p->lineEditBase->getSizeString();
+        }
+
+        void LineEdit::setSizeString(const std::string & value)
+        {
+            _p->lineEditBase->setSizeString(value);
+        }
+
         void LineEdit::setTextChangedCallback(const std::function<void(const std::string &)> & callback)
         {
             _p->lineEditBase->setTextChangedCallback(callback);

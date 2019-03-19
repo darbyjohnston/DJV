@@ -995,7 +995,7 @@ namespace djv
                 p.statsTimer = Time::Timer::create(context);
                 p.statsTimer->setRepeating(true);
                 p.statsTimer->start(
-                    Time::Timer::getMilliseconds(Time::Timer::Value::VerySlow),
+                    Time::getMilliseconds(Time::TimerValue::VerySlow),
                     [this](float)
                 {
                     DJV_PRIVATE_PTR();
@@ -1008,7 +1008,7 @@ namespace djv
                 p.fpsTimer = Time::Timer::create(context);
                 p.fpsTimer->setRepeating(true);
                 p.fpsTimer->start(
-                    Time::Timer::getMilliseconds(Time::Timer::Value::VerySlow),
+                    Time::getMilliseconds(Time::TimerValue::VerySlow),
                     [this](float)
                 {
                     DJV_PRIVATE_PTR();

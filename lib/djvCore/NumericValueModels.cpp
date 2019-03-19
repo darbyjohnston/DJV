@@ -37,7 +37,8 @@ namespace djv
         {
             INumericValueModel<int>::_init();
             setRange(IntRange(0, 100));
-            setIncrement(1);
+            setSmallIncrement(1);
+            setLargeIncrement(10);
         }
 
         IntValueModel::IntValueModel()
@@ -54,7 +55,8 @@ namespace djv
         {
             INumericValueModel<float>::_init();
             setRange(FloatRange(0.f, 1.f));
-            setIncrement(.1f);
+            setSmallIncrement(.1f);
+            setLargeIncrement(.2f);
         }
 
         FloatValueModel::FloatValueModel()

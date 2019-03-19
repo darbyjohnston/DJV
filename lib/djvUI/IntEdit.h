@@ -35,49 +35,38 @@ namespace djv
 {
     namespace Core
     {
-        namespace FileSystem
-        {
-            class FileInfo;
-            class Path;
+        class IntValueModel;
 
-        } // namespace FileSystem
     } // namespace Core
 
     namespace UI
     {
-        //! This namespace provides file browser functionality.
-        namespace FileBrowser
+        //! This class provides an editor widget for integer values.
+        class IntEdit : public Widget
         {
-            //! This class provides a file browser widget.
-            class Widget : public UI::Widget
-            {
-                DJV_NON_COPYABLE(Widget);
+            DJV_NON_COPYABLE(IntEdit);
 
-            protected:
-                void _init(Core::Context *);
-                Widget();
+        protected:
+            void _init(Core::Context *);
+            IntEdit();
 
-            public:
-                virtual ~Widget();
+        public:
+            virtual ~IntEdit();
 
-                static std::shared_ptr<Widget> create(Core::Context *);
+            static std::shared_ptr<IntEdit> create(Core::Context *);
 
-                void setPath(const Core::FileSystem::Path &);
-                void setCallback(const std::function<void(const Core::FileSystem::FileInfo &)> &);
+            const std::shared_ptr<Core::IntValueModel> & getModel() const;
+            void setModel(const std::shared_ptr<Core::IntValueModel> &);
 
-                float getHeightForWidth(float) const override;
+        protected:
+            void _preLayoutEvent(Core::Event::PreLayout&) override;
+            void _layoutEvent(Core::Event::Layout&) override;
 
-            protected:
-                void _preLayoutEvent(Core::Event::PreLayout &) override;
-                void _layoutEvent(Core::Event::Layout &) override;
+        private:
+            void _textUpdate();
 
-                void _localeEvent(Core::Event::Locale &) override;
+            DJV_PRIVATE();
+        };
 
-            private:
-                DJV_PRIVATE();
-            };
-
-        } // namespace FileBrowser
     } // namespace UI
 } // namespace djv
-

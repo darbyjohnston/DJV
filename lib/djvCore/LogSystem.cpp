@@ -116,7 +116,7 @@ namespace djv
                 s << "Path: " << p.path;
                 log("djv::Core::LogSystem", s.str());
 
-                const auto timeout = Time::Timer::getValue(Time::Timer::Value::Slow);
+                const auto timeout = Time::getValue(Time::TimerValue::Slow);
                 while (p.running)
                 {
                     {

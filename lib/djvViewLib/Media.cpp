@@ -131,7 +131,7 @@ namespace djv
                     p.read = io->read(fileName, p.queue);
                     p.infoFuture = p.read->getInfo();
 
-                    const auto timeout = Time::Timer::getMilliseconds(Time::Timer::Value::Fast);
+                    const auto timeout = Time::getMilliseconds(Time::TimerValue::Fast);
                     p.infoTimer->start(
                         timeout,
                         [this, fileName](float)
@@ -184,7 +184,7 @@ namespace djv
                     });
 
                     p.debugTimer->start(
-                        Time::Timer::getMilliseconds(Time::Timer::Value::Fast),
+                        Time::getMilliseconds(Time::TimerValue::Fast),
                         [this](float)
                     {
                         DJV_PRIVATE_PTR();
@@ -315,7 +315,7 @@ namespace djv
                 _timeUpdate();
                 p.startTime = std::chrono::system_clock::now();
                 p.playbackTimer->start(
-                    Time::Timer::getMilliseconds(Time::Timer::Value::Fast),
+                    Time::getMilliseconds(Time::TimerValue::Fast),
                     [this](float)
                 {
                     DJV_PRIVATE_PTR();

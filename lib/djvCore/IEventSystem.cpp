@@ -84,7 +84,7 @@ namespace djv
                 p.statsTimer = Time::Timer::create(context);
                 p.statsTimer->setRepeating(true);
                 p.statsTimer->start(
-                    Time::Timer::getMilliseconds(Time::Timer::Value::VerySlow),
+                    Time::getMilliseconds(Time::TimerValue::VerySlow),
                     [this](float)
                 {
                     DJV_PRIVATE_PTR();
@@ -111,11 +111,12 @@ namespace djv
                 DJV_PRIVATE_PTR();
                 if (value == p.textFocus)
                     return;
-                if (p.textFocus)
-                {
-                    p.textFocus->event(Event::TextFocusLost());
-                }
+                auto textFocus = p.textFocus;
                 p.textFocus = value;
+                if (textFocus)
+                {
+                    textFocus->event(Event::TextFocusLost());
+                }
                 if (p.textFocus)
                 {
                     p.textFocus->event(Event::TextFocus());
@@ -127,11 +128,12 @@ namespace djv
                 DJV_PRIVATE_PTR();
                 p.t += dt;
 
-                for (const auto & i : p.objectsCreated)
+                auto objectsCreated = std::move(p.objectsCreated);
+                for (const auto & i : objectsCreated)
                 {
                     _initObject(i);
                 }
-                p.objectsCreated.clear();
+                objectsCreated.clear();
 
                 auto rootObject = getContext()->getRootObject();
                 if (p.localeInit)

@@ -164,15 +164,14 @@ namespace djv
         };
         DJV_ENUM_HELPERS(ButtonType);
 
-        //! This enumeration provides view types.
+        //! This enumeration provides item view types.
         enum class ViewType
         {
-            ThumbnailsLarge,
-            ThumbnailsSmall,
-            ListView,
+            Tiles,
+            List,
 
             Count,
-            First = ThumbnailsLarge
+            First = Tiles
         };
 
     } // namespace UI

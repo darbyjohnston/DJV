@@ -43,6 +43,22 @@ namespace djv
         {
             class TimerSystem;
 
+            //! This enumeration provides common timer values.
+            enum class TimerValue
+            {
+                VerySlow,
+                Slow,
+                Medium,
+                Fast,
+                VeryFast,
+
+                Count,
+                First = VerySlow
+            };
+            DJV_ENUM_HELPERS(TimerValue);
+            size_t getValue(TimerValue);
+            std::chrono::milliseconds getMilliseconds(TimerValue);
+
             //! This class provides a timer.
             class Timer : public std::enable_shared_from_this<Timer>
             {
@@ -53,26 +69,6 @@ namespace djv
             public:
                 //! Create a new time.
                 static std::shared_ptr<Timer> create(Context *);
-
-                //! \name Common Timer Values
-                ///@{
-
-                enum class Value
-                {
-                    VerySlow,
-                    Slow,
-                    Medium,
-                    Fast,
-                    VeryFast,
-
-                    Count,
-                    First = VerySlow
-                };
-                DJV_ENUM_HELPERS(Value);
-                static size_t getValue(Value);
-                static std::chrono::milliseconds getMilliseconds(Value);
-
-                ///@}
 
                 //! \name Timer Options
                 ///@{
@@ -129,7 +125,7 @@ namespace djv
         } // namespace Time
     } // namespace Core
     
-    DJV_ENUM_SERIALIZE_HELPERS(Core::Time::Timer::Value);
+    DJV_ENUM_SERIALIZE_HELPERS(Core::Time::TimerValue);
     
 } // namespace djv
 

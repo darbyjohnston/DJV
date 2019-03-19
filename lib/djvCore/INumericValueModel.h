@@ -63,10 +63,14 @@ namespace djv
             inline std::shared_ptr<IValueSubject<T> > observeValue() const;
             inline void setValue(T);
 
-            inline std::shared_ptr<IValueSubject<T> > observeIncrement() const;
-            inline void incrementValue();
-            inline void decrementValue();
-            inline void setIncrement(T);
+            inline std::shared_ptr<IValueSubject<T> > observeSmallIncrement() const;
+            inline std::shared_ptr<IValueSubject<T> > observeLargeIncrement() const;
+            inline void incrementSmall();
+            inline void incrementLarge();
+            inline void decrementSmall();
+            inline void decrementLarge();
+            inline void setSmallIncrement(T);
+            inline void setLargeIncrement(T);
 
             inline std::shared_ptr<IValueSubject<NumericValueOverflow> > observeOverflow() const;
             inline void setOverflow(NumericValueOverflow);
@@ -74,7 +78,8 @@ namespace djv
         private:
             std::shared_ptr<ValueSubject<Range::tRange<T> > >    _range;
             std::shared_ptr<ValueSubject<T> >                    _value;
-            std::shared_ptr<ValueSubject<T> >                    _increment;
+            std::shared_ptr<ValueSubject<T> >                    _smallIncrement;
+            std::shared_ptr<ValueSubject<T> >                    _largeIncrement;
             std::shared_ptr<ValueSubject<NumericValueOverflow> > _overflow;
         };
 

@@ -43,9 +43,11 @@
 #include <djvUI/DialogSystem.h>
 #include <djvUI/FlowLayout.h>
 #include <djvUI/Icon.h>
+#include <djvUI/IntSlider.h>
 #include <djvUI/Label.h>
 #include <djvUI/Menu.h>
 #include <djvUI/MenuBar.h>
+#include <djvUI/PopupWidget.h>
 #include <djvUI/RowLayout.h>
 #include <djvUI/SettingsSystem.h>
 #include <djvUI/Splitter.h>
@@ -72,10 +74,17 @@ namespace djv
     {
         namespace FileBrowser
         {
+            namespace
+            {
+                const IntRange thumbnailSizeRange(50, 400);
+
+            } // namespace
+
             struct Widget::Private
             {
                 std::shared_ptr<FileSystem::DirectoryModel> directoryModel;
                 size_t itemCount = 0;
+                std::shared_ptr<ShortcutsModel> shortcutsModel;
 
                 std::map<std::string, std::shared_ptr<Action> > actions;
                 std::shared_ptr<ActionGroup> viewTypeActionGroup;
@@ -92,8 +101,11 @@ namespace djv
                 std::shared_ptr<VerticalLayout> listViewLayout;
                 std::shared_ptr<ItemView> itemView;
                 std::shared_ptr<ScrollWidget> scrollWidget;
-                std::shared_ptr<SearchBox> searchBox;
                 std::shared_ptr<Label> itemCountLabel;
+                std::shared_ptr<SearchBox> searchBox;
+                std::shared_ptr<PopupWidget> thumbnailSizePopupWidget;
+                std::shared_ptr<Label> thumbnailSizeLabel;
+                std::shared_ptr<IntSlider> thumbnailSizeSlider;
                 std::shared_ptr<VerticalLayout> layout;
 
                 std::function<void(const FileSystem::FileInfo &)> callback;
@@ -110,9 +122,15 @@ namespace djv
                 std::shared_ptr<ValueObserver<bool> > hasForwardObserver;
                 std::shared_ptr<ValueObserver<bool> > forwardObserver;
                 std::shared_ptr<ValueObserver<bool> > editPathObserver;
+                std::shared_ptr<ValueObserver<bool> > addShortcutObserver;
+                std::shared_ptr<ListObserver<FileSystem::Path> > shortcutsObserver;
+                std::shared_ptr<ListObserver<FileSystem::Path> > shortcutsSettingsObserver;
                 std::shared_ptr<MapObserver<std::string, bool> > shortcutsBellowsSettingsObserver;
                 std::shared_ptr<ListObserver<float> > shortcutsSplitSettingsObserver;
                 std::shared_ptr<ValueObserver<ViewType> > viewTypeSettingsObserver;
+                std::shared_ptr<ValueObserver<bool> > increaseThumbnailSizeObserver;
+                std::shared_ptr<ValueObserver<bool> > decreaseThumbnailSizeObserver;
+                std::shared_ptr<ValueObserver<glm::ivec2> > thumbnailSizeSettingsObserver;
                 std::shared_ptr<ListObserver<float> > listViewHeaderSplitSettingsObserver;
                 std::shared_ptr<ValueObserver<bool> > fileSequencesObserver;
                 std::shared_ptr<ValueObserver<bool> > fileSequencesSettingsObserver;
@@ -135,6 +153,7 @@ namespace djv
 
                 DJV_PRIVATE_PTR();
                 p.directoryModel = FileSystem::DirectoryModel::create(context);
+                p.shortcutsModel = ShortcutsModel::create(context);
 
                 p.actions["Back"] = Action::create();
                 p.actions["Back"]->setIcon("djvIconArrowLeft");
@@ -151,23 +170,25 @@ namespace djv
                 p.actions["EditPath"]->setButtonType(ButtonType::Toggle);
                 p.actions["EditPath"]->setIcon("djvIconEdit");
 
-                p.actions["AddFavorite"] = Action::create();
-                p.actions["AddFavorite"]->setIcon("djvIconFavorite");
-                p.actions["AddFavorite"]->setShortcut(GLFW_KEY_F, GLFW_MOD_CONTROL);
+                p.actions["AddShortcut"] = Action::create();
+                p.actions["AddShortcut"]->setIcon("djvIconFavorite");
+                p.actions["AddShortcut"]->setShortcut(GLFW_KEY_S, GLFW_MOD_CONTROL);
 
-                p.actions["LargeThumbnails"] = Action::create();
-                p.actions["LargeThumbnails"]->setIcon("djvIconThumbnailsLarge");
-                p.actions["LargeThumbnails"]->setShortcut(GLFW_KEY_1);
-                p.actions["SmallThumbnails"] = Action::create();
-                p.actions["SmallThumbnails"]->setIcon("djvIconThumbnailsSmall");
-                p.actions["SmallThumbnails"]->setShortcut(GLFW_KEY_2);
-                p.actions["ListView"] = Action::create();
-                p.actions["ListView"]->setIcon("djvIconListView");
-                p.actions["ListView"]->setShortcut(GLFW_KEY_3);
+                p.actions["Tiles"] = Action::create();
+                p.actions["Tiles"]->setIcon("djvIconTileView");
+                p.actions["Tiles"]->setShortcut(GLFW_KEY_T);
+                p.actions["List"] = Action::create();
+                p.actions["List"]->setIcon("djvIconListView");
+                p.actions["List"]->setShortcut(GLFW_KEY_L);
+                p.actions["IncreaseThumbnailSize"] = Action::create();
+                p.actions["IncreaseThumbnailSize"]->setIcon("djvIconListView");
+                p.actions["IncreaseThumbnailSize"]->setShortcut(GLFW_KEY_EQUAL);
+                p.actions["DecreaseThumbnailSize"] = Action::create();
+                p.actions["DecreaseThumbnailSize"]->setIcon("djvIconListView");
+                p.actions["DecreaseThumbnailSize"]->setShortcut(GLFW_KEY_MINUS);
                 p.viewTypeActionGroup = ActionGroup::create(ButtonType::Radio);
-                p.viewTypeActionGroup->addAction(p.actions["LargeThumbnails"]);
-                p.viewTypeActionGroup->addAction(p.actions["SmallThumbnails"]);
-                p.viewTypeActionGroup->addAction(p.actions["ListView"]);
+                p.viewTypeActionGroup->addAction(p.actions["Tiles"]);
+                p.viewTypeActionGroup->addAction(p.actions["List"]);
 
                 p.actions["FileSequences"] = Action::create();
                 p.actions["FileSequences"]->setButtonType(ButtonType::Toggle);
@@ -178,11 +199,11 @@ namespace djv
                 p.actions["ShowHidden"]->setShortcut(GLFW_KEY_N);
 
                 p.actions["SortByName"] = Action::create();
-                p.actions["SortByName"]->setShortcut(GLFW_KEY_4);
+                p.actions["SortByName"]->setShortcut(GLFW_KEY_3);
                 p.actions["SortBySize"] = Action::create();
-                p.actions["SortBySize"]->setShortcut(GLFW_KEY_5);
+                p.actions["SortBySize"]->setShortcut(GLFW_KEY_4);
                 p.actions["SortByTime"] = Action::create();
-                p.actions["SortByTime"]->setShortcut(GLFW_KEY_6);
+                p.actions["SortByTime"]->setShortcut(GLFW_KEY_5);
                 p.sortActionGroup = ActionGroup::create(ButtonType::Radio);
                 p.sortActionGroup->addAction(p.actions["SortByName"]);
                 p.sortActionGroup->addAction(p.actions["SortBySize"]);
@@ -207,12 +228,14 @@ namespace djv
                 p.directoryMenu->addAction(p.actions["EditPath"]);
 
                 p.shortcutsMenu = Menu::create(context);
-                p.shortcutsMenu->addAction(p.actions["AddFavorite"]);
+                p.shortcutsMenu->addAction(p.actions["AddShortcut"]);
 
                 p.viewMenu = Menu::create(context);
-                p.viewMenu->addAction(p.actions["LargeThumbnails"]);
-                p.viewMenu->addAction(p.actions["SmallThumbnails"]);
-                p.viewMenu->addAction(p.actions["ListView"]);
+                p.viewMenu->addAction(p.actions["Tiles"]);
+                p.viewMenu->addAction(p.actions["List"]);
+                p.viewMenu->addSeparator();
+                p.viewMenu->addAction(p.actions["IncreaseThumbnailSize"]);
+                p.viewMenu->addAction(p.actions["DecreaseThumbnailSize"]);
                 p.viewMenu->addSeparator();
                 p.viewMenu->addAction(p.actions["FileSequences"]);
                 p.viewMenu->addAction(p.actions["ShowHidden"]);
@@ -242,19 +265,17 @@ namespace djv
                 topToolBar->setStretch(pathWidget, RowStretch::Expand);
                 topToolBar->addAction(p.actions["EditPath"]);
 
-                p.shortcutsWidget = ShortcutsWidget::create(context);
+                p.shortcutsWidget = ShortcutsWidget::create(p.shortcutsModel, context);
                 p.drivesWidget = DrivesWidget::create(context);
                 p.shortcutsBellows["Shortcuts"] = Bellows::create(context);
                 p.shortcutsBellows["Shortcuts"]->addChild(p.shortcutsWidget);
                 p.shortcutsBellows["Drives"] = Bellows::create(context);
                 p.shortcutsBellows["Drives"]->addChild(p.drivesWidget);
-                p.shortcutsBellows["Favorites"] = Bellows::create(context);
                 p.shortcutsBellows["Recent"] = Bellows::create(context);
                 auto vLayout = VerticalLayout::create(context);
                 vLayout->setSpacing(MetricsRole::None);
                 vLayout->addChild(p.shortcutsBellows["Shortcuts"]);
                 vLayout->addChild(p.shortcutsBellows["Drives"]);
-                vLayout->addChild(p.shortcutsBellows["Favorites"]);
                 vLayout->addChild(p.shortcutsBellows["Recent"]);
                 p.shortcutsScrollWidget = ScrollWidget::create(ScrollType::Vertical, context);
                 p.shortcutsScrollWidget->setBorder(false);
@@ -267,15 +288,32 @@ namespace djv
                 p.scrollWidget->setBorder(false);
                 p.scrollWidget->addChild(p.itemView);
 
-                p.searchBox = SearchBox::create(context);
                 p.itemCountLabel = Label::create(context);
                 p.itemCountLabel->setTextHAlign(TextHAlign::Right);
                 p.itemCountLabel->setMargin(MetricsRole::MarginSmall);
+                p.searchBox = SearchBox::create(context);
+
+                p.thumbnailSizeLabel = Label::create(context);
+                p.thumbnailSizeLabel->setTextHAlign(TextHAlign::Left);
+                p.thumbnailSizeLabel->setMargin(MetricsRole::MarginSmall);
+                p.thumbnailSizeSlider = IntSlider::create(context);
+                p.thumbnailSizeSlider->setRange(thumbnailSizeRange);
+                p.thumbnailSizeSlider->setDelay(Time::getMilliseconds(Time::TimerValue::Medium));
+                p.thumbnailSizeSlider->setMargin(MetricsRole::MarginSmall);
+                vLayout = VerticalLayout::create(context);
+                vLayout->setSpacing(MetricsRole::None);
+                vLayout->addChild(p.thumbnailSizeLabel);
+                vLayout->addSeparator();
+                vLayout->addChild(p.thumbnailSizeSlider);
+                p.thumbnailSizePopupWidget = PopupWidget::create(context);
+                p.thumbnailSizePopupWidget->setIcon("djvIconThumbnailSize");
+                p.thumbnailSizePopupWidget->addChild(vLayout);
 
                 auto bottomToolBar = Toolbar::create(context);
                 bottomToolBar->addExpander();
                 bottomToolBar->addChild(p.itemCountLabel);
                 bottomToolBar->addChild(p.searchBox);
+                bottomToolBar->addChild(p.thumbnailSizePopupWidget);
 
                 p.layout = VerticalLayout::create(context);
                 p.layout->setSpacing(MetricsRole::None);
@@ -494,13 +532,39 @@ namespace djv
                     p.actions["EditPath"]->observeChecked(),
                     [pathWidget](bool value)
                 {
-                        pathWidget->setEdit(value);
+                    pathWidget->setEdit(value);
+                });
+
+                p.addShortcutObserver = ValueObserver<bool>::create(
+                    p.actions["AddShortcut"]->observeClicked(),
+                    [weak](bool value)
+                {
+                    if (value)
+                    {
+                        if (value)
+                        {
+                            if (auto widget = weak.lock())
+                            {
+                                widget->_p->shortcutsModel->addShortcut(widget->_p->directoryModel->observePath()->get());
+                            }
+                        }
+                    }
                 });
 
                 if (auto settingsSystem = context->getSystemT<Settings::System>().lock())
                 {
                     if (auto fileBrowserSettings = settingsSystem->getSettingsT<Settings::FileBrowser>())
                     {
+                        p.shortcutsSettingsObserver = ListObserver<FileSystem::Path>::create(
+                            fileBrowserSettings->observeShortcuts(),
+                            [weak](const std::vector<FileSystem::Path> & value)
+                        {
+                            if (auto widget = weak.lock())
+                            {
+                                widget->_p->shortcutsModel->setShortcuts(value);
+                            }
+                        });
+
                         p.shortcutsBellowsSettingsObserver = MapObserver<std::string, bool>::create(
                             fileBrowserSettings->observeShortcutsBellows(),
                             [weak](const std::map<std::string, bool> & value)
@@ -509,7 +573,11 @@ namespace djv
                             {
                                 for (const auto & i : value)
                                 {
-                                    widget->_p->shortcutsBellows[i.first]->setOpen(i.second);
+                                    const auto j = widget->_p->shortcutsBellows.find(i.first);
+                                    if (j != widget->_p->shortcutsBellows.end())
+                                    {
+                                        j->second->setOpen(i.second);
+                                    }
                                 }
                             }
                         });
@@ -527,7 +595,20 @@ namespace djv
                         {
                             if (auto widget = weak.lock())
                             {
-                                widget->setViewType(value);
+                                widget->_p->viewTypeActionGroup->setChecked(static_cast<int>(value));
+                                widget->_p->listViewLayout->setVisible(ViewType::List == value);
+                                widget->_p->itemView->setViewType(value);
+                            }
+                        });
+
+                        p.thumbnailSizeSettingsObserver = ValueObserver<glm::ivec2>::create(
+                            fileBrowserSettings->observeThumbnailSize(),
+                            [weak](const glm::ivec2 & value)
+                        {
+                            if (auto widget = weak.lock())
+                            {
+                                widget->_p->itemView->setThumbnailSize(value);
+                                widget->_p->thumbnailSizeSlider->setValue(value.x);
                             }
                         });
 
@@ -625,6 +706,19 @@ namespace djv
                     }
                 });
 
+                p.shortcutsObserver = ListObserver<FileSystem::Path>::create(
+                    p.shortcutsModel->observeShortcuts(),
+                    [context](const std::vector<FileSystem::Path> & value)
+                {
+                    if (auto settingsSystem = context->getSystemT<Settings::System>().lock())
+                    {
+                        if (auto fileBrowserSettings = settingsSystem->getSettingsT<Settings::FileBrowser>())
+                        {
+                            fileBrowserSettings->setShortcuts(value);
+                        }
+                    }
+                });
+
                 for (auto & i : p.shortcutsBellows)
                 {
                     i.second->setOpenCallback(
@@ -681,6 +775,56 @@ namespace djv
                         if (auto fileBrowserSettings = settingsSystem->getSettingsT<Settings::FileBrowser>())
                         {
                             fileBrowserSettings->setListViewHeaderSplit(value);
+                        }
+                    }
+                });
+
+                p.thumbnailSizeSlider->setValueCallback(
+                    [context](int value)
+                {
+                    if (auto settingsSystem = context->getSystemT<Settings::System>().lock())
+                    {
+                        if (auto fileBrowserSettings = settingsSystem->getSettingsT<Settings::FileBrowser>())
+                        {
+                            fileBrowserSettings->setThumbnailSize(glm::ivec2(value, ceilf(value / 2.f)));
+                        }
+                    }
+                });
+
+                p.increaseThumbnailSizeObserver = ValueObserver<bool>::create(
+                    p.actions["IncreaseThumbnailSize"]->observeClicked(),
+                    [context](bool value)
+                {
+                    if (value)
+                    {
+                        if (auto settingsSystem = context->getSystemT<Settings::System>().lock())
+                        {
+                            if (auto fileBrowserSettings = settingsSystem->getSettingsT<Settings::FileBrowser>())
+                            {
+                                auto size = fileBrowserSettings->observeThumbnailSize()->get();
+                                size.x = Math::clamp(static_cast<int>(size.x * 1.25f), thumbnailSizeRange.min, thumbnailSizeRange.max);
+                                size.y = static_cast<int>(ceilf(size.x / 2.f));
+                                fileBrowserSettings->setThumbnailSize(size);
+                            }
+                        }
+                    }
+                });
+
+                p.decreaseThumbnailSizeObserver = ValueObserver<bool>::create(
+                    p.actions["DecreaseThumbnailSize"]->observeClicked(),
+                    [context](bool value)
+                {
+                    if (value)
+                    {
+                        if (auto settingsSystem = context->getSystemT<Settings::System>().lock())
+                        {
+                            if (auto fileBrowserSettings = settingsSystem->getSettingsT<Settings::FileBrowser>())
+                            {
+                                auto size = fileBrowserSettings->observeThumbnailSize()->get();
+                                size.x = Math::clamp(static_cast<int>(size.x * .75f), thumbnailSizeRange.min, thumbnailSizeRange.max);
+                                size.y = static_cast<int>(ceilf(size.x / 2.f));
+                                fileBrowserSettings->setThumbnailSize(size);
+                            }
                         }
                     }
                 });
@@ -757,14 +901,6 @@ namespace djv
                 _p->directoryModel->setPath(value);
             }
 
-            void Widget::setViewType(ViewType value)
-            {
-                DJV_PRIVATE_PTR();
-                p.viewTypeActionGroup->setChecked(static_cast<int>(value));
-                p.listViewLayout->setVisible(ViewType::ListView == value);
-                p.itemView->setViewType(value);
-            }
-
             void Widget::setCallback(const std::function<void(const FileSystem::FileInfo &)> & value)
             {
                 _p->callback = value;
@@ -805,18 +941,21 @@ namespace djv
                 p.actions["EditPath"]->setTitle(_getText(DJV_TEXT("Edit Path")));
                 p.actions["EditPath"]->setTooltip(_getText(DJV_TEXT("File browser edit path tooltip")));
 
-                p.actions["AddFavorite"]->setTitle(_getText(DJV_TEXT("Add To Favorites")));
-                p.actions["AddFavorite"]->setTooltip(_getText(DJV_TEXT("File browser add to favorites tooltip")));
+                p.actions["AddShortcut"]->setTitle(_getText(DJV_TEXT("Add To Shortcuts")));
+                p.actions["AddShortcut"]->setTooltip(_getText(DJV_TEXT("File browser add to shortcuts tooltip")));
 
-                p.actions["LargeThumbnails"]->setTitle(_getText(DJV_TEXT("Large thumbnails")));
-                p.actions["LargeThumbnails"]->setTooltip(_getText(DJV_TEXT("File browser large thumbnails tooltip")));
-                p.actions["SmallThumbnails"]->setTitle(_getText(DJV_TEXT("Small thumbnails")));
-                p.actions["SmallThumbnails"]->setTooltip(_getText(DJV_TEXT("File browser small thumbnails tooltip")));
-                p.actions["ListView"]->setTitle(_getText(DJV_TEXT("List view")));
-                p.actions["ListView"]->setTooltip(_getText(DJV_TEXT("File browser list view tooltip")));
-                p.actions["FileSequences"]->setTitle(_getText(DJV_TEXT("Enable file sequences")));
+                p.actions["Tiles"]->setTitle(_getText(DJV_TEXT("Tile View")));
+                p.actions["Tiles"]->setTooltip(_getText(DJV_TEXT("File browser tile view tooltip")));
+                p.actions["List"]->setTitle(_getText(DJV_TEXT("List View")));
+                p.actions["List"]->setTooltip(_getText(DJV_TEXT("File browser list view tooltip")));
+                p.actions["IncreaseThumbnailSize"]->setTitle(_getText(DJV_TEXT("Increase Thumbnail Size")));
+                p.actions["IncreaseThumbnailSize"]->setTooltip(_getText(DJV_TEXT("File browser increase thumbnail size tooltip")));
+                p.actions["DecreaseThumbnailSize"]->setTitle(_getText(DJV_TEXT("Decrease Thumbnail Size")));
+                p.actions["DecreaseThumbnailSize"]->setTooltip(_getText(DJV_TEXT("File browser decrease thumbnail size tooltip")));
+
+                p.actions["FileSequences"]->setTitle(_getText(DJV_TEXT("Enable File Sequences")));
                 p.actions["FileSequences"]->setTooltip(_getText(DJV_TEXT("File browser file sequences tooltip")));
-                p.actions["ShowHidden"]->setTitle(_getText(DJV_TEXT("Show hidden files")));
+                p.actions["ShowHidden"]->setTitle(_getText(DJV_TEXT("Show Hidden Files")));
                 p.actions["ShowHidden"]->setTooltip(_getText(DJV_TEXT("File browser show hidden tooltip")));
 
                 p.actions["SortByName"]->setTitle(_getText(DJV_TEXT("Sort By Name")));
@@ -835,6 +974,10 @@ namespace djv
                 p.viewMenu->setText(_getText(DJV_TEXT("View")));
                 p.sortMenu->setText(_getText(DJV_TEXT("Sort")));
 
+                p.shortcutsBellows["Shortcuts"]->setText(_getText(DJV_TEXT("Shortcuts")));
+                p.shortcutsBellows["Drives"]->setText(_getText(DJV_TEXT("Drives")));
+                p.shortcutsBellows["Recent"]->setText(_getText(DJV_TEXT("Recent")));
+
                 p.listViewHeader->setText(
                     {
                         _getText(DJV_TEXT("File browser name column")),
@@ -845,13 +988,11 @@ namespace djv
 
                 p.searchBox->setTooltip(_getText(DJV_TEXT("File browser search tooltip")));
 
-                p.shortcutsBellows["Shortcuts"]->setText(_getText(DJV_TEXT("Shortcuts")));
-                p.shortcutsBellows["Drives"]->setText(_getText(DJV_TEXT("Drives")));
-                p.shortcutsBellows["Favorites"]->setText(_getText(DJV_TEXT("Favorites")));
-                p.shortcutsBellows["Recent"]->setText(_getText(DJV_TEXT("Recent")));
-
                 auto context = getContext();
                 p.itemCountLabel->setText(p.getItemCountLabel(p.itemCount, context));
+
+                p.thumbnailSizeLabel->setText(_getText(DJV_TEXT("Thumbnail Size")));
+                p.thumbnailSizePopupWidget->setTooltip(_getText(DJV_TEXT("File browser thumbnail size tooltip")));
             }
 
             std::string Widget::Private::getItemCountLabel(size_t size, Context * context)

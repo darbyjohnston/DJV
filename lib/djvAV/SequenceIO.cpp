@@ -115,7 +115,7 @@ namespace djv
                         context->log("djv::AV::ISequenceRead", e.what(), LogLevel::Error);
                     }
 
-                    const auto timeout = Time::Timer::getValue(Time::Timer::Value::Fast);
+                    const auto timeout = Time::getValue(Time::TimerValue::Fast);
                     while (_queue && p.running)
                     {
                         bool read = false;
@@ -301,7 +301,7 @@ namespace djv
 
                         _convert = Image::Convert::create(context);
 
-                        const auto timeout = Time::Timer::getValue(Time::Timer::Value::Fast);
+                        const auto timeout = Time::getValue(Time::TimerValue::Fast);
                         while (p.running)
                         {
                             std::shared_ptr<Image::Image> image;

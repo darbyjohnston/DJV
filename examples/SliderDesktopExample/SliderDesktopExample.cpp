@@ -29,12 +29,10 @@
 
 #include <djvDesktop/Application.h>
 
-#include <djvUI/FloatValueLabel.h>
-#include <djvUI/FloatValueSlider.h>
+#include <djvUI/FloatSlider.h>
 #include <djvUI/GridLayout.h>
 #include <djvUI/GroupBox.h>
-#include <djvUI/IntValueLabel.h>
-#include <djvUI/IntValueSlider.h>
+#include <djvUI/IntSlider.h>
 #include <djvUI/RowLayout.h>
 #include <djvUI/Window.h>
 
@@ -55,8 +53,8 @@ int main(int argc, char ** argv)
         layout->setMargin(UI::MetricsRole::MarginLarge);
         layout->setSpacing(UI::MetricsRole::SpacingLarge);
 
-        auto gridLayout = UI::GridLayout::create(app.get());
-        gridLayout->setMargin(UI::MetricsRole::Margin);
+        auto vLayout = UI::VerticalLayout::create(app.get());
+        vLayout->setMargin(UI::MetricsRole::Margin);
         const std::vector<Core::IntRange> intRange =
         {
             Core::IntRange(    0,   10),
@@ -65,42 +63,40 @@ int main(int argc, char ** argv)
         };
         for (size_t i = 0; i < 3; ++i)
         {
-            auto slider = UI::IntValueSlider::create(UI::Orientation::Horizontal, app.get());
-            auto model = slider->getModel();
-            model->setRange(intRange[i]);
-            auto label = UI::IntValueLabel::create(app.get());
-            label->setModel(model);
-            gridLayout->addChild(label);
-            gridLayout->setGridPos(label, glm::ivec2(0, i));
-            gridLayout->addChild(slider);
-            gridLayout->setGridPos(slider, glm::ivec2(1, i));
+            auto slider = UI::IntSlider::create(app.get());
+            slider->setRange(intRange[i]);
+            slider->setValueCallback(
+                [](int value)
+            {
+                std::cout << value << std::endl;
+            });
+            vLayout->addChild(slider);
         }
         auto groupBox = UI::GroupBox::create("Integer Sliders", app.get());
-        groupBox->addChild(gridLayout);
+        groupBox->addChild(vLayout);
         layout->addChild(groupBox);
         
-        gridLayout = UI::GridLayout::create(app.get());
-        gridLayout->setMargin(UI::MetricsRole::Margin);
+        vLayout = UI::VerticalLayout::create(app.get());
+        vLayout->setMargin(UI::MetricsRole::Margin);
         const std::vector<Core::FloatRange> floatRange =
         {
-            Core::FloatRange(0.f, 1.f),
-            Core::FloatRange(1.f, 10.f),
+            Core::FloatRange(   0.f,   1.f),
+            Core::FloatRange(   1.f,  10.f),
             Core::FloatRange(-100.f, 100.f)
         };
         for (size_t i = 0; i < 3; ++i)
         {
-            auto slider = UI::FloatValueSlider::create(UI::Orientation::Horizontal, app.get());
-            auto model = slider->getModel();
-            model->setRange(floatRange[i]);
-            auto label = UI::FloatValueLabel::create(app.get());
-            label->setModel(model);
-            gridLayout->addChild(label);
-            gridLayout->setGridPos(label, glm::ivec2(0, i));
-            gridLayout->addChild(slider);
-            gridLayout->setGridPos(slider, glm::ivec2(1, i));
+            auto slider = UI::FloatSlider::create(app.get());
+            slider->setRange(floatRange[i]);
+            slider->setValueCallback(
+                [](float value)
+            {
+                std::cout << value << std::endl;
+            });
+            vLayout->addChild(slider);
         }
         groupBox = UI::GroupBox::create("Floating-Point Sliders", app.get());
-        groupBox->addChild(gridLayout);
+        groupBox->addChild(vLayout);
         layout->addChild(groupBox);
 
         auto window = UI::Window::create(app.get());

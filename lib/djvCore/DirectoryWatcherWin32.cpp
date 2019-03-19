@@ -64,7 +64,7 @@ namespace djv
 
             void DirectoryWatcher::_init(Context * context)
             {
-                const auto timeout = Time::Timer::getValue(Time::Timer::Value::Medium);
+                const auto timeout = Time::getValue(Time::TimerValue::Medium);
                 _p->thread = std::thread(
                     [this, timeout, context]
                 {

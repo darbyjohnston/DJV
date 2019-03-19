@@ -11,8 +11,9 @@ set(header
     Enum.h
     EventSystem.h
     FlatButton.h
-    FloatValueLabel.h
-    FloatValueSlider.h
+    FloatEdit.h
+    FloatLabel.h
+    FloatSlider.h
     FlowLayout.h
     FontSettings.h
     FormLayout.h
@@ -27,8 +28,9 @@ set(header
     Icon.h
     IconSystem.h
     ImageWidget.h
-    IntValueLabel.h
-    IntValueSlider.h
+    IntEdit.h
+    IntLabel.h
+    IntSlider.h
     Label.h
     LineEdit.h
     LineEditBase.h
@@ -81,8 +83,9 @@ set(source
     Enum.cpp
     EventSystem.cpp
     FlatButton.cpp
-    FloatValueLabel.cpp
-    FloatValueSlider.cpp
+    FloatEdit.cpp
+    FloatLabel.cpp
+    FloatSlider.cpp
     FlowLayout.cpp
     FontSettings.cpp
     FormLayout.cpp
@@ -95,8 +98,9 @@ set(source
     Icon.cpp
     IconSystem.cpp
     ImageWidget.cpp
-    IntValueLabel.cpp
-    IntValueSlider.cpp
+    IntEdit.cpp
+    IntLabel.cpp
+    IntSlider.cpp
     Label.cpp
     LineEdit.cpp
     LineEditBase.cpp

@@ -35,49 +35,41 @@ namespace djv
 {
     namespace Core
     {
-        namespace FileSystem
-        {
-            class FileInfo;
-            class Path;
+        class FloatValueModel;
 
-        } // namespace FileSystem
     } // namespace Core
 
     namespace UI
     {
-        //! This namespace provides file browser functionality.
-        namespace FileBrowser
+        //! This class provides a label for floating-point values.
+        class FloatLabel : public Widget
         {
-            //! This class provides a file browser widget.
-            class Widget : public UI::Widget
-            {
-                DJV_NON_COPYABLE(Widget);
+            DJV_NON_COPYABLE(FloatLabel);
 
-            protected:
-                void _init(Core::Context *);
-                Widget();
+        protected:
+            void _init(Core::Context *);
+            FloatLabel();
 
-            public:
-                virtual ~Widget();
+        public:
+            virtual ~FloatLabel();
 
-                static std::shared_ptr<Widget> create(Core::Context *);
+            static std::shared_ptr<FloatLabel> create(Core::Context *);
 
-                void setPath(const Core::FileSystem::Path &);
-                void setCallback(const std::function<void(const Core::FileSystem::FileInfo &)> &);
+            const std::shared_ptr<Core::FloatValueModel> & getModel() const;
+            void setModel(const std::shared_ptr<Core::FloatValueModel> &);
 
-                float getHeightForWidth(float) const override;
+            int getPrecision();
+            void setPrecision(int);
 
-            protected:
-                void _preLayoutEvent(Core::Event::PreLayout &) override;
-                void _layoutEvent(Core::Event::Layout &) override;
+        protected:
+            void _preLayoutEvent(Core::Event::PreLayout&) override;
+            void _layoutEvent(Core::Event::Layout&) override;
 
-                void _localeEvent(Core::Event::Locale &) override;
+        private:
+            void _textUpdate();
 
-            private:
-                DJV_PRIVATE();
-            };
+            DJV_PRIVATE();
+        };
 
-        } // namespace FileBrowser
     } // namespace UI
 } // namespace djv
-

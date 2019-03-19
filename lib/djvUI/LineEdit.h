@@ -62,6 +62,9 @@ namespace djv
             void setFontFace(const std::string &);
             void setFontSizeRole(MetricsRole);
 
+            const std::string & getSizeString() const;
+            void setSizeString(const std::string &);
+
             void setTextChangedCallback(const std::function<void(const std::string &)> &);
             void setTextFinishedCallback(const std::function<void(const std::string &)> &);
             void setFocusCallback(const std::function<void(bool)> &);

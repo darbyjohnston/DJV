@@ -61,7 +61,7 @@ namespace djv
             p.statsTimer = Time::Timer::create(context);
             p.statsTimer->setRepeating(true);
             p.statsTimer->start(
-                Time::Timer::getMilliseconds(Time::Timer::Value::VerySlow),
+                Time::getMilliseconds(Time::TimerValue::VerySlow),
                 [this](float)
             {
                 DJV_PRIVATE_PTR();

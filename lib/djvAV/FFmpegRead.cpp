@@ -308,7 +308,7 @@ namespace djv
                                     std::unique_lock<std::mutex> lock(_queue->getMutex());
                                     if (p.queueCV.wait_for(
                                         lock,
-                                        Time::Timer::getMilliseconds(Time::Timer::Value::Fast),
+                                        Time::getMilliseconds(Time::TimerValue::Fast),
                                         [this]
                                     {
                                         DJV_PRIVATE_PTR();

@@ -149,9 +149,8 @@ namespace djv
     DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
         UI,
         ViewType,
-        DJV_TEXT("ThumbnailsLarge"),
-        DJV_TEXT("ThumbnailsSmall"),
-        DJV_TEXT("ListView"));
+        DJV_TEXT("Tiles"),
+        DJV_TEXT("List"));
 
 } // namespace djv
 

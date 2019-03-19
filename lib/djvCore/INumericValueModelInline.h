@@ -36,10 +36,11 @@ namespace djv
         template<typename T>
         inline void INumericValueModel<T>::_init()
         {
-            _range     = ValueSubject<Range::tRange<T> >::create();
-            _value     = ValueSubject<T>::create();
-            _increment = ValueSubject<T>::create();
-            _overflow  = ValueSubject<NumericValueOverflow>::create();
+            _range          = ValueSubject<Range::tRange<T> >::create();
+            _value          = ValueSubject<T>::create();
+            _smallIncrement = ValueSubject<T>::create();
+            _largeIncrement = ValueSubject<T>::create();
+            _overflow       = ValueSubject<NumericValueOverflow>::create(NumericValueOverflow::Clamp);
         }
 
         template<typename T>
@@ -59,8 +60,10 @@ namespace djv
         template<typename T>
         inline void INumericValueModel<T>::setRange(const Range::tRange<T> & value)
         {
-            _range->setIfChanged(value);
-            setValue(_value->get());
+            if (_range->setIfChanged(value))
+            {
+                setValue(_value->get());
+            }
         }
 
         template<typename T>
@@ -97,27 +100,51 @@ namespace djv
         }
 
         template<typename T>
-        inline std::shared_ptr<IValueSubject<T> > INumericValueModel<T>::observeIncrement() const
+        inline std::shared_ptr<IValueSubject<T> > INumericValueModel<T>::observeSmallIncrement() const
         {
-            return _increment;
+            return _smallIncrement;
         }
 
         template<typename T>
-        inline void INumericValueModel<T>::incrementValue()
+        inline std::shared_ptr<IValueSubject<T> > INumericValueModel<T>::observeLargeIncrement() const
         {
-            setValue(_value->get() + _increment->get());
+            return _largeIncrement;
         }
 
         template<typename T>
-        inline void INumericValueModel<T>::decrementValue()
+        inline void INumericValueModel<T>::incrementSmall()
         {
-            setValue(_value->get() - _increment->get());
+            setValue(_value->get() + _smallIncrement->get());
         }
 
         template<typename T>
-        inline void INumericValueModel<T>::setIncrement(T value)
+        inline void INumericValueModel<T>::incrementLarge()
         {
-            _increment->setIfChanged(value);
+            setValue(_value->get() + _largeIncrement->get());
+        }
+
+        template<typename T>
+        inline void INumericValueModel<T>::decrementSmall()
+        {
+            setValue(_value->get() - _smallIncrement->get());
+        }
+
+        template<typename T>
+        inline void INumericValueModel<T>::decrementLarge()
+        {
+            setValue(_value->get() - _largeIncrement->get());
+        }
+
+        template<typename T>
+        inline void INumericValueModel<T>::setSmallIncrement(T value)
+        {
+            _smallIncrement->setIfChanged(value);
+        }
+
+        template<typename T>
+        inline void INumericValueModel<T>::setLargeIncrement(T value)
+        {
+            _largeIncrement->setIfChanged(value);
         }
 
         template<typename T>

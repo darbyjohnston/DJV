@@ -104,6 +104,8 @@ namespace djv
                 static std::shared_ptr<ShortcutsModel> create(Core::Context *);
 
                 std::shared_ptr<Core::IListSubject<Core::FileSystem::Path> > observeShortcuts() const;
+                void setShortcuts(const std::vector<Core::FileSystem::Path> &);
+                void addShortcut(const Core::FileSystem::Path &);
 
             private:
                 DJV_PRIVATE();
@@ -115,13 +117,13 @@ namespace djv
                 DJV_NON_COPYABLE(ShortcutsWidget);
 
             protected:
-                void _init(Core::Context *);
+                void _init(const std::shared_ptr<ShortcutsModel> &, Core::Context *);
                 ShortcutsWidget();
 
             public:
                 ~ShortcutsWidget() override;
 
-                static std::shared_ptr<ShortcutsWidget> create(Core::Context *);
+                static std::shared_ptr<ShortcutsWidget> create(const std::shared_ptr<ShortcutsModel> &, Core::Context *);
 
                 void setCallback(const std::function<void(const Core::FileSystem::Path &)> &);
 

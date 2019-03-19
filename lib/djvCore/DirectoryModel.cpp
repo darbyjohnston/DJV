@@ -367,7 +367,7 @@ namespace djv
                 });
 
                 p.futureTimer->start(
-                    Time::Timer::getMilliseconds(Time::Timer::Value::Medium),
+                    Time::getMilliseconds(Time::TimerValue::Medium),
                     [this](float)
                 {
                     DJV_PRIVATE_PTR();

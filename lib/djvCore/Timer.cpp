@@ -39,6 +39,25 @@ namespace djv
     {
         namespace Time
         {
+            size_t getValue(TimerValue value)
+            {
+                static const std::vector<size_t> data =
+                {
+                    10000,
+                    1000,
+                    100,
+                    10,
+                    1
+                };
+                DJV_ASSERT(data.size() == static_cast<size_t>(TimerValue::Count));
+                return data[static_cast<size_t>(value)];
+            }
+
+            std::chrono::milliseconds getMilliseconds(TimerValue value)
+            {
+                return std::chrono::milliseconds(getValue(value));
+            }
+
             void Timer::_init(Context * context)
             {
                 if (auto system = context->getSystemT<TimerSystem>().lock())
@@ -52,25 +71,6 @@ namespace djv
                 auto out = std::shared_ptr<Timer>(new Timer);
                 out->_init(context);
                 return out;
-            }
-
-            size_t Timer::getValue(Value value)
-            {
-                static const std::vector<size_t> data =
-                {
-                    10000,
-                    1000,
-                    100,
-                    10,
-                    1
-                };
-                DJV_ASSERT(data.size() == static_cast<size_t>(Value::Count));
-                return data[static_cast<size_t>(value)];
-            }
-
-            std::chrono::milliseconds Timer::getMilliseconds(Value value)
-            {
-                return std::chrono::milliseconds(getValue(value));
             }
 
             void Timer::setRepeating(bool value)
@@ -166,8 +166,8 @@ namespace djv
     } // namespace Core
     
     DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
-        Core::Time::Timer,
-        Value,
+        Core::Time,
+        TimerValue,
         DJV_TEXT("Slow"),
         DJV_TEXT("Medium"),
         DJV_TEXT("Fast"),

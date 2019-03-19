@@ -314,6 +314,25 @@ namespace djv
         } // namespace FileSystem
     } // namespace Core
 
+    picojson::value toJSON(const Core::FileSystem::Path & value)
+    {
+        return toJSON(value.get());
+    }
+
+    void fromJSON(const picojson::value & value, Core::FileSystem::Path & out)
+    {
+        if (value.is<std::string>())
+        {
+            std::string s;
+            fromJSON(value, s);
+            out.set(s);
+        }
+        else
+        {
+            throw std::invalid_argument(DJV_TEXT("Cannot parse the value."));
+        }
+    }
+
     std::ostream& operator << (std::ostream& os, const Core::FileSystem::Path& value)
     {
         os << value.get();

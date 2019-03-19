@@ -105,7 +105,8 @@ set(source
     Time.cpp
     Timer.cpp
     UID.cpp
-    UndoStack.cpp)
+    UndoStack.cpp
+    Vector.cpp)
 if (WIN32)
     set(source
         ${source}

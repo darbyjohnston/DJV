@@ -31,6 +31,7 @@
 
 #include <djvCore/Context.h>
 #include <djvCore/FileInfo.h>
+#include <djvCore/OS.h>
 #include <djvCore/TextSystem.h>
 
 // These need to be included last on OSX.
@@ -49,9 +50,11 @@ namespace djv
         {
             struct FileBrowser::Private
             {
+                std::shared_ptr<ListSubject<FileSystem::Path> > shortcuts;
                 std::shared_ptr<MapSubject<std::string, bool> > shortcutsBellows;
                 std::shared_ptr<ListSubject<float> > shortcutsSplit;
                 std::shared_ptr<ValueSubject<ViewType> > viewType;
+                std::shared_ptr<ValueSubject<glm::ivec2> > thumbnailSize;
                 std::shared_ptr<ListSubject<float> > listViewHeaderSplit;
                 std::shared_ptr<ValueSubject<bool> > fileSequences;
                 std::shared_ptr<ValueSubject<bool> > showHidden;
@@ -65,6 +68,12 @@ namespace djv
                 ISettings::_init("djv::UI::Settings::FileBrowser", context);
                 
                 DJV_PRIVATE_PTR();
+                p.shortcuts = ListSubject<FileSystem::Path>::create();
+                for (size_t i = 0; i < static_cast<size_t>(OS::DirectoryShortcut::Count); ++i)
+                {
+                    const auto shortcut = OS::getPath(static_cast<OS::DirectoryShortcut>(i));
+                    p.shortcuts->pushBack(shortcut);
+                }
                 p.shortcutsBellows = MapSubject<std::string, bool>::create(
                     {
                         { "Shortcuts", true },
@@ -74,7 +83,8 @@ namespace djv
                     }
                 );
                 p.shortcutsSplit = ListSubject<float>::create({ .1f, 1.f });
-                p.viewType = ValueSubject<ViewType>::create(ViewType::ThumbnailsSmall);
+                p.viewType = ValueSubject<ViewType>::create(ViewType::Tiles);
+                p.thumbnailSize = ValueSubject<glm::ivec2>::create(glm::ivec2(100, 50));
                 p.listViewHeaderSplit = ListSubject<float>::create({ .7f, .8f, 1.f });
                 p.fileSequences = ValueSubject<bool>::create(false);
                 p.showHidden = ValueSubject<bool>::create(false);
@@ -97,6 +107,17 @@ namespace djv
                 auto out = std::shared_ptr<FileBrowser>(new FileBrowser);
                 out->_init(context);
                 return out;
+            }
+
+            std::shared_ptr<IListSubject<FileSystem::Path> > FileBrowser::observeShortcuts() const
+            {
+                return _p->shortcuts;
+            }
+
+            void FileBrowser::setShortcuts(const std::vector<FileSystem::Path> & value)
+            {
+                DJV_PRIVATE_PTR();
+                p.shortcuts->setIfChanged(value);
             }
 
             std::shared_ptr<IMapSubject<std::string, bool> > FileBrowser::observeShortcutsBellows() const
@@ -130,6 +151,17 @@ namespace djv
             {
                 DJV_PRIVATE_PTR();
                 p.viewType->setIfChanged(value);
+            }
+
+            std::shared_ptr<IValueSubject<glm::ivec2> > FileBrowser::observeThumbnailSize() const
+            {
+                return _p->thumbnailSize;
+            }
+
+            void FileBrowser::setThumbnailSize(const glm::ivec2 & value)
+            {
+                DJV_PRIVATE_PTR();
+                p.thumbnailSize->setIfChanged(value);
             }
 
             std::shared_ptr<IListSubject<float> > FileBrowser::observeListViewHeaderSplit() const
@@ -204,9 +236,11 @@ namespace djv
                 {
                     DJV_PRIVATE_PTR();
                     const auto& object = value.get<picojson::object>();
+                    read("Shortcuts", object, p.shortcuts);
                     read("ShortcutsBellows", object, p.shortcutsBellows);
                     read("ShortcutsSplit", object, p.shortcutsSplit);
                     read("ViewType", object, p.viewType);
+                    read("ThumbnailSize", object, p.thumbnailSize);
                     read("ListViewHeaderSplit", object, p.listViewHeaderSplit);
                     read("FileSequences", object, p.fileSequences);
                     read("ShowHidden", object, p.showHidden);
@@ -221,9 +255,11 @@ namespace djv
                 DJV_PRIVATE_PTR();
                 picojson::value out(picojson::object_type, true);
                 auto& object = out.get<picojson::object>();
+                write("Shortcuts", p.shortcuts->get(), object);
                 write("ShortcutsBellows", p.shortcutsBellows->get(), object);
                 write("ShortcutsSplit", p.shortcutsSplit->get(), object);
                 write("ViewType", p.viewType->get(), object);
+                write("ThumbnailSize", p.thumbnailSize->get(), object);
                 write("ListViewHeaderSplit", p.listViewHeaderSplit->get(), object);
                 write("FileSequences", p.fileSequences->get(), object);
                 write("ShowHidden", p.showHidden->get(), object);

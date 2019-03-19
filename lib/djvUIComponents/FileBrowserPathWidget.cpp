@@ -244,7 +244,10 @@ namespace djv
             void PathWidget::setEdit(bool value)
             {
                 DJV_PRIVATE_PTR();
-                p.lineEditBase->takeTextFocus();
+                if (value)
+                {
+                    p.lineEditBase->takeTextFocus();
+                }
                 p.soloLayout->setCurrentWidget(
                     value ?
                     std::static_pointer_cast<Widget>(p.lineEditBase) :

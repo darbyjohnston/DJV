@@ -36,6 +36,7 @@
 #include <djvCore/MapObserver.h>
 #include <djvCore/ListObserver.h>
 #include <djvCore/ValueObserver.h>
+#include <djvCore/Vector.h>
 
 namespace djv
 {
@@ -58,6 +59,9 @@ namespace djv
 
                 static std::shared_ptr<FileBrowser> create(Core::Context *);
 
+                std::shared_ptr<Core::IListSubject<Core::FileSystem::Path> > observeShortcuts() const;
+                void setShortcuts(const std::vector<Core::FileSystem::Path> &);
+
                 std::shared_ptr<Core::IMapSubject<std::string, bool> > observeShortcutsBellows() const;
                 void setShortcutsBellows(const std::map<std::string, bool> &);
 
@@ -66,6 +70,9 @@ namespace djv
 
                 std::shared_ptr<Core::IValueSubject<ViewType> > observeViewType() const;
                 void setViewType(ViewType);
+
+                std::shared_ptr<Core::IValueSubject<glm::ivec2> > observeThumbnailSize() const;
+                void setThumbnailSize(const glm::ivec2 &);
 
                 std::shared_ptr<Core::IListSubject<float> > observeListViewHeaderSplit() const;
                 void setListViewHeaderSplit(const std::vector<float> &);

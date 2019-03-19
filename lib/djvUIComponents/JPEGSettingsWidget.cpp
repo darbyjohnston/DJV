@@ -30,9 +30,7 @@
 #include <djvUIComponents/JPEGSettingsWidget.h>
 
 #include <djvUI/GroupBox.h>
-#include <djvUI/IntValueLabel.h>
-#include <djvUI/IntValueSlider.h>
-#include <djvUI/RowLayout.h>
+#include <djvUI/IntSlider.h>
 
 #include <djvAV/JPEG.h>
 
@@ -49,7 +47,6 @@ namespace djv
         {
             AV::IO::JPEG::Settings settings;
             std::shared_ptr<GroupBox> qualityGroupBox;
-            std::shared_ptr<ValueObserver<int> > qualityObserver;
         };
 
         void JPEGSettingsWidget::_init(Context * context)
@@ -58,28 +55,20 @@ namespace djv
 
             DJV_PRIVATE_PTR();
 
-            auto qualitySlider = IntValueSlider::create(Orientation::Horizontal, context);
-            auto qualityLabel = IntValueLabel::create(context);
-            auto qualityModel = qualitySlider->getModel();
-            qualityModel->setRange(IntRange(0, 100));
-            qualityLabel->setModel(qualityModel);
+            auto qualitySlider = IntSlider::create(context);
+            qualitySlider->setRange(IntRange(0, 100));
             p.qualityGroupBox = GroupBox::create(context);
-            auto hLayout = HorizontalLayout::create(context);
-            hLayout->setMargin(MetricsRole::MarginSmall);
-            hLayout->addChild(qualityLabel);
-            hLayout->addChild(qualitySlider);
-            p.qualityGroupBox->addChild(hLayout);
+            p.qualityGroupBox->addChild(qualitySlider);
             addChild(p.qualityGroupBox);
 
             if (auto io = context->getSystemT<AV::IO::System>().lock())
             {
                 fromJSON(io->getOptions(AV::IO::JPEG::pluginName), p.settings);
-                qualityModel->setValue(p.settings.quality);
+                qualitySlider->setValue(p.settings.quality);
             }
 
             auto weak = std::weak_ptr<JPEGSettingsWidget>(std::dynamic_pointer_cast<JPEGSettingsWidget>(shared_from_this()));
-            p.qualityObserver = ValueObserver<int>::create(
-                qualityModel->observeValue(),
+            qualitySlider->setValueCallback(
                 [weak, context](int value)
             {
                 if (auto widget = weak.lock())

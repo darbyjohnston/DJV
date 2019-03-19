@@ -61,7 +61,7 @@ namespace djv
                 p.drivesSubject = ListSubject<Path>::create();
 
                 p.running = true;
-                const auto timeout = Time::Timer::getValue(Time::Timer::Value::Medium);
+                const auto timeout = Time::getValue(Time::TimerValue::Medium);
                 p.thread = std::thread(
                     [this, timeout]
                 {

@@ -29,14 +29,6 @@
 
 #include <djvUI/Style.h>
 
-#include <djvAV/AVSystem.h>
-#include <djvAV/IO.h>
-#include <djvAV/ThumbnailSystem.h>
-
-#include <djvCore/Context.h>
-#include <djvCore/Math.h>
-#include <djvCore/Memory.h>
-
 //#pragma optimize("", off)
 
 using namespace djv::Core;
@@ -148,10 +140,6 @@ namespace djv
                     { MetricsRole::FontLarge, 16.f },
                     { MetricsRole::FontHeader, 16.f },
                     { MetricsRole::Swatch, 40.f },
-                    { MetricsRole::ThumbnailWidthSmall, 100.f },
-                    { MetricsRole::ThumbnailHeightSmall, 50.f },
-                    { MetricsRole::ThumbnailWidthLarge, 200.f },
-                    { MetricsRole::ThumbnailHeightLarge, 100.f },
                     { MetricsRole::Shadow, 5.f },
                     { MetricsRole::ScrollArea, 300.f },
                     { MetricsRole::TextColumn, 200.f },
@@ -448,10 +436,6 @@ namespace djv
         DJV_TEXT("FontLarge"),
         DJV_TEXT("FontHeader"),
         DJV_TEXT("Swatch"),
-        DJV_TEXT("ThumbnailWidthSmall"),
-        DJV_TEXT("ThumbnailHeightSmall"),
-        DJV_TEXT("ThumbnailWidthLarge"),
-        DJV_TEXT("ThumbnailHeightLarge"),
         DJV_TEXT("Shadow"),
         DJV_TEXT("ScrollArea"),
         DJV_TEXT("TextColumn"),

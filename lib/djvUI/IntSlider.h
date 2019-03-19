@@ -31,71 +31,89 @@
 
 #include <djvUI/Widget.h>
 
+#include <djvCore/Range.h>
+
 namespace djv
 {
+    namespace Core
+    {
+        class IntValueModel;
+
+    } // namespace Core
+
     namespace UI
     {
-        //! This class provides the base functionality for line edit widgets.
-        //!
-        //! \todo Click to set the cursor position.
-        //! \todo Add selection.
-        //! \todo Add cut/copy/paste.
-        //! \todo Add scrolling.
-        class LineEditBase : public Widget
+        //! This class provides a basic slider widget for integer values.
+        class BasicIntSlider : public Widget
         {
-            DJV_NON_COPYABLE(LineEditBase);
+            DJV_NON_COPYABLE(BasicIntSlider);
 
         protected:
-            void _init(Core::Context *);
-            LineEditBase();
+            void _init(Orientation, Core::Context *);
+            BasicIntSlider();
 
         public:
-            virtual ~LineEditBase();
+            virtual ~BasicIntSlider();
 
-            static std::shared_ptr<LineEditBase> create(Core::Context *);
+            static std::shared_ptr<BasicIntSlider> create(Orientation, Core::Context *);
 
-            const std::string& getText() const;
-            void setText(const std::string&);
+            const std::shared_ptr<Core::IntValueModel> & getModel() const;
+            void setModel(const std::shared_ptr<Core::IntValueModel> &);
 
-            ColorRole getTextColorRole() const;
-            void setTextColorRole(ColorRole);
-
-            const std::string & getFont() const;
-            const std::string & getFontFace() const;
-            MetricsRole getFontSizeRole() const;
-            void setFont(const std::string &);
-            void setFontFace(const std::string &);
-            void setFontSizeRole(MetricsRole);
-
-            const std::string & getSizeString() const;
-            void setSizeString(const std::string &);
-
-            void setTextChangedCallback(const std::function<void(const std::string &)> &);
-            void setTextFinishedCallback(const std::function<void(const std::string &)> &);
-            void setFocusCallback(const std::function<void(bool)> &);
+            std::chrono::milliseconds getDelay() const;
+            void setDelay(std::chrono::milliseconds);
 
         protected:
-            void _styleEvent(Core::Event::Style&) override;
             void _preLayoutEvent(Core::Event::PreLayout&) override;
-            void _clipEvent(Core::Event::Clip&) override;
             void _paintEvent(Core::Event::Paint&) override;
             void _pointerEnterEvent(Core::Event::PointerEnter&) override;
             void _pointerLeaveEvent(Core::Event::PointerLeave&) override;
             void _pointerMoveEvent(Core::Event::PointerMove&) override;
             void _buttonPressEvent(Core::Event::ButtonPress&) override;
             void _buttonReleaseEvent(Core::Event::ButtonRelease&) override;
-            void _keyPressEvent(Core::Event::KeyPress&) override;
-            void _textFocusEvent(Core::Event::TextFocus&) override;
-            void _textFocusLostEvent(Core::Event::TextFocusLost&) override;
-            void _textEvent(Core::Event::Text&) override;
 
         private:
-            void _textUpdate();
-            void _cursorUpdate();
+            ColorRole _getColorRole() const;
+            float _valueToPos(int) const;
+            int _posToValue(float) const;
+            void _resetTimer();
 
+            DJV_PRIVATE();
+        };
+
+        //! This class provides a slider widget for integer values.
+        class IntSlider : public Widget
+        {
+            DJV_NON_COPYABLE(IntSlider);
+
+        protected:
+            void _init(Core::Context *);
+            IntSlider();
+
+        public:
+            virtual ~IntSlider();
+
+            static std::shared_ptr<IntSlider> create(Core::Context *);
+
+            Core::IntRange getRange() const;
+            void setRange(const Core::IntRange &);
+
+            int getValue() const;
+            void setValue(int);
+            void setValueCallback(const std::function<void(int)> &);
+
+            const std::shared_ptr<Core::IntValueModel> & getModel() const;
+
+            std::chrono::milliseconds getDelay() const;
+            void setDelay(std::chrono::milliseconds);
+
+        protected:
+            void _preLayoutEvent(Core::Event::PreLayout&) override;
+            void _layoutEvent(Core::Event::Layout&) override;
+
+        private:
             DJV_PRIVATE();
         };
 
     } // namespace UI
 } // namespace djv
-

@@ -55,8 +55,6 @@ namespace djv
                     const auto shortcut = OS::getPath(static_cast<OS::DirectoryShortcut>(i));
                     shortcuts.push_back(shortcut);
                 }
-                //! \todo Remove
-                shortcuts.push_back(FileSystem::Path("//MAGURO/darby"));
 
                 p.shortcuts = ListSubject<FileSystem::Path>::create(shortcuts);
             }
@@ -78,6 +76,23 @@ namespace djv
             std::shared_ptr<IListSubject<FileSystem::Path> > ShortcutsModel::observeShortcuts() const
             {
                 return _p->shortcuts;
+            }
+
+            void ShortcutsModel::setShortcuts(const std::vector<Core::FileSystem::Path> & value)
+            {
+                _p->shortcuts->setIfChanged(value);
+            }
+
+            void ShortcutsModel::addShortcut(const Core::FileSystem::Path & value)
+            {
+                auto shortcuts = _p->shortcuts->get();
+                const auto i = std::find(shortcuts.begin(), shortcuts.end(), value);
+                if (i != shortcuts.end())
+                {
+                    shortcuts.erase(i);
+                }
+                shortcuts.push_back(value);
+                _p->shortcuts->setIfChanged(shortcuts);
             }
 
         } // namespace FileBrowser

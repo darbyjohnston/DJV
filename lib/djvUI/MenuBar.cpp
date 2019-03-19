@@ -66,9 +66,8 @@ namespace djv
             
             setClassName("djv::UI::MenuBar");
 
-            auto closeShortcut = Shortcut::create(GLFW_KEY_ESCAPE);
             auto closeAction = Action::create();
-            closeAction->setShortcut(closeShortcut);
+            closeAction->setShortcut(GLFW_KEY_ESCAPE);
             addAction(closeAction);
 
             DJV_PRIVATE_PTR();
