@@ -50,9 +50,9 @@ namespace djv
                 inline void setMax(size_t);
 
                 inline size_t getSize() const;
-                inline bool contains(const T& key) const;
-                inline const U& get(const T& key) const;
-                inline void add(const T& key, const U& value);
+                inline bool contains(const T & key) const;
+                inline const U & get(const T & key) const;
+                inline void add(const T & key, const U & value);
                 inline void clear();
 
                 inline float getPercentageUsed() const;

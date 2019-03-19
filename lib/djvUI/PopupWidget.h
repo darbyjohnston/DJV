@@ -52,11 +52,11 @@ namespace djv
             void open();
             void close();
 
-            const std::string& getIcon() const;
-            void setIcon(const std::string&);
+            const std::string & getIcon() const;
+            void setIcon(const std::string &);
 
-            const std::string& getText() const;
-            void setText(const std::string&);
+            const std::string & getText() const;
+            void setText(const std::string &);
 
             bool hasCapturePointer() const;
             bool hasCaptureKeyboard() const;

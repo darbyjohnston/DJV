@@ -52,7 +52,7 @@ namespace djv
 
             } // namespace
 
-            void OffscreenBuffer::_init(const Image::Info& info, OffscreenType type)
+            void OffscreenBuffer::_init(const Image::Info & info, OffscreenType type)
             {
                 _info = info;
                 _type = type;
@@ -141,7 +141,7 @@ namespace djv
                 }
             }
 
-            std::shared_ptr<OffscreenBuffer> OffscreenBuffer::create(const Image::Info& info, OffscreenType type)
+            std::shared_ptr<OffscreenBuffer> OffscreenBuffer::create(const Image::Info & info, OffscreenType type)
             {
                 auto out = std::shared_ptr<OffscreenBuffer>(new OffscreenBuffer);
                 out->_init(info, type);

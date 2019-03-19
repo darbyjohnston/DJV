@@ -74,7 +74,7 @@ namespace djv
 
             //! Clamp a number between two values.
             template<typename T>
-            inline T clamp(const T&, const T& _min, const T& _max);
+            inline T clamp(const T &, const T & _min, const T & _max);
 
             //! Linear interpolation.
             template<typename T, typename U>

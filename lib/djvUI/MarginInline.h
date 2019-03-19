@@ -82,7 +82,7 @@ namespace djv
                 return get(Side::Top, style) + get(Side::Bottom, style);
             }
 
-            inline Core::BBox2f Margin::bbox(const Core::BBox2f& value, const std::shared_ptr<Style::Style>& style) const
+            inline Core::BBox2f Margin::bbox(const Core::BBox2f & value, const std::shared_ptr<Style::Style>& style) const
             {
                 return value.margin(
                     -get(Side::Left, style),
@@ -96,12 +96,12 @@ namespace djv
                 return _value[static_cast<size_t>(side)];
             }
 
-            inline MetricsRole& Margin::operator [] (Side side)
+            inline MetricsRole & Margin::operator [] (Side side)
             {
                 return _value[static_cast<size_t>(side)];
             }
 
-            inline bool Margin::operator == (const Margin& other) const
+            inline bool Margin::operator == (const Margin & other) const
             {
                 return
                     _value[static_cast<size_t>(Side::Left)] == other._value[static_cast<size_t>(Side::Left)] &&

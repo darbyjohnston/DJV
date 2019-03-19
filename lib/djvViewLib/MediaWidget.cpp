@@ -162,12 +162,12 @@ namespace djv
             }
         }
 
-        void MediaWidget::_preLayoutEvent(Event::PreLayout& event)
+        void MediaWidget::_preLayoutEvent(Event::PreLayout & event)
         {
             _setMinimumSize(_p->layout->getMinimumSize());
         }
 
-        void MediaWidget::_layoutEvent(Event::Layout&)
+        void MediaWidget::_layoutEvent(Event::Layout &)
         {
             _p->layout->setGeometry(getGeometry());
         }

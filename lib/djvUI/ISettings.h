@@ -48,7 +48,7 @@ namespace djv
             class ISettings : public std::enable_shared_from_this<ISettings>
             {
             protected:
-                void _init(const std::string& name, Core::Context *);
+                void _init(const std::string & name, Core::Context *);
 
             public:
                 ISettings();
@@ -58,10 +58,10 @@ namespace djv
                 Core::Context * getContext() const;
 
                 // Get the settings name.
-                const std::string& getName() const;
+                const std::string & getName() const;
 
                 //! Load the settings from the given JSON. This function is called by the settings system.
-                virtual void load(const picojson::value&) = 0;
+                virtual void load(const picojson::value &) = 0;
 
                 //! Save the settings to JSON. This function is called by the settings system.
                 virtual picojson::value save() = 0;

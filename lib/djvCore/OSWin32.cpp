@@ -62,7 +62,7 @@ namespace djv
                     Count
                 };
 
-                const std::string& getLabel(Windows value)
+                const std::string & getLabel(Windows value)
                 {
                     static const std::vector<std::string> data =
                     {
@@ -141,7 +141,7 @@ namespace djv
                 return out;
             }
 
-            std::string getEnv(const std::string& name)
+            std::string getEnv(const std::string & name)
             {
                 std::string out;
                 size_t size = 0;
@@ -161,7 +161,7 @@ namespace djv
                 return out;
             }
 
-            bool setEnv(const std::string& name, const std::string& value)
+            bool setEnv(const std::string & name, const std::string & value)
             {
                 std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>, wchar_t> utf16;
                 return _wputenv_s(utf16.from_bytes(name).c_str(), utf16.from_bytes(value).c_str()) == 0;

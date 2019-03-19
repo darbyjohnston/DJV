@@ -91,12 +91,12 @@ namespace djv
                 }
             }
 
-            const Spacing& Form::getSpacing() const
+            const Spacing & Form::getSpacing() const
             {
                 return _p->layout->getSpacing();
             }
 
-            void Form::setSpacing(const Spacing& value)
+            void Form::setSpacing(const Spacing & value)
             {
                 _p->layout->setSpacing(value);
             }
@@ -127,7 +127,7 @@ namespace djv
                 _p->layout->removeChild(value);
             }
 
-            void Form::_preLayoutEvent(Event::PreLayout& event)
+            void Form::_preLayoutEvent(Event::PreLayout & event)
             {
                 if (auto style = _getStyle().lock())
                 {
@@ -135,7 +135,7 @@ namespace djv
                 }
             }
 
-            void Form::_layoutEvent(Event::Layout& event)
+            void Form::_layoutEvent(Event::Layout & event)
             {
                 if (auto style = _getStyle().lock())
                 {

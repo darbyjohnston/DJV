@@ -102,12 +102,12 @@ namespace djv
             return out;
         }
 
-        const std::string& LineEditBase::getText() const
+        const std::string & LineEditBase::getText() const
         {
             return _p->text;
         }
 
-        void LineEditBase::setText(const std::string& value)
+        void LineEditBase::setText(const std::string & value)
         {
             DJV_PRIVATE_PTR();
             if (value == p.text)
@@ -210,13 +210,13 @@ namespace djv
             _p->focusCallback = value;
         }
 
-        void LineEditBase::_styleEvent(Event::Style& event)
+        void LineEditBase::_styleEvent(Event::Style & event)
         {
             _textUpdate();
             _cursorUpdate();
         }
 
-        void LineEditBase::_preLayoutEvent(Event::PreLayout& event)
+        void LineEditBase::_preLayoutEvent(Event::PreLayout & event)
         {
             DJV_PRIVATE_PTR();
             if (auto style = _getStyle().lock())
@@ -230,7 +230,7 @@ namespace djv
                     {
                         p.fontMetrics = p.fontMetricsFuture.get();
                     }
-                    catch (const std::exception& e)
+                    catch (const std::exception & e)
                     {
                         _log(e.what(), LogLevel::Error);
                     }
@@ -241,7 +241,7 @@ namespace djv
                     {
                         p.textSize = p.textSizeFuture.get();
                     }
-                    catch (const std::exception& e)
+                    catch (const std::exception & e)
                     {
                         _log(e.what(), LogLevel::Error);
                     }
@@ -263,7 +263,7 @@ namespace djv
                     {
                         p.cursorTextSize = p.cursorTextSizeFuture.get();
                     }
-                    catch (const std::exception& e)
+                    catch (const std::exception & e)
                     {
                         _log(e.what(), LogLevel::Error);
                     }
@@ -274,7 +274,7 @@ namespace djv
             }
         }
 
-        void LineEditBase::_clipEvent(Event::Clip& event)
+        void LineEditBase::_clipEvent(Event::Clip & event)
         {
             if (isClipped())
             {
@@ -282,7 +282,7 @@ namespace djv
             }
         }
 
-        void LineEditBase::_paintEvent(Event::Paint& event)
+        void LineEditBase::_paintEvent(Event::Paint & event)
         {
             Widget::_paintEvent(event);
             DJV_PRIVATE_PTR();
@@ -290,7 +290,7 @@ namespace djv
             {
                 if (auto style = _getStyle().lock())
                 {
-                    const BBox2f& g = getMargin().bbox(getGeometry(), style);
+                    const BBox2f & g = getMargin().bbox(getGeometry(), style);
                     const glm::vec2 c = g.getCenter();
                     const float m = style->getMetric(MetricsRole::MarginSmall);
                     const float b = style->getMetric(MetricsRole::Border);
@@ -320,22 +320,22 @@ namespace djv
             }
         }
 
-        void LineEditBase::_pointerEnterEvent(Event::PointerEnter& event)
+        void LineEditBase::_pointerEnterEvent(Event::PointerEnter & event)
         {
             event.accept();
         }
 
-        void LineEditBase::_pointerLeaveEvent(Event::PointerLeave& event)
+        void LineEditBase::_pointerLeaveEvent(Event::PointerLeave & event)
         {
             event.accept();
         }
 
-        void LineEditBase::_pointerMoveEvent(Event::PointerMove& event)
+        void LineEditBase::_pointerMoveEvent(Event::PointerMove & event)
         {
             event.accept();
         }
 
-        void LineEditBase::_buttonPressEvent(Event::ButtonPress& event)
+        void LineEditBase::_buttonPressEvent(Event::ButtonPress & event)
         {
             if (!isEnabled(true))
                 return;
@@ -343,12 +343,12 @@ namespace djv
             takeTextFocus();
         }
 
-        void LineEditBase::_buttonReleaseEvent(Event::ButtonRelease& event)
+        void LineEditBase::_buttonReleaseEvent(Event::ButtonRelease & event)
         {
             event.accept();
         }
 
-        void LineEditBase::_keyPressEvent(Event::KeyPress& event)
+        void LineEditBase::_keyPressEvent(Event::KeyPress & event)
         {
             DJV_PRIVATE_PTR();
             const size_t size = p.text.size();
@@ -438,7 +438,7 @@ namespace djv
             }
         }
 
-        void LineEditBase::_textFocusEvent(Event::TextFocus& event)
+        void LineEditBase::_textFocusEvent(Event::TextFocus & event)
         {
             DJV_PRIVATE_PTR();
             event.accept();
@@ -449,7 +449,7 @@ namespace djv
             }
         }
 
-        void LineEditBase::_textFocusLostEvent(Event::TextFocusLost& event)
+        void LineEditBase::_textFocusLostEvent(Event::TextFocusLost & event)
         {
             DJV_PRIVATE_PTR();
             event.accept();
@@ -466,7 +466,7 @@ namespace djv
             }
         }
 
-        void LineEditBase::_textEvent(Event::Text& event)
+        void LineEditBase::_textEvent(Event::Text & event)
         {
             DJV_PRIVATE_PTR();
             event.accept();

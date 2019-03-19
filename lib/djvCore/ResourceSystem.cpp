@@ -49,7 +49,7 @@ namespace djv
 
         namespace
         {
-            Path getApplicationRoot(const Path& value)
+            Path getApplicationRoot(const Path & value)
             {
                 Path out;
                 auto pieces = Path::splitDir(value);
@@ -69,7 +69,7 @@ namespace djv
             
         } // namespace
         
-        void ResourceSystem::_init(const std::string& argv0, Context * context)
+        void ResourceSystem::_init(const std::string & argv0, Context * context)
         {
             ISystem::_init("djv::Core::ResourceSystem", context);
 
@@ -78,7 +78,7 @@ namespace djv
             {
                 p.applicationPath = Path::getAbsolute(Path(argv0).getDirectoryName());
             }
-            catch (const std::exception& e)
+            catch (const std::exception & e)
             {
                 //! \bug [1.0 S] How should we really handle this error?
                 std::cerr << "Cannot find the application path: " << e.what() << std::endl;
@@ -115,7 +115,7 @@ namespace djv
                         Path::mkdir(documents);
                     }
                 }
-                catch (const std::exception& e)
+                catch (const std::exception & e)
                 {
                     //! \bug [1.0 S] How should we really handle this error?
                     std::cerr << "Cannot create the documents path: " << e.what() << std::endl;
@@ -162,7 +162,7 @@ namespace djv
         ResourceSystem::~ResourceSystem()
         {}
 
-        std::shared_ptr<ResourceSystem> ResourceSystem::create(const std::string& argv0, Context * context)
+        std::shared_ptr<ResourceSystem> ResourceSystem::create(const std::string & argv0, Context * context)
         {
             auto out = std::shared_ptr<ResourceSystem>(new ResourceSystem);
             out->_init(argv0, context);

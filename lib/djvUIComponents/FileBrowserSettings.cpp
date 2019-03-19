@@ -230,12 +230,12 @@ namespace djv
                 p.sortDirectoriesFirst->setIfChanged(value);
             }
 
-            void FileBrowser::load(const picojson::value& value)
+            void FileBrowser::load(const picojson::value & value)
             {
                 if (value.is<picojson::object>())
                 {
                     DJV_PRIVATE_PTR();
-                    const auto& object = value.get<picojson::object>();
+                    const auto & object = value.get<picojson::object>();
                     read("Shortcuts", object, p.shortcuts);
                     read("ShortcutsBellows", object, p.shortcutsBellows);
                     read("ShortcutsSplit", object, p.shortcutsSplit);
@@ -254,7 +254,7 @@ namespace djv
             {
                 DJV_PRIVATE_PTR();
                 picojson::value out(picojson::object_type, true);
-                auto& object = out.get<picojson::object>();
+                auto & object = out.get<picojson::object>();
                 write("Shortcuts", p.shortcuts->get(), object);
                 write("ShortcutsBellows", p.shortcutsBellows->get(), object);
                 write("ShortcutsSplit", p.shortcutsSplit->get(), object);

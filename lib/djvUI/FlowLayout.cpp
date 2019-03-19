@@ -64,12 +64,12 @@ namespace djv
                 return out;
             }
 
-            const Spacing& Flow::getSpacing() const
+            const Spacing & Flow::getSpacing() const
             {
                 return _p->spacing;
             }
 
-            void Flow::setSpacing(const Spacing& value)
+            void Flow::setSpacing(const Spacing & value)
             {
                 DJV_PRIVATE_PTR();
                 if (value == p.spacing)
@@ -91,7 +91,7 @@ namespace djv
                     const int childrenSize = static_cast<int>(children.size());
                     for (int i = 0, j = 0; i < childrenSize; ++i, ++j)
                     {
-                        const auto& ms = children[i]->getMinimumSize();
+                        const auto & ms = children[i]->getMinimumSize();
                         if (j && pos.x + ms.x > width - getMargin().getWidth(style))
                         {
                             pos.x = 0.f;
@@ -110,14 +110,14 @@ namespace djv
                 return out;
             }
 
-            void Flow::_preLayoutEvent(Event::PreLayout&)
+            void Flow::_preLayoutEvent(Event::PreLayout &)
             {
                 if (auto style = _getStyle().lock())
                 {
                     glm::vec2 minimumSize = glm::vec2(0.f, 0.f);
-                    for (const auto& child : getChildrenT<Widget>())
+                    for (const auto & child : getChildrenT<Widget>())
                     {
-                        const auto& childMinimumSize = child->getMinimumSize();
+                        const auto & childMinimumSize = child->getMinimumSize();
                         minimumSize.x = std::max(minimumSize.x, childMinimumSize.x);
                         minimumSize.y += childMinimumSize.y;
                     }
@@ -125,11 +125,11 @@ namespace djv
                 }
             }
 
-            void Flow::_layoutEvent(Event::Layout&)
+            void Flow::_layoutEvent(Event::Layout &)
             {
                 if (auto style = _getStyle().lock())
                 {
-                    const BBox2f& g = getMargin().bbox(getGeometry(), style);
+                    const BBox2f & g = getMargin().bbox(getGeometry(), style);
                     const float gx = g.min.x;
                     const float gw = g.w();
                     const glm::vec2 s = _p->spacing.get(style);
@@ -141,7 +141,7 @@ namespace djv
                     std::map<int, std::vector<Pair> > rows;
                     for (int i = 0, j = 0, k = 0; i < childrenSize; ++i, ++j)
                     {
-                        const auto& childMinimumSize = children[i]->getMinimumSize();
+                        const auto & childMinimumSize = children[i]->getMinimumSize();
                         if (j && pos.x + childMinimumSize.x > gx + gw)
                         {
                             pos.x = gx;
@@ -152,7 +152,7 @@ namespace djv
                         pos.x += childMinimumSize.x + s.x;
                     }
 
-                    for (const auto& i : rows)
+                    for (const auto & i : rows)
                     {
                         float h = 0.f;
                         for (auto j : i.second)

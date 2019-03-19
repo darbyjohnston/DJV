@@ -107,12 +107,12 @@ namespace djv
                 _resize();
             }
 
-            const Spacing& Row::getSpacing() const
+            const Spacing & Row::getSpacing() const
             {
                 return _p->spacing;
             }
 
-            void Row::setSpacing(const Spacing& value)
+            void Row::setSpacing(const Spacing & value)
             {
                 DJV_PRIVATE_PTR();
                 if (value == p.spacing)
@@ -153,7 +153,7 @@ namespace djv
                     const glm::vec2 m = getMargin().getSize(style);
                     const auto children = getChildrenT<Widget>();
                     size_t visibleChildren = 0;
-                    for (const auto& child : children)
+                    for (const auto & child : children)
                     {
                         if (child->isVisible())
                         {
@@ -215,7 +215,7 @@ namespace djv
                 }
             }
 
-            void Row::_preLayoutEvent(Event::PreLayout&)
+            void Row::_preLayoutEvent(Event::PreLayout &)
             {
                 if (auto style = _getStyle().lock())
                 {
@@ -224,11 +224,11 @@ namespace djv
                     // Get the child sizes.
                     glm::vec2 minimumSize = glm::vec2(0.f, 0.f);
                     size_t visibleChildren = 0;
-                    for (const auto& child : getChildrenT<Widget>())
+                    for (const auto & child : getChildrenT<Widget>())
                     {
                         if (child->isVisible())
                         {
-                            const glm::vec2& childMinimumSize = child->getMinimumSize();
+                            const glm::vec2 & childMinimumSize = child->getMinimumSize();
                             switch (p.orientation)
                             {
                             case Orientation::Horizontal:
@@ -265,13 +265,13 @@ namespace djv
                 }
             }
 
-            void Row::_layoutEvent(Event::Layout& event)
+            void Row::_layoutEvent(Event::Layout & event)
             {
                 if (auto style = _getStyle().lock())
                 {
                     DJV_PRIVATE_PTR();
 
-                    const BBox2f& g = getMargin().bbox(getGeometry(), style);
+                    const BBox2f & g = getMargin().bbox(getGeometry(), style);
                     const float gw = g.w();
                     const float gh = g.h();
 
@@ -280,7 +280,7 @@ namespace djv
                     size_t expandCount = 0;
                     const auto children = getChildrenT<Widget>();
                     size_t visibleChildren = 0;
-                    for (const auto& child : children)
+                    for (const auto & child : children)
                     {
                         if (child->isVisible())
                         {
@@ -339,7 +339,7 @@ namespace djv
                     {
                     case Orientation::Horizontal:
                     {
-                        for (const auto& child : children)
+                        for (const auto & child : children)
                         {
                             if (child->isVisible())
                             {
@@ -363,7 +363,7 @@ namespace djv
                     }
                     case Orientation::Vertical:
                     {
-                        for (const auto& child : children)
+                        for (const auto & child : children)
                         {
                             if (child->isVisible())
                             {

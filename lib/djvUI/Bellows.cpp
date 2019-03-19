@@ -140,7 +140,7 @@ namespace djv
                     _layout->setGeometry(getGeometry());
                 }
 
-                void Button::_paintEvent(Event::Paint& event)
+                void Button::_paintEvent(Event::Paint & event)
                 {
                     Widget::_paintEvent(event);
                     if (auto render = _getRender().lock())
@@ -292,12 +292,12 @@ namespace djv
                 return _p->layout->getHeightForWidth(value);
             }
 
-            void Bellows::_preLayoutEvent(Event::PreLayout& event)
+            void Bellows::_preLayoutEvent(Event::PreLayout & event)
             {
                 _setMinimumSize(_p->layout->getMinimumSize());
             }
 
-            void Bellows::_layoutEvent(Event::Layout& event)
+            void Bellows::_layoutEvent(Event::Layout & event)
             {
                 _p->layout->setGeometry(getGeometry());
             }

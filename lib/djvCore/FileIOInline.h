@@ -49,7 +49,7 @@ namespace djv
 #endif //DJV_PLATFORM_WINDOWS
             }
 
-            inline const std::string& FileIO::getFileName() const
+            inline const std::string & FileIO::getFileName() const
             {
                 return _fileName;
             }
@@ -197,7 +197,7 @@ namespace djv
                 writeF32(&value, 1);
             }
 
-            inline void FileIO::write(const std::string& value)
+            inline void FileIO::write(const std::string & value)
             {
                 write8(reinterpret_cast<const int8_t*>(value.c_str()), value.size());
             }

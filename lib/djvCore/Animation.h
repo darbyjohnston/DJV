@@ -102,8 +102,8 @@ namespace djv
                     float                     begin,
                     float                     end,
                     std::chrono::milliseconds timeout,
-                    const Callback&           callback,
-                    const Callback&           endCallback = nullptr);
+                    const Callback &           callback,
+                    const Callback &           endCallback = nullptr);
 
             private:
                 void _tick(float dt);

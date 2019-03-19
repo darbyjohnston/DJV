@@ -56,8 +56,8 @@ namespace djv
             void setPlayback(Playback);
 
         protected:
-            void _preLayoutEvent(Core::Event::PreLayout&) override;
-            void _layoutEvent(Core::Event::Layout&) override;
+            void _preLayoutEvent(Core::Event::PreLayout &) override;
+            void _layoutEvent(Core::Event::Layout &) override;
 
         private:
             void _updateWidget();

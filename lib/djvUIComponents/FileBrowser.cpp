@@ -911,7 +911,7 @@ namespace djv
                 return _p->layout->getHeightForWidth(value);
             }
             
-            void Widget::_preLayoutEvent(Event::PreLayout& event)
+            void Widget::_preLayoutEvent(Event::PreLayout & event)
             {
                 if (auto style = _getStyle().lock())
                 {
@@ -919,7 +919,7 @@ namespace djv
                 }
             }
 
-            void Widget::_layoutEvent(Event::Layout& event)
+            void Widget::_layoutEvent(Event::Layout & event)
             {
                 if (auto style = _getStyle().lock())
                 {

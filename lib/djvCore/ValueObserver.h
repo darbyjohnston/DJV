@@ -50,7 +50,7 @@ namespace djv
         protected:
             inline void _init(
                 const std::weak_ptr<IValueSubject<T> >&,
-                const std::function<void(const T&)>&);
+                const std::function<void(const T &)>&);
 
             inline ValueObserver();
 
@@ -60,13 +60,13 @@ namespace djv
             //! Create a new value observer.
             static inline std::shared_ptr<ValueObserver<T> > create(
                 const std::weak_ptr<IValueSubject<T> >&,
-                const std::function<void(const T&)>&);
+                const std::function<void(const T &)>&);
 
             //! Execute the callback.
-            inline void doCallback(const T&);
+            inline void doCallback(const T &);
 
         private:
-            std::function<void(const T&)> _callback;
+            std::function<void(const T &)> _callback;
             std::weak_ptr<IValueSubject<T> > _subject;
         };
 
@@ -78,7 +78,7 @@ namespace djv
             inline virtual ~IValueSubject() = 0;
 
             //! Get the value.
-            virtual const T& get() const = 0;
+            virtual const T & get() const = 0;
 
         protected:
             inline void _add(const std::weak_ptr<ValueObserver<T> >&);
@@ -97,22 +97,22 @@ namespace djv
 
         protected:
             inline ValueSubject();
-            inline ValueSubject(const T&);
+            inline ValueSubject(const T &);
 
         public:
             //! Create a new value subject.
             static inline std::shared_ptr<ValueSubject<T> > create();
 
             //! Create a new value subject with the given value.
-            static inline std::shared_ptr<ValueSubject<T> > create(const T&);
+            static inline std::shared_ptr<ValueSubject<T> > create(const T &);
 
             //! Set the value.
-            inline void setAlways(const T&);
+            inline void setAlways(const T &);
 
             //! Set the value only if it has changed.
-            inline bool setIfChanged(const T&);
+            inline bool setIfChanged(const T &);
 
-            inline const T& get() const override;
+            inline const T & get() const override;
 
         private:
             T _value = T();

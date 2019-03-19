@@ -81,12 +81,12 @@ namespace djv
             _p->layout->removeChild(value);
         }
 
-        void Window::_preLayoutEvent(Event::PreLayout&)
+        void Window::_preLayoutEvent(Event::PreLayout &)
         {
             _setMinimumSize(_p->layout->getMinimumSize());
         }
 
-        void Window::_layoutEvent(Event::Layout&)
+        void Window::_layoutEvent(Event::Layout &)
         {
             _p->layout->setGeometry(getGeometry());
         }

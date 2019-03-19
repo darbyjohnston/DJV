@@ -374,12 +374,12 @@ namespace djv
             out->_init(context);
             return out;
         }
-        void SettingsWidget::_preLayoutEvent(Event::PreLayout&)
+        void SettingsWidget::_preLayoutEvent(Event::PreLayout &)
         {
             _setMinimumSize(_p->layout->getMinimumSize());
         }
 
-        void SettingsWidget::_layoutEvent(Event::Layout&)
+        void SettingsWidget::_layoutEvent(Event::Layout &)
         {
             _p->layout->setGeometry(getGeometry());
         }

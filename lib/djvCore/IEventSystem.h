@@ -59,7 +59,7 @@ namespace djv
             protected:
                 virtual void _initObject(const std::shared_ptr<IObject> &);
 
-                void _pointerMove(const Event::PointerInfo&);
+                void _pointerMove(const Event::PointerInfo &);
                 void _buttonPress(int);
                 void _buttonRelease(int);
                 void _drop(const std::vector<std::string> &);

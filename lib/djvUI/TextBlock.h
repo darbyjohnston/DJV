@@ -49,10 +49,10 @@ namespace djv
             virtual ~TextBlock();
 
             static std::shared_ptr<TextBlock> create(Core::Context *);
-            static std::shared_ptr<TextBlock> create(const std::string&, Core::Context *);
+            static std::shared_ptr<TextBlock> create(const std::string &, Core::Context *);
 
-            const std::string& getText() const;
-            void setText(const std::string&);
+            const std::string & getText() const;
+            void setText(const std::string &);
 
             TextHAlign getTextHAlign() const;
             void setTextHAlign(TextHAlign);
@@ -73,11 +73,11 @@ namespace djv
             float getHeightForWidth(float) const override;
 
         protected:
-            void _styleEvent(Core::Event::Style&) override;
-            void _preLayoutEvent(Core::Event::PreLayout&) override;
-            void _layoutEvent(Core::Event::Layout&) override;
-            void _clipEvent(Core::Event::Clip&) override;
-            void _paintEvent(Core::Event::Paint&) override;
+            void _styleEvent(Core::Event::Style &) override;
+            void _preLayoutEvent(Core::Event::PreLayout &) override;
+            void _layoutEvent(Core::Event::Layout &) override;
+            void _clipEvent(Core::Event::Clip &) override;
+            void _paintEvent(Core::Event::Paint &) override;
 
         private:
             void _textUpdate();

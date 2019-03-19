@@ -71,11 +71,11 @@ namespace djv
                 glm::ivec2 getGridSize() const;
 
                 glm::ivec2 getGridPos(const std::shared_ptr<Widget>&);
-                void setGridPos(const std::shared_ptr<Widget>&, const glm::ivec2&, GridStretch = GridStretch::None);
+                void setGridPos(const std::shared_ptr<Widget>&, const glm::ivec2 &, GridStretch = GridStretch::None);
                 void setGridPos(const std::shared_ptr<Widget>&, int x, int y, GridStretch = GridStretch::None);
 
-                const Spacing& getSpacing() const;
-                void setSpacing(const Spacing&);
+                const Spacing & getSpacing() const;
+                void setSpacing(const Spacing &);
 
                 GridStretch getStretch(const std::shared_ptr<Widget>&) const;
                 void setStretch(const std::shared_ptr<Widget>&, GridStretch);
@@ -89,9 +89,9 @@ namespace djv
                 void removeChild(const std::shared_ptr<IObject>&) override;
 
             protected:
-                void _preLayoutEvent(Core::Event::PreLayout&) override;
-                void _layoutEvent(Core::Event::Layout&) override;
-                void _paintEvent(Core::Event::Paint&) override;
+                void _preLayoutEvent(Core::Event::PreLayout &) override;
+                void _layoutEvent(Core::Event::Layout &) override;
+                void _paintEvent(Core::Event::Paint &) override;
 
             private:
                 DJV_PRIVATE();

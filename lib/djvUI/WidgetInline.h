@@ -54,12 +54,12 @@ namespace djv
             return parents ? (_opacity * _parentsOpacity) : _opacity;
         }
 
-        inline const glm::vec2& Widget::getMinimumSize() const
+        inline const glm::vec2 & Widget::getMinimumSize() const
         {
             return _minimumSize;
         }
 
-        inline const Core::BBox2f& Widget::getGeometry() const
+        inline const Core::BBox2f & Widget::getGeometry() const
         {
             return _geometry;
         }
@@ -84,7 +84,7 @@ namespace djv
             return getMinimumSize().y;
         }
 
-        inline const Layout::Margin& Widget::getMargin() const
+        inline const Layout::Margin & Widget::getMargin() const
         {
             return _margin;
         }

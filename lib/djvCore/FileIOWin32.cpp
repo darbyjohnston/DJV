@@ -49,42 +49,42 @@ namespace djv
         {
             namespace
             {
-                std::string getOpenError(const std::string& fileName)
+                std::string getOpenError(const std::string & fileName)
                 {
                     std::stringstream s;
                     s << DJV_TEXT("The file") << " '" << fileName << "' " << DJV_TEXT("cannot be opened") << ". " << Error::getLastError();
                     return s.str();
                 }
 
-                std::string getCloseError(const std::string& fileName)
+                std::string getCloseError(const std::string & fileName)
                 {
                     std::stringstream s;
                     s << DJV_TEXT("The file") << " '" << fileName << "' " << DJV_TEXT("cannot be closed") << ". " << Error::getLastError();
                     return s.str();
                 }
 
-                std::string getMemoryMapError(const std::string& fileName)
+                std::string getMemoryMapError(const std::string & fileName)
                 {
                     std::stringstream s;
                     s << DJV_TEXT("The file") << " '" << fileName << "' " << DJV_TEXT("cannot be mapped") << ". " << Error::getLastError();
                     return s.str();
                 }
 
-                std::string getMemoryUnmapError(const std::string& fileName)
+                std::string getMemoryUnmapError(const std::string & fileName)
                 {
                     std::stringstream s;
                     s << DJV_TEXT("The file") << " '" << fileName << "' " << DJV_TEXT("cannot be unmapped") << ". " << Error::getLastError();
                     return s.str();
                 }
 
-                std::string getReadError(const std::string& fileName)
+                std::string getReadError(const std::string & fileName)
                 {
                     std::stringstream s;
                     s << DJV_TEXT("The file") << " '" << fileName << "' " << DJV_TEXT("cannot be read") << ". " << Error::getLastError();
                     return s.str();
                 }
 
-                std::string getWriteError(const std::string& fileName)
+                std::string getWriteError(const std::string & fileName)
                 {
                     std::stringstream s;
                     s << DJV_TEXT("The file") << " '" << fileName << "' " << DJV_TEXT("cannot be written") << ". " << Error::getLastError();
@@ -93,7 +93,7 @@ namespace djv
 
             } // namespace
 
-            void FileIO::open(const std::string& fileName, Mode mode)
+            void FileIO::open(const std::string & fileName, Mode mode)
             {
                 close();
 
@@ -158,7 +158,7 @@ namespace djv
                 }
             }
 
-            void FileIO::openTempFile(const std::string& fileName)
+            void FileIO::openTempFile(const std::string & fileName)
             {
                 const Path path(fileName);
                 WCHAR buf[MAX_PATH];

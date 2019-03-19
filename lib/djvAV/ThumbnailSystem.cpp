@@ -64,7 +64,7 @@ namespace djv
                     uid(createUID())
                 {}
 
-                InfoRequest(InfoRequest&& other) :
+                InfoRequest(InfoRequest && other) :
                     uid(other.uid),
                     path(other.path),
                     read(std::move(other.read)),
@@ -72,7 +72,7 @@ namespace djv
                     promise(std::move(other.promise))
                 {}
 
-                InfoRequest& operator = (InfoRequest&& other)
+                InfoRequest & operator = (InfoRequest && other)
                 {
                     if (this != &other)
                     {
@@ -98,7 +98,7 @@ namespace djv
                     uid(createUID())
                 {}
 
-                ImageRequest(ImageRequest&& other) :
+                ImageRequest(ImageRequest && other) :
                     uid(other.uid),
                     path(other.path),
                     size(std::move(other.size)),
@@ -108,7 +108,7 @@ namespace djv
                     promise(std::move(other.promise))
                 {}
 
-                ImageRequest& operator = (ImageRequest&& other)
+                ImageRequest & operator = (ImageRequest && other)
                 {
                     if (this != &other)
                     {
@@ -301,7 +301,7 @@ namespace djv
             return out;
         }
 
-        ThumbnailSystem::InfoFuture ThumbnailSystem::getInfo(const FileSystem::Path& path)
+        ThumbnailSystem::InfoFuture ThumbnailSystem::getInfo(const FileSystem::Path & path)
         {
             DJV_PRIVATE_PTR();
             InfoRequest request;
@@ -415,7 +415,7 @@ namespace djv
                         i.infoFuture = i.read->getInfo();
                         p.pendingInfoRequests.push_back(std::move(i));
                     }
-                    catch (const std::exception& e)
+                    catch (const std::exception & e)
                     {
                         try
                         {
@@ -515,7 +515,7 @@ namespace djv
                                 i.promise.set_value(nullptr);
                             }
                         }
-                        catch (const std::exception& e)
+                        catch (const std::exception & e)
                         {
                             try
                             {

@@ -89,7 +89,7 @@ namespace djv
                 return out;
             }
 
-            std::shared_ptr<Flat> Flat::create(const std::string& text, Context * context)
+            std::shared_ptr<Flat> Flat::create(const std::string & text, Context * context)
             {
                 auto out = std::shared_ptr<Flat>(new Flat);
                 out->_init(context);
@@ -97,7 +97,7 @@ namespace djv
                 return out;
             }
 
-            std::shared_ptr<Flat> Flat::create(const std::string& text, const std::string& icon, Context * context)
+            std::shared_ptr<Flat> Flat::create(const std::string & text, const std::string & icon, Context * context)
             {
                 auto out = std::shared_ptr<Flat>(new Flat);
                 out->_init(context);
@@ -106,24 +106,24 @@ namespace djv
                 return out;
             }
 
-            const std::string& Flat::getIcon() const
+            const std::string & Flat::getIcon() const
             {
                 return _p->icon->getIcon();
             }
 
-            void Flat::setIcon(const std::string& value)
+            void Flat::setIcon(const std::string & value)
             {
                 DJV_PRIVATE_PTR();
                 p.icon->setIcon(value);
                 _widgetUpdate();
             }
 
-            const std::string& Flat::getText() const
+            const std::string & Flat::getText() const
             {
                 return _p->label->getText();
             }
 
-            void Flat::setText(const std::string& value)
+            void Flat::setText(const std::string & value)
             {
                 DJV_PRIVATE_PTR();
                 p.label->setText(value);
@@ -190,22 +190,22 @@ namespace djv
                 _p->label->setFontSizeRole(value);
             }
 
-            const Layout::Margin& Flat::getInsideMargin() const
+            const Layout::Margin & Flat::getInsideMargin() const
             {
                 return _p->layout->getMargin();
             }
 
-            void Flat::setInsideMargin(const Layout::Margin& value)
+            void Flat::setInsideMargin(const Layout::Margin & value)
             {
                 _p->layout->setMargin(value);
             }
 
-            void Flat::_preLayoutEvent(Event::PreLayout& event)
+            void Flat::_preLayoutEvent(Event::PreLayout & event)
             {
                 _setMinimumSize(_p->layout->getMinimumSize());
             }
 
-            void Flat::_layoutEvent(Event::Layout&)
+            void Flat::_layoutEvent(Event::Layout &)
             {
                 _p->layout->setGeometry(getGeometry());
             }

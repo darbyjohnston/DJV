@@ -120,12 +120,12 @@ namespace djv
                 _p->childLayout->removeChild(value);
             }
 
-            void GroupBox::_preLayoutEvent(Event::PreLayout& event)
+            void GroupBox::_preLayoutEvent(Event::PreLayout & event)
             {
                 _setMinimumSize(_p->layout->getMinimumSize());
             }
 
-            void GroupBox::_layoutEvent(Event::Layout& event)
+            void GroupBox::_layoutEvent(Event::Layout & event)
             {
                 _p->layout->setGeometry(getGeometry());
             }

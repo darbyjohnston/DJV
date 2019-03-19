@@ -171,7 +171,7 @@ namespace djv
                 _p->checkedCallback = callback;
             }
 
-            void IButton::_paintEvent(Event::Paint& event)
+            void IButton::_paintEvent(Event::Paint & event)
             {
                 Widget::_paintEvent(event);
                 DJV_PRIVATE_PTR();
@@ -179,7 +179,7 @@ namespace djv
                 {
                     if (auto style = _getStyle().lock())
                     {
-                        const BBox2f& g = getGeometry();
+                        const BBox2f & g = getGeometry();
 
                         // Draw the toggled state.
                         if (_isToggled() && p.checkedColorRole != ColorRole::None)
@@ -203,7 +203,7 @@ namespace djv
                 }
             }
 
-            void IButton::_pointerEnterEvent(Event::PointerEnter& event)
+            void IButton::_pointerEnterEvent(Event::PointerEnter & event)
             {
                 event.accept();
                 if (isEnabled(true))
@@ -212,7 +212,7 @@ namespace djv
                 }
             }
 
-            void IButton::_pointerLeaveEvent(Event::PointerLeave& event)
+            void IButton::_pointerLeaveEvent(Event::PointerLeave & event)
             {
                 event.accept();
                 if (isEnabled(true))
@@ -221,7 +221,7 @@ namespace djv
                 }
             }
 
-            void IButton::_pointerMoveEvent(Event::PointerMove& event)
+            void IButton::_pointerMoveEvent(Event::PointerMove & event)
             {
                 DJV_PRIVATE_PTR();
                 event.accept();
@@ -243,7 +243,7 @@ namespace djv
                 }
             }
 
-            void IButton::_buttonPressEvent(Event::ButtonPress& event)
+            void IButton::_buttonPressEvent(Event::ButtonPress & event)
             {
                 DJV_PRIVATE_PTR();
                 if (!isEnabled(true) || p.pressedID)
@@ -255,7 +255,7 @@ namespace djv
                 _redraw();
             }
 
-            void IButton::_buttonReleaseEvent(Event::ButtonRelease& event)
+            void IButton::_buttonReleaseEvent(Event::ButtonRelease & event)
             {
                 DJV_PRIVATE_PTR();
                 const auto & pointerInfo = event.getPointerInfo();
@@ -263,7 +263,7 @@ namespace djv
                 {
                     event.accept();
                     p.pressedID = Event::InvalidID;
-                    const BBox2f& g = getGeometry();
+                    const BBox2f & g = getGeometry();
                     const auto & hover = _getPointerHover();
                     const auto i = hover.find(pointerInfo.id);
                     if (i != hover.end() && g.contains(i->second))
@@ -303,7 +303,7 @@ namespace djv
                     const auto i = hover.find(p.pressedID);
                     if (i != hover.end())
                     {
-                        const BBox2f& g = getGeometry();
+                        const BBox2f & g = getGeometry();
                         switch (p.buttonType)
                         {
                         case ButtonType::Toggle:
@@ -343,7 +343,7 @@ namespace djv
                 return isEnabled(true) && _p->pressedID != 0;
             }
 
-            const glm::vec2& IButton::_getPressedPos() const
+            const glm::vec2 & IButton::_getPressedPos() const
             {
                 return _p->pressedPos;
             }

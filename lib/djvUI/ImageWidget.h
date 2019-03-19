@@ -62,8 +62,8 @@ namespace djv
             void setImage(const std::shared_ptr<AV::Image::Image>&);
 
         protected:
-            void _preLayoutEvent(Core::Event::PreLayout&) override;
-            void _paintEvent(Core::Event::Paint&) override;
+            void _preLayoutEvent(Core::Event::PreLayout &) override;
+            void _paintEvent(Core::Event::Paint &) override;
 
         private:
             DJV_PRIVATE();

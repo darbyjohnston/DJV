@@ -127,7 +127,7 @@ namespace djv
 
                 } // namespace
 
-                Info Read::_readInfo(const std::string& fileName)
+                Info Read::_readInfo(const std::string & fileName)
                 {
                     File f;
                     return _open(fileName, f);
@@ -177,7 +177,7 @@ namespace djv
                     return out;
                 }
 
-                Info Read::_open(const std::string& fileName, File & f)
+                Info Read::_open(const std::string & fileName, File & f)
                 {
                     f.png = png_create_read_struct(
                         PNG_LIBPNG_VER_STRING,

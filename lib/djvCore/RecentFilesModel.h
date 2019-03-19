@@ -52,7 +52,7 @@ namespace djv
 
                 std::shared_ptr<IListSubject<FileInfo> > getFiles() const;
                 void setFiles(std::vector<FileInfo>);
-                void addFile(const FileInfo&);
+                void addFile(const FileInfo &);
 
                 std::shared_ptr<IValueSubject<size_t> > getFilesMax() const;
                 void setFilesMax(size_t);

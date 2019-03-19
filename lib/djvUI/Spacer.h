@@ -58,7 +58,7 @@ namespace djv
                 void setSpacerSize(MetricsRole);
 
             protected:
-                void _preLayoutEvent(Core::Event::PreLayout&) override;
+                void _preLayoutEvent(Core::Event::PreLayout &) override;
 
             private:
                 DJV_PRIVATE();

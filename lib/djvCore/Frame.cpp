@@ -41,7 +41,7 @@ namespace djv
         {
             void Sequence::sort()
             {
-                for (auto& range : ranges)
+                for (auto & range : ranges)
                 {
                     Frame::sort(range);
                 }
@@ -78,7 +78,7 @@ namespace djv
                 }
             }
 
-            void sort(Range& out)
+            void sort(Range & out)
             {
                 const auto _min = std::min(out.min, out.max);
                 const auto _max = std::max(out.min, out.max);
@@ -118,10 +118,10 @@ namespace djv
         } // namespace Frame
     } // namespace Core
 
-    std::ostream& operator << (std::ostream& s, const Core::Frame::Sequence& value)
+    std::ostream & operator << (std::ostream & s, const Core::Frame::Sequence & value)
     {
         std::vector<std::string> pieces;
-        for (const auto& range : value.ranges)
+        for (const auto & range : value.ranges)
         {
             pieces.push_back(Core::Frame::toString(range, value.pad));
         }
@@ -129,7 +129,7 @@ namespace djv
         return s;
     }
 
-    std::istream& operator >> (std::istream& s, Core::Frame::Sequence& out)
+    std::istream & operator >> (std::istream & s, Core::Frame::Sequence & out)
     {
         std::string tmp;
         s >> tmp;
@@ -139,7 +139,7 @@ namespace djv
 
         // Convert the ranges.
         size_t pad = 0;
-        for (const auto& piece : pieces)
+        for (const auto & piece : pieces)
         {
             Core::Frame::Range range;
             Core::Frame::fromString(piece, range, pad);

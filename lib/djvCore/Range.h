@@ -88,9 +88,9 @@ namespace djv
     } // namespace Core
 
     template<typename T>
-    inline std::ostream& operator << (std::ostream&, const Core::Range::tRange<T>&);
+    inline std::ostream & operator << (std::ostream &, const Core::Range::tRange<T>&);
     template<typename T>
-    inline std::istream& operator >> (std::istream&, Core::Range::tRange<T>&);
+    inline std::istream & operator >> (std::istream &, Core::Range::tRange<T>&);
 
 } // namespace djv
 

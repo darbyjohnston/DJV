@@ -206,7 +206,7 @@ namespace djv
             _p->layout->removeChild(value);
         }
 
-        void ToolBar::_preLayoutEvent(Event::PreLayout& event)
+        void ToolBar::_preLayoutEvent(Event::PreLayout & event)
         {
             if (auto style = _getStyle().lock())
             {
@@ -215,7 +215,7 @@ namespace djv
             }
         }
 
-        void ToolBar::_layoutEvent(Event::Layout& event)
+        void ToolBar::_layoutEvent(Event::Layout & event)
         {
             if (auto style = _getStyle().lock())
             {

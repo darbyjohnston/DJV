@@ -35,8 +35,8 @@
 
 namespace djv
 {
-    inline std::ostream& operator << (std::ostream&, const glm::mat4x4&);
-    inline std::istream& operator >> (std::istream&, glm::mat4x4&);
+    inline std::ostream & operator << (std::ostream &, const glm::mat4x4 &);
+    inline std::istream & operator >> (std::istream &, glm::mat4x4 &);
 
 } // namespace djv
 

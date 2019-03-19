@@ -123,7 +123,7 @@ namespace djv
                 return size.y * getScanlineByteCount();
             }
 
-            inline bool Info::operator == (const Info& other) const
+            inline bool Info::operator == (const Info & other) const
             {
                 return
                     other.size == size &&
@@ -131,7 +131,7 @@ namespace djv
                     other.layout == layout;
             }
 
-            inline bool Info::operator != (const Info& other) const
+            inline bool Info::operator != (const Info & other) const
             {
                 return !(other == *this);
             }

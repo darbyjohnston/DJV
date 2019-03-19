@@ -76,7 +76,7 @@ namespace djv
             _resize();
         }
 
-        void ImageWidget::_preLayoutEvent(Event::PreLayout& event)
+        void ImageWidget::_preLayoutEvent(Event::PreLayout & event)
         {
             if (auto style = _getStyle().lock())
             {
@@ -90,7 +90,7 @@ namespace djv
             }
         }
 
-        void ImageWidget::_paintEvent(Event::Paint& event)
+        void ImageWidget::_paintEvent(Event::Paint & event)
         {
             Widget::_paintEvent(event);
             if (auto render = _getRender().lock())
@@ -100,9 +100,9 @@ namespace djv
                     DJV_PRIVATE_PTR();
                     if (p.image)
                     {
-                        const BBox2f& g = getMargin().bbox(getGeometry(), style);
+                        const BBox2f & g = getMargin().bbox(getGeometry(), style);
                         const glm::vec2 c = g.getCenter();
-                        const glm::vec2& size = p.image->getSize();
+                        const glm::vec2 & size = p.image->getSize();
                         glm::vec2 pos = glm::vec2(0.f, 0.f);
                         switch (getHAlign())
                         {

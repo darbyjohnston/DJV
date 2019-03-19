@@ -67,7 +67,7 @@ namespace djv
                     FileSystem::FileIO::readContents(fileIO, out->_fragment.second);
                     out->_fragment.first = fragment.get();
                 }
-                catch (const std::exception& e)
+                catch (const std::exception & e)
                 {
                     std::stringstream s;
                     s << DJV_TEXT("The shader cannot be created") << ". " << e.what();
@@ -76,22 +76,22 @@ namespace djv
                 return out;
             }
 
-            const std::string& Shader::getVertexName() const
+            const std::string & Shader::getVertexName() const
             {
                 return _vertex.first;
             }
 
-            const std::string& Shader::getVertexSource() const
+            const std::string & Shader::getVertexSource() const
             {
                 return _vertex.second;
             }
 
-            const std::string& Shader::getFragmentName() const
+            const std::string & Shader::getFragmentName() const
             {
                 return _fragment.first;
             }
 
-            const std::string& Shader::getFragmentSource() const
+            const std::string & Shader::getFragmentSource() const
             {
                 return _fragment.second;
             }

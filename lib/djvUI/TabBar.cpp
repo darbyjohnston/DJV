@@ -50,30 +50,30 @@ namespace djv
                 DJV_NON_COPYABLE(TabBarButton);
 
             protected:
-                void _init(const std::string& text, Core::Context *);
+                void _init(const std::string & text, Core::Context *);
                 TabBarButton();
 
             public:
                 virtual ~TabBarButton();
 
-                static std::shared_ptr<TabBarButton> create(const std::string&, Core::Context *);
+                static std::shared_ptr<TabBarButton> create(const std::string &, Core::Context *);
 
-                const std::string& getText() const;
-                void setText(const std::string&);
+                const std::string & getText() const;
+                void setText(const std::string &);
 
                 float getHeightForWidth(float) const override;
 
             protected:
-                void _preLayoutEvent(Event::PreLayout&) override;
-                void _layoutEvent(Event::Layout&) override;
-                void _paintEvent(Event::Paint&) override;
+                void _preLayoutEvent(Event::PreLayout &) override;
+                void _layoutEvent(Event::Layout &) override;
+                void _paintEvent(Event::Paint &) override;
 
             private:
                 std::shared_ptr<Label> _label;
                 std::shared_ptr<StackLayout> _layout;
             };
 
-            void TabBarButton::_init(const std::string& text, Context * context)
+            void TabBarButton::_init(const std::string & text, Context * context)
             {
                 IButton::_init(context);
 
@@ -93,19 +93,19 @@ namespace djv
             TabBarButton::~TabBarButton()
             {}
 
-            std::shared_ptr<TabBarButton> TabBarButton::create(const std::string& text, Context * context)
+            std::shared_ptr<TabBarButton> TabBarButton::create(const std::string & text, Context * context)
             {
                 auto out = std::shared_ptr<TabBarButton>(new TabBarButton);
                 out->_init(text, context);
                 return out;
             }
 
-            const std::string& TabBarButton::getText() const
+            const std::string & TabBarButton::getText() const
             {
                 return _label->getText();
             }
 
-            void TabBarButton::setText(const std::string& value)
+            void TabBarButton::setText(const std::string & value)
             {
                 _label->setText(value);
             }
@@ -115,23 +115,23 @@ namespace djv
                 return _layout->getHeightForWidth(value);
             }
 
-            void TabBarButton::_preLayoutEvent(Event::PreLayout& event)
+            void TabBarButton::_preLayoutEvent(Event::PreLayout & event)
             {
                 _setMinimumSize(_layout->getMinimumSize());
             }
 
-            void TabBarButton::_layoutEvent(Event::Layout&)
+            void TabBarButton::_layoutEvent(Event::Layout &)
             {
                 _layout->setGeometry(getGeometry());
             }
 
-            void TabBarButton::_paintEvent(Event::Paint& event)
+            void TabBarButton::_paintEvent(Event::Paint & event)
             {
                 if (auto render = _getRender().lock())
                 {
                     if (auto style = _getStyle().lock())
                     {
-                        const BBox2f& g = getGeometry();
+                        const BBox2f & g = getGeometry();
 
                         // Draw the toggled state.
                         render->setFillColor(_getColorWithOpacity(style->getColor(_isToggled() ? ColorRole::Background : ColorRole::Border)));
@@ -258,12 +258,12 @@ namespace djv
             return _p->layout->getHeightForWidth(value);
         }
 
-        void TabBar::_preLayoutEvent(Event::PreLayout& event)
+        void TabBar::_preLayoutEvent(Event::PreLayout & event)
         {
             _setMinimumSize(_p->layout->getMinimumSize());
         }
 
-        void TabBar::_layoutEvent(Event::Layout& event)
+        void TabBar::_layoutEvent(Event::Layout & event)
         {
             if (auto style = _getStyle().lock())
             {

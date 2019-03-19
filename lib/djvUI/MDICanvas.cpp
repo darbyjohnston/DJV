@@ -348,7 +348,7 @@ namespace djv
                 }
             }
 
-            bool Canvas::_eventFilter(const std::shared_ptr<IObject>& object, Event::IEvent& event)
+            bool Canvas::_eventFilter(const std::shared_ptr<IObject>& object, Event::IEvent & event)
             {
                 DJV_PRIVATE_PTR();
                 /*{
@@ -361,7 +361,7 @@ namespace djv
                 case Event::Type::PointerEnter:
                 {
                     event.accept();
-                    Event::PointerEnter& pointerEnterEvent = static_cast<Event::PointerEnter&>(event);
+                    Event::PointerEnter & pointerEnterEvent = static_cast<Event::PointerEnter &>(event);
                     const auto & pointerInfo = pointerEnterEvent.getPointerInfo();
                     if (auto widget = std::dynamic_pointer_cast<IWidget>(object))
                     {
@@ -381,7 +381,7 @@ namespace djv
                 case Event::Type::PointerLeave:
                 {
                     event.accept();
-                    Event::PointerLeave& pointerLeaveEvent = static_cast<Event::PointerLeave&>(event);
+                    Event::PointerLeave & pointerLeaveEvent = static_cast<Event::PointerLeave &>(event);
                     const auto & pointerInfo = pointerLeaveEvent.getPointerInfo();
                     const auto i = p.hovered.find(pointerInfo.id);
                     if (i != p.hovered.end())
@@ -394,7 +394,7 @@ namespace djv
                 case Event::Type::PointerMove:
                 {
                     event.accept();
-                    Event::PointerMove& pointerMoveEvent = static_cast<Event::PointerMove&>(event);
+                    Event::PointerMove & pointerMoveEvent = static_cast<Event::PointerMove &>(event);
                     const auto & pointerInfo = pointerMoveEvent.getPointerInfo();
                     if (auto widget = std::dynamic_pointer_cast<IWidget>(object))
                     {
@@ -476,7 +476,7 @@ namespace djv
                 case Event::Type::ButtonPress:
                 {
                     event.accept();
-                    Event::ButtonPress& buttonPressEvent = static_cast<Event::ButtonPress&>(event);
+                    Event::ButtonPress & buttonPressEvent = static_cast<Event::ButtonPress &>(event);
                     const auto & pointerInfo = buttonPressEvent.getPointerInfo();
                     if (auto widget = std::dynamic_pointer_cast<IWidget>(object))
                     {
@@ -498,7 +498,7 @@ namespace djv
                 case Event::Type::ButtonRelease:
                 {
                     event.accept();
-                    Event::ButtonRelease& buttonReleaseEvent = static_cast<Event::ButtonRelease&>(event);
+                    Event::ButtonRelease & buttonReleaseEvent = static_cast<Event::ButtonRelease &>(event);
                     const auto & pointerInfo = buttonReleaseEvent.getPointerInfo();
                     const auto i = p.pressed.find(pointerInfo.id);
                     if (i != p.pressed.end())

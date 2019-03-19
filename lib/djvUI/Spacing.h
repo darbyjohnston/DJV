@@ -53,9 +53,9 @@ namespace djv
                 inline float get(Orientation, const std::shared_ptr<Style::Style>&) const;
 
                 inline MetricsRole operator [] (Orientation) const;
-                inline MetricsRole& operator [] (Orientation);
+                inline MetricsRole & operator [] (Orientation);
 
-                inline bool operator == (const Spacing&) const;
+                inline bool operator == (const Spacing &) const;
 
             private:
                 MetricsRole _value[2] =

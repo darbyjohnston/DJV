@@ -148,9 +148,9 @@ namespace djv
             class Locale : public IEvent
             {
             public:
-                inline Locale(const std::string&);
+                inline Locale(const std::string &);
 
-                inline const std::string& getLocale() const;
+                inline const std::string & getLocale() const;
 
             private:
                 std::string _locale;
@@ -195,10 +195,10 @@ namespace djv
             class Clip : public IEvent
             {
             public:
-                inline Clip(const BBox2f& clipRect);
+                inline Clip(const BBox2f & clipRect);
 
-                inline const BBox2f& getClipRect() const;
-                inline void setClipRect(const BBox2f&);
+                inline const BBox2f & getClipRect() const;
+                inline void setClipRect(const BBox2f &);
 
             private:
                 BBox2f _clipRect;
@@ -208,10 +208,10 @@ namespace djv
             class Paint : public IEvent
             {
             public:
-                inline Paint(const BBox2f& clipRect);
+                inline Paint(const BBox2f & clipRect);
 
-                inline const BBox2f& getClipRect() const;
-                inline void setClipRect(const BBox2f&);
+                inline const BBox2f & getClipRect() const;
+                inline void setClipRect(const BBox2f &);
 
             private:
                 BBox2f _clipRect;
@@ -222,10 +222,10 @@ namespace djv
             class PaintOverlay : public IEvent
             {
             public:
-                inline PaintOverlay(const BBox2f& clipRect);
+                inline PaintOverlay(const BBox2f & clipRect);
 
-                inline const BBox2f& getClipRect() const;
-                inline void setClipRect(const BBox2f&);
+                inline const BBox2f & getClipRect() const;
+                inline void setClipRect(const BBox2f &);
 
             private:
                 BBox2f _clipRect;
@@ -251,7 +251,7 @@ namespace djv
             class IPointer : public IEvent
             {
             protected:
-                inline IPointer(const PointerInfo&, Type);
+                inline IPointer(const PointerInfo &, Type);
 
             public:
                 inline ~IPointer() override = 0;
@@ -260,7 +260,7 @@ namespace djv
                 inline void setRejected(bool);
                 inline void reject();
 
-                inline const PointerInfo& getPointerInfo() const;
+                inline const PointerInfo & getPointerInfo() const;
 
             private:
                 bool _rejected = false;
@@ -271,44 +271,44 @@ namespace djv
             class PointerEnter : public IPointer
             {
             public:
-                inline PointerEnter(const PointerInfo&);
+                inline PointerEnter(const PointerInfo &);
             };
 
             //! This class provides a pointer leave event.
             class PointerLeave : public IPointer
             {
             public:
-                inline PointerLeave(const PointerInfo&);
+                inline PointerLeave(const PointerInfo &);
             };
 
             //! This class provides a pointer move event.
             class PointerMove : public IPointer
             {
             public:
-                inline PointerMove(const PointerInfo&);
+                inline PointerMove(const PointerInfo &);
             };
 
             //! This class provides a button press event.
             class ButtonPress : public IPointer
             {
             public:
-                inline ButtonPress(const PointerInfo&);
+                inline ButtonPress(const PointerInfo &);
             };
 
             //! This class provides a button release event.
             class ButtonRelease : public IPointer
             {
             public:
-                inline ButtonRelease(const PointerInfo&);
+                inline ButtonRelease(const PointerInfo &);
             };
 
             //! This class provides a scroll event.
             class Scroll : public IPointer
             {
             public:
-                inline Scroll(const glm::vec2& scrollDelta, const PointerInfo&);
+                inline Scroll(const glm::vec2 & scrollDelta, const PointerInfo &);
 
-                inline const glm::vec2& getScrollDelta() const;
+                inline const glm::vec2 & getScrollDelta() const;
 
             private:
                 glm::vec2 _scrollDelta;
@@ -318,7 +318,7 @@ namespace djv
             class Drop : public IPointer
             {
             public:
-                inline Drop(const std::vector<std::string>&, const PointerInfo&);
+                inline Drop(const std::vector<std::string>&, const PointerInfo &);
 
                 inline const std::vector<std::string>& getDropPaths() const;
 
@@ -330,7 +330,7 @@ namespace djv
             class IKey : public IPointer
             {
             protected:
-                inline IKey(int key, int keyModifiers, const PointerInfo&, Type);
+                inline IKey(int key, int keyModifiers, const PointerInfo &, Type);
                 
             public:
                 inline ~IKey() override = 0;
@@ -347,14 +347,14 @@ namespace djv
             class KeyPress : public IKey
             {
             public:
-                inline KeyPress(int key, int keyModifiers, const PointerInfo&);
+                inline KeyPress(int key, int keyModifiers, const PointerInfo &);
             };
 
             //! This class provides a key release event.
             class KeyRelease : public IKey
             {
             public:
-                inline KeyRelease(int key, int keyModifiers, const PointerInfo&);
+                inline KeyRelease(int key, int keyModifiers, const PointerInfo &);
             };
 
             //! This class provides a text focus event.
@@ -375,9 +375,9 @@ namespace djv
             class Text : public IEvent
             {
             public:
-                inline Text(const std::string& text, int texttModifiers);
+                inline Text(const std::string & text, int texttModifiers);
 
-                inline const std::string& getText() const;
+                inline const std::string & getText() const;
                 inline int getTextModifiers() const;
 
             private:

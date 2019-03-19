@@ -111,7 +111,7 @@ namespace djv
             return _rootObject;
         }
 
-        void Context::log(const std::string& prefix, const std::string& message, LogLevel level)
+        void Context::log(const std::string & prefix, const std::string & message, LogLevel level)
         {
             if (auto logSystem = getSystemT<LogSystem>().lock())
             {

@@ -83,12 +83,12 @@ namespace djv
             return out;
         }
 
-        const std::string& LineEdit::getText() const
+        const std::string & LineEdit::getText() const
         {
             return _p->lineEditBase->getText();
         }
 
-        void LineEdit::setText(const std::string& value)
+        void LineEdit::setText(const std::string & value)
         {
             _p->lineEditBase->setText(value);
         }
@@ -158,7 +158,7 @@ namespace djv
             _p->lineEditBase->setFocusCallback(callback);
         }
         
-        void LineEdit::_preLayoutEvent(Event::PreLayout& event)
+        void LineEdit::_preLayoutEvent(Event::PreLayout & event)
         {
             if (auto style = _getStyle().lock())
             {
@@ -167,7 +167,7 @@ namespace djv
             }
         }
 
-        void LineEdit::_layoutEvent(Event::Layout& event)
+        void LineEdit::_layoutEvent(Event::Layout & event)
         {
             if (auto style = _getStyle().lock())
             {

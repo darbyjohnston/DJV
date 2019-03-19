@@ -87,10 +87,10 @@ namespace djv
             virtual bool isEmpty() const = 0;
 
             //! Get whether the given key exists.
-            virtual bool hasKey(const T&) = 0;
+            virtual bool hasKey(const T &) = 0;
 
             //! Get a map item.
-            virtual const U& getItem(const T&) const = 0;
+            virtual const U & getItem(const T &) const = 0;
 
         protected:
             inline void _add(const std::weak_ptr<MapObserver<T, U> >&);
@@ -127,16 +127,16 @@ namespace djv
             inline void clear();
 
             //! Set a map item.
-            inline void setItem(const T&, const U&);
+            inline void setItem(const T &, const U &);
 
             //! Set a map item only if it has changed.
-            inline void setItemOnlyIfChanged(const T&, const U&);
+            inline void setItemOnlyIfChanged(const T &, const U &);
 
             inline const std::map<T, U>& get() const override;
             inline size_t getSize() const override;
             inline bool isEmpty() const override;
-            inline bool hasKey(const T&) override;
-            inline const U& getItem(const T&) const override;
+            inline bool hasKey(const T &) override;
+            inline const U & getItem(const T &) const override;
 
         private:
             std::map<T, U> _value;

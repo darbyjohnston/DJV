@@ -59,16 +59,16 @@ namespace djv
                 std::shared_ptr<Core::IMapSubject<std::string, UI::Style::Palette> > observePalettes() const;
                 std::shared_ptr<Core::IValueSubject<UI::Style::Palette> > observeCurrentPalette() const;
                 std::shared_ptr<Core::IValueSubject<std::string> > observeCurrentPaletteName() const;
-                void setCurrentPalette(const std::string&);
+                void setCurrentPalette(const std::string &);
 
                 std::shared_ptr<Core::IMapSubject<std::string, UI::Style::Metrics> > observeMetrics() const;
                 std::shared_ptr<Core::IValueSubject<UI::Style::Metrics> > observeCurrentMetrics() const;
                 std::shared_ptr<Core::IValueSubject<std::string> > observeCurrentMetricsName() const;
-                void setCurrentMetrics(const std::string&);
+                void setCurrentMetrics(const std::string &);
 
                 std::shared_ptr<Core::IValueSubject<std::string> > observeCurrentFont() const;
 
-                void load(const picojson::value&) override;
+                void load(const picojson::value &) override;
                 picojson::value save() override;
 
             private:

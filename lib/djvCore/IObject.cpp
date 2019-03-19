@@ -198,7 +198,7 @@ namespace djv
             }
         }
 
-        bool IObject::event(Event::IEvent& event)
+        bool IObject::event(Event::IEvent & event)
         {
             bool out = _eventFilter(event);
             if (!out)
@@ -207,28 +207,28 @@ namespace djv
                 {
                 case Event::Type::ParentChanged:
                 {
-                    auto& parentChangedEvent = static_cast<Event::ParentChanged&>(event);
+                    auto & parentChangedEvent = static_cast<Event::ParentChanged &>(event);
                     if (!parentChangedEvent.getPrevParent() && parentChangedEvent.getNewParent())
                     {
                         _localeInit = false;
                     }
-                    _parentChangedEvent(static_cast<Event::ParentChanged&>(event));
+                    _parentChangedEvent(static_cast<Event::ParentChanged &>(event));
                     break;
                 }
                 case Event::Type::ChildAdded:
-                    _childAddedEvent(static_cast<Event::ChildAdded&>(event));
+                    _childAddedEvent(static_cast<Event::ChildAdded &>(event));
                     break;
                 case Event::Type::ChildRemoved:
-                    _childRemovedEvent(static_cast<Event::ChildRemoved&>(event));
+                    _childRemovedEvent(static_cast<Event::ChildRemoved &>(event));
                     break;
                 case Event::Type::ChildOrder:
-                    _childOrderEvent(static_cast<Event::ChildOrder&>(event));
+                    _childOrderEvent(static_cast<Event::ChildOrder &>(event));
                     break;
                 case Event::Type::Locale:
-                    _localeEvent(static_cast<Event::Locale&>(event));
+                    _localeEvent(static_cast<Event::Locale &>(event));
                     break;
                 case Event::Type::Update:
-                    _updateEvent(static_cast<Event::Update&>(event));
+                    _updateEvent(static_cast<Event::Update &>(event));
                     break;
                 default: break;
                 }
@@ -247,12 +247,12 @@ namespace djv
             return _context->getText(id);
         }
 
-        void IObject::_log(const std::string& message, LogLevel level)
+        void IObject::_log(const std::string & message, LogLevel level)
         {
             _context->log(_className, message, level);
         }
 
-        bool IObject::_eventFilter(Event::IEvent& event)
+        bool IObject::_eventFilter(Event::IEvent & event)
         {
             bool filtered = false;
             auto i = _filters.begin();

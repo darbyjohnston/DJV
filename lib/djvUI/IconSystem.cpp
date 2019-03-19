@@ -53,14 +53,14 @@ namespace djv
                 ImageRequest()
                 {}
 
-                ImageRequest(ImageRequest&& other) :
+                ImageRequest(ImageRequest && other) :
                     path(other.path),
                     queue(std::move(other.queue)),
                     read(std::move(other.read)),
                     promise(std::move(other.promise))
                 {}
 
-                ImageRequest& operator = (ImageRequest&& other)
+                ImageRequest & operator = (ImageRequest && other)
                 {
                     if (this != &other)
                     {
@@ -137,7 +137,7 @@ namespace djv
                 try
                 {
                     // Find the DPI values.
-                    for (const auto& i : FileSystem::FileInfo::directoryList(context->getPath(FileSystem::ResourcePath::IconsDirectory)))
+                    for (const auto & i : FileSystem::FileInfo::directoryList(context->getPath(FileSystem::ResourcePath::IconsDirectory)))
                     {
                         const std::string fileName = i.getFileName(Frame::Invalid, false);
                         const size_t size = fileName.size();
@@ -248,7 +248,7 @@ namespace djv
                             i.read = io->read(i.path, i.queue);
                             p.pendingImageRequests.push_back(std::move(i));
                         }
-                        catch (const std::exception& e)
+                        catch (const std::exception & e)
                         {
                             try
                             {

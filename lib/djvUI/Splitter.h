@@ -81,7 +81,7 @@ namespace djv
                 void _preLayoutEvent(Core::Event::PreLayout &) override;
                 void _layoutEvent(Core::Event::Layout &) override;
                 void _paintEvent(Core::Event::Paint &) override;
-                void _pointerLeaveEvent(Core::Event::PointerLeave&) override;
+                void _pointerLeaveEvent(Core::Event::PointerLeave &) override;
                 void _pointerMoveEvent(Core::Event::PointerMove &) override;
                 void _buttonPressEvent(Core::Event::ButtonPress &) override;
                 void _buttonReleaseEvent(Core::Event::ButtonRelease &) override;

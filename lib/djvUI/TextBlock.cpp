@@ -87,19 +87,19 @@ namespace djv
             return out;
         }
 
-        std::shared_ptr<TextBlock> TextBlock::create(const std::string& text, Context * context)
+        std::shared_ptr<TextBlock> TextBlock::create(const std::string & text, Context * context)
         {
             auto out = TextBlock::create(context);
             out->setText(text);
             return out;
         }
 
-        const std::string& TextBlock::getText() const
+        const std::string & TextBlock::getText() const
         {
             return _p->text;
         }
 
-        void TextBlock::setText(const std::string& value)
+        void TextBlock::setText(const std::string & value)
         {
             DJV_PRIVATE_PTR();
             if (value == p.text)
@@ -224,12 +224,12 @@ namespace djv
             return out;
         }
 
-        void TextBlock::_styleEvent(Event::Style& event)
+        void TextBlock::_styleEvent(Event::Style & event)
         {
             _textUpdate();
         }
 
-        void TextBlock::_preLayoutEvent(Event::PreLayout& event)
+        void TextBlock::_preLayoutEvent(Event::PreLayout & event)
         {
             if (auto style = _getStyle().lock())
             {
@@ -240,7 +240,7 @@ namespace djv
                     {
                         p.fontMetrics = p.fontMetricsFuture.get();
                     }
-                    catch (const std::exception& e)
+                    catch (const std::exception & e)
                     {
                         _log(e.what(), LogLevel::Error);
                     }
@@ -251,7 +251,7 @@ namespace djv
                     {
                         p.textSize = p.textSizeFuture.get();
                     }
-                    catch (const std::exception& e)
+                    catch (const std::exception & e)
                     {
                         _log(e.what(), LogLevel::Error);
                     }
@@ -263,14 +263,14 @@ namespace djv
             }
         }
 
-        void TextBlock::_layoutEvent(Event::Layout& event)
+        void TextBlock::_layoutEvent(Event::Layout & event)
         {
             if (auto style = _getStyle().lock())
             {
                 if (auto fontSystem = _getFontSystem().lock())
                 {
                     DJV_PRIVATE_PTR();
-                    const BBox2f& g = getMargin().bbox(getGeometry(), style);
+                    const BBox2f & g = getMargin().bbox(getGeometry(), style);
                     const auto fontInfo = p.fontFamily.empty() ?
                         style->getFontInfo(p.fontFace, p.fontSizeRole) :
                         style->getFontInfo(p.fontFamily, p.fontFace, p.fontSizeRole);
@@ -289,12 +289,12 @@ namespace djv
             }
         }
 
-        void TextBlock::_clipEvent(Event::Clip& event)
+        void TextBlock::_clipEvent(Event::Clip & event)
         {
             _p->clipRect = event.getClipRect();
         }
 
-        void TextBlock::_paintEvent(Event::Paint& event)
+        void TextBlock::_paintEvent(Event::Paint & event)
         {
             Widget::_paintEvent(event);
             if (auto render = _getRender().lock())
@@ -304,7 +304,7 @@ namespace djv
                     DJV_PRIVATE_PTR();
                     if (p.textSize.x > 0.f && p.textSize.y > 0.f)
                     {
-                        const BBox2f& g = getMargin().bbox(getGeometry(), style);
+                        const BBox2f & g = getMargin().bbox(getGeometry(), style);
                         const glm::vec2 c = g.getCenter();
 
                         if (p.textLinesFuture.valid())
@@ -315,7 +315,7 @@ namespace djv
                         render->setCurrentFont(p.fontFamily.empty() ?
                             style->getFontInfo(p.fontFace, p.fontSizeRole) :
                             style->getFontInfo(p.fontFamily, p.fontFace, p.fontSizeRole));
-                        for (const auto& line : p.textLines)
+                        for (const auto & line : p.textLines)
                         {
                             if (pos.y + line.size.y >= p.clipRect.min.y && pos.y <= p.clipRect.max.y)
                             {
@@ -350,7 +350,7 @@ namespace djv
             {
                 if (auto fontSystem = _getFontSystem().lock())
                 {
-                    const BBox2f& g = getMargin().bbox(getGeometry(), style);
+                    const BBox2f & g = getMargin().bbox(getGeometry(), style);
 
                     DJV_PRIVATE_PTR();
                     auto fontInfo = p.fontFamily.empty() ?

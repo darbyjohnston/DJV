@@ -54,7 +54,7 @@ namespace djv
                 {
                     close();
                 }
-                catch (const std::exception&)
+                catch (const std::exception &)
                 {
                 }
             }
@@ -77,7 +77,7 @@ namespace djv
                 return *this;
             }
 
-            void FileIO::readContents(FileIO& fileIO, std::string& out)
+            void FileIO::readContents(FileIO& fileIO, std::string & out)
             {
                 const uint8_t* p = fileIO.mmapP();
                 const uint8_t* end = fileIO.mmapEnd();
@@ -157,7 +157,7 @@ namespace djv
                 out[i] = 0;
             }
 
-            std::vector<std::string> FileIO::readLines(const std::string& fileName)
+            std::vector<std::string> FileIO::readLines(const std::string & fileName)
             {
                 std::vector<std::string> out;
                 FileIO io;

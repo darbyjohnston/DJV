@@ -65,19 +65,19 @@ namespace djv
                 void setCloseCallback(const std::function<void(void)> &);
 
             protected:
-                void _styleEvent(Event::Style&) override;
-                void _preLayoutEvent(Event::PreLayout&) override;
-                void _layoutEvent(Event::Layout&) override;
-                void _paintEvent(Event::Paint&) override;
-                void _pointerEnterEvent(Event::PointerEnter&) override;
-                void _pointerLeaveEvent(Event::PointerLeave&) override;
-                void _pointerMoveEvent(Event::PointerMove&) override;
-                void _buttonPressEvent(Event::ButtonPress&) override;
-                void _buttonReleaseEvent(Event::ButtonRelease&) override;
+                void _styleEvent(Event::Style &) override;
+                void _preLayoutEvent(Event::PreLayout &) override;
+                void _layoutEvent(Event::Layout &) override;
+                void _paintEvent(Event::Paint &) override;
+                void _pointerEnterEvent(Event::PointerEnter &) override;
+                void _pointerLeaveEvent(Event::PointerLeave &) override;
+                void _pointerMoveEvent(Event::PointerMove &) override;
+                void _buttonPressEvent(Event::ButtonPress &) override;
+                void _buttonReleaseEvent(Event::ButtonRelease &) override;
 
                 std::shared_ptr<Widget> _createTooltip(const glm::vec2 & pos) override;
 
-                void _updateEvent(Event::Update&) override;
+                void _updateEvent(Event::Update &) override;
 
             private:
                 struct Item
@@ -148,7 +148,7 @@ namespace djv
                 _closeCallback = value;
             }
 
-            void MenuWidget::_styleEvent(Event::Style&)
+            void MenuWidget::_styleEvent(Event::Style &)
             {
                 auto context = getContext();
                 if (auto style = _getStyle().lock())
@@ -162,7 +162,7 @@ namespace djv
                 _itemsUpdate();
             }
 
-            void MenuWidget::_preLayoutEvent(Event::PreLayout&)
+            void MenuWidget::_preLayoutEvent(Event::PreLayout &)
             {
                 if (auto style = _getStyle().lock())
                 {
@@ -177,7 +177,7 @@ namespace djv
                         {
                             _fontMetrics = _fontMetricsFuture.get();
                         }
-                        catch (const std::exception& e)
+                        catch (const std::exception & e)
                         {
                             _log(e.what(), LogLevel::Error);
                         }
@@ -190,7 +190,7 @@ namespace djv
                             {
                                 i.first->titleSize = i.second.get();
                             }
-                            catch (const std::exception& e)
+                            catch (const std::exception & e)
                             {
                                 _log(e.what(), LogLevel::Error);
                             }
@@ -204,7 +204,7 @@ namespace djv
                             {
                                 i.first->shortcutSize = i.second.get();
                             }
-                            catch (const std::exception& e)
+                            catch (const std::exception & e)
                             {
                                 _log(e.what(), LogLevel::Error);
                             }
@@ -268,7 +268,7 @@ namespace djv
                 }
             }
 
-            void MenuWidget::_layoutEvent(Event::Layout&)
+            void MenuWidget::_layoutEvent(Event::Layout &)
             {
                 if (auto style = _getStyle().lock())
                 {
@@ -285,7 +285,7 @@ namespace djv
                 }
             }
 
-            void MenuWidget::_paintEvent(Event::Paint& event)
+            void MenuWidget::_paintEvent(Event::Paint & event)
             {
                 Widget::_paintEvent(event);
                 if (auto render = _getRender().lock())
@@ -327,7 +327,7 @@ namespace djv
                             {
                                 _checkedIcon = _checkedIconFuture.get();
                             }
-                            catch (const std::exception& e)
+                            catch (const std::exception & e)
                             {
                                 _log(e.what(), LogLevel::Error);
                             }
@@ -374,7 +374,7 @@ namespace djv
                 }
             }
 
-            void MenuWidget::_pointerEnterEvent(Event::PointerEnter& event)
+            void MenuWidget::_pointerEnterEvent(Event::PointerEnter & event)
             {
                 event.accept();
                 const auto & pointerInfo = event.getPointerInfo();
@@ -385,7 +385,7 @@ namespace djv
                 _redraw();
             }
 
-            void MenuWidget::_pointerLeaveEvent(Event::PointerLeave& event)
+            void MenuWidget::_pointerLeaveEvent(Event::PointerLeave & event)
             {
                 event.accept();
                 const auto & pointerInfo = event.getPointerInfo();
@@ -397,7 +397,7 @@ namespace djv
                 _redraw();
             }
 
-            void MenuWidget::_pointerMoveEvent(Event::PointerMove& event)
+            void MenuWidget::_pointerMoveEvent(Event::PointerMove & event)
             {
                 event.accept();
                 const auto & pointerInfo = event.getPointerInfo();
@@ -431,7 +431,7 @@ namespace djv
                 }
             }
 
-            void MenuWidget::_buttonPressEvent(Event::ButtonPress& event)
+            void MenuWidget::_buttonPressEvent(Event::ButtonPress & event)
             {
                 if (!isEnabled(true) || _pressed.second)
                     return;
@@ -451,7 +451,7 @@ namespace djv
                 }
             }
 
-            void MenuWidget::_buttonReleaseEvent(Event::ButtonRelease& event)
+            void MenuWidget::_buttonReleaseEvent(Event::ButtonRelease & event)
             {
                 const auto & pointerInfo = event.getPointerInfo();
                 const auto id = pointerInfo.id;
@@ -516,7 +516,7 @@ namespace djv
                 return !text.empty() ? _createTooltipDefault(text) : nullptr;
             }
 
-            void MenuWidget::_updateEvent(Event::Update&)
+            void MenuWidget::_updateEvent(Event::Update &)
             {
                 if (_textUpdateRequest)
                 {
@@ -675,8 +675,8 @@ namespace djv
                 void setCloseCallback(const std::function<void(void)> &);
 
             protected:
-                void _preLayoutEvent(Event::PreLayout&) override;
-                void _layoutEvent(Event::Layout&) override;
+                void _preLayoutEvent(Event::PreLayout &) override;
+                void _layoutEvent(Event::Layout &) override;
                 void _buttonPressEvent(Event::ButtonPress &) override;
                 void _buttonReleaseEvent(Event::ButtonRelease &) override;
 
@@ -756,8 +756,8 @@ namespace djv
                 void removeChild(const std::shared_ptr<IObject>&) override;
 
             protected:
-                void _layoutEvent(Event::Layout&) override;
-                void _paintEvent(Event::Paint&) override;
+                void _layoutEvent(Event::Layout &) override;
+                void _paintEvent(Event::Paint &) override;
 
             private:
                 std::map<std::shared_ptr<Widget>, glm::vec2> _widgetToPos;
@@ -807,7 +807,7 @@ namespace djv
                 }
             }
 
-            void MenuOverlayLayout::_layoutEvent(Event::Layout&)
+            void MenuOverlayLayout::_layoutEvent(Event::Layout &)
             {
                 const BBox2f & g = getGeometry();
                 for (const auto & i : _widgetToPos)
@@ -874,7 +874,7 @@ namespace djv
                 }
             }
 
-            void MenuOverlayLayout::_paintEvent(Event::Paint& event)
+            void MenuOverlayLayout::_paintEvent(Event::Paint & event)
             {
                 Widget::_paintEvent(event);
                 if (auto render = _getRender().lock())

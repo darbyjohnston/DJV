@@ -60,7 +60,7 @@ namespace djv
                 inline Sequence();
                 inline Sequence(Number);
                 inline Sequence(Number min, Number max);
-                inline Sequence(const Range&, size_t pad = 0);
+                inline Sequence(const Range &, size_t pad = 0);
                 inline Sequence(const std::vector<Range>&, size_t pad = 0);
 
                 std::vector<Range> ranges;
@@ -76,47 +76,47 @@ namespace djv
                 
                 ///@}
 
-                inline bool operator == (const Sequence&) const;
-                inline bool operator != (const Sequence&) const;
+                inline bool operator == (const Sequence &) const;
+                inline bool operator != (const Sequence &) const;
             };
 
             //! \name Utilities
             ///@{
 
-            inline bool isValid(const Range&);
+            inline bool isValid(const Range &);
 
             inline Number getFrame(const std::vector<Number>&, Index index);
 
-            void sort(Range&);
+            void sort(Range &);
 
             ///@}
 
             //! \name Conversion
             ///@{
 
-            inline std::vector<Number> toFrames(const Range&);
-            inline std::vector<Number> toFrames(const Sequence&);
+            inline std::vector<Number> toFrames(const Range &);
+            inline std::vector<Number> toFrames(const Sequence &);
             Sequence fromFrames(const std::vector<Number>&);
 
             inline std::string toString(Number, size_t pad);
-            inline std::string toString(const Range&, size_t pad);
-            inline std::string toString(const Sequence&);
+            inline std::string toString(const Range &, size_t pad);
+            inline std::string toString(const Sequence &);
 
             //! Throws:
             //! - std::exception
-            inline void fromString(const std::string&, Range&, size_t& pad);
+            inline void fromString(const std::string &, Range &, size_t & pad);
 
             //! Throws:
             //! - std::exception
-            inline void fromString(const std::string&, Sequence&);
+            inline void fromString(const std::string &, Sequence &);
 
             ///@}
 
         } // namespace Frame
     } // namespace Core
 
-    std::ostream& operator << (std::ostream&, const Core::Frame::Sequence&);
-    std::istream& operator >> (std::istream&, Core::Frame::Sequence&);
+    std::ostream & operator << (std::ostream &, const Core::Frame::Sequence &);
+    std::istream & operator >> (std::istream &, Core::Frame::Sequence &);
 
 } // namespace djv
 

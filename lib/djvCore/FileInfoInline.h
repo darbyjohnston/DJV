@@ -78,7 +78,7 @@ namespace djv
                     "#" == _path.getNumber();
             }
 
-            inline bool FileInfo::sequenceContains(const FileInfo& value) const
+            inline bool FileInfo::sequenceContains(const FileInfo & value) const
             {
                 if (!isSequenceValid())
                     return false;
@@ -91,11 +91,11 @@ namespace djv
                 return true;
             }
 
-            inline bool FileInfo::addToSequence(const FileInfo& value)
+            inline bool FileInfo::addToSequence(const FileInfo & value)
             {
                 if (sequenceContains(value))
                 {
-                    for (const auto& range : value._sequence.ranges)
+                    for (const auto & range : value._sequence.ranges)
                     {
                         _sequence.ranges.push_back(range);
                     }
@@ -117,7 +117,7 @@ namespace djv
                 return false;
             }
 
-            inline bool FileInfo::operator == (const FileInfo& in) const
+            inline bool FileInfo::operator == (const FileInfo & in) const
             {
                 return
                     in._path == _path &&
@@ -128,12 +128,12 @@ namespace djv
                     in._time == _time;
             }
 
-            inline bool FileInfo::operator != (const FileInfo& in) const
+            inline bool FileInfo::operator != (const FileInfo & in) const
             {
                 return !(in == *this);
             }
 
-            inline bool FileInfo::operator < (const FileInfo& in) const
+            inline bool FileInfo::operator < (const FileInfo & in) const
             {
                 return in._path.get() < _path.get();
             }

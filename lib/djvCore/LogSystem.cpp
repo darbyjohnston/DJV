@@ -65,8 +65,8 @@ namespace djv
                 Message()
                 {}
                 Message(
-                    const std::string& prefix,
-                    const std::string& text,
+                    const std::string & prefix,
+                    const std::string & text,
                     LogLevel level) :
                     prefix(prefix),
                     text(text),
@@ -91,7 +91,7 @@ namespace djv
             std::atomic<bool> running;
         };
 
-        void LogSystem::_init(const FileSystem::Path& path, Context * context)
+        void LogSystem::_init(const FileSystem::Path & path, Context * context)
         {
             ISystem::_init(name, context);
 
@@ -156,14 +156,14 @@ namespace djv
             }
         }
         
-        std::shared_ptr<LogSystem> LogSystem::create(const FileSystem::Path& logFile, Context * context)
+        std::shared_ptr<LogSystem> LogSystem::create(const FileSystem::Path & logFile, Context * context)
         {
             auto out = std::shared_ptr<LogSystem>(new LogSystem);
             out->_init(logFile, context);
             return out;
         }
 
-        void LogSystem::log(const std::string& prefix, const std::string& message, LogLevel level)
+        void LogSystem::log(const std::string & prefix, const std::string & message, LogLevel level)
         {
             DJV_PRIVATE_PTR();
             {
@@ -191,7 +191,7 @@ namespace djv
                 FileSystem::FileIO io;
                 io.open(p.path, FileSystem::FileIO::Mode::Append);
                 io.seek(io.getSize());
-                for (const auto& message : p.messages)
+                for (const auto & message : p.messages)
                 {
                     std::string line;
                     std::stringstream s(message.text);
@@ -206,7 +206,7 @@ namespace djv
                         s2 << std::right;
                         s2 << std::setw(32);
                         s2 << message.prefix << " | ";
-                        const auto& label = labels[message.level];
+                        const auto & label = labels[message.level];
                         if (!label.empty())
                         {
                             s2 << label << " ";
@@ -221,7 +221,7 @@ namespace djv
                 }
                 p.messages.clear();
             }
-            catch (const std::exception& e)
+            catch (const std::exception & e)
             {
                 std::cerr << name << ": " << e.what() << std::endl;
             }

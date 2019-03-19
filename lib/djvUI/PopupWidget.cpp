@@ -63,8 +63,8 @@ namespace djv
                 void addChild(const std::shared_ptr<IObject> &) override;
 
             protected:
-                void _preLayoutEvent(Event::PreLayout&) override;
-                void _layoutEvent(Event::Layout&) override;
+                void _preLayoutEvent(Event::PreLayout &) override;
+                void _layoutEvent(Event::Layout &) override;
                 void _buttonPressEvent(Event::ButtonPress &) override;
                 void _buttonReleaseEvent(Event::ButtonRelease &) override;
 
@@ -133,8 +133,8 @@ namespace djv
                 void removeChild(const std::shared_ptr<IObject>&) override;
 
             protected:
-                void _layoutEvent(Event::Layout&) override;
-                void _paintEvent(Event::Paint&) override;
+                void _layoutEvent(Event::Layout &) override;
+                void _paintEvent(Event::Paint &) override;
 
             private:
                 std::map<std::shared_ptr<Widget>, std::weak_ptr<Widget> > _widgetToButton;
@@ -173,7 +173,7 @@ namespace djv
                 }
             }
 
-            void OverlayLayout::_layoutEvent(Event::Layout&)
+            void OverlayLayout::_layoutEvent(Event::Layout &)
             {
                 const BBox2f & g = getGeometry();
                 for (const auto & i : _widgetToButton)
@@ -214,7 +214,7 @@ namespace djv
                 }
             }
 
-            void OverlayLayout::_paintEvent(Event::Paint& event)
+            void OverlayLayout::_paintEvent(Event::Paint & event)
             {
                 Widget::_paintEvent(event);
                 if (auto render = _getRender().lock())
@@ -354,22 +354,22 @@ namespace djv
             p.overlay->hide();
         }
 
-        const std::string& PopupWidget::getIcon() const
+        const std::string & PopupWidget::getIcon() const
         {
             return _p->button->getIcon();
         }
 
-        void PopupWidget::setIcon(const std::string& value)
+        void PopupWidget::setIcon(const std::string & value)
         {
             _p->button->setIcon(value);
         }
 
-        const std::string& PopupWidget::getText() const
+        const std::string & PopupWidget::getText() const
         {
             return _p->button->getText();
         }
 
-        void PopupWidget::setText(const std::string& value)
+        void PopupWidget::setText(const std::string & value)
         {
             _p->button->setText(value);
         }
@@ -404,12 +404,12 @@ namespace djv
             _p->overlayWidget->removeChild(value);
         }
 
-        void PopupWidget::_preLayoutEvent(Event::PreLayout& event)
+        void PopupWidget::_preLayoutEvent(Event::PreLayout & event)
         {
             _setMinimumSize(_p->button->getMinimumSize());
         }
 
-        void PopupWidget::_layoutEvent(Event::Layout& event)
+        void PopupWidget::_layoutEvent(Event::Layout & event)
         {
             _p->button->setGeometry(getGeometry());
         }

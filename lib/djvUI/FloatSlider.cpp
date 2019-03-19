@@ -126,7 +126,7 @@ namespace djv
             _p->delay = value;
         }
 
-        void BasicFloatSlider::_preLayoutEvent(Event::PreLayout& event)
+        void BasicFloatSlider::_preLayoutEvent(Event::PreLayout & event)
         {
             DJV_PRIVATE_PTR();
             if (auto style = _getStyle().lock())
@@ -137,7 +137,7 @@ namespace djv
             }
         }
 
-        void BasicFloatSlider::_paintEvent(Event::Paint& event)
+        void BasicFloatSlider::_paintEvent(Event::Paint & event)
         {
             Widget::_paintEvent(event);
             DJV_PRIVATE_PTR();
@@ -171,7 +171,7 @@ namespace djv
             }
         }
 
-        void BasicFloatSlider::_pointerEnterEvent(Event::PointerEnter& event)
+        void BasicFloatSlider::_pointerEnterEvent(Event::PointerEnter & event)
         {
             if (!event.isRejected())
             {
@@ -183,7 +183,7 @@ namespace djv
             }
         }
 
-        void BasicFloatSlider::_pointerLeaveEvent(Event::PointerLeave& event)
+        void BasicFloatSlider::_pointerLeaveEvent(Event::PointerLeave & event)
         {
             event.accept();
             if (isEnabled(true))
@@ -192,7 +192,7 @@ namespace djv
             }
         }
 
-        void BasicFloatSlider::_pointerMoveEvent(Event::PointerMove& event)
+        void BasicFloatSlider::_pointerMoveEvent(Event::PointerMove & event)
         {
             DJV_PRIVATE_PTR();
             event.accept();
@@ -224,7 +224,7 @@ namespace djv
             }
         }
 
-        void BasicFloatSlider::_buttonPressEvent(Event::ButtonPress& event)
+        void BasicFloatSlider::_buttonPressEvent(Event::ButtonPress & event)
         {
             DJV_PRIVATE_PTR();
             if (p.pressedID)
@@ -256,7 +256,7 @@ namespace djv
             _redraw();
         }
 
-        void BasicFloatSlider::_buttonReleaseEvent(Event::ButtonRelease& event)
+        void BasicFloatSlider::_buttonReleaseEvent(Event::ButtonRelease & event)
         {
             DJV_PRIVATE_PTR();
             const auto & pointerInfo = event.getPointerInfo();
@@ -437,7 +437,7 @@ namespace djv
             _p->slider->setDelay(value);
         }
 
-        void FloatSlider::_preLayoutEvent(Event::PreLayout& event)
+        void FloatSlider::_preLayoutEvent(Event::PreLayout & event)
         {
             if (auto style = _getStyle().lock())
             {
@@ -445,7 +445,7 @@ namespace djv
             }
         }
 
-        void FloatSlider::_layoutEvent(Event::Layout& event)
+        void FloatSlider::_layoutEvent(Event::Layout & event)
         {
             if (auto style = _getStyle().lock())
             {

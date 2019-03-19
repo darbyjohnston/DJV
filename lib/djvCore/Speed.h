@@ -94,8 +94,8 @@ namespace djv
 
     DJV_ENUM_SERIALIZE_HELPERS(Core::Time::Speed::FPS);
 
-    std::ostream& operator << (std::ostream &, const Core::Time::Speed &);
-    std::istream& operator >> (std::istream &, Core::Time::Speed &);
+    std::ostream & operator << (std::ostream &, const Core::Time::Speed &);
+    std::istream & operator >> (std::istream &, Core::Time::Speed &);
 
 } // namespace djv
 

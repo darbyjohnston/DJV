@@ -80,7 +80,7 @@ namespace djv
                 _p->files->setIfChanged(value);
             }
 
-            void RecentFilesModel::addFile(const FileInfo& value)
+            void RecentFilesModel::addFile(const FileInfo & value)
             {
                 DJV_PRIVATE_PTR();
                 std::vector<FileInfo> list = p.files->get();

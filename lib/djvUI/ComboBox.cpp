@@ -224,12 +224,12 @@ namespace djv
             _p->callback = value;
         }
 
-        void ComboBox::_preLayoutEvent(Event::PreLayout& event)
+        void ComboBox::_preLayoutEvent(Event::PreLayout & event)
         {
             _setMinimumSize(_p->button->getMinimumSize());
         }
 
-        void ComboBox::_layoutEvent(Event::Layout& event)
+        void ComboBox::_layoutEvent(Event::Layout & event)
         {
             _p->button->setGeometry(getGeometry());
         }

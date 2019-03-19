@@ -64,13 +64,13 @@ namespace djv
             void setDelay(std::chrono::milliseconds);
 
         protected:
-            void _preLayoutEvent(Core::Event::PreLayout&) override;
-            void _paintEvent(Core::Event::Paint&) override;
-            void _pointerEnterEvent(Core::Event::PointerEnter&) override;
-            void _pointerLeaveEvent(Core::Event::PointerLeave&) override;
-            void _pointerMoveEvent(Core::Event::PointerMove&) override;
-            void _buttonPressEvent(Core::Event::ButtonPress&) override;
-            void _buttonReleaseEvent(Core::Event::ButtonRelease&) override;
+            void _preLayoutEvent(Core::Event::PreLayout &) override;
+            void _paintEvent(Core::Event::Paint &) override;
+            void _pointerEnterEvent(Core::Event::PointerEnter &) override;
+            void _pointerLeaveEvent(Core::Event::PointerLeave &) override;
+            void _pointerMoveEvent(Core::Event::PointerMove &) override;
+            void _buttonPressEvent(Core::Event::ButtonPress &) override;
+            void _buttonReleaseEvent(Core::Event::ButtonRelease &) override;
 
         private:
             ColorRole _getColorRole() const;
@@ -108,8 +108,8 @@ namespace djv
             void setDelay(std::chrono::milliseconds);
 
         protected:
-            void _preLayoutEvent(Core::Event::PreLayout&) override;
-            void _layoutEvent(Core::Event::Layout&) override;
+            void _preLayoutEvent(Core::Event::PreLayout &) override;
+            void _layoutEvent(Core::Event::Layout &) override;
 
         private:
             DJV_PRIVATE();

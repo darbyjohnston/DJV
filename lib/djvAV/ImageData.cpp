@@ -56,7 +56,7 @@ namespace djv
                 delete[] _data;
             }
 
-            std::shared_ptr<Data> Data::create(const Info& info)
+            std::shared_ptr<Data> Data::create(const Info & info)
             {
                 auto out = std::shared_ptr<Data>(new Data);
                 out->_init(info);

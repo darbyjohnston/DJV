@@ -99,7 +99,7 @@ namespace djv
             }
         }
 
-        void TimelineSlider::_styleEvent(Event::Style&)
+        void TimelineSlider::_styleEvent(Event::Style &)
         {
             if (auto style = _getStyle().lock())
             {
@@ -113,7 +113,7 @@ namespace djv
             }
         }
 
-        void TimelineSlider::_preLayoutEvent(Event::PreLayout& event)
+        void TimelineSlider::_preLayoutEvent(Event::PreLayout & event)
         {
             DJV_PRIVATE_PTR();
             if (auto style = _getStyle().lock())
@@ -127,7 +127,7 @@ namespace djv
             }
         }
 
-        void TimelineSlider::_paintEvent(Event::Paint& event)
+        void TimelineSlider::_paintEvent(Event::Paint & event)
         {
             DJV_PRIVATE_PTR();
             if (auto render = _getRender().lock())
@@ -169,7 +169,7 @@ namespace djv
             }
         }
 
-        void TimelineSlider::_pointerEnterEvent(Event::PointerEnter& event)
+        void TimelineSlider::_pointerEnterEvent(Event::PointerEnter & event)
         {
             if (!event.isRejected())
             {
@@ -179,7 +179,7 @@ namespace djv
             }
         }
 
-        void TimelineSlider::_pointerLeaveEvent(Event::PointerLeave& event)
+        void TimelineSlider::_pointerLeaveEvent(Event::PointerLeave & event)
         {
             event.accept();
             auto i = _p->hover.find(event.getPointerInfo().id);
@@ -190,11 +190,11 @@ namespace djv
             }
         }
 
-        void TimelineSlider::_pointerMoveEvent(Event::PointerMove& event)
+        void TimelineSlider::_pointerMoveEvent(Event::PointerMove & event)
         {
             const auto id = event.getPointerInfo().id;
-            const auto& pos = event.getPointerInfo().projectedPos;
-            const BBox2f& g = getGeometry();
+            const auto & pos = event.getPointerInfo().projectedPos;
+            const BBox2f & g = getGeometry();
             _p->hover[id] = g.contains(pos);
             if (_p->hover[id] || _p->pressedID)
             {
@@ -210,13 +210,13 @@ namespace djv
             }
         }
 
-        void TimelineSlider::_buttonPressEvent(Event::ButtonPress& event)
+        void TimelineSlider::_buttonPressEvent(Event::ButtonPress & event)
         {
             if (_p->pressedID)
                 return;
             const auto id = event.getPointerInfo().id;
-            const auto& pos = event.getPointerInfo().projectedPos;
-            const BBox2f& g = getGeometry();
+            const auto & pos = event.getPointerInfo().projectedPos;
+            const BBox2f & g = getGeometry();
             if (_p->hover[id])
             {
                 event.accept();
@@ -229,7 +229,7 @@ namespace djv
             }
         }
 
-        void TimelineSlider::_buttonReleaseEvent(Event::ButtonRelease& event)
+        void TimelineSlider::_buttonReleaseEvent(Event::ButtonRelease & event)
         {
             if (event.getPointerInfo().id != _p->pressedID)
                 return;
@@ -238,7 +238,7 @@ namespace djv
             _redraw();
         }
 
-        void TimelineSlider::_updateEvent(Event::Update& event)
+        void TimelineSlider::_updateEvent(Event::Update & event)
         {
             DJV_PRIVATE_PTR();
             if (p.fontMetricsFuture.valid())
@@ -247,7 +247,7 @@ namespace djv
                 {
                     p.fontMetrics = p.fontMetricsFuture.get();
                 }
-                catch (const std::exception& e)
+                catch (const std::exception & e)
                 {
                     _log(e.what(), LogLevel::Error);
                 }
@@ -260,7 +260,7 @@ namespace djv
                     {
                         p.textSize[i.first] = i.second.get();
                     }
-                    catch (const std::exception& e)
+                    catch (const std::exception & e)
                     {
                         _log(e.what(), LogLevel::Error);
                     }
@@ -287,7 +287,7 @@ namespace djv
             BBox2f out;
             if (auto style = _getStyle().lock())
             {
-                const BBox2f& g = getGeometry();
+                const BBox2f & g = getGeometry();
                 const float m = style->getMetric(UI::MetricsRole::MarginSmall);
                 const float h = style->getMetric(UI::MetricsRole::Handle);
                 const float x = floorf(_p->currentTime->get() / static_cast<float>(_p->duration) * (g.w() - 1.f - m * 2.f));

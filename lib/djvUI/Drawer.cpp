@@ -120,12 +120,12 @@ namespace djv
                 _p->layout->removeChild(value);
             }
 
-            void Drawer::_preLayoutEvent(Event::PreLayout& event)
+            void Drawer::_preLayoutEvent(Event::PreLayout & event)
             {
                 _setMinimumSize(_p->layout->getMinimumSize());
             }
 
-            void Drawer::_layoutEvent(Event::Layout& event)
+            void Drawer::_layoutEvent(Event::Layout & event)
             {
                 DJV_PRIVATE_PTR();
                 const BBox2f & g = getGeometry();
@@ -150,7 +150,7 @@ namespace djv
                 _p->layout->setGeometry(childGeometry);
             }
 
-            void Drawer::_paintEvent(Event::Paint& event)
+            void Drawer::_paintEvent(Event::Paint & event)
             {
                 Widget::_paintEvent(event);
                 DJV_PRIVATE_PTR();

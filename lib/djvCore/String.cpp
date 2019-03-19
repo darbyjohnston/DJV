@@ -43,7 +43,7 @@ namespace djv
     {
         namespace String
         {
-            std::string toUpper(const std::string& value)
+            std::string toUpper(const std::string & value)
             {
                 std::string out;
                 for (auto i : value)
@@ -53,7 +53,7 @@ namespace djv
                 return out;
             }
 
-            std::string toLower(const std::string& value)
+            std::string toLower(const std::string & value)
             {
                 std::string out;
                 for (auto i : value)
@@ -68,7 +68,7 @@ namespace djv
                 return std::string(indent * count, ' ');
             }
 
-            void removeTrailingNewline(std::string& value)
+            void removeTrailingNewline(std::string & value)
             {
                 size_t size = value.size();
                 if (size && '\n' == value[size - 1])
@@ -435,7 +435,7 @@ namespace djv
                 return out;
             }
 
-            const std::string& getRandomName()
+            const std::string & getRandomName()
             {
                 const std::vector<std::string>& data = getTestNames();
                 return Math::getRandom(data);
@@ -462,7 +462,7 @@ namespace djv
                 return fishes;
             }
 
-            const std::string& getRandomSentence()
+            const std::string & getRandomSentence()
             {
                 const std::vector<std::string>& data = getTestSentences();
                 const size_t size = data.size();
@@ -491,7 +491,7 @@ namespace djv
                     size_t paragraphLineCount = Math::getRandom(2, 5);
                     for (size_t j = 0; j < paragraphLineCount && i < sentenceCount; ++j, ++i)
                     {
-                        const std::string& sentence = Math::getRandom(data);
+                        const std::string & sentence = Math::getRandom(data);
                         paragraph.push_back(sentence);
                     }
                     out.push_back(String::join(paragraph, " "));

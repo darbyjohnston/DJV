@@ -83,7 +83,7 @@ namespace djv
                 void _buttonPressEvent(Core::Event::ButtonPress &) override;
 
                 void _localeEvent(Core::Event::Locale &) override;
-                bool _eventFilter(const std::shared_ptr<Core::IObject> &, Core::Event::IEvent&) override;
+                bool _eventFilter(const std::shared_ptr<Core::IObject> &, Core::Event::IEvent &) override;
 
             private:
                 DJV_PRIVATE();

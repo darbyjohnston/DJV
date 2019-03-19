@@ -29,7 +29,7 @@
 
 namespace djv
 {
-    inline std::ostream& operator << (std::ostream& s, const glm::mat4x4& value)
+    inline std::ostream & operator << (std::ostream & s, const glm::mat4x4 & value)
     {
         for (glm::mat4x4::length_type i = 0; i < 4; ++i)
         {
@@ -49,7 +49,7 @@ namespace djv
         return s;
     }
 
-    inline std::istream& operator >> (std::istream& s, glm::mat4x4& out)
+    inline std::istream & operator >> (std::istream & s, glm::mat4x4 & out)
     {
         for (glm::mat4x4::length_type i = 0; i < 4; ++i)
         {

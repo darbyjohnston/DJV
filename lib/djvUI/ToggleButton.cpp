@@ -74,7 +74,7 @@ namespace djv
                 return out;
             }
 
-            void Toggle::_preLayoutEvent(Event::PreLayout& event)
+            void Toggle::_preLayoutEvent(Event::PreLayout & event)
             {
                 if (auto fontSystem = _getFontSystem().lock())
                 {
@@ -95,7 +95,7 @@ namespace djv
                 }
             }
 
-            void Toggle::_paintEvent(Event::Paint& event)
+            void Toggle::_paintEvent(Event::Paint & event)
             {
                 Widget::_paintEvent(event);
                 if (auto render = _getRender().lock())
@@ -104,7 +104,7 @@ namespace djv
                     {
                         const float b = style->getMetric(Style::MetricsRole::Border);
                         const float m = style->getMetric(Style::MetricsRole::Margin);
-                        const BBox2f& g = getGeometry();
+                        const BBox2f & g = getGeometry();
                         const glm::vec2 c = g.getCenter();
 
                         BBox2f g1;

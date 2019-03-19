@@ -58,9 +58,9 @@ namespace djv
 
             inline void secondsToTime(
                 double,
-                int&    hours,
-                int&    minutes,
-                double& seconds);
+                int &    hours,
+                int &    minutes,
+                double & seconds);
 
             std::string getLabel(double seconds);
             std::string getLabel(time_t);
@@ -82,12 +82,12 @@ namespace djv
             //! Throws:
             //! - std::exception
             void stringToKeycode(
-                const std::string&,
-                int& id,
-                int& type,
-                int& prefix,
-                int& count,
-                int& offset);
+                const std::string &,
+                int & id,
+                int & type,
+                int & prefix,
+                int & count,
+                int & offset);
 
             ///@}
 
@@ -96,21 +96,21 @@ namespace djv
 
             inline void timecodeToTime(
                 uint32_t,
-                int& hour,
-                int& minute,
-                int& second,
-                int& frame);
+                int & hour,
+                int & minute,
+                int & second,
+                int & frame);
             inline uint32_t timeToTimecode(
                 int hour,
                 int minute,
                 int second,
                 int frame);
 
-            inline int64_t timecodeToFrame(uint32_t timecode, const Speed&);
-            inline uint32_t frameToTimecode(int64_t frame, const Speed&);
+            inline int64_t timecodeToFrame(uint32_t timecode, const Speed &);
+            inline uint32_t frameToTimecode(int64_t frame, const Speed &);
 
             std::string timecodeToString(uint32_t);
-            void stringToTimecode(const std::string&, uint32_t&, bool* ok = nullptr);
+            void stringToTimecode(const std::string &, uint32_t &, bool* ok = nullptr);
 
             ///@}
 

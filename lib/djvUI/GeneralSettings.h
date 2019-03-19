@@ -53,7 +53,7 @@ namespace djv
 
                 static std::shared_ptr<General> create(Core::Context *);
 
-                void load(const picojson::value&) override;
+                void load(const picojson::value &) override;
                 picojson::value save() override;
 
             private:

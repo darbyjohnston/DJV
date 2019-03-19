@@ -64,19 +64,19 @@ namespace djv
             return out;
         }
 
-        std::shared_ptr<ColorSwatch> ColorSwatch::create(const AV::Image::Color& color, Context * context)
+        std::shared_ptr<ColorSwatch> ColorSwatch::create(const AV::Image::Color & color, Context * context)
         {
             auto out = ColorSwatch::create(context);
             out->setColor(color);
             return out;
         }
 
-        const AV::Image::Color& ColorSwatch::getColor() const
+        const AV::Image::Color & ColorSwatch::getColor() const
         {
             return _p->color;
         }
 
-        void ColorSwatch::setColor(const AV::Image::Color& value)
+        void ColorSwatch::setColor(const AV::Image::Color & value)
         {
             DJV_PRIVATE_PTR();
             if (value == p.color)
@@ -99,7 +99,7 @@ namespace djv
             _resize();
         }
 
-        void ColorSwatch::_preLayoutEvent(Event::PreLayout& event)
+        void ColorSwatch::_preLayoutEvent(Event::PreLayout & event)
         {
             if (auto style = _getStyle().lock())
             {
@@ -108,12 +108,12 @@ namespace djv
             }
         }
 
-        void ColorSwatch::_paintEvent(Event::Paint& event)
+        void ColorSwatch::_paintEvent(Event::Paint & event)
         {
             Widget::_paintEvent(event);
             if (auto render = _getRender().lock())
             {
-                const BBox2f& g = getGeometry();
+                const BBox2f & g = getGeometry();
                 render->setFillColor(_getColorWithOpacity(_p->color));
                 render->drawRect(g);
             }

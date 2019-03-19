@@ -57,12 +57,12 @@ namespace djv
                 inline float getWidth(const std::shared_ptr<Style::Style>&) const;
                 inline float getHeight(const std::shared_ptr<Style::Style>&) const;
 
-                inline Core::BBox2f bbox(const Core::BBox2f&, const std::shared_ptr<Style::Style>&) const;
+                inline Core::BBox2f bbox(const Core::BBox2f &, const std::shared_ptr<Style::Style>&) const;
 
                 inline MetricsRole operator [] (Side) const;
-                inline MetricsRole& operator [] (Side);
+                inline MetricsRole & operator [] (Side);
 
-                inline bool operator == (const Margin&) const;
+                inline bool operator == (const Margin &) const;
 
             private:
                 MetricsRole _value[4] =

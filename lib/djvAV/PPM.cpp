@@ -145,7 +145,7 @@ namespace djv
                     return toJSON(_p->settings);
                 }
 
-                void Plugin::setOptions(const picojson::value& value)
+                void Plugin::setOptions(const picojson::value & value)
                 {
                     fromJSON(value, _p->settings);
                 }
@@ -180,11 +180,11 @@ namespace djv
         return out;
     }
 
-    void fromJSON(const picojson::value& value, AV::IO::PPM::Settings & out)
+    void fromJSON(const picojson::value & value, AV::IO::PPM::Settings & out)
     {
         if (value.is<picojson::object>())
         {
-            for (const auto& i : value.get<picojson::object>())
+            for (const auto & i : value.get<picojson::object>())
             {
                 if ("Data" == i.first)
                 {

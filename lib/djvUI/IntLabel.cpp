@@ -115,7 +115,7 @@ namespace djv
             }
         }
 
-        void IntLabel::_preLayoutEvent(Event::PreLayout& event)
+        void IntLabel::_preLayoutEvent(Event::PreLayout & event)
         {
             DJV_PRIVATE_PTR();
             if (auto style = _getStyle().lock())
@@ -124,7 +124,7 @@ namespace djv
             }
         }
 
-        void IntLabel::_layoutEvent(Event::Layout& event)
+        void IntLabel::_layoutEvent(Event::Layout & event)
         {
             DJV_PRIVATE_PTR();
             if (auto style = _getStyle().lock())

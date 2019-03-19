@@ -62,7 +62,7 @@ namespace djv
             inline const std::vector<std::string> & getArgs() const;
             
             //! Get the context name.
-            inline const std::string& getName() const;
+            inline const std::string & getName() const;
 
             //! Get the average FPS.
             inline float getFpsAverage() const;
@@ -94,7 +94,7 @@ namespace djv
             ///@{
 
             //! Convenience function for message logging.
-            void log(const std::string& prefix, const std::string& message, LogLevel = LogLevel::Information);
+            void log(const std::string & prefix, const std::string & message, LogLevel = LogLevel::Information);
 
             //! Convenience function got getting a resource path.
             FileSystem::Path getPath(FileSystem::ResourcePath) const;

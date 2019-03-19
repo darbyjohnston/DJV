@@ -109,7 +109,7 @@ namespace djv
                 picojson::value object(picojson::object_type, true);
 
                 // Serialize the settings.
-                for (const auto& settings : _settings)
+                for (const auto & settings : _settings)
                 {
                     object.get<picojson::object>()[settings->getName()] = settings->save();
                 }
@@ -118,7 +118,7 @@ namespace djv
                 _writeSettingsFile(_settingsPath, object);
             }
 
-            void System::_readSettingsFile(const FileSystem::Path& path, std::map<std::string, picojson::value>& out)
+            void System::_readSettingsFile(const FileSystem::Path & path, std::map<std::string, picojson::value>& out)
             {
                 try
                 {
@@ -143,15 +143,15 @@ namespace djv
 
                         if (v.is<picojson::object>())
                         {
-                            const auto& object = v.get<picojson::object>();
-                            for (const auto& value : object)
+                            const auto & object = v.get<picojson::object>();
+                            for (const auto & value : object)
                             {
                                 out[value.first] = value.second;
                             }
                         }
                     }
                 }
-                catch (const std::exception& e)
+                catch (const std::exception & e)
                 {
                     std::stringstream s;
                     s << _getText(DJV_TEXT("Cannot read settings")) << " '" << path << "'. " << e.what();
@@ -159,7 +159,7 @@ namespace djv
                 }
             }
 
-            void System::_writeSettingsFile(const FileSystem::Path& path, const picojson::value& value)
+            void System::_writeSettingsFile(const FileSystem::Path & path, const picojson::value & value)
             {
                 try
                 {
@@ -172,7 +172,7 @@ namespace djv
                     PicoJSON::write(value, fileIO);
                     fileIO.write("\n");
                 }
-                catch (const std::exception& e)
+                catch (const std::exception & e)
                 {
                     std::stringstream s;
                     s << _getText(DJV_TEXT("Cannot write settings")) << " '" << path << "'. " << e.what();

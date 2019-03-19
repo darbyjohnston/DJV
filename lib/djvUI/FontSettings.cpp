@@ -83,11 +83,11 @@ namespace djv
                 return _p->localeFonts;
             }
 
-            void Font::load(const picojson::value& value)
+            void Font::load(const picojson::value & value)
             {
                 if (value.is<picojson::object>())
                 {
-                    const auto& object = value.get<picojson::object>();
+                    const auto & object = value.get<picojson::object>();
                     read("LocaleFonts", object, _p->localeFonts);
                 }
             }
@@ -95,7 +95,7 @@ namespace djv
             picojson::value Font::save()
             {
                 picojson::value out(picojson::object_type, true);
-                auto& object = out.get<picojson::object>();
+                auto & object = out.get<picojson::object>();
                 write("LocaleFonts", _p->localeFonts->get(), object);
                 return out;
             }

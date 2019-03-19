@@ -72,7 +72,7 @@ namespace djv
                 return out;
             }
 
-            void AVIO::load(const picojson::value& value)
+            void AVIO::load(const picojson::value & value)
             {
                 DJV_PRIVATE_PTR();
                 if (value.is<picojson::object>())

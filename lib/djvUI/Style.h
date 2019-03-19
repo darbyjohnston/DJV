@@ -108,14 +108,14 @@ namespace djv
             {
             public:
                 Palette();
-                Palette(const Palette&);
+                Palette(const Palette &);
                 ~Palette();
-                Palette& operator = (const Palette&);
+                Palette & operator = (const Palette &);
 
-                const AV::Image::Color& getColor(ColorRole) const;
-                void setColor(ColorRole, const AV::Image::Color&);
+                const AV::Image::Color & getColor(ColorRole) const;
+                void setColor(ColorRole, const AV::Image::Color &);
 
-                bool operator == (const Palette&) const;
+                bool operator == (const Palette &) const;
 
             private:
                 DJV_PRIVATE();
@@ -126,14 +126,14 @@ namespace djv
             {
             public:
                 Metrics();
-                Metrics(const Metrics&);
+                Metrics(const Metrics &);
                 ~Metrics();
-                Metrics& operator = (const Metrics&);
+                Metrics & operator = (const Metrics &);
 
                 float getMetric(MetricsRole role) const;
                 void setMetric(MetricsRole, float);
 
-                bool operator == (const Metrics&) const;
+                bool operator == (const Metrics &) const;
 
             private:
                 DJV_PRIVATE();

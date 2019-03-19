@@ -151,12 +151,12 @@ namespace djv
             _p->childLayout->removeChild(value);
         }
 
-        void IToolWidget::_preLayoutEvent(Event::PreLayout& event)
+        void IToolWidget::_preLayoutEvent(Event::PreLayout & event)
         {
             _setMinimumSize(_p->border->getMinimumSize());
         }
 
-        void IToolWidget::_layoutEvent(Event::Layout&)
+        void IToolWidget::_layoutEvent(Event::Layout &)
         {
             _p->border->setGeometry(getGeometry());
         }

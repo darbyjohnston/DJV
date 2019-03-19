@@ -59,8 +59,8 @@ namespace djv
             void setModel(const std::shared_ptr<Core::IntValueModel> &);
 
         protected:
-            void _preLayoutEvent(Core::Event::PreLayout&) override;
-            void _layoutEvent(Core::Event::Layout&) override;
+            void _preLayoutEvent(Core::Event::PreLayout &) override;
+            void _layoutEvent(Core::Event::Layout &) override;
 
         private:
             void _textUpdate();

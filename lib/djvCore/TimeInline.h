@@ -80,7 +80,7 @@ namespace djv
                 return static_cast<int64_t>((hour * 60 * 60 + minute * 60 + seconds) * Speed::speedToFloat(speed)) + frame;
             }
 
-            inline uint32_t frameToTimecode(int64_t frame, const Speed& speed)
+            inline uint32_t frameToTimecode(int64_t frame, const Speed & speed)
             {
                 if (!speed.isValid())
                     return 0;

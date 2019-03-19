@@ -55,7 +55,7 @@ namespace djv
 
                 const std::shared_ptr<Core::MapSubject<std::string, std::string> >& observeLocaleFonts() const;
 
-                void load(const picojson::value&) override;
+                void load(const picojson::value &) override;
                 picojson::value save() override;
 
             private:

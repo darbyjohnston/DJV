@@ -73,12 +73,12 @@ namespace djv
                 return _value[static_cast<size_t>(value)];
             }
 
-            inline MetricsRole& Spacing::operator [] (Orientation value)
+            inline MetricsRole & Spacing::operator [] (Orientation value)
             {
                 return _value[static_cast<size_t>(value)];
             }
 
-            inline bool Spacing::operator == (const Spacing& other) const
+            inline bool Spacing::operator == (const Spacing & other) const
             {
                 return
                     _value[static_cast<size_t>(Orientation::Horizontal)] == other._value[static_cast<size_t>(Orientation::Horizontal)] &&

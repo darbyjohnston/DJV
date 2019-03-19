@@ -182,13 +182,13 @@ namespace djv
                 return out;
             }
 
-            void ItemView::_styleEvent(Event::Style&)
+            void ItemView::_styleEvent(Event::Style &)
             {
                 _iconsUpdate();
                 _itemsUpdate();
             }
 
-            void ItemView::_preLayoutEvent(Event::PreLayout& event)
+            void ItemView::_preLayoutEvent(Event::PreLayout & event)
             {
                 DJV_PRIVATE_PTR();
                 if (p.nameFontMetricsFuture.valid() &&
@@ -198,14 +198,14 @@ namespace djv
                     {
                         p.nameFontMetrics = p.nameFontMetricsFuture.get();
                     }
-                    catch (const std::exception& e)
+                    catch (const std::exception & e)
                     {
                         _log(e.what(), LogLevel::Error);
                     }
                 }
             }
 
-            void ItemView::_layoutEvent(Event::Layout& event)
+            void ItemView::_layoutEvent(Event::Layout & event)
             {
                 DJV_PRIVATE_PTR();
                 if (auto style = _getStyle().lock())
@@ -246,7 +246,7 @@ namespace djv
                 }
             }
 
-            void ItemView::_clipEvent(Event::Clip& event)
+            void ItemView::_clipEvent(Event::Clip & event)
             {
                 DJV_PRIVATE_PTR();
                 if (isClipped())
@@ -345,7 +345,7 @@ namespace djv
                 }
             }
 
-            void ItemView::_paintEvent(Event::Paint& event)
+            void ItemView::_paintEvent(Event::Paint & event)
             {
                 DJV_PRIVATE_PTR();
                 if (auto render = _getRender().lock())
@@ -546,7 +546,7 @@ namespace djv
                 }
             }
 
-            void ItemView::_pointerEnterEvent(Event::PointerEnter& event)
+            void ItemView::_pointerEnterEvent(Event::PointerEnter & event)
             {
                 DJV_PRIVATE_PTR();
                 event.accept();
@@ -562,7 +562,7 @@ namespace djv
                 }
             }
 
-            void ItemView::_pointerLeaveEvent(Event::PointerLeave& event)
+            void ItemView::_pointerLeaveEvent(Event::PointerLeave & event)
             {
                 DJV_PRIVATE_PTR();
                 event.accept();
@@ -573,7 +573,7 @@ namespace djv
                 }
             }
 
-            void ItemView::_pointerMoveEvent(Event::PointerMove& event)
+            void ItemView::_pointerMoveEvent(Event::PointerMove & event)
             {
                 DJV_PRIVATE_PTR();
                 event.accept();
@@ -607,7 +607,7 @@ namespace djv
                 }
             }
 
-            void ItemView::_buttonPressEvent(Event::ButtonPress& event)
+            void ItemView::_buttonPressEvent(Event::ButtonPress & event)
             {
                 DJV_PRIVATE_PTR();
                 if (p.pressedId)
@@ -627,7 +627,7 @@ namespace djv
                 }
             }
 
-            void ItemView::_buttonReleaseEvent(Event::ButtonRelease& event)
+            void ItemView::_buttonReleaseEvent(Event::ButtonRelease & event)
             {
                 DJV_PRIVATE_PTR();
                 const auto & pointerInfo = event.getPointerInfo();
@@ -683,7 +683,7 @@ namespace djv
                 return !text.empty() ? _createTooltipDefault(text) : nullptr;
             }
 
-            void ItemView::_updateEvent(Event::Update& event)
+            void ItemView::_updateEvent(Event::Update & event)
             {
                 DJV_PRIVATE_PTR();
                 {
@@ -698,7 +698,7 @@ namespace djv
                                 p.nameLines[i->first] = i->second.get();
                                 _redraw();
                             }
-                            catch (const std::exception& e)
+                            catch (const std::exception & e)
                             {
                                 _log(e.what(), LogLevel::Error);
                             }
@@ -721,7 +721,7 @@ namespace djv
                             {
                                 p.ioInfo[i->first] = i->second.future.get();
                             }
-                            catch (const std::exception& e)
+                            catch (const std::exception & e)
                             {
                                 p.ioInfo[i->first] = AV::IO::Info();
                                 _log(e.what(), LogLevel::Error);
@@ -751,7 +751,7 @@ namespace djv
                                     _redraw();
                                 }
                             }
-                            catch (const std::exception& e)
+                            catch (const std::exception & e)
                             {
                                 _log(e.what(), LogLevel::Error);
                             }
@@ -792,7 +792,7 @@ namespace djv
                                 p.icons[i->first] = i->second.get();
                                 _redraw();
                             }
-                            catch (const std::exception& e)
+                            catch (const std::exception & e)
                             {
                                 _log(e.what(), LogLevel::Error);
                             }

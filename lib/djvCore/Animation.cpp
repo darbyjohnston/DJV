@@ -90,8 +90,8 @@ namespace djv
                 float                     begin,
                 float                     end,
                 std::chrono::milliseconds timeout,
-                const Callback&           callback,
-                const Callback&           endCallback)
+                const Callback &           callback,
+                const Callback &           endCallback)
             {
                 /*if (_active && _endCallback)
                 {

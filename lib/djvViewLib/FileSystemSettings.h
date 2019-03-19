@@ -69,7 +69,7 @@ namespace djv
             std::shared_ptr<Core::IValueSubject<UI::ViewType> > observeRecentViewType() const;
             void setRecentViewType(UI::ViewType);
 
-            void load(const picojson::value&) override;
+            void load(const picojson::value &) override;
             picojson::value save() override;
 
         private:

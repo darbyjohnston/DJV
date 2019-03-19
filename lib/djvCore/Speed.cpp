@@ -175,13 +175,13 @@ namespace djv
         "60",
         "120");
 
-    std::ostream& operator << (std::ostream & is, const Core::Time::Speed & value)
+    std::ostream & operator << (std::ostream & is, const Core::Time::Speed & value)
     {
         is << value.getScale() << '/' << value.getDuration();
         return is;
     }
 
-    std::istream& operator >> (std::istream & os, Core::Time::Speed & value)
+    std::istream & operator >> (std::istream & os, Core::Time::Speed & value)
     {
         std::string s;
         os >> s;

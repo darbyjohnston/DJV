@@ -47,7 +47,7 @@ namespace djv
                 std::string name;
             };
 
-            void ISettings::_init(const std::string& name, Context * context)
+            void ISettings::_init(const std::string & name, Context * context)
             {
                 _p->context = context;
                 _p->name = name;
@@ -70,7 +70,7 @@ namespace djv
                 return _p->context;
             }
 
-            const std::string& ISettings::getName() const
+            const std::string & ISettings::getName() const
             {
                 return _p->name;
             }

@@ -62,7 +62,7 @@ namespace djv
     } // namespace Core
 
     template<typename T, glm::precision P>
-    inline std::ostream& operator << (std::ostream& s, const Core::Ray::tRay3<T, P>& value)
+    inline std::ostream & operator << (std::ostream & s, const Core::Ray::tRay3<T, P>& value)
     {
         s << value.start << " ";
         s << value.end;
@@ -70,7 +70,7 @@ namespace djv
     }
 
     template<typename T, glm::precision P>
-    inline std::istream& operator >> (std::istream& s, Core::Ray::tRay3<T, P>& out)
+    inline std::istream & operator >> (std::istream & s, Core::Ray::tRay3<T, P>& out)
     {
         s >> value.start;
         s >> value.end;

@@ -135,7 +135,7 @@ namespace djv
     } // namespace Core
 
     template<typename T>
-    inline std::ostream& operator << (std::ostream& s, const Core::Range::tRange<T>& value)
+    inline std::ostream & operator << (std::ostream & s, const Core::Range::tRange<T>& value)
     {
         s << value.min << " ";
         s << value.max;
@@ -143,7 +143,7 @@ namespace djv
     }
 
     template<typename T>
-    inline std::istream& operator >> (std::istream& s, Core::Range::tRange<T>& out)
+    inline std::istream & operator >> (std::istream & s, Core::Range::tRange<T>& out)
     {
         s >> out.min;
         s >> out.max;

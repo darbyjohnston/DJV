@@ -211,7 +211,7 @@ namespace djv
                 _p->layout->removeChild(value);
             }
 
-            void Overlay::_preLayoutEvent(Event::PreLayout& event)
+            void Overlay::_preLayoutEvent(Event::PreLayout & event)
             {
                 if (auto style = _getStyle().lock())
                 {
@@ -219,7 +219,7 @@ namespace djv
                 }
             }
 
-            void Overlay::_layoutEvent(Event::Layout& event)
+            void Overlay::_layoutEvent(Event::Layout & event)
             {
                 if (auto style = _getStyle().lock())
                 {
@@ -227,7 +227,7 @@ namespace djv
                 }
             }
 
-            void Overlay::_pointerEnterEvent(Core::Event::PointerEnter& event)
+            void Overlay::_pointerEnterEvent(Core::Event::PointerEnter & event)
             {
                 if (_p->capturePointer && !event.isRejected() && !_isInsideAnchor(event.getPointerInfo().projectedPos))
                 {
@@ -235,7 +235,7 @@ namespace djv
                 }
             }
 
-            void Overlay::_pointerLeaveEvent(Core::Event::PointerLeave& event)
+            void Overlay::_pointerLeaveEvent(Core::Event::PointerLeave & event)
             {
                 if (_p->capturePointer && !_isInsideAnchor(event.getPointerInfo().projectedPos))
                 {
@@ -243,7 +243,7 @@ namespace djv
                 }
             }
 
-            void Overlay::_pointerMoveEvent(Core::Event::PointerMove& event)
+            void Overlay::_pointerMoveEvent(Core::Event::PointerMove & event)
             {
                 if (_p->capturePointer && !_isInsideAnchor(event.getPointerInfo().projectedPos))
                 {
@@ -251,7 +251,7 @@ namespace djv
                 }
             }
 
-            void Overlay::_buttonPressEvent(Event::ButtonPress& event)
+            void Overlay::_buttonPressEvent(Event::ButtonPress & event)
             {
                 DJV_PRIVATE_PTR();
                 if (p.capturePointer && !_isInsideAnchor(event.getPointerInfo().projectedPos))
@@ -265,7 +265,7 @@ namespace djv
                 }
             }
 
-            void Overlay::_buttonReleaseEvent(Core::Event::ButtonRelease& event)
+            void Overlay::_buttonReleaseEvent(Core::Event::ButtonRelease & event)
             {
                 DJV_PRIVATE_PTR();
                 const auto i = p.pressedIDs.find(event.getPointerInfo().id);
@@ -276,7 +276,7 @@ namespace djv
                 }
             }
 
-            void Overlay::_keyPressEvent(Event::KeyPress& event)
+            void Overlay::_keyPressEvent(Event::KeyPress & event)
             {
                 Widget::_keyPressEvent(event);
                 DJV_PRIVATE_PTR();
@@ -287,7 +287,7 @@ namespace djv
                 }
             }
 
-            void Overlay::_keyReleaseEvent(Event::KeyRelease& event)
+            void Overlay::_keyReleaseEvent(Event::KeyRelease & event)
             {
                 DJV_PRIVATE_PTR();
                 if (p.keyPress)

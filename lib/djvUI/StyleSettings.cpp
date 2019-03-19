@@ -117,7 +117,7 @@ namespace djv
                 {
                     p.currentLocaleObserver = ValueObserver<std::string>::create(
                         textSystem->observeCurrentLocale(),
-                        [weak](const std::string& value)
+                        [weak](const std::string & value)
                     {
                         if (auto settings = weak.lock())
                         {
@@ -174,7 +174,7 @@ namespace djv
                 return _p->currentPaletteName;
             }
 
-            void Style::setCurrentPalette(const std::string& name)
+            void Style::setCurrentPalette(const std::string & name)
             {
                 DJV_PRIVATE_PTR();
                 if (p.palettes->hasKey(name))
@@ -205,7 +205,7 @@ namespace djv
                 return _p->currentFont;
             }
 
-            void Style::setCurrentMetrics(const std::string& name)
+            void Style::setCurrentMetrics(const std::string & name)
             {
                 DJV_PRIVATE_PTR();
                 if (p.metrics->hasKey(name))
@@ -216,12 +216,12 @@ namespace djv
                 }
             }
 
-            void Style::load(const picojson::value& value)
+            void Style::load(const picojson::value & value)
             {
                 DJV_PRIVATE_PTR();
                 if (value.is<picojson::object>())
                 {
-                    const auto& object = value.get<picojson::object>();
+                    const auto & object = value.get<picojson::object>();
                     read("Palettes", object, p.palettes);
                     read("CurrentPalette", object, p.currentPaletteName);
                     p.currentPalette->setIfChanged(p.palettes->getItem(p.currentPaletteName->get()));
@@ -235,7 +235,7 @@ namespace djv
             {
                 DJV_PRIVATE_PTR();
                 picojson::value out(picojson::object_type, true);
-                auto& object = out.get<picojson::object>();
+                auto & object = out.get<picojson::object>();
                 write("Palettes", p.palettes->get(), object);
                 write("CurrentPalette", p.currentPaletteName->get(), object);
                 write("Metrics", p.metrics->get(), object);

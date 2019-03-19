@@ -27,14 +27,14 @@ namespace djv
                 virtual ~Flat();
 
                 static std::shared_ptr<Flat> create(Core::Context *);
-                static std::shared_ptr<Flat> create(const std::string&, Core::Context *);
-                static std::shared_ptr<Flat> create(const std::string&, const std::string& icon, Core::Context *);
+                static std::shared_ptr<Flat> create(const std::string &, Core::Context *);
+                static std::shared_ptr<Flat> create(const std::string &, const std::string & icon, Core::Context *);
 
-                const std::string& getIcon() const;
-                void setIcon(const std::string&);
+                const std::string & getIcon() const;
+                void setIcon(const std::string &);
 
-                const std::string& getText() const;
-                void setText(const std::string&);
+                const std::string & getText() const;
+                void setText(const std::string &);
 
                 TextHAlign getTextHAlign() const;
                 TextVAlign getTextVAlign() const;
@@ -51,12 +51,12 @@ namespace djv
                 void setFontFace(const std::string &);
                 void setFontSizeRole(MetricsRole);
 
-                const Layout::Margin& getInsideMargin() const;
-                void setInsideMargin(const Layout::Margin&);
+                const Layout::Margin & getInsideMargin() const;
+                void setInsideMargin(const Layout::Margin &);
 
             protected:
-                void _preLayoutEvent(Core::Event::PreLayout&) override;
-                void _layoutEvent(Core::Event::Layout&) override;
+                void _preLayoutEvent(Core::Event::PreLayout &) override;
+                void _layoutEvent(Core::Event::Layout &) override;
 
             private:
                 void _widgetUpdate();

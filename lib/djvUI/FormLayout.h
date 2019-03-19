@@ -54,8 +54,8 @@ namespace djv
 
                 void setText(const std::shared_ptr<Widget>&, const std::string &);
 
-                const Spacing& getSpacing() const;
-                void setSpacing(const Spacing&);
+                const Spacing & getSpacing() const;
+                void setSpacing(const Spacing &);
 
                 float getHeightForWidth(float) const override;
 
@@ -63,8 +63,8 @@ namespace djv
                 void removeChild(const std::shared_ptr<IObject>&) override;
 
             protected:
-                void _preLayoutEvent(Core::Event::PreLayout&) override;
-                void _layoutEvent(Core::Event::Layout&) override;
+                void _preLayoutEvent(Core::Event::PreLayout &) override;
+                void _layoutEvent(Core::Event::Layout &) override;
 
             private:
                 DJV_PRIVATE();

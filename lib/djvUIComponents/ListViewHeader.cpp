@@ -139,7 +139,7 @@ namespace djv
                 _layout->setGeometry(getGeometry());
             }
 
-            void HeaderButton::_paintEvent(Event::Paint& event)
+            void HeaderButton::_paintEvent(Event::Paint & event)
             {
                 Widget::_paintEvent(event);
                 if (auto render = _getRender().lock())

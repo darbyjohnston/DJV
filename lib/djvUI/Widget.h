@@ -106,22 +106,22 @@ namespace djv
             //! \name Layout
             ///@{
 
-            inline const glm::vec2& getMinimumSize() const;
-            inline const Core::BBox2f& getGeometry() const;
+            inline const glm::vec2 & getMinimumSize() const;
+            inline const Core::BBox2f & getGeometry() const;
             inline glm::vec2 getSize() const;
             inline float getWidth() const;
             inline float getHeight() const;
-            void setGeometry(const Core::BBox2f&);
-            void move(const glm::vec2&);
-            void resize(const glm::vec2&);
+            void setGeometry(const Core::BBox2f &);
+            void move(const glm::vec2 &);
+            void resize(const glm::vec2 &);
 
             //! This function is called during the layout event to determine the height of a
             //! widget based upon the given width. This is used for example by FlowLayout
             //! and TextBlock.
             inline virtual float getHeightForWidth(float) const;
 
-            inline const Layout::Margin& getMargin() const;
-            void setMargin(const Layout::Margin&);
+            inline const Layout::Margin & getMargin() const;
+            void setMargin(const Layout::Margin &);
 
             inline HAlign getHAlign() const;
             inline VAlign getVAlign() const;
@@ -129,7 +129,7 @@ namespace djv
             void setVAlign(VAlign);
 
             //! Utility function for computing the widget geometry.
-            static Core::BBox2f getAlign(const Core::BBox2f&, const glm::vec2& minimumSize, HAlign, VAlign);
+            static Core::BBox2f getAlign(const Core::BBox2f &, const glm::vec2 & minimumSize, HAlign, VAlign);
 
             ///@}
 
@@ -174,30 +174,30 @@ namespace djv
             //! Get the number of widgets that currently exist.
             static size_t getGlobalWidgetCount();
 
-            bool event(Core::Event::IEvent&) override;
+            bool event(Core::Event::IEvent &) override;
 
         protected:
             //! \name Events
             ///@{
 
-            virtual void _styleEvent(Core::Event::Style&) {}
-            virtual void _preLayoutEvent(Core::Event::PreLayout&) {}
-            virtual void _layoutEvent(Core::Event::Layout&) {}
-            virtual void _clipEvent(Core::Event::Clip&) {}
-            virtual void _paintEvent(Core::Event::Paint&);
-            virtual void _paintOverlayEvent(Core::Event::PaintOverlay&) {}
-            virtual void _pointerEnterEvent(Core::Event::PointerEnter&);
-            virtual void _pointerLeaveEvent(Core::Event::PointerLeave&);
-            virtual void _pointerMoveEvent(Core::Event::PointerMove&);
-            virtual void _buttonPressEvent(Core::Event::ButtonPress&) {}
-            virtual void _buttonReleaseEvent(Core::Event::ButtonRelease&) {}
-            virtual void _scrollEvent(Core::Event::Scroll&) {}
-            virtual void _dropEvent(Core::Event::Drop&) {}
-            virtual void _keyPressEvent(Core::Event::KeyPress&);
-            virtual void _keyReleaseEvent(Core::Event::KeyRelease&) {}
-            virtual void _textFocusEvent(Core::Event::TextFocus&) {}
-            virtual void _textFocusLostEvent(Core::Event::TextFocusLost&) {}
-            virtual void _textEvent(Core::Event::Text&) {}
+            virtual void _styleEvent(Core::Event::Style &) {}
+            virtual void _preLayoutEvent(Core::Event::PreLayout &) {}
+            virtual void _layoutEvent(Core::Event::Layout &) {}
+            virtual void _clipEvent(Core::Event::Clip &) {}
+            virtual void _paintEvent(Core::Event::Paint &);
+            virtual void _paintOverlayEvent(Core::Event::PaintOverlay &) {}
+            virtual void _pointerEnterEvent(Core::Event::PointerEnter &);
+            virtual void _pointerLeaveEvent(Core::Event::PointerLeave &);
+            virtual void _pointerMoveEvent(Core::Event::PointerMove &);
+            virtual void _buttonPressEvent(Core::Event::ButtonPress &) {}
+            virtual void _buttonReleaseEvent(Core::Event::ButtonRelease &) {}
+            virtual void _scrollEvent(Core::Event::Scroll &) {}
+            virtual void _dropEvent(Core::Event::Drop &) {}
+            virtual void _keyPressEvent(Core::Event::KeyPress &);
+            virtual void _keyReleaseEvent(Core::Event::KeyRelease &) {}
+            virtual void _textFocusEvent(Core::Event::TextFocus &) {}
+            virtual void _textFocusLostEvent(Core::Event::TextFocusLost &) {}
+            virtual void _textEvent(Core::Event::Text &) {}
 
             ///@}
 
@@ -220,7 +220,7 @@ namespace djv
             void _redraw();
 
             //! Set the minimum size. This is computed and set in the pre-layout event.
-            void _setMinimumSize(const glm::vec2&);
+            void _setMinimumSize(const glm::vec2 &);
 
             inline float _getUpdateTime() const;
             inline float _getElapsedTime() const;

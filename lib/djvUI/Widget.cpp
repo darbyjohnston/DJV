@@ -171,7 +171,7 @@ namespace djv
             setVisible(false);
         }
 
-        void Widget::setGeometry(const BBox2f& value)
+        void Widget::setGeometry(const BBox2f & value)
         {
             if (fuzzyCompare(value, _geometry))
                 return;
@@ -179,7 +179,7 @@ namespace djv
             _resize();
         }
 
-        void Widget::move(const glm::vec2& value)
+        void Widget::move(const glm::vec2 & value)
         {
             const glm::vec2 size = _geometry.getSize();
             BBox2f geometry;
@@ -188,12 +188,12 @@ namespace djv
             setGeometry(geometry);
         }
 
-        void Widget::resize(const glm::vec2& value)
+        void Widget::resize(const glm::vec2 & value)
         {
             setGeometry(BBox2f(_geometry.min, _geometry.min + value));
         }
 
-        void Widget::setMargin(const Layout::Margin& value)
+        void Widget::setMargin(const Layout::Margin & value)
         {
             if (value == _margin)
                 return;
@@ -217,7 +217,7 @@ namespace djv
             _resize();
         }
 
-        BBox2f Widget::getAlign(const BBox2f& value, const glm::vec2& minimumSize, HAlign hAlign, VAlign vAlign)
+        BBox2f Widget::getAlign(const BBox2f & value, const glm::vec2 & minimumSize, HAlign hAlign, VAlign vAlign)
         {
             float x = 0.f;
             float y = 0.f;
@@ -337,7 +337,7 @@ namespace djv
             return globalWidgetCount;
         }
 
-        bool Widget::event(Event::IEvent& event)
+        bool Widget::event(Event::IEvent & event)
         {
             bool out = IObject::event(event);
             if (!out)
@@ -346,7 +346,7 @@ namespace djv
                 {
                 case Event::Type::ParentChanged:
                 {
-                    auto& parentChangedEvent = static_cast<Event::ParentChanged&>(event);
+                    auto & parentChangedEvent = static_cast<Event::ParentChanged &>(event);
                     _clipped = parentChangedEvent.getNewParent() ? true : false;
                     _clipRect = BBox2f(0.f, 0.f, 0.f, 0.f);
                     _redraw();
@@ -360,7 +360,7 @@ namespace djv
                     break;
                 case Event::Type::Update:
                 {
-                    auto& updateEvent = static_cast<Event::Update&>(event);
+                    auto & updateEvent = static_cast<Event::Update &>(event);
 
                     _updateTime = updateEvent.getTime();
                     _elapsedTime += updateEvent.getDeltaTime();
@@ -389,19 +389,19 @@ namespace djv
                     break;
                 }
                 case Event::Type::Style:
-                    _styleEvent(static_cast<Event::Style&>(event));
+                    _styleEvent(static_cast<Event::Style &>(event));
                     _resize();
                     break;
                 case Event::Type::PreLayout:
                     _visibleInit = false;
-                    _preLayoutEvent(static_cast<Event::PreLayout&>(event));
+                    _preLayoutEvent(static_cast<Event::PreLayout &>(event));
                     break;
                 case Event::Type::Layout:
-                    _layoutEvent(static_cast<Event::Layout&>(event));
+                    _layoutEvent(static_cast<Event::Layout &>(event));
                     break;
                 case Event::Type::Clip:
                 {
-                    auto& clipEvent = static_cast<Event::Clip&>(event);
+                    auto & clipEvent = static_cast<Event::Clip &>(event);
                     if (auto parent = std::dynamic_pointer_cast<Widget>(getParent().lock()))
                     {
                         _parentsVisible = parent->_visible && parent->_parentsVisible;
@@ -429,7 +429,7 @@ namespace djv
                     }
                     if (!_visibleInit)
                     {
-                        _paintEvent(static_cast<Event::Paint&>(event));
+                        _paintEvent(static_cast<Event::Paint &>(event));
                     }
                     break;
                 }
@@ -437,24 +437,24 @@ namespace djv
                 {
                     if (!_visibleInit)
                     {
-                        _paintOverlayEvent(static_cast<Event::PaintOverlay&>(event));
+                        _paintOverlayEvent(static_cast<Event::PaintOverlay &>(event));
                     }
                     break;
                 }
                 case Event::Type::PointerEnter:
                 {
-                    auto& pointerEvent = static_cast<Event::PointerEnter&>(event);
+                    auto & pointerEvent = static_cast<Event::PointerEnter &>(event);
                     const auto & info = pointerEvent.getPointerInfo();
                     const auto id = info.id;
                     _pointerHover[id] = info.projectedPos;
                     _pointerToTooltips[id] = TooltipData();
                     _pointerToTooltips[id].timer = _updateTime;
-                    _pointerEnterEvent(static_cast<Event::PointerEnter&>(event));
+                    _pointerEnterEvent(static_cast<Event::PointerEnter &>(event));
                     break;
                 }
                 case Event::Type::PointerLeave:
                 {
-                    auto& pointerEvent = static_cast<Event::PointerLeave&>(event);
+                    auto & pointerEvent = static_cast<Event::PointerLeave &>(event);
                     const auto id = pointerEvent.getPointerInfo().id;
                     const auto i = _pointerHover.find(id);
                     if (i != _pointerHover.end())
@@ -466,12 +466,12 @@ namespace djv
                     {
                         _pointerToTooltips.erase(j);
                     }
-                    _pointerLeaveEvent(static_cast<Event::PointerLeave&>(event));
+                    _pointerLeaveEvent(static_cast<Event::PointerLeave &>(event));
                     break;
                 }
                 case Event::Type::PointerMove:
                 {
-                    auto& pointerEvent = static_cast<Event::PointerMove&>(event);
+                    auto & pointerEvent = static_cast<Event::PointerMove &>(event);
                     const auto & info = pointerEvent.getPointerInfo();
                     const auto id = info.id;
                     const auto i = _pointerToTooltips.find(id);
@@ -486,35 +486,35 @@ namespace djv
                         }
                     }
                     _pointerHover[id] = info.projectedPos;
-                    _pointerMoveEvent(static_cast<Event::PointerMove&>(event));
+                    _pointerMoveEvent(static_cast<Event::PointerMove &>(event));
                     break;
                 }
                 case Event::Type::ButtonPress:
-                    _buttonPressEvent(static_cast<Event::ButtonPress&>(event));
+                    _buttonPressEvent(static_cast<Event::ButtonPress &>(event));
                     break;
                 case Event::Type::ButtonRelease:
-                    _buttonReleaseEvent(static_cast<Event::ButtonRelease&>(event));
+                    _buttonReleaseEvent(static_cast<Event::ButtonRelease &>(event));
                     break;
                 case Event::Type::Scroll:
-                    _scrollEvent(static_cast<Event::Scroll&>(event));
+                    _scrollEvent(static_cast<Event::Scroll &>(event));
                     break;
                 case Event::Type::Drop:
-                    _dropEvent(static_cast<Event::Drop&>(event));
+                    _dropEvent(static_cast<Event::Drop &>(event));
                     break;
                 case Event::Type::KeyPress:
-                    _keyPressEvent(static_cast<Event::KeyPress&>(event));
+                    _keyPressEvent(static_cast<Event::KeyPress &>(event));
                     break;
                 case Event::Type::KeyRelease:
-                    _keyReleaseEvent(static_cast<Event::KeyRelease&>(event));
+                    _keyReleaseEvent(static_cast<Event::KeyRelease &>(event));
                     break;
                 case Event::Type::TextFocus:
-                    _textFocusEvent(static_cast<Event::TextFocus&>(event));
+                    _textFocusEvent(static_cast<Event::TextFocus &>(event));
                     break;
                 case Event::Type::TextFocusLost:
-                    _textFocusLostEvent(static_cast<Event::TextFocusLost&>(event));
+                    _textFocusLostEvent(static_cast<Event::TextFocusLost &>(event));
                     break;
                 case Event::Type::Text:
-                    _textEvent(static_cast<Event::Text&>(event));
+                    _textEvent(static_cast<Event::Text &>(event));
                     break;
                 default: break;
                 }
@@ -523,7 +523,7 @@ namespace djv
             return out;
         }
 
-        void Widget::_paintEvent(Event::Paint& event)
+        void Widget::_paintEvent(Event::Paint & event)
         {
             if (_backgroundRole != ColorRole::None)
             {
@@ -538,7 +538,7 @@ namespace djv
             }
         }
 
-        void Widget::_pointerEnterEvent(Event::PointerEnter& event)
+        void Widget::_pointerEnterEvent(Event::PointerEnter & event)
         {
             if (_pointerEnabled && !event.isRejected())
             {
@@ -546,7 +546,7 @@ namespace djv
             }
         }
 
-        void Widget::_pointerLeaveEvent(Event::PointerLeave& event)
+        void Widget::_pointerLeaveEvent(Event::PointerLeave & event)
         {
             if (_pointerEnabled)
             {
@@ -554,7 +554,7 @@ namespace djv
             }
         }
 
-        void Widget::_pointerMoveEvent(Event::PointerMove& event)
+        void Widget::_pointerMoveEvent(Event::PointerMove & event)
         {
             if (_pointerEnabled)
             {
@@ -562,13 +562,13 @@ namespace djv
             }
         }
 
-        void Widget::_keyPressEvent(Event::KeyPress& event)
+        void Widget::_keyPressEvent(Event::KeyPress & event)
         {
             if (isEnabled(true))
             {
                 // Find the shortcuts.
                 std::vector<std::shared_ptr<Shortcut> > shortcuts;
-                for (const auto& i : _actions)
+                for (const auto & i : _actions)
                 {
                     if (i->observeEnabled()->get())
                     {
@@ -586,7 +586,7 @@ namespace djv
                     return a->observeShortcutModifiers()->get() > b->observeShortcutModifiers()->get();
                 });
 
-                for (const auto& i : shortcuts)
+                for (const auto & i : shortcuts)
                 {
                     const int key = i->observeShortcutKey()->get();
                     const int modifiers = i->observeShortcutModifiers()->get();
@@ -622,7 +622,7 @@ namespace djv
             _resizeRequest = true;
         }
 
-        void Widget::_setMinimumSize(const glm::vec2& value)
+        void Widget::_setMinimumSize(const glm::vec2 & value)
         {
             if (value == _minimumSize)
                 return;

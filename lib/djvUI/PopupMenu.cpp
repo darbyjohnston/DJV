@@ -159,12 +159,12 @@ namespace djv
             }
         }
 
-        void PopupMenu::_preLayoutEvent(Event::PreLayout& event)
+        void PopupMenu::_preLayoutEvent(Event::PreLayout & event)
         {
             _setMinimumSize(_p->button->getMinimumSize());
         }
 
-        void PopupMenu::_layoutEvent(Event::Layout& event)
+        void PopupMenu::_layoutEvent(Event::Layout & event)
         {
             _p->button->setGeometry(getGeometry());
         }

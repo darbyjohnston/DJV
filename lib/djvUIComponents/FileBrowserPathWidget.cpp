@@ -259,12 +259,12 @@ namespace djv
                 _p->editCallback = value;
             }
 
-            void PathWidget::_preLayoutEvent(Event::PreLayout& event)
+            void PathWidget::_preLayoutEvent(Event::PreLayout & event)
             {
                 _setMinimumSize(_p->layout->getMinimumSize());
             }
 
-            void PathWidget::_layoutEvent(Event::Layout& event)
+            void PathWidget::_layoutEvent(Event::Layout & event)
             {
                 _p->layout->setGeometry(getGeometry());
             }
@@ -286,7 +286,7 @@ namespace djv
                 p.historyButton->setTooltip(_getText(DJV_TEXT("File browser history tooltip")));
             }
 
-            bool PathWidget::_eventFilter(const std::shared_ptr<IObject>& object, Event::IEvent& event)
+            bool PathWidget::_eventFilter(const std::shared_ptr<IObject>& object, Event::IEvent & event)
             {
                 DJV_PRIVATE_PTR();
                 switch (event.getEventType())

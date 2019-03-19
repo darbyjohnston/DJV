@@ -76,12 +76,12 @@ namespace djv
             _p->scrollWidget->removeChild(value);
         }
 
-        void ISettingsWidget::_preLayoutEvent(Event::PreLayout& event)
+        void ISettingsWidget::_preLayoutEvent(Event::PreLayout & event)
         {
             _setMinimumSize(_p->scrollWidget->getMinimumSize());
         }
 
-        void ISettingsWidget::_layoutEvent(Event::Layout&)
+        void ISettingsWidget::_layoutEvent(Event::Layout &)
         {
             _p->scrollWidget->setGeometry(getGeometry());
         }

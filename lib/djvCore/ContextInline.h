@@ -39,7 +39,7 @@ namespace djv
             return _args;
         }
            
-        inline const std::string& Context::getName() const
+        inline const std::string & Context::getName() const
         {
             return _name;
         }

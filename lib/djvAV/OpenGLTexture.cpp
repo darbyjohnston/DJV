@@ -41,7 +41,7 @@ namespace djv
     {
         namespace OpenGL
         {
-            void Texture::_init(const Image::Info& info, GLenum filter)
+            void Texture::_init(const Image::Info & info, GLenum filter)
             {
                 _info = info;
                 glGenTextures(1, &_id);
@@ -79,16 +79,16 @@ namespace djv
                 }
             }
 
-            std::shared_ptr<Texture> Texture::create(const Image::Info& info, GLenum filter)
+            std::shared_ptr<Texture> Texture::create(const Image::Info & info, GLenum filter)
             {
                 auto out = std::shared_ptr<Texture>(new Texture);
                 out->_init(info, filter);
                 return out;
             }
 
-            void Texture::copy(const Image::Data& data)
+            void Texture::copy(const Image::Data & data)
             {
-                const auto& info = data.getInfo();
+                const auto & info = data.getInfo();
 
                 glBindBuffer(GL_PIXEL_UNPACK_BUFFER, _pbo);
                 glBufferData(GL_PIXEL_UNPACK_BUFFER, info.getDataByteCount(), data.getData(), GL_STREAM_DRAW);
@@ -114,9 +114,9 @@ namespace djv
                 glBindBuffer(GL_PIXEL_UNPACK_BUFFER, 0);
             }
 
-            void Texture::copy(const Image::Data& data, const glm::ivec2& pos)
+            void Texture::copy(const Image::Data & data, const glm::ivec2 & pos)
             {
-                const auto& info = data.getInfo();
+                const auto & info = data.getInfo();
 
                 glBindBuffer(GL_PIXEL_UNPACK_BUFFER, _pbo);
                 glBufferData(GL_PIXEL_UNPACK_BUFFER, info.getDataByteCount(), data.getData(), GL_STREAM_DRAW);

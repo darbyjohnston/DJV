@@ -37,7 +37,7 @@ namespace djv
     {
         namespace FileSystem
         {
-            const std::string& getFilePermissionsLabel(int in)
+            const std::string & getFilePermissionsLabel(int in)
             {
                 static const std::vector<std::string> data =
                 {
@@ -68,14 +68,14 @@ namespace djv
                 _init();
             }
 
-            FileInfo::FileInfo(const Path& path, bool stat)
+            FileInfo::FileInfo(const Path & path, bool stat)
             {
                 _init();
 
                 setPath(path, stat);
             }
 
-            FileInfo::FileInfo(const std::string& path, bool stat)
+            FileInfo::FileInfo(const std::string & path, bool stat)
             {
                 _init();
 
@@ -114,7 +114,7 @@ namespace djv
                 return s.str();
             }
 
-            void FileInfo::setPath(const Path& value, bool stat)
+            void FileInfo::setPath(const Path & value, bool stat)
             {
                 _init();
 
@@ -134,12 +134,12 @@ namespace djv
                 }
             }
 
-            void FileInfo::setPath(const std::string& value, bool stat)
+            void FileInfo::setPath(const std::string & value, bool stat)
             {
                 setPath(Path(value), stat);
             }
 
-            void FileInfo::setSequence(const Frame::Sequence& in)
+            void FileInfo::setSequence(const Frame::Sequence & in)
             {
                 _sequence = in;
                 std::stringstream s;
@@ -160,7 +160,7 @@ namespace djv
                             _type = FileType::Sequence;
                         }
                     }
-                    catch (const std::exception&)
+                    catch (const std::exception &)
                     {
                         _sequence = Frame::Sequence();
                     }
@@ -175,11 +175,11 @@ namespace djv
                 _path.setNumber(s.str());
             }
 
-            FileInfo FileInfo::getFileSequence(const Path& path)
+            FileInfo FileInfo::getFileSequence(const Path & path)
             {
                 DirectoryListOptions options;
                 options.fileSequences = true;
-                for (const auto& fileInfo : directoryList(path.getDirectoryName(), options))
+                for (const auto & fileInfo : directoryList(path.getDirectoryName(), options))
                 {
                     if (fileInfo.sequenceContains(path))
                     {
@@ -212,7 +212,7 @@ namespace djv
         }
     }
 
-    std::ostream& operator << (std::ostream& s, const Core::FileSystem::FileInfo& value)
+    std::ostream & operator << (std::ostream & s, const Core::FileSystem::FileInfo & value)
     {
         s << value.getPath();
         return s;

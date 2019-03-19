@@ -132,7 +132,7 @@ namespace djv
         {
             _value = value;
 
-            for (const auto& s : IMapSubject<T, U>::_observers)
+            for (const auto & s : IMapSubject<T, U>::_observers)
             {
                 if (auto observer = s.lock())
                 {
@@ -149,7 +149,7 @@ namespace djv
 
             _value = value;
 
-            for (const auto& s : IMapSubject<T, U>::_observers)
+            for (const auto & s : IMapSubject<T, U>::_observers)
             {
                 if (auto observer = s.lock())
                 {
@@ -167,7 +167,7 @@ namespace djv
             {
                 _value.clear();
 
-                for (const auto& s : IMapSubject<T, U>::_observers)
+                for (const auto & s : IMapSubject<T, U>::_observers)
                 {
                     if (auto observer = s.lock())
                     {
@@ -178,11 +178,11 @@ namespace djv
         }
 
         template<typename T, typename U>
-        void MapSubject<T, U>::setItem(const T& key, const U& value)
+        void MapSubject<T, U>::setItem(const T & key, const U & value)
         {
             _value[key] = value;
 
-            for (const auto& s : IMapSubject<T, U>::_observers)
+            for (const auto & s : IMapSubject<T, U>::_observers)
             {
                 if (auto observer = s.lock())
                 {
@@ -192,7 +192,7 @@ namespace djv
         }
 
         template<typename T, typename U>
-        void MapSubject<T, U>::setItemOnlyIfChanged(const T& key, const U& value)
+        void MapSubject<T, U>::setItemOnlyIfChanged(const T & key, const U & value)
         {
             const auto i = _value.find(key);
             if (i != _value.end() && i->second == value)
@@ -200,7 +200,7 @@ namespace djv
 
             _value[key] = value;
 
-            for (const auto& s : IMapSubject<T, U>::_observers)
+            for (const auto & s : IMapSubject<T, U>::_observers)
             {
                 if (auto observer = s.lock())
                 {
@@ -228,13 +228,13 @@ namespace djv
         }
 
         template<typename T, typename U>
-        inline bool MapSubject<T, U>::hasKey(const T& value)
+        inline bool MapSubject<T, U>::hasKey(const T & value)
         {
             return _value.find(value) != _value.end();
         }
 
         template<typename T, typename U>
-        inline const U& MapSubject<T, U>::getItem(const T& key) const
+        inline const U & MapSubject<T, U>::getItem(const T & key) const
         {
             return _value.find(key)->second;
         }

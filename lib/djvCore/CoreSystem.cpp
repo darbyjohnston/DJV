@@ -51,7 +51,7 @@ namespace djv
             std::shared_ptr<Animation::System> animationSystem;
         };
 
-        void CoreSystem::_init(const std::string& argv0, Context * context)
+        void CoreSystem::_init(const std::string & argv0, Context * context)
         {
             ISystem::_init("djv::Core::CoreSystem", context);
 
@@ -82,7 +82,7 @@ namespace djv
         CoreSystem::~CoreSystem()
         {}
 
-        std::shared_ptr<CoreSystem> CoreSystem::create(const std::string& argv0, Context * context)
+        std::shared_ptr<CoreSystem> CoreSystem::create(const std::string & argv0, Context * context)
         {
             auto out = std::shared_ptr<CoreSystem>(new CoreSystem);
             out->_init(argv0, context);

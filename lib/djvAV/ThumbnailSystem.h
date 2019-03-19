@@ -107,7 +107,7 @@ namespace djv
             //! Get a thumbnail image for the given file.
             ImageFuture getImage(
                 const Core::FileSystem::Path & path,
-                const glm::ivec2&              size,
+                const glm::ivec2 &              size,
                 Image::Type                    type = Image::Type::None);
 
             //! Cancel a thumbnail image.

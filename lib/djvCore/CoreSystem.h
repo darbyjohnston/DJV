@@ -41,13 +41,13 @@ namespace djv
             DJV_NON_COPYABLE(CoreSystem);
 
         protected:
-            void _init(const std::string& argv0, Core::Context *);
+            void _init(const std::string & argv0, Core::Context *);
             CoreSystem();
 
         public:
             ~CoreSystem() override;
 
-            static std::shared_ptr<CoreSystem> create(const std::string& argv0, Core::Context *);
+            static std::shared_ptr<CoreSystem> create(const std::string & argv0, Core::Context *);
 
         private:
             DJV_PRIVATE();

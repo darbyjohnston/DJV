@@ -115,12 +115,12 @@ namespace djv
             }
 
             void stringToKeycode(
-                const std::string& string,
-                int&               id,
-                int&               type,
-                int&               prefix,
-                int&               count,
-                int&               offset)
+                const std::string & string,
+                int &               id,
+                int &               type,
+                int &               prefix,
+                int &               count,
+                int &               offset)
             {
                 const auto pieces = String::split(string, ':');
                 if (pieces.size() != 5)
@@ -153,7 +153,7 @@ namespace djv
                 return s.str();
             }
 
-            void stringToTimecode(const std::string& in, uint32_t& out, bool* ok)
+            void stringToTimecode(const std::string & in, uint32_t & out, bool* ok)
             {
                 if (ok)
                 {

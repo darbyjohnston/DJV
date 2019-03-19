@@ -194,7 +194,7 @@ namespace djv
             return out;
         }
 
-        void MainWindow::_dropEvent(Core::Event::Drop& event)
+        void MainWindow::_dropEvent(Core::Event::Drop & event)
         {
             if (auto style = _getStyle().lock())
             {

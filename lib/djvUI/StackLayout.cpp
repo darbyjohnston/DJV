@@ -67,7 +67,7 @@ namespace djv
                 if (auto style = _getStyle().lock())
                 {
                     const glm::vec2 m = getMargin().getSize(style);
-                    for (const auto& child : getChildrenT<Widget>())
+                    for (const auto & child : getChildrenT<Widget>())
                     {
                         if (child->isVisible())
                         {
@@ -79,12 +79,12 @@ namespace djv
                 return out;
             }
 
-            void Stack::_preLayoutEvent(Event::PreLayout&)
+            void Stack::_preLayoutEvent(Event::PreLayout &)
             {
                 if (auto style = _getStyle().lock())
                 {
                     glm::vec2 minimumSize = glm::vec2(0.f, 0.f);
-                    for (const auto& child : getChildrenT<Widget>())
+                    for (const auto & child : getChildrenT<Widget>())
                     {
                         if (child->isVisible())
                         {
@@ -95,12 +95,12 @@ namespace djv
                 }
             }
 
-            void Stack::_layoutEvent(Event::Layout&)
+            void Stack::_layoutEvent(Event::Layout &)
             {
                 if (auto style = _getStyle().lock())
                 {
-                    const BBox2f& g = getMargin().bbox(getGeometry(), style);
-                    for (const auto& child : getChildrenT<Widget>())
+                    const BBox2f & g = getMargin().bbox(getGeometry(), style);
+                    for (const auto & child : getChildrenT<Widget>())
                     {
                         const BBox2f childGeometry = Widget::getAlign(g, child->getMinimumSize(), child->getHAlign(), child->getVAlign());
                         child->setGeometry(childGeometry);

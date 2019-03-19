@@ -129,7 +129,7 @@ namespace djv
                 bool redrawRequest = _p->redrawRequest;
                 _p->resizeRequest = false;
                 _p->redrawRequest = false;
-                for (const auto& i : rootObject->getChildrenT<UI::Window>())
+                for (const auto & i : rootObject->getChildrenT<UI::Window>())
                 {
                     resizeRequest |= _resizeRequest(i);
                     redrawRequest |= _redrawRequest(i);
@@ -138,7 +138,7 @@ namespace djv
                 const auto & size = _p->offscreenBuffer->getInfo().size;
                 if (resizeRequest)
                 {
-                    for (const auto& i : rootObject->getChildrenT<UI::Window>())
+                    for (const auto & i : rootObject->getChildrenT<UI::Window>())
                     {
                         i->resize(size);
 
@@ -162,7 +162,7 @@ namespace djv
                     {
                         _p->offscreenBuffer->bind();
                         render->beginFrame(size);
-                        for (const auto& i : rootObject->getChildrenT<UI::Window>())
+                        for (const auto & i : rootObject->getChildrenT<UI::Window>())
                         {
                             if (i->isVisible())
                             {
@@ -238,7 +238,7 @@ namespace djv
             }
         }
 
-        void EventSystem::_hover(Event::PointerMove& event, std::shared_ptr<IObject>& hover)
+        void EventSystem::_hover(Event::PointerMove & event, std::shared_ptr<IObject>& hover)
         {
             auto rootObject = getContext()->getRootObject();
             for (const auto & i : rootObject->getChildrenRecursiveT<UI::Window>())
@@ -251,7 +251,7 @@ namespace djv
             }
         }
 
-        void EventSystem::_hover(const std::shared_ptr<UI::Widget>& widget, Event::PointerMove& event, std::shared_ptr<IObject>& hover)
+        void EventSystem::_hover(const std::shared_ptr<UI::Widget>& widget, Event::PointerMove & event, std::shared_ptr<IObject>& hover)
         {
             const auto children = widget->getChildrenRecursiveT<UI::Widget>();
             for (auto i = children.rbegin(); i != children.rend(); ++i)

@@ -168,7 +168,7 @@ namespace djv
             return out;
         }
 
-        void SearchBox::_preLayoutEvent(Event::PreLayout& event)
+        void SearchBox::_preLayoutEvent(Event::PreLayout & event)
         {
             if (auto style = _getStyle().lock())
             {
@@ -176,7 +176,7 @@ namespace djv
             }
         }
 
-        void SearchBox::_layoutEvent(Event::Layout& event)
+        void SearchBox::_layoutEvent(Event::Layout & event)
         {
             if (auto style = _getStyle().lock())
             {

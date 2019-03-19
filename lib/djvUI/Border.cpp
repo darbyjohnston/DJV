@@ -100,12 +100,12 @@ namespace djv
                 _redraw();
             }
 
-            const Margin& Border::getInsideMargin() const
+            const Margin & Border::getInsideMargin() const
             {
                 return _p->layout->getMargin();
             }
 
-            void Border::setInsideMargin(const Margin& value)
+            void Border::setInsideMargin(const Margin & value)
             {
                 _p->layout->setMargin(value);
             }
@@ -133,7 +133,7 @@ namespace djv
                 _p->layout->removeChild(value);
             }
 
-            void Border::_preLayoutEvent(Event::PreLayout& event)
+            void Border::_preLayoutEvent(Event::PreLayout & event)
             {
                 DJV_PRIVATE_PTR();
                 if (auto style = _getStyle().lock())
@@ -142,7 +142,7 @@ namespace djv
                 }
             }
 
-            void Border::_layoutEvent(Event::Layout& event)
+            void Border::_layoutEvent(Event::Layout & event)
             {
                 DJV_PRIVATE_PTR();
                 if (auto style = _getStyle().lock())
@@ -152,7 +152,7 @@ namespace djv
                 }
             }
 
-            void Border::_paintEvent(Event::Paint& event)
+            void Border::_paintEvent(Event::Paint & event)
             {
                 Widget::_paintEvent(event);
                 DJV_PRIVATE_PTR();

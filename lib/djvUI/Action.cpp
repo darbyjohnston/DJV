@@ -120,7 +120,7 @@ namespace djv
             return _p->icon;
         }
 
-        void Action::setIcon(const std::string& value)
+        void Action::setIcon(const std::string & value)
         {
             _p->icon->setIfChanged(value);
         }
@@ -130,7 +130,7 @@ namespace djv
             return _p->title;
         }
 
-        void Action::setTitle(const std::string& value)
+        void Action::setTitle(const std::string & value)
         {
             _p->title->setIfChanged(value);
         }
@@ -140,7 +140,7 @@ namespace djv
             return _p->text;
         }
 
-        void Action::setText(const std::string& value)
+        void Action::setText(const std::string & value)
         {
             _p->text->setIfChanged(value);
         }
@@ -234,7 +234,7 @@ namespace djv
             return _p->tooltip;
         }
 
-        void Action::setTooltip(const std::string& value)
+        void Action::setTooltip(const std::string & value)
         {
             _p->tooltip->setIfChanged(value);
         }

@@ -212,7 +212,7 @@ namespace djv
                 }
             }
 
-            void Splitter::_preLayoutEvent(Event::PreLayout& event)
+            void Splitter::_preLayoutEvent(Event::PreLayout & event)
             {
                 DJV_PRIVATE_PTR();
                 if (auto style = _getStyle().lock())
@@ -223,7 +223,7 @@ namespace djv
                     {
                         if (child->isVisible())
                         {
-                            const glm::vec2& size = child->getMinimumSize();
+                            const glm::vec2 & size = child->getMinimumSize();
                             switch (p.orientation)
                             {
                             case Orientation::Horizontal:
@@ -256,7 +256,7 @@ namespace djv
                 }
             }
 
-            void Splitter::_layoutEvent(Event::Layout& event)
+            void Splitter::_layoutEvent(Event::Layout & event)
             {
                 const auto g = _getChildGeometry();
                 size_t i = 0;
@@ -267,7 +267,7 @@ namespace djv
                 }
             }
 
-            void Splitter::_paintEvent(Event::Paint& event)
+            void Splitter::_paintEvent(Event::Paint & event)
             {
                 DJV_PRIVATE_PTR();
                 if (auto render = _getRender().lock())
@@ -340,7 +340,7 @@ namespace djv
                 }
             }
 
-            void Splitter::_pointerLeaveEvent(Event::PointerLeave&)
+            void Splitter::_pointerLeaveEvent(Event::PointerLeave &)
             {
                 DJV_PRIVATE_PTR();
                 if (p.hover.size())
@@ -419,7 +419,7 @@ namespace djv
                 }
             }
 
-            void Splitter::_buttonPressEvent(Event::ButtonPress& event)
+            void Splitter::_buttonPressEvent(Event::ButtonPress & event)
             {
                 DJV_PRIVATE_PTR();
                 if (p.pressedID.first)
@@ -435,7 +435,7 @@ namespace djv
                 }
             }
 
-            void Splitter::_buttonReleaseEvent(Event::ButtonRelease& event)
+            void Splitter::_buttonReleaseEvent(Event::ButtonRelease & event)
             {
                 DJV_PRIVATE_PTR();
                 if (event.getPointerInfo().id != p.pressedID.first)

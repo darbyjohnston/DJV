@@ -67,7 +67,7 @@ namespace djv
                 };
             }
 
-            Palette::Palette(const Palette& other) :
+            Palette::Palette(const Palette & other) :
                 _p(new Private)
             {
                 *_p = *other._p;
@@ -76,7 +76,7 @@ namespace djv
             Palette::~Palette()
             {}
 
-            Palette& Palette::operator = (const Palette& other)
+            Palette & Palette::operator = (const Palette & other)
             {
                 *_p = *other._p;
                 return *this;
@@ -92,7 +92,7 @@ namespace djv
                 _p->colors[role] = value;
             }
 
-            bool Palette::operator == (const Palette& other) const
+            bool Palette::operator == (const Palette & other) const
             {
                 return _p->colors == other._p->colors;
             }
@@ -102,7 +102,7 @@ namespace djv
                 std::map<MetricsRole, float> metrics;
             };
 
-            Metrics::Metrics(const Metrics& other) :
+            Metrics::Metrics(const Metrics & other) :
                 _p(new Private)
             {
                 *_p = *other._p;
@@ -111,7 +111,7 @@ namespace djv
             Metrics::~Metrics()
             {}
 
-            Metrics& Metrics::operator = (const Metrics& other)
+            Metrics & Metrics::operator = (const Metrics & other)
             {
                 *_p = *other._p;
                 return *this;
@@ -159,7 +159,7 @@ namespace djv
                 _p->metrics[role] = value;
             }
 
-            bool Metrics::operator == (const Metrics& other) const
+            bool Metrics::operator == (const Metrics & other) const
             {
                 DJV_PRIVATE_PTR();
                 return p.metrics == other._p->metrics;
@@ -197,12 +197,12 @@ namespace djv
                 return out;
             }
 
-            const Palette& Style::getPalette() const
+            const Palette & Style::getPalette() const
             {
                 return _p->palette;
             }
 
-            const AV::Image::Color& Style::getColor(ColorRole role) const
+            const AV::Image::Color & Style::getColor(ColorRole role) const
             {
                 return _p->palette.getColor(role);
             }
@@ -284,7 +284,7 @@ namespace djv
         } // namespace Style
     } // namespace UI
 
-    picojson::value toJSON(const UI::Style::Palette& value)
+    picojson::value toJSON(const UI::Style::Palette & value)
     {
         picojson::value out(picojson::object_type, true);
         {
@@ -302,7 +302,7 @@ namespace djv
         return out;
     }
 
-    picojson::value toJSON(const UI::Style::Metrics& value)
+    picojson::value toJSON(const UI::Style::Metrics & value)
     {
         picojson::value out(picojson::object_type, true);
         {
@@ -318,17 +318,17 @@ namespace djv
         return out;
     }
 
-    void fromJSON(const picojson::value& value, UI::Style::Palette& out)
+    void fromJSON(const picojson::value & value, UI::Style::Palette & out)
     {
         if (value.is<picojson::object>())
         {
-            for (const auto& i : value.get<picojson::object>())
+            for (const auto & i : value.get<picojson::object>())
             {
                 if ("Roles" == i.first)
                 {
                     if (i.second.is<picojson::object>())
                     {
-                        for (const auto& j : i.second.get<picojson::object>())
+                        for (const auto & j : i.second.get<picojson::object>())
                         {
                             UI::ColorRole role = UI::ColorRole::First;
                             std::stringstream ss(j.first);
@@ -360,17 +360,17 @@ namespace djv
         }
     }
 
-    void fromJSON(const picojson::value& value, UI::Style::Metrics& out)
+    void fromJSON(const picojson::value & value, UI::Style::Metrics & out)
     {
         if (value.is<picojson::object>())
         {
-            for (const auto& i : value.get<picojson::object>())
+            for (const auto & i : value.get<picojson::object>())
             {
                 if ("Roles" == i.first)
                 {
                     if (i.second.is<picojson::object>())
                     {
-                        for (const auto& j : i.second.get<picojson::object>())
+                        for (const auto & j : i.second.get<picojson::object>())
                         {
                             UI::MetricsRole role = UI::MetricsRole::First;
                             std::stringstream ss(j.first);

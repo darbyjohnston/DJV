@@ -71,19 +71,19 @@ namespace djv
             return out;
         }
 
-        std::shared_ptr<Icon> Icon::create(const std::string& name, Context * context)
+        std::shared_ptr<Icon> Icon::create(const std::string & name, Context * context)
         {
             auto out = Icon::create(context);
             out->setIcon(name);
             return out;
         }
 
-        const std::string& Icon::getIcon() const
+        const std::string & Icon::getIcon() const
         {
             return _p->name;
         }
 
-        void Icon::setIcon(const std::string& value)
+        void Icon::setIcon(const std::string & value)
         {
             DJV_PRIVATE_PTR();
             if (value == p.name)
@@ -127,7 +127,7 @@ namespace djv
             _resize();
         }
 
-        void Icon::_styleEvent(Event::Style& event)
+        void Icon::_styleEvent(Event::Style & event)
         {
             DJV_PRIVATE_PTR();
             if (!p.name.empty())
@@ -142,7 +142,7 @@ namespace djv
             }
         }
 
-        void Icon::_preLayoutEvent(Event::PreLayout& event)
+        void Icon::_preLayoutEvent(Event::PreLayout & event)
         {
             DJV_PRIVATE_PTR();
             if (auto style = _getStyle().lock())
@@ -174,7 +174,7 @@ namespace djv
             }
         }
 
-        void Icon::_paintEvent(Event::Paint& event)
+        void Icon::_paintEvent(Event::Paint & event)
         {
             Widget::_paintEvent(event);
             DJV_PRIVATE_PTR();
@@ -182,13 +182,13 @@ namespace djv
             {
                 if (auto style = _getStyle().lock())
                 {
-                    const BBox2f& g = getMargin().bbox(getGeometry(), style);
+                    const BBox2f & g = getMargin().bbox(getGeometry(), style);
                     const glm::vec2 c = g.getCenter();
 
                     // Draw the icon.
                     if (p.image && p.image->isValid())
                     {
-                        const glm::vec2& size = p.image->getSize();
+                        const glm::vec2 & size = p.image->getSize();
                         glm::vec2 pos = glm::vec2(0.f, 0.f);
                         switch (getHAlign())
                         {

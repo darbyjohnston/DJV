@@ -130,7 +130,7 @@ namespace djv
             _textUpdate();
         }
 
-        void FloatLabel::_preLayoutEvent(Event::PreLayout& event)
+        void FloatLabel::_preLayoutEvent(Event::PreLayout & event)
         {
             DJV_PRIVATE_PTR();
             if (auto style = _getStyle().lock())
@@ -139,7 +139,7 @@ namespace djv
             }
         }
 
-        void FloatLabel::_layoutEvent(Event::Layout& event)
+        void FloatLabel::_layoutEvent(Event::Layout & event)
         {
             DJV_PRIVATE_PTR();
             if (auto style = _getStyle().lock())

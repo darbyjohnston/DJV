@@ -52,7 +52,7 @@ namespace djv
 
                 static std::shared_ptr<AVIO> create(Core::Context *);
 
-                void load(const picojson::value&) override;
+                void load(const picojson::value &) override;
                 picojson::value save() override;
 
             private:

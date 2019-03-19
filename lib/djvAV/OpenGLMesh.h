@@ -77,7 +77,7 @@ namespace djv
                 void copy(const std::vector<uint8_t>&);
                 void copy(const std::vector<uint8_t>&, size_t offset);
 
-                static std::vector<uint8_t> convert(const Geom::TriangleMesh&, VBOType);
+                static std::vector<uint8_t> convert(const Geom::TriangleMesh &, VBOType);
 
             private:
                 size_t _size = 0;

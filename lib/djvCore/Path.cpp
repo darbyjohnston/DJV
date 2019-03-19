@@ -42,18 +42,18 @@ namespace djv
             Path::Path()
             {}
 
-            Path::Path(const std::string& value)
+            Path::Path(const std::string & value)
             {
                 set(value);
             }
 
-            Path::Path(const Path& value, const std::string& append)
+            Path::Path(const Path & value, const std::string & append)
             {
                 *this = value;
                 this->append(append);
             }
 
-            Path::Path(const std::string& value, const std::string& append)
+            Path::Path(const std::string & value, const std::string & append)
             {
                 set(value);
                 this->append(append);
@@ -78,7 +78,7 @@ namespace djv
                 _fileName = _baseName + _number + _extension;
             }
 
-            void Path::append(const std::string& value)
+            void Path::append(const std::string & value)
             {
                 const size_t pathSize = _value.size();
                 if (value.size() && pathSize && !isPathSeparator(_value[pathSize - 1]))
@@ -113,7 +113,7 @@ namespace djv
                 return false;
             }
 
-            void Path::setDirectoryName(const std::string& value)
+            void Path::setDirectoryName(const std::string & value)
             {
                 if (value == _directoryName)
                     return;
@@ -123,12 +123,12 @@ namespace djv
                 _value = _directoryName + _baseName + _number + _extension;
             }
 
-            void Path::setFileName(const std::string& value)
+            void Path::setFileName(const std::string & value)
             {
                 set(_directoryName + value);
             }
 
-            void Path::setBaseName(const std::string& value)
+            void Path::setBaseName(const std::string & value)
             {
                 if (value == _baseName)
                     return;
@@ -139,7 +139,7 @@ namespace djv
                 _value = _directoryName + _fileName;
             }
 
-            void Path::setNumber(const std::string& value)
+            void Path::setNumber(const std::string & value)
             {
                 if (value == _number)
                     return;
@@ -150,7 +150,7 @@ namespace djv
                 _value = _directoryName + _fileName;
             }
 
-            void Path::setExtension(const std::string& value)
+            void Path::setExtension(const std::string & value)
             {
                 if (value == _extension)
                     return;
@@ -161,7 +161,7 @@ namespace djv
                 _value = _directoryName + _fileName;
             }
 
-            void Path::removeTrailingSeparator(std::string& value)
+            void Path::removeTrailingSeparator(std::string & value)
             {
                 if (value.size() > 2)
                 {
@@ -175,7 +175,7 @@ namespace djv
 
             namespace
             {
-                inline bool matchPadding(const std::string& a, const std::string& b)
+                inline bool matchPadding(const std::string & a, const std::string & b)
                 {
                     return
                         ((a.length() > 1 && '0' == a[0]) || (b.length() > 1 && '0' == b[0])) ?
@@ -186,11 +186,11 @@ namespace djv
             } // namespace
 
             void Path::split(
-                const std::string& in,
-                std::string&       path,
-                std::string&       base,
-                std::string&       number,
-                std::string&       extension)
+                const std::string & in,
+                std::string &       path,
+                std::string &       base,
+                std::string &       number,
+                std::string &       extension)
             {
                 path.resize(0);
                 base.resize(0);
@@ -264,7 +264,7 @@ namespace djv
                 }
             }
 
-            std::vector<std::string> Path::splitDir(const std::string& value)
+            std::vector<std::string> Path::splitDir(const std::string & value)
             {
                 std::vector<std::string> out;
 
@@ -333,13 +333,13 @@ namespace djv
         }
     }
 
-    std::ostream& operator << (std::ostream& os, const Core::FileSystem::Path& value)
+    std::ostream & operator << (std::ostream & os, const Core::FileSystem::Path & value)
     {
         os << value.get();
         return os;
     }
     
-    std::istream& operator >> (std::istream& is, Core::FileSystem::Path& value)
+    std::istream & operator >> (std::istream & is, Core::FileSystem::Path & value)
     {
         std::string s;
         is >> s;

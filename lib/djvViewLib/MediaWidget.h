@@ -54,8 +54,8 @@ namespace djv
             void setMedia(const std::shared_ptr<Media> &);
 
         protected:
-            void _preLayoutEvent(Core::Event::PreLayout&) override;
-            void _layoutEvent(Core::Event::Layout&) override;
+            void _preLayoutEvent(Core::Event::PreLayout &) override;
+            void _layoutEvent(Core::Event::Layout &) override;
 
         private:
             void _widgetUpdate();

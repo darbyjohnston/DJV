@@ -63,8 +63,8 @@ namespace djv
                 struct MetricsRequest
                 {
                     MetricsRequest() {}
-                    MetricsRequest(MetricsRequest&& other) = default;
-                    MetricsRequest& operator = (MetricsRequest&&) = default;
+                    MetricsRequest(MetricsRequest && other) = default;
+                    MetricsRequest & operator = (MetricsRequest &&) = default;
 
                     Info info;
                     std::promise<Metrics> promise;
@@ -73,8 +73,8 @@ namespace djv
                 struct MeasureRequest
                 {
                     MeasureRequest() {}
-                    MeasureRequest(MeasureRequest&&) = default;
-                    MeasureRequest& operator = (MeasureRequest&& other) = default;
+                    MeasureRequest(MeasureRequest &&) = default;
+                    MeasureRequest & operator = (MeasureRequest && other) = default;
 
                     std::string text;
                     Info info;
@@ -85,8 +85,8 @@ namespace djv
                 struct TextLinesRequest
                 {
                     TextLinesRequest() {}
-                    TextLinesRequest(TextLinesRequest&&) = default;
-                    TextLinesRequest& operator = (TextLinesRequest&&) = default;
+                    TextLinesRequest(TextLinesRequest &&) = default;
+                    TextLinesRequest & operator = (TextLinesRequest &&) = default;
 
                     std::string text;
                     Info info;
@@ -97,8 +97,8 @@ namespace djv
                 struct GlyphsRequest
                 {
                     GlyphsRequest() {}
-                    GlyphsRequest(GlyphsRequest&&) = default;
-                    GlyphsRequest& operator = (GlyphsRequest&&) = default;
+                    GlyphsRequest(GlyphsRequest &&) = default;
+                    GlyphsRequest & operator = (GlyphsRequest &&) = default;
 
                     std::string text;
                     Info info;
@@ -146,7 +146,7 @@ namespace djv
             Info::Info()
             {}
 
-            Info::Info(const std::string& family, const std::string& face, float size, int dpi) :
+            Info::Info(const std::string & family, const std::string & face, float size, int dpi) :
                 family(family),
                 face(face),
                 size(size),
@@ -156,7 +156,7 @@ namespace djv
             TextLine::TextLine()
             {}
 
-            TextLine::TextLine(const std::string& text, const glm::vec2& size) :
+            TextLine::TextLine(const std::string & text, const glm::vec2 & size) :
                 text(text),
                 size(size)
             {}
@@ -349,7 +349,7 @@ namespace djv
                 return future;
             }
 
-            std::future<Metrics> System::getMetrics(const Info& info)
+            std::future<Metrics> System::getMetrics(const Info & info)
             {
                 DJV_PRIVATE_PTR();
                 MetricsRequest request;
@@ -363,7 +363,7 @@ namespace djv
                 return future;
             }
 
-            std::future<glm::vec2> System::measure(const std::string& text, const Info& info)
+            std::future<glm::vec2> System::measure(const std::string & text, const Info & info)
             {
                 DJV_PRIVATE_PTR();
                 MeasureRequest request;
@@ -378,7 +378,7 @@ namespace djv
                 return future;
             }
 
-            std::future<glm::vec2> System::measure(const std::string& text, float maxLineWidth, const Info& info)
+            std::future<glm::vec2> System::measure(const std::string & text, float maxLineWidth, const Info & info)
             {
                 DJV_PRIVATE_PTR();
                 MeasureRequest request;
@@ -394,7 +394,7 @@ namespace djv
                 return future;
             }
 
-            std::future<std::vector<TextLine> > System::textLines(const std::string& text, float maxLineWidth, const Info& info)
+            std::future<std::vector<TextLine> > System::textLines(const std::string & text, float maxLineWidth, const Info & info)
             {
                 DJV_PRIVATE_PTR();
                 TextLinesRequest request;
@@ -410,7 +410,7 @@ namespace djv
                 return future;
             }
 
-            std::future<std::vector<std::shared_ptr<Glyph> > > System::getGlyphs(const std::string& text, const Info& info)
+            std::future<std::vector<std::shared_ptr<Glyph> > > System::getGlyphs(const std::string & text, const Info & info)
             {
                 DJV_PRIVATE_PTR();
                 GlyphsRequest request;
@@ -435,9 +435,9 @@ namespace djv
                     {
                         throw std::runtime_error(_getText(DJV_TEXT("FreeType cannot be initialized.")));
                     }
-                    for (const auto& i : FileSystem::FileInfo::directoryList(p.fontPath))
+                    for (const auto & i : FileSystem::FileInfo::directoryList(p.fontPath))
                     {
-                        const std::string& fileName = i.getFileName();
+                        const std::string & fileName = i.getFileName();
 
                         std::stringstream s;
                         s << "Loading font: " << fileName;
@@ -470,7 +470,7 @@ namespace djv
                     }
                     p.fontNamesPromise.set_value(p.fontNames);
                 }
-                catch (const std::exception& e)
+                catch (const std::exception & e)
                 {
                     _log(e.what());
                 }
@@ -481,7 +481,7 @@ namespace djv
                 DJV_PRIVATE_PTR();
                 if (p.ftLibrary)
                 {
-                    for (const auto& i : p.fontFaces)
+                    for (const auto & i : p.fontFaces)
                     {
                         for (const auto & j : i.second)
                         {
@@ -495,7 +495,7 @@ namespace djv
             void System::_handleMetricsRequests()
             {
                 DJV_PRIVATE_PTR();
-                for (auto& request : p.metricsRequests)
+                for (auto & request : p.metricsRequests)
                 {
                     Metrics metrics;
                     const auto family = p.fontFaces.find(request.info.family);
@@ -530,7 +530,7 @@ namespace djv
             void System::_handleMeasureRequests()
             {
                 DJV_PRIVATE_PTR();
-                for (auto& request : p.measureRequests)
+                for (auto & request : p.measureRequests)
                 {
                     glm::vec2 size = glm::vec2(0.f, 0.f);
                     const auto family = p.fontFaces.find(request.info.family);
@@ -636,7 +636,7 @@ namespace djv
             void System::_handleTextLinesRequests()
             {
                 DJV_PRIVATE_PTR();
-                for (auto& request : p.textLinesRequests)
+                for (auto & request : p.textLinesRequests)
                 {
                     std::vector<TextLine> lines;
                     const auto family = p.fontFaces.find(request.info.family);
@@ -758,7 +758,7 @@ namespace djv
             void System::_handleGlyphsRequests()
             {
                 DJV_PRIVATE_PTR();
-                for (auto& request : p.glyphsRequests)
+                for (auto & request : p.glyphsRequests)
                 {
                     std::vector<std::shared_ptr<Glyph> > glyphs;
                     const auto family = p.fontFaces.find(request.info.family);
@@ -779,7 +779,7 @@ namespace djv
                                 _log(ss.str(), LogLevel::Error);
                             }
                             glyphs.reserve(utf32.size());
-                            for (const auto& c : utf32)
+                            for (const auto & c : utf32)
                             {
                                 if (const auto glyph = p.getGlyph(GlyphInfo(c, request.info)))
                                 {

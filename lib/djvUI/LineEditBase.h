@@ -54,8 +54,8 @@ namespace djv
 
             static std::shared_ptr<LineEditBase> create(Core::Context *);
 
-            const std::string& getText() const;
-            void setText(const std::string&);
+            const std::string & getText() const;
+            void setText(const std::string &);
 
             ColorRole getTextColorRole() const;
             void setTextColorRole(ColorRole);
@@ -75,19 +75,19 @@ namespace djv
             void setFocusCallback(const std::function<void(bool)> &);
 
         protected:
-            void _styleEvent(Core::Event::Style&) override;
-            void _preLayoutEvent(Core::Event::PreLayout&) override;
-            void _clipEvent(Core::Event::Clip&) override;
-            void _paintEvent(Core::Event::Paint&) override;
-            void _pointerEnterEvent(Core::Event::PointerEnter&) override;
-            void _pointerLeaveEvent(Core::Event::PointerLeave&) override;
-            void _pointerMoveEvent(Core::Event::PointerMove&) override;
-            void _buttonPressEvent(Core::Event::ButtonPress&) override;
-            void _buttonReleaseEvent(Core::Event::ButtonRelease&) override;
-            void _keyPressEvent(Core::Event::KeyPress&) override;
-            void _textFocusEvent(Core::Event::TextFocus&) override;
-            void _textFocusLostEvent(Core::Event::TextFocusLost&) override;
-            void _textEvent(Core::Event::Text&) override;
+            void _styleEvent(Core::Event::Style &) override;
+            void _preLayoutEvent(Core::Event::PreLayout &) override;
+            void _clipEvent(Core::Event::Clip &) override;
+            void _paintEvent(Core::Event::Paint &) override;
+            void _pointerEnterEvent(Core::Event::PointerEnter &) override;
+            void _pointerLeaveEvent(Core::Event::PointerLeave &) override;
+            void _pointerMoveEvent(Core::Event::PointerMove &) override;
+            void _buttonPressEvent(Core::Event::ButtonPress &) override;
+            void _buttonReleaseEvent(Core::Event::ButtonRelease &) override;
+            void _keyPressEvent(Core::Event::KeyPress &) override;
+            void _textFocusEvent(Core::Event::TextFocus &) override;
+            void _textFocusLostEvent(Core::Event::TextFocusLost &) override;
+            void _textEvent(Core::Event::Text &) override;
 
         private:
             void _textUpdate();

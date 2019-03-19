@@ -97,7 +97,7 @@ namespace djv
             }
         }
 
-        void ImageView::_preLayoutEvent(Event::PreLayout& event)
+        void ImageView::_preLayoutEvent(Event::PreLayout & event)
         {
             if (auto style = _getStyle().lock())
             {
@@ -106,10 +106,10 @@ namespace djv
             }
         }
 
-        void ImageView::_layoutEvent(Event::Layout&)
+        void ImageView::_layoutEvent(Event::Layout &)
         {}
 
-        void ImageView::_paintEvent(Core::Event::Paint&)
+        void ImageView::_paintEvent(Core::Event::Paint &)
         {
             if (auto render = _getRender().lock())
             {
@@ -117,7 +117,7 @@ namespace djv
                 {
                     if (_p->image)
                     {
-                        const BBox2f& g = getMargin().bbox(getGeometry(), style);
+                        const BBox2f & g = getMargin().bbox(getGeometry(), style);
                         render->setFillColor(AV::Image::Color(1.f, 1.f, 1.f));
                         render->drawImage(_p->image, g, AV::Render::ImageCache::Dynamic);
                     }

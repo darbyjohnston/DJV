@@ -209,12 +209,12 @@ namespace djv
             }
         }
 
-        void IDialog::_preLayoutEvent(Event::PreLayout&)
+        void IDialog::_preLayoutEvent(Event::PreLayout &)
         {
             _setMinimumSize(_p->overlay->getMinimumSize());
         }
 
-        void IDialog::_layoutEvent(Event::Layout&)
+        void IDialog::_layoutEvent(Event::Layout &)
         {
             _p->overlay->setGeometry(getGeometry());
         }

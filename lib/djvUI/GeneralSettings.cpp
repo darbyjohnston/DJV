@@ -67,12 +67,12 @@ namespace djv
                 return out;
             }
 
-            void General::load(const picojson::value& value)
+            void General::load(const picojson::value & value)
             {
                 if (value.is<picojson::object>())
                 {
                     std::string currentLocale;
-                    const auto& object = value.get<picojson::object>();
+                    const auto & object = value.get<picojson::object>();
                     read("CurrentLocale", object, currentLocale);
                     if (auto textSystem = getContext()->getSystemT<TextSystem>().lock())
                     {
@@ -84,7 +84,7 @@ namespace djv
             picojson::value General::save()
             {
                 picojson::value out(picojson::object_type, true);
-                auto& object = out.get<picojson::object>();
+                auto & object = out.get<picojson::object>();
                 if (auto textSystem = getContext()->getSystemT<TextSystem>().lock())
                 {
                     write("CurrentLocale", textSystem->getCurrentLocale(), object);

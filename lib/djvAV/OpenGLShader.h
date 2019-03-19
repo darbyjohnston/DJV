@@ -84,14 +84,14 @@ namespace djv
                 void setUniform(gl::GLint, const glm::mat4x4 &);
                 void setUniform(gl::GLint, const Image::Color &);
 
-                void setUniform(const std::string&, int);
-                void setUniform(const std::string&, float);
-                void setUniform(const std::string&, const glm::vec2 &);
-                void setUniform(const std::string&, const glm::vec3 &);
-                void setUniform(const std::string&, const glm::vec4 &);
-                void setUniform(const std::string&, const glm::mat3x3 &);
-                void setUniform(const std::string&, const glm::mat4x4 &);
-                void setUniform(const std::string&, const Image::Color &);
+                void setUniform(const std::string &, int);
+                void setUniform(const std::string &, float);
+                void setUniform(const std::string &, const glm::vec2 &);
+                void setUniform(const std::string &, const glm::vec3 &);
+                void setUniform(const std::string &, const glm::vec4 &);
+                void setUniform(const std::string &, const glm::mat3x3 &);
+                void setUniform(const std::string &, const glm::mat4x4 &);
+                void setUniform(const std::string &, const Image::Color &);
 
                 void bind();
 

@@ -95,7 +95,7 @@ namespace djv
                 return out;
             }
 
-            std::shared_ptr<Push> Push::create(const std::string& text, Context * context)
+            std::shared_ptr<Push> Push::create(const std::string & text, Context * context)
             {
                 auto out = std::shared_ptr<Push>(new Push);
                 out->_init(context);
@@ -103,7 +103,7 @@ namespace djv
                 return out;
             }
 
-            std::shared_ptr<Push> Push::create(const std::string& text, const std::string& icon, Context * context)
+            std::shared_ptr<Push> Push::create(const std::string & text, const std::string & icon, Context * context)
             {
                 auto out = std::shared_ptr<Push>(new Push);
                 out->_init(context);
@@ -112,24 +112,24 @@ namespace djv
                 return out;
             }
 
-            const std::string& Push::getIcon() const
+            const std::string & Push::getIcon() const
             {
                 return _p->icon->getIcon();
             }
 
-            void Push::setIcon(const std::string& value)
+            void Push::setIcon(const std::string & value)
             {
                 DJV_PRIVATE_PTR();
                 p.icon->setIcon(value);
                 p.icon->setVisible(!value.empty());
             }
 
-            const std::string& Push::getText() const
+            const std::string & Push::getText() const
             {
                 return _p->label->getText();
             }
 
-            void Push::setText(const std::string& value)
+            void Push::setText(const std::string & value)
             {
                 DJV_PRIVATE_PTR();
                 p.label->setText(value);
@@ -186,12 +186,12 @@ namespace djv
                 _p->label->setFontSizeRole(value);
             }
 
-            const Layout::Margin& Push::getInsideMargin() const
+            const Layout::Margin & Push::getInsideMargin() const
             {
                 return _p->border->getMargin();
             }
 
-            void Push::setInsideMargin(const Layout::Margin& value)
+            void Push::setInsideMargin(const Layout::Margin & value)
             {
                 _p->border->setMargin(value);
             }
@@ -201,17 +201,17 @@ namespace djv
                 return _p->border->getHeightForWidth(value);
             }
 
-            void Push::_preLayoutEvent(Event::PreLayout& event)
+            void Push::_preLayoutEvent(Event::PreLayout & event)
             {
                 _setMinimumSize(_p->border->getMinimumSize());
             }
 
-            void Push::_layoutEvent(Event::Layout&)
+            void Push::_layoutEvent(Event::Layout &)
             {
                 _p->border->setGeometry(getGeometry());
             }
 
-            void Push::_updateEvent(Event::Update& event)
+            void Push::_updateEvent(Event::Update & event)
             {
                 IButton::_updateEvent(event);
                 const ColorRole colorRole = _getForegroundColorRole();

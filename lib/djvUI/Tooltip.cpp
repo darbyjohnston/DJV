@@ -59,8 +59,8 @@ namespace djv
                 void clearWidgets();
 
             protected:
-                void _layoutEvent(Core::Event::Layout&) override;
-                void _paintEvent(Event::Paint&) override;
+                void _layoutEvent(Core::Event::Layout &) override;
+                void _paintEvent(Event::Paint &) override;
 
             private:
                 std::map<std::shared_ptr<Widget>, glm::vec2> _widgetToPos;
@@ -96,7 +96,7 @@ namespace djv
                 _resize();
             }
 
-            void TooltipLayout::_layoutEvent(Event::Layout&)
+            void TooltipLayout::_layoutEvent(Event::Layout &)
             {
                 if (auto style = _getStyle().lock())
                 {
@@ -140,7 +140,7 @@ namespace djv
                 }
             }
 
-            void TooltipLayout::_paintEvent(Event::Paint& event)
+            void TooltipLayout::_paintEvent(Event::Paint & event)
             {
                 Widget::_paintEvent(event);
                 if (auto render = _getRender().lock())

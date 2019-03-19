@@ -100,12 +100,12 @@ namespace djv
                 IEvent(Type::ChildOrder)
             {}
 
-            inline Locale::Locale(const std::string& locale) :
+            inline Locale::Locale(const std::string & locale) :
                 IEvent(Type::Locale),
                 _locale(locale)
             {}
 
-            inline const std::string& Locale::getLocale() const
+            inline const std::string & Locale::getLocale() const
             {
                 return _locale;
             }
@@ -138,52 +138,52 @@ namespace djv
                 IEvent(Type::Layout)
             {}
 
-            inline Clip::Clip(const BBox2f& clipRect) :
+            inline Clip::Clip(const BBox2f & clipRect) :
                 IEvent(Type::Clip),
                 _clipRect(clipRect)
             {}
 
-            inline const BBox2f& Clip::getClipRect() const
+            inline const BBox2f & Clip::getClipRect() const
             {
                 return _clipRect;
             }
 
-            inline void Clip::setClipRect(const BBox2f& value)
+            inline void Clip::setClipRect(const BBox2f & value)
             {
                 _clipRect = value;
             }
 
-            inline Paint::Paint(const BBox2f& clipRect) :
+            inline Paint::Paint(const BBox2f & clipRect) :
                 IEvent(Type::Paint),
                 _clipRect(clipRect)
             {}
 
-            inline const BBox2f& Paint::getClipRect() const
+            inline const BBox2f & Paint::getClipRect() const
             {
                 return _clipRect;
             }
 
-            inline void Paint::setClipRect(const BBox2f& value)
+            inline void Paint::setClipRect(const BBox2f & value)
             {
                 _clipRect = value;
             }
 
-            inline PaintOverlay::PaintOverlay(const BBox2f& clipRect) :
+            inline PaintOverlay::PaintOverlay(const BBox2f & clipRect) :
                 IEvent(Type::PaintOverlay),
                 _clipRect(clipRect)
             {}
 
-            inline const BBox2f& PaintOverlay::getClipRect() const
+            inline const BBox2f & PaintOverlay::getClipRect() const
             {
                 return _clipRect;
             }
 
-            inline void PaintOverlay::setClipRect(const BBox2f& value)
+            inline void PaintOverlay::setClipRect(const BBox2f & value)
             {
                 _clipRect = value;
             }
 
-            inline IPointer::IPointer(const PointerInfo& pointerInfo, Type type) :
+            inline IPointer::IPointer(const PointerInfo & pointerInfo, Type type) :
                 IEvent(type),
                 _pointerInfo(pointerInfo)
             {}
@@ -206,42 +206,42 @@ namespace djv
                 _rejected = true;
             }
  
-            inline const PointerInfo& IPointer::getPointerInfo() const
+            inline const PointerInfo & IPointer::getPointerInfo() const
             {
                 return _pointerInfo;
             }
 
-            inline PointerEnter::PointerEnter(const PointerInfo& pointerInfo) :
+            inline PointerEnter::PointerEnter(const PointerInfo & pointerInfo) :
                 IPointer(pointerInfo, Type::PointerEnter)
             {}
 
-            inline PointerLeave::PointerLeave(const PointerInfo& pointerInfo) :
+            inline PointerLeave::PointerLeave(const PointerInfo & pointerInfo) :
                 IPointer(pointerInfo, Type::PointerLeave)
             {}
 
-            inline PointerMove::PointerMove(const PointerInfo& pointerInfo) :
+            inline PointerMove::PointerMove(const PointerInfo & pointerInfo) :
                 IPointer(pointerInfo, Type::PointerMove)
             {}
 
-            inline ButtonPress::ButtonPress(const PointerInfo& pointerInfo) :
+            inline ButtonPress::ButtonPress(const PointerInfo & pointerInfo) :
                 IPointer(pointerInfo, Type::ButtonPress)
             {}
 
-            inline ButtonRelease::ButtonRelease(const PointerInfo& pointerInfo) :
+            inline ButtonRelease::ButtonRelease(const PointerInfo & pointerInfo) :
                 IPointer(pointerInfo, Type::ButtonRelease)
             {}
 
-            inline Scroll::Scroll(const glm::vec2& scrollDelta, const PointerInfo& info) :
+            inline Scroll::Scroll(const glm::vec2 & scrollDelta, const PointerInfo & info) :
                 IPointer(info, Type::Scroll),
                 _scrollDelta(scrollDelta)
             {}
 
-            inline const glm::vec2& Scroll::getScrollDelta() const
+            inline const glm::vec2 & Scroll::getScrollDelta() const
             {
                 return _scrollDelta;
             }
 
-            inline Drop::Drop(const std::vector<std::string>& dropPaths, const PointerInfo& info) :
+            inline Drop::Drop(const std::vector<std::string>& dropPaths, const PointerInfo & info) :
                 IPointer(info, Type::Drop),
                 _dropPaths(dropPaths)
             {}
@@ -251,7 +251,7 @@ namespace djv
                 return _dropPaths;
             }
 
-            inline IKey::IKey(int key, int keyModifiers, const PointerInfo& info, Type type) :
+            inline IKey::IKey(int key, int keyModifiers, const PointerInfo & info, Type type) :
                 IPointer(info, type),
                 _key(key),
                 _keyModifiers(keyModifiers)
@@ -270,11 +270,11 @@ namespace djv
                 return _keyModifiers;
             }
 
-            inline KeyPress::KeyPress(int key, int keyModifiers, const PointerInfo& info)  :
+            inline KeyPress::KeyPress(int key, int keyModifiers, const PointerInfo & info)  :
                 IKey(key, keyModifiers, info, Type::KeyPress)
             {}
 
-            inline KeyRelease::KeyRelease(int key, int keyModifiers, const PointerInfo& info) :
+            inline KeyRelease::KeyRelease(int key, int keyModifiers, const PointerInfo & info) :
                 IKey(key, keyModifiers, info, Type::KeyRelease)
             {}
 

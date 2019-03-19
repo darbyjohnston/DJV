@@ -50,17 +50,17 @@ namespace djv
             virtual ~ColorSwatch();
 
             static std::shared_ptr<ColorSwatch> create(Core::Context *);
-            static std::shared_ptr<ColorSwatch> create(const AV::Image::Color&, Core::Context *);
+            static std::shared_ptr<ColorSwatch> create(const AV::Image::Color &, Core::Context *);
 
-            const AV::Image::Color& getColor() const;
-            void setColor(const AV::Image::Color&);
+            const AV::Image::Color & getColor() const;
+            void setColor(const AV::Image::Color &);
 
             MetricsRole getSwatchSize() const;
             void setSwatchSize(MetricsRole);
 
         protected:
-            void _preLayoutEvent(Core::Event::PreLayout&) override;
-            void _paintEvent(Core::Event::Paint&) override;
+            void _preLayoutEvent(Core::Event::PreLayout &) override;
+            void _paintEvent(Core::Event::Paint &) override;
 
         private:
             DJV_PRIVATE();

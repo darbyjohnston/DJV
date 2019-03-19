@@ -124,7 +124,7 @@ namespace djv
                 if (auto style = _getStyle().lock())
                 {
                     const glm::vec2 m = getMargin().getSize(style);
-                    for (const auto& child : getChildrenT<Widget>())
+                    for (const auto & child : getChildrenT<Widget>())
                     {
                         if (child->isVisible() || p.sizeForAll)
                         {
@@ -155,7 +155,7 @@ namespace djv
                 }
             }
 
-            void Solo::_preLayoutEvent(Event::PreLayout&)
+            void Solo::_preLayoutEvent(Event::PreLayout &)
             {
                 DJV_PRIVATE_PTR();
                 if (auto style = _getStyle().lock())
@@ -172,23 +172,23 @@ namespace djv
                 }
             }
 
-            void Solo::_layoutEvent(Event::Layout&)
+            void Solo::_layoutEvent(Event::Layout &)
             {
                 if (auto style = _getStyle().lock())
                 {
-                    const BBox2f& g = getMargin().bbox(getGeometry(), style);
-                    for (const auto& child : getChildrenT<Widget>())
+                    const BBox2f & g = getMargin().bbox(getGeometry(), style);
+                    for (const auto & child : getChildrenT<Widget>())
                     {
                         child->setGeometry(Widget::getAlign(g, child->getMinimumSize(), child->getHAlign(), child->getVAlign()));
                     }
                 }
             }
 
-            void Solo::_updateEvent(Event::Update& event)
+            void Solo::_updateEvent(Event::Update & event)
             {
                 int index = 0;
                 const auto children = getChildrenT<Widget>();
-                for (const auto& child : children)
+                for (const auto & child : children)
                 {
                     child->setVisible(_p->currentIndex == index);
                     ++index;

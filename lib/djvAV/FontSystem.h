@@ -76,7 +76,7 @@ namespace djv
             struct TextLine
             {
                 TextLine();
-                TextLine(const std::string& text, const glm::vec2&);
+                TextLine(const std::string & text, const glm::vec2 &);
 
                 std::string text;
                 glm::vec2   size = glm::vec2(0.f, 0.f);
@@ -147,19 +147,19 @@ namespace djv
                 std::future<std::map<std::string, std::string> > getFontNames();
 
                 //! Get font metrics.
-                std::future<Metrics> getMetrics(const Info&);
+                std::future<Metrics> getMetrics(const Info &);
 
                 //! Measure the size of text.
-                std::future<glm::vec2> measure(const std::string& text, const Info&);
+                std::future<glm::vec2> measure(const std::string & text, const Info &);
 
                 //! Measure the size of text with word wrapping.
-                std::future<glm::vec2> measure(const std::string& text, float maxLineWidth, const Info&);
+                std::future<glm::vec2> measure(const std::string & text, float maxLineWidth, const Info &);
 
                 //! Break text into lines for word wrapping.
-                std::future<std::vector<TextLine> > textLines(const std::string& text, float maxLineWidth, const Info&);
+                std::future<std::vector<TextLine> > textLines(const std::string & text, float maxLineWidth, const Info &);
 
                 //! Get font glyphs.
-                std::future<std::vector<std::shared_ptr<Glyph> > > getGlyphs(const std::string& text, const Info&);
+                std::future<std::vector<std::shared_ptr<Glyph> > > getGlyphs(const std::string & text, const Info &);
 
             private:
                 void _initFreeType();

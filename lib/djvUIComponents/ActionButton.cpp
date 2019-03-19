@@ -149,12 +149,12 @@ namespace djv
                 _actionUpdate();
             }
 
-            void ActionButton::_preLayoutEvent(Event::PreLayout& event)
+            void ActionButton::_preLayoutEvent(Event::PreLayout & event)
             {
                 _setMinimumSize(_p->layout->getMinimumSize());
             }
 
-            void ActionButton::_layoutEvent(Event::Layout&)
+            void ActionButton::_layoutEvent(Event::Layout &)
             {
                 _p->layout->setGeometry(getGeometry());
             }

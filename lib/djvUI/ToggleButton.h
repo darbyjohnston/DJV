@@ -28,8 +28,8 @@ namespace djv
                 static std::shared_ptr<Toggle> create(Core::Context *);
 
             protected:
-                void _preLayoutEvent(Core::Event::PreLayout&) override;
-                void _paintEvent(Core::Event::Paint&) override;
+                void _preLayoutEvent(Core::Event::PreLayout &) override;
+                void _paintEvent(Core::Event::Paint &) override;
 
             private:
                 DJV_PRIVATE();

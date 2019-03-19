@@ -206,7 +206,7 @@ namespace djv
             {
                 DJV_PRIVATE_PTR();
                 auto buttons = p.buttons;
-                for (const auto& button : buttons)
+                for (const auto & button : buttons)
                 {
                     button->setClickedCallback(nullptr);
                     button->setCheckedCallback(nullptr);

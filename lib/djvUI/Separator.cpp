@@ -66,7 +66,7 @@ namespace djv
                 return out;
             }
 
-            void Separator::_preLayoutEvent(Event::PreLayout& event)
+            void Separator::_preLayoutEvent(Event::PreLayout & event)
             {
                 if (auto style = _getStyle().lock())
                 {
@@ -80,12 +80,12 @@ namespace djv
                 }
             }
 
-            void Separator::_paintEvent(Event::Paint& event)
+            void Separator::_paintEvent(Event::Paint & event)
             {
                 Widget::_paintEvent(event);
                 if (auto render = _getRender().lock())
                 {
-                    const BBox2f& g = getGeometry();
+                    const BBox2f & g = getGeometry();
                     render->setFillColor(_getColorWithOpacity(_p->color));
                     render->drawRect(g);
                 }

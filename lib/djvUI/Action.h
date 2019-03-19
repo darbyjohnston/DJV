@@ -64,13 +64,13 @@ namespace djv
             void doChecked();
 
             std::shared_ptr<Core::IValueSubject<std::string> > observeIcon() const;
-            void setIcon(const std::string&);
+            void setIcon(const std::string &);
 
             std::shared_ptr<Core::IValueSubject<std::string> > observeTitle() const;
-            void setTitle(const std::string&);
+            void setTitle(const std::string &);
 
             std::shared_ptr<Core::IValueSubject<std::string> > observeText() const;
-            void setText(const std::string&);
+            void setText(const std::string &);
 
             std::shared_ptr<Core::IListSubject<std::shared_ptr<Shortcut> > > observeShortcuts() const;
             void setShortcut(const std::shared_ptr<Shortcut>&);
@@ -85,7 +85,7 @@ namespace djv
             void setEnabled(bool);
 
             std::shared_ptr<Core::IValueSubject<std::string> > observeTooltip() const;
-            void setTooltip(const std::string&);
+            void setTooltip(const std::string &);
 
         private:
             DJV_PRIVATE();

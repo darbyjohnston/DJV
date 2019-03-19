@@ -333,7 +333,7 @@ namespace djv
                 //! References:
                 //! - http://www.3dkingdoms.com/weekly/weekly.php?a=3
 
-                inline bool _intersect(float fDst1, float fDst2, const glm::vec3& start, const glm::vec3& end, glm::vec3& out)
+                inline bool _intersect(float fDst1, float fDst2, const glm::vec3 & start, const glm::vec3 & end, glm::vec3 & out)
                 {
                     if ((fDst1 * fDst2) >= .0f) return false;
                     if (fDst1 == fDst2) return false;
@@ -341,7 +341,7 @@ namespace djv
                     return true;
                 }
 
-                inline bool _isInside(const glm::vec3& hit, const BBox3f& bbox, int axis)
+                inline bool _isInside(const glm::vec3 & hit, const BBox3f & bbox, int axis)
                 {
                     switch (axis)
                     {
@@ -503,7 +503,7 @@ namespace djv
     }
 
     template<typename T, glm::precision P>
-    inline Core::BBox::tBBox3<T, P> operator * (const Core::BBox::tBBox3<T, P>& bbox, const glm::mat4& m)
+    inline Core::BBox::tBBox3<T, P> operator * (const Core::BBox::tBBox3<T, P>& bbox, const glm::mat4 & m)
     {
         std::vector<glm::tvec4<T, P> > pts;
         pts.push_back(glm::tvec4<T, P>(bbox.min.x, bbox.min.y, bbox.min.z, 1.f));
@@ -526,7 +526,7 @@ namespace djv
 
 
     template<typename T, glm::precision P>
-    inline std::ostream& operator << (std::ostream& s, const Core::BBox::tBBox2<T, P>& value)
+    inline std::ostream & operator << (std::ostream & s, const Core::BBox::tBBox2<T, P>& value)
     {
         s << value.min << " ";
         s << value.max;
@@ -534,7 +534,7 @@ namespace djv
     }
 
     template<typename T, glm::precision P>
-    inline std::ostream& operator << (std::ostream& s, const Core::BBox::tBBox3<T, P>& value)
+    inline std::ostream & operator << (std::ostream & s, const Core::BBox::tBBox3<T, P>& value)
     {
         s << value.min << " ";
         s << value.max;
@@ -542,7 +542,7 @@ namespace djv
     }
 
     template<typename T, glm::precision P>
-    inline std::istream& operator >> (std::istream& s, Core::BBox::tBBox2<T, P>& out)
+    inline std::istream & operator >> (std::istream & s, Core::BBox::tBBox2<T, P>& out)
     {
         s >> out.min;
         s >> out.max;
@@ -550,7 +550,7 @@ namespace djv
     }
 
     template<typename T, glm::precision P>
-    inline std::istream& operator >> (std::istream& s, Core::BBox::tBBox3<T, P>& out)
+    inline std::istream & operator >> (std::istream & s, Core::BBox::tBBox3<T, P>& out)
     {
         s >> out.min;
         s >> out.max;

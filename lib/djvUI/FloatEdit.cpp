@@ -221,7 +221,7 @@ namespace djv
             _textUpdate();
         }
 
-        void FloatEdit::_preLayoutEvent(Event::PreLayout& event)
+        void FloatEdit::_preLayoutEvent(Event::PreLayout & event)
         {
             DJV_PRIVATE_PTR();
             if (auto style = _getStyle().lock())
@@ -230,7 +230,7 @@ namespace djv
             }
         }
 
-        void FloatEdit::_layoutEvent(Event::Layout& event)
+        void FloatEdit::_layoutEvent(Event::Layout & event)
         {
             DJV_PRIVATE_PTR();
             if (auto style = _getStyle().lock())

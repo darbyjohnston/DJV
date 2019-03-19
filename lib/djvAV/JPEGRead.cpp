@@ -74,7 +74,7 @@ namespace djv
                     return out;
                 }
 
-                Info Read::_readInfo(const std::string& fileName)
+                Info Read::_readInfo(const std::string & fileName)
                 {
                     File f;
                     return _open(fileName, f);
@@ -180,7 +180,7 @@ namespace djv
 
                 } // namespace
 
-                Info Read::_open(const std::string& fileName, File & f)
+                Info Read::_open(const std::string & fileName, File & f)
                 {
                     f.jpeg.err = jpeg_std_error(&f.jpegError.pub);
                     f.jpegError.pub.error_exit = djvJPEGError;

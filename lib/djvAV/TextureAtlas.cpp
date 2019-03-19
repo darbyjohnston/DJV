@@ -99,8 +99,8 @@ namespace djv
                 }
                 else
                 {
-                    const glm::ivec2& dataSize = data->getSize() + border * 2;
-                    const glm::ivec2& bboxSize = bbox.getSize();
+                    const glm::ivec2 & dataSize = data->getSize() + border * 2;
+                    const glm::ivec2 & bboxSize = bbox.getSize();
                     if (dataSize.x > bboxSize.x || dataSize.y > bboxSize.y)
                     {
                         return nullptr;
@@ -200,16 +200,16 @@ namespace djv
             std::vector<GLuint> TextureAtlas::getTextures() const
             {
                 std::vector<GLuint> out;
-                for (const auto& i : _p->textures)
+                for (const auto & i : _p->textures)
                 {
                     out.push_back(i->getID());
                 }
                 return out;
             }
 
-            bool TextureAtlas::getItem(UID uid, TextureAtlasItem& out)
+            bool TextureAtlas::getItem(UID uid, TextureAtlasItem & out)
             {
-                const auto& i = _p->cache.find(uid);
+                const auto & i = _p->cache.find(uid);
                 if (i != _p->cache.end())
                 {
                     _toTextureAtlasItem(i->second, out);
@@ -218,7 +218,7 @@ namespace djv
                 return false;
             }
 
-            UID TextureAtlas::addItem(const std::shared_ptr<Image::Data>& data, TextureAtlasItem& out)
+            UID TextureAtlas::addItem(const std::shared_ptr<Image::Data>& data, TextureAtlasItem & out)
             {
                 static UID _uid = 0;
 
@@ -292,7 +292,7 @@ namespace djv
                     size_t used = 0;
                     std::vector<const BoxPackingNode*> leafs;
                     _getLeafNodes(_p->boxPackingNodes[i], leafs);
-                    for (const auto& i : leafs)
+                    for (const auto & i : leafs)
                     {
                         if (i->isOccupied())
                         {
@@ -327,7 +327,7 @@ namespace djv
                 }
             }
 
-            void TextureAtlas::_toTextureAtlasItem(const BoxPackingNode* node, TextureAtlasItem& out)
+            void TextureAtlas::_toTextureAtlasItem(const BoxPackingNode* node, TextureAtlasItem & out)
             {
                 out.size = node->bbox.getSize();
                 out.textureIndex = node->textureIndex;

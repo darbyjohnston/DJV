@@ -49,8 +49,8 @@ namespace djv
 
             static std::shared_ptr<LineEdit> create(Core::Context *);
 
-            const std::string& getText() const;
-            void setText(const std::string&);
+            const std::string & getText() const;
+            void setText(const std::string &);
 
             ColorRole getTextColorRole() const;
             void setTextColorRole(ColorRole);
@@ -70,8 +70,8 @@ namespace djv
             void setFocusCallback(const std::function<void(bool)> &);
 
         protected:
-            void _preLayoutEvent(Core::Event::PreLayout&) override;
-            void _layoutEvent(Core::Event::Layout&) override;
+            void _preLayoutEvent(Core::Event::PreLayout &) override;
+            void _layoutEvent(Core::Event::Layout &) override;
 
         private:
             DJV_PRIVATE();

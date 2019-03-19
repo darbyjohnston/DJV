@@ -57,8 +57,8 @@ namespace djv
                 ColorRole getBorderColorRole() const;
                 void setBorderColorRole(ColorRole);
 
-                const Margin& getInsideMargin() const;
-                void setInsideMargin(const Margin&);
+                const Margin & getInsideMargin() const;
+                void setInsideMargin(const Margin &);
 
                 float getHeightForWidth(float) const override;
 
@@ -66,9 +66,9 @@ namespace djv
                 void removeChild(const std::shared_ptr<IObject>&) override;
 
             protected:
-                void _preLayoutEvent(Core::Event::PreLayout&) override;
-                void _layoutEvent(Core::Event::Layout&) override;
-                void _paintEvent(Core::Event::Paint&) override;
+                void _preLayoutEvent(Core::Event::PreLayout &) override;
+                void _layoutEvent(Core::Event::Layout &) override;
+                void _paintEvent(Core::Event::Paint &) override;
 
             private:
                 DJV_PRIVATE();

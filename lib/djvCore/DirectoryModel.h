@@ -52,13 +52,13 @@ namespace djv
                 ~DirectoryModel();
 
                 static std::shared_ptr<DirectoryModel> create(Context *);
-                static std::shared_ptr<DirectoryModel> create(const Path&, Context *);
+                static std::shared_ptr<DirectoryModel> create(const Path &, Context *);
 
                 std::shared_ptr<IValueSubject<Path> > observePath() const;
 
                 //! Throws:
                 //! - std::exception
-                void setPath(const Path&);
+                void setPath(const Path &);
 
                 void reload();
 

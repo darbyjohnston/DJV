@@ -132,7 +132,7 @@ namespace djv
                     static std::shared_ptr<Plugin> create(Core::Context *);
 
                     picojson::value getOptions() const override;
-                    void setOptions(const picojson::value&) override;
+                    void setOptions(const picojson::value &) override;
 
                     std::shared_ptr<IRead> read(
                         const std::string & fileName,

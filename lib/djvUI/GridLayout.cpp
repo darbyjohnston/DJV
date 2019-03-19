@@ -78,7 +78,7 @@ namespace djv
             glm::ivec2 Grid::getGridSize() const
             {
                 glm::ivec2 out = glm::ivec2(0, 0);
-                for (const auto& widget : _p->widgets)
+                for (const auto & widget : _p->widgets)
                 {
                     out = glm::max(widget.first + 1, out);
                 }
@@ -100,7 +100,7 @@ namespace djv
                 return out;
             }
 
-            void Grid::setGridPos(const std::shared_ptr<Widget>& widget, const glm::ivec2& pos, GridStretch stretch)
+            void Grid::setGridPos(const std::shared_ptr<Widget>& widget, const glm::ivec2 & pos, GridStretch stretch)
             {
                 DJV_PRIVATE_PTR();
                 for (auto i = p.widgets.begin(); i != p.widgets.end(); ++i)
@@ -126,12 +126,12 @@ namespace djv
                 setGridPos(widget, glm::ivec2(x, y), stretch);
             }
 
-            const Spacing& Grid::getSpacing() const
+            const Spacing & Grid::getSpacing() const
             {
                 return _p->spacing;
             }
 
-            void Grid::setSpacing(const Spacing& value)
+            void Grid::setSpacing(const Spacing & value)
             {
                 DJV_PRIVATE_PTR();
                 if (value == p.spacing)
@@ -144,7 +144,7 @@ namespace djv
             {
                 GridStretch out = GridStretch::First;
                 DJV_PRIVATE_PTR();
-                for (const auto& widget : p.widgets)
+                for (const auto & widget : p.widgets)
                 {
                     if (value == widget.second)
                     {
@@ -157,7 +157,7 @@ namespace djv
             void Grid::setStretch(const std::shared_ptr<Widget>& value, GridStretch stretch)
             {
                 DJV_PRIVATE_PTR();
-                for (const auto& widget : p.widgets)
+                for (const auto & widget : p.widgets)
                 {
                     if (value == widget.second)
                     {
@@ -270,7 +270,7 @@ namespace djv
                 }
             }
 
-            void Grid::_preLayoutEvent(Event::PreLayout&)
+            void Grid::_preLayoutEvent(Event::PreLayout &)
             {
                 if (auto style = _getStyle().lock())
                 {
@@ -327,13 +327,13 @@ namespace djv
                 }
             }
 
-            void Grid::_layoutEvent(Event::Layout& event)
+            void Grid::_layoutEvent(Event::Layout & event)
             {
                 if (auto style = _getStyle().lock())
                 {
                     DJV_PRIVATE_PTR();
 
-                    const BBox2f& g = getGeometry();
+                    const BBox2f & g = getGeometry();
                     const float gw = g.w();
                     const float gh = g.h();
 
@@ -479,22 +479,22 @@ namespace djv
                     }
 
                     // Set the child geometry.
-                    for (const auto& widget : p.widgets)
+                    for (const auto & widget : p.widgets)
                     {
-                        const auto& child = widget.second;
+                        const auto & child = widget.second;
                         child->setGeometry(Widget::getAlign(childrenGeometry[widget.second], child->getMinimumSize(), child->getHAlign(), child->getVAlign()));
                     }
                 }
             }
 
-            void Grid::_paintEvent(Event::Paint& event)
+            void Grid::_paintEvent(Event::Paint & event)
             {
                 Widget::_paintEvent(event);
                 if (auto render = _getRender().lock())
                 {
                     if (auto style = _getStyle().lock())
                     {
-                        const BBox2f& g = getMargin().bbox(getGeometry(), style);
+                        const BBox2f & g = getMargin().bbox(getGeometry(), style);
 
                         const auto bg = getBackgroundRole();
                         if (bg != ColorRole::None)
@@ -515,7 +515,7 @@ namespace djv
                                 {
                                     if (i->second->isVisible())
                                     {
-                                        const BBox2f& g1 = i->second->getGeometry();
+                                        const BBox2f & g1 = i->second->getGeometry();
                                         rowGeom[y] = BBox2f(g.min.x, g1.min.y, g.w(), g1.h());
                                         break;
                                     }
@@ -542,7 +542,7 @@ namespace djv
                                 {
                                     if (i->second->isVisible())
                                     {
-                                        const BBox2f& g1 = i->second->getGeometry();
+                                        const BBox2f & g1 = i->second->getGeometry();
                                         columnGeom[y] = BBox2f(g1.min.x, g.min.y, g1.w(), g.h());
                                         break;
                                     }
