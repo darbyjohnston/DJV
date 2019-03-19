@@ -1600,5 +1600,197 @@
         "text": "\u0394\u03b5\u03bd \u03b5\u03af\u03bd\u03b1\u03b9 \u03b4\u03c5\u03bd\u03b1\u03c4\u03ae \u03b7 \u03b4\u03b7\u03bc\u03b9\u03bf\u03c5\u03c1\u03b3\u03af\u03b1 \u03ba\u03b1\u03c4\u03b1\u03bb\u03cc\u03b3\u03bf\u03c5", 
         "id": "Cannot create directory", 
         "description": ""
+    }, 
+    {
+        "id": "KeyPress", 
+        "source": "KeyPress", 
+        "description": "", 
+        "text": "KeyPress"
+    }, 
+    {
+        "id": "KeyRelease", 
+        "source": "KeyRelease", 
+        "description": "", 
+        "text": "KeyRelease"
+    }, 
+    {
+        "id": "TextFocus", 
+        "source": "TextFocus", 
+        "description": "", 
+        "text": "Focus \u03ba\u03b5\u03af\u03bc\u03b5\u03bd\u03bf"
+    }, 
+    {
+        "id": "TextFocusLost", 
+        "source": "TextFocusLost", 
+        "description": "", 
+        "text": "\u039a\u03b5\u03af\u03bc\u03b5\u03bd\u03bf Focus Lost"
+    }, 
+    {
+        "id": "The file\") << \" '\" << fileName << \"' \" << DJV_TEXT(\"cannot be opened", 
+        "source": "The file\") << \" '\" << fileName << \"' \" << DJV_TEXT(\"cannot be opened", 
+        "description": "", 
+        "text": "\u03a4\u03bf \u03b1\u03c1\u03c7\u03b5\u03af\u03bf &quot;) &lt;&lt;&quot; &#39;&quot;&lt;&lt; fileName &lt;&lt;&quot;&#39; &quot;&lt;&lt; DJV_TEXT (&quot; \u03b4\u03b5\u03bd \u03bc\u03c0\u03bf\u03c1\u03b5\u03af \u03bd\u03b1 \u03b1\u03bd\u03bf\u03af\u03be\u03b5\u03b9"
+    }, 
+    {
+        "id": "The file\") << \" '\" << fileName << \"' \" << DJV_TEXT(\"cannot be queried", 
+        "source": "The file\") << \" '\" << fileName << \"' \" << DJV_TEXT(\"cannot be queried", 
+        "description": "", 
+        "text": "\u03a4\u03bf \u03b1\u03c1\u03c7\u03b5\u03af\u03bf &quot;) &lt;&lt;&quot; &#39;&quot;&lt;&lt; fileName &lt;&lt;&quot;&#39; &quot;&lt;&lt; DJV_TEXT (&quot; \u03b4\u03b5\u03bd \u03bc\u03c0\u03bf\u03c1\u03b5\u03af \u03bd\u03b1 \u03b5\u03c1\u03c9\u03c4\u03b7\u03b8\u03b5\u03af"
+    }, 
+    {
+        "id": "The file\") << \" '\" << _fileName << \"' \" << DJV_TEXT(\"cannot be mapped", 
+        "source": "The file\") << \" '\" << _fileName << \"' \" << DJV_TEXT(\"cannot be mapped", 
+        "description": "", 
+        "text": "\u03a4\u03bf \u03b1\u03c1\u03c7\u03b5\u03af\u03bf &quot;) &lt;&lt;&quot; &#39;&quot;&lt;&lt; _fileName &lt;&lt;&quot;&#39; &quot;&lt;&lt; DJV_TEXT (&quot; \u03b4\u03b5\u03bd \u03bc\u03c0\u03bf\u03c1\u03b5\u03af \u03bd\u03b1 \u03b1\u03bd\u03c4\u03b9\u03c3\u03c4\u03bf\u03b9\u03c7\u03b9\u03c3\u03c4\u03b5\u03af"
+    }, 
+    {
+        "id": "The file\") << \" '\" << _fileName << \"' \" << DJV_TEXT(\"cannot be unmapped", 
+        "source": "The file\") << \" '\" << _fileName << \"' \" << DJV_TEXT(\"cannot be unmapped", 
+        "description": "", 
+        "text": "\u03a4\u03bf \u03b1\u03c1\u03c7\u03b5\u03af\u03bf &quot;) &lt;&lt;&quot; &#39;&quot;&lt;&lt; _fileName &lt;&lt;&quot;&#39; &quot;&lt;&lt; DJV_TEXT (&quot; \u03b4\u03b5\u03bd \u03b5\u03af\u03bd\u03b1\u03b9 \u03b4\u03c5\u03bd\u03b1\u03c4\u03ae \u03b7 \u03b1\u03c0\u03b5\u03b9\u03ba\u03cc\u03bd\u03b9\u03c3\u03b7"
+    }, 
+    {
+        "id": "The file\") << \" '\" << _fileName << \"' \" << DJV_TEXT(\"cannot be closed", 
+        "source": "The file\") << \" '\" << _fileName << \"' \" << DJV_TEXT(\"cannot be closed", 
+        "description": "", 
+        "text": "\u03a4\u03bf \u03b1\u03c1\u03c7\u03b5\u03af\u03bf &quot;) &lt;&lt;&quot; &#39;&quot;&lt;&lt; _fileName &lt;&lt;&quot;&#39; &quot;&lt;&lt; DJV_TEXT (&quot; \u03b4\u03b5\u03bd \u03bc\u03c0\u03bf\u03c1\u03b5\u03af \u03bd\u03b1 \u03ba\u03bb\u03b5\u03af\u03c3\u03b5\u03b9"
+    }, 
+    {
+        "id": "The file\") << \" '\" << _fileName << \"' \" << DJV_TEXT(\"cannot be read", 
+        "source": "The file\") << \" '\" << _fileName << \"' \" << DJV_TEXT(\"cannot be read", 
+        "description": "", 
+        "text": "\u03a4\u03bf \u03b1\u03c1\u03c7\u03b5\u03af\u03bf &quot;) &lt;&lt;&quot; &#39;&quot;&lt;&lt; _fileName &lt;&lt;&quot;&#39; &quot;&lt;&lt; DJV_TEXT (&quot; \u03b4\u03b5\u03bd \u03bc\u03c0\u03bf\u03c1\u03b5\u03af \u03bd\u03b1 \u03b4\u03b9\u03b1\u03b2\u03b1\u03c3\u03c4\u03b5\u03af"
+    }, 
+    {
+        "id": "The file\") << \" '\" << _fileName << \"' \" << DJV_TEXT(\"cannot be written", 
+        "source": "The file\") << \" '\" << _fileName << \"' \" << DJV_TEXT(\"cannot be written", 
+        "description": "", 
+        "text": "\u03a4\u03bf \u03b1\u03c1\u03c7\u03b5\u03af\u03bf &quot;) &lt;&lt;&quot; &#39;&quot;&lt;&lt; _fileName &lt;&lt;&quot;&#39; &quot;&lt;&lt; DJV_TEXT (&quot; \u03b4\u03b5\u03bd \u03bc\u03c0\u03bf\u03c1\u03b5\u03af \u03bd\u03b1 \u03b3\u03c1\u03b1\u03c6\u03c4\u03b5\u03af"
+    }, 
+    {
+        "id": "The file\") << \" '\" << fileName << \"' \" << DJV_TEXT(\"cannot be closed", 
+        "source": "The file\") << \" '\" << fileName << \"' \" << DJV_TEXT(\"cannot be closed", 
+        "description": "", 
+        "text": "\u03a4\u03bf \u03b1\u03c1\u03c7\u03b5\u03af\u03bf &quot;) &lt;&lt;&quot; &#39;&quot;&lt;&lt; fileName &lt;&lt;&quot;&#39; &quot;&lt;&lt; DJV_TEXT (&quot; \u03b4\u03b5\u03bd \u03bc\u03c0\u03bf\u03c1\u03b5\u03af \u03bd\u03b1 \u03ba\u03bb\u03b5\u03af\u03c3\u03b5\u03b9"
+    }, 
+    {
+        "id": "The file\") << \" '\" << fileName << \"' \" << DJV_TEXT(\"cannot be mapped", 
+        "source": "The file\") << \" '\" << fileName << \"' \" << DJV_TEXT(\"cannot be mapped", 
+        "description": "", 
+        "text": "\u03a4\u03bf \u03b1\u03c1\u03c7\u03b5\u03af\u03bf &quot;) &lt;&lt;&quot; &#39;&quot;&lt;&lt; fileName &lt;&lt;&quot;&#39; &quot;&lt;&lt; DJV_TEXT (&quot; \u03b4\u03b5\u03bd \u03bc\u03c0\u03bf\u03c1\u03b5\u03af \u03bd\u03b1 \u03b1\u03bd\u03c4\u03b9\u03c3\u03c4\u03bf\u03b9\u03c7\u03b9\u03c3\u03c4\u03b5\u03af"
+    }, 
+    {
+        "id": "The file\") << \" '\" << fileName << \"' \" << DJV_TEXT(\"cannot be unmapped", 
+        "source": "The file\") << \" '\" << fileName << \"' \" << DJV_TEXT(\"cannot be unmapped", 
+        "description": "", 
+        "text": "\u03a4\u03bf \u03b1\u03c1\u03c7\u03b5\u03af\u03bf &quot;) &lt;&lt;&quot; &#39;&quot;&lt;&lt; fileName &lt;&lt;&quot;&#39; &quot;&lt;&lt; DJV_TEXT (&quot; \u03b4\u03b5\u03bd \u03bc\u03c0\u03bf\u03c1\u03b5\u03af \u03bd\u03b1 \u03b1\u03c0\u03b5\u03b9\u03ba\u03bf\u03bd\u03b9\u03c3\u03c4\u03b5\u03af"
+    }, 
+    {
+        "id": "The file\") << \" '\" << fileName << \"' \" << DJV_TEXT(\"cannot be read", 
+        "source": "The file\") << \" '\" << fileName << \"' \" << DJV_TEXT(\"cannot be read", 
+        "description": "", 
+        "text": "\u03a4\u03bf \u03b1\u03c1\u03c7\u03b5\u03af\u03bf &quot;) &lt;&lt;&quot; &#39;&quot;&lt;&lt; fileName &lt;&lt;&quot;&#39; &quot;&lt;&lt; DJV_TEXT (&quot; \u03b4\u03b5\u03bd \u03bc\u03c0\u03bf\u03c1\u03b5\u03af \u03bd\u03b1 \u03b4\u03b9\u03b1\u03b2\u03b1\u03c3\u03c4\u03b5\u03af"
+    }, 
+    {
+        "id": "The file\") << \" '\" << fileName << \"' \" << DJV_TEXT(\"cannot be written", 
+        "source": "The file\") << \" '\" << fileName << \"' \" << DJV_TEXT(\"cannot be written", 
+        "description": "", 
+        "text": "\u03a4\u03bf \u03b1\u03c1\u03c7\u03b5\u03af\u03bf &quot;) &lt;&lt;&quot; &lt;&lt; &quot;&lt;&lt; fileName &lt;&lt;&quot; &#39;&quot;&lt;&lt; DJV_TEXT (&quot; \u03b4\u03b5\u03bd \u03bc\u03c0\u03bf\u03c1\u03b5\u03af \u03bd\u03b1 \u03b3\u03c1\u03b1\u03c6\u03c4\u03b5\u03af"
+    }, 
+    {
+        "id": "Cannot parse the value.", 
+        "source": "Cannot parse the value.", 
+        "description": "", 
+        "text": "\u0394\u03b5\u03bd \u03b5\u03af\u03bd\u03b1\u03b9 \u03b4\u03c5\u03bd\u03b1\u03c4\u03ae \u03b7 \u03b1\u03bd\u03ac\u03bb\u03c5\u03c3\u03b7 \u03c4\u03b7\u03c2 \u03c4\u03b9\u03bc\u03ae\u03c2."
+    }, 
+    {
+        "id": "The directory\") << \" '\" << value << \"' \" << DJV_TEXT(\"cannot be created", 
+        "source": "The directory\") << \" '\" << value << \"' \" << DJV_TEXT(\"cannot be created", 
+        "description": "", 
+        "text": "\u039f \u03ba\u03b1\u03c4\u03ac\u03bb\u03bf\u03b3\u03bf\u03c2 &quot;) &lt;&lt;&quot; &#39;&quot;&lt;&lt; &lt;&lt; &lt;&lt;&quot; &lt;&lt; &quot;&lt;&lt; DJV_TEXT (&quot; \u03b4\u03b5\u03bd \u03bc\u03c0\u03bf\u03c1\u03b5\u03af \u03bd\u03b1 \u03b4\u03b7\u03bc\u03b9\u03bf\u03c5\u03c1\u03b3\u03b7\u03b8\u03b5\u03af"
+    }, 
+    {
+        "id": "Cannot parse the value", 
+        "source": "Cannot parse the value", 
+        "description": "", 
+        "text": "\u0394\u03b5\u03bd \u03b5\u03af\u03bd\u03b1\u03b9 \u03b4\u03c5\u03bd\u03b1\u03c4\u03ae \u03b7 \u03b1\u03bd\u03ac\u03bb\u03c5\u03c3\u03b7 \u03c4\u03b7\u03c2 \u03c4\u03b9\u03bc\u03ae\u03c2"
+    }, 
+    {
+        "id": "Error reading the text file", 
+        "source": "Error reading the text file", 
+        "description": "", 
+        "text": "\u03a3\u03c6\u03ac\u03bb\u03bc\u03b1 \u03ba\u03b1\u03c4\u03ac \u03c4\u03b7\u03bd \u03b1\u03bd\u03ac\u03b3\u03bd\u03c9\u03c3\u03b7 \u03c4\u03bf\u03c5 \u03b1\u03c1\u03c7\u03b5\u03af\u03bf\u03c5 \u03ba\u03b5\u03b9\u03bc\u03ad\u03bd\u03bf\u03c5"
+    }, 
+    {
+        "id": "Error finding the change notification for", 
+        "source": "Error finding the change notification for", 
+        "description": "", 
+        "text": "\u03a3\u03c6\u03ac\u03bb\u03bc\u03b1 \u03ba\u03b1\u03c4\u03ac \u03c4\u03b7\u03bd \u03b5\u03cd\u03c1\u03b5\u03c3\u03b7 \u03c4\u03b7\u03c2 \u03b5\u03b9\u03b4\u03bf\u03c0\u03bf\u03af\u03b7\u03c3\u03b7\u03c2 \u03b1\u03bb\u03bb\u03b1\u03b3\u03ae\u03c2 \u03b3\u03b9\u03b1"
+    }, 
+    {
+        "id": "Error watching the directory", 
+        "source": "Error watching the directory", 
+        "description": "", 
+        "text": "\u03a3\u03c6\u03ac\u03bb\u03bc\u03b1 \u03ba\u03b1\u03c4\u03ac \u03c4\u03b7\u03bd \u03c0\u03b1\u03c1\u03b1\u03ba\u03bf\u03bb\u03bf\u03cd\u03b8\u03b7\u03c3\u03b7 \u03c4\u03bf\u03c5 \u03ba\u03b1\u03c4\u03b1\u03bb\u03cc\u03b3\u03bf\u03c5"
+    }, 
+    {
+        "source": "The file", 
+        "text": "\u03a4\u03bf \u03b1\u03c1\u03c7\u03b5\u03af\u03bf", 
+        "description": "", 
+        "id": "The file"
+    }, 
+    {
+        "source": "cannot be opened", 
+        "text": "\u03b4\u03b5\u03bd \u03bc\u03c0\u03bf\u03c1\u03b5\u03af \u03bd\u03b1 \u03b1\u03bd\u03bf\u03b9\u03c7\u03c4\u03b5\u03af", 
+        "description": "", 
+        "id": "cannot be opened"
+    }, 
+    {
+        "source": "cannot be queried", 
+        "text": "\u03b4\u03b5\u03bd \u03bc\u03c0\u03bf\u03c1\u03b5\u03af \u03bd\u03b1 \u03b5\u03c1\u03c9\u03c4\u03b7\u03b8\u03b5\u03af", 
+        "description": "", 
+        "id": "cannot be queried"
+    }, 
+    {
+        "source": "cannot be mapped", 
+        "text": "\u03b4\u03b5\u03bd \u03bc\u03c0\u03bf\u03c1\u03bf\u03cd\u03bd \u03bd\u03b1 \u03b1\u03bd\u03c4\u03b9\u03c3\u03c4\u03bf\u03b9\u03c7\u03b9\u03c3\u03c4\u03bf\u03cd\u03bd", 
+        "description": "", 
+        "id": "cannot be mapped"
+    }, 
+    {
+        "source": "cannot be unmapped", 
+        "text": "\u03b4\u03b5\u03bd \u03b5\u03af\u03bd\u03b1\u03b9 \u03b4\u03c5\u03bd\u03b1\u03c4\u03ae \u03b7 \u03bc\u03b7 \u03b1\u03c0\u03b5\u03b9\u03ba\u03cc\u03bd\u03b9\u03c3\u03b7", 
+        "description": "", 
+        "id": "cannot be unmapped"
+    }, 
+    {
+        "source": "cannot be closed", 
+        "text": "\u03b4\u03b5\u03bd \u03bc\u03c0\u03bf\u03c1\u03b5\u03af \u03bd\u03b1 \u03ba\u03bb\u03b5\u03af\u03c3\u03b5\u03b9", 
+        "description": "", 
+        "id": "cannot be closed"
+    }, 
+    {
+        "source": "cannot be read", 
+        "text": "\u03b4\u03b5\u03bd \u03bc\u03c0\u03bf\u03c1\u03b5\u03af \u03bd\u03b1 \u03b4\u03b9\u03b1\u03b2\u03b1\u03c3\u03c4\u03b5\u03af", 
+        "description": "", 
+        "id": "cannot be read"
+    }, 
+    {
+        "source": "cannot be written", 
+        "text": "\u03b4\u03b5\u03bd \u03bc\u03c0\u03bf\u03c1\u03b5\u03af \u03bd\u03b1 \u03b3\u03c1\u03b1\u03c6\u03c4\u03b5\u03af", 
+        "description": "", 
+        "id": "cannot be written"
+    }, 
+    {
+        "source": "The directory", 
+        "text": "\u039f \u03ba\u03b1\u03c4\u03ac\u03bb\u03bf\u03b3\u03bf\u03c2", 
+        "description": "", 
+        "id": "The directory"
+    }, 
+    {
+        "source": "cannot be created", 
+        "text": "\u03b4\u03b5\u03bd \u03bc\u03c0\u03bf\u03c1\u03b5\u03af \u03bd\u03b1 \u03b4\u03b7\u03bc\u03b9\u03bf\u03c5\u03c1\u03b3\u03b7\u03b8\u03b5\u03af", 
+        "description": "", 
+        "id": "cannot be created"
     }
 ]

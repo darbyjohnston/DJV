@@ -32,7 +32,9 @@
 #include <djvCore/Memory.h>
 
 #include <sys/stat.h>
-#include <glob.h>
+#include <sys/types.h>
+#include <dirent.h>
+//#include <glob.h>
 #include <stdlib.h>
 
 //#pragma optimize("", off)
@@ -106,12 +108,17 @@ namespace djv
                     closedir(dir);
                 }*/
 
-                glob_t g;
-                if (::glob(Path(value, options.glob).get().c_str(), 0, nullptr, &g) == 0)
+                //glob_t g;
+                //if (::glob(Path(value, options.glob).get().c_str(), 0, nullptr, &g) == 0)
+                //{
+                //    for (size_t i = 0; i < g.gl_pathc; ++i)
+                if (auto dir = opendir(value.get().c_str()))
                 {
-                    for (size_t i = 0; i < g.gl_pathc; ++i)
+                    dirent* de = nullptr;
+                    while ((de = readdir(dir)))
                     {
-                        FileInfo fileInfo(Path(g.gl_pathv[i]));
+                        //FileInfo fileInfo(Path(g.gl_pathv[i]));
+                        FileInfo fileInfo(Path(value, de->d_name));
                         
                         const std::string fileName = fileInfo.getFileName(-1, false);
                         
@@ -121,6 +128,10 @@ namespace djv
                             filter = true;
                         }
                         if (fileName.size() == 2 && '.' == fileName[0] && '.' == fileName[1])
+                        {
+                            filter = true;
+                        }
+                        if (options.filter.size() && !String::match(fileName, options.filter))
                         {
                             filter = true;
                         }
@@ -157,8 +168,9 @@ namespace djv
                             }
                         }
                     }
+                    closedir(dir);
                 }
-                globfree(&g);
+                //globfree(&g);
                 
                 for (auto& i : out)
                 {
@@ -166,6 +178,46 @@ namespace djv
                     {
                         i.sortSequence();
                     }
+                }
+
+                switch (options.sort)
+                {
+                case DirectoryListSort::Name:
+                    std::sort(
+                        out.begin(), out.end(),
+                        [&options](const FileInfo & a, const FileInfo & b)
+                    {
+                        return options.reverseSort ?
+                            (a.getFileName(Frame::Invalid, false) > b.getFileName(Frame::Invalid, false)) :
+                            (a.getFileName(Frame::Invalid, false) < b.getFileName(Frame::Invalid, false));
+                    });
+                    break;
+                case DirectoryListSort::Size:
+                    std::sort(
+                        out.begin(), out.end(),
+                        [&options](const FileInfo & a, const FileInfo & b)
+                    {
+                        return options.reverseSort ? (a.getSize() > b.getSize()) : (a.getSize() < b.getSize());
+                    });
+                    break;
+                case DirectoryListSort::Time:
+                    std::sort(
+                        out.begin(), out.end(),
+                        [&options](const FileInfo & a, const FileInfo & b)
+                    {
+                        return options.reverseSort ? (a.getTime() > b.getTime()) : (a.getTime() < b.getTime());
+                    });
+                    break;
+                default: break;
+                }
+                if (options.sortDirectoriesFirst)
+                {
+                    std::stable_sort(
+                        out.begin(), out.end(),
+                        [](const FileInfo & a, const FileInfo & b)
+                    {
+                        return FileType::Directory == a.getType() && b.getType() != FileType::Directory;
+                    });
                 }
 
                 return out;

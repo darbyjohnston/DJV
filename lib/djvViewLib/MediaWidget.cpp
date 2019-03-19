@@ -49,7 +49,7 @@ namespace djv
             std::shared_ptr<Media> media;
             std::shared_ptr<ImageView> imageView;
             std::shared_ptr<TimelineSlider> timelineSlider;
-            std::shared_ptr<UI::Toolbar> toolbar;
+            std::shared_ptr<UI::ToolBar> toolbar;
             std::shared_ptr<UI::StackLayout> layout;
             std::shared_ptr<ValueObserver<Time::Duration> > durationObserver;
             std::shared_ptr<ValueObserver<Time::Timestamp> > currentTimeObserver;
@@ -65,7 +65,7 @@ namespace djv
 
             p.timelineSlider = TimelineSlider::create(context);
 
-            p.toolbar = UI::Toolbar::create(context);
+            p.toolbar = UI::ToolBar::create(context);
             p.toolbar->setBackgroundRole(UI::ColorRole::Overlay);
             auto playbackSystem = context->getSystemT<PlaybackSystem>().lock();
             auto actions = playbackSystem->getActions();

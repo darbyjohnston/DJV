@@ -460,5 +460,239 @@
         "text": "Hodnotu nelze analyzovat.", 
         "id": "Cannot parse value.", 
         "description": ""
+    }, 
+    {
+        "id": "The file\")) << \" '\" << fileName << \"' \" << DJV_TEXT(\"cannot be read", 
+        "source": "The file\")) << \" '\" << fileName << \"' \" << DJV_TEXT(\"cannot be read", 
+        "description": "", 
+        "text": "Soubor &quot;)) &lt;&lt;&quot; &#39;&quot;&lt;&lt; fileName &lt;&lt;&quot;&#39; &quot;&lt;&lt; DJV_TEXT (&quot; nelze \u010d\u00edst"
+    }, 
+    {
+        "id": "The file\")) << \" '\" << fileName << \"' \" << DJV_TEXT(\"cannot be written", 
+        "source": "The file\")) << \" '\" << fileName << \"' \" << DJV_TEXT(\"cannot be written", 
+        "description": "", 
+        "text": "Soubor &quot;)) &lt;&lt;&quot; &#39;&quot;&lt;&lt; fileName &lt;&lt;&quot;&#39; &quot;&lt;&lt; DJV_TEXT (&quot; nelze zapsat. &quot;"
+    }, 
+    {
+        "id": "The file", 
+        "source": "The file", 
+        "description": "", 
+        "text": "Soubor"
+    }, 
+    {
+        "id": "cannot be written", 
+        "source": "cannot be written", 
+        "description": "", 
+        "text": "nelze ps\u00e1t"
+    }, 
+    {
+        "id": "cannot be opened", 
+        "source": "cannot be opened", 
+        "description": "", 
+        "text": "nelze otev\u0159\u00edt"
+    }, 
+    {
+        "id": "FreeType cannot be initialized.", 
+        "source": "FreeType cannot be initialized.", 
+        "description": "", 
+        "text": "Nelze inicializovat FreeType."
+    }, 
+    {
+        "id": "No fonts were found.", 
+        "source": "No fonts were found.", 
+        "description": "", 
+        "text": "Nebyla nalezena \u017e\u00e1dn\u00e1 p\u00edsma."
+    }, 
+    {
+        "id": "The GLFW window cannot be created.", 
+        "source": "The GLFW window cannot be created.", 
+        "description": "", 
+        "text": "Okno GLFW nelze vytvo\u0159it."
+    }, 
+    {
+        "id": "Cannot parse the value.", 
+        "source": "Cannot parse the value.", 
+        "description": "", 
+        "text": "Hodnotu nelze analyzovat."
+    }, 
+    {
+        "id": "The JPEG file", 
+        "source": "The JPEG file", 
+        "description": "", 
+        "text": "Soubor JPEG"
+    }, 
+    {
+        "id": "cannot be read", 
+        "source": "cannot be read", 
+        "description": "", 
+        "text": "nelze \u010d\u00edst"
+    }, 
+    {
+        "id": "The OpenGL vertex shader cannot be created.", 
+        "source": "The OpenGL vertex shader cannot be created.", 
+        "description": "", 
+        "text": "Shader vertexu OpenGL nelze vytvo\u0159it."
+    }, 
+    {
+        "id": "The OpenGL vertex shader", 
+        "source": "The OpenGL vertex shader", 
+        "description": "", 
+        "text": "Shader vertexu OpenGL"
+    }, 
+    {
+        "id": "cannot be compiled", 
+        "source": "cannot be compiled", 
+        "description": "", 
+        "text": "nelze kompilovat"
+    }, 
+    {
+        "id": "The OpenGL fragment shader cannot be created.", 
+        "source": "The OpenGL fragment shader cannot be created.", 
+        "description": "", 
+        "text": "Shader fragmentu OpenGL nelze vytvo\u0159it."
+    }, 
+    {
+        "id": "The OpenGL framgent shader", 
+        "source": "The OpenGL framgent shader", 
+        "description": "", 
+        "text": "OpenGL dop\u0159edn\u00fd shader"
+    }, 
+    {
+        "id": "The program", 
+        "source": "The program", 
+        "description": "", 
+        "text": "Program"
+    }, 
+    {
+        "id": "cannot be linked", 
+        "source": "cannot be linked", 
+        "description": "", 
+        "text": "nelze propojit"
+    }, 
+    {
+        "id": "The FFMPEG file", 
+        "source": "The FFMPEG file", 
+        "description": "", 
+        "text": "Soubor FFMPEG"
+    }, 
+    {
+        "id": "does not have any video or audio streams", 
+        "source": "does not have any video or audio streams", 
+        "description": "", 
+        "text": "nem\u00e1 \u017e\u00e1dn\u00e9 video ani audio streamy"
+    }, 
+    {
+        "id": "does not match any video codecs", 
+        "source": "does not match any video codecs", 
+        "description": "", 
+        "text": "neodpov\u00edd\u00e1 \u017e\u00e1dn\u00fdm video kodek\u016fm"
+    }, 
+    {
+        "id": "The FFMPEG audio format ", 
+        "source": "The FFMPEG audio format ", 
+        "description": "", 
+        "text": "Zvukov\u00fd form\u00e1t FFMPEG"
+    }, 
+    {
+        "id": "is not supported", 
+        "source": "is not supported", 
+        "description": "", 
+        "text": "nen\u00ed podporov\u00e1no"
+    }, 
+    {
+        "id": "does not match any audio codecs", 
+        "source": "does not match any audio codecs", 
+        "description": "", 
+        "text": "neodpov\u00edd\u00e1 \u017e\u00e1dn\u00fdm audio kodek\u016fm"
+    }, 
+    {
+        "id": "GLFW cannot be initialized.", 
+        "source": "GLFW cannot be initialized.", 
+        "description": "", 
+        "text": "GLFW nelze inicializovat."
+    }, 
+    {
+        "id": "GLFW window cannot be created.", 
+        "source": "GLFW window cannot be created.", 
+        "description": "", 
+        "text": "Okno GLFW nelze vytvo\u0159it."
+    }, 
+    {
+        "id": "The OpenAL device cannot be opened.", 
+        "source": "The OpenAL device cannot be opened.", 
+        "description": "", 
+        "text": "Za\u0159\u00edzen\u00ed OpenAL nelze otev\u0159\u00edt."
+    }, 
+    {
+        "id": "The OpenAL context cannot be created.", 
+        "source": "The OpenAL context cannot be created.", 
+        "description": "", 
+        "text": "Nelze vytvo\u0159it kontext OpenAL."
+    }, 
+    {
+        "id": "The OpenAL context cannot be made current.", 
+        "source": "The OpenAL context cannot be made current.", 
+        "description": "", 
+        "text": "Kontext OpenAL nelze prov\u00e9st jako aktu\u00e1ln\u00ed."
+    }, 
+    {
+        "id": "The OpenGL texture cannot be created.", 
+        "source": "The OpenGL texture cannot be created.", 
+        "description": "", 
+        "text": "Texturu OpenGL nelze vytvo\u0159it."
+    }, 
+    {
+        "id": "The OpenGL frame buffer cannot be created.", 
+        "source": "The OpenGL frame buffer cannot be created.", 
+        "description": "", 
+        "text": "Nelze vytvo\u0159it vyrovn\u00e1vac\u00ed pam\u011b\u0165 r\u00e1mc\u016f OpenGL."
+    }, 
+    {
+        "id": "The OpenGL frame buffer cannot be initialized.", 
+        "source": "The OpenGL frame buffer cannot be initialized.", 
+        "description": "", 
+        "text": "Nelze inicializovat vyrovn\u00e1vac\u00ed pam\u011b\u0165 r\u00e1mce OpenGL."
+    }, 
+    {
+        "id": "The PNG file", 
+        "source": "The PNG file", 
+        "description": "", 
+        "text": "Soubor PNG"
+    }, 
+    {
+        "id": "The PPM file", 
+        "source": "The PPM file", 
+        "description": "", 
+        "text": "Soubor PPM"
+    }, 
+    {
+        "id": "The shader cannot be created", 
+        "source": "The shader cannot be created", 
+        "description": "", 
+        "text": "Shader nelze vytvo\u0159it"
+    }, 
+    {
+        "id": "This plugin provides Tagged Image File Format (TIFF) image I/O.", 
+        "source": "This plugin provides Tagged Image File Format (TIFF) image I/O.", 
+        "description": "", 
+        "text": "Tento plugin poskytuje tagovan\u00fd obrazov\u00fd form\u00e1t (TIFF)."
+    }, 
+    {
+        "id": "RLE", 
+        "source": "RLE", 
+        "description": "", 
+        "text": "RLE"
+    }, 
+    {
+        "id": "LZW", 
+        "source": "LZW", 
+        "description": "", 
+        "text": "LZW"
+    }, 
+    {
+        "id": "The TIFF file", 
+        "source": "The TIFF file", 
+        "description": "", 
+        "text": "Soubor TIFF"
     }
 ]

@@ -27,7 +27,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvUI/Toolbar.h>
+#include <djvUI/ToolBar.h>
 
 #include <djvUI/Action.h>
 #include <djvUI/FlatButton.h>
@@ -39,7 +39,7 @@ namespace djv
 {
     namespace UI
     {
-        struct Toolbar::Private
+        struct ToolBar::Private
         {
             std::map<std::shared_ptr<Action>, std::shared_ptr<FlatButton> > actionsToButtons;
             struct Observers
@@ -55,11 +55,11 @@ namespace djv
             std::shared_ptr<HorizontalLayout> layout;
         };
 
-        void Toolbar::_init(Context * context)
+        void ToolBar::_init(Context * context)
         {
             Widget::_init(context);
 
-            setClassName("djv::UI::Toolbar");
+            setClassName("djv::UI::ToolBar");
 
             DJV_PRIVATE_PTR();
             p.layout = HorizontalLayout::create(context);
@@ -67,41 +67,41 @@ namespace djv
             Widget::addChild(p.layout);
         }
 
-        Toolbar::Toolbar() :
+        ToolBar::ToolBar() :
             _p(new Private)
         {}
 
-        Toolbar::~Toolbar()
+        ToolBar::~ToolBar()
         {}
 
-        std::shared_ptr<Toolbar> Toolbar::create(Context * context)
+        std::shared_ptr<ToolBar> ToolBar::create(Context * context)
         {
-            auto out = std::shared_ptr<Toolbar>(new Toolbar);
+            auto out = std::shared_ptr<ToolBar>(new ToolBar);
             out->_init(context);
             return out;
         }
 
-        void Toolbar::setStretch(const std::shared_ptr<Widget>& widget, RowStretch value)
+        void ToolBar::setStretch(const std::shared_ptr<Widget>& widget, RowStretch value)
         {
             _p->layout->setStretch(widget, value);
         }
 
-        void Toolbar::addSeparator()
+        void ToolBar::addSeparator()
         {
             _p->layout->addSeparator();
         }
 
-        void Toolbar::addSpacer()
+        void ToolBar::addSpacer()
         {
             _p->layout->addSpacer();
         }
 
-        void Toolbar::addExpander()
+        void ToolBar::addExpander()
         {
             _p->layout->addExpander();
         }
 
-        float Toolbar::getHeightForWidth(float value) const
+        float ToolBar::getHeightForWidth(float value) const
         {
             float out = 0.f;
             if (auto style = _getStyle().lock())
@@ -112,7 +112,7 @@ namespace djv
             return out;
         }
 
-        void Toolbar::addAction(const std::shared_ptr<Action>& action)
+        void ToolBar::addAction(const std::shared_ptr<Action>& action)
         {
             Widget::addAction(action);
             auto button = FlatButton::create(getContext());
@@ -168,7 +168,7 @@ namespace djv
             });
         }
 
-        void Toolbar::removeAction(const std::shared_ptr<Action>& action)
+        void ToolBar::removeAction(const std::shared_ptr<Action>& action)
         {
             Widget::removeAction(action);
             DJV_PRIVATE_PTR();
@@ -184,7 +184,7 @@ namespace djv
             }
         }
 
-        void Toolbar::clearActions()
+        void ToolBar::clearActions()
         {
             Widget::clearActions();
             DJV_PRIVATE_PTR();
@@ -196,17 +196,17 @@ namespace djv
             p.observers.clear();
         }
 
-        void Toolbar::addChild(const std::shared_ptr<IObject>& value)
+        void ToolBar::addChild(const std::shared_ptr<IObject>& value)
         {
             _p->layout->addChild(value);
         }
 
-        void Toolbar::removeChild(const std::shared_ptr<IObject>& value)
+        void ToolBar::removeChild(const std::shared_ptr<IObject>& value)
         {
             _p->layout->removeChild(value);
         }
 
-        void Toolbar::_preLayoutEvent(Event::PreLayout& event)
+        void ToolBar::_preLayoutEvent(Event::PreLayout& event)
         {
             if (auto style = _getStyle().lock())
             {
@@ -215,7 +215,7 @@ namespace djv
             }
         }
 
-        void Toolbar::_layoutEvent(Event::Layout& event)
+        void ToolBar::_layoutEvent(Event::Layout& event)
         {
             if (auto style = _getStyle().lock())
             {

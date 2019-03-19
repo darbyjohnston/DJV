@@ -1600,5 +1600,197 @@
         "text": "Kan ikke oprette mappe", 
         "id": "Cannot create directory", 
         "description": ""
+    }, 
+    {
+        "id": "KeyPress", 
+        "source": "KeyPress", 
+        "description": "", 
+        "text": "Tastetryk"
+    }, 
+    {
+        "id": "KeyRelease", 
+        "source": "KeyRelease", 
+        "description": "", 
+        "text": "KeyRelease"
+    }, 
+    {
+        "id": "TextFocus", 
+        "source": "TextFocus", 
+        "description": "", 
+        "text": "tekst Fokus"
+    }, 
+    {
+        "id": "TextFocusLost", 
+        "source": "TextFocusLost", 
+        "description": "", 
+        "text": "Tekst Fokus Lost"
+    }, 
+    {
+        "id": "The file\") << \" '\" << fileName << \"' \" << DJV_TEXT(\"cannot be opened", 
+        "source": "The file\") << \" '\" << fileName << \"' \" << DJV_TEXT(\"cannot be opened", 
+        "description": "", 
+        "text": "Filen &quot;) &lt;&lt;&quot; &#39;&quot;&quot; &lt;&lt; fileName &lt;&lt; &quot;&#39;&quot; &lt;&lt; DJV_TEXT (&quot;kan ikke \u00e5bnes"
+    }, 
+    {
+        "id": "The file\") << \" '\" << fileName << \"' \" << DJV_TEXT(\"cannot be queried", 
+        "source": "The file\") << \" '\" << fileName << \"' \" << DJV_TEXT(\"cannot be queried", 
+        "description": "", 
+        "text": "Filen &quot;) &lt;&lt;&quot; &#39;&quot;&quot; Filnavn &lt;&lt; &quot;&#39;&quot; &lt;&lt; DJV_TEXT (&quot;kan ikke foresp\u00f8rges"
+    }, 
+    {
+        "id": "The file\") << \" '\" << _fileName << \"' \" << DJV_TEXT(\"cannot be mapped", 
+        "source": "The file\") << \" '\" << _fileName << \"' \" << DJV_TEXT(\"cannot be mapped", 
+        "description": "", 
+        "text": "Filen &quot;) &lt;&lt;&quot; &#39;&quot;&lt;&lt; _fileName &lt;&lt;&quot;&#39; &quot;&lt;&lt; DJV_TEXT (&quot; kan ikke kortl\u00e6gges"
+    }, 
+    {
+        "id": "The file\") << \" '\" << _fileName << \"' \" << DJV_TEXT(\"cannot be unmapped", 
+        "source": "The file\") << \" '\" << _fileName << \"' \" << DJV_TEXT(\"cannot be unmapped", 
+        "description": "", 
+        "text": "Filen &quot;) &lt;&lt;&quot; &#39;&quot;&lt;&lt; _fileName &lt;&lt;&quot;&#39; &quot;&lt;&lt; DJV_TEXT (&quot; kan ikke omh\u00e6ftes"
+    }, 
+    {
+        "id": "The file\") << \" '\" << _fileName << \"' \" << DJV_TEXT(\"cannot be closed", 
+        "source": "The file\") << \" '\" << _fileName << \"' \" << DJV_TEXT(\"cannot be closed", 
+        "description": "", 
+        "text": "Filen &quot;) &lt;&lt;&quot; &#39;&quot;&lt;&lt; _fileName &lt;&lt;&quot;&#39; &quot;&lt;&lt; DJV_TEXT (&quot; kan ikke lukkes"
+    }, 
+    {
+        "id": "The file\") << \" '\" << _fileName << \"' \" << DJV_TEXT(\"cannot be read", 
+        "source": "The file\") << \" '\" << _fileName << \"' \" << DJV_TEXT(\"cannot be read", 
+        "description": "", 
+        "text": "Filen &quot;) &lt;&lt;&quot; &#39;&quot;&lt;&lt; _fileName &lt;&lt;&quot;&#39; &quot;&lt;&lt; DJV_TEXT (&quot; kan ikke l\u00e6ses"
+    }, 
+    {
+        "id": "The file\") << \" '\" << _fileName << \"' \" << DJV_TEXT(\"cannot be written", 
+        "source": "The file\") << \" '\" << _fileName << \"' \" << DJV_TEXT(\"cannot be written", 
+        "description": "", 
+        "text": "Filen &quot;) &lt;&lt;&quot; &#39;&quot;&lt;&lt; _fileName &lt;&lt;&quot;&#39; &quot;&lt;&lt; DJV_TEXT (&quot; kan ikke skrives"
+    }, 
+    {
+        "id": "The file\") << \" '\" << fileName << \"' \" << DJV_TEXT(\"cannot be closed", 
+        "source": "The file\") << \" '\" << fileName << \"' \" << DJV_TEXT(\"cannot be closed", 
+        "description": "", 
+        "text": "Filen &quot;) &lt;&lt;&quot; &#39;&quot;&quot; Filnavn &lt;&lt; &quot;&#39;&quot; &lt;&lt; DJV_TEXT (&quot;kan ikke lukkes"
+    }, 
+    {
+        "id": "The file\") << \" '\" << fileName << \"' \" << DJV_TEXT(\"cannot be mapped", 
+        "source": "The file\") << \" '\" << fileName << \"' \" << DJV_TEXT(\"cannot be mapped", 
+        "description": "", 
+        "text": "Filen &quot;) &lt;&lt;&quot; &#39;&quot;&quot; Filnavn &lt;&lt; &quot;&#39;&quot; &lt;&lt; DJV_TEXT (&quot;kan ikke kortl\u00e6gges"
+    }, 
+    {
+        "id": "The file\") << \" '\" << fileName << \"' \" << DJV_TEXT(\"cannot be unmapped", 
+        "source": "The file\") << \" '\" << fileName << \"' \" << DJV_TEXT(\"cannot be unmapped", 
+        "description": "", 
+        "text": "Filen &quot;) &lt;&lt;&quot; &#39;&quot;&quot; Filnavn &lt;&lt; &quot;&#39;&quot; &lt;&lt; DJV_TEXT (&quot;kan ikke omh\u00e6ftes"
+    }, 
+    {
+        "id": "The file\") << \" '\" << fileName << \"' \" << DJV_TEXT(\"cannot be read", 
+        "source": "The file\") << \" '\" << fileName << \"' \" << DJV_TEXT(\"cannot be read", 
+        "description": "", 
+        "text": "Filen &quot;) &lt;&lt;&quot; &#39;&quot;&quot; Filnavn &lt;&lt; &quot;&#39;&quot; &lt;&lt; DJV_TEXT (&quot;kan ikke l\u00e6ses"
+    }, 
+    {
+        "id": "The file\") << \" '\" << fileName << \"' \" << DJV_TEXT(\"cannot be written", 
+        "source": "The file\") << \" '\" << fileName << \"' \" << DJV_TEXT(\"cannot be written", 
+        "description": "", 
+        "text": "Filen &quot;) &lt;&lt;&quot; &#39;&quot;&quot; &lt;&lt; filenavn &lt;&lt; &quot;&#39;&quot; &lt;&lt; DJV_TEXT (&quot;kan ikke skrives"
+    }, 
+    {
+        "id": "Cannot parse the value.", 
+        "source": "Cannot parse the value.", 
+        "description": "", 
+        "text": "Kan ikke analysere v\u00e6rdien."
+    }, 
+    {
+        "id": "The directory\") << \" '\" << value << \"' \" << DJV_TEXT(\"cannot be created", 
+        "source": "The directory\") << \" '\" << value << \"' \" << DJV_TEXT(\"cannot be created", 
+        "description": "", 
+        "text": "Mappen &quot;) &lt;&lt;&quot; &#39;&quot;&lt;&lt; v\u00e6rdi &lt;&lt;&quot;&#39; &quot;&quot; DJV_TEXT (&quot;kan ikke oprettes"
+    }, 
+    {
+        "id": "Cannot parse the value", 
+        "source": "Cannot parse the value", 
+        "description": "", 
+        "text": "Kan ikke analysere v\u00e6rdien"
+    }, 
+    {
+        "id": "Error reading the text file", 
+        "source": "Error reading the text file", 
+        "description": "", 
+        "text": "Fejl ved l\u00e6sning af tekstfilen"
+    }, 
+    {
+        "id": "Error finding the change notification for", 
+        "source": "Error finding the change notification for", 
+        "description": "", 
+        "text": "Fejl ved at finde \u00e6ndringsmeddelelsen til"
+    }, 
+    {
+        "id": "Error watching the directory", 
+        "source": "Error watching the directory", 
+        "description": "", 
+        "text": "Fejl ved at se biblioteket"
+    }, 
+    {
+        "source": "The file", 
+        "text": "Filen", 
+        "description": "", 
+        "id": "The file"
+    }, 
+    {
+        "source": "cannot be opened", 
+        "text": "kan ikke \u00e5bnes", 
+        "description": "", 
+        "id": "cannot be opened"
+    }, 
+    {
+        "source": "cannot be queried", 
+        "text": "kan ikke foresp\u00f8rges", 
+        "description": "", 
+        "id": "cannot be queried"
+    }, 
+    {
+        "source": "cannot be mapped", 
+        "text": "kan ikke kortl\u00e6gges", 
+        "description": "", 
+        "id": "cannot be mapped"
+    }, 
+    {
+        "source": "cannot be unmapped", 
+        "text": "kan ikke omformuleres", 
+        "description": "", 
+        "id": "cannot be unmapped"
+    }, 
+    {
+        "source": "cannot be closed", 
+        "text": "kan ikke lukkes", 
+        "description": "", 
+        "id": "cannot be closed"
+    }, 
+    {
+        "source": "cannot be read", 
+        "text": "kan ikke l\u00e6ses", 
+        "description": "", 
+        "id": "cannot be read"
+    }, 
+    {
+        "source": "cannot be written", 
+        "text": "kan ikke skrives", 
+        "description": "", 
+        "id": "cannot be written"
+    }, 
+    {
+        "source": "The directory", 
+        "text": "Biblioteket", 
+        "description": "", 
+        "id": "The directory"
+    }, 
+    {
+        "source": "cannot be created", 
+        "text": "kan ikke oprettes", 
+        "description": "", 
+        "id": "cannot be created"
     }
 ]

@@ -35,19 +35,19 @@ namespace djv
 {
     namespace UI
     {
-        //! This class provides a toolbar widget.
-        class Toolbar : public Widget
+        //! This class provides a tool bar widget.
+        class ToolBar : public Widget
         {
-            DJV_NON_COPYABLE(Toolbar);
+            DJV_NON_COPYABLE(ToolBar);
 
         protected:
             void _init(Core::Context *);
-            Toolbar();
+            ToolBar();
 
         public:
-            virtual ~Toolbar();
+            virtual ~ToolBar();
 
-            static std::shared_ptr<Toolbar> create(Core::Context *);
+            static std::shared_ptr<ToolBar> create(Core::Context *);
 
             void setStretch(const std::shared_ptr<Widget>&, RowStretch);
 

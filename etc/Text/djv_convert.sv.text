@@ -16,5 +16,11 @@
         "text": "Anv\u00e4ndning: djv_convert (ing\u00e5ng) (utg\u00e5ng)", 
         "id": "Usage: djv_convert (input) (output)", 
         "description": ""
+    }, 
+    {
+        "id": "Cannot parse the option '-resize'", 
+        "source": "Cannot parse the option '-resize'", 
+        "description": "", 
+        "text": "Kan inte analysera alternativet &#39;-resize&#39;"
     }
 ]

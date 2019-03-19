@@ -44,7 +44,7 @@
 #include <djvUI/RowLayout.h>
 #include <djvUI/ScrollWidget.h>
 #include <djvUI/SettingsSystem.h>
-#include <djvUI/Toolbar.h>
+#include <djvUI/ToolBar.h>
 
 #include <djvCore/Context.h>
 #include <djvCore/FileInfo.h>
@@ -114,7 +114,7 @@ namespace djv
             p.itemCountLabel->setTextHAlign(UI::TextHAlign::Right);
             p.itemCountLabel->setMargin(UI::MetricsRole::MarginSmall);
 
-            auto bottomToolBar = UI::Toolbar::create(context);
+            auto bottomToolBar = UI::ToolBar::create(context);
             bottomToolBar->addExpander();
             bottomToolBar->addChild(p.itemCountLabel);
             bottomToolBar->addChild(p.searchBox);

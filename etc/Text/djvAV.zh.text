@@ -460,5 +460,239 @@
         "text": "\u65e0\u6cd5\u89e3\u6790\u503c\u3002", 
         "id": "Cannot parse value.", 
         "description": ""
+    }, 
+    {
+        "id": "The file\")) << \" '\" << fileName << \"' \" << DJV_TEXT(\"cannot be read", 
+        "source": "The file\")) << \" '\" << fileName << \"' \" << DJV_TEXT(\"cannot be read", 
+        "description": "", 
+        "text": "\u6587\u4ef6\u201c\uff09\uff09&lt;&lt;\u201d&#39;\u201c&lt;&lt; fileName &lt;&lt;\u201d&#39;\u201c&lt;&lt; DJV_TEXT\uff08\u201d\u65e0\u6cd5\u8bfb\u53d6"
+    }, 
+    {
+        "id": "The file\")) << \" '\" << fileName << \"' \" << DJV_TEXT(\"cannot be written", 
+        "source": "The file\")) << \" '\" << fileName << \"' \" << DJV_TEXT(\"cannot be written", 
+        "description": "", 
+        "text": "\u6587\u4ef6\u201c\uff09\uff09&lt;&lt;\u201d&#39;\u201c&lt;&lt; fileName &lt;&lt;\u201d&#39;\u201c&lt;&lt; DJV_TEXT\uff08\u201d\u4e0d\u80fd\u5199"
+    }, 
+    {
+        "id": "The file", 
+        "source": "The file", 
+        "description": "", 
+        "text": "\u6587\u4ef6"
+    }, 
+    {
+        "id": "cannot be written", 
+        "source": "cannot be written", 
+        "description": "", 
+        "text": "\u4e0d\u80fd\u5199"
+    }, 
+    {
+        "id": "cannot be opened", 
+        "source": "cannot be opened", 
+        "description": "", 
+        "text": "\u65e0\u6cd5\u6253\u5f00"
+    }, 
+    {
+        "id": "FreeType cannot be initialized.", 
+        "source": "FreeType cannot be initialized.", 
+        "description": "", 
+        "text": "FreeType\u65e0\u6cd5\u521d\u59cb\u5316\u3002"
+    }, 
+    {
+        "id": "No fonts were found.", 
+        "source": "No fonts were found.", 
+        "description": "", 
+        "text": "\u6ca1\u6709\u627e\u5230\u4efb\u4f55\u5b57\u4f53\u3002"
+    }, 
+    {
+        "id": "The GLFW window cannot be created.", 
+        "source": "The GLFW window cannot be created.", 
+        "description": "", 
+        "text": "\u65e0\u6cd5\u521b\u5efaGLFW\u7a97\u53e3\u3002"
+    }, 
+    {
+        "id": "Cannot parse the value.", 
+        "source": "Cannot parse the value.", 
+        "description": "", 
+        "text": "\u65e0\u6cd5\u89e3\u6790\u8be5\u503c\u3002"
+    }, 
+    {
+        "id": "The JPEG file", 
+        "source": "The JPEG file", 
+        "description": "", 
+        "text": "JPEG\u6587\u4ef6"
+    }, 
+    {
+        "id": "cannot be read", 
+        "source": "cannot be read", 
+        "description": "", 
+        "text": "\u65e0\u6cd5\u9605\u8bfb"
+    }, 
+    {
+        "id": "The OpenGL vertex shader cannot be created.", 
+        "source": "The OpenGL vertex shader cannot be created.", 
+        "description": "", 
+        "text": "\u65e0\u6cd5\u521b\u5efaOpenGL\u9876\u70b9\u7740\u8272\u5668\u3002"
+    }, 
+    {
+        "id": "The OpenGL vertex shader", 
+        "source": "The OpenGL vertex shader", 
+        "description": "", 
+        "text": "OpenGL\u9876\u70b9\u7740\u8272\u5668"
+    }, 
+    {
+        "id": "cannot be compiled", 
+        "source": "cannot be compiled", 
+        "description": "", 
+        "text": "\u65e0\u6cd5\u7f16\u8bd1"
+    }, 
+    {
+        "id": "The OpenGL fragment shader cannot be created.", 
+        "source": "The OpenGL fragment shader cannot be created.", 
+        "description": "", 
+        "text": "\u65e0\u6cd5\u521b\u5efaOpenGL\u7247\u6bb5\u7740\u8272\u5668\u3002"
+    }, 
+    {
+        "id": "The OpenGL framgent shader", 
+        "source": "The OpenGL framgent shader", 
+        "description": "", 
+        "text": "OpenGL\u524d\u5411\u7740\u8272\u5668"
+    }, 
+    {
+        "id": "The program", 
+        "source": "The program", 
+        "description": "", 
+        "text": "\u8be5\u7a0b\u5e8f"
+    }, 
+    {
+        "id": "cannot be linked", 
+        "source": "cannot be linked", 
+        "description": "", 
+        "text": "\u65e0\u6cd5\u8054\u7cfb"
+    }, 
+    {
+        "id": "The FFMPEG file", 
+        "source": "The FFMPEG file", 
+        "description": "", 
+        "text": "FFMPEG\u6587\u4ef6"
+    }, 
+    {
+        "id": "does not have any video or audio streams", 
+        "source": "does not have any video or audio streams", 
+        "description": "", 
+        "text": "\u6ca1\u6709\u4efb\u4f55\u89c6\u9891\u6216\u97f3\u9891\u6d41"
+    }, 
+    {
+        "id": "does not match any video codecs", 
+        "source": "does not match any video codecs", 
+        "description": "", 
+        "text": "\u4e0e\u4efb\u4f55\u89c6\u9891\u7f16\u89e3\u7801\u5668\u90fd\u4e0d\u5339\u914d"
+    }, 
+    {
+        "id": "The FFMPEG audio format ", 
+        "source": "The FFMPEG audio format ", 
+        "description": "", 
+        "text": "FFMPEG\u97f3\u9891\u683c\u5f0f"
+    }, 
+    {
+        "id": "is not supported", 
+        "source": "is not supported", 
+        "description": "", 
+        "text": "\u4e0d\u53d7\u652f\u6301"
+    }, 
+    {
+        "id": "does not match any audio codecs", 
+        "source": "does not match any audio codecs", 
+        "description": "", 
+        "text": "\u4e0e\u4efb\u4f55\u97f3\u9891\u7f16\u89e3\u7801\u5668\u90fd\u4e0d\u5339\u914d"
+    }, 
+    {
+        "id": "GLFW cannot be initialized.", 
+        "source": "GLFW cannot be initialized.", 
+        "description": "", 
+        "text": "GLFW\u65e0\u6cd5\u521d\u59cb\u5316\u3002"
+    }, 
+    {
+        "id": "GLFW window cannot be created.", 
+        "source": "GLFW window cannot be created.", 
+        "description": "", 
+        "text": "\u65e0\u6cd5\u521b\u5efaGLFW\u7a97\u53e3\u3002"
+    }, 
+    {
+        "id": "The OpenAL device cannot be opened.", 
+        "source": "The OpenAL device cannot be opened.", 
+        "description": "", 
+        "text": "\u65e0\u6cd5\u6253\u5f00OpenAL\u8bbe\u5907\u3002"
+    }, 
+    {
+        "id": "The OpenAL context cannot be created.", 
+        "source": "The OpenAL context cannot be created.", 
+        "description": "", 
+        "text": "\u65e0\u6cd5\u521b\u5efaOpenAL\u4e0a\u4e0b\u6587\u3002"
+    }, 
+    {
+        "id": "The OpenAL context cannot be made current.", 
+        "source": "The OpenAL context cannot be made current.", 
+        "description": "", 
+        "text": "OpenAL\u4e0a\u4e0b\u6587\u4e0d\u80fd\u6210\u4e3a\u6700\u65b0\u7684\u3002"
+    }, 
+    {
+        "id": "The OpenGL texture cannot be created.", 
+        "source": "The OpenGL texture cannot be created.", 
+        "description": "", 
+        "text": "\u65e0\u6cd5\u521b\u5efaOpenGL\u7eb9\u7406\u3002"
+    }, 
+    {
+        "id": "The OpenGL frame buffer cannot be created.", 
+        "source": "The OpenGL frame buffer cannot be created.", 
+        "description": "", 
+        "text": "\u65e0\u6cd5\u521b\u5efaOpenGL\u5e27\u7f13\u51b2\u533a\u3002"
+    }, 
+    {
+        "id": "The OpenGL frame buffer cannot be initialized.", 
+        "source": "The OpenGL frame buffer cannot be initialized.", 
+        "description": "", 
+        "text": "\u65e0\u6cd5\u521d\u59cb\u5316OpenGL\u5e27\u7f13\u51b2\u533a\u3002"
+    }, 
+    {
+        "id": "The PNG file", 
+        "source": "The PNG file", 
+        "description": "", 
+        "text": "PNG\u6587\u4ef6"
+    }, 
+    {
+        "id": "The PPM file", 
+        "source": "The PPM file", 
+        "description": "", 
+        "text": "PPM\u6587\u4ef6"
+    }, 
+    {
+        "id": "The shader cannot be created", 
+        "source": "The shader cannot be created", 
+        "description": "", 
+        "text": "\u65e0\u6cd5\u521b\u5efa\u7740\u8272\u5668"
+    }, 
+    {
+        "id": "This plugin provides Tagged Image File Format (TIFF) image I/O.", 
+        "source": "This plugin provides Tagged Image File Format (TIFF) image I/O.", 
+        "description": "", 
+        "text": "\u6b64\u63d2\u4ef6\u63d0\u4f9b\u6807\u8bb0\u56fe\u50cf\u6587\u4ef6\u683c\u5f0f\uff08TIFF\uff09\u56fe\u50cfI / O."
+    }, 
+    {
+        "id": "RLE", 
+        "source": "RLE", 
+        "description": "", 
+        "text": "RLE"
+    }, 
+    {
+        "id": "LZW", 
+        "source": "LZW", 
+        "description": "", 
+        "text": "LZW"
+    }, 
+    {
+        "id": "The TIFF file", 
+        "source": "The TIFF file", 
+        "description": "", 
+        "text": "TIFF\u6587\u4ef6"
     }
 ]

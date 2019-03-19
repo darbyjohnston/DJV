@@ -460,5 +460,239 @@
         "text": "Impossible d&#39;analyser la valeur.", 
         "id": "Cannot parse value.", 
         "description": ""
+    }, 
+    {
+        "id": "The file\")) << \" '\" << fileName << \"' \" << DJV_TEXT(\"cannot be read", 
+        "source": "The file\")) << \" '\" << fileName << \"' \" << DJV_TEXT(\"cannot be read", 
+        "description": "", 
+        "text": "Le fichier &quot;)) &lt;&lt;&quot; &#39;&quot;&lt;&lt; nom_fichier &lt;&lt;&quot;&#39; &quot;&lt;&lt; DJV_TEXT (&quot; ne peut pas \u00eatre lu"
+    }, 
+    {
+        "id": "The file\")) << \" '\" << fileName << \"' \" << DJV_TEXT(\"cannot be written", 
+        "source": "The file\")) << \" '\" << fileName << \"' \" << DJV_TEXT(\"cannot be written", 
+        "description": "", 
+        "text": "Le fichier &quot;)) &lt;&lt;&quot; &#39;&quot;&lt;&lt; NomFichier &lt;&lt;&quot;&#39; &quot;&lt;&lt; DJV_TEXT (&quot; ne peut pas \u00eatre \u00e9crit"
+    }, 
+    {
+        "id": "The file", 
+        "source": "The file", 
+        "description": "", 
+        "text": "Le fichier"
+    }, 
+    {
+        "id": "cannot be written", 
+        "source": "cannot be written", 
+        "description": "", 
+        "text": "ne peut pas \u00eatre \u00e9crit"
+    }, 
+    {
+        "id": "cannot be opened", 
+        "source": "cannot be opened", 
+        "description": "", 
+        "text": "ne peut pas \u00eatre ouvert"
+    }, 
+    {
+        "id": "FreeType cannot be initialized.", 
+        "source": "FreeType cannot be initialized.", 
+        "description": "", 
+        "text": "FreeType ne peut pas \u00eatre initialis\u00e9."
+    }, 
+    {
+        "id": "No fonts were found.", 
+        "source": "No fonts were found.", 
+        "description": "", 
+        "text": "Aucune police n&#39;a \u00e9t\u00e9 trouv\u00e9e."
+    }, 
+    {
+        "id": "The GLFW window cannot be created.", 
+        "source": "The GLFW window cannot be created.", 
+        "description": "", 
+        "text": "La fen\u00eatre GLFW ne peut pas \u00eatre cr\u00e9\u00e9e."
+    }, 
+    {
+        "id": "Cannot parse the value.", 
+        "source": "Cannot parse the value.", 
+        "description": "", 
+        "text": "Impossible d&#39;analyser la valeur."
+    }, 
+    {
+        "id": "The JPEG file", 
+        "source": "The JPEG file", 
+        "description": "", 
+        "text": "Le fichier JPEG"
+    }, 
+    {
+        "id": "cannot be read", 
+        "source": "cannot be read", 
+        "description": "", 
+        "text": "ne peut pas \u00eatre lu"
+    }, 
+    {
+        "id": "The OpenGL vertex shader cannot be created.", 
+        "source": "The OpenGL vertex shader cannot be created.", 
+        "description": "", 
+        "text": "Le vertex shader OpenGL ne peut pas \u00eatre cr\u00e9\u00e9."
+    }, 
+    {
+        "id": "The OpenGL vertex shader", 
+        "source": "The OpenGL vertex shader", 
+        "description": "", 
+        "text": "Le vertex shader OpenGL"
+    }, 
+    {
+        "id": "cannot be compiled", 
+        "source": "cannot be compiled", 
+        "description": "", 
+        "text": "ne peut pas \u00eatre compil\u00e9"
+    }, 
+    {
+        "id": "The OpenGL fragment shader cannot be created.", 
+        "source": "The OpenGL fragment shader cannot be created.", 
+        "description": "", 
+        "text": "Le fragment shader OpenGL ne peut pas \u00eatre cr\u00e9\u00e9."
+    }, 
+    {
+        "id": "The OpenGL framgent shader", 
+        "source": "The OpenGL framgent shader", 
+        "description": "", 
+        "text": "Le shader OpenGL"
+    }, 
+    {
+        "id": "The program", 
+        "source": "The program", 
+        "description": "", 
+        "text": "Le programme"
+    }, 
+    {
+        "id": "cannot be linked", 
+        "source": "cannot be linked", 
+        "description": "", 
+        "text": "ne peut pas \u00eatre li\u00e9"
+    }, 
+    {
+        "id": "The FFMPEG file", 
+        "source": "The FFMPEG file", 
+        "description": "", 
+        "text": "Le fichier FFMPEG"
+    }, 
+    {
+        "id": "does not have any video or audio streams", 
+        "source": "does not have any video or audio streams", 
+        "description": "", 
+        "text": "n&#39;a pas de flux vid\u00e9o ou audio"
+    }, 
+    {
+        "id": "does not match any video codecs", 
+        "source": "does not match any video codecs", 
+        "description": "", 
+        "text": "ne correspond \u00e0 aucun codec vid\u00e9o"
+    }, 
+    {
+        "id": "The FFMPEG audio format ", 
+        "source": "The FFMPEG audio format ", 
+        "description": "", 
+        "text": "Le format audio FFMPEG"
+    }, 
+    {
+        "id": "is not supported", 
+        "source": "is not supported", 
+        "description": "", 
+        "text": "n&#39;est pas support\u00e9"
+    }, 
+    {
+        "id": "does not match any audio codecs", 
+        "source": "does not match any audio codecs", 
+        "description": "", 
+        "text": "ne correspond \u00e0 aucun codec audio"
+    }, 
+    {
+        "id": "GLFW cannot be initialized.", 
+        "source": "GLFW cannot be initialized.", 
+        "description": "", 
+        "text": "GLFW ne peut pas \u00eatre initialis\u00e9."
+    }, 
+    {
+        "id": "GLFW window cannot be created.", 
+        "source": "GLFW window cannot be created.", 
+        "description": "", 
+        "text": "La fen\u00eatre GLFW ne peut pas \u00eatre cr\u00e9\u00e9e."
+    }, 
+    {
+        "id": "The OpenAL device cannot be opened.", 
+        "source": "The OpenAL device cannot be opened.", 
+        "description": "", 
+        "text": "Le p\u00e9riph\u00e9rique OpenAL ne peut pas \u00eatre ouvert."
+    }, 
+    {
+        "id": "The OpenAL context cannot be created.", 
+        "source": "The OpenAL context cannot be created.", 
+        "description": "", 
+        "text": "Le contexte OpenAL ne peut pas \u00eatre cr\u00e9\u00e9."
+    }, 
+    {
+        "id": "The OpenAL context cannot be made current.", 
+        "source": "The OpenAL context cannot be made current.", 
+        "description": "", 
+        "text": "Le contexte OpenAL ne peut pas \u00eatre mis \u00e0 jour."
+    }, 
+    {
+        "id": "The OpenGL texture cannot be created.", 
+        "source": "The OpenGL texture cannot be created.", 
+        "description": "", 
+        "text": "La texture OpenGL ne peut pas \u00eatre cr\u00e9\u00e9e."
+    }, 
+    {
+        "id": "The OpenGL frame buffer cannot be created.", 
+        "source": "The OpenGL frame buffer cannot be created.", 
+        "description": "", 
+        "text": "Le tampon de trame OpenGL ne peut pas \u00eatre cr\u00e9\u00e9."
+    }, 
+    {
+        "id": "The OpenGL frame buffer cannot be initialized.", 
+        "source": "The OpenGL frame buffer cannot be initialized.", 
+        "description": "", 
+        "text": "Le tampon de trame OpenGL ne peut pas \u00eatre initialis\u00e9."
+    }, 
+    {
+        "id": "The PNG file", 
+        "source": "The PNG file", 
+        "description": "", 
+        "text": "Le fichier PNG"
+    }, 
+    {
+        "id": "The PPM file", 
+        "source": "The PPM file", 
+        "description": "", 
+        "text": "Le fichier PPM"
+    }, 
+    {
+        "id": "The shader cannot be created", 
+        "source": "The shader cannot be created", 
+        "description": "", 
+        "text": "Le shader ne peut pas \u00eatre cr\u00e9\u00e9"
+    }, 
+    {
+        "id": "This plugin provides Tagged Image File Format (TIFF) image I/O.", 
+        "source": "This plugin provides Tagged Image File Format (TIFF) image I/O.", 
+        "description": "", 
+        "text": "Ce plugin fournit des E / S d\u2019images TIFF (Tagged Image File Format)."
+    }, 
+    {
+        "id": "RLE", 
+        "source": "RLE", 
+        "description": "", 
+        "text": "RLE"
+    }, 
+    {
+        "id": "LZW", 
+        "source": "LZW", 
+        "description": "", 
+        "text": "LZW"
+    }, 
+    {
+        "id": "The TIFF file", 
+        "source": "The TIFF file", 
+        "description": "", 
+        "text": "Le fichier TIFF"
     }
 ]

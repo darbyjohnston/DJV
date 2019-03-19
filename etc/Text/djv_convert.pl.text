@@ -16,5 +16,11 @@
         "text": "U\u017cycie: djv_convert (input) (output)", 
         "id": "Usage: djv_convert (input) (output)", 
         "description": ""
+    }, 
+    {
+        "id": "Cannot parse the option '-resize'", 
+        "source": "Cannot parse the option '-resize'", 
+        "description": "", 
+        "text": "Nie mo\u017cna przeanalizowa\u0107 opcji \u201e-resize\u201d"
     }
 ]

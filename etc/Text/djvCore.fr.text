@@ -1600,5 +1600,197 @@
         "text": "Impossible de cr\u00e9er un r\u00e9pertoire", 
         "id": "Cannot create directory", 
         "description": ""
+    }, 
+    {
+        "id": "KeyPress", 
+        "source": "KeyPress", 
+        "description": "", 
+        "text": "Appuyez sur la touche"
+    }, 
+    {
+        "id": "KeyRelease", 
+        "source": "KeyRelease", 
+        "description": "", 
+        "text": "KeyRelease"
+    }, 
+    {
+        "id": "TextFocus", 
+        "source": "TextFocus", 
+        "description": "", 
+        "text": "Mise au point du texte"
+    }, 
+    {
+        "id": "TextFocusLost", 
+        "source": "TextFocusLost", 
+        "description": "", 
+        "text": "Texte perdu le focus"
+    }, 
+    {
+        "id": "The file\") << \" '\" << fileName << \"' \" << DJV_TEXT(\"cannot be opened", 
+        "source": "The file\") << \" '\" << fileName << \"' \" << DJV_TEXT(\"cannot be opened", 
+        "description": "", 
+        "text": "Le fichier &quot;) &lt;&lt;&quot; &#39;&quot;&lt;&lt; nom_fichier &lt;&lt;&quot;&#39; &quot;&lt;&lt; DJV_TEXT (&quot; ne peut pas \u00eatre ouvert"
+    }, 
+    {
+        "id": "The file\") << \" '\" << fileName << \"' \" << DJV_TEXT(\"cannot be queried", 
+        "source": "The file\") << \" '\" << fileName << \"' \" << DJV_TEXT(\"cannot be queried", 
+        "description": "", 
+        "text": "Le fichier &quot;) &lt;&lt;&quot; &#39;&quot;&lt;&lt; nom_fichier &lt;&lt;&quot;&#39; &quot;&lt;&lt; DJV_TEXT (&quot; ne peut pas \u00eatre interrog\u00e9"
+    }, 
+    {
+        "id": "The file\") << \" '\" << _fileName << \"' \" << DJV_TEXT(\"cannot be mapped", 
+        "source": "The file\") << \" '\" << _fileName << \"' \" << DJV_TEXT(\"cannot be mapped", 
+        "description": "", 
+        "text": "Le fichier &quot;) &lt;&lt;&quot; &#39;&quot;&lt;&lt; _fileName &lt;&lt;&quot;&#39; &quot;&lt;&lt; DJV_TEXT (&quot; ne peut pas \u00eatre mapp\u00e9"
+    }, 
+    {
+        "id": "The file\") << \" '\" << _fileName << \"' \" << DJV_TEXT(\"cannot be unmapped", 
+        "source": "The file\") << \" '\" << _fileName << \"' \" << DJV_TEXT(\"cannot be unmapped", 
+        "description": "", 
+        "text": "Le fichier &quot;) &lt;&lt;&quot; &#39;&quot;&lt;&lt; _fileName &lt;&lt;&quot;&#39; &quot;&lt;&lt; DJV_TEXT (&quot; ne peut pas \u00eatre d\u00e9mapp\u00e9"
+    }, 
+    {
+        "id": "The file\") << \" '\" << _fileName << \"' \" << DJV_TEXT(\"cannot be closed", 
+        "source": "The file\") << \" '\" << _fileName << \"' \" << DJV_TEXT(\"cannot be closed", 
+        "description": "", 
+        "text": "Le fichier &quot;) &lt;&lt;&quot; &#39;&quot;&lt;&lt; _fileName &lt;&lt;&quot;&#39; &quot;&lt;&lt; DJV_TEXT (&quot; ne peut pas \u00eatre ferm\u00e9"
+    }, 
+    {
+        "id": "The file\") << \" '\" << _fileName << \"' \" << DJV_TEXT(\"cannot be read", 
+        "source": "The file\") << \" '\" << _fileName << \"' \" << DJV_TEXT(\"cannot be read", 
+        "description": "", 
+        "text": "Le fichier &quot;) &lt;&lt;&quot; &#39;&quot;&lt;&lt; _fichier &lt;&lt;&quot;&#39; &quot;&lt;&lt; DJV_TEXT (&quot; ne peut pas \u00eatre lu"
+    }, 
+    {
+        "id": "The file\") << \" '\" << _fileName << \"' \" << DJV_TEXT(\"cannot be written", 
+        "source": "The file\") << \" '\" << _fileName << \"' \" << DJV_TEXT(\"cannot be written", 
+        "description": "", 
+        "text": "Le fichier &quot;) &lt;&lt;&quot; &#39;&quot;&lt;&lt; _fileName &lt;&lt;&quot;&#39; &quot;&lt;&lt; DJV_TEXT (&quot; ne peut pas \u00eatre \u00e9crit"
+    }, 
+    {
+        "id": "The file\") << \" '\" << fileName << \"' \" << DJV_TEXT(\"cannot be closed", 
+        "source": "The file\") << \" '\" << fileName << \"' \" << DJV_TEXT(\"cannot be closed", 
+        "description": "", 
+        "text": "Le fichier &quot;) &lt;&lt;&quot; &#39;&quot;&lt;&lt; nom_fichier &lt;&lt;&quot;&#39; &quot;&lt;&lt; DJV_TEXT (&quot; ne peut pas \u00eatre ferm\u00e9"
+    }, 
+    {
+        "id": "The file\") << \" '\" << fileName << \"' \" << DJV_TEXT(\"cannot be mapped", 
+        "source": "The file\") << \" '\" << fileName << \"' \" << DJV_TEXT(\"cannot be mapped", 
+        "description": "", 
+        "text": "Le fichier &quot;) &lt;&lt;&quot; &#39;&quot;&lt;&lt; nom_fichier &lt;&lt;&quot;&#39; &quot;&lt;&lt; DJV_TEXT (&quot; ne peut pas \u00eatre mapp\u00e9"
+    }, 
+    {
+        "id": "The file\") << \" '\" << fileName << \"' \" << DJV_TEXT(\"cannot be unmapped", 
+        "source": "The file\") << \" '\" << fileName << \"' \" << DJV_TEXT(\"cannot be unmapped", 
+        "description": "", 
+        "text": "Le fichier &quot;) &lt;&lt;&quot; &#39;&quot;&lt;&lt; NomFichier &lt;&lt;&quot;&#39; &quot;&lt;&lt; DJV_TEXT (&quot; ne peut pas \u00eatre d\u00e9mapp\u00e9"
+    }, 
+    {
+        "id": "The file\") << \" '\" << fileName << \"' \" << DJV_TEXT(\"cannot be read", 
+        "source": "The file\") << \" '\" << fileName << \"' \" << DJV_TEXT(\"cannot be read", 
+        "description": "", 
+        "text": "Le fichier &quot;) &lt;&lt;&quot; &#39;&quot;&lt;&lt; nom_fichier &lt;&lt;&quot;&#39; &quot;&lt;&lt; DJV_TEXT (&quot; ne peut pas \u00eatre lu"
+    }, 
+    {
+        "id": "The file\") << \" '\" << fileName << \"' \" << DJV_TEXT(\"cannot be written", 
+        "source": "The file\") << \" '\" << fileName << \"' \" << DJV_TEXT(\"cannot be written", 
+        "description": "", 
+        "text": "Le fichier &quot;) &lt;&lt;&quot; &#39;&quot;&lt;&lt; nomFichier &lt;&lt;&quot;&#39; &quot;&lt;&lt; DJV_TEXT (&quot; ne peut pas \u00eatre \u00e9crit"
+    }, 
+    {
+        "id": "Cannot parse the value.", 
+        "source": "Cannot parse the value.", 
+        "description": "", 
+        "text": "Impossible d&#39;analyser la valeur."
+    }, 
+    {
+        "id": "The directory\") << \" '\" << value << \"' \" << DJV_TEXT(\"cannot be created", 
+        "source": "The directory\") << \" '\" << value << \"' \" << DJV_TEXT(\"cannot be created", 
+        "description": "", 
+        "text": "Le r\u00e9pertoire &quot;) &lt;&lt;&quot; &#39;&quot;&lt;&lt; valeur &lt;&lt;&quot;&#39; &quot;&lt;&lt; DJV_TEXT (&quot; ne peut pas \u00eatre cr\u00e9\u00e9"
+    }, 
+    {
+        "id": "Cannot parse the value", 
+        "source": "Cannot parse the value", 
+        "description": "", 
+        "text": "Impossible d&#39;analyser la valeur"
+    }, 
+    {
+        "id": "Error reading the text file", 
+        "source": "Error reading the text file", 
+        "description": "", 
+        "text": "Erreur de lecture du fichier texte"
+    }, 
+    {
+        "id": "Error finding the change notification for", 
+        "source": "Error finding the change notification for", 
+        "description": "", 
+        "text": "Erreur lors de la recherche de la notification de modification pour"
+    }, 
+    {
+        "id": "Error watching the directory", 
+        "source": "Error watching the directory", 
+        "description": "", 
+        "text": "Erreur en regardant le r\u00e9pertoire"
+    }, 
+    {
+        "source": "The file", 
+        "text": "Le fichier", 
+        "description": "", 
+        "id": "The file"
+    }, 
+    {
+        "source": "cannot be opened", 
+        "text": "ne peut pas \u00eatre ouvert", 
+        "description": "", 
+        "id": "cannot be opened"
+    }, 
+    {
+        "source": "cannot be queried", 
+        "text": "ne peut \u00eatre interrog\u00e9", 
+        "description": "", 
+        "id": "cannot be queried"
+    }, 
+    {
+        "source": "cannot be mapped", 
+        "text": "ne peut pas \u00eatre cartographi\u00e9", 
+        "description": "", 
+        "id": "cannot be mapped"
+    }, 
+    {
+        "source": "cannot be unmapped", 
+        "text": "ne peut pas \u00eatre d\u00e9mapp\u00e9", 
+        "description": "", 
+        "id": "cannot be unmapped"
+    }, 
+    {
+        "source": "cannot be closed", 
+        "text": "ne peut pas \u00eatre ferm\u00e9", 
+        "description": "", 
+        "id": "cannot be closed"
+    }, 
+    {
+        "source": "cannot be read", 
+        "text": "ne peut pas \u00eatre lu", 
+        "description": "", 
+        "id": "cannot be read"
+    }, 
+    {
+        "source": "cannot be written", 
+        "text": "ne peut pas \u00eatre \u00e9crit", 
+        "description": "", 
+        "id": "cannot be written"
+    }, 
+    {
+        "source": "The directory", 
+        "text": "Le r\u00e9pertoire", 
+        "description": "", 
+        "id": "The directory"
+    }, 
+    {
+        "source": "cannot be created", 
+        "text": "ne peut pas \u00eatre cr\u00e9\u00e9", 
+        "description": "", 
+        "id": "cannot be created"
     }
 ]

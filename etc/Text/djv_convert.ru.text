@@ -16,5 +16,11 @@
         "text": "\u0418\u0441\u043f\u043e\u043b\u044c\u0437\u043e\u0432\u0430\u043d\u0438\u0435: djv_convert (\u0432\u0445\u043e\u0434\u043d\u043e\u0439) (\u0432\u044b\u0445\u043e\u0434\u043d\u043e\u0439)", 
         "id": "Usage: djv_convert (input) (output)", 
         "description": ""
+    }, 
+    {
+        "id": "Cannot parse the option '-resize'", 
+        "source": "Cannot parse the option '-resize'", 
+        "description": "", 
+        "text": "\u041d\u0435 \u0443\u0434\u0430\u0435\u0442\u0441\u044f \u0440\u0430\u0437\u043e\u0431\u0440\u0430\u0442\u044c \u043e\u043f\u0446\u0438\u044e -resize"
     }
 ]

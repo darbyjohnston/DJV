@@ -460,5 +460,239 @@
         "text": "\u041d\u0435\u0432\u043e\u0437\u043c\u043e\u0436\u043d\u043e \u0440\u0430\u0437\u043e\u0431\u0440\u0430\u0442\u044c \u0437\u043d\u0430\u0447\u0435\u043d\u0438\u0435.", 
         "id": "Cannot parse value.", 
         "description": ""
+    }, 
+    {
+        "id": "The file\")) << \" '\" << fileName << \"' \" << DJV_TEXT(\"cannot be read", 
+        "source": "The file\")) << \" '\" << fileName << \"' \" << DJV_TEXT(\"cannot be read", 
+        "description": "", 
+        "text": "\u0424\u0430\u0439\u043b &quot;)) &lt;&lt;&quot; &#39;&quot;&lt;&lt; fileName &lt;&lt;&quot;&#39; &quot;&lt;&lt; DJV_TEXT (&quot; \u043d\u0435 \u043c\u043e\u0436\u0435\u0442 \u0431\u044b\u0442\u044c \u043f\u0440\u043e\u0447\u0438\u0442\u0430\u043d"
+    }, 
+    {
+        "id": "The file\")) << \" '\" << fileName << \"' \" << DJV_TEXT(\"cannot be written", 
+        "source": "The file\")) << \" '\" << fileName << \"' \" << DJV_TEXT(\"cannot be written", 
+        "description": "", 
+        "text": "\u0424\u0430\u0439\u043b &quot;)) &lt;&lt;&quot; &#39;&quot;&lt;&lt; fileName &lt;&lt;&quot;&#39; &quot;&lt;&lt; DJV_TEXT (&quot; \u043d\u0435\u0432\u043e\u0437\u043c\u043e\u0436\u043d\u043e \u0437\u0430\u043f\u0438\u0441\u0430\u0442\u044c"
+    }, 
+    {
+        "id": "The file", 
+        "source": "The file", 
+        "description": "", 
+        "text": "\u0424\u0430\u0439\u043b"
+    }, 
+    {
+        "id": "cannot be written", 
+        "source": "cannot be written", 
+        "description": "", 
+        "text": "\u043d\u0435 \u043c\u043e\u0436\u0435\u0442 \u0431\u044b\u0442\u044c \u043d\u0430\u043f\u0438\u0441\u0430\u043d\u043e"
+    }, 
+    {
+        "id": "cannot be opened", 
+        "source": "cannot be opened", 
+        "description": "", 
+        "text": "\u043d\u0435 \u043c\u043e\u0436\u0435\u0442 \u0431\u044b\u0442\u044c \u043e\u0442\u043a\u0440\u044b\u0442"
+    }, 
+    {
+        "id": "FreeType cannot be initialized.", 
+        "source": "FreeType cannot be initialized.", 
+        "description": "", 
+        "text": "FreeType \u043d\u0435 \u043c\u043e\u0436\u0435\u0442 \u0431\u044b\u0442\u044c \u0438\u043d\u0438\u0446\u0438\u0430\u043b\u0438\u0437\u0438\u0440\u043e\u0432\u0430\u043d."
+    }, 
+    {
+        "id": "No fonts were found.", 
+        "source": "No fonts were found.", 
+        "description": "", 
+        "text": "\u0428\u0440\u0438\u0444\u0442\u044b \u043d\u0435 \u043d\u0430\u0439\u0434\u0435\u043d\u044b."
+    }, 
+    {
+        "id": "The GLFW window cannot be created.", 
+        "source": "The GLFW window cannot be created.", 
+        "description": "", 
+        "text": "\u041e\u043a\u043d\u043e GLFW \u043d\u0435 \u043c\u043e\u0436\u0435\u0442 \u0431\u044b\u0442\u044c \u0441\u043e\u0437\u0434\u0430\u043d\u043e."
+    }, 
+    {
+        "id": "Cannot parse the value.", 
+        "source": "Cannot parse the value.", 
+        "description": "", 
+        "text": "\u041d\u0435\u0432\u043e\u0437\u043c\u043e\u0436\u043d\u043e \u043f\u0440\u043e\u0430\u043d\u0430\u043b\u0438\u0437\u0438\u0440\u043e\u0432\u0430\u0442\u044c \u0437\u043d\u0430\u0447\u0435\u043d\u0438\u0435."
+    }, 
+    {
+        "id": "The JPEG file", 
+        "source": "The JPEG file", 
+        "description": "", 
+        "text": "\u0424\u0430\u0439\u043b JPEG"
+    }, 
+    {
+        "id": "cannot be read", 
+        "source": "cannot be read", 
+        "description": "", 
+        "text": "\u043d\u0435 \u043c\u043e\u0436\u0435\u0442 \u0431\u044b\u0442\u044c \u043f\u0440\u043e\u0447\u0438\u0442\u0430\u043d\u043e"
+    }, 
+    {
+        "id": "The OpenGL vertex shader cannot be created.", 
+        "source": "The OpenGL vertex shader cannot be created.", 
+        "description": "", 
+        "text": "\u0412\u0435\u0440\u0448\u0438\u043d\u043d\u044b\u0439 \u0448\u0435\u0439\u0434\u0435\u0440 OpenGL \u043d\u0435 \u043c\u043e\u0436\u0435\u0442 \u0431\u044b\u0442\u044c \u0441\u043e\u0437\u0434\u0430\u043d."
+    }, 
+    {
+        "id": "The OpenGL vertex shader", 
+        "source": "The OpenGL vertex shader", 
+        "description": "", 
+        "text": "\u0412\u0435\u0440\u0448\u0438\u043d\u043d\u044b\u0439 \u0448\u0435\u0439\u0434\u0435\u0440 OpenGL"
+    }, 
+    {
+        "id": "cannot be compiled", 
+        "source": "cannot be compiled", 
+        "description": "", 
+        "text": "\u043d\u0435 \u043c\u043e\u0436\u0435\u0442 \u0431\u044b\u0442\u044c \u0441\u043a\u043e\u043c\u043f\u0438\u043b\u0438\u0440\u043e\u0432\u0430\u043d\u043e"
+    }, 
+    {
+        "id": "The OpenGL fragment shader cannot be created.", 
+        "source": "The OpenGL fragment shader cannot be created.", 
+        "description": "", 
+        "text": "\u0424\u0440\u0430\u0433\u043c\u0435\u043d\u0442\u043d\u044b\u0439 \u0448\u0435\u0439\u0434\u0435\u0440 OpenGL \u043d\u0435 \u043c\u043e\u0436\u0435\u0442 \u0431\u044b\u0442\u044c \u0441\u043e\u0437\u0434\u0430\u043d."
+    }, 
+    {
+        "id": "The OpenGL framgent shader", 
+        "source": "The OpenGL framgent shader", 
+        "description": "", 
+        "text": "\u041f\u0440\u044f\u043c\u043e\u0439 \u0448\u0435\u0439\u0434\u0435\u0440 OpenGL"
+    }, 
+    {
+        "id": "The program", 
+        "source": "The program", 
+        "description": "", 
+        "text": "\u041f\u0440\u043e\u0433\u0440\u0430\u043c\u043c\u0430"
+    }, 
+    {
+        "id": "cannot be linked", 
+        "source": "cannot be linked", 
+        "description": "", 
+        "text": "\u043d\u0435 \u043c\u043e\u0436\u0435\u0442 \u0431\u044b\u0442\u044c \u0441\u0432\u044f\u0437\u0430\u043d\u043e"
+    }, 
+    {
+        "id": "The FFMPEG file", 
+        "source": "The FFMPEG file", 
+        "description": "", 
+        "text": "\u0424\u0430\u0439\u043b FFMPEG"
+    }, 
+    {
+        "id": "does not have any video or audio streams", 
+        "source": "does not have any video or audio streams", 
+        "description": "", 
+        "text": "\u043d\u0435 \u0438\u043c\u0435\u0435\u0442 \u0432\u0438\u0434\u0435\u043e \u0438\u043b\u0438 \u0430\u0443\u0434\u0438\u043e \u043f\u043e\u0442\u043e\u043a\u043e\u0432"
+    }, 
+    {
+        "id": "does not match any video codecs", 
+        "source": "does not match any video codecs", 
+        "description": "", 
+        "text": "\u043d\u0435 \u0441\u043e\u043e\u0442\u0432\u0435\u0442\u0441\u0442\u0432\u0443\u0435\u0442 \u043d\u0438 \u043e\u0434\u043d\u043e\u043c\u0443 \u0432\u0438\u0434\u0435\u043e \u043a\u043e\u0434\u0435\u043a\u0443"
+    }, 
+    {
+        "id": "The FFMPEG audio format ", 
+        "source": "The FFMPEG audio format ", 
+        "description": "", 
+        "text": "\u0410\u0443\u0434\u0438\u043e\u0444\u043e\u0440\u043c\u0430\u0442 FFMPEG"
+    }, 
+    {
+        "id": "is not supported", 
+        "source": "is not supported", 
+        "description": "", 
+        "text": "\u043d\u0435 \u043f\u043e\u0434\u0434\u0435\u0440\u0436\u0438\u0432\u0430\u0435\u0442\u0441\u044f"
+    }, 
+    {
+        "id": "does not match any audio codecs", 
+        "source": "does not match any audio codecs", 
+        "description": "", 
+        "text": "\u043d\u0435 \u0441\u043e\u043e\u0442\u0432\u0435\u0442\u0441\u0442\u0432\u0443\u0435\u0442 \u043d\u0438 \u043e\u0434\u043d\u043e\u043c\u0443 \u0430\u0443\u0434\u0438\u043e\u043a\u043e\u0434\u0435\u043a\u0443"
+    }, 
+    {
+        "id": "GLFW cannot be initialized.", 
+        "source": "GLFW cannot be initialized.", 
+        "description": "", 
+        "text": "GLFW \u043d\u0435 \u043c\u043e\u0436\u0435\u0442 \u0431\u044b\u0442\u044c \u0438\u043d\u0438\u0446\u0438\u0430\u043b\u0438\u0437\u0438\u0440\u043e\u0432\u0430\u043d."
+    }, 
+    {
+        "id": "GLFW window cannot be created.", 
+        "source": "GLFW window cannot be created.", 
+        "description": "", 
+        "text": "GLFW \u043e\u043a\u043d\u043e \u043d\u0435 \u043c\u043e\u0436\u0435\u0442 \u0431\u044b\u0442\u044c \u0441\u043e\u0437\u0434\u0430\u043d\u043e."
+    }, 
+    {
+        "id": "The OpenAL device cannot be opened.", 
+        "source": "The OpenAL device cannot be opened.", 
+        "description": "", 
+        "text": "\u0423\u0441\u0442\u0440\u043e\u0439\u0441\u0442\u0432\u043e OpenAL \u043d\u0435 \u043c\u043e\u0436\u0435\u0442 \u0431\u044b\u0442\u044c \u043e\u0442\u043a\u0440\u044b\u0442\u043e."
+    }, 
+    {
+        "id": "The OpenAL context cannot be created.", 
+        "source": "The OpenAL context cannot be created.", 
+        "description": "", 
+        "text": "\u041a\u043e\u043d\u0442\u0435\u043a\u0441\u0442 OpenAL \u043d\u0435 \u043c\u043e\u0436\u0435\u0442 \u0431\u044b\u0442\u044c \u0441\u043e\u0437\u0434\u0430\u043d."
+    }, 
+    {
+        "id": "The OpenAL context cannot be made current.", 
+        "source": "The OpenAL context cannot be made current.", 
+        "description": "", 
+        "text": "\u041a\u043e\u043d\u0442\u0435\u043a\u0441\u0442 OpenAL \u043d\u0435 \u043c\u043e\u0436\u0435\u0442 \u0431\u044b\u0442\u044c \u0430\u043a\u0442\u0443\u0430\u043b\u044c\u043d\u044b\u043c."
+    }, 
+    {
+        "id": "The OpenGL texture cannot be created.", 
+        "source": "The OpenGL texture cannot be created.", 
+        "description": "", 
+        "text": "\u0422\u0435\u043a\u0441\u0442\u0443\u0440\u0430 OpenGL \u043d\u0435 \u043c\u043e\u0436\u0435\u0442 \u0431\u044b\u0442\u044c \u0441\u043e\u0437\u0434\u0430\u043d\u0430."
+    }, 
+    {
+        "id": "The OpenGL frame buffer cannot be created.", 
+        "source": "The OpenGL frame buffer cannot be created.", 
+        "description": "", 
+        "text": "\u0411\u0443\u0444\u0435\u0440 \u043a\u0430\u0434\u0440\u0430 OpenGL \u043d\u0435 \u043c\u043e\u0436\u0435\u0442 \u0431\u044b\u0442\u044c \u0441\u043e\u0437\u0434\u0430\u043d."
+    }, 
+    {
+        "id": "The OpenGL frame buffer cannot be initialized.", 
+        "source": "The OpenGL frame buffer cannot be initialized.", 
+        "description": "", 
+        "text": "\u0411\u0443\u0444\u0435\u0440 \u043a\u0430\u0434\u0440\u0430 OpenGL \u043d\u0435 \u043c\u043e\u0436\u0435\u0442 \u0431\u044b\u0442\u044c \u0438\u043d\u0438\u0446\u0438\u0430\u043b\u0438\u0437\u0438\u0440\u043e\u0432\u0430\u043d."
+    }, 
+    {
+        "id": "The PNG file", 
+        "source": "The PNG file", 
+        "description": "", 
+        "text": "\u0424\u0430\u0439\u043b PNG"
+    }, 
+    {
+        "id": "The PPM file", 
+        "source": "The PPM file", 
+        "description": "", 
+        "text": "\u0424\u0430\u0439\u043b PPM"
+    }, 
+    {
+        "id": "The shader cannot be created", 
+        "source": "The shader cannot be created", 
+        "description": "", 
+        "text": "\u0428\u0435\u0439\u0434\u0435\u0440 \u043d\u0435 \u043c\u043e\u0436\u0435\u0442 \u0431\u044b\u0442\u044c \u0441\u043e\u0437\u0434\u0430\u043d"
+    }, 
+    {
+        "id": "This plugin provides Tagged Image File Format (TIFF) image I/O.", 
+        "source": "This plugin provides Tagged Image File Format (TIFF) image I/O.", 
+        "description": "", 
+        "text": "\u042d\u0442\u043e\u0442 \u043f\u043b\u0430\u0433\u0438\u043d \u043e\u0431\u0435\u0441\u043f\u0435\u0447\u0438\u0432\u0430\u0435\u0442 \u0432\u0432\u043e\u0434 / \u0432\u044b\u0432\u043e\u0434 \u0438\u0437\u043e\u0431\u0440\u0430\u0436\u0435\u043d\u0438\u044f \u0432 \u0444\u043e\u0440\u043c\u0430\u0442\u0435 TIFF."
+    }, 
+    {
+        "id": "RLE", 
+        "source": "RLE", 
+        "description": "", 
+        "text": "RLE"
+    }, 
+    {
+        "id": "LZW", 
+        "source": "LZW", 
+        "description": "", 
+        "text": "LZW"
+    }, 
+    {
+        "id": "The TIFF file", 
+        "source": "The TIFF file", 
+        "description": "", 
+        "text": "\u0424\u0430\u0439\u043b TIFF"
     }
 ]

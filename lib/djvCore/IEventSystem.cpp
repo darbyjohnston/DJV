@@ -115,11 +115,13 @@ namespace djv
                 p.textFocus = value;
                 if (textFocus)
                 {
-                    textFocus->event(Event::TextFocusLost());
+                    Event::TextFocusLost event;
+                    textFocus->event(event);
                 }
                 if (p.textFocus)
                 {
-                    p.textFocus->event(Event::TextFocus());
+                    Event::TextFocus event;
+                    p.textFocus->event(event);
                 }
             }
 
@@ -323,7 +325,8 @@ namespace djv
                 DJV_PRIVATE_PTR();
                 if (p.textFocus)
                 {
-                    p.textFocus->event(Event::Text(text, modifiers));
+                    Event::Text event(text, modifiers);
+                    p.textFocus->event(event);
                 }
             }
 

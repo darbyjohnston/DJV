@@ -1600,5 +1600,197 @@
         "text": "\ub514\ub809\ud1a0\ub9ac\ub97c \ub9cc\ub4e4 \uc218 \uc5c6\uc2b5\ub2c8\ub2e4.", 
         "id": "Cannot create directory", 
         "description": ""
+    }, 
+    {
+        "id": "KeyPress", 
+        "source": "KeyPress", 
+        "description": "", 
+        "text": "\ud0a4 \ub204\ub984"
+    }, 
+    {
+        "id": "KeyRelease", 
+        "source": "KeyRelease", 
+        "description": "", 
+        "text": "\ud0a4 \ub9b4\ub9ac\uc2a4"
+    }, 
+    {
+        "id": "TextFocus", 
+        "source": "TextFocus", 
+        "description": "", 
+        "text": "\ud14d\uc2a4\ud2b8 \ucd08\uc810"
+    }, 
+    {
+        "id": "TextFocusLost", 
+        "source": "TextFocusLost", 
+        "description": "", 
+        "text": "\ud14d\uc2a4\ud2b8 \ucd08\uc810 \ubd84\uc2e4"
+    }, 
+    {
+        "id": "The file\") << \" '\" << fileName << \"' \" << DJV_TEXT(\"cannot be opened", 
+        "source": "The file\") << \" '\" << fileName << \"' \" << DJV_TEXT(\"cannot be opened", 
+        "description": "", 
+        "text": "\ud30c\uc77c &quot;) &lt;&lt;&quot; &#39; &quot;&lt;&lt; \ud30c\uc77c \uc774\ub984 &lt;&lt;&quot; &quot;&#39;&lt;&lt; DJV_TEXT (&quot;\uc5f4 \uc218 \uc5c6\uc2b5\ub2c8\ub2e4"
+    }, 
+    {
+        "id": "The file\") << \" '\" << fileName << \"' \" << DJV_TEXT(\"cannot be queried", 
+        "source": "The file\") << \" '\" << fileName << \"' \" << DJV_TEXT(\"cannot be queried", 
+        "description": "", 
+        "text": "\ud30c\uc77c &quot;) &lt;&lt;&quot; &#39; &quot;&lt;&lt; \ud30c\uc77c \uc774\ub984 &lt;&lt;&quot; &quot;&quot;&lt;&lt; DJV_TEXT ( &quot;\ub97c \uc9c8\uc758 \ud560 \uc218 \uc5c6\uc2b5\ub2c8\ub2e4"
+    }, 
+    {
+        "id": "The file\") << \" '\" << _fileName << \"' \" << DJV_TEXT(\"cannot be mapped", 
+        "source": "The file\") << \" '\" << _fileName << \"' \" << DJV_TEXT(\"cannot be mapped", 
+        "description": "", 
+        "text": "\ud30c\uc77c &quot;) &lt;&lt;&quot; &#39; &quot;&lt;&lt; _ \ud30c\uc77c \uc774\ub984 &lt;&lt;&quot; &quot;&quot;&lt;&lt; DJV_TEXT ( &quot;\ub9e4\ud551 \ud560 \uc218 \uc5c6\uc2b5\ub2c8\ub2e4"
+    }, 
+    {
+        "id": "The file\") << \" '\" << _fileName << \"' \" << DJV_TEXT(\"cannot be unmapped", 
+        "source": "The file\") << \" '\" << _fileName << \"' \" << DJV_TEXT(\"cannot be unmapped", 
+        "description": "", 
+        "text": "\ud30c\uc77c &quot;) &lt;&lt;&quot; &#39; &quot;&lt;&lt; _ \ud30c\uc77c \uc774\ub984 &lt;&lt;&quot; &quot;&quot;&lt;&lt; DJV_TEXT ( &quot;\ub9e4\ud551 \ud560 \uc218 \uc5c6\uc2b5\ub2c8\ub2e4"
+    }, 
+    {
+        "id": "The file\") << \" '\" << _fileName << \"' \" << DJV_TEXT(\"cannot be closed", 
+        "source": "The file\") << \" '\" << _fileName << \"' \" << DJV_TEXT(\"cannot be closed", 
+        "description": "", 
+        "text": "\ud30c\uc77c &quot;) &lt;&lt;&quot; &#39; &quot;&lt;&lt; _ \ud30c\uc77c \uc774\ub984 &lt;&lt;&quot; &quot;&quot;&lt;&lt; DJV_TEXT ( &quot;\uc744 (\ub97c) \ub2eb\uc744 \uc218 \uc5c6\uc2b5\ub2c8\ub2e4."
+    }, 
+    {
+        "id": "The file\") << \" '\" << _fileName << \"' \" << DJV_TEXT(\"cannot be read", 
+        "source": "The file\") << \" '\" << _fileName << \"' \" << DJV_TEXT(\"cannot be read", 
+        "description": "", 
+        "text": "\ud30c\uc77c &quot;) &lt;&lt;&quot; &#39; &quot;&lt;&lt; _ \ud30c\uc77c \uc774\ub984 &lt;&lt;&quot; &quot;&quot;&lt;&lt; DJV_TEXT ( &quot;\uc77d\uc744 \uc218 \uc5c6\uc2b5\ub2c8\ub2e4"
+    }, 
+    {
+        "id": "The file\") << \" '\" << _fileName << \"' \" << DJV_TEXT(\"cannot be written", 
+        "source": "The file\") << \" '\" << _fileName << \"' \" << DJV_TEXT(\"cannot be written", 
+        "description": "", 
+        "text": "\ud30c\uc77c &quot;) &lt;&lt;&quot; &#39; &quot;&lt;&lt; _ \ud30c\uc77c \uc774\ub984 &lt;&lt;&quot; &quot;&quot;&lt;&lt; DJV_TEXT ( &quot;\uc4f8 \uc218 \uc5c6\uc2b5\ub2c8\ub2e4"
+    }, 
+    {
+        "id": "The file\") << \" '\" << fileName << \"' \" << DJV_TEXT(\"cannot be closed", 
+        "source": "The file\") << \" '\" << fileName << \"' \" << DJV_TEXT(\"cannot be closed", 
+        "description": "", 
+        "text": "\ud30c\uc77c &quot;) &lt;&lt;&quot; &#39; &quot;&lt;&lt; \ud30c\uc77c \uc774\ub984 &lt;&lt;&quot; &quot;&quot;&lt;&lt; DJV_TEXT ( &quot;\ub97c \ub2eb\uc744 \uc218 \uc5c6\uc2b5\ub2c8\ub2e4"
+    }, 
+    {
+        "id": "The file\") << \" '\" << fileName << \"' \" << DJV_TEXT(\"cannot be mapped", 
+        "source": "The file\") << \" '\" << fileName << \"' \" << DJV_TEXT(\"cannot be mapped", 
+        "description": "", 
+        "text": "\ud30c\uc77c &quot;) &lt;&lt;&quot; &#39; &quot;&lt;&lt; \ud30c\uc77c \uc774\ub984 &lt;&lt;&quot; &quot;&#39;&lt;&lt; DJV_TEXT (&quot;\ub9e4\ud551 \ud560 \uc218 \uc5c6\uc2b5\ub2c8\ub2e4"
+    }, 
+    {
+        "id": "The file\") << \" '\" << fileName << \"' \" << DJV_TEXT(\"cannot be unmapped", 
+        "source": "The file\") << \" '\" << fileName << \"' \" << DJV_TEXT(\"cannot be unmapped", 
+        "description": "", 
+        "text": "\ud30c\uc77c &quot;) &lt;&lt;&quot; &#39; &quot;&lt;&lt; \ud30c\uc77c \uc774\ub984 &lt;&lt;&quot; &quot;&#39;&lt;&lt; DJV_TEXT (&quot;\ub9e4\ud551 \ud560 \uc218 \uc5c6\uc2b5\ub2c8\ub2e4"
+    }, 
+    {
+        "id": "The file\") << \" '\" << fileName << \"' \" << DJV_TEXT(\"cannot be read", 
+        "source": "The file\") << \" '\" << fileName << \"' \" << DJV_TEXT(\"cannot be read", 
+        "description": "", 
+        "text": "\ud30c\uc77c &quot;) &lt;&lt;&quot; &#39; &quot;&lt;&lt; \ud30c\uc77c \uc774\ub984 &lt;&lt;&quot; &quot;&quot;&lt;&lt; DJV_TEXT ( &quot;\uc77d\uc744 \uc218 \uc5c6\uc2b5\ub2c8\ub2e4"
+    }, 
+    {
+        "id": "The file\") << \" '\" << fileName << \"' \" << DJV_TEXT(\"cannot be written", 
+        "source": "The file\") << \" '\" << fileName << \"' \" << DJV_TEXT(\"cannot be written", 
+        "description": "", 
+        "text": "\ud30c\uc77c &quot;) &lt;&lt;&quot; &#39; &quot;&lt;&lt; \ud30c\uc77c \uc774\ub984 &lt;&lt;&quot; &quot;&quot;&lt;&lt; DJV_TEXT ( &quot;\uc4f8 \uc218 \uc5c6\uc2b5\ub2c8\ub2e4"
+    }, 
+    {
+        "id": "Cannot parse the value.", 
+        "source": "Cannot parse the value.", 
+        "description": "", 
+        "text": "\uac12\uc744 \uad6c\ubb38 \ubd84\uc11d \ud560 \uc218 \uc5c6\uc2b5\ub2c8\ub2e4."
+    }, 
+    {
+        "id": "The directory\") << \" '\" << value << \"' \" << DJV_TEXT(\"cannot be created", 
+        "source": "The directory\") << \" '\" << value << \"' \" << DJV_TEXT(\"cannot be created", 
+        "description": "", 
+        "text": "\ub514\ub809\ud1a0\ub9ac &quot;) &lt;&lt;&quot; &#39; &quot;&lt;&lt; value &lt;&lt;&quot;&#39; &quot;&lt;&lt; DJV_TEXT (&quot;\uc744 (\ub97c) \ub9cc\ub4e4 \uc218 \uc5c6\uc2b5\ub2c8\ub2e4."
+    }, 
+    {
+        "id": "Cannot parse the value", 
+        "source": "Cannot parse the value", 
+        "description": "", 
+        "text": "\uac12\uc744 \uad6c\ubb38 \ubd84\uc11d \ud560 \uc218 \uc5c6\uc2b5\ub2c8\ub2e4."
+    }, 
+    {
+        "id": "Error reading the text file", 
+        "source": "Error reading the text file", 
+        "description": "", 
+        "text": "\ud14d\uc2a4\ud2b8 \ud30c\uc77c\uc744 \uc77d\ub294 \uc911 \uc624\ub958\uac00 \ubc1c\uc0dd\ud588\uc2b5\ub2c8\ub2e4."
+    }, 
+    {
+        "id": "Error finding the change notification for", 
+        "source": "Error finding the change notification for", 
+        "description": "", 
+        "text": "\uc5d0 \ub300\ud55c \ubcc0\uacbd \uc54c\ub9bc\uc744 \ucc3e\ub294 \ub3d9\uc548 \uc624\ub958\uac00 \ubc1c\uc0dd\ud588\uc2b5\ub2c8\ub2e4."
+    }, 
+    {
+        "id": "Error watching the directory", 
+        "source": "Error watching the directory", 
+        "description": "", 
+        "text": "\ub514\ub809\ud1a0\ub9ac\ub97c \ubcf4\ub294 \uc911 \uc624\ub958\uac00 \ubc1c\uc0dd\ud588\uc2b5\ub2c8\ub2e4."
+    }, 
+    {
+        "source": "The file", 
+        "text": "\ud30c\uc77c", 
+        "description": "", 
+        "id": "The file"
+    }, 
+    {
+        "source": "cannot be opened", 
+        "text": "\uc5f4 \uc218 \uc5c6\ub2e4.", 
+        "description": "", 
+        "id": "cannot be opened"
+    }, 
+    {
+        "source": "cannot be queried", 
+        "text": "\uc9c8\ubb38\uc744 \ud560 \uc218 \uc5c6\ub2e4.", 
+        "description": "", 
+        "id": "cannot be queried"
+    }, 
+    {
+        "source": "cannot be mapped", 
+        "text": "\ub9e4\ud551 \ud560 \uc218 \uc5c6\uc2b5\ub2c8\ub2e4.", 
+        "description": "", 
+        "id": "cannot be mapped"
+    }, 
+    {
+        "source": "cannot be unmapped", 
+        "text": "\uc9c0\ub3c4\uc5d0 \ud45c\uc2dc \ud560 \uc218 \uc5c6\uc2b5\ub2c8\ub2e4.", 
+        "description": "", 
+        "id": "cannot be unmapped"
+    }, 
+    {
+        "source": "cannot be closed", 
+        "text": "\ub2eb\uc744 \uc218 \uc5c6\ub2e4.", 
+        "description": "", 
+        "id": "cannot be closed"
+    }, 
+    {
+        "source": "cannot be read", 
+        "text": "\uc77d\uc744 \uc218 \uc5c6\ub2e4.", 
+        "description": "", 
+        "id": "cannot be read"
+    }, 
+    {
+        "source": "cannot be written", 
+        "text": "\uc4f8 \uc218 \uc5c6\ub2e4.", 
+        "description": "", 
+        "id": "cannot be written"
+    }, 
+    {
+        "source": "The directory", 
+        "text": "\ub514\ub809\ud1a0\ub9ac", 
+        "description": "", 
+        "id": "The directory"
+    }, 
+    {
+        "source": "cannot be created", 
+        "text": "\ub9cc\ub4e4 \uc218 \uc5c6\uc2b5\ub2c8\ub2e4.", 
+        "description": "", 
+        "id": "cannot be created"
     }
 ]

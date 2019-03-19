@@ -25,41 +25,6 @@
         "description": ""
     }, 
     {
-        "text": "Cannot read", 
-        "id": "Cannot read", 
-        "description": ""
-    }, 
-    {
-        "text": "Cannot write", 
-        "id": "Cannot write", 
-        "description": ""
-    }, 
-    {
-        "text": "cannot write", 
-        "id": "cannot write", 
-        "description": ""
-    }, 
-    {
-        "text": "Unknown", 
-        "id": "Unknown", 
-        "description": ""
-    }, 
-    {
-        "text": "Out of memory", 
-        "id": "Out of memory", 
-        "description": ""
-    }, 
-    {
-        "text": "Invalid value", 
-        "id": "Invalid value", 
-        "description": ""
-    }, 
-    {
-        "text": "Invalid enum", 
-        "id": "Invalid enum", 
-        "description": ""
-    }, 
-    {
         "text": "U8", 
         "id": "U8", 
         "description": ""
@@ -72,76 +37,6 @@
     {
         "text": "S32", 
         "id": "S32", 
-        "description": ""
-    }, 
-    {
-        "text": "F32", 
-        "id": "F32", 
-        "description": ""
-    }, 
-    {
-        "text": "Cannot create OpenGL vertex shader.", 
-        "id": "Cannot create OpenGL vertex shader.", 
-        "description": ""
-    }, 
-    {
-        "text": "Cannot compile OpenGL vertex shader", 
-        "id": "Cannot compile OpenGL vertex shader", 
-        "description": ""
-    }, 
-    {
-        "text": "Cannot create OpenGL fragment shader.", 
-        "id": "Cannot create OpenGL fragment shader.", 
-        "description": ""
-    }, 
-    {
-        "text": "Cannot compile OpenGL framgent shader", 
-        "id": "Cannot compile OpenGL framgent shader", 
-        "description": ""
-    }, 
-    {
-        "text": "Cannot link program", 
-        "id": "Cannot link program", 
-        "description": ""
-    }, 
-    {
-        "text": "cannot read", 
-        "id": "cannot read", 
-        "description": ""
-    }, 
-    {
-        "text": "cannot open", 
-        "id": "cannot open", 
-        "description": ""
-    }, 
-    {
-        "text": "Cannot open OpenAL device.", 
-        "id": "Cannot open OpenAL device.", 
-        "description": ""
-    }, 
-    {
-        "text": "Cannot create OpenAL context.", 
-        "id": "Cannot create OpenAL context.", 
-        "description": ""
-    }, 
-    {
-        "text": "Cannot make OpenAL context current.", 
-        "id": "Cannot make OpenAL context current.", 
-        "description": ""
-    }, 
-    {
-        "text": "Cannot create GLFW window.", 
-        "id": "Cannot create GLFW window.", 
-        "description": ""
-    }, 
-    {
-        "text": "This plugin provides Portable Network Graphics (PNG) image I/O.", 
-        "id": "This plugin provides Portable Network Graphics (PNG) image I/O.", 
-        "description": ""
-    }, 
-    {
-        "text": "Cannot create shader", 
-        "id": "Cannot create shader", 
         "description": ""
     }, 
     {
@@ -180,28 +75,48 @@
         "description": ""
     }, 
     {
+        "text": "Unknown", 
+        "id": "Unknown", 
+        "description": ""
+    }, 
+    {
         "text": "This plugin provides FFmpeg image and audio I/O.", 
         "id": "This plugin provides FFmpeg image and audio I/O.", 
         "description": ""
     }, 
     {
-        "text": "cannot find any streams in", 
-        "id": "cannot find any streams in", 
+        "text": "The file", 
+        "id": "The file", 
         "description": ""
     }, 
     {
-        "text": "cannot find video codec for", 
-        "id": "cannot find video codec for", 
+        "text": "cannot be read", 
+        "id": "cannot be read", 
         "description": ""
     }, 
     {
-        "text": "unsupported audio format ", 
-        "id": "unsupported audio format ", 
+        "text": "cannot be written", 
+        "id": "cannot be written", 
         "description": ""
     }, 
     {
-        "text": "cannot find audio codec for", 
-        "id": "cannot find audio codec for", 
+        "text": "cannot be opened", 
+        "id": "cannot be opened", 
+        "description": ""
+    }, 
+    {
+        "text": "FreeType cannot be initialized.", 
+        "id": "FreeType cannot be initialized.", 
+        "description": ""
+    }, 
+    {
+        "text": "No fonts were found.", 
+        "id": "No fonts were found.", 
+        "description": ""
+    }, 
+    {
+        "text": "The GLFW window cannot be created.", 
+        "id": "The GLFW window cannot be created.", 
         "description": ""
     }, 
     {
@@ -210,23 +125,168 @@
         "description": ""
     }, 
     {
-        "text": "Cannot initialize GLFW.", 
-        "id": "Cannot initialize GLFW.", 
+        "text": "Cannot parse the value.", 
+        "id": "Cannot parse the value.", 
         "description": ""
     }, 
     {
-        "text": "Cannot create OpenGL texture.", 
-        "id": "Cannot create OpenGL texture.", 
+        "text": "The JPEG file", 
+        "id": "The JPEG file", 
         "description": ""
     }, 
     {
-        "text": "Cannot create OpenGL frame buffer.", 
-        "id": "Cannot create OpenGL frame buffer.", 
+        "text": "The OpenGL vertex shader cannot be created.", 
+        "id": "The OpenGL vertex shader cannot be created.", 
         "description": ""
     }, 
     {
-        "text": "Cannot initialize OpenGL frame buffer.", 
-        "id": "Cannot initialize OpenGL frame buffer.", 
+        "text": "The OpenGL vertex shader", 
+        "id": "The OpenGL vertex shader", 
+        "description": ""
+    }, 
+    {
+        "text": "cannot be compiled", 
+        "id": "cannot be compiled", 
+        "description": ""
+    }, 
+    {
+        "text": "The OpenGL fragment shader cannot be created.", 
+        "id": "The OpenGL fragment shader cannot be created.", 
+        "description": ""
+    }, 
+    {
+        "text": "The OpenGL framgent shader", 
+        "id": "The OpenGL framgent shader", 
+        "description": ""
+    }, 
+    {
+        "text": "The program", 
+        "id": "The program", 
+        "description": ""
+    }, 
+    {
+        "text": "cannot be linked", 
+        "id": "cannot be linked", 
+        "description": ""
+    }, 
+    {
+        "text": "The FFMPEG file", 
+        "id": "The FFMPEG file", 
+        "description": ""
+    }, 
+    {
+        "text": "does not have any video or audio streams", 
+        "id": "does not have any video or audio streams", 
+        "description": ""
+    }, 
+    {
+        "text": "does not match any video codecs", 
+        "id": "does not match any video codecs", 
+        "description": ""
+    }, 
+    {
+        "text": "The FFMPEG audio format ", 
+        "id": "The FFMPEG audio format ", 
+        "description": ""
+    }, 
+    {
+        "text": "is not supported", 
+        "id": "is not supported", 
+        "description": ""
+    }, 
+    {
+        "text": "does not match any audio codecs", 
+        "id": "does not match any audio codecs", 
+        "description": ""
+    }, 
+    {
+        "text": "GLFW cannot be initialized.", 
+        "id": "GLFW cannot be initialized.", 
+        "description": ""
+    }, 
+    {
+        "text": "GLFW window cannot be created.", 
+        "id": "GLFW window cannot be created.", 
+        "description": ""
+    }, 
+    {
+        "text": "Out of memory", 
+        "id": "Out of memory", 
+        "description": ""
+    }, 
+    {
+        "text": "Invalid value", 
+        "id": "Invalid value", 
+        "description": ""
+    }, 
+    {
+        "text": "Invalid enum", 
+        "id": "Invalid enum", 
+        "description": ""
+    }, 
+    {
+        "text": "F32", 
+        "id": "F32", 
+        "description": ""
+    }, 
+    {
+        "text": "The OpenAL device cannot be opened.", 
+        "id": "The OpenAL device cannot be opened.", 
+        "description": ""
+    }, 
+    {
+        "text": "The OpenAL context cannot be created.", 
+        "id": "The OpenAL context cannot be created.", 
+        "description": ""
+    }, 
+    {
+        "text": "The OpenAL context cannot be made current.", 
+        "id": "The OpenAL context cannot be made current.", 
+        "description": ""
+    }, 
+    {
+        "text": "The OpenGL texture cannot be created.", 
+        "id": "The OpenGL texture cannot be created.", 
+        "description": ""
+    }, 
+    {
+        "text": "The OpenGL frame buffer cannot be created.", 
+        "id": "The OpenGL frame buffer cannot be created.", 
+        "description": ""
+    }, 
+    {
+        "text": "The OpenGL frame buffer cannot be initialized.", 
+        "id": "The OpenGL frame buffer cannot be initialized.", 
+        "description": ""
+    }, 
+    {
+        "text": "This plugin provides Portable Network Graphics (PNG) image I/O.", 
+        "id": "This plugin provides Portable Network Graphics (PNG) image I/O.", 
+        "description": ""
+    }, 
+    {
+        "text": "The PNG file", 
+        "id": "The PNG file", 
+        "description": ""
+    }, 
+    {
+        "text": "This plugin provides NetPBM image I/O.", 
+        "id": "This plugin provides NetPBM image I/O.", 
+        "description": ""
+    }, 
+    {
+        "text": "ASCII", 
+        "id": "ASCII", 
+        "description": ""
+    }, 
+    {
+        "text": "Binary", 
+        "id": "Binary", 
+        "description": ""
+    }, 
+    {
+        "text": "The PPM file", 
+        "id": "The PPM file", 
         "description": ""
     }, 
     {
@@ -355,33 +415,28 @@
         "description": ""
     }, 
     {
-        "text": "Cannot initialize FreeType.", 
-        "id": "Cannot initialize FreeType.", 
+        "text": "The shader cannot be created", 
+        "id": "The shader cannot be created", 
         "description": ""
     }, 
     {
-        "text": "Cannot find any fonts.", 
-        "id": "Cannot find any fonts.", 
+        "text": "This plugin provides Tagged Image File Format (TIFF) image I/O.", 
+        "id": "This plugin provides Tagged Image File Format (TIFF) image I/O.", 
         "description": ""
     }, 
     {
-        "text": "This plugin provides NetPBM image I/O.", 
-        "id": "This plugin provides NetPBM image I/O.", 
+        "text": "RLE", 
+        "id": "RLE", 
         "description": ""
     }, 
     {
-        "text": "ASCII", 
-        "id": "ASCII", 
+        "text": "LZW", 
+        "id": "LZW", 
         "description": ""
     }, 
     {
-        "text": "Binary", 
-        "id": "Binary", 
-        "description": ""
-    }, 
-    {
-        "text": "Cannot parse value.", 
-        "id": "Cannot parse value.", 
+        "text": "The TIFF file", 
+        "id": "The TIFF file", 
         "description": ""
     }
 ]

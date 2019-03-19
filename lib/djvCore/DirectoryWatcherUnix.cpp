@@ -95,7 +95,7 @@ namespace djv
                         struct kevent eventData[1];
                         timespec _timeout;
                         _timeout.tv_sec = 0;
-                        _timeout.tv_nsec = Time::Timer::getValue(Time::Timer::Value::Medium) * 1000000;
+                        _timeout.tv_nsec = Time::getValue(Time::TimerValue::Medium) * 1000000;
                         int eventCount = ::kevent(_kq, _eventsToMonitor, 1, eventData, 1, &_timeout);
                         if (eventCount)
                         {
@@ -197,7 +197,7 @@ namespace djv
                 _p->running = true;
                 
                 std::weak_ptr<DirectoryWatcher> weak(shared_from_this());
-                const auto timeout = Time::Timer::getMilliseconds(Time::Timer::Value::Medium);
+                const auto timeout = Time::getMilliseconds(Time::TimerValue::Medium);
                 _p->thread = std::thread(
                     [weak, timeout]
                 {

@@ -16,5 +16,11 @@
         "text": "\u7528\u6cd5\uff1adjv_convert\uff08\u8f93\u5165\uff09\uff08\u8f93\u51fa\uff09", 
         "id": "Usage: djv_convert (input) (output)", 
         "description": ""
+    }, 
+    {
+        "id": "Cannot parse the option '-resize'", 
+        "source": "Cannot parse the option '-resize'", 
+        "description": "", 
+        "text": "\u65e0\u6cd5\u89e3\u6790\u9009\u9879&#39;-resize&#39;"
     }
 ]

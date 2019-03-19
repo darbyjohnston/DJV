@@ -460,5 +460,239 @@
         "text": "Ekki er h\u00e6gt a\u00f0 flokka gildi.", 
         "id": "Cannot parse value.", 
         "description": ""
+    }, 
+    {
+        "id": "The file\")) << \" '\" << fileName << \"' \" << DJV_TEXT(\"cannot be read", 
+        "source": "The file\")) << \" '\" << fileName << \"' \" << DJV_TEXT(\"cannot be read", 
+        "description": "", 
+        "text": "Skr\u00e1in &quot;)) &lt;&lt;&quot; &#39;&quot;&lt;&lt; fileName &lt;&lt;&quot;&#39; &quot;&lt;&lt; DJV_TEXT (&quot; ekki h\u00e6gt a\u00f0 lesa"
+    }, 
+    {
+        "id": "The file\")) << \" '\" << fileName << \"' \" << DJV_TEXT(\"cannot be written", 
+        "source": "The file\")) << \" '\" << fileName << \"' \" << DJV_TEXT(\"cannot be written", 
+        "description": "", 
+        "text": "Skr\u00e1in &quot;)) &lt;&lt;&quot; &#39;&quot;&lt;&lt; fileName &lt;&lt;&quot;&#39; &quot;&lt;&lt; DJV_TEXT (&quot; Ekki er h\u00e6gt a\u00f0 skrifa"
+    }, 
+    {
+        "id": "The file", 
+        "source": "The file", 
+        "description": "", 
+        "text": "Skr\u00e1in"
+    }, 
+    {
+        "id": "cannot be written", 
+        "source": "cannot be written", 
+        "description": "", 
+        "text": "Ekki er h\u00e6gt a\u00f0 skrifa"
+    }, 
+    {
+        "id": "cannot be opened", 
+        "source": "cannot be opened", 
+        "description": "", 
+        "text": "Ekki er h\u00e6gt a\u00f0 opna"
+    }, 
+    {
+        "id": "FreeType cannot be initialized.", 
+        "source": "FreeType cannot be initialized.", 
+        "description": "", 
+        "text": "Ekki er h\u00e6gt a\u00f0 frumstilla FreeType."
+    }, 
+    {
+        "id": "No fonts were found.", 
+        "source": "No fonts were found.", 
+        "description": "", 
+        "text": "Engar letur fundust."
+    }, 
+    {
+        "id": "The GLFW window cannot be created.", 
+        "source": "The GLFW window cannot be created.", 
+        "description": "", 
+        "text": "GLFW glugginn er ekki h\u00e6gt a\u00f0 b\u00faa til."
+    }, 
+    {
+        "id": "Cannot parse the value.", 
+        "source": "Cannot parse the value.", 
+        "description": "", 
+        "text": "Ekki er h\u00e6gt a\u00f0 flokka gildi."
+    }, 
+    {
+        "id": "The JPEG file", 
+        "source": "The JPEG file", 
+        "description": "", 
+        "text": "JPEG skr\u00e1in"
+    }, 
+    {
+        "id": "cannot be read", 
+        "source": "cannot be read", 
+        "description": "", 
+        "text": "ekki h\u00e6gt a\u00f0 lesa"
+    }, 
+    {
+        "id": "The OpenGL vertex shader cannot be created.", 
+        "source": "The OpenGL vertex shader cannot be created.", 
+        "description": "", 
+        "text": "Ekki er h\u00e6gt a\u00f0 b\u00faa til Opentex skygginguna."
+    }, 
+    {
+        "id": "The OpenGL vertex shader", 
+        "source": "The OpenGL vertex shader", 
+        "description": "", 
+        "text": "The OpenGL hornpunktur shader"
+    }, 
+    {
+        "id": "cannot be compiled", 
+        "source": "cannot be compiled", 
+        "description": "", 
+        "text": "Ekki er h\u00e6gt a\u00f0 safna saman"
+    }, 
+    {
+        "id": "The OpenGL fragment shader cannot be created.", 
+        "source": "The OpenGL fragment shader cannot be created.", 
+        "description": "", 
+        "text": "Ekki er h\u00e6gt a\u00f0 b\u00faa til OpenGL brotskj\u00e1inn."
+    }, 
+    {
+        "id": "The OpenGL framgent shader", 
+        "source": "The OpenGL framgent shader", 
+        "description": "", 
+        "text": "The OpenGL \u00e1fram shader"
+    }, 
+    {
+        "id": "The program", 
+        "source": "The program", 
+        "description": "", 
+        "text": "Forriti\u00f0"
+    }, 
+    {
+        "id": "cannot be linked", 
+        "source": "cannot be linked", 
+        "description": "", 
+        "text": "Ekki er h\u00e6gt a\u00f0 tengja \u00fea\u00f0"
+    }, 
+    {
+        "id": "The FFMPEG file", 
+        "source": "The FFMPEG file", 
+        "description": "", 
+        "text": "The FFMPEG skr\u00e1"
+    }, 
+    {
+        "id": "does not have any video or audio streams", 
+        "source": "does not have any video or audio streams", 
+        "description": "", 
+        "text": "Hefur engar v\u00edde\u00f3- e\u00f0a hlj\u00f3\u00f0strauma"
+    }, 
+    {
+        "id": "does not match any video codecs", 
+        "source": "does not match any video codecs", 
+        "description": "", 
+        "text": "Samsvarar ekki v\u00edde\u00f3k\u00f3\u00f0a"
+    }, 
+    {
+        "id": "The FFMPEG audio format ", 
+        "source": "The FFMPEG audio format ", 
+        "description": "", 
+        "text": "FFMPEG hlj\u00f3\u00f0formi\u00f0"
+    }, 
+    {
+        "id": "is not supported", 
+        "source": "is not supported", 
+        "description": "", 
+        "text": "er ekki studd"
+    }, 
+    {
+        "id": "does not match any audio codecs", 
+        "source": "does not match any audio codecs", 
+        "description": "", 
+        "text": "passar ekki allir hlj\u00f3\u00f0k\u00f3\u00f0ar"
+    }, 
+    {
+        "id": "GLFW cannot be initialized.", 
+        "source": "GLFW cannot be initialized.", 
+        "description": "", 
+        "text": "GLFW er ekki h\u00e6gt a\u00f0 frumstilla."
+    }, 
+    {
+        "id": "GLFW window cannot be created.", 
+        "source": "GLFW window cannot be created.", 
+        "description": "", 
+        "text": "GLFW gluggi er ekki h\u00e6gt a\u00f0 b\u00faa til."
+    }, 
+    {
+        "id": "The OpenAL device cannot be opened.", 
+        "source": "The OpenAL device cannot be opened.", 
+        "description": "", 
+        "text": "Ekki er h\u00e6gt a\u00f0 opna OpenAL t\u00e6ki\u00f0."
+    }, 
+    {
+        "id": "The OpenAL context cannot be created.", 
+        "source": "The OpenAL context cannot be created.", 
+        "description": "", 
+        "text": "Ekki er h\u00e6gt a\u00f0 b\u00faa til OpenAL samhengi\u00f0."
+    }, 
+    {
+        "id": "The OpenAL context cannot be made current.", 
+        "source": "The OpenAL context cannot be made current.", 
+        "description": "", 
+        "text": "OpenAL samhengi\u00f0 er ekki h\u00e6gt a\u00f0 gera n\u00fana."
+    }, 
+    {
+        "id": "The OpenGL texture cannot be created.", 
+        "source": "The OpenGL texture cannot be created.", 
+        "description": "", 
+        "text": "Ekki er h\u00e6gt a\u00f0 b\u00faa til OpenGL \u00e1fer\u00f0ina."
+    }, 
+    {
+        "id": "The OpenGL frame buffer cannot be created.", 
+        "source": "The OpenGL frame buffer cannot be created.", 
+        "description": "", 
+        "text": "Ekki er h\u00e6gt a\u00f0 b\u00faa til OpenGL ramma bi\u00f0minni."
+    }, 
+    {
+        "id": "The OpenGL frame buffer cannot be initialized.", 
+        "source": "The OpenGL frame buffer cannot be initialized.", 
+        "description": "", 
+        "text": "The OpenGL ramma bi\u00f0minni er ekki h\u00e6gt a\u00f0 frumstilla."
+    }, 
+    {
+        "id": "The PNG file", 
+        "source": "The PNG file", 
+        "description": "", 
+        "text": "PNG skr\u00e1na"
+    }, 
+    {
+        "id": "The PPM file", 
+        "source": "The PPM file", 
+        "description": "", 
+        "text": "PPM skr\u00e1"
+    }, 
+    {
+        "id": "The shader cannot be created", 
+        "source": "The shader cannot be created", 
+        "description": "", 
+        "text": "Ekki er h\u00e6gt a\u00f0 b\u00faa til skyggni\u00f0"
+    }, 
+    {
+        "id": "This plugin provides Tagged Image File Format (TIFF) image I/O.", 
+        "source": "This plugin provides Tagged Image File Format (TIFF) image I/O.", 
+        "description": "", 
+        "text": "\u00deessi tappi b\u00fd\u00f0ur upp \u00e1 Tagged Image File Format (TIFF) mynd I / O."
+    }, 
+    {
+        "id": "RLE", 
+        "source": "RLE", 
+        "description": "", 
+        "text": "RLE"
+    }, 
+    {
+        "id": "LZW", 
+        "source": "LZW", 
+        "description": "", 
+        "text": "LZW"
+    }, 
+    {
+        "id": "The TIFF file", 
+        "source": "The TIFF file", 
+        "description": "", 
+        "text": "TIFF skr\u00e1in"
     }
 ]

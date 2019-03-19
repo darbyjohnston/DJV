@@ -15,7 +15,7 @@ def run():
     for sourceFile in sourceFiles:
         with open(sourceFile) as f:
             for line in f:
-                match = re.findall('DJV_TEXT\("(.*)"\)', line)
+                match = re.findall('DJV_TEXT\("(.*?)"\)', line)
                 for m in match:
                     if m not in strings:
                         strings.append(m)

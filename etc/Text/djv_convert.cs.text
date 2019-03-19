@@ -16,5 +16,11 @@
         "text": "Pou\u017eit\u00ed: djv_convert (vstup) (v\u00fdstup)", 
         "id": "Usage: djv_convert (input) (output)", 
         "description": ""
+    }, 
+    {
+        "id": "Cannot parse the option '-resize'", 
+        "source": "Cannot parse the option '-resize'", 
+        "description": "", 
+        "text": "Nelze analyzovat mo\u017enost &#39;-rozm\u011bnit&#39;"
     }
 ]

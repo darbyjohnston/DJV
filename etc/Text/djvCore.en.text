@@ -1,80 +1,5 @@
 [
     {
-        "text": "Home", 
-        "id": "Home", 
-        "description": ""
-    }, 
-    {
-        "text": "Desktop", 
-        "id": "Desktop", 
-        "description": ""
-    }, 
-    {
-        "text": "Documents", 
-        "id": "Documents", 
-        "description": ""
-    }, 
-    {
-        "text": "Downloads", 
-        "id": "Downloads", 
-        "description": ""
-    }, 
-    {
-        "text": "Application", 
-        "id": "Application", 
-        "description": ""
-    }, 
-    {
-        "text": "Log File", 
-        "id": "LogFile", 
-        "description": ""
-    }, 
-    {
-        "text": "Settings File", 
-        "id": "SettingsFile", 
-        "description": ""
-    }, 
-    {
-        "text": "Audio Directory", 
-        "id": "AudioDirectory", 
-        "description": ""
-    }, 
-    {
-        "text": "Fonts Directory", 
-        "id": "FontsDirectory", 
-        "description": ""
-    }, 
-    {
-        "text": "Icons Directory", 
-        "id": "IconsDirectory", 
-        "description": ""
-    }, 
-    {
-        "text": "Images Directory", 
-        "id": "ImagesDirectory", 
-        "description": ""
-    }, 
-    {
-        "text": "Models Directory", 
-        "id": "ModelsDirectory", 
-        "description": ""
-    }, 
-    {
-        "text": "Shaders Directory", 
-        "id": "ShadersDirectory", 
-        "description": ""
-    }, 
-    {
-        "text": "Text Directory", 
-        "id": "TextDirectory", 
-        "description": ""
-    }, 
-    {
-        "text": "Cannot parse value", 
-        "id": "Cannot parse value", 
-        "description": ""
-    }, 
-    {
         "text": "Linear", 
         "id": "Linear", 
         "description": ""
@@ -97,66 +22,6 @@
     {
         "text": "Sine", 
         "id": "Sine", 
-        "description": ""
-    }, 
-    {
-        "text": "Error finding change notification for", 
-        "id": "Error finding change notification for", 
-        "description": ""
-    }, 
-    {
-        "text": "Error watching directory", 
-        "id": "Error watching directory", 
-        "description": ""
-    }, 
-    {
-        "text": "Cannot open file", 
-        "id": "Cannot open file", 
-        "description": ""
-    }, 
-    {
-        "text": "Cannot close file", 
-        "id": "Cannot close file", 
-        "description": ""
-    }, 
-    {
-        "text": "Cannot map file", 
-        "id": "Cannot map file", 
-        "description": ""
-    }, 
-    {
-        "text": "Cannot unmap file", 
-        "id": "Cannot unmap file", 
-        "description": ""
-    }, 
-    {
-        "text": "Cannot read file", 
-        "id": "Cannot read file", 
-        "description": ""
-    }, 
-    {
-        "text": "Cannot write file", 
-        "id": "Cannot write file", 
-        "description": ""
-    }, 
-    {
-        "text": "Slow", 
-        "id": "Slow", 
-        "description": ""
-    }, 
-    {
-        "text": "Medium", 
-        "id": "Medium", 
-        "description": ""
-    }, 
-    {
-        "text": "Fast", 
-        "id": "Fast", 
-        "description": ""
-    }, 
-    {
-        "text": "Very Fast", 
-        "id": "VeryFast", 
         "description": ""
     }, 
     {
@@ -255,23 +120,73 @@
         "description": ""
     }, 
     {
-        "text": "Keyboard Focus", 
-        "id": "KeyboardFocus", 
+        "text": "KeyPress", 
+        "id": "KeyPress", 
         "description": ""
     }, 
     {
-        "text": "Keyboard Focus Lost", 
-        "id": "KeyboardFocusLost", 
+        "text": "KeyRelease", 
+        "id": "KeyRelease", 
         "description": ""
     }, 
     {
-        "text": "Key", 
-        "id": "Key", 
+        "text": "TextFocus", 
+        "id": "TextFocus", 
+        "description": ""
+    }, 
+    {
+        "text": "TextFocusLost", 
+        "id": "TextFocusLost", 
         "description": ""
     }, 
     {
         "text": "Text", 
         "id": "Text", 
+        "description": ""
+    }, 
+    {
+        "text": "The file", 
+        "id": "The file", 
+        "description": ""
+    }, 
+    {
+        "text": "cannot be opened", 
+        "id": "cannot be opened", 
+        "description": ""
+    }, 
+    {
+        "text": "cannot be queried", 
+        "id": "cannot be queried", 
+        "description": ""
+    }, 
+    {
+        "text": "cannot be mapped", 
+        "id": "cannot be mapped", 
+        "description": ""
+    }, 
+    {
+        "text": "cannot be unmapped", 
+        "id": "cannot be unmapped", 
+        "description": ""
+    }, 
+    {
+        "text": "cannot be closed", 
+        "id": "cannot be closed", 
+        "description": ""
+    }, 
+    {
+        "text": "cannot be read", 
+        "id": "cannot be read", 
+        "description": ""
+    }, 
+    {
+        "text": "cannot be written", 
+        "id": "cannot be written", 
+        "description": ""
+    }, 
+    {
+        "text": "Cannot parse the value.", 
+        "id": "Cannot parse the value.", 
         "description": ""
     }, 
     {
@@ -300,18 +215,8 @@
         "description": ""
     }, 
     {
-        "text": "Permissions", 
-        "id": "Permissions", 
-        "description": ""
-    }, 
-    {
         "text": "Type", 
         "id": "Type", 
-        "description": ""
-    }, 
-    {
-        "text": "Cannot parse value.", 
-        "id": "Cannot parse value.", 
         "description": ""
     }, 
     {
@@ -322,6 +227,61 @@
     {
         "text": "LSB", 
         "id": "LSB", 
+        "description": ""
+    }, 
+    {
+        "text": "Home", 
+        "id": "Home", 
+        "description": ""
+    }, 
+    {
+        "text": "Desktop", 
+        "id": "Desktop", 
+        "description": ""
+    }, 
+    {
+        "text": "Documents", 
+        "id": "Documents", 
+        "description": ""
+    }, 
+    {
+        "text": "Downloads", 
+        "id": "Downloads", 
+        "description": ""
+    }, 
+    {
+        "text": "The directory", 
+        "id": "The directory", 
+        "description": ""
+    }, 
+    {
+        "text": "cannot be created", 
+        "id": "cannot be created", 
+        "description": ""
+    }, 
+    {
+        "text": "Cannot parse the value", 
+        "id": "Cannot parse the value", 
+        "description": ""
+    }, 
+    {
+        "text": "Slow", 
+        "id": "Slow", 
+        "description": ""
+    }, 
+    {
+        "text": "Medium", 
+        "id": "Medium", 
+        "description": ""
+    }, 
+    {
+        "text": "Fast", 
+        "id": "Fast", 
+        "description": ""
+    }, 
+    {
+        "text": "Very Fast", 
+        "id": "VeryFast", 
         "description": ""
     }, 
     {
@@ -1325,13 +1285,68 @@
         "description": ""
     }, 
     {
-        "text": "Error reading text file", 
-        "id": "Error reading text file", 
+        "text": "Application", 
+        "id": "Application", 
         "description": ""
     }, 
     {
-        "text": "Cannot create directory", 
-        "id": "Cannot create directory", 
+        "text": "Log File", 
+        "id": "LogFile", 
+        "description": ""
+    }, 
+    {
+        "text": "Settings File", 
+        "id": "SettingsFile", 
+        "description": ""
+    }, 
+    {
+        "text": "Audio Directory", 
+        "id": "AudioDirectory", 
+        "description": ""
+    }, 
+    {
+        "text": "Fonts Directory", 
+        "id": "FontsDirectory", 
+        "description": ""
+    }, 
+    {
+        "text": "Icons Directory", 
+        "id": "IconsDirectory", 
+        "description": ""
+    }, 
+    {
+        "text": "Images Directory", 
+        "id": "ImagesDirectory", 
+        "description": ""
+    }, 
+    {
+        "text": "Models Directory", 
+        "id": "ModelsDirectory", 
+        "description": ""
+    }, 
+    {
+        "text": "Shaders Directory", 
+        "id": "ShadersDirectory", 
+        "description": ""
+    }, 
+    {
+        "text": "Text Directory", 
+        "id": "TextDirectory", 
+        "description": ""
+    }, 
+    {
+        "text": "Error reading the text file", 
+        "id": "Error reading the text file", 
+        "description": ""
+    }, 
+    {
+        "text": "Error finding the change notification for", 
+        "id": "Error finding the change notification for", 
+        "description": ""
+    }, 
+    {
+        "text": "Error watching the directory", 
+        "id": "Error watching the directory", 
         "description": ""
     }
 ]

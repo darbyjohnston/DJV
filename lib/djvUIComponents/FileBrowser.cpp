@@ -53,7 +53,7 @@
 #include <djvUI/Splitter.h>
 #include <djvUI/StackLayout.h>
 #include <djvUI/ScrollWidget.h>
-#include <djvUI/Toolbar.h>
+#include <djvUI/ToolBar.h>
 #include <djvUI/Window.h>
 
 #include <djvAV/IO.h>
@@ -257,7 +257,7 @@ namespace djv
 
                 auto pathWidget = PathWidget::create(context);
 
-                auto topToolBar = Toolbar::create(context);
+                auto topToolBar = ToolBar::create(context);
                 topToolBar->addAction(p.actions["Up"]);
                 topToolBar->addAction(p.actions["Back"]);
                 topToolBar->addAction(p.actions["Forward"]);
@@ -309,7 +309,7 @@ namespace djv
                 p.thumbnailSizePopupWidget->setIcon("djvIconThumbnailSize");
                 p.thumbnailSizePopupWidget->addChild(vLayout);
 
-                auto bottomToolBar = Toolbar::create(context);
+                auto bottomToolBar = ToolBar::create(context);
                 bottomToolBar->addExpander();
                 bottomToolBar->addChild(p.itemCountLabel);
                 bottomToolBar->addChild(p.searchBox);

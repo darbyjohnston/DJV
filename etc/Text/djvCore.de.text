@@ -1600,5 +1600,197 @@
         "text": "Verzeichnis kann nicht erstellt werden", 
         "id": "Cannot create directory", 
         "description": ""
+    }, 
+    {
+        "id": "KeyPress", 
+        "source": "KeyPress", 
+        "description": "", 
+        "text": "Tastendruck"
+    }, 
+    {
+        "id": "KeyRelease", 
+        "source": "KeyRelease", 
+        "description": "", 
+        "text": "KeyRelease"
+    }, 
+    {
+        "id": "TextFocus", 
+        "source": "TextFocus", 
+        "description": "", 
+        "text": "TextFocus"
+    }, 
+    {
+        "id": "TextFocusLost", 
+        "source": "TextFocusLost", 
+        "description": "", 
+        "text": "TextFocusLost"
+    }, 
+    {
+        "id": "The file\") << \" '\" << fileName << \"' \" << DJV_TEXT(\"cannot be opened", 
+        "source": "The file\") << \" '\" << fileName << \"' \" << DJV_TEXT(\"cannot be opened", 
+        "description": "", 
+        "text": "Die Datei &quot;) &lt;&lt;&quot; &#39;&quot;&lt;&lt; Dateiname &lt;&lt;&quot; &quot;&quot; &lt;&lt; DJV_TEXT (&quot;kann nicht ge\u00f6ffnet werden"
+    }, 
+    {
+        "id": "The file\") << \" '\" << fileName << \"' \" << DJV_TEXT(\"cannot be queried", 
+        "source": "The file\") << \" '\" << fileName << \"' \" << DJV_TEXT(\"cannot be queried", 
+        "description": "", 
+        "text": "Die Datei &quot;) &lt;&lt;&quot; &#39;&quot;&lt;&lt; Dateiname &lt;&lt;&quot; &quot;&lt;&lt; DJV_TEXT (&quot; kann nicht abgefragt werden"
+    }, 
+    {
+        "id": "The file\") << \" '\" << _fileName << \"' \" << DJV_TEXT(\"cannot be mapped", 
+        "source": "The file\") << \" '\" << _fileName << \"' \" << DJV_TEXT(\"cannot be mapped", 
+        "description": "", 
+        "text": "Die Datei &quot;) &lt;&lt;&quot; &#39;&quot;&lt;&lt; _fileName &lt;&lt;&quot; &quot;&quot; &lt;&lt; DJV_TEXT (&quot;kann nicht zugeordnet werden"
+    }, 
+    {
+        "id": "The file\") << \" '\" << _fileName << \"' \" << DJV_TEXT(\"cannot be unmapped", 
+        "source": "The file\") << \" '\" << _fileName << \"' \" << DJV_TEXT(\"cannot be unmapped", 
+        "description": "", 
+        "text": "Die Datei &quot;) &lt;&lt;&quot; &#39;&quot;&lt;&lt; _fileName &lt;&lt;&quot; &quot;&quot; &lt;&lt; DJV_TEXT (&quot;kann nicht zugeordnet werden"
+    }, 
+    {
+        "id": "The file\") << \" '\" << _fileName << \"' \" << DJV_TEXT(\"cannot be closed", 
+        "source": "The file\") << \" '\" << _fileName << \"' \" << DJV_TEXT(\"cannot be closed", 
+        "description": "", 
+        "text": "Die Datei &quot;) &lt;&lt;&quot; &#39;&quot;&lt;&lt; _fileName &lt;&lt;&quot; &quot;&quot; &lt;&lt; DJV_TEXT (&quot;kann nicht geschlossen werden"
+    }, 
+    {
+        "id": "The file\") << \" '\" << _fileName << \"' \" << DJV_TEXT(\"cannot be read", 
+        "source": "The file\") << \" '\" << _fileName << \"' \" << DJV_TEXT(\"cannot be read", 
+        "description": "", 
+        "text": "Die Datei &quot;) &lt;&lt;&quot; &#39;&quot;&lt;&lt; _fileName &lt;&lt;&quot; &quot;&quot; &lt;&lt; DJV_TEXT (&quot;kann nicht gelesen werden"
+    }, 
+    {
+        "id": "The file\") << \" '\" << _fileName << \"' \" << DJV_TEXT(\"cannot be written", 
+        "source": "The file\") << \" '\" << _fileName << \"' \" << DJV_TEXT(\"cannot be written", 
+        "description": "", 
+        "text": "Die Datei &quot;) &lt;&lt;&quot; &#39;&quot;&lt;&lt; _fileName &lt;&lt;&quot; &quot;&quot; &lt;&lt; DJV_TEXT (&quot;kann nicht geschrieben werden"
+    }, 
+    {
+        "id": "The file\") << \" '\" << fileName << \"' \" << DJV_TEXT(\"cannot be closed", 
+        "source": "The file\") << \" '\" << fileName << \"' \" << DJV_TEXT(\"cannot be closed", 
+        "description": "", 
+        "text": "Die Datei &quot;) &lt;&lt;&quot; &#39;&quot;&lt;&lt; Dateiname &lt;&lt;&quot; &quot;&quot; &lt;&lt; DJV_TEXT (&quot;kann nicht geschlossen werden"
+    }, 
+    {
+        "id": "The file\") << \" '\" << fileName << \"' \" << DJV_TEXT(\"cannot be mapped", 
+        "source": "The file\") << \" '\" << fileName << \"' \" << DJV_TEXT(\"cannot be mapped", 
+        "description": "", 
+        "text": "Die Datei &quot;) &lt;&lt;&quot; &#39;&quot;&lt;&lt; Dateiname &lt;&lt;&quot; &quot;&quot; &lt;&lt; DJV_TEXT (&quot;kann nicht zugeordnet werden"
+    }, 
+    {
+        "id": "The file\") << \" '\" << fileName << \"' \" << DJV_TEXT(\"cannot be unmapped", 
+        "source": "The file\") << \" '\" << fileName << \"' \" << DJV_TEXT(\"cannot be unmapped", 
+        "description": "", 
+        "text": "Die Datei &quot;) &lt;&lt;&quot; &#39;&quot;&lt;&lt; Dateiname &lt;&lt;&quot; &quot;&quot; &lt;&lt; DJV_TEXT (&quot;kann nicht zugeordnet werden"
+    }, 
+    {
+        "id": "The file\") << \" '\" << fileName << \"' \" << DJV_TEXT(\"cannot be read", 
+        "source": "The file\") << \" '\" << fileName << \"' \" << DJV_TEXT(\"cannot be read", 
+        "description": "", 
+        "text": "Die Datei &quot;) &lt;&lt;&quot; &#39;&quot;&lt;&lt; Dateiname &lt;&lt;&quot; &quot;&quot; &lt;&lt; DJV_TEXT (&quot;kann nicht gelesen werden"
+    }, 
+    {
+        "id": "The file\") << \" '\" << fileName << \"' \" << DJV_TEXT(\"cannot be written", 
+        "source": "The file\") << \" '\" << fileName << \"' \" << DJV_TEXT(\"cannot be written", 
+        "description": "", 
+        "text": "Die Datei &quot;) &lt;&lt;&quot; &#39;&quot;&lt;&lt; Dateiname &lt;&lt;&quot; &quot;&lt;&lt; DJV_TEXT (&quot; kann nicht geschrieben werden"
+    }, 
+    {
+        "id": "Cannot parse the value.", 
+        "source": "Cannot parse the value.", 
+        "description": "", 
+        "text": "Der Wert kann nicht analysiert werden."
+    }, 
+    {
+        "id": "The directory\") << \" '\" << value << \"' \" << DJV_TEXT(\"cannot be created", 
+        "source": "The directory\") << \" '\" << value << \"' \" << DJV_TEXT(\"cannot be created", 
+        "description": "", 
+        "text": "Das Verzeichnis &quot;&quot; &lt;&lt; &quot;&quot; &lt;&lt; Wert &lt;&lt; &quot;&quot; &quot;&lt;&lt; DJV_TEXT (&quot; kann nicht erstellt werden"
+    }, 
+    {
+        "id": "Cannot parse the value", 
+        "source": "Cannot parse the value", 
+        "description": "", 
+        "text": "Der Wert kann nicht analysiert werden"
+    }, 
+    {
+        "id": "Error reading the text file", 
+        "source": "Error reading the text file", 
+        "description": "", 
+        "text": "Fehler beim Lesen der Textdatei"
+    }, 
+    {
+        "id": "Error finding the change notification for", 
+        "source": "Error finding the change notification for", 
+        "description": "", 
+        "text": "Fehler beim Finden der \u00c4nderungsbenachrichtigung f\u00fcr"
+    }, 
+    {
+        "id": "Error watching the directory", 
+        "source": "Error watching the directory", 
+        "description": "", 
+        "text": "Fehler beim Ansehen des Verzeichnisses"
+    }, 
+    {
+        "source": "The file", 
+        "text": "Die Datei", 
+        "description": "", 
+        "id": "The file"
+    }, 
+    {
+        "source": "cannot be opened", 
+        "text": "Kann nicht ge\u00f6ffnet werden", 
+        "description": "", 
+        "id": "cannot be opened"
+    }, 
+    {
+        "source": "cannot be queried", 
+        "text": "kann nicht abgefragt werden", 
+        "description": "", 
+        "id": "cannot be queried"
+    }, 
+    {
+        "source": "cannot be mapped", 
+        "text": "kann nicht zugeordnet werden", 
+        "description": "", 
+        "id": "cannot be mapped"
+    }, 
+    {
+        "source": "cannot be unmapped", 
+        "text": "kann nicht zugeordnet werden", 
+        "description": "", 
+        "id": "cannot be unmapped"
+    }, 
+    {
+        "source": "cannot be closed", 
+        "text": "kann nicht geschlossen werden", 
+        "description": "", 
+        "id": "cannot be closed"
+    }, 
+    {
+        "source": "cannot be read", 
+        "text": "kann nicht gelesen werden", 
+        "description": "", 
+        "id": "cannot be read"
+    }, 
+    {
+        "source": "cannot be written", 
+        "text": "kann nicht geschrieben werden", 
+        "description": "", 
+        "id": "cannot be written"
+    }, 
+    {
+        "source": "The directory", 
+        "text": "Das Verzeichnis", 
+        "description": "", 
+        "id": "The directory"
+    }, 
+    {
+        "source": "cannot be created", 
+        "text": "kann nicht erstellt werden", 
+        "description": "", 
+        "id": "cannot be created"
     }
 ]

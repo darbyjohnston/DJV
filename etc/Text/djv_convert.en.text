@@ -5,8 +5,8 @@
         "description": ""
     }, 
     {
-        "text": "Cannot parse option '-resize'", 
-        "id": "Cannot parse option '-resize'", 
+        "text": "Cannot parse the option '-resize'", 
+        "id": "Cannot parse the option '-resize'", 
         "description": ""
     }, 
     {

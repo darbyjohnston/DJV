@@ -1,147 +1,12 @@
 [
     {
-        "text": "Dark", 
-        "id": "Dark", 
-        "description": ""
-    }, 
-    {
-        "text": "Light", 
-        "id": "Light", 
-        "description": ""
-    }, 
-    {
-        "text": "Medium", 
-        "id": "Medium", 
-        "description": ""
-    }, 
-    {
-        "text": "Small", 
-        "id": "Small", 
-        "description": ""
-    }, 
-    {
-        "text": "Large", 
-        "id": "Large", 
-        "description": ""
-    }, 
-    {
-        "text": "Extra Large", 
-        "id": "ExtraLarge", 
-        "description": ""
-    }, 
-    {
-        "text": "Default", 
-        "id": "Default", 
-        "description": ""
-    }, 
-    {
-        "text": "Horizontal", 
-        "id": "Horizontal", 
-        "description": ""
-    }, 
-    {
-        "text": "Vertical", 
-        "id": "Vertical", 
-        "description": ""
-    }, 
-    {
-        "text": "Left", 
-        "id": "Left", 
-        "description": ""
-    }, 
-    {
-        "text": "Top", 
-        "id": "Top", 
-        "description": ""
-    }, 
-    {
-        "text": "Right", 
-        "id": "Right", 
-        "description": ""
-    }, 
-    {
-        "text": "Bottom", 
-        "id": "Bottom", 
+        "text": "Cannot parse the value.", 
+        "id": "Cannot parse the value.", 
         "description": ""
     }, 
     {
         "text": "None", 
         "id": "None", 
-        "description": ""
-    }, 
-    {
-        "text": "Both", 
-        "id": "Both", 
-        "description": ""
-    }, 
-    {
-        "text": "Center", 
-        "id": "Center", 
-        "description": ""
-    }, 
-    {
-        "text": "Fill", 
-        "id": "Fill", 
-        "description": ""
-    }, 
-    {
-        "text": "Baseline", 
-        "id": "Baseline", 
-        "description": ""
-    }, 
-    {
-        "text": "Single", 
-        "id": "Single", 
-        "description": ""
-    }, 
-    {
-        "text": "Radio", 
-        "id": "Radio", 
-        "description": ""
-    }, 
-    {
-        "text": "Multiple", 
-        "id": "Multiple", 
-        "description": ""
-    }, 
-    {
-        "text": "Forward", 
-        "id": "Forward", 
-        "description": ""
-    }, 
-    {
-        "text": "Reverse", 
-        "id": "Reverse", 
-        "description": ""
-    }, 
-    {
-        "text": "Push", 
-        "id": "Push", 
-        "description": ""
-    }, 
-    {
-        "text": "Toggle", 
-        "id": "Toggle", 
-        "description": ""
-    }, 
-    {
-        "text": "Exclusive", 
-        "id": "Exclusive", 
-        "description": ""
-    }, 
-    {
-        "text": "Thumbnails Large", 
-        "id": "ThumbnailsLarge", 
-        "description": ""
-    }, 
-    {
-        "text": "Thumbnails Small", 
-        "id": "ThumbnailsSmall", 
-        "description": ""
-    }, 
-    {
-        "text": "List View", 
-        "id": "ListView", 
         "description": ""
     }, 
     {
@@ -187,36 +52,6 @@
     {
         "text": "Disabled", 
         "id": "Disabled", 
-        "description": ""
-    }, 
-    {
-        "text": "Header Background", 
-        "id": "HeaderBackground", 
-        "description": ""
-    }, 
-    {
-        "text": "Header Foreground", 
-        "id": "HeaderForeground", 
-        "description": ""
-    }, 
-    {
-        "text": "Header Hovered", 
-        "id": "HeaderHovered", 
-        "description": ""
-    }, 
-    {
-        "text": "Header Pressed", 
-        "id": "HeaderPressed", 
-        "description": ""
-    }, 
-    {
-        "text": "Header Checked", 
-        "id": "HeaderChecked", 
-        "description": ""
-    }, 
-    {
-        "text": "Header Disabled", 
-        "id": "HeaderDisabled", 
         "description": ""
     }, 
     {
@@ -285,8 +120,8 @@
         "description": ""
     }, 
     {
-        "text": "Icon Large", 
-        "id": "IconLarge", 
+        "text": "Icon Small", 
+        "id": "IconSmall", 
         "description": ""
     }, 
     {
@@ -315,26 +150,6 @@
         "description": ""
     }, 
     {
-        "text": "Thumbnail Width Small", 
-        "id": "ThumbnailWidthSmall", 
-        "description": ""
-    }, 
-    {
-        "text": "Thumbnail Height Small", 
-        "id": "ThumbnailHeightSmall", 
-        "description": ""
-    }, 
-    {
-        "text": "Thumbnail Width Large", 
-        "id": "ThumbnailWidthLarge", 
-        "description": ""
-    }, 
-    {
-        "text": "Thumbnail Height Large", 
-        "id": "ThumbnailHeightLarge", 
-        "description": ""
-    }, 
-    {
         "text": "Scroll Area", 
         "id": "ScrollArea", 
         "description": ""
@@ -360,33 +175,63 @@
         "description": ""
     }, 
     {
+        "text": "Expand", 
+        "id": "Expand", 
+        "description": ""
+    }, 
+    {
+        "text": "Horizontal", 
+        "id": "Horizontal", 
+        "description": ""
+    }, 
+    {
+        "text": "Vertical", 
+        "id": "Vertical", 
+        "description": ""
+    }, 
+    {
+        "text": "Both", 
+        "id": "Both", 
+        "description": ""
+    }, 
+    {
+        "text": "Cannot read settings", 
+        "id": "Cannot read settings", 
+        "description": ""
+    }, 
+    {
+        "text": "Cannot write settings", 
+        "id": "Cannot write settings", 
+        "description": ""
+    }, 
+    {
         "text": "Space", 
         "id": "Space", 
         "description": ""
     }, 
     {
-        "text": "'", 
-        "id": "'", 
+        "text": "Apostrophe", 
+        "id": "Apostrophe", 
         "description": ""
     }, 
     {
-        "text": ",", 
-        "id": ",", 
+        "text": "Comma", 
+        "id": "Comma", 
         "description": ""
     }, 
     {
-        "text": "-", 
-        "id": "-", 
+        "text": "Minus", 
+        "id": "Minus", 
         "description": ""
     }, 
     {
-        "text": ".", 
-        "id": ".", 
+        "text": "Period", 
+        "id": "Period", 
         "description": ""
     }, 
     {
-        "text": "/", 
-        "id": "/", 
+        "text": "Slash", 
+        "id": "Slash", 
         "description": ""
     }, 
     {
@@ -440,13 +285,13 @@
         "description": ""
     }, 
     {
-        "text": ";", 
-        "id": ";", 
+        "text": "Semicolon", 
+        "id": "Semicolon", 
         "description": ""
     }, 
     {
-        "text": "=", 
-        "id": "=", 
+        "text": "Equal", 
+        "id": "Equal", 
         "description": ""
     }, 
     {
@@ -580,23 +425,23 @@
         "description": ""
     }, 
     {
-        "text": "[", 
-        "id": "[", 
+        "text": "Left Bracket", 
+        "id": "LeftBracket", 
         "description": ""
     }, 
     {
-        "text": "\\\\", 
-        "id": "\\\\", 
+        "text": "Backslash", 
+        "id": "Backslash", 
         "description": ""
     }, 
     {
-        "text": "]", 
-        "id": "]", 
+        "text": "Right Bracket", 
+        "id": "RightBracket", 
         "description": ""
     }, 
     {
-        "text": "`", 
-        "id": "`", 
+        "text": "Grave Accent", 
+        "id": "GraveAccent", 
         "description": ""
     }, 
     {
@@ -975,23 +820,123 @@
         "description": ""
     }, 
     {
-        "text": "Cannot read settings", 
-        "id": "Cannot read settings", 
+        "text": "Dark", 
+        "id": "Dark", 
         "description": ""
     }, 
     {
-        "text": "Cannot write settings", 
-        "id": "Cannot write settings", 
+        "text": "Light", 
+        "id": "Light", 
         "description": ""
     }, 
     {
-        "text": "Expand", 
-        "id": "Expand", 
+        "text": "Medium", 
+        "id": "Medium", 
         "description": ""
     }, 
     {
-        "text": "Cannot parse value.", 
-        "id": "Cannot parse value.", 
+        "text": "Small", 
+        "id": "Small", 
+        "description": ""
+    }, 
+    {
+        "text": "Large", 
+        "id": "Large", 
+        "description": ""
+    }, 
+    {
+        "text": "Extra Large", 
+        "id": "ExtraLarge", 
+        "description": ""
+    }, 
+    {
+        "text": "Default", 
+        "id": "Default", 
+        "description": ""
+    }, 
+    {
+        "text": "Left", 
+        "id": "Left", 
+        "description": ""
+    }, 
+    {
+        "text": "Top", 
+        "id": "Top", 
+        "description": ""
+    }, 
+    {
+        "text": "Right", 
+        "id": "Right", 
+        "description": ""
+    }, 
+    {
+        "text": "Bottom", 
+        "id": "Bottom", 
+        "description": ""
+    }, 
+    {
+        "text": "Center", 
+        "id": "Center", 
+        "description": ""
+    }, 
+    {
+        "text": "Fill", 
+        "id": "Fill", 
+        "description": ""
+    }, 
+    {
+        "text": "Baseline", 
+        "id": "Baseline", 
+        "description": ""
+    }, 
+    {
+        "text": "Single", 
+        "id": "Single", 
+        "description": ""
+    }, 
+    {
+        "text": "Radio", 
+        "id": "Radio", 
+        "description": ""
+    }, 
+    {
+        "text": "Multiple", 
+        "id": "Multiple", 
+        "description": ""
+    }, 
+    {
+        "text": "Forward", 
+        "id": "Forward", 
+        "description": ""
+    }, 
+    {
+        "text": "Reverse", 
+        "id": "Reverse", 
+        "description": ""
+    }, 
+    {
+        "text": "Push", 
+        "id": "Push", 
+        "description": ""
+    }, 
+    {
+        "text": "Toggle", 
+        "id": "Toggle", 
+        "description": ""
+    }, 
+    {
+        "text": "Exclusive", 
+        "id": "Exclusive", 
+        "description": ""
+    }, 
+    {
+        "text": "Tiles", 
+        "id": "Tiles", 
+        "description": ""
+    }, 
+    {
+        "text": "List", 
+        "id": "List", 
         "description": ""
     }
 ]
