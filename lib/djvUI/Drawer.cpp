@@ -110,12 +110,12 @@ namespace djv
                 _resize();
             }
 
-            void Drawer::addChild(const std::shared_ptr<IObject>& value)
+            void Drawer::addChild(const std::shared_ptr<IObject> & value)
             {
                 _p->layout->addChild(value);
             }
 
-            void Drawer::removeChild(const std::shared_ptr<IObject>& value)
+            void Drawer::removeChild(const std::shared_ptr<IObject> & value)
             {
                 _p->layout->removeChild(value);
             }

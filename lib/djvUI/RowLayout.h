@@ -74,13 +74,13 @@ namespace djv
                 const Spacing & getSpacing() const;
                 void setSpacing(const Spacing &);
 
-                RowStretch getStretch(const std::shared_ptr<Widget>&) const;
-                void setStretch(const std::shared_ptr<Widget>&, RowStretch);
+                RowStretch getStretch(const std::shared_ptr<Widget> &) const;
+                void setStretch(const std::shared_ptr<Widget> &, RowStretch);
 
                 float getHeightForWidth(float) const override;
 
-                void addChild(const std::shared_ptr<IObject>&) override;
-                void removeChild(const std::shared_ptr<IObject>&) override;
+                void addChild(const std::shared_ptr<IObject> &) override;
+                void removeChild(const std::shared_ptr<IObject> &) override;
 
             protected:
                 void _preLayoutEvent(Core::Event::PreLayout &) override;

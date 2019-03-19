@@ -308,12 +308,12 @@ namespace djv
             }
         }
 
-        void Widget::addAction(const std::shared_ptr<Action>& action)
+        void Widget::addAction(const std::shared_ptr<Action> & action)
         {
             _actions.push_back(action);
         }
 
-        void Widget::removeAction(const std::shared_ptr<Action>& action)
+        void Widget::removeAction(const std::shared_ptr<Action> & action)
         {
             const auto i = std::find(_actions.begin(), _actions.end(), action);
             if (i != _actions.end())

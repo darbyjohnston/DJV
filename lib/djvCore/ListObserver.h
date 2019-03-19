@@ -100,7 +100,7 @@ namespace djv
 
         protected:
             inline void _add(const std::weak_ptr<ListObserver<T> > &);
-            inline void _remove(ListObserver<T>*);
+            inline void _remove(ListObserver<T> *);
 
             std::vector<std::weak_ptr<ListObserver<T> > > _observers;
 

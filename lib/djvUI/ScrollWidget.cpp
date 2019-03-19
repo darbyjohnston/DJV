@@ -78,7 +78,7 @@ namespace djv
 
                 float getScrollPos() const;
                 void setScrollPos(float);
-                void setScrollPosCallback(const std::function<void(float)>&);
+                void setScrollPosCallback(const std::function<void(float)> &);
 
             protected:
                 void _preLayoutEvent(Event::PreLayout &) override;
@@ -156,7 +156,7 @@ namespace djv
                 _redraw();
             }
 
-            void ScrollBar::setScrollPosCallback(const std::function<void(float)>& callback)
+            void ScrollBar::setScrollPosCallback(const std::function<void(float)> & callback)
             {
                 _scrollPosCallback = callback;
             }
@@ -379,11 +379,11 @@ namespace djv
                 void setScrollType(ScrollType);
 
                 const glm::vec2 & getContentsSize() const { return _contentsSize; }
-                void setContentsSizeCallback(const std::function<void(const glm::vec2 &)>&);
+                void setContentsSizeCallback(const std::function<void(const glm::vec2 &)> &);
 
                 const glm::vec2 & getScrollPos() const { return _scrollPos; }
                 bool setScrollPos(const glm::vec2 &);
-                void setScrollPosCallback(const std::function<void(const glm::vec2 &)>&);
+                void setScrollPosCallback(const std::function<void(const glm::vec2 &)> &);
 
                 MetricsRole getMinimumSizeRole() const { return _minimumSizeRole; }
                 void setMinimumSizeRole(MetricsRole);
@@ -424,7 +424,7 @@ namespace djv
                 _resize();
             }
 
-            void ScrollArea::setContentsSizeCallback(const std::function<void(const glm::vec2 &)>& callback)
+            void ScrollArea::setContentsSizeCallback(const std::function<void(const glm::vec2 &)> & callback)
             {
                 _contentsSizeCallback = callback;
             }
@@ -446,7 +446,7 @@ namespace djv
                 return true;
             }
 
-            void ScrollArea::setScrollPosCallback(const std::function<void(const glm::vec2 &)>& callback)
+            void ScrollArea::setScrollPosCallback(const std::function<void(const glm::vec2 &)> & callback)
             {
                 _scrollPosCallback = callback;
             }
@@ -800,12 +800,12 @@ namespace djv
             _p->scrollArea->setMinimumSizeRole(value);
         }
 
-        void ScrollWidget::addChild(const std::shared_ptr<IObject>& value)
+        void ScrollWidget::addChild(const std::shared_ptr<IObject> & value)
         {
             _p->scrollArea->addChild(value);
         }
 
-        void ScrollWidget::removeChild(const std::shared_ptr<IObject>& value)
+        void ScrollWidget::removeChild(const std::shared_ptr<IObject> & value)
         {
             _p->scrollArea->removeChild(value);
         }
@@ -842,7 +842,7 @@ namespace djv
             setScrollPos(_p->scrollArea->getScrollPos() - event.getScrollDelta() * scrollWheelMult);
         }
 
-        bool ScrollWidget::_eventFilter(const std::shared_ptr<IObject>& object, Event::IEvent & event)
+        bool ScrollWidget::_eventFilter(const std::shared_ptr<IObject> & object, Event::IEvent & event)
         {
             DJV_PRIVATE_PTR();
             switch (event.getEventType())

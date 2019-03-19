@@ -106,7 +106,7 @@ namespace djv
             _p->shortcutModifiers->setIfChanged(value);
         }
 
-        void Shortcut::setCallback(const std::function<void(void)>& value)
+        void Shortcut::setCallback(const std::function<void(void)> & value)
         {
             _p->callback = value;
         }

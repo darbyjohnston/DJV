@@ -35,7 +35,7 @@ namespace djv
     {
         namespace FileSystem
         {
-            FileIO::FileIO(FileIO&& other) :
+            FileIO::FileIO(FileIO && other) :
                 _f(other._f),
                 _fileName(std::move(other._fileName)),
                 _mode(other._mode),
@@ -59,7 +59,7 @@ namespace djv
                 }
             }
 
-            FileIO& FileIO::operator = (FileIO&& other)
+            FileIO & FileIO::operator = (FileIO && other)
             {
                 if (this != &other)
                 {
@@ -77,14 +77,14 @@ namespace djv
                 return *this;
             }
 
-            void FileIO::readContents(FileIO& fileIO, std::string & out)
+            void FileIO::readContents(FileIO & fileIO, std::string & out)
             {
-                const uint8_t* p = fileIO.mmapP();
-                const uint8_t* end = fileIO.mmapEnd();
-                out = std::string(reinterpret_cast<const char*>(p), end - p);
+                const uint8_t * p = fileIO.mmapP();
+                const uint8_t * end = fileIO.mmapEnd();
+                out = std::string(reinterpret_cast<const char *>(p), end - p);
             }
 
-            void FileIO::readWord(FileIO& io, char* out, size_t maxLen)
+            void FileIO::readWord(FileIO & io, char * out, size_t maxLen)
             {
                 DJV_ASSERT(maxLen);
                 out[0] = 0;
@@ -132,7 +132,7 @@ namespace djv
                 out[i] = 0;
             }
 
-            void FileIO::readLine(FileIO& io, char* out, size_t maxLen)
+            void FileIO::readLine(FileIO & io, char * out, size_t maxLen)
             {
                 DJV_ASSERT(maxLen);
                 size_t i = 0;

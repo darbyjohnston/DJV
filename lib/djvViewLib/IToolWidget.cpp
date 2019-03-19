@@ -137,7 +137,7 @@ namespace djv
             return _p->border->getHeightForWidth(value);
         }
 
-        void IToolWidget::addChild(const std::shared_ptr<IObject>& value)
+        void IToolWidget::addChild(const std::shared_ptr<IObject> & value)
         {
             _p->childLayout->addChild(value);
             if (auto widget = std::dynamic_pointer_cast<Widget>(value))
@@ -146,7 +146,7 @@ namespace djv
             }
         }
 
-        void IToolWidget::removeChild(const std::shared_ptr<IObject>& value)
+        void IToolWidget::removeChild(const std::shared_ptr<IObject> & value)
         {
             _p->childLayout->removeChild(value);
         }

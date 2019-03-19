@@ -53,7 +53,7 @@ namespace djv
                 virtual ~Font();
                 static std::shared_ptr<Font> create(Core::Context *);
 
-                const std::shared_ptr<Core::MapSubject<std::string, std::string> >& observeLocaleFonts() const;
+                const std::shared_ptr<Core::MapSubject<std::string, std::string> > & observeLocaleFonts() const;
 
                 void load(const picojson::value &) override;
                 picojson::value save() override;

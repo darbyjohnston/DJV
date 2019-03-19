@@ -67,7 +67,7 @@ namespace djv
                 return out;
             }
 
-            const std::vector<std::shared_ptr<IButton> >& Group::getButtons() const
+            const std::vector<std::shared_ptr<IButton> > & Group::getButtons() const
             {
                 return _p->buttons;
             }
@@ -77,7 +77,7 @@ namespace djv
                 return _p->buttons.size();
             }
 
-            int Group::getButtonIndex(const std::shared_ptr<IButton>& value) const
+            int Group::getButtonIndex(const std::shared_ptr<IButton> & value) const
             {
                 DJV_PRIVATE_PTR();
                 const auto i = std::find(p.buttons.begin(), p.buttons.end(), value);
@@ -88,7 +88,7 @@ namespace djv
                 return -1;
             }
 
-            void Group::addButton(const std::shared_ptr<IButton>& button)
+            void Group::addButton(const std::shared_ptr<IButton> & button)
             {
                 DJV_PRIVATE_PTR();
                 button->setButtonType(p.buttonType);
@@ -176,7 +176,7 @@ namespace djv
                 p.buttons.push_back(button);
             }
 
-            void Group::removeButton(const std::shared_ptr<IButton>& button)
+            void Group::removeButton(const std::shared_ptr<IButton> & button)
             {
                 DJV_PRIVATE_PTR();
                 const auto i = std::find(p.buttons.begin(), p.buttons.end(), button);
@@ -283,22 +283,22 @@ namespace djv
                 }
             }
 
-            void Group::setPushCallback(const std::function<void(int)>& callback)
+            void Group::setPushCallback(const std::function<void(int)> & callback)
             {
                 _p->pushCallback = callback;
             }
 
-            void Group::setToggleCallback(const std::function<void(int, bool)>& callback)
+            void Group::setToggleCallback(const std::function<void(int, bool)> & callback)
             {
                 _p->toggleCallback = callback;
             }
 
-            void Group::setRadioCallback(const std::function<void(int)>& callback)
+            void Group::setRadioCallback(const std::function<void(int)> & callback)
             {
                 _p->radioCallback = callback;
             }
 
-            void Group::setExclusiveCallback(const std::function<void(int)>& callback)
+            void Group::setExclusiveCallback(const std::function<void(int)> & callback)
             {
                 _p->exclusiveCallback = callback;
             }

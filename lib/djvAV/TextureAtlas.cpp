@@ -64,12 +64,12 @@ namespace djv
                 BBox2i bbox;
                 int border = 0;
                 size_t textureIndex = 0;
-                BoxPackingNode* children[2] = { nullptr, nullptr };
+                BoxPackingNode * children[2] = { nullptr, nullptr };
 
                 bool isBranch() const { return children[0]; }
                 bool isOccupied() const { return uid != 0; }
 
-                BoxPackingNode* insert(const std::shared_ptr<Image::Data>&);
+                BoxPackingNode * insert(const std::shared_ptr<Image::Data> &);
             };
 
             TextureAtlas::BoxPackingNode::BoxPackingNode(int border) :
@@ -83,7 +83,7 @@ namespace djv
                 delete children[1];
             }
 
-            TextureAtlas::BoxPackingNode* TextureAtlas::BoxPackingNode::insert(const std::shared_ptr<Image::Data>& data)
+            TextureAtlas::BoxPackingNode * TextureAtlas::BoxPackingNode::insert(const std::shared_ptr<Image::Data> & data)
             {
                 if (isBranch())
                 {
@@ -148,8 +148,8 @@ namespace djv
                 Image::Type textureType = Image::Type::None;
                 int border = 0;
                 std::vector<std::shared_ptr<OpenGL::Texture> > textures;
-                std::vector<BoxPackingNode*> boxPackingNodes;
-                std::map<UID, BoxPackingNode*> cache;
+                std::vector<BoxPackingNode *> boxPackingNodes;
+                std::map<UID, BoxPackingNode *> cache;
             };
 
             TextureAtlas::TextureAtlas(size_t textureCount, int textureSize, Image::Type textureType, GLenum filter, int border) :
@@ -218,7 +218,7 @@ namespace djv
                 return false;
             }
 
-            UID TextureAtlas::addItem(const std::shared_ptr<Image::Data>& data, TextureAtlasItem & out)
+            UID TextureAtlas::addItem(const std::shared_ptr<Image::Data> & data, TextureAtlasItem & out)
             {
                 static UID _uid = 0;
 
@@ -236,13 +236,13 @@ namespace djv
                 }
 
                 // The atlas is full, over-write older data.
-                std::vector<BoxPackingNode*> nodes;
+                std::vector<BoxPackingNode *> nodes;
                 for (size_t i = 0; i < _p->textureCount; ++i)
                 {
                     _getAllNodes(_p->boxPackingNodes[i], nodes);
                 }
                 std::sort(nodes.begin(), nodes.end(),
-                    [](const BoxPackingNode* a, const BoxPackingNode* b) -> bool
+                    [](const BoxPackingNode * a, const BoxPackingNode * b) -> bool
                 {
                     return a->timestamp < b->timestamp;
                 });
@@ -290,7 +290,7 @@ namespace djv
                 for (size_t i = 0; i < _p->textureCount; ++i)
                 {
                     size_t used = 0;
-                    std::vector<const BoxPackingNode*> leafs;
+                    std::vector<const BoxPackingNode *> leafs;
                     _getLeafNodes(_p->boxPackingNodes[i], leafs);
                     for (const auto & i : leafs)
                     {
@@ -304,7 +304,7 @@ namespace djv
                 return out / static_cast<float>(_p->textureSize * _p->textureSize) / static_cast<float>(_p->textureCount) * 100.f;
             }
 
-            void TextureAtlas::_getAllNodes(BoxPackingNode* node, std::vector<BoxPackingNode*>& out)
+            void TextureAtlas::_getAllNodes(BoxPackingNode * node, std::vector<BoxPackingNode *> & out)
             {
                 out.push_back(node);
                 if (node->isBranch())
@@ -314,7 +314,7 @@ namespace djv
                 }
             }
 
-            void TextureAtlas::_getLeafNodes(const BoxPackingNode* node, std::vector<const BoxPackingNode*>& out) const
+            void TextureAtlas::_getLeafNodes(const BoxPackingNode * node, std::vector<const BoxPackingNode *> & out) const
             {
                 if (node->isBranch())
                 {
@@ -327,7 +327,7 @@ namespace djv
                 }
             }
 
-            void TextureAtlas::_toTextureAtlasItem(const BoxPackingNode* node, TextureAtlasItem & out)
+            void TextureAtlas::_toTextureAtlasItem(const BoxPackingNode * node, TextureAtlasItem & out)
             {
                 out.size = node->bbox.getSize();
                 out.textureIndex = node->textureIndex;
@@ -339,7 +339,7 @@ namespace djv
                     (node->bbox.max.y - _p->border + 1) / static_cast<float>(_p->textureSize));
             }
 
-            void TextureAtlas::_removeFromAtlas(BoxPackingNode* node)
+            void TextureAtlas::_removeFromAtlas(BoxPackingNode * node)
             {
                 auto i = _p->cache.find(node->uid);
                 if (i != _p->cache.end())

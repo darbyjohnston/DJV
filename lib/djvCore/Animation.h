@@ -137,7 +137,7 @@ namespace djv
                 void tick(float dt) override;
 
             private:
-                void _addAnimation(const std::weak_ptr<Animation>&);
+                void _addAnimation(const std::weak_ptr<Animation> &);
 
                 DJV_PRIVATE();
 

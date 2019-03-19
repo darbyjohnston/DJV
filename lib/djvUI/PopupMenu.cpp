@@ -89,7 +89,7 @@ namespace djv
             return out;
         }
 
-        void PopupMenu::setMenu(const std::shared_ptr<Menu>& menu)
+        void PopupMenu::setMenu(const std::shared_ptr<Menu> & menu)
         {
             DJV_PRIVATE_PTR();
             if (p.menu)

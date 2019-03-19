@@ -45,12 +45,12 @@ namespace djv
             struct tRay3
             {
                 inline tRay3();
-                inline tRay3(const glm::tvec3<T, P>& start, const glm::tvec3<T, P>& end);
+                inline tRay3(const glm::tvec3<T, P> & start, const glm::tvec3<T, P> & end);
 
                 glm::tvec3<T, P> start, end;
 
-                inline bool operator == (const tRay3<T, P>&) const;
-                inline bool operator != (const tRay3<T, P>&) const;
+                inline bool operator == (const tRay3<T, P> &) const;
+                inline bool operator != (const tRay3<T, P> &) const;
             };
 
             typedef tRay3<float, glm::lowp>    Ray3f_lowp;
@@ -72,9 +72,9 @@ namespace djv
     } // namespace Core
 
     template<typename T, glm::precision P = glm::defaultp>
-    inline std::ostream & operator << (std::ostream &, const Core::Ray::tRay3<T, P>&);
+    inline std::ostream & operator << (std::ostream &, const Core::Ray::tRay3<T, P> &);
     template<typename T, glm::precision P = glm::defaultp>
-    inline std::istream & operator >> (std::istream &, Core::Ray::tRay3<T, P>&);
+    inline std::istream & operator >> (std::istream &, Core::Ray::tRay3<T, P> &);
 
 } // namespace djv
 

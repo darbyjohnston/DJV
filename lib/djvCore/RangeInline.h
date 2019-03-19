@@ -86,7 +86,7 @@ namespace djv
             }
 
             template<typename T>
-            inline bool tRange<T>::intersects(const tRange<T>& value) const
+            inline bool tRange<T>::intersects(const tRange<T> & value) const
             {
                 return !(
                     value.max < min ||
@@ -101,7 +101,7 @@ namespace djv
             }
 
             template<typename T>
-            inline void tRange<T>::expand(const tRange<T>& value)
+            inline void tRange<T>::expand(const tRange<T> & value)
             {
                 min = std::min(min, value.min);
                 max = std::max(max, value.max);
@@ -114,19 +114,19 @@ namespace djv
             }
 
             template<typename T>
-            inline bool tRange<T>::operator == (const tRange<T>& value) const
+            inline bool tRange<T>::operator == (const tRange<T> & value) const
             {
                 return min == value.min && max == value.max;
             }
 
             template<typename T>
-            inline bool tRange<T>::operator != (const tRange<T>& value) const
+            inline bool tRange<T>::operator != (const tRange<T> & value) const
             {
                 return !(*this == value);
             }
 
             template<typename T>
-            inline bool tRange<T>::operator < (const tRange<T>& value) const
+            inline bool tRange<T>::operator < (const tRange<T> & value) const
             {
                 return min < value.min;
             }
@@ -135,7 +135,7 @@ namespace djv
     } // namespace Core
 
     template<typename T>
-    inline std::ostream & operator << (std::ostream & s, const Core::Range::tRange<T>& value)
+    inline std::ostream & operator << (std::ostream & s, const Core::Range::tRange<T> & value)
     {
         s << value.min << " ";
         s << value.max;
@@ -143,7 +143,7 @@ namespace djv
     }
 
     template<typename T>
-    inline std::istream & operator >> (std::istream & s, Core::Range::tRange<T>& out)
+    inline std::istream & operator >> (std::istream & s, Core::Range::tRange<T> & out)
     {
         s >> out.min;
         s >> out.max;

@@ -77,12 +77,12 @@ namespace djv
 #endif //DJV_PLATFORM_WINDOWS
             }
 
-            inline const uint8_t* FileIO::mmapP() const
+            inline const uint8_t * FileIO::mmapP() const
             {
                 return _mmapP;
             }
 
-            inline const uint8_t* FileIO::mmapEnd() const
+            inline const uint8_t * FileIO::mmapEnd() const
             {
                 return _mmapEnd;
             }
@@ -92,72 +92,72 @@ namespace djv
                 return _endian;
             }
 
-            inline void FileIO::read8(int8_t* value, size_t size)
+            inline void FileIO::read8(int8_t * value, size_t size)
             {
                 return read(value, size, 1);
             }
 
-            inline void FileIO::readU8(uint8_t* value, size_t size)
+            inline void FileIO::readU8(uint8_t * value, size_t size)
             {
                 return read(value, size, 1);
             }
 
-            inline void FileIO::read16(int16_t* value, size_t size)
+            inline void FileIO::read16(int16_t * value, size_t size)
             {
                 return read(value, size, 2);
             }
 
-            inline void FileIO::readU16(uint16_t* value, size_t size)
+            inline void FileIO::readU16(uint16_t * value, size_t size)
             {
                 return read(value, size, 2);
             }
 
-            inline void FileIO::read32(int32_t* value, size_t size)
+            inline void FileIO::read32(int32_t * value, size_t size)
             {
                 return read(value, size, 4);
             }
 
-            inline void FileIO::readU32(uint32_t* value, size_t size)
+            inline void FileIO::readU32(uint32_t * value, size_t size)
             {
                 return read(value, size, 4);
             }
 
-            inline void FileIO::readF32(float* value, size_t size)
+            inline void FileIO::readF32(float * value, size_t size)
             {
                 return read(value, size, 4);
             }
 
-            inline void FileIO::write8(const int8_t* value, size_t size)
+            inline void FileIO::write8(const int8_t * value, size_t size)
             {
                 write(value, size, 1);
             }
 
-            inline void FileIO::writeU8(const uint8_t* value, size_t size)
+            inline void FileIO::writeU8(const uint8_t * value, size_t size)
             {
                 write(value, size, 1);
             }
 
-            inline void FileIO::write16(const int16_t* value, size_t size)
+            inline void FileIO::write16(const int16_t * value, size_t size)
             {
                 write(value, size, 2);
             }
 
-            inline void FileIO::writeU16(const uint16_t* value, size_t size)
+            inline void FileIO::writeU16(const uint16_t * value, size_t size)
             {
                 write(value, size, 2);
             }
 
-            inline void FileIO::write32(const int32_t* value, size_t size)
+            inline void FileIO::write32(const int32_t * value, size_t size)
             {
                 return write(value, size, 4);
             }
 
-            inline void FileIO::writeU32(const uint32_t* value, size_t size)
+            inline void FileIO::writeU32(const uint32_t * value, size_t size)
             {
                 return write(value, size, 4);
             }
 
-            inline void FileIO::writeF32(const float* value, size_t size)
+            inline void FileIO::writeF32(const float * value, size_t size)
             {
                 write(value, size, 4);
             }
@@ -199,7 +199,7 @@ namespace djv
 
             inline void FileIO::write(const std::string & value)
             {
-                write8(reinterpret_cast<const int8_t*>(value.c_str()), value.size());
+                write8(reinterpret_cast<const int8_t *>(value.c_str()), value.size());
             }
 
         } // namespace FileSystem

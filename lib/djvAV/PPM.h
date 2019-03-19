@@ -72,17 +72,17 @@ namespace djv
 
                 //! Read ASCII data.
                 void readASCII(
-                    Core::FileSystem::FileIO& io,
-                    uint8_t*                  out,
-                    size_t                    size,
-                    size_t                    componentSize);
+                    Core::FileSystem::FileIO & io,
+                    uint8_t *                  out,
+                    size_t                     size,
+                    size_t                     componentSize);
 
                 //! Save ASCII data.
                 size_t writeASCII(
-                    const uint8_t* in,
-                    char*          out,
-                    size_t         size,
-                    size_t         componentSize);
+                    const uint8_t * in,
+                    char *          out,
+                    size_t          size,
+                    size_t          componentSize);
 
                 class Read : public ISequenceRead
                 {

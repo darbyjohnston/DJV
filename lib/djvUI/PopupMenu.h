@@ -51,7 +51,7 @@ namespace djv
 
             static std::shared_ptr<PopupMenu> create(Core::Context *);
 
-            void setMenu(const std::shared_ptr<Menu>&);
+            void setMenu(const std::shared_ptr<Menu> &);
 
             void open();
             void close();

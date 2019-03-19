@@ -49,8 +49,8 @@ namespace djv
                 inline void set(MetricsRole);
                 inline void set(MetricsRole horizontal, MetricsRole vertical);
 
-                inline glm::vec2 get(const std::shared_ptr<Style::Style>&) const;
-                inline float get(Orientation, const std::shared_ptr<Style::Style>&) const;
+                inline glm::vec2 get(const std::shared_ptr<Style::Style> &) const;
+                inline float get(Orientation, const std::shared_ptr<Style::Style> &) const;
 
                 inline MetricsRole operator [] (Orientation) const;
                 inline MetricsRole & operator [] (Orientation);

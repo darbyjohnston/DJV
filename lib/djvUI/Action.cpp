@@ -150,7 +150,7 @@ namespace djv
             return _p->shortcuts;
         }
 
-        void Action::setShortcut(const std::shared_ptr<Shortcut>& value)
+        void Action::setShortcut(const std::shared_ptr<Shortcut> & value)
         {
             clearShortcuts();
             addShortcut(value);
@@ -166,7 +166,7 @@ namespace djv
             setShortcut(UI::Shortcut::create(key, keyModifiers));
         }
 
-        void Action::addShortcut(const std::shared_ptr<Shortcut>& value)
+        void Action::addShortcut(const std::shared_ptr<Shortcut> & value)
         {
             _p->shortcuts->pushBack(value);
             auto weak = std::weak_ptr<Action>(shared_from_this());

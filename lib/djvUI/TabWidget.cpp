@@ -99,7 +99,7 @@ namespace djv
             return _p->tabBar->getTabCount();
         }
 
-        size_t TabWidget::addTab(const std::string & text, const std::shared_ptr<Widget>& value)
+        size_t TabWidget::addTab(const std::string & text, const std::shared_ptr<Widget> & value)
         {
             DJV_PRIVATE_PTR();
             const size_t out = p.tabBar->addTab(text);
@@ -107,7 +107,7 @@ namespace djv
             return out;
         }
 
-        void TabWidget::removeTab(const std::shared_ptr<Widget>& value)
+        void TabWidget::removeTab(const std::shared_ptr<Widget> & value)
         {
             size_t i = 0;
             DJV_PRIVATE_PTR();
@@ -142,7 +142,7 @@ namespace djv
             _p->tabBar->setCurrentTab(value);
         }
 
-        void TabWidget::setCurrentTabCallback(const std::function<void(int)>& value)
+        void TabWidget::setCurrentTabCallback(const std::function<void(int)> & value)
         {
             _p->callback = value;
         }

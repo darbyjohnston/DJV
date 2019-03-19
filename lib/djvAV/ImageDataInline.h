@@ -229,7 +229,7 @@ namespace djv
                 return _data;
             }
 
-            inline uint8_t* Data::getData(int y)
+            inline uint8_t * Data::getData(int y)
             {
                 return _data + y * _scanlineByteCount;
             }

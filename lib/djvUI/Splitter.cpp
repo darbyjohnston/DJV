@@ -101,7 +101,7 @@ namespace djv
                 _resize();
             }
 
-            void Splitter::setSplitCallback(const std::function<void(const std::vector<float> &)>& callback)
+            void Splitter::setSplitCallback(const std::function<void(const std::vector<float> &)> & callback)
             {
                 _p->splitCallback = callback;
             }
@@ -190,13 +190,13 @@ namespace djv
                 return out;
             }
 
-            void Splitter::addChild(const std::shared_ptr<IObject>& child)
+            void Splitter::addChild(const std::shared_ptr<IObject> & child)
             {
                 Widget::addChild(child);
                 distributeEvenly();
             }
 
-            void Splitter::removeChild(const std::shared_ptr<IObject>& child)
+            void Splitter::removeChild(const std::shared_ptr<IObject> & child)
             {
                 Widget::removeChild(child);
                 distributeEvenly();

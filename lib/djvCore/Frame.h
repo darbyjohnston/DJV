@@ -61,7 +61,7 @@ namespace djv
                 inline Sequence(Number);
                 inline Sequence(Number min, Number max);
                 inline Sequence(const Range &, size_t pad = 0);
-                inline Sequence(const std::vector<Range>&, size_t pad = 0);
+                inline Sequence(const std::vector<Range> &, size_t pad = 0);
 
                 std::vector<Range> ranges;
                 size_t pad = 0;
@@ -85,7 +85,7 @@ namespace djv
 
             inline bool isValid(const Range &);
 
-            inline Number getFrame(const std::vector<Number>&, Index index);
+            inline Number getFrame(const std::vector<Number> &, Index index);
 
             void sort(Range &);
 
@@ -96,7 +96,7 @@ namespace djv
 
             inline std::vector<Number> toFrames(const Range &);
             inline std::vector<Number> toFrames(const Sequence &);
-            Sequence fromFrames(const std::vector<Number>&);
+            Sequence fromFrames(const std::vector<Number> &);
 
             inline std::string toString(Number, size_t pad);
             inline std::string toString(const Range &, size_t pad);

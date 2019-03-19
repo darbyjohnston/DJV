@@ -277,8 +277,8 @@ namespace djv
 
                     FileSystem::FileIO fileIO;
                     fileIO.open(path, FileSystem::FileIO::Mode::Read);
-                    const char* mmapP = reinterpret_cast<const char*>(fileIO.mmapP());
-                    const char* mmapEnd = reinterpret_cast<const char*>(fileIO.mmapEnd());
+                    const char * mmapP = reinterpret_cast<const char *>(fileIO.mmapP());
+                    const char * mmapEnd = reinterpret_cast<const char *>(fileIO.mmapEnd());
 
                     // Parse the JSON.
                     picojson::value v;

@@ -161,12 +161,12 @@ namespace djv
                 _redraw();
             }
 
-            void IButton::setClickedCallback(const std::function<void(void)>& callback)
+            void IButton::setClickedCallback(const std::function<void(void)> & callback)
             {
                 _p->clickedCallback = callback;
             }
 
-            void IButton::setCheckedCallback(const std::function<void(bool)>& callback)
+            void IButton::setCheckedCallback(const std::function<void(bool)> & callback)
             {
                 _p->checkedCallback = callback;
             }

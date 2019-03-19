@@ -178,7 +178,7 @@ namespace djv
             }
 
             template<typename T>
-            inline const T & getRandom(const std::vector<T>& value)
+            inline const T & getRandom(const std::vector<T> & value)
             {
                 return value[getRandom(0, static_cast<int>(value.size()) - 1)];
             }

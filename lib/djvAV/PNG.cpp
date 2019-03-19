@@ -82,7 +82,7 @@ namespace djv
 
                     void djvPngWarning(png_structp in, png_const_charp msg)
                     {
-                        auto error = reinterpret_cast<ErrorStruct*>(png_get_error_ptr(in));
+                        auto error = reinterpret_cast<ErrorStruct *>(png_get_error_ptr(in));
                         DJV_STRNCPY(error->msg, msg, String::cStringLength);
                         longjmp(png_jmpbuf(in), 1);
                     }

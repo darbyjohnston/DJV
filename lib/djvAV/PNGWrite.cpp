@@ -132,7 +132,7 @@ namespace djv
                         return true;
                     }
 
-                    bool pngScanline(png_structp png, const uint8_t* in)
+                    bool pngScanline(png_structp png, const uint8_t * in)
                     {
                         if (setjmp(png_jmpbuf(png)))
                             return false;

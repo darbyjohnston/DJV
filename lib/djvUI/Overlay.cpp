@@ -130,12 +130,12 @@ namespace djv
                 _p->captureKeyboard = value;
             }
 
-            const std::weak_ptr<Widget>& Overlay::getAnchor() const
+            const std::weak_ptr<Widget> & Overlay::getAnchor() const
             {
                 return _p->anchor;
             }
 
-            void Overlay::setAnchor(const std::weak_ptr<Widget>& value)
+            void Overlay::setAnchor(const std::weak_ptr<Widget> & value)
             {
                 _p->anchor = value;
             }
@@ -201,12 +201,12 @@ namespace djv
                 return out;
             }
 
-            void Overlay::addChild(const std::shared_ptr<IObject>& value)
+            void Overlay::addChild(const std::shared_ptr<IObject> & value)
             {
                 _p->layout->addChild(value);
             }
 
-            void Overlay::removeChild(const std::shared_ptr<IObject>& value)
+            void Overlay::removeChild(const std::shared_ptr<IObject> & value)
             {
                 _p->layout->removeChild(value);
             }

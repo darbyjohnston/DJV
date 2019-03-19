@@ -78,7 +78,7 @@ namespace djv
                 _repeating = value;
             }
 
-            void Timer::start(std::chrono::milliseconds value, const std::function<void(float)>& callback)
+            void Timer::start(std::chrono::milliseconds value, const std::function<void(float)> & callback)
             {
                 _active = true;
                 _timeout = value;
@@ -157,7 +157,7 @@ namespace djv
                 }
             }
 
-            void TimerSystem::_addTimer(const std::weak_ptr<Timer>& value)
+            void TimerSystem::_addTimer(const std::weak_ptr<Timer> & value)
             {
                 _p->timers.push_back(value);
             }

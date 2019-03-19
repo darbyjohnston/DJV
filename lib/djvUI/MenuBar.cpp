@@ -113,7 +113,7 @@ namespace djv
             return out;
         }
 
-        void MenuBar::setStretch(const std::shared_ptr<Widget>& widget, RowStretch value)
+        void MenuBar::setStretch(const std::shared_ptr<Widget> & widget, RowStretch value)
         {
             _p->layout->setStretch(widget, value);
         }

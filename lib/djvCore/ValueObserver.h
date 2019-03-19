@@ -49,8 +49,8 @@ namespace djv
             
         protected:
             inline void _init(
-                const std::weak_ptr<IValueSubject<T> >&,
-                const std::function<void(const T &)>&);
+                const std::weak_ptr<IValueSubject<T> > &,
+                const std::function<void(const T &)> &);
 
             inline ValueObserver();
 
@@ -59,8 +59,8 @@ namespace djv
 
             //! Create a new value observer.
             static inline std::shared_ptr<ValueObserver<T> > create(
-                const std::weak_ptr<IValueSubject<T> >&,
-                const std::function<void(const T &)>&);
+                const std::weak_ptr<IValueSubject<T> > &,
+                const std::function<void(const T &)> &);
 
             //! Execute the callback.
             inline void doCallback(const T &);
@@ -81,8 +81,8 @@ namespace djv
             virtual const T & get() const = 0;
 
         protected:
-            inline void _add(const std::weak_ptr<ValueObserver<T> >&);
-            inline void _remove(ValueObserver<T>*);
+            inline void _add(const std::weak_ptr<ValueObserver<T> > &);
+            inline void _remove(ValueObserver<T> *);
 
             std::vector<std::weak_ptr<ValueObserver<T> > > _observers;
 

@@ -69,7 +69,7 @@ namespace djv
                 triangles.clear();
             }
 
-            void TriangleMesh::faceToTriangles(const Face & face, std::vector<Triangle>& triangles)
+            void TriangleMesh::faceToTriangles(const Face & face, std::vector<Triangle> & triangles)
             {
                 const size_t size = face.v.size();
                 for (size_t i = 1; i < size - 1; ++i)

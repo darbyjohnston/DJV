@@ -289,7 +289,7 @@ namespace djv
                 return out;
             }
 
-            std::string Path::joinDirs(const std::vector<std::string>& value, char separator)
+            std::string Path::joinDirs(const std::vector<std::string> & value, char separator)
             {
                 std::string out;
 

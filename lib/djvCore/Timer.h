@@ -82,7 +82,7 @@ namespace djv
                 inline bool isActive() const;
 
                 //! Start the timer.
-                void start(std::chrono::milliseconds, const std::function<void(float)>&);
+                void start(std::chrono::milliseconds, const std::function<void(float)> &);
 
                 //! Stop the timer.
                 void stop();
@@ -115,7 +115,7 @@ namespace djv
                 void tick(float dt) override;
 
             private:
-                void _addTimer(const std::weak_ptr<Timer>&);
+                void _addTimer(const std::weak_ptr<Timer> &);
 
                 DJV_PRIVATE();
 

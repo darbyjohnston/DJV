@@ -66,12 +66,12 @@ namespace djv
                 return out;
             }
 
-            void System::_addSettings(const std::shared_ptr<ISettings>& value)
+            void System::_addSettings(const std::shared_ptr<ISettings> & value)
             {
                 _settings.push_back(value);
             }
 
-            void System::_removeSettings(const std::shared_ptr<ISettings>& value)
+            void System::_removeSettings(const std::shared_ptr<ISettings> & value)
             {
                 const auto i = std::find(_settings.begin(), _settings.end(), value);
                 if (i != _settings.end())
@@ -80,7 +80,7 @@ namespace djv
                 }
             }
 
-            void System::_loadSettings(const std::shared_ptr<ISettings>& settings)
+            void System::_loadSettings(const std::shared_ptr<ISettings> & settings)
             {
                 std::stringstream s;
                 s << "Loading settings: " << settings->getName();
@@ -118,7 +118,7 @@ namespace djv
                 _writeSettingsFile(_settingsPath, object);
             }
 
-            void System::_readSettingsFile(const FileSystem::Path & path, std::map<std::string, picojson::value>& out)
+            void System::_readSettingsFile(const FileSystem::Path & path, std::map<std::string, picojson::value> & out)
             {
                 try
                 {
@@ -130,8 +130,8 @@ namespace djv
 
                         FileSystem::FileIO fileIO;
                         fileIO.open(path, FileSystem::FileIO::Mode::Read);
-                        const char* p = reinterpret_cast<const char*>(fileIO.mmapP());
-                        const char* end = reinterpret_cast<const char*>(fileIO.mmapEnd());
+                        const char * p = reinterpret_cast<const char *>(fileIO.mmapP());
+                        const char * end = reinterpret_cast<const char *>(fileIO.mmapEnd());
 
                         picojson::value v;
                         std::string error;

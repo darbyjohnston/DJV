@@ -52,12 +52,12 @@ namespace djv
                 inline void set(MetricsRole);
                 inline void set(MetricsRole left, MetricsRole right, MetricsRole top, MetricsRole bottom);
 
-                inline float get(Side, const std::shared_ptr<Style::Style>&) const;
-                inline glm::vec2 getSize(const std::shared_ptr<Style::Style>&) const;
-                inline float getWidth(const std::shared_ptr<Style::Style>&) const;
-                inline float getHeight(const std::shared_ptr<Style::Style>&) const;
+                inline float get(Side, const std::shared_ptr<Style::Style> &) const;
+                inline glm::vec2 getSize(const std::shared_ptr<Style::Style> &) const;
+                inline float getWidth(const std::shared_ptr<Style::Style> &) const;
+                inline float getHeight(const std::shared_ptr<Style::Style> &) const;
 
-                inline Core::BBox2f bbox(const Core::BBox2f &, const std::shared_ptr<Style::Style>&) const;
+                inline Core::BBox2f bbox(const Core::BBox2f &, const std::shared_ptr<Style::Style> &) const;
 
                 inline MetricsRole operator [] (Side) const;
                 inline MetricsRole & operator [] (Side);

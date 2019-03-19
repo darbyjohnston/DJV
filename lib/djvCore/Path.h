@@ -166,7 +166,7 @@ namespace djv
 
                 //! Join a list of sub-directories into a directory path.
                 //! For example: var, tmp -> var/tmp
-                static std::string joinDirs(const std::vector<std::string>&, char separator = getCurrentPathSeparator());
+                static std::string joinDirs(const std::vector<std::string> &, char separator = getCurrentPathSeparator());
 
                 //! Create a directory.
                 //! Throws:

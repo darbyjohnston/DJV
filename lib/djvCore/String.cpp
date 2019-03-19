@@ -227,7 +227,7 @@ namespace djv
                 return alphabet;
             }
 
-            const std::vector<std::string>& getTestNames()
+            const std::vector<std::string> & getTestNames()
             {
                 // Reference:
                 // - http://calfish.ucdavis.edu/species/
@@ -426,7 +426,7 @@ namespace djv
 
             std::vector<std::string> getRandomNames(size_t value)
             {
-                const std::vector<std::string>& data = getTestNames();
+                const std::vector<std::string> & data = getTestNames();
                 std::vector<std::string> out;
                 for (size_t i = 0; i < value; ++i)
                 {
@@ -437,11 +437,11 @@ namespace djv
 
             const std::string & getRandomName()
             {
-                const std::vector<std::string>& data = getTestNames();
+                const std::vector<std::string> & data = getTestNames();
                 return Math::getRandom(data);
             }
 
-            const std::vector<std::string>& getTestSentences()
+            const std::vector<std::string> & getTestSentences()
             {
                 // Reference:
                 // - http://calfish.ucdavis.edu/species/?uid=1&ds=698
@@ -464,14 +464,14 @@ namespace djv
 
             const std::string & getRandomSentence()
             {
-                const std::vector<std::string>& data = getTestSentences();
+                const std::vector<std::string> & data = getTestSentences();
                 const size_t size = data.size();
                 return data[Math::getRandom(static_cast<int>(size) - 1)];
             }
 
             std::vector<std::string> getRandomSentences(size_t value)
             {
-                const std::vector<std::string>& data = getTestSentences();
+                const std::vector<std::string> & data = getTestSentences();
                 std::vector<std::string> out;
                 for (size_t i = 0; i < value; ++i)
                 {
@@ -482,7 +482,7 @@ namespace djv
 
             std::string getRandomText(size_t sentenceCount)
             {
-                const std::vector<std::string>& data = getTestSentences();
+                const std::vector<std::string> & data = getTestSentences();
                 std::vector<std::string> out;
                 size_t i = 0;
                 while (i < sentenceCount)

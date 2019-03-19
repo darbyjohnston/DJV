@@ -81,7 +81,7 @@ namespace djv
             return out;
         }
 
-        void ToolBar::setStretch(const std::shared_ptr<Widget>& widget, RowStretch value)
+        void ToolBar::setStretch(const std::shared_ptr<Widget> & widget, RowStretch value)
         {
             _p->layout->setStretch(widget, value);
         }
@@ -112,7 +112,7 @@ namespace djv
             return out;
         }
 
-        void ToolBar::addAction(const std::shared_ptr<Action>& action)
+        void ToolBar::addAction(const std::shared_ptr<Action> & action)
         {
             Widget::addAction(action);
             auto button = FlatButton::create(getContext());
@@ -168,7 +168,7 @@ namespace djv
             });
         }
 
-        void ToolBar::removeAction(const std::shared_ptr<Action>& action)
+        void ToolBar::removeAction(const std::shared_ptr<Action> & action)
         {
             Widget::removeAction(action);
             DJV_PRIVATE_PTR();
@@ -196,12 +196,12 @@ namespace djv
             p.observers.clear();
         }
 
-        void ToolBar::addChild(const std::shared_ptr<IObject>& value)
+        void ToolBar::addChild(const std::shared_ptr<IObject> & value)
         {
             _p->layout->addChild(value);
         }
 
-        void ToolBar::removeChild(const std::shared_ptr<IObject>& value)
+        void ToolBar::removeChild(const std::shared_ptr<IObject> & value)
         {
             _p->layout->removeChild(value);
         }

@@ -71,7 +71,7 @@ namespace djv
                 return out;
             }
 
-            void Form::setText(const std::shared_ptr<Widget>& value, const std::string & text)
+            void Form::setText(const std::shared_ptr<Widget> & value, const std::string & text)
             {
                 DJV_PRIVATE_PTR();
                 const auto i = p.widgetToLabel.find(value);
@@ -111,7 +111,7 @@ namespace djv
                 return out;
             }
 
-            void Form::addChild(const std::shared_ptr<IObject>& value)
+            void Form::addChild(const std::shared_ptr<IObject> & value)
             {
                 DJV_PRIVATE_PTR();
                 const glm::ivec2 gridSize = p.layout->getGridSize();
@@ -122,7 +122,7 @@ namespace djv
                 }
             }
 
-            void Form::removeChild(const std::shared_ptr<IObject>& value)
+            void Form::removeChild(const std::shared_ptr<IObject> & value)
             {
                 _p->layout->removeChild(value);
             }

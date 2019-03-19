@@ -63,17 +63,17 @@ namespace djv
                 std::vector<gl::GLuint> getTextures() const;
 
                 bool getItem(Core::UID, TextureAtlasItem &);
-                Core::UID addItem(const std::shared_ptr<Image::Data>&, TextureAtlasItem &);
+                Core::UID addItem(const std::shared_ptr<Image::Data> &, TextureAtlasItem &);
 
                 float getPercentageUsed() const;
 
             private:
                 struct BoxPackingNode;
 
-                void _getAllNodes(BoxPackingNode*, std::vector<BoxPackingNode*>&);
-                void _getLeafNodes(const BoxPackingNode*, std::vector<const BoxPackingNode*>&) const;
-                void _toTextureAtlasItem(const BoxPackingNode*, TextureAtlasItem &);
-                void _removeFromAtlas(BoxPackingNode*);
+                void _getAllNodes(BoxPackingNode *, std::vector<BoxPackingNode *> &);
+                void _getLeafNodes(const BoxPackingNode *, std::vector<const BoxPackingNode *> &) const;
+                void _toTextureAtlasItem(const BoxPackingNode *, TextureAtlasItem &);
+                void _removeFromAtlas(BoxPackingNode *);
 
                 DJV_PRIVATE();
             };

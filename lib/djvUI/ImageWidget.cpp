@@ -64,12 +64,12 @@ namespace djv
             return out;
         }
 
-        const std::shared_ptr<AV::Image::Image>& ImageWidget::getImage() const
+        const std::shared_ptr<AV::Image::Image> & ImageWidget::getImage() const
         {
             return _p->image;
         }
 
-        void ImageWidget::setImage(const std::shared_ptr<AV::Image::Image>& value)
+        void ImageWidget::setImage(const std::shared_ptr<AV::Image::Image> & value)
         {
             DJV_PRIVATE_PTR();
             p.image = value;

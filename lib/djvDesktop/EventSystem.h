@@ -50,13 +50,13 @@ namespace djv
             DJV_NON_COPYABLE(EventSystem);
 
         protected:
-            void _init(GLFWwindow*, Core::Context *);
+            void _init(GLFWwindow *, Core::Context *);
             EventSystem();
 
         public:
             ~EventSystem() override;
 
-            static std::shared_ptr<EventSystem> create(GLFWwindow*, Core::Context *);
+            static std::shared_ptr<EventSystem> create(GLFWwindow *, Core::Context *);
 
             void tick(float dt) override;
 

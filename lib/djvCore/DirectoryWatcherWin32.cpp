@@ -209,7 +209,7 @@ namespace djv
                 }
             }
 
-            void DirectoryWatcher::setCallback(const std::function<void(void)>& value)
+            void DirectoryWatcher::setCallback(const std::function<void(void)> & value)
             {
                 _p->callback = value;
             }

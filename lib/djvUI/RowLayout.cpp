@@ -121,14 +121,14 @@ namespace djv
                 _resize();
             }
 
-            RowStretch Row::getStretch(const std::shared_ptr<Widget>& value) const
+            RowStretch Row::getStretch(const std::shared_ptr<Widget> & value) const
             {
                 DJV_PRIVATE_PTR();
                 const auto i = p.stretch.find(value);
                 return i != p.stretch.end() ? i->second : RowStretch::First;
             }
 
-            void Row::setStretch(const std::shared_ptr<Widget>& value, RowStretch stretch)
+            void Row::setStretch(const std::shared_ptr<Widget> & value, RowStretch stretch)
             {
                 DJV_PRIVATE_PTR();
                 const auto i = p.stretch.find(value);
@@ -190,7 +190,7 @@ namespace djv
                 return out;
             }
 
-            void Row::addChild(const std::shared_ptr<IObject>& value)
+            void Row::addChild(const std::shared_ptr<IObject> & value)
             {
                 Widget::addChild(value);
                 if (auto widget = std::dynamic_pointer_cast<Widget>(value))
@@ -200,7 +200,7 @@ namespace djv
                 }
             }
 
-            void Row::removeChild(const std::shared_ptr<IObject>& value)
+            void Row::removeChild(const std::shared_ptr<IObject> & value)
             {
                 Widget::removeChild(value);
                 DJV_PRIVATE_PTR();

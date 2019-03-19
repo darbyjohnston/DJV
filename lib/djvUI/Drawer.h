@@ -61,8 +61,8 @@ namespace djv
                 Side getSide() const;
                 void setSide(Side);
 
-                void addChild(const std::shared_ptr<IObject>&) override;
-                void removeChild(const std::shared_ptr<IObject>&) override;
+                void addChild(const std::shared_ptr<IObject> &) override;
+                void removeChild(const std::shared_ptr<IObject> &) override;
 
             protected:
                 void _preLayoutEvent(Core::Event::PreLayout &) override;

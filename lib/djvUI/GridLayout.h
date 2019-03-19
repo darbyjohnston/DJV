@@ -70,23 +70,23 @@ namespace djv
 
                 glm::ivec2 getGridSize() const;
 
-                glm::ivec2 getGridPos(const std::shared_ptr<Widget>&);
-                void setGridPos(const std::shared_ptr<Widget>&, const glm::ivec2 &, GridStretch = GridStretch::None);
-                void setGridPos(const std::shared_ptr<Widget>&, int x, int y, GridStretch = GridStretch::None);
+                glm::ivec2 getGridPos(const std::shared_ptr<Widget> &);
+                void setGridPos(const std::shared_ptr<Widget> &, const glm::ivec2 &, GridStretch = GridStretch::None);
+                void setGridPos(const std::shared_ptr<Widget> &, int x, int y, GridStretch = GridStretch::None);
 
                 const Spacing & getSpacing() const;
                 void setSpacing(const Spacing &);
 
-                GridStretch getStretch(const std::shared_ptr<Widget>&) const;
-                void setStretch(const std::shared_ptr<Widget>&, GridStretch);
+                GridStretch getStretch(const std::shared_ptr<Widget> &) const;
+                void setStretch(const std::shared_ptr<Widget> &, GridStretch);
 
                 void setRowBackgroundRole(int, ColorRole);
                 void setColumnBackgroundRole(int, ColorRole);
 
                 float getHeightForWidth(float) const override;
 
-                void addChild(const std::shared_ptr<IObject>&) override;
-                void removeChild(const std::shared_ptr<IObject>&) override;
+                void addChild(const std::shared_ptr<IObject> &) override;
+                void removeChild(const std::shared_ptr<IObject> &) override;
 
             protected:
                 void _preLayoutEvent(Core::Event::PreLayout &) override;

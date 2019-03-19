@@ -97,7 +97,7 @@ namespace djv
                 void clear();
 
                 //! Convert a face into triangles.
-                static void faceToTriangles(const Face &, std::vector<Triangle>&);
+                static void faceToTriangles(const Face &, std::vector<Triangle> &);
 
                 //! Get the bounding-box of the mesh.
                 static Core::BBox3f getBBox(const TriangleMesh &);

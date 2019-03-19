@@ -275,13 +275,13 @@ namespace djv
                 _p->openCallback = callback;
             }
 
-            void Bellows::addChild(const std::shared_ptr<IObject>& value)
+            void Bellows::addChild(const std::shared_ptr<IObject> & value)
             {
                 _p->childLayout->addChild(value);
                 _childrenUpdate();
             }
 
-            void Bellows::removeChild(const std::shared_ptr<IObject>& value)
+            void Bellows::removeChild(const std::shared_ptr<IObject> & value)
             {
                 _p->childLayout->removeChild(value);
                 _childrenUpdate();

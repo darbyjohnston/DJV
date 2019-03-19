@@ -191,12 +191,12 @@ namespace djv
             return _p->overlay->getHeightForWidth(value);
         }
 
-        void IDialog::addChild(const std::shared_ptr<IObject>& value)
+        void IDialog::addChild(const std::shared_ptr<IObject> & value)
         {
             _p->childLayout->addChild(value);
         }
 
-        void IDialog::removeChild(const std::shared_ptr<IObject>& value)
+        void IDialog::removeChild(const std::shared_ptr<IObject> & value)
         {
             _p->childLayout->removeChild(value);
         }

@@ -60,7 +60,7 @@ namespace djv
             std::shared_ptr<EventSystem> eventSystem;
         };
 
-        void Application::_init(int argc, char* argv[])
+        void Application::_init(int argc, char * argv[])
         {
             Context::_init(argc, argv);
 
@@ -82,7 +82,7 @@ namespace djv
         Application::~Application()
         {}
         
-        std::unique_ptr<Application> Application::create(int argc, char* argv[])
+        std::unique_ptr<Application> Application::create(int argc, char * argv[])
         {
             auto out = std::unique_ptr<Application>(new Application);
             out->_init(argc, argv);

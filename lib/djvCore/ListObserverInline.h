@@ -87,7 +87,7 @@ namespace djv
         }
 
         template<typename T>
-        inline void IListSubject<T>::_remove(ListObserver<T>* observer)
+        inline void IListSubject<T>::_remove(ListObserver<T> * observer)
         {
             const auto i = std::find_if(
                 _observers.begin(),

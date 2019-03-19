@@ -86,7 +86,7 @@ namespace djv
                 out.max = _max;
             }
 
-            Sequence fromFrames(const std::vector<Number>& frames)
+            Sequence fromFrames(const std::vector<Number> & frames)
             {
                 Sequence out;
                 const size_t size = frames.size();

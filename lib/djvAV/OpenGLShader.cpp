@@ -56,7 +56,7 @@ namespace djv
                     ss << DJV_TEXT("The OpenGL vertex shader cannot be created.");
                     throw std::runtime_error(ss.str());
                 }
-                const char* src = _shader->getVertexSource().c_str();
+                const char * src = _shader->getVertexSource().c_str();
                 glShaderSource(_vertex, 1, &src, NULL);
                 glCompileShader(_vertex);
                 int success = 0;

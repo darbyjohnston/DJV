@@ -55,7 +55,7 @@ namespace djv
             public:
                 static std::shared_ptr<TooltipLayout> create(Context *);
 
-                void addWidget(const std::shared_ptr<Widget>&, const glm::vec2 & pos);
+                void addWidget(const std::shared_ptr<Widget> &, const glm::vec2 & pos);
                 void clearWidgets();
 
             protected:
@@ -82,7 +82,7 @@ namespace djv
                 return out;
             }
 
-            void TooltipLayout::addWidget(const std::shared_ptr<Widget>& value, const glm::vec2 & pos)
+            void TooltipLayout::addWidget(const std::shared_ptr<Widget> & value, const glm::vec2 & pos)
             {
                 addChild(value);
                 _widgetToPos[value] = pos;

@@ -750,10 +750,10 @@ namespace djv
             public:
                 static std::shared_ptr<MenuOverlayLayout> create(Context *);
 
-                void setPos(const std::shared_ptr<Widget>&, const glm::vec2 &);
-                void setButton(const std::shared_ptr<Widget>&, const std::weak_ptr<Widget> &);
+                void setPos(const std::shared_ptr<Widget> &, const glm::vec2 &);
+                void setButton(const std::shared_ptr<Widget> &, const std::weak_ptr<Widget> &);
 
-                void removeChild(const std::shared_ptr<IObject>&) override;
+                void removeChild(const std::shared_ptr<IObject> &) override;
 
             protected:
                 void _layoutEvent(Event::Layout &) override;
@@ -779,17 +779,17 @@ namespace djv
                 return out;
             }
 
-            void MenuOverlayLayout::setPos(const std::shared_ptr<Widget>& widget, const glm::vec2 & pos)
+            void MenuOverlayLayout::setPos(const std::shared_ptr<Widget> & widget, const glm::vec2 & pos)
             {
                 _widgetToPos[widget] = pos;
             }
 
-            void MenuOverlayLayout::setButton(const std::shared_ptr<Widget>& widget, const std::weak_ptr<Widget> & button)
+            void MenuOverlayLayout::setButton(const std::shared_ptr<Widget> & widget, const std::weak_ptr<Widget> & button)
             {
                 _widgetToButton[widget] = button;
             }
 
-            void MenuOverlayLayout::removeChild(const std::shared_ptr<IObject>& value)
+            void MenuOverlayLayout::removeChild(const std::shared_ptr<IObject> & value)
             {
                 Widget::removeChild(value);
                 if (auto widget = std::dynamic_pointer_cast<Widget>(value))

@@ -71,12 +71,12 @@ namespace djv
             return out;
         }
 
-        void Window::addChild(const std::shared_ptr<IObject>& value)
+        void Window::addChild(const std::shared_ptr<IObject> & value)
         {
             _p->layout->addChild(value);
         }
 
-        void Window::removeChild(const std::shared_ptr<IObject>& value)
+        void Window::removeChild(const std::shared_ptr<IObject> & value)
         {
             _p->layout->removeChild(value);
         }

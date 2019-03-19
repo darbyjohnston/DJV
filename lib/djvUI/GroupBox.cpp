@@ -110,12 +110,12 @@ namespace djv
                 return _p->layout->getHeightForWidth(value);
             }
 
-            void GroupBox::addChild(const std::shared_ptr<IObject>& value)
+            void GroupBox::addChild(const std::shared_ptr<IObject> & value)
             {
                 _p->childLayout->addChild(value);
             }
 
-            void GroupBox::removeChild(const std::shared_ptr<IObject>& value)
+            void GroupBox::removeChild(const std::shared_ptr<IObject> & value)
             {
                 _p->childLayout->removeChild(value);
             }

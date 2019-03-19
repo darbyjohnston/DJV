@@ -51,8 +51,8 @@ namespace djv
                 static std::shared_ptr<ActionButton> create(Core::Context *);
                 static std::shared_ptr<ActionButton> create(const std::shared_ptr<Action> &, Core::Context *);
 
-                void addAction(const std::shared_ptr<Action>&) override;
-                void removeAction(const std::shared_ptr<Action>&) override;
+                void addAction(const std::shared_ptr<Action> &) override;
+                void removeAction(const std::shared_ptr<Action> &) override;
                 void clearActions() override;
 
             protected:

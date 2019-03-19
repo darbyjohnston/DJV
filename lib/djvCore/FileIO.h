@@ -50,9 +50,9 @@ namespace djv
 
             public:
                 inline FileIO();
-                FileIO(FileIO&&);
+                FileIO(FileIO &&);
                 ~FileIO();
-                FileIO& operator = (FileIO&&);
+                FileIO & operator = (FileIO &&);
 
                 enum class Mode
                 {
@@ -106,15 +106,15 @@ namespace djv
                 //! - std::exception
                 ///@{
 
-                void read(void*, size_t, size_t wordSize = 1);
+                void read(void *, size_t, size_t wordSize = 1);
 
-                inline void read8(int8_t*, size_t = 1);
-                inline void readU8(uint8_t*, size_t = 1);
-                inline void read16(int16_t*, size_t = 1);
-                inline void readU16(uint16_t*, size_t = 1);
-                inline void read32(int32_t*, size_t = 1);
-                inline void readU32(uint32_t*, size_t = 1);
-                inline void readF32(float*, size_t = 1);
+                inline void read8(int8_t *, size_t = 1);
+                inline void readU8(uint8_t *, size_t = 1);
+                inline void read16(int16_t *, size_t = 1);
+                inline void readU16(uint16_t *, size_t = 1);
+                inline void read32(int32_t *, size_t = 1);
+                inline void readU32(uint32_t *, size_t = 1);
+                inline void readF32(float *, size_t = 1);
 
                 ///@}
 
@@ -123,15 +123,15 @@ namespace djv
                 //! - std::exception
                 ///@{
 
-                void write(const void*, size_t, size_t wordSize = 1);
+                void write(const void *, size_t, size_t wordSize = 1);
 
-                inline void write8(const int8_t*, size_t);
-                inline void writeU8(const uint8_t*, size_t);
-                inline void write16(const int16_t*, size_t);
-                inline void writeU16(const uint16_t*, size_t);
-                inline void write32(const int32_t*, size_t);
-                inline void writeU32(const uint32_t*, size_t);
-                inline void writeF32(const float*, size_t);
+                inline void write8(const int8_t *, size_t);
+                inline void writeU8(const uint8_t *, size_t);
+                inline void write16(const int16_t *, size_t);
+                inline void writeU16(const uint16_t *, size_t);
+                inline void write32(const int32_t *, size_t);
+                inline void writeU32(const uint32_t *, size_t);
+                inline void writeF32(const float *, size_t);
 
                 inline void write8(int8_t);
                 inline void writeU8(uint8_t);
@@ -149,10 +149,10 @@ namespace djv
                 ///@{
 
                 //! Get the current memory-map position.
-                inline const uint8_t* mmapP() const;
+                inline const uint8_t * mmapP() const;
 
                 //! Get a pointer to the end of the memory-map.
-                inline const uint8_t* mmapEnd() const;
+                inline const uint8_t * mmapEnd() const;
 
                 ///@}
 
@@ -173,18 +173,18 @@ namespace djv
                 //! Read the contents from a file.
                 //! Throws:
                 //! - std::exception
-                static void readContents(FileIO&, std::string &);
+                static void readContents(FileIO &, std::string &);
 
                 //! Read a word from a file.
                 //! Throws:
                 //! - std::exception
-                static void readWord(FileIO&, char*, size_t maxLen = String::cStringLength);
+                static void readWord(FileIO &, char *, size_t maxLen = String::cStringLength);
 
                 //! Read a line from a file.
                 //! Throws:
                 //! - std::exception
                 //! \todo Should we handle comments like readWord()?
-                static void readLine(FileIO&, char*, size_t maxLen = String::cStringLength);
+                static void readLine(FileIO &, char *, size_t maxLen = String::cStringLength);
 
                 //! Read all the lines from a file.
                 //! Throws:
@@ -203,10 +203,10 @@ namespace djv
                 size_t         _pos       = 0;
                 size_t         _size      = 0;
                 bool           _endian    = false;
-                void*          _mmap      = nullptr;
-                const uint8_t* _mmapStart = nullptr;
-                const uint8_t* _mmapEnd   = nullptr;
-                const uint8_t* _mmapP     = nullptr;
+                void *          _mmap      = nullptr;
+                const uint8_t * _mmapStart = nullptr;
+                const uint8_t * _mmapEnd   = nullptr;
+                const uint8_t * _mmapP     = nullptr;
 #else // DJV_PLATFORM_WINDOWS
                 int            _f         = -1;
                 std::string    _fileName;
@@ -214,10 +214,10 @@ namespace djv
                 size_t         _pos       = 0;
                 size_t         _size      = 0;
                 bool           _endian    = false;
-                void*          _mmap      = (void *)-1;
-                const uint8_t* _mmapStart = nullptr;
-                const uint8_t* _mmapEnd   = nullptr;
-                const uint8_t* _mmapP     = nullptr;
+                void *          _mmap      = (void *)-1;
+                const uint8_t * _mmapStart = nullptr;
+                const uint8_t * _mmapEnd   = nullptr;
+                const uint8_t * _mmapP     = nullptr;
 #endif //DJV_PLATFORM_WINDOWS
             };
 

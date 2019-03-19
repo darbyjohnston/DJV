@@ -36,7 +36,7 @@ namespace djv
     {
         namespace Image
         {
-            inline bool U10_S_MSB::operator == (const U10_S_MSB& value) const
+            inline bool U10_S_MSB::operator == (const U10_S_MSB & value) const
             {
                 return
                     value.r == r &&
@@ -44,12 +44,12 @@ namespace djv
                     value.b == b;
             }
 
-            inline bool U10_S_MSB::operator != (const U10_S_MSB& value) const
+            inline bool U10_S_MSB::operator != (const U10_S_MSB & value) const
             {
                 return !(*this == value);
             }
 
-            inline bool U10_S_LSB::operator == (const U10_S_LSB& value) const
+            inline bool U10_S_LSB::operator == (const U10_S_LSB & value) const
             {
                 return
                     value.r == r &&
@@ -57,7 +57,7 @@ namespace djv
                     value.b == b;
             }
 
-            inline bool U10_S_LSB::operator != (const U10_S_LSB& value) const
+            inline bool U10_S_LSB::operator != (const U10_S_LSB & value) const
             {
                 return !(*this == value);
             }

@@ -318,9 +318,9 @@ namespace djv
             class Drop : public IPointer
             {
             public:
-                inline Drop(const std::vector<std::string>&, const PointerInfo &);
+                inline Drop(const std::vector<std::string> &, const PointerInfo &);
 
-                inline const std::vector<std::string>& getDropPaths() const;
+                inline const std::vector<std::string> & getDropPaths() const;
 
             private:
                 std::vector<std::string> _dropPaths;

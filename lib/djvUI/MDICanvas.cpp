@@ -348,7 +348,7 @@ namespace djv
                 }
             }
 
-            bool Canvas::_eventFilter(const std::shared_ptr<IObject>& object, Event::IEvent & event)
+            bool Canvas::_eventFilter(const std::shared_ptr<IObject> & object, Event::IEvent & event)
             {
                 DJV_PRIVATE_PTR();
                 /*{

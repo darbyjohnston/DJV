@@ -241,12 +241,12 @@ namespace djv
                 return _scrollDelta;
             }
 
-            inline Drop::Drop(const std::vector<std::string>& dropPaths, const PointerInfo & info) :
+            inline Drop::Drop(const std::vector<std::string> & dropPaths, const PointerInfo & info) :
                 IPointer(info, Type::Drop),
                 _dropPaths(dropPaths)
             {}
 
-            inline const std::vector<std::string>& Drop::getDropPaths() const
+            inline const std::vector<std::string> & Drop::getDropPaths() const
             {
                 return _dropPaths;
             }

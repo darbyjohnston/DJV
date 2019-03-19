@@ -123,12 +123,12 @@ namespace djv
                 return out;
             }
 
-            void Border::addChild(const std::shared_ptr<IObject>& value)
+            void Border::addChild(const std::shared_ptr<IObject> & value)
             {
                 _p->layout->addChild(value);
             }
 
-            void Border::removeChild(const std::shared_ptr<IObject>& value)
+            void Border::removeChild(const std::shared_ptr<IObject> & value)
             {
                 _p->layout->removeChild(value);
             }

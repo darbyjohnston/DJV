@@ -49,7 +49,7 @@ namespace djv
 
             static std::shared_ptr<ToolBar> create(Core::Context *);
 
-            void setStretch(const std::shared_ptr<Widget>&, RowStretch);
+            void setStretch(const std::shared_ptr<Widget> &, RowStretch);
 
             void addSeparator();
             void addSpacer();
@@ -57,12 +57,12 @@ namespace djv
 
             float getHeightForWidth(float) const override;
 
-            void addAction(const std::shared_ptr<Action>&) override;
-            void removeAction(const std::shared_ptr<Action>&) override;
+            void addAction(const std::shared_ptr<Action> &) override;
+            void removeAction(const std::shared_ptr<Action> &) override;
             void clearActions() override;
 
-            void addChild(const std::shared_ptr<IObject>&) override;
-            void removeChild(const std::shared_ptr<IObject>&) override;
+            void addChild(const std::shared_ptr<IObject> &) override;
+            void removeChild(const std::shared_ptr<IObject> &) override;
 
         protected:
             void _preLayoutEvent(Core::Event::PreLayout &) override;

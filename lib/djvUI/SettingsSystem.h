@@ -65,13 +65,13 @@ namespace djv
                 inline std::shared_ptr<T> getSettingsT() const;
 
             private:
-                void _addSettings(const std::shared_ptr<ISettings>&);
-                void _removeSettings(const std::shared_ptr<ISettings>&);
+                void _addSettings(const std::shared_ptr<ISettings> &);
+                void _removeSettings(const std::shared_ptr<ISettings> &);
 
-                void _loadSettings(const std::shared_ptr<ISettings>&);
+                void _loadSettings(const std::shared_ptr<ISettings> &);
                 void _saveSettings();
 
-                void _readSettingsFile(const Core::FileSystem::Path &, std::map<std::string, picojson::value>&);
+                void _readSettingsFile(const Core::FileSystem::Path &, std::map<std::string, picojson::value> &);
                 void _writeSettingsFile(const Core::FileSystem::Path &, const picojson::value &);
 
                 std::map<std::string, picojson::value> _json;

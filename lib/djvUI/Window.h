@@ -49,8 +49,8 @@ namespace djv
 
             static std::shared_ptr<Window> create(Core::Context *);
 
-            void addChild(const std::shared_ptr<IObject>&) override;
-            void removeChild(const std::shared_ptr<IObject>&) override;
+            void addChild(const std::shared_ptr<IObject> &) override;
+            void removeChild(const std::shared_ptr<IObject> &) override;
 
         protected:
             void _preLayoutEvent(Core::Event::PreLayout &) override;

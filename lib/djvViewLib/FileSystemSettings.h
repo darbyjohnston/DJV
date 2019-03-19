@@ -64,7 +64,7 @@ namespace djv
             static std::shared_ptr<FileSystemSettings> create(Core::Context *);
 
             std::shared_ptr<Core::IListSubject<Core::FileSystem::FileInfo> > observeRecentFiles() const;
-            void setRecentFiles(const std::vector<Core::FileSystem::FileInfo>&);
+            void setRecentFiles(const std::vector<Core::FileSystem::FileInfo> &);
 
             std::shared_ptr<Core::IValueSubject<UI::ViewType> > observeRecentViewType() const;
             void setRecentViewType(UI::ViewType);

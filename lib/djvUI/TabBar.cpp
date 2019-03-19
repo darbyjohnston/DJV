@@ -239,7 +239,7 @@ namespace djv
             _p->buttonGroup->setChecked(value);
         }
 
-        void TabBar::setCurrentTabCallback(const std::function<void(int)>& value)
+        void TabBar::setCurrentTabCallback(const std::function<void(int)> & value)
         {
             _p->callback = value;
         }

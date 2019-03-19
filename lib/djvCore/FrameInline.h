@@ -62,7 +62,7 @@ namespace djv
                 ranges.push_back(range);
             }
 
-            inline Sequence::Sequence(const std::vector<Range>& ranges, size_t pad) :
+            inline Sequence::Sequence(const std::vector<Range> & ranges, size_t pad) :
                 ranges(ranges),
                 pad(pad)
             {}
@@ -82,7 +82,7 @@ namespace djv
                 return value.min != Invalid && value.max != Invalid;
             }
 
-            inline Number getFrame(const std::vector<Number>& list, Index index)
+            inline Number getFrame(const std::vector<Number> & list, Index index)
             {
                 return index >= 0 && index < static_cast<Index>(list.size()) ? list[index] : Invalid;
             }

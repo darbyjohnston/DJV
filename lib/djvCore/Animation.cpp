@@ -189,7 +189,7 @@ namespace djv
                 }
             }
 
-            void System::_addAnimation(const std::weak_ptr<Animation>& value)
+            void System::_addAnimation(const std::weak_ptr<Animation> & value)
             {
                 _p->animations.push_back(value);
             }

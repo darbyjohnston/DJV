@@ -85,8 +85,8 @@ namespace djv
                     bool pngOpen(
                         FILE*       f,
                         png_structp png,
-                        png_infop*  pngInfo,
-                        png_infop*  pngInfoEnd)
+                        png_infop *  pngInfo,
+                        png_infop *  pngInfoEnd)
                     {
                         if (setjmp(png_jmpbuf(png)))
                         {
@@ -135,7 +135,7 @@ namespace djv
 
                 namespace
                 {
-                    bool pngScanline(png_structp png, uint8_t* out)
+                    bool pngScanline(png_structp png, uint8_t * out)
                     {
                         if (setjmp(png_jmpbuf(png)))
                         {

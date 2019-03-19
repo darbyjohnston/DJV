@@ -153,7 +153,7 @@ namespace djv
                 return s.str();
             }
 
-            void stringToTimecode(const std::string & in, uint32_t & out, bool* ok)
+            void stringToTimecode(const std::string & in, uint32_t & out, bool * ok)
             {
                 if (ok)
                 {

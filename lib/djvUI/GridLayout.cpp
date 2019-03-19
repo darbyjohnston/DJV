@@ -85,7 +85,7 @@ namespace djv
                 return out;
             }
 
-            glm::ivec2 Grid::getGridPos(const std::shared_ptr<Widget>& value)
+            glm::ivec2 Grid::getGridPos(const std::shared_ptr<Widget> & value)
             {
                 DJV_PRIVATE_PTR();
                 glm::ivec2 out(-1, -1);
@@ -100,7 +100,7 @@ namespace djv
                 return out;
             }
 
-            void Grid::setGridPos(const std::shared_ptr<Widget>& widget, const glm::ivec2 & pos, GridStretch stretch)
+            void Grid::setGridPos(const std::shared_ptr<Widget> & widget, const glm::ivec2 & pos, GridStretch stretch)
             {
                 DJV_PRIVATE_PTR();
                 for (auto i = p.widgets.begin(); i != p.widgets.end(); ++i)
@@ -121,7 +121,7 @@ namespace djv
                 _resize();
             }
 
-            void Grid::setGridPos(const std::shared_ptr<Widget>& widget, int x, int y, GridStretch stretch)
+            void Grid::setGridPos(const std::shared_ptr<Widget> & widget, int x, int y, GridStretch stretch)
             {
                 setGridPos(widget, glm::ivec2(x, y), stretch);
             }
@@ -140,7 +140,7 @@ namespace djv
                 _resize();
             }
 
-            GridStretch Grid::getStretch(const std::shared_ptr<Widget>& value) const
+            GridStretch Grid::getStretch(const std::shared_ptr<Widget> & value) const
             {
                 GridStretch out = GridStretch::First;
                 DJV_PRIVATE_PTR();
@@ -154,7 +154,7 @@ namespace djv
                 return out;
             }
 
-            void Grid::setStretch(const std::shared_ptr<Widget>& value, GridStretch stretch)
+            void Grid::setStretch(const std::shared_ptr<Widget> & value, GridStretch stretch)
             {
                 DJV_PRIVATE_PTR();
                 for (const auto & widget : p.widgets)
@@ -238,7 +238,7 @@ namespace djv
                 return out;
             }
 
-            void Grid::addChild(const std::shared_ptr<IObject>& value)
+            void Grid::addChild(const std::shared_ptr<IObject> & value)
             {
                 Widget::addChild(value);
                 DJV_PRIVATE_PTR();
@@ -251,7 +251,7 @@ namespace djv
                 }
             }
 
-            void Grid::removeChild(const std::shared_ptr<IObject>& value)
+            void Grid::removeChild(const std::shared_ptr<IObject> & value)
             {
                 Widget::removeChild(value);
                 DJV_PRIVATE_PTR();

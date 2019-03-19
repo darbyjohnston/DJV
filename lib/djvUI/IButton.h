@@ -42,8 +42,8 @@ namespace djv
                 void setCheckedColorRole(ColorRole);
                 void setDisabledColorRole(ColorRole);
 
-                void setClickedCallback(const std::function<void(void)>&);
-                void setCheckedCallback(const std::function<void(bool)>&);
+                void setClickedCallback(const std::function<void(void)> &);
+                void setCheckedCallback(const std::function<void(bool)> &);
 
             protected:
                 bool _isToggled() const;

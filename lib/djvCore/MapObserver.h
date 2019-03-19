@@ -49,8 +49,8 @@ namespace djv
             DJV_NON_COPYABLE(MapObserver);
 
             inline void _init(
-                const std::weak_ptr<IMapSubject<T, U> >&,
-                const std::function<void(const std::map<T, U>&)>&);
+                const std::weak_ptr<IMapSubject<T, U> > &,
+                const std::function<void(const std::map<T, U> &)> &);
 
             inline MapObserver();
 
@@ -59,14 +59,14 @@ namespace djv
 
             //! Create a new map observer.
             static inline std::shared_ptr<MapObserver<T, U> > create(
-                const std::weak_ptr<IMapSubject<T, U> >&,
-                const std::function<void(const std::map<T, U>&)>&);
+                const std::weak_ptr<IMapSubject<T, U> > &,
+                const std::function<void(const std::map<T, U> &)> &);
 
             //! Execute the callback.
-            inline void doCallback(const std::map<T, U>&);
+            inline void doCallback(const std::map<T, U> &);
 
         private:
-            std::function<void(const std::map<T, U>&)> _callback;
+            std::function<void(const std::map<T, U> &)> _callback;
             std::weak_ptr<IMapSubject<T, U> > _subject;
         };
 
@@ -78,7 +78,7 @@ namespace djv
             inline virtual ~IMapSubject() = 0;
 
             //! Get the map.
-            virtual const std::map<T, U>& get() const = 0;
+            virtual const std::map<T, U> & get() const = 0;
 
             //! Get the map size.
             virtual size_t getSize() const = 0;
@@ -93,8 +93,8 @@ namespace djv
             virtual const U & getItem(const T &) const = 0;
 
         protected:
-            inline void _add(const std::weak_ptr<MapObserver<T, U> >&);
-            inline void _remove(MapObserver<T, U>*);
+            inline void _add(const std::weak_ptr<MapObserver<T, U> > &);
+            inline void _remove(MapObserver<T, U> *);
 
             std::vector<std::weak_ptr<MapObserver<T, U> > > _observers;
 
@@ -108,20 +108,20 @@ namespace djv
             DJV_NON_COPYABLE(MapSubject);
 
             inline MapSubject();
-            inline MapSubject(const std::map<T, U>&);
+            inline MapSubject(const std::map<T, U> &);
 
         public:
             //! Create a new map subject.
             static inline std::shared_ptr<MapSubject<T, U> > create();
 
             //! Create a new map subject with the given value.
-            static inline std::shared_ptr<MapSubject<T, U> > create(const std::map<T, U>&);
+            static inline std::shared_ptr<MapSubject<T, U> > create(const std::map<T, U> &);
 
             //! Set the map.
-            inline void setAlways(const std::map<T, U>&);
+            inline void setAlways(const std::map<T, U> &);
 
             //! Set the map only if it has changed.
-            inline bool setIfChanged(const std::map<T, U>&);
+            inline bool setIfChanged(const std::map<T, U> &);
 
             //! Clear the map.
             inline void clear();
@@ -132,7 +132,7 @@ namespace djv
             //! Set a map item only if it has changed.
             inline void setItemOnlyIfChanged(const T &, const U &);
 
-            inline const std::map<T, U>& get() const override;
+            inline const std::map<T, U> & get() const override;
             inline size_t getSize() const override;
             inline bool isEmpty() const override;
             inline bool hasKey(const T &) override;

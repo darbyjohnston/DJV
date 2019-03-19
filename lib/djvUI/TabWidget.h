@@ -50,13 +50,13 @@ namespace djv
             static std::shared_ptr<TabWidget> create(Core::Context *);
             
             size_t getTabCount() const;
-            size_t addTab(const std::string &, const std::shared_ptr<Widget>&);
-            void removeTab(const std::shared_ptr<Widget>&);
+            size_t addTab(const std::string &, const std::shared_ptr<Widget> &);
+            void removeTab(const std::shared_ptr<Widget> &);
             void clearTabs();
 
             int getCurrentTab() const;
             void setCurrentTab(int);
-            void setCurrentTabCallback(const std::function<void(int)>&);
+            void setCurrentTabCallback(const std::function<void(int)> &);
             void closeCurrentTab();
 
             float getHeightForWidth(float) const override;

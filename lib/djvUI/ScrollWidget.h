@@ -84,8 +84,8 @@ namespace djv
             MetricsRole getMinimumSizeRole() const;
             void setMinimumSizeRole(MetricsRole);
 
-            void addChild(const std::shared_ptr<IObject>&) override;
-            void removeChild(const std::shared_ptr<IObject>&) override;
+            void addChild(const std::shared_ptr<IObject> &) override;
+            void removeChild(const std::shared_ptr<IObject> &) override;
 
         protected:
             void _preLayoutEvent(Core::Event::PreLayout &) override;
@@ -93,7 +93,7 @@ namespace djv
             void _clipEvent(Core::Event::Clip &) override;
             void _scrollEvent(Core::Event::Scroll &) override;
 
-            bool _eventFilter(const std::shared_ptr<IObject>&, Core::Event::IEvent &) override;
+            bool _eventFilter(const std::shared_ptr<IObject> &, Core::Event::IEvent &) override;
 
         private:
             void _updateScrollBars(const glm::vec2 &);

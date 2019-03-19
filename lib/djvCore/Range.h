@@ -63,18 +63,18 @@ namespace djv
 
                 inline bool contains(T) const;
 
-                inline bool intersects(const tRange<T>&) const;
+                inline bool intersects(const tRange<T> &) const;
 
                 inline void expand(T);
-                inline void expand(const tRange<T>&);
+                inline void expand(const tRange<T> &);
 
                 inline T getRandom() const;
 
                 ///@}
 
-                inline bool operator == (const tRange<T>&) const;
-                inline bool operator != (const tRange<T>&) const;
-                inline bool operator  < (const tRange<T>&) const;
+                inline bool operator == (const tRange<T> &) const;
+                inline bool operator != (const tRange<T> &) const;
+                inline bool operator  < (const tRange<T> &) const;
             };
 
         } // namespace Range
@@ -88,9 +88,9 @@ namespace djv
     } // namespace Core
 
     template<typename T>
-    inline std::ostream & operator << (std::ostream &, const Core::Range::tRange<T>&);
+    inline std::ostream & operator << (std::ostream &, const Core::Range::tRange<T> &);
     template<typename T>
-    inline std::istream & operator >> (std::istream &, Core::Range::tRange<T>&);
+    inline std::istream & operator >> (std::istream &, Core::Range::tRange<T> &);
 
 } // namespace djv
 

@@ -110,7 +110,7 @@ namespace djv
             inline uint32_t frameToTimecode(int64_t frame, const Speed &);
 
             std::string timecodeToString(uint32_t);
-            void stringToTimecode(const std::string &, uint32_t &, bool* ok = nullptr);
+            void stringToTimecode(const std::string &, uint32_t &, bool * ok = nullptr);
 
             ///@}
 

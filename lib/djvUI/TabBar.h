@@ -56,7 +56,7 @@ namespace djv
 
             int getCurrentTab() const;
             void setCurrentTab(int);
-            void setCurrentTabCallback(const std::function<void(int)>&);
+            void setCurrentTabCallback(const std::function<void(int)> &);
             void removeCurrentTab();
 
             float getHeightForWidth(float) const override;

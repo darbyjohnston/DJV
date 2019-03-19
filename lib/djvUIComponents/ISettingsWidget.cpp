@@ -66,12 +66,12 @@ namespace djv
             return _p->scrollWidget->getHeightForWidth(value);
         }
 
-        void ISettingsWidget::addChild(const std::shared_ptr<IObject>& value)
+        void ISettingsWidget::addChild(const std::shared_ptr<IObject> & value)
         {
             _p->scrollWidget->addChild(value);
         }
 
-        void ISettingsWidget::removeChild(const std::shared_ptr<IObject>& value)
+        void ISettingsWidget::removeChild(const std::shared_ptr<IObject> & value)
         {
             _p->scrollWidget->removeChild(value);
         }

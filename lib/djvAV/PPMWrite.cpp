@@ -145,7 +145,7 @@ namespace djv
                         {
                             const size_t size = writeASCII(
                                 imageData->getData(y),
-                                reinterpret_cast<char*>(scanline.data()),
+                                reinterpret_cast<char *>(scanline.data()),
                                 info.size.x * channelCount,
                                 bitDepth);
                             io.write(scanline.data(), size);

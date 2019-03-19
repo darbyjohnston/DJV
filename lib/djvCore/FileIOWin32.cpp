@@ -147,7 +147,7 @@ namespace djv
                         throw std::runtime_error(getMemoryMapError(_fileName));
                     }
 
-                    _mmapStart = reinterpret_cast<const uint8_t*>(MapViewOfFile(_mmap, FILE_MAP_READ, 0, 0, 0));
+                    _mmapStart = reinterpret_cast<const uint8_t *>(MapViewOfFile(_mmap, FILE_MAP_READ, 0, 0, 0));
                     if (!_mmapStart)
                     {
                         throw std::runtime_error(getMemoryMapError(_fileName));
@@ -177,7 +177,7 @@ namespace djv
             {
                 if (_mmapStart != 0)
                 {
-                    if (!::UnmapViewOfFile((void*)_mmapStart))
+                    if (!::UnmapViewOfFile((void *)_mmapStart))
                     {
                         throw std::runtime_error(getMemoryUnmapError(_fileName));
                     }
@@ -215,13 +215,13 @@ namespace djv
                 _setPos(in, true);
             }
 
-            void FileIO::read(void* in, size_t size, size_t wordSize)
+            void FileIO::read(void * in, size_t size, size_t wordSize)
             {
                 switch (_mode)
                 {
                 case Mode::Read:
                 {
-                    const uint8_t* p = _mmapP + size * wordSize;
+                    const uint8_t * p = _mmapP + size * wordSize;
                     if (p > _mmapEnd)
                     {
                         throw std::runtime_error(getReadError(_fileName));
@@ -251,7 +251,7 @@ namespace djv
                 _pos += size * wordSize;
             }
 
-            void FileIO::write(const void* in, size_t size, size_t wordSize)
+            void FileIO::write(const void * in, size_t size, size_t wordSize)
             {
                 uint8_t * p = (uint8_t *)in;
 
@@ -285,7 +285,7 @@ namespace djv
                 case Mode::Read:
                     if (!seek)
                     {
-                        _mmapP = reinterpret_cast<const uint8_t*>(_mmapStart) + value;
+                        _mmapP = reinterpret_cast<const uint8_t *>(_mmapStart) + value;
                     }
                     else
                     {

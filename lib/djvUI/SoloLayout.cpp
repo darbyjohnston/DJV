@@ -136,7 +136,7 @@ namespace djv
                 return out;
             }
 
-            void Solo::addChild(const std::shared_ptr<IObject>& value)
+            void Solo::addChild(const std::shared_ptr<IObject> & value)
             {
                 Widget::addChild(value);
                 DJV_PRIVATE_PTR();
@@ -146,7 +146,7 @@ namespace djv
                 }
             }
 
-            void Solo::removeChild(const std::shared_ptr<IObject>& value)
+            void Solo::removeChild(const std::shared_ptr<IObject> & value)
             {
                 Widget::removeChild(value);
                 if (0 == getChildren().size())

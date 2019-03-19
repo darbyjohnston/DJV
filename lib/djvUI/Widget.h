@@ -157,8 +157,8 @@ namespace djv
             ///@{
 
             inline const std::vector<std::shared_ptr<Action> > & getActions() const;
-            virtual void addAction(const std::shared_ptr<Action>&);
-            virtual void removeAction(const std::shared_ptr<Action>&);
+            virtual void addAction(const std::shared_ptr<Action> &);
+            virtual void removeAction(const std::shared_ptr<Action> &);
             virtual void clearActions();
 
             ///@}
@@ -204,10 +204,10 @@ namespace djv
             //! \name Convenience Functions
             ///@{
 
-            inline const std::weak_ptr<AV::Font::System>& _getFontSystem() const;
-            inline const std::weak_ptr<AV::Render::Render2D>& _getRender() const;
-            inline const std::weak_ptr<IconSystem>& _getIconSystem() const;
-            inline const std::weak_ptr<Style::Style>& _getStyle() const;
+            inline const std::weak_ptr<AV::Font::System> & _getFontSystem() const;
+            inline const std::weak_ptr<AV::Render::Render2D> & _getRender() const;
+            inline const std::weak_ptr<IconSystem> & _getIconSystem() const;
+            inline const std::weak_ptr<Style::Style> & _getStyle() const;
 
             AV::Image::Color _getColorWithOpacity(const AV::Image::Color &) const;
 

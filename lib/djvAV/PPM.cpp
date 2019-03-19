@@ -61,7 +61,7 @@ namespace djv
                 namespace
                 {
                     template<typename T>
-                    void _readASCII(FileSystem::FileIO& io, uint8_t* out, size_t size)
+                    void _readASCII(FileSystem::FileIO & io, uint8_t * out, size_t size)
                     {
                         char tmp[String::cStringLength] = "";
                         T* outP = reinterpret_cast<T*>(out);
@@ -76,7 +76,7 @@ namespace djv
 
                 } // namespace
 
-                void readASCII(FileSystem::FileIO& io, uint8_t* out, size_t size, size_t bitDepth)
+                void readASCII(FileSystem::FileIO & io, uint8_t * out, size_t size, size_t bitDepth)
                 {
                     switch (bitDepth)
                     {
@@ -89,14 +89,14 @@ namespace djv
                 namespace
                 {
                     template<typename T>
-                    size_t _writeASCII(const uint8_t* in, char* out, size_t size)
+                    size_t _writeASCII(const uint8_t * in, char * out, size_t size)
                     {
-                        char* outP = out;
+                        char * outP = out;
                         const T* inP = reinterpret_cast<const T*>(in);
                         for (size_t i = 0; i < size; ++i)
                         {
                             const std::string s = std::to_string(static_cast<unsigned int>(inP[i]));
-                            const char* c = s.c_str();
+                            const char * c = s.c_str();
                             for (size_t j = 0; j < s.size(); ++j)
                             {
                                 *outP++ = c[j];
@@ -109,7 +109,7 @@ namespace djv
 
                 } // namespace
 
-                size_t writeASCII(const uint8_t* in, char* out, size_t size, size_t bitDepth)
+                size_t writeASCII(const uint8_t * in, char * out, size_t size, size_t bitDepth)
                 {
                     switch (bitDepth)
                     {

@@ -69,7 +69,7 @@ namespace djv
             std::shared_ptr<Core::IValueSubject<int> > observeShortcutModifiers() const;
             void setShortcutModifiers(int);
 
-            void setCallback(const std::function<void(void)>&);
+            void setCallback(const std::function<void(void)> &);
             void doCallback();
 
             static const std::string & getKeyString(int);
