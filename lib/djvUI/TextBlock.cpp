@@ -344,11 +344,6 @@ namespace djv
             }
         }
 
-        void TextBlock::_localeEvent(Event::Locale &)
-        {
-            _textUpdate();
-        }
-
         void TextBlock::_textUpdate()
         {
             if (auto style = _getStyle().lock())

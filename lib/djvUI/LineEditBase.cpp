@@ -487,11 +487,6 @@ namespace djv
             }
         }
 
-        void LineEditBase::_localeEvent(Event::Locale &)
-        {
-            _textUpdate();
-        }
-
         void LineEditBase::_textUpdate()
         {
             DJV_PRIVATE_PTR();

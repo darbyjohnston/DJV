@@ -79,8 +79,6 @@ namespace djv
             void _clipEvent(Core::Event::Clip&) override;
             void _paintEvent(Core::Event::Paint&) override;
 
-            void _localeEvent(Core::Event::Locale &) override;
-
         private:
             void _textUpdate();
 
