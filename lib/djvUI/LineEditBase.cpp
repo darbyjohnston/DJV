@@ -215,7 +215,7 @@ namespace djv
             _textUpdate();
             _cursorUpdate();
         }
-        
+
         void LineEditBase::_preLayoutEvent(Event::PreLayout& event)
         {
             DJV_PRIVATE_PTR();
@@ -485,6 +485,11 @@ namespace djv
             {
                 p.textChangedCallback(p.text);
             }
+        }
+
+        void LineEditBase::_localeEvent(Event::Locale &)
+        {
+            _textUpdate();
         }
 
         void LineEditBase::_textUpdate()

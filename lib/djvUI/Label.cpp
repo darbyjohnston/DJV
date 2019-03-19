@@ -297,6 +297,11 @@ namespace djv
             }
         }
 
+        void Label::_localeEvent(Event::Locale &)
+        {
+            _textUpdate();
+        }
+
         void Label::_textUpdate()
         {
             DJV_PRIVATE_PTR();

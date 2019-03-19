@@ -49,6 +49,8 @@ namespace djv
             //! This class provides a file browser item view.
             //!
             //! \todo Elide names which are too long.
+            //! \todo Show an animated spinner for thumbnails that are loading.
+            //! \todo Show an error icon for thumbnails that failed to load.
             class ItemView : public UI::Widget
             {
                 DJV_NON_COPYABLE(ItemView);

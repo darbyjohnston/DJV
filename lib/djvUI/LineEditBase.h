@@ -89,6 +89,8 @@ namespace djv
             void _textFocusLostEvent(Core::Event::TextFocusLost&) override;
             void _textEvent(Core::Event::Text&) override;
 
+            void _localeEvent(Core::Event::Locale &) override;
+
         private:
             void _textUpdate();
             void _cursorUpdate();

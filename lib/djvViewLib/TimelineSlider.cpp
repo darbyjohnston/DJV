@@ -246,7 +246,6 @@ namespace djv
                 try
                 {
                     p.fontMetrics = p.fontMetricsFuture.get();
-                    _resize();
                 }
                 catch (const std::exception& e)
                 {
@@ -260,7 +259,6 @@ namespace djv
                     try
                     {
                         p.textSize[i.first] = i.second.get();
-                        _resize();
                     }
                     catch (const std::exception& e)
                     {

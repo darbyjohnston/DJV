@@ -75,28 +75,7 @@ namespace djv
             p.menu->addSeparator();
             p.menu->addAction(p.actions["SystemLog"]);
 
-            p.aboutDialog = AboutDialog::create(context);
-            p.systemLogDialog = SystemLogDialog::create(context);
-
             auto weak = std::weak_ptr<HelpSystem>(std::dynamic_pointer_cast<HelpSystem>(shared_from_this()));
-            p.aboutDialog->setCloseCallback(
-                [weak, context]
-            {
-                if (auto system = weak.lock())
-                {
-                    system->_p->aboutDialog->hide();
-                }
-            });
-
-            p.systemLogDialog->setCloseCallback(
-                [weak, context]
-            {
-                if (auto system = weak.lock())
-                {
-                    system->_p->systemLogDialog->hide();
-                }
-            });
-
             p.clickedObservers["About"] = ValueObserver<bool>::create(
                 p.actions["About"]->observeClicked(),
                 [weak, context](bool value)
@@ -109,6 +88,18 @@ namespace djv
                         {
                             if (auto window = windowSystem->observeCurrentWindow()->get())
                             {
+                                if (!system->_p->aboutDialog)
+                                {
+                                    system->_p->aboutDialog = AboutDialog::create(context);
+                                    system->_p->aboutDialog->setCloseCallback(
+                                        [weak, context]
+                                    {
+                                        if (auto system = weak.lock())
+                                        {
+                                            system->_p->aboutDialog->hide();
+                                        }
+                                    });
+                                }
                                 window->addChild(system->_p->aboutDialog);
                                 system->_p->aboutDialog->show();
                             }
@@ -129,6 +120,18 @@ namespace djv
                         {
                             if (auto window = windowSystem->observeCurrentWindow()->get())
                             {
+                                if (!system->_p->systemLogDialog)
+                                {
+                                    system->_p->systemLogDialog = SystemLogDialog::create(context);
+                                    system->_p->systemLogDialog->setCloseCallback(
+                                        [weak, context]
+                                    {
+                                        if (auto system = weak.lock())
+                                        {
+                                            system->_p->systemLogDialog->hide();
+                                        }
+                                    });
+                                }
                                 if (value)
                                 {
                                     system->_p->systemLogDialog->reloadLog();

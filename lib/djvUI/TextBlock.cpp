@@ -239,7 +239,6 @@ namespace djv
                     try
                     {
                         p.fontMetrics = p.fontMetricsFuture.get();
-                        _resize();
                     }
                     catch (const std::exception& e)
                     {
@@ -251,7 +250,6 @@ namespace djv
                     try
                     {
                         p.textSize = p.textSizeFuture.get();
-                        _resize();
                     }
                     catch (const std::exception& e)
                     {
@@ -344,6 +342,11 @@ namespace djv
                     }
                 }
             }
+        }
+
+        void TextBlock::_localeEvent(Event::Locale &)
+        {
+            _textUpdate();
         }
 
         void TextBlock::_textUpdate()

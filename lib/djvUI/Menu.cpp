@@ -176,7 +176,6 @@ namespace djv
                         try
                         {
                             _fontMetrics = _fontMetricsFuture.get();
-                            _resize();
                         }
                         catch (const std::exception& e)
                         {
@@ -190,7 +189,6 @@ namespace djv
                             try
                             {
                                 i.first->titleSize = i.second.get();
-                                _resize();
                             }
                             catch (const std::exception& e)
                             {
@@ -205,7 +203,6 @@ namespace djv
                             try
                             {
                                 i.first->shortcutSize = i.second.get();
-                                _resize();
                             }
                             catch (const std::exception& e)
                             {
