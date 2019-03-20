@@ -64,7 +64,7 @@ namespace djv
 
                 const glm::vec2 & getWidgetPos(const std::shared_ptr<IWidget> &) const;
                 //! \todo We should convert widgets to use local coordinates and then
-                //! we can remove this and use Widget::move() instead.
+                //! we could remove this and use Widget::move() instead.
                 void setWidgetPos(const std::shared_ptr<IWidget> &, const glm::vec2 &);
 
             protected:

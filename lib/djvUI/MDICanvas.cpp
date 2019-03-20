@@ -69,7 +69,6 @@ namespace djv
             struct Canvas::Private
             {
                 glm::vec2 canvasSize = glm::vec2(10000.f, 10000.f);
-                //std::vector<std::shared_ptr<IWidget> > widgets;
                 std::map<std::shared_ptr<IWidget>, glm::vec2> widgetToPos;
                 std::map<std::shared_ptr<IWidget>, bool> widgetResized;
                 std::map<Event::PointerID, Hovered> hovered;
@@ -249,7 +248,7 @@ namespace djv
                         render->setFillColor(_getColorWithOpacity(style->getColor(ColorRole::Checked)));
                         for (const auto & i : p.pressed)
                         {
-                            for (const auto & j : i.second.widget->getHandleBBox(i.second.handle))
+                            for (const auto & j : i.second.widget->getHandleDraw(i.second.handle))
                             {
                                 switch (i.second.handle)
                                 {
@@ -270,7 +269,7 @@ namespace djv
                         render->setFillColor(_getColorWithOpacity(style->getColor(ColorRole::Checked)));
                         for (const auto & i : hovered)
                         {
-                            for (const auto & j : i.second.widget->getHandleBBox(i.second.handle))
+                            for (const auto & j : i.second.widget->getHandleDraw(i.second.handle))
                             {
                                 switch (i.second.handle)
                                 {

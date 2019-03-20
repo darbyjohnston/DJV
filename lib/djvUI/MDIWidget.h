@@ -65,7 +65,7 @@ namespace djv
                 virtual ~IWidget() = 0;
 
                 virtual Handle getHandle(const glm::vec2 & pos) const;
-                virtual std::vector<Core::BBox2f> getHandleBBox(Handle) const;
+                virtual std::vector<Core::BBox2f> getHandleDraw(Handle) const;
             };
             
         } // namespace MDI
