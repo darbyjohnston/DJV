@@ -58,7 +58,8 @@ namespace djv
         inline std::vector<std::weak_ptr<T> > Context::getSystemsT() const
         {
             std::vector<std::weak_ptr<T> > out;
-            for (const auto & i : _systems)
+            const auto systems = _systems;
+            for (const auto & i : systems)
             {
                 if (auto system = std::dynamic_pointer_cast<T>(i.lock()))
                 {
@@ -71,7 +72,8 @@ namespace djv
         template<typename T>
         inline std::weak_ptr<T> Context::getSystemT() const
         {
-            for (const auto & i : _systems)
+            const auto systems = _systems;
+            for (const auto & i : systems)
             {
                 if (auto system = std::dynamic_pointer_cast<T>(i.lock()))
                 {
