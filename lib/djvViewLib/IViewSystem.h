@@ -46,7 +46,7 @@ namespace djv
 
     namespace ViewLib
     {
-        class IToolWidget;
+        class ITool;
         class Media;
         
         struct MenuData
@@ -68,7 +68,7 @@ namespace djv
 
             virtual std::map<std::string, std::shared_ptr<UI::Action> > getActions();
             virtual MenuData getMenu();
-            virtual std::vector<std::shared_ptr<IToolWidget> > getToolWidgets();
+            virtual std::vector<std::shared_ptr<ITool> > getTools();
             virtual std::vector<std::shared_ptr<UI::ISettingsWidget> > getSettingsWidgets();
 
         private:

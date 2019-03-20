@@ -1006,7 +1006,7 @@ namespace djv
             DJV_PRIVATE_PTR();
             if (_p->count > 0)
             {
-                if (auto window = getWindow().lock())
+                if (auto window = getWindow())
                 {
                     p.overlayLayout->setPos(p.popupWidget, pos);
                     window->addChild(std::dynamic_pointer_cast<Widget>(shared_from_this()));
@@ -1020,7 +1020,7 @@ namespace djv
             DJV_PRIVATE_PTR();
             if (_p->count > 0)
             {
-                if (auto window = getWindow().lock())
+                if (auto window = getWindow())
                 {
                     p.overlayLayout->setButton(p.popupWidget, button);
                     p.overlay->setAnchor(button);
@@ -1035,7 +1035,7 @@ namespace djv
             DJV_PRIVATE_PTR();
             if (_p->count > 0)
             {
-                if (auto window = getWindow().lock())
+                if (auto window = getWindow())
                 {
                     p.overlayLayout->setButton(p.popupWidget, button);
                     p.overlay->setAnchor(anchor);

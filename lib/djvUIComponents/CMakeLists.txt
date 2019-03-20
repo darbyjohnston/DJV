@@ -4,6 +4,7 @@ find_package(TIFF)
 set(header
     AVIOSettings.h
     ActionButton.h
+    ColorPicker.h
     DisplaySettingsWidget.h
     FileBrowser.h
     FileBrowserDialog.h
@@ -20,6 +21,7 @@ set(header
 set(source
     AVIOSettings.cpp
     ActionButton.cpp
+    ColorPicker.cpp
     DisplaySettingsWidget.cpp
     FileBrowser.cpp
     FileBrowserDialog.cpp

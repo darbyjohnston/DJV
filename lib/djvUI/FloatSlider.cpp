@@ -148,14 +148,41 @@ namespace djv
                     const BBox2f & g = getMargin().bbox(getGeometry(), style);
                     const glm::vec2 c = g.getCenter();
                     const float m = style->getMetric(MetricsRole::MarginSmall);
-                    render->setFillColor(_getColorWithOpacity(style->getColor(ColorRole::Trough)));
-                    render->drawRect(BBox2f(g.min.x + p.handleWidth / 2.f - m / 2.f, c.y - m / 2.f, g.w() - p.handleWidth + m, m));
+                    const float b = style->getMetric(MetricsRole::Border);
+                    if (p.value > 0.f && p.model)
+                    {
+                        const auto & range = p.model->observeRange()->get();
+                        const float v = (p.value - range.min) / (range.max - range.min);
+                        render->setFillColor(_getColorWithOpacity(style->getColor(ColorRole::Checked)));
+                        render->drawRect(BBox2f(
+                            floorf(g.min.x + p.handleWidth / 2.f - m / 2.f),
+                            floorf(c.y - m / 2.f),
+                            ceilf((g.w() - p.handleWidth + m) * v),
+                            m));
+                        render->setFillColor(_getColorWithOpacity(style->getColor(ColorRole::Trough)));
+                        render->drawRect(BBox2f(
+                            floorf(g.min.x + p.handleWidth / 2.f - m / 2.f + (g.w() - p.handleWidth + m) * v),
+                            floorf(c.y - m / 2.f),
+                            ceilf((g.w() - p.handleWidth + m) * (1.f - v)),
+                            m));
+                    }
+                    else
+                    {
+                        render->setFillColor(_getColorWithOpacity(style->getColor(ColorRole::Trough)));
+                        render->drawRect(BBox2f(
+                            floorf(g.min.x + p.handleWidth / 2.f - m / 2.f),
+                            floorf(c.y - m / 2.f),
+                            ceilf(g.w() - p.handleWidth + m),
+                            m));
+                    }
                     if (p.model)
                     {
-                        render->setFillColor(_getColorWithOpacity(style->getColor(_getColorRole())));
+                        render->setFillColor(_getColorWithOpacity(style->getColor(ColorRole::Border)));
                         const glm::vec2 pos(_valueToPos(p.value), c.y);
-                        const float r = ceilf(p.handleWidth / 2.f - 1.f);
+                        float r = ceilf(p.handleWidth / 2.f - 1.f);
                         render->drawCircle(pos, r);
+                        render->setFillColor(_getColorWithOpacity(style->getColor(_getColorRole())));
+                        render->drawCircle(pos, r - b);
                         if (p.pressedID != Event::InvalidID)
                         {
                             render->setFillColor(_getColorWithOpacity(style->getColor(ColorRole::Pressed)));
@@ -366,6 +393,7 @@ namespace djv
             p.layout->setSpacing(MetricsRole::SpacingSmall);
             p.layout->addChild(p.edit);
             p.layout->addChild(p.slider);
+            p.layout->setStretch(p.slider, RowStretch::Expand);
             addChild(p.layout);
 
             auto weak = std::weak_ptr<FloatSlider>(std::dynamic_pointer_cast<FloatSlider>(shared_from_this()));

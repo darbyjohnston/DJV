@@ -127,21 +127,9 @@ namespace djv
             return out;
         }
 
-        std::weak_ptr<Window> Widget::getWindow()
+        std::shared_ptr<Window> Widget::getWindow() const
         {
-            auto widget = std::dynamic_pointer_cast<Widget>(shared_from_this());
-            while (widget)
-            {
-                if (auto parent = std::dynamic_pointer_cast<Widget>(widget->getParent().lock()))
-                {
-                    widget = parent;
-                }
-                else
-                {
-                    break;
-                }
-            }
-            return std::dynamic_pointer_cast<Window>(std::const_pointer_cast<Widget>(widget));
+            return getParentRecursiveT<Window>();
         }
 
         void Widget::setVisible(bool value)
@@ -365,23 +353,23 @@ namespace djv
                     _updateTime = updateEvent.getTime();
                     _elapsedTime += updateEvent.getDeltaTime();
 
-                    if (auto window = getWindow().lock())
+                    for (auto & i : _pointerToTooltips)
                     {
-                        for (auto & i : _pointerToTooltips)
+                        const auto j = _pointerHover.find(i.first);
+                        if ((_updateTime - i.second.timer) > tooltipTimeout && !i.second.tooltip && j != _pointerHover.end())
                         {
-                            const auto j = _pointerHover.find(i.first);
-                            if ((_updateTime - i.second.timer) > tooltipTimeout && !i.second.tooltip && j != _pointerHover.end())
+                            for (
+                                auto widget = std::dynamic_pointer_cast<Widget>(shared_from_this());
+                                widget;
+                                widget = std::dynamic_pointer_cast<Widget>(widget->getParent().lock()))
                             {
-                                for (
-                                    auto widget = std::dynamic_pointer_cast<Widget>(shared_from_this());
-                                    widget;
-                                    widget = std::dynamic_pointer_cast<Widget>(widget->getParent().lock()))
+                                if (auto tooltipWidget = widget->_createTooltip(j->second))
                                 {
-                                    if (auto tooltipWidget = widget->_createTooltip(j->second))
+                                    if (auto window = getWindow())
                                     {
                                         i.second.tooltip = Tooltip::create(window, j->second, tooltipWidget, getContext());
-                                        break;
                                     }
+                                    break;
                                 }
                             }
                         }

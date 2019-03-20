@@ -31,6 +31,8 @@
 
 #include <string.h>
 
+using namespace djv::Core;
+
 using namespace gl;
 
 namespace djv
@@ -49,6 +51,99 @@ namespace djv
                 auto out = Color(type);
                 Image::convert(_data.data(), _type, out._data.data(), type, 1);
                 return out;
+            }
+
+            void Color::rgbToHSV(const float in[3], float out[3])
+            {
+                const float & min = std::min(in[0], std::min(in[1], in[2]));
+                const float & max = std::max(in[0], std::max(in[1], in[2]));
+                out[2] = max;
+                out[1] = max != 0.f ? (1.f - min / max) : 0.f;
+                const float v = (max - min) * 6.f;
+                if (max == min)
+                {
+                    out[0] = 0.f;
+                }
+                else if (in[0] == max)
+                {
+                    if (in[1] >= in[2])
+                    {
+                        out[0] = (in[1] - in[2]) / v;
+                    }
+                    else
+                    {
+                        out[0] = 1.f + (in[1] - in[2]) / v;
+                    }
+                }
+                else if (in[1] == max)
+                {
+                    out[0] = 1.f / 3.f + (in[2] - in[0]) / v;
+                }
+                else if (in[2] == max)
+                {
+                    out[0] = 2.f / 3.f + (in[0] - in[1]) / v;
+                }
+            }
+
+            namespace
+            {
+                inline float mod(float value, float mod)
+                {
+                    float tmp = value;
+                    if (mod != 0.f)
+                    {
+                        tmp = value - (static_cast<int>(value / mod) * mod);
+                        if (tmp < 0.f)
+                        {
+                            tmp += mod;
+                        }
+                    }
+                    return tmp;
+                }
+
+            } // namespace
+
+            void Color::hsvToRGB(const float in[3], float out[3])
+            {
+                const float h = mod(in[0] * 6.f, 6.f);
+                const int   i = static_cast<int>(floorf(h));
+                const float f = h - i;
+                const float p = in[2] * (1.f - in[1]);
+                const float q = in[2] * (1.f - (in[1] * f));
+                const float t = in[2] * (1.f - (in[1] * (1.f - f)));
+                switch (i)
+                {
+                case 0:
+                    out[0] = in[2];
+                    out[1] = t;
+                    out[2] = p;
+                    break;
+                case 1:
+                    out[0] = q;
+                    out[1] = in[2];
+                    out[2] = p;
+                    break;
+                case 2:
+                    out[0] = p;
+                    out[1] = in[2];
+                    out[2] = t;
+                    break;
+                case 3:
+                    out[0] = p;
+                    out[1] = q;
+                    out[2] = in[2];
+                    break;
+                case 4:
+                    out[0] = t;
+                    out[1] = p;
+                    out[2] = in[2];
+                    break;
+                case 5:
+                    out[0] = in[2];
+                    out[1] = p;
+                    out[2] = q;
+                    break;
+                }
             }
 
             bool Color::operator == (const Color & other) const

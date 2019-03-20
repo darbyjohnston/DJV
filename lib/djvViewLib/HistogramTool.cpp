@@ -27,33 +27,43 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#pragma once
+#include <djvViewLib/HistogramTool.h>
 
-#include <djvViewLib/IToolWidget.h>
+using namespace djv::Core;
 
 namespace djv
 {
     namespace ViewLib
     {
-        class InformationWidget : public IToolWidget
+        struct HistogramTool::Private
         {
-            DJV_NON_COPYABLE(InformationWidget);
 
-        protected:
-            void _init(Core::Context *);
-            InformationWidget();
-
-        public:
-            ~InformationWidget() override;
-
-            static std::shared_ptr<InformationWidget> create(Core::Context *);
-
-        protected:
-            void _localeEvent(Core::Event::Locale &) override;
-
-        private:
-            DJV_PRIVATE();
         };
+
+        void HistogramTool::_init(Context * context)
+        {
+            ITool::_init(context);
+        }
+
+        HistogramTool::HistogramTool() :
+            _p(new Private)
+        {}
+
+        HistogramTool::~HistogramTool()
+        {}
+
+        std::shared_ptr<HistogramTool> HistogramTool::create(Context * context)
+        {
+            auto out = std::shared_ptr<HistogramTool>(new HistogramTool);
+            out->_init(context);
+            return out;
+        }
+
+        void HistogramTool::_localeEvent(Event::Locale & event)
+        {
+            ITool::_localeEvent(event);
+            setTitle(_getText(DJV_TEXT("Histogram")));
+        }
 
     } // namespace ViewLib
 } // namespace djv

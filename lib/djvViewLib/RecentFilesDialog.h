@@ -59,9 +59,6 @@ namespace djv
 
             static std::shared_ptr<RecentFilesDialog> create(Core::Context *);
 
-            void setRecentFiles(const std::vector<Core::FileSystem::FileInfo> &);
-            void setViewType(UI::ViewType);
-
             void setCallback(const std::function<void(const Core::FileSystem::FileInfo &)> &);
 
         protected:

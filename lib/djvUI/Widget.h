@@ -85,7 +85,7 @@ namespace djv
             static std::shared_ptr<Widget> create(Core::Context *);
 
             //! Get the top-level window.
-            std::weak_ptr<Window> getWindow();
+            std::shared_ptr<Window> getWindow() const;
 
             //! \name Visibility
             ///@{

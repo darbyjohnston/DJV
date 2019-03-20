@@ -47,8 +47,7 @@ namespace djv
             static std::shared_ptr<TIFFSettingsWidget> create(Core::Context *);
 
             std::string getName() const override;
-            std::string getGroup() const override;
-            std::string getGroupSortKey() const override;
+            std::string getSortKey() const override;
 
         protected:
             void _localeEvent(Core::Event::Locale &) override;

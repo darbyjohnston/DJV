@@ -39,7 +39,7 @@ namespace djv
         void ISystem::_init(const std::string & name, Context * context)
         {
             IObject::_init(context);
-            setName(name);
+            setObjectName(name);
             setClassName(name);
             if (_logSystemInit)
             {
@@ -55,7 +55,7 @@ namespace djv
             if (_logSystemInit)
             {
                 std::stringstream s;
-                s << getName() << " exiting...";
+                s << getObjectName() << " exiting...";
                 _log(s.str());
             }
             while (_dependencies.size())

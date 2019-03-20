@@ -105,12 +105,7 @@ namespace djv
             return DJV_TEXT("TIFF");
         }
 
-        std::string TIFFSettingsWidget::getGroup() const
-        {
-            return DJV_TEXT("I/O");
-        }
-
-        std::string TIFFSettingsWidget::getGroupSortKey() const
+        std::string TIFFSettingsWidget::getSortKey() const
         {
             return "B";
         }

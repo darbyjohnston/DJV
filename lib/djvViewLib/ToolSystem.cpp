@@ -29,11 +29,11 @@
 
 #include <djvViewLib/ToolSystem.h>
 
-#include <djvViewLib/ColorPickerWidget.h>
-#include <djvViewLib/DebugWidget.h>
-#include <djvViewLib/HistogramWidget.h>
-#include <djvViewLib/InformationWidget.h>
-#include <djvViewLib/MagnifierWidget.h>
+#include <djvViewLib/ColorPickerTool.h>
+#include <djvViewLib/DebugTool.h>
+#include <djvViewLib/HistogramTool.h>
+#include <djvViewLib/InformationTool.h>
+#include <djvViewLib/MagnifierTool.h>
 
 #include <djvUI/Action.h>
 #include <djvUI/Menu.h>
@@ -53,7 +53,7 @@ namespace djv
         {
             std::map<std::string, std::shared_ptr<UI::Action> > actions;
             std::shared_ptr<UI::Menu> menu;
-            std::map<std::string, std::shared_ptr<IToolWidget> > widgets;
+            std::map<std::string, std::shared_ptr<ITool> > tools;
             std::map<std::string, std::shared_ptr<ValueObserver<bool> > > checkedObservers;
         };
 
@@ -85,14 +85,14 @@ namespace djv
             p.menu->addAction(p.actions["Information"]);
             p.menu->addAction(p.actions["Debug"]);
 
-            p.widgets["Magnifier"] = MagnifierWidget::create(context);
-            p.widgets["ColorPicker"] = ColorPickerWidget::create(context);
-            p.widgets["Histogram"] = HistogramWidget::create(context);
-            p.widgets["Information"] = InformationWidget::create(context);
-            p.widgets["Debug"] = DebugWidget::create(context);
+            p.tools["Magnifier"] = MagnifierTool::create(context);
+            p.tools["ColorPicker"] = ColorPickerTool::create(context);
+            p.tools["Histogram"] = HistogramTool::create(context);
+            p.tools["Information"] = InformationTool::create(context);
+            p.tools["Debug"] = DebugTool::create(context);
 
             auto weak = std::weak_ptr<ToolSystem>(std::dynamic_pointer_cast<ToolSystem>(shared_from_this()));
-            p.widgets["Magnifier"]->setCloseCallback(
+            p.tools["Magnifier"]->setCloseCallback(
                 [weak]
             {
                 if (auto system = weak.lock())
@@ -101,7 +101,7 @@ namespace djv
                     system->_p->actions["Magnifier"]->doChecked();
                 }
             });
-            p.widgets["ColorPicker"]->setCloseCallback(
+            p.tools["ColorPicker"]->setCloseCallback(
                 [weak]
             {
                 if (auto system = weak.lock())
@@ -110,7 +110,7 @@ namespace djv
                     system->_p->actions["ColorPicker"]->doChecked();
                 }
             });
-            p.widgets["Histogram"]->setCloseCallback(
+            p.tools["Histogram"]->setCloseCallback(
                 [weak]
             {
                 if (auto system = weak.lock())
@@ -119,7 +119,7 @@ namespace djv
                     system->_p->actions["Histogram"]->doChecked();
                 }
             });
-            p.widgets["Information"]->setCloseCallback(
+            p.tools["Information"]->setCloseCallback(
                 [weak]
             {
                 if (auto system = weak.lock())
@@ -128,7 +128,7 @@ namespace djv
                     system->_p->actions["Information"]->doChecked();
                 }
             });
-            p.widgets["Debug"]->setCloseCallback(
+            p.tools["Debug"]->setCloseCallback(
                 [weak]
             {
                 if (auto system = weak.lock())
@@ -146,9 +146,9 @@ namespace djv
                 {
                     if (value)
                     {
-                        system->_p->widgets["Magnifier"]->moveToFront();
+                        system->_p->tools["Magnifier"]->moveToFront();
                     }
-                    system->_p->widgets["Magnifier"]->setVisible(value);
+                    system->_p->tools["Magnifier"]->setVisible(value);
                 }
             });
             p.checkedObservers["ColorPicker"] = ValueObserver<bool>::create(
@@ -159,9 +159,9 @@ namespace djv
                 {
                     if (value)
                     {
-                        system->_p->widgets["ColorPicker"]->moveToFront();
+                        system->_p->tools["ColorPicker"]->moveToFront();
                     }
-                    system->_p->widgets["ColorPicker"]->setVisible(value);
+                    system->_p->tools["ColorPicker"]->setVisible(value);
                 }
             });
             p.checkedObservers["Histogram"] = ValueObserver<bool>::create(
@@ -172,9 +172,9 @@ namespace djv
                 {
                     if (value)
                     {
-                        system->_p->widgets["Histogram"]->moveToFront();
+                        system->_p->tools["Histogram"]->moveToFront();
                     }
-                    system->_p->widgets["Histogram"]->setVisible(value);
+                    system->_p->tools["Histogram"]->setVisible(value);
                 }
             });
             p.checkedObservers["Information"] = ValueObserver<bool>::create(
@@ -185,9 +185,9 @@ namespace djv
                 {
                     if (value)
                     {
-                        system->_p->widgets["Information"]->moveToFront();
+                        system->_p->tools["Information"]->moveToFront();
                     }
-                    system->_p->widgets["Information"]->setVisible(value);
+                    system->_p->tools["Information"]->setVisible(value);
                 }
             });
             p.checkedObservers["Debug"] = ValueObserver<bool>::create(
@@ -198,9 +198,9 @@ namespace djv
                 {
                     if (value)
                     {
-                        system->_p->widgets["Debug"]->moveToFront();
+                        system->_p->tools["Debug"]->moveToFront();
                     }
-                    system->_p->widgets["Debug"]->setVisible(value);
+                    system->_p->tools["Debug"]->setVisible(value);
                 }
             });
         }
@@ -224,16 +224,16 @@ namespace djv
             return _p->actions;
         }
 
-        std::vector<std::shared_ptr<IToolWidget> > ToolSystem::getToolWidgets()
+        std::vector<std::shared_ptr<ITool> > ToolSystem::getTools()
         {
             DJV_PRIVATE_PTR();
             return
             {
-                p.widgets["Magnifier"],
-                p.widgets["ColorPicker"],
-                p.widgets["Histogram"],
-                p.widgets["Information"],
-                p.widgets["Debug"]
+                p.tools["Magnifier"],
+                p.tools["ColorPicker"],
+                p.tools["Histogram"],
+                p.tools["Information"],
+                p.tools["Debug"]
             };
         }
 

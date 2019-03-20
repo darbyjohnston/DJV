@@ -152,12 +152,7 @@ namespace djv
             return DJV_TEXT("Language");
         }
 
-        std::string LanguageSettingsWidget::getGroup() const
-        {
-            return DJV_TEXT("General");
-        }
-
-        std::string LanguageSettingsWidget::getGroupSortKey() const
+        std::string LanguageSettingsWidget::getSortKey() const
         {
             return "A";
         }

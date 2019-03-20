@@ -61,6 +61,9 @@ namespace djv
             const std::shared_ptr<AV::Image::Image> & getImage() const;
             void setImage(const std::shared_ptr<AV::Image::Image> &);
 
+            MetricsRole getSizeRole() const;
+            void setSizeRole(MetricsRole);
+
         protected:
             void _preLayoutEvent(Core::Event::PreLayout &) override;
             void _paintEvent(Core::Event::Paint &) override;

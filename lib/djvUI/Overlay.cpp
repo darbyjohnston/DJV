@@ -66,6 +66,7 @@ namespace djv
                 setClassName("djv::UI::Layout::Overlay");
                 setBackgroundRole(ColorRole::Overlay);
                 setVisible(false);
+                setPointerEnabled(true);
 
                 auto closeAction = Action::create();
                 closeAction->setShortcut(GLFW_KEY_ESCAPE);
@@ -280,7 +281,7 @@ namespace djv
             {
                 Widget::_keyPressEvent(event);
                 DJV_PRIVATE_PTR();
-                if (p.captureKeyboard && !_isInsideAnchor(event.getPointerInfo().projectedPos))
+                if (p.captureKeyboard)
                 {
                     event.accept();
                     p.keyPress = true;

@@ -37,6 +37,7 @@
 
 #include <djvCore/ListObserver.h>
 #include <djvCore/Path.h>
+#include <djvCore/Range.h>
 
 namespace djv
 {
@@ -53,6 +54,8 @@ namespace djv
     {
         namespace FileBrowser
         {
+            const Core::IntRange thumbnailSizeRange(50, 400);
+
             //! This class provides a file browser path widget.
             class PathWidget : public UI::Widget
             {

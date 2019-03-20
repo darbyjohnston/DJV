@@ -29,24 +29,24 @@
 
 #pragma once
 
-#include <djvViewLib/IToolWidget.h>
+#include <djvViewLib/ITool.h>
 
 namespace djv
 {
     namespace ViewLib
     {
-        class ColorPickerWidget : public IToolWidget
+        class MagnifierTool : public ITool
         {
-            DJV_NON_COPYABLE(ColorPickerWidget);
+            DJV_NON_COPYABLE(MagnifierTool);
 
         protected:
             void _init(Core::Context *);
-            ColorPickerWidget();
+            MagnifierTool();
 
         public:
-            ~ColorPickerWidget() override;
+            ~MagnifierTool() override;
 
-            static std::shared_ptr<ColorPickerWidget> create(Core::Context *);
+            static std::shared_ptr<MagnifierTool> create(Core::Context *);
 
         protected:
             void _localeEvent(Core::Event::Locale &) override;

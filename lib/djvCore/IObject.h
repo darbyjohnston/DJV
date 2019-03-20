@@ -64,8 +64,8 @@ namespace djv
             inline const std::string & getClassName() const;
             inline void setClassName(const std::string &);
 
-            inline const std::string & getName() const;
-            inline void setName(const std::string &);
+            inline const std::string & getObjectName() const;
+            inline void setObjectName(const std::string &);
 
             //! \name Object Hierarchy
             ///@{
@@ -181,7 +181,7 @@ namespace djv
             static Context * _context;
 
             std::string _className;
-            std::string _name;
+            std::string _objectName;
 
             std::weak_ptr<IObject>                 _parent;
             std::vector<std::shared_ptr<IObject> > _children;

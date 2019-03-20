@@ -95,6 +95,8 @@ namespace djv
             Widget::_init(context);
 
             DJV_PRIVATE_PTR();
+            setPointerEnabled(true);
+
             p.titleLabel = Label::create(context);
             p.titleLabel->setFontSizeRole(MetricsRole::FontHeader);
             p.titleLabel->setTextHAlign(TextHAlign::Left);
@@ -125,6 +127,7 @@ namespace djv
             p.border->addChild(p.layout);
 
             p.overlay = Layout::Overlay::create(context);
+            p.overlay->setCaptureKeyboard(false);
             p.overlay->addChild(p.border);
             Widget::addChild(p.overlay);
 
@@ -217,6 +220,32 @@ namespace djv
         void IDialog::_layoutEvent(Event::Layout &)
         {
             _p->overlay->setGeometry(getGeometry());
+        }
+
+        void IDialog::_pointerEnterEvent(Core::Event::PointerEnter & event)
+        {
+            event.accept();
+        }
+
+        void IDialog::_pointerLeaveEvent(Core::Event::PointerLeave & event)
+        {
+            event.accept();
+        }
+
+        void IDialog::_pointerMoveEvent(Core::Event::PointerMove & event)
+        {
+            event.accept();
+        }
+
+        void IDialog::_keyPressEvent(Event::KeyPress & event)
+        {
+            Widget::_keyPressEvent(event);
+            event.accept();
+        }
+
+        void IDialog::_keyReleaseEvent(Event::KeyRelease & event)
+        {
+            event.accept();
         }
 
     } // namespace UI

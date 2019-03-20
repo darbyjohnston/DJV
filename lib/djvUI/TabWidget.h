@@ -53,6 +53,9 @@ namespace djv
             size_t addTab(const std::string &, const std::shared_ptr<Widget> &);
             void removeTab(const std::shared_ptr<Widget> &);
             void clearTabs();
+            void setTabRemovedCallback(const std::function<void(size_t)> &);
+
+            void setText(size_t, const std::string &);
 
             int getCurrentTab() const;
             void setCurrentTab(int);

@@ -66,7 +66,11 @@ namespace djv
                 inline uint8_t * getData();
 
                 void zero();
+
                 Color convert(Type) const;
+
+                static void rgbToHSV(const float[3], float[3]);
+                static void hsvToRGB(const float[3], float[3]);
 
                 bool operator == (const Color &) const;
                 bool operator != (const Color &) const;

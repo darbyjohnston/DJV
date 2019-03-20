@@ -157,12 +157,7 @@ namespace djv
             return DJV_TEXT("Palette");
         }
 
-        std::string PaletteSettingsWidget::getGroup() const
-        {
-            return DJV_TEXT("General");
-        }
-
-        std::string PaletteSettingsWidget::getGroupSortKey() const
+        std::string PaletteSettingsWidget::getSortKey() const
         {
             return "A";
         }

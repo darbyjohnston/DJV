@@ -49,14 +49,14 @@ namespace djv
             _className = name;
         }
 
-        inline const std::string & IObject::getName() const
+        inline const std::string & IObject::getObjectName() const
         {
-            return _name;
+            return _objectName;
         }
 
-        inline void IObject::setName(const std::string & name)
+        inline void IObject::setObjectName(const std::string & name)
         {
-            _name = name;
+            _objectName = name;
         }
 
         inline const std::weak_ptr<IObject> & IObject::getParent() const

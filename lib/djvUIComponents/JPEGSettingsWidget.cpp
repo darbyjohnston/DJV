@@ -57,6 +57,7 @@ namespace djv
 
             auto qualitySlider = IntSlider::create(context);
             qualitySlider->setRange(IntRange(0, 100));
+            qualitySlider->setMargin(MetricsRole::MarginSmall);
             p.qualityGroupBox = GroupBox::create(context);
             p.qualityGroupBox->addChild(qualitySlider);
             addChild(p.qualityGroupBox);
@@ -98,12 +99,7 @@ namespace djv
             return DJV_TEXT("JPEG");
         }
 
-        std::string JPEGSettingsWidget::getGroup() const
-        {
-            return DJV_TEXT("I/O");
-        }
-
-        std::string JPEGSettingsWidget::getGroupSortKey() const
+        std::string JPEGSettingsWidget::getSortKey() const
         {
             return "B";
         }

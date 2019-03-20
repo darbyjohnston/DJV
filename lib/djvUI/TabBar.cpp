@@ -132,12 +132,8 @@ namespace djv
                     if (auto style = _getStyle().lock())
                     {
                         const BBox2f & g = getGeometry();
-
-                        // Draw the toggled state.
                         render->setFillColor(_getColorWithOpacity(style->getColor(_isToggled() ? ColorRole::Background : ColorRole::Border)));
                         render->drawRect(g);
-
-                        // Draw the hovered state.
                         if (_isHovered() && !_isToggled())
                         {
                             render->setFillColor(_getColorWithOpacity(style->getColor(ColorRole::Hovered)));
@@ -226,6 +222,29 @@ namespace djv
                 {
                     p.removedCallback(value);
                 }
+            }
+        }
+
+        void TabBar::clearTabs()
+        {
+            DJV_PRIVATE_PTR();
+            while (p.buttonGroup->getButtonCount())
+            {
+                removeTab(p.buttonGroup->getButtonCount() - 1);
+            }
+        }
+
+        void TabBar::setTabRemovedCallback(const std::function<void(size_t)> & callback)
+        {
+            _p->removedCallback = callback;
+        }
+
+        void TabBar::setText(size_t index, const std::string & value)
+        {
+            DJV_PRIVATE_PTR();
+            if (index < p.buttonGroup->getButtonCount())
+            {
+                std::dynamic_pointer_cast<TabBarButton>(p.buttonGroup->getButtons()[index])->setText(value);
             }
         }
 

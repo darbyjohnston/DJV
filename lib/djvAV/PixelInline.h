@@ -62,6 +62,41 @@ namespace djv
                 return !(*this == value);
             }
 
+            inline ChannelType getChannelType(Type value)
+            {
+                static const std::vector<ChannelType> data =
+                {
+                    ChannelType::None,
+                    
+                    ChannelType::L,
+                    ChannelType::L,
+                    ChannelType::L,
+                    ChannelType::L,
+                    ChannelType::L,
+
+                    ChannelType::LA,
+                    ChannelType::LA,
+                    ChannelType::LA,
+                    ChannelType::LA,
+                    ChannelType::LA,
+
+                    ChannelType::RGB,
+                    ChannelType::RGB,
+                    ChannelType::RGB,
+                    ChannelType::RGB,
+                    ChannelType::RGB,
+                    ChannelType::RGB,
+
+                    ChannelType::RGBA,
+                    ChannelType::RGBA,
+                    ChannelType::RGBA,
+                    ChannelType::RGBA,
+                    ChannelType::RGBA
+                };
+                DJV_ASSERT(data.size() == static_cast<size_t>(Type::Count));
+                return data[static_cast<size_t>(value)];
+            }
+
             inline size_t getChannelCount(Type value)
             {
                 static const std::vector<size_t> data =
@@ -134,6 +169,106 @@ namespace djv
                     2, 4, 8, 4, 8,
                     3, 4, 6, 12, 6, 12,
                     4, 8, 16, 8, 16
+                };
+                DJV_ASSERT(data.size() == static_cast<size_t>(Type::Count));
+                return data[static_cast<size_t>(value)];
+            }
+
+            inline bool isIntType(Type value)
+            {
+                static const std::vector<bool> data =
+                {
+                    false,
+                    true, true, true, false, false,
+                    true, true, true, false, false,
+                    true, true, true, true, false, false,
+                    true, true, true, false, false,
+                };
+                DJV_ASSERT(data.size() == static_cast<size_t>(Type::Count));
+                return data[static_cast<size_t>(value)];
+            }
+
+            inline bool isFloatType(Type value)
+            {
+                static const std::vector<bool> data =
+                {
+                    false,
+                    false, false, false, true, true,
+                    false, false, false, true, true,
+                    false, false, false, false, true, true,
+                    false, false, false, true, true
+                };
+                DJV_ASSERT(data.size() == static_cast<size_t>(Type::Count));
+                return data[static_cast<size_t>(value)];
+            }
+
+            inline Core::IntRange getIntRange(Type value)
+            {
+                using namespace Core;
+                static const std::vector<IntRange> data =
+                {
+                    IntRange(0, 0),
+
+                    IntRange(U8Min, U8Max),
+                    IntRange(U16Min, U16Max),
+                    IntRange(U32Min, U32Max),
+                    IntRange(0, 0),
+                    IntRange(0, 0),
+
+                    IntRange(U8Min, U8Max),
+                    IntRange(U16Min, U16Max),
+                    IntRange(U32Min, U32Max),
+                    IntRange(0, 0),
+                    IntRange(0, 0),
+
+                    IntRange(U8Min, U8Max),
+                    IntRange(U10Min, U10Max),
+                    IntRange(U16Min, U16Max),
+                    IntRange(U32Min, U32Max),
+                    IntRange(0, 0),
+                    IntRange(0, 0),
+
+                    IntRange(U8Min, U8Max),
+                    IntRange(U16Min, U16Max),
+                    IntRange(U32Min, U32Max),
+                    IntRange(0, 0),
+                    IntRange(0, 0),
+                };
+                DJV_ASSERT(data.size() == static_cast<size_t>(Type::Count));
+                return data[static_cast<size_t>(value)];
+            }
+
+            inline Core::FloatRange getFloatRange(Type value)
+            {
+                using namespace Core;
+                static const std::vector<FloatRange> data =
+                {
+                    FloatRange(0.f, 0.f),
+
+                    FloatRange(0.f, 0.f),
+                    FloatRange(0.f, 0.f),
+                    FloatRange(0.f, 0.f),
+                    FloatRange(F16Min, F16Max),
+                    FloatRange(F32Min, F32Max),
+
+                    FloatRange(0.f, 0.f),
+                    FloatRange(0.f, 0.f),
+                    FloatRange(0.f, 0.f),
+                    FloatRange(F16Min, F16Max),
+                    FloatRange(F32Min, F32Max),
+
+                    FloatRange(0.f, 0.f),
+                    FloatRange(0.f, 0.f),
+                    FloatRange(0.f, 0.f),
+                    FloatRange(0.f, 0.f),
+                    FloatRange(F16Min, F16Max),
+                    FloatRange(F32Min, F32Max),
+
+                    FloatRange(0.f, 0.f),
+                    FloatRange(0.f, 0.f),
+                    FloatRange(0.f, 0.f),
+                    FloatRange(F16Min, F16Max),
+                    FloatRange(F32Min, F32Max),
                 };
                 DJV_ASSERT(data.size() == static_cast<size_t>(Type::Count));
                 return data[static_cast<size_t>(value)];

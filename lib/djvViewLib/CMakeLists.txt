@@ -1,21 +1,21 @@
 set(header
     AboutDialog.h
     Application.h
-    ColorPickerWidget.h
-    DebugWidget.h
+    ColorPickerTool.h
+    DebugTool.h
     Enum.h
     FileBrowserDialog.h
     FileSystem.h
     FileSystemSettings.h
     HelpSystem.h
-    HistogramWidget.h
-    IToolWidget.h
+    HistogramTool.h
+    ITool.h
     IViewSystem.h
     ImageSystem.h
     ImageView.h
     ImageViewSystem.h
-    InformationWidget.h
-    MagnifierWidget.h
+    InformationTool.h
+    MagnifierTool.h
     MainWindow.h
     Media.h
     MediaWidget.h
@@ -23,7 +23,7 @@ set(header
     PlaybackWidget.h
     RecentFilesDialog.h
     SettingsSystem.h
-    SettingsWidget.h
+    SettingsDialog.h
     SystemLogDialog.h
     TimelineSlider.h
     ToolSystem.h
@@ -32,21 +32,21 @@ set(header
 set(source
     AboutDialog.cpp
     Application.cpp
-    ColorPickerWidget.cpp
-    DebugWidget.cpp
+    ColorPickerTool.cpp
+    DebugTool.cpp
     Enum.cpp
     FileBrowserDialog.cpp
     FileSystem.cpp
     FileSystemSettings.cpp
     HelpSystem.cpp
-    HistogramWidget.cpp
-    IToolWidget.cpp
+    HistogramTool.cpp
+    ITool.cpp
     IViewSystem.cpp
     ImageSystem.cpp
     ImageView.cpp
     ImageViewSystem.cpp
-    InformationWidget.cpp
-    MagnifierWidget.cpp
+    InformationTool.cpp
+    MagnifierTool.cpp
     MainWindow.cpp
     Media.cpp
     MediaWidget.cpp
@@ -54,7 +54,7 @@ set(source
     PlaybackWidget.cpp
     RecentFilesDialog.cpp
     SettingsSystem.cpp
-    SettingsWidget.cpp
+    SettingsDialog.cpp
     SystemLogDialog.cpp
     TimelineSlider.cpp
     ToolSystem.cpp

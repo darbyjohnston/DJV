@@ -29,31 +29,29 @@
 
 #pragma once
 
-#include <djvViewLib/IToolWidget.h>
+#include <djvUI/IDialog.h>
 
 namespace djv
 {
     namespace ViewLib
     {
-        class DebugWidget : public IToolWidget
+        class SettingsDialog : public UI::IDialog
         {
-            DJV_NON_COPYABLE(DebugWidget);
+            DJV_NON_COPYABLE(SettingsDialog);
 
         protected:
             void _init(Core::Context *);
-            DebugWidget();
+            SettingsDialog();
 
         public:
-            ~DebugWidget() override;
+            ~SettingsDialog() override;
 
-            static std::shared_ptr<DebugWidget> create(Core::Context *);
+            static std::shared_ptr<SettingsDialog> create(Core::Context *);
 
         protected:
             void _localeEvent(Core::Event::Locale &) override;
 
         private:
-            void _widgetUpdate();
-
             DJV_PRIVATE();
         };
 

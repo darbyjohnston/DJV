@@ -27,7 +27,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvViewLib/DebugWidget.h>
+#include <djvViewLib/DebugTool.h>
 
 #include <djvViewLib/FileSystem.h>
 #include <djvViewLib/Media.h>
@@ -43,7 +43,7 @@ namespace djv
 {
     namespace ViewLib
     {
-        struct DebugWidget::Private
+        struct DebugTool::Private
         {
             Time::Duration duration = 0;
             Time::Timestamp currentTime = 0;
@@ -64,9 +64,9 @@ namespace djv
             std::shared_ptr<ValueObserver<size_t> > alUnqueuedBuffersObserver;
         };
 
-        void DebugWidget::_init(Context * context)
+        void DebugTool::_init(Context * context)
         {
-            IToolWidget::_init(context);
+            ITool::_init(context);
 
             DJV_PRIVATE_PTR();
             p.labels["Duration"] = UI::Label::create(context);
@@ -88,7 +88,7 @@ namespace djv
             p.layout->addChild(p.labels["ALUnqueuedBuffers"]);
             addChild(p.layout);
 
-            auto weak = std::weak_ptr<DebugWidget>(std::dynamic_pointer_cast<DebugWidget>(shared_from_this()));
+            auto weak = std::weak_ptr<DebugTool>(std::dynamic_pointer_cast<DebugTool>(shared_from_this()));
             if (auto fileSystem = context->getSystemT<FileSystem>().lock())
             {
                 p.currentMediaObserver = ValueObserver<std::shared_ptr<Media>>::create(
@@ -193,23 +193,23 @@ namespace djv
             }
         }
 
-        DebugWidget::DebugWidget() :
+        DebugTool::DebugTool() :
             _p(new Private)
         {}
 
-        DebugWidget::~DebugWidget()
+        DebugTool::~DebugTool()
         {}
 
-        std::shared_ptr<DebugWidget> DebugWidget::create(Context * context)
+        std::shared_ptr<DebugTool> DebugTool::create(Context * context)
         {
-            auto out = std::shared_ptr<DebugWidget>(new DebugWidget);
+            auto out = std::shared_ptr<DebugTool>(new DebugTool);
             out->_init(context);
             return out;
         }
 
-        void DebugWidget::_localeEvent(Event::Locale & event)
+        void DebugTool::_localeEvent(Event::Locale & event)
         {
-            IToolWidget::_localeEvent(event);
+            ITool::_localeEvent(event);
             DJV_PRIVATE_PTR();
             setTitle(_getText(DJV_TEXT("Debugging")));
             {
@@ -239,7 +239,7 @@ namespace djv
             }
         }
 
-        void DebugWidget::_widgetUpdate()
+        void DebugTool::_widgetUpdate()
         {
             DJV_PRIVATE_PTR();
             {

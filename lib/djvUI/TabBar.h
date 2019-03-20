@@ -52,7 +52,10 @@ namespace djv
             size_t getTabCount() const;
             size_t addTab(const std::string &);
             void removeTab(size_t);
+            void clearTabs();
             void setTabRemovedCallback(const std::function<void(size_t)> &);
+
+            void setText(size_t, const std::string &);
 
             int getCurrentTab() const;
             void setCurrentTab(int);

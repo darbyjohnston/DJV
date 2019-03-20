@@ -139,7 +139,7 @@ namespace djv
                     { MetricsRole::FontMedium, 12.f },
                     { MetricsRole::FontLarge, 16.f },
                     { MetricsRole::FontHeader, 16.f },
-                    { MetricsRole::Swatch, 40.f },
+                    { MetricsRole::Swatch, 100.f },
                     { MetricsRole::Shadow, 5.f },
                     { MetricsRole::ScrollArea, 300.f },
                     { MetricsRole::TextColumn, 200.f },

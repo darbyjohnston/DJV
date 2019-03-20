@@ -196,7 +196,7 @@ namespace djv
         Tooltip::~Tooltip()
         {
             DJV_PRIVATE_PTR();
-            if (auto window = p.overlay->getWindow().lock())
+            if (auto window = p.overlay->getWindow())
             {
                 window->removeChild(p.overlay);
             }

@@ -105,12 +105,7 @@ namespace djv
             return DJV_TEXT("PPM");
         }
 
-        std::string PPMSettingsWidget::getGroup() const
-        {
-            return DJV_TEXT("I/O");
-        }
-
-        std::string PPMSettingsWidget::getGroupSortKey() const
+        std::string PPMSettingsWidget::getSortKey() const
         {
             return "B";
         }

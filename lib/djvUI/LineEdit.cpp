@@ -48,10 +48,11 @@ namespace djv
         {
             Widget::_init(context);
 
+            DJV_PRIVATE_PTR();
+
             setClassName("djv::UI::LineEdit");
             setVAlign(VAlign::Center);
 
-            DJV_PRIVATE_PTR();
             p.lineEditBase = LineEditBase::create(context);
 
             p.border = Border::create(context);
@@ -160,19 +161,20 @@ namespace djv
         
         void LineEdit::_preLayoutEvent(Event::PreLayout & event)
         {
+            DJV_PRIVATE_PTR();
             if (auto style = _getStyle().lock())
             {
-                DJV_PRIVATE_PTR();
                 _setMinimumSize(p.border->getMinimumSize() + getMargin().getSize(style));
             }
         }
 
         void LineEdit::_layoutEvent(Event::Layout & event)
         {
+            DJV_PRIVATE_PTR();
             if (auto style = _getStyle().lock())
             {
                 const BBox2f g = getGeometry();
-                _p->border->setGeometry(getMargin().bbox(g, style));
+                _p->border->setGeometry(getAlign(getMargin().bbox(g, style), p.border->getMinimumSize(), HAlign::Fill, VAlign::Center));
             }
         }
 

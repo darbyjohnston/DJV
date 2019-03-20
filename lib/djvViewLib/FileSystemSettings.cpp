@@ -45,7 +45,7 @@ namespace djv
         struct FileSystemSettings::Private
         {
             std::shared_ptr<ListSubject<Core::FileSystem::FileInfo> > recentFiles;
-            std::shared_ptr<ValueSubject<UI::ViewType> > recentViewType;
+            std::shared_ptr<ValueSubject<glm::ivec2> > recentThumbnailSize;
         };
 
         void FileSystemSettings::_init(Context * context)
@@ -54,7 +54,7 @@ namespace djv
 
             DJV_PRIVATE_PTR();
             p.recentFiles = ListSubject<Core::FileSystem::FileInfo>::create();
-            p.recentViewType = ValueSubject<UI::ViewType>::create();
+            p.recentThumbnailSize = ValueSubject<glm::ivec2>::create(glm::ivec2(100, 50));
             _load();
         }
 
@@ -79,19 +79,17 @@ namespace djv
 
         void FileSystemSettings::setRecentFiles(const std::vector<Core::FileSystem::FileInfo> & value)
         {
-            DJV_PRIVATE_PTR();
-            p.recentFiles->setIfChanged(value);
+            _p->recentFiles->setIfChanged(value);
         }
 
-        std::shared_ptr<IValueSubject<UI::ViewType> > FileSystemSettings::observeRecentViewType() const
+        std::shared_ptr<IValueSubject<glm::ivec2> > FileSystemSettings::observeRecentThumbnailSize() const
         {
-            return _p->recentViewType;
+            return _p->recentThumbnailSize;
         }
 
-        void FileSystemSettings::setRecentViewType(UI::ViewType value)
+        void FileSystemSettings::setRecentThumbnailSize(const glm::ivec2 & value)
         {
-            DJV_PRIVATE_PTR();
-            p.recentViewType->setIfChanged(value);
+            _p->recentThumbnailSize->setIfChanged(value);
         }
 
         void FileSystemSettings::load(const picojson::value & value)
@@ -108,7 +106,7 @@ namespace djv
                     fileInfoList.push_back(i);
                 }
                 p.recentFiles->setIfChanged(fileInfoList);
-                UI::Settings::read("RecentViewType", object, p.recentViewType);
+                UI::Settings::read("RecentThumbnailSize", object, p.recentThumbnailSize);
             }
         }
 
@@ -123,7 +121,7 @@ namespace djv
                 tmp.push_back(i);
             }
             UI::Settings::write("RecentFiles", tmp, object);
-            UI::Settings::write("RecentViewType", p.recentViewType->get(), object);
+            UI::Settings::write("RecentThumbnailSize", p.recentThumbnailSize->get(), object);
             return out;
         }
 

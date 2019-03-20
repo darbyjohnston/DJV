@@ -29,8 +29,11 @@
 
 #include <djvUI/PopupMenu.h>
 
+#include <djvUI/Action.h>
 #include <djvUI/Menu.h>
 #include <djvUI/MenuButton.h>
+
+#include <GLFW/glfw3.h>
 
 using namespace djv::Core;
 
@@ -40,10 +43,12 @@ namespace djv
     {
         struct PopupMenu::Private
         {
+            std::shared_ptr<Action> closeAction;
             std::shared_ptr<Menu> menu;
             std::shared_ptr<Button::Menu> button;
             std::shared_ptr<ValueObserver<std::string> > iconObserver;
             std::shared_ptr<ValueObserver<std::string> > textObserver;
+            std::shared_ptr<ValueObserver<bool> > closeObserver;
         };
 
         void PopupMenu::_init(Context * context)
@@ -53,6 +58,10 @@ namespace djv
             DJV_PRIVATE_PTR();
 
             setClassName("djv::UI::PopupMenu");
+
+            p.closeAction = Action::create();
+            p.closeAction->setShortcut(GLFW_KEY_ESCAPE);
+            addAction(p.closeAction);
 
             p.button = Button::Menu::create(context);
             addChild(p.button);
@@ -68,6 +77,19 @@ namespace djv
                         widget->open();
                     }
                     else
+                    {
+                        widget->close();
+                    }
+                }
+            });
+
+            p.closeObserver = ValueObserver<bool>::create(
+                p.closeAction->observeClicked(),
+                [weak](bool value)
+            {
+                if (value)
+                {
+                    if (auto widget = weak.lock())
                     {
                         widget->close();
                     }
@@ -115,7 +137,7 @@ namespace djv
                 {
                     if (auto widget = weak.lock())
                     {
-                        widget->_p->button->setChecked(false);
+                        widget->close();
                     }
                 });
 
@@ -146,7 +168,9 @@ namespace djv
             DJV_PRIVATE_PTR();
             if (p.menu)
             {
+                p.closeAction->setEnabled(true);
                 p.menu->popup(p.button);
+                p.button->setChecked(true);
             }
         }
 
@@ -155,7 +179,9 @@ namespace djv
             DJV_PRIVATE_PTR();
             if (p.menu)
             {
+                p.closeAction->setEnabled(false);
                 p.menu->hide();
+                p.button->setChecked(false);
             }
         }
 

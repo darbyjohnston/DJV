@@ -116,7 +116,7 @@ namespace djv
                     widget->_p->menu->hide();
                     if (value && widget->_p->currentItem >= 0 && widget->_p->currentItem < widget->_p->items.size())
                     {
-                        if (auto window = widget->getWindow().lock())
+                        if (auto window = widget->getWindow())
                         {
                             widget->_p->closeAction->setEnabled(true);
                             widget->_p->menu->popup(weak);

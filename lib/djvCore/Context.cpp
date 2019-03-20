@@ -35,6 +35,7 @@
 #include <djvCore/OS.h>
 #include <djvCore/ResourceSystem.h>
 #include <djvCore/TextSystem.h>
+#include <djvCore/Timer.h>
 
 #include <thread>
 
@@ -69,13 +70,10 @@ namespace djv
             const std::string argv0 = argc ? argv[0] : std::string();
             _name = FileSystem::Path(argv0).getBaseName();
 
-            // Create the root object.
             _rootObject = std::shared_ptr<RootObject>(new RootObject);
 
-            // Create the core system.
             _coreSystem = CoreSystem::create(argv0, this);
 
-            // Log information.
             if (auto logSystem = getSystemT<LogSystem>().lock())
             {
                 std::stringstream s;
@@ -92,6 +90,23 @@ namespace djv
                 }
                 logSystem->log("djv::Core::Context", s.str());
             }
+
+            _fpsTimer = Time::Timer::create(this);
+            _fpsTimer->setRepeating(true);
+            _fpsTimer->start(
+                Time::getMilliseconds(Time::TimerValue::VerySlow),
+                [this](float)
+            {
+                float average = 1.f;
+                for (const auto & i : _fpsSamples)
+                {
+                    average += i;
+                }
+                average /= static_cast<float>(_fpsSamples.size());
+                std::stringstream s;
+                s << "FPS: " << average;
+                log("djv::Core::Context", s.str());
+            });
         }
 
         Context::~Context()
@@ -178,7 +193,7 @@ namespace djv
                         if (auto logSystem = getSystemT<LogSystem>().lock())
                         {
                             std::stringstream s;
-                            s << "Tick system #" << count << ": " << system->getName();
+                            s << "Tick system #" << count << ": " << system->getObjectName();
                             logSystem->log("djv::Core::Context", s.str());
                             ++count;
                         }

@@ -29,11 +29,11 @@
 
 #pragma once
 
-#include <djvUI/Enum.h>
 #include <djvUI/ISettings.h>
 
 #include <djvCore/ListObserver.h>
 #include <djvCore/ValueObserver.h>
+#include <djvCore/Vector.h>
 
 namespace djv
 {
@@ -66,8 +66,8 @@ namespace djv
             std::shared_ptr<Core::IListSubject<Core::FileSystem::FileInfo> > observeRecentFiles() const;
             void setRecentFiles(const std::vector<Core::FileSystem::FileInfo> &);
 
-            std::shared_ptr<Core::IValueSubject<UI::ViewType> > observeRecentViewType() const;
-            void setRecentViewType(UI::ViewType);
+            std::shared_ptr<Core::IValueSubject<glm::ivec2> > observeRecentThumbnailSize() const;
+            void setRecentThumbnailSize(const glm::ivec2 &);
 
             void load(const picojson::value &) override;
             picojson::value save() override;

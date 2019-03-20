@@ -27,7 +27,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvViewLib/IToolWidget.h>
+#include <djvViewLib/ITool.h>
 
 #include <djvUI/Border.h>
 #include <djvUI/FlatButton.h>
@@ -42,7 +42,7 @@ namespace djv
 {
     namespace ViewLib
     {
-        struct IToolWidget::Private
+        struct ITool::Private
         {
             std::shared_ptr<UI::Label> titleLabel;
             std::shared_ptr<UI::HorizontalLayout> titleBar;
@@ -53,14 +53,13 @@ namespace djv
             std::function<void(void)> closeCallback;
         };
 
-        void IToolWidget::_init(Context * context)
+        void ITool::_init(Context * context)
         {
             IWidget::_init(context);
 
             DJV_PRIVATE_PTR();
 
             p.titleLabel = UI::Label::create(context);
-            p.titleLabel->setFontSizeRole(UI::MetricsRole::FontHeader);
             p.titleLabel->setTextHAlign(UI::TextHAlign::Left);
             p.titleLabel->setMargin(UI::MetricsRole::Margin);
 
@@ -89,7 +88,7 @@ namespace djv
             p.border->addChild(p.layout);
             IWidget::addChild(p.border);
 
-            auto weak = std::weak_ptr<IToolWidget>(std::dynamic_pointer_cast<IToolWidget>(shared_from_this()));
+            auto weak = std::weak_ptr<ITool>(std::dynamic_pointer_cast<ITool>(shared_from_this()));
             p.closeButton->setClickedCallback(
                 [weak]
             {
@@ -100,24 +99,24 @@ namespace djv
             });
         }
 
-        IToolWidget::IToolWidget() :
+        ITool::ITool() :
             _p(new Private)
         {}
 
-        IToolWidget::~IToolWidget()
+        ITool::~ITool()
         {}
 
-        const std::string & IToolWidget::getTitle() const
+        const std::string & ITool::getTitle() const
         {
             return _p->titleLabel->getText();
         }
 
-        void IToolWidget::setTitle(const std::string & text)
+        void ITool::setTitle(const std::string & text)
         {
             _p->titleLabel->setText(text);
         }
 
-        void IToolWidget::close()
+        void ITool::close()
         {
             DJV_PRIVATE_PTR();
             hide();
@@ -127,17 +126,17 @@ namespace djv
             }
         }
 
-        void IToolWidget::setCloseCallback(const std::function<void(void)> & value)
+        void ITool::setCloseCallback(const std::function<void(void)> & value)
         {
             _p->closeCallback = value;
         }
 
-        float IToolWidget::getHeightForWidth(float value) const
+        float ITool::getHeightForWidth(float value) const
         {
             return _p->border->getHeightForWidth(value);
         }
 
-        void IToolWidget::addChild(const std::shared_ptr<IObject> & value)
+        void ITool::addChild(const std::shared_ptr<IObject> & value)
         {
             _p->childLayout->addChild(value);
             if (auto widget = std::dynamic_pointer_cast<Widget>(value))
@@ -146,22 +145,22 @@ namespace djv
             }
         }
 
-        void IToolWidget::removeChild(const std::shared_ptr<IObject> & value)
+        void ITool::removeChild(const std::shared_ptr<IObject> & value)
         {
             _p->childLayout->removeChild(value);
         }
 
-        void IToolWidget::_preLayoutEvent(Event::PreLayout & event)
+        void ITool::_preLayoutEvent(Event::PreLayout & event)
         {
             _setMinimumSize(_p->border->getMinimumSize());
         }
 
-        void IToolWidget::_layoutEvent(Event::Layout &)
+        void ITool::_layoutEvent(Event::Layout &)
         {
             _p->border->setGeometry(getGeometry());
         }
 
-        void IToolWidget::_localeEvent(Event::Locale &)
+        void ITool::_localeEvent(Event::Locale &)
         {
             DJV_PRIVATE_PTR();
             p.closeButton->setTooltip(_getText(DJV_TEXT("Close tooltip")));

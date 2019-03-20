@@ -971,7 +971,7 @@ namespace djv
                 std::unique_ptr<Render>      render;
 
                 std::shared_ptr<Time::Timer> statsTimer;
-                std::shared_ptr<Time::Timer> fpsTimer;
+                //std::shared_ptr<Time::Timer> fpsTimer;
                 std::vector<float>           fpsSamples;
                 std::chrono::time_point<std::chrono::system_clock>
                                              fpsTime            = std::chrono::system_clock::now();
@@ -1005,7 +1005,7 @@ namespace djv
                     _log(s.str());
                 });
 
-                p.fpsTimer = Time::Timer::create(context);
+                /*p.fpsTimer = Time::Timer::create(context);
                 p.fpsTimer->setRepeating(true);
                 p.fpsTimer->start(
                     Time::getMilliseconds(Time::TimerValue::VerySlow),
@@ -1021,7 +1021,7 @@ namespace djv
                     std::stringstream s;
                     s << "FPS: " << average;
                     _log(s.str());
-                });
+                });*/
             }
 
             Render2D::Render2D() :

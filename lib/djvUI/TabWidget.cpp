@@ -45,6 +45,7 @@ namespace djv
             std::shared_ptr<VerticalLayout> layout;
             std::shared_ptr<SoloLayout> soloLayout;
             std::function<void(int)> callback;
+            std::function<void(size_t)> removedCallback;
         };
 
         void TabWidget::_init(Context * context)
@@ -76,6 +77,14 @@ namespace djv
                     {
                         widget->_p->callback(value);
                     }
+                }
+            });
+            p.tabBar->setTabRemovedCallback(
+                [weak](size_t value)
+            {
+                if (auto widget = weak.lock())
+                {
+                    widget->_p->soloLayout->removeChild(widget->_p->soloLayout->getChildrenT<Widget>()[value]);
                 }
             });
         }
@@ -130,6 +139,16 @@ namespace djv
         void TabWidget::clearTabs()
         {
             _p->soloLayout->clearChildren();
+        }
+
+        void TabWidget::setTabRemovedCallback(const std::function<void(size_t)> & callback)
+        {
+            _p->removedCallback = callback;
+        }
+
+        void TabWidget::setText(size_t index, const std::string & value)
+        {
+            _p->tabBar->setText(index, value);
         }
 
         int TabWidget::getCurrentTab() const

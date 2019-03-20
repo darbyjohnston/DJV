@@ -41,6 +41,7 @@ namespace djv
         struct ImageWidget::Private
         {
             std::shared_ptr<AV::Image::Image> image;
+            MetricsRole sizeRole = MetricsRole::None;
         };
 
         void ImageWidget::_init(Context * context)
@@ -48,6 +49,7 @@ namespace djv
             Widget::_init(context);
 
             setClassName("djv::UI::ImageWidget");
+            setBackgroundRole(ColorRole::Trough);
         }
 
         ImageWidget::ImageWidget() :
@@ -71,18 +73,35 @@ namespace djv
 
         void ImageWidget::setImage(const std::shared_ptr<AV::Image::Image> & value)
         {
+            _p->image = value;
+            _resize();
+        }
+
+        MetricsRole ImageWidget::getSizeRole() const
+        {
+            return _p->sizeRole;
+        }
+
+        void ImageWidget::setSizeRole(MetricsRole value)
+        {
             DJV_PRIVATE_PTR();
-            p.image = value;
+            if (value == p.sizeRole)
+                return;
+            p.sizeRole = value;
             _resize();
         }
 
         void ImageWidget::_preLayoutEvent(Event::PreLayout & event)
         {
+            DJV_PRIVATE_PTR();
             if (auto style = _getStyle().lock())
             {
                 glm::vec2 size;
-                DJV_PRIVATE_PTR();
-                if (p.image)
+                if (p.sizeRole != MetricsRole::None)
+                {
+                    size.x = size.y = style->getMetric(p.sizeRole);
+                }
+                else if (p.image)
                 {
                     size = p.image->getSize();
                 }
@@ -93,11 +112,11 @@ namespace djv
         void ImageWidget::_paintEvent(Event::Paint & event)
         {
             Widget::_paintEvent(event);
+            DJV_PRIVATE_PTR();
             if (auto render = _getRender().lock())
             {
                 if (auto style = _getStyle().lock())
                 {
-                    DJV_PRIVATE_PTR();
                     if (p.image)
                     {
                         const BBox2f & g = getMargin().bbox(getGeometry(), style);

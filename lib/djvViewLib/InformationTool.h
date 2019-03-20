@@ -29,38 +29,26 @@
 
 #pragma once
 
-#include <djvUI/MDIWidget.h>
+#include <djvViewLib/ITool.h>
 
 namespace djv
 {
     namespace ViewLib
     {
-        class IToolWidget : public UI::MDI::IWidget
+        class InformationTool : public ITool
         {
-            DJV_NON_COPYABLE(IToolWidget);
+            DJV_NON_COPYABLE(InformationTool);
 
         protected:
             void _init(Core::Context *);
-            IToolWidget();
+            InformationTool();
 
         public:
-            ~IToolWidget() override = 0;
+            ~InformationTool() override;
 
-            const std::string & getTitle() const;
-            void setTitle(const std::string &);
-
-            void close();
-            void setCloseCallback(const std::function<void(void)> &);
-
-            float getHeightForWidth(float) const override;
-
-            void addChild(const std::shared_ptr<IObject> &) override;
-            void removeChild(const std::shared_ptr<IObject> &) override;
+            static std::shared_ptr<InformationTool> create(Core::Context *);
 
         protected:
-            void _preLayoutEvent(Core::Event::PreLayout &) override;
-            void _layoutEvent(Core::Event::Layout &) override;
-
             void _localeEvent(Core::Event::Locale &) override;
 
         private:

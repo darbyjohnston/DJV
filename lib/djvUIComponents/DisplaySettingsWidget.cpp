@@ -157,12 +157,7 @@ namespace djv
             return DJV_TEXT("Display Size");
         }
 
-        std::string DisplaySettingsWidget::getGroup() const
-        {
-            return DJV_TEXT("General");
-        }
-
-        std::string DisplaySettingsWidget::getGroupSortKey() const
+        std::string DisplaySettingsWidget::getSortKey() const
         {
             return "A";
         }

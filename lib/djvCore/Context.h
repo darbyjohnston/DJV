@@ -42,6 +42,12 @@ namespace djv
         class IObject;
         class ISystem;
 
+        namespace Time
+        {
+            class Timer;
+
+        } // namespace Time
+
         //! This class provides core functionality.
         class Context
         {
@@ -120,6 +126,7 @@ namespace djv
             std::chrono::time_point<std::chrono::system_clock> _fpsTime = std::chrono::system_clock::now();
             std::list<float> _fpsSamples;
             float _fpsAverage = 0.f;
+            std::shared_ptr<Time::Timer> _fpsTimer;
 
             friend class ISystem;
         };

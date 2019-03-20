@@ -169,10 +169,6 @@ namespace djv
             {
                 if (auto system = weak.lock())
                 {
-                    if (system->_p->recentFilesDialog)
-                    {
-                        system->_p->recentFilesDialog->setRecentFiles(value);
-                    }
                     system->_p->settings->setRecentFiles(value);
                 }
             });
@@ -434,9 +430,9 @@ namespace djv
         {
             DJV_PRIVATE_PTR();
             auto context = getContext();
-            if (auto windowSystem = context->getSystemT<UI::EventSystem>().lock())
+            if (auto eventSystem = context->getSystemT<UI::EventSystem>().lock())
             {
-                if (auto window = windowSystem->observeCurrentWindow()->get())
+                if (auto window = eventSystem->observeCurrentWindow()->get())
                 {
                     if (!p.fileBrowserDialog)
                     {
@@ -470,14 +466,13 @@ namespace djv
         {
             DJV_PRIVATE_PTR();
             auto context = getContext();
-            if (auto windowSystem = context->getSystemT<UI::EventSystem>().lock())
+            if (auto eventSystem = context->getSystemT<UI::EventSystem>().lock())
             {
-                if (auto window = windowSystem->observeCurrentWindow()->get())
+                if (auto window = eventSystem->observeCurrentWindow()->get())
                 {
                     if (!p.recentFilesDialog)
                     {
                         p.recentFilesDialog = RecentFilesDialog::create(context);
-                        p.recentFilesDialog->setRecentFiles(p.recentFilesModel->getFiles()->get());
                         auto weak = std::weak_ptr<FileSystem>(std::dynamic_pointer_cast<FileSystem>(shared_from_this()));
                         p.recentFilesDialog->setCallback(
                             [weak](const Core::FileSystem::FileInfo & value)

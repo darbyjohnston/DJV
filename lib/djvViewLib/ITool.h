@@ -27,43 +27,45 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvViewLib/HistogramWidget.h>
+#pragma once
 
-using namespace djv::Core;
+#include <djvUI/MDIWidget.h>
 
 namespace djv
 {
     namespace ViewLib
     {
-        struct HistogramWidget::Private
+        class ITool : public UI::MDI::IWidget
         {
+            DJV_NON_COPYABLE(ITool);
 
+        protected:
+            void _init(Core::Context *);
+            ITool();
+
+        public:
+            ~ITool() override = 0;
+
+            const std::string & getTitle() const;
+            void setTitle(const std::string &);
+
+            void close();
+            void setCloseCallback(const std::function<void(void)> &);
+
+            float getHeightForWidth(float) const override;
+
+            void addChild(const std::shared_ptr<IObject> &) override;
+            void removeChild(const std::shared_ptr<IObject> &) override;
+
+        protected:
+            void _preLayoutEvent(Core::Event::PreLayout &) override;
+            void _layoutEvent(Core::Event::Layout &) override;
+
+            void _localeEvent(Core::Event::Locale &) override;
+
+        private:
+            DJV_PRIVATE();
         };
-
-        void HistogramWidget::_init(Context * context)
-        {
-            IToolWidget::_init(context);
-        }
-
-        HistogramWidget::HistogramWidget() :
-            _p(new Private)
-        {}
-
-        HistogramWidget::~HistogramWidget()
-        {}
-
-        std::shared_ptr<HistogramWidget> HistogramWidget::create(Context * context)
-        {
-            auto out = std::shared_ptr<HistogramWidget>(new HistogramWidget);
-            out->_init(context);
-            return out;
-        }
-
-        void HistogramWidget::_localeEvent(Event::Locale & event)
-        {
-            IToolWidget::_localeEvent(event);
-            setTitle(_getText(DJV_TEXT("Histogram")));
-        }
 
     } // namespace ViewLib
 } // namespace djv

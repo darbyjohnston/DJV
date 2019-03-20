@@ -156,7 +156,7 @@ namespace djv
             p.glfwWindow = glfwCreateWindow(
                 static_cast<int>(ceilf(windowSize.x * (p.dpi / static_cast<float>(AV::dpiDefault)))),
                 static_cast<int>(ceilf(windowSize.y * (p.dpi / static_cast<float>(AV::dpiDefault)))),
-                getName().c_str(), NULL, NULL);
+                getObjectName().c_str(), NULL, NULL);
             if (!p.glfwWindow)
             {
                 std::stringstream ss;

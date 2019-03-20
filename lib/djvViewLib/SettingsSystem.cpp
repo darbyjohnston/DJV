@@ -29,6 +29,8 @@
 
 #include <djvViewLib/SettingsSystem.h>
 
+#include <djvViewLib/SettingsDialog.h>
+
 #include <djvUIComponents/DisplaySettingsWidget.h>
 #include <djvUIComponents/LanguageSettingsWidget.h>
 #include <djvUIComponents/PPMSettingsWidget.h>
@@ -42,6 +44,7 @@
 
 #include <djvUI/Action.h>
 #include <djvUI/ButtonGroup.h>
+#include <djvUI/EventSystem.h>
 #include <djvUI/RowLayout.h>
 #include <djvUI/SoloLayout.h>
 #include <djvUI/ScrollWidget.h>
@@ -59,6 +62,7 @@ namespace djv
         {
             std::map<std::string, std::shared_ptr<UI::Action> > actions;
             std::vector<std::shared_ptr<UI::ISettingsWidget> > settingsWidgets;
+            std::shared_ptr<SettingsDialog> settingsDialog;
             std::map<std::string, std::shared_ptr<ValueObserver<bool> > > clickedObservers;
         };
 
@@ -91,6 +95,33 @@ namespace djv
             auto out = std::shared_ptr<SettingsSystem>(new SettingsSystem);
             out->_init(context);
             return out;
+        }
+
+        void SettingsSystem::showSettings()
+        {
+            DJV_PRIVATE_PTR();
+            auto context = getContext();
+            if (auto eventSystem = context->getSystemT<UI::EventSystem>().lock())
+            {
+                if (auto window = eventSystem->observeCurrentWindow()->get())
+                {
+                    if (!p.settingsDialog)
+                    {
+                        p.settingsDialog = SettingsDialog::create(context);
+                        auto weak = std::weak_ptr<SettingsSystem>(std::dynamic_pointer_cast<SettingsSystem>(shared_from_this()));
+                        p.settingsDialog->setCloseCallback(
+                            [weak, context]
+                        {
+                            if (auto system = weak.lock())
+                            {
+                                system->_p->settingsDialog->hide();
+                            }
+                        });
+                    }
+                    window->addChild(p.settingsDialog);
+                    p.settingsDialog->show();
+                }
+            }
         }
         
         std::map<std::string, std::shared_ptr<UI::Action> > SettingsSystem::getActions()

@@ -32,6 +32,7 @@
 #include <djvAV/OpenGL.h>
 
 #include <djvCore/Enum.h>
+#include <djvCore/Range.h>
 
 #include <OpenEXR/half.h>
 
@@ -78,6 +79,20 @@ namespace djv
                 First = None
             };
             DJV_ENUM_HELPERS(Type);
+
+            //! This enumeration provides the image channel types.
+            enum class ChannelType
+            {
+                None,
+                L,
+                LA,
+                RGB,
+                RGBA,
+
+                Count,
+                First = None
+            };
+            DJV_ENUM_HELPERS(ChannelType);
 
             //! This enumeration provides the image data types.
             enum class DataType
@@ -137,11 +152,16 @@ namespace djv
             typedef U10_S_LSB U10_S;
 #endif
 
+            inline ChannelType getChannelType(Type);
             inline size_t getChannelCount(Type);
             inline DataType getDataType(Type);
             inline size_t getBitDepth(Type);
             inline size_t getByteCount(Type);
 
+            inline bool isIntType(Type);
+            inline bool isFloatType(Type);
+            inline Core::IntRange getIntRange(Type);
+            inline Core::FloatRange getFloatRange(Type);
             inline Type getIntType(size_t channelCount, size_t bitDepth);
             inline Type getFloatType(size_t channelCount, size_t bitDepth);
 
@@ -196,6 +216,8 @@ namespace djv
     } // namespace AV
 
     DJV_ENUM_SERIALIZE_HELPERS(AV::Image::Type);
+    DJV_ENUM_SERIALIZE_HELPERS(AV::Image::ChannelType);
+    DJV_ENUM_SERIALIZE_HELPERS(AV::Image::DataType);
 
 } // namespace djv
 

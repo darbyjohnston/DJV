@@ -63,9 +63,9 @@ namespace djv
             return MenuData();
         }
 
-        std::vector<std::shared_ptr<IToolWidget> > IViewSystem::getToolWidgets()
+        std::vector<std::shared_ptr<ITool> > IViewSystem::getTools()
         {
-            return std::vector<std::shared_ptr<IToolWidget> >();
+            return std::vector<std::shared_ptr<ITool> >();
         }
 
         std::vector<std::shared_ptr<UI::ISettingsWidget> > IViewSystem::getSettingsWidgets()

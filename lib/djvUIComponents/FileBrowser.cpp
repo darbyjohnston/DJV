@@ -74,12 +74,6 @@ namespace djv
     {
         namespace FileBrowser
         {
-            namespace
-            {
-                const IntRange thumbnailSizeRange(50, 400);
-
-            } // namespace
-
             struct Widget::Private
             {
                 std::shared_ptr<FileSystem::DirectoryModel> directoryModel;
@@ -180,15 +174,13 @@ namespace djv
                 p.actions["List"] = Action::create();
                 p.actions["List"]->setIcon("djvIconListView");
                 p.actions["List"]->setShortcut(GLFW_KEY_L);
-                p.actions["IncreaseThumbnailSize"] = Action::create();
-                p.actions["IncreaseThumbnailSize"]->setIcon("djvIconListView");
-                p.actions["IncreaseThumbnailSize"]->setShortcut(GLFW_KEY_EQUAL);
-                p.actions["DecreaseThumbnailSize"] = Action::create();
-                p.actions["DecreaseThumbnailSize"]->setIcon("djvIconListView");
-                p.actions["DecreaseThumbnailSize"]->setShortcut(GLFW_KEY_MINUS);
                 p.viewTypeActionGroup = ActionGroup::create(ButtonType::Radio);
                 p.viewTypeActionGroup->addAction(p.actions["Tiles"]);
                 p.viewTypeActionGroup->addAction(p.actions["List"]);
+                p.actions["IncreaseThumbnailSize"] = Action::create();
+                p.actions["IncreaseThumbnailSize"]->setShortcut(GLFW_KEY_EQUAL);
+                p.actions["DecreaseThumbnailSize"] = Action::create();
+                p.actions["DecreaseThumbnailSize"]->setShortcut(GLFW_KEY_MINUS);
 
                 p.actions["FileSequences"] = Action::create();
                 p.actions["FileSequences"]->setButtonType(ButtonType::Toggle);
@@ -986,10 +978,10 @@ namespace djv
                     }
                 );
 
-                p.searchBox->setTooltip(_getText(DJV_TEXT("File browser search tooltip")));
-
                 auto context = getContext();
                 p.itemCountLabel->setText(p.getItemCountLabel(p.itemCount, context));
+
+                p.searchBox->setTooltip(_getText(DJV_TEXT("File browser search tooltip")));
 
                 p.thumbnailSizeLabel->setText(_getText(DJV_TEXT("Thumbnail Size")));
                 p.thumbnailSizePopupWidget->setTooltip(_getText(DJV_TEXT("File browser thumbnail size tooltip")));

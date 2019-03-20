@@ -598,6 +598,15 @@ namespace djv
 
     DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
         AV::Image,
+        ChannelType,
+        DJV_TEXT("None"),
+        DJV_TEXT("L"),
+        DJV_TEXT("LA"),
+        DJV_TEXT("RGB"),
+        DJV_TEXT("RGBA"));
+
+    DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
+        AV::Image,
         DataType,
         DJV_TEXT("None"),
         DJV_TEXT("U8"),
