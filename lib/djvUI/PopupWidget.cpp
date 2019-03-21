@@ -217,22 +217,18 @@ namespace djv
             void OverlayLayout::_paintEvent(Event::Paint & event)
             {
                 Widget::_paintEvent(event);
-                if (auto render = _getRender().lock())
+                auto style = _getStyle();
+                const float s = style->getMetric(MetricsRole::Shadow);
+                auto render = _getRender();
+                render->setFillColor(_getColorWithOpacity(style->getColor(ColorRole::Shadow)));
+                for (const auto & i : getChildrenT<Widget>())
                 {
-                    if (auto style = _getStyle().lock())
-                    {
-                        const float s = style->getMetric(MetricsRole::Shadow);
-                        render->setFillColor(_getColorWithOpacity(style->getColor(ColorRole::Shadow)));
-                        for (const auto & i : getChildrenT<Widget>())
-                        {
-                            BBox2f g = i->getGeometry();
-                            g.min.x += s;
-                            g.min.y += s;
-                            g.max.x += s;
-                            g.max.y += s;
-                            render->drawRect(g);
-                        }
-                    }
+                    BBox2f g = i->getGeometry();
+                    g.min.x += s;
+                    g.min.y += s;
+                    g.max.x += s;
+                    g.max.y += s;
+                    render->drawRect(g);
                 }
             }
 
@@ -334,7 +330,7 @@ namespace djv
         void PopupWidget::open()
         {
             DJV_PRIVATE_PTR();
-            if (auto windowSystem = getContext()->getSystemT<EventSystem>().lock())
+            if (auto windowSystem = getContext()->getSystemT<EventSystem>())
             {
                 if (auto window = windowSystem->observeCurrentWindow()->get())
                 {

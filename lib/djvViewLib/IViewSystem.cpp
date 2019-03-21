@@ -29,7 +29,10 @@
 
 #include <djvViewLib/IViewSystem.h>
 
+#include <djvUIComponents/UIComponentsSystem.h>
+
 #include <djvCore/Context.h>
+#include <djvCore/TextSystem.h>
 
 using namespace djv::Core;
 
@@ -38,12 +41,15 @@ namespace djv
     namespace ViewLib
     {
         struct IViewSystem::Private
-        {
-        };
+        {};
 
         void IViewSystem::_init(const std::string & name, Context * context)
         {
             ISystem::_init(name, context);
+
+            DJV_PRIVATE_PTR();
+
+            addDependency(context->getSystemT<UI::UIComponentsSystem>());
         }
             
         IViewSystem::IViewSystem() :

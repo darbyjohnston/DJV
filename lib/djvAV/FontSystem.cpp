@@ -31,6 +31,7 @@
 
 #include <djvCore/Cache.h>
 #include <djvCore/Context.h>
+#include <djvCore/CoreSystem.h>
 #include <djvCore/FileInfo.h>
 #include <djvCore/Timer.h>
 #include <djvCore/Vector.h>
@@ -256,6 +257,9 @@ namespace djv
                 ISystem::_init("djv::AV::Font::System", context);
 
                 DJV_PRIVATE_PTR();
+
+                addDependency(context->getSystemT<CoreSystem>());
+
                 p.fontPath = context->getPath(FileSystem::ResourcePath::FontsDirectory);
                 p.glyphCache.setMax(glyphCacheMax);
 
@@ -433,7 +437,7 @@ namespace djv
                     FT_Error ftError = FT_Init_FreeType(&p.ftLibrary);
                     if (ftError)
                     {
-                        throw std::runtime_error(_getText(DJV_TEXT("FreeType cannot be initialized.")));
+                        throw std::runtime_error("FreeType cannot be initialized.");
                     }
                     for (const auto & i : FileSystem::FileInfo::directoryList(p.fontPath))
                     {
@@ -466,7 +470,7 @@ namespace djv
                     }
                     if (!p.fontFaces.size())
                     {
-                        throw std::runtime_error(_getText(DJV_TEXT("No fonts were found.")));
+                        throw std::runtime_error("No fonts were found.");
                     }
                     p.fontNamesPromise.set_value(p.fontNames);
                 }

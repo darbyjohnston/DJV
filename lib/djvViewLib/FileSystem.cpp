@@ -34,8 +34,6 @@
 #include <djvViewLib/FileSystemSettings.h>
 #include <djvViewLib/Media.h>
 #include <djvViewLib/RecentFilesDialog.h>
-#include <djvViewLib/SettingsSystem.h>
-#include <djvViewLib/WindowSystem.h>
 
 #include <djvUI/Action.h>
 #include <djvUI/DialogSystem.h>
@@ -48,6 +46,7 @@
 #include <djvCore/Context.h>
 #include <djvCore/FileInfo.h>
 #include <djvCore/RecentFilesModel.h>
+#include <djvCore/TextSystem.h>
 
 #include <GLFW/glfw3.h>
 
@@ -72,6 +71,7 @@ namespace djv
             std::shared_ptr<ListObserver<Core::FileSystem::FileInfo> > recentFilesObserver;
             std::shared_ptr<ListObserver<Core::FileSystem::FileInfo> > recentFilesObserver2;
             std::map<std::string, std::shared_ptr<ValueObserver<bool> > > clickedObservers;
+            std::shared_ptr<ValueObserver<std::string> > localeObserver;
         };
 
         void FileSystem::_init(Context * context)
@@ -79,6 +79,7 @@ namespace djv
             IViewSystem::_init("djv::ViewLib::FileSystem", context);
 
             DJV_PRIVATE_PTR();
+
             p.settings = FileSystemSettings::create(context);
             p.opened = ValueSubject<std::pair<std::shared_ptr<Media>, glm::vec2> >::create();
             p.closed = ValueSubject<std::shared_ptr<Media> >::create();
@@ -149,7 +150,6 @@ namespace djv
             p.menu->addAction(p.actions["ClearCache"]);
             p.menu->addSeparator();
             p.menu->addAction(p.actions["Exit"]);
-            addChild(p.menu);
 
             p.recentFilesModel = Core::FileSystem::RecentFilesModel::create(context);
 
@@ -273,7 +273,7 @@ namespace djv
             {
                 if (value)
                 {
-                    if (auto dialogSystem = context->getSystemT<UI::DialogSystem>().lock())
+                    if (auto dialogSystem = context->getSystemT<UI::DialogSystem>())
                     {
                         dialogSystem->confirmation(
                             std::string(),
@@ -288,6 +288,16 @@ namespace djv
                             }
                         });
                     }
+                }
+            });
+
+            p.localeObserver = ValueObserver<std::string>::create(
+                context->getSystemT<TextSystem>()->observeCurrentLocale(),
+                [weak](const std::string & value)
+            {
+                if (auto system = weak.lock())
+                {
+                    system->_textUpdate();
                 }
             });
         }
@@ -395,42 +405,43 @@ namespace djv
             };
         }
 
-        void FileSystem::_localeEvent(Event::Locale &)
+        void FileSystem::_textUpdate()
         {
             DJV_PRIVATE_PTR();
-            p.actions["Open"]->setTitle(_getText(DJV_TEXT("Open")));
-            p.actions["Open"]->setTooltip(_getText(DJV_TEXT("Open tooltip")));
-            p.actions["Recent"]->setTitle(_getText(DJV_TEXT("Recent")));
-            p.actions["Recent"]->setTooltip(_getText(DJV_TEXT("Recent tooltip")));
-            p.actions["Reload"]->setTitle(_getText(DJV_TEXT("Reload")));
-            p.actions["Reload"]->setTooltip(_getText(DJV_TEXT("Reload tooltip")));
-            p.actions["Close"]->setTitle(_getText(DJV_TEXT("Close")));
-            p.actions["Close"]->setTooltip(_getText(DJV_TEXT("Close tooltip")));
-            p.actions["Export"]->setTitle(_getText(DJV_TEXT("Export")));
-            p.actions["Export"]->setTooltip(_getText(DJV_TEXT("Export tooltip")));
-            p.actions["Next"]->setTitle(_getText(DJV_TEXT("Next")));
-            p.actions["Next"]->setTooltip(_getText(DJV_TEXT("Next tooltip")));
-            p.actions["Prev"]->setTitle(_getText(DJV_TEXT("Previous")));
-            p.actions["Prev"]->setTooltip(_getText(DJV_TEXT("Prev tooltip")));
-            p.actions["Layers"]->setTitle(_getText(DJV_TEXT("Layers")));
-            p.actions["Layers"]->setTooltip(_getText(DJV_TEXT("Layers tooltip")));
-            p.actions["8BitConversion"]->setTitle(_getText(DJV_TEXT("8-bit Conversion")));
-            p.actions["8BitConversion"]->setTooltip(_getText(DJV_TEXT("8-bit conversion tooltip")));
-            p.actions["MemoryCache"]->setTitle(_getText(DJV_TEXT("Memory Cache")));
-            p.actions["MemoryCache"]->setTooltip(_getText(DJV_TEXT("Memory cache tooltip")));
-            p.actions["ClearCache"]->setTitle(_getText(DJV_TEXT("Clear Memory Cache")));
-            p.actions["ClearCache"]->setTooltip(_getText(DJV_TEXT("Clear cache tooltip")));
-            p.actions["Exit"]->setTitle(_getText(DJV_TEXT("Exit")));
-            p.actions["Exit"]->setTooltip(_getText(DJV_TEXT("Exit tooltip")));
+            auto context = getContext();
+            p.actions["Open"]->setTitle(context->getText(DJV_TEXT("Open")));
+            p.actions["Open"]->setTooltip(context->getText(DJV_TEXT("Open tooltip")));
+            p.actions["Recent"]->setTitle(context->getText(DJV_TEXT("Recent")));
+            p.actions["Recent"]->setTooltip(context->getText(DJV_TEXT("Recent tooltip")));
+            p.actions["Reload"]->setTitle(context->getText(DJV_TEXT("Reload")));
+            p.actions["Reload"]->setTooltip(context->getText(DJV_TEXT("Reload tooltip")));
+            p.actions["Close"]->setTitle(context->getText(DJV_TEXT("Close")));
+            p.actions["Close"]->setTooltip(context->getText(DJV_TEXT("Close tooltip")));
+            p.actions["Export"]->setTitle(context->getText(DJV_TEXT("Export")));
+            p.actions["Export"]->setTooltip(context->getText(DJV_TEXT("Export tooltip")));
+            p.actions["Next"]->setTitle(context->getText(DJV_TEXT("Next")));
+            p.actions["Next"]->setTooltip(context->getText(DJV_TEXT("Next tooltip")));
+            p.actions["Prev"]->setTitle(context->getText(DJV_TEXT("Previous")));
+            p.actions["Prev"]->setTooltip(context->getText(DJV_TEXT("Prev tooltip")));
+            p.actions["Layers"]->setTitle(context->getText(DJV_TEXT("Layers")));
+            p.actions["Layers"]->setTooltip(context->getText(DJV_TEXT("Layers tooltip")));
+            p.actions["8BitConversion"]->setTitle(context->getText(DJV_TEXT("8-bit Conversion")));
+            p.actions["8BitConversion"]->setTooltip(context->getText(DJV_TEXT("8-bit conversion tooltip")));
+            p.actions["MemoryCache"]->setTitle(context->getText(DJV_TEXT("Memory Cache")));
+            p.actions["MemoryCache"]->setTooltip(context->getText(DJV_TEXT("Memory cache tooltip")));
+            p.actions["ClearCache"]->setTitle(context->getText(DJV_TEXT("Clear Memory Cache")));
+            p.actions["ClearCache"]->setTooltip(context->getText(DJV_TEXT("Clear cache tooltip")));
+            p.actions["Exit"]->setTitle(context->getText(DJV_TEXT("Exit")));
+            p.actions["Exit"]->setTooltip(context->getText(DJV_TEXT("Exit tooltip")));
 
-            p.menu->setText(_getText(DJV_TEXT("File")));
+            p.menu->setText(context->getText(DJV_TEXT("File")));
         }
 
         void FileSystem::_showFileBrowserDialog()
         {
             DJV_PRIVATE_PTR();
             auto context = getContext();
-            if (auto eventSystem = context->getSystemT<UI::EventSystem>().lock())
+            if (auto eventSystem = context->getSystemT<UI::EventSystem>())
             {
                 if (auto window = eventSystem->observeCurrentWindow()->get())
                 {
@@ -466,7 +477,7 @@ namespace djv
         {
             DJV_PRIVATE_PTR();
             auto context = getContext();
-            if (auto eventSystem = context->getSystemT<UI::EventSystem>().lock())
+            if (auto eventSystem = context->getSystemT<UI::EventSystem>())
             {
                 if (auto window = eventSystem->observeCurrentWindow()->get())
                 {

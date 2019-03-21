@@ -67,7 +67,7 @@ namespace djv
 
             p.toolbar = UI::ToolBar::create(context);
             p.toolbar->setBackgroundRole(UI::ColorRole::Overlay);
-            auto playbackSystem = context->getSystemT<PlaybackSystem>().lock();
+            auto playbackSystem = context->getSystemT<PlaybackSystem>();
             auto actions = playbackSystem->getActions();
             p.toolbar->addAction(actions["Reverse"]);
             p.toolbar->addAction(actions["Forward"]);

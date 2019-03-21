@@ -67,11 +67,11 @@ namespace djv
         bool Widget::_resizeRequest = true;
         bool Widget::_redrawRequest = true;
 
-        std::weak_ptr<AV::Font::System>     Widget::_fontSystem;
-        std::weak_ptr<AV::Render::Render2D> Widget::_render;
-        std::weak_ptr<UISystem>             Widget::_uiSystem;
-        std::weak_ptr<IconSystem>           Widget::_iconSystem;
-        std::weak_ptr<Style::Style>         Widget::_style;
+        std::shared_ptr<AV::Font::System>     Widget::_fontSystem;
+        std::shared_ptr<AV::Render::Render2D> Widget::_render;
+        std::shared_ptr<UISystem>             Widget::_uiSystem;
+        std::shared_ptr<IconSystem>           Widget::_iconSystem;
+        std::shared_ptr<Style::Style>         Widget::_style;
 
         void Widget::_init(Core::Context * context)
         {
@@ -83,34 +83,39 @@ namespace djv
             context->log("djv::UI::Widget", String::Format("widget count = %%1").arg(globalWidgetCount));*/
             ++globalWidgetCount;
 
-            if (!_fontSystem.lock())
+            if (!_fontSystem)
             {
                 _fontSystem = context->getSystemT<AV::Font::System>();
             }
-            if (!_render.lock())
+            if (!_render)
             {
                 _render = context->getSystemT<AV::Render::Render2D>();
             }
-            if (!_uiSystem.lock())
+            if (!_uiSystem)
             {
                 _uiSystem = context->getSystemT<UISystem>();
             }
-            if (!_iconSystem.lock())
+            if (!_iconSystem)
             {
                 _iconSystem = context->getSystemT<IconSystem>();
             }
-            if (!_style.lock())
+            if (!_style)
             {
-                if (auto uiSystem = _uiSystem.lock())
-                {
-                    _style = uiSystem->getStyle();
-                }
+                _style = _uiSystem->getStyle();
             }
         }
 
         Widget::~Widget()
         {
             --globalWidgetCount;
+            if (!globalWidgetCount)
+            {
+                _style.reset();
+                _iconSystem.reset();
+                _uiSystem.reset();
+                _render.reset();
+                _fontSystem.reset();
+            }
             /*if (auto context = getContext().lock())
             {
               context->log("djv::UI::Widget", "Widget::~Widget");
@@ -270,7 +275,7 @@ namespace djv
         bool Widget::hasTextFocus() const
         {
             bool out = false;
-            if (auto eventSystem = getContext()->getSystemT<Event::IEventSystem>().lock())
+            if (auto eventSystem = getContext()->getSystemT<Event::IEventSystem>())
             {
                 out = eventSystem->getTextFocus() == shared_from_this();
             }
@@ -279,7 +284,7 @@ namespace djv
 
         void Widget::takeTextFocus()
         {
-            if (auto eventSystem = getContext()->getSystemT<Event::IEventSystem>().lock())
+            if (auto eventSystem = getContext()->getSystemT<Event::IEventSystem>())
             {
                 eventSystem->setTextFocus(shared_from_this());
             }
@@ -287,7 +292,7 @@ namespace djv
 
         void Widget::releaseTextFocus()
         {
-            if (auto eventSystem = getContext()->getSystemT<Event::IEventSystem>().lock())
+            if (auto eventSystem = getContext()->getSystemT<Event::IEventSystem>())
             {
                 if (eventSystem->getTextFocus() == shared_from_this())
                 {
@@ -515,14 +520,8 @@ namespace djv
         {
             if (_backgroundRole != ColorRole::None)
             {
-                if (auto render = _render.lock())
-                {
-                    if (auto style = _style.lock())
-                    {
-                        render->setFillColor(_getColorWithOpacity(style->getColor(_backgroundRole)));
-                        render->drawRect(getGeometry());
-                    }
-                }
+                _render->setFillColor(_getColorWithOpacity(_style->getColor(_backgroundRole)));
+                _render->drawRect(getGeometry());
             }
         }
 

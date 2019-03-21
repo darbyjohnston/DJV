@@ -38,13 +38,16 @@ namespace djv
 {
     namespace Core
     {
-        class CoreSystem;
         class IObject;
-        class ISystem;
+        class ISystemBase;
+        class LogSystem;
+        class ResourceSystem;
+        class TextSystem;
 
         namespace Time
         {
             class Timer;
+            class TimerSystem;
 
         } // namespace Time
 
@@ -80,18 +83,16 @@ namespace djv
             ///@{
 
             //! Get the list of systems.
-            inline const std::vector<std::weak_ptr<ISystem> > & getSystems() const;
+            inline const std::vector<std::shared_ptr<ISystemBase> > & getSystems() const;
 
             //! Get the list of systems of the given type.
             template<typename T>
-            inline std::vector<std::weak_ptr<T> > getSystemsT() const;
+            inline std::vector<std::shared_ptr<T> > getSystemsT() const;
 
-            //! Get a system of the given type.
+            //! Get a system of the given type. If the system is not found a
+            //! null pointer is returned.
             template<typename T>
-            inline std::weak_ptr<T> getSystemT() const;
-
-            //! Get the core system.
-            inline const std::shared_ptr<CoreSystem> & getCoreSystem() const;
+            inline std::shared_ptr<T> getSystemT() const;
 
             //! This function is called by the application's event loop.
             virtual void tick(float dt);
@@ -114,21 +115,24 @@ namespace djv
             ///@}
 
         protected:
-            void _addSystem(const std::shared_ptr<ISystem> &);
+            void _addSystem(const std::shared_ptr<ISystemBase> &);
 
         private:
             std::vector<std::string> _args;
             std::string _name;
+            std::shared_ptr<Time::TimerSystem> _timerSystem;
+            std::shared_ptr<ResourceSystem> _resourceSystem;
+            std::shared_ptr<LogSystem> _logSystem;
+            std::shared_ptr<TextSystem> _textSystem;
+            std::vector<std::shared_ptr<ISystemBase> > _systems;
             class RootObject;
             std::shared_ptr<RootObject> _rootObject;
-            std::vector<std::weak_ptr<ISystem> > _systems;
-            std::shared_ptr<CoreSystem> _coreSystem;
             std::chrono::time_point<std::chrono::system_clock> _fpsTime = std::chrono::system_clock::now();
             std::list<float> _fpsSamples;
             float _fpsAverage = 0.f;
             std::shared_ptr<Time::Timer> _fpsTimer;
 
-            friend class ISystem;
+            friend class ISystemBase;
         };
 
     } // namespace Core

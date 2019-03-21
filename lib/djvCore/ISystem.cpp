@@ -36,39 +36,68 @@ namespace djv
 {
     namespace Core
     {
-        void ISystem::_init(const std::string & name, Context * context)
+        void ISystemBase::_init(const std::string & name, Context * context)
         {
-            IObject::_init(context);
-            setObjectName(name);
-            setClassName(name);
-            if (_logSystemInit)
-            {
-                std::stringstream s;
-                s << name << " starting...";
-                _log(s.str());
-            }
-            context->_addSystem(std::dynamic_pointer_cast<ISystem>(shared_from_this()));
+            _name = name;
+            _context = context;
+            context->_addSystem(std::dynamic_pointer_cast<ISystemBase>(shared_from_this()));
         }
-        
-        ISystem::~ISystem()
+
+        ISystemBase::~ISystemBase()
         {
-            if (_logSystemInit)
-            {
-                std::stringstream s;
-                s << getObjectName() << " exiting...";
-                _log(s.str());
-            }
             while (_dependencies.size())
             {
                 _dependencies.pop_back();
             }
         }
 
-        void ISystem::addDependency(const std::shared_ptr<ISystem> & value)
+        void ISystemBase::addDependency(const std::shared_ptr<ISystemBase> & value)
         {
             _dependencies.push_back(value);
         }
-        
+
+        namespace
+        {
+            size_t systemCount = 0;
+
+        } // namespace
+
+        std::shared_ptr<LogSystem> ISystem::_logSystem;
+
+        void ISystem::_init(const std::string & name, Context * context)
+        {
+            ISystemBase::_init(name, context);
+            ++systemCount;
+            if (!_logSystem)
+            {
+                _logSystem = context->getSystemT<LogSystem>();
+            }
+            {
+                std::stringstream s;
+                s << name << " starting...";
+                _log(s.str());
+            }
+        }
+
+        ISystem::~ISystem()
+        {
+            {
+                std::stringstream s;
+                s << getSystemName() << " exiting...";
+                _log(s.str());
+            }
+            --systemCount;
+            if (!systemCount)
+            {
+                _logSystem.reset();
+            }
+        }
+
+        void ISystem::_log(const std::string & message, LogLevel level)
+        {
+            _logSystem->log(getSystemName(), message, level);
+        }
+
     } // namespace Core
 } // namespace djv
 

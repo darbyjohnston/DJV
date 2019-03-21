@@ -162,13 +162,11 @@ namespace djv
 
             void _log(const std::string & message, Core::LogLevel = Core::LogLevel::Information);
 
-            std::weak_ptr<ResourceSystem> _getResourceSystem() const { return _resourceSystem; }
-            std::weak_ptr<LogSystem> _getLogSystem() const { return _logSystem; }
-            std::weak_ptr<TextSystem> _getTextSystem() const { return _textSystem; }
+            inline std::shared_ptr<ResourceSystem> _getResourceSystem() const;
+            inline std::shared_ptr<LogSystem> _getLogSystem() const;
+            inline std::shared_ptr<TextSystem> _getTextSystem() const;
 
             ///@}
-
-            static bool _logSystemInit;
 
         private:
             bool _eventFilter(Event::IEvent &);
@@ -193,10 +191,10 @@ namespace djv
 
             bool _localeInit = false;
 
-            static std::weak_ptr<ResourceSystem>      _resourceSystem;
-            static std::weak_ptr<LogSystem>           _logSystem;
-            static std::weak_ptr<TextSystem>          _textSystem;
-            static std::weak_ptr<Event::IEventSystem> _eventSystem;
+            static std::shared_ptr<ResourceSystem>      _resourceSystem;
+            static std::shared_ptr<LogSystem>           _logSystem;
+            static std::shared_ptr<TextSystem>          _textSystem;
+            static std::shared_ptr<Event::IEventSystem> _eventSystem;
 
             friend class Event::IEventSystem;
         };

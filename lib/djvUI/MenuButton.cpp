@@ -186,40 +186,32 @@ namespace djv
             void Menu::_preLayoutEvent(Event::PreLayout &)
             {
                 DJV_PRIVATE_PTR();
-                if (auto style = _getStyle().lock())
-                {
-                    _setMinimumSize(p.border->getMinimumSize() + getMargin().getSize(style));
-                }
+                auto style = _getStyle();
+                _setMinimumSize(p.border->getMinimumSize() + getMargin().getSize(style));
             }
 
             void Menu::_layoutEvent(Event::Layout &)
             {
                 DJV_PRIVATE_PTR();
-                if (auto style = _getStyle().lock())
-                {
-                    p.border->setGeometry(getMargin().bbox(getGeometry(), style));
-                }
+                auto style = _getStyle();
+                p.border->setGeometry(getMargin().bbox(getGeometry(), style));
             }
 
             void Menu::_paintEvent(Event::Paint & event)
             {
                 Widget::_paintEvent(event);
-                if (auto render = _getRender().lock())
+                auto style = _getStyle();
+                const BBox2f & g = getMargin().bbox(getGeometry(), style);
+                auto render = _getRender();
+                if (_p->checked)
                 {
-                    if (auto style = _getStyle().lock())
-                    {
-                        const BBox2f & g = getMargin().bbox(getGeometry(), style);
-                        if (_p->checked)
-                        {
-                            render->setFillColor(_getColorWithOpacity(style->getColor(ColorRole::Pressed)));
-                            render->drawRect(g);
-                        }
-                        else if (_isHovered())
-                        {
-                            render->setFillColor(_getColorWithOpacity(style->getColor(ColorRole::Hovered)));
-                            render->drawRect(g);
-                        }
-                    }
+                    render->setFillColor(_getColorWithOpacity(style->getColor(ColorRole::Pressed)));
+                    render->drawRect(g);
+                }
+                else if (_isHovered())
+                {
+                    render->setFillColor(_getColorWithOpacity(style->getColor(ColorRole::Hovered)));
+                    render->drawRect(g);
                 }
             }
 

@@ -142,22 +142,18 @@ namespace djv
             void HeaderButton::_paintEvent(Event::Paint & event)
             {
                 Widget::_paintEvent(event);
-                if (auto render = _getRender().lock())
+                const BBox2f & g = getGeometry();
+                auto render = _getRender();
+                auto style = _getStyle();
+                if (_isPressed())
                 {
-                    if (auto style = _getStyle().lock())
-                    {
-                        const BBox2f & g = getGeometry();
-                        if (_isPressed())
-                        {
-                            render->setFillColor(_getColorWithOpacity(style->getColor(ColorRole::Pressed)));
-                            render->drawRect(g);
-                        }
-                        else if (_isHovered())
-                        {
-                            render->setFillColor(_getColorWithOpacity(style->getColor(ColorRole::Hovered)));
-                            render->drawRect(g);
-                        }
-                    }
+                    render->setFillColor(_getColorWithOpacity(style->getColor(ColorRole::Pressed)));
+                    render->drawRect(g);
+                }
+                else if (_isHovered())
+                {
+                    render->setFillColor(_getColorWithOpacity(style->getColor(ColorRole::Hovered)));
+                    render->drawRect(g);
                 }
             }
 

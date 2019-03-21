@@ -45,7 +45,7 @@ namespace djv
         //!
         //! By default log files and settings are written to "$HOME/Documents/DJV".
         //! This may be overridden with the DJV_DOCUMENTS_PATH environment variable.
-        class ResourceSystem : public ISystem
+        class ResourceSystem : public ISystemBase
         {
             DJV_NON_COPYABLE(ResourceSystem);
             void _init(const std::string & argv0, Context *);

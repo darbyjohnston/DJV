@@ -153,30 +153,28 @@ namespace djv
                 float out = 0.f;
                 if (const size_t itemCount = p.items.size())
                 {
-                    if (auto style = _getStyle().lock())
+                    auto style = _getStyle();
+                    const float m = style->getMetric(MetricsRole::MarginSmall);
+                    const float s = style->getMetric(MetricsRole::SpacingSmall);
+                    switch (p.viewType)
                     {
-                        const float m = style->getMetric(MetricsRole::MarginSmall);
-                        const float s = style->getMetric(MetricsRole::SpacingSmall);
-                        switch (p.viewType)
+                    case ViewType::Tiles:
+                    {
+                        size_t columns = 1;
+                        float x = p.thumbnailSize.x + m * 2.f;
+                        while (x < value - (p.thumbnailSize.x + m * 2.f))
                         {
-                        case ViewType::Tiles:
-                        {
-                            size_t columns = 1;
-                            float x = p.thumbnailSize.x + m * 2.f;
-                            while (x < value - (p.thumbnailSize.x + m * 2.f))
-                            {
-                                ++columns;
-                                x += p.thumbnailSize.x + m * 2.f;
-                            }
-                            const size_t rows = itemCount / columns + (itemCount % columns ? 1 : 0);
-                            out = (p.thumbnailSize.y + s + p.nameFontMetrics.lineHeight * 2.f + m * 2.f) * rows;
-                            break;
+                            ++columns;
+                            x += p.thumbnailSize.x + m * 2.f;
                         }
-                        case ViewType::List:
-                            out = (std::max(static_cast<float>(p.thumbnailSize.y), p.nameFontMetrics.lineHeight) + m * 2.f) * itemCount;
-                            break;
-                        default: break;
-                        }
+                        const size_t rows = itemCount / columns + (itemCount % columns ? 1 : 0);
+                        out = (p.thumbnailSize.y + s + p.nameFontMetrics.lineHeight * 2.f + m * 2.f) * rows;
+                        break;
+                    }
+                    case ViewType::List:
+                        out = (std::max(static_cast<float>(p.thumbnailSize.y), p.nameFontMetrics.lineHeight) + m * 2.f) * itemCount;
+                        break;
+                    default: break;
                     }
                 }
                 return out;
@@ -208,40 +206,38 @@ namespace djv
             void ItemView::_layoutEvent(Event::Layout & event)
             {
                 DJV_PRIVATE_PTR();
-                if (auto style = _getStyle().lock())
+                const BBox2f & g = getGeometry();
+                auto style = _getStyle();
+                const float m = style->getMetric(MetricsRole::MarginSmall);
+                const float s = style->getMetric(MetricsRole::SpacingSmall);
+                p.itemGeometry.clear();
+                glm::vec2 pos = g.min;
+                auto item = p.items.begin();
+                size_t i = 0;
+                for (; item != p.items.end(); ++item, ++i)
                 {
-                    const BBox2f & g = getGeometry();
-                    const float m = style->getMetric(MetricsRole::MarginSmall);
-                    const float s = style->getMetric(MetricsRole::SpacingSmall);
-                    p.itemGeometry.clear();
-                    glm::vec2 pos = g.min;
-                    auto item = p.items.begin();
-                    size_t i = 0;
-                    for (; item != p.items.end(); ++item, ++i)
+                    switch (p.viewType)
                     {
-                        switch (p.viewType)
+                    case ViewType::Tiles:
+                    {
+                        const float itemHeight = p.thumbnailSize.y + s + p.nameFontMetrics.lineHeight * 2.f + m * 2.f;
+                        p.itemGeometry[i] = BBox2f(pos.x, pos.y, p.thumbnailSize.x + m * 2.f, itemHeight);
+                        pos.x += p.thumbnailSize.x + m * 2.f;
+                        if (pos.x > g.max.x - (p.thumbnailSize.x + m * 2.f))
                         {
-                        case ViewType::Tiles:
-                        {
-                            const float itemHeight = p.thumbnailSize.y + s + p.nameFontMetrics.lineHeight * 2.f + m * 2.f;
-                            p.itemGeometry[i] = BBox2f(pos.x, pos.y, p.thumbnailSize.x + m * 2.f, itemHeight);
-                            pos.x += p.thumbnailSize.x + m * 2.f;
-                            if (pos.x > g.max.x - (p.thumbnailSize.x + m * 2.f))
-                            {
-                                pos.x = g.min.x;
-                                pos.y += itemHeight;
-                            }
-                            break;
-                        }
-                        case ViewType::List:
-                        {
-                            const float itemHeight = std::max(static_cast<float>(p.thumbnailSize.y), p.nameFontMetrics.lineHeight) + m * 2.f;
-                            p.itemGeometry[i] = BBox2f(pos.x, pos.y, g.w(), itemHeight);
+                            pos.x = g.min.x;
                             pos.y += itemHeight;
-                            break;
                         }
-                        default: break;
-                        }
+                        break;
+                    }
+                    case ViewType::List:
+                    {
+                        const float itemHeight = std::max(static_cast<float>(p.thumbnailSize.y), p.nameFontMetrics.lineHeight) + m * 2.f;
+                        p.itemGeometry[i] = BBox2f(pos.x, pos.y, g.w(), itemHeight);
+                        pos.y += itemHeight;
+                        break;
+                    }
+                    default: break;
                     }
                 }
             }
@@ -251,94 +247,91 @@ namespace djv
                 DJV_PRIVATE_PTR();
                 if (isClipped())
                     return;
-                auto fontSystem = _getFontSystem().lock();
-                auto style = _getStyle().lock();
-                if (fontSystem && style)
+                auto fontSystem = _getFontSystem();
+                auto style = _getStyle();
+                auto context = getContext();
+                const auto & clipRect = event.getClipRect();
+                for (const auto & i : p.itemGeometry)
                 {
-                    auto context = getContext();
-                    const auto & clipRect = event.getClipRect();
-                    for (const auto & i : p.itemGeometry)
+                    if (i.first < p.items.size() && i.second.intersects(clipRect))
                     {
-                        if (i.first < p.items.size() && i.second.intersects(clipRect))
+                        const auto & fileInfo = p.items[i.first];
                         {
-                            const auto & fileInfo = p.items[i.first];
+                            const auto j = p.nameLines.find(i.first);
+                            if (j == p.nameLines.end())
                             {
-                                const auto j = p.nameLines.find(i.first);
-                                if (j == p.nameLines.end())
+                                const auto k = p.nameLinesFutures.find(i.first);
+                                if (k == p.nameLinesFutures.end())
                                 {
-                                    const auto k = p.nameLinesFutures.find(i.first);
-                                    if (k == p.nameLinesFutures.end())
-                                    {
-                                        const float m = style->getMetric(MetricsRole::MarginSmall);
-                                        const auto fontInfo = style->getFontInfo(AV::Font::Info::faceDefault, MetricsRole::FontMedium);
-                                        p.nameLinesFutures[i.first] = fontSystem->textLines(
-                                            fileInfo.getFileName(Frame::Invalid, false), p.thumbnailSize.x - m * 2.f, fontInfo);
-                                    }
-                                }
-                            }
-                            if (p.ioInfo.find(i.first) == p.ioInfo.end())
-                            {
-                                if (p.ioInfoFutures.find(i.first) == p.ioInfoFutures.end())
-                                {
-                                    auto thumbnailSystem = context->getSystemT<AV::ThumbnailSystem>().lock();
-                                    auto ioSystem = context->getSystemT<AV::IO::System>().lock();
-                                    if (thumbnailSystem && ioSystem)
-                                    {
-                                        const auto & path = fileInfo.getPath();
-                                        if (ioSystem->canRead(path))
-                                        {
-                                            p.ioInfoFutures[i.first] = thumbnailSystem->getInfo(path);
-                                        }
-                                    }
-                                }
-                            }
-                            if (p.thumbnails.find(i.first) == p.thumbnails.end())
-                            {
-                                if (p.thumbnailFutures.find(i.first) == p.thumbnailFutures.end())
-                                {
-                                    const auto & path = fileInfo.getPath();
-                                    auto thumbnailSystem = context->getSystemT<AV::ThumbnailSystem>().lock();
-                                    auto ioSystem = context->getSystemT<AV::IO::System>().lock();
-                                    if (thumbnailSystem && ioSystem && ioSystem->canRead(path))
-                                    {
-                                        p.thumbnailFutures[i.first] = thumbnailSystem->getImage(
-                                            path,
-                                            glm::ivec2(static_cast<int>(p.thumbnailSize.x), static_cast<int>(p.thumbnailSize.y)));
-                                    }
-                                }
-                            }
-                            {
-                                const auto j = p.sizeText.find(i.first);
-                                if (j == p.sizeText.end())
-                                {
-                                    p.sizeText[i.first] = Memory::getSizeLabel(fileInfo.getSize());
-                                }
-                            }
-                            {
-                                const auto j = p.timeText.find(i.first);
-                                if (j == p.timeText.end())
-                                {
-                                    p.timeText[i.first] = Time::getLabel(fileInfo.getTime());
+                                    const float m = style->getMetric(MetricsRole::MarginSmall);
+                                    const auto fontInfo = style->getFontInfo(AV::Font::Info::faceDefault, MetricsRole::FontMedium);
+                                    p.nameLinesFutures[i.first] = fontSystem->textLines(
+                                        fileInfo.getFileName(Frame::Invalid, false), p.thumbnailSize.x - m * 2.f, fontInfo);
                                 }
                             }
                         }
-                        else if (auto thumbnailSystem = context->getSystemT<AV::ThumbnailSystem>().lock())
+                        if (p.ioInfo.find(i.first) == p.ioInfo.end())
                         {
+                            if (p.ioInfoFutures.find(i.first) == p.ioInfoFutures.end())
                             {
-                                const auto j = p.ioInfoFutures.find(i.first);
-                                if (j != p.ioInfoFutures.end())
+                                auto thumbnailSystem = context->getSystemT<AV::ThumbnailSystem>();
+                                auto ioSystem = context->getSystemT<AV::IO::System>();
+                                if (thumbnailSystem && ioSystem)
                                 {
-                                    thumbnailSystem->cancelInfo(j->second.uid);
-                                    p.ioInfoFutures.erase(j);
+                                    const auto & path = fileInfo.getPath();
+                                    if (ioSystem->canRead(path))
+                                    {
+                                        p.ioInfoFutures[i.first] = thumbnailSystem->getInfo(path);
+                                    }
                                 }
                             }
+                        }
+                        if (p.thumbnails.find(i.first) == p.thumbnails.end())
+                        {
+                            if (p.thumbnailFutures.find(i.first) == p.thumbnailFutures.end())
                             {
-                                const auto j = p.thumbnailFutures.find(i.first);
-                                if (j != p.thumbnailFutures.end())
+                                const auto & path = fileInfo.getPath();
+                                auto thumbnailSystem = context->getSystemT<AV::ThumbnailSystem>();
+                                auto ioSystem = context->getSystemT<AV::IO::System>();
+                                if (thumbnailSystem && ioSystem && ioSystem->canRead(path))
                                 {
-                                    thumbnailSystem->cancelImage(j->second.uid);
-                                    p.thumbnailFutures.erase(j);
+                                    p.thumbnailFutures[i.first] = thumbnailSystem->getImage(
+                                        path,
+                                        glm::ivec2(static_cast<int>(p.thumbnailSize.x), static_cast<int>(p.thumbnailSize.y)));
                                 }
+                            }
+                        }
+                        {
+                            const auto j = p.sizeText.find(i.first);
+                            if (j == p.sizeText.end())
+                            {
+                                p.sizeText[i.first] = Memory::getSizeLabel(fileInfo.getSize());
+                            }
+                        }
+                        {
+                            const auto j = p.timeText.find(i.first);
+                            if (j == p.timeText.end())
+                            {
+                                p.timeText[i.first] = Time::getLabel(fileInfo.getTime());
+                            }
+                        }
+                    }
+                    else if (auto thumbnailSystem = context->getSystemT<AV::ThumbnailSystem>())
+                    {
+                        {
+                            const auto j = p.ioInfoFutures.find(i.first);
+                            if (j != p.ioInfoFutures.end())
+                            {
+                                thumbnailSystem->cancelInfo(j->second.uid);
+                                p.ioInfoFutures.erase(j);
+                            }
+                        }
+                        {
+                            const auto j = p.thumbnailFutures.find(i.first);
+                            if (j != p.thumbnailFutures.end())
+                            {
+                                thumbnailSystem->cancelImage(j->second.uid);
+                                p.thumbnailFutures.erase(j);
                             }
                         }
                     }
@@ -348,198 +341,194 @@ namespace djv
             void ItemView::_paintEvent(Event::Paint & event)
             {
                 DJV_PRIVATE_PTR();
-                if (auto render = _getRender().lock())
+                const BBox2f & g = getGeometry();
+                auto style = _getStyle();
+                const float m = style->getMetric(MetricsRole::MarginSmall);
+                const float s = style->getMetric(MetricsRole::SpacingSmall);
+                const float b = style->getMetric(MetricsRole::Border);
+
+                auto render = _getRender();
                 {
-                    if (auto style = _getStyle().lock())
+                    const auto i = p.itemGeometry.find(p.grab);
+                    if (i != p.itemGeometry.end())
                     {
-                        const BBox2f & g = getGeometry();
-                        const float m = style->getMetric(MetricsRole::MarginSmall);
-                        const float s = style->getMetric(MetricsRole::SpacingSmall);
-                        const float b = style->getMetric(MetricsRole::Border);
+                        render->setFillColor(_getColorWithOpacity(style->getColor(ColorRole::Pressed)));
+                        render->drawRect(i->second);
+                    }
+                }
 
+                {
+                    const auto i = p.itemGeometry.find(p.hover);
+                    const auto j = p.itemGeometry.find(p.grab);
+                    if (i != p.itemGeometry.end() && i != j)
+                    {
+                        render->setFillColor(_getColorWithOpacity(style->getColor(ColorRole::Hovered)));
+                        render->drawRect(i->second);
+                    }
+                }
+
+                const float ut = _getUpdateTime();
+                auto item = p.items.begin();
+                size_t index = 0;
+                for (; item != p.items.end(); ++item, ++index)
+                {
+                    const auto i = p.itemGeometry.find(index);
+                    if (i != p.itemGeometry.end())
+                    {
+                        const BBox2f & itemGeometry = i->second;
+                        if (ViewType::List == p.viewType)
                         {
-                            const auto i = p.itemGeometry.find(p.grab);
-                            if (i != p.itemGeometry.end())
-                            {
-                                render->setFillColor(_getColorWithOpacity(style->getColor(ColorRole::Pressed)));
-                                render->drawRect(i->second);
-                            }
+                            render->pushClipRect(BBox2f(
+                                itemGeometry.min.x,
+                                itemGeometry.min.y,
+                                itemGeometry.w() * p.split[0],
+                                itemGeometry.h()));
                         }
-
+                        float opacity = 0.f;
                         {
-                            const auto i = p.itemGeometry.find(p.hover);
-                            const auto j = p.itemGeometry.find(p.grab);
-                            if (i != p.itemGeometry.end() && i != j)
+                            const auto j = p.thumbnails.find(index);
+                            if (j != p.thumbnails.end())
                             {
-                                render->setFillColor(_getColorWithOpacity(style->getColor(ColorRole::Hovered)));
-                                render->drawRect(i->second);
-                            }
-                        }
-
-                        const float ut = _getUpdateTime();
-                        auto item = p.items.begin();
-                        size_t index = 0;
-                        for (; item != p.items.end(); ++item, ++index)
-                        {
-                            const auto i = p.itemGeometry.find(index);
-                            if (i != p.itemGeometry.end())
-                            {
-                                const BBox2f & itemGeometry = i->second;
-                                if (ViewType::List == p.viewType)
+                                if (j->second)
                                 {
-                                    render->pushClipRect(BBox2f(
-                                        itemGeometry.min.x,
-                                        itemGeometry.min.y,
-                                        itemGeometry.w() * p.split[0],
-                                        itemGeometry.h()));
-                                }
-                                float opacity = 0.f;
-                                {
-                                    const auto j = p.thumbnails.find(index);
-                                    if (j != p.thumbnails.end())
+                                    opacity = 1.f;
+                                    const auto k = p.thumbnailTimers.find(index);
+                                    if (k != p.thumbnailTimers.end())
                                     {
-                                        if (j->second)
-                                        {
-                                            opacity = 1.f;
-                                            const auto k = p.thumbnailTimers.find(index);
-                                            if (k != p.thumbnailTimers.end())
-                                            {
-                                                opacity = std::min((ut - k->second) / thumbnailFadeTime, 1.f);
-                                            }
-                                            const auto & size = j->second->getSize();
-                                            float x = 0.f;
-                                            float y = 0.f;
-                                            switch (p.viewType)
-                                            {
-                                            case ViewType::Tiles:
-                                                x = floor(i->second.min.x + m + p.thumbnailSize.x / 2.f - size.x / 2.f);
-                                                y = floor(i->second.min.y + m + p.thumbnailSize.y - size.y);
-                                                break;
-                                            case ViewType::List:
-                                                x = floor(i->second.min.x + m);
-                                                y = floor(i->second.min.y + i->second.h() / 2.f - size.y / 2.f);
-                                                break;
-                                            default: break;
-                                            }
-                                            render->setFillColor(_getColorWithOpacity(AV::Image::Color(1.f, 1.f, 1.f, opacity)));
-                                            render->drawImage(
-                                                j->second,
-                                                BBox2f(x, y, static_cast<float>(size.x), static_cast<float>(size.y)));
-                                        }
+                                        opacity = std::min((ut - k->second) / thumbnailFadeTime, 1.f);
                                     }
-                                }
-                                if (opacity < 1.f)
-                                {
-                                    const auto j = p.icons.find(item->getType());
-                                    if (j != p.icons.end())
-                                    {
-                                        const auto & size = j->second->getSize();
-                                        float x = 0.f;
-                                        float y = 0.f;
-                                        switch (p.viewType)
-                                        {
-                                        case ViewType::Tiles:
-                                            x = floor(i->second.min.x + m + p.thumbnailSize.x / 2.f - size.x / 2.f);
-                                            y = floor(i->second.min.y + m + p.thumbnailSize.y - size.y);
-                                            break;
-                                        case ViewType::List:
-                                            x = floor(i->second.min.x + m);
-                                            y = floor(i->second.min.y + i->second.h() / 2.f - size.y / 2.f);
-                                            break;
-                                        default: break;
-                                        }
-                                        auto c = style->getColor(ColorRole::Button).convert(AV::Image::Type::RGBA_F32);
-                                        c.setF32(1.f - opacity, 3);
-                                        render->setFillColor(_getColorWithOpacity(c));
-                                        render->drawFilledImage(
-                                            j->second,
-                                            BBox2f(x, y, static_cast<float>(size.x), static_cast<float>(size.y)));
-                                    }
-                                }
-                                {
-                                    render->setFillColor(_getColorWithOpacity(style->getColor(ColorRole::Foreground)));
-                                    render->setCurrentFont(style->getFontInfo(AV::Font::Info::faceDefault, MetricsRole::FontMedium));
+                                    const auto & size = j->second->getSize();
+                                    float x = 0.f;
+                                    float y = 0.f;
                                     switch (p.viewType)
                                     {
                                     case ViewType::Tiles:
-                                    {
-                                        const auto j = p.nameLines.find(index);
-                                        if (j != p.nameLines.end())
-                                        {
-                                            float x = i->second.min.x + m;
-                                            float y = i->second.max.y - p.nameFontMetrics.lineHeight * 2.f - m;
-                                            size_t line = 0;
-                                            auto k = j->second.begin();
-                                            for (; k != j->second.end() && line < 2; ++k, ++line)
-                                            {
-                                                //! \bug Why the extra subtract by one here?
-                                                render->drawText(
-                                                    k->text,
-                                                    glm::vec2(
-                                                        floorf(x + p.thumbnailSize.x / 2.f - k->size.x / 2.f),
-                                                        floorf(y + p.nameFontMetrics.ascender - 1.f)));
-                                                y += p.nameFontMetrics.lineHeight;
-                                            }
-                                        }
+                                        x = floor(i->second.min.x + m + p.thumbnailSize.x / 2.f - size.x / 2.f);
+                                        y = floor(i->second.min.y + m + p.thumbnailSize.y - size.y);
                                         break;
-                                    }
                                     case ViewType::List:
-                                    {
-                                        float x = i->second.min.x + m + p.thumbnailSize.x + s;
-                                        float y = i->second.min.y + i->second.h() / 2.f - p.nameFontMetrics.lineHeight / 2.f;
-                                        //! \bug Why the extra subtract by one here?
-                                        render->drawText(
-                                            item->getFileName(Frame::Invalid, false),
-                                            glm::vec2(
-                                                floorf(x),
-                                                floorf(y + p.nameFontMetrics.ascender - 1.f)));
-
-                                        render->popClipRect();
-
-                                        x = i->second.min.x + i->second.w() * p.split[0] + m;
-                                        auto j = p.sizeText.find(index);
-                                        if (j != p.sizeText.end())
-                                        {
-                                            render->pushClipRect(BBox2f(
-                                                itemGeometry.min.x + itemGeometry.w() * p.split[0],
-                                                itemGeometry.min.y,
-                                                itemGeometry.w() * (p.split[1] - p.split[0]),
-                                                itemGeometry.h()));
-
-                                            //! \bug Why the extra subtract by one here?
-                                            render->drawText(
-                                                j->second,
-                                                glm::vec2(
-                                                    floorf(x),
-                                                    floorf(y + p.nameFontMetrics.ascender - 1.f)));
-
-                                            render->popClipRect();
-                                        }
-
-                                        x = i->second.min.x + i->second.w() * p.split[1] + m;
-                                        j = p.timeText.find(index);
-                                        if (j != p.timeText.end())
-                                        {
-                                            render->pushClipRect(BBox2f(
-                                                itemGeometry.min.x + itemGeometry.w() * p.split[1],
-                                                itemGeometry.min.y,
-                                                itemGeometry.w() * (p.split[2] - p.split[1]),
-                                                itemGeometry.h()));
-
-                                            //! \bug Why the extra subtract by one here?
-                                            render->drawText(
-                                                j->second,
-                                                glm::vec2(
-                                                    floorf(x),
-                                                    floorf(y + p.nameFontMetrics.ascender - 1.f)));
-
-                                            render->popClipRect();
-                                        }
+                                        x = floor(i->second.min.x + m);
+                                        y = floor(i->second.min.y + i->second.h() / 2.f - size.y / 2.f);
                                         break;
-                                    }
                                     default: break;
                                     }
+                                    render->setFillColor(_getColorWithOpacity(AV::Image::Color(1.f, 1.f, 1.f, opacity)));
+                                    render->drawImage(
+                                        j->second,
+                                        BBox2f(x, y, static_cast<float>(size.x), static_cast<float>(size.y)));
                                 }
+                            }
+                        }
+                        if (opacity < 1.f)
+                        {
+                            const auto j = p.icons.find(item->getType());
+                            if (j != p.icons.end())
+                            {
+                                const auto & size = j->second->getSize();
+                                float x = 0.f;
+                                float y = 0.f;
+                                switch (p.viewType)
+                                {
+                                case ViewType::Tiles:
+                                    x = floor(i->second.min.x + m + p.thumbnailSize.x / 2.f - size.x / 2.f);
+                                    y = floor(i->second.min.y + m + p.thumbnailSize.y - size.y);
+                                    break;
+                                case ViewType::List:
+                                    x = floor(i->second.min.x + m);
+                                    y = floor(i->second.min.y + i->second.h() / 2.f - size.y / 2.f);
+                                    break;
+                                default: break;
+                                }
+                                auto c = style->getColor(ColorRole::Button).convert(AV::Image::Type::RGBA_F32);
+                                c.setF32(1.f - opacity, 3);
+                                render->setFillColor(_getColorWithOpacity(c));
+                                render->drawFilledImage(
+                                    j->second,
+                                    BBox2f(x, y, static_cast<float>(size.x), static_cast<float>(size.y)));
+                            }
+                        }
+                        {
+                            render->setFillColor(_getColorWithOpacity(style->getColor(ColorRole::Foreground)));
+                            render->setCurrentFont(style->getFontInfo(AV::Font::Info::faceDefault, MetricsRole::FontMedium));
+                            switch (p.viewType)
+                            {
+                            case ViewType::Tiles:
+                            {
+                                const auto j = p.nameLines.find(index);
+                                if (j != p.nameLines.end())
+                                {
+                                    float x = i->second.min.x + m;
+                                    float y = i->second.max.y - p.nameFontMetrics.lineHeight * 2.f - m;
+                                    size_t line = 0;
+                                    auto k = j->second.begin();
+                                    for (; k != j->second.end() && line < 2; ++k, ++line)
+                                    {
+                                        //! \bug Why the extra subtract by one here?
+                                        render->drawText(
+                                            k->text,
+                                            glm::vec2(
+                                                floorf(x + p.thumbnailSize.x / 2.f - k->size.x / 2.f),
+                                                floorf(y + p.nameFontMetrics.ascender - 1.f)));
+                                        y += p.nameFontMetrics.lineHeight;
+                                    }
+                                }
+                                break;
+                            }
+                            case ViewType::List:
+                            {
+                                float x = i->second.min.x + m + p.thumbnailSize.x + s;
+                                float y = i->second.min.y + i->second.h() / 2.f - p.nameFontMetrics.lineHeight / 2.f;
+                                //! \bug Why the extra subtract by one here?
+                                render->drawText(
+                                    item->getFileName(Frame::Invalid, false),
+                                    glm::vec2(
+                                        floorf(x),
+                                        floorf(y + p.nameFontMetrics.ascender - 1.f)));
+
+                                render->popClipRect();
+
+                                x = i->second.min.x + i->second.w() * p.split[0] + m;
+                                auto j = p.sizeText.find(index);
+                                if (j != p.sizeText.end())
+                                {
+                                    render->pushClipRect(BBox2f(
+                                        itemGeometry.min.x + itemGeometry.w() * p.split[0],
+                                        itemGeometry.min.y,
+                                        itemGeometry.w() * (p.split[1] - p.split[0]),
+                                        itemGeometry.h()));
+
+                                    //! \bug Why the extra subtract by one here?
+                                    render->drawText(
+                                        j->second,
+                                        glm::vec2(
+                                            floorf(x),
+                                            floorf(y + p.nameFontMetrics.ascender - 1.f)));
+
+                                    render->popClipRect();
+                                }
+
+                                x = i->second.min.x + i->second.w() * p.split[1] + m;
+                                j = p.timeText.find(index);
+                                if (j != p.timeText.end())
+                                {
+                                    render->pushClipRect(BBox2f(
+                                        itemGeometry.min.x + itemGeometry.w() * p.split[1],
+                                        itemGeometry.min.y,
+                                        itemGeometry.w() * (p.split[2] - p.split[1]),
+                                        itemGeometry.h()));
+
+                                    //! \bug Why the extra subtract by one here?
+                                    render->drawText(
+                                        j->second,
+                                        glm::vec2(
+                                            floorf(x),
+                                            floorf(y + p.nameFontMetrics.ascender - 1.f)));
+
+                                    render->popClipRect();
+                                }
+                                break;
+                            }
+                            default: break;
                             }
                         }
                     }
@@ -580,17 +569,15 @@ namespace djv
                 const auto & pointerInfo = event.getPointerInfo();
                 if (p.grab != invalid && pointerInfo.id == p.pressedId)
                 {
-                    if (auto style = _getStyle().lock())
+                    const float distance = glm::length(pointerInfo.projectedPos - p.pressedPos);
+                    auto style = _getStyle();
+                    const bool accepted = distance < style->getMetric(MetricsRole::Drag);
+                    event.setAccepted(accepted);
+                    if (!accepted)
                     {
-                        const float distance = glm::length(pointerInfo.projectedPos - p.pressedPos);
-                        const bool accepted = distance < style->getMetric(MetricsRole::Drag);
-                        event.setAccepted(accepted);
-                        if (!accepted)
-                        {
-                            p.grab = invalid;
-                            p.pressedId = Event::InvalidID;
-                            _redraw();
-                        }
+                        p.grab = invalid;
+                        p.pressedId = Event::InvalidID;
+                        _redraw();
                     }
                 }
                 else
@@ -815,26 +802,21 @@ namespace djv
             {
                 DJV_PRIVATE_PTR();
                 p.icons.clear();
-                if (auto style = _getStyle().lock())
+                for (size_t i = 0; i < static_cast<size_t>(FileSystem::FileType::Count); ++i)
                 {
-                    if (auto iconSystem = getContext()->getSystemT<IconSystem>().lock())
+                    const auto type = static_cast<FileSystem::FileType>(i);
+                    std::string name;
+                    switch (type)
                     {
-                        for (size_t i = 0; i < static_cast<size_t>(FileSystem::FileType::Count); ++i)
-                        {
-                            const auto type = static_cast<FileSystem::FileType>(i);
-                            std::string name;
-                            switch (type)
-                            {
-                            case FileSystem::FileType::Directory:
-                                name = "djvIconDirectory";
-                                break;
-                            default:
-                                name = "djvIconFile";
-                                break;
-                            }
-                            _p->iconsFutures[type] = iconSystem->getIcon(name, p.thumbnailSize.y);
-                        }
+                    case FileSystem::FileType::Directory:
+                        name = "djvIconDirectory";
+                        break;
+                    default:
+                        name = "djvIconFile";
+                        break;
                     }
+                    auto iconSystem = _getIconSystem();
+                    _p->iconsFutures[type] = iconSystem->getIcon(name, p.thumbnailSize.y);
                 }
             }
 
@@ -843,56 +825,53 @@ namespace djv
                 DJV_PRIVATE_PTR();
                 p.thumbnails.clear();
                 auto context = getContext();
-                auto thumbnailSystem = context->getSystemT<AV::ThumbnailSystem>().lock();
-                auto fontSystem = _getFontSystem().lock();
-                auto style = _getStyle().lock();
-                if (thumbnailSystem && fontSystem && style)
+                auto thumbnailSystem = context->getSystemT<AV::ThumbnailSystem>();
+                auto fontSystem = _getFontSystem();
+                auto style = _getStyle();
+                p.nameLines.clear();
+                p.nameLinesFutures.clear();
+                for (const auto & i : p.itemGeometry)
                 {
-                    p.nameLines.clear();
-                    p.nameLinesFutures.clear();
-                    for (const auto & i : p.itemGeometry)
+                    const auto j = p.thumbnailFutures.find(i.first);
+                    if (j != p.thumbnailFutures.end())
                     {
-                        const auto j = p.thumbnailFutures.find(i.first);
-                        if (j != p.thumbnailFutures.end())
-                        {
-                            thumbnailSystem->cancelImage(j->second.uid);
-                            p.thumbnailFutures.erase(j);
-                        }
+                        thumbnailSystem->cancelImage(j->second.uid);
+                        p.thumbnailFutures.erase(j);
                     }
-                    p.thumbnailFutures.clear();
+                }
+                p.thumbnailFutures.clear();
 
-                    const auto & clipRect = getClipRect();
-                    for (const auto & i : p.itemGeometry)
+                const auto & clipRect = getClipRect();
+                for (const auto & i : p.itemGeometry)
+                {
+                    if (i.first < p.items.size() && i.second.intersects(clipRect))
                     {
-                        if (i.first < p.items.size() && i.second.intersects(clipRect))
+                        if (p.thumbnails.find(i.first) == p.thumbnails.end())
                         {
-                            if (p.thumbnails.find(i.first) == p.thumbnails.end())
+                            const auto & fileInfo = p.items[i.first];
                             {
-                                const auto & fileInfo = p.items[i.first];
+                                const auto j = p.nameLines.find(i.first);
+                                if (j == p.nameLines.end())
                                 {
-                                    const auto j = p.nameLines.find(i.first);
-                                    if (j == p.nameLines.end())
+                                    const auto k = p.nameLinesFutures.find(i.first);
+                                    if (k == p.nameLinesFutures.end())
                                     {
-                                        const auto k = p.nameLinesFutures.find(i.first);
-                                        if (k == p.nameLinesFutures.end())
-                                        {
-                                            const float m = style->getMetric(MetricsRole::MarginSmall);
-                                            const auto fontInfo = style->getFontInfo(AV::Font::Info::faceDefault, MetricsRole::FontMedium);
-                                            p.nameLinesFutures[i.first] = fontSystem->textLines(
-                                                fileInfo.getFileName(Frame::Invalid, false), p.thumbnailSize.x - m * 2.f, fontInfo);
-                                        }
+                                        const float m = style->getMetric(MetricsRole::MarginSmall);
+                                        const auto fontInfo = style->getFontInfo(AV::Font::Info::faceDefault, MetricsRole::FontMedium);
+                                        p.nameLinesFutures[i.first] = fontSystem->textLines(
+                                            fileInfo.getFileName(Frame::Invalid, false), p.thumbnailSize.x - m * 2.f, fontInfo);
                                     }
                                 }
-                                if (p.thumbnailFutures.find(i.first) == p.thumbnailFutures.end())
+                            }
+                            if (p.thumbnailFutures.find(i.first) == p.thumbnailFutures.end())
+                            {
+                                const auto & path = fileInfo.getPath();
+                                auto ioSystem = context->getSystemT<AV::IO::System>();
+                                if (ioSystem && ioSystem->canRead(path))
                                 {
-                                    const auto & path = fileInfo.getPath();
-                                    auto ioSystem = context->getSystemT<AV::IO::System>().lock();
-                                    if (ioSystem && ioSystem->canRead(path))
-                                    {
-                                        p.thumbnailFutures[i.first] = thumbnailSystem->getImage(
-                                            path,
-                                            glm::ivec2(static_cast<int>(p.thumbnailSize.x), static_cast<int>(p.thumbnailSize.y)));
-                                    }
+                                    p.thumbnailFutures[i.first] = thumbnailSystem->getImage(
+                                        path,
+                                        glm::ivec2(static_cast<int>(p.thumbnailSize.x), static_cast<int>(p.thumbnailSize.y)));
                                 }
                             }
                         }
@@ -903,33 +882,28 @@ namespace djv
             void ItemView::_itemsUpdate()
             {
                 DJV_PRIVATE_PTR();
-                if (auto style = _getStyle().lock())
+                auto style = _getStyle();
+                auto fontSystem = _getFontSystem();
+                auto thumbnailSystem = getContext()->getSystemT<AV::ThumbnailSystem>();
+                p.nameFontMetricsFuture = fontSystem->getMetrics(
+                    style->getFontInfo(AV::Font::Info::faceDefault, MetricsRole::FontMedium));
+                p.nameLines.clear();
+                p.nameLinesFutures.clear();
+                p.ioInfo.clear();
+                p.ioInfoFutures.clear();
+                p.thumbnails.clear();
+                for (const auto & i : p.itemGeometry)
                 {
-                    auto fontSystem = _getFontSystem().lock();
-                    auto thumbnailSystem = getContext()->getSystemT<AV::ThumbnailSystem>().lock();
-                    if (fontSystem && thumbnailSystem)
+                    const auto j = p.thumbnailFutures.find(i.first);
+                    if (j != p.thumbnailFutures.end())
                     {
-                        p.nameFontMetricsFuture = fontSystem->getMetrics(
-                            style->getFontInfo(AV::Font::Info::faceDefault, MetricsRole::FontMedium));
-                        p.nameLines.clear();
-                        p.nameLinesFutures.clear();
-                        p.ioInfo.clear();
-                        p.ioInfoFutures.clear();
-                        p.thumbnails.clear();
-                        for (const auto & i : p.itemGeometry)
-                        {
-                            const auto j = p.thumbnailFutures.find(i.first);
-                            if (j != p.thumbnailFutures.end())
-                            {
-                                thumbnailSystem->cancelImage(j->second.uid);
-                                p.thumbnailFutures.erase(j);
-                            }
-                        }
-                        p.thumbnailFutures.clear();
-                        p.sizeText.clear();
-                        p.timeText.clear();
+                        thumbnailSystem->cancelImage(j->second.uid);
+                        p.thumbnailFutures.erase(j);
                     }
                 }
+                p.thumbnailFutures.clear();
+                p.sizeText.clear();
+                p.timeText.clear();
                 _resize();
             }
 

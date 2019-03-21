@@ -64,7 +64,7 @@ namespace djv
             void _pushClipRect(const Core::BBox2f &) override;
             void _popClipRect() override;
 
-            void _initObject(const std::shared_ptr<IObject> &) override;
+            void _initObject(const std::shared_ptr<Core::IObject> &) override;
             void _hover(Core::Event::PointerMove &, std::shared_ptr<Core::IObject> &) override;
 
         private:

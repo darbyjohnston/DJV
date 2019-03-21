@@ -53,7 +53,7 @@ namespace djv
             std::vector<std::shared_ptr<ITool> > getTools() override;
 
         protected:
-            void _localeEvent(Core::Event::Locale &) override;
+            void _textUpdate();
             
         private:
             DJV_PRIVATE();

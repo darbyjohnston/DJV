@@ -47,12 +47,11 @@ namespace djv
 
         } // namespace
 
-        bool                               IObject::_logSystemInit  = false;
-        Context *                          IObject::_context        = nullptr;
-        std::weak_ptr<ResourceSystem>      IObject::_resourceSystem;
-        std::weak_ptr<LogSystem>           IObject::_logSystem;
-        std::weak_ptr<TextSystem>          IObject::_textSystem;
-        std::weak_ptr<Event::IEventSystem> IObject::_eventSystem;
+        Context *                            IObject::_context        = nullptr;
+        std::shared_ptr<ResourceSystem>      IObject::_resourceSystem;
+        std::shared_ptr<LogSystem>           IObject::_logSystem;
+        std::shared_ptr<TextSystem>          IObject::_textSystem;
+        std::shared_ptr<Event::IEventSystem> IObject::_eventSystem;
 
         void IObject::_init(Context * context)
         {
@@ -61,31 +60,35 @@ namespace djv
             _context   = context;
             _className = "djv::Core::IObject";
 
-            if (!_resourceSystem.lock())
+            if (!_resourceSystem)
             {
                 _resourceSystem = context->getSystemT<ResourceSystem>();
             }
-            if (!_logSystem.lock())
+            if (!_logSystem)
             {
                 _logSystem = context->getSystemT<LogSystem>();
             }
-            if (!_textSystem.lock())
+            if (!_textSystem)
             {
                 _textSystem = context->getSystemT<TextSystem>();
             }
-            if (!_eventSystem.lock())
+            if (!_eventSystem)
             {
                 _eventSystem = context->getSystemT<Event::IEventSystem>();
             }
-            if (auto eventSystem = _eventSystem.lock())
-            {
-                eventSystem->_objectCreated(shared_from_this());
-            }
+            _eventSystem->_objectCreated(shared_from_this());
         }
 
         IObject::~IObject()
         {
             --globalObjectCount;
+            if (!globalObjectCount)
+            {
+                _eventSystem.reset();
+                _textSystem.reset();
+                _logSystem.reset();
+                _resourceSystem.reset();
+            }
         }
 
         void IObject::moveToFront()

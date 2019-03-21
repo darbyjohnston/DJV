@@ -34,6 +34,11 @@
 
 #include <djvUIComponents/UIComponentsSystem.h>
 
+#include <djvAV/IO.h>
+#include <djvAV/Render2D.h>
+
+#include <djvCore/TextSystem.h>
+
 #include <GLFW/glfw3.h>
 
 #include <chrono>
@@ -48,16 +53,13 @@ namespace djv
         namespace
         {
             //! \todo [1.0 S] Should this be configurable?
-            const size_t frameRate = 60;
+            const size_t frameRate = 6000;
         
         } // namespace
 
         struct Application::Private
         {
             bool running = false;
-            std::shared_ptr<GLFWSystem> glfwSystem;
-            std::shared_ptr<UI::UIComponentsSystem> uiComponentsSystem;
-            std::shared_ptr<EventSystem> eventSystem;
         };
 
         void Application::_init(int argc, char * argv[])
@@ -66,13 +68,11 @@ namespace djv
 
             DJV_PRIVATE_PTR();
 
-            p.glfwSystem = GLFWSystem::create(this);
-            
-            p.uiComponentsSystem = UI::UIComponentsSystem::create(p.glfwSystem->getDPI(), this);
-            p.uiComponentsSystem->addDependency(p.glfwSystem);
-
-            p.eventSystem = EventSystem::create(p.glfwSystem->getGLFWWindow(), this);
-            p.eventSystem->addDependency(p.uiComponentsSystem);
+            auto glfwSystem = GLFWSystem::create(this);
+            auto uiComponentsSystem = UI::UIComponentsSystem::create(glfwSystem->getDPI(), this);
+            getSystemT<AV::IO::System>()->addDependency(glfwSystem);
+            getSystemT<AV::Render::Render2D>()->addDependency(glfwSystem);
+            EventSystem::create(glfwSystem->getGLFWWindow(), this);
         }
         
         Application::Application() :
@@ -92,7 +92,7 @@ namespace djv
         int Application::run()
         {
             DJV_PRIVATE_PTR();
-            if (auto glfwWindow = p.glfwSystem->getGLFWWindow())
+            if (auto glfwWindow = getSystemT<GLFWSystem>()->getGLFWWindow())
             {
                 p.running = true;
                 auto time = std::chrono::system_clock::now();

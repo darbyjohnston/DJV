@@ -154,32 +154,28 @@ namespace djv
             {
                 Widget::_paintEvent(event);
                 DJV_PRIVATE_PTR();
-                if (auto render = _getRender().lock())
+                if (p.open)
                 {
-                    if (auto style = _getStyle().lock())
+                    const BBox2f & g = _p->layout->getGeometry();
+                    auto style = _getStyle();
+                    const float b = style->getMetric(MetricsRole::Border);
+                    auto render = _getRender();
+                    render->setFillColor(_getColorWithOpacity(style->getColor(ColorRole::Border)));
+                    switch (p.side)
                     {
-                        if (p.open)
-                        {
-                            const BBox2f & g = _p->layout->getGeometry();
-                            const float b = style->getMetric(MetricsRole::Border);
-                            render->setFillColor(_getColorWithOpacity(style->getColor(ColorRole::Border)));
-                            switch (p.side)
-                            {
-                            case Side::Left:
-                                render->drawRect(BBox2f(g.max.x + b, g.min.y, b, g.h()));
-                                break;
-                            case Side::Top:
-                                render->drawRect(BBox2f(g.min.x, g.max.y, g.w(), b));
-                                break;
-                            case Side::Right:
-                                render->drawRect(BBox2f(g.min.x - b, g.min.y, b, g.h()));
-                                break;
-                            case Side::Bottom:
-                                render->drawRect(BBox2f(g.min.x, g.min.y - b, g.w(), b));
-                                break;
-                            default: break;
-                            }
-                        }
+                    case Side::Left:
+                        render->drawRect(BBox2f(g.max.x + b, g.min.y, b, g.h()));
+                        break;
+                    case Side::Top:
+                        render->drawRect(BBox2f(g.min.x, g.max.y, g.w(), b));
+                        break;
+                    case Side::Right:
+                        render->drawRect(BBox2f(g.min.x - b, g.min.y, b, g.h()));
+                        break;
+                    case Side::Bottom:
+                        render->drawRect(BBox2f(g.min.x, g.min.y - b, g.w(), b));
+                        break;
+                    default: break;
                     }
                 }
             }

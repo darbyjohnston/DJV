@@ -81,19 +81,16 @@ namespace djv
 
             auto viewSystems = context->getSystemsT<IViewSystem>();
             std::map<std::string, std::shared_ptr<UI::Menu> > menus;
-            for (auto i : viewSystems)
+            for (auto system : viewSystems)
             {
-                if (auto system = i.lock())
+                for (auto action : system->getActions())
                 {
-                    for (auto action : system->getActions())
-                    {
-                        addAction(action.second);
-                    }
-                    auto menu = system->getMenu();
-                    if (menu.menu)
-                    {
-                        menus[menu.sortKey] = menu.menu;
-                    }
+                    addAction(action.second);
+                }
+                auto menu = system->getMenu();
+                if (menu.menu)
+                {
+                    menus[menu.sortKey] = menu.menu;
                 }
             }
 
@@ -119,15 +116,12 @@ namespace djv
             p.mediaWidget = MediaWidget::create(context);
 
             p.mdiCanvas = UI::MDI::Canvas::create(context);
-            for (auto i : viewSystems)
+            for (auto system : viewSystems)
             {
-                if (auto system = i.lock())
+                for (auto j : system->getTools())
                 {
-                    for (auto j : system->getTools())
-                    {
-                        p.mdiCanvas->addChild(j);
-                        j->setVisible(false);
-                    }
+                    p.mdiCanvas->addChild(j);
+                    j->setVisible(false);
                 }
             }
             
@@ -145,7 +139,7 @@ namespace djv
             p.settingsButton->setClickedCallback(
                 [context]
             {
-                if (auto system = context->getSystemT<SettingsSystem>().lock())
+                if (auto system = context->getSystemT<SettingsSystem>())
                 {
                     system->showSettings();
                 }
@@ -172,7 +166,7 @@ namespace djv
                 }
             });
 
-            if (auto fileSystem = context->getSystemT<FileSystem>().lock())
+            if (auto fileSystem = context->getSystemT<FileSystem>())
             {
                 p.currentMediaObserver = ValueObserver<std::shared_ptr<Media>>::create(
                     fileSystem->observeCurrentMedia(),
@@ -203,18 +197,14 @@ namespace djv
 
         void MainWindow::_dropEvent(Core::Event::Drop & event)
         {
-            if (auto style = _getStyle().lock())
+            auto style = _getStyle();
+            const float s = style->getMetric(UI::MetricsRole::SpacingLarge);
+            glm::vec2 pos = event.getPointerInfo().projectedPos;
+            for (const auto & i : event.getDropPaths())
             {
-                if (auto fileSystem = getContext()->getSystemT<FileSystem>().lock())
-                {
-                    const float s = style->getMetric(UI::MetricsRole::SpacingLarge);
-                    glm::vec2 pos = event.getPointerInfo().projectedPos;
-                    for (const auto & i : event.getDropPaths())
-                    {
-                        fileSystem->open(i, pos);
-                        pos += s;
-                    }
-                }
+                auto fileSystem = getContext()->getSystemT<FileSystem>();
+                fileSystem->open(i, pos);
+                pos += s;
             }
         }
 

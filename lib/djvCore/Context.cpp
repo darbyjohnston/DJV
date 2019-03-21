@@ -30,11 +30,13 @@
 #include <djvCore/Context.h>
 
 #include <djvCore/CoreSystem.h>
+#include <djvCore/FileIO.h>
 #include <djvCore/IObject.h>
 #include <djvCore/LogSystem.h>
 #include <djvCore/OS.h>
 #include <djvCore/ResourceSystem.h>
 #include <djvCore/TextSystem.h>
+#include <djvCore/Time.h>
 #include <djvCore/Timer.h>
 
 #include <thread>
@@ -70,25 +72,25 @@ namespace djv
             const std::string argv0 = argc ? argv[0] : std::string();
             _name = FileSystem::Path(argv0).getBaseName();
 
+            _timerSystem = Time::TimerSystem::create(this);
+            _resourceSystem = ResourceSystem::create(argv0, this);
+            _logSystem = LogSystem::create(_resourceSystem->getPath(FileSystem::ResourcePath::LogFile), this);
+            _textSystem = TextSystem::create(_resourceSystem->getPath(FileSystem::ResourcePath::TextDirectory), this);
+            CoreSystem::create(argv0, this);
+
             _rootObject = std::shared_ptr<RootObject>(new RootObject);
 
-            _coreSystem = CoreSystem::create(argv0, this);
-
-            if (auto logSystem = getSystemT<LogSystem>().lock())
             {
                 std::stringstream s;
                 s << "Application: " << _name << '\n';
                 s << "System information: " << OS::getInformation() << '\n';
                 s << "Hardware concurrency: " << std::thread::hardware_concurrency() << '\n';
-                if (auto resourceSystem = getSystemT<ResourceSystem>().lock())
+                s << "Resource paths:" << '\n';
+                for (auto path : FileSystem::getResourcePathEnums())
                 {
-                    s << "Resource paths:" << '\n';
-                    for (auto path : FileSystem::getResourcePathEnums())
-                    {
-                        s << "    " << path << ": " << resourceSystem->getPath(path) << '\n';
-                    }
+                    s << "    " << path << ": " << _resourceSystem->getPath(path) << '\n';
                 }
-                logSystem->log("djv::Core::Context", s.str());
+                _logSystem->log("djv::Core::Context", s.str());
             }
 
             _fpsTimer = Time::Timer::create(this);
@@ -110,9 +112,7 @@ namespace djv
         }
 
         Context::~Context()
-        {
-            _rootObject->clearChildren();
-        }
+        {}
 
         std::unique_ptr<Context> Context::create(int & argc, char ** argv)
         {
@@ -128,40 +128,22 @@ namespace djv
 
         void Context::log(const std::string & prefix, const std::string & message, LogLevel level)
         {
-            if (auto logSystem = getSystemT<LogSystem>().lock())
-            {
-                logSystem->log(prefix, message, level);
-            }
+            _logSystem->log(prefix, message, level);
         }
 
         FileSystem::Path Context::getPath(FileSystem::ResourcePath value) const
         {
-            FileSystem::Path out;
-            if (auto resourceSystem = getSystemT<ResourceSystem>().lock())
-            {
-                out = resourceSystem->getPath(value);
-            }
-            return out;
+            return _resourceSystem->getPath(value);
         }
 
         FileSystem::Path Context::getPath(FileSystem::ResourcePath value, const std::string & fileName) const
         {
-            FileSystem::Path out;
-            if (auto resourceSystem = getSystemT<ResourceSystem>().lock())
-            {
-                out = FileSystem::Path(resourceSystem->getPath(value), fileName);
-            }
-            return out;
+            return FileSystem::Path(_resourceSystem->getPath(value), fileName);
         }
 
         std::string Context::getText(const std::string & id) const
         {
-            std::string out;
-            if (auto textSystem = getSystemT<TextSystem>().lock())
-            {
-                out = textSystem->getText(id);
-            }
-            return out;
+            return _textSystem->getText(id);
         }
 
         void Context::tick(float dt)
@@ -184,29 +166,39 @@ namespace djv
 
             static bool logSystemOrder = true;
             size_t count = 0;
-            for (const auto & i : _systems)
+            if (logSystemOrder)
             {
-                if (auto system = i.lock())
+                logSystemOrder = false;
+                std::vector<std::string> dot;
+                dot.push_back("digraph {");
+                for (const auto & system : _systems)
                 {
-                    if (logSystemOrder)
                     {
-                        if (auto logSystem = getSystemT<LogSystem>().lock())
-                        {
-                            std::stringstream s;
-                            s << "Tick system #" << count << ": " << system->getObjectName();
-                            logSystem->log("djv::Core::Context", s.str());
-                            ++count;
-                        }
+                        std::stringstream s;
+                        s << "Tick system #" << count << ": " << system->getSystemName();
+                        _logSystem->log("djv::Core::Context", s.str());
+                        ++count;
                     }
-                    system->tick(dt);
+                    for (const auto & dependency : system->getDependencies())
+                    {
+                        std::stringstream ss;
+                        ss << "    " << "\"" << system->getSystemName() << "\"";
+                        ss << " -> " << "\"" << dependency->getSystemName() << "\"";
+                        dot.push_back(ss.str());
+                    }
                 }
+                dot.push_back("}");
+                FileSystem::FileIO::writeLines("systems.dot", dot);
             }
-            logSystemOrder = false;
+
+            for (const auto & system : _systems)
+            {
+                system->tick(dt);
+            }
         }
 
-        void Context::_addSystem(const std::shared_ptr<ISystem> & system)
+        void Context::_addSystem(const std::shared_ptr<ISystemBase> & system)
         {
-            _rootObject->addChild(system);
             _systems.push_back(system);
         }
 

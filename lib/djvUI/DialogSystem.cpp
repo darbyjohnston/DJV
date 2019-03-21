@@ -29,6 +29,7 @@
 
 #include <djvUI/DialogSystem.h>
 
+#include <djvUI/IconSystem.h>
 #include <djvUI/IDialog.h>
 #include <djvUI/EventSystem.h>
 #include <djvUI/Label.h>
@@ -220,6 +221,8 @@ namespace djv
         void DialogSystem::_init(Context * context)
         {
             ISystem::_init("djv::UI::DialogSystem", context);
+
+            addDependency(context->getSystemT<IconSystem>());
         }
 
         DialogSystem::DialogSystem() :
@@ -247,7 +250,7 @@ namespace djv
             {
                 p.messageDialog = MessageDialog::create(context);
             }
-            if (auto windowSystem = context->getSystemT<UI::EventSystem>().lock())
+            if (auto windowSystem = context->getSystemT<UI::EventSystem>())
             {
                 if (auto window = windowSystem->observeCurrentWindow()->get())
                 {
@@ -274,7 +277,7 @@ namespace djv
             {
                 p.confirmationDialog = ConfirmationDialog::create(context);
             }
-            if (auto windowSystem = context->getSystemT<UI::EventSystem>().lock())
+            if (auto windowSystem = context->getSystemT<UI::EventSystem>())
             {
                 if (auto window = windowSystem->observeCurrentWindow()->get())
                 {

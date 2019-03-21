@@ -114,12 +114,10 @@ namespace djv
             {
                 DJV_PRIVATE_PTR();
                 float out = 0.f;
-                if (auto style = _getStyle().lock())
-                {
-                    const glm::vec2 m = getMargin().getSize(style);
-                    const float b = style->getMetric(MetricsRole::Border);
-                    out = p.layout->getHeightForWidth(value - b * 2.f - m.x) + b * 2.f + m.y;
-                }
+                auto style = _getStyle();
+                const glm::vec2 m = getMargin().getSize(style);
+                const float b = style->getMetric(MetricsRole::Border);
+                out = p.layout->getHeightForWidth(value - b * 2.f - m.x) + b * 2.f + m.y;
                 return out;
             }
 
@@ -136,49 +134,39 @@ namespace djv
             void Border::_preLayoutEvent(Event::PreLayout & event)
             {
                 DJV_PRIVATE_PTR();
-                if (auto style = _getStyle().lock())
-                {
-                    _setMinimumSize(p.layout->getMinimumSize() + style->getMetric(p.borderSize) * 2.f + getMargin().getSize(style));
-                }
+                auto style = _getStyle();
+                _setMinimumSize(p.layout->getMinimumSize() + style->getMetric(p.borderSize) * 2.f + getMargin().getSize(style));
             }
 
             void Border::_layoutEvent(Event::Layout & event)
             {
                 DJV_PRIVATE_PTR();
-                if (auto style = _getStyle().lock())
-                {
-                    const BBox2f & g = getGeometry().margin(-style->getMetric(p.borderSize));
-                    p.layout->setGeometry(getMargin().bbox(g, style));
-                }
+                auto style = _getStyle();
+                const BBox2f & g = getGeometry().margin(-style->getMetric(p.borderSize));
+                p.layout->setGeometry(getMargin().bbox(g, style));
             }
 
             void Border::_paintEvent(Event::Paint & event)
             {
                 Widget::_paintEvent(event);
                 DJV_PRIVATE_PTR();
-                if (auto render = _getRender().lock())
-                {
-                    if (auto style = _getStyle().lock())
-                    {
-                        const BBox2f & g = getMargin().bbox(getGeometry(), style);
-
-                        // Draw the border.
-                        const float borderSize = style->getMetric(p.borderSize);
-                        render->setFillColor(_getColorWithOpacity(style->getColor(p.borderColor)));
-                        render->drawRect(BBox2f(
-                            glm::vec2(g.min.x, g.min.y),
-                            glm::vec2(g.max.x, g.min.y + borderSize)));
-                        render->drawRect(BBox2f(
-                            glm::vec2(g.min.x, g.max.y - borderSize),
-                            glm::vec2(g.max.x, g.max.y)));
-                        render->drawRect(BBox2f(
-                            glm::vec2(g.min.x, g.min.y + borderSize),
-                            glm::vec2(g.min.x + borderSize, g.max.y - borderSize)));
-                        render->drawRect(BBox2f(
-                            glm::vec2(g.max.x - borderSize, g.min.y + borderSize),
-                            glm::vec2(g.max.x, g.max.y - borderSize)));
-                    }
-                }
+                auto style = _getStyle();
+                const BBox2f & g = getMargin().bbox(getGeometry(), style);
+                const float borderSize = style->getMetric(p.borderSize);
+                auto render = _getRender();
+                render->setFillColor(_getColorWithOpacity(style->getColor(p.borderColor)));
+                render->drawRect(BBox2f(
+                    glm::vec2(g.min.x, g.min.y),
+                    glm::vec2(g.max.x, g.min.y + borderSize)));
+                render->drawRect(BBox2f(
+                    glm::vec2(g.min.x, g.max.y - borderSize),
+                    glm::vec2(g.max.x, g.max.y)));
+                render->drawRect(BBox2f(
+                    glm::vec2(g.min.x, g.min.y + borderSize),
+                    glm::vec2(g.min.x + borderSize, g.max.y - borderSize)));
+                render->drawRect(BBox2f(
+                    glm::vec2(g.max.x - borderSize, g.min.y + borderSize),
+                    glm::vec2(g.max.x, g.max.y - borderSize)));
             }
 
         } // namespace Layout

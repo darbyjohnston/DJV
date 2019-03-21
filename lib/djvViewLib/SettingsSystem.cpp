@@ -101,7 +101,7 @@ namespace djv
         {
             DJV_PRIVATE_PTR();
             auto context = getContext();
-            if (auto eventSystem = context->getSystemT<UI::EventSystem>().lock())
+            if (auto eventSystem = context->getSystemT<UI::EventSystem>())
             {
                 if (auto window = eventSystem->observeCurrentWindow()->get())
                 {
@@ -132,11 +132,6 @@ namespace djv
         std::vector<std::shared_ptr<UI::ISettingsWidget> > SettingsSystem::getSettingsWidgets()
         {
             return _p->settingsWidgets;
-        }
-
-        void SettingsSystem::_localeEvent(Event::Locale &)
-        {
-            DJV_PRIVATE_PTR();
         }
         
     } // namespace ViewLib

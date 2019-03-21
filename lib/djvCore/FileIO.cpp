@@ -171,6 +171,17 @@ namespace djv
                 return out;
             }
 
+            void FileIO::writeLines(const std::string & fileName, const std::vector<std::string> & lines)
+            {
+                FileIO io;
+                io.open(fileName, FileIO::Mode::Write);
+                for (const auto & line : lines)
+                {
+                    io.write(line);
+                    io.write8('\n');
+                }
+            }
+
         } // namespace FileSystem
     } // namespace Core
 } // namespace djv

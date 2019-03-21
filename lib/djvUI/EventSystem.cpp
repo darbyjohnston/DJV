@@ -94,7 +94,7 @@ namespace djv
             DJV_PRIVATE_PTR();
             if (p.windows)
             {
-                if (auto uiSystem = getContext()->getSystemT<UISystem>().lock())
+                if (auto uiSystem = getContext()->getSystemT<UISystem>())
                 {
                     auto style = uiSystem->getStyle();
                     if (style->isDirty())

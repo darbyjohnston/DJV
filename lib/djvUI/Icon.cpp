@@ -89,13 +89,9 @@ namespace djv
             if (value == p.name)
                 return;
             p.name = value;
-            if (auto style = _getStyle().lock())
-            {
-                if (auto iconSystem = _getIconSystem().lock())
-                {
-                    p.imageFuture = iconSystem->getIcon(p.name, static_cast<int>(style->getMetric(p.iconSizeRole)));
-                }
-            }
+            auto style = _getStyle();
+            auto iconSystem = _getIconSystem();
+            p.imageFuture = iconSystem->getIcon(p.name, static_cast<int>(style->getMetric(p.iconSizeRole)));
             _resize();
         }
 
@@ -132,91 +128,81 @@ namespace djv
             DJV_PRIVATE_PTR();
             if (!p.name.empty())
             {
-                if (auto style = _getStyle().lock())
-                {
-                    if (auto iconSystem = _getIconSystem().lock())
-                    {
-                        p.imageFuture = iconSystem->getIcon(p.name, static_cast<int>(style->getMetric(p.iconSizeRole)));
-                    }
-                }
+                auto style = _getStyle();
+                auto iconSystem = _getIconSystem();
+                p.imageFuture = iconSystem->getIcon(p.name, static_cast<int>(style->getMetric(p.iconSizeRole)));
             }
         }
 
         void Icon::_preLayoutEvent(Event::PreLayout & event)
         {
             DJV_PRIVATE_PTR();
-            if (auto style = _getStyle().lock())
+            auto style = _getStyle();
+            const float i = style->getMetric(p.iconSizeRole);
+
+            if (p.imageFuture.valid())
             {
-                const float i = style->getMetric(p.iconSizeRole);
-
-                if (p.imageFuture.valid())
+                try
                 {
-                    try
-                    {
-                        p.image = p.imageFuture.get();
-                    }
-                    catch (const std::exception & e)
-                    {
-                        p.image = nullptr;
-                        _log(e.what(), LogLevel::Error);
-                    }
-                    _resize();
+                    p.image = p.imageFuture.get();
                 }
-
-                glm::vec2 size;
-                if (p.image)
+                catch (const std::exception & e)
                 {
-                    size = p.image->getSize();
+                    p.image = nullptr;
+                    _log(e.what(), LogLevel::Error);
                 }
-                size.x = std::max(size.x, i);
-                size.y = std::max(size.y, i);
-                _setMinimumSize(size + getMargin().getSize(style));
+                _resize();
             }
+
+            glm::vec2 size;
+            if (p.image)
+            {
+                size = p.image->getSize();
+            }
+            size.x = std::max(size.x, i);
+            size.y = std::max(size.y, i);
+            _setMinimumSize(size + getMargin().getSize(style));
         }
 
         void Icon::_paintEvent(Event::Paint & event)
         {
             Widget::_paintEvent(event);
             DJV_PRIVATE_PTR();
-            if (auto render = _getRender().lock())
-            {
-                if (auto style = _getStyle().lock())
-                {
-                    const BBox2f & g = getMargin().bbox(getGeometry(), style);
-                    const glm::vec2 c = g.getCenter();
+            auto style = _getStyle();
+            const BBox2f & g = getMargin().bbox(getGeometry(), style);
+            const glm::vec2 c = g.getCenter();
 
-                    // Draw the icon.
-                    if (p.image && p.image->isValid())
-                    {
-                        const glm::vec2 & size = p.image->getSize();
-                        glm::vec2 pos = glm::vec2(0.f, 0.f);
-                        switch (getHAlign())
-                        {
-                        case HAlign::Center:
-                        case HAlign::Fill:   pos.x = ceilf(c.x - size.x / 2.f); break;
-                        case HAlign::Left:   pos.x = g.min.x; break;
-                        case HAlign::Right:  pos.x = g.max.x - size.x; break;
-                        default: break;
-                        }
-                        switch (getVAlign())
-                        {
-                        case VAlign::Center:
-                        case VAlign::Fill:   pos.y = ceilf(c.y - size.y / 2.f); break;
-                        case VAlign::Top:    pos.y = g.min.y; break;
-                        case VAlign::Bottom: pos.y = g.max.y - size.y; break;
-                        default: break;
-                        }
-                        if (p.iconColorRole != ColorRole::None)
-                        {
-                            render->setFillColor(_getColorWithOpacity(style->getColor(isEnabled(true) ? p.iconColorRole : ColorRole::Disabled)));
-                            render->drawFilledImage(p.image, BBox2f(pos.x, pos.y, size.x, size.y));
-                        }
-                        else
-                        {
-                            render->setFillColor(_getColorWithOpacity(AV::Image::Color(1.f, 1.f, 1.f)));
-                            render->drawImage(p.image, BBox2f(pos.x, pos.y, size.x, size.y));
-                        }
-                    }
+            // Draw the icon.
+            if (p.image && p.image->isValid())
+            {
+                const glm::vec2 & size = p.image->getSize();
+                glm::vec2 pos = glm::vec2(0.f, 0.f);
+                switch (getHAlign())
+                {
+                case HAlign::Center:
+                case HAlign::Fill:   pos.x = ceilf(c.x - size.x / 2.f); break;
+                case HAlign::Left:   pos.x = g.min.x; break;
+                case HAlign::Right:  pos.x = g.max.x - size.x; break;
+                default: break;
+                }
+                switch (getVAlign())
+                {
+                case VAlign::Center:
+                case VAlign::Fill:   pos.y = ceilf(c.y - size.y / 2.f); break;
+                case VAlign::Top:    pos.y = g.min.y; break;
+                case VAlign::Bottom: pos.y = g.max.y - size.y; break;
+                default: break;
+                }
+                auto render = _getRender();
+                if (p.iconColorRole != ColorRole::None)
+                {
+                    render->setFillColor(_getColorWithOpacity(style->getColor(isEnabled(true) ? p.iconColorRole : ColorRole::Disabled)));
+                    render->drawFilledImage(p.image, BBox2f(pos.x, pos.y, size.x, size.y));
+                }
+                else
+                {
+                    render->setFillColor(_getColorWithOpacity(AV::Image::Color(1.f, 1.f, 1.f)));
+                    render->drawImage(p.image, BBox2f(pos.x, pos.y, size.x, size.y));
                 }
             }
         }

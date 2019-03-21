@@ -30,8 +30,11 @@
 #include <djvAV/AudioSystem.h>
 
 #include <djvCore/Context.h>
+#include <djvCore/CoreSystem.h>
 #include <djvCore/Error.h>
 #include <djvCore/OS.h>
+
+using namespace djv::Core;
 
 namespace djv
 {
@@ -70,6 +73,8 @@ namespace djv
             void System::_init(Core::Context * context)
             {
                 ISystem::_init("djv::AV::Audio::System", context);
+
+                addDependency(context->getSystemT<CoreSystem>());
 
                 //! \todo [2.0 S] Make this configurable.
                 Core::OS::setEnv("ALSOFT_LOGLEVEL", "0");

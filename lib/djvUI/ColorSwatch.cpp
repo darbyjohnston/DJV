@@ -101,22 +101,17 @@ namespace djv
 
         void ColorSwatch::_preLayoutEvent(Event::PreLayout & event)
         {
-            if (auto style = _getStyle().lock())
-            {
-                const float s = style->getMetric(_p->swatchSizeRole);
-                _setMinimumSize(glm::vec2(s, s));
-            }
+            auto style = _getStyle();
+            const float s = style->getMetric(_p->swatchSizeRole);
         }
 
         void ColorSwatch::_paintEvent(Event::Paint & event)
         {
             Widget::_paintEvent(event);
-            if (auto render = _getRender().lock())
-            {
-                const BBox2f & g = getGeometry();
-                render->setFillColor(_getColorWithOpacity(_p->color));
-                render->drawRect(g);
-            }
+            const BBox2f & g = getGeometry();
+            auto render = _getRender();
+            render->setFillColor(_getColorWithOpacity(_p->color));
+            render->drawRect(g);
         }
 
     } // namespace UI

@@ -39,6 +39,7 @@
 #include <djvUI/Window.h>
 
 #include <djvCore/Context.h>
+#include <djvCore/TextSystem.h>
 
 #include <GLFW/glfw3.h>
 
@@ -55,6 +56,7 @@ namespace djv
             std::shared_ptr<AboutDialog> aboutDialog;
             std::shared_ptr<SystemLogDialog> systemLogDialog;
             std::map<std::string, std::shared_ptr<ValueObserver<bool> > > clickedObservers;
+            std::shared_ptr<ValueObserver<std::string> > localeObserver;
         };
 
         void HelpSystem::_init(Context * context)
@@ -62,6 +64,7 @@ namespace djv
             IViewSystem::_init("djv::ViewLib::HelpSystem", context);
 
             DJV_PRIVATE_PTR();
+
             //! \todo Implement me!
             p.actions["Documentation"] = UI::Action::create();
             p.actions["Documentation"]->setEnabled(false);
@@ -84,7 +87,7 @@ namespace djv
                 {
                     if (auto system = weak.lock())
                     {
-                        if (auto windowSystem = context->getSystemT<UI::EventSystem>().lock())
+                        if (auto windowSystem = context->getSystemT<UI::EventSystem>())
                         {
                             if (auto window = windowSystem->observeCurrentWindow()->get())
                             {
@@ -116,7 +119,7 @@ namespace djv
                 {
                     if (auto system = weak.lock())
                     {
-                        if (auto windowSystem = context->getSystemT<UI::EventSystem>().lock())
+                        if (auto windowSystem = context->getSystemT<UI::EventSystem>())
                         {
                             if (auto window = windowSystem->observeCurrentWindow()->get())
                             {
@@ -145,6 +148,16 @@ namespace djv
                             }
                         }
                     }
+                }
+            });
+
+            p.localeObserver = ValueObserver<std::string>::create(
+                context->getSystemT<TextSystem>()->observeCurrentLocale(),
+                [weak](const std::string & value)
+            {
+                if (auto system = weak.lock())
+                {
+                    system->_textUpdate();
                 }
             });
         }
@@ -177,17 +190,18 @@ namespace djv
             };
         }
 
-        void HelpSystem::_localeEvent(Event::Locale &)
+        void HelpSystem::_textUpdate()
         {
             DJV_PRIVATE_PTR();
-            p.actions["Documentation"]->setTitle(_getText(DJV_TEXT("Documentation")));
-            p.actions["Documentation"]->setTooltip(_getText(DJV_TEXT("Documentation tooltip")));
-            p.actions["About"]->setTitle(_getText(DJV_TEXT("About")));
-            p.actions["About"]->setTooltip(_getText(DJV_TEXT("About tooltip")));
-            p.actions["SystemLog"]->setTitle(_getText(DJV_TEXT("System Log")));
-            p.actions["SystemLog"]->setTooltip(_getText(DJV_TEXT("System log tooltip")));
+            auto context = getContext();
+            p.actions["Documentation"]->setTitle(context->getText(DJV_TEXT("Documentation")));
+            p.actions["Documentation"]->setTooltip(context->getText(DJV_TEXT("Documentation tooltip")));
+            p.actions["About"]->setTitle(context->getText(DJV_TEXT("About")));
+            p.actions["About"]->setTooltip(context->getText(DJV_TEXT("About tooltip")));
+            p.actions["SystemLog"]->setTitle(context->getText(DJV_TEXT("System Log")));
+            p.actions["SystemLog"]->setTooltip(context->getText(DJV_TEXT("System log tooltip")));
 
-            p.menu->setText(_getText(DJV_TEXT("Help")));
+            p.menu->setText(context->getText(DJV_TEXT("Help")));
         }
 
     } // namespace ViewLib

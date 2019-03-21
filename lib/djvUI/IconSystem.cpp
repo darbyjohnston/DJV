@@ -29,6 +29,7 @@
 
 #include <djvUI/IconSystem.h>
 
+#include <djvAV/AVSystem.h>
 #include <djvAV/IO.h>
 #include <djvAV/Image.h>
 
@@ -112,6 +113,9 @@ namespace djv
             ISystem::_init("djv::UI::IconSystem", context);
 
             DJV_PRIVATE_PTR();
+
+            addDependency(context->getSystemT<AV::AVSystem>());
+
             p.imageCache.setMax(imageCacheMax);
 
             p.statsTimer = Time::Timer::create(context);
@@ -240,7 +244,7 @@ namespace djv
                 }
                 if (!image)
                 {
-                    if (auto io = getContext()->getSystemT<AV::IO::System>().lock())
+                    if (auto io = getContext()->getSystemT<AV::IO::System>())
                     {
                         try
                         {

@@ -162,20 +162,16 @@ namespace djv
         void LineEdit::_preLayoutEvent(Event::PreLayout & event)
         {
             DJV_PRIVATE_PTR();
-            if (auto style = _getStyle().lock())
-            {
-                _setMinimumSize(p.border->getMinimumSize() + getMargin().getSize(style));
-            }
+            auto style = _getStyle();
+            _setMinimumSize(p.border->getMinimumSize() + getMargin().getSize(style));
         }
 
         void LineEdit::_layoutEvent(Event::Layout & event)
         {
             DJV_PRIVATE_PTR();
-            if (auto style = _getStyle().lock())
-            {
-                const BBox2f g = getGeometry();
-                _p->border->setGeometry(getAlign(getMargin().bbox(g, style), p.border->getMinimumSize(), HAlign::Fill, VAlign::Center));
-            }
+            const BBox2f g = getGeometry();
+            auto style = _getStyle();
+            _p->border->setGeometry(getAlign(getMargin().bbox(g, style), p.border->getMinimumSize(), HAlign::Fill, VAlign::Center));
         }
 
     } // namespace UI

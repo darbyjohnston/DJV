@@ -60,7 +60,7 @@ namespace djv
 
             void Timer::_init(Context * context)
             {
-                if (auto system = context->getSystemT<TimerSystem>().lock())
+                if (auto system = context->getSystemT<TimerSystem>())
                 {
                     system->_addTimer(shared_from_this());
                 }
@@ -122,7 +122,7 @@ namespace djv
 
             void TimerSystem::_init(Context * context)
             {
-                ISystem::_init("djv::Core::TimerSystem", context);
+                ISystemBase::_init("djv::Core::TimerSystem", context);
             }
 
             TimerSystem::TimerSystem() :

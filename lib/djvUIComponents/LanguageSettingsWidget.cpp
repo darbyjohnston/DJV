@@ -68,7 +68,7 @@ namespace djv
             p.layout->setSpacing(MetricsRole::None);
             addChild(p.layout);
 
-            if (auto textSystem = context->getSystemT<TextSystem>().lock())
+            if (auto textSystem = context->getSystemT<TextSystem>())
             {
                 int j = 0;
                 for (const auto & i : textSystem->getLocales())
@@ -90,7 +90,7 @@ namespace djv
             {
                 if (auto widget = weak.lock())
                 {
-                    if (auto textSystem = context->getSystemT<TextSystem>().lock())
+                    if (auto textSystem = context->getSystemT<TextSystem>())
                     {
                         const auto i = widget->_p->indexToLocale.find(value);
                         if (i != widget->_p->indexToLocale.end())
@@ -101,7 +101,7 @@ namespace djv
                 }
             });
 
-            if (auto textSystem = context->getSystemT<TextSystem>().lock())
+            if (auto textSystem = context->getSystemT<TextSystem>())
             {
                 p.localeObserver = ValueObserver<std::string>::create(
                     textSystem->observeCurrentLocale(),
@@ -118,7 +118,7 @@ namespace djv
                 });
             }
 
-            if (auto settingsSystem = context->getSystemT<Settings::System>().lock())
+            if (auto settingsSystem = context->getSystemT<Settings::System>())
             {
                 if (auto fontSettings = settingsSystem->getSettingsT<Settings::Font>())
                 {
@@ -166,7 +166,7 @@ namespace djv
         void LanguageSettingsWidget::_textUpdate()
         {
             auto context = getContext();
-            if (auto textSystem = context->getSystemT<TextSystem>().lock())
+            if (auto textSystem = context->getSystemT<TextSystem>())
             {
                 for (const auto & i : textSystem->getLocales())
                 {

@@ -62,10 +62,8 @@ namespace djv
             void Animation::_init(Context * context)
             {
                 _function = getFunction(_type);
-                if (auto system = context->getSystemT<System>().lock())
-                {
-                    system->_addAnimation(shared_from_this());
-                }
+                auto system = context->getSystemT<System>();
+                system->_addAnimation(shared_from_this());
             }
 
             std::shared_ptr<Animation> Animation::create(Context * context)
@@ -90,8 +88,8 @@ namespace djv
                 float                     begin,
                 float                     end,
                 std::chrono::milliseconds timeout,
-                const Callback &           callback,
-                const Callback &           endCallback)
+                const Callback &          callback,
+                const Callback &          endCallback)
             {
                 /*if (_active && _endCallback)
                 {

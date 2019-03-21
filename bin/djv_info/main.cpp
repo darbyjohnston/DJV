@@ -54,7 +54,7 @@ namespace djv
 
                 _io = AV::IO::System::create(this);
 
-                if (auto system = getSystemT<Core::TextSystem>().lock())
+                if (auto system = getSystemT<Core::TextSystem>())
                 {
                     const auto locale = system->getCurrentLocale();
                 }

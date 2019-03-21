@@ -114,22 +114,22 @@ namespace djv
             return _actions;
         }
 
-        inline const std::weak_ptr<AV::Font::System> & Widget::_getFontSystem() const
+        inline const std::shared_ptr<AV::Font::System> & Widget::_getFontSystem() const
         {
             return _fontSystem;
         }
 
-        inline const std::weak_ptr<AV::Render::Render2D> & Widget::_getRender() const
+        inline const std::shared_ptr<AV::Render::Render2D> & Widget::_getRender() const
         {
             return _render;
         }
 
-        inline const std::weak_ptr<IconSystem> & Widget::_getIconSystem() const
+        inline const std::shared_ptr<IconSystem> & Widget::_getIconSystem() const
         {
             return _iconSystem;
         }
 
-        inline const std::weak_ptr<Style::Style> & Widget::_getStyle() const
+        inline const std::shared_ptr<Style::Style> & Widget::_getStyle() const
         {
             return _style;
         }

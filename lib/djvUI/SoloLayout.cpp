@@ -121,18 +121,16 @@ namespace djv
             {
                 DJV_PRIVATE_PTR();
                 float out = 0.f;
-                if (auto style = _getStyle().lock())
+                auto style = _getStyle();
+                const glm::vec2 m = getMargin().getSize(style);
+                for (const auto & child : getChildrenT<Widget>())
                 {
-                    const glm::vec2 m = getMargin().getSize(style);
-                    for (const auto & child : getChildrenT<Widget>())
+                    if (child->isVisible() || p.sizeForAll)
                     {
-                        if (child->isVisible() || p.sizeForAll)
-                        {
-                            out = glm::max(out, child->getHeightForWidth(value - m.x));
-                        }
+                        out = glm::max(out, child->getHeightForWidth(value - m.x));
                     }
-                    out += m.y;
                 }
+                out += m.y;
                 return out;
             }
 
@@ -158,29 +156,25 @@ namespace djv
             void Solo::_preLayoutEvent(Event::PreLayout &)
             {
                 DJV_PRIVATE_PTR();
-                if (auto style = _getStyle().lock())
+                glm::vec2 minimumSize = glm::vec2(0.f, 0.f);
+                for (const auto & child : getChildrenT<Widget>())
                 {
-                    glm::vec2 minimumSize = glm::vec2(0.f, 0.f);
-                    for (const auto & child : getChildrenT<Widget>())
+                    if (child->isVisible() || p.sizeForAll)
                     {
-                        if (child->isVisible() || p.sizeForAll)
-                        {
-                            minimumSize = glm::max(minimumSize, child->getMinimumSize());
-                        }
+                        minimumSize = glm::max(minimumSize, child->getMinimumSize());
                     }
-                    _setMinimumSize(minimumSize + getMargin().getSize(style));
                 }
+                auto style = _getStyle();
+                _setMinimumSize(minimumSize + getMargin().getSize(style));
             }
 
             void Solo::_layoutEvent(Event::Layout &)
             {
-                if (auto style = _getStyle().lock())
+                auto style = _getStyle();
+                const BBox2f & g = getMargin().bbox(getGeometry(), style);
+                for (const auto & child : getChildrenT<Widget>())
                 {
-                    const BBox2f & g = getMargin().bbox(getGeometry(), style);
-                    for (const auto & child : getChildrenT<Widget>())
-                    {
-                        child->setGeometry(Widget::getAlign(g, child->getMinimumSize(), child->getHAlign(), child->getVAlign()));
-                    }
+                    child->setGeometry(Widget::getAlign(g, child->getMinimumSize(), child->getHAlign(), child->getVAlign()));
                 }
             }
 

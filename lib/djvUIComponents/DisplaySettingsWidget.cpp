@@ -73,7 +73,7 @@ namespace djv
             {
                 if (auto widget = weak.lock())
                 {
-                    if (auto settingsSystem = context->getSystemT<Settings::System>().lock())
+                    if (auto settingsSystem = context->getSystemT<Settings::System>())
                     {
                         if (auto styleSettings = settingsSystem->getSettingsT<Settings::Style>())
                         {
@@ -87,7 +87,7 @@ namespace djv
                 }
             });
 
-            if (auto settingsSystem = context->getSystemT<Settings::System>().lock())
+            if (auto settingsSystem = context->getSystemT<Settings::System>())
             {
                 if (auto styleSettings = settingsSystem->getSettingsT<Settings::Style>())
                 {

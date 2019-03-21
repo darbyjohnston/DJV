@@ -37,10 +37,10 @@
 #include <djvAV/ThumbnailSystem.h>
 
 #include <djvCore/Context.h>
-#include <djvCore/CoreSystem.h>
 #include <djvCore/Error.h>
 #include <djvCore/LogSystem.h>
 #include <djvCore/OS.h>
+#include <djvCore/TextSystem.h>
 
 #include <GLFW/glfw3.h>
 
@@ -56,9 +56,7 @@ namespace djv
     namespace AV
     {
         struct AVSystem::Private
-        {
-
-        };
+        {};
 
         void AVSystem::_init(Context * context)
         {
@@ -66,23 +64,16 @@ namespace djv
 
             DJV_PRIVATE_PTR();
 
-            addDependency(context->getCoreSystem());
-
             auto ioSystem = IO::System::create(context);
-            addDependency(ioSystem);
-
             auto audioSystem = Audio::System::create(context);
-            addDependency(audioSystem);
-
             auto fontSystem = Font::System::create(context);
-            addDependency(fontSystem);
-
             auto thumbnailSystem = ThumbnailSystem::create(context);
-            thumbnailSystem->addDependency(ioSystem);
-            addDependency(thumbnailSystem);
-            
             auto render2D = Render::Render2D::create(context);
-            render2D->addDependency(fontSystem);
+
+            addDependency(ioSystem);
+            addDependency(audioSystem);
+            addDependency(fontSystem);
+            addDependency(thumbnailSystem);
             addDependency(render2D);
         }
 

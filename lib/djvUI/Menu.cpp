@@ -151,225 +151,212 @@ namespace djv
             void MenuWidget::_styleEvent(Event::Style &)
             {
                 auto context = getContext();
-                if (auto style = _getStyle().lock())
-                {
-                    if (auto iconSystem = context->getSystemT<IconSystem>().lock())
-                    {
-                        const float iconSize = style->getMetric(MetricsRole::IconSmall);
-                        _checkedIconFuture = iconSystem->getIcon("djvIconCheckSmall", static_cast<int>(iconSize));
-                    }
-                }
+                auto style = _getStyle();
+                const float iconSize = style->getMetric(MetricsRole::IconSmall);
+                auto iconSystem = _getIconSystem();
+                _checkedIconFuture = iconSystem->getIcon("djvIconCheckSmall", static_cast<int>(iconSize));
                 _itemsUpdate();
             }
 
             void MenuWidget::_preLayoutEvent(Event::PreLayout &)
             {
-                if (auto style = _getStyle().lock())
-                {
-                    const float m = style->getMetric(MetricsRole::MarginSmall);
-                    const float s = style->getMetric(MetricsRole::Spacing);
-                    const float b = style->getMetric(MetricsRole::Border);
-                    const float iconSize = style->getMetric(MetricsRole::IconSmall);
+                auto style = _getStyle();
+                const float m = style->getMetric(MetricsRole::MarginSmall);
+                const float s = style->getMetric(MetricsRole::Spacing);
+                const float b = style->getMetric(MetricsRole::Border);
+                const float iconSize = style->getMetric(MetricsRole::IconSmall);
 
-                    if (_fontMetricsFuture.valid())
+                if (_fontMetricsFuture.valid())
+                {
+                    try
+                    {
+                        _fontMetrics = _fontMetricsFuture.get();
+                    }
+                    catch (const std::exception & e)
+                    {
+                        _log(e.what(), LogLevel::Error);
+                    }
+                }
+                for (auto & i : _titleSizeFutures)
+                {
+                    if (i.second.valid())
                     {
                         try
                         {
-                            _fontMetrics = _fontMetricsFuture.get();
+                            i.first->titleSize = i.second.get();
                         }
                         catch (const std::exception & e)
                         {
                             _log(e.what(), LogLevel::Error);
                         }
                     }
-                    for (auto & i : _titleSizeFutures)
-                    {
-                        if (i.second.valid())
-                        {
-                            try
-                            {
-                                i.first->titleSize = i.second.get();
-                            }
-                            catch (const std::exception & e)
-                            {
-                                _log(e.what(), LogLevel::Error);
-                            }
-                        }
-                    }
-                    for (auto & i : _shortcutSizeFutures)
-                    {
-                        if (i.second.valid())
-                        {
-                            try
-                            {
-                                i.first->shortcutSize = i.second.get();
-                            }
-                            catch (const std::exception & e)
-                            {
-                                _log(e.what(), LogLevel::Error);
-                            }
-                        }
-                    }
-
-                    glm::vec2 titleSize(0.f, 0.f);
-                    glm::vec2 shortcutSize(0.f, 0.f);
-                    for (const auto & i : _items)
-                    {
-                        if (!i.second->title.empty())
-                        {
-                            titleSize.x = std::max(titleSize.x, i.second->titleSize.x);
-                            titleSize.y = std::max(titleSize.y, i.second->titleSize.y);
-                        }
-                        if (!i.second->shortcutLabel.empty())
-                        {
-                            shortcutSize.x = std::max(shortcutSize.x, i.second->shortcutSize.x);
-                            shortcutSize.y = std::max(shortcutSize.y, i.second->shortcutSize.y);
-                        }
-                    }
-
-                    glm::vec2 itemSize(0.f, 0.f);
-                    if (_hasIcons)
-                    {
-                        itemSize.x += iconSize + s;
-                        itemSize.y = std::max(itemSize.y, iconSize);
-                    }
-                    itemSize.x += titleSize.x;
-                    itemSize.y = std::max(itemSize.y, titleSize.y);
-                    if (_hasShortcuts)
-                    {
-                        itemSize.x += s;
-                        itemSize.x += shortcutSize.x;
-                        itemSize.y = std::max(itemSize.y, shortcutSize.y);
-                    }
-
-                    std::map<size_t, glm::vec2> sizes;
-                    for (auto & i : _items)
-                    {
-                        glm::vec2 size(0.f, 0.f);
-                        if (!i.second->title.empty())
-                        {
-                            size = itemSize + m * 2.f;
-                        }
-                        else
-                        {
-                            size = glm::vec2(b, b);
-                        }
-                        i.second->size = size;
-                        sizes[i.first] = size;
-                    }
-
-                    glm::vec2 size(0.f, 0.f);
-                    for (const auto & i : sizes)
-                    {
-                        size.x = std::max(size.x, i.second.x);
-                        size.y += i.second.y;
-                    }
-                    _setMinimumSize(size);
                 }
+                for (auto & i : _shortcutSizeFutures)
+                {
+                    if (i.second.valid())
+                    {
+                        try
+                        {
+                            i.first->shortcutSize = i.second.get();
+                        }
+                        catch (const std::exception & e)
+                        {
+                            _log(e.what(), LogLevel::Error);
+                        }
+                    }
+                }
+
+                glm::vec2 titleSize(0.f, 0.f);
+                glm::vec2 shortcutSize(0.f, 0.f);
+                for (const auto & i : _items)
+                {
+                    if (!i.second->title.empty())
+                    {
+                        titleSize.x = std::max(titleSize.x, i.second->titleSize.x);
+                        titleSize.y = std::max(titleSize.y, i.second->titleSize.y);
+                    }
+                    if (!i.second->shortcutLabel.empty())
+                    {
+                        shortcutSize.x = std::max(shortcutSize.x, i.second->shortcutSize.x);
+                        shortcutSize.y = std::max(shortcutSize.y, i.second->shortcutSize.y);
+                    }
+                }
+
+                glm::vec2 itemSize(0.f, 0.f);
+                if (_hasIcons)
+                {
+                    itemSize.x += iconSize + s;
+                    itemSize.y = std::max(itemSize.y, iconSize);
+                }
+                itemSize.x += titleSize.x;
+                itemSize.y = std::max(itemSize.y, titleSize.y);
+                if (_hasShortcuts)
+                {
+                    itemSize.x += s;
+                    itemSize.x += shortcutSize.x;
+                    itemSize.y = std::max(itemSize.y, shortcutSize.y);
+                }
+
+                std::map<size_t, glm::vec2> sizes;
+                for (auto & i : _items)
+                {
+                    glm::vec2 size(0.f, 0.f);
+                    if (!i.second->title.empty())
+                    {
+                        size = itemSize + m * 2.f;
+                    }
+                    else
+                    {
+                        size = glm::vec2(b, b);
+                    }
+                    i.second->size = size;
+                    sizes[i.first] = size;
+                }
+
+                glm::vec2 size(0.f, 0.f);
+                for (const auto & i : sizes)
+                {
+                    size.x = std::max(size.x, i.second.x);
+                    size.y += i.second.y;
+                }
+                _setMinimumSize(size);
             }
 
             void MenuWidget::_layoutEvent(Event::Layout &)
             {
-                if (auto style = _getStyle().lock())
+                const BBox2f & g = getGeometry();
+                float y = g.min.y;
+                for (auto & i : _items)
                 {
-                    const BBox2f & g = getGeometry();
-                    float y = g.min.y;
-                    for (auto & i : _items)
-                    {
-                        i.second->geom.min.x = g.min.x;
-                        i.second->geom.min.y = y;
-                        i.second->geom.max.x = g.max.x;
-                        i.second->geom.max.y = y + i.second->size.y;
-                        y += i.second->size.y;
-                    }
+                    i.second->geom.min.x = g.min.x;
+                    i.second->geom.min.y = y;
+                    i.second->geom.max.x = g.max.x;
+                    i.second->geom.max.y = y + i.second->size.y;
+                    y += i.second->size.y;
                 }
             }
 
             void MenuWidget::_paintEvent(Event::Paint & event)
             {
                 Widget::_paintEvent(event);
-                if (auto render = _getRender().lock())
+                const BBox2f & g = getGeometry();
+                auto style = _getStyle();
+                const float m = style->getMetric(MetricsRole::MarginSmall);
+                const float s = style->getMetric(MetricsRole::Spacing);
+                const float iconSize = style->getMetric(MetricsRole::IconSmall);
+
+                auto render = _getRender();
+                for (const auto & i : _items)
                 {
-                    if (auto style = _getStyle().lock())
+                    if (i.second->enabled)
                     {
-                        const BBox2f & g = getGeometry();
-                        const float m = style->getMetric(MetricsRole::MarginSmall);
-                        const float s = style->getMetric(MetricsRole::Spacing);
-                        const float iconSize = style->getMetric(MetricsRole::IconSmall);
-
-                        for (const auto & i : _items)
+                        if (i.second == _pressed.second)
                         {
-                            if (i.second->enabled)
+                            render->setFillColor(_getColorWithOpacity(style->getColor(ColorRole::Pressed)));
+                            render->drawRect(i.second->geom);
+                        }
+                        else
+                        {
+                            for (const auto & hovered : _hoveredItems)
                             {
-                                if (i.second == _pressed.second)
+                                if (i.second == hovered.second)
                                 {
-                                    render->setFillColor(_getColorWithOpacity(style->getColor(ColorRole::Pressed)));
+                                    render->setFillColor(_getColorWithOpacity(style->getColor(ColorRole::Hovered)));
                                     render->drawRect(i.second->geom);
-                                }
-                                else
-                                {
-                                    for (const auto & hovered : _hoveredItems)
-                                    {
-                                        if (i.second == hovered.second)
-                                        {
-                                            render->setFillColor(_getColorWithOpacity(style->getColor(ColorRole::Hovered)));
-                                            render->drawRect(i.second->geom);
-                                            break;
-                                        }
-                                    }
+                                    break;
                                 }
                             }
                         }
+                    }
+                }
 
-                        if (_checkedIconFuture.valid())
+                if (_checkedIconFuture.valid())
+                {
+                    try
+                    {
+                        _checkedIcon = _checkedIconFuture.get();
+                    }
+                    catch (const std::exception & e)
+                    {
+                        _log(e.what(), LogLevel::Error);
+                    }
+                }
+
+                render->setCurrentFont(style->getFontInfo(AV::Font::Info::faceDefault, MetricsRole::FontMedium));
+                for (const auto & i : _items)
+                {
+                    const ColorRole colorRole = i.second->enabled ? ColorRole::Foreground : ColorRole::Disabled;
+                    float x = i.second->geom.min.x + m;
+                    float y = 0.f;
+
+                    if (i.second->checked && _checkedIcon)
+                    {
+                        y = i.second->geom.min.y + ceilf(i.second->size.y / 2.f - iconSize / 2.f);
+                        render->setFillColor(_getColorWithOpacity(style->getColor(colorRole)));
+                        render->drawFilledImage(_checkedIcon, BBox2f(x, y, iconSize, iconSize));
+                    }
+                    if (_hasIcons)
+                    {
+                        x += iconSize + s;
+                    }
+
+                    if (!i.second->title.empty())
+                    {
+                        y = i.second->geom.min.y + ceilf(i.second->size.y / 2.f) - ceilf(_fontMetrics.lineHeight / 2.f) + _fontMetrics.ascender;
+                        render->setFillColor(_getColorWithOpacity(style->getColor(colorRole)));
+                        render->drawText(i.second->title, glm::vec2(x, y));
+                        x += i.second->titleSize.x;
+
+                        if (!i.second->shortcutLabel.empty())
                         {
-                            try
-                            {
-                                _checkedIcon = _checkedIconFuture.get();
-                            }
-                            catch (const std::exception & e)
-                            {
-                                _log(e.what(), LogLevel::Error);
-                            }
+                            x = g.max.x - i.second->shortcutSize.x - m;
+                            render->drawText(i.second->shortcutLabel, glm::vec2(x, y));
                         }
-
-                        render->setCurrentFont(style->getFontInfo(AV::Font::Info::faceDefault, MetricsRole::FontMedium));
-                        for (const auto & i : _items)
-                        {
-                            const ColorRole colorRole = i.second->enabled ? ColorRole::Foreground : ColorRole::Disabled;
-                            float x = i.second->geom.min.x + m;
-                            float y = 0.f;
-
-                            if (i.second->checked && _checkedIcon)
-                            {
-                                y = i.second->geom.min.y + ceilf(i.second->size.y / 2.f - iconSize / 2.f);
-                                render->setFillColor(_getColorWithOpacity(style->getColor(colorRole)));
-                                render->drawFilledImage(_checkedIcon, BBox2f(x, y, iconSize, iconSize));
-                            }
-                            if (_hasIcons)
-                            {
-                                x += iconSize + s;
-                            }
-
-                            if (!i.second->title.empty())
-                            {
-                                y = i.second->geom.min.y + ceilf(i.second->size.y / 2.f) - ceilf(_fontMetrics.lineHeight / 2.f) + _fontMetrics.ascender;
-                                render->setFillColor(_getColorWithOpacity(style->getColor(colorRole)));
-                                render->drawText(i.second->title, glm::vec2(x, y));
-                                x += i.second->titleSize.x;
-
-                                if (!i.second->shortcutLabel.empty())
-                                {
-                                    x = g.max.x - i.second->shortcutSize.x - m;
-                                    render->drawText(i.second->shortcutLabel, glm::vec2(x, y));
-                                }
-                            }
-                            else
-                            {
-                                render->setFillColor(_getColorWithOpacity(style->getColor(ColorRole::Border)));
-                                render->drawRect(i.second->geom);
-                            }
-                        }
+                    }
+                    else
+                    {
+                        render->setFillColor(_getColorWithOpacity(style->getColor(ColorRole::Border)));
+                        render->drawRect(i.second->geom);
                     }
                 }
             }
@@ -405,17 +392,15 @@ namespace djv
                 const auto & pos = pointerInfo.projectedPos;
                 if (id == _pressed.first)
                 {
-                    if (auto style = _getStyle().lock())
+                    const float distance = glm::length(pos - _pressedPos);
+                    auto style = _getStyle();
+                    const bool accepted = distance < style->getMetric(MetricsRole::Drag);
+                    event.setAccepted(accepted);
+                    if (!accepted)
                     {
-                        const float distance = glm::length(pos - _pressedPos);
-                        const bool accepted = distance < style->getMetric(MetricsRole::Drag);
-                        event.setAccepted(accepted);
-                        if (!accepted)
-                        {
-                            _pressed.first = 0;
-                            _pressed.second = nullptr;
-                            _redraw();
-                        }
+                        _pressed.first = 0;
+                        _pressed.second = nullptr;
+                        _redraw();
                     }
                 }
                 else
@@ -540,102 +525,99 @@ namespace djv
 
             void MenuWidget::_itemsUpdate()
             {
-                auto style = _getStyle().lock();
-                auto fontSystem = _getFontSystem().lock();
-                auto textSystem = _getTextSystem().lock();
-                if (style && fontSystem && textSystem)
+                auto style = _getStyle();
+                auto fontSystem = _getFontSystem();
+                auto textSystem = _getTextSystem();
+                const auto fontInfo = style->getFontInfo(AV::Font::Info::faceDefault, MetricsRole::FontMedium);
+                _fontMetricsFuture = fontSystem->getMetrics(fontInfo);
+                _hasShortcuts = false;
+                _items.clear();
+                _actionToItem.clear();
+                _itemToAction.clear();
+                _buttonTypeObservers.clear();
+                _checkedObservers.clear();
+                _titleObservers.clear();
+                _shortcutsObservers.clear();
+                _enabledObservers.clear();
+                auto weak = std::weak_ptr<MenuWidget>(std::dynamic_pointer_cast<MenuWidget>(shared_from_this()));
+                for (const auto & i : _actions)
                 {
-                    const auto fontInfo = style->getFontInfo(AV::Font::Info::faceDefault, MetricsRole::FontMedium);
-                    _fontMetricsFuture = fontSystem->getMetrics(fontInfo);
-                    _hasShortcuts = false;
-                    _items.clear();
-                    _actionToItem.clear();
-                    _itemToAction.clear();
-                    _buttonTypeObservers.clear();
-                    _checkedObservers.clear();
-                    _titleObservers.clear();
-                    _shortcutsObservers.clear();
-                    _enabledObservers.clear();
-                    auto weak = std::weak_ptr<MenuWidget>(std::dynamic_pointer_cast<MenuWidget>(shared_from_this()));
-                    for (const auto & i : _actions)
+                    auto item = std::shared_ptr<Item>(new Item);
+                    if (i.second)
                     {
-                        auto item = std::shared_ptr<Item>(new Item);
-                        if (i.second)
+                        _buttonTypeObservers[item] = ValueObserver<ButtonType>::create(
+                            i.second->observeButtonType(),
+                            [weak, item](ButtonType value)
                         {
-                            _buttonTypeObservers[item] = ValueObserver<ButtonType>::create(
-                                i.second->observeButtonType(),
-                                [weak, item](ButtonType value)
+                            if (auto widget = weak.lock())
                             {
-                                if (auto widget = weak.lock())
+                                item->buttonType = value;
+                                switch (value)
                                 {
-                                    item->buttonType = value;
-                                    switch (value)
+                                case ButtonType::Toggle:
+                                case ButtonType::Radio:
+                                    widget->_hasIcons = true;
+                                    break;
+                                default: break;
+                                }
+                                widget->_resize();
+                            }
+                        });
+                        _checkedObservers[item] = ValueObserver<bool>::create(
+                            i.second->observeChecked(),
+                            [weak, item](bool value)
+                        {
+                            if (auto widget = weak.lock())
+                            {
+                                item->checked = value;
+                                widget->_redraw();
+                            }
+                        });
+                        _titleObservers[item] = ValueObserver<std::string>::create(
+                            i.second->observeTitle(),
+                            [weak, item](std::string value)
+                        {
+                            if (auto widget = weak.lock())
+                            {
+                                item->title = value;
+                                widget->_textUpdateRequest = true;
+                            }
+                        });
+                        _shortcutsObservers[item] = ListObserver<std::shared_ptr<Shortcut> >::create(
+                            i.second->observeShortcuts(),
+                            [weak, item](const std::vector<std::shared_ptr<Shortcut> > & value)
+                        {
+                            if (auto widget = weak.lock())
+                            {
+                                if (auto textSystem = widget->getContext()->getSystemT<TextSystem>())
+                                {
+                                    std::vector<std::string> labels;
+                                    for (const auto & i : value)
                                     {
-                                    case ButtonType::Toggle:
-                                    case ButtonType::Radio:
-                                        widget->_hasIcons = true;
-                                        break;
-                                    default: break;
+                                        labels.push_back(Shortcut::getText(
+                                            i->observeShortcutKey()->get(),
+                                            i->observeShortcutModifiers()->get(),
+                                            textSystem));
                                     }
-                                    widget->_resize();
-                                }
-                            });
-                            _checkedObservers[item] = ValueObserver<bool>::create(
-                                i.second->observeChecked(),
-                                [weak, item](bool value)
-                            {
-                                if (auto widget = weak.lock())
-                                {
-                                    item->checked = value;
-                                    widget->_redraw();
-                                }
-                            });
-                            _titleObservers[item] = ValueObserver<std::string>::create(
-                                i.second->observeTitle(),
-                                [weak, item](std::string value)
-                            {
-                                if (auto widget = weak.lock())
-                                {
-                                    item->title = value;
+                                    item->shortcutLabel = String::join(labels, ", ");
                                     widget->_textUpdateRequest = true;
                                 }
-                            });
-                            _shortcutsObservers[item] = ListObserver<std::shared_ptr<Shortcut> >::create(
-                                i.second->observeShortcuts(),
-                                [weak, item](const std::vector<std::shared_ptr<Shortcut> > & value)
+                            }
+                        });
+                        _enabledObservers[item] = ValueObserver<bool>::create(
+                            i.second->observeEnabled(),
+                            [weak, item](bool value)
+                        {
+                            if (auto widget = weak.lock())
                             {
-                                if (auto widget = weak.lock())
-                                {
-                                    if (auto textSystem = widget->getContext()->getSystemT<TextSystem>().lock())
-                                    {
-                                        std::vector<std::string> labels;
-                                        for (const auto & i : value)
-                                        {
-                                            labels.push_back(Shortcut::getText(
-                                                i->observeShortcutKey()->get(),
-                                                i->observeShortcutModifiers()->get(),
-                                                textSystem));
-                                        }
-                                        item->shortcutLabel = String::join(labels, ", ");
-                                        widget->_textUpdateRequest = true;
-                                    }
-                                }
-                            });
-                            _enabledObservers[item] = ValueObserver<bool>::create(
-                                i.second->observeEnabled(),
-                                [weak, item](bool value)
-                            {
-                                if (auto widget = weak.lock())
-                                {
-                                    item->enabled = value;
-                                    widget->_redraw();
-                                }
-                            });
-                        }
-                        _items[i.first] = item;
-                        _actionToItem[i.second] = item;
-                        _itemToAction[item] = i.second;
+                                item->enabled = value;
+                                widget->_redraw();
+                            }
+                        });
                     }
+                    _items[i.first] = item;
+                    _actionToItem[i.second] = item;
+                    _itemToAction[item] = i.second;
                 }
                 _textUpdate();
             }
@@ -643,19 +625,16 @@ namespace djv
             void MenuWidget::_textUpdate()
             {
                 _textUpdateRequest = false;
-                auto style = _getStyle().lock();
-                auto fontSystem = _getFontSystem().lock();
-                auto textSystem = _getTextSystem().lock();
-                if (style && fontSystem && textSystem)
+                auto style = _getStyle();
+                auto fontSystem = _getFontSystem();
+                auto textSystem = _getTextSystem();
+                _hasShortcuts = false;
+                for (const auto & i : _items)
                 {
-                    _hasShortcuts = false;
-                    for (const auto & i : _items)
-                    {
-                        const auto fontInfo = style->getFontInfo(AV::Font::Info::faceDefault, MetricsRole::FontMedium);
-                        _titleSizeFutures[i.second] = fontSystem->measure(i.second->title, fontInfo);
-                        _shortcutSizeFutures[i.second] = fontSystem->measure(i.second->shortcutLabel, fontInfo);
-                        _hasShortcuts |= i.second->shortcutLabel.size() > 0;
-                    }
+                    const auto fontInfo = style->getFontInfo(AV::Font::Info::faceDefault, MetricsRole::FontMedium);
+                    _titleSizeFutures[i.second] = fontSystem->measure(i.second->title, fontInfo);
+                    _shortcutSizeFutures[i.second] = fontSystem->measure(i.second->shortcutLabel, fontInfo);
+                    _hasShortcuts |= i.second->shortcutLabel.size() > 0;
                 }
             }
 
@@ -877,22 +856,18 @@ namespace djv
             void MenuOverlayLayout::_paintEvent(Event::Paint & event)
             {
                 Widget::_paintEvent(event);
-                if (auto render = _getRender().lock())
+                auto style = _getStyle();
+                const float s = style->getMetric(MetricsRole::Shadow);
+                auto render = _getRender();
+                render->setFillColor(_getColorWithOpacity(style->getColor(ColorRole::Shadow)));
+                for (const auto & i : getChildrenT<Widget>())
                 {
-                    if (auto style = _getStyle().lock())
-                    {
-                        const float s = style->getMetric(MetricsRole::Shadow);
-                        render->setFillColor(_getColorWithOpacity(style->getColor(ColorRole::Shadow)));
-                        for (const auto & i : getChildrenT<Widget>())
-                        {
-                            BBox2f g = i->getGeometry();
-                            g.min.x += s;
-                            g.min.y += s;
-                            g.max.x += s;
-                            g.max.y += s;
-                            render->drawRect(g);
-                        }
-                    }
+                    BBox2f g = i->getGeometry();
+                    g.min.x += s;
+                    g.min.y += s;
+                    g.max.x += s;
+                    g.max.y += s;
+                    render->drawRect(g);
                 }
             }
 

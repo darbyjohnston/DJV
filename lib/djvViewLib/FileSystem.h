@@ -33,6 +33,7 @@
 
 #include <djvCore/ListObserver.h>
 #include <djvCore/ValueObserver.h>
+#include <djvCore/Vector.h>
 
 namespace djv
 {
@@ -66,7 +67,7 @@ namespace djv
             MenuData getMenu() override;
 
         protected:
-            void _localeEvent(Core::Event::Locale &) override;
+            void _textUpdate();
 
         private:
             void _showFileBrowserDialog();

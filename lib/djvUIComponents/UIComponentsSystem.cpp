@@ -44,8 +44,7 @@ namespace djv
     namespace UI
     {
         struct UIComponentsSystem::Private
-        {
-        };
+        {};
 
         void UIComponentsSystem::_init(int dpi, Context * context)
         {
@@ -54,12 +53,13 @@ namespace djv
             DJV_PRIVATE_PTR();
 
             auto uiSystem = UISystem::create(dpi, context);
-            addDependency(uiSystem);
 
             Settings::AVIO::create(context);
             Settings::FileBrowser::create(context);
 
             auto fileBrowserDialogSystem = FileBrowser::DialogSystem::create(context);
+
+            addDependency(uiSystem);
             addDependency(fileBrowserDialogSystem);
         }
 

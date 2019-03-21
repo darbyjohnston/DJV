@@ -219,59 +219,57 @@ namespace djv
         void LineEditBase::_preLayoutEvent(Event::PreLayout & event)
         {
             DJV_PRIVATE_PTR();
-            if (auto style = _getStyle().lock())
+            auto style = _getStyle();
+            const float m = style->getMetric(MetricsRole::MarginSmall);
+            const float tc = style->getMetric(MetricsRole::TextColumn);
+
+            if (p.fontMetricsFuture.valid())
             {
-                const float m = style->getMetric(MetricsRole::MarginSmall);
-                const float tc = style->getMetric(MetricsRole::TextColumn);
-
-                if (p.fontMetricsFuture.valid())
+                try
                 {
-                    try
-                    {
-                        p.fontMetrics = p.fontMetricsFuture.get();
-                    }
-                    catch (const std::exception & e)
-                    {
-                        _log(e.what(), LogLevel::Error);
-                    }
+                    p.fontMetrics = p.fontMetricsFuture.get();
                 }
-                if (p.textSizeFuture.valid())
+                catch (const std::exception & e)
                 {
-                    try
-                    {
-                        p.textSize = p.textSizeFuture.get();
-                    }
-                    catch (const std::exception & e)
-                    {
-                        _log(e.what(), LogLevel::Error);
-                    }
+                    _log(e.what(), LogLevel::Error);
                 }
-                if (p.sizeStringFuture.valid())
-                {
-                    try
-                    {
-                        p.sizeStringSize = p.sizeStringFuture.get();
-                    }
-                    catch (const std::exception & e)
-                    {
-                        _log(e.what(), LogLevel::Error);
-                    }
-                }
-                if (p.cursorTextSizeFuture.valid())
-                {
-                    try
-                    {
-                        p.cursorTextSize = p.cursorTextSizeFuture.get();
-                    }
-                    catch (const std::exception & e)
-                    {
-                        _log(e.what(), LogLevel::Error);
-                    }
-                }
-
-                const glm::vec2 size(p.sizeString.empty() ? tc : p.sizeStringSize.x, p.fontMetrics.lineHeight);
-                _setMinimumSize(size + m * 2.f + getMargin().getSize(style));
             }
+            if (p.textSizeFuture.valid())
+            {
+                try
+                {
+                    p.textSize = p.textSizeFuture.get();
+                }
+                catch (const std::exception & e)
+                {
+                    _log(e.what(), LogLevel::Error);
+                }
+            }
+            if (p.sizeStringFuture.valid())
+            {
+                try
+                {
+                    p.sizeStringSize = p.sizeStringFuture.get();
+                }
+                catch (const std::exception & e)
+                {
+                    _log(e.what(), LogLevel::Error);
+                }
+            }
+            if (p.cursorTextSizeFuture.valid())
+            {
+                try
+                {
+                    p.cursorTextSize = p.cursorTextSizeFuture.get();
+                }
+                catch (const std::exception & e)
+                {
+                    _log(e.what(), LogLevel::Error);
+                }
+            }
+
+            const glm::vec2 size(p.sizeString.empty() ? tc : p.sizeStringSize.x, p.fontMetrics.lineHeight);
+            _setMinimumSize(size + m * 2.f + getMargin().getSize(style));
         }
 
         void LineEditBase::_clipEvent(Event::Clip & event)
@@ -286,37 +284,33 @@ namespace djv
         {
             Widget::_paintEvent(event);
             DJV_PRIVATE_PTR();
-            if (auto render = _getRender().lock())
+            auto style = _getStyle();
+            const BBox2f & g = getMargin().bbox(getGeometry(), style);
+            const glm::vec2 c = g.getCenter();
+            const float m = style->getMetric(MetricsRole::MarginSmall);
+            const float b = style->getMetric(MetricsRole::Border);
+
+            auto fontInfo = p.font.empty() ?
+                style->getFontInfo(p.fontFace, p.fontSizeRole) :
+                style->getFontInfo(p.font, p.fontFace, p.fontSizeRole);
+            auto render = _getRender();
+            render->setCurrentFont(fontInfo);
+
+            glm::vec2 pos = g.min;
+            pos += m;
+            pos.y = c.y - p.textSize.y / 2.f;
+
+            render->setFillColor(_getColorWithOpacity(style->getColor(p.textColorRole)));
+            //! \bug Why the extra subtract by one here?
+            render->drawText(p.text, glm::vec2(floorf(pos.x), floorf(pos.y + p.fontMetrics.ascender - 1.f)));
+
+            if (p.cursorBlink)
             {
-                if (auto style = _getStyle().lock())
-                {
-                    const BBox2f & g = getMargin().bbox(getGeometry(), style);
-                    const glm::vec2 c = g.getCenter();
-                    const float m = style->getMetric(MetricsRole::MarginSmall);
-                    const float b = style->getMetric(MetricsRole::Border);
-
-                    auto fontInfo = p.font.empty() ?
-                        style->getFontInfo(p.fontFace, p.fontSizeRole) :
-                        style->getFontInfo(p.font, p.fontFace, p.fontSizeRole);
-                    render->setCurrentFont(fontInfo);
-
-                    glm::vec2 pos = g.min;
-                    pos += m;
-                    pos.y = c.y - p.textSize.y / 2.f;
-
-                    render->setFillColor(_getColorWithOpacity(style->getColor(p.textColorRole)));
-                    //! \bug Why the extra subtract by one here?
-                    render->drawText(p.text, glm::vec2(floorf(pos.x), floorf(pos.y + p.fontMetrics.ascender - 1.f)));
-
-                    if (p.cursorBlink)
-                    {
-                        render->drawRect(BBox2f(
-                            g.min.x + m + p.cursorTextSize.x,
-                            g.min.y + m,
-                            b,
-                            g.h() - m * 2.f));
-                    }
-                }
+                render->drawRect(BBox2f(
+                    g.min.x + m + p.cursorTextSize.x,
+                    g.min.y + m,
+                    b,
+                    g.h() - m * 2.f));
             }
         }
 
@@ -490,66 +484,58 @@ namespace djv
         void LineEditBase::_textUpdate()
         {
             DJV_PRIVATE_PTR();
-            if (auto style = _getStyle().lock())
+            auto style = _getStyle();
+            const auto fontInfo = p.font.empty() ?
+                style->getFontInfo(p.fontFace, p.fontSizeRole) :
+                style->getFontInfo(p.font, p.fontFace, p.fontSizeRole);
+            auto fontSystem = _getFontSystem();
+            p.fontMetricsFuture = fontSystem->getMetrics(fontInfo);
+            p.textSizeFuture = fontSystem->measure(p.text, fontInfo);
+            if (!p.sizeString.empty())
             {
-                if (auto fontSystem = _getFontSystem().lock())
-                {
-                    const auto fontInfo = p.font.empty() ?
-                        style->getFontInfo(p.fontFace, p.fontSizeRole) :
-                        style->getFontInfo(p.font, p.fontFace, p.fontSizeRole);
-                    p.fontMetricsFuture = fontSystem->getMetrics(fontInfo);
-                    p.textSizeFuture = fontSystem->measure(p.text, fontInfo);
-                    if (!p.sizeString.empty())
-                    {
-                        p.sizeStringFuture = fontSystem->measure(p.sizeString, fontInfo);
-                    }
-                    _resize();
-                }
+                p.sizeStringFuture = fontSystem->measure(p.sizeString, fontInfo);
             }
+            _resize();
         }
 
         void LineEditBase::_cursorUpdate()
         {
             DJV_PRIVATE_PTR();
-            if (auto style = _getStyle().lock())
+            const size_t size = p.text.size();
+            if (size)
             {
-                if (auto fontSystem = _getFontSystem().lock())
-                {
-                    const size_t size = p.text.size();
-                    if (size)
-                    {
-                        p.cursorPos = Math::clamp(p.cursorPos, size_t(0), size);
-                    }
-                    else
-                    {
-                        p.cursorPos = 0;
-                    }
-
-                    const auto fontInfo = p.font.empty() ?
-                        style->getFontInfo(p.fontFace, p.fontSizeRole) :
-                        style->getFontInfo(p.font, p.fontFace, p.fontSizeRole);
-                    const std::string cursorText = p.cursorPos < size ? p.text.substr(0, p.cursorPos) : p.text;
-                    p.cursorTextSizeFuture = fontSystem->measure(cursorText, fontInfo);
-
-                    if (hasTextFocus())
-                    {
-                        p.cursorBlink = true;
-                        auto weak = std::weak_ptr<LineEditBase>(std::dynamic_pointer_cast<LineEditBase>(shared_from_this()));
-                        p.cursorBlinkTimer->start(
-                            std::chrono::milliseconds(cursorTimeout),
-                            [weak](float)
-                        {
-                            if (auto widget = weak.lock())
-                            {
-                                widget->_p->cursorBlink = !widget->_p->cursorBlink;
-                                widget->_redraw();
-                            }
-                        });
-                    }
-
-                    _resize();
-                }
+                p.cursorPos = Math::clamp(p.cursorPos, size_t(0), size);
             }
+            else
+            {
+                p.cursorPos = 0;
+            }
+
+            auto style = _getStyle();
+            const auto fontInfo = p.font.empty() ?
+                style->getFontInfo(p.fontFace, p.fontSizeRole) :
+                style->getFontInfo(p.font, p.fontFace, p.fontSizeRole);
+            const std::string cursorText = p.cursorPos < size ? p.text.substr(0, p.cursorPos) : p.text;
+            auto fontSystem = _getFontSystem();
+            p.cursorTextSizeFuture = fontSystem->measure(cursorText, fontInfo);
+
+            if (hasTextFocus())
+            {
+                p.cursorBlink = true;
+                auto weak = std::weak_ptr<LineEditBase>(std::dynamic_pointer_cast<LineEditBase>(shared_from_this()));
+                p.cursorBlinkTimer->start(
+                    std::chrono::milliseconds(cursorTimeout),
+                    [weak](float)
+                {
+                    if (auto widget = weak.lock())
+                    {
+                        widget->_p->cursorBlink = !widget->_p->cursorBlink;
+                        widget->_redraw();
+                    }
+                });
+            }
+
+            _resize();
         }
 
     } // namespace UI

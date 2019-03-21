@@ -149,7 +149,7 @@ int Application::run()
 
 void Application::_render()
 {
-    if (auto render = getSystemT<AV::Render::Render2D>().lock())
+    if (auto render = getSystemT<AV::Render::Render2D>())
     {
         auto glfwWindow = getGLFWWindow();
         glfwGetWindowSize(glfwWindow, &_windowSize.x, &_windowSize.y);

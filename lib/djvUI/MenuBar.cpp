@@ -245,11 +245,9 @@ namespace djv
 
         void MenuBar::_layoutEvent(Event::Layout & event)
         {
-            if (auto style = _getStyle().lock())
-            {
-                const BBox2f & g = getGeometry();
-                _p->layout->setGeometry(getMargin().bbox(g, style));
-            }
+            const BBox2f & g = getGeometry();
+            auto style = _getStyle();
+            _p->layout->setGeometry(getMargin().bbox(g, style));
         }
 
         bool MenuBar::_eventFilter(const std::shared_ptr<IObject> & object, Event::IEvent & event)

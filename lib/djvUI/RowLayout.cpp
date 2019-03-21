@@ -144,49 +144,48 @@ namespace djv
 
             float Row::getHeightForWidth(float value) const
             {
+                DJV_PRIVATE_PTR();
+
                 float out = 0.f;
-                if (auto style = _getStyle().lock())
+
+                // Get the child sizes.
+                auto style = _getStyle();
+                const glm::vec2 m = getMargin().getSize(style);
+                const auto children = getChildrenT<Widget>();
+                size_t visibleChildren = 0;
+                for (const auto & child : children)
                 {
-                    DJV_PRIVATE_PTR();
-
-                    // Get the child sizes.
-                    const glm::vec2 m = getMargin().getSize(style);
-                    const auto children = getChildrenT<Widget>();
-                    size_t visibleChildren = 0;
-                    for (const auto & child : children)
+                    if (child->isVisible())
                     {
-                        if (child->isVisible())
-                        {
-                            const float heightForWidth = child->getHeightForWidth(value - m.x);
-                            switch (p.orientation)
-                            {
-                            case Orientation::Horizontal:
-                                out = std::max(out, heightForWidth);
-                                break;
-                            case Orientation::Vertical:
-                                out += heightForWidth;
-                                break;
-                            default: break;
-                            }
-                            ++visibleChildren;
-                        }
-                    }
-
-                    // Adjust for spacing.
-                    if (visibleChildren > 1)
-                    {
-                        const glm::vec2 s = p.spacing.get(style);
+                        const float heightForWidth = child->getHeightForWidth(value - m.x);
                         switch (p.orientation)
                         {
+                        case Orientation::Horizontal:
+                            out = std::max(out, heightForWidth);
+                            break;
                         case Orientation::Vertical:
-                            out += s.y * (visibleChildren - 1);
+                            out += heightForWidth;
                             break;
                         default: break;
                         }
+                        ++visibleChildren;
                     }
-
-                    out += m.y;
                 }
+
+                // Adjust for spacing.
+                if (visibleChildren > 1)
+                {
+                    const glm::vec2 s = p.spacing.get(style);
+                    switch (p.orientation)
+                    {
+                    case Orientation::Vertical:
+                        out += s.y * (visibleChildren - 1);
+                        break;
+                    default: break;
+                    }
+                }
+
+                out += m.y;
                 return out;
             }
 
@@ -217,185 +216,181 @@ namespace djv
 
             void Row::_preLayoutEvent(Event::PreLayout &)
             {
-                if (auto style = _getStyle().lock())
+                DJV_PRIVATE_PTR();
+
+                // Get the child sizes.
+                glm::vec2 minimumSize = glm::vec2(0.f, 0.f);
+                size_t visibleChildren = 0;
+                for (const auto & child : getChildrenT<Widget>())
                 {
-                    DJV_PRIVATE_PTR();
-
-                    // Get the child sizes.
-                    glm::vec2 minimumSize = glm::vec2(0.f, 0.f);
-                    size_t visibleChildren = 0;
-                    for (const auto & child : getChildrenT<Widget>())
+                    if (child->isVisible())
                     {
-                        if (child->isVisible())
-                        {
-                            const glm::vec2 & childMinimumSize = child->getMinimumSize();
-                            switch (p.orientation)
-                            {
-                            case Orientation::Horizontal:
-                                minimumSize.x += childMinimumSize.x;
-                                minimumSize.y = std::max(minimumSize.y, childMinimumSize.y);
-                                break;
-                            case Orientation::Vertical:
-                                minimumSize.x = std::max(minimumSize.x, childMinimumSize.x);
-                                minimumSize.y += childMinimumSize.y;
-                                break;
-                            default: break;
-                            }
-                            ++visibleChildren;
-                        }
-                    }
-
-                    // Adjust for spacing.
-                    if (visibleChildren > 1)
-                    {
-                        const glm::vec2 s = p.spacing.get(style);
+                        const glm::vec2 & childMinimumSize = child->getMinimumSize();
                         switch (p.orientation)
                         {
                         case Orientation::Horizontal:
-                            minimumSize.x += s.x * (visibleChildren - 1);
+                            minimumSize.x += childMinimumSize.x;
+                            minimumSize.y = std::max(minimumSize.y, childMinimumSize.y);
                             break;
                         case Orientation::Vertical:
-                            minimumSize.y += s.y * (visibleChildren - 1);
+                            minimumSize.x = std::max(minimumSize.x, childMinimumSize.x);
+                            minimumSize.y += childMinimumSize.y;
                             break;
                         default: break;
                         }
+                        ++visibleChildren;
                     }
-
-                    _setMinimumSize(minimumSize + getMargin().getSize(style));
                 }
+
+                // Adjust for spacing.
+                auto style = _getStyle();
+                if (visibleChildren > 1)
+                {
+                    const glm::vec2 s = p.spacing.get(style);
+                    switch (p.orientation)
+                    {
+                    case Orientation::Horizontal:
+                        minimumSize.x += s.x * (visibleChildren - 1);
+                        break;
+                    case Orientation::Vertical:
+                        minimumSize.y += s.y * (visibleChildren - 1);
+                        break;
+                    default: break;
+                    }
+                }
+
+                _setMinimumSize(minimumSize + getMargin().getSize(style));
             }
 
             void Row::_layoutEvent(Event::Layout & event)
             {
-                if (auto style = _getStyle().lock())
+                DJV_PRIVATE_PTR();
+
+                auto style = _getStyle();
+                const BBox2f & g = getMargin().bbox(getGeometry(), style);
+                const float gw = g.w();
+                const float gh = g.h();
+
+                // Get the child sizes.
+                glm::vec2 minimumSize = glm::vec2(0.f, 0.f);
+                size_t expandCount = 0;
+                const auto children = getChildrenT<Widget>();
+                size_t visibleChildren = 0;
+                for (const auto & child : children)
                 {
-                    DJV_PRIVATE_PTR();
-
-                    const BBox2f & g = getMargin().bbox(getGeometry(), style);
-                    const float gw = g.w();
-                    const float gh = g.h();
-
-                    // Get the child sizes.
-                    glm::vec2 minimumSize = glm::vec2(0.f, 0.f);
-                    size_t expandCount = 0;
-                    const auto children = getChildrenT<Widget>();
-                    size_t visibleChildren = 0;
-                    for (const auto & child : children)
-                    {
-                        if (child->isVisible())
-                        {
-                            switch (p.orientation)
-                            {
-                            case Orientation::Horizontal:
-                                switch (p.stretch[child])
-                                {
-                                case RowStretch::None:
-                                    minimumSize.x += child->getMinimumSize().x;
-                                    break;
-                                case RowStretch::Expand:
-                                    ++expandCount;
-                                    break;
-                                default: break;
-                                }
-                                break;
-                            case Orientation::Vertical:
-                                switch (p.stretch[child])
-                                {
-                                case RowStretch::None:
-                                    minimumSize.y += child->getMinimumSize().y;
-                                    break;
-                                case RowStretch::Expand:
-                                    ++expandCount;
-                                    break;
-                                default: break;
-                                }
-                                break;
-                            default: break;
-                            }
-                            ++visibleChildren;
-                        }
-                    }
-
-                    // Adjust for spacing.
-                    const glm::vec2 s = p.spacing.get(style);
-                    if (visibleChildren > 1)
+                    if (child->isVisible())
                     {
                         switch (p.orientation)
                         {
                         case Orientation::Horizontal:
-                            minimumSize.x += s.x * (visibleChildren - 1);
+                            switch (p.stretch[child])
+                            {
+                            case RowStretch::None:
+                                minimumSize.x += child->getMinimumSize().x;
+                                break;
+                            case RowStretch::Expand:
+                                ++expandCount;
+                                break;
+                            default: break;
+                            }
                             break;
                         case Orientation::Vertical:
-                            minimumSize.y += s.y * (visibleChildren - 1);
+                            switch (p.stretch[child])
+                            {
+                            case RowStretch::None:
+                                minimumSize.y += child->getMinimumSize().y;
+                                break;
+                            case RowStretch::Expand:
+                                ++expandCount;
+                                break;
+                            default: break;
+                            }
                             break;
                         default: break;
                         }
+                        ++visibleChildren;
                     }
+                }
 
-                    // Calculate the geometry.
-                    std::vector<BBox2f> childrenGeometry;
-                    glm::vec2 pos = g.min;
+                // Adjust for spacing.
+                const glm::vec2 s = p.spacing.get(style);
+                if (visibleChildren > 1)
+                {
                     switch (p.orientation)
                     {
                     case Orientation::Horizontal:
-                    {
-                        for (const auto & child : children)
-                        {
-                            if (child->isVisible())
-                            {
-                                float cellSize = 0.f;
-                                switch (p.stretch[child])
-                                {
-                                case RowStretch::None:
-                                    cellSize = child->getMinimumSize().x;
-                                    break;
-                                case RowStretch::Expand:
-                                    cellSize = ceilf((gw - minimumSize.x) / static_cast<float>(expandCount));
-                                    break;
-                                default: break;
-                                }
-                                const BBox2f cellGeometry(pos.x, pos.y, cellSize, gh);
-                                child->setGeometry(Widget::getAlign(cellGeometry, child->getMinimumSize(), child->getHAlign(), child->getVAlign()));
-                                pos.x += cellGeometry.w() + s.x;
-                            }
-                        }
+                        minimumSize.x += s.x * (visibleChildren - 1);
                         break;
-                    }
                     case Orientation::Vertical:
-                    {
-                        for (const auto & child : children)
-                        {
-                            if (child->isVisible())
-                            {
-                                float cellSize = 0.f;
-                                switch (p.stretch[child])
-                                {
-                                case RowStretch::None:
-                                    switch (child->getHAlign())
-                                    {
-                                    case HAlign::Fill:
-                                        cellSize = child->getHeightForWidth(gw);
-                                        break;
-                                    default:
-                                        cellSize = child->getHeightForWidth(child->getMinimumSize().x);
-                                        break;
-                                    }
-                                    break;
-                                case RowStretch::Expand:
-                                    cellSize = ceilf((gh - minimumSize.y) / static_cast<float>(expandCount));
-                                    break;
-                                default: break;
-                                }
-                                const BBox2f cellGeometry(pos.x, pos.y, gw, cellSize);
-                                const BBox2f childGeometry = Widget::getAlign(cellGeometry, child->getMinimumSize(), child->getHAlign(), child->getVAlign());
-                                child->setGeometry(childGeometry);
-                                pos.y += cellGeometry.h() + s.y;
-                            }
-                        }
+                        minimumSize.y += s.y * (visibleChildren - 1);
                         break;
-                    }
                     default: break;
                     }
+                }
+
+                // Calculate the geometry.
+                std::vector<BBox2f> childrenGeometry;
+                glm::vec2 pos = g.min;
+                switch (p.orientation)
+                {
+                case Orientation::Horizontal:
+                {
+                    for (const auto & child : children)
+                    {
+                        if (child->isVisible())
+                        {
+                            float cellSize = 0.f;
+                            switch (p.stretch[child])
+                            {
+                            case RowStretch::None:
+                                cellSize = child->getMinimumSize().x;
+                                break;
+                            case RowStretch::Expand:
+                                cellSize = ceilf((gw - minimumSize.x) / static_cast<float>(expandCount));
+                                break;
+                            default: break;
+                            }
+                            const BBox2f cellGeometry(pos.x, pos.y, cellSize, gh);
+                            child->setGeometry(Widget::getAlign(cellGeometry, child->getMinimumSize(), child->getHAlign(), child->getVAlign()));
+                            pos.x += cellGeometry.w() + s.x;
+                        }
+                    }
+                    break;
+                }
+                case Orientation::Vertical:
+                {
+                    for (const auto & child : children)
+                    {
+                        if (child->isVisible())
+                        {
+                            float cellSize = 0.f;
+                            switch (p.stretch[child])
+                            {
+                            case RowStretch::None:
+                                switch (child->getHAlign())
+                                {
+                                case HAlign::Fill:
+                                    cellSize = child->getHeightForWidth(gw);
+                                    break;
+                                default:
+                                    cellSize = child->getHeightForWidth(child->getMinimumSize().x);
+                                    break;
+                                }
+                                break;
+                            case RowStretch::Expand:
+                                cellSize = ceilf((gh - minimumSize.y) / static_cast<float>(expandCount));
+                                break;
+                            default: break;
+                            }
+                            const BBox2f cellGeometry(pos.x, pos.y, gw, cellSize);
+                            const BBox2f childGeometry = Widget::getAlign(cellGeometry, child->getMinimumSize(), child->getHAlign(), child->getVAlign());
+                            child->setGeometry(childGeometry);
+                            pos.y += cellGeometry.h() + s.y;
+                        }
+                    }
+                    break;
+                }
+                default: break;
                 }
             }
 

@@ -34,6 +34,7 @@
 #include <djvUI/RowLayout.h>
 
 #include <djvCore/Context.h>
+#include <djvCore/TextSystem.h>
 
 #include <GLFW/glfw3.h>
 
@@ -48,6 +49,7 @@ namespace djv
             std::map<std::string, std::shared_ptr<UI::Action> > actions;
             std::shared_ptr<UI::Menu> menu;
             std::map<std::string, std::shared_ptr<ValueObserver<bool> > > clickedObservers;
+            std::shared_ptr<ValueObserver<std::string> > localeObserver;
         };
 
         void ImageSystem::_init(Context * context)
@@ -55,6 +57,7 @@ namespace djv
             IViewSystem::_init("djv::ViewLib::ImageSystem", context);
 
             DJV_PRIVATE_PTR();
+
             //! \todo Implement me!
             p.actions["ColorManager"] = UI::Action::create();
             p.actions["ColorManager"]->setEnabled(false);
@@ -67,6 +70,17 @@ namespace djv
             p.menu = UI::Menu::create(context);
             p.menu->addAction(p.actions["ColorManager"]);
             p.menu->addAction(p.actions["FrameStore"]);
+
+            auto weak = std::weak_ptr<ImageSystem>(std::dynamic_pointer_cast<ImageSystem>(shared_from_this()));
+            p.localeObserver = ValueObserver<std::string>::create(
+                context->getSystemT<TextSystem>()->observeCurrentLocale(),
+                [weak](const std::string & value)
+            {
+                if (auto system = weak.lock())
+                {
+                    system->_textUpdate();
+                }
+            });
         }
 
         ImageSystem::ImageSystem() :
@@ -97,15 +111,16 @@ namespace djv
             };
         }
 
-        void ImageSystem::_localeEvent(Event::Locale &)
+        void ImageSystem::_textUpdate()
         {
             DJV_PRIVATE_PTR();
-            p.actions["ColorManager"]->setTitle(_getText(DJV_TEXT("Color Manager")));
-            p.actions["ColorManager"]->setTooltip(_getText(DJV_TEXT("Color manager tooltip")));
-            p.actions["FrameStore"]->setTitle(_getText(DJV_TEXT("Frame Store")));
-            p.actions["FrameStore"]->setTooltip(_getText(DJV_TEXT("Frame store tooltip")));
+            auto context = getContext();
+            p.actions["ColorManager"]->setTitle(context->getText(DJV_TEXT("Color Manager")));
+            p.actions["ColorManager"]->setTooltip(context->getText(DJV_TEXT("Color manager tooltip")));
+            p.actions["FrameStore"]->setTitle(context->getText(DJV_TEXT("Frame Store")));
+            p.actions["FrameStore"]->setTooltip(context->getText(DJV_TEXT("Frame store tooltip")));
 
-            p.menu->setText(_getText(DJV_TEXT("Image")));
+            p.menu->setText(context->getText(DJV_TEXT("Image")));
         }
 
     } // namespace ViewLib

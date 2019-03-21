@@ -190,6 +190,9 @@ namespace djv
             ISystem::_init("djv::AV::ThumbnailSystem", context);
 
             DJV_PRIVATE_PTR();
+
+            addDependency(context->getSystemT<IO::System>());
+
             p.infoCache.setMax(infoCacheMax);
             p.imageCache.setMax(imageCacheMax);
 
@@ -407,7 +410,7 @@ namespace djv
                 {
                     i.promise.set_value(info);
                 }
-                else if (auto io = getContext()->getSystemT<IO::System>().lock())
+                else if (auto io = getContext()->getSystemT<IO::System>())
                 {
                     try
                     {
@@ -499,7 +502,7 @@ namespace djv
                 }
                 else
                 {
-                    if (auto io = getContext()->getSystemT<IO::System>().lock())
+                    if (auto io = getContext()->getSystemT<IO::System>())
                     {
                         try
                         {

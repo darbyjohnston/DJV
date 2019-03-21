@@ -59,7 +59,7 @@ namespace djv
                 _parseArgs();
 
                 Core::Time::Duration duration = 0;
-                if (auto io = getSystemT<AV::IO::System>().lock())
+                if (auto io = getSystemT<AV::IO::System>())
                 {
                     _queue = AV::IO::Queue::create();
                     _read = io->read(argv[1], _queue);

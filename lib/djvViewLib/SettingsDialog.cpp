@@ -93,16 +93,13 @@ namespace djv
 
                 _buttonGroup = UI::ButtonGroup::create(UI::ButtonType::Radio);
 
-                for (auto i : context->getSystemsT<IViewSystem>())
+                for (auto system : context->getSystemsT<IViewSystem>())
                 {
-                    if (auto system = i.lock())
+                    for (auto widget : system->getSettingsWidgets())
                     {
-                        for (auto widget : system->getSettingsWidgets())
-                        {
-                            auto button = UI::FlatButton::create(context);
-                            _buttons.insert(std::make_pair(widget->getSortKey(), button));
-                            _buttonToWidget[button] = widget;
-                        }
+                        auto button = UI::FlatButton::create(context);
+                        _buttons.insert(std::make_pair(widget->getSortKey(), button));
+                        _buttonToWidget[button] = widget;
                     }
                 }
                 for (const auto & button : _buttons)
@@ -208,14 +205,11 @@ namespace djv
             p.soloLayout = UI::SoloLayout::create(context);
             p.soloLayout->addChild(p.listWidget);
             auto weak = std::weak_ptr<SettingsDialog>(std::dynamic_pointer_cast<SettingsDialog>(shared_from_this()));
-            for (auto i : context->getSystemsT<IViewSystem>())
+            for (auto system : context->getSystemsT<IViewSystem>())
             {
-                if (auto system = i.lock())
+                for (auto widget : system->getSettingsWidgets())
                 {
-                    for (auto widget : system->getSettingsWidgets())
-                    {
-                        p.soloLayout->addChild(widget);
-                    }
+                    p.soloLayout->addChild(widget);
                 }
             }
 

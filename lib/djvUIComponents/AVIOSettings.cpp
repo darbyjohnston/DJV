@@ -45,17 +45,15 @@ namespace djv
         {
             struct AVIO::Private
             {
+                std::shared_ptr<AV::IO::System> ioSystem;
             };
 
             void AVIO::_init(Context * context)
             {
                 ISettings::_init("djv::UI::Settings::AVIO", context);
-
                 DJV_PRIVATE_PTR();
-
+                p.ioSystem = getContext()->getSystemT<AV::IO::System>();
                 _load();
-
-                auto weak = std::weak_ptr<AVIO>(std::dynamic_pointer_cast<AVIO>(shared_from_this()));
             }
 
             AVIO::AVIO() :
@@ -77,16 +75,13 @@ namespace djv
                 DJV_PRIVATE_PTR();
                 if (value.is<picojson::object>())
                 {
-                    if (auto io = getContext()->getSystemT<AV::IO::System>().lock())
+                    const auto & object = value.get<picojson::object>();
+                    for (const auto & i : p.ioSystem->getPluginNames())
                     {
-                        const auto & object = value.get<picojson::object>();
-                        for (const auto & i : io->getPluginNames())
+                        const auto j = object.find(i);
+                        if (j != object.end())
                         {
-                            const auto j = object.find(i);
-                            if (j != object.end())
-                            {
-                                io->setOptions(i, j->second);
-                            }
+                            p.ioSystem->setOptions(i, j->second);
                         }
                     }
                 }
@@ -96,13 +91,10 @@ namespace djv
             {
                 DJV_PRIVATE_PTR();
                 picojson::value out(picojson::object_type, true);
-                if (auto io = getContext()->getSystemT<AV::IO::System>().lock())
+                auto & object = out.get<picojson::object>();
+                for (const auto & i : p.ioSystem->getPluginNames())
                 {
-                    auto & object = out.get<picojson::object>();
-                    for (const auto & i : io->getPluginNames())
-                    {
-                        object[i] = io->getOptions(i);
-                    }
+                    object[i] = p.ioSystem->getOptions(i);
                 }
                 return out;
             }

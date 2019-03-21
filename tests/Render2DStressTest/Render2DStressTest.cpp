@@ -215,7 +215,7 @@ void Application::_initRandomNumbers()
 
 void Application::_drawRandomRectangle()
 {
-    if (auto render = getSystemT<AV::Render::Render2D>().lock())
+    if (auto render = getSystemT<AV::Render::Render2D>())
     {
         render->setFillColor(_currentColor->c);
         render->drawRect(Core::BBox2f(_currentPos->v.x, _currentPos->v.y, _currentSize->v.x, _currentSize->v.y));
@@ -227,7 +227,7 @@ void Application::_drawRandomRectangle()
 
 void Application::_drawRandomRoundedRectangle()
 {
-    if (auto render = getSystemT<AV::Render::Render2D>().lock())
+    if (auto render = getSystemT<AV::Render::Render2D>())
     {
         render->setFillColor(_currentColor->c);
         render->drawRoundedRect(
@@ -241,7 +241,7 @@ void Application::_drawRandomRoundedRectangle()
 
 void Application::_drawRandomCircle()
 {
-    if (auto render = getSystemT<AV::Render::Render2D>().lock())
+    if (auto render = getSystemT<AV::Render::Render2D>())
     {
         render->setFillColor(_currentColor->c);
         render->drawCircle(_currentPos->v, _currentSize->v.x);
@@ -253,7 +253,7 @@ void Application::_drawRandomCircle()
 
 void Application::_drawRandomText()
 {
-    if (auto render = getSystemT<AV::Render::Render2D>().lock())
+    if (auto render = getSystemT<AV::Render::Render2D>())
     {
         render->setFillColor(_currentColor->c);
         AV::Font::Info fontInfo;
@@ -269,7 +269,7 @@ void Application::_drawRandomText()
 
 void Application::_render()
 {
-    if (auto render = getSystemT<AV::Render::Render2D>().lock())
+    if (auto render = getSystemT<AV::Render::Render2D>())
     {
         glm::ivec2 size;
         auto glfwWindow = getGLFWWindow();

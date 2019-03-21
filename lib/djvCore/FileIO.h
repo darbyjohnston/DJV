@@ -191,6 +191,11 @@ namespace djv
                 //! - std::exception
                 static std::vector<std::string> readLines(const std::string & fileName);
 
+                //! Write lines to a file.
+                //! Throws:
+                //! - std::exception
+                static void writeLines(const std::string & fileName, const std::vector<std::string> &);
+
                 ///@}
 
             private:

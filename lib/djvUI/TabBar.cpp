@@ -127,19 +127,15 @@ namespace djv
 
             void TabBarButton::_paintEvent(Event::Paint & event)
             {
-                if (auto render = _getRender().lock())
+                const BBox2f & g = getGeometry();
+                auto render = _getRender();
+                auto style = _getStyle();
+                render->setFillColor(_getColorWithOpacity(style->getColor(_isToggled() ? ColorRole::Background : ColorRole::Border)));
+                render->drawRect(g);
+                if (_isHovered() && !_isToggled())
                 {
-                    if (auto style = _getStyle().lock())
-                    {
-                        const BBox2f & g = getGeometry();
-                        render->setFillColor(_getColorWithOpacity(style->getColor(_isToggled() ? ColorRole::Background : ColorRole::Border)));
-                        render->drawRect(g);
-                        if (_isHovered() && !_isToggled())
-                        {
-                            render->setFillColor(_getColorWithOpacity(style->getColor(ColorRole::Hovered)));
-                            render->drawRect(g);
-                        }
-                    }
+                    render->setFillColor(_getColorWithOpacity(style->getColor(ColorRole::Hovered)));
+                    render->drawRect(g);
                 }
             }
 
@@ -284,11 +280,9 @@ namespace djv
 
         void TabBar::_layoutEvent(Event::Layout & event)
         {
-            if (auto style = _getStyle().lock())
-            {
-                const BBox2f & g = getGeometry();
-                _p->layout->setGeometry(getMargin().bbox(g, style));
-            }
+            const BBox2f & g = getGeometry();
+            auto style = _getStyle();
+            _p->layout->setGeometry(getMargin().bbox(g, style));
         }
 
     } // namespace UI

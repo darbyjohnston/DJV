@@ -77,7 +77,7 @@ namespace djv
                 {
                 case gl::GL_DEBUG_SEVERITY_HIGH:
                 case gl::GL_DEBUG_SEVERITY_MEDIUM:
-                    if (auto log = reinterpret_cast<const Context *>(userParam)->getSystemT<LogSystem>().lock())
+                    if (auto log = reinterpret_cast<const Context *>(userParam)->getSystemT<LogSystem>())
                     {
                         log->log("djv::AV::Application", message);
                     }
@@ -177,8 +177,6 @@ namespace djv
             auto rootObject = getRootObject();
             while (p.systems.size())
             {
-                auto system = p.systems.back();
-                rootObject->removeChild(system);
                 p.systems.pop_back();
             }
             if (p.glfwWindow)

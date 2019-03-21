@@ -328,18 +328,14 @@ namespace djv
 
         void RGBColorSliders::_preLayoutEvent(Event::PreLayout & event)
         {
-            if (auto style = _getStyle().lock())
-            {
-                _setMinimumSize(_p->layout->getMinimumSize() + getMargin().getSize(style));
-            }
+            auto style = _getStyle();
+            _setMinimumSize(_p->layout->getMinimumSize() + getMargin().getSize(style));
         }
 
         void RGBColorSliders::_layoutEvent(Event::Layout &)
         {
-            if (auto style = _getStyle().lock())
-            {
-                _p->layout->setGeometry(getMargin().bbox(getGeometry(), style));
-            }
+            auto style = _getStyle();
+            _p->layout->setGeometry(getMargin().bbox(getGeometry(), style));
         }
 
         void RGBColorSliders::_localeEvent(Event::Locale &)
@@ -725,18 +721,14 @@ namespace djv
 
         void HSVColorSliders::_preLayoutEvent(Event::PreLayout & event)
         {
-            if (auto style = _getStyle().lock())
-            {
-                _setMinimumSize(_p->layout->getMinimumSize() + getMargin().getSize(style));
-            }
+            auto style = _getStyle();
+            _setMinimumSize(_p->layout->getMinimumSize() + getMargin().getSize(style));
         }
 
         void HSVColorSliders::_layoutEvent(Event::Layout &)
         {
-            if (auto style = _getStyle().lock())
-            {
-                _p->layout->setGeometry(getMargin().bbox(getGeometry(), style));
-            }
+            auto style = _getStyle();
+            _p->layout->setGeometry(getMargin().bbox(getGeometry(), style));
         }
 
         void HSVColorSliders::_localeEvent(Event::Locale &)

@@ -100,7 +100,7 @@ namespace djv
             };
 
             //! This class provides a timer system.
-            class TimerSystem : public ISystem
+            class TimerSystem : public ISystemBase
             {
                 DJV_NON_COPYABLE(TimerSystem);
                 void _init(Context *);

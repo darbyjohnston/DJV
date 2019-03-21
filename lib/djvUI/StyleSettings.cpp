@@ -113,7 +113,7 @@ namespace djv
                 _load();
 
                 auto weak = std::weak_ptr<Style>(std::dynamic_pointer_cast<Style>(shared_from_this()));
-                if (auto textSystem = context->getSystemT<TextSystem>().lock())
+                if (auto textSystem = context->getSystemT<TextSystem>())
                 {
                     p.currentLocaleObserver = ValueObserver<std::string>::create(
                         textSystem->observeCurrentLocale(),
@@ -127,7 +127,7 @@ namespace djv
                     });
                 }
 
-                if (auto settingsSystem = context->getSystemT<System>().lock())
+                if (auto settingsSystem = context->getSystemT<System>())
                 {
                     if (auto fontSettings = settingsSystem->getSettingsT<Settings::Font>())
                     {

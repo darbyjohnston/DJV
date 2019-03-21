@@ -984,7 +984,10 @@ namespace djv
                 ISystem::_init("djv::AV::Render::Render2D", context);
 
                 DJV_PRIVATE_PTR();
-                p.fontSystem = context->getSystemT<Font::System>();
+                
+                auto fontSystem = context->getSystemT<Font::System>();
+                p.fontSystem = fontSystem;
+                addDependency(fontSystem);
 
                 p.renderData.reserve(renderDataReserve);
                 p.mesh.triangles.reserve(trianglesReserve);

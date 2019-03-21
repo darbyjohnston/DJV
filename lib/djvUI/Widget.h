@@ -204,10 +204,10 @@ namespace djv
             //! \name Convenience Functions
             ///@{
 
-            inline const std::weak_ptr<AV::Font::System> & _getFontSystem() const;
-            inline const std::weak_ptr<AV::Render::Render2D> & _getRender() const;
-            inline const std::weak_ptr<IconSystem> & _getIconSystem() const;
-            inline const std::weak_ptr<Style::Style> & _getStyle() const;
+            inline const std::shared_ptr<AV::Font::System> & _getFontSystem() const;
+            inline const std::shared_ptr<AV::Render::Render2D> & _getRender() const;
+            inline const std::shared_ptr<IconSystem> & _getIconSystem() const;
+            inline const std::shared_ptr<Style::Style> & _getStyle() const;
 
             AV::Image::Color _getColorWithOpacity(const AV::Image::Color &) const;
 
@@ -266,11 +266,11 @@ namespace djv
             static bool _resizeRequest;
             static bool _redrawRequest;
 
-            static std::weak_ptr<AV::Font::System>     _fontSystem;
-            static std::weak_ptr<AV::Render::Render2D> _render;
-            static std::weak_ptr<UISystem>             _uiSystem;
-            static std::weak_ptr<IconSystem>           _iconSystem;
-            static std::weak_ptr<Style::Style>         _style;
+            static std::shared_ptr<AV::Font::System>     _fontSystem;
+            static std::shared_ptr<AV::Render::Render2D> _render;
+            static std::shared_ptr<UISystem>             _uiSystem;
+            static std::shared_ptr<IconSystem>           _iconSystem;
+            static std::shared_ptr<Style::Style>         _style;
 
             friend class EventSystem;
         };

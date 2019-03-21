@@ -153,40 +153,38 @@ namespace djv
             {
                 DJV_PRIVATE_PTR();
                 float out = 0.f;
-                if (auto style = _getStyle().lock())
+                auto style = _getStyle();
+                const glm::vec2 m = getMargin().getSize(style);
+                size_t i = 0;
+                for (const auto & child : getChildrenT<Widget>())
                 {
-                    const glm::vec2 m = getMargin().getSize(style);
-                    size_t i = 0;
-                    for (const auto & child : getChildrenT<Widget>())
+                    if (child->isVisible())
                     {
-                        if (child->isVisible())
+                        const float heightForWidth = child->getHeightForWidth(value - m.x);
+                        switch (p.orientation)
                         {
-                            const float heightForWidth = child->getHeightForWidth(value - m.x);
-                            switch (p.orientation)
-                            {
-                            case Orientation::Horizontal:
-                                out = std::max(out, heightForWidth);
-                                break;
-                            case Orientation::Vertical:
-                                out += heightForWidth;
-                                break;
-                            default: break;
-                            }
+                        case Orientation::Horizontal:
+                            out = std::max(out, heightForWidth);
+                            break;
+                        case Orientation::Vertical:
+                            out += heightForWidth;
+                            break;
+                        default: break;
                         }
-                        if (i > 0)
-                        {
-                            switch (p.orientation)
-                            {
-                            case Orientation::Vertical:
-                                out += p.splitterWidth;
-                                break;
-                            default: break;
-                            }
-                        }
-                        ++i;
                     }
-                    out += m.y;
+                    if (i > 0)
+                    {
+                        switch (p.orientation)
+                        {
+                        case Orientation::Vertical:
+                            out += p.splitterWidth;
+                            break;
+                        default: break;
+                        }
+                    }
+                    ++i;
                 }
+                out += m.y;
                 return out;
             }
 
@@ -205,55 +203,51 @@ namespace djv
             void Splitter::_styleEvent(Event::Style &)
             {
                 DJV_PRIVATE_PTR();
-                if (auto style = _getStyle().lock())
-                {
-                    p.splitterWidth = style->getMetric(MetricsRole::Handle);
-                    _resize();
-                }
+                auto style = _getStyle();
+                p.splitterWidth = style->getMetric(MetricsRole::Handle);
+                _resize();
             }
 
             void Splitter::_preLayoutEvent(Event::PreLayout & event)
             {
                 DJV_PRIVATE_PTR();
-                if (auto style = _getStyle().lock())
+                glm::vec2 minimumSize = glm::vec2(0.f, 0.f);
+                size_t i = 0;
+                for (const auto & child : getChildrenT<Widget>())
                 {
-                    glm::vec2 minimumSize = glm::vec2(0.f, 0.f);
-                    size_t i = 0;
-                    for (const auto & child : getChildrenT<Widget>())
+                    if (child->isVisible())
                     {
-                        if (child->isVisible())
+                        const glm::vec2 & size = child->getMinimumSize();
+                        switch (p.orientation)
                         {
-                            const glm::vec2 & size = child->getMinimumSize();
+                        case Orientation::Horizontal:
+                            minimumSize.x += size.x;
+                            minimumSize.y = std::max(size.y, minimumSize.y);
+                            break;
+                        case Orientation::Vertical:
+                            minimumSize.x = std::max(size.x, minimumSize.x);
+                            minimumSize.y += size.y;
+                            break;
+                        default: break;
+                        }
+                        if (i > 0)
+                        {
                             switch (p.orientation)
                             {
                             case Orientation::Horizontal:
-                                minimumSize.x += size.x;
-                                minimumSize.y = std::max(size.y, minimumSize.y);
+                                minimumSize.x += p.splitterWidth;
                                 break;
                             case Orientation::Vertical:
-                                minimumSize.x = std::max(size.x, minimumSize.x);
-                                minimumSize.y += size.y;
+                                minimumSize.y += p.splitterWidth;
                                 break;
                             default: break;
                             }
-                            if (i > 0)
-                            {
-                                switch (p.orientation)
-                                {
-                                case Orientation::Horizontal:
-                                    minimumSize.x += p.splitterWidth;
-                                    break;
-                                case Orientation::Vertical:
-                                    minimumSize.y += p.splitterWidth;
-                                    break;
-                                default: break;
-                                }
-                            }
-                            ++i;
                         }
+                        ++i;
                     }
-                    _setMinimumSize(minimumSize + getMargin().getSize(style));
                 }
+                auto style = _getStyle();
+                _setMinimumSize(minimumSize + getMargin().getSize(style));
             }
 
             void Splitter::_layoutEvent(Event::Layout & event)
@@ -270,73 +264,69 @@ namespace djv
             void Splitter::_paintEvent(Event::Paint & event)
             {
                 DJV_PRIVATE_PTR();
-                if (auto render = _getRender().lock())
+                auto style = _getStyle();
+                const auto hg = _getHandleGeometry();
+                const float h = style->getMetric(MetricsRole::Handle);
+                const float b = style->getMetric(MetricsRole::Border);
+
+                auto render = _getRender();
+                size_t i = 0;
+                for (const auto & g : hg)
                 {
-                    if (auto style = _getStyle().lock())
+                    render->setFillColor(_getColorWithOpacity(style->getColor(p.handleColorRole)));
+                    render->drawRect(g);
+
+                    if (p.pressedID.first && p.pressedID.second == i)
                     {
-                        const auto hg = _getHandleGeometry();
-                        const float h = style->getMetric(MetricsRole::Handle);
-                        const float b = style->getMetric(MetricsRole::Border);
-
-                        size_t i = 0;
-                        for (const auto & g : hg)
+                        render->setFillColor(_getColorWithOpacity(style->getColor(ColorRole::Pressed)));
+                        render->drawRect(g);
+                    }
+                    else
+                    {
+                        for (const auto j : p.hover)
                         {
-                            render->setFillColor(_getColorWithOpacity(style->getColor(p.handleColorRole)));
-                            render->drawRect(g);
-
-                            if (p.pressedID.first && p.pressedID.second == i)
+                            if (j.second == i)
                             {
-                                render->setFillColor(_getColorWithOpacity(style->getColor(ColorRole::Pressed)));
+                                render->setFillColor(_getColorWithOpacity(style->getColor(ColorRole::Hovered)));
                                 render->drawRect(g);
-                            }
-                            else
-                            {
-                                for (const auto j : p.hover)
-                                {
-                                    if (j.second == i)
-                                    {
-                                        render->setFillColor(_getColorWithOpacity(style->getColor(ColorRole::Hovered)));
-                                        render->drawRect(g);
-                                        break;
-                                    }
-                                }
-                            }
-
-                            render->setFillColor(_getColorWithOpacity(style->getColor(ColorRole::Border)));
-                            switch (p.orientation)
-                            {
-                            case Orientation::Horizontal:
-                                switch (p.handleStyle)
-                                {
-                                case SplitterHandleStyle::Center:
-                                    render->drawRect(BBox2f(floorf(g.min.x + g.w() / 2.f - b / 2.f), g.min.y, b, g.h()));
-                                    break;
-                                case SplitterHandleStyle::Edges:
-                                    render->drawRect(BBox2f(g.min.x, g.min.y, b, g.h()));
-                                    render->drawRect(BBox2f(g.max.x - b, g.min.y, b, g.h()));
-                                    break;
-                                default: break;
-                                }
                                 break;
-                            case Orientation::Vertical:
-                                switch (p.handleStyle)
-                                {
-                                case SplitterHandleStyle::Center:
-                                    render->drawRect(BBox2f(g.min.x, floorf(g.min.y + g.h() / 2.f - b / 2.f), g.w(), b));
-                                    break;
-                                case SplitterHandleStyle::Edges:
-                                    render->drawRect(BBox2f(g.min.x, g.min.y, g.w(), b));
-                                    render->drawRect(BBox2f(g.max.x, g.min.y - b, g.w(), b));
-                                    break;
-                                default: break;
-                                }
-                                break;
-                            default: break;
                             }
-
-                            ++i;
                         }
                     }
+
+                    render->setFillColor(_getColorWithOpacity(style->getColor(ColorRole::Border)));
+                    switch (p.orientation)
+                    {
+                    case Orientation::Horizontal:
+                        switch (p.handleStyle)
+                        {
+                        case SplitterHandleStyle::Center:
+                            render->drawRect(BBox2f(floorf(g.min.x + g.w() / 2.f - b / 2.f), g.min.y, b, g.h()));
+                            break;
+                        case SplitterHandleStyle::Edges:
+                            render->drawRect(BBox2f(g.min.x, g.min.y, b, g.h()));
+                            render->drawRect(BBox2f(g.max.x - b, g.min.y, b, g.h()));
+                            break;
+                        default: break;
+                        }
+                        break;
+                    case Orientation::Vertical:
+                        switch (p.handleStyle)
+                        {
+                        case SplitterHandleStyle::Center:
+                            render->drawRect(BBox2f(g.min.x, floorf(g.min.y + g.h() / 2.f - b / 2.f), g.w(), b));
+                            break;
+                        case SplitterHandleStyle::Edges:
+                            render->drawRect(BBox2f(g.min.x, g.min.y, g.w(), b));
+                            render->drawRect(BBox2f(g.max.x, g.min.y - b, g.w(), b));
+                            break;
+                        default: break;
+                        }
+                        break;
+                    default: break;
+                    }
+
+                    ++i;
                 }
             }
 
@@ -450,19 +440,17 @@ namespace djv
             {
                 DJV_PRIVATE_PTR();
                 float out = 0.f;
-                if (auto style = _getStyle().lock())
+                auto style = _getStyle();
+                const BBox2f & g = getMargin().bbox(getGeometry(), style);
+                switch (p.orientation)
                 {
-                    const BBox2f & g = getMargin().bbox(getGeometry(), style);
-                    switch (p.orientation)
-                    {
-                    case Orientation::Horizontal:
-                        out = g.min.x + ceilf(g.w() * value);
-                        break;
-                    case Orientation::Vertical:
-                        out = g.min.y + ceilf(g.h() * value);
-                        break;
-                    default: break;
-                    }
+                case Orientation::Horizontal:
+                    out = g.min.x + ceilf(g.w() * value);
+                    break;
+                case Orientation::Vertical:
+                    out = g.min.y + ceilf(g.h() * value);
+                    break;
+                default: break;
                 }
                 return out;
             }
@@ -471,19 +459,17 @@ namespace djv
             {
                 DJV_PRIVATE_PTR();
                 float out = 0.f;
-                if (auto style = _getStyle().lock())
+                auto style = _getStyle();
+                const BBox2f & g = getMargin().bbox(getGeometry(), style);
+                switch (p.orientation)
                 {
-                    const BBox2f & g = getMargin().bbox(getGeometry(), style);
-                    switch (p.orientation)
-                    {
-                    case Orientation::Horizontal:
-                        out = Math::clamp((value - g.min.x) / g.w(), 0.f, 1.f);
-                        break;
-                    case Orientation::Vertical:
-                        out = Math::clamp((value - g.min.y) / g.h(), 0.f, 1.f);
-                        break;
-                    default: break;
-                    }
+                case Orientation::Horizontal:
+                    out = Math::clamp((value - g.min.x) / g.w(), 0.f, 1.f);
+                    break;
+                case Orientation::Vertical:
+                    out = Math::clamp((value - g.min.y) / g.h(), 0.f, 1.f);
+                    break;
+                default: break;
                 }
                 return out;
             }
@@ -492,39 +478,37 @@ namespace djv
             {
                 DJV_PRIVATE_PTR();
                 std::vector<BBox2f> out;
-                if (auto style = _getStyle().lock())
+                auto style = _getStyle();
+                const BBox2f & g = getMargin().bbox(getGeometry(), style);
+                const float sw = ceilf(p.splitterWidth / 2.f);
+                float x = g.min.x;
+                float y = g.min.y;
+                const auto children = getChildrenT<Widget>();
+                size_t i = 0;
+                for (const auto & child : children)
                 {
-                    const BBox2f & g = getMargin().bbox(getGeometry(), style);
-                    const float sw = ceilf(p.splitterWidth / 2.f);
-                    float x = g.min.x;
-                    float y = g.min.y;
-                    const auto children = getChildrenT<Widget>();
-                    size_t i = 0;
-                    for (const auto & child : children)
+                    BBox2f bbox;
+                    const float v = _valueToPos(p.split[i]);
+                    switch (p.orientation)
                     {
-                        BBox2f bbox;
-                        const float v = _valueToPos(p.split[i]);
-                        switch (p.orientation)
-                        {
-                        case Orientation::Horizontal:
-                            bbox.min.x = x + (i > 0 ? sw : 0);
-                            bbox.min.y = y;
-                            bbox.max.x = v - (i < (children.size() - 1) ? sw : 0);
-                            bbox.max.y = g.max.y;
-                            x = v;
-                            break;
-                        case Orientation::Vertical:
-                            bbox.min.x = x;
-                            bbox.min.y = y + (i > 0 ? sw : 0);
-                            bbox.max.x = g.max.x;
-                            bbox.max.y = v - (i < (children.size() - 1) ? sw : 0);
-                            y = v;
-                            break;
-                        default: break;
-                        }
-                        out.push_back(bbox);
-                        ++i;
+                    case Orientation::Horizontal:
+                        bbox.min.x = x + (i > 0 ? sw : 0);
+                        bbox.min.y = y;
+                        bbox.max.x = v - (i < (children.size() - 1) ? sw : 0);
+                        bbox.max.y = g.max.y;
+                        x = v;
+                        break;
+                    case Orientation::Vertical:
+                        bbox.min.x = x;
+                        bbox.min.y = y + (i > 0 ? sw : 0);
+                        bbox.max.x = g.max.x;
+                        bbox.max.y = v - (i < (children.size() - 1) ? sw : 0);
+                        y = v;
+                        break;
+                    default: break;
                     }
+                    out.push_back(bbox);
+                    ++i;
                 }
                 return out;
             }
@@ -533,42 +517,40 @@ namespace djv
             {
                 DJV_PRIVATE_PTR();
                 std::vector<BBox2f> out;
-                if (auto style = _getStyle().lock())
+                auto style = _getStyle();
+                const BBox2f & g = getMargin().bbox(getGeometry(), style);
+                const float sw = ceilf(p.splitterWidth / 2.f);
+                float x = g.min.x;
+                float y = g.min.y;
+                const auto children = getChildrenT<Widget>();
+                size_t i = 0;
+                for (const auto & child : children)
                 {
-                    const BBox2f & g = getMargin().bbox(getGeometry(), style);
-                    const float sw = ceilf(p.splitterWidth / 2.f);
-                    float x = g.min.x;
-                    float y = g.min.y;
-                    const auto children = getChildrenT<Widget>();
-                    size_t i = 0;
-                    for (const auto & child : children)
+                    if (i < children.size() - 1)
                     {
-                        if (i < children.size() - 1)
+                        BBox2f bbox;
+                        const float v = _valueToPos(p.split[i]);
+                        switch (p.orientation)
                         {
-                            BBox2f bbox;
-                            const float v = _valueToPos(p.split[i]);
-                            switch (p.orientation)
-                            {
-                            case Orientation::Horizontal:
-                                bbox.min.x = v - sw;
-                                bbox.min.y = y;
-                                bbox.max.x = v + sw;
-                                bbox.max.y = g.max.y;
-                                x = v;
-                                break;
-                            case Orientation::Vertical:
-                                bbox.min.x = x;
-                                bbox.min.y = v - sw;
-                                bbox.max.x = g.max.x;
-                                bbox.max.y = v + sw;
-                                y = v;
-                                break;
-                            default: break;
-                            }
-                            out.push_back(bbox);
+                        case Orientation::Horizontal:
+                            bbox.min.x = v - sw;
+                            bbox.min.y = y;
+                            bbox.max.x = v + sw;
+                            bbox.max.y = g.max.y;
+                            x = v;
+                            break;
+                        case Orientation::Vertical:
+                            bbox.min.x = x;
+                            bbox.min.y = v - sw;
+                            bbox.max.x = g.max.x;
+                            bbox.max.y = v + sw;
+                            y = v;
+                            break;
+                        default: break;
                         }
-                        ++i;
+                        out.push_back(bbox);
                     }
+                    ++i;
                 }
                 return out;
             }

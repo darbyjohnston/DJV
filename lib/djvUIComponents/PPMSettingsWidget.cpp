@@ -69,7 +69,7 @@ namespace djv
             p.dataGroupBox->addChild(layout);
             addChild(p.dataGroupBox);
 
-            if (auto io = context->getSystemT<AV::IO::System>().lock())
+            if (auto io = context->getSystemT<AV::IO::System>())
             {
                 AV::IO::PPM::Settings settings;
                 fromJSON(io->getOptions(AV::IO::PPM::pluginName), settings);
@@ -80,7 +80,7 @@ namespace djv
             p.dataButtonGroup->setRadioCallback(
                 [weak, context](int value)
             {
-                if (auto io = context->getSystemT<AV::IO::System>().lock())
+                if (auto io = context->getSystemT<AV::IO::System>())
                 {
                     AV::IO::PPM::Settings settings;
                     settings.data = static_cast<AV::IO::PPM::Data>(value);

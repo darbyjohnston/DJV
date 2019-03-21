@@ -52,7 +52,7 @@ namespace djv
                 _p->context = context;
                 _p->name = name;
 
-                if (auto system = context->getSystemT<System>().lock())
+                if (auto system = context->getSystemT<System>())
                 {
                     system->_addSettings(shared_from_this());
                 }
@@ -77,7 +77,7 @@ namespace djv
 
             void ISettings::_load()
             {
-                if (auto system = _p->context->getSystemT<System>().lock())
+                if (auto system = _p->context->getSystemT<System>())
                 {
                     system->_loadSettings(shared_from_this());
                 }

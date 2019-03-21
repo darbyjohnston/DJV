@@ -68,27 +68,24 @@ namespace djv
 
             void Separator::_preLayoutEvent(Event::PreLayout & event)
             {
-                if (auto style = _getStyle().lock())
-                {
-                    DJV_PRIVATE_PTR();
-                    p.width = style->getMetric(MetricsRole::Border);
-                    p.color = style->getColor(ColorRole::Border);
+                DJV_PRIVATE_PTR();
 
-                    glm::vec2 minimumSize = glm::vec2(0.f, 0.f);
-                    minimumSize += p.width;
-                    _setMinimumSize(minimumSize);
-                }
+                auto style = _getStyle();
+                p.width = style->getMetric(MetricsRole::Border);
+                p.color = style->getColor(ColorRole::Border);
+
+                glm::vec2 minimumSize = glm::vec2(0.f, 0.f);
+                minimumSize += p.width;
+                _setMinimumSize(minimumSize);
             }
 
             void Separator::_paintEvent(Event::Paint & event)
             {
                 Widget::_paintEvent(event);
-                if (auto render = _getRender().lock())
-                {
-                    const BBox2f & g = getGeometry();
-                    render->setFillColor(_getColorWithOpacity(_p->color));
-                    render->drawRect(g);
-                }
+                const BBox2f & g = getGeometry();
+                auto render = _getRender();
+                render->setFillColor(_getColorWithOpacity(_p->color));
+                render->drawRect(g);
             }
 
         } // namespace Layout

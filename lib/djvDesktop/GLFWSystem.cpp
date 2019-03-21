@@ -32,8 +32,10 @@
 #include <djvAV/OpenGL.h>
 
 #include <djvCore/Context.h>
+#include <djvCore/CoreSystem.h>
 #include <djvCore/LogSystem.h>
 #include <djvCore/OS.h>
+#include <djvCore/Vector.h>
 
 #include <GLFW/glfw3.h>
 
@@ -78,7 +80,7 @@ namespace djv
                 {
                 case gl::GL_DEBUG_SEVERITY_HIGH:
                 case gl::GL_DEBUG_SEVERITY_MEDIUM:
-                    if (auto log = reinterpret_cast<const Context *>(userParam)->getSystemT<LogSystem>().lock())
+                    if (auto log = reinterpret_cast<const Context *>(userParam)->getSystemT<LogSystem>())
                     {
                         log->log("djv::Desktop::GLFWSystem", message);
                     }
@@ -103,6 +105,8 @@ namespace djv
 
             DJV_PRIVATE_PTR();
 
+            addDependency(context->getSystemT<CoreSystem>());
+
             // Initialize GLFW.
             glfwSetErrorCallback(glfwErrorCallback);
             int glfwMajor    = 0;
@@ -117,7 +121,7 @@ namespace djv
             if (!glfwInit())
             {
                 std::stringstream ss;
-                ss << _getText(DJV_TEXT("Cannot initialize GLFW."));
+                ss << "Cannot initialize GLFW.";
                 throw std::runtime_error(ss.str());
             }
 
@@ -156,11 +160,11 @@ namespace djv
             p.glfwWindow = glfwCreateWindow(
                 static_cast<int>(ceilf(windowSize.x * (p.dpi / static_cast<float>(AV::dpiDefault)))),
                 static_cast<int>(ceilf(windowSize.y * (p.dpi / static_cast<float>(AV::dpiDefault)))),
-                getObjectName().c_str(), NULL, NULL);
+                getSystemName().c_str(), NULL, NULL);
             if (!p.glfwWindow)
             {
                 std::stringstream ss;
-                ss << _getText(DJV_TEXT("Cannot create GLFW window."));
+                ss << "Cannot create GLFW window.";
                 throw std::runtime_error(ss.str());
             }
             {
@@ -196,6 +200,9 @@ namespace djv
 
         GLFWSystem::GLFWSystem() :
             _p(new Private)
+        {}
+
+        GLFWSystem::~GLFWSystem()
         {
             DJV_PRIVATE_PTR();
             if (p.glfwWindow)
@@ -205,9 +212,6 @@ namespace djv
             }
             glfwTerminate();
         }
-
-        GLFWSystem::~GLFWSystem()
-        {}
 
         std::shared_ptr<GLFWSystem> GLFWSystem::create(Context * context)
         {

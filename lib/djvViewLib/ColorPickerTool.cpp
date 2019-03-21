@@ -81,6 +81,7 @@ namespace djv
             p.hsvSliders->setMargin(UI::MetricsRole::MarginSmall);
 
             p.tabWidget = UI::TabWidget::create(context);
+            p.tabWidget->setPointerEnabled(true);
             p.tabText["RGB"] = p.tabWidget->addTab(std::string(), p.rgbSliders);
             p.tabText["HSV"] = p.tabWidget->addTab(std::string(), p.hsvSliders);
 
@@ -159,6 +160,19 @@ namespace djv
             auto out = std::shared_ptr<ColorPickerTool>(new ColorPickerTool);
             out->_init(context);
             return out;
+        }
+
+        std::map<UI::MDI::Handle, std::vector<Core::BBox2f> > ColorPickerTool::_getHandle() const
+        {
+            DJV_PRIVATE_PTR();
+            auto out = ITool::_getHandle();
+            out[UI::MDI::Handle::Move][0] = p.colorSwatch->getGeometry();
+            return out;
+        }
+
+        std::map<UI::MDI::Handle, std::vector<Core::BBox2f> > ColorPickerTool::_getHandleDraw() const
+        {
+            return _getHandle();
         }
 
         void ColorPickerTool::_localeEvent(Event::Locale & event)

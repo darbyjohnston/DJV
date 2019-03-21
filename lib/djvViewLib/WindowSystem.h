@@ -52,7 +52,7 @@ namespace djv
             MenuData getMenu() override;
 
         protected:
-            void _localeEvent(Core::Event::Locale &) override;
+            void _textUpdate();
 
         private:
             DJV_PRIVATE();

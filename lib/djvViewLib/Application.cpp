@@ -74,20 +74,7 @@ namespace djv
         {}
 
         Application::~Application()
-        {
-            DJV_PRIVATE_PTR();
-            if (p.mainWindow)
-            {
-                getRootObject()->removeChild(p.mainWindow);
-                p.mainWindow.reset();
-            }
-            while (p.systems.size())
-            {
-                auto system = p.systems.back();
-                getRootObject()->removeChild(system);
-                p.systems.pop_back();
-            }
-        }
+        {}
 
         std::shared_ptr<Application> Application::create(int & argc, char ** argv)
         {

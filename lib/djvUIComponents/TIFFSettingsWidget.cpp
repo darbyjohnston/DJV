@@ -69,7 +69,7 @@ namespace djv
             p.compressionGroupBox->addChild(layout);
             addChild(p.compressionGroupBox);
 
-            if (auto io = context->getSystemT<AV::IO::System>().lock())
+            if (auto io = context->getSystemT<AV::IO::System>())
             {
                 AV::IO::TIFF::Settings settings;
                 fromJSON(io->getOptions(AV::IO::TIFF::pluginName), settings);
@@ -80,7 +80,7 @@ namespace djv
             p.compressionButtonGroup->setRadioCallback(
                 [weak, context](int value)
             {
-                if (auto io = context->getSystemT<AV::IO::System>().lock())
+                if (auto io = context->getSystemT<AV::IO::System>())
                 {
                     AV::IO::TIFF::Settings settings;
                     settings.compression = static_cast<AV::IO::TIFF::Compression>(value);

@@ -46,7 +46,7 @@ namespace djv
         //! Logging output is written to the given file, and can also be written to
         //! std::cout if the environment variable DJV_LOG_CONSOLE is set to a non-zero
         //! value.
-        class LogSystem : public ISystem
+        class LogSystem : public ISystemBase
         {
             DJV_NON_COPYABLE(LogSystem);
             void _init(const FileSystem::Path &, Context *);

@@ -209,7 +209,7 @@ namespace djv
                     {
                         if (auto widget = weak.lock())
                         {
-                            if (auto textSystem = widget->getContext()->getSystemT<TextSystem>().lock())
+                            if (auto textSystem = widget->getContext()->getSystemT<TextSystem>())
                             {
                                 std::vector<std::string> labels;
                                 for (const auto & i : value)

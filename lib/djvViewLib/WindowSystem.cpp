@@ -40,6 +40,7 @@
 #include <djvAV/AVSystem.h>
 
 #include <djvCore/Context.h>
+#include <djvCore/TextSystem.h>
 
 #include <GLFW/glfw3.h>
 
@@ -53,11 +54,12 @@ namespace djv
         {
             std::map<std::string, std::shared_ptr<UI::Action> > actions;
             std::shared_ptr<UI::Menu> menu;
-            std::map<std::string, std::shared_ptr<ValueObserver<bool> > > clickedObservers;
-            std::shared_ptr<ValueObserver<bool> > fullScreenObserver;
             glm::ivec2 monitorSize = glm::ivec2(0, 0);
             int monitorRefresh = 0;
             BBox2i windowGeom = BBox2i(0, 0, 0, 0);
+            std::map<std::string, std::shared_ptr<ValueObserver<bool> > > clickedObservers;
+            std::shared_ptr<ValueObserver<bool> > fullScreenObserver;
+            std::shared_ptr<ValueObserver<std::string> > localeObserver;
 
             void setFullScreen(bool, Context * context);
         };
@@ -93,6 +95,16 @@ namespace djv
                     system->_p->setFullScreen(value, context);
                 }
             });
+
+            p.localeObserver = ValueObserver<std::string>::create(
+                context->getSystemT<TextSystem>()->observeCurrentLocale(),
+                [weak](const std::string & value)
+            {
+                if (auto system = weak.lock())
+                {
+                    system->_textUpdate();
+                }
+            });
         }
 
         WindowSystem::WindowSystem() :
@@ -123,20 +135,21 @@ namespace djv
             };
         }
 
-        void WindowSystem::_localeEvent(Event::Locale &)
+        void WindowSystem::_textUpdate()
         {
             DJV_PRIVATE_PTR();
-            p.actions["Fit"]->setTitle(_getText(DJV_TEXT("Fit To Image")));
-            p.actions["Fit"]->setTooltip(_getText(DJV_TEXT("Fit to image tooltip")));
-            p.actions["FullScreen"]->setTitle(_getText(DJV_TEXT("Full Screen")));
-            p.actions["FullScreen"]->setTooltip(_getText(DJV_TEXT("Full screen tooltip")));
+            auto context = getContext();
+            p.actions["Fit"]->setTitle(context->getText(DJV_TEXT("Fit To Image")));
+            p.actions["Fit"]->setTooltip(context->getText(DJV_TEXT("Fit to image tooltip")));
+            p.actions["FullScreen"]->setTitle(context->getText(DJV_TEXT("Full Screen")));
+            p.actions["FullScreen"]->setTooltip(context->getText(DJV_TEXT("Full screen tooltip")));
 
-            p.menu->setText(_getText(DJV_TEXT("Window")));
+            p.menu->setText(context->getText(DJV_TEXT("Window")));
         }
 
         void WindowSystem::Private::setFullScreen(bool value, Context * context)
         {
-            if (auto glfwSystem = context->getSystemT<Desktop::GLFWSystem>().lock())
+            if (auto glfwSystem = context->getSystemT<Desktop::GLFWSystem>())
             {
                 auto glfwWindow = glfwSystem->getGLFWWindow();
                 auto glfwMonitor = glfwGetWindowMonitor(glfwWindow);

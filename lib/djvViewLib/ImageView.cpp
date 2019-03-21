@@ -99,11 +99,9 @@ namespace djv
 
         void ImageView::_preLayoutEvent(Event::PreLayout & event)
         {
-            if (auto style = _getStyle().lock())
-            {
-                const float sa = style->getMetric(UI::MetricsRole::ScrollArea);
-                _setMinimumSize(glm::vec2(sa, sa));
-            }
+            auto style = _getStyle();
+            const float sa = style->getMetric(UI::MetricsRole::ScrollArea);
+            _setMinimumSize(glm::vec2(sa, sa));
         }
 
         void ImageView::_layoutEvent(Event::Layout &)
@@ -111,17 +109,13 @@ namespace djv
 
         void ImageView::_paintEvent(Core::Event::Paint &)
         {
-            if (auto render = _getRender().lock())
+            if (_p->image)
             {
-                if (auto style = _getStyle().lock())
-                {
-                    if (_p->image)
-                    {
-                        const BBox2f & g = getMargin().bbox(getGeometry(), style);
-                        render->setFillColor(AV::Image::Color(1.f, 1.f, 1.f));
-                        render->drawImage(_p->image, g, AV::Render::ImageCache::Dynamic);
-                    }
-                }
+                auto style = _getStyle();
+                const BBox2f & g = getMargin().bbox(getGeometry(), style);
+                auto render = _getRender();
+                render->setFillColor(AV::Image::Color(1.f, 1.f, 1.f));
+                render->drawImage(_p->image, g, AV::Render::ImageCache::Dynamic);
             }
         }
 

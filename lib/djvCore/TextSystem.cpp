@@ -32,6 +32,7 @@
 #include <djvCore/Context.h>
 #include <djvCore/FileInfo.h>
 #include <djvCore/FileIO.h>
+#include <djvCore/LogSystem.h>
 #include <djvCore/OS.h>
 #include <djvCore/PicoJSON.h>
 #include <djvCore/Timer.h>
@@ -86,14 +87,16 @@ namespace djv
             }
         } // namespace
 
-        void TextSystem::_init(Context * context)
+        void TextSystem::_init(const FileSystem::Path & path, Context * context)
         {
             ISystem::_init("djv::Core::TextSystem", context);
+
+            addDependency(context->getSystemT<LogSystem>());
+            addDependency(context->getSystemT<Time::TimerSystem>());
 
             DJV_PRIVATE_PTR();
             p.currentLocaleSubject = ValueSubject<std::string>::create();
 
-            const auto path = context->getPath(FileSystem::ResourcePath::TextDirectory);
             p.thread = std::thread(
                 [this, path]
             {
@@ -203,10 +206,10 @@ namespace djv
             }
         }
 
-        std::shared_ptr<TextSystem> TextSystem::create(Context * context)
+        std::shared_ptr<TextSystem> TextSystem::create(const FileSystem::Path & path, Context * context)
         {
             auto out = std::shared_ptr<TextSystem>(new TextSystem);
-            out->_init(context);
+            out->_init(path, context);
             return out;
         }
 

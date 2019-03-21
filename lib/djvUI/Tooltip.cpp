@@ -98,67 +98,61 @@ namespace djv
 
             void TooltipLayout::_layoutEvent(Event::Layout &)
             {
-                if (auto style = _getStyle().lock())
+                const BBox2f & g = getGeometry();
+                auto style = _getStyle();
+                const float to = style->getMetric(MetricsRole::TooltipOffset);
+                for (auto i : _widgetToPos)
                 {
-                    const BBox2f & g = getGeometry();
-                    const float to = style->getMetric(MetricsRole::TooltipOffset);
-                    for (auto i : _widgetToPos)
+                    const glm::vec2 & minimumSize = i.first->getMinimumSize();
+                    std::vector<BBox2f> geomCandidates;
+                    const BBox2f belowRight(
+                        i.second.x + to,
+                        i.second.y + to,
+                        minimumSize.x,
+                        minimumSize.y);
+                    const BBox2f aboveRight(
+                        i.second.x + to,
+                        i.second.y - minimumSize.y - to,
+                        minimumSize.x,
+                        minimumSize.y);
+                    const BBox2f belowLeft(
+                        i.second.x - minimumSize.x - to,
+                        i.second.y + to,
+                        minimumSize.x,
+                        minimumSize.y);
+                    const BBox2f aboveLeft(
+                        i.second.x - minimumSize.x - to,
+                        i.second.y - minimumSize.y - to,
+                        minimumSize.x,
+                        minimumSize.y);
+                    geomCandidates.push_back(belowRight);
+                    geomCandidates.push_back(aboveRight);
+                    geomCandidates.push_back(belowLeft);
+                    geomCandidates.push_back(aboveLeft);
+                    std::sort(geomCandidates.begin(), geomCandidates.end(),
+                        [g](const BBox2f & a, const BBox2f & b) -> bool
                     {
-                        const glm::vec2 & minimumSize = i.first->getMinimumSize();
-                        std::vector<BBox2f> geomCandidates;
-                        const BBox2f belowRight(
-                            i.second.x + to,
-                            i.second.y + to,
-                            minimumSize.x,
-                            minimumSize.y);
-                        const BBox2f aboveRight(
-                            i.second.x + to,
-                            i.second.y - minimumSize.y - to,
-                            minimumSize.x,
-                            minimumSize.y);
-                        const BBox2f belowLeft(
-                            i.second.x - minimumSize.x - to,
-                            i.second.y + to,
-                            minimumSize.x,
-                            minimumSize.y);
-                        const BBox2f aboveLeft(
-                            i.second.x - minimumSize.x - to,
-                            i.second.y - minimumSize.y - to,
-                            minimumSize.x,
-                            minimumSize.y);
-                        geomCandidates.push_back(belowRight);
-                        geomCandidates.push_back(aboveRight);
-                        geomCandidates.push_back(belowLeft);
-                        geomCandidates.push_back(aboveLeft);
-                        std::sort(geomCandidates.begin(), geomCandidates.end(),
-                            [g](const BBox2f & a, const BBox2f & b) -> bool
-                        {
-                            return a.intersect(g).getArea() > b.intersect(g).getArea();
-                        });
-                        i.first->setGeometry(geomCandidates.front());
-                    }
+                        return a.intersect(g).getArea() > b.intersect(g).getArea();
+                    });
+                    i.first->setGeometry(geomCandidates.front());
                 }
             }
 
             void TooltipLayout::_paintEvent(Event::Paint & event)
             {
                 Widget::_paintEvent(event);
-                if (auto render = _getRender().lock())
+                auto style = _getStyle();
+                const float s = style->getMetric(MetricsRole::Shadow);
+                auto render = _getRender();
+                render->setFillColor(_getColorWithOpacity(style->getColor(ColorRole::Shadow)));
+                for (const auto & i : getChildrenT<Widget>())
                 {
-                    if (auto style = _getStyle().lock())
-                    {
-                        const float s = style->getMetric(MetricsRole::Shadow);
-                        render->setFillColor(_getColorWithOpacity(style->getColor(ColorRole::Shadow)));
-                        for (const auto & i : getChildrenT<Widget>())
-                        {
-                            BBox2f g = i->getGeometry();
-                            g.min.x += s;
-                            g.min.y += s;
-                            g.max.x += s;
-                            g.max.y += s;
-                            render->drawRect(g);
-                        }
-                    }
+                    BBox2f g = i->getGeometry();
+                    g.min.x += s;
+                    g.min.y += s;
+                    g.max.x += s;
+                    g.max.y += s;
+                    render->drawRect(g);
                 }
             }
 

@@ -124,7 +124,7 @@ namespace djv
                 throw std::runtime_error(ss.str());
             }
 
-            if (auto io = context->getSystemT<AV::IO::System>().lock())
+            if (auto io = context->getSystemT<AV::IO::System>())
             {
                 try
                 {

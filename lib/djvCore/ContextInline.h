@@ -49,19 +49,19 @@ namespace djv
             return _fpsAverage;
         }
 
-        inline const std::vector<std::weak_ptr<ISystem> > & Context::getSystems() const
+        inline const std::vector<std::shared_ptr<ISystemBase> > & Context::getSystems() const
         {
             return _systems;
         }
 
         template<typename T>
-        inline std::vector<std::weak_ptr<T> > Context::getSystemsT() const
+        inline std::vector<std::shared_ptr<T> > Context::getSystemsT() const
         {
-            std::vector<std::weak_ptr<T> > out;
+            std::vector<std::shared_ptr<T> > out;
             const auto systems = _systems;
             for (const auto & i : systems)
             {
-                if (auto system = std::dynamic_pointer_cast<T>(i.lock()))
+                if (auto system = std::dynamic_pointer_cast<T>(i))
                 {
                     out.push_back(system);
                 }
@@ -70,22 +70,17 @@ namespace djv
         }
 
         template<typename T>
-        inline std::weak_ptr<T> Context::getSystemT() const
+        inline std::shared_ptr<T> Context::getSystemT() const
         {
             const auto systems = _systems;
             for (const auto & i : systems)
             {
-                if (auto system = std::dynamic_pointer_cast<T>(i.lock()))
+                if (auto system = std::dynamic_pointer_cast<T>(i))
                 {
                     return system;
                 }
             }
-            return std::weak_ptr<T>();
-        }
-        
-        inline const std::shared_ptr<CoreSystem> & Context::getCoreSystem() const
-        {
-            return _coreSystem;
+            return nullptr;
         }
 
     } // namespace Core

@@ -118,19 +118,15 @@ namespace djv
         void IntLabel::_preLayoutEvent(Event::PreLayout & event)
         {
             DJV_PRIVATE_PTR();
-            if (auto style = _getStyle().lock())
-            {
-                _setMinimumSize(p.label->getMinimumSize() + getMargin().getSize(style));
-            }
+            auto style = _getStyle();
+            _setMinimumSize(p.label->getMinimumSize() + getMargin().getSize(style));
         }
 
         void IntLabel::_layoutEvent(Event::Layout & event)
         {
             DJV_PRIVATE_PTR();
-            if (auto style = _getStyle().lock())
-            {
-                p.label->setGeometry(getMargin().bbox(getGeometry(), style));
-            }
+            auto style = _getStyle();
+            p.label->setGeometry(getMargin().bbox(getGeometry(), style));
         }
 
         void IntLabel::_textUpdate()

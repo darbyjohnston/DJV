@@ -89,7 +89,7 @@ namespace djv
             addChild(p.layout);
 
             auto weak = std::weak_ptr<DebugTool>(std::dynamic_pointer_cast<DebugTool>(shared_from_this()));
-            if (auto fileSystem = context->getSystemT<FileSystem>().lock())
+            if (auto fileSystem = context->getSystemT<FileSystem>())
             {
                 p.currentMediaObserver = ValueObserver<std::shared_ptr<Media>>::create(
                     fileSystem->observeCurrentMedia(),

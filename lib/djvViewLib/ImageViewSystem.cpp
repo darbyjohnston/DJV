@@ -34,6 +34,7 @@
 #include <djvUI/RowLayout.h>
 
 #include <djvCore/Context.h>
+#include <djvCore/TextSystem.h>
 
 #include <GLFW/glfw3.h>
 
@@ -48,6 +49,7 @@ namespace djv
             std::map<std::string, std::shared_ptr<UI::Action> > actions;
             std::shared_ptr<UI::Menu> menu;
             std::map<std::string, std::shared_ptr<ValueObserver<bool> > > clickedObservers;
+            std::shared_ptr<ValueObserver<std::string> > localeObserver;
         };
 
         void ImageViewSystem::_init(Context * context)
@@ -55,6 +57,7 @@ namespace djv
             IViewSystem::_init("djv::ViewLib::ImageViewSystem", context);
 
             DJV_PRIVATE_PTR();
+
             //! \todo Implement me!
             p.actions["Navigation"] = UI::Action::create();
             p.actions["Navigation"]->setEnabled(false);
@@ -73,6 +76,17 @@ namespace djv
             p.menu->addAction(p.actions["Navigation"]);
             p.menu->addAction(p.actions["Fit"]);
             p.menu->addAction(p.actions["HUD"]);
+
+            auto weak = std::weak_ptr<ImageViewSystem>(std::dynamic_pointer_cast<ImageViewSystem>(shared_from_this()));
+            p.localeObserver = ValueObserver<std::string>::create(
+                context->getSystemT<TextSystem>()->observeCurrentLocale(),
+                [weak](const std::string & value)
+            {
+                if (auto system = weak.lock())
+                {
+                    system->_textUpdate();
+                }
+            });
         }
 
         ImageViewSystem::ImageViewSystem() :
@@ -103,17 +117,18 @@ namespace djv
             };
         }
 
-        void ImageViewSystem::_localeEvent(Event::Locale &)
+        void ImageViewSystem::_textUpdate()
         {
             DJV_PRIVATE_PTR();
-            p.actions["Navigation"]->setTitle(_getText(DJV_TEXT("Navigation")));
-            p.actions["Navigation"]->setTooltip(_getText(DJV_TEXT("Navigation tooltip")));
-            p.actions["Fit"]->setTitle(_getText(DJV_TEXT("Fit To Image")));
-            p.actions["Fit"]->setTooltip(_getText(DJV_TEXT("Fit to image tooltip")));
-            p.actions["HUD"]->setTitle(_getText(DJV_TEXT("HUD")));
-            p.actions["HUD"]->setTooltip(_getText(DJV_TEXT("HUD tooltip")));
+            auto context = getContext();
+            p.actions["Navigation"]->setTitle(context->getText(DJV_TEXT("Navigation")));
+            p.actions["Navigation"]->setTooltip(context->getText(DJV_TEXT("Navigation tooltip")));
+            p.actions["Fit"]->setTitle(context->getText(DJV_TEXT("Fit To Image")));
+            p.actions["Fit"]->setTooltip(context->getText(DJV_TEXT("Fit to image tooltip")));
+            p.actions["HUD"]->setTitle(context->getText(DJV_TEXT("HUD")));
+            p.actions["HUD"]->setTooltip(context->getText(DJV_TEXT("HUD tooltip")));
 
-            p.menu->setText(_getText(DJV_TEXT("View")));
+            p.menu->setText(context->getText(DJV_TEXT("View")));
         }
 
     } // namespace ViewLib

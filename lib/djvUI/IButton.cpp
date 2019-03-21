@@ -175,31 +175,23 @@ namespace djv
             {
                 Widget::_paintEvent(event);
                 DJV_PRIVATE_PTR();
-                if (auto render = _getRender().lock())
+                const BBox2f & g = getGeometry();
+                auto render = _getRender();
+                auto style = _getStyle();
+                if (_isToggled() && p.checkedColorRole != ColorRole::None)
                 {
-                    if (auto style = _getStyle().lock())
-                    {
-                        const BBox2f & g = getGeometry();
-
-                        // Draw the toggled state.
-                        if (_isToggled() && p.checkedColorRole != ColorRole::None)
-                        {
-                            render->setFillColor(_getColorWithOpacity(style->getColor(p.checkedColorRole)));
-                            render->drawRect(g);
-                        }
-
-                        // Draw the pressed or hovered state.
-                        if (_isPressed())
-                        {
-                            render->setFillColor(_getColorWithOpacity(style->getColor(p.pressedColorRole)));
-                            render->drawRect(g);
-                        }
-                        else if (_isHovered())
-                        {
-                            render->setFillColor(_getColorWithOpacity(style->getColor(p.hoveredColorRole)));
-                            render->drawRect(g);
-                        }
-                    }
+                    render->setFillColor(_getColorWithOpacity(style->getColor(p.checkedColorRole)));
+                    render->drawRect(g);
+                }
+                if (_isPressed())
+                {
+                    render->setFillColor(_getColorWithOpacity(style->getColor(p.pressedColorRole)));
+                    render->drawRect(g);
+                }
+                else if (_isHovered())
+                {
+                    render->setFillColor(_getColorWithOpacity(style->getColor(p.hoveredColorRole)));
+                    render->drawRect(g);
                 }
             }
 
@@ -229,16 +221,14 @@ namespace djv
                 const auto & pos = event.getPointerInfo().projectedPos;
                 if (id == p.pressedID)
                 {
-                    if (auto style = _getStyle().lock())
+                    const float distance = glm::length(pos - p.pressedPos);
+                    auto style = _getStyle();
+                    const bool accepted = p.canRejectPressed ? distance < style->getMetric(MetricsRole::Drag) : true;
+                    event.setAccepted(accepted);
+                    if (!accepted)
                     {
-                        const float distance = glm::length(pos - p.pressedPos);
-                        const bool accepted = p.canRejectPressed ? distance < style->getMetric(MetricsRole::Drag) : true;
-                        event.setAccepted(accepted);
-                        if (!accepted)
-                        {
-                            p.pressedID = Event::InvalidID;
-                            _redraw();
-                        }
+                        p.pressedID = Event::InvalidID;
+                        _redraw();
                     }
                 }
             }

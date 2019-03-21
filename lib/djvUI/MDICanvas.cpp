@@ -168,22 +168,19 @@ namespace djv
 
             void Canvas::_layoutEvent(Event::Layout &)
             {
-                if (auto style = _getStyle().lock())
+                const BBox2f & g = getGeometry();
+                for (auto & i : _p->widgetToPos)
                 {
-                    const BBox2f & g = getGeometry();
-                    for (auto & i : _p->widgetToPos)
+                    if (i.first->isVisible())
                     {
-                        if (i.first->isVisible())
-                        {
-                            const glm::vec2 & widgetSize = i.first->getSize();
-                            const glm::vec2 & widgetMinimumSize = i.first->getMinimumSize();
-                            BBox2f widgetGeometry;
-                            widgetGeometry.min.x = Math::clamp(g.min.x + i.second.x, g.min.x, g.max.x - widgetMinimumSize.x);
-                            widgetGeometry.min.y = Math::clamp(g.min.y + i.second.y, g.min.y, g.max.y - widgetMinimumSize.y);
-                            widgetGeometry.max.x = Math::clamp(widgetGeometry.min.x + widgetSize.x, widgetGeometry.min.x + widgetMinimumSize.x, g.max.x);
-                            widgetGeometry.max.y = Math::clamp(widgetGeometry.min.y + widgetSize.y, widgetGeometry.min.y + widgetMinimumSize.y, g.max.y);
-                            i.first->setGeometry(widgetGeometry);
-                        }
+                        const glm::vec2 & widgetSize = i.first->getSize();
+                        const glm::vec2 & widgetMinimumSize = i.first->getMinimumSize();
+                        BBox2f widgetGeometry;
+                        widgetGeometry.min.x = Math::clamp(g.min.x + i.second.x, g.min.x, g.max.x - widgetMinimumSize.x);
+                        widgetGeometry.min.y = Math::clamp(g.min.y + i.second.y, g.min.y, g.max.y - widgetMinimumSize.y);
+                        widgetGeometry.max.x = Math::clamp(widgetGeometry.min.x + widgetSize.x, widgetGeometry.min.x + widgetMinimumSize.x, g.max.x);
+                        widgetGeometry.max.y = Math::clamp(widgetGeometry.min.y + widgetSize.y, widgetGeometry.min.y + widgetMinimumSize.y, g.max.y);
+                        i.first->setGeometry(widgetGeometry);
                     }
                 }
             }
@@ -192,25 +189,23 @@ namespace djv
             {
                 Widget::_paintEvent(event);
                 /*DJV_PRIVATE_PTR();
-                if (auto render = _getRender().lock())
+                if (auto style = _getStyle().lock())
                 {
-                    if (auto style = _getStyle().lock())
-                    {
-                        const float h = style->getMetric(MetricsRole::Handle);
-                        const float sh = style->getMetric(MetricsRole::Shadow);
+                    const float h = style->getMetric(MetricsRole::Handle);
+                    const float sh = style->getMetric(MetricsRole::Shadow);
 
-                        render->setFillColor(_getColorWithOpacity(style->getColor(ColorRole::Shadow)));
-                        for (const auto & i : getChildrenT<IWidget>())
+                    auto render = _getRender();
+                    render->setFillColor(_getColorWithOpacity(style->getColor(ColorRole::Shadow)));
+                    for (const auto & i : getChildrenT<IWidget>())
+                    {
+                        if (i->isVisible())
                         {
-                            if (i->isVisible())
-                            {
-                                BBox2f g = i->getGeometry().margin(-h);
-                                g.min.x += sh;
-                                g.min.y += sh;
-                                g.max.x += sh;
-                                g.max.y += sh;
-                                render->drawRect(g);
-                            }
+                            BBox2f g = i->getGeometry().margin(-h);
+                            g.min.x += sh;
+                            g.min.y += sh;
+                            g.max.x += sh;
+                            g.max.y += sh;
+                            render->drawRect(g);
                         }
                     }
                 }*/
@@ -219,67 +214,63 @@ namespace djv
             void Canvas::_paintOverlayEvent(Event::PaintOverlay & event)
             {
                 DJV_PRIVATE_PTR();
-                if (auto render = _getRender().lock())
+                auto style = _getStyle();
+                const float b = style->getMetric(MetricsRole::Border);
+                const float h = style->getMetric(MetricsRole::Handle);
+
+                auto render = _getRender();
+                if (p.activeWidget && p.activeWidget->isVisible() && !p.activeWidget->isClipped())
                 {
-                    if (auto style = _getStyle().lock())
+                    const BBox2f g = p.activeWidget->getGeometry().margin(-h);
+                    render->setFillColor(_getColorWithOpacity(style->getColor(ColorRole::Checked)));
+                    render->drawRect(BBox2f(
+                        glm::vec2(g.min.x, g.min.y),
+                        glm::vec2(g.max.x, g.min.y + b)));
+                    render->drawRect(BBox2f(
+                        glm::vec2(g.min.x, g.max.y - b),
+                        glm::vec2(g.max.x, g.max.y)));
+                    render->drawRect(BBox2f(
+                        glm::vec2(g.min.x, g.min.y + b),
+                        glm::vec2(g.min.x + b, g.max.y - b)));
+                    render->drawRect(BBox2f(
+                        glm::vec2(g.max.x - b, g.min.y + b),
+                        glm::vec2(g.max.x, g.max.y - b)));
+                }
+
+                auto hovered = p.hovered;
+                render->setFillColor(_getColorWithOpacity(style->getColor(ColorRole::Checked)));
+                for (const auto & i : p.pressed)
+                {
+                    for (const auto & j : i.second.widget->getHandleDraw(i.second.handle))
                     {
-                        const float b = style->getMetric(MetricsRole::Border);
-                        const float h = style->getMetric(MetricsRole::Handle);
-
-                        if (p.activeWidget && p.activeWidget->isVisible() && !p.activeWidget->isClipped())
+                        switch (i.second.handle)
                         {
-                            const BBox2f g = p.activeWidget->getGeometry().margin(-h);
-                            render->setFillColor(_getColorWithOpacity(style->getColor(ColorRole::Checked)));
-                            render->drawRect(BBox2f(
-                                glm::vec2(g.min.x, g.min.y),
-                                glm::vec2(g.max.x, g.min.y + b)));
-                            render->drawRect(BBox2f(
-                                glm::vec2(g.min.x, g.max.y - b),
-                                glm::vec2(g.max.x, g.max.y)));
-                            render->drawRect(BBox2f(
-                                glm::vec2(g.min.x, g.min.y + b),
-                                glm::vec2(g.min.x + b, g.max.y - b)));
-                            render->drawRect(BBox2f(
-                                glm::vec2(g.max.x - b, g.min.y + b),
-                                glm::vec2(g.max.x, g.max.y - b)));
+                        case Handle::Move:
+                        case Handle::None: break;
+                        default:
+                            render->drawRect(j);
+                            break;
                         }
+                    }
+                    const auto j = hovered.find(i.first);
+                    if (j != hovered.end())
+                    {
+                        hovered.erase(j);
+                    }
+                }
 
-                        auto hovered = p.hovered;
-                        render->setFillColor(_getColorWithOpacity(style->getColor(ColorRole::Checked)));
-                        for (const auto & i : p.pressed)
+                render->setFillColor(_getColorWithOpacity(style->getColor(ColorRole::Checked)));
+                for (const auto & i : hovered)
+                {
+                    for (const auto & j : i.second.widget->getHandleDraw(i.second.handle))
+                    {
+                        switch (i.second.handle)
                         {
-                            for (const auto & j : i.second.widget->getHandleDraw(i.second.handle))
-                            {
-                                switch (i.second.handle)
-                                {
-                                case Handle::Move:
-                                case Handle::None: break;
-                                default:
-                                    render->drawRect(j);
-                                    break;
-                                }
-                            }
-                            const auto j = hovered.find(i.first);
-                            if (j != hovered.end())
-                            {
-                                hovered.erase(j);
-                            }
-                        }
-
-                        render->setFillColor(_getColorWithOpacity(style->getColor(ColorRole::Checked)));
-                        for (const auto & i : hovered)
-                        {
-                            for (const auto & j : i.second.widget->getHandleDraw(i.second.handle))
-                            {
-                                switch (i.second.handle)
-                                {
-                                case Handle::Move:
-                                case Handle::None: break;
-                                default:
-                                    render->drawRect(j);
-                                    break;
-                                }
-                            }
+                        case Handle::Move:
+                        case Handle::None: break;
+                        default:
+                            render->drawRect(j);
+                            break;
                         }
                     }
                 }
@@ -359,7 +350,6 @@ namespace djv
                 {
                 case Event::Type::PointerEnter:
                 {
-                    event.accept();
                     Event::PointerEnter & pointerEnterEvent = static_cast<Event::PointerEnter &>(event);
                     const auto & pointerInfo = pointerEnterEvent.getPointerInfo();
                     if (auto widget = std::dynamic_pointer_cast<IWidget>(object))
@@ -367,6 +357,7 @@ namespace djv
                         const Handle handle = widget->getHandle(pointerInfo.projectedPos);
                         if (handle != Handle::None)
                         {
+                            event.accept();
                             Hovered hovered;
                             hovered.widget = widget;
                             hovered.handle = handle;
@@ -379,12 +370,12 @@ namespace djv
                 }
                 case Event::Type::PointerLeave:
                 {
-                    event.accept();
                     Event::PointerLeave & pointerLeaveEvent = static_cast<Event::PointerLeave &>(event);
                     const auto & pointerInfo = pointerLeaveEvent.getPointerInfo();
                     const auto i = p.hovered.find(pointerInfo.id);
                     if (i != p.hovered.end())
                     {
+                        event.accept();
                         p.hovered.erase(i);
                         _redraw();
                     }
@@ -474,7 +465,6 @@ namespace djv
                 }
                 case Event::Type::ButtonPress:
                 {
-                    event.accept();
                     Event::ButtonPress & buttonPressEvent = static_cast<Event::ButtonPress &>(event);
                     const auto & pointerInfo = buttonPressEvent.getPointerInfo();
                     if (auto widget = std::dynamic_pointer_cast<IWidget>(object))
@@ -482,6 +472,7 @@ namespace djv
                         const auto i = p.widgetToPos.find(widget);
                         if (i != p.widgetToPos.end())
                         {
+                            event.accept();
                             Pressed pressed;
                             pressed.widget = widget;
                             pressed.pointer = pointerInfo.projectedPos;
@@ -496,12 +487,12 @@ namespace djv
                 }
                 case Event::Type::ButtonRelease:
                 {
-                    event.accept();
                     Event::ButtonRelease & buttonReleaseEvent = static_cast<Event::ButtonRelease &>(event);
                     const auto & pointerInfo = buttonReleaseEvent.getPointerInfo();
                     const auto i = p.pressed.find(pointerInfo.id);
                     if (i != p.pressed.end())
                     {
+                        event.accept();
                         p.pressed.erase(i);
                     }
                     return true;

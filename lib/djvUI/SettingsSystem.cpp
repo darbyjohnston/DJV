@@ -31,6 +31,8 @@
 
 #include <djvUI/ISettings.h>
 
+#include <djvAV/AVSystem.h>
+
 #include <djvCore/Context.h>
 #include <djvCore/Error.h>
 #include <djvCore/FileIO.h>
@@ -47,6 +49,9 @@ namespace djv
             void System::_init(Core::Context * context)
             {
                 ISystem::_init("djv::UI::Settings::System", context);
+
+                addDependency(context->getSystemT<AV::AVSystem>());
+
                 _settingsPath = context->getPath(FileSystem::ResourcePath::SettingsFile);
                 _readSettingsFile(_settingsPath, _json);
             }
@@ -98,7 +103,7 @@ namespace djv
                     catch (const std::exception & e)
                     {
                         std::stringstream s;
-                        s << _getText(DJV_TEXT("Cannot read settings")) << " '" << name << "'. " << e.what();
+                        s << "Cannot read settings" << " '" << name << "'. " << e.what();
                         _log(s.str(), LogLevel::Error);
                     }
                 }
@@ -154,7 +159,7 @@ namespace djv
                 catch (const std::exception & e)
                 {
                     std::stringstream s;
-                    s << _getText(DJV_TEXT("Cannot read settings")) << " '" << path << "'. " << e.what();
+                    s << "Cannot read settings" << " '" << path << "'. " << e.what();
                     _log(s.str(), LogLevel::Error);
                 }
             }
@@ -175,7 +180,7 @@ namespace djv
                 catch (const std::exception & e)
                 {
                     std::stringstream s;
-                    s << _getText(DJV_TEXT("Cannot write settings")) << " '" << path << "'. " << e.what();
+                    s << "Cannot write settings" << " '" << path << "'. " << e.what();
                     _log(s.str(), LogLevel::Error);
                 }
             }

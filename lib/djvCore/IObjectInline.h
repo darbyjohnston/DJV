@@ -145,6 +145,21 @@ namespace djv
             _enabled = value;
         }
 
+        inline std::shared_ptr<ResourceSystem> IObject::_getResourceSystem() const
+        {
+            return _resourceSystem;
+        }
+
+        inline std::shared_ptr<LogSystem> IObject::_getLogSystem() const
+        {
+            return _logSystem;
+        }
+
+        inline std::shared_ptr<TextSystem> IObject::_getTextSystem() const
+        {
+            return _textSystem;
+        }
+
         template<typename T>
         inline void IObject::_getChildrenRecursiveT(const std::shared_ptr<IObject> & value, std::vector<std::shared_ptr<T> > & out)
         {

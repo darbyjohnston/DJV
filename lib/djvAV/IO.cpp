@@ -42,6 +42,7 @@
 #endif // TIFF_FOUND
 
 #include <djvCore/Context.h>
+#include <djvCore/CoreSystem.h>
 #include <djvCore/Path.h>
 #include <djvCore/String.h>
 
@@ -253,6 +254,9 @@ namespace djv
                 ISystem::_init("djv::AV::IO::System", context);
 
                 DJV_PRIVATE_PTR();
+
+                addDependency(context->getSystemT<CoreSystem>());
+
                 p.plugins[FFmpeg::pluginName] = FFmpeg::Plugin::create(context);
                 p.plugins[PPM::pluginName] = PPM::Plugin::create(context);
 #if defined(JPEG_FOUND)
@@ -360,7 +364,7 @@ namespace djv
                     }
                 }
                 std::stringstream s;
-                s << _getText(DJV_TEXT("The file")) << " '" << fileName << "' " << DJV_TEXT("cannot be read") << ".";
+                s << "The file" << " '" << fileName << "' " << "cannot be read" << ".";
                 throw std::runtime_error(s.str());
                 return nullptr;
             }
@@ -379,7 +383,7 @@ namespace djv
                     }
                 }
                 std::stringstream s;
-                s << _getText(DJV_TEXT("The file")) << " '" << fileName << "' " << DJV_TEXT("cannot be written") << ".";
+                s << "The file" << " '" << fileName << "' " << "cannot be written" << ".";
                 throw std::runtime_error(s.str());
                 return nullptr;
             }

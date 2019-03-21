@@ -543,7 +543,7 @@ namespace djv
                     }
                 });
 
-                if (auto settingsSystem = context->getSystemT<Settings::System>().lock())
+                if (auto settingsSystem = context->getSystemT<Settings::System>())
                 {
                     if (auto fileBrowserSettings = settingsSystem->getSettingsT<Settings::FileBrowser>())
                     {
@@ -677,7 +677,7 @@ namespace djv
                 p.viewTypeActionGroup->setRadioCallback(
                     [context](int value)
                 {
-                    if (auto settingsSystem = context->getSystemT<Settings::System>().lock())
+                    if (auto settingsSystem = context->getSystemT<Settings::System>())
                     {
                         if (auto fileBrowserSettings = settingsSystem->getSettingsT<Settings::FileBrowser>())
                         {
@@ -689,7 +689,7 @@ namespace djv
                 p.sortActionGroup->setRadioCallback(
                     [context](int value)
                 {
-                    if (auto settingsSystem = context->getSystemT<Settings::System>().lock())
+                    if (auto settingsSystem = context->getSystemT<Settings::System>())
                     {
                         if (auto fileBrowserSettings = settingsSystem->getSettingsT<Settings::FileBrowser>())
                         {
@@ -702,7 +702,7 @@ namespace djv
                     p.shortcutsModel->observeShortcuts(),
                     [context](const std::vector<FileSystem::Path> & value)
                 {
-                    if (auto settingsSystem = context->getSystemT<Settings::System>().lock())
+                    if (auto settingsSystem = context->getSystemT<Settings::System>())
                     {
                         if (auto fileBrowserSettings = settingsSystem->getSettingsT<Settings::FileBrowser>())
                         {
@@ -718,7 +718,7 @@ namespace djv
                     {
                         if (auto widget = weak.lock())
                         {
-                            if (auto settingsSystem = context->getSystemT<Settings::System>().lock())
+                            if (auto settingsSystem = context->getSystemT<Settings::System>())
                             {
                                 if (auto fileBrowserSettings = settingsSystem->getSettingsT<Settings::FileBrowser>())
                                 {
@@ -737,7 +737,7 @@ namespace djv
                 splitter->setSplitCallback(
                     [context](const std::vector<float> & value)
                 {
-                    if (auto settingsSystem = context->getSystemT<Settings::System>().lock())
+                    if (auto settingsSystem = context->getSystemT<Settings::System>())
                     {
                         if (auto fileBrowserSettings = settingsSystem->getSettingsT<Settings::FileBrowser>())
                         {
@@ -749,7 +749,7 @@ namespace djv
                 p.listViewHeader->setSortCallback(
                     [context](size_t sort, bool reverse)
                 {
-                    if (auto settingsSystem = context->getSystemT<Settings::System>().lock())
+                    if (auto settingsSystem = context->getSystemT<Settings::System>())
                     {
                         if (auto fileBrowserSettings = settingsSystem->getSettingsT<Settings::FileBrowser>())
                         {
@@ -762,7 +762,7 @@ namespace djv
                 p.listViewHeader->setSplitCallback(
                     [context](const std::vector<float> & value)
                 {
-                    if (auto settingsSystem = context->getSystemT<Settings::System>().lock())
+                    if (auto settingsSystem = context->getSystemT<Settings::System>())
                     {
                         if (auto fileBrowserSettings = settingsSystem->getSettingsT<Settings::FileBrowser>())
                         {
@@ -774,7 +774,7 @@ namespace djv
                 p.thumbnailSizeSlider->setValueCallback(
                     [context](int value)
                 {
-                    if (auto settingsSystem = context->getSystemT<Settings::System>().lock())
+                    if (auto settingsSystem = context->getSystemT<Settings::System>())
                     {
                         if (auto fileBrowserSettings = settingsSystem->getSettingsT<Settings::FileBrowser>())
                         {
@@ -789,7 +789,7 @@ namespace djv
                 {
                     if (value)
                     {
-                        if (auto settingsSystem = context->getSystemT<Settings::System>().lock())
+                        if (auto settingsSystem = context->getSystemT<Settings::System>())
                         {
                             if (auto fileBrowserSettings = settingsSystem->getSettingsT<Settings::FileBrowser>())
                             {
@@ -808,7 +808,7 @@ namespace djv
                 {
                     if (value)
                     {
-                        if (auto settingsSystem = context->getSystemT<Settings::System>().lock())
+                        if (auto settingsSystem = context->getSystemT<Settings::System>())
                         {
                             if (auto fileBrowserSettings = settingsSystem->getSettingsT<Settings::FileBrowser>())
                             {
@@ -825,7 +825,7 @@ namespace djv
                     p.actions["FileSequences"]->observeChecked(),
                     [context](bool value)
                 {
-                    if (auto settingsSystem = context->getSystemT<Settings::System>().lock())
+                    if (auto settingsSystem = context->getSystemT<Settings::System>())
                     {
                         if (auto fileBrowserSettings = settingsSystem->getSettingsT<Settings::FileBrowser>())
                         {
@@ -838,7 +838,7 @@ namespace djv
                     p.actions["ShowHidden"]->observeChecked(),
                     [context](bool value)
                 {
-                    if (auto settingsSystem = context->getSystemT<Settings::System>().lock())
+                    if (auto settingsSystem = context->getSystemT<Settings::System>())
                     {
                         if (auto fileBrowserSettings = settingsSystem->getSettingsT<Settings::FileBrowser>())
                         {
@@ -851,7 +851,7 @@ namespace djv
                     p.actions["ReverseSort"]->observeChecked(),
                     [context](bool value)
                 {
-                    if (auto settingsSystem = context->getSystemT<Settings::System>().lock())
+                    if (auto settingsSystem = context->getSystemT<Settings::System>())
                     {
                         if (auto fileBrowserSettings = settingsSystem->getSettingsT<Settings::FileBrowser>())
                         {
@@ -864,7 +864,7 @@ namespace djv
                     p.actions["SortDirectoriesFirst"]->observeChecked(),
                     [context](bool value)
                 {
-                    if (auto settingsSystem = context->getSystemT<Settings::System>().lock())
+                    if (auto settingsSystem = context->getSystemT<Settings::System>())
                     {
                         if (auto fileBrowserSettings = settingsSystem->getSettingsT<Settings::FileBrowser>())
                         {
@@ -905,18 +905,14 @@ namespace djv
             
             void Widget::_preLayoutEvent(Event::PreLayout & event)
             {
-                if (auto style = _getStyle().lock())
-                {
-                    _setMinimumSize(_p->layout->getMinimumSize() + getMargin().getSize(style));
-                }
+                auto style = _getStyle();
+                _setMinimumSize(_p->layout->getMinimumSize() + getMargin().getSize(style));
             }
 
             void Widget::_layoutEvent(Event::Layout & event)
             {
-                if (auto style = _getStyle().lock())
-                {
-                    _p->layout->setGeometry(getMargin().bbox(getGeometry(), style));
-                }
+                auto style = _getStyle();
+                _p->layout->setGeometry(getMargin().bbox(getGeometry(), style));
             }
 
             void Widget::_localeEvent(Event::Locale &)

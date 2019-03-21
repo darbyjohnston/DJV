@@ -93,7 +93,7 @@ namespace djv
 
         void LogSystem::_init(const FileSystem::Path & path, Context * context)
         {
-            ISystem::_init(name, context);
+            ISystemBase::_init(name, context);
 
             _p->path = path;
 
@@ -138,8 +138,6 @@ namespace djv
                 }
                 _writeMessages();
             });
-
-            _logSystemInit = true;
         }
 
         LogSystem::LogSystem() :
@@ -148,7 +146,6 @@ namespace djv
 
         LogSystem::~LogSystem()
         {
-            _logSystemInit = false;
             _p->running = false;
             if (_p->thread.joinable())
             {

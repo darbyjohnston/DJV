@@ -31,6 +31,7 @@
 
 #include <djvUI/Style.h>
 #include <djvUI/StyleSettings.h>
+#include <djvUI/UISystem.h>
 #include <djvUI/Widget.h>
 #include <djvUI/Window.h>
 
@@ -87,7 +88,11 @@ namespace djv
             UI::EventSystem::_init("djv::Desktop::EventSystem", context);
 
             DJV_PRIVATE_PTR();
+
             p.glfwWindow = glfwWindow;
+
+            addDependency(context->getSystemT<UI::UISystem>());
+
             glfwGetFramebufferSize(glfwWindow, &p.resize.x, &p.resize.y);
             glfwSetFramebufferSizeCallback(glfwWindow, _resizeCallback);
             glfwSetWindowRefreshCallback(glfwWindow, _redrawCallback);
@@ -158,7 +163,7 @@ namespace djv
 
                 if (resizeRequest || redrawRequest)
                 {
-                    if (auto render = getContext()->getSystemT<AV::Render::Render2D>().lock())
+                    if (auto render = getContext()->getSystemT<AV::Render::Render2D>())
                     {
                         _p->offscreenBuffer->bind();
                         render->beginFrame(size);
@@ -181,7 +186,7 @@ namespace djv
 
         void EventSystem::_pushClipRect(const Core::BBox2f & value)
         {
-            if (auto system = getContext()->getSystemT<AV::Render::Render2D>().lock())
+            if (auto system = getContext()->getSystemT<AV::Render::Render2D>())
             {
                 system->pushClipRect(value);
             }
@@ -189,7 +194,7 @@ namespace djv
 
         void EventSystem::_popClipRect()
         {
-            if (auto system = getContext()->getSystemT<AV::Render::Render2D>().lock())
+            if (auto system = getContext()->getSystemT<AV::Render::Render2D>())
             {
                 system->popClipRect();
             }
@@ -280,7 +285,7 @@ namespace djv
         void EventSystem::_resizeCallback(GLFWwindow * window, int width, int height)
         {
             Context * context = reinterpret_cast<Context *>(glfwGetWindowUserPointer(window));
-            if (auto system = context->getSystemT<EventSystem>().lock())
+            if (auto system = context->getSystemT<EventSystem>())
             {
                 system->_resize(glm::ivec2(width, height));
             }
@@ -289,7 +294,7 @@ namespace djv
         void EventSystem::_redrawCallback(GLFWwindow * window)
         {
             Context * context = reinterpret_cast<Context *>(glfwGetWindowUserPointer(window));
-            if (auto system = context->getSystemT<EventSystem>().lock())
+            if (auto system = context->getSystemT<EventSystem>())
             {
                 system->_redraw();
             }
@@ -298,7 +303,7 @@ namespace djv
         void EventSystem::_pointerCallback(GLFWwindow * window, double x, double y)
         {
             Context * context = reinterpret_cast<Context *>(glfwGetWindowUserPointer(window));
-            if (auto system = context->getSystemT<EventSystem>().lock())
+            if (auto system = context->getSystemT<EventSystem>())
             {
                 Event::PointerInfo info;
                 info.id = pointerID;
@@ -316,7 +321,7 @@ namespace djv
         void EventSystem::_buttonCallback(GLFWwindow * window, int button, int action, int modifiers)
         {
             Context * context = reinterpret_cast<Context *>(glfwGetWindowUserPointer(window));
-            if (auto system = context->getSystemT<EventSystem>().lock())
+            if (auto system = context->getSystemT<EventSystem>())
             {
                 switch (action)
                 {
@@ -329,7 +334,7 @@ namespace djv
         void EventSystem::_dropCallback(GLFWwindow * window, int count, const char ** paths)
         {
             Context * context = reinterpret_cast<Context *>(glfwGetWindowUserPointer(window));
-            if (auto system = context->getSystemT<EventSystem>().lock())
+            if (auto system = context->getSystemT<EventSystem>())
             {
                 std::vector<std::string> list;
                 for (int i = 0; i < count; ++i)
@@ -343,7 +348,7 @@ namespace djv
         void EventSystem::_keyCallback(GLFWwindow * window, int key, int scancode, int action, int modifiers)
         {
             Context * context = reinterpret_cast<Context *>(glfwGetWindowUserPointer(window));
-            if (auto system = context->getSystemT<EventSystem>().lock())
+            if (auto system = context->getSystemT<EventSystem>())
             {
                 switch (action)
                 {
@@ -357,7 +362,7 @@ namespace djv
         void EventSystem::_charCallback(GLFWwindow * window, unsigned int character, int modifiers)
         {
             Context * context = reinterpret_cast<Context *>(glfwGetWindowUserPointer(window));
-            if (auto system = context->getSystemT<EventSystem>().lock())
+            if (auto system = context->getSystemT<EventSystem>())
             {
                 std::string text;
                 try

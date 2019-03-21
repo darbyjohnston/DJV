@@ -62,7 +62,7 @@ namespace djv
             p.qualityGroupBox->addChild(qualitySlider);
             addChild(p.qualityGroupBox);
 
-            if (auto io = context->getSystemT<AV::IO::System>().lock())
+            if (auto io = context->getSystemT<AV::IO::System>())
             {
                 fromJSON(io->getOptions(AV::IO::JPEG::pluginName), p.settings);
                 qualitySlider->setValue(p.settings.quality);
@@ -74,7 +74,7 @@ namespace djv
             {
                 if (auto widget = weak.lock())
                 {
-                    if (auto io = context->getSystemT<AV::IO::System>().lock())
+                    if (auto io = context->getSystemT<AV::IO::System>())
                     {
                         widget->_p->settings.quality = value;
                         io->setOptions(AV::IO::JPEG::pluginName, toJSON(widget->_p->settings));

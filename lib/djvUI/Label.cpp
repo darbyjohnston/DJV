@@ -204,118 +204,108 @@ namespace djv
         void Label::_preLayoutEvent(Event::PreLayout &)
         {
             DJV_PRIVATE_PTR();
-            if (auto style = _getStyle().lock())
+            if (p.fontMetricsFuture.valid())
             {
-                if (p.fontMetricsFuture.valid())
+                try
                 {
-                    try
-                    {
-                        p.fontMetrics = p.fontMetricsFuture.get();
-                    }
-                    catch (const std::exception & e)
-                    {
-                        _log(e.what(), LogLevel::Error);
-                    }
+                    p.fontMetrics = p.fontMetricsFuture.get();
                 }
-                if (p.textSizeFuture.valid())
+                catch (const std::exception & e)
                 {
-                    try
-                    {
-                        p.textSize = p.textSizeFuture.get();
-                    }
-                    catch (const std::exception & e)
-                    {
-                        _log(e.what(), LogLevel::Error);
-                    }
+                    _log(e.what(), LogLevel::Error);
                 }
-                if (p.sizeStringFuture.valid())
-                {
-                    try
-                    {
-                        p.sizeStringSize = p.sizeStringFuture.get();
-                    }
-                    catch (const std::exception & e)
-                    {
-                        _log(e.what(), LogLevel::Error);
-                    }
-                }
-                const glm::vec2 size(glm::max(p.textSize.x, p.sizeStringSize.x), p.fontMetrics.lineHeight);
-                _setMinimumSize(size + getMargin().getSize(style));
             }
+            if (p.textSizeFuture.valid())
+            {
+                try
+                {
+                    p.textSize = p.textSizeFuture.get();
+                }
+                catch (const std::exception & e)
+                {
+                    _log(e.what(), LogLevel::Error);
+                }
+            }
+            if (p.sizeStringFuture.valid())
+            {
+                try
+                {
+                    p.sizeStringSize = p.sizeStringFuture.get();
+                }
+                catch (const std::exception & e)
+                {
+                    _log(e.what(), LogLevel::Error);
+                }
+            }
+            const glm::vec2 size(glm::max(p.textSize.x, p.sizeStringSize.x), p.fontMetrics.lineHeight);
+            auto style = _getStyle();
+            _setMinimumSize(size + getMargin().getSize(style));
         }
 
         void Label::_paintEvent(Event::Paint & event)
         {
             Widget::_paintEvent(event);
             DJV_PRIVATE_PTR();
-            if (auto render = _getRender().lock())
+            auto style = _getStyle();
+            const BBox2f & g = getMargin().bbox(getGeometry(), style);
+            const glm::vec2 c = g.getCenter();
+
+            auto fontInfo = p.font.empty() ?
+                style->getFontInfo(p.fontFace, p.fontSizeRole) :
+                style->getFontInfo(p.font, p.fontFace, p.fontSizeRole);
+            auto render = _getRender();
+            render->setCurrentFont(fontInfo);
+            glm::vec2 pos = g.min;
+            switch (p.textHAlign)
             {
-                if (auto style = _getStyle().lock())
-                {
-                    const BBox2f & g = getMargin().bbox(getGeometry(), style);
-                    const glm::vec2 c = g.getCenter();
-
-                    auto fontInfo = p.font.empty() ?
-                        style->getFontInfo(p.fontFace, p.fontSizeRole) :
-                        style->getFontInfo(p.font, p.fontFace, p.fontSizeRole);
-                    render->setCurrentFont(fontInfo);
-                    glm::vec2 pos = g.min;
-                    switch (p.textHAlign)
-                    {
-                    case TextHAlign::Center:
-                        pos.x = c.x - p.textSize.x / 2.f;
-                        break;
-                    case TextHAlign::Right:
-                        pos.x = g.max.x - p.textSize.x;
-                        break;
-                    default: break;
-                    }
-                    switch (p.textVAlign)
-                    {
-                    case TextVAlign::Center:
-                        pos.y = c.y - p.textSize.y / 2.f;
-                        break;
-                    case TextVAlign::Top:
-                        pos.y = g.min.y;
-                        break;
-                    case TextVAlign::Bottom:
-                        pos.y = g.max.y - p.textSize.y;
-                        break;
-                    case TextVAlign::Baseline:
-                        pos.y = c.y - p.fontMetrics.ascender / 2.f;
-                        break;
-                    default: break;
-                    }
-
-                    //render->setFillColor(AV::Image::Color(1.f, 0.f, 0.f));
-                    //render->drawRect(BBox2f(pos.x, pos.y, p.textSize.x, p.textSize.y));
-
-                    render->setFillColor(_getColorWithOpacity(style->getColor(isEnabled(true) ? p.textColorRole : ColorRole::Disabled)));
-                    //! \bug Why the extra subtract by one here?
-                    render->drawText(p.text, glm::vec2(floorf(pos.x), floorf(pos.y + p.fontMetrics.ascender - 1.f)));
-                }
+            case TextHAlign::Center:
+                pos.x = c.x - p.textSize.x / 2.f;
+                break;
+            case TextHAlign::Right:
+                pos.x = g.max.x - p.textSize.x;
+                break;
+            default: break;
             }
+            switch (p.textVAlign)
+            {
+            case TextVAlign::Center:
+                pos.y = c.y - p.textSize.y / 2.f;
+                break;
+            case TextVAlign::Top:
+                pos.y = g.min.y;
+                break;
+            case TextVAlign::Bottom:
+                pos.y = g.max.y - p.textSize.y;
+                break;
+            case TextVAlign::Baseline:
+                pos.y = c.y - p.fontMetrics.ascender / 2.f;
+                break;
+            default: break;
+            }
+
+            //render->setFillColor(AV::Image::Color(1.f, 0.f, 0.f));
+            //render->drawRect(BBox2f(pos.x, pos.y, p.textSize.x, p.textSize.y));
+
+            render->setFillColor(_getColorWithOpacity(style->getColor(isEnabled(true) ? p.textColorRole : ColorRole::Disabled)));
+            //! \bug Why the extra subtract by one here?
+            render->drawText(p.text, glm::vec2(floorf(pos.x), floorf(pos.y + p.fontMetrics.ascender - 1.f)));
         }
 
         void Label::_textUpdate()
         {
             DJV_PRIVATE_PTR();
-            if (auto style = _getStyle().lock())
+            auto style = _getStyle();
+            const auto fontInfo = p.font.empty() ?
+                style->getFontInfo(p.fontFace, p.fontSizeRole) :
+                style->getFontInfo(p.font, p.fontFace, p.fontSizeRole);
+            auto fontSystem = _getFontSystem();
+            p.fontMetricsFuture = fontSystem->getMetrics(fontInfo);
+            p.textSizeFuture = fontSystem->measure(p.text, fontInfo);
+            if (!p.sizeString.empty())
             {
-                if (auto fontSystem = _getFontSystem().lock())
-                {
-                    const auto fontInfo = p.font.empty() ?
-                        style->getFontInfo(p.fontFace, p.fontSizeRole) :
-                        style->getFontInfo(p.font, p.fontFace, p.fontSizeRole);
-                    p.fontMetricsFuture = fontSystem->getMetrics(fontInfo);
-                    p.textSizeFuture = fontSystem->measure(p.text, fontInfo);
-                    if (!p.sizeString.empty())
-                    {
-                        p.sizeStringFuture = fontSystem->measure(p.sizeString, fontInfo);
-                    }
-                    _resize();
-                }
+                p.sizeStringFuture = fontSystem->measure(p.sizeString, fontInfo);
             }
+            _resize();
         }
 
     } // namespace UI

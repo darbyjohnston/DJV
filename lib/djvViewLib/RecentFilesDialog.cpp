@@ -180,7 +180,7 @@ namespace djv
                 }
             });
 
-            if (auto settingsSystem = context->getSystemT<UI::Settings::System>().lock())
+            if (auto settingsSystem = context->getSystemT<UI::Settings::System>())
             {
                 if (auto fileSystemSettings = settingsSystem->getSettingsT<FileSystemSettings>())
                 {
@@ -211,7 +211,7 @@ namespace djv
             p.thumbnailSizeSlider->setValueCallback(
                 [context](int value)
             {
-                if (auto settingsSystem = context->getSystemT<UI::Settings::System>().lock())
+                if (auto settingsSystem = context->getSystemT<UI::Settings::System>())
                 {
                     if (auto fileSystemSettings = settingsSystem->getSettingsT<FileSystemSettings>())
                     {
@@ -226,7 +226,7 @@ namespace djv
             {
                 if (value)
                 {
-                    if (auto settingsSystem = context->getSystemT<UI::Settings::System>().lock())
+                    if (auto settingsSystem = context->getSystemT<UI::Settings::System>())
                     {
                         if (auto fileSystemSettings = settingsSystem->getSettingsT<FileSystemSettings>())
                         {
@@ -245,7 +245,7 @@ namespace djv
             {
                 if (value)
                 {
-                    if (auto settingsSystem = context->getSystemT<UI::Settings::System>().lock())
+                    if (auto settingsSystem = context->getSystemT<UI::Settings::System>())
                     {
                         if (auto fileSystemSettings = settingsSystem->getSettingsT<FileSystemSettings>())
                         {

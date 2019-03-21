@@ -45,11 +45,15 @@ namespace djv
         namespace Settings
         {
             struct General::Private
-            {};
+            {
+                std::shared_ptr<TextSystem> textSystem;
+            };
 
             void General::_init(Context * context)
             {
                 ISettings::_init("djv::UI::Settings::General", context);
+                DJV_PRIVATE_PTR();
+                p.textSystem = context->getSystemT<TextSystem>();
                 _load();
             }
 
@@ -69,26 +73,22 @@ namespace djv
 
             void General::load(const picojson::value & value)
             {
+                DJV_PRIVATE_PTR();
                 if (value.is<picojson::object>())
                 {
                     std::string currentLocale;
                     const auto & object = value.get<picojson::object>();
                     read("CurrentLocale", object, currentLocale);
-                    if (auto textSystem = getContext()->getSystemT<TextSystem>().lock())
-                    {
-                        textSystem->setCurrentLocale(currentLocale);
-                    }
+                    p.textSystem->setCurrentLocale(currentLocale);
                 }
             }
 
             picojson::value General::save()
             {
+                DJV_PRIVATE_PTR();
                 picojson::value out(picojson::object_type, true);
                 auto & object = out.get<picojson::object>();
-                if (auto textSystem = getContext()->getSystemT<TextSystem>().lock())
-                {
-                    write("CurrentLocale", textSystem->getCurrentLocale(), object);
-                }
+                write("CurrentLocale", p.textSystem->getCurrentLocale(), object);
                 return out;
             }
 

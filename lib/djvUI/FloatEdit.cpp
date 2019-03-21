@@ -224,19 +224,15 @@ namespace djv
         void FloatEdit::_preLayoutEvent(Event::PreLayout & event)
         {
             DJV_PRIVATE_PTR();
-            if (auto style = _getStyle().lock())
-            {
-                _setMinimumSize(p.lineEdit->getMinimumSize() + getMargin().getSize(style));
-            }
+            auto style = _getStyle();
+            _setMinimumSize(p.lineEdit->getMinimumSize() + getMargin().getSize(style));
         }
 
         void FloatEdit::_layoutEvent(Event::Layout & event)
         {
             DJV_PRIVATE_PTR();
-            if (auto style = _getStyle().lock())
-            {
-                p.lineEdit->setGeometry(getMargin().bbox(getGeometry(), style));
-            }
+            auto style = _getStyle();
+            p.lineEdit->setGeometry(getMargin().bbox(getGeometry(), style));
         }
 
         void FloatEdit::_textUpdate()
