@@ -252,7 +252,7 @@ namespace djv
             }
             if (auto windowSystem = context->getSystemT<UI::EventSystem>())
             {
-                if (auto window = windowSystem->observeCurrentWindow()->get())
+                if (auto window = windowSystem->getCurrentWindow().lock())
                 {
                     p.messageDialog->setTitle(title);
                     p.messageDialog->setText(text);
@@ -279,7 +279,7 @@ namespace djv
             }
             if (auto windowSystem = context->getSystemT<UI::EventSystem>())
             {
-                if (auto window = windowSystem->observeCurrentWindow()->get())
+                if (auto window = windowSystem->getCurrentWindow().lock())
                 {
                     p.confirmationDialog->setTitle(title);
                     p.confirmationDialog->setText(text);

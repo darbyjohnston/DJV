@@ -44,8 +44,8 @@ namespace djv
     {
         struct EventSystem::Private
         {
-            std::shared_ptr<ListSubject<std::shared_ptr<Window> > > windows;
-            std::shared_ptr<ValueSubject<std::shared_ptr<Window> > > currentWindow;
+            std::vector<std::weak_ptr<Window> > windows;
+            std::weak_ptr<Window> currentWindow;
             std::shared_ptr<Time::Timer> statsTimer;
         };
 
@@ -54,9 +54,6 @@ namespace djv
             IEventSystem::_init(name, context);
 
             DJV_PRIVATE_PTR();
-
-            p.windows = ListSubject< std::shared_ptr<Window> >::create();
-            p.currentWindow = ValueSubject<std::shared_ptr<Window> >::create();
 
             p.statsTimer = Time::Timer::create(context);
             p.statsTimer->setRepeating(true);
@@ -78,12 +75,12 @@ namespace djv
         EventSystem::~EventSystem()
         {}
 
-        std::shared_ptr<Core::IListSubject<std::shared_ptr<Window> > > EventSystem::observeWindows() const
+        const std::vector<std::weak_ptr<Window> > & EventSystem::getWindows() const
         {
             return _p->windows;
         }
 
-        std::shared_ptr<Core::IValueSubject<std::shared_ptr<Window> > > EventSystem::observeCurrentWindow() const
+        const std::weak_ptr<Window> EventSystem::getCurrentWindow() const
         {
             return _p->currentWindow;
         }
@@ -92,20 +89,20 @@ namespace djv
         {
             IEventSystem::tick(dt);
             DJV_PRIVATE_PTR();
-            if (p.windows)
+            if (auto uiSystem = getContext()->getSystemT<UISystem>())
             {
-                if (auto uiSystem = getContext()->getSystemT<UISystem>())
+                auto style = uiSystem->getStyle();
+                if (style->isDirty())
                 {
-                    auto style = uiSystem->getStyle();
-                    if (style->isDirty())
+                    Event::Style styleEvent;
+                    for (auto i : p.windows)
                     {
-                        Event::Style styleEvent;
-                        for (auto window : p.windows->get())
+                        if (auto window = i.lock())
                         {
                             _styleRecursive(window, styleEvent);
                         }
-                        style->setClean();
                     }
+                    style->setClean();
                 }
             }
         }
@@ -197,13 +194,13 @@ namespace djv
         {
             IEventSystem::_initObject(object);
             DJV_PRIVATE_PTR();
-            if (p.windows && p.currentWindow)
+            if (auto window = std::dynamic_pointer_cast<Window>(object))
             {
-                if (auto window = std::dynamic_pointer_cast<Window>(object))
-                {
-                    p.windows->pushBack(window);
-                    p.currentWindow->setIfChanged(window);
-                }
+                p.windows.push_back(window);
+                p.currentWindow = window;
+            }
+            if (auto widget = std::dynamic_pointer_cast<Widget>(object))
+            {
                 Event::Style styleEvent;
                 object->event(styleEvent);
             }

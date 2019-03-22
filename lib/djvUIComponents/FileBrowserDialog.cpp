@@ -142,7 +142,7 @@ namespace djv
                 }
                 if (auto windowSystem = context->getSystemT<EventSystem>())
                 {
-                    if (auto window = windowSystem->observeCurrentWindow()->get())
+                    if (auto window = windowSystem->getCurrentWindow().lock())
                     {
                         p.dialog->setTitle(title);
 

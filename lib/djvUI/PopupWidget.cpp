@@ -332,7 +332,7 @@ namespace djv
             DJV_PRIVATE_PTR();
             if (auto windowSystem = getContext()->getSystemT<EventSystem>())
             {
-                if (auto window = windowSystem->observeCurrentWindow()->get())
+                if (auto window = windowSystem->getCurrentWindow().lock())
                 {
                     window->addChild(p.overlay);
                     p.closeAction->setEnabled(true);

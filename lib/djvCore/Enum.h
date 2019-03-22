@@ -55,22 +55,15 @@
 //! Throws:
 //! - std::invalid_argument
 #define DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(prefix, name, ...) \
-    namespace \
-    { \
-        const std::vector<std::string> & get##name##Strings() \
-        { \
-            static const std::vector<std::string> data = \
-            { \
-                __VA_ARGS__ \
-            }; \
-            DJV_ASSERT(static_cast<size_t>(prefix::name::Count) == data.size()); \
-            return data; \
-        } \
-    } \
     \
     std::ostream & operator << (std::ostream & os, prefix::name value) \
     { \
-        os << get##name##Strings()[static_cast<size_t>(value)]; \
+        static const std::vector<std::string> data = \
+        { \
+            __VA_ARGS__ \
+        }; \
+        DJV_ASSERT(static_cast<size_t>(prefix::name::Count) == data.size()); \
+        os << data[static_cast<size_t>(value)]; \
         return os; \
     } \
     \
@@ -78,14 +71,18 @@
     { \
         std::string s; \
         is >> s; \
-        const auto & strings = get##name##Strings(); \
-        const auto i = std::find(strings.begin(), strings.end(), s); \
-        if (i == strings.end()) \
+        static const std::vector<std::string> data = \
+        { \
+            __VA_ARGS__ \
+        }; \
+        DJV_ASSERT(static_cast<size_t>(prefix::name::Count) == data.size()); \
+        const auto i = std::find(data.begin(), data.end(), s); \
+        if (i == data.end()) \
         { \
             std::stringstream ss; \
             ss << DJV_TEXT("Cannot parse the value") << " '" << s << "'."; \
             throw std::invalid_argument(ss.str()); \
         } \
-        value = static_cast<prefix::name>(i - strings.begin()); \
+        value = static_cast<prefix::name>(i - data.begin()); \
         return is; \
     }
