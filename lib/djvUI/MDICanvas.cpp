@@ -188,27 +188,24 @@ namespace djv
             void Canvas::_paintEvent(Event::Paint & event)
             {
                 Widget::_paintEvent(event);
-                /*DJV_PRIVATE_PTR();
-                if (auto style = _getStyle().lock())
+                DJV_PRIVATE_PTR();
+                auto style = _getStyle();
+                const float h = style->getMetric(MetricsRole::Handle);
+                const float sh = style->getMetric(MetricsRole::Shadow);
+                auto render = _getRender();
+                render->setFillColor(_getColorWithOpacity(style->getColor(ColorRole::Shadow)));
+                for (const auto & i : getChildrenT<IWidget>())
                 {
-                    const float h = style->getMetric(MetricsRole::Handle);
-                    const float sh = style->getMetric(MetricsRole::Shadow);
-
-                    auto render = _getRender();
-                    render->setFillColor(_getColorWithOpacity(style->getColor(ColorRole::Shadow)));
-                    for (const auto & i : getChildrenT<IWidget>())
+                    if (i->isVisible())
                     {
-                        if (i->isVisible())
-                        {
-                            BBox2f g = i->getGeometry().margin(-h);
-                            g.min.x += sh;
-                            g.min.y += sh;
-                            g.max.x += sh;
-                            g.max.y += sh;
-                            render->drawRect(g);
-                        }
+                        BBox2f g = i->getGeometry().margin(-h);
+                        g.min.x += sh;
+                        g.min.y += sh;
+                        g.max.x += sh;
+                        g.max.y += sh;
+                        render->drawRect(g);
                     }
-                }*/
+                }
             }
 
             void Canvas::_paintOverlayEvent(Event::PaintOverlay & event)
