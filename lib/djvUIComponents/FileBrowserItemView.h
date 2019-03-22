@@ -42,6 +42,15 @@ namespace djv
         } // namespace FileSystem
     } // namespace Core
 
+    namespace AV
+    {
+        namespace IO
+        {
+            struct Info;
+
+        } // namespace IO
+    } // namespace AV
+
     namespace UI
     {
         namespace FileBrowser
@@ -90,6 +99,9 @@ namespace djv
                 void _localeEvent(Core::Event::Locale &) override;
 
             private:
+                std::string _getTooltip(const Core::FileSystem::FileInfo &) const;
+                std::string _getTooltip(const Core::FileSystem::FileInfo &, const AV::IO::Info &) const;
+
                 void _iconsUpdate();
                 void _thumbnailsSizeUpdate();
                 void _itemsUpdate();

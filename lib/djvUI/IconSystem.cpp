@@ -36,6 +36,8 @@
 #include <djvCore/Cache.h>
 #include <djvCore/Context.h>
 #include <djvCore/FileInfo.h>
+#include <djvCore/LogSystem.h>
+#include <djvCore/ResourceSystem.h>
 #include <djvCore/Timer.h>
 
 using namespace djv::Core;
@@ -141,16 +143,19 @@ namespace djv
                 try
                 {
                     // Find the DPI values.
-                    for (const auto & i : FileSystem::FileInfo::directoryList(context->getPath(FileSystem::ResourcePath::IconsDirectory)))
+                    if (auto resourceSystem = context->getSystemT<ResourceSystem>())
                     {
-                        const std::string fileName = i.getFileName(Frame::Invalid, false);
-                        const size_t size = fileName.size();
-                        if (size > 3 &&
-                            fileName[size - 3] == 'D' &&
-                            fileName[size - 2] == 'P' &&
-                            fileName[size - 1] == 'I')
+                        for (const auto & i : FileSystem::FileInfo::directoryList(resourceSystem->getPath(FileSystem::ResourcePath::IconsDirectory)))
                         {
-                            p.dpiList.push_back(std::stoi(fileName.substr(0, size - 3)));
+                            const std::string fileName = i.getFileName(Frame::Invalid, false);
+                            const size_t size = fileName.size();
+                            if (size > 3 &&
+                                fileName[size - 3] == 'D' &&
+                                fileName[size - 2] == 'P' &&
+                                fileName[size - 1] == 'I')
+                            {
+                                p.dpiList.push_back(std::stoi(fileName.substr(0, size - 3)));
+                            }
                         }
                     }
                     std::sort(p.dpiList.begin(), p.dpiList.end());
@@ -186,7 +191,10 @@ namespace djv
                 }
                 catch (const std::exception & e)
                 {
-                    context->log("djv::AV::ThumbnailSystem", e.what(), LogLevel::Error);
+                    if (auto logSystem = context->getSystemT<LogSystem>())
+                    {
+                        logSystem->log("djv::AV::ThumbnailSystem", e.what(), LogLevel::Error);
+                    }
                 }
             });
         }
@@ -324,7 +332,11 @@ namespace djv
 
         FileSystem::Path IconSystem::Private::getPath(const std::string & name, int dpi, Context * context) const
         {
-            auto out = context->getPath(FileSystem::ResourcePath::IconsDirectory);
+            FileSystem::Path out;
+            if (auto resourceSystem = context->getSystemT<ResourceSystem>())
+            {
+                out = resourceSystem->getPath(FileSystem::ResourcePath::IconsDirectory);
+            }
             {
                 std::stringstream ss;
                 ss << dpi << "DPI";

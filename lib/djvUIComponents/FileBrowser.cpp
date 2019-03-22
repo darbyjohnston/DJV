@@ -135,8 +135,6 @@ namespace djv
                 std::shared_ptr<ValueObserver<bool> > reverseSortSettingsObserver;
                 std::shared_ptr<ValueObserver<bool> > sortDirectoriesFirstObserver;
                 std::shared_ptr<ValueObserver<bool> > sortDirectoriesFirstSettingsObserver;
-
-                std::string getItemCountLabel(size_t, Context *);
             };
 
             void Widget::_init(Context * context)
@@ -420,7 +418,7 @@ namespace djv
                     {
                         widget->_p->itemView->setItems(value);
                         widget->_p->itemCount = value.size();
-                        widget->_p->itemCountLabel->setText(widget->_p->getItemCountLabel(value.size(), context));
+                        widget->_p->itemCountLabel->setText(widget->_getItemCountLabel(value.size()));
                     }
                 });
 
@@ -975,7 +973,7 @@ namespace djv
                 );
 
                 auto context = getContext();
-                p.itemCountLabel->setText(p.getItemCountLabel(p.itemCount, context));
+                p.itemCountLabel->setText(_getItemCountLabel(p.itemCount));
 
                 p.searchBox->setTooltip(_getText(DJV_TEXT("File browser search tooltip")));
 
@@ -983,10 +981,10 @@ namespace djv
                 p.thumbnailSizePopupWidget->setTooltip(_getText(DJV_TEXT("File browser thumbnail size tooltip")));
             }
 
-            std::string Widget::Private::getItemCountLabel(size_t size, Context * context)
+            std::string Widget::_getItemCountLabel(size_t size) const
             {
                 std::stringstream ss;
-                ss << size << " " << context->getText(DJV_TEXT("Items"));
+                ss << size << " " << _getText(DJV_TEXT("Items"));
                 return ss.str();
             }
 

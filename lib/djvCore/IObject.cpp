@@ -247,12 +247,12 @@ namespace djv
 
         std::string IObject::_getText(const std::string & id) const
         {
-            return _context->getText(id);
+            return _textSystem->getText(id);
         }
 
         void IObject::_log(const std::string & message, LogLevel level)
         {
-            _context->log(_className, message, level);
+            _logSystem->log(_className, message, level);
         }
 
         bool IObject::_eventFilter(Event::IEvent & event)

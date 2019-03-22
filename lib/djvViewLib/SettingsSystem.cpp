@@ -103,7 +103,7 @@ namespace djv
             auto context = getContext();
             if (auto eventSystem = context->getSystemT<UI::EventSystem>())
             {
-                if (auto window = eventSystem->observeCurrentWindow()->get())
+                if (auto window = eventSystem->getCurrentWindow().lock())
                 {
                     if (!p.settingsDialog)
                     {

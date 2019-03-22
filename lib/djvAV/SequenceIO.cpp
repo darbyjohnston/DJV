@@ -34,6 +34,7 @@
 
 #include <djvCore/Context.h>
 #include <djvCore/FileInfo.h>
+#include <djvCore/LogSystem.h>
 #include <djvCore/OS.h>
 #include <djvCore/Path.h>
 #include <djvCore/String.h>
@@ -110,9 +111,9 @@ namespace djv
                         }
                         catch (const std::exception & e)
                         {
-                            context->log("djv::AV::ISequenceRead", e.what(), LogLevel::Error);
+                            _logSystem->log("djv::AV::ISequenceRead", e.what(), LogLevel::Error);
                         }
-                        context->log("djv::AV::ISequenceRead", e.what(), LogLevel::Error);
+                        _logSystem->log("djv::AV::ISequenceRead", e.what(), LogLevel::Error);
                     }
 
                     const auto timeout = Time::getValue(Time::TimerValue::Fast);
@@ -152,7 +153,7 @@ namespace djv
                             /*{
                                 std::stringstream ss;
                                 ss << _fileName << ": seek " << frameIndex;
-                                context->log("djv::AV::IO::ISequenceRead", ss.str());
+                                _logSystem->log("djv::AV::IO::ISequenceRead", ss.str());
                             }*/
                         }
                         if (read)
@@ -174,7 +175,7 @@ namespace djv
                             /*{
                                 std::stringstream ss;
                                 ss << _fileName << ": read frame " << pts;
-                                context->log("djv::AV::IO::ISequenceRead", ss.str());
+                                _logSystem->log("djv::AV::IO::ISequenceRead", ss.str());
                             }*/
 
                             try
@@ -183,7 +184,7 @@ namespace djv
                             }
                             catch (const std::exception & e)
                             {
-                                context->log("djv::AV::ISequenceRead", e.what(), LogLevel::Error);
+                                _logSystem->log("djv::AV::ISequenceRead", e.what(), LogLevel::Error);
                             }
 
                             if (image)
@@ -285,7 +286,7 @@ namespace djv
                 if (!p.glfwWindow)
                 {
                     std::stringstream ss;
-                    ss << context->getText(DJV_TEXT("The GLFW window cannot be created."));
+                    ss << DJV_TEXT("The GLFW window cannot be created.");
                     throw std::runtime_error(ss.str());
                 }
 
@@ -331,7 +332,7 @@ namespace djv
                                 /*{
                                     std::stringstream ss;
                                     ss << "Writing: " << fileName;
-                                    context->log("djv::AV::IO::ISequenceWrite", ss.str());
+                                    _logSystem->log("djv::AV::IO::ISequenceWrite", ss.str());
                                 }*/
 
                                 _write(fileName, image);
@@ -346,7 +347,7 @@ namespace djv
                     }
                     catch (const std::exception & e)
                     {
-                        context->log("djv::AV::ISequenceWrite", e.what(), LogLevel::Error);
+                        _logSystem->log("djv::AV::ISequenceWrite", e.what(), LogLevel::Error);
                     }
                 });
             }

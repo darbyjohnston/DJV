@@ -37,6 +37,7 @@
 #include <djvCore/Context.h>
 #include <djvCore/FileIO.h>
 #include <djvCore/Path.h>
+#include <djvCore/ResourceSystem.h>
 #include <djvCore/String.h>
 
 using namespace djv::Core;
@@ -129,7 +130,7 @@ namespace djv
             try
             {
                 auto context = getContext();
-                const auto log = FileSystem::FileIO::readLines(context->getPath(FileSystem::ResourcePath::LogFile));
+                const auto log = FileSystem::FileIO::readLines(_getResourceSystem()->getPath(FileSystem::ResourcePath::LogFile));
                 _p->textBlock->setText(String::join(log, '\n'));
             }
             catch (const std::exception & e)

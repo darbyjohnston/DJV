@@ -31,6 +31,8 @@
 
 #include <djvCore/Context.h>
 #include <djvCore/LogSystem.h>
+#include <djvCore/ResourceSystem.h>
+#include <djvCore/TextSystem.h>
 
 namespace djv
 {
@@ -62,7 +64,9 @@ namespace djv
 
         } // namespace
 
-        std::shared_ptr<LogSystem> ISystem::_logSystem;
+        std::shared_ptr<LogSystem>      ISystem::_logSystem;
+        std::shared_ptr<ResourceSystem> ISystem::_resourceSystem;
+        std::shared_ptr<TextSystem>     ISystem::_textSystem;
 
         void ISystem::_init(const std::string & name, Context * context)
         {
@@ -71,6 +75,14 @@ namespace djv
             if (!_logSystem)
             {
                 _logSystem = context->getSystemT<LogSystem>();
+            }
+            if (!_resourceSystem)
+            {
+                _resourceSystem = context->getSystemT<ResourceSystem>();
+            }
+            if (!_textSystem)
+            {
+                _textSystem = context->getSystemT<TextSystem>();
             }
             {
                 std::stringstream s;
@@ -89,6 +101,8 @@ namespace djv
             --systemCount;
             if (!systemCount)
             {
+                _textSystem.reset();
+                _resourceSystem.reset();
                 _logSystem.reset();
             }
         }
@@ -96,6 +110,16 @@ namespace djv
         void ISystem::_log(const std::string & message, LogLevel level)
         {
             _logSystem->log(getSystemName(), message, level);
+        }
+
+        std::shared_ptr<ResourceSystem> ISystem::_getResourceSystem() const
+        {
+            return _resourceSystem;
+        }
+
+        const std::string &ISystem::_getText(const std::string & id) const
+        {
+            return _textSystem->getText(id);
         }
 
     } // namespace Core

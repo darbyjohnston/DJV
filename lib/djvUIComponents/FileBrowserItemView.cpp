@@ -80,9 +80,6 @@ namespace djv
                 Event::PointerID pressedId = Event::InvalidID;
                 glm::vec2 pressedPos = glm::vec2(0.f, 0.f);
                 std::function<void(const FileSystem::FileInfo &)> callback;
-
-                std::string getTooltip(const FileSystem::FileInfo &, Context * context) const;
-                std::string getTooltip(const FileSystem::FileInfo &, const AV::IO::Info &, Context *) const;
             };
 
             void ItemView::_init(Context * context)
@@ -657,11 +654,11 @@ namespace djv
                             const auto j = p.ioInfo.find(i.first);
                             if (j != p.ioInfo.end())
                             {
-                                text = p.getTooltip(fileInfo, j->second, context);
+                                text = _getTooltip(fileInfo, j->second);
                             }
                             else
                             {
-                                text = p.getTooltip(fileInfo, context);
+                                text = _getTooltip(fileInfo);
                             }
                         }
                         break;
@@ -907,32 +904,32 @@ namespace djv
                 _resize();
             }
 
-            std::string ItemView::Private::getTooltip(const FileSystem::FileInfo & fileInfo, Context * context) const
+            std::string ItemView::_getTooltip(const FileSystem::FileInfo & fileInfo) const
             {
                 std::stringstream ss;
                 ss << fileInfo.getFileName(Frame::Invalid, false) << '\n';
                 ss << '\n';
-                ss << context->getText(DJV_TEXT("Size")) << ": " << Memory::getSizeLabel(fileInfo.getSize()) << '\n';
-                ss << context->getText(DJV_TEXT("Last modification time")) << ": " << Time::getLabel(fileInfo.getTime());
+                ss << _getText(DJV_TEXT("Size")) << ": " << Memory::getSizeLabel(fileInfo.getSize()) << '\n';
+                ss << _getText(DJV_TEXT("Last modification time")) << ": " << Time::getLabel(fileInfo.getTime());
                 return ss.str();
             }
 
-            std::string ItemView::Private::getTooltip(const FileSystem::FileInfo & fileInfo, const AV::IO::Info & avInfo, Context * context) const
+            std::string ItemView::_getTooltip(const FileSystem::FileInfo & fileInfo, const AV::IO::Info & avInfo) const
             {
                 std::stringstream ss;
-                ss << getTooltip(fileInfo, context);
+                ss << _getTooltip(fileInfo);
                 size_t track = 0;
                 for (const auto & videoInfo : avInfo.video)
                 {
                     ss << '\n' << '\n';
-                    ss << context->getText(DJV_TEXT("Video track")) << " #" << track << '\n';
-                    ss << context->getText(DJV_TEXT("Size")) << ": " << videoInfo.info.size << '\n';
-                    ss << context->getText(DJV_TEXT("Type")) << ": " << videoInfo.info.type << '\n';
+                    ss << _getText(DJV_TEXT("Video track")) << " #" << track << '\n';
+                    ss << _getText(DJV_TEXT("Size")) << ": " << videoInfo.info.size << '\n';
+                    ss << _getText(DJV_TEXT("Type")) << ": " << videoInfo.info.type << '\n';
                     ss.precision(2);
-                    ss << context->getText(DJV_TEXT("Speed")) << ": " <<
+                    ss << _getText(DJV_TEXT("Speed")) << ": " <<
                         Time::Speed::speedToFloat(videoInfo.speed) <<
-                        context->getText(DJV_TEXT("FPS")) << '\n';
-                    ss << context->getText(DJV_TEXT("Duration")) << ": " <<
+                        _getText(DJV_TEXT("FPS")) << '\n';
+                    ss << _getText(DJV_TEXT("Duration")) << ": " <<
                         Time::getLabel(Time::durationToSeconds(videoInfo.duration));
                     ++track;
                 }
@@ -940,12 +937,12 @@ namespace djv
                 for (const auto & audioInfo : avInfo.audio)
                 {
                     ss << '\n' << '\n';
-                    ss << context->getText(DJV_TEXT("Audio track")) << " #" << track << '\n';
-                    ss << context->getText(DJV_TEXT("Channels")) << ": " << audioInfo.info.channelCount << '\n';
-                    ss << context->getText(DJV_TEXT("Type")) << ": " << audioInfo.info.type << '\n';
-                    ss << context->getText(DJV_TEXT("Sample rate")) << ": " <<
+                    ss << _getText(DJV_TEXT("Audio track")) << " #" << track << '\n';
+                    ss << _getText(DJV_TEXT("Channels")) << ": " << audioInfo.info.channelCount << '\n';
+                    ss << _getText(DJV_TEXT("Type")) << ": " << audioInfo.info.type << '\n';
+                    ss << _getText(DJV_TEXT("Sample rate")) << ": " <<
                         audioInfo.info.sampleRate / 1000.f << DJV_TEXT("kHz") << '\n';
-                    ss << context->getText(DJV_TEXT("Duration")) << ": " <<
+                    ss << _getText(DJV_TEXT("Duration")) << ": " <<
                         Time::getLabel(Time::durationToSeconds(audioInfo.duration));
                     ++track;
                 }

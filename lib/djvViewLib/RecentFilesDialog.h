@@ -65,6 +65,8 @@ namespace djv
             void _localeEvent(Core::Event::Locale &) override;
 
         private:
+            std::string _getItemCountLabel(size_t) const;
+
             void _recentFilesUpdate();
 
             DJV_PRIVATE();

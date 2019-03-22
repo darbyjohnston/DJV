@@ -97,23 +97,6 @@ namespace djv
             //! This function is called by the application's event loop.
             virtual void tick(float dt);
 
-            //! \name Utilities
-            ///@{
-
-            //! Convenience function for message logging.
-            void log(const std::string & prefix, const std::string & message, LogLevel = LogLevel::Information);
-
-            //! Convenience function got getting a resource path.
-            FileSystem::Path getPath(FileSystem::ResourcePath) const;
-
-            //! Convenience function got getting a resource path.
-            FileSystem::Path getPath(FileSystem::ResourcePath, const std::string &) const;
-
-            //! Convenience function for text translations.
-            std::string getText(const std::string & id) const;
-
-            ///@}
-
         protected:
             void _addSystem(const std::shared_ptr<ISystemBase> &);
 

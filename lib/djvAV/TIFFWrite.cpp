@@ -113,7 +113,7 @@ namespace djv
                     if (Image::Type::None == imageType)
                     {
                         std::stringstream s;
-                        s << _context->getText(DJV_TEXT("The TIFF file")) <<
+                        s << DJV_TEXT("The TIFF file") <<
                             " '" << fileName << "' " << DJV_TEXT("cannot be written") << ".";
                         throw std::runtime_error(s.str());
                     }
@@ -138,7 +138,7 @@ namespace djv
                     if (!f.f)
                     {
                         std::stringstream s;
-                        s << _context->getText(DJV_TEXT("The TIFF file")) <<
+                        s << DJV_TEXT("The TIFF file") <<
                             " '" << fileName << "' " << DJV_TEXT("cannot be opened") << ".";
                         throw std::runtime_error(s.str());
                     }
@@ -242,7 +242,7 @@ namespace djv
                         if (TIFFWriteScanline(f.f, (tdata_t *)imageData->getData(y), y) == -1)
                         {
                             std::stringstream s;
-                            s << _context->getText(DJV_TEXT("The TIFF file")) <<
+                            s << DJV_TEXT("The TIFF file") <<
                                 " '" << fileName << "' " << DJV_TEXT("cannot be written") << ".";
                             throw std::runtime_error(s.str());
                         }

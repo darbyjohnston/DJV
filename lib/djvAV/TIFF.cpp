@@ -94,7 +94,7 @@ namespace djv
                     auto out = std::shared_ptr<Plugin>(new Plugin);
                     out->_init(
                         pluginName,
-                        context->getText(DJV_TEXT("This plugin provides Tagged Image File Format (TIFF) image I/O.")),
+                        DJV_TEXT("This plugin provides Tagged Image File Format (TIFF) image I/O."),
                         fileExtensions,
                         context);
                     return out;

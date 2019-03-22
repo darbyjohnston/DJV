@@ -85,8 +85,6 @@ namespace djv
             std::shared_ptr<ValueObserver<bool> > increaseThumbnailSizeObserver;
             std::shared_ptr<ValueObserver<bool> > decreaseThumbnailSizeObserver;
             std::shared_ptr<ValueObserver<glm::ivec2> > thumbnailSizeSettingsObserver;
-
-            std::string getItemCountLabel(size_t, Context *);
         };
 
         void RecentFilesDialog::_init(Context * context)
@@ -292,12 +290,19 @@ namespace djv
             p.viewMenu->setText(_getText(DJV_TEXT("View")));
 
             auto context = getContext();
-            p.itemCountLabel->setText(p.getItemCountLabel(p.itemCount, context));
+            p.itemCountLabel->setText(_getItemCountLabel(p.itemCount));
 
             p.searchBox->setTooltip(_getText(DJV_TEXT("Recent files search tooltip")));
 
             p.thumbnailSizeLabel->setText(_getText(DJV_TEXT("Thumbnail Size")));
             p.thumbnailSizePopupWidget->setTooltip(_getText(DJV_TEXT("Recent files thumbnail size tooltip")));
+        }
+
+        std::string RecentFilesDialog::_getItemCountLabel(size_t size) const
+        {
+            std::stringstream ss;
+            ss << size << " " << _getText(DJV_TEXT("Items"));
+            return ss.str();
         }
 
         void RecentFilesDialog::_recentFilesUpdate()
@@ -314,14 +319,7 @@ namespace djv
             }
             p.itemView->setItems(recentFiles);
             p.itemCount = recentFiles.size();
-            p.itemCountLabel->setText(p.getItemCountLabel(p.itemCount, getContext()));
-        }
-
-        std::string RecentFilesDialog::Private::getItemCountLabel(size_t size, Context * context)
-        {
-            std::stringstream ss;
-            ss << size << " " << context->getText(DJV_TEXT("Items"));
-            return ss.str();
+            p.itemCountLabel->setText(_getItemCountLabel(p.itemCount));
         }
 
     } // namespace ViewLib

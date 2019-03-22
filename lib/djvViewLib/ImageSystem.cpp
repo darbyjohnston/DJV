@@ -115,12 +115,12 @@ namespace djv
         {
             DJV_PRIVATE_PTR();
             auto context = getContext();
-            p.actions["ColorManager"]->setTitle(context->getText(DJV_TEXT("Color Manager")));
-            p.actions["ColorManager"]->setTooltip(context->getText(DJV_TEXT("Color manager tooltip")));
-            p.actions["FrameStore"]->setTitle(context->getText(DJV_TEXT("Frame Store")));
-            p.actions["FrameStore"]->setTooltip(context->getText(DJV_TEXT("Frame store tooltip")));
+            p.actions["ColorManager"]->setTitle(_getText(DJV_TEXT("Color Manager")));
+            p.actions["ColorManager"]->setTooltip(_getText(DJV_TEXT("Color manager tooltip")));
+            p.actions["FrameStore"]->setTitle(_getText(DJV_TEXT("Frame Store")));
+            p.actions["FrameStore"]->setTooltip(_getText(DJV_TEXT("Frame store tooltip")));
 
-            p.menu->setText(context->getText(DJV_TEXT("Image")));
+            p.menu->setText(_getText(DJV_TEXT("Image")));
         }
 
     } // namespace ViewLib

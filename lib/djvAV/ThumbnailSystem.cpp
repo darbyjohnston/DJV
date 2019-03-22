@@ -35,6 +35,7 @@
 
 #include <djvCore/Cache.h>
 #include <djvCore/Context.h>
+#include <djvCore/LogSystem.h>
 #include <djvCore/OS.h>
 #include <djvCore/Timer.h>
 
@@ -209,7 +210,7 @@ namespace djv
             if (!p.glfwWindow)
             {
                 std::stringstream ss;
-                ss << context->getText(DJV_TEXT("The GLFW window cannot be created."));
+                ss << DJV_TEXT("The GLFW window cannot be created.");
                 throw std::runtime_error(ss.str());
             }
 
@@ -274,7 +275,10 @@ namespace djv
                 }
                 catch (const std::exception & e)
                 {
-                    context->log("djv::AV::ThumbnailSystem", e.what(), LogLevel::Error);
+                    if (auto logSystem = context->getSystemT<LogSystem>())
+                    {
+                        logSystem->log("djv::AV::ThumbnailSystem", e.what(), LogLevel::Error);
+                    }
                 }
             });
         }

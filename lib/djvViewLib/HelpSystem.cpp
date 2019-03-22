@@ -89,7 +89,7 @@ namespace djv
                     {
                         if (auto windowSystem = context->getSystemT<UI::EventSystem>())
                         {
-                            if (auto window = windowSystem->observeCurrentWindow()->get())
+                            if (auto window = windowSystem->getCurrentWindow().lock())
                             {
                                 if (!system->_p->aboutDialog)
                                 {
@@ -121,7 +121,7 @@ namespace djv
                     {
                         if (auto windowSystem = context->getSystemT<UI::EventSystem>())
                         {
-                            if (auto window = windowSystem->observeCurrentWindow()->get())
+                            if (auto window = windowSystem->getCurrentWindow().lock())
                             {
                                 if (!system->_p->systemLogDialog)
                                 {
@@ -194,14 +194,14 @@ namespace djv
         {
             DJV_PRIVATE_PTR();
             auto context = getContext();
-            p.actions["Documentation"]->setTitle(context->getText(DJV_TEXT("Documentation")));
-            p.actions["Documentation"]->setTooltip(context->getText(DJV_TEXT("Documentation tooltip")));
-            p.actions["About"]->setTitle(context->getText(DJV_TEXT("About")));
-            p.actions["About"]->setTooltip(context->getText(DJV_TEXT("About tooltip")));
-            p.actions["SystemLog"]->setTitle(context->getText(DJV_TEXT("System Log")));
-            p.actions["SystemLog"]->setTooltip(context->getText(DJV_TEXT("System log tooltip")));
+            p.actions["Documentation"]->setTitle(_getText(DJV_TEXT("Documentation")));
+            p.actions["Documentation"]->setTooltip(_getText(DJV_TEXT("Documentation tooltip")));
+            p.actions["About"]->setTitle(_getText(DJV_TEXT("About")));
+            p.actions["About"]->setTooltip(_getText(DJV_TEXT("About tooltip")));
+            p.actions["SystemLog"]->setTitle(_getText(DJV_TEXT("System Log")));
+            p.actions["SystemLog"]->setTooltip(_getText(DJV_TEXT("System log tooltip")));
 
-            p.menu->setText(context->getText(DJV_TEXT("Help")));
+            p.menu->setText(_getText(DJV_TEXT("Help")));
         }
 
     } // namespace ViewLib

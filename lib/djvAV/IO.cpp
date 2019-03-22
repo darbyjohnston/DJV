@@ -43,8 +43,10 @@
 
 #include <djvCore/Context.h>
 #include <djvCore/CoreSystem.h>
+#include <djvCore/LogSystem.h>
 #include <djvCore/Path.h>
 #include <djvCore/String.h>
+#include <djvCore/TextSystem.h>
 
 using namespace djv::Core;
 
@@ -160,14 +162,30 @@ namespace djv
                 _finished = value;
             }
 
+            void IIO::_init(
+                const std::string &            fileName,
+                const std::shared_ptr<Queue> & queue,
+                Context *                      context)
+            {
+                _context    = context;
+                _logSystem  = context->getSystemT<LogSystem>();
+                _textSystem = context->getSystemT<TextSystem>();
+                _fileName   = fileName;
+                _queue      = queue;
+            }
+
+            IIO::IIO()
+            {}
+
+            IIO::~IIO()
+            {}
+
             void IRead::_init(
                 const std::string &            fileName,
                 const std::shared_ptr<Queue> & queue,
                 Context *                      context)
             {
-                _context  = context;
-                _fileName = fileName;
-                _queue    = queue;
+                IIO::_init(fileName, queue, context);
             }
 
             IRead::IRead()
@@ -185,10 +203,8 @@ namespace djv
                 const std::shared_ptr<Queue> & queue,
                 Context *                      context)
             {
-                _context  = context;
-                _fileName = fileName;
-                _info     = info;
-                _queue    = queue;
+                IIO::_init(fileName, queue, context);
+                _info = info;
             }
 
             IWrite::IWrite()

@@ -262,18 +262,18 @@ namespace djv
         {
             DJV_PRIVATE_PTR();
             auto context = getContext();
-            p.actions["Magnifier"]->setTitle(context->getText(DJV_TEXT("Magnifier")));
-            p.actions["Magnifier"]->setTooltip(context->getText(DJV_TEXT("Magnifier tooltip")));
-            p.actions["ColorPicker"]->setTitle(context->getText(DJV_TEXT("Color Picker")));
-            p.actions["ColorPicker"]->setTooltip(context->getText(DJV_TEXT("Color picker tooltip")));
-            p.actions["Histogram"]->setTitle(context->getText(DJV_TEXT("Histogram")));
-            p.actions["Histogram"]->setTooltip(context->getText(DJV_TEXT("Histogram tooltip")));
-            p.actions["Information"]->setTitle(context->getText(DJV_TEXT("Information")));
-            p.actions["Information"]->setTooltip(context->getText(DJV_TEXT("Information tooltip")));
-            p.actions["Debug"]->setTitle(context->getText(DJV_TEXT("Debugging")));
-            p.actions["Debug"]->setTooltip(context->getText(DJV_TEXT("Debugging tooltip")));
+            p.actions["Magnifier"]->setTitle(_getText(DJV_TEXT("Magnifier")));
+            p.actions["Magnifier"]->setTooltip(_getText(DJV_TEXT("Magnifier tooltip")));
+            p.actions["ColorPicker"]->setTitle(_getText(DJV_TEXT("Color Picker")));
+            p.actions["ColorPicker"]->setTooltip(_getText(DJV_TEXT("Color picker tooltip")));
+            p.actions["Histogram"]->setTitle(_getText(DJV_TEXT("Histogram")));
+            p.actions["Histogram"]->setTooltip(_getText(DJV_TEXT("Histogram tooltip")));
+            p.actions["Information"]->setTitle(_getText(DJV_TEXT("Information")));
+            p.actions["Information"]->setTooltip(_getText(DJV_TEXT("Information tooltip")));
+            p.actions["Debug"]->setTitle(_getText(DJV_TEXT("Debugging")));
+            p.actions["Debug"]->setTooltip(_getText(DJV_TEXT("Debugging tooltip")));
 
-            p.menu->setText(context->getText(DJV_TEXT("Tools")));
+            p.menu->setText(_getText(DJV_TEXT("Tools")));
         }
 
     } // namespace ViewLib

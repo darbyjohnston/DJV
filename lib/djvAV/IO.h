@@ -46,6 +46,13 @@
 
 namespace djv
 {
+    namespace Core
+    {
+        class LogSystem;
+        class TextSystem;
+
+    } // namespace Core
+
     namespace AV
     {
         //! This namespace provides I/O functionality.
@@ -146,8 +153,33 @@ namespace djv
                 bool _finished = false;
             };
 
+            //! This class provides an interface for I/O.
+            class IIO : public std::enable_shared_from_this<IIO>
+            {
+                DJV_NON_COPYABLE(IIO);
+
+            protected:
+                void _init(
+                    const std::string & fileName,
+                    const std::shared_ptr<Queue> &,
+                    Core::Context *);
+                IIO();
+
+            public:
+                virtual ~IIO() = 0;
+
+                virtual bool isRunning() const = 0;
+
+            protected:
+                Core::Context * _context = nullptr;
+                std::shared_ptr<Core::LogSystem> _logSystem;
+                std::shared_ptr<Core::TextSystem> _textSystem;
+                std::string _fileName;
+                std::shared_ptr<Queue> _queue;
+            };
+
             //! This class provides an interface for reading.
-            class IRead : public std::enable_shared_from_this<IRead>
+            class IRead : public IIO
             {
                 DJV_NON_COPYABLE(IRead);
 
@@ -161,23 +193,16 @@ namespace djv
             public:
                 virtual ~IRead() = 0;
 
-                virtual bool isRunning() const = 0;
-
                 virtual std::future<Info> getInfo() = 0;
 
                 virtual void seek(Core::Time::Timestamp);
-
-            protected:
-                Core::Context * _context = nullptr;
-                std::string _fileName;
-                std::shared_ptr<Queue> _queue;
             };
 
             //! This class provides an interface for writing.
             //!
             //! \todo This class is derived from QThread for compatibility with Qt
             //! OpenGL contexts.
-            class IWrite : public std::enable_shared_from_this<IWrite>
+            class IWrite : public IIO
             {
                 DJV_NON_COPYABLE(IWrite);
 
@@ -192,13 +217,8 @@ namespace djv
             public:
                 virtual ~IWrite() = 0;
 
-                virtual bool isRunning() const = 0;
-
             protected:
-                Core::Context * _context = nullptr;
-                std::string _fileName;
                 Info _info;
-                std::shared_ptr<Queue> _queue;
             };
 
             //! This class provides an interface for I/O plugins.
@@ -245,6 +265,8 @@ namespace djv
 
             protected:
                 Core::Context * _context = nullptr;
+                std::shared_ptr<Core::LogSystem> _logSystem;
+                std::shared_ptr<Core::TextSystem> _textSystem;
                 std::string _pluginName;
                 std::string _pluginInfo;
                 std::set<std::string> _fileExtensions;

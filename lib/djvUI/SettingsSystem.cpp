@@ -37,6 +37,7 @@
 #include <djvCore/Error.h>
 #include <djvCore/FileIO.h>
 #include <djvCore/FileInfo.h>
+#include <djvCore/ResourceSystem.h>
 
 using namespace djv::Core;
 
@@ -52,7 +53,10 @@ namespace djv
 
                 addDependency(context->getSystemT<AV::AVSystem>());
 
-                _settingsPath = context->getPath(FileSystem::ResourcePath::SettingsFile);
+                if (auto resourceSystem = context->getSystemT<ResourceSystem>())
+                {
+                    _settingsPath = resourceSystem->getPath(FileSystem::ResourcePath::SettingsFile);
+                }
                 _readSettingsFile(_settingsPath, _json);
             }
 

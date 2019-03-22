@@ -38,6 +38,7 @@
 #include <djvAV/TriangleMesh.h>
 
 #include <djvCore/Context.h>
+#include <djvCore/ResourceSystem.h>
 
 #include <glm/gtc/matrix_transform.hpp>
 
@@ -66,7 +67,11 @@ namespace djv
             void Convert::_init(Context * context)
             {
                 DJV_PRIVATE_PTR();
-                const auto shaderPath = context->getPath(Core::FileSystem::ResourcePath::ShadersDirectory);
+                FileSystem::Path shaderPath;
+                if (auto resourceSystem = context->getSystemT<ResourceSystem>())
+                {
+                    shaderPath = resourceSystem->getPath(Core::FileSystem::ResourcePath::ShadersDirectory);
+                }
                 p.shader = AV::OpenGL::Shader::create(Render::Shader::create(
                     FileSystem::Path(shaderPath, "djvAVImageConvertVertex.glsl"),
                     FileSystem::Path(shaderPath, "djvAVImageConvertFragment.glsl")));

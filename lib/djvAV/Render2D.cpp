@@ -39,7 +39,9 @@
 #include <djvAV/TriangleMesh.h>
 
 #include <djvCore/Context.h>
+#include <djvCore/LogSystem.h>
 #include <djvCore/Range.h>
+#include <djvCore/ResourceSystem.h>
 #include <djvCore/Timer.h>
 
 #include <glm/gtc/matrix_transform.hpp>
@@ -125,7 +127,11 @@ namespace djv
                 {
                     Render(Context * context)
                     {
-                        const auto shaderPath = context->getPath(FileSystem::ResourcePath::ShadersDirectory);
+                        FileSystem::Path shaderPath;
+                        if (auto resourceSystem = context->getSystemT<ResourceSystem>())
+                        {
+                            shaderPath = resourceSystem->getPath(FileSystem::ResourcePath::ShadersDirectory);
+                        }
                         shader = OpenGL::Shader::create(Shader::create(
                             FileSystem::Path(shaderPath, "djvAVRender2DVertex.glsl"),
                             FileSystem::Path(shaderPath, "djvAVRender2DFragment.glsl")));
@@ -135,18 +141,24 @@ namespace djv
                         glGetIntegerv(GL_MAX_TEXTURE_IMAGE_UNITS, &maxTextureUnits);
                         glGetIntegerv(GL_MAX_TEXTURE_SIZE, &maxTextureSize);
                         {
-                            std::stringstream ss;
-                            ss << "Maximum OpenGL texture units: " << maxTextureUnits << "\n";
-                            ss << "Maximum OpenGL texture size: " << maxTextureSize;
-                            context->log("djv::AV::Render::Render2D", ss.str());
+                            if (auto logSystem = context->getSystemT<LogSystem>())
+                            {
+                                std::stringstream ss;
+                                ss << "Maximum OpenGL texture units: " << maxTextureUnits << "\n";
+                                ss << "Maximum OpenGL texture size: " << maxTextureSize;
+                                logSystem->log("djv::AV::Render::Render2D", ss.str());
+                            }
                         }
                         const size_t _textureAtlasCount = std::min(size_t(maxTextureUnits), textureAtlasCount);
                         const int _textureAtlasSize = std::min(maxTextureSize, int(textureAtlasSize));
                         {
-                            std::stringstream ss;
-                            ss << "Texture atlas count: " << _textureAtlasCount << "\n";
-                            ss << "Texture atlas size: " << _textureAtlasSize;
-                            context->log("djv::AV::Render::Render2D", ss.str());
+                            if (auto logSystem = context->getSystemT<LogSystem>())
+                            {
+                                std::stringstream ss;
+                                ss << "Texture atlas count: " << _textureAtlasCount << "\n";
+                                ss << "Texture atlas size: " << _textureAtlasSize;
+                                logSystem->log("djv::AV::Render::Render2D", ss.str());
+                            }
                         }
                         textureAtlas.reset(new TextureAtlas(
                             _textureAtlasCount,

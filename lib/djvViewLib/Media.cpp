@@ -32,6 +32,7 @@
 #include <djvAV/FFmpeg.h>
 
 #include <djvCore/Context.h>
+#include <djvCore/LogSystem.h>
 #include <djvCore/Timer.h>
 
 #include <condition_variable>
@@ -134,7 +135,7 @@ namespace djv
                     const auto timeout = Time::getMilliseconds(Time::TimerValue::Fast);
                     p.infoTimer->start(
                         timeout,
-                        [this, fileName](float)
+                        [this, fileName, context](float)
                     {
                         DJV_PRIVATE_PTR();
                         if (p.infoFuture.valid() &&
@@ -155,10 +156,11 @@ namespace djv
                                 p.audioInfo = audio[0];
                                 duration = std::max(duration, audio[0].duration);
                             }
+                            if (auto logSystem = context->getSystemT<LogSystem>())
                             {
                                 std::stringstream ss;
                                 ss << fileName << " duration: " << duration;
-                                p.context->log("djv::ViewLib::Media", ss.str());
+                                logSystem->log("djv::ViewLib::Media", ss.str());
                             }
                             p.info->setIfChanged(info);
                             p.duration->setIfChanged(duration);
@@ -198,9 +200,12 @@ namespace djv
                 }
                 catch (const std::exception & e)
                 {
-                    std::stringstream ss;
-                    ss << "djv::ViewLib::Media " << DJV_TEXT("cannot open") << " '" << fileName << "'. " << e.what();
-                    context->log("djv::ViewLib::Media", ss.str(), LogLevel::Error);
+                    if (auto logSystem = context->getSystemT<LogSystem>())
+                    {
+                        std::stringstream ss;
+                        ss << "djv::ViewLib::Media " << DJV_TEXT("cannot open") << " '" << fileName << "'. " << e.what();
+                        logSystem->log("djv::ViewLib::Media", ss.str(), LogLevel::Error);
+                    }
                 }
             }
         }

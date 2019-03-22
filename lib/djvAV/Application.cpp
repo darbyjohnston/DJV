@@ -106,15 +106,16 @@ namespace djv
             int glfwMinor = 0;
             int glfwRevision = 0;
             glfwGetVersion(&glfwMajor, &glfwMinor, &glfwRevision);
+            if (auto logSystem = getSystemT<LogSystem>())
             {
                 std::stringstream ss;
                 ss << "GLFW version: " << glfwMajor << "." << glfwMinor << "." << glfwRevision;
-                log("djv::AV::Application", ss.str());
+                logSystem->log("djv::AV::Application", ss.str());
             }
             if (!glfwInit())
             {
                 std::stringstream ss;
-                ss << getText(DJV_TEXT("GLFW cannot be initialized."));
+                ss << DJV_TEXT("GLFW cannot be initialized.");
                 throw std::runtime_error(ss.str());
             }
 
@@ -133,16 +134,17 @@ namespace djv
             if (!p.glfwWindow)
             {
                 std::stringstream ss;
-                ss << getText(DJV_TEXT("GLFW window cannot be created."));
+                ss << DJV_TEXT("GLFW window cannot be created.");
                 throw std::runtime_error(ss.str());
             }
+            if (auto logSystem = getSystemT<LogSystem>())
             {
                 int glMajor = glfwGetWindowAttrib(_p->glfwWindow, GLFW_CONTEXT_VERSION_MAJOR);
                 int glMinor = glfwGetWindowAttrib(_p->glfwWindow, GLFW_CONTEXT_VERSION_MINOR);
                 int glRevision = glfwGetWindowAttrib(_p->glfwWindow, GLFW_CONTEXT_REVISION);
                 std::stringstream ss;
                 ss << "OpenGL version: " << glMajor << "." << glMinor << "." << glRevision;
-                log("djv::AV::Application", ss.str());
+                logSystem->log("djv::AV::Application", ss.str());
             }
             glfwSetWindowUserPointer(p.glfwWindow, this);
             glfwMakeContextCurrent(p.glfwWindow);

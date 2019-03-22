@@ -121,14 +121,14 @@ namespace djv
         {
             DJV_PRIVATE_PTR();
             auto context = getContext();
-            p.actions["Navigation"]->setTitle(context->getText(DJV_TEXT("Navigation")));
-            p.actions["Navigation"]->setTooltip(context->getText(DJV_TEXT("Navigation tooltip")));
-            p.actions["Fit"]->setTitle(context->getText(DJV_TEXT("Fit To Image")));
-            p.actions["Fit"]->setTooltip(context->getText(DJV_TEXT("Fit to image tooltip")));
-            p.actions["HUD"]->setTitle(context->getText(DJV_TEXT("HUD")));
-            p.actions["HUD"]->setTooltip(context->getText(DJV_TEXT("HUD tooltip")));
+            p.actions["Navigation"]->setTitle(_getText(DJV_TEXT("Navigation")));
+            p.actions["Navigation"]->setTooltip(_getText(DJV_TEXT("Navigation tooltip")));
+            p.actions["Fit"]->setTitle(_getText(DJV_TEXT("Fit To Image")));
+            p.actions["Fit"]->setTooltip(_getText(DJV_TEXT("Fit to image tooltip")));
+            p.actions["HUD"]->setTitle(_getText(DJV_TEXT("HUD")));
+            p.actions["HUD"]->setTooltip(_getText(DJV_TEXT("HUD tooltip")));
 
-            p.menu->setText(context->getText(DJV_TEXT("View")));
+            p.menu->setText(_getText(DJV_TEXT("View")));
         }
 
     } // namespace ViewLib

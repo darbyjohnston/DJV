@@ -107,7 +107,7 @@ namespace djv
                 average /= static_cast<float>(_fpsSamples.size());
                 std::stringstream s;
                 s << "FPS: " << average;
-                log("djv::Core::Context", s.str());
+                _logSystem->log("djv::Core::Context", s.str());
             });
         }
 
@@ -124,26 +124,6 @@ namespace djv
         std::shared_ptr<IObject> Context::getRootObject() const
         {
             return _rootObject;
-        }
-
-        void Context::log(const std::string & prefix, const std::string & message, LogLevel level)
-        {
-            _logSystem->log(prefix, message, level);
-        }
-
-        FileSystem::Path Context::getPath(FileSystem::ResourcePath value) const
-        {
-            return _resourceSystem->getPath(value);
-        }
-
-        FileSystem::Path Context::getPath(FileSystem::ResourcePath value, const std::string & fileName) const
-        {
-            return FileSystem::Path(_resourceSystem->getPath(value), fileName);
-        }
-
-        std::string Context::getText(const std::string & id) const
-        {
-            return _textSystem->getText(id);
         }
 
         void Context::tick(float dt)

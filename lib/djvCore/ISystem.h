@@ -37,6 +37,8 @@ namespace djv
     {
         class Context;
         class LogSystem;
+        class ResourceSystem;
+        class TextSystem;
 
         class ISystemBase : public std::enable_shared_from_this<ISystemBase>
         {
@@ -73,9 +75,13 @@ namespace djv
 
         protected:
             void _log(const std::string & message, Core::LogLevel = Core::LogLevel::Information);
+            std::shared_ptr<ResourceSystem> _getResourceSystem() const;
+            const std::string & _getText(const std::string & id) const;
 
         private:
             static std::shared_ptr<LogSystem> _logSystem;
+            static std::shared_ptr<ResourceSystem> _resourceSystem;
+            static std::shared_ptr<TextSystem> _textSystem;
         };
 
     } // namespace Core

@@ -31,6 +31,7 @@
 
 #include <djvCore/Context.h>
 #include <djvCore/Error.h>
+#include <djvCore/LogSystem.h>
 #include <djvCore/Timer.h>
 
 #include <atomic>
@@ -100,18 +101,24 @@ namespace djv
                                     FILE_NOTIFY_CHANGE_LAST_WRITE);
                                 if (INVALID_HANDLE_VALUE == changeHandle)
                                 {
-                                    std::stringstream ss;
-                                    ss << context->getText(DJV_TEXT("Error finding the change notification for")) <<
-                                        " '" << path << "'. " << Error::getLastError();
-                                    context->log("djv::Core::FileSystem::DirectoryWatcher", ss.str(), LogLevel::Error);
+                                    if (auto logSystem = context->getSystemT<LogSystem>())
+                                    {
+                                        std::stringstream ss;
+                                        ss << DJV_TEXT("Error finding the change notification for") <<
+                                            " '" << path << "'. " << Error::getLastError();
+                                        logSystem->log("djv::Core::FileSystem::DirectoryWatcher", ss.str(), LogLevel::Error);
+                                    }
                                 }
                             }
                             catch (const std::exception & e)
                             {
-                                std::stringstream ss;
-                                ss << context->getText(DJV_TEXT("Error watching the directory")) <<
-                                    " '" << path << "'. " << e.what();
-                                context->log("djv::Core::FileSystem::DirectoryWatcher", ss.str(), LogLevel::Error);
+                                if (auto logSystem = context->getSystemT<LogSystem>())
+                                {
+                                    std::stringstream ss;
+                                    ss << DJV_TEXT("Error watching the directory") <<
+                                        " '" << path << "'. " << e.what();
+                                    logSystem->log("djv::Core::FileSystem::DirectoryWatcher", ss.str(), LogLevel::Error);
+                                }
                             }
                         }
 

@@ -33,6 +33,7 @@
 #include <djvCore/Context.h>
 #include <djvCore/CoreSystem.h>
 #include <djvCore/FileInfo.h>
+#include <djvCore/ResourceSystem.h>
 #include <djvCore/Timer.h>
 #include <djvCore/Vector.h>
 
@@ -260,7 +261,7 @@ namespace djv
 
                 addDependency(context->getSystemT<CoreSystem>());
 
-                p.fontPath = context->getPath(FileSystem::ResourcePath::FontsDirectory);
+                p.fontPath = _getResourceSystem()->getPath(FileSystem::ResourcePath::FontsDirectory);
                 p.glyphCache.setMax(glyphCacheMax);
 
                 p.statsTimer = Time::Timer::create(context);

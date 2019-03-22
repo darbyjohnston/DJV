@@ -98,7 +98,7 @@ namespace djv
                     if (magic[0] != 'P')
                     {
                         std::stringstream s;
-                        s << _context->getText(DJV_TEXT("The PPM file")) <<
+                        s << DJV_TEXT("The PPM file") <<
                             " '" << fileName << "' " << DJV_TEXT("cannot be opened") << ".";
                         throw std::runtime_error(s.str());
                     }
@@ -111,7 +111,7 @@ namespace djv
                     default:
                     {
                         std::stringstream s;
-                        s << _context->getText(DJV_TEXT("The PPM file")) <<
+                        s << DJV_TEXT("The PPM file") <<
                             " '" << fileName << "' " << DJV_TEXT("cannot be opened") << ".";
                         throw std::runtime_error(s.str());
                     }
@@ -139,7 +139,7 @@ namespace djv
                     if (Image::Type::None == imageType)
                     {
                         std::stringstream s;
-                        s << _context->getText(DJV_TEXT("The PPM file")) <<
+                        s << DJV_TEXT("The PPM file") <<
                             " '" << fileName << "' " << DJV_TEXT("cannot be opened") << ".";
                         throw std::runtime_error(s.str());
                     }

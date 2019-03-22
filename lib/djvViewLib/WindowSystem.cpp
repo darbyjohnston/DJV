@@ -139,12 +139,12 @@ namespace djv
         {
             DJV_PRIVATE_PTR();
             auto context = getContext();
-            p.actions["Fit"]->setTitle(context->getText(DJV_TEXT("Fit To Image")));
-            p.actions["Fit"]->setTooltip(context->getText(DJV_TEXT("Fit to image tooltip")));
-            p.actions["FullScreen"]->setTitle(context->getText(DJV_TEXT("Full Screen")));
-            p.actions["FullScreen"]->setTooltip(context->getText(DJV_TEXT("Full screen tooltip")));
+            p.actions["Fit"]->setTitle(_getText(DJV_TEXT("Fit To Image")));
+            p.actions["Fit"]->setTooltip(_getText(DJV_TEXT("Fit to image tooltip")));
+            p.actions["FullScreen"]->setTitle(_getText(DJV_TEXT("Full Screen")));
+            p.actions["FullScreen"]->setTooltip(_getText(DJV_TEXT("Full screen tooltip")));
 
-            p.menu->setText(context->getText(DJV_TEXT("Window")));
+            p.menu->setText(_getText(DJV_TEXT("Window")));
         }
 
         void WindowSystem::Private::setFullScreen(bool value, Context * context)

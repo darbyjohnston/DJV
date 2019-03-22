@@ -168,7 +168,7 @@ namespace djv
                         if (!pngScanline(f.png, out->getData(y)))
                         {
                             std::stringstream s;
-                            s << _context->getText(DJV_TEXT("The PNG file")) <<
+                            s << DJV_TEXT("The PNG file") <<
                                 " '" << fileName << "' " << DJV_TEXT("cannot be read") << ". " << f.pngError.msg;
                             throw std::runtime_error(s.str());
                         }
@@ -187,7 +187,7 @@ namespace djv
                     if (!f.png)
                     {
                         std::stringstream s;
-                        s << _context->getText(DJV_TEXT("The PNG file")) <<
+                        s << DJV_TEXT("The PNG file") <<
                             " '" << fileName << "' " << DJV_TEXT("cannot be opened") << ". " << f.pngError.msg;
                         throw std::runtime_error(s.str());
                     }
@@ -196,14 +196,14 @@ namespace djv
                     if (!f.f)
                     {
                         std::stringstream s;
-                        s << _context->getText(DJV_TEXT("The PNG file")) <<
+                        s << DJV_TEXT("The PNG file") <<
                             " '" << fileName << "' " << DJV_TEXT("cannot be opened") << ".";
                         throw std::runtime_error(s.str());
                     }
                     if (!pngOpen(f.f, f.png, &f.pngInfo, &f.pngInfoEnd))
                     {
                         std::stringstream s;
-                        s << _context->getText(DJV_TEXT("The PNG file")) <<
+                        s << DJV_TEXT("The PNG file") <<
                             " '" << fileName << "' " << DJV_TEXT("cannot be opened") << ". " << f.pngError.msg;
                         throw std::runtime_error(s.str());
                     }
@@ -229,7 +229,7 @@ namespace djv
                     if (Image::Type::None == imageType)
                     {
                         std::stringstream s;
-                        s << _context->getText(DJV_TEXT("The PNG file")) <<
+                        s << DJV_TEXT("The PNG file") <<
                             " '" << fileName << "' " << DJV_TEXT("cannot be opened") << ".";
                         throw std::runtime_error(s.str());
                     }
