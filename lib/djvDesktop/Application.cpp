@@ -53,7 +53,7 @@ namespace djv
         namespace
         {
             //! \todo [1.0 S] Should this be configurable?
-            const size_t frameRate = 6000;
+            const size_t frameRate = 60;
         
         } // namespace
 
