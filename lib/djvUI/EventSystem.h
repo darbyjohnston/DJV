@@ -53,8 +53,6 @@ namespace djv
         public:
             virtual ~EventSystem() = 0;
 
-            //std::shared_ptr<Core::IListSubject<std::shared_ptr<Window> > > observeWindows() const;
-            //std::shared_ptr<Core::IValueSubject<std::shared_ptr<Window> > > observeCurrentWindow() const;
             const std::vector<std::weak_ptr<Window> > & getWindows() const;
             const std::weak_ptr<Window> getCurrentWindow() const;
 
