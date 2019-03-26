@@ -30,6 +30,7 @@
 #include <djvDesktop/Application.h>
 
 #include <djvUIComponents/FileBrowser.h>
+#include <djvUIComponents/UIComponentsSystem.h>
 
 #include <djvUI/Window.h>
 
@@ -44,6 +45,8 @@ int main(int argc, char ** argv)
     try
     {
         auto app = Desktop::Application::create(argc, argv);
+
+        auto uiComponentsSystem = UI::UIComponentsSystem::create(app.get());
 
         auto fileBrowser = UI::FileBrowser::Widget::create(app.get());
         fileBrowser->setPath(Core::FileSystem::Path("."));

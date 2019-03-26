@@ -1,7 +1,7 @@
 set(source FileBrowserDesktopExample.cpp)
 
 add_executable(FileBrowserDesktopExample ${header} ${source})
-target_link_libraries(FileBrowserDesktopExample djvDesktop)
+target_link_libraries(FileBrowserDesktopExample djvUIComponents djvDesktop)
 set_target_properties(
     FileBrowserDesktopExample
     PROPERTIES
