@@ -45,49 +45,49 @@ namespace djv
             //! This struct provides information about mirroring the image.
             struct Mirror
             {
-                inline Mirror();
-                inline Mirror(bool x, bool y);
+                constexpr Mirror();
+                constexpr Mirror(bool x, bool y);
 
                 bool x = false;
                 bool y = false;
 
-                inline bool operator == (const Mirror &) const;
-                inline bool operator != (const Mirror &) const;
+                constexpr bool operator == (const Mirror &) const;
+                constexpr bool operator != (const Mirror &) const;
             };
 
             //! This struct provides information about the data layout.
             struct Layout
             {
                 inline Layout();
-                inline Layout(const Mirror &, gl::GLint alignment = 1, Core::Memory::Endian = Core::Memory::getEndian());
+                constexpr Layout(const Mirror &, gl::GLint alignment = 1, Core::Memory::Endian = Core::Memory::getEndian());
 
                 Mirror mirror;
                 gl::GLint alignment = 1;
                 Core::Memory::Endian endian = Core::Memory::getEndian();
 
-                inline bool operator == (const Layout &) const;
-                inline bool operator != (const Layout &) const;
+                constexpr bool operator == (const Layout &) const;
+                constexpr bool operator != (const Layout &) const;
             };
 
             //! This struct provides image data information.
             struct Info
             {
                 inline Info();
-                inline Info(const glm::ivec2 &, Type, const Layout & = Layout());
-                inline Info(int width, int height, Type, const Layout & = Layout());
+                constexpr Info(const glm::ivec2 &, Type, const Layout & = Layout());
+                constexpr Info(int width, int height, Type, const Layout & = Layout());
 
                 std::string name;
                 glm::ivec2 size = glm::ivec2(0, 0);
                 Type type;
                 Layout layout;
 
-                inline float getAspectRatio() const;
-                inline gl::GLenum getGLFormat() const;
-                inline gl::GLenum getGLType() const;
-                inline bool isValid() const;
-                inline size_t getPixelByteCount() const;
-                inline size_t getScanlineByteCount() const;
-                inline size_t getDataByteCount() const;
+                constexpr float getAspectRatio() const;
+                constexpr gl::GLenum getGLFormat() const;
+                constexpr gl::GLenum getGLType() const;
+                constexpr bool isValid() const;
+                constexpr size_t getPixelByteCount() const;
+                constexpr size_t getScanlineByteCount() const;
+                constexpr size_t getDataByteCount() const;
 
                 inline bool operator == (const Info &) const;
                 inline bool operator != (const Info &) const;

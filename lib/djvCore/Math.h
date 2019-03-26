@@ -50,7 +50,7 @@ namespace djv
 
             //! Get the absolute value.
             template<typename T>
-            inline T abs(T);
+            constexpr T abs(T);
 
             //! Get the anti-logarithm.
             template<typename T>
@@ -58,11 +58,11 @@ namespace djv
 
             //! Step function.
             template<typename T>
-            inline T step(T value, T step);
+            constexpr T step(T value, T step);
 
             //! Pulse function.
             template<typename T>
-            inline T pulse(T value, T min, T max);
+            constexpr T pulse(T value, T min, T max);
 
             //! Bias function.
             template<typename T>
@@ -74,15 +74,15 @@ namespace djv
 
             //! Clamp a number between two values.
             template<typename T>
-            inline T clamp(const T &, const T & _min, const T & _max);
+            constexpr T clamp(const T &, const T & _min, const T & _max);
 
             //! Linear interpolation.
             template<typename T, typename U>
-            inline T lerp(U value, T min, T max);
+            constexpr T lerp(U value, T min, T max);
 
             //! Smooth step function.
             template<typename T>
-            inline T smoothStep(T value, T min, T max);
+            constexpr T smoothStep(T value, T min, T max);
 
             //! Soft clip function.
             //!
@@ -130,16 +130,16 @@ namespace djv
 
             //! Get the value after the decimal.
             template<typename T>
-            inline T getFraction(T);
+            constexpr T getFraction(T);
 
             //! Find the closest power of two.
             inline int toPow2(int);
 
             //! Convert readians to degrees.
-            inline float rad2deg(float);
+            constexpr float rad2deg(float);
 
             //! Convert degrees to radians.
-            inline float deg2rad(float);
+            constexpr float deg2rad(float);
 
             ///@{
 
@@ -147,7 +147,7 @@ namespace djv
             ///@{
 
             //! Are the signs of both numbers the same?
-            inline bool haveSameSign(float, float);
+            constexpr bool haveSameSign(float, float);
 
             ///@}
 

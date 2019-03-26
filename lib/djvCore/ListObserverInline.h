@@ -162,7 +162,6 @@ namespace djv
             if (_value.size())
             {
                 _value.clear();
-
                 for (const auto & s : IListSubject<T>::_observers)
                 {
                     if (auto observer = s.lock())

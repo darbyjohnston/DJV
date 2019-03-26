@@ -36,17 +36,17 @@ namespace djv
         namespace Range
         {
             template<typename T>
-            inline tRange<T>::tRange()
+            constexpr tRange<T>::tRange()
             {}
 
             template<typename T>
-            inline tRange<T>::tRange(T minMax) :
+            constexpr tRange<T>::tRange(T minMax) :
                 min(minMax),
                 max(minMax)
             {}
 
             template<typename T>
-            inline tRange<T>::tRange(T min, T max) :
+            constexpr tRange<T>::tRange(T min, T max) :
                 min(min),
                 max(max)
             {}
@@ -56,13 +56,13 @@ namespace djv
             {}
 
             template<typename T>
-            inline T tRange<T>::getSize() const
+            constexpr T tRange<T>::getSize() const
             {
                 return max - min;
             }
 
             template<>
-            inline int tRange<int>::getSize() const
+            constexpr int tRange<int>::getSize() const
             {
                 return max - min + 1;
             }
@@ -80,13 +80,13 @@ namespace djv
             }
 
             template<typename T>
-            inline bool tRange<T>::contains(T value) const
+            constexpr bool tRange<T>::contains(T value) const
             {
                 return value >= min && value <= max;
             }
 
             template<typename T>
-            inline bool tRange<T>::intersects(const tRange<T> & value) const
+            constexpr bool tRange<T>::intersects(const tRange<T> & value) const
             {
                 return !(
                     value.max < min ||
@@ -114,19 +114,19 @@ namespace djv
             }
 
             template<typename T>
-            inline bool tRange<T>::operator == (const tRange<T> & value) const
+            constexpr bool tRange<T>::operator == (const tRange<T> & value) const
             {
                 return min == value.min && max == value.max;
             }
 
             template<typename T>
-            inline bool tRange<T>::operator != (const tRange<T> & value) const
+            constexpr bool tRange<T>::operator != (const tRange<T> & value) const
             {
                 return !(*this == value);
             }
 
             template<typename T>
-            inline bool tRange<T>::operator < (const tRange<T> & value) const
+            constexpr bool tRange<T>::operator < (const tRange<T> & value) const
             {
                 return min < value.min;
             }

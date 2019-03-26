@@ -36,7 +36,7 @@ namespace djv
     {
         namespace Image
         {
-            inline bool U10_S_MSB::operator == (const U10_S_MSB & value) const
+            constexpr bool U10_S_MSB::operator == (const U10_S_MSB & value) const
             {
                 return
                     value.r == r &&
@@ -44,12 +44,12 @@ namespace djv
                     value.b == b;
             }
 
-            inline bool U10_S_MSB::operator != (const U10_S_MSB & value) const
+            constexpr bool U10_S_MSB::operator != (const U10_S_MSB & value) const
             {
                 return !(*this == value);
             }
 
-            inline bool U10_S_LSB::operator == (const U10_S_LSB & value) const
+            constexpr bool U10_S_LSB::operator == (const U10_S_LSB & value) const
             {
                 return
                     value.r == r &&
@@ -57,14 +57,14 @@ namespace djv
                     value.b == b;
             }
 
-            inline bool U10_S_LSB::operator != (const U10_S_LSB & value) const
+            constexpr bool U10_S_LSB::operator != (const U10_S_LSB & value) const
             {
                 return !(*this == value);
             }
 
-            inline ChannelType getChannelType(Type value)
+            constexpr ChannelType getChannelType(Type value)
             {
-                const std::vector<ChannelType> data =
+                const ChannelType data[] =
                 {
                     ChannelType::None,
                     
@@ -93,13 +93,13 @@ namespace djv
                     ChannelType::RGBA,
                     ChannelType::RGBA
                 };
-                DJV_ASSERT(data.size() == static_cast<size_t>(Type::Count));
+                DJV_ASSERT(sizeof(data) / sizeof(data[0]) == static_cast<size_t>(Type::Count));
                 return data[static_cast<size_t>(value)];
             }
 
-            inline size_t getChannelCount(Type value)
+            constexpr size_t getChannelCount(Type value)
             {
-                const std::vector<size_t> data =
+                const size_t data[] =
                 {
                     0,
                     1, 1, 1, 1, 1,
@@ -107,13 +107,13 @@ namespace djv
                     3, 3, 3, 3, 3, 3,
                     4, 4, 4, 4, 4
                 };
-                DJV_ASSERT(data.size() == static_cast<size_t>(Type::Count));
+                DJV_ASSERT(sizeof(data) / sizeof(data[0]) == static_cast<size_t>(Type::Count));
                 return data[static_cast<size_t>(value)];
             }
 
-            inline DataType getDataType(Type value)
+            constexpr DataType getDataType(Type value)
             {
-                std::vector<DataType> data =
+                const DataType data[] =
                 {
                     DataType::None,
 
@@ -142,13 +142,13 @@ namespace djv
                     DataType::F16,
                     DataType::F32
                 };
-                DJV_ASSERT(data.size() == static_cast<size_t>(Type::Count));
+                DJV_ASSERT(sizeof(data) / sizeof(data[0]) == static_cast<size_t>(Type::Count));
                 return data[static_cast<size_t>(value)];
             }
 
-            inline size_t getBitDepth(Type value)
+            constexpr size_t getBitDepth(Type value)
             {
-                const std::vector<size_t> data =
+                const size_t data[] =
                 {
                     0,
                     8, 16, 32, 16, 32,
@@ -156,13 +156,13 @@ namespace djv
                     8, 10, 16, 32, 16, 32,
                     8, 16, 32, 16, 32
                 };
-                DJV_ASSERT(data.size() == static_cast<size_t>(Type::Count));
+                DJV_ASSERT(sizeof(data) / sizeof(data[0]) == static_cast<size_t>(Type::Count));
                 return data[static_cast<size_t>(value)];
             }
 
-            inline size_t getByteCount(Type value)
+            constexpr size_t getByteCount(Type value)
             {
-                const std::vector<size_t> data =
+                const size_t data[] =
                 {
                     0,
                     1, 2, 4, 2, 4,
@@ -170,13 +170,13 @@ namespace djv
                     3, 4, 6, 12, 6, 12,
                     4, 8, 16, 8, 16
                 };
-                DJV_ASSERT(data.size() == static_cast<size_t>(Type::Count));
+                DJV_ASSERT(sizeof(data) / sizeof(data[0]) == static_cast<size_t>(Type::Count));
                 return data[static_cast<size_t>(value)];
             }
 
-            inline bool isIntType(Type value)
+            constexpr bool isIntType(Type value)
             {
-                const std::vector<bool> data =
+                const bool data[] =
                 {
                     false,
                     true, true, true, false, false,
@@ -184,13 +184,13 @@ namespace djv
                     true, true, true, true, false, false,
                     true, true, true, false, false,
                 };
-                DJV_ASSERT(data.size() == static_cast<size_t>(Type::Count));
+                DJV_ASSERT(sizeof(data) / sizeof(data[0]) == static_cast<size_t>(Type::Count));
                 return data[static_cast<size_t>(value)];
             }
 
-            inline bool isFloatType(Type value)
+            constexpr bool isFloatType(Type value)
             {
-                const std::vector<bool> data =
+                const bool data[] =
                 {
                     false,
                     false, false, false, true, true,
@@ -198,14 +198,14 @@ namespace djv
                     false, false, false, false, true, true,
                     false, false, false, true, true
                 };
-                DJV_ASSERT(data.size() == static_cast<size_t>(Type::Count));
+                DJV_ASSERT(sizeof(data) / sizeof(data[0]) == static_cast<size_t>(Type::Count));
                 return data[static_cast<size_t>(value)];
             }
 
             inline Core::IntRange getIntRange(Type value)
             {
                 using namespace Core;
-                const std::vector<IntRange> data =
+                const IntRange data[] =
                 {
                     IntRange(0, 0),
 
@@ -234,14 +234,14 @@ namespace djv
                     IntRange(0, 0),
                     IntRange(0, 0),
                 };
-                DJV_ASSERT(data.size() == static_cast<size_t>(Type::Count));
+                DJV_ASSERT(sizeof(data) / sizeof(data[0]) == static_cast<size_t>(Type::Count));
                 return data[static_cast<size_t>(value)];
             }
 
             inline Core::FloatRange getFloatRange(Type value)
             {
                 using namespace Core;
-                const std::vector<FloatRange> data =
+                const FloatRange data[] =
                 {
                     FloatRange(0.f, 0.f),
 
@@ -270,7 +270,7 @@ namespace djv
                     FloatRange(F16Min, F16Max),
                     FloatRange(F32Min, F32Max),
                 };
-                DJV_ASSERT(data.size() == static_cast<size_t>(Type::Count));
+                DJV_ASSERT(sizeof(data) / sizeof(data[0]) == static_cast<size_t>(Type::Count));
                 return data[static_cast<size_t>(value)];
             }
 
@@ -351,10 +351,10 @@ namespace djv
                 return Type::None;
             }
 
-            inline gl::GLenum getGLFormat(Type value)
+            constexpr gl::GLenum getGLFormat(Type value)
             {
                 using namespace gl;
-                const std::vector<GLenum> data =
+                const GLenum data[] =
                 {
                     GL_NONE,
 
@@ -383,14 +383,14 @@ namespace djv
                     GL_RGBA,
                     GL_RGBA
                 };
-                DJV_ASSERT(data.size() == static_cast<size_t>(Type::Count));
+                DJV_ASSERT(sizeof(data) / sizeof(data[0]) == static_cast<size_t>(Type::Count));
                 return data[static_cast<size_t>(value)];
             }
 
-            inline gl::GLenum getGLType(Type value)
+            constexpr gl::GLenum getGLType(Type value)
             {
                 using namespace gl;
-                const std::vector<GLenum> data =
+                const GLenum data[] =
                 {
                     GL_NONE,
 
@@ -419,7 +419,7 @@ namespace djv
                     GL_HALF_FLOAT,
                     GL_FLOAT
                 };
-                DJV_ASSERT(data.size() == static_cast<size_t>(Type::Count));
+                DJV_ASSERT(sizeof(data) / sizeof(data[0]) == static_cast<size_t>(Type::Count));
                 return data[static_cast<size_t>(value)];
             }
 

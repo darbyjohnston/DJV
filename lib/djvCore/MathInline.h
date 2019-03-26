@@ -39,7 +39,7 @@ namespace djv
         namespace Math
         {
             template<class T>
-            inline T abs(T value)
+            constexpr T abs(T value)
             {
                 return value < T(0) ? -value : value;
             }
@@ -57,13 +57,13 @@ namespace djv
             }
 
             template<class T>
-            inline T step(T value, T step)
+            constexpr T step(T value, T step)
             {
                 return value <= step ? value : step;
             }
 
             template<class T>
-            inline T pulse(T value, T min, T max)
+            constexpr T pulse(T value, T min, T max)
             {
                 return step(value, max) - step(value, min);
             }
@@ -129,23 +129,23 @@ namespace djv
             }
 
             template<typename T>
-            inline T clamp(const T & v, const T & _min, const T & _max)
+            constexpr T clamp(const T & v, const T & _min, const T & _max)
             {
                 return std::max(std::min(v, _max), _min);
             }
 
             template<class T, class U>
-            inline T lerp(U value, T min, T max)
+            constexpr T lerp(U value, T min, T max)
             {
                 return min + T(value * (max - min));
             }
 
-            inline float smoothStep(float value, float min, float max)
+            constexpr float smoothStep(float value, float min, float max)
             {
                 return lerp(value * value * (3.f - (2.f * value)), min, max);
             }
 
-            inline double smoothStep(double value, double min, double max)
+            constexpr double smoothStep(double value, double min, double max)
             {
                 return lerp(value * value * (3. - (2. * value)), min, max);
             }
@@ -183,12 +183,12 @@ namespace djv
                 return value[getRandom(0, static_cast<int>(value.size()) - 1)];
             }
 
-            inline float getFraction(float value)
+            constexpr float getFraction(float value)
             {
                 return value - static_cast<int>(value);
             }
 
-            inline double getFraction(double value)
+            constexpr double getFraction(double value)
             {
                 return value - static_cast<int>(value);
             }
@@ -201,17 +201,17 @@ namespace djv
                 return 1 << i;
             }
 
-            inline float rad2deg(float value)
+            constexpr float rad2deg(float value)
             {
                 return value / pi2 * 360.f;
             }
 
-            inline float deg2rad(float value)
+            constexpr float deg2rad(float value)
             {
                 return value / 360.f * pi2;
             }
 
-            inline bool haveSameSign(float a, float b)
+            constexpr bool haveSameSign(float a, float b)
             {
                 return ((a > 0.f && b > 0.f) || (a < 0.f && b < 0.f));
             }

@@ -44,13 +44,13 @@ namespace djv
             template<typename T, glm::precision P = glm::defaultp>
             struct tRay3
             {
-                inline tRay3();
-                inline tRay3(const glm::tvec3<T, P> & start, const glm::tvec3<T, P> & end);
+                constexpr tRay3();
+                constexpr tRay3(const glm::tvec3<T, P> & start, const glm::tvec3<T, P> & end);
 
                 glm::tvec3<T, P> start, end;
 
-                inline bool operator == (const tRay3<T, P> &) const;
-                inline bool operator != (const tRay3<T, P> &) const;
+                constexpr bool operator == (const tRay3<T, P> &) const;
+                constexpr bool operator != (const tRay3<T, P> &) const;
             };
 
             typedef tRay3<float, glm::lowp>    Ray3f_lowp;

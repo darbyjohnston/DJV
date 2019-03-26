@@ -33,20 +33,20 @@ namespace djv
     {
         namespace Image
         {
-            inline Mirror::Mirror()
+            constexpr Mirror::Mirror()
             {}
 
-            inline Mirror::Mirror(bool x, bool y) :
+            constexpr Mirror::Mirror(bool x, bool y) :
                 x(x),
                 y(y)
             {}
 
-            inline bool Mirror::operator == (const Mirror & other) const
+            constexpr bool Mirror::operator == (const Mirror & other) const
             {
                 return other.x == x && other.y == y;
             }
 
-            inline bool Mirror::operator != (const Mirror & other) const
+            constexpr bool Mirror::operator != (const Mirror & other) const
             {
                 return !(other == *this);
             }
@@ -54,18 +54,18 @@ namespace djv
             inline Layout::Layout()
             {}
 
-            inline Layout::Layout(const Mirror & mirror, gl::GLint alignment, Core::Memory::Endian endian) :
+            constexpr Layout::Layout(const Mirror & mirror, gl::GLint alignment, Core::Memory::Endian endian) :
                 mirror(mirror),
                 alignment(alignment),
                 endian(endian)
             {}
 
-            inline bool Layout::operator == (const Layout & other) const
+            constexpr bool Layout::operator == (const Layout & other) const
             {
                 return other.mirror == mirror && other.alignment == alignment && other.endian == endian;
             }
 
-            inline bool Layout::operator != (const Layout & other) const
+            constexpr bool Layout::operator != (const Layout & other) const
             {
                 return !(other == *this);
             }
@@ -73,44 +73,44 @@ namespace djv
             inline Info::Info()
             {}
 
-            inline Info::Info(const glm::ivec2 & size, Type type, const Layout & layout) :
+            constexpr Info::Info(const glm::ivec2 & size, Type type, const Layout & layout) :
                 size(size),
                 type(type),
                 layout(layout)
             {}
 
-            inline Info::Info(int width, int height, Type type, const Layout & layout) :
+            constexpr Info::Info(int width, int height, Type type, const Layout & layout) :
                 size(width, height),
                 type(type),
                 layout(layout)
             {}
 
-            inline float Info::getAspectRatio() const
+            constexpr float Info::getAspectRatio() const
             {
                 return size.y > 0 ? (size.x / static_cast<float>(size.y)) : 1.f;
             }
 
-            inline gl::GLenum Info::getGLFormat() const
+            constexpr gl::GLenum Info::getGLFormat() const
             {
                 return AV::Image::getGLFormat(type);
             }
 
-            inline gl::GLenum Info::getGLType() const
+            constexpr gl::GLenum Info::getGLType() const
             {
                 return AV::Image::getGLType(type);
             }
 
-            inline bool Info::isValid() const
+            constexpr bool Info::isValid() const
             {
                 return size.x > 0 && size.y > 0 && type != Type::None;
             }
 
-            inline size_t Info::getPixelByteCount() const
+            constexpr size_t Info::getPixelByteCount() const
             {
                 return AV::Image::getByteCount(type);
             }
 
-            inline size_t Info::getScanlineByteCount() const
+            constexpr size_t Info::getScanlineByteCount() const
             {
                 const size_t byteCount = size.x * AV::Image::getByteCount(type);
                 const size_t q = byteCount / layout.alignment * layout.alignment;
@@ -118,7 +118,7 @@ namespace djv
                 return q + (r ? layout.alignment : 0);
             }
 
-            inline size_t Info::getDataByteCount() const
+            constexpr size_t Info::getDataByteCount() const
             {
                 return size.y * getScanlineByteCount();
             }

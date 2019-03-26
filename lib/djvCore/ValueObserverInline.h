@@ -127,7 +127,6 @@ namespace djv
         inline void ValueSubject<T>::setAlways(const T & value)
         {
             _value = value;
-
             for (const auto & s : IValueSubject<T>::_observers)
             {
                 if (auto observer = s.lock())
@@ -142,9 +141,7 @@ namespace djv
         {
             if (value == _value)
                 return false;
-
             _value = value;
-
             for (const auto & s : IValueSubject<T>::_observers)
             {
                 if (auto observer = s.lock())
@@ -152,7 +149,6 @@ namespace djv
                     observer->doCallback(_value);
                 }
             }
-            
             return true;
         }
 

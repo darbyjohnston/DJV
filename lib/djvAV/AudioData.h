@@ -40,14 +40,14 @@ namespace djv
             //! This struct provides audio data information.
             struct DataInfo
             {
-                inline DataInfo();
-                DataInfo(size_t channelCount, Type, size_t sampleRate);
+                constexpr DataInfo();
+                constexpr DataInfo(size_t channelCount, Type, size_t sampleRate);
 
                 size_t channelCount = 0;
                 Type   type = Audio::Type::None;
                 size_t sampleRate = 0;
                 
-                inline bool isValid() const;
+                constexpr bool isValid() const;
 
                 bool operator == (const DataInfo &) const;
                 bool operator != (const DataInfo &) const;

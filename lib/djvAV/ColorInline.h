@@ -33,7 +33,7 @@ namespace djv
     {
         namespace Image
         {
-            inline Color::Color() :
+            constexpr Color::Color() :
                 _type(Type::None)
             {}
 
@@ -71,7 +71,7 @@ namespace djv
                 return _type;
             }
 
-            inline bool Color::isValid() const
+            constexpr bool Color::isValid() const
             {
                 return _type != Type::None;
             }

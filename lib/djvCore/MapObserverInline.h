@@ -131,7 +131,6 @@ namespace djv
         inline void MapSubject<T, U>::setAlways(const std::map<T, U> & value)
         {
             _value = value;
-
             for (const auto & s : IMapSubject<T, U>::_observers)
             {
                 if (auto observer = s.lock())
@@ -146,9 +145,7 @@ namespace djv
         {
             if (value == _value)
                 return false;
-
             _value = value;
-
             for (const auto & s : IMapSubject<T, U>::_observers)
             {
                 if (auto observer = s.lock())
@@ -156,7 +153,6 @@ namespace djv
                     observer->doCallback(_value);
                 }
             }
-            
             return true;
         }
 
@@ -166,7 +162,6 @@ namespace djv
             if (_value.size())
             {
                 _value.clear();
-
                 for (const auto & s : IMapSubject<T, U>::_observers)
                 {
                     if (auto observer = s.lock())
@@ -197,9 +192,7 @@ namespace djv
             const auto i = _value.find(key);
             if (i != _value.end() && i->second == value)
                 return;
-
             _value[key] = value;
-
             for (const auto & s : IMapSubject<T, U>::_observers)
             {
                 if (auto observer = s.lock())

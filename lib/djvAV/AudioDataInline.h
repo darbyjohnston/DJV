@@ -33,10 +33,17 @@ namespace djv
     {
         namespace Audio
         {
-            inline DataInfo::DataInfo()
+            constexpr DataInfo::DataInfo()
             {}
 
-            inline bool DataInfo::isValid() const
+            constexpr DataInfo::DataInfo(size_t channelCount, Type type, size_t sampleRate) :
+                channelCount(channelCount),
+                type(type),
+                sampleRate(sampleRate)
+            {}
+
+
+            constexpr bool DataInfo::isValid() const
             {
                 return type != Type::None;
             }

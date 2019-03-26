@@ -42,9 +42,9 @@ namespace djv
             template<typename T>
             struct tRange
             {
-                inline tRange();
-                inline tRange(T minMax);
-                inline tRange(T min, T max);
+                constexpr tRange();
+                constexpr tRange(T minMax);
+                constexpr tRange(T min, T max);
                 virtual inline ~tRange();
 
                 //! \name Range Components
@@ -58,12 +58,12 @@ namespace djv
                 //! \name Utilities
                 ///@{
 
-                inline T getSize() const;
+                constexpr T getSize() const;
                 inline void zero();
 
-                inline bool contains(T) const;
+                constexpr bool contains(T) const;
 
-                inline bool intersects(const tRange<T> &) const;
+                constexpr bool intersects(const tRange<T> &) const;
 
                 inline void expand(T);
                 inline void expand(const tRange<T> &);
@@ -72,9 +72,9 @@ namespace djv
 
                 ///@}
 
-                inline bool operator == (const tRange<T> &) const;
-                inline bool operator != (const tRange<T> &) const;
-                inline bool operator  < (const tRange<T> &) const;
+                constexpr bool operator == (const tRange<T> &) const;
+                constexpr bool operator != (const tRange<T> &) const;
+                constexpr bool operator  < (const tRange<T> &) const;
             };
 
         } // namespace Range
