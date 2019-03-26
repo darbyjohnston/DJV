@@ -67,12 +67,6 @@ namespace djv
         bool Widget::_resizeRequest = true;
         bool Widget::_redrawRequest = true;
 
-        std::shared_ptr<AV::Font::System>     Widget::_fontSystem;
-        std::shared_ptr<AV::Render::Render2D> Widget::_render;
-        std::shared_ptr<UISystem>             Widget::_uiSystem;
-        std::shared_ptr<IconSystem>           Widget::_iconSystem;
-        std::shared_ptr<Style::Style>         Widget::_style;
-
         void Widget::_init(Core::Context * context)
         {
             IObject::_init(context);
@@ -83,44 +77,18 @@ namespace djv
             context->log("djv::UI::Widget", String::Format("widget count = %%1").arg(globalWidgetCount));*/
             ++globalWidgetCount;
 
-            if (!_fontSystem)
-            {
-                _fontSystem = context->getSystemT<AV::Font::System>();
-            }
-            if (!_render)
-            {
-                _render = context->getSystemT<AV::Render::Render2D>();
-            }
-            if (!_uiSystem)
-            {
-                _uiSystem = context->getSystemT<UISystem>();
-            }
-            if (!_iconSystem)
-            {
-                _iconSystem = context->getSystemT<IconSystem>();
-            }
-            if (!_style)
-            {
-                _style = _uiSystem->getStyle();
-            }
+            _fontSystem = context->getSystemT<AV::Font::System>();
+            _render = context->getSystemT<AV::Render::Render2D>();
+            _uiSystem = context->getSystemT<UISystem>();
+            _iconSystem = context->getSystemT<IconSystem>();
+            _style = _uiSystem->getStyle();
         }
 
         Widget::~Widget()
         {
             --globalWidgetCount;
-            if (!globalWidgetCount)
-            {
-                _style.reset();
-                _iconSystem.reset();
-                _uiSystem.reset();
-                _render.reset();
-                _fontSystem.reset();
-            }
-            /*if (auto context = getContext().lock())
-            {
-              context->log("djv::UI::Widget", "Widget::~Widget");
-              context->log("djv::UI::Widget", String::Format("widget count = %%1").arg(globalWidgetCount));
-            }*/
+            /*context->log("djv::UI::Widget", "Widget::~Widget");
+            context->log("djv::UI::Widget", String::Format("widget count = %%1").arg(globalWidgetCount));*/
         }
         
         std::shared_ptr<Widget> Widget::create(Context * context)

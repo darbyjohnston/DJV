@@ -64,26 +64,13 @@ namespace djv
 
         } // namespace
 
-        std::shared_ptr<LogSystem>      ISystem::_logSystem;
-        std::shared_ptr<ResourceSystem> ISystem::_resourceSystem;
-        std::shared_ptr<TextSystem>     ISystem::_textSystem;
-
         void ISystem::_init(const std::string & name, Context * context)
         {
             ISystemBase::_init(name, context);
+            _logSystem = context->getSystemT<LogSystem>();
+            _resourceSystem = context->getSystemT<ResourceSystem>();
+            _textSystem = context->getSystemT<TextSystem>();
             ++systemCount;
-            if (!_logSystem)
-            {
-                _logSystem = context->getSystemT<LogSystem>();
-            }
-            if (!_resourceSystem)
-            {
-                _resourceSystem = context->getSystemT<ResourceSystem>();
-            }
-            if (!_textSystem)
-            {
-                _textSystem = context->getSystemT<TextSystem>();
-            }
             {
                 std::stringstream s;
                 s << name << " starting...";
@@ -99,12 +86,6 @@ namespace djv
                 _log(s.str());
             }
             --systemCount;
-            if (!systemCount)
-            {
-                _textSystem.reset();
-                _resourceSystem.reset();
-                _logSystem.reset();
-            }
         }
 
         void ISystem::_log(const std::string & message, LogLevel level)

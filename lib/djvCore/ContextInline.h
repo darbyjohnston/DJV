@@ -58,8 +58,7 @@ namespace djv
         inline std::vector<std::shared_ptr<T> > Context::getSystemsT() const
         {
             std::vector<std::shared_ptr<T> > out;
-            const auto systems = _systems;
-            for (const auto & i : systems)
+            for (const auto & i : _systems)
             {
                 if (auto system = std::dynamic_pointer_cast<T>(i))
                 {
@@ -72,8 +71,7 @@ namespace djv
         template<typename T>
         inline std::shared_ptr<T> Context::getSystemT() const
         {
-            const auto systems = _systems;
-            for (const auto & i : systems)
+            for (const auto & i : _systems)
             {
                 if (auto system = std::dynamic_pointer_cast<T>(i))
                 {

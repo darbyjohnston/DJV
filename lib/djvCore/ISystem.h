@@ -79,9 +79,9 @@ namespace djv
             const std::string & _getText(const std::string & id) const;
 
         private:
-            static std::shared_ptr<LogSystem> _logSystem;
-            static std::shared_ptr<ResourceSystem> _resourceSystem;
-            static std::shared_ptr<TextSystem> _textSystem;
+            std::shared_ptr<LogSystem> _logSystem;
+            std::shared_ptr<ResourceSystem> _resourceSystem;
+            std::shared_ptr<TextSystem> _textSystem;
         };
 
     } // namespace Core

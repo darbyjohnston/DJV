@@ -56,6 +56,8 @@ namespace djv
 
                 void tick(float dt) override;
 
+                void _objectCreated(const std::shared_ptr<IObject> &);
+
             protected:
                 virtual void _initObject(const std::shared_ptr<IObject> &);
 
@@ -72,7 +74,6 @@ namespace djv
             private:
                 DJV_PRIVATE();
 
-                void _objectCreated(const std::shared_ptr<IObject> &);
                 void _localeRecursive(const std::shared_ptr<IObject> &, Locale &);
                 void _updateRecursive(const std::shared_ptr<IObject> &, Update &);
                 void _setHover(const std::shared_ptr<IObject> &);

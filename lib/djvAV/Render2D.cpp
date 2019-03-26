@@ -93,8 +93,8 @@ namespace djv
                 {
                     BBox2f       bbox;
                     BBox2f       clipRect;
-                    ImageFormat  imageFormat;
-                    ColorMode    colorMode;
+                    ImageFormat  imageFormat = ImageFormat::RGBA;
+                    ColorMode    colorMode   = ColorMode::SolidColor;
                     Image::Color color;
                     ImageCache   imageCache  = ImageCache::Atlas;
                     size_t       atlasIndex  = 0;
