@@ -67,7 +67,6 @@ protected:
 
 private:
     std::shared_ptr<UI::FlatButton> _closeButton;
-    std::shared_ptr<UI::VerticalLayout> _layout;
     std::shared_ptr<UI::Border> _border;
     std::function<void(void)> _closedCallback;
 };
@@ -97,16 +96,16 @@ void MDIWidget::_init(const std::string & title, Core::Context * context)
     auto scrollWidget = UI::ScrollWidget::create(UI::ScrollType::Vertical, context);
     scrollWidget->addChild(textBlock);
 
-    _layout = UI::VerticalLayout::create(context);
-    _layout->setSpacing(UI::MetricsRole::None);
-    _layout->setBackgroundRole(UI::ColorRole::Background);
-    _layout->addChild(titleBar);
-    _layout->addChild(scrollWidget);
-    _layout->setStretch(scrollWidget, UI::RowStretch::Expand);
+    auto layout = UI::VerticalLayout::create(context);
+    layout->setSpacing(UI::MetricsRole::None);
+    layout->setBackgroundRole(UI::ColorRole::Background);
+    layout->addChild(titleBar);
+    layout->addChild(scrollWidget);
+    layout->setStretch(scrollWidget, UI::RowStretch::Expand);
 
     _border = UI::Border::create(context);
     _border->setMargin(UI::MetricsRole::Handle);
-    _border->addChild(_layout);
+    _border->addChild(layout);
     addChild(_border);
 }
 
@@ -122,7 +121,7 @@ std::shared_ptr<MDIWidget> MDIWidget::create(const std::string & title, Core::Co
 
 void MDIWidget::setClosedCallback(const std::function<void(void)> & callback)
 {
-    _closeButton->setClickedCallback(callback);
+    //_closeButton->setClickedCallback(callback);
 }
 
 float MDIWidget::getHeightForWidth(float value) const

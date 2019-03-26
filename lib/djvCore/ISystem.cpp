@@ -38,8 +38,16 @@ namespace djv
 {
     namespace Core
     {
+        namespace
+        {
+            size_t systemCount = 0;
+
+        } // namespace
+
         void ISystemBase::_init(const std::string & name, Context * context)
         {
+            ++systemCount;
+
             _name = name;
             _context = context;
             context->_addSystem(std::dynamic_pointer_cast<ISystemBase>(shared_from_this()));
@@ -51,6 +59,8 @@ namespace djv
             {
                 _dependencies.pop_back();
             }
+
+            --systemCount;
         }
 
         void ISystemBase::addDependency(const std::shared_ptr<ISystemBase> & value)
@@ -58,19 +68,12 @@ namespace djv
             _dependencies.push_back(value);
         }
 
-        namespace
-        {
-            size_t systemCount = 0;
-
-        } // namespace
-
         void ISystem::_init(const std::string & name, Context * context)
         {
             ISystemBase::_init(name, context);
             _logSystem = context->getSystemT<LogSystem>();
             _resourceSystem = context->getSystemT<ResourceSystem>();
             _textSystem = context->getSystemT<TextSystem>();
-            ++systemCount;
             {
                 std::stringstream s;
                 s << name << " starting...";
@@ -85,7 +88,6 @@ namespace djv
                 s << getSystemName() << " exiting...";
                 _log(s.str());
             }
-            --systemCount;
         }
 
         void ISystem::_log(const std::string & message, LogLevel level)

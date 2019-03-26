@@ -49,7 +49,7 @@ namespace djv
         //! The current locale is determined in this order:
         //! - DJV_LANG environment variable
         //! - std::locale("")
-        class TextSystem : public ISystem
+        class TextSystem : public ISystemBase
         {
             DJV_NON_COPYABLE(TextSystem);
 

@@ -106,7 +106,7 @@ namespace djv
 
             struct DialogSystem::Private
             {
-                std::shared_ptr<Dialog> dialog;
+                std::weak_ptr<Dialog> dialog;
             };
 
             void DialogSystem::_init(Context * context)
@@ -136,7 +136,7 @@ namespace djv
             {
                 auto context = getContext();
                 DJV_PRIVATE_PTR();
-                if (!p.dialog)
+                if (!p.dialog.lock())
                 {
                     p.dialog = Dialog::create(context);
                 }
@@ -144,18 +144,21 @@ namespace djv
                 {
                     if (auto window = windowSystem->getCurrentWindow().lock())
                     {
-                        p.dialog->setTitle(title);
-
-                        window->addChild(p.dialog);
-
-                        auto weak = std::weak_ptr<DialogSystem>(std::dynamic_pointer_cast<DialogSystem>(shared_from_this()));
-                        p.dialog->setCallback(
-                            [callback](const Core::FileSystem::FileInfo & value)
+                        if (auto dialog = p.dialog.lock())
                         {
-                            callback(value);
-                        });
+                            dialog->setTitle(title);
 
-                        p.dialog->show();
+                            window->addChild(dialog);
+
+                            auto weak = std::weak_ptr<DialogSystem>(std::dynamic_pointer_cast<DialogSystem>(shared_from_this()));
+                            dialog->setCallback(
+                                [callback](const Core::FileSystem::FileInfo & value)
+                            {
+                                callback(value);
+                            });
+
+                            dialog->show();
+                        }
                     }
                 }
             }

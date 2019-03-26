@@ -51,18 +51,6 @@ namespace djv
 {
     namespace Core
     {
-        class Context::RootObject : public IObject
-        {
-        public:
-            RootObject()
-            {
-                setClassName("djv::Core::Context::RootObject");
-            }
-
-            ~RootObject() override
-            {}
-        };
-
         void Context::_init(int & argc, char ** argv)
         {
             for (int i = 0; i < argc; ++i)
@@ -77,8 +65,6 @@ namespace djv
             _logSystem = LogSystem::create(_resourceSystem->getPath(FileSystem::ResourcePath::LogFile), this);
             _textSystem = TextSystem::create(_resourceSystem->getPath(FileSystem::ResourcePath::TextDirectory), this);
             CoreSystem::create(argv0, this);
-
-            _rootObject = std::shared_ptr<RootObject>(new RootObject);
 
             {
                 std::stringstream s;
@@ -119,11 +105,6 @@ namespace djv
             auto out = std::unique_ptr<Context>(new Context);
             out->_init(argc, argv);
             return std::move(out);
-        }
-
-        std::shared_ptr<IObject> Context::getRootObject() const
-        {
-            return _rootObject;
         }
 
         void Context::tick(float dt)

@@ -67,14 +67,16 @@ namespace djv
 
             p.toolbar = UI::ToolBar::create(context);
             p.toolbar->setBackgroundRole(UI::ColorRole::Overlay);
-            auto playbackSystem = context->getSystemT<PlaybackSystem>();
-            auto actions = playbackSystem->getActions();
-            p.toolbar->addAction(actions["Reverse"]);
-            p.toolbar->addAction(actions["Forward"]);
-            p.toolbar->addAction(actions["InPoint"]);
-            p.toolbar->addAction(actions["PrevFrame"]);
-            p.toolbar->addAction(actions["NextFrame"]);
-            p.toolbar->addAction(actions["OutPoint"]);
+            if (auto playbackSystem = context->getSystemT<PlaybackSystem>())
+            {
+                auto actions = playbackSystem->getActions();
+                p.toolbar->addAction(actions["Reverse"]);
+                p.toolbar->addAction(actions["Forward"]);
+                p.toolbar->addAction(actions["InPoint"]);
+                p.toolbar->addAction(actions["PrevFrame"]);
+                p.toolbar->addAction(actions["NextFrame"]);
+                p.toolbar->addAction(actions["OutPoint"]);
+            }
             p.toolbar->addChild(p.timelineSlider);
             p.toolbar->setStretch(p.timelineSlider, UI::RowStretch::Expand);
 

@@ -127,7 +127,7 @@ namespace djv
                     AV::Image::Info(_p->resize, AV::Image::Type::RGBA_U8),
                     AV::OpenGL::OffscreenType::MultiSample);
             }
-            auto rootObject = getContext()->getRootObject();
+            auto rootObject = getRootObject();
             if (_p->offscreenBuffer)
             {
                 bool resizeRequest = _p->resizeRequest;
@@ -205,7 +205,7 @@ namespace djv
             UI::EventSystem::_initObject(object);
             if (auto window = std::dynamic_pointer_cast<UI::Window>(object))
             {
-                getContext()->getRootObject()->addChild(window);
+                getRootObject()->addChild(window);
             }
         }
 
@@ -245,7 +245,7 @@ namespace djv
 
         void EventSystem::_hover(Event::PointerMove & event, std::shared_ptr<IObject> & hover)
         {
-            auto rootObject = getContext()->getRootObject();
+            auto rootObject = getRootObject();
             for (const auto & i : rootObject->getChildrenRecursiveT<UI::Window>())
             {
                 _hover(i, event, hover);

@@ -54,7 +54,7 @@ namespace djv
 
                 DJV_PRIVATE_PTR();
                 p.layout = Grid::create(context);
-                addChild(p.layout);
+                Widget::addChild(p.layout);
             }
 
             Form::Form() :

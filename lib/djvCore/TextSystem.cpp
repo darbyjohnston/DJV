@@ -50,6 +50,8 @@ namespace djv
     {
         struct TextSystem::Private
         {
+            std::shared_ptr<LogSystem> logSystem;
+
             std::vector<std::string> locales;
             std::string currentLocale;
             bool currentLocaleChanged = false;
@@ -89,12 +91,14 @@ namespace djv
 
         void TextSystem::_init(const FileSystem::Path & path, Context * context)
         {
-            ISystem::_init("djv::Core::TextSystem", context);
+            ISystemBase::_init("djv::Core::TextSystem", context);
 
-            addDependency(context->getSystemT<LogSystem>());
+            auto logSystem = context->getSystemT<LogSystem>();
+            addDependency(logSystem);
             addDependency(context->getSystemT<Time::TimerSystem>());
 
             DJV_PRIVATE_PTR();
+            p.logSystem = logSystem;
             p.currentLocaleSubject = ValueSubject<std::string>::create();
 
             p.thread = std::thread(
@@ -117,7 +121,7 @@ namespace djv
                     {
                         std::locale locale("");
                         s << "Current std::locale: " << locale.name();
-                        _log(s.str());
+                        p.logSystem->log(getSystemName(), s.str());
                         std::string cppLocale = parseLocale(locale.name());
                         if (cppLocale.size())
                         {
@@ -126,12 +130,12 @@ namespace djv
                     }
                     catch (const std::exception & e)
                     {
-                        _log(e.what(), LogLevel::Error);
+                        p.logSystem->log(getSystemName(), e.what(), LogLevel::Error);
                     }
                 }
                 s.str(std::string());
                 s << "Current locale: " << p.currentLocale;
-                _log(s.str());
+                p.logSystem->log(getSystemName(), s.str());
 
                 // Find the .text files.
                 FileSystem::DirectoryListOptions options;
@@ -158,7 +162,7 @@ namespace djv
                 }
                 s.str(std::string());
                 s << "Found locales: " << String::join(p.locales, ", ");
-                _log(s.str());
+                p.logSystem->log(getSystemName(), s.str());
 
                 // Read the .text files.
                 _readText(path);
@@ -262,12 +266,12 @@ namespace djv
         {
             DJV_PRIVATE_PTR();
             p.text.clear();
-            _log("Reading text files:");
+            p.logSystem->log(getSystemName(), "Reading text files:");
             FileSystem::DirectoryListOptions options;
             options.filter = "\\.text$";
             for (const auto & i : FileSystem::FileInfo::directoryList(path, options))
             {
-                _log(String::indent(1) + i.getPath().get());
+                p.logSystem->log(getSystemName(), String::indent(1) + i.getPath().get());
                 try
                 {
                     const auto & path = i.getPath();
@@ -329,7 +333,7 @@ namespace djv
                 }
                 catch (const std::exception & e)
                 {
-                    _log(e.what(), LogLevel::Error);
+                    p.logSystem->log(getSystemName(), e.what(), LogLevel::Error);
                 }
             }
         }

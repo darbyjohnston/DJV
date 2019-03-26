@@ -76,9 +76,6 @@ namespace djv
             //! Get the average FPS.
             inline float getFpsAverage() const;
 
-            //! Get the root object.
-            std::shared_ptr<IObject> getRootObject() const;
-
             //! \name Systems
             ///@{
 
@@ -108,8 +105,6 @@ namespace djv
             std::shared_ptr<LogSystem> _logSystem;
             std::shared_ptr<TextSystem> _textSystem;
             std::vector<std::shared_ptr<ISystemBase> > _systems;
-            class RootObject;
-            std::shared_ptr<RootObject> _rootObject;
             std::chrono::time_point<std::chrono::system_clock> _fpsTime = std::chrono::system_clock::now();
             std::list<float> _fpsSamples;
             float _fpsAverage = 0.f;

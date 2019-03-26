@@ -149,10 +149,14 @@ namespace djv
                     }
                 });
 
+                auto weakBorder = std::weak_ptr<Border>(border);
                 p.lineEditBase->setFocusCallback(
-                    [border](bool value)
+                    [weakBorder](bool value)
                 {
-                    border->setBorderColorRole(value ? ColorRole::Checked : ColorRole::Border);
+                    if (auto border = weakBorder.lock())
+                    {
+                        border->setBorderColorRole(value ? ColorRole::Checked : ColorRole::Border);
+                    }
                 });
             }
 

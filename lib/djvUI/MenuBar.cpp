@@ -157,27 +157,35 @@ namespace djv
 
                 auto weak = std::weak_ptr<MenuBar>(std::dynamic_pointer_cast<MenuBar>(shared_from_this()));
                 button->setCheckedCallback(
-                    [weak, menu, button](bool value)
+                    [weak, menu](bool value)
                 {
                     if (auto widget = weak.lock())
                     {
                         widget->_p->closeMenus();
                         if (value)
                         {
-                            menu->popup(button, widget->_p->menuLayout);
+                            const auto i = widget->_p->menusToButtons.find(menu);
+                            if (i != widget->_p->menusToButtons.end())
+                            {
+                                menu->popup(i->second, widget->_p->menuLayout);
+                            }
                         }
                     }
                 });
 
+                auto weakMenu = std::weak_ptr<Menu>(std::dynamic_pointer_cast<Menu>(menu));
                 menu->setCloseCallback(
-                    [weak, menu]
+                    [weak, weakMenu]
                 {
                     if (auto widget = weak.lock())
                     {
-                        const auto i = widget->_p->menusToButtons.find(menu);
-                        if (i != widget->_p->menusToButtons.end())
+                        if (auto menu = weakMenu.lock())
                         {
-                            i->second->setChecked(false);
+                            const auto i = widget->_p->menusToButtons.find(menu);
+                            if (i != widget->_p->menusToButtons.end())
+                            {
+                                i->second->setChecked(false);
+                            }
                         }
                     }
                 });

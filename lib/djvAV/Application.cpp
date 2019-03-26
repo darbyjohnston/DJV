@@ -176,7 +176,6 @@ namespace djv
         Application::~Application()
         {
             DJV_PRIVATE_PTR();
-            auto rootObject = getRootObject();
             while (p.systems.size())
             {
                 p.systems.pop_back();

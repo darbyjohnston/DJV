@@ -37,15 +37,42 @@
 
 #include <map>
 
+using namespace djv::Core;
+
 namespace djv
 {
     namespace Core
     {
         namespace Event
         {
+            namespace
+            {
+                class RootObject : public IObject
+                {
+                protected:
+                    RootObject()
+                    {
+                        setClassName("djv::Core::Context::RootObject");
+                    }
+
+                public:
+                    ~RootObject() override
+                    {}
+
+                    static std::shared_ptr<RootObject> create(Context * context)
+                    {
+                        auto out = std::shared_ptr<RootObject>(new RootObject);
+                        out->_init(context);
+                        return out;
+                    }
+                };
+
+            } // namespace
+
             struct IEventSystem::Private
             {
                 std::vector<std::shared_ptr<IObject> > objectsCreated;
+                std::shared_ptr<RootObject> rootObject;
                 std::weak_ptr<TextSystem> textSystem;
                 float t = 0.f;
                 Event::PointerInfo pointerInfo;
@@ -64,6 +91,8 @@ namespace djv
                 ISystem::_init(systemName, context);
 
                 DJV_PRIVATE_PTR();
+
+                p.rootObject = RootObject::create(context);
 
                 p.textSystem = context->getSystemT<TextSystem>();
                 if (auto textSystem = p.textSystem.lock())
@@ -137,16 +166,15 @@ namespace djv
                 }
                 objectsCreated.clear();
 
-                auto rootObject = getContext()->getRootObject();
                 if (p.localeInit)
                 {
                     p.localeInit = false;
                     Event::Locale localeEvent(p.locale);
-                    _localeRecursive(rootObject, localeEvent);
+                    _localeRecursive(p.rootObject, localeEvent);
                 }
 
                 Update updateEvent(p.t, dt);
-                _updateRecursive(rootObject, updateEvent);
+                _updateRecursive(p.rootObject, updateEvent);
 
                 Event::PointerMove moveEvent(_p->pointerInfo);
                 if (p.grab)
@@ -217,6 +245,11 @@ namespace djv
                 DJV_PRIVATE_PTR();
                 Event::Locale localeEvent(p.locale);
                 object->event(localeEvent);
+            }
+
+            std::shared_ptr<IObject> IEventSystem::getRootObject() const
+            {
+                return _p->rootObject;
             }
 
             void IEventSystem::_pointerMove(const Event::PointerInfo & info)
