@@ -67,7 +67,7 @@ namespace djv
 
                 Count = 3
             };
-            const std::string & getFilePermissionsLabel(int);
+            std::string getFilePermissionsLabel(int);
 
             //! This enumeration provides the directory listing sort options.
             enum class DirectoryListSort

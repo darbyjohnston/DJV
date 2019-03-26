@@ -39,9 +39,9 @@ namespace djv
         {
             inline Endian getEndian()
             {
-                static const int tmp = 1;
-                static const uint8_t * const p = reinterpret_cast<const uint8_t *>(&tmp);
-                static const Endian endian = *p ? Endian::LSB : Endian::MSB;
+                const int tmp = 1;
+                const uint8_t * const p = reinterpret_cast<const uint8_t *>(&tmp);
+                const Endian endian = *p ? Endian::LSB : Endian::MSB;
                 return endian;
             }
             

@@ -49,9 +49,9 @@ namespace djv
                 {
                     auto out = std::shared_ptr<Plugin>(new Plugin);
                     out->_init(
-                        pluginName,
+                        "PNG",
                         DJV_TEXT("This plugin provides Portable Network Graphics (PNG) image I/O."),
-                        fileExtensions,
+                        { ".png" },
                         context);
                     return out;
                 }

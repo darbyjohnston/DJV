@@ -57,8 +57,8 @@ namespace djv
         namespace
         {
             //! \todo [2.0 S] Should this be configurable?
-            static const float tooltipTimeout   =  .5f;
-            static const float tooltipHideDelta = 1.f;
+            const float tooltipTimeout   =  .5f;
+            const float tooltipHideDelta = 1.f;
 
             size_t globalWidgetCount = 0;
 

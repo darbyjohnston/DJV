@@ -41,7 +41,7 @@ namespace djv
         {
             size_t getValue(TimerValue value)
             {
-                static const std::vector<size_t> data =
+                const std::vector<size_t> data =
                 {
                     10000,
                     1000,

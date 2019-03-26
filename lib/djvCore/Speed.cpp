@@ -108,7 +108,7 @@ namespace djv
 
             void Speed::_set(FPS fps)
             {
-                static const int scale[] =
+                const int scale[] =
                 {
                     1,
                     3,
@@ -128,7 +128,7 @@ namespace djv
                     120
                 };
                 DJV_ASSERT(static_cast<size_t>(FPS::Count) == sizeof(scale) / sizeof(scale[0]));
-                static const int duration[] =
+                const int duration[] =
                 {
                     1,
                     1,

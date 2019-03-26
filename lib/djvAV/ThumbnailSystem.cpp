@@ -255,11 +255,10 @@ namespace djv
                                 [this]
                             {
                                 DJV_PRIVATE_PTR();
-                                return
-                                    p.infoRequests.size() || p.imageRequests.size();
+                                return p.infoRequests.size() || p.imageRequests.size();
                             }))
                             {
-                                infoRequests  |= p.infoRequests.size()  > 0;
+                                infoRequests  |= p.infoRequests.size () > 0;
                                 imageRequests |= p.imageRequests.size() > 0;
                             }
                         }

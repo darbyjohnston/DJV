@@ -215,23 +215,23 @@ namespace djv
                 return out;
             }
 
-            const std::string & getAlphabetLower()
+            std::string getAlphabetLower()
             {
-                static const std::string alphabet = "abcdefghijklmnopqrstuvwxyz";
+                const std::string alphabet = "abcdefghijklmnopqrstuvwxyz";
                 return alphabet;
             }
 
-            const std::string & getAlphabetUpper()
+            std::string getAlphabetUpper()
             {
-                static const std::string alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+                const std::string alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
                 return alphabet;
             }
 
-            const std::vector<std::string> & getTestNames()
+            std::vector<std::string> getTestNames()
             {
                 // Reference:
                 // - http://calfish.ucdavis.edu/species/
-                static const std::vector<std::string> fishes =
+                const std::vector<std::string> fishes =
                 {
                     DJV_TEXT("Amargosa Canyon Speckled Dace"),
                     DJV_TEXT("Amargosa River Pupfish"),
@@ -435,17 +435,17 @@ namespace djv
                 return out;
             }
 
-            const std::string & getRandomName()
+            std::string getRandomName()
             {
                 const std::vector<std::string> & data = getTestNames();
                 return Math::getRandom(data);
             }
 
-            const std::vector<std::string> & getTestSentences()
+            std::vector<std::string> getTestSentences()
             {
                 // Reference:
                 // - http://calfish.ucdavis.edu/species/?uid=1&ds=698
-                static const std::vector<std::string> fishes =
+                const std::vector<std::string> fishes =
                 {
                     DJV_TEXT("Speckled Dace are capable of living in an array of habitats from small springs or streams to large rivers and deep lakes."),
                     DJV_TEXT("Speckled Dace prefer habitat that includes clear, well oxygenated water, with movement due to a current or waves."),
@@ -462,16 +462,16 @@ namespace djv
                 return fishes;
             }
 
-            const std::string & getRandomSentence()
+            std::string getRandomSentence()
             {
-                const std::vector<std::string> & data = getTestSentences();
+                const std::vector<std::string> data = getTestSentences();
                 const size_t size = data.size();
                 return data[Math::getRandom(static_cast<int>(size) - 1)];
             }
 
             std::vector<std::string> getRandomSentences(size_t value)
             {
-                const std::vector<std::string> & data = getTestSentences();
+                const std::vector<std::string> data = getTestSentences();
                 std::vector<std::string> out;
                 for (size_t i = 0; i < value; ++i)
                 {
@@ -482,7 +482,7 @@ namespace djv
 
             std::string getRandomText(size_t sentenceCount)
             {
-                const std::vector<std::string> & data = getTestSentences();
+                const std::vector<std::string> data = getTestSentences();
                 std::vector<std::string> out;
                 size_t i = 0;
                 while (i < sentenceCount)

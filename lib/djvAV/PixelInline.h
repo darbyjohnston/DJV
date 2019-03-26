@@ -64,7 +64,7 @@ namespace djv
 
             inline ChannelType getChannelType(Type value)
             {
-                static const std::vector<ChannelType> data =
+                const std::vector<ChannelType> data =
                 {
                     ChannelType::None,
                     
@@ -99,7 +99,7 @@ namespace djv
 
             inline size_t getChannelCount(Type value)
             {
-                static const std::vector<size_t> data =
+                const std::vector<size_t> data =
                 {
                     0,
                     1, 1, 1, 1, 1,
@@ -113,7 +113,7 @@ namespace djv
 
             inline DataType getDataType(Type value)
             {
-                static const std::vector<DataType> data =
+                std::vector<DataType> data =
                 {
                     DataType::None,
 
@@ -148,7 +148,7 @@ namespace djv
 
             inline size_t getBitDepth(Type value)
             {
-                static const std::vector<size_t> data =
+                const std::vector<size_t> data =
                 {
                     0,
                     8, 16, 32, 16, 32,
@@ -162,7 +162,7 @@ namespace djv
 
             inline size_t getByteCount(Type value)
             {
-                static const std::vector<size_t> data =
+                const std::vector<size_t> data =
                 {
                     0,
                     1, 2, 4, 2, 4,
@@ -176,7 +176,7 @@ namespace djv
 
             inline bool isIntType(Type value)
             {
-                static const std::vector<bool> data =
+                const std::vector<bool> data =
                 {
                     false,
                     true, true, true, false, false,
@@ -190,7 +190,7 @@ namespace djv
 
             inline bool isFloatType(Type value)
             {
-                static const std::vector<bool> data =
+                const std::vector<bool> data =
                 {
                     false,
                     false, false, false, true, true,
@@ -205,7 +205,7 @@ namespace djv
             inline Core::IntRange getIntRange(Type value)
             {
                 using namespace Core;
-                static const std::vector<IntRange> data =
+                const std::vector<IntRange> data =
                 {
                     IntRange(0, 0),
 
@@ -241,7 +241,7 @@ namespace djv
             inline Core::FloatRange getFloatRange(Type value)
             {
                 using namespace Core;
-                static const std::vector<FloatRange> data =
+                const std::vector<FloatRange> data =
                 {
                     FloatRange(0.f, 0.f),
 
@@ -354,7 +354,7 @@ namespace djv
             inline gl::GLenum getGLFormat(Type value)
             {
                 using namespace gl;
-                static const std::vector<GLenum> data =
+                const std::vector<GLenum> data =
                 {
                     GL_NONE,
 
@@ -390,7 +390,7 @@ namespace djv
             inline gl::GLenum getGLType(Type value)
             {
                 using namespace gl;
-                static const std::vector<GLenum> data =
+                const std::vector<GLenum> data =
                 {
                     GL_NONE,
 

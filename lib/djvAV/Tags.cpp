@@ -33,6 +33,8 @@ namespace djv
 {
     namespace AV
     {
+        const std::string Tags::_empty;
+
         const std::map<std::string, std::string> & Tags::getTags() const
         {
             return _tags;
@@ -42,7 +44,7 @@ namespace djv
         {
             static const std::string empty;
             const auto i = _tags.find(key);
-            return i != _tags.end() ? i->second : empty;
+            return i != _tags.end() ? i->second : _empty;
         }
 
         void Tags::setTags(const std::map<std::string, std::string> & tags)

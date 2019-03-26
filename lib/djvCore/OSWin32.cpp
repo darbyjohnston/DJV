@@ -62,9 +62,9 @@ namespace djv
                     Count
                 };
 
-                const std::string & getLabel(Windows value)
+                std::string getLabel(Windows value)
                 {
-                    static const std::vector<std::string> data =
+                    const std::vector<std::string> data =
                     {
                         "Unknown",
                         "Windows 7",

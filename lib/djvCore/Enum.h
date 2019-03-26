@@ -58,7 +58,7 @@
     \
     std::ostream & operator << (std::ostream & os, prefix::name value) \
     { \
-        static const std::vector<std::string> data = \
+        const std::vector<std::string> data = \
         { \
             __VA_ARGS__ \
         }; \
@@ -71,7 +71,7 @@
     { \
         std::string s; \
         is >> s; \
-        static const std::vector<std::string> data = \
+        const std::vector<std::string> data = \
         { \
             __VA_ARGS__ \
         }; \

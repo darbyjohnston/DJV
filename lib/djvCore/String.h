@@ -127,15 +127,15 @@ namespace djv
             //! \name Testing
             ///@{
 
-            const std::string & getAlphabetLower();
-            const std::string & getAlphabetUpper();
+            std::string getAlphabetLower();
+            std::string getAlphabetUpper();
 
-            const std::vector<std::string> & getTestNames();
+            std::vector<std::string> getTestNames();
             std::vector<std::string> getRandomNames(size_t);
-            const std::string & getRandomName();
+            std::string getRandomName();
 
-            const std::vector<std::string> & getTestSentences();
-            const std::string & getRandomSentence();
+            std::vector<std::string> getTestSentences();
+            std::string getRandomSentence();
             std::vector<std::string> getRandomSentences(size_t);
             std::string getRandomText(size_t sentenceCount);
 

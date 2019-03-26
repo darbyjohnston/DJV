@@ -51,6 +51,7 @@ namespace djv
 
         private:
             std::map<std::string, std::string> _tags;
+            static const std::string _empty;
         };
 
     } // namespace AV

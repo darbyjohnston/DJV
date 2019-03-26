@@ -63,7 +63,7 @@ namespace djv
 
                 std::string toString(AVSampleFormat value)
                 {
-                    static const std::map<AVSampleFormat, std::string> data =
+                    std::map<AVSampleFormat, std::string> data =
                     {
                         { AV_SAMPLE_FMT_NONE, DJV_TEXT("None") },
                         { AV_SAMPLE_FMT_U8, DJV_TEXT("U8") },
@@ -77,9 +77,8 @@ namespace djv
                         { AV_SAMPLE_FMT_FLTP, DJV_TEXT("Float Planar") },
                         { AV_SAMPLE_FMT_DBLP, DJV_TEXT("Double Planar") }
                     };
-                    static const std::string unknown = DJV_TEXT("Unknown");
                     const auto i = data.find(value);
-                    return i != data.end() ? i->second : unknown;
+                    return i != data.end() ? i->second : DJV_TEXT("Unknown");
                 }
 
                 std::string getErrorString(int r)

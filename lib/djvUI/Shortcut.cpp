@@ -119,9 +119,9 @@ namespace djv
             }
         }
 
-        const std::string & Shortcut::getKeyString(int key)
+        std::string Shortcut::getKeyString(int key)
         {
-            static const std::map<int, std::string> data =
+            const std::map<int, std::string> data =
             {
                 { GLFW_KEY_SPACE, DJV_TEXT("Space") },
                 { GLFW_KEY_APOSTROPHE, DJV_TEXT("Apostrophe") },
@@ -243,14 +243,13 @@ namespace djv
                 { GLFW_KEY_RIGHT_SUPER, DJV_TEXT("RightSuper") },
                 { GLFW_KEY_MENU, DJV_TEXT("Menu") },
             };
-            static const std::string empty;
             const auto i = data.find(key);
-            return i != data.end() ? i->second : empty;
+            return i != data.end() ? i->second : std::string();
         }
 
-        const std::string & Shortcut::getModifierString(int key)
+        std::string Shortcut::getModifierString(int key)
         {
-            static const std::map<int, std::string> data =
+            const std::map<int, std::string> data =
             {
                 { GLFW_MOD_SHIFT, DJV_TEXT("Shift") },
                 { GLFW_MOD_CONTROL, DJV_TEXT("Ctrl") },
@@ -259,9 +258,8 @@ namespace djv
                 { GLFW_MOD_CAPS_LOCK, DJV_TEXT("CapsLock") },
                 { GLFW_MOD_NUM_LOCK, DJV_TEXT("NumLock") }
             };
-            static const std::string empty;
             const auto i = data.find(key);
-            return i != data.end() ? i->second : empty;
+            return i != data.end() ? i->second : std::string();
         }
 
         std::string Shortcut::getText(int key, int keyModifiers, const std::shared_ptr<TextSystem> & textSystem)

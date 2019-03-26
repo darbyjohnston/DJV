@@ -37,9 +37,9 @@ namespace djv
     {
         namespace FileSystem
         {
-            const std::string & getFilePermissionsLabel(int in)
+            std::string getFilePermissionsLabel(int in)
             {
-                static const std::vector<std::string> data =
+                const std::vector<std::string> data =
                 {
                     "",
                     "r",

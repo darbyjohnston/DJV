@@ -135,7 +135,7 @@ namespace djv
                 glm::vec3 &       out,
                 glm::vec3 &       barycentric)
             {
-                static const float epsilon = .1e-6f;
+                const float epsilon = .1e-6f;
 
                 const glm::vec3 edge1 = v1 - v0;
                 const glm::vec3 edge2 = v2 - v0;
@@ -310,7 +310,7 @@ namespace djv
                 mesh.t.push_back(glm::vec3(0.f, 0.f, 0.f));
 
                 // Back
-                static const size_t offset = 1;
+                const size_t offset = 1;
                 TriangleMesh::Triangle a, b;
                 a.v0.v = 0 + offset;
                 a.v1.v = 3 + offset;

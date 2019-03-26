@@ -72,8 +72,8 @@ namespace djv
             void setCallback(const std::function<void(void)> &);
             void doCallback();
 
-            static const std::string & getKeyString(int);
-            static const std::string & getModifierString(int);
+            static std::string getKeyString(int);
+            static std::string getModifierString(int);
             static std::string getText(int key, int keyModifiers, const std::shared_ptr<Core::TextSystem> &);
 
         private:

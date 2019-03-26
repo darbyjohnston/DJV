@@ -53,13 +53,6 @@ namespace djv
         {
             const std::string name = "djv::Core::LogSystem";
 
-            std::map<LogLevel, std::string> labels =
-            {
-                { LogLevel::Information, std::string() },
-                { LogLevel::Warning, "[Warning]" },
-                { LogLevel::Error, "[ERROR]" }
-            };
-
             struct Message
             {
                 Message()
@@ -188,6 +181,14 @@ namespace djv
                 FileSystem::FileIO io;
                 io.open(p.path, FileSystem::FileIO::Mode::Append);
                 io.seek(io.getSize());
+
+                std::map<LogLevel, std::string> labels =
+                {
+                    { LogLevel::Information, std::string() },
+                    { LogLevel::Warning, "[Warning]" },
+                    { LogLevel::Error, "[ERROR]" }
+                };
+
                 for (const auto & message : p.messages)
                 {
                     std::string line;
@@ -203,6 +204,7 @@ namespace djv
                         s2 << std::right;
                         s2 << std::setw(32);
                         s2 << message.prefix << " | ";
+
                         const auto & label = labels[message.level];
                         if (!label.empty())
                         {

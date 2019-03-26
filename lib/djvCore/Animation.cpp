@@ -44,7 +44,7 @@ namespace djv
         {
             Function getFunction(Type value)
             {
-                static const std::vector<Function> data =
+                const std::vector<Function> data =
                 {
                     [](float t) { return t; },
                     [](float t) { return powf(t, 2.f); },

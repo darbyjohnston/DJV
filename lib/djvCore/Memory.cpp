@@ -39,7 +39,7 @@ namespace djv
         {
             std::string getSizeLabel(uint64_t value)
             {
-                static const std::vector<std::string> data = { "TB", "GB", "MB", "KB" };
+                const std::vector<std::string> data = { "TB", "GB", "MB", "KB" };
                 std::stringstream ss;
                 ss.precision(2);
                 if (value >= terabyte)

@@ -83,8 +83,8 @@ namespace djv
             template<>
             inline float gain(float value, float gain)
             {
-                static const float almostZero = FLT_MIN * 2.f;
-                static const float almostOne = 1.f - almostZero;
+                const float almostZero = FLT_MIN * 2.f;
+                const float almostOne = 1.f - almostZero;
                 if (value < almostZero)
                 {
                     return 0.f;
@@ -107,8 +107,8 @@ namespace djv
             template<>
             inline double gain(double value, double gain)
             {
-                static const double almostZero = DBL_MIN * 2.;
-                static const double almostOne = 1. - almostZero;
+                const double almostZero = DBL_MIN * 2.;
+                const double almostOne = 1. - almostZero;
                 if (value < almostZero)
                 {
                     return 0.;

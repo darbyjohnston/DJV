@@ -144,11 +144,10 @@ namespace djv
                 _p->activeCallback = value;
             }
 
-            const glm::vec2 & Canvas::getWidgetPos(const std::shared_ptr<IWidget> & widget) const
+            glm::vec2 Canvas::getWidgetPos(const std::shared_ptr<IWidget> & widget) const
             {
-                static const glm::vec2 empty(0.f, 0.f);
                 const auto i = _p->widgetToPos.find(widget);
-                return i != _p->widgetToPos.end() ? i->second : empty;
+                return i != _p->widgetToPos.end() ? i->second : glm::vec2(0.f, 0.f);
             }
 
             void Canvas::setWidgetPos(const std::shared_ptr<IWidget> & widget, const glm::vec2 & pos)
