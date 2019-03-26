@@ -39,6 +39,8 @@
 #include <djvViewLib/ToolSystem.h>
 #include <djvViewLib/WindowSystem.h>
 
+#include <djvUIComponents/UIComponentsSystem.h>
+
 using namespace djv::Core;
 
 namespace djv
@@ -54,6 +56,8 @@ namespace djv
         void Application::_init(int & argc, char ** argv)
         {
             Desktop::Application::_init(argc, argv);
+
+            UI::UIComponentsSystem::create(this);
 
             DJV_PRIVATE_PTR();
             p.systems.push_back(FileSystem::create(this));

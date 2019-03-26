@@ -32,7 +32,7 @@
 #include <djvDesktop/EventSystem.h>
 #include <djvDesktop/GLFWSystem.h>
 
-#include <djvUIComponents/UIComponentsSystem.h>
+#include <djvUI/UISystem.h>
 
 #include <djvAV/IO.h>
 #include <djvAV/Render2D.h>
@@ -69,9 +69,11 @@ namespace djv
             DJV_PRIVATE_PTR();
 
             auto glfwSystem = GLFWSystem::create(this);
-            auto uiComponentsSystem = UI::UIComponentsSystem::create(glfwSystem->getDPI(), this);
+            auto uiSystem = UI::UISystem::create(glfwSystem->getDPI(), this);
+
             getSystemT<AV::IO::System>()->addDependency(glfwSystem);
             getSystemT<AV::Render::Render2D>()->addDependency(glfwSystem);
+
             EventSystem::create(glfwSystem->getGLFWWindow(), this);
         }
         

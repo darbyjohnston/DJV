@@ -41,13 +41,13 @@ namespace djv
             DJV_NON_COPYABLE(UIComponentsSystem);
 
         protected:
-            void _init(int dpi, Core::Context *);
+            void _init(Core::Context *);
             UIComponentsSystem();
 
         public:
             ~UIComponentsSystem() override;
 
-            static std::shared_ptr<UIComponentsSystem> create(int dpi, Core::Context *);
+            static std::shared_ptr<UIComponentsSystem> create(Core::Context *);
 
         private:
             DJV_PRIVATE();

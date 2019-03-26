@@ -61,7 +61,7 @@ set(source
     WindowSystem.cpp)
 
 add_library(djvViewLib ${header} ${source})
-target_link_libraries(djvViewLib djvDesktop)
+target_link_libraries(djvViewLib djvUIComponents djvDesktop)
 set_target_properties(
     djvViewLib
     PROPERTIES

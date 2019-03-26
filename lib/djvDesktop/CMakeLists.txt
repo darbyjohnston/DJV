@@ -9,7 +9,7 @@ set(source
     GLFWSystem.cpp)
 
 add_library(djvDesktop ${header} ${source})
-target_link_libraries(djvDesktop djvUIComponents)
+target_link_libraries(djvDesktop djvUI)
 set_target_properties(
     djvDesktop
     PROPERTIES

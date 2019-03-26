@@ -46,20 +46,18 @@ namespace djv
         struct UIComponentsSystem::Private
         {};
 
-        void UIComponentsSystem::_init(int dpi, Context * context)
+        void UIComponentsSystem::_init(Context * context)
         {
             ISystem::_init("djv::UI::UIComponentsSystem", context);
 
             DJV_PRIVATE_PTR();
-
-            auto uiSystem = UISystem::create(dpi, context);
 
             Settings::AVIO::create(context);
             Settings::FileBrowser::create(context);
 
             auto fileBrowserDialogSystem = FileBrowser::DialogSystem::create(context);
 
-            addDependency(uiSystem);
+            addDependency(context->getSystemT<UISystem>());
             addDependency(fileBrowserDialogSystem);
         }
 
@@ -70,10 +68,10 @@ namespace djv
         UIComponentsSystem::~UIComponentsSystem()
         {}
 
-        std::shared_ptr<UIComponentsSystem> UIComponentsSystem::create(int dpi, Context * context)
+        std::shared_ptr<UIComponentsSystem> UIComponentsSystem::create(Context * context)
         {
             auto out = std::shared_ptr<UIComponentsSystem>(new UIComponentsSystem);
-            out->_init(dpi, context);
+            out->_init(context);
             return out;
         }
 
