@@ -44,10 +44,10 @@ namespace djv
             template<typename T, glm::precision P = glm::defaultp>
             struct tBBox2
             {
-                inline tBBox2();
-                inline tBBox2(const glm::tvec2<T, P> &);
-                inline tBBox2(const glm::tvec2<T, P> & min, const glm::tvec2<T, P> & max);
-                inline tBBox2(T x, T y, T w, T h);
+                constexpr tBBox2();
+                constexpr tBBox2(const glm::tvec2<T, P> &);
+                constexpr tBBox2(const glm::tvec2<T, P> & min, const glm::tvec2<T, P> & max);
+                constexpr tBBox2(T x, T y, T w, T h);
 
                 //! \name Box Components
                 ///@{
@@ -55,78 +55,78 @@ namespace djv
                 glm::tvec2<T, P> min;
                 glm::tvec2<T, P> max;
 
-                inline T x() const;
-                inline T y() const;
-                inline T w() const;
-                inline T h() const;
+                constexpr T x() const;
+                constexpr T y() const;
+                constexpr T w() const;
+                constexpr T h() const;
 
                 ///@}
 
                 //! \name Utilities
                 ///@{
 
-                inline bool isValid() const;
-                inline glm::tvec2<T, P> getSize() const;
-                inline glm::tvec2<T, P> getCenter() const;
-                inline T getArea() const;
-                inline float getAspect() const;
+                constexpr bool isValid() const;
+                constexpr glm::tvec2<T, P> getSize() const;
+                constexpr glm::tvec2<T, P> getCenter() const;
+                constexpr T getArea() const;
+                constexpr float getAspect() const;
                 inline void zero();
 
-                inline bool contains(const tBBox2<T, P> &) const;
-                inline bool contains(const glm::tvec2<T, P> &) const;
+                constexpr bool contains(const tBBox2<T, P> &) const;
+                constexpr bool contains(const glm::tvec2<T, P> &) const;
 
-                inline bool intersects(const tBBox2<T, P> &) const;
-                inline tBBox2<T, P> intersect(const tBBox2<T, P> &) const;
+                constexpr bool intersects(const tBBox2<T, P> &) const;
+                constexpr tBBox2<T, P> intersect(const tBBox2<T, P> &) const;
 
                 inline void expand(const tBBox2<T, P> &);
                 inline void expand(const glm::tvec2<T, P> &);
 
-                inline tBBox2<T, P> margin(const glm::tvec2<T, P> &) const;
-                inline tBBox2<T, P> margin(T) const;
-                inline tBBox2<T, P> margin(T x0, T y0, T x1, T y1) const;
+                constexpr tBBox2<T, P> margin(const glm::tvec2<T, P> &) const;
+                constexpr tBBox2<T, P> margin(T) const;
+                constexpr tBBox2<T, P> margin(T x0, T y0, T x1, T y1) const;
 
                 ///@}
 
-                inline bool operator == (const tBBox2<T, P> &) const;
-                inline bool operator != (const tBBox2<T, P> &) const;
+                constexpr bool operator == (const tBBox2<T, P> &) const;
+                constexpr bool operator != (const tBBox2<T, P> &) const;
             };
 
             //! This struct provides an axis aligned bounding box.
             template<typename T, glm::precision P = glm::defaultp>
             struct tBBox3
             {
-                inline tBBox3();
-                inline tBBox3(const glm::tvec3<T, P> &);
-                inline tBBox3(const glm::tvec3<T, P> & min, const glm::tvec3<T, P> & max);
-                inline tBBox3(T x, T y, T z, T w, T h, T d);
+                constexpr tBBox3();
+                constexpr tBBox3(const glm::tvec3<T, P> &);
+                constexpr tBBox3(const glm::tvec3<T, P> & min, const glm::tvec3<T, P> & max);
+                constexpr tBBox3(T x, T y, T z, T w, T h, T d);
 
                 //! \name Components
                 ///@{
 
                 glm::tvec3<T, P> min, max;
 
-                inline T x() const;
-                inline T y() const;
-                inline T z() const;
-                inline T w() const;
-                inline T h() const;
-                inline T d() const;
+                constexpr T x() const;
+                constexpr T y() const;
+                constexpr T z() const;
+                constexpr T w() const;
+                constexpr T h() const;
+                constexpr T d() const;
 
                 ///@}
 
                 //! \name Box Utilities
                 ///@{
 
-                inline bool isValid() const;
-                inline glm::tvec3<T, P> getSize() const;
-                inline glm::tvec3<T, P> getCenter() const;
+                constexpr bool isValid() const;
+                constexpr glm::tvec3<T, P> getSize() const;
+                constexpr glm::tvec3<T, P> getCenter() const;
                 inline void zero();
 
-                inline bool contains(const tBBox3<T, P> &) const;
-                inline bool contains(const glm::tvec3<T, P> &) const;
+                constexpr bool contains(const tBBox3<T, P> &) const;
+                constexpr bool contains(const glm::tvec3<T, P> &) const;
 
-                inline bool intersects(const tBBox3<T, P> &) const;
-                inline tBBox3<T, P> intersect(const tBBox3<T, P> &) const;
+                constexpr bool intersects(const tBBox3<T, P> &) const;
+                constexpr tBBox3<T, P> intersect(const tBBox3<T, P> &) const;
                 inline bool intersect(const glm::tvec3<T, P> & start, const glm::tvec3<T, P> & end, glm::tvec3<T, P> & out) const;
 
                 inline void expand(const tBBox3<T, P> &);
@@ -134,8 +134,8 @@ namespace djv
 
                 ///@}
 
-                inline bool operator == (const tBBox3<T, P> &) const;
-                inline bool operator != (const tBBox3<T, P> &) const;
+                constexpr bool operator == (const tBBox3<T, P> &) const;
+                constexpr bool operator != (const tBBox3<T, P> &) const;
             };
 
             typedef tBBox2<int, glm::lowp>      BBox2i_lowp;
