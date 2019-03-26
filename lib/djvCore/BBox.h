@@ -69,14 +69,14 @@ namespace djv
                 constexpr glm::tvec2<T, P> getSize() const;
                 constexpr glm::tvec2<T, P> getCenter() const;
                 constexpr T getArea() const;
-                constexpr float getAspect() const;
+                inline float getAspect() const;
                 inline void zero();
 
                 constexpr bool contains(const tBBox2<T, P> &) const;
                 constexpr bool contains(const glm::tvec2<T, P> &) const;
 
                 constexpr bool intersects(const tBBox2<T, P> &) const;
-                constexpr tBBox2<T, P> intersect(const tBBox2<T, P> &) const;
+                inline tBBox2<T, P> intersect(const tBBox2<T, P> &) const;
 
                 inline void expand(const tBBox2<T, P> &);
                 inline void expand(const glm::tvec2<T, P> &);
@@ -126,7 +126,7 @@ namespace djv
                 constexpr bool contains(const glm::tvec3<T, P> &) const;
 
                 constexpr bool intersects(const tBBox3<T, P> &) const;
-                constexpr tBBox3<T, P> intersect(const tBBox3<T, P> &) const;
+                inline tBBox3<T, P> intersect(const tBBox3<T, P> &) const;
                 inline bool intersect(const glm::tvec3<T, P> & start, const glm::tvec3<T, P> & end, glm::tvec3<T, P> & out) const;
 
                 inline void expand(const tBBox3<T, P> &);

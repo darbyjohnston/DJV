@@ -150,7 +150,6 @@ namespace djv
 
             void MenuWidget::_styleEvent(Event::Style &)
             {
-                auto context = getContext();
                 auto style = _getStyle();
                 const float iconSize = style->getMetric(MetricsRole::IconSmall);
                 auto iconSystem = _getIconSystem();

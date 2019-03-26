@@ -61,7 +61,6 @@ namespace djv
                 Time::getMilliseconds(Time::TimerValue::VerySlow),
                 [this](float)
             {
-                DJV_PRIVATE_PTR();
                 std::stringstream s;
                 s << "Global widget count: " << Widget::getGlobalWidgetCount();
                 _log(s.str());

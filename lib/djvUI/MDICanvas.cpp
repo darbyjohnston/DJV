@@ -119,7 +119,6 @@ namespace djv
 
             void Canvas::nextWidget()
             {
-                DJV_PRIVATE_PTR();
                 const auto & children = getChildrenT<IWidget>();
                 const size_t size = children.size();
                 if (size > 1)
@@ -130,7 +129,6 @@ namespace djv
 
             void Canvas::prevWidget()
             {
-                DJV_PRIVATE_PTR();
                 const auto & children = getChildrenT<IWidget>();
                 const size_t size = children.size();
                 if (size > 1)
@@ -187,7 +185,6 @@ namespace djv
             void Canvas::_paintEvent(Event::Paint & event)
             {
                 Widget::_paintEvent(event);
-                DJV_PRIVATE_PTR();
                 auto style = _getStyle();
                 const float h = style->getMetric(MetricsRole::Handle);
                 const float sh = style->getMetric(MetricsRole::Shadow);

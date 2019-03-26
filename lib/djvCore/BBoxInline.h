@@ -217,14 +217,14 @@ namespace djv
             }
 
             template<>
-            constexpr float tBBox2<int>::getAspect() const
+            inline float tBBox2<int>::getAspect() const
             {
                 const int h = this->h();
                 return h != 0 ? w() / static_cast<float>(h) : 0.f;
             }
 
             template<>
-            constexpr float tBBox2<float>::getAspect() const
+            inline float tBBox2<float>::getAspect() const
             {
                 const float h = this->h();
                 return h != 0 ? w() / h : 0.f;
@@ -305,7 +305,7 @@ namespace djv
             }
 
             template<typename T, glm::precision P>
-            constexpr tBBox2<T, P> tBBox2<T, P>::intersect(const tBBox2<T, P> & value) const
+            inline tBBox2<T, P> tBBox2<T, P>::intersect(const tBBox2<T, P> & value) const
             {
                 tBBox2<T, P> out;
                 out.min.x = std::max(min.x, value.min.x);
@@ -316,7 +316,7 @@ namespace djv
             }
 
             template<typename T, glm::precision P>
-            constexpr tBBox3<T, P> tBBox3<T, P>::intersect(const tBBox3<T, P> & value) const
+            inline tBBox3<T, P> tBBox3<T, P>::intersect(const tBBox3<T, P> & value) const
             {
                 tBBox3<T, P> out;
                 out.min.x = std::max(min.x, value.min.x);

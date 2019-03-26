@@ -104,7 +104,7 @@ namespace djv
         {
             auto out = std::unique_ptr<Context>(new Context);
             out->_init(argc, argv);
-            return std::move(out);
+            return out;
         }
 
         void Context::tick(float dt)

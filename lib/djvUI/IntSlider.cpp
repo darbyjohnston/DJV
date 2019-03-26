@@ -297,7 +297,6 @@ namespace djv
 
         ColorRole BasicIntSlider::_getColorRole() const
         {
-            DJV_PRIVATE_PTR();
             return !isEnabled(true) ? ColorRole::Disabled : ColorRole::Button;
         }
 

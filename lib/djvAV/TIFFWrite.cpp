@@ -83,7 +83,6 @@ namespace djv
                 
                 void Write::_write(const std::string & fileName, const std::shared_ptr<Image::Image> & image)
                 {
-                    DJV_PRIVATE_PTR();
                     Image::Type imageType = Image::Type::None;
                     switch (image->getType())
                     {

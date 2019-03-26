@@ -62,8 +62,6 @@ namespace djv
         {
             ISystem::_init("djv::AV::AVSystem", context);
 
-            DJV_PRIVATE_PTR();
-
             auto ioSystem = IO::System::create(context);
             auto audioSystem = Audio::System::create(context);
             auto fontSystem = Font::System::create(context);

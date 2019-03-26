@@ -266,7 +266,6 @@ namespace djv
                 DJV_PRIVATE_PTR();
                 auto style = _getStyle();
                 const auto hg = _getHandleGeometry();
-                const float h = style->getMetric(MetricsRole::Handle);
                 const float b = style->getMetric(MetricsRole::Border);
 
                 auto render = _getRender();
@@ -484,8 +483,7 @@ namespace djv
                 float x = g.min.x;
                 float y = g.min.y;
                 const auto children = getChildrenT<Widget>();
-                size_t i = 0;
-                for (const auto & child : children)
+                for (size_t i = 0; i < children.size(); ++i)
                 {
                     BBox2f bbox;
                     const float v = _valueToPos(p.split[i]);
@@ -508,7 +506,6 @@ namespace djv
                     default: break;
                     }
                     out.push_back(bbox);
-                    ++i;
                 }
                 return out;
             }
@@ -523,8 +520,7 @@ namespace djv
                 float x = g.min.x;
                 float y = g.min.y;
                 const auto children = getChildrenT<Widget>();
-                size_t i = 0;
-                for (const auto & child : children)
+                for (size_t i = 0; i < children.size(); ++i)
                 {
                     if (i < children.size() - 1)
                     {
@@ -550,7 +546,6 @@ namespace djv
                         }
                         out.push_back(bbox);
                     }
-                    ++i;
                 }
                 return out;
             }

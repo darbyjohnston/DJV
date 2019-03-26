@@ -66,8 +66,6 @@ namespace djv
         {
             Context::_init(argc, argv);
 
-            DJV_PRIVATE_PTR();
-
             auto glfwSystem = GLFWSystem::create(this);
             auto uiSystem = UI::UISystem::create(glfwSystem->getDPI(), this);
 
@@ -88,7 +86,7 @@ namespace djv
         {
             auto out = std::unique_ptr<Application>(new Application);
             out->_init(argc, argv);
-            return std::move(out);
+            return out;
         }
 
         int Application::run()
