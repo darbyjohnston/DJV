@@ -121,7 +121,7 @@ std::shared_ptr<MDIWidget> MDIWidget::create(const std::string & title, Core::Co
 
 void MDIWidget::setClosedCallback(const std::function<void(void)> & callback)
 {
-    //_closeButton->setClickedCallback(callback);
+    _closeButton->setClickedCallback(callback);
 }
 
 float MDIWidget::getHeightForWidth(float value) const
