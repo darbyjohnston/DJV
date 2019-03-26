@@ -68,7 +68,7 @@ namespace djv
 
             auto weak = std::weak_ptr<PopupMenu>(std::dynamic_pointer_cast<PopupMenu>(shared_from_this()));
             p.button->setCheckedCallback(
-                [weak, context](bool value)
+                [weak](bool value)
             {
                 if (auto widget = weak.lock())
                 {

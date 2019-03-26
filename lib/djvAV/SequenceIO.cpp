@@ -67,7 +67,7 @@ namespace djv
                 IRead::_init(fileName, queue, context);
                 _p->running = true;
                 _p->thread = std::thread(
-                    [this, fileName, context]
+                    [this, fileName]
                 {
                     DJV_PRIVATE_PTR();
                     FileSystem::FileInfo fileInfo(fileName);

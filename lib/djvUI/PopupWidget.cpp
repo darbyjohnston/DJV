@@ -284,7 +284,7 @@ namespace djv
             });
 
             p.button->setCheckedCallback(
-                [weak, context](bool value)
+                [weak](bool value)
             {
                 if (auto widget = weak.lock())
                 {

@@ -47,6 +47,10 @@
 #include <codecvt>
 #include <locale>
 
+#undef GL_BLEND
+#undef GL_COLOR_BUFFER_BIT
+#undef GL_SCISSOR_TEST
+
 using namespace djv::Core;
 
 using namespace gl;
@@ -221,8 +225,8 @@ namespace djv
             DJV_PRIVATE_PTR();
             if (p.offscreenBuffer)
             {
-                glDisable(GL_SCISSOR_TEST);
-                glDisable(GL_BLEND);
+                gl::glDisable(gl::GL_SCISSOR_TEST);
+                gl::glDisable(gl::GL_BLEND);
                 const auto & size = p.offscreenBuffer->getInfo().size;
                 gl::glViewport(
                     0,
@@ -230,13 +234,13 @@ namespace djv
                     GLsizei(size.x),
                     GLsizei(size.y));
                 gl::glClearColor(0.f, 0.f, 0.f, 0.f);
-                glClear(GL_COLOR_BUFFER_BIT);
+                gl::glClear(gl::GL_COLOR_BUFFER_BIT);
                 glBindFramebuffer(gl::GLenum(GL_READ_FRAMEBUFFER), p.offscreenBuffer->getID());
                 glBindFramebuffer(gl::GLenum(GL_DRAW_FRAMEBUFFER), gl::GLuint(0));
                 glBlitFramebuffer(
                     0, 0, size.x, size.y,
                     0, 0, size.x, size.y,
-                    ClearBufferMask(GL_COLOR_BUFFER_BIT),
+                    ClearBufferMask(gl::GL_COLOR_BUFFER_BIT),
                     gl::GLenum(GL_NEAREST));
                 //gl::glFlush();
                 glfwSwapBuffers(p.glfwWindow);

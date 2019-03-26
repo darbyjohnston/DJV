@@ -100,7 +100,7 @@ namespace djv
                     auto weak = std::weak_ptr<IEventSystem>(std::dynamic_pointer_cast<IEventSystem>(shared_from_this()));
                     p.localeObserver = ValueObserver<std::string>::create(
                         textSystem->observeCurrentLocale(),
-                        [weak, context](const std::string & value)
+                        [weak](const std::string & value)
                     {
                         if (auto system = weak.lock())
                         {

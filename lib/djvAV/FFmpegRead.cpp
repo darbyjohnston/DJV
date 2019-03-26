@@ -82,7 +82,7 @@ namespace djv
 
                     _p->running = true;
                     _p->thread = std::thread(
-                        [this, fileName, context]
+                        [this, fileName]
                     {
                         DJV_PRIVATE_PTR();
                         try
