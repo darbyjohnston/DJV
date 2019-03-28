@@ -134,8 +134,8 @@ find_package_handle_standard_args(
         QT_INCLUDE_DIRS
         QT_LIBRARIES
         QT_MOC
-        QT_LUPDATE
-        QT_LCONVERT
+        #QT_LUPDATE
+        #QT_LCONVERT
         QT_RCC)
 mark_as_advanced(
     QT_INCLUDE_DIR
@@ -182,34 +182,36 @@ function(QT5_WRAP_CPP MOC_SOURCE)
 endfunction()
 
 function(QT5_CREATE_TRANSLATION QM_SOURCE)
-    set(SOURCE_FILES)
-    set(TS_FILES)
-    set(TMP)
-    foreach(S ${ARGN})
-        get_filename_component(FILE_EXTENSION ${S} EXT)
-        if("${FILE_EXTENSION}" STREQUAL ".cpp")
-            set(SOURCE_FILES ${SOURCE_FILES} ${CMAKE_CURRENT_SOURCE_DIR}/${S})
-        elseif("${FILE_EXTENSION}" STREQUAL ".ts")
-            set(TS_FILES ${TS_FILES} ${CMAKE_CURRENT_SOURCE_DIR}/${S})
-        endif()
-    endforeach()
-    foreach(TS_FILE ${TS_FILES})
-        add_custom_command(
-            OUTPUT ${TS_FILE}
-            COMMAND ${QT_LUPDATE} ${SOURCE_FILES} -ts ${TS_FILE}
-            DEPENDS ${SOURCE_FILES})
-        get_filename_component(BASE_NAME ${TS_FILE} NAME_WE)
-        add_custom_command(
-            OUTPUT ${CMAKE_CURRENT_SOURCE_DIR}/${BASE_NAME}.qm
-            COMMAND ${QT_LCONVERT} -i ${TS_FILE} -o ${CMAKE_CURRENT_SOURCE_DIR}/${BASE_NAME}.qm
-            DEPENDS ${TS_FILE})
-        set(TMP ${TMP} ${CMAKE_CURRENT_SOURCE_DIR}/${BASE_NAME}.qm)
-        add_custom_command(
-            OUTPUT ${PROJECT_BINARY_DIR}/build/translations/${BASE_NAME}.qm
-            COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_CURRENT_SOURCE_DIR}/${BASE_NAME}.qm ${PROJECT_BINARY_DIR}/build/translations
-            DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/${BASE_NAME}.qm)
-    endforeach()
-    set(${QM_SOURCE} ${TMP} PARENT_SCOPE)
+    if(QT_LUPDATE AND QT_LCONVERT)
+        set(SOURCE_FILES)
+        set(TS_FILES)
+        set(TMP)
+        foreach(S ${ARGN})
+            get_filename_component(FILE_EXTENSION ${S} EXT)
+            if("${FILE_EXTENSION}" STREQUAL ".cpp")
+                set(SOURCE_FILES ${SOURCE_FILES} ${CMAKE_CURRENT_SOURCE_DIR}/${S})
+            elseif("${FILE_EXTENSION}" STREQUAL ".ts")
+                set(TS_FILES ${TS_FILES} ${CMAKE_CURRENT_SOURCE_DIR}/${S})
+            endif()
+        endforeach()
+        foreach(TS_FILE ${TS_FILES})
+            add_custom_command(
+                OUTPUT ${TS_FILE}
+                COMMAND ${QT_LUPDATE} ${SOURCE_FILES} -ts ${TS_FILE}
+                DEPENDS ${SOURCE_FILES})
+            get_filename_component(BASE_NAME ${TS_FILE} NAME_WE)
+            add_custom_command(
+                OUTPUT ${CMAKE_CURRENT_SOURCE_DIR}/${BASE_NAME}.qm
+                COMMAND ${QT_LCONVERT} -i ${TS_FILE} -o ${CMAKE_CURRENT_SOURCE_DIR}/${BASE_NAME}.qm
+                DEPENDS ${TS_FILE})
+            set(TMP ${TMP} ${CMAKE_CURRENT_SOURCE_DIR}/${BASE_NAME}.qm)
+            add_custom_command(
+                OUTPUT ${PROJECT_BINARY_DIR}/build/translations/${BASE_NAME}.qm
+                COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_CURRENT_SOURCE_DIR}/${BASE_NAME}.qm ${PROJECT_BINARY_DIR}/build/translations
+                DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/${BASE_NAME}.qm)
+        endforeach()
+        set(${QM_SOURCE} ${TMP} PARENT_SCOPE)
+    endif()
 endfunction()
 
 # \todo Add the contents of the .qrc file as dependencies.
