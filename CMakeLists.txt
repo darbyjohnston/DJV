@@ -5,7 +5,7 @@ project(DJV)
 
 set(DJV_VERSION_MAJOR "1")
 set(DJV_VERSION_MINOR "2")
-set(DJV_VERSION_PATCH "5")
+set(DJV_VERSION_PATCH "6")
 set(DJV_VERSION ${DJV_VERSION_MAJOR}.${DJV_VERSION_MINOR}.${DJV_VERSION_PATCH})
 
 # Set the platform we are building for.
