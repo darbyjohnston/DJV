@@ -40,35 +40,35 @@ namespace djv
     d(Box3::size.z)
 
         template<typename T, precision P>
-        inline Box3<T, P>::Box3() :
+        constexpr Box3<T, P>::Box3() :
             position(T(0), T(0), T(0)),
             size(T(0), T(0), T(0)),
             _BOX3_INIT()
         {}
 
         template<typename T, precision P>
-        inline Box3<T, P>::Box3(const Box3<T, P> & in) :
+        constexpr Box3<T, P>::Box3(const Box3<T, P> & in) :
             position(in.position),
             size(in.size),
             _BOX3_INIT()
         {}
 
         template<typename T, precision P>
-        inline Box3<T, P>::Box3(const glm::tvec3<T, P> & position, const glm::tvec3<T, P> & size) :
+        constexpr Box3<T, P>::Box3(const glm::tvec3<T, P> & position, const glm::tvec3<T, P> & size) :
             position(position),
             size(size),
             _BOX3_INIT()
         {}
 
         template<typename T, precision P>
-        inline Box3<T, P>::Box3(const glm::tvec3<T, P> & size) :
+        constexpr Box3<T, P>::Box3(const glm::tvec3<T, P> & size) :
             position(T(0), T(0), T(0)),
             size(size),
             _BOX3_INIT()
         {}
 
         template<typename T, precision P>
-        inline Box3<T, P>::Box3(T _x, T _y, T _z, T _w, T _h, T _d) :
+        constexpr Box3<T, P>::Box3(T _x, T _y, T _z, T _w, T _h, T _d) :
             _BOX3_INIT()
         {
             x = _x;
@@ -80,7 +80,7 @@ namespace djv
         }
 
         template<typename T, precision P>
-        inline Box3<T, P>::Box3(T _w, T _h, T _d) :
+        constexpr Box3<T, P>::Box3(T _w, T _h, T _d) :
             position(T(0), T(0), T(0)),
             _BOX3_INIT()
         {
@@ -90,7 +90,7 @@ namespace djv
         }
 
         template<typename T, precision P>
-        inline bool Box3<T, P>::isValid() const
+        constexpr bool Box3<T, P>::isValid() const
         {
             return size.x > T(0) && size.y > T(0);
         }
@@ -172,7 +172,19 @@ namespace djv
         }
 
         template<typename T, precision P>
-        inline Box3<T, P>::operator Box3<int, P>() const
+        constexpr bool Box3<T, P>::operator == (const Box3<T, P> & other) const
+        {
+            return position == other.position && size == other.size;
+        }
+
+        template<typename T, precision P>
+        constexpr bool Box3<T, P>::operator != (const Box3<T, P> & other) const
+        {
+            return !(*this == other);
+        }
+
+        template<typename T, precision P>
+        constexpr Box3<T, P>::operator Box3<int, P>() const
         {
             return Box3<int, P>(
                 static_cast<int>(x), static_cast<int>(y), static_cast<int>(z),
@@ -180,7 +192,7 @@ namespace djv
         }
 
         template<typename T, precision P>
-        inline Box3<T, P>::operator Box3<float, P>() const
+        constexpr Box3<T, P>::operator Box3<float, P>() const
         {
             return Box3<float, P>(
                 static_cast<float>(x), static_cast<float>(y), static_cast<float>(z),

@@ -39,11 +39,14 @@ namespace djv
         template<typename T>
         struct Range
         {
-            inline Range(T = T(0));
-            inline Range(T min, T max);
+            constexpr Range(T = T(0));
+            constexpr Range(T min, T max);
 
             T min = T(0);
             T max = T(0);
+
+            constexpr bool operator == (const Core::Range<T> &) const;
+            constexpr bool operator != (const Core::Range<T> &) const;
         };
 
         //! This typedef provides a frame range.
@@ -53,11 +56,6 @@ namespace djv
         typedef QVector<FrameRange> FrameRangeList;
 
     } // namespace Core
-
-    template<typename T>
-    inline bool operator == (const Core::Range<T> &, const Core::Range<T> &);
-    template<typename T>
-    inline bool operator != (const Core::Range<T> &, const Core::Range<T> &);
 
     template<typename T>
     inline Core::Debug & operator << (Core::Debug &, const Core::Range<T> &);

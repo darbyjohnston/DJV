@@ -80,7 +80,7 @@ namespace djv
                 const Speed speed = Speed::speed();
                 Speed::setSpeed(Speed::FPS_23_976);
                 Speed::setSpeed(Speed::speedDefault());
-                DJV_ASSERT(Speed::speed() == speed);
+                DJV_ASSERT(speed == Speed::speed());
             }
             {
                 Speed speed;

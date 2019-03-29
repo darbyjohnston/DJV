@@ -32,7 +32,7 @@ namespace djv
     namespace Core
     {
         template<class T>
-        inline T Math::abs(T value)
+        constexpr T Math::abs(T value)
         {
             return value < T(0) ? -value : value;
         }
@@ -53,7 +53,7 @@ namespace djv
         }
 
         template<class T>
-        inline T Math::wrap(T value, T min, T max)
+        constexpr T Math::wrap(T value, T min, T max)
         {
             return max > min ?
                 (min + mod(value - min, max - min + static_cast<T>(1))) :
@@ -61,47 +61,47 @@ namespace djv
         }
 
         template<class T>
-        inline T Math::step(T value, T step)
+        constexpr T Math::step(T value, T step)
         {
             return value <= step ? value : step;
         }
 
         template<class T>
-        inline T Math::pulse(T value, T min, T max)
+        constexpr T Math::pulse(T value, T min, T max)
         {
             return step(value, max) - step(value, min);
         }
 
         template<class T>
-        inline T Math::min(const T & a, const T & b)
+        constexpr T Math::min(const T & a, const T & b)
         {
             return a < b ? a : b;
         }
 
         template<class T>
-        inline T Math::max(const T & a, const T & b)
+        constexpr T Math::max(const T & a, const T & b)
         {
             return a > b ? a : b;
         }
 
         template<class T>
-        inline T Math::clamp(T value, T min, T max)
+        constexpr T Math::clamp(T value, T min, T max)
         {
             return value < min ? min : (value > max ? max : value);
         }
 
         template<class T, class U>
-        inline T Math::lerp(U value, T min, T max)
+        constexpr T Math::lerp(U value, T min, T max)
         {
             return min + T(value * (max - min));
         }
 
-        inline float Math::smoothStep(float value, float min, float max)
+        constexpr float Math::smoothStep(float value, float min, float max)
         {
             return lerp(value * value * (3.f - (2.f * value)), min, max);
         }
 
-        inline float Math::fraction(float value)
+        constexpr float Math::fraction(float value)
         {
             return value - static_cast<int>(value);
         }
@@ -114,16 +114,14 @@ namespace djv
             return 1 << i;
         }
 
-        inline float Math::degreesToRadians(float value)
+        constexpr float Math::degreesToRadians(float value)
         {
-            static const float m = 1.f / 360.f * piX2;
-            return value * m;
+            return value / 360.f * piX2;
         }
 
-        inline float Math::radiansToDegrees(float value)
+        constexpr float Math::radiansToDegrees(float value)
         {
-            static const float m = 1.f / piX2 * 360.f;
-            return value * m;
+            return value / piX2 * 360.f;
         }
 
     } // namespace Core

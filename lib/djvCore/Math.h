@@ -54,7 +54,7 @@ namespace djv
 
             //! Get the absolute value.
             template<typename T>
-            static inline T abs(T);
+            static constexpr T abs(T);
 
             //! Raise a value to a power.
             static int pow(int value, int power);
@@ -83,15 +83,15 @@ namespace djv
 
             //! Wrap a number between two values.
             template<typename T>
-            static inline T wrap(T value, T min, T max);
+            static constexpr T wrap(T value, T min, T max);
 
             //! Step function.
             template<typename T>
-            static inline T step(T value, T step);
+            static constexpr T step(T value, T step);
 
             //! Pulse function.
             template<typename T>
-            static inline T pulse(T value, T min, T max);
+            static constexpr T pulse(T value, T min, T max);
 
             //! Bias function.
             static float bias(float value, float bias);
@@ -101,22 +101,22 @@ namespace djv
 
             //! Return the minimum of two values.
             template<typename T>
-            static inline T min(const T &, const T &);
+            static constexpr T min(const T &, const T &);
 
             //! Return the maximum of two values.
             template<typename T>
-            static inline T max(const T &, const T &);
+            static constexpr T max(const T &, const T &);
 
             //! Clamp a number between two values.
             template<typename T>
-            static inline T clamp(T, T min, T max);
+            static constexpr T clamp(T, T min, T max);
 
             //! Linear interpolation.
             template<typename T, typename U>
-            static inline T lerp(U value, T min, T max);
+            static constexpr T lerp(U value, T min, T max);
 
             //! Smooth step function.
-            static inline float smoothStep(float value, float min, float max);
+            static constexpr float smoothStep(float value, float min, float max);
 
             //! Soft clip function.
             //!
@@ -178,16 +178,16 @@ namespace djv
             static int round(float);
 
             //! Get the value after the decimal.
-            static inline float fraction(float);
+            static constexpr float fraction(float);
 
             //! Find the closest power of two.
             static inline int toPow2(int);
 
             //! Convert degrees to radians.
-            static inline float degreesToRadians(float);
+            static constexpr float degreesToRadians(float);
 
             //! Convert radians to degrees.
-            static inline float radiansToDegrees(float);
+            static constexpr float radiansToDegrees(float);
 
             //! Floating point comparison.
             static bool fuzzyCompare(float, float);

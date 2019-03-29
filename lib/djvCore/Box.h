@@ -41,21 +41,21 @@ namespace djv
         template<typename T, precision P = glm::defaultp>
         struct Box2
         {
-            inline Box2();
-            inline Box2(const Box2<T, P> &);
-            inline Box2(const glm::tvec2<T, P> & position, const glm::tvec2<T, P> & size);
-            inline Box2(const glm::tvec2<T, P> & size);
-            inline Box2(T x, T y, T w, T h);
-            inline Box2(T w, T h);
+            constexpr Box2();
+            constexpr Box2(const Box2<T, P> &);
+            constexpr Box2(const glm::tvec2<T, P> & position, const glm::tvec2<T, P> & size);
+            constexpr Box2(const glm::tvec2<T, P> & size);
+            constexpr Box2(T x, T y, T w, T h);
+            constexpr Box2(T w, T h);
 
             glm::tvec2<T, P> position;
             glm::tvec2<T, P> size;
 
             //! Component access.
-            T & x, &y, &w, &h;
+            T & x, & y, & w, & h;
 
             //! Is the box valid (width and height are greater than zero)?
-            inline bool isValid() const;
+            constexpr bool isValid() const;
 
             //! Set the components to zero.
             inline void zero();
@@ -64,7 +64,7 @@ namespace djv
             inline glm::tvec2<T, P> lowerRight() const;
 
             //! Set the lower right hand corner.
-            inline void setLowerRight(const glm::tvec2<T, P> &);
+            void setLowerRight(const glm::tvec2<T, P> &);
 
             inline Box2<T, P> & operator = (const Box2<T, P> &);
 
@@ -74,29 +74,32 @@ namespace djv
             inline Box2<T, P> & operator *= (T);
             inline Box2<T, P> & operator /= (T);
 
-            inline operator Box2<int, P>() const;
-            inline operator Box2<float, P>() const;
+            constexpr bool operator == (const Core::Box2<T, P> &) const;
+            constexpr bool operator != (const Core::Box2<T, P> &) const;
+
+            constexpr operator Box2<int, P>() const;
+            constexpr operator Box2<float, P>() const;
         };
 
         //! This class provides a three-dimensional axis-aligned box.
         template<typename T, precision P = glm::defaultp>
         struct Box3
         {
-            inline Box3();
-            inline Box3(const Box3<T, P> &);
-            inline Box3(const glm::tvec3<T, P> & position, const glm::tvec3<T, P> & size);
-            inline Box3(const glm::tvec3<T, P> & size);
-            inline Box3(T x, T y, T z, T w, T h, T d);
-            inline Box3(T w, T h, T d);
+            constexpr Box3();
+            constexpr Box3(const Box3<T, P> &);
+            constexpr Box3(const glm::tvec3<T, P> & position, const glm::tvec3<T, P> & size);
+            constexpr Box3(const glm::tvec3<T, P> & size);
+            constexpr Box3(T x, T y, T z, T w, T h, T d);
+            constexpr Box3(T w, T h, T d);
 
             glm::tvec3<T, P> position;
             glm::tvec3<T, P> size;
 
             //! Component access.
-            T & x, &y, &z, &w, &h, &d;
+            T & x, & y, & z, & w, & h, & d;
 
             //! Is the box valid (width and height are greater than zero)?
-            inline bool isValid() const;
+            constexpr bool isValid() const;
 
             //! Set the components to zero.
             inline void zero();
@@ -115,8 +118,11 @@ namespace djv
             inline Box3<T, P> & operator *= (T);
             inline Box3<T, P> & operator /= (T);
 
-            inline operator Box3<int, P>() const;
-            inline operator Box3<float, P>() const;
+            constexpr operator Box3<int, P>() const;
+            constexpr operator Box3<float, P>() const;
+
+            constexpr bool operator == (const Core::Box3<T, P> &) const;
+            constexpr bool operator != (const Core::Box3<T, P> &) const;
         };
 
         typedef Box2<int> Box2i;
@@ -127,48 +133,38 @@ namespace djv
     } // namespace Core
 
     template <typename T, precision P = glm::defaultp>
-    inline Core::Box2<T, P> operator + (const Core::Box2<T, P> &, T);
+    constexpr Core::Box2<T, P> operator + (const Core::Box2<T, P> &, T);
     template <typename T, precision P = glm::defaultp>
-    inline Core::Box3<T, P> operator + (const Core::Box3<T, P> &, T);
+    constexpr Core::Box3<T, P> operator + (const Core::Box3<T, P> &, T);
     template <typename T, precision P = glm::defaultp>
-    inline Core::Box2<T, P> operator - (const Core::Box2<T, P> &, T);
+    constexpr Core::Box2<T, P> operator - (const Core::Box2<T, P> &, T);
     template <typename T, precision P = glm::defaultp>
-    inline Core::Box3<T, P> operator - (const Core::Box3<T, P> &, T);
+    constexpr Core::Box3<T, P> operator - (const Core::Box3<T, P> &, T);
     template <typename T, precision P = glm::defaultp>
-    inline Core::Box2<T, P> operator * (const Core::Box2<T, P> &, T);
+    constexpr Core::Box2<T, P> operator * (const Core::Box2<T, P> &, T);
     template <typename T, precision P = glm::defaultp>
-    inline Core::Box3<T, P> operator * (const Core::Box3<T, P> &, T);
+    constexpr Core::Box3<T, P> operator * (const Core::Box3<T, P> &, T);
     template <typename T, precision P = glm::defaultp>
-    inline Core::Box2<T, P> operator / (const Core::Box2<T, P> &, T);
+    constexpr Core::Box2<T, P> operator / (const Core::Box2<T, P> &, T);
     template <typename T, precision P = glm::defaultp>
-    inline Core::Box3<T, P> operator / (const Core::Box3<T, P> &, T);
+    constexpr Core::Box3<T, P> operator / (const Core::Box3<T, P> &, T);
 
     template <typename T, precision P = glm::defaultp>
-    inline Core::Box2<T, P> operator + (const Core::Box2<T, P> &, const glm::tvec2<T, P> &);
+    constexpr Core::Box2<T, P> operator + (const Core::Box2<T, P> &, const glm::tvec2<T, P> &);
     template <typename T, precision P = glm::defaultp>
-    inline Core::Box3<T, P> operator + (const Core::Box3<T, P> &, const glm::tvec3<T, P> &);
+    constexpr Core::Box3<T, P> operator + (const Core::Box3<T, P> &, const glm::tvec3<T, P> &);
     template <typename T, precision P = glm::defaultp>
-    inline Core::Box2<T, P> operator - (const Core::Box2<T, P> &, const glm::tvec2<T, P> &);
+    constexpr Core::Box2<T, P> operator - (const Core::Box2<T, P> &, const glm::tvec2<T, P> &);
     template <typename T, precision P = glm::defaultp>
-    inline Core::Box3<T, P> operator - (const Core::Box3<T, P> &, const glm::tvec3<T, P> &);
+    constexpr Core::Box3<T, P> operator - (const Core::Box3<T, P> &, const glm::tvec3<T, P> &);
     template <typename T, precision P = glm::defaultp>
-    inline Core::Box2<T, P> operator * (const Core::Box2<T, P> &, const glm::tvec2<T, P> &);
+    constexpr Core::Box2<T, P> operator * (const Core::Box2<T, P> &, const glm::tvec2<T, P> &);
     template <typename T, precision P = glm::defaultp>
-    inline Core::Box3<T, P> operator * (const Core::Box3<T, P> &, const glm::tvec3<T, P> &);
+    constexpr Core::Box3<T, P> operator * (const Core::Box3<T, P> &, const glm::tvec3<T, P> &);
     template <typename T, precision P = glm::defaultp>
-    inline Core::Box2<T, P> operator / (const Core::Box2<T, P> &, const glm::tvec2<T, P> &);
+    constexpr Core::Box2<T, P> operator / (const Core::Box2<T, P> &, const glm::tvec2<T, P> &);
     template <typename T, precision P = glm::defaultp>
-    inline Core::Box3<T, P> operator / (const Core::Box3<T, P> &, const glm::tvec3<T, P> &);
-
-    template <typename T, precision P = glm::defaultp>
-    inline bool operator == (const Core::Box2<T, P> &, const Core::Box2<T, P> &);
-    template <typename T, precision P = glm::defaultp>
-    inline bool operator == (const Core::Box3<T, P> &, const Core::Box3<T, P> &);
-
-    template <typename T, precision P = glm::defaultp>
-    inline bool operator != (const Core::Box2<T, P> &, const Core::Box2<T, P> &);
-    template <typename T, precision P = glm::defaultp>
-    inline bool operator != (const Core::Box3<T, P> &, const Core::Box3<T, P> &);
+    constexpr Core::Box3<T, P> operator / (const Core::Box3<T, P> &, const glm::tvec3<T, P> &);
 
     template<typename T, precision P = glm::defaultp>
     inline QStringList & operator >> (QStringList &, Core::Box2<T, P> &);

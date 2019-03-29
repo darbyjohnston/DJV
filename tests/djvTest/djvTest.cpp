@@ -82,7 +82,7 @@ int main(int argc, char ** argv)
         QApplication app(argc, argv);
         
         QVector<TestLib::AbstractTest *> tests = QVector<TestLib::AbstractTest *>() <<
-            /*new CoreTest::BoxTest <<
+            new CoreTest::BoxTest <<
             new CoreTest::BoxUtilTest <<
             new CoreTest::CoreContextTest <<
             new CoreTest::DebugTest <<
@@ -103,10 +103,10 @@ int main(int argc, char ** argv)
             new CoreTest::TimeTest <<
             new CoreTest::TimerTest <<
             new CoreTest::UserTest <<
-            new CoreTest::VectorUtilTest <<*/
+            new CoreTest::VectorUtilTest <<
 
             new AVTest::AudioDataTest <<
-            new AVTest::AudioTest/* <<
+            new AVTest::AudioTest <<
             new AVTest::AVContextTest <<
             new AVTest::ColorProfileTest <<
             new AVTest::ColorTest <<
@@ -119,7 +119,7 @@ int main(int argc, char ** argv)
             new AVTest::PixelDataTest <<
             new AVTest::PixelDataUtilTest <<
             new AVTest::PixelTest <<
-            new AVTest::TagsTest*/;
+            new AVTest::TagsTest;
 
         for (int i = 0; i < tests.count(); ++i)
         {

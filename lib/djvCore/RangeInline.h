@@ -32,30 +32,30 @@ namespace djv
     namespace Core
     {
         template<typename T>
-        inline Range<T>::Range(T in) :
+        constexpr Range<T>::Range(T in) :
             min(in),
             max(in)
         {}
 
         template<typename T>
-        inline Range<T>::Range(T min, T max) :
+        constexpr Range<T>::Range(T min, T max) :
             min(min),
             max(max)
         {}
 
+        template<typename T>
+        constexpr bool Range<T>::operator == (const Core::Range<T> & other) const
+        {
+            return min == other.min && max == other.max;
+        }
+
+        template<typename T>
+        constexpr bool Range<T>::operator != (const Core::Range<T> & other) const
+        {
+            return !(*this == other);
+        }
+
     } // namespace Core
-
-    template<typename T>
-    inline bool operator == (const Core::Range<T> & a, const Core::Range<T> & b)
-    {
-        return a.min == b.min && a.max == a.max;
-    }
-
-    template<typename T>
-    inline bool operator != (const Core::Range<T> & a, const Core::Range<T> & b)
-    {
-        return !(a == b);
-    }
 
     template<class T>
     inline Core::Debug & operator << (Core::Debug & debug, const Core::Range<T> & in)

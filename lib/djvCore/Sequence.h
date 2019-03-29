@@ -59,10 +59,10 @@ namespace djv
             void setFrames(qint64 start, qint64 end);
 
             //! Get the start frame.
-            inline qint64 start() const;
+            constexpr qint64 start() const;
 
             //! Get the end frame.
-            inline qint64 end() const;
+            constexpr qint64 end() const;
 
             //! Sort the frame numbers in a sequence.
             void sort();
@@ -132,12 +132,12 @@ namespace djv
 
             //! Set whether negative numbers are enabled.
             static void setNegativeEnabled(bool);
+
+            inline bool operator == (const Core::Sequence &) const;
+            inline bool operator != (const Core::Sequence &) const;
         };
 
     } // namespace Core
-
-    inline bool operator == (const Core::Sequence &, const Core::Sequence &);
-    inline bool operator != (const Core::Sequence &, const Core::Sequence &);
 
     DJV_STRING_OPERATOR(Core::Sequence);
     DJV_STRING_OPERATOR(Core::Sequence::FORMAT);

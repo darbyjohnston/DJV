@@ -44,10 +44,10 @@ namespace djv
 
             //! Get whether a value is inside a range.
             template<typename T>
-            static inline bool intersect(T, const Range<T> &);
+            static constexpr bool intersect(T, const Range<T> &);
 
             //! Get whether a value is inside a range.
-            static inline bool intersect(int, const Range<int> &);
+            static constexpr bool intersect(int, const Range<int> &);
 
             //! Get the intersection of two ranges.
             template<typename T>

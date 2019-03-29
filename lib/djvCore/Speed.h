@@ -72,7 +72,7 @@ namespace djv
             static const QStringList & fpsLabels();
 
             Speed();
-            Speed(int scale, int duration = 1);
+            constexpr Speed(int scale, int duration = 1);
             Speed(FPS);
 
             //! Get the time scale.    
@@ -85,10 +85,10 @@ namespace djv
             void set(FPS);
 
             //! Get whether the speed is valid.
-            bool isValid() const;
+            constexpr bool isValid() const;
 
             //! Convert a speed to a floating point value.
-            static float speedToFloat(const Speed &);
+            static constexpr float speedToFloat(const Speed &);
 
             //! Convert a floating point value to a speed.
             static Speed floatToSpeed(float);
@@ -102,14 +102,15 @@ namespace djv
             //! Set the global speed.
             static void setSpeed(FPS);
 
+            constexpr bool operator == (const Speed &) const;
+            constexpr bool operator != (const Speed &) const;
+
         private:
             int _scale = 0;
             int _duration = 0;
         };
 
     } // namespace Core
-
-    DJV_COMPARISON_OPERATOR(Core::Speed);
 
     DJV_STRING_OPERATOR(Core::Speed::FPS);
     DJV_STRING_OPERATOR(Core::Speed);
@@ -119,3 +120,6 @@ namespace djv
 } // namspace djv
 
 Q_DECLARE_METATYPE(djv::Core::Speed)
+
+#include <djvCore/SpeedInline.h>
+

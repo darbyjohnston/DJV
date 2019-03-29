@@ -31,49 +31,31 @@ namespace djv
 {
     namespace Core
     {
-        constexpr qint64 Sequence::start() const
+        constexpr Speed::Speed(int scale, int duration) :
+            _scale(scale),
+            _duration(duration)
+        {}
+
+        constexpr bool Speed::isValid() const
         {
-            return frames.count() ? frames[0] : 0;
+            return _scale != 0 && _duration != 0;
         }
 
-        constexpr qint64 Sequence::end() const
+        constexpr float Speed::speedToFloat(const Speed & speed)
         {
-            return frames.count() ? frames[frames.count() - 1] : 0;
-        }
-        
-        inline qint64 Sequence::stringToFrame(const QString & string, int * pad)
-        {
-            const int length = string.length();
-            if (length && '#' == string[0])
-                return -1;
-            if (pad)
-            {
-                *pad = 0;
-                int i = 0;
-                if (length && '-' == string[i])
-                {
-                    ++i;
-                }
-                if ((length - i) > 1)
-                {
-                    if ('0' == string[i])
-                    {
-                        *pad = (length - i);
-                    }
-                }
-            }
-            return string.toLongLong();
+            return speed._scale / static_cast<float>(speed._duration);
         }
 
-        inline bool Sequence::operator == (const Sequence & other) const
+        constexpr bool Speed::operator == (const Core::Speed & other) const
         {
-            return frames == other.frames && pad == other.pad && speed == other.speed;
+            return _scale == other._scale && _duration == other._duration;
         }
 
-        inline bool Sequence::operator != (const Sequence & other) const
+        constexpr bool Speed::operator != (const Core::Speed & other) const
         {
             return !(*this == other);
         }
 
     } // namespace Core
-} // namespace djv
+
+} // namspace djv

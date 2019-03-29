@@ -37,12 +37,12 @@ namespace djv
         {}
 
         template<typename T>
-        inline bool RangeUtil::intersect(T in, const Range<T> & range)
+        constexpr bool RangeUtil::intersect(T in, const Range<T> & range)
         {
             return in >= range.min && in < range.max;
         }
 
-        inline bool RangeUtil::intersect(int in, const Range<int> & range)
+        constexpr bool RangeUtil::intersect(int in, const Range<int> & range)
         {
             return in >= range.min && in < range.max + 1;
         }

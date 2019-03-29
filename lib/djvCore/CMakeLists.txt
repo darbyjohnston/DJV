@@ -38,6 +38,7 @@ set(header
     SequenceInline.h
     SignalBlocker.h
     Speed.h
+    SpeedInline.h
     StringUtil.h
     StringUtilInline.h
     System.h

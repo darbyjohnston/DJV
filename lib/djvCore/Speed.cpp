@@ -71,11 +71,6 @@ namespace djv
             set(speed());
         }
 
-        Speed::Speed(int scale, int duration) :
-            _scale(scale),
-            _duration(duration)
-        {}
-
         Speed::Speed(FPS in)
         {
             set(in);
@@ -137,16 +132,6 @@ namespace djv
             _duration = duration[fps];
         }
 
-        bool Speed::isValid() const
-        {
-            return _scale != 0 && _duration != 0;
-        }
-
-        float Speed::speedToFloat(const Speed & speed)
-        {
-            return speed._scale / static_cast<float>(speed._duration);
-        }
-
         Speed Speed::floatToSpeed(float value)
         {
             //! \todo Implement a proper floating-point to rational number conversion.
@@ -178,16 +163,6 @@ namespace djv
         }
 
     } // namespace Core
-
-    bool operator == (const Core::Speed & a, const Core::Speed & b)
-    {
-        return a.scale() == b.scale() && a.duration() == b.duration();
-    }
-
-    bool operator != (const Core::Speed & a, const Core::Speed & b)
-    {
-        return !(a == b);
-    }
 
     _DJV_STRING_OPERATOR_LABEL(Core::Speed::FPS, Core::Speed::fpsLabels());
 

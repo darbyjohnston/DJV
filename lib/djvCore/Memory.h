@@ -73,7 +73,7 @@ namespace djv
             static ENDIAN endian();
 
             //! Get the opposite of the given endian.
-            static inline ENDIAN endianOpposite(ENDIAN);
+            static constexpr ENDIAN endianOpposite(ENDIAN);
 
             //! Convert the endian of a block of memory in place.
             static inline void convertEndian(

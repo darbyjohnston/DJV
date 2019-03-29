@@ -65,14 +65,14 @@ namespace djv
                 const Sequence seq(frameList, 4, Speed::FPS_24);
                 DJV_ASSERT(frameList == seq.frames);
                 DJV_ASSERT(4 == seq.pad);
-                DJV_ASSERT(Speed::FPS_24 == seq.speed);
+                DJV_ASSERT(Speed(Speed::FPS_24) == seq.speed);
             }
             {
                 const FrameList frameList = FrameList() << 1 << 2 << 3;
                 const Sequence seq(1, 3, 4, Speed::FPS_24);
                 DJV_ASSERT(frameList == seq.frames);
                 DJV_ASSERT(4 == seq.pad);
-                DJV_ASSERT(Speed::FPS_24 == seq.speed);
+                DJV_ASSERT(Speed(Speed::FPS_24) == seq.speed);
             }
         }
 

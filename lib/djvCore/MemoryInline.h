@@ -41,7 +41,7 @@ namespace djv
             }
         }
 
-        inline Memory::ENDIAN Memory::endianOpposite(ENDIAN in)
+        constexpr Memory::ENDIAN Memory::endianOpposite(ENDIAN in)
         {
             return MSB == in ? LSB : MSB;
         }

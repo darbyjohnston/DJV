@@ -31,7 +31,7 @@ namespace djv
 {
 #define _BOX_FNC_OP(BOX, IN) \
     template<typename T, precision P> \
-    inline BOX<T, P> operator IN (const BOX<T, P> & a, T b) \
+    constexpr BOX<T, P> operator IN (const BOX<T, P> & a, T b) \
     { \
         return BOX<T, P>(a.position IN b, a.size IN b); \
     }
@@ -47,7 +47,7 @@ namespace djv
 
 #define _BOX_FNC_OP2(IN) \
     template<typename T, precision P> \
-    inline Core::Box2<T, P> operator IN (const Core::Box2<T, P> & a, const glm::tvec2<T, P> & b) \
+    constexpr Core::Box2<T, P> operator IN (const Core::Box2<T, P> & a, const glm::tvec2<T, P> & b) \
     { \
         return Core::Box2<T, P>(a.position IN b, a.size IN b); \
     }
@@ -59,7 +59,7 @@ namespace djv
 
 #define _BOX_FNC_OP3(IN) \
     template<typename T, precision P> \
-    inline Core::Box3<T, P> operator IN (const Core::Box3<T, P> & a, const glm::tvec3<T, P> & b) \
+    constexpr Core::Box3<T, P> operator IN (const Core::Box3<T, P> & a, const glm::tvec3<T, P> & b) \
     { \
         return Core::Box3<T, P>(a.position IN b, a.size IN b); \
     }
@@ -68,30 +68,6 @@ namespace djv
     _BOX_FNC_OP3(-)
     _BOX_FNC_OP3(*)
     _BOX_FNC_OP3(/)
-
-    template<typename T, precision P>
-    inline bool operator == (const Core::Box2<T, P> & a, const Core::Box2<T, P> & b)
-    {
-        return a.position == b.position && a.size == b.size;
-    }
-
-    template<typename T, precision P>
-    inline bool operator == (const Core::Box3<T, P> & a, const Core::Box3<T, P> & b)
-    {
-        return a.position == b.position && a.size == b.size;
-    }
-
-    template<typename T, precision P>
-    inline bool operator != (const Core::Box2<T, P> & a, const Core::Box2<T, P> & b)
-    {
-        return !(a == b);
-    }
-
-    template<typename T, precision P>
-    inline bool operator != (const Core::Box3<T, P> & a, const Core::Box3<T, P> & b)
-    {
-        return !(a == b);
-    }
 
     template<typename T, precision P>
     inline QStringList & operator << (QStringList & out, const Core::Box2<T, P> & in)
