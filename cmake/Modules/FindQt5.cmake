@@ -123,8 +123,8 @@ set(QT_LIBRARIES
     ${ZLIB_LIBRARIES})
 
 find_program(QT_MOC NAMES moc-qt5 moc)
-find_program(QT_LUPDATE NAMES lupdate-qt5 lupdate)
-find_program(QT_LCONVERT NAMES lconvert-qt5 lconvert)
+#find_program(QT_LUPDATE NAMES lupdate-qt5 lupdate)
+#find_program(QT_LCONVERT NAMES lconvert-qt5 lconvert)
 find_program(QT_RCC NAMES rcc-qt5 rcc)
 
 include(FindPackageHandleStandardArgs)
@@ -144,6 +144,7 @@ mark_as_advanced(
     QT_GUI_INCLUDE_DIR
     QT_NETWORK_INCLUDE_DIR
     QT_OPENGL_INCLUDE_DIR
+    QT_PLATFORM_HEADERS_INCLUDE_DIR
     QT_PRINT_SUPPORT_INCLUDE_DIR
     QT_SQL_INCLUDE_DIR
     QT_WIDGETS_INCLUDE_DIR

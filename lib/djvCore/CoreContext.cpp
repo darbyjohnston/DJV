@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------
-// Copyright (c) 2004-2018 Darby Johnston
+// Copyright (c) 2004-2019 Darby Johnston
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -261,7 +261,7 @@ namespace djv
                 "http://djv.sourceforge.net\n"
                 "https://github.com/darbyjohnston/DJV\n"
                 "\n"
-                "Copyright (c) 2004-2018 Darby Johnston\n"
+                "Copyright (c) 2004-2019 Darby Johnston\n"
                 "All rights reserved.\n"
                 "\n"
                 "Redistribution and use in source and binary forms, with or without "
@@ -291,7 +291,7 @@ namespace djv
                 "\n"
                 "Portions of this software are copyright (in alphabetical order):\n"
                 "\n"
-                "    Copyright (c) 2004-2018 Darby Johnston\n"
+                "    Copyright (c) 2004-2019 Darby Johnston\n"
                 "    All rights reserved\n"
                 "\n"
                 "    Copyright (c) 2008 Alan Jones\n"
