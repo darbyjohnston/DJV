@@ -42,7 +42,7 @@ if(ZLIB_FOUND AND NOT TARGET ZLIB)
     target_link_libraries(ZLIB INTERFACE ZLIB::ZLIB)
 endif()
 
-if(DJV_THIRD_PARTY)
+if(DJV_THIRD_PARTY AND ZLIB_SHARED_LIBS)
     if(WIN32)
         install(
             FILES ${DJV_THIRD_PARTY}/bin/zlib.dll
