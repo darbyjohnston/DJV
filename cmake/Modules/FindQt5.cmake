@@ -123,8 +123,8 @@ set(QT_LIBRARIES
     ${ZLIB_LIBRARIES})
 
 find_program(QT_MOC moc)
-find_program(QT_LUPDATE lupdate)
-find_program(QT_LCONVERT lconvert)
+#find_program(QT_LUPDATE lupdate)
+#find_program(QT_LCONVERT lconvert)
 find_program(QT_RCC rcc)
 
 include(FindPackageHandleStandardArgs)
@@ -326,7 +326,6 @@ if(DJV_THIRD_PARTY)
             DIRECTORY
             ${DJV_THIRD_PARTY}/plugins/bearer
             ${DJV_THIRD_PARTY}/plugins/generic
-            ${DJV_THIRD_PARTY}/plugins/iconengines
             ${DJV_THIRD_PARTY}/plugins/imageformats
             ${DJV_THIRD_PARTY}/plugins/platforms
             ${DJV_THIRD_PARTY}/plugins/sqldrivers
@@ -378,7 +377,6 @@ if(DJV_THIRD_PARTY)
             DIRECTORY
             ${DJV_THIRD_PARTY}/plugins/bearer
             ${DJV_THIRD_PARTY}/plugins/generic
-            ${DJV_THIRD_PARTY}/plugins/iconengines
             ${DJV_THIRD_PARTY}/plugins/imageformats
             ${DJV_THIRD_PARTY}/plugins/platforms
             ${DJV_THIRD_PARTY}/plugins/sqldrivers
@@ -434,7 +432,6 @@ if(DJV_THIRD_PARTY)
             DIRECTORY
             ${DJV_THIRD_PARTY}/plugins/bearer
             ${DJV_THIRD_PARTY}/plugins/generic
-            ${DJV_THIRD_PARTY}/plugins/iconengines
             ${DJV_THIRD_PARTY}/plugins/imageformats
             ${DJV_THIRD_PARTY}/plugins/platforminputcontexts
             ${DJV_THIRD_PARTY}/plugins/platforms
