@@ -27,63 +27,28 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#pragma once
+#include <djvViewLib/AnnotationsPrefs.h>
 
-#include <djvViewLib/Enum.h>
+#include <djvViewLib/ViewContext.h>
 
-#include <QMainWindow>
+#include <djvUI/Prefs.h>
 
-#include <memory>
+#include <QPointer>
 
 namespace djv
 {
     namespace ViewLib
     {
-        class Session;
-        class ViewContext;
-
-        //! This class provides a main window.
-        class MainWindow : public QMainWindow
+        AnnotationsPrefs::AnnotationsPrefs(const QPointer<ViewContext> & context, QObject * parent) :
+            AbstractPrefs(context, parent)
         {
-            Q_OBJECT
+            UI::Prefs prefs("djv::ViewLib::AnnotationsPrefs");
+        }
 
-        public:
-            explicit MainWindow(
-                const QPointer<Session> & copy,
-                const QPointer<Session> &,
-                const QPointer<ViewContext> &);
-            ~MainWindow() override;
-
-            QMenu * createPopupMenu() override;
-
-        public Q_SLOTS:
-            //! Fit the window to the image.
-            void fitWindow(bool move = true);
-
-        protected:
-            void showEvent(QShowEvent *) override;
-            void closeEvent(QCloseEvent *) override;
-            void keyPressEvent(QKeyEvent *) override;
-
-        private Q_SLOTS:
-            void fileCallback(bool);
-            void windowResizeCallback();
-            void enableUpdatesCallback();
-            void mouseWheelActionCallback(djv::ViewLib::Enum::MOUSE_WHEEL_ACTION);
-            void mouseWheelValueCallback(int);
-            void controlsWindowClosedCallback();
-
-            void fileUpdate();
-            void imageUpdate();
-            void windowUpdate();
-            void viewHUDUpdate();
-
-        private:
-            DJV_PRIVATE_COPY(MainWindow);
-
-            struct Private;
-            std::unique_ptr<Private> _p;
-        };
+        AnnotationsPrefs::~AnnotationsPrefs()
+        {
+            UI::Prefs prefs("djv::ViewLib::AnnotationsPrefs");
+        }
 
     } // namespace ViewLib
 } // namespace djv

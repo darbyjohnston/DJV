@@ -29,57 +29,36 @@
 
 #pragma once
 
-#include <djvViewLib/Enum.h>
-
-#include <QMainWindow>
+#include <djvViewLib/AbstractPrefsWidget.h>
 
 #include <memory>
+
+class QListWidgetItem;
 
 namespace djv
 {
     namespace ViewLib
     {
-        class Session;
-        class ViewContext;
-
-        //! This class provides a main window.
-        class MainWindow : public QMainWindow
+        //! This class provides the annotations group preferences widget.
+        class AnnotationsPrefsWidget : public AbstractPrefsWidget
         {
             Q_OBJECT
 
         public:
-            explicit MainWindow(
-                const QPointer<Session> & copy,
-                const QPointer<Session> &,
-                const QPointer<ViewContext> &);
-            ~MainWindow() override;
+            AnnotationsPrefsWidget(const QPointer<ViewContext> &);
+            ~AnnotationsPrefsWidget() override;
 
-            QMenu * createPopupMenu() override;
-
-        public Q_SLOTS:
-            //! Fit the window to the image.
-            void fitWindow(bool move = true);
+            void resetPreferences() override;
 
         protected:
-            void showEvent(QShowEvent *) override;
-            void closeEvent(QCloseEvent *) override;
-            void keyPressEvent(QKeyEvent *) override;
+            bool event(QEvent *) override;
 
         private Q_SLOTS:
-            void fileCallback(bool);
-            void windowResizeCallback();
-            void enableUpdatesCallback();
-            void mouseWheelActionCallback(djv::ViewLib::Enum::MOUSE_WHEEL_ACTION);
-            void mouseWheelValueCallback(int);
-            void controlsWindowClosedCallback();
-
-            void fileUpdate();
-            void imageUpdate();
-            void windowUpdate();
-            void viewHUDUpdate();
+            void styleUpdate();
+            void widgetUpdate();
 
         private:
-            DJV_PRIVATE_COPY(MainWindow);
+            DJV_PRIVATE_COPY(AnnotationsPrefsWidget);
 
             struct Private;
             std::unique_ptr<Private> _p;

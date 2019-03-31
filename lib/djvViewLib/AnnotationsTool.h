@@ -29,9 +29,9 @@
 
 #pragma once
 
-#include <djvViewLib/Enum.h>
+#include <djvViewLib/AbstractTool.h>
 
-#include <QMainWindow>
+#include <djvCore/Vector.h>
 
 #include <memory>
 
@@ -39,47 +39,28 @@ namespace djv
 {
     namespace ViewLib
     {
-        class Session;
-        class ViewContext;
-
-        //! This class provides a main window.
-        class MainWindow : public QMainWindow
+        //! This class provides the annotations tool.
+        class AnnotationsTool : public AbstractTool
         {
             Q_OBJECT
 
         public:
-            explicit MainWindow(
-                const QPointer<Session> & copy,
+            explicit AnnotationsTool(
                 const QPointer<Session> &,
-                const QPointer<ViewContext> &);
-            ~MainWindow() override;
-
-            QMenu * createPopupMenu() override;
-
-        public Q_SLOTS:
-            //! Fit the window to the image.
-            void fitWindow(bool move = true);
-
-        protected:
-            void showEvent(QShowEvent *) override;
-            void closeEvent(QCloseEvent *) override;
-            void keyPressEvent(QKeyEvent *) override;
+                const QPointer<ViewContext> &,
+                QWidget * parent = nullptr);
+            ~AnnotationsTool() override;
 
         private Q_SLOTS:
-            void fileCallback(bool);
-            void windowResizeCallback();
-            void enableUpdatesCallback();
-            void mouseWheelActionCallback(djv::ViewLib::Enum::MOUSE_WHEEL_ACTION);
-            void mouseWheelValueCallback(int);
-            void controlsWindowClosedCallback();
+            void pickPressedCallback(const glm::ivec2 &);
+            void pickReleasedCallback(const glm::ivec2 &);
+            void pickMovedCallback(const glm::ivec2 &);
 
-            void fileUpdate();
-            void imageUpdate();
-            void windowUpdate();
-            void viewHUDUpdate();
+            void styleUpdate();
+            void widgetUpdate();
 
         private:
-            DJV_PRIVATE_COPY(MainWindow);
+            DJV_PRIVATE_COPY(AnnotationsTool);
 
             struct Private;
             std::unique_ptr<Private> _p;

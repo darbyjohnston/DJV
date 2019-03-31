@@ -29,60 +29,28 @@
 
 #pragma once
 
+#include <djvViewLib/AbstractPrefs.h>
+#include <djvViewLib/DisplayProfile.h>
 #include <djvViewLib/Enum.h>
-
-#include <QMainWindow>
-
-#include <memory>
 
 namespace djv
 {
     namespace ViewLib
     {
-        class Session;
-        class ViewContext;
-
-        //! This class provides a main window.
-        class MainWindow : public QMainWindow
+        //! This class provides the annotations group preferences.
+        class AnnotationsPrefs : public AbstractPrefs
         {
             Q_OBJECT
 
         public:
-            explicit MainWindow(
-                const QPointer<Session> & copy,
-                const QPointer<Session> &,
-                const QPointer<ViewContext> &);
-            ~MainWindow() override;
-
-            QMenu * createPopupMenu() override;
+            explicit AnnotationsPrefs(const QPointer<ViewContext> &, QObject * parent = nullptr);
+            ~AnnotationsPrefs() override;
 
         public Q_SLOTS:
-            //! Fit the window to the image.
-            void fitWindow(bool move = true);
 
-        protected:
-            void showEvent(QShowEvent *) override;
-            void closeEvent(QCloseEvent *) override;
-            void keyPressEvent(QKeyEvent *) override;
-
-        private Q_SLOTS:
-            void fileCallback(bool);
-            void windowResizeCallback();
-            void enableUpdatesCallback();
-            void mouseWheelActionCallback(djv::ViewLib::Enum::MOUSE_WHEEL_ACTION);
-            void mouseWheelValueCallback(int);
-            void controlsWindowClosedCallback();
-
-            void fileUpdate();
-            void imageUpdate();
-            void windowUpdate();
-            void viewHUDUpdate();
+        Q_SIGNALS:
 
         private:
-            DJV_PRIVATE_COPY(MainWindow);
-
-            struct Private;
-            std::unique_ptr<Private> _p;
         };
 
     } // namespace ViewLib

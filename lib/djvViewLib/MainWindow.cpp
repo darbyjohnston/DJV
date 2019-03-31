@@ -29,11 +29,11 @@
 
 #include <djvViewLib/MainWindow.h>
 
+#include <djvViewLib/AnnotationsGroup.h>
 #include <djvViewLib/ControlsWindow.h>
 #include <djvViewLib/FileCache.h>
 #include <djvViewLib/FileExport.h>
 #include <djvViewLib/FileGroup.h>
-#include <djvViewLib/FilePrefs.h>
 #include <djvViewLib/HelpGroup.h>
 #include <djvViewLib/HudInfo.h>
 #include <djvViewLib/ImageGroup.h>
@@ -108,6 +108,7 @@ namespace djv
             menuBar()->addMenu(session->viewGroup()->createMenu());
             menuBar()->addMenu(session->imageGroup()->createMenu());
             menuBar()->addMenu(session->playbackGroup()->createMenu());
+            menuBar()->addMenu(session->annotationsGroup()->createMenu());
             menuBar()->addMenu(session->toolGroup()->createMenu());
             menuBar()->addMenu(session->helpGroup()->createMenu());
 
@@ -116,6 +117,7 @@ namespace djv
             _p->toolBars[Enum::UI_WINDOW_TOOL_BAR] = session->windowGroup()->createToolBar();
             _p->toolBars[Enum::UI_VIEW_TOOL_BAR] = session->viewGroup()->createToolBar();
             _p->toolBars[Enum::UI_IMAGE_TOOL_BAR] = session->imageGroup()->createToolBar();
+            _p->toolBars[Enum::UI_ANNOTATIONS_TOOL_BAR] = session->annotationsGroup()->createToolBar();
             _p->toolBars[Enum::UI_TOOLS_TOOL_BAR] = session->toolGroup()->createToolBar();
             Q_FOREACH(auto toolBar, _p->toolBars)
             {
@@ -143,7 +145,7 @@ namespace djv
             fileUpdate();
             imageUpdate();
             windowUpdate();
-            viewOverlayUpdate();
+            viewHUDUpdate();
 
             // Setup the session callbacks.
             connect(
@@ -179,23 +181,23 @@ namespace djv
             connect(
                 session->playbackGroup(),
                 SIGNAL(sequenceChanged(const djv::Core::Sequence &)),
-                SLOT(viewOverlayUpdate()));
+                SLOT(viewHUDUpdate()));
             connect(
                 session->playbackGroup(),
                 SIGNAL(frameChanged(qint64)),
-                SLOT(viewOverlayUpdate()));
+                SLOT(viewHUDUpdate()));
             connect(
                 session->playbackGroup(),
                 SIGNAL(speedChanged(const djv::Core::Speed &)),
-                SLOT(viewOverlayUpdate()));
+                SLOT(viewHUDUpdate()));
             connect(
                 session->playbackGroup(),
                 SIGNAL(actualSpeedChanged(float)),
-                SLOT(viewOverlayUpdate()));
+                SLOT(viewHUDUpdate()));
             connect(
                 session->playbackGroup(),
                 SIGNAL(droppedFramesChanged(bool)),
-                SLOT(viewOverlayUpdate()));
+                SLOT(viewHUDUpdate()));
             connect(
                 session->playbackGroup(),
                 SIGNAL(layoutChanged(djv::ViewLib::Enum::LAYOUT)),
@@ -233,6 +235,7 @@ namespace djv
             out->addMenu(_p->session->viewGroup()->createMenu());
             out->addMenu(_p->session->imageGroup()->createMenu());
             out->addMenu(_p->session->playbackGroup()->createMenu());
+            out->addMenu(_p->session->annotationsGroup()->createMenu());
             out->addMenu(_p->session->toolGroup()->createMenu());
             out->addMenu(_p->session->helpGroup()->createMenu());
             return out;
@@ -424,7 +427,7 @@ namespace djv
             auto viewWidget = _p->session->viewWidget();
             viewWidget->setOptions(_p->session->imageOptions());
             viewWidget->setData(_p->session->image());
-            viewOverlayUpdate();
+            viewHUDUpdate();
             viewWidget->update();
         }
 
@@ -486,9 +489,9 @@ namespace djv
             QTimer::singleShot(0, this, SLOT(enableUpdatesCallback()));
         }
 
-        void MainWindow::viewOverlayUpdate()
+        void MainWindow::viewHUDUpdate()
         {
-            //DJV_DEBUG("MainWindow::viewOverlayUpdate");
+            //DJV_DEBUG("MainWindow::viewHUDUpdate");
 
             HudInfo hudInfo;
             if (auto image = _p->session->image())

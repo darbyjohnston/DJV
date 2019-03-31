@@ -45,6 +45,12 @@ namespace djv
         
         struct HudInfo;
 
+        namespace Annotations
+        {
+            struct Data;
+
+        } // namespace Annotations
+
         //! This class provides an image view widget.
         class ImageView : public UI::ImageView
         {
@@ -88,9 +94,18 @@ namespace djv
             //! Set the HUD background color.
             void setHudBackgroundColor(const djv::AV::Color &);
 
+            //! Set the annotations data.
+            void setAnnotationsData(const std::vector<Annotations::Data> &);
+
         Q_SIGNALS:
-            //! This signal is emitted when the view is picked.
-            void pickChanged(const glm::ivec2 &);
+            //! This signal is emitted when a pick is started.
+            void pickPressed(const glm::ivec2 &);
+
+            //! This signal is emitted when a pick is finished.
+            void pickReleased(const glm::ivec2 &);
+
+            //! This signal is emitted during a pick drag.
+            void pickMoved(const glm::ivec2 &);
 
             //! This signal is emitted when the mouse wheel action is changed.
             void mouseWheelActionChanged(djv::ViewLib::Enum::MOUSE_WHEEL_ACTION);
@@ -122,12 +137,13 @@ namespace djv
             void hudInfoCallback(const QMap<djv::ViewLib::Enum::HUD, bool> &);
 
         private:
-            void drawGrid();
-            void drawHud();
+            void drawGrid(QPainter &);
+            void drawHud(QPainter &);
             void drawHudItem(
                 QPainter &,
                 const QString &,
                 const Core::Box2i &);
+            void drawAnnotations(QPainter &);
 
             DJV_PRIVATE_COPY(ImageView);
 

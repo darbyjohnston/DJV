@@ -194,7 +194,11 @@ namespace djv
             });
             connect(
                 viewWidget,
-                SIGNAL(pickChanged(const glm::ivec2 &)),
+                SIGNAL(pickPressed(const glm::ivec2 &)),
+                SLOT(pickCallback(const glm::ivec2 &)));
+            connect(
+                viewWidget,
+                SIGNAL(pickMoved(const glm::ivec2 &)),
                 SLOT(pickCallback(const glm::ivec2 &)));
             connect(
                 _p->widget,

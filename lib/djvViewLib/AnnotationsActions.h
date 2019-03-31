@@ -29,9 +29,7 @@
 
 #pragma once
 
-#include <djvViewLib/Enum.h>
-
-#include <QMainWindow>
+#include <djvViewLib/AbstractActions.h>
 
 #include <memory>
 
@@ -39,47 +37,29 @@ namespace djv
 {
     namespace ViewLib
     {
-        class Session;
-        class ViewContext;
-
-        //! This class provides a main window.
-        class MainWindow : public QMainWindow
+        //! This class provides the annotations group actions.
+        class AnnotationsActions : public AbstractActions
         {
             Q_OBJECT
 
         public:
-            explicit MainWindow(
-                const QPointer<Session> & copy,
-                const QPointer<Session> &,
-                const QPointer<ViewContext> &);
-            ~MainWindow() override;
+            //! This enumeration provides the actions.
+            enum ACTION
+            {
+                ANNOTATIONS_WIDGET,
 
-            QMenu * createPopupMenu() override;
+                ACTION_COUNT
+            };
+            Q_ENUM(ACTION);
 
-        public Q_SLOTS:
-            //! Fit the window to the image.
-            void fitWindow(bool move = true);
-
-        protected:
-            void showEvent(QShowEvent *) override;
-            void closeEvent(QCloseEvent *) override;
-            void keyPressEvent(QKeyEvent *) override;
+            explicit AnnotationsActions(const QPointer<ViewContext> &, QObject * parent = nullptr);
+            ~AnnotationsActions() override;
 
         private Q_SLOTS:
-            void fileCallback(bool);
-            void windowResizeCallback();
-            void enableUpdatesCallback();
-            void mouseWheelActionCallback(djv::ViewLib::Enum::MOUSE_WHEEL_ACTION);
-            void mouseWheelValueCallback(int);
-            void controlsWindowClosedCallback();
-
-            void fileUpdate();
-            void imageUpdate();
-            void windowUpdate();
-            void viewHUDUpdate();
+            void update();
 
         private:
-            DJV_PRIVATE_COPY(MainWindow);
+            DJV_PRIVATE_COPY(AnnotationsActions);
 
             struct Private;
             std::unique_ptr<Private> _p;

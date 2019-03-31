@@ -29,6 +29,7 @@
 
 #include <djvViewLib/Session.h>
 
+#include <djvViewLib/AnnotationsGroup.h>
 #include <djvViewLib/ControlsWindow.h>
 #include <djvViewLib/FileCache.h>
 #include <djvViewLib/FileExport.h>
@@ -86,6 +87,7 @@ namespace djv
             QScopedPointer<ViewGroup> viewGroup;
             QScopedPointer<ImageGroup> imageGroup;
             QScopedPointer<PlaybackGroup> playbackGroup;
+            QScopedPointer<AnnotationsGroup> annotationsGroup;
             QScopedPointer<ToolGroup> toolGroup;
             QScopedPointer<HelpGroup> helpGroup;
 
@@ -109,12 +111,14 @@ namespace djv
             _p->viewGroup.reset(new ViewGroup(copy ? copy->_p->viewGroup.data() : nullptr, this, context));
             _p->imageGroup.reset(new ImageGroup(copy ? copy->_p->imageGroup.data() : nullptr, this, context));
             _p->playbackGroup.reset(new PlaybackGroup(copy ? copy->_p->playbackGroup.data() : nullptr, this, context));
+            _p->annotationsGroup.reset(new AnnotationsGroup(copy ? copy->_p->annotationsGroup.data() : nullptr, this, context));
             _p->toolGroup.reset(new ToolGroup(copy ? copy->_p->toolGroup.data() : nullptr, this, context));
             _p->helpGroup.reset(new HelpGroup(copy ? copy->_p->helpGroup.data() : nullptr, this, context));
 
             // Create the main window.
             _p->mainWindow.reset(new MainWindow(copy ? copy : nullptr, this, context));
             _p->mainWindow->addDockWidget(Qt::RightDockWidgetArea, _p->imageGroup->displayProfileDockWidget());
+            _p->mainWindow->addDockWidget(Qt::RightDockWidgetArea, _p->annotationsGroup->dockWidget());
             const auto & toolDockWidgets = _p->toolGroup->dockWidgets();
             const auto toolDockWidgetAreas = QList<Qt::DockWidgetArea>() <<
                 Qt::LeftDockWidgetArea <<
@@ -190,6 +194,12 @@ namespace djv
                 SIGNAL(frameChanged(qint64)),
                 SLOT(imageUpdate()));
 
+            // Setup the annotations group callbacks.
+            connect(
+                _p->annotationsGroup.data(),
+                SIGNAL(redrawNeeded()),
+                SLOT(imageUpdate()));
+
             // Setup the preferences callbacks.
             connect(
                 context->UIContext::openGLPrefs(),
@@ -227,6 +237,11 @@ namespace djv
         QPointer<PlaybackGroup> Session::playbackGroup() const
         {
             return _p->playbackGroup.data();
+        }
+
+        QPointer<AnnotationsGroup> Session::annotationsGroup() const
+        {
+            return _p->annotationsGroup.data();
         }
 
         QPointer<ToolGroup> Session::toolGroup() const

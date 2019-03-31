@@ -120,7 +120,7 @@ namespace djv
         {
             static const QVector<MouseButtonAction> data =
             {
-                { Enum::MOUSE_BUTTON_LEFT, Enum::KEYBOARD_MODIFIER_NONE, Enum::MOUSE_BUTTON_ACTION_COLOR_PICK },
+                { Enum::MOUSE_BUTTON_LEFT, Enum::KEYBOARD_MODIFIER_NONE, Enum::MOUSE_BUTTON_ACTION_PICK },
                 { Enum::MOUSE_BUTTON_LEFT, Enum::KEYBOARD_MODIFIER_SHIFT, Enum::MOUSE_BUTTON_ACTION_VIEW_MOVE },
                 { Enum::MOUSE_BUTTON_LEFT, Enum::KEYBOARD_MODIFIER_CTRL, Enum::MOUSE_BUTTON_ACTION_PLAYBACK_SHUTTLE },
                 { Enum::MOUSE_BUTTON_MIDDLE, Enum::KEYBOARD_MODIFIER_NONE, Enum::MOUSE_BUTTON_ACTION_VIEW_MOVE },

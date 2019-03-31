@@ -29,10 +29,12 @@
 
 #include <djvViewLib/ViewContext.h>
 
+#include <djvViewLib/AnnotationsPrefs.h>
+#include <djvViewLib/AnnotationsPrefsWidget.h>
 #include <djvViewLib/FileCache.h>
 #include <djvViewLib/FileExport.h>
-#include <djvViewLib/FilePrefsWidget.h>
 #include <djvViewLib/FilePrefs.h>
+#include <djvViewLib/FilePrefsWidget.h>
 #include <djvViewLib/ImagePrefs.h>
 #include <djvViewLib/ImagePrefsWidget.h>
 #include <djvViewLib/MousePrefs.h>
@@ -66,13 +68,14 @@ namespace djv
         {
             CommandLineOptions commandLineOptions;
             
-            QScopedPointer<FilePrefs>     filePrefs;
-            QScopedPointer<ImagePrefs>    imagePrefs;
-            QScopedPointer<MousePrefs>    mousePrefs;
-            QScopedPointer<PlaybackPrefs> playbackPrefs;
-            QScopedPointer<ShortcutPrefs> shortcutPrefs;
-            QScopedPointer<ViewPrefs>     viewPrefs;
-            QScopedPointer<WindowPrefs>   windowPrefs;
+            QScopedPointer<AnnotationsPrefs> annotationsPrefs;
+            QScopedPointer<FilePrefs>        filePrefs;
+            QScopedPointer<ImagePrefs>       imagePrefs;
+            QScopedPointer<MousePrefs>       mousePrefs;
+            QScopedPointer<PlaybackPrefs>    playbackPrefs;
+            QScopedPointer<ShortcutPrefs>    shortcutPrefs;
+            QScopedPointer<ViewPrefs>        viewPrefs;
+            QScopedPointer<WindowPrefs>      windowPrefs;
 
             QScopedPointer<FileCache>  fileCache;
             QScopedPointer<FileExport> fileExport;
@@ -95,6 +98,7 @@ namespace djv
 
             // Load preferences.
             DJV_LOG(debugLog(), "ViewContext", "Load the preferences...");
+            _p->annotationsPrefs.reset(new AnnotationsPrefs(this));
             _p->filePrefs.reset(new FilePrefs(this));
             _p->imagePrefs.reset(new ImagePrefs(this));
             _p->mousePrefs.reset(new MousePrefs(this));
@@ -117,6 +121,11 @@ namespace djv
         const ViewContext::CommandLineOptions & ViewContext::commandLineOptions() const
         {
             return _p->commandLineOptions;
+        }
+
+        QPointer<AnnotationsPrefs> ViewContext::annotationsPrefs() const
+        {
+            return _p->annotationsPrefs.data();
         }
 
         QPointer<FilePrefs> ViewContext::filePrefs() const
@@ -171,6 +180,7 @@ namespace djv
             {
                 prefsDialog()->addWidget(new ShortcutPrefsWidget(this));
                 prefsDialog()->addWidget(new MousePrefsWidget(this));
+                prefsDialog()->addWidget(new AnnotationsPrefsWidget(this));
                 prefsDialog()->addWidget(new PlaybackPrefsWidget(this));
                 prefsDialog()->addWidget(new ImagePrefsWidget(this));
                 prefsDialog()->addWidget(new ViewPrefsWidget(this));

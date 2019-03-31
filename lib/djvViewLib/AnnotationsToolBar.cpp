@@ -27,63 +27,37 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#pragma once
+#include <djvViewLib/AnnotationsToolBar.h>
 
-#include <djvViewLib/Enum.h>
+#include <djvViewLib/AnnotationsActions.h>
+#include <djvViewLib/ViewContext.h>
 
-#include <QMainWindow>
+#include <djvUI/ToolButton.h>
 
-#include <memory>
+#include <QCoreApplication>
+#include <QPointer>
 
 namespace djv
 {
     namespace ViewLib
     {
-        class Session;
-        class ViewContext;
+        struct AnnotationsToolBar::Private
+        {};
 
-        //! This class provides a main window.
-        class MainWindow : public QMainWindow
+        AnnotationsToolBar::AnnotationsToolBar(
+            const QPointer<AbstractActions> & actions,
+            const QPointer<ViewContext> & context,
+            QWidget * parent) :
+            AbstractToolBar(qApp->translate("djv::ViewLib::AnnotationsToolBar", "Annotations"), actions, context, parent),
+            _p(new Private)
         {
-            Q_OBJECT
+            auto button = new UI::ToolButton(context.data());
+            button->setDefaultAction(actions->action(AnnotationsActions::ANNOTATIONS_WIDGET));
+            addWidget(button);
+        }
 
-        public:
-            explicit MainWindow(
-                const QPointer<Session> & copy,
-                const QPointer<Session> &,
-                const QPointer<ViewContext> &);
-            ~MainWindow() override;
-
-            QMenu * createPopupMenu() override;
-
-        public Q_SLOTS:
-            //! Fit the window to the image.
-            void fitWindow(bool move = true);
-
-        protected:
-            void showEvent(QShowEvent *) override;
-            void closeEvent(QCloseEvent *) override;
-            void keyPressEvent(QKeyEvent *) override;
-
-        private Q_SLOTS:
-            void fileCallback(bool);
-            void windowResizeCallback();
-            void enableUpdatesCallback();
-            void mouseWheelActionCallback(djv::ViewLib::Enum::MOUSE_WHEEL_ACTION);
-            void mouseWheelValueCallback(int);
-            void controlsWindowClosedCallback();
-
-            void fileUpdate();
-            void imageUpdate();
-            void windowUpdate();
-            void viewHUDUpdate();
-
-        private:
-            DJV_PRIVATE_COPY(MainWindow);
-
-            struct Private;
-            std::unique_ptr<Private> _p;
-        };
+        AnnotationsToolBar::~AnnotationsToolBar()
+        {}
 
     } // namespace ViewLib
 } // namespace djv

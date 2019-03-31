@@ -27,63 +27,41 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#pragma once
+#include <djvViewLib/AnnotationsMenu.h>
 
-#include <djvViewLib/Enum.h>
+#include <djvViewLib/AnnotationsActions.h>
 
-#include <QMainWindow>
-
-#include <memory>
+#include <QApplication>
+#include <QPointer>
 
 namespace djv
 {
     namespace ViewLib
     {
-        class Session;
-        class ViewContext;
-
-        //! This class provides a main window.
-        class MainWindow : public QMainWindow
+        struct AnnotationsMenu::Private
         {
-            Q_OBJECT
-
-        public:
-            explicit MainWindow(
-                const QPointer<Session> & copy,
-                const QPointer<Session> &,
-                const QPointer<ViewContext> &);
-            ~MainWindow() override;
-
-            QMenu * createPopupMenu() override;
-
-        public Q_SLOTS:
-            //! Fit the window to the image.
-            void fitWindow(bool move = true);
-
-        protected:
-            void showEvent(QShowEvent *) override;
-            void closeEvent(QCloseEvent *) override;
-            void keyPressEvent(QKeyEvent *) override;
-
-        private Q_SLOTS:
-            void fileCallback(bool);
-            void windowResizeCallback();
-            void enableUpdatesCallback();
-            void mouseWheelActionCallback(djv::ViewLib::Enum::MOUSE_WHEEL_ACTION);
-            void mouseWheelValueCallback(int);
-            void controlsWindowClosedCallback();
-
-            void fileUpdate();
-            void imageUpdate();
-            void windowUpdate();
-            void viewHUDUpdate();
-
-        private:
-            DJV_PRIVATE_COPY(MainWindow);
-
-            struct Private;
-            std::unique_ptr<Private> _p;
         };
+
+        AnnotationsMenu::AnnotationsMenu(
+            const QPointer<AbstractActions> & actions,
+            QWidget * parent) :
+            AbstractMenu(actions, parent),
+            _p(new Private)
+        {
+            // Create the menus.
+            addAction(actions->action(AnnotationsActions::ANNOTATIONS_WIDGET));
+
+            // Initialize.
+            setTitle(qApp->translate("djv::ViewLib::AnnotationsMenu", "&Annotations"));
+            menuUpdate();
+        }
+
+        AnnotationsMenu::~AnnotationsMenu()
+        {}
+
+        void AnnotationsMenu::menuUpdate()
+        {
+        }
 
     } // namespace ViewLib
 } // namespace djv

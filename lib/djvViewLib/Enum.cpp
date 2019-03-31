@@ -71,6 +71,7 @@ namespace djv
                 qApp->translate("djv::ViewLib::Enum", "View Tool Bar") <<
                 qApp->translate("djv::ViewLib::Enum", "Image Tool Bar") <<
                 qApp->translate("djv::ViewLib::Enum", "Tools Tool Bar") <<
+                qApp->translate("djv::ViewLib::Enum", "Annotations Tool Bar") <<
                 qApp->translate("djv::ViewLib::Enum", "Playback Controls") <<
                 qApp->translate("djv::ViewLib::Enum", "Status Bar");
             DJV_ASSERT(data.count() == UI_COMPONENT_COUNT);
@@ -245,6 +246,16 @@ namespace djv
             return data;
         }
 
+        const QStringList & Enum::primitiveLabels()
+        {
+            static const QStringList data = QStringList() <<
+                qApp->translate("djv::ViewLib::Enum", "Polyline") <<
+                qApp->translate("djv::ViewLib::Enum", "Rectangle") <<
+                qApp->translate("djv::ViewLib::Enum", "Ellipse");
+            DJV_ASSERT(data.count() == PRIMITIVE_COUNT);
+            return data;
+        }
+
         const QStringList & Enum::toolLabels()
         {
             static const QStringList data = QStringList() <<
@@ -318,6 +329,7 @@ namespace djv
                 qApp->translate("djv::ViewLib::Enum", "Window/Show Window Tool Bar") <<
                 qApp->translate("djv::ViewLib::Enum", "Window/Show View Tool Bar") <<
                 qApp->translate("djv::ViewLib::Enum", "Window/Show Image Tool Bar") <<
+                qApp->translate("djv::ViewLib::Enum", "Window/Show Annotations Tool Bar") <<
                 qApp->translate("djv::ViewLib::Enum", "Window/Show Tools Tool Bar") <<
                 qApp->translate("djv::ViewLib::Enum", "Window/Show Playback") <<
                 qApp->translate("djv::ViewLib::Enum", "Window/Show Information") <<
@@ -398,6 +410,8 @@ namespace djv
                 qApp->translate("djv::ViewLib::Enum", "Playback/Out Point Mark") <<
                 qApp->translate("djv::ViewLib::Enum", "Playback/Out Point Reset") <<
 
+                qApp->translate("djv::ViewLib::Enum", "Annotations/Widget") <<
+
                 qApp->translate("djv::ViewLib::Enum", "Tool/Magnify") <<
                 qApp->translate("djv::ViewLib::Enum", "Tool/Color Picker") <<
                 qApp->translate("djv::ViewLib::Enum", "Tool/Histogram") <<
@@ -456,7 +470,7 @@ namespace djv
         {
             static const QStringList data = QStringList() <<
                 qApp->translate("djv::ViewLib::Enum", "None") <<
-                qApp->translate("djv::ViewLib::Enum", "Color Pick") <<
+                qApp->translate("djv::ViewLib::Enum", "Pick") <<
                 qApp->translate("djv::ViewLib::Enum", "View Move") <<
                 qApp->translate("djv::ViewLib::Enum", "View Zoom In") <<
                 qApp->translate("djv::ViewLib::Enum", "View Zoom Out") <<
@@ -528,6 +542,7 @@ namespace djv
     _DJV_STRING_OPERATOR_LABEL(ViewLib::Enum::FRAME, ViewLib::Enum::frameLabels());
     _DJV_STRING_OPERATOR_LABEL(ViewLib::Enum::LOOP, ViewLib::Enum::loopLabels());
     _DJV_STRING_OPERATOR_LABEL(ViewLib::Enum::LAYOUT, ViewLib::Enum::layoutLabels());
+    _DJV_STRING_OPERATOR_LABEL(ViewLib::Enum::PRIMITIVE, ViewLib::Enum::primitiveLabels());
     _DJV_STRING_OPERATOR_LABEL(ViewLib::Enum::TOOL, ViewLib::Enum::toolLabels());
     _DJV_STRING_OPERATOR_LABEL(ViewLib::Enum::HISTOGRAM, ViewLib::Enum::histogramLabels());
     _DJV_STRING_OPERATOR_LABEL(ViewLib::Enum::KEYBOARD_MODIFIER, ViewLib::Enum::keyboardModifierLabels());

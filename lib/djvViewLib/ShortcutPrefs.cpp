@@ -35,6 +35,8 @@
 
 #include <djvCore/Assert.h>
 
+#include <iostream>
+
 namespace djv
 {
     namespace ViewLib
@@ -69,6 +71,7 @@ namespace djv
         {
             static const QVector<UI::Shortcut> data = QVector<UI::Shortcut>() <<
                 UI::Shortcut(Enum::shortcutLabels()[Enum::SHORTCUT_EXIT], QKeySequence("Ctrl+Q")) <<
+
                 UI::Shortcut(Enum::shortcutLabels()[Enum::SHORTCUT_FILE_OPEN], QKeySequence("Ctrl+O")) <<
                 UI::Shortcut(Enum::shortcutLabels()[Enum::SHORTCUT_FILE_RELOAD], QKeySequence("Ctrl+R")) <<
                 UI::Shortcut(Enum::shortcutLabels()[Enum::SHORTCUT_FILE_RELOAD_FRAME], QKeySequence("Ctrl+Shift+R")) <<
@@ -92,9 +95,10 @@ namespace djv
                 UI::Shortcut(Enum::shortcutLabels()[Enum::SHORTCUT_FILE_PROXY_1_2], QKeySequence()) <<
                 UI::Shortcut(Enum::shortcutLabels()[Enum::SHORTCUT_FILE_PROXY_1_4], QKeySequence()) <<
                 UI::Shortcut(Enum::shortcutLabels()[Enum::SHORTCUT_FILE_PROXY_1_8], QKeySequence()) <<
-                UI::Shortcut(Enum::shortcutLabels()[Enum::SHORTCUT_WINDOW_NEW], QKeySequence("Ctrl+n")) <<
-                UI::Shortcut(Enum::shortcutLabels()[Enum::SHORTCUT_WINDOW_DUPLICATE], QKeySequence("Ctrl+d")) <<
-                UI::Shortcut(Enum::shortcutLabels()[Enum::SHORTCUT_WINDOW_CLOSE], QKeySequence("Ctrl+e")) <<
+
+                UI::Shortcut(Enum::shortcutLabels()[Enum::SHORTCUT_WINDOW_NEW], QKeySequence("Ctrl+N")) <<
+                UI::Shortcut(Enum::shortcutLabels()[Enum::SHORTCUT_WINDOW_DUPLICATE], QKeySequence("Ctrl+D")) <<
+                UI::Shortcut(Enum::shortcutLabels()[Enum::SHORTCUT_WINDOW_CLOSE], QKeySequence("Ctrl+E")) <<
                 UI::Shortcut(Enum::shortcutLabels()[Enum::SHORTCUT_WINDOW_FIT], QKeySequence("F")) <<
                 UI::Shortcut(Enum::shortcutLabels()[Enum::SHORTCUT_WINDOW_FULL_SCREEN], QKeySequence("U")) <<
                 UI::Shortcut(Enum::shortcutLabels()[Enum::SHORTCUT_WINDOW_UI_VISIBLE], QKeySequence("`")) <<
@@ -102,10 +106,12 @@ namespace djv
                 UI::Shortcut(Enum::shortcutLabels()[Enum::SHORTCUT_WINDOW_WINDOW_TOOL_BAR_VISIBLE], QKeySequence()) <<
                 UI::Shortcut(Enum::shortcutLabels()[Enum::SHORTCUT_WINDOW_VIEW_TOOL_BAR_VISIBLE], QKeySequence()) <<
                 UI::Shortcut(Enum::shortcutLabels()[Enum::SHORTCUT_WINDOW_IMAGE_TOOL_BAR_VISIBLE], QKeySequence()) <<
+                UI::Shortcut(Enum::shortcutLabels()[Enum::SHORTCUT_WINDOW_ANNOTATIONS_TOOL_BAR_VISIBLE], QKeySequence()) <<
                 UI::Shortcut(Enum::shortcutLabels()[Enum::SHORTCUT_WINDOW_TOOLS_TOOL_BAR_VISIBLE], QKeySequence()) <<
                 UI::Shortcut(Enum::shortcutLabels()[Enum::SHORTCUT_WINDOW_PLAYBACK_VISIBLE], QKeySequence()) <<
                 UI::Shortcut(Enum::shortcutLabels()[Enum::SHORTCUT_WINDOW_INFO_VISIBLE], QKeySequence()) <<
-                UI::Shortcut(Enum::shortcutLabels()[Enum::SHORTCUT_WINDOW_DETACH_CONTROLS], QKeySequence("Ctrl+t")) <<
+                UI::Shortcut(Enum::shortcutLabels()[Enum::SHORTCUT_WINDOW_DETACH_CONTROLS], QKeySequence("Ctrl+T")) <<
+
                 UI::Shortcut(Enum::shortcutLabels()[Enum::SHORTCUT_VIEW_LEFT], QKeySequence("Left")) <<
                 UI::Shortcut(Enum::shortcutLabels()[Enum::SHORTCUT_VIEW_RIGHT], QKeySequence("Right")) <<
                 UI::Shortcut(Enum::shortcutLabels()[Enum::SHORTCUT_VIEW_UP], QKeySequence("Up")) <<
@@ -117,6 +123,7 @@ namespace djv
                 UI::Shortcut(Enum::shortcutLabels()[Enum::SHORTCUT_VIEW_RESET], QKeySequence(Qt::Key_Delete)) <<
                 UI::Shortcut(Enum::shortcutLabels()[Enum::SHORTCUT_VIEW_FIT], QKeySequence(Qt::Key_Backspace)) <<
                 UI::Shortcut(Enum::shortcutLabels()[Enum::SHORTCUT_VIEW_HUD], QKeySequence("H")) <<
+
                 UI::Shortcut(Enum::shortcutLabels()[Enum::SHORTCUT_IMAGE_SHOW_FRAME_STORE], QKeySequence("E")) <<
                 UI::Shortcut(Enum::shortcutLabels()[Enum::SHORTCUT_IMAGE_SET_FRAME_STORE], QKeySequence("Shift+E")) <<
                 UI::Shortcut(Enum::shortcutLabels()[Enum::SHORTCUT_IMAGE_MIRROR_HORIZONTAL], QKeySequence()) <<
@@ -160,6 +167,7 @@ namespace djv
                 UI::Shortcut(Enum::shortcutLabels()[Enum::SHORTCUT_IMAGE_DISPLAY_PROFILE_8], QKeySequence("Shift+8")) <<
                 UI::Shortcut(Enum::shortcutLabels()[Enum::SHORTCUT_IMAGE_DISPLAY_PROFILE_9], QKeySequence("Shift+9")) <<
                 UI::Shortcut(Enum::shortcutLabels()[Enum::SHORTCUT_IMAGE_DISPLAY_PROFILE_10], QKeySequence("Shift+0")) <<
+
                 UI::Shortcut(Enum::shortcutLabels()[Enum::SHORTCUT_PLAYBACK_FORWARD], QKeySequence("L")) <<
                 UI::Shortcut(Enum::shortcutLabels()[Enum::SHORTCUT_PLAYBACK_STOP], QKeySequence("K")) <<
                 UI::Shortcut(Enum::shortcutLabels()[Enum::SHORTCUT_PLAYBACK_REVERSE], QKeySequence("J")) <<
@@ -178,10 +186,14 @@ namespace djv
                 UI::Shortcut(Enum::shortcutLabels()[Enum::SHORTCUT_PLAYBACK_RESET_IN], QKeySequence("Shift+I")) <<
                 UI::Shortcut(Enum::shortcutLabels()[Enum::SHORTCUT_PLAYBACK_MARK_OUT], QKeySequence("O")) <<
                 UI::Shortcut(Enum::shortcutLabels()[Enum::SHORTCUT_PLAYBACK_RESET_OUT], QKeySequence("Shift+O")) <<
+
+                UI::Shortcut(Enum::shortcutLabels()[Enum::SHORTCUT_ANNOTATIONS_WIDGET], QKeySequence("Ctrl+A")) <<
+
                 UI::Shortcut(Enum::shortcutLabels()[Enum::SHORTCUT_TOOL_MAGNIFY], QKeySequence("1")) <<
                 UI::Shortcut(Enum::shortcutLabels()[Enum::SHORTCUT_TOOL_COLOR_PICKER], QKeySequence("2")) <<
                 UI::Shortcut(Enum::shortcutLabels()[Enum::SHORTCUT_TOOL_HISTOGRAM], QKeySequence("3")) <<
                 UI::Shortcut(Enum::shortcutLabels()[Enum::SHORTCUT_TOOL_INFO], QKeySequence("4")) <<
+
                 UI::Shortcut(Enum::shortcutLabels()[Enum::SHORTCUT_HELP_WHATS_THIS], QKeySequence("F1"));
             DJV_ASSERT(data.count() == Enum::SHORTCUT_COUNT);
             return data;

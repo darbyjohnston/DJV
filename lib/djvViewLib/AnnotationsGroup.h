@@ -29,57 +29,83 @@
 
 #pragma once
 
+#include <djvViewLib/AbstractGroup.h>
 #include <djvViewLib/Enum.h>
 
-#include <QMainWindow>
-
-#include <memory>
+class QAction;
+class QDockWidget;
 
 namespace djv
 {
+    namespace AV
+    {
+        class Color;
+    
+    } // namespace AV
+
     namespace ViewLib
     {
-        class Session;
-        class ViewContext;
+        namespace Annotations
+        {
+            struct Data;
+        
+        } // namespace Annotations
 
-        //! This class provides a main window.
-        class MainWindow : public QMainWindow
+        //! This class provides the annotations group.
+        class AnnotationsGroup : public AbstractGroup
         {
             Q_OBJECT
 
         public:
-            explicit MainWindow(
-                const QPointer<Session> & copy,
+            AnnotationsGroup(
+                const QPointer<AnnotationsGroup> & copy,
                 const QPointer<Session> &,
                 const QPointer<ViewContext> &);
-            ~MainWindow() override;
+            ~AnnotationsGroup() override;
 
-            QMenu * createPopupMenu() override;
+            //! Get the annotations dock widget.
+            QPointer<QDockWidget> dockWidget() const;
+
+            //! Add an annotation.
+            void addAnnotation(const Annotations::Data &);
+
+            //! Get the current primitive type.
+            Enum::PRIMITIVE primitive() const;
+
+            //! Get the current color.
+            const AV::Color & color() const;
+
+            //! Get the current line width.
+            size_t lineWidth() const;
+
+            QPointer<QMenu> createMenu() const override;
+            QPointer<QToolBar> createToolBar() const override;
 
         public Q_SLOTS:
-            //! Fit the window to the image.
-            void fitWindow(bool move = true);
+            //! Set the current primitive type.
+            void setPrimitive(Enum::PRIMITIVE);
 
-        protected:
-            void showEvent(QShowEvent *) override;
-            void closeEvent(QCloseEvent *) override;
-            void keyPressEvent(QKeyEvent *) override;
+            //! Set the current color.
+            void setColor(const AV::Color &);
+
+            //! Set the current line width.
+            void setLineWidth(size_t);
+
+        Q_SIGNALS:
+            //! This signal is emitted when the primitive type is changed.
+            void primitiveChanged(Enum::PRIMITIVE);
+
+            //! This signal is emitted when the color is changed.
+            void colorChanged(const AV::Color &);
+
+            //! This signal is emitted when the line width is changed.
+            void lineWidthChanged(size_t);
 
         private Q_SLOTS:
-            void fileCallback(bool);
-            void windowResizeCallback();
-            void enableUpdatesCallback();
-            void mouseWheelActionCallback(djv::ViewLib::Enum::MOUSE_WHEEL_ACTION);
-            void mouseWheelValueCallback(int);
-            void controlsWindowClosedCallback();
-
-            void fileUpdate();
-            void imageUpdate();
-            void windowUpdate();
-            void viewHUDUpdate();
+            void update();
 
         private:
-            DJV_PRIVATE_COPY(MainWindow);
+            DJV_PRIVATE_COPY(AnnotationsGroup);
 
             struct Private;
             std::unique_ptr<Private> _p;

@@ -32,9 +32,6 @@
 namespace djv
 {
     //! This namespace provides functionality for the djv_view application.
-    //!
-    //! \bug When started as a command line application the keyboard shortcuts
-    //! will not work until the application has lost and then regained focus.
     namespace ViewLib
     {
     } // namespace ViewLib

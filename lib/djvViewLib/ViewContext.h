@@ -45,6 +45,7 @@ namespace djv
 {
     namespace ViewLib
     {
+        class AnnotationsPrefs;
         class FileCache;
         class FileExport;
         class FilePrefs;
@@ -80,6 +81,9 @@ namespace djv
 
             //! Get the command-line options
             const CommandLineOptions & commandLineOptions() const;
+
+            //! Get the annotations preferences.
+            QPointer<AnnotationsPrefs> annotationsPrefs() const;
 
             //! Get the file preferences.
             QPointer<FilePrefs> filePrefs() const;

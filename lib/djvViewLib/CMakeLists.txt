@@ -6,6 +6,14 @@ set(header
     AbstractPrefsWidget.h
     AbstractTool.h
     AbstractToolBar.h
+    AnnotationsActions.h
+    AnnotationsData.h
+    AnnotationsGroup.h
+    AnnotationsMenu.h
+    AnnotationsPrefs.h
+    AnnotationsPrefsWidget.h
+    AnnotationsTool.h
+    AnnotationsToolBar.h
     ColorPickerTool.h
     ControlsWindow.h
     DisplayProfile.h
@@ -70,12 +78,20 @@ set(header
     WindowToolBar.h)
 set(mocHeader
     AbstractActions.h
+    AnnotationsData.h
     AbstractGroup.h
     AbstractMenu.h
     AbstractPrefs.h
     AbstractPrefsWidget.h
     AbstractToolBar.h
     AbstractTool.h
+    AnnotationsActions.h
+    AnnotationsGroup.h
+    AnnotationsMenu.h
+    AnnotationsPrefs.h
+    AnnotationsPrefsWidget.h
+    AnnotationsTool.h
+    AnnotationsToolBar.h
     ColorPickerTool.h
     ControlsWindow.h
     DisplayProfileWidget.h
@@ -142,6 +158,14 @@ set(source
     AbstractPrefsWidget.cpp
     AbstractTool.cpp
     AbstractToolBar.cpp
+    AnnotationsActions.cpp
+    AnnotationsData.cpp
+    AnnotationsGroup.cpp
+    AnnotationsMenu.cpp
+    AnnotationsPrefs.cpp
+    AnnotationsPrefsWidget.cpp
+    AnnotationsTool.cpp
+    AnnotationsToolBar.cpp
     ColorPickerTool.cpp
     ControlsWindow.cpp
     DisplayProfile.cpp

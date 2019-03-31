@@ -29,7 +29,7 @@
 
 #include <djvViewLib/ImageView.h>
 
-#include <djvViewLib/FilePrefs.h>
+#include <djvViewLib/AnnotationsData.h>
 #include <djvViewLib/HudInfo.h>
 #include <djvViewLib/MousePrefs.h>
 #include <djvViewLib/ViewContext.h>
@@ -76,27 +76,26 @@ namespace djv
                 context(context)
             {}
 
-            glm::ivec2                             viewPosTmp = glm::ivec2(0, 0);
-            float                                  viewZoomTmp = 0.f;
-            Enum::GRID                             grid = static_cast<Enum::GRID>(0);
+            glm::ivec2                       viewPosTmp         = glm::ivec2(0, 0);
+            float                            viewZoomTmp        = 0.f;
+            Enum::GRID                       grid               = static_cast<Enum::GRID>(0);
             AV::Color                        gridColor;
-            AV::PixelData                    gridPixelData;
-            std::unique_ptr<AV::OpenGLImage> gridOpenGLImage;
-            bool                                   hudEnabled = false;
-            HudInfo                                hudInfo;
+            bool                             hudEnabled         = false;
+            HudInfo                          hudInfo;
             AV::Color                        hudColor;
-            Enum::HUD_BACKGROUND                   hudBackground = static_cast<Enum::HUD_BACKGROUND>(0);
+            Enum::HUD_BACKGROUND             hudBackground      = static_cast<Enum::HUD_BACKGROUND>(0);
             AV::Color                        hudBackgroundColor;
-            AV::PixelData                    hudPixelData;
-            std::unique_ptr<AV::OpenGLImage> hudOpenGLImage;
-            bool                                   mouseInside = false;
-            glm::ivec2                             mousePos = glm::ivec2(0, 0);
-            glm::ivec2                             mouseStartPos = glm::ivec2(0, 0);
-            MouseButtonAction                      mouseButtonAction;
-            bool                                   mouseWheel = false;
-            int                                    mouseWheelTmp = 0;
-            int                                    mouseWheelTimer = -1;
-            QPointer<ViewContext>                  context;
+            std::vector<Annotations::Data>   annotationsData;
+            AV::PixelData                    overlayPixelData;
+            std::unique_ptr<AV::OpenGLImage> overlayOpenGLImage;
+            bool                             mouseInside        = false;
+            glm::ivec2                       mousePos           = glm::ivec2(0, 0);
+            glm::ivec2                       mouseStartPos      = glm::ivec2(0, 0);
+            MouseButtonAction                mouseButtonAction;
+            bool                             mouseWheel         = false;
+            int                              mouseWheelTmp      = 0;
+            int                              mouseWheelTimer    = -1;
+            QPointer<ViewContext>            context;
         };
 
         ImageView::ImageView(const QPointer<ViewContext> & context, QWidget * parent) :
@@ -138,8 +137,6 @@ namespace djv
         {
             //DJV_DEBUG("ImageView::~ImageView");
             makeCurrent();
-            _p->gridOpenGLImage.reset();
-            _p->hudOpenGLImage.reset();
         }
 
         bool ImageView::isMouseInside() const
@@ -268,6 +265,12 @@ namespace djv
             update();
         }
 
+        void ImageView::setAnnotationsData(const std::vector<Annotations::Data> & data)
+        {
+            _p->annotationsData = data;
+            update();
+        }
+
         void ImageView::timerEvent(QTimerEvent *)
         {
             setCursor(QCursor());
@@ -332,9 +335,9 @@ namespace djv
             }
             switch (_p->mouseButtonAction.action)
             {
-            case Enum::MOUSE_BUTTON_ACTION_COLOR_PICK:
+            case Enum::MOUSE_BUTTON_ACTION_PICK:
                 setCursor(Qt::CrossCursor);
-                Q_EMIT pickChanged(_p->mousePos);
+                Q_EMIT pickPressed(_p->mousePos);
                 break;
             case Enum::MOUSE_BUTTON_ACTION_VIEW_ZOOM_IN:
                 setViewZoom(viewZoom() * 2.f, _p->mousePos);
@@ -356,6 +359,13 @@ namespace djv
         void ImageView::mouseReleaseEvent(QMouseEvent *)
         {
             setCursor(QCursor());
+            switch (_p->mouseButtonAction.action)
+            {
+            case Enum::MOUSE_BUTTON_ACTION_PICK:
+                Q_EMIT pickReleased(_p->mousePos);
+                break;
+            default: break;
+            }
             _p->mouseButtonAction.action = Enum::MOUSE_BUTTON_ACTION_NONE;
         }
 
@@ -366,9 +376,9 @@ namespace djv
             //DJV_DEBUG_PRINT("pos = " << _p->mousePos);
             switch (_p->mouseButtonAction.action)
             {
-            case Enum::MOUSE_BUTTON_ACTION_COLOR_PICK:
+            case Enum::MOUSE_BUTTON_ACTION_PICK:
                 setCursor(Qt::CrossCursor);
-                Q_EMIT pickChanged(_p->mousePos);
+                Q_EMIT pickMoved(_p->mousePos);
                 break;
             case Enum::MOUSE_BUTTON_ACTION_VIEW_MOVE:
                 setCursor(Qt::ClosedHandCursor);
@@ -500,21 +510,50 @@ namespace djv
         {
             //DJV_DEBUG("ImageView::initializeGL");
             UI::ImageView::initializeGL();
-            _p->gridOpenGLImage.reset(new AV::OpenGLImage);
-            _p->hudOpenGLImage.reset(new AV::OpenGLImage);
+            _p->overlayOpenGLImage.reset(new AV::OpenGLImage);
         }
 
         void ImageView::paintGL()
         {
-            //DJV_DEBUG("ImageView::paintGL");
             UI::ImageView::paintGL();
-            if (_p->grid)
+            if (_p->grid || _p->hudEnabled || _p->annotationsData.size())
             {
-                drawGrid();
-            }
-            if (_p->hudEnabled)
-            {
-                drawHud();
+                const glm::ivec2 size(width(), height());
+                _p->overlayPixelData.set(AV::PixelDataInfo(size, AV::Pixel::RGBA_U8));
+                _p->overlayPixelData.zero();
+                QImage image(_p->overlayPixelData.data(), size.x, size.y, QImage::Format_RGBA8888_Premultiplied);
+                QPainter painter(&image);
+                painter.setRenderHints(QPainter::Antialiasing | QPainter::TextAntialiasing);
+                if (_p->grid)
+                {
+                    drawGrid(painter);
+                }
+                if (_p->hudEnabled)
+                {
+                    drawHud(painter);
+                }
+                if (_p->annotationsData.size())
+                {
+                    drawAnnotations(painter);
+                }
+                try
+                {
+                    auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_3_3_Core>();
+                    glFuncs->glEnable(GL_BLEND);
+                    glFuncs->glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+                    const auto viewMatrix = glm::ortho(
+                        0.f,
+                        static_cast<float>(size.x),
+                        0.f,
+                        static_cast<float>(size.y),
+                        -1.f,
+                        1.f);
+                    AV::OpenGLImageOptions options;
+                    options.xform.mirror.y = true;
+                    _p->overlayOpenGLImage->draw(_p->overlayPixelData, viewMatrix, options);
+                }
+                catch (const Core::Error &)
+                {}
             }
         }
 
@@ -524,7 +563,7 @@ namespace djv
             update();
         }
 
-        void ImageView::drawGrid()
+        void ImageView::drawGrid(QPainter & painter)
         {
             //DJV_DEBUG("ImageView::drawGrid");
             //DJV_DEBUG_PRINT("grid = " << Enum::gridLabels()[_p->grid]);
@@ -535,11 +574,6 @@ namespace djv
             //DJV_DEBUG_PRINT("size = " << size);
             //DJV_DEBUG_PRINT("view pos = " << viewPos);
             //DJV_DEBUG_PRINT("view zoom = " << viewZoom);
-
-            _p->gridPixelData.set(AV::PixelDataInfo(size, AV::Pixel::RGBA_U8));
-            _p->gridPixelData.zero();
-            QImage image(_p->gridPixelData.data(), size.x, size.y, QImage::Format_RGBA8888_Premultiplied);
-            QPainter painter(&image);
 
             int inc = 0;
             switch (_p->grid)
@@ -553,10 +587,8 @@ namespace djv
                 return;
 
             Core::Box2i area(
-                Core::VectorUtil::floor(
-                    glm::vec2(-viewPos) / viewZoom / static_cast<float>(inc)) - 1,
-                Core::VectorUtil::ceil(
-                    glm::vec2(width(), height()) / viewZoom / static_cast<float>(inc)) + 2);
+                Core::VectorUtil::floor(glm::vec2(-viewPos) / viewZoom / static_cast<float>(inc)) - 1,
+                Core::VectorUtil::ceil(glm::vec2(width(), height()) / viewZoom / static_cast<float>(inc)) + 2);
             area *= inc;
             //DJV_DEBUG_PRINT("area = " << area);
 
@@ -565,38 +597,21 @@ namespace djv
             {
                 painter.drawLine(
                     (area.x) * viewZoom + viewPos.x,
-                    (area.y + y) * viewZoom + viewPos.y,
+                    size.y - 1 - ((area.y + y) * viewZoom + viewPos.y),
                     (area.x + area.w) * viewZoom + viewPos.x,
-                    (area.y + y) * viewZoom + viewPos.y);
+                    size.y - 1 - ((area.y + y) * viewZoom + viewPos.y));
             }
             for (int x = 0; x <= area.w; x += inc)
             {
                 painter.drawLine(
                     (area.x + x) * viewZoom + viewPos.x,
-                    (area.y) * viewZoom + viewPos.y,
+                    size.y - 1 - ((area.y) * viewZoom + viewPos.y),
                     (area.x + x) * viewZoom + viewPos.x,
-                    (area.y + area.h) * viewZoom + viewPos.y);
+                    size.y - 1 - ((area.y + area.h) * viewZoom + viewPos.y));
             }
-
-            try
-            {
-                auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_3_3_Core>();
-                glFuncs->glEnable(GL_BLEND);
-                glFuncs->glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-                const auto viewMatrix = glm::ortho(
-                    0.f,
-                    static_cast<float>(size.x),
-                    0.f,
-                    static_cast<float>(size.y),
-                    -1.f,
-                    1.f);
-                _p->gridOpenGLImage->draw(_p->gridPixelData, viewMatrix);
-            }
-            catch (const Core::Error &)
-            {}
         }
 
-        void ImageView::drawHud()
+        void ImageView::drawHud(QPainter & painter)
         {
             //DJV_DEBUG("ImageView::drawHud");
 
@@ -661,14 +676,8 @@ namespace djv
                     arg(_p->hudInfo.actualSpeed, 0, 'f', 2);
             }
 
-            const glm::ivec2 size(width(), height());
-            _p->hudPixelData.set(AV::PixelDataInfo(size, AV::Pixel::RGBA_U8));
-            _p->hudPixelData.zero();
-            QImage image(_p->hudPixelData.data(), size.x, size.y, QImage::Format_RGBA8888_Premultiplied);
-            QPainter painter(&image);
-            painter.setRenderHints(QPainter::Antialiasing | QPainter::TextAntialiasing);
-
             // Draw the upper left contents.
+            const glm::ivec2 size(width(), height());
             const int m = style()->pixelMetric(QStyle::PM_LayoutLeftMargin);
             const int th = fontMetrics().height();
             glm::ivec2 p = glm::ivec2(m, m);
@@ -696,25 +705,6 @@ namespace djv
                 drawHudItem(painter, upperRight[i], Core::Box2i(p.x - tw - m, p.y, tw + m, th + m));
                 p.y += th + m;
             }
-
-            try
-            {
-                auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_3_3_Core>();
-                glFuncs->glEnable(GL_BLEND);
-                glFuncs->glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-                const auto viewMatrix = glm::ortho(
-                    0.f,
-                    static_cast<float>(size.x),
-                    0.f,
-                    static_cast<float>(size.y),
-                    -1.f,
-                    1.f);
-                AV::OpenGLImageOptions options;
-                options.xform.mirror.y = true;
-                _p->hudOpenGLImage->draw(_p->hudPixelData, viewMatrix, options);
-            }
-            catch (const Core::Error &)
-            {}
         }
 
        void ImageView::drawHudItem(
@@ -737,6 +727,20 @@ namespace djv
             painter.setPen(AV::ColorUtil::toQt(_p->hudColor));
             painter.drawText(box.x, box.y, box.w, box.h, Qt::AlignCenter, in);
         }
+
+       void ImageView::drawAnnotations(QPainter & painter)
+       {
+           const glm::ivec2 size(width(), height());
+           const glm::ivec2& viewPos = this->viewPos();
+           const float viewZoom = this->viewZoom();
+           for (const auto & i : _p->annotationsData)
+           {
+               for (const auto & j : i.primitives)
+               {
+                   j->draw(painter, size, viewPos, viewZoom);
+               }
+           }
+       }
 
     } // namespace ViewLib
 } // namespace djv

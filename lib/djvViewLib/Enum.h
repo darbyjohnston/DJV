@@ -91,6 +91,7 @@ namespace djv
                 UI_WINDOW_TOOL_BAR,
                 UI_VIEW_TOOL_BAR,
                 UI_IMAGE_TOOL_BAR,
+                UI_ANNOTATIONS_TOOL_BAR,
                 UI_TOOLS_TOOL_BAR,
                 UI_PLAYBACK_CONTROLS,
                 UI_STATUS_BAR,
@@ -276,6 +277,20 @@ namespace djv
             //! Get the playback bar layout labels.
             static const QStringList & layoutLabels();
 
+            //! This enumeration provides the annotation primitives.
+            enum PRIMITIVE
+            {
+                PRIMITIVE_POLYLINE,
+                PRIMITIVE_RECT,
+                PRIMITIVE_ELLIPSE,
+
+                PRIMITIVE_COUNT
+            };
+            Q_ENUM(PRIMITIVE);
+
+            //! Get the annoation primitive labels.
+            static const QStringList & primitiveLabels();
+
             //! This enumeration provides the tools.
             enum TOOL
             {
@@ -347,6 +362,7 @@ namespace djv
                 SHORTCUT_WINDOW_WINDOW_TOOL_BAR_VISIBLE,
                 SHORTCUT_WINDOW_VIEW_TOOL_BAR_VISIBLE,
                 SHORTCUT_WINDOW_IMAGE_TOOL_BAR_VISIBLE,
+                SHORTCUT_WINDOW_ANNOTATIONS_TOOL_BAR_VISIBLE,
                 SHORTCUT_WINDOW_TOOLS_TOOL_BAR_VISIBLE,
                 SHORTCUT_WINDOW_PLAYBACK_VISIBLE,
                 SHORTCUT_WINDOW_INFO_VISIBLE,
@@ -427,6 +443,8 @@ namespace djv
                 SHORTCUT_PLAYBACK_MARK_OUT,
                 SHORTCUT_PLAYBACK_RESET_OUT,
 
+                SHORTCUT_ANNOTATIONS_WIDGET,
+
                 SHORTCUT_TOOL_MAGNIFY,
                 SHORTCUT_TOOL_COLOR_PICKER,
                 SHORTCUT_TOOL_HISTOGRAM,
@@ -481,7 +499,7 @@ namespace djv
             enum MOUSE_BUTTON_ACTION
             {
                 MOUSE_BUTTON_ACTION_NONE,
-                MOUSE_BUTTON_ACTION_COLOR_PICK,
+                MOUSE_BUTTON_ACTION_PICK,
                 MOUSE_BUTTON_ACTION_VIEW_MOVE,
                 MOUSE_BUTTON_ACTION_VIEW_ZOOM_IN,
                 MOUSE_BUTTON_ACTION_VIEW_ZOOM_OUT,
@@ -560,6 +578,7 @@ namespace djv
     DJV_STRING_OPERATOR(ViewLib::Enum::FRAME);
     DJV_STRING_OPERATOR(ViewLib::Enum::LOOP);
     DJV_STRING_OPERATOR(ViewLib::Enum::LAYOUT);
+    DJV_STRING_OPERATOR(ViewLib::Enum::PRIMITIVE);
     DJV_STRING_OPERATOR(ViewLib::Enum::TOOL);
     DJV_STRING_OPERATOR(ViewLib::Enum::HISTOGRAM);
     DJV_STRING_OPERATOR(ViewLib::Enum::SHORTCUT);
