@@ -44,7 +44,7 @@
 #include <QComboBox>
 #include <QListView>
 #include <QPointer>
-#include <QTabWidget>
+#include <QTabBar>
 #include <QTextEdit>
 
 namespace djv
@@ -55,7 +55,7 @@ namespace djv
         {
             std::shared_ptr<Annotations::AbstractPrimitive> primitive;
             QPointer<QListView> listView;
-            QPointer<QTabWidget> tabWidget;
+            QPointer<QTabBar> tabBar;
             QPointer<UI::ToolButton> prevButton;
             QPointer<UI::ToolButton> nextButton;
             QPointer<UI::ToolButton> removeButton;
@@ -65,6 +65,8 @@ namespace djv
             QPointer<QComboBox> colorComboBox;
             QPointer<QComboBox> lineWidthComboBox;
             QPointer<UI::ToolButton> clearButton;
+            QPointer<QHBoxLayout> hLayout;
+            QPointer<QHBoxLayout> hLayout2;
         };
 
         AnnotationsTool::AnnotationsTool(
@@ -77,7 +79,10 @@ namespace djv
             // Create the widgets.
             _p->listView = new QListView;
 
-            _p->tabWidget = new QTabWidget;
+            _p->tabBar = new QTabBar;
+            _p->tabBar->addTab("List");
+            _p->tabBar->addTab("Summary");
+            _p->tabBar->addTab("Export");
 
             _p->prevButton = new UI::ToolButton(context.data());
             _p->nextButton = new UI::ToolButton(context.data());
@@ -101,34 +106,30 @@ namespace djv
             // Layout the widgets.
             auto layout = new QVBoxLayout(this);
             layout->setMargin(0);
-            layout->addWidget(_p->tabWidget);
+            layout->addWidget(_p->tabBar);
 
             auto listTab = new QWidget;
             auto vLayout = new QVBoxLayout(listTab);
-            auto hLayout = new QHBoxLayout;
-            hLayout->addWidget(_p->prevButton);
-            hLayout->addWidget(_p->nextButton);
-            hLayout->addStretch();
-            hLayout->addWidget(_p->removeButton);
-            hLayout->addWidget(_p->addButton);
-            vLayout->addLayout(hLayout);
+            _p->hLayout = new QHBoxLayout;
+            _p->hLayout->setMargin(0);
+            _p->hLayout->addWidget(_p->prevButton);
+            _p->hLayout->addWidget(_p->nextButton);
+            _p->hLayout->addStretch();
+            _p->hLayout->addWidget(_p->removeButton);
+            _p->hLayout->addWidget(_p->addButton);
+            vLayout->addLayout(_p->hLayout);
             vLayout->addWidget(_p->textEdit);
-            hLayout = new QHBoxLayout;
+            _p->hLayout2 = new QHBoxLayout;
+            _p->hLayout2->setMargin(0);
             Q_FOREACH(auto button, _p->primitiveButtonGroup->buttons())
             {
-                hLayout->addWidget(button);
+                _p->hLayout2->addWidget(button);
             }
-            hLayout->addWidget(_p->colorComboBox);
-            hLayout->addWidget(_p->lineWidthComboBox);
-            hLayout->addWidget(_p->clearButton);
-            vLayout->addLayout(hLayout);
-            _p->tabWidget->addTab(listTab, "List");
-
-            auto summaryTab = new QWidget;
-            _p->tabWidget->addTab(summaryTab, "Summary");
-
-            auto exportTab = new QWidget;
-            _p->tabWidget->addTab(exportTab, "Export");
+            _p->hLayout2->addWidget(_p->colorComboBox);
+            _p->hLayout2->addWidget(_p->lineWidthComboBox);
+            _p->hLayout2->addWidget(_p->clearButton);
+            vLayout->addLayout(_p->hLayout2);
+            layout->addWidget(listTab);
 
             // Initialize.
             setWindowTitle(qApp->translate("djv::ViewLib::AnnotationsTool", "Annotations"));
@@ -192,6 +193,19 @@ namespace djv
             _p->nextButton->setIcon(context()->iconLibrary()->icon("djv/UI/RightIcon"));
             _p->removeButton->setIcon(context()->iconLibrary()->icon("djv/UI/RemoveIcon"));
             _p->addButton->setIcon(context()->iconLibrary()->icon("djv/UI/AddIcon"));
+            const auto primitiveIcons = std::vector<std::string>(
+            {
+                "djv/UI/PrimitivePolyline",
+                "djv/UI/PrimitiveRect",
+                "djv/UI/PrimitiveEllipse"
+            });
+            auto primitiveButtons = _p->primitiveButtonGroup->buttons();
+            for (size_t i = 0; i < primitiveButtons.size(); ++i)
+            {
+                primitiveButtons[i]->setIcon(context()->iconLibrary()->icon(primitiveIcons[i].c_str()));
+            }
+            _p->hLayout->setSpacing(style()->pixelMetric(QStyle::PM_ToolBarItemSpacing));
+            _p->hLayout2->setSpacing(style()->pixelMetric(QStyle::PM_ToolBarItemSpacing));
         }
 
         void AnnotationsTool::widgetUpdate()

@@ -14,7 +14,7 @@
    height="200"
    id="svg2"
    sodipodi:version="0.32"
-   inkscape:version="0.92.4 (5da689c313, 2019-01-14)"
+   inkscape:version="0.92.3 (2405546, 2018-03-11)"
    version="1.0"
    sodipodi:docname="AnnotationsIcons.svg"
    inkscape:output_extension="org.inkscape.output.svg.inkscape"
@@ -113,22 +113,22 @@
      objecttolerance="10"
      inkscape:pageopacity="0"
      inkscape:pageshadow="2"
-     inkscape:zoom="6.6091681"
-     inkscape:cx="107.11785"
-     inkscape:cy="36.444567"
+     inkscape:zoom="13.218336"
+     inkscape:cx="24.88156"
+     inkscape:cy="14.477001"
      inkscape:document-units="px"
-     inkscape:current-layer="PrimitiveRect"
+     inkscape:current-layer="layer1"
      showgrid="true"
-     inkscape:window-width="1920"
-     inkscape:window-height="1137"
-     inkscape:window-x="1912"
-     inkscape:window-y="-8"
+     inkscape:window-width="1853"
+     inkscape:window-height="1145"
+     inkscape:window-x="67"
+     inkscape:window-y="27"
      inkscape:snap-nodes="true"
      inkscape:snap-bbox="true"
      inkscape:window-maximized="1"
      showguides="true"
      inkscape:guide-bbox="true"
-     inkscape:snap-global="true"
+     inkscape:snap-global="false"
      units="px"
      width="200mm"
      inkscape:bbox-paths="false"
@@ -149,7 +149,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -170,7 +170,7 @@
          style="color:#000000;clip-rule:nonzero;display:inline;overflow:visible;visibility:visible;opacity:1;isolation:auto;mix-blend-mode:normal;color-interpolation:sRGB;color-interpolation-filters:linearRGB;solid-color:#000000;solid-opacity:1;fill:#000000;fill-opacity:0;fill-rule:nonzero;stroke:none;stroke-width:35.70510864;stroke-linecap:square;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;color-rendering:auto;image-rendering:auto;shape-rendering:auto;text-rendering:auto;enable-background:accumulate" />
       <g
          style="stroke-width:2.44664598"
-         transform="matrix(0.35396433,0.20436141,-0.20436141,0.35396433,-16.13583,14.339094)"
+         transform="matrix(0.43624968,0.25186888,-0.25186888,0.43624968,-22.746786,18.110367)"
          id="g984">
         <path
            style="fill:#f0f0f0;fill-opacity:1;stroke:none;stroke-width:2.44664598px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
@@ -204,9 +204,9 @@
     </g>
     <g
        id="PrimitiveRect"
-       inkscape:label="#g1027">
+       inkscape:label="#g846">
       <rect
-         style="color:#000000;clip-rule:nonzero;display:inline;overflow:visible;visibility:visible;opacity:1;isolation:auto;mix-blend-mode:normal;color-interpolation:sRGB;color-interpolation-filters:linearRGB;solid-color:#000000;solid-opacity:1;fill:#000000;fill-opacity:0.01515152;fill-rule:nonzero;stroke:none;stroke-width:35.70510864;stroke-linecap:square;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;color-rendering:auto;image-rendering:auto;shape-rendering:auto;text-rendering:auto;enable-background:accumulate"
+         style="color:#000000;clip-rule:nonzero;display:inline;overflow:visible;visibility:visible;opacity:1;isolation:auto;mix-blend-mode:normal;color-interpolation:sRGB;color-interpolation-filters:linearRGB;solid-color:#000000;solid-opacity:1;fill:#000000;fill-opacity:0.0151515;fill-rule:nonzero;stroke:none;stroke-width:35.70510864;stroke-linecap:square;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;color-rendering:auto;image-rendering:auto;shape-rendering:auto;text-rendering:auto;enable-background:accumulate"
          id="rect992"
          width="25"
          height="25"
@@ -219,23 +219,23 @@
          width="13"
          id="rect1023"
          style="opacity:1;vector-effect:none;fill:none;fill-opacity:0;fill-rule:nonzero;stroke:#f0f0f0;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
-      <g
-         id="PrimitiveEllipse"
-         inkscape:label="#g1034">
-        <rect
-           y="-14"
-           x="75"
-           height="25"
-           width="25"
-           id="rect1000"
-           style="color:#000000;clip-rule:nonzero;display:inline;overflow:visible;visibility:visible;opacity:1;isolation:auto;mix-blend-mode:normal;color-interpolation:sRGB;color-interpolation-filters:linearRGB;solid-color:#000000;solid-opacity:1;fill:#000000;fill-opacity:0;fill-rule:nonzero;stroke:none;stroke-width:35.70510864;stroke-linecap:square;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;color-rendering:auto;image-rendering:auto;shape-rendering:auto;text-rendering:auto;enable-background:accumulate" />
-        <circle
-           r="6.5"
-           cy="-1.49998"
-           cx="87.5"
-           id="path1029"
-           style="opacity:1;vector-effect:none;fill:none;fill-opacity:0.0151515;fill-rule:nonzero;stroke:#f0f0f0;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
-      </g>
+    </g>
+    <g
+       inkscape:label="#g1034"
+       id="PrimitiveEllipse">
+      <rect
+         style="color:#000000;clip-rule:nonzero;display:inline;overflow:visible;visibility:visible;opacity:1;isolation:auto;mix-blend-mode:normal;color-interpolation:sRGB;color-interpolation-filters:linearRGB;solid-color:#000000;solid-opacity:1;fill:#000000;fill-opacity:0;fill-rule:nonzero;stroke:none;stroke-width:35.70510864;stroke-linecap:square;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;color-rendering:auto;image-rendering:auto;shape-rendering:auto;text-rendering:auto;enable-background:accumulate"
+         id="rect1000"
+         width="25"
+         height="25"
+         x="75"
+         y="-14" />
+      <circle
+         style="opacity:1;vector-effect:none;fill:none;fill-opacity:0.0151515;fill-rule:nonzero;stroke:#f0f0f0;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+         id="path1029"
+         cx="87.5"
+         cy="-1.49998"
+         r="6.5" />
     </g>
   </g>
 </svg>

@@ -62,7 +62,7 @@ namespace djv
             }
             _actions[ANNOTATIONS_WIDGET]->setCheckable(true);
             _actions[ANNOTATIONS_WIDGET]->setText(
-                qApp->translate("djv::ViewLib::AnnotationsActions", "Annotations Widget"));
+                qApp->translate("djv::ViewLib::AnnotationsActions", "Annotations Tool"));
 
             // Initialize.
             update();
@@ -89,10 +89,10 @@ namespace djv
             _actions[ANNOTATIONS_WIDGET]->setShortcut(shortcuts[Enum::SHORTCUT_ANNOTATIONS_WIDGET].value);
             _actions[ANNOTATIONS_WIDGET]->setToolTip(
                 qApp->translate("djv::ViewLib::AnnotationsActions",
-                "Toggle whether the annotations widget is visible"));
+                "Toggle whether the annotations tool is visible"));
             _actions[ANNOTATIONS_WIDGET]->setWhatsThis(
                 qApp->translate("djv::ViewLib::AnnotationsActions",
-                "Toggle whether the annotations widget is visible<br><br>"
+                "Toggle whether the annotations tool is visible<br><br>"
                 "<a href=\"ViewAnnotations.html\">Documentation</a>"));
             
             Q_EMIT changed();
