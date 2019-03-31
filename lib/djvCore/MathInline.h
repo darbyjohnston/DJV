@@ -116,12 +116,12 @@ namespace djv
 
         constexpr float Math::degreesToRadians(float value)
         {
-            return value / 360.f * piX2;
+            return value / 360.f * 6.2831853f;
         }
 
         constexpr float Math::radiansToDegrees(float value)
         {
-            return value / piX2 * 360.f;
+            return value / 6.2831853f * 360.f;
         }
 
     } // namespace Core

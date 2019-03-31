@@ -31,12 +31,12 @@ namespace djv
 {
     namespace Core
     {
-        constexpr qint64 Sequence::start() const
+        inline qint64 Sequence::start() const
         {
             return frames.count() ? frames[0] : 0;
         }
 
-        constexpr qint64 Sequence::end() const
+        inline qint64 Sequence::end() const
         {
             return frames.count() ? frames[frames.count() - 1] : 0;
         }

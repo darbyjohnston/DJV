@@ -45,8 +45,8 @@ namespace djv
             constexpr Box2(const Box2<T, P> &);
             constexpr Box2(const glm::tvec2<T, P> & position, const glm::tvec2<T, P> & size);
             constexpr Box2(const glm::tvec2<T, P> & size);
-            constexpr Box2(T x, T y, T w, T h);
-            constexpr Box2(T w, T h);
+            inline Box2(T x, T y, T w, T h);
+            inline Box2(T w, T h);
 
             glm::tvec2<T, P> position;
             glm::tvec2<T, P> size;
@@ -89,8 +89,8 @@ namespace djv
             constexpr Box3(const Box3<T, P> &);
             constexpr Box3(const glm::tvec3<T, P> & position, const glm::tvec3<T, P> & size);
             constexpr Box3(const glm::tvec3<T, P> & size);
-            constexpr Box3(T x, T y, T z, T w, T h, T d);
-            constexpr Box3(T w, T h, T d);
+            inline Box3(T x, T y, T z, T w, T h, T d);
+            inline Box3(T w, T h, T d);
 
             glm::tvec3<T, P> position;
             glm::tvec3<T, P> size;

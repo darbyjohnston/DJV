@@ -66,7 +66,7 @@ namespace djv
         {}
 
         template<typename T, precision P>
-        constexpr Box2<T, P>::Box2(T _x, T _y, T _w, T _h) :
+        inline Box2<T, P>::Box2(T _x, T _y, T _w, T _h) :
             _BOX2_INIT()
         {
             x = _x;
@@ -76,7 +76,7 @@ namespace djv
         }
 
         template<typename T, precision P>
-        constexpr Box2<T, P>::Box2(T _w, T _h) :
+        inline Box2<T, P>::Box2(T _w, T _h) :
             position(T(0), T(0)),
             _BOX2_INIT()
         {
