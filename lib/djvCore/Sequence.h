@@ -59,10 +59,10 @@ namespace djv
             void setFrames(qint64 start, qint64 end);
 
             //! Get the start frame.
-            constexpr qint64 start() const;
+            inline qint64 start() const;
 
             //! Get the end frame.
-            constexpr qint64 end() const;
+            inline qint64 end() const;
 
             //! Sort the frame numbers in a sequence.
             void sort();

@@ -38,12 +38,17 @@
 #include <djvUI/IconLibrary.h>
 #include <djvUI/ToolButton.h>
 
+#include <djvAV/Color.h>
+
+#include <djvCore/SignalBlocker.h>
+
 #include <QApplication>
 #include <QBoxLayout>
 #include <QButtonGroup>
 #include <QComboBox>
 #include <QListView>
 #include <QPointer>
+#include <QSpinBox>
 #include <QTabBar>
 #include <QTextEdit>
 
@@ -53,7 +58,10 @@ namespace djv
     {
         struct AnnotationsTool::Private
         {
-            std::shared_ptr<Annotations::AbstractPrimitive> primitive;
+            Enum::PRIMITIVE primitive = static_cast<Enum::PRIMITIVE>(0);
+            std::shared_ptr<Annotations::AbstractPrimitive> abstractPrimitive;
+            AV::Color color;
+            size_t lineWidth = 1;
             QPointer<QListView> listView;
             QPointer<QTabBar> tabBar;
             QPointer<UI::ToolButton> prevButton;
@@ -63,10 +71,11 @@ namespace djv
             QPointer<QTextEdit> textEdit;
             QPointer<QButtonGroup> primitiveButtonGroup;
             QPointer<QComboBox> colorComboBox;
-            QPointer<QComboBox> lineWidthComboBox;
+            QPointer<QSpinBox> lineWidthSpinBox;
             QPointer<UI::ToolButton> clearButton;
-            QPointer<QHBoxLayout> hLayout;
-            QPointer<QHBoxLayout> hLayout2;
+            QPointer<QHBoxLayout> prevNextLayout;
+            QPointer<QHBoxLayout> addRemoveLayout;
+            QPointer<QHBoxLayout> primitiveLayout;
         };
 
         AnnotationsTool::AnnotationsTool(
@@ -80,7 +89,8 @@ namespace djv
             _p->listView = new QListView;
 
             _p->tabBar = new QTabBar;
-            _p->tabBar->addTab("List");
+            _p->tabBar->addTab("Annotation");
+            _p->tabBar->addTab("Frames");
             _p->tabBar->addTab("Summary");
             _p->tabBar->addTab("Export");
 
@@ -93,14 +103,21 @@ namespace djv
 
             _p->primitiveButtonGroup = new QButtonGroup;
             _p->primitiveButtonGroup->setExclusive(true);
-            for (size_t i = 0; i < Enum::PRIMITIVE_COUNT; ++i)
+            for (int i = 0; i < Enum::PRIMITIVE_COUNT; ++i)
             {
                 auto button = new UI::ToolButton(context.data());
                 button->setCheckable(true);
-                _p->primitiveButtonGroup->addButton(button);
+                _p->primitiveButtonGroup->addButton(button, i);
             }
+
             _p->colorComboBox = new QComboBox;
-            _p->lineWidthComboBox = new QComboBox;
+            _p->colorComboBox->addItem("Red", QColor(255, 0, 0));
+            _p->colorComboBox->addItem("Green", QColor(0, 255, 0));
+            _p->colorComboBox->addItem("Blue", QColor(0, 0, 255));
+
+            _p->lineWidthSpinBox = new QSpinBox;
+            _p->lineWidthSpinBox->setRange(1, 100);
+
             _p->clearButton = new UI::ToolButton(context.data());
 
             // Layout the widgets.
@@ -110,25 +127,36 @@ namespace djv
 
             auto listTab = new QWidget;
             auto vLayout = new QVBoxLayout(listTab);
-            _p->hLayout = new QHBoxLayout;
-            _p->hLayout->setMargin(0);
-            _p->hLayout->addWidget(_p->prevButton);
-            _p->hLayout->addWidget(_p->nextButton);
-            _p->hLayout->addStretch();
-            _p->hLayout->addWidget(_p->removeButton);
-            _p->hLayout->addWidget(_p->addButton);
-            vLayout->addLayout(_p->hLayout);
+            vLayout->setMargin(0);
+            //vLayout->addWidget(_p->listView);
+            auto hLayout = new QHBoxLayout;
+            hLayout->setMargin(0);
+            _p->prevNextLayout = new QHBoxLayout;
+            _p->prevNextLayout->setMargin(0);
+            _p->prevNextLayout->addWidget(_p->prevButton);
+            _p->prevNextLayout->addWidget(_p->nextButton);
+            hLayout->addLayout(_p->prevNextLayout);
+            hLayout->addStretch();
+            _p->addRemoveLayout = new QHBoxLayout;
+            _p->addRemoveLayout->setMargin(0);
+            _p->addRemoveLayout->addWidget(_p->removeButton);
+            _p->addRemoveLayout->addWidget(_p->addButton);
+            hLayout->addLayout(_p->addRemoveLayout);
+            //vLayout->addLayout(hLayout);
             vLayout->addWidget(_p->textEdit);
-            _p->hLayout2 = new QHBoxLayout;
-            _p->hLayout2->setMargin(0);
+            hLayout = new QHBoxLayout;
+            hLayout->setMargin(0);
+            _p->primitiveLayout = new QHBoxLayout;
+            _p->primitiveLayout->setMargin(0);
             Q_FOREACH(auto button, _p->primitiveButtonGroup->buttons())
             {
-                _p->hLayout2->addWidget(button);
+                _p->primitiveLayout->addWidget(button);
             }
-            _p->hLayout2->addWidget(_p->colorComboBox);
-            _p->hLayout2->addWidget(_p->lineWidthComboBox);
-            _p->hLayout2->addWidget(_p->clearButton);
-            vLayout->addLayout(_p->hLayout2);
+            hLayout->addLayout(_p->primitiveLayout);
+            hLayout->addWidget(_p->colorComboBox);
+            hLayout->addWidget(_p->lineWidthSpinBox);
+            hLayout->addWidget(_p->clearButton);
+            vLayout->addLayout(hLayout);
             layout->addWidget(listTab);
 
             // Initialize.
@@ -138,6 +166,40 @@ namespace djv
             widgetUpdate();
 
             // Setup the callbacks.
+            connect(
+                _p->primitiveButtonGroup,
+                SIGNAL(buttonClicked(int)),
+                SLOT(primitiveCallback(int)));
+
+            connect(
+                _p->colorComboBox,
+                SIGNAL(activated(int)),
+                SLOT(colorCallback(int)));
+
+            connect(
+                _p->lineWidthSpinBox,
+                SIGNAL(valueChanged(int)),
+                SLOT(lineWidthCallback(int)));
+
+            connect(
+                _p->clearButton,
+                SIGNAL(clicked()),
+                SIGNAL(clearPrimitives()));
+
+            auto group = session->annotationsGroup();
+            connect(
+                group,
+                SIGNAL(primitiveChanged(Enum::PRIMITIVE)),
+                SLOT(widgetUpdate()));
+            connect(
+                group,
+                SIGNAL(colorChanged(const AV::Color &)),
+                SLOT(widgetUpdate()));
+            connect(
+                group,
+                SIGNAL(lineWidthChanged(size_t)),
+                SLOT(widgetUpdate()));
+
             auto viewWidget = session->viewWidget();
             connect(
                 viewWidget,
@@ -156,31 +218,49 @@ namespace djv
         AnnotationsTool::~AnnotationsTool()
         {}
 
+        void AnnotationsTool::primitiveCallback(int value)
+        {
+            _p->primitive = static_cast<Enum::PRIMITIVE>(value);
+            Q_EMIT primitiveChanged(_p->primitive);
+        }
+
+        void AnnotationsTool::colorCallback(int value)
+        {
+            _p->color = AV::ColorUtil::fromQt(_p->colorComboBox->itemData(value).value<QColor>());
+            Q_EMIT colorChanged(_p->color);
+        }
+
+        void AnnotationsTool::lineWidthCallback(int value)
+        {
+            _p->lineWidth = value;
+            Q_EMIT lineWidthChanged(_p->lineWidth);
+        }
+
         void AnnotationsTool::pickPressedCallback(const glm::ivec2 & in)
         {
             if (isVisible())
             {
                 auto group = session()->annotationsGroup();
-                _p->primitive = Annotations::PrimitiveFactory::create(group->primitive(), group->color(), group->lineWidth());
+                _p->abstractPrimitive = Annotations::PrimitiveFactory::create(group->primitive(), group->color(), group->lineWidth());
                 Annotations::Data data;
-                data.primitives.push_back(_p->primitive);
+                data.primitives.push_back(_p->abstractPrimitive);
                 group->addAnnotation(data);
             }
         }
 
         void AnnotationsTool::pickReleasedCallback(const glm::ivec2 & in)
         {
-            _p->primitive.reset();
+            _p->abstractPrimitive.reset();
         }
 
         void AnnotationsTool::pickMovedCallback(const glm::ivec2 & in)
         {
-            if (isVisible() && _p->primitive)
+            if (isVisible() && _p->abstractPrimitive)
             {
                 const auto view = session()->viewWidget();
                 const glm::ivec2 & viewPos = view->viewPos();
                 const float viewZoom = view->viewZoom();
-                _p->primitive->mouse(glm::ivec2(
+                _p->abstractPrimitive->mouse(glm::ivec2(
                     (in.x - viewPos.x) / viewZoom,
                     (in.y - viewPos.y) / viewZoom));
                 session()->viewWidget()->update();
@@ -200,16 +280,23 @@ namespace djv
                 "djv/UI/PrimitiveEllipse"
             });
             auto primitiveButtons = _p->primitiveButtonGroup->buttons();
-            for (size_t i = 0; i < primitiveButtons.size(); ++i)
+            for (int i = 0; i < static_cast<int>(primitiveButtons.size()); ++i)
             {
                 primitiveButtons[i]->setIcon(context()->iconLibrary()->icon(primitiveIcons[i].c_str()));
             }
-            _p->hLayout->setSpacing(style()->pixelMetric(QStyle::PM_ToolBarItemSpacing));
-            _p->hLayout2->setSpacing(style()->pixelMetric(QStyle::PM_ToolBarItemSpacing));
+            _p->clearButton->setIcon(context()->iconLibrary()->icon("djv/UI/RemoveIcon"));
+
+            _p->prevNextLayout->setSpacing(style()->pixelMetric(QStyle::PM_ToolBarItemSpacing));
+            _p->addRemoveLayout->setSpacing(style()->pixelMetric(QStyle::PM_ToolBarItemSpacing));
+            _p->primitiveLayout->setSpacing(style()->pixelMetric(QStyle::PM_ToolBarItemSpacing));
         }
 
         void AnnotationsTool::widgetUpdate()
         {
+            Core::SignalBlocker signalBlocker(QObjectList() <<
+                _p->primitiveButtonGroup);
+            auto primitiveButtons = _p->primitiveButtonGroup->buttons();
+            primitiveButtons[_p->primitive]->setChecked(true);
         }
 
     } // namespace ViewLib

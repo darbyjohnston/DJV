@@ -61,11 +61,6 @@ namespace djv
                 return out;
             }
 
-            void PolylinePrimitive::_init(const AV::Color & color, size_t lineWidth)
-            {
-                AbstractPrimitive::_init(color, lineWidth);
-            }
-
             PolylinePrimitive::~PolylinePrimitive()
             {}
 
@@ -98,11 +93,6 @@ namespace djv
             void PolylinePrimitive::mouse(const glm::ivec2 & value)
             {
                 _points.push_back(value);
-            }
-
-            void RectPrimitive::_init(const AV::Color & color, size_t lineWidth)
-            {
-                AbstractPrimitive::_init(color, lineWidth);
             }
 
             RectPrimitive::~RectPrimitive()
@@ -142,11 +132,6 @@ namespace djv
                 {
                     _points[1] = value;
                 }
-            }
-
-            void EllipsePrimitive::_init(const AV::Color & color, size_t lineWidth)
-            {
-                AbstractPrimitive::_init(color, lineWidth);
             }
 
             EllipsePrimitive::~EllipsePrimitive()

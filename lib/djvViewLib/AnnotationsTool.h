@@ -30,6 +30,7 @@
 #pragma once
 
 #include <djvViewLib/AbstractTool.h>
+#include <djvViewLib/Enum.h>
 
 #include <djvCore/Vector.h>
 
@@ -37,6 +38,12 @@
 
 namespace djv
 {
+    namespace AV
+    {
+        class Color;
+    
+    } // namespace AV
+
     namespace ViewLib
     {
         //! This class provides the annotations tool.
@@ -51,7 +58,23 @@ namespace djv
                 QWidget * parent = nullptr);
             ~AnnotationsTool() override;
 
+        Q_SIGNALS:
+            //! This signal is emitted when the primitive type is changed.
+            void primitiveChanged(Enum::PRIMITIVE);
+
+            //! This signal is emitted when the color is changed.
+            void colorChanged(const AV::Color &);
+
+            //! This signal is emitted when the line width is changed.
+            void lineWidthChanged(size_t);
+
+            //! This signal is emitted to clear the primitives.
+            void clearPrimitives();
+
         private Q_SLOTS:
+            void primitiveCallback(int);
+            void colorCallback(int);
+            void lineWidthCallback(int);
             void pickPressedCallback(const glm::ivec2 &);
             void pickReleasedCallback(const glm::ivec2 &);
             void pickMovedCallback(const glm::ivec2 &);

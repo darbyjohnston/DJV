@@ -75,9 +75,6 @@ namespace djv
             //! This class provides a polyline annotation primitive.
             class PolylinePrimitive : public AbstractPrimitive
             {
-            protected:
-                void _init(const AV::Color &, size_t lineWidth);
-
             public:
                 ~PolylinePrimitive() override;
 
@@ -93,9 +90,6 @@ namespace djv
             //! This class provides a rectangle annotation primitive.
             class RectPrimitive : public AbstractPrimitive
             {
-            protected:
-                void _init(const AV::Color &, size_t lineWidth);
-
             public:
                 ~RectPrimitive() override;
 
@@ -111,9 +105,6 @@ namespace djv
             //! This class provides an ellipse annotation primitive.
             class EllipsePrimitive : public AbstractPrimitive
             {
-            protected:
-                void _init(const AV::Color &, size_t lineWidth);
-
             public:
                 ~EllipsePrimitive() override;
 

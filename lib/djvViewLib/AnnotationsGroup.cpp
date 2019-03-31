@@ -83,23 +83,38 @@ namespace djv
             // Initialize.
             update();
 
-            // Setup action callbacks.
+            // Setup callbacks.
             connect(
                 _p->actions->action(AnnotationsActions::ANNOTATIONS_WIDGET),
                 SIGNAL(toggled(bool)),
                 SLOT(update()));
 
-            // Setup widget callbacks.
-            connect(
-                session->playbackGroup(),
-                SIGNAL(frameChanged(qint64)),
-                SLOT(update()));
             _p->actions->action(AnnotationsActions::ANNOTATIONS_WIDGET)->connect(
                 _p->dockWidget,
                 SIGNAL(visibilityChanged(bool)),
                 SLOT(setChecked(bool)));
 
-            // Setup preferences callbacks.
+            connect(
+                _p->tool,
+                SIGNAL(primitiveChanged(Enum::PRIMITIVE)),
+                SLOT(setPrimitive(Enum::PRIMITIVE)));
+            connect(
+                _p->tool,
+                SIGNAL(colorChanged(const AV::Color &)),
+                SLOT(setColor(const AV::Color &)));
+            connect(
+                _p->tool,
+                SIGNAL(lineWidthChanged(size_t)),
+                SLOT(setLineWidth(size_t)));
+            connect(
+                _p->tool,
+                SIGNAL(clearPrimitives()),
+                SLOT(clearPrimitivesCallback()));
+
+            connect(
+                session->playbackGroup(),
+                SIGNAL(frameChanged(qint64)),
+                SLOT(update()));
         }
 
         AnnotationsGroup::~AnnotationsGroup()
@@ -165,6 +180,11 @@ namespace djv
                 return;
             _p->lineWidth = value;
             Q_EMIT lineWidthChanged(_p->lineWidth);
+        }
+
+        void AnnotationsGroup::clearPrimitivesCallback()
+        {
+
         }
 
         void AnnotationsGroup::update()

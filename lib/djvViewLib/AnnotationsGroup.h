@@ -102,6 +102,8 @@ namespace djv
             void lineWidthChanged(size_t);
 
         private Q_SLOTS:
+            void clearPrimitivesCallback();
+
             void update();
 
         private:

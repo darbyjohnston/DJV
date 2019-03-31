@@ -39,7 +39,6 @@
 #include <djvCore/SignalBlocker.h>
 
 #include <QApplication>
-#include <QButtonGroup>
 #include <QCheckBox>
 #include <QComboBox>
 #include <QFormLayout>
