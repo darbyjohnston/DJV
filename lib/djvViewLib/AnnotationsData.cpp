@@ -75,18 +75,15 @@ namespace djv
             {
                 if (_points.size() >= 2)
                 {
-                    painter.setPen(QPen(AV::ColorUtil::toQt(_color), _lineWidth * viewZoom));
-                    glm::ivec2 pos = _points[0];
-                    for (size_t i = 1; i < _points.size(); ++i)
+                    std::vector<QPoint> points;
+                    for (size_t i = 0; i < _points.size(); ++i)
                     {
-                        const auto & pos2 = _points[i];
-                        painter.drawLine(
-                            pos.x * viewZoom + viewPos.x,
-                            size.y - 1 - (pos.y * viewZoom + viewPos.y),
-                            pos2.x * viewZoom + viewPos.x,
-                            size.y - 1 - (pos2.y * viewZoom + viewPos.y));
-                        pos = pos2;
+                        points.push_back(QPoint(
+                            _points[i].x * viewZoom + viewPos.x,
+                            size.y - 1 - (_points[i].y * viewZoom + viewPos.y)));
                     }
+                    painter.setPen(QPen(AV::ColorUtil::toQt(_color), _lineWidth * viewZoom));
+                    painter.drawPolyline(points.data(), static_cast<int>(points.size()));
                 }
             }
 
