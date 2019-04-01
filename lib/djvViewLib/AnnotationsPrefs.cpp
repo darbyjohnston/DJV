@@ -40,14 +40,65 @@ namespace djv
     namespace ViewLib
     {
         AnnotationsPrefs::AnnotationsPrefs(const QPointer<ViewContext> & context, QObject * parent) :
-            AbstractPrefs(context, parent)
+            AbstractPrefs(context, parent),
+            _primitive(Enum::ANNOTATIONS_POLYLINE),
+            _color(Enum::ANNOTATIONS_RED),
+            _lineWidth(5)
         {
             UI::Prefs prefs("djv::ViewLib::AnnotationsPrefs");
+            prefs.get("primitive", _primitive);
+            prefs.get("color", _color);
+            prefs.get("lineWidth", _lineWidth);
         }
 
         AnnotationsPrefs::~AnnotationsPrefs()
         {
             UI::Prefs prefs("djv::ViewLib::AnnotationsPrefs");
+            prefs.set("primitive", _primitive);
+            prefs.set("color", _color);
+            prefs.set("lineWidth", _lineWidth);
+        }
+
+        Enum::ANNOTATIONS_PRIMITIVE AnnotationsPrefs::primitive() const
+        {
+            return _primitive;
+        }
+
+        Enum::ANNOTATIONS_COLOR AnnotationsPrefs::color() const
+        {
+            return _color;
+        }
+
+        size_t AnnotationsPrefs::lineWidth() const
+        {
+            return _lineWidth;
+        }
+
+        void AnnotationsPrefs::setPrimitive(Enum::ANNOTATIONS_PRIMITIVE value)
+        {
+            if (value == _primitive)
+                return;
+            _primitive = value;
+            Q_EMIT primitiveChanged(_primitive);
+            Q_EMIT prefChanged();
+        }
+
+        void AnnotationsPrefs::setColor(Enum::ANNOTATIONS_COLOR value)
+        {
+            if (value == _color)
+                return;
+            _color = value;
+            Q_EMIT colorChanged(_color);
+            Q_EMIT prefChanged();
+        }
+
+        void AnnotationsPrefs::setLineWidth(size_t value)
+        {
+            if (value == _lineWidth)
+                return;
+            _lineWidth = value;
+            Q_EMIT lineWidthChanged(_lineWidth);
+            Q_EMIT prefChanged();
         }
 
     } // namespace ViewLib

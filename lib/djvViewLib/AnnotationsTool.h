@@ -38,12 +38,6 @@
 
 namespace djv
 {
-    namespace AV
-    {
-        class Color;
-    
-    } // namespace AV
-
     namespace ViewLib
     {
         //! This class provides the annotations tool.
@@ -58,14 +52,24 @@ namespace djv
                 QWidget * parent = nullptr);
             ~AnnotationsTool() override;
 
+        public Q_SLOTS:
+            //! Set the current primitive.
+            void setPrimitive(djv::ViewLib::Enum::ANNOTATIONS_PRIMITIVE);
+
+            //! Set the current color.
+            void setColor(djv::ViewLib::Enum::ANNOTATIONS_COLOR);
+
+            //! Set the current line width.
+            void setLineWidth(size_t);
+
         Q_SIGNALS:
-            //! This signal is emitted when the primitive type is changed.
-            void primitiveChanged(Enum::PRIMITIVE);
+            //! This signal is emitted when the current primitive is changed.
+            void primitiveChanged(djv::ViewLib::Enum::ANNOTATIONS_PRIMITIVE);
 
-            //! This signal is emitted when the color is changed.
-            void colorChanged(const AV::Color &);
+            //! This signal is emitted when the current color is changed.
+            void colorChanged(djv::ViewLib::Enum::ANNOTATIONS_COLOR);
 
-            //! This signal is emitted when the line width is changed.
+            //! This signal is emitted when the current line width is changed.
             void lineWidthChanged(size_t);
 
             //! This signal is emitted to clear the primitives.

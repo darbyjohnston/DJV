@@ -69,11 +69,11 @@ namespace djv
             //! Add an annotation.
             void addAnnotation(const Annotations::Data &);
 
-            //! Get the current primitive type.
-            Enum::PRIMITIVE primitive() const;
+            //! Get the current primitive.
+            Enum::ANNOTATIONS_PRIMITIVE primitive() const;
 
             //! Get the current color.
-            const AV::Color & color() const;
+            Enum::ANNOTATIONS_COLOR color() const;
 
             //! Get the current line width.
             size_t lineWidth() const;
@@ -82,23 +82,23 @@ namespace djv
             QPointer<QToolBar> createToolBar() const override;
 
         public Q_SLOTS:
-            //! Set the current primitive type.
-            void setPrimitive(Enum::PRIMITIVE);
+            //! Set the current primitive.
+            void setPrimitive(djv::ViewLib::Enum::ANNOTATIONS_PRIMITIVE);
 
             //! Set the current color.
-            void setColor(const AV::Color &);
+            void setColor(djv::ViewLib::Enum::ANNOTATIONS_COLOR);
 
             //! Set the current line width.
             void setLineWidth(size_t);
 
         Q_SIGNALS:
-            //! This signal is emitted when the primitive type is changed.
-            void primitiveChanged(Enum::PRIMITIVE);
+            //! This signal is emitted when thecurrent primitive is changed.
+            void primitiveChanged(djv::ViewLib::Enum::ANNOTATIONS_PRIMITIVE);
 
-            //! This signal is emitted when the color is changed.
-            void colorChanged(const AV::Color &);
+            //! This signal is emitted when the current color is changed.
+            void colorChanged(djv::ViewLib::Enum::ANNOTATIONS_COLOR);
 
-            //! This signal is emitted when the line width is changed.
+            //! This signal is emitted when the current line width is changed.
             void lineWidthChanged(size_t);
 
         private Q_SLOTS:

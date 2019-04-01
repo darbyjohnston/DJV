@@ -71,20 +71,20 @@ namespace djv
                 preload(context->filePrefs()->hasPreload())
             {}
 
-            Core::FileInfo fileInfo;
-            AV::IOInfo ioInfo;
-            std::unique_ptr<AV::Load> load;
+            Core::FileInfo                   fileInfo;
+            AV::IOInfo                       ioInfo;
+            std::unique_ptr<AV::Load>        load;
             std::unique_ptr<AV::OpenGLImage> openGLImage;
-            int layer = 0;
-            QStringList layers;
-            AV::PixelDataInfo::PROXY proxy = static_cast<AV::PixelDataInfo::PROXY>(0);
-            bool u8Conversion = false;
-            bool cacheEnabled = false;
-            bool preload = false;
-            bool preloadActive = false;
-            int preloadTimer = 0;
-            qint64 preloadFrame = 0;
-            QPointer<FileActions> actions;
+            int                              layer         = 0;
+            QStringList                      layers;
+            AV::PixelDataInfo::PROXY         proxy         = static_cast<AV::PixelDataInfo::PROXY>(0);
+            bool                             u8Conversion  = false;
+            bool                             cacheEnabled  = false;
+            bool                             preload       = false;
+            bool                             preloadActive = false;
+            int                              preloadTimer  = 0;
+            qint64                           preloadFrame  = 0;
+            QPointer<FileActions>            actions;
         };
 
         FileGroup::FileGroup(
@@ -98,12 +98,12 @@ namespace djv
 
             if (copy)
             {
-                _p->fileInfo = copy->_p->fileInfo;
-                _p->layer = copy->_p->layer;
-                _p->proxy = copy->_p->proxy;
+                _p->fileInfo     = copy->_p->fileInfo;
+                _p->layer        = copy->_p->layer;
+                _p->proxy        = copy->_p->proxy;
                 _p->u8Conversion = copy->_p->u8Conversion;
                 _p->cacheEnabled = copy->_p->cacheEnabled;
-                _p->preload = copy->_p->preload;
+                _p->preload      = copy->_p->preload;
             }
 
             // Create the actions.

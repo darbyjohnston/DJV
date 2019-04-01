@@ -44,6 +44,12 @@
 
 namespace djv
 {
+    namespace AV
+    {
+        class Color;
+    
+    } // namespace Color
+
     namespace ViewLib
     {
         //! This class provides enumerations.
@@ -277,19 +283,39 @@ namespace djv
             //! Get the playback bar layout labels.
             static const QStringList & layoutLabels();
 
-            //! This enumeration provides the annotation primitives.
-            enum PRIMITIVE
+            //! This enumeration provides the annotations primitives.
+            enum ANNOTATIONS_PRIMITIVE
             {
-                PRIMITIVE_POLYLINE,
-                PRIMITIVE_RECT,
-                PRIMITIVE_ELLIPSE,
+                ANNOTATIONS_POLYLINE,
+                ANNOTATIONS_RECT,
+                ANNOTATIONS_ELLIPSE,
 
-                PRIMITIVE_COUNT
+                ANNOTATIONS_PRIMITIVE_COUNT
             };
-            Q_ENUM(PRIMITIVE);
+            Q_ENUM(ANNOTATIONS_PRIMITIVE);
 
-            //! Get the annoation primitive labels.
-            static const QStringList & primitiveLabels();
+            //! Get the annoations primitive labels.
+            static const QStringList & annotationsPrimitiveLabels();
+
+            //! This enumeration provides the annotations colors.
+            enum ANNOTATIONS_COLOR
+            {
+                ANNOTATIONS_RED,
+                ANNOTATIONS_YELLOW,
+                ANNOTATIONS_GREEN,
+                ANNOTATIONS_BLUE,
+                ANNOTATIONS_WHITE,
+                ANNOTATIONS_BLACK,
+
+                ANNOTATIONS_COLOR_COUNT
+            };
+
+            //! Get the annotations colors.
+            static const std::vector<AV::Color> & annotationsColors();
+
+            //! Get the annotations color labels.
+            static const QStringList & annotationsColorLabels();
+
 
             //! This enumeration provides the tools.
             enum TOOL
@@ -578,7 +604,8 @@ namespace djv
     DJV_STRING_OPERATOR(ViewLib::Enum::FRAME);
     DJV_STRING_OPERATOR(ViewLib::Enum::LOOP);
     DJV_STRING_OPERATOR(ViewLib::Enum::LAYOUT);
-    DJV_STRING_OPERATOR(ViewLib::Enum::PRIMITIVE);
+    DJV_STRING_OPERATOR(ViewLib::Enum::ANNOTATIONS_PRIMITIVE);
+    DJV_STRING_OPERATOR(ViewLib::Enum::ANNOTATIONS_COLOR);
     DJV_STRING_OPERATOR(ViewLib::Enum::TOOL);
     DJV_STRING_OPERATOR(ViewLib::Enum::HISTOGRAM);
     DJV_STRING_OPERATOR(ViewLib::Enum::SHORTCUT);

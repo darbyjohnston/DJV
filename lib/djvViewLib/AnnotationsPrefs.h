@@ -33,6 +33,8 @@
 #include <djvViewLib/DisplayProfile.h>
 #include <djvViewLib/Enum.h>
 
+#include <djvAV/Color.h>
+
 namespace djv
 {
     namespace ViewLib
@@ -46,11 +48,39 @@ namespace djv
             explicit AnnotationsPrefs(const QPointer<ViewContext> &, QObject * parent = nullptr);
             ~AnnotationsPrefs() override;
 
+            //! Get the current primitive.
+            Enum::ANNOTATIONS_PRIMITIVE primitive() const;
+
+            //! Get the current color.
+            Enum::ANNOTATIONS_COLOR color() const;
+
+            //! Get the current line width.
+            size_t lineWidth() const;
+
         public Q_SLOTS:
+            //! Set the current primitive.
+            void setPrimitive(djv::ViewLib::Enum::ANNOTATIONS_PRIMITIVE);
+
+            //! Set the current color.
+            void setColor(djv::ViewLib::Enum::ANNOTATIONS_COLOR);
+
+            //! Set the current line width.
+            void setLineWidth(size_t);
 
         Q_SIGNALS:
+            //! This signal is emitted when the current primitive is changed.
+            void primitiveChanged(djv::ViewLib::Enum::ANNOTATIONS_PRIMITIVE);
+
+            //! This signal is emitted when the current color is changed.
+            void colorChanged(djv::ViewLib::Enum::ANNOTATIONS_COLOR);
+
+            //! This signal is emitted when the current line width is changed.
+            void lineWidthChanged(size_t);
 
         private:
+            Enum::ANNOTATIONS_PRIMITIVE _primitive;
+            Enum::ANNOTATIONS_COLOR _color;
+            size_t _lineWidth;
         };
 
     } // namespace ViewLib

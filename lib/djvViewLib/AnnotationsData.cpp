@@ -29,6 +29,7 @@
 
 #include <djvViewLib/AnnotationsData.h>
 
+#include <djvAV/Color.h>
 #include <djvAV/ColorUtil.h>
 
 #include <QPainter>
@@ -39,7 +40,7 @@ namespace djv
     {
         namespace Annotations
         {
-            void AbstractPrimitive::_init(const AV::Color & color, size_t lineWidth)
+            void AbstractPrimitive::_init(Enum::ANNOTATIONS_COLOR color, size_t lineWidth)
             {
                 _color = color;
                 _lineWidth = lineWidth;
@@ -48,14 +49,14 @@ namespace djv
             AbstractPrimitive::~AbstractPrimitive()
             {}
 
-            std::shared_ptr<AbstractPrimitive> PrimitiveFactory::create(Enum::PRIMITIVE type, const AV::Color & color, size_t lineWidth)
+            std::shared_ptr<AbstractPrimitive> PrimitiveFactory::create(Enum::ANNOTATIONS_PRIMITIVE primitive, Enum::ANNOTATIONS_COLOR color, size_t lineWidth)
             {
                 std::shared_ptr<AbstractPrimitive> out;
-                switch (type)
+                switch (primitive)
                 {
-                case Enum::PRIMITIVE_POLYLINE: out = PolylinePrimitive::create(color, lineWidth); break;
-                case Enum::PRIMITIVE_RECT:     out = RectPrimitive::create    (color, lineWidth); break;
-                case Enum::PRIMITIVE_ELLIPSE:  out = EllipsePrimitive::create (color, lineWidth); break;
+                case Enum::ANNOTATIONS_POLYLINE: out = PolylinePrimitive::create(color, lineWidth); break;
+                case Enum::ANNOTATIONS_RECT:     out = RectPrimitive::create    (color, lineWidth); break;
+                case Enum::ANNOTATIONS_ELLIPSE:  out = EllipsePrimitive::create (color, lineWidth); break;
                 default: break;
                 }
                 return out;
@@ -64,7 +65,7 @@ namespace djv
             PolylinePrimitive::~PolylinePrimitive()
             {}
 
-            std::shared_ptr<PolylinePrimitive> PolylinePrimitive::create(const AV::Color & color, size_t lineWidth)
+            std::shared_ptr<PolylinePrimitive> PolylinePrimitive::create(Enum::ANNOTATIONS_COLOR color, size_t lineWidth)
             {
                 auto out = std::shared_ptr<PolylinePrimitive>(new PolylinePrimitive);
                 out->_init(color, lineWidth);
@@ -82,7 +83,7 @@ namespace djv
                             _points[i].x * viewZoom + viewPos.x,
                             size.y - 1 - (_points[i].y * viewZoom + viewPos.y)));
                     }
-                    painter.setPen(QPen(AV::ColorUtil::toQt(_color), _lineWidth * viewZoom));
+                    painter.setPen(QPen(AV::ColorUtil::toQt(Enum::annotationsColors()[_color]), _lineWidth * viewZoom));
                     painter.drawPolyline(points.data(), static_cast<int>(points.size()));
                 }
             }
@@ -95,7 +96,7 @@ namespace djv
             RectPrimitive::~RectPrimitive()
             {}
 
-            std::shared_ptr<RectPrimitive> RectPrimitive::create(const AV::Color & color, size_t lineWidth)
+            std::shared_ptr<RectPrimitive> RectPrimitive::create(Enum::ANNOTATIONS_COLOR color, size_t lineWidth)
             {
                 auto out = std::shared_ptr<RectPrimitive>(new RectPrimitive);
                 out->_init(color, lineWidth);
@@ -106,7 +107,7 @@ namespace djv
             {
                 if (_points.size() >= 2)
                 {
-                    QPen pen(AV::ColorUtil::toQt(_color), _lineWidth * viewZoom);
+                    QPen pen(AV::ColorUtil::toQt(Enum::annotationsColors()[_color]), _lineWidth * viewZoom);
                     pen.setJoinStyle(Qt::MiterJoin);
                     painter.setPen(pen);
                     const glm::ivec2 & pos = _points[0];
@@ -136,7 +137,7 @@ namespace djv
             EllipsePrimitive::~EllipsePrimitive()
             {}
 
-            std::shared_ptr<EllipsePrimitive> EllipsePrimitive::create(const AV::Color & color, size_t lineWidth)
+            std::shared_ptr<EllipsePrimitive> EllipsePrimitive::create(Enum::ANNOTATIONS_COLOR color, size_t lineWidth)
             {
                 auto out = std::shared_ptr<EllipsePrimitive>(new EllipsePrimitive);
                 out->_init(color, lineWidth);
@@ -147,7 +148,7 @@ namespace djv
             {
                 if (_points.size() >= 2)
                 {
-                    painter.setPen(QPen(AV::ColorUtil::toQt(_color), _lineWidth * viewZoom));
+                    painter.setPen(QPen(AV::ColorUtil::toQt(Enum::annotationsColors()[_color]), _lineWidth * viewZoom));
                     const glm::ivec2 & pos = _points[0];
                     const glm::ivec2 & pos2 = _points[1];
                     painter.drawEllipse(QRect(

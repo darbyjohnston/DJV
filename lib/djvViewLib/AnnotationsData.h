@@ -32,8 +32,6 @@
 #include <djvViewLib/Enum.h>
 #include <djvViewLib/ViewLib.h>
 
-#include <djvAV/Color.h>
-
 #include <djvCore/Sequence.h>
 #include <djvCore/Vector.h>
 
@@ -52,7 +50,7 @@ namespace djv
             class AbstractPrimitive : public std::enable_shared_from_this<AbstractPrimitive>
             {
             protected:
-                void _init(const AV::Color &, size_t lineWidth);
+                void _init(Enum::ANNOTATIONS_COLOR, size_t lineWidth);
 
             public:
                 virtual ~AbstractPrimitive() = 0;
@@ -61,15 +59,15 @@ namespace djv
                 virtual void mouse(const glm::ivec2 &) = 0;
 
             protected:
-                AV::Color _color;
-                size_t _lineWidth = 1;
+                Enum::ANNOTATIONS_COLOR _color;
+                size_t _lineWidth;
             };
 
             //! This class provides a factory to create annotation primitives.
             class PrimitiveFactory
             {
             public:
-                static std::shared_ptr<AbstractPrimitive> create(Enum::PRIMITIVE, const AV::Color &, size_t lineWidth);
+                static std::shared_ptr<AbstractPrimitive> create(Enum::ANNOTATIONS_PRIMITIVE, Enum::ANNOTATIONS_COLOR, size_t lineWidth);
             };
 
             //! This class provides a polyline annotation primitive.
@@ -78,7 +76,7 @@ namespace djv
             public:
                 ~PolylinePrimitive() override;
 
-                static std::shared_ptr<PolylinePrimitive> create(const AV::Color &, size_t lineWidth);
+                static std::shared_ptr<PolylinePrimitive> create(Enum::ANNOTATIONS_COLOR, size_t lineWidth);
 
                 void draw(QPainter &, const glm::ivec2 & size, const glm::ivec2 & viewPos, float viewZoom) override;
                 void mouse(const glm::ivec2 &) override;
@@ -93,7 +91,7 @@ namespace djv
             public:
                 ~RectPrimitive() override;
 
-                static std::shared_ptr<RectPrimitive> create(const AV::Color &, size_t lineWidth);
+                static std::shared_ptr<RectPrimitive> create(Enum::ANNOTATIONS_COLOR, size_t lineWidth);
 
                 void draw(QPainter &, const glm::ivec2 & size, const glm::ivec2 & viewPos, float viewZoom) override;
                 void mouse(const glm::ivec2 &) override;
@@ -108,7 +106,7 @@ namespace djv
             public:
                 ~EllipsePrimitive() override;
 
-                static std::shared_ptr<EllipsePrimitive> create(const AV::Color &, size_t lineWidth);
+                static std::shared_ptr<EllipsePrimitive> create(Enum::ANNOTATIONS_COLOR, size_t lineWidth);
 
                 void draw(QPainter &, const glm::ivec2 & size, const glm::ivec2 & viewPos, float viewZoom) override;
                 void mouse(const glm::ivec2 &) override;

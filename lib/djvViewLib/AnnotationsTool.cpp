@@ -58,10 +58,10 @@ namespace djv
     {
         struct AnnotationsTool::Private
         {
-            Enum::PRIMITIVE primitive = static_cast<Enum::PRIMITIVE>(0);
-            std::shared_ptr<Annotations::AbstractPrimitive> abstractPrimitive;
-            AV::Color color;
+            Enum::ANNOTATIONS_PRIMITIVE primitive = static_cast<Enum::ANNOTATIONS_PRIMITIVE>(0);
+            Enum::ANNOTATIONS_COLOR color = static_cast<Enum::ANNOTATIONS_COLOR>(0);
             size_t lineWidth = 1;
+            std::shared_ptr<Annotations::AbstractPrimitive> currentPrimitive;
             QPointer<QListView> listView;
             QPointer<QTabBar> tabBar;
             QPointer<UI::ToolButton> prevButton;
@@ -103,7 +103,7 @@ namespace djv
 
             _p->primitiveButtonGroup = new QButtonGroup;
             _p->primitiveButtonGroup->setExclusive(true);
-            for (int i = 0; i < Enum::PRIMITIVE_COUNT; ++i)
+            for (int i = 0; i < Enum::ANNOTATIONS_PRIMITIVE_COUNT; ++i)
             {
                 auto button = new UI::ToolButton(context.data());
                 button->setCheckable(true);
@@ -111,9 +111,11 @@ namespace djv
             }
 
             _p->colorComboBox = new QComboBox;
-            _p->colorComboBox->addItem("Red", QColor(255, 0, 0));
-            _p->colorComboBox->addItem("Green", QColor(0, 255, 0));
-            _p->colorComboBox->addItem("Blue", QColor(0, 0, 255));
+            const auto & colorLabels = Enum::annotationsColorLabels();
+            for (int i = 0; i < Enum::ANNOTATIONS_COLOR_COUNT; ++i)
+            {
+                _p->colorComboBox->addItem(colorLabels[i]);
+            }
 
             _p->lineWidthSpinBox = new QSpinBox;
             _p->lineWidthSpinBox->setRange(1, 100);
@@ -189,16 +191,16 @@ namespace djv
             auto group = session->annotationsGroup();
             connect(
                 group,
-                SIGNAL(primitiveChanged(Enum::PRIMITIVE)),
-                SLOT(widgetUpdate()));
+                SIGNAL(primitiveChanged(djv::ViewLib::Enum::ANNOTATIONS_PRIMITIVE)),
+                SLOT(setPrimitive(djv::ViewLib::Enum::ANNOTATIONS_PRIMITIVE)));
             connect(
                 group,
-                SIGNAL(colorChanged(const AV::Color &)),
-                SLOT(widgetUpdate()));
+                SIGNAL(colorChanged(djv::ViewLib::Enum::ANNOTATIONS_COLOR)),
+                SLOT(setColor(djv::ViewLib::Enum::ANNOTATIONS_COLOR)));
             connect(
                 group,
                 SIGNAL(lineWidthChanged(size_t)),
-                SLOT(widgetUpdate()));
+                SLOT(setLineWidth(size_t)));
 
             auto viewWidget = session->viewWidget();
             connect(
@@ -218,22 +220,46 @@ namespace djv
         AnnotationsTool::~AnnotationsTool()
         {}
 
+        void AnnotationsTool::setPrimitive(djv::ViewLib::Enum::ANNOTATIONS_PRIMITIVE value)
+        {
+            if (value == _p->primitive)
+                return;
+            _p->primitive = value;
+            widgetUpdate();
+            Q_EMIT primitiveChanged(_p->primitive);
+        }
+
+        void AnnotationsTool::setColor(djv::ViewLib::Enum::ANNOTATIONS_COLOR value)
+        {
+            if (value == _p->color)
+                return;
+            _p->color = value;
+            widgetUpdate();
+            Q_EMIT colorChanged(_p->color);
+        }
+
+        void AnnotationsTool::setLineWidth(size_t value)
+        {
+            if (value == _p->lineWidth)
+                return;
+            _p->lineWidth = value;
+            widgetUpdate();
+            Q_EMIT lineWidthChanged(_p->lineWidth);
+        }
+
         void AnnotationsTool::primitiveCallback(int value)
         {
-            _p->primitive = static_cast<Enum::PRIMITIVE>(value);
-            Q_EMIT primitiveChanged(_p->primitive);
+            setPrimitive(static_cast<Enum::ANNOTATIONS_PRIMITIVE>(value));
         }
 
         void AnnotationsTool::colorCallback(int value)
         {
-            _p->color = AV::ColorUtil::fromQt(_p->colorComboBox->itemData(value).value<QColor>());
-            Q_EMIT colorChanged(_p->color);
+            setColor(static_cast<Enum::ANNOTATIONS_COLOR>(value));
         }
 
         void AnnotationsTool::lineWidthCallback(int value)
         {
-            _p->lineWidth = value;
-            Q_EMIT lineWidthChanged(_p->lineWidth);
+            setLineWidth(value);
         }
 
         void AnnotationsTool::pickPressedCallback(const glm::ivec2 & in)
@@ -241,26 +267,26 @@ namespace djv
             if (isVisible())
             {
                 auto group = session()->annotationsGroup();
-                _p->abstractPrimitive = Annotations::PrimitiveFactory::create(group->primitive(), group->color(), group->lineWidth());
+                _p->currentPrimitive = Annotations::PrimitiveFactory::create(group->primitive(), group->color(), group->lineWidth());
                 Annotations::Data data;
-                data.primitives.push_back(_p->abstractPrimitive);
+                data.primitives.push_back(_p->currentPrimitive);
                 group->addAnnotation(data);
             }
         }
 
         void AnnotationsTool::pickReleasedCallback(const glm::ivec2 & in)
         {
-            _p->abstractPrimitive.reset();
+            _p->currentPrimitive.reset();
         }
 
         void AnnotationsTool::pickMovedCallback(const glm::ivec2 & in)
         {
-            if (isVisible() && _p->abstractPrimitive)
+            if (isVisible() && _p->currentPrimitive)
             {
                 const auto view = session()->viewWidget();
                 const glm::ivec2 & viewPos = view->viewPos();
                 const float viewZoom = view->viewZoom();
-                _p->abstractPrimitive->mouse(glm::ivec2(
+                _p->currentPrimitive->mouse(glm::ivec2(
                     (in.x - viewPos.x) / viewZoom,
                     (in.y - viewPos.y) / viewZoom));
                 session()->viewWidget()->update();
@@ -294,9 +320,13 @@ namespace djv
         void AnnotationsTool::widgetUpdate()
         {
             Core::SignalBlocker signalBlocker(QObjectList() <<
-                _p->primitiveButtonGroup);
+                _p->primitiveButtonGroup <<
+                _p->colorComboBox <<
+                _p->lineWidthSpinBox);
             auto primitiveButtons = _p->primitiveButtonGroup->buttons();
             primitiveButtons[_p->primitive]->setChecked(true);
+            _p->colorComboBox->setCurrentIndex(_p->color);
+            _p->lineWidthSpinBox->setValue(static_cast<int>(_p->lineWidth));
         }
 
     } // namespace ViewLib

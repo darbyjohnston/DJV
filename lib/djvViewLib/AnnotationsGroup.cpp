@@ -38,6 +38,7 @@
 #include <djvViewLib/ImageView.h>
 #include <djvViewLib/PlaybackGroup.h>
 #include <djvViewLib/Session.h>
+#include <djvViewLib/ViewContext.h>
 
 #include <QApplication>
 #include <QDockWidget>
@@ -48,12 +49,15 @@ namespace djv
     {
         struct AnnotationsGroup::Private
         {
-            Private(const QPointer<ViewContext> & context)
+            Private(const QPointer<ViewContext> & context) :
+                primitive(context->annotationsPrefs()->primitive()),
+                color(context->annotationsPrefs()->color()),
+                lineWidth(context->annotationsPrefs()->lineWidth())
             {}
 
-            Enum::PRIMITIVE              primitive = Enum::PRIMITIVE_POLYLINE;
-            AV::Color                    color     = AV::Color(.8f, 0.f, 0.f);
-            size_t                       lineWidth = 3;
+            Enum::ANNOTATIONS_PRIMITIVE  primitive;
+            Enum::ANNOTATIONS_COLOR      color;
+            size_t                       lineWidth;
             Annotations::Frames          frames;
             QPointer<AnnotationsActions> actions;
             QPointer<AnnotationsTool>    tool;
@@ -69,6 +73,10 @@ namespace djv
         {
             if (copy)
             {
+                _p->primitive = copy->_p->primitive;
+                _p->color     = copy->_p->color;
+                _p->lineWidth = copy->_p->lineWidth;
+                _p->frames    = copy->_p->frames;
             }
 
             // Create the actions.
@@ -81,6 +89,9 @@ namespace djv
             _p->dockWidget->setWidget(_p->tool);
 
             // Initialize.
+            _p->tool->setPrimitive(_p->primitive);
+            _p->tool->setColor(_p->color);
+            _p->tool->setLineWidth(_p->lineWidth);
             update();
 
             // Setup callbacks.
@@ -96,12 +107,12 @@ namespace djv
 
             connect(
                 _p->tool,
-                SIGNAL(primitiveChanged(Enum::PRIMITIVE)),
-                SLOT(setPrimitive(Enum::PRIMITIVE)));
+                SIGNAL(primitiveChanged(djv::ViewLib::Enum::ANNOTATIONS_PRIMITIVE)),
+                SLOT(setPrimitive(djv::ViewLib::Enum::ANNOTATIONS_PRIMITIVE)));
             connect(
                 _p->tool,
-                SIGNAL(colorChanged(const AV::Color &)),
-                SLOT(setColor(const AV::Color &)));
+                SIGNAL(colorChanged(djv::ViewLib::Enum::ANNOTATIONS_COLOR)),
+                SLOT(setColor(djv::ViewLib::Enum::ANNOTATIONS_COLOR)));
             connect(
                 _p->tool,
                 SIGNAL(lineWidthChanged(size_t)),
@@ -115,6 +126,19 @@ namespace djv
                 session->playbackGroup(),
                 SIGNAL(frameChanged(qint64)),
                 SLOT(update()));
+
+            connect(
+                context->annotationsPrefs(),
+                SIGNAL(primitiveChanged(djv::ViewLib::Enum::ANNOTATIONS_PRIMITIVE)),
+                SLOT(setPrimitive(djv::ViewLib::Enum::ANNOTATIONS_PRIMITIVE)));
+            connect(
+                context->annotationsPrefs(),
+                SIGNAL(colorChanged(djv::ViewLib::Enum::ANNOTATIONS_COLOR)),
+                SLOT(setColor(djv::ViewLib::Enum::ANNOTATIONS_COLOR)));
+            connect(
+                context->annotationsPrefs(),
+                SIGNAL(lineWidthChanged(size_t)),
+                SLOT(setLineWidth(size_t)));
         }
 
         AnnotationsGroup::~AnnotationsGroup()
@@ -133,12 +157,12 @@ namespace djv
             update();
         }
 
-        Enum::PRIMITIVE AnnotationsGroup::primitive() const
+        Enum::ANNOTATIONS_PRIMITIVE AnnotationsGroup::primitive() const
         {
             return _p->primitive;
         }
 
-        const AV::Color & AnnotationsGroup::color() const
+        Enum::ANNOTATIONS_COLOR AnnotationsGroup::color() const
         {
             return _p->color;
         }
@@ -158,19 +182,21 @@ namespace djv
             return new AnnotationsToolBar(_p->actions.data(), context());
         }
 
-        void AnnotationsGroup::setPrimitive(Enum::PRIMITIVE value)
+        void AnnotationsGroup::setPrimitive(Enum::ANNOTATIONS_PRIMITIVE value)
         {
             if (value == _p->primitive)
                 return;
             _p->primitive = value;
+            context()->annotationsPrefs()->setPrimitive(_p->primitive);
             Q_EMIT primitiveChanged(_p->primitive);
         }
 
-        void AnnotationsGroup::setColor(const AV::Color & value)
+        void AnnotationsGroup::setColor(Enum::ANNOTATIONS_COLOR value)
         {
             if (value == _p->color)
                 return;
             _p->color = value;
+            context()->annotationsPrefs()->setColor(_p->color);
             Q_EMIT colorChanged(_p->color);
         }
 
@@ -179,6 +205,7 @@ namespace djv
             if (value == _p->lineWidth)
                 return;
             _p->lineWidth = value;
+            context()->annotationsPrefs()->setLineWidth(_p->lineWidth);
             Q_EMIT lineWidthChanged(_p->lineWidth);
         }
 

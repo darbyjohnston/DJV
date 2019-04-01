@@ -134,13 +134,13 @@ namespace djv
             void displayCacheChanged(bool);
 
         private:
-            Core::FileInfoList             _recent;
+            Core::FileInfoList       _recent;
             AV::PixelDataInfo::PROXY _proxy;
-            bool                           _u8Conversion;
-            bool                           _cacheEnabled;
-            float                          _cacheSizeGB;
-            bool                           _preload;
-            bool                           _displayCache;
+            bool                     _u8Conversion;
+            bool                     _cacheEnabled;
+            float                    _cacheSizeGB;
+            bool                     _preload;
+            bool                     _displayCache;
         };
 
     } // namespace ViewLib

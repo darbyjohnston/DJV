@@ -29,6 +29,8 @@
 
 #include <djvViewLib/Enum.h>
 
+#include <djvAV/Color.h>
+
 #include <djvCore/Assert.h>
 #include <djvCore/VectorUtil.h>
 
@@ -246,13 +248,41 @@ namespace djv
             return data;
         }
 
-        const QStringList & Enum::primitiveLabels()
+        const QStringList & Enum::annotationsPrimitiveLabels()
         {
             static const QStringList data = QStringList() <<
                 qApp->translate("djv::ViewLib::Enum", "Polyline") <<
                 qApp->translate("djv::ViewLib::Enum", "Rectangle") <<
                 qApp->translate("djv::ViewLib::Enum", "Ellipse");
-            DJV_ASSERT(data.count() == PRIMITIVE_COUNT);
+            DJV_ASSERT(data.count() == ANNOTATIONS_PRIMITIVE_COUNT);
+            return data;
+        }
+
+        const std::vector<AV::Color> & Enum::annotationsColors()
+        {
+            static const std::vector<AV::Color> data =
+            {
+                AV::Color( .8f,  .2f,  .2f),
+                AV::Color( .8f,  .8f,  .2f),
+                AV::Color( .2f,  .8f,  .2f),
+                AV::Color( .2f,  .2f,  .8f),
+                AV::Color(1.f,  1.f,  1.f ),
+                AV::Color(0.f,  0.f,  0.f )
+            };
+            DJV_ASSERT(data.size() == ANNOTATIONS_COLOR_COUNT);
+            return data;
+        }
+
+        const QStringList & Enum::annotationsColorLabels()
+        {
+            static const QStringList data = QStringList() <<
+                qApp->translate("djv::ViewLib::Enum", "Red") <<
+                qApp->translate("djv::ViewLib::Enum", "Yellow") <<
+                qApp->translate("djv::ViewLib::Enum", "Green") <<
+                qApp->translate("djv::ViewLib::Enum", "Blue") <<
+                qApp->translate("djv::ViewLib::Enum", "White") <<
+                qApp->translate("djv::ViewLib::Enum", "Black");
+            DJV_ASSERT(data.count() == ANNOTATIONS_COLOR_COUNT);
             return data;
         }
 
@@ -542,7 +572,8 @@ namespace djv
     _DJV_STRING_OPERATOR_LABEL(ViewLib::Enum::FRAME, ViewLib::Enum::frameLabels());
     _DJV_STRING_OPERATOR_LABEL(ViewLib::Enum::LOOP, ViewLib::Enum::loopLabels());
     _DJV_STRING_OPERATOR_LABEL(ViewLib::Enum::LAYOUT, ViewLib::Enum::layoutLabels());
-    _DJV_STRING_OPERATOR_LABEL(ViewLib::Enum::PRIMITIVE, ViewLib::Enum::primitiveLabels());
+    _DJV_STRING_OPERATOR_LABEL(ViewLib::Enum::ANNOTATIONS_PRIMITIVE, ViewLib::Enum::annotationsPrimitiveLabels());
+    _DJV_STRING_OPERATOR_LABEL(ViewLib::Enum::ANNOTATIONS_COLOR, ViewLib::Enum::annotationsColorLabels());
     _DJV_STRING_OPERATOR_LABEL(ViewLib::Enum::TOOL, ViewLib::Enum::toolLabels());
     _DJV_STRING_OPERATOR_LABEL(ViewLib::Enum::HISTOGRAM, ViewLib::Enum::histogramLabels());
     _DJV_STRING_OPERATOR_LABEL(ViewLib::Enum::KEYBOARD_MODIFIER, ViewLib::Enum::keyboardModifierLabels());
