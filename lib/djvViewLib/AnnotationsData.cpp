@@ -106,7 +106,9 @@ namespace djv
             {
                 if (_points.size() >= 2)
                 {
-                    painter.setPen(QPen(AV::ColorUtil::toQt(_color), _lineWidth * viewZoom));
+                    QPen pen(AV::ColorUtil::toQt(_color), _lineWidth * viewZoom);
+                    pen.setJoinStyle(Qt::MiterJoin);
+                    painter.setPen(pen);
                     const glm::ivec2 & pos = _points[0];
                     const glm::ivec2 & pos2 = _points[1];
                     painter.drawRect(QRect(
