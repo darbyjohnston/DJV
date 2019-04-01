@@ -47,41 +47,25 @@ namespace djv
             explicit WindowPrefs(const QPointer<ViewContext> &, QObject * parent = nullptr);
             ~WindowPrefs() override;
 
-            //! Get the default for whether to automatically fit the window to the image.
-            static bool autoFitDefault();
-
             //! Get whether to automatically fit the window to the image.
             bool hasAutoFit() const;
-
-            //! Get the default maximum view size.
-            static Enum::VIEW_MAX viewMaxDefault();
 
             //! Get the maximum view size.
             Enum::VIEW_MAX viewMax() const;
 
-            //! Get the default user specified maximum view size.
-            static const glm::ivec2 & viewMaxUserDefault();
-
             //! Get the user specified maximum view size.
             const glm::ivec2 & viewMaxUser() const;
-
-            //! Get the default full screen UI option.
-            static Enum::FULL_SCREEN_UI fullScreenUIDefault();
 
             //! Get the full screen UI option.
             Enum::FULL_SCREEN_UI fullScreenUI() const;
 
-            //! Get the default UI component visiblity.
-            static QMap<Enum::UI_COMPONENT, bool> uiComponentVisibleDefault();
-
             //! Get the UI component visibility.
             const QMap<Enum::UI_COMPONENT, bool> & uiComponentVisible() const;
 
-            //! Get the default controls window enabled state.
-            static bool controlsWindowDefault();
-
             //! Get whether the controls window is enabled.
             bool hasControlsWindow() const;
+
+            void reset() override;
 
         public Q_SLOTS:
             //! Set whether to automatically fit the window to the image.

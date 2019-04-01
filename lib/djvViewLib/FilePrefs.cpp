@@ -40,14 +40,25 @@ namespace djv
 {
     namespace ViewLib
     {
+        namespace
+        {
+            const AV::PixelDataInfo::PROXY proxyDefault        = static_cast<AV::PixelDataInfo::PROXY>(0);
+            const bool                     u8ConversionDefault = false;
+            const bool                     cacheEnabledDefault = true;
+            const float                    cacheSizeGBDefault  = FileCache::sizeGBDefaults()[0];
+            const bool                     preloadDefault      = true;
+            const bool                     displayCacheDefault = true;
+
+        } // namespace
+
         FilePrefs::FilePrefs(const QPointer<ViewContext> & context, QObject * parent) :
             AbstractPrefs(context, parent),
-            _proxy(proxyDefault()),
-            _u8Conversion(u8ConversionDefault()),
-            _cacheEnabled(cacheEnabledDefault()),
-            _cacheSizeGB(cacheSizeGBDefault()),
-            _preload(preloadDefault()),
-            _displayCache(displayCacheDefault())
+            _proxy(proxyDefault),
+            _u8Conversion(u8ConversionDefault),
+            _cacheEnabled(cacheEnabledDefault),
+            _cacheSizeGB(cacheSizeGBDefault),
+            _preload(preloadDefault),
+            _displayCache(displayCacheDefault)
         {
             UI::Prefs prefs("djv::ViewLib::FilePrefs");
             prefs.get("recent", _recent);
@@ -87,19 +98,9 @@ namespace djv
             return _recent;
         }
 
-        AV::PixelDataInfo::PROXY FilePrefs::proxyDefault()
-        {
-            return static_cast<AV::PixelDataInfo::PROXY>(0);
-        }
-
         AV::PixelDataInfo::PROXY FilePrefs::proxy() const
         {
             return _proxy;
-        }
-
-        bool FilePrefs::u8ConversionDefault()
-        {
-            return false;
         }
 
         bool FilePrefs::hasU8Conversion() const
@@ -107,19 +108,9 @@ namespace djv
             return _u8Conversion;
         }
 
-        bool FilePrefs::cacheEnabledDefault()
-        {
-            return true;
-        }
-
         bool FilePrefs::isCacheEnabled() const
         {
             return _cacheEnabled;
-        }
-
-        float FilePrefs::cacheSizeGBDefault()
-        {
-            return FileCache::sizeGBDefaults()[0];
         }
 
         float FilePrefs::cacheSizeGB() const
@@ -127,24 +118,24 @@ namespace djv
             return _cacheSizeGB;
         }
 
-        bool FilePrefs::preloadDefault()
-        {
-            return true;
-        }
-
         bool FilePrefs::hasPreload() const
         {
             return _preload;
         }
 
-        bool FilePrefs::displayCacheDefault()
-        {
-            return true;
-        }
-
         bool FilePrefs::hasDisplayCache() const
         {
             return _displayCache;
+        }
+
+        void FilePrefs::reset()
+        {
+            setProxy(proxyDefault);
+            setU8Conversion(u8ConversionDefault);
+            setCacheEnabled(cacheEnabledDefault);
+            setCacheSizeGB(cacheSizeGBDefault);
+            setPreload(preloadDefault);
+            setDisplayCache(displayCacheDefault);
         }
 
         void FilePrefs::setProxy(AV::PixelDataInfo::PROXY proxy)

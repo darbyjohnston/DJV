@@ -39,11 +39,20 @@ namespace djv
 {
     namespace ViewLib
     {
+        namespace
+        {
+
+            Enum::ANNOTATIONS_PRIMITIVE primitiveDefault = Enum::ANNOTATIONS_POLYLINE;
+            Enum::ANNOTATIONS_COLOR colorDefault         = Enum::ANNOTATIONS_RED;
+            size_t lineWidthDefault                      = 5;
+        
+        } // namespace
+
         AnnotationsPrefs::AnnotationsPrefs(const QPointer<ViewContext> & context, QObject * parent) :
             AbstractPrefs(context, parent),
-            _primitive(Enum::ANNOTATIONS_POLYLINE),
-            _color(Enum::ANNOTATIONS_RED),
-            _lineWidth(5)
+            _primitive(primitiveDefault),
+            _color(colorDefault),
+            _lineWidth(lineWidthDefault)
         {
             UI::Prefs prefs("djv::ViewLib::AnnotationsPrefs");
             prefs.get("primitive", _primitive);
@@ -73,6 +82,9 @@ namespace djv
         {
             return _lineWidth;
         }
+
+        void AnnotationsPrefs::reset()
+        {}
 
         void AnnotationsPrefs::setPrimitive(Enum::ANNOTATIONS_PRIMITIVE value)
         {

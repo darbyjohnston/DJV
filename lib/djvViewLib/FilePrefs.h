@@ -56,41 +56,25 @@ namespace djv
             //! Get the recent files.
             const Core::FileInfoList & recentFiles() const;
 
-            //! Get the default proxy scale.
-            static AV::PixelDataInfo::PROXY proxyDefault();
-
             //! Get the proxy scale.
             AV::PixelDataInfo::PROXY proxy() const;
-
-            //! Get the default for whether images are converted to 8-bits.
-            static bool u8ConversionDefault();
 
             //! Get whether images are converted to 8-bits.
             bool hasU8Conversion() const;
 
-            //! Get the default for whether the cache is enabled.
-            static bool cacheEnabledDefault();
-
             //! Get whether the cache is enabled.
             bool isCacheEnabled() const;
-
-            //! Get the default cache size in gigabytes.
-            static float cacheSizeGBDefault();
 
             //! Get the cache size in gigabytes.
             float cacheSizeGB() const;
 
-            //! Get the default for whether the cache is pre-loaded.
-            static bool preloadDefault();
-
             //! Get wheter the cache is pre-loaded.
             bool hasPreload() const;
 
-            //! Get the default for whether the cache is displayed in the timeline.
-            static bool displayCacheDefault();
-
             //! Get whether the cache is displayed in the timeline.
             bool hasDisplayCache() const;
+
+            void reset() override;
 
         public Q_SLOTS:
             //! Set the proxy scale.

@@ -35,12 +35,21 @@ namespace djv
 {
     namespace ViewLib
     {
+        namespace
+        {
+            const bool         autoStartDefault  = true;
+            const Enum::LOOP   loopDefault       = Enum::LOOP_REPEAT;
+            const bool         everyFrameDefault = true;
+            const Enum::LAYOUT layoutDefault     = Enum::LAYOUT_DEFAULT;
+
+        } // namespace
+
         PlaybackPrefs::PlaybackPrefs(const QPointer<ViewContext> & context, QObject * parent) :
             AbstractPrefs(context, parent),
-            _autoStart(autoStartDefault()),
-            _loop(loopDefault()),
-            _everyFrame(everyFrameDefault()),
-            _layout(layoutDefault())
+            _autoStart(autoStartDefault),
+            _loop(loopDefault),
+            _everyFrame(everyFrameDefault),
+            _layout(layoutDefault)
         {
             UI::Prefs prefs("djv::ViewLib::PlaybackPrefs");
             prefs.get("autoStart", _autoStart);
@@ -58,19 +67,9 @@ namespace djv
             prefs.set("layout", _layout);
         }
 
-        bool PlaybackPrefs::autoStartDefault()
-        {
-            return true;
-        }
-
         bool PlaybackPrefs::hasAutoStart() const
         {
             return _autoStart;
-        }
-
-        Enum::LOOP PlaybackPrefs::loopDefault()
-        {
-            return Enum::LOOP_REPEAT;
         }
 
         Enum::LOOP PlaybackPrefs::loop() const
@@ -78,24 +77,22 @@ namespace djv
             return _loop;
         }
 
-        bool PlaybackPrefs::everyFrameDefault()
-        {
-            return true;
-        }
-
         bool PlaybackPrefs::hasEveryFrame() const
         {
             return _everyFrame;
         }
 
-        Enum::LAYOUT PlaybackPrefs::layoutDefault()
-        {
-            return Enum::LAYOUT_DEFAULT;
-        }
-
         Enum::LAYOUT PlaybackPrefs::layout() const
         {
             return _layout;
+        }
+
+        void PlaybackPrefs::reset()
+        {
+            setAutoStart(autoStartDefault);
+            setLoop(loopDefault);
+            setEveryFrame(everyFrameDefault);
+            setLayout(layoutDefault);
         }
 
         void PlaybackPrefs::setAutoStart(bool in)

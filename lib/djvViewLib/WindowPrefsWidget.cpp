@@ -163,12 +163,7 @@ namespace djv
 
         void WindowPrefsWidget::resetPreferences()
         {
-            context()->windowPrefs()->setAutoFit(WindowPrefs::autoFitDefault());
-            context()->windowPrefs()->setViewMax(WindowPrefs::viewMaxDefault());
-            context()->windowPrefs()->setViewMaxUser(WindowPrefs::viewMaxUserDefault());
-            context()->windowPrefs()->setFullScreenUI(WindowPrefs::fullScreenUIDefault());
-            context()->windowPrefs()->setUIComponentVisible(WindowPrefs::uiComponentVisibleDefault());
-            context()->windowPrefs()->setControlsWindow(WindowPrefs::controlsWindowDefault());
+            context()->windowPrefs()->reset();
         }
 
         void WindowPrefsWidget::autoFitCallback(bool in)

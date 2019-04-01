@@ -37,6 +37,28 @@ namespace djv
 {
     namespace ViewLib
     {
+        namespace
+        {
+            const QVector<MouseButtonAction> mouseButtonActionsDefault =
+            {
+                { Enum::MOUSE_BUTTON_LEFT, Enum::KEYBOARD_MODIFIER_NONE, Enum::MOUSE_BUTTON_ACTION_PICK },
+                { Enum::MOUSE_BUTTON_LEFT, Enum::KEYBOARD_MODIFIER_SHIFT, Enum::MOUSE_BUTTON_ACTION_VIEW_MOVE },
+                { Enum::MOUSE_BUTTON_LEFT, Enum::KEYBOARD_MODIFIER_CTRL, Enum::MOUSE_BUTTON_ACTION_PLAYBACK_SHUTTLE },
+                { Enum::MOUSE_BUTTON_MIDDLE, Enum::KEYBOARD_MODIFIER_NONE, Enum::MOUSE_BUTTON_ACTION_VIEW_MOVE },
+                { Enum::MOUSE_BUTTON_MIDDLE, Enum::KEYBOARD_MODIFIER_CTRL, Enum::MOUSE_BUTTON_ACTION_VIEW_ZOOM_IN },
+                { Enum::MOUSE_BUTTON_RIGHT, Enum::KEYBOARD_MODIFIER_NONE, Enum::MOUSE_BUTTON_ACTION_CONTEXT_MENU },
+                { Enum::MOUSE_BUTTON_RIGHT, Enum::KEYBOARD_MODIFIER_CTRL, Enum::MOUSE_BUTTON_ACTION_VIEW_ZOOM_OUT }
+            };
+
+            const QVector<MouseWheelAction> mouseWheelActionsDefault =
+            {
+                { Enum::KEYBOARD_MODIFIER_NONE, Enum::MOUSE_WHEEL_ACTION_VIEW_ZOOM },
+                { Enum::KEYBOARD_MODIFIER_SHIFT, Enum::MOUSE_WHEEL_ACTION_PLAYBACK_SHUTTLE, },
+                { Enum::KEYBOARD_MODIFIER_CTRL, Enum::MOUSE_WHEEL_ACTION_PLAYBACK_SPEED }
+            };
+
+        } // namespace
+
         MouseButtonAction::MouseButtonAction()
         {}
         
@@ -100,11 +122,11 @@ namespace djv
             UI::Prefs prefs("djv::ViewLib::MousePrefs");
             if (!prefs.get("mouseButtonActions", _mouseButtonActions))
             {
-                _mouseButtonActions = mouseButtonActionsDefault();
+                _mouseButtonActions = mouseButtonActionsDefault;
             }
             if (!prefs.get("mouseWheelActions", _mouseWheelActions))
             {
-                _mouseWheelActions = mouseWheelActionsDefault();
+                _mouseWheelActions = mouseWheelActionsDefault;
             }
         }
 
@@ -116,40 +138,20 @@ namespace djv
             prefs.set("mouseWheelActions", _mouseWheelActions);
         }
 
-        const QVector<MouseButtonAction> & MousePrefs::mouseButtonActionsDefault()
-        {
-            static const QVector<MouseButtonAction> data =
-            {
-                { Enum::MOUSE_BUTTON_LEFT, Enum::KEYBOARD_MODIFIER_NONE, Enum::MOUSE_BUTTON_ACTION_PICK },
-                { Enum::MOUSE_BUTTON_LEFT, Enum::KEYBOARD_MODIFIER_SHIFT, Enum::MOUSE_BUTTON_ACTION_VIEW_MOVE },
-                { Enum::MOUSE_BUTTON_LEFT, Enum::KEYBOARD_MODIFIER_CTRL, Enum::MOUSE_BUTTON_ACTION_PLAYBACK_SHUTTLE },
-                { Enum::MOUSE_BUTTON_MIDDLE, Enum::KEYBOARD_MODIFIER_NONE, Enum::MOUSE_BUTTON_ACTION_VIEW_MOVE },
-                { Enum::MOUSE_BUTTON_MIDDLE, Enum::KEYBOARD_MODIFIER_CTRL, Enum::MOUSE_BUTTON_ACTION_VIEW_ZOOM_IN },
-                { Enum::MOUSE_BUTTON_RIGHT, Enum::KEYBOARD_MODIFIER_NONE, Enum::MOUSE_BUTTON_ACTION_CONTEXT_MENU },
-                { Enum::MOUSE_BUTTON_RIGHT, Enum::KEYBOARD_MODIFIER_CTRL, Enum::MOUSE_BUTTON_ACTION_VIEW_ZOOM_OUT }
-            };
-            return data;
-        }
-
         const QVector<MouseButtonAction> & MousePrefs::mouseButtonActions() const
         {
             return _mouseButtonActions;
         }
 
-        const QVector<MouseWheelAction> & MousePrefs::mouseWheelActionsDefault()
-        {
-            static const QVector<MouseWheelAction> data =
-            {
-                { Enum::KEYBOARD_MODIFIER_NONE, Enum::MOUSE_WHEEL_ACTION_VIEW_ZOOM },
-                { Enum::KEYBOARD_MODIFIER_SHIFT, Enum::MOUSE_WHEEL_ACTION_PLAYBACK_SHUTTLE, },
-                { Enum::KEYBOARD_MODIFIER_CTRL, Enum::MOUSE_WHEEL_ACTION_PLAYBACK_SPEED }
-            };
-            return data;
-        }
-
         const QVector<MouseWheelAction> & MousePrefs::mouseWheelActions() const
         {
             return _mouseWheelActions;
+        }
+
+        void MousePrefs::reset()
+        {
+            setMouseButtonActions(mouseButtonActionsDefault);
+            setMouseWheelActions(mouseWheelActionsDefault);
         }
 
         void MousePrefs::setMouseButtonActions(const QVector<MouseButtonAction> & value)

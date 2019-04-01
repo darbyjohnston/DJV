@@ -52,11 +52,10 @@ namespace djv
 
             ~ShortcutPrefs();
 
-            //! Get the default shortcuts.
-            static const QVector<UI::Shortcut> & shortcutsDefault();
-
             //! Get the shortcuts.
             const QVector<UI::Shortcut> & shortcuts() const;
+
+            void reset() override;
 
         public Q_SLOTS:
             //! Set the shortcuts.

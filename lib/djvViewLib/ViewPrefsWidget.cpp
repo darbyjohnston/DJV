@@ -222,15 +222,7 @@ namespace djv
 
         void ViewPrefsWidget::resetPreferences()
         {
-            context()->viewPrefs()->setZoomFactor(ViewPrefs::zoomFactorDefault());
-            context()->viewPrefs()->setBackground(ViewPrefs::backgroundDefault());
-            context()->viewPrefs()->setGrid(ViewPrefs::gridDefault());
-            context()->viewPrefs()->setGridColor(ViewPrefs::gridColorDefault());
-            context()->viewPrefs()->setHudEnabled(ViewPrefs::hudEnabledDefault());
-            context()->viewPrefs()->setHudInfo(ViewPrefs::hudInfoDefault());
-            context()->viewPrefs()->setHudColor(ViewPrefs::hudColorDefault());
-            context()->viewPrefs()->setHudBackground(ViewPrefs::hudBackgroundDefault());
-            context()->viewPrefs()->setHudBackgroundColor(ViewPrefs::hudBackgroundColorDefault());
+            context()->viewPrefs()->reset();
         }
 
         void ViewPrefsWidget::zoomFactorCallback(int in)

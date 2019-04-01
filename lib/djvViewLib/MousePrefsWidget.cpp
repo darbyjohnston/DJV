@@ -202,8 +202,7 @@ namespace djv
 
         void MousePrefsWidget::resetPreferences()
         {
-            context()->mousePrefs()->setMouseButtonActions(MousePrefs::mouseButtonActionsDefault());
-            context()->mousePrefs()->setMouseWheelActions(MousePrefs::mouseWheelActionsDefault());
+            context()->mousePrefs()->reset();
         }
 
         bool MousePrefsWidget::event(QEvent * event)

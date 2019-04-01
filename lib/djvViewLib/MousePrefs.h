@@ -81,17 +81,13 @@ namespace djv
             explicit MousePrefs(const QPointer<ViewContext> &, QObject * parent = nullptr);
             ~MousePrefs() override;
 
-            //! Get the default mouse button actions.
-            static const QVector<MouseButtonAction> & mouseButtonActionsDefault();
-
             //! Get the mouse button actions.
             const QVector<MouseButtonAction> & mouseButtonActions() const;
 
-            //! Get the default mouse wheel action.
-            static const QVector<MouseWheelAction> & mouseWheelActionsDefault();
-
             //! Get the mouse wheel action.
             const QVector<MouseWheelAction> & mouseWheelActions() const;
+
+            void reset() override;
 
         public Q_SLOTS:
             //! Set the mouse button actions.

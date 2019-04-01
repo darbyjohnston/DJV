@@ -286,14 +286,7 @@ namespace djv
 
         void ImagePrefsWidget::resetPreferences()
         {
-            context()->imagePrefs()->setFrameStoreFileReload(ImagePrefs::frameStoreFileReloadDefault());
-            context()->imagePrefs()->setMirror(ImagePrefs::mirrorDefault());
-            context()->imagePrefs()->setScale(ImagePrefs::scaleDefault());
-            context()->imagePrefs()->setRotate(ImagePrefs::rotateDefault());
-            context()->imagePrefs()->setPremultipliedAlpha(ImagePrefs::premultipliedAlphaDefault());
-            context()->imagePrefs()->setColorProfile(ImagePrefs::colorProfileDefault());
-            context()->imagePrefs()->setDisplayProfileIndex(ImagePrefs::displayProfileIndexDefault());
-            context()->imagePrefs()->setChannel(ImagePrefs::channelDefault());
+            context()->imagePrefs()->reset();
         }
 
         bool ImagePrefsWidget::event(QEvent * event)

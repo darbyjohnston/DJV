@@ -129,10 +129,7 @@ namespace djv
 
         void PlaybackPrefsWidget::resetPreferences()
         {
-            context()->playbackPrefs()->setAutoStart(PlaybackPrefs::autoStartDefault());
-            context()->playbackPrefs()->setLoop(PlaybackPrefs::loopDefault());
-            context()->playbackPrefs()->setEveryFrame(PlaybackPrefs::everyFrameDefault());
-            context()->playbackPrefs()->setLayout(PlaybackPrefs::layoutDefault());
+            context()->playbackPrefs()->reset();
         }
 
         void PlaybackPrefsWidget::autoStartCallback(bool in)

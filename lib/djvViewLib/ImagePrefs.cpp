@@ -42,16 +42,29 @@ namespace djv
 {
     namespace ViewLib
     {
+        namespace
+        {
+            const bool                            frameStoreFileReloadDefault = false;
+            const AV::PixelDataInfo::Mirror       mirrorDefault               = AV::PixelDataInfo::Mirror();
+            const Enum::IMAGE_SCALE               scaleDefault                = static_cast<Enum::IMAGE_SCALE>(0);
+            const Enum::IMAGE_ROTATE              rotateDefault               = static_cast<Enum::IMAGE_ROTATE>(0);
+            const bool                            premultipliedAlphaDefault   = true;
+            const bool                            colorProfileDefault         = true;
+            const int                             displayProfileIndexDefault  = -1;
+            const AV::OpenGLImageOptions::CHANNEL channelDefault              = static_cast<AV::OpenGLImageOptions::CHANNEL>(0);
+
+        } // namespace
+
         ImagePrefs::ImagePrefs(const QPointer<ViewContext> & context, QObject * parent) :
             AbstractPrefs(context, parent),
-            _frameStoreFileReload(frameStoreFileReloadDefault()),
-            _mirror(mirrorDefault()),
-            _scale(scaleDefault()),
-            _rotate(rotateDefault()),
-            _premultipliedAlpha(premultipliedAlphaDefault()),
-            _colorProfile(colorProfileDefault()),
-            _displayProfileIndex(displayProfileIndexDefault()),
-            _channel(channelDefault())
+            _frameStoreFileReload(frameStoreFileReloadDefault),
+            _mirror(mirrorDefault),
+            _scale(scaleDefault),
+            _rotate(rotateDefault),
+            _premultipliedAlpha(premultipliedAlphaDefault),
+            _colorProfile(colorProfileDefault),
+            _displayProfileIndex(displayProfileIndexDefault),
+            _channel(channelDefault)
         {
             UI::Prefs prefs("djv::ViewLib::ImagePrefs");
             prefs.get("frameStoreFileReload", _frameStoreFileReload);
@@ -100,19 +113,9 @@ namespace djv
             prefs.set("channel", _channel);
         }
 
-        bool ImagePrefs::frameStoreFileReloadDefault()
-        {
-            return false;
-        }
-
         bool ImagePrefs::hasFrameStoreFileReload() const
         {
             return _frameStoreFileReload;
-        }
-
-        AV::PixelDataInfo::Mirror ImagePrefs::mirrorDefault()
-        {
-            return AV::PixelDataInfo::Mirror();
         }
 
         const AV::PixelDataInfo::Mirror & ImagePrefs::mirror() const
@@ -120,19 +123,9 @@ namespace djv
             return _mirror;
         }
 
-        Enum::IMAGE_SCALE ImagePrefs::scaleDefault()
-        {
-            return static_cast<Enum::IMAGE_SCALE>(0);
-        }
-
         Enum::IMAGE_SCALE ImagePrefs::scale() const
         {
             return _scale;
-        }
-
-        Enum::IMAGE_ROTATE ImagePrefs::rotateDefault()
-        {
-            return static_cast<Enum::IMAGE_ROTATE>(0);
         }
 
         Enum::IMAGE_ROTATE ImagePrefs::rotate() const
@@ -140,29 +133,14 @@ namespace djv
             return _rotate;
         }
 
-        bool ImagePrefs::premultipliedAlphaDefault()
-        {
-            return true;
-        }
-
         bool ImagePrefs::hasPremultipliedAlpha() const
         {
             return _premultipliedAlpha;
         }
 
-        bool ImagePrefs::colorProfileDefault()
-        {
-            return true;
-        }
-
         bool ImagePrefs::hasColorProfile() const
         {
             return _colorProfile;
-        }
-
-        int ImagePrefs::displayProfileIndexDefault()
-        {
-            return -1;
         }
 
         int ImagePrefs::displayProfileIndex() const
@@ -194,14 +172,21 @@ namespace djv
             return out;
         }
 
-        AV::OpenGLImageOptions::CHANNEL ImagePrefs::channelDefault()
-        {
-            return static_cast<AV::OpenGLImageOptions::CHANNEL>(0);
-        }
-
         AV::OpenGLImageOptions::CHANNEL ImagePrefs::channel() const
         {
             return _channel;
+        }
+
+        void ImagePrefs::reset()
+        {
+            setFrameStoreFileReload(frameStoreFileReloadDefault);
+            setMirror(mirrorDefault);
+            setScale(scaleDefault);
+            setRotate(rotateDefault);
+            setPremultipliedAlpha(premultipliedAlphaDefault);
+            setColorProfile(colorProfileDefault);
+            setDisplayProfileIndex(displayProfileIndexDefault);
+            setChannel(channelDefault);
         }
 
         void ImagePrefs::setFrameStoreFileReload(bool in)

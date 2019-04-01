@@ -55,6 +55,9 @@ namespace djv
             //! Get the context.
             const QPointer<ViewContext> & context() const;
 
+            //! Reset the preferences.
+            virtual void reset() = 0;
+
         Q_SIGNALS:
             //! This signal is emitted when a preference is changed.
             void prefChanged();

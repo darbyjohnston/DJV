@@ -45,29 +45,19 @@ namespace djv
             explicit PlaybackPrefs(const QPointer<ViewContext> &, QObject * parent = nullptr);
             ~PlaybackPrefs() override;
 
-            //! Get the default for whether playback is started automatically.
-            static bool autoStartDefault();
-
             //! Get whether playback is started automatically.
             bool hasAutoStart() const;
-
-            //! Get the default playback loop.
-            static Enum::LOOP loopDefault();
 
             //! Get the playback loop.
             Enum::LOOP loop() const;
 
-            //! Get the default for whether every frame is played.
-            static bool everyFrameDefault();
-
             //! Get whether every frame is played.
             bool hasEveryFrame() const;
 
-            //! Get the default playback layout.
-            static Enum::LAYOUT layoutDefault();
-
             //! Get the playback layout.
             Enum::LAYOUT layout() const;
+
+            void reset() override;
 
         public Q_SLOTS:
             //! Set whether playback is started automatically.

@@ -84,7 +84,7 @@ namespace djv
 
         void ShortcutPrefsWidget::resetPreferences()
         {
-            context()->shortcutPrefs()->setShortcuts(ShortcutPrefs::shortcutsDefault());
+            context()->shortcutPrefs()->reset();
         }
 
         void ShortcutPrefsWidget::shortcutsCallback(const QVector<UI::Shortcut> & in)

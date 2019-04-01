@@ -165,12 +165,7 @@ namespace djv
 
         void FilePrefsWidget::resetPreferences()
         {
-            context()->filePrefs()->setProxy(FilePrefs::proxyDefault());
-            context()->filePrefs()->setU8Conversion(FilePrefs::u8ConversionDefault());
-            context()->filePrefs()->setCacheEnabled(FilePrefs::cacheEnabledDefault());
-            context()->filePrefs()->setCacheSizeGB(FilePrefs::cacheSizeGBDefault());
-            context()->filePrefs()->setPreload(FilePrefs::preloadDefault());
-            context()->filePrefs()->setDisplayCache(FilePrefs::displayCacheDefault());
+            context()->filePrefs()->reset();
         }
 
         void FilePrefsWidget::proxyCallback(int in)

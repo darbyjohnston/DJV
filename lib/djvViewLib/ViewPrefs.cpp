@@ -35,17 +35,41 @@ namespace djv
 {
     namespace ViewLib
     {
+        namespace
+        {
+            const Enum::ZOOM_FACTOR     zoomFactorDefault         = Enum::ZOOM_FACTOR_10;
+            const AV::Color             backgroundDefault         = AV::Color(0.f);
+            const Enum::GRID            gridDefault               = Enum::GRID_NONE;
+            const AV::Color             gridColorDefault          =  AV::Color(0.25);
+            const bool                  hudEnabledDefault         = false;
+            const QMap<Enum::HUD, bool> hudInfoDefault            =
+            {
+                { Enum::HUD_FILE_NAME, true },
+                { Enum::HUD_LAYER, true },
+                { Enum::HUD_SIZE, true },
+                { Enum::HUD_PROXY, true },
+                { Enum::HUD_PIXEL, true },
+                { Enum::HUD_TAG, true },
+                { Enum::HUD_FRAME, true },
+                { Enum::HUD_SPEED, true }
+            };
+            const AV::Color             hudColorDefault           = AV::Color(1.f);
+            const Enum::HUD_BACKGROUND  hudBackgroundDefault      = Enum::HUD_BACKGROUND_SHADOW;
+            const AV::Color             hudBackgroundColorDefault = AV::Color(0.f, 0.5f);
+
+        } // namespace
+
         ViewPrefs::ViewPrefs(const QPointer<ViewContext> & context, QObject * parent) :
             AbstractPrefs(context, parent),
-            _zoomFactor(zoomFactorDefault()),
-            _background(backgroundDefault()),
-            _grid(gridDefault()),
-            _gridColor(gridColorDefault()),
-            _hudEnabled(hudEnabledDefault()),
-            _hudInfo(hudInfoDefault()),
-            _hudColor(hudColorDefault()),
-            _hudBackground(hudBackgroundDefault()),
-            _hudBackgroundColor(hudBackgroundColorDefault())
+            _zoomFactor(zoomFactorDefault),
+            _background(backgroundDefault),
+            _grid(gridDefault),
+            _gridColor(gridColorDefault),
+            _hudEnabled(hudEnabledDefault),
+            _hudInfo(hudInfoDefault),
+            _hudColor(hudColorDefault),
+            _hudBackground(hudBackgroundDefault),
+            _hudBackgroundColor(hudBackgroundColorDefault)
         {
             //DJV_DEBUG("ViewPrefs::ViewPrefs");
             UI::Prefs prefs("djv::ViewLib::ViewPrefs");
@@ -79,19 +103,9 @@ namespace djv
             prefs.set("hudBackgroundColor", _hudBackgroundColor);
         }
 
-        Enum::ZOOM_FACTOR ViewPrefs::zoomFactorDefault()
-        {
-            return Enum::ZOOM_FACTOR_10;
-        }
-
         Enum::ZOOM_FACTOR ViewPrefs::zoomFactor() const
         {
             return _zoomFactor;
-        }
-
-        AV::Color ViewPrefs::backgroundDefault()
-        {
-            return AV::Color(0.f);
         }
 
         const AV::Color & ViewPrefs::background() const
@@ -99,19 +113,9 @@ namespace djv
             return _background;
         }
 
-        Enum::GRID ViewPrefs::gridDefault()
-        {
-            return Enum::GRID_NONE;
-        }
-
         Enum::GRID ViewPrefs::grid() const
         {
             return _grid;
-        }
-
-        AV::Color ViewPrefs::gridColorDefault()
-        {
-            return AV::Color(0.25);
         }
 
         const AV::Color & ViewPrefs::gridColor() const
@@ -119,31 +123,9 @@ namespace djv
             return _gridColor;
         }
 
-        bool ViewPrefs::hudEnabledDefault()
-        {
-            return false;
-        }
-
         bool ViewPrefs::isHudEnabled() const
         {
             return _hudEnabled;
-        }
-
-        QMap<Enum::HUD, bool> ViewPrefs::hudInfoDefault()
-        {
-            static const QMap<Enum::HUD, bool> data =
-            {
-                { Enum::HUD_FILE_NAME, true },
-                { Enum::HUD_LAYER, true },
-                { Enum::HUD_SIZE, true },
-                { Enum::HUD_PROXY, true },
-                { Enum::HUD_PIXEL, true },
-                { Enum::HUD_TAG, true },
-                { Enum::HUD_FRAME, true },
-                { Enum::HUD_SPEED, true }
-            };
-            DJV_ASSERT(Enum::HUD_COUNT == data.size());
-            return data;
         }
 
         QMap<Enum::HUD, bool> ViewPrefs::hudInfo() const
@@ -156,19 +138,9 @@ namespace djv
             return _hudInfo[in] != 0 ? true : false;
         }
 
-        AV::Color ViewPrefs::hudColorDefault()
-        {
-            return AV::Color(1.f);
-        }
-
         const AV::Color & ViewPrefs::hudColor() const
         {
             return _hudColor;
-        }
-
-        Enum::HUD_BACKGROUND ViewPrefs::hudBackgroundDefault()
-        {
-            return Enum::HUD_BACKGROUND_SHADOW;
         }
 
         Enum::HUD_BACKGROUND ViewPrefs::hudBackground() const
@@ -176,14 +148,22 @@ namespace djv
             return _hudBackground;
         }
 
-        AV::Color ViewPrefs::hudBackgroundColorDefault()
-        {
-            return AV::Color(0.f, 0.5f);
-        }
-
         const AV::Color & ViewPrefs::hudBackgroundColor() const
         {
             return _hudBackgroundColor;
+        }
+
+        void ViewPrefs::reset()
+        {
+            setZoomFactor(zoomFactorDefault);
+            setBackground(backgroundDefault);
+            setGrid(gridDefault);
+            setGridColor(gridColorDefault);
+            setHudEnabled(hudEnabledDefault);
+            setHudInfo(hudInfoDefault);
+            setHudColor(hudColorDefault);
+            setHudBackground(hudBackgroundDefault);
+            setHudBackgroundColor(hudBackgroundColorDefault);
         }
 
         void ViewPrefs::setZoomFactor(Enum::ZOOM_FACTOR in)

@@ -11,7 +11,7 @@
 //   this list of conditions, and the following disclaimer in the documentation
 //   and/or other materials provided with the distribution.
 // * Neither the names of the copyright holders nor the names of any
-//   contributors may be used to endorse or promote products derived from this
+//   contributors may be used to endorse or promote products de derived from this
 //   software without specific prior written permission.
 //
 // THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
@@ -46,44 +46,23 @@ namespace djv
             explicit ImagePrefs(const QPointer<ViewContext> &, QObject * parent = nullptr);
             ~ImagePrefs() override;
 
-            //! Get the default for whether to store the frame when reloading files.    
-            static bool frameStoreFileReloadDefault();
-
             //! Get whether to store the frame when reloading files.
             bool hasFrameStoreFileReload() const;
-
-            //! Get the default mirror.
-            static AV::PixelDataInfo::Mirror mirrorDefault();
 
             //! Get the mirror.
             const AV::PixelDataInfo::Mirror & mirror() const;
 
-            //! Get the default scale.
-            static Enum::IMAGE_SCALE scaleDefault();
-
             //! Get the scale.
             Enum::IMAGE_SCALE scale() const;
-
-            //! Get the default rotation.
-            static Enum::IMAGE_ROTATE rotateDefault();
 
             //! Get the rotation.
             Enum::IMAGE_ROTATE rotate() const;
 
-            //! Get the default premultiplied alpha.
-            static bool premultipliedAlphaDefault();
-
             //! Get the premultiplied alpha.
             bool hasPremultipliedAlpha() const;
 
-            //! Get the default for whether the color profile is enabled.
-            static bool colorProfileDefault();
-
             //! Get whether the color profile is enabled.
             bool hasColorProfile() const;
-
-            //! Get the default display profile index.
-            static int displayProfileIndexDefault();
 
             //! Get the display profile index.
             int displayProfileIndex() const;
@@ -97,11 +76,10 @@ namespace djv
             //! Get the display profile names.
             QStringList displayProfileNames() const;
 
-            //! Get the default image channel.
-            static AV::OpenGLImageOptions::CHANNEL channelDefault();
-
             //! Get the image channel.
             AV::OpenGLImageOptions::CHANNEL channel() const;
+
+            void reset() override;
 
         public Q_SLOTS:
             //! Set whether to store the frame when reloading files.

@@ -57,6 +57,8 @@ namespace djv
             //! Get the current line width.
             size_t lineWidth() const;
 
+            void reset() override;
+
         public Q_SLOTS:
             //! Set the current primitive.
             void setPrimitive(djv::ViewLib::Enum::ANNOTATIONS_PRIMITIVE);

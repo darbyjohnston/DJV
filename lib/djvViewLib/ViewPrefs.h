@@ -47,38 +47,20 @@ namespace djv
             explicit ViewPrefs(const QPointer<ViewContext> &, QObject * parent = nullptr);
             ~ViewPrefs() override;
 
-            //! Get the default mouse wheel zoom factor.
-            static Enum::ZOOM_FACTOR zoomFactorDefault();
-
             //! Get the mouse wheel zoom factor.
             Enum::ZOOM_FACTOR zoomFactor() const;
-
-            //! Get the default background color.
-            static AV::Color backgroundDefault();
 
             //! Get the background color.
             const AV::Color & background() const;
 
-            //! Get the default grid.
-            static Enum::GRID gridDefault();
-
             //! Get the view grid.
             Enum::GRID grid() const;
-
-            //! Get the default view grid color.
-            static AV::Color gridColorDefault();
 
             //! Get the view grid color.
             const AV::Color & gridColor() const;
 
-            //! Get the default for whether the HUD is enabled.
-            static bool hudEnabledDefault();
-
             //! Get whether the HUD is enabled.
             bool isHudEnabled() const;
-
-            //! Get the default HUD information.
-            static QMap<Enum::HUD, bool> hudInfoDefault();
 
             //! Get the HUD information.
             QMap<djv::ViewLib::Enum::HUD, bool> hudInfo() const;
@@ -86,23 +68,16 @@ namespace djv
             //! Get the HUD information.
             bool isHudInfo(Enum::HUD in) const;
 
-            //! Get the default HUD color.
-            static AV::Color hudColorDefault();
-
             //! Get the HUD color.
             const AV::Color & hudColor() const;
-
-            //! Get the default HUD background.
-            static Enum::HUD_BACKGROUND hudBackgroundDefault();
 
             //! Get the HUD background.
             Enum::HUD_BACKGROUND hudBackground() const;
 
-            //! Get the default HUD background color.
-            static AV::Color hudBackgroundColorDefault();
-
             //! Get the HUD background color.
             const AV::Color & hudBackgroundColor() const;
+
+            void reset() override;
 
         public Q_SLOTS:
             //! Set the mouse wheel zoom factor.

@@ -41,35 +41,9 @@ namespace djv
 {
     namespace ViewLib
     {
-        ShortcutPrefs::ShortcutPrefs(const QPointer<ViewContext> & context, QObject * parent) :
-            AbstractPrefs(context, parent),
-            _shortcuts(shortcutsDefault())
+        namespace
         {
-            UI::Prefs prefs("djv::ViewLib::ShortcutPrefs");
-            for (int i = 0; i < _shortcuts.count(); ++i)
-            {
-                QStringList tmp;
-                if (prefs.get(_shortcuts[i].name, tmp))
-                {
-                    UI::Shortcut::serialize(tmp, _shortcuts[i].value);
-                }
-            }
-        }
-
-        ShortcutPrefs::~ShortcutPrefs()
-        {
-            UI::Prefs prefs("djv::ViewLib::ShortcutPrefs");
-            for (int i = 0; i < _shortcuts.count(); ++i)
-            {
-                prefs.set(
-                    _shortcuts[i].name,
-                    UI::Shortcut::serialize(_shortcuts[i].value));
-            }
-        }
-
-        const QVector<UI::Shortcut> & ShortcutPrefs::shortcutsDefault()
-        {
-            static const QVector<UI::Shortcut> data = QVector<UI::Shortcut>() <<
+            const QVector<UI::Shortcut> shortcutsDefault = QVector<UI::Shortcut>() <<
                 UI::Shortcut(Enum::shortcutLabels()[Enum::SHORTCUT_EXIT], QKeySequence("Ctrl+Q")) <<
 
                 UI::Shortcut(Enum::shortcutLabels()[Enum::SHORTCUT_FILE_OPEN], QKeySequence("Ctrl+O")) <<
@@ -195,13 +169,43 @@ namespace djv
                 UI::Shortcut(Enum::shortcutLabels()[Enum::SHORTCUT_TOOL_INFO], QKeySequence("4")) <<
 
                 UI::Shortcut(Enum::shortcutLabels()[Enum::SHORTCUT_HELP_WHATS_THIS], QKeySequence("F1"));
-            DJV_ASSERT(data.count() == Enum::SHORTCUT_COUNT);
-            return data;
+
+        } // namespace
+
+        ShortcutPrefs::ShortcutPrefs(const QPointer<ViewContext> & context, QObject * parent) :
+            AbstractPrefs(context, parent),
+            _shortcuts(shortcutsDefault)
+        {
+            UI::Prefs prefs("djv::ViewLib::ShortcutPrefs");
+            for (int i = 0; i < _shortcuts.count(); ++i)
+            {
+                QStringList tmp;
+                if (prefs.get(_shortcuts[i].name, tmp))
+                {
+                    UI::Shortcut::serialize(tmp, _shortcuts[i].value);
+                }
+            }
+        }
+
+        ShortcutPrefs::~ShortcutPrefs()
+        {
+            UI::Prefs prefs("djv::ViewLib::ShortcutPrefs");
+            for (int i = 0; i < _shortcuts.count(); ++i)
+            {
+                prefs.set(
+                    _shortcuts[i].name,
+                    UI::Shortcut::serialize(_shortcuts[i].value));
+            }
         }
 
         const QVector<UI::Shortcut> & ShortcutPrefs::shortcuts() const
         {
             return _shortcuts;
+        }
+
+        void ShortcutPrefs::reset()
+        {
+            setShortcuts(shortcutsDefault);
         }
 
         void ShortcutPrefs::setShortcuts(const QVector<UI::Shortcut> & in)

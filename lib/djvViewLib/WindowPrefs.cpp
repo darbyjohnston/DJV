@@ -37,14 +37,35 @@ namespace djv
 {
     namespace ViewLib
     {
+        namespace
+        {
+            const bool                           autoFitDefault            = true;
+            const Enum::VIEW_MAX                 viewMaxDefault            = Enum::VIEW_MAX_75;
+            const glm::ivec2                     viewMaxUserDefault        = glm::ivec2(640, 300);
+            const Enum::FULL_SCREEN_UI           fullScreenUIDefault       = Enum::FULL_SCREEN_UI_HIDE;
+            const QMap<Enum::UI_COMPONENT, bool> uiComponentVisibleDefault =
+            {
+                { Enum::UI_FILE_TOOL_BAR,        true },
+                { Enum::UI_WINDOW_TOOL_BAR,      true },
+                { Enum::UI_VIEW_TOOL_BAR,        true },
+                { Enum::UI_IMAGE_TOOL_BAR,       true },
+                { Enum::UI_ANNOTATIONS_TOOL_BAR, true },
+                { Enum::UI_TOOLS_TOOL_BAR,       true },
+                { Enum::UI_PLAYBACK_CONTROLS,    true },
+                { Enum::UI_STATUS_BAR,           true }
+            };
+            const bool                           controlsWindowDefault     = false;
+
+        } // namespace
+
         WindowPrefs::WindowPrefs(const QPointer<ViewContext> & context, QObject * parent) :
             AbstractPrefs(context, parent),
-            _autoFit(autoFitDefault()),
-            _viewMax(viewMaxDefault()),
-            _viewMaxUser(viewMaxUserDefault()),
-            _fullScreenUI(fullScreenUIDefault()),
-            _uiComponentVisible(uiComponentVisibleDefault()),
-            _controlsWindow(controlsWindowDefault())
+            _autoFit(autoFitDefault),
+            _viewMax(viewMaxDefault),
+            _viewMaxUser(viewMaxUserDefault),
+            _fullScreenUI(fullScreenUIDefault),
+            _uiComponentVisible(uiComponentVisibleDefault),
+            _controlsWindow(controlsWindowDefault)
         {
             //DJV_DEBUG("WindowPrefs::WindowPrefs");
             //DJV_DEBUG_PRINT("ui components visible = " << _uiComponentVisible);
@@ -74,19 +95,9 @@ namespace djv
             prefs.set("controlsWindow", _controlsWindow);
         }
 
-        bool WindowPrefs::autoFitDefault()
-        {
-            return true;
-        }
-
         bool WindowPrefs::hasAutoFit() const
         {
             return _autoFit;
-        }
-
-        Enum::VIEW_MAX WindowPrefs::viewMaxDefault()
-        {
-            return Enum::VIEW_MAX_75;
         }
 
         Enum::VIEW_MAX WindowPrefs::viewMax() const
@@ -94,20 +105,9 @@ namespace djv
             return _viewMax;
         }
 
-        const glm::ivec2 & WindowPrefs::viewMaxUserDefault()
-        {
-            static const glm::ivec2 size(640, 300);
-            return size;
-        }
-
         const glm::ivec2 & WindowPrefs::viewMaxUser() const
         {
             return _viewMaxUser;
-        }
-
-        Enum::FULL_SCREEN_UI WindowPrefs::fullScreenUIDefault()
-        {
-            return Enum::FULL_SCREEN_UI_HIDE;
         }
 
         Enum::FULL_SCREEN_UI WindowPrefs::fullScreenUI() const
@@ -115,36 +115,24 @@ namespace djv
             return _fullScreenUI;
         }
 
-        QMap<Enum::UI_COMPONENT, bool> WindowPrefs::uiComponentVisibleDefault()
-        {
-            static const QMap< Enum::UI_COMPONENT, bool> data =
-            {
-                { Enum::UI_FILE_TOOL_BAR, true },
-                { Enum::UI_WINDOW_TOOL_BAR, true },
-                { Enum::UI_VIEW_TOOL_BAR, true },
-                { Enum::UI_IMAGE_TOOL_BAR, true },
-                { Enum::UI_ANNOTATIONS_TOOL_BAR, true },
-                { Enum::UI_TOOLS_TOOL_BAR, true },
-                { Enum::UI_PLAYBACK_CONTROLS, true },
-                { Enum::UI_STATUS_BAR, true }
-            };
-            DJV_ASSERT(data.size() == Enum::UI_COMPONENT_COUNT);
-            return data;
-        }
-
         const QMap<Enum::UI_COMPONENT, bool> & WindowPrefs::uiComponentVisible() const
         {
             return _uiComponentVisible;
         }
 
-        bool WindowPrefs::controlsWindowDefault()
-        {
-            return false;
-        }
-
         bool WindowPrefs::hasControlsWindow() const
         {
             return _controlsWindow;
+        }
+
+        void WindowPrefs::reset()
+        {
+            setAutoFit(autoFitDefault);
+            setViewMax(viewMaxDefault);
+            setViewMaxUser(viewMaxUserDefault);
+            setFullScreenUI(fullScreenUIDefault);
+            setUIComponentVisible(uiComponentVisibleDefault);
+            setControlsWindow(controlsWindowDefault);
         }
 
         void WindowPrefs::setAutoFit(bool in)
