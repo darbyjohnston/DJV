@@ -41,7 +41,7 @@ namespace djv
     {
         namespace
         {
-            const int version = 7;
+            const int version = 8;
             
         } // namespace
         

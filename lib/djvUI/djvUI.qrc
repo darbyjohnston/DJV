@@ -4,10 +4,22 @@
     <file alias="djv/UI/AddIcon192DPI.png">images/AddIcon192DPI.png</file>
     <file alias="djv/UI/AddIcon48DPI.png">images/AddIcon48DPI.png</file>
     <file alias="djv/UI/AddIcon96DPI.png">images/AddIcon96DPI.png</file>
-    <file alias="djv/UI/AnnotationsIcon144DPI.png">images/AnnotationsIcon144DPI.png</file>
-    <file alias="djv/UI/AnnotationsIcon192DPI.png">images/AnnotationsIcon192DPI.png</file>
-    <file alias="djv/UI/AnnotationsIcon48DPI.png">images/AnnotationsIcon48DPI.png</file>
-    <file alias="djv/UI/AnnotationsIcon96DPI.png">images/AnnotationsIcon96DPI.png</file>
+    <file alias="djv/UI/AnnotateCircleIcon144DPI.png">images/AnnotateCircleIcon144DPI.png</file>
+    <file alias="djv/UI/AnnotateCircleIcon192DPI.png">images/AnnotateCircleIcon192DPI.png</file>
+    <file alias="djv/UI/AnnotateCircleIcon48DPI.png">images/AnnotateCircleIcon48DPI.png</file>
+    <file alias="djv/UI/AnnotateCircleIcon96DPI.png">images/AnnotateCircleIcon96DPI.png</file>
+    <file alias="djv/UI/AnnotateIcon144DPI.png">images/AnnotateIcon144DPI.png</file>
+    <file alias="djv/UI/AnnotateIcon192DPI.png">images/AnnotateIcon192DPI.png</file>
+    <file alias="djv/UI/AnnotateIcon48DPI.png">images/AnnotateIcon48DPI.png</file>
+    <file alias="djv/UI/AnnotateIcon96DPI.png">images/AnnotateIcon96DPI.png</file>
+    <file alias="djv/UI/AnnotatePenIcon144DPI.png">images/AnnotatePenIcon144DPI.png</file>
+    <file alias="djv/UI/AnnotatePenIcon192DPI.png">images/AnnotatePenIcon192DPI.png</file>
+    <file alias="djv/UI/AnnotatePenIcon48DPI.png">images/AnnotatePenIcon48DPI.png</file>
+    <file alias="djv/UI/AnnotatePenIcon96DPI.png">images/AnnotatePenIcon96DPI.png</file>
+    <file alias="djv/UI/AnnotateSquareIcon144DPI.png">images/AnnotateSquareIcon144DPI.png</file>
+    <file alias="djv/UI/AnnotateSquareIcon192DPI.png">images/AnnotateSquareIcon192DPI.png</file>
+    <file alias="djv/UI/AnnotateSquareIcon48DPI.png">images/AnnotateSquareIcon48DPI.png</file>
+    <file alias="djv/UI/AnnotateSquareIcon96DPI.png">images/AnnotateSquareIcon96DPI.png</file>
     <file alias="djv/UI/ColorPickerIcon144DPI.png">images/ColorPickerIcon144DPI.png</file>
     <file alias="djv/UI/ColorPickerIcon192DPI.png">images/ColorPickerIcon192DPI.png</file>
     <file alias="djv/UI/ColorPickerIcon48DPI.png">images/ColorPickerIcon48DPI.png</file>
@@ -153,18 +165,6 @@
     <file alias="djv/UI/PlayStopIcon192DPI.png">images/PlayStopIcon192DPI.png</file>
     <file alias="djv/UI/PlayStopIcon48DPI.png">images/PlayStopIcon48DPI.png</file>
     <file alias="djv/UI/PlayStopIcon96DPI.png">images/PlayStopIcon96DPI.png</file>
-    <file alias="djv/UI/PrimitiveEllipse144DPI.png">images/PrimitiveEllipse144DPI.png</file>
-    <file alias="djv/UI/PrimitiveEllipse192DPI.png">images/PrimitiveEllipse192DPI.png</file>
-    <file alias="djv/UI/PrimitiveEllipse48DPI.png">images/PrimitiveEllipse48DPI.png</file>
-    <file alias="djv/UI/PrimitiveEllipse96DPI.png">images/PrimitiveEllipse96DPI.png</file>
-    <file alias="djv/UI/PrimitivePolylineIcon144DPI.png">images/PrimitivePolylineIcon144DPI.png</file>
-    <file alias="djv/UI/PrimitivePolylineIcon192DPI.png">images/PrimitivePolylineIcon192DPI.png</file>
-    <file alias="djv/UI/PrimitivePolylineIcon48DPI.png">images/PrimitivePolylineIcon48DPI.png</file>
-    <file alias="djv/UI/PrimitivePolylineIcon96DPI.png">images/PrimitivePolylineIcon96DPI.png</file>
-    <file alias="djv/UI/PrimitiveRect144DPI.png">images/PrimitiveRect144DPI.png</file>
-    <file alias="djv/UI/PrimitiveRect192DPI.png">images/PrimitiveRect192DPI.png</file>
-    <file alias="djv/UI/PrimitiveRect48DPI.png">images/PrimitiveRect48DPI.png</file>
-    <file alias="djv/UI/PrimitiveRect96DPI.png">images/PrimitiveRect96DPI.png</file>
     <file alias="djv/UI/RemoveIcon144DPI.png">images/RemoveIcon144DPI.png</file>
     <file alias="djv/UI/RemoveIcon192DPI.png">images/RemoveIcon192DPI.png</file>
     <file alias="djv/UI/RemoveIcon48DPI.png">images/RemoveIcon48DPI.png</file>
@@ -281,4 +281,3 @@
     <file alias="NotoMono-Regular.ttf">../../etc/Fonts/NotoSans/NotoMono-Regular.ttf</file>
 </qresource>
 </RCC>
-
