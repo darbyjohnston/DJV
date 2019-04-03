@@ -413,7 +413,8 @@ namespace djv
             preloadUpdate();
             update();
 
-            Q_EMIT(ioInfoChanged(_p->ioInfo));
+            Q_EMIT fileInfoChanged(_p->fileInfo);
+            Q_EMIT ioInfoChanged(_p->ioInfo);
         }
 
         void FileGroup::setLayer(int layer)

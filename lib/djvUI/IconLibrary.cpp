@@ -76,7 +76,7 @@ namespace djv
         
         namespace
         {
-            QStringList getFileNames(const QString& name)
+            QStringList getFileNames(const QString & name)
             {
                 QStringList out;
                 QFileInfo fileInfo(name);
@@ -93,7 +93,7 @@ namespace djv
                 return out;
             }
             
-            QPixmap fillPixmap(const QPixmap& pixmap, const QColor& color)
+            QPixmap fillPixmap(const QPixmap & pixmap, const QColor & color)
             {
                 QImage out;
                 if (!pixmap.isNull())
@@ -117,7 +117,7 @@ namespace djv
             if (!_p->icons.contains(name))
             {
                 QIcon icon;
-                Q_FOREACH(const QString& i, getFileNames(name))
+                Q_FOREACH(const QString & i, getFileNames(name))
                 {
                     icon.addPixmap(fillPixmap(QPixmap(i), _p->color), QIcon::Normal, QIcon::Off);                    
                 }
@@ -136,11 +136,11 @@ namespace djv
             if (!_p->icons.contains(key))
             {
                 QIcon icon;
-                Q_FOREACH(const QString& i, getFileNames(off))
+                Q_FOREACH(const QString & i, getFileNames(off))
                 {
                     icon.addPixmap(fillPixmap(QPixmap(i), _p->color), QIcon::Normal, QIcon::Off);                    
                 }
-                Q_FOREACH(const QString& i, getFileNames(on))
+                Q_FOREACH(const QString & i, getFileNames(on))
                 {
                     icon.addPixmap(fillPixmap(QPixmap(i), _p->color), QIcon::Normal, QIcon::On);
                 }

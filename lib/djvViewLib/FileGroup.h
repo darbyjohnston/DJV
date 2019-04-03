@@ -117,6 +117,9 @@ namespace djv
             void setPreloadFrame(qint64);
 
         Q_SIGNALS:
+            //! This signal is emitted when a new file is opened.
+            void fileInfoChanged(const djv::Core::FileInfo &);
+
             //! This signal is emitted when the I/O information is changed.
             void ioInfoChanged(const djv::AV::IOInfo &);
 

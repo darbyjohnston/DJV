@@ -60,7 +60,6 @@ namespace djv
 
     namespace ViewLib
     {
-        class AnnotationsGroup;
         class FileGroup;
         class HelpGroup;
         class ImageGroup;
@@ -88,7 +87,6 @@ namespace djv
             QPointer<ViewGroup> viewGroup() const;
             QPointer<ImageGroup> imageGroup() const;
             QPointer<PlaybackGroup> playbackGroup() const;
-            QPointer<AnnotationsGroup> annotationsGroup() const;
             QPointer<ToolGroup> toolGroup() const;
             QPointer<HelpGroup> helpGroup() const;
 

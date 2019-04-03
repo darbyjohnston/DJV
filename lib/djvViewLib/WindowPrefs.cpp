@@ -45,14 +45,13 @@ namespace djv
             const Enum::FULL_SCREEN_UI           fullScreenUIDefault       = Enum::FULL_SCREEN_UI_HIDE;
             const QMap<Enum::UI_COMPONENT, bool> uiComponentVisibleDefault =
             {
-                { Enum::UI_FILE_TOOL_BAR,        true },
-                { Enum::UI_WINDOW_TOOL_BAR,      true },
-                { Enum::UI_VIEW_TOOL_BAR,        true },
-                { Enum::UI_IMAGE_TOOL_BAR,       true },
-                { Enum::UI_ANNOTATIONS_TOOL_BAR, true },
-                { Enum::UI_TOOLS_TOOL_BAR,       true },
-                { Enum::UI_PLAYBACK_CONTROLS,    true },
-                { Enum::UI_STATUS_BAR,           true }
+                { Enum::UI_FILE_TOOL_BAR,     true },
+                { Enum::UI_WINDOW_TOOL_BAR,   true },
+                { Enum::UI_VIEW_TOOL_BAR,     true },
+                { Enum::UI_IMAGE_TOOL_BAR,    true },
+                { Enum::UI_TOOLS_TOOL_BAR,    true },
+                { Enum::UI_PLAYBACK_CONTROLS, true },
+                { Enum::UI_STATUS_BAR,        true }
             };
             const bool                           controlsWindowDefault     = false;
 

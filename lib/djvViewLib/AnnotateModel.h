@@ -29,7 +29,11 @@
 
 #pragma once
 
-#include <djvViewLib/AbstractToolBar.h>
+#include <djvViewLib/AnnotateData.h>
+
+#include <djvCore/Util.h>
+
+#include <QAbstractItemModel>
 
 #include <memory>
 
@@ -37,20 +41,29 @@ namespace djv
 {
     namespace ViewLib
     {
-        //! This class provides the annotations group tool bar.
-        class AnnotationsToolBar : public AbstractToolBar
+        //! This class provides a model for an annotation collection.
+        class AnnotateModel : public QAbstractItemModel
         {
             Q_OBJECT
 
         public:
-            explicit AnnotationsToolBar(
-                const QPointer<AbstractActions> &,
-                const QPointer<ViewContext> &,
-                QWidget * parent = nullptr);
-            ~AnnotationsToolBar() override;
+            explicit AnnotateModel(QObject * parent = nullptr);
+            ~AnnotateModel() override;
+
+            QModelIndex	index(int row, int column, const QModelIndex & parent = QModelIndex()) const override;
+            QModelIndex	parent(const QModelIndex & = QModelIndex()) const override;
+            Qt::ItemFlags flags(const QModelIndex &) const override;
+            QVariant data(const QModelIndex &, int role = Qt::DisplayRole) const override;
+            QVariant headerData(int section, Qt::Orientation, int role = Qt::DisplayRole) const override;
+            int rowCount(const QModelIndex & parent = QModelIndex()) const override;
+            int columnCount(const QModelIndex & parent = QModelIndex()) const override;
+
+        public Q_SLOTS:
+            //! Set the annotation collection.
+            void setCollection(const std::shared_ptr<Annotate::Collection> &);
 
         private:
-            DJV_PRIVATE_COPY(AnnotationsToolBar);
+            DJV_PRIVATE_COPY(AnnotateModel);
 
             struct Private;
             std::unique_ptr<Private> _p;

@@ -73,7 +73,6 @@ namespace djv
                 qApp->translate("djv::ViewLib::Enum", "View Tool Bar") <<
                 qApp->translate("djv::ViewLib::Enum", "Image Tool Bar") <<
                 qApp->translate("djv::ViewLib::Enum", "Tools Tool Bar") <<
-                qApp->translate("djv::ViewLib::Enum", "Annotations Tool Bar") <<
                 qApp->translate("djv::ViewLib::Enum", "Playback Controls") <<
                 qApp->translate("djv::ViewLib::Enum", "Status Bar");
             DJV_ASSERT(data.count() == UI_COMPONENT_COUNT);
@@ -248,51 +247,14 @@ namespace djv
             return data;
         }
 
-        const QStringList & Enum::annotationsPrimitiveLabels()
-        {
-            static const QStringList data = QStringList() <<
-                qApp->translate("djv::ViewLib::Enum", "Polyline") <<
-                qApp->translate("djv::ViewLib::Enum", "Rectangle") <<
-                qApp->translate("djv::ViewLib::Enum", "Ellipse");
-            DJV_ASSERT(data.count() == ANNOTATIONS_PRIMITIVE_COUNT);
-            return data;
-        }
-
-        const std::vector<AV::Color> & Enum::annotationsColors()
-        {
-            static const std::vector<AV::Color> data =
-            {
-                AV::Color( .8f,  .2f,  .2f),
-                AV::Color( .8f,  .8f,  .2f),
-                AV::Color( .2f,  .8f,  .2f),
-                AV::Color( .2f,  .2f,  .8f),
-                AV::Color(1.f,  1.f,  1.f ),
-                AV::Color(0.f,  0.f,  0.f )
-            };
-            DJV_ASSERT(data.size() == ANNOTATIONS_COLOR_COUNT);
-            return data;
-        }
-
-        const QStringList & Enum::annotationsColorLabels()
-        {
-            static const QStringList data = QStringList() <<
-                qApp->translate("djv::ViewLib::Enum", "Red") <<
-                qApp->translate("djv::ViewLib::Enum", "Yellow") <<
-                qApp->translate("djv::ViewLib::Enum", "Green") <<
-                qApp->translate("djv::ViewLib::Enum", "Blue") <<
-                qApp->translate("djv::ViewLib::Enum", "White") <<
-                qApp->translate("djv::ViewLib::Enum", "Black");
-            DJV_ASSERT(data.count() == ANNOTATIONS_COLOR_COUNT);
-            return data;
-        }
-
         const QStringList & Enum::toolLabels()
         {
             static const QStringList data = QStringList() <<
                 qApp->translate("djv::ViewLib::Enum", "Magnify") <<
                 qApp->translate("djv::ViewLib::Enum", "Color Picker") <<
                 qApp->translate("djv::ViewLib::Enum", "Histogram") <<
-                qApp->translate("djv::ViewLib::Enum", "Information");
+                qApp->translate("djv::ViewLib::Enum", "Information") <<
+                qApp->translate("djv::ViewLib::Enum", "Annotate");
             DJV_ASSERT(data.count() == TOOL_COUNT);
             return data;
         }
@@ -317,6 +279,68 @@ namespace djv
                 4096;
             DJV_ASSERT(data.count() == HISTOGRAM_COUNT);
             return data[histogram];
+        }
+
+        const QStringList & Enum::annotatePrimitiveLabels()
+        {
+            static const QStringList data = QStringList() <<
+                qApp->translate("djv::ViewLib::Enum", "Pen") <<
+                qApp->translate("djv::ViewLib::Enum", "Square") <<
+                qApp->translate("djv::ViewLib::Enum", "Circle");
+            DJV_ASSERT(data.count() == ANNOTATE_PRIMITIVE_COUNT);
+            return data;
+        }
+
+        const std::vector<AV::Color> & Enum::annotateColors()
+        {
+            static const std::vector<AV::Color> data =
+            {
+                AV::Color(.8f,  .2f,  .2f),
+                AV::Color(.8f,  .8f,  .2f),
+                AV::Color(.2f,  .8f,  .2f),
+                AV::Color(.2f,  .2f,  .8f),
+                AV::Color(1.f,  1.f,  1.f),
+                AV::Color(0.f,  0.f,  0.f)
+            };
+            DJV_ASSERT(data.size() == ANNOTATE_COLOR_COUNT);
+            return data;
+        }
+
+        const QStringList & Enum::annotateColorLabels()
+        {
+            static const QStringList data = QStringList() <<
+                qApp->translate("djv::ViewLib::Enum", "Red") <<
+                qApp->translate("djv::ViewLib::Enum", "Yellow") <<
+                qApp->translate("djv::ViewLib::Enum", "Green") <<
+                qApp->translate("djv::ViewLib::Enum", "Blue") <<
+                qApp->translate("djv::ViewLib::Enum", "White") <<
+                qApp->translate("djv::ViewLib::Enum", "Black");
+            DJV_ASSERT(data.count() == ANNOTATE_COLOR_COUNT);
+            return data;
+        }
+
+        const std::vector<size_t> & Enum::annotateLineWidths()
+        {
+            static const std::vector<size_t> data =
+            {
+                1,
+                5,
+                10,
+                20
+            };
+            DJV_ASSERT(data.size() == ANNOTATE_LINE_WIDTH_COUNT);
+            return data;
+        }
+
+        const QStringList & Enum::annotateLineWidthLabels()
+        {
+            static const QStringList data = QStringList() <<
+                qApp->translate("djv::ViewLib::Enum", "1px") <<
+                qApp->translate("djv::ViewLib::Enum", "5px") <<
+                qApp->translate("djv::ViewLib::Enum", "10px") <<
+                qApp->translate("djv::ViewLib::Enum", "20px");
+            DJV_ASSERT(data.count() == ANNOTATE_LINE_WIDTH_COUNT);
+            return data;
         }
 
         const QStringList & Enum::shortcutLabels()
@@ -359,7 +383,6 @@ namespace djv
                 qApp->translate("djv::ViewLib::Enum", "Window/Show Window Tool Bar") <<
                 qApp->translate("djv::ViewLib::Enum", "Window/Show View Tool Bar") <<
                 qApp->translate("djv::ViewLib::Enum", "Window/Show Image Tool Bar") <<
-                qApp->translate("djv::ViewLib::Enum", "Window/Show Annotations Tool Bar") <<
                 qApp->translate("djv::ViewLib::Enum", "Window/Show Tools Tool Bar") <<
                 qApp->translate("djv::ViewLib::Enum", "Window/Show Playback") <<
                 qApp->translate("djv::ViewLib::Enum", "Window/Show Information") <<
@@ -440,12 +463,11 @@ namespace djv
                 qApp->translate("djv::ViewLib::Enum", "Playback/Out Point Mark") <<
                 qApp->translate("djv::ViewLib::Enum", "Playback/Out Point Reset") <<
 
-                qApp->translate("djv::ViewLib::Enum", "Annotations/Widget") <<
-
                 qApp->translate("djv::ViewLib::Enum", "Tool/Magnify") <<
                 qApp->translate("djv::ViewLib::Enum", "Tool/Color Picker") <<
                 qApp->translate("djv::ViewLib::Enum", "Tool/Histogram") <<
                 qApp->translate("djv::ViewLib::Enum", "Tool/Information") <<
+                qApp->translate("djv::ViewLib::Enum", "Tool/Annotate") <<
             
                 qApp->translate("djv::ViewLib::Enum", "Help/What's This?");
             DJV_ASSERT(data.count() == SHORTCUT_COUNT);
@@ -572,10 +594,11 @@ namespace djv
     _DJV_STRING_OPERATOR_LABEL(ViewLib::Enum::FRAME, ViewLib::Enum::frameLabels());
     _DJV_STRING_OPERATOR_LABEL(ViewLib::Enum::LOOP, ViewLib::Enum::loopLabels());
     _DJV_STRING_OPERATOR_LABEL(ViewLib::Enum::LAYOUT, ViewLib::Enum::layoutLabels());
-    _DJV_STRING_OPERATOR_LABEL(ViewLib::Enum::ANNOTATIONS_PRIMITIVE, ViewLib::Enum::annotationsPrimitiveLabels());
-    _DJV_STRING_OPERATOR_LABEL(ViewLib::Enum::ANNOTATIONS_COLOR, ViewLib::Enum::annotationsColorLabels());
     _DJV_STRING_OPERATOR_LABEL(ViewLib::Enum::TOOL, ViewLib::Enum::toolLabels());
     _DJV_STRING_OPERATOR_LABEL(ViewLib::Enum::HISTOGRAM, ViewLib::Enum::histogramLabels());
+    _DJV_STRING_OPERATOR_LABEL(ViewLib::Enum::ANNOTATE_PRIMITIVE, ViewLib::Enum::annotatePrimitiveLabels());
+    _DJV_STRING_OPERATOR_LABEL(ViewLib::Enum::ANNOTATE_COLOR, ViewLib::Enum::annotateColorLabels());
+    _DJV_STRING_OPERATOR_LABEL(ViewLib::Enum::ANNOTATE_LINE_WIDTH, ViewLib::Enum::annotateLineWidthLabels());
     _DJV_STRING_OPERATOR_LABEL(ViewLib::Enum::KEYBOARD_MODIFIER, ViewLib::Enum::keyboardModifierLabels());
     _DJV_STRING_OPERATOR_LABEL(ViewLib::Enum::MOUSE_BUTTON, ViewLib::Enum::mouseButtonLabels());
     _DJV_STRING_OPERATOR_LABEL(ViewLib::Enum::MOUSE_BUTTON_ACTION, ViewLib::Enum::mouseButtonActionLabels());

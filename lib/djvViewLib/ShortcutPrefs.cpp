@@ -80,7 +80,6 @@ namespace djv
                 UI::Shortcut(Enum::shortcutLabels()[Enum::SHORTCUT_WINDOW_WINDOW_TOOL_BAR_VISIBLE], QKeySequence()) <<
                 UI::Shortcut(Enum::shortcutLabels()[Enum::SHORTCUT_WINDOW_VIEW_TOOL_BAR_VISIBLE], QKeySequence()) <<
                 UI::Shortcut(Enum::shortcutLabels()[Enum::SHORTCUT_WINDOW_IMAGE_TOOL_BAR_VISIBLE], QKeySequence()) <<
-                UI::Shortcut(Enum::shortcutLabels()[Enum::SHORTCUT_WINDOW_ANNOTATIONS_TOOL_BAR_VISIBLE], QKeySequence()) <<
                 UI::Shortcut(Enum::shortcutLabels()[Enum::SHORTCUT_WINDOW_TOOLS_TOOL_BAR_VISIBLE], QKeySequence()) <<
                 UI::Shortcut(Enum::shortcutLabels()[Enum::SHORTCUT_WINDOW_PLAYBACK_VISIBLE], QKeySequence()) <<
                 UI::Shortcut(Enum::shortcutLabels()[Enum::SHORTCUT_WINDOW_INFO_VISIBLE], QKeySequence()) <<
@@ -161,12 +160,11 @@ namespace djv
                 UI::Shortcut(Enum::shortcutLabels()[Enum::SHORTCUT_PLAYBACK_MARK_OUT], QKeySequence("O")) <<
                 UI::Shortcut(Enum::shortcutLabels()[Enum::SHORTCUT_PLAYBACK_RESET_OUT], QKeySequence("Shift+O")) <<
 
-                UI::Shortcut(Enum::shortcutLabels()[Enum::SHORTCUT_ANNOTATIONS_WIDGET], QKeySequence("Ctrl+A")) <<
-
                 UI::Shortcut(Enum::shortcutLabels()[Enum::SHORTCUT_TOOL_MAGNIFY], QKeySequence("1")) <<
                 UI::Shortcut(Enum::shortcutLabels()[Enum::SHORTCUT_TOOL_COLOR_PICKER], QKeySequence("2")) <<
                 UI::Shortcut(Enum::shortcutLabels()[Enum::SHORTCUT_TOOL_HISTOGRAM], QKeySequence("3")) <<
                 UI::Shortcut(Enum::shortcutLabels()[Enum::SHORTCUT_TOOL_INFO], QKeySequence("4")) <<
+                UI::Shortcut(Enum::shortcutLabels()[Enum::SHORTCUT_TOOL_ANNOTATE], QKeySequence("Ctrl+A")) <<
 
                 UI::Shortcut(Enum::shortcutLabels()[Enum::SHORTCUT_HELP_WHATS_THIS], QKeySequence("F1"));
 

@@ -97,7 +97,6 @@ namespace djv
                 UI_WINDOW_TOOL_BAR,
                 UI_VIEW_TOOL_BAR,
                 UI_IMAGE_TOOL_BAR,
-                UI_ANNOTATIONS_TOOL_BAR,
                 UI_TOOLS_TOOL_BAR,
                 UI_PLAYBACK_CONTROLS,
                 UI_STATUS_BAR,
@@ -283,40 +282,6 @@ namespace djv
             //! Get the playback bar layout labels.
             static const QStringList & layoutLabels();
 
-            //! This enumeration provides the annotations primitives.
-            enum ANNOTATIONS_PRIMITIVE
-            {
-                ANNOTATIONS_POLYLINE,
-                ANNOTATIONS_RECT,
-                ANNOTATIONS_ELLIPSE,
-
-                ANNOTATIONS_PRIMITIVE_COUNT
-            };
-            Q_ENUM(ANNOTATIONS_PRIMITIVE);
-
-            //! Get the annoations primitive labels.
-            static const QStringList & annotationsPrimitiveLabels();
-
-            //! This enumeration provides the annotations colors.
-            enum ANNOTATIONS_COLOR
-            {
-                ANNOTATIONS_RED,
-                ANNOTATIONS_YELLOW,
-                ANNOTATIONS_GREEN,
-                ANNOTATIONS_BLUE,
-                ANNOTATIONS_WHITE,
-                ANNOTATIONS_BLACK,
-
-                ANNOTATIONS_COLOR_COUNT
-            };
-
-            //! Get the annotations colors.
-            static const std::vector<AV::Color> & annotationsColors();
-
-            //! Get the annotations color labels.
-            static const QStringList & annotationsColorLabels();
-
-
             //! This enumeration provides the tools.
             enum TOOL
             {
@@ -324,6 +289,7 @@ namespace djv
                 TOOL_COLOR_PICKER,
                 TOOL_HISTOGRAM,
                 TOOL_INFO,
+                TOOL_ANNOTATE,
 
                 TOOL_COUNT
             };
@@ -348,6 +314,56 @@ namespace djv
 
             //! Get a histogram size.
             static const int histogramSize(HISTOGRAM);
+
+            //! This enumeration provides the annotation primitives.
+            enum ANNOTATE_PRIMITIVE
+            {
+                ANNOTATE_PEN,
+                ANNOTATE_SQUARE,
+                ANNOTATE_CIRCLE,
+
+                ANNOTATE_PRIMITIVE_COUNT
+            };
+            Q_ENUM(ANNOTATE_PRIMITIVE);
+
+            //! Get the annotation primitive labels.
+            static const QStringList & annotatePrimitiveLabels();
+
+            //! This enumeration provides the annotation colors.
+            enum ANNOTATE_COLOR
+            {
+                ANNOTATE_RED,
+                ANNOTATE_YELLOW,
+                ANNOTATE_GREEN,
+                ANNOTATE_BLUE,
+                ANNOTATE_WHITE,
+                ANNOTATE_BLACK,
+
+                ANNOTATE_COLOR_COUNT
+            };
+
+            //! Get the annotation colors.
+            static const std::vector<AV::Color> & annotateColors();
+
+            //! Get the annotation color labels.
+            static const QStringList & annotateColorLabels();
+
+            //! This enumeration provides the annotation line widths.
+            enum ANNOTATE_LINE_WIDTH
+            {
+                ANNOTATE_LINE_WIDTH_1,
+                ANNOTATE_LINE_WIDTH_5,
+                ANNOTATE_LINE_WIDTH_10,
+                ANNOTATE_LINE_WIDTH_20,
+
+                ANNOTATE_LINE_WIDTH_COUNT
+            };
+
+            //! Get the annotation line widths.
+            static const std::vector<size_t> & annotateLineWidths();
+
+            //! Get the annotation line width labels.
+            static const QStringList & annotateLineWidthLabels();
 
             //! This enumeration provides the keyboard shortcuts.
             enum SHORTCUT
@@ -388,7 +404,6 @@ namespace djv
                 SHORTCUT_WINDOW_WINDOW_TOOL_BAR_VISIBLE,
                 SHORTCUT_WINDOW_VIEW_TOOL_BAR_VISIBLE,
                 SHORTCUT_WINDOW_IMAGE_TOOL_BAR_VISIBLE,
-                SHORTCUT_WINDOW_ANNOTATIONS_TOOL_BAR_VISIBLE,
                 SHORTCUT_WINDOW_TOOLS_TOOL_BAR_VISIBLE,
                 SHORTCUT_WINDOW_PLAYBACK_VISIBLE,
                 SHORTCUT_WINDOW_INFO_VISIBLE,
@@ -469,13 +484,12 @@ namespace djv
                 SHORTCUT_PLAYBACK_MARK_OUT,
                 SHORTCUT_PLAYBACK_RESET_OUT,
 
-                SHORTCUT_ANNOTATIONS_WIDGET,
-
                 SHORTCUT_TOOL_MAGNIFY,
                 SHORTCUT_TOOL_COLOR_PICKER,
                 SHORTCUT_TOOL_HISTOGRAM,
                 SHORTCUT_TOOL_INFO,
-                
+                SHORTCUT_TOOL_ANNOTATE,
+
                 SHORTCUT_HELP_WHATS_THIS,
 
                 SHORTCUT_COUNT
@@ -604,10 +618,11 @@ namespace djv
     DJV_STRING_OPERATOR(ViewLib::Enum::FRAME);
     DJV_STRING_OPERATOR(ViewLib::Enum::LOOP);
     DJV_STRING_OPERATOR(ViewLib::Enum::LAYOUT);
-    DJV_STRING_OPERATOR(ViewLib::Enum::ANNOTATIONS_PRIMITIVE);
-    DJV_STRING_OPERATOR(ViewLib::Enum::ANNOTATIONS_COLOR);
     DJV_STRING_OPERATOR(ViewLib::Enum::TOOL);
     DJV_STRING_OPERATOR(ViewLib::Enum::HISTOGRAM);
+    DJV_STRING_OPERATOR(ViewLib::Enum::ANNOTATE_PRIMITIVE);
+    DJV_STRING_OPERATOR(ViewLib::Enum::ANNOTATE_COLOR);
+    DJV_STRING_OPERATOR(ViewLib::Enum::ANNOTATE_LINE_WIDTH);
     DJV_STRING_OPERATOR(ViewLib::Enum::SHORTCUT);
     DJV_STRING_OPERATOR(ViewLib::Enum::KEYBOARD_MODIFIER);
     DJV_STRING_OPERATOR(ViewLib::Enum::MOUSE_BUTTON);

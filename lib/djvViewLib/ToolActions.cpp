@@ -66,7 +66,8 @@ namespace djv
                 qApp->translate("djv::ViewLib::ToolActions", "&Magnify") <<
                 qApp->translate("djv::ViewLib::ToolActions", "&Color Picker") <<
                 qApp->translate("djv::ViewLib::ToolActions", "&Histogram") <<
-                qApp->translate("djv::ViewLib::ToolActions", "&Information");
+                qApp->translate("djv::ViewLib::ToolActions", "&Information") <<
+                qApp->translate("djv::ViewLib::ToolActions", "&Annotate");
             for (int i = 0; i < Enum::TOOL_COUNT; ++i)
             {
                 auto action = new QAction(this);
@@ -101,12 +102,14 @@ namespace djv
                 context()->iconLibrary()->icon("djv/UI/MagnifyIcon") <<
                 context()->iconLibrary()->icon("djv/UI/ColorPickerIcon") <<
                 context()->iconLibrary()->icon("djv/UI/HistogramIcon") <<
-                context()->iconLibrary()->icon("djv/UI/InfoIcon");
+                context()->iconLibrary()->icon("djv/UI/InfoIcon") <<
+                context()->iconLibrary()->icon("djv/UI/AnnotateIcon");
             const QVector<QKeySequence> toolShortcuts = QVector<QKeySequence>() <<
                 shortcuts[Enum::SHORTCUT_TOOL_MAGNIFY].value <<
                 shortcuts[Enum::SHORTCUT_TOOL_COLOR_PICKER].value <<
                 shortcuts[Enum::SHORTCUT_TOOL_HISTOGRAM].value <<
-                shortcuts[Enum::SHORTCUT_TOOL_INFO].value;
+                shortcuts[Enum::SHORTCUT_TOOL_INFO].value <<
+                shortcuts[Enum::SHORTCUT_TOOL_ANNOTATE].value;
             const QStringList toolToolTips = QStringList() <<
                 qApp->translate("djv::ViewLib::ToolActions",
                 "Show the magnify tool<br><br>"
@@ -119,6 +122,9 @@ namespace djv
                 "Keyboard shortcut: %1") <<
                 qApp->translate("djv::ViewLib::ToolActions",
                 "Show the information tool<br><br>"
+                "Keyboard shortcut: %1") <<
+                qApp->translate("djv::ViewLib::ToolActions",
+                "Show the annotation tool<br><br>"
                 "Keyboard shortcut: %1");
             const QStringList toolWhatsThis = QStringList() <<
                 qApp->translate("djv::ViewLib::ToolActions",
@@ -135,6 +141,10 @@ namespace djv
                 "<a href=\"ViewTools.html\">Documentation</a>") <<
                 qApp->translate("djv::ViewLib::ToolActions",
                 "Show the information tool<br><br>"
+                "Keyboard shortcut: %1<br><br>"
+                "<a href=\"ViewTools.html\">Documentation</a>") <<
+                qApp->translate("djv::ViewLib::ToolActions",
+                "Show the annotation tool<br><br>"
                 "Keyboard shortcut: %1<br><br>"
                 "<a href=\"ViewTools.html\">Documentation</a>");
             for (int i = 0; i < Enum::TOOL_COUNT; ++i)

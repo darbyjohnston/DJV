@@ -45,11 +45,11 @@ namespace djv
         
         struct HudInfo;
 
-        namespace Annotations
+        namespace Annotate
         {
-            struct Data;
+            class Data;
 
-        } // namespace Annotations
+        } // namespace Annotate
 
         //! This class provides an image view widget.
         class ImageView : public UI::ImageView
@@ -94,8 +94,8 @@ namespace djv
             //! Set the HUD background color.
             void setHudBackgroundColor(const djv::AV::Color &);
 
-            //! Set the annotations data.
-            void setAnnotationsData(const std::vector<Annotations::Data> &);
+            //! Set the annotation data.
+            void setAnnotateData(const std::vector<std::shared_ptr<Annotate::Data> > &);
 
         Q_SIGNALS:
             //! This signal is emitted when a pick is started.

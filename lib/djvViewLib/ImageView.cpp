@@ -29,7 +29,7 @@
 
 #include <djvViewLib/ImageView.h>
 
-#include <djvViewLib/AnnotationsData.h>
+#include <djvViewLib/AnnotateData.h>
 #include <djvViewLib/HudInfo.h>
 #include <djvViewLib/MousePrefs.h>
 #include <djvViewLib/ViewContext.h>
@@ -76,26 +76,26 @@ namespace djv
                 context(context)
             {}
 
-            glm::ivec2                       viewPosTmp         = glm::ivec2(0, 0);
-            float                            viewZoomTmp        = 0.f;
-            Enum::GRID                       grid               = static_cast<Enum::GRID>(0);
-            AV::Color                        gridColor;
-            bool                             hudEnabled         = false;
-            HudInfo                          hudInfo;
-            AV::Color                        hudColor;
-            Enum::HUD_BACKGROUND             hudBackground      = static_cast<Enum::HUD_BACKGROUND>(0);
-            AV::Color                        hudBackgroundColor;
-            std::vector<Annotations::Data>   annotationsData;
-            AV::PixelData                    overlayPixelData;
-            std::unique_ptr<AV::OpenGLImage> overlayOpenGLImage;
-            bool                             mouseInside        = false;
-            glm::ivec2                       mousePos           = glm::ivec2(0, 0);
-            glm::ivec2                       mouseStartPos      = glm::ivec2(0, 0);
-            MouseButtonAction                mouseButtonAction;
-            bool                             mouseWheel         = false;
-            int                              mouseWheelTmp      = 0;
-            int                              mouseWheelTimer    = -1;
-            QPointer<ViewContext>            context;
+            glm::ivec2                                    viewPosTmp         = glm::ivec2(0, 0);
+            float                                         viewZoomTmp        = 0.f;
+            Enum::GRID                                    grid               = static_cast<Enum::GRID>(0);
+            AV::Color                                     gridColor;
+            bool                                          hudEnabled         = false;
+            HudInfo                                       hudInfo;
+            AV::Color                                     hudColor;
+            Enum::HUD_BACKGROUND                          hudBackground      = static_cast<Enum::HUD_BACKGROUND>(0);
+            AV::Color                                     hudBackgroundColor;
+            std::vector<std::shared_ptr<Annotate::Data> > annotationData;
+            AV::PixelData                                 overlayPixelData;
+            std::unique_ptr<AV::OpenGLImage>              overlayOpenGLImage;
+            bool                                          mouseInside        = false;
+            glm::ivec2                                    mousePos           = glm::ivec2(0, 0);
+            glm::ivec2                                    mouseStartPos      = glm::ivec2(0, 0);
+            MouseButtonAction                             mouseButtonAction;
+            bool                                          mouseWheel         = false;
+            int                                           mouseWheelTmp      = 0;
+            int                                           mouseWheelTimer    = -1;
+            QPointer<ViewContext>                         context;
         };
 
         ImageView::ImageView(const QPointer<ViewContext> & context, QWidget * parent) :
@@ -265,9 +265,9 @@ namespace djv
             update();
         }
 
-        void ImageView::setAnnotationsData(const std::vector<Annotations::Data> & data)
+        void ImageView::setAnnotateData(const std::vector<std::shared_ptr<Annotate::Data> > & data)
         {
-            _p->annotationsData = data;
+            _p->annotationData = data;
             update();
         }
 
@@ -516,14 +516,14 @@ namespace djv
         void ImageView::paintGL()
         {
             UI::ImageView::paintGL();
-            if (_p->grid || _p->hudEnabled || _p->annotationsData.size())
+            if (_p->grid || _p->hudEnabled || _p->annotationData.size())
             {
                 const glm::ivec2 size(width(), height());
                 _p->overlayPixelData.set(AV::PixelDataInfo(size, AV::Pixel::RGBA_U8));
                 _p->overlayPixelData.zero();
-                QImage image(_p->overlayPixelData.data(), size.x, size.y, QImage::Format_RGBA8888_Premultiplied);
+                QImage image(_p->overlayPixelData.data(), size.x, size.y, QImage::Format_RGBA8888);
                 QPainter painter(&image);
-                painter.setRenderHints(QPainter::Antialiasing | QPainter::TextAntialiasing);
+                painter.setRenderHints(QPainter::TextAntialiasing);
                 if (_p->grid)
                 {
                     drawGrid(painter);
@@ -532,7 +532,7 @@ namespace djv
                 {
                     drawHud(painter);
                 }
-                if (_p->annotationsData.size())
+                if (_p->annotationData.size())
                 {
                     drawAnnotations(painter);
                 }
@@ -733,9 +733,9 @@ namespace djv
            const glm::ivec2 size(width(), height());
            const glm::ivec2& viewPos = this->viewPos();
            const float viewZoom = this->viewZoom();
-           for (const auto & i : _p->annotationsData)
+           for (const auto & i : _p->annotationData)
            {
-               for (const auto & j : i.primitives)
+               for (const auto & j : i->primitives())
                {
                    j->draw(painter, size, viewPos, viewZoom);
                }

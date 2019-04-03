@@ -27,7 +27,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvViewLib/AnnotationsPrefs.h>
+#include <djvViewLib/AnnotatePrefs.h>
 
 #include <djvViewLib/ViewContext.h>
 
@@ -41,52 +41,51 @@ namespace djv
     {
         namespace
         {
-
-            Enum::ANNOTATIONS_PRIMITIVE primitiveDefault = Enum::ANNOTATIONS_POLYLINE;
-            Enum::ANNOTATIONS_COLOR colorDefault         = Enum::ANNOTATIONS_RED;
-            size_t lineWidthDefault                      = 5;
+            Enum::ANNOTATE_PRIMITIVE  primitiveDefault = Enum::ANNOTATE_PEN;
+            Enum::ANNOTATE_COLOR      colorDefault     = Enum::ANNOTATE_RED;
+            Enum::ANNOTATE_LINE_WIDTH lineWidthDefault = Enum::ANNOTATE_LINE_WIDTH_5;
         
         } // namespace
 
-        AnnotationsPrefs::AnnotationsPrefs(const QPointer<ViewContext> & context, QObject * parent) :
+        AnnotatePrefs::AnnotatePrefs(const QPointer<ViewContext> & context, QObject * parent) :
             AbstractPrefs(context, parent),
             _primitive(primitiveDefault),
             _color(colorDefault),
             _lineWidth(lineWidthDefault)
         {
-            UI::Prefs prefs("djv::ViewLib::AnnotationsPrefs");
+            UI::Prefs prefs("djv::ViewLib::AnnotatePrefs");
             prefs.get("primitive", _primitive);
             prefs.get("color", _color);
             prefs.get("lineWidth", _lineWidth);
         }
 
-        AnnotationsPrefs::~AnnotationsPrefs()
+        AnnotatePrefs::~AnnotatePrefs()
         {
-            UI::Prefs prefs("djv::ViewLib::AnnotationsPrefs");
+            UI::Prefs prefs("djv::ViewLib::AnnotatePrefs");
             prefs.set("primitive", _primitive);
             prefs.set("color", _color);
             prefs.set("lineWidth", _lineWidth);
         }
 
-        Enum::ANNOTATIONS_PRIMITIVE AnnotationsPrefs::primitive() const
+        Enum::ANNOTATE_PRIMITIVE AnnotatePrefs::primitive() const
         {
             return _primitive;
         }
 
-        Enum::ANNOTATIONS_COLOR AnnotationsPrefs::color() const
+        Enum::ANNOTATE_COLOR AnnotatePrefs::color() const
         {
             return _color;
         }
 
-        size_t AnnotationsPrefs::lineWidth() const
+        Enum::ANNOTATE_LINE_WIDTH AnnotatePrefs::lineWidth() const
         {
             return _lineWidth;
         }
 
-        void AnnotationsPrefs::reset()
+        void AnnotatePrefs::reset()
         {}
 
-        void AnnotationsPrefs::setPrimitive(Enum::ANNOTATIONS_PRIMITIVE value)
+        void AnnotatePrefs::setPrimitive(Enum::ANNOTATE_PRIMITIVE value)
         {
             if (value == _primitive)
                 return;
@@ -95,7 +94,7 @@ namespace djv
             Q_EMIT prefChanged();
         }
 
-        void AnnotationsPrefs::setColor(Enum::ANNOTATIONS_COLOR value)
+        void AnnotatePrefs::setColor(Enum::ANNOTATE_COLOR value)
         {
             if (value == _color)
                 return;
@@ -104,7 +103,7 @@ namespace djv
             Q_EMIT prefChanged();
         }
 
-        void AnnotationsPrefs::setLineWidth(size_t value)
+        void AnnotatePrefs::setLineWidth(Enum::ANNOTATE_LINE_WIDTH value)
         {
             if (value == _lineWidth)
                 return;

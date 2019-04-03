@@ -29,7 +29,6 @@
 
 #include <djvViewLib/MainWindow.h>
 
-#include <djvViewLib/AnnotationsGroup.h>
 #include <djvViewLib/ControlsWindow.h>
 #include <djvViewLib/FileCache.h>
 #include <djvViewLib/FileExport.h>
@@ -108,7 +107,6 @@ namespace djv
             menuBar()->addMenu(session->viewGroup()->createMenu());
             menuBar()->addMenu(session->imageGroup()->createMenu());
             menuBar()->addMenu(session->playbackGroup()->createMenu());
-            menuBar()->addMenu(session->annotationsGroup()->createMenu());
             menuBar()->addMenu(session->toolGroup()->createMenu());
             menuBar()->addMenu(session->helpGroup()->createMenu());
 
@@ -117,7 +115,6 @@ namespace djv
             _p->toolBars[Enum::UI_WINDOW_TOOL_BAR] = session->windowGroup()->createToolBar();
             _p->toolBars[Enum::UI_VIEW_TOOL_BAR] = session->viewGroup()->createToolBar();
             _p->toolBars[Enum::UI_IMAGE_TOOL_BAR] = session->imageGroup()->createToolBar();
-            _p->toolBars[Enum::UI_ANNOTATIONS_TOOL_BAR] = session->annotationsGroup()->createToolBar();
             _p->toolBars[Enum::UI_TOOLS_TOOL_BAR] = session->toolGroup()->createToolBar();
             Q_FOREACH(auto toolBar, _p->toolBars)
             {
@@ -235,7 +232,6 @@ namespace djv
             out->addMenu(_p->session->viewGroup()->createMenu());
             out->addMenu(_p->session->imageGroup()->createMenu());
             out->addMenu(_p->session->playbackGroup()->createMenu());
-            out->addMenu(_p->session->annotationsGroup()->createMenu());
             out->addMenu(_p->session->toolGroup()->createMenu());
             out->addMenu(_p->session->helpGroup()->createMenu());
             return out;

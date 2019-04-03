@@ -35,6 +35,7 @@
 #include <djvAV/Color.h>
 #include <djvAV/ColorUtil.h>
 
+#include <djvCore/Math.h>
 #include <djvCore/SignalBlocker.h>
 
 #include <QAction>
@@ -44,6 +45,8 @@
 #include <QPointer>
 #include <QStyle>
 #include <QStyleOption>
+
+using namespace djv::Core;
 
 namespace djv
 {
@@ -119,13 +122,19 @@ namespace djv
         QSize ToolButton::sizeHint() const
         {
             const int iconSize = style()->pixelMetric(QStyle::PM_ToolBarIconSize);
-            QSize sizeHint(iconSize, iconSize);
             const int margin = style()->pixelMetric(QStyle::PM_ButtonMargin);
-            QStyleOptionToolButton opt;
-            opt.iconSize = icon().actualSize(sizeHint);
-            opt.iconSize += QSize(margin * 2, margin * 2);
-            sizeHint = opt.iconSize.expandedTo(QApplication::globalStrut());
-            return sizeHint;
+            const QString & text = this->text();
+            const int textWidth = fontMetrics().width(text);
+            const int textHeight = fontMetrics().height();
+            QSize sizeHint;
+            if (!icon().isNull())
+            {
+                sizeHint.setWidth(iconSize);
+            }
+            sizeHint.setWidth(sizeHint.width() + textWidth);
+            sizeHint.setHeight(Math::max(iconSize, textHeight));
+            sizeHint += QSize(margin * 2, margin * 2);
+            return sizeHint.expandedTo(QApplication::globalStrut());
         }
 
         void ToolButton::nextCheckState()
@@ -136,14 +145,7 @@ namespace djv
             }
             else
             {
-                /*if (_p->defaultAction->isCheckable())
-                {
-                    _p->defaultAction->setChecked(!isChecked());
-                }
-                else*/
-                {
-                    _p->defaultAction->trigger();
-                }
+                _p->defaultAction->trigger();
             }
         }
 
@@ -151,21 +153,30 @@ namespace djv
         {
             AbstractToolButton::paintEvent(event);
 
-            QIcon::Mode  mode = QIcon::Normal;
+            QPainter painter(this);
+
+            QIcon::Mode  mode  = QIcon::Normal;
             QIcon::State state = QIcon::Off;
             if (!isEnabled())
                 mode = QIcon::Disabled;
             if (isChecked())
                 state = QIcon::On;
             const int iconSize = style()->pixelMetric(QStyle::PM_ToolBarIconSize);
+            const int margin = style()->pixelMetric(QStyle::PM_ButtonMargin);
             const QPixmap & pixmap = icon().pixmap(iconSize, iconSize, mode, state);
             if (!pixmap.isNull())
             {
-                QPainter painter(this);
-                painter.drawPixmap(
-                    width() / 2 - pixmap.width() / 2,
-                    height() / 2 - pixmap.height() / 2,
-                    pixmap);
+                painter.drawPixmap(margin + iconSize / 2 - pixmap.width() / 2, margin + iconSize / 2 - pixmap.height() / 2, pixmap);
+            }
+
+            const QString & text = this->text();
+            if (!text.isEmpty())
+            {
+                painter.setPen(palette().color(QPalette::Text));
+                painter.drawText(
+                    QRect(pixmap.width(), 0, width() - pixmap.width(), height()),
+                    Qt::AlignCenter,
+                    text);
             }
         }
 
@@ -185,10 +196,8 @@ namespace djv
         
         void ToolButton::widgetUpdate()
         {
-            //Core::SignalBlocker signalBlocker(this);
             if (_p->defaultAction)
             {
-                setText(_p->defaultAction->text());
                 setIcon(_p->defaultAction->icon());
                 setToolTip(_p->defaultAction->toolTip());
                 setWhatsThis(_p->defaultAction->whatsThis());

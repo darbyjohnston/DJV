@@ -29,6 +29,7 @@
 
 #include <djvViewLib/ToolGroup.h>
 
+#include <djvViewLib/AnnotateTool.h>
 #include <djvViewLib/ColorPickerTool.h>
 #include <djvViewLib/HistogramTool.h>
 #include <djvViewLib/InfoTool.h>
@@ -54,6 +55,7 @@ namespace djv
             QPointer<ColorPickerTool>            colorPickerTool;
             QPointer<HistogramTool>              histogramTool;
             QPointer<InfoTool>                   infoTool;
+            QPointer<AnnotateTool>               annotateTool;
             QVector<QPointer<QDockWidget> >      dockWidgets;
         };
 
@@ -73,12 +75,14 @@ namespace djv
             _p->colorPickerTool = new ColorPickerTool(session, context);
             _p->histogramTool = new HistogramTool(session, context);
             _p->infoTool = new InfoTool(session, context);
+            _p->annotateTool = new AnnotateTool(session, context);
 
             QList<QWidget *> widgets = QList<QWidget *>() <<
                 _p->magnifyTool <<
                 _p->colorPickerTool <<
                 _p->histogramTool <<
-                _p->infoTool;
+                _p->infoTool <<
+                _p->annotateTool;
             for (int i = 0; i < Enum::TOOL_COUNT; ++i)
             {
                 auto dockWidget = new QDockWidget(Enum::toolLabels()[i]);

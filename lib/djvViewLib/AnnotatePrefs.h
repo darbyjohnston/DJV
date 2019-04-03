@@ -27,41 +27,63 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvViewLib/AnnotationsMenu.h>
+#pragma once
 
-#include <djvViewLib/AnnotationsActions.h>
+#include <djvViewLib/AbstractPrefs.h>
+#include <djvViewLib/DisplayProfile.h>
+#include <djvViewLib/Enum.h>
 
-#include <QApplication>
-#include <QPointer>
+#include <djvAV/Color.h>
 
 namespace djv
 {
     namespace ViewLib
     {
-        struct AnnotationsMenu::Private
+        //! This class provides the annotation group preferences.
+        class AnnotatePrefs : public AbstractPrefs
         {
+            Q_OBJECT
+
+        public:
+            explicit AnnotatePrefs(const QPointer<ViewContext> &, QObject * parent = nullptr);
+            ~AnnotatePrefs() override;
+
+            //! Get the current primitive.
+            Enum::ANNOTATE_PRIMITIVE primitive() const;
+
+            //! Get the current color.
+            Enum::ANNOTATE_COLOR color() const;
+
+            //! Get the current line width.
+            Enum::ANNOTATE_LINE_WIDTH lineWidth() const;
+
+            void reset() override;
+
+        public Q_SLOTS:
+            //! Set the current primitive.
+            void setPrimitive(djv::ViewLib::Enum::ANNOTATE_PRIMITIVE);
+
+            //! Set the current color.
+            void setColor(djv::ViewLib::Enum::ANNOTATE_COLOR);
+
+            //! Set the current line width.
+            void setLineWidth(djv::ViewLib::Enum::ANNOTATE_LINE_WIDTH);
+
+        Q_SIGNALS:
+            //! This signal is emitted when the current primitive is changed.
+            void primitiveChanged(djv::ViewLib::Enum::ANNOTATE_PRIMITIVE);
+
+            //! This signal is emitted when the current color is changed.
+            void colorChanged(djv::ViewLib::Enum::ANNOTATE_COLOR);
+
+            //! This signal is emitted when the current line width is changed.
+            void lineWidthChanged(djv::ViewLib::Enum::ANNOTATE_LINE_WIDTH);
+
+        private:
+            Enum::ANNOTATE_PRIMITIVE _primitive;
+            Enum::ANNOTATE_COLOR _color;
+            Enum::ANNOTATE_LINE_WIDTH _lineWidth;
         };
-
-        AnnotationsMenu::AnnotationsMenu(
-            const QPointer<AbstractActions> & actions,
-            QWidget * parent) :
-            AbstractMenu(actions, parent),
-            _p(new Private)
-        {
-            // Create the menus.
-            addAction(actions->action(AnnotationsActions::ANNOTATIONS_WIDGET));
-
-            // Initialize.
-            setTitle(qApp->translate("djv::ViewLib::AnnotationsMenu", "&Annotations"));
-            menuUpdate();
-        }
-
-        AnnotationsMenu::~AnnotationsMenu()
-        {}
-
-        void AnnotationsMenu::menuUpdate()
-        {
-        }
 
     } // namespace ViewLib
 } // namespace djv

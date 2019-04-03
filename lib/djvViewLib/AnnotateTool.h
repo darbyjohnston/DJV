@@ -40,54 +40,56 @@ namespace djv
 {
     namespace ViewLib
     {
-        //! This class provides the annotations tool.
-        class AnnotationsTool : public AbstractTool
+        //! This class provides the annotation tool.
+        class AnnotateTool : public AbstractTool
         {
             Q_OBJECT
 
         public:
-            explicit AnnotationsTool(
+            explicit AnnotateTool(
                 const QPointer<Session> &,
                 const QPointer<ViewContext> &,
                 QWidget * parent = nullptr);
-            ~AnnotationsTool() override;
+            ~AnnotateTool() override;
 
         public Q_SLOTS:
             //! Set the current primitive.
-            void setPrimitive(djv::ViewLib::Enum::ANNOTATIONS_PRIMITIVE);
+            void setPrimitive(djv::ViewLib::Enum::ANNOTATE_PRIMITIVE);
 
             //! Set the current color.
-            void setColor(djv::ViewLib::Enum::ANNOTATIONS_COLOR);
+            void setColor(djv::ViewLib::Enum::ANNOTATE_COLOR);
 
             //! Set the current line width.
-            void setLineWidth(size_t);
+            void setLineWidth(djv::ViewLib::Enum::ANNOTATE_LINE_WIDTH);
 
         Q_SIGNALS:
             //! This signal is emitted when the current primitive is changed.
-            void primitiveChanged(djv::ViewLib::Enum::ANNOTATIONS_PRIMITIVE);
+            void primitiveChanged(djv::ViewLib::Enum::ANNOTATE_PRIMITIVE);
 
             //! This signal is emitted when the current color is changed.
-            void colorChanged(djv::ViewLib::Enum::ANNOTATIONS_COLOR);
+            void colorChanged(djv::ViewLib::Enum::ANNOTATE_COLOR);
 
             //! This signal is emitted when the current line width is changed.
-            void lineWidthChanged(size_t);
+            void lineWidthChanged(djv::ViewLib::Enum::ANNOTATE_LINE_WIDTH);
 
             //! This signal is emitted to clear the primitives.
             void clearPrimitives();
 
         private Q_SLOTS:
-            void primitiveCallback(int);
-            void colorCallback(int);
-            void lineWidthCallback(int);
+            void primitiveCallback(QAction *);
+            void colorCallback(QAction *);
+            void lineWidthCallback(QAction *);
             void pickPressedCallback(const glm::ivec2 &);
             void pickReleasedCallback(const glm::ivec2 &);
             void pickMovedCallback(const glm::ivec2 &);
 
             void styleUpdate();
             void widgetUpdate();
+            void annotationsUpdate();
+            void viewUpdate();
 
         private:
-            DJV_PRIVATE_COPY(AnnotationsTool);
+            DJV_PRIVATE_COPY(AnnotateTool);
 
             struct Private;
             std::unique_ptr<Private> _p;
