@@ -152,10 +152,10 @@ namespace djv
             _actions[DISPLAY_PROFILE_EDITOR]->setIcon(context()->iconLibrary()->icon("djv/UI/DisplayProfileIcon"));
             _actions[DISPLAY_PROFILE_EDITOR]->setToolTip(
                 qApp->translate("djv::ViewLib::ImageActions",
-                "Toggle whether the display profile editor is visible"));
+                "Show the display profile editor"));
             _actions[DISPLAY_PROFILE_EDITOR]->setWhatsThis(
                 qApp->translate("djv::ViewLib::ImageActions",
-                "Toggle whether the display profile editor is visible<br><br>"
+                "Show the display profile editor<br><br>"
                 "<a href=\"ViewImages.html\">Documentation</a>"));
             
             const QVector<QKeySequence> scaleShortcuts = QVector<QKeySequence>() <<
