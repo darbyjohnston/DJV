@@ -65,7 +65,7 @@ namespace djv
             p.actions["DisplayProfile"]->setButtonType(UI::ButtonType::Toggle);
 
             p.imageWidget = UI::ImageWidget::create(context);
-            p.imageWidget->setSizeRole(UI::MetricsRole::TextColumn);
+            p.imageWidget->setSizeRole(UI::MetricsRole::Swatch);
             
             p.magnificationSlider = UI::IntSlider::create(context);
             p.magnificationSlider->setRange(IntRange(1, 10));

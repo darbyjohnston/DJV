@@ -65,11 +65,11 @@ namespace djv
                 VideoInfo(
                     const Image::Info &,
                     const Core::Time::Speed & = Core::Time::Speed(),
-                    Core::Time::Duration duration = 0);
+                    Core::Time::Timestamp duration = 0);
 
                 Image::Info info;
                 Core::Time::Speed speed;
-                Core::Time::Duration duration = 0;
+                Core::Time::Timestamp duration = 0;
 
                 bool operator == (const VideoInfo &) const;
             };
@@ -78,10 +78,10 @@ namespace djv
             struct AudioInfo
             {
                 AudioInfo();
-                AudioInfo(const Audio::DataInfo &, Core::Time::Duration duration = 0);
+                AudioInfo(const Audio::DataInfo &, Core::Time::Timestamp duration = 0);
 
                 Audio::DataInfo info;
-                Core::Time::Duration duration = 0;
+                Core::Time::Timestamp duration = 0;
 
                 bool operator == (const AudioInfo &) const;
             };

@@ -273,24 +273,7 @@ namespace djv
             {
                 if (value)
                 {
-                    if (auto system = weak.lock())
-                    {
-                        if (auto dialogSystem = context->getSystemT<UI::DialogSystem>())
-                        {
-                            dialogSystem->confirmation(
-                                std::string(),
-                                system->_getText(DJV_TEXT("Are you sure you want to exit?")),
-                                system->_getText(DJV_TEXT("Yes")),
-                                system->_getText(DJV_TEXT("No")),
-                                [context](bool value)
-                            {
-                                if (value)
-                                {
-                                    dynamic_cast<Application *>(context)->exit();
-                                }
-                            });
-                        }
-                    }
+                    dynamic_cast<Application *>(context)->exit();
                 }
             });
 
@@ -428,7 +411,7 @@ namespace djv
             p.actions["Prev"]->setTooltip(_getText(DJV_TEXT("Prev tooltip")));
             p.actions["Layers"]->setTitle(_getText(DJV_TEXT("Layers")));
             p.actions["Layers"]->setTooltip(_getText(DJV_TEXT("Layers tooltip")));
-            p.actions["8BitConversion"]->setTitle(_getText(DJV_TEXT("8-bit Conversion")));
+            p.actions["8BitConversion"]->setTitle(_getText(DJV_TEXT("8-Bit Conversion")));
             p.actions["8BitConversion"]->setTooltip(_getText(DJV_TEXT("8-bit conversion tooltip")));
             p.actions["MemoryCache"]->setTitle(_getText(DJV_TEXT("Memory Cache")));
             p.actions["MemoryCache"]->setTooltip(_getText(DJV_TEXT("Memory cache tooltip")));

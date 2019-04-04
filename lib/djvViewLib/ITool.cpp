@@ -150,6 +150,14 @@ namespace djv
             _p->childLayout->removeChild(value);
         }
 
+        std::map<UI::MDI::Handle, std::vector<Core::BBox2f> > ITool::_getHandle() const
+        {
+            DJV_PRIVATE_PTR();
+            auto out = IWidget::_getHandle();
+            out[UI::MDI::Handle::Move][0] = p.titleBar->getGeometry();
+            return out;
+        }
+
         void ITool::_preLayoutEvent(Event::PreLayout & event)
         {
             _setMinimumSize(_p->border->getMinimumSize());

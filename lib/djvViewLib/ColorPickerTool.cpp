@@ -162,19 +162,6 @@ namespace djv
             return out;
         }
 
-        std::map<UI::MDI::Handle, std::vector<Core::BBox2f> > ColorPickerTool::_getHandle() const
-        {
-            DJV_PRIVATE_PTR();
-            auto out = ITool::_getHandle();
-            out[UI::MDI::Handle::Move][0] = p.colorSwatch->getGeometry();
-            return out;
-        }
-
-        std::map<UI::MDI::Handle, std::vector<Core::BBox2f> > ColorPickerTool::_getHandleDraw() const
-        {
-            return _getHandle();
-        }
-
         void ColorPickerTool::_localeEvent(Event::Locale & event)
         {
             ITool::_localeEvent(event);

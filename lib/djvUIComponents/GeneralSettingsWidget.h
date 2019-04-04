@@ -35,16 +35,16 @@ namespace djv
 {
     namespace UI
     {
-        class DisplaySettingsWidget : public ISettingsWidget
+        class GeneralSettingsWidget : public ISettingsWidget
         {
-            DJV_NON_COPYABLE(DisplaySettingsWidget);
+            DJV_NON_COPYABLE(GeneralSettingsWidget);
 
         protected:
             void _init(Core::Context *);
-            DisplaySettingsWidget();
+            GeneralSettingsWidget();
 
         public:
-            static std::shared_ptr<DisplaySettingsWidget> create(Core::Context *);
+            static std::shared_ptr<GeneralSettingsWidget> create(Core::Context *);
 
             std::string getName() const override;
             std::string getSortKey() const override;
@@ -53,8 +53,6 @@ namespace djv
             void _localeEvent(Core::Event::Locale &) override;
 
         private:
-            void _buttonTextUpdate();
-
             DJV_PRIVATE();
         };
 

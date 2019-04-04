@@ -36,6 +36,7 @@
 
 #include <djvUI/Action.h>
 #include <djvUI/ActionGroup.h>
+#include <djvUI/Menu.h>
 #include <djvUI/RowLayout.h>
 
 #include <djvCore/Context.h>
@@ -51,13 +52,12 @@ namespace djv
     {
         struct PlaybackSystem::Private
         {
-            std::vector<std::shared_ptr<Media> > media;
             std::shared_ptr<Media> currentMedia;
             std::map<std::string, std::shared_ptr<UI::Action> > actions;
             std::shared_ptr<UI::ActionGroup> playbackActionGroup;
+            std::shared_ptr<UI::Menu> menu;
             std::map<std::string, std::shared_ptr<ValueObserver<bool> > > clickedObservers;
             std::shared_ptr<ValueObserver<Playback> > playbackObserver;
-            std::shared_ptr<ListObserver<std::shared_ptr<Media> > > mediaObserver;
             std::shared_ptr<ValueObserver<std::shared_ptr<Media> > > currentMediaObserver;
             std::shared_ptr<ValueObserver<std::string> > localeObserver;
         };
@@ -154,6 +154,29 @@ namespace djv
             p.actions["ResetOutPoint"]->setShortcut(GLFW_KEY_O, GLFW_MOD_SHIFT);
             p.actions["ResetOutPoint"]->setEnabled(false);
 
+            p.menu = UI::Menu::create(context);
+            p.menu->addAction(p.actions["Forward"]);
+            p.menu->addAction(p.actions["Reverse"]);
+            p.menu->addAction(p.actions["PlayEveryFrame"]);
+            p.menu->addSeparator();
+            p.menu->addAction(p.actions["InPoint"]);
+            p.menu->addAction(p.actions["OutPoint"]);
+            p.menu->addAction(p.actions["StartFrame"]);
+            p.menu->addAction(p.actions["EndFrame"]);
+            p.menu->addSeparator();
+            p.menu->addAction(p.actions["NextFrame"]);
+            p.menu->addAction(p.actions["NextFrame10"]);
+            p.menu->addAction(p.actions["NextFrame100"]);
+            p.menu->addAction(p.actions["PrevFrame"]);
+            p.menu->addAction(p.actions["PrevFrame10"]);
+            p.menu->addAction(p.actions["PrevFrame100"]);
+            p.menu->addSeparator();
+            p.menu->addAction(p.actions["InOutPoints"]);
+            p.menu->addAction(p.actions["SetInPoint"]);
+            p.menu->addAction(p.actions["SetOutPoint"]);
+            p.menu->addAction(p.actions["ResetInPoint"]);
+            p.menu->addAction(p.actions["ResetOutPoint"]);
+
             auto weak = std::weak_ptr<PlaybackSystem>(std::dynamic_pointer_cast<PlaybackSystem>(shared_from_this()));
             p.playbackActionGroup->setExclusiveCallback(
                 [weak](int index)
@@ -175,16 +198,6 @@ namespace djv
 
             if (auto fileSystem = context->getSystemT<FileSystem>())
             {
-                p.mediaObserver = ListObserver<std::shared_ptr<Media>>::create(
-                    fileSystem->observeMedia(),
-                    [weak](const std::vector<std::shared_ptr<Media> > & value)
-                {
-                    if (auto system = weak.lock())
-                    {
-                        system->_p->media = value;
-                    }
-                });
-
                 p.currentMediaObserver = ValueObserver<std::shared_ptr<Media> >::create(
                     fileSystem->observeCurrentMedia(),
                     [weak](const std::shared_ptr<Media> & value)
@@ -247,46 +260,57 @@ namespace djv
             return _p->actions;
         }
 
+        MenuData PlaybackSystem::getMenu()
+        {
+            return
+            {
+                _p->menu,
+                "E"
+            };
+        }
+
         void PlaybackSystem::_textUpdate()
         {
             DJV_PRIVATE_PTR();
             auto context = getContext();
-            p.actions["Forward"]->setText(_getText(DJV_TEXT("Forward")));
+            p.actions["Forward"]->setTitle(_getText(DJV_TEXT("Forward")));
             p.actions["Forward"]->setTooltip(_getText(DJV_TEXT("Forward tooltip")));
-            p.actions["Reverse"]->setText(_getText(DJV_TEXT("Reverse")));
+            p.actions["Reverse"]->setTitle(_getText(DJV_TEXT("Reverse")));
             p.actions["Reverse"]->setTooltip(_getText(DJV_TEXT("Reverse tooltip")));
-            p.actions["PlayEveryFrame"]->setText(_getText(DJV_TEXT("Play every frame")));
+            p.actions["PlayEveryFrame"]->setTitle(_getText(DJV_TEXT("Play Every Frame")));
             p.actions["PlayEveryFrame"]->setTooltip(_getText(DJV_TEXT("Play every frame tooltip")));
-            p.actions["InPoint"]->setText(_getText(DJV_TEXT("Go to the in point")));
+            p.actions["InPoint"]->setTitle(_getText(DJV_TEXT("Go to In Point")));
             p.actions["InPoint"]->setTooltip(_getText(DJV_TEXT("Go to in point tooltip")));
-            p.actions["OutPoint"]->setText(_getText(DJV_TEXT("Go to the out point")));
+            p.actions["OutPoint"]->setTitle(_getText(DJV_TEXT("Go to Out Point")));
             p.actions["OutPoint"]->setTooltip(_getText(DJV_TEXT("Go to out point tooltip")));
-            p.actions["StartFrame"]->setText(_getText(DJV_TEXT("Go to the start frame")));
+            p.actions["StartFrame"]->setTitle(_getText(DJV_TEXT("Go to Start Frame")));
             p.actions["StartFrame"]->setTooltip(_getText(DJV_TEXT("Go to start frame tooltip")));
-            p.actions["EndFrame"]->setText(_getText(DJV_TEXT("Go to the end frame")));
+            p.actions["EndFrame"]->setTitle(_getText(DJV_TEXT("Go to End Frame")));
             p.actions["EndFrame"]->setTooltip(_getText(DJV_TEXT("Go to end frame tooltip")));
-            p.actions["NextFrame"]->setText(_getText(DJV_TEXT("Next frame")));
+            p.actions["NextFrame"]->setTitle(_getText(DJV_TEXT("Next Frame")));
             p.actions["NextFrame"]->setTooltip(_getText(DJV_TEXT("Next frame tooltip")));
-            p.actions["NextFrame10"]->setText(_getText(DJV_TEXT("Next frame X10")));
+            p.actions["NextFrame10"]->setTitle(_getText(DJV_TEXT("Next Frame X10")));
             p.actions["NextFrame10"]->setTooltip(_getText(DJV_TEXT("Next frame X10 tooltip")));
-            p.actions["NextFrame100"]->setText(_getText(DJV_TEXT("Next frame X100")));
+            p.actions["NextFrame100"]->setTitle(_getText(DJV_TEXT("Next Frame X100")));
             p.actions["NextFrame100"]->setTooltip(_getText(DJV_TEXT("Next frame X100 tooltip")));
-            p.actions["PrevFrame"]->setText(_getText(DJV_TEXT("Previous frame")));
+            p.actions["PrevFrame"]->setTitle(_getText(DJV_TEXT("Previous Frame")));
             p.actions["PrevFrame"]->setTooltip(_getText(DJV_TEXT("Previous frame tooltip")));
-            p.actions["PrevFrame10"]->setText(_getText(DJV_TEXT("Previous frame X10")));
+            p.actions["PrevFrame10"]->setTitle(_getText(DJV_TEXT("Previous Frame X10")));
             p.actions["PrevFrame10"]->setTooltip(_getText(DJV_TEXT("Previous frame X10 tooltip")));
-            p.actions["PrevFrame100"]->setText(_getText(DJV_TEXT("Previous frame X100")));
+            p.actions["PrevFrame100"]->setTitle(_getText(DJV_TEXT("Previous Frame X100")));
             p.actions["PrevFrame100"]->setTooltip(_getText(DJV_TEXT("Previous frame X100 tooltip")));
-            p.actions["InOutPoints"]->setText(_getText(DJV_TEXT("Enable in/out points")));
+            p.actions["InOutPoints"]->setTitle(_getText(DJV_TEXT("Enable In/Out Points")));
             p.actions["InOutPoints"]->setTooltip(_getText(DJV_TEXT("Enable in/out points tooltip")));
-            p.actions["SetInPoint"]->setText(_getText(DJV_TEXT("Set the in point")));
+            p.actions["SetInPoint"]->setTitle(_getText(DJV_TEXT("Set In Point")));
             p.actions["SetInPoint"]->setTooltip(_getText(DJV_TEXT("Set in point tooltip")));
-            p.actions["SetOutPoint"]->setText(_getText(DJV_TEXT("Set the out point")));
+            p.actions["SetOutPoint"]->setTitle(_getText(DJV_TEXT("Set Out Point")));
             p.actions["SetOutPoint"]->setTooltip(_getText(DJV_TEXT("Set out point tooltip")));
-            p.actions["ResetInPoint"]->setText(_getText(DJV_TEXT("Reset the in point")));
+            p.actions["ResetInPoint"]->setTitle(_getText(DJV_TEXT("Reset In Point")));
             p.actions["ResetInPoint"]->setTooltip(_getText(DJV_TEXT("Reset in point tooltip")));
-            p.actions["ResetOutPoint"]->setText(_getText(DJV_TEXT("Reset the out point")));
+            p.actions["ResetOutPoint"]->setTitle(_getText(DJV_TEXT("Reset Out Point")));
             p.actions["ResetOutPoint"]->setTooltip(_getText(DJV_TEXT("Reset out point tooltip")));
+
+            p.menu->setText(_getText(DJV_TEXT("Playback")));
         }
 
     } // namespace ViewLib

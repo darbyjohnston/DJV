@@ -77,7 +77,7 @@ namespace djv
                 palette.setColor(ColorRole::Button, AV::Image::Color(230, 230, 230));
                 palette.setColor(ColorRole::Hovered, AV::Image::Color(0, 0, 0, 15));
                 palette.setColor(ColorRole::Pressed, AV::Image::Color(0, 0, 0, 30));
-                palette.setColor(ColorRole::Checked, AV::Image::Color(175, 209, 248));
+                palette.setColor(ColorRole::Checked, AV::Image::Color(150, 185, 223));
                 palette.setColor(ColorRole::Disabled, AV::Image::Color(150, 150, 150));
                 palette.setColor(ColorRole::Overlay, AV::Image::Color(255, 255, 255, 160));
                 palettes[DJV_TEXT("Light")] = palette;

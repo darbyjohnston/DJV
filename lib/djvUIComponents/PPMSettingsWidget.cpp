@@ -31,8 +31,8 @@
 
 #include <djvUI/ButtonGroup.h>
 #include <djvUI/FlatButton.h>
+#include <djvUI/FlowLayout.h>
 #include <djvUI/GroupBox.h>
-#include <djvUI/RowLayout.h>
 
 #include <djvAV/PPM.h>
 
@@ -57,11 +57,12 @@ namespace djv
             DJV_PRIVATE_PTR();
 
             p.dataButtonGroup = ButtonGroup::create(ButtonType::Radio);
-            auto layout = VerticalLayout::create(context);
+            auto layout = FlowLayout::create(context);
             layout->setSpacing(MetricsRole::None);
             for (size_t i = 0; i < static_cast<size_t>(AV::IO::PPM::Data::Count); ++i)
             {
                 auto button = FlatButton::create(context);
+                button->setInsideMargin(Layout::Margin(MetricsRole::Margin, MetricsRole::Margin, MetricsRole::MarginSmall, MetricsRole::MarginSmall));
                 p.dataButtonGroup->addButton(button);
                 layout->addChild(button);
             }

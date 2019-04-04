@@ -5,24 +5,21 @@ set(header
     AVIOSettings.h
     ActionButton.h
     ColorPicker.h
-    DisplaySettingsWidget.h
     FileBrowser.h
     FileBrowserDialog.h
     FileBrowserItemView.h
     FileBrowserPrivate.h
     FileBrowserSettings.h
+    GeneralSettingsWidget.h
     ISettingsWidget.h
-    LanguageSettingsWidget.h
     ListViewHeader.h
     PPMSettingsWidget.h
-    PaletteSettingsWidget.h
     SearchBox.h
     UIComponentsSystem.h)
 set(source
     AVIOSettings.cpp
     ActionButton.cpp
     ColorPicker.cpp
-    DisplaySettingsWidget.cpp
     FileBrowser.cpp
     FileBrowserDialog.cpp
     FileBrowserDrivesWidget.cpp
@@ -31,11 +28,10 @@ set(source
     FileBrowserSettings.cpp
     FileBrowserShortcutsModel.cpp
     FileBrowserShortcutsWidget.cpp
+    GeneralSettingsWidget.cpp
     ISettingsWidget.cpp
-    LanguageSettingsWidget.cpp
     ListViewHeader.cpp
     PPMSettingsWidget.cpp
-    PaletteSettingsWidget.cpp
     SearchBox.cpp
     UIComponentsSystem.cpp)
 

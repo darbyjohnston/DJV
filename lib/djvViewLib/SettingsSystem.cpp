@@ -31,10 +31,8 @@
 
 #include <djvViewLib/SettingsDialog.h>
 
-#include <djvUIComponents/DisplaySettingsWidget.h>
-#include <djvUIComponents/LanguageSettingsWidget.h>
+#include <djvUIComponents/GeneralSettingsWidget.h>
 #include <djvUIComponents/PPMSettingsWidget.h>
-#include <djvUIComponents/PaletteSettingsWidget.h>
 #if defined(JPEG_FOUND)
 #include <djvUIComponents/JPEGSettingsWidget.h>
 #endif
@@ -71,10 +69,8 @@ namespace djv
             IViewSystem::_init("djv::ViewLib::SettingsSystem", context);
 
             DJV_PRIVATE_PTR();
-            p.settingsWidgets.push_back(UI::DisplaySettingsWidget::create(context));
-            p.settingsWidgets.push_back(UI::LanguageSettingsWidget::create(context));
+            p.settingsWidgets.push_back(UI::GeneralSettingsWidget::create(context));
             p.settingsWidgets.push_back(UI::PPMSettingsWidget::create(context));
-            p.settingsWidgets.push_back(UI::PaletteSettingsWidget::create(context));
 #if defined(JPEG_FOUND)
             p.settingsWidgets.push_back(UI::JPEGSettingsWidget::create(context));
 #endif

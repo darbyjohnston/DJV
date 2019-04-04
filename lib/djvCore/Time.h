@@ -45,16 +45,11 @@ namespace djv
             //! This typedef provides a timestamp.
             typedef int64_t Timestamp;
 
-            //! This typedef provides a duration.
-            typedef int64_t Duration;
-
             //! \name Time Conversion
             ///@{
 
             double timestampToSeconds(Timestamp);
-            double durationToSeconds(Duration);
             Timestamp secondsToTimestamp(double);
-            Duration secondsToDuration(double);
 
             inline void secondsToTime(
                 double,

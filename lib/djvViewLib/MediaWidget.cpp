@@ -51,7 +51,7 @@ namespace djv
             std::shared_ptr<TimelineSlider> timelineSlider;
             std::shared_ptr<UI::ToolBar> toolbar;
             std::shared_ptr<UI::StackLayout> layout;
-            std::shared_ptr<ValueObserver<Time::Duration> > durationObserver;
+            std::shared_ptr<ValueObserver<Time::Timestamp> > durationObserver;
             std::shared_ptr<ValueObserver<Time::Timestamp> > currentTimeObserver;
             std::shared_ptr<ValueObserver<Time::Timestamp> > currentTimeObserver2;
         };
@@ -136,9 +136,9 @@ namespace djv
             if (_p->media)
             {
                 auto weak = std::weak_ptr<MediaWidget>(std::dynamic_pointer_cast<MediaWidget>(shared_from_this()));
-                _p->durationObserver = ValueObserver<Time::Duration>::create(
+                _p->durationObserver = ValueObserver<Time::Timestamp>::create(
                     _p->media->observeDuration(),
-                    [weak](Time::Duration value)
+                    [weak](Time::Timestamp value)
                 {
                     if (auto widget = weak.lock())
                     {

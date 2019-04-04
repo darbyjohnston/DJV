@@ -31,6 +31,8 @@
 
 #include <djvAV/IO.h>
 
+#include <djvCore/Frame.h>
+
 #if defined(DJV_PLATFORM_LINUX)
 #define __STDC_CONSTANT_MACROS
 #endif // DJV_PLATFORM_LINUX
@@ -58,6 +60,9 @@ namespace djv
                 {
                     ".avi", ".dv", ".gif", ".flv", ".mkv", ".mov", ".mpg", ".mpeg", ".mp4", ".m4v", ".mxf", ".wav"
                 };
+
+                Core::Frame::Index timestampToFrame(Core::Time::Timestamp, const Core::Time::Speed &);
+                Core::Time::Timestamp frameToTimestamp(Core::Frame::Index, const Core::Time::Speed &);
 
                 inline AVRational getTimeBaseQ();
 

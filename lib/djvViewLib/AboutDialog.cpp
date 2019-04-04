@@ -115,7 +115,7 @@ namespace djv
             textLayout->setSpacing(UI::MetricsRole::SpacingLarge);
             
             auto vLayout = UI::VerticalLayout::create(context);
-            vLayout->setMargin(UI::MetricsRole::MarginSmall);
+            vLayout->setMargin(UI::MetricsRole::Margin);
             vLayout->addChild(p.textBlocks["Copyright"]);
             vLayout->addChild(p.textBlocks["License1"]);
             auto vLayout2 = UI::VerticalLayout::create(context);
@@ -130,7 +130,7 @@ namespace djv
             textLayout->addChild(p.groupBoxes["Copyright"]);
             
             vLayout = UI::VerticalLayout::create(context);
-            vLayout->setMargin(UI::MetricsRole::MarginSmall);
+            vLayout->setMargin(UI::MetricsRole::Margin);
             vLayout->addChild(p.textBlocks["Contributors1"]);
             vLayout2 = UI::VerticalLayout::create(context);
             vLayout2->setSpacing(UI::MetricsRole::None);
@@ -143,7 +143,7 @@ namespace djv
             textLayout->addChild(p.groupBoxes["Contributors"]);
             
             vLayout = UI::VerticalLayout::create(context);
-            vLayout->setMargin(UI::MetricsRole::MarginSmall);
+            vLayout->setMargin(UI::MetricsRole::Margin);
             vLayout->addChild(p.textBlocks["ThirdParty1"]);
             vLayout2 = UI::VerticalLayout::create(context);
             vLayout2->setSpacing(UI::MetricsRole::None);
@@ -166,7 +166,7 @@ namespace djv
             textLayout->addChild(p.groupBoxes["ThirdParty"]);
 
             vLayout = UI::VerticalLayout::create(context);
-            vLayout->setMargin(UI::MetricsRole::MarginSmall);
+            vLayout->setMargin(UI::MetricsRole::Margin);
             vLayout->addChild(p.textBlocks["Trademarks1"]);
             vLayout2 = UI::VerticalLayout::create(context);
             vLayout2->setSpacing(UI::MetricsRole::None);
@@ -200,7 +200,7 @@ namespace djv
             vLayout->setSpacing(UI::MetricsRole::None);
             vLayout->addSeparator();
             vLayout2 = UI::VerticalLayout::create(context);
-            vLayout2->setMargin(UI::MetricsRole::MarginSmall);
+            vLayout2->setMargin(UI::MetricsRole::Margin);
             vLayout2->addChild(p.textBlocks["MadeIn"]);
             vLayout->addChild(vLayout2);
             textLayout->addChild(vLayout);

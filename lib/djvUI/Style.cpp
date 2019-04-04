@@ -58,12 +58,13 @@ namespace djv
                     { ColorRole::Button, AV::Image::Color(71, 82, 93) },
                     { ColorRole::Hovered, AV::Image::Color(255, 255, 255, 15) },
                     { ColorRole::Pressed, AV::Image::Color(255, 255, 255, 30) },
-                    { ColorRole::Checked, AV::Image::Color(171, 134, 48, 127) },
+                    { ColorRole::Checked, AV::Image::Color(48, 134, 171) },
                     { ColorRole::Disabled, AV::Image::Color(127, 127, 127) },
                     { ColorRole::TooltipBackground, AV::Image::Color(255, 255, 191) },
                     { ColorRole::TooltipForeground, AV::Image::Color(0, 0, 0) },
                     { ColorRole::Overlay, AV::Image::Color(0, 0, 0, 160) },
-                    { ColorRole::Shadow, AV::Image::Color(0, 0, 0, 50) }
+                    { ColorRole::Shadow, AV::Image::Color(0, 0, 0, 50) },
+                    { ColorRole::Handle, AV::Image::Color(48, 134, 171) }
                 };
             }
 
@@ -138,12 +139,13 @@ namespace djv
                     { MetricsRole::FontSmall, 10.f },
                     { MetricsRole::FontMedium, 12.f },
                     { MetricsRole::FontLarge, 16.f },
-                    { MetricsRole::FontHeader, 16.f },
-                    { MetricsRole::Swatch, 100.f },
-                    { MetricsRole::Shadow, 5.f },
+                    { MetricsRole::FontHeader, 24.f },
+                    { MetricsRole::Swatch, 50.f },
+                    { MetricsRole::Slider, 100.f },
                     { MetricsRole::ScrollArea, 300.f },
                     { MetricsRole::TextColumn, 200.f },
                     { MetricsRole::Dialog, 400.f },
+                    { MetricsRole::Shadow, 5.f },
                     { MetricsRole::TooltipOffset, 10.f },
                     { MetricsRole::Handle, 15.f }
                 };
@@ -414,7 +416,8 @@ namespace djv
         DJV_TEXT("TooltipBackground"),
         DJV_TEXT("TooltipForeground"),
         DJV_TEXT("Overlay"),
-        DJV_TEXT("Shadow"));
+        DJV_TEXT("Shadow"),
+        DJV_TEXT("Handle"));
 
     DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
         UI::Style,
@@ -436,10 +439,11 @@ namespace djv
         DJV_TEXT("FontLarge"),
         DJV_TEXT("FontHeader"),
         DJV_TEXT("Swatch"),
-        DJV_TEXT("Shadow"),
+        DJV_TEXT("Slider"),
         DJV_TEXT("ScrollArea"),
         DJV_TEXT("TextColumn"),
         DJV_TEXT("Dialog"),
+        DJV_TEXT("Shadow"),
         DJV_TEXT("TooltipOffset"),
         DJV_TEXT("Handle"));
 

@@ -204,7 +204,7 @@ namespace djv
                                 const auto pixelDataInfo = Image::Info(
                                     glm::ivec2(p.avCodecParameters[p.avVideoStream]->width, p.avCodecParameters[p.avVideoStream]->height),
                                     Image::Type::RGBA_U8);
-                                Time::Duration duration = 0;
+                                Time::Timestamp duration = 0;
                                 if (avVideoStream->duration != AV_NOPTS_VALUE)
                                 {
                                     duration = av_rescale_q(
@@ -279,7 +279,7 @@ namespace djv
                                 }
 
                                 // Get file information.
-                                Time::Duration duration = 0;
+                                Time::Timestamp duration = 0;
                                 if (avAudioStream->duration != AV_NOPTS_VALUE)
                                 {
                                     duration = av_rescale_q(

@@ -58,7 +58,7 @@ namespace djv
                 _avSystem = AV::AVSystem::create(this);
                 _parseArgs();
 
-                Core::Time::Duration duration = 0;
+                Core::Time::Timestamp duration = 0;
                 if (auto io = getSystemT<AV::IO::System>())
                 {
                     _queue = AV::IO::Queue::create();

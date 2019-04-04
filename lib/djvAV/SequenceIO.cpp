@@ -79,10 +79,7 @@ namespace djv
                         if (_frames.size())
                         {
                             frameIndex = 0;
-                            AVRational r;
-                            r.num = _speed.getDuration();
-                            r.den = _speed.getScale();
-                            _duration = av_rescale_q(_frames.size(), r, FFmpeg::getTimeBaseQ());
+                            _duration = FFmpeg::frameToTimestamp(_frames.size(), _speed);
                         }
                     }
 
@@ -143,13 +140,7 @@ namespace djv
                         }
                         if (seek != -1)
                         {
-                            AVRational r;
-                            r.num = _speed.getDuration();
-                            r.den = _speed.getScale();
-                            frameIndex = av_rescale_q(
-                                seek,
-                                FFmpeg::getTimeBaseQ(),
-                                r);
+                            frameIndex = FFmpeg::timestampToFrame(seek, _speed);
                             /*{
                                 std::stringstream ss;
                                 ss << _fileName << ": seek " << frameIndex;
@@ -168,10 +159,7 @@ namespace djv
                             }
                             auto fileName = fileInfo.getFileName(frameNumber);
 
-                            AVRational r;
-                            r.num = _speed.getDuration();
-                            r.den = _speed.getScale();
-                            pts = av_rescale_q(frameNumber, r, FFmpeg::getTimeBaseQ());
+                            pts = FFmpeg::frameToTimestamp(frameNumber, _speed);
                             /*{
                                 std::stringstream ss;
                                 ss << _fileName << ": read frame " << pts;

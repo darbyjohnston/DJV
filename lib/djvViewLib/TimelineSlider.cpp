@@ -41,7 +41,7 @@ namespace djv
     {
         struct TimelineSlider::Private
         {
-            Time::Duration duration = 0;
+            Time::Timestamp duration = 0;
             std::shared_ptr<ValueSubject<Time::Timestamp> > currentTime;
             AV::Font::Metrics fontMetrics;
             std::future<AV::Font::Metrics> fontMetricsFuture;
@@ -82,7 +82,7 @@ namespace djv
             return _p->currentTime;
         }
 
-        void TimelineSlider::setDuration(Time::Duration value)
+        void TimelineSlider::setDuration(Time::Timestamp value)
         {
             if (value == _p->duration)
                 return;
@@ -294,7 +294,7 @@ namespace djv
             }
             {
                 std::stringstream ss;
-                ss << Time::getLabel(Time::durationToSeconds(p.duration));
+                ss << Time::getLabel(Time::timestampToSeconds(p.duration));
                 p.text["Duration"] = ss.str();
                 p.textSizeFuture["Duration"] = fontSystem->measure(ss.str(), fontInfo);
             }

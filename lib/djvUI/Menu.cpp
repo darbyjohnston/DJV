@@ -105,16 +105,12 @@ namespace djv
                 std::map<size_t, std::shared_ptr<Item> > _items;
                 std::map<std::shared_ptr<Action>, std::shared_ptr<Item> > _actionToItem;
                 std::map<std::shared_ptr<Item>, std::shared_ptr<Action> > _itemToAction;
-                bool _hasIcons = false;
-                std::shared_ptr<AV::Image::Image> _checkedIcon;
-                std::future<std::shared_ptr<AV::Image::Image> > _checkedIconFuture;
                 std::map<std::shared_ptr<Item>, std::future<glm::vec2> > _titleSizeFutures;
                 std::map<std::shared_ptr<Item>, std::future<glm::vec2> > _shortcutSizeFutures;
                 std::map<Event::PointerID, std::shared_ptr<Item> > _hoveredItems;
                 std::pair<Event::PointerID, std::shared_ptr<Item> > _pressed;
                 glm::vec2 _pressedPos = glm::vec2(0.f, 0.f);
                 std::function<void(void)> _closeCallback;
-                std::map<std::shared_ptr<Item>, std::shared_ptr<ValueObserver<ButtonType> > > _buttonTypeObservers;
                 std::map<std::shared_ptr<Item>, std::shared_ptr<ValueObserver<bool> > > _checkedObservers;
                 std::map<std::shared_ptr<Item>, std::shared_ptr<ValueObserver<std::string> > > _titleObservers;
                 std::map<std::shared_ptr<Item>, std::shared_ptr<ListObserver<std::shared_ptr<Shortcut> > > > _shortcutsObservers;
@@ -150,10 +146,6 @@ namespace djv
 
             void MenuWidget::_styleEvent(Event::Style &)
             {
-                auto style = _getStyle();
-                const float iconSize = style->getMetric(MetricsRole::IconSmall);
-                auto iconSystem = _getIconSystem();
-                _checkedIconFuture = iconSystem->getIcon("djvIconCheckSmall", static_cast<int>(iconSize));
                 _itemsUpdate();
             }
 
@@ -222,11 +214,6 @@ namespace djv
                 }
 
                 glm::vec2 itemSize(0.f, 0.f);
-                if (_hasIcons)
-                {
-                    itemSize.x += iconSize + s;
-                    itemSize.y = std::max(itemSize.y, iconSize);
-                }
                 itemSize.x += titleSize.x;
                 itemSize.y = std::max(itemSize.y, titleSize.y);
                 if (_hasShortcuts)
@@ -309,18 +296,6 @@ namespace djv
                     }
                 }
 
-                if (_checkedIconFuture.valid())
-                {
-                    try
-                    {
-                        _checkedIcon = _checkedIconFuture.get();
-                    }
-                    catch (const std::exception & e)
-                    {
-                        _log(e.what(), LogLevel::Error);
-                    }
-                }
-
                 render->setCurrentFont(style->getFontInfo(AV::Font::Info::faceDefault, MetricsRole::FontMedium));
                 for (const auto & i : _items)
                 {
@@ -328,15 +303,10 @@ namespace djv
                     float x = i.second->geom.min.x + m;
                     float y = 0.f;
 
-                    if (i.second->checked && _checkedIcon)
+                    if (i.second->checked)
                     {
-                        y = i.second->geom.min.y + ceilf(i.second->size.y / 2.f - iconSize / 2.f);
-                        render->setFillColor(_getColorWithOpacity(style->getColor(colorRole)));
-                        render->drawFilledImage(_checkedIcon, BBox2f(x, y, iconSize, iconSize));
-                    }
-                    if (_hasIcons)
-                    {
-                        x += iconSize + s;
+                        render->setFillColor(_getColorWithOpacity(style->getColor(ColorRole::Checked)));
+                        render->drawRect(i.second->geom);
                     }
 
                     if (!i.second->title.empty())
@@ -533,7 +503,6 @@ namespace djv
                 _items.clear();
                 _actionToItem.clear();
                 _itemToAction.clear();
-                _buttonTypeObservers.clear();
                 _checkedObservers.clear();
                 _titleObservers.clear();
                 _shortcutsObservers.clear();
@@ -544,24 +513,6 @@ namespace djv
                     auto item = std::shared_ptr<Item>(new Item);
                     if (i.second)
                     {
-                        _buttonTypeObservers[item] = ValueObserver<ButtonType>::create(
-                            i.second->observeButtonType(),
-                            [weak, item](ButtonType value)
-                        {
-                            if (auto widget = weak.lock())
-                            {
-                                item->buttonType = value;
-                                switch (value)
-                                {
-                                case ButtonType::Toggle:
-                                case ButtonType::Radio:
-                                    widget->_hasIcons = true;
-                                    break;
-                                default: break;
-                                }
-                                widget->_resize();
-                            }
-                        });
                         _checkedObservers[item] = ValueObserver<bool>::create(
                             i.second->observeChecked(),
                             [weak, item](bool value)

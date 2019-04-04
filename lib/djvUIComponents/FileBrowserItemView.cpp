@@ -930,7 +930,7 @@ namespace djv
                         Time::Speed::speedToFloat(videoInfo.speed) <<
                         _getText(DJV_TEXT("FPS")) << '\n';
                     ss << _getText(DJV_TEXT("Duration")) << ": " <<
-                        Time::getLabel(Time::durationToSeconds(videoInfo.duration));
+                        Time::getLabel(Time::timestampToSeconds(videoInfo.duration));
                     ++track;
                 }
                 track = 0;
@@ -943,7 +943,7 @@ namespace djv
                     ss << _getText(DJV_TEXT("Sample rate")) << ": " <<
                         audioInfo.info.sampleRate / 1000.f << DJV_TEXT("kHz") << '\n';
                     ss << _getText(DJV_TEXT("Duration")) << ": " <<
-                        Time::getLabel(Time::durationToSeconds(audioInfo.duration));
+                        Time::getLabel(Time::timestampToSeconds(audioInfo.duration));
                     ++track;
                 }
                 return ss.str();

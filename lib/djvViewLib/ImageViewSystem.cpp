@@ -62,11 +62,46 @@ namespace djv
             p.actions["Navigation"] = UI::Action::create();
             p.actions["Navigation"]->setEnabled(false);
             //! \todo Implement me!
+            p.actions["Left"] = UI::Action::create();
+            p.actions["Left"]->addShortcut(GLFW_KEY_KP_4);
+            p.actions["Left"]->setEnabled(false);
+            //! \todo Implement me!
+            p.actions["Right"] = UI::Action::create();
+            p.actions["Right"]->addShortcut(GLFW_KEY_KP_6);
+            p.actions["Right"]->setEnabled(false);
+            //! \todo Implement me!
+            p.actions["Up"] = UI::Action::create();
+            p.actions["Up"]->addShortcut(GLFW_KEY_KP_8);
+            p.actions["Up"]->setEnabled(false);
+            //! \todo Implement me!
+            p.actions["Down"] = UI::Action::create();
+            p.actions["Down"]->addShortcut(GLFW_KEY_KP_2);
+            p.actions["Down"]->setEnabled(false);
+            //! \todo Implement me!
+            p.actions["ZoomIn"] = UI::Action::create();
+            p.actions["ZoomIn"]->addShortcut(GLFW_KEY_EQUAL);
+            p.actions["ZoomIn"]->setEnabled(false);
+            //! \todo Implement me!
+            p.actions["ZoomOut"] = UI::Action::create();
+            p.actions["ZoomOut"]->addShortcut(GLFW_KEY_MINUS);
+            p.actions["ZoomOut"]->setEnabled(false);
+            //! \todo Implement me!
+            p.actions["ResetZoom"] = UI::Action::create();
+            p.actions["ResetZoom"]->addShortcut(GLFW_KEY_0);
+            p.actions["ResetZoom"]->setEnabled(false);
+            //! \todo Implement me!
+            p.actions["ResetPositionAndZoom"] = UI::Action::create();
+            p.actions["ResetPositionAndZoom"]->addShortcut(GLFW_KEY_DELETE);
+            p.actions["ResetPositionAndZoom"]->setEnabled(false);
+            //! \todo Implement me!
             p.actions["Fit"] = UI::Action::create();
             p.actions["Fit"]->setIcon("djvIconZoomFit");
             p.actions["Fit"]->addShortcut(GLFW_KEY_BACKSPACE);
             p.actions["Fit"]->addShortcut(GLFW_KEY_KP_ENTER);
             p.actions["Fit"]->setEnabled(false);
+            //! \todo Implement me!
+            p.actions["Grid"] = UI::Action::create();
+            p.actions["Grid"]->setEnabled(false);
             //! \todo Implement me!
             p.actions["HUD"] = UI::Action::create();
             p.actions["HUD"]->setShortcut(GLFW_KEY_H);
@@ -74,7 +109,20 @@ namespace djv
 
             p.menu = UI::Menu::create(context);
             p.menu->addAction(p.actions["Navigation"]);
+            p.menu->addSeparator();
+            p.menu->addAction(p.actions["Left"]);
+            p.menu->addAction(p.actions["Right"]);
+            p.menu->addAction(p.actions["Up"]);
+            p.menu->addAction(p.actions["Down"]);
+            p.menu->addSeparator();
+            p.menu->addAction(p.actions["ZoomIn"]);
+            p.menu->addAction(p.actions["ZoomOut"]);
+            p.menu->addAction(p.actions["ResetZoom"]);
+            p.menu->addSeparator();
+            p.menu->addAction(p.actions["ResetPositionAndZoom"]);
             p.menu->addAction(p.actions["Fit"]);
+            p.menu->addSeparator();
+            p.menu->addAction(p.actions["Grid"]);
             p.menu->addAction(p.actions["HUD"]);
 
             auto weak = std::weak_ptr<ImageViewSystem>(std::dynamic_pointer_cast<ImageViewSystem>(shared_from_this()));
@@ -123,8 +171,26 @@ namespace djv
             auto context = getContext();
             p.actions["Navigation"]->setTitle(_getText(DJV_TEXT("Navigation")));
             p.actions["Navigation"]->setTooltip(_getText(DJV_TEXT("Navigation tooltip")));
+            p.actions["Left"]->setTitle(_getText(DJV_TEXT("Left")));
+            p.actions["Left"]->setTooltip(_getText(DJV_TEXT("Left tooltip")));
+            p.actions["Right"]->setTitle(_getText(DJV_TEXT("Right")));
+            p.actions["Right"]->setTooltip(_getText(DJV_TEXT("Right tooltip")));
+            p.actions["Up"]->setTitle(_getText(DJV_TEXT("Up")));
+            p.actions["Up"]->setTooltip(_getText(DJV_TEXT("Up tooltip")));
+            p.actions["Down"]->setTitle(_getText(DJV_TEXT("Down")));
+            p.actions["Down"]->setTooltip(_getText(DJV_TEXT("Down tooltip")));
+            p.actions["ZoomIn"]->setTitle(_getText(DJV_TEXT("Zoom In")));
+            p.actions["ZoomIn"]->setTooltip(_getText(DJV_TEXT("Zoom in tooltip")));
+            p.actions["ZoomOut"]->setTitle(_getText(DJV_TEXT("Zoom Out")));
+            p.actions["ZoomOut"]->setTooltip(_getText(DJV_TEXT("Zoom out tooltip")));
+            p.actions["ResetZoom"]->setTitle(_getText(DJV_TEXT("Reset Zoom")));
+            p.actions["ResetZoom"]->setTooltip(_getText(DJV_TEXT("Reset zoom tooltip")));
+            p.actions["ResetPositionAndZoom"]->setTitle(_getText(DJV_TEXT("Reset Position and Zoom")));
+            p.actions["ResetPositionAndZoom"]->setTooltip(_getText(DJV_TEXT("Reset poisiton and zoom tooltip")));
             p.actions["Fit"]->setTitle(_getText(DJV_TEXT("Fit To Image")));
             p.actions["Fit"]->setTooltip(_getText(DJV_TEXT("Fit to image tooltip")));
+            p.actions["Grid"]->setTitle(_getText(DJV_TEXT("Grid")));
+            p.actions["Grid"]->setTooltip(_getText(DJV_TEXT("Grid tooltip")));
             p.actions["HUD"]->setTitle(_getText(DJV_TEXT("HUD")));
             p.actions["HUD"]->setTooltip(_getText(DJV_TEXT("HUD tooltip")));
 

@@ -130,7 +130,7 @@ namespace djv
         {
             DJV_PRIVATE_PTR();
             auto style = _getStyle();
-            const float tc = style->getMetric(MetricsRole::TextColumn);
+            const float tc = style->getMetric(MetricsRole::Slider);
             p.handleWidth = style->getMetric(MetricsRole::Handle);
             _setMinimumSize(glm::vec2(tc, p.handleWidth) + getMargin().getSize(style));
         }

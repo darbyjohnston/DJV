@@ -212,7 +212,7 @@ namespace djv
                 const float h = style->getMetric(MetricsRole::Handle);
 
                 auto render = _getRender();
-                if (p.activeWidget && p.activeWidget->isVisible() && !p.activeWidget->isClipped())
+                /*if (p.activeWidget && p.activeWidget->isVisible() && !p.activeWidget->isClipped())
                 {
                     const BBox2f g = p.activeWidget->getGeometry().margin(-h);
                     render->setFillColor(_getColorWithOpacity(style->getColor(ColorRole::Checked)));
@@ -228,10 +228,10 @@ namespace djv
                     render->drawRect(BBox2f(
                         glm::vec2(g.max.x - b, g.min.y + b),
                         glm::vec2(g.max.x, g.max.y - b)));
-                }
+                }*/
 
                 auto hovered = p.hovered;
-                render->setFillColor(_getColorWithOpacity(style->getColor(ColorRole::Checked)));
+                render->setFillColor(_getColorWithOpacity(style->getColor(ColorRole::Handle)));
                 for (const auto & i : p.pressed)
                 {
                     for (const auto & j : i.second.widget->getHandleDraw(i.second.handle))
@@ -252,7 +252,7 @@ namespace djv
                     }
                 }
 
-                render->setFillColor(_getColorWithOpacity(style->getColor(ColorRole::Checked)));
+                render->setFillColor(_getColorWithOpacity(style->getColor(ColorRole::Handle)));
                 for (const auto & i : hovered)
                 {
                     for (const auto & j : i.second.widget->getHandleDraw(i.second.handle))

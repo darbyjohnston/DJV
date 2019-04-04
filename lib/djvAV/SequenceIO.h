@@ -69,7 +69,7 @@ namespace djv
                 virtual std::shared_ptr<Image::Image> _readImage(const std::string & fileName) = 0;
 
                 Core::Time::Speed _speed;
-                Core::Time::Duration _duration = 0;
+                Core::Time::Timestamp _duration = 0;
                 std::vector<Core::Frame::Number> _frames;
 
             private:

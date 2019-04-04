@@ -50,19 +50,9 @@ namespace djv
                 return value / static_cast<double>(AV_TIME_BASE);
             }
 
-            double durationToSeconds(Duration value)
-            {
-                return value / static_cast<double>(AV_TIME_BASE);
-            }
-
             Timestamp secondsToTimestamp(double value)
             {
                 return static_cast<Timestamp>(value * static_cast<double>(AV_TIME_BASE));
-            }
-
-            Duration secondsToDuration(double value)
-            {
-                return static_cast<Duration>(value * static_cast<double>(AV_TIME_BASE));
             }
 
             std::string getLabel(double value)

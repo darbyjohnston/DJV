@@ -58,6 +58,8 @@ namespace djv
             void removeChild(const std::shared_ptr<IObject> &) override;
 
         protected:
+            std::map<UI::MDI::Handle, std::vector<Core::BBox2f> > _getHandle() const override;
+
             void _preLayoutEvent(Core::Event::PreLayout &) override;
             void _layoutEvent(Core::Event::Layout &) override;
 

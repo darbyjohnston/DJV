@@ -56,7 +56,7 @@ namespace djv
 
             std::shared_ptr<Core::IValueSubject<Core::Time::Timestamp> > observeCurrentTime() const;
 
-            void setDuration(Core::Time::Duration);
+            void setDuration(Core::Time::Timestamp);
             void setCurrentTime(Core::Time::Timestamp);
 
         protected:

@@ -57,7 +57,7 @@ namespace djv
             std::shared_ptr<ValueSubject<AV::IO::Info> > info;
             AV::IO::VideoInfo videoInfo;
             AV::IO::AudioInfo audioInfo;
-            std::shared_ptr<ValueSubject<Time::Duration> > duration;
+            std::shared_ptr<ValueSubject<Time::Timestamp> > duration;
             std::shared_ptr<ValueSubject<Time::Timestamp> > currentTime;
             std::shared_ptr<ValueSubject<Playback> > playback;
             std::shared_ptr<ValueSubject<std::shared_ptr<AV::Image::Image> > > currentImage;
@@ -87,7 +87,7 @@ namespace djv
             p.context = context;
             p.fileName = fileName;
             p.info = ValueSubject<AV::IO::Info>::create();
-            p.duration = ValueSubject<Time::Duration>::create();
+            p.duration = ValueSubject<Time::Timestamp>::create();
             p.currentTime = ValueSubject<Time::Timestamp>::create();
             p.playback = ValueSubject<Playback>::create();
             p.currentImage = ValueSubject<std::shared_ptr<AV::Image::Image> >::create();
@@ -143,7 +143,7 @@ namespace djv
                         {
                             p.infoTimer->stop();
                             const auto info = p.infoFuture.get();
-                            Time::Duration duration = 0;
+                            Time::Timestamp duration = 0;
                             const auto & video = info.video;
                             if (video.size())
                             {
@@ -234,7 +234,7 @@ namespace djv
             return _p->info;
         }
 
-        std::shared_ptr<IValueSubject<Time::Duration> > Media::observeDuration() const
+        std::shared_ptr<IValueSubject<Time::Timestamp> > Media::observeDuration() const
         {
             return _p->duration;
         }

@@ -60,16 +60,60 @@ namespace djv
 
             //! \todo Implement me!
             p.actions["ColorManager"] = UI::Action::create();
+            p.actions["ColorManager"]->setButtonType(UI::ButtonType::Toggle);
             p.actions["ColorManager"]->setEnabled(false);
             //! \todo Implement me!
+            p.actions["ColorChannels"] = UI::Action::create();
+            p.actions["ColorChannels"]->setShortcut(GLFW_KEY_C);
+            p.actions["ColorChannels"]->setEnabled(false);
+            //! \todo Implement me!
+            p.actions["RedChannel"] = UI::Action::create();
+            p.actions["RedChannel"]->setShortcut(GLFW_KEY_R);
+            p.actions["RedChannel"]->setEnabled(false);
+            //! \todo Implement me!
+            p.actions["GreenChannel"] = UI::Action::create();
+            p.actions["GreenChannel"]->setShortcut(GLFW_KEY_G);
+            p.actions["GreenChannel"]->setEnabled(false);
+            //! \todo Implement me!
+            p.actions["BlueChannel"] = UI::Action::create();
+            p.actions["BlueChannel"]->setShortcut(GLFW_KEY_B);
+            p.actions["BlueChannel"]->setEnabled(false);
+            //! \todo Implement me!
+            p.actions["AlphaChannel"] = UI::Action::create();
+            p.actions["AlphaChannel"]->setShortcut(GLFW_KEY_A);
+            p.actions["AlphaChannel"]->setEnabled(false);
+            //! \todo Implement me!
+            p.actions["PremultipliedAlpha"] = UI::Action::create();
+            p.actions["PremultipliedAlpha"]->setEnabled(false);
+            //! \todo Implement me!
+            p.actions["Transform"] = UI::Action::create();
+            p.actions["Transform"]->setButtonType(UI::ButtonType::Toggle);
+            p.actions["Transform"]->setEnabled(false);
+            //! \todo Transform me!
             p.actions["FrameStore"] = UI::Action::create();
             p.actions["FrameStore"]->setButtonType(UI::ButtonType::Toggle);
             p.actions["FrameStore"]->setShortcut(GLFW_KEY_E);
             p.actions["FrameStore"]->setEnabled(false);
+            //! \todo Implement me!
+            p.actions["SetFrameStore"] = UI::Action::create();
+            p.actions["SetFrameStore"]->setShortcut(GLFW_KEY_E, GLFW_MOD_SHIFT);
+            p.actions["SetFrameStore"]->setEnabled(false);
 
             p.menu = UI::Menu::create(context);
             p.menu->addAction(p.actions["ColorManager"]);
+            p.menu->addSeparator();
+            p.menu->addAction(p.actions["ColorChannels"]);
+            p.menu->addAction(p.actions["RedChannel"]);
+            p.menu->addAction(p.actions["GreenChannel"]);
+            p.menu->addAction(p.actions["BlueChannel"]);
+            p.menu->addAction(p.actions["AlphaChannel"]);
+            p.menu->addSeparator();
+            p.menu->addAction(p.actions["PremultipliedAlpha"]);
+            p.menu->addSeparator();
+            p.menu->addAction(p.actions["Transform"]);
             p.menu->addAction(p.actions["FrameStore"]);
+            p.menu->addSeparator();
+            p.menu->addAction(p.actions["SetFrameStore"]);
 
             auto weak = std::weak_ptr<ImageSystem>(std::dynamic_pointer_cast<ImageSystem>(shared_from_this()));
             p.localeObserver = ValueObserver<std::string>::create(
@@ -117,8 +161,24 @@ namespace djv
             auto context = getContext();
             p.actions["ColorManager"]->setTitle(_getText(DJV_TEXT("Color Manager")));
             p.actions["ColorManager"]->setTooltip(_getText(DJV_TEXT("Color manager tooltip")));
+            p.actions["ColorChannels"]->setTitle(_getText(DJV_TEXT("Color channels")));
+            p.actions["ColorChannels"]->setTooltip(_getText(DJV_TEXT("Color channels tooltip")));
+            p.actions["RedChannel"]->setTitle(_getText(DJV_TEXT("Red channel")));
+            p.actions["RedChannel"]->setTooltip(_getText(DJV_TEXT("Red channel tooltip")));
+            p.actions["GreenChannel"]->setTitle(_getText(DJV_TEXT("Green channel")));
+            p.actions["GreenChannel"]->setTooltip(_getText(DJV_TEXT("Green channel tooltip")));
+            p.actions["BlueChannel"]->setTitle(_getText(DJV_TEXT("Blue channel")));
+            p.actions["BlueChannel"]->setTooltip(_getText(DJV_TEXT("Blue channel tooltip")));
+            p.actions["AlphaChannel"]->setTitle(_getText(DJV_TEXT("Alpha channel")));
+            p.actions["AlphaChannel"]->setTooltip(_getText(DJV_TEXT("Alpha channel tooltip")));
+            p.actions["PremultipliedAlpha"]->setTitle(_getText(DJV_TEXT("Premultiplied alpha")));
+            p.actions["PremultipliedAlpha"]->setTooltip(_getText(DJV_TEXT("Premultiplied alpha tooltip")));
+            p.actions["Transform"]->setTitle(_getText(DJV_TEXT("Transform")));
+            p.actions["Transform"]->setTooltip(_getText(DJV_TEXT("Transform tooltip")));
             p.actions["FrameStore"]->setTitle(_getText(DJV_TEXT("Frame Store")));
             p.actions["FrameStore"]->setTooltip(_getText(DJV_TEXT("Frame store tooltip")));
+            p.actions["SetFrameStore"]->setTitle(_getText(DJV_TEXT("Set Frame Store")));
+            p.actions["SetFrameStore"]->setTooltip(_getText(DJV_TEXT("Set frame store tooltip")));
 
             p.menu->setText(_getText(DJV_TEXT("Image")));
         }

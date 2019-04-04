@@ -49,9 +49,6 @@ namespace djv
             static std::shared_ptr<ColorPickerTool> create(Core::Context *);
 
         protected:
-            std::map<UI::MDI::Handle, std::vector<Core::BBox2f> > _getHandle() const override;
-            std::map<UI::MDI::Handle, std::vector<Core::BBox2f> > _getHandleDraw() const override;
-
             void _localeEvent(Core::Event::Locale &) override;
 
         private:

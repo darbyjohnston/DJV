@@ -62,6 +62,7 @@ namespace djv
                 TooltipForeground,
                 Overlay,
                 Shadow,
+                Handle,
 
                 Count,
                 First = None
@@ -88,10 +89,11 @@ namespace djv
                 FontLarge,
                 FontHeader,
                 Swatch,
-                Shadow,
+                Slider,
                 ScrollArea,
                 TextColumn,
                 Dialog,
+                Shadow,
                 TooltipOffset,
                 Handle,
 

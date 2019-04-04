@@ -61,7 +61,7 @@ namespace djv
 
             const std::string & getFileName() const;
             std::shared_ptr<Core::IValueSubject<AV::IO::Info> > observeInfo() const;
-            std::shared_ptr<Core::IValueSubject<Core::Time::Duration> > observeDuration() const;
+            std::shared_ptr<Core::IValueSubject<Core::Time::Timestamp> > observeDuration() const;
             std::shared_ptr<Core::IValueSubject<Core::Time::Timestamp> > observeCurrentTime() const;
             std::shared_ptr<Core::IValueSubject<Playback> > observePlayback() const;
             std::shared_ptr<Core::IValueSubject<std::shared_ptr<AV::Image::Image> > > observeCurrentImage() const;

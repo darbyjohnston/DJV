@@ -59,7 +59,7 @@ namespace djv
             VideoInfo::VideoInfo()
             {}
 
-            VideoInfo::VideoInfo(const Image::Info & info, const Time::Speed & speed, Time::Duration duration) :
+            VideoInfo::VideoInfo(const Image::Info & info, const Time::Speed & speed, Time::Timestamp duration) :
                 info(info),
                 speed(speed),
                 duration(duration)
@@ -73,7 +73,7 @@ namespace djv
             AudioInfo::AudioInfo()
             {}
 
-            AudioInfo::AudioInfo(const Audio::DataInfo & info, Time::Duration duration) :
+            AudioInfo::AudioInfo(const Audio::DataInfo & info, Time::Timestamp duration) :
                 info(info),
                 duration(duration)
             {}

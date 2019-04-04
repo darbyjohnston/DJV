@@ -45,7 +45,7 @@ namespace djv
     {
         struct DebugTool::Private
         {
-            Time::Duration duration = 0;
+            Time::Timestamp duration = 0;
             Time::Timestamp currentTime = 0;
             size_t videoQueueMax = 0;
             size_t audioQueueMax = 0;
@@ -55,7 +55,7 @@ namespace djv
             std::map<std::string, std::shared_ptr<UI::Label> > labels;
             std::shared_ptr<UI::FormLayout> layout;
             std::shared_ptr<ValueObserver<std::shared_ptr<Media> > > currentMediaObserver;
-            std::shared_ptr<ValueObserver<Time::Duration> > durationObserver;
+            std::shared_ptr<ValueObserver<Time::Timestamp> > durationObserver;
             std::shared_ptr<ValueObserver<Time::Timestamp> > currentTimeObserver;
             std::shared_ptr<ValueObserver<size_t> > videoQueueMaxObserver;
             std::shared_ptr<ValueObserver<size_t> > audioQueueMaxObserver;
@@ -99,9 +99,9 @@ namespace djv
                     {
                         if (value)
                         {
-                            widget->_p->durationObserver = ValueObserver<Time::Duration>::create(
+                            widget->_p->durationObserver = ValueObserver<Time::Timestamp>::create(
                                 value->observeDuration(),
-                                [weak](Time::Duration value)
+                                [weak](Time::Timestamp value)
                             {
                                 if (auto widget = weak.lock())
                                 {

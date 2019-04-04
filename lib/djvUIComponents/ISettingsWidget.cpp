@@ -40,6 +40,7 @@ namespace djv
     {
         struct ISettingsWidget::Private
         {
+            std::shared_ptr<VerticalLayout> layout;
             std::shared_ptr<ScrollWidget> scrollWidget;
         };
 
@@ -48,9 +49,12 @@ namespace djv
             Widget::_init(context);
 
             DJV_PRIVATE_PTR();
+            p.layout = VerticalLayout::create(context);
+            p.layout->setSpacing(MetricsRole::SpacingLarge);
 
             p.scrollWidget = ScrollWidget::create(ScrollType::Vertical, context);
             p.scrollWidget->setBorder(false);
+            p.scrollWidget->addChild(p.layout);
             Widget::addChild(p.scrollWidget);
         }
 
@@ -68,12 +72,12 @@ namespace djv
 
         void ISettingsWidget::addChild(const std::shared_ptr<IObject> & value)
         {
-            _p->scrollWidget->addChild(value);
+            _p->layout->addChild(value);
         }
 
         void ISettingsWidget::removeChild(const std::shared_ptr<IObject> & value)
         {
-            _p->scrollWidget->removeChild(value);
+            _p->layout->removeChild(value);
         }
 
         void ISettingsWidget::_preLayoutEvent(Event::PreLayout & event)

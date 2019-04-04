@@ -60,7 +60,8 @@ namespace djv
                 DJV_PRIVATE_PTR();
                 p.titleLabel = Label::create(context);
                 p.titleLabel->setTextHAlign(TextHAlign::Left);
-                p.titleLabel->setMargin(MetricsRole::MarginSmall);
+                p.titleLabel->setFontSizeRole(MetricsRole::FontLarge);
+                p.titleLabel->setMargin(MetricsRole::Margin);
 
                 p.childLayout = StackLayout::create(context);
 
