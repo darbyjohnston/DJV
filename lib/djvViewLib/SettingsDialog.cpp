@@ -196,10 +196,6 @@ namespace djv
             IDialog::_init(context);
 
             DJV_PRIVATE_PTR();
-
-            setBackgroundRole(UI::ColorRole::Background);
-            setPointerEnabled(true);
-
             p.listWidget = ListWidget::create(context);
 
             p.soloLayout = UI::SoloLayout::create(context);
