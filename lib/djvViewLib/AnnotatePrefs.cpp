@@ -71,7 +71,7 @@ namespace djv
             UI::Prefs prefs("djv::ViewLib::AnnotatePrefs");
             prefs.set("primitive", _primitive);
             prefs.set("color", _color);
-            prefs.set("lineWidth", _lineWidth);
+            prefs.set("lineWidth", static_cast<int>(_lineWidth));
             prefs.set("listVisible", _listVisible);
         }
 

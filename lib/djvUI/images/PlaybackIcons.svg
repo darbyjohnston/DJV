@@ -10,11 +10,11 @@
    xmlns:xlink="http://www.w3.org/1999/xlink"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="200"
-   height="25"
+   width="168"
+   height="24"
    id="svg2"
    sodipodi:version="0.32"
-   inkscape:version="0.92.2 (5c3e80d, 2017-08-06)"
+   inkscape:version="0.92.3 (2405546, 2018-03-11)"
    version="1.0"
    sodipodi:docname="PlaybackIcons.svg"
    inkscape:output_extension="org.inkscape.output.svg.inkscape"
@@ -105,16 +105,16 @@
      objecttolerance="10"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="12.247089"
-     inkscape:cx="125.57787"
-     inkscape:cy="11.595527"
+     inkscape:zoom="8.6599997"
+     inkscape:cx="94.833467"
+     inkscape:cy="19.046672"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="true"
-     inkscape:window-width="1920"
-     inkscape:window-height="1101"
-     inkscape:window-x="0"
-     inkscape:window-y="28"
+     inkscape:window-width="1853"
+     inkscape:window-height="1145"
+     inkscape:window-x="67"
+     inkscape:window-y="27"
      inkscape:snap-nodes="true"
      inkscape:snap-bbox="true"
      inkscape:window-maximized="1"
@@ -125,7 +125,7 @@
        id="grid2383"
        visible="true"
        enabled="true"
-       empspacing="5"
+       empspacing="4"
        snapvisiblegridlinesonly="true" />
   </sodipodi:namedview>
   <metadata
@@ -136,7 +136,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title />
+        <dc:title></dc:title>
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -144,79 +144,81 @@
      inkscape:label="Layer 1"
      inkscape:groupmode="layer"
      id="layer1"
-     transform="translate(0,3)">
+     transform="translate(0,2)">
     <g
        id="PlayStopIcon"
-       inkscape:label="#g7960">
+       inkscape:label="#g7960"
+       transform="translate(-1)">
       <rect
-         y="-2.9999998"
+         y="-1.9999998"
          x="25"
-         height="25"
-         width="25"
+         height="24"
+         width="24"
          id="rect4213"
          style="color:#000000;clip-rule:nonzero;display:inline;overflow:visible;visibility:visible;opacity:1;isolation:auto;mix-blend-mode:normal;color-interpolation:sRGB;color-interpolation-filters:linearRGB;solid-color:#000000;solid-opacity:1;fill:#000000;fill-opacity:0;fill-rule:nonzero;stroke:none;stroke-width:32.89735413;stroke-linecap:square;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;color-rendering:auto;image-rendering:auto;shape-rendering:auto;text-rendering:auto;enable-background:accumulate" />
       <rect
-         y="2"
+         y="3"
          x="30"
-         height="15"
-         width="15"
+         height="14"
+         width="14"
          id="rect2396"
-         style="fill:#f0f0f0;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:0.99905664;stroke-linecap:square;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:0.49803922" />
+         style="fill:#f0f0f0;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:0.9990567;stroke-linecap:square;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:0.49803922" />
     </g>
     <g
        id="PlayReverseIcon"
        inkscape:label="#g7937">
       <rect
-         y="-3"
+         y="-2"
          x="0"
-         height="25"
-         width="25"
+         height="24"
+         width="24"
          id="rect4213-4"
          style="color:#000000;clip-rule:nonzero;display:inline;overflow:visible;visibility:visible;opacity:1;isolation:auto;mix-blend-mode:normal;color-interpolation:sRGB;color-interpolation-filters:linearRGB;solid-color:#000000;solid-opacity:1;fill:#000000;fill-opacity:0;fill-rule:nonzero;stroke:none;stroke-width:32.89735413;stroke-linecap:square;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;color-rendering:auto;image-rendering:auto;shape-rendering:auto;text-rendering:auto;enable-background:accumulate" />
       <path
          inkscape:connector-curvature="0"
-         sodipodi:nodetypes="ccccccc"
+         sodipodi:nodetypes="cccccc"
          id="rect2396-2"
-         d="m 15,2 h 2 V 17 H 15 L 7,10 V 9 Z"
+         d="m 15,3 h 2 V 17 H 15 L 8,10 Z"
          style="fill:#f0f0f0;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1.06892121;stroke-linecap:square;stroke-miterlimit:4;stroke-opacity:0.49803922" />
     </g>
     <g
        id="PlayForwardIcon"
-       transform="translate(50)"
+       transform="translate(48)"
        inkscape:label="#g7927">
       <rect
-         y="-3"
+         y="-2"
          x="0"
-         height="25"
-         width="25"
+         height="24"
+         width="24"
          id="rect4213-7"
          style="color:#000000;clip-rule:nonzero;display:inline;overflow:visible;visibility:visible;opacity:1;isolation:auto;mix-blend-mode:normal;color-interpolation:sRGB;color-interpolation-filters:linearRGB;solid-color:#000000;solid-opacity:1;fill:#000000;fill-opacity:0;fill-rule:nonzero;stroke:none;stroke-width:32.89735413;stroke-linecap:square;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;color-rendering:auto;image-rendering:auto;shape-rendering:auto;text-rendering:auto;enable-background:accumulate" />
       <path
          inkscape:connector-curvature="0"
-         sodipodi:nodetypes="ccccccc"
+         sodipodi:nodetypes="cccccc"
          id="rect2396-1"
-         d="M 10,2 H 8 v 15 h 2 l 8,-7 V 9 Z"
+         d="M 9,3 H 7 v 14 h 2 l 7,-7 z"
          style="fill:#f0f0f0;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1.06892121;stroke-linecap:square;stroke-miterlimit:4;stroke-opacity:0.49803922" />
     </g>
     <g
        id="PlayLoopOnceIcon"
-       inkscape:label="#g893">
+       inkscape:label="#g893"
+       transform="translate(-4)">
       <rect
-         y="-3"
+         y="-2"
          x="100"
-         height="25"
-         width="25"
+         height="24"
+         width="24"
          id="rect180-6"
          style="color:#000000;clip-rule:nonzero;display:inline;overflow:visible;visibility:visible;opacity:1;isolation:auto;mix-blend-mode:normal;color-interpolation:sRGB;color-interpolation-filters:linearRGB;solid-color:#000000;solid-opacity:1;fill:#000000;fill-opacity:0;fill-rule:nonzero;stroke:none;stroke-width:25;stroke-linecap:square;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;color-rendering:auto;image-rendering:auto;shape-rendering:auto;text-rendering:auto;enable-background:accumulate" />
       <path
          sodipodi:nodetypes="scccccccccccs"
          inkscape:connector-curvature="0"
          id="path2600"
-         d="m 107,4.0097656 c -1.0625,0.0013 -2,0.9902344 -2.03125,2 l 0.0625,6.9589844 C 105.00005,14 106,15.0625 107.03125,15 H 113 v -2 h -5 c -0.73657,0.03773 -1.02232,-0.377533 -1,-1 l -0.0625,-4.9902344 c -0.0223,-0.603604 0.25674,-0.970066 1.01563,-0.972656 L 115,6.0097656 V 4 Z"
+         d="m 107.0625,5.0097656 c -1.0625,0.0013 -2,0.9902344 -2.03125,2 V 12.96875 C 105.00005,14 106,15.0625 107.03125,15 H 113 v -2 h -5 c -0.73657,0.03773 -1.02232,-0.377533 -1,-1 V 8.0097656 c -0.0223,-0.603604 0.25674,-0.970066 1.01563,-0.972656 l 7.04687,-0.027344 V 5 Z"
          style="fill:#f0f0f0;fill-opacity:1;stroke:none" />
       <path
          style="fill:#f0f0f0;fill-opacity:1;stroke:none;stroke-width:0.8585397"
-         d="M 120,5 115.97556,1.0832575 115,1.0745675 V 9.066974 l 1,0.01739 z"
+         d="M 120,6.0097656 115.97556,2.0930231 115,2.0843331 V 10.07674 l 1,0.01739 z"
          id="path3107"
          inkscape:connector-curvature="0"
          sodipodi:nodetypes="cccccc" />
@@ -224,55 +226,55 @@
     <g
        id="PlayLoopRepeatIcon"
        inkscape:label="#g901"
-       transform="translate(10)">
+       transform="translate(5,0.017394)">
       <rect
-         y="-3"
+         y="-2.0173941"
          x="115"
-         height="25"
-         width="25"
+         height="24"
+         width="24"
          id="rect180-3"
          style="color:#000000;clip-rule:nonzero;display:inline;overflow:visible;visibility:visible;opacity:1;isolation:auto;mix-blend-mode:normal;color-interpolation:sRGB;color-interpolation-filters:linearRGB;solid-color:#000000;solid-opacity:1;fill:#000000;fill-opacity:0;fill-rule:nonzero;stroke:none;stroke-width:25;stroke-linecap:square;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;color-rendering:auto;image-rendering:auto;shape-rendering:auto;text-rendering:auto;enable-background:accumulate" />
       <path
          sodipodi:nodetypes="sccccccsscsccccccsc"
          inkscape:connector-curvature="0"
          id="path2600-5"
-         d="m 122,3.9385233 c -1.0625,0 -2.0625,1 -2.03125,2 l 0.0625,7.0927267 c -0.0312,1.03125 0.96875,2.03125 2,1.96875 H 133 c 1.03125,0.0625 2.03125,-0.9375 2.03125,-1.96875 L 135,5.9385233 c -0.0312,-1 -1.03125,-2 -2.03125,-2 z m 0.95353,2.027196 8.99919,-0.027196 c 0.71424,-0.00216 0.9937,0.396396 1.01603,1 l 0.0625,5.1239767 c 0,0.622467 -0.26343,1.037725 -1,1 H 123 c -0.73657,0.03772 -1.02232,-0.377533 -1,-1 l -0.0624,-5.1239767 c -0.0223,-0.603604 1.77492,-0.972804 1.01603,-0.972804 z"
+         d="m 122,4.982606 c -1.0625,0 -2.0625,1 -2.03125,2 l 0.0625,6.048644 c -0.0312,1.03125 0.96875,2.03125 2,1.96875 H 133 c 1.03125,0.0625 2.03125,-0.9375 2.03125,-1.96875 L 135,6.982606 c -0.0312,-1 -1.03125,-2 -2.03125,-2 z m 0.95353,2.027196 8.99919,-0.027196 c 0.71424,-0.00216 0.9937,0.396396 1.01603,1 l 0.0625,4.079894 c 0,0.622467 -0.26343,1.037725 -1,1 H 123 c -0.73657,0.03772 -1.02232,-0.377533 -1,-1 l -0.0624,-4.079894 c -0.0223,-0.603604 1.77492,-0.972804 1.01603,-0.972804 z"
          style="fill:#f0f0f0;fill-opacity:1;stroke:none" />
       <path
          style="fill:#f0f0f0;fill-opacity:1;stroke:none;stroke-width:0.8585397"
-         d="M 131,4.9156325 126.97556,0.99889 126,0.9902 V 8.982606 L 127,9 Z"
+         d="M 131.02444,5.8993485 127,1.982606 126.02444,1.973916 v 7.992406 l 1,0.017394 z"
          id="path3107-4"
          inkscape:connector-curvature="0"
          sodipodi:nodetypes="cccccc" />
     </g>
     <g
        id="PlayLoopPingPongIcon"
-       transform="translate(15)"
+       transform="translate(9)"
        inkscape:label="#g913">
       <rect
-         y="-3"
+         y="-2"
          x="135"
-         height="25"
-         width="25"
+         height="24"
+         width="24"
          id="rect180-9"
          style="color:#000000;clip-rule:nonzero;display:inline;overflow:visible;visibility:visible;opacity:1;isolation:auto;mix-blend-mode:normal;color-interpolation:sRGB;color-interpolation-filters:linearRGB;solid-color:#000000;solid-opacity:1;fill:#000000;fill-opacity:0;fill-rule:nonzero;stroke:none;stroke-width:25;stroke-linecap:square;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;color-rendering:auto;image-rendering:auto;shape-rendering:auto;text-rendering:auto;enable-background:accumulate" />
       <rect
-         y="4"
+         y="5"
          x="140"
          height="2"
-         width="10"
+         width="9"
          id="rect3206"
          style="fill:#f0f0f0;fill-opacity:1;stroke:none;stroke-width:0.87240911" />
       <rect
          style="fill:#f0f0f0;fill-opacity:1;stroke:none;stroke-width:0.85931355"
          id="rect3978"
-         width="10"
+         width="9"
          height="2"
          x="145"
          y="13" />
       <path
          style="fill:#f0f0f0;fill-opacity:1;stroke:none;stroke-width:0.8585397"
-         d="M 155,5 150.97556,1.0832575 150,1.0745675 V 9.066973 l 1,0.01739 z"
+         d="M 154,6 149.97556,2.0832575 149,2.0745675 v 7.9924055 l 1,0.01739 z"
          id="path3107-8"
          inkscape:connector-curvature="0"
          sodipodi:nodetypes="cccccc" />
@@ -285,25 +287,26 @@
     </g>
     <g
        id="InOutPointsIcon"
-       inkscape:label="#g885">
+       inkscape:label="#g885"
+       transform="translate(-3)">
       <rect
-         y="-3"
+         y="-2"
          x="75"
-         height="25"
-         width="25"
+         height="24"
+         width="24"
          id="rect180"
          style="color:#000000;clip-rule:nonzero;display:inline;overflow:visible;visibility:visible;opacity:1;isolation:auto;mix-blend-mode:normal;color-interpolation:sRGB;color-interpolation-filters:linearRGB;solid-color:#000000;solid-opacity:1;fill:#000000;fill-opacity:0;fill-rule:nonzero;stroke:none;stroke-width:25;stroke-linecap:square;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;color-rendering:auto;image-rendering:auto;shape-rendering:auto;text-rendering:auto;enable-background:accumulate" />
       <path
          inkscape:connector-curvature="0"
          id="rect4162"
-         d="M 82.972728,4 H 86 l 0.04304,11 h -3.027272 z"
-         style="fill:#f0f0f0;fill-opacity:1;stroke:none"
+         d="m 82.972728,5 h 2.04129 l 0.02902,10 h -2.04129 z"
+         style="fill:#f0f0f0;fill-opacity:1;stroke:none;stroke-width:0.99999994"
          sodipodi:nodetypes="ccccc" />
       <path
          inkscape:connector-curvature="0"
          id="rect4417"
-         d="m 89,4 h 3.027272 L 92,15 h -3.027272 z"
-         style="fill:#f0f0f0;fill-opacity:1;stroke:none"
+         d="M 88.991213,5 H 91.04304 L 91.02456,15 H 88.972732 Z"
+         style="fill:#f0f0f0;fill-opacity:1;stroke:none;stroke-width:1"
          sodipodi:nodetypes="ccccc" />
     </g>
   </g>

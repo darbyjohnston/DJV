@@ -571,9 +571,9 @@ namespace djv
         {
             const auto primitiveIcons = std::vector<std::string>(
             {
-                "djv/UI/AnnotatePen",
-                "djv/UI/AnnotateRectangle",
-                "djv/UI/AnnotateEllipse"
+                "djv/UI/AnnotateIcon",
+                "djv/UI/AnnotateRectangleIcon",
+                "djv/UI/AnnotateEllipseIcon"
             });
         
         } // namespace

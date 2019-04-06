@@ -69,7 +69,7 @@ namespace djv
             switch (metric)
             {
             case PM_SmallIconSize: return static_cast<int>(20 * scale);
-            case PM_ToolBarIconSize: return static_cast<int>(25 * scale);
+            case PM_ToolBarIconSize: return static_cast<int>(24 * scale);
             default: break;
             }
             return static_cast<int>(QProxyStyle::pixelMetric(metric, option, widget) * scale);
