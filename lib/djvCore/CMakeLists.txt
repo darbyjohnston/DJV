@@ -1,4 +1,5 @@
 find_package(GLM REQUIRED)
+find_package(PicoJSON REQUIRED)
 
 set(header
     Assert.h
@@ -93,6 +94,7 @@ QT5_ADD_RESOURCES(rccSource djvCore.qrc)
 add_library(djvCore ${header} ${source} ${mocSource} ${rccSource} ${qmSource})
 target_link_libraries(djvCore
     Qt5
+    PicoJSON
     GLM
     ${CMAKE_DL_LIBS})
 set_target_properties(djvCore PROPERTIES FOLDER lib CXX_STANDARD 11)

@@ -319,8 +319,8 @@ namespace djv
             enum ANNOTATE_PRIMITIVE
             {
                 ANNOTATE_PEN,
-                ANNOTATE_SQUARE,
-                ANNOTATE_CIRCLE,
+                ANNOTATE_RECTANGLE,
+                ANNOTATE_ELLIPSE,
 
                 ANNOTATE_PRIMITIVE_COUNT
             };
@@ -328,42 +328,6 @@ namespace djv
 
             //! Get the annotation primitive labels.
             static const QStringList & annotatePrimitiveLabels();
-
-            //! This enumeration provides the annotation colors.
-            enum ANNOTATE_COLOR
-            {
-                ANNOTATE_RED,
-                ANNOTATE_YELLOW,
-                ANNOTATE_GREEN,
-                ANNOTATE_BLUE,
-                ANNOTATE_WHITE,
-                ANNOTATE_BLACK,
-
-                ANNOTATE_COLOR_COUNT
-            };
-
-            //! Get the annotation colors.
-            static const std::vector<AV::Color> & annotateColors();
-
-            //! Get the annotation color labels.
-            static const QStringList & annotateColorLabels();
-
-            //! This enumeration provides the annotation line widths.
-            enum ANNOTATE_LINE_WIDTH
-            {
-                ANNOTATE_LINE_WIDTH_1,
-                ANNOTATE_LINE_WIDTH_5,
-                ANNOTATE_LINE_WIDTH_10,
-                ANNOTATE_LINE_WIDTH_20,
-
-                ANNOTATE_LINE_WIDTH_COUNT
-            };
-
-            //! Get the annotation line widths.
-            static const std::vector<size_t> & annotateLineWidths();
-
-            //! Get the annotation line width labels.
-            static const QStringList & annotateLineWidthLabels();
 
             //! This enumeration provides the keyboard shortcuts.
             enum SHORTCUT
@@ -621,8 +585,6 @@ namespace djv
     DJV_STRING_OPERATOR(ViewLib::Enum::TOOL);
     DJV_STRING_OPERATOR(ViewLib::Enum::HISTOGRAM);
     DJV_STRING_OPERATOR(ViewLib::Enum::ANNOTATE_PRIMITIVE);
-    DJV_STRING_OPERATOR(ViewLib::Enum::ANNOTATE_COLOR);
-    DJV_STRING_OPERATOR(ViewLib::Enum::ANNOTATE_LINE_WIDTH);
     DJV_STRING_OPERATOR(ViewLib::Enum::SHORTCUT);
     DJV_STRING_OPERATOR(ViewLib::Enum::KEYBOARD_MODIFIER);
     DJV_STRING_OPERATOR(ViewLib::Enum::MOUSE_BUTTON);

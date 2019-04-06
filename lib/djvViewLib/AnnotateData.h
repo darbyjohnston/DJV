@@ -32,6 +32,8 @@
 #include <djvViewLib/Enum.h>
 #include <djvViewLib/ViewLib.h>
 
+#include <djvAV/Color.h>
+
 #include <djvCore/FileInfo.h>
 #include <djvCore/Vector.h>
 
@@ -50,9 +52,7 @@ namespace djv
             class AbstractPrimitive : public std::enable_shared_from_this<AbstractPrimitive>
             {
             protected:
-                void _init(
-                    Enum::ANNOTATE_COLOR,
-                    Enum::ANNOTATE_LINE_WIDTH);
+                void _init(const AV::Color &, size_t lineWidth);
 
             public:
                 virtual ~AbstractPrimitive() = 0;
@@ -61,18 +61,15 @@ namespace djv
                 virtual void mouse(const glm::ivec2 &) = 0;
 
             protected:
-                Enum::ANNOTATE_COLOR _color;
-                Enum::ANNOTATE_LINE_WIDTH _lineWidth;
+                AV::Color _color;
+                size_t _lineWidth = 1;
             };
 
             //! This class provides a factory to create annotation primitives.
             class PrimitiveFactory
             {
             public:
-                static std::shared_ptr<AbstractPrimitive> create(
-                    Enum::ANNOTATE_PRIMITIVE,
-                    Enum::ANNOTATE_COLOR,
-                    Enum::ANNOTATE_LINE_WIDTH);
+                static std::shared_ptr<AbstractPrimitive> create(Enum::ANNOTATE_PRIMITIVE, const AV::Color &, size_t lineWidth);
             };
 
             //! This class provides a pen annotation primitive.
@@ -84,9 +81,7 @@ namespace djv
             public:
                 ~PenPrimitive() override;
 
-                static std::shared_ptr<PenPrimitive> create(
-                    Enum::ANNOTATE_COLOR,
-                    Enum::ANNOTATE_LINE_WIDTH);
+                static std::shared_ptr<PenPrimitive> create(const AV::Color &, size_t lineWidth);
 
                 void draw(QPainter &, const glm::ivec2 & size, const glm::ivec2 & viewPos, float viewZoom) override;
                 void mouse(const glm::ivec2 &) override;
@@ -95,18 +90,16 @@ namespace djv
                 std::vector<glm::ivec2> _points;
             };
 
-            //! This class provides a square annotation primitive.
-            class SquarePrimitive : public AbstractPrimitive
+            //! This class provides a rectangle annotation primitive.
+            class RectanglePrimitive : public AbstractPrimitive
             {
             protected:
-                SquarePrimitive() {}
+                RectanglePrimitive() {}
 
             public:
-                ~SquarePrimitive() override;
+                ~RectanglePrimitive() override;
 
-                static std::shared_ptr<SquarePrimitive> create(
-                    Enum::ANNOTATE_COLOR,
-                    Enum::ANNOTATE_LINE_WIDTH);
+                static std::shared_ptr<RectanglePrimitive> create(const AV::Color &, size_t lineWidth);
 
                 void draw(QPainter &, const glm::ivec2 & size, const glm::ivec2 & viewPos, float viewZoom) override;
                 void mouse(const glm::ivec2 &) override;
@@ -115,18 +108,16 @@ namespace djv
                 std::vector<glm::ivec2> _points;
             };
 
-            //! This class provides a circle annotation primitive.
-            class CirclePrimitive : public AbstractPrimitive
+            //! This class provides a ellipse annotation primitive.
+            class EllipsePrimitive : public AbstractPrimitive
             {
             protected:
-                CirclePrimitive() {}
+                EllipsePrimitive() {}
 
             public:
-                ~CirclePrimitive() override;
+                ~EllipsePrimitive() override;
 
-                static std::shared_ptr<CirclePrimitive> create(
-                    Enum::ANNOTATE_COLOR,
-                    Enum::ANNOTATE_LINE_WIDTH);
+                static std::shared_ptr<EllipsePrimitive> create(const AV::Color &, size_t lineWidth);
 
                 void draw(QPainter &, const glm::ivec2 & size, const glm::ivec2 & viewPos, float viewZoom) override;
                 void mouse(const glm::ivec2 &) override;
@@ -171,7 +162,7 @@ namespace djv
                 const QString & summary() const;
                 void setSummary(const QString &);
 
-                const std::vector<std::shared_ptr<Data>> & data() const;
+                const std::vector<std::shared_ptr<Data> > & data() const;
                 size_t index(const std::shared_ptr<Data> &) const;
                 size_t addData(const std::shared_ptr<Data> &);
                 void removeData(const std::shared_ptr<Data> &);

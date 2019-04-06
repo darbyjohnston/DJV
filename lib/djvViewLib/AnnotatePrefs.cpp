@@ -35,15 +35,18 @@
 
 #include <QPointer>
 
+using namespace djv::Core;
+
 namespace djv
 {
     namespace ViewLib
     {
         namespace
         {
-            Enum::ANNOTATE_PRIMITIVE  primitiveDefault = Enum::ANNOTATE_PEN;
-            Enum::ANNOTATE_COLOR      colorDefault     = Enum::ANNOTATE_RED;
-            Enum::ANNOTATE_LINE_WIDTH lineWidthDefault = Enum::ANNOTATE_LINE_WIDTH_5;
+            Enum::ANNOTATE_PRIMITIVE  primitiveDefault   = Enum::ANNOTATE_PEN;
+            AV::Color                 colorDefault       = AV::Color(1.f, 0.f, 0.f);
+            size_t                    lineWidthDefault   = 5;
+            bool                      listVisibleDefault = false;
         
         } // namespace
 
@@ -51,12 +54,16 @@ namespace djv
             AbstractPrefs(context, parent),
             _primitive(primitiveDefault),
             _color(colorDefault),
-            _lineWidth(lineWidthDefault)
+            _lineWidth(lineWidthDefault),
+            _listVisible(listVisibleDefault)
         {
             UI::Prefs prefs("djv::ViewLib::AnnotatePrefs");
             prefs.get("primitive", _primitive);
             prefs.get("color", _color);
-            prefs.get("lineWidth", _lineWidth);
+            int lineWidth = 0;
+            prefs.get("lineWidth", lineWidth);
+            _lineWidth = Math::clamp(lineWidth, 1, 100);
+            prefs.get("listVisible", _listVisible);
         }
 
         AnnotatePrefs::~AnnotatePrefs()
@@ -65,6 +72,7 @@ namespace djv
             prefs.set("primitive", _primitive);
             prefs.set("color", _color);
             prefs.set("lineWidth", _lineWidth);
+            prefs.set("listVisible", _listVisible);
         }
 
         Enum::ANNOTATE_PRIMITIVE AnnotatePrefs::primitive() const
@@ -72,14 +80,19 @@ namespace djv
             return _primitive;
         }
 
-        Enum::ANNOTATE_COLOR AnnotatePrefs::color() const
+        const AV::Color & AnnotatePrefs::color() const
         {
             return _color;
         }
 
-        Enum::ANNOTATE_LINE_WIDTH AnnotatePrefs::lineWidth() const
+        size_t AnnotatePrefs::lineWidth() const
         {
             return _lineWidth;
+        }
+
+        bool AnnotatePrefs::isListVisible() const
+        {
+            return _listVisible;
         }
 
         void AnnotatePrefs::reset()
@@ -94,7 +107,7 @@ namespace djv
             Q_EMIT prefChanged();
         }
 
-        void AnnotatePrefs::setColor(Enum::ANNOTATE_COLOR value)
+        void AnnotatePrefs::setColor(const AV::Color & value)
         {
             if (value == _color)
                 return;
@@ -103,12 +116,21 @@ namespace djv
             Q_EMIT prefChanged();
         }
 
-        void AnnotatePrefs::setLineWidth(Enum::ANNOTATE_LINE_WIDTH value)
+        void AnnotatePrefs::setLineWidth(size_t value)
         {
             if (value == _lineWidth)
                 return;
             _lineWidth = value;
             Q_EMIT lineWidthChanged(_lineWidth);
+            Q_EMIT prefChanged();
+        }
+
+        void AnnotatePrefs::setListVisible(bool value)
+        {
+            if (value == _listVisible)
+                return;
+            _listVisible = value;
+            Q_EMIT listVisibleChanged(_listVisible);
             Q_EMIT prefChanged();
         }
 

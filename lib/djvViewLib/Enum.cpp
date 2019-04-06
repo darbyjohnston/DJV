@@ -291,58 +291,6 @@ namespace djv
             return data;
         }
 
-        const std::vector<AV::Color> & Enum::annotateColors()
-        {
-            static const std::vector<AV::Color> data =
-            {
-                AV::Color(.8f,  .2f,  .2f),
-                AV::Color(.8f,  .8f,  .2f),
-                AV::Color(.2f,  .8f,  .2f),
-                AV::Color(.2f,  .2f,  .8f),
-                AV::Color(1.f,  1.f,  1.f),
-                AV::Color(0.f,  0.f,  0.f)
-            };
-            DJV_ASSERT(data.size() == ANNOTATE_COLOR_COUNT);
-            return data;
-        }
-
-        const QStringList & Enum::annotateColorLabels()
-        {
-            static const QStringList data = QStringList() <<
-                qApp->translate("djv::ViewLib::Enum", "Red") <<
-                qApp->translate("djv::ViewLib::Enum", "Yellow") <<
-                qApp->translate("djv::ViewLib::Enum", "Green") <<
-                qApp->translate("djv::ViewLib::Enum", "Blue") <<
-                qApp->translate("djv::ViewLib::Enum", "White") <<
-                qApp->translate("djv::ViewLib::Enum", "Black");
-            DJV_ASSERT(data.count() == ANNOTATE_COLOR_COUNT);
-            return data;
-        }
-
-        const std::vector<size_t> & Enum::annotateLineWidths()
-        {
-            static const std::vector<size_t> data =
-            {
-                1,
-                5,
-                10,
-                20
-            };
-            DJV_ASSERT(data.size() == ANNOTATE_LINE_WIDTH_COUNT);
-            return data;
-        }
-
-        const QStringList & Enum::annotateLineWidthLabels()
-        {
-            static const QStringList data = QStringList() <<
-                qApp->translate("djv::ViewLib::Enum", "1px") <<
-                qApp->translate("djv::ViewLib::Enum", "5px") <<
-                qApp->translate("djv::ViewLib::Enum", "10px") <<
-                qApp->translate("djv::ViewLib::Enum", "20px");
-            DJV_ASSERT(data.count() == ANNOTATE_LINE_WIDTH_COUNT);
-            return data;
-        }
-
         const QStringList & Enum::shortcutLabels()
         {
             static const QStringList data = QStringList() <<
@@ -597,8 +545,6 @@ namespace djv
     _DJV_STRING_OPERATOR_LABEL(ViewLib::Enum::TOOL, ViewLib::Enum::toolLabels());
     _DJV_STRING_OPERATOR_LABEL(ViewLib::Enum::HISTOGRAM, ViewLib::Enum::histogramLabels());
     _DJV_STRING_OPERATOR_LABEL(ViewLib::Enum::ANNOTATE_PRIMITIVE, ViewLib::Enum::annotatePrimitiveLabels());
-    _DJV_STRING_OPERATOR_LABEL(ViewLib::Enum::ANNOTATE_COLOR, ViewLib::Enum::annotateColorLabels());
-    _DJV_STRING_OPERATOR_LABEL(ViewLib::Enum::ANNOTATE_LINE_WIDTH, ViewLib::Enum::annotateLineWidthLabels());
     _DJV_STRING_OPERATOR_LABEL(ViewLib::Enum::KEYBOARD_MODIFIER, ViewLib::Enum::keyboardModifierLabels());
     _DJV_STRING_OPERATOR_LABEL(ViewLib::Enum::MOUSE_BUTTON, ViewLib::Enum::mouseButtonLabels());
     _DJV_STRING_OPERATOR_LABEL(ViewLib::Enum::MOUSE_BUTTON_ACTION, ViewLib::Enum::mouseButtonActionLabels());

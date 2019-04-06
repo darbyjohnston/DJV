@@ -52,10 +52,13 @@ namespace djv
             Enum::ANNOTATE_PRIMITIVE primitive() const;
 
             //! Get the current color.
-            Enum::ANNOTATE_COLOR color() const;
+            const AV::Color & color() const;
 
             //! Get the current line width.
-            Enum::ANNOTATE_LINE_WIDTH lineWidth() const;
+            size_t lineWidth() const;
+
+            //! Get whether the list is visible.
+            bool isListVisible() const;
 
             void reset() override;
 
@@ -64,25 +67,32 @@ namespace djv
             void setPrimitive(djv::ViewLib::Enum::ANNOTATE_PRIMITIVE);
 
             //! Set the current color.
-            void setColor(djv::ViewLib::Enum::ANNOTATE_COLOR);
+            void setColor(const djv::AV::Color &);
 
             //! Set the current line width.
-            void setLineWidth(djv::ViewLib::Enum::ANNOTATE_LINE_WIDTH);
+            void setLineWidth(size_t);
+
+            //! Set whether the list is visible.
+            void setListVisible(bool);
 
         Q_SIGNALS:
             //! This signal is emitted when the current primitive is changed.
             void primitiveChanged(djv::ViewLib::Enum::ANNOTATE_PRIMITIVE);
 
             //! This signal is emitted when the current color is changed.
-            void colorChanged(djv::ViewLib::Enum::ANNOTATE_COLOR);
+            void colorChanged(djv::AV::Color &);
 
             //! This signal is emitted when the current line width is changed.
-            void lineWidthChanged(djv::ViewLib::Enum::ANNOTATE_LINE_WIDTH);
+            void lineWidthChanged(size_t);
+
+            //! This signal is emitted when the list visibility is changed.
+            void listVisibleChanged(bool);
 
         private:
             Enum::ANNOTATE_PRIMITIVE _primitive;
-            Enum::ANNOTATE_COLOR _color;
-            Enum::ANNOTATE_LINE_WIDTH _lineWidth;
+            AV::Color _color;
+            size_t _lineWidth;
+            bool _listVisible;
         };
 
     } // namespace ViewLib

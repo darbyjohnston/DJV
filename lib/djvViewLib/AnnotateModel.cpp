@@ -123,7 +123,7 @@ namespace djv
         {
             static const QStringList data = QStringList() <<
                 qApp->translate("djv::ViewLib::AnnotateModel", "Frame") <<
-                qApp->translate("djv::ViewLib::AnnotateModel", "Note");
+                qApp->translate("djv::ViewLib::AnnotateModel", "Text");
             switch (role)
             {
             case Qt::DisplayRole:

@@ -99,6 +99,7 @@ include_directories(
 if(DJV_THIRD_PARTY)
     set(ZLIB_ROOT ${DJV_THIRD_PARTY})
     set(GLM_ROOT ${DJV_THIRD_PARTY})
+    set(PicoJSON_ROOT ${DJV_THIRD_PARTY})
     set(OpenAL_ROOT ${DJV_THIRD_PARTY})
     set(JPEG_ROOT ${DJV_THIRD_PARTY})
     set(TIFF_ROOT ${DJV_THIRD_PARTY})

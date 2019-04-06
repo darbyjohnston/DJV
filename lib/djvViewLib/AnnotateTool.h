@@ -32,6 +32,8 @@
 #include <djvViewLib/AbstractTool.h>
 #include <djvViewLib/Enum.h>
 
+#include <djvAV/Color.h>
+
 #include <djvCore/Vector.h>
 
 #include <memory>
@@ -57,28 +59,27 @@ namespace djv
             void setPrimitive(djv::ViewLib::Enum::ANNOTATE_PRIMITIVE);
 
             //! Set the current color.
-            void setColor(djv::ViewLib::Enum::ANNOTATE_COLOR);
+            void setColor(const djv::AV::Color &);
 
             //! Set the current line width.
-            void setLineWidth(djv::ViewLib::Enum::ANNOTATE_LINE_WIDTH);
+            void setLineWidth(size_t);
 
         Q_SIGNALS:
             //! This signal is emitted when the current primitive is changed.
             void primitiveChanged(djv::ViewLib::Enum::ANNOTATE_PRIMITIVE);
 
             //! This signal is emitted when the current color is changed.
-            void colorChanged(djv::ViewLib::Enum::ANNOTATE_COLOR);
+            void colorChanged(const djv::AV::Color &);
 
             //! This signal is emitted when the current line width is changed.
-            void lineWidthChanged(djv::ViewLib::Enum::ANNOTATE_LINE_WIDTH);
+            void lineWidthChanged(size_t);
 
             //! This signal is emitted to clear the primitives.
             void clearPrimitives();
 
         private Q_SLOTS:
-            void primitiveCallback(QAction *);
-            void colorCallback(QAction *);
-            void lineWidthCallback(QAction *);
+            void primitiveCallback(int, bool);
+            void lineWidthCallback(int);
             void pickPressedCallback(const glm::ivec2 &);
             void pickReleasedCallback(const glm::ivec2 &);
             void pickMovedCallback(const glm::ivec2 &);

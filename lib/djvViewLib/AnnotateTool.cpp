@@ -46,12 +46,12 @@
 #include <djvCore/SignalBlocker.h>
 
 #include <QApplication>
+#include <QButtonGroup>
 #include <QBoxLayout>
 #include <QTreeView>
 #include <QMenu>
 #include <QPointer>
-#include <QSplitter>
-#include <QTabWidget>
+#include <QSpinBox>
 #include <QTextEdit>
 
 using namespace djv::Core;
@@ -69,35 +69,31 @@ namespace djv
             {}
 
             Enum::ANNOTATE_PRIMITIVE primitive;
-            Enum::ANNOTATE_COLOR color;
-            Enum::ANNOTATE_LINE_WIDTH lineWidth;
-            std::shared_ptr<Annotate::AbstractPrimitive> currentPrimitive;
+            AV::Color color;
+            size_t lineWidth = 1;
+            bool listVisible = false;
             std::shared_ptr<Annotate::Collection> collection;
             std::shared_ptr<Annotate::Data> currentData;
+            std::shared_ptr<Annotate::AbstractPrimitive> currentPrimitive;
 
-            QPointer<QTabWidget> tabWidget;
+            QPointer<QButtonGroup> primitiveButtonGroup;
+            QPointer<UI::ToolButton> colorButton;
+            QPointer<QSpinBox> lineWidthSpinBox;
+            QPointer<UI::ToolButton> undoButton;
+            QPointer<UI::ToolButton> redoButton;
+            QPointer<UI::ToolButton> clearButton;
+            QPointer<QTextEdit> textEdit;
             QPointer<AnnotateModel> model;
             QPointer<QTreeView> treeView;
             QPointer<UI::ToolButton> prevButton;
             QPointer<UI::ToolButton> nextButton;
+            QPointer<UI::ToolButton> listVisibleButton;
             QPointer<UI::ToolButton> addButton;
             QPointer<UI::ToolButton> removeButton;
-            QPointer<QTextEdit> textEdit;
-            QPointer<QActionGroup> primitiveActionGroup;
-            QPointer<QMenu> primitiveMenu;
-            QPointer<UI::ToolButton> primitiveButton;
-            QPointer<QActionGroup> colorActionGroup;
-            QPointer<QMenu> colorMenu;
-            QPointer<UI::ToolButton> colorButton;
-            std::vector<QIcon> colorIcons;
-            QPointer<QActionGroup> lineWidthActionGroup;
-            QPointer<QMenu> lineWidthMenu;
-            QPointer<UI::ToolButton> lineWidthButton;
-            QPointer<UI::ToolButton> clearButton;
-            QPointer<QHBoxLayout> prevNextLayout;
-            QPointer<QHBoxLayout> addRemoveLayout;
-            QPointer<QHBoxLayout> drawLayout;
-            QPointer<QSplitter> splitter;
+            QPointer<UI::ToolButton> exportButton;
+
+            QPointer<QHBoxLayout> drawingLayout;
+            QPointer<QHBoxLayout> controlsLayout;
         };
 
         AnnotateTool::AnnotateTool(
@@ -111,109 +107,63 @@ namespace djv
             _p->model = new AnnotateModel;
 
             // Create the widgets.
+            _p->primitiveButtonGroup = new QButtonGroup(this);
+            _p->primitiveButtonGroup->setExclusive(true);
+            for (int i = 0; i < Enum::ANNOTATE_PRIMITIVE_COUNT; ++i)
+            {
+                auto button = new UI::ToolButton(context.data());
+                button->setCheckable(true);
+                _p->primitiveButtonGroup->addButton(button, i);
+            }
+            _p->colorButton = new UI::ToolButton(context.data());
+            _p->lineWidthSpinBox = new QSpinBox;
+            _p->lineWidthSpinBox->setRange(1, 100);
+            _p->undoButton = new UI::ToolButton(context.data());
+            _p->redoButton = new UI::ToolButton(context.data());
+            _p->clearButton = new UI::ToolButton(context.data());
+
+            _p->textEdit = new QTextEdit;
+
             _p->treeView = new QTreeView;
             _p->treeView->setSelectionMode(QAbstractItemView::SingleSelection);
             _p->treeView->setModel(_p->model);
 
             _p->prevButton = new UI::ToolButton(context.data());
             _p->nextButton = new UI::ToolButton(context.data());
+            _p->listVisibleButton = new UI::ToolButton(context.data());
+            _p->listVisibleButton->setCheckable(true);
             _p->addButton = new UI::ToolButton(context.data());
             _p->removeButton = new UI::ToolButton(context.data());
-
-            _p->textEdit = new QTextEdit;
-
-            _p->primitiveActionGroup = new QActionGroup(this);
-            _p->primitiveActionGroup->setExclusive(true);
-            _p->primitiveMenu = new QMenu;
-            for (int i = 0; i < Enum::ANNOTATE_PRIMITIVE_COUNT; ++i)
-            {
-                auto action = new QAction(this);
-                action->setText(Enum::annotatePrimitiveLabels()[i]);
-                action->setCheckable(true);
-                _p->primitiveActionGroup->addAction(action);
-                _p->primitiveMenu->addAction(action);
-            }
-            _p->primitiveButton = new UI::ToolButton(context.data());
-
-            _p->colorActionGroup = new QActionGroup(this);
-            _p->colorActionGroup->setExclusive(true);
-            _p->colorMenu = new QMenu;
-            for (int i = 0; i < Enum::ANNOTATE_COLOR_COUNT; ++i)
-            {
-                auto action = new QAction(this);
-                action->setText(Enum::annotateColorLabels()[i]);
-                action->setCheckable(true);
-                _p->colorActionGroup->addAction(action);
-                _p->colorMenu->addAction(action);
-            }
-            _p->colorButton = new UI::ToolButton(context.data());
-
-            _p->lineWidthActionGroup = new QActionGroup(this);
-            _p->lineWidthActionGroup->setExclusive(true);
-            _p->lineWidthMenu = new QMenu;
-            for (int i = 0; i < Enum::ANNOTATE_LINE_WIDTH_COUNT; ++i)
-            {
-                auto action = new QAction(this);
-                action->setText(Enum::annotateLineWidthLabels()[i]);
-                action->setCheckable(true);
-                _p->lineWidthActionGroup->addAction(action);
-                _p->lineWidthMenu->addAction(action);
-            }
-            _p->lineWidthButton = new UI::ToolButton(context.data());
-
-            _p->clearButton = new UI::ToolButton(context.data());
+            _p->exportButton = new UI::ToolButton(context.data());
 
             // Layout the widgets.
-            auto annotationsTab = new QWidget;
-            auto vLayout = new QVBoxLayout(annotationsTab);
-            _p->splitter = new QSplitter(Qt::Vertical);
-            vLayout->addWidget(_p->splitter);
-
-            auto listWidget = new QWidget;
-            vLayout = new QVBoxLayout(listWidget);
-            vLayout->setMargin(0);
-            vLayout->addWidget(_p->treeView);
-            auto hLayout = new QHBoxLayout;
-            hLayout->setMargin(0);
-            _p->prevNextLayout = new QHBoxLayout;
-            _p->prevNextLayout->setMargin(0);
-            _p->prevNextLayout->addWidget(_p->prevButton);
-            _p->prevNextLayout->addWidget(_p->nextButton);
-            hLayout->addLayout(_p->prevNextLayout);
-            hLayout->addStretch();
-            _p->addRemoveLayout = new QHBoxLayout;
-            _p->addRemoveLayout->setMargin(0);
-            _p->addRemoveLayout->addWidget(_p->addButton);
-            _p->addRemoveLayout->addWidget(_p->removeButton);
-            hLayout->addLayout(_p->addRemoveLayout);
-            vLayout->addLayout(hLayout);
-            _p->splitter->addWidget(listWidget);
-
-            auto editWidget = new QWidget;
-            vLayout = new QVBoxLayout(editWidget);
-            vLayout->setMargin(0);
-            vLayout->addWidget(_p->textEdit);
-            hLayout = new QHBoxLayout;
-            hLayout->setMargin(0);
-            _p->drawLayout = new QHBoxLayout;
-            _p->drawLayout->setMargin(0);
-            _p->drawLayout->addWidget(_p->primitiveButton);
-            _p->drawLayout->addWidget(_p->colorButton);
-            _p->drawLayout->addWidget(_p->lineWidthButton);
-            _p->drawLayout->addWidget(_p->clearButton);
-            hLayout->addLayout(_p->drawLayout);
-            hLayout->addStretch();
-            vLayout->addLayout(hLayout);
-            _p->splitter->addWidget(editWidget);
-
-            _p->tabWidget = new QTabWidget;
-            _p->tabWidget->addTab(annotationsTab, "Annotations");
-            _p->tabWidget->addTab(new QWidget, "Summary");
-            _p->tabWidget->addTab(new QWidget, "Export");
-
             auto layout = new QVBoxLayout(this);
             layout->setMargin(0);
-            layout->addWidget(_p->tabWidget);
+            _p->drawingLayout = new QHBoxLayout;
+            _p->drawingLayout->setMargin(0);
+            Q_FOREACH (auto i, _p->primitiveButtonGroup->buttons())
+            {
+                _p->drawingLayout->addWidget(i);
+            }
+            _p->drawingLayout->addWidget(_p->colorButton);
+            _p->drawingLayout->addWidget(_p->lineWidthSpinBox);
+            _p->drawingLayout->addWidget(_p->undoButton);
+            _p->drawingLayout->addWidget(_p->redoButton);
+            _p->drawingLayout->addWidget(_p->clearButton);
+            _p->drawingLayout->addStretch();
+            layout->addLayout(_p->drawingLayout);
+            layout->addWidget(_p->textEdit);
+            layout->addWidget(_p->treeView, 1);
+            _p->controlsLayout = new QHBoxLayout;
+            _p->controlsLayout->setMargin(0);
+            _p->controlsLayout->addWidget(_p->prevButton);
+            _p->controlsLayout->addWidget(_p->nextButton);
+            _p->controlsLayout->addWidget(_p->addButton);
+            _p->controlsLayout->addWidget(_p->removeButton);
+            _p->controlsLayout->addWidget(_p->listVisibleButton);
+            _p->controlsLayout->addStretch();
+            _p->controlsLayout->addWidget(_p->exportButton);
+            layout->addLayout(_p->controlsLayout);
 
             // Initialize.
             setWindowTitle(qApp->translate("djv::ViewLib::AnnotateTool", "Annotate"));
@@ -224,17 +174,68 @@ namespace djv
 
             // Setup the callbacks.
             connect(
-                _p->primitiveActionGroup,
-                SIGNAL(triggered(QAction *)),
-                SLOT(primitiveCallback(QAction *)));
+                _p->primitiveButtonGroup,
+                SIGNAL(buttonToggled(int, bool)),
+                SLOT(primitiveCallback(int, bool)));
             connect(
-                _p->colorActionGroup,
-                SIGNAL(triggered(QAction *)),
-                SLOT(colorCallback(QAction *)));
+                _p->colorButton,
+                &UI::ToolButton::clicked,
+                [this]
+            {
+
+            });
             connect(
-                _p->lineWidthActionGroup,
-                SIGNAL(triggered(QAction *)),
-                SLOT(lineWidthCallback(QAction *)));
+                _p->lineWidthSpinBox,
+                SIGNAL(valueChanged(int)),
+                SLOT(lineWidthCallback(int)));
+            connect(
+                _p->undoButton,
+                &UI::ToolButton::clicked,
+                [this]
+            {
+            });
+            connect(
+                _p->redoButton,
+                &UI::ToolButton::clicked,
+                [this]
+            {
+            });
+            connect(
+                _p->clearButton,
+                &UI::ToolButton::clicked,
+                [this]
+            {
+                if (_p->currentData)
+                {
+                    _p->currentData->clearPrimitives();
+                    viewUpdate();
+                }
+            });
+
+            connect(
+                _p->textEdit,
+                &QTextEdit::textChanged,
+                [this]
+            {
+                if (_p->currentData)
+                {
+                    _p->currentData->setText(_p->textEdit->toPlainText());
+                    int selection = -1;
+                    const auto & indexes = _p->treeView->selectionModel()->selection().indexes();
+                    if (indexes.size())
+                    {
+                        selection = indexes[0].row();
+                    }
+                    annotationsUpdate();
+                    if (selection != -1)
+                    {
+                        _p->treeView->selectionModel()->select(QModelIndex(), QItemSelectionModel::Clear);
+                        _p->treeView->selectionModel()->select(
+                            QItemSelection(_p->model->index(selection, 0), _p->model->index(selection, 1)),
+                            QItemSelectionModel::Select);
+                    }
+                }
+            });
 
             connect(
                 _p->treeView->selectionModel(),
@@ -245,7 +246,6 @@ namespace djv
                 {
                     _p->currentData = *reinterpret_cast<std::shared_ptr<Annotate::Data> *>(p);
                     _p->textEdit->setText(_p->currentData->text());
-                    _p->textEdit->setEnabled(true);
                     auto playbackGroup = session->playbackGroup();
                     playbackGroup->setFrame(_p->currentData->frame());
                     viewUpdate();
@@ -254,7 +254,6 @@ namespace djv
                 {
                     _p->currentData.reset();
                     _p->textEdit->clear();
-                    _p->textEdit->setEnabled(false);
                 }
             });
 
@@ -285,7 +284,6 @@ namespace djv
                         QItemSelection(_p->model->index(static_cast<int>(row), 0), _p->model->index(static_cast<int>(row), 1)),
                         QItemSelectionModel::Select);
                     _p->textEdit->setText(_p->currentData->text());
-                    _p->textEdit->setEnabled(true);
                     auto playbackGroup = session->playbackGroup();
                     playbackGroup->setFrame(_p->currentData->frame());
                 }
@@ -318,7 +316,6 @@ namespace djv
                         QItemSelection(_p->model->index(static_cast<int>(row), 0), _p->model->index(static_cast<int>(row), 1)),
                         QItemSelectionModel::Select);
                     _p->textEdit->setText(_p->currentData->text());
-                    _p->textEdit->setEnabled(true);
                     auto playbackGroup = session->playbackGroup();
                     playbackGroup->setFrame(_p->currentData->frame());
                 }
@@ -342,7 +339,6 @@ namespace djv
                         QItemSelection(_p->model->index(static_cast<int>(row), 0), _p->model->index(static_cast<int>(row), 1)),
                         QItemSelectionModel::Select);
                     _p->textEdit->setText(data->text());
-                    _p->textEdit->setEnabled(true);
                 }
             });
 
@@ -373,75 +369,30 @@ namespace djv
                             QItemSelection(_p->model->index(selection, 0), _p->model->index(selection, 1)),
                             QItemSelectionModel::Select);
                         _p->textEdit->setText(_p->currentData->text());
-                        _p->textEdit->setEnabled(true);
                         auto playbackGroup = session->playbackGroup();
                         playbackGroup->setFrame(_p->currentData->frame());
                     }
                     else
                     {
                         _p->textEdit->clear();
-                        _p->textEdit->setEnabled(false);
                     }
                 }
             });
 
             connect(
-                _p->textEdit,
-                &QTextEdit::textChanged,
-                [this]
+                _p->listVisibleButton,
+                &UI::ToolButton::toggled,
+                [this](bool value)
             {
-                if (_p->currentData)
-                {
-                    _p->currentData->setText(_p->textEdit->toPlainText());
-                    int selection = -1;
-                    const auto & indexes = _p->treeView->selectionModel()->selection().indexes();
-                    if (indexes.size())
-                    {
-                        selection = indexes[0].row();
-                    }
-                    annotationsUpdate();
-                    if (selection != -1)
-                    {
-                        _p->treeView->selectionModel()->select(QModelIndex(), QItemSelectionModel::Clear);
-                        _p->treeView->selectionModel()->select(
-                            QItemSelection(_p->model->index(selection, 0), _p->model->index(selection, 1)),
-                            QItemSelectionModel::Select);
-                    }
-                }
+                _p->listVisible = value;
+                widgetUpdate();
             });
 
             connect(
-                _p->primitiveButton,
-                &UI::ToolButton::pressed,
-                [this]
-            {
-                _p->primitiveMenu->exec(_p->primitiveButton->mapToGlobal(QPoint(0, 0)), _p->primitiveActionGroup->checkedAction());
-            });
-            connect(
-                _p->colorButton,
-                &UI::ToolButton::pressed,
-                [this]
-            {
-                _p->colorMenu->exec(_p->colorButton->mapToGlobal(QPoint(0, 0)), _p->colorActionGroup->checkedAction());
-            });
-            connect(
-                _p->lineWidthButton,
-                &UI::ToolButton::pressed,
-                [this]
-            {
-                _p->lineWidthMenu->exec(_p->lineWidthButton->mapToGlobal(QPoint(0, 0)), _p->lineWidthActionGroup->checkedAction());
-            });
-
-            connect(
-                _p->clearButton,
+                _p->exportButton,
                 &UI::ToolButton::clicked,
                 [this]
             {
-                if (_p->currentData)
-                {
-                    _p->currentData->clearPrimitives();
-                    viewUpdate();
-                }
             });
 
             auto viewWidget = session->viewWidget();
@@ -464,12 +415,12 @@ namespace djv
                 SLOT(setPrimitive(djv::ViewLib::Enum::ANNOTATE_PRIMITIVE)));
             connect(
                 context->annotatePrefs(),
-                SIGNAL(colorChanged(djv::ViewLib::Enum::ANNOTATE_COLOR)),
-                SLOT(setColor(djv::ViewLib::Enum::ANNOTATE_COLOR)));
+                SIGNAL(colorChanged(const djv::AV::Color &)),
+                SLOT(setColor(const djv::AV::Color &)));
             connect(
                 context->annotatePrefs(),
-                SIGNAL(lineWidthChanged(djv::ViewLib::Enum::ANNOTATE_LINE_WIDTH)),
-                SLOT(setLineWidth(djv::ViewLib::Enum::ANNOTATE_LINE_WIDTH)));
+                SIGNAL(lineWidthChanged(size_t)),
+                SLOT(setLineWidth(size_t)));
 
             auto fileGroup = session->fileGroup();
             connect(
@@ -481,7 +432,6 @@ namespace djv
                 _p->currentData.reset();
                 _p->treeView->selectionModel()->select(QModelIndex(), QItemSelectionModel::Clear);
                 _p->textEdit->clear();
-                _p->textEdit->setEnabled(false);
                 annotationsUpdate();
                 viewUpdate();
             });
@@ -513,13 +463,11 @@ namespace djv
                         QItemSelection(_p->model->index(row, 0), _p->model->index(row, 1)),
                         QItemSelectionModel::Select);
                     _p->textEdit->setText(_p->currentData->text());
-                    _p->textEdit->setEnabled(true);
                 }
                 else
                 {
                     _p->treeView->selectionModel()->select(QModelIndex(), QItemSelectionModel::Clear);
                     _p->textEdit->clear();
-                    _p->textEdit->setEnabled(false);
                 }
                 viewUpdate();
             });
@@ -538,7 +486,7 @@ namespace djv
             Q_EMIT primitiveChanged(_p->primitive);
         }
 
-        void AnnotateTool::setColor(djv::ViewLib::Enum::ANNOTATE_COLOR value)
+        void AnnotateTool::setColor(const AV::Color & value)
         {
             if (value == _p->color)
                 return;
@@ -548,7 +496,7 @@ namespace djv
             Q_EMIT colorChanged(_p->color);
         }
 
-        void AnnotateTool::setLineWidth(Enum::ANNOTATE_LINE_WIDTH value)
+        void AnnotateTool::setLineWidth(size_t value)
         {
             if (value == _p->lineWidth)
                 return;
@@ -558,19 +506,17 @@ namespace djv
             Q_EMIT lineWidthChanged(_p->lineWidth);
         }
 
-        void AnnotateTool::primitiveCallback(QAction * value)
+        void AnnotateTool::primitiveCallback(int id, bool checked)
         {
-            setPrimitive(static_cast<Enum::ANNOTATE_PRIMITIVE>(_p->primitiveActionGroup->actions().indexOf(value)));
+            if (checked)
+            {
+                setPrimitive(static_cast<Enum::ANNOTATE_PRIMITIVE>(id));
+            }
         }
 
-        void AnnotateTool::colorCallback(QAction * value)
+        void AnnotateTool::lineWidthCallback(int value)
         {
-            setColor(static_cast<Enum::ANNOTATE_COLOR>(_p->colorActionGroup->actions().indexOf(value)));
-        }
-
-        void AnnotateTool::lineWidthCallback(QAction * value)
-        {
-            setLineWidth(static_cast<Enum::ANNOTATE_LINE_WIDTH>(_p->lineWidthActionGroup->actions().indexOf(value)));
+            setLineWidth(value);
         }
 
         void AnnotateTool::pickPressedCallback(const glm::ivec2 & in)
@@ -592,7 +538,6 @@ namespace djv
                         QItemSelection(_p->model->index(static_cast<int>(row), 0), _p->model->index(static_cast<int>(row), 1)),
                         QItemSelectionModel::Select);
                     _p->textEdit->setText(data->text());
-                    _p->textEdit->setEnabled(true);
                 }
                 if (data)
                 {
@@ -627,53 +572,51 @@ namespace djv
             const auto primitiveIcons = std::vector<std::string>(
             {
                 "djv/UI/AnnotatePen",
-                "djv/UI/AnnotateSquare",
-                "djv/UI/AnnotateCircle"
+                "djv/UI/AnnotateRectangle",
+                "djv/UI/AnnotateEllipse"
             });
         
         } // namespace
 
         void AnnotateTool::styleUpdate()
         {
+            size_t j = 0;
+            Q_FOREACH(auto i, _p->primitiveButtonGroup->buttons())
+            {
+                i->setIcon(context()->iconLibrary()->icon(primitiveIcons[j].c_str()));
+                ++j;
+            }
+
+            const int size = style()->pixelMetric(QStyle::PM_ButtonIconSize);
+            QImage image(size, size, QImage::Format_ARGB32);
+            image.fill(AV::ColorUtil::toQt(_p->color));
+            _p->colorButton->setIcon(QPixmap::fromImage(image));
+
+            _p->undoButton->setIcon(context()->iconLibrary()->icon("djv/UI/UndoIcon"));
+            _p->redoButton->setIcon(context()->iconLibrary()->icon("djv/UI/RedoIcon"));
+            _p->clearButton->setIcon(context()->iconLibrary()->icon("djv/UI/EraseIcon"));
+
             _p->prevButton->setIcon(context()->iconLibrary()->icon("djv/UI/LeftIcon"));
             _p->nextButton->setIcon(context()->iconLibrary()->icon("djv/UI/RightIcon"));
             _p->removeButton->setIcon(context()->iconLibrary()->icon("djv/UI/RemoveIcon"));
             _p->addButton->setIcon(context()->iconLibrary()->icon("djv/UI/AddIcon"));
-            for (int i = 0; i < Enum::ANNOTATE_PRIMITIVE_COUNT; ++i)
-            {
-                _p->primitiveActionGroup->actions()[i]->setIcon(context()->iconLibrary()->icon(primitiveIcons[i].c_str()));
-            }
-            _p->colorIcons.clear();
-            for (int i = 0; i < Enum::ANNOTATE_COLOR_COUNT; ++i)
-            {
-                const int size = style()->pixelMetric(QStyle::PM_ButtonIconSize);
-                QImage image(size, size, QImage::Format_ARGB32);
-                image.fill(AV::ColorUtil::toQt(Enum::annotateColors()[i]));
-                QIcon icon(QPixmap::fromImage(image));
-                _p->colorIcons.push_back(icon);
-                _p->colorActionGroup->actions()[i]->setIcon(icon);
-            }
-            _p->clearButton->setIcon(context()->iconLibrary()->icon("djv/UI/RemoveIcon"));
+            _p->listVisibleButton->setIcon(context()->iconLibrary()->icon("djv/UI/ListIcon"));
+            _p->exportButton->setIcon(context()->iconLibrary()->icon("djv/UI/ExportIcon"));
 
-            _p->prevNextLayout->setSpacing(style()->pixelMetric(QStyle::PM_ToolBarItemSpacing));
-            _p->addRemoveLayout->setSpacing(style()->pixelMetric(QStyle::PM_ToolBarItemSpacing));
-            _p->drawLayout->setSpacing(style()->pixelMetric(QStyle::PM_ToolBarItemSpacing));
+            _p->drawingLayout->setSpacing(style()->pixelMetric(QStyle::PM_ToolBarItemSpacing));
+            _p->controlsLayout->setSpacing(style()->pixelMetric(QStyle::PM_ToolBarItemSpacing));
         }
 
         void AnnotateTool::widgetUpdate()
         {
             SignalBlocker signalBlocker(QObjectList() <<
-                _p->primitiveActionGroup <<
-                _p->colorActionGroup <<
-                _p->lineWidthActionGroup);
-
-            _p->primitiveActionGroup->actions()[_p->primitive]->setChecked(true);
-            _p->colorActionGroup->actions()[_p->color]->setChecked(true);
-            _p->lineWidthActionGroup->actions()[_p->lineWidth]->setChecked(true);
-
-            _p->primitiveButton->setIcon(context()->iconLibrary()->icon(primitiveIcons[_p->primitive].c_str()));
-            _p->colorButton->setIcon(_p->colorIcons[_p->color]);
-            _p->lineWidthButton->setText(Enum::annotateLineWidthLabels()[_p->lineWidth]);
+                _p->primitiveButtonGroup <<
+                _p->lineWidthSpinBox <<
+                _p->listVisibleButton);
+            _p->primitiveButtonGroup->buttons()[_p->primitive]->setChecked(true);
+            _p->lineWidthSpinBox->setValue(static_cast<int>(_p->lineWidth));
+            _p->treeView->setVisible(_p->listVisible);
+            _p->listVisibleButton->setChecked(_p->listVisible);
         }
 
         void AnnotateTool::annotationsUpdate()

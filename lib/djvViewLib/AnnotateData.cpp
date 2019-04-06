@@ -43,7 +43,7 @@ namespace djv
     {
         namespace Annotate
         {
-            void AbstractPrimitive::_init(Enum::ANNOTATE_COLOR color, Enum::ANNOTATE_LINE_WIDTH lineWidth)
+            void AbstractPrimitive::_init(const AV::Color & color, size_t lineWidth)
             {
                 _color = color;
                 _lineWidth = lineWidth;
@@ -52,17 +52,14 @@ namespace djv
             AbstractPrimitive::~AbstractPrimitive()
             {}
 
-            std::shared_ptr<AbstractPrimitive> PrimitiveFactory::create(
-                Enum::ANNOTATE_PRIMITIVE primitive,
-                Enum::ANNOTATE_COLOR color,
-                Enum::ANNOTATE_LINE_WIDTH lineWidth)
+            std::shared_ptr<AbstractPrimitive> PrimitiveFactory::create(Enum::ANNOTATE_PRIMITIVE primitive, const AV::Color & color, size_t lineWidth)
             {
                 std::shared_ptr<AbstractPrimitive> out;
                 switch (primitive)
                 {
-                case Enum::ANNOTATE_PEN:    out = PenPrimitive::create   (color, lineWidth); break;
-                case Enum::ANNOTATE_SQUARE: out = SquarePrimitive::create(color, lineWidth); break;
-                case Enum::ANNOTATE_CIRCLE: out = CirclePrimitive::create(color, lineWidth); break;
+                case Enum::ANNOTATE_PEN:       out = PenPrimitive::create(color, lineWidth); break;
+                case Enum::ANNOTATE_RECTANGLE: out = RectanglePrimitive::create(color, lineWidth); break;
+                case Enum::ANNOTATE_ELLIPSE:   out = EllipsePrimitive::create(color, lineWidth); break;
                 default: break;
                 }
                 return out;
@@ -71,9 +68,7 @@ namespace djv
             PenPrimitive::~PenPrimitive()
             {}
 
-            std::shared_ptr<PenPrimitive> PenPrimitive::create(
-                Enum::ANNOTATE_COLOR color,
-                Enum::ANNOTATE_LINE_WIDTH lineWidth)
+            std::shared_ptr<PenPrimitive> PenPrimitive::create(const AV::Color & color, size_t lineWidth)
             {
                 auto out = std::shared_ptr<PenPrimitive>(new PenPrimitive);
                 out->_init(color, lineWidth);
@@ -91,9 +86,7 @@ namespace djv
                             _points[i].x * viewZoom + viewPos.x,
                             size.y - 1 - (_points[i].y * viewZoom + viewPos.y)));
                     }
-                    const AV::Color & color = Enum::annotateColors()[_color];
-                    const size_t lineWidth = Enum::annotateLineWidths()[_lineWidth];
-                    painter.setPen(QPen(AV::ColorUtil::toQt(color), lineWidth * viewZoom));
+                    painter.setPen(QPen(AV::ColorUtil::toQt(_color), _lineWidth * viewZoom));
                     painter.drawPolyline(points.data(), static_cast<int>(points.size()));
                 }
             }
@@ -103,23 +96,21 @@ namespace djv
                 _points.push_back(value);
             }
 
-            SquarePrimitive::~SquarePrimitive()
+            RectanglePrimitive::~RectanglePrimitive()
             {}
 
-            std::shared_ptr<SquarePrimitive> SquarePrimitive::create(Enum::ANNOTATE_COLOR color, Enum::ANNOTATE_LINE_WIDTH lineWidth)
+            std::shared_ptr<RectanglePrimitive> RectanglePrimitive::create(const AV::Color & color, size_t lineWidth)
             {
-                auto out = std::shared_ptr<SquarePrimitive>(new SquarePrimitive);
+                auto out = std::shared_ptr<RectanglePrimitive>(new RectanglePrimitive);
                 out->_init(color, lineWidth);
                 return out;
             }
 
-            void SquarePrimitive::draw(QPainter & painter, const glm::ivec2 & size, const glm::ivec2 & viewPos, float viewZoom)
+            void RectanglePrimitive::draw(QPainter & painter, const glm::ivec2 & size, const glm::ivec2 & viewPos, float viewZoom)
             {
                 if (_points.size() >= 2)
                 {
-                    const AV::Color & color = Enum::annotateColors()[_color];
-                    const size_t lineWidth = Enum::annotateLineWidths()[_lineWidth];
-                    QPen pen(AV::ColorUtil::toQt(color), lineWidth * viewZoom);
+                    QPen pen(AV::ColorUtil::toQt(_color), _lineWidth * viewZoom);
                     pen.setJoinStyle(Qt::MiterJoin);
                     painter.setPen(pen);
                     const glm::ivec2 & pos = _points[0];
@@ -134,7 +125,7 @@ namespace djv
                 }
             }
 
-            void SquarePrimitive::mouse(const glm::ivec2 & value)
+            void RectanglePrimitive::mouse(const glm::ivec2 & value)
             {
                 if (_points.size() < 2)
                 {
@@ -146,23 +137,21 @@ namespace djv
                 }
             }
 
-            CirclePrimitive::~CirclePrimitive()
+            EllipsePrimitive::~EllipsePrimitive()
             {}
 
-            std::shared_ptr<CirclePrimitive> CirclePrimitive::create(Enum::ANNOTATE_COLOR color, Enum::ANNOTATE_LINE_WIDTH lineWidth)
+            std::shared_ptr<EllipsePrimitive> EllipsePrimitive::create(const AV::Color & color, size_t lineWidth)
             {
-                auto out = std::shared_ptr<CirclePrimitive>(new CirclePrimitive);
+                auto out = std::shared_ptr<EllipsePrimitive>(new EllipsePrimitive);
                 out->_init(color, lineWidth);
                 return out;
             }
 
-            void CirclePrimitive::draw(QPainter & painter, const glm::ivec2 & size, const glm::ivec2 & viewPos, float viewZoom)
+            void EllipsePrimitive::draw(QPainter & painter, const glm::ivec2 & size, const glm::ivec2 & viewPos, float viewZoom)
             {
                 if (_points.size() >= 2)
                 {
-                    const AV::Color & color = Enum::annotateColors()[_color];
-                    const size_t lineWidth = Enum::annotateLineWidths()[_lineWidth];
-                    painter.setPen(QPen(AV::ColorUtil::toQt(color), lineWidth * viewZoom));
+                    painter.setPen(QPen(AV::ColorUtil::toQt(_color), _lineWidth * viewZoom));
                     const glm::ivec2 & pos = _points[0];
                     const glm::ivec2 & pos2 = _points[1];
                     painter.drawEllipse(QRect(
@@ -175,7 +164,7 @@ namespace djv
                 }
             }
 
-            void CirclePrimitive::mouse(const glm::ivec2 & value)
+            void EllipsePrimitive::mouse(const glm::ivec2 & value)
             {
                 if (_points.size() < 2)
                 {
@@ -191,7 +180,6 @@ namespace djv
             {
                 auto out = std::shared_ptr<Data>(new Data);
                 out->_frame = frame;
-                out->_text = qApp->translate("djv::ViewLib::Annotate::Data", "New annotation");
                 return out;
             }
 
