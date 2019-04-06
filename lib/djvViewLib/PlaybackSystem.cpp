@@ -39,6 +39,8 @@
 #include <djvUI/Menu.h>
 #include <djvUI/RowLayout.h>
 
+#include <djvAV/FFmpeg.h>
+
 #include <djvCore/Context.h>
 #include <djvCore/TextSystem.h>
 
@@ -53,11 +55,14 @@ namespace djv
         struct PlaybackSystem::Private
         {
             std::shared_ptr<Media> currentMedia;
+
             std::map<std::string, std::shared_ptr<UI::Action> > actions;
             std::shared_ptr<UI::ActionGroup> playbackActionGroup;
+            std::shared_ptr<UI::ActionGroup> playbackModeActionGroup;
             std::shared_ptr<UI::Menu> menu;
             std::map<std::string, std::shared_ptr<ValueObserver<bool> > > clickedObservers;
             std::shared_ptr<ValueObserver<Playback> > playbackObserver;
+            std::shared_ptr<ValueObserver<PlaybackMode> > playbackModeObserver;
             std::shared_ptr<ValueObserver<std::shared_ptr<Media> > > currentMediaObserver;
             std::shared_ptr<ValueObserver<std::string> > localeObserver;
         };
@@ -78,6 +83,17 @@ namespace djv
             p.playbackActionGroup->addAction(p.actions["Forward"]);
             p.playbackActionGroup->addAction(p.actions["Reverse"]);
 
+            p.actions["PlayOnce"] = UI::Action::create();
+            p.actions["PlayOnce"]->setEnabled(false);
+            p.actions["PlayLoop"] = UI::Action::create();
+            p.actions["PlayLoop"]->setEnabled(false);
+            p.actions["PlayPingPong"] = UI::Action::create();
+            p.actions["PlayPingPong"]->setEnabled(false);
+            p.playbackModeActionGroup = UI::ActionGroup::create(UI::ButtonType::Exclusive);
+            p.playbackModeActionGroup->addAction(p.actions["PlayOnce"]);
+            p.playbackModeActionGroup->addAction(p.actions["PlayLoop"]);
+            p.playbackModeActionGroup->addAction(p.actions["PlayPingPong"]);
+
             //! \todo Implement me!
             p.actions["PlayEveryFrame"] = UI::Action::create();
             p.actions["PlayEveryFrame"]->setButtonType(UI::ButtonType::Toggle);
@@ -92,51 +108,36 @@ namespace djv
             p.actions["OutPoint"]->setIcon("djvIconFrameEnd");
             p.actions["OutPoint"]->setShortcut(GLFW_KEY_END);
             p.actions["OutPoint"]->setEnabled(false);
-            //! \todo Implement me!
+
             p.actions["StartFrame"] = UI::Action::create();
             p.actions["StartFrame"]->setShortcut(GLFW_KEY_HOME, GLFW_MOD_SHIFT);
-            p.actions["StartFrame"]->setEnabled(false);
-            //! \todo Implement me!
             p.actions["EndFrame"] = UI::Action::create();
             p.actions["EndFrame"]->setShortcut(GLFW_KEY_END, GLFW_MOD_SHIFT);
-            p.actions["EndFrame"]->setEnabled(false);
-            //! \todo Implement me!
             p.actions["NextFrame"] = UI::Action::create();
             p.actions["NextFrame"]->setIcon("djvIconFrameNext");
             p.actions["NextFrame"]->addShortcut(GLFW_KEY_RIGHT);
             p.actions["NextFrame"]->addShortcut(GLFW_KEY_RIGHT_BRACKET);
-            p.actions["NextFrame"]->setEnabled(false);
-            //! \todo Implement me!
             p.actions["NextFrame10"] = UI::Action::create();
             p.actions["NextFrame10"]->addShortcut(GLFW_KEY_RIGHT, GLFW_MOD_SHIFT);
             p.actions["NextFrame10"]->addShortcut(GLFW_KEY_RIGHT_BRACKET, GLFW_MOD_SHIFT);
-            p.actions["NextFrame10"]->setEnabled(false);
-            //! \todo Implement me!
             p.actions["NextFrame100"] = UI::Action::create();
             p.actions["NextFrame100"]->addShortcut(GLFW_KEY_RIGHT, GLFW_MOD_CONTROL);
             p.actions["NextFrame100"]->addShortcut(GLFW_KEY_RIGHT_BRACKET, GLFW_MOD_CONTROL);
-            p.actions["NextFrame100"]->setEnabled(false);
-            //! \todo Implement me!
             p.actions["PrevFrame"] = UI::Action::create();
             p.actions["PrevFrame"]->setIcon("djvIconFramePrev");
             p.actions["PrevFrame"]->addShortcut(GLFW_KEY_LEFT);
             p.actions["PrevFrame"]->addShortcut(GLFW_KEY_LEFT_BRACKET);
-            p.actions["PrevFrame"]->setEnabled(false);
-            //! \todo Implement me!
             p.actions["PrevFrame10"] = UI::Action::create();
             p.actions["PrevFrame10"]->addShortcut(GLFW_KEY_LEFT, GLFW_MOD_SHIFT);
             p.actions["PrevFrame10"]->addShortcut(GLFW_KEY_LEFT_BRACKET, GLFW_MOD_SHIFT);
-            p.actions["PrevFrame10"]->setEnabled(false);
-            //! \todo Implement me!
             p.actions["PrevFrame100"] = UI::Action::create();
             p.actions["PrevFrame100"]->addShortcut(GLFW_KEY_LEFT, GLFW_MOD_CONTROL);
             p.actions["PrevFrame100"]->addShortcut(GLFW_KEY_LEFT_BRACKET, GLFW_MOD_CONTROL);
-            p.actions["PrevFrame100"]->setEnabled(false);
-            //! \todo Implement me!
             p.actions["InOutPoints"] = UI::Action::create();
             p.actions["InOutPoints"]->setButtonType(UI::ButtonType::Toggle);
             p.actions["InOutPoints"]->setShortcut(GLFW_KEY_P);
             p.actions["InOutPoints"]->setEnabled(false);
+
             //! \todo Implement me!
             p.actions["SetInPoint"] = UI::Action::create();
             p.actions["SetInPoint"]->setShortcut(GLFW_KEY_I);
@@ -157,6 +158,9 @@ namespace djv
             p.menu = UI::Menu::create(context);
             p.menu->addAction(p.actions["Forward"]);
             p.menu->addAction(p.actions["Reverse"]);
+            p.menu->addAction(p.actions["PlayOnce"]);
+            p.menu->addAction(p.actions["PlayLoop"]);
+            p.menu->addAction(p.actions["PlayPingPong"]);
             p.menu->addAction(p.actions["PlayEveryFrame"]);
             p.menu->addSeparator();
             p.menu->addAction(p.actions["InPoint"]);
@@ -196,6 +200,146 @@ namespace djv
                 }
             });
 
+            p.playbackModeActionGroup->setExclusiveCallback(
+                [weak](int index)
+            {
+                if (auto system = weak.lock())
+                {
+                    if (auto media = system->_p->currentMedia)
+                    {
+                        media->setPlaybackMode(static_cast<PlaybackMode>(index));
+                    }
+                }
+            });
+
+            p.clickedObservers["StartFrame"] = ValueObserver<bool>::create(
+                p.actions["StartFrame"]->observeClicked(),
+                [weak](bool value)
+            {
+                if (value)
+                {
+                    if (auto system = weak.lock())
+                    {
+                        if (auto media = system->_p->currentMedia)
+                        {
+                            media->start();
+                        }
+                    }
+                }
+            });
+
+            p.clickedObservers["EndFrame"] = ValueObserver<bool>::create(
+                p.actions["EndFrame"]->observeClicked(),
+                [weak](bool value)
+            {
+                if (value)
+                {
+                    if (auto system = weak.lock())
+                    {
+                        if (auto media = system->_p->currentMedia)
+                        {
+                            media->end();
+                        }
+                    }
+                }
+            });
+
+            p.clickedObservers["NextFrame"] = ValueObserver<bool>::create(
+                p.actions["NextFrame"]->observeClicked(),
+                [weak](bool value)
+            {
+                if (value)
+                {
+                    if (auto system = weak.lock())
+                    {
+                        if (auto media = system->_p->currentMedia)
+                        {
+                            media->nextFrame();
+                        }
+                    }
+                }
+            });
+
+            p.clickedObservers["NextFrame10"] = ValueObserver<bool>::create(
+                p.actions["NextFrame10"]->observeClicked(),
+                [weak](bool value)
+            {
+                if (value)
+                {
+                    if (auto system = weak.lock())
+                    {
+                        if (auto media = system->_p->currentMedia)
+                        {
+                            media->nextFrame(10);
+                        }
+                    }
+                }
+            });
+
+            p.clickedObservers["NextFrame100"] = ValueObserver<bool>::create(
+                p.actions["NextFrame100"]->observeClicked(),
+                [weak](bool value)
+            {
+                if (value)
+                {
+                    if (auto system = weak.lock())
+                    {
+                        if (auto media = system->_p->currentMedia)
+                        {
+                            media->nextFrame(100);
+                        }
+                    }
+                }
+            });
+
+            p.clickedObservers["PrevFrame"] = ValueObserver<bool>::create(
+                p.actions["PrevFrame"]->observeClicked(),
+                [weak](bool value)
+            {
+                if (value)
+                {
+                    if (auto system = weak.lock())
+                    {
+                        if (auto media = system->_p->currentMedia)
+                        {
+                            media->prevFrame();
+                        }
+                    }
+                }
+            });
+
+            p.clickedObservers["PrevFrame10"] = ValueObserver<bool>::create(
+                p.actions["PrevFrame10"]->observeClicked(),
+                [weak](bool value)
+            {
+                if (value)
+                {
+                    if (auto system = weak.lock())
+                    {
+                        if (auto media = system->_p->currentMedia)
+                        {
+                            media->prevFrame(10);
+                        }
+                    }
+                }
+            });
+
+            p.clickedObservers["PrevFrame100"] = ValueObserver<bool>::create(
+                p.actions["PrevFrame100"]->observeClicked(),
+                [weak](bool value)
+            {
+                if (value)
+                {
+                    if (auto system = weak.lock())
+                    {
+                        if (auto media = system->_p->currentMedia)
+                        {
+                            media->prevFrame(100);
+                        }
+                    }
+                }
+            });
+
             if (auto fileSystem = context->getSystemT<FileSystem>())
             {
                 p.currentMediaObserver = ValueObserver<std::shared_ptr<Media> >::create(
@@ -207,6 +351,17 @@ namespace djv
                         system->_p->currentMedia = value;
                         system->_p->actions["Forward"]->setEnabled(value ? true : false);
                         system->_p->actions["Reverse"]->setEnabled(value ? true : false);
+                        system->_p->actions["PlayOnce"]->setEnabled(value ? true : false);
+                        system->_p->actions["PlayLoop"]->setEnabled(value ? true : false);
+                        system->_p->actions["PlayPingPong"]->setEnabled(value ? true : false);
+                        system->_p->actions["StartFrame"]->setEnabled(value ? true : false);
+                        system->_p->actions["EndFrame"]->setEnabled(value ? true : false);
+                        system->_p->actions["NextFrame"]->setEnabled(value ? true : false);
+                        system->_p->actions["NextFrame10"]->setEnabled(value ? true : false);
+                        system->_p->actions["NextFrame100"]->setEnabled(value ? true : false);
+                        system->_p->actions["PrevFrame"]->setEnabled(value ? true : false);
+                        system->_p->actions["PrevFrame10"]->setEnabled(value ? true : false);
+                        system->_p->actions["PrevFrame100"]->setEnabled(value ? true : false);
                         if (value)
                         {
                             system->_p->playbackObserver = ValueObserver<Playback>::create(
@@ -219,12 +374,22 @@ namespace djv
                                     system->_p->playbackActionGroup->setChecked(1, Playback::Reverse == value);
                                 }
                             });
+                            system->_p->playbackModeObserver = ValueObserver<PlaybackMode>::create(
+                                value->observePlaybackMode(),
+                                [weak](PlaybackMode value)
+                            {
+                                if (auto system = weak.lock())
+                                {
+                                    system->_p->playbackModeActionGroup->setChecked(static_cast<int>(value), true);
+                                }
+                            });
                         }
                         else
                         {
                             system->_p->playbackActionGroup->setChecked(0, false);
                             system->_p->playbackActionGroup->setChecked(1, false);
                             system->_p->playbackObserver.reset();
+                            system->_p->playbackModeObserver.reset();
                         }
                     }
                 });
@@ -273,41 +438,47 @@ namespace djv
         {
             DJV_PRIVATE_PTR();
             auto context = getContext();
-            p.actions["Forward"]->setTitle(_getText(DJV_TEXT("Forward")));
+            p.actions["Forward"]->setText(_getText(DJV_TEXT("Forward")));
             p.actions["Forward"]->setTooltip(_getText(DJV_TEXT("Forward tooltip")));
-            p.actions["Reverse"]->setTitle(_getText(DJV_TEXT("Reverse")));
+            p.actions["Reverse"]->setText(_getText(DJV_TEXT("Reverse")));
             p.actions["Reverse"]->setTooltip(_getText(DJV_TEXT("Reverse tooltip")));
-            p.actions["PlayEveryFrame"]->setTitle(_getText(DJV_TEXT("Play Every Frame")));
+            p.actions["PlayOnce"]->setText(_getText(DJV_TEXT("Play Once")));
+            p.actions["PlayOnce"]->setTooltip(_getText(DJV_TEXT("Play once tooltip")));
+            p.actions["PlayLoop"]->setText(_getText(DJV_TEXT("Loop")));
+            p.actions["PlayLoop"]->setTooltip(_getText(DJV_TEXT("Loop tooltip")));
+            p.actions["PlayPingPong"]->setText(_getText(DJV_TEXT("Ping Pong")));
+            p.actions["PlayPingPong"]->setTooltip(_getText(DJV_TEXT("Ping pong tooltip")));
+            p.actions["PlayEveryFrame"]->setText(_getText(DJV_TEXT("Play Every Frame")));
             p.actions["PlayEveryFrame"]->setTooltip(_getText(DJV_TEXT("Play every frame tooltip")));
-            p.actions["InPoint"]->setTitle(_getText(DJV_TEXT("Go to In Point")));
+            p.actions["InPoint"]->setText(_getText(DJV_TEXT("Go to In Point")));
             p.actions["InPoint"]->setTooltip(_getText(DJV_TEXT("Go to in point tooltip")));
-            p.actions["OutPoint"]->setTitle(_getText(DJV_TEXT("Go to Out Point")));
+            p.actions["OutPoint"]->setText(_getText(DJV_TEXT("Go to Out Point")));
             p.actions["OutPoint"]->setTooltip(_getText(DJV_TEXT("Go to out point tooltip")));
-            p.actions["StartFrame"]->setTitle(_getText(DJV_TEXT("Go to Start Frame")));
+            p.actions["StartFrame"]->setText(_getText(DJV_TEXT("Go to Start Frame")));
             p.actions["StartFrame"]->setTooltip(_getText(DJV_TEXT("Go to start frame tooltip")));
-            p.actions["EndFrame"]->setTitle(_getText(DJV_TEXT("Go to End Frame")));
+            p.actions["EndFrame"]->setText(_getText(DJV_TEXT("Go to End Frame")));
             p.actions["EndFrame"]->setTooltip(_getText(DJV_TEXT("Go to end frame tooltip")));
-            p.actions["NextFrame"]->setTitle(_getText(DJV_TEXT("Next Frame")));
+            p.actions["NextFrame"]->setText(_getText(DJV_TEXT("Next Frame")));
             p.actions["NextFrame"]->setTooltip(_getText(DJV_TEXT("Next frame tooltip")));
-            p.actions["NextFrame10"]->setTitle(_getText(DJV_TEXT("Next Frame X10")));
+            p.actions["NextFrame10"]->setText(_getText(DJV_TEXT("Next Frame X10")));
             p.actions["NextFrame10"]->setTooltip(_getText(DJV_TEXT("Next frame X10 tooltip")));
-            p.actions["NextFrame100"]->setTitle(_getText(DJV_TEXT("Next Frame X100")));
+            p.actions["NextFrame100"]->setText(_getText(DJV_TEXT("Next Frame X100")));
             p.actions["NextFrame100"]->setTooltip(_getText(DJV_TEXT("Next frame X100 tooltip")));
-            p.actions["PrevFrame"]->setTitle(_getText(DJV_TEXT("Previous Frame")));
+            p.actions["PrevFrame"]->setText(_getText(DJV_TEXT("Previous Frame")));
             p.actions["PrevFrame"]->setTooltip(_getText(DJV_TEXT("Previous frame tooltip")));
-            p.actions["PrevFrame10"]->setTitle(_getText(DJV_TEXT("Previous Frame X10")));
+            p.actions["PrevFrame10"]->setText(_getText(DJV_TEXT("Previous Frame X10")));
             p.actions["PrevFrame10"]->setTooltip(_getText(DJV_TEXT("Previous frame X10 tooltip")));
-            p.actions["PrevFrame100"]->setTitle(_getText(DJV_TEXT("Previous Frame X100")));
+            p.actions["PrevFrame100"]->setText(_getText(DJV_TEXT("Previous Frame X100")));
             p.actions["PrevFrame100"]->setTooltip(_getText(DJV_TEXT("Previous frame X100 tooltip")));
-            p.actions["InOutPoints"]->setTitle(_getText(DJV_TEXT("Enable In/Out Points")));
+            p.actions["InOutPoints"]->setText(_getText(DJV_TEXT("Enable In/Out Points")));
             p.actions["InOutPoints"]->setTooltip(_getText(DJV_TEXT("Enable in/out points tooltip")));
-            p.actions["SetInPoint"]->setTitle(_getText(DJV_TEXT("Set In Point")));
+            p.actions["SetInPoint"]->setText(_getText(DJV_TEXT("Set In Point")));
             p.actions["SetInPoint"]->setTooltip(_getText(DJV_TEXT("Set in point tooltip")));
-            p.actions["SetOutPoint"]->setTitle(_getText(DJV_TEXT("Set Out Point")));
+            p.actions["SetOutPoint"]->setText(_getText(DJV_TEXT("Set Out Point")));
             p.actions["SetOutPoint"]->setTooltip(_getText(DJV_TEXT("Set out point tooltip")));
-            p.actions["ResetInPoint"]->setTitle(_getText(DJV_TEXT("Reset In Point")));
+            p.actions["ResetInPoint"]->setText(_getText(DJV_TEXT("Reset In Point")));
             p.actions["ResetInPoint"]->setTooltip(_getText(DJV_TEXT("Reset in point tooltip")));
-            p.actions["ResetOutPoint"]->setTitle(_getText(DJV_TEXT("Reset Out Point")));
+            p.actions["ResetOutPoint"]->setText(_getText(DJV_TEXT("Reset Out Point")));
             p.actions["ResetOutPoint"]->setTooltip(_getText(DJV_TEXT("Reset out point tooltip")));
 
             p.menu->setText(_getText(DJV_TEXT("Playback")));

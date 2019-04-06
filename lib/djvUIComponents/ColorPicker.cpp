@@ -156,7 +156,7 @@ namespace djv
             {
                 std::stringstream ss;
                 ss << action.second;
-                action.first->setTitle(_getText(ss.str()));
+                action.first->setText(_getText(ss.str()));
             }
             _typeUpdate();
         }

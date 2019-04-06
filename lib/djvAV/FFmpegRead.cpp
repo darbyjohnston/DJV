@@ -210,7 +210,7 @@ namespace djv
                                     duration = av_rescale_q(
                                         avVideoStream->duration,
                                         avVideoStream->time_base,
-                                        FFmpeg::getTimeBaseQ());
+                                        av_get_time_base_q());
                                 }
                                 else if (p.avFormatContext->duration != AV_NOPTS_VALUE)
                                 {
@@ -285,7 +285,7 @@ namespace djv
                                     duration = av_rescale_q(
                                         avAudioStream->duration,
                                         avAudioStream->time_base,
-                                        FFmpeg::getTimeBaseQ());
+                                        av_get_time_base_q());
                                 }
                                 else if (p.avFormatContext->duration != AV_NOPTS_VALUE)
                                 {
@@ -528,7 +528,7 @@ namespace djv
                         pts = av_rescale_q(
                             p.avFrame->pts,
                             p.avFormatContext->streams[p.avVideoStream]->time_base,
-                            FFmpeg::getTimeBaseQ());
+                            av_get_time_base_q());
 
                         /*if (auto context = _context.lock())
                         {
@@ -589,7 +589,7 @@ namespace djv
                         pts = av_rescale_q(
                             p.avFrame->pts,
                             p.avFormatContext->streams[p.avVideoStream]->time_base,
-                            FFmpeg::getTimeBaseQ());
+                            av_get_time_base_q());
 
                         if (!seek)
                         {

@@ -66,11 +66,11 @@ namespace djv
             std::shared_ptr<Core::IValueSubject<std::string> > observeIcon() const;
             void setIcon(const std::string &);
 
-            std::shared_ptr<Core::IValueSubject<std::string> > observeTitle() const;
-            void setTitle(const std::string &);
-
             std::shared_ptr<Core::IValueSubject<std::string> > observeText() const;
             void setText(const std::string &);
+
+            std::shared_ptr<Core::IValueSubject<std::string> > observeFont() const;
+            void setFont(const std::string &);
 
             std::shared_ptr<Core::IListSubject<std::shared_ptr<Shortcut> > > observeShortcuts() const;
             void setShortcut(const std::shared_ptr<Shortcut> &);

@@ -1,4 +1,5 @@
 set(header
+    AVSettings.h
     Action.h
     ActionGroup.h
     Bellows.h
@@ -71,6 +72,7 @@ set(header
     WidgetInline.h
     Window.h)
 set(source
+    AVSettings.cpp
     Action.cpp
     ActionGroup.cpp
     Bellows.cpp

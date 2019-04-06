@@ -37,20 +37,20 @@ namespace djv
     {
         namespace Settings
         {
-            //! This class provides the AV I/O settings.
-            class AVIO : public ISettings
+            //! This class provides the A/V settings.
+            class AV : public ISettings
             {
-                DJV_NON_COPYABLE(AVIO);
+                DJV_NON_COPYABLE(AV);
 
             protected:
                 void _init(Core::Context * context);
 
-                AVIO();
+                AV();
 
             public:
-                virtual ~AVIO();
+                virtual ~AV();
 
-                static std::shared_ptr<AVIO> create(Core::Context *);
+                static std::shared_ptr<AV> create(Core::Context *);
 
                 void load(const picojson::value &) override;
                 picojson::value save() override;

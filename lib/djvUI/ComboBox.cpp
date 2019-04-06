@@ -182,14 +182,9 @@ namespace djv
             DJV_PRIVATE_PTR();
             p.items.push_back(value);
             auto action = Action::create();
-            action->setTitle(value);
+            action->setText(value);
             p.actionGroup->addAction(action);
             p.menu->addAction(action);
-            if (-1 == p.currentItem)
-            {
-                p.currentItem = 0;
-                _updateCurrentItem();
-            }
         }
 
         void ComboBox::clearItems()
@@ -219,6 +214,16 @@ namespace djv
             _updateCurrentItem();
         }
 
+        void ComboBox::setFont(int index, const std::string & font)
+        {
+            DJV_PRIVATE_PTR();
+            const auto & actions = p.actionGroup->getActions();
+            if (index >= 0 && index < actions.size())
+            {
+                actions[index]->setFont(font);
+            }
+        }
+
         void ComboBox::setCallback(const std::function<void(int)> & value)
         {
             _p->callback = value;
@@ -242,7 +247,7 @@ namespace djv
             for (const auto & i : p.items)
             {
                 auto action = Action::create();
-                action->setTitle(i);
+                action->setText(i);
                 p.actionGroup->addAction(action);
                 p.menu->addAction(action);
             }

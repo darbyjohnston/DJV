@@ -45,6 +45,13 @@ namespace djv
             First = Forward
         };
 
+        enum class PlaybackMode
+        {
+            Once,
+            Loop,
+            PingPong
+        };
+
     } // namespace ViewLib
 } // namespace djv
 

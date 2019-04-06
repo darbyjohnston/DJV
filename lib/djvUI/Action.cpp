@@ -43,8 +43,8 @@ namespace djv
             std::shared_ptr<ValueSubject<bool> > clicked;
             std::shared_ptr<ValueSubject<bool> > checked;
             std::shared_ptr<ValueSubject<std::string> > icon;
-            std::shared_ptr<ValueSubject<std::string> > title;
             std::shared_ptr<ValueSubject<std::string> > text;
+            std::shared_ptr<ValueSubject<std::string> > font;
             std::shared_ptr<ListSubject<std::shared_ptr<Shortcut> > > shortcuts;
             std::shared_ptr<ValueSubject<bool> > enabled;
             std::shared_ptr<ValueSubject<std::string> > tooltip;
@@ -57,8 +57,8 @@ namespace djv
             p.clicked = ValueSubject<bool>::create(false);
             p.checked = ValueSubject<bool>::create(false);
             p.icon = ValueSubject<std::string>::create();
-            p.title = ValueSubject<std::string>::create();
             p.text = ValueSubject<std::string>::create();
+            p.font = ValueSubject<std::string>::create();
             p.shortcuts = ListSubject<std::shared_ptr<Shortcut> >::create();
             p.enabled = ValueSubject<bool>::create(true);
             p.tooltip = ValueSubject<std::string>::create();
@@ -125,16 +125,6 @@ namespace djv
             _p->icon->setIfChanged(value);
         }
 
-        std::shared_ptr<IValueSubject<std::string> > Action::observeTitle() const
-        {
-            return _p->title;
-        }
-
-        void Action::setTitle(const std::string & value)
-        {
-            _p->title->setIfChanged(value);
-        }
-
         std::shared_ptr<IValueSubject<std::string> > Action::observeText() const
         {
             return _p->text;
@@ -143,6 +133,16 @@ namespace djv
         void Action::setText(const std::string & value)
         {
             _p->text->setIfChanged(value);
+        }
+
+        std::shared_ptr<IValueSubject<std::string> > Action::observeFont() const
+        {
+            return _p->font;
+        }
+
+        void Action::setFont(const std::string & value)
+        {
+            _p->font->setIfChanged(value);
         }
 
         std::shared_ptr<Core::IListSubject<std::shared_ptr<Shortcut> > > Action::observeShortcuts() const

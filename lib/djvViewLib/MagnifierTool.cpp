@@ -120,9 +120,9 @@ namespace djv
             DJV_PRIVATE_PTR();
             setTitle(_getText(DJV_TEXT("Magnifier")));
 
-            p.actions["ColorProfile"]->setTitle("Enable Color Profile");
+            p.actions["ColorProfile"]->setText("Enable Color Profile");
             p.actions["ColorProfile"]->setTooltip("Magnifier enable color profile tooltip");
-            p.actions["DisplayProfile"]->setTitle("Enable Display Profile");
+            p.actions["DisplayProfile"]->setText("Enable Display Profile");
             p.actions["DisplayProfile"]->setTooltip("Magnifier enable display profile tooltip");
 
             p.zoomInButton->setTooltip("Magnifier zoom in tooltip");

@@ -94,22 +94,6 @@ namespace djv
             DJV_PRIVATE_PTR();
             action->setButtonType(p.buttonType);
 
-            if (ButtonType::Radio == p.buttonType)
-            {
-                size_t i = 0;
-                for (; i < p.actions.size(); ++i)
-                {
-                    if (p.actions[i]->observeChecked()->get())
-                    {
-                        break;
-                    }
-                }
-                if (i == p.actions.size())
-                {
-                    action->setChecked(true);
-                }
-            }
-
             auto weak = std::weak_ptr<ActionGroup>(std::dynamic_pointer_cast<ActionGroup>(shared_from_this()));
             const int index = static_cast<int>(p.actions.size());
             p.clickedObservers[action] =
@@ -215,10 +199,6 @@ namespace djv
             for (size_t i = 0; i < p.actions.size(); ++i)
             {
                 p.actions[i]->setButtonType(value);
-            }
-            if (ButtonType::Radio == p.buttonType)
-            {
-                setChecked(0);
             }
         }
 

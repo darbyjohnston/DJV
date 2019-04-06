@@ -51,9 +51,21 @@ namespace djv
         };
         DJV_ENUM_HELPERS(Side);
 
+        //! This enumeration provides time units.
+        enum class TimeUnits
+        {
+            Timecode,
+            Frames,
+
+            Count,
+            First = Timecode
+        };
+        DJV_ENUM_HELPERS(TimeUnits);
+
     } // namespace UI
 
     DJV_ENUM_SERIALIZE_HELPERS(AV::Side);
+    DJV_ENUM_SERIALIZE_HELPERS(AV::TimeUnits);
 
 } // namespace djv
 

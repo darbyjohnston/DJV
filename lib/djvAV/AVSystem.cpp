@@ -44,6 +44,8 @@
 
 #include <GLFW/glfw3.h>
 
+#include <iomanip>
+
 using namespace djv::Core;
 
 using namespace gl;
@@ -51,16 +53,23 @@ using namespace gl;
 #undef GL_DEBUG_SEVERITY_HIGH
 #undef GL_DEBUG_SEVERITY_MEDIUM
 
+using namespace djv::Core;
+
 namespace djv
 {
     namespace AV
     {
         struct AVSystem::Private
-        {};
+        {
+            std::shared_ptr<ValueSubject<TimeUnits> > timeUnits;
+        };
 
         void AVSystem::_init(Context * context)
         {
             ISystem::_init("djv::AV::AVSystem", context);
+
+            DJV_PRIVATE_PTR();
+            p.timeUnits = ValueSubject<TimeUnits>::create(TimeUnits::First);
 
             auto ioSystem = IO::System::create(context);
             auto audioSystem = Audio::System::create(context);
@@ -86,6 +95,55 @@ namespace djv
         {
             auto out = std::shared_ptr<AVSystem>(new AVSystem);
             out->_init(context);
+            return out;
+        }
+
+        std::shared_ptr<Core::IValueSubject<TimeUnits> > AVSystem::observeTimeUnits() const
+        {
+            return _p->timeUnits;
+        }
+
+        void AVSystem::setTimeUnits(TimeUnits value)
+        {
+            _p->timeUnits->setIfChanged(value);
+        }
+
+        std::string AVSystem::getLabel(Time::Timestamp value, const Core::Time::Speed & speed) const
+        {
+            DJV_PRIVATE_PTR();
+            std::string out;
+            Frame::Index frame = Time::timestampToFrame(value, speed);
+            switch (p.timeUnits->get())
+            {
+            case TimeUnits::Timecode:
+            {
+                const float speedF = Time::Speed::speedToFloat(speed);
+                const int hours = static_cast<int>(frame / (speedF * 60 * 60));
+                frame -= static_cast<int>(hours * speedF * 60 * 60);
+                const int minutes = static_cast<int>(frame / (speedF * 60));
+                frame -= static_cast<int>(minutes * speedF * 60);
+                const int seconds = static_cast<int>(frame / speedF);
+                frame -= static_cast<int>(seconds * speedF);
+                std::stringstream ss;
+                ss << std::setfill('0') << std::setw(2) << hours;
+                ss << std::setw(0) << ":";
+                ss << std::setfill('0') << std::setw(2) << minutes;
+                ss << std::setw(0) << ":";
+                ss << std::setfill('0') << std::setw(2) << seconds;
+                ss << std::setw(0) << ":";
+                ss << std::setfill('0') << std::setw(2) << frame;
+                out = ss.str();
+                break;
+            }
+            case TimeUnits::Frames:
+            {
+                std::stringstream ss;
+                ss << frame;
+                out = ss.str();
+                break;
+            }
+            default: break;
+            }
             return out;
         }
 

@@ -262,15 +262,15 @@ namespace djv
         {
             DJV_PRIVATE_PTR();
             auto context = getContext();
-            p.actions["Magnifier"]->setTitle(_getText(DJV_TEXT("Magnifier")));
+            p.actions["Magnifier"]->setText(_getText(DJV_TEXT("Magnifier")));
             p.actions["Magnifier"]->setTooltip(_getText(DJV_TEXT("Magnifier tooltip")));
-            p.actions["ColorPicker"]->setTitle(_getText(DJV_TEXT("Color Picker")));
+            p.actions["ColorPicker"]->setText(_getText(DJV_TEXT("Color Picker")));
             p.actions["ColorPicker"]->setTooltip(_getText(DJV_TEXT("Color picker tooltip")));
-            p.actions["Histogram"]->setTitle(_getText(DJV_TEXT("Histogram")));
+            p.actions["Histogram"]->setText(_getText(DJV_TEXT("Histogram")));
             p.actions["Histogram"]->setTooltip(_getText(DJV_TEXT("Histogram tooltip")));
-            p.actions["Information"]->setTitle(_getText(DJV_TEXT("Information")));
+            p.actions["Information"]->setText(_getText(DJV_TEXT("Information")));
             p.actions["Information"]->setTooltip(_getText(DJV_TEXT("Information tooltip")));
-            p.actions["Debug"]->setTitle(_getText(DJV_TEXT("Debugging")));
+            p.actions["Debug"]->setText(_getText(DJV_TEXT("Debugging")));
             p.actions["Debug"]->setTooltip(_getText(DJV_TEXT("Debugging tooltip")));
 
             p.menu->setText(_getText(DJV_TEXT("Tools")));

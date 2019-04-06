@@ -159,25 +159,25 @@ namespace djv
         {
             DJV_PRIVATE_PTR();
             auto context = getContext();
-            p.actions["ColorManager"]->setTitle(_getText(DJV_TEXT("Color Manager")));
+            p.actions["ColorManager"]->setText(_getText(DJV_TEXT("Color Manager")));
             p.actions["ColorManager"]->setTooltip(_getText(DJV_TEXT("Color manager tooltip")));
-            p.actions["ColorChannels"]->setTitle(_getText(DJV_TEXT("Color channels")));
+            p.actions["ColorChannels"]->setText(_getText(DJV_TEXT("Color channels")));
             p.actions["ColorChannels"]->setTooltip(_getText(DJV_TEXT("Color channels tooltip")));
-            p.actions["RedChannel"]->setTitle(_getText(DJV_TEXT("Red channel")));
+            p.actions["RedChannel"]->setText(_getText(DJV_TEXT("Red channel")));
             p.actions["RedChannel"]->setTooltip(_getText(DJV_TEXT("Red channel tooltip")));
-            p.actions["GreenChannel"]->setTitle(_getText(DJV_TEXT("Green channel")));
+            p.actions["GreenChannel"]->setText(_getText(DJV_TEXT("Green channel")));
             p.actions["GreenChannel"]->setTooltip(_getText(DJV_TEXT("Green channel tooltip")));
-            p.actions["BlueChannel"]->setTitle(_getText(DJV_TEXT("Blue channel")));
+            p.actions["BlueChannel"]->setText(_getText(DJV_TEXT("Blue channel")));
             p.actions["BlueChannel"]->setTooltip(_getText(DJV_TEXT("Blue channel tooltip")));
-            p.actions["AlphaChannel"]->setTitle(_getText(DJV_TEXT("Alpha channel")));
+            p.actions["AlphaChannel"]->setText(_getText(DJV_TEXT("Alpha channel")));
             p.actions["AlphaChannel"]->setTooltip(_getText(DJV_TEXT("Alpha channel tooltip")));
-            p.actions["PremultipliedAlpha"]->setTitle(_getText(DJV_TEXT("Premultiplied alpha")));
+            p.actions["PremultipliedAlpha"]->setText(_getText(DJV_TEXT("Premultiplied alpha")));
             p.actions["PremultipliedAlpha"]->setTooltip(_getText(DJV_TEXT("Premultiplied alpha tooltip")));
-            p.actions["Transform"]->setTitle(_getText(DJV_TEXT("Transform")));
+            p.actions["Transform"]->setText(_getText(DJV_TEXT("Transform")));
             p.actions["Transform"]->setTooltip(_getText(DJV_TEXT("Transform tooltip")));
-            p.actions["FrameStore"]->setTitle(_getText(DJV_TEXT("Frame Store")));
+            p.actions["FrameStore"]->setText(_getText(DJV_TEXT("Frame Store")));
             p.actions["FrameStore"]->setTooltip(_getText(DJV_TEXT("Frame store tooltip")));
-            p.actions["SetFrameStore"]->setTitle(_getText(DJV_TEXT("Set Frame Store")));
+            p.actions["SetFrameStore"]->setText(_getText(DJV_TEXT("Set Frame Store")));
             p.actions["SetFrameStore"]->setTooltip(_getText(DJV_TEXT("Set frame store tooltip")));
 
             p.menu->setText(_getText(DJV_TEXT("Image")));

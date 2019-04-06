@@ -29,7 +29,7 @@
 
 #include <djvUIComponents/JPEGSettingsWidget.h>
 
-#include <djvUI/GroupBox.h>
+#include <djvUI/FormLayout.h>
 #include <djvUI/IntSlider.h>
 
 #include <djvAV/JPEG.h>
@@ -46,7 +46,8 @@ namespace djv
         struct JPEGSettingsWidget::Private
         {
             AV::IO::JPEG::Settings settings;
-            std::shared_ptr<GroupBox> qualityGroupBox;
+            std::shared_ptr<IntSlider> qualitySlider;
+            std::shared_ptr<FormLayout> layout;
         };
 
         void JPEGSettingsWidget::_init(Context * context)
@@ -55,21 +56,22 @@ namespace djv
 
             DJV_PRIVATE_PTR();
 
-            auto qualitySlider = IntSlider::create(context);
-            qualitySlider->setRange(IntRange(0, 100));
-            qualitySlider->setMargin(MetricsRole::MarginSmall);
-            p.qualityGroupBox = GroupBox::create(context);
-            p.qualityGroupBox->addChild(qualitySlider);
-            addChild(p.qualityGroupBox);
+            p.qualitySlider = IntSlider::create(context);
+            p.qualitySlider->setRange(IntRange(0, 100));
+            p.qualitySlider->setMargin(MetricsRole::MarginSmall);
+
+            p.layout = FormLayout::create(context);
+            p.layout->addChild(p.qualitySlider);
+            addChild(p.layout);
 
             if (auto io = context->getSystemT<AV::IO::System>())
             {
                 fromJSON(io->getOptions(AV::IO::JPEG::pluginName), p.settings);
-                qualitySlider->setValue(p.settings.quality);
+                p.qualitySlider->setValue(p.settings.quality);
             }
 
             auto weak = std::weak_ptr<JPEGSettingsWidget>(std::dynamic_pointer_cast<JPEGSettingsWidget>(shared_from_this()));
-            qualitySlider->setValueCallback(
+            p.qualitySlider->setValueCallback(
                 [weak, context](int value)
             {
                 if (auto widget = weak.lock())
@@ -108,7 +110,7 @@ namespace djv
         {
             ISettingsWidget::_localeEvent(event);
             DJV_PRIVATE_PTR();
-            p.qualityGroupBox->setText(DJV_TEXT("Compression Quality"));
+            p.layout->setText(p.qualitySlider, DJV_TEXT("Output compression quality:"));
         }
 
     } // namespace UI

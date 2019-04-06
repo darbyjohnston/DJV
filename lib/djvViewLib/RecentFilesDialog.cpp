@@ -282,9 +282,9 @@ namespace djv
             DJV_PRIVATE_PTR();
             setTitle(_getText(DJV_TEXT("Recent Files")));
 
-            p.actions["IncreaseThumbnailSize"]->setTitle(_getText(DJV_TEXT("Increase Thumbnail Size")));
+            p.actions["IncreaseThumbnailSize"]->setText(_getText(DJV_TEXT("Increase Thumbnail Size")));
             p.actions["IncreaseThumbnailSize"]->setTooltip(_getText(DJV_TEXT("Recent files increase thumbnail size tooltip")));
-            p.actions["DecreaseThumbnailSize"]->setTitle(_getText(DJV_TEXT("Decrease Thumbnail Size")));
+            p.actions["DecreaseThumbnailSize"]->setText(_getText(DJV_TEXT("Decrease Thumbnail Size")));
             p.actions["DecreaseThumbnailSize"]->setTooltip(_getText(DJV_TEXT("Recent files decrease thumbnail size tooltip")));
 
             p.viewMenu->setText(_getText(DJV_TEXT("View")));

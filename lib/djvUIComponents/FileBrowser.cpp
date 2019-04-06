@@ -916,43 +916,43 @@ namespace djv
             void Widget::_localeEvent(Event::Locale &)
             {
                 DJV_PRIVATE_PTR();
-                p.actions["Back"]->setTitle(_getText(DJV_TEXT("Back")));
+                p.actions["Back"]->setText(_getText(DJV_TEXT("Back")));
                 p.actions["Back"]->setTooltip(_getText(DJV_TEXT("File browser back tooltip")));
-                p.actions["Forward"]->setTitle(_getText(DJV_TEXT("Forward")));
+                p.actions["Forward"]->setText(_getText(DJV_TEXT("Forward")));
                 p.actions["Forward"]->setTooltip(_getText(DJV_TEXT("File browser forward tooltip")));
-                p.actions["Up"]->setTitle(_getText(DJV_TEXT("Up")));
+                p.actions["Up"]->setText(_getText(DJV_TEXT("Up")));
                 p.actions["Up"]->setTooltip(_getText(DJV_TEXT("File browser up tooltip")));
-                p.actions["Current"]->setTitle(_getText(DJV_TEXT("Current Directory")));
+                p.actions["Current"]->setText(_getText(DJV_TEXT("Current Directory")));
                 p.actions["Current"]->setTooltip(_getText(DJV_TEXT("File browser current directory tooltip")));
-                p.actions["EditPath"]->setTitle(_getText(DJV_TEXT("Edit Path")));
+                p.actions["EditPath"]->setText(_getText(DJV_TEXT("Edit Path")));
                 p.actions["EditPath"]->setTooltip(_getText(DJV_TEXT("File browser edit path tooltip")));
 
-                p.actions["AddShortcut"]->setTitle(_getText(DJV_TEXT("Add To Shortcuts")));
+                p.actions["AddShortcut"]->setText(_getText(DJV_TEXT("Add To Shortcuts")));
                 p.actions["AddShortcut"]->setTooltip(_getText(DJV_TEXT("File browser add to shortcuts tooltip")));
 
-                p.actions["Tiles"]->setTitle(_getText(DJV_TEXT("Tile View")));
+                p.actions["Tiles"]->setText(_getText(DJV_TEXT("Tile View")));
                 p.actions["Tiles"]->setTooltip(_getText(DJV_TEXT("File browser tile view tooltip")));
-                p.actions["List"]->setTitle(_getText(DJV_TEXT("List View")));
+                p.actions["List"]->setText(_getText(DJV_TEXT("List View")));
                 p.actions["List"]->setTooltip(_getText(DJV_TEXT("File browser list view tooltip")));
-                p.actions["IncreaseThumbnailSize"]->setTitle(_getText(DJV_TEXT("Increase Thumbnail Size")));
+                p.actions["IncreaseThumbnailSize"]->setText(_getText(DJV_TEXT("Increase Thumbnail Size")));
                 p.actions["IncreaseThumbnailSize"]->setTooltip(_getText(DJV_TEXT("File browser increase thumbnail size tooltip")));
-                p.actions["DecreaseThumbnailSize"]->setTitle(_getText(DJV_TEXT("Decrease Thumbnail Size")));
+                p.actions["DecreaseThumbnailSize"]->setText(_getText(DJV_TEXT("Decrease Thumbnail Size")));
                 p.actions["DecreaseThumbnailSize"]->setTooltip(_getText(DJV_TEXT("File browser decrease thumbnail size tooltip")));
 
-                p.actions["FileSequences"]->setTitle(_getText(DJV_TEXT("Enable File Sequences")));
+                p.actions["FileSequences"]->setText(_getText(DJV_TEXT("Enable File Sequences")));
                 p.actions["FileSequences"]->setTooltip(_getText(DJV_TEXT("File browser file sequences tooltip")));
-                p.actions["ShowHidden"]->setTitle(_getText(DJV_TEXT("Show Hidden Files")));
+                p.actions["ShowHidden"]->setText(_getText(DJV_TEXT("Show Hidden Files")));
                 p.actions["ShowHidden"]->setTooltip(_getText(DJV_TEXT("File browser show hidden tooltip")));
 
-                p.actions["SortByName"]->setTitle(_getText(DJV_TEXT("Sort By Name")));
+                p.actions["SortByName"]->setText(_getText(DJV_TEXT("Sort By Name")));
                 p.actions["SortByName"]->setTooltip(_getText(DJV_TEXT("File browser sort by name tooltip")));
-                p.actions["SortBySize"]->setTitle(_getText(DJV_TEXT("Sort By Size")));
+                p.actions["SortBySize"]->setText(_getText(DJV_TEXT("Sort By Size")));
                 p.actions["SortBySize"]->setTooltip(_getText(DJV_TEXT("File browser sort by size tooltip")));
-                p.actions["SortByTime"]->setTitle(_getText(DJV_TEXT("Sort By Time")));
+                p.actions["SortByTime"]->setText(_getText(DJV_TEXT("Sort By Time")));
                 p.actions["SortByTime"]->setTooltip(_getText(DJV_TEXT("File browser sort by time tooltip")));
-                p.actions["ReverseSort"]->setTitle(_getText(DJV_TEXT("Reverse Sort")));
+                p.actions["ReverseSort"]->setText(_getText(DJV_TEXT("Reverse Sort")));
                 p.actions["ReverseSort"]->setTooltip(_getText(DJV_TEXT("File browser reverse sort tooltip")));
-                p.actions["SortDirectoriesFirst"]->setTitle(_getText(DJV_TEXT("Sort Directories First")));
+                p.actions["SortDirectoriesFirst"]->setText(_getText(DJV_TEXT("Sort Directories First")));
                 p.actions["SortDirectoriesFirst"]->setTooltip(_getText(DJV_TEXT("File browser sort directories first tooltip")));
 
                 p.directoryMenu->setText(_getText(DJV_TEXT("Directory")));

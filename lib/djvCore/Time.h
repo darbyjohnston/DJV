@@ -29,6 +29,7 @@
 
 #pragma once
 
+#include <djvCore/Frame.h>
 #include <djvCore/Speed.h>
 
 #include <ctime>
@@ -47,6 +48,9 @@ namespace djv
 
             //! \name Time Conversion
             ///@{
+
+            Frame::Index timestampToFrame(Time::Timestamp, const Time::Speed &);
+            Time::Timestamp frameToTimestamp(Frame::Index, const Time::Speed &);
 
             double timestampToSeconds(Timestamp);
             Timestamp secondsToTimestamp(double);

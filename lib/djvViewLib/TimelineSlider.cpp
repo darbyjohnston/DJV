@@ -29,9 +29,17 @@
 
 #include <djvViewLib/TimelineSlider.h>
 
+#include <djvAV/AVSystem.h>
 #include <djvAV/Render2D.h>
 
 #include <djvCore/Math.h>
+
+extern "C"
+{
+#include <libavutil/avutil.h>
+#include <libavutil/rational.h>
+
+} // extern "C"
 
 using namespace djv::Core;
 
@@ -43,11 +51,9 @@ namespace djv
         {
             Time::Timestamp duration = 0;
             std::shared_ptr<ValueSubject<Time::Timestamp> > currentTime;
+            Time::Speed speed;
             AV::Font::Metrics fontMetrics;
             std::future<AV::Font::Metrics> fontMetricsFuture;
-            std::map<std::string, std::string> text;
-            std::map<std::string, glm::vec2> textSize;
-            std::map<std::string, std::future<glm::vec2> > textSizeFuture;
             std::map<uint32_t, bool> hover;
             uint32_t pressedID = Event::InvalidID;
         };
@@ -99,6 +105,14 @@ namespace djv
             }
         }
 
+        void TimelineSlider::setSpeed(const Core::Time::Speed & value)
+        {
+            if (value == _p->speed)
+                return;
+            _p->speed = value;
+            _textUpdate();
+        }
+
         void TimelineSlider::_styleEvent(Event::Style &)
         {
             DJV_PRIVATE_PTR();
@@ -136,27 +150,6 @@ namespace djv
 
             const auto fontInfo = style->getFontInfo(AV::Font::Info::faceDefault, UI::MetricsRole::FontMedium);
             render->setCurrentFont(fontInfo);
-            auto i = p.text.find("CurrentTime");
-            auto j = p.textSize.find("CurrentTime");
-            if (i != p.text.end() && j != p.textSize.end())
-            {
-                glm::vec2 pos = glm::vec2(0.f, 0.f);
-                pos.x = g.min.x + m;
-                pos.y = g.max.y - m - p.fontMetrics.lineHeight;
-                //! \bug Why the extra subtract by one here?
-                render->drawText(i->second, glm::vec2(floorf(pos.x), floorf(pos.y + p.fontMetrics.ascender - 1.f)));
-            }
-
-            i = p.text.find("Duration");
-            j = p.textSize.find("Duration");
-            if (i != p.text.end() && j != p.textSize.end())
-            {
-                glm::vec2 pos = glm::vec2(0.f, 0.f);
-                pos.x = g.max.x - j->second.x - m;
-                pos.y = g.max.y - m - p.fontMetrics.lineHeight;
-                //! \bug Why the extra subtract by one here?
-                render->drawText(i->second, glm::vec2(floorf(pos.x), floorf(pos.y + p.fontMetrics.ascender - 1.f)));
-            }
         }
 
         void TimelineSlider::_pointerEnterEvent(Event::PointerEnter & event)
@@ -242,62 +235,46 @@ namespace djv
                     _log(e.what(), LogLevel::Error);
                 }
             }
-            for (auto & i : p.textSizeFuture)
-            {
-                if (i.second.valid())
-                {
-                    try
-                    {
-                        p.textSize[i.first] = i.second.get();
-                    }
-                    catch (const std::exception & e)
-                    {
-                        _log(e.what(), LogLevel::Error);
-                    }
-                }
-            }
         }
 
         int64_t TimelineSlider::_posToTime(int value) const
         {
+            DJV_PRIVATE_PTR();
             auto style = _getStyle();
             const float m = style->getMetric(UI::MetricsRole::MarginSmall);
             const double v = value / static_cast<double>(getGeometry().w() - m * 2.f);
+            AVRational r;
+            r.num = p.speed.getDuration();
+            r.den = p.speed.getScale();
+            const int64_t f = av_rescale_q(1, r, av_get_time_base_q());
             int64_t out = _p->duration ?
-                Core::Math::clamp(static_cast<int64_t>(v * (_p->duration - 1)), static_cast<int64_t>(0), _p->duration - 1) :
+                Core::Math::clamp(static_cast<int64_t>(v * (_p->duration - f)), static_cast<int64_t>(0), _p->duration - f) :
                 0;
             return out;
         }
 
         BBox2f TimelineSlider::_getHandleGeometry() const
         {
+            DJV_PRIVATE_PTR();
             const BBox2f & g = getGeometry();
             auto style = _getStyle();
             const float m = style->getMetric(UI::MetricsRole::MarginSmall);
-            const float h = style->getMetric(UI::MetricsRole::Handle);
-            const float x = floorf(_p->currentTime->get() / static_cast<float>(_p->duration) * (g.w() - 1.f - m * 2.f));
-            BBox2f out = BBox2f(g.min.x + m + x, g.min.y, 1.f, h);
+            AVRational r;
+            r.num = p.speed.getDuration();
+            r.den = p.speed.getScale();
+            const int64_t f = av_rescale_q(1, r, av_get_time_base_q());
+            const float x = floorf(_p->currentTime->get() / static_cast<float>(_p->duration - f) * (g.w() - 1.f - m * 2.f));
+            BBox2f out = BBox2f(g.min.x + m + x, g.min.y + m, 1.f, g.h() - m * 2.f);
             return out;
         }
 
         void TimelineSlider::_textUpdate()
         {
             DJV_PRIVATE_PTR();
+            auto avSystem = getContext()->getSystemT<AV::AVSystem>();
             auto style = _getStyle();
             auto fontSystem = _getFontSystem();
             const auto fontInfo = style->getFontInfo(AV::Font::Info::faceDefault, UI::MetricsRole::FontMedium);
-            {
-                std::stringstream ss;
-                ss << Time::getLabel(Time::timestampToSeconds(p.currentTime->get()));
-                p.text["CurrentTime"] = ss.str();
-                p.textSizeFuture["CurrentTime"] = fontSystem->measure(ss.str(), fontInfo);
-            }
-            {
-                std::stringstream ss;
-                ss << Time::getLabel(Time::timestampToSeconds(p.duration));
-                p.text["Duration"] = ss.str();
-                p.textSizeFuture["Duration"] = fontSystem->measure(ss.str(), fontInfo);
-            }
             _resize();
         }
 

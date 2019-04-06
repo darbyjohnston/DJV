@@ -2,7 +2,6 @@ find_package(JPEG)
 find_package(TIFF)
 
 set(header
-    AVIOSettings.h
     ActionButton.h
     ColorPicker.h
     FileBrowser.h
@@ -17,7 +16,6 @@ set(header
     SearchBox.h
     UIComponentsSystem.h)
 set(source
-    AVIOSettings.cpp
     ActionButton.cpp
     ColorPicker.cpp
     FileBrowser.cpp

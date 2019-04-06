@@ -29,7 +29,6 @@
 
 #include <djvAV/SequenceIO.h>
 
-#include <djvAV/FFmpeg.h>
 #include <djvAV/ImageConvert.h>
 
 #include <djvCore/Context.h>
@@ -79,7 +78,7 @@ namespace djv
                         if (_frames.size())
                         {
                             frameIndex = 0;
-                            _duration = FFmpeg::frameToTimestamp(_frames.size(), _speed);
+                            _duration = Time::frameToTimestamp(_frames.size(), _speed);
                         }
                     }
 
@@ -140,7 +139,7 @@ namespace djv
                         }
                         if (seek != -1)
                         {
-                            frameIndex = FFmpeg::timestampToFrame(seek, _speed);
+                            frameIndex = Time::timestampToFrame(seek, _speed);
                             /*{
                                 std::stringstream ss;
                                 ss << _fileName << ": seek " << frameIndex;
@@ -159,7 +158,7 @@ namespace djv
                             }
                             auto fileName = fileInfo.getFileName(frameNumber);
 
-                            pts = FFmpeg::frameToTimestamp(frameNumber, _speed);
+                            pts = Time::frameToTimestamp(frameNumber, _speed);
                             /*{
                                 std::stringstream ss;
                                 ss << _fileName << ": read frame " << pts;
@@ -261,6 +260,7 @@ namespace djv
                     }
                 }
 
+                //! \todo This should not happen for every write plugin.
                 glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
                 glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 1);
                 glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);

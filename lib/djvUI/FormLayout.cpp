@@ -87,6 +87,7 @@ namespace djv
                     p.layout->addChild(label);
                     p.layout->setGridPos(label, glm::ivec2(0, gridPos.y));
                     p.layout->setGridPos(value, glm::ivec2(1, gridPos.y));
+                    p.layout->setStretch(value, GridStretch::Horizontal);
                     p.widgetToLabel[value] = label;
                 }
             }

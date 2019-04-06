@@ -44,5 +44,11 @@ namespace djv
         DJV_TEXT("Right"),
         DJV_TEXT("Bottom"));
 
+    DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
+        AV,
+        TimeUnits,
+        DJV_TEXT("Timecode"),
+        DJV_TEXT("Frames"));
+
 } // namespace djv
 

@@ -29,7 +29,6 @@
 
 #include <djvUIComponents/UIComponentsSystem.h>
 
-#include <djvUIComponents/AVIOSettings.h>
 #include <djvUIComponents/FileBrowserDialog.h>
 #include <djvUIComponents/FileBrowserSettings.h>
 
@@ -52,7 +51,6 @@ namespace djv
 
             DJV_PRIVATE_PTR();
 
-            Settings::AVIO::create(context);
             Settings::FileBrowser::create(context);
 
             auto fileBrowserDialogSystem = FileBrowser::DialogSystem::create(context);

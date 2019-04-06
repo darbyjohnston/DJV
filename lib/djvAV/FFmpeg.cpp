@@ -43,22 +43,6 @@ namespace djv
         {
             namespace FFmpeg
             {
-                Frame::Index timestampToFrame(Time::Timestamp value, const Time::Speed & speed)
-                {
-                    AVRational r;
-                    r.num = speed.getDuration();
-                    r.den = speed.getScale();
-                    return av_rescale_q(value, FFmpeg::getTimeBaseQ(), r);
-                }
-
-                Time::Timestamp frameToTimestamp(Frame::Index value, const Time::Speed & speed)
-                {
-                    AVRational r;
-                    r.num = speed.getDuration();
-                    r.den = speed.getScale();
-                    return av_rescale_q(value, r, FFmpeg::getTimeBaseQ());
-                }
-
                 Audio::Type toAudioType(AVSampleFormat value)
                 {
                     Audio::Type out = Audio::Type::None;

@@ -27,11 +27,16 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvUIComponents/AVIOSettings.h>
+#include <djvUI/AVSettings.h>
 
+#include <djvAV/AVSystem.h>
 #include <djvAV/IO.h>
 
 #include <djvCore/Context.h>
+
+// These need to be included last on OSX.
+#include <djvCore/PicoJSONTemplates.h>
+#include <djvUI/ISettingsTemplates.h>
 
 //#pragma optimize("", off)
 
@@ -43,39 +48,51 @@ namespace djv
     {
         namespace Settings
         {
-            struct AVIO::Private
+            struct AV::Private
             {
-                std::shared_ptr<AV::IO::System> ioSystem;
+                std::shared_ptr<djv::AV::AVSystem> avSystem;
+                std::shared_ptr<djv::AV::IO::System> ioSystem;
             };
 
-            void AVIO::_init(Context * context)
+            void AV::_init(Context * context)
             {
-                ISettings::_init("djv::UI::Settings::AVIO", context);
+                ISettings::_init("djv::UI::Settings::AV", context);
                 DJV_PRIVATE_PTR();
-                p.ioSystem = getContext()->getSystemT<AV::IO::System>();
+                p.avSystem = context->getSystemT<djv::AV::AVSystem>();
+                p.ioSystem = context->getSystemT<djv::AV::IO::System>();
                 _load();
             }
 
-            AVIO::AVIO() :
+            AV::AV() :
                 _p(new Private)
             {}
 
-            AVIO::~AVIO()
+            AV::~AV()
             {}
 
-            std::shared_ptr<AVIO> AVIO::create(Context * context)
+            std::shared_ptr<AV> AV::create(Context * context)
             {
-                auto out = std::shared_ptr<AVIO>(new AVIO);
+                auto out = std::shared_ptr<AV>(new AV);
                 out->_init(context);
                 return out;
             }
 
-            void AVIO::load(const picojson::value & value)
+            void AV::load(const picojson::value & value)
             {
                 DJV_PRIVATE_PTR();
                 if (value.is<picojson::object>())
                 {
                     const auto & object = value.get<picojson::object>();
+                    djv::AV::TimeUnits timeUnits = djv::AV::TimeUnits::First;
+                    for (const auto & i : object)
+                    {
+                        if ("TimeUnits" == i.first)
+                        {
+                            std::stringstream ss(i.second.get<std::string>());
+                            ss >> timeUnits;
+                        }
+                    }
+                    p.avSystem->setTimeUnits(timeUnits);
                     for (const auto & i : p.ioSystem->getPluginNames())
                     {
                         const auto j = object.find(i);
@@ -87,11 +104,14 @@ namespace djv
                 }
             }
 
-            picojson::value AVIO::save()
+            picojson::value AV::save()
             {
                 DJV_PRIVATE_PTR();
                 picojson::value out(picojson::object_type, true);
                 auto & object = out.get<picojson::object>();
+                std::stringstream ss;
+                ss << p.avSystem->observeTimeUnits()->get();
+                object["TimeUnits"] = picojson::value(ss.str());
                 for (const auto & i : p.ioSystem->getPluginNames())
                 {
                     object[i] = p.ioSystem->getOptions(i);

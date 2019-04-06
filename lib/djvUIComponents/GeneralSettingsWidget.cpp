@@ -29,14 +29,15 @@
 
 #include <djvUIComponents/GeneralSettingsWidget.h>
 
-#include <djvUI/ButtonGroup.h>
-#include <djvUI/FlatButton.h>
-#include <djvUI/FlowLayout.h>
+#include <djvUI/ComboBox.h>
 #include <djvUI/FontSettings.h>
-#include <djvUI/GroupBox.h>
+#include <djvUI/FormLayout.h>
+#include <djvUI/Label.h>
 #include <djvUI/RowLayout.h>
 #include <djvUI/SettingsSystem.h>
 #include <djvUI/StyleSettings.h>
+
+#include <djvAV/AVSystem.h>
 
 #include <djvCore/Context.h>
 #include <djvCore/TextSystem.h>
@@ -49,16 +50,16 @@ namespace djv
     {
         namespace
         {
-            class DisplaySettingsWidget : public Widget
+            class DisplaySizeWidget : public Widget
             {
-                DJV_NON_COPYABLE(DisplaySettingsWidget);
+                DJV_NON_COPYABLE(DisplaySizeWidget);
 
             protected:
                 void _init(Context *);
-                DisplaySettingsWidget();
+                DisplaySizeWidget();
 
             public:
-                static std::shared_ptr<DisplaySettingsWidget> create(Context *);
+                static std::shared_ptr<DisplaySizeWidget> create(Context *);
 
                 float getHeightForWidth(float) const override;
 
@@ -69,36 +70,33 @@ namespace djv
                 void _localeEvent(Event::Locale &) override;
 
             private:
-                void _textUpdate();
+                void _widgetUpdate();
+                void _currentItemUpdate();
 
                 DJV_PRIVATE();
             };
 
-            struct DisplaySettingsWidget::Private
+            struct DisplaySizeWidget::Private
             {
-                std::vector<std::shared_ptr<FlatButton> > buttons;
-                std::shared_ptr<ButtonGroup> buttonGroup;
-                std::shared_ptr<FlowLayout> layout;
-                std::map<int, std::string> indexToMetrics;
-                std::map<std::shared_ptr<FlatButton>, std::string> buttonToMetrics;
-                std::map<std::string, int> metricsToIndex;
+                std::vector<std::string> metrics;
+                std::string currentMetrics;
+                std::shared_ptr<ComboBox> comboBox;
+                std::map<size_t, std::string> indexToMetrics;
+                std::map<std::string, size_t> metricsToIndex;
                 std::shared_ptr<MapObserver<std::string, Style::Metrics> > metricsObserver;
                 std::shared_ptr<ValueObserver<std::string> > currentMetricsObserver;
             };
 
-            void DisplaySettingsWidget::_init(Context * context)
+            void DisplaySizeWidget::_init(Context * context)
             {
                 Widget::_init(context);
 
                 DJV_PRIVATE_PTR();
-                p.buttonGroup = ButtonGroup::create(ButtonType::Radio);
+                p.comboBox = ComboBox::create(context);
+                addChild(p.comboBox);
 
-                p.layout = FlowLayout::create(context);
-                p.layout->setSpacing(MetricsRole::None);
-                addChild(p.layout);
-
-                auto weak = std::weak_ptr<DisplaySettingsWidget>(std::dynamic_pointer_cast<DisplaySettingsWidget>(shared_from_this()));
-                p.buttonGroup->setRadioCallback(
+                auto weak = std::weak_ptr<DisplaySizeWidget>(std::dynamic_pointer_cast<DisplaySizeWidget>(shared_from_this()));
+                p.comboBox->setCallback(
                     [weak, context](int value)
                 {
                     if (auto widget = weak.lock())
@@ -127,32 +125,12 @@ namespace djv
                         {
                             if (auto widget = weak.lock())
                             {
-                                int currentItem = widget->_p->buttonGroup->getChecked();
-                                if (-1 == currentItem && value.size())
-                                {
-                                    currentItem = 0;
-                                }
-                                widget->_p->buttons.clear();
-                                widget->_p->buttonGroup->clearButtons();
-                                widget->_p->layout->clearChildren();
-                                widget->_p->indexToMetrics.clear();
-                                widget->_p->buttonToMetrics.clear();
-                                widget->_p->metricsToIndex.clear();
-                                int j = 0;
+                                widget->_p->metrics.clear();
                                 for (const auto & i : value)
                                 {
-                                    auto button = FlatButton::create(context);
-                                    button->setInsideMargin(Layout::Margin(MetricsRole::Margin, MetricsRole::Margin, MetricsRole::MarginSmall, MetricsRole::MarginSmall));
-                                    widget->_p->buttons.push_back(button);
-                                    widget->_p->buttonGroup->addButton(button);
-                                    widget->_p->layout->addChild(button);
-                                    widget->_p->indexToMetrics[j] = i.first;
-                                    widget->_p->buttonToMetrics[button] = i.first;
-                                    widget->_p->metricsToIndex[i.first] = j;
-                                    ++j;
+                                    widget->_p->metrics.push_back(i.first);
                                 }
-                                widget->_p->buttonGroup->setChecked(currentItem);
-                                widget->_textUpdate();
+                                widget->_widgetUpdate();
                             }
                         });
                         p.currentMetricsObserver = ValueObserver<std::string>::create(
@@ -161,71 +139,81 @@ namespace djv
                         {
                             if (auto widget = weak.lock())
                             {
-                                const auto i = widget->_p->metricsToIndex.find(value);
-                                if (i != widget->_p->metricsToIndex.end())
-                                {
-                                    widget->_p->buttonGroup->setChecked(static_cast<int>(i->second));
-                                }
+                                widget->_p->currentMetrics = value;
+                                widget->_currentItemUpdate();
                             }
                         });
                     }
                 }
             }
 
-            DisplaySettingsWidget::DisplaySettingsWidget() :
+            DisplaySizeWidget::DisplaySizeWidget() :
                 _p(new Private)
             {}
 
-            std::shared_ptr<DisplaySettingsWidget> DisplaySettingsWidget::create(Context * context)
+            std::shared_ptr<DisplaySizeWidget> DisplaySizeWidget::create(Context * context)
             {
-                auto out = std::shared_ptr<DisplaySettingsWidget>(new DisplaySettingsWidget);
+                auto out = std::shared_ptr<DisplaySizeWidget>(new DisplaySizeWidget);
                 out->_init(context);
                 return out;
             }
 
-            float DisplaySettingsWidget::getHeightForWidth(float value) const
+            float DisplaySizeWidget::getHeightForWidth(float value) const
             {
-                return _p->layout->getHeightForWidth(value);
+                return _p->comboBox->getHeightForWidth(value);
             }
 
-            void DisplaySettingsWidget::_preLayoutEvent(Event::PreLayout &)
+            void DisplaySizeWidget::_preLayoutEvent(Event::PreLayout &)
             {
-                _setMinimumSize(_p->layout->getMinimumSize());
+                _setMinimumSize(_p->comboBox->getMinimumSize());
             }
 
-            void DisplaySettingsWidget::_layoutEvent(Event::Layout &)
+            void DisplaySizeWidget::_layoutEvent(Event::Layout &)
             {
-                _p->layout->setGeometry(getGeometry());
+                _p->comboBox->setGeometry(getGeometry());
             }
 
-            void DisplaySettingsWidget::_localeEvent(Event::Locale & event)
+            void DisplaySizeWidget::_localeEvent(Event::Locale & event)
             {
-                _textUpdate();
+                _widgetUpdate();
             }
 
-            void DisplaySettingsWidget::_textUpdate()
+            void DisplaySizeWidget::_widgetUpdate()
             {
                 DJV_PRIVATE_PTR();
-                for (auto i : p.buttons)
+                p.comboBox->clearItems();
+                p.indexToMetrics.clear();
+                p.metricsToIndex.clear();
+                for (size_t i = 0; i < p.metrics.size(); ++i)
                 {
-                    const auto j = p.buttonToMetrics.find(i);
-                    if (j != p.buttonToMetrics.end())
-                    {
-                        i->setText(_getText(j->second));
-                    }
+                    const auto & name = p.metrics[i];
+                    p.comboBox->addItem(_getText(name));
+                    p.indexToMetrics[i] = name;
+                    p.metricsToIndex[name] = i;
+                }
+                _currentItemUpdate();
+            }
+
+            void DisplaySizeWidget::_currentItemUpdate()
+            {
+                DJV_PRIVATE_PTR();
+                const auto i = p.metricsToIndex.find(p.currentMetrics);
+                if (i != p.metricsToIndex.end())
+                {
+                    p.comboBox->setCurrentItem(static_cast<int>(i->second));
                 }
             }
 
-            class PaletteSettingsWidget : public Widget
+            class PaletteWidget : public Widget
             {
-                DJV_NON_COPYABLE(PaletteSettingsWidget);
+                DJV_NON_COPYABLE(PaletteWidget);
 
             protected:
                 void _init(Context *);
-                PaletteSettingsWidget();
+                PaletteWidget();
 
             public:
-                static std::shared_ptr<PaletteSettingsWidget> create(Context *);
+                static std::shared_ptr<PaletteWidget> create(Context *);
 
                 float getHeightForWidth(float) const override;
 
@@ -236,36 +224,33 @@ namespace djv
                 void _localeEvent(Event::Locale &) override;
 
             private:
-                void _textUpdate();
+                void _widgetUpdate();
+                void _currentItemUpdate();
 
                 DJV_PRIVATE();
             };
 
-            struct PaletteSettingsWidget::Private
+            struct PaletteWidget::Private
             {
-                std::vector<std::shared_ptr<FlatButton> > buttons;
-                std::shared_ptr<ButtonGroup> buttonGroup;
-                std::shared_ptr<FlowLayout> layout;
-                std::map<int, std::string> indexToPalette;
-                std::map<std::shared_ptr<FlatButton>, std::string> buttonToPalette;
-                std::map<std::string, int> paletteToIndex;
+                std::vector<std::string> palettes;
+                std::string currentPalette;
+                std::shared_ptr<ComboBox> comboBox;
+                std::map<size_t, std::string> indexToPalette;
+                std::map<std::string, size_t> paletteToIndex;
                 std::shared_ptr<MapObserver<std::string, Style::Palette> > palettesObserver;
                 std::shared_ptr<ValueObserver<std::string> > currentPaletteObserver;
             };
 
-            void PaletteSettingsWidget::_init(Context * context)
+            void PaletteWidget::_init(Context * context)
             {
                 Widget::_init(context);
 
                 DJV_PRIVATE_PTR();
-                p.buttonGroup = ButtonGroup::create(ButtonType::Radio);
+                p.comboBox = ComboBox::create(context);
+                addChild(p.comboBox);
 
-                p.layout = FlowLayout::create(context);
-                p.layout->setSpacing(MetricsRole::None);
-                addChild(p.layout);
-
-                auto weak = std::weak_ptr<PaletteSettingsWidget>(std::dynamic_pointer_cast<PaletteSettingsWidget>(shared_from_this()));
-                p.buttonGroup->setRadioCallback(
+                auto weak = std::weak_ptr<PaletteWidget>(std::dynamic_pointer_cast<PaletteWidget>(shared_from_this()));
+                p.comboBox->setCallback(
                     [weak, context](int value)
                 {
                     if (auto widget = weak.lock())
@@ -290,36 +275,16 @@ namespace djv
                     {
                         p.palettesObserver = MapObserver<std::string, Style::Palette>::create(
                             styleSettings->observePalettes(),
-                            [weak, context](const std::map<std::string, Style::Palette > & value)
+                            [weak](const std::map<std::string, Style::Palette > & value)
                         {
                             if (auto widget = weak.lock())
                             {
-                                int currentItem = widget->_p->buttonGroup->getChecked();
-                                if (-1 == currentItem && value.size())
-                                {
-                                    currentItem = 0;
-                                }
-                                widget->_p->buttons.clear();
-                                widget->_p->buttonGroup->clearButtons();
-                                widget->_p->layout->clearChildren();
-                                widget->_p->indexToPalette.clear();
-                                widget->_p->buttonToPalette.clear();
-                                widget->_p->paletteToIndex.clear();
-                                int j = 0;
+                                widget->_p->palettes.clear();
                                 for (const auto & i : value)
                                 {
-                                    auto button = FlatButton::create(context);
-                                    button->setInsideMargin(Layout::Margin(MetricsRole::Margin, MetricsRole::Margin, MetricsRole::MarginSmall, MetricsRole::MarginSmall));
-                                    widget->_p->buttons.push_back(button);
-                                    widget->_p->buttonGroup->addButton(button);
-                                    widget->_p->layout->addChild(button);
-                                    widget->_p->indexToPalette[j] = i.first;
-                                    widget->_p->buttonToPalette[button] = i.first;
-                                    widget->_p->paletteToIndex[i.first] = j;
-                                    ++j;
+                                    widget->_p->palettes.push_back(i.first);
                                 }
-                                widget->_p->buttonGroup->setChecked(currentItem);
-                                widget->_textUpdate();
+                                widget->_widgetUpdate();
                             }
                         });
                         p.currentPaletteObserver = ValueObserver<std::string>::create(
@@ -328,71 +293,81 @@ namespace djv
                         {
                             if (auto widget = weak.lock())
                             {
-                                const auto i = widget->_p->paletteToIndex.find(value);
-                                if (i != widget->_p->paletteToIndex.end())
-                                {
-                                    widget->_p->buttonGroup->setChecked(static_cast<int>(i->second));
-                                }
+                                widget->_p->currentPalette = value;
+                                widget->_currentItemUpdate();
                             }
                         });
                     }
                 }
             }
 
-            PaletteSettingsWidget::PaletteSettingsWidget() :
+            PaletteWidget::PaletteWidget() :
                 _p(new Private)
             {}
 
-            std::shared_ptr<PaletteSettingsWidget> PaletteSettingsWidget::create(Context * context)
+            std::shared_ptr<PaletteWidget> PaletteWidget::create(Context * context)
             {
-                auto out = std::shared_ptr<PaletteSettingsWidget>(new PaletteSettingsWidget);
+                auto out = std::shared_ptr<PaletteWidget>(new PaletteWidget);
                 out->_init(context);
                 return out;
             }
 
-            float PaletteSettingsWidget::getHeightForWidth(float value) const
+            float PaletteWidget::getHeightForWidth(float value) const
             {
-                return _p->layout->getHeightForWidth(value);
+                return _p->comboBox->getHeightForWidth(value);
             }
 
-            void PaletteSettingsWidget::_preLayoutEvent(Event::PreLayout &)
+            void PaletteWidget::_preLayoutEvent(Event::PreLayout &)
             {
-                _setMinimumSize(_p->layout->getMinimumSize());
+                _setMinimumSize(_p->comboBox->getMinimumSize());
             }
 
-            void PaletteSettingsWidget::_layoutEvent(Event::Layout &)
+            void PaletteWidget::_layoutEvent(Event::Layout &)
             {
-                _p->layout->setGeometry(getGeometry());
+                _p->comboBox->setGeometry(getGeometry());
             }
 
-            void PaletteSettingsWidget::_localeEvent(Event::Locale & event)
+            void PaletteWidget::_localeEvent(Event::Locale & event)
             {
-                _textUpdate();
+                _widgetUpdate();
             }
 
-            void PaletteSettingsWidget::_textUpdate()
+            void PaletteWidget::_widgetUpdate()
             {
                 DJV_PRIVATE_PTR();
-                for (auto i : p.buttons)
+                p.comboBox->clearItems();
+                p.indexToPalette.clear();
+                p.paletteToIndex.clear();
+                for (size_t i = 0; i < p.palettes.size(); ++i)
                 {
-                    const auto j = p.buttonToPalette.find(i);
-                    if (j != p.buttonToPalette.end())
-                    {
-                        i->setText(_getText(j->second));
-                    }
+                    const auto & name = p.palettes[i];
+                    p.comboBox->addItem(_getText(name));
+                    p.indexToPalette[i] = name;
+                    p.paletteToIndex[name] = i;
+                }
+                _currentItemUpdate();
+            }
+
+            void PaletteWidget::_currentItemUpdate()
+            {
+                DJV_PRIVATE_PTR();
+                const auto i = p.paletteToIndex.find(p.currentPalette);
+                if (i != p.paletteToIndex.end())
+                {
+                    p.comboBox->setCurrentItem(static_cast<int>(i->second));
                 }
             }
 
-            class LanguageSettingsWidget : public Widget
+            class LanguageWidget : public Widget
             {
-                DJV_NON_COPYABLE(LanguageSettingsWidget);
+                DJV_NON_COPYABLE(LanguageWidget);
 
             protected:
                 void _init(Context *);
-                LanguageSettingsWidget();
+                LanguageWidget();
 
             public:
-                static std::shared_ptr<LanguageSettingsWidget> create(Context *);
+                static std::shared_ptr<LanguageWidget> create(Context *);
 
                 float getHeightForWidth(float) const override;
 
@@ -403,54 +378,33 @@ namespace djv
                 void _localeEvent(Event::Locale &) override;
 
             private:
-                void _textUpdate();
+                void _widgetUpdate();
+                void _currentItemUpdate();
 
                 DJV_PRIVATE();
             };
 
-            struct LanguageSettingsWidget::Private
+            struct LanguageWidget::Private
             {
-                std::vector<std::shared_ptr<FlatButton> > buttons;
-                std::shared_ptr<ButtonGroup> buttonGroup;
-                std::shared_ptr<FlowLayout> layout;
-                std::map<int, std::string> indexToLocale;
-                std::map<std::string, int> localeToIndex;
+                std::string locale;
+                std::shared_ptr<ComboBox> comboBox;
+                std::map<size_t, std::string> indexToLocale;
+                std::map<std::string, size_t> localeToIndex;
                 std::map<std::string, std::string> localeFonts;
-                std::map<std::string, std::shared_ptr<FlatButton> > localeToButton;
                 std::shared_ptr<ValueObserver<std::string> > localeObserver;
                 std::shared_ptr<MapObserver<std::string, std::string> > localeFontsObserver;
             };
 
-            void LanguageSettingsWidget::_init(Context * context)
+            void LanguageWidget::_init(Context * context)
             {
                 Widget::_init(context);
 
                 DJV_PRIVATE_PTR();
-                p.buttonGroup = ButtonGroup::create(ButtonType::Radio);
+                p.comboBox = ComboBox::create(context);
+                addChild(p.comboBox);
 
-                p.layout = FlowLayout::create(context);
-                p.layout->setSpacing(MetricsRole::None);
-                addChild(p.layout);
-
-                if (auto textSystem = context->getSystemT<TextSystem>())
-                {
-                    int j = 0;
-                    for (const auto & i : textSystem->getLocales())
-                    {
-                        auto button = FlatButton::create(context);
-                        button->setText(_getText(i));
-                        button->setInsideMargin(Layout::Margin(MetricsRole::Margin, MetricsRole::Margin, MetricsRole::MarginSmall, MetricsRole::MarginSmall));
-                        p.buttonGroup->addButton(button);
-                        p.layout->addChild(button);
-                        p.indexToLocale[j] = i;
-                        p.localeToIndex[i] = j;
-                        p.localeToButton[i] = button;
-                        ++j;
-                    }
-                }
-
-                auto weak = std::weak_ptr<LanguageSettingsWidget>(std::dynamic_pointer_cast<LanguageSettingsWidget>(shared_from_this()));
-                p.buttonGroup->setRadioCallback(
+                auto weak = std::weak_ptr<LanguageWidget>(std::dynamic_pointer_cast<LanguageWidget>(shared_from_this()));
+                p.comboBox->setCallback(
                     [weak, context](int value)
                 {
                     if (auto widget = weak.lock())
@@ -474,11 +428,8 @@ namespace djv
                     {
                         if (auto widget = weak.lock())
                         {
-                            const auto i = widget->_p->localeToIndex.find(value);
-                            if (i != widget->_p->localeToIndex.end())
-                            {
-                                widget->_p->buttonGroup->setChecked(static_cast<int>(i->second));
-                            }
+                            widget->_p->locale = value;
+                            widget->_currentItemUpdate();
                         }
                     });
                 }
@@ -494,82 +445,216 @@ namespace djv
                             if (auto widget = weak.lock())
                             {
                                 widget->_p->localeFonts = value;
-                                widget->_textUpdate();
+                                widget->_widgetUpdate();
                             }
                         });
                     }
                 }
             }
 
-            LanguageSettingsWidget::LanguageSettingsWidget() :
+            LanguageWidget::LanguageWidget() :
                 _p(new Private)
             {}
 
-            std::shared_ptr<LanguageSettingsWidget> LanguageSettingsWidget::create(Context * context)
+            std::shared_ptr<LanguageWidget> LanguageWidget::create(Context * context)
             {
-                auto out = std::shared_ptr<LanguageSettingsWidget>(new LanguageSettingsWidget);
+                auto out = std::shared_ptr<LanguageWidget>(new LanguageWidget);
                 out->_init(context);
                 return out;
             }
 
-            float LanguageSettingsWidget::getHeightForWidth(float value) const
+            float LanguageWidget::getHeightForWidth(float value) const
             {
-                return _p->layout->getHeightForWidth(value);
+                return _p->comboBox->getHeightForWidth(value);
             }
 
-            void LanguageSettingsWidget::_preLayoutEvent(Event::PreLayout &)
+            void LanguageWidget::_preLayoutEvent(Event::PreLayout &)
             {
-                _setMinimumSize(_p->layout->getMinimumSize());
+                _setMinimumSize(_p->comboBox->getMinimumSize());
             }
 
-            void LanguageSettingsWidget::_layoutEvent(Event::Layout &)
+            void LanguageWidget::_layoutEvent(Event::Layout &)
             {
-                _p->layout->setGeometry(getGeometry());
+                _p->comboBox->setGeometry(getGeometry());
             }
 
-            void LanguageSettingsWidget::_localeEvent(Event::Locale & event)
+            void LanguageWidget::_localeEvent(Event::Locale & event)
             {
-                _textUpdate();
+                _widgetUpdate();
             }
 
-            void LanguageSettingsWidget::_textUpdate()
+            void LanguageWidget::_widgetUpdate()
             {
+                DJV_PRIVATE_PTR();
                 auto context = getContext();
                 if (auto textSystem = context->getSystemT<TextSystem>())
                 {
-                    for (const auto & i : textSystem->getLocales())
+                    p.comboBox->clearItems();
+                    const auto & locales = textSystem->getLocales();
+                    size_t j = 0;
+                    for (const auto & i : locales)
                     {
                         std::string font;
-                        auto j = _p->localeFonts.find(i);
-                        if (j != _p->localeFonts.end())
+                        auto k = _p->localeFonts.find(i);
+                        if (k != _p->localeFonts.end())
                         {
-                            font = j->second;
+                            font = k->second;
                         }
                         else
                         {
-                            j = _p->localeFonts.find("Default");
-                            if (j != _p->localeFonts.end())
+                            k = p.localeFonts.find("Default");
+                            if (k != p.localeFonts.end())
                             {
-                                font = j->second;
+                                font = k->second;
                             }
                         }
-                        const auto k = _p->localeToButton.find(i);
-                        if (k != _p->localeToButton.end())
-                        {
-                            k->second->setText(_getText(i));
-                            k->second->setFont(font);
-                        }
+                        p.comboBox->addItem(_getText(i));
+                        p.comboBox->setFont(static_cast<int>(j), font);
+                        p.indexToLocale[j] = i;
+                        p.localeToIndex[i] = j;
+                        ++j;
                     }
+                    _currentItemUpdate();
                 }
+            }
+
+            void LanguageWidget::_currentItemUpdate()
+            {
+                DJV_PRIVATE_PTR();
+                const auto i = p.localeToIndex.find(p.locale);
+                if (i != p.localeToIndex.end())
+                {
+                    p.comboBox->setCurrentItem(static_cast<int>(i->second));
+                }
+            }
+
+            class TimeUnitsWidget : public Widget
+            {
+                DJV_NON_COPYABLE(TimeUnitsWidget);
+
+            protected:
+                void _init(Context *);
+                TimeUnitsWidget();
+
+            public:
+                static std::shared_ptr<TimeUnitsWidget> create(Context *);
+
+                float getHeightForWidth(float) const override;
+
+            protected:
+                void _preLayoutEvent(Event::PreLayout &) override;
+                void _layoutEvent(Event::Layout &) override;
+
+                void _localeEvent(Event::Locale &) override;
+
+            private:
+                void _widgetUpdate();
+                void _currentItemUpdate();
+
+                DJV_PRIVATE();
+            };
+
+            struct TimeUnitsWidget::Private
+            {
+                AV::TimeUnits timeUnits = AV::TimeUnits::First;
+                std::shared_ptr<ComboBox> comboBox;
+                std::shared_ptr<ValueObserver<AV::TimeUnits> > timeUnitsObserver;
+            };
+
+            void TimeUnitsWidget::_init(Context * context)
+            {
+                Widget::_init(context);
+
+                DJV_PRIVATE_PTR();
+                p.comboBox = ComboBox::create(context);
+                addChild(p.comboBox);
+
+                _widgetUpdate();
+
+                auto weak = std::weak_ptr<TimeUnitsWidget>(std::dynamic_pointer_cast<TimeUnitsWidget>(shared_from_this()));
+                p.comboBox->setCallback(
+                    [weak, context](int value)
+                {
+                    if (auto system = context->getSystemT<AV::AVSystem>())
+                    {
+                        system->setTimeUnits(static_cast<AV::TimeUnits>(value));
+                    }
+                });
+
+                if (auto avSystem = context->getSystemT<AV::AVSystem>())
+                {
+                    p.timeUnitsObserver = ValueObserver<AV::TimeUnits>::create(
+                        avSystem->observeTimeUnits(),
+                        [weak](AV::TimeUnits value)
+                    {
+                        if (auto widget = weak.lock())
+                        {
+                            widget->_p->timeUnits = value;
+                            widget->_currentItemUpdate();
+                        }
+                    });
+                }
+            }
+
+            TimeUnitsWidget::TimeUnitsWidget() :
+                _p(new Private)
+            {}
+
+            std::shared_ptr<TimeUnitsWidget> TimeUnitsWidget::create(Context * context)
+            {
+                auto out = std::shared_ptr<TimeUnitsWidget>(new TimeUnitsWidget);
+                out->_init(context);
+                return out;
+            }
+
+            float TimeUnitsWidget::getHeightForWidth(float value) const
+            {
+                return _p->comboBox->getHeightForWidth(value);
+            }
+
+            void TimeUnitsWidget::_preLayoutEvent(Event::PreLayout &)
+            {
+                _setMinimumSize(_p->comboBox->getMinimumSize());
+            }
+
+            void TimeUnitsWidget::_layoutEvent(Event::Layout &)
+            {
+                _p->comboBox->setGeometry(getGeometry());
+            }
+
+            void TimeUnitsWidget::_localeEvent(Event::Locale & event)
+            {
+                _widgetUpdate();
+            }
+
+            void TimeUnitsWidget::_widgetUpdate()
+            {
+                DJV_PRIVATE_PTR();
+                p.comboBox->clearItems();
+                for (auto i : AV::getTimeUnitsEnums())
+                {
+                    std::stringstream ss;
+                    ss << i;
+                    p.comboBox->addItem(_getText(ss.str()));
+                }
+                _currentItemUpdate();
+            }
+
+            void TimeUnitsWidget::_currentItemUpdate()
+            {
+                DJV_PRIVATE_PTR();
+                p.comboBox->setCurrentItem(static_cast<int>(p.timeUnits));
             }
 
         } // namespace
 
         struct GeneralSettingsWidget::Private
         {
-            std::shared_ptr<GroupBox> displaySizeGroupBox;
-            std::shared_ptr<GroupBox> paletteGroupBox;
-            std::shared_ptr<GroupBox> languageGroupBox;
+            std::shared_ptr<DisplaySizeWidget> displayWidget;
+            std::shared_ptr<PaletteWidget> paletteWidget;
+            std::shared_ptr<LanguageWidget> languageWidget;
+            std::shared_ptr<TimeUnitsWidget> timeUnitsWidget;
+            std::shared_ptr<FormLayout> layout;
         };
 
         void GeneralSettingsWidget::_init(Context * context)
@@ -577,17 +662,17 @@ namespace djv
             ISettingsWidget::_init(context);
 
             DJV_PRIVATE_PTR();
-            p.displaySizeGroupBox = GroupBox::create(context);
-            p.displaySizeGroupBox->addChild(DisplaySettingsWidget::create(context));
-            addChild(p.displaySizeGroupBox);
+            p.displayWidget = DisplaySizeWidget::create(context);
+            p.paletteWidget = PaletteWidget::create(context);
+            p.languageWidget = LanguageWidget::create(context);
+            p.timeUnitsWidget = TimeUnitsWidget::create(context);
 
-            p.paletteGroupBox = GroupBox::create(context);
-            p.paletteGroupBox->addChild(PaletteSettingsWidget::create(context));
-            addChild(p.paletteGroupBox);
-
-            p.languageGroupBox = GroupBox::create(context);
-            p.languageGroupBox->addChild(LanguageSettingsWidget::create(context));
-            addChild(p.languageGroupBox);
+            p.layout = FormLayout::create(context);
+            p.layout->addChild(p.displayWidget);
+            p.layout->addChild(p.paletteWidget);
+            p.layout->addChild(p.languageWidget);
+            p.layout->addChild(p.timeUnitsWidget);
+            addChild(p.layout);
         }
 
         GeneralSettingsWidget::GeneralSettingsWidget() :
@@ -615,9 +700,10 @@ namespace djv
         {
             ISettingsWidget::_localeEvent(event);
             DJV_PRIVATE_PTR();
-            p.displaySizeGroupBox->setText(_getText(DJV_TEXT("Display Size")));
-            p.paletteGroupBox->setText(_getText(DJV_TEXT("Palette")));
-            p.languageGroupBox->setText(_getText(DJV_TEXT("Language")));
+            p.layout->setText(p.displayWidget, _getText(DJV_TEXT("Display size:")));
+            p.layout->setText(p.paletteWidget, _getText(DJV_TEXT("Palette:")));
+            p.layout->setText(p.languageWidget, _getText(DJV_TEXT("Language:")));
+            p.layout->setText(p.timeUnitsWidget, _getText(DJV_TEXT("Time units:")));
         }
 
     } // namespace UI

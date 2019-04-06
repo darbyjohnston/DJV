@@ -31,6 +31,8 @@
 
 #include <djvViewLib/IViewSystem.h>
 
+#include <djvCore/Time.h>
+
 namespace djv
 {
     namespace ViewLib

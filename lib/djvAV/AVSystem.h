@@ -29,9 +29,11 @@
 
 #pragma once
 
-#include <djvAV/AV.h>
+#include <djvAV/Enum.h>
 
 #include <djvCore/ISystem.h>
+#include <djvCore/Time.h>
+#include <djvCore/ValueObserver.h>
 
 namespace djv
 {
@@ -50,6 +52,11 @@ namespace djv
             ~AVSystem() override;
 
             static std::shared_ptr<AVSystem> create(Core::Context *);
+
+            std::shared_ptr<Core::IValueSubject<TimeUnits> > observeTimeUnits() const;
+            void setTimeUnits(TimeUnits);
+
+            std::string getLabel(Core::Time::Timestamp, const Core::Time::Speed &) const;
 
         private:
             DJV_PRIVATE();

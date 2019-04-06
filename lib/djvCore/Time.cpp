@@ -33,7 +33,8 @@
 
 extern "C"
 {
-#include <libavcodec/avcodec.h>
+#include <libavutil/avutil.h>
+#include <libavutil/rational.h>
 
 } // extern "C"
 
@@ -45,6 +46,22 @@ namespace djv
     {
         namespace Time
         {
+            Frame::Index timestampToFrame(Time::Timestamp value, const Time::Speed & speed)
+            {
+                AVRational r;
+                r.num = speed.getDuration();
+                r.den = speed.getScale();
+                return av_rescale_q(value, av_get_time_base_q(), r);
+            }
+
+            Time::Timestamp frameToTimestamp(Frame::Index value, const Time::Speed & speed)
+            {
+                AVRational r;
+                r.num = speed.getDuration();
+                r.den = speed.getScale();
+                return av_rescale_q(value, r, av_get_time_base_q());
+            }
+
             double timestampToSeconds(Timestamp value)
             {
                 return value / static_cast<double>(AV_TIME_BASE);

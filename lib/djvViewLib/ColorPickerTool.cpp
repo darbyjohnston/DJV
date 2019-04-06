@@ -169,11 +169,11 @@ namespace djv
             DJV_PRIVATE_PTR();
             setTitle(_getText(DJV_TEXT("Color Picker")));
 
-            p.actions["Lock"]->setTitle(_getText(DJV_TEXT("Lock Color Type")));
+            p.actions["Lock"]->setText(_getText(DJV_TEXT("Lock Color Type")));
             p.actions["Lock"]->setTooltip(_getText(DJV_TEXT("Color picker lock color type tooltip")));
-            p.actions["ColorProfile"]->setTitle(_getText(DJV_TEXT("Enable Color Profile")));
+            p.actions["ColorProfile"]->setText(_getText(DJV_TEXT("Enable Color Profile")));
             p.actions["ColorProfile"]->setTooltip(_getText(DJV_TEXT("Color picker enable color profile tooltip")));
-            p.actions["DisplayProfile"]->setTitle(_getText(DJV_TEXT("Enable Display Profile")));
+            p.actions["DisplayProfile"]->setText(_getText(DJV_TEXT("Enable Display Profile")));
             p.actions["DisplayProfile"]->setTooltip(_getText(DJV_TEXT("Color picker enable display profile tooltip")));
 
             p.tabWidget->setText(p.tabText["RGB"], _getText(DJV_TEXT("RGB")));

@@ -228,7 +228,7 @@ namespace djv
                 for (const auto & i : p.history)
                 {
                     auto action = Action::create();
-                    action->setTitle(i);
+                    action->setText(i);
                     p.historyActionGroup->addAction(action);
                     p.historyMenu->addAction(action);
                 }

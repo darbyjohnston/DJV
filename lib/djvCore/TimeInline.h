@@ -51,8 +51,8 @@ namespace djv
             {
                 hour    = (in >> 28 & 0x0f) * 10 + (in >> 24 & 0x0f);
                 minute  = (in >> 20 & 0x0f) * 10 + (in >> 16 & 0x0f);
-                seconds = (in >> 12 & 0x0f) * 10 + (in >> 8 & 0x0f);
-                frame   = (in >> 4 & 0x0f) * 10 + (in >> 0 & 0x0f);
+                seconds = (in >> 12 & 0x0f) * 10 + (in >>  8 & 0x0f);
+                frame   = (in >>  4 & 0x0f) * 10 + (in >>  0 & 0x0f);
             }
 
             inline uint32_t timeToTimecode(

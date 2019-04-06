@@ -29,10 +29,8 @@
 
 #include <djvUIComponents/TIFFSettingsWidget.h>
 
-#include <djvUI/ButtonGroup.h>
-#include <djvUI/FlatButton.h>
-#include <djvUI/FlowLayout.h>
-#include <djvUI/GroupBox.h>
+#include <djvUI/ComboBox.h>
+#include <djvUI/FormLayout.h>
 
 #include <djvAV/TIFF.h>
 
@@ -46,8 +44,8 @@ namespace djv
     {
         struct TIFFSettingsWidget::Private
         {
-            std::shared_ptr<ButtonGroup> compressionButtonGroup;
-            std::shared_ptr<GroupBox> compressionGroupBox;
+            std::shared_ptr<ComboBox> compressionComboBox;
+            std::shared_ptr<FormLayout> layout;
         };
 
         void TIFFSettingsWidget::_init(Context * context)
@@ -56,29 +54,14 @@ namespace djv
 
             DJV_PRIVATE_PTR();
 
-            p.compressionButtonGroup = ButtonGroup::create(ButtonType::Radio);
-            auto layout = FlowLayout::create(context);
-            layout->setSpacing(MetricsRole::None);
-            for (size_t i = 0; i < static_cast<size_t>(AV::IO::TIFF::Compression::Count); ++i)
-            {
-                auto button = FlatButton::create(context);
-                button->setInsideMargin(Layout::Margin(MetricsRole::Margin, MetricsRole::Margin, MetricsRole::MarginSmall, MetricsRole::MarginSmall));
-                p.compressionButtonGroup->addButton(button);
-                layout->addChild(button);
-            }
-            p.compressionGroupBox = GroupBox::create(context);
-            p.compressionGroupBox->addChild(layout);
-            addChild(p.compressionGroupBox);
+            p.compressionComboBox = ComboBox::create(context);
 
-            if (auto io = context->getSystemT<AV::IO::System>())
-            {
-                AV::IO::TIFF::Settings settings;
-                fromJSON(io->getOptions(AV::IO::TIFF::pluginName), settings);
-                p.compressionButtonGroup->setChecked(static_cast<int>(settings.compression));
-            }
+            p.layout = FormLayout::create(context);
+            p.layout->addChild(p.compressionComboBox);
+            addChild(p.layout);
 
             auto weak = std::weak_ptr<TIFFSettingsWidget>(std::dynamic_pointer_cast<TIFFSettingsWidget>(shared_from_this()));
-            p.compressionButtonGroup->setRadioCallback(
+            p.compressionComboBox->setCallback(
                 [weak, context](int value)
             {
                 if (auto io = context->getSystemT<AV::IO::System>())
@@ -115,17 +98,32 @@ namespace djv
         {
             ISettingsWidget::_localeEvent(event);
             DJV_PRIVATE_PTR();
-            const auto & buttons = p.compressionButtonGroup->getButtons();
-            for (size_t i = 0; i < buttons.size(); ++i)
+            p.layout->setText(p.compressionComboBox, DJV_TEXT("Output file compression:"));
+            _widgetUpdate();
+        }
+
+        void TIFFSettingsWidget::_widgetUpdate()
+        {
+            DJV_PRIVATE_PTR();
+            p.compressionComboBox->clearItems();
+            for (auto i : AV::IO::TIFF::getCompressionEnums())
             {
-                if (auto button = std::dynamic_pointer_cast<FlatButton>(buttons[i]))
-                {
-                    std::stringstream ss;
-                    ss << static_cast<AV::IO::TIFF::Compression>(i);
-                    button->setText(_getText(ss.str()));
-                }
+                std::stringstream ss;
+                ss << i;
+                p.compressionComboBox->addItem(_getText(ss.str()));
             }
-            p.compressionGroupBox->setText(_getText(DJV_TEXT("File Compression")));
+            _currentItemUpdate();
+        }
+
+        void TIFFSettingsWidget::_currentItemUpdate()
+        {
+            DJV_PRIVATE_PTR();
+            if (auto io = getContext()->getSystemT<AV::IO::System>())
+            {
+                AV::IO::TIFF::Settings settings;
+                fromJSON(io->getOptions(AV::IO::TIFF::pluginName), settings);
+                p.compressionComboBox->setCurrentItem(static_cast<int>(settings.compression));
+            }
         }
 
     } // namespace UI

@@ -35,14 +35,6 @@ namespace djv
         {
             namespace FFmpeg
             {
-                inline AVRational getTimeBaseQ()
-                {
-                    AVRational r;
-                    r.num = 1;
-                    r.den = AV_TIME_BASE;
-                    return r;
-                }
-
             } // namespace FFmpeg
         } // namespace IO
     } // namespace AV

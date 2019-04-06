@@ -38,7 +38,7 @@ namespace djv
         //! This class provides a combo box widget.
         //!
         //! \todo Add support for icons.
-        //! \todo Position the current item under the pointer.
+        //! \todo When the combo box is opened position the current item under the pointer.
         class ComboBox : public Widget
         {
             DJV_NON_COPYABLE(ComboBox);
@@ -59,6 +59,8 @@ namespace djv
 
             int getCurrentItem() const;
             void setCurrentItem(int);
+
+            void setFont(int, const std::string &);
 
             void setCallback(const std::function<void(int)> &);
 

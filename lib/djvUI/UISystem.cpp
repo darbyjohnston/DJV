@@ -29,6 +29,7 @@
 
 #include <djvUI/UISystem.h>
 
+#include <djvUI/AVSettings.h>
 #include <djvUI/DialogSystem.h>
 #include <djvUI/GeneralSettings.h>
 #include <djvUI/FontSettings.h>
@@ -70,6 +71,7 @@ namespace djv
             auto avSystem = AV::AVSystem::create(context);
 
             auto settingsSystem = Settings::System::create(context);
+            Settings::AV::create(context);
             Settings::General::create(context);
             Settings::Font::create(context);
             auto styleSettings = Settings::Style::create(context);

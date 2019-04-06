@@ -50,6 +50,7 @@ namespace djv
 
             DJV_PRIVATE_PTR();
             p.layout = VerticalLayout::create(context);
+            p.layout->setMargin(MetricsRole::MarginLarge);
             p.layout->setSpacing(MetricsRole::SpacingLarge);
 
             p.scrollWidget = ScrollWidget::create(ScrollType::Vertical, context);

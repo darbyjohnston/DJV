@@ -58,6 +58,7 @@ namespace djv
 
             void setDuration(Core::Time::Timestamp);
             void setCurrentTime(Core::Time::Timestamp);
+            void setSpeed(const Core::Time::Speed &);
 
         protected:
             void _styleEvent(Core::Event::Style &) override;

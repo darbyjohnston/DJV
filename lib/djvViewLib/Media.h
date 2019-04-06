@@ -63,8 +63,12 @@ namespace djv
             std::shared_ptr<Core::IValueSubject<AV::IO::Info> > observeInfo() const;
             std::shared_ptr<Core::IValueSubject<Core::Time::Timestamp> > observeDuration() const;
             std::shared_ptr<Core::IValueSubject<Core::Time::Timestamp> > observeCurrentTime() const;
-            std::shared_ptr<Core::IValueSubject<Playback> > observePlayback() const;
             std::shared_ptr<Core::IValueSubject<std::shared_ptr<AV::Image::Image> > > observeCurrentImage() const;
+            std::shared_ptr<Core::IValueSubject<Playback> > observePlayback() const;
+            std::shared_ptr<Core::IValueSubject<PlaybackMode> > observePlaybackMode() const;
+            std::shared_ptr<Core::IValueSubject<bool> > observeInOutPointsEnabled() const;
+            std::shared_ptr<Core::IValueSubject<Core::Time::Timestamp> > observeInPoint() const;
+            std::shared_ptr<Core::IValueSubject<Core::Time::Timestamp> > observeOutPoint() const;
 
             std::shared_ptr<Core::IValueSubject<size_t> > observeVideoQueueMax() const;
             std::shared_ptr<Core::IValueSubject<size_t> > observeAudioQueueMax() const;
@@ -74,6 +78,18 @@ namespace djv
 
             void setCurrentTime(Core::Time::Timestamp);
             void setPlayback(Playback);
+            void setPlaybackMode(PlaybackMode);
+            void inPoint();
+            void outPoint();
+            void start();
+            void end();
+            void nextFrame(size_t = 1);
+            void prevFrame(size_t = 1);
+            void setInOutPointsEnabled(bool);
+            void setInPoint(Core::Time::Timestamp);
+            void setOutPoint(Core::Time::Timestamp);
+            void resetInPoint();
+            void resetOutPoint();
 
         private:
             DJV_PRIVATE();
