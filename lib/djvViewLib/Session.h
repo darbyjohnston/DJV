@@ -67,6 +67,7 @@ namespace djv
         class MainWindow;
         class PlaybackGroup;
         class ToolGroup;
+        class AnnotateGroup;
         class ViewContext;
         class ViewGroup;
         class WindowGroup;
@@ -88,6 +89,7 @@ namespace djv
             QPointer<ImageGroup> imageGroup() const;
             QPointer<PlaybackGroup> playbackGroup() const;
             QPointer<ToolGroup> toolGroup() const;
+            QPointer<AnnotateGroup> annotateGroup() const;
             QPointer<HelpGroup> helpGroup() const;
 
             const std::shared_ptr<AV::Image> & image() const;

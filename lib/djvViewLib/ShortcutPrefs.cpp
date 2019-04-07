@@ -164,7 +164,8 @@ namespace djv
                 UI::Shortcut(Enum::shortcutLabels()[Enum::SHORTCUT_TOOL_COLOR_PICKER], QKeySequence("2")) <<
                 UI::Shortcut(Enum::shortcutLabels()[Enum::SHORTCUT_TOOL_HISTOGRAM], QKeySequence("3")) <<
                 UI::Shortcut(Enum::shortcutLabels()[Enum::SHORTCUT_TOOL_INFO], QKeySequence("4")) <<
-                UI::Shortcut(Enum::shortcutLabels()[Enum::SHORTCUT_TOOL_ANNOTATE], QKeySequence("Ctrl+A")) <<
+
+                UI::Shortcut(Enum::shortcutLabels()[Enum::SHORTCUT_ANNOTATE_TOOL], QKeySequence("Ctrl+A")) <<
 
                 UI::Shortcut(Enum::shortcutLabels()[Enum::SHORTCUT_HELP_WHATS_THIS], QKeySequence("F1"));
 

@@ -29,11 +29,7 @@
 
 #pragma once
 
-#include <djvViewLib/ViewLib.h>
-
-#include <djvCore/Util.h>
-
-#include <QAbstractItemModel>
+#include <djvViewLib/AbstractMenu.h>
 
 #include <memory>
 
@@ -41,38 +37,19 @@ namespace djv
 {
     namespace ViewLib
     {
-        namespace Annotate
-        {
-            class Data;
-
-        } // namespace Annotate
-
-        //! This class provides a model for an annotation collection.
-        class AnnotateModel : public QAbstractItemModel
+        //! This class provides the annotate group menu.
+        class AnnotateMenu : public AbstractMenu
         {
             Q_OBJECT
 
         public:
-            explicit AnnotateModel(QObject * parent = nullptr);
-            ~AnnotateModel() override;
-
-            QModelIndex	index(int row, int column, const QModelIndex & parent = QModelIndex()) const override;
-            QModelIndex	parent(const QModelIndex & = QModelIndex()) const override;
-            Qt::ItemFlags flags(const QModelIndex &) const override;
-            QVariant data(const QModelIndex &, int role = Qt::DisplayRole) const override;
-            QVariant headerData(int section, Qt::Orientation, int role = Qt::DisplayRole) const override;
-            int rowCount(const QModelIndex & parent = QModelIndex()) const override;
-            int columnCount(const QModelIndex & parent = QModelIndex()) const override;
-
-        public Q_SLOTS:
-            //! Set the annotations.
-            void setAnnotations(const QList<Annotate::Data *> &);
-
-        private Q_SLOTS:
-            void modelUpdate();
+            explicit AnnotateMenu(
+                const QPointer<AbstractActions> &,
+                QWidget * parent = nullptr);
+            ~AnnotateMenu() override;
 
         private:
-            DJV_PRIVATE_COPY(AnnotateModel);
+            DJV_PRIVATE_COPY(AnnotateMenu);
 
             struct Private;
             std::unique_ptr<Private> _p;

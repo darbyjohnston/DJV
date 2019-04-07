@@ -30,11 +30,10 @@
 #include <djvViewLib/AnnotateTool.h>
 
 #include <djvViewLib/AnnotateData.h>
+#include <djvViewLib/AnnotateGroup.h>
 #include <djvViewLib/AnnotateModel.h>
 #include <djvViewLib/AnnotatePrefs.h>
 #include <djvViewLib/FileGroup.h>
-#include <djvViewLib/ImageView.h>
-#include <djvViewLib/PlaybackGroup.h>
 #include <djvViewLib/Session.h>
 #include <djvViewLib/ViewContext.h>
 
@@ -65,16 +64,15 @@ namespace djv
             Private(const QPointer<ViewContext> & context) :
                 primitive(context->annotatePrefs()->primitive()),
                 color(context->annotatePrefs()->color()),
-                lineWidth(context->annotatePrefs()->lineWidth())
+                lineWidth(context->annotatePrefs()->lineWidth()),
+                listVisible(context->annotatePrefs()->isListVisible())
             {}
 
             Enum::ANNOTATE_PRIMITIVE primitive;
             AV::Color color;
-            size_t lineWidth = 1;
-            bool listVisible = false;
-            std::shared_ptr<Annotate::Collection> collection;
-            std::shared_ptr<Annotate::Data> currentData;
-            std::shared_ptr<Annotate::AbstractPrimitive> currentPrimitive;
+            size_t lineWidth;
+            bool listVisible;
+            QPointer<Annotate::Data> currentAnnotation;
 
             QPointer<QButtonGroup> primitiveButtonGroup;
             QPointer<UI::ToolButton> colorButton;
@@ -168,7 +166,6 @@ namespace djv
             // Initialize.
             setWindowTitle(qApp->translate("djv::ViewLib::AnnotateTool", "Annotate"));
             setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-            _p->collection = Annotate::Collection::create(FileInfo());
             styleUpdate();
             widgetUpdate();
 
@@ -177,6 +174,7 @@ namespace djv
                 _p->primitiveButtonGroup,
                 SIGNAL(buttonToggled(int, bool)),
                 SLOT(primitiveCallback(int, bool)));
+
             connect(
                 _p->colorButton,
                 &UI::ToolButton::clicked,
@@ -184,31 +182,36 @@ namespace djv
             {
 
             });
+
             connect(
                 _p->lineWidthSpinBox,
                 SIGNAL(valueChanged(int)),
                 SLOT(lineWidthCallback(int)));
+
             connect(
                 _p->undoButton,
                 &UI::ToolButton::clicked,
-                [this]
+                [session]
             {
+                session->annotateGroup()->undoDrawing();
             });
+
             connect(
                 _p->redoButton,
                 &UI::ToolButton::clicked,
-                [this]
+                [session]
             {
+                session->annotateGroup()->redoDrawing();
             });
+
             connect(
                 _p->clearButton,
                 &UI::ToolButton::clicked,
                 [this]
             {
-                if (_p->currentData)
+                if (_p->currentAnnotation)
                 {
-                    _p->currentData->clearPrimitives();
-                    viewUpdate();
+                    _p->currentAnnotation->clearPrimitives();
                 }
             });
 
@@ -217,10 +220,10 @@ namespace djv
                 &QTextEdit::textChanged,
                 [this]
             {
-                if (_p->currentData)
+                if (_p->currentAnnotation)
                 {
-                    _p->currentData->setText(_p->textEdit->toPlainText());
-                    int selection = -1;
+                    _p->currentAnnotation->setText(_p->textEdit->toPlainText());
+                    /*int selection = -1;
                     const auto & indexes = _p->treeView->selectionModel()->selection().indexes();
                     if (indexes.size())
                     {
@@ -233,16 +236,17 @@ namespace djv
                         _p->treeView->selectionModel()->select(
                             QItemSelection(_p->model->index(selection, 0), _p->model->index(selection, 1)),
                             QItemSelectionModel::Select);
-                    }
+                    }*/
                 }
             });
 
             connect(
                 _p->treeView->selectionModel(),
                 &QItemSelectionModel::currentChanged,
-                [this, session](const QModelIndex & current, const QModelIndex &)
+                [session](const QModelIndex & current, const QModelIndex &)
             {
-                if (auto p = current.internalPointer())
+                session->annotateGroup()->setCurrentAnnotation(reinterpret_cast<Annotate::Data *>(current.internalPointer()));
+                /*if (auto p = current.internalPointer())
                 {
                     _p->currentData = *reinterpret_cast<std::shared_ptr<Annotate::Data> *>(p);
                     _p->textEdit->setText(_p->currentData->text());
@@ -254,15 +258,16 @@ namespace djv
                 {
                     _p->currentData.reset();
                     _p->textEdit->clear();
-                }
+                }*/
             });
 
             connect(
                 _p->prevButton,
                 &UI::ToolButton::clicked,
-                [this, session]
+                [session]
             {
-                const auto & data = _p->collection->data();
+                session->annotateGroup()->prevAnnotation();
+                /*const auto & data = _p->collection->data();
                 if (_p->collection && data.size() > 1)
                 {
                     size_t row = 0;
@@ -286,15 +291,16 @@ namespace djv
                     _p->textEdit->setText(_p->currentData->text());
                     auto playbackGroup = session->playbackGroup();
                     playbackGroup->setFrame(_p->currentData->frame());
-                }
+                }*/
             });
 
             connect(
                 _p->nextButton,
                 &UI::ToolButton::clicked,
-                [this, session]
+                [session]
             {
-                const auto & data = _p->collection->data();
+                session->annotateGroup()->nextAnnotation();
+                /*const auto & data = _p->collection->data();
                 if (_p->collection && data.size() > 1)
                 {
                     size_t row = 0;
@@ -318,15 +324,16 @@ namespace djv
                     _p->textEdit->setText(_p->currentData->text());
                     auto playbackGroup = session->playbackGroup();
                     playbackGroup->setFrame(_p->currentData->frame());
-                }
+                }*/
             });
 
             connect(
                 _p->addButton,
                 &UI::ToolButton::clicked,
-                [this, session]
+                [session]
             {
-                if (_p->collection)
+                session->annotateGroup()->addAnnotation();
+                /*if (_p->collection)
                 {
                     auto playbackGroup = session->playbackGroup();
                     const qint64 frame = playbackGroup->frame();
@@ -339,15 +346,16 @@ namespace djv
                         QItemSelection(_p->model->index(static_cast<int>(row), 0), _p->model->index(static_cast<int>(row), 1)),
                         QItemSelectionModel::Select);
                     _p->textEdit->setText(data->text());
-                }
+                }*/
             });
 
             connect(
                 _p->removeButton,
                 &UI::ToolButton::clicked,
-                [this, session]
+                [session]
             {
-                if (_p->collection && _p->currentData)
+                session->annotateGroup()->removeAnnotation();
+                /*if (_p->collection && _p->currentData)
                 {
                     int selection = -1;
                     const auto & indexes = _p->treeView->selectionModel()->selection().indexes();
@@ -376,53 +384,79 @@ namespace djv
                     {
                         _p->textEdit->clear();
                     }
-                }
+                }*/
             });
 
             connect(
                 _p->listVisibleButton,
                 &UI::ToolButton::toggled,
-                [this](bool value)
+                [this, context](bool value)
             {
                 _p->listVisible = value;
+                context->annotatePrefs()->setListVisible(value);
                 widgetUpdate();
             });
 
             connect(
                 _p->exportButton,
                 &UI::ToolButton::clicked,
-                [this]
+                [session]
             {
+                session->annotateGroup()->exportAnnotations();
             });
 
-            auto viewWidget = session->viewWidget();
             connect(
-                viewWidget,
-                SIGNAL(pickPressed(const glm::ivec2 &)),
-                SLOT(pickPressedCallback(const glm::ivec2 &)));
+                context->annotatePrefs(),
+                &AnnotatePrefs::primitiveChanged,
+                [this](Enum::ANNOTATE_PRIMITIVE value)
+            {
+                _p->primitive = value;
+                widgetUpdate();
+            });
             connect(
-                viewWidget,
-                SIGNAL(pickReleased(const glm::ivec2 &)),
-                SLOT(pickReleasedCallback(const glm::ivec2 &)));
+                context->annotatePrefs(),
+                &AnnotatePrefs::colorChanged,
+                [this](const AV::Color & value)
+            {
+                _p->color = value;
+                widgetUpdate();
+            });
             connect(
-                viewWidget,
-                SIGNAL(pickMoved(const glm::ivec2 &)),
-                SLOT(pickMovedCallback(const glm::ivec2 &)));
+                context->annotatePrefs(),
+                &AnnotatePrefs::lineWidthChanged,
+                [this](size_t value)
+            {
+                _p->lineWidth = value;
+                widgetUpdate();
+            });
+            connect(
+                context->annotatePrefs(),
+                &AnnotatePrefs::listVisibleChanged,
+                [this](bool value)
+            {
+                _p->listVisible = value;
+                widgetUpdate();
+            });
+
+            /*auto annotateGroup = session->annotateGroup();
+            connect(
+                annotateGroup,
+                &AnnotateGroup::annotationsChanged,
+                [this](const QList<Annotate::Data *> & value)
+            {
+                _p->model->setAnnotations(value);
+                widgetUpdate();
+            });
 
             connect(
-                context->annotatePrefs(),
-                SIGNAL(primitiveChanged(djv::ViewLib::Enum::ANNOTATE_PRIMITIVE)),
-                SLOT(setPrimitive(djv::ViewLib::Enum::ANNOTATE_PRIMITIVE)));
-            connect(
-                context->annotatePrefs(),
-                SIGNAL(colorChanged(const djv::AV::Color &)),
-                SLOT(setColor(const djv::AV::Color &)));
-            connect(
-                context->annotatePrefs(),
-                SIGNAL(lineWidthChanged(size_t)),
-                SLOT(setLineWidth(size_t)));
-
-            auto fileGroup = session->fileGroup();
+                annotateGroup,
+                &AnnotateGroup::currentAnnotationChanged,
+                [this](Annotate::Data * value)
+            {
+                _p->currentAnnotation = value;
+                widgetUpdate();
+            });*/
+            /*auto fileGroup = session->fileGroup();
             connect(
                 fileGroup,
                 &FileGroup::fileInfoChanged,
@@ -434,8 +468,8 @@ namespace djv
                 _p->textEdit->clear();
                 annotationsUpdate();
                 viewUpdate();
-            });
-            auto playbackGroup = session->playbackGroup();
+            });*/
+            /*auto playbackGroup = session->playbackGroup();
             connect(
                 playbackGroup,
                 &PlaybackGroup::frameChanged,
@@ -470,13 +504,13 @@ namespace djv
                     _p->textEdit->clear();
                 }
                 viewUpdate();
-            });
+            });*/
         }
 
         AnnotateTool::~AnnotateTool()
         {}
 
-        void AnnotateTool::setPrimitive(djv::ViewLib::Enum::ANNOTATE_PRIMITIVE value)
+        /*void AnnotateTool::setPrimitive(djv::ViewLib::Enum::ANNOTATE_PRIMITIVE value)
         {
             if (value == _p->primitive)
                 return;
@@ -504,22 +538,38 @@ namespace djv
             context()->annotatePrefs()->setLineWidth(_p->lineWidth);
             widgetUpdate();
             Q_EMIT lineWidthChanged(_p->lineWidth);
+        }*/
+
+        void AnnotateTool::setAnnotations(const QList<Annotate::Data *> & value)
+        {
+            _p->model->setAnnotations(value);
+            widgetUpdate();
+        }
+
+        void AnnotateTool::setCurrentAnnotation(Annotate::Data * value)
+        {
+            _p->currentAnnotation = value;
+            widgetUpdate();
         }
 
         void AnnotateTool::primitiveCallback(int id, bool checked)
         {
             if (checked)
             {
-                setPrimitive(static_cast<Enum::ANNOTATE_PRIMITIVE>(id));
+                _p->primitive = static_cast<Enum::ANNOTATE_PRIMITIVE>(id);
+                context()->annotatePrefs()->setPrimitive(_p->primitive);
+                widgetUpdate();
             }
         }
 
         void AnnotateTool::lineWidthCallback(int value)
         {
-            setLineWidth(value);
+            _p->lineWidth = value;
+            context()->annotatePrefs()->setLineWidth(value);
+            widgetUpdate();
         }
 
-        void AnnotateTool::pickPressedCallback(const glm::ivec2 & in)
+        /*void AnnotateTool::pickPressedCallback(const glm::ivec2 & in)
         {
             if (isVisible())
             {
@@ -565,7 +615,7 @@ namespace djv
                     (in.y - viewPos.y) / viewZoom));
                 session()->viewWidget()->update();
             }
-        }
+        }*/
 
         namespace
         {
@@ -619,27 +669,10 @@ namespace djv
             _p->listVisibleButton->setChecked(_p->listVisible);
         }
 
-        void AnnotateTool::annotationsUpdate()
+        /*void AnnotateTool::annotationsUpdate()
         {
             _p->model->setCollection(_p->collection);
-        }
-
-        void AnnotateTool::viewUpdate()
-        {
-            std::vector<std::shared_ptr<Annotate::Data> > data;
-            if (_p->collection)
-            {
-                const qint64 frame = session()->playbackGroup()->frame();
-                for (const auto & i : _p->collection->data())
-                {
-                    if (frame == i->frame())
-                    {
-                        data.push_back(i);
-                    }
-                }
-            }
-            session()->viewWidget()->setAnnotateData(data);
-        }
+        }*/
 
     } // namespace ViewLib
 } // namespace djv

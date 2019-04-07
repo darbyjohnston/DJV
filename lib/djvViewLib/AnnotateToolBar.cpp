@@ -27,56 +27,37 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#pragma once
+#include <djvViewLib/AnnotateToolBar.h>
 
-#include <djvViewLib/ViewLib.h>
+#include <djvViewLib/AnnotateActions.h>
+#include <djvViewLib/ViewContext.h>
 
-#include <djvCore/Util.h>
+#include <djvUI/ToolButton.h>
 
-#include <QAbstractItemModel>
-
-#include <memory>
+#include <QCoreApplication>
+#include <QPointer>
 
 namespace djv
 {
     namespace ViewLib
     {
-        namespace Annotate
+        struct AnnotateToolBar::Private
+        {};
+
+        AnnotateToolBar::AnnotateToolBar(
+            const QPointer<AbstractActions> & actions,
+            const QPointer<ViewContext> & context,
+            QWidget * parent) :
+            AbstractToolBar(qApp->translate("djv::ViewLib::AnnotateToolBar", "Annotate"), actions, context, parent),
+            _p(new Private)
         {
-            class Data;
+            auto button = new UI::ToolButton(context.data());
+            button->setDefaultAction(actions->action(AnnotateActions::ANNOTATE_TOOL));
+            addWidget(button);
+        }
 
-        } // namespace Annotate
-
-        //! This class provides a model for an annotation collection.
-        class AnnotateModel : public QAbstractItemModel
-        {
-            Q_OBJECT
-
-        public:
-            explicit AnnotateModel(QObject * parent = nullptr);
-            ~AnnotateModel() override;
-
-            QModelIndex	index(int row, int column, const QModelIndex & parent = QModelIndex()) const override;
-            QModelIndex	parent(const QModelIndex & = QModelIndex()) const override;
-            Qt::ItemFlags flags(const QModelIndex &) const override;
-            QVariant data(const QModelIndex &, int role = Qt::DisplayRole) const override;
-            QVariant headerData(int section, Qt::Orientation, int role = Qt::DisplayRole) const override;
-            int rowCount(const QModelIndex & parent = QModelIndex()) const override;
-            int columnCount(const QModelIndex & parent = QModelIndex()) const override;
-
-        public Q_SLOTS:
-            //! Set the annotations.
-            void setAnnotations(const QList<Annotate::Data *> &);
-
-        private Q_SLOTS:
-            void modelUpdate();
-
-        private:
-            DJV_PRIVATE_COPY(AnnotateModel);
-
-            struct Private;
-            std::unique_ptr<Private> _p;
-        };
+        AnnotateToolBar::~AnnotateToolBar()
+        {}
 
     } // namespace ViewLib
 } // namespace djv

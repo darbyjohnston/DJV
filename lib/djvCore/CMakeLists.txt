@@ -30,6 +30,9 @@ set(header
     MatrixInline.h
     Memory.h
     MemoryInline.h
+    PicoJSON.h
+    PicoJSONTemplates.h
+    PicoJSONTemplatesInline.h
     Plugin.h
     Range.h
     RangeInline.h
@@ -75,6 +78,7 @@ set(source
     FileIOUtil.cpp
     Math.cpp
     Memory.cpp
+    PicoJSON.cpp
     Plugin.cpp
     Sequence.cpp
     SignalBlocker.cpp

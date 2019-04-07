@@ -29,11 +29,7 @@
 
 #pragma once
 
-#include <djvViewLib/ViewLib.h>
-
-#include <djvCore/Util.h>
-
-#include <QAbstractItemModel>
+#include <djvViewLib/AbstractActions.h>
 
 #include <memory>
 
@@ -41,38 +37,29 @@ namespace djv
 {
     namespace ViewLib
     {
-        namespace Annotate
-        {
-            class Data;
-
-        } // namespace Annotate
-
-        //! This class provides a model for an annotation collection.
-        class AnnotateModel : public QAbstractItemModel
+        //! This class provides the annotate group actions.
+        class AnnotateActions : public AbstractActions
         {
             Q_OBJECT
 
         public:
-            explicit AnnotateModel(QObject * parent = nullptr);
-            ~AnnotateModel() override;
+            //! This enumeration provides the actions.
+            enum ACTION
+            {
+                ANNOTATE_TOOL,
 
-            QModelIndex	index(int row, int column, const QModelIndex & parent = QModelIndex()) const override;
-            QModelIndex	parent(const QModelIndex & = QModelIndex()) const override;
-            Qt::ItemFlags flags(const QModelIndex &) const override;
-            QVariant data(const QModelIndex &, int role = Qt::DisplayRole) const override;
-            QVariant headerData(int section, Qt::Orientation, int role = Qt::DisplayRole) const override;
-            int rowCount(const QModelIndex & parent = QModelIndex()) const override;
-            int columnCount(const QModelIndex & parent = QModelIndex()) const override;
+                ACTION_COUNT
+            };
+            Q_ENUM(ACTION);
 
-        public Q_SLOTS:
-            //! Set the annotations.
-            void setAnnotations(const QList<Annotate::Data *> &);
+            explicit AnnotateActions(const QPointer<ViewContext> &, QObject * parent = nullptr);
+            ~AnnotateActions() override;
 
         private Q_SLOTS:
-            void modelUpdate();
+            void update();
 
         private:
-            DJV_PRIVATE_COPY(AnnotateModel);
+            DJV_PRIVATE_COPY(AnnotateActions);
 
             struct Private;
             std::unique_ptr<Private> _p;

@@ -98,6 +98,7 @@ namespace djv
                 UI_VIEW_TOOL_BAR,
                 UI_IMAGE_TOOL_BAR,
                 UI_TOOLS_TOOL_BAR,
+                UI_ANNOTATE_TOOL_BAR,
                 UI_PLAYBACK_CONTROLS,
                 UI_STATUS_BAR,
 
@@ -289,7 +290,6 @@ namespace djv
                 TOOL_COLOR_PICKER,
                 TOOL_HISTOGRAM,
                 TOOL_INFO,
-                TOOL_ANNOTATE,
 
                 TOOL_COUNT
             };
@@ -452,7 +452,8 @@ namespace djv
                 SHORTCUT_TOOL_COLOR_PICKER,
                 SHORTCUT_TOOL_HISTOGRAM,
                 SHORTCUT_TOOL_INFO,
-                SHORTCUT_TOOL_ANNOTATE,
+
+                SHORTCUT_ANNOTATE_TOOL,
 
                 SHORTCUT_HELP_WHATS_THIS,
 

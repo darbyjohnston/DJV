@@ -73,6 +73,7 @@ namespace djv
                 qApp->translate("djv::ViewLib::Enum", "View Tool Bar") <<
                 qApp->translate("djv::ViewLib::Enum", "Image Tool Bar") <<
                 qApp->translate("djv::ViewLib::Enum", "Tools Tool Bar") <<
+                qApp->translate("djv::ViewLib::Enum", "Annotate Tool Bar") <<
                 qApp->translate("djv::ViewLib::Enum", "Playback Controls") <<
                 qApp->translate("djv::ViewLib::Enum", "Status Bar");
             DJV_ASSERT(data.count() == UI_COMPONENT_COUNT);
@@ -253,8 +254,7 @@ namespace djv
                 qApp->translate("djv::ViewLib::Enum", "Magnify") <<
                 qApp->translate("djv::ViewLib::Enum", "Color Picker") <<
                 qApp->translate("djv::ViewLib::Enum", "Histogram") <<
-                qApp->translate("djv::ViewLib::Enum", "Information") <<
-                qApp->translate("djv::ViewLib::Enum", "Annotate");
+                qApp->translate("djv::ViewLib::Enum", "Information");
             DJV_ASSERT(data.count() == TOOL_COUNT);
             return data;
         }
@@ -415,7 +415,8 @@ namespace djv
                 qApp->translate("djv::ViewLib::Enum", "Tool/Color Picker") <<
                 qApp->translate("djv::ViewLib::Enum", "Tool/Histogram") <<
                 qApp->translate("djv::ViewLib::Enum", "Tool/Information") <<
-                qApp->translate("djv::ViewLib::Enum", "Tool/Annotate") <<
+
+                qApp->translate("djv::ViewLib::Enum", "Annotate/Annotate Tool") <<
             
                 qApp->translate("djv::ViewLib::Enum", "Help/What's This?");
             DJV_ASSERT(data.count() == SHORTCUT_COUNT);

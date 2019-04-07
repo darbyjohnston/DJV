@@ -50,6 +50,7 @@ namespace djv
                 { Enum::UI_VIEW_TOOL_BAR,     true },
                 { Enum::UI_IMAGE_TOOL_BAR,    true },
                 { Enum::UI_TOOLS_TOOL_BAR,    true },
+                { Enum::UI_ANNOTATE_TOOL_BAR, true },
                 { Enum::UI_PLAYBACK_CONTROLS, true },
                 { Enum::UI_STATUS_BAR,        true }
             };

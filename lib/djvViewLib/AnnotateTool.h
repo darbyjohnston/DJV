@@ -42,6 +42,12 @@ namespace djv
 {
     namespace ViewLib
     {
+        namespace Annotate
+        {
+            class Data;
+        
+        } // namespace Annotate
+
         //! This class provides the annotation tool.
         class AnnotateTool : public AbstractTool
         {
@@ -55,39 +61,15 @@ namespace djv
             ~AnnotateTool() override;
 
         public Q_SLOTS:
-            //! Set the current primitive.
-            void setPrimitive(djv::ViewLib::Enum::ANNOTATE_PRIMITIVE);
-
-            //! Set the current color.
-            void setColor(const djv::AV::Color &);
-
-            //! Set the current line width.
-            void setLineWidth(size_t);
-
-        Q_SIGNALS:
-            //! This signal is emitted when the current primitive is changed.
-            void primitiveChanged(djv::ViewLib::Enum::ANNOTATE_PRIMITIVE);
-
-            //! This signal is emitted when the current color is changed.
-            void colorChanged(const djv::AV::Color &);
-
-            //! This signal is emitted when the current line width is changed.
-            void lineWidthChanged(size_t);
-
-            //! This signal is emitted to clear the primitives.
-            void clearPrimitives();
+            void setAnnotations(const QList<djv::ViewLib::Annotate::Data *> &);
+            void setCurrentAnnotation(djv::ViewLib::Annotate::Data *);
 
         private Q_SLOTS:
             void primitiveCallback(int, bool);
             void lineWidthCallback(int);
-            void pickPressedCallback(const glm::ivec2 &);
-            void pickReleasedCallback(const glm::ivec2 &);
-            void pickMovedCallback(const glm::ivec2 &);
 
             void styleUpdate();
             void widgetUpdate();
-            void annotationsUpdate();
-            void viewUpdate();
 
         private:
             DJV_PRIVATE_COPY(AnnotateTool);

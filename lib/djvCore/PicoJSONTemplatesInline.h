@@ -29,54 +29,62 @@
 
 #pragma once
 
-#include <djvViewLib/ViewLib.h>
-
-#include <djvCore/Util.h>
-
-#include <QAbstractItemModel>
-
-#include <memory>
-
 namespace djv
 {
-    namespace ViewLib
+    template<typename T>
+    inline picojson::value toJSON(const std::vector<T> & value)
     {
-        namespace Annotate
+        picojson::value out(picojson::array_type, true);
+        for (const auto & i : value)
         {
-            class Data;
+            out.get<picojson::array>().push_back(toJSON(i));
+        }
+        return out;
+    }
 
-        } // namespace Annotate
-
-        //! This class provides a model for an annotation collection.
-        class AnnotateModel : public QAbstractItemModel
+    template<typename T>
+    picojson::value toJSON(const std::map<std::string, T> & value)
+    {
+        picojson::value out(picojson::object_type, true);
+        for (auto i : value)
         {
-            Q_OBJECT
+            out.get<picojson::object>()[i.first] = toJSON(i.second);
+        }
+        return out;
+    }
 
-        public:
-            explicit AnnotateModel(QObject * parent = nullptr);
-            ~AnnotateModel() override;
+    template<typename T>
+    void fromJSON(const picojson::value & value, std::vector<T> & out)
+    {
+        if (value.is<picojson::array>())
+        {
+            for (const auto & i : value.get<picojson::array>())
+            {
+                T tmp;
+                fromJSON(i, tmp);
+                out.push_back(tmp);
+            }
+        }
+        else
+        {
+            throw std::invalid_argument("Cannot parse the value.");
+        }
+    }
 
-            QModelIndex	index(int row, int column, const QModelIndex & parent = QModelIndex()) const override;
-            QModelIndex	parent(const QModelIndex & = QModelIndex()) const override;
-            Qt::ItemFlags flags(const QModelIndex &) const override;
-            QVariant data(const QModelIndex &, int role = Qt::DisplayRole) const override;
-            QVariant headerData(int section, Qt::Orientation, int role = Qt::DisplayRole) const override;
-            int rowCount(const QModelIndex & parent = QModelIndex()) const override;
-            int columnCount(const QModelIndex & parent = QModelIndex()) const override;
+    template<typename T>
+    void fromJSON(const picojson::value & value, std::map<std::string, T> & out)
+    {
+        if (value.is<picojson::object>())
+        {
+            for (const auto & i : value.get<picojson::object>())
+            {
+                fromJSON(i.second, out[i.first]);
+            }
+        }
+        else
+        {
+            throw std::invalid_argument("Cannot parse the value.");
+        }
+    }
 
-        public Q_SLOTS:
-            //! Set the annotations.
-            void setAnnotations(const QList<Annotate::Data *> &);
-
-        private Q_SLOTS:
-            void modelUpdate();
-
-        private:
-            DJV_PRIVATE_COPY(AnnotateModel);
-
-            struct Private;
-            std::unique_ptr<Private> _p;
-        };
-
-    } // namespace ViewLib
 } // namespace djv

@@ -29,7 +29,10 @@
 
 #include <djvViewLib/AnnotateModel.h>
 
+#include <djvViewLib/AnnotateData.h>
+
 #include <QApplication>
+#include <QPointer>
 
 namespace djv
 {
@@ -37,7 +40,7 @@ namespace djv
     {
         struct AnnotateModel::Private
         {
-            std::shared_ptr<Annotate::Collection> collection;
+            QList<QPointer<Annotate::Data> > annotations;
         };
 
         AnnotateModel::AnnotateModel(QObject * parent) :
@@ -55,10 +58,9 @@ namespace djv
         {
             if (!hasIndex(row, column, parent))
                 return QModelIndex();
-            if (!_p->collection)
+            if (_p->annotations.isEmpty())
                 return QModelIndex();
-            const auto & data = _p->collection->data();
-            return createIndex(row, column, data.size() ? (void *)&data[row] : nullptr);
+            return createIndex(row, column, (void *)_p->annotations[row].data());
         }
 
         QModelIndex	AnnotateModel::parent(const QModelIndex & index) const
@@ -84,12 +86,11 @@ namespace djv
                 return QVariant();
             if (role != Qt::DisplayRole)
                 return QVariant();
-            if (!_p->collection)
+            if (_p->annotations.isEmpty())
                 return QVariant();
             const int row = index.row();
             const int column = index.column();
-            const auto & data = _p->collection->data();
-            if (row < 0 || row >= (data.size()) ||
+            if (row < 0 || row >= (_p->annotations.count()) ||
                 column < 0 || column >= 2)
                 return QVariant();
             switch (role)
@@ -98,10 +99,14 @@ namespace djv
                 switch (column)
                 {
                 case 0:
-                    return _p->collection->data()[row]->frame();
+                    return _p->annotations[row] ? _p->annotations[row]->frame() : 0;
                 case 1:
                 {
-                    const QStringList split = _p->collection->data()[row]->text().split(QRegExp("\n"), QString::SkipEmptyParts);
+                    QStringList split;
+                    if (_p->annotations[row])
+                    {
+                        split = _p->annotations[row]->text().split(QRegExp("\n"), QString::SkipEmptyParts);
+                    }
                     if (split.size())
                     {
                         return split[0];
@@ -141,7 +146,7 @@ namespace djv
 
         int AnnotateModel::rowCount(const QModelIndex & parent) const
         {
-            return (parent.isValid() || !_p->collection) ? 0 : static_cast<int>(_p->collection->data().size());
+            return parent.isValid() ? 0 : _p->annotations.count();
         }
 
         int AnnotateModel::columnCount(const QModelIndex & parent) const
@@ -149,10 +154,43 @@ namespace djv
             return parent.isValid() ? 0 : 2;
         }
 
-        void AnnotateModel::setCollection(const std::shared_ptr<Annotate::Collection> & collection)
+        void AnnotateModel::setAnnotations(const QList<Annotate::Data *> & value)
         {
             beginResetModel();
-            _p->collection = collection;
+            Q_FOREACH(auto i, value)
+            {
+                if (i)
+                {
+                    disconnect(
+                        i,
+                        SIGNAL(textChanged(const QString &)),
+                        this,
+                        SLOT(modelUpdate()));
+                }
+            }
+            _p->annotations.clear();
+            Q_FOREACH(auto i, value)
+            {
+                _p->annotations.push_back(i);
+                if (i)
+                {
+                    connect(
+                        i,
+                        SIGNAL(textChanged(const QString &)),
+                        SLOT(modelUpdate()));
+                }
+            }
+            qStableSort(_p->annotations.begin(), _p->annotations.end(),
+                [](const QPointer<Annotate::Data> & a, const QPointer<Annotate::Data> & b)
+            {
+                return a && b ? (a->frame() < b->frame()) : 0;
+            });
+            endResetModel();
+        }
+
+        void AnnotateModel::modelUpdate()
+        {
+            beginResetModel();
             endResetModel();
         }
 

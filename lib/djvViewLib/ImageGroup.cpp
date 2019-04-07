@@ -67,18 +67,18 @@ namespace djv
                 channel(context->imagePrefs()->channel())
             {}
 
-            bool                                  frameStoreVisible = false;
+            bool                            frameStoreVisible = false;
             AV::PixelDataInfo::Mirror       mirror;
-            Enum::IMAGE_SCALE                     scale = static_cast<Enum::IMAGE_SCALE>(0);
-            Enum::IMAGE_ROTATE                    rotate = static_cast<Enum::IMAGE_ROTATE>(0);
-            bool                                  premultipliedAlpha = true;
-            bool                                  colorProfile = false;
-            DisplayProfile                        displayProfile;
+            Enum::IMAGE_SCALE               scale = static_cast<Enum::IMAGE_SCALE>(0);
+            Enum::IMAGE_ROTATE              rotate = static_cast<Enum::IMAGE_ROTATE>(0);
+            bool                            premultipliedAlpha = true;
+            bool                            colorProfile = false;
+            DisplayProfile                  displayProfile;
             AV::OpenGLImageOptions::CHANNEL channel = static_cast<AV::OpenGLImageOptions::CHANNEL>(0);
 
-            QPointer<ImageActions>         actions;
-            QPointer<DisplayProfileWidget> displayProfileWidget;
-            QPointer<QDockWidget>          displayProfileDockWidget;
+            QPointer<ImageActions>          actions;
+            QPointer<DisplayProfileWidget>  displayProfileWidget;
+            QPointer<QDockWidget>           displayProfileDockWidget;
         };
 
         ImageGroup::ImageGroup(

@@ -34,10 +34,10 @@
 
 #include <djvAV/Color.h>
 
-#include <djvCore/FileInfo.h>
 #include <djvCore/Vector.h>
 
-#include <map>
+#include <QObject>
+
 #include <memory>
 
 class QPainter;
@@ -49,12 +49,10 @@ namespace djv
         namespace Annotate
         {
             //! This class provides the base functionality for annotation primitives.
-            class AbstractPrimitive : public std::enable_shared_from_this<AbstractPrimitive>
+            class AbstractPrimitive
             {
-            protected:
-                void _init(const AV::Color &, size_t lineWidth);
-
             public:
+                AbstractPrimitive(const AV::Color &, size_t lineWidth);
                 virtual ~AbstractPrimitive() = 0;
 
                 virtual void draw(QPainter &, const glm::ivec2 & size, const glm::ivec2 & viewPos, float viewZoom) = 0;
@@ -65,23 +63,12 @@ namespace djv
                 size_t _lineWidth = 1;
             };
 
-            //! This class provides a factory to create annotation primitives.
-            class PrimitiveFactory
-            {
-            public:
-                static std::shared_ptr<AbstractPrimitive> create(Enum::ANNOTATE_PRIMITIVE, const AV::Color &, size_t lineWidth);
-            };
-
             //! This class provides a pen annotation primitive.
             class PenPrimitive : public AbstractPrimitive
             {
-            protected:
-                PenPrimitive() {}
-
             public:
+                PenPrimitive(const AV::Color &, size_t lineWidth);
                 ~PenPrimitive() override;
-
-                static std::shared_ptr<PenPrimitive> create(const AV::Color &, size_t lineWidth);
 
                 void draw(QPainter &, const glm::ivec2 & size, const glm::ivec2 & viewPos, float viewZoom) override;
                 void mouse(const glm::ivec2 &) override;
@@ -93,13 +80,9 @@ namespace djv
             //! This class provides a rectangle annotation primitive.
             class RectanglePrimitive : public AbstractPrimitive
             {
-            protected:
-                RectanglePrimitive() {}
-
             public:
+                RectanglePrimitive(const AV::Color &, size_t lineWidth);
                 ~RectanglePrimitive() override;
-
-                static std::shared_ptr<RectanglePrimitive> create(const AV::Color &, size_t lineWidth);
 
                 void draw(QPainter &, const glm::ivec2 & size, const glm::ivec2 & viewPos, float viewZoom) override;
                 void mouse(const glm::ivec2 &) override;
@@ -108,16 +91,12 @@ namespace djv
                 std::vector<glm::ivec2> _points;
             };
 
-            //! This class provides a ellipse annotation primitive.
+            //! This class provides an ellipse annotation primitive.
             class EllipsePrimitive : public AbstractPrimitive
             {
-            protected:
-                EllipsePrimitive() {}
-
             public:
+                EllipsePrimitive(const AV::Color &, size_t lineWidth);
                 ~EllipsePrimitive() override;
-
-                static std::shared_ptr<EllipsePrimitive> create(const AV::Color &, size_t lineWidth);
 
                 void draw(QPainter &, const glm::ivec2 & size, const glm::ivec2 & viewPos, float viewZoom) override;
                 void mouse(const glm::ivec2 &) override;
@@ -127,52 +106,33 @@ namespace djv
             };
 
             //! This struct provides the data for an annotation.
-            class Data
+            class Data : public QObject
             {
-                Data() {}
+                Q_OBJECT
 
             public:
-                static std::shared_ptr<Data> create(qint64 frame);
+                Data(qint64 frame, QObject * parent = nullptr);
 
                 qint64 frame() const;
 
                 const QString & text() const;
-                void setText(const QString &);
 
-                const std::vector<std::shared_ptr<AbstractPrimitive> > & primitives();
-                void addPrimitive(const std::shared_ptr<AbstractPrimitive> &);
+                const std::vector<AbstractPrimitive *> & primitives();
+                void addPrimitive(Enum::ANNOTATE_PRIMITIVE, const AV::Color &, size_t lineWidth);
+
+            public Q_SLOTS:
+                void setText(const QString &);
+                void mouse(const glm::ivec2 &);
                 void clearPrimitives();
+
+            Q_SIGNALS:
+                void textChanged(const QString &);
+                void primitivesChanged();
 
             private:
                 qint64 _frame = 0;
                 QString _text;
-                std::vector<std::shared_ptr<AbstractPrimitive> > _primitives;
-            };
-
-            //! This class provides a collection of annotations.
-            class Collection
-            {
-                Collection() {}
-
-            public:
-                static std::shared_ptr<Collection> create(const Core::FileInfo &);
-
-                const Core::FileInfo & fileInfo() const;
-
-                const QString & summary() const;
-                void setSummary(const QString &);
-
-                const std::vector<std::shared_ptr<Data> > & data() const;
-                size_t index(const std::shared_ptr<Data> &) const;
-                size_t addData(const std::shared_ptr<Data> &);
-                void removeData(const std::shared_ptr<Data> &);
-
-                void clear();
-
-            private:
-                Core::FileInfo _fileInfo;
-                QString _summary;
-                std::vector<std::shared_ptr<Data>> _data;
+                std::vector<AbstractPrimitive *> _primitives;
             };
 
         } // namespace Annotate

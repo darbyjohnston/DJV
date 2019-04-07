@@ -94,8 +94,8 @@ namespace djv
             //! Set the HUD background color.
             void setHudBackgroundColor(const djv::AV::Color &);
 
-            //! Set the annotation data.
-            void setAnnotateData(const std::vector<std::shared_ptr<Annotate::Data> > &);
+            //! Set the annotations.
+            void setAnnotations(const QList<djv::ViewLib::Annotate::Data *> &);
 
         Q_SIGNALS:
             //! This signal is emitted when a pick is started.

@@ -29,54 +29,34 @@
 
 #pragma once
 
-#include <djvViewLib/ViewLib.h>
+#include <djvCore/Core.h>
 
-#include <djvCore/Util.h>
-
-#include <QAbstractItemModel>
-
-#include <memory>
+#include <picojson/picojson.h>
 
 namespace djv
 {
-    namespace ViewLib
+    namespace Core
     {
-        namespace Annotate
+        class FileIO;
+
+        //! This namespace provides JSON functionality.
+        namespace PicoJSON
         {
-            class Data;
+            void write(const picojson::value &, FileIO &, size_t indent = 0, bool continueLine = false);
 
-        } // namespace Annotate
+        } // namespace PicoJSON
+    } // namespace Core
 
-        //! This class provides a model for an annotation collection.
-        class AnnotateModel : public QAbstractItemModel
-        {
-            Q_OBJECT
+    picojson::value toJSON(bool);
+    picojson::value toJSON(int);
+    picojson::value toJSON(float);
+    picojson::value toJSON(const std::string &);
 
-        public:
-            explicit AnnotateModel(QObject * parent = nullptr);
-            ~AnnotateModel() override;
+    //! Throws:
+    //! - std::exception
+    void fromJSON(const picojson::value &, bool &);
+    void fromJSON(const picojson::value &, int &);
+    void fromJSON(const picojson::value &, float &);
+    void fromJSON(const picojson::value &, std::string &);
 
-            QModelIndex	index(int row, int column, const QModelIndex & parent = QModelIndex()) const override;
-            QModelIndex	parent(const QModelIndex & = QModelIndex()) const override;
-            Qt::ItemFlags flags(const QModelIndex &) const override;
-            QVariant data(const QModelIndex &, int role = Qt::DisplayRole) const override;
-            QVariant headerData(int section, Qt::Orientation, int role = Qt::DisplayRole) const override;
-            int rowCount(const QModelIndex & parent = QModelIndex()) const override;
-            int columnCount(const QModelIndex & parent = QModelIndex()) const override;
-
-        public Q_SLOTS:
-            //! Set the annotations.
-            void setAnnotations(const QList<Annotate::Data *> &);
-
-        private Q_SLOTS:
-            void modelUpdate();
-
-        private:
-            DJV_PRIVATE_COPY(AnnotateModel);
-
-            struct Private;
-            std::unique_ptr<Private> _p;
-        };
-
-    } // namespace ViewLib
 } // namespace djv

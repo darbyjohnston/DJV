@@ -29,6 +29,7 @@
 
 #include <djvViewLib/Session.h>
 
+#include <djvViewLib/AnnotateGroup.h>
 #include <djvViewLib/ControlsWindow.h>
 #include <djvViewLib/FileCache.h>
 #include <djvViewLib/FileExport.h>
@@ -87,6 +88,7 @@ namespace djv
             QScopedPointer<ImageGroup> imageGroup;
             QScopedPointer<PlaybackGroup> playbackGroup;
             QScopedPointer<ToolGroup> toolGroup;
+            QScopedPointer<AnnotateGroup> annotateGroup;
             QScopedPointer<HelpGroup> helpGroup;
 
             QScopedPointer<MainWindow> mainWindow;
@@ -110,6 +112,7 @@ namespace djv
             _p->imageGroup.reset(new ImageGroup(copy ? copy->_p->imageGroup.data() : nullptr, this, context));
             _p->playbackGroup.reset(new PlaybackGroup(copy ? copy->_p->playbackGroup.data() : nullptr, this, context));
             _p->toolGroup.reset(new ToolGroup(copy ? copy->_p->toolGroup.data() : nullptr, this, context));
+            _p->annotateGroup.reset(new AnnotateGroup(copy ? copy->_p->annotateGroup.data() : nullptr, this, context));
             _p->helpGroup.reset(new HelpGroup(copy ? copy->_p->helpGroup.data() : nullptr, this, context));
 
             // Create the main window.
@@ -126,6 +129,7 @@ namespace djv
             {
                 _p->mainWindow->addDockWidget(toolDockWidgetAreas[i], toolDockWidgets[i]);
             }
+            _p->mainWindow->addDockWidget(Qt::RightDockWidgetArea, _p->annotateGroup->annotateToolDockWidget());
 
             // Initialize.
             if (copy)
@@ -233,6 +237,11 @@ namespace djv
         QPointer<ToolGroup> Session::toolGroup() const
         {
             return _p->toolGroup.data();
+        }
+
+        QPointer<AnnotateGroup> Session::annotateGroup() const
+        {
+            return _p->annotateGroup.data();
         }
 
         QPointer<HelpGroup> Session::helpGroup() const

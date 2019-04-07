@@ -43,37 +43,20 @@ namespace djv
     {
         namespace Annotate
         {
-            void AbstractPrimitive::_init(const AV::Color & color, size_t lineWidth)
-            {
-                _color = color;
-                _lineWidth = lineWidth;
-            }
+            AbstractPrimitive::AbstractPrimitive(const AV::Color & color, size_t lineWidth) :
+                _color(color),
+                _lineWidth(lineWidth)
+            {}
 
             AbstractPrimitive::~AbstractPrimitive()
             {}
 
-            std::shared_ptr<AbstractPrimitive> PrimitiveFactory::create(Enum::ANNOTATE_PRIMITIVE primitive, const AV::Color & color, size_t lineWidth)
-            {
-                std::shared_ptr<AbstractPrimitive> out;
-                switch (primitive)
-                {
-                case Enum::ANNOTATE_PEN:       out = PenPrimitive::create(color, lineWidth); break;
-                case Enum::ANNOTATE_RECTANGLE: out = RectanglePrimitive::create(color, lineWidth); break;
-                case Enum::ANNOTATE_ELLIPSE:   out = EllipsePrimitive::create(color, lineWidth); break;
-                default: break;
-                }
-                return out;
-            }
+            PenPrimitive::PenPrimitive(const AV::Color & color, size_t lineWidth) :
+                AbstractPrimitive(color, lineWidth)
+            {}
 
             PenPrimitive::~PenPrimitive()
             {}
-
-            std::shared_ptr<PenPrimitive> PenPrimitive::create(const AV::Color & color, size_t lineWidth)
-            {
-                auto out = std::shared_ptr<PenPrimitive>(new PenPrimitive);
-                out->_init(color, lineWidth);
-                return out;
-            }
 
             void PenPrimitive::draw(QPainter & painter, const glm::ivec2 & size, const glm::ivec2 & viewPos, float viewZoom)
             {
@@ -96,15 +79,12 @@ namespace djv
                 _points.push_back(value);
             }
 
-            RectanglePrimitive::~RectanglePrimitive()
+            RectanglePrimitive::RectanglePrimitive(const AV::Color & color, size_t lineWidth) :
+                AbstractPrimitive(color, lineWidth)
             {}
 
-            std::shared_ptr<RectanglePrimitive> RectanglePrimitive::create(const AV::Color & color, size_t lineWidth)
-            {
-                auto out = std::shared_ptr<RectanglePrimitive>(new RectanglePrimitive);
-                out->_init(color, lineWidth);
-                return out;
-            }
+            RectanglePrimitive::~RectanglePrimitive()
+            {}
 
             void RectanglePrimitive::draw(QPainter & painter, const glm::ivec2 & size, const glm::ivec2 & viewPos, float viewZoom)
             {
@@ -137,15 +117,12 @@ namespace djv
                 }
             }
 
-            EllipsePrimitive::~EllipsePrimitive()
+            EllipsePrimitive::EllipsePrimitive(const AV::Color & color, size_t lineWidth) :
+                AbstractPrimitive(color, lineWidth)
             {}
 
-            std::shared_ptr<EllipsePrimitive> EllipsePrimitive::create(const AV::Color & color, size_t lineWidth)
-            {
-                auto out = std::shared_ptr<EllipsePrimitive>(new EllipsePrimitive);
-                out->_init(color, lineWidth);
-                return out;
-            }
+            EllipsePrimitive::~EllipsePrimitive()
+            {}
 
             void EllipsePrimitive::draw(QPainter & painter, const glm::ivec2 & size, const glm::ivec2 & viewPos, float viewZoom)
             {
@@ -176,12 +153,10 @@ namespace djv
                 }
             }
 
-            std::shared_ptr<Data> Data::create(qint64 frame)
-            {
-                auto out = std::shared_ptr<Data>(new Data);
-                out->_frame = frame;
-                return out;
-            }
+            Data::Data(qint64 frame, QObject * parent) :
+                QObject(parent),
+                _frame(frame)
+            {}
 
             qint64 Data::frame() const
             {
@@ -193,84 +168,53 @@ namespace djv
                 return _text;
             }
 
-            void Data::setText(const QString & value)
-            {
-                _text = value;
-            }
-
-            const std::vector<std::shared_ptr<AbstractPrimitive> > & Data::primitives()
+            const std::vector<AbstractPrimitive *> & Data::primitives()
             {
                 return _primitives;
             }
 
-            void Data::addPrimitive(const std::shared_ptr<AbstractPrimitive> & value)
+            void Data::addPrimitive(Enum::ANNOTATE_PRIMITIVE primitive, const AV::Color & color, size_t lineWidth)
             {
-                _primitives.push_back(value);
+                AbstractPrimitive * p = nullptr;
+                switch (primitive)
+                {
+                case Enum::ANNOTATE_PEN:       p = new PenPrimitive(color, lineWidth); break;
+                case Enum::ANNOTATE_RECTANGLE: p = new RectanglePrimitive(color, lineWidth); break;
+                case Enum::ANNOTATE_ELLIPSE:   p = new EllipsePrimitive(color, lineWidth); break;
+                default: break;
+                }
+                _primitives.push_back(p);
+                Q_EMIT primitivesChanged();
+            }
+
+            void Data::setText(const QString & value)
+            {
+                if (value == _text)
+                    return;
+                _text = value;
+                Q_EMIT textChanged(_text);
+            }
+
+            void Data::mouse(const glm::ivec2 & value)
+            {
+                if (_primitives.size())
+                {
+                    _primitives.back()->mouse(value);
+                    Q_EMIT primitivesChanged();
+                }
             }
 
             void Data::clearPrimitives()
             {
-                _primitives.clear();
-            }
-
-            std::shared_ptr<Collection> Collection::create(const FileInfo & fileInfo)
-            {
-                auto out = std::shared_ptr<Collection>(new Collection);
-                out->_fileInfo = fileInfo;
-                return out;
-            }
-
-            const QString & Collection::summary() const
-            {
-                return _summary;
-            }
-
-            void Collection::setSummary(const QString & value)
-            {
-                _summary = value;
-            }
-
-            const std::vector<std::shared_ptr<Data>> & Collection::data() const
-            {
-                return _data;
-            }
-
-            size_t Collection::index(const std::shared_ptr<Data> & value) const
-            {
-                const auto i = std::find(_data.begin(), _data.end(), value);
-                return i != _data.end() ? (i - _data.begin()) : size_t(-1);
-            }
-
-            size_t Collection::addData(const std::shared_ptr<Data> & data)
-            {
-                size_t out = 0;
-                _data.push_back(data);
-                std::stable_sort(_data.begin(), _data.end(),
-                    [](const std::shared_ptr<Data> & a, const std::shared_ptr<Data> & b)
+                if (_primitives.size())
                 {
-                    return a->frame() < b->frame();
-                });
-                const auto i = std::find(_data.begin(), _data.end(), data);
-                if (i != _data.end())
-                {
-                    out = i - _data.begin();
+                    for (auto i : _primitives)
+                    {
+                        delete i;
+                    }
+                    _primitives.clear();
+                    Q_EMIT primitivesChanged();
                 }
-                return out;
-            }
-
-            void Collection::removeData(const std::shared_ptr<Data> & value)
-            {
-                const auto i = std::find(_data.begin(), _data.end(), value);
-                if (i != _data.end())
-                {
-                    _data.erase(i);
-                }
-            }
-
-            void Collection::clear()
-            {
-                _summary = QString();
-                _data.clear();
             }
 
         } // namespace Annotate

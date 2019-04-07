@@ -347,14 +347,6 @@ namespace djv
                 _p->model,
                 SIGNAL(optionChanged()),
                 SLOT(menuUpdate()));
-            connect(
-                _p->model,
-                SIGNAL(optionChanged()),
-                SLOT(widgetUpdate()));
-            connect(
-                _p->model,
-                SIGNAL(optionChanged()),
-                SLOT(menuUpdate()));
             _p->model->connect(
                 context->fileBrowserPrefs(),
                 SIGNAL(showHiddenChanged(bool)),

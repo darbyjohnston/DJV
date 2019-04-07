@@ -29,6 +29,8 @@
 
 #include <djvViewLib/MainWindow.h>
 
+#include <djvViewLib/AnnotateData.h>
+#include <djvViewLib/AnnotateGroup.h>
 #include <djvViewLib/ControlsWindow.h>
 #include <djvViewLib/FileCache.h>
 #include <djvViewLib/FileExport.h>
@@ -108,6 +110,7 @@ namespace djv
             menuBar()->addMenu(session->imageGroup()->createMenu());
             menuBar()->addMenu(session->playbackGroup()->createMenu());
             menuBar()->addMenu(session->toolGroup()->createMenu());
+            menuBar()->addMenu(session->annotateGroup()->createMenu());
             menuBar()->addMenu(session->helpGroup()->createMenu());
 
             // Create the tool bars.
@@ -116,6 +119,7 @@ namespace djv
             _p->toolBars[Enum::UI_VIEW_TOOL_BAR] = session->viewGroup()->createToolBar();
             _p->toolBars[Enum::UI_IMAGE_TOOL_BAR] = session->imageGroup()->createToolBar();
             _p->toolBars[Enum::UI_TOOLS_TOOL_BAR] = session->toolGroup()->createToolBar();
+            _p->toolBars[Enum::UI_ANNOTATE_TOOL_BAR] = session->annotateGroup()->createToolBar();
             Q_FOREACH(auto toolBar, _p->toolBars)
             {
                 addToolBar(toolBar);
@@ -154,7 +158,7 @@ namespace djv
                 SIGNAL(imageChanged(const std::shared_ptr<djv::AV::Image> &)),
                 SLOT(imageUpdate()));
 
-            // Setup theimage group callbacks.
+            // Setup the image group callbacks.
             connect(
                 session->imageGroup(),
                 SIGNAL(resizeNeeded()),
@@ -202,6 +206,22 @@ namespace djv
 
             // Setup the view callbacks.
             connect(
+                session->annotateGroup(),
+                &AnnotateGroup::annotationsChanged,
+                [viewWidget, session](const QList<djv::ViewLib::Annotate::Data *> & value)
+            {
+                QList<djv::ViewLib::Annotate::Data *> annotations;
+                const qint64 frame = session->playbackGroup()->frame();
+                Q_FOREACH(auto i, value)
+                {
+                    if (frame == i->frame())
+                    {
+                        annotations.push_back(i);
+                    }
+                }
+                viewWidget->setAnnotations(annotations);
+            });
+            connect(
                 viewWidget,
                 &ImageView::contextMenuRequested,
                 [this](const QPoint & value)
@@ -233,6 +253,7 @@ namespace djv
             out->addMenu(_p->session->imageGroup()->createMenu());
             out->addMenu(_p->session->playbackGroup()->createMenu());
             out->addMenu(_p->session->toolGroup()->createMenu());
+            out->addMenu(_p->session->annotateGroup()->createMenu());
             out->addMenu(_p->session->helpGroup()->createMenu());
             return out;
         }

@@ -27,56 +27,64 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#pragma once
+#include <djvViewLib/AnnotateActions.h>
 
-#include <djvViewLib/ViewLib.h>
+#include <djvViewLib/ShortcutPrefs.h>
+#include <djvViewLib/ViewContext.h>
 
-#include <djvCore/Util.h>
+#include <djvUI/IconLibrary.h>
+#include <djvUI/Shortcut.h>
+#include <djvUI/StylePrefs.h>
 
-#include <QAbstractItemModel>
-
-#include <memory>
+#include <QAction>
+#include <QApplication>
+#include <QPointer>
 
 namespace djv
 {
     namespace ViewLib
     {
-        namespace Annotate
+        struct AnnotateActions::Private
+        {};
+
+        AnnotateActions::AnnotateActions(
+            const QPointer<ViewContext> & context,
+            QObject * parent) :
+            AbstractActions(context, parent),
+            _p(new Private)
         {
-            class Data;
+            for (int i = 0; i < ACTION_COUNT; ++i)
+            {
+                _actions[i] = new QAction(this);
+            }
+            _actions[ANNOTATE_TOOL]->setText(
+                qApp->translate("djv::ViewLib::AnnotateActions", "&Annotate Tool"));
+            _actions[ANNOTATE_TOOL]->setCheckable(true);
 
-        } // namespace Annotate
+            update();
 
-        //! This class provides a model for an annotation collection.
-        class AnnotateModel : public QAbstractItemModel
+            connect(
+                context->shortcutPrefs(),
+                SIGNAL(shortcutsChanged(const QVector<djv::UI::Shortcut> &)),
+                SLOT(update()));
+            connect(
+                context->stylePrefs(),
+                SIGNAL(prefChanged()),
+                SLOT(update()));
+        }
+
+        AnnotateActions::~AnnotateActions()
+        {}
+
+        void AnnotateActions::update()
         {
-            Q_OBJECT
+            const QVector<UI::Shortcut> & shortcuts = context()->shortcutPrefs()->shortcuts();
 
-        public:
-            explicit AnnotateModel(QObject * parent = nullptr);
-            ~AnnotateModel() override;
-
-            QModelIndex	index(int row, int column, const QModelIndex & parent = QModelIndex()) const override;
-            QModelIndex	parent(const QModelIndex & = QModelIndex()) const override;
-            Qt::ItemFlags flags(const QModelIndex &) const override;
-            QVariant data(const QModelIndex &, int role = Qt::DisplayRole) const override;
-            QVariant headerData(int section, Qt::Orientation, int role = Qt::DisplayRole) const override;
-            int rowCount(const QModelIndex & parent = QModelIndex()) const override;
-            int columnCount(const QModelIndex & parent = QModelIndex()) const override;
-
-        public Q_SLOTS:
-            //! Set the annotations.
-            void setAnnotations(const QList<Annotate::Data *> &);
-
-        private Q_SLOTS:
-            void modelUpdate();
-
-        private:
-            DJV_PRIVATE_COPY(AnnotateModel);
-
-            struct Private;
-            std::unique_ptr<Private> _p;
-        };
+            _actions[ANNOTATE_TOOL]->setIcon(context()->iconLibrary()->icon("djv/UI/AnnotateIcon"));
+            _actions[ANNOTATE_TOOL]->setShortcut(shortcuts[Enum::SHORTCUT_ANNOTATE_TOOL].value);
+            
+            Q_EMIT changed();
+        }
 
     } // namespace ViewLib
 } // namespace djv

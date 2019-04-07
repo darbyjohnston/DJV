@@ -29,13 +29,13 @@
 
 #pragma once
 
-#include <djvViewLib/ViewLib.h>
-
-#include <djvCore/Util.h>
-
-#include <QAbstractItemModel>
+#include <djvViewLib/AbstractGroup.h>
+#include <djvViewLib/Enum.h>
 
 #include <memory>
+
+class QAction;
+class QDockWidget;
 
 namespace djv
 {
@@ -44,35 +44,71 @@ namespace djv
         namespace Annotate
         {
             class Data;
-
+        
         } // namespace Annotate
 
-        //! This class provides a model for an annotation collection.
-        class AnnotateModel : public QAbstractItemModel
+        //! This class provides the annotate group.
+        class AnnotateGroup : public AbstractGroup
         {
             Q_OBJECT
 
         public:
-            explicit AnnotateModel(QObject * parent = nullptr);
-            ~AnnotateModel() override;
+            AnnotateGroup(
+                const QPointer<AnnotateGroup> & copy,
+                const QPointer<Session> &,
+                const QPointer<ViewContext> &);
+            ~AnnotateGroup() override;
 
-            QModelIndex	index(int row, int column, const QModelIndex & parent = QModelIndex()) const override;
-            QModelIndex	parent(const QModelIndex & = QModelIndex()) const override;
-            Qt::ItemFlags flags(const QModelIndex &) const override;
-            QVariant data(const QModelIndex &, int role = Qt::DisplayRole) const override;
-            QVariant headerData(int section, Qt::Orientation, int role = Qt::DisplayRole) const override;
-            int rowCount(const QModelIndex & parent = QModelIndex()) const override;
-            int columnCount(const QModelIndex & parent = QModelIndex()) const override;
+            //! Get the annotate tool dock widget.
+            QPointer<QDockWidget> annotateToolDockWidget() const;
+
+            QPointer<QMenu> createMenu() const override;
+            QPointer<QToolBar> createToolBar() const override;
 
         public Q_SLOTS:
-            //! Set the annotations.
-            void setAnnotations(const QList<Annotate::Data *> &);
+            //! Add an annotation.
+            void addAnnotation();
+
+            //! Remove the current annotation.
+            void removeAnnotation();
+
+            //! Remove all of the annotations.
+            void clearAnnotations();
+
+            //! Set the current annotation.
+            void setCurrentAnnotation(djv::ViewLib::Annotate::Data *);
+
+            //! Go to the next annotation.
+            void nextAnnotation();
+
+            //! Go to the previous annotation.
+            void prevAnnotation();
+
+            //! Undo the last annotation drawing.
+            void undoDrawing();
+
+            //! Redo the last annotation drawing.
+            void redoDrawing();
+
+            //! Export the annotations.
+            void exportAnnotations();
+
+        Q_SIGNALS:
+            //! This signal is emitted when the annotations are changed.
+            void annotationsChanged(const QList<djv::ViewLib::Annotate::Data *> &);
+
+            //! This signal is emitted when the current annotation is changed.
+            void currentAnnotationChanged(djv::ViewLib::Annotate::Data *);
 
         private Q_SLOTS:
-            void modelUpdate();
+            void pickPressedCallback(const glm::ivec2 &);
+            void pickReleasedCallback(const glm::ivec2 &);
+            void pickMovedCallback(const glm::ivec2 &);
+
+            void update();
 
         private:
-            DJV_PRIVATE_COPY(AnnotateModel);
+            DJV_PRIVATE_COPY(AnnotateGroup);
 
             struct Private;
             std::unique_ptr<Private> _p;

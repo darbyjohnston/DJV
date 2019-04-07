@@ -136,5 +136,10 @@ namespace djv
             setF32(&in, 1);
         }
 
+        inline void FileIO::set(const std::string & value)
+        {
+            set8(reinterpret_cast<const int8_t *>(value.c_str()), value.size());
+        }
+
     } // namespace Core
 } // namespace djv

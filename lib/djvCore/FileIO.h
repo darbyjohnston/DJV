@@ -108,6 +108,7 @@ namespace djv
             inline void set32(const qint32 &);
             inline void setU32(const quint32 &);
             inline void setF32(const float &);
+            inline void set(const std::string &);
 
             //! Start an asynchronous read-ahead. This allows the operating system to
             //! cache the file by the time we need it.
