@@ -37,6 +37,7 @@
 #include <djvViewLib/ViewContext.h>
 
 #include <djvUI/IconLibrary.h>
+#include <djvUI/QuestionDialog.h>
 #include <djvUI/ToolButton.h>
 
 #include <djvAV/Color.h>
@@ -106,7 +107,6 @@ namespace djv
             _p->model = new AnnotateModel;
 
             // Create the widgets.
-
             _p->primitiveButtonGroup = new QButtonGroup(this);
             _p->primitiveButtonGroup->setExclusive(true);
             const QStringList toolTips = QStringList() <<
@@ -250,7 +250,12 @@ namespace djv
             {
                 if (_p->currentAnnotation)
                 {
-                    _p->currentAnnotation->clearPrimitives();
+                    UI::QuestionDialog dialog(
+                        qApp->translate("djv::ViewLib::AnnotateTool", "Are you sure you want to clear the drawing?"));
+                    if (QDialog::Accepted == dialog.exec())
+                    {
+                        _p->currentAnnotation->clearPrimitives();
+                    }
                 }
             });
 
@@ -375,6 +380,11 @@ namespace djv
                             SIGNAL(textChanged(const QString &)),
                             this,
                             SLOT(widgetUpdate()));
+                        disconnect(
+                            i,
+                            SIGNAL(primitivesChanged()),
+                            this,
+                            SLOT(widgetUpdate()));
                     }
                 }
                 _p->annotations.clear();
@@ -384,6 +394,10 @@ namespace djv
                     connect(
                         i,
                         SIGNAL(textChanged(const QString &)),
+                        SLOT(widgetUpdate()));
+                    connect(
+                        i,
+                        SIGNAL(primitivesChanged()),
                         SLOT(widgetUpdate()));
                 }
                 widgetUpdate();
@@ -470,12 +484,23 @@ namespace djv
             SignalBlocker signalBlocker(QObjectList() <<
                 _p->primitiveButtonGroup <<
                 _p->lineWidthSpinBox <<
+                _p->undoButton <<
+                _p->redoButton <<
+                _p->clearButton <<
                 _p->textEdit <<
-                _p->listVisibleButton);
+                _p->prevButton <<
+                _p->nextButton <<
+                _p->removeButton <<
+                _p->listVisibleButton <<
+                _p->exportButton);
 
             _p->primitiveButtonGroup->buttons()[_p->primitive]->setChecked(true);
             _p->lineWidthSpinBox->setValue(static_cast<int>(_p->lineWidth));
             
+            _p->undoButton->setEnabled(false);
+            _p->redoButton->setEnabled(false);
+            _p->clearButton->setEnabled(_p->currentAnnotation ? _p->currentAnnotation->primitives().size() : false);
+
             const QString text = _p->currentAnnotation ? _p->currentAnnotation->text() : QString();
             if (text != _p->textEdit->toPlainText())
             {

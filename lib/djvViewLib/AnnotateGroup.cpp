@@ -43,6 +43,8 @@
 #include <djvViewLib/ShortcutPrefs.h>
 #include <djvViewLib/ViewContext.h>
 
+#include <djvUI/QuestionDialog.h>
+
 #include <QApplication>
 #include <QDockWidget>
 
@@ -242,28 +244,33 @@ namespace djv
             int index = _p->annotations.indexOf(_p->currentAnnotation);
             if (index != -1)
             {
-                delete _p->annotations[index];
-                _p->annotations.removeAt(index);
-                _p->frameAnnotations.clear();
-                const qint64 frame = session()->playbackGroup()->frame();
-                Q_FOREACH(auto i, _p->annotations)
+                UI::QuestionDialog dialog(
+                    qApp->translate("djv::ViewLib::AnnotateGroup", "Are you sure you want to remove the current annotation?"));
+                if (QDialog::Accepted == dialog.exec())
                 {
-                    if (i->frame() == frame)
+                    delete _p->annotations[index];
+                    _p->annotations.removeAt(index);
+                    _p->frameAnnotations.clear();
+                    const qint64 frame = session()->playbackGroup()->frame();
+                    Q_FOREACH(auto i, _p->annotations)
                     {
-                        _p->frameAnnotations.push_back(i);
+                        if (i->frame() == frame)
+                        {
+                            _p->frameAnnotations.push_back(i);
+                        }
                     }
+                    if (index >= _p->annotations.size())
+                    {
+                        --index;
+                    }
+                    if (index >= 0 && index < _p->annotations.size())
+                    {
+                        _p->currentAnnotation = _p->annotations[index];
+                    }
+                    Q_EMIT currentAnnotationChanged(_p->currentAnnotation);
+                    Q_EMIT annotationsChanged(_p->annotations);
+                    Q_EMIT frameAnnotationsChanged(_p->frameAnnotations);
                 }
-                if (index >= _p->annotations.size())
-                {
-                    --index;
-                }
-                if (index >= 0 && index < _p->annotations.size())
-                {
-                    _p->currentAnnotation = _p->annotations[index];
-                }
-                Q_EMIT currentAnnotationChanged(_p->currentAnnotation);
-                Q_EMIT annotationsChanged(_p->annotations);
-                Q_EMIT frameAnnotationsChanged(_p->frameAnnotations);
             }
         }
 
