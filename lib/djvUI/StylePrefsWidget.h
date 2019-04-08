@@ -63,6 +63,7 @@ namespace djv
             void colorBackground2Callback(const djv::AV::Color &);
             void colorButtonCallback(const djv::AV::Color &);
             void colorSelectCallback(const djv::AV::Color &);
+            void colorDisabledCallback(const djv::AV::Color &);
             void colorSwatchTransparencyCallback(bool);
             void fontNormalCallback(const QFont &);
             void fontFixedCallback(const QFont &);

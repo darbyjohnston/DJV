@@ -60,7 +60,17 @@ namespace djv
 
             void PenPrimitive::draw(QPainter & painter, const glm::ivec2 & size, const glm::ivec2 & viewPos, float viewZoom)
             {
-                if (_points.size() >= 2)
+                const size_t pointsSize = _points.size();
+                if (1 == pointsSize)
+                {
+                    painter.fillRect(
+                        (_points[0].x - _lineWidth / 2.f) * viewZoom + viewPos.x,
+                        size.y - 1 - ((_points[0].y + _lineWidth / 2.f) * viewZoom + viewPos.y),
+                        _lineWidth * viewZoom,
+                        _lineWidth * viewZoom,
+                        AV::ColorUtil::toQt(_color));
+                }
+                else if (pointsSize >= 2)
                 {
                     std::vector<QPoint> points;
                     for (size_t i = 0; i < _points.size(); ++i)
@@ -69,7 +79,9 @@ namespace djv
                             _points[i].x * viewZoom + viewPos.x,
                             size.y - 1 - (_points[i].y * viewZoom + viewPos.y)));
                     }
-                    painter.setPen(QPen(AV::ColorUtil::toQt(_color), _lineWidth * viewZoom));
+                    QPen pen(AV::ColorUtil::toQt(_color), _lineWidth * viewZoom);
+                    pen.setJoinStyle(Qt::MiterJoin);
+                    painter.setPen(pen);
                     painter.drawPolyline(points.data(), static_cast<int>(points.size()));
                 }
             }
@@ -153,9 +165,10 @@ namespace djv
                 }
             }
 
-            Data::Data(qint64 frame, QObject * parent) :
+            Data::Data(qint64 frame, const QString & text, QObject * parent) :
                 QObject(parent),
-                _frame(frame)
+                _frame(frame),
+                _text(text)
             {}
 
             qint64 Data::frame() const

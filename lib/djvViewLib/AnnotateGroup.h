@@ -59,6 +59,15 @@ namespace djv
                 const QPointer<ViewContext> &);
             ~AnnotateGroup() override;
 
+            //! Get the list of annotations.
+            const QList<Annotate::Data *> & annotations() const;
+
+            //! Get the list of annotations for the current frame.
+            const QList<Annotate::Data *> & frameAnnotations() const;
+
+            //! Get the current annotation.
+            Annotate::Data * currentAnnotation() const;
+
             //! Get the annotate tool dock widget.
             QPointer<QDockWidget> annotateToolDockWidget() const;
 
@@ -67,7 +76,7 @@ namespace djv
 
         public Q_SLOTS:
             //! Add an annotation.
-            void addAnnotation();
+            void addAnnotation(const QString & text = QString());
 
             //! Remove the current annotation.
             void removeAnnotation();
@@ -94,11 +103,17 @@ namespace djv
             void exportAnnotations();
 
         Q_SIGNALS:
-            //! This signal is emitted when the annotations are changed.
+            //! This signal is emitted when the list of annotations is changed.
             void annotationsChanged(const QList<djv::ViewLib::Annotate::Data *> &);
+
+            //! This signal is emitted when the list of annotations for the current frame is changed.
+            void frameAnnotationsChanged(const QList<djv::ViewLib::Annotate::Data *> &);
 
             //! This signal is emitted when the current annotation is changed.
             void currentAnnotationChanged(djv::ViewLib::Annotate::Data *);
+
+            //! This signal is emitted when an annotation is added.
+            void annotationAdded(djv::ViewLib::Annotate::Data *);
 
         private Q_SLOTS:
             void pickPressedCallback(const glm::ivec2 &);
@@ -108,6 +123,8 @@ namespace djv
             void update();
 
         private:
+            glm::ivec2 transformMousePos(const glm::ivec2 &) const;
+
             DJV_PRIVATE_COPY(AnnotateGroup);
 
             struct Private;

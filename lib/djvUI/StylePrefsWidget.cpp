@@ -58,6 +58,7 @@ namespace djv
             QPointer<ColorSwatch> colorBackground2Widget;
             QPointer<ColorSwatch> colorButtonWidget;
             QPointer<ColorSwatch> colorSelectWidget;
+            QPointer<ColorSwatch> colorDisabledWidget;
             QPointer<QCheckBox> colorSwatchTransparencyWidget;
             QPointer<QFontComboBox>  fontNormalWidget;
             QPointer<QFontComboBox>  fontFixedWidget;
@@ -104,6 +105,12 @@ namespace djv
             _p->colorSelectWidget->setToolTip(
                 qApp->translate("djv::UI::StylePrefsWidget", "Select"));
 
+            _p->colorDisabledWidget = new ColorSwatch(context);
+            _p->colorDisabledWidget->setSwatchSize(ColorSwatch::SWATCH_SMALL);
+            _p->colorDisabledWidget->setColorDialogEnabled(true);
+            _p->colorDisabledWidget->setToolTip(
+                qApp->translate("djv::UI::StylePrefsWidget", "Disabled"));
+
             _p->colorSwatchTransparencyWidget = new QCheckBox(
                 qApp->translate("djv::UI::StylePrefsWidget", "Show transparency in color swatches"));
 
@@ -130,6 +137,7 @@ namespace djv
             hLayout->addWidget(_p->colorBackground2Widget);
             hLayout->addWidget(_p->colorButtonWidget);
             hLayout->addWidget(_p->colorSelectWidget);
+            hLayout->addWidget(_p->colorDisabledWidget);
             formLayout->addRow(
                 qApp->translate("djv::UI::StylePrefsWidget", "Color palette:"),
                 hLayout);
@@ -180,6 +188,10 @@ namespace djv
                 _p->colorSelectWidget,
                 SIGNAL(colorChanged(const djv::AV::Color &)),
                 SLOT(colorSelectCallback(const djv::AV::Color &)));
+            connect(
+                _p->colorDisabledWidget,
+                SIGNAL(colorChanged(const djv::AV::Color &)),
+                SLOT(colorDisabledCallback(const djv::AV::Color &)));
             connect(
                 _p->colorSwatchTransparencyWidget,
                 SIGNAL(toggled(bool)),
@@ -253,6 +265,13 @@ namespace djv
             context()->stylePrefs()->setPalette(tmp);
         }
 
+        void StylePrefsWidget::colorDisabledCallback(const AV::Color & color)
+        {
+            StylePrefs::Palette tmp = context()->stylePrefs()->palette();
+            tmp.disabled = color;
+            context()->stylePrefs()->setPalette(tmp);
+        }
+
         void StylePrefsWidget::colorSwatchTransparencyCallback(bool in)
         {
             context()->stylePrefs()->setColorSwatchTransparency(in);
@@ -286,6 +305,7 @@ namespace djv
                 _p->colorBackground2Widget <<
                 _p->colorButtonWidget <<
                 _p->colorSelectWidget <<
+                _p->colorDisabledWidget <<
                 _p->colorSwatchTransparencyWidget <<
                 _p->fontNormalWidget <<
                 _p->fontFixedWidget <<
@@ -296,6 +316,7 @@ namespace djv
             _p->colorBackground2Widget->setColor(context()->stylePrefs()->palette().background2);
             _p->colorButtonWidget->setColor(context()->stylePrefs()->palette().button);
             _p->colorSelectWidget->setColor(context()->stylePrefs()->palette().select);
+            _p->colorDisabledWidget->setColor(context()->stylePrefs()->palette().disabled);
             _p->colorSwatchTransparencyWidget->setChecked(context()->stylePrefs()->hasColorSwatchTransparency());
             _p->fontSizeWidget->setValue(context()->stylePrefs()->sizeMetric().fontSize);
             _p->fontNormalWidget->setCurrentFont(context()->stylePrefs()->fonts().normal);

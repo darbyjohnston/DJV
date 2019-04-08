@@ -439,7 +439,9 @@ namespace djv
         
         void UIContext::styleUpdate()
         {
-            _p->iconLibrary->setColor(AV::ColorUtil::toQt(_p->prefs->style->palette().foreground));
+            _p->iconLibrary->setColor(
+                AV::ColorUtil::toQt(_p->prefs->style->palette().foreground),
+                AV::ColorUtil::toQt(_p->prefs->style->palette().disabled));
             _p->proxyStyle->setFontSize(_p->prefs->style->sizeMetric().fontSize);
         }
 

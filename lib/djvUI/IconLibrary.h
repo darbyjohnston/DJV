@@ -55,7 +55,7 @@ namespace djv
             ~IconLibrary() override;
 
             //! Set the fill color.
-            void setColor(const QColor &);
+            void setColor(const QColor & normal, const QColor & disabled);
             
             //! Get an icon.
             const QIcon & icon(const QString &) const;

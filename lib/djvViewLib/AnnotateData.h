@@ -111,7 +111,7 @@ namespace djv
                 Q_OBJECT
 
             public:
-                Data(qint64 frame, QObject * parent = nullptr);
+                Data(qint64 frame, const QString & text = QString(), QObject * parent = nullptr);
 
                 qint64 frame() const;
 

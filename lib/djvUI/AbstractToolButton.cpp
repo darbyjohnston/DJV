@@ -74,7 +74,7 @@ namespace djv
         void AbstractToolButton::paintEvent(QPaintEvent *)
         {
             QPainter painter(this);
-            if (underMouse() || isChecked())
+            if (isEnabled() && (underMouse() || isChecked()))
             {
                 QStyleOptionButton styleOption;
                 styleOption.rect = this->rect();

@@ -66,10 +66,7 @@ namespace djv
 
         public Q_SLOTS:
             //! Set the annotations.
-            void setAnnotations(const QList<Annotate::Data *> &);
-
-        private Q_SLOTS:
-            void modelUpdate();
+            void setAnnotations(const QList<QPointer<djv::ViewLib::Annotate::Data> > &);
 
         private:
             DJV_PRIVATE_COPY(AnnotateModel);

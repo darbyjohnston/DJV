@@ -42,6 +42,8 @@ namespace djv
 {
     namespace ViewLib
     {
+        class AnnotateGroup;
+
         namespace Annotate
         {
             class Data;
@@ -55,14 +57,11 @@ namespace djv
 
         public:
             explicit AnnotateTool(
+                const QPointer<AnnotateGroup> &,
                 const QPointer<Session> &,
                 const QPointer<ViewContext> &,
                 QWidget * parent = nullptr);
             ~AnnotateTool() override;
-
-        public Q_SLOTS:
-            void setAnnotations(const QList<djv::ViewLib::Annotate::Data *> &);
-            void setCurrentAnnotation(djv::ViewLib::Annotate::Data *);
 
         private Q_SLOTS:
             void primitiveCallback(int, bool);

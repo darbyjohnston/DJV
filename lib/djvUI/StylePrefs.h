@@ -62,7 +62,8 @@ namespace djv
                     const AV::Color & background = AV::Color(),
                     const AV::Color & background2 = AV::Color(),
                     const AV::Color & button = AV::Color(),
-                    const AV::Color & select = AV::Color());
+                    const AV::Color & select = AV::Color(),
+                    const AV::Color & disabled = AV::Color());
 
                 QString  name;
                 AV::Color foreground;
@@ -70,6 +71,7 @@ namespace djv
                 AV::Color background2;
                 AV::Color button;
                 AV::Color select;
+                AV::Color disabled;
             };
 
             //! Get the default color palettes.

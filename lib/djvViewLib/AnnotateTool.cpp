@@ -33,7 +33,6 @@
 #include <djvViewLib/AnnotateGroup.h>
 #include <djvViewLib/AnnotateModel.h>
 #include <djvViewLib/AnnotatePrefs.h>
-#include <djvViewLib/FileGroup.h>
 #include <djvViewLib/Session.h>
 #include <djvViewLib/ViewContext.h>
 
@@ -72,6 +71,7 @@ namespace djv
             AV::Color color;
             size_t lineWidth;
             bool listVisible;
+            QList<QPointer<Annotate::Data> > annotations;
             QPointer<Annotate::Data> currentAnnotation;
 
             QPointer<QButtonGroup> primitiveButtonGroup;
@@ -95,6 +95,7 @@ namespace djv
         };
 
         AnnotateTool::AnnotateTool(
+            const QPointer<AnnotateGroup> & annotateGroup,
             const QPointer<Session> & session,
             const QPointer<ViewContext> & context,
             QWidget * parent) :
@@ -218,25 +219,16 @@ namespace djv
             connect(
                 _p->textEdit,
                 &QTextEdit::textChanged,
-                [this]
+                [this, session]
             {
-                if (_p->currentAnnotation)
+                const auto & text = _p->textEdit->toPlainText();
+                if (!_p->currentAnnotation)
                 {
-                    _p->currentAnnotation->setText(_p->textEdit->toPlainText());
-                    /*int selection = -1;
-                    const auto & indexes = _p->treeView->selectionModel()->selection().indexes();
-                    if (indexes.size())
-                    {
-                        selection = indexes[0].row();
-                    }
-                    annotationsUpdate();
-                    if (selection != -1)
-                    {
-                        _p->treeView->selectionModel()->select(QModelIndex(), QItemSelectionModel::Clear);
-                        _p->treeView->selectionModel()->select(
-                            QItemSelection(_p->model->index(selection, 0), _p->model->index(selection, 1)),
-                            QItemSelectionModel::Select);
-                    }*/
+                    session->annotateGroup()->addAnnotation(text);
+                }
+                else if (_p->currentAnnotation)
+                {
+                    _p->currentAnnotation->setText(text);
                 }
             });
 
@@ -246,19 +238,6 @@ namespace djv
                 [session](const QModelIndex & current, const QModelIndex &)
             {
                 session->annotateGroup()->setCurrentAnnotation(reinterpret_cast<Annotate::Data *>(current.internalPointer()));
-                /*if (auto p = current.internalPointer())
-                {
-                    _p->currentData = *reinterpret_cast<std::shared_ptr<Annotate::Data> *>(p);
-                    _p->textEdit->setText(_p->currentData->text());
-                    auto playbackGroup = session->playbackGroup();
-                    playbackGroup->setFrame(_p->currentData->frame());
-                    viewUpdate();
-                }
-                else
-                {
-                    _p->currentData.reset();
-                    _p->textEdit->clear();
-                }*/
             });
 
             connect(
@@ -267,31 +246,6 @@ namespace djv
                 [session]
             {
                 session->annotateGroup()->prevAnnotation();
-                /*const auto & data = _p->collection->data();
-                if (_p->collection && data.size() > 1)
-                {
-                    size_t row = 0;
-                    if (_p->currentData)
-                    {
-                        row = _p->collection->index(_p->currentData);
-                        if (row > 0)
-                        {
-                            --row;
-                        }
-                        else
-                        {
-                            row = data.size() - 1;
-                        }
-                    }
-                    _p->currentData = data[row];
-                    _p->treeView->selectionModel()->select(QModelIndex(), QItemSelectionModel::Clear);
-                    _p->treeView->selectionModel()->select(
-                        QItemSelection(_p->model->index(static_cast<int>(row), 0), _p->model->index(static_cast<int>(row), 1)),
-                        QItemSelectionModel::Select);
-                    _p->textEdit->setText(_p->currentData->text());
-                    auto playbackGroup = session->playbackGroup();
-                    playbackGroup->setFrame(_p->currentData->frame());
-                }*/
             });
 
             connect(
@@ -300,31 +254,6 @@ namespace djv
                 [session]
             {
                 session->annotateGroup()->nextAnnotation();
-                /*const auto & data = _p->collection->data();
-                if (_p->collection && data.size() > 1)
-                {
-                    size_t row = 0;
-                    if (_p->currentData)
-                    {
-                        row = _p->collection->index(_p->currentData);
-                        if (row < data.size() - 1)
-                        {
-                            ++row;
-                        }
-                        else
-                        {
-                            row = 0;
-                        }
-                    }
-                    _p->currentData = data[row];
-                    _p->treeView->selectionModel()->select(QModelIndex(), QItemSelectionModel::Clear);
-                    _p->treeView->selectionModel()->select(
-                        QItemSelection(_p->model->index(static_cast<int>(row), 0), _p->model->index(static_cast<int>(row), 1)),
-                        QItemSelectionModel::Select);
-                    _p->textEdit->setText(_p->currentData->text());
-                    auto playbackGroup = session->playbackGroup();
-                    playbackGroup->setFrame(_p->currentData->frame());
-                }*/
             });
 
             connect(
@@ -333,20 +262,6 @@ namespace djv
                 [session]
             {
                 session->annotateGroup()->addAnnotation();
-                /*if (_p->collection)
-                {
-                    auto playbackGroup = session->playbackGroup();
-                    const qint64 frame = playbackGroup->frame();
-                    auto data = Annotate::Data::create(frame);
-                    const size_t row = _p->collection->addData(data);
-                    _p->currentData = data;
-                    annotationsUpdate();
-                    _p->treeView->selectionModel()->select(QModelIndex(), QItemSelectionModel::Clear);
-                    _p->treeView->selectionModel()->select(
-                        QItemSelection(_p->model->index(static_cast<int>(row), 0), _p->model->index(static_cast<int>(row), 1)),
-                        QItemSelectionModel::Select);
-                    _p->textEdit->setText(data->text());
-                }*/
             });
 
             connect(
@@ -355,36 +270,6 @@ namespace djv
                 [session]
             {
                 session->annotateGroup()->removeAnnotation();
-                /*if (_p->collection && _p->currentData)
-                {
-                    int selection = -1;
-                    const auto & indexes = _p->treeView->selectionModel()->selection().indexes();
-                    if (indexes.size())
-                    {
-                        selection = indexes[0].row();
-                    }
-                    _p->collection->removeData(_p->currentData);
-                    _p->currentData.reset();
-                    const auto & data = _p->collection->data();
-                    selection = Math::min(selection, static_cast<int>(data.size()) - 1);
-                    annotationsUpdate();
-                    viewUpdate();
-                    if (selection >= 0)
-                    {
-                        _p->currentData = data[selection];
-                        _p->treeView->selectionModel()->select(QModelIndex(), QItemSelectionModel::Clear);
-                        _p->treeView->selectionModel()->select(
-                            QItemSelection(_p->model->index(selection, 0), _p->model->index(selection, 1)),
-                            QItemSelectionModel::Select);
-                        _p->textEdit->setText(_p->currentData->text());
-                        auto playbackGroup = session->playbackGroup();
-                        playbackGroup->setFrame(_p->currentData->frame());
-                    }
-                    else
-                    {
-                        _p->textEdit->clear();
-                    }
-                }*/
             });
 
             connect(
@@ -438,16 +323,33 @@ namespace djv
                 widgetUpdate();
             });
 
-            /*auto annotateGroup = session->annotateGroup();
             connect(
                 annotateGroup,
                 &AnnotateGroup::annotationsChanged,
                 [this](const QList<Annotate::Data *> & value)
             {
-                _p->model->setAnnotations(value);
+                Q_FOREACH(auto i, _p->annotations)
+                {
+                    if (i)
+                    {
+                        disconnect(
+                            i,
+                            SIGNAL(textChanged(const QString &)),
+                            this,
+                            SLOT(widgetUpdate()));
+                    }
+                }
+                _p->annotations.clear();
+                Q_FOREACH(auto i, value)
+                {
+                    _p->annotations.push_back(i);
+                    connect(
+                        i,
+                        SIGNAL(textChanged(const QString &)),
+                        SLOT(widgetUpdate()));
+                }
                 widgetUpdate();
             });
-
             connect(
                 annotateGroup,
                 &AnnotateGroup::currentAnnotationChanged,
@@ -455,102 +357,18 @@ namespace djv
             {
                 _p->currentAnnotation = value;
                 widgetUpdate();
-            });*/
-            /*auto fileGroup = session->fileGroup();
+            });
             connect(
-                fileGroup,
-                &FileGroup::fileInfoChanged,
-                [this](const FileInfo & value)
+                annotateGroup,
+                &AnnotateGroup::annotationAdded,
+                [this](Annotate::Data *)
             {
-                _p->collection = Annotate::Collection::create(value);
-                _p->currentData.reset();
-                _p->treeView->selectionModel()->select(QModelIndex(), QItemSelectionModel::Clear);
-                _p->textEdit->clear();
-                annotationsUpdate();
-                viewUpdate();
-            });*/
-            /*auto playbackGroup = session->playbackGroup();
-            connect(
-                playbackGroup,
-                &PlaybackGroup::frameChanged,
-                [this](qint64 value)
-            {
-                _p->currentData.reset();
-                int row = 0;
-                if (_p->collection)
-                {
-                    int j = 0;
-                    for (const auto & i : _p->collection->data())
-                    {
-                        if (i->frame() == value)
-                        {
-                            _p->currentData = i;
-                            row = j;
-                        }
-                        ++j;
-                    }
-                }
-                if (_p->currentData)
-                {
-                    _p->treeView->selectionModel()->select(QModelIndex(), QItemSelectionModel::Clear);
-                    _p->treeView->selectionModel()->select(
-                        QItemSelection(_p->model->index(row, 0), _p->model->index(row, 1)),
-                        QItemSelectionModel::Select);
-                    _p->textEdit->setText(_p->currentData->text());
-                }
-                else
-                {
-                    _p->treeView->selectionModel()->select(QModelIndex(), QItemSelectionModel::Clear);
-                    _p->textEdit->clear();
-                }
-                viewUpdate();
-            });*/
+                _p->textEdit->setFocus();
+            });
         }
 
         AnnotateTool::~AnnotateTool()
         {}
-
-        /*void AnnotateTool::setPrimitive(djv::ViewLib::Enum::ANNOTATE_PRIMITIVE value)
-        {
-            if (value == _p->primitive)
-                return;
-            _p->primitive = value;
-            context()->annotatePrefs()->setPrimitive(_p->primitive);
-            widgetUpdate();
-            Q_EMIT primitiveChanged(_p->primitive);
-        }
-
-        void AnnotateTool::setColor(const AV::Color & value)
-        {
-            if (value == _p->color)
-                return;
-            _p->color = value;
-            context()->annotatePrefs()->setColor(_p->color);
-            widgetUpdate();
-            Q_EMIT colorChanged(_p->color);
-        }
-
-        void AnnotateTool::setLineWidth(size_t value)
-        {
-            if (value == _p->lineWidth)
-                return;
-            _p->lineWidth = value;
-            context()->annotatePrefs()->setLineWidth(_p->lineWidth);
-            widgetUpdate();
-            Q_EMIT lineWidthChanged(_p->lineWidth);
-        }*/
-
-        void AnnotateTool::setAnnotations(const QList<Annotate::Data *> & value)
-        {
-            _p->model->setAnnotations(value);
-            widgetUpdate();
-        }
-
-        void AnnotateTool::setCurrentAnnotation(Annotate::Data * value)
-        {
-            _p->currentAnnotation = value;
-            widgetUpdate();
-        }
 
         void AnnotateTool::primitiveCallback(int id, bool checked)
         {
@@ -568,54 +386,6 @@ namespace djv
             context()->annotatePrefs()->setLineWidth(value);
             widgetUpdate();
         }
-
-        /*void AnnotateTool::pickPressedCallback(const glm::ivec2 & in)
-        {
-            if (isVisible())
-            {
-                auto data = _p->currentData;
-                if (!data && _p->collection)
-                {
-                    auto playbackGroup = session()->playbackGroup();
-                    playbackGroup->setPlayback(Enum::STOP);
-                    const qint64 frame = playbackGroup->frame();
-                    data = Annotate::Data::create(frame);
-                    const size_t row = _p->collection->addData(data);
-                    _p->currentData = data;
-                    annotationsUpdate();
-                    _p->treeView->selectionModel()->select(QModelIndex(), QItemSelectionModel::Clear);
-                    _p->treeView->selectionModel()->select(
-                        QItemSelection(_p->model->index(static_cast<int>(row), 0), _p->model->index(static_cast<int>(row), 1)),
-                        QItemSelectionModel::Select);
-                    _p->textEdit->setText(data->text());
-                }
-                if (data)
-                {
-                    _p->currentPrimitive = Annotate::PrimitiveFactory::create(_p->primitive, _p->color, _p->lineWidth);
-                    data->addPrimitive(_p->currentPrimitive);
-                    viewUpdate();
-                }
-            }
-        }
-
-        void AnnotateTool::pickReleasedCallback(const glm::ivec2 & in)
-        {
-            _p->currentPrimitive.reset();
-        }
-
-        void AnnotateTool::pickMovedCallback(const glm::ivec2 & in)
-        {
-            if (isVisible() && _p->currentPrimitive)
-            {
-                const auto view = session()->viewWidget();
-                const glm::ivec2 & viewPos = view->viewPos();
-                const float viewZoom = view->viewZoom();
-                _p->currentPrimitive->mouse(glm::ivec2(
-                    (in.x - viewPos.x) / viewZoom,
-                    (in.y - viewPos.y) / viewZoom));
-                session()->viewWidget()->update();
-            }
-        }*/
 
         namespace
         {
@@ -648,8 +418,8 @@ namespace djv
 
             _p->prevButton->setIcon(context()->iconLibrary()->icon("djv/UI/LeftIcon"));
             _p->nextButton->setIcon(context()->iconLibrary()->icon("djv/UI/RightIcon"));
-            _p->removeButton->setIcon(context()->iconLibrary()->icon("djv/UI/RemoveIcon"));
             _p->addButton->setIcon(context()->iconLibrary()->icon("djv/UI/AddIcon"));
+            _p->removeButton->setIcon(context()->iconLibrary()->icon("djv/UI/RemoveIcon"));
             _p->listVisibleButton->setIcon(context()->iconLibrary()->icon("djv/UI/ListIcon"));
             _p->exportButton->setIcon(context()->iconLibrary()->icon("djv/UI/ExportIcon"));
 
@@ -662,17 +432,33 @@ namespace djv
             SignalBlocker signalBlocker(QObjectList() <<
                 _p->primitiveButtonGroup <<
                 _p->lineWidthSpinBox <<
+                _p->textEdit <<
                 _p->listVisibleButton);
+
             _p->primitiveButtonGroup->buttons()[_p->primitive]->setChecked(true);
             _p->lineWidthSpinBox->setValue(static_cast<int>(_p->lineWidth));
-            _p->treeView->setVisible(_p->listVisible);
-            _p->listVisibleButton->setChecked(_p->listVisible);
-        }
+            
+            const QString text = _p->currentAnnotation ? _p->currentAnnotation->text() : QString();
+            if (text != _p->textEdit->toPlainText())
+            {
+                _p->textEdit->setText(text);
+            }
 
-        /*void AnnotateTool::annotationsUpdate()
-        {
-            _p->model->setCollection(_p->collection);
-        }*/
+            _p->model->setAnnotations(_p->annotations);
+            _p->treeView->selectionModel()->select(QModelIndex(), QItemSelectionModel::Clear);
+            const int index = _p->annotations.indexOf(_p->currentAnnotation);
+            _p->treeView->selectionModel()->select(
+                QItemSelection(_p->model->index(index, 0), _p->model->index(index, 1)),
+                QItemSelectionModel::Select);
+            _p->treeView->setVisible(_p->listVisible);
+            
+            const int count = _p->annotations.count();
+            _p->prevButton->setEnabled(count > 1);
+            _p->nextButton->setEnabled(count > 1);
+            _p->removeButton->setEnabled(_p->currentAnnotation);
+            _p->listVisibleButton->setChecked(_p->listVisible);
+            _p->exportButton->setEnabled(count > 0);
+        }
 
     } // namespace ViewLib
 } // namespace djv

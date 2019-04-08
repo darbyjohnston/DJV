@@ -48,7 +48,8 @@ namespace djv
     {
         struct IconLibrary::Private
         {
-            QColor color = Qt::black;
+            QColor normalColor;
+            QColor disabledColor;
             QMap<QString, QIcon> icons;
             QMap<QString, QPixmap> pixmaps;
         };
@@ -65,11 +66,12 @@ namespace djv
             //DJV_DEBUG("IconLibrary::~IconLibrary");
         }
 
-        void IconLibrary::setColor(const QColor & value)
+        void IconLibrary::setColor(const QColor & normal, const QColor & disabled)
         {
-            if (value == _p->color)
+            if (normal == _p->normalColor && disabled == _p->disabledColor)
                 return;
-            _p->color = value;
+            _p->normalColor = normal;
+            _p->disabledColor = disabled;
             _p->icons.clear();
             _p->pixmaps.clear();
         }
@@ -119,7 +121,8 @@ namespace djv
                 QIcon icon;
                 Q_FOREACH(const QString & i, getFileNames(name))
                 {
-                    icon.addPixmap(fillPixmap(QPixmap(i), _p->color), QIcon::Normal, QIcon::Off);                    
+                    icon.addPixmap(fillPixmap(QPixmap(i), _p->normalColor), QIcon::Normal, QIcon::Off);
+                    icon.addPixmap(fillPixmap(QPixmap(i), _p->disabledColor), QIcon::Disabled, QIcon::Off);
                 }
                 //Q_FOREACH(const QSize& size, icon.availableSizes())
                 //{
@@ -138,11 +141,13 @@ namespace djv
                 QIcon icon;
                 Q_FOREACH(const QString & i, getFileNames(off))
                 {
-                    icon.addPixmap(fillPixmap(QPixmap(i), _p->color), QIcon::Normal, QIcon::Off);                    
+                    icon.addPixmap(fillPixmap(QPixmap(i), _p->normalColor), QIcon::Normal, QIcon::Off);
+                    icon.addPixmap(fillPixmap(QPixmap(i), _p->disabledColor), QIcon::Disabled, QIcon::Off);
                 }
                 Q_FOREACH(const QString & i, getFileNames(on))
                 {
-                    icon.addPixmap(fillPixmap(QPixmap(i), _p->color), QIcon::Normal, QIcon::On);
+                    icon.addPixmap(fillPixmap(QPixmap(i), _p->normalColor), QIcon::Normal, QIcon::On);
+                    icon.addPixmap(fillPixmap(QPixmap(i), _p->disabledColor), QIcon::Disabled, QIcon::On);
                 }
                 const_cast<Private *>(_p.get())->icons.insert(key, icon);
             }
@@ -155,7 +160,7 @@ namespace djv
             //DJV_DEBUG_PRINT("name = " << name);
             if (!_p->pixmaps.contains(name))
             {
-                const_cast<Private *>(_p.get())->pixmaps.insert(name, fillPixmap(QPixmap(":" + name), _p->color));
+                const_cast<Private *>(_p.get())->pixmaps.insert(name, fillPixmap(QPixmap(":" + name), _p->normalColor));
             }
             return _p->pixmaps[name];
         }

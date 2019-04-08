@@ -50,13 +50,15 @@ namespace djv
             const AV::Color & background,
             const AV::Color & background2,
             const AV::Color & button,
-            const AV::Color & select) :
+            const AV::Color & select,
+            const AV::Color & disabled) :
             name(name),
             foreground(foreground),
             background(background),
             background2(background2),
             button(button),
-            select(select)
+            select(select),
+            disabled(disabled)
         {}
 
         StylePrefs::SizeMetric::SizeMetric(const QString & name, int fontSize) :
@@ -178,35 +180,40 @@ namespace djv
                     AV::Color(.2f),
                     AV::Color(.15f),
                     AV::Color(.25f),
-                    AV::Color(.7f, .6f, .3f)),
+                    AV::Color(.7f, .6f, .3f),
+                    AV::Color(.6f, .6f, .6f)),
                 Palette(
                     qApp->translate("djv::UI::StylePrefs", "Light"),
                     AV::Color(.1f),
                     AV::Color(.9f),
                     AV::Color(.85f),
                     AV::Color(.8f),
-                    AV::Color(.7f, .6f, .3f)),
+                    AV::Color(.7f, .6f, .3f),
+                    AV::Color(.6f, .6f, .6f)),
                 Palette(
                     qApp->translate("djv::UI::StylePrefs", "Default"),
                     AV::ColorUtil::fromQt(qApp->palette().color(QPalette::Foreground)),
                     AV::ColorUtil::fromQt(qApp->palette().color(QPalette::Background)),
                     AV::ColorUtil::fromQt(qApp->palette().color(QPalette::Base)),
                     AV::ColorUtil::fromQt(qApp->palette().color(QPalette::Button)),
-                    AV::ColorUtil::fromQt(qApp->palette().color(QPalette::Highlight))),
+                    AV::ColorUtil::fromQt(qApp->palette().color(QPalette::Highlight)),
+                    AV::Color(.6f, .6f, .6f)),
                 Palette(
                     qApp->translate("djv::UI::StylePrefs", "Vaporwave"),
                     AV::Color(.05f, .96f, .93f),
                     AV::Color(0.f, .06f, .27f),
                     AV::Color(0.f, .02f, .1f),
                     AV::Color(.44f, .01f, .62f),
-                    AV::Color(.05f, .22f, .36f)),
+                    AV::Color(.05f, .22f, .36f),
+                    AV::Color(.6f, .6f, .6f)),
                 Palette(
                     qApp->translate("djv::UI::StylePrefs", "Custom"),
                     AV::ColorUtil::fromQt(qApp->palette().color(QPalette::Foreground)),
                     AV::ColorUtil::fromQt(qApp->palette().color(QPalette::Background)),
                     AV::ColorUtil::fromQt(qApp->palette().color(QPalette::Base)),
                     AV::ColorUtil::fromQt(qApp->palette().color(QPalette::Button)),
-                    AV::ColorUtil::fromQt(qApp->palette().color(QPalette::Highlight)))
+                    AV::ColorUtil::fromQt(qApp->palette().color(QPalette::Highlight)),
+                    AV::Color(.6f, .6f, .6f))
             };
             return data;
         }
@@ -436,7 +443,7 @@ namespace djv
             palette.setColor(
                 QPalette::Highlight,
                 AV::ColorUtil::toQt(_p->palettes[_p->palettesIndex].select));
-            qApp->setPalette(palette);            
+            qApp->setPalette(palette);
             Q_EMIT prefChanged();
             //! \todo Can we use QWidget::changeEvent() for this instead?
             Q_FOREACH(QWidget * widget, qApp->allWidgets())
@@ -483,7 +490,8 @@ namespace djv
             a.background == b.background  &&
             a.background2 == b.background2 &&
             a.button == b.button &&
-            a.select == b.select;
+            a.select == b.select &&
+            a.disabled == b.disabled;
     }
 
     bool operator != (const UI::StylePrefs::Palette & a, const UI::StylePrefs::Palette & b)
@@ -527,6 +535,8 @@ namespace djv
         in >> out.button;
         in >> tmp;
         in >> out.select;
+        in >> tmp;
+        in >> out.disabled;
         return in;
     }
 
@@ -543,6 +553,8 @@ namespace djv
         out << in.button;
         out << QString("select");
         out << in.select;
+        out << QString("disabled");
+        out << in.disabled;
         return out;
     }
 

@@ -154,43 +154,14 @@ namespace djv
             return parent.isValid() ? 0 : 2;
         }
 
-        void AnnotateModel::setAnnotations(const QList<Annotate::Data *> & value)
+        void AnnotateModel::setAnnotations(const QList<QPointer<Annotate::Data> > & value)
         {
             beginResetModel();
-            Q_FOREACH(auto i, value)
-            {
-                if (i)
-                {
-                    disconnect(
-                        i,
-                        SIGNAL(textChanged(const QString &)),
-                        this,
-                        SLOT(modelUpdate()));
-                }
-            }
             _p->annotations.clear();
             Q_FOREACH(auto i, value)
             {
                 _p->annotations.push_back(i);
-                if (i)
-                {
-                    connect(
-                        i,
-                        SIGNAL(textChanged(const QString &)),
-                        SLOT(modelUpdate()));
-                }
             }
-            qStableSort(_p->annotations.begin(), _p->annotations.end(),
-                [](const QPointer<Annotate::Data> & a, const QPointer<Annotate::Data> & b)
-            {
-                return a && b ? (a->frame() < b->frame()) : 0;
-            });
-            endResetModel();
-        }
-
-        void AnnotateModel::modelUpdate()
-        {
-            beginResetModel();
             endResetModel();
         }
 

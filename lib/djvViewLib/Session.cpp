@@ -29,6 +29,7 @@
 
 #include <djvViewLib/Session.h>
 
+#include <djvViewLib/AnnotateData.h>
 #include <djvViewLib/AnnotateGroup.h>
 #include <djvViewLib/ControlsWindow.h>
 #include <djvViewLib/FileCache.h>
@@ -194,6 +195,23 @@ namespace djv
                 _p->playbackGroup.data(),
                 SIGNAL(frameChanged(qint64)),
                 SLOT(imageUpdate()));
+
+            // Setup the annotate group callbacks.
+            connect(
+                _p->annotateGroup.data(),
+                SIGNAL(frameAnnotationsChanged(const QList<djv::ViewLib::Annotate::Data *> &)),
+                _p->viewWidget,
+                SLOT(setAnnotations(const QList<djv::ViewLib::Annotate::Data *> &)));
+            connect(
+                _p->annotateGroup.data(),
+                &AnnotateGroup::currentAnnotationChanged,
+                [this](Annotate::Data * value)
+            {
+                if (value)
+                {
+                    _p->playbackGroup->setFrame(value->frame());
+                }
+            });
 
             // Setup the preferences callbacks.
             connect(

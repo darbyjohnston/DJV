@@ -206,22 +206,6 @@ namespace djv
 
             // Setup the view callbacks.
             connect(
-                session->annotateGroup(),
-                &AnnotateGroup::annotationsChanged,
-                [viewWidget, session](const QList<djv::ViewLib::Annotate::Data *> & value)
-            {
-                QList<djv::ViewLib::Annotate::Data *> annotations;
-                const qint64 frame = session->playbackGroup()->frame();
-                Q_FOREACH(auto i, value)
-                {
-                    if (frame == i->frame())
-                    {
-                        annotations.push_back(i);
-                    }
-                }
-                viewWidget->setAnnotations(annotations);
-            });
-            connect(
                 viewWidget,
                 &ImageView::contextMenuRequested,
                 [this](const QPoint & value)

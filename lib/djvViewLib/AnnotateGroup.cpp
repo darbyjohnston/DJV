@@ -61,6 +61,7 @@ namespace djv
             {}
 
             QList<Annotate::Data *> annotations;
+            QList<Annotate::Data *> frameAnnotations;
             QPointer<Annotate::Data> currentAnnotation;
             Enum::ANNOTATE_PRIMITIVE primitive;
             AV::Color color;
@@ -84,7 +85,7 @@ namespace djv
 
             _p->actions = new AnnotateActions(context, this);
 
-            _p->annotateTool = new AnnotateTool(session, context);
+            _p->annotateTool = new AnnotateTool(this, session, context);
             _p->annotateToolDockWidget = new QDockWidget(qApp->translate("djv::ViewLib::AnnotateGroup", "Annotate Tool"));
             _p->annotateToolDockWidget->setWidget(_p->annotateTool);
 
@@ -99,17 +100,6 @@ namespace djv
                 _p->annotateToolDockWidget,
                 SIGNAL(visibilityChanged(bool)),
                 SLOT(setChecked(bool)));
-
-            connect(
-                this,
-                SIGNAL(annotationsChanged(const QList<djv::ViewLib::Annotate::Data *> &)),
-                _p->annotateTool,
-                SLOT(setAnnotations(const QList<djv::ViewLib::Annotate::Data *> &)));
-            connect(
-                this,
-                SIGNAL(currentAnnotationChanged(const djv::ViewLib::Annotate::Data *)),
-                _p->annotateTool,
-                SLOT(setCurrentAnnotation(const djv::ViewLib::Annotate::Data *)));
 
             auto fileGroup = session->fileGroup();
             connect(
@@ -126,6 +116,28 @@ namespace djv
                 &PlaybackGroup::frameChanged,
                 [this](qint64 value)
             {
+                _p->frameAnnotations.clear();
+                Q_FOREACH(auto i, _p->annotations)
+                {
+                    if (i->frame() == value)
+                    {
+                        _p->frameAnnotations.push_back(i);
+                    }
+                }
+                const int index = _p->frameAnnotations.indexOf(_p->currentAnnotation);
+                if (-1 == index)
+                {
+                    if (_p->frameAnnotations.count())
+                    {
+                        _p->currentAnnotation = _p->frameAnnotations.back();
+                    }
+                    else
+                    {
+                        _p->currentAnnotation.clear();
+                    }
+                }
+                Q_EMIT frameAnnotationsChanged(_p->frameAnnotations);
+                Q_EMIT currentAnnotationChanged(_p->currentAnnotation);
             });
 
             auto viewWidget = session->viewWidget();
@@ -168,6 +180,21 @@ namespace djv
         AnnotateGroup::~AnnotateGroup()
         {}
 
+        const QList<Annotate::Data *> & AnnotateGroup::annotations() const
+        {
+            return _p->annotations;
+        }
+
+        const QList<Annotate::Data *> & AnnotateGroup::frameAnnotations() const
+        {
+            return _p->frameAnnotations;
+        }
+
+        Annotate::Data * AnnotateGroup::currentAnnotation() const
+        {
+            return _p->currentAnnotation;
+        }
+
         QPointer<QDockWidget> AnnotateGroup::annotateToolDockWidget() const
         {
             return _p->annotateToolDockWidget;
@@ -183,26 +210,75 @@ namespace djv
             return new AnnotateToolBar(_p->actions.data(), context());
         }
 
-        void AnnotateGroup::addAnnotation()
+        void AnnotateGroup::addAnnotation(const QString & text)
         {
             auto playbackGroup = session()->playbackGroup();
             playbackGroup->setPlayback(Enum::STOP);
             const qint64 frame = playbackGroup->frame();
-            auto annotation = new Annotate::Data(frame);
+            auto annotation = new Annotate::Data(frame, text);
             _p->annotations.push_back(annotation);
+            qStableSort(_p->annotations.begin(), _p->annotations.end(),
+                [](const Annotate::Data * a, const Annotate::Data * b)
+            {
+                return a && b ? (a->frame() < b->frame()) : 0;
+            });
+            _p->frameAnnotations.clear();
+            Q_FOREACH(auto i, _p->annotations)
+            {
+                if (i->frame() == frame)
+                {
+                    _p->frameAnnotations.push_back(i);
+                }
+            }
             _p->currentAnnotation = annotation;
-            Q_EMIT annotationsChanged(_p->annotations);
             Q_EMIT currentAnnotationChanged(_p->currentAnnotation);
+            Q_EMIT annotationsChanged(_p->annotations);
+            Q_EMIT frameAnnotationsChanged(_p->frameAnnotations);
+            Q_EMIT annotationAdded(annotation);
         }
 
         void AnnotateGroup::removeAnnotation()
         {
-
+            int index = _p->annotations.indexOf(_p->currentAnnotation);
+            if (index != -1)
+            {
+                delete _p->annotations[index];
+                _p->annotations.removeAt(index);
+                _p->frameAnnotations.clear();
+                const qint64 frame = session()->playbackGroup()->frame();
+                Q_FOREACH(auto i, _p->annotations)
+                {
+                    if (i->frame() == frame)
+                    {
+                        _p->frameAnnotations.push_back(i);
+                    }
+                }
+                if (index >= _p->annotations.size())
+                {
+                    --index;
+                }
+                if (index >= 0 && index < _p->annotations.size())
+                {
+                    _p->currentAnnotation = _p->annotations[index];
+                }
+                Q_EMIT currentAnnotationChanged(_p->currentAnnotation);
+                Q_EMIT annotationsChanged(_p->annotations);
+                Q_EMIT frameAnnotationsChanged(_p->frameAnnotations);
+            }
         }
 
         void AnnotateGroup::clearAnnotations()
         {
-
+            Q_FOREACH(auto i, _p->annotations)
+            {
+                delete i;
+            }
+            _p->annotations.clear();
+            _p->frameAnnotations.clear();
+            _p->currentAnnotation.clear();
+            Q_EMIT currentAnnotationChanged(_p->currentAnnotation);
+            Q_EMIT annotationsChanged(_p->annotations);
+            Q_EMIT frameAnnotationsChanged(_p->frameAnnotations);
         }
 
         void AnnotateGroup::setCurrentAnnotation(Annotate::Data * value)
@@ -210,22 +286,45 @@ namespace djv
             if (value == _p->currentAnnotation)
                 return;
             _p->currentAnnotation = value;
-            if (_p->currentAnnotation)
-            {
-                auto playbackGroup = session()->playbackGroup();
-                playbackGroup->setFrame(_p->currentAnnotation->frame());
-            }
             Q_EMIT currentAnnotationChanged(_p->currentAnnotation);
         }
 
         void AnnotateGroup::nextAnnotation()
         {
-
+            int index = _p->annotations.indexOf(_p->currentAnnotation);
+            ++index;
+            if (index >= _p->annotations.size())
+            {
+                index = 0;
+            }
+            if (index >= 0 && index < _p->annotations.count())
+            {
+                _p->currentAnnotation = _p->annotations[index];
+            }
+            else
+            {
+                _p->currentAnnotation.clear();
+            }
+            Q_EMIT currentAnnotationChanged(_p->currentAnnotation);
         }
 
         void AnnotateGroup::prevAnnotation()
         {
-
+            int index = _p->annotations.indexOf(_p->currentAnnotation);
+            --index;
+            if (index < 0)
+            {
+                index = _p->annotations.count() - 1;
+            }
+            if (index >= 0 && index < _p->annotations.count())
+            {
+                _p->currentAnnotation = _p->annotations[index];
+            }
+            else
+            {
+                _p->currentAnnotation.clear();
+            }
+            Q_EMIT currentAnnotationChanged(_p->currentAnnotation);
         }
 
         void AnnotateGroup::undoDrawing()
@@ -254,7 +353,7 @@ namespace djv
                 if (_p->currentAnnotation)
                 {
                     _p->currentAnnotation->addPrimitive(_p->primitive, _p->color, _p->lineWidth);
-                    _p->currentAnnotation->mouse(in);
+                    _p->currentAnnotation->mouse(transformMousePos(in));
                 }
             }
         }
@@ -267,18 +366,40 @@ namespace djv
         {
             if (_p->annotateToolDockWidget->isVisible() && _p->currentAnnotation)
             {
-                const auto view = session()->viewWidget();
-                const glm::ivec2 & viewPos = view->viewPos();
-                const float viewZoom = view->viewZoom();
-                _p->currentAnnotation->mouse(glm::ivec2(
-                    (in.x - viewPos.x) / viewZoom,
-                    (in.y - viewPos.y) / viewZoom));
+                _p->currentAnnotation->mouse(transformMousePos(in));
             }
         }
+
+        /*void AnnotateGroup::annotationsUpdate()
+        {
+            _p->annotateTool->setAnnotations(_p->annotations);
+            _p->annotateTool->setCurrentAnnotation(_p->currentAnnotation);
+
+            QList<djv::ViewLib::Annotate::Data *> frameAnnotations;
+            const qint64 frame = session()->playbackGroup()->frame();
+            Q_FOREACH(auto i, _p->annotations)
+            {
+                if (frame == i->frame())
+                {
+                    frameAnnotations.push_back(i);
+                }
+            }
+            session()->viewWidget()->setAnnotations(frameAnnotations);
+        }*/
 
         void AnnotateGroup::update()
         {
             _p->annotateToolDockWidget->setVisible(_p->actions->action(AnnotateActions::ANNOTATE_TOOL)->isChecked());
+        }
+
+        glm::ivec2 AnnotateGroup::transformMousePos(const glm::ivec2 & value) const
+        {
+            const auto view = session()->viewWidget();
+            const glm::ivec2 & viewPos = view->viewPos();
+            const float viewZoom = view->viewZoom();
+            return glm::ivec2(
+                (value.x - viewPos.x) / viewZoom,
+                (value.y - viewPos.y) / viewZoom);
         }
 
     } // namespace ViewLib
