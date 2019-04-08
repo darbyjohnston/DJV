@@ -105,9 +105,9 @@ namespace djv
         };
 
 #if defined(DJV_WINDOWS)
-#define SNPRINTF ::sprintf_s
+#define DJV_SNPRINTF ::sprintf_s
 #else // DJV_WINDOWS
-#define SNPRINTF ::snprintf
+#define DJV_SNPRINTF ::snprintf
 #endif // DJV_WINDOWS
 
         bool Serialize(QStringList &, QString &);

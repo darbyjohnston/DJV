@@ -193,7 +193,7 @@ namespace djv
             magic[1] = '0' + ppmType;
             io.set(magic, 3);
             char tmp[Core::StringUtil::cStringLength] = "";
-            int size = SNPRINTF(
+            int size = DJV_SNPRINTF(
                 tmp,
                 Core::StringUtil::cStringLength, "%d %d\n",
                 _image.w(),
@@ -202,7 +202,7 @@ namespace djv
             if (_bitDepth != 1)
             {
                 const int maxValue = (8 == _bitDepth) ? Pixel::u8Max : Pixel::u16Max;
-                size = SNPRINTF(tmp, Core::StringUtil::cStringLength, "%d\n", maxValue);
+                size = DJV_SNPRINTF(tmp, Core::StringUtil::cStringLength, "%d\n", maxValue);
                 io.set(tmp, size);
             }
         }

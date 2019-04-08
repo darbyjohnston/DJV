@@ -61,6 +61,10 @@
     <file alias="djv/UI/DownIcon48DPI.png">images/DownIcon48DPI.png</file>
     <file alias="djv/UI/DownIcon96DPI.png">images/DownIcon96DPI.png</file>
     <file alias="djv/UI/Durant.jpg">images/Durant.jpg</file>
+    <file alias="djv/UI/EraseIcon144DPI.png">images/EraseIcon144DPI.png</file>
+    <file alias="djv/UI/EraseIcon192DPI.png">images/EraseIcon192DPI.png</file>
+    <file alias="djv/UI/EraseIcon48DPI.png">images/EraseIcon48DPI.png</file>
+    <file alias="djv/UI/EraseIcon96DPI.png">images/EraseIcon96DPI.png</file>
     <file alias="djv/UI/ExportIcon144DPI.png">images/ExportIcon144DPI.png</file>
     <file alias="djv/UI/ExportIcon192DPI.png">images/ExportIcon192DPI.png</file>
     <file alias="djv/UI/ExportIcon48DPI.png">images/ExportIcon48DPI.png</file>

@@ -48,7 +48,7 @@ extern "C"
     void djvPNGError(png_structp in, png_const_charp msg)
     {
         auto error = reinterpret_cast<AV::PNGErrorStruct *>(png_get_error_ptr(in));
-        SNPRINTF(error->msg, Core::StringUtil::cStringLength, "%s", msg);
+        DJV_SNPRINTF(error->msg, Core::StringUtil::cStringLength, "%s", msg);
         longjmp(png_jmpbuf(in), 1);
     }
 

@@ -148,7 +148,7 @@ namespace djv
         void LUT::infernoOpen(Core::FileIO & io, const PixelDataInfo & info)
         {
             char tmp[Core::StringUtil::cStringLength] = "";
-            int size = SNPRINTF(tmp, Core::StringUtil::cStringLength, "LUT: %d %d\n\n",
+            int size = DJV_SNPRINTF(tmp, Core::StringUtil::cStringLength, "LUT: %d %d\n\n",
                 Pixel::channels(info.pixel), info.size.x);
             io.set(tmp, size);
         }
@@ -331,7 +331,7 @@ namespace djv
                     default: break;
                     }
                     char tmp[Core::StringUtil::cStringLength] = "";
-                    const int size = SNPRINTF(tmp, Core::StringUtil::cStringLength, "%9d\n", v);
+                    const int size = DJV_SNPRINTF(tmp, Core::StringUtil::cStringLength, "%9d\n", v);
                     io.set(tmp, size);
                 }
             }
@@ -357,7 +357,7 @@ namespace djv
                     default: break;
                     }
                     char tmp[Core::StringUtil::cStringLength] = "";
-                    int size = SNPRINTF(tmp, Core::StringUtil::cStringLength, "%6d", v);
+                    int size = DJV_SNPRINTF(tmp, Core::StringUtil::cStringLength, "%6d", v);
                     io.set(tmp, size);
                 }
                 io.set8('\n');
