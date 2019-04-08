@@ -106,20 +106,41 @@ namespace djv
             _p->model = new AnnotateModel;
 
             // Create the widgets.
+
             _p->primitiveButtonGroup = new QButtonGroup(this);
             _p->primitiveButtonGroup->setExclusive(true);
+            const QStringList toolTips = QStringList() <<
+                qApp->translate("djv::ViewLib::AnnotateTool", "Draw freehand lines") <<
+                qApp->translate("djv::ViewLib::AnnotateTool", "Draw rectangles") <<
+                qApp->translate("djv::ViewLib::AnnotateTool", "Draw circles");
             for (int i = 0; i < Enum::ANNOTATE_PRIMITIVE_COUNT; ++i)
             {
                 auto button = new UI::ToolButton(context.data());
                 button->setCheckable(true);
+                button->setToolTip(toolTips[i]);
                 _p->primitiveButtonGroup->addButton(button, i);
             }
+            
             _p->colorButton = new UI::ToolButton(context.data());
+            _p->colorButton->setToolTip(
+                qApp->translate("djv::ViewLib::AnnotateTool", "Set the drawing color"));
+
             _p->lineWidthSpinBox = new QSpinBox;
             _p->lineWidthSpinBox->setRange(1, 100);
+            _p->lineWidthSpinBox->setToolTip(
+                qApp->translate("djv::ViewLib::AnnotateTool", "Set the line width"));
+
             _p->undoButton = new UI::ToolButton(context.data());
+            _p->undoButton->setToolTip(
+                qApp->translate("djv::ViewLib::AnnotateTool", "Undo drawing"));
+
             _p->redoButton = new UI::ToolButton(context.data());
+            _p->redoButton->setToolTip(
+                qApp->translate("djv::ViewLib::AnnotateTool", "Redo drawing"));
+
             _p->clearButton = new UI::ToolButton(context.data());
+            _p->clearButton->setToolTip(
+                qApp->translate("djv::ViewLib::AnnotateTool", "Clear the drawing"));
 
             _p->textEdit = new QTextEdit;
 
@@ -128,12 +149,29 @@ namespace djv
             _p->treeView->setModel(_p->model);
 
             _p->prevButton = new UI::ToolButton(context.data());
+            _p->prevButton->setToolTip(
+                qApp->translate("djv::ViewLib::AnnotateTool", "Go the previous annotation"));
+
             _p->nextButton = new UI::ToolButton(context.data());
+            _p->nextButton->setToolTip(
+                qApp->translate("djv::ViewLib::AnnotateTool", "Go to the next annotation"));
+
             _p->listVisibleButton = new UI::ToolButton(context.data());
             _p->listVisibleButton->setCheckable(true);
+            _p->listVisibleButton->setToolTip(
+                qApp->translate("djv::ViewLib::AnnotateTool", "Show the list of annotations"));
+
             _p->addButton = new UI::ToolButton(context.data());
+            _p->addButton->setToolTip(
+                qApp->translate("djv::ViewLib::AnnotateTool", "Add a new annotation"));
+
             _p->removeButton = new UI::ToolButton(context.data());
+            _p->removeButton->setToolTip(
+                qApp->translate("djv::ViewLib::AnnotateTool", "Remove the current annotation"));
+
             _p->exportButton = new UI::ToolButton(context.data());
+            _p->exportButton->setToolTip(
+                qApp->translate("djv::ViewLib::AnnotateTool", "Export the annotations"));
 
             // Layout the widgets.
             auto layout = new QVBoxLayout(this);

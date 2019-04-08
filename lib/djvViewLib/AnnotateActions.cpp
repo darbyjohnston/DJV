@@ -82,6 +82,15 @@ namespace djv
 
             _actions[ANNOTATE_TOOL]->setIcon(context()->iconLibrary()->icon("djv/UI/AnnotateIcon"));
             _actions[ANNOTATE_TOOL]->setShortcut(shortcuts[Enum::SHORTCUT_ANNOTATE_TOOL].value);
+            _actions[ANNOTATE_TOOL]->setToolTip(
+                qApp->translate("djv::ViewLib::AnnotateActions",
+                    "Show the annotation tool<br><br>"
+                    "Keyboard shortcut: %1").arg(shortcuts[Enum::SHORTCUT_ANNOTATE_TOOL].value.toString()));
+            _actions[ANNOTATE_TOOL]->setWhatsThis(
+                qApp->translate("djv::ViewLib::AnnotateActions",
+                    "Show the annotation tool<br><br>"
+                    "Keyboard shortcut: %1<br><br>"
+                    "<a href=\"Annotate.html\">Documentation</a>").arg(shortcuts[Enum::SHORTCUT_ANNOTATE_TOOL].value.toString()));
             
             Q_EMIT changed();
         }
