@@ -219,8 +219,8 @@ namespace djv
 
             const auto primitiveIcons = std::vector<QString>(
             {
-                "djv/UI/AnnotateIcon",
-                "djv/UI/AnnotateIcon",
+                "djv/UI/AnnotateFreehandLineIcon",
+                "djv/UI/AnnotateLineIcon",
                 "djv/UI/AnnotateRectangleIcon",
                 "djv/UI/AnnotateEllipseIcon"
             });

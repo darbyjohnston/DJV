@@ -35,6 +35,8 @@
 
 #include <QDialog>
 
+#include <memory>
+
 namespace djv
 {
     namespace ViewLib
