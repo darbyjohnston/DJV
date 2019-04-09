@@ -128,6 +128,8 @@ namespace djv
         private:
             glm::ivec2 transformMousePos(const glm::ivec2 &) const;
 
+            void colorUpdate();
+
             DJV_PRIVATE_COPY(AnnotateGroup);
 
             struct Private;

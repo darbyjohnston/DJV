@@ -103,8 +103,6 @@ namespace djv
             setWindowFlags(Qt::Dialog | Qt::WindowCloseButtonHint);
             widgetUpdate();
 
-            connect(_p->buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
-
             connect(
                 _p->scriptFileEdit,
                 &UI::FileEdit::fileInfoChanged,
@@ -123,6 +121,8 @@ namespace djv
                 _p->scriptOptions = text;
                 context->annotatePrefs()->setExportScriptOptions(text);
             });
+
+            connect(_p->buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
 
             connect(
                 context->annotatePrefs(),

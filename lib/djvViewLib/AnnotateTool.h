@@ -65,6 +65,9 @@ namespace djv
                 QWidget * parent = nullptr);
             ~AnnotateTool() override;
 
+        protected:
+            bool event(QEvent *) override;
+
         private Q_SLOTS:
             void primitiveCallback(int, bool);
             void lineWidthCallback(int);

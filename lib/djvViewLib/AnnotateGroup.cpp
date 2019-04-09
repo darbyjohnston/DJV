@@ -46,9 +46,11 @@
 #include <djvViewLib/ViewContext.h>
 
 #include <djvUI/QuestionDialog.h>
+#include <djvUI/StylePrefs.h>
 
 #include <QApplication>
 #include <QDockWidget>
+#include <QStyle>
 
 #undef DELETE
 
@@ -106,11 +108,18 @@ namespace djv
                 &QAction::triggered,
                 [this, context]
             {
-                AnnotateColorDialog dialog(context);
-                if (QDialog::Accepted == dialog.exec())
+                auto dialog = QSharedPointer<AnnotateColorDialog>(new AnnotateColorDialog(context));
+                dialog->setColor(_p->color);
+                connect(
+                    dialog.data(),
+                    &AnnotateColorDialog::colorChanged,
+                    [this, context](const AV::Color & value)
                 {
-                    
-                }
+                    _p->color = value;
+                    context->annotatePrefs()->setColor(_p->color);
+                    update();
+                });
+                dialog->exec();
             });
             connect(
                 _p->actions->action(AnnotateActions::LINE_WIDTH_INC),
@@ -275,6 +284,14 @@ namespace djv
                 [this](size_t value)
             {
                 _p->lineWidth = value;
+                update();
+            });
+
+            connect(
+                context->stylePrefs(),
+                &UI::StylePrefs::prefChanged,
+                [this]
+            {
                 update();
             });
         }
@@ -504,10 +521,15 @@ namespace djv
 
         void AnnotateGroup::update()
         {
+            const int size = qApp->style()->pixelMetric(QStyle::PM_ButtonIconSize);
+            QImage image(size, size, QImage::Format_ARGB32);
+            image.fill(AV::ColorUtil::toQt(_p->color));
+            _p->actions->action(AnnotateActions::COLOR)->setIcon(QPixmap::fromImage(image));
+
             const int count = _p->annotations.count();
-            _p->actions->actions()[AnnotateActions::CLEAR]->setEnabled(_p->currentAnnotation ? _p->currentAnnotation->primitives().size() : false);
-            _p->actions->actions()[AnnotateActions::NEXT]->setEnabled(count > 1);
-            _p->actions->actions()[AnnotateActions::PREV]->setEnabled(count > 1);
+            _p->actions->action(AnnotateActions::CLEAR)->setEnabled(_p->currentAnnotation ? _p->currentAnnotation->primitives().size() : false);
+            _p->actions->action(AnnotateActions::NEXT)->setEnabled(count > 1);
+            _p->actions->action(AnnotateActions::PREV)->setEnabled(count > 1);
 
             _p->actions->group(AnnotateActions::PRIMITIVE_GROUP)->actions()[_p->primitive]->setChecked(true);
 

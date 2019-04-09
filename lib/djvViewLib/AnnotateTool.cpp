@@ -357,13 +357,17 @@ namespace djv
             widgetUpdate();
         }
 
+        bool AnnotateTool::event(QEvent * event)
+        {
+            if (QEvent::StyleChange == event->type())
+            {
+                styleUpdate();
+            }
+            return AbstractTool::event(event);
+        }
+
         void AnnotateTool::styleUpdate()
         {
-            const int size = style()->pixelMetric(QStyle::PM_ButtonIconSize);
-            QImage image(size, size, QImage::Format_ARGB32);
-            image.fill(AV::ColorUtil::toQt(_p->color));
-            _p->colorButton->setIcon(QPixmap::fromImage(image));
-
             _p->listVisibleButton->setIcon(context()->iconLibrary()->icon("djv/UI/ListIcon"));
 
             _p->drawingLayout->setSpacing(style()->pixelMetric(QStyle::PM_ToolBarItemSpacing));

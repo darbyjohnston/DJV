@@ -304,7 +304,7 @@ namespace djv
                 return;
             _p->colorSwatchTransparency = in;
             //! \todo Can we use QWidget::changeEvent() for this instead?
-            Q_FOREACH(QWidget * widget, qApp->allWidgets())
+            Q_FOREACH(auto widget, qApp->allWidgets())
             {
                 qApp->postEvent(widget, new QEvent(QEvent::StyleChange));
             }

@@ -111,6 +111,10 @@ namespace djv
 
         void AnnotatePrefs::reset()
         {
+            setPrimitive(primitiveDefault);
+            setColor(colorDefault);
+            setLineWidth(lineWidthDefault);
+            setListVisible(listVisibleDefault);
             setExportScript(QString());
             setExportScriptOptions(QString());
         }

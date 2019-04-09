@@ -37,6 +37,12 @@
 
 namespace djv
 {
+    namespace AV
+    {
+        class Color;
+    
+    } // namespace AV
+
     namespace ViewLib
     {
         class ViewContext;
@@ -49,6 +55,21 @@ namespace djv
         public:
             explicit AnnotateColorDialog(const QPointer<ViewContext> &);
             ~AnnotateColorDialog() override;
+
+        public Q_SLOTS:
+            void setColor(const djv::AV::Color &);
+
+        Q_SIGNALS:
+            void colorChanged(const djv::AV::Color &);
+
+        protected:
+            bool event(QEvent *) override;
+
+        private Q_SLOTS:
+            void buttonCallback(int);
+
+            void styleUpdate();
+            void widgetUpdate();
 
         private:
             DJV_PRIVATE_COPY(AnnotateColorDialog);
