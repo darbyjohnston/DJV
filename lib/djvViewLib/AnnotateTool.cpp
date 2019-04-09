@@ -154,7 +154,7 @@ namespace djv
 
             // Layout the widgets.
             auto layout = new QVBoxLayout(this);
-            layout->setMargin(0);
+
             _p->drawingLayout = new QHBoxLayout;
             _p->drawingLayout->setMargin(0);
             Q_FOREACH (auto i, _p->primitiveButtonGroup->buttons())

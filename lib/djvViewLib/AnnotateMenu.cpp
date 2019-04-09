@@ -48,7 +48,7 @@ namespace djv
             AbstractMenu(actions, parent),
             _p(new Private)
         {
-            addAction(actions->action(AnnotateActions::ANNOTATE_TOOL));
+            addAction(actions->action(AnnotateActions::SHOW));
             addSeparator();
             addActions(actions->group(AnnotateActions::PRIMITIVE_GROUP)->actions());
             addAction(actions->action(AnnotateActions::COLOR));

@@ -97,6 +97,9 @@ namespace djv
             //! Set the annotations.
             void setAnnotations(const QList<djv::ViewLib::Annotate::Data *> &);
 
+            //! Set whether the annotations are visible.
+            void setAnnotationsVisible(bool);
+
         Q_SIGNALS:
             //! This signal is emitted when a pick is started.
             void pickPressed(const glm::ivec2 &);

@@ -94,15 +94,19 @@ namespace djv
             _p->actions = new AnnotateActions(context, this);
 
             _p->annotateTool = new AnnotateTool(_p->actions, this, session, context);
-            _p->annotateToolDockWidget = new QDockWidget(qApp->translate("djv::ViewLib::AnnotateGroup", "Annotate Tool"));
+            _p->annotateToolDockWidget = new QDockWidget(qApp->translate("djv::ViewLib::AnnotateGroup", "Annotate"));
             _p->annotateToolDockWidget->setWidget(_p->annotateTool);
 
             update();
 
             connect(
-                _p->actions->action(AnnotateActions::ANNOTATE_TOOL),
-                SIGNAL(toggled(bool)),
-                SLOT(update()));
+                _p->actions->action(AnnotateActions::SHOW),
+                &QAction::toggled,
+                [this](bool value)
+            {
+                update();
+                Q_EMIT annotationsVisibleChanged(value);
+            });
             connect(
                 _p->actions->action(AnnotateActions::COLOR),
                 &QAction::triggered,
@@ -203,7 +207,7 @@ namespace djv
                 context->annotatePrefs()->setPrimitive(_p->primitive);
             });
 
-            _p->actions->action(AnnotateActions::ANNOTATE_TOOL)->connect(
+            _p->actions->action(AnnotateActions::SHOW)->connect(
                 _p->annotateToolDockWidget,
                 SIGNAL(visibilityChanged(bool)),
                 SLOT(setChecked(bool)));
@@ -312,6 +316,11 @@ namespace djv
         Annotate::Data * AnnotateGroup::currentAnnotation() const
         {
             return _p->currentAnnotation;
+        }
+
+        bool AnnotateGroup::areAnnotationsVisible() const
+        {
+            return _p->actions->action(AnnotateActions::SHOW)->isChecked();
         }
 
         QPointer<QDockWidget> AnnotateGroup::annotateToolDockWidget() const
@@ -533,7 +542,7 @@ namespace djv
 
             _p->actions->group(AnnotateActions::PRIMITIVE_GROUP)->actions()[_p->primitive]->setChecked(true);
 
-            _p->annotateToolDockWidget->setVisible(_p->actions->action(AnnotateActions::ANNOTATE_TOOL)->isChecked());
+            _p->annotateToolDockWidget->setVisible(_p->actions->action(AnnotateActions::SHOW)->isChecked());
         }
 
         glm::ivec2 AnnotateGroup::transformMousePos(const glm::ivec2 & value) const

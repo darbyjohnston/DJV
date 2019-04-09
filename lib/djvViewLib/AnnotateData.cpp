@@ -51,14 +51,14 @@ namespace djv
             AbstractPrimitive::~AbstractPrimitive()
             {}
 
-            PenPrimitive::PenPrimitive(const AV::Color & color, size_t lineWidth) :
+            FreehandLinePrimitive::FreehandLinePrimitive(const AV::Color & color, size_t lineWidth) :
                 AbstractPrimitive(color, lineWidth)
             {}
 
-            PenPrimitive::~PenPrimitive()
+            FreehandLinePrimitive::~FreehandLinePrimitive()
             {}
 
-            void PenPrimitive::draw(QPainter & painter, const glm::ivec2 & size, const glm::ivec2 & viewPos, float viewZoom)
+            void FreehandLinePrimitive::draw(QPainter & painter, const glm::ivec2 & size, const glm::ivec2 & viewPos, float viewZoom)
             {
                 const size_t pointsSize = _points.size();
                 if (1 == pointsSize)
@@ -86,9 +86,56 @@ namespace djv
                 }
             }
 
-            void PenPrimitive::mouse(const glm::ivec2 & value)
+            void FreehandLinePrimitive::mouse(const glm::ivec2 & value)
             {
                 _points.push_back(value);
+            }
+
+            LinePrimitive::LinePrimitive(const AV::Color & color, size_t lineWidth) :
+                AbstractPrimitive(color, lineWidth)
+            {}
+
+            LinePrimitive::~LinePrimitive()
+            {}
+
+            void LinePrimitive::draw(QPainter & painter, const glm::ivec2 & size, const glm::ivec2 & viewPos, float viewZoom)
+            {
+                const size_t pointsSize = _points.size();
+                if (1 == pointsSize)
+                {
+                    painter.fillRect(
+                        (_points[0].x - _lineWidth / 2.f) * viewZoom + viewPos.x,
+                        size.y - 1 - ((_points[0].y + _lineWidth / 2.f) * viewZoom + viewPos.y),
+                        _lineWidth * viewZoom,
+                        _lineWidth * viewZoom,
+                        AV::ColorUtil::toQt(_color));
+                }
+                else if (pointsSize >= 2)
+                {
+                    std::vector<QPoint> points;
+                    points.push_back(QPoint(
+                        _points[0].x * viewZoom + viewPos.x,
+                        size.y - 1 - (_points[0].y * viewZoom + viewPos.y)));
+                    points.push_back(QPoint(
+                        _points[1].x * viewZoom + viewPos.x,
+                        size.y - 1 - (_points[1].y * viewZoom + viewPos.y)));
+                    QPen pen(AV::ColorUtil::toQt(_color), _lineWidth * viewZoom);
+                    pen.setJoinStyle(Qt::MiterJoin);
+                    painter.setPen(pen);
+                    painter.drawPolyline(points.data(), static_cast<int>(points.size()));
+                }
+            }
+
+            void LinePrimitive::mouse(const glm::ivec2 & value)
+            {
+                if (_points.size() < 2)
+                {
+                    _points.push_back(value);
+                }
+                else
+                {
+                    _points[1] = value;
+                }
             }
 
             RectanglePrimitive::RectanglePrimitive(const AV::Color & color, size_t lineWidth) :
@@ -191,9 +238,10 @@ namespace djv
                 AbstractPrimitive * p = nullptr;
                 switch (primitive)
                 {
-                case Enum::ANNOTATE_PEN:       p = new PenPrimitive(color, lineWidth); break;
-                case Enum::ANNOTATE_RECTANGLE: p = new RectanglePrimitive(color, lineWidth); break;
-                case Enum::ANNOTATE_ELLIPSE:   p = new EllipsePrimitive(color, lineWidth); break;
+                case Enum::ANNOTATE_FREEHAND_LINE: p = new FreehandLinePrimitive(color, lineWidth); break;
+                case Enum::ANNOTATE_LINE:          p = new LinePrimitive(color, lineWidth); break;
+                case Enum::ANNOTATE_RECTANGLE:     p = new RectanglePrimitive(color, lineWidth); break;
+                case Enum::ANNOTATE_ELLIPSE:       p = new EllipsePrimitive(color, lineWidth); break;
                 default: break;
                 }
                 _primitives.push_back(p);

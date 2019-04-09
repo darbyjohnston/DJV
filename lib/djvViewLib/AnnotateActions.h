@@ -46,7 +46,7 @@ namespace djv
             //! This enumeration provides the actions.
             enum ACTION
             {
-                ANNOTATE_TOOL,
+                SHOW,
                 COLOR,
                 LINE_WIDTH_INC,
                 LINE_WIDTH_DEC,

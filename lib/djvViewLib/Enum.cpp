@@ -284,9 +284,10 @@ namespace djv
         const QStringList & Enum::annotatePrimitiveLabels()
         {
             static const QStringList data = QStringList() <<
-                qApp->translate("djv::ViewLib::Enum", "Pen") <<
+                qApp->translate("djv::ViewLib::Enum", "Freehand Line") <<
+                qApp->translate("djv::ViewLib::Enum", "Line") <<
                 qApp->translate("djv::ViewLib::Enum", "Square") <<
-                qApp->translate("djv::ViewLib::Enum", "Circle");
+                qApp->translate("djv::ViewLib::Enum", "Ellipse");
             DJV_ASSERT(data.count() == ANNOTATE_PRIMITIVE_COUNT);
             return data;
         }
@@ -416,10 +417,11 @@ namespace djv
                 qApp->translate("djv::ViewLib::Enum", "Tool/Histogram") <<
                 qApp->translate("djv::ViewLib::Enum", "Tool/Information") <<
                     
-                qApp->translate("djv::ViewLib::Enum", "Annotate/Annotate Tool") <<
-                qApp->translate("djv::ViewLib::Enum", "Annotate/Pen") <<
+                qApp->translate("djv::ViewLib::Enum", "Annotate/Show") <<
+                qApp->translate("djv::ViewLib::Enum", "Annotate/Freehand Line") <<
+                qApp->translate("djv::ViewLib::Enum", "Annotate/Line") <<
                 qApp->translate("djv::ViewLib::Enum", "Annotate/Rectangle") <<
-                qApp->translate("djv::ViewLib::Enum", "Annotate/Circle") <<
+                qApp->translate("djv::ViewLib::Enum", "Annotate/Ellipse") <<
                 qApp->translate("djv::ViewLib::Enum", "Annotate/Color") <<
                 qApp->translate("djv::ViewLib::Enum", "Annotate/Line Width Increase") <<
                 qApp->translate("djv::ViewLib::Enum", "Annotate/Line Width Decrease") <<

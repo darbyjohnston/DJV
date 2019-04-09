@@ -86,6 +86,7 @@ namespace djv
             Enum::HUD_BACKGROUND             hudBackground      = static_cast<Enum::HUD_BACKGROUND>(0);
             AV::Color                        hudBackgroundColor;
             QList<QPointer<Annotate::Data> > annotations;
+            bool                             annotationsVisible = false;
             AV::PixelData                    overlayPixelData;
             std::unique_ptr<AV::OpenGLImage> overlayOpenGLImage;
             bool                             mouseInside        = false;
@@ -290,6 +291,14 @@ namespace djv
                         SLOT(update()));
                 }
             }
+            update();
+        }
+
+        void ImageView::setAnnotationsVisible(bool value)
+        {
+            if (value == _p->annotationsVisible)
+                return;
+            _p->annotationsVisible = value;
             update();
         }
 
@@ -538,7 +547,7 @@ namespace djv
         void ImageView::paintGL()
         {
             UI::ImageView::paintGL();
-            if (_p->grid || _p->hudEnabled || _p->annotations.size())
+            if (_p->grid || _p->hudEnabled || (_p->annotations.size() && _p->annotationsVisible))
             {
                 const glm::ivec2 size(width(), height());
                 _p->overlayPixelData.set(AV::PixelDataInfo(size, AV::Pixel::RGBA_U8));
@@ -554,7 +563,7 @@ namespace djv
                 {
                     drawHud(painter);
                 }
-                if (_p->annotations.size())
+                if (_p->annotations.size() && _p->annotationsVisible)
                 {
                     drawAnnotations(painter);
                 }

@@ -43,7 +43,7 @@ namespace djv
     {
         namespace
         {
-            Enum::ANNOTATE_PRIMITIVE primitiveDefault   = Enum::ANNOTATE_PEN;
+            Enum::ANNOTATE_PRIMITIVE primitiveDefault   = Enum::ANNOTATE_FREEHAND_LINE;
             AV::Color                colorDefault       = AV::Color(1.f, 0.f, 0.f);
             size_t                   lineWidthDefault   = 5;
             bool                     listVisibleDefault = false;

@@ -137,6 +137,7 @@ namespace djv
             {
                 _p->frameStoreImage = copy->_p->frameStoreImage;
             }
+            _p->viewWidget->setAnnotationsVisible(_p->annotateGroup->areAnnotationsVisible());
             imageUpdate();
             playbackUpdate();
 
@@ -212,6 +213,11 @@ namespace djv
                     _p->playbackGroup->setFrame(value->frame());
                 }
             });
+            connect(
+                _p->annotateGroup.data(),
+                SIGNAL(annotationsVisibleChanged(bool)),
+                _p->viewWidget,
+                SLOT(setAnnotationsVisible(bool)));
 
             // Setup the preferences callbacks.
             connect(

@@ -63,12 +63,26 @@ namespace djv
                 size_t _lineWidth = 1;
             };
 
-            //! This class provides a pen annotation primitive.
-            class PenPrimitive : public AbstractPrimitive
+            //! This class provides a freehand line annotation primitive.
+            class FreehandLinePrimitive : public AbstractPrimitive
             {
             public:
-                PenPrimitive(const AV::Color &, size_t lineWidth);
-                ~PenPrimitive() override;
+                FreehandLinePrimitive(const AV::Color &, size_t lineWidth);
+                ~FreehandLinePrimitive() override;
+
+                void draw(QPainter &, const glm::ivec2 & size, const glm::ivec2 & viewPos, float viewZoom) override;
+                void mouse(const glm::ivec2 &) override;
+
+            private:
+                std::vector<glm::ivec2> _points;
+            };
+
+            //! This class provides a line annotation primitive.
+            class LinePrimitive : public AbstractPrimitive
+            {
+            public:
+                LinePrimitive(const AV::Color &, size_t lineWidth);
+                ~LinePrimitive() override;
 
                 void draw(QPainter &, const glm::ivec2 & size, const glm::ivec2 & viewPos, float viewZoom) override;
                 void mouse(const glm::ivec2 &) override;

@@ -68,6 +68,9 @@ namespace djv
             //! Get the current annotation.
             Annotate::Data * currentAnnotation() const;
 
+            //! Get whether the annotations are visible.
+            bool areAnnotationsVisible() const;
+
             //! Get the annotate tool dock widget.
             QPointer<QDockWidget> annotateToolDockWidget() const;
 
@@ -117,6 +120,9 @@ namespace djv
 
             //! This signal is emitted when an annotation is added.
             void annotationAdded(djv::ViewLib::Annotate::Data *);
+
+            //! This signal is emitted when the annotations visibility is changed.
+            void annotationsVisibleChanged(bool);
 
         private Q_SLOTS:
             void pickPressedCallback(const glm::ivec2 &);

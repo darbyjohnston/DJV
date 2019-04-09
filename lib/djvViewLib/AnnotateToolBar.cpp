@@ -52,7 +52,7 @@ namespace djv
             _p(new Private)
         {
             auto button = new UI::ToolButton(context.data());
-            button->setDefaultAction(actions->action(AnnotateActions::ANNOTATE_TOOL));
+            button->setDefaultAction(actions->action(AnnotateActions::SHOW));
             addWidget(button);
         }
 

@@ -58,8 +58,8 @@ namespace djv
             {
                 _actions[i] = new QAction(this);
             }
-            _actions[ANNOTATE_TOOL]->setText(qApp->translate("djv::ViewLib::AnnotateActions", "&Annotate Tool"));
-            _actions[ANNOTATE_TOOL]->setCheckable(true);
+            _actions[SHOW]->setText(qApp->translate("djv::ViewLib::AnnotateActions", "&Show Annotations"));
+            _actions[SHOW]->setCheckable(true);
             _actions[COLOR]->setText(qApp->translate("djv::ViewLib::AnnotateActions", "Set &Color"));
             _actions[LINE_WIDTH_INC]->setText(qApp->translate("djv::ViewLib::AnnotateActions", "&Increase Line Width"));
             _actions[LINE_WIDTH_DEC]->setText(qApp->translate("djv::ViewLib::AnnotateActions", "&Decrease Line Width"));
@@ -76,7 +76,6 @@ namespace djv
             {
                 _groups[i] = new QActionGroup(this);
             }
-            _groups[PRIMITIVE_GROUP]->setExclusive(true);
             for (int i = 0; i < Enum::annotatePrimitiveLabels().count(); ++i)
             {
                 QAction * action = new QAction(this);
@@ -105,17 +104,17 @@ namespace djv
         {
             const QVector<UI::Shortcut> & shortcuts = context()->shortcutPrefs()->shortcuts();
 
-            _actions[ANNOTATE_TOOL]->setIcon(context()->iconLibrary()->icon("djv/UI/AnnotateIcon"));
-            _actions[ANNOTATE_TOOL]->setShortcut(shortcuts[Enum::SHORTCUT_ANNOTATE_TOOL].value);
-            _actions[ANNOTATE_TOOL]->setToolTip(
+            _actions[SHOW]->setIcon(context()->iconLibrary()->icon("djv/UI/AnnotateIcon"));
+            _actions[SHOW]->setShortcut(shortcuts[Enum::SHORTCUT_ANNOTATE_SHOW].value);
+            _actions[SHOW]->setToolTip(
                 qApp->translate("djv::ViewLib::AnnotateActions",
-                    "Show the annotation tool<br><br>"
-                    "Keyboard shortcut: %1").arg(shortcuts[Enum::SHORTCUT_ANNOTATE_TOOL].value.toString()));
-            _actions[ANNOTATE_TOOL]->setWhatsThis(
+                    "Show annotations<br><br>"
+                    "Keyboard shortcut: %1").arg(shortcuts[Enum::SHORTCUT_ANNOTATE_SHOW].value.toString()));
+            _actions[SHOW]->setWhatsThis(
                 qApp->translate("djv::ViewLib::AnnotateActions",
-                    "Show the annotation tool<br><br>"
+                    "Show annotations<br><br>"
                     "Keyboard shortcut: %1<br><br>"
-                    "<a href=\"ViewAnnotate.html\">Documentation</a>").arg(shortcuts[Enum::SHORTCUT_ANNOTATE_TOOL].value.toString()));
+                    "<a href=\"ViewAnnotate.html\">Documentation</a>").arg(shortcuts[Enum::SHORTCUT_ANNOTATE_SHOW].value.toString()));
 
             _actions[COLOR]->setShortcut(shortcuts[Enum::SHORTCUT_ANNOTATE_COLOR].value);
             _actions[COLOR]->setToolTip(
@@ -221,22 +220,27 @@ namespace djv
             const auto primitiveIcons = std::vector<QString>(
             {
                 "djv/UI/AnnotateIcon",
+                "djv/UI/AnnotateIcon",
                 "djv/UI/AnnotateRectangleIcon",
                 "djv/UI/AnnotateEllipseIcon"
             });
             const QVector<QKeySequence> primitiveShortcuts = QVector<QKeySequence>() <<
-                shortcuts[Enum::SHORTCUT_ANNOTATE_PEN].value <<
+                shortcuts[Enum::SHORTCUT_ANNOTATE_FREEHAND_LINE].value <<
+                shortcuts[Enum::SHORTCUT_ANNOTATE_LINE].value <<
                 shortcuts[Enum::SHORTCUT_ANNOTATE_RECTANGLE].value <<
-                shortcuts[Enum::SHORTCUT_ANNOTATE_CIRCLE].value;
+                shortcuts[Enum::SHORTCUT_ANNOTATE_ELLIPSE].value;
             const QStringList primitiveToolTips = QStringList() <<
                 qApp->translate("djv::ViewLib::AnnotateActions",
                     "Draw freehand lines<br><br>"
                     "Keyboard shortcut: %1") <<
                 qApp->translate("djv::ViewLib::AnnotateActions",
+                    "Draw lines<br><br>"
+                    "Keyboard shortcut: %1") <<
+                qApp->translate("djv::ViewLib::AnnotateActions",
                     "Draw rectangles<br><br>"
                     "Keyboard shortcut: %1") <<
                 qApp->translate("djv::ViewLib::AnnotateActions",
-                    "Draw circles<br><br>"
+                    "Draw ellipses<br><br>"
                     "Keyboard shortcut: %1");
             const QStringList primitiveWhatsThis = QStringList() <<
                 qApp->translate("djv::ViewLib::AnnotateActions",
@@ -244,11 +248,15 @@ namespace djv
                     "Keyboard shortcut: %1<br><br>"
                     "<a href=\"ViewAnnotate.html\">Documentation</a>") <<
                 qApp->translate("djv::ViewLib::AnnotateActions",
+                    "Draw lines<br><br>"
+                    "Keyboard shortcut: %1<br><br>"
+                    "<a href=\"ViewAnnotate.html\">Documentation</a>") <<
+                qApp->translate("djv::ViewLib::AnnotateActions",
                     "Draw rectangles<br><br>"
                     "Keyboard shortcut: %1<br><br>"
                     "<a href=\"ViewAnnotate.html\">Documentation</a>") <<
                 qApp->translate("djv::ViewLib::AnnotateActions",
-                    "Draw circles<br><br>"
+                    "Draw ellipses<br><br>"
                     "Keyboard shortcut: %1<br><br>"
                     "<a href=\"ViewAnnotate.html\">Documentation</a>");
             for (int i = 0; i < Enum::annotatePrimitiveLabels().count(); ++i)

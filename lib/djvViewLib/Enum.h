@@ -318,7 +318,8 @@ namespace djv
             //! This enumeration provides the annotation primitives.
             enum ANNOTATE_PRIMITIVE
             {
-                ANNOTATE_PEN,
+                ANNOTATE_FREEHAND_LINE,
+                ANNOTATE_LINE,
                 ANNOTATE_RECTANGLE,
                 ANNOTATE_ELLIPSE,
 
@@ -453,10 +454,11 @@ namespace djv
                 SHORTCUT_TOOL_HISTOGRAM,
                 SHORTCUT_TOOL_INFO,
 
-                SHORTCUT_ANNOTATE_TOOL,
-                SHORTCUT_ANNOTATE_PEN,
+                SHORTCUT_ANNOTATE_SHOW,
+                SHORTCUT_ANNOTATE_FREEHAND_LINE,
+                SHORTCUT_ANNOTATE_LINE,
                 SHORTCUT_ANNOTATE_RECTANGLE,
-                SHORTCUT_ANNOTATE_CIRCLE,
+                SHORTCUT_ANNOTATE_ELLIPSE,
                 SHORTCUT_ANNOTATE_COLOR,
                 SHORTCUT_ANNOTATE_LINE_WIDTH_INC,
                 SHORTCUT_ANNOTATE_LINE_WIDTH_DEC,

@@ -165,10 +165,11 @@ namespace djv
                 UI::Shortcut(Enum::shortcutLabels()[Enum::SHORTCUT_TOOL_HISTOGRAM], QKeySequence("3")) <<
                 UI::Shortcut(Enum::shortcutLabels()[Enum::SHORTCUT_TOOL_INFO], QKeySequence("4")) <<
 
-                UI::Shortcut(Enum::shortcutLabels()[Enum::SHORTCUT_ANNOTATE_TOOL], QKeySequence("Ctrl+A")) <<
-                UI::Shortcut(Enum::shortcutLabels()[Enum::SHORTCUT_ANNOTATE_PEN], QKeySequence()) <<
+                UI::Shortcut(Enum::shortcutLabels()[Enum::SHORTCUT_ANNOTATE_SHOW], QKeySequence("Ctrl+A")) <<
+                UI::Shortcut(Enum::shortcutLabels()[Enum::SHORTCUT_ANNOTATE_FREEHAND_LINE], QKeySequence()) <<
+                UI::Shortcut(Enum::shortcutLabels()[Enum::SHORTCUT_ANNOTATE_LINE], QKeySequence()) <<
                 UI::Shortcut(Enum::shortcutLabels()[Enum::SHORTCUT_ANNOTATE_RECTANGLE], QKeySequence()) <<
-                UI::Shortcut(Enum::shortcutLabels()[Enum::SHORTCUT_ANNOTATE_CIRCLE], QKeySequence()) <<
+                UI::Shortcut(Enum::shortcutLabels()[Enum::SHORTCUT_ANNOTATE_ELLIPSE], QKeySequence()) <<
                 UI::Shortcut(Enum::shortcutLabels()[Enum::SHORTCUT_ANNOTATE_COLOR], QKeySequence()) <<
                 UI::Shortcut(Enum::shortcutLabels()[Enum::SHORTCUT_ANNOTATE_LINE_WIDTH_INC], QKeySequence()) <<
                 UI::Shortcut(Enum::shortcutLabels()[Enum::SHORTCUT_ANNOTATE_LINE_WIDTH_DEC], QKeySequence()) <<
