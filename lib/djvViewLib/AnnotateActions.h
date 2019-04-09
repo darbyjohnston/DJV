@@ -55,6 +55,7 @@ namespace djv
                 CLEAR,
                 NEW,
                 DELETE,
+                DELETE_ALL,
                 NEXT,
                 PREV,
                 EXPORT,

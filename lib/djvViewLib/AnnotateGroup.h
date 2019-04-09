@@ -85,7 +85,7 @@ namespace djv
             void deleteAnnotation();
 
             //! Delete all of the annotations.
-            void clearAnnotations();
+            void deleteAllAnnotations();
 
             //! Set the current annotation.
             void setCurrentAnnotation(djv::ViewLib::Annotate::Data *);

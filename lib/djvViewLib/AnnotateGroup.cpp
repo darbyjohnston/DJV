@@ -174,7 +174,24 @@ namespace djv
                 &QAction::triggered,
                 [this]
             {
-                deleteAnnotation();
+                UI::QuestionDialog dialog(
+                    qApp->translate("djv::ViewLib::AnnotateGroup", "Are you sure you want to delete the current annotation?"));
+                if (QDialog::Accepted == dialog.exec())
+                {
+                    deleteAnnotation();
+                }
+            });
+            connect(
+                _p->actions->action(AnnotateActions::DELETE_ALL),
+                &QAction::triggered,
+                [this]
+            {
+                UI::QuestionDialog dialog(
+                    qApp->translate("djv::ViewLib::AnnotateGroup", "Are you sure you want to delete all annotations?"));
+                if (QDialog::Accepted == dialog.exec())
+                {
+                    deleteAllAnnotations();
+                }
             });
             connect(
                 _p->actions->action(AnnotateActions::NEXT),
@@ -218,7 +235,7 @@ namespace djv
                 &FileGroup::fileInfoChanged,
                 [this](const FileInfo & value)
             {
-                clearAnnotations();
+                deleteAllAnnotations();
             });
 
             auto playbackGroup = session->playbackGroup();
@@ -375,38 +392,33 @@ namespace djv
             int index = _p->annotations.indexOf(_p->currentAnnotation);
             if (index != -1)
             {
-                UI::QuestionDialog dialog(
-                    qApp->translate("djv::ViewLib::AnnotateGroup", "Are you sure you want to delete the current annotation?"));
-                if (QDialog::Accepted == dialog.exec())
+                delete _p->annotations[index];
+                _p->annotations.removeAt(index);
+                _p->frameAnnotations.clear();
+                const qint64 frame = session()->playbackGroup()->frame();
+                Q_FOREACH(auto i, _p->annotations)
                 {
-                    delete _p->annotations[index];
-                    _p->annotations.removeAt(index);
-                    _p->frameAnnotations.clear();
-                    const qint64 frame = session()->playbackGroup()->frame();
-                    Q_FOREACH(auto i, _p->annotations)
+                    if (i->frame() == frame)
                     {
-                        if (i->frame() == frame)
-                        {
-                            _p->frameAnnotations.push_back(i);
-                        }
+                        _p->frameAnnotations.push_back(i);
                     }
-                    if (index >= _p->annotations.size())
-                    {
-                        --index;
-                    }
-                    if (index >= 0 && index < _p->annotations.size())
-                    {
-                        _p->currentAnnotation = _p->annotations[index];
-                    }
-                    update();
-                    Q_EMIT currentAnnotationChanged(_p->currentAnnotation);
-                    Q_EMIT annotationsChanged(_p->annotations);
-                    Q_EMIT frameAnnotationsChanged(_p->frameAnnotations);
                 }
+                if (index >= _p->annotations.size())
+                {
+                    --index;
+                }
+                if (index >= 0 && index < _p->annotations.size())
+                {
+                    _p->currentAnnotation = _p->annotations[index];
+                }
+                update();
+                Q_EMIT currentAnnotationChanged(_p->currentAnnotation);
+                Q_EMIT annotationsChanged(_p->annotations);
+                Q_EMIT frameAnnotationsChanged(_p->frameAnnotations);
             }
         }
 
-        void AnnotateGroup::clearAnnotations()
+        void AnnotateGroup::deleteAllAnnotations()
         {
             Q_FOREACH(auto i, _p->annotations)
             {
@@ -537,8 +549,11 @@ namespace djv
 
             const int count = _p->annotations.count();
             _p->actions->action(AnnotateActions::CLEAR)->setEnabled(_p->currentAnnotation ? _p->currentAnnotation->primitives().size() : false);
+            _p->actions->action(AnnotateActions::DELETE)->setEnabled(_p->currentAnnotation);
+            _p->actions->action(AnnotateActions::DELETE_ALL)->setEnabled(count > 0);
             _p->actions->action(AnnotateActions::NEXT)->setEnabled(count > 1);
             _p->actions->action(AnnotateActions::PREV)->setEnabled(count > 1);
+            _p->actions->action(AnnotateActions::EXPORT)->setEnabled(count > 0);
 
             _p->actions->group(AnnotateActions::PRIMITIVE_GROUP)->actions()[_p->primitive]->setChecked(true);
 

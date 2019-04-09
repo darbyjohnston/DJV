@@ -68,6 +68,7 @@ namespace djv
             _actions[CLEAR]->setText(qApp->translate("djv::ViewLib::AnnotateActions", "&Clear Drawing"));
             _actions[NEW]->setText(qApp->translate("djv::ViewLib::AnnotateActions", "&New Annotation"));
             _actions[DELETE]->setText(qApp->translate("djv::ViewLib::AnnotateActions", "D&elete Annotation"));
+            _actions[DELETE_ALL]->setText(qApp->translate("djv::ViewLib::AnnotateActions", "Delete A&ll Annotations"));
             _actions[NEXT]->setText(qApp->translate("djv::ViewLib::AnnotateActions", "Ne&xt Annotation"));
             _actions[PREV]->setText(qApp->translate("djv::ViewLib::AnnotateActions", "&Previous Annotation"));
             _actions[EXPORT]->setText(qApp->translate("djv::ViewLib::AnnotateActions", "Expor&t Annotations"));
