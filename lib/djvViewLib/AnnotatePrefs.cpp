@@ -43,10 +43,10 @@ namespace djv
     {
         namespace
         {
-            Enum::ANNOTATE_PRIMITIVE  primitiveDefault   = Enum::ANNOTATE_PEN;
-            AV::Color                 colorDefault       = AV::Color(1.f, 0.f, 0.f);
-            size_t                    lineWidthDefault   = 5;
-            bool                      listVisibleDefault = false;
+            Enum::ANNOTATE_PRIMITIVE primitiveDefault   = Enum::ANNOTATE_PEN;
+            AV::Color                colorDefault       = AV::Color(1.f, 0.f, 0.f);
+            size_t                   lineWidthDefault   = 5;
+            bool                     listVisibleDefault = false;
         
         } // namespace
 
@@ -64,6 +64,8 @@ namespace djv
             prefs.get("lineWidth", lineWidth);
             _lineWidth = Math::clamp(lineWidth, 1, 100);
             prefs.get("listVisible", _listVisible);
+            prefs.get("exportScript", _exportScript);
+            prefs.get("exportScriptOptions", _exportScriptOptions);
         }
 
         AnnotatePrefs::~AnnotatePrefs()
@@ -73,6 +75,8 @@ namespace djv
             prefs.set("color", _color);
             prefs.set("lineWidth", static_cast<int>(_lineWidth));
             prefs.set("listVisible", _listVisible);
+            prefs.set("exportScript", _exportScript);
+            prefs.set("exportScriptOptions", _exportScriptOptions);
         }
 
         Enum::ANNOTATE_PRIMITIVE AnnotatePrefs::primitive() const
@@ -95,8 +99,21 @@ namespace djv
             return _listVisible;
         }
 
+        const FileInfo & AnnotatePrefs::exportScript() const
+        {
+            return _exportScript;
+        }
+
+        const QString & AnnotatePrefs::exportScriptOptions() const
+        {
+            return _exportScriptOptions;
+        }
+
         void AnnotatePrefs::reset()
-        {}
+        {
+            setExportScript(QString());
+            setExportScriptOptions(QString());
+        }
 
         void AnnotatePrefs::setPrimitive(Enum::ANNOTATE_PRIMITIVE value)
         {
@@ -131,6 +148,24 @@ namespace djv
                 return;
             _listVisible = value;
             Q_EMIT listVisibleChanged(_listVisible);
+            Q_EMIT prefChanged();
+        }
+
+        void AnnotatePrefs::setExportScript(const FileInfo & value)
+        {
+            if (value == _exportScript)
+                return;
+            _exportScript = value;
+            Q_EMIT exportScriptChanged(_exportScript);
+            Q_EMIT prefChanged();
+        }
+
+        void AnnotatePrefs::setExportScriptOptions(const QString & value)
+        {
+            if (value == _exportScriptOptions)
+                return;
+            _exportScriptOptions = value;
+            Q_EMIT exportScriptOptionsChanged(_exportScriptOptions);
             Q_EMIT prefChanged();
         }
 

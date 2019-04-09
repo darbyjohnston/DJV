@@ -454,6 +454,20 @@ namespace djv
                 SHORTCUT_TOOL_INFO,
 
                 SHORTCUT_ANNOTATE_TOOL,
+                SHORTCUT_ANNOTATE_PEN,
+                SHORTCUT_ANNOTATE_RECTANGLE,
+                SHORTCUT_ANNOTATE_CIRCLE,
+                SHORTCUT_ANNOTATE_COLOR,
+                SHORTCUT_ANNOTATE_LINE_WIDTH_INC,
+                SHORTCUT_ANNOTATE_LINE_WIDTH_DEC,
+                SHORTCUT_ANNOTATE_UNDO,
+                SHORTCUT_ANNOTATE_REDO,
+                SHORTCUT_ANNOTATE_CLEAR,
+                SHORTCUT_ANNOTATE_NEW,
+                SHORTCUT_ANNOTATE_DELETE,
+                SHORTCUT_ANNOTATE_NEXT,
+                SHORTCUT_ANNOTATE_PREV,
+                SHORTCUT_ANNOTATE_EXPORT,
 
                 SHORTCUT_HELP_WHATS_THIS,
 

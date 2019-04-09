@@ -200,7 +200,7 @@ namespace djv
             for (int i = 0; i < Enum::PLAYBACK_COUNT; ++i)
             {
                 _groups[PLAYBACK_GROUP]->actions()[i]->setIcon(playbackIcons[i]);
-                const QKeySequence key = shortcuts[playbackShortcuts[i]].value;
+                const auto key = shortcuts[playbackShortcuts[i]].value;
                 _groups[PLAYBACK_GROUP]->actions()[i]->setShortcut(key);
                 _groups[PLAYBACK_GROUP]->actions()[i]->setToolTip(playbackToolTips[i].arg(key.toString()));
                 _groups[PLAYBACK_GROUP]->actions()[i]->setWhatsThis(playbackWhatsThis[i].arg(key.toString()));

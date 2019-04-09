@@ -75,13 +75,13 @@ namespace djv
             QPointer<QToolBar> createToolBar() const override;
 
         public Q_SLOTS:
-            //! Add an annotation.
-            void addAnnotation(const QString & text = QString());
+            //! Create a new annotation.
+            void newAnnotation(const QString & text = QString());
 
-            //! Remove the current annotation.
-            void removeAnnotation();
+            //! Delete the current annotation.
+            void deleteAnnotation();
 
-            //! Remove all of the annotations.
+            //! Delete all of the annotations.
             void clearAnnotations();
 
             //! Set the current annotation.
@@ -98,6 +98,9 @@ namespace djv
 
             //! Redo the last annotation drawing.
             void redoDrawing();
+
+            //! Clear the current annotation's drawing.
+            void clearDrawing();
 
             //! Export the annotations.
             void exportAnnotations();

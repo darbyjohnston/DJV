@@ -47,10 +47,30 @@ namespace djv
             enum ACTION
             {
                 ANNOTATE_TOOL,
+                COLOR,
+                LINE_WIDTH_INC,
+                LINE_WIDTH_DEC,
+                UNDO,
+                REDO,
+                CLEAR,
+                NEW,
+                DELETE,
+                NEXT,
+                PREV,
+                EXPORT,
 
                 ACTION_COUNT
             };
             Q_ENUM(ACTION);
+
+            //! This enumeration provides the action groups.
+            enum GROUP
+            {
+                PRIMITIVE_GROUP,
+
+                GROUP_COUNT
+            };
+            Q_ENUM(GROUP);
 
             explicit AnnotateActions(const QPointer<ViewContext> &, QObject * parent = nullptr);
             ~AnnotateActions() override;

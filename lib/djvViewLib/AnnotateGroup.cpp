@@ -31,6 +31,8 @@
 
 #include <djvViewLib/AnnotateActions.h>
 #include <djvViewLib/AnnotateData.h>
+#include <djvViewLib/AnnotateColorDialog.h>
+#include <djvViewLib/AnnotateExportDialog.h>
 #include <djvViewLib/AnnotateMenu.h>
 #include <djvViewLib/AnnotatePrefs.h>
 #include <djvViewLib/AnnotateTool.h>
@@ -48,6 +50,8 @@
 #include <QApplication>
 #include <QDockWidget>
 
+#undef DELETE
+
 using namespace djv::Core;
 
 namespace djv
@@ -62,12 +66,12 @@ namespace djv
                 lineWidth(context->annotatePrefs()->lineWidth())
             {}
 
-            QList<Annotate::Data *> annotations;
-            QList<Annotate::Data *> frameAnnotations;
+            QList<Annotate::Data *>  annotations;
+            QList<Annotate::Data *>  frameAnnotations;
             QPointer<Annotate::Data> currentAnnotation;
             Enum::ANNOTATE_PRIMITIVE primitive;
-            AV::Color color;
-            size_t lineWidth;
+            AV::Color                color;
+            size_t                   lineWidth;
 
             QPointer<AnnotateActions> actions;
             QPointer<AnnotateTool>    annotateTool;
@@ -87,7 +91,7 @@ namespace djv
 
             _p->actions = new AnnotateActions(context, this);
 
-            _p->annotateTool = new AnnotateTool(this, session, context);
+            _p->annotateTool = new AnnotateTool(_p->actions, this, session, context);
             _p->annotateToolDockWidget = new QDockWidget(qApp->translate("djv::ViewLib::AnnotateGroup", "Annotate Tool"));
             _p->annotateToolDockWidget->setWidget(_p->annotateTool);
 
@@ -97,6 +101,98 @@ namespace djv
                 _p->actions->action(AnnotateActions::ANNOTATE_TOOL),
                 SIGNAL(toggled(bool)),
                 SLOT(update()));
+            connect(
+                _p->actions->action(AnnotateActions::COLOR),
+                &QAction::triggered,
+                [this, context]
+            {
+                AnnotateColorDialog dialog(context);
+                if (QDialog::Accepted == dialog.exec())
+                {
+                    
+                }
+            });
+            connect(
+                _p->actions->action(AnnotateActions::LINE_WIDTH_INC),
+                &QAction::triggered,
+                [this, context]
+            {
+                _p->lineWidth = static_cast<size_t>(Math::clamp(static_cast<int>(_p->lineWidth) + 10, 1, 100));
+                context->annotatePrefs()->setLineWidth(_p->lineWidth);
+            });
+            connect(
+                _p->actions->action(AnnotateActions::LINE_WIDTH_DEC),
+                &QAction::triggered,
+                [this, context]
+            {
+                _p->lineWidth = static_cast<size_t>(Math::clamp(static_cast<int>(_p->lineWidth) - 10, 1, 100));
+                context->annotatePrefs()->setLineWidth(_p->lineWidth);
+            });
+            connect(
+                _p->actions->action(AnnotateActions::UNDO),
+                &QAction::triggered,
+                [this]
+            {
+
+            });
+            connect(
+                _p->actions->action(AnnotateActions::REDO),
+                &QAction::triggered,
+                [this]
+            {
+
+            });
+            connect(
+                _p->actions->action(AnnotateActions::CLEAR),
+                &QAction::triggered,
+                [this]
+            {
+                clearDrawing();
+            });
+            connect(
+                _p->actions->action(AnnotateActions::NEW),
+                &QAction::triggered,
+                [this]
+            {
+                newAnnotation();
+            });
+            connect(
+                _p->actions->action(AnnotateActions::DELETE),
+                &QAction::triggered,
+                [this]
+            {
+                deleteAnnotation();
+            });
+            connect(
+                _p->actions->action(AnnotateActions::NEXT),
+                &QAction::triggered,
+                [this]
+            {
+                nextAnnotation();
+            });
+            connect(
+                _p->actions->action(AnnotateActions::PREV),
+                &QAction::triggered,
+                [this]
+            {
+                prevAnnotation();
+            });
+            connect(
+                _p->actions->action(AnnotateActions::EXPORT),
+                &QAction::triggered,
+                [this]
+            {
+                exportAnnotations();
+            });
+
+            connect(
+                _p->actions->group(AnnotateActions::PRIMITIVE_GROUP),
+                &QActionGroup::triggered,
+                [this, context](QAction * action)
+            {
+                _p->primitive = static_cast<Enum::ANNOTATE_PRIMITIVE>(action->data().toInt());
+                context->annotatePrefs()->setPrimitive(_p->primitive);
+            });
 
             _p->actions->action(AnnotateActions::ANNOTATE_TOOL)->connect(
                 _p->annotateToolDockWidget,
@@ -138,6 +234,7 @@ namespace djv
                         _p->currentAnnotation.clear();
                     }
                 }
+                update();
                 Q_EMIT frameAnnotationsChanged(_p->frameAnnotations);
                 Q_EMIT currentAnnotationChanged(_p->currentAnnotation);
             });
@@ -162,6 +259,7 @@ namespace djv
                 [this](Enum::ANNOTATE_PRIMITIVE value)
             {
                 _p->primitive = value;
+                update();
             });
             connect(
                 context->annotatePrefs(),
@@ -169,6 +267,7 @@ namespace djv
                 [this](const AV::Color & value)
             {
                 _p->color = value;
+                update();
             });
             connect(
                 context->annotatePrefs(),
@@ -176,6 +275,7 @@ namespace djv
                 [this](size_t value)
             {
                 _p->lineWidth = value;
+                update();
             });
         }
 
@@ -212,12 +312,16 @@ namespace djv
             return new AnnotateToolBar(_p->actions.data(), context());
         }
 
-        void AnnotateGroup::addAnnotation(const QString & text)
+        void AnnotateGroup::newAnnotation(const QString & text)
         {
             auto playbackGroup = session()->playbackGroup();
             playbackGroup->setPlayback(Enum::STOP);
             const qint64 frame = playbackGroup->frame();
             auto annotation = new Annotate::Data(frame, text);
+            connect(
+                annotation,
+                SIGNAL(primitivesChanged()),
+                SLOT(update()));
             _p->annotations.push_back(annotation);
             qStableSort(_p->annotations.begin(), _p->annotations.end(),
                 [](const Annotate::Data * a, const Annotate::Data * b)
@@ -233,19 +337,20 @@ namespace djv
                 }
             }
             _p->currentAnnotation = annotation;
+            update();
             Q_EMIT currentAnnotationChanged(_p->currentAnnotation);
             Q_EMIT annotationsChanged(_p->annotations);
             Q_EMIT frameAnnotationsChanged(_p->frameAnnotations);
             Q_EMIT annotationAdded(annotation);
         }
 
-        void AnnotateGroup::removeAnnotation()
+        void AnnotateGroup::deleteAnnotation()
         {
             int index = _p->annotations.indexOf(_p->currentAnnotation);
             if (index != -1)
             {
                 UI::QuestionDialog dialog(
-                    qApp->translate("djv::ViewLib::AnnotateGroup", "Are you sure you want to remove the current annotation?"));
+                    qApp->translate("djv::ViewLib::AnnotateGroup", "Are you sure you want to delete the current annotation?"));
                 if (QDialog::Accepted == dialog.exec())
                 {
                     delete _p->annotations[index];
@@ -267,6 +372,7 @@ namespace djv
                     {
                         _p->currentAnnotation = _p->annotations[index];
                     }
+                    update();
                     Q_EMIT currentAnnotationChanged(_p->currentAnnotation);
                     Q_EMIT annotationsChanged(_p->annotations);
                     Q_EMIT frameAnnotationsChanged(_p->frameAnnotations);
@@ -283,6 +389,7 @@ namespace djv
             _p->annotations.clear();
             _p->frameAnnotations.clear();
             _p->currentAnnotation.clear();
+            update();
             Q_EMIT currentAnnotationChanged(_p->currentAnnotation);
             Q_EMIT annotationsChanged(_p->annotations);
             Q_EMIT frameAnnotationsChanged(_p->frameAnnotations);
@@ -293,6 +400,7 @@ namespace djv
             if (value == _p->currentAnnotation)
                 return;
             _p->currentAnnotation = value;
+            update();
             Q_EMIT currentAnnotationChanged(_p->currentAnnotation);
         }
 
@@ -312,6 +420,7 @@ namespace djv
             {
                 _p->currentAnnotation.clear();
             }
+            update();
             Q_EMIT currentAnnotationChanged(_p->currentAnnotation);
         }
 
@@ -331,6 +440,7 @@ namespace djv
             {
                 _p->currentAnnotation.clear();
             }
+            update();
             Q_EMIT currentAnnotationChanged(_p->currentAnnotation);
         }
 
@@ -344,9 +454,24 @@ namespace djv
 
         }
 
+        void AnnotateGroup::clearDrawing()
+        {
+            if (_p->currentAnnotation)
+            {
+                UI::QuestionDialog dialog(
+                    qApp->translate("djv::ViewLib::AnnotateGroup", "Are you sure you want to clear the drawing?"));
+                if (QDialog::Accepted == dialog.exec())
+                {
+                    _p->currentAnnotation->clearPrimitives();
+                }
+            }
+        }
+
         void AnnotateGroup::exportAnnotations()
         {
-
+            if (QDialog::Accepted == AnnotateExportDialog(context()).exec())
+            {
+            }
         }
 
         void AnnotateGroup::pickPressedCallback(const glm::ivec2 & in)
@@ -355,7 +480,7 @@ namespace djv
             {
                 if (!_p->currentAnnotation)
                 {
-                    addAnnotation();
+                    newAnnotation();
                 }
                 if (_p->currentAnnotation)
                 {
@@ -377,25 +502,15 @@ namespace djv
             }
         }
 
-        /*void AnnotateGroup::annotationsUpdate()
-        {
-            _p->annotateTool->setAnnotations(_p->annotations);
-            _p->annotateTool->setCurrentAnnotation(_p->currentAnnotation);
-
-            QList<djv::ViewLib::Annotate::Data *> frameAnnotations;
-            const qint64 frame = session()->playbackGroup()->frame();
-            Q_FOREACH(auto i, _p->annotations)
-            {
-                if (frame == i->frame())
-                {
-                    frameAnnotations.push_back(i);
-                }
-            }
-            session()->viewWidget()->setAnnotations(frameAnnotations);
-        }*/
-
         void AnnotateGroup::update()
         {
+            const int count = _p->annotations.count();
+            _p->actions->actions()[AnnotateActions::CLEAR]->setEnabled(_p->currentAnnotation ? _p->currentAnnotation->primitives().size() : false);
+            _p->actions->actions()[AnnotateActions::NEXT]->setEnabled(count > 1);
+            _p->actions->actions()[AnnotateActions::PREV]->setEnabled(count > 1);
+
+            _p->actions->group(AnnotateActions::PRIMITIVE_GROUP)->actions()[_p->primitive]->setChecked(true);
+
             _p->annotateToolDockWidget->setVisible(_p->actions->action(AnnotateActions::ANNOTATE_TOOL)->isChecked());
         }
 

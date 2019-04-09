@@ -29,52 +29,29 @@
 
 #pragma once
 
-#include <djvViewLib/AbstractTool.h>
-#include <djvViewLib/Enum.h>
+#include <djvViewLib/ViewLib.h>
 
-#include <djvAV/Color.h>
+#include <djvCore/Util.h>
 
-#include <djvCore/Vector.h>
-
-#include <memory>
+#include <QDialog>
 
 namespace djv
 {
     namespace ViewLib
     {
-        class AnnotateActions;
-        class AnnotateGroup;
+        class ViewContext;
 
-        namespace Annotate
-        {
-            class Data;
-        
-        } // namespace Annotate
-
-        //! This class provides the annotation tool.
-        class AnnotateTool : public AbstractTool
+        //! This class provides a dialog for choosing the annotation drawing color.
+        class AnnotateColorDialog : public QDialog
         {
             Q_OBJECT
 
         public:
-            explicit AnnotateTool(
-                const QPointer<AnnotateActions> &,
-                const QPointer<AnnotateGroup> &,
-                const QPointer<Session> &,
-                const QPointer<ViewContext> &,
-                QWidget * parent = nullptr);
-            ~AnnotateTool() override;
-
-        private Q_SLOTS:
-            void primitiveCallback(int, bool);
-            void lineWidthCallback(int);
-
-            void styleUpdate();
-            void modelUpdate();
-            void widgetUpdate();
+            explicit AnnotateColorDialog(const QPointer<ViewContext> &);
+            ~AnnotateColorDialog() override;
 
         private:
-            DJV_PRIVATE_COPY(AnnotateTool);
+            DJV_PRIVATE_COPY(AnnotateColorDialog);
 
             struct Private;
             std::unique_ptr<Private> _p;

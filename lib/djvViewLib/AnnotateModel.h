@@ -31,6 +31,7 @@
 
 #include <djvViewLib/ViewLib.h>
 
+#include <djvCore/Sequence.h>
 #include <djvCore/Util.h>
 
 #include <QAbstractItemModel>
@@ -41,6 +42,8 @@ namespace djv
 {
     namespace ViewLib
     {
+        class ViewContext;
+
         namespace Annotate
         {
             class Data;
@@ -53,7 +56,7 @@ namespace djv
             Q_OBJECT
 
         public:
-            explicit AnnotateModel(QObject * parent = nullptr);
+            explicit AnnotateModel(const QPointer<ViewContext> &, QObject * parent = nullptr);
             ~AnnotateModel() override;
 
             QModelIndex	index(int row, int column, const QModelIndex & parent = QModelIndex()) const override;
@@ -65,8 +68,9 @@ namespace djv
             int columnCount(const QModelIndex & parent = QModelIndex()) const override;
 
         public Q_SLOTS:
-            //! Set the annotations.
             void setAnnotations(const QList<QPointer<djv::ViewLib::Annotate::Data> > &);
+            void setFrameList(const djv::Core::FrameList &);
+            void setSpeed(const djv::Core::Speed &);
 
         private:
             DJV_PRIVATE_COPY(AnnotateModel);

@@ -27,58 +27,39 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#pragma once
+#include <djvViewLib/AnnotateColorDialog.h>
 
-#include <djvViewLib/AbstractTool.h>
-#include <djvViewLib/Enum.h>
-
-#include <djvAV/Color.h>
-
-#include <djvCore/Vector.h>
-
-#include <memory>
+#include <QApplication>
+#include <QDialogButtonBox>
+#include <QPointer>
+#include <QVBoxLayout>
 
 namespace djv
 {
     namespace ViewLib
     {
-        class AnnotateActions;
-        class AnnotateGroup;
-
-        namespace Annotate
+        struct AnnotateColorDialog::Private
         {
-            class Data;
-        
-        } // namespace Annotate
-
-        //! This class provides the annotation tool.
-        class AnnotateTool : public AbstractTool
-        {
-            Q_OBJECT
-
-        public:
-            explicit AnnotateTool(
-                const QPointer<AnnotateActions> &,
-                const QPointer<AnnotateGroup> &,
-                const QPointer<Session> &,
-                const QPointer<ViewContext> &,
-                QWidget * parent = nullptr);
-            ~AnnotateTool() override;
-
-        private Q_SLOTS:
-            void primitiveCallback(int, bool);
-            void lineWidthCallback(int);
-
-            void styleUpdate();
-            void modelUpdate();
-            void widgetUpdate();
-
-        private:
-            DJV_PRIVATE_COPY(AnnotateTool);
-
-            struct Private;
-            std::unique_ptr<Private> _p;
+            QPointer<QDialogButtonBox> buttonBox;
         };
+
+        AnnotateColorDialog::AnnotateColorDialog(const QPointer<ViewContext> & context) :
+            _p(new Private)
+        {
+            _p->buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
+
+            auto layout = new QVBoxLayout(this);
+            layout->addStretch(1);
+            layout->addWidget(_p->buttonBox);
+
+            setWindowTitle(qApp->translate("djv::ViewLib::AnnotateColorDialog", "Annotation Color"));
+            setWindowFlags(Qt::Dialog | Qt::WindowCloseButtonHint);
+
+            connect(_p->buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
+        }
+
+        AnnotateColorDialog::~AnnotateColorDialog()
+        {}
 
     } // namespace ViewLib
 } // namespace djv

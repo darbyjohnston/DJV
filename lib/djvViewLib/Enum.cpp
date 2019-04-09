@@ -415,8 +415,22 @@ namespace djv
                 qApp->translate("djv::ViewLib::Enum", "Tool/Color Picker") <<
                 qApp->translate("djv::ViewLib::Enum", "Tool/Histogram") <<
                 qApp->translate("djv::ViewLib::Enum", "Tool/Information") <<
-
+                    
                 qApp->translate("djv::ViewLib::Enum", "Annotate/Annotate Tool") <<
+                qApp->translate("djv::ViewLib::Enum", "Annotate/Pen") <<
+                qApp->translate("djv::ViewLib::Enum", "Annotate/Rectangle") <<
+                qApp->translate("djv::ViewLib::Enum", "Annotate/Circle") <<
+                qApp->translate("djv::ViewLib::Enum", "Annotate/Color") <<
+                qApp->translate("djv::ViewLib::Enum", "Annotate/Line Width Increase") <<
+                qApp->translate("djv::ViewLib::Enum", "Annotate/Line Width Decrease") <<
+                qApp->translate("djv::ViewLib::Enum", "Annotate/Undo Drawing") <<
+                qApp->translate("djv::ViewLib::Enum", "Annotate/Redo Drawing") <<
+                qApp->translate("djv::ViewLib::Enum", "Annotate/Clear Drawing") <<
+                qApp->translate("djv::ViewLib::Enum", "Annotate/New") <<
+                qApp->translate("djv::ViewLib::Enum", "Annotate/Delete") <<
+                qApp->translate("djv::ViewLib::Enum", "Annotate/Next") <<
+                qApp->translate("djv::ViewLib::Enum", "Annotate/Previous") <<
+                qApp->translate("djv::ViewLib::Enum", "Annotate/Export") <<
             
                 qApp->translate("djv::ViewLib::Enum", "Help/What's This?");
             DJV_ASSERT(data.count() == SHORTCUT_COUNT);

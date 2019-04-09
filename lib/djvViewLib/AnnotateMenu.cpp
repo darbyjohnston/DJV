@@ -49,6 +49,21 @@ namespace djv
             _p(new Private)
         {
             addAction(actions->action(AnnotateActions::ANNOTATE_TOOL));
+            addSeparator();
+            addActions(actions->group(AnnotateActions::PRIMITIVE_GROUP)->actions());
+            addAction(actions->action(AnnotateActions::COLOR));
+            addAction(actions->action(AnnotateActions::LINE_WIDTH_INC));
+            addAction(actions->action(AnnotateActions::LINE_WIDTH_DEC));
+            //addAction(actions->action(AnnotateActions::UNDO));
+            //addAction(actions->action(AnnotateActions::REDO));
+            addAction(actions->action(AnnotateActions::CLEAR));
+            addSeparator();
+            addAction(actions->action(AnnotateActions::NEW));
+            addAction(actions->action(AnnotateActions::DELETE));
+            addAction(actions->action(AnnotateActions::NEXT));
+            addAction(actions->action(AnnotateActions::PREV));
+            addSeparator();
+            addAction(actions->action(AnnotateActions::EXPORT));
 
             setTitle(qApp->translate("djv::ViewLib::AnnotateMenu", "&Annotate"));
         }

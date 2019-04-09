@@ -30,9 +30,16 @@
 #include <djvViewLib/AnnotateModel.h>
 
 #include <djvViewLib/AnnotateData.h>
+#include <djvViewLib/ViewContext.h>
+
+#include <djvUI/TimePrefs.h>
+
+#include <djvCore/Time.h>
 
 #include <QApplication>
 #include <QPointer>
+
+using namespace djv::Core;
 
 namespace djv
 {
@@ -41,12 +48,23 @@ namespace djv
         struct AnnotateModel::Private
         {
             QList<QPointer<Annotate::Data> > annotations;
+            FrameList frameList;
+            Speed speed;
         };
 
-        AnnotateModel::AnnotateModel(QObject * parent) :
+        AnnotateModel::AnnotateModel(const QPointer<ViewLib::ViewContext> & context, QObject * parent) :
             QAbstractItemModel(parent),
             _p(new Private)
-        {}
+        {
+            connect(
+                context->timePrefs(),
+                &UI::TimePrefs::unitsChanged,
+                [this](Time::UNITS)
+            {
+                beginResetModel();
+                endResetModel();
+            });
+        }
         
         AnnotateModel::~AnnotateModel()
         {}
@@ -99,7 +117,16 @@ namespace djv
                 switch (column)
                 {
                 case 0:
-                    return _p->annotations[row] ? _p->annotations[row]->frame() : 0;
+                {
+                    qint64 index = _p->annotations[row] ? _p->annotations[row]->frame() : 0;
+                    qint64 frame = 0;
+                    if (index >= 0 &&
+                        index < static_cast<qint64>(_p->frameList.count()))
+                    {
+                        frame = _p->frameList[index];
+                    }
+                    return Time::frameToString(frame, _p->speed);
+                }
                 case 1:
                 {
                     QStringList split;
@@ -162,6 +189,20 @@ namespace djv
             {
                 _p->annotations.push_back(i);
             }
+            endResetModel();
+        }
+
+        void AnnotateModel::setFrameList(const FrameList & value)
+        {
+            beginResetModel();
+            _p->frameList = value;
+            endResetModel();
+        }
+
+        void AnnotateModel::setSpeed(const Speed & value)
+        {
+            beginResetModel();
+            _p->speed = value;
             endResetModel();
         }
 

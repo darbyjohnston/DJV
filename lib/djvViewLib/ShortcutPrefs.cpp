@@ -85,10 +85,10 @@ namespace djv
                 UI::Shortcut(Enum::shortcutLabels()[Enum::SHORTCUT_WINDOW_INFO_VISIBLE], QKeySequence()) <<
                 UI::Shortcut(Enum::shortcutLabels()[Enum::SHORTCUT_WINDOW_DETACH_CONTROLS], QKeySequence("Ctrl+T")) <<
 
-                UI::Shortcut(Enum::shortcutLabels()[Enum::SHORTCUT_VIEW_LEFT], QKeySequence("Left")) <<
-                UI::Shortcut(Enum::shortcutLabels()[Enum::SHORTCUT_VIEW_RIGHT], QKeySequence("Right")) <<
-                UI::Shortcut(Enum::shortcutLabels()[Enum::SHORTCUT_VIEW_UP], QKeySequence("Up")) <<
-                UI::Shortcut(Enum::shortcutLabels()[Enum::SHORTCUT_VIEW_DOWN], QKeySequence("Down")) <<
+                UI::Shortcut(Enum::shortcutLabels()[Enum::SHORTCUT_VIEW_LEFT], QKeySequence()) <<
+                UI::Shortcut(Enum::shortcutLabels()[Enum::SHORTCUT_VIEW_RIGHT], QKeySequence()) <<
+                UI::Shortcut(Enum::shortcutLabels()[Enum::SHORTCUT_VIEW_UP], QKeySequence()) <<
+                UI::Shortcut(Enum::shortcutLabels()[Enum::SHORTCUT_VIEW_DOWN], QKeySequence()) <<
                 UI::Shortcut(Enum::shortcutLabels()[Enum::SHORTCUT_VIEW_CENTER], QKeySequence(Qt::Key_Insert)) <<
                 UI::Shortcut(Enum::shortcutLabels()[Enum::SHORTCUT_VIEW_ZOOM_IN], QKeySequence("=")) <<
                 UI::Shortcut(Enum::shortcutLabels()[Enum::SHORTCUT_VIEW_ZOOM_OUT], QKeySequence("-")) <<
@@ -166,6 +166,20 @@ namespace djv
                 UI::Shortcut(Enum::shortcutLabels()[Enum::SHORTCUT_TOOL_INFO], QKeySequence("4")) <<
 
                 UI::Shortcut(Enum::shortcutLabels()[Enum::SHORTCUT_ANNOTATE_TOOL], QKeySequence("Ctrl+A")) <<
+                UI::Shortcut(Enum::shortcutLabels()[Enum::SHORTCUT_ANNOTATE_PEN], QKeySequence()) <<
+                UI::Shortcut(Enum::shortcutLabels()[Enum::SHORTCUT_ANNOTATE_RECTANGLE], QKeySequence()) <<
+                UI::Shortcut(Enum::shortcutLabels()[Enum::SHORTCUT_ANNOTATE_CIRCLE], QKeySequence()) <<
+                UI::Shortcut(Enum::shortcutLabels()[Enum::SHORTCUT_ANNOTATE_COLOR], QKeySequence()) <<
+                UI::Shortcut(Enum::shortcutLabels()[Enum::SHORTCUT_ANNOTATE_LINE_WIDTH_INC], QKeySequence()) <<
+                UI::Shortcut(Enum::shortcutLabels()[Enum::SHORTCUT_ANNOTATE_LINE_WIDTH_DEC], QKeySequence()) <<
+                UI::Shortcut(Enum::shortcutLabels()[Enum::SHORTCUT_ANNOTATE_UNDO], QKeySequence()) <<
+                UI::Shortcut(Enum::shortcutLabels()[Enum::SHORTCUT_ANNOTATE_REDO], QKeySequence()) <<
+                UI::Shortcut(Enum::shortcutLabels()[Enum::SHORTCUT_ANNOTATE_CLEAR], QKeySequence()) <<
+                UI::Shortcut(Enum::shortcutLabels()[Enum::SHORTCUT_ANNOTATE_NEW], QKeySequence()) <<
+                UI::Shortcut(Enum::shortcutLabels()[Enum::SHORTCUT_ANNOTATE_DELETE], QKeySequence()) <<
+                UI::Shortcut(Enum::shortcutLabels()[Enum::SHORTCUT_ANNOTATE_NEXT], QKeySequence()) <<
+                UI::Shortcut(Enum::shortcutLabels()[Enum::SHORTCUT_ANNOTATE_PREV], QKeySequence()) <<
+                UI::Shortcut(Enum::shortcutLabels()[Enum::SHORTCUT_ANNOTATE_EXPORT], QKeySequence()) <<
 
                 UI::Shortcut(Enum::shortcutLabels()[Enum::SHORTCUT_HELP_WHATS_THIS], QKeySequence("F1"));
 

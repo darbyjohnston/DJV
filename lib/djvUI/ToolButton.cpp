@@ -204,6 +204,7 @@ namespace djv
                 setCheckable(_p->defaultAction->isCheckable());
                 setChecked(_p->defaultAction->isChecked());
                 setAutoRepeat(_p->defaultAction->autoRepeat());
+                setEnabled(_p->defaultAction->isEnabled());
             }
         }
 
