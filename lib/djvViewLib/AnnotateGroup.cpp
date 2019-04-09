@@ -48,6 +48,9 @@
 #include <djvUI/QuestionDialog.h>
 #include <djvUI/StylePrefs.h>
 
+#include <djvCore/FileIO.h>
+#include <djvCore/PicoJSON.h>
+
 #include <QApplication>
 #include <QDockWidget>
 #include <QStyle>
@@ -68,6 +71,7 @@ namespace djv
                 lineWidth(context->annotatePrefs()->lineWidth())
             {}
 
+            FileInfo                 fileInfo;
             QList<Annotate::Data *>  annotations;
             QList<Annotate::Data *>  frameAnnotations;
             QPointer<Annotate::Data> currentAnnotation;
@@ -210,9 +214,12 @@ namespace djv
             connect(
                 _p->actions->action(AnnotateActions::EXPORT),
                 &QAction::triggered,
-                [this]
+                [this, context]
             {
-                exportAnnotations();
+                if (QDialog::Accepted == AnnotateExportDialog(context).exec())
+                {
+                    exportAnnotations();
+                }
             });
 
             connect(
@@ -235,7 +242,21 @@ namespace djv
                 &FileGroup::fileInfoChanged,
                 [this](const FileInfo & value)
             {
-                deleteAllAnnotations();
+                if (!_p->fileInfo.isEmpty() && _p->annotations.count())
+                {
+                    saveAnnotations();
+                    deleteAllAnnotations();
+                }
+                _p->fileInfo = FileInfo();
+                if (!value.isEmpty())
+                {
+                    FileInfo fileInfo(value);
+                    fileInfo.setNumber(QString());
+                    fileInfo.setExtension(QString());
+                    _p->fileInfo.setFileName(fileInfo.fileName());
+                    _p->fileInfo.setExtension(".annotations.json");
+                    loadAnnotations();
+                }
             });
 
             auto playbackGroup = session->playbackGroup();
@@ -318,7 +339,12 @@ namespace djv
         }
 
         AnnotateGroup::~AnnotateGroup()
-        {}
+        {
+            if (!_p->fileInfo.isEmpty() && _p->annotations.count())
+            {
+                saveAnnotations();
+            }
+        }
 
         const QList<Annotate::Data *> & AnnotateGroup::annotations() const
         {
@@ -387,6 +413,15 @@ namespace djv
             Q_EMIT annotationAdded(annotation);
         }
 
+        void AnnotateGroup::setCurrentAnnotation(Annotate::Data * value)
+        {
+            if (value == _p->currentAnnotation)
+                return;
+            _p->currentAnnotation = value;
+            update();
+            Q_EMIT currentAnnotationChanged(_p->currentAnnotation);
+        }
+
         void AnnotateGroup::deleteAnnotation()
         {
             int index = _p->annotations.indexOf(_p->currentAnnotation);
@@ -431,15 +466,6 @@ namespace djv
             Q_EMIT currentAnnotationChanged(_p->currentAnnotation);
             Q_EMIT annotationsChanged(_p->annotations);
             Q_EMIT frameAnnotationsChanged(_p->frameAnnotations);
-        }
-
-        void AnnotateGroup::setCurrentAnnotation(Annotate::Data * value)
-        {
-            if (value == _p->currentAnnotation)
-                return;
-            _p->currentAnnotation = value;
-            update();
-            Q_EMIT currentAnnotationChanged(_p->currentAnnotation);
         }
 
         void AnnotateGroup::nextAnnotation()
@@ -505,11 +531,65 @@ namespace djv
             }
         }
 
+        void AnnotateGroup::loadAnnotations()
+        {
+            _p->fileInfo.stat();
+            if (_p->fileInfo.exists())
+            {
+                try
+                {
+                    FileIO fileIO;
+                    fileIO.open(_p->fileInfo.fileName(), FileIO::MODE::READ);
+                    picojson::value v;
+                    const char * p = reinterpret_cast<const char *>(fileIO.mmapP());
+                    const char * end = reinterpret_cast<const char *>(fileIO.mmapEnd());
+                    std::string error;
+                    picojson::parse(v, p, end, &error);
+                    if (!error.empty())
+                    {
+                        throw Error(QString::fromStdString(error));
+                    }
+                }
+                catch (const Error & error)
+                {
+                    Error e(error);
+                    e.add(QString("Cannot load annotations file \"%1\"").arg(_p->fileInfo.fileName()));
+                    context()->printError(e);
+                }
+            }
+        }
+
+        void AnnotateGroup::saveAnnotations()
+        {
+            try
+            {
+                FileIO fileIO;
+                fileIO.open(_p->fileInfo.fileName(), FileIO::MODE::WRITE);
+                picojson::value value(picojson::object_type, true);
+                auto & object = value.get<picojson::object>();
+                object["Summary"] = picojson::value("");
+                picojson::value frames(picojson::object_type, true);
+                object["Frames"] = frames;
+                object = frames.get<picojson::object>();
+                Q_FOREACH(auto i, _p->annotations)
+                {
+                    QString s;
+                    s.setNum(i->frame());
+                    object[s.toLatin1().data()] = picojson::value("");
+                }
+                PicoJSON::write(value, fileIO);
+                fileIO.set("\n");
+            }
+            catch (const Error & error)
+            {
+                Error e(error);
+                e.add(QString("Cannot save annotations file \"%1\"").arg(_p->fileInfo.fileName()));
+                context()->printError(e);
+            }
+        }
+
         void AnnotateGroup::exportAnnotations()
         {
-            if (QDialog::Accepted == AnnotateExportDialog(context()).exec())
-            {
-            }
         }
 
         void AnnotateGroup::pickPressedCallback(const glm::ivec2 & in)

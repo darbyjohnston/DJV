@@ -87,7 +87,8 @@ set(source
     System.cpp
     Time.cpp
     Timer.cpp
-    User.cpp)
+    User.cpp
+    Vector.cpp)
 
 QT5_WRAP_CPP(mocSource ${mocHeader})
 QT5_ADD_RESOURCES(rccSource djvCore.qrc)

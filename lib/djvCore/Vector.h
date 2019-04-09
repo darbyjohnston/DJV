@@ -30,6 +30,7 @@
 #pragma once
 
 #include <djvCore/Debug.h>
+#include <djvCore/PicoJSON.h>
 
 #include <QMetaType>
 #include <QStringList>
@@ -45,6 +46,18 @@ namespace djv
 #else
     typedef glm::qualifier precision;
 #endif
+
+    picojson::value toJSON(const glm::ivec2 &);
+    picojson::value toJSON(const glm::vec2 &);
+    picojson::value toJSON(const glm::vec3 &);
+    picojson::value toJSON(const glm::vec4 &);
+
+    //! Throws:
+    //! - Error
+    void fromJSON(const picojson::value &, glm::ivec2 &);
+    void fromJSON(const picojson::value &, glm::vec2 &);
+    void fromJSON(const picojson::value &, glm::vec3 &);
+    void fromJSON(const picojson::value &, glm::vec4 &);
 
     template<typename T, precision P = glm::defaultp>
     inline QStringList & operator >> (QStringList &, glm::tvec2<T, P> &);

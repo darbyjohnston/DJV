@@ -81,32 +81,8 @@ namespace djv
             //! Create a new annotation.
             void newAnnotation(const QString & text = QString());
 
-            //! Delete the current annotation.
-            void deleteAnnotation();
-
-            //! Delete all of the annotations.
-            void deleteAllAnnotations();
-
             //! Set the current annotation.
             void setCurrentAnnotation(djv::ViewLib::Annotate::Data *);
-
-            //! Go to the next annotation.
-            void nextAnnotation();
-
-            //! Go to the previous annotation.
-            void prevAnnotation();
-
-            //! Undo the last annotation drawing.
-            void undoDrawing();
-
-            //! Redo the last annotation drawing.
-            void redoDrawing();
-
-            //! Clear the current annotation's drawing.
-            void clearDrawing();
-
-            //! Export the annotations.
-            void exportAnnotations();
 
         Q_SIGNALS:
             //! This signal is emitted when the list of annotations is changed.
@@ -125,6 +101,17 @@ namespace djv
             void annotationsVisibleChanged(bool);
 
         private Q_SLOTS:
+            void deleteAnnotation();
+            void deleteAllAnnotations();
+            void nextAnnotation();
+            void prevAnnotation();
+            void undoDrawing();
+            void redoDrawing();
+            void clearDrawing();
+            void loadAnnotations();
+            void saveAnnotations();
+            void exportAnnotations();
+
             void pickPressedCallback(const glm::ivec2 &);
             void pickReleasedCallback(const glm::ivec2 &);
             void pickMovedCallback(const glm::ivec2 &);
