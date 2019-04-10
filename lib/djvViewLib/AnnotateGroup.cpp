@@ -238,8 +238,8 @@ namespace djv
                 if (!_p->fileInfo.isEmpty() && (_p->annotations.count() || !_p->summary.isEmpty()))
                 {
                     saveAnnotations();
-                    deleteAllAnnotations();
                 }
+                deleteAllAnnotations();
                 setSummary(QString());
                 _p->fileInfo = value;
                 _p->jsonFileInfo = FileInfo();
