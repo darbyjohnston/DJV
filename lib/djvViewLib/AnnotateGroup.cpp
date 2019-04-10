@@ -235,7 +235,7 @@ namespace djv
                 &FileGroup::fileInfoChanged,
                 [this](const FileInfo & value)
             {
-                if (!_p->fileInfo.isEmpty() && (_p->annotations.count() || !_p->summary.isEmpty()))
+                if (doSave())
                 {
                     saveAnnotations();
                 }
@@ -250,6 +250,7 @@ namespace djv
                     fileInfo.setExtension(QString());
                     _p->jsonFileInfo.setFileName(fileInfo.fileName());
                     _p->jsonFileInfo.setExtension(".annotations.json");
+                    _p->jsonFileInfo.stat();
                     loadAnnotations();
                 }
             });
@@ -349,7 +350,7 @@ namespace djv
 
         AnnotateGroup::~AnnotateGroup()
         {
-            if (!_p->jsonFileInfo.isEmpty() && (_p->annotations.count() || !_p->summary.isEmpty()))
+            if (doSave())
             {
                 saveAnnotations();
             }
@@ -555,7 +556,6 @@ namespace djv
 
         void AnnotateGroup::loadAnnotations()
         {
-            _p->jsonFileInfo.stat();
             if (_p->jsonFileInfo.exists())
             {
                 try
@@ -571,78 +571,82 @@ namespace djv
                     {
                         throw Error(QString::fromStdString(error));
                     }
-                    if (v.is<picojson::object>())
+                    for (const auto & i : v.get<picojson::object>())
                     {
-                        for (const auto & i : v.get<picojson::object>())
+                        if ("summary" == i.first)
                         {
-                            if ("summary" == i.first)
+                            std::string s;
+                            djv::fromJSON(i.second, s);
+                            setSummary(QString::fromStdString(s));
+                        }
+                        else if ("frames" == i.first)
+                        {
+                            for (const auto & j : i.second.get<picojson::array>())
                             {
-                                setSummary(QString::fromStdString(i.second.get<std::string>()));
-                            }
-                            else if ("frames" == i.first)
-                            {
-                                for (const auto & j : i.second.get<picojson::object>())
+                                qint64 frameIndex = 0;
+                                qint64 frameNumber = 0;
+                                QString text;
+                                std::vector<Annotate::AbstractPrimitive *> primitives;
+                                for (const auto & k : j.get<picojson::object>())
                                 {
-                                    qint64 frameIndex = 0;
-                                    qint64 frameNumber = QString::fromStdString(j.first).toInt();
-                                    QString text;
-                                    std::vector<Annotate::AbstractPrimitive *> primitives;
-                                    for (const auto & k : j.second.get<picojson::object>())
+                                    if ("frameIndex" == k.first)
                                     {
-                                        if ("frameIndex" == k.first)
+                                        int v = 0;
+                                        djv::fromJSON(k.second, v);
+                                        frameIndex = v;
+                                    }
+                                    if ("frameNumber" == k.first)
+                                    {
+                                        int v = 0;
+                                        djv::fromJSON(k.second, v);
+                                        frameNumber = v;
+                                    }
+                                    else if ("text" == k.first)
+                                    {
+                                        std::string s;
+                                        djv::fromJSON(k.second, s);
+                                        text = QString::fromStdString(s);
+                                    }
+                                    else if ("primitives" == k.first)
+                                    {
+                                        for (const auto & l : k.second.get<picojson::array>())
                                         {
-                                            frameIndex = QString::fromStdString(k.second.get<std::string>()).toInt();
-                                        }
-                                        else if ("text" == k.first)
-                                        {
-                                            text = QString::fromStdString(k.second.get<std::string>());
-                                        }
-                                        else if ("primitives" == k.first)
-                                        {
-                                            if (k.second.is<picojson::array>())
+                                            Annotate::AbstractPrimitive * primitive = nullptr;
+                                            for (const auto & m : l.get<picojson::object>())
                                             {
-                                                for (const auto & l : k.second.get<picojson::array>())
+                                                if ("type" == m.first)
                                                 {
-                                                    if (l.is<picojson::object>())
+                                                    std::string type;
+                                                    djv::fromJSON(m.second, type);
+                                                    if ("freehandLine" == type)
                                                     {
-                                                        Annotate::AbstractPrimitive * primitive = nullptr;
-                                                        for (const auto & m : l.get<picojson::object>())
-                                                        {
-                                                            if ("type" == m.first)
-                                                            {
-                                                                const auto type = m.second.get<std::string>();
-                                                                if ("freehandLine" == type)
-                                                                {
-                                                                    primitive = new Annotate::FreehandLinePrimitive;
-                                                                }
-                                                                else if ("line" == type)
-                                                                {
-                                                                    primitive = new Annotate::LinePrimitive;
-                                                                }
-                                                                else if ("rectangle" == type)
-                                                                {
-                                                                    primitive = new Annotate::RectanglePrimitive;
-                                                                }
-                                                                else if ("ellipse" == type)
-                                                                {
-                                                                    primitive = new Annotate::EllipsePrimitive;
-                                                                }
-                                                            }
-                                                        }
-                                                        if (primitive)
-                                                        {
-                                                            primitive->fromJSON(l);
-                                                            primitives.push_back(primitive);
-                                                        }
+                                                        primitive = new Annotate::FreehandLinePrimitive;
+                                                    }
+                                                    else if ("line" == type)
+                                                    {
+                                                        primitive = new Annotate::LinePrimitive;
+                                                    }
+                                                    else if ("rectangle" == type)
+                                                    {
+                                                        primitive = new Annotate::RectanglePrimitive;
+                                                    }
+                                                    else if ("ellipse" == type)
+                                                    {
+                                                        primitive = new Annotate::EllipsePrimitive;
                                                     }
                                                 }
                                             }
+                                            if (primitive)
+                                            {
+                                                primitive->fromJSON(l);
+                                                primitives.push_back(primitive);
+                                            }
                                         }
                                     }
-                                    auto data = new Annotate::Data(frameIndex, frameNumber, text);
-                                    data->setPrimitives(primitives);
-                                    _p->annotations.push_back(data);
                                 }
+                                auto data = new Annotate::Data(frameIndex, frameNumber, text);
+                                data->setPrimitives(primitives);
+                                _p->annotations.push_back(data);
                             }
                         }
                     }
@@ -677,6 +681,12 @@ namespace djv
                     e.add(QString("Cannot load annotations file \"%1\"").arg(_p->jsonFileInfo.fileName()));
                     context()->printError(e);
                 }
+                catch (const std::exception & error)
+                {
+                    Error e(error.what());
+                    e.add(QString("Cannot load annotations file \"%1\"").arg(_p->jsonFileInfo.fileName()));
+                    context()->printError(e);
+                }
             }
         }
 
@@ -689,13 +699,15 @@ namespace djv
                 picojson::value root(picojson::object_type, true);
                 root.get<picojson::object>()["path"] = picojson::value(PicoJSON::escape(_p->fileInfo.fileName().toStdString()));
                 root.get<picojson::object>()["summary"] = picojson::value(PicoJSON::escape(_p->summary.toStdString()));
-                picojson::value frames(picojson::object_type, true);
+                picojson::value frames(picojson::array_type, true);
                 Q_FOREACH(auto i, _p->annotations)
                 {
                     picojson::value frame(picojson::object_type, true);
                     QString s;
                     s.setNum(i->frameIndex());
                     frame.get<picojson::object>()["frameIndex"] = picojson::value(s.toStdString());
+                    s.setNum(i->frameNumber());
+                    frame.get<picojson::object>()["frameNumber"] = picojson::value(s.toStdString());
                     frame.get<picojson::object>()["text"] = picojson::value(PicoJSON::escape(i->text().toStdString()));
                     picojson::value primitives(picojson::array_type, true);
                     size_t k = 0;
@@ -705,8 +717,7 @@ namespace djv
                         ++k;
                     }
                     frame.get<picojson::object>()["primitives"] = primitives;
-                    s.setNum(i->frameNumber());
-                    frames.get<picojson::object>()[s.toLatin1().data()] = frame;
+                    frames.get<picojson::array>().push_back(frame);
                 }
                 root.get<picojson::object>()["frames"] = frames;
                 PicoJSON::write(root, fileIO);
@@ -715,6 +726,12 @@ namespace djv
             catch (const Error & error)
             {
                 Error e(error);
+                e.add(QString("Cannot save annotations file \"%1\"").arg(_p->jsonFileInfo.fileName()));
+                context()->printError(e);
+            }
+            catch (const std::exception & error)
+            {
+                Error e(error.what());
                 e.add(QString("Cannot save annotations file \"%1\"").arg(_p->jsonFileInfo.fileName()));
                 context()->printError(e);
             }
@@ -780,6 +797,18 @@ namespace djv
             _p->actions->group(AnnotateActions::PRIMITIVE_GROUP)->actions()[_p->primitive]->setChecked(true);
 
             _p->annotateToolDockWidget->setVisible(_p->actions->action(AnnotateActions::SHOW)->isChecked());
+        }
+
+        bool AnnotateGroup::doSave() const
+        {
+            bool out = false;
+            if (!_p->jsonFileInfo.isEmpty())
+            {
+                out |= !_p->annotations.isEmpty();
+                out |= !_p->summary.isEmpty();
+                out |= _p->jsonFileInfo.exists();
+            }
+            return out;
         }
 
         glm::ivec2 AnnotateGroup::transformMousePos(const glm::ivec2 & value) const

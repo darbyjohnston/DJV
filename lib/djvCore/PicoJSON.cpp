@@ -64,6 +64,16 @@ namespace djv
                         out.push_back('\\');
                         out.push_back('n');
                     }
+                    else if ('\r' == i)
+                    {
+                        out.push_back('\\');
+                        out.push_back('r');
+                    }
+                    else if ('\t' == i)
+                    {
+                        out.push_back('\\');
+                        out.push_back('t');
+                    }
                     else
                     {
                         out.push_back(i);

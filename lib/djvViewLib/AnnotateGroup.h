@@ -125,6 +125,7 @@ namespace djv
             void update();
 
         private:
+            bool doSave() const;
             glm::ivec2 transformMousePos(const glm::ivec2 &) const;
 
             void colorUpdate();
