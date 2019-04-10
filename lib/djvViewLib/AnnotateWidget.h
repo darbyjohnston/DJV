@@ -29,12 +29,11 @@
 
 #pragma once
 
-#include <djvViewLib/AbstractTool.h>
-#include <djvViewLib/Enum.h>
+#include <djvViewLib/ViewLib.h>
 
-#include <djvAV/Color.h>
+#include <djvCore/Util.h>
 
-#include <djvCore/Vector.h>
+#include <QWidget>
 
 #include <memory>
 
@@ -44,6 +43,8 @@ namespace djv
     {
         class AnnotateActions;
         class AnnotateGroup;
+        class Session;
+        class ViewContext;
 
         namespace Annotate
         {
@@ -51,22 +52,79 @@ namespace djv
         
         } // namespace Annotate
 
-        //! This class provides the annotation tool.
-        class AnnotateTool : public AbstractTool
+        //! This class provides the annotation edit widget.
+        class AnnotateEditWidget : public QWidget
         {
             Q_OBJECT
 
         public:
-            explicit AnnotateTool(
+            explicit AnnotateEditWidget(
                 const QPointer<AnnotateActions> &,
                 const QPointer<AnnotateGroup> &,
                 const QPointer<Session> &,
                 const QPointer<ViewContext> &,
                 QWidget * parent = nullptr);
-            ~AnnotateTool() override;
+            ~AnnotateEditWidget() override;
+
+        protected:
+            bool event(QEvent *) override;
+
+        private Q_SLOTS:
+            void primitiveCallback(int, bool);
+            void lineWidthCallback(int);
+
+            void styleUpdate();
+            void modelUpdate();
+            void widgetUpdate();
 
         private:
-            DJV_PRIVATE_COPY(AnnotateTool);
+            DJV_PRIVATE_COPY(AnnotateEditWidget);
+
+            struct Private;
+            std::unique_ptr<Private> _p;
+        };
+
+        //! This class provides the annotation summary widget.
+        class AnnotateSummaryWidget : public QWidget
+        {
+            Q_OBJECT
+
+        public:
+            AnnotateSummaryWidget(
+                const QPointer<AnnotateGroup> &,
+                const QPointer<Session> &,
+                const QPointer<ViewContext> &,
+                QWidget * parent = nullptr);
+            ~AnnotateSummaryWidget() override;
+
+        private Q_SLOTS:
+            void widgetUpdate();
+
+        private:
+            DJV_PRIVATE_COPY(AnnotateSummaryWidget);
+
+            struct Private;
+            std::unique_ptr<Private> _p;
+        };
+
+        //! This class provides the annotation export widget.
+        class AnnotateExportWidget : public QWidget
+        {
+            Q_OBJECT
+
+        public:
+            AnnotateExportWidget(
+                const QPointer<AnnotateGroup> &,
+                const QPointer<Session> &,
+                const QPointer<ViewContext> &,
+                QWidget * parent = nullptr);
+            ~AnnotateExportWidget() override;
+
+        private Q_SLOTS:
+            void widgetUpdate();
+
+        private:
+            DJV_PRIVATE_COPY(AnnotateExportWidget);
 
             struct Private;
             std::unique_ptr<Private> _p;

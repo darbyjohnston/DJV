@@ -69,7 +69,6 @@ namespace djv
 
         public Q_SLOTS:
             void setAnnotations(const QList<QPointer<djv::ViewLib::Annotate::Data> > &);
-            void setFrameList(const djv::Core::FrameList &);
             void setSpeed(const djv::Core::Speed &);
 
         private:

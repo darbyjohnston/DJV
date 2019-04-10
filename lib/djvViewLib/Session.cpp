@@ -210,7 +210,7 @@ namespace djv
             {
                 if (value)
                 {
-                    _p->playbackGroup->setFrame(value->frame());
+                    _p->playbackGroup->setFrame(value->frameIndex());
                 }
             });
             connect(

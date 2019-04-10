@@ -71,7 +71,6 @@ namespace djv
             _actions[DELETE_ALL]->setText(qApp->translate("djv::ViewLib::AnnotateActions", "Delete A&ll Annotations"));
             _actions[NEXT]->setText(qApp->translate("djv::ViewLib::AnnotateActions", "Ne&xt Annotation"));
             _actions[PREV]->setText(qApp->translate("djv::ViewLib::AnnotateActions", "&Previous Annotation"));
-            _actions[EXPORT]->setText(qApp->translate("djv::ViewLib::AnnotateActions", "Expor&t Annotations"));
 
             for (int i = 0; i < GROUP_COUNT; ++i)
             {
@@ -214,9 +213,6 @@ namespace djv
                     "Go to the previous annotation<br><br>"
                     "Keyboard shortcut: %1<br><br>"
                     "<a href=\"v\">Documentation</a>").arg(shortcuts[Enum::SHORTCUT_ANNOTATE_PREV].value.toString()));
-
-            _actions[EXPORT]->setIcon(context()->iconLibrary()->icon("djv/UI/ExportIcon"));
-            _actions[EXPORT]->setShortcut(shortcuts[Enum::SHORTCUT_ANNOTATE_EXPORT].value);
 
             const auto primitiveIcons = std::vector<QString>(
             {

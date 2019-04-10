@@ -43,17 +43,18 @@ namespace djv
     {
         namespace Annotate
         {
-            AbstractPrimitive::AbstractPrimitive(const AV::Color & color, size_t lineWidth) :
-                _color(color),
-                _lineWidth(lineWidth)
-            {}
-
             AbstractPrimitive::~AbstractPrimitive()
             {}
 
-            FreehandLinePrimitive::FreehandLinePrimitive(const AV::Color & color, size_t lineWidth) :
-                AbstractPrimitive(color, lineWidth)
-            {}
+            void AbstractPrimitive::setColor(const AV::Color & value)
+            {
+                _color = value;
+            }
+
+            void AbstractPrimitive::setLineWidth(size_t value)
+            {
+                _lineWidth = value;
+            }
 
             FreehandLinePrimitive::~FreehandLinePrimitive()
             {}
@@ -91,9 +92,52 @@ namespace djv
                 _points.push_back(value);
             }
 
-            LinePrimitive::LinePrimitive(const AV::Color & color, size_t lineWidth) :
-                AbstractPrimitive(color, lineWidth)
-            {}
+            picojson::value FreehandLinePrimitive::toJSON() const
+            {
+                picojson::value out(picojson::object_type, true);
+                out.get<picojson::object>()["type"] = picojson::value("freehandLine");
+                out.get<picojson::object>()["color"] = djv::toJSON(_color);
+                out.get<picojson::object>()["lineWidth"] = djv::toJSON(static_cast<int>(_lineWidth));
+                picojson::value points(picojson::array_type, true);
+                for (const auto & i : _points)
+                {
+                    points.get<picojson::array>().push_back(djv::toJSON(i));
+                }
+                out.get<picojson::object>()["points"] = points;
+                return out;
+            }
+
+            void FreehandLinePrimitive::fromJSON(const picojson::value & value)
+            {
+                if (value.is<picojson::object>())
+                {
+                    for (const auto & i : value.get<picojson::object>())
+                    {
+                        if ("color" == i.first)
+                        {
+                            djv::fromJSON(i.second, _color);
+                        }
+                        else if ("lineWidth" == i.first)
+                        {
+                            int lineWidth = 0;
+                            djv::fromJSON(i.second, lineWidth);
+                            _lineWidth = static_cast<size_t>(Math::clamp(lineWidth, 1, 100));
+                        }
+                        else if ("points" == i.first)
+                        {
+                            if (i.second.is<picojson::array>())
+                            {
+                                for (const auto & j : i.second.get<picojson::array>())
+                                {
+                                    glm::ivec2 point(0, 0);
+                                    djv::fromJSON(j, point);
+                                    _points.push_back(point);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
 
             LinePrimitive::~LinePrimitive()
             {}
@@ -138,9 +182,52 @@ namespace djv
                 }
             }
 
-            RectanglePrimitive::RectanglePrimitive(const AV::Color & color, size_t lineWidth) :
-                AbstractPrimitive(color, lineWidth)
-            {}
+            picojson::value LinePrimitive::toJSON() const
+            {
+                picojson::value out(picojson::object_type, true);
+                out.get<picojson::object>()["type"] = picojson::value("line");
+                out.get<picojson::object>()["color"] = djv::toJSON(_color);
+                out.get<picojson::object>()["lineWidth"] = djv::toJSON(static_cast<int>(_lineWidth));
+                picojson::value points(picojson::array_type, true);
+                for (const auto & i : _points)
+                {
+                    points.get<picojson::array>().push_back(djv::toJSON(i));
+                }
+                out.get<picojson::object>()["points"] = points;
+                return out;
+            }
+
+            void LinePrimitive::fromJSON(const picojson::value & value)
+            {
+                if (value.is<picojson::object>())
+                {
+                    for (const auto & i : value.get<picojson::object>())
+                    {
+                        if ("color" == i.first)
+                        {
+                            djv::fromJSON(i.second, _color);
+                        }
+                        else if ("lineWidth" == i.first)
+                        {
+                            int lineWidth = 0;
+                            djv::fromJSON(i.second, lineWidth);
+                            _lineWidth = static_cast<size_t>(Math::clamp(lineWidth, 1, 100));
+                        }
+                        else if ("points" == i.first)
+                        {
+                            if (i.second.is<picojson::array>())
+                            {
+                                for (const auto & j : i.second.get<picojson::array>())
+                                {
+                                    glm::ivec2 point(0, 0);
+                                    djv::fromJSON(j, point);
+                                    _points.push_back(point);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
 
             RectanglePrimitive::~RectanglePrimitive()
             {}
@@ -176,9 +263,52 @@ namespace djv
                 }
             }
 
-            EllipsePrimitive::EllipsePrimitive(const AV::Color & color, size_t lineWidth) :
-                AbstractPrimitive(color, lineWidth)
-            {}
+            picojson::value RectanglePrimitive::toJSON() const
+            {
+                picojson::value out(picojson::object_type, true);
+                out.get<picojson::object>()["type"] = picojson::value("rectangle");
+                out.get<picojson::object>()["color"] = djv::toJSON(_color);
+                out.get<picojson::object>()["lineWidth"] = djv::toJSON(static_cast<int>(_lineWidth));
+                picojson::value points(picojson::array_type, true);
+                for (const auto & i : _points)
+                {
+                    points.get<picojson::array>().push_back(djv::toJSON(i));
+                }
+                out.get<picojson::object>()["points"] = points;
+                return out;
+            }
+
+            void RectanglePrimitive::fromJSON(const picojson::value & value)
+            {
+                if (value.is<picojson::object>())
+                {
+                    for (const auto & i : value.get<picojson::object>())
+                    {
+                        if ("color" == i.first)
+                        {
+                            djv::fromJSON(i.second, _color);
+                        }
+                        else if ("lineWidth" == i.first)
+                        {
+                            int lineWidth = 0;
+                            djv::fromJSON(i.second, lineWidth);
+                            _lineWidth = static_cast<size_t>(Math::clamp(lineWidth, 1, 100));
+                        }
+                        else if ("points" == i.first)
+                        {
+                            if (i.second.is<picojson::array>())
+                            {
+                                for (const auto & j : i.second.get<picojson::array>())
+                                {
+                                    glm::ivec2 point(0, 0);
+                                    djv::fromJSON(j, point);
+                                    _points.push_back(point);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
 
             EllipsePrimitive::~EllipsePrimitive()
             {}
@@ -212,15 +342,68 @@ namespace djv
                 }
             }
 
-            Data::Data(qint64 frame, const QString & text, QObject * parent) :
+            picojson::value EllipsePrimitive::toJSON() const
+            {
+                picojson::value out(picojson::object_type, true);
+                out.get<picojson::object>()["type"] = picojson::value("ellipse");
+                out.get<picojson::object>()["color"] = djv::toJSON(_color);
+                out.get<picojson::object>()["lineWidth"] = djv::toJSON(static_cast<int>(_lineWidth));
+                picojson::value points(picojson::array_type, true);
+                for (const auto & i : _points)
+                {
+                    points.get<picojson::array>().push_back(djv::toJSON(i));
+                }
+                out.get<picojson::object>()["points"] = points;
+                return out;
+            }
+
+            void EllipsePrimitive::fromJSON(const picojson::value & value)
+            {
+                if (value.is<picojson::object>())
+                {
+                    for (const auto & i : value.get<picojson::object>())
+                    {
+                        if ("color" == i.first)
+                        {
+                            djv::fromJSON(i.second, _color);
+                        }
+                        else if ("lineWidth" == i.first)
+                        {
+                            int lineWidth = 0;
+                            djv::fromJSON(i.second, lineWidth);
+                            _lineWidth = static_cast<size_t>(Math::clamp(lineWidth, 1, 100));
+                        }
+                        else if ("points" == i.first)
+                        {
+                            if (i.second.is<picojson::array>())
+                            {
+                                for (const auto & j : i.second.get<picojson::array>())
+                                {
+                                    glm::ivec2 point(0, 0);
+                                    djv::fromJSON(j, point);
+                                    _points.push_back(point);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            Data::Data(qint64 frameIndex, qint64 frameNumber, const QString & text, QObject * parent) :
                 QObject(parent),
-                _frame(frame),
+                _frameIndex(frameIndex),
+                _frameNumber(frameNumber),
                 _text(text)
             {}
 
-            qint64 Data::frame() const
+            qint64 Data::frameIndex() const
             {
-                return _frame;
+                return _frameIndex;
+            }
+
+            qint64 Data::frameNumber() const
+            {
+                return _frameNumber;
             }
 
             const QString & Data::text() const
@@ -233,18 +416,15 @@ namespace djv
                 return _primitives;
             }
 
-            void Data::addPrimitive(Enum::ANNOTATE_PRIMITIVE primitive, const AV::Color & color, size_t lineWidth)
+            void Data::addPrimitive(AbstractPrimitive * primitive)
             {
-                AbstractPrimitive * p = nullptr;
-                switch (primitive)
-                {
-                case Enum::ANNOTATE_FREEHAND_LINE: p = new FreehandLinePrimitive(color, lineWidth); break;
-                case Enum::ANNOTATE_LINE:          p = new LinePrimitive(color, lineWidth); break;
-                case Enum::ANNOTATE_RECTANGLE:     p = new RectanglePrimitive(color, lineWidth); break;
-                case Enum::ANNOTATE_ELLIPSE:       p = new EllipsePrimitive(color, lineWidth); break;
-                default: break;
-                }
-                _primitives.push_back(p);
+                _primitives.push_back(primitive);
+                Q_EMIT primitivesChanged();
+            }
+
+            void Data::setPrimitives(const std::vector<AbstractPrimitive *> & value)
+            {
+                _primitives = value;
                 Q_EMIT primitivesChanged();
             }
 

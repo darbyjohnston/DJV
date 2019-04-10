@@ -63,8 +63,6 @@ namespace djv
             addAction(actions->action(AnnotateActions::DELETE_ALL));
             addAction(actions->action(AnnotateActions::NEXT));
             addAction(actions->action(AnnotateActions::PREV));
-            addSeparator();
-            addAction(actions->action(AnnotateActions::EXPORT));
 
             setTitle(qApp->translate("djv::ViewLib::AnnotateMenu", "&Annotate"));
         }

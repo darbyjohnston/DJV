@@ -34,6 +34,7 @@
 
 #include <djvAV/Color.h>
 
+#include <djvCore/PicoJSON.h>
 #include <djvCore/Vector.h>
 
 #include <QObject>
@@ -52,11 +53,17 @@ namespace djv
             class AbstractPrimitive
             {
             public:
-                AbstractPrimitive(const AV::Color &, size_t lineWidth);
                 virtual ~AbstractPrimitive() = 0;
+
+                void setColor(const AV::Color &);
+                void setLineWidth(size_t);
 
                 virtual void draw(QPainter &, const glm::ivec2 & size, const glm::ivec2 & viewPos, float viewZoom) = 0;
                 virtual void mouse(const glm::ivec2 &) = 0;
+                virtual picojson::value toJSON() const = 0;
+                //! Throws:
+                //! - Error
+                virtual void fromJSON(const picojson::value &) = 0;
 
             protected:
                 AV::Color _color;
@@ -67,11 +74,12 @@ namespace djv
             class FreehandLinePrimitive : public AbstractPrimitive
             {
             public:
-                FreehandLinePrimitive(const AV::Color &, size_t lineWidth);
                 ~FreehandLinePrimitive() override;
 
                 void draw(QPainter &, const glm::ivec2 & size, const glm::ivec2 & viewPos, float viewZoom) override;
                 void mouse(const glm::ivec2 &) override;
+                picojson::value toJSON() const override;
+                void fromJSON(const picojson::value &) override;
 
             private:
                 std::vector<glm::ivec2> _points;
@@ -81,11 +89,12 @@ namespace djv
             class LinePrimitive : public AbstractPrimitive
             {
             public:
-                LinePrimitive(const AV::Color &, size_t lineWidth);
                 ~LinePrimitive() override;
 
                 void draw(QPainter &, const glm::ivec2 & size, const glm::ivec2 & viewPos, float viewZoom) override;
                 void mouse(const glm::ivec2 &) override;
+                picojson::value toJSON() const override;
+                void fromJSON(const picojson::value &) override;
 
             private:
                 std::vector<glm::ivec2> _points;
@@ -95,11 +104,12 @@ namespace djv
             class RectanglePrimitive : public AbstractPrimitive
             {
             public:
-                RectanglePrimitive(const AV::Color &, size_t lineWidth);
                 ~RectanglePrimitive() override;
 
                 void draw(QPainter &, const glm::ivec2 & size, const glm::ivec2 & viewPos, float viewZoom) override;
                 void mouse(const glm::ivec2 &) override;
+                picojson::value toJSON() const override;
+                void fromJSON(const picojson::value &) override;
 
             private:
                 std::vector<glm::ivec2> _points;
@@ -109,11 +119,12 @@ namespace djv
             class EllipsePrimitive : public AbstractPrimitive
             {
             public:
-                EllipsePrimitive(const AV::Color &, size_t lineWidth);
                 ~EllipsePrimitive() override;
 
                 void draw(QPainter &, const glm::ivec2 & size, const glm::ivec2 & viewPos, float viewZoom) override;
                 void mouse(const glm::ivec2 &) override;
+                picojson::value toJSON() const override;
+                void fromJSON(const picojson::value &) override;
 
             private:
                 std::vector<glm::ivec2> _points;
@@ -125,14 +136,16 @@ namespace djv
                 Q_OBJECT
 
             public:
-                Data(qint64 frame, const QString & text = QString(), QObject * parent = nullptr);
+                Data(qint64 frameIndex, qint64 frameNumber, const QString & text = QString(), QObject * parent = nullptr);
 
-                qint64 frame() const;
+                qint64 frameIndex() const;
+                qint64 frameNumber() const;
 
                 const QString & text() const;
 
                 const std::vector<AbstractPrimitive *> & primitives();
-                void addPrimitive(Enum::ANNOTATE_PRIMITIVE, const AV::Color &, size_t lineWidth);
+                void setPrimitives(const std::vector<AbstractPrimitive *> &);
+                void addPrimitive(AbstractPrimitive *);
 
             public Q_SLOTS:
                 void setText(const QString &);
@@ -144,11 +157,13 @@ namespace djv
                 void primitivesChanged();
 
             private:
-                qint64 _frame = 0;
+                qint64 _frameIndex = 0;
+                qint64 _frameNumber = 0;
                 QString _text;
                 std::vector<AbstractPrimitive *> _primitives;
             };
 
         } // namespace Annotate
     } // namespace ViewLib
+
 } // namespace djv

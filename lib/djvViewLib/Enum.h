@@ -469,7 +469,6 @@ namespace djv
                 SHORTCUT_ANNOTATE_DELETE,
                 SHORTCUT_ANNOTATE_NEXT,
                 SHORTCUT_ANNOTATE_PREV,
-                SHORTCUT_ANNOTATE_EXPORT,
 
                 SHORTCUT_HELP_WHATS_THIS,
 

@@ -32,7 +32,6 @@
 #include <djvViewLib/AnnotateActions.h>
 #include <djvViewLib/AnnotateData.h>
 #include <djvViewLib/AnnotateColorDialog.h>
-#include <djvViewLib/AnnotateExportDialog.h>
 #include <djvViewLib/AnnotateMenu.h>
 #include <djvViewLib/AnnotatePrefs.h>
 #include <djvViewLib/AnnotateTool.h>
@@ -72,12 +71,16 @@ namespace djv
             {}
 
             FileInfo                 fileInfo;
+            FileInfo                 jsonFileInfo;
+            Sequence                 sequence;
+            Speed                    speed;
             QList<Annotate::Data *>  annotations;
             QList<Annotate::Data *>  frameAnnotations;
             QPointer<Annotate::Data> currentAnnotation;
             Enum::ANNOTATE_PRIMITIVE primitive;
             AV::Color                color;
             size_t                   lineWidth;
+            QString                  summary;
 
             QPointer<AnnotateActions> actions;
             QPointer<AnnotateTool>    annotateTool;
@@ -211,16 +214,6 @@ namespace djv
             {
                 prevAnnotation();
             });
-            connect(
-                _p->actions->action(AnnotateActions::EXPORT),
-                &QAction::triggered,
-                [this, context]
-            {
-                if (QDialog::Accepted == AnnotateExportDialog(context).exec())
-                {
-                    exportAnnotations();
-                }
-            });
 
             connect(
                 _p->actions->group(AnnotateActions::PRIMITIVE_GROUP),
@@ -242,24 +235,40 @@ namespace djv
                 &FileGroup::fileInfoChanged,
                 [this](const FileInfo & value)
             {
-                if (!_p->fileInfo.isEmpty() && _p->annotations.count())
+                if (!_p->fileInfo.isEmpty() && (_p->annotations.count() || !_p->summary.isEmpty()))
                 {
                     saveAnnotations();
                     deleteAllAnnotations();
                 }
-                _p->fileInfo = FileInfo();
+                setSummary(QString());
+                _p->fileInfo = value;
+                _p->jsonFileInfo = FileInfo();
                 if (!value.isEmpty())
                 {
                     FileInfo fileInfo(value);
                     fileInfo.setNumber(QString());
                     fileInfo.setExtension(QString());
-                    _p->fileInfo.setFileName(fileInfo.fileName());
-                    _p->fileInfo.setExtension(".annotations.json");
+                    _p->jsonFileInfo.setFileName(fileInfo.fileName());
+                    _p->jsonFileInfo.setExtension(".annotations.json");
                     loadAnnotations();
                 }
             });
 
             auto playbackGroup = session->playbackGroup();
+            connect(
+                playbackGroup,
+                &PlaybackGroup::sequenceChanged,
+                [this](const Sequence & value)
+            {
+                _p->sequence = value;
+            });
+            connect(
+                playbackGroup,
+                &PlaybackGroup::speedChanged,
+                [this](const Speed & value)
+            {
+                _p->speed = value;
+            });
             connect(
                 playbackGroup,
                 &PlaybackGroup::frameChanged,
@@ -268,7 +277,7 @@ namespace djv
                 _p->frameAnnotations.clear();
                 Q_FOREACH(auto i, _p->annotations)
                 {
-                    if (i->frame() == value)
+                    if (i->frameIndex() == value)
                     {
                         _p->frameAnnotations.push_back(i);
                     }
@@ -340,7 +349,7 @@ namespace djv
 
         AnnotateGroup::~AnnotateGroup()
         {
-            if (!_p->fileInfo.isEmpty() && _p->annotations.count())
+            if (!_p->jsonFileInfo.isEmpty() && (_p->annotations.count() || !_p->summary.isEmpty()))
             {
                 saveAnnotations();
             }
@@ -385,8 +394,13 @@ namespace djv
         {
             auto playbackGroup = session()->playbackGroup();
             playbackGroup->setPlayback(Enum::STOP);
-            const qint64 frame = playbackGroup->frame();
-            auto annotation = new Annotate::Data(frame, text);
+            const qint64 frameIndex = playbackGroup->frame();
+            qint64 frameNumber = 0;
+            if (frameIndex >= 0 && frameIndex < static_cast<qint64>(_p->sequence.frames.count()))
+            {
+                frameNumber = _p->sequence.frames[frameIndex];
+            }
+            auto annotation = new Annotate::Data(frameIndex, frameNumber, text);
             connect(
                 annotation,
                 SIGNAL(primitivesChanged()),
@@ -395,12 +409,12 @@ namespace djv
             qStableSort(_p->annotations.begin(), _p->annotations.end(),
                 [](const Annotate::Data * a, const Annotate::Data * b)
             {
-                return a && b ? (a->frame() < b->frame()) : 0;
+                return a && b ? (a->frameIndex() < b->frameIndex()) : 0;
             });
             _p->frameAnnotations.clear();
             Q_FOREACH(auto i, _p->annotations)
             {
-                if (i->frame() == frame)
+                if (i->frameIndex() == frameIndex)
                 {
                     _p->frameAnnotations.push_back(i);
                 }
@@ -422,6 +436,14 @@ namespace djv
             Q_EMIT currentAnnotationChanged(_p->currentAnnotation);
         }
 
+        void AnnotateGroup::setSummary(const QString & value)
+        {
+            if (value == _p->summary)
+                return;
+            _p->summary = value;
+            Q_EMIT summaryChanged(_p->summary);
+        }
+
         void AnnotateGroup::deleteAnnotation()
         {
             int index = _p->annotations.indexOf(_p->currentAnnotation);
@@ -430,10 +452,10 @@ namespace djv
                 delete _p->annotations[index];
                 _p->annotations.removeAt(index);
                 _p->frameAnnotations.clear();
-                const qint64 frame = session()->playbackGroup()->frame();
+                const qint64 frameIndex = session()->playbackGroup()->frame();
                 Q_FOREACH(auto i, _p->annotations)
                 {
-                    if (i->frame() == frame)
+                    if (i->frameIndex() == frameIndex)
                     {
                         _p->frameAnnotations.push_back(i);
                     }
@@ -533,13 +555,13 @@ namespace djv
 
         void AnnotateGroup::loadAnnotations()
         {
-            _p->fileInfo.stat();
-            if (_p->fileInfo.exists())
+            _p->jsonFileInfo.stat();
+            if (_p->jsonFileInfo.exists())
             {
                 try
                 {
                     FileIO fileIO;
-                    fileIO.open(_p->fileInfo.fileName(), FileIO::MODE::READ);
+                    fileIO.open(_p->jsonFileInfo.fileName(), FileIO::MODE::READ);
                     picojson::value v;
                     const char * p = reinterpret_cast<const char *>(fileIO.mmapP());
                     const char * end = reinterpret_cast<const char *>(fileIO.mmapEnd());
@@ -549,11 +571,110 @@ namespace djv
                     {
                         throw Error(QString::fromStdString(error));
                     }
+                    if (v.is<picojson::object>())
+                    {
+                        for (const auto & i : v.get<picojson::object>())
+                        {
+                            if ("summary" == i.first)
+                            {
+                                setSummary(QString::fromStdString(i.second.get<std::string>()));
+                            }
+                            else if ("frames" == i.first)
+                            {
+                                for (const auto & j : i.second.get<picojson::object>())
+                                {
+                                    qint64 frameIndex = 0;
+                                    qint64 frameNumber = QString::fromStdString(j.first).toInt();
+                                    QString text;
+                                    std::vector<Annotate::AbstractPrimitive *> primitives;
+                                    for (const auto & k : j.second.get<picojson::object>())
+                                    {
+                                        if ("frameIndex" == k.first)
+                                        {
+                                            frameIndex = QString::fromStdString(k.second.get<std::string>()).toInt();
+                                        }
+                                        else if ("text" == k.first)
+                                        {
+                                            text = QString::fromStdString(k.second.get<std::string>());
+                                        }
+                                        else if ("primitives" == k.first)
+                                        {
+                                            if (k.second.is<picojson::array>())
+                                            {
+                                                for (const auto & l : k.second.get<picojson::array>())
+                                                {
+                                                    if (l.is<picojson::object>())
+                                                    {
+                                                        Annotate::AbstractPrimitive * primitive = nullptr;
+                                                        for (const auto & m : l.get<picojson::object>())
+                                                        {
+                                                            if ("type" == m.first)
+                                                            {
+                                                                const auto type = m.second.get<std::string>();
+                                                                if ("freehandLine" == type)
+                                                                {
+                                                                    primitive = new Annotate::FreehandLinePrimitive;
+                                                                }
+                                                                else if ("line" == type)
+                                                                {
+                                                                    primitive = new Annotate::LinePrimitive;
+                                                                }
+                                                                else if ("rectangle" == type)
+                                                                {
+                                                                    primitive = new Annotate::RectanglePrimitive;
+                                                                }
+                                                                else if ("ellipse" == type)
+                                                                {
+                                                                    primitive = new Annotate::EllipsePrimitive;
+                                                                }
+                                                            }
+                                                        }
+                                                        if (primitive)
+                                                        {
+                                                            primitive->fromJSON(l);
+                                                            primitives.push_back(primitive);
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                    auto data = new Annotate::Data(frameIndex, frameNumber, text);
+                                    data->setPrimitives(primitives);
+                                    _p->annotations.push_back(data);
+                                }
+                            }
+                        }
+                    }
+                    qStableSort(_p->annotations.begin(), _p->annotations.end(),
+                        [](const Annotate::Data * a, const Annotate::Data * b)
+                    {
+                        return a && b ? (a->frameIndex() < b->frameIndex()) : 0;
+                    });
+                    _p->frameAnnotations.clear();
+                    auto playbackGroup = session()->playbackGroup();
+                    const qint64 frameIndex = playbackGroup->frame();
+                    Q_FOREACH(auto i, _p->annotations)
+                    {
+                        connect(
+                            i,
+                            SIGNAL(primitivesChanged()),
+                            SLOT(update()));
+                        if (i->frameIndex() == frameIndex)
+                        {
+                            _p->frameAnnotations.push_back(i);
+                            _p->currentAnnotation = i;
+                        }
+                    }
+                    update();
+                    Q_EMIT currentAnnotationChanged(_p->currentAnnotation);
+                    Q_EMIT annotationsChanged(_p->annotations);
+                    Q_EMIT frameAnnotationsChanged(_p->frameAnnotations);
                 }
                 catch (const Error & error)
                 {
                     Error e(error);
-                    e.add(QString("Cannot load annotations file \"%1\"").arg(_p->fileInfo.fileName()));
+                    e.add(QString("Cannot load annotations file \"%1\"").arg(_p->jsonFileInfo.fileName()));
                     context()->printError(e);
                 }
             }
@@ -564,26 +685,37 @@ namespace djv
             try
             {
                 FileIO fileIO;
-                fileIO.open(_p->fileInfo.fileName(), FileIO::MODE::WRITE);
-                picojson::value value(picojson::object_type, true);
-                auto & object = value.get<picojson::object>();
-                object["Summary"] = picojson::value("");
+                fileIO.open(_p->jsonFileInfo.fileName(), FileIO::MODE::WRITE);
+                picojson::value root(picojson::object_type, true);
+                root.get<picojson::object>()["path"] = picojson::value(PicoJSON::escape(_p->fileInfo.fileName().toStdString()));
+                root.get<picojson::object>()["summary"] = picojson::value(PicoJSON::escape(_p->summary.toStdString()));
                 picojson::value frames(picojson::object_type, true);
-                object["Frames"] = frames;
-                object = frames.get<picojson::object>();
                 Q_FOREACH(auto i, _p->annotations)
                 {
+                    picojson::value frame(picojson::object_type, true);
                     QString s;
-                    s.setNum(i->frame());
-                    object[s.toLatin1().data()] = picojson::value("");
+                    s.setNum(i->frameIndex());
+                    frame.get<picojson::object>()["frameIndex"] = picojson::value(s.toStdString());
+                    frame.get<picojson::object>()["text"] = picojson::value(PicoJSON::escape(i->text().toStdString()));
+                    picojson::value primitives(picojson::array_type, true);
+                    size_t k = 0;
+                    for (const auto & j : i->primitives())
+                    {
+                        primitives.get<picojson::array>().push_back(j->toJSON());
+                        ++k;
+                    }
+                    frame.get<picojson::object>()["primitives"] = primitives;
+                    s.setNum(i->frameNumber());
+                    frames.get<picojson::object>()[s.toLatin1().data()] = frame;
                 }
-                PicoJSON::write(value, fileIO);
+                root.get<picojson::object>()["frames"] = frames;
+                PicoJSON::write(root, fileIO);
                 fileIO.set("\n");
             }
             catch (const Error & error)
             {
                 Error e(error);
-                e.add(QString("Cannot save annotations file \"%1\"").arg(_p->fileInfo.fileName()));
+                e.add(QString("Cannot save annotations file \"%1\"").arg(_p->jsonFileInfo.fileName()));
                 context()->printError(e);
             }
         }
@@ -602,7 +734,18 @@ namespace djv
                 }
                 if (_p->currentAnnotation)
                 {
-                    _p->currentAnnotation->addPrimitive(_p->primitive, _p->color, _p->lineWidth);
+                    Annotate::AbstractPrimitive * p = nullptr;
+                    switch (_p->primitive)
+                    {
+                    case Enum::ANNOTATE_FREEHAND_LINE: p = new Annotate::FreehandLinePrimitive; break;
+                    case Enum::ANNOTATE_LINE:          p = new Annotate::LinePrimitive; break;
+                    case Enum::ANNOTATE_RECTANGLE:     p = new Annotate::RectanglePrimitive; break;
+                    case Enum::ANNOTATE_ELLIPSE:       p = new Annotate::EllipsePrimitive; break;
+                    default: break;
+                    }
+                    p->setColor(_p->color);
+                    p->setLineWidth(_p->lineWidth);
+                    _p->currentAnnotation->addPrimitive(p);
                     _p->currentAnnotation->mouse(transformMousePos(in));
                 }
             }
@@ -633,7 +776,6 @@ namespace djv
             _p->actions->action(AnnotateActions::DELETE_ALL)->setEnabled(count > 0);
             _p->actions->action(AnnotateActions::NEXT)->setEnabled(count > 1);
             _p->actions->action(AnnotateActions::PREV)->setEnabled(count > 1);
-            _p->actions->action(AnnotateActions::EXPORT)->setEnabled(count > 0);
 
             _p->actions->group(AnnotateActions::PRIMITIVE_GROUP)->actions()[_p->primitive]->setChecked(true);
 

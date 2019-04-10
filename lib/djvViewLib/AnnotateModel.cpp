@@ -48,7 +48,6 @@ namespace djv
         struct AnnotateModel::Private
         {
             QList<QPointer<Annotate::Data> > annotations;
-            FrameList frameList;
             Speed speed;
         };
 
@@ -118,14 +117,8 @@ namespace djv
                 {
                 case 0:
                 {
-                    qint64 index = _p->annotations[row] ? _p->annotations[row]->frame() : 0;
-                    qint64 frame = 0;
-                    if (index >= 0 &&
-                        index < static_cast<qint64>(_p->frameList.count()))
-                    {
-                        frame = _p->frameList[index];
-                    }
-                    return Time::frameToString(frame, _p->speed);
+                    const qint64 frameNumber = _p->annotations[row] ? _p->annotations[row]->frameNumber() : 0;
+                    return Time::frameToString(frameNumber, _p->speed);
                 }
                 case 1:
                 {
@@ -189,13 +182,6 @@ namespace djv
             {
                 _p->annotations.push_back(i);
             }
-            endResetModel();
-        }
-
-        void AnnotateModel::setFrameList(const FrameList & value)
-        {
-            beginResetModel();
-            _p->frameList = value;
             endResetModel();
         }
 

@@ -9,13 +9,13 @@ set(header
     AnnotateActions.h
     AnnotateColorDialog.h
     AnnotateData.h
-    AnnotateExportDialog.h
     AnnotateGroup.h
     AnnotateMenu.h
     AnnotateModel.h
     AnnotatePrefs.h
     AnnotateTool.h
     AnnotateToolBar.h
+    AnnotateWidget.h
     ColorPickerTool.h
     ControlsWindow.h
     DisplayProfile.h
@@ -81,23 +81,23 @@ set(header
 set(mocHeader
     AbstractActions.h
     AnnotateActions.h
+    AbstractGroup.h
+    AbstractMenu.h
+    AbstractPrefs.h
+    AbstractPrefsWidget.h
+    AbstractTool.h
     AnnotateColorDialog.h
     AnnotateData.h
-    AnnotateExportDialog.h
     AnnotateGroup.h
     AnnotateMenu.h
     AnnotateModel.h
     AnnotatePrefs.h
     AnnotateTool.h
     AnnotateToolBar.h
-    AbstractGroup.h
-    AbstractMenu.h
-    AbstractPrefs.h
-    AbstractPrefsWidget.h
-    AbstractToolBar.h
-    AbstractTool.h
     AnnotatePrefs.h
     AnnotateTool.h
+    AbstractToolBar.h
+    AnnotateWidget.h
     ColorPickerTool.h
     ControlsWindow.h
     DisplayProfileWidget.h
@@ -167,13 +167,13 @@ set(source
     AnnotateActions.cpp
     AnnotateColorDialog.cpp
     AnnotateData.cpp
-    AnnotateExportDialog.cpp
     AnnotateGroup.cpp
     AnnotateMenu.cpp
     AnnotateModel.cpp
     AnnotatePrefs.cpp
     AnnotateTool.cpp
     AnnotateToolBar.cpp
+    AnnotateWidget.cpp
     ColorPickerTool.cpp
     ControlsWindow.cpp
     DisplayProfile.cpp

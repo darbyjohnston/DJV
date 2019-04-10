@@ -84,6 +84,9 @@ namespace djv
             //! Set the current annotation.
             void setCurrentAnnotation(djv::ViewLib::Annotate::Data *);
 
+            //! Set the summary.
+            void setSummary(const QString &);
+
         Q_SIGNALS:
             //! This signal is emitted when the list of annotations is changed.
             void annotationsChanged(const QList<djv::ViewLib::Annotate::Data *> &);
@@ -99,6 +102,9 @@ namespace djv
 
             //! This signal is emitted when the annotations visibility is changed.
             void annotationsVisibleChanged(bool);
+
+            //! This signal is emitted when the summary is changed.
+            void summaryChanged(const QString &);
 
         private Q_SLOTS:
             void deleteAnnotation();

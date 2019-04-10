@@ -58,7 +58,6 @@ namespace djv
                 DELETE_ALL,
                 NEXT,
                 PREV,
-                EXPORT,
 
                 ACTION_COUNT
             };

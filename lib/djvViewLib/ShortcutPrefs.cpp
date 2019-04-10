@@ -180,7 +180,6 @@ namespace djv
                 UI::Shortcut(Enum::shortcutLabels()[Enum::SHORTCUT_ANNOTATE_DELETE], QKeySequence()) <<
                 UI::Shortcut(Enum::shortcutLabels()[Enum::SHORTCUT_ANNOTATE_NEXT], QKeySequence()) <<
                 UI::Shortcut(Enum::shortcutLabels()[Enum::SHORTCUT_ANNOTATE_PREV], QKeySequence()) <<
-                UI::Shortcut(Enum::shortcutLabels()[Enum::SHORTCUT_ANNOTATE_EXPORT], QKeySequence()) <<
 
                 UI::Shortcut(Enum::shortcutLabels()[Enum::SHORTCUT_HELP_WHATS_THIS], QKeySequence("F1"));
 

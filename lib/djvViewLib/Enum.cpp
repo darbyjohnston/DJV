@@ -432,7 +432,6 @@ namespace djv
                 qApp->translate("djv::ViewLib::Enum", "Annotate/Delete") <<
                 qApp->translate("djv::ViewLib::Enum", "Annotate/Next") <<
                 qApp->translate("djv::ViewLib::Enum", "Annotate/Previous") <<
-                qApp->translate("djv::ViewLib::Enum", "Annotate/Export") <<
             
                 qApp->translate("djv::ViewLib::Enum", "Help/What's This?");
             DJV_ASSERT(data.count() == SHORTCUT_COUNT);
