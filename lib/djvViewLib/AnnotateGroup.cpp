@@ -782,21 +782,32 @@ namespace djv
 
         void AnnotateGroup::update()
         {
+            const bool visible = _p->actions->action(AnnotateActions::SHOW)->isChecked();
+
             const int size = qApp->style()->pixelMetric(QStyle::PM_ButtonIconSize);
             QImage image(size, size, QImage::Format_ARGB32);
             image.fill(AV::ColorUtil::toQt(_p->color));
             _p->actions->action(AnnotateActions::COLOR)->setIcon(QPixmap::fromImage(image));
+            _p->actions->action(AnnotateActions::COLOR)->setEnabled(visible);
+
+            _p->actions->action(AnnotateActions::LINE_WIDTH_INC)->setEnabled(visible);
+            _p->actions->action(AnnotateActions::LINE_WIDTH_DEC)->setEnabled(visible);
+            _p->actions->action(AnnotateActions::UNDO)->setEnabled(visible);
+            _p->actions->action(AnnotateActions::REDO)->setEnabled(visible);
 
             const int count = _p->annotations.count();
-            _p->actions->action(AnnotateActions::CLEAR)->setEnabled(_p->currentAnnotation ? _p->currentAnnotation->primitives().size() : false);
-            _p->actions->action(AnnotateActions::DELETE)->setEnabled(_p->currentAnnotation);
-            _p->actions->action(AnnotateActions::DELETE_ALL)->setEnabled(count > 0);
-            _p->actions->action(AnnotateActions::NEXT)->setEnabled(count > 1);
-            _p->actions->action(AnnotateActions::PREV)->setEnabled(count > 1);
+            _p->actions->action(AnnotateActions::CLEAR)->setEnabled(
+                (_p->currentAnnotation ? _p->currentAnnotation->primitives().size() : false) && visible);
+            _p->actions->action(AnnotateActions::NEW)->setEnabled(visible);
+            _p->actions->action(AnnotateActions::DELETE)->setEnabled(_p->currentAnnotation && visible);
+            _p->actions->action(AnnotateActions::DELETE_ALL)->setEnabled(count > 0 && visible);
+            _p->actions->action(AnnotateActions::NEXT)->setEnabled(count > 1 && visible);
+            _p->actions->action(AnnotateActions::PREV)->setEnabled(count > 1 && visible);
 
             _p->actions->group(AnnotateActions::PRIMITIVE_GROUP)->actions()[_p->primitive]->setChecked(true);
+            _p->actions->group(AnnotateActions::PRIMITIVE_GROUP)->setEnabled(visible);
 
-            _p->annotateToolDockWidget->setVisible(_p->actions->action(AnnotateActions::SHOW)->isChecked());
+            _p->annotateToolDockWidget->setVisible(visible);
         }
 
         bool AnnotateGroup::doSave() const
