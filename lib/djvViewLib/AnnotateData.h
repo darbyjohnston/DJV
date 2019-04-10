@@ -49,6 +49,15 @@ namespace djv
     {
         namespace Annotate
         {
+            //! This struct provides data for drawing annotation primitives.
+            struct DrawData
+            {
+                glm::ivec2 viewSize = glm::ivec2(0, 0);
+                glm::ivec2 viewPos = glm::ivec2(0, 0);
+                float viewZoom = 1.f;
+                bool selected = false;
+            };
+
             //! This class provides the base functionality for annotation primitives.
             class AbstractPrimitive
             {
@@ -58,7 +67,7 @@ namespace djv
                 void setColor(const AV::Color &);
                 void setLineWidth(size_t);
 
-                virtual void draw(QPainter &, const glm::ivec2 & size, const glm::ivec2 & viewPos, float viewZoom) = 0;
+                virtual void draw(QPainter &, const DrawData &) = 0;
                 virtual void mouse(const glm::ivec2 &) = 0;
                 virtual picojson::value toJSON() const = 0;
                 //! Throws:
@@ -66,6 +75,8 @@ namespace djv
                 virtual void fromJSON(const picojson::value &) = 0;
 
             protected:
+                AV::Color getDrawColor(bool selected) const;
+
                 AV::Color _color;
                 size_t _lineWidth = 1;
             };
@@ -76,7 +87,7 @@ namespace djv
             public:
                 ~FreehandLinePrimitive() override;
 
-                void draw(QPainter &, const glm::ivec2 & size, const glm::ivec2 & viewPos, float viewZoom) override;
+                void draw(QPainter &, const DrawData &) override;
                 void mouse(const glm::ivec2 &) override;
                 picojson::value toJSON() const override;
                 void fromJSON(const picojson::value &) override;
@@ -91,7 +102,7 @@ namespace djv
             public:
                 ~LinePrimitive() override;
 
-                void draw(QPainter &, const glm::ivec2 & size, const glm::ivec2 & viewPos, float viewZoom) override;
+                void draw(QPainter &, const DrawData &) override;
                 void mouse(const glm::ivec2 &) override;
                 picojson::value toJSON() const override;
                 void fromJSON(const picojson::value &) override;
@@ -106,7 +117,7 @@ namespace djv
             public:
                 ~RectanglePrimitive() override;
 
-                void draw(QPainter &, const glm::ivec2 & size, const glm::ivec2 & viewPos, float viewZoom) override;
+                void draw(QPainter &, const DrawData &) override;
                 void mouse(const glm::ivec2 &) override;
                 picojson::value toJSON() const override;
                 void fromJSON(const picojson::value &) override;
@@ -121,7 +132,7 @@ namespace djv
             public:
                 ~EllipsePrimitive() override;
 
-                void draw(QPainter &, const glm::ivec2 & size, const glm::ivec2 & viewPos, float viewZoom) override;
+                void draw(QPainter &, const DrawData &) override;
                 void mouse(const glm::ivec2 &) override;
                 picojson::value toJSON() const override;
                 void fromJSON(const picojson::value &) override;

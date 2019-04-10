@@ -86,6 +86,7 @@ namespace djv
             Enum::HUD_BACKGROUND             hudBackground      = static_cast<Enum::HUD_BACKGROUND>(0);
             AV::Color                        hudBackgroundColor;
             QList<QPointer<Annotate::Data> > annotations;
+            QPointer<Annotate::Data>         currentAnnotation;
             bool                             annotationsVisible = false;
             AV::PixelData                    overlayPixelData;
             std::unique_ptr<AV::OpenGLImage> overlayOpenGLImage;
@@ -291,6 +292,14 @@ namespace djv
                         SLOT(update()));
                 }
             }
+            update();
+        }
+
+        void ImageView::setCurrentAnnotation(Annotate::Data * value)
+        {
+            if (value == _p->currentAnnotation)
+                return;
+            _p->currentAnnotation = value;
             update();
         }
 
@@ -761,16 +770,19 @@ namespace djv
 
        void ImageView::drawAnnotations(QPainter & painter)
        {
-           const glm::ivec2 size(width(), height());
-           const glm::ivec2& viewPos = this->viewPos();
+           Annotate::DrawData drawData;
+           drawData.viewSize = glm::ivec2(width(), height());
+           drawData.viewPos = viewPos();
+           drawData.viewZoom = viewZoom();
            const float viewZoom = this->viewZoom();
            for (auto i : _p->annotations)
            {
                if (i)
                {
+                   drawData.selected = i == _p->currentAnnotation;
                    for (auto j : i->primitives())
                    {
-                       j->draw(painter, size, viewPos, viewZoom);
+                       j->draw(painter, drawData);
                    }
                }
            }

@@ -56,19 +56,27 @@ namespace djv
                 _lineWidth = value;
             }
 
+            AV::Color AbstractPrimitive::getDrawColor(bool selected) const
+            {
+                AV::Color color(AV::Pixel::RGBA_U8);
+                AV::ColorUtil::convert(_color, color);
+                color.setU8(selected ? 255 : 127, 3);
+                return color;
+            }
+
             FreehandLinePrimitive::~FreehandLinePrimitive()
             {}
 
-            void FreehandLinePrimitive::draw(QPainter & painter, const glm::ivec2 & size, const glm::ivec2 & viewPos, float viewZoom)
+            void FreehandLinePrimitive::draw(QPainter & painter, const DrawData & data)
             {
                 const size_t pointsSize = _points.size();
                 if (1 == pointsSize)
                 {
                     painter.fillRect(
-                        (_points[0].x - _lineWidth / 2.f) * viewZoom + viewPos.x,
-                        size.y - 1 - ((_points[0].y + _lineWidth / 2.f) * viewZoom + viewPos.y),
-                        _lineWidth * viewZoom,
-                        _lineWidth * viewZoom,
+                        (_points[0].x - _lineWidth / 2.f) * data.viewZoom + data.viewPos.x,
+                        data.viewSize.y - 1 - ((_points[0].y + _lineWidth / 2.f) * data.viewZoom + data.viewPos.y),
+                        _lineWidth * data.viewZoom,
+                        _lineWidth * data.viewZoom,
                         AV::ColorUtil::toQt(_color));
                 }
                 else if (pointsSize >= 2)
@@ -77,10 +85,10 @@ namespace djv
                     for (size_t i = 0; i < _points.size(); ++i)
                     {
                         points.push_back(QPoint(
-                            _points[i].x * viewZoom + viewPos.x,
-                            size.y - 1 - (_points[i].y * viewZoom + viewPos.y)));
+                            _points[i].x * data.viewZoom + data.viewPos.x,
+                            data.viewSize.y - 1 - (_points[i].y * data.viewZoom + data.viewPos.y)));
                     }
-                    QPen pen(AV::ColorUtil::toQt(_color), _lineWidth * viewZoom);
+                    QPen pen(AV::ColorUtil::toQt(getDrawColor(data.selected)), _lineWidth * data.viewZoom);
                     pen.setJoinStyle(Qt::MiterJoin);
                     painter.setPen(pen);
                     painter.drawPolyline(points.data(), static_cast<int>(points.size()));
@@ -142,28 +150,28 @@ namespace djv
             LinePrimitive::~LinePrimitive()
             {}
 
-            void LinePrimitive::draw(QPainter & painter, const glm::ivec2 & size, const glm::ivec2 & viewPos, float viewZoom)
+            void LinePrimitive::draw(QPainter & painter, const DrawData & data)
             {
                 const size_t pointsSize = _points.size();
                 if (1 == pointsSize)
                 {
                     painter.fillRect(
-                        (_points[0].x - _lineWidth / 2.f) * viewZoom + viewPos.x,
-                        size.y - 1 - ((_points[0].y + _lineWidth / 2.f) * viewZoom + viewPos.y),
-                        _lineWidth * viewZoom,
-                        _lineWidth * viewZoom,
+                        (_points[0].x - _lineWidth / 2.f) * data.viewZoom + data.viewPos.x,
+                        data.viewSize.y - 1 - ((_points[0].y + _lineWidth / 2.f) * data.viewZoom + data.viewPos.y),
+                        _lineWidth * data.viewZoom,
+                        _lineWidth * data.viewZoom,
                         AV::ColorUtil::toQt(_color));
                 }
                 else if (pointsSize >= 2)
                 {
                     std::vector<QPoint> points;
                     points.push_back(QPoint(
-                        _points[0].x * viewZoom + viewPos.x,
-                        size.y - 1 - (_points[0].y * viewZoom + viewPos.y)));
+                        _points[0].x * data.viewZoom + data.viewPos.x,
+                        data.viewSize.y - 1 - (_points[0].y * data.viewZoom + data.viewPos.y)));
                     points.push_back(QPoint(
-                        _points[1].x * viewZoom + viewPos.x,
-                        size.y - 1 - (_points[1].y * viewZoom + viewPos.y)));
-                    QPen pen(AV::ColorUtil::toQt(_color), _lineWidth * viewZoom);
+                        _points[1].x * data.viewZoom + data.viewPos.x,
+                        data.viewSize.y - 1 - (_points[1].y * data.viewZoom + data.viewPos.y)));
+                    QPen pen(AV::ColorUtil::toQt(getDrawColor(data.selected)), _lineWidth * data.viewZoom);
                     pen.setJoinStyle(Qt::MiterJoin);
                     painter.setPen(pen);
                     painter.drawPolyline(points.data(), static_cast<int>(points.size()));
@@ -232,22 +240,22 @@ namespace djv
             RectanglePrimitive::~RectanglePrimitive()
             {}
 
-            void RectanglePrimitive::draw(QPainter & painter, const glm::ivec2 & size, const glm::ivec2 & viewPos, float viewZoom)
+            void RectanglePrimitive::draw(QPainter & painter, const DrawData & data)
             {
                 if (_points.size() >= 2)
                 {
-                    QPen pen(AV::ColorUtil::toQt(_color), _lineWidth * viewZoom);
+                    QPen pen(AV::ColorUtil::toQt(getDrawColor(data.selected)), _lineWidth * data.viewZoom);
                     pen.setJoinStyle(Qt::MiterJoin);
                     painter.setPen(pen);
                     const glm::ivec2 & pos = _points[0];
                     const glm::ivec2 & pos2 = _points[1];
                     painter.drawRect(QRect(
                         QPoint(
-                            pos.x * viewZoom + viewPos.x,
-                            size.y - 1 - (pos.y * viewZoom + viewPos.y)),
+                            pos.x * data.viewZoom + data.viewPos.x,
+                            data.viewSize.y - 1 - (pos.y * data.viewZoom + data.viewPos.y)),
                         QPoint(
-                            pos2.x * viewZoom + viewPos.x,
-                            size.y - 1 - (pos2.y * viewZoom + viewPos.y))));
+                            pos2.x * data.viewZoom + data.viewPos.x,
+                            data.viewSize.y - 1 - (pos2.y * data.viewZoom + data.viewPos.y))));
                 }
             }
 
@@ -313,20 +321,20 @@ namespace djv
             EllipsePrimitive::~EllipsePrimitive()
             {}
 
-            void EllipsePrimitive::draw(QPainter & painter, const glm::ivec2 & size, const glm::ivec2 & viewPos, float viewZoom)
+            void EllipsePrimitive::draw(QPainter & painter, const DrawData & data)
             {
                 if (_points.size() >= 2)
                 {
-                    painter.setPen(QPen(AV::ColorUtil::toQt(_color), _lineWidth * viewZoom));
+                    painter.setPen(QPen(AV::ColorUtil::toQt(getDrawColor(data.selected)), _lineWidth * data.viewZoom));
                     const glm::ivec2 & pos = _points[0];
                     const glm::ivec2 & pos2 = _points[1];
                     painter.drawEllipse(QRect(
                         QPoint(
-                            pos.x * viewZoom + viewPos.x,
-                            size.y - 1 - (pos.y * viewZoom + viewPos.y)),
+                            pos.x * data.viewZoom + data.viewPos.x,
+                            data.viewSize.y - 1 - (pos.y * data.viewZoom + data.viewPos.y)),
                         QPoint(
-                            pos2.x * viewZoom + viewPos.x,
-                            size.y - 1 - (pos2.y * viewZoom + viewPos.y))));
+                            pos2.x * data.viewZoom + data.viewPos.x,
+                            data.viewSize.y - 1 - (pos2.y * data.viewZoom + data.viewPos.y))));
                 }
             }
 

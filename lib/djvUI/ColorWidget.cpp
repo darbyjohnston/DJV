@@ -51,6 +51,7 @@ namespace djv
         struct ColorWidget::Private
         {
             AV::Color color = AV::Color(AV::Pixel::RGB_U8);
+            bool editPixel = true;
             QVector<QPointer<IntEditSlider> > intWidgets;
             QVector<QPointer<FloatEditSlider> > floatWidgets;
             QPointer<QComboBox> formatWidget;
@@ -136,6 +137,16 @@ namespace djv
             return _p->color;
         }
 
+        float ColorWidget::floatMin() const
+        {
+            return 0.f;
+        }
+
+        float ColorWidget::floatMax() const
+        {
+            return 1.f;
+        }
+
         void ColorWidget::setColor(const AV::Color & color)
         {
             if (color == _p->color)
@@ -150,6 +161,19 @@ namespace djv
             }
             valueUpdate();
             Q_EMIT colorChanged(_p->color);
+        }
+
+        void ColorWidget::setFloatRange(float, float)
+        {
+            //! \todo Implement custom floating-point ranges.
+        }
+
+        void ColorWidget::setEditPixel(bool value)
+        {
+            if (value == _p->editPixel)
+                return;
+            _p->editPixel = value;
+            widgetUpdate();
         }
 
         QHBoxLayout * ColorWidget::bottomLayout()
@@ -311,7 +335,9 @@ namespace djv
             }
 
             _p->formatWidget->setCurrentIndex(AV::Pixel::format(_p->color.pixel()));
+            _p->formatWidget->setVisible(_p->editPixel);
             _p->typeWidget->setCurrentIndex(AV::Pixel::type(_p->color.pixel()));
+            _p->typeWidget->setVisible(_p->editPixel);
 
             update();
         }

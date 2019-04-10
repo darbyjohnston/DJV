@@ -55,9 +55,9 @@ namespace djv
             //! This property holds the color.    
             Q_PROPERTY(
                 djv::AV::Color color
-                READ                 color
-                WRITE                setColor
-                NOTIFY               colorChanged)
+                READ           color
+                WRITE          setColor
+                NOTIFY         colorChanged)
 
         public:
             explicit ColorWidget(const QPointer<UIContext> &, QWidget * parent = nullptr);
@@ -72,15 +72,18 @@ namespace djv
             //! Get the maximum floating point value.
             float floatMax() const;
 
-            //! Set the floating point range.
-            void setFloatRange(float min, float max);
-
             //! Get the bottom layout.
             QHBoxLayout * bottomLayout();
 
         public Q_SLOTS:
             //! Set the color.
             void setColor(const djv::AV::Color &);
+
+            //! Set the floating point range.
+            void setFloatRange(float min, float max);
+
+            //! Set whether the pixel format and type can be changed.
+            void setEditPixel(bool);
 
         Q_SIGNALS:
             //! This signal is emitted when the color is changed.

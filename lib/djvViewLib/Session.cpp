@@ -205,6 +205,16 @@ namespace djv
                 SLOT(setAnnotations(const QList<djv::ViewLib::Annotate::Data *> &)));
             connect(
                 _p->annotateGroup.data(),
+                SIGNAL(currentAnnotationChanged(djv::ViewLib::Annotate::Data *)),
+                _p->viewWidget,
+                SLOT(setCurrentAnnotation(djv::ViewLib::Annotate::Data *)));
+            connect(
+                _p->annotateGroup.data(),
+                SIGNAL(annotationsVisibleChanged(bool)),
+                _p->viewWidget,
+                SLOT(setAnnotationsVisible(bool)));
+            connect(
+                _p->annotateGroup.data(),
                 &AnnotateGroup::currentAnnotationChanged,
                 [this](Annotate::Data * value)
             {
@@ -213,11 +223,6 @@ namespace djv
                     _p->playbackGroup->setFrame(value->frameIndex());
                 }
             });
-            connect(
-                _p->annotateGroup.data(),
-                SIGNAL(annotationsVisibleChanged(bool)),
-                _p->viewWidget,
-                SLOT(setAnnotationsVisible(bool)));
 
             // Setup the preferences callbacks.
             connect(

@@ -97,6 +97,9 @@ namespace djv
             //! Set the annotations.
             void setAnnotations(const QList<djv::ViewLib::Annotate::Data *> &);
 
+            //! Set the current annotation.
+            void setCurrentAnnotation(djv::ViewLib::Annotate::Data *);
+
             //! Set whether the annotations are visible.
             void setAnnotationsVisible(bool);
 

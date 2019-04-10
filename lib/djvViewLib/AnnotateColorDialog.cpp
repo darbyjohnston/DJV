@@ -83,6 +83,7 @@ namespace djv
             _p->colorSwatch->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 
             _p->colorWidget = new UI::ColorWidget(context.data());
+            _p->colorWidget->setEditPixel(false);
 
             _p->colorButtonGroup = new QButtonGroup(this);
             int j = 0;
