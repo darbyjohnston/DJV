@@ -29,7 +29,7 @@
 
 #pragma once
 
-#include <djvConfig.h>
+#include <djvCore/Core.h>
 
 class QString;
 class QStringList;

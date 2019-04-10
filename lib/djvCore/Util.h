@@ -29,7 +29,7 @@
 
 #pragma once
 
-#include <djvConfig.h>
+#include <djvCore/Core.h>
 
 //! This macro provides a private copy constructor and operator.
 #define DJV_PRIVATE_COPY(class) \

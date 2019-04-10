@@ -42,3 +42,11 @@ namespace djv
     {
     } // namespace Core
 } // namespace djv
+
+#if defined(DJV_WINDOWS)
+#define NOMINMAX
+//! \todo warning C4290: C++ exception specification ignored except to indicate a function is not __declspec(nothrow)
+#pragma warning(disable: 4290)
+//! \todo warning C4355: 'this' : used in base member initializer list
+#pragma warning(disable: 4355)
+#endif // DJV_WINDOWS
