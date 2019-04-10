@@ -43,26 +43,35 @@ namespace djv
             return std::string(indent * count, ' ');
         }
 
-        std::string _escape(const std::string & value)
-        {
-            std::string out;
-            for (const auto i : value)
-            {
-                if ('\\' == i)
-                {
-                    out.push_back('\\');
-                }
-                out.push_back(i);
-            }
-            return out;
-        }
-
     } // namespace
 
     namespace Core
     {
         namespace PicoJSON
         {
+            std::string escape(const std::string & value)
+            {
+                std::string out;
+                for (const auto i : value)
+                {
+                    if ('\\' == i)
+                    {
+                        out.push_back('\\');
+                        out.push_back('\\');
+                    }
+                    else if ('\n' == i)
+                    {
+                        out.push_back('\\');
+                        out.push_back('n');
+                    }
+                    else
+                    {
+                        out.push_back(i);
+                    }
+                }
+                return out;
+            }
+
             void write(const picojson::value & value, FileIO & fileIO, size_t indent, bool continueLine)
             {
                 if (value.is<picojson::object>())
@@ -164,7 +173,7 @@ namespace djv
 
     picojson::value toJSON(const std::string & value)
     {
-        return picojson::value(_escape(value));
+        return picojson::value(Core::PicoJSON::escape(value));
     }
 
     void fromJSON(const picojson::value & value, bool & out)

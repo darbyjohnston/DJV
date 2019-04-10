@@ -32,7 +32,10 @@
 #include <djvAV/ColorUtil.h>
 
 #include <djvCore/Debug.h>
+#include <djvCore/Error.h>
 #include <djvCore/Memory.h>
+
+#include <QCoreApplication>
 
 namespace djv
 {
@@ -246,6 +249,32 @@ namespace djv
         QStringList tmp;
         tmp << in;
         return debug << tmp;
+    }
+
+    picojson::value toJSON(const AV::Color & value)
+    {
+        QStringList s;
+        s << value;
+        return picojson::value(s.join(' ').toUtf8());
+    }
+
+    void fromJSON(const picojson::value & value, AV::Color & out)
+    {
+        if (value.is<std::string>())
+        {
+            auto s = QString::fromStdString(value.get<std::string>()).split(' ');
+            if (s.count() >= 2)
+            {
+                const auto format = s.front();
+                s.pop_front();
+                s[0] = format + " " + s[0];
+            }
+            s >> out;
+        }
+        else
+        {
+            throw Core::Error(qApp->translate("djv::AV::Color", "Cannot parse the value."));
+        }
     }
 
 } // namespace djv

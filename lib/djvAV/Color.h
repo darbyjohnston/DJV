@@ -31,6 +31,8 @@
 
 #include <djvAV/Pixel.h>
 
+#include <djvCore/PicoJSON.h>
+
 #include <QMetaType>
 
 namespace djv
@@ -113,6 +115,12 @@ namespace djv
     DJV_COMPARISON_OPERATOR(AV::Color);
     DJV_STRING_OPERATOR(AV::Color);
     DJV_DEBUG_OPERATOR(AV::Color);
+
+    picojson::value toJSON(const AV::Color &);
+
+    //! Throws:
+    //! - Error
+    void fromJSON(const picojson::value &, AV::Color &);
 
 } // namespace djv
 

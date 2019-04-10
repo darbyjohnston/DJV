@@ -42,6 +42,8 @@ namespace djv
         //! This namespace provides JSON functionality.
         namespace PicoJSON
         {
+            std::string escape(const std::string &);
+            
             void write(const picojson::value &, FileIO &, size_t indent = 0, bool continueLine = false);
 
         } // namespace PicoJSON
