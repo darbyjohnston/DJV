@@ -40,6 +40,7 @@
 #include <djvViewLib/MousePrefsWidget.h>
 #include <djvViewLib/PlaybackPrefs.h>
 #include <djvViewLib/PlaybackPrefsWidget.h>
+#include <djvViewLib/Session.h>
 #include <djvViewLib/ShortcutPrefs.h>
 #include <djvViewLib/ShortcutPrefsWidget.h>
 #include <djvViewLib/ViewPrefs.h>
@@ -115,6 +116,14 @@ namespace djv
         ViewContext::~ViewContext()
         {
             //DJV_DEBUG("ViewContext::ViewContext");
+            Q_FOREACH(auto session, Session::sessionList())
+            {
+                if (session)
+                {
+                    session->close();
+                    delete session;
+                }
+            }
         }
 
         const ViewContext::CommandLineOptions & ViewContext::commandLineOptions() const
