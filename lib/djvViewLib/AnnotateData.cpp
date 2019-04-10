@@ -77,7 +77,7 @@ namespace djv
                         data.viewSize.y - 1 - ((_points[0].y + _lineWidth / 2.f) * data.viewZoom + data.viewPos.y),
                         _lineWidth * data.viewZoom,
                         _lineWidth * data.viewZoom,
-                        AV::ColorUtil::toQt(_color));
+                        AV::ColorUtil::toQt(getDrawColor(data.selected)));
                 }
                 else if (pointsSize >= 2)
                 {
@@ -160,7 +160,7 @@ namespace djv
                         data.viewSize.y - 1 - ((_points[0].y + _lineWidth / 2.f) * data.viewZoom + data.viewPos.y),
                         _lineWidth * data.viewZoom,
                         _lineWidth * data.viewZoom,
-                        AV::ColorUtil::toQt(_color));
+                        AV::ColorUtil::toQt(getDrawColor(data.selected)));
                 }
                 else if (pointsSize >= 2)
                 {
