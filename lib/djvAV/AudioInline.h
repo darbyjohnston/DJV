@@ -35,19 +35,19 @@ namespace djv
     {
         namespace Audio
         {
-            constexpr size_t getByteCount(Type value)
+            inline size_t getByteCount(Type value)
             {
                 const size_t data[] = { 0, 1, 2, 4, 4 };
                 return data[static_cast<size_t>(value)];
             }
 
-            constexpr Type getIntType(size_t value)
+            inline Type getIntType(size_t value)
             {
                 const Type data[] = { Type::None, Type::U8, Type::S16, Type::None, Type::S32 };
                 return value < sizeof(data) ? data[value] : Type::None;
             }
 
-            constexpr Type getFloatType(size_t value)
+            inline Type getFloatType(size_t value)
             {
                 const Type data[] = { Type::None, Type::None, Type::None, Type::None, Type::F32 };
                 return value < sizeof(data) ? data[value] : Type::None;

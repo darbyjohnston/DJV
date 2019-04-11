@@ -152,21 +152,21 @@ namespace djv
             typedef U10_S_LSB U10_S;
 #endif
 
-            constexpr ChannelType getChannelType(Type);
-            constexpr size_t getChannelCount(Type);
-            constexpr DataType getDataType(Type);
-            constexpr size_t getBitDepth(Type);
-            constexpr size_t getByteCount(Type);
+            inline ChannelType getChannelType(Type);
+            inline size_t getChannelCount(Type);
+            inline DataType getDataType(Type);
+            inline size_t getBitDepth(Type);
+            inline size_t getByteCount(Type);
 
-            constexpr bool isIntType(Type);
-            constexpr bool isFloatType(Type);
+            inline bool isIntType(Type);
+            inline bool isFloatType(Type);
             inline Core::IntRange getIntRange(Type);
             inline Core::FloatRange getFloatRange(Type);
             inline Type getIntType(size_t channelCount, size_t bitDepth);
             inline Type getFloatType(size_t channelCount, size_t bitDepth);
 
-            constexpr gl::GLenum getGLFormat(Type);
-            constexpr gl::GLenum getGLType(Type);
+            inline gl::GLenum getGLFormat(Type);
+            inline gl::GLenum getGLType(Type);
 
             inline void convert_U8_U8(U8_T, U8_T &);
             inline void convert_U8_U10(U8_T, U10_T &);

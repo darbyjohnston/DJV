@@ -73,44 +73,44 @@ namespace djv
             inline Info::Info()
             {}
 
-            constexpr Info::Info(const glm::ivec2 & size, Type type, const Layout & layout) :
+            inline Info::Info(const glm::ivec2 & size, Type type, const Layout & layout) :
                 size(size),
                 type(type),
                 layout(layout)
             {}
 
-            constexpr Info::Info(int width, int height, Type type, const Layout & layout) :
+            inline Info::Info(int width, int height, Type type, const Layout & layout) :
                 size(width, height),
                 type(type),
                 layout(layout)
             {}
 
-            constexpr float Info::getAspectRatio() const
+            inline float Info::getAspectRatio() const
             {
                 return size.y > 0 ? (size.x / static_cast<float>(size.y)) : 1.f;
             }
 
-            constexpr gl::GLenum Info::getGLFormat() const
+            inline gl::GLenum Info::getGLFormat() const
             {
                 return AV::Image::getGLFormat(type);
             }
 
-            constexpr gl::GLenum Info::getGLType() const
+            inline gl::GLenum Info::getGLType() const
             {
                 return AV::Image::getGLType(type);
             }
 
-            constexpr bool Info::isValid() const
+            inline bool Info::isValid() const
             {
                 return size.x > 0 && size.y > 0 && type != Type::None;
             }
 
-            constexpr size_t Info::getPixelByteCount() const
+            inline size_t Info::getPixelByteCount() const
             {
                 return AV::Image::getByteCount(type);
             }
 
-            constexpr size_t Info::getScanlineByteCount() const
+            inline size_t Info::getScanlineByteCount() const
             {
                 const size_t byteCount = size.x * AV::Image::getByteCount(type);
                 const size_t q = byteCount / layout.alignment * layout.alignment;
@@ -118,7 +118,7 @@ namespace djv
                 return q + (r ? layout.alignment : 0);
             }
 
-            constexpr size_t Info::getDataByteCount() const
+            inline size_t Info::getDataByteCount() const
             {
                 return size.y * getScanlineByteCount();
             }

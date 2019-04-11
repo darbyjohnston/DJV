@@ -56,13 +56,13 @@ namespace djv
             {}
 
             template<typename T>
-            constexpr T tRange<T>::getSize() const
+            inline T tRange<T>::getSize() const
             {
                 return max - min;
             }
 
             template<>
-            constexpr int tRange<int>::getSize() const
+            inline int tRange<int>::getSize() const
             {
                 return max - min + 1;
             }

@@ -203,12 +203,12 @@ namespace djv
 
             constexpr float rad2deg(float value)
             {
-                return value / pi2 * 360.f;
+                return value / (3.14159265359f * 2.f) * 360.f;
             }
 
             constexpr float deg2rad(float value)
             {
-                return value / 360.f * pi2;
+                return value / 360.f * (3.14159265359f * 2.f);
             }
 
             constexpr bool haveSameSign(float a, float b)

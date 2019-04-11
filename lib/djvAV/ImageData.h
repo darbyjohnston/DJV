@@ -73,21 +73,21 @@ namespace djv
             struct Info
             {
                 inline Info();
-                constexpr Info(const glm::ivec2 &, Type, const Layout & = Layout());
-                constexpr Info(int width, int height, Type, const Layout & = Layout());
+                inline Info(const glm::ivec2 &, Type, const Layout & = Layout());
+                inline Info(int width, int height, Type, const Layout & = Layout());
 
                 std::string name;
                 glm::ivec2 size = glm::ivec2(0, 0);
                 Type type;
                 Layout layout;
 
-                constexpr float getAspectRatio() const;
-                constexpr gl::GLenum getGLFormat() const;
-                constexpr gl::GLenum getGLType() const;
-                constexpr bool isValid() const;
-                constexpr size_t getPixelByteCount() const;
-                constexpr size_t getScanlineByteCount() const;
-                constexpr size_t getDataByteCount() const;
+                inline float getAspectRatio() const;
+                inline gl::GLenum getGLFormat() const;
+                inline gl::GLenum getGLType() const;
+                inline bool isValid() const;
+                inline size_t getPixelByteCount() const;
+                inline size_t getScanlineByteCount() const;
+                inline size_t getDataByteCount() const;
 
                 inline bool operator == (const Info &) const;
                 inline bool operator != (const Info &) const;

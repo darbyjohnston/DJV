@@ -62,7 +62,7 @@ namespace djv
                 return !(*this == value);
             }
 
-            constexpr ChannelType getChannelType(Type value)
+            inline ChannelType getChannelType(Type value)
             {
                 const ChannelType data[] =
                 {
@@ -97,7 +97,7 @@ namespace djv
                 return data[static_cast<size_t>(value)];
             }
 
-            constexpr size_t getChannelCount(Type value)
+            inline size_t getChannelCount(Type value)
             {
                 const size_t data[] =
                 {
@@ -111,7 +111,7 @@ namespace djv
                 return data[static_cast<size_t>(value)];
             }
 
-            constexpr DataType getDataType(Type value)
+            inline DataType getDataType(Type value)
             {
                 const DataType data[] =
                 {
@@ -146,7 +146,7 @@ namespace djv
                 return data[static_cast<size_t>(value)];
             }
 
-            constexpr size_t getBitDepth(Type value)
+            inline size_t getBitDepth(Type value)
             {
                 const size_t data[] =
                 {
@@ -160,7 +160,7 @@ namespace djv
                 return data[static_cast<size_t>(value)];
             }
 
-            constexpr size_t getByteCount(Type value)
+            inline size_t getByteCount(Type value)
             {
                 const size_t data[] =
                 {
@@ -174,7 +174,7 @@ namespace djv
                 return data[static_cast<size_t>(value)];
             }
 
-            constexpr bool isIntType(Type value)
+            inline bool isIntType(Type value)
             {
                 const bool data[] =
                 {
@@ -188,7 +188,7 @@ namespace djv
                 return data[static_cast<size_t>(value)];
             }
 
-            constexpr bool isFloatType(Type value)
+            inline bool isFloatType(Type value)
             {
                 const bool data[] =
                 {
@@ -351,7 +351,7 @@ namespace djv
                 return Type::None;
             }
 
-            constexpr gl::GLenum getGLFormat(Type value)
+            inline gl::GLenum getGLFormat(Type value)
             {
                 using namespace gl;
                 const GLenum data[] =
@@ -387,7 +387,7 @@ namespace djv
                 return data[static_cast<size_t>(value)];
             }
 
-            constexpr gl::GLenum getGLType(Type value)
+            inline gl::GLenum getGLType(Type value)
             {
                 using namespace gl;
                 const GLenum data[] =
