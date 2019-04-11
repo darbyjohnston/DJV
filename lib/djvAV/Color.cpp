@@ -255,7 +255,7 @@ namespace djv
     {
         QStringList s;
         s << value;
-        return picojson::value(s.join(' ').toUtf8());
+        return picojson::value(s.join(' ').toStdString());
     }
 
     void fromJSON(const picojson::value & value, AV::Color & out)

@@ -41,28 +41,28 @@ namespace djv
     {
         QStringList s;
         s << value;
-        return picojson::value(s.join(' ').toUtf8());
+        return picojson::value(s.join(' ').toStdString());
     }
 
     picojson::value toJSON(const glm::vec2 & value)
     {
         QStringList s;
         s << value;
-        return picojson::value(s.join(' ').toUtf8());
+        return picojson::value(s.join(' ').toStdString());
     }
 
     picojson::value toJSON(const glm::vec3 & value)
     {
         QStringList s;
         s << value;
-        return picojson::value(s.join(' ').toUtf8());
+        return picojson::value(s.join(' ').toStdString());
     }
 
     picojson::value toJSON(const glm::vec4 & value)
     {
         QStringList s;
         s << value;
-        return picojson::value(s.join(' ').toUtf8());
+        return picojson::value(s.join(' ').toStdString());
     }
 
     void fromJSON(const picojson::value & value, glm::ivec2 & out)
