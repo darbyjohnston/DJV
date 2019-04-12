@@ -90,17 +90,20 @@ namespace djv
                 p.alDevice = alcOpenDevice(devices);
                 if (!p.alDevice)
                 {
-                    throw std::runtime_error(DJV_TEXT("The OpenAL device cannot be opened."));
+                    _log("The OpenAL device cannot be opened.", LogLevel::Error);
+                    return;
                 }
                 p.alContext = alcCreateContext(p.alDevice, NULL);
                 if (!p.alContext)
                 {
-                    throw std::runtime_error(DJV_TEXT("The OpenAL context cannot be created."));
+                    _log("The OpenAL context cannot be created.", LogLevel::Error);
+                    return;
                 }
                 ALCboolean r = alcMakeContextCurrent(p.alContext);
                 if (AL_FALSE == r)
                 {
-                    throw std::runtime_error(DJV_TEXT("The OpenAL context cannot be made current."));
+                    _log("The OpenAL context cannot be made current.", LogLevel::Error);
+                    return;
                 }
             }
 

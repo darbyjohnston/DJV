@@ -131,18 +131,30 @@ namespace djv
             ALenum error = AL_NO_ERROR;
             if ((error = alGetError()) != AL_NO_ERROR)
             {
-                std::stringstream ss;
-                ss << "djv::ViewLib::Media " << DJV_TEXT("cannot create OpenAL source") << ". " << AV::Audio::getALErrorString(error);
-                throw std::runtime_error(ss.str());
+                if (auto logSystem = context->getSystemT<LogSystem>())
+                {
+                    std::stringstream ss;
+                    ss << "djv::ViewLib::Media " << DJV_TEXT("cannot create OpenAL source") << ". " << AV::Audio::getALErrorString(error);
+                    logSystem->log("djv::ViewLib::Media", ss.str(), LogLevel::Error);
+                }
             }
 
-            p.alBuffers.resize(bufferCount);
-            alGenBuffers(bufferCount, p.alBuffers.data());
-            if ((error = alGetError()) != AL_NO_ERROR)
+            if (p.alSource)
             {
-                std::stringstream ss;
-                ss << "djv::ViewLib::Media " << DJV_TEXT("cannot create OpenAL buffers") << ". " << AV::Audio::getALErrorString(error);
-                throw std::runtime_error(ss.str());
+                p.alBuffers.resize(bufferCount);
+                alGenBuffers(bufferCount, p.alBuffers.data());
+                if ((error = alGetError()) != AL_NO_ERROR)
+                {
+                    p.alBuffers.clear();
+                    alDeleteSources(1, &p.alSource);
+                    p.alSource = 0;
+                    if (auto logSystem = context->getSystemT<LogSystem>())
+                    {
+                        std::stringstream ss;
+                        ss << "djv::ViewLib::Media " << DJV_TEXT("cannot create OpenAL buffers") << ". " << AV::Audio::getALErrorString(error);
+                        logSystem->log("djv::ViewLib::Media", ss.str(), LogLevel::Error);
+                    }
+                }
             }
 
             if (auto io = context->getSystemT<AV::IO::System>())
@@ -235,7 +247,19 @@ namespace djv
         {}
 
         Media::~Media()
-        {}
+        {
+            DJV_PRIVATE_PTR();
+            if (p.alBuffers.size())
+            {
+                alDeleteBuffers(bufferCount, p.alBuffers.data());
+                p.alBuffers.clear();
+            }
+            if (p.alSource)
+            {
+                alDeleteSources(1, &p.alSource);
+                p.alSource = 0;
+            }
+        }
 
         std::shared_ptr<Media> Media::create(const std::string & fileName, Context * context)
         {
@@ -404,12 +428,15 @@ namespace djv
             switch (p.playback->get())
             {
             case Playback::Stop:
-                alSourceStop(p.alSource);
-                alSourcei(p.alSource, AL_BUFFER, 0);
-                alSourcei(p.alSource, AL_BYTE_OFFSET, 0);
+                if (p.alSource)
+                {
+                    alSourceStop(p.alSource);
+                    alSourcei(p.alSource, AL_BUFFER, 0);
+                    alSourcei(p.alSource, AL_BYTE_OFFSET, 0);
+                    p.alBytes = 0;
+                    p.alBuffers.clear();
+                }
                 p.playbackTimer->stop();
-                p.alBytes = 0;
-                p.alBuffers.clear();
                 break;
             case Playback::Forward:
             case Playback::Reverse:
@@ -433,7 +460,7 @@ namespace djv
                         r.num = p.videoInfo.speed.getDuration();
                         r.den = p.videoInfo.speed.getScale();
                         const int64_t f = av_rescale_q(1, r, av_get_time_base_q());
-                        if (Playback::Forward == playback && p.audioInfo.info.isValid())
+                        if (Playback::Forward == playback && p.audioInfo.info.isValid() && p.alSource)
                         {
                             ALint offset = 0;
                             alGetSourcei(p.alSource, AL_BYTE_OFFSET, &offset);
@@ -522,7 +549,10 @@ namespace djv
                     default: break;
                     }
                 });
-                alSourcePlay(p.alSource);
+                if (p.alSource)
+                {
+                    alSourcePlay(p.alSource);
+                }
                 break;
             default: break;
             }
@@ -542,23 +572,26 @@ namespace djv
             }
 
             // Unqueue the processed OpenAL buffers.
-            ALint processed = 0;
-            alGetSourcei(p.alSource, AL_BUFFERS_PROCESSED, &processed);
-            std::vector<ALuint> buffers;
-            buffers.resize(processed);
-            alSourceUnqueueBuffers(p.alSource, processed, buffers.data());
-            for (const auto & buffer : buffers)
+            if (p.alSource)
             {
-                p.alBuffers.push_back(buffer);
-                if (p.playback->get() != Playback::Stop)
+                ALint processed = 0;
+                alGetSourcei(p.alSource, AL_BUFFERS_PROCESSED, &processed);
+                std::vector<ALuint> buffers;
+                buffers.resize(processed);
+                alSourceUnqueueBuffers(p.alSource, processed, buffers.data());
+                for (const auto& buffer : buffers)
                 {
-                    ALint size = 0;
-                    alGetBufferi(buffer, AL_SIZE, &size);
-                    p.alBytes += size;
+                    p.alBuffers.push_back(buffer);
+                    if (p.playback->get() != Playback::Stop)
+                    {
+                        ALint size = 0;
+                        alGetBufferi(buffer, AL_SIZE, &size);
+                        p.alBytes += size;
+                    }
                 }
             }
 
-            if (p.audioInfo.info.isValid() && Playback::Forward == p.playback->get())
+            if (Playback::Forward == p.playback->get() && p.audioInfo.info.isValid() && p.alSource)
             {
                 // Fill the OpenAL queue with frames from the I/O queue.
                 ALint queued = 0;

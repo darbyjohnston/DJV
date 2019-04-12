@@ -72,16 +72,16 @@ namespace djv
             p.timeUnits = ValueSubject<TimeUnits>::create(TimeUnits::First);
 
             auto ioSystem = IO::System::create(context);
-            auto audioSystem = Audio::System::create(context);
             auto fontSystem = Font::System::create(context);
             auto thumbnailSystem = ThumbnailSystem::create(context);
             auto render2D = Render::Render2D::create(context);
+            auto audioSystem = Audio::System::create(context);
 
             addDependency(ioSystem);
-            addDependency(audioSystem);
             addDependency(fontSystem);
             addDependency(thumbnailSystem);
             addDependency(render2D);
+            addDependency(audioSystem);
         }
 
         AVSystem::AVSystem() :
