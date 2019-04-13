@@ -250,7 +250,7 @@ namespace djv
         void EventSystem::_hover(Event::PointerMove & event, std::shared_ptr<IObject> & hover)
         {
             auto rootObject = getRootObject();
-            for (const auto & i : rootObject->getChildrenRecursiveT<UI::Window>())
+            for (const auto & i : rootObject->getChildrenT<UI::Window>())
             {
                 _hover(i, event, hover);
                 if (event.isAccepted())
@@ -262,7 +262,7 @@ namespace djv
 
         void EventSystem::_hover(const std::shared_ptr<UI::Widget> & widget, Event::PointerMove & event, std::shared_ptr<IObject> & hover)
         {
-            const auto children = widget->getChildrenRecursiveT<UI::Widget>();
+            const auto children = widget->getChildrenT<UI::Widget>();
             for (auto i = children.rbegin(); i != children.rend(); ++i)
             {
                 if ((*i)->isVisible() &&
@@ -356,8 +356,8 @@ namespace djv
             {
                 switch (action)
                 {
-                case GLFW_PRESS:   system->_keyPress(key, modifiers);   break;
-                case GLFW_REPEAT:  system->_keyPress(key, modifiers);   break;
+                case GLFW_PRESS:   system->_keyPress  (key, modifiers); break;
+                case GLFW_REPEAT:  system->_keyPress  (key, modifiers); break;
                 case GLFW_RELEASE: system->_keyRelease(key, modifiers); break;
                 }
             }
