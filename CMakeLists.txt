@@ -32,6 +32,8 @@ elseif(UNIX)
 elseif(WIN32)
     set(DJV_PLATFORM_WINDOWS TRUE)
     add_definitions(-DDJV_PLATFORM_WINDOWS)
+	set(CMAKE_C_FLAGS "/MP /EHsc")
+	set(CMAKE_CXX_FLAGS "/MP /EHsc")
 endif()
 
 # Update the CMake module path.
