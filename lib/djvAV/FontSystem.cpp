@@ -142,17 +142,17 @@ namespace djv
             } // namespace
 
             const std::string Info::familyDefault = "Noto Sans";
-            const std::string Info::familyMono = "Noto Sans Mono";
-            const std::string Info::faceDefault = "Regular";
+            const std::string Info::familyMono    = "Noto Sans Mono";
+            const std::string Info::faceDefault   = "Regular";
 
             Info::Info()
             {}
 
             Info::Info(const std::string & family, const std::string & face, float size, int dpi) :
                 family(family),
-                face(face),
-                size(size),
-                dpi(dpi)
+                face  (face),
+                size  (size),
+                dpi   (dpi)
             {}
 
             TextLine::TextLine()
@@ -169,36 +169,15 @@ namespace djv
             GlyphInfo::GlyphInfo(uint32_t code, const Info & info) :
                 code(code),
                 info(info)
-            {
-                //! \todo This is probably not a good idea.
-                static std::map<size_t, UID> map;
-                size_t hash = 0;
-                Memory::hashCombine(hash, info.dpi);
-                Memory::hashCombine(hash, info.size);
-                Memory::hashCombine(hash, info.face);
-                Memory::hashCombine(hash, info.family);
-                Memory::hashCombine(hash, code);
-                const auto i = map.find(hash);
-                if (i != map.end())
-                {
-                    uid = i->second;
-                }
-                else
-                {
-                    uid = createUID();
-                    map[hash] = uid;
-                }
-            }
+            {}
 
             void Glyph::_init(
-                const GlyphInfo & info,
                 const std::shared_ptr<Image::Data> & imageData,
-                const glm::vec2 & offset,
-                float advance,
-                int32_t lsbDelta,
-                int32_t rsbDelta)
+                const glm::vec2 &                    offset,
+                float                                advance,
+                int32_t                              lsbDelta,
+                int32_t                              rsbDelta)
             {
-                this->info      = info;
                 this->imageData = imageData;
                 this->offset    = offset;
                 this->advance   = advance;
@@ -210,15 +189,14 @@ namespace djv
             {}
 
             std::shared_ptr<Glyph> Glyph::create(
-                const GlyphInfo & info,
                 const std::shared_ptr<Image::Data> & imageData,
-                const glm::vec2 & offset,
-                float advance,
-                int32_t lsbDelta,
-                int32_t rsbDelta)
+                const glm::vec2 &                    offset,
+                float                                advance,
+                int32_t                              lsbDelta,
+                int32_t                              rsbDelta)
             {
                 auto out = std::shared_ptr<Glyph>(new Glyph);
-                out->_init(info, imageData, offset, advance, lsbDelta, rsbDelta);
+                out->_init(imageData, offset, advance, lsbDelta, rsbDelta);
                 return out;
             }
 
@@ -242,8 +220,7 @@ namespace djv
                 std::vector<GlyphsRequest> glyphsRequests;
 
                 std::wstring_convert<std::codecvt_utf8<djv_char_t>, djv_char_t> utf32;
-                Memory::Cache<UID, std::shared_ptr<Glyph> > glyphCache;
-                //std::map<UID, std::shared_ptr<Glyph> > glyphCache;
+                Memory::Cache<GlyphInfo, std::shared_ptr<Glyph> > glyphCache;
                 std::mutex cacheMutex;
 
                 std::shared_ptr<Time::Timer> statsTimer;
@@ -804,17 +781,11 @@ namespace djv
                 bool inCache = false;
                 {
                     std::lock_guard<std::mutex> lock(cacheMutex);
-                    if (glyphCache.contains(info.uid))
+                    if (glyphCache.contains(info))
                     {
                         inCache = true;
-                        out = glyphCache.get(info.uid);
+                        out = glyphCache.get(info);
                     }
-                    /*const auto i = glyphCache.find(info.uid);
-                    if (i != glyphCache.end())
-                    {
-                        inCache = true;
-                        out = i->second;
-                    }*/
                 }
                 if (!inCache)
                 {
@@ -890,7 +861,6 @@ namespace djv
                                         imageInfo.size.x * renderModeChannels);
                                 }
                                 out = Glyph::create(
-                                    info,
                                     imageData,
                                     glm::vec2(font->second->glyph->bitmap_left, font->second->glyph->bitmap_top),
                                     font->second->glyph->advance.x / 64.f,
@@ -898,8 +868,7 @@ namespace djv
                                     font->second->glyph->rsb_delta);
                                 {
                                     std::lock_guard<std::mutex> lock(cacheMutex);
-                                    glyphCache.add(info.uid, out);
-                                    //glyphCache[info.uid] = out;
+                                    glyphCache.add(info, out);
                                 }
                                 FT_Done_Glyph(ftGlyph);
                             }

@@ -163,7 +163,6 @@ namespace djv
                 {
                     _initObject(i);
                 }
-                objectsCreated.clear();
 
                 if (p.localeInit)
                 {

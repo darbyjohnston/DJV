@@ -29,6 +29,7 @@
 
 #include <djvCoreTest/ObjectTest.h>
 
+#include <djvCore/IEventSystem.h>
 #include <djvCore/IObject.h>
 
 namespace djv
@@ -43,6 +44,19 @@ namespace djv
         
         namespace
         {
+            class EventSystem : public Event::IEventSystem
+            {
+            public:
+                static std::shared_ptr<EventSystem> create(Context * context)
+                {
+                    auto out = std::shared_ptr<EventSystem>(new EventSystem);
+                    out->_init("EventSystem", context);
+                    return out;
+                }
+
+                void _hover(Event::PointerMove &, std::shared_ptr<IObject> &) override {}
+            };
+
             class Object : public IObject
             {
                 DJV_NON_COPYABLE(Object);
@@ -70,6 +84,7 @@ namespace djv
         void ObjectTest::run(int & argc, char ** argv)
         {
             auto context = getContext();
+            auto eventSystem = EventSystem::create(context);
             {
                 auto o = Object::create(context);
                 DJV_ASSERT(!o->getParent().lock());

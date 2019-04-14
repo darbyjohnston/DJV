@@ -1,4 +1,5 @@
 set(header
+	CacheTest.h
     EnumTest.h
     MathTest.h
     MemoryTest.h
@@ -6,6 +7,7 @@ set(header
     PathTest.h
     StringTest.h)
 set(source
+	CacheTest.cpp
     EnumTest.cpp
     MathTest.cpp
     MemoryTest.cpp

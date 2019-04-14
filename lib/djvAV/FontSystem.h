@@ -60,6 +60,8 @@ namespace djv
                 static const std::string familyDefault;
                 static const std::string familyMono;
                 static const std::string faceDefault;
+
+                inline bool operator == (const Info &) const;
             };
 
             //! This struct provides font metrics.
@@ -90,7 +92,8 @@ namespace djv
 
                 uint32_t  code = 0;
                 Info      info;
-                Core::UID uid  = 0;
+
+                inline bool operator == (const GlyphInfo &) const;
             };
 
             //! This struct provides a font glyph.
@@ -100,7 +103,6 @@ namespace djv
 
             protected:
                 void _init(
-                    const GlyphInfo &,
                     const std::shared_ptr<Image::Data> &,
                     const glm::vec2 & offset,
                     float advance,
@@ -110,14 +112,12 @@ namespace djv
 
             public:
                 static std::shared_ptr<Glyph> create(
-                    const GlyphInfo &,
                     const std::shared_ptr<Image::Data> &,
                     const glm::vec2 & offset,
                     float advance,
                     int32_t lsbDelta,
                     int32_t rsbDelta);
 
-                GlyphInfo                    info;
                 std::shared_ptr<Image::Data> imageData;
                 glm::vec2                    offset    = glm::vec2(0.f, 0.f);
                 float                        advance   = 0.f;

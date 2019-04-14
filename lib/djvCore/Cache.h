@@ -31,7 +31,7 @@
 
 #include <djvCore/Core.h>
 
-#include <map>
+#include <list>
 
 namespace djv
 {
@@ -64,9 +64,7 @@ namespace djv
                 void _updateMax();
 
                 size_t _max = 10000;
-                mutable std::map<T, std::pair<U, uint64_t> > _map;
-                mutable std::map<uint64_t, T> _lru;
-                mutable uint64_t _counter = 0;
+                mutable std::list<std::pair<T, U> > _list;
             };
 
         } // namespace Memory

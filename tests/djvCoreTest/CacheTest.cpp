@@ -27,28 +27,51 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
+#include <djvCoreTest/CacheTest.h>
+
+#include <djvCore/Cache.h>
+
 namespace djv
 {
-    namespace AV
+    using namespace Core;
+
+    namespace CoreTest
     {
-        namespace Font
+        CacheTest::CacheTest(Core::Context * context) :
+            ITest("djv::CoreTest::CacheTest", context)
+        {}
+        
+        void CacheTest::run(int & argc, char ** argv)
         {
-            inline bool Info::operator == (const Info & other) const
             {
-                return
-                    dpi    == other.dpi    &&
-                    size   == other.size   &&
-                    face   == other.face   &&
-                    family == other.family;
+                Memory::Cache<int, std::string> cache;
+                cache.add(1, "a");
+                cache.add(2, "b");
+                cache.add(3, "c");
+                DJV_ASSERT(cache.getKeys() == std::vector<int>({ 3, 2, 1 }));
+                DJV_ASSERT(cache.getValues() == std::vector<std::string>({ "c", "b", "a" }));
             }
-
-            inline bool GlyphInfo::operator == (const GlyphInfo& other) const
             {
-                return
-                    code == other.code &&
-                    info == other.info;
+                Memory::Cache<int, std::string> cache;
+                cache.add(1, "a");
+                cache.add(2, "b");
+                cache.add(3, "c");
+                cache.get(1);
+                DJV_ASSERT(cache.getKeys() == std::vector<int>({ 1, 3, 2 }));
+                DJV_ASSERT(cache.getValues() == std::vector<std::string>({ "a", "c", "b" }));
             }
-
-        } // namespace Font
-    } // namespace AV
+            {
+                Memory::Cache<int, std::string> cache;
+                cache.setMax(2);
+                cache.add(1, "a");
+                cache.add(2, "b");
+                cache.add(3, "c");
+                cache.get(2);
+                DJV_ASSERT(cache.getKeys() == std::vector<int>({ 2, 3 }));
+                DJV_ASSERT(cache.getValues() == std::vector<std::string>({ "b", "c" }));
+            }
+        }
+        
+    } // namespace CoreTest
 } // namespace djv
+

@@ -902,7 +902,7 @@ namespace djv
                                     size.y);
                                 if (bbox.intersects(render.viewport))
                                 {
-                                    const auto uid = glyph->info.uid;
+                                    const auto uid = glyph->imageData->getUID();
                                     uint64_t id = 0;
                                     const auto i = render.glyphTextureIDs.find(uid);
                                     if (i != render.glyphTextureIDs.end())

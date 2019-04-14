@@ -27,6 +27,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
+#include <djvCoreTest/CacheTest.h>
 #include <djvCoreTest/EnumTest.h>
 #include <djvCoreTest/MathTest.h>
 #include <djvCoreTest/MemoryTest.h>
@@ -50,6 +51,7 @@ int main(int argc, char ** argv)
     {
         auto context = Core::Context::create(argc, argv);
 
+        (new CoreTest::CacheTest(context.get()))->run(argc, argv);
         (new CoreTest::EnumTest(context.get()))->run(argc, argv);
         (new CoreTest::MathTest(context.get()))->run(argc, argv);
         (new CoreTest::MemoryTest(context.get()))->run(argc, argv);

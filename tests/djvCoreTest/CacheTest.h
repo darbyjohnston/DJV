@@ -27,28 +27,22 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
+#pragma once
+
+#include <djvTestLib/Test.h>
+
 namespace djv
 {
-    namespace AV
+    namespace CoreTest
     {
-        namespace Font
+        class CacheTest : public Test::ITest
         {
-            inline bool Info::operator == (const Info & other) const
-            {
-                return
-                    dpi    == other.dpi    &&
-                    size   == other.size   &&
-                    face   == other.face   &&
-                    family == other.family;
-            }
-
-            inline bool GlyphInfo::operator == (const GlyphInfo& other) const
-            {
-                return
-                    code == other.code &&
-                    info == other.info;
-            }
-
-        } // namespace Font
-    } // namespace AV
+        public:
+            CacheTest(Core::Context *);
+            
+            void run(int & argc, char ** argv) override;
+        };
+        
+    } // namespace CoreTest
 } // namespace djv
+
