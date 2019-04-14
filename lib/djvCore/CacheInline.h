@@ -51,75 +51,59 @@ namespace djv
             template<typename T, typename U>
             inline size_t Cache<T, U>::getSize() const
             {
-                return _list.size();
+                return _map.size();
             }
 
             template<typename T, typename U>
             inline bool Cache<T, U>::contains(const T & key) const
             {
-                const auto i = std::find_if(_list.begin(), _list.end(),
-                    [key](const std::pair<T, U> & value)
-                {
-                    return key == value.first;
-                });
-                return i != _list.end();
+                return _map.find(key) != _map.end();
             }
 
             template<typename T, typename U>
-            inline const U & Cache<T, U>::get(const T & key) const
+            inline bool Cache<T, U>::get(const T & key, U & value) const
             {
-                auto i = std::find_if(
-                    _list.begin(),
-                    _list.end(),
-                    [key](const std::pair<T, U> & value)
+                auto i = _map.find(key);
+                if (i != _map.end())
                 {
-                    return key == value.first;
-                });
-                if (i != _list.end())
-                {
-                    auto value = i->second;
-                    _list.erase(i);
-                    _list.push_front(std::make_pair(key, value));
-                    i = _list.begin();
+                    value = i->second;
+                    auto j = _counts.find(key);
+                    if (j != _counts.end())
+                    {
+                        ++_counter;
+                        j->second = _counter;
+                    }
+                    return true;
                 }
-                return i->second;
+                return i != _map.end();
             }
 
             template<typename T, typename U>
             inline void Cache<T, U>::add(const T & key, const U & value)
             {
-                const auto i = std::find_if(
-                    _list.begin(),
-                    _list.end(),
-                    [key](const std::pair<T, U> & value)
-                {
-                    return key == value.first;
-                });
-                if (i != _list.end())
-                {
-                    _list.erase(i);
-                }
-                _list.push_front(std::make_pair(key, value));
+                _map[key] = value;
+                ++_counter;
+                _counts[key] = _counter;
                 _updateMax();
             }
 
             template<typename T, typename U>
             inline void Cache<T, U>::clear()
             {
-                _list.clear();
+                _map.clear();
             }
 
             template<typename T, typename U>
             inline float Cache<T, U>::getPercentageUsed() const
             {
-                return _list.size() / static_cast<float>(_max) * 100.f;
+                return _map.size() / static_cast<float>(_max) * 100.f;
             }
 
             template<typename T, typename U>
             inline std::vector<T> Cache<T, U>::getKeys() const
             {
                 std::vector<T> out;
-                for (const auto & i : _list)
+                for (const auto & i : _map)
                 {
                     out.push_back(i.first);
                 }
@@ -130,7 +114,7 @@ namespace djv
             inline std::vector<U> Cache<T, U>::getValues() const
             {
                 std::vector<U> out;
-                for (const auto & i : _list)
+                for (const auto & i : _map)
                 {
                     out.push_back(i.second);
                 }
@@ -140,9 +124,21 @@ namespace djv
             template<typename T, typename U>
             inline void Cache<T, U>::_updateMax()
             {
-                while (_list.size() > _max)
+                if (_map.size() > _max)
                 {
-                    _list.pop_back();
+                    std::map<int64_t, T> sorted;
+                    for (const auto& i : _counts)
+                    {
+                        sorted[i.second] = i.first;
+                    }
+                    while (_map.size() > _max)
+                    {
+                        auto i = _map.find(sorted.begin()->second);
+                        _map.erase(i);
+                        auto j = _counts.find(sorted.begin()->second);
+                        _counts.erase(j);
+                        sorted.erase(sorted.begin());
+                    }
                 }
             }
 

@@ -48,17 +48,8 @@ namespace djv
                 cache.add(1, "a");
                 cache.add(2, "b");
                 cache.add(3, "c");
-                DJV_ASSERT(cache.getKeys() == std::vector<int>({ 3, 2, 1 }));
-                DJV_ASSERT(cache.getValues() == std::vector<std::string>({ "c", "b", "a" }));
-            }
-            {
-                Memory::Cache<int, std::string> cache;
-                cache.add(1, "a");
-                cache.add(2, "b");
-                cache.add(3, "c");
-                cache.get(1);
-                DJV_ASSERT(cache.getKeys() == std::vector<int>({ 1, 3, 2 }));
-                DJV_ASSERT(cache.getValues() == std::vector<std::string>({ "a", "c", "b" }));
+                DJV_ASSERT(cache.getKeys() == std::vector<int>({ 1, 2, 3 }));
+                DJV_ASSERT(cache.getValues() == std::vector<std::string>({ "a", "b", "c" }));
             }
             {
                 Memory::Cache<int, std::string> cache;

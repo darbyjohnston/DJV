@@ -245,10 +245,7 @@ namespace djv
                 {
                     std::lock_guard<std::mutex> lock(p.cacheMutex);
                     const auto key = getImageCacheKey(i.path);
-                    if (p.imageCache.contains(key))
-                    {
-                        image = p.imageCache.get(key);
-                    }
+                    p.imageCache.get(key, image);
                 }
                 if (!image)
                 {

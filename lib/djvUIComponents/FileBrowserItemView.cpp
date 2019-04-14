@@ -261,7 +261,7 @@ namespace djv
                                 if (k == p.nameLinesFutures.end())
                                 {
                                     const float m = style->getMetric(MetricsRole::MarginSmall);
-                                    const auto fontInfo = style->getFontInfo(AV::Font::Info::faceDefault, MetricsRole::FontMedium);
+                                    const auto fontInfo = style->getFontInfo(AV::Font::faceDefault, MetricsRole::FontMedium);
                                     p.nameLinesFutures[i.first] = fontSystem->textLines(
                                         fileInfo.getFileName(Frame::Invalid, false), p.thumbnailSize.x - m * 2.f, fontInfo);
                                 }
@@ -446,7 +446,7 @@ namespace djv
                         }
                         {
                             render->setFillColor(_getColorWithOpacity(style->getColor(ColorRole::Foreground)));
-                            render->setCurrentFont(style->getFontInfo(AV::Font::Info::faceDefault, MetricsRole::FontMedium));
+                            render->setCurrentFont(style->getFontInfo(AV::Font::faceDefault, MetricsRole::FontMedium));
                             switch (p.viewType)
                             {
                             case ViewType::Tiles:
@@ -854,7 +854,7 @@ namespace djv
                                     if (k == p.nameLinesFutures.end())
                                     {
                                         const float m = style->getMetric(MetricsRole::MarginSmall);
-                                        const auto fontInfo = style->getFontInfo(AV::Font::Info::faceDefault, MetricsRole::FontMedium);
+                                        const auto fontInfo = style->getFontInfo(AV::Font::faceDefault, MetricsRole::FontMedium);
                                         p.nameLinesFutures[i.first] = fontSystem->textLines(
                                             fileInfo.getFileName(Frame::Invalid, false), p.thumbnailSize.x - m * 2.f, fontInfo);
                                     }
@@ -883,7 +883,7 @@ namespace djv
                 auto fontSystem = _getFontSystem();
                 auto thumbnailSystem = getContext()->getSystemT<AV::ThumbnailSystem>();
                 p.nameFontMetricsFuture = fontSystem->getMetrics(
-                    style->getFontInfo(AV::Font::Info::faceDefault, MetricsRole::FontMedium));
+                    style->getFontInfo(AV::Font::faceDefault, MetricsRole::FontMedium));
                 p.nameLines.clear();
                 p.nameLinesFutures.clear();
                 p.ioInfo.clear();

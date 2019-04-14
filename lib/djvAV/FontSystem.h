@@ -46,20 +46,23 @@ namespace djv
         //! This namespace provides font functionality.
         namespace Font
         {
+            typedef uint16_t FamilyID;
+            typedef uint16_t FaceID;
+
+            const std::string familyDefault = "Noto Sans";
+            const std::string familyMono = "Noto Sans Mono";
+            const std::string faceDefault = "Regular";
+
             //! This class provides font information.
             struct Info
             {
                 Info();
-                Info(const std::string & family, const std::string & face, float size, int DPI);
+                Info(FamilyID, FaceID, float size, int DPI);
 
-                std::string family = familyDefault;
-                std::string face   = faceDefault;
-                float       size   = 0.f;
-                int         dpi    = dpiDefault;
-
-                static const std::string familyDefault;
-                static const std::string familyMono;
-                static const std::string faceDefault;
+                FamilyID family = 1;
+                FaceID   face   = 1;
+                float    size   = 0.f;
+                int      dpi    = dpiDefault;
 
                 inline bool operator == (const Info &) const;
             };
@@ -90,10 +93,14 @@ namespace djv
                 GlyphInfo();
                 GlyphInfo(uint32_t code, const Info &);
 
-                uint32_t  code = 0;
-                Info      info;
+                uint32_t code = 0;
+                Info     info;
 
-                inline bool operator == (const GlyphInfo &) const;
+                inline bool operator == (const GlyphInfo&) const;
+                inline bool operator < (const GlyphInfo&) const;
+
+            private:
+                size_t _hash = 0;
             };
 
             //! This struct provides a font glyph.
@@ -143,8 +150,8 @@ namespace djv
 
                 static std::shared_ptr<System> create(Core::Context *);
 
-                //! Get the font family and file names.
-                std::future<std::map<std::string, std::string> > getFontNames();
+                //! Get the font names.
+                std::future<std::map<FamilyID, std::string> > getFontNames();
 
                 //! Get font metrics.
                 std::future<Metrics> getMetrics(const Info &);

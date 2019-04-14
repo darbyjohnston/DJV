@@ -42,11 +42,16 @@ namespace djv
                     family == other.family;
             }
 
-            inline bool GlyphInfo::operator == (const GlyphInfo& other) const
+            inline bool GlyphInfo::operator == (const GlyphInfo & other) const
             {
                 return
                     code == other.code &&
                     info == other.info;
+            }
+
+            inline bool GlyphInfo::operator < (const GlyphInfo & other) const
+            {
+                return _hash < other._hash;
             }
 
         } // namespace Font

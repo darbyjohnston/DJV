@@ -117,7 +117,7 @@ namespace djv
         {
             DJV_PRIVATE_PTR();
             auto style = _getStyle();
-            const auto fontInfo = style->getFontInfo(AV::Font::Info::faceDefault, UI::MetricsRole::FontMedium);
+            const auto fontInfo = style->getFontInfo(AV::Font::faceDefault, UI::MetricsRole::FontMedium);
             auto fontSystem = _getFontSystem();
             p.fontMetricsFuture = fontSystem->getMetrics(fontInfo);
             _resize();
@@ -148,7 +148,7 @@ namespace djv
             render->setFillColor(_getColorWithOpacity(style->getColor(UI::ColorRole::Foreground)));
             render->drawRect(hg);
 
-            const auto fontInfo = style->getFontInfo(AV::Font::Info::faceDefault, UI::MetricsRole::FontMedium);
+            const auto fontInfo = style->getFontInfo(AV::Font::faceDefault, UI::MetricsRole::FontMedium);
             render->setCurrentFont(fontInfo);
         }
 
@@ -274,7 +274,7 @@ namespace djv
             auto avSystem = getContext()->getSystemT<AV::AVSystem>();
             auto style = _getStyle();
             auto fontSystem = _getFontSystem();
-            const auto fontInfo = style->getFontInfo(AV::Font::Info::faceDefault, UI::MetricsRole::FontMedium);
+            const auto fontInfo = style->getFontInfo(AV::Font::faceDefault, UI::MetricsRole::FontMedium);
             _resize();
         }
 

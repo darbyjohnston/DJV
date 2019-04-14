@@ -52,7 +52,7 @@ namespace djv
             std::string text;
             ColorRole textColorRole = ColorRole::Foreground;
             std::string font;
-            std::string fontFace = AV::Font::Info::faceDefault;
+            std::string fontFace = AV::Font::faceDefault;
             MetricsRole fontSizeRole = MetricsRole::FontMedium;
             AV::Font::Metrics fontMetrics;
             std::future<AV::Font::Metrics> fontMetricsFuture;

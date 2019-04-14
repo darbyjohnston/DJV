@@ -318,8 +318,8 @@ namespace djv
                         y = i.second->geom.min.y + ceilf(i.second->size.y / 2.f) - ceilf(i.second->fontMetrics.lineHeight / 2.f) + i.second->fontMetrics.ascender;
                         render->setFillColor(_getColorWithOpacity(style->getColor(colorRole)));
                         const auto fontInfo = i.second->font.empty() ?
-                            style->getFontInfo(AV::Font::Info::faceDefault, MetricsRole::FontMedium) :
-                            style->getFontInfo(i.second->font, AV::Font::Info::faceDefault, MetricsRole::FontMedium);
+                            style->getFontInfo(AV::Font::faceDefault, MetricsRole::FontMedium) :
+                            style->getFontInfo(i.second->font, AV::Font::faceDefault, MetricsRole::FontMedium);
                         render->setCurrentFont(fontInfo);
                         render->drawText(i.second->text, glm::vec2(x, y));
                         x += i.second->textSize.x;
@@ -602,8 +602,8 @@ namespace djv
                 for (const auto & i : _items)
                 {
                     const auto fontInfo = i.second->font.empty() ?
-                        style->getFontInfo(AV::Font::Info::faceDefault, MetricsRole::FontMedium) :
-                        style->getFontInfo(i.second->font, AV::Font::Info::faceDefault, MetricsRole::FontMedium);
+                        style->getFontInfo(AV::Font::faceDefault, MetricsRole::FontMedium) :
+                        style->getFontInfo(i.second->font, AV::Font::faceDefault, MetricsRole::FontMedium);
                     _fontMetricsFutures[i.second] = fontSystem->getMetrics(fontInfo);
                     _textSizeFutures[i.second] = fontSystem->measure(i.second->text, fontInfo);
                     _shortcutSizeFutures[i.second] = fontSystem->measure(i.second->shortcutLabel, fontInfo);

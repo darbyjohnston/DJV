@@ -141,14 +141,10 @@ namespace djv
 
             } // namespace
 
-            const std::string Info::familyDefault = "Noto Sans";
-            const std::string Info::familyMono    = "Noto Sans Mono";
-            const std::string Info::faceDefault   = "Regular";
-
             Info::Info()
             {}
 
-            Info::Info(const std::string & family, const std::string & face, float size, int dpi) :
+            Info::Info(FamilyID family, FaceID face, float size, int dpi) :
                 family(family),
                 face  (face),
                 size  (size),
@@ -169,7 +165,13 @@ namespace djv
             GlyphInfo::GlyphInfo(uint32_t code, const Info & info) :
                 code(code),
                 info(info)
-            {}
+            {
+                Memory::hashCombine(_hash, code);
+                Memory::hashCombine(_hash, info.family);
+                Memory::hashCombine(_hash, info.face);
+                Memory::hashCombine(_hash, info.size);
+                Memory::hashCombine(_hash, info.dpi);
+            }
 
             void Glyph::_init(
                 const std::shared_ptr<Image::Data> & imageData,
@@ -204,9 +206,11 @@ namespace djv
             {
                 FT_Library ftLibrary = nullptr;
                 FileSystem::Path fontPath;
-                std::map<std::string, std::string> fontNames;
-                std::promise<std::map<std::string, std::string> > fontNamesPromise;
-                std::map<std::string, std::map<std::string, FT_Face> > fontFaces;
+                std::map<FamilyID, std::string> fontFileNames;
+                std::map<FamilyID, std::string> fontNames;
+                std::promise<std::map<FamilyID, std::string> > fontNamesPromise;
+                std::map<FamilyID, std::map<FaceID, std::string> > fontFaceNames;
+                std::map<FamilyID, std::map<FaceID, FT_Face> > fontFaces;
 
                 std::vector<MetricsRequest> metricsQueue;
                 std::vector<MeasureRequest> measureQueue;
@@ -221,7 +225,7 @@ namespace djv
 
                 std::wstring_convert<std::codecvt_utf8<djv_char_t>, djv_char_t> utf32;
                 Memory::Cache<GlyphInfo, std::shared_ptr<Glyph> > glyphCache;
-                std::mutex cacheMutex;
+                std::atomic<float> glyphCachePercentageUsed;
 
                 std::shared_ptr<Time::Timer> statsTimer;
                 std::thread thread;
@@ -248,10 +252,8 @@ namespace djv
                     [this](float)
                 {
                     DJV_PRIVATE_PTR();
-                    std::lock_guard<std::mutex> lock(p.cacheMutex);
                     std::stringstream s;
-                    s << "Glyph cache: " << p.glyphCache.getPercentageUsed() << "%";
-                    //s << "Glyph cache: " << p.glyphCache.size();
+                    s << "Glyph cache: " << p.glyphCachePercentageUsed << "%";
                     _log(s.str());
                 });
 
@@ -324,8 +326,8 @@ namespace djv
                 out->_init(context);
                 return out;
             }
-            
-            std::future<std::map<std::string, std::string> > System::getFontNames()
+
+            std::future<std::map<FamilyID, std::string> > System::getFontNames()
             {
                 auto future = _p->fontNamesPromise.get_future();
                 return future;
@@ -442,8 +444,13 @@ namespace djv
                             s << "    Scalable: " << (FT_IS_SCALABLE(ftFace) ? "true" : "false") << '\n';
                             s << "    Kerning: " << (FT_HAS_KERNING(ftFace) ? "true" : "false");
                             _log(s.str());
-                            p.fontNames[ftFace->family_name] = fileName;
-                            p.fontFaces[ftFace->family_name][ftFace->style_name] = ftFace;
+                            static FamilyID familyID = 0;
+                            static FaceID faceID = 1;
+                            ++familyID;
+                            p.fontFileNames[familyID] = fileName;
+                            p.fontNames[familyID] = ftFace->family_name;
+                            p.fontFaceNames[familyID][faceID] = ftFace->style_name;
+                            p.fontFaces[familyID][faceID] = ftFace;
                         }
                     }
                     if (!p.fontFaces.size())
@@ -778,16 +785,7 @@ namespace djv
             std::shared_ptr<Glyph> System::Private::getGlyph(const GlyphInfo & info)
             {
                 std::shared_ptr<Glyph> out;
-                bool inCache = false;
-                {
-                    std::lock_guard<std::mutex> lock(cacheMutex);
-                    if (glyphCache.contains(info))
-                    {
-                        inCache = true;
-                        out = glyphCache.get(info);
-                    }
-                }
-                if (!inCache)
+                if (!glyphCache.get(info, out))
                 {
                     const auto family = fontFaces.find(info.info.family);
                     if (family != fontFaces.end())
@@ -867,8 +865,8 @@ namespace djv
                                     font->second->glyph->lsb_delta,
                                     font->second->glyph->rsb_delta);
                                 {
-                                    std::lock_guard<std::mutex> lock(cacheMutex);
                                     glyphCache.add(info, out);
+                                    glyphCachePercentageUsed = glyphCache.getPercentageUsed();
                                 }
                                 FT_Done_Glyph(ftGlyph);
                             }

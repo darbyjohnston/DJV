@@ -91,7 +91,7 @@ namespace djv
                 const auto & info = data.getInfo();
 
                 glBindBuffer(GL_PIXEL_UNPACK_BUFFER, _pbo);
-                glBufferData(GL_PIXEL_UNPACK_BUFFER, info.getDataByteCount(), data.getData(), GL_STREAM_DRAW);
+                glBufferData(GL_PIXEL_UNPACK_BUFFER, info.getDataByteCount(), data.getData(), GL_DYNAMIC_DRAW);
 
                 glBindTexture(GL_TEXTURE_2D, _id);
                 glPixelStorei(GL_UNPACK_ALIGNMENT, info.layout.alignment);

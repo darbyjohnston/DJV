@@ -50,7 +50,7 @@ namespace djv
             TextHAlign textHAlign = TextHAlign::Left;
             ColorRole textColorRole = ColorRole::Foreground;
             MetricsRole textSizeRole = MetricsRole::TextColumn;
-            std::string fontFace = AV::Font::Info::faceDefault;
+            std::string fontFace = AV::Font::faceDefault;
             std::string fontFamily;
             MetricsRole fontSizeRole = MetricsRole::FontMedium;
             AV::Font::Metrics fontMetrics;

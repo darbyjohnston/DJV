@@ -56,7 +56,7 @@ namespace djv
 
                 DJV_PRIVATE_PTR();
                 p.localeFonts = MapSubject<std::string, std::string>::create();
-                p.localeFonts->setItem("Default", AV::Font::Info::familyDefault);
+                p.localeFonts->setItem("Default", AV::Font::familyDefault);
                 p.localeFonts->setItem("ja", "Noto Sans CJK JP");
                 p.localeFonts->setItem("ko", "Noto Sans CJK KR");
                 p.localeFonts->setItem("zh", "Noto Sans CJK SC");

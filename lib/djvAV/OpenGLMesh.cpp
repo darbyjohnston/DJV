@@ -71,7 +71,7 @@ namespace djv
             {
                 switch (value)
                 {
-                case VBOType::Pos3_F32_UV_U16_Normal_U10: 
+                case VBOType::Pos3_F32_UV_U16_Normal_U10:
                     return 3 * sizeof(float) + 2 * sizeof(uint16_t) + sizeof(PackedNormal);
                 case VBOType::Pos3_F32_UV_U16_Normal_U10_Color_U8:
                     return 3 * sizeof(float) + 2 * sizeof(uint16_t) + sizeof(PackedNormal) + sizeof(PackedColor);
@@ -108,121 +108,138 @@ namespace djv
                 return out;
             }
 
-            void VBO::copy(const std::vector<uint8_t> & data)
+            void VBO::copy(const std::vector<uint8_t>& data)
             {
                 glBindBuffer(GL_ARRAY_BUFFER, _vbo);
-                glBufferSubData(GL_ARRAY_BUFFER, 0, static_cast<GLsizei>(data.size()), (void *)data.data());
+                glBufferSubData(GL_ARRAY_BUFFER, 0, static_cast<GLsizei>(data.size()), (void*)data.data());
             }
 
-            void VBO::copy(const std::vector<uint8_t> & data, size_t offset)
+            void VBO::copy(const std::vector<uint8_t>& data, size_t offset)
             {
                 glBindBuffer(GL_ARRAY_BUFFER, _vbo);
-                glBufferSubData(GL_ARRAY_BUFFER, offset, static_cast<GLsizei>(data.size()), (void *)data.data());
+                glBufferSubData(GL_ARRAY_BUFFER, offset, static_cast<GLsizei>(data.size()), (void*)data.data());
             }
 
-            std::vector<uint8_t> VBO::convert(const Geom::TriangleMesh & mesh, VBOType type)
+            std::vector<uint8_t> VBO::convert(const Geom::TriangleMesh& mesh, VBOType type)
             {
                 const size_t size = mesh.triangles.size();
                 const size_t vertexByteCount = getVertexByteCount(type);
                 std::vector<uint8_t> out(size * 3 * vertexByteCount);
-                uint8_t * p = out.data();
-                for (size_t i = 0; i < size; ++i)
+                uint8_t* p = out.data();
+                switch (type)
                 {
-                    const Geom::TriangleMesh::Vertex * vertices[] =
+                case VBOType::Pos3_F32_UV_U16_Normal_U10:
+                    for (size_t i = 0; i < size; ++i)
                     {
-                        &mesh.triangles[i].v0,
-                        &mesh.triangles[i].v1,
-                        &mesh.triangles[i].v2
-                    };
-                    switch (type)
-                    {
-                    case VBOType::Pos3_F32_UV_U16_Normal_U10:
+                        const Geom::TriangleMesh::Vertex* vertices[] =
+                        {
+                            &mesh.triangles[i].v0,
+                            &mesh.triangles[i].v1,
+                            &mesh.triangles[i].v2
+                        };
                         for (size_t k = 0; k < 3; ++k)
                         {
                             const size_t v = vertices[k]->v;
-                            float * pf = reinterpret_cast<float *>(p);
+                            float* pf = reinterpret_cast<float*>(p);
                             pf[0] = v ? mesh.v[v - 1][0] : 0.f;
                             pf[1] = v ? mesh.v[v - 1][1] : 0.f;
                             pf[2] = v ? mesh.v[v - 1][2] : 0.f;
                             p += 3 * sizeof(float);
 
                             const size_t t = vertices[k]->t;
-                            uint16_t * pu16 = reinterpret_cast<uint16_t *>(p);
+                            uint16_t* pu16 = reinterpret_cast<uint16_t*>(p);
                             pu16[0] = t ? Math::clamp(static_cast<int>(mesh.t[t - 1][0] * 65535.f), 0, 65535) : 0;
                             pu16[1] = t ? Math::clamp(static_cast<int>(mesh.t[t - 1][1] * 65535.f), 0, 65535) : 0;
                             p += 2 * sizeof(uint16_t);
 
                             const size_t n = vertices[k]->n;
-                            auto packedNormal = reinterpret_cast<PackedNormal *>(p);
+                            auto packedNormal = reinterpret_cast<PackedNormal*>(p);
                             packedNormal->x = n ? Math::clamp(static_cast<int>(mesh.n[n - 1][0] * 511.f), -512, 511) : 0;
                             packedNormal->y = n ? Math::clamp(static_cast<int>(mesh.n[n - 1][1] * 511.f), -512, 511) : 0;
                             packedNormal->z = n ? Math::clamp(static_cast<int>(mesh.n[n - 1][2] * 511.f), -512, 511) : 0;
                             p += sizeof(PackedNormal);
                         }
-                        break;
-                    case VBOType::Pos3_F32_UV_U16_Normal_U10_Color_U8:
+                    }
+                    break;
+                case VBOType::Pos3_F32_UV_U16_Normal_U10_Color_U8:
+                    for (size_t i = 0; i < size; ++i)
+                    {
+                        const Geom::TriangleMesh::Vertex* vertices[] =
+                        {
+                            &mesh.triangles[i].v0,
+                            &mesh.triangles[i].v1,
+                            &mesh.triangles[i].v2
+                        };
                         for (size_t k = 0; k < 3; ++k)
                         {
                             const size_t v = vertices[k]->v;
-                            float * pf = reinterpret_cast<float *>(p);
+                            float* pf = reinterpret_cast<float*>(p);
                             pf[0] = v ? mesh.v[v - 1][0] : 0.f;
                             pf[1] = v ? mesh.v[v - 1][1] : 0.f;
                             pf[2] = v ? mesh.v[v - 1][2] : 0.f;
                             p += 3 * sizeof(float);
 
                             const size_t t = vertices[k]->t;
-                            uint16_t * pu16 = reinterpret_cast<uint16_t *>(p);
+                            uint16_t* pu16 = reinterpret_cast<uint16_t*>(p);
                             pu16[0] = t ? Math::clamp(static_cast<int>(mesh.t[t - 1][0] * 65535.f), 0, 65535) : 0;
                             pu16[1] = t ? Math::clamp(static_cast<int>(mesh.t[t - 1][1] * 65535.f), 0, 65535) : 0;
                             p += 2 * sizeof(uint16_t);
 
                             const size_t n = vertices[k]->n;
-                            auto packedNormal = reinterpret_cast<PackedNormal *>(p);
+                            auto packedNormal = reinterpret_cast<PackedNormal*>(p);
                             packedNormal->x = n ? Math::clamp(static_cast<int>(mesh.n[n - 1][0] * 511.f), -512, 511) : 0;
                             packedNormal->y = n ? Math::clamp(static_cast<int>(mesh.n[n - 1][1] * 511.f), -512, 511) : 0;
                             packedNormal->z = n ? Math::clamp(static_cast<int>(mesh.n[n - 1][2] * 511.f), -512, 511) : 0;
                             p += sizeof(PackedNormal);
 
-                            auto packedColor = reinterpret_cast<PackedColor *>(p);
+                            auto packedColor = reinterpret_cast<PackedColor*>(p);
                             packedColor->r = v ? Math::clamp(static_cast<int>(mesh.c[v - 1][0] * 255.f), 0, 255) : 0;
                             packedColor->g = v ? Math::clamp(static_cast<int>(mesh.c[v - 1][1] * 255.f), 0, 255) : 0;
                             packedColor->b = v ? Math::clamp(static_cast<int>(mesh.c[v - 1][2] * 255.f), 0, 255) : 0;
                             packedColor->a = 255;
                             p += sizeof(PackedColor);
                         }
-                        break;
-                    case VBOType::Pos3_F32_UV_F32_Normal_F32_Color_F32:
+                    }
+                    break;
+                case VBOType::Pos3_F32_UV_F32_Normal_F32_Color_F32:
+                    for (size_t i = 0; i < size; ++i)
+                    {
+                        const Geom::TriangleMesh::Vertex* vertices[] =
+                        {
+                            &mesh.triangles[i].v0,
+                            &mesh.triangles[i].v1,
+                            &mesh.triangles[i].v2
+                        };
                         for (size_t k = 0; k < 3; ++k)
                         {
                             const size_t v = vertices[k]->v;
-                            float * pf = reinterpret_cast<float *>(p);
+                            float* pf = reinterpret_cast<float*>(p);
                             pf[0] = v ? mesh.v[v - 1][0] : 0.f;
                             pf[1] = v ? mesh.v[v - 1][1] : 0.f;
                             pf[2] = v ? mesh.v[v - 1][2] : 0.f;
                             p += 3 * sizeof(float);
 
                             const size_t t = vertices[k]->t;
-                            pf = reinterpret_cast<float *>(p);
+                            pf = reinterpret_cast<float*>(p);
                             pf[0] = t ? mesh.t[t - 1][0] : 0.f;
                             pf[1] = t ? mesh.t[t - 1][1] : 0.f;
                             p += 2 * sizeof(float);
 
                             const size_t n = vertices[k]->n;
-                            pf = reinterpret_cast<float *>(p);
+                            pf = reinterpret_cast<float*>(p);
                             pf[0] = n ? mesh.n[n - 1][0] : 0.f;
                             pf[1] = n ? mesh.n[n - 1][1] : 0.f;
                             pf[2] = n ? mesh.n[n - 1][2] : 0.f;
                             p += 3 * sizeof(float);
 
-                            pf = reinterpret_cast<float *>(p);
+                            pf = reinterpret_cast<float*>(p);
                             pf[0] = v ? mesh.c[v - 1][0] : 1.f;
                             pf[1] = v ? mesh.c[v - 1][1] : 1.f;
                             pf[2] = v ? mesh.c[v - 1][2] : 1.f;
                             p += 3 * sizeof(float);
                         }
-                        break;
-                    default: break;
                     }
+                    break;
                 }
                 return out;
             }
@@ -237,23 +254,23 @@ namespace djv
                 {
                 case VBOType::Pos3_F32_UV_U16_Normal_U10:
                 case VBOType::Pos3_F32_UV_U16_Normal_U10_Color_U8:
-                    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, static_cast<GLsizei>(vertexByteCount), (GLvoid *)0);
+                    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, static_cast<GLsizei>(vertexByteCount), (GLvoid*)0);
                     glEnableVertexAttribArray(0);
-                    glVertexAttribPointer(1, 2, GL_UNSIGNED_SHORT, GL_TRUE, static_cast<GLsizei>(vertexByteCount), (GLvoid *)12);
+                    glVertexAttribPointer(1, 2, GL_UNSIGNED_SHORT, GL_TRUE, static_cast<GLsizei>(vertexByteCount), (GLvoid*)12);
                     glEnableVertexAttribArray(1);
-                    glVertexAttribPointer(2, 4, GL_INT_2_10_10_10_REV, GL_TRUE, static_cast<GLsizei>(vertexByteCount), (GLvoid *)16);
+                    glVertexAttribPointer(2, 4, GL_INT_2_10_10_10_REV, GL_TRUE, static_cast<GLsizei>(vertexByteCount), (GLvoid*)16);
                     glEnableVertexAttribArray(2);
-                    glVertexAttribPointer(3, 4, GL_UNSIGNED_BYTE, GL_TRUE, static_cast<GLsizei>(vertexByteCount), (GLvoid *)20);
+                    glVertexAttribPointer(3, 4, GL_UNSIGNED_BYTE, GL_TRUE, static_cast<GLsizei>(vertexByteCount), (GLvoid*)20);
                     glEnableVertexAttribArray(3);
                     break;
                 case VBOType::Pos3_F32_UV_F32_Normal_F32_Color_F32:
-                    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, static_cast<GLsizei>(vertexByteCount), (GLvoid *)0);
+                    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, static_cast<GLsizei>(vertexByteCount), (GLvoid*)0);
                     glEnableVertexAttribArray(0);
-                    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, static_cast<GLsizei>(vertexByteCount), (GLvoid *)12);
+                    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, static_cast<GLsizei>(vertexByteCount), (GLvoid*)12);
                     glEnableVertexAttribArray(1);
-                    glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, static_cast<GLsizei>(vertexByteCount), (GLvoid *)20);
+                    glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, static_cast<GLsizei>(vertexByteCount), (GLvoid*)20);
                     glEnableVertexAttribArray(2);
-                    glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, static_cast<GLsizei>(vertexByteCount), (GLvoid *)32);
+                    glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, static_cast<GLsizei>(vertexByteCount), (GLvoid*)32);
                     glEnableVertexAttribArray(3);
                     break;
                 default: break;

@@ -29,6 +29,8 @@
 
 #include <djvUI/Style.h>
 
+#include <djvCore/Context.h>
+
 //#pragma optimize("", off)
 
 using namespace djv::Core;
@@ -173,7 +175,9 @@ namespace djv
                 Palette palette;
                 int dpi = AV::dpiDefault;
                 Metrics metrics;
-                std::string font = AV::Font::Info::familyDefault;
+                std::string font = AV::Font::familyDefault;
+                std::map<AV::Font::FamilyID, std::string> fontNames;
+                std::map<std::string, AV::Font::FamilyID> fontNameToId;
                 bool dirty = true;
             };
 
@@ -182,7 +186,13 @@ namespace djv
                 DJV_PRIVATE_PTR();
                 p.context = context;
                 p.dpi = dpi;
-                _p->dirty = true;
+                auto fontSystem = context->getSystemT<AV::Font::System>();
+                p.fontNames = fontSystem->getFontNames().get();
+                for (const auto & i : p.fontNames)
+                {
+                    p.fontNameToId[i.second] = i.first;
+                }
+                p.dirty = true;
             }
 
             Style::Style() :
@@ -264,13 +274,23 @@ namespace djv
             AV::Font::Info Style::getFontInfo(const std::string & family, const std::string & face, MetricsRole role) const
             {
                 DJV_PRIVATE_PTR();
-                return AV::Font::Info(family, face, ceilf(getMetric(role)), p.dpi);
+                const auto i = p.fontNameToId.find(family);
+                return AV::Font::Info(
+                    i != p.fontNameToId.end() ? i->second : 1,
+                    1,
+                    ceilf(getMetric(role)),
+                    p.dpi);
             }
 
             AV::Font::Info Style::getFontInfo(const std::string & face, MetricsRole role) const
             {
                 DJV_PRIVATE_PTR();
-                return AV::Font::Info(p.font, face, ceilf(getMetric(role)), p.dpi);
+                const auto i = p.fontNameToId.find(p.font);
+                return AV::Font::Info(
+                    i != p.fontNameToId.end() ? i->second : 1,
+                    1,
+                    ceilf(getMetric(role)),
+                    p.dpi);
             }
 
             bool Style::isDirty() const

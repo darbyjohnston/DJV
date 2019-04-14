@@ -81,7 +81,7 @@ namespace djv
 
                 // Use the font size to determine the size of the button.
                 auto fontSystem = _getFontSystem();
-                const auto fontMetrics = fontSystem->getMetrics(style->getFontInfo(AV::Font::Info::faceDefault, Style::MetricsRole::FontMedium)).get();
+                const auto fontMetrics = fontSystem->getMetrics(style->getFontInfo(AV::Font::faceDefault, Style::MetricsRole::FontMedium)).get();
                 _p->lineHeight = static_cast<float>(fontMetrics.lineHeight);
 
                 // Set the minimum size.

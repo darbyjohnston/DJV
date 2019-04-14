@@ -31,7 +31,7 @@
 
 #include <djvCore/Core.h>
 
-#include <list>
+#include <map>
 
 namespace djv
 {
@@ -51,7 +51,7 @@ namespace djv
 
                 inline size_t getSize() const;
                 inline bool contains(const T & key) const;
-                inline const U & get(const T & key) const;
+                inline bool get(const T & key, U &) const;
                 inline void add(const T & key, const U & value);
                 inline void clear();
 
@@ -64,7 +64,9 @@ namespace djv
                 void _updateMax();
 
                 size_t _max = 10000;
-                mutable std::list<std::pair<T, U> > _list;
+                std::map<T, U> _map;
+                mutable std::map<T, int64_t> _counts;
+                mutable int64_t _counter = 0;
             };
 
         } // namespace Memory
