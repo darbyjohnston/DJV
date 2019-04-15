@@ -57,7 +57,9 @@ namespace djv
                 cache.add(1, "a");
                 cache.add(2, "b");
                 cache.add(3, "c");
-                cache.get(2);
+                std::string value;
+                cache.get(2, value);
+                DJV_ASSERT(value == "b");
                 DJV_ASSERT(cache.getKeys() == std::vector<int>({ 2, 3 }));
                 DJV_ASSERT(cache.getValues() == std::vector<std::string>({ "b", "c" }));
             }

@@ -27,7 +27,8 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvAV/Application.h>
+#include <djvCmdLineApp/Application.h>
+
 #include <djvAV/IO.h>
 
 #include <djvCore/Context.h>
@@ -43,21 +44,17 @@ namespace djv
     //! This namespace provides functionality for djv_ls.
     namespace ls
     {
-        class Application : public AV::Application
+        class Application : public CmdLine::Application
         {
             DJV_NON_COPYABLE(Application);
 
         protected:
             void _init(int & argc, char ** argv)
             {
-                AV::Application::_init(argc, argv);
+                CmdLine::Application::_init(argc, argv);
 
-                _io = AV::IO::System::create(this);
-
-                if (auto system = getSystemT<Core::TextSystem>())
-                {
-                    const auto locale = system->getCurrentLocale();
-                }
+                auto system = getSystemT<Core::TextSystem>();
+                const auto locale = system->getCurrentLocale();
 
                 for (int i = 1; i < argc; ++i)
                 {
@@ -97,8 +94,6 @@ namespace djv
             {
                 std::cout << fileName << std::endl;
             }
-
-            std::shared_ptr<AV::IO::System> _io;
         };
 
     } // namespace ls

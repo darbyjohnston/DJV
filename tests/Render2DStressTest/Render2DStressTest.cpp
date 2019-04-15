@@ -27,8 +27,10 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
+#include <djvCmdLineApp/Application.h>
+#include <djvCmdLineApp/GLFWSystem.h>
+
 #include <djvAV/AVSystem.h>
-#include <djvAV/Application.h>
 #include <djvAV/Color.h>
 #include <djvAV/Render2D.h>
 
@@ -89,7 +91,7 @@ struct RandomText
 
 const std::vector<float> RandomText::sizes = { 12.f, 24.f, 48.f, 96.f, 1000.f };
 
-class Application : public AV::Application
+class Application : public CmdLine::Application
 {
     DJV_NON_COPYABLE(Application);
 
@@ -124,8 +126,8 @@ private:
 
 void Application::_init(int argc, char ** argv)
 {
-    AV::Application::_init(argc, argv);
-    auto glfwWindow = getGLFWWindow();
+    CmdLine::Application::_init(argc, argv);
+    auto glfwWindow = getSystemT<CmdLine::GLFWSystem>()->getGLFWWindow();
     glfwSetWindowSize(glfwWindow, 1280, 720);
     glfwShowWindow(glfwWindow);
 }
@@ -143,7 +145,7 @@ std::unique_ptr<Application> Application::create(int argc, char ** argv)
 int Application::run()
 {
     auto time = std::chrono::system_clock::now();
-    auto glfwWindow = getGLFWWindow();
+    auto glfwWindow = getSystemT<CmdLine::GLFWSystem>()->getGLFWWindow();
     while (!glfwWindowShouldClose(glfwWindow))
     {
         glfwPollEvents();
@@ -272,7 +274,7 @@ void Application::_render()
     if (auto render = getSystemT<AV::Render::Render2D>())
     {
         glm::ivec2 size;
-        auto glfwWindow = getGLFWWindow();
+        auto glfwWindow = getSystemT<CmdLine::GLFWSystem>()->getGLFWWindow();
         glfwGetWindowSize(glfwWindow, &size.x, &size.y);
         if (size != windowSize)
         {

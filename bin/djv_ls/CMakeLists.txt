@@ -1,7 +1,7 @@
 set(source main.cpp)
 
 add_executable(djv_ls ${header} ${source})
-target_link_libraries(djv_ls djvAV)
+target_link_libraries(djv_ls djvCmdLineApp)
 set_target_properties(
     djv_ls
     PROPERTIES

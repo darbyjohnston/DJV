@@ -27,7 +27,8 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvAV/Application.h>
+#include <djvCmdLineApp/Application.h>
+
 #include <djvAV/AVSystem.h>
 #include <djvAV/IO.h>
 
@@ -46,37 +47,36 @@ namespace djv
     //! This namespace provides functionality for djv_convert.
     namespace convert
     {
-        class Application : public AV::Application
+        class Application : public CmdLine::Application
         {
             DJV_NON_COPYABLE(Application);
 
         protected:
             void _init(int & argc, char ** argv)
             {
-                AV::Application::_init(argc, argv);
+                CmdLine::Application::_init(argc, argv);
 
-                _avSystem = AV::AVSystem::create(this);
+                auto system = getSystemT<Core::TextSystem>();
+                const auto locale = system->getCurrentLocale();
+
                 _parseArgs();
 
-                Core::Time::Timestamp duration = 0;
-                if (auto io = getSystemT<AV::IO::System>())
+                _queue = AV::IO::Queue::create();
+                auto io = getSystemT<AV::IO::System>();
+                _read = io->read(argv[1], _queue);
+                auto info = _read->getInfo().get();
+                auto & video = info.video;
+                if (!video.size())
                 {
-                    _queue = AV::IO::Queue::create();
-                    _read = io->read(argv[1], _queue);
-                    auto info = _read->getInfo().get();
-                    auto & video = info.video;
-                    if (!video.size())
-                    {
-                        throw std::runtime_error(DJV_TEXT("Nothing to convert"));
-                    }
-                    auto & videoInfo = video[0];
-                    if (_resize)
-                    {
-                        video[0].info.size = *_resize;
-                    }
-                    duration = videoInfo.duration;
-                    _write = io->write(argv[2], info, _queue);
+                    throw std::runtime_error(DJV_TEXT("Nothing to convert"));
                 }
+                auto & videoInfo = video[0];
+                if (_resize)
+                {
+                    video[0].info.size = *_resize;
+                }
+                const auto duration = videoInfo.duration;
+                _write = io->write(argv[2], info, _queue);
 
                 _statsTimer = Core::Time::Timer::create(this);
                 _statsTimer->setRepeating(true);
@@ -166,7 +166,6 @@ namespace djv
             std::string _input;
             std::string _output;
             std::unique_ptr<glm::ivec2> _resize;
-            std::shared_ptr<AV::AVSystem> _avSystem;
             std::shared_ptr<AV::IO::Queue> _queue;
             std::shared_ptr<AV::IO::IRead> _read;
             std::shared_ptr<Core::Time::Timer> _statsTimer;

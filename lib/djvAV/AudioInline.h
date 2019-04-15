@@ -140,7 +140,7 @@ namespace djv
             inline void F32ToS32(F32_T value, S32_T & out)
             {
                 out = static_cast<S32_T>(Core::Math::clamp(
-                    static_cast<int64_t>(value * S32Max),
+                    static_cast<int64_t>(value * static_cast<int64_t>(S32Max)),
                     static_cast<int64_t>(S32Min),
                     static_cast<int64_t>(S32Max)));
             }

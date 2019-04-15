@@ -1,7 +1,7 @@
 set(source ComboBoxDesktopExample.cpp)
 
 add_executable(ComboBoxDesktopExample ${header} ${source})
-target_link_libraries(ComboBoxDesktopExample djvDesktop)
+target_link_libraries(ComboBoxDesktopExample djvDesktopApp)
 set_target_properties(
     ComboBoxDesktopExample
     PROPERTIES

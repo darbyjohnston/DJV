@@ -1,7 +1,7 @@
 set(source Render2DStressTest.cpp)
 
 add_executable(Render2DStressTest ${header} ${source})
-target_link_libraries(Render2DStressTest djvAV)
+target_link_libraries(Render2DStressTest djvCmdLineApp)
 set_target_properties(
     Render2DStressTest
     PROPERTIES

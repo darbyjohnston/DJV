@@ -78,7 +78,7 @@ namespace djv
 
                 std::string name;
                 glm::ivec2 size = glm::ivec2(0, 0);
-                Type type;
+                Type type = Type::None;
                 Layout layout;
 
                 inline float getAspectRatio() const;

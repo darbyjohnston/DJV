@@ -27,7 +27,8 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvAV/Application.h>
+#include <djvCmdLineApp/Application.h>
+
 #include <djvAV/IO.h>
 
 #include <djvCore/Context.h>
@@ -43,28 +44,25 @@ namespace djv
     //! This namespace provides functionality for djv_info.
     namespace info
     {
-        class Application : public AV::Application
+        class Application : public CmdLine::Application
         {
             DJV_NON_COPYABLE(Application);
 
         protected:
             void _init(int & argc, char ** argv)
             {
-                AV::Application::_init(argc, argv);
+                CmdLine::Application::_init(argc, argv);
 
-                _io = AV::IO::System::create(this);
+                auto system = getSystemT<Core::TextSystem>();
+                const auto locale = system->getCurrentLocale();
 
-                if (auto system = getSystemT<Core::TextSystem>())
-                {
-                    const auto locale = system->getCurrentLocale();
-                }
-
+                auto io = getSystemT<AV::IO::System>();
                 for (int i = 1; i < argc; ++i)
                 {
                     const Core::FileSystem::FileInfo fileInfo(argv[i]);
                     switch (fileInfo.getType())
                     {
-                    case Core::FileSystem::FileType::File: _print(fileInfo); break;
+                    case Core::FileSystem::FileType::File: _print(fileInfo, io); break;
                     case Core::FileSystem::FileType::Directory:
                     {
                         std::cout << fileInfo.getPath() << ":" << std::endl;
@@ -72,7 +70,7 @@ namespace djv
                         options.fileSequences = true;
                         for (const auto & i : Core::FileSystem::FileInfo::directoryList(fileInfo.getPath(), options))
                         {
-                            _print(i);
+                            _print(i, io);
                         }
                         break;
                     }
@@ -96,13 +94,13 @@ namespace djv
             }
 
         private:
-            void _print(const std::string & fileName)
+            void _print(const std::string & fileName, std::shared_ptr<AV::IO::System> & io)
             {
-                if (_io->canRead(fileName))
+                if (io->canRead(fileName))
                 {
                     try
                     {
-                        auto read = _io->read(fileName, nullptr);
+                        auto read = io->read(fileName, nullptr);
                         auto info = read->getInfo().get();
                         std::cout << fileName << std::endl;
                         size_t i = 0;
@@ -134,8 +132,6 @@ namespace djv
                     }
                 }
             }
-
-            std::shared_ptr<AV::IO::System> _io;
         };
 
     } // namespace info

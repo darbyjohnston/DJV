@@ -336,7 +336,7 @@ namespace djv
                 int tens = 1;
                 for (int i = int(end) - 1; i >= 0; --i, tens *= 10)
                 {
-                    out += (s[i] - 48) * tens;
+                    out += static_cast<int64_t>(s[i] - 48) * tens;
                 }
 
                 // Apply the sign.
@@ -354,7 +354,7 @@ namespace djv
                 int tens = 1;
                 for (int i = int(size) - 1; i >= 0; --i, tens *= 10)
                 {
-                    out += (s[i] - 48) * tens;
+                    out += static_cast<size_t>(s[i] - 48) * tens;
                 }
             }
 

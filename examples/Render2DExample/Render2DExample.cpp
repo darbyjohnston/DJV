@@ -27,7 +27,9 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvAV/Application.h>
+#include <djvCmdLineApp/Application.h>
+#include <djvCmdLineApp/GLFWSystem.h>
+
 #include <djvAV/Color.h>
 #include <djvAV/Render2D.h>
 
@@ -59,7 +61,8 @@ struct Circle
     AV::Image::Color color;
     float alphaRate;
 };
-class Application : public AV::Application
+
+class Application : public CmdLine::Application
 {
     DJV_NON_COPYABLE(Application);
 
@@ -83,7 +86,7 @@ private:
 
 void Application::_init(int argc, char ** argv)
 {
-    AV::Application::_init(argc, argv);
+    CmdLine::Application::_init(argc, argv);
 
     _timer = Core::Time::Timer::create(this);
     _timer->setRepeating(true);
@@ -112,7 +115,7 @@ void Application::_init(int argc, char ** argv)
         }
     });
 
-    auto glfwWindow = getGLFWWindow();
+    auto glfwWindow = getSystemT<CmdLine::GLFWSystem>()->getGLFWWindow();
     glfwSetWindowSize(glfwWindow, _windowSize.x, _windowSize.y);
     glfwShowWindow(glfwWindow);
 }
@@ -130,7 +133,7 @@ std::unique_ptr<Application> Application::create(int argc, char ** argv)
 int Application::run()
 {
     auto time = std::chrono::system_clock::now();
-    auto glfwWindow = getGLFWWindow();
+    auto glfwWindow = getSystemT<CmdLine::GLFWSystem>()->getGLFWWindow();
     while (!glfwWindowShouldClose(glfwWindow))
     {
         auto now = std::chrono::system_clock::now();
@@ -151,7 +154,7 @@ void Application::_render()
 {
     if (auto render = getSystemT<AV::Render::Render2D>())
     {
-        auto glfwWindow = getGLFWWindow();
+        auto glfwWindow = getSystemT<CmdLine::GLFWSystem>()->getGLFWWindow();
         glfwGetWindowSize(glfwWindow, &_windowSize.x, &_windowSize.y);
         render->beginFrame(_windowSize);
         for (const auto & i : _circles)

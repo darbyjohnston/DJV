@@ -1,7 +1,7 @@
 set(source main.cpp)
 
 add_executable(djv_view ${header} ${source})
-target_link_libraries(djv_view djvViewLib)
+target_link_libraries(djv_view djvViewApp)
 set_target_properties(
     djv_view
     PROPERTIES

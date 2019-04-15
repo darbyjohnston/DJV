@@ -1,7 +1,7 @@
 set(source SliderDesktopExample.cpp)
 
 add_executable(SliderDesktopExample ${header} ${source})
-target_link_libraries(SliderDesktopExample djvDesktop)
+target_link_libraries(SliderDesktopExample djvDesktopApp)
 set_target_properties(
     SliderDesktopExample
     PROPERTIES

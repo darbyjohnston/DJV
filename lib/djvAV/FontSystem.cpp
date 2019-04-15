@@ -244,6 +244,7 @@ namespace djv
 
                 p.fontPath = _getResourceSystem()->getPath(FileSystem::ResourcePath::FontsDirectory);
                 p.glyphCache.setMax(glyphCacheMax);
+                p.glyphCachePercentageUsed = 0.f;
 
                 p.statsTimer = Time::Timer::create(context);
                 p.statsTimer->setRepeating(true);

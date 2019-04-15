@@ -27,7 +27,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvViewLib/Application.h>
+#include <djvViewApp/Application.h>
 
 #include <djvCore/Error.h>
 
@@ -38,7 +38,7 @@ int main(int argc, char ** argv)
     int r = 0;
     try
     {
-        r = ViewLib::Application::create(argc, argv)->run();
+        r = ViewApp::Application::create(argc, argv)->run();
     }
     catch (const std::exception & error)
     {

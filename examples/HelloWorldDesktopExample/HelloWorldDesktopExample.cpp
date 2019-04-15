@@ -27,7 +27,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvDesktop/Application.h>
+#include <djvDesktopApp/Application.h>
 
 #include <djvUI/Label.h>
 #include <djvUI/Window.h>

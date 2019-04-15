@@ -1,0 +1,67 @@
+set(header
+    AboutDialog.h
+    Application.h
+    ColorPickerTool.h
+    DebugTool.h
+    Enum.h
+    FileBrowserDialog.h
+    FileSystem.h
+    FileSystemSettings.h
+    HelpSystem.h
+    HistogramTool.h
+    ITool.h
+    IViewSystem.h
+    ImageSystem.h
+    ImageView.h
+    ImageViewSystem.h
+    InformationTool.h
+    MagnifierTool.h
+    MainWindow.h
+    Media.h
+    MediaWidget.h
+    PlaybackSystem.h
+    RecentFilesDialog.h
+    SettingsSystem.h
+    SettingsDialog.h
+    SystemLogDialog.h
+    TimelineSlider.h
+    ToolSystem.h
+    ViewApp.h
+    WindowSystem.h)
+set(source
+    AboutDialog.cpp
+    Application.cpp
+    ColorPickerTool.cpp
+    DebugTool.cpp
+    Enum.cpp
+    FileBrowserDialog.cpp
+    FileSystem.cpp
+    FileSystemSettings.cpp
+    HelpSystem.cpp
+    HistogramTool.cpp
+    ITool.cpp
+    IViewSystem.cpp
+    ImageSystem.cpp
+    ImageView.cpp
+    ImageViewSystem.cpp
+    InformationTool.cpp
+    MagnifierTool.cpp
+    MainWindow.cpp
+    Media.cpp
+    MediaWidget.cpp
+    PlaybackSystem.cpp
+    RecentFilesDialog.cpp
+    SettingsSystem.cpp
+    SettingsDialog.cpp
+    SystemLogDialog.cpp
+    TimelineSlider.cpp
+    ToolSystem.cpp
+    WindowSystem.cpp)
+
+add_library(djvViewApp ${header} ${source})
+target_link_libraries(djvViewApp djvUIComponents djvDesktopApp)
+set_target_properties(
+    djvViewApp
+    PROPERTIES
+    FOLDER lib
+    CXX_STANDARD 11)

@@ -570,7 +570,7 @@ namespace djv
             inline void convert_F16_U32(F16_T in, U32_T & out)
             {
                 out = static_cast<U32_T>(Core::Math::clamp(
-                    static_cast<uint64_t>(in * U32Max),
+                    static_cast<uint64_t>(static_cast<double>(in) * static_cast<uint64_t>(U32Max)),
                     static_cast<uint64_t>(U32Min),
                     static_cast<uint64_t>(U32Max)));
             }
@@ -612,7 +612,7 @@ namespace djv
             inline void convert_F32_U32(F32_T in, U32_T & out)
             {
                 out = static_cast<U32_T>(Core::Math::clamp(
-                    static_cast<uint64_t>(in * U32Max),
+                    static_cast<uint64_t>(static_cast<double>(in) * static_cast<uint64_t>(U32Max)),
                     static_cast<uint64_t>(U32Min),
                     static_cast<uint64_t>(U32Max)));
             }

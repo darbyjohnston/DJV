@@ -92,7 +92,7 @@ namespace djv
 
                 bool _repeating = false;
                 bool _active = false;
-                std::chrono::milliseconds _timeout;
+                std::chrono::milliseconds _timeout = std::chrono::milliseconds(0);
                 std::function<void(float)> _callback;
                 std::chrono::time_point<std::chrono::system_clock> _start;
 
