@@ -149,7 +149,7 @@ namespace djv
                     }
                 }
                 dot.push_back("}");
-                FileSystem::FileIO::writeLines("systems.dot", dot);
+                //FileSystem::FileIO::writeLines("systems.dot", dot);
             }
 
             for (const auto & system : _systems)
