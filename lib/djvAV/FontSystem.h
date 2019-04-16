@@ -81,7 +81,7 @@ namespace djv
             struct TextLine
             {
                 inline TextLine();
-                constexpr TextLine(const std::string & text, const glm::vec2 &);
+                inline TextLine(const std::string & text, const glm::vec2 &);
 
                 std::string text;
                 glm::vec2   size = glm::vec2(0.f, 0.f);

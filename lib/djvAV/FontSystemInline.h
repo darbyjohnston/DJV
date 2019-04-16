@@ -55,7 +55,7 @@ namespace djv
             inline TextLine::TextLine()
             {}
 
-            constexpr TextLine::TextLine(const std::string& text, const glm::vec2& size) :
+            inline TextLine::TextLine(const std::string& text, const glm::vec2& size) :
                 text(text),
                 size(size)
             {}
