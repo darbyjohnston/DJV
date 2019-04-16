@@ -68,9 +68,21 @@ namespace djv
             }
 
             template<>
+            inline size_t tRange<size_t>::getSize() const
+            {
+                return max - min + 1;
+            }
+
+            template<>
             inline void tRange<int>::zero()
             {
                 min = max = 0;
+            }
+
+            template<>
+            inline void tRange<size_t>::zero()
+            {
+                min = max = size_t(0);
             }
 
             template<>

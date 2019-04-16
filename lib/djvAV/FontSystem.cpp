@@ -60,7 +60,7 @@ namespace djv
             namespace
             {
                 //! \todo [1.0 S] Should this be configurable?
-                const size_t glyphCacheMax = 1000;
+                const size_t glyphCacheMax = 10000;
 
                 struct MetricsRequest
                 {
@@ -107,12 +107,12 @@ namespace djv
                     std::promise<std::vector<std::shared_ptr<Glyph> > > promise;
                 };
 
-                inline bool isSpace(djv_char_t c)
+                constexpr bool isSpace(djv_char_t c)
                 {
                     return ' ' == c || '\t' == c;
                 }
 
-                inline bool isNewline(djv_char_t c)
+                constexpr bool isNewline(djv_char_t c)
                 {
                     return '\n' == c || '\r' == c;
                 }
@@ -141,27 +141,6 @@ namespace djv
 
             } // namespace
 
-            Info::Info()
-            {}
-
-            Info::Info(FamilyID family, FaceID face, float size, int dpi) :
-                family(family),
-                face  (face),
-                size  (size),
-                dpi   (dpi)
-            {}
-
-            TextLine::TextLine()
-            {}
-
-            TextLine::TextLine(const std::string & text, const glm::vec2 & size) :
-                text(text),
-                size(size)
-            {}
-
-            GlyphInfo::GlyphInfo()
-            {}
-
             GlyphInfo::GlyphInfo(uint32_t code, const Info & info) :
                 code(code),
                 info(info)
@@ -186,9 +165,6 @@ namespace djv
                 this->lsbDelta  = lsbDelta;
                 this->rsbDelta  = rsbDelta;
             }
-
-            Glyph::Glyph()
-            {}
 
             std::shared_ptr<Glyph> Glyph::create(
                 const std::shared_ptr<Image::Data> & imageData,

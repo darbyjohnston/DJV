@@ -175,10 +175,15 @@ namespace djv
                 glUniformMatrix4fv(location, 1, GL_FALSE, &value[0][0]);
             }
 
-            void Shader::setUniform(GLint location, const Image::Color & value)
+            void Shader::setUniform(GLint location, const Image::Color& value)
             {
                 auto color = value.convert(Image::Type::RGBA_F32);
-                glUniform4fv(location, 1, reinterpret_cast<const GLfloat *>(color.getData()));
+                glUniform4fv(location, 1, reinterpret_cast<const GLfloat*>(color.getData()));
+            }
+
+            void Shader::setUniform(GLint location, const float value[4])
+            {
+                glUniform4fv(location, 1, value);
             }
 
             void Shader::setUniform(const std::string & name, int value)
@@ -223,11 +228,17 @@ namespace djv
                 glUniformMatrix4fv(loc, 1, GL_FALSE, &value[0][0]);
             }
 
-            void Shader::setUniform(const std::string & name, const Image::Color & value)
+            void Shader::setUniform(const std::string& name, const Image::Color& value)
             {
                 const GLint loc = glGetUniformLocation(_program, name.c_str());
                 auto color = value.convert(Image::Type::RGBA_F32);
-                glUniform4fv(loc, 1, reinterpret_cast<const GLfloat *>(color.getData()));
+                glUniform4fv(loc, 1, reinterpret_cast<const GLfloat*>(color.getData()));
+            }
+
+            void Shader::setUniform(const std::string& name, const float value[4])
+            {
+                const GLint loc = glGetUniformLocation(_program, name.c_str());
+                glUniform4fv(loc, 1, value);
             }
 
             void Shader::bind()

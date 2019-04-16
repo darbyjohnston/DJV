@@ -48,8 +48,16 @@ namespace djv
 
             Color Color::convert(Type type) const
             {
-                auto out = Color(type);
-                Image::convert(_data.data(), _type, out._data.data(), type, 1);
+                Color out;
+                if (type != _type)
+                {
+                    out = Color(type);
+                    Image::convert(_data.data(), _type, out._data.data(), type, 1);
+                }
+                else
+                {
+                    out = *this;
+                }
                 return out;
             }
 

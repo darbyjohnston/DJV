@@ -64,12 +64,10 @@ namespace djv
             {
                 //! \todo [1.0 S] Should this be configurable?
                 const size_t textureAtlasCount        = 4;
-                const size_t textureAtlasSize         = 2048;
+                const size_t textureAtlasSize         = 8192;
                 const size_t dynamicTextureCacheCount = 16;
-                const size_t renderDataReserve          = 10000;
-                const size_t trianglesReserve          = 1000000;
-                const size_t vertexReserve            = 3000000;
-                const size_t textureCoordsReserve     = 3000000;
+                const size_t renderDataReserve        = 10000;
+                const size_t vboSize                  = 10000;
 
                 enum class ImageFormat
                 {
@@ -101,27 +99,6 @@ namespace djv
                     GLuint       textureID   = 0;
                     size_t       vaoSize;
                 };
-
-                struct Render;
-
-                struct Primitive
-                {
-                    Primitive(Render & render) :
-                        render(render)
-                    {}
-
-                    virtual ~Primitive() = 0;
-
-                    Render &     render;
-                    BBox2f       clipRect;
-                    ColorMode    colorMode;
-                    Image::Color color;
-
-                    virtual void process(std::vector<RenderData> &, Geom::TriangleMesh &) = 0;
-                };
-
-                Primitive::~Primitive()
-                {}
 
                 struct Render
                 {
@@ -168,56 +145,39 @@ namespace djv
                             0));
                     }
 
+                    void copyVBO()
+                    {
+                        if (vboIndex >= vbos.size())
+                        {
+                            auto vbo = OpenGL::VBO::create(vboSize, 3, OpenGL::VBOType::Pos2_F32_UV_U16);
+                            vbos.push_back(vbo);
+                            auto vao = OpenGL::VAO::create(vbo->getType(), vbo->getID());
+                            vaos.push_back(vao);
+                        }
+                        auto vbo = vbos[vboIndex];
+                        vbo->copy(vboData);
+                        vaoCounts.push_back(std::make_pair(vaos[vboIndex], vboCount));
+                        vboCount = 0;
+                        vboData.clear();
+                        ++vboIndex;
+                    }
+
                     BBox2f                                           viewport;
-                    std::vector<std::shared_ptr<Primitive> >         primitives;
                     std::shared_ptr<OpenGL::Shader>                  shader;
                     std::shared_ptr<TextureAtlas>                    textureAtlas;
                     std::map<UID, uint64_t>                          textureIDs;
                     std::map<UID, uint64_t>                          glyphTextureIDs;
                     std::map<UID, std::shared_ptr<OpenGL::Texture> > dynamicTextureCache;
+                    std::vector<std::shared_ptr<OpenGL::VBO> >       vbos;
+                    size_t                                           vboIndex = 0;
+                    size_t                                           vboCount = 0;
+                    std::vector<uint8_t>                             vboData;
+                    std::vector<std::shared_ptr<OpenGL::VAO> >       vaos;
+                    std::vector<std::pair<std::shared_ptr<OpenGL::VAO>, size_t> >
+                                                                     vaoCounts;
                 };
 
-                struct RectPrimitive : public Primitive
-                {
-                    RectPrimitive(Render & render) :
-                        Primitive(render)
-                    {}
-
-                    BBox2f rect;
-
-                    void process(std::vector<RenderData> & out, Geom::TriangleMesh & mesh) override
-                    {
-                        if (rect.intersects(render.viewport))
-                        {
-                            RenderData data;
-                            data.bbox      = rect;
-                            data.clipRect  = clipRect;
-                            data.colorMode = colorMode;
-                            data.color     = color;
-                            data.vaoSize   = 6;
-                            out.push_back(std::move(data));
-
-                            const size_t vCount = mesh.v.size();
-                            Geom::TriangleMesh::Triangle triangle;
-                            triangle.v0 = Geom::TriangleMesh::Vertex(vCount + 1);
-                            triangle.v1 = Geom::TriangleMesh::Vertex(vCount + 2);
-                            triangle.v2 = Geom::TriangleMesh::Vertex(vCount + 3);
-                            mesh.triangles.push_back(std::move(triangle));
-                            Geom::TriangleMesh::Triangle triangle2;
-                            triangle.v0 = Geom::TriangleMesh::Vertex(vCount + 3);
-                            triangle.v1 = Geom::TriangleMesh::Vertex(vCount + 4);
-                            triangle.v2 = Geom::TriangleMesh::Vertex(vCount + 1);
-                            mesh.triangles.push_back(std::move(triangle));
-
-                            mesh.v.push_back(glm::vec3(rect.min.x, rect.min.y, 0.f));
-                            mesh.v.push_back(glm::vec3(rect.max.x, rect.min.y, 0.f));
-                            mesh.v.push_back(glm::vec3(rect.max.x, rect.max.y, 0.f));
-                            mesh.v.push_back(glm::vec3(rect.min.x, rect.max.y, 0.f));
-                        }
-                    }
-                };
-
-                struct RoundedRectPrimitive : public Primitive
+                /*struct RoundedRectPrimitive : public Primitive
                 {
                     RoundedRectPrimitive(Render & render) :
                         Primitive(render)
@@ -684,277 +644,7 @@ namespace djv
                             }
                         }
                     }
-                };
-
-                struct CirclePrimitive : public Primitive
-                {
-                    CirclePrimitive(Render & render) :
-                        Primitive(render)
-                    {}
-
-                    glm::vec2 pos;
-                    float     radius;
-                    size_t    facets;
-
-                    void process(std::vector<RenderData> & out, Geom::TriangleMesh & mesh) override
-                    {
-                        const BBox2f rect(pos.x - radius, pos.y - radius, radius * 2.f, radius * 2.f);
-                        if (rect.intersects(render.viewport))
-                        {
-                            RenderData data;
-                            data.bbox      = rect;
-                            data.clipRect  = clipRect;
-                            data.colorMode = colorMode;
-                            data.color     = color;
-                            data.vaoSize   = 3 * facets;
-                            out.push_back(std::move(data));
-
-                            const size_t vCount = mesh.v.size();
-                            const size_t trianglesCount = mesh.triangles.size();
-                            mesh.v.resize(vCount + facets * 3);
-                            mesh.triangles.resize(trianglesCount + facets);
-                            auto vIt = mesh.v.begin() + vCount;
-                            auto triangleIt = mesh.triangles.begin() + trianglesCount;
-                            for (size_t i = 0; i < facets; ++i)
-                            {
-                                triangleIt->v0 = Geom::TriangleMesh::Vertex(vCount + i * 3 + 1);
-                                triangleIt->v1 = Geom::TriangleMesh::Vertex(vCount + i * 3 + 2);
-                                triangleIt->v2 = Geom::TriangleMesh::Vertex(vCount + i * 3 + 3);
-                                ++triangleIt;
-
-                                vIt->x = pos.x;
-                                vIt->y = pos.y;
-                                vIt->z = 0.f;
-                                ++vIt;
-                                float degrees = i / static_cast<float>(facets) * 360.f;
-                                vIt->x = pos.x + cosf(Math::deg2rad(degrees)) * radius;
-                                vIt->y = pos.y + sinf(Math::deg2rad(degrees)) * radius;
-                                vIt->z = 0.f;
-                                ++vIt;
-                                degrees = (i + 1) / static_cast<float>(facets) * 360.f;
-                                vIt->x = pos.x + cosf(Math::deg2rad(degrees)) * radius;
-                                vIt->y = pos.y + sinf(Math::deg2rad(degrees)) * radius;
-                                vIt->z = 0.f;
-                                ++vIt;
-                            }
-                        }
-                    }
-                };
-
-                struct ImagePrimitive : public Primitive
-                {
-                    ImagePrimitive(Render & render, ImageCache cache) :
-                        Primitive(render),
-                        cache(cache)
-                    {}
-
-                    std::shared_ptr<Image::Data> imageData;
-                    BBox2f                       rect;
-                    ImageFormat                  imageFormat;
-                    ImageCache                   cache;
-
-                    void process(std::vector<RenderData> & out, Geom::TriangleMesh & mesh) override
-                    {
-                        if (rect.intersects(render.viewport))
-                        {
-                            RenderData data;
-                            data.bbox = rect;
-                            data.clipRect = clipRect;
-                            const auto & info = imageData->getInfo();
-                            switch (info.getGLFormat())
-                            {
-                            case GL_RED:  data.imageFormat = ImageFormat::L;    break;
-                            case GL_RG:   data.imageFormat = ImageFormat::LA;   break;
-                            case GL_RGB:  data.imageFormat = ImageFormat::RGB;  break;
-                            case GL_RGBA: data.imageFormat = ImageFormat::RGBA; break;
-                            default: break;
-                            }
-                            data.colorMode = colorMode;
-                            data.color = color;
-
-                            data.imageCache = cache;
-                            FloatRange textureU;
-                            FloatRange textureV;
-                            const UID uid = imageData->getUID();
-                            switch (cache)
-                            {
-                            case ImageCache::Atlas:
-                            {
-                                TextureAtlasItem item;
-                                uint64_t id = 0;
-                                const auto i = render.textureIDs.find(uid);
-                                if (i != render.textureIDs.end())
-                                {
-                                    id = i->second;
-                                }
-                                if (!render.textureAtlas->getItem(id, item))
-                                {
-                                    render.textureIDs[uid] = render.textureAtlas->addItem(imageData, item);
-                                }
-                                data.atlasIndex = item.textureIndex;
-                                if (info.layout.mirror.x)
-                                {
-                                    textureU.min = item.textureU.max;
-                                    textureU.max = item.textureU.min;
-                                }
-                                else
-                                {
-                                    textureU = item.textureU;
-                                }
-                                if (info.layout.mirror.y)
-                                {
-                                    textureV.min = item.textureV.max;
-                                    textureV.max = item.textureV.min;
-                                }
-                                else
-                                {
-                                    textureV = item.textureV;
-                                }
-                                break;
-                            }
-                            case ImageCache::Dynamic:
-                            {
-                                const auto i = render.dynamicTextureCache.find(uid);
-                                if (i != render.dynamicTextureCache.end())
-                                {
-                                    data.textureID = i->second->getID();
-                                }
-                                else
-                                {
-                                    auto texture = OpenGL::Texture::create(imageData->getInfo());
-                                    texture->copy(*imageData);
-                                    render.dynamicTextureCache[uid] = texture;
-                                    data.textureID = texture->getID();
-                                }
-                                textureU.min = 0.f;
-                                textureU.max = 1.f;
-                                textureV.min = 0.f;
-                                textureV.max = 1.f;
-                                break;
-                            }
-                            default: break;
-                            }
-                            data.vaoSize = 6;
-                            out.push_back(std::move(data));
-
-                            const size_t vCount = mesh.v.size();
-                            const size_t tCount = mesh.t.size();
-                            Geom::TriangleMesh::Triangle triangle;
-                            triangle.v0 = Geom::TriangleMesh::Vertex(vCount + 1, tCount + 1);
-                            triangle.v1 = Geom::TriangleMesh::Vertex(vCount + 2, tCount + 2);
-                            triangle.v2 = Geom::TriangleMesh::Vertex(vCount + 3, tCount + 3);
-                            mesh.triangles.push_back(std::move(triangle));
-                            Geom::TriangleMesh::Triangle triangle2;
-                            triangle.v0 = Geom::TriangleMesh::Vertex(vCount + 3, tCount + 3);
-                            triangle.v1 = Geom::TriangleMesh::Vertex(vCount + 4, tCount + 4);
-                            triangle.v2 = Geom::TriangleMesh::Vertex(vCount + 1, tCount + 1);
-                            mesh.triangles.push_back(std::move(triangle));
-
-                            mesh.v.push_back(glm::vec3(rect.min.x, rect.min.y, 0.f));
-                            mesh.v.push_back(glm::vec3(rect.max.x, rect.min.y, 0.f));
-                            mesh.v.push_back(glm::vec3(rect.max.x, rect.max.y, 0.f));
-                            mesh.v.push_back(glm::vec3(rect.min.x, rect.max.y, 0.f));
-                            mesh.t.push_back(glm::vec2(textureU.min, textureV.min));
-                            mesh.t.push_back(glm::vec2(textureU.max, textureV.min));
-                            mesh.t.push_back(glm::vec2(textureU.max, textureV.max));
-                            mesh.t.push_back(glm::vec2(textureU.min, textureV.max));
-                        }
-                    }
-                };
-
-                struct TextPrimitive : public Primitive
-                {
-                    TextPrimitive(Render & render) :
-                        Primitive(render)
-                    {}
-
-                    std::string text;
-                    Font::Info fontInfo;
-                    std::future<std::vector<std::shared_ptr<Font::Glyph> > > glyphsFuture;
-                    glm::vec2 pos;
-
-                    void process(std::vector<RenderData> & out, Geom::TriangleMesh & mesh) override
-                    {
-                        try
-                        {
-                            float x = 0.f;
-                            float y = 0.f;
-                            int32_t rsbDeltaPrev = 0;
-                            const auto glyphs = glyphsFuture.get();
-                            for (const auto & glyph : glyphs)
-                            {
-                                if (rsbDeltaPrev - glyph->lsbDelta > 32)
-                                {
-                                    x -= 1.f;
-                                }
-                                else if (rsbDeltaPrev - glyph->lsbDelta < -31)
-                                {
-                                    x += 1.f;
-                                }
-                                rsbDeltaPrev = glyph->rsbDelta;
-
-                                const glm::vec2 & size = glyph->imageData->getSize();
-                                const glm::vec2 & offset = glyph->offset;
-                                const BBox2f bbox(
-                                    pos.x + x + offset.x,
-                                    pos.y + y - offset.y,
-                                    size.x,
-                                    size.y);
-                                if (bbox.intersects(render.viewport))
-                                {
-                                    const auto uid = glyph->imageData->getUID();
-                                    uint64_t id = 0;
-                                    const auto i = render.glyphTextureIDs.find(uid);
-                                    if (i != render.glyphTextureIDs.end())
-                                    {
-                                        id = i->second;
-                                    }
-                                    TextureAtlasItem item;
-                                    if (!render.textureAtlas->getItem(id, item))
-                                    {
-                                        id = render.textureAtlas->addItem(glyph->imageData, item);
-                                        render.glyphTextureIDs[uid] = id;
-                                    }
-
-                                    RenderData data;
-                                    data.bbox       = bbox;
-                                    data.clipRect   = clipRect;
-                                    data.colorMode  = colorMode;
-                                    data.color      = color;
-                                    data.atlasIndex = item.textureIndex;
-                                    data.vaoSize    = 6;
-                                    out.push_back(std::move(data));
-
-                                    const size_t vCount = mesh.v.size();
-                                    const size_t tCount = mesh.t.size();
-                                    Geom::TriangleMesh::Triangle triangle;
-                                    triangle.v0 = Geom::TriangleMesh::Vertex(vCount + 1, tCount + 1);
-                                    triangle.v1 = Geom::TriangleMesh::Vertex(vCount + 2, tCount + 2);
-                                    triangle.v2 = Geom::TriangleMesh::Vertex(vCount + 3, tCount + 3);
-                                    mesh.triangles.push_back(std::move(triangle));
-                                    Geom::TriangleMesh::Triangle triangle2;
-                                    triangle.v0 = Geom::TriangleMesh::Vertex(vCount + 3, tCount + 3);
-                                    triangle.v1 = Geom::TriangleMesh::Vertex(vCount + 4, tCount + 4);
-                                    triangle.v2 = Geom::TriangleMesh::Vertex(vCount + 1, tCount + 1);
-                                    mesh.triangles.push_back(std::move(triangle));
-
-                                    mesh.v.push_back(glm::vec3(bbox.min.x, bbox.min.y, 0.f));
-                                    mesh.v.push_back(glm::vec3(bbox.max.x, bbox.min.y, 0.f));
-                                    mesh.v.push_back(glm::vec3(bbox.max.x, bbox.max.y, 0.f));
-                                    mesh.v.push_back(glm::vec3(bbox.min.x, bbox.max.y, 0.f));
-                                    mesh.t.push_back(glm::vec2(item.textureU.min, item.textureV.min));
-                                    mesh.t.push_back(glm::vec2(item.textureU.max, item.textureV.min));
-                                    mesh.t.push_back(glm::vec2(item.textureU.max, item.textureV.max));
-                                    mesh.t.push_back(glm::vec2(item.textureU.min, item.textureV.max));
-                                }
-
-                                x += glyph->advance;
-                            }
-                        }
-                        catch (const std::exception &)
-                        {}
-                    }
-                };
+                };*/
 
                 BBox2f flip(const BBox2f & value, const glm::ivec2 & size)
                 {
@@ -973,22 +663,33 @@ namespace djv
                 glm::ivec2                   size               = glm::ivec2(0, 0);
                 std::list<BBox2f>            clipRects;
                 BBox2f                       currentClipRect    = BBox2f(0.f, 0.f, 0.f, 0.f);
-                Image::Color                 fillColor          = Image::Color(1.f, 1.f, 1.f);
+                Image::Color                 fillColor          = Image::Color(1.f, 1.f, 1.f, 1.f);
                 std::weak_ptr<Font::System>  fontSystem;
                 Font::Info                   currentFont;
                 Font::Metrics                currentFontMetrics;
 
                 std::vector<RenderData>      renderData;
-                Geom::TriangleMesh           mesh;
                 std::unique_ptr<Render>      render;
 
                 std::shared_ptr<Time::Timer> statsTimer;
-                //std::shared_ptr<Time::Timer> fpsTimer;
                 std::vector<float>           fpsSamples;
                 std::chrono::time_point<std::chrono::system_clock>
                                              fpsTime            = std::chrono::system_clock::now();
 
                 void updateCurrentClipRect();
+                void drawRoundedRect(const Core::BBox2f&, float radius, size_t facets);
+                void drawImage(
+                    const std::shared_ptr<Image::Data>&,
+                    const Core::BBox2f&,
+                    ImageCache,
+                    ColorMode);
+
+                struct Vertex
+                {
+                    glm::vec2 v;
+                    glm::vec2 t;
+                };
+                void addVertices(const std::vector<Vertex>&);
             };
 
             void Render2D::_init(Context * context)
@@ -1002,9 +703,6 @@ namespace djv
                 addDependency(fontSystem);
 
                 p.renderData.reserve(renderDataReserve);
-                p.mesh.triangles.reserve(trianglesReserve);
-                p.mesh.v.reserve(vertexReserve);
-                p.mesh.t.reserve(textureCoordsReserve);
                 p.render.reset(new Render(context));
 
                 p.statsTimer = Time::Timer::create(context);
@@ -1016,7 +714,8 @@ namespace djv
                     DJV_PRIVATE_PTR();
                     std::stringstream s;
                     s << "Texture atlas: " << p.render->textureAtlas->getPercentageUsed() << "%\n";
-                    s << "Dynamic texture cache: " << p.render->dynamicTextureCache.size();
+                    s << "Dynamic texture cache: " << p.render->dynamicTextureCache.size() << "\n";
+                    s << "VBOs: " << p.render->vbos.size();
                     _log(s.str());
                 });
 
@@ -1064,10 +763,6 @@ namespace djv
             void Render2D::endFrame()
             {
                 DJV_PRIVATE_PTR();
-                for (auto & primitive : p.render->primitives)
-                {
-                    primitive->process(p.renderData, p.mesh);
-                }
 
                 glEnable(GL_MULTISAMPLE);
                 glEnable(GL_SCISSOR_TEST);
@@ -1109,10 +804,10 @@ namespace djv
                     glBindTexture(GL_TEXTURE_2D, atlasTextures[i]);
                 }
 
-                auto vbo = OpenGL::VBO::create(p.mesh.triangles.size(), 3, OpenGL::VBOType::Pos3_F32_UV_U16_Normal_U10);
-                vbo->copy(OpenGL::VBO::convert(p.mesh, vbo->getType()));
-                auto vao = OpenGL::VAO::create(vbo->getType(), vbo->getID());
-                vao->bind();
+                if (p.render->vboData.size())
+                {
+                    p.render->copyVBO();
+                }
 
                 auto imageFormat = static_cast<ImageFormat>(0);
                 auto colorMode = static_cast<ColorMode>(0);
@@ -1120,72 +815,79 @@ namespace djv
                 ImageCache imageCache = ImageCache::Atlas;
                 size_t atlasIndex = 0;
                 GLuint textureID = 0;
-                size_t vaoOffset = 0;
-                for (size_t i = 0; i < p.renderData.size(); ++i)
+                size_t primitiveIndex = 0;
+                for (const auto & i : p.render->vaoCounts)
                 {
-                    const auto & data = p.renderData[i];
-                    const BBox2f clipRect = flip(data.clipRect, p.size);
-                    glScissor(
-                        static_cast<GLint>(clipRect.min.x),
-                        static_cast<GLint>(clipRect.min.y),
-                        static_cast<GLsizei>(clipRect.w()),
-                        static_cast<GLsizei>(clipRect.h()));
-                    if (i == 0 || data.imageFormat != imageFormat)
+                    auto vao = i.first;
+                    vao->bind();
+                    size_t vaoOffset = 0;
+                    for (size_t j = primitiveIndex; j < primitiveIndex + i.second; ++j)
                     {
-                        imageFormat = data.imageFormat;
-                        p.render->shader->setUniform(imageFormatLoc, static_cast<int>(data.imageFormat));
-                    }
-                    if (i == 0 || data.colorMode != colorMode)
-                    {
-                        colorMode = data.colorMode;
-                        p.render->shader->setUniform(colorModeLoc, static_cast<int>(data.colorMode));
-                    }
-                    if (i == 0 || data.color != color)
-                    {
-                        color = data.color;
-                        p.render->shader->setUniform(colorLoc, data.color);
-                    }
-                    switch (data.imageCache)
-                    {
-                    case ImageCache::Atlas:
-                        if (i == 0 || data.imageCache != imageCache || data.atlasIndex != atlasIndex)
+                        const auto & data = p.renderData[j];
+                        const BBox2f clipRect = flip(data.clipRect, p.size);
+                        glScissor(
+                            static_cast<GLint>(clipRect.min.x),
+                            static_cast<GLint>(clipRect.min.y),
+                            static_cast<GLsizei>(clipRect.w()),
+                            static_cast<GLsizei>(clipRect.h()));
+                        if (0 == primitiveIndex || data.imageFormat != imageFormat)
                         {
-                            imageCache = data.imageCache;
-                            atlasIndex = data.atlasIndex;
-                            p.render->shader->setUniform(textureSamplerLoc, static_cast<int>(data.atlasIndex));
+                            imageFormat = data.imageFormat;
+                            p.render->shader->setUniform(imageFormatLoc, static_cast<int>(data.imageFormat));
                         }
-                        break;
-                    case ImageCache::Dynamic:
-                        if (i == 0 || data.imageCache != imageCache || data.textureID != textureID)
+                        if (0 == primitiveIndex || data.colorMode != colorMode)
                         {
-                            imageCache = data.imageCache;
-                            textureID = data.textureID;
-                            glActiveTexture(static_cast<GLenum>(GL_TEXTURE0 + atlasTexturesCount));
-                            glBindTexture(GL_TEXTURE_2D, textureID);
-                            p.render->shader->setUniform(textureSamplerLoc, static_cast<int>(atlasTexturesCount));
+                            colorMode = data.colorMode;
+                            p.render->shader->setUniform(colorModeLoc, static_cast<int>(data.colorMode));
                         }
-                        break;
-                    default: break;
+                        if (0 == primitiveIndex || data.color != color)
+                        {
+                            color = data.color;
+                            p.render->shader->setUniform(colorLoc, reinterpret_cast<const GLfloat*>(data.color.getData()));
+                        }
+                        switch (data.imageCache)
+                        {
+                        case ImageCache::Atlas:
+                            if (0 == primitiveIndex || data.imageCache != imageCache || data.atlasIndex != atlasIndex)
+                            {
+                                imageCache = data.imageCache;
+                                atlasIndex = data.atlasIndex;
+                                p.render->shader->setUniform(textureSamplerLoc, static_cast<int>(data.atlasIndex));
+                            }
+                            break;
+                        case ImageCache::Dynamic:
+                            if (0 == primitiveIndex || data.imageCache != imageCache || data.textureID != textureID)
+                            {
+                                imageCache = data.imageCache;
+                                textureID = data.textureID;
+                                glActiveTexture(static_cast<GLenum>(GL_TEXTURE0 + atlasTexturesCount));
+                                glBindTexture(GL_TEXTURE_2D, textureID);
+                                p.render->shader->setUniform(textureSamplerLoc, static_cast<int>(atlasTexturesCount));
+                            }
+                            break;
+                        default: break;
+                        }
+                        switch (data.colorMode)
+                        {
+                        case ColorMode::ColorWithTextureAlphaR:
+                            glColorMask(GL_TRUE, GL_FALSE, GL_FALSE, GL_TRUE);
+                            vao->draw(vaoOffset, data.vaoSize);
+                            p.render->shader->setUniform(colorModeLoc, static_cast<int>(ColorMode::ColorWithTextureAlphaG));
+                            glColorMask(GL_FALSE, GL_TRUE, GL_FALSE, GL_FALSE);
+                            vao->draw(vaoOffset, data.vaoSize);
+                            p.render->shader->setUniform(colorModeLoc, static_cast<int>(ColorMode::ColorWithTextureAlphaB));
+                            glColorMask(GL_FALSE, GL_FALSE, GL_TRUE, GL_FALSE);
+                            vao->draw(vaoOffset, data.vaoSize);
+                            colorMode = ColorMode::ColorWithTextureAlphaB;
+                            glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
+                            break;
+                        default:
+                            vao->draw(vaoOffset, data.vaoSize);
+                            break;
+                        }
+                        vaoOffset += data.vaoSize;
                     }
-                    switch (data.colorMode)
-                    {
-                    case ColorMode::ColorWithTextureAlphaR:
-                        glColorMask(GL_TRUE, GL_FALSE, GL_FALSE, GL_TRUE);
-                        vao->draw(vaoOffset, data.vaoSize);
-                        p.render->shader->setUniform(colorModeLoc, static_cast<int>(ColorMode::ColorWithTextureAlphaG));
-                        glColorMask(GL_FALSE, GL_TRUE, GL_FALSE, GL_FALSE);
-                        vao->draw(vaoOffset, data.vaoSize);
-                        p.render->shader->setUniform(colorModeLoc, static_cast<int>(ColorMode::ColorWithTextureAlphaB));
-                        glColorMask(GL_FALSE, GL_FALSE, GL_TRUE, GL_FALSE);
-                        vao->draw(vaoOffset, data.vaoSize);
-                        colorMode = ColorMode::ColorWithTextureAlphaB;
-                        glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
-                        break;
-                    default:
-                        vao->draw(vaoOffset, data.vaoSize);
-                        break;
-                    }
-                    vaoOffset += data.vaoSize;
+                    primitiveIndex += i.second;
                 }
 
                 const auto now = std::chrono::system_clock::now();
@@ -1199,10 +901,10 @@ namespace djv
 
                 p.clipRects.clear();
                 p.renderData.clear();
-                p.mesh.triangles.clear();
-                p.mesh.v.clear();
-                p.mesh.t.clear();
-                p.render->primitives.clear();
+                p.render->vboIndex = 0;
+                p.render->vboCount = 0;
+                p.render->vboData.clear();
+                p.render->vaoCounts.clear();
                 while (p.render->dynamicTextureCache.size() > dynamicTextureCacheCount)
                 {
                     p.render->dynamicTextureCache.erase(p.render->dynamicTextureCache.begin());
@@ -1226,24 +928,38 @@ namespace djv
             void Render2D::setFillColor(const Image::Color & value)
             {
                 DJV_PRIVATE_PTR();
-                p.fillColor = value;
+                p.fillColor = value.convert(Image::Type::RGBA_F32);
             }
 
             void Render2D::drawRect(const BBox2f & value)
             {
                 DJV_PRIVATE_PTR();
-                auto primitive = std::unique_ptr<RectPrimitive>(new RectPrimitive(*p.render));
-                primitive->rect = value;
-                primitive->clipRect = p.currentClipRect;
-                primitive->colorMode = ColorMode::SolidColor;
-                primitive->color = p.fillColor;
-                p.render->primitives.push_back(std::move(primitive));
+                if (value.intersects(p.render->viewport))
+                {
+                    RenderData data;
+                    data.bbox = value;
+                    data.clipRect = p.currentClipRect;
+                    data.colorMode = ColorMode::SolidColor;
+                    data.color = p.fillColor;
+                    data.vaoSize = 6;
+                    p.renderData.push_back(std::move(data));
+                    p.addVertices(
+                        {
+                            { glm::vec2(value.min.x, value.min.y) },
+                            { glm::vec2(value.max.x, value.min.y) },
+                            { glm::vec2(value.max.x, value.max.y) },
+                            { glm::vec2(value.max.x, value.max.y) },
+                            { glm::vec2(value.min.x, value.max.y) },
+                            { glm::vec2(value.min.x, value.min.y) }
+                        }
+                    );
+                }
             }
 
             void Render2D::drawRoundedRect(const Core::BBox2f & rect, float radius, size_t facets)
             {
                 DJV_PRIVATE_PTR();
-                auto primitive = std::unique_ptr<RoundedRectPrimitive>(new RoundedRectPrimitive(*p.render));
+                /*auto primitive = std::unique_ptr<RoundedRectPrimitive>(new RoundedRectPrimitive(*p.render));
                 primitive->rect = rect;
                 primitive->radius = radius;
                 primitive->side = Side::None;
@@ -1251,13 +967,13 @@ namespace djv
                 primitive->clipRect = p.currentClipRect;
                 primitive->colorMode = ColorMode::SolidColor;
                 primitive->color = p.fillColor;
-                p.render->primitives.push_back(std::move(primitive));
+                p.render->primitives.push_back(std::move(primitive));*/
             }
 
             void Render2D::drawRoundedRect(const Core::BBox2f & rect, float radius, Side side, size_t facets)
             {
                 DJV_PRIVATE_PTR();
-                auto primitive = std::unique_ptr<RoundedRectPrimitive>(new RoundedRectPrimitive(*p.render));
+                /*auto primitive = std::unique_ptr<RoundedRectPrimitive>(new RoundedRectPrimitive(*p.render));
                 primitive->rect = rect;
                 primitive->radius = radius;
                 primitive->side = side;
@@ -1265,44 +981,45 @@ namespace djv
                 primitive->clipRect = p.currentClipRect;
                 primitive->colorMode = ColorMode::SolidColor;
                 primitive->color = p.fillColor;
-                p.render->primitives.push_back(std::move(primitive));
+                p.render->primitives.push_back(std::move(primitive));*/
             }
 
             void Render2D::drawCircle(const glm::vec2 & pos, float radius, size_t facets)
             {
                 DJV_PRIVATE_PTR();
-                auto primitive = std::unique_ptr<CirclePrimitive>(new CirclePrimitive(*p.render));
-                primitive->pos = pos;
-                primitive->radius = radius;
-                primitive->facets = facets;
-                primitive->clipRect = p.currentClipRect;
-                primitive->colorMode = ColorMode::SolidColor;
-                primitive->color = p.fillColor;
-                p.render->primitives.push_back(std::move(primitive));
+                const BBox2f rect(pos.x - radius, pos.y - radius, radius * 2.f, radius * 2.f);
+                if (rect.intersects(p.render->viewport))
+                {
+                    RenderData data;
+                    data.bbox = rect;
+                    data.clipRect = p.currentClipRect;
+                    data.colorMode = ColorMode::SolidColor;
+                    data.color = p.fillColor;
+                    data.vaoSize = 3 * facets;
+                    p.renderData.push_back(std::move(data));
+                    std::vector<Private::Vertex> v;
+                    for (size_t i = 0; i < facets; ++i)
+                    {
+                        v.push_back({ glm::vec2(pos.x, pos.y) });
+                        float degrees = i / static_cast<float>(facets) * 360.f;
+                        v.push_back({ glm::vec2(pos.x + cosf(Math::deg2rad(degrees)) * radius, pos.y + sinf(Math::deg2rad(degrees)) * radius) });
+                        degrees = (i + 1) / static_cast<float>(facets) * 360.f;
+                        v.push_back({ glm::vec2(pos.x + cosf(Math::deg2rad(degrees)) * radius, pos.y + sinf(Math::deg2rad(degrees)) * radius) });
+                    }
+                    p.addVertices(v);
+                }
             }
 
-            void Render2D::drawImage(const std::shared_ptr<Image::Data> & data, const BBox2f & rect, ImageCache cache)
+            void Render2D::drawImage(const std::shared_ptr<Image::Data> & imageData, const BBox2f & rect, ImageCache cache)
             {
                 DJV_PRIVATE_PTR();
-                auto primitive = std::unique_ptr<ImagePrimitive>(new ImagePrimitive(*p.render, cache));
-                primitive->imageData = data;
-                primitive->rect = rect;
-                primitive->clipRect = p.currentClipRect;
-                primitive->colorMode = ColorMode::ColorAndTexture;
-                primitive->color = p.fillColor;
-                p.render->primitives.push_back(std::move(primitive));
+                p.drawImage(imageData, rect, cache, ColorMode::ColorAndTexture);
             }
 
-            void Render2D::drawFilledImage(const std::shared_ptr<Image::Data> & data, const BBox2f & rect, ImageCache cache)
+            void Render2D::drawFilledImage(const std::shared_ptr<Image::Data> & imageData, const BBox2f & rect, ImageCache cache)
             {
                 DJV_PRIVATE_PTR();
-                auto primitive = std::unique_ptr<ImagePrimitive>(new ImagePrimitive(*p.render, cache));
-                primitive->imageData = data;
-                primitive->rect = rect;
-                primitive->clipRect = p.currentClipRect;
-                primitive->colorMode = ColorMode::ColorWithTextureAlpha;
-                primitive->color = p.fillColor;
-                p.render->primitives.push_back(std::move(primitive));
+                p.drawImage(imageData, rect, cache, ColorMode::ColorWithTextureAlpha);
             }
 
             void Render2D::setCurrentFont(const Font::Info & value)
@@ -1316,15 +1033,73 @@ namespace djv
                 DJV_PRIVATE_PTR();
                 if (auto fontSystem = p.fontSystem.lock())
                 {
-                    auto primitive = std::unique_ptr<TextPrimitive>(new TextPrimitive(*p.render));
-                    primitive->text = value;
-                    primitive->fontInfo = p.currentFont;
-                    primitive->pos = pos;
-                    primitive->glyphsFuture = fontSystem->getGlyphs(value, p.currentFont);
-                    primitive->clipRect = p.currentClipRect;
-                    primitive->colorMode = ColorMode::ColorWithTextureAlpha;
-                    primitive->color = p.fillColor;
-                    p.render->primitives.push_back(std::move(primitive));
+                    try
+                    {
+                        float x = 0.f;
+                        float y = 0.f;
+                        int32_t rsbDeltaPrev = 0;
+                        const auto glyphs = fontSystem->getGlyphs(value, p.currentFont).get();
+                        for (const auto& glyph : glyphs)
+                        {
+                            if (rsbDeltaPrev - glyph->lsbDelta > 32)
+                            {
+                                x -= 1.f;
+                            }
+                            else if (rsbDeltaPrev - glyph->lsbDelta < -31)
+                            {
+                                x += 1.f;
+                            }
+                            rsbDeltaPrev = glyph->rsbDelta;
+
+                            const glm::vec2& size = glyph->imageData->getSize();
+                            const glm::vec2& offset = glyph->offset;
+                            const BBox2f bbox(
+                                pos.x + x + offset.x,
+                                pos.y + y - offset.y,
+                                size.x,
+                                size.y);
+                            if (bbox.intersects(p.render->viewport))
+                            {
+                                const auto uid = glyph->imageData->getUID();
+                                uint64_t id = 0;
+                                const auto i = p.render->glyphTextureIDs.find(uid);
+                                if (i != p.render->glyphTextureIDs.end())
+                                {
+                                    id = i->second;
+                                }
+                                TextureAtlasItem item;
+                                if (!p.render->textureAtlas->getItem(id, item))
+                                {
+                                    id = p.render->textureAtlas->addItem(glyph->imageData, item);
+                                    p.render->glyphTextureIDs[uid] = id;
+                                }
+
+                                RenderData data;
+                                data.bbox = bbox;
+                                data.clipRect = p.currentClipRect;
+                                data.colorMode = ColorMode::ColorWithTextureAlpha;
+                                data.color = p.fillColor;
+                                data.atlasIndex = item.textureIndex;
+                                data.vaoSize = 6;
+                                p.renderData.push_back(std::move(data));
+                                p.addVertices(
+                                    {
+                                        { glm::vec2(bbox.min.x, bbox.min.y), glm::vec2(item.textureU.min, item.textureV.min) },
+                                        { glm::vec2(bbox.max.x, bbox.min.y), glm::vec2(item.textureU.max, item.textureV.min) },
+                                        { glm::vec2(bbox.max.x, bbox.max.y), glm::vec2(item.textureU.max, item.textureV.max) },
+                                        { glm::vec2(bbox.max.x, bbox.max.y), glm::vec2(item.textureU.max, item.textureV.max) },
+                                        { glm::vec2(bbox.min.x, bbox.max.y), glm::vec2(item.textureU.min, item.textureV.max) },
+                                        { glm::vec2(bbox.min.x, bbox.min.y), glm::vec2(item.textureU.min, item.textureV.min) }
+                                    }
+                                );
+                            }
+
+                            x += glyph->advance;
+                        }
+                    }
+                    catch (const std::exception&)
+                    {
+                    }
                 }
             }
 
@@ -1336,6 +1111,132 @@ namespace djv
                     clipRect = clipRect.intersect(i);
                 }
                 currentClipRect = clipRect;
+            }
+
+            void Render2D::Private::drawRoundedRect(const BBox2f& rect, float radius, size_t facets)
+            {
+                //! \todo
+            }
+
+            void Render2D::Private::drawImage(const std::shared_ptr<Image::Data>& imageData, const BBox2f& rect, ImageCache cache, ColorMode colorMode)
+            {
+                if (rect.intersects(render->viewport))
+                {
+                    RenderData data;
+                    data.bbox = rect;
+                    data.clipRect = currentClipRect;
+                    const auto& info = imageData->getInfo();
+                    switch (info.getGLFormat())
+                    {
+                    case GL_RED:  data.imageFormat = ImageFormat::L;    break;
+                    case GL_RG:   data.imageFormat = ImageFormat::LA;   break;
+                    case GL_RGB:  data.imageFormat = ImageFormat::RGB;  break;
+                    case GL_RGBA: data.imageFormat = ImageFormat::RGBA; break;
+                    default: break;
+                    }
+                    data.colorMode = colorMode;
+                    data.color = fillColor;
+
+                    data.imageCache = cache;
+                    FloatRange textureU;
+                    FloatRange textureV;
+                    const UID uid = imageData->getUID();
+                    switch (cache)
+                    {
+                    case ImageCache::Atlas:
+                    {
+                        TextureAtlasItem item;
+                        uint64_t id = 0;
+                        const auto i = render->textureIDs.find(uid);
+                        if (i != render->textureIDs.end())
+                        {
+                            id = i->second;
+                        }
+                        if (!render->textureAtlas->getItem(id, item))
+                        {
+                            render->textureIDs[uid] = render->textureAtlas->addItem(imageData, item);
+                        }
+                        data.atlasIndex = item.textureIndex;
+                        if (info.layout.mirror.x)
+                        {
+                            textureU.min = item.textureU.max;
+                            textureU.max = item.textureU.min;
+                        }
+                        else
+                        {
+                            textureU = item.textureU;
+                        }
+                        if (info.layout.mirror.y)
+                        {
+                            textureV.min = item.textureV.max;
+                            textureV.max = item.textureV.min;
+                        }
+                        else
+                        {
+                            textureV = item.textureV;
+                        }
+                        break;
+                    }
+                    case ImageCache::Dynamic:
+                    {
+                        const auto i = render->dynamicTextureCache.find(uid);
+                        if (i != render->dynamicTextureCache.end())
+                        {
+                            data.textureID = i->second->getID();
+                        }
+                        else
+                        {
+                            auto texture = OpenGL::Texture::create(imageData->getInfo());
+                            texture->copy(*imageData);
+                            render->dynamicTextureCache[uid] = texture;
+                            data.textureID = texture->getID();
+                        }
+                        textureU.min = 0.f;
+                        textureU.max = 1.f;
+                        textureV.min = 0.f;
+                        textureV.max = 1.f;
+                        break;
+                    }
+                    default: break;
+                    }
+                    data.vaoSize = 6;
+                    renderData.push_back(std::move(data));
+                    addVertices(
+                        {
+                            { glm::vec2(rect.min.x, rect.min.y), glm::vec2(textureU.min, textureV.min) },
+                            { glm::vec2(rect.max.x, rect.min.y), glm::vec2(textureU.max, textureV.min) },
+                            { glm::vec2(rect.max.x, rect.max.y), glm::vec2(textureU.max, textureV.max) },
+                            { glm::vec2(rect.max.x, rect.max.y), glm::vec2(textureU.max, textureV.max) },
+                            { glm::vec2(rect.min.x, rect.max.y), glm::vec2(textureU.min, textureV.max) },
+                            { glm::vec2(rect.min.x, rect.min.y), glm::vec2(textureU.min, textureV.min) }
+                        }
+                    );
+                }
+            }
+
+            void Render2D::Private::addVertices(const std::vector<Vertex>& list)
+            {
+                if (render->vboData.size() / 3 / AV::OpenGL::getVertexByteCount(OpenGL::VBOType::Pos2_F32_UV_U16) + list.size() / 3 > vboSize)
+                {
+                    render->copyVBO();
+                }
+                render->vboCount = render->vboCount + 1;
+                const size_t vboDataSize = render->vboData.size();
+                const size_t size = list.size() * AV::OpenGL::getVertexByteCount(AV::OpenGL::VBOType::Pos2_F32_UV_U16);
+                render->vboData.resize(vboDataSize + size);
+                uint8_t * pData = &render->vboData[vboDataSize];
+                for (const auto& v : list)
+                {
+                    float* pf = reinterpret_cast<float*>(pData);
+                    pf[0] = v.v[0];
+                    pf[1] = v.v[1];
+                    pData += 2 * sizeof(float);
+
+                    uint16_t* pu16 = reinterpret_cast<uint16_t*>(pData);
+                    pu16[0] = Math::clamp(static_cast<int>(v.t[0] * 65535.f), 0, 65535);
+                    pu16[1] = Math::clamp(static_cast<int>(v.t[1] * 65535.f), 0, 65535);
+                    pData += 2 * sizeof(uint16_t);
+                }
             }
 
         } // namespace Render

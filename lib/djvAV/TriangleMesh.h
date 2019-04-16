@@ -46,7 +46,7 @@ namespace djv
                 {
                     Vertex() {}
 
-                    explicit Vertex(size_t v, size_t t = 0, size_t n = 0) :
+                    explicit constexpr Vertex(size_t v, size_t t = 0, size_t n = 0) :
                         v(v),
                         t(t),
                         n(n)
@@ -89,7 +89,6 @@ namespace djv
                 std::vector<Triangle> triangles;
 
                 ///@}
-
 
                 //! \name Mesh Utilities
                 ///@{

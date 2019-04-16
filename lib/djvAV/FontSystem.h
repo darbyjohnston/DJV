@@ -50,21 +50,21 @@ namespace djv
             typedef uint16_t FaceID;
 
             const std::string familyDefault = "Noto Sans";
-            const std::string familyMono = "Noto Sans Mono";
-            const std::string faceDefault = "Regular";
+            const std::string familyMono    = "Noto Sans Mono";
+            const std::string faceDefault   = "Regular";
 
             //! This class provides font information.
             struct Info
             {
-                Info();
-                Info(FamilyID, FaceID, float size, int DPI);
+                inline Info();
+                constexpr Info(FamilyID, FaceID, float size, int DPI);
 
                 FamilyID family = 1;
                 FaceID   face   = 1;
                 float    size   = 0.f;
                 int      dpi    = dpiDefault;
 
-                inline bool operator == (const Info &) const;
+                constexpr bool operator == (const Info &) const;
             };
 
             //! This struct provides font metrics.
@@ -80,8 +80,8 @@ namespace djv
             //! \todo Instead of copying the text should we use indices instead?
             struct TextLine
             {
-                TextLine();
-                TextLine(const std::string & text, const glm::vec2 &);
+                inline TextLine();
+                constexpr TextLine(const std::string & text, const glm::vec2 &);
 
                 std::string text;
                 glm::vec2   size = glm::vec2(0.f, 0.f);
@@ -90,14 +90,14 @@ namespace djv
             //! This struct provides font glyph information.
             struct GlyphInfo
             {
-                GlyphInfo();
+                inline GlyphInfo();
                 GlyphInfo(uint32_t code, const Info &);
 
                 uint32_t code = 0;
                 Info     info;
 
-                inline bool operator == (const GlyphInfo&) const;
-                inline bool operator < (const GlyphInfo&) const;
+                constexpr bool operator == (const GlyphInfo&) const;
+                constexpr bool operator < (const GlyphInfo&) const;
 
             private:
                 size_t _hash = 0;
@@ -115,7 +115,7 @@ namespace djv
                     float advance,
                     int32_t lsbDelta,
                     int32_t rsbDelta);
-                Glyph();
+                inline Glyph();
 
             public:
                 static std::shared_ptr<Glyph> create(

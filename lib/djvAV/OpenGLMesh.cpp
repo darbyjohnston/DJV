@@ -71,6 +71,8 @@ namespace djv
             {
                 switch (value)
                 {
+                case VBOType::Pos2_F32_UV_U16:
+                    return 2 * sizeof(float) + 2 * sizeof(uint16_t);
                 case VBOType::Pos3_F32_UV_U16_Normal_U10:
                     return 3 * sizeof(float) + 2 * sizeof(uint16_t) + sizeof(PackedNormal);
                 case VBOType::Pos3_F32_UV_U16_Normal_U10_Color_U8:
@@ -123,13 +125,19 @@ namespace djv
             std::vector<uint8_t> VBO::convert(const Geom::TriangleMesh& mesh, VBOType type)
             {
                 const size_t size = mesh.triangles.size();
+                return convert(mesh, type, SizeTRange(0, size > 0 ? size - 1 : 0));
+            }
+
+            std::vector<uint8_t> VBO::convert(const Geom::TriangleMesh& mesh, VBOType type, const SizeTRange & range)
+            {
+                const size_t size = range.getSize();
                 const size_t vertexByteCount = getVertexByteCount(type);
                 std::vector<uint8_t> out(size * 3 * vertexByteCount);
-                uint8_t* p = out.data();
+                uint8_t * p = out.data();
                 switch (type)
                 {
                 case VBOType::Pos3_F32_UV_U16_Normal_U10:
-                    for (size_t i = 0; i < size; ++i)
+                    for (size_t i = range.min; i < range.min + size; ++i)
                     {
                         const Geom::TriangleMesh::Vertex* vertices[] =
                         {
@@ -162,7 +170,7 @@ namespace djv
                     }
                     break;
                 case VBOType::Pos3_F32_UV_U16_Normal_U10_Color_U8:
-                    for (size_t i = 0; i < size; ++i)
+                    for (size_t i = range.min; i < range.min + size; ++i)
                     {
                         const Geom::TriangleMesh::Vertex* vertices[] =
                         {
@@ -202,7 +210,7 @@ namespace djv
                     }
                     break;
                 case VBOType::Pos3_F32_UV_F32_Normal_F32_Color_F32:
-                    for (size_t i = 0; i < size; ++i)
+                    for (size_t i = range.min; i < range.min + size; ++i)
                     {
                         const Geom::TriangleMesh::Vertex* vertices[] =
                         {
@@ -252,7 +260,20 @@ namespace djv
                 const size_t vertexByteCount = getVertexByteCount(type);
                 switch (type)
                 {
+                case VBOType::Pos2_F32_UV_U16:
+                    glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, static_cast<GLsizei>(vertexByteCount), (GLvoid*)0);
+                    glEnableVertexAttribArray(0);
+                    glVertexAttribPointer(1, 2, GL_UNSIGNED_SHORT, GL_TRUE, static_cast<GLsizei>(vertexByteCount), (GLvoid*)8);
+                    glEnableVertexAttribArray(1);
+                    break;
                 case VBOType::Pos3_F32_UV_U16_Normal_U10:
+                    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, static_cast<GLsizei>(vertexByteCount), (GLvoid*)0);
+                    glEnableVertexAttribArray(0);
+                    glVertexAttribPointer(1, 2, GL_UNSIGNED_SHORT, GL_TRUE, static_cast<GLsizei>(vertexByteCount), (GLvoid*)12);
+                    glEnableVertexAttribArray(1);
+                    glVertexAttribPointer(2, 4, GL_INT_2_10_10_10_REV, GL_TRUE, static_cast<GLsizei>(vertexByteCount), (GLvoid*)16);
+                    glEnableVertexAttribArray(2);
+                    break;
                 case VBOType::Pos3_F32_UV_U16_Normal_U10_Color_U8:
                     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, static_cast<GLsizei>(vertexByteCount), (GLvoid*)0);
                     glEnableVertexAttribArray(0);

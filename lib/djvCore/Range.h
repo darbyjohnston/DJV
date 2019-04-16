@@ -82,6 +82,9 @@ namespace djv
         //! This typedef provides an integer range.
         typedef Range::tRange<int> IntRange;
 
+        //! This typedef provides a size_t range.
+        typedef Range::tRange<size_t> SizeTRange;
+
         //! This typedef provides a floating point range.
         typedef Range::tRange<float> FloatRange;
 

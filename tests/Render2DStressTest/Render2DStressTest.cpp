@@ -150,7 +150,8 @@ int Application::run()
     {
         glfwPollEvents();
         _render();
-        glfwSwapBuffers(glfwWindow);
+        //glfwSwapBuffers(glfwWindow);
+        gl::glFlush();
         auto now = std::chrono::system_clock::now();
         std::chrono::duration<float> delta = now - time;
         time = now;

@@ -40,7 +40,7 @@
 
 using namespace djv;
 
-const size_t circleCount = 1000;
+const size_t circleCount = 10000;
 
 struct Circle
 {
@@ -51,7 +51,8 @@ struct Circle
         color = AV::Image::Color(
             Core::Math::getRandom(0.f, 1.f),
             Core::Math::getRandom(0.f, 1.f),
-            Core::Math::getRandom(0.f, 1.f));
+            Core::Math::getRandom(0.f, 1.f),
+            1.f);
         radiusRate = Core::Math::getRandom(.1f, 1.f);
         alphaRate = Core::Math::getRandom(.001f, .01f);
     }
@@ -145,7 +146,8 @@ int Application::run()
         glfwPollEvents();
         tick(dt);
         _render();
-        glfwSwapBuffers(glfwWindow);
+        //glfwSwapBuffers(glfwWindow);
+        gl::glFlush();
     }
     return 0;
 }
@@ -160,7 +162,8 @@ void Application::_render()
         for (const auto & i : _circles)
         {
             render->setFillColor(i.color);
-            render->drawCircle(i.pos, i.radius);
+            //render->drawCircle(i.pos, i.radius);
+            render->drawRect(Core::BBox2f(i.pos.x, i.pos.y, i.radius, i.radius));
         }
         render->endFrame();
     }

@@ -33,7 +33,17 @@ namespace djv
     {
         namespace Font
         {
-            inline bool Info::operator == (const Info & other) const
+            inline Info::Info()
+            {}
+
+            constexpr Info::Info(FamilyID family, FaceID face, float size, int dpi) :
+                family(family),
+                face(face),
+                size(size),
+                dpi(dpi)
+            {}
+
+            constexpr bool Info::operator == (const Info & other) const
             {
                 return
                     dpi    == other.dpi    &&
@@ -42,17 +52,31 @@ namespace djv
                     family == other.family;
             }
 
-            inline bool GlyphInfo::operator == (const GlyphInfo & other) const
+            inline TextLine::TextLine()
+            {}
+
+            constexpr TextLine::TextLine(const std::string& text, const glm::vec2& size) :
+                text(text),
+                size(size)
+            {}
+
+            inline GlyphInfo::GlyphInfo()
+            {}
+
+            constexpr bool GlyphInfo::operator == (const GlyphInfo & other) const
             {
                 return
                     code == other.code &&
                     info == other.info;
             }
 
-            inline bool GlyphInfo::operator < (const GlyphInfo & other) const
+            constexpr bool GlyphInfo::operator < (const GlyphInfo & other) const
             {
                 return _hash < other._hash;
             }
+
+            inline Glyph::Glyph()
+            {}
 
         } // namespace Font
     } // namespace AV
