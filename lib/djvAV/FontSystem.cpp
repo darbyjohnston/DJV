@@ -727,31 +727,23 @@ namespace djv
                 for (auto & request : p.glyphsRequests)
                 {
                     std::vector<std::shared_ptr<Glyph> > glyphs;
-                    const auto family = p.fontFaces.find(request.info.family);
-                    if (family != p.fontFaces.end())
+                    std::basic_string<djv_char_t> utf32;
+                    try
                     {
-                        const auto font = family->second.find(request.info.face);
-                        if (font != family->second.end())
+                        utf32 = p.utf32.from_bytes(request.text);
+                    }
+                    catch (const std::exception & e)
+                    {
+                        std::stringstream ss;
+                        ss << "Error converting string" << " '" << request.text << "': " << e.what();
+                        _log(ss.str(), LogLevel::Error);
+                    }
+                    glyphs.reserve(utf32.size());
+                    for (const auto & c : utf32)
+                    {
+                        if (const auto glyph = p.getGlyph(GlyphInfo(c, request.info)))
                         {
-                            std::basic_string<djv_char_t> utf32;
-                            try
-                            {
-                                utf32 = p.utf32.from_bytes(request.text);
-                            }
-                            catch (const std::exception & e)
-                            {
-                                std::stringstream ss;
-                                ss << "Error converting string" << " '" << request.text << "': " << e.what();
-                                _log(ss.str(), LogLevel::Error);
-                            }
-                            glyphs.reserve(utf32.size());
-                            for (const auto & c : utf32)
-                            {
-                                if (const auto glyph = p.getGlyph(GlyphInfo(c, request.info)))
-                                {
-                                    glyphs.push_back(glyph);
-                                }
-                            }
+                            glyphs.push_back(glyph);
                         }
                     }
                     request.promise.set_value(std::move(glyphs));
@@ -762,91 +754,103 @@ namespace djv
             std::shared_ptr<Glyph> System::Private::getGlyph(const GlyphInfo & info)
             {
                 std::shared_ptr<Glyph> out;
+                FamilyID family = 0;
+                FaceID   face   = 0;
+                FT_Face  ftFace = nullptr;
                 if (!glyphCache.get(info, out))
                 {
-                    const auto family = fontFaces.find(info.info.family);
-                    if (family != fontFaces.end())
+                    if (info.info.family != family || info.info.face != face)
                     {
-                        const auto font = family->second.find(info.info.face);
-                        if (font != family->second.end())
+                        const auto i = fontFaces.find(info.info.family);
+                        if (i != fontFaces.end())
                         {
-                            /*FT_Error ftError = FT_Set_Char_Size(
-                                font->second,
-                                0,
-                                static_cast<int>(request.info.size * 64.f),
-                                request.info.dpi,
-                                request.info.dpi);*/
-                            FT_Error ftError = FT_Set_Pixel_Sizes(
-                                font->second,
-                                0,
-                                static_cast<int>(info.info.size));
+                            const auto j = i->second.find(info.info.face);
+                            if (j != i->second.end())
+                            {
+                                family = info.info.family;
+                                face   = info.info.face;
+                                ftFace = j->second;
+                            }
+                        }
+                    }
+                    if (ftFace)
+                    {
+                        /*FT_Error ftError = FT_Set_Char_Size(
+                            font->second,
+                            0,
+                            static_cast<int>(request.info.size * 64.f),
+                            request.info.dpi,
+                            request.info.dpi);*/
+                        FT_Error ftError = FT_Set_Pixel_Sizes(
+                            ftFace,
+                            0,
+                            static_cast<int>(info.info.size));
+                        if (ftError)
+                        {
+                            //std::cout << "FT_Set_Char_Size error: " << getFTError(ftError) << std::endl;
+                            return nullptr;
+                        }
+
+                        if (auto ftGlyphIndex = FT_Get_Char_Index(ftFace, info.code))
+                        {
+                            ftError = FT_Load_Glyph(ftFace, ftGlyphIndex, FT_LOAD_FORCE_AUTOHINT);
                             if (ftError)
                             {
-                                //std::cout << "FT_Set_Char_Size error: " << getFTError(ftError) << std::endl;
+                                //std::cout << "FT_Load_Glyph error: " << getFTError(ftError) << std::endl;
                                 return nullptr;
                             }
-
-                            if (auto ftGlyphIndex = FT_Get_Char_Index(font->second, info.code))
+                            FT_Render_Mode renderMode = FT_RENDER_MODE_NORMAL;
+                            size_t renderModeChannels = 1;
+                            //! \todo Experimental LCD hinting.
+                            //renderMode = FT_RENDER_MODE_LCD;
+                            //renderModeChannels = 3;
+                            ftError = FT_Render_Glyph(ftFace->glyph, renderMode);
+                            if (ftError)
                             {
-                                ftError = FT_Load_Glyph(font->second, ftGlyphIndex, FT_LOAD_FORCE_AUTOHINT);
-                                if (ftError)
-                                {
-                                    //std::cout << "FT_Load_Glyph error: " << getFTError(ftError) << std::endl;
-                                    return nullptr;
-                                }
-                                FT_Render_Mode renderMode = FT_RENDER_MODE_NORMAL;
-                                size_t renderModeChannels = 1;
-                                //! \todo Experimental LCD hinting.
-                                //renderMode = FT_RENDER_MODE_LCD;
-                                //renderModeChannels = 3;
-                                ftError = FT_Render_Glyph(font->second->glyph, renderMode);
-                                if (ftError)
-                                {
-                                    //std::cout << "FT_Render_Glyph error: " << getFTError(ftError) << std::endl;
-                                    return nullptr;
-                                }
-                                FT_Glyph ftGlyph;
-                                ftError = FT_Get_Glyph(font->second->glyph, &ftGlyph);
-                                if (ftError)
-                                {
-                                    //std::cout << "FT_Get_Glyph error: " << getFTError(ftError) << std::endl;
-                                    return nullptr;
-                                }
-                                FT_Vector v;
-                                v.x = 0;
-                                v.y = 0;
-                                ftError = FT_Glyph_To_Bitmap(&ftGlyph, renderMode, &v, 0);
-                                if (ftError)
-                                {
-                                    //std::cout << "FT_Glyph_To_Bitmap error: " << getFTError(ftError) << std::endl;
-                                    FT_Done_Glyph(ftGlyph);
-                                    return nullptr;
-                                }
-                                FT_BitmapGlyph bitmap = (FT_BitmapGlyph)ftGlyph;
-                                const Image::Info imageInfo = Image::Info(
-                                    bitmap->bitmap.width / static_cast<int>(renderModeChannels),
-                                    bitmap->bitmap.rows,
-                                    Image::getIntType(renderModeChannels, 8));
-                                auto imageData = Image::Data::create(imageInfo);
-                                for (int y = 0; y < imageInfo.size.y; ++y)
-                                {
-                                    memcpy(
-                                        imageData->getData(y),
-                                        bitmap->bitmap.buffer + y * bitmap->bitmap.pitch,
-                                        imageInfo.size.x * renderModeChannels);
-                                }
-                                out = Glyph::create(
-                                    imageData,
-                                    glm::vec2(font->second->glyph->bitmap_left, font->second->glyph->bitmap_top),
-                                    font->second->glyph->advance.x / 64.f,
-                                    font->second->glyph->lsb_delta,
-                                    font->second->glyph->rsb_delta);
-                                {
-                                    glyphCache.add(info, out);
-                                    glyphCachePercentageUsed = glyphCache.getPercentageUsed();
-                                }
-                                FT_Done_Glyph(ftGlyph);
+                                //std::cout << "FT_Render_Glyph error: " << getFTError(ftError) << std::endl;
+                                return nullptr;
                             }
+                            FT_Glyph ftGlyph;
+                            ftError = FT_Get_Glyph(ftFace->glyph, &ftGlyph);
+                            if (ftError)
+                            {
+                                //std::cout << "FT_Get_Glyph error: " << getFTError(ftError) << std::endl;
+                                return nullptr;
+                            }
+                            FT_Vector v;
+                            v.x = 0;
+                            v.y = 0;
+                            ftError = FT_Glyph_To_Bitmap(&ftGlyph, renderMode, &v, 0);
+                            if (ftError)
+                            {
+                                //std::cout << "FT_Glyph_To_Bitmap error: " << getFTError(ftError) << std::endl;
+                                FT_Done_Glyph(ftGlyph);
+                                return nullptr;
+                            }
+                            FT_BitmapGlyph bitmap = (FT_BitmapGlyph)ftGlyph;
+                            const Image::Info imageInfo = Image::Info(
+                                bitmap->bitmap.width / static_cast<int>(renderModeChannels),
+                                bitmap->bitmap.rows,
+                                Image::getIntType(renderModeChannels, 8));
+                            auto imageData = Image::Data::create(imageInfo);
+                            for (int y = 0; y < imageInfo.size.y; ++y)
+                            {
+                                memcpy(
+                                    imageData->getData(y),
+                                    bitmap->bitmap.buffer + y * bitmap->bitmap.pitch,
+                                    imageInfo.size.x * renderModeChannels);
+                            }
+                            out = Glyph::create(
+                                imageData,
+                                glm::vec2(ftFace->glyph->bitmap_left, ftFace->glyph->bitmap_top),
+                                ftFace->glyph->advance.x / 64.f,
+                                ftFace->glyph->lsb_delta,
+                                ftFace->glyph->rsb_delta);
+                            {
+                                glyphCache.add(info, out);
+                                glyphCachePercentageUsed = glyphCache.getPercentageUsed();
+                            }
+                            FT_Done_Glyph(ftGlyph);
                         }
                     }
                 }

@@ -63,10 +63,10 @@ namespace djv
             namespace
             {
                 //! \todo [1.0 S] Should this be configurable?
+                const size_t primitiveSize            = 10000;
                 const size_t textureAtlasCount        = 4;
                 const size_t textureAtlasSize         = 8192;
                 const size_t dynamicTextureCacheCount = 16;
-                const size_t renderDataReserve        = 10000;
                 const size_t vboSize                  = 10000;
 
                 enum class ImageFormat
@@ -87,31 +87,24 @@ namespace djv
                     ColorAndTexture
                 };
 
-                struct RenderData
+                struct Primitive
                 {
-                    BBox2f       bbox;
-                    BBox2f       clipRect;
-                    ImageFormat  imageFormat = ImageFormat::RGBA;
-                    ColorMode    colorMode   = ColorMode::SolidColor;
-                    Image::Color color;
-                    ImageCache   imageCache  = ImageCache::Atlas;
-                    size_t       atlasIndex  = 0;
-                    GLuint       textureID   = 0;
-                    size_t       vaoSize;
+                    BBox2f      bbox;
+                    BBox2f      clipRect;
+                    ImageFormat imageFormat = ImageFormat::RGBA;
+                    ColorMode   colorMode   = ColorMode::SolidColor;
+                    float       color[4];
+                    ImageCache  imageCache  = ImageCache::Atlas;
+                    size_t      atlasIndex  = 0;
+                    GLuint      textureID;
+                    size_t      vaoSize;
                 };
 
                 struct Render
                 {
                     Render(Context * context)
                     {
-                        FileSystem::Path shaderPath;
-                        if (auto resourceSystem = context->getSystemT<ResourceSystem>())
-                        {
-                            shaderPath = resourceSystem->getPath(FileSystem::ResourcePath::ShadersDirectory);
-                        }
-                        shader = OpenGL::Shader::create(Shader::create(
-                            FileSystem::Path(shaderPath, "djvAVRender2DVertex.glsl"),
-                            FileSystem::Path(shaderPath, "djvAVRender2DFragment.glsl")));
+                        primitives.resize(primitiveSize);
 
                         GLint maxTextureUnits = 0;
                         GLint maxTextureSize  = 0;
@@ -143,6 +136,16 @@ namespace djv
                             Image::Type::RGBA_U8,
                             GL_NEAREST,
                             0));
+                        vboData.resize(vboSize * 3 * OpenGL::getVertexByteCount(OpenGL::VBOType::Pos2_F32_UV_U16));
+
+                        FileSystem::Path shaderPath;
+                        if (auto resourceSystem = context->getSystemT<ResourceSystem>())
+                        {
+                            shaderPath = resourceSystem->getPath(FileSystem::ResourcePath::ShadersDirectory);
+                        }
+                        shader = OpenGL::Shader::create(Shader::create(
+                            FileSystem::Path(shaderPath, "djvAVRender2DVertex.glsl"),
+                            FileSystem::Path(shaderPath, "djvAVRender2DFragment.glsl")));
                     }
 
                     void copyVBO()
@@ -155,26 +158,29 @@ namespace djv
                             vaos.push_back(vao);
                         }
                         auto vbo = vbos[vboIndex];
-                        vbo->copy(vboData);
-                        vaoCounts.push_back(std::make_pair(vaos[vboIndex], vboCount));
-                        vboCount = 0;
-                        vboData.clear();
+                        vbo->copy(vboData, 0, vboDataSize);
+                        vaoPrimitiveCounts.push_back(std::make_pair(vaos[vboIndex], vboPrimitiveCount));
+                        vboPrimitiveCount = 0;
+                        vboDataSize = 0;
                         ++vboIndex;
                     }
 
                     BBox2f                                           viewport;
-                    std::shared_ptr<OpenGL::Shader>                  shader;
+                    std::vector<Primitive>                           primitives;
+                    size_t                                           primitivesSize = 0;
                     std::shared_ptr<TextureAtlas>                    textureAtlas;
                     std::map<UID, uint64_t>                          textureIDs;
                     std::map<UID, uint64_t>                          glyphTextureIDs;
                     std::map<UID, std::shared_ptr<OpenGL::Texture> > dynamicTextureCache;
                     std::vector<std::shared_ptr<OpenGL::VBO> >       vbos;
                     size_t                                           vboIndex = 0;
-                    size_t                                           vboCount = 0;
+                    size_t                                           vboPrimitiveCount = 0;
                     std::vector<uint8_t>                             vboData;
+                    size_t                                           vboDataSize = 0;
                     std::vector<std::shared_ptr<OpenGL::VAO> >       vaos;
                     std::vector<std::pair<std::shared_ptr<OpenGL::VAO>, size_t> >
-                                                                     vaoCounts;
+                                                                     vaoPrimitiveCounts;
+                    std::shared_ptr<OpenGL::Shader>                  shader;
                 };
 
                 /*struct RoundedRectPrimitive : public Primitive
@@ -656,6 +662,14 @@ namespace djv
                     return out;
                 }
 
+                struct Vertex
+                {
+                    float vx;
+                    float vy;
+                    float tx;
+                    float ty;
+                };
+
             } // namespace
 
             struct Render2D::Private
@@ -668,7 +682,6 @@ namespace djv
                 Font::Info                   currentFont;
                 Font::Metrics                currentFontMetrics;
 
-                std::vector<RenderData>      renderData;
                 std::unique_ptr<Render>      render;
 
                 std::shared_ptr<Time::Timer> statsTimer;
@@ -684,11 +697,6 @@ namespace djv
                     ImageCache,
                     ColorMode);
 
-                struct Vertex
-                {
-                    glm::vec2 v;
-                    glm::vec2 t;
-                };
                 void addVertices(const std::vector<Vertex>&);
             };
 
@@ -702,7 +710,6 @@ namespace djv
                 p.fontSystem = fontSystem;
                 addDependency(fontSystem);
 
-                p.renderData.reserve(renderDataReserve);
                 p.render.reset(new Render(context));
 
                 p.statsTimer = Time::Timer::create(context);
@@ -715,7 +722,7 @@ namespace djv
                     std::stringstream s;
                     s << "Texture atlas: " << p.render->textureAtlas->getPercentageUsed() << "%\n";
                     s << "Dynamic texture cache: " << p.render->dynamicTextureCache.size() << "\n";
-                    s << "VBOs: " << p.render->vbos.size();
+                    s << "VBO count: " << p.render->vbos.size();
                     _log(s.str());
                 });
 
@@ -804,62 +811,69 @@ namespace djv
                     glBindTexture(GL_TEXTURE_2D, atlasTextures[i]);
                 }
 
-                if (p.render->vboData.size())
+                if (p.render->vboDataSize)
                 {
                     p.render->copyVBO();
                 }
 
                 auto imageFormat = static_cast<ImageFormat>(0);
                 auto colorMode = static_cast<ColorMode>(0);
-                Image::Color color;
+                float color[] = { 0.f, 0.f, 0.f, 0.f };
                 ImageCache imageCache = ImageCache::Atlas;
                 size_t atlasIndex = 0;
                 GLuint textureID = 0;
                 size_t primitiveIndex = 0;
-                for (const auto & i : p.render->vaoCounts)
+                for (const auto & i : p.render->vaoPrimitiveCounts)
                 {
                     auto vao = i.first;
                     vao->bind();
                     size_t vaoOffset = 0;
                     for (size_t j = primitiveIndex; j < primitiveIndex + i.second; ++j)
                     {
-                        const auto & data = p.renderData[j];
-                        const BBox2f clipRect = flip(data.clipRect, p.size);
+                        const auto & primitive = p.render->primitives[j];
+                        const BBox2f clipRect = flip(primitive.clipRect, p.size);
                         glScissor(
                             static_cast<GLint>(clipRect.min.x),
                             static_cast<GLint>(clipRect.min.y),
                             static_cast<GLsizei>(clipRect.w()),
                             static_cast<GLsizei>(clipRect.h()));
-                        if (0 == primitiveIndex || data.imageFormat != imageFormat)
+                        if ((0 == primitiveIndex && 0 == j) || primitive.imageFormat != imageFormat)
                         {
-                            imageFormat = data.imageFormat;
-                            p.render->shader->setUniform(imageFormatLoc, static_cast<int>(data.imageFormat));
+                            imageFormat = primitive.imageFormat;
+                            p.render->shader->setUniform(imageFormatLoc, static_cast<int>(primitive.imageFormat));
                         }
-                        if (0 == primitiveIndex || data.colorMode != colorMode)
+                        if ((0 == primitiveIndex && 0 == j) || primitive.colorMode != colorMode)
                         {
-                            colorMode = data.colorMode;
-                            p.render->shader->setUniform(colorModeLoc, static_cast<int>(data.colorMode));
+                            colorMode = primitive.colorMode;
+                            p.render->shader->setUniform(colorModeLoc, static_cast<int>(primitive.colorMode));
                         }
-                        if (0 == primitiveIndex || data.color != color)
+                        if ((0 == primitiveIndex && 0 == j) ||
+                            primitive.color[0] != color[0] ||
+                            primitive.color[1] != color[1] ||
+                            primitive.color[2] != color[2] ||
+                            primitive.color[3] != color[3])
                         {
-                            color = data.color;
-                            p.render->shader->setUniform(colorLoc, reinterpret_cast<const GLfloat*>(data.color.getData()));
+                            color[0] = primitive.color[0];
+                            color[1] = primitive.color[1];
+                            color[2] = primitive.color[2];
+                            color[3] = primitive.color[3];
+                            p.render->shader->setUniform(colorLoc, reinterpret_cast<const GLfloat*>(color));
                         }
-                        switch (data.imageCache)
+                        switch (primitive.imageCache)
                         {
                         case ImageCache::Atlas:
-                            if (0 == primitiveIndex || data.imageCache != imageCache || data.atlasIndex != atlasIndex)
+                            if ((0 == primitiveIndex && 0 == j) || primitive.imageCache != imageCache || primitive.atlasIndex != atlasIndex)
                             {
-                                imageCache = data.imageCache;
-                                atlasIndex = data.atlasIndex;
-                                p.render->shader->setUniform(textureSamplerLoc, static_cast<int>(data.atlasIndex));
+                                imageCache = primitive.imageCache;
+                                atlasIndex = primitive.atlasIndex;
+                                p.render->shader->setUniform(textureSamplerLoc, static_cast<int>(primitive.atlasIndex));
                             }
                             break;
                         case ImageCache::Dynamic:
-                            if (0 == primitiveIndex || data.imageCache != imageCache || data.textureID != textureID)
+                            if ((0 == primitiveIndex && 0 == j) || primitive.imageCache != imageCache || primitive.textureID != textureID)
                             {
-                                imageCache = data.imageCache;
-                                textureID = data.textureID;
+                                imageCache = primitive.imageCache;
+                                textureID = primitive.textureID;
                                 glActiveTexture(static_cast<GLenum>(GL_TEXTURE0 + atlasTexturesCount));
                                 glBindTexture(GL_TEXTURE_2D, textureID);
                                 p.render->shader->setUniform(textureSamplerLoc, static_cast<int>(atlasTexturesCount));
@@ -867,25 +881,25 @@ namespace djv
                             break;
                         default: break;
                         }
-                        switch (data.colorMode)
+                        switch (primitive.colorMode)
                         {
                         case ColorMode::ColorWithTextureAlphaR:
                             glColorMask(GL_TRUE, GL_FALSE, GL_FALSE, GL_TRUE);
-                            vao->draw(vaoOffset, data.vaoSize);
+                            vao->draw(vaoOffset, primitive.vaoSize);
                             p.render->shader->setUniform(colorModeLoc, static_cast<int>(ColorMode::ColorWithTextureAlphaG));
                             glColorMask(GL_FALSE, GL_TRUE, GL_FALSE, GL_FALSE);
-                            vao->draw(vaoOffset, data.vaoSize);
+                            vao->draw(vaoOffset, primitive.vaoSize);
                             p.render->shader->setUniform(colorModeLoc, static_cast<int>(ColorMode::ColorWithTextureAlphaB));
                             glColorMask(GL_FALSE, GL_FALSE, GL_TRUE, GL_FALSE);
-                            vao->draw(vaoOffset, data.vaoSize);
+                            vao->draw(vaoOffset, primitive.vaoSize);
                             colorMode = ColorMode::ColorWithTextureAlphaB;
                             glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
                             break;
                         default:
-                            vao->draw(vaoOffset, data.vaoSize);
+                            vao->draw(vaoOffset, primitive.vaoSize);
                             break;
                         }
-                        vaoOffset += data.vaoSize;
+                        vaoOffset += primitive.vaoSize;
                     }
                     primitiveIndex += i.second;
                 }
@@ -900,11 +914,11 @@ namespace djv
                 }
 
                 p.clipRects.clear();
-                p.renderData.clear();
+                p.render->primitivesSize = 0;
                 p.render->vboIndex = 0;
-                p.render->vboCount = 0;
-                p.render->vboData.clear();
-                p.render->vaoCounts.clear();
+                p.render->vboPrimitiveCount = 0;
+                p.render->vboDataSize = 0;
+                p.render->vaoPrimitiveCounts.clear();
                 while (p.render->dynamicTextureCache.size() > dynamicTextureCacheCount)
                 {
                     p.render->dynamicTextureCache.erase(p.render->dynamicTextureCache.begin());
@@ -928,7 +942,16 @@ namespace djv
             void Render2D::setFillColor(const Image::Color & value)
             {
                 DJV_PRIVATE_PTR();
-                p.fillColor = value.convert(Image::Type::RGBA_F32);
+                if (value == p.fillColor)
+                    return;
+                if (p.fillColor.getType() == value.getType())
+                {
+                    p.fillColor = value;
+                }
+                else
+                {
+                    p.fillColor = value.convert(Image::Type::RGBA_F32);
+                }
             }
 
             void Render2D::drawRect(const BBox2f & value)
@@ -936,23 +959,34 @@ namespace djv
                 DJV_PRIVATE_PTR();
                 if (value.intersects(p.render->viewport))
                 {
-                    RenderData data;
-                    data.bbox = value;
-                    data.clipRect = p.currentClipRect;
-                    data.colorMode = ColorMode::SolidColor;
-                    data.color = p.fillColor;
-                    data.vaoSize = 6;
-                    p.renderData.push_back(std::move(data));
-                    p.addVertices(
-                        {
-                            { glm::vec2(value.min.x, value.min.y) },
-                            { glm::vec2(value.max.x, value.min.y) },
-                            { glm::vec2(value.max.x, value.max.y) },
-                            { glm::vec2(value.max.x, value.max.y) },
-                            { glm::vec2(value.min.x, value.max.y) },
-                            { glm::vec2(value.min.x, value.min.y) }
-                        }
-                    );
+                    if (p.render->primitivesSize >= p.render->primitives.size())
+                    {
+                        p.render->primitives.resize(p.render->primitivesSize + 1);
+                    }
+                    Primitive& primitive = p.render->primitives[p.render->primitivesSize++];
+                    primitive.bbox = value;
+                    primitive.clipRect = p.currentClipRect;
+                    primitive.colorMode = ColorMode::SolidColor;
+                    primitive.color[0] = p.fillColor.getF32(0);
+                    primitive.color[1] = p.fillColor.getF32(1);
+                    primitive.color[2] = p.fillColor.getF32(2);
+                    primitive.color[3] = p.fillColor.getF32(3);
+                    primitive.vaoSize = 6;
+
+                    static std::vector<Vertex> v(6);
+                    v[0].vx = value.min.x;
+                    v[0].vy = value.min.y;
+                    v[1].vx = value.max.x;
+                    v[1].vy = value.min.y;
+                    v[2].vx = value.max.x;
+                    v[2].vy = value.max.y;
+                    v[3].vx = value.max.x;
+                    v[3].vy = value.max.y;
+                    v[4].vx = value.min.x;
+                    v[4].vy = value.max.y;
+                    v[5].vx = value.min.x;
+                    v[5].vy = value.min.y;
+                    p.addVertices(v);
                 }
             }
 
@@ -990,21 +1024,32 @@ namespace djv
                 const BBox2f rect(pos.x - radius, pos.y - radius, radius * 2.f, radius * 2.f);
                 if (rect.intersects(p.render->viewport))
                 {
-                    RenderData data;
-                    data.bbox = rect;
-                    data.clipRect = p.currentClipRect;
-                    data.colorMode = ColorMode::SolidColor;
-                    data.color = p.fillColor;
-                    data.vaoSize = 3 * facets;
-                    p.renderData.push_back(std::move(data));
-                    std::vector<Private::Vertex> v;
-                    for (size_t i = 0; i < facets; ++i)
+                    if (p.render->primitivesSize >= p.render->primitives.size())
                     {
-                        v.push_back({ glm::vec2(pos.x, pos.y) });
+                        p.render->primitives.resize(p.render->primitivesSize + 1);
+                    }
+                    Primitive& primitive = p.render->primitives[p.render->primitivesSize++];
+                    primitive.bbox = rect;
+                    primitive.clipRect = p.currentClipRect;
+                    primitive.colorMode = ColorMode::SolidColor;
+                    primitive.color[0] = p.fillColor.getF32(0);
+                    primitive.color[1] = p.fillColor.getF32(1);
+                    primitive.color[2] = p.fillColor.getF32(2);
+                    primitive.color[3] = p.fillColor.getF32(3);
+                    primitive.vaoSize = 3 * facets;
+
+                    static std::vector<Vertex> v;
+                    v.resize(facets * 3);
+                    for (size_t i = 0; i < facets * 3; i += 3)
+                    {
+                        v[i].vx = pos.x;
+                        v[i].vy = pos.y;
                         float degrees = i / static_cast<float>(facets) * 360.f;
-                        v.push_back({ glm::vec2(pos.x + cosf(Math::deg2rad(degrees)) * radius, pos.y + sinf(Math::deg2rad(degrees)) * radius) });
+                        v[i + 1].vx = pos.x + cosf(Math::deg2rad(degrees)) * radius;
+                        v[i + 1].vy = pos.y + sinf(Math::deg2rad(degrees)) * radius;
                         degrees = (i + 1) / static_cast<float>(facets) * 360.f;
-                        v.push_back({ glm::vec2(pos.x + cosf(Math::deg2rad(degrees)) * radius, pos.y + sinf(Math::deg2rad(degrees)) * radius) });
+                        v[i + 2].vx = pos.x + cosf(Math::deg2rad(degrees)) * radius;
+                        v[i + 2].vy = pos.y + sinf(Math::deg2rad(degrees)) * radius;
                     }
                     p.addVertices(v);
                 }
@@ -1053,11 +1098,7 @@ namespace djv
 
                             const glm::vec2& size = glyph->imageData->getSize();
                             const glm::vec2& offset = glyph->offset;
-                            const BBox2f bbox(
-                                pos.x + x + offset.x,
-                                pos.y + y - offset.y,
-                                size.x,
-                                size.y);
+                            const BBox2f bbox(pos.x + x + offset.x, pos.y + y - offset.y, size.x, size.y);
                             if (bbox.intersects(p.render->viewport))
                             {
                                 const auto uid = glyph->imageData->getUID();
@@ -1074,24 +1115,47 @@ namespace djv
                                     p.render->glyphTextureIDs[uid] = id;
                                 }
 
-                                RenderData data;
-                                data.bbox = bbox;
-                                data.clipRect = p.currentClipRect;
-                                data.colorMode = ColorMode::ColorWithTextureAlpha;
-                                data.color = p.fillColor;
-                                data.atlasIndex = item.textureIndex;
-                                data.vaoSize = 6;
-                                p.renderData.push_back(std::move(data));
-                                p.addVertices(
-                                    {
-                                        { glm::vec2(bbox.min.x, bbox.min.y), glm::vec2(item.textureU.min, item.textureV.min) },
-                                        { glm::vec2(bbox.max.x, bbox.min.y), glm::vec2(item.textureU.max, item.textureV.min) },
-                                        { glm::vec2(bbox.max.x, bbox.max.y), glm::vec2(item.textureU.max, item.textureV.max) },
-                                        { glm::vec2(bbox.max.x, bbox.max.y), glm::vec2(item.textureU.max, item.textureV.max) },
-                                        { glm::vec2(bbox.min.x, bbox.max.y), glm::vec2(item.textureU.min, item.textureV.max) },
-                                        { glm::vec2(bbox.min.x, bbox.min.y), glm::vec2(item.textureU.min, item.textureV.min) }
-                                    }
-                                );
+                                if (p.render->primitivesSize >= p.render->primitives.size())
+                                {
+                                    p.render->primitives.resize(p.render->primitivesSize + 1);
+                                }
+                                Primitive& primitive = p.render->primitives[p.render->primitivesSize++];
+                                primitive.bbox = bbox;
+                                primitive.clipRect = p.currentClipRect;
+                                primitive.colorMode = ColorMode::ColorWithTextureAlpha;
+                                primitive.color[0] = p.fillColor.getF32(0);
+                                primitive.color[1] = p.fillColor.getF32(1);
+                                primitive.color[2] = p.fillColor.getF32(2);
+                                primitive.color[3] = p.fillColor.getF32(3);
+                                primitive.atlasIndex = item.textureIndex;
+                                primitive.vaoSize = 6;
+
+                                static std::vector<Vertex> v(6);
+                                v[0].vx = bbox.min.x;
+                                v[0].vy = bbox.min.y;
+                                v[0].tx = item.textureU.min;
+                                v[0].ty = item.textureV.min;
+                                v[1].vx = bbox.max.x;
+                                v[1].vy = bbox.min.y;
+                                v[1].tx = item.textureU.max;
+                                v[1].ty = item.textureV.min;
+                                v[2].vx = bbox.max.x;
+                                v[2].vy = bbox.max.y;
+                                v[2].tx = item.textureU.max;
+                                v[2].ty = item.textureV.max;
+                                v[3].vx = bbox.max.x;
+                                v[3].vy = bbox.max.y;
+                                v[3].tx = item.textureU.max;
+                                v[3].ty = item.textureV.max;
+                                v[4].vx = bbox.min.x;
+                                v[4].vy = bbox.max.y;
+                                v[4].tx = item.textureU.min;
+                                v[4].ty = item.textureV.max;
+                                v[5].vx = bbox.min.x;
+                                v[5].vy = bbox.min.y;
+                                v[5].tx = item.textureU.min;
+                                v[5].ty = item.textureV.min;
+                                p.addVertices(v);
                             }
 
                             x += glyph->advance;
@@ -1122,24 +1186,30 @@ namespace djv
             {
                 if (rect.intersects(render->viewport))
                 {
-                    RenderData data;
-                    data.bbox = rect;
-                    data.clipRect = currentClipRect;
+                    if (primitiveSize >= render->primitives.size())
+                    {
+                        render->primitives.resize(primitiveSize + 1);
+                    }
+                    Primitive& primitive = render->primitives[render->primitivesSize++];
+                    primitive.bbox = rect;
+                    primitive.clipRect = currentClipRect;
                     const auto& info = imageData->getInfo();
                     switch (info.getGLFormat())
                     {
-                    case GL_RED:  data.imageFormat = ImageFormat::L;    break;
-                    case GL_RG:   data.imageFormat = ImageFormat::LA;   break;
-                    case GL_RGB:  data.imageFormat = ImageFormat::RGB;  break;
-                    case GL_RGBA: data.imageFormat = ImageFormat::RGBA; break;
+                    case GL_RED:  primitive.imageFormat = ImageFormat::L;    break;
+                    case GL_RG:   primitive.imageFormat = ImageFormat::LA;   break;
+                    case GL_RGB:  primitive.imageFormat = ImageFormat::RGB;  break;
+                    case GL_RGBA: primitive.imageFormat = ImageFormat::RGBA; break;
                     default: break;
                     }
-                    data.colorMode = colorMode;
-                    data.color = fillColor;
-
-                    data.imageCache = cache;
-                    FloatRange textureU;
-                    FloatRange textureV;
+                    primitive.colorMode = colorMode;
+                    primitive.color[0] = fillColor.getF32(0);
+                    primitive.color[1] = fillColor.getF32(1);
+                    primitive.color[2] = fillColor.getF32(2);
+                    primitive.color[3] = fillColor.getF32(3);
+                    primitive.imageCache = cache;
+                    static FloatRange textureU;
+                    static FloatRange textureV;
                     const UID uid = imageData->getUID();
                     switch (cache)
                     {
@@ -1156,7 +1226,7 @@ namespace djv
                         {
                             render->textureIDs[uid] = render->textureAtlas->addItem(imageData, item);
                         }
-                        data.atlasIndex = item.textureIndex;
+                        primitive.atlasIndex = item.textureIndex;
                         if (info.layout.mirror.x)
                         {
                             textureU.min = item.textureU.max;
@@ -1182,14 +1252,14 @@ namespace djv
                         const auto i = render->dynamicTextureCache.find(uid);
                         if (i != render->dynamicTextureCache.end())
                         {
-                            data.textureID = i->second->getID();
+                            primitive.textureID = i->second->getID();
                         }
                         else
                         {
                             auto texture = OpenGL::Texture::create(imageData->getInfo());
                             texture->copy(*imageData);
                             render->dynamicTextureCache[uid] = texture;
-                            data.textureID = texture->getID();
+                            primitive.textureID = texture->getID();
                         }
                         textureU.min = 0.f;
                         textureU.max = 1.f;
@@ -1199,44 +1269,60 @@ namespace djv
                     }
                     default: break;
                     }
-                    data.vaoSize = 6;
-                    renderData.push_back(std::move(data));
-                    addVertices(
-                        {
-                            { glm::vec2(rect.min.x, rect.min.y), glm::vec2(textureU.min, textureV.min) },
-                            { glm::vec2(rect.max.x, rect.min.y), glm::vec2(textureU.max, textureV.min) },
-                            { glm::vec2(rect.max.x, rect.max.y), glm::vec2(textureU.max, textureV.max) },
-                            { glm::vec2(rect.max.x, rect.max.y), glm::vec2(textureU.max, textureV.max) },
-                            { glm::vec2(rect.min.x, rect.max.y), glm::vec2(textureU.min, textureV.max) },
-                            { glm::vec2(rect.min.x, rect.min.y), glm::vec2(textureU.min, textureV.min) }
-                        }
-                    );
+                    primitive.vaoSize = 6;
+
+                    static std::vector<Vertex> v(6);
+                    v[0].vx = rect.min.x;
+                    v[0].vy = rect.min.y;
+                    v[0].tx = textureU.min;
+                    v[0].ty = textureV.min;
+                    v[1].vx = rect.max.x;
+                    v[1].vy = rect.min.y;
+                    v[1].tx = textureU.max;
+                    v[1].ty = textureV.min;
+                    v[2].vx = rect.max.x;
+                    v[2].vy = rect.max.y;
+                    v[2].tx = textureU.max;
+                    v[2].ty = textureV.max;
+                    v[3].vx = rect.max.x;
+                    v[3].vy = rect.max.y;
+                    v[3].tx = textureU.max;
+                    v[3].ty = textureV.max;
+                    v[4].vx = rect.min.x;
+                    v[4].vy = rect.max.y;
+                    v[4].tx = textureU.min;
+                    v[4].ty = textureV.max;
+                    v[5].vx = rect.min.x;
+                    v[5].vy = rect.min.y;
+                    v[5].tx = textureU.min;
+                    v[5].ty = textureV.min;
+                    addVertices(v);
                 }
             }
 
             void Render2D::Private::addVertices(const std::vector<Vertex>& list)
             {
-                if (render->vboData.size() / 3 / AV::OpenGL::getVertexByteCount(OpenGL::VBOType::Pos2_F32_UV_U16) + list.size() / 3 > vboSize)
+                const size_t listSize = list.size();
+                const size_t vertexByteCount = AV::OpenGL::getVertexByteCount(OpenGL::VBOType::Pos2_F32_UV_U16);
+                if (render->vboDataSize / 3 / vertexByteCount + listSize / 3 > vboSize)
                 {
                     render->copyVBO();
                 }
-                render->vboCount = render->vboCount + 1;
-                const size_t vboDataSize = render->vboData.size();
-                const size_t size = list.size() * AV::OpenGL::getVertexByteCount(AV::OpenGL::VBOType::Pos2_F32_UV_U16);
-                render->vboData.resize(vboDataSize + size);
-                uint8_t * pData = &render->vboData[vboDataSize];
+                ++render->vboPrimitiveCount;
+                uint8_t * pData = &render->vboData[render->vboDataSize];
                 for (const auto& v : list)
                 {
                     float* pf = reinterpret_cast<float*>(pData);
-                    pf[0] = v.v[0];
-                    pf[1] = v.v[1];
+                    pf[0] = v.vx;
+                    pf[1] = v.vy;
                     pData += 2 * sizeof(float);
 
                     uint16_t* pu16 = reinterpret_cast<uint16_t*>(pData);
-                    pu16[0] = Math::clamp(static_cast<int>(v.t[0] * 65535.f), 0, 65535);
-                    pu16[1] = Math::clamp(static_cast<int>(v.t[1] * 65535.f), 0, 65535);
+                    pu16[0] = Math::clamp(static_cast<int>(v.tx * 65535.f), 0, 65535);
+                    pu16[1] = Math::clamp(static_cast<int>(v.ty * 65535.f), 0, 65535);
                     pData += 2 * sizeof(uint16_t);
                 }
+                render->vboDataSize += listSize * vertexByteCount;
             }
 
         } // namespace Render

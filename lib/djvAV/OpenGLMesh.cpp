@@ -122,6 +122,12 @@ namespace djv
                 glBufferSubData(GL_ARRAY_BUFFER, offset, static_cast<GLsizei>(data.size()), (void*)data.data());
             }
 
+            void VBO::copy(const std::vector<uint8_t>& data, size_t offset, size_t size)
+            {
+                glBindBuffer(GL_ARRAY_BUFFER, _vbo);
+                glBufferSubData(GL_ARRAY_BUFFER, offset, static_cast<GLsizei>(size), (void*)data.data());
+            }
+
             std::vector<uint8_t> VBO::convert(const Geom::TriangleMesh& mesh, VBOType type)
             {
                 const size_t size = mesh.triangles.size();

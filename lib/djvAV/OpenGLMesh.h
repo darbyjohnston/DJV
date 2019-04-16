@@ -73,7 +73,8 @@ namespace djv
                 inline gl::GLuint getID() const;
 
                 void copy(const std::vector<uint8_t> &);
-                void copy(const std::vector<uint8_t> &, size_t offset);
+                void copy(const std::vector<uint8_t>&, size_t offset);
+                void copy(const std::vector<uint8_t>&, size_t offset, size_t size);
 
                 static std::vector<uint8_t> convert(const Geom::TriangleMesh&, VBOType);
                 static std::vector<uint8_t> convert(const Geom::TriangleMesh &, VBOType, const Core::SizeTRange &);
