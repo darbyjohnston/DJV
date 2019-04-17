@@ -590,7 +590,7 @@ namespace djv
             {
                 {
                     std::stringstream ss;
-                    ss << _getText(DJV_TEXT("Current time:")) << _currentTime << "/" << _duration;
+                    ss << _getText(DJV_TEXT("Current time")) << ": " << _currentTime << "/" << _duration;
                     _labels["CurrentTime"]->setText(ss.str());
                 }
             }
