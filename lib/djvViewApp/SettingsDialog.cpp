@@ -36,7 +36,6 @@
 #include <djvUI/ButtonGroup.h>
 #include <djvUI/FlatButton.h>
 #include <djvUI/FlowLayout.h>
-#include <djvUI/GroupBox.h>
 #include <djvUI/IButton.h>
 #include <djvUI/Icon.h>
 #include <djvUI/Label.h>
@@ -249,7 +248,7 @@ namespace djv
         {
             IDialog::_localeEvent(event);
             DJV_PRIVATE_PTR();
-            setTitle(_getText(DJV_TEXT("Settings")));
+            setTitle(_getText(DJV_TEXT("SETTINGS")));
         }
 
     } // namespace ViewApp

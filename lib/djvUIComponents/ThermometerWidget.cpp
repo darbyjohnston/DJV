@@ -27,78 +27,76 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvViewApp/FileBrowserDialog.h>
+#include <djvUIComponents/ThermometerWidget.h>
 
-#include <djvUIComponents/FileBrowser.h>
-
-#include <djvUI/MDICanvas.h>
-
-#include <djvCore/Context.h>
-#include <djvCore/FileInfo.h>
+#include <djvAV/Render2D.h>
 
 using namespace djv::Core;
 
 namespace djv
 {
-    namespace ViewApp
+    namespace UI
     {
-        struct FileBrowserDialog::Private
+        struct ThermometerWidget::Private
         {
-            bool shown = false;
-            std::shared_ptr<UI::FileBrowser::Widget> fileBrowser;
-            std::function<void(const Core::FileSystem::FileInfo &)> callback;
+            float percentage = 0.f;
         };
 
-        void FileBrowserDialog::_init(Context * context)
+        void ThermometerWidget::_init(Context * context)
         {
-            IDialog::_init(context);
+            Widget::_init(context);
 
             DJV_PRIVATE_PTR();
-            p.fileBrowser = UI::FileBrowser::Widget::create(context);
-            p.fileBrowser->setPath(Core::FileSystem::Path("."));
-            addChild(p.fileBrowser);
-            setStretch(p.fileBrowser, UI::RowStretch::Expand);
 
-            auto weak = std::weak_ptr<FileBrowserDialog>(std::dynamic_pointer_cast<FileBrowserDialog>(shared_from_this()));
-            p.fileBrowser->setCallback(
-                [weak](const Core::FileSystem::FileInfo & value)
-            {
-                if (auto widget = weak.lock())
-                {
-                    if (widget->_p->callback)
-                    {
-                        widget->_p->callback(value);
-                    }
-                }
-            });
+            setBackgroundRole(ColorRole::Border);
         }
 
-        FileBrowserDialog::FileBrowserDialog() :
+        ThermometerWidget::ThermometerWidget() :
             _p(new Private)
         {}
 
-        FileBrowserDialog::~FileBrowserDialog()
+        ThermometerWidget::~ThermometerWidget()
         {}
 
-        std::shared_ptr<FileBrowserDialog> FileBrowserDialog::create(Context * context)
+        std::shared_ptr<ThermometerWidget> ThermometerWidget::create(Context * context)
         {
-            auto out = std::shared_ptr<FileBrowserDialog>(new FileBrowserDialog);
+            auto out = std::shared_ptr<ThermometerWidget>(new ThermometerWidget);
             out->_init(context);
             return out;
         }
 
-        void FileBrowserDialog::setCallback(const std::function<void(const Core::FileSystem::FileInfo &)> & value)
+        void ThermometerWidget::setPercentage(float value)
         {
-            _p->callback = value;
-        }
-
-        void FileBrowserDialog::_localeEvent(Event::Locale & event)
-        {
-            IDialog::_localeEvent(event);
             DJV_PRIVATE_PTR();
-            setTitle(_getText(DJV_TEXT("FILE BROWSER")));
+            if (value == p.percentage)
+                return;
+            p.percentage = value;
+            _redraw();
         }
 
-    } // namespace ViewApp
+        void ThermometerWidget::_preLayoutEvent(Event::PreLayout & event)
+        {
+            auto style = _getStyle();
+            const float sl = style->getMetric(MetricsRole::Slider);
+            const float hw = style->getMetric(MetricsRole::Handle);
+            _setMinimumSize(glm::vec2(sl, hw));
+        }
+
+        void ThermometerWidget::_layoutEvent(Event::Layout&)
+        {}
+
+        void ThermometerWidget::_paintEvent(Event::Paint& event)
+        {
+            Widget::_paintEvent(event);
+            DJV_PRIVATE_PTR();
+            auto style = _getStyle();
+            const BBox2f& g = getMargin().bbox(getGeometry(), style);
+            auto render = _getRender();
+            render->setFillColor(_getColorWithOpacity(style->getColor(ColorRole::Checked)));
+            const float w = p.percentage / 100.f * g.w();
+            render->drawRect(BBox2f(g.min.x, g.min.y, w, g.h()));
+        }
+
+    } // namespace UI
 } // namespace djv
 

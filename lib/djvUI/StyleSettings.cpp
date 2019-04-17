@@ -75,6 +75,7 @@ namespace djv
                 palette.setColor(ColorRole::Border, AV::Image::Color(200, 200, 200));
                 palette.setColor(ColorRole::Trough, AV::Image::Color(210, 210, 210));
                 palette.setColor(ColorRole::Button, AV::Image::Color(230, 230, 230));
+                palette.setColor(ColorRole::Header, AV::Image::Color(250, 250, 220));
                 palette.setColor(ColorRole::Hovered, AV::Image::Color(0, 0, 0, 15));
                 palette.setColor(ColorRole::Pressed, AV::Image::Color(0, 0, 0, 30));
                 palette.setColor(ColorRole::Checked, AV::Image::Color(150, 185, 223));

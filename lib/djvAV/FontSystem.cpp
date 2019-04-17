@@ -61,6 +61,7 @@ namespace djv
             {
                 //! \todo [1.0 S] Should this be configurable?
                 const size_t glyphCacheMax = 10000;
+                const bool   lcdHinting    = true;
 
                 struct MetricsRequest
                 {
@@ -386,6 +387,11 @@ namespace djv
                 return future;
             }
 
+            float System::getGlyphCachePercentage() const
+            {
+                return _p->glyphCachePercentageUsed;
+            }
+
             void System::_initFreeType()
             {
                 DJV_PRIVATE_PTR();
@@ -395,6 +401,15 @@ namespace djv
                     if (ftError)
                     {
                         throw std::runtime_error("FreeType cannot be initialized.");
+                    }
+                    int versionMajor = 0;
+                    int versionMinor = 0;
+                    int versionPatch = 0;
+                    FT_Library_Version(p.ftLibrary, &versionMajor, &versionMinor, &versionPatch);
+                    {
+                        std::stringstream s;
+                        s << "FreeType version: " << versionMajor << "." << versionMinor << "." << versionPatch;
+                        _log(s.str());
                     }
                     for (const auto & i : FileSystem::FileInfo::directoryList(p.fontPath))
                     {
@@ -801,9 +816,12 @@ namespace djv
                             }
                             FT_Render_Mode renderMode = FT_RENDER_MODE_NORMAL;
                             size_t renderModeChannels = 1;
-                            //! \todo Experimental LCD hinting.
-                            //renderMode = FT_RENDER_MODE_LCD;
-                            //renderModeChannels = 3;
+                            if (lcdHinting)
+                            {
+                                //! \todo Experimental LCD hinting.
+                                renderMode = FT_RENDER_MODE_LCD;
+                                renderModeChannels = 3;
+                            }
                             ftError = FT_Render_Glyph(ftFace->glyph, renderMode);
                             if (ftError)
                             {

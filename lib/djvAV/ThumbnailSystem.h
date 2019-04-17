@@ -113,6 +113,12 @@ namespace djv
             //! Cancel a thumbnail image.
             void cancelImage(Core::UID);
 
+            //! Get the infromation cache percentage used.
+            float getInfoCachePercentage() const;
+
+            //! Get the image cache percentage used.
+            float getImageCachePercentage() const;
+
         private:
             void _handleInfoRequests();
             void _handleImageRequests(const std::shared_ptr<Image::Convert> &);

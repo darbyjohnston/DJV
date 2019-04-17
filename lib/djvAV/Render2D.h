@@ -116,6 +116,15 @@ namespace djv
 
                 ///@}
 
+                //! \name Diagnostics
+                ///@{
+
+                float getTextureAtlasPercentage() const;
+                size_t getDynamicTextureCount() const;
+                size_t getVBOCount() const;
+
+                ///@}
+
             private:
                 DJV_PRIVATE();
             };

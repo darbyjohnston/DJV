@@ -11,9 +11,11 @@ set(header
     FileBrowserSettings.h
     GeneralSettingsWidget.h
     ISettingsWidget.h
+	LineGraphWidget.h
     ListViewHeader.h
     PPMSettingsWidget.h
     SearchBox.h
+	ThermometerWidget.h
     UIComponentsSystem.h)
 set(source
     ActionButton.cpp
@@ -28,9 +30,11 @@ set(source
     FileBrowserShortcutsWidget.cpp
     GeneralSettingsWidget.cpp
     ISettingsWidget.cpp
+	LineGraphWidget.cpp
     ListViewHeader.cpp
     PPMSettingsWidget.cpp
     SearchBox.cpp
+	ThermometerWidget.cpp
     UIComponentsSystem.cpp)
 
 if(JPEG_FOUND)

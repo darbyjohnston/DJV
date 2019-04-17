@@ -168,6 +168,9 @@ namespace djv
                 //! Get font glyphs.
                 std::future<std::vector<std::shared_ptr<Glyph> > > getGlyphs(const std::string & text, const Info &);
 
+                //! Get the glyph cache percentage used.
+                float getGlyphCachePercentage() const;
+
             private:
                 void _initFreeType();
                 void _delFreeType();

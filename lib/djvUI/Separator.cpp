@@ -42,7 +42,6 @@ namespace djv
             struct Separator::Private
             {
                 float width = 0.f;
-                AV::Image::Color color;
             };
 
             void Separator::_init(Context * context)
@@ -50,6 +49,7 @@ namespace djv
                 Widget::_init(context);
 
                 setClassName("djv::UI::Layout::Separator");
+                setBackgroundRole(ColorRole::Border);
             }
 
             Separator::Separator() :
@@ -72,20 +72,10 @@ namespace djv
 
                 auto style = _getStyle();
                 p.width = style->getMetric(MetricsRole::Border);
-                p.color = style->getColor(ColorRole::Border);
 
                 glm::vec2 minimumSize = glm::vec2(0.f, 0.f);
                 minimumSize += p.width;
                 _setMinimumSize(minimumSize);
-            }
-
-            void Separator::_paintEvent(Event::Paint & event)
-            {
-                Widget::_paintEvent(event);
-                const BBox2f & g = getGeometry();
-                auto render = _getRender();
-                render->setFillColor(_getColorWithOpacity(_p->color));
-                render->drawRect(g);
             }
 
         } // namespace Layout

@@ -85,14 +85,8 @@ namespace djv
                 Time::getMilliseconds(Time::TimerValue::VerySlow),
                 [this](float)
             {
-                float average = 1.f;
-                for (const auto & i : _fpsSamples)
-                {
-                    average += i;
-                }
-                average /= static_cast<float>(_fpsSamples.size());
                 std::stringstream s;
-                s << "FPS: " << average;
+                s << "FPS: " << _fpsAverage;
                 _logSystem->log("djv::Core::Context", s.str());
             });
         }
@@ -156,6 +150,11 @@ namespace djv
             {
                 system->tick(dt);
             }
+        }
+
+        float Context::getFPSAverage() const
+        {
+            return _fpsAverage;
         }
 
         void Context::_addSystem(const std::shared_ptr<ISystemBase> & system)

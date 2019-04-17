@@ -892,7 +892,6 @@ namespace djv
                             p.render->shader->setUniform(colorModeLoc, static_cast<int>(ColorMode::ColorWithTextureAlphaB));
                             glColorMask(GL_FALSE, GL_FALSE, GL_TRUE, GL_FALSE);
                             vao->draw(vaoOffset, primitive.vaoSize);
-                            colorMode = ColorMode::ColorWithTextureAlphaB;
                             glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
                             break;
                         default:
@@ -1165,6 +1164,21 @@ namespace djv
                     {
                     }
                 }
+            }
+
+            float Render2D::getTextureAtlasPercentage() const
+            {
+                return _p->render->textureAtlas->getPercentageUsed();
+            }
+
+            size_t Render2D::getDynamicTextureCount() const
+            {
+                return _p->render->dynamicTextureCache.size();
+            }
+
+            size_t Render2D::getVBOCount() const
+            {
+                return _p->render->vbos.size();
             }
 
             void Render2D::Private::updateCurrentClipRect()

@@ -280,7 +280,7 @@ namespace djv
         {
             IDialog::_localeEvent(event);
             DJV_PRIVATE_PTR();
-            setTitle(_getText(DJV_TEXT("Recent Files")));
+            setTitle(_getText(DJV_TEXT("RECENT FILES")));
 
             p.actions["IncreaseThumbnailSize"]->setText(_getText(DJV_TEXT("Increase Thumbnail Size")));
             p.actions["IncreaseThumbnailSize"]->setTooltip(_getText(DJV_TEXT("Recent files increase thumbnail size tooltip")));

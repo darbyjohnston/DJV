@@ -114,6 +114,7 @@ namespace djv
             p.layout->setSpacing(MetricsRole::None);
             p.layout->setBackgroundRole(ColorRole::Background);
             auto hLayout = HorizontalLayout::create(context);
+            hLayout->setBackgroundRole(ColorRole::Header);
             hLayout->addChild(p.titleLabel);
             hLayout->addExpander();
             hLayout->addChild(p.closeButton);

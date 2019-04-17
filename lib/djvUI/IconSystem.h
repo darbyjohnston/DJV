@@ -65,6 +65,9 @@ namespace djv
             //! Get an icon.
             std::future<std::shared_ptr<AV::Image::Image> > getIcon(const std::string &, int size);
 
+            //! Get the cache percentage used.
+            float getCachePercentage() const;
+
         private:
             void _handleImageRequests();
 

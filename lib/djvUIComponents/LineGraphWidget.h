@@ -29,50 +29,44 @@
 
 #pragma once
 
-#include <djvUI/Spacing.h>
 #include <djvUI/Widget.h>
+
+#include <djvCore/Range.h>
 
 namespace djv
 {
     namespace UI
     {
-        namespace Layout
+        class LineGraphWidget : public Widget
         {
-            //! This class provides a form layout.
-            class Form : public Widget
-            {
-                DJV_NON_COPYABLE(Form);
+            DJV_NON_COPYABLE(LineGraphWidget);
 
-            protected:
-                void _init(Core::Context *);
-                Form();
+        protected:
+            void _init(Core::Context *);
+            LineGraphWidget();
 
-            public:
-                virtual ~Form();
+        public:
+            ~LineGraphWidget() override;
 
-                static std::shared_ptr<Form> create(Core::Context *);
+            static std::shared_ptr<LineGraphWidget> create(Core::Context *);
 
-                void setText(const std::shared_ptr<Widget> &, const std::string &);
+            const Core::FloatRange& getSampleRange() const;
+            void addSample(float);
+            void resetSamples();
+            void setPrecision(size_t);
 
-                const Spacing & getSpacing() const;
-                void setSpacing(const Spacing &);
+        protected:
+            void _preLayoutEvent(Core::Event::PreLayout &) override;
+            void _layoutEvent(Core::Event::Layout&) override;
+            void _paintEvent(Core::Event::Paint&) override;
 
-                float getHeightForWidth(float) const override;
+            void _localeEvent(Core::Event::Locale&) override;
 
-                void addChild(const std::shared_ptr<IObject> &) override;
-                void removeChild(const std::shared_ptr<IObject> &) override;
+        private:
+            void _updateWidget();
 
-            protected:
-                void _preLayoutEvent(Core::Event::PreLayout &) override;
-                void _layoutEvent(Core::Event::Layout&) override;
-
-            private:
-                DJV_PRIVATE();
-            };
-
-        } // namespace Layout
-
-        typedef Layout::Form FormLayout;
+            DJV_PRIVATE();
+        };
 
     } // namespace UI
 } // namespace djv

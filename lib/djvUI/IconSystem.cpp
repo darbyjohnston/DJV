@@ -40,6 +40,9 @@
 #include <djvCore/ResourceSystem.h>
 #include <djvCore/Timer.h>
 
+#include <atomic>
+#include <thread>
+
 using namespace djv::Core;
 
 namespace djv
@@ -100,7 +103,7 @@ namespace djv
             std::list<ImageRequest> pendingImageRequests;
 
             Memory::Cache<size_t, std::shared_ptr<AV::Image::Image> > imageCache;
-            std::mutex cacheMutex;
+            std::atomic<float> imageCachePercentage;
 
             std::shared_ptr<Time::Timer> statsTimer;
             std::thread thread;
@@ -119,6 +122,7 @@ namespace djv
             addDependency(context->getSystemT<AV::AVSystem>());
 
             p.imageCache.setMax(imageCacheMax);
+            p.imageCachePercentage = 0.f;
 
             p.statsTimer = Time::Timer::create(context);
             p.statsTimer->setRepeating(true);
@@ -129,8 +133,7 @@ namespace djv
                 DJV_PRIVATE_PTR();
                 std::stringstream s;
                 {
-                    std::lock_guard<std::mutex> lock(p.cacheMutex);
-                    s << "Image cache: " << p.imageCache.getPercentageUsed() << '%';
+                    s << "Image cache: " << p.imageCachePercentage << '%';
                 }
                 _log(s.str());
             });
@@ -234,6 +237,11 @@ namespace djv
             return future;
         }
 
+        float IconSystem::getCachePercentage() const
+        {
+            return _p->imageCachePercentage;
+        }
+
         void IconSystem::_handleImageRequests()
         {
             DJV_PRIVATE_PTR();
@@ -241,12 +249,9 @@ namespace djv
             // Process new requests.
             for (auto & i : p.newImageRequests)
             {
+                const auto key = getImageCacheKey(i.path);
                 std::shared_ptr<AV::Image::Image> image;
-                {
-                    std::lock_guard<std::mutex> lock(p.cacheMutex);
-                    const auto key = getImageCacheKey(i.path);
-                    p.imageCache.get(key, image);
-                }
+                p.imageCache.get(key, image);
                 if (!image)
                 {
                     if (auto io = getContext()->getSystemT<AV::IO::System>())
@@ -298,6 +303,7 @@ namespace djv
                 if (image)
                 {
                     p.imageCache.add(getImageCacheKey(i->path), image);
+                    p.imageCachePercentage = p.imageCache.getPercentageUsed();
                     i->promise.set_value(image);
                     i = p.pendingImageRequests.erase(i);
                 }

@@ -91,8 +91,11 @@ namespace djv
             template<typename T>
             inline std::shared_ptr<T> getSystemT() const;
 
-            //! This function is called by the application's event loop.
+            //! This function is called by the application event loop.
             virtual void tick(float dt);
+
+            //! Get the average tick FPS.
+            float getFPSAverage() const;
 
         protected:
             void _addSystem(const std::shared_ptr<ISystemBase> &);

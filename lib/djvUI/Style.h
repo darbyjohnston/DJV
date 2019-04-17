@@ -54,6 +54,7 @@ namespace djv
                 Border,
                 Trough,
                 Button,
+                Header,
                 Hovered,
                 Pressed,
                 Checked,

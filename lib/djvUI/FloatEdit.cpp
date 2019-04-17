@@ -78,7 +78,7 @@ namespace djv
             addAction(decrementLargeAction);
 
             p.lineEdit = LineEdit::create(context);
-            p.lineEdit->setFont("Noto Sans Mono");
+            p.lineEdit->setFont(AV::Font::familyMono);
             addChild(p.lineEdit);
 
             _textUpdate();;

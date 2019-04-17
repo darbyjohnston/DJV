@@ -177,8 +177,9 @@ namespace djv
             std::list<ImageRequest> pendingImageRequests;
 
             Memory::Cache<size_t, IO::Info> infoCache;
+            std::atomic<float> infoCachePercentage;
             Memory::Cache<size_t, std::shared_ptr<Image::Image> > imageCache;
-            std::mutex cacheMutex;
+            std::atomic<float> imageCachePercentage;
 
             GLFWwindow * glfwWindow = nullptr;
             std::shared_ptr<Time::Timer> statsTimer;
@@ -195,7 +196,9 @@ namespace djv
             addDependency(context->getSystemT<IO::System>());
 
             p.infoCache.setMax(infoCacheMax);
+            p.infoCachePercentage = 0.f;
             p.imageCache.setMax(imageCacheMax);
+            p.imageCachePercentage = 0.f;
 
             glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
             glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 1);
@@ -223,9 +226,8 @@ namespace djv
                 DJV_PRIVATE_PTR();
                 std::stringstream s;
                 {
-                    std::lock_guard<std::mutex> lock(p.cacheMutex);
-                    s << "Info cache: " << p.infoCache.getPercentageUsed() << "%\n";
-                    s << "Image cache: " << p.imageCache.getPercentageUsed() << '%';
+                    s << "Info cache: " << p.infoCachePercentage << "%\n";
+                    s << "Image cache: " << p.imageCachePercentage << '%';
                 }
                 _log(s.str());
             });
@@ -378,6 +380,16 @@ namespace djv
             }
         }
 
+        float ThumbnailSystem::getInfoCachePercentage() const
+        {
+            return _p->infoCachePercentage;
+        }
+
+        float ThumbnailSystem::getImageCachePercentage() const
+        {
+            return _p->imageCachePercentage;
+        }
+
         void ThumbnailSystem::_handleInfoRequests()
         {
             DJV_PRIVATE_PTR();
@@ -398,13 +410,9 @@ namespace djv
                         break;
                     }
                 }
+                const auto key = getInfoCacheKey(i.path);
                 IO::Info info;
-                bool cached = false;
-                {
-                    std::lock_guard<std::mutex> lock(p.cacheMutex);
-                    const auto key = getInfoCacheKey(i.path);
-                    cached = p.infoCache.get(key, info);
-                }
+                const bool cached = p.infoCache.get(key, info);
                 if (cached)
                 {
                     i.promise.set_value(info);
@@ -443,6 +451,7 @@ namespace djv
                     {
                         const auto info = i->infoFuture.get();
                         p.infoCache.add(getInfoCacheKey(i->path), info);
+                        p.infoCachePercentage = p.infoCache.getPercentageUsed();
                         i->promise.set_value(info);
                     }
                     catch (const std::exception & e)
@@ -486,12 +495,9 @@ namespace djv
                         break;
                     }
                 }
+                const auto key = getImageCacheKey(i.path, i.size, i.type);
                 std::shared_ptr<Image::Image> image;
-                {
-                    std::lock_guard<std::mutex> lock(p.cacheMutex);
-                    const auto key = getImageCacheKey(i.path, i.size, i.type);
-                    p.imageCache.get(key, image);
-                }
+                p.imageCache.get(key, image);
                 if (image)
                 {
                     i.promise.set_value(image);
@@ -564,6 +570,7 @@ namespace djv
                         image = tmp;
                     }
                     p.imageCache.add(getImageCacheKey(i->path, i->size, i->type), image);
+                    p.imageCachePercentage = p.imageCache.getPercentageUsed();
                     i->promise.set_value(image);
                     i = p.pendingImageRequests.erase(i);
                 }

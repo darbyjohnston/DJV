@@ -1,6 +1,7 @@
 add_subdirectory(ButtonDesktopExample)
 add_subdirectory(ComboBoxDesktopExample)
 add_subdirectory(FileBrowserDesktopExample)
+add_subdirectory(GraphsDesktopExample)
 add_subdirectory(HelloWorldDesktopExample)
 add_subdirectory(MDIDesktopExample)
 add_subdirectory(Render2DExample)

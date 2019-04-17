@@ -53,7 +53,6 @@ namespace djv
 
             protected:
                 void _preLayoutEvent(Core::Event::PreLayout &) override;
-                void _paintEvent(Core::Event::Paint &) override;
 
             private:
                 DJV_PRIVATE();
