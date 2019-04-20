@@ -186,7 +186,7 @@ namespace djv
             return
             {
                 _p->menu,
-                "G"
+                "I"
             };
         }
 

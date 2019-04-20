@@ -48,179 +48,154 @@ namespace djv
 {
     namespace UI
     {
-        namespace
+        struct LanguageWidget::Private
         {
-            class LanguageWidget : public Widget
+            std::string locale;
+            std::shared_ptr<ComboBox> comboBox;
+            std::map<size_t, std::string> indexToLocale;
+            std::map<std::string, size_t> localeToIndex;
+            std::map<std::string, std::string> localeFonts;
+            std::shared_ptr<ValueObserver<std::string> > localeObserver;
+            std::shared_ptr<MapObserver<std::string, std::string> > localeFontsObserver;
+        };
+
+        void LanguageWidget::_init(Context* context)
+        {
+            Widget::_init(context);
+
+            DJV_PRIVATE_PTR();
+            p.comboBox = ComboBox::create(context);
+            addChild(p.comboBox);
+
+            auto weak = std::weak_ptr<LanguageWidget>(std::dynamic_pointer_cast<LanguageWidget>(shared_from_this()));
+            p.comboBox->setCallback(
+                [weak, context](int value)
             {
-                DJV_NON_COPYABLE(LanguageWidget);
+                if (auto widget = weak.lock())
+                {
+                    if (auto textSystem = context->getSystemT<TextSystem>())
+                    {
+                        const auto i = widget->_p->indexToLocale.find(value);
+                        if (i != widget->_p->indexToLocale.end())
+                        {
+                            textSystem->setCurrentLocale(i->second);
+                        }
+                    }
+                }
+            });
 
-            protected:
-                void _init(Context *);
-                LanguageWidget();
-
-            public:
-                static std::shared_ptr<LanguageWidget> create(Context *);
-
-                float getHeightForWidth(float) const override;
-
-            protected:
-                void _preLayoutEvent(Event::PreLayout &) override;
-                void _layoutEvent(Event::Layout &) override;
-
-                void _localeEvent(Event::Locale &) override;
-
-            private:
-                void _widgetUpdate();
-                void _currentItemUpdate();
-
-                DJV_PRIVATE();
-            };
-
-            struct LanguageWidget::Private
+            if (auto textSystem = context->getSystemT<TextSystem>())
             {
-                std::string locale;
-                std::shared_ptr<ComboBox> comboBox;
-                std::map<size_t, std::string> indexToLocale;
-                std::map<std::string, size_t> localeToIndex;
-                std::map<std::string, std::string> localeFonts;
-                std::shared_ptr<ValueObserver<std::string> > localeObserver;
-                std::shared_ptr<MapObserver<std::string, std::string> > localeFontsObserver;
-            };
-
-            void LanguageWidget::_init(Context * context)
-            {
-                Widget::_init(context);
-
-                DJV_PRIVATE_PTR();
-                p.comboBox = ComboBox::create(context);
-                addChild(p.comboBox);
-
-                auto weak = std::weak_ptr<LanguageWidget>(std::dynamic_pointer_cast<LanguageWidget>(shared_from_this()));
-                p.comboBox->setCallback(
-                    [weak, context](int value)
+                p.localeObserver = ValueObserver<std::string>::create(
+                    textSystem->observeCurrentLocale(),
+                    [weak](const std::string & value)
                 {
                     if (auto widget = weak.lock())
                     {
-                        if (auto textSystem = context->getSystemT<TextSystem>())
-                        {
-                            const auto i = widget->_p->indexToLocale.find(value);
-                            if (i != widget->_p->indexToLocale.end())
-                            {
-                                textSystem->setCurrentLocale(i->second);
-                            }
-                        }
+                        widget->_p->locale = value;
+                        widget->_currentItemUpdate();
                     }
                 });
+            }
 
-                if (auto textSystem = context->getSystemT<TextSystem>())
+            if (auto settingsSystem = context->getSystemT<Settings::System>())
+            {
+                if (auto fontSettings = settingsSystem->getSettingsT<Settings::Font>())
                 {
-                    p.localeObserver = ValueObserver<std::string>::create(
-                        textSystem->observeCurrentLocale(),
-                        [weak](const std::string & value)
+                    p.localeFontsObserver = MapObserver<std::string, std::string>::create(
+                        fontSettings->observeLocaleFonts(),
+                        [weak](const std::map<std::string, std::string> & value)
                     {
                         if (auto widget = weak.lock())
                         {
-                            widget->_p->locale = value;
-                            widget->_currentItemUpdate();
+                            widget->_p->localeFonts = value;
+                            widget->_widgetUpdate();
                         }
                     });
                 }
+            }
+        }
 
-                if (auto settingsSystem = context->getSystemT<Settings::System>())
+        LanguageWidget::LanguageWidget() :
+            _p(new Private)
+        {}
+
+        std::shared_ptr<LanguageWidget> LanguageWidget::create(Context* context)
+        {
+            auto out = std::shared_ptr<LanguageWidget>(new LanguageWidget);
+            out->_init(context);
+            return out;
+        }
+
+        void LanguageWidget::setFontSizeRole(UI::MetricsRole value)
+        {
+            _p->comboBox->setFontSizeRole(value);
+        }
+
+        float LanguageWidget::getHeightForWidth(float value) const
+        {
+            return _p->comboBox->getHeightForWidth(value);
+        }
+
+        void LanguageWidget::_preLayoutEvent(Event::PreLayout&)
+        {
+            _setMinimumSize(_p->comboBox->getMinimumSize());
+        }
+
+        void LanguageWidget::_layoutEvent(Event::Layout&)
+        {
+            _p->comboBox->setGeometry(getGeometry());
+        }
+
+        void LanguageWidget::_localeEvent(Event::Locale& event)
+        {
+            _widgetUpdate();
+        }
+
+        void LanguageWidget::_widgetUpdate()
+        {
+            DJV_PRIVATE_PTR();
+            auto context = getContext();
+            if (auto textSystem = context->getSystemT<TextSystem>())
+            {
+                p.comboBox->clearItems();
+                const auto& locales = textSystem->getLocales();
+                size_t j = 0;
+                for (const auto& i : locales)
                 {
-                    if (auto fontSettings = settingsSystem->getSettingsT<Settings::Font>())
+                    std::string font;
+                    auto k = _p->localeFonts.find(i);
+                    if (k != _p->localeFonts.end())
                     {
-                        p.localeFontsObserver = MapObserver<std::string, std::string>::create(
-                            fontSettings->observeLocaleFonts(),
-                            [weak](const std::map<std::string, std::string> & value)
-                        {
-                            if (auto widget = weak.lock())
-                            {
-                                widget->_p->localeFonts = value;
-                                widget->_widgetUpdate();
-                            }
-                        });
+                        font = k->second;
                     }
-                }
-            }
-
-            LanguageWidget::LanguageWidget() :
-                _p(new Private)
-            {}
-
-            std::shared_ptr<LanguageWidget> LanguageWidget::create(Context * context)
-            {
-                auto out = std::shared_ptr<LanguageWidget>(new LanguageWidget);
-                out->_init(context);
-                return out;
-            }
-
-            float LanguageWidget::getHeightForWidth(float value) const
-            {
-                return _p->comboBox->getHeightForWidth(value);
-            }
-
-            void LanguageWidget::_preLayoutEvent(Event::PreLayout &)
-            {
-                _setMinimumSize(_p->comboBox->getMinimumSize());
-            }
-
-            void LanguageWidget::_layoutEvent(Event::Layout &)
-            {
-                _p->comboBox->setGeometry(getGeometry());
-            }
-
-            void LanguageWidget::_localeEvent(Event::Locale & event)
-            {
-                _widgetUpdate();
-            }
-
-            void LanguageWidget::_widgetUpdate()
-            {
-                DJV_PRIVATE_PTR();
-                auto context = getContext();
-                if (auto textSystem = context->getSystemT<TextSystem>())
-                {
-                    p.comboBox->clearItems();
-                    const auto & locales = textSystem->getLocales();
-                    size_t j = 0;
-                    for (const auto & i : locales)
+                    else
                     {
-                        std::string font;
-                        auto k = _p->localeFonts.find(i);
-                        if (k != _p->localeFonts.end())
+                        k = p.localeFonts.find("Default");
+                        if (k != p.localeFonts.end())
                         {
                             font = k->second;
                         }
-                        else
-                        {
-                            k = p.localeFonts.find("Default");
-                            if (k != p.localeFonts.end())
-                            {
-                                font = k->second;
-                            }
-                        }
-                        p.comboBox->addItem(_getText(i));
-                        p.comboBox->setFont(static_cast<int>(j), font);
-                        p.indexToLocale[j] = i;
-                        p.localeToIndex[i] = j;
-                        ++j;
                     }
-                    _currentItemUpdate();
+                    p.comboBox->addItem(_getText(i));
+                    p.comboBox->setFont(static_cast<int>(j), font);
+                    p.indexToLocale[j] = i;
+                    p.localeToIndex[i] = j;
+                    ++j;
                 }
+                _currentItemUpdate();
             }
+        }
 
-            void LanguageWidget::_currentItemUpdate()
+        void LanguageWidget::_currentItemUpdate()
+        {
+            DJV_PRIVATE_PTR();
+            const auto i = p.localeToIndex.find(p.locale);
+            if (i != p.localeToIndex.end())
             {
-                DJV_PRIVATE_PTR();
-                const auto i = p.localeToIndex.find(p.locale);
-                if (i != p.localeToIndex.end())
-                {
-                    p.comboBox->setCurrentItem(static_cast<int>(i->second));
-                }
+                p.comboBox->setCurrentItem(static_cast<int>(i->second));
             }
-
-        } // namespace
+        }
 
         struct LanguageSettingsWidget::Private
         {

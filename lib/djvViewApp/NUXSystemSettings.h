@@ -29,53 +29,39 @@
 
 #pragma once
 
-#include <djvUI/Widget.h>
+#include <djvViewApp/ViewApp.h>
+
+#include <djvUI/ISettings.h>
+
+#include <djvCore/ValueObserver.h>
 
 namespace djv
 {
-    namespace UI
+    namespace ViewApp
     {
-        //! This class provides a combo box widget.
-        //!
-        //! \todo Add support for icons.
-        //! \todo When the combo box is opened position the current item under the pointer.
-        class ComboBox : public Widget
+        //! This class provides NUX system settings.
+        class NUXSystemSettings : public UI::Settings::ISettings
         {
-            DJV_NON_COPYABLE(ComboBox);
+            DJV_NON_COPYABLE(NUXSystemSettings);
 
         protected:
-            void _init(Core::Context *);
-            ComboBox();
+            void _init(Core::Context * context);
+
+            NUXSystemSettings();
 
         public:
-            virtual ~ComboBox();
-            static std::shared_ptr<ComboBox> create(Core::Context *);
-            static std::shared_ptr<ComboBox> create(const std::vector<std::string> &, Core::Context *);
+            static std::shared_ptr<NUXSystemSettings> create(Core::Context *);
 
-            const std::vector<std::string> & getItems() const;
-            void setItems(const std::vector<std::string> &);
-            void addItem(const std::string &);
-            void clearItems();
+            std::shared_ptr<Core::IValueSubject<bool> > observeNUX() const;
+            void setNUX(bool);
 
-            int getCurrentItem() const;
-            void setCurrentItem(int);
-
-            void setFont(int, const std::string &);
-            void setFontSizeRole(MetricsRole);
-
-            void setCallback(const std::function<void(int)> &);
-
-        protected:
-            void _preLayoutEvent(Core::Event::PreLayout &) override;
-            void _layoutEvent(Core::Event::Layout &) override;
+            void load(const picojson::value &) override;
+            picojson::value save() override;
 
         private:
-            void _updateItems();
-            void _updateCurrentItem();
-
             DJV_PRIVATE();
         };
 
-    } // namespace UI
+    } // namespace ViewApp
 } // namespace djv
 

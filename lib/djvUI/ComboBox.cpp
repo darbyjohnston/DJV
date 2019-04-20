@@ -222,6 +222,12 @@ namespace djv
             }
         }
 
+        void ComboBox::setFontSizeRole(MetricsRole value)
+        {
+            DJV_PRIVATE_PTR();
+            p.button->setFontSizeRole(value);
+        }
+
         void ComboBox::setCallback(const std::function<void(int)> & value)
         {
             _p->callback = value;

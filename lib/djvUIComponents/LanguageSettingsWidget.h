@@ -35,6 +35,34 @@ namespace djv
 {
     namespace UI
     {
+        class LanguageWidget : public Widget
+        {
+            DJV_NON_COPYABLE(LanguageWidget);
+
+        protected:
+            void _init(Core::Context*);
+            LanguageWidget();
+
+        public:
+            static std::shared_ptr<LanguageWidget> create(Core::Context*);
+
+            void setFontSizeRole(MetricsRole);
+
+            float getHeightForWidth(float) const override;
+
+        protected:
+            void _preLayoutEvent(Core::Event::PreLayout&) override;
+            void _layoutEvent(Core::Event::Layout&) override;
+
+            void _localeEvent(Core::Event::Locale&) override;
+
+        private:
+            void _widgetUpdate();
+            void _currentItemUpdate();
+
+            DJV_PRIVATE();
+        };
+
         class LanguageSettingsWidget : public ISettingsWidget
         {
             DJV_NON_COPYABLE(LanguageSettingsWidget);

@@ -33,6 +33,7 @@
 
 #include <chrono>
 #include <list>
+#include <mutex>
 
 namespace djv
 {
@@ -108,6 +109,7 @@ namespace djv
             std::shared_ptr<LogSystem> _logSystem;
             std::shared_ptr<TextSystem> _textSystem;
             std::vector<std::shared_ptr<ISystemBase> > _systems;
+            mutable std::mutex _systemsMutex;
             std::chrono::time_point<std::chrono::system_clock> _fpsTime = std::chrono::system_clock::now();
             std::list<float> _fpsSamples;
             float _fpsAverage = 0.f;

@@ -27,75 +27,74 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
+#include <djvViewApp/NUXSystemSettings.h>
+
+#include <djvCore/Context.h>
+
+// These need to be included last on OSX.
+#include <djvCore/PicoJSONTemplates.h>
+#include <djvUI/ISettingsTemplates.h>
+
+using namespace djv::Core;
+
 namespace djv
 {
-    namespace Core
+    namespace ViewApp
     {
-        inline Context::Context()
+        struct NUXSystemSettings::Private
+        {
+            std::shared_ptr<ValueSubject<bool> > nux;
+        };
+
+        void NUXSystemSettings::_init(Context * context)
+        {
+            ISettings::_init("djv::ViewApp::NUXSystemSettings", context);
+
+            DJV_PRIVATE_PTR();
+            p.nux = ValueSubject<bool>::create(true);
+            _load();
+        }
+
+        NUXSystemSettings::NUXSystemSettings() :
+            _p(new Private)
         {}
 
-        inline const std::vector<std::string> & Context::getArgs() const
+        std::shared_ptr<NUXSystemSettings> NUXSystemSettings::create(Context * context)
         {
-            return _args;
-        }
-           
-        inline const std::string & Context::getName() const
-        {
-            return _name;
-        }
-
-        inline float Context::getFpsAverage() const
-        {
-            return _fpsAverage;
-        }
-
-        inline const std::vector<std::shared_ptr<ISystemBase> > & Context::getSystems() const
-        {
-            std::vector<std::shared_ptr<ISystemBase> > systems;
-            {
-                std::lock_guard<std::mutex> lock(_systemsMutex);
-                systems = _systems;
-            }
-            return systems;
-        }
-
-        template<typename T>
-        inline std::vector<std::shared_ptr<T> > Context::getSystemsT() const
-        {
-            std::vector<std::shared_ptr<T> > out;
-            std::vector<std::shared_ptr<ISystemBase> > systems;
-            {
-                std::lock_guard<std::mutex> lock(_systemsMutex);
-                systems = _systems;
-            }
-            for (const auto & i : systems)
-            {
-                if (auto system = std::dynamic_pointer_cast<T>(i))
-                {
-                    out.push_back(system);
-                }
-            }
+            auto out = std::shared_ptr<NUXSystemSettings>(new NUXSystemSettings);
+            out->_init(context);
             return out;
         }
 
-        template<typename T>
-        inline std::shared_ptr<T> Context::getSystemT() const
+        std::shared_ptr<IValueSubject<bool> > NUXSystemSettings::observeNUX() const
         {
-            std::vector<std::shared_ptr<ISystemBase> > systems;
-            {
-                std::lock_guard<std::mutex> lock(_systemsMutex);
-                systems = _systems;
-            }
-            for (const auto & i : systems)
-            {
-                if (auto system = std::dynamic_pointer_cast<T>(i))
-                {
-                    return system;
-                }
-            }
-            return nullptr;
+            return _p->nux;
         }
 
-    } // namespace Core
+        void NUXSystemSettings::setNUX(bool value)
+        {
+            _p->nux->setIfChanged(value);
+        }
+
+        void NUXSystemSettings::load(const picojson::value & value)
+        {
+            if (value.is<picojson::object>())
+            {
+                DJV_PRIVATE_PTR();
+                const auto & object = value.get<picojson::object>();
+                UI::Settings::read("NUX", object, p.nux);
+            }
+        }
+
+        picojson::value NUXSystemSettings::save()
+        {
+            DJV_PRIVATE_PTR();
+            picojson::value out(picojson::object_type, true);
+            auto & object = out.get<picojson::object>();
+            UI::Settings::write("NUX", p.nux->get(), object);
+            return out;
+        }
+
+    } // namespace ViewApp
 } // namespace djv
 

@@ -89,6 +89,7 @@ namespace djv
                 FontMedium,
                 FontLarge,
                 FontHeader,
+                FontTitle,
                 Swatch,
                 Slider,
                 ScrollArea,

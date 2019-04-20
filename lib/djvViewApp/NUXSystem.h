@@ -29,53 +29,33 @@
 
 #pragma once
 
-#include <djvUI/Widget.h>
+#include <djvViewApp/IViewSystem.h>
 
 namespace djv
 {
-    namespace UI
+    namespace ViewApp
     {
-        //! This class provides a combo box widget.
-        //!
-        //! \todo Add support for icons.
-        //! \todo When the combo box is opened position the current item under the pointer.
-        class ComboBox : public Widget
+        class NUXSystem : public IViewSystem
         {
-            DJV_NON_COPYABLE(ComboBox);
+            DJV_NON_COPYABLE(NUXSystem);
 
         protected:
             void _init(Core::Context *);
-            ComboBox();
+            NUXSystem();
 
         public:
-            virtual ~ComboBox();
-            static std::shared_ptr<ComboBox> create(Core::Context *);
-            static std::shared_ptr<ComboBox> create(const std::vector<std::string> &, Core::Context *);
+            static std::shared_ptr<NUXSystem> create(Core::Context *);
 
-            const std::vector<std::string> & getItems() const;
-            void setItems(const std::vector<std::string> &);
-            void addItem(const std::string &);
-            void clearItems();
-
-            int getCurrentItem() const;
-            void setCurrentItem(int);
-
-            void setFont(int, const std::string &);
-            void setFontSizeRole(MetricsRole);
-
-            void setCallback(const std::function<void(int)> &);
+            std::shared_ptr<UI::Widget> getNUXWidget() const;
 
         protected:
-            void _preLayoutEvent(Core::Event::PreLayout &) override;
-            void _layoutEvent(Core::Event::Layout &) override;
+            void _widgetUpdate();
+            void _textUpdate();
 
         private:
-            void _updateItems();
-            void _updateCurrentItem();
-
             DJV_PRIVATE();
         };
 
-    } // namespace UI
+    } // namespace ViewApp
 } // namespace djv
 

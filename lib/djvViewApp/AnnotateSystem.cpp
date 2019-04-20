@@ -27,22 +27,16 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvViewApp/Application.h>
-
 #include <djvViewApp/AnnotateSystem.h>
-#include <djvViewApp/AudioSystem.h>
-#include <djvViewApp/FileSystem.h>
-#include <djvViewApp/HelpSystem.h>
-#include <djvViewApp/ImageSystem.h>
-#include <djvViewApp/ImageViewSystem.h>
-#include <djvViewApp/MainWindow.h>
-#include <djvViewApp/NUXSystem.h>
-#include <djvViewApp/PlaybackSystem.h>
-#include <djvViewApp/SettingsSystem.h>
-#include <djvViewApp/ToolSystem.h>
-#include <djvViewApp/WindowSystem.h>
 
-#include <djvUIComponents/UIComponentsSystem.h>
+#include <djvUI/Action.h>
+#include <djvUI/Menu.h>
+#include <djvUI/RowLayout.h>
+
+#include <djvCore/Context.h>
+#include <djvCore/TextSystem.h>
+
+#include <GLFW/glfw3.h>
 
 using namespace djv::Core;
 
@@ -50,53 +44,66 @@ namespace djv
 {
     namespace ViewApp
     {
-        struct Application::Private
+        struct AnnotateSystem::Private
         {
-            std::vector<std::shared_ptr<ISystem> > systems;
-            std::shared_ptr<MainWindow> mainWindow;
+            std::map<std::string, std::shared_ptr<UI::Action> > actions;
+            std::shared_ptr<UI::Menu> menu;
+            std::map<std::string, std::shared_ptr<ValueObserver<bool> > > clickedObservers;
+            std::shared_ptr<ValueObserver<std::string> > localeObserver;
         };
-        
-        void Application::_init(int & argc, char ** argv)
-        {
-            Desktop::Application::_init(argc, argv);
 
-            UI::UIComponentsSystem::create(this);
+        void AnnotateSystem::_init(Context * context)
+        {
+            IViewSystem::_init("djv::ViewApp::AnnotateSystem", context);
 
             DJV_PRIVATE_PTR();
-            p.systems.push_back(FileSystem::create(this));
-            p.systems.push_back(WindowSystem::create(this));
-            p.systems.push_back(ImageViewSystem::create(this));
-            p.systems.push_back(ImageSystem::create(this));
-            p.systems.push_back(PlaybackSystem::create(this));
-            p.systems.push_back(ToolSystem::create(this));
-            p.systems.push_back(AudioSystem::create(this));
-            p.systems.push_back(AnnotateSystem::create(this));
-            p.systems.push_back(HelpSystem::create(this));
-            p.systems.push_back(SettingsSystem::create(this));
-            auto nuxSystem = NUXSystem::create(this);
-            p.systems.push_back(nuxSystem);
 
-            p.mainWindow = MainWindow::create(this);
-            p.mainWindow->show();
+            p.menu = UI::Menu::create(context);
 
-            if (auto nuxWidget = nuxSystem->getNUXWidget())
+            auto weak = std::weak_ptr<AnnotateSystem>(std::dynamic_pointer_cast<AnnotateSystem>(shared_from_this()));
+            p.localeObserver = ValueObserver<std::string>::create(
+                context->getSystemT<TextSystem>()->observeCurrentLocale(),
+                [weak](const std::string & value)
             {
-                p.mainWindow->addChild(nuxWidget);
-            }
+                if (auto system = weak.lock())
+                {
+                    system->_textUpdate();
+                }
+            });
         }
 
-        Application::Application() :
+        AnnotateSystem::AnnotateSystem() :
             _p(new Private)
         {}
 
-        Application::~Application()
+        AnnotateSystem::~AnnotateSystem()
         {}
 
-        std::shared_ptr<Application> Application::create(int & argc, char ** argv)
+        std::shared_ptr<AnnotateSystem> AnnotateSystem::create(Context * context)
         {
-            auto out = std::shared_ptr<Application>(new Application);
-            out->_init(argc, argv);
+            auto out = std::shared_ptr<AnnotateSystem>(new AnnotateSystem);
+            out->_init(context);
             return out;
+        }
+
+        std::map<std::string, std::shared_ptr<UI::Action> > AnnotateSystem::getActions()
+        {
+            return _p->actions;
+        }
+
+        MenuData AnnotateSystem::getMenu()
+        {
+            return
+            {
+                _p->menu,
+                "H"
+            };
+        }
+
+        void AnnotateSystem::_textUpdate()
+        {
+            DJV_PRIVATE_PTR();
+            p.menu->setText(_getText(DJV_TEXT("Annotate")));
         }
 
     } // namespace ViewApp

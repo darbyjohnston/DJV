@@ -35,6 +35,8 @@ namespace djv
                 const std::string & getText() const;
                 void setText(const std::string &);
 
+                void setFontSizeRole(MetricsRole);
+
                 bool isChecked() const;
                 void setChecked(bool);
                 void setCheckedCallback(const std::function<void(bool)> &);

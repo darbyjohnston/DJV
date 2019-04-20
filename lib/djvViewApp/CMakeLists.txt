@@ -1,6 +1,8 @@
 set(header
     AboutDialog.h
+	AnnotateSystem.h
     Application.h
+	AudioSystem.h
     ColorPickerTool.h
     DebugTool.h
     Enum.h
@@ -20,6 +22,8 @@ set(header
     MainWindow.h
     Media.h
     MediaWidget.h
+	NUXSystem.h
+	NUXSystemSettings.h
     PlaybackSystem.h
 	PlaylistWidget.h
     RecentFilesDialog.h
@@ -34,7 +38,9 @@ set(header
 	WindowSystemSettings.h)
 set(source
     AboutDialog.cpp
+	AnnotateSystem.cpp
     Application.cpp
+	AudioSystem.cpp
     ColorPickerTool.cpp
     DebugTool.cpp
     Enum.cpp
@@ -54,6 +60,8 @@ set(source
     MainWindow.cpp
     Media.cpp
     MediaWidget.cpp
+	NUXSystem.cpp
+	NUXSystemSettings.cpp
     PlaybackSystem.cpp
 	PlaylistWidget.cpp
     RecentFilesDialog.cpp

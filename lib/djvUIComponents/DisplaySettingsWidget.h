@@ -35,6 +35,62 @@ namespace djv
 {
     namespace UI
     {
+        class DisplaySizeWidget : public Widget
+        {
+            DJV_NON_COPYABLE(DisplaySizeWidget);
+
+        protected:
+            void _init(Core::Context*);
+            DisplaySizeWidget();
+
+        public:
+            static std::shared_ptr<DisplaySizeWidget> create(Core::Context*);
+
+            void setFontSizeRole(UI::MetricsRole);
+
+            float getHeightForWidth(float) const override;
+
+        protected:
+            void _preLayoutEvent(Core::Event::PreLayout&) override;
+            void _layoutEvent(Core::Event::Layout&) override;
+
+            void _localeEvent(Core::Event::Locale&) override;
+
+        private:
+            void _widgetUpdate();
+            void _currentItemUpdate();
+
+            DJV_PRIVATE();
+        };
+
+        class DisplayPaletteWidget : public Widget
+        {
+            DJV_NON_COPYABLE(DisplayPaletteWidget);
+
+        protected:
+            void _init(Core::Context*);
+            DisplayPaletteWidget();
+
+        public:
+            static std::shared_ptr<DisplayPaletteWidget> create(Core::Context*);
+
+            void setFontSizeRole(UI::MetricsRole);
+
+            float getHeightForWidth(float) const override;
+
+        protected:
+            void _preLayoutEvent(Core::Event::PreLayout&) override;
+            void _layoutEvent(Core::Event::Layout&) override;
+
+            void _localeEvent(Core::Event::Locale&) override;
+
+        private:
+            void _widgetUpdate();
+            void _currentItemUpdate();
+
+            DJV_PRIVATE();
+        };
+
         class DisplaySettingsWidget : public ISettingsWidget
         {
             DJV_NON_COPYABLE(DisplaySettingsWidget);

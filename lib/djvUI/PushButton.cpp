@@ -211,6 +211,25 @@ namespace djv
                 _p->border->setGeometry(getGeometry());
             }
 
+            void Push::_paintEvent(Event::Paint& event)
+            {
+                Widget::_paintEvent(event);
+                DJV_PRIVATE_PTR();
+                const BBox2f& g = getGeometry();
+                auto render = _getRender();
+                auto style = _getStyle();
+                if (_isPressed())
+                {
+                    render->setFillColor(_getColorWithOpacity(style->getColor(getPressedColorRole())));
+                    render->drawRect(g);
+                }
+                else if (_isHovered())
+                {
+                    render->setFillColor(_getColorWithOpacity(style->getColor(getHoveredColorRole())));
+                    render->drawRect(g);
+                }
+            }
+
             void Push::_updateEvent(Event::Update & event)
             {
                 IButton::_updateEvent(event);

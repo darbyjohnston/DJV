@@ -140,6 +140,12 @@ namespace djv
                 p.label->setVisible(!value.empty());
             }
 
+            void Menu::setFontSizeRole(MetricsRole value)
+            {
+                DJV_PRIVATE_PTR();
+                p.label->setFontSizeRole(value);
+            }
+
             bool Menu::isChecked() const
             {
                 return _p->checked;
