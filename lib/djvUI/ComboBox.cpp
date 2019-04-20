@@ -64,8 +64,6 @@ namespace djv
         {
             Widget::_init(context);
 
-            setClassName("djv::UI::ComboBox");
-
             DJV_PRIVATE_PTR();
             p.closeAction = Action::create();
             p.closeAction->setShortcut(GLFW_KEY_ESCAPE);

@@ -34,6 +34,7 @@
 #include <djvViewApp/FileSystemSettings.h>
 #include <djvViewApp/Media.h>
 #include <djvViewApp/RecentFilesDialog.h>
+#include <djvViewApp/WindowSystem.h>
 
 #include <djvUI/Action.h>
 #include <djvUI/DialogSystem.h>
@@ -330,13 +331,17 @@ namespace djv
         void FileSystem::open(const std::string & fileName, const glm::vec2 & pos)
         {
             auto context = getContext();
-            if (auto media = _p->currentMedia->get())
+            auto windowSystem = context->getSystemT<WindowSystem>();
+            if (WindowMode::SDI == windowSystem->observeWindowMode()->get())
             {
-                const size_t index = _p->media->indexOf(media);
-                if (index != invalidListIndex)
+                if (auto media = _p->currentMedia->get())
                 {
-                    _p->media->removeItem(index);
-                    _p->closed->setAlways(media);
+                    const size_t index = _p->media->indexOf(media);
+                    if (index != invalidListIndex)
+                    {
+                        _p->media->removeItem(index);
+                        _p->closed->setAlways(media);
+                    }
                 }
             }
             auto media = Media::create(fileName, context);

@@ -94,7 +94,7 @@ namespace djv
             std::shared_ptr<Time::Timer> debugTimer;
         };
 
-        void Media::_init(const std::string & fileName, Context * context)
+        void Media::_init(const std::string & fileName, size_t videoMax, size_t audioMax, Context * context)
         {
             DJV_PRIVATE_PTR();
             p.context = context;
@@ -115,7 +115,7 @@ namespace djv
             p.videoQueueCount = ValueSubject<size_t>::create();
             p.audioQueueCount = ValueSubject<size_t>::create();
             p.alUnqueuedBuffers = ValueSubject<size_t>::create();
-            p.queue = AV::IO::Queue::create();
+            p.queue = AV::IO::Queue::create(videoMax, audioMax);
             p.queueTimer = Time::Timer::create(context);
             p.queueTimer->setRepeating(true);
             p.infoTimer = Time::Timer::create(context);
@@ -261,10 +261,17 @@ namespace djv
             }
         }
 
-        std::shared_ptr<Media> Media::create(const std::string & fileName, Context * context)
+        std::shared_ptr<Media> Media::create(const std::string& fileName, Context* context)
         {
             auto out = std::shared_ptr<Media>(new Media);
-            out->_init(fileName, context);
+            out->_init(fileName, 30, 30, context);
+            return out;
+        }
+
+        std::shared_ptr<Media> Media::create(const std::string& fileName, size_t videoMax, size_t audioMax, Context* context)
+        {
+            auto out = std::shared_ptr<Media>(new Media);
+            out->_init(fileName, videoMax, audioMax, context);
             return out;
         }
 

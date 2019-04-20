@@ -100,7 +100,6 @@ namespace djv
                 if (auto system = weak.lock())
                 {
                     system->_p->actions["Magnifier"]->setChecked(false);
-                    system->_p->actions["Magnifier"]->doChecked();
                 }
             });
             p.tools["ColorPicker"]->setCloseCallback(
@@ -109,7 +108,6 @@ namespace djv
                 if (auto system = weak.lock())
                 {
                     system->_p->actions["ColorPicker"]->setChecked(false);
-                    system->_p->actions["ColorPicker"]->doChecked();
                 }
             });
             p.tools["Histogram"]->setCloseCallback(
@@ -118,7 +116,6 @@ namespace djv
                 if (auto system = weak.lock())
                 {
                     system->_p->actions["Histogram"]->setChecked(false);
-                    system->_p->actions["Histogram"]->doChecked();
                 }
             });
             p.tools["Information"]->setCloseCallback(
@@ -127,7 +124,6 @@ namespace djv
                 if (auto system = weak.lock())
                 {
                     system->_p->actions["Information"]->setChecked(false);
-                    system->_p->actions["Information"]->doChecked();
                 }
             });
             p.tools["Debug"]->setCloseCallback(
@@ -136,7 +132,6 @@ namespace djv
                 if (auto system = weak.lock())
                 {
                     system->_p->actions["Debug"]->setChecked(false);
-                    system->_p->actions["Debug"]->doChecked();
                 }
             });
 

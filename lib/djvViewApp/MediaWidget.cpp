@@ -31,9 +31,10 @@
 
 #include <djvViewApp/ImageView.h>
 #include <djvViewApp/Media.h>
-#include <djvViewApp/PlaybackSystem.h>
 #include <djvViewApp/TimelineSlider.h>
 
+#include <djvUI/Action.h>
+#include <djvUI/ActionGroup.h>
 #include <djvUI/Label.h>
 #include <djvUI/RowLayout.h>
 #include <djvUI/StackLayout.h>
@@ -55,6 +56,8 @@ namespace djv
             Time::Speed speed;
             AV::TimeUnits timeUnits = AV::TimeUnits::First;
 
+            std::map<std::string, std::shared_ptr<UI::Action> > actions;
+            std::shared_ptr<UI::ActionGroup> playbackActionGroup;
             std::shared_ptr<ImageView> imageView;
             std::shared_ptr<UI::Label> currentTimeLabel;
             std::shared_ptr<TimelineSlider> timelineSlider;
@@ -64,6 +67,7 @@ namespace djv
             std::shared_ptr<ValueObserver<Time::Timestamp> > durationObserver;
             std::shared_ptr<ValueObserver<Time::Timestamp> > currentTimeObserver;
             std::shared_ptr<ValueObserver<Time::Timestamp> > currentTimeObserver2;
+            std::shared_ptr<ValueObserver<Playback> > playbackObserver;
             std::shared_ptr<ValueObserver<AV::TimeUnits> > timeUnitsObserver;
         };
         
@@ -72,6 +76,23 @@ namespace djv
             Widget::_init(context);
 
             DJV_PRIVATE_PTR();
+            p.actions["Forward"] = UI::Action::create();
+            p.actions["Forward"]->setIcon("djvIconPlaybackForward");
+            p.actions["Reverse"] = UI::Action::create();
+            p.actions["Reverse"]->setIcon("djvIconPlaybackReverse");
+            p.playbackActionGroup = UI::ActionGroup::create(UI::ButtonType::Exclusive);
+            p.playbackActionGroup->addAction(p.actions["Forward"]);
+            p.playbackActionGroup->addAction(p.actions["Reverse"]);
+
+            p.actions["InPoint"] = UI::Action::create();
+            p.actions["InPoint"]->setIcon("djvIconFrameStart");
+            p.actions["PrevFrame"] = UI::Action::create();
+            p.actions["PrevFrame"]->setIcon("djvIconFramePrev");
+            p.actions["NextFrame"] = UI::Action::create();
+            p.actions["NextFrame"]->setIcon("djvIconFrameNext");
+            p.actions["OutPoint"] = UI::Action::create();
+            p.actions["OutPoint"]->setIcon("djvIconFrameEnd");
+
             p.imageView = ImageView::create(context);
 
             p.currentTimeLabel = UI::Label::create(context);
@@ -82,16 +103,12 @@ namespace djv
 
             p.toolbar = UI::ToolBar::create(context);
             p.toolbar->setBackgroundRole(UI::ColorRole::Overlay);
-            if (auto playbackSystem = context->getSystemT<PlaybackSystem>())
-            {
-                auto actions = playbackSystem->getActions();
-                p.toolbar->addAction(actions["Reverse"]);
-                p.toolbar->addAction(actions["Forward"]);
-                p.toolbar->addAction(actions["InPoint"]);
-                p.toolbar->addAction(actions["PrevFrame"]);
-                p.toolbar->addAction(actions["NextFrame"]);
-                p.toolbar->addAction(actions["OutPoint"]);
-            }
+            p.toolbar->addAction(p.actions["Reverse"]);
+            p.toolbar->addAction(p.actions["Forward"]);
+            p.toolbar->addAction(p.actions["InPoint"]);
+            p.toolbar->addAction(p.actions["PrevFrame"]);
+            p.toolbar->addAction(p.actions["NextFrame"]);
+            p.toolbar->addAction(p.actions["OutPoint"]);
             p.toolbar->addChild(p.currentTimeLabel);
             p.toolbar->addChild(p.timelineSlider);
             p.toolbar->setStretch(p.timelineSlider, UI::RowStretch::Expand);
@@ -109,6 +126,24 @@ namespace djv
             _widgetUpdate();
 
             auto weak = std::weak_ptr<MediaWidget>(std::dynamic_pointer_cast<MediaWidget>(shared_from_this()));
+            p.playbackActionGroup->setExclusiveCallback(
+                [weak](int index)
+            {
+                if (auto widget = weak.lock())
+                {
+                    if (auto media = widget->_p->media)
+                    {
+                        Playback playback = Playback::Stop;
+                        switch (index)
+                        {
+                        case 0: playback = Playback::Forward; break;
+                        case 1: playback = Playback::Reverse; break;
+                        }
+                        media->setPlayback(playback);
+                    }
+                }
+            });
+
             p.currentTimeObserver = ValueObserver<Time::Timestamp>::create(
                 p.timelineSlider->observeCurrentTime(),
                 [weak](Time::Timestamp value)
@@ -156,16 +191,17 @@ namespace djv
 
         void MediaWidget::setMedia(const std::shared_ptr<Media> & value)
         {
-            if (value == _p->media)
+            DJV_PRIVATE_PTR();
+            if (value == p.media)
                 return;
-            _p->media = value;
-            _p->imageView->setMedia(value);
+            p.media = value;
+            p.imageView->setMedia(value);
             _widgetUpdate();
-            if (_p->media)
+            if (p.media)
             {
                 auto weak = std::weak_ptr<MediaWidget>(std::dynamic_pointer_cast<MediaWidget>(shared_from_this()));
-                _p->infoObserver = ValueObserver<AV::IO::Info>::create(
-                    _p->media->observeInfo(),
+                p.infoObserver = ValueObserver<AV::IO::Info>::create(
+                    p.media->observeInfo(),
                     [weak](const AV::IO::Info & value)
                 {
                     if (auto widget = weak.lock())
@@ -174,8 +210,8 @@ namespace djv
                         widget->_widgetUpdate();
                     }
                 });
-                _p->durationObserver = ValueObserver<Time::Timestamp>::create(
-                    _p->media->observeDuration(),
+                p.durationObserver = ValueObserver<Time::Timestamp>::create(
+                    p.media->observeDuration(),
                     [weak](Time::Timestamp value)
                 {
                     if (auto widget = weak.lock())
@@ -184,8 +220,8 @@ namespace djv
                         widget->_widgetUpdate();
                     }
                 });
-                _p->currentTimeObserver2 = ValueObserver<Time::Timestamp>::create(
-                    _p->media->observeCurrentTime(),
+                p.currentTimeObserver2 = ValueObserver<Time::Timestamp>::create(
+                    p.media->observeCurrentTime(),
                     [weak](Time::Timestamp value)
                 {
                     if (auto widget = weak.lock())
@@ -194,18 +230,35 @@ namespace djv
                         widget->_widgetUpdate();
                     }
                 });
+                p.playbackObserver = ValueObserver<Playback>::create(
+                    p.media->observePlayback(),
+                    [weak](Playback value)
+                {
+                    if (auto widget = weak.lock())
+                    {
+                        int index = -1;
+                        switch (value)
+                        {
+                        case Playback::Forward: index = 0; break;
+                        case Playback::Reverse: index = 1; break;
+                        default: break;
+                        }
+                        widget->_p->playbackActionGroup->setChecked(index);
+                    }
+                });
             }
             else
             {
                 _p->duration = 0;
                 _p->currentTime = 0;
                 _p->speed = Time::Speed();
-                _p->timelineSlider->setDuration(0);
-                _p->timelineSlider->setCurrentTime(0);
+                _p->infoObserver.reset();
                 _p->durationObserver.reset();
                 _p->currentTimeObserver2.reset();
+                _p->playbackObserver.reset();
                 _widgetUpdate();
             }
+            _p->timelineSlider->setMedia(p.media);
         }
 
         void MediaWidget::_preLayoutEvent(Event::PreLayout & event)
@@ -221,6 +274,26 @@ namespace djv
         void MediaWidget::_widgetUpdate()
         {
             DJV_PRIVATE_PTR();
+            p.actions["Forward"]->setEnabled(p.media.get());
+            p.actions["Reverse"]->setEnabled(p.media.get());
+            p.actions["InPoint"]->setEnabled(p.media.get());
+            p.actions["PrevFrame"]->setEnabled(p.media.get());
+            p.actions["NextFrame"]->setEnabled(p.media.get());
+            p.actions["OutPoint"]->setEnabled(p.media.get());
+
+            auto playback = Playback::Stop;
+            if (p.media)
+            {
+                playback = p.media->observePlayback()->get();
+            }
+            switch (playback)
+            {
+            case Playback::Stop:    p.playbackActionGroup->setChecked(-1); break;
+            case Playback::Forward: p.playbackActionGroup->setChecked( 0); break;
+            case Playback::Reverse: p.playbackActionGroup->setChecked( 1); break;
+            default: break;
+            }
+
             auto avSystem = getContext()->getSystemT<AV::AVSystem>();
             p.currentTimeLabel->setText(avSystem->getLabel(p.currentTime, p.speed));
             std::string currentTimeSizeString;
@@ -235,10 +308,21 @@ namespace djv
             default: break;
             }
             p.currentTimeLabel->setSizeString(currentTimeSizeString);
-            p.timelineSlider->setCurrentTime(p.currentTime);
-            p.timelineSlider->setDuration(p.duration);
-            p.timelineSlider->setSpeed(p.speed);
+            p.currentTimeLabel->setEnabled(p.media.get());
+
             p.timelineSlider->setEnabled(p.media.get());
+        }
+
+        void MediaWidget::_localeEvent(Event::Locale&)
+        {
+            DJV_PRIVATE_PTR();
+            p.actions["Forward"]->setTooltip(_getText(DJV_TEXT("Forward tooltip")));
+            p.actions["Reverse"]->setTooltip(_getText(DJV_TEXT("Reverse tooltip")));
+            p.actions["InPoint"]->setTooltip(_getText(DJV_TEXT("Go to in point tooltip")));
+            p.actions["NextFrame"]->setTooltip(_getText(DJV_TEXT("Next frame tooltip")));
+            p.actions["PrevFrame"]->setTooltip(_getText(DJV_TEXT("Previous frame tooltip")));
+            p.actions["OutPoint"]->setTooltip(_getText(DJV_TEXT("Go to out point tooltip")));
+            p.currentTimeLabel->setTooltip(_getText(DJV_TEXT("Current time tooltip")));
         }
         
     } // namespace ViewApp

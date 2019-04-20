@@ -173,39 +173,43 @@ namespace djv
             {
                 Widget::_paintEvent(event);
 
+                auto style = _getStyle();
                 const BBox2f & g = getGeometry();
+                const float b = style->getMetric(MetricsRole::Border);
 
                 // Draw the background.
                 auto render = _getRender();
-                auto style = _getStyle();
                 render->setFillColor(_getColorWithOpacity(style->getColor(ColorRole::Trough)));
                 render->drawRect(g);
 
                 if (_viewSize < _contentsSize)
                 {
                     // Draw the scroll bar handle.
-                    glm::vec2 pos = glm::vec2(0.f, 0.f);
-                    glm::vec2 size = glm::vec2(0.f, 0.f);
+                    BBox2f handleGeom;
                     switch (_orientation)
                     {
                     case Orientation::Horizontal:
-                        pos = glm::vec2(_valueToPos(_scrollPos), g.y());
-                        size = glm::vec2(_valueToPos(_scrollPos + _viewSize) - pos.x, g.h());
+                    {
+                        const float x = _valueToPos(_scrollPos);
+                        handleGeom = BBox2f(x, g.y(), _valueToPos(_scrollPos + _viewSize) - x, g.h()).margin(-b);
                         break;
+                    }
                     case Orientation::Vertical:
-                        pos = glm::vec2(g.x(), _valueToPos(_scrollPos));
-                        size = glm::vec2(g.w(), _valueToPos(_scrollPos + _viewSize) - pos.y);
+                    {
+                        const float y = _valueToPos(_scrollPos);
+                        handleGeom = BBox2f(g.x(), y, g.w(), _valueToPos(_scrollPos + _viewSize) - y).margin(-b);
                         break;
+                    }
                     default: break;
                     }
                     render->setFillColor(_getColorWithOpacity(style->getColor(ColorRole::Button)));
-                    render->drawRect(BBox2f(pos.x, pos.y, size.x, size.y));
+                    render->drawRect(handleGeom);
 
                     // Draw the pressed and hovered state.
                     if (_pressedID)
                     {
                         render->setFillColor(_getColorWithOpacity(style->getColor(ColorRole::Pressed)));
-                        render->drawRect(BBox2f(pos.x, pos.y, size.x, size.y));
+                        render->drawRect(handleGeom);
                     }
                     else
                     {
@@ -217,7 +221,7 @@ namespace djv
                         if (hover)
                         {
                             render->setFillColor(_getColorWithOpacity(style->getColor(ColorRole::Hovered)));
-                            render->drawRect(BBox2f(pos.x, pos.y, size.x, size.y));
+                            render->drawRect(handleGeom);
                         }
                     }
                 }

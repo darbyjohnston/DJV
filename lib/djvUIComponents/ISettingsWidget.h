@@ -48,8 +48,9 @@ namespace djv
         public:
             ~ISettingsWidget() override = 0;
 
-            virtual std::string getName() const = 0;
-            virtual std::string getSortKey() const = 0;
+            virtual std::string getSettingsName() const = 0;
+            virtual std::string getSettingsSortKey() const = 0;
+            virtual std::string getSettingsGroup() const = 0;
 
             float getHeightForWidth(float) const override;
 

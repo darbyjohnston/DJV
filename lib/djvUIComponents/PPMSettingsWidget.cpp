@@ -85,21 +85,26 @@ namespace djv
             return out;
         }
 
-        std::string PPMSettingsWidget::getName() const
+        std::string PPMSettingsWidget::getSettingsName() const
         {
             return DJV_TEXT("PPM");
         }
 
-        std::string PPMSettingsWidget::getSortKey() const
+        std::string PPMSettingsWidget::getSettingsGroup() const
         {
-            return "B";
+            return DJV_TEXT("I/O");
+        }
+
+        std::string PPMSettingsWidget::getSettingsSortKey() const
+        {
+            return "Z";
         }
 
         void PPMSettingsWidget::_localeEvent(Event::Locale & event)
         {
             ISettingsWidget::_localeEvent(event);
             DJV_PRIVATE_PTR();
-            p.layout->setText(p.dataComboBox, DJV_TEXT("Output data type:"));
+            p.layout->setText(p.dataComboBox, DJV_TEXT("Data type:"));
             _widgetUpdate();
         }
 

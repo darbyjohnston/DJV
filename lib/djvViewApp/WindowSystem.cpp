@@ -29,6 +29,8 @@
 
 #include <djvViewApp/WindowSystem.h>
 
+#include <djvViewApp/WindowSystemSettings.h>
+
 #include <djvDesktopApp/Application.h>
 #include <djvDesktopApp/GLFWSystem.h>
 
@@ -52,13 +54,17 @@ namespace djv
     {
         struct WindowSystem::Private
         {
+            std::shared_ptr<WindowSystemSettings> settings;
+            std::shared_ptr<ValueSubject<WindowMode> > windowMode;
             std::map<std::string, std::shared_ptr<UI::Action> > actions;
+            std::shared_ptr<UI::ActionGroup> windowModeActionGroup;
             std::shared_ptr<UI::Menu> menu;
             glm::ivec2 monitorSize = glm::ivec2(0, 0);
             int monitorRefresh = 0;
             BBox2i windowGeom = BBox2i(0, 0, 0, 0);
             std::map<std::string, std::shared_ptr<ValueObserver<bool> > > clickedObservers;
             std::shared_ptr<ValueObserver<bool> > fullScreenObserver;
+            std::shared_ptr<ValueObserver<WindowMode> > windowModeObserver;
             std::shared_ptr<ValueObserver<std::string> > localeObserver;
 
             void setFullScreen(bool, Context * context);
@@ -69,6 +75,9 @@ namespace djv
             IViewSystem::_init("djv::ViewApp::WindowSystem", context);
 
             DJV_PRIVATE_PTR();
+
+            p.settings = WindowSystemSettings::create(context);
+            p.windowMode = ValueSubject<WindowMode>::create();
 
             //! \todo Implement me!
             p.actions["Fit"] = UI::Action::create();
@@ -81,11 +90,40 @@ namespace djv
             p.actions["FullScreen"]->setButtonType(UI::ButtonType::Toggle);
             p.actions["FullScreen"]->setShortcut(GLFW_KEY_U);
 
+            p.actions["SDI"] = UI::Action::create();
+            p.actions["SDI"]->setIcon("djvIconViewLibSDI");
+            p.actions["MDI"] = UI::Action::create();
+            p.actions["MDI"]->setIcon("djvIconViewLibMDI");
+            p.actions["Playlist"] = UI::Action::create();
+            p.actions["Playlist"]->setIcon("djvIconViewLibPlaylist");
+            p.windowModeActionGroup = UI::ActionGroup::create(UI::ButtonType::Radio);
+            p.windowModeActionGroup->addAction(p.actions["SDI"]);
+            p.actions["SDI"]->setShortcut(GLFW_KEY_1);
+            p.windowModeActionGroup->addAction(p.actions["MDI"]);
+            p.actions["MDI"]->setShortcut(GLFW_KEY_2);
+            p.windowModeActionGroup->addAction(p.actions["Playlist"]);
+            p.actions["Playlist"]->setShortcut(GLFW_KEY_3);
+
             p.menu = UI::Menu::create(context);
             p.menu->addAction(p.actions["Fit"]);
             p.menu->addAction(p.actions["FullScreen"]);
+            p.menu->addSeparator();
+            p.menu->addAction(p.actions["SDI"]);
+            p.menu->addAction(p.actions["MDI"]);
+            p.menu->addAction(p.actions["Playlist"]);
+
+            _actionUpdate();
 
             auto weak = std::weak_ptr<WindowSystem>(std::dynamic_pointer_cast<WindowSystem>(shared_from_this()));
+            p.windowModeActionGroup->setRadioCallback(
+                [weak](int index)
+            {
+                if (auto system = weak.lock())
+                {
+                    system->_p->settings->setWindowMode(static_cast<WindowMode>(index));
+                }
+            });
+
             p.fullScreenObserver = ValueObserver<bool>::create(
                 p.actions["FullScreen"]->observeChecked(),
                 [weak, context](bool value)
@@ -93,6 +131,16 @@ namespace djv
                 if (auto system = weak.lock())
                 {
                     system->_p->setFullScreen(value, context);
+                }
+            });
+
+            p.windowModeObserver = ValueObserver<WindowMode>::create(
+                p.settings->observeWindowMode(),
+                [weak, context](WindowMode value)
+            {
+                if (auto system = weak.lock())
+                {
+                    system->setWindowMode(value);
                 }
             });
 
@@ -121,6 +169,21 @@ namespace djv
             return out;
         }
 
+        std::shared_ptr<Core::IValueSubject<WindowMode> > WindowSystem::observeWindowMode() const
+        {
+            return _p->windowMode;
+        }
+
+        void WindowSystem::setWindowMode(WindowMode value)
+        {
+            DJV_PRIVATE_PTR();
+            if (p.windowMode->setIfChanged(value))
+            {
+                p.settings->setWindowMode(value);
+                _actionUpdate();
+            }
+        }
+
         std::map<std::string, std::shared_ptr<UI::Action> > WindowSystem::getActions()
         {
             return _p->actions;
@@ -135,6 +198,12 @@ namespace djv
             };
         }
 
+        void WindowSystem::_actionUpdate()
+        {
+            DJV_PRIVATE_PTR();
+            p.windowModeActionGroup->setChecked(static_cast<int>(p.windowMode->get()));
+        }
+
         void WindowSystem::_textUpdate()
         {
             DJV_PRIVATE_PTR();
@@ -143,6 +212,12 @@ namespace djv
             p.actions["Fit"]->setTooltip(_getText(DJV_TEXT("Fit to image tooltip")));
             p.actions["FullScreen"]->setText(_getText(DJV_TEXT("Full Screen")));
             p.actions["FullScreen"]->setTooltip(_getText(DJV_TEXT("Full screen tooltip")));
+            p.actions["SDI"]->setText(_getText(DJV_TEXT("Single Window")));
+            p.actions["SDI"]->setTooltip(_getText(DJV_TEXT("Single window tooltip")));
+            p.actions["MDI"]->setText(_getText(DJV_TEXT("Multiple Windows")));
+            p.actions["MDI"]->setTooltip(_getText(DJV_TEXT("Multiple windows tooltip")));
+            p.actions["Playlist"]->setText(_getText(DJV_TEXT("Playlist")));
+            p.actions["Playlist"]->setTooltip(_getText(DJV_TEXT("Playlist tooltip")));
 
             p.menu->setText(_getText(DJV_TEXT("Window")));
         }

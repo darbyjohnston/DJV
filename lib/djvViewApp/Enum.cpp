@@ -35,5 +35,47 @@ namespace djv
     {
 
     } // namespace ViewApp
+   
+    picojson::value toJSON(const ViewApp::WindowMode& value)
+    {
+        std::stringstream ss;
+        ss << value;
+        return picojson::value(ss.str());
+    }
+
+    void fromJSON(const picojson::value& value, ViewApp::WindowMode& out)
+    {
+        if (value.is<std::string>())
+        {
+            std::stringstream ss(value.get<std::string>());
+            ss >> out;
+        }
+        else
+        {
+            throw std::invalid_argument(DJV_TEXT("Cannot parse the value."));
+        }
+    }
+
+    DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
+        ViewApp,
+        WindowMode,
+        DJV_TEXT("SDI"),
+        DJV_TEXT("MDI"),
+        DJV_TEXT("List"));
+
+    DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
+        ViewApp,
+        Playback,
+        DJV_TEXT("Stop"),
+        DJV_TEXT("Forward"),
+        DJV_TEXT("Reverse"));
+
+    DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
+        ViewApp,
+        PlaybackMode,
+        DJV_TEXT("Once"),
+        DJV_TEXT("Loop"),
+        DJV_TEXT("PingPong"));
+
 } // namespace djv
 

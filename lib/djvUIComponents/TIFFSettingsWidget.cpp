@@ -84,21 +84,26 @@ namespace djv
             return out;
         }
 
-        std::string TIFFSettingsWidget::getName() const
+        std::string TIFFSettingsWidget::getSettingsName() const
         {
             return DJV_TEXT("TIFF");
         }
 
-        std::string TIFFSettingsWidget::getSortKey() const
+        std::string TIFFSettingsWidget::getSettingsGroup() const
         {
-            return "B";
+            return DJV_TEXT("I/O");
+        }
+
+        std::string TIFFSettingsWidget::getSettingsSortKey() const
+        {
+            return "Z";
         }
 
         void TIFFSettingsWidget::_localeEvent(Event::Locale & event)
         {
             ISettingsWidget::_localeEvent(event);
             DJV_PRIVATE_PTR();
-            p.layout->setText(p.compressionComboBox, DJV_TEXT("Output file compression:"));
+            p.layout->setText(p.compressionComboBox, DJV_TEXT("File compression:"));
             _widgetUpdate();
         }
 

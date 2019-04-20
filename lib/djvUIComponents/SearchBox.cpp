@@ -30,11 +30,11 @@
 #include <djvUIComponents/SearchBox.h>
 
 #include <djvUI/Border.h>
-#include <djvUI/FlatButton.h>
 #include <djvUI/Icon.h>
 #include <djvUI/LineEditBase.h>
 #include <djvUI/RowLayout.h>
 #include <djvUI/SoloLayout.h>
+#include <djvUI/ToolButton.h>
 
 using namespace djv::Core;
 
@@ -65,7 +65,7 @@ namespace djv
             auto searchIcon = Icon::create(context);
             searchIcon->setIcon("djvIconSearch");
             
-            auto clearButton = FlatButton::create(context);
+            auto clearButton = ToolButton::create(context);
             clearButton->setIcon("djvIconClear");
             clearButton->setBackgroundRole(ColorRole::None);
             clearButton->setInsideMargin(MetricsRole::None);

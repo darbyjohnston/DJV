@@ -27,6 +27,8 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
+#include <utility>
+
 namespace djv
 {
     namespace AV
@@ -52,6 +54,11 @@ namespace djv
                     family == other.family;
             }
 
+            constexpr bool Info::operator < (const Info& other) const
+            {
+                return std::tie(dpi, size, face, family) < std::tie(other.dpi, other.size, other.face, other.family);
+            }
+
             inline TextLine::TextLine()
             {}
 
@@ -72,7 +79,7 @@ namespace djv
 
             constexpr bool GlyphInfo::operator < (const GlyphInfo & other) const
             {
-                return _hash < other._hash;
+                return std::tie(code, info) < std::tie(other.code, other.info);
             }
 
             inline Glyph::Glyph()

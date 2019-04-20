@@ -1107,7 +1107,7 @@ namespace djv
                                 {
                                     id = i->second;
                                 }
-                                TextureAtlasItem item;
+                                static TextureAtlasItem item;
                                 if (!p.render->textureAtlas->getItem(id, item))
                                 {
                                     id = p.render->textureAtlas->addItem(glyph->imageData, item);
@@ -1126,6 +1126,7 @@ namespace djv
                                 primitive.color[1] = p.fillColor.getF32(1);
                                 primitive.color[2] = p.fillColor.getF32(2);
                                 primitive.color[3] = p.fillColor.getF32(3);
+                                primitive.imageCache = ImageCache::Atlas;
                                 primitive.atlasIndex = item.textureIndex;
                                 primitive.vaoSize = 6;
 

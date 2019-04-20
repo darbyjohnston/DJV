@@ -32,10 +32,10 @@
 #include <djvUI/Action.h>
 #include <djvUI/ImageWidget.h>
 #include <djvUI/IntSlider.h>
-#include <djvUI/FlatButton.h>
 #include <djvUI/Menu.h>
 #include <djvUI/PopupMenu.h>
 #include <djvUI/RowLayout.h>
+#include <djvUI/ToolButton.h>
 
 using namespace djv::Core;
 
@@ -48,8 +48,8 @@ namespace djv
             std::map<std::string, std::shared_ptr<UI::Action> > actions;
             std::shared_ptr<UI::ImageWidget> imageWidget;
             std::shared_ptr<UI::IntSlider> magnificationSlider;
-            std::shared_ptr<UI::FlatButton> zoomInButton;
-            std::shared_ptr<UI::FlatButton> zoomOutButton;
+            std::shared_ptr<UI::ToolButton> zoomInButton;
+            std::shared_ptr<UI::ToolButton> zoomOutButton;
             std::shared_ptr<UI::Menu> menu;
             std::shared_ptr<UI::PopupMenu> popupMenu;
         };
@@ -71,10 +71,10 @@ namespace djv
             p.magnificationSlider->setRange(IntRange(1, 10));
             p.magnificationSlider->setMargin(UI::MetricsRole::MarginSmall);
 
-            p.zoomInButton = UI::FlatButton::create(context);
+            p.zoomInButton = UI::ToolButton::create(context);
             p.zoomInButton->setIcon("djvIconAdd");
 
-            p.zoomOutButton = UI::FlatButton::create(context);
+            p.zoomOutButton = UI::ToolButton::create(context);
             p.zoomOutButton->setIcon("djvIconSubtract");
 
             p.menu = UI::Menu::create(context);

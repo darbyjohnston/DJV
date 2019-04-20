@@ -89,7 +89,7 @@ namespace djv
             p.actions["PlayLoop"]->setEnabled(false);
             p.actions["PlayPingPong"] = UI::Action::create();
             p.actions["PlayPingPong"]->setEnabled(false);
-            p.playbackModeActionGroup = UI::ActionGroup::create(UI::ButtonType::Exclusive);
+            p.playbackModeActionGroup = UI::ActionGroup::create(UI::ButtonType::Radio);
             p.playbackModeActionGroup->addAction(p.actions["PlayOnce"]);
             p.playbackModeActionGroup->addAction(p.actions["PlayLoop"]);
             p.playbackModeActionGroup->addAction(p.actions["PlayPingPong"]);
@@ -200,7 +200,7 @@ namespace djv
                 }
             });
 
-            p.playbackModeActionGroup->setExclusiveCallback(
+            p.playbackModeActionGroup->setRadioCallback(
                 [weak](int index)
             {
                 if (auto system = weak.lock())
@@ -370,8 +370,14 @@ namespace djv
                             {
                                 if (auto system = weak.lock())
                                 {
-                                    system->_p->playbackActionGroup->setChecked(0, Playback::Forward == value);
-                                    system->_p->playbackActionGroup->setChecked(1, Playback::Reverse == value);
+                                    int index = -1;
+                                    switch (value)
+                                    {
+                                    case Playback::Forward: index = 0; break;
+                                    case Playback::Reverse: index = 1; break;
+                                    default: break;
+                                    }
+                                    system->_p->playbackActionGroup->setChecked(index);
                                 }
                             });
                             system->_p->playbackModeObserver = ValueObserver<PlaybackMode>::create(

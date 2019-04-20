@@ -2,24 +2,25 @@ find_package(JPEG)
 find_package(TIFF)
 
 set(header
-    ActionButton.h
     ColorPicker.h
+    DisplaySettingsWidget.h
     FileBrowser.h
     FileBrowserDialog.h
     FileBrowserItemView.h
     FileBrowserPrivate.h
     FileBrowserSettings.h
-    GeneralSettingsWidget.h
     ISettingsWidget.h
+    LanguageSettingsWidget.h
 	LineGraphWidget.h
     ListViewHeader.h
     PPMSettingsWidget.h
     SearchBox.h
 	ThermometerWidget.h
+	TimeSettingsWidget.h
     UIComponentsSystem.h)
 set(source
-    ActionButton.cpp
     ColorPicker.cpp
+    DisplaySettingsWidget.cpp
     FileBrowser.cpp
     FileBrowserDialog.cpp
     FileBrowserDrivesWidget.cpp
@@ -28,13 +29,14 @@ set(source
     FileBrowserSettings.cpp
     FileBrowserShortcutsModel.cpp
     FileBrowserShortcutsWidget.cpp
-    GeneralSettingsWidget.cpp
     ISettingsWidget.cpp
+    LanguageSettingsWidget.cpp
 	LineGraphWidget.cpp
     ListViewHeader.cpp
     PPMSettingsWidget.cpp
     SearchBox.cpp
 	ThermometerWidget.cpp
+	TimeSettingsWidget.cpp
     UIComponentsSystem.cpp)
 
 if(JPEG_FOUND)

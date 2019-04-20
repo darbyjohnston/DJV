@@ -180,7 +180,6 @@ namespace djv
             p.buttonGroup = ButtonGroup::create(ButtonType::Push);
 
             p.splitter = Layout::Splitter::create(Orientation::Horizontal, context);
-            p.splitter->setHandleStyle(Layout::SplitterHandleStyle::Edges);
             p.splitter->setHandleColorRole(ColorRole::Button);
             addChild(p.splitter);
 

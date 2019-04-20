@@ -32,9 +32,9 @@
 #include <djvUI/Action.h>
 #include <djvUI/ActionGroup.h>
 #include <djvUI/Border.h>
-#include <djvUI/FlatButton.h>
 #include <djvUI/Icon.h>
 #include <djvUI/LineEditBase.h>
+#include <djvUI/ListButton.h>
 #include <djvUI/Menu.h>
 #include <djvUI/MenuButton.h>
 #include <djvUI/RowLayout.h>
@@ -188,7 +188,7 @@ namespace djv
                 _p->buttonLayout->clearChildren();
                 for (auto i = paths.rbegin(); i != paths.rend(); ++i)
                 {
-                    auto button = FlatButton::create(context);
+                    auto button = ListButton::create(context);
                     button->setText(i->isRoot() ? i->get() : i->getFileName());
                     button->setBackgroundRole(ColorRole::Button);
 

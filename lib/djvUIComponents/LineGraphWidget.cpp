@@ -59,7 +59,7 @@ namespace djv
             p.label = Label::create(context);
             p.label->setFontSizeRole(MetricsRole::FontSmall);
             p.label->setBackgroundRole(ColorRole::Overlay);
-            p.label->setMargin(MetricsRole::MarginSmall);
+            p.label->setMargin(MetricsRole::Border);
             addChild(p.label);
         }
 
@@ -136,7 +136,7 @@ namespace djv
                 p.samples.pop_back();
             }
             const glm::vec2 labelSize = p.label->getMinimumSize();
-            p.label->setGeometry(BBox2f(g.min.x + m, g.max.y - m - labelSize.y, labelSize.x, labelSize.y));
+            p.label->setGeometry(BBox2f(g.min.x, g.max.y - labelSize.y, labelSize.x, labelSize.y));
         }
 
         void LineGraphWidget::_paintEvent(Event::Paint& event)
@@ -148,8 +148,8 @@ namespace djv
             const BBox2f& g = getMargin().bbox(getGeometry(), style).margin(0, 0, 0, -b);
             auto render = _getRender();
             auto color1 = _getColorWithOpacity(style->getColor(ColorRole::Checked));
-            auto color2 = _getColorWithOpacity(style->getColor(ColorRole::Foreground));
-            color2.setF32(color2.getF32(3) * .1f, 3);
+            auto color2 = _getColorWithOpacity(style->getColor(ColorRole::Checked));
+            color2.setF32(color2.getF32(3) * .5f, 3);
             float x = g.min.x;
             const float range = p.samplesRange.max - p.samplesRange.min;
             for (const auto& i : p.samples)

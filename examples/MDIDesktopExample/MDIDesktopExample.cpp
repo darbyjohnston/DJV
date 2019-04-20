@@ -30,7 +30,6 @@
 #include <djvDesktopApp/Application.h>
 
 #include <djvUI/Border.h>
-#include <djvUI/FlatButton.h>
 #include <djvUI/Label.h>
 #include <djvUI/MDICanvas.h>
 #include <djvUI/MDIWidget.h>
@@ -39,6 +38,7 @@
 #include <djvUI/Splitter.h>
 #include <djvUI/StackLayout.h>
 #include <djvUI/TextBlock.h>
+#include <djvUI/ToolButton.h>
 #include <djvUI/Window.h>
 
 #include <djvCore/Error.h>
@@ -66,7 +66,7 @@ protected:
     void _layoutEvent(Core::Event::Layout &) override;
 
 private:
-    std::shared_ptr<UI::FlatButton> _closeButton;
+    std::shared_ptr<UI::ToolButton> _closeButton;
     std::shared_ptr<UI::Border> _border;
     std::function<void(void)> _closedCallback;
 };
@@ -79,7 +79,7 @@ void MDIWidget::_init(const std::string & title, Core::Context * context)
     titleLabel->setText(title);
     titleLabel->setMargin(UI::MetricsRole::Margin);
 
-    _closeButton = UI::FlatButton::create(context);
+    _closeButton = UI::ToolButton::create(context);
     _closeButton->setIcon("djvIconCloseSmall");
     _closeButton->setInsideMargin(UI::MetricsRole::MarginSmall);
 

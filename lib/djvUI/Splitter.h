@@ -40,7 +40,6 @@ namespace djv
             enum class SplitterHandleStyle
             {
                 None,
-                Center,
                 Edges
             };
 

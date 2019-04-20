@@ -36,6 +36,8 @@ namespace djv
     namespace UI
     {
         //! This class provides a label.
+        //!
+        //! \todo Add an option for eliding.
         class Label : public Widget
         {
             DJV_NON_COPYABLE(Label);

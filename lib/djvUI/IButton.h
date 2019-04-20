@@ -56,7 +56,6 @@ namespace djv
                 virtual void _doClickedCallback();
                 virtual void _doCheckedCallback(bool);
 
-                void _paintEvent(Core::Event::Paint &) override;
                 void _pointerEnterEvent(Core::Event::PointerEnter &) override;
                 void _pointerLeaveEvent(Core::Event::PointerLeave &) override;
                 void _pointerMoveEvent(Core::Event::PointerMove &) override;

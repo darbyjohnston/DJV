@@ -30,11 +30,23 @@
 #pragma once
 
 #include <djvCore/Enum.h>
+#include <djvCore/PicoJSON.h>
 
 namespace djv
 {
     namespace ViewApp
     {
+        enum class WindowMode
+        {
+            SDI,
+            MDI,
+            List,
+
+            Count,
+            First = SDI
+        };
+        DJV_ENUM_HELPERS(WindowMode);
+
         enum class Playback
         {
             Stop,
@@ -44,14 +56,30 @@ namespace djv
             Count,
             First = Forward
         };
+        DJV_ENUM_HELPERS(Playback);
 
         enum class PlaybackMode
         {
             Once,
             Loop,
-            PingPong
+            PingPong,
+
+            Count,
+            First = Once
         };
+        DJV_ENUM_HELPERS(PlaybackMode);
 
     } // namespace ViewApp
+
+    picojson::value toJSON(const ViewApp::WindowMode&);
+
+    //! Throws:
+    //! - std::exception
+    void fromJSON(const picojson::value&, ViewApp::WindowMode&);
+
+    DJV_ENUM_SERIALIZE_HELPERS(ViewApp::WindowMode);
+    DJV_ENUM_SERIALIZE_HELPERS(ViewApp::Playback);
+    DJV_ENUM_SERIALIZE_HELPERS(ViewApp::PlaybackMode);
+
 } // namespace djv
 

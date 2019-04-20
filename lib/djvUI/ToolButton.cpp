@@ -27,8 +27,9 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvUI/FlatButton.h>
+#include <djvUI/ToolButton.h>
 
+#include <djvUI/Action.h>
 #include <djvUI/Icon.h>
 #include <djvUI/Label.h>
 #include <djvUI/RowLayout.h>
@@ -45,18 +46,18 @@ namespace djv
     {
         namespace Button
         {
-            struct Flat::Private
+            struct Tool::Private
             {
                 std::shared_ptr<Icon> icon;
                 std::shared_ptr<Label> label;
                 std::shared_ptr<HorizontalLayout> layout;
             };
 
-            void Flat::_init(Context * context)
+            void Tool::_init(Context * context)
             {
                 IButton::_init(context);
 
-                setClassName("djv::UI::Button::Flat");
+                setClassName("djv::UI::Button::Tool");
 
                 DJV_PRIVATE_PTR();
                 p.icon = Icon::create(context);
@@ -75,142 +76,168 @@ namespace djv
                 _widgetUpdate();
             }
 
-            Flat::Flat() :
+            Tool::Tool() :
                 _p(new Private)
             {}
 
-            Flat::~Flat()
+            Tool::~Tool()
             {}
 
-            std::shared_ptr<Flat> Flat::create(Context * context)
+            std::shared_ptr<Tool> Tool::create(Context * context)
             {
-                auto out = std::shared_ptr<Flat>(new Flat);
+                auto out = std::shared_ptr<Tool>(new Tool);
                 out->_init(context);
                 return out;
             }
 
-            std::shared_ptr<Flat> Flat::create(const std::string & text, Context * context)
+            std::shared_ptr<Tool> Tool::create(const std::string & text, Context * context)
             {
-                auto out = std::shared_ptr<Flat>(new Flat);
+                auto out = std::shared_ptr<Tool>(new Tool);
                 out->_init(context);
                 out->setText(text);
                 return out;
             }
 
-            std::shared_ptr<Flat> Flat::create(const std::string & text, const std::string & icon, Context * context)
+            std::shared_ptr<Tool> Tool::create(const std::string & text, const std::string & icon, Context * context)
             {
-                auto out = std::shared_ptr<Flat>(new Flat);
+                auto out = std::shared_ptr<Tool>(new Tool);
                 out->_init(context);
                 out->setIcon(icon);
                 out->setText(text);
                 return out;
             }
 
-            const std::string & Flat::getIcon() const
+            const std::string & Tool::getIcon() const
             {
                 return _p->icon->getIcon();
             }
 
-            void Flat::setIcon(const std::string & value)
+            void Tool::setIcon(const std::string & value)
             {
                 DJV_PRIVATE_PTR();
                 p.icon->setIcon(value);
                 _widgetUpdate();
             }
 
-            const std::string & Flat::getText() const
+            const std::string & Tool::getText() const
             {
                 return _p->label->getText();
             }
 
-            void Flat::setText(const std::string & value)
+            void Tool::setText(const std::string & value)
             {
                 DJV_PRIVATE_PTR();
                 p.label->setText(value);
                 _widgetUpdate();
             }
 
-            TextHAlign Flat::getTextHAlign() const
+            TextHAlign Tool::getTextHAlign() const
             {
                 return _p->label->getTextHAlign();
             }
 
-            TextVAlign Flat::getTextVAlign() const
+            TextVAlign Tool::getTextVAlign() const
             {
                 return _p->label->getTextVAlign();
             }
 
-            void Flat::setTextHAlign(TextHAlign value)
+            void Tool::setTextHAlign(TextHAlign value)
             {
                 _p->label->setTextHAlign(value);
             }
 
-            void Flat::setTextVAlign(TextVAlign value)
+            void Tool::setTextVAlign(TextVAlign value)
             {
                 _p->label->setTextVAlign(value);
             }
 
-            ColorRole Flat::getTextColorRole() const
+            ColorRole Tool::getTextColorRole() const
             {
                 return _p->label->getTextColorRole();
             }
 
-            void Flat::setTextColorRole(ColorRole value)
+            void Tool::setTextColorRole(ColorRole value)
             {
                 _p->label->setTextColorRole(value);
             }
 
-            const std::string & Flat::getFont() const
+            const std::string & Tool::getFont() const
             {
                 return _p->label->getFont();
             }
 
-            const std::string & Flat::getFontFace() const
+            const std::string & Tool::getFontFace() const
             {
                 return _p->label->getFontFace();
             }
 
-            MetricsRole Flat::getFontSizeRole() const
+            MetricsRole Tool::getFontSizeRole() const
             {
                 return _p->label->getFontSizeRole();
             }
 
-            void Flat::setFont(const std::string & value)
+            void Tool::setFont(const std::string & value)
             {
                 _p->label->setFont(value);
             }
 
-            void Flat::setFontFace(const std::string & value)
+            void Tool::setFontFace(const std::string & value)
             {
                 _p->label->setFontFace(value);
             }
 
-            void Flat::setFontSizeRole(MetricsRole value)
+            void Tool::setFontSizeRole(MetricsRole value)
             {
                 _p->label->setFontSizeRole(value);
             }
 
-            const Layout::Margin & Flat::getInsideMargin() const
+            const Layout::Margin & Tool::getInsideMargin() const
             {
                 return _p->layout->getMargin();
             }
 
-            void Flat::setInsideMargin(const Layout::Margin & value)
+            void Tool::setInsideMargin(const Layout::Margin & value)
             {
                 _p->layout->setMargin(value);
             }
 
-            void Flat::_preLayoutEvent(Event::PreLayout & event)
+            void Tool::setChecked(bool value)
+            {
+                IButton::setChecked(value);
+                _p->icon->setIconColorRole(value ? getCheckedColorRole() : getForegroundColorRole());
+                _p->label->setTextColorRole(value ? getCheckedColorRole() : getForegroundColorRole());
+            }
+
+            void Tool::_preLayoutEvent(Event::PreLayout & event)
             {
                 _setMinimumSize(_p->layout->getMinimumSize());
             }
 
-            void Flat::_layoutEvent(Event::Layout &)
+            void Tool::_layoutEvent(Event::Layout &)
             {
                 _p->layout->setGeometry(getGeometry());
             }
 
-            void Flat::_widgetUpdate()
+            void Tool::_paintEvent(Event::Paint& event)
+            {
+                Widget::_paintEvent(event);
+                DJV_PRIVATE_PTR();
+                const BBox2f& g = getGeometry();
+                auto render = _getRender();
+                auto style = _getStyle();
+                if (_isPressed())
+                {
+                    render->setFillColor(_getColorWithOpacity(style->getColor(getPressedColorRole())));
+                    render->drawRect(g);
+                }
+                else if (_isHovered())
+                {
+                    render->setFillColor(_getColorWithOpacity(style->getColor(getHoveredColorRole())));
+                    render->drawRect(g);
+                }
+            }
+
+            void Tool::_widgetUpdate()
             {
                 _p->icon->setVisible(!_p->icon->getIcon().empty());
                 _p->label->setVisible(!_p->label->getText().empty());

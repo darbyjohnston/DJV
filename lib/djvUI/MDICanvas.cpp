@@ -168,13 +168,15 @@ namespace djv
                 const BBox2f & g = getGeometry();
                 for (auto & i : _p->widgetToPos)
                 {
+                    const glm::vec2& widgetMinimumSize = i.first->getMinimumSize();
+                    i.second.x = Math::clamp(i.second.x, g.min.x, g.max.x - widgetMinimumSize.x);
+                    i.second.y = Math::clamp(i.second.y, g.min.y, g.max.y - widgetMinimumSize.y);
                     if (i.first->isVisible())
                     {
                         const glm::vec2 & widgetSize = i.first->getSize();
-                        const glm::vec2 & widgetMinimumSize = i.first->getMinimumSize();
                         BBox2f widgetGeometry;
-                        widgetGeometry.min.x = Math::clamp(g.min.x + i.second.x, g.min.x, g.max.x - widgetMinimumSize.x);
-                        widgetGeometry.min.y = Math::clamp(g.min.y + i.second.y, g.min.y, g.max.y - widgetMinimumSize.y);
+                        widgetGeometry.min.x = g.min.x + i.second.x;
+                        widgetGeometry.min.y = g.min.y + i.second.y;
                         widgetGeometry.max.x = Math::clamp(widgetGeometry.min.x + widgetSize.x, widgetGeometry.min.x + widgetMinimumSize.x, g.max.x);
                         widgetGeometry.max.y = Math::clamp(widgetGeometry.min.y + widgetSize.y, widgetGeometry.min.y + widgetMinimumSize.y, g.max.y);
                         i.first->setGeometry(widgetGeometry);

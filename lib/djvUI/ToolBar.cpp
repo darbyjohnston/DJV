@@ -30,8 +30,8 @@
 #include <djvUI/ToolBar.h>
 
 #include <djvUI/Action.h>
-#include <djvUI/FlatButton.h>
 #include <djvUI/RowLayout.h>
+#include <djvUI/ToolButton.h>
 
 using namespace djv::Core;
 
@@ -41,7 +41,7 @@ namespace djv
     {
         struct ToolBar::Private
         {
-            std::map<std::shared_ptr<Action>, std::shared_ptr<FlatButton> > actionsToButtons;
+            std::map<std::shared_ptr<Action>, std::shared_ptr<ToolButton> > actionsToButtons;
             struct Observers
             {
                 std::shared_ptr<ValueObserver<ButtonType> > buttonType;
@@ -112,7 +112,7 @@ namespace djv
         void ToolBar::addAction(const std::shared_ptr<Action> & action)
         {
             Widget::addAction(action);
-            auto button = FlatButton::create(getContext());
+            auto button = ToolButton::create(getContext());
             DJV_PRIVATE_PTR();
             p.layout->addChild(button);
             button->setClickedCallback(
@@ -124,7 +124,6 @@ namespace djv
                 [action](bool value)
             {
                 action->setChecked(value);
-                action->doChecked();
             });
             p.actionsToButtons[action] = button;
             p.observers[action].buttonType = ValueObserver<ButtonType>::create(

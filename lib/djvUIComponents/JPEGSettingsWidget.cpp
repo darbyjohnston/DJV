@@ -96,21 +96,26 @@ namespace djv
             return out;
         }
 
-        std::string JPEGSettingsWidget::getName() const
+        std::string JPEGSettingsWidget::getSettingsName() const
         {
             return DJV_TEXT("JPEG");
         }
 
-        std::string JPEGSettingsWidget::getSortKey() const
+        std::string JPEGSettingsWidget::getSettingsGroup() const
         {
-            return "B";
+            return DJV_TEXT("I/O");
+        }
+
+        std::string JPEGSettingsWidget::getSettingsSortKey() const
+        {
+            return "Z";
         }
 
         void JPEGSettingsWidget::_localeEvent(Event::Locale & event)
         {
             ISettingsWidget::_localeEvent(event);
             DJV_PRIVATE_PTR();
-            p.layout->setText(p.qualitySlider, DJV_TEXT("Output compression quality:"));
+            p.layout->setText(p.qualitySlider, DJV_TEXT("Compression quality:"));
         }
 
     } // namespace UI

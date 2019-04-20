@@ -31,7 +31,6 @@
 
 #include <djvUI/Label.h>
 #include <djvUI/RowLayout.h>
-#include <djvUI/Separator.h>
 #include <djvUI/StackLayout.h>
 
 #include <djvAV/Render2D.h>
@@ -61,15 +60,12 @@ namespace djv
                 DJV_PRIVATE_PTR();
                 p.titleLabel = Label::create(context);
                 p.titleLabel->setTextHAlign(TextHAlign::Left);
-                p.titleLabel->setFontSizeRole(MetricsRole::FontLarge);
-
+                p.titleLabel->setFontSizeRole(MetricsRole::FontHeader);
                 p.childLayout = StackLayout::create(context);
 
                 p.layout = VerticalLayout::create(context);
                 p.layout->addChild(p.titleLabel);
-                auto separator = Layout::Separator::create(context);
-                separator->setBackgroundRole(ColorRole::Foreground);
-                p.layout->addChild(separator);
+                p.layout->addSeparator();
                 p.layout->addChild(p.childLayout);
                 p.layout->setStretch(p.childLayout, RowStretch::Expand);
                 Widget::addChild(p.layout);

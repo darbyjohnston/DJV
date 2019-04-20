@@ -30,11 +30,11 @@
 #include <djvViewApp/ITool.h>
 
 #include <djvUI/Border.h>
-#include <djvUI/FlatButton.h>
 #include <djvUI/Label.h>
 #include <djvUI/MDICanvas.h>
 #include <djvUI/RowLayout.h>
 #include <djvUI/StackLayout.h>
+#include <djvUI/ToolButton.h>
 
 using namespace djv::Core;
 
@@ -45,8 +45,8 @@ namespace djv
         struct ITool::Private
         {
             std::shared_ptr<UI::Label> titleLabel;
+            std::shared_ptr<UI::ToolButton> closeButton;
             std::shared_ptr<UI::HorizontalLayout> titleBar;
-            std::shared_ptr<UI::FlatButton> closeButton;
             std::shared_ptr<UI::VerticalLayout> childLayout;
             std::shared_ptr<UI::VerticalLayout> layout;
             std::shared_ptr<UI::Border> border;
@@ -63,7 +63,7 @@ namespace djv
             p.titleLabel->setTextHAlign(UI::TextHAlign::Left);
             p.titleLabel->setMargin(UI::MetricsRole::Margin);
 
-            p.closeButton = UI::FlatButton::create(context);
+            p.closeButton = UI::ToolButton::create(context);
             p.closeButton->setIcon("djvIconClose");
             p.closeButton->setInsideMargin(UI::MetricsRole::MarginSmall);
 

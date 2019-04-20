@@ -88,7 +88,7 @@ namespace djv
                 const int childrenSize = static_cast<int>(children.size());
                 for (int i = 0, j = 0; i < childrenSize; ++i, ++j)
                 {
-                    const auto & ms = children[i]->getMinimumSize();
+                    const auto& ms = children[i]->getMinimumSize();
                     if (j && pos.x + ms.x > width - getMargin().getWidth(style))
                     {
                         pos.x = 0.f;

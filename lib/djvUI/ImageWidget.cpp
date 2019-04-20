@@ -98,7 +98,16 @@ namespace djv
             auto style = _getStyle();
             if (p.sizeRole != MetricsRole::None)
             {
-                size.x = size.y = style->getMetric(p.sizeRole);
+                size.x = style->getMetric(p.sizeRole);
+                size.y = ceilf(size.x / 2.f);
+                if (p.image)
+                {
+                    const float aspectRatio = p.image->getAspectRatio();
+                    if (aspectRatio > 0.f)
+                    {
+                        size.y = ceilf(size.x / aspectRatio);
+                    }
+                }
             }
             else if (p.image)
             {
@@ -116,12 +125,17 @@ namespace djv
                 auto style = _getStyle();
                 const BBox2f & g = getMargin().bbox(getGeometry(), style);
                 const glm::vec2 c = g.getCenter();
-                const glm::vec2 & size = p.image->getSize();
+                glm::vec2 size = p.image->getSize();
                 glm::vec2 pos = glm::vec2(0.f, 0.f);
                 switch (getHAlign())
                 {
                 case HAlign::Center:
-                case HAlign::Fill:   pos.x = ceilf(c.x - size.x / 2.f); break;
+                    pos.x = ceilf(c.x - size.x / 2.f);
+                    break;
+                case HAlign::Fill:
+                    pos.x = g.min.x;
+                    size.x = g.w();
+                    break;
                 case HAlign::Left:   pos.x = g.min.x; break;
                 case HAlign::Right:  pos.x = g.max.x - size.x; break;
                 default: break;
@@ -129,7 +143,12 @@ namespace djv
                 switch (getVAlign())
                 {
                 case VAlign::Center:
-                case VAlign::Fill:   pos.y = ceilf(c.y - size.y / 2.f); break;
+                    pos.y = ceilf(c.y - size.y / 2.f);
+                    break;
+                case VAlign::Fill:
+                    pos.y = g.min.y;
+                    size.y = g.h();
+                    break;
                 case VAlign::Top:    pos.y = g.min.y; break;
                 case VAlign::Bottom: pos.y = g.max.y - size.y; break;
                 default: break;

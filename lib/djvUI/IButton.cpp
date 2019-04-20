@@ -171,30 +171,6 @@ namespace djv
                 _p->checkedCallback = callback;
             }
 
-            void IButton::_paintEvent(Event::Paint & event)
-            {
-                Widget::_paintEvent(event);
-                DJV_PRIVATE_PTR();
-                const BBox2f & g = getGeometry();
-                auto render = _getRender();
-                auto style = _getStyle();
-                if (_isToggled() && p.checkedColorRole != ColorRole::None)
-                {
-                    render->setFillColor(_getColorWithOpacity(style->getColor(p.checkedColorRole)));
-                    render->drawRect(g);
-                }
-                if (_isPressed())
-                {
-                    render->setFillColor(_getColorWithOpacity(style->getColor(p.pressedColorRole)));
-                    render->drawRect(g);
-                }
-                else if (_isHovered())
-                {
-                    render->setFillColor(_getColorWithOpacity(style->getColor(p.hoveredColorRole)));
-                    render->drawRect(g);
-                }
-            }
-
             void IButton::_pointerEnterEvent(Event::PointerEnter & event)
             {
                 event.accept();
@@ -262,24 +238,23 @@ namespace djv
                         switch (p.buttonType)
                         {
                         case ButtonType::Toggle:
-                            p.checked = !p.checked;
+                            setChecked(!p.checked);
                             _doCheckedCallback(p.checked);
                             break;
                         case ButtonType::Radio:
                             if (!p.checked)
                             {
-                                p.checked = true;
+                                setChecked(true);
                                 _doCheckedCallback(p.checked);
                             }
                             break;
                         case ButtonType::Exclusive:
-                            p.checked = !p.checked;
+                            setChecked(!p.checked);
                             _doCheckedCallback(p.checked);
                             break;
                         default: break;
                         }
                     }
-                    _redraw();
                 }
             }
 

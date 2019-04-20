@@ -174,6 +174,13 @@ namespace djv
             First = Tiles
         };
 
+        //! This enumeration provides callback options.
+        enum class Callback
+        {
+            Trigger,
+            Suppress
+        };
+
     } // namespace UI
 
     picojson::value toJSON(const UI::ViewType &);

@@ -65,6 +65,7 @@ namespace djv
             void _localeEvent(Core::Event::Locale &) override;
 
         private:
+            void _windowModeUpdate();
             void _textUpdate();
 
             DJV_PRIVATE();

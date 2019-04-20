@@ -41,6 +41,8 @@ namespace djv
 {
     namespace ViewApp
     {
+        class Media;
+
         class TimelineSlider : public UI::Widget
         {
             DJV_NON_COPYABLE(TimelineSlider);
@@ -56,9 +58,7 @@ namespace djv
 
             std::shared_ptr<Core::IValueSubject<Core::Time::Timestamp> > observeCurrentTime() const;
 
-            void setDuration(Core::Time::Timestamp);
-            void setCurrentTime(Core::Time::Timestamp);
-            void setSpeed(const Core::Time::Speed &);
+            void setMedia(const std::shared_ptr<Media>&);
 
         protected:
             void _styleEvent(Core::Event::Style &) override;
@@ -73,7 +73,8 @@ namespace djv
             void _updateEvent(Core::Event::Update &) override;
 
         private:
-            Core::Time::Timestamp _posToTime(int) const;
+            Core::Time::Timestamp _posToTime(float) const;
+            float _timeToPos(Core::Time::Timestamp) const;
             Core::BBox2f _getHandleGeometry() const;
             void _textUpdate();
 

@@ -61,7 +61,6 @@ namespace djv
 
             std::shared_ptr<Core::IValueSubject<bool> > observeChecked() const;
             void setChecked(bool);
-            void doChecked();
 
             std::shared_ptr<Core::IValueSubject<std::string> > observeIcon() const;
             void setIcon(const std::string &);

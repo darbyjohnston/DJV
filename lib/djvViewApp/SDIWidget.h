@@ -29,46 +29,35 @@
 
 #pragma once
 
-#include <djvUI/IButton.h>
+#include <djvUI/Widget.h>
 
 namespace djv
 {
-    namespace UI
+    namespace ViewApp
     {
-        namespace Button
+        class SDIWidget : public UI::Widget
         {
-            class ActionButton : public Button::IButton
-            {
-                DJV_NON_COPYABLE(ActionButton);
+            DJV_NON_COPYABLE(SDIWidget);
 
-            protected:
-                void _init(Core::Context *);
-                ActionButton();
+        protected:
+            void _init(Core::Context *);
+            SDIWidget();
 
-            public:
-                ~ActionButton() override;
+        public:
+            ~SDIWidget() override;
 
-                static std::shared_ptr<ActionButton> create(Core::Context *);
-                static std::shared_ptr<ActionButton> create(const std::shared_ptr<Action> &, Core::Context *);
+            static std::shared_ptr<SDIWidget> create(Core::Context *);
 
-                void addAction(const std::shared_ptr<Action> &) override;
-                void removeAction(const std::shared_ptr<Action> &) override;
-                void clearActions() override;
+        protected:
+            void _preLayoutEvent(Core::Event::PreLayout&) override;
+            void _layoutEvent(Core::Event::Layout&) override;
 
-            protected:
-                void _preLayoutEvent(Core::Event::PreLayout &) override;
-                void _layoutEvent(Core::Event::Layout &) override;
+            void _localeEvent(Core::Event::Locale &) override;
 
-            private:
-                void _actionUpdate();
+        private:
+            DJV_PRIVATE();
+        };
 
-                DJV_PRIVATE();
-            };
-
-        } // namespace Button
-
-        using Button::ActionButton;
-
-    } // namespace UI
+    } // namespace ViewApp
 } // namespace djv
 

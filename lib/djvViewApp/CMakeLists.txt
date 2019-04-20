@@ -15,19 +15,23 @@ set(header
     ImageView.h
     ImageViewSystem.h
     InformationTool.h
+	MDIWidget.h
     MagnifierTool.h
     MainWindow.h
     Media.h
     MediaWidget.h
     PlaybackSystem.h
+	PlaylistWidget.h
     RecentFilesDialog.h
+	SDIWidget.h
     SettingsSystem.h
     SettingsDialog.h
     SystemLogDialog.h
     TimelineSlider.h
     ToolSystem.h
     ViewApp.h
-    WindowSystem.h)
+    WindowSystem.h
+	WindowSystemSettings.h)
 set(source
     AboutDialog.cpp
     Application.cpp
@@ -45,18 +49,22 @@ set(source
     ImageView.cpp
     ImageViewSystem.cpp
     InformationTool.cpp
+	MDIWidget.cpp
     MagnifierTool.cpp
     MainWindow.cpp
     Media.cpp
     MediaWidget.cpp
     PlaybackSystem.cpp
+	PlaylistWidget.cpp
     RecentFilesDialog.cpp
+	SDIWidget.cpp
     SettingsSystem.cpp
     SettingsDialog.cpp
     SystemLogDialog.cpp
     TimelineSlider.cpp
     ToolSystem.cpp
-    WindowSystem.cpp)
+    WindowSystem.cpp
+	WindowSystemSettings.cpp)
 
 add_library(djvViewApp ${header} ${source})
 target_link_libraries(djvViewApp djvUIComponents djvDesktopApp)

@@ -29,7 +29,6 @@
 
 #include <djvUIComponents/FileBrowser.h>
 
-#include <djvUIComponents/ActionButton.h>
 #include <djvUIComponents/FileBrowserItemView.h>
 #include <djvUIComponents/FileBrowserPrivate.h>
 #include <djvUIComponents/FileBrowserSettings.h>
@@ -312,7 +311,6 @@ namespace djv
                 p.layout->addChild(topToolBar);
                 p.layout->addSeparator();
                 auto splitter = Layout::Splitter::create(Orientation::Horizontal, context);
-                splitter->setHandleStyle(Layout::SplitterHandleStyle::Edges);
                 splitter->addChild(p.shortcutsScrollWidget);
                 vLayout = VerticalLayout::create(context);
                 vLayout->setSpacing(MetricsRole::None);

@@ -13,22 +13,21 @@ namespace djv
     {
         namespace Button
         {
-            //! This class provides a button widget with a flat appearance. It is
-            //! generally used for toolbar buttons or in lists.
-            class Flat : public IButton
+            //! This class provides a button for use in lists.
+            class List : public IButton
             {
-                DJV_NON_COPYABLE(Flat);
+                DJV_NON_COPYABLE(List);
 
             protected:
                 void _init(Core::Context *);
-                Flat();
+                List();
 
             public:
-                virtual ~Flat();
+                virtual ~List();
 
-                static std::shared_ptr<Flat> create(Core::Context *);
-                static std::shared_ptr<Flat> create(const std::string &, Core::Context *);
-                static std::shared_ptr<Flat> create(const std::string &, const std::string & icon, Core::Context *);
+                static std::shared_ptr<List> create(Core::Context *);
+                static std::shared_ptr<List> create(const std::string &, Core::Context *);
+                static std::shared_ptr<List> create(const std::string &, const std::string & icon, Core::Context *);
 
                 const std::string & getIcon() const;
                 void setIcon(const std::string &);
@@ -57,6 +56,7 @@ namespace djv
             protected:
                 void _preLayoutEvent(Core::Event::PreLayout &) override;
                 void _layoutEvent(Core::Event::Layout &) override;
+                void _paintEvent(Core::Event::Paint&) override;
 
             private:
                 void _widgetUpdate();
@@ -66,7 +66,7 @@ namespace djv
 
         } // namespace Button
 
-        typedef Button::Flat FlatButton;
+        typedef Button::List ListButton;
 
     } // namespace UI
 } // namespace djv

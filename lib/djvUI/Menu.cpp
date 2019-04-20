@@ -101,6 +101,7 @@ namespace djv
                 void _textUpdate();
 
                 std::map<size_t, std::shared_ptr<Action> > _actions;
+                bool _hasCheckable = false;
                 bool _hasShortcuts = false;
                 std::map<size_t, std::shared_ptr<Item> > _items;
                 std::map<std::shared_ptr<Action>, std::shared_ptr<Item> > _actionToItem;
@@ -112,6 +113,7 @@ namespace djv
                 std::pair<Event::PointerID, std::shared_ptr<Item> > _pressed;
                 glm::vec2 _pressedPos = glm::vec2(0.f, 0.f);
                 std::function<void(void)> _closeCallback;
+                std::map<std::shared_ptr<Item>, std::shared_ptr<ValueObserver<ButtonType> > > _buttonTypeObservers;
                 std::map<std::shared_ptr<Item>, std::shared_ptr<ValueObserver<bool> > > _checkedObservers;
                 std::map<std::shared_ptr<Item>, std::shared_ptr<ValueObserver<std::string> > > _textObservers;
                 std::map<std::shared_ptr<Item>, std::shared_ptr<ValueObserver<std::string> > > _fontObservers;
@@ -221,6 +223,10 @@ namespace djv
                 glm::vec2 itemSize(0.f, 0.f);
                 itemSize.x += textSize.x;
                 itemSize.y = std::max(itemSize.y, textSize.y);
+                if (_hasCheckable)
+                {
+                    itemSize.x += m;
+                }
                 if (_hasShortcuts)
                 {
                     itemSize.x += s;
@@ -310,7 +316,11 @@ namespace djv
                     if (i.second->checked)
                     {
                         render->setFillColor(_getColorWithOpacity(style->getColor(ColorRole::Checked)));
-                        render->drawRect(i.second->geom);
+                        render->drawRect(BBox2f(i.second->geom.min.x, i.second->geom.min.y, m, i.second->geom.h()));
+                    }
+                    if (_hasCheckable)
+                    {
+                        x += m;
                     }
 
                     if (!i.second->text.empty())
@@ -430,18 +440,15 @@ namespace djv
                             break;
                         case ButtonType::Toggle:
                             i->second->setChecked(!i->second->observeChecked()->get());
-                            i->second->doChecked();
                             break;
                         case ButtonType::Radio:
                             if (!i->second->observeChecked()->get())
                             {
                                 i->second->setChecked(true);
-                                i->second->doChecked();
                             }
                             break;
                         case ButtonType::Exclusive:
                             i->second->setChecked(!i->second->observeChecked()->get());
-                            i->second->doChecked();
                             break;
                         default: break;
                         }
@@ -505,6 +512,7 @@ namespace djv
                 auto style = _getStyle();
                 auto fontSystem = _getFontSystem();
                 auto textSystem = _getTextSystem();
+                _hasCheckable = false;
                 _hasShortcuts = false;
                 _items.clear();
                 _actionToItem.clear();
@@ -512,6 +520,7 @@ namespace djv
                 _fontMetricsFutures.clear();
                 _textSizeFutures.clear();
                 _shortcutSizeFutures.clear();
+                _buttonTypeObservers.clear();
                 _checkedObservers.clear();
                 _textObservers.clear();
                 _fontObservers.clear();
@@ -523,6 +532,21 @@ namespace djv
                     auto item = std::shared_ptr<Item>(new Item);
                     if (i.second)
                     {
+                        _buttonTypeObservers[item] = ValueObserver<ButtonType>::create(
+                            i.second->observeButtonType(),
+                            [weak, item](ButtonType value)
+                        {
+                            if (auto widget = weak.lock())
+                            {
+                                if (ButtonType::Toggle    == value ||
+                                    ButtonType::Radio     == value ||
+                                    ButtonType::Exclusive == value)
+                                {
+                                    widget->_hasCheckable = true;
+                                    widget->_resize();
+                                }
+                            }
+                        });
                         _checkedObservers[item] = ValueObserver<bool>::create(
                             i.second->observeChecked(),
                             [weak, item](bool value)

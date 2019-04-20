@@ -31,7 +31,6 @@
 
 #include <djvViewApp/FileSystemSettings.h>
 
-#include <djvUIComponents/ActionButton.h>
 #include <djvUIComponents/FileBrowserItemView.h>
 #include <djvUIComponents/FileBrowserPrivate.h>
 #include <djvUIComponents/SearchBox.h>
@@ -280,7 +279,7 @@ namespace djv
         {
             IDialog::_localeEvent(event);
             DJV_PRIVATE_PTR();
-            setTitle(_getText(DJV_TEXT("RECENT FILES")));
+            setTitle(_getText(DJV_TEXT("Recent Files")));
 
             p.actions["IncreaseThumbnailSize"]->setText(_getText(DJV_TEXT("Increase Thumbnail Size")));
             p.actions["IncreaseThumbnailSize"]->setTooltip(_getText(DJV_TEXT("Recent files increase thumbnail size tooltip")));

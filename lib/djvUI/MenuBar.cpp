@@ -115,7 +115,7 @@ namespace djv
 
         void MenuBar::setStretch(const std::shared_ptr<Widget> & widget, RowStretch value)
         {
-            _p->layout->setStretch(widget, value);
+            _p->widgetLayout->setStretch(widget, value);
         }
 
         void MenuBar::addSeparator()

@@ -32,7 +32,6 @@
 #include <djvUI/GroupBox.h>
 #include <djvUI/RowLayout.h>
 #include <djvUI/ScrollWidget.h>
-#include <djvUI/Separator.h>
 #include <djvUI/TextBlock.h>
 
 #include <djvAV/ThumbnailSystem.h>
@@ -194,9 +193,7 @@ namespace djv
             textLayout->addChild(p.groupBoxes["Trademarks"]);
 
             vLayout = UI::VerticalLayout::create(context);
-            auto separator = UI::Layout::Separator::create(context);
-            separator->setBackgroundRole(UI::ColorRole::Foreground);
-            vLayout->addChild(separator);
+            vLayout->addSeparator();
             vLayout2 = UI::VerticalLayout::create(context);
             vLayout2->addChild(p.textBlocks["MadeIn"]);
             vLayout->addChild(vLayout2);

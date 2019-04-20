@@ -44,7 +44,7 @@ namespace djv
                 Orientation orientation = Orientation::Horizontal;
                 std::vector<float> split;
                 float splitterWidth = 0.f;
-                SplitterHandleStyle handleStyle = SplitterHandleStyle::Center;
+                SplitterHandleStyle handleStyle = SplitterHandleStyle::Edges;
                 ColorRole handleColorRole = ColorRole::Background;
                 std::map<Event::PointerID, size_t> hover;
                 std::pair<Event::PointerID, size_t> pressedID;
@@ -299,9 +299,6 @@ namespace djv
                     case Orientation::Horizontal:
                         switch (p.handleStyle)
                         {
-                        case SplitterHandleStyle::Center:
-                            render->drawRect(BBox2f(floorf(g.min.x + g.w() / 2.f - b / 2.f), g.min.y, b, g.h()));
-                            break;
                         case SplitterHandleStyle::Edges:
                             render->drawRect(BBox2f(g.min.x, g.min.y, b, g.h()));
                             render->drawRect(BBox2f(g.max.x - b, g.min.y, b, g.h()));
@@ -312,9 +309,6 @@ namespace djv
                     case Orientation::Vertical:
                         switch (p.handleStyle)
                         {
-                        case SplitterHandleStyle::Center:
-                            render->drawRect(BBox2f(g.min.x, floorf(g.min.y + g.h() / 2.f - b / 2.f), g.w(), b));
-                            break;
                         case SplitterHandleStyle::Edges:
                             render->drawRect(BBox2f(g.min.x, g.min.y, g.w(), b));
                             render->drawRect(BBox2f(g.max.x, g.min.y - b, g.w(), b));

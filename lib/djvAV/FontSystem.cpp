@@ -61,7 +61,7 @@ namespace djv
             {
                 //! \todo [1.0 S] Should this be configurable?
                 const size_t glyphCacheMax = 10000;
-                const bool   lcdHinting    = true;
+                const bool   lcdHinting    = false;
 
                 struct MetricsRequest
                 {
@@ -145,13 +145,7 @@ namespace djv
             GlyphInfo::GlyphInfo(uint32_t code, const Info & info) :
                 code(code),
                 info(info)
-            {
-                Memory::hashCombine(_hash, code);
-                Memory::hashCombine(_hash, info.family);
-                Memory::hashCombine(_hash, info.face);
-                Memory::hashCombine(_hash, info.size);
-                Memory::hashCombine(_hash, info.dpi);
-            }
+            {}
 
             void Glyph::_init(
                 const std::shared_ptr<Image::Data> & imageData,

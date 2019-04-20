@@ -27,13 +27,15 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvUIComponents/ActionButton.h>
+#include <djvUI/ActionButton.h>
 
 #include <djvUI/Action.h>
 #include <djvUI/Icon.h>
 #include <djvUI/Label.h>
 #include <djvUI/RowLayout.h>
 #include <djvUI/Shortcut.h>
+
+#include <djvAV/Render2D.h>
 
 #include <djvCore/String.h>
 #include <djvCore/TextSystem.h>
@@ -103,7 +105,6 @@ namespace djv
                         if (widget->_p->action)
                         {
                             widget->_p->action->setChecked(value);
-                            widget->_p->action->doChecked();
                         }
                     }
                 });
@@ -129,6 +130,34 @@ namespace djv
                 out->_init(context);
                 out->addAction(action);
                 return out;
+            }
+
+            bool ActionButton::hasShowText() const
+            {
+                return _p->textLabel->isVisible();
+            }
+
+            void ActionButton::setShowText(bool value)
+            {
+                _p->textLabel->setVisible(value);
+            }
+
+            bool ActionButton::hasShowShortcuts() const
+            {
+                return _p->shortcutsLabel->isVisible();
+            }
+
+            void ActionButton::setShowShortcuts(bool value)
+            {
+                _p->shortcutsLabel->setVisible(value);
+            }
+
+            void ActionButton::setChecked(bool value)
+            {
+                IButton::setChecked(value);
+                _p->icon->setIconColorRole(value ? getCheckedColorRole() : getForegroundColorRole());
+                _p->textLabel->setTextColorRole(value ? getCheckedColorRole() : getForegroundColorRole());
+                _p->shortcutsLabel->setTextColorRole(value ? getCheckedColorRole() : getForegroundColorRole());
             }
 
             void ActionButton::addAction(const std::shared_ptr<Action> & value)
@@ -157,6 +186,25 @@ namespace djv
             void ActionButton::_layoutEvent(Event::Layout &)
             {
                 _p->layout->setGeometry(getGeometry());
+            }
+
+            void ActionButton::_paintEvent(Event::Paint& event)
+            {
+                Widget::_paintEvent(event);
+                DJV_PRIVATE_PTR();
+                const BBox2f& g = getGeometry();
+                auto render = _getRender();
+                auto style = _getStyle();
+                if (_isPressed())
+                {
+                    render->setFillColor(_getColorWithOpacity(style->getColor(getPressedColorRole())));
+                    render->drawRect(g);
+                }
+                else if (_isHovered())
+                {
+                    render->setFillColor(_getColorWithOpacity(style->getColor(getHoveredColorRole())));
+                    render->drawRect(g);
+                }
             }
 
             void ActionButton::_actionUpdate()

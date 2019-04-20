@@ -32,20 +32,27 @@
 #include <djvViewApp/Application.h>
 #include <djvViewApp/FileSystem.h>
 #include <djvViewApp/ITool.h>
+#include <djvViewApp/MDIWidget.h>
 #include <djvViewApp/Media.h>
 #include <djvViewApp/MediaWidget.h>
+#include <djvViewApp/PlaylistWidget.h>
+#include <djvViewApp/SDIWidget.h>
 #include <djvViewApp/SettingsSystem.h>
 #include <djvViewApp/WindowSystem.h>
 
 #include <djvUI/Action.h>
-#include <djvUI/FlatButton.h>
+#include <djvUI/ActionButton.h>
+#include <djvUI/ButtonGroup.h>
+#include <djvUI/Label.h>
 #include <djvUI/MDICanvas.h>
 #include <djvUI/MenuBar.h>
 #include <djvUI/Menu.h>
 #include <djvUI/RowLayout.h>
 #include <djvUI/Shortcut.h>
+#include <djvUI/SoloLayout.h>
 #include <djvUI/StackLayout.h>
 #include <djvUI/ToolBar.h>
+#include <djvUI/ToolButton.h>
 
 #include <djvCore/FileInfo.h>
 #include <djvCore/Path.h>
@@ -61,13 +68,16 @@ namespace djv
         struct MainWindow::Private
         {
             std::map<std::string, std::shared_ptr<UI::Action> > actions;
-            std::shared_ptr<UI::FlatButton> settingsButton;
+            std::shared_ptr<UI::ToolButton> settingsButton;
             std::shared_ptr<UI::MenuBar> menuBar;
-            std::shared_ptr<MediaWidget> mediaWidget;
-            std::shared_ptr<UI::MDI::Canvas> mdiCanvas;
+            std::shared_ptr<SDIWidget> sdiWidget;
+            std::shared_ptr<MDIWidget> mdiWidget;
+            std::shared_ptr<PlaylistWidget> playlistWidget;
+            std::shared_ptr<UI::MDI::Canvas> toolCanvas;
             std::shared_ptr<UI::StackLayout> stackLayout;
-            std::shared_ptr<ValueObserver<std::shared_ptr<Media> > > currentMediaObserver;
             std::shared_ptr<ValueObserver<bool> > closeToolActionObserver;
+            std::shared_ptr<ValueObserver<std::shared_ptr<Media> > > currentMediaObserver;
+            std::shared_ptr<ValueObserver<WindowMode> > windowModeObserver;
         };
         
         void MainWindow::_init(Core::Context * context)
@@ -101,7 +111,26 @@ namespace djv
                 addAction(i.second);
             }
 
-            p.settingsButton = UI::FlatButton::create(context);
+            auto fileNameLabel = UI::Label::create(context);
+            fileNameLabel->setTextHAlign(UI::TextHAlign::Left);
+            fileNameLabel->setMargin(UI::MetricsRole::Margin);
+
+            auto windowSystem = context->getSystemT<WindowSystem>();
+            auto windowActions = windowSystem->getActions();
+            auto sdiButton = UI::ActionButton::create(context);
+            sdiButton->setShowText(false);
+            sdiButton->setShowShortcuts(false);
+            sdiButton->addAction(windowActions["SDI"]);
+            auto mdiButton = UI::ActionButton::create(context);
+            mdiButton->setShowText(false);
+            mdiButton->setShowShortcuts(false);
+            mdiButton->addAction(windowActions["MDI"]);
+            auto playlistButton = UI::ActionButton::create(context);
+            playlistButton->setShowText(false);
+            playlistButton->setShowShortcuts(false);
+            playlistButton->addAction(windowActions["Playlist"]);
+
+            p.settingsButton = UI::ToolButton::create(context);
             p.settingsButton->setIcon("djvIconSettings");
 
             p.menuBar = UI::MenuBar::create(context);
@@ -110,29 +139,41 @@ namespace djv
             {
                 p.menuBar->addChild(i.second);
             }
-            p.menuBar->addExpander();
+            p.menuBar->addSeparator();
+            p.menuBar->addChild(fileNameLabel);
+            p.menuBar->setStretch(fileNameLabel, UI::RowStretch::Expand);
+            p.menuBar->addSeparator();
+            p.menuBar->addChild(sdiButton);
+            p.menuBar->addChild(mdiButton);
+            p.menuBar->addChild(playlistButton);
             p.menuBar->addChild(p.settingsButton);
 
-            p.mediaWidget = MediaWidget::create(context);
+            p.sdiWidget = SDIWidget::create(context);
+            p.mdiWidget = MDIWidget::create(context);
+            p.playlistWidget = PlaylistWidget::create(context);
 
-            p.mdiCanvas = UI::MDI::Canvas::create(context);
+            p.toolCanvas = UI::MDI::Canvas::create(context);
             for (auto system : viewSystems)
             {
                 for (auto j : system->getTools())
                 {
-                    p.mdiCanvas->addChild(j);
+                    p.toolCanvas->addChild(j);
                     j->setVisible(false);
                 }
             }
             
             p.stackLayout = UI::StackLayout::create(context);
-            p.stackLayout->addChild(p.mediaWidget);
+            auto soloLayout = UI::SoloLayout::create(context);
+            soloLayout->addChild(p.sdiWidget);
+            soloLayout->addChild(p.mdiWidget);
+            soloLayout->addChild(p.playlistWidget);
+            p.stackLayout->addChild(soloLayout);
             auto vLayout = UI::VerticalLayout::create(context);
             vLayout->setSpacing(UI::MetricsRole::None);
             vLayout->addChild(p.menuBar);
             vLayout->addExpander();
             p.stackLayout->addChild(vLayout);
-            p.stackLayout->addChild(p.mdiCanvas);
+            p.stackLayout->addChild(p.toolCanvas);
             addChild(p.stackLayout);
 
             auto weak = std::weak_ptr<MainWindow>(std::dynamic_pointer_cast<MainWindow>(shared_from_this()));
@@ -151,9 +192,9 @@ namespace djv
             {
                 if (value)
                 {
-                    if (auto mainWindow = weak.lock())
+                    if (auto widget = weak.lock())
                     {
-                        const auto children = mainWindow->_p->mdiCanvas->getChildrenT<ITool>();
+                        const auto children = widget->_p->toolCanvas->getChildrenT<ITool>();
                         for (auto i = children.rbegin(); i != children.rend(); ++i)
                         {
                             if ((*i)->isVisible())
@@ -166,19 +207,20 @@ namespace djv
                 }
             });
 
-            if (auto fileSystem = context->getSystemT<FileSystem>())
+            auto fileSystem = getContext()->getSystemT<FileSystem>();
+            p.currentMediaObserver = ValueObserver<std::shared_ptr<Media>>::create(
+                fileSystem->observeCurrentMedia(),
+                [fileNameLabel](const std::shared_ptr<Media> & value)
             {
-                p.currentMediaObserver = ValueObserver<std::shared_ptr<Media>>::create(
-                    fileSystem->observeCurrentMedia(),
-                    [weak](const std::shared_ptr<Media> & value)
-                {
-                    if (auto mainWindow = weak.lock())
-                    {
-                        mainWindow->_p->mediaWidget->setMedia(value);
-                        mainWindow->_textUpdate();
-                    }
-                });
-            }
+                fileNameLabel->setText(value ? Core::FileSystem::Path(value->getFileName()).getFileName() : std::string());
+            });
+            
+            p.windowModeObserver = ValueObserver<WindowMode>::create(
+                windowSystem->observeWindowMode(),
+                [soloLayout](WindowMode value)
+            {
+                soloLayout->setCurrentIndex(static_cast<int>(value));
+            });
         }
 
         MainWindow::MainWindow() :

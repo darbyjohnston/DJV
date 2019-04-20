@@ -96,7 +96,7 @@ namespace djv
         {
             IDialog::_localeEvent(event);
             DJV_PRIVATE_PTR();
-            setTitle(_getText(DJV_TEXT("FILE BROWSER")));
+            setTitle(_getText(DJV_TEXT("File Browser")));
         }
 
     } // namespace ViewApp

@@ -108,13 +108,6 @@ namespace djv
             _p->checked->setIfChanged(value);
         }
 
-        void Action::doChecked()
-        {
-            DJV_PRIVATE_PTR();
-            const bool value = p.checked->get();
-            p.checked->setAlways(value);
-        }
-
         std::shared_ptr<IValueSubject<std::string> > Action::observeIcon() const
         {
             return _p->icon;
@@ -182,15 +175,12 @@ namespace djv
                         break;
                     case ButtonType::Toggle:
                         action->setChecked(!action->_p->checked->get());
-                        action->doChecked();
                         break;
                     case ButtonType::Radio:
                         action->setChecked(true);
-                        action->doChecked();
                         break;
                     case ButtonType::Exclusive:
                         action->setChecked(!action->_p->checked->get());
-                        action->doChecked();
                         break;
                     default: break;
                     }

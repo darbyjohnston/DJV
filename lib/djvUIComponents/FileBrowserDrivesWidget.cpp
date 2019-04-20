@@ -30,8 +30,8 @@
 #include <djvUIComponents/FileBrowserPrivate.h>
 
 #include <djvUI/Action.h>
-#include <djvUI/FlatButton.h>
 #include <djvUI/GroupBox.h>
+#include <djvUI/ListButton.h>
 #include <djvUI/RowLayout.h>
 
 #include <djvCore/DrivesModel.h>
@@ -82,7 +82,7 @@ namespace djv
                         widget->_p->itemLayout->clearChildren();
                         for (const auto & i : value)
                         {
-                            auto button = FlatButton::create(context);
+                            auto button = ListButton::create(context);
                             button->setText(i.get());
 
                             widget->_p->itemLayout->addChild(button);

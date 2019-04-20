@@ -33,7 +33,6 @@
 #include <djvUI/IDialog.h>
 #include <djvUI/EventSystem.h>
 #include <djvUI/Label.h>
-#include <djvUI/Overlay.h>
 #include <djvUI/PushButton.h>
 #include <djvUI/RowLayout.h>
 #include <djvUI/TextBlock.h>
@@ -250,19 +249,17 @@ namespace djv
             {
                 p.messageDialog = MessageDialog::create(context);
             }
-            if (auto windowSystem = context->getSystemT<UI::EventSystem>())
+            auto eventSystem = context->getSystemT<UI::EventSystem>();
+            if (auto window = eventSystem->getCurrentWindow().lock())
             {
-                if (auto window = windowSystem->getCurrentWindow().lock())
+                if (auto dialog = p.messageDialog.lock())
                 {
-                    if (auto dialog = p.messageDialog.lock())
-                    {
-                        dialog->setTitle(title);
-                        dialog->setText(text);
-                        dialog->setCloseText(closeText);
+                    dialog->setTitle(title);
+                    dialog->setText(text);
+                    dialog->setCloseText(closeText);
 
-                        window->removeChild(dialog);
-                        dialog->show();
-                    }
+                    window->removeChild(dialog);
+                    dialog->show();
                 }
             }
         }
@@ -280,32 +277,30 @@ namespace djv
             {
                 p.confirmationDialog = ConfirmationDialog::create(context);
             }
-            if (auto windowSystem = context->getSystemT<UI::EventSystem>())
+            auto eventSystem = context->getSystemT<UI::EventSystem>();
+            if (auto window = eventSystem->getCurrentWindow().lock())
             {
-                if (auto window = windowSystem->getCurrentWindow().lock())
+                if (auto dialog = p.confirmationDialog.lock())
                 {
-                    if (auto dialog = p.confirmationDialog.lock())
+                    dialog->setTitle(title);
+                    dialog->setText(text);
+                    dialog->setAcceptText(acceptText);
+                    dialog->setCancelText(cancelText);
+
+                    auto weak = std::weak_ptr<DialogSystem>(std::dynamic_pointer_cast<DialogSystem>(shared_from_this()));
+                    dialog->setAcceptCallback(
+                        [callback]
                     {
-                        dialog->setTitle(title);
-                        dialog->setText(text);
-                        dialog->setAcceptText(acceptText);
-                        dialog->setCancelText(cancelText);
+                        callback(true);
+                    });
+                    dialog->setCancelCallback(
+                        [callback]
+                    {
+                        callback(false);
+                    });
 
-                        auto weak = std::weak_ptr<DialogSystem>(std::dynamic_pointer_cast<DialogSystem>(shared_from_this()));
-                        dialog->setAcceptCallback(
-                            [callback]
-                        {
-                            callback(true);
-                        });
-                        dialog->setCancelCallback(
-                            [callback]
-                        {
-                            callback(false);
-                        });
-
-                        window->addChild(dialog);
-                        dialog->show();
-                    }
+                    window->addChild(dialog);
+                    dialog->show();
                 }
             }
         }
