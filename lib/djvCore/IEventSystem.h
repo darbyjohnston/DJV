@@ -51,6 +51,8 @@ namespace djv
             public:
                 virtual ~IEventSystem() = 0;
 
+                std::shared_ptr<IObject> getRootObject() const;
+
                 const std::shared_ptr<IObject> & getTextFocus() const;
                 void setTextFocus(const std::shared_ptr<IObject> &);
 
@@ -60,8 +62,6 @@ namespace djv
 
             protected:
                 virtual void _initObject(const std::shared_ptr<IObject> &);
-
-                std::shared_ptr<IObject> getRootObject() const;
 
                 void _pointerMove(const Event::PointerInfo &);
                 void _buttonPress(int);

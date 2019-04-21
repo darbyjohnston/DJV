@@ -129,6 +129,11 @@ namespace djv
             IEventSystem::~IEventSystem()
             {}
 
+            std::shared_ptr<IObject> IEventSystem::getRootObject() const
+            {
+                return _p->rootObject;
+            }
+
             const std::shared_ptr<IObject> & IEventSystem::getTextFocus() const
             {
                 return _p->textFocus;
@@ -243,11 +248,6 @@ namespace djv
                 DJV_PRIVATE_PTR();
                 Event::Locale localeEvent(p.locale);
                 object->event(localeEvent);
-            }
-
-            std::shared_ptr<IObject> IEventSystem::getRootObject() const
-            {
-                return _p->rootObject;
             }
 
             void IEventSystem::_pointerMove(const Event::PointerInfo & info)

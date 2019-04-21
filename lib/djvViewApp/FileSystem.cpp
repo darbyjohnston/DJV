@@ -100,6 +100,8 @@ namespace djv
             p.actions["Close"] = UI::Action::create();
             p.actions["Close"]->setIcon("djvIconFileClose");
             p.actions["Close"]->setShortcut(GLFW_KEY_E, GLFW_MOD_CONTROL);
+            p.actions["CloseAll"] = UI::Action::create();
+            p.actions["CloseAll"]->setShortcut(GLFW_KEY_E, GLFW_MOD_SHIFT | GLFW_MOD_CONTROL);
             //! \todo Implement me!
             p.actions["Export"] = UI::Action::create();
             p.actions["Export"]->setShortcut(GLFW_KEY_X, GLFW_MOD_CONTROL);
@@ -139,6 +141,7 @@ namespace djv
             p.menu->addAction(p.actions["Recent"]);
             p.menu->addAction(p.actions["Reload"]);
             p.menu->addAction(p.actions["Close"]);
+            p.menu->addAction(p.actions["CloseAll"]);
             p.menu->addAction(p.actions["Export"]);
             p.menu->addAction(p.actions["Next"]);
             p.menu->addAction(p.actions["Prev"]);
@@ -153,6 +156,8 @@ namespace djv
             p.menu->addAction(p.actions["Exit"]);
 
             p.recentFilesModel = Core::FileSystem::RecentFilesModel::create(context);
+
+            _actionsUpdate();
 
             auto weak = std::weak_ptr<FileSystem>(std::dynamic_pointer_cast<FileSystem>(shared_from_this()));
             p.recentFilesObserver = ListObserver<Core::FileSystem::FileInfo>::create(
@@ -212,6 +217,19 @@ namespace djv
                         {
                             system->close(media);
                         }
+                    }
+                }
+            });
+
+            p.clickedObservers["CloseAll"] = ValueObserver<bool>::create(
+                p.actions["CloseAll"]->observeClicked(),
+                [weak, context](bool value)
+            {
+                if (value)
+                {
+                    if (auto system = weak.lock())
+                    {
+                        system->closeAll();
                     }
                 }
             });
@@ -350,9 +368,10 @@ namespace djv
             p.opened->setAlways(std::make_pair(media, pos));
             p.currentMedia->setAlways(media);
             p.recentFilesModel->addFile(fileName);
+            _actionsUpdate();
         }
 
-        void FileSystem::close(const std::shared_ptr<Media> & media)
+        void FileSystem::close(const std::shared_ptr<Media>& media)
         {
             DJV_PRIVATE_PTR();
             size_t index = p.media->indexOf(media);
@@ -371,17 +390,28 @@ namespace djv
                     current = p.media->getItem(index);
                 }
                 p.currentMedia->setIfChanged(current);
+                _actionsUpdate();
             }
+        }
+
+        void FileSystem::closeAll()
+        {
+            DJV_PRIVATE_PTR();
+            p.currentMedia->setIfChanged(nullptr);
+            while (p.media->getSize())
+            {
+                const size_t i = p.media->getSize() - 1;
+                auto media = p.media->getItem(i);
+                p.media->removeItem(i);
+                p.closed->setAlways(media);
+            }
+            _actionsUpdate();
         }
 
         void FileSystem::setCurrentMedia(const std::shared_ptr<Media> & media)
         {
             DJV_PRIVATE_PTR();
-            if (p.currentMedia->setIfChanged(media))
-            {
-                p.actions["Close"]->setEnabled(media ? true : false);
-                p.actions["Export"]->setEnabled(media ? true : false);
-            }
+            p.currentMedia->setIfChanged(media);
         }
 
         std::map<std::string, std::shared_ptr<UI::Action> > FileSystem::getActions()
@@ -398,6 +428,17 @@ namespace djv
             };
         }
 
+        void FileSystem::_actionsUpdate()
+        {
+            DJV_PRIVATE_PTR();
+            const size_t size = p.media->getSize();
+            p.actions["Close"]->setEnabled(size);
+            p.actions["CloseAll"]->setEnabled(size);
+            p.actions["Export"]->setEnabled(size);
+            p.actions["Next"]->setEnabled(size > 1);
+            p.actions["Prev"]->setEnabled(size > 1);
+        }
+
         void FileSystem::_textUpdate()
         {
             DJV_PRIVATE_PTR();
@@ -410,6 +451,8 @@ namespace djv
             p.actions["Reload"]->setTooltip(_getText(DJV_TEXT("Reload tooltip")));
             p.actions["Close"]->setText(_getText(DJV_TEXT("Close")));
             p.actions["Close"]->setTooltip(_getText(DJV_TEXT("Close tooltip")));
+            p.actions["CloseAll"]->setText(_getText(DJV_TEXT("Close All")));
+            p.actions["CloseAll"]->setTooltip(_getText(DJV_TEXT("Close all tooltip")));
             p.actions["Export"]->setText(_getText(DJV_TEXT("Export")));
             p.actions["Export"]->setTooltip(_getText(DJV_TEXT("Export tooltip")));
             p.actions["Next"]->setText(_getText(DJV_TEXT("Next")));

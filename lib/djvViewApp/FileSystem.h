@@ -61,12 +61,14 @@ namespace djv
             void open();
             void open(const std::string &, const glm::vec2 & = glm::vec2(-1.f, -1.f));
             void close(const std::shared_ptr<Media> &);
+            void closeAll();
             void setCurrentMedia(const std::shared_ptr<Media> &);
 
             std::map<std::string, std::shared_ptr<UI::Action> > getActions() override;
             MenuData getMenu() override;
 
         protected:
+            void _actionsUpdate();
             void _textUpdate();
 
         private:

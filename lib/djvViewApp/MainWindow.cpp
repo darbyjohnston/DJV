@@ -124,9 +124,6 @@ namespace djv
             p.mediaButton = UI::Button::Menu::create(context);
             p.mediaButton->setIcon("djvIconPopupMenu");
             p.mediaButton->setEnabled(false);
-            auto fileNameLabel = UI::Label::create(context);
-            fileNameLabel->setTextHAlign(UI::TextHAlign::Left);
-            fileNameLabel->setMargin(UI::MetricsRole::Margin);
 
             auto windowSystem = context->getSystemT<WindowSystem>();
             auto windowActions = windowSystem->getActions();
@@ -154,8 +151,7 @@ namespace djv
             }
             p.menuBar->addSeparator();
             p.menuBar->addChild(p.mediaButton);
-            p.menuBar->addChild(fileNameLabel);
-            p.menuBar->setStretch(fileNameLabel, UI::RowStretch::Expand);
+            p.menuBar->setStretch(p.mediaButton, UI::RowStretch::Expand);
             p.menuBar->addSeparator();
             p.menuBar->addChild(sdiButton);
             p.menuBar->addChild(mdiButton);
@@ -280,7 +276,7 @@ namespace djv
 
             p.currentMediaObserver = ValueObserver<std::shared_ptr<Media>>::create(
                 fileSystem->observeCurrentMedia(),
-                [weak, fileNameLabel](const std::shared_ptr<Media> & value)
+                [weak](const std::shared_ptr<Media> & value)
             {
                 if (auto widget = weak.lock())
                 {
@@ -289,7 +285,7 @@ namespace djv
                     {
                         widget->_p->mediaActionGroup->setChecked(i - widget->_p->media.begin());
                     }
-                    fileNameLabel->setText(value ? Core::FileSystem::Path(value->getFileName()).getFileName() : std::string());
+                    widget->_p->mediaButton->setText(value ? Core::FileSystem::Path(value->getFileName()).getFileName() : std::string());
                 }
             });
             
