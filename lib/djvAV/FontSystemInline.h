@@ -45,7 +45,7 @@ namespace djv
                 dpi(dpi)
             {}
 
-            constexpr bool Info::operator == (const Info & other) const
+            inline bool Info::operator == (const Info & other) const
             {
                 return
                     dpi    == other.dpi    &&
@@ -54,7 +54,7 @@ namespace djv
                     family == other.family;
             }
 
-            constexpr bool Info::operator < (const Info& other) const
+            inline bool Info::operator < (const Info& other) const
             {
                 return std::tie(dpi, size, face, family) < std::tie(other.dpi, other.size, other.face, other.family);
             }
@@ -70,14 +70,14 @@ namespace djv
             inline GlyphInfo::GlyphInfo()
             {}
 
-            constexpr bool GlyphInfo::operator == (const GlyphInfo & other) const
+            inline bool GlyphInfo::operator == (const GlyphInfo & other) const
             {
                 return
                     code == other.code &&
                     info == other.info;
             }
 
-            constexpr bool GlyphInfo::operator < (const GlyphInfo & other) const
+            inline bool GlyphInfo::operator < (const GlyphInfo & other) const
             {
                 return std::tie(code, info) < std::tie(other.code, other.info);
             }

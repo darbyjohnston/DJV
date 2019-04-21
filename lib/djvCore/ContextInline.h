@@ -49,7 +49,7 @@ namespace djv
             return _fpsAverage;
         }
 
-        inline const std::vector<std::shared_ptr<ISystemBase> > & Context::getSystems() const
+        inline std::vector<std::shared_ptr<ISystemBase> > Context::getSystems() const
         {
             std::vector<std::shared_ptr<ISystemBase> > systems;
             {

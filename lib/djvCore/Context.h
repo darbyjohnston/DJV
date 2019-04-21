@@ -81,7 +81,7 @@ namespace djv
             ///@{
 
             //! Get the list of systems.
-            inline const std::vector<std::shared_ptr<ISystemBase> > & getSystems() const;
+            inline std::vector<std::shared_ptr<ISystemBase> > getSystems() const;
 
             //! Get the list of systems of the given type.
             template<typename T>

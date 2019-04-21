@@ -64,8 +64,8 @@ namespace djv
                 float    size   = 0.f;
                 int      dpi    = dpiDefault;
 
-                constexpr bool operator == (const Info &) const;
-                constexpr bool operator < (const Info&) const;
+                inline bool operator == (const Info &) const;
+                inline bool operator < (const Info&) const;
             };
 
             //! This struct provides font metrics.
@@ -97,8 +97,8 @@ namespace djv
                 uint32_t code = 0;
                 Info     info;
 
-                constexpr bool operator == (const GlyphInfo&) const;
-                constexpr bool operator < (const GlyphInfo&) const;
+                inline bool operator == (const GlyphInfo&) const;
+                inline bool operator < (const GlyphInfo&) const;
             };
 
             //! This struct provides a font glyph.
