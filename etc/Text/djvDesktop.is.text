@@ -1,14 +1,14 @@
 [
     {
-        "id": "Cannot initialize GLFW.", 
         "source": "Cannot initialize GLFW.", 
         "description": "", 
+        "id": "Cannot initialize GLFW.", 
         "text": "Ekki er h\u00e6gt a\u00f0 frumstilla GLFW."
     }, 
     {
-        "id": "Cannot create GLFW window.", 
         "source": "Cannot create GLFW window.", 
         "description": "", 
+        "id": "Cannot create GLFW window.", 
         "text": "Ekki er h\u00e6gt a\u00f0 b\u00faa til GLFW glugga."
     }
 ]

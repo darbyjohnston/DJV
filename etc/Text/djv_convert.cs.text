@@ -2,25 +2,25 @@
     {
         "source": "Nothing to convert", 
         "text": "Nic pro konverzi", 
-        "id": "Nothing to convert", 
-        "description": ""
+        "description": "", 
+        "id": "Nothing to convert"
     }, 
     {
         "source": "Cannot parse option '-resize'", 
         "text": "Nelze analyzovat mo\u017enost &#39;-resize&#39;", 
-        "id": "Cannot parse option '-resize'", 
-        "description": ""
+        "description": "", 
+        "id": "Cannot parse option '-resize'"
     }, 
     {
         "source": "Usage: djv_convert (input) (output)", 
         "text": "Pou\u017eit\u00ed: djv_convert (vstup) (v\u00fdstup)", 
-        "id": "Usage: djv_convert (input) (output)", 
-        "description": ""
+        "description": "", 
+        "id": "Usage: djv_convert (input) (output)"
     }, 
     {
-        "id": "Cannot parse the option '-resize'", 
         "source": "Cannot parse the option '-resize'", 
         "description": "", 
+        "id": "Cannot parse the option '-resize'", 
         "text": "Nelze analyzovat mo\u017enost &#39;-rozm\u011bnit&#39;"
     }
 ]

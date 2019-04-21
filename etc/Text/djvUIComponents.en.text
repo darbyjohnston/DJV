@@ -1,7 +1,97 @@
 [
     {
-        "text": "Display Size", 
-        "id": "Display Size", 
+        "text": "Color type widget tooltip", 
+        "id": "Color type widget tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "L", 
+        "id": "L", 
+        "description": ""
+    }, 
+    {
+        "text": "RGB color sliders luminance tooltip", 
+        "id": "RGB color sliders luminance tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "A", 
+        "id": "A", 
+        "description": ""
+    }, 
+    {
+        "text": "RGB color sliders alpha tooltip", 
+        "id": "RGB color sliders alpha tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "R", 
+        "id": "R", 
+        "description": ""
+    }, 
+    {
+        "text": "G", 
+        "id": "G", 
+        "description": ""
+    }, 
+    {
+        "text": "B", 
+        "id": "B", 
+        "description": ""
+    }, 
+    {
+        "text": "RGB color sliders red tooltip", 
+        "id": "RGB color sliders red tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "RGB color sliders green tooltip", 
+        "id": "RGB color sliders green tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "RGB color sliders blue tooltip", 
+        "id": "RGB color sliders blue tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "V", 
+        "id": "V", 
+        "description": ""
+    }, 
+    {
+        "text": "HSV color sliders value tooltip", 
+        "id": "HSV color sliders value tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "HSV color sliders alpha tooltip", 
+        "id": "HSV color sliders alpha tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "H", 
+        "id": "H", 
+        "description": ""
+    }, 
+    {
+        "text": "S", 
+        "id": "S", 
+        "description": ""
+    }, 
+    {
+        "text": "HSV color sliders hue tooltip", 
+        "id": "HSV color sliders hue tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "HSV color sliders saturation tooltip", 
+        "id": "HSV color sliders saturation tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "Display", 
+        "id": "Display", 
         "description": ""
     }, 
     {
@@ -10,38 +100,13 @@
         "description": ""
     }, 
     {
-        "text": "Language", 
-        "id": "Language", 
-        "description": ""
-    }, 
-    {
-        "text": "PPM", 
-        "id": "PPM", 
-        "description": ""
-    }, 
-    {
-        "text": "I/O", 
-        "id": "I/O", 
-        "description": ""
-    }, 
-    {
-        "text": "Data Type", 
-        "id": "Data Type", 
+        "text": "Size", 
+        "id": "Size", 
         "description": ""
     }, 
     {
         "text": "Palette", 
         "id": "Palette", 
-        "description": ""
-    }, 
-    {
-        "text": "TIFF", 
-        "id": "TIFF", 
-        "description": ""
-    }, 
-    {
-        "text": "File Compression", 
-        "id": "File Compression", 
         "description": ""
     }, 
     {
@@ -280,11 +345,6 @@
         "description": ""
     }, 
     {
-        "text": "Size", 
-        "id": "Size", 
-        "description": ""
-    }, 
-    {
         "text": "Last modification time", 
         "id": "Last modification time", 
         "description": ""
@@ -345,8 +405,68 @@
         "description": ""
     }, 
     {
-        "text": "Compression Quality", 
-        "id": "Compression Quality", 
+        "text": "I/O", 
+        "id": "I/O", 
+        "description": ""
+    }, 
+    {
+        "text": "Compression quality:", 
+        "id": "Compression quality:", 
+        "description": ""
+    }, 
+    {
+        "text": "Language", 
+        "id": "Language", 
+        "description": ""
+    }, 
+    {
+        "text": "Language:", 
+        "id": "Language:", 
+        "description": ""
+    }, 
+    {
+        "text": "Min", 
+        "id": "Min", 
+        "description": ""
+    }, 
+    {
+        "text": "Max", 
+        "id": "Max", 
+        "description": ""
+    }, 
+    {
+        "text": "Value", 
+        "id": "Value", 
+        "description": ""
+    }, 
+    {
+        "text": "PPM", 
+        "id": "PPM", 
+        "description": ""
+    }, 
+    {
+        "text": "Data type:", 
+        "id": "Data type:", 
+        "description": ""
+    }, 
+    {
+        "text": "TIFF", 
+        "id": "TIFF", 
+        "description": ""
+    }, 
+    {
+        "text": "File compression:", 
+        "id": "File compression:", 
+        "description": ""
+    }, 
+    {
+        "text": "Time", 
+        "id": "Time", 
+        "description": ""
+    }, 
+    {
+        "text": "Units:", 
+        "id": "Units:", 
         "description": ""
     }
 ]

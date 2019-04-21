@@ -2,113 +2,113 @@
     {
         "source": "\u010de\u0161tina", 
         "text": "\u010de\u0161tina", 
-        "id": "cs", 
+        "description": "This is a locale label.", 
         "language": "cs", 
-        "description": "This is a locale label."
+        "id": "cs"
     }, 
     {
         "source": "dansk", 
         "text": "dansk", 
-        "id": "da", 
+        "description": "This is a locale label.", 
         "language": "da", 
-        "description": "This is a locale label."
+        "id": "da"
     }, 
     {
         "source": "Deutsche", 
         "text": "Deutsche", 
-        "id": "de", 
+        "description": "This is a locale label.", 
         "language": "de", 
-        "description": "This is a locale label."
+        "id": "de"
     }, 
     {
         "source": "\u0395\u03bb\u03bb\u03b7\u03bd\u03b9\u03ba\u03ac", 
         "text": "\u0395\u03bb\u03bb\u03b7\u03bd\u03b9\u03ba\u03ac", 
-        "id": "el", 
+        "description": "This is a locale label.", 
         "language": "el", 
-        "description": "This is a locale label."
+        "id": "el"
     }, 
     {
         "source": "English", 
         "text": "English", 
-        "id": "en", 
+        "description": "This is a locale label.", 
         "language": "en", 
-        "description": "This is a locale label."
+        "id": "en"
     }, 
     {
         "source": "Espa\u00f1ol", 
         "text": "Espa\u00f1ol", 
-        "id": "es", 
+        "description": "This is a locale label.", 
         "language": "es", 
-        "description": "This is a locale label."
+        "id": "es"
     }, 
     {
         "source": "fran\u00e7ais", 
         "text": "fran\u00e7ais", 
-        "id": "fr", 
+        "description": "This is a locale label.", 
         "language": "fr", 
-        "description": "This is a locale label."
+        "id": "fr"
     }, 
     {
         "source": "italiano", 
         "text": "italiano", 
-        "id": "it", 
+        "description": "This is a locale label.", 
         "language": "it", 
-        "description": "This is a locale label."
+        "id": "it"
     }, 
     {
         "source": "\u00cdslensku", 
         "text": "\u00cdslensku", 
-        "id": "is", 
+        "description": "This is a locale label.", 
         "language": "is", 
-        "description": "This is a locale label."
+        "id": "is"
     }, 
     {
         "source": "\u65e5\u672c\u4eba", 
         "text": "\u65e5\u672c\u4eba", 
-        "id": "ja", 
+        "description": "This is a locale label.", 
         "language": "ja", 
-        "description": "This is a locale label."
+        "id": "ja"
     }, 
     {
         "source": "\ud55c\uad6d\uc5b4", 
         "text": "\ud55c\uad6d\uc5b4", 
-        "id": "ko", 
+        "description": "This is a locale label.", 
         "language": "ko", 
-        "description": "This is a locale label."
+        "id": "ko"
     }, 
     {
         "source": "Polskie", 
         "text": "Polskie", 
-        "id": "pl", 
+        "description": "This is a locale label.", 
         "language": "pl", 
-        "description": "This is a locale label."
+        "id": "pl"
     }, 
     {
         "source": "Portugu\u00eas", 
         "text": "Portugu\u00eas", 
-        "id": "pt", 
+        "description": "This is a locale label.", 
         "language": "pt", 
-        "description": "This is a locale label."
+        "id": "pt"
     }, 
     {
         "source": "\u0440\u0443\u0441\u0441\u043a\u0438\u0439", 
         "text": "\u0440\u0443\u0441\u0441\u043a\u0438\u0439", 
-        "id": "ru", 
+        "description": "This is a locale label.", 
         "language": "ru", 
-        "description": "This is a locale label."
+        "id": "ru"
     }, 
     {
         "source": "svenska", 
         "text": "svenska", 
-        "id": "sv", 
+        "description": "This is a locale label.", 
         "language": "sv", 
-        "description": "This is a locale label."
+        "id": "sv"
     }, 
     {
         "source": "\u4e2d\u56fd", 
         "text": "\u4e2d\u56fd", 
-        "id": "zh", 
+        "description": "This is a locale label.", 
         "language": "zh", 
-        "description": "This is a locale label."
+        "id": "zh"
     }
 ]
