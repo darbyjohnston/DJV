@@ -31,10 +31,37 @@
 
 #include <djvViewApp/IViewSystem.h>
 
+#include <djvUI/Widget.h>
+
 namespace djv
 {
     namespace ViewApp
     {
+        class NUXWidget : public UI::Widget
+        {
+            DJV_NON_COPYABLE(NUXWidget);
+
+        protected:
+            void _init(Core::Context*);
+            NUXWidget();
+
+        public:
+            static std::shared_ptr<NUXWidget> create(Core::Context*);
+
+            void setFinishCallback(const std::function<void(void)>&);
+
+        protected:
+            void _preLayoutEvent(Core::Event::PreLayout&) override;
+            void _layoutEvent(Core::Event::Layout&) override;
+
+            void _localeEvent(Core::Event::Locale&) override;
+
+        private:
+            void _widgetUpdate();
+
+            DJV_PRIVATE();
+        };
+
         class NUXSystem : public IViewSystem
         {
             DJV_NON_COPYABLE(NUXSystem);
@@ -46,11 +73,7 @@ namespace djv
         public:
             static std::shared_ptr<NUXSystem> create(Core::Context *);
 
-            std::shared_ptr<UI::Widget> getNUXWidget() const;
-
-        protected:
-            void _widgetUpdate();
-            void _textUpdate();
+            std::shared_ptr<NUXWidget> createNUXWidget();
 
         private:
             DJV_PRIVATE();

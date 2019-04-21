@@ -29,7 +29,7 @@
 
 #include <djvViewApp/WindowSystem.h>
 
-#include <djvViewApp/WindowSystemSettings.h>
+#include <djvViewApp/WindowSettings.h>
 
 #include <djvDesktopApp/Application.h>
 #include <djvDesktopApp/GLFWSystem.h>
@@ -54,7 +54,7 @@ namespace djv
     {
         struct WindowSystem::Private
         {
-            std::shared_ptr<WindowSystemSettings> settings;
+            std::shared_ptr<WindowSettings> settings;
             std::shared_ptr<ValueSubject<WindowMode> > windowMode;
             std::map<std::string, std::shared_ptr<UI::Action> > actions;
             std::shared_ptr<UI::ActionGroup> windowModeActionGroup;
@@ -76,7 +76,7 @@ namespace djv
 
             DJV_PRIVATE_PTR();
 
-            p.settings = WindowSystemSettings::create(context);
+            p.settings = WindowSettings::create(context);
             p.windowMode = ValueSubject<WindowMode>::create();
 
             //! \todo Implement me!

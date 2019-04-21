@@ -30,11 +30,13 @@
 #include <djvViewApp/TimelineSlider.h>
 
 #include <djvViewApp/Media.h>
+#include <djvViewApp/PlaybackSettings.h>
 
 #include <djvUI/Border.h>
 #include <djvUI/EventSystem.h>
 #include <djvUI/ImageWidget.h>
 #include <djvUI/Overlay.h>
+#include <djvUI/SettingsSystem.h>
 #include <djvUI/Window.h>
 
 #include <djvAV/AVSystem.h>
@@ -185,11 +187,13 @@ namespace djv
             std::future<AV::Font::Metrics> fontMetricsFuture;
             std::map<uint32_t, bool> hover;
             uint32_t pressedID = Event::InvalidID;
+            bool pip = true;
             std::shared_ptr<PIPWidget> pipWidget;
             std::shared_ptr<UI::Layout::Overlay> overlay;
             std::shared_ptr<ValueObserver<AV::IO::Info> > infoObserver;
             std::shared_ptr<ValueObserver<Time::Timestamp> > durationObserver;
             std::shared_ptr<ValueObserver<Time::Timestamp> > currentTimeObserver;
+            std::shared_ptr<ValueObserver<bool> > pipObserver;
         };
 
         void TimelineSlider::_init(Context * context)
@@ -209,6 +213,23 @@ namespace djv
             p.overlay->setBackgroundRole(UI::ColorRole::None);
             p.overlay->addChild(p.pipWidget);
             addChild(p.overlay);
+
+            auto weak = std::weak_ptr<TimelineSlider>(std::dynamic_pointer_cast<TimelineSlider>(shared_from_this()));
+            if (auto settingsSystem = context->getSystemT<UI::Settings::System>())
+            {
+                if (auto playbackSettings = settingsSystem->getSettingsT<PlaybackSettings>())
+                {
+                    p.pipObserver = ValueObserver<bool>::create(
+                        playbackSettings->observePIP(),
+                        [weak](bool value)
+                    {
+                        if (auto widget = weak.lock())
+                        {
+                            widget->_p->pip = value;
+                        }
+                    });
+                }
+            }
         }
 
         TimelineSlider::TimelineSlider() :
@@ -238,8 +259,8 @@ namespace djv
             p.media = value;
             if (p.media)
             {
-                _p->pipWidget->setPIPFileName(p.media->getFileName());
-                    
+                p.pipWidget->setPIPFileName(p.media->getFileName());
+                
                 auto weak = std::weak_ptr<TimelineSlider>(std::dynamic_pointer_cast<TimelineSlider>(shared_from_this()));
                 p.infoObserver = ValueObserver<AV::IO::Info>::create(
                     p.media->observeInfo(),
@@ -274,11 +295,15 @@ namespace djv
             }
             else
             {
-                _p->pipWidget->setPIPFileName(std::string());
+                p.duration = 0;
+                p.currentTime->setIfChanged(0);
+                p.speed = Time::Speed();
 
-                _p->infoObserver.reset();
-                _p->durationObserver.reset();
-                _p->currentTimeObserver.reset();
+                p.pipWidget->setPIPFileName(std::string());
+
+                p.infoObserver.reset();
+                p.durationObserver.reset();
+                p.currentTimeObserver.reset();
             }
             _textUpdate();
         }
@@ -371,7 +396,7 @@ namespace djv
                 }
             }
 
-            render->setFillColor(_getColorWithOpacity(style->getColor(UI::ColorRole::Foreground)));
+            render->setFillColor(_getColorWithOpacity(style->getColor(isEnabled() ? UI::ColorRole::Foreground : UI::ColorRole::Disabled)));
             render->drawRect(hg);
 
             const auto fontInfo = style->getFontInfo(AV::Font::faceDefault, UI::MetricsRole::FontMedium);
@@ -380,18 +405,19 @@ namespace djv
 
         void TimelineSlider::_pointerEnterEvent(Event::PointerEnter & event)
         {
+            DJV_PRIVATE_PTR();
             if (!event.isRejected())
             {
                 event.accept();
-                _p->hover[event.getPointerInfo().id] = true;
+                p.hover[event.getPointerInfo().id] = true;
                 _redraw();
-                if (isEnabled())
+                if (p.pip && isEnabled())
                 {
                     auto eventSystem = getContext()->getSystemT<UI::EventSystem>();
                     if (auto window = eventSystem->getCurrentWindow().lock())
                     {
-                        window->addChild(_p->overlay);
-                        _p->overlay->setVisible(true);
+                        window->addChild(p.overlay);
+                        p.overlay->setVisible(true);
                     }
                 }
             }
@@ -399,33 +425,35 @@ namespace djv
 
         void TimelineSlider::_pointerLeaveEvent(Event::PointerLeave & event)
         {
+            DJV_PRIVATE_PTR();
             event.accept();
-            auto i = _p->hover.find(event.getPointerInfo().id);
-            if (i != _p->hover.end())
+            auto i = p.hover.find(event.getPointerInfo().id);
+            if (i != p.hover.end())
             {
-                _p->hover.erase(i);
+                p.hover.erase(i);
                 _redraw();
             }
-            _p->overlay->setVisible(false);
+            p.overlay->setVisible(false);
         }
 
         void TimelineSlider::_pointerMoveEvent(Event::PointerMove & event)
         {
+            DJV_PRIVATE_PTR();
             const auto id = event.getPointerInfo().id;
             const auto & pos = event.getPointerInfo().projectedPos;
             const BBox2f & g = getGeometry();
-            _p->hover[id] = g.contains(pos);
+            p.hover[id] = g.contains(pos);
             const Time::Timestamp timestamp = _posToTime(static_cast<int>(pos.x - g.min.x));
-            if (_p->hover[id] || _p->pressedID)
+            if (p.hover[id] || p.pressedID)
             {
                 event.accept();
                 auto style = _getStyle();
                 const float s = style->getMetric(UI::MetricsRole::Spacing);
-                _p->pipWidget->setPIPPos(glm::vec2(pos.x, g.min.y - s), timestamp);
+                p.pipWidget->setPIPPos(glm::vec2(pos.x, g.min.y - s), timestamp);
             }
-            if (_p->pressedID)
+            if (p.pressedID)
             {
-                if (_p->currentTime->setIfChanged(timestamp))
+                if (p.currentTime->setIfChanged(timestamp))
                 {
                     _textUpdate();
                     _redraw();
@@ -435,16 +463,17 @@ namespace djv
 
         void TimelineSlider::_buttonPressEvent(Event::ButtonPress & event)
         {
-            if (_p->pressedID)
+            DJV_PRIVATE_PTR();
+            if (p.pressedID)
                 return;
             const auto id = event.getPointerInfo().id;
             const auto & pos = event.getPointerInfo().projectedPos;
             const BBox2f & g = getGeometry();
-            if (_p->hover[id])
+            if (p.hover[id])
             {
                 event.accept();
-                _p->pressedID = id;
-                if (_p->currentTime->setIfChanged(_posToTime(static_cast<int>(pos.x - g.min.x))))
+                p.pressedID = id;
+                if (p.currentTime->setIfChanged(_posToTime(static_cast<int>(pos.x - g.min.x))))
                 {
                     _textUpdate();
                     _redraw();
@@ -454,10 +483,11 @@ namespace djv
 
         void TimelineSlider::_buttonReleaseEvent(Event::ButtonRelease & event)
         {
-            if (event.getPointerInfo().id != _p->pressedID)
+            DJV_PRIVATE_PTR();
+            if (event.getPointerInfo().id != p.pressedID)
                 return;
             event.accept();
-            _p->pressedID = Event::InvalidID;
+            p.pressedID = Event::InvalidID;
             _redraw();
         }
 
@@ -488,8 +518,8 @@ namespace djv
             r.num = p.speed.getDuration();
             r.den = p.speed.getScale();
             const Time::Timestamp t = av_rescale_q(1, r, av_get_time_base_q());
-            Time::Timestamp out = _p->duration ?
-                Math::clamp(static_cast<Time::Timestamp>(v * (_p->duration - t)), static_cast<Time::Timestamp>(0), _p->duration - t) :
+            Time::Timestamp out = p.duration ?
+                Math::clamp(static_cast<Time::Timestamp>(v * (p.duration - t)), static_cast<Time::Timestamp>(0), p.duration - t) :
                 0;
             return out;
         }
@@ -504,7 +534,7 @@ namespace djv
             r.num = p.speed.getDuration();
             r.den = p.speed.getScale();
             const Time::Timestamp t = av_rescale_q(1, r, av_get_time_base_q());
-            const double v = value / static_cast<double>(_p->duration - t);
+            const double v = value / static_cast<double>(p.duration - t);
             float out = floorf(g.min.x + m + v * (g.w() - m * 2.f));
             return out;
         }
@@ -519,7 +549,7 @@ namespace djv
             r.num = p.speed.getDuration();
             r.den = p.speed.getScale();
             const int64_t t = av_rescale_q(1, r, av_get_time_base_q());
-            const float x = floorf(_p->currentTime->get() / static_cast<float>(_p->duration - t) * (g.w() - 1.f - m * 2.f));
+            const float x = p.duration ? floorf(p.currentTime->get() / static_cast<float>(p.duration - t) * (g.w() - 1.f - m * 2.f)) : 0.f;
             BBox2f out = BBox2f(g.min.x + m + x, g.min.y + m, 1.f, g.h() - m * 2.f);
             return out;
         }

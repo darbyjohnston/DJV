@@ -27,9 +27,10 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvViewApp/NUXSystemSettings.h>
+#include <djvViewApp/WindowSettings.h>
 
 #include <djvCore/Context.h>
+#include <djvCore/FileInfo.h>
 
 // These need to be included last on OSX.
 #include <djvCore/PicoJSONTemplates.h>
@@ -41,57 +42,60 @@ namespace djv
 {
     namespace ViewApp
     {
-        struct NUXSystemSettings::Private
+        struct WindowSettings::Private
         {
-            std::shared_ptr<ValueSubject<bool> > nux;
+            std::shared_ptr<ValueSubject<WindowMode> > windowMode;
         };
 
-        void NUXSystemSettings::_init(Context * context)
+        void WindowSettings::_init(Context * context)
         {
-            ISettings::_init("djv::ViewApp::NUXSystemSettings", context);
+            ISettings::_init("djv::ViewApp::WindowSettings", context);
 
             DJV_PRIVATE_PTR();
-            p.nux = ValueSubject<bool>::create(true);
+            p.windowMode = ValueSubject<WindowMode>::create(WindowMode::SDI);
             _load();
         }
 
-        NUXSystemSettings::NUXSystemSettings() :
+        WindowSettings::WindowSettings() :
             _p(new Private)
         {}
 
-        std::shared_ptr<NUXSystemSettings> NUXSystemSettings::create(Context * context)
+        WindowSettings::~WindowSettings()
+        {}
+
+        std::shared_ptr<WindowSettings> WindowSettings::create(Context * context)
         {
-            auto out = std::shared_ptr<NUXSystemSettings>(new NUXSystemSettings);
+            auto out = std::shared_ptr<WindowSettings>(new WindowSettings);
             out->_init(context);
             return out;
         }
 
-        std::shared_ptr<IValueSubject<bool> > NUXSystemSettings::observeNUX() const
+        std::shared_ptr<IValueSubject<WindowMode> > WindowSettings::observeWindowMode() const
         {
-            return _p->nux;
+            return _p->windowMode;
         }
 
-        void NUXSystemSettings::setNUX(bool value)
+        void WindowSettings::setWindowMode(WindowMode value)
         {
-            _p->nux->setIfChanged(value);
+            _p->windowMode->setIfChanged(value);
         }
 
-        void NUXSystemSettings::load(const picojson::value & value)
+        void WindowSettings::load(const picojson::value & value)
         {
             if (value.is<picojson::object>())
             {
                 DJV_PRIVATE_PTR();
                 const auto & object = value.get<picojson::object>();
-                UI::Settings::read("NUX", object, p.nux);
+                UI::Settings::read("WindowMode", object, p.windowMode);
             }
         }
 
-        picojson::value NUXSystemSettings::save()
+        picojson::value WindowSettings::save()
         {
             DJV_PRIVATE_PTR();
             picojson::value out(picojson::object_type, true);
             auto & object = out.get<picojson::object>();
-            UI::Settings::write("NUX", p.nux->get(), object);
+            UI::Settings::write("WindowMode", p.windowMode->get(), object);
             return out;
         }
 

@@ -42,11 +42,13 @@
 
 #include <djvUI/Action.h>
 #include <djvUI/ActionButton.h>
+#include <djvUI/ActionGroup.h>
 #include <djvUI/ButtonGroup.h>
 #include <djvUI/Label.h>
 #include <djvUI/MDICanvas.h>
-#include <djvUI/MenuBar.h>
 #include <djvUI/Menu.h>
+#include <djvUI/MenuBar.h>
+#include <djvUI/MenuButton.h>
 #include <djvUI/RowLayout.h>
 #include <djvUI/Shortcut.h>
 #include <djvUI/SoloLayout.h>
@@ -67,7 +69,11 @@ namespace djv
     {
         struct MainWindow::Private
         {
+            std::vector<std::shared_ptr<Media> > media;
             std::map<std::string, std::shared_ptr<UI::Action> > actions;
+            std::shared_ptr<UI::ActionGroup> mediaActionGroup;
+            std::shared_ptr<UI::Menu> mediaMenu;
+            std::shared_ptr<UI::Button::Menu> mediaButton;
             std::shared_ptr<UI::ToolButton> settingsButton;
             std::shared_ptr<UI::MenuBar> menuBar;
             std::shared_ptr<SDIWidget> sdiWidget;
@@ -76,6 +82,7 @@ namespace djv
             std::shared_ptr<UI::MDI::Canvas> toolCanvas;
             std::shared_ptr<UI::StackLayout> stackLayout;
             std::shared_ptr<ValueObserver<bool> > closeToolActionObserver;
+            std::shared_ptr<ListObserver<std::shared_ptr<Media> > > mediaObserver;
             std::shared_ptr<ValueObserver<std::shared_ptr<Media> > > currentMediaObserver;
             std::shared_ptr<ValueObserver<WindowMode> > windowModeObserver;
         };
@@ -111,6 +118,12 @@ namespace djv
                 addAction(i.second);
             }
 
+            p.mediaActionGroup = UI::ActionGroup::create(UI::ButtonType::Radio);
+            p.mediaMenu = UI::Menu::create(context);
+            addChild(p.mediaMenu);
+            p.mediaButton = UI::Button::Menu::create(context);
+            p.mediaButton->setIcon("djvIconPopupMenu");
+            p.mediaButton->setEnabled(false);
             auto fileNameLabel = UI::Label::create(context);
             fileNameLabel->setTextHAlign(UI::TextHAlign::Left);
             fileNameLabel->setMargin(UI::MetricsRole::Margin);
@@ -140,6 +153,7 @@ namespace djv
                 p.menuBar->addChild(i.second);
             }
             p.menuBar->addSeparator();
+            p.menuBar->addChild(p.mediaButton);
             p.menuBar->addChild(fileNameLabel);
             p.menuBar->setStretch(fileNameLabel, UI::RowStretch::Expand);
             p.menuBar->addSeparator();
@@ -177,6 +191,42 @@ namespace djv
             addChild(p.stackLayout);
 
             auto weak = std::weak_ptr<MainWindow>(std::dynamic_pointer_cast<MainWindow>(shared_from_this()));
+            p.mediaActionGroup->setRadioCallback(
+                [weak, context](int value)
+            {
+                if (auto widget = weak.lock())
+                {
+                    if (value >= 0 && value < static_cast<int>(widget->_p->media.size()))
+                    {
+                        auto fileSystem = context->getSystemT<FileSystem>();
+                        fileSystem->setCurrentMedia(widget->_p->media[value]);
+                    }
+                    widget->_p->mediaMenu->hide();
+                }
+            });
+
+            p.mediaMenu->setCloseCallback(
+                [weak]
+            {
+                if (auto widget = weak.lock())
+                {
+                    widget->_p->mediaButton->setChecked(false);
+                }
+            });
+
+            p.mediaButton->setCheckedCallback(
+                [weak](bool value)
+            {
+                if (auto widget = weak.lock())
+                {
+                    widget->_p->mediaMenu->hide();
+                    if (value)
+                    {
+                        widget->_p->mediaMenu->popup(widget->_p->mediaButton);
+                    }
+                }
+            });
+
             p.settingsButton->setClickedCallback(
                 [context]
             {
@@ -208,11 +258,39 @@ namespace djv
             });
 
             auto fileSystem = getContext()->getSystemT<FileSystem>();
+            p.mediaObserver = ListObserver<std::shared_ptr<Media>>::create(
+                fileSystem->observeMedia(),
+                [weak](const std::vector<std::shared_ptr<Media> > & value)
+            {
+                if (auto widget = weak.lock())
+                {
+                    widget->_p->media = value;
+                    widget->_p->mediaActionGroup->clearActions();
+                    widget->_p->mediaMenu->clearActions();
+                    for (const auto& i : widget->_p->media)
+                    {
+                        auto action = UI::Action::create();
+                        action->setText(Core::FileSystem::Path(i->getFileName()).getFileName());
+                        widget->_p->mediaActionGroup->addAction(action);
+                        widget->_p->mediaMenu->addAction(action);
+                    }
+                    widget->_p->mediaButton->setEnabled(widget->_p->media.size() > 1);
+                }
+            });
+
             p.currentMediaObserver = ValueObserver<std::shared_ptr<Media>>::create(
                 fileSystem->observeCurrentMedia(),
-                [fileNameLabel](const std::shared_ptr<Media> & value)
+                [weak, fileNameLabel](const std::shared_ptr<Media> & value)
             {
-                fileNameLabel->setText(value ? Core::FileSystem::Path(value->getFileName()).getFileName() : std::string());
+                if (auto widget = weak.lock())
+                {
+                    const auto i = std::find(widget->_p->media.begin(), widget->_p->media.end(), value);
+                    if (i != widget->_p->media.end())
+                    {
+                        widget->_p->mediaActionGroup->setChecked(i - widget->_p->media.begin());
+                    }
+                    fileNameLabel->setText(value ? Core::FileSystem::Path(value->getFileName()).getFileName() : std::string());
+                }
             });
             
             p.windowModeObserver = ValueObserver<WindowMode>::create(
@@ -259,6 +337,7 @@ namespace djv
         void MainWindow::_textUpdate()
         {
             DJV_PRIVATE_PTR();
+            p.mediaButton->setTooltip(_getText(DJV_TEXT("Media popup tooltip")));
             p.settingsButton->setTooltip(_getText(DJV_TEXT("Settings tooltip")));
         }
 

@@ -29,36 +29,29 @@
 
 #pragma once
 
-#include <djvViewApp/Enum.h>
-
-#include <djvUI/ISettings.h>
-
-#include <djvCore/ValueObserver.h>
+#include <djvUIComponents/ISettingsWidget.h>
 
 namespace djv
 {
     namespace ViewApp
     {
-        //! This class provides window system settings.
-        class WindowSystemSettings : public UI::Settings::ISettings
+        class PlaybackSettingsWidget : public UI::ISettingsWidget
         {
-            DJV_NON_COPYABLE(WindowSystemSettings);
+            DJV_NON_COPYABLE(PlaybackSettingsWidget);
 
         protected:
-            void _init(Core::Context * context);
-
-            WindowSystemSettings();
+            void _init(Core::Context*);
+            PlaybackSettingsWidget();
 
         public:
-            virtual ~WindowSystemSettings();
+            static std::shared_ptr<PlaybackSettingsWidget> create(Core::Context*);
 
-            static std::shared_ptr<WindowSystemSettings> create(Core::Context *);
+            std::string getSettingsName() const override;
+            std::string getSettingsGroup() const override;
+            std::string getSettingsSortKey() const override;
 
-            std::shared_ptr<Core::IValueSubject<WindowMode> > observeWindowMode() const;
-            void setWindowMode(WindowMode);
-
-            void load(const picojson::value &) override;
-            picojson::value save() override;
+        protected:
+            void _localeEvent(Core::Event::Locale&) override;
 
         private:
             DJV_PRIVATE();

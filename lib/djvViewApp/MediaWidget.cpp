@@ -35,10 +35,13 @@
 
 #include <djvUI/Action.h>
 #include <djvUI/ActionGroup.h>
+#include <djvUI/FloatSlider.h>
 #include <djvUI/Label.h>
+#include <djvUI/PopupWidget.h>
 #include <djvUI/RowLayout.h>
 #include <djvUI/StackLayout.h>
 #include <djvUI/ToolBar.h>
+#include <djvUI/ToolButton.h>
 
 #include <djvAV/AVSystem.h>
 
@@ -61,6 +64,9 @@ namespace djv
             std::shared_ptr<ImageView> imageView;
             std::shared_ptr<UI::Label> currentTimeLabel;
             std::shared_ptr<TimelineSlider> timelineSlider;
+            std::shared_ptr<UI::PopupWidget> audioPopupWidget;
+            std::shared_ptr<UI::BasicFloatSlider> volumeSlider;
+            std::shared_ptr<UI::ToolButton> muteButton;
             std::shared_ptr<UI::ToolBar> toolbar;
             std::shared_ptr<UI::StackLayout> layout;
             std::shared_ptr<ValueObserver<AV::IO::Info> > infoObserver;
@@ -68,6 +74,8 @@ namespace djv
             std::shared_ptr<ValueObserver<Time::Timestamp> > currentTimeObserver;
             std::shared_ptr<ValueObserver<Time::Timestamp> > currentTimeObserver2;
             std::shared_ptr<ValueObserver<Playback> > playbackObserver;
+            std::shared_ptr<ValueObserver<float> > volumeObserver;
+            std::shared_ptr<ValueObserver<bool> > muteObserver;
             std::shared_ptr<ValueObserver<AV::TimeUnits> > timeUnitsObserver;
         };
         
@@ -98,8 +106,22 @@ namespace djv
             p.currentTimeLabel = UI::Label::create(context);
             p.currentTimeLabel->setFontSizeRole(UI::MetricsRole::FontLarge);
             p.currentTimeLabel->setMargin(UI::Layout::Margin(UI::MetricsRole::Margin, UI::MetricsRole::Margin, UI::MetricsRole::MarginSmall, UI::MetricsRole::MarginSmall));
+            p.currentTimeLabel->setTextHAlign(UI::TextHAlign::Left);
 
             p.timelineSlider = TimelineSlider::create(context);
+
+            p.volumeSlider = UI::BasicFloatSlider::create(UI::Orientation::Horizontal, context);
+            p.volumeSlider->setMargin(UI::MetricsRole::MarginSmall);
+            p.muteButton = UI::ToolButton::create(context);
+            p.muteButton->setIcon("djvIconClose");
+            p.muteButton->setButtonType(UI::ButtonType::Toggle);
+            auto hLayout = UI::HorizontalLayout::create(context);
+            hLayout->setSpacing(UI::MetricsRole::None);
+            hLayout->addChild(p.volumeSlider);
+            hLayout->addChild(p.muteButton);
+            p.audioPopupWidget = UI::PopupWidget::create(context);
+            p.audioPopupWidget->setIcon("djvIconAudio");
+            p.audioPopupWidget->addChild(hLayout);
 
             p.toolbar = UI::ToolBar::create(context);
             p.toolbar->setBackgroundRole(UI::ColorRole::Overlay);
@@ -112,6 +134,7 @@ namespace djv
             p.toolbar->addChild(p.currentTimeLabel);
             p.toolbar->addChild(p.timelineSlider);
             p.toolbar->setStretch(p.timelineSlider, UI::RowStretch::Expand);
+            p.toolbar->addChild(p.audioPopupWidget);
 
             auto vLayout = UI::VerticalLayout::create(context);
             vLayout->setSpacing(UI::MetricsRole::None);
@@ -140,6 +163,30 @@ namespace djv
                         case 1: playback = Playback::Reverse; break;
                         }
                         media->setPlayback(playback);
+                    }
+                }
+            });
+
+            p.volumeSlider->setValueCallback(
+                [weak](float value)
+            {
+                if (auto widget = weak.lock())
+                {
+                    if (widget->_p->media)
+                    {
+                        widget->_p->media->setVolume(value);
+                    }
+                }
+            });
+
+            p.muteButton->setCheckedCallback(
+                [weak](bool value)
+            {
+                if (auto widget = weak.lock())
+                {
+                    if (widget->_p->media)
+                    {
+                        widget->_p->media->setMute(value);
                     }
                 }
             });
@@ -246,6 +293,24 @@ namespace djv
                         widget->_p->playbackActionGroup->setChecked(index);
                     }
                 });
+                p.volumeObserver = ValueObserver<float>::create(
+                    p.media->observeVolume(),
+                    [weak](float value)
+                {
+                    if (auto widget = weak.lock())
+                    {
+                        widget->_p->volumeSlider->setValue(value);
+                    }
+                });
+                p.muteObserver = ValueObserver<bool>::create(
+                    p.media->observeMute(),
+                    [weak](bool value)
+                {
+                    if (auto widget = weak.lock())
+                    {
+                        widget->_p->muteButton->setChecked(value);
+                    }
+                });
             }
             else
             {
@@ -256,6 +321,8 @@ namespace djv
                 _p->durationObserver.reset();
                 _p->currentTimeObserver2.reset();
                 _p->playbackObserver.reset();
+                _p->volumeObserver.reset();
+                _p->muteObserver.reset();
                 _widgetUpdate();
             }
             _p->timelineSlider->setMedia(p.media);
@@ -307,10 +374,13 @@ namespace djv
                 break;
             default: break;
             }
-            p.currentTimeLabel->setSizeString(currentTimeSizeString);
+            //! \bug Add an extra space for padding.
+            p.currentTimeLabel->setSizeString(currentTimeSizeString + " ");
             p.currentTimeLabel->setEnabled(p.media.get());
 
             p.timelineSlider->setEnabled(p.media.get());
+
+            p.audioPopupWidget->setEnabled(p.media.get());
         }
 
         void MediaWidget::_localeEvent(Event::Locale&)
@@ -322,7 +392,12 @@ namespace djv
             p.actions["NextFrame"]->setTooltip(_getText(DJV_TEXT("Next frame tooltip")));
             p.actions["PrevFrame"]->setTooltip(_getText(DJV_TEXT("Previous frame tooltip")));
             p.actions["OutPoint"]->setTooltip(_getText(DJV_TEXT("Go to out point tooltip")));
+
             p.currentTimeLabel->setTooltip(_getText(DJV_TEXT("Current time tooltip")));
+
+            p.audioPopupWidget->setTooltip(_getText(DJV_TEXT("Audio popup tooltip")));
+            p.volumeSlider->setTooltip(_getText(DJV_TEXT("Volume tooltip")));
+            p.muteButton->setTooltip(_getText(DJV_TEXT("Mute tooltip")));
         }
         
     } // namespace ViewApp

@@ -55,6 +55,7 @@ namespace djv
             Event::PointerID pressedID = Event::InvalidID;
             glm::vec2 pressedPos = glm::vec2(0.f, 0.f);
             glm::vec2 prevPos = glm::vec2(0.f, 0.f);
+            std::function<void(float)> callback;
             std::shared_ptr<ValueObserver<float> > valueObserver;
         };
 
@@ -85,6 +86,31 @@ namespace djv
             auto out = std::shared_ptr<BasicFloatSlider>(new BasicFloatSlider);
             out->_init(orientation, context);
             return out;
+        }
+
+        FloatRange BasicFloatSlider::getRange() const
+        {
+            return _p->model->observeRange()->get();
+        }
+
+        void BasicFloatSlider::setRange(const FloatRange& value)
+        {
+            _p->model->setRange(value);
+        }
+
+        float BasicFloatSlider::getValue() const
+        {
+            return _p->model->observeValue()->get();
+        }
+
+        void BasicFloatSlider::setValue(float value)
+        {
+            _p->model->setValue(value);
+        }
+
+        void BasicFloatSlider::setValueCallback(const std::function<void(float)>& callback)
+        {
+            _p->callback = callback;
         }
 
         const std::shared_ptr<FloatValueModel> & BasicFloatSlider::getModel() const
@@ -235,6 +261,10 @@ namespace djv
                 if (p.model && std::chrono::milliseconds(0) == p.delay)
                 {
                     p.model->setValue(p.value);
+                    if (p.callback)
+                    {
+                        p.callback(p.model->observeValue()->get());
+                    }
                 }
                 if (p.delay > std::chrono::milliseconds(0) && glm::length(pointerInfo.projectedPos - p.prevPos) > 0.f)
                 {
@@ -269,6 +299,10 @@ namespace djv
             if (p.model && std::chrono::milliseconds(0) == p.delay)
             {
                 p.model->setValue(p.value);
+                if (p.callback)
+                {
+                    p.callback(p.model->observeValue()->get());
+                }
             }
             if (p.delay > std::chrono::milliseconds(0))
             {
@@ -288,6 +322,10 @@ namespace djv
                 if (p.model && p.delay > std::chrono::milliseconds(0))
                 {
                     p.model->setValue(p.value);
+                    if (p.callback)
+                    {
+                        p.callback(p.model->observeValue()->get());
+                    }
                 }
                 p.delayTimer->stop();
                 _redraw();
@@ -305,7 +343,8 @@ namespace djv
             float out = 0.f;
             if (p.model)
             {
-                const BBox2f & g = getGeometry();
+                auto style = _getStyle();
+                const BBox2f g = getMargin().bbox(getGeometry(), style);
                 const auto & range = p.model->observeRange()->get();
                 const float v = (value - range.min) / static_cast<float>(range.max - range.min);
                 switch (p.orientation)
@@ -328,7 +367,8 @@ namespace djv
             float out = 0.f;
             if (p.model)
             {
-                const BBox2f & g = getGeometry();
+                auto style = _getStyle();
+                const BBox2f g = getMargin().bbox(getGeometry(), style);
                 const auto & range = p.model->observeRange()->get();
                 float v = 0.f;
                 switch (p.orientation)
@@ -357,6 +397,10 @@ namespace djv
                 if (auto widget = weak.lock())
                 {
                     widget->_p->model->setValue(widget->_p->value);
+                    if (widget->_p->callback)
+                    {
+                        widget->_p->callback(widget->_p->model->observeValue()->get());
+                    }
                 }
             });
         }
@@ -420,22 +464,22 @@ namespace djv
 
         FloatRange FloatSlider::getRange() const
         {
-            return _p->slider->getModel()->observeRange()->get();
+            return _p->slider->getRange();
         }
 
         void FloatSlider::setRange(const FloatRange & value)
         {
-            _p->slider->getModel()->setRange(value);
+            _p->slider->setRange(value);
         }
 
         float FloatSlider::getValue() const
         {
-            return _p->slider->getModel()->observeValue()->get();
+            return _p->slider->getValue();
         }
 
         void FloatSlider::setValue(float value)
         {
-            _p->slider->getModel()->setValue(value);
+            _p->slider->setValue(value);
         }
 
         void FloatSlider::setValueCallback(const std::function<void(float)> & callback)

@@ -29,6 +29,9 @@
 
 #include <djvViewApp/AudioSystem.h>
 
+#include <djvViewApp/FileSystem.h>
+#include <djvViewApp/Media.h>
+
 #include <djvUI/Action.h>
 #include <djvUI/Menu.h>
 #include <djvUI/RowLayout.h>
@@ -46,9 +49,14 @@ namespace djv
     {
         struct AudioSystem::Private
         {
+            std::shared_ptr<Media> currentMedia;
+            float volume = 1.f;
             std::map<std::string, std::shared_ptr<UI::Action> > actions;
             std::shared_ptr<UI::Menu> menu;
             std::map<std::string, std::shared_ptr<ValueObserver<bool> > > clickedObservers;
+            std::shared_ptr<ValueObserver<std::shared_ptr<Media> > > currentMediaObserver;
+            std::shared_ptr<ValueObserver<float> > volumeObserver;
+            std::shared_ptr<ValueObserver<bool> > muteObserver;
             std::shared_ptr<ValueObserver<std::string> > localeObserver;
         };
 
@@ -58,14 +66,10 @@ namespace djv
 
             DJV_PRIVATE_PTR();
 
-            //! \todo Implement me!
             p.actions["IncreaseVolume"] = UI::Action::create();
-            p.actions["IncreaseVolume"]->setEnabled(false);
             p.actions["DecreaseVolume"] = UI::Action::create();
-            p.actions["DecreaseVolume"]->setEnabled(false);
             p.actions["Mute"] = UI::Action::create();
             p.actions["Mute"]->setButtonType(UI::ButtonType::Toggle);
-            p.actions["Mute"]->setEnabled(false);
 
             p.menu = UI::Menu::create(context);
             p.menu->addAction(p.actions["IncreaseVolume"]);
@@ -73,6 +77,95 @@ namespace djv
             p.menu->addAction(p.actions["Mute"]);
 
             auto weak = std::weak_ptr<AudioSystem>(std::dynamic_pointer_cast<AudioSystem>(shared_from_this()));
+            p.clickedObservers["IncreaseVolume"] = ValueObserver<bool>::create(
+                p.actions["IncreaseVolume"]->observeClicked(),
+                [weak](bool value)
+            {
+                if (value)
+                {
+                    if (auto system = weak.lock())
+                    {
+                        if (auto media = system->_p->currentMedia)
+                        {
+                            media->setVolume(system->_p->volume + .1f);
+                        }
+                    }
+                }
+            });
+
+            p.clickedObservers["DecreaseVolume"] = ValueObserver<bool>::create(
+                p.actions["DecreaseVolume"]->observeClicked(),
+                [weak](bool value)
+            {
+                if (value)
+                {
+                    if (auto system = weak.lock())
+                    {
+                        if (auto media = system->_p->currentMedia)
+                        {
+                            media->setVolume(system->_p->volume - .1f);
+                        }
+                    }
+                }
+            });
+
+            p.clickedObservers["Mute"] = ValueObserver<bool>::create(
+                p.actions["Mute"]->observeChecked(),
+                [weak](bool value)
+            {
+                if (auto system = weak.lock())
+                {
+                    if (auto media = system->_p->currentMedia)
+                    {
+                        media->setMute(value);
+                    }
+                }
+            });
+
+            if (auto fileSystem = context->getSystemT<FileSystem>())
+            {
+                p.currentMediaObserver = ValueObserver<std::shared_ptr<Media> >::create(
+                    fileSystem->observeCurrentMedia(),
+                    [weak](const std::shared_ptr<Media> & value)
+                {
+                    if (auto system = weak.lock())
+                    {
+                        system->_p->currentMedia = value;
+                        system->_p->actions["IncreaseVolume"]->setEnabled(value ? (system->_p->volume < 1.f) : false);
+                        system->_p->actions["DecreaseVolume"]->setEnabled(value ? (system->_p->volume > 0.f) : false);
+                        system->_p->actions["Mute"]->setEnabled(value ? true : false);
+                        if (value)
+                        {
+                            system->_p->volumeObserver = ValueObserver<float>::create(
+                                value->observeVolume(),
+                                [weak](float value)
+                            {
+                                if (auto system = weak.lock())
+                                {
+                                    system->_p->volume = value;
+                                    system->_p->actions["IncreaseVolume"]->setEnabled(system->_p->volume < 1.f);
+                                    system->_p->actions["DecreaseVolume"]->setEnabled(system->_p->volume > 0.f);
+                                }
+                            });
+                            system->_p->muteObserver = ValueObserver<bool>::create(
+                                value->observeMute(),
+                                [weak](bool value)
+                            {
+                                if (auto system = weak.lock())
+                                {
+                                    system->_p->actions["Mute"]->setChecked(value);
+                                }
+                            });
+                        }
+                        else
+                        {
+                            system->_p->volumeObserver.reset();
+                            system->_p->muteObserver.reset();
+                        }
+                    }
+                });
+            }
+
             p.localeObserver = ValueObserver<std::string>::create(
                 context->getSystemT<TextSystem>()->observeCurrentLocale(),
                 [weak](const std::string & value)

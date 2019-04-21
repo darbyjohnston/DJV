@@ -29,31 +29,29 @@
 
 #pragma once
 
-#include <djvViewApp/IViewSystem.h>
+#include <djvUIComponents/ISettingsWidget.h>
 
 namespace djv
 {
     namespace ViewApp
     {
-        class AnnotateSystem : public IViewSystem
+        class NUXSettingsWidget : public UI::ISettingsWidget
         {
-            DJV_NON_COPYABLE(AnnotateSystem);
+            DJV_NON_COPYABLE(NUXSettingsWidget);
 
         protected:
             void _init(Core::Context *);
-            AnnotateSystem();
+            NUXSettingsWidget();
 
         public:
-            ~AnnotateSystem() override;
+            static std::shared_ptr<NUXSettingsWidget> create(Core::Context *);
 
-            static std::shared_ptr<AnnotateSystem> create(Core::Context *);
-
-            std::map<std::string, std::shared_ptr<UI::Action> > getActions() override;
-            MenuData getMenu() override;
-            std::vector<std::shared_ptr<ITool> > getTools() override;
+            std::string getSettingsName() const override;
+            std::string getSettingsGroup() const override;
+            std::string getSettingsSortKey() const override;
 
         protected:
-            void _textUpdate();
+            void _localeEvent(Core::Event::Locale &) override;
 
         private:
             DJV_PRIVATE();

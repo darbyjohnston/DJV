@@ -29,33 +29,52 @@
 
 #pragma once
 
-#include <djvViewApp/IViewSystem.h>
+#include <djvUI/ISettings.h>
+
+#include <djvCore/ListObserver.h>
+#include <djvCore/ValueObserver.h>
+#include <djvCore/Vector.h>
 
 namespace djv
 {
+    namespace Core
+    {
+        namespace FileSystem
+        {
+            class FileInfo;
+
+        } // namespace FileSystem
+    } // namespace Core
+
     namespace ViewApp
     {
-        class AnnotateSystem : public IViewSystem
+        //! This class provides file settings.
+        class FileSettings : public UI::Settings::ISettings
         {
-            DJV_NON_COPYABLE(AnnotateSystem);
+            DJV_NON_COPYABLE(FileSettings);
 
         protected:
-            void _init(Core::Context *);
-            AnnotateSystem();
+            void _init(Core::Context * context);
+
+            FileSettings();
 
         public:
-            ~AnnotateSystem() override;
+            virtual ~FileSettings();
 
-            static std::shared_ptr<AnnotateSystem> create(Core::Context *);
+            static std::shared_ptr<FileSettings> create(Core::Context *);
 
-            std::map<std::string, std::shared_ptr<UI::Action> > getActions() override;
-            MenuData getMenu() override;
-            std::vector<std::shared_ptr<ITool> > getTools() override;
+            std::shared_ptr<Core::IListSubject<Core::FileSystem::FileInfo> > observeRecentFiles() const;
+            void setRecentFiles(const std::vector<Core::FileSystem::FileInfo> &);
 
-        protected:
-            void _textUpdate();
+            std::shared_ptr<Core::IValueSubject<glm::ivec2> > observeRecentThumbnailSize() const;
+            void setRecentThumbnailSize(const glm::ivec2 &);
+
+            void load(const picojson::value &) override;
+            picojson::value save() override;
 
         private:
+            void _updateCurrentFont();
+
             DJV_PRIVATE();
         };
 

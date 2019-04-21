@@ -29,6 +29,8 @@
 
 #include <djvViewApp/AnnotateSystem.h>
 
+#include <djvViewApp/AnnotateTool.h>
+
 #include <djvUI/Action.h>
 #include <djvUI/Menu.h>
 #include <djvUI/RowLayout.h>
@@ -48,6 +50,7 @@ namespace djv
         {
             std::map<std::string, std::shared_ptr<UI::Action> > actions;
             std::shared_ptr<UI::Menu> menu;
+            std::shared_ptr<AnnotateTool> annotateTool;
             std::map<std::string, std::shared_ptr<ValueObserver<bool> > > clickedObservers;
             std::shared_ptr<ValueObserver<std::string> > localeObserver;
         };
@@ -57,10 +60,39 @@ namespace djv
             IViewSystem::_init("djv::ViewApp::AnnotateSystem", context);
 
             DJV_PRIVATE_PTR();
+            p.actions["Show"] = UI::Action::create();
+            p.actions["Show"]->setButtonType(UI::ButtonType::Toggle);
+            p.actions["Show"]->setShortcut(GLFW_KEY_A, GLFW_MOD_CONTROL);
 
             p.menu = UI::Menu::create(context);
+            p.menu->addAction(p.actions["Show"]);
+
+            p.annotateTool = AnnotateTool::create(context);
 
             auto weak = std::weak_ptr<AnnotateSystem>(std::dynamic_pointer_cast<AnnotateSystem>(shared_from_this()));
+            p.annotateTool->setCloseCallback(
+                [weak]
+            {
+                if (auto system = weak.lock())
+                {
+                    system->_p->actions["Show"]->setChecked(false);
+                }
+            });
+
+            p.clickedObservers["Show"] = ValueObserver<bool>::create(
+                p.actions["Show"]->observeChecked(),
+                [weak](bool value)
+            {
+                if (auto system = weak.lock())
+                {
+                    if (value)
+                    {
+                        system->_p->annotateTool->moveToFront();
+                    }
+                    system->_p->annotateTool->setVisible(value);
+                }
+            });
+
             p.localeObserver = ValueObserver<std::string>::create(
                 context->getSystemT<TextSystem>()->observeCurrentLocale(),
                 [weak](const std::string & value)
@@ -100,9 +132,20 @@ namespace djv
             };
         }
 
+        std::vector<std::shared_ptr<ITool> > AnnotateSystem::getTools()
+        {
+            DJV_PRIVATE_PTR();
+            return
+            {
+                p.annotateTool
+            };
+        }
+
         void AnnotateSystem::_textUpdate()
         {
             DJV_PRIVATE_PTR();
+            p.actions["Show"]->setText(_getText(DJV_TEXT("Show Annotations")));
+
             p.menu->setText(_getText(DJV_TEXT("Annotate")));
         }
 

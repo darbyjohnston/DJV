@@ -27,10 +27,9 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvViewApp/FileSystemSettings.h>
+#include <djvViewApp/PlaybackSettings.h>
 
 #include <djvCore/Context.h>
-#include <djvCore/FileInfo.h>
 
 // These need to be included last on OSX.
 #include <djvCore/PicoJSONTemplates.h>
@@ -42,86 +41,57 @@ namespace djv
 {
     namespace ViewApp
     {
-        struct FileSystemSettings::Private
+        struct PlaybackSettings::Private
         {
-            std::shared_ptr<ListSubject<Core::FileSystem::FileInfo> > recentFiles;
-            std::shared_ptr<ValueSubject<glm::ivec2> > recentThumbnailSize;
+            std::shared_ptr<ValueSubject<bool> > pip;
         };
 
-        void FileSystemSettings::_init(Context * context)
+        void PlaybackSettings::_init(Context * context)
         {
-            ISettings::_init("djv::ViewApp::FileSystemSettings", context);
+            ISettings::_init("djv::ViewApp::PlaybackSettings", context);
 
             DJV_PRIVATE_PTR();
-            p.recentFiles = ListSubject<Core::FileSystem::FileInfo>::create();
-            p.recentThumbnailSize = ValueSubject<glm::ivec2>::create(glm::ivec2(100, 50));
+            p.pip = ValueSubject<bool>::create(true);
             _load();
         }
 
-        FileSystemSettings::FileSystemSettings() :
+        PlaybackSettings::PlaybackSettings() :
             _p(new Private)
         {}
 
-        FileSystemSettings::~FileSystemSettings()
-        {}
-
-        std::shared_ptr<FileSystemSettings> FileSystemSettings::create(Context * context)
+        std::shared_ptr<PlaybackSettings> PlaybackSettings::create(Context * context)
         {
-            auto out = std::shared_ptr<FileSystemSettings>(new FileSystemSettings);
+            auto out = std::shared_ptr<PlaybackSettings>(new PlaybackSettings);
             out->_init(context);
             return out;
         }
 
-        std::shared_ptr<IListSubject<Core::FileSystem::FileInfo> > FileSystemSettings::observeRecentFiles() const
+        std::shared_ptr<IValueSubject<bool> > PlaybackSettings::observePIP() const
         {
-            return _p->recentFiles;
+            return _p->pip;
         }
 
-        void FileSystemSettings::setRecentFiles(const std::vector<Core::FileSystem::FileInfo> & value)
+        void PlaybackSettings::setPIP(bool value)
         {
-            _p->recentFiles->setIfChanged(value);
+            _p->pip->setIfChanged(value);
         }
 
-        std::shared_ptr<IValueSubject<glm::ivec2> > FileSystemSettings::observeRecentThumbnailSize() const
-        {
-            return _p->recentThumbnailSize;
-        }
-
-        void FileSystemSettings::setRecentThumbnailSize(const glm::ivec2 & value)
-        {
-            _p->recentThumbnailSize->setIfChanged(value);
-        }
-
-        void FileSystemSettings::load(const picojson::value & value)
+        void PlaybackSettings::load(const picojson::value & value)
         {
             if (value.is<picojson::object>())
             {
                 DJV_PRIVATE_PTR();
                 const auto & object = value.get<picojson::object>();
-                std::vector<std::string> tmp;
-                UI::Settings::read("RecentFiles", object, tmp);
-                std::vector<Core::FileSystem::FileInfo> fileInfoList;
-                for (const auto & i : tmp)
-                {
-                    fileInfoList.push_back(i);
-                }
-                p.recentFiles->setIfChanged(fileInfoList);
-                UI::Settings::read("RecentThumbnailSize", object, p.recentThumbnailSize);
+                UI::Settings::read("PIP", object, p.pip);
             }
         }
 
-        picojson::value FileSystemSettings::save()
+        picojson::value PlaybackSettings::save()
         {
             DJV_PRIVATE_PTR();
             picojson::value out(picojson::object_type, true);
             auto & object = out.get<picojson::object>();
-            std::vector<std::string> tmp;
-            for (const auto & i : p.recentFiles->get())
-            {
-                tmp.push_back(i);
-            }
-            UI::Settings::write("RecentFiles", tmp, object);
-            UI::Settings::write("RecentThumbnailSize", p.recentThumbnailSize->get(), object);
+            UI::Settings::write("PIP", p.pip->get(), object);
             return out;
         }
 

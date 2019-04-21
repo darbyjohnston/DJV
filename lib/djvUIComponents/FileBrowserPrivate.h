@@ -83,7 +83,6 @@ namespace djv
             protected:
                 void _preLayoutEvent(Core::Event::PreLayout &) override;
                 void _layoutEvent(Core::Event::Layout &) override;
-                void _buttonPressEvent(Core::Event::ButtonPress &) override;
 
                 void _localeEvent(Core::Event::Locale &) override;
                 bool _eventFilter(const std::shared_ptr<Core::IObject> &, Core::Event::IEvent &) override;

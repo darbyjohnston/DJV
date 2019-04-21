@@ -54,6 +54,7 @@ namespace djv
         {
             std::vector<std::shared_ptr<ISystem> > systems;
             std::shared_ptr<MainWindow> mainWindow;
+            std::shared_ptr<NUXWidget> nuxWidget;
         };
         
         void Application::_init(int & argc, char ** argv)
@@ -79,9 +80,16 @@ namespace djv
             p.mainWindow = MainWindow::create(this);
             p.mainWindow->show();
 
-            if (auto nuxWidget = nuxSystem->getNUXWidget())
+            p.nuxWidget = nuxSystem->createNUXWidget();
+            if (p.nuxWidget)
             {
-                p.mainWindow->addChild(nuxWidget);
+                p.mainWindow->addChild(p.nuxWidget);
+                _p->nuxWidget->setFinishCallback(
+                    [this]
+                {
+                    _p->mainWindow->removeChild(_p->nuxWidget);
+                    _p->nuxWidget.reset();
+                });
             }
         }
 
@@ -92,9 +100,9 @@ namespace djv
         Application::~Application()
         {}
 
-        std::shared_ptr<Application> Application::create(int & argc, char ** argv)
+        std::unique_ptr<Application> Application::create(int & argc, char ** argv)
         {
-            auto out = std::shared_ptr<Application>(new Application);
+            auto out = std::unique_ptr<Application>(new Application);
             out->_init(argc, argv);
             return out;
         }

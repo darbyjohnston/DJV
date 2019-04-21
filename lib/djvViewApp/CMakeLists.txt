@@ -1,6 +1,7 @@
 set(header
     AboutDialog.h
 	AnnotateSystem.h
+	AnnotateTool.h
     Application.h
 	AudioSystem.h
     ColorPickerTool.h
@@ -8,7 +9,7 @@ set(header
     Enum.h
     FileBrowserDialog.h
     FileSystem.h
-    FileSystemSettings.h
+    FileSettings.h
     HelpSystem.h
     HistogramTool.h
     ITool.h
@@ -22,8 +23,11 @@ set(header
     MainWindow.h
     Media.h
     MediaWidget.h
+	NUXSettings.h
+    NUXSettingsWidget.h
 	NUXSystem.h
-	NUXSystemSettings.h
+	PlaybackSettings.h
+    PlaybackSettingsWidget.h
     PlaybackSystem.h
 	PlaylistWidget.h
     RecentFilesDialog.h
@@ -34,19 +38,20 @@ set(header
     TimelineSlider.h
     ToolSystem.h
     ViewApp.h
-    WindowSystem.h
-	WindowSystemSettings.h)
+	WindowSettings.h
+    WindowSystem.h)
 set(source
     AboutDialog.cpp
 	AnnotateSystem.cpp
+	AnnotateTool.cpp
     Application.cpp
 	AudioSystem.cpp
     ColorPickerTool.cpp
     DebugTool.cpp
     Enum.cpp
     FileBrowserDialog.cpp
+    FileSettings.cpp
     FileSystem.cpp
-    FileSystemSettings.cpp
     HelpSystem.cpp
     HistogramTool.cpp
     ITool.cpp
@@ -60,8 +65,11 @@ set(source
     MainWindow.cpp
     Media.cpp
     MediaWidget.cpp
+	NUXSettings.cpp
+    NUXSettingsWidget.cpp
 	NUXSystem.cpp
-	NUXSystemSettings.cpp
+	PlaybackSettings.cpp
+    PlaybackSettingsWidget.cpp
     PlaybackSystem.cpp
 	PlaylistWidget.cpp
     RecentFilesDialog.cpp
@@ -71,8 +79,8 @@ set(source
     SystemLogDialog.cpp
     TimelineSlider.cpp
     ToolSystem.cpp
-    WindowSystem.cpp
-	WindowSystemSettings.cpp)
+	WindowSettings.cpp
+    WindowSystem.cpp)
 
 add_library(djvViewApp ${header} ${source})
 target_link_libraries(djvViewApp djvUIComponents djvDesktopApp)

@@ -32,6 +32,7 @@
 #include <djvViewApp/Application.h>
 #include <djvViewApp/FileSystem.h>
 #include <djvViewApp/Media.h>
+#include <djvViewApp/PlaybackSettings.h>
 #include <djvViewApp/WindowSystem.h>
 
 #include <djvUI/Action.h>
@@ -54,8 +55,8 @@ namespace djv
     {
         struct PlaybackSystem::Private
         {
+            std::shared_ptr<PlaybackSettings> settings;
             std::shared_ptr<Media> currentMedia;
-
             std::map<std::string, std::shared_ptr<UI::Action> > actions;
             std::shared_ptr<UI::ActionGroup> playbackActionGroup;
             std::shared_ptr<UI::ActionGroup> playbackModeActionGroup;
@@ -72,6 +73,8 @@ namespace djv
             IViewSystem::_init("djv::ViewApp::PlaybackSystem", context);
 
             DJV_PRIVATE_PTR();
+            p.settings = PlaybackSettings::create(context);
+
             p.actions["Forward"] = UI::Action::create();
             p.actions["Forward"]->setIcon("djvIconPlaybackForward");
             p.actions["Forward"]->addShortcut(GLFW_KEY_SPACE);

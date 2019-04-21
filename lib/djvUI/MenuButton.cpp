@@ -246,6 +246,7 @@ namespace djv
 
             void Menu::_buttonPressEvent(Event::ButtonPress & event)
             {
+                DJV_PRIVATE_PTR();
                 if (isEnabled(true))
                 {
                     event.accept();
@@ -255,8 +256,8 @@ namespace djv
 
             void Menu::_updateEvent(Event::Update & event)
             {
-                const ColorRole colorRole = !isEnabled(true) ? ColorRole::Disabled : ColorRole::Foreground;
                 DJV_PRIVATE_PTR();
+                const ColorRole colorRole = !isEnabled(true) ? ColorRole::Disabled : ColorRole::Foreground;
                 p.icon->setIconColorRole(colorRole);
                 p.label->setTextColorRole(colorRole);
             }

@@ -29,52 +29,36 @@
 
 #pragma once
 
+#include <djvViewApp/ViewApp.h>
+
 #include <djvUI/ISettings.h>
 
-#include <djvCore/ListObserver.h>
 #include <djvCore/ValueObserver.h>
-#include <djvCore/Vector.h>
 
 namespace djv
 {
-    namespace Core
-    {
-        namespace FileSystem
-        {
-            class FileInfo;
-
-        } // namespace FileSystem
-    } // namespace Core
-
     namespace ViewApp
     {
-        //! This class provides file system settings.
-        class FileSystemSettings : public UI::Settings::ISettings
+        //! This class provides NUX settings.
+        class NUXSettings : public UI::Settings::ISettings
         {
-            DJV_NON_COPYABLE(FileSystemSettings);
+            DJV_NON_COPYABLE(NUXSettings);
 
         protected:
             void _init(Core::Context * context);
 
-            FileSystemSettings();
+            NUXSettings();
 
         public:
-            virtual ~FileSystemSettings();
+            static std::shared_ptr<NUXSettings> create(Core::Context *);
 
-            static std::shared_ptr<FileSystemSettings> create(Core::Context *);
-
-            std::shared_ptr<Core::IListSubject<Core::FileSystem::FileInfo> > observeRecentFiles() const;
-            void setRecentFiles(const std::vector<Core::FileSystem::FileInfo> &);
-
-            std::shared_ptr<Core::IValueSubject<glm::ivec2> > observeRecentThumbnailSize() const;
-            void setRecentThumbnailSize(const glm::ivec2 &);
+            std::shared_ptr<Core::IValueSubject<bool> > observeNUX() const;
+            void setNUX(bool);
 
             void load(const picojson::value &) override;
             picojson::value save() override;
 
         private:
-            void _updateCurrentFont();
-
             DJV_PRIVATE();
         };
 

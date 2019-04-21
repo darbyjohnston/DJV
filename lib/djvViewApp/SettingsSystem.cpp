@@ -30,6 +30,8 @@
 #include <djvViewApp/SettingsSystem.h>
 
 #include <djvViewApp/SettingsDialog.h>
+#include <djvViewApp/NUXSettingsWidget.h>
+#include <djvViewApp/PlaybackSettingsWidget.h>
 
 #include <djvUIComponents/DisplaySettingsWidget.h>
 #include <djvUIComponents/LanguageSettingsWidget.h>
@@ -73,7 +75,9 @@ namespace djv
             DJV_PRIVATE_PTR();
             p.settingsWidgets.push_back(UI::DisplaySettingsWidget::create(context));
             p.settingsWidgets.push_back(UI::LanguageSettingsWidget::create(context));
-            p.settingsWidgets.push_back(UI::PPMSettingsWidget::create(context));
+            p.settingsWidgets.push_back(NUXSettingsWidget::create(context));
+            p.settingsWidgets.push_back(PlaybackSettingsWidget::create(context));
+            p.settingsWidgets.push_back(UI::DisplaySettingsWidget::create(context));
             p.settingsWidgets.push_back(UI::TimeSettingsWidget::create(context));
 #if defined(JPEG_FOUND)
             p.settingsWidgets.push_back(UI::JPEGSettingsWidget::create(context));

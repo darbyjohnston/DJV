@@ -29,31 +29,34 @@
 
 #pragma once
 
-#include <djvViewApp/IViewSystem.h>
+#include <djvViewApp/ViewApp.h>
+
+#include <djvUI/ISettings.h>
+
+#include <djvCore/ValueObserver.h>
 
 namespace djv
 {
     namespace ViewApp
     {
-        class AnnotateSystem : public IViewSystem
+        //! This class provides playback settings.
+        class PlaybackSettings : public UI::Settings::ISettings
         {
-            DJV_NON_COPYABLE(AnnotateSystem);
+            DJV_NON_COPYABLE(PlaybackSettings);
 
         protected:
-            void _init(Core::Context *);
-            AnnotateSystem();
+            void _init(Core::Context * context);
+
+            PlaybackSettings();
 
         public:
-            ~AnnotateSystem() override;
+            static std::shared_ptr<PlaybackSettings> create(Core::Context *);
 
-            static std::shared_ptr<AnnotateSystem> create(Core::Context *);
+            std::shared_ptr<Core::IValueSubject<bool> > observePIP() const;
+            void setPIP(bool);
 
-            std::map<std::string, std::shared_ptr<UI::Action> > getActions() override;
-            MenuData getMenu() override;
-            std::vector<std::shared_ptr<ITool> > getTools() override;
-
-        protected:
-            void _textUpdate();
+            void load(const picojson::value &) override;
+            picojson::value save() override;
 
         private:
             DJV_PRIVATE();

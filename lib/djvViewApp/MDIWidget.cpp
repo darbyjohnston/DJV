@@ -64,6 +64,8 @@ namespace djv
             public:
                 static std::shared_ptr<SubWidget> create(const std::shared_ptr<Media> &, Context*);
 
+                const std::shared_ptr<Media>& getMedia() const;
+
             protected:
                 void _preLayoutEvent(Event::PreLayout&) override;
                 void _layoutEvent(Event::Layout&) override;
@@ -141,6 +143,11 @@ namespace djv
                 return out;
             }
 
+            const std::shared_ptr<Media>& SubWidget::getMedia() const
+            {
+                return _mediaWidget->getMedia();
+            }
+
             void SubWidget::_preLayoutEvent(Event::PreLayout&)
             {
                 _setMinimumSize(_border->getMinimumSize());
@@ -172,6 +179,19 @@ namespace djv
             addChild(p.canvas);
 
             auto weak = std::weak_ptr<MDIWidget>(std::dynamic_pointer_cast<MDIWidget>(shared_from_this()));
+            p.canvas->setActiveCallback(
+                [weak, context](const std::shared_ptr<UI::MDI::IWidget> & value)
+            {
+                if (auto widget = weak.lock())
+                {
+                    if (auto subWidget = std::dynamic_pointer_cast<SubWidget>(value))
+                    {
+                        auto fileSystem = context->getSystemT<FileSystem>();
+                        fileSystem->setCurrentMedia(subWidget->getMedia());
+                    }
+                }
+            });
+
             auto fileSystem = context->getSystemT<FileSystem>();
             p.currentMediaObserver = ValueObserver<std::shared_ptr<Media> >::create(
                 fileSystem->observeCurrentMedia(),

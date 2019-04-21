@@ -70,6 +70,8 @@ namespace djv
             std::shared_ptr<Core::IValueSubject<bool> > observeInOutPointsEnabled() const;
             std::shared_ptr<Core::IValueSubject<Core::Time::Timestamp> > observeInPoint() const;
             std::shared_ptr<Core::IValueSubject<Core::Time::Timestamp> > observeOutPoint() const;
+            std::shared_ptr<Core::IValueSubject<float> > observeVolume() const;
+            std::shared_ptr<Core::IValueSubject<bool> > observeMute() const;
 
             std::shared_ptr<Core::IValueSubject<size_t> > observeVideoQueueMax() const;
             std::shared_ptr<Core::IValueSubject<size_t> > observeAudioQueueMax() const;
@@ -91,12 +93,15 @@ namespace djv
             void setOutPoint(Core::Time::Timestamp);
             void resetInPoint();
             void resetOutPoint();
+            void setVolume(float);
+            void setMute(bool);
 
         private:
             DJV_PRIVATE();
 
             void _playbackUpdate();
             void _timeUpdate();
+            void _volumeUpdate();
         };
 
     } // namespace ViewApp

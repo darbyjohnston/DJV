@@ -83,6 +83,8 @@ namespace djv
                 p.buttonLayout = HorizontalLayout::create(context);
                 p.buttonLayout->setSpacing(MetricsRole::Border);
                 p.buttonLayout->setBackgroundRole(ColorRole::Trough);
+                p.buttonLayout->setPointerEnabled(true);
+                p.buttonLayout->installEventFilter(shared_from_this());
 
                 p.lineEditBase = LineEditBase::create(context);
                 p.lineEditBase->installEventFilter(shared_from_this());
@@ -273,17 +275,6 @@ namespace djv
                 _p->layout->setGeometry(getGeometry());
             }
 
-            void PathWidget::_buttonPressEvent(Event::ButtonPress & event)
-            {
-                DJV_PRIVATE_PTR();
-                event.accept();
-                setEdit(true);
-                if (p.editCallback)
-                {
-                    p.editCallback(true);
-                }
-            }
-
             void PathWidget::_localeEvent(Event::Locale &)
             {
                 DJV_PRIVATE_PTR();
@@ -293,16 +284,33 @@ namespace djv
             bool PathWidget::_eventFilter(const std::shared_ptr<IObject> & object, Event::IEvent & event)
             {
                 DJV_PRIVATE_PTR();
-                switch (event.getEventType())
+                if (object == p.buttonLayout)
                 {
-                case Event::Type::TextFocusLost:
-                    setEdit(false);
-                    if (p.editCallback)
+                    switch (event.getEventType())
                     {
-                        p.editCallback(false);
+                    case Event::Type::ButtonPress:
+                        setEdit(true);
+                        if (p.editCallback)
+                        {
+                            p.editCallback(true);
+                        }
+                        break;
+                    default: break;
                     }
-                    break;
-                default: break;
+                }
+                else if (object == p.lineEditBase)
+                {
+                    switch (event.getEventType())
+                    {
+                    case Event::Type::TextFocusLost:
+                        setEdit(false);
+                        if (p.editCallback)
+                        {
+                            p.editCallback(false);
+                        }
+                        break;
+                    default: break;
+                    }
                 }
                 return false;
             }

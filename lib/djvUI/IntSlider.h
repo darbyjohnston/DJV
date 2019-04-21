@@ -57,6 +57,13 @@ namespace djv
 
             static std::shared_ptr<BasicIntSlider> create(Orientation, Core::Context *);
 
+            Core::IntRange getRange() const;
+            void setRange(const Core::IntRange&);
+
+            int getValue() const;
+            void setValue(int);
+            void setValueCallback(const std::function<void(int)>&);
+
             const std::shared_ptr<Core::IntValueModel> & getModel() const;
             void setModel(const std::shared_ptr<Core::IntValueModel> &);
 

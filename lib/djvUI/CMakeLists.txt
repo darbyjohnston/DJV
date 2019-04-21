@@ -6,6 +6,7 @@ set(header
     Bellows.h
     Border.h
     ButtonGroup.h
+    CheckButton.h
     ColorSwatch.h
     ComboBox.h
     DialogSystem.h
@@ -64,7 +65,6 @@ set(header
     TabBar.h
     TabWidget.h
     TextBlock.h
-    ToggleButton.h
     ToolBar.h
     ToolButton.h
     Tooltip.h
@@ -81,6 +81,7 @@ set(source
     Bellows.cpp
     Border.cpp
     ButtonGroup.cpp
+    CheckButton.cpp
     ColorSwatch.cpp
     ComboBox.cpp
     DialogSystem.cpp
@@ -132,7 +133,6 @@ set(source
     TabBar.cpp
     TabWidget.cpp
     TextBlock.cpp
-    ToggleButton.cpp
     ToolBar.cpp
     ToolButton.cpp
     Tooltip.cpp

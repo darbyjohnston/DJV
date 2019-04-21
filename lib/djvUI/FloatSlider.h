@@ -57,6 +57,13 @@ namespace djv
 
             static std::shared_ptr<BasicFloatSlider> create(Orientation, Core::Context *);
 
+            Core::FloatRange getRange() const;
+            void setRange(const Core::FloatRange&);
+
+            float getValue() const;
+            void setValue(float);
+            void setValueCallback(const std::function<void(float)>&);
+
             const std::shared_ptr<Core::FloatValueModel> & getModel() const;
             void setModel(const std::shared_ptr<Core::FloatValueModel> &);
 

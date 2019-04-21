@@ -55,6 +55,7 @@ namespace djv
             Event::PointerID pressedID = Event::InvalidID;
             glm::vec2 pressedPos = glm::vec2(0.f, 0.f);
             glm::vec2 prevPos = glm::vec2(0.f, 0.f);
+            std::function<void(int)> callback;
             std::shared_ptr<ValueObserver<int> > valueObserver;
         };
 
@@ -85,6 +86,31 @@ namespace djv
             auto out = std::shared_ptr<BasicIntSlider>(new BasicIntSlider);
             out->_init(orientation, context);
             return out;
+        }
+
+        IntRange BasicIntSlider::getRange() const
+        {
+            return _p->model->observeRange()->get();
+        }
+
+        void BasicIntSlider::setRange(const IntRange& value)
+        {
+            _p->model->setRange(value);
+        }
+
+        int BasicIntSlider::getValue() const
+        {
+            return _p->model->observeValue()->get();
+        }
+
+        void BasicIntSlider::setValue(int value)
+        {
+            _p->model->setValue(value);
+        }
+
+        void BasicIntSlider::setValueCallback(const std::function<void(int)>& callback)
+        {
+            _p->callback = callback;
         }
 
         const std::shared_ptr<IntValueModel> & BasicIntSlider::getModel() const
@@ -235,6 +261,10 @@ namespace djv
                 if (p.model && std::chrono::milliseconds(0) == p.delay)
                 {
                     p.model->setValue(p.value);
+                    if (p.callback)
+                    {
+                        p.callback(p.model->observeValue()->get());
+                    }
                 }
                 if (p.delay > std::chrono::milliseconds(0) && glm::length(pointerInfo.projectedPos - p.prevPos) > 0.f)
                 {
@@ -270,6 +300,10 @@ namespace djv
             if (p.model && std::chrono::milliseconds(0) == p.delay)
             {
                 p.model->setValue(p.value);
+                if (p.callback)
+                {
+                    p.callback(p.model->observeValue()->get());
+                }
             }
             if (p.delay > std::chrono::milliseconds(0))
             {
@@ -289,6 +323,10 @@ namespace djv
                 if (p.model && p.delay > std::chrono::milliseconds(0))
                 {
                     p.model->setValue(p.value);
+                    if (p.callback)
+                    {
+                        p.callback(p.model->observeValue()->get());
+                    }
                 }
                 p.delayTimer->stop();
                 _redraw();
@@ -306,7 +344,8 @@ namespace djv
             float out = 0.f;
             if (p.model)
             {
-                const BBox2f & g = getGeometry();
+                auto style = _getStyle();
+                const BBox2f g = getMargin().bbox(getGeometry(), style);
                 const auto & range = p.model->observeRange()->get();
                 const float v = (value - range.min) / static_cast<float>(range.max - range.min);
                 switch (p.orientation)
@@ -329,7 +368,8 @@ namespace djv
             int out = 0;
             if (p.model)
             {
-                const BBox2f & g = getGeometry();
+                auto style = _getStyle();
+                const BBox2f g = getMargin().bbox(getGeometry(), style);
                 const auto & range = p.model->observeRange()->get();
                 const float step = g.w() / static_cast<float>(range.max - range.min) / 2.f;
                 float v = 0.f;
@@ -359,6 +399,10 @@ namespace djv
                 if (auto widget = weak.lock())
                 {
                     widget->_p->model->setValue(widget->_p->value);
+                    if (widget->_p->callback)
+                    {
+                        widget->_p->callback(widget->_p->model->observeValue()->get());
+                    }
                 }
             });
         }
@@ -420,6 +464,31 @@ namespace djv
             return out;
         }
 
+        IntRange IntSlider::getRange() const
+        {
+            return _p->slider->getRange();
+        }
+
+        void IntSlider::setRange(const IntRange& value)
+        {
+            _p->slider->setRange(value);
+        }
+
+        int IntSlider::getValue() const
+        {
+            return _p->slider->getValue();
+        }
+
+        void IntSlider::setValue(int value)
+        {
+            _p->slider->setValue(value);
+        }
+
+        void IntSlider::setValueCallback(const std::function<void(int)>& callback)
+        {
+            _p->callback = callback;
+        }
+
         const std::shared_ptr<IntValueModel> & IntSlider::getModel() const
         {
             return _p->slider->getModel();
@@ -433,31 +502,6 @@ namespace djv
         void IntSlider::setDelay(std::chrono::milliseconds value)
         {
             _p->slider->setDelay(value);
-        }
-
-        IntRange IntSlider::getRange() const
-        {
-            return _p->slider->getModel()->observeRange()->get();
-        }
-
-        void IntSlider::setRange(const IntRange & value)
-        {
-            _p->slider->getModel()->setRange(value);
-        }
-
-        int IntSlider::getValue() const
-        {
-            return _p->slider->getModel()->observeValue()->get();
-        }
-
-        void IntSlider::setValue(int value)
-        {
-            _p->slider->getModel()->setValue(value);
-        }
-
-        void IntSlider::setValueCallback(const std::function<void(int)> & callback)
-        {
-            _p->callback = callback;
         }
 
         void IntSlider::_preLayoutEvent(Event::PreLayout & event)

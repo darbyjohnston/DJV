@@ -27,37 +27,43 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#pragma once
+#include <djvViewApp/AnnotateTool.h>
 
-#include <djvViewApp/IViewSystem.h>
+using namespace djv::Core;
 
 namespace djv
 {
     namespace ViewApp
     {
-        class AnnotateSystem : public IViewSystem
+        struct AnnotateTool::Private
         {
-            DJV_NON_COPYABLE(AnnotateSystem);
 
-        protected:
-            void _init(Core::Context *);
-            AnnotateSystem();
-
-        public:
-            ~AnnotateSystem() override;
-
-            static std::shared_ptr<AnnotateSystem> create(Core::Context *);
-
-            std::map<std::string, std::shared_ptr<UI::Action> > getActions() override;
-            MenuData getMenu() override;
-            std::vector<std::shared_ptr<ITool> > getTools() override;
-
-        protected:
-            void _textUpdate();
-
-        private:
-            DJV_PRIVATE();
         };
+
+        void AnnotateTool::_init(Context * context)
+        {
+            ITool::_init(context);
+        }
+
+        AnnotateTool::AnnotateTool() :
+            _p(new Private)
+        {}
+
+        AnnotateTool::~AnnotateTool()
+        {}
+
+        std::shared_ptr<AnnotateTool> AnnotateTool::create(Context * context)
+        {
+            auto out = std::shared_ptr<AnnotateTool>(new AnnotateTool);
+            out->_init(context);
+            return out;
+        }
+
+        void AnnotateTool::_localeEvent(Event::Locale & event)
+        {
+            ITool::_localeEvent(event);
+            setTitle(_getText(DJV_TEXT("Annotate")));
+        }
 
     } // namespace ViewApp
 } // namespace djv

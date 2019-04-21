@@ -93,11 +93,11 @@ namespace djv
                     BBox2f      clipRect;
                     ImageFormat imageFormat = ImageFormat::RGBA;
                     ColorMode   colorMode   = ColorMode::SolidColor;
-                    float       color[4];
+                    float       color[4]    = { 0.f, 0.f, 0.f, 0.f };
                     ImageCache  imageCache  = ImageCache::Atlas;
                     size_t      atlasIndex  = 0;
-                    GLuint      textureID;
-                    size_t      vaoSize;
+                    GLuint      textureID   = 0;
+                    size_t      vaoSize     = 0;
                 };
 
                 struct Render

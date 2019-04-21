@@ -111,7 +111,10 @@ namespace djv
             {
                 if (auto widget = weak.lock())
                 {
-                    widget->_p->menu->hide();
+                    if (!value)
+                    {
+                        widget->_p->menu->hide();
+                    }
                     if (value && widget->_p->currentItem >= 0 && widget->_p->currentItem < widget->_p->items.size())
                     {
                         if (auto window = widget->getWindow())

@@ -31,7 +31,7 @@
 
 #include <djvViewApp/Application.h>
 #include <djvViewApp/FileBrowserDialog.h>
-#include <djvViewApp/FileSystemSettings.h>
+#include <djvViewApp/FileSettings.h>
 #include <djvViewApp/Media.h>
 #include <djvViewApp/RecentFilesDialog.h>
 #include <djvViewApp/WindowSystem.h>
@@ -59,7 +59,7 @@ namespace djv
     {
         struct FileSystem::Private
         {
-            std::shared_ptr<FileSystemSettings> settings;
+            std::shared_ptr<FileSettings> settings;
             std::shared_ptr<ValueSubject<std::pair<std::shared_ptr<Media>, glm::vec2> > > opened;
             std::shared_ptr<ValueSubject<std::shared_ptr<Media> > > closed;
             std::shared_ptr<ListSubject<std::shared_ptr<Media> > > media;
@@ -81,7 +81,7 @@ namespace djv
 
             DJV_PRIVATE_PTR();
 
-            p.settings = FileSystemSettings::create(context);
+            p.settings = FileSettings::create(context);
             p.opened = ValueSubject<std::pair<std::shared_ptr<Media>, glm::vec2> >::create();
             p.closed = ValueSubject<std::shared_ptr<Media> >::create();
             p.media = ListSubject<std::shared_ptr<Media> >::create();

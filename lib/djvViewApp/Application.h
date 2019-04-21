@@ -46,7 +46,7 @@ namespace djv
         public:
             ~Application() override;
 
-            static std::shared_ptr<Application> create(int &, char **);
+            static std::unique_ptr<Application> create(int &, char **);
 
         private:
             DJV_PRIVATE();

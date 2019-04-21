@@ -71,6 +71,8 @@ namespace djv
             std::shared_ptr<ValueSubject<bool> > inOutPointsEnabled;
             std::shared_ptr<ValueSubject<Time::Timestamp> > inPoint;
             std::shared_ptr<ValueSubject<Time::Timestamp> > outPoint;
+            std::shared_ptr<ValueSubject<float> > volume;
+            std::shared_ptr<ValueSubject<bool> > mute;
 
             std::shared_ptr<ValueSubject<size_t> > videoQueueMax;
             std::shared_ptr<ValueSubject<size_t> > audioQueueMax;
@@ -109,6 +111,8 @@ namespace djv
             p.inOutPointsEnabled = ValueSubject<bool>::create(false);
             p.inPoint = ValueSubject<Time::Timestamp>::create(0);
             p.outPoint = ValueSubject<Time::Timestamp>::create(0);
+            p.volume = ValueSubject<float>::create(1.f);
+            p.mute = ValueSubject<bool>::create(false);
 
             p.videoQueueMax = ValueSubject<size_t>::create();
             p.audioQueueMax = ValueSubject<size_t>::create();
@@ -320,6 +324,16 @@ namespace djv
             return _p->inPoint;
         }
 
+        std::shared_ptr<IValueSubject<float> > Media::observeVolume() const
+        {
+            return _p->volume;
+        }
+
+        std::shared_ptr<IValueSubject<bool> > Media::observeMute() const
+        {
+            return _p->mute;
+        }
+
         std::shared_ptr<IValueSubject<Time::Timestamp> > Media::observeOutPoint() const
         {
             return _p->outPoint;
@@ -427,6 +441,22 @@ namespace djv
         void Media::setPlaybackMode(PlaybackMode value)
         {
             _p->playbackMode->setIfChanged(value);
+        }
+
+        void Media::setVolume(float value)
+        {
+            if (_p->volume->setIfChanged(Math::clamp(value, 0.f, 1.f)))
+            {
+                _volumeUpdate();
+            }
+        }
+
+        void Media::setMute(bool value)
+        {
+            if (_p->mute->setIfChanged(value))
+            {
+                _volumeUpdate();
+            }
         }
 
         void Media::_playbackUpdate()
@@ -629,6 +659,16 @@ namespace djv
                         static_cast<ALsizei>(info.sampleRate));
                     alSourceQueueBuffers(p.alSource, 1, &buffer);
                 }
+            }
+        }
+
+        void Media::_volumeUpdate()
+        {
+            DJV_PRIVATE_PTR();
+            if (p.alSource)
+            {
+                const float volume = !p.mute->get() ? p.volume->get() : 0.f;
+                alSourcef(p.alSource, AL_GAIN, volume);
             }
         }
 

@@ -55,7 +55,7 @@ namespace djv
             std::map<std::string, std::shared_ptr<UI::Action> > actions;
             std::shared_ptr<UI::Menu> menu;
             std::map<std::string, std::shared_ptr<ITool> > tools;
-            std::map<std::string, std::shared_ptr<ValueObserver<bool> > > checkedObservers;
+            std::map<std::string, std::shared_ptr<ValueObserver<bool> > > clickedObservers;
             std::shared_ptr<ValueObserver<std::string> > localeObserver;
         };
 
@@ -135,7 +135,7 @@ namespace djv
                 }
             });
 
-            p.checkedObservers["Magnifier"] = ValueObserver<bool>::create(
+            p.clickedObservers["Magnifier"] = ValueObserver<bool>::create(
                 p.actions["Magnifier"]->observeChecked(),
                 [weak](bool value)
             {
@@ -148,7 +148,7 @@ namespace djv
                     system->_p->tools["Magnifier"]->setVisible(value);
                 }
             });
-            p.checkedObservers["ColorPicker"] = ValueObserver<bool>::create(
+            p.clickedObservers["ColorPicker"] = ValueObserver<bool>::create(
                 p.actions["ColorPicker"]->observeChecked(),
                 [weak](bool value)
             {
@@ -161,7 +161,7 @@ namespace djv
                     system->_p->tools["ColorPicker"]->setVisible(value);
                 }
             });
-            p.checkedObservers["Histogram"] = ValueObserver<bool>::create(
+            p.clickedObservers["Histogram"] = ValueObserver<bool>::create(
                 p.actions["Histogram"]->observeChecked(),
                 [weak](bool value)
             {
@@ -174,7 +174,7 @@ namespace djv
                     system->_p->tools["Histogram"]->setVisible(value);
                 }
             });
-            p.checkedObservers["Information"] = ValueObserver<bool>::create(
+            p.clickedObservers["Information"] = ValueObserver<bool>::create(
                 p.actions["Information"]->observeChecked(),
                 [weak](bool value)
             {
@@ -187,7 +187,7 @@ namespace djv
                     system->_p->tools["Information"]->setVisible(value);
                 }
             });
-            p.checkedObservers["Debug"] = ValueObserver<bool>::create(
+            p.clickedObservers["Debug"] = ValueObserver<bool>::create(
                 p.actions["Debug"]->observeChecked(),
                 [weak](bool value)
             {
@@ -231,6 +231,15 @@ namespace djv
             return _p->actions;
         }
 
+        MenuData ToolSystem::getMenu()
+        {
+            return
+            {
+                _p->menu,
+                "F"
+            };
+        }
+
         std::vector<std::shared_ptr<ITool> > ToolSystem::getTools()
         {
             DJV_PRIVATE_PTR();
@@ -241,15 +250,6 @@ namespace djv
                 p.tools["Histogram"],
                 p.tools["Information"],
                 p.tools["Debug"]
-            };
-        }
-
-        MenuData ToolSystem::getMenu()
-        {
-            return
-            {
-                _p->menu,
-                "F"
             };
         }
 

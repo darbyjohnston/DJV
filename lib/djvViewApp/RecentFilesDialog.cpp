@@ -29,7 +29,7 @@
 
 #include <djvViewApp/RecentFilesDialog.h>
 
-#include <djvViewApp/FileSystemSettings.h>
+#include <djvViewApp/FileSettings.h>
 
 #include <djvUIComponents/FileBrowserItemView.h>
 #include <djvUIComponents/FileBrowserPrivate.h>
@@ -179,7 +179,7 @@ namespace djv
 
             if (auto settingsSystem = context->getSystemT<UI::Settings::System>())
             {
-                if (auto fileSystemSettings = settingsSystem->getSettingsT<FileSystemSettings>())
+                if (auto fileSystemSettings = settingsSystem->getSettingsT<FileSettings>())
                 {
                     p.recentFilesObserver = ListObserver<Core::FileSystem::FileInfo>::create(
                         fileSystemSettings->observeRecentFiles(),
@@ -210,9 +210,9 @@ namespace djv
             {
                 if (auto settingsSystem = context->getSystemT<UI::Settings::System>())
                 {
-                    if (auto fileSystemSettings = settingsSystem->getSettingsT<FileSystemSettings>())
+                    if (auto fileSettings = settingsSystem->getSettingsT<FileSettings>())
                     {
-                        fileSystemSettings->setRecentThumbnailSize(glm::ivec2(value, ceilf(value / 2.f)));
+                        fileSettings->setRecentThumbnailSize(glm::ivec2(value, ceilf(value / 2.f)));
                     }
                 }
             });
@@ -225,12 +225,12 @@ namespace djv
                 {
                     if (auto settingsSystem = context->getSystemT<UI::Settings::System>())
                     {
-                        if (auto fileSystemSettings = settingsSystem->getSettingsT<FileSystemSettings>())
+                        if (auto fileSettings = settingsSystem->getSettingsT<FileSettings>())
                         {
-                            auto size = fileSystemSettings->observeRecentThumbnailSize()->get();
+                            auto size = fileSettings->observeRecentThumbnailSize()->get();
                             size.x = Math::clamp(static_cast<int>(size.x * 1.25f), UI::FileBrowser::thumbnailSizeRange.min, UI::FileBrowser::thumbnailSizeRange.max);
                             size.y = static_cast<int>(ceilf(size.x / 2.f));
-                            fileSystemSettings->setRecentThumbnailSize(size);
+                            fileSettings->setRecentThumbnailSize(size);
                         }
                     }
                 }
@@ -244,12 +244,12 @@ namespace djv
                 {
                     if (auto settingsSystem = context->getSystemT<UI::Settings::System>())
                     {
-                        if (auto fileSystemSettings = settingsSystem->getSettingsT<FileSystemSettings>())
+                        if (auto fileSettings = settingsSystem->getSettingsT<FileSettings>())
                         {
-                            auto size = fileSystemSettings->observeRecentThumbnailSize()->get();
+                            auto size = fileSettings->observeRecentThumbnailSize()->get();
                             size.x = Math::clamp(static_cast<int>(size.x * .75f), UI::FileBrowser::thumbnailSizeRange.min, UI::FileBrowser::thumbnailSizeRange.max);
                             size.y = static_cast<int>(ceilf(size.x / 2.f));
-                            fileSystemSettings->setRecentThumbnailSize(size);
+                            fileSettings->setRecentThumbnailSize(size);
                         }
                     }
                 }

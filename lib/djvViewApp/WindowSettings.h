@@ -29,7 +29,7 @@
 
 #pragma once
 
-#include <djvViewApp/ViewApp.h>
+#include <djvViewApp/Enum.h>
 
 #include <djvUI/ISettings.h>
 
@@ -39,21 +39,23 @@ namespace djv
 {
     namespace ViewApp
     {
-        //! This class provides NUX system settings.
-        class NUXSystemSettings : public UI::Settings::ISettings
+        //! This class provides window settings.
+        class WindowSettings : public UI::Settings::ISettings
         {
-            DJV_NON_COPYABLE(NUXSystemSettings);
+            DJV_NON_COPYABLE(WindowSettings);
 
         protected:
             void _init(Core::Context * context);
 
-            NUXSystemSettings();
+            WindowSettings();
 
         public:
-            static std::shared_ptr<NUXSystemSettings> create(Core::Context *);
+            virtual ~WindowSettings();
 
-            std::shared_ptr<Core::IValueSubject<bool> > observeNUX() const;
-            void setNUX(bool);
+            static std::shared_ptr<WindowSettings> create(Core::Context *);
+
+            std::shared_ptr<Core::IValueSubject<WindowMode> > observeWindowMode() const;
+            void setWindowMode(WindowMode);
 
             void load(const picojson::value &) override;
             picojson::value save() override;
