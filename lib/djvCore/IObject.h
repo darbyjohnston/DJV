@@ -139,6 +139,9 @@ namespace djv
             //! Get the number of objects that currently exist.
             static size_t getGlobalObjectCount();
 
+            //! Get the number of objects per class name.
+            static void getObjectCounts(const std::shared_ptr<IObject>&, std::map<std::string, size_t>&);
+
         protected:
             //! \name Events
             ///@{

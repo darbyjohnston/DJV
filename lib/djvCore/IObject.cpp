@@ -245,6 +245,24 @@ namespace djv
             return globalObjectCount;
         }
 
+        void IObject::getObjectCounts(const std::shared_ptr<IObject>& object, std::map<std::string, size_t>& out)
+        {
+            const std::string& className = object->getClassName();
+            const auto i = out.find(className);
+            if (i != out.end())
+            {
+                i->second++;
+            }
+            else
+            {
+                out[className] = 1;
+            }
+            for (const auto& j : object->getChildren())
+            {
+                getObjectCounts(j, out);
+            }
+        }
+
         std::string IObject::_getText(const std::string & id) const
         {
             return _textSystem->getText(id);

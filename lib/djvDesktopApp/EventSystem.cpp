@@ -133,6 +133,20 @@ namespace djv
                     AV::OpenGL::OffscreenType::MultiSample);
             }
             auto rootObject = getRootObject();
+        
+            /*std::map<std::string, size_t> objectCounts;
+            IObject::getObjectCounts(rootObject, objectCounts);
+            size_t totalObjectCount = 0;
+            for (const auto& i : objectCounts)
+            {
+                std::cout << i.first << ": " << i.second << std::endl;
+                totalObjectCount += i.second;
+            }
+            std::cout << "Total: " << totalObjectCount << std::endl;
+            std::cout << "Global object count: " << IObject::getGlobalObjectCount() << std::endl;
+            std::cout << "Global widget count: " << UI::Widget::getGlobalWidgetCount() << std::endl;
+            std::cout << std::endl;*/
+
             if (p.offscreenBuffer)
             {
                 bool resizeRequest = p.resizeRequest;

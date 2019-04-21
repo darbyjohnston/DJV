@@ -193,16 +193,17 @@ namespace djv
                 addChild(_layout);
 
                 auto weak = std::weak_ptr<ListWidget>(std::dynamic_pointer_cast<ListWidget>(shared_from_this()));
-                auto fileSystem = context->getSystemT<FileSystem>();
                 _buttonGroup->setRadioCallback(
-                    [weak, fileSystem](int index)
+                    [weak, context](int index)
                 {
                     if (auto widget = weak.lock())
                     {
+                        auto fileSystem = context->getSystemT<FileSystem>();
                         fileSystem->setCurrentMedia(widget->_media[index]);
                     }
                 });
 
+                auto fileSystem = context->getSystemT<FileSystem>();
                 _mediaObserver = ListObserver<std::shared_ptr<Media>>::create(
                     fileSystem->observeMedia(),
                     [weak, context](const std::vector<std::shared_ptr<Media> > & value)
