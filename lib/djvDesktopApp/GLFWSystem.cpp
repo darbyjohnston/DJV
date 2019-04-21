@@ -158,8 +158,9 @@ namespace djv
                 glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, GL_TRUE);
             }
             p.glfwWindow = glfwCreateWindow(
-                static_cast<int>(ceilf(windowSize.x * (p.dpi / static_cast<float>(AV::dpiDefault)))),
-                static_cast<int>(ceilf(windowSize.y * (p.dpi / static_cast<float>(AV::dpiDefault)))),
+                1280, 720,
+                //static_cast<int>(ceilf(windowSize.x * (p.dpi / static_cast<float>(AV::dpiDefault)))),
+                //static_cast<int>(ceilf(windowSize.y * (p.dpi / static_cast<float>(AV::dpiDefault)))),
                 getSystemName().c_str(), NULL, NULL);
             if (!p.glfwWindow)
             {
@@ -168,9 +169,9 @@ namespace djv
                 throw std::runtime_error(ss.str());
             }
             {
-                int glMajor = glfwGetWindowAttrib(_p->glfwWindow, GLFW_CONTEXT_VERSION_MAJOR);
-                int glMinor = glfwGetWindowAttrib(_p->glfwWindow, GLFW_CONTEXT_VERSION_MINOR);
-                int glRevision = glfwGetWindowAttrib(_p->glfwWindow, GLFW_CONTEXT_REVISION);
+                int glMajor = glfwGetWindowAttrib(p.glfwWindow, GLFW_CONTEXT_VERSION_MAJOR);
+                int glMinor = glfwGetWindowAttrib(p.glfwWindow, GLFW_CONTEXT_VERSION_MINOR);
+                int glRevision = glfwGetWindowAttrib(p.glfwWindow, GLFW_CONTEXT_REVISION);
                 std::stringstream ss;
                 ss << "OpenGL version: " << glMajor << "." << glMinor << "." << glRevision;
                 _log(ss.str());

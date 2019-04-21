@@ -79,54 +79,58 @@ namespace djv
 
         void UndoStack::push(const std::shared_ptr<ICommand> & command)
         {
-            while (static_cast<int64_t>(_p->commands.size()) - 1 > _p->currentIndex)
+            DJV_PRIVATE_PTR();
+            while (static_cast<int64_t>(p.commands.size()) - 1 > p.currentIndex)
             {
-                _p->commands.pop_back();
+                p.commands.pop_back();
             }
-            _p->commands.push_back(command);
-            ++_p->currentIndex;
+            p.commands.push_back(command);
+            ++p.currentIndex;
             command->exec();
-            if (_p->callback)
+            if (p.callback)
             {
-                _p->callback();
+                p.callback();
             }
         }
 
         void UndoStack::undo()
         {
-            if (_p->commands.size() && _p->currentIndex >= 0)
+            DJV_PRIVATE_PTR();
+            if (p.commands.size() && p.currentIndex >= 0)
             {
-                _p->commands[_p->currentIndex]->undo();
-                --_p->currentIndex;
-                if (_p->callback)
+                p.commands[p.currentIndex]->undo();
+                --p.currentIndex;
+                if (p.callback)
                 {
-                    _p->callback();
+                    p.callback();
                 }
             }
         }
 
         void UndoStack::redo()
         {
-            if (_p->commands.size() && _p->currentIndex < static_cast<int64_t>(_p->commands.size()) - 1)
+            DJV_PRIVATE_PTR();
+            if (p.commands.size() && p.currentIndex < static_cast<int64_t>(p.commands.size()) - 1)
             {
-                ++_p->currentIndex;
-                _p->commands[_p->currentIndex]->exec();
-                if (_p->callback)
+                ++p.currentIndex;
+                p.commands[p.currentIndex]->exec();
+                if (p.callback)
                 {
-                    _p->callback();
+                    p.callback();
                 }
             }
         }
 
         void UndoStack::clear()
         {
-            if (_p->commands.size())
+            DJV_PRIVATE_PTR();
+            if (p.commands.size())
             {
-                _p->commands.clear();
-                _p->currentIndex = -1;
-                if (_p->callback)
+                p.commands.clear();
+                p.currentIndex = -1;
+                if (p.callback)
                 {
-                    _p->callback();
+                    p.callback();
                 }
             }
         }

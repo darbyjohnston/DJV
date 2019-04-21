@@ -83,7 +83,7 @@ namespace djv
             p.border = Border::create(context);
             p.border->setMargin(MetricsRole::MarginSmall);
             p.border->addChild(layout);
-            addChild(_p->border);
+            addChild(p.border);
 
             auto weak = std::weak_ptr<SearchBox>(std::dynamic_pointer_cast<SearchBox>(shared_from_this()));
             p.lineEditBase->setFocusCallback(

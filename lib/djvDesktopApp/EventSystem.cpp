@@ -125,26 +125,27 @@ namespace djv
         {
             UI::EventSystem::tick(dt);
 
-            if (_p->resizeRequest)
+            DJV_PRIVATE_PTR();
+            if (p.resizeRequest)
             {
-                _p->offscreenBuffer = AV::OpenGL::OffscreenBuffer::create(
-                    AV::Image::Info(_p->resize, AV::Image::Type::RGBA_U8),
+                p.offscreenBuffer = AV::OpenGL::OffscreenBuffer::create(
+                    AV::Image::Info(p.resize, AV::Image::Type::RGBA_U8),
                     AV::OpenGL::OffscreenType::MultiSample);
             }
             auto rootObject = getRootObject();
-            if (_p->offscreenBuffer)
+            if (p.offscreenBuffer)
             {
-                bool resizeRequest = _p->resizeRequest;
-                bool redrawRequest = _p->redrawRequest;
-                _p->resizeRequest = false;
-                _p->redrawRequest = false;
+                bool resizeRequest = p.resizeRequest;
+                bool redrawRequest = p.redrawRequest;
+                p.resizeRequest = false;
+                p.redrawRequest = false;
                 for (const auto & i : rootObject->getChildrenT<UI::Window>())
                 {
                     resizeRequest |= _resizeRequest(i);
                     redrawRequest |= _redrawRequest(i);
                 }
 
-                const auto & size = _p->offscreenBuffer->getInfo().size;
+                const auto & size = p.offscreenBuffer->getInfo().size;
                 if (resizeRequest)
                 {
                     for (const auto & i : rootObject->getChildrenT<UI::Window>())
@@ -169,7 +170,7 @@ namespace djv
                 {
                     if (auto render = getContext()->getSystemT<AV::Render::Render2D>())
                     {
-                        _p->offscreenBuffer->bind();
+                        p.offscreenBuffer->bind();
                         render->beginFrame(size);
                         for (const auto & i : rootObject->getChildrenT<UI::Window>())
                         {
@@ -181,7 +182,7 @@ namespace djv
                             }
                         }
                         render->endFrame();
-                        _p->offscreenBuffer->unbind();
+                        p.offscreenBuffer->unbind();
                         _redraw();
                     }
                 }

@@ -65,6 +65,7 @@ namespace djv
 
             void DirectoryWatcher::_init(Context * context)
             {
+                DJV_PRIVATE_PTR();
                 const auto timeout = Time::getValue(Time::TimerValue::Medium);
                 _p->thread = std::thread(
                     [this, timeout, context]
@@ -146,9 +147,9 @@ namespace djv
                     }
                 });
 
-                _p->timer = Time::Timer::create(context);
-                _p->timer->setRepeating(true);
-                _p->timer->start(
+                p.timer = Time::Timer::create(context);
+                p.timer->setRepeating(true);
+                p.timer->start(
                     std::chrono::milliseconds(timeout),
                     [this](float)
                 {
@@ -181,10 +182,11 @@ namespace djv
 
             DirectoryWatcher::~DirectoryWatcher()
             {
-                _p->running = false;
-                if (_p->thread.joinable())
+                DJV_PRIVATE_PTR();
+                p.running = false;
+                if (p.thread.joinable())
                 {
-                    _p->thread.join();
+                    p.thread.join();
                 }
             }
 

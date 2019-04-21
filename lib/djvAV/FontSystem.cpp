@@ -286,7 +286,7 @@ namespace djv
             {
                 DJV_PRIVATE_PTR();
                 p.running = false;
-                if (_p->thread.joinable())
+                if (p.thread.joinable())
                 {
                     p.thread.join();
                 }

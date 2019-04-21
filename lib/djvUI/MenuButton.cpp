@@ -250,7 +250,7 @@ namespace djv
                 if (isEnabled(true))
                 {
                     event.accept();
-                    setChecked(!_p->checked);
+                    setChecked(!p.checked);
                 }
             }
 

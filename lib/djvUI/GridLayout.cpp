@@ -77,8 +77,9 @@ namespace djv
 
             glm::ivec2 Grid::getGridSize() const
             {
+                DJV_PRIVATE_PTR();
                 glm::ivec2 out = glm::ivec2(0, 0);
-                for (const auto & widget : _p->widgets)
+                for (const auto & widget : p.widgets)
                 {
                     out = glm::max(widget.first + 1, out);
                 }

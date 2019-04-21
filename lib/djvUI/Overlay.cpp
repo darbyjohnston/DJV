@@ -159,13 +159,14 @@ namespace djv
             void Overlay::setVisible(bool value)
             {
                 Widget::setVisible(value);
-                if (_p->fadeIn && _p->fadeAnimation)
+                DJV_PRIVATE_PTR();
+                if (p.fadeIn && p.fadeAnimation)
                 {
                     setOpacity(0.f);
                     if (value)
                     {
                         auto weak = std::weak_ptr<Overlay>(std::dynamic_pointer_cast<Overlay>(shared_from_this()));
-                        _p->fadeAnimation->start(
+                        p.fadeAnimation->start(
                             getOpacity(),
                             1.f,
                             std::chrono::milliseconds(100),

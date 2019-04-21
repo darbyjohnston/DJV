@@ -131,18 +131,18 @@ namespace djv
                 const auto absolute = FileSystem::Path::getAbsolute(value);
                 if (p.path->setIfChanged(absolute))
                 {
-                    _p->hasUp->setIfChanged(!absolute.isRoot());
-                    auto history = _p->history->get();
-                    while (history.size() ? (_p->historyIndex->get() < history.size() - 1) : false)
+                    p.hasUp->setIfChanged(!absolute.isRoot());
+                    auto history = p.history->get();
+                    while (history.size() ? (p.historyIndex->get() < history.size() - 1) : false)
                     {
                         history.pop_back();
                     }
                     const size_t historyIndex = history.size();
                     history.push_back(absolute);
-                    _p->history->setIfChanged(history);
-                    _p->historyIndex->setIfChanged(historyIndex);
-                    _p->hasBack->setIfChanged(_p->historyIndex->get() > 0);
-                    _p->hasForward->setIfChanged(history.size() ? (_p->historyIndex->get() < history.size() - 1) : false);
+                    p.history->setIfChanged(history);
+                    p.historyIndex->setIfChanged(historyIndex);
+                    p.hasBack->setIfChanged(p.historyIndex->get() > 0);
+                    p.hasForward->setIfChanged(history.size() ? (p.historyIndex->get() < history.size() - 1) : false);
                     _updatePath();
                 }
             }

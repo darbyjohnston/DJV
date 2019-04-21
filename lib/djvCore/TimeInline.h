@@ -33,21 +33,21 @@ namespace djv
     {
         namespace Time
         {
-            inline void secondsToTime(double in, int & hour, int & minute, double & seconds)
+            inline void secondsToTime(double in, int& hour, int& minute, double& seconds)
             {
-                hour = static_cast<int>(in) / (60 * 60);
-                in -= static_cast<double>(hour * 60 * 60);
-                minute = static_cast<int>(in) / 60;
-                in -= static_cast<double>(minute * 60);
-                seconds = in;
+                hour     = in / 60 * 60;
+                in      -= static_cast<int64_t>(hour) * static_cast<int64_t>(60) * static_cast<int64_t>(60);
+                minute   = in / 60;
+                in      -= static_cast<int64_t>(minute) * static_cast<int64_t>(60);
+                seconds  = in;
             }
 
             inline void timecodeToTime(
                 uint32_t in,
-                int &    hour,
-                int &    minute,
-                int &    seconds,
-                int &    frame)
+                int& hour,
+                int& minute,
+                int& seconds,
+                int& frame)
             {
                 hour    = (in >> 28 & 0x0f) * 10 + (in >> 24 & 0x0f);
                 minute  = (in >> 20 & 0x0f) * 10 + (in >> 16 & 0x0f);
@@ -77,7 +77,13 @@ namespace djv
                 int seconds = 0;
                 int frame   = 0;
                 timecodeToTime(in, hour, minute, seconds, frame);
-                return static_cast<int64_t>((hour * 60 * 60 + minute * 60 + seconds) * Speed::speedToFloat(speed) + frame);
+                return (
+                    static_cast<int64_t>(hour) * static_cast<int64_t>(60) * static_cast<int64_t>(60) +
+                    static_cast<int64_t>(minute) * static_cast<int64_t>(60) +
+                    static_cast<int64_t>(seconds)
+                    ) *
+                    static_cast<double>(Speed::speedToFloat(speed)) +
+                    static_cast<int64_t>(frame);
             }
 
             inline uint32_t frameToTimecode(int64_t frame, const Speed & speed)
@@ -86,11 +92,11 @@ namespace djv
                     return 0;
                 const float speedF = Speed::speedToFloat(speed);
                 const int hour = static_cast<int>(frame / (speedF * 60 * 60));
-                frame -= static_cast<int64_t>(hour * speedF * 60 * 60);
+                frame -= static_cast<int64_t>(hour) * double(speedF) * static_cast<int64_t>(60) * static_cast<int64_t>(60);
                 const int minute = static_cast<int>(frame / (speedF * 60));
-                frame -= static_cast<int64_t>(minute * speedF * 60);
+                frame -= static_cast<int64_t>(minute) * double(speedF) * static_cast<int64_t>(60);
                 const int second = static_cast<int>(frame / speedF);
-                frame -= static_cast<int64_t>(second * speedF);
+                frame -= static_cast<int64_t>(second) * double(speedF);
                 return timeToTimecode(hour, minute, second, static_cast<int>(frame));
             }
 

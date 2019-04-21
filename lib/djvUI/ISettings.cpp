@@ -49,8 +49,9 @@ namespace djv
 
             void ISettings::_init(const std::string & name, Context * context)
             {
-                _p->context = context;
-                _p->name = name;
+                DJV_PRIVATE_PTR();
+                p.context = context;
+                p.name = name;
 
                 if (auto system = context->getSystemT<System>())
                 {

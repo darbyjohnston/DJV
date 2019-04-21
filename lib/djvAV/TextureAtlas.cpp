@@ -155,14 +155,15 @@ namespace djv
             TextureAtlas::TextureAtlas(size_t textureCount, int textureSize, Image::Type textureType, GLenum filter, int border) :
                 _p(new Private)
             {
-                _p->textureCount = textureCount;
-                _p->textureSize = textureSize;
-                _p->textureType = textureType;
+                DJV_PRIVATE_PTR();
+                p.textureCount = textureCount;
+                p.textureSize = textureSize;
+                p.textureType = textureType;
 
-                for (size_t i = 0; i < _p->textureCount; ++i)
+                for (size_t i = 0; i < p.textureCount; ++i)
                 {
                     auto texture = OpenGL::Texture::create(Image::Info(textureSize, textureSize, textureType), filter);
-                    _p->textures.push_back(std::move(texture));
+                    p.textures.push_back(std::move(texture));
 
                     auto node = new BoxPackingNode(border);
                     node->bbox.min.x = 0;
@@ -170,13 +171,14 @@ namespace djv
                     node->bbox.max.x = textureSize - 1;
                     node->bbox.max.y = textureSize - 1;
                     node->textureIndex = i;
-                    _p->boxPackingNodes.push_back(node);
+                    p.boxPackingNodes.push_back(node);
                 }
             }
 
             TextureAtlas::~TextureAtlas()
             {
-                for (auto i : _p->boxPackingNodes)
+                DJV_PRIVATE_PTR();
+                for (auto i : p.boxPackingNodes)
                 {
                     delete i;
                 }
@@ -199,8 +201,9 @@ namespace djv
 
             std::vector<GLuint> TextureAtlas::getTextures() const
             {
+                DJV_PRIVATE_PTR();
                 std::vector<GLuint> out;
-                for (const auto & i : _p->textures)
+                for (const auto & i : p.textures)
                 {
                     out.push_back(i->getID());
                 }
@@ -209,8 +212,9 @@ namespace djv
 
             bool TextureAtlas::getItem(UID uid, TextureAtlasItem & out)
             {
-                const auto & i = _p->cache.find(uid);
-                if (i != _p->cache.end())
+                DJV_PRIVATE_PTR();
+                const auto & i = p.cache.find(uid);
+                if (i != p.cache.end())
                 {
                     _toTextureAtlasItem(i->second, out);
                     return true;
@@ -220,16 +224,18 @@ namespace djv
 
             UID TextureAtlas::addItem(const std::shared_ptr<Image::Data> & data, TextureAtlasItem & out)
             {
+                DJV_PRIVATE_PTR();
+
                 static UID _uid = 0;
 
-                for (size_t i = 0; i < _p->textureCount; ++i)
+                for (size_t i = 0; i < p.textureCount; ++i)
                 {
-                    if (auto node = _p->boxPackingNodes[i]->insert(data))
+                    if (auto node = p.boxPackingNodes[i]->insert(data))
                     {
                         // The data has been added to the atlas.
                         node->uid = ++_uid;
-                        _p->textures[node->textureIndex]->copy(*data, node->bbox.min + _p->border);
-                        _p->cache[node->uid] = node;
+                        p.textures[node->textureIndex]->copy(*data, node->bbox.min + p.border);
+                        p.cache[node->uid] = node;
                         _toTextureAtlasItem(node, out);
                         return node->uid;
                     }
@@ -237,16 +243,16 @@ namespace djv
 
                 // The atlas is full, over-write older data.
                 std::vector<BoxPackingNode *> nodes;
-                for (size_t i = 0; i < _p->textureCount; ++i)
+                for (size_t i = 0; i < p.textureCount; ++i)
                 {
-                    _getAllNodes(_p->boxPackingNodes[i], nodes);
+                    _getAllNodes(p.boxPackingNodes[i], nodes);
                 }
                 std::sort(nodes.begin(), nodes.end(),
                     [](const BoxPackingNode * a, const BoxPackingNode * b) -> bool
                 {
                     return a->timestamp < b->timestamp;
                 });
-                const glm::ivec2 dataSize = data->getSize() + _p->border * 2;
+                const glm::ivec2 dataSize = data->getSize() + p.border * 2;
                 for (auto node : nodes)
                 {
                     const glm::ivec2 nodeSize = node->bbox.getSize();
@@ -269,12 +275,12 @@ namespace djv
                             node->uid = ++_uid;
 
                             //! \todo [1.0 M] Do we need to zero out the old data?
-                            //auto zero = Image::Data::create(Image::Info(data->getSize() + _p->border * 2, _p->textureType));
+                            //auto zero = Image::Data::create(Image::Info(data->getSize() + p.border * 2, p.textureType));
                             //zero->zero();
-                            //_p->textures[node->texture]->copy(zero, node->bbox.min);
+                            //p.textures[node->texture]->copy(zero, node->bbox.min);
 
-                            _p->textures[node->textureIndex]->copy(*data, node->bbox.min + _p->border);
-                            _p->cache[node->uid] = node;
+                            p.textures[node->textureIndex]->copy(*data, node->bbox.min + p.border);
+                            p.cache[node->uid] = node;
                             _toTextureAtlasItem(node, out);
 
                             return node->uid;
@@ -286,12 +292,13 @@ namespace djv
 
             float TextureAtlas::getPercentageUsed() const
             {
+                DJV_PRIVATE_PTR();
                 float out = 0.f;
-                for (size_t i = 0; i < _p->textureCount; ++i)
+                for (size_t i = 0; i < p.textureCount; ++i)
                 {
                     size_t used = 0;
                     std::vector<const BoxPackingNode *> leafs;
-                    _getLeafNodes(_p->boxPackingNodes[i], leafs);
+                    _getLeafNodes(p.boxPackingNodes[i], leafs);
                     for (const auto & i : leafs)
                     {
                         if (i->isOccupied())
@@ -301,7 +308,7 @@ namespace djv
                     }
                     out += used;
                 }
-                return out / static_cast<float>(_p->textureSize * _p->textureSize) / static_cast<float>(_p->textureCount) * 100.f;
+                return out / static_cast<float>(p.textureSize * p.textureSize) / static_cast<float>(p.textureCount) * 100.f;
             }
 
             void TextureAtlas::_getAllNodes(BoxPackingNode * node, std::vector<BoxPackingNode *> & out)
@@ -329,23 +336,25 @@ namespace djv
 
             void TextureAtlas::_toTextureAtlasItem(const BoxPackingNode * node, TextureAtlasItem & out)
             {
+                DJV_PRIVATE_PTR();
                 out.size = node->bbox.getSize();
                 out.textureIndex = node->textureIndex;
                 out.textureU = FloatRange(
-                    (node->bbox.min.x + _p->border)     / static_cast<float>(_p->textureSize),
-                    (node->bbox.max.x - _p->border + 1) / static_cast<float>(_p->textureSize));
+                    (node->bbox.min.x + p.border)     / static_cast<float>(p.textureSize),
+                    (node->bbox.max.x - p.border + 1) / static_cast<float>(p.textureSize));
                 out.textureV = FloatRange(
-                    (node->bbox.min.y + _p->border)     / static_cast<float>(_p->textureSize),
-                    (node->bbox.max.y - _p->border + 1) / static_cast<float>(_p->textureSize));
+                    (node->bbox.min.y + p.border)     / static_cast<float>(p.textureSize),
+                    (node->bbox.max.y - p.border + 1) / static_cast<float>(p.textureSize));
             }
 
             void TextureAtlas::_removeFromAtlas(BoxPackingNode * node)
             {
-                auto i = _p->cache.find(node->uid);
-                if (i != _p->cache.end())
+                DJV_PRIVATE_PTR();
+                auto i = p.cache.find(node->uid);
+                if (i != p.cache.end())
                 {
                     node->uid = 0;
-                    _p->cache.erase(i);
+                    p.cache.erase(i);
                 }
                 if (node->isBranch())
                 {

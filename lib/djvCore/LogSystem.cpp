@@ -88,10 +88,12 @@ namespace djv
         {
             ISystemBase::_init(name, context);
 
-            _p->path = path;
+            DJV_PRIVATE_PTR();
 
-            _p->running = true;
-            _p->thread = std::thread(
+            p.path = path;
+
+            p.running = true;
+            p.thread = std::thread(
                 [this]
             {
                 DJV_PRIVATE_PTR();
@@ -139,10 +141,11 @@ namespace djv
 
         LogSystem::~LogSystem()
         {
-            _p->running = false;
-            if (_p->thread.joinable())
+            DJV_PRIVATE_PTR();
+            p.running = false;
+            if (p.thread.joinable())
             {
-                _p->thread.join();
+                p.thread.join();
             }
         }
         

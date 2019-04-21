@@ -156,7 +156,7 @@ namespace djv
                 DJV_PRIVATE_PTR();
                 if (p.open)
                 {
-                    const BBox2f & g = _p->layout->getGeometry();
+                    const BBox2f & g = p.layout->getGeometry();
                     auto style = _getStyle();
                     const float b = style->getMetric(MetricsRole::Border);
                     auto render = _getRender();

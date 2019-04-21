@@ -164,8 +164,8 @@ namespace djv
                 for (const auto& i : locales)
                 {
                     std::string font;
-                    auto k = _p->localeFonts.find(i);
-                    if (k != _p->localeFonts.end())
+                    auto k = p.localeFonts.find(i);
+                    if (k != p.localeFonts.end())
                     {
                         font = k->second;
                     }

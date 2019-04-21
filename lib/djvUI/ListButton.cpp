@@ -259,8 +259,9 @@ namespace djv
 
             void List::_widgetUpdate()
             {
-                _p->icon->setVisible(!_p->icon->getIcon().empty());
-                _p->label->setVisible(!_p->label->getText().empty());
+                DJV_PRIVATE_PTR();
+                p.icon->setVisible(!p.icon->getIcon().empty());
+                p.label->setVisible(!p.label->getText().empty());
             }
 
         } // namespace Button

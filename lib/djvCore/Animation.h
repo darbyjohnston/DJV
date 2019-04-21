@@ -108,15 +108,15 @@ namespace djv
             private:
                 void _tick(float dt);
 
-                Type _type = Type::Linear;
-                Function _function;
-                bool _repeating = false;
-                bool _active = false;
-                float _begin = 0.f;
-                float _end = 0.f;
-                std::chrono::milliseconds _timeout;
-                Callback _callback;
-                Callback _endCallback;
+                Type                      _type        = Type::Linear;
+                Function                  _function;
+                bool                      _repeating   = false;
+                bool                      _active      = false;
+                float                     _begin       = 0.f;
+                float                     _end         = 0.f;
+                std::chrono::milliseconds _timeout     = std::chrono::milliseconds(0);
+                Callback                  _callback;
+                Callback                  _endCallback;
                 std::chrono::time_point<std::chrono::system_clock> _start;
 
                 friend class System;

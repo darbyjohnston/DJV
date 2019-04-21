@@ -813,7 +813,7 @@ namespace djv
                         break;
                     }
                     auto iconSystem = _getIconSystem();
-                    _p->iconsFutures[type] = iconSystem->getIcon(name, p.thumbnailSize.y);
+                    p.iconsFutures[type] = iconSystem->getIcon(name, p.thumbnailSize.y);
                 }
             }
 

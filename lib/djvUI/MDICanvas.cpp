@@ -144,16 +144,18 @@ namespace djv
 
             glm::vec2 Canvas::getWidgetPos(const std::shared_ptr<IWidget> & widget) const
             {
-                const auto i = _p->widgetToPos.find(widget);
-                return i != _p->widgetToPos.end() ? i->second : glm::vec2(0.f, 0.f);
+                DJV_PRIVATE_PTR();
+                const auto i = p.widgetToPos.find(widget);
+                return i != p.widgetToPos.end() ? i->second : glm::vec2(0.f, 0.f);
             }
 
             void Canvas::setWidgetPos(const std::shared_ptr<IWidget> & widget, const glm::vec2 & pos)
             {
-                const auto i = _p->widgetToPos.find(widget);
-                if (i != _p->widgetToPos.end())
+                DJV_PRIVATE_PTR();
+                const auto i = p.widgetToPos.find(widget);
+                if (i != p.widgetToPos.end())
                 {
-                    _p->widgetToPos[widget] = pos;
+                    p.widgetToPos[widget] = pos;
                     _resize();
                 }
             }
@@ -165,8 +167,9 @@ namespace djv
 
             void Canvas::_layoutEvent(Event::Layout &)
             {
+                DJV_PRIVATE_PTR();
                 const BBox2f & g = getGeometry();
-                for (auto & i : _p->widgetToPos)
+                for (auto & i : p.widgetToPos)
                 {
                     const glm::vec2& widgetMinimumSize = i.first->getMinimumSize();
                     i.second.x = Math::clamp(i.second.x, g.min.x, g.max.x - widgetMinimumSize.x);

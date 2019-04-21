@@ -162,8 +162,9 @@ namespace djv
 
         void IDialog::setTitle(const std::string & text)
         {
-            _p->titleLabel->setText(text);
-            _p->titleLabel->setVisible(!text.empty());
+            DJV_PRIVATE_PTR();
+            p.titleLabel->setText(text);
+            p.titleLabel->setVisible(!text.empty());
         }
 
         void IDialog::setStretch(const std::shared_ptr<Widget> & widget, RowStretch value)
@@ -186,8 +187,9 @@ namespace djv
         void IDialog::setVisible(bool value)
         {
             Widget::setVisible(value);
-            _p->overlay->moveToFront();
-            _p->overlay->setVisible(value);
+            DJV_PRIVATE_PTR();
+            p.overlay->moveToFront();
+            p.overlay->setVisible(value);
         }
 
         float IDialog::getHeightForWidth(float value) const

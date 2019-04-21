@@ -314,18 +314,18 @@ namespace djv
             }
             else
             {
-                _p->duration = 0;
-                _p->currentTime = 0;
-                _p->speed = Time::Speed();
-                _p->infoObserver.reset();
-                _p->durationObserver.reset();
-                _p->currentTimeObserver2.reset();
-                _p->playbackObserver.reset();
-                _p->volumeObserver.reset();
-                _p->muteObserver.reset();
+                p.duration = 0;
+                p.currentTime = 0;
+                p.speed = Time::Speed();
+                p.infoObserver.reset();
+                p.durationObserver.reset();
+                p.currentTimeObserver2.reset();
+                p.playbackObserver.reset();
+                p.volumeObserver.reset();
+                p.muteObserver.reset();
                 _widgetUpdate();
             }
-            _p->timelineSlider->setMedia(p.media);
+            p.timelineSlider->setMedia(p.media);
         }
 
         void MediaWidget::_preLayoutEvent(Event::PreLayout & event)

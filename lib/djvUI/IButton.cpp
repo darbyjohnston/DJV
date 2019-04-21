@@ -123,41 +123,46 @@ namespace djv
 
             void IButton::setForegroundColorRole(ColorRole value)
             {
-                if (value == _p->foregroundColorRole)
+                DJV_PRIVATE_PTR();
+                if (value == p.foregroundColorRole)
                     return;
-                _p->foregroundColorRole = value;
+                p.foregroundColorRole = value;
                 _redraw();
             }
 
             void IButton::setHoveredColorRole(ColorRole value)
             {
-                if (_p->hoveredColorRole == value)
+                DJV_PRIVATE_PTR();
+                if (p.hoveredColorRole == value)
                     return;
-                _p->hoveredColorRole = value;
+                p.hoveredColorRole = value;
                 _redraw();
             }
 
             void IButton::setPressedColorRole(ColorRole value)
             {
-                if (_p->pressedColorRole == value)
+                DJV_PRIVATE_PTR();
+                if (p.pressedColorRole == value)
                     return;
-                _p->pressedColorRole = value;
+                p.pressedColorRole = value;
                 _redraw();
             }
 
             void IButton::setCheckedColorRole(ColorRole value)
             {
-                if (_p->checkedColorRole == value)
+                DJV_PRIVATE_PTR();
+                if (p.checkedColorRole == value)
                     return;
-                _p->checkedColorRole = value;
+                p.checkedColorRole = value;
                 _redraw();
             }
 
             void IButton::setDisabledColorRole(ColorRole value)
             {
-                if (_p->disabledColorRole == value)
+                DJV_PRIVATE_PTR();
+                if (p.disabledColorRole == value)
                     return;
-                _p->disabledColorRole = value;
+                p.disabledColorRole = value;
                 _redraw();
             }
 

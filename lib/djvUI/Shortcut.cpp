@@ -51,8 +51,9 @@ namespace djv
 
         void Shortcut::_init()
         {
-            _p->shortcutKey = ValueSubject<int>::create(0);
-            _p->shortcutModifiers = ValueSubject<int>::create(0);
+            DJV_PRIVATE_PTR();
+            p.shortcutKey = ValueSubject<int>::create(0);
+            p.shortcutModifiers = ValueSubject<int>::create(0);
         }
 
         Shortcut::Shortcut() :
@@ -113,9 +114,10 @@ namespace djv
 
         void Shortcut::doCallback()
         {
-            if (_p->callback)
+            DJV_PRIVATE_PTR();
+            if (p.callback)
             {
-                _p->callback();
+                p.callback();
             }
         }
 

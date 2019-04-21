@@ -330,35 +330,37 @@ namespace djv
 
         void FileSystem::open(const std::string & fileName, const glm::vec2 & pos)
         {
+            DJV_PRIVATE_PTR();
             auto context = getContext();
             auto windowSystem = context->getSystemT<WindowSystem>();
             if (WindowMode::SDI == windowSystem->observeWindowMode()->get())
             {
-                if (auto media = _p->currentMedia->get())
+                if (auto media = p.currentMedia->get())
                 {
-                    const size_t index = _p->media->indexOf(media);
+                    const size_t index = p.media->indexOf(media);
                     if (index != invalidListIndex)
                     {
-                        _p->media->removeItem(index);
-                        _p->closed->setAlways(media);
+                        p.media->removeItem(index);
+                        p.closed->setAlways(media);
                     }
                 }
             }
             auto media = Media::create(fileName, context);
-            _p->media->pushBack(media);
-            _p->opened->setAlways(std::make_pair(media, pos));
-            _p->currentMedia->setAlways(media);
-            _p->recentFilesModel->addFile(fileName);
+            p.media->pushBack(media);
+            p.opened->setAlways(std::make_pair(media, pos));
+            p.currentMedia->setAlways(media);
+            p.recentFilesModel->addFile(fileName);
         }
 
         void FileSystem::close(const std::shared_ptr<Media> & media)
         {
-            size_t index = _p->media->indexOf(media);
+            DJV_PRIVATE_PTR();
+            size_t index = p.media->indexOf(media);
             if (index != invalidListIndex)
             {
-                _p->media->removeItem(index);
-                _p->closed->setAlways(media);
-                const size_t size = _p->media->getSize();
+                p.media->removeItem(index);
+                p.closed->setAlways(media);
+                const size_t size = p.media->getSize();
                 std::shared_ptr<Media> current;
                 if (size > 0)
                 {
@@ -366,16 +368,16 @@ namespace djv
                     {
                         --index;
                     }
-                    current = _p->media->getItem(index);
+                    current = p.media->getItem(index);
                 }
-                _p->currentMedia->setIfChanged(current);
+                p.currentMedia->setIfChanged(current);
             }
         }
 
         void FileSystem::setCurrentMedia(const std::shared_ptr<Media> & media)
         {
             DJV_PRIVATE_PTR();
-            if (_p->currentMedia->setIfChanged(media))
+            if (p.currentMedia->setIfChanged(media))
             {
                 p.actions["Close"]->setEnabled(media ? true : false);
                 p.actions["Export"]->setEnabled(media ? true : false);

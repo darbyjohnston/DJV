@@ -227,7 +227,7 @@ namespace djv
         {
             DJV_PRIVATE_PTR();
             ImageRequest request;
-            request.path = _p->getPath(name, _p->findClosestDPI(size), getContext());
+            request.path = p.getPath(name, p.findClosestDPI(size), getContext());
             auto future = request.promise.get_future();
             {
                 std::unique_lock<std::mutex> lock(p.requestMutex);

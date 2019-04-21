@@ -171,8 +171,9 @@ namespace djv
 
         Path ResourceSystem::getPath(ResourcePath value) const
         {
-            const auto i = _p->paths.find(value);
-            return i != _p->paths.end() ? i->second : Path();
+            DJV_PRIVATE_PTR();
+            const auto i = p.paths.find(value);
+            return i != p.paths.end() ? i->second : Path();
         }
 
     } // namespace Core

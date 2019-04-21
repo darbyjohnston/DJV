@@ -47,14 +47,16 @@ namespace djv
         void Window::_init(Context * context)
         {
             Widget::_init(context);
+
+            DJV_PRIVATE_PTR();
             
             setClassName("djv::UI::Window");
             setVisible(false);
             setBackgroundRole(ColorRole::Background);
             setPointerEnabled(true);
 
-            _p->layout = StackLayout::create(context);
-            Widget::addChild(_p->layout);
+            p.layout = StackLayout::create(context);
+            Widget::addChild(p.layout);
         }
 
         Window::Window() :

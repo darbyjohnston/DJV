@@ -99,10 +99,11 @@ namespace djv
 
             DrivesModel::~DrivesModel()
             {
-                _p->running = false;
-                if (_p->thread.joinable())
+                DJV_PRIVATE_PTR();
+                p.running = false;
+                if (p.thread.joinable())
                 {
-                    _p->thread.join();
+                    p.thread.join();
                 }
             }
 

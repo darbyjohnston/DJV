@@ -190,14 +190,14 @@ namespace djv
                     }
                 });
 
-                _p->iconObservers[menu] = ValueObserver<std::string>::create(
+                p.iconObservers[menu] = ValueObserver<std::string>::create(
                     menu->observeIcon(),
                     [button](const std::string & value)
                 {
                     button->setIcon(value);
                 });
 
-                _p->textObservers[menu] = ValueObserver<std::string>::create(
+                p.textObservers[menu] = ValueObserver<std::string>::create(
                     menu->observeText(),
                     [button](const std::string & value)
                 {
@@ -206,7 +206,7 @@ namespace djv
             }
             else if (auto widget = std::dynamic_pointer_cast<Widget>(value))
             {
-                _p->widgetLayout->addChild(widget);
+                p.widgetLayout->addChild(widget);
             }
         }
 
@@ -220,7 +220,7 @@ namespace djv
                     const auto i = p.menusToButtons.find(menu);
                     if (i != p.menusToButtons.end())
                     {
-                        _p->menuLayout->removeChild(i->second);
+                        p.menuLayout->removeChild(i->second);
                         p.menusToButtons.erase(i);
                     }
                 }
@@ -242,7 +242,7 @@ namespace djv
             }
             else if (auto widget = std::dynamic_pointer_cast<Widget>(value))
             {
-                _p->widgetLayout->removeChild(widget);
+                p.widgetLayout->removeChild(widget);
             }
         }
 

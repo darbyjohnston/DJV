@@ -174,7 +174,7 @@ namespace djv
                 Update updateEvent(p.t, dt);
                 _updateRecursive(p.rootObject, updateEvent);
 
-                Event::PointerMove moveEvent(_p->pointerInfo);
+                Event::PointerMove moveEvent(p.pointerInfo);
                 if (p.grab)
                 {
                     /*{
@@ -199,7 +199,7 @@ namespace djv
                                 _setHover(parent);
                                 if (p.hover)
                                 {
-                                    auto info = _p->pointerInfo;
+                                    auto info = p.pointerInfo;
                                     info.buttons[info.id] = true;
                                     Event::ButtonPress buttonPressEvent(info);
                                     p.hover->event(buttonPressEvent);
@@ -259,7 +259,7 @@ namespace djv
             void IEventSystem::_buttonPress(int button)
             {
                 DJV_PRIVATE_PTR();
-                auto info = _p->pointerInfo;
+                auto info = p.pointerInfo;
                 info.buttons[button] = true;
                 Event::ButtonPress event(info);
                 auto object = p.hover;
@@ -278,7 +278,7 @@ namespace djv
             void IEventSystem::_buttonRelease(int button)
             {
                 DJV_PRIVATE_PTR();
-                auto info = _p->pointerInfo;
+                auto info = p.pointerInfo;
                 info.buttons[button] = false;
                 Event::ButtonRelease event(info);
                 if (p.grab)
@@ -293,7 +293,7 @@ namespace djv
                 DJV_PRIVATE_PTR();
                 if (p.hover)
                 {
-                    Event::Drop event(list, _p->pointerInfo);
+                    Event::Drop event(list, p.pointerInfo);
                     auto object = p.hover;
                     while (object)
                     {
@@ -312,7 +312,7 @@ namespace djv
                 DJV_PRIVATE_PTR();
                 if (p.textFocus || p.hover)
                 {
-                    Event::KeyPress event(key, modifiers, _p->pointerInfo);
+                    Event::KeyPress event(key, modifiers, p.pointerInfo);
                     auto object = p.textFocus ? p.textFocus : p.hover;
                     while (object)
                     {
@@ -330,7 +330,7 @@ namespace djv
             void IEventSystem::_keyRelease(int key, int modifiers)
             {
                 DJV_PRIVATE_PTR();
-                Event::KeyRelease event(key, modifiers, _p->pointerInfo);
+                Event::KeyRelease event(key, modifiers, p.pointerInfo);
                 if (p.keyGrab)
                 {
                     p.keyGrab->event(event);
@@ -393,13 +393,13 @@ namespace djv
                     return;
                 if (p.hover)
                 {
-                    Event::PointerLeave leaveEvent(_p->pointerInfo);
+                    Event::PointerLeave leaveEvent(p.pointerInfo);
                     p.hover->event(leaveEvent);
                 }
                 p.hover = value;
                 if (p.hover)
                 {
-                    Event::PointerEnter enterEvent(_p->pointerInfo);
+                    Event::PointerEnter enterEvent(p.pointerInfo);
                     p.hover->event(enterEvent);
                 }
             }

@@ -171,7 +171,7 @@ namespace djv
             DJV_PRIVATE_PTR();
             const BBox2f g = getGeometry();
             auto style = _getStyle();
-            _p->border->setGeometry(getAlign(getMargin().bbox(g, style), p.border->getMinimumSize(), HAlign::Fill, VAlign::Center));
+            p.border->setGeometry(getAlign(getMargin().bbox(g, style), p.border->getMinimumSize(), HAlign::Fill, VAlign::Center));
         }
 
     } // namespace UI

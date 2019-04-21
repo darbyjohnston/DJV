@@ -809,9 +809,10 @@ namespace djv
 
         void ScrollWidget::_preLayoutEvent(Event::PreLayout &)
         {
+            DJV_PRIVATE_PTR();
             auto style = _getStyle();
-            _setMinimumSize(_p->border->getMinimumSize() + getMargin().getSize(style));
-            _updateScrollBars(_p->scrollArea->getContentsSize());
+            _setMinimumSize(p.border->getMinimumSize() + getMargin().getSize(style));
+            _updateScrollBars(p.scrollArea->getContentsSize());
         }
 
         void ScrollWidget::_layoutEvent(Event::Layout &)

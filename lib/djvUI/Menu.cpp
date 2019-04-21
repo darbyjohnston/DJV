@@ -976,7 +976,7 @@ namespace djv
         void Menu::popup(const glm::vec2 & pos)
         {
             DJV_PRIVATE_PTR();
-            if (_p->count > 0)
+            if (p.count > 0)
             {
                 if (auto window = getWindow())
                 {
@@ -990,7 +990,7 @@ namespace djv
         void Menu::popup(const std::weak_ptr<Widget> & button)
         {
             DJV_PRIVATE_PTR();
-            if (_p->count > 0)
+            if (p.count > 0)
             {
                 if (auto window = getWindow())
                 {
@@ -1005,7 +1005,7 @@ namespace djv
         void Menu::popup(const std::weak_ptr<Widget> & button, const std::weak_ptr<Widget> & anchor)
         {
             DJV_PRIVATE_PTR();
-            if (_p->count > 0)
+            if (p.count > 0)
             {
                 if (auto window = getWindow())
                 {

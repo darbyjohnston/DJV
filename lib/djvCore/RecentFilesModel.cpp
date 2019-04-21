@@ -51,8 +51,9 @@ namespace djv
 
             void RecentFilesModel::_init(Context * context)
             {
-                _p->files = ListSubject<FileInfo>::create();
-                _p->filesMax = ValueSubject<size_t>::create(filesMaxDefault);
+                DJV_PRIVATE_PTR();
+                p.files = ListSubject<FileInfo>::create();
+                p.filesMax = ValueSubject<size_t>::create(filesMaxDefault);
             }
 
             RecentFilesModel::RecentFilesModel() :
@@ -73,11 +74,12 @@ namespace djv
 
             void RecentFilesModel::setFiles(std::vector<FileInfo> value)
             {
-                while (value.size() > _p->filesMax->get())
+                DJV_PRIVATE_PTR();
+                while (value.size() > p.filesMax->get())
                 {
                     value.pop_back();
                 }
-                _p->files->setIfChanged(value);
+                p.files->setIfChanged(value);
             }
 
             void RecentFilesModel::addFile(const FileInfo & value)

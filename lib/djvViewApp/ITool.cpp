@@ -139,10 +139,11 @@ namespace djv
 
         void ITool::addChild(const std::shared_ptr<IObject> & value)
         {
-            _p->childLayout->addChild(value);
+            DJV_PRIVATE_PTR();
+            p.childLayout->addChild(value);
             if (auto widget = std::dynamic_pointer_cast<Widget>(value))
             {
-                _p->childLayout->setStretch(widget, UI::RowStretch::Expand);
+                p.childLayout->setStretch(widget, UI::RowStretch::Expand);
             }
         }
 

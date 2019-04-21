@@ -84,7 +84,7 @@ namespace djv
             if (p.nuxWidget)
             {
                 p.mainWindow->addChild(p.nuxWidget);
-                _p->nuxWidget->setFinishCallback(
+                p.nuxWidget->setFinishCallback(
                     [this]
                 {
                     _p->mainWindow->removeChild(_p->nuxWidget);

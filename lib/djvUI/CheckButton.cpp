@@ -78,14 +78,15 @@ namespace djv
 
             void Check::_preLayoutEvent(Event::PreLayout & event)
             {
+                DJV_PRIVATE_PTR();
                 auto style = _getStyle();
                 const float m = style->getMetric(Style::MetricsRole::MarginSmall);
                 auto fontSystem = _getFontSystem();
                 const auto fontMetrics = fontSystem->getMetrics(style->getFontInfo(AV::Font::faceDefault, Style::MetricsRole::FontMedium)).get();
-                _p->lineHeight = static_cast<float>(fontMetrics.lineHeight);
+                p.lineHeight = static_cast<float>(fontMetrics.lineHeight);
                 glm::vec2 minimumSize = glm::vec2(0.f, 0.f);
-                minimumSize.x = _p->lineHeight * buttonWidth + m * 2.f;
-                minimumSize.y = _p->lineHeight + m * 2.f;
+                minimumSize.x = p.lineHeight * buttonWidth + m * 2.f;
+                minimumSize.y = p.lineHeight + m * 2.f;
                 _setMinimumSize(minimumSize);
             }
 
@@ -93,6 +94,7 @@ namespace djv
             {
                 Widget::_paintEvent(event);
 
+                DJV_PRIVATE_PTR();
                 auto style = _getStyle();
                 const float b = style->getMetric(Style::MetricsRole::Border);
                 const float m = style->getMetric(Style::MetricsRole::MarginSmall);
@@ -100,10 +102,10 @@ namespace djv
                 const glm::vec2 c = g.getCenter();
 
                 BBox2f g1;
-                g1.min.x = ceilf(c.x - (_p->lineHeight * buttonWidth) / 2.f);
-                g1.min.y = ceilf(c.y - (_p->lineHeight * buttonHeight) / 2.f);
-                g1.max.x = g1.min.x + _p->lineHeight * buttonWidth;
-                g1.max.y = g1.min.y + _p->lineHeight * buttonHeight;
+                g1.min.x = ceilf(c.x - (p.lineHeight * buttonWidth) / 2.f);
+                g1.min.y = ceilf(c.y - (p.lineHeight * buttonHeight) / 2.f);
+                g1.max.x = g1.min.x + p.lineHeight * buttonWidth;
+                g1.max.y = g1.min.y + p.lineHeight * buttonHeight;
                 auto render = _getRender();
                 render->setFillColor(_getColorWithOpacity(style->getColor(ColorRole::Border)));
                 render->drawRect(g1);

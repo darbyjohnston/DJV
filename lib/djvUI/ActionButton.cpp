@@ -155,9 +155,10 @@ namespace djv
             void ActionButton::setChecked(bool value)
             {
                 IButton::setChecked(value);
-                _p->icon->setIconColorRole(value ? getCheckedColorRole() : getForegroundColorRole());
-                _p->textLabel->setTextColorRole(value ? getCheckedColorRole() : getForegroundColorRole());
-                _p->shortcutsLabel->setTextColorRole(value ? getCheckedColorRole() : getForegroundColorRole());
+                DJV_PRIVATE_PTR();
+                p.icon->setIconColorRole(value ? getCheckedColorRole() : getForegroundColorRole());
+                p.textLabel->setTextColorRole(value ? getCheckedColorRole() : getForegroundColorRole());
+                p.shortcutsLabel->setTextColorRole(value ? getCheckedColorRole() : getForegroundColorRole());
             }
 
             void ActionButton::addAction(const std::shared_ptr<Action> & value)
