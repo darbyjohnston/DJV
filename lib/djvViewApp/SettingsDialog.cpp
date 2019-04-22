@@ -65,7 +65,7 @@ namespace djv
 
             for (auto system : context->getSystemsT<IViewSystem>())
             {
-                for (auto widget : system->getSettingsWidgets())
+                for (auto widget : system->createSettingsWidgets())
                 {
                     p.widgets[widget->getSettingsSortKey()].push_back(widget);
                 }

@@ -51,7 +51,6 @@ namespace djv
                 bool captureKeyboard = true;
                 std::weak_ptr<Widget> anchor;
                 bool fadeIn = true;
-                std::shared_ptr<Stack> layout;
                 std::shared_ptr<Animation::Animation> fadeAnimation;
                 std::map<Event::PointerID, bool> pressedIDs;
                 bool keyPress = false;
@@ -73,9 +72,6 @@ namespace djv
                 addAction(closeAction);
 
                 DJV_PRIVATE_PTR();
-                p.layout = Stack::create(context);
-                Widget::addChild(p.layout);
-
                 p.fadeAnimation = Animation::Animation::create(context);
 
                 auto weak = std::weak_ptr<Overlay>(std::dynamic_pointer_cast<Overlay>(shared_from_this()));
@@ -196,30 +192,20 @@ namespace djv
             {
                 auto style = _getStyle();
                 const glm::vec2 m = getMargin().getSize(style);
-                float out = _p->layout->getHeightForWidth(value - m.x) + m.y;
+                float out = Stack::heightForWidth(value - m.x, getChildrenT<Widget>(), Margin(), style) + m.y;
                 return out;
-            }
-
-            void Overlay::addChild(const std::shared_ptr<IObject> & value)
-            {
-                _p->layout->addChild(value);
-            }
-
-            void Overlay::removeChild(const std::shared_ptr<IObject> & value)
-            {
-                _p->layout->removeChild(value);
             }
 
             void Overlay::_preLayoutEvent(Event::PreLayout & event)
             {
                 auto style = _getStyle();
-                _setMinimumSize(_p->layout->getMinimumSize() + getMargin().getSize(style));
+                _setMinimumSize(Stack::minimumSize(getChildrenT<Widget>(), Margin(), style) + getMargin().getSize(style));
             }
 
             void Overlay::_layoutEvent(Event::Layout & event)
             {
                 auto style = _getStyle();
-                _p->layout->setGeometry(getMargin().bbox(getGeometry(), style));
+                Stack::layout(getMargin().bbox(getGeometry(), style), getChildrenT<Widget>(), Margin(), style);
             }
 
             void Overlay::_pointerEnterEvent(Core::Event::PointerEnter & event)

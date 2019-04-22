@@ -41,7 +41,6 @@
 #include <djvUI/Menu.h>
 #include <djvUI/PopupMenu.h>
 #include <djvUI/RowLayout.h>
-#include <djvUI/SoloLayout.h>
 
 #include <djvAV/Color.h>
 
@@ -179,7 +178,7 @@ namespace djv
             std::vector<std::shared_ptr<Label> > floatLabels;
             std::vector<std::shared_ptr<FloatEdit> > floatEdits;
             std::vector<std::shared_ptr<BasicFloatSlider> > floatSliders;
-            std::shared_ptr<SoloLayout> layout;
+            std::shared_ptr<GridLayout> layout;
             std::function<void(const AV::Image::Color &)> colorCallback;
             std::vector<std::shared_ptr<ValueObserver<int> > > intObservers;
             std::vector < std::shared_ptr<ValueObserver<float> > > floatObservers;
@@ -191,105 +190,12 @@ namespace djv
 
             DJV_PRIVATE_PTR();
 
-            auto intLayout = GridLayout::create(context);
-            intLayout->setSpacing(MetricsRole::SpacingSmall);
-            auto floatLayout = GridLayout::create(context);
-            floatLayout->setSpacing(MetricsRole::SpacingSmall);
-            for (size_t i = 0; i < static_cast<size_t>(AV::Image::ChannelType::Count) - 1; ++i)
-            {
-                auto intLabel = Label::create(context);
-                intLayout->addChild(intLabel);
-                intLayout->setGridPos(intLabel, 0, static_cast<int>(i));
-                p.intLabels.push_back(intLabel);
-
-                auto intEdit = IntEdit::create(context);
-                intLayout->addChild(intEdit);
-                intLayout->setGridPos(intEdit, 1, static_cast<int>(i));
-                p.intEdits.push_back(intEdit);
-
-                auto intSlider = BasicIntSlider::create(Orientation::Horizontal, context);
-                intLayout->addChild(intSlider);
-                intLayout->setGridPos(intSlider, 2, static_cast<int>(i));
-                intLayout->setStretch(intSlider, GridStretch::Horizontal);
-                intEdit->setModel(intSlider->getModel());
-                p.intSliders.push_back(intSlider);
-
-                auto floatLabel = Label::create(context);
-                floatLayout->addChild(floatLabel);
-                floatLayout->setGridPos(floatLabel, 0, static_cast<int>(i));
-                p.floatLabels.push_back(floatLabel);
-
-                auto floatEdit = FloatEdit::create(context);
-                floatLayout->addChild(floatEdit);
-                floatLayout->setGridPos(floatEdit, 1, static_cast<int>(i));
-                p.floatEdits.push_back(floatEdit);
-
-                auto floatSlider = BasicFloatSlider::create(Orientation::Horizontal, context);
-                floatLayout->addChild(floatSlider);
-                floatLayout->setGridPos(floatSlider, 2, static_cast<int>(i));
-                floatLayout->setStretch(floatSlider, GridStretch::Horizontal);
-                floatEdit->setModel(floatSlider->getModel());
-                p.floatSliders.push_back(floatSlider);
-            }
-
-            p.layout = SoloLayout::create(context);
-            p.layout->addChild(intLayout);
-            p.layout->addChild(floatLayout);
+            p.layout = GridLayout::create(context);
             addChild(p.layout);
 
+            _colorTypeUpdate();
             _colorUpdate();
             _textUpdate();
-
-            auto weak = std::weak_ptr<RGBColorSliders>(std::dynamic_pointer_cast<RGBColorSliders>(shared_from_this()));
-            for (size_t i = 0; i < p.intSliders.size(); ++i)
-            {
-                p.intObservers.push_back(ValueObserver<int>::create(
-                    p.intSliders[i]->getModel()->observeValue(),
-                    [weak, i](int value)
-                {
-                    if (auto widget = weak.lock())
-                    {
-                        auto color = widget->_p->color;
-                        switch (AV::Image::getDataType(color.getType()))
-                        {
-                        case AV::Image::DataType::U8:  color.setU8 (static_cast<AV::Image::U8_T> (value), i); break;
-                        case AV::Image::DataType::U10: color.setU10(static_cast<AV::Image::U10_T>(value), i); break;
-                        case AV::Image::DataType::U16: color.setU16(static_cast<AV::Image::U16_T>(value), i); break;
-                        case AV::Image::DataType::U32: color.setU32(static_cast<AV::Image::U32_T>(value), i); break;
-                        default: break;
-                        }
-                        widget->setColor(color);
-                        if (widget->_p->colorCallback)
-                        {
-                            widget->_p->colorCallback(color);
-                        }
-                    }
-                }));
-            }
-
-            for (size_t i = 0; i < p.floatSliders.size(); ++i)
-            {
-                p.floatObservers.push_back(ValueObserver<float>::create(
-                    p.floatSliders[i]->getModel()->observeValue(),
-                    [weak, i](float value)
-                {
-                    if (auto widget = weak.lock())
-                    {
-                        auto color = widget->_p->color;
-                        switch (AV::Image::getDataType(color.getType()))
-                        {
-                        case AV::Image::DataType::F16: color.setF16(static_cast<AV::Image::F16_T>(value), i); break;
-                        case AV::Image::DataType::F32: color.setF32(static_cast<AV::Image::F32_T>(value), i); break;
-                        default: break;
-                        }
-                        widget->setColor(color);
-                        if (widget->_p->colorCallback)
-                        {
-                            widget->_p->colorCallback(color);
-                        }
-                    }
-                }));
-            }
         }
 
         RGBColorSliders::RGBColorSliders() :
@@ -316,7 +222,12 @@ namespace djv
             DJV_PRIVATE_PTR();
             if (value == p.color)
                 return;
+            const bool typeUpdate = value.getType() != p.color.getType();
             p.color = value;
+            if (typeUpdate)
+            {
+                _colorTypeUpdate();
+            }
             _colorUpdate();
             _textUpdate();
         }
@@ -343,62 +254,140 @@ namespace djv
             _textUpdate();
         }
 
+        void RGBColorSliders::_colorTypeUpdate()
+        {
+            DJV_PRIVATE_PTR();
+            p.intLabels.clear();
+            p.intEdits.clear();
+            p.intSliders.clear();
+            p.floatLabels.clear();
+            p.floatEdits.clear();
+            p.floatSliders.clear();
+            p.layout->clearChildren();
+            p.intObservers.clear();
+            p.floatObservers.clear();
+            const auto type = p.color.getType();
+            const size_t channelCount = AV::Image::getChannelCount(type);
+            auto context = getContext();
+            for (size_t i = 0; i < channelCount; ++i)
+            {
+                if (AV::Image::isIntType(type))
+                {
+                    auto intLabel = Label::create(context);
+                    p.layout->addChild(intLabel);
+                    p.layout->setGridPos(intLabel, 0, static_cast<int>(i));
+                    p.intLabels.push_back(intLabel);
+
+                    auto intEdit = IntEdit::create(context);
+                    p.layout->addChild(intEdit);
+                    p.layout->setGridPos(intEdit, 1, static_cast<int>(i));
+                    p.intEdits.push_back(intEdit);
+
+                    auto intSlider = BasicIntSlider::create(Orientation::Horizontal, context);
+                    p.layout->addChild(intSlider);
+                    p.layout->setGridPos(intSlider, 2, static_cast<int>(i));
+                    p.layout->setStretch(intSlider, GridStretch::Horizontal);
+                    intEdit->setModel(intSlider->getModel());
+                    p.intSliders.push_back(intSlider);
+                }
+                else
+                {
+                    auto floatLabel = Label::create(context);
+                    p.layout->addChild(floatLabel);
+                    p.layout->setGridPos(floatLabel, 0, static_cast<int>(i));
+                    p.floatLabels.push_back(floatLabel);
+
+                    auto floatEdit = FloatEdit::create(context);
+                    p.layout->addChild(floatEdit);
+                    p.layout->setGridPos(floatEdit, 1, static_cast<int>(i));
+                    p.floatEdits.push_back(floatEdit);
+
+                    auto floatSlider = BasicFloatSlider::create(Orientation::Horizontal, context);
+                    p.layout->addChild(floatSlider);
+                    p.layout->setGridPos(floatSlider, 2, static_cast<int>(i));
+                    p.layout->setStretch(floatSlider, GridStretch::Horizontal);
+                    floatEdit->setModel(floatSlider->getModel());
+                    p.floatSliders.push_back(floatSlider);
+                }
+            }
+            auto weak = std::weak_ptr<RGBColorSliders>(std::dynamic_pointer_cast<RGBColorSliders>(shared_from_this()));
+            for (size_t i = 0; i < channelCount; ++i)
+            {
+                if (AV::Image::isIntType(type))
+                {
+                    p.intObservers.push_back(ValueObserver<int>::create(
+                        p.intSliders[i]->getModel()->observeValue(),
+                        [weak, i](int value)
+                    {
+                        if (auto widget = weak.lock())
+                        {
+                            auto color = widget->_p->color;
+                            switch (AV::Image::getDataType(color.getType()))
+                            {
+                            case AV::Image::DataType::U8:  color.setU8(static_cast<AV::Image::U8_T> (value), i); break;
+                            case AV::Image::DataType::U10: color.setU10(static_cast<AV::Image::U10_T>(value), i); break;
+                            case AV::Image::DataType::U16: color.setU16(static_cast<AV::Image::U16_T>(value), i); break;
+                            case AV::Image::DataType::U32: color.setU32(static_cast<AV::Image::U32_T>(value), i); break;
+                            default: break;
+                            }
+                            widget->setColor(color);
+                            if (widget->_p->colorCallback)
+                            {
+                                widget->_p->colorCallback(color);
+                            }
+                        }
+                    }));
+                }
+                else
+                {
+                    p.floatObservers.push_back(ValueObserver<float>::create(
+                        p.floatSliders[i]->getModel()->observeValue(),
+                        [weak, i](float value)
+                    {
+                        if (auto widget = weak.lock())
+                        {
+                            auto color = widget->_p->color;
+                            switch (AV::Image::getDataType(color.getType()))
+                            {
+                            case AV::Image::DataType::F16: color.setF16(static_cast<AV::Image::F16_T>(value), i); break;
+                            case AV::Image::DataType::F32: color.setF32(static_cast<AV::Image::F32_T>(value), i); break;
+                            default: break;
+                            }
+                            widget->setColor(color);
+                            if (widget->_p->colorCallback)
+                            {
+                                widget->_p->colorCallback(color);
+                            }
+                        }
+                    }));
+                }
+            }
+        }
+
         void RGBColorSliders::_colorUpdate()
         {
             DJV_PRIVATE_PTR();
-
-            for (const auto & i : p.intLabels)
-            {
-                i->hide();
-            }
-            for (const auto & i : p.intEdits)
-            {
-                i->hide();
-            }
-            for (const auto & i : p.intSliders)
-            {
-                i->hide();
-            }
-            for (const auto & i : p.floatLabels)
-            {
-                i->hide();
-            }
-            for (const auto & i : p.floatEdits)
-            {
-                i->hide();
-            }
-            for (const auto & i : p.floatSliders)
-            {
-                i->hide();
-            }
             const auto type = p.color.getType();
             const size_t channelCount = AV::Image::getChannelCount(type);
-            if (AV::Image::isIntType(type))
+            auto context = getContext();
+            for (size_t i = 0; i < channelCount; ++i)
             {
-                p.layout->setCurrentIndex(0);
-                for (size_t i = 0; i < channelCount; ++i)
+                if (AV::Image::isIntType(type))
                 {
                     auto model = p.intSliders[i]->getModel();
                     model->setRange(AV::Image::getIntRange(type));
                     int v = 0;
                     switch (AV::Image::getDataType(type))
                     {
-                    case AV::Image::DataType::U8:  v = p.color.getU8 (i); break;
+                    case AV::Image::DataType::U8:  v = p.color.getU8(i); break;
                     case AV::Image::DataType::U10: v = p.color.getU10(i); break;
                     case AV::Image::DataType::U16: v = p.color.getU16(i); break;
                     case AV::Image::DataType::U32: v = p.color.getU32(i); break;
                     default: break;
                     }
                     model->setValue(v);
-                    p.intLabels [i]->show();
-                    p.intEdits  [i]->show();
-                    p.intSliders[i]->show();
                 }
-            }
-            else
-            {
-                p.layout->setCurrentIndex(1);
-                for (size_t i = 0; i < channelCount; ++i)
+                else
                 {
                     auto model = p.floatSliders[i]->getModel();
                     model->setRange(AV::Image::getFloatRange(type));
@@ -410,9 +399,6 @@ namespace djv
                     default: break;
                     }
                     model->setValue(v);
-                    p.floatLabels [i]->show();
-                    p.floatEdits  [i]->show();
-                    p.floatSliders[i]->show();
                 }
             }
         }
@@ -420,7 +406,9 @@ namespace djv
         void RGBColorSliders::_textUpdate()
         {
             DJV_PRIVATE_PTR();
-            switch (AV::Image::getChannelCount(p.color.getType()))
+            const auto type = p.color.getType();
+            const size_t channelCount = AV::Image::getChannelCount(type);
+            switch (channelCount)
             {
             case 1:
             {
@@ -428,18 +416,24 @@ namespace djv
                 {
                     _getText(DJV_TEXT("L"))
                 };
-                p.intLabels  [0]->setText(text[0]);
-                p.floatLabels[0]->setText(text[0]);
                 const std::vector<std::string> tooltips =
                 {
                     _getText(DJV_TEXT("RGB color sliders luminance tooltip"))
                 };
-                p.intLabels   [0]->setTooltip(tooltips[0]);
-                p.intEdits    [0]->setTooltip(tooltips[0]);
-                p.intSliders  [0]->setTooltip(tooltips[0]);
-                p.floatLabels [0]->setTooltip(tooltips[0]);
-                p.floatEdits  [0]->setTooltip(tooltips[0]);
-                p.floatSliders[0]->setTooltip(tooltips[0]);
+                if (AV::Image::isIntType(type))
+                {
+                    p.intLabels[0]->setText(text[0]);
+                    p.intLabels[0]->setTooltip(tooltips[0]);
+                    p.intEdits[0]->setTooltip(tooltips[0]);
+                    p.intSliders[0]->setTooltip(tooltips[0]);
+                }
+                else
+                {
+                    p.floatLabels[0]->setText(text[0]);
+                    p.floatLabels[0]->setTooltip(tooltips[0]);
+                    p.floatEdits[0]->setTooltip(tooltips[0]);
+                    p.floatSliders[0]->setTooltip(tooltips[0]);
+                }
                 break;
             }
             case 2:
@@ -449,24 +443,36 @@ namespace djv
                     _getText(DJV_TEXT("L")),
                     _getText(DJV_TEXT("A"))
                 };
-                for (size_t i = 0; i < 2; ++i)
-                {
-                    p.intLabels  [i]->setText(text[i]);
-                    p.floatLabels[i]->setText(text[i]);
-                }
                 const std::vector<std::string> tooltips =
                 {
                     _getText(DJV_TEXT("RGB color sliders luminance tooltip")),
                     _getText(DJV_TEXT("RGB color sliders alpha tooltip"))
                 };
-                for (size_t i = 0; i < 2; ++i)
+                if (AV::Image::isIntType(type))
                 {
-                    p.intLabels   [i]->setTooltip(tooltips[i]);
-                    p.intEdits    [i]->setTooltip(tooltips[i]);
-                    p.intSliders  [i]->setTooltip(tooltips[i]);
-                    p.floatLabels [i]->setTooltip(tooltips[i]);
-                    p.floatEdits  [i]->setTooltip(tooltips[i]);
-                    p.floatSliders[i]->setTooltip(tooltips[i]);
+                    for (size_t i = 0; i < 2; ++i)
+                    {
+                        p.intLabels[i]->setText(text[i]);
+                    }
+                    for (size_t i = 0; i < 2; ++i)
+                    {
+                        p.intLabels[i]->setTooltip(tooltips[i]);
+                        p.intEdits[i]->setTooltip(tooltips[i]);
+                        p.intSliders[i]->setTooltip(tooltips[i]);
+                    }
+                }
+                else
+                {
+                    for (size_t i = 0; i < 2; ++i)
+                    {
+                        p.floatLabels[i]->setText(text[i]);
+                    }
+                    for (size_t i = 0; i < 2; ++i)
+                    {
+                        p.floatLabels[i]->setTooltip(tooltips[i]);
+                        p.floatEdits[i]->setTooltip(tooltips[i]);
+                        p.floatSliders[i]->setTooltip(tooltips[i]);
+                    }
                 }
                 break;
             }
@@ -478,25 +484,37 @@ namespace djv
                     _getText(DJV_TEXT("G")),
                     _getText(DJV_TEXT("B"))
                 };
-                for (size_t i = 0; i < 3; ++i)
-                {
-                    p.intLabels[i]->setText(text[i]);
-                    p.floatLabels[i]->setText(text[i]);
-                }
                 const std::vector<std::string> tooltips =
                 {
                     _getText(DJV_TEXT("RGB color sliders red tooltip")),
                     _getText(DJV_TEXT("RGB color sliders green tooltip")),
                     _getText(DJV_TEXT("RGB color sliders blue tooltip"))
                 };
-                for (size_t i = 0; i < 3; ++i)
+                if (AV::Image::isIntType(type))
                 {
-                    p.intLabels   [i]->setTooltip(tooltips[i]);
-                    p.intEdits    [i]->setTooltip(tooltips[i]);
-                    p.intSliders  [i]->setTooltip(tooltips[i]);
-                    p.floatLabels [i]->setTooltip(tooltips[i]);
-                    p.floatEdits  [i]->setTooltip(tooltips[i]);
-                    p.floatSliders[i]->setTooltip(tooltips[i]);
+                    for (size_t i = 0; i < 3; ++i)
+                    {
+                        p.intLabels[i]->setText(text[i]);
+                    }
+                    for (size_t i = 0; i < 3; ++i)
+                    {
+                        p.intLabels[i]->setTooltip(tooltips[i]);
+                        p.intEdits[i]->setTooltip(tooltips[i]);
+                        p.intSliders[i]->setTooltip(tooltips[i]);
+                    }
+                }
+                else
+                {
+                    for (size_t i = 0; i < 3; ++i)
+                    {
+                        p.floatLabels[i]->setText(text[i]);
+                    }
+                    for (size_t i = 0; i < 3; ++i)
+                    {
+                        p.floatLabels[i]->setTooltip(tooltips[i]);
+                        p.floatEdits[i]->setTooltip(tooltips[i]);
+                        p.floatSliders[i]->setTooltip(tooltips[i]);
+                    }
                 }
                 break;
             }
@@ -509,11 +527,6 @@ namespace djv
                     _getText(DJV_TEXT("B")),
                     _getText(DJV_TEXT("A"))
                 };
-                for (size_t i = 0; i < 4; ++i)
-                {
-                    p.intLabels[i]->setText(text[i]);
-                    p.floatLabels[i]->setText(text[i]);
-                }
                 const std::vector<std::string> tooltips =
                 {
                     _getText(DJV_TEXT("RGB color sliders red tooltip")),
@@ -521,14 +534,31 @@ namespace djv
                     _getText(DJV_TEXT("RGB color sliders blue tooltip")),
                     _getText(DJV_TEXT("RGB color sliders alpha tooltip"))
                 };
-                for (size_t i = 0; i < 4; ++i)
+                if (AV::Image::isIntType(type))
                 {
-                    p.intLabels   [i]->setTooltip(tooltips[i]);
-                    p.intEdits    [i]->setTooltip(tooltips[i]);
-                    p.intSliders  [i]->setTooltip(tooltips[i]);
-                    p.floatLabels [i]->setTooltip(tooltips[i]);
-                    p.floatEdits  [i]->setTooltip(tooltips[i]);
-                    p.floatSliders[i]->setTooltip(tooltips[i]);
+                    for (size_t i = 0; i < 4; ++i)
+                    {
+                        p.intLabels[i]->setText(text[i]);
+                    }
+                    for (size_t i = 0; i < 4; ++i)
+                    {
+                        p.intLabels[i]->setTooltip(tooltips[i]);
+                        p.intEdits[i]->setTooltip(tooltips[i]);
+                        p.intSliders[i]->setTooltip(tooltips[i]);
+                    }
+                }
+                else
+                {
+                    for (size_t i = 0; i < 4; ++i)
+                    {
+                        p.floatLabels[i]->setText(text[i]);
+                    }
+                    for (size_t i = 0; i < 4; ++i)
+                    {
+                        p.floatLabels[i]->setTooltip(tooltips[i]);
+                        p.floatEdits[i]->setTooltip(tooltips[i]);
+                        p.floatSliders[i]->setTooltip(tooltips[i]);
+                    }
                 }
                 break;
             }
@@ -544,7 +574,7 @@ namespace djv
             std::vector<std::shared_ptr<Label> > floatLabels;
             std::vector<std::shared_ptr<FloatEdit> > floatEdits;
             std::vector<std::shared_ptr<BasicFloatSlider> > floatSliders;
-            std::shared_ptr<SoloLayout> layout;
+            std::shared_ptr<GridLayout> layout;
             std::function<void(const AV::Image::Color &)> colorCallback;
             std::vector<std::shared_ptr<ValueObserver<int> > > intObservers;
             std::vector < std::shared_ptr<ValueObserver<float> > > floatObservers;
@@ -556,133 +586,12 @@ namespace djv
 
             DJV_PRIVATE_PTR();
 
-            auto intLayout = GridLayout::create(context);
-            intLayout->setSpacing(MetricsRole::SpacingSmall);
-            auto floatLayout = GridLayout::create(context);
-            floatLayout->setSpacing(MetricsRole::SpacingSmall);
-            for (size_t i = 0; i < static_cast<size_t>(AV::Image::ChannelType::Count) - 1; ++i)
-            {
-                auto intLabel = Label::create(context);
-                intLayout->addChild(intLabel);
-                intLayout->setGridPos(intLabel, 0, static_cast<int>(i));
-                p.intLabels.push_back(intLabel);
-
-                auto intEdit = IntEdit::create(context);
-                intLayout->addChild(intEdit);
-                intLayout->setGridPos(intEdit, 1, static_cast<int>(i));
-                p.intEdits.push_back(intEdit);
-
-                auto intSlider = BasicIntSlider::create(Orientation::Horizontal, context);
-                intLayout->addChild(intSlider);
-                intLayout->setGridPos(intSlider, 2, static_cast<int>(i));
-                intLayout->setStretch(intSlider, GridStretch::Horizontal);
-                intEdit->setModel(intSlider->getModel());
-                p.intSliders.push_back(intSlider);
-
-                auto floatLabel = Label::create(context);
-                floatLayout->addChild(floatLabel);
-                floatLayout->setGridPos(floatLabel, 0, static_cast<int>(i));
-                p.floatLabels.push_back(floatLabel);
-
-                auto floatEdit = FloatEdit::create(context);
-                floatLayout->addChild(floatEdit);
-                floatLayout->setGridPos(floatEdit, 1, static_cast<int>(i));
-                p.floatEdits.push_back(floatEdit);
-
-                auto floatSlider = BasicFloatSlider::create(Orientation::Horizontal, context);
-                floatLayout->addChild(floatSlider);
-                floatLayout->setGridPos(floatSlider, 2, static_cast<int>(i));
-                floatLayout->setStretch(floatSlider, GridStretch::Horizontal);
-                floatEdit->setModel(floatSlider->getModel());
-                p.floatSliders.push_back(floatSlider);
-            }
-
-            p.layout = SoloLayout::create(context);
-            p.layout->addChild(intLayout);
-            p.layout->addChild(floatLayout);
+            p.layout = GridLayout::create(context);
             addChild(p.layout);
 
+            _colorTypeUpdate();
             _colorUpdate();
             _textUpdate();
-
-            auto weak = std::weak_ptr<HSVColorSliders>(std::dynamic_pointer_cast<HSVColorSliders>(shared_from_this()));
-            for (size_t i = 0; i < p.intSliders.size(); ++i)
-            {
-                p.intObservers.push_back(ValueObserver<int>::create(
-                    p.intSliders[i]->getModel()->observeValue(),
-                    [weak, i](int value)
-                {
-                    if (auto widget = weak.lock())
-                    {
-                        auto color = widget->_p->color;
-                        const auto type = color.getType();
-                        switch (AV::Image::getDataType(type))
-                        {
-                        case AV::Image::DataType::U8:  color.setU8 (static_cast<AV::Image::U8_T> (value), i); break;
-                        case AV::Image::DataType::U10: color.setU10(static_cast<AV::Image::U10_T>(value), i); break;
-                        case AV::Image::DataType::U16: color.setU16(static_cast<AV::Image::U16_T>(value), i); break;
-                        case AV::Image::DataType::U32: color.setU32(static_cast<AV::Image::U32_T>(value), i); break;
-                        default: break;
-                        }
-                        /*switch (AV::Image::getChannelType(type))
-                        {
-                        case AV::Image::ChannelType::RGB:
-                        case AV::Image::ChannelType::RGBA:
-                        {
-                            const auto tmp = color.convert(AV::Image::Type::RGBA_F32);
-                            AV::Image::Color tmp2(AV::Image::Type::RGBA_F32);
-                            AV::Image::Color::hsvToRGB(reinterpret_cast<const float *>(tmp.getData()), reinterpret_cast<float *>(tmp2.getData()));
-                            color = tmp2.convert(type);
-                            break;
-                        }
-                        default: break;
-                        }*/
-                        widget->setColor(color);
-                        if (widget->_p->colorCallback)
-                        {
-                            widget->_p->colorCallback(color);
-                        }
-                    }
-                }));
-            }
-
-            for (size_t i = 0; i < p.floatSliders.size(); ++i)
-            {
-                p.floatObservers.push_back(ValueObserver<float>::create(
-                    p.floatSliders[i]->getModel()->observeValue(),
-                    [weak, i](float value)
-                {
-                    if (auto widget = weak.lock())
-                    {
-                        auto color = widget->_p->color;
-                        const auto type = color.getType();
-                        switch (AV::Image::getDataType(type))
-                        {
-                        case AV::Image::DataType::F16: color.setF16(static_cast<AV::Image::F16_T>(value), i); break;
-                        case AV::Image::DataType::F32: color.setF32(static_cast<AV::Image::F32_T>(value), i); break;
-                        default: break;
-                        }
-                        /*switch (AV::Image::getChannelType(type))
-                        {
-                        case AV::Image::ChannelType::RGB:
-                        case AV::Image::ChannelType::RGBA:
-                        {
-                            const auto tmp = color.convert(AV::Image::Type::RGBA_F32);
-                            AV::Image::Color tmp2(AV::Image::Type::RGBA_F32);
-                            AV::Image::Color::hsvToRGB(reinterpret_cast<const float *>(tmp.getData()), reinterpret_cast<float *>(tmp2.getData()));
-                            color = tmp2.convert(type);
-                            break;
-                        }
-                        default: break;
-                        }*/
-                        widget->setColor(color);
-                        if (widget->_p->colorCallback)
-                        {
-                            widget->_p->colorCallback(color);
-                        }
-                    }
-                }));
-            }
         }
 
         HSVColorSliders::HSVColorSliders() :
@@ -709,7 +618,12 @@ namespace djv
             DJV_PRIVATE_PTR();
             if (value == p.color)
                 return;
+            const bool typeUpdate = value.getType() != p.color.getType();
             p.color = value;
+            if (typeUpdate)
+            {
+                _colorTypeUpdate();
+            }
             _colorUpdate();
             _textUpdate();
         }
@@ -736,34 +650,147 @@ namespace djv
             _textUpdate();
         }
 
+        void HSVColorSliders::_colorTypeUpdate()
+        {
+            DJV_PRIVATE_PTR();
+            p.intLabels.clear();
+            p.intEdits.clear();
+            p.intSliders.clear();
+            p.floatLabels.clear();
+            p.floatEdits.clear();
+            p.floatSliders.clear();
+            p.layout->clearChildren();
+            p.intObservers.clear();
+            p.floatObservers.clear();
+            const auto type = p.color.getType();
+            const size_t channelCount = AV::Image::getChannelCount(type);
+            auto context = getContext();
+            for (size_t i = 0; i < channelCount; ++i)
+            {
+                if (AV::Image::isIntType(type))
+                {
+                    auto intLabel = Label::create(context);
+                    p.layout->addChild(intLabel);
+                    p.layout->setGridPos(intLabel, 0, static_cast<int>(i));
+                    p.intLabels.push_back(intLabel);
+
+                    auto intEdit = IntEdit::create(context);
+                    p.layout->addChild(intEdit);
+                    p.layout->setGridPos(intEdit, 1, static_cast<int>(i));
+                    p.intEdits.push_back(intEdit);
+
+                    auto intSlider = BasicIntSlider::create(Orientation::Horizontal, context);
+                    p.layout->addChild(intSlider);
+                    p.layout->setGridPos(intSlider, 2, static_cast<int>(i));
+                    p.layout->setStretch(intSlider, GridStretch::Horizontal);
+                    intEdit->setModel(intSlider->getModel());
+                    p.intSliders.push_back(intSlider);
+                }
+                else
+                {
+                    auto floatLabel = Label::create(context);
+                    p.layout->addChild(floatLabel);
+                    p.layout->setGridPos(floatLabel, 0, static_cast<int>(i));
+                    p.floatLabels.push_back(floatLabel);
+
+                    auto floatEdit = FloatEdit::create(context);
+                    p.layout->addChild(floatEdit);
+                    p.layout->setGridPos(floatEdit, 1, static_cast<int>(i));
+                    p.floatEdits.push_back(floatEdit);
+
+                    auto floatSlider = BasicFloatSlider::create(Orientation::Horizontal, context);
+                    p.layout->addChild(floatSlider);
+                    p.layout->setGridPos(floatSlider, 2, static_cast<int>(i));
+                    p.layout->setStretch(floatSlider, GridStretch::Horizontal);
+                    floatEdit->setModel(floatSlider->getModel());
+                    p.floatSliders.push_back(floatSlider);
+                }
+            }
+            auto weak = std::weak_ptr<HSVColorSliders>(std::dynamic_pointer_cast<HSVColorSliders>(shared_from_this()));
+            for (size_t i = 0; i < channelCount; ++i)
+            {
+                if (AV::Image::isIntType(type))
+                {
+                    p.intObservers.push_back(ValueObserver<int>::create(
+                        p.intSliders[i]->getModel()->observeValue(),
+                        [weak, i](int value)
+                    {
+                        if (auto widget = weak.lock())
+                        {
+                            auto color = widget->_p->color;
+                            const auto type = color.getType();
+                            switch (AV::Image::getDataType(type))
+                            {
+                            case AV::Image::DataType::U8:  color.setU8(static_cast<AV::Image::U8_T> (value), i); break;
+                            case AV::Image::DataType::U10: color.setU10(static_cast<AV::Image::U10_T>(value), i); break;
+                            case AV::Image::DataType::U16: color.setU16(static_cast<AV::Image::U16_T>(value), i); break;
+                            case AV::Image::DataType::U32: color.setU32(static_cast<AV::Image::U32_T>(value), i); break;
+                            default: break;
+                            }
+                            /*switch (AV::Image::getChannelType(type))
+                            {
+                            case AV::Image::ChannelType::RGB:
+                            case AV::Image::ChannelType::RGBA:
+                            {
+                                const auto tmp = color.convert(AV::Image::Type::RGBA_F32);
+                                AV::Image::Color tmp2(AV::Image::Type::RGBA_F32);
+                                AV::Image::Color::hsvToRGB(reinterpret_cast<const float *>(tmp.getData()), reinterpret_cast<float *>(tmp2.getData()));
+                                color = tmp2.convert(type);
+                                break;
+                            }
+                            default: break;
+                            }*/
+                            widget->setColor(color);
+                            if (widget->_p->colorCallback)
+                            {
+                                widget->_p->colorCallback(color);
+                            }
+                        }
+                    }));
+                }
+                else
+                {
+                    p.floatObservers.push_back(ValueObserver<float>::create(
+                        p.floatSliders[i]->getModel()->observeValue(),
+                        [weak, i](float value)
+                    {
+                        if (auto widget = weak.lock())
+                        {
+                            auto color = widget->_p->color;
+                            const auto type = color.getType();
+                            switch (AV::Image::getDataType(type))
+                            {
+                            case AV::Image::DataType::F16: color.setF16(static_cast<AV::Image::F16_T>(value), i); break;
+                            case AV::Image::DataType::F32: color.setF32(static_cast<AV::Image::F32_T>(value), i); break;
+                            default: break;
+                            }
+                            /*switch (AV::Image::getChannelType(type))
+                            {
+                            case AV::Image::ChannelType::RGB:
+                            case AV::Image::ChannelType::RGBA:
+                            {
+                                const auto tmp = color.convert(AV::Image::Type::RGBA_F32);
+                                AV::Image::Color tmp2(AV::Image::Type::RGBA_F32);
+                                AV::Image::Color::hsvToRGB(reinterpret_cast<const float *>(tmp.getData()), reinterpret_cast<float *>(tmp2.getData()));
+                                color = tmp2.convert(type);
+                                break;
+                            }
+                            default: break;
+                            }*/
+                            widget->setColor(color);
+                            if (widget->_p->colorCallback)
+                            {
+                                widget->_p->colorCallback(color);
+                            }
+                        }
+                    }));
+                }
+            }
+        }
+
         void HSVColorSliders::_colorUpdate()
         {
             DJV_PRIVATE_PTR();
-            for (const auto & i : p.intLabels)
-            {
-                i->hide();
-            }
-            for (const auto & i : p.intEdits)
-            {
-                i->hide();
-            }
-            for (const auto & i : p.intSliders)
-            {
-                i->hide();
-            }
-            for (const auto & i : p.floatLabels)
-            {
-                i->hide();
-            }
-            for (const auto & i : p.floatEdits)
-            {
-                i->hide();
-            }
-            for (const auto & i : p.floatSliders)
-            {
-                i->hide();
-            }
-
             const auto type = p.color.getType();
             auto color = p.color;
             /*switch (AV::Image::getChannelType(type))
@@ -779,34 +806,28 @@ namespace djv
             }
             default: break;
             }*/
-
             const size_t channelCount = AV::Image::getChannelCount(type);
-            if (AV::Image::isIntType(type))
+            for (size_t i = 0; i < channelCount; ++i)
             {
-                p.layout->setCurrentIndex(0);
-                for (size_t i = 0; i < channelCount; ++i)
+                if (AV::Image::isIntType(type))
                 {
                     auto model = p.intSliders[i]->getModel();
                     model->setRange(AV::Image::getIntRange(type));
                     int v = 0;
                     switch (AV::Image::getDataType(type))
                     {
-                    case AV::Image::DataType::U8:  v = color.getU8 (i); break;
+                    case AV::Image::DataType::U8:  v = color.getU8(i); break;
                     case AV::Image::DataType::U10: v = color.getU10(i); break;
                     case AV::Image::DataType::U16: v = color.getU16(i); break;
                     case AV::Image::DataType::U32: v = color.getU32(i); break;
                     default: break;
                     }
                     model->setValue(v);
-                    p.intLabels [i]->show();
-                    p.intEdits  [i]->show();
+                    p.intLabels[i]->show();
+                    p.intEdits[i]->show();
                     p.intSliders[i]->show();
                 }
-            }
-            else
-            {
-                p.layout->setCurrentIndex(1);
-                for (size_t i = 0; i < channelCount; ++i)
+                else
                 {
                     auto model = p.floatSliders[i]->getModel();
                     model->setRange(AV::Image::getFloatRange(type));
@@ -818,8 +839,8 @@ namespace djv
                     default: break;
                     }
                     model->setValue(v);
-                    p.floatLabels [i]->show();
-                    p.floatEdits  [i]->show();
+                    p.floatLabels[i]->show();
+                    p.floatEdits[i]->show();
                     p.floatSliders[i]->show();
                 }
             }
@@ -828,7 +849,9 @@ namespace djv
         void HSVColorSliders::_textUpdate()
         {
             DJV_PRIVATE_PTR();
-            switch (AV::Image::getChannelCount(p.color.getType()))
+            const auto type = p.color.getType();
+            const size_t channelCount = AV::Image::getChannelCount(type);
+            switch (channelCount)
             {
             case 1:
             {
@@ -836,18 +859,24 @@ namespace djv
                 {
                     _getText(DJV_TEXT("V"))
                 };
-                p.intLabels[0]->setText(text[0]);
-                p.floatLabels[0]->setText(text[0]);
                 const std::vector<std::string> tooltips =
                 {
                     _getText(DJV_TEXT("HSV color sliders value tooltip"))
                 };
-                p.intLabels   [0]->setTooltip(tooltips[0]);
-                p.intEdits    [0]->setTooltip(tooltips[0]);
-                p.intSliders  [0]->setTooltip(tooltips[0]);
-                p.floatLabels [0]->setTooltip(tooltips[0]);
-                p.floatEdits  [0]->setTooltip(tooltips[0]);
-                p.floatSliders[0]->setTooltip(tooltips[0]);
+                if (AV::Image::isIntType(type))
+                {
+                    p.intLabels[0]->setText(text[0]);
+                    p.intLabels[0]->setTooltip(tooltips[0]);
+                    p.intEdits[0]->setTooltip(tooltips[0]);
+                    p.intSliders[0]->setTooltip(tooltips[0]);
+                }
+                else
+                {
+                    p.floatLabels[0]->setText(text[0]);
+                    p.floatLabels[0]->setTooltip(tooltips[0]);
+                    p.floatEdits[0]->setTooltip(tooltips[0]);
+                    p.floatSliders[0]->setTooltip(tooltips[0]);
+                }
                 break;
             }
             case 2:
@@ -857,24 +886,30 @@ namespace djv
                     _getText(DJV_TEXT("V")),
                     _getText(DJV_TEXT("A"))
                 };
-                for (size_t i = 0; i < 2; ++i)
-                {
-                    p.intLabels[i]->setText(text[i]);
-                    p.floatLabels[i]->setText(text[i]);
-                }
                 const std::vector<std::string> tooltips =
                 {
                     _getText(DJV_TEXT("HSV color sliders value tooltip")),
                     _getText(DJV_TEXT("HSV color sliders alpha tooltip"))
                 };
-                for (size_t i = 0; i < 2; ++i)
+                if (AV::Image::isIntType(type))
                 {
-                    p.intLabels   [i]->setTooltip(tooltips[i]);
-                    p.intEdits    [i]->setTooltip(tooltips[i]);
-                    p.intSliders  [i]->setTooltip(tooltips[i]);
-                    p.floatLabels [i]->setTooltip(tooltips[i]);
-                    p.floatEdits  [i]->setTooltip(tooltips[i]);
-                    p.floatSliders[i]->setTooltip(tooltips[i]);
+                    for (size_t i = 0; i < 2; ++i)
+                    {
+                        p.intLabels[i]->setText(text[i]);
+                        p.intLabels[i]->setTooltip(tooltips[i]);
+                        p.intEdits[i]->setTooltip(tooltips[i]);
+                        p.intSliders[i]->setTooltip(tooltips[i]);
+                    }
+                }
+                else
+                {
+                    for (size_t i = 0; i < 2; ++i)
+                    {
+                        p.floatLabels[i]->setText(text[i]);
+                        p.floatLabels[i]->setTooltip(tooltips[i]);
+                        p.floatEdits[i]->setTooltip(tooltips[i]);
+                        p.floatSliders[i]->setTooltip(tooltips[i]);
+                    }
                 }
                 break;
             }
@@ -886,25 +921,31 @@ namespace djv
                     _getText(DJV_TEXT("S")),
                     _getText(DJV_TEXT("V"))
                 };
-                for (size_t i = 0; i < 3; ++i)
-                {
-                    p.intLabels  [i]->setText(text[i]);
-                    p.floatLabels[i]->setText(text[i]);
-                }
                 const std::vector<std::string> tooltips =
                 {
                     _getText(DJV_TEXT("HSV color sliders hue tooltip")),
                     _getText(DJV_TEXT("HSV color sliders saturation tooltip")),
                     _getText(DJV_TEXT("HSV color sliders value tooltip"))
                 };
-                for (size_t i = 0; i < 3; ++i)
+                if (AV::Image::isIntType(type))
                 {
-                    p.intLabels   [i]->setTooltip(tooltips[i]);
-                    p.intEdits    [i]->setTooltip(tooltips[i]);
-                    p.intSliders  [i]->setTooltip(tooltips[i]);
-                    p.floatLabels [i]->setTooltip(tooltips[i]);
-                    p.floatEdits  [i]->setTooltip(tooltips[i]);
-                    p.floatSliders[i]->setTooltip(tooltips[i]);
+                    for (size_t i = 0; i < 3; ++i)
+                    {
+                        p.intLabels[i]->setText(text[i]);
+                        p.intLabels[i]->setTooltip(tooltips[i]);
+                        p.intEdits[i]->setTooltip(tooltips[i]);
+                        p.intSliders[i]->setTooltip(tooltips[i]);
+                    }
+                }
+                else
+                {
+                    for (size_t i = 0; i < 3; ++i)
+                    {
+                        p.floatLabels[i]->setText(text[i]);
+                        p.floatLabels[i]->setTooltip(tooltips[i]);
+                        p.floatEdits[i]->setTooltip(tooltips[i]);
+                        p.floatSliders[i]->setTooltip(tooltips[i]);
+                    }
                 }
                 break;
             }
@@ -917,11 +958,6 @@ namespace djv
                     _getText(DJV_TEXT("V")),
                     _getText(DJV_TEXT("A"))
                 };
-                for (size_t i = 0; i < 4; ++i)
-                {
-                    p.intLabels[i]->setText(text[i]);
-                    p.floatLabels[i]->setText(text[i]);
-                }
                 const std::vector<std::string> tooltips =
                 {
                     _getText(DJV_TEXT("HSV color sliders hue tooltip")),
@@ -929,14 +965,25 @@ namespace djv
                     _getText(DJV_TEXT("HSV color sliders value tooltip")),
                     _getText(DJV_TEXT("HSV color sliders alpha tooltip"))
                 };
-                for (size_t i = 0; i < 4; ++i)
+                if (AV::Image::isIntType(type))
                 {
-                    p.intLabels   [i]->setTooltip(tooltips[i]);
-                    p.intEdits    [i]->setTooltip(tooltips[i]);
-                    p.intSliders  [i]->setTooltip(tooltips[i]);
-                    p.floatLabels [i]->setTooltip(tooltips[i]);
-                    p.floatEdits  [i]->setTooltip(tooltips[i]);
-                    p.floatSliders[i]->setTooltip(tooltips[i]);
+                    for (size_t i = 0; i < 4; ++i)
+                    {
+                        p.intLabels[i]->setText(text[i]);
+                        p.intLabels[i]->setTooltip(tooltips[i]);
+                        p.intEdits[i]->setTooltip(tooltips[i]);
+                        p.intSliders[i]->setTooltip(tooltips[i]);
+                    }
+                }
+                else
+                {
+                    for (size_t i = 0; i < 4; ++i)
+                    {
+                        p.floatLabels[i]->setText(text[i]);
+                        p.floatLabels[i]->setTooltip(tooltips[i]);
+                        p.floatEdits[i]->setTooltip(tooltips[i]);
+                        p.floatSliders[i]->setTooltip(tooltips[i]);
+                    }
                 }
                 break;
             }

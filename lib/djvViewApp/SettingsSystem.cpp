@@ -63,7 +63,6 @@ namespace djv
         struct SettingsSystem::Private
         {
             std::map<std::string, std::shared_ptr<UI::Action> > actions;
-            std::vector<std::shared_ptr<UI::ISettingsWidget> > settingsWidgets;
             std::shared_ptr<SettingsDialog> settingsDialog;
             std::map<std::string, std::shared_ptr<ValueObserver<bool> > > clickedObservers;
         };
@@ -71,20 +70,6 @@ namespace djv
         void SettingsSystem::_init(Context * context)
         {
             IViewSystem::_init("djv::ViewApp::SettingsSystem", context);
-
-            DJV_PRIVATE_PTR();
-            p.settingsWidgets.push_back(UI::DisplaySettingsWidget::create(context));
-            p.settingsWidgets.push_back(UI::LanguageSettingsWidget::create(context));
-            p.settingsWidgets.push_back(NUXSettingsWidget::create(context));
-            p.settingsWidgets.push_back(PlaybackSettingsWidget::create(context));
-            p.settingsWidgets.push_back(UI::DisplaySettingsWidget::create(context));
-            p.settingsWidgets.push_back(UI::TimeSettingsWidget::create(context));
-#if defined(JPEG_FOUND)
-            p.settingsWidgets.push_back(UI::JPEGSettingsWidget::create(context));
-#endif
-#if defined(TIFF_FOUND)
-            p.settingsWidgets.push_back(UI::TIFFSettingsWidget::create(context));
-#endif
         }
 
         SettingsSystem::SettingsSystem() :
@@ -133,9 +118,24 @@ namespace djv
             return _p->actions;
         }
 
-        std::vector<std::shared_ptr<UI::ISettingsWidget> > SettingsSystem::getSettingsWidgets()
+        std::vector<std::shared_ptr<UI::ISettingsWidget> > SettingsSystem::createSettingsWidgets()
         {
-            return _p->settingsWidgets;
+            auto context = getContext();
+            return
+            {
+                UI::DisplaySettingsWidget::create(context),
+                UI::LanguageSettingsWidget::create(context),
+                NUXSettingsWidget::create(context),
+                PlaybackSettingsWidget::create(context),
+                UI::DisplaySettingsWidget::create(context),
+                UI::TimeSettingsWidget::create(context),
+#if defined(JPEG_FOUND)
+                UI::JPEGSettingsWidget::create(context),
+#endif
+#if defined(TIFF_FOUND)
+                UI::TIFFSettingsWidget::create(context),
+#endif
+            };
         }
         
     } // namespace ViewApp

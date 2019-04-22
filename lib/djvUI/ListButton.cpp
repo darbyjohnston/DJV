@@ -50,6 +50,10 @@ namespace djv
             {
                 std::shared_ptr<Icon> icon;
                 std::shared_ptr<Label> label;
+                TextHAlign textHAlign = TextHAlign::Left;
+                std::string font;
+                std::string fontFace;
+                MetricsRole fontSizeRole = MetricsRole::FontMedium;
                 std::shared_ptr<HorizontalLayout> layout;
             };
 
@@ -57,23 +61,13 @@ namespace djv
             {
                 IButton::_init(context);
 
-                setClassName("djv::UI::Button::List");
-
                 DJV_PRIVATE_PTR();
-                p.icon = Icon::create(context);
-                p.icon->setVAlign(VAlign::Center);
 
-                p.label = Label::create(context);
-                p.label->setTextHAlign(TextHAlign::Left);
+                setClassName("djv::UI::Button::List");
 
                 p.layout = HorizontalLayout::create(context);
                 p.layout->setMargin(MetricsRole::MarginSmall);
-                p.layout->addChild(p.icon);
-                p.layout->addChild(p.label);
-                p.layout->setStretch(p.label, RowStretch::Expand);
                 addChild(p.layout);
-
-                _widgetUpdate();
             }
 
             List::List() :
@@ -107,88 +101,123 @@ namespace djv
                 return out;
             }
 
-            const std::string & List::getIcon() const
+            std::string List::getIcon() const
             {
-                return _p->icon->getIcon();
+                DJV_PRIVATE_PTR();
+                return p.icon ? p.icon->getIcon() : std::string();
             }
 
             void List::setIcon(const std::string & value)
             {
                 DJV_PRIVATE_PTR();
-                p.icon->setIcon(value);
-                _widgetUpdate();
+                if (!value.empty())
+                {
+                    if (!p.icon)
+                    {
+                        p.icon = Icon::create(getContext());
+                        p.icon->setVAlign(VAlign::Center);
+                        p.icon->setIconColorRole(isChecked() ? getCheckedColorRole() : getForegroundColorRole());
+                        p.layout->addChild(p.icon);
+                        p.icon->moveToFront();
+                    }
+                    p.icon->setIcon(value);
+                }
+                else
+                {
+                    p.layout->removeChild(p.icon);
+                    p.icon.reset();
+                }
             }
 
-            const std::string & List::getText() const
+            std::string List::getText() const
             {
-                return _p->label->getText();
+                DJV_PRIVATE_PTR();
+                return p.label ? p.label->getText() : std::string();
             }
 
             void List::setText(const std::string & value)
             {
                 DJV_PRIVATE_PTR();
-                p.label->setText(value);
-                _widgetUpdate();
+                if (!value.empty())
+                {
+                    if (!p.label)
+                    {
+                        p.label = Label::create(getContext());
+                        p.label->setTextHAlign(p.textHAlign);
+                        p.label->setFont(p.font);
+                        p.label->setFontFace(p.fontFace);
+                        p.label->setFontSizeRole(p.fontSizeRole);
+                        p.layout->addChild(p.label);
+                        p.layout->setStretch(p.label, RowStretch::Expand);
+                        p.label->moveToBack();
+                    }
+                    p.label->setText(value);
+                }
+                else
+                {
+                    p.layout->removeChild(p.label);
+                    p.label.reset();
+                }
             }
 
             TextHAlign List::getTextHAlign() const
             {
-                return _p->label->getTextHAlign();
-            }
-
-            TextVAlign List::getTextVAlign() const
-            {
-                return _p->label->getTextVAlign();
+                return _p->textHAlign;
             }
 
             void List::setTextHAlign(TextHAlign value)
             {
-                _p->label->setTextHAlign(value);
-            }
-
-            void List::setTextVAlign(TextVAlign value)
-            {
-                _p->label->setTextVAlign(value);
-            }
-
-            ColorRole List::getTextColorRole() const
-            {
-                return _p->label->getTextColorRole();
-            }
-
-            void List::setTextColorRole(ColorRole value)
-            {
-                _p->label->setTextColorRole(value);
+                DJV_PRIVATE_PTR();
+                p.textHAlign = value;
+                if (p.label)
+                {
+                    p.label->setTextHAlign(value);
+                }
             }
 
             const std::string & List::getFont() const
             {
-                return _p->label->getFont();
+                return _p->font;
             }
 
             const std::string & List::getFontFace() const
             {
-                return _p->label->getFontFace();
+                return _p->fontFace;
             }
 
             MetricsRole List::getFontSizeRole() const
             {
-                return _p->label->getFontSizeRole();
+                return _p->fontSizeRole;
             }
 
             void List::setFont(const std::string & value)
             {
-                _p->label->setFont(value);
+                DJV_PRIVATE_PTR();
+                p.font = value;
+                if (p.label)
+                {
+                    p.label->setFont(value);
+                }
             }
 
             void List::setFontFace(const std::string & value)
             {
-                _p->label->setFontFace(value);
+                DJV_PRIVATE_PTR();
+                p.fontFace = value;
+                if (p.label)
+                {
+                    p.label->setFontFace(value);
+                }
             }
 
             void List::setFontSizeRole(MetricsRole value)
             {
-                _p->label->setFontSizeRole(value);
+                DJV_PRIVATE_PTR();
+                p.fontSizeRole = value;
+                if (p.label)
+                {
+                    p.label->setFontSizeRole(value);
+                }
             }
 
             const Layout::Margin & List::getInsideMargin() const
@@ -199,6 +228,15 @@ namespace djv
             void List::setInsideMargin(const Layout::Margin & value)
             {
                 _p->layout->setMargin(value);
+            }
+
+            void List::setChecked(bool value)
+            {
+                IButton::setChecked(value);
+                if (_p->icon)
+                {
+                    _p->icon->setIconColorRole(value ? getCheckedColorRole() : getForegroundColorRole());
+                }
             }
 
             void List::_preLayoutEvent(Event::PreLayout & event)
@@ -255,13 +293,6 @@ namespace djv
                     render->setFillColor(_getColorWithOpacity(style->getColor(getHoveredColorRole())));
                     render->drawRect(g);
                 }
-            }
-
-            void List::_widgetUpdate()
-            {
-                DJV_PRIVATE_PTR();
-                p.icon->setVisible(!p.icon->getIcon().empty());
-                p.label->setVisible(!p.label->getText().empty());
             }
 
         } // namespace Button

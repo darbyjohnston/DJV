@@ -33,7 +33,6 @@
 #include <djvUI/Label.h>
 #include <djvUI/MDIWidget.h>
 #include <djvUI/RowLayout.h>
-#include <djvUI/StackLayout.h>
 
 #include <djvAV/Render2D.h>
 

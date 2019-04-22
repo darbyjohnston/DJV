@@ -45,17 +45,13 @@ namespace djv
             {
                 MetricsRole borderSize = MetricsRole::Border;
                 ColorRole borderColor = ColorRole::Border;
-                std::shared_ptr<Stack> layout;
+                Layout::Margin insideMargin;
             };
 
             void Border::_init(Context * context)
             {
                 Widget::_init(context);
-
                 setClassName("djv::UI::Layout::Border");
-
-                _p->layout = Stack::create(context);
-                Widget::addChild(_p->layout);
             }
 
             Border::Border() :
@@ -102,12 +98,15 @@ namespace djv
 
             const Margin & Border::getInsideMargin() const
             {
-                return _p->layout->getMargin();
+                return _p->insideMargin;
             }
 
             void Border::setInsideMargin(const Margin & value)
             {
-                _p->layout->setMargin(value);
+                if (value == _p->insideMargin)
+                    return;
+                _p->insideMargin = value;
+                _resize();
             }
 
             float Border::getHeightForWidth(float value) const
@@ -117,25 +116,16 @@ namespace djv
                 auto style = _getStyle();
                 const glm::vec2 m = getMargin().getSize(style);
                 const float b = style->getMetric(MetricsRole::Border);
-                out = p.layout->getHeightForWidth(value - b * 2.f - m.x) + b * 2.f + m.y;
+                out = StackLayout::heightForWidth(value - b * 2.f - m.x, getChildrenT<Widget>(), p.insideMargin, style) + b * 2.f + m.y;
                 return out;
-            }
-
-            void Border::addChild(const std::shared_ptr<IObject> & value)
-            {
-                _p->layout->addChild(value);
-            }
-
-            void Border::removeChild(const std::shared_ptr<IObject> & value)
-            {
-                _p->layout->removeChild(value);
             }
 
             void Border::_preLayoutEvent(Event::PreLayout & event)
             {
                 DJV_PRIVATE_PTR();
                 auto style = _getStyle();
-                _setMinimumSize(p.layout->getMinimumSize() + style->getMetric(p.borderSize) * 2.f + getMargin().getSize(style));
+                _setMinimumSize(StackLayout::minimumSize(getChildrenT<Widget>(), p.insideMargin, style) +
+                    style->getMetric(p.borderSize) * 2.f + getMargin().getSize(style));
             }
 
             void Border::_layoutEvent(Event::Layout & event)
@@ -143,7 +133,7 @@ namespace djv
                 DJV_PRIVATE_PTR();
                 auto style = _getStyle();
                 const BBox2f & g = getGeometry().margin(-style->getMetric(p.borderSize));
-                p.layout->setGeometry(getMargin().bbox(g, style));
+                StackLayout::layout(getMargin().bbox(g, style), getChildrenT<Widget>(), p.insideMargin, style);
             }
 
             void Border::_paintEvent(Event::Paint & event)

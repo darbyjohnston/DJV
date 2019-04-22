@@ -33,7 +33,6 @@
 #include <djvUI/Icon.h>
 #include <djvUI/Label.h>
 #include <djvUI/RowLayout.h>
-#include <djvUI/StackLayout.h>
 
 #include <djvAV/Render2D.h>
 
@@ -51,6 +50,11 @@ namespace djv
             {
                 std::shared_ptr<Icon> icon;
                 std::shared_ptr<Label> label;
+                TextHAlign textHAlign = TextHAlign::Left;
+                ColorRole textColorRole = ColorRole::Foreground;
+                std::string font;
+                std::string fontFace;
+                MetricsRole fontSizeRole = MetricsRole::FontMedium;
                 std::shared_ptr<HorizontalLayout> layout;
                 std::shared_ptr<Border> border;
             };
@@ -59,22 +63,13 @@ namespace djv
             {
                 IButton::_init(context);
 
+                DJV_PRIVATE_PTR();
+
                 setClassName("djv::UI::Button::Push");
                 setBackgroundRole(ColorRole::Button);
 
-                DJV_PRIVATE_PTR();
-                p.icon = Icon::create(context);
-                p.icon->setVAlign(VAlign::Center);
-                p.icon->hide();
-
-                p.label = Label::create(context);
-                p.label->hide();
-
                 p.layout = HorizontalLayout::create(context);
                 p.layout->setMargin(Layout::Margin(MetricsRole::MarginLarge, MetricsRole::MarginLarge, MetricsRole::MarginSmall, MetricsRole::MarginSmall));
-                p.layout->addChild(p.icon);
-                p.layout->addChild(p.label);
-                p.layout->setStretch(p.label, RowStretch::Expand);
 
                 p.border = Border::create(context);
                 p.border->addChild(p.layout);
@@ -112,78 +107,124 @@ namespace djv
                 return out;
             }
 
-            const std::string & Push::getIcon() const
+            std::string Push::getIcon() const
             {
-                return _p->icon->getIcon();
+                DJV_PRIVATE_PTR();
+                return p.icon ? p.icon->getIcon() : std::string();
             }
 
             void Push::setIcon(const std::string & value)
             {
                 DJV_PRIVATE_PTR();
-                p.icon->setIcon(value);
-                p.icon->setVisible(!value.empty());
+                if (!value.empty())
+                {
+                    if (!p.icon)
+                    {
+                        p.icon = Icon::create(getContext());
+                        p.icon->setVAlign(VAlign::Center);
+                        p.icon->setIconColorRole(isChecked() ? getCheckedColorRole() : getForegroundColorRole());
+                        p.layout->addChild(p.icon);
+                        p.icon->moveToFront();
+                    }
+                    p.icon->setIcon(value);
+                }
+                else
+                {
+                    p.layout->removeChild(p.icon);
+                    p.icon.reset();
+                }
             }
 
-            const std::string & Push::getText() const
+            std::string Push::getText() const
             {
-                return _p->label->getText();
+                DJV_PRIVATE_PTR();
+                return p.label ? p.label->getText() : std::string();
             }
 
             void Push::setText(const std::string & value)
             {
                 DJV_PRIVATE_PTR();
-                p.label->setText(value);
-                p.label->setVisible(!value.empty());
+                if (!value.empty())
+                {
+                    if (!p.label)
+                    {
+                        p.label = Label::create(getContext());
+                        p.label->setTextHAlign(p.textHAlign);
+                        p.label->setFont(p.font);
+                        p.label->setFontFace(p.fontFace);
+                        p.label->setFontSizeRole(p.fontSizeRole);
+                        p.label->setTextColorRole(isChecked() ? getCheckedColorRole() : p.textColorRole);
+                        p.layout->addChild(p.label);
+                        p.layout->setStretch(p.label, RowStretch::Expand);
+                        p.label->moveToBack();
+                    }
+                    p.label->setText(value);
+                }
+                else
+                {
+                    p.layout->removeChild(p.label);
+                    p.label.reset();
+                }
             }
 
             TextHAlign Push::getTextHAlign() const
             {
-                return _p->label->getTextHAlign();
-            }
-
-            TextVAlign Push::getTextVAlign() const
-            {
-                return _p->label->getTextVAlign();
+                return _p->textHAlign;
             }
 
             void Push::setTextHAlign(TextHAlign value)
             {
-                _p->label->setTextHAlign(value);
-            }
-
-            void Push::setTextVAlign(TextVAlign value)
-            {
-                _p->label->setTextVAlign(value);
+                DJV_PRIVATE_PTR();
+                p.textHAlign = value;
+                if (p.label)
+                {
+                    p.label->setTextHAlign(value);
+                }
             }
 
             const std::string & Push::getFont() const
             {
-                return _p->label->getFont();
+                return _p->font;
             }
 
             const std::string & Push::getFontFace() const
             {
-                return _p->label->getFontFace();
+                return _p->fontFace;
             }
 
             MetricsRole Push::getFontSizeRole() const
             {
-                return _p->label->getFontSizeRole();
+                return _p->fontSizeRole;
             }
 
             void Push::setFont(const std::string & value)
             {
-                _p->label->setFont(value);
+                DJV_PRIVATE_PTR();
+                p.font = value;
+                if (p.label)
+                {
+                    p.label->setFont(value);
+                }
             }
 
             void Push::setFontFace(const std::string & value)
             {
-                _p->label->setFontFace(value);
+                DJV_PRIVATE_PTR();
+                p.fontFace = value;
+                if (p.label)
+                {
+                    p.label->setFontFace(value);
+                }
             }
 
             void Push::setFontSizeRole(MetricsRole value)
             {
-                _p->label->setFontSizeRole(value);
+                DJV_PRIVATE_PTR();
+                p.fontSizeRole = value;
+                if (p.label)
+                {
+                    p.label->setFontSizeRole(value);
+                }
             }
 
             const Layout::Margin & Push::getInsideMargin() const
@@ -196,9 +237,13 @@ namespace djv
                 _p->border->setMargin(value);
             }
 
-            float Push::getHeightForWidth(float value) const
+            void Push::setChecked(bool value)
             {
-                return _p->border->getHeightForWidth(value);
+                IButton::setChecked(value);
+                if (_p->icon)
+                {
+                    _p->icon->setIconColorRole(value ? getCheckedColorRole() : getForegroundColorRole());
+                }
             }
 
             void Push::_preLayoutEvent(Event::PreLayout & event)
@@ -228,15 +273,6 @@ namespace djv
                     render->setFillColor(_getColorWithOpacity(style->getColor(getHoveredColorRole())));
                     render->drawRect(g);
                 }
-            }
-
-            void Push::_updateEvent(Event::Update & event)
-            {
-                IButton::_updateEvent(event);
-                const ColorRole colorRole = _getForegroundColorRole();
-                DJV_PRIVATE_PTR();
-                p.icon->setIconColorRole(colorRole);
-                p.label->setTextColorRole(colorRole);
             }
 
         } // namespace Button

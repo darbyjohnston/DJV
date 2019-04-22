@@ -30,16 +30,14 @@ namespace djv
                 static std::shared_ptr<Push> create(const std::string &, Core::Context *);
                 static std::shared_ptr<Push> create(const std::string &, const std::string & icon, Core::Context *);
 
-                const std::string & getIcon() const;
+                std::string getIcon() const;
                 void setIcon(const std::string &);
 
-                const std::string & getText() const;
+                std::string getText() const;
                 void setText(const std::string &);
 
                 TextHAlign getTextHAlign() const;
-                TextVAlign getTextVAlign() const;
                 void setTextHAlign(TextHAlign);
-                void setTextVAlign(TextVAlign);
 
                 const std::string & getFont() const;
                 const std::string & getFontFace() const;
@@ -51,14 +49,12 @@ namespace djv
                 const Layout::Margin & getInsideMargin() const;
                 void setInsideMargin(const Layout::Margin &);
 
-                float getHeightForWidth(float) const override;
+                void setChecked(bool) override;
 
             protected:
                 void _preLayoutEvent(Core::Event::PreLayout &) override;
                 void _layoutEvent(Core::Event::Layout &) override;
                 void _paintEvent(Core::Event::Paint&) override;
-
-                void _updateEvent(Core::Event::Update &) override;
 
             private:
                 DJV_PRIVATE();

@@ -74,7 +74,7 @@ namespace djv
             return std::vector<std::shared_ptr<ITool> >();
         }
 
-        std::vector<std::shared_ptr<UI::ISettingsWidget> > IViewSystem::getSettingsWidgets()
+        std::vector<std::shared_ptr<UI::ISettingsWidget> > IViewSystem::createSettingsWidgets()
         {
             return std::vector<std::shared_ptr<UI::ISettingsWidget> >();
         }

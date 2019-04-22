@@ -50,6 +50,10 @@ namespace djv
             {
                 std::shared_ptr<Icon> icon;
                 std::shared_ptr<Label> label;
+                TextHAlign textHAlign = TextHAlign::Left;
+                std::string font;
+                std::string fontFace;
+                MetricsRole fontSizeRole = MetricsRole::FontMedium;
                 std::shared_ptr<HorizontalLayout> layout;
             };
 
@@ -57,23 +61,13 @@ namespace djv
             {
                 IButton::_init(context);
 
-                setClassName("djv::UI::Button::Tool");
-
                 DJV_PRIVATE_PTR();
-                p.icon = Icon::create(context);
-                p.icon->setVAlign(VAlign::Center);
 
-                p.label = Label::create(context);
-                p.label->setTextHAlign(TextHAlign::Left);
+                setClassName("djv::UI::Button::Tool");
 
                 p.layout = HorizontalLayout::create(context);
                 p.layout->setMargin(MetricsRole::MarginSmall);
-                p.layout->addChild(p.icon);
-                p.layout->addChild(p.label);
-                p.layout->setStretch(p.label, RowStretch::Expand);
                 addChild(p.layout);
-
-                _widgetUpdate();
             }
 
             Tool::Tool() :
@@ -107,88 +101,124 @@ namespace djv
                 return out;
             }
 
-            const std::string & Tool::getIcon() const
+            std::string Tool::getIcon() const
             {
-                return _p->icon->getIcon();
+                DJV_PRIVATE_PTR();
+                return p.icon ? p.icon->getIcon() : std::string();
             }
 
             void Tool::setIcon(const std::string & value)
             {
                 DJV_PRIVATE_PTR();
-                p.icon->setIcon(value);
-                _widgetUpdate();
+                if (!value.empty())
+                {
+                    if (!p.icon)
+                    {
+                        p.icon = Icon::create(getContext());
+                        p.icon->setVAlign(VAlign::Center);
+                        p.icon->setIconColorRole(isChecked() ? getCheckedColorRole() : getForegroundColorRole());
+                        p.layout->addChild(p.icon);
+                        p.icon->moveToFront();
+                    }
+                    p.icon->setIcon(value);
+                }
+                else
+                {
+                    p.layout->removeChild(p.icon);
+                    p.icon.reset();
+                }
             }
 
-            const std::string & Tool::getText() const
+            std::string Tool::getText() const
             {
-                return _p->label->getText();
+                DJV_PRIVATE_PTR();
+                return p.label ? p.label->getText() : std::string();
             }
 
             void Tool::setText(const std::string & value)
             {
                 DJV_PRIVATE_PTR();
-                p.label->setText(value);
-                _widgetUpdate();
+                if (!value.empty())
+                {
+                    if (!p.label)
+                    {
+                        p.label = Label::create(getContext());
+                        p.label->setTextHAlign(p.textHAlign);
+                        p.label->setFont(p.font);
+                        p.label->setFontFace(p.fontFace);
+                        p.label->setFontSizeRole(p.fontSizeRole);
+                        p.label->setTextColorRole(isChecked() ? getCheckedColorRole() : getForegroundColorRole());
+                        p.layout->addChild(p.label);
+                        p.layout->setStretch(p.label, RowStretch::Expand);
+                        p.label->moveToBack();
+                    }
+                    p.label->setText(value);
+                }
+                else
+                {
+                    p.layout->removeChild(p.label);
+                    p.label.reset();
+                }
             }
 
             TextHAlign Tool::getTextHAlign() const
             {
-                return _p->label->getTextHAlign();
-            }
-
-            TextVAlign Tool::getTextVAlign() const
-            {
-                return _p->label->getTextVAlign();
+                return _p->textHAlign;
             }
 
             void Tool::setTextHAlign(TextHAlign value)
             {
-                _p->label->setTextHAlign(value);
+                DJV_PRIVATE_PTR();
+                p.textHAlign = value;
+                if (p.label)
+                {
+                    p.label->setTextHAlign(value);
+                }
             }
 
-            void Tool::setTextVAlign(TextVAlign value)
+            const std::string& Tool::getFont() const
             {
-                _p->label->setTextVAlign(value);
+                return _p->font;
             }
 
-            ColorRole Tool::getTextColorRole() const
+            const std::string& Tool::getFontFace() const
             {
-                return _p->label->getTextColorRole();
-            }
-
-            void Tool::setTextColorRole(ColorRole value)
-            {
-                _p->label->setTextColorRole(value);
-            }
-
-            const std::string & Tool::getFont() const
-            {
-                return _p->label->getFont();
-            }
-
-            const std::string & Tool::getFontFace() const
-            {
-                return _p->label->getFontFace();
+                return _p->fontFace;
             }
 
             MetricsRole Tool::getFontSizeRole() const
             {
-                return _p->label->getFontSizeRole();
+                return _p->fontSizeRole;
             }
 
             void Tool::setFont(const std::string & value)
             {
-                _p->label->setFont(value);
+                DJV_PRIVATE_PTR();
+                p.font = value;
+                if (p.label)
+                {
+                    p.label->setFont(value);
+                }
             }
 
             void Tool::setFontFace(const std::string & value)
             {
-                _p->label->setFontFace(value);
+                DJV_PRIVATE_PTR();
+                p.fontFace = value;
+                if (p.label)
+                {
+                    p.label->setFontFace(value);
+                }
             }
 
             void Tool::setFontSizeRole(MetricsRole value)
             {
-                _p->label->setFontSizeRole(value);
+                DJV_PRIVATE_PTR();
+                p.fontSizeRole = value;
+                if (p.label)
+                {
+                    p.label->setFontSizeRole(value);
+                }
             }
 
             const Layout::Margin & Tool::getInsideMargin() const
@@ -204,8 +234,14 @@ namespace djv
             void Tool::setChecked(bool value)
             {
                 IButton::setChecked(value);
-                _p->icon->setIconColorRole(value ? getCheckedColorRole() : getForegroundColorRole());
-                _p->label->setTextColorRole(value ? getCheckedColorRole() : getForegroundColorRole());
+                if (_p->icon)
+                {
+                    _p->icon->setIconColorRole(value ? getCheckedColorRole() : getForegroundColorRole());
+                }
+                if (_p->label)
+                {
+                    _p->label->setTextColorRole(value ? getCheckedColorRole() : getForegroundColorRole());
+                }
             }
 
             void Tool::_preLayoutEvent(Event::PreLayout & event)
@@ -235,12 +271,6 @@ namespace djv
                     render->setFillColor(_getColorWithOpacity(style->getColor(getHoveredColorRole())));
                     render->drawRect(g);
                 }
-            }
-
-            void Tool::_widgetUpdate()
-            {
-                _p->icon->setVisible(!_p->icon->getIcon().empty());
-                _p->label->setVisible(!_p->label->getText().empty());
             }
 
         } // namespace Button

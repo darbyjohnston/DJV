@@ -41,7 +41,6 @@ namespace djv
     {
         struct Window::Private
         {
-            std::shared_ptr<StackLayout> layout;
         };
 
         void Window::_init(Context * context)
@@ -54,9 +53,6 @@ namespace djv
             setVisible(false);
             setBackgroundRole(ColorRole::Background);
             setPointerEnabled(true);
-
-            p.layout = StackLayout::create(context);
-            Widget::addChild(p.layout);
         }
 
         Window::Window() :
@@ -73,24 +69,14 @@ namespace djv
             return out;
         }
 
-        void Window::addChild(const std::shared_ptr<IObject> & value)
-        {
-            _p->layout->addChild(value);
-        }
-
-        void Window::removeChild(const std::shared_ptr<IObject> & value)
-        {
-            _p->layout->removeChild(value);
-        }
-
         void Window::_preLayoutEvent(Event::PreLayout &)
         {
-            _setMinimumSize(_p->layout->getMinimumSize());
+            _setMinimumSize(StackLayout::minimumSize(getChildrenT<Widget>(), Layout::Margin(), _getStyle()));
         }
 
         void Window::_layoutEvent(Event::Layout &)
         {
-            _p->layout->setGeometry(getGeometry());
+            StackLayout::layout(getGeometry(), getChildrenT<Widget>(), Layout::Margin(), _getStyle());
         }
 
     } // namespace UI

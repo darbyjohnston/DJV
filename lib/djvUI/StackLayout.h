@@ -53,6 +53,23 @@ namespace djv
 
                 float getHeightForWidth(float) const override;
 
+                static float heightForWidth(
+                    float,
+                    const std::vector<std::shared_ptr<Widget> >&,
+                    const Layout::Margin&,
+                    const std::shared_ptr<Style::Style>&);
+
+                static glm::vec2 minimumSize(
+                    const std::vector<std::shared_ptr<Widget> >&,
+                    const Layout::Margin&,
+                    const std::shared_ptr<Style::Style>&);
+
+                static void layout(
+                    const Core::BBox2f&,
+                    const std::vector<std::shared_ptr<Widget> >&,
+                    const Layout::Margin&,
+                    const std::shared_ptr<Style::Style>&);
+
             protected:
                 void _preLayoutEvent(Core::Event::PreLayout &) override;
                 void _layoutEvent(Core::Event::Layout &) override;
