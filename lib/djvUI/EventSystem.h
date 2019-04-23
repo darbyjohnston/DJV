@@ -30,8 +30,6 @@
 #pragma once
 
 #include <djvCore/IEventSystem.h>
-//#include <djvCore/ListObserver.h>
-//#include <djvCore/ValueObserver.h>
 
 namespace djv
 {

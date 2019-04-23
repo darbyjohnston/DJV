@@ -60,9 +60,9 @@ namespace djv
             glm::vec2 textSize = glm::vec2(0.f, 0.f);
             size_t textSizeHash = 0;
             std::future<glm::vec2> textSizeFuture;
-            std::vector<AV::Font::TextLine> textLines;
-            size_t textLinesHash = 0;
-            std::future<std::vector<AV::Font::TextLine> > textLinesFuture;
+            //std::vector<AV::Font::TextLine> textLines;
+            //size_t textLinesHash = 0;
+            //std::future<std::vector<AV::Font::TextLine> > textLinesFuture;
             BBox2f clipRect;
         };
 
@@ -107,7 +107,7 @@ namespace djv
             p.text = value;
             p.heightForWidthHash = 0;
             p.textSizeHash = 0;
-            p.textLinesHash = 0;
+            //p.textLinesHash = 0;
             _textUpdate();
         }
 
@@ -259,7 +259,7 @@ namespace djv
 
         void TextBlock::_layoutEvent(Event::Layout & event)
         {
-            DJV_PRIVATE_PTR();
+            /*DJV_PRIVATE_PTR();
             auto style = _getStyle();
             const BBox2f & g = getMargin().bbox(getGeometry(), style);
             const auto fontInfo = p.fontFamily.empty() ?
@@ -276,7 +276,7 @@ namespace djv
                 p.textLinesHash = hash;
                 auto fontSystem = _getFontSystem();
                 p.textLinesFuture = fontSystem->textLines(p.text, g.w(), fontInfo);
-            }
+            }*/
         }
 
         void TextBlock::_clipEvent(Event::Clip & event)
@@ -294,16 +294,20 @@ namespace djv
                 const BBox2f & g = getMargin().bbox(getGeometry(), style);
                 const glm::vec2 c = g.getCenter();
 
-                if (p.textLinesFuture.valid())
-                {
-                    p.textLines = p.textLinesFuture.get();
-                }
+                //if (p.textLinesFuture.valid())
+                //{
+                //    p.textLines = p.textLinesFuture.get();
+                //}
                 glm::vec2 pos = g.min;
                 auto render = _getRender();
                 render->setCurrentFont(p.fontFamily.empty() ?
                     style->getFontInfo(p.fontFace, p.fontSizeRole) :
                     style->getFontInfo(p.fontFamily, p.fontFace, p.fontSizeRole));
-                for (const auto & line : p.textLines)
+
+                render->setFillColor(_getColorWithOpacity(style->getColor(p.textColorRole)));
+                //! \bug Why the extra subtract by one here?
+                render->drawText(p.text, glm::vec2(pos.x, pos.y + p.fontMetrics.ascender - 1.f), g.w());
+                /*for (const auto & line : p.textLines)
                 {
                     if (pos.y + line.size.y >= p.clipRect.min.y && pos.y <= p.clipRect.max.y)
                     {
@@ -326,7 +330,7 @@ namespace djv
                         render->drawText(line.text, glm::vec2(pos.x, pos.y + p.fontMetrics.ascender - 1.f));
                     }
                     pos.y += line.size.y;
-                }
+                }*/
             }
         }
 

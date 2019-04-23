@@ -121,7 +121,7 @@ namespace djv
 
                 float getTextureAtlasPercentage() const;
                 size_t getDynamicTextureCount() const;
-                size_t getVBOCount() const;
+                size_t getVBOSize() const;
 
                 ///@}
 

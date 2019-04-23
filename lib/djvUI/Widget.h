@@ -128,7 +128,7 @@ namespace djv
             void setHAlign(HAlign);
             void setVAlign(VAlign);
 
-            //! Utility function for computing the widget geometry.
+            //! Utility function for computing widget geometry.
             static Core::BBox2f getAlign(const Core::BBox2f &, const glm::vec2 & minimumSize, HAlign, VAlign);
 
             ///@}
@@ -171,9 +171,16 @@ namespace djv
 
             ///@}
 
+            //! Get the child widgets.
+            inline const std::vector<std::shared_ptr<Widget> >& getChildWidgets() const;
+
             //! Get the number of widgets that currently exist.
             static size_t getGlobalWidgetCount();
 
+            void addChild(const std::shared_ptr<IObject>&) override;
+            void removeChild(const std::shared_ptr<IObject>&) override;
+            void moveToFront() override;
+            void moveToBack() override;
             bool event(Core::Event::IEvent &) override;
 
         protected:
@@ -231,40 +238,46 @@ namespace djv
             virtual std::shared_ptr<Widget> _createTooltip(const glm::vec2 & pos);
 
         private:
-            float _updateTime  = 0.f;
-            float _elapsedTime = 0.f;
+            std::vector<std::shared_ptr<Widget> >
+                           _childWidgets;
 
-            bool         _visible        = true;
-            bool         _visibleInit    = true;
-            bool         _parentsVisible = true;
-            bool         _clipped        = false;
-            Core::BBox2f _clipRect       = Core::BBox2f(0.f, 0.f, 0.f, 0.f);
-            float        _opacity        = 1.f;
-            float        _parentsOpacity = 1.f;
+            float          _updateTime     = 0.f;
+            float          _elapsedTime    = 0.f;
 
-            Core::BBox2f   _geometry    = Core::BBox2f(0.f, 0.f, 0.f, 0.f);
-            glm::vec2      _minimumSize = glm::vec2(0.f, 0.f);
+            bool           _visible        = true;
+            bool           _visibleInit    = true;
+            bool           _parentsVisible = true;
+            bool           _clipped        = false;
+            Core::BBox2f   _clipRect       = Core::BBox2f(0.f, 0.f, 0.f, 0.f);
+            float          _opacity        = 1.f;
+            float          _parentsOpacity = 1.f;
+
+            Core::BBox2f   _geometry       = Core::BBox2f(0.f, 0.f, 0.f, 0.f);
+            glm::vec2      _minimumSize    = glm::vec2(0.f, 0.f);
             Layout::Margin _margin;
-            HAlign         _hAlign      = HAlign::Fill;
-            VAlign         _vAlign      = VAlign::Fill;
+            HAlign         _hAlign         = HAlign::Fill;
+            VAlign         _vAlign         = VAlign::Fill;
 
-            ColorRole _backgroundRole = ColorRole::None;
+            ColorRole      _backgroundRole = ColorRole::None;
 
-            bool                                        _pointerEnabled = false;
-            std::map<Core::Event::PointerID, glm::vec2> _pointerHover;
+            bool           _pointerEnabled = false;
+            std::map<Core::Event::PointerID, glm::vec2>
+                           _pointerHover;
 
-            std::vector<std::shared_ptr<Action> > _actions;
+            std::vector<std::shared_ptr<Action> >
+                           _actions;
 
-            std::string _tooltipText;
+            std::string    _tooltipText;
             struct TooltipData
             {
-                float                    timer   = 0.f;
+                float timer = 0.f;
                 std::shared_ptr<Tooltip> tooltip;
             };
-            std::map<Core::Event::PointerID, TooltipData> _pointerToTooltips;
+            std::map<Core::Event::PointerID, TooltipData>
+                           _pointerToTooltips;
 
-            static bool _resizeRequest;
-            static bool _redrawRequest;
+            static bool    _resizeRequest;
+            static bool    _redrawRequest;
 
             std::shared_ptr<AV::Font::System>     _fontSystem;
             std::shared_ptr<AV::Render::Render2D> _render;

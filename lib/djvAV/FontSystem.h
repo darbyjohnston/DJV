@@ -107,22 +107,12 @@ namespace djv
                 DJV_NON_COPYABLE(Glyph);
 
             protected:
-                void _init(
-                    const std::shared_ptr<Image::Data> &,
-                    const glm::vec2 & offset,
-                    float advance,
-                    int32_t lsbDelta,
-                    int32_t rsbDelta);
                 inline Glyph();
 
             public:
-                static std::shared_ptr<Glyph> create(
-                    const std::shared_ptr<Image::Data> &,
-                    const glm::vec2 & offset,
-                    float advance,
-                    int32_t lsbDelta,
-                    int32_t rsbDelta);
+                static std::shared_ptr<Glyph> create();
 
+                GlyphInfo                    info;
                 std::shared_ptr<Image::Data> imageData;
                 glm::vec2                    offset    = glm::vec2(0.f, 0.f);
                 float                        advance   = 0.f;

@@ -63,7 +63,7 @@ namespace djv
 
             float Stack::getHeightForWidth(float value) const
             {
-                return heightForWidth(value, getChildrenT<Widget>(), getMargin(), _getStyle());
+                return heightForWidth(value, getChildWidgets(), getMargin(), _getStyle());
             }
 
             float Stack::heightForWidth(float value, const std::vector<std::shared_ptr<Widget> >& children, const Layout::Margin& margin, const std::shared_ptr<Style::Style>& style)
@@ -106,12 +106,12 @@ namespace djv
 
             void Stack::_preLayoutEvent(Event::PreLayout &)
             {
-                _setMinimumSize(minimumSize(getChildrenT<Widget>(), getMargin(), _getStyle()));
+                _setMinimumSize(minimumSize(getChildWidgets(), getMargin(), _getStyle()));
             }
 
             void Stack::_layoutEvent(Event::Layout &)
             {
-                layout(getGeometry(), getChildrenT<Widget>(), getMargin(), _getStyle());
+                layout(getGeometry(), getChildWidgets(), getMargin(), _getStyle());
             }
 
         } // namespace Layout

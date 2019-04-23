@@ -151,7 +151,7 @@ namespace djv
                 // Get the child sizes.
                 auto style = _getStyle();
                 const glm::vec2 m = getMargin().getSize(style);
-                const auto children = getChildrenT<Widget>();
+                const auto& children = getChildWidgets();
                 size_t visibleChildren = 0;
                 for (const auto & child : children)
                 {
@@ -221,7 +221,7 @@ namespace djv
                 // Get the child sizes.
                 glm::vec2 minimumSize = glm::vec2(0.f, 0.f);
                 size_t visibleChildren = 0;
-                for (const auto & child : getChildrenT<Widget>())
+                for (const auto & child : getChildWidgets())
                 {
                     if (child->isVisible())
                     {
@@ -274,7 +274,7 @@ namespace djv
                 // Get the child sizes.
                 glm::vec2 minimumSize = glm::vec2(0.f, 0.f);
                 size_t expandCount = 0;
-                const auto children = getChildrenT<Widget>();
+                const auto& children = getChildWidgets();
                 size_t visibleChildren = 0;
                 for (const auto & child : children)
                 {

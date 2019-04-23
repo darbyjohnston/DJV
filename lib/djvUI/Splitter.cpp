@@ -109,7 +109,7 @@ namespace djv
             void Splitter::distributeEvenly()
             {
                 DJV_PRIVATE_PTR();
-                const auto children = getChildrenT<Widget>();
+                const auto& children = getChildWidgets();
                 p.split.resize(children.size());
                 const float size = children.size() ? 1.f / children.size() : 0.f;
                 float x = size;
@@ -156,7 +156,7 @@ namespace djv
                 auto style = _getStyle();
                 const glm::vec2 m = getMargin().getSize(style);
                 size_t i = 0;
-                for (const auto & child : getChildrenT<Widget>())
+                for (const auto & child : getChildWidgets())
                 {
                     if (child->isVisible())
                     {
@@ -213,7 +213,7 @@ namespace djv
                 DJV_PRIVATE_PTR();
                 glm::vec2 minimumSize = glm::vec2(0.f, 0.f);
                 size_t i = 0;
-                for (const auto & child : getChildrenT<Widget>())
+                for (const auto & child : getChildWidgets())
                 {
                     if (child->isVisible())
                     {
@@ -254,7 +254,7 @@ namespace djv
             {
                 const auto g = _getChildGeometry();
                 size_t i = 0;
-                for (const auto & child : getChildrenT<Widget>())
+                for (const auto & child : getChildWidgets())
                 {
                     child->setGeometry(g[i]);
                     ++i;
@@ -476,7 +476,7 @@ namespace djv
                 const float sw = ceilf(p.splitterWidth / 2.f);
                 float x = g.min.x;
                 float y = g.min.y;
-                const auto children = getChildrenT<Widget>();
+                const auto& children = getChildWidgets();
                 for (size_t i = 0; i < children.size(); ++i)
                 {
                     BBox2f bbox;
@@ -513,7 +513,7 @@ namespace djv
                 const float sw = ceilf(p.splitterWidth / 2.f);
                 float x = g.min.x;
                 float y = g.min.y;
-                const auto children = getChildrenT<Widget>();
+                const auto& children = getChildWidgets();
                 for (size_t i = 0; i < children.size(); ++i)
                 {
                     if (i < children.size() - 1)

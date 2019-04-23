@@ -114,6 +114,16 @@ namespace djv
             return _actions;
         }
 
+        inline const std::string& Widget::getTooltip() const
+        {
+            return _tooltipText;
+        }
+
+        inline const std::vector<std::shared_ptr<Widget> >& Widget::getChildWidgets() const
+        {
+            return _childWidgets;
+        }
+
         inline const std::shared_ptr<AV::Font::System> & Widget::_getFontSystem() const
         {
             return _fontSystem;
@@ -132,11 +142,6 @@ namespace djv
         inline const std::shared_ptr<Style::Style> & Widget::_getStyle() const
         {
             return _style;
-        }
-
-        inline const std::string & Widget::getTooltip() const
-        {
-            return _tooltipText;
         }
 
         inline float Widget::_getUpdateTime() const

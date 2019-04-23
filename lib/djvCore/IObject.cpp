@@ -91,40 +91,6 @@ namespace djv
             }
         }
 
-        void IObject::moveToFront()
-        {
-            if (auto parent = _parent.lock())
-            {
-                auto object = shared_from_this();
-                auto & siblings = parent->_children;
-                const auto i = std::find(siblings.begin(), siblings.end(), object);
-                if (i != siblings.end())
-                {
-                    siblings.erase(i);
-                }
-                siblings.push_back(object);
-                Event::ChildOrder childOrderEvent;
-                parent->event(childOrderEvent);
-            }
-        }
-
-        void IObject::moveToBack()
-        {
-            if (auto parent = _parent.lock())
-            {
-                auto object = shared_from_this();
-                auto & siblings = parent->_children;
-                const auto i = std::find(siblings.begin(), siblings.end(), object);
-                if (i != siblings.end())
-                {
-                    siblings.erase(i);
-                }
-                siblings.insert(siblings.begin(), object);
-                Event::ChildOrder childOrderEvent;
-                parent->event(childOrderEvent);
-            }
-        }
-
         void IObject::installEventFilter(const std::weak_ptr<IObject> & value)
         {
             removeEventFilter(value);
@@ -198,6 +164,40 @@ namespace djv
             while (_children.size())
             {
                 removeChild(_children.back());
+            }
+        }
+
+        void IObject::moveToFront()
+        {
+            if (auto parent = _parent.lock())
+            {
+                auto object = shared_from_this();
+                auto& siblings = parent->_children;
+                const auto i = std::find(siblings.begin(), siblings.end(), object);
+                if (i != siblings.end())
+                {
+                    siblings.erase(i);
+                }
+                siblings.push_back(object);
+                Event::ChildOrder childOrderEvent;
+                parent->event(childOrderEvent);
+            }
+        }
+
+        void IObject::moveToBack()
+        {
+            if (auto parent = _parent.lock())
+            {
+                auto object = shared_from_this();
+                auto& siblings = parent->_children;
+                const auto i = std::find(siblings.begin(), siblings.end(), object);
+                if (i != siblings.end())
+                {
+                    siblings.erase(i);
+                }
+                siblings.insert(siblings.begin(), object);
+                Event::ChildOrder childOrderEvent;
+                parent->event(childOrderEvent);
             }
         }
 

@@ -112,55 +112,55 @@ namespace djv
         void EventSystem::_popClipRect()
         {}
 
-        bool EventSystem::_resizeRequest(const std::shared_ptr<UI::Widget> & widget) const
+        bool EventSystem::_resizeRequest(const std::shared_ptr<Widget> & widget) const
         {
             bool out = widget->_resizeRequest;
             widget->_resizeRequest = false;
             return out;
         }
 
-        bool EventSystem::_redrawRequest(const std::shared_ptr<UI::Widget> & widget) const
+        bool EventSystem::_redrawRequest(const std::shared_ptr<Widget> & widget) const
         {
             bool out = widget->_redrawRequest;
             widget->_redrawRequest = false;
             return out;
         }
 
-        void EventSystem::_styleRecursive(const std::shared_ptr<UI::Widget> & widget, Event::Style & event)
+        void EventSystem::_styleRecursive(const std::shared_ptr<Widget> & widget, Event::Style & event)
         {
             widget->event(event);
-            for (const auto & child : widget->getChildrenT<UI::Widget>())
+            for (const auto & child : widget->getChildWidgets())
             {
                 _styleRecursive(child, event);
             }
         }
 
-        void EventSystem::_preLayoutRecursive(const std::shared_ptr<UI::Widget> & widget, Event::PreLayout & event)
+        void EventSystem::_preLayoutRecursive(const std::shared_ptr<Widget> & widget, Event::PreLayout & event)
         {
-            for (const auto & child : widget->getChildrenT<UI::Widget>())
+            for (const auto & child : widget->getChildWidgets())
             {
                 _preLayoutRecursive(child, event);
             }
             widget->event(event);
         }
 
-        void EventSystem::_layoutRecursive(const std::shared_ptr<UI::Widget> & widget, Event::Layout & event)
+        void EventSystem::_layoutRecursive(const std::shared_ptr<Widget> & widget, Event::Layout & event)
         {
             if (widget->isVisible())
             {
                 widget->event(event);
-                for (const auto & child : widget->getChildrenT<UI::Widget>())
+                for (const auto & child : widget->getChildWidgets())
                 {
                     _layoutRecursive(child, event);
                 }
             }
         }
 
-        void EventSystem::_clipRecursive(const std::shared_ptr<UI::Widget> & widget, Event::Clip & event)
+        void EventSystem::_clipRecursive(const std::shared_ptr<Widget> & widget, Event::Clip & event)
         {
             widget->event(event);
             const BBox2f clipRect = event.getClipRect();
-            for (const auto & child : widget->getChildrenT<UI::Widget>())
+            for (const auto & child : widget->getChildWidgets())
             {
                 event.setClipRect(clipRect.intersect(child->getGeometry()));
                 _clipRecursive(child, event);
@@ -168,14 +168,14 @@ namespace djv
             event.setClipRect(clipRect);
         }
 
-        void EventSystem::_paintRecursive(const std::shared_ptr<UI::Widget> & widget, Event::Paint & event, Event::PaintOverlay & overlayEvent)
+        void EventSystem::_paintRecursive(const std::shared_ptr<Widget> & widget, Event::Paint & event, Event::PaintOverlay & overlayEvent)
         {
             if (widget->isVisible() && !widget->isClipped())
             {
                 const BBox2f clipRect = event.getClipRect();
                 _pushClipRect(clipRect);
                 widget->event(event);
-                for (const auto & child : widget->getChildrenT<UI::Widget>())
+                for (const auto & child : widget->getChildWidgets())
                 {
                     const BBox2f childClipRect = clipRect.intersect(child->getGeometry());
                     event.setClipRect(childClipRect);

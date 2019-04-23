@@ -271,9 +271,9 @@ namespace djv
                 _lineGraphs["DynamicTextureCount"] = UI::LineGraphWidget::create(context);
                 _lineGraphs["DynamicTextureCount"]->setPrecision(0);
 
-                _labels["VBOCount"] = UI::Label::create(context);
-                _lineGraphs["VBOCount"] = UI::LineGraphWidget::create(context);
-                _lineGraphs["VBOCount"]->setPrecision(0);
+                _labels["VBOSize"] = UI::Label::create(context);
+                _lineGraphs["VBOSize"] = UI::LineGraphWidget::create(context);
+                _lineGraphs["VBOSize"]->setPrecision(0);
 
                 for (auto& i : _labels)
                 {
@@ -286,8 +286,8 @@ namespace djv
                 _layout->addChild(_thermometerWidgets["TextureAtlas"]);
                 _layout->addChild(_labels["DynamicTextureCount"]);
                 _layout->addChild(_lineGraphs["DynamicTextureCount"]);
-                _layout->addChild(_labels["VBOCount"]);
-                _layout->addChild(_lineGraphs["VBOCount"]);
+                _layout->addChild(_labels["VBOSize"]);
+                _layout->addChild(_lineGraphs["VBOSize"]);
                 addChild(_layout);
 
                 _timer = Time::Timer::create(context);
@@ -335,11 +335,11 @@ namespace djv
                 auto render = _getRender();
                 const float textureAtlasPercentage = render->getTextureAtlasPercentage();
                 const size_t dynamicTextureCount = render->getDynamicTextureCount();
-                const size_t vboCount = render->getVBOCount();
+                const size_t vboSize = render->getVBOSize();
 
                 _thermometerWidgets["TextureAtlas"]->setPercentage(textureAtlasPercentage);
                 _lineGraphs["DynamicTextureCount"]->addSample(dynamicTextureCount);
-                _lineGraphs["VBOCount"]->addSample(vboCount);
+                _lineGraphs["VBOSize"]->addSample(vboSize);
 
                 {
                     std::stringstream ss;
@@ -354,8 +354,8 @@ namespace djv
                 }
                 {
                     std::stringstream ss;
-                    ss << _getText(DJV_TEXT("VBO count")) << ": " << vboCount;
-                    _labels["VBOCount"]->setText(ss.str());
+                    ss << _getText(DJV_TEXT("VBO size")) << ": " << vboSize;
+                    _labels["VBOSize"]->setText(ss.str());
                 }
             }
 

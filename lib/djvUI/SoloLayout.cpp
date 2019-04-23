@@ -80,7 +80,7 @@ namespace djv
 
             std::shared_ptr<Widget> Solo::getCurrentWidget() const
             {
-                const auto children = getChildrenT<Widget>();
+                const auto& children = getChildWidgets();
                 DJV_PRIVATE_PTR();
                 if (p.currentIndex >= 0 && p.currentIndex < static_cast<int>(children.size()))
                 {
@@ -92,7 +92,7 @@ namespace djv
             void Solo::setCurrentWidget(const std::shared_ptr<Widget> & value)
             {
                 int i = 0;
-                for (const auto & child : getChildrenT<Widget>())
+                for (const auto & child : getChildWidgets())
                 {
                     if (value == child)
                     {
@@ -123,7 +123,7 @@ namespace djv
                 float out = 0.f;
                 auto style = _getStyle();
                 const glm::vec2 m = getMargin().getSize(style);
-                for (const auto & child : getChildrenT<Widget>())
+                for (const auto & child : getChildWidgets())
                 {
                     if (child->isVisible() || p.sizeForAll)
                     {
@@ -157,7 +157,7 @@ namespace djv
             {
                 DJV_PRIVATE_PTR();
                 glm::vec2 minimumSize = glm::vec2(0.f, 0.f);
-                for (const auto & child : getChildrenT<Widget>())
+                for (const auto & child : getChildWidgets())
                 {
                     if (child->isVisible() || p.sizeForAll)
                     {
@@ -172,7 +172,7 @@ namespace djv
             {
                 auto style = _getStyle();
                 const BBox2f & g = getMargin().bbox(getGeometry(), style);
-                for (const auto & child : getChildrenT<Widget>())
+                for (const auto & child : getChildWidgets())
                 {
                     child->setGeometry(Widget::getAlign(g, child->getMinimumSize(), child->getHAlign(), child->getVAlign()));
                 }
@@ -181,7 +181,7 @@ namespace djv
             void Solo::_updateEvent(Event::Update & event)
             {
                 int index = 0;
-                const auto children = getChildrenT<Widget>();
+                const auto& children = getChildWidgets();
                 for (const auto & child : children)
                 {
                     child->setVisible(_p->currentIndex == index);

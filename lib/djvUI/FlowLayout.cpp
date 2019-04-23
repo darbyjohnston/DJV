@@ -84,7 +84,7 @@ namespace djv
                 const glm::vec2 s = _p->spacing.get(style);
                 glm::vec2 pos = glm::vec2(0.f, 0.f);
                 float h = 0.f;
-                const auto children = getChildrenT<Widget>();
+                const auto& children = getChildWidgets();
                 const int childrenSize = static_cast<int>(children.size());
                 for (int i = 0, j = 0; i < childrenSize; ++i, ++j)
                 {
@@ -109,7 +109,7 @@ namespace djv
             void Flow::_preLayoutEvent(Event::PreLayout &)
             {
                 glm::vec2 minimumSize = glm::vec2(0.f, 0.f);
-                for (const auto & child : getChildrenT<Widget>())
+                for (const auto & child : getChildWidgets())
                 {
                     const auto & childMinimumSize = child->getMinimumSize();
                     minimumSize.x = std::max(minimumSize.x, childMinimumSize.x);
@@ -128,7 +128,7 @@ namespace djv
                 const glm::vec2 s = _p->spacing.get(style);
 
                 glm::vec2 pos = g.min;
-                const auto children = getChildrenT<Widget>();
+                const auto& children = getChildWidgets();
                 const int childrenSize = static_cast<int>(children.size());
                 typedef std::pair<std::shared_ptr<Widget>, BBox2f> Pair;
                 std::map<int, std::vector<Pair> > rows;

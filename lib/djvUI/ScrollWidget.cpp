@@ -461,7 +461,7 @@ namespace djv
             void ScrollArea::_preLayoutEvent(Event::PreLayout &)
             {
                 glm::vec2 childrenMinimumSize = glm::vec2(0.f, 0.f);
-                for (const auto & child : getChildrenT<Widget>())
+                for (const auto & child : getChildWidgets())
                 {
                     if (child->isVisible())
                     {
@@ -505,7 +505,7 @@ namespace djv
 
                 // Update the contents size.
                 glm::vec2 contentsSize = glm::vec2(0.f, 0.f);
-                for (const auto & child : getChildrenT<Widget>())
+                for (const auto & child : getChildWidgets())
                 {
                     if (child->isVisible())
                     {
@@ -553,7 +553,7 @@ namespace djv
                 // Update the child geometry.
                 glm::vec2 pos = g.min;
                 pos -= _scrollPos;
-                for (const auto & child : getChildrenT<Widget>())
+                for (const auto & child : getChildWidgets())
                 {
                     switch (_scrollType)
                     {

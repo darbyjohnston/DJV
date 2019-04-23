@@ -84,6 +84,7 @@ namespace djv
             glm::ivec2 resize = glm::ivec2(0, 0);
             bool resizeRequest = true;
             bool redrawRequest = true;
+            std::shared_ptr<AV::Render::Render2D> render;
             std::shared_ptr<AV::OpenGL::OffscreenBuffer> offscreenBuffer;
         };
 
@@ -94,6 +95,7 @@ namespace djv
             DJV_PRIVATE_PTR();
 
             p.glfwWindow = glfwWindow;
+            p.render = context->getSystemT<AV::Render::Render2D>();
 
             addDependency(context->getSystemT<UI::UISystem>());
 
@@ -182,41 +184,32 @@ namespace djv
 
                 if (resizeRequest || redrawRequest)
                 {
-                    if (auto render = getContext()->getSystemT<AV::Render::Render2D>())
+                    p.offscreenBuffer->bind();
+                    p.render->beginFrame(size);
+                    for (const auto & i : rootObject->getChildrenT<UI::Window>())
                     {
-                        p.offscreenBuffer->bind();
-                        render->beginFrame(size);
-                        for (const auto & i : rootObject->getChildrenT<UI::Window>())
+                        if (i->isVisible())
                         {
-                            if (i->isVisible())
-                            {
-                                Event::Paint paintEvent(BBox2f(0.f, 0.f, static_cast<float>(size.x), static_cast<float>(size.y)));
-                                Event::PaintOverlay paintOverlayEvent(BBox2f(0.f, 0.f, static_cast<float>(size.x), static_cast<float>(size.y)));
-                                _paintRecursive(i, paintEvent, paintOverlayEvent);
-                            }
+                            Event::Paint paintEvent(BBox2f(0.f, 0.f, static_cast<float>(size.x), static_cast<float>(size.y)));
+                            Event::PaintOverlay paintOverlayEvent(BBox2f(0.f, 0.f, static_cast<float>(size.x), static_cast<float>(size.y)));
+                            _paintRecursive(i, paintEvent, paintOverlayEvent);
                         }
-                        render->endFrame();
-                        p.offscreenBuffer->unbind();
-                        _redraw();
                     }
+                    p.render->endFrame();
+                    p.offscreenBuffer->unbind();
+                    _redraw();
                 }
             }
         }
 
         void EventSystem::_pushClipRect(const Core::BBox2f & value)
         {
-            if (auto system = getContext()->getSystemT<AV::Render::Render2D>())
-            {
-                system->pushClipRect(value);
-            }
+            _p->render->pushClipRect(value);
         }
 
         void EventSystem::_popClipRect()
         {
-            if (auto system = getContext()->getSystemT<AV::Render::Render2D>())
-            {
-                system->popClipRect();
-            }
+            _p->render->popClipRect();
         }
 
         void EventSystem::_initObject(const std::shared_ptr<IObject> & object)

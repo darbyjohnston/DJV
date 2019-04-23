@@ -147,30 +147,9 @@ namespace djv
                 info(info)
             {}
 
-            void Glyph::_init(
-                const std::shared_ptr<Image::Data> & imageData,
-                const glm::vec2 &                    offset,
-                float                                advance,
-                int32_t                              lsbDelta,
-                int32_t                              rsbDelta)
+            std::shared_ptr<Glyph> Glyph::create()
             {
-                this->imageData = imageData;
-                this->offset    = offset;
-                this->advance   = advance;
-                this->lsbDelta  = lsbDelta;
-                this->rsbDelta  = rsbDelta;
-            }
-
-            std::shared_ptr<Glyph> Glyph::create(
-                const std::shared_ptr<Image::Data> & imageData,
-                const glm::vec2 &                    offset,
-                float                                advance,
-                int32_t                              lsbDelta,
-                int32_t                              rsbDelta)
-            {
-                auto out = std::shared_ptr<Glyph>(new Glyph);
-                out->_init(imageData, offset, advance, lsbDelta, rsbDelta);
-                return out;
+                return std::shared_ptr<Glyph>(new Glyph);
             }
 
             struct System::Private
@@ -235,7 +214,7 @@ namespace djv
                 {
                     DJV_PRIVATE_PTR();
                     _initFreeType();
-                    const auto timeout = Time::getValue(Time::TimerValue::Medium);
+                    const auto timeout = Time::getValue(Time::TimerValue::Fast);
                     while (p.running)
                     {
                         {
@@ -544,8 +523,9 @@ namespace djv
                                 for (auto i = utf32.begin(); i != utf32.end(); ++i)
                                 {
                                     const auto info = GlyphInfo(*i, request.info);
+                                    const auto glyph = p.getGlyph(info);
                                     float x = 0.f;
-                                    if (const auto glyph = p.getGlyph(info))
+                                    if (glyph->imageData)
                                     {
                                         x = glyph->advance;
                                         if (rsbDeltaPrev - glyph->lsbDelta > 32)
@@ -735,7 +715,6 @@ namespace djv
                 DJV_PRIVATE_PTR();
                 for (auto & request : p.glyphsRequests)
                 {
-                    std::vector<std::shared_ptr<Glyph> > glyphs;
                     std::basic_string<djv_char_t> utf32;
                     try
                     {
@@ -747,13 +726,11 @@ namespace djv
                         ss << "Error converting string" << " '" << request.text << "': " << e.what();
                         _log(ss.str(), LogLevel::Error);
                     }
-                    glyphs.reserve(utf32.size());
-                    for (const auto & c : utf32)
+                    const size_t size = utf32.size();
+                    std::vector<std::shared_ptr<Glyph> > glyphs(size);
+                    for (size_t i = 0; i < size; ++i)
                     {
-                        if (const auto glyph = p.getGlyph(GlyphInfo(c, request.info)))
-                        {
-                            glyphs.push_back(glyph);
-                        }
+                        glyphs[i] = p.getGlyph(GlyphInfo(utf32[i], request.info));
                     }
                     request.promise.set_value(std::move(glyphs));
                 }
@@ -768,6 +745,8 @@ namespace djv
                 FT_Face  ftFace = nullptr;
                 if (!glyphCache.get(info, out))
                 {
+                    out = Glyph::create();
+                    out->info = info;
                     if (info.info.family != family || info.info.face != face)
                     {
                         const auto i = fontFaces.find(info.info.family);
@@ -852,16 +831,13 @@ namespace djv
                                     bitmap->bitmap.buffer + y * bitmap->bitmap.pitch,
                                     imageInfo.size.x * renderModeChannels);
                             }
-                            out = Glyph::create(
-                                imageData,
-                                glm::vec2(ftFace->glyph->bitmap_left, ftFace->glyph->bitmap_top),
-                                ftFace->glyph->advance.x / 64.f,
-                                ftFace->glyph->lsb_delta,
-                                ftFace->glyph->rsb_delta);
-                            {
-                                glyphCache.add(info, out);
-                                glyphCachePercentageUsed = glyphCache.getPercentageUsed();
-                            }
+                            out->imageData = imageData;
+                            out->offset = glm::vec2(ftFace->glyph->bitmap_left, ftFace->glyph->bitmap_top);
+                            out->advance = ftFace->glyph->advance.x / 64.f;
+                            out->lsbDelta = ftFace->glyph->lsb_delta;
+                            out->rsbDelta = ftFace->glyph->rsb_delta;
+                            glyphCache.add(info, out);
+                            glyphCachePercentageUsed = glyphCache.getPercentageUsed();
                             FT_Done_Glyph(ftGlyph);
                         }
                     }

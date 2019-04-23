@@ -84,7 +84,7 @@ namespace djv
             {
                 if (auto widget = weak.lock())
                 {
-                    widget->_p->soloLayout->removeChild(widget->_p->soloLayout->getChildrenT<Widget>()[value]);
+                    widget->_p->soloLayout->removeChild(widget->_p->soloLayout->getChildWidgets()[value]);
                 }
             });
         }
@@ -120,7 +120,7 @@ namespace djv
         {
             size_t i = 0;
             DJV_PRIVATE_PTR();
-            const auto & children = p.soloLayout->getChildrenT<Widget>();
+            const auto & children = p.soloLayout->getChildWidgets();
             for (const auto & child : children)
             {
                 if (child == value)

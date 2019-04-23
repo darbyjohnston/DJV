@@ -298,6 +298,65 @@ namespace djv
             return globalWidgetCount;
         }
 
+        void Widget::addChild(const std::shared_ptr<IObject>& value)
+        {
+            IObject::addChild(value);
+            if (auto widget = std::dynamic_pointer_cast<Widget>(value))
+            {
+                const auto i = std::find(_childWidgets.begin(), _childWidgets.end(), widget);
+                if (i != _childWidgets.end())
+                {
+                    _childWidgets.erase(i);
+                }
+                _childWidgets.push_back(widget);
+            }
+        }
+
+        void Widget::removeChild(const std::shared_ptr<IObject>& value)
+        {
+            IObject::removeChild(value);
+            if (auto widget = std::dynamic_pointer_cast<Widget>(value))
+            {
+                const auto i = std::find(_childWidgets.begin(), _childWidgets.end(), widget);
+                if (i != _childWidgets.end())
+                {
+                    _childWidgets.erase(i);
+                }
+            }
+        }
+
+        void Widget::moveToFront()
+        {
+            IObject::moveToFront();
+            if (auto parent = std::dynamic_pointer_cast<Widget>(getParent().lock()))
+            {
+                auto object = std::dynamic_pointer_cast<Widget>(shared_from_this());
+                auto& siblings = parent->_childWidgets;
+                const auto i = std::find(siblings.begin(), siblings.end(), object);
+                if (i != siblings.end())
+                {
+                    siblings.erase(i);
+                }
+                siblings.push_back(object);
+            }
+        }
+
+        void Widget::moveToBack()
+        {
+            IObject::moveToBack();
+            if (auto parent = std::dynamic_pointer_cast<Widget>(getParent().lock()))
+            {
+                auto object = std::dynamic_pointer_cast<Widget>(shared_from_this());
+                auto& siblings = parent->_childWidgets;
+                const auto i = std::find(siblings.begin(), siblings.end(), object);
+                if (i != siblings.end())
+                {
+                    siblings.erase(i);
+                }
+                siblings.insert(siblings.begin(), object);
+            }
+        }
+
         bool Widget::event(Event::IEvent & event)
         {
             bool out = IObject::event(event);

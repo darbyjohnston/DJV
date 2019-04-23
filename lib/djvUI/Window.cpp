@@ -71,12 +71,12 @@ namespace djv
 
         void Window::_preLayoutEvent(Event::PreLayout &)
         {
-            _setMinimumSize(StackLayout::minimumSize(getChildrenT<Widget>(), Layout::Margin(), _getStyle()));
+            _setMinimumSize(StackLayout::minimumSize(getChildWidgets(), Layout::Margin(), _getStyle()));
         }
 
         void Window::_layoutEvent(Event::Layout &)
         {
-            StackLayout::layout(getGeometry(), getChildrenT<Widget>(), Layout::Margin(), _getStyle());
+            StackLayout::layout(getGeometry(), getChildWidgets(), Layout::Margin(), _getStyle());
         }
 
     } // namespace UI

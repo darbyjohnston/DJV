@@ -114,6 +114,8 @@ private:
     void _drawRandomText();
     void _render();
 
+    GLFWwindow* _glfwWindow = nullptr;
+    std::shared_ptr<AV::Render::Render2D> _render2D;
     RandomColor * _randomColors = nullptr;
     RandomColor * _currentColor = nullptr;
     RandomPos *   _randomPos    = nullptr;
@@ -127,9 +129,10 @@ private:
 void Application::_init(int argc, char ** argv)
 {
     CmdLine::Application::_init(argc, argv);
-    auto glfwWindow = getSystemT<CmdLine::GLFWSystem>()->getGLFWWindow();
-    glfwSetWindowSize(glfwWindow, 1280, 720);
-    glfwShowWindow(glfwWindow);
+    _glfwWindow = getSystemT<CmdLine::GLFWSystem>()->getGLFWWindow();
+    glfwSetWindowSize(_glfwWindow, 1280, 720);
+    glfwShowWindow(_glfwWindow);
+    _render2D = getSystemT<AV::Render::Render2D>();
 }
 
 Application::Application()
@@ -145,12 +148,11 @@ std::unique_ptr<Application> Application::create(int argc, char ** argv)
 int Application::run()
 {
     auto time = std::chrono::system_clock::now();
-    auto glfwWindow = getSystemT<CmdLine::GLFWSystem>()->getGLFWWindow();
-    while (!glfwWindowShouldClose(glfwWindow))
+    while (!glfwWindowShouldClose(_glfwWindow))
     {
         glfwPollEvents();
         _render();
-        //glfwSwapBuffers(glfwWindow);
+        //glfwSwapBuffers(_glfwWindow);
         gl::glFlush();
         auto now = std::chrono::system_clock::now();
         std::chrono::duration<float> delta = now - time;
@@ -218,81 +220,65 @@ void Application::_initRandomNumbers()
 
 void Application::_drawRandomRectangle()
 {
-    if (auto render = getSystemT<AV::Render::Render2D>())
-    {
-        render->setFillColor(_currentColor->c);
-        render->drawRect(Core::BBox2f(_currentPos->v.x, _currentPos->v.y, _currentSize->v.x, _currentSize->v.y));
-        _currentColor = _currentColor->next;
-        _currentPos = _currentPos->next;
-        _currentSize = _currentSize->next;
-    }
+    _render2D->setFillColor(_currentColor->c);
+    _render2D->drawRect(Core::BBox2f(_currentPos->v.x, _currentPos->v.y, _currentSize->v.x, _currentSize->v.y));
+    _currentColor = _currentColor->next;
+    _currentPos = _currentPos->next;
+    _currentSize = _currentSize->next;
 }
 
 void Application::_drawRandomRoundedRectangle()
 {
-    if (auto render = getSystemT<AV::Render::Render2D>())
-    {
-        render->setFillColor(_currentColor->c);
-        render->drawRoundedRect(
-            Core::BBox2f(_currentPos->v.x, _currentPos->v.y, _currentSize->v.x, _currentSize->v.y),
-            std::min(_currentSize->v.x, _currentSize->v.y) / 4.f);
-        _currentColor = _currentColor->next;
-        _currentPos = _currentPos->next;
-        _currentSize = _currentSize->next;
-    }
+    _render2D->setFillColor(_currentColor->c);
+    _render2D->drawRoundedRect(
+        Core::BBox2f(_currentPos->v.x, _currentPos->v.y, _currentSize->v.x, _currentSize->v.y),
+        std::min(_currentSize->v.x, _currentSize->v.y) / 4.f);
+    _currentColor = _currentColor->next;
+    _currentPos = _currentPos->next;
+    _currentSize = _currentSize->next;
 }
 
 void Application::_drawRandomCircle()
 {
-    if (auto render = getSystemT<AV::Render::Render2D>())
-    {
-        render->setFillColor(_currentColor->c);
-        render->drawCircle(_currentPos->v, _currentSize->v.x);
-        _currentColor = _currentColor->next;
-        _currentPos = _currentPos->next;
-        _currentSize = _currentSize->next;
-    }
+    _render2D->setFillColor(_currentColor->c);
+    _render2D->drawCircle(_currentPos->v, _currentSize->v.x);
+    _currentColor = _currentColor->next;
+    _currentPos = _currentPos->next;
+    _currentSize = _currentSize->next;
 }
 
 void Application::_drawRandomText()
 {
-    if (auto render = getSystemT<AV::Render::Render2D>())
-    {
-        render->setFillColor(_currentColor->c);
-        AV::Font::Info fontInfo;
-        fontInfo.size = _currentText->size;
-        render->setCurrentFont(fontInfo);
-        render->drawText(_currentText->s, _currentPos->v);
-        _currentColor = _currentColor->next;
-        _currentPos = _currentPos->next;
-        _currentSize = _currentSize->next;
-        _currentText = _currentText->next;
-    }
+    _render2D->setFillColor(_currentColor->c);
+    AV::Font::Info fontInfo;
+    fontInfo.size = _currentText->size;
+    _render2D->setCurrentFont(fontInfo);
+    _render2D->drawText(_currentText->s, _currentPos->v);
+    _currentColor = _currentColor->next;
+    _currentPos = _currentPos->next;
+    _currentSize = _currentSize->next;
+    _currentText = _currentText->next;
 }
 
 void Application::_render()
 {
-    if (auto render = getSystemT<AV::Render::Render2D>())
+    glm::ivec2 size;
+    glfwGetWindowSize(_glfwWindow, &size.x, &size.y);
+    if (size != windowSize)
     {
-        glm::ivec2 size;
-        auto glfwWindow = getSystemT<CmdLine::GLFWSystem>()->getGLFWWindow();
-        glfwGetWindowSize(glfwWindow, &size.x, &size.y);
-        if (size != windowSize)
-        {
-            windowSize = size;
-            _generateRandomNumbers();
-        }
-        _initRandomNumbers();
-        render->beginFrame(windowSize);
-        for (size_t i = 0; i < drawCount / 4; ++i)
-        {
-            _drawRandomRectangle();
-            _drawRandomRoundedRectangle();
-            _drawRandomCircle();
-            _drawRandomText();
-        }
-        render->endFrame();
+        windowSize = size;
+        _generateRandomNumbers();
     }
+    _initRandomNumbers();
+    _render2D->beginFrame(windowSize);
+    for (size_t i = 0; i < drawCount / 4; ++i)
+    {
+        _drawRandomRectangle();
+        _drawRandomRoundedRectangle();
+        _drawRandomCircle();
+        _drawRandomText();
+    }
+    _render2D->endFrame();
 }
 
 int main(int argc, char ** argv)
