@@ -55,7 +55,6 @@ namespace djv
             Widget::_init(context);
 
             DJV_PRIVATE_PTR();
-
             setClassName("djv::UI::SearchBox");
             setVAlign(VAlign::Center);
 

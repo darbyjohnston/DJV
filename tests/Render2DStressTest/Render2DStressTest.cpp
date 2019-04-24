@@ -114,16 +114,16 @@ private:
     void _drawRandomText();
     void _render();
 
-    GLFWwindow* _glfwWindow = nullptr;
+    GLFWwindow*  _glfwWindow = nullptr;
     std::shared_ptr<AV::Render::Render2D> _render2D;
-    RandomColor * _randomColors = nullptr;
-    RandomColor * _currentColor = nullptr;
-    RandomPos *   _randomPos    = nullptr;
-    RandomPos *   _currentPos   = nullptr;
-    RandomSize *  _randomSizes  = nullptr;
-    RandomSize *  _currentSize  = nullptr;
-    RandomText *  _randomText   = nullptr;
-    RandomText *  _currentText  = nullptr;
+    RandomColor* _randomColors = nullptr;
+    RandomColor* _currentColor = nullptr;
+    RandomPos*   _randomPos    = nullptr;
+    RandomPos*   _currentPos   = nullptr;
+    RandomSize*  _randomSizes  = nullptr;
+    RandomSize*  _currentSize  = nullptr;
+    RandomText*  _randomText   = nullptr;
+    RandomText*  _currentText  = nullptr;
 };
 
 void Application::_init(int argc, char ** argv)

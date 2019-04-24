@@ -90,9 +90,9 @@ namespace djv
         {
             IDialog::_init(context);
 
+            DJV_PRIVATE_PTR();
             setClassName("djv::ViewApp::RecentFilesDialog");
 
-            DJV_PRIVATE_PTR();
             p.actions["IncreaseThumbnailSize"] = UI::Action::create();
             p.actions["IncreaseThumbnailSize"]->setShortcut(GLFW_KEY_EQUAL);
             p.actions["DecreaseThumbnailSize"] = UI::Action::create();

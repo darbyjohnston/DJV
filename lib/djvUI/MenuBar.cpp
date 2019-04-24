@@ -52,7 +52,9 @@ namespace djv
             std::shared_ptr<HorizontalLayout> menuLayout;
             std::shared_ptr<HorizontalLayout> widgetLayout;
             std::shared_ptr<HorizontalLayout> layout;
+            std::shared_ptr<Button::Menu> menuOpen;
             std::map<std::shared_ptr<Menu>, std::shared_ptr<Button::Menu> > menusToButtons;
+            std::map<std::shared_ptr<Button::Menu>, std::shared_ptr<Menu> > buttonsToMenus;
             std::map<std::shared_ptr<Menu>, std::shared_ptr<ValueObserver<std::string> > > iconObservers;
             std::map<std::shared_ptr<Menu>, std::shared_ptr<ValueObserver<std::string> > > textObservers;
             std::shared_ptr<ValueObserver<bool> > closeObserver;
@@ -64,13 +66,13 @@ namespace djv
         {
             Widget::_init(context);
             
+            DJV_PRIVATE_PTR();
             setClassName("djv::UI::MenuBar");
 
             auto closeAction = Action::create();
             closeAction->setShortcut(GLFW_KEY_ESCAPE);
             addAction(closeAction);
 
-            DJV_PRIVATE_PTR();
             p.menuLayout = HorizontalLayout::create(context);
             p.menuLayout->setSpacing(MetricsRole::None);
 
@@ -154,6 +156,7 @@ namespace djv
                 p.menuLayout->addChild(button);
 
                 p.menusToButtons[menu] = button;
+                p.buttonsToMenus[button] = menu;
 
                 auto weak = std::weak_ptr<MenuBar>(std::dynamic_pointer_cast<MenuBar>(shared_from_this()));
                 button->setCheckedCallback(
@@ -167,7 +170,9 @@ namespace djv
                             const auto i = widget->_p->menusToButtons.find(menu);
                             if (i != widget->_p->menusToButtons.end())
                             {
+                                i->second->setChecked(true);
                                 menu->popup(i->second, widget->_p->menuLayout);
+                                widget->_p->menuOpen = i->second;
                             }
                         }
                     }
@@ -187,6 +192,7 @@ namespace djv
                                 i->second->setChecked(false);
                             }
                         }
+                        widget->_p->menuOpen.reset();
                     }
                 });
 
@@ -220,6 +226,11 @@ namespace djv
                     const auto i = p.menusToButtons.find(menu);
                     if (i != p.menusToButtons.end())
                     {
+                        const auto j = p.buttonsToMenus.find(i->second);
+                        if (j != p.buttonsToMenus.end())
+                        {
+                            p.buttonsToMenus.erase(j);
+                        }
                         p.menuLayout->removeChild(i->second);
                         p.menusToButtons.erase(i);
                     }
@@ -260,25 +271,24 @@ namespace djv
 
         bool MenuBar::_eventFilter(const std::shared_ptr<IObject> & object, Event::IEvent & event)
         {
+            DJV_PRIVATE_PTR();
             switch (event.getEventType())
             {
             case Event::Type::PointerEnter:
             {
-                bool checked = false;
-                DJV_PRIVATE_PTR();
-                for (const auto & i : p.menus)
+                if (auto button = std::dynamic_pointer_cast<Button::Menu>(object))
                 {
-                    auto j = p.menusToButtons.find(i);
-                    if (j != p.menusToButtons.end())
+                    if (p.menuOpen && p.menuOpen != button)
                     {
-                        checked |= j->second->isChecked();
-                    }
-                }
-                if (checked)
-                {
-                    if (auto button = std::dynamic_pointer_cast<Button::Menu>(object))
-                    {
-                        button->setChecked(true);
+                        p.menuOpen->setChecked(false);                        
+                        p.closeMenus();
+                        const auto i = p.buttonsToMenus.find(button);
+                        if (i != p.buttonsToMenus.end())
+                        {
+                            button->setChecked(true);
+                            i->second->popup(button, p.menuLayout);
+                            p.menuOpen = button;
+                        }
                     }
                 }
                 break;
@@ -294,6 +304,7 @@ namespace djv
             {
                 i->hide();
             }
+            menuOpen.reset();
         }
 
     } // namespace UI

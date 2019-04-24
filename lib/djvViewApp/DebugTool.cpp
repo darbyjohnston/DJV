@@ -87,6 +87,8 @@ namespace djv
             {
                 Widget::_init(context);
 
+                setClassName("djv::ViewApp::GeneralDebugWidget");
+
                 _labels["FPS"] = UI::Label::create(context);
 
                 _labels["ObjectCount"] = UI::Label::create(context);
@@ -264,6 +266,8 @@ namespace djv
             {
                 Widget::_init(context);
 
+                setClassName("djv::ViewApp::RenderDebugWidget");
+
                 _labels["TextureAtlas"] = UI::Label::create(context);
                 _thermometerWidgets["TextureAtlas"] = UI::ThermometerWidget::create(context);
 
@@ -402,6 +406,8 @@ namespace djv
             void MediaDebugWidget::_init(Context* context)
             {
                 Widget::_init(context);
+
+                setClassName("djv::ViewApp::MediaDebugWidget");
 
                 _labels["CurrentTime"] = UI::Label::create(context);
                 
@@ -607,6 +613,7 @@ namespace djv
             ITool::_init(context);
 
             DJV_PRIVATE_PTR();
+            setClassName("djv::ViewApp::DebugTool");
 
             auto layout = UI::VerticalLayout::create(context);
             layout->setSpacing(UI::MetricsRole::None);

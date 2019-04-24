@@ -57,6 +57,8 @@ namespace djv
             ISettingsWidget::_init(context);
 
             DJV_PRIVATE_PTR();
+            setClassName("djv::ViewApp::PlaybackSettingsWidget");
+
             p.pipButton = UI::CheckButton::create(context);
 
             p.formLayout = UI::FormLayout::create(context);

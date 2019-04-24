@@ -84,6 +84,8 @@ namespace djv
                 Widget::_init(context);
 
                 DJV_PRIVATE_PTR();
+                setClassName("djv::UI::TimeUnitsWidget");
+
                 p.comboBox = ComboBox::create(context);
                 addChild(p.comboBox);
 
@@ -177,6 +179,8 @@ namespace djv
             ISettingsWidget::_init(context);
 
             DJV_PRIVATE_PTR();
+            setClassName("djv::UI::TimeSettingsWidget");
+
             p.timeUnitsWidget = TimeUnitsWidget::create(context);
 
             p.layout = FormLayout::create(context);

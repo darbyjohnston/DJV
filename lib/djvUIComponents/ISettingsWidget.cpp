@@ -49,6 +49,8 @@ namespace djv
             Widget::_init(context);
 
             DJV_PRIVATE_PTR();
+            setClassName("djv::UI::ISettingsWidget");
+
             p.layout = VerticalLayout::create(context);
             p.layout->setMargin(MetricsRole::MarginLarge);
             p.layout->setSpacing(MetricsRole::SpacingLarge);

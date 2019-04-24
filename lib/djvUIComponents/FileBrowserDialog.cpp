@@ -60,6 +60,8 @@ namespace djv
                     {
                         IDialog::_init(context);
 
+                        setClassName("djv::UI::FileBrowser::Dialog");
+
                         _widget = FileBrowser::Widget::create(context);
                         _widget->setPath(FileSystem::Path("."));
                         _widget->setBackgroundRole(ColorRole::Background);

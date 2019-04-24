@@ -69,10 +69,10 @@ namespace djv
             {
                 UI::Widget::_init(context);
 
+                DJV_PRIVATE_PTR();
                 setClassName("djv::UI::FileBrowser::PathWidget");
                 setPointerEnabled(true);
 
-                DJV_PRIVATE_PTR();
                 p.historyActionGroup = ActionGroup::create(ButtonType::Radio);
                 p.historyMenu = Menu::create(context);
                 addChild(p.historyMenu);

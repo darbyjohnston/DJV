@@ -61,6 +61,7 @@ namespace djv
                 AV::Font::Metrics nameFontMetrics;
                 std::future<AV::Font::Metrics> nameFontMetricsFuture;
                 std::map<size_t, BBox2f> itemGeometry;
+                std::map<size_t, std::string> names;
                 std::map<size_t, std::vector<AV::Font::TextLine> > nameLines;
                 std::map<size_t, std::future<std::vector<AV::Font::TextLine> > > nameLinesFutures;
                 std::map<size_t, AV::IO::Info> ioInfo;
@@ -85,7 +86,6 @@ namespace djv
             void ItemView::_init(Context * context)
             {
                 UI::Widget::_init(context);
-                DJV_PRIVATE_PTR();
                 setClassName("djv::UI::FileBrowser::ItemView");
             }
 
@@ -262,8 +262,11 @@ namespace djv
                                 {
                                     const float m = style->getMetric(MetricsRole::MarginSmall);
                                     const auto fontInfo = style->getFontInfo(AV::Font::faceDefault, MetricsRole::FontMedium);
+                                    p.names[i.first] = fileInfo.getFileName(Frame::Invalid, false);
                                     p.nameLinesFutures[i.first] = fontSystem->textLines(
-                                        fileInfo.getFileName(Frame::Invalid, false), p.thumbnailSize.x - m * 2.f, fontInfo);
+                                        p.names[i.first],
+                                        p.thumbnailSize.x - m * 2.f,
+                                        fontInfo);
                                 }
                             }
                         }
@@ -451,20 +454,21 @@ namespace djv
                             {
                             case ViewType::Tiles:
                             {
-                                const auto j = p.nameLines.find(index);
-                                if (j != p.nameLines.end())
+                                const auto j = p.names.find(index);
+                                const auto k = p.nameLines.find(index);
+                                if (j != p.names.end() && k != p.nameLines.end())
                                 {
                                     float x = i->second.min.x + m;
                                     float y = i->second.max.y - p.nameFontMetrics.lineHeight * 2.f - m;
                                     size_t line = 0;
-                                    auto k = j->second.begin();
-                                    for (; k != j->second.end() && line < 2; ++k, ++line)
+                                    auto l = k->second.begin();
+                                    for (; l != k->second.end() && line < 2; ++l, ++line)
                                     {
                                         //! \bug Why the extra subtract by one here?
                                         render->drawText(
-                                            k->text,
+                                            j->second.substr(l->offset, l->length),
                                             glm::vec2(
-                                                floorf(x + p.thumbnailSize.x / 2.f - k->size.x / 2.f),
+                                                floorf(x + p.thumbnailSize.x / 2.f - l->size.x / 2.f),
                                                 floorf(y + p.nameFontMetrics.ascender - 1.f)));
                                         y += p.nameFontMetrics.lineHeight;
                                     }
@@ -825,6 +829,7 @@ namespace djv
                 auto thumbnailSystem = context->getSystemT<AV::ThumbnailSystem>();
                 auto fontSystem = _getFontSystem();
                 auto style = _getStyle();
+                p.names.clear();
                 p.nameLines.clear();
                 p.nameLinesFutures.clear();
                 for (const auto & i : p.itemGeometry)
@@ -855,8 +860,11 @@ namespace djv
                                     {
                                         const float m = style->getMetric(MetricsRole::MarginSmall);
                                         const auto fontInfo = style->getFontInfo(AV::Font::faceDefault, MetricsRole::FontMedium);
+                                        p.names[i.first] = fileInfo.getFileName(Frame::Invalid, false);
                                         p.nameLinesFutures[i.first] = fontSystem->textLines(
-                                            fileInfo.getFileName(Frame::Invalid, false), p.thumbnailSize.x - m * 2.f, fontInfo);
+                                            p.names[i.first],
+                                            p.thumbnailSize.x - m * 2.f,
+                                            fontInfo);
                                     }
                                 }
                             }
@@ -884,6 +892,7 @@ namespace djv
                 auto thumbnailSystem = getContext()->getSystemT<AV::ThumbnailSystem>();
                 p.nameFontMetricsFuture = fontSystem->getMetrics(
                     style->getFontInfo(AV::Font::faceDefault, MetricsRole::FontMedium));
+                p.names.clear();
                 p.nameLines.clear();
                 p.nameLinesFutures.clear();
                 p.ioInfo.clear();

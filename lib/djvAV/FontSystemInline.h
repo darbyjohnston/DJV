@@ -62,12 +62,18 @@ namespace djv
             inline TextLine::TextLine()
             {}
 
-            inline TextLine::TextLine(const std::string& text, const glm::vec2& size) :
-                text(text),
+            inline TextLine::TextLine(size_t offset, size_t length, const glm::vec2& size) :
+                offset(offset),
+                length(length),
                 size(size)
             {}
 
             inline GlyphInfo::GlyphInfo()
+            {}
+
+            inline GlyphInfo::GlyphInfo(uint32_t code, const Info& info) :
+                code(code),
+                info(info)
             {}
 
             inline bool GlyphInfo::operator == (const GlyphInfo & other) const

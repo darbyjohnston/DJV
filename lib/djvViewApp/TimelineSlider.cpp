@@ -93,6 +93,8 @@ namespace djv
             {
                 Widget::_init(context);
 
+                setClassName("djv::ViewApp::TimelineSlider::PIPWidget");
+
                 _imageWidget = UI::ImageWidget::create(context);
                 _imageWidget->setSizeRole(UI::MetricsRole::Dialog);
 
@@ -200,10 +202,10 @@ namespace djv
         {
             Widget::_init(context);
 
+            DJV_PRIVATE_PTR();
             setClassName("djv::ViewApp::TimelineSlider");
             setPointerEnabled(true);
 
-            DJV_PRIVATE_PTR();
             p.currentTime = ValueSubject<Time::Timestamp>::create();
 
             p.pipWidget = PIPWidget::create(context);

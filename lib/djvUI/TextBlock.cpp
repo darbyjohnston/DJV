@@ -55,21 +55,15 @@ namespace djv
             MetricsRole fontSizeRole = MetricsRole::FontMedium;
             AV::Font::Metrics fontMetrics;
             std::future<AV::Font::Metrics> fontMetricsFuture;
-            float heightForWidth = 0.f;
-            size_t heightForWidthHash = 0;
             glm::vec2 textSize = glm::vec2(0.f, 0.f);
             size_t textSizeHash = 0;
-            std::future<glm::vec2> textSizeFuture;
-            //std::vector<AV::Font::TextLine> textLines;
-            //size_t textLinesHash = 0;
-            //std::future<std::vector<AV::Font::TextLine> > textLinesFuture;
+            std::vector<AV::Font::TextLine> textLines;
             BBox2f clipRect;
         };
 
         void TextBlock::_init(Context * context)
         {
             Widget::_init(context);
-            
             setClassName("djv::UI::TextBlock");
         }
         
@@ -105,9 +99,7 @@ namespace djv
             if (value == p.text)
                 return;
             p.text = value;
-            p.heightForWidthHash = 0;
             p.textSizeHash = 0;
-            //p.textLinesHash = 0;
             _textUpdate();
         }
 
@@ -204,19 +196,8 @@ namespace djv
                 style->getFontInfo(p.fontFace, p.fontSizeRole) :
                 style->getFontInfo(p.fontFamily, p.fontFace, p.fontSizeRole);
             const float w = value - getMargin().getWidth(style);
-
-            size_t hash = 0;
-            Memory::hashCombine(hash, fontInfo.family);
-            Memory::hashCombine(hash, fontInfo.face);
-            Memory::hashCombine(hash, fontInfo.size);
-            Memory::hashCombine(hash, w);
-            if (!p.heightForWidthHash || p.heightForWidthHash != hash)
-            {
-                p.heightForWidthHash = hash;
-                auto fontSystem = _getFontSystem();
-                p.heightForWidth = fontSystem->measure(p.text, w, fontInfo).get().y;
-            }
-            out = p.heightForWidth + getMargin().getHeight(style);
+            _calcSize(w);
+            out = p.textSize.y + getMargin().getHeight(style);
             return out;
         }
 
@@ -228,55 +209,9 @@ namespace djv
         void TextBlock::_preLayoutEvent(Event::PreLayout & event)
         {
             DJV_PRIVATE_PTR();
-            if (p.fontMetricsFuture.valid())
-            {
-                try
-                {
-                    p.fontMetrics = p.fontMetricsFuture.get();
-                }
-                catch (const std::exception & e)
-                {
-                    _log(e.what(), LogLevel::Error);
-                }
-            }
-            if (p.textSizeFuture.valid())
-            {
-                try
-                {
-                    p.textSize = p.textSizeFuture.get();
-                }
-                catch (const std::exception & e)
-                {
-                    _log(e.what(), LogLevel::Error);
-                }
-            }
-
-            auto size = p.textSize;
             auto style = _getStyle();
-            size.x = std::max(size.x, style->getMetric(p.textSizeRole));
-            _setMinimumSize(size + getMargin().getSize(style));
-        }
-
-        void TextBlock::_layoutEvent(Event::Layout & event)
-        {
-            /*DJV_PRIVATE_PTR();
-            auto style = _getStyle();
-            const BBox2f & g = getMargin().bbox(getGeometry(), style);
-            const auto fontInfo = p.fontFamily.empty() ?
-                style->getFontInfo(p.fontFace, p.fontSizeRole) :
-                style->getFontInfo(p.fontFamily, p.fontFace, p.fontSizeRole);
-
-            size_t hash = 0;
-            Memory::hashCombine(hash, fontInfo.family);
-            Memory::hashCombine(hash, fontInfo.face);
-            Memory::hashCombine(hash, fontInfo.size);
-            Memory::hashCombine(hash, g.w());
-            if (!p.textLinesHash || p.textLinesHash != hash)
-            {
-                p.textLinesHash = hash;
-                auto fontSystem = _getFontSystem();
-                p.textLinesFuture = fontSystem->textLines(p.text, g.w(), fontInfo);
-            }*/
+            _calcSize(style->getMetric(p.textSizeRole));
+            _setMinimumSize(p.textSize + getMargin().getSize(style));
         }
 
         void TextBlock::_clipEvent(Event::Clip & event)
@@ -294,10 +229,18 @@ namespace djv
                 const BBox2f & g = getMargin().bbox(getGeometry(), style);
                 const glm::vec2 c = g.getCenter();
 
-                //if (p.textLinesFuture.valid())
-                //{
-                //    p.textLines = p.textLinesFuture.get();
-                //}
+                if (p.fontMetricsFuture.valid())
+                {
+                    try
+                    {
+                        p.fontMetrics = p.fontMetricsFuture.get();
+                    }
+                    catch (const std::exception & e)
+                    {
+                        _log(e.what(), LogLevel::Error);
+                    }
+                }
+
                 glm::vec2 pos = g.min;
                 auto render = _getRender();
                 render->setCurrentFont(p.fontFamily.empty() ?
@@ -305,9 +248,7 @@ namespace djv
                     style->getFontInfo(p.fontFamily, p.fontFace, p.fontSizeRole));
 
                 render->setFillColor(_getColorWithOpacity(style->getColor(p.textColorRole)));
-                //! \bug Why the extra subtract by one here?
-                render->drawText(p.text, glm::vec2(pos.x, pos.y + p.fontMetrics.ascender - 1.f), g.w());
-                /*for (const auto & line : p.textLines)
+                for (const auto & line : p.textLines)
                 {
                     if (pos.y + line.size.y >= p.clipRect.min.y && pos.y <= p.clipRect.max.y)
                     {
@@ -322,42 +263,54 @@ namespace djv
                         default: break;
                         }
 
-                        //render->setFillColor(AV::Image::Color(1.f, 0.f, 0.f));
-                        //render->drawRect(BBox2f(pos.x, pos.y, line.size.x, line.size.y));
-
                         render->setFillColor(_getColorWithOpacity(style->getColor(p.textColorRole)));
                         //! \bug Why the extra subtract by one here?
-                        render->drawText(line.text, glm::vec2(pos.x, pos.y + p.fontMetrics.ascender - 1.f));
+                        render->drawText(
+                            p.text.substr(line.offset, line.length),
+                            glm::vec2(floorf(pos.x), floorf(pos.y + p.fontMetrics.ascender - 1.f)));
                     }
                     pos.y += line.size.y;
-                }*/
+                }
+            }
+        }
+
+        void TextBlock::_calcSize(float value) const
+        {
+            DJV_PRIVATE_PTR();
+            auto style = _getStyle();
+            const auto fontInfo = p.fontFamily.empty() ?
+                style->getFontInfo(p.fontFace, p.fontSizeRole) :
+                style->getFontInfo(p.fontFamily, p.fontFace, p.fontSizeRole);
+            size_t hash = 0;
+            Memory::hashCombine(hash, fontInfo.family);
+            Memory::hashCombine(hash, fontInfo.face);
+            Memory::hashCombine(hash, fontInfo.size);
+            Memory::hashCombine(hash, value);
+            if (!p.textSizeHash || p.textSizeHash != hash)
+            {
+                p.textSizeHash = hash;
+                auto fontSystem = _getFontSystem();
+                p.textLines = fontSystem->textLines(p.text, value, fontInfo).get();
+                p.textSize = glm::vec2(0.f, 0.f);
+                for (const auto& i : p.textLines)
+                {
+                    p.textSize.x = std::max(p.textSize.x, i.size.x);
+                    p.textSize.y += i.size.y;
+                }
             }
         }
 
         void TextBlock::_textUpdate()
         {
+            DJV_PRIVATE_PTR();
             auto style = _getStyle();
             const BBox2f & g = getMargin().bbox(getGeometry(), style);
-
-            DJV_PRIVATE_PTR();
             auto fontInfo = p.fontFamily.empty() ?
                 style->getFontInfo(p.fontFace, p.fontSizeRole) :
                 style->getFontInfo(p.fontFamily, p.fontFace, p.fontSizeRole);
             auto fontSystem = _getFontSystem();
             p.fontMetricsFuture = fontSystem->getMetrics(fontInfo);
-
-            size_t hash = 0;
-            Memory::hashCombine(hash, fontInfo.family);
-            Memory::hashCombine(hash, fontInfo.face);
-            Memory::hashCombine(hash, fontInfo.size);
-            const float w = g.w() > 0 ? g.w() : style->getMetric(p.textSizeRole);
-            Memory::hashCombine(hash, w);
-            if (!p.textSizeHash || p.textSizeHash != hash)
-            {
-                p.textSizeHash = hash;
-                p.textSizeFuture = fontSystem->measure(p.text, w, fontInfo);
-            }
-
+            fontSystem->cacheGlyphs(p.text, fontInfo);
             _resize();
         }
 

@@ -66,6 +66,8 @@ namespace djv
             ITool::_init(context);
 
             DJV_PRIVATE_PTR();
+            setClassName("djv::ViewApp::ColorPickerTool");
+
             p.actions["Lock"] = UI::Action::create();
             p.actions["Lock"]->setButtonType(UI::ButtonType::Toggle);
             p.actions["ColorProfile"] = UI::Action::create();

@@ -59,9 +59,9 @@ namespace djv
         {
             Widget::_init(context);
 
+            DJV_PRIVATE_PTR();
             setClassName("djv::UI::ToolBar");
 
-            DJV_PRIVATE_PTR();
             p.layout = HorizontalLayout::create(context);
             p.layout->setSpacing(MetricsRole::None);
             Widget::addChild(p.layout);

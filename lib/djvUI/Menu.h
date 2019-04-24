@@ -29,16 +29,20 @@
 
 #pragma once
 
-#include <djvUI/Widget.h>
+#include <djvUI/UI.h>
 
+#include <djvCore/IObject.h>
 #include <djvCore/ValueObserver.h>
 
 namespace djv
 {
     namespace UI
     {
+        class Action;
+        class Widget;
+
         //! This class provides a popup menu widget.
-        class Menu : public Widget
+        class Menu : public Core::IObject
         {
             DJV_NON_COPYABLE(Menu);
 
@@ -56,24 +60,21 @@ namespace djv
             void setIcon(const std::string &);
             void setText(const std::string &);
 
+            void addAction(const std::shared_ptr<Action> &);
+            void removeAction(const std::shared_ptr<Action> &);
+            void clearActions();
             void addSeparator();
 
             void popup(const glm::vec2 &);
             void popup(const std::weak_ptr<Widget> & button);
             void popup(const std::weak_ptr<Widget> & button, const std::weak_ptr<Widget> & anchor);
+            void hide();
 
             void setCloseCallback(const std::function<void(void)> &);
 
-            void setVisible(bool) override;
-            void addAction(const std::shared_ptr<Action> &) override;
-            void removeAction(const std::shared_ptr<Action> &) override;
-            void clearActions() override;
-
-        protected:
-            void _preLayoutEvent(Core::Event::PreLayout &) override;
-            void _layoutEvent(Core::Event::Layout &) override;
-
         private:
+            void _createWidgets();
+
             DJV_PRIVATE();
         };
 

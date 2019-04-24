@@ -58,6 +58,7 @@ namespace djv
             IWidget::_init(context);
 
             DJV_PRIVATE_PTR();
+            setClassName("djv::ViewApp::ITool");
 
             p.titleLabel = UI::Label::create(context);
             p.titleLabel->setTextHAlign(UI::TextHAlign::Left);

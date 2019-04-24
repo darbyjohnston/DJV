@@ -40,6 +40,7 @@ namespace djv
         namespace FileSystem
         {
             class FileInfo;
+            class Path;
 
         } // namespace FileSystem
     } // namespace Core
@@ -58,6 +59,9 @@ namespace djv
             ~FileBrowserDialog() override;
 
             static std::shared_ptr<FileBrowserDialog> create(Core::Context *);
+
+            const Core::FileSystem::Path& getPath() const;
+            void setPath(const Core::FileSystem::Path&);
 
             void setCallback(const std::function<void(const Core::FileSystem::FileInfo &)> &);
 

@@ -61,7 +61,9 @@ namespace djv
             {
                 //! \todo [1.0 S] Should this be configurable?
                 const size_t glyphCacheMax = 10000;
-                const bool   lcdHinting    = false;
+
+                //! \todo Experimental LCD hinting.
+                const bool lcdHinting = false;
 
                 struct MetricsRequest
                 {
@@ -105,6 +107,7 @@ namespace djv
 
                     std::string text;
                     Info info;
+                    bool cacheOnly = false;
                     std::promise<std::vector<std::shared_ptr<Glyph> > > promise;
                 };
 
@@ -141,11 +144,6 @@ namespace djv
                             }*/
 
             } // namespace
-
-            GlyphInfo::GlyphInfo(uint32_t code, const Info & info) :
-                code(code),
-                info(info)
-            {}
 
             std::shared_ptr<Glyph> Glyph::create()
             {
@@ -313,22 +311,6 @@ namespace djv
                 return future;
             }
 
-            std::future<glm::vec2> System::measure(const std::string & text, float maxLineWidth, const Info & info)
-            {
-                DJV_PRIVATE_PTR();
-                MeasureRequest request;
-                request.text = text;
-                request.info = info;
-                request.maxLineWidth = maxLineWidth;
-                auto future = request.promise.get_future();
-                {
-                    std::unique_lock<std::mutex> lock(p.requestMutex);
-                    p.measureQueue.push_back(std::move(request));
-                }
-                p.requestCV.notify_one();
-                return future;
-            }
-
             std::future<std::vector<TextLine> > System::textLines(const std::string & text, float maxLineWidth, const Info & info)
             {
                 DJV_PRIVATE_PTR();
@@ -345,7 +327,7 @@ namespace djv
                 return future;
             }
 
-            std::future<std::vector<std::shared_ptr<Glyph> > > System::getGlyphs(const std::string & text, const Info & info)
+            std::future<std::vector<std::shared_ptr<Glyph> > > System::getGlyphs(const std::string& text, const Info& info)
             {
                 DJV_PRIVATE_PTR();
                 GlyphsRequest request;
@@ -358,6 +340,20 @@ namespace djv
                 }
                 p.requestCV.notify_one();
                 return future;
+            }
+
+            void System::cacheGlyphs(const std::string& text, const Info& info)
+            {
+                DJV_PRIVATE_PTR();
+                GlyphsRequest request;
+                request.text = text;
+                request.info = info;
+                request.cacheOnly = true;
+                {
+                    std::unique_lock<std::mutex> lock(p.requestMutex);
+                    p.glyphsQueue.push_back(std::move(request));
+                }
+                p.requestCV.notify_one();
             }
 
             float System::getGlyphCachePercentage() const
@@ -655,7 +651,8 @@ namespace djv
                                     if (isNewline(*i))
                                     {
                                         lines.push_back(TextLine(
-                                            p.utf32.to_bytes(utf32.substr(lineBegin - utf32.begin(), i - lineBegin)),
+                                            lineBegin - utf32.begin(),
+                                            i - lineBegin,
                                             glm::vec2(pos.x, font->second->size->metrics.height / 64.f)));
                                         pos.x = 0.f;
                                         pos.y += font->second->size->metrics.height / 64.f;
@@ -669,7 +666,8 @@ namespace djv
                                             i = textLine;
                                             textLine = utf32.end();
                                             lines.push_back(TextLine(
-                                                p.utf32.to_bytes(utf32.substr(lineBegin - utf32.begin(), i - lineBegin)),
+                                                lineBegin - utf32.begin(),
+                                                i - lineBegin,
                                                 glm::vec2(textLineX, font->second->size->metrics.height / 64.f)));
                                             pos.x = 0.f;
                                             pos.y += font->second->size->metrics.height / 64.f;
@@ -678,7 +676,8 @@ namespace djv
                                         else
                                         {
                                             lines.push_back(TextLine(
-                                                p.utf32.to_bytes(utf32.substr(lineBegin - utf32.begin(), i - lineBegin)),
+                                                lineBegin - utf32.begin(),
+                                                i - lineBegin,
                                                 glm::vec2(pos.x, font->second->size->metrics.height / 64.f)));
                                             pos.x = x;
                                             pos.y += font->second->size->metrics.height / 64.f;
@@ -699,7 +698,8 @@ namespace djv
                                 if (i != lineBegin)
                                 {
                                     lines.push_back(TextLine(
-                                        p.utf32.to_bytes(utf32.substr(lineBegin - utf32.begin(), i - lineBegin)),
+                                        lineBegin - utf32.begin(),
+                                        i - lineBegin,
                                         glm::vec2(pos.x, font->second->size->metrics.height / 64.f)));
                                 }
                             }
@@ -727,12 +727,22 @@ namespace djv
                         _log(ss.str(), LogLevel::Error);
                     }
                     const size_t size = utf32.size();
-                    std::vector<std::shared_ptr<Glyph> > glyphs(size);
-                    for (size_t i = 0; i < size; ++i)
+                    if (request.cacheOnly)
                     {
-                        glyphs[i] = p.getGlyph(GlyphInfo(utf32[i], request.info));
+                        for (size_t i = 0; i < size; ++i)
+                        {
+                            p.getGlyph(GlyphInfo(utf32[i], request.info));
+                        }
                     }
-                    request.promise.set_value(std::move(glyphs));
+                    else
+                    {
+                        std::vector<std::shared_ptr<Glyph> > glyphs(size);
+                        for (size_t i = 0; i < size; ++i)
+                        {
+                            glyphs[i] = p.getGlyph(GlyphInfo(utf32[i], request.info));
+                        }
+                        request.promise.set_value(std::move(glyphs));
+                    }
                 }
                 p.glyphsRequests.clear();
             }
@@ -791,7 +801,6 @@ namespace djv
                             size_t renderModeChannels = 1;
                             if (lcdHinting)
                             {
-                                //! \todo Experimental LCD hinting.
                                 renderMode = FT_RENDER_MODE_LCD;
                                 renderModeChannels = 3;
                             }

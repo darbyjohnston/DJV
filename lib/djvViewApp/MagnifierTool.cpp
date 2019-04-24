@@ -59,6 +59,8 @@ namespace djv
             ITool::_init(context);
 
             DJV_PRIVATE_PTR();
+            setClassName("djv::ViewApp::MagnifierTool");
+
             p.actions["ColorProfile"] = UI::Action::create();
             p.actions["ColorProfile"]->setButtonType(UI::ButtonType::Toggle);
             p.actions["DisplayProfile"] = UI::Action::create();

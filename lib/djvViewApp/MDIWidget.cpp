@@ -82,6 +82,7 @@ namespace djv
             void SubWidget::_init(const std::shared_ptr<Media>& media, Context* context)
             {
                 IWidget::_init(context);
+                setClassName("djv::ViewApp::MDIWidget::SubWidget");
 
                 _titleLabel = UI::Label::create(context);
                 _titleLabel->setText(Core::FileSystem::Path(media->getFileName()).getFileName());
@@ -174,6 +175,7 @@ namespace djv
             Widget::_init(context);
 
             DJV_PRIVATE_PTR();
+            setClassName("djv::ViewApp::MDIWidget");
 
             p.canvas = UI::MDI::Canvas::create(context);
             addChild(p.canvas);

@@ -67,6 +67,7 @@ namespace djv
             Widget::_init(context);
 
             DJV_PRIVATE_PTR();
+            setClassName("djv::Ui::ColorTypeWidget");
 
             p.actionGroup = ActionGroup::create(ButtonType::Radio);
             for (size_t i = static_cast<size_t>(AV::Image::Type::L_U8); i < static_cast<size_t>(AV::Image::Type::Count); ++i)
@@ -189,6 +190,7 @@ namespace djv
             Widget::_init(context);
 
             DJV_PRIVATE_PTR();
+            setClassName("djv::Ui::RGBColorSliders");
 
             p.layout = GridLayout::create(context);
             addChild(p.layout);
@@ -585,6 +587,7 @@ namespace djv
             Widget::_init(context);
 
             DJV_PRIVATE_PTR();
+            setClassName("djv::Ui::HSVColorSliders");
 
             p.layout = GridLayout::create(context);
             addChild(p.layout);
@@ -1005,6 +1008,7 @@ namespace djv
             Widget::_init(context);
 
             DJV_PRIVATE_PTR();
+            setClassName("djv::Ui::ColorPicker");
 
             p.colorSwatch = ColorSwatch::create(context);
 

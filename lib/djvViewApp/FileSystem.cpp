@@ -67,6 +67,7 @@ namespace djv
             std::map<std::string, std::shared_ptr<UI::Action> > actions;
             std::shared_ptr<UI::Menu> menu;
             std::shared_ptr<FileBrowserDialog> fileBrowserDialog;
+            Core::FileSystem::Path fileBrowserPath = Core::FileSystem::Path(".");
             std::shared_ptr<Core::FileSystem::RecentFilesModel> recentFilesModel;
             std::shared_ptr<RecentFilesDialog> recentFilesDialog;
             std::shared_ptr<ListObserver<Core::FileSystem::FileInfo> > recentFilesObserver;
@@ -484,13 +485,19 @@ namespace djv
                     if (!p.fileBrowserDialog)
                     {
                         p.fileBrowserDialog = FileBrowserDialog::create(context);
+                        p.fileBrowserDialog->setPath(p.fileBrowserPath);
                         auto weak = std::weak_ptr<FileSystem>(std::dynamic_pointer_cast<FileSystem>(shared_from_this()));
                         p.fileBrowserDialog->setCallback(
                             [weak](const Core::FileSystem::FileInfo & value)
                         {
                             if (auto system = weak.lock())
                             {
-                                system->_p->fileBrowserDialog->hide();
+                                if (auto parent = system->_p->fileBrowserDialog->getParent().lock())
+                                {
+                                    parent->removeChild(system->_p->fileBrowserDialog);
+                                }
+                                system->_p->fileBrowserPath = system->_p->fileBrowserDialog->getPath();
+                                system->_p->fileBrowserDialog.reset();
                                 system->open(value);
                             }
                         });
@@ -499,7 +506,12 @@ namespace djv
                         {
                             if (auto system = weak.lock())
                             {
-                                system->_p->fileBrowserDialog->hide();
+                                if (auto parent = system->_p->fileBrowserDialog->getParent().lock())
+                                {
+                                    parent->removeChild(system->_p->fileBrowserDialog);
+                                }
+                                system->_p->fileBrowserPath = system->_p->fileBrowserDialog->getPath();
+                                system->_p->fileBrowserDialog.reset();
                             }
                         });
                     }
@@ -526,7 +538,11 @@ namespace djv
                         {
                             if (auto system = weak.lock())
                             {
-                                system->_p->recentFilesDialog->hide();
+                                if (auto parent = system->_p->recentFilesDialog->getParent().lock())
+                                {
+                                    parent->removeChild(system->_p->recentFilesDialog);
+                                }
+                                system->_p->recentFilesDialog.reset();
                                 system->open(value);
                             }
                         });
@@ -535,7 +551,11 @@ namespace djv
                         {
                             if (auto system = weak.lock())
                             {
-                                system->_p->recentFilesDialog->hide();
+                                if (auto parent = system->_p->recentFilesDialog->getParent().lock())
+                                {
+                                    parent->removeChild(system->_p->recentFilesDialog);
+                                }
+                                system->_p->recentFilesDialog.reset();
                             }
                         });
                     }

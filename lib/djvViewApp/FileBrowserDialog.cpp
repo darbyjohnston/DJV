@@ -54,6 +54,8 @@ namespace djv
             IDialog::_init(context);
 
             DJV_PRIVATE_PTR();
+            setClassName("djv::ViewApp::FileBrowserDialog");
+
             p.fileBrowser = UI::FileBrowser::Widget::create(context);
             p.fileBrowser->setPath(Core::FileSystem::Path("."));
             addChild(p.fileBrowser);
@@ -85,6 +87,16 @@ namespace djv
             auto out = std::shared_ptr<FileBrowserDialog>(new FileBrowserDialog);
             out->_init(context);
             return out;
+        }
+
+        const Core::FileSystem::Path& FileBrowserDialog::getPath() const
+        {
+            return _p->fileBrowser->getPath();
+        }
+
+        void FileBrowserDialog::setPath(const Core::FileSystem::Path& value)
+        {
+            _p->fileBrowser->setPath(value);
         }
 
         void FileBrowserDialog::setCallback(const std::function<void(const Core::FileSystem::FileInfo &)> & value)

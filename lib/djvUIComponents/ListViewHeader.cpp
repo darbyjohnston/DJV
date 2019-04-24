@@ -81,6 +81,7 @@ namespace djv
             {
                 Widget::_init(context);
 
+                setClassName("djv::UI::ListViewHeader::HeaderButton");
                 setButtonType(ButtonType::Toggle);
                 setBackgroundRole(ColorRole::Button);
 

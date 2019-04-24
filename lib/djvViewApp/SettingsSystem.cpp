@@ -99,11 +99,15 @@ namespace djv
                         p.settingsDialog = SettingsDialog::create(context);
                         auto weak = std::weak_ptr<SettingsSystem>(std::dynamic_pointer_cast<SettingsSystem>(shared_from_this()));
                         p.settingsDialog->setCloseCallback(
-                            [weak, context]
+                            [weak]
                         {
                             if (auto system = weak.lock())
                             {
-                                system->_p->settingsDialog->hide();
+                                if (auto parent = system->_p->settingsDialog->getParent().lock())
+                                {
+                                    parent->removeChild(system->_p->settingsDialog);
+                                }
+                                system->_p->settingsDialog.reset();
                             }
                         });
                     }
@@ -127,7 +131,6 @@ namespace djv
                 UI::LanguageSettingsWidget::create(context),
                 NUXSettingsWidget::create(context),
                 PlaybackSettingsWidget::create(context),
-                UI::DisplaySettingsWidget::create(context),
                 UI::TimeSettingsWidget::create(context),
 #if defined(JPEG_FOUND)
                 UI::JPEGSettingsWidget::create(context),

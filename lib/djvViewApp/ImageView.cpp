@@ -49,6 +49,7 @@ namespace djv
         void ImageView::_init(Context * context)
         {
             Widget::_init(context);
+            setClassName("djv::ViewApp::ImageView");
         }
 
         ImageView::ImageView() :

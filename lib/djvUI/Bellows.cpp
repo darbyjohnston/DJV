@@ -82,6 +82,7 @@ namespace djv
                 {
                     Widget::_init(context);
 
+                    setClassName("djv::UI::Layout::Bellows::Button");
                     setButtonType(ButtonType::Toggle);
                     setBackgroundRole(ColorRole::Button);
 
@@ -173,10 +174,10 @@ namespace djv
             {
                 Widget::_init(context);
 
+                DJV_PRIVATE_PTR();
                 setClassName("djv::UI::Layout::Bellows");
                 setVAlign(VAlign::Top);
 
-                DJV_PRIVATE_PTR();
                 p.button = Button::create(context);
 
                 p.childLayout = StackLayout::create(context);

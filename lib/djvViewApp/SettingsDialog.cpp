@@ -62,6 +62,7 @@ namespace djv
             IDialog::_init(context);
 
             DJV_PRIVATE_PTR();
+            setClassName("djv::ViewApp::SettingsDialog");
 
             for (auto system : context->getSystemsT<IViewSystem>())
             {

@@ -60,36 +60,41 @@ namespace djv
             IViewSystem::_init("djv::ViewApp::AnnotateSystem", context);
 
             DJV_PRIVATE_PTR();
-            p.actions["Show"] = UI::Action::create();
-            p.actions["Show"]->setButtonType(UI::ButtonType::Toggle);
-            p.actions["Show"]->setShortcut(GLFW_KEY_A, GLFW_MOD_CONTROL);
+            p.actions["Tool"] = UI::Action::create();
+            p.actions["Tool"]->setButtonType(UI::ButtonType::Toggle);
+            p.actions["Tool"]->setShortcut(GLFW_KEY_A, GLFW_MOD_CONTROL);
 
             p.menu = UI::Menu::create(context);
-            p.menu->addAction(p.actions["Show"]);
-
-            p.annotateTool = AnnotateTool::create(context);
+            p.menu->addAction(p.actions["Tool"]);
 
             auto weak = std::weak_ptr<AnnotateSystem>(std::dynamic_pointer_cast<AnnotateSystem>(shared_from_this()));
-            p.annotateTool->setCloseCallback(
-                [weak]
+            _setCloseToolCallback(
+                [weak](const std::string & name)
             {
                 if (auto system = weak.lock())
                 {
-                    system->_p->actions["Show"]->setChecked(false);
+                    const auto i = system->_p->actions.find(name);
+                    if (i != system->_p->actions.end())
+                    {
+                        i->second->setChecked(false);
+                    }
                 }
             });
 
-            p.clickedObservers["Show"] = ValueObserver<bool>::create(
-                p.actions["Show"]->observeChecked(),
-                [weak](bool value)
+            p.clickedObservers["Tool"] = ValueObserver<bool>::create(
+                p.actions["Tool"]->observeChecked(),
+                [weak, context](bool value)
             {
                 if (auto system = weak.lock())
                 {
                     if (value)
                     {
-                        system->_p->annotateTool->moveToFront();
+                        system->_openTool("Tool", AnnotateTool::create(context));
                     }
-                    system->_p->annotateTool->setVisible(value);
+                    else
+                    {
+                        system->_closeTool("Tool");
+                    }
                 }
             });
 
@@ -132,19 +137,10 @@ namespace djv
             };
         }
 
-        std::vector<std::shared_ptr<ITool> > AnnotateSystem::getTools()
-        {
-            DJV_PRIVATE_PTR();
-            return
-            {
-                p.annotateTool
-            };
-        }
-
         void AnnotateSystem::_textUpdate()
         {
             DJV_PRIVATE_PTR();
-            p.actions["Show"]->setText(_getText(DJV_TEXT("Show Annotations")));
+            p.actions["Tool"]->setText(_getText(DJV_TEXT("Show Annotations")));
 
             p.menu->setText(_getText(DJV_TEXT("Annotate")));
         }

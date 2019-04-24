@@ -83,6 +83,8 @@ namespace djv
             {
                 IButton::_init(context);
 
+                setClassName("djv::ViewApp::PlaylistWidget::Button");
+
                 _label = UI::Label::create(context);
                 _label->setText(Core::FileSystem::Path(media->getFileName()).getFileName());
                 _label->setTextHAlign(UI::TextHAlign::Left);
@@ -185,6 +187,8 @@ namespace djv
             void ListWidget::_init(Context* context)
             {
                 Widget::_init(context);
+
+                setClassName("djv::ViewApp::PlaylistWidget::ListWidget");
 
                 _buttonGroup = UI::ButtonGroup::create(UI::ButtonType::Radio);
                 
@@ -304,6 +308,7 @@ namespace djv
             Widget::_init(context);
 
             DJV_PRIVATE_PTR();
+            setClassName("djv::ViewApp::PlaylistWidget");
 
             p.mediaWidget = MediaWidget::create(context);
 

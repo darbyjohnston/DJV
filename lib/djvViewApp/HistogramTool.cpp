@@ -43,6 +43,7 @@ namespace djv
         void HistogramTool::_init(Context * context)
         {
             ITool::_init(context);
+            setClassName("djv::ViewApp::HistogramTool");
         }
 
         HistogramTool::HistogramTool() :

@@ -140,9 +140,9 @@ namespace djv
             {
                 UI::Widget::_init(context);
 
+                DJV_PRIVATE_PTR();
                 setClassName("djv::UI::FileBrowser::Widget");
 
-                DJV_PRIVATE_PTR();
                 p.directoryModel = FileSystem::DirectoryModel::create(context);
                 p.shortcutsModel = ShortcutsModel::create(context);
 
@@ -882,6 +882,11 @@ namespace djv
                 auto out = std::shared_ptr<Widget>(new Widget);
                 out->_init(context);
                 return out;
+            }
+
+            const FileSystem::Path& Widget::getPath() const
+            {
+                return _p->directoryModel->observePath()->get();
             }
 
             void Widget::setPath(const FileSystem::Path & value)

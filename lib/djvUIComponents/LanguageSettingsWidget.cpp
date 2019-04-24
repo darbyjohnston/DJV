@@ -64,6 +64,8 @@ namespace djv
             Widget::_init(context);
 
             DJV_PRIVATE_PTR();
+            setClassName("djv::UI::LanguageWidget");
+
             p.comboBox = ComboBox::create(context);
             addChild(p.comboBox);
 
@@ -208,6 +210,8 @@ namespace djv
             ISettingsWidget::_init(context);
 
             DJV_PRIVATE_PTR();
+            setClassName("djv::UI::LanguageSettingsWidget");
+
             p.languageWidget = LanguageWidget::create(context);
 
             p.layout = FormLayout::create(context);

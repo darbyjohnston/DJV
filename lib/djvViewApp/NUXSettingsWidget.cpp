@@ -54,6 +54,8 @@ namespace djv
             ISettingsWidget::_init(context);
 
             DJV_PRIVATE_PTR();
+            setClassName("djv::ViewApp::NUXSettingsWidget");
+
             p.nuxButton = UI::CheckButton::create(context);
 
             p.formLayout = UI::FormLayout::create(context);

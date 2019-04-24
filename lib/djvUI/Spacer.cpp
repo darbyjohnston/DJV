@@ -46,7 +46,6 @@ namespace djv
             void Spacer::_init(Context * context)
             {
                 Widget::_init(context);
-
                 setClassName("djv::UI::Layout::Spacer");
             }
 

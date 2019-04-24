@@ -56,6 +56,8 @@ namespace djv
             IDialog::_init(context);
 
             DJV_PRIVATE_PTR();
+            setClassName("djv::ViewApp::AboutDialog");
+
             p.textBlocks["Copyright"] = UI::TextBlock::create(context);
             p.textBlocks["License1"] = UI::TextBlock::create(context);
             p.textBlocks["License2"] = UI::TextBlock::create(context);

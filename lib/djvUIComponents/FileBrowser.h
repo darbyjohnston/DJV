@@ -62,7 +62,9 @@ namespace djv
 
                 static std::shared_ptr<Widget> create(Core::Context *);
 
+                const Core::FileSystem::Path& getPath() const;
                 void setPath(const Core::FileSystem::Path &);
+
                 void setCallback(const std::function<void(const Core::FileSystem::FileInfo &)> &);
 
                 float getHeightForWidth(float) const override;

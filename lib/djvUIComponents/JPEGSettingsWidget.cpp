@@ -55,6 +55,7 @@ namespace djv
             ISettingsWidget::_init(context);
 
             DJV_PRIVATE_PTR();
+            setClassName("djv::UI::JPEGSettingsWidget");
 
             p.qualitySlider = IntSlider::create(context);
             p.qualitySlider->setRange(IntRange(0, 100));

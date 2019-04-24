@@ -52,6 +52,7 @@ namespace djv
             Widget::_init(context);
 
             DJV_PRIVATE_PTR();
+            setClassName("djv::ViewApp::SDIWidget");
 
             p.mediaWidget = MediaWidget::create(context);
             addChild(p.mediaWidget);

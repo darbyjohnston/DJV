@@ -102,6 +102,20 @@ namespace djv
                     size_t      vaoSize     = 0;
                 };
 
+                struct VBOVertex
+                {
+                    float    vx;
+                    float    vy;
+                    uint16_t tx;
+                    uint16_t ty;
+
+                    void setTextureCoord(float tx, float ty)
+                    {
+                        this->tx = Math::clamp(static_cast<int>(tx * 65535.f), 0, 65535);
+                        this->ty = Math::clamp(static_cast<int>(ty * 65535.f), 0, 65535);
+                    }
+                };
+
                 struct Render
                 {
                     Render(Context * context)
@@ -663,7 +677,6 @@ namespace djv
                 Image::Color                 fillColor          = Image::Color(1.f, 1.f, 1.f, 1.f);
                 std::weak_ptr<Font::System>  fontSystem;
                 Font::Info                   currentFont;
-                Font::Metrics                currentFontMetrics;
 
                 std::unique_ptr<Render>      render;
 
@@ -680,7 +693,8 @@ namespace djv
                     ImageCache,
                     ColorMode);
 
-                void addVertices(const std::vector<Vertex>&);
+                void updatePrimitivesSize(size_t);
+                void updateVBODataSize(size_t);
             };
 
             void Render2D::_init(Context * context)
@@ -934,11 +948,9 @@ namespace djv
                 DJV_PRIVATE_PTR();
                 if (value.intersects(p.render->viewport))
                 {
-                    if (p.render->primitivesSize >= p.render->primitives.size())
-                    {
-                        p.render->primitives.resize(p.render->primitivesSize + 1);
-                    }
-                    Primitive& primitive = p.render->primitives[p.render->primitivesSize++];
+                    const size_t primitivesSize = p.render->primitivesSize;
+                    p.updatePrimitivesSize(1);
+                    Primitive& primitive = p.render->primitives[primitivesSize];
                     primitive.clipRect = p.currentClipRect;
                     primitive.colorMode = ColorMode::SolidColor;
                     primitive.color[0] = p.fillColor.getF32(0);
@@ -948,20 +960,26 @@ namespace djv
                     primitive.vaoOffset = p.render->vboDataSize / AV::OpenGL::getVertexByteCount(OpenGL::VBOType::Pos2_F32_UV_U16);
                     primitive.vaoSize = 6;
 
-                    static std::vector<Vertex> v(6);
-                    v[0].vx = value.min.x;
-                    v[0].vy = value.min.y;
-                    v[1].vx = value.max.x;
-                    v[1].vy = value.min.y;
-                    v[2].vx = value.max.x;
-                    v[2].vy = value.max.y;
-                    v[3].vx = value.max.x;
-                    v[3].vy = value.max.y;
-                    v[4].vx = value.min.x;
-                    v[4].vy = value.max.y;
-                    v[5].vx = value.min.x;
-                    v[5].vy = value.min.y;
-                    p.addVertices(v);
+                    const size_t vboDataSize = p.render->vboDataSize;
+                    p.updateVBODataSize(6);
+                    VBOVertex* pData = reinterpret_cast<VBOVertex*>(&p.render->vboData[vboDataSize]);
+                    pData->vx = value.min.x;
+                    pData->vy = value.min.y;
+                    ++pData;
+                    pData->vx = value.max.x;
+                    pData->vy = value.min.y;
+                    ++pData;
+                    pData->vx = value.max.x;
+                    pData->vy = value.max.y;
+                    ++pData;
+                    pData->vx = value.max.x;
+                    pData->vy = value.max.y;
+                    ++pData;
+                    pData->vx = value.min.x;
+                    pData->vy = value.max.y;
+                    ++pData;
+                    pData->vx = value.min.x;
+                    pData->vy = value.min.y;
                 }
             }
 
@@ -999,11 +1017,9 @@ namespace djv
                 const BBox2f rect(pos.x - radius, pos.y - radius, radius * 2.f, radius * 2.f);
                 if (rect.intersects(p.render->viewport))
                 {
-                    if (p.render->primitivesSize >= p.render->primitives.size())
-                    {
-                        p.render->primitives.resize(p.render->primitivesSize + 1);
-                    }
-                    Primitive& primitive = p.render->primitives[p.render->primitivesSize++];
+                    const size_t primitivesSize = p.render->primitivesSize;
+                    p.updatePrimitivesSize(1);
+                    Primitive& primitive = p.render->primitives[primitivesSize];
                     primitive.clipRect = p.currentClipRect;
                     primitive.colorMode = ColorMode::SolidColor;
                     primitive.color[0] = p.fillColor.getF32(0);
@@ -1013,20 +1029,23 @@ namespace djv
                     primitive.vaoOffset = p.render->vboDataSize / AV::OpenGL::getVertexByteCount(OpenGL::VBOType::Pos2_F32_UV_U16);;
                     primitive.vaoSize = 3 * facets;
 
-                    static std::vector<Vertex> v;
-                    v.resize(facets * 3);
+                    const size_t vboDataSize = p.render->vboDataSize;
+                    p.updateVBODataSize(3 * facets);
+                    VBOVertex* pData = reinterpret_cast<VBOVertex*>(&p.render->vboData[vboDataSize]);
                     for (size_t i = 0; i < facets * 3; i += 3)
                     {
-                        v[i].vx = pos.x;
-                        v[i].vy = pos.y;
+                        pData->vx = pos.x;
+                        pData->vy = pos.y;
+                        ++pData;
                         float degrees = i / static_cast<float>(facets) * 360.f;
-                        v[i + 1].vx = pos.x + cosf(Math::deg2rad(degrees)) * radius;
-                        v[i + 1].vy = pos.y + sinf(Math::deg2rad(degrees)) * radius;
+                        pData->vx = pos.x + cosf(Math::deg2rad(degrees)) * radius;
+                        pData->vy = pos.y + sinf(Math::deg2rad(degrees)) * radius;
+                        ++pData;
                         degrees = (i + 1) / static_cast<float>(facets) * 360.f;
-                        v[i + 2].vx = pos.x + cosf(Math::deg2rad(degrees)) * radius;
-                        v[i + 2].vy = pos.y + sinf(Math::deg2rad(degrees)) * radius;
+                        pData->vx = pos.x + cosf(Math::deg2rad(degrees)) * radius;
+                        pData->vy = pos.y + sinf(Math::deg2rad(degrees)) * radius;
+                        ++pData;
                     }
-                    p.addVertices(v);
                 }
             }
 
@@ -1044,27 +1063,8 @@ namespace djv
 
             void Render2D::setCurrentFont(const Font::Info & value)
             {
-                DJV_PRIVATE_PTR();
-                p.currentFont = value;
-                if (auto fontSystem = p.fontSystem.lock())
-                {
-                    p.currentFontMetrics = fontSystem->getMetrics(p.currentFont).get();
-                }
+                _p->currentFont = value;
             }
-
-            namespace
-            {
-                constexpr bool isSpace(djv_char_t c)
-                {
-                    return ' ' == c || '\t' == c;
-                }
-
-                constexpr bool isNewline(djv_char_t c)
-                {
-                    return '\n' == c || '\r' == c;
-                }
-            
-            } // namespace
 
             void Render2D::drawText(const std::string & value, const glm::vec2 & pos, size_t maxLineWidth)
             {
@@ -1074,19 +1074,27 @@ namespace djv
                     try
                     {
                         Primitive* primitive = nullptr;
-                        //float x = 0.f;
-                        //float y = 0.f;
+                        float x = 0.f;
                         int32_t rsbDeltaPrev = 0;
-                        glm::vec2 currentPos = glm::vec2(0.f, 0.f);
 
                         const auto glyphs = fontSystem->getGlyphs(value, p.currentFont).get();
                         for (const auto& glyph : glyphs)
                         {
+                            if (rsbDeltaPrev - glyph->lsbDelta > 32)
+                            {
+                                x -= 1.f;
+                            }
+                            else if (rsbDeltaPrev - glyph->lsbDelta < -31)
+                            {
+                                x += 1.f;
+                            }
+                            rsbDeltaPrev = glyph->rsbDelta;
+
                             if (glyph->imageData && glyph->imageData->isValid())
                             {
                                 const glm::vec2& size = glyph->imageData->getSize();
                                 const glm::vec2& offset = glyph->offset;
-                                const BBox2f bbox(pos.x + currentPos.x + offset.x, pos.y + currentPos.y - offset.y, size.x, size.y);
+                                const BBox2f bbox(pos.x + x + offset.x, pos.y - offset.y, size.x, size.y);
                                 if (bbox.intersects(p.render->viewport))
                                 {
                                     const auto uid = glyph->imageData->getUID();
@@ -1105,11 +1113,9 @@ namespace djv
 
                                     if (!primitive)
                                     {
-                                        if (p.render->primitivesSize >= p.render->primitives.size())
-                                        {
-                                            p.render->primitives.resize(p.render->primitivesSize + 1);
-                                        }
-                                        primitive = &p.render->primitives[p.render->primitivesSize++];
+                                        const size_t primitivesSize = p.render->primitivesSize;
+                                        p.updatePrimitivesSize(1);
+                                        primitive = &p.render->primitives[primitivesSize];
                                         primitive->clipRect = p.currentClipRect;
                                         primitive->colorMode = ColorMode::ColorWithTextureAlpha;
                                         primitive->color[0] = p.fillColor.getF32(0);
@@ -1126,70 +1132,36 @@ namespace djv
                                         primitive->vaoSize += 6;
                                     }
 
-                                    static std::vector<Vertex> v(6);
-                                    v[0].vx = bbox.min.x;
-                                    v[0].vy = bbox.min.y;
-                                    v[0].tx = item.textureU.min;
-                                    v[0].ty = item.textureV.min;
-                                    v[1].vx = bbox.max.x;
-                                    v[1].vy = bbox.min.y;
-                                    v[1].tx = item.textureU.max;
-                                    v[1].ty = item.textureV.min;
-                                    v[2].vx = bbox.max.x;
-                                    v[2].vy = bbox.max.y;
-                                    v[2].tx = item.textureU.max;
-                                    v[2].ty = item.textureV.max;
-                                    v[3].vx = bbox.max.x;
-                                    v[3].vy = bbox.max.y;
-                                    v[3].tx = item.textureU.max;
-                                    v[3].ty = item.textureV.max;
-                                    v[4].vx = bbox.min.x;
-                                    v[4].vy = bbox.max.y;
-                                    v[4].tx = item.textureU.min;
-                                    v[4].ty = item.textureV.max;
-                                    v[5].vx = bbox.min.x;
-                                    v[5].vy = bbox.min.y;
-                                    v[5].tx = item.textureU.min;
-                                    v[5].ty = item.textureV.min;
-                                    p.addVertices(v);
+                                    const size_t vboDataSize = p.render->vboDataSize;
+                                    p.updateVBODataSize(6);
+                                    VBOVertex* pData = reinterpret_cast<VBOVertex*>(&p.render->vboData[vboDataSize]);
+                                    pData->vx = bbox.min.x;
+                                    pData->vy = bbox.min.y;
+                                    pData->setTextureCoord(item.textureU.min, item.textureV.min);
+                                    ++pData;
+                                    pData->vx = bbox.max.x;
+                                    pData->vy = bbox.min.y;
+                                    pData->setTextureCoord(item.textureU.max, item.textureV.min);
+                                    ++pData;
+                                    pData->vx = bbox.max.x;
+                                    pData->vy = bbox.max.y;
+                                    pData->setTextureCoord(item.textureU.max, item.textureV.max);
+                                    ++pData;
+                                    pData->vx = bbox.max.x;
+                                    pData->vy = bbox.max.y;
+                                    pData->setTextureCoord(item.textureU.max, item.textureV.max);
+                                    ++pData;
+                                    pData->vx = bbox.min.x;
+                                    pData->vy = bbox.max.y;
+                                    pData->setTextureCoord(item.textureU.min, item.textureV.max);
+                                    ++pData;
+                                    pData->vx = bbox.min.x;
+                                    pData->vy = bbox.min.y;
+                                    pData->setTextureCoord(item.textureU.min, item.textureV.min);
                                 }
                             }
 
-                            float x = 0.f;
-                            if (glyph->imageData)
-                            {
-                                x = glyph->advance;
-                                if (rsbDeltaPrev - glyph->lsbDelta > 32)
-                                {
-                                    x -= 1.f;
-                                }
-                                else if (rsbDeltaPrev - glyph->lsbDelta < -31)
-                                {
-                                    x += 1.f;
-                                }
-                                rsbDeltaPrev = glyph->rsbDelta;
-                            }
-                            else
-                            {
-                                rsbDeltaPrev = 0;
-                            }
-
-                            if (isNewline(glyph->info.code))
-                            {
-                                currentPos.x = 0.f;
-                                currentPos.y += p.currentFontMetrics.lineHeight;
-                                rsbDeltaPrev = 0;
-                            }
-                            else if (currentPos.x > 0.f && currentPos.x + (!isSpace(glyph->info.code) ? x : 0.f) >= maxLineWidth)
-                            {
-                                currentPos.x = 0.f;
-                                currentPos.y += p.currentFontMetrics.lineHeight;
-                                rsbDeltaPrev = 0;
-                            }
-                            else
-                            {
-                                currentPos.x += x;
-                            }
+                            x += glyph->advance;
                         }
                     }
                     catch (const std::exception&)
@@ -1232,11 +1204,9 @@ namespace djv
             {
                 if (rect.intersects(render->viewport))
                 {
-                    if (primitiveSize >= render->primitives.size())
-                    {
-                        render->primitives.resize(primitiveSize + 1);
-                    }
-                    Primitive& primitive = render->primitives[render->primitivesSize++];
+                    const size_t primitivesSize = render->primitivesSize;
+                    updatePrimitivesSize(1);
+                    Primitive& primitive = render->primitives[primitivesSize];
                     primitive.clipRect = currentClipRect;
                     const auto& info = imageData->getInfo();
                     switch (info.getGLFormat())
@@ -1317,57 +1287,52 @@ namespace djv
                     primitive.vaoOffset = render->vboDataSize / AV::OpenGL::getVertexByteCount(OpenGL::VBOType::Pos2_F32_UV_U16);;
                     primitive.vaoSize = 6;
 
-                    static std::vector<Vertex> v(6);
-                    v[0].vx = rect.min.x;
-                    v[0].vy = rect.min.y;
-                    v[0].tx = textureU.min;
-                    v[0].ty = textureV.min;
-                    v[1].vx = rect.max.x;
-                    v[1].vy = rect.min.y;
-                    v[1].tx = textureU.max;
-                    v[1].ty = textureV.min;
-                    v[2].vx = rect.max.x;
-                    v[2].vy = rect.max.y;
-                    v[2].tx = textureU.max;
-                    v[2].ty = textureV.max;
-                    v[3].vx = rect.max.x;
-                    v[3].vy = rect.max.y;
-                    v[3].tx = textureU.max;
-                    v[3].ty = textureV.max;
-                    v[4].vx = rect.min.x;
-                    v[4].vy = rect.max.y;
-                    v[4].tx = textureU.min;
-                    v[4].ty = textureV.max;
-                    v[5].vx = rect.min.x;
-                    v[5].vy = rect.min.y;
-                    v[5].tx = textureU.min;
-                    v[5].ty = textureV.min;
-                    addVertices(v);
+                    const size_t vboDataSize = render->vboDataSize;
+                    updateVBODataSize(6);
+                    VBOVertex* pData = reinterpret_cast<VBOVertex*>(&render->vboData[vboDataSize]);
+                    pData->vx = rect.min.x;
+                    pData->vy = rect.min.y;
+                    pData->setTextureCoord(textureU.min, textureV.min);
+                    ++pData;
+                    pData->vx = rect.max.x;
+                    pData->vy = rect.min.y;
+                    pData->setTextureCoord(textureU.max, textureV.min);
+                    ++pData;
+                    pData->vx = rect.max.x;
+                    pData->vy = rect.max.y;
+                    pData->setTextureCoord(textureU.max, textureV.max);
+                    ++pData;
+                    pData->vx = rect.max.x;
+                    pData->vy = rect.max.y;
+                    pData->setTextureCoord(textureU.max, textureV.max);
+                    ++pData;
+                    pData->vx = rect.min.x;
+                    pData->vy = rect.max.y;
+                    pData->setTextureCoord(textureU.min, textureV.max);
+                    ++pData;
+                    pData->vx = rect.min.x;
+                    pData->vy = rect.min.y;
+                    pData->setTextureCoord(textureU.min, textureV.min);
                 }
             }
 
-            void Render2D::Private::addVertices(const std::vector<Vertex>& list)
+            void Render2D::Private::updatePrimitivesSize(size_t value)
             {
-                const size_t listSize = list.size();
-                const size_t vertexByteCount = AV::OpenGL::getVertexByteCount(OpenGL::VBOType::Pos2_F32_UV_U16);
-                if (render->vboDataSize + list.size() * vertexByteCount >= render->vboData.size())
+                render->primitivesSize += value;
+                if (render->primitivesSize >= render->primitives.size())
                 {
-                    render->vboData.resize(render->vboDataSize + list.size() * vertexByteCount);
+                    render->primitives.resize(render->primitivesSize);
                 }
-                uint8_t * pData = &render->vboData[render->vboDataSize];
-                for (const auto& v : list)
-                {
-                    float* pf = reinterpret_cast<float*>(pData);
-                    pf[0] = v.vx;
-                    pf[1] = v.vy;
-                    pData += 2 * sizeof(float);
+            }
 
-                    uint16_t* pu16 = reinterpret_cast<uint16_t*>(pData);
-                    pu16[0] = Math::clamp(static_cast<int>(v.tx * 65535.f), 0, 65535);
-                    pu16[1] = Math::clamp(static_cast<int>(v.ty * 65535.f), 0, 65535);
-                    pData += 2 * sizeof(uint16_t);
+            void Render2D::Private::updateVBODataSize(size_t value)
+            {
+                const size_t vertexByteCount = AV::OpenGL::getVertexByteCount(OpenGL::VBOType::Pos2_F32_UV_U16);
+                render->vboDataSize += value * vertexByteCount;
+                if (render->vboDataSize > render->vboData.size())
+                {
+                    render->vboData.resize(render->vboDataSize);
                 }
-                render->vboDataSize += list.size() * vertexByteCount;
             }
 
         } // namespace Render

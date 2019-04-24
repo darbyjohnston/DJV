@@ -54,7 +54,6 @@ namespace djv
                 UI::Widget::_init(context);
 
                 DJV_PRIVATE_PTR();
-
                 setClassName("djv::UI::FileBrowser::ShortcutsWidget");
 
                 p.layout = VerticalLayout::create(context);

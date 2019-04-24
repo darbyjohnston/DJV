@@ -62,7 +62,6 @@ namespace djv
                 IButton::_init(context);
 
                 DJV_PRIVATE_PTR();
-
                 setClassName("djv::UI::Button::List");
 
                 p.layout = HorizontalLayout::create(context);

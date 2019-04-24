@@ -36,6 +36,7 @@
 #include <djvViewApp/MagnifierTool.h>
 
 #include <djvUI/Action.h>
+#include <djvUI/MDICanvas.h>
 #include <djvUI/Menu.h>
 #include <djvUI/RowLayout.h>
 
@@ -54,7 +55,6 @@ namespace djv
         {
             std::map<std::string, std::shared_ptr<UI::Action> > actions;
             std::shared_ptr<UI::Menu> menu;
-            std::map<std::string, std::shared_ptr<ITool> > tools;
             std::map<std::string, std::shared_ptr<ValueObserver<bool> > > clickedObservers;
             std::shared_ptr<ValueObserver<std::string> > localeObserver;
         };
@@ -87,117 +87,98 @@ namespace djv
             p.menu->addAction(p.actions["Information"]);
             p.menu->addAction(p.actions["Debug"]);
 
-            p.tools["Magnifier"] = MagnifierTool::create(context);
-            p.tools["ColorPicker"] = ColorPickerTool::create(context);
-            p.tools["Histogram"] = HistogramTool::create(context);
-            p.tools["Information"] = InformationTool::create(context);
-            p.tools["Debug"] = DebugTool::create(context);
-
             auto weak = std::weak_ptr<ToolSystem>(std::dynamic_pointer_cast<ToolSystem>(shared_from_this()));
-            p.tools["Magnifier"]->setCloseCallback(
-                [weak]
+            _setCloseToolCallback(
+                [weak](const std::string& name)
             {
                 if (auto system = weak.lock())
                 {
-                    system->_p->actions["Magnifier"]->setChecked(false);
-                }
-            });
-            p.tools["ColorPicker"]->setCloseCallback(
-                [weak]
-            {
-                if (auto system = weak.lock())
-                {
-                    system->_p->actions["ColorPicker"]->setChecked(false);
-                }
-            });
-            p.tools["Histogram"]->setCloseCallback(
-                [weak]
-            {
-                if (auto system = weak.lock())
-                {
-                    system->_p->actions["Histogram"]->setChecked(false);
-                }
-            });
-            p.tools["Information"]->setCloseCallback(
-                [weak]
-            {
-                if (auto system = weak.lock())
-                {
-                    system->_p->actions["Information"]->setChecked(false);
-                }
-            });
-            p.tools["Debug"]->setCloseCallback(
-                [weak]
-            {
-                if (auto system = weak.lock())
-                {
-                    system->_p->actions["Debug"]->setChecked(false);
+                    const auto i = system->_p->actions.find(name);
+                    if (i != system->_p->actions.end())
+                    {
+                        i->second->setChecked(false);
+                    }
                 }
             });
 
             p.clickedObservers["Magnifier"] = ValueObserver<bool>::create(
                 p.actions["Magnifier"]->observeChecked(),
-                [weak](bool value)
+                [weak, context](bool value)
             {
                 if (auto system = weak.lock())
                 {
                     if (value)
                     {
-                        system->_p->tools["Magnifier"]->moveToFront();
+                        system->_openTool("Magnifier", MagnifierTool::create(context));
                     }
-                    system->_p->tools["Magnifier"]->setVisible(value);
+                    else
+                    {
+                        system->_closeTool("Magnifier");
+                    }
                 }
             });
             p.clickedObservers["ColorPicker"] = ValueObserver<bool>::create(
                 p.actions["ColorPicker"]->observeChecked(),
-                [weak](bool value)
+                [weak, context](bool value)
             {
                 if (auto system = weak.lock())
                 {
                     if (value)
                     {
-                        system->_p->tools["ColorPicker"]->moveToFront();
+                        system->_openTool("ColorPicker", ColorPickerTool::create(context));
                     }
-                    system->_p->tools["ColorPicker"]->setVisible(value);
+                    else
+                    {
+                        system->_closeTool("ColorPicker");
+                    }
                 }
             });
             p.clickedObservers["Histogram"] = ValueObserver<bool>::create(
                 p.actions["Histogram"]->observeChecked(),
-                [weak](bool value)
+                [weak, context](bool value)
             {
                 if (auto system = weak.lock())
                 {
                     if (value)
                     {
-                        system->_p->tools["Histogram"]->moveToFront();
+                        system->_openTool("Histogram", HistogramTool::create(context));
                     }
-                    system->_p->tools["Histogram"]->setVisible(value);
+                    else
+                    {
+                        system->_closeTool("Histogram");
+                    }
                 }
             });
             p.clickedObservers["Information"] = ValueObserver<bool>::create(
                 p.actions["Information"]->observeChecked(),
-                [weak](bool value)
+                [weak, context](bool value)
             {
                 if (auto system = weak.lock())
                 {
                     if (value)
                     {
-                        system->_p->tools["Information"]->moveToFront();
+                        system->_openTool("Information", InformationTool::create(context));
                     }
-                    system->_p->tools["Information"]->setVisible(value);
+                    else
+                    {
+                        system->_closeTool("Information");
+                    }
                 }
             });
             p.clickedObservers["Debug"] = ValueObserver<bool>::create(
                 p.actions["Debug"]->observeChecked(),
-                [weak](bool value)
+                [weak, context](bool value)
             {
                 if (auto system = weak.lock())
                 {
                     if (value)
                     {
-                        system->_p->tools["Debug"]->moveToFront();
+                        system->_openTool("Debug", DebugTool::create(context));
                     }
-                    system->_p->tools["Debug"]->setVisible(value);
+                    else
+                    {
+                        system->_closeTool("Debug");
+                    }
                 }
             });
 
@@ -237,19 +218,6 @@ namespace djv
             {
                 _p->menu,
                 "F"
-            };
-        }
-
-        std::vector<std::shared_ptr<ITool> > ToolSystem::getTools()
-        {
-            DJV_PRIVATE_PTR();
-            return
-            {
-                p.tools["Magnifier"],
-                p.tools["ColorPicker"],
-                p.tools["Histogram"],
-                p.tools["Information"],
-                p.tools["Debug"]
             };
         }
 

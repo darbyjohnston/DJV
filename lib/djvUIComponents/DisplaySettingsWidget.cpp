@@ -60,6 +60,8 @@ namespace djv
             Widget::_init(context);
 
             DJV_PRIVATE_PTR();
+            setClassName("djv::Ui::DisplaySizeWidget");
+
             p.comboBox = ComboBox::create(context);
             addChild(p.comboBox);
 
@@ -193,6 +195,8 @@ namespace djv
             Widget::_init(context);
 
             DJV_PRIVATE_PTR();
+            setClassName("djv::Ui::DisplayPaletteWidget");
+
             p.comboBox = ComboBox::create(context);
             addChild(p.comboBox);
 
@@ -322,6 +326,8 @@ namespace djv
             ISettingsWidget::_init(context);
 
             DJV_PRIVATE_PTR();
+            setClassName("djv::Ui::DisplaySettingsWidget");
+
             p.sizeWidget = DisplaySizeWidget::create(context);
             p.paletteWidget = DisplayPaletteWidget::create(context);
 

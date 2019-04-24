@@ -43,6 +43,7 @@ namespace djv
         void AnnotateTool::_init(Context * context)
         {
             ITool::_init(context);
+            setClassName("djv::ViewApp::AnnotateTool");
         }
 
         AnnotateTool::AnnotateTool() :

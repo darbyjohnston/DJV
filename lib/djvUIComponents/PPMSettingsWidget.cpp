@@ -54,6 +54,7 @@ namespace djv
             ISettingsWidget::_init(context);
 
             DJV_PRIVATE_PTR();
+            setClassName("djv::UI::PPMSettingsWidget");
 
             p.dataComboBox = ComboBox::create(context);
 

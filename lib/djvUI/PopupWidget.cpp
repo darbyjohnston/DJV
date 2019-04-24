@@ -75,6 +75,7 @@ namespace djv
             void OverlayWidget::_init(Context * context)
             {
                 Widget::_init(context);
+                setClassName("djv::UI::PopupWidget::OverlayWidget");
                 setBackgroundRole(ColorRole::Background);
                 setPointerEnabled(true);
 
@@ -143,6 +144,7 @@ namespace djv
             void OverlayLayout::_init(Context * context)
             {
                 Widget::_init(context);
+                setClassName("djv::UI::PopupWidget::OverlayLayout");
             }
 
             OverlayLayout::OverlayLayout()
@@ -249,9 +251,9 @@ namespace djv
         {
             Widget::_init(context);
 
+            DJV_PRIVATE_PTR();
             setClassName("djv::UI::PopupWidget");
 
-            DJV_PRIVATE_PTR();
             p.closeAction = Action::create();
             p.closeAction->setShortcut(GLFW_KEY_ESCAPE);
             addAction(p.closeAction);

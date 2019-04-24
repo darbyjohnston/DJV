@@ -99,7 +99,11 @@ namespace djv
                                     {
                                         if (auto system = weak.lock())
                                         {
-                                            system->_p->aboutDialog->hide();
+                                            if (auto parent = system->_p->aboutDialog->getParent().lock())
+                                            {
+                                                parent->removeChild(system->_p->aboutDialog);
+                                            }
+                                            system->_p->aboutDialog.reset();
                                         }
                                     });
                                 }
@@ -131,17 +135,13 @@ namespace djv
                                     {
                                         if (auto system = weak.lock())
                                         {
-                                            system->_p->systemLogDialog->hide();
+                                            if (auto parent = system->_p->systemLogDialog->getParent().lock())
+                                            {
+                                                parent->removeChild(system->_p->systemLogDialog);
+                                            }
+                                            system->_p->systemLogDialog.reset();
                                         }
                                     });
-                                }
-                                if (value)
-                                {
-                                    system->_p->systemLogDialog->reloadLog();
-                                }
-                                else
-                                {
-                                    system->_p->systemLogDialog->clearLog();
                                 }
                                 window->addChild(system->_p->systemLogDialog);
                                 system->_p->systemLogDialog->show();

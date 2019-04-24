@@ -84,6 +84,8 @@ namespace djv
             Widget::_init(context);
 
             DJV_PRIVATE_PTR();
+            setClassName("djv::ViewApp::MediaWidget");
+
             p.actions["Forward"] = UI::Action::create();
             p.actions["Forward"]->setIcon("djvIconPlaybackForward");
             p.actions["Reverse"] = UI::Action::create();

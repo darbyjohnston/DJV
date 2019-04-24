@@ -157,10 +157,6 @@ namespace djv
                     return;
                 p.checked = value;
                 _redraw();
-                if (p.checkedCallback)
-                {
-                    p.checkedCallback(p.checked);
-                }
             }
 
             void Menu::setCheckedCallback(const std::function<void(bool)> & callback)
@@ -250,6 +246,10 @@ namespace djv
                 {
                     event.accept();
                     setChecked(!p.checked);
+                    if (p.checkedCallback)
+                    {
+                        p.checkedCallback(p.checked);
+                    }
                 }
             }
 

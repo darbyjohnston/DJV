@@ -96,21 +96,19 @@ namespace djv
             {
                 p.running = true;
                 auto time = std::chrono::system_clock::now();
+                float dt = 0.f;
                 while (p.running && glfwWindow && !glfwWindowShouldClose(glfwWindow))
                 {
-                    auto now = std::chrono::system_clock::now();
-                    std::chrono::duration<float> delta = now - time;
-                    time = now;
-                    float dt = delta.count();
-
                     glfwPollEvents();
                     tick(dt);
 
-                    now = std::chrono::system_clock::now();
-                    delta = now - time;
+                    auto now = std::chrono::system_clock::now();
+                    std::chrono::duration<float> delta = now - time;
                     dt = delta.count();
                     const float sleep = 1 / static_cast<float>(frameRate) - dt;
                     std::this_thread::sleep_for(std::chrono::milliseconds(static_cast<int>(sleep * 1000)));
+
+                    time = std::chrono::system_clock::now();
                 }
             }
             return 0;

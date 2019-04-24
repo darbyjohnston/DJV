@@ -53,6 +53,7 @@ namespace djv
             ISettingsWidget::_init(context);
 
             DJV_PRIVATE_PTR();
+            setClassName("djv::UI::TIFFSettingsWidget");
 
             p.compressionComboBox = ComboBox::create(context);
 

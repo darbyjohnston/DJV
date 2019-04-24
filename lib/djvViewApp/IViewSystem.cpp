@@ -29,7 +29,11 @@
 
 #include <djvViewApp/IViewSystem.h>
 
+#include <djvViewApp/ITool.h>
+
 #include <djvUIComponents/UIComponentsSystem.h>
+
+#include <djvUI/MDICanvas.h>
 
 #include <djvCore/Context.h>
 #include <djvCore/TextSystem.h>
@@ -41,7 +45,13 @@ namespace djv
     namespace ViewApp
     {
         struct IViewSystem::Private
-        {};
+        {
+            std::shared_ptr<UI::MDI::Canvas> toolCanvas;
+            std::map<std::string, std::shared_ptr<ITool> > tools;
+            std::map<std::string, glm::vec2> toolsPos;
+            std::map<std::string, glm::vec2> toolsSize;
+            std::function<void(const std::string&)> closeToolCallback;
+        };
 
         void IViewSystem::_init(const std::string & name, Context * context)
         {
@@ -69,14 +79,62 @@ namespace djv
             return MenuData();
         }
 
-        std::vector<std::shared_ptr<ITool> > IViewSystem::getTools()
-        {
-            return std::vector<std::shared_ptr<ITool> >();
-        }
-
         std::vector<std::shared_ptr<UI::ISettingsWidget> > IViewSystem::createSettingsWidgets()
         {
             return std::vector<std::shared_ptr<UI::ISettingsWidget> >();
+        }
+
+        void IViewSystem::setToolCanvas(const std::shared_ptr<UI::MDI::Canvas>& value)
+        {
+            _p->toolCanvas = value;
+        }
+
+        void IViewSystem::_openTool(const std::string& name, const std::shared_ptr<ITool>& tool)
+        {
+            DJV_PRIVATE_PTR();
+            p.toolCanvas->addChild(tool);
+            p.tools[name] = tool;
+            auto weak = std::weak_ptr<IViewSystem>(std::dynamic_pointer_cast<IViewSystem>(shared_from_this()));
+            tool->setCloseCallback(
+                [weak, name]
+            {
+                if (auto system = weak.lock())
+                {
+                    system->_closeTool(name);
+                    if (system->_p->closeToolCallback)
+                    {
+                        system->_p->closeToolCallback(name);
+                    }
+                }
+            });
+            const auto j = p.toolsPos.find(name);
+            if (j != p.toolsPos.end())
+            {
+                p.toolCanvas->setWidgetPos(tool, j->second);
+            }
+            const auto k = p.toolsSize.find(name);
+            if (k != p.toolsSize.end())
+            {
+                tool->resize(k->second);
+            }
+        }
+
+        void IViewSystem::_closeTool(const std::string& name)
+        {
+            DJV_PRIVATE_PTR();
+            const auto i = p.tools.find(name);
+            if (i != p.tools.end())
+            {
+                p.toolsPos[name] = p.toolCanvas->getWidgetPos(i->second);
+                p.toolsSize[name] = i->second->getSize();
+                p.toolCanvas->removeChild(i->second);
+                p.tools.erase(i);
+            }
+        }
+
+        void IViewSystem::_setCloseToolCallback(const std::function<void(const std::string&)>& value)
+        {
+            _p->closeToolCallback = value;
         }
 
     } // namespace ViewApp

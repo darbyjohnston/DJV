@@ -62,6 +62,7 @@ namespace djv
             IButton::IButton() :
                 _p(new Private)
             {
+                setClassName("djv::UI::Button::IButton");
                 setPointerEnabled(true);
             }
 

@@ -32,12 +32,10 @@
 #include <djvAV/ImageData.h>
 
 #include <djvCore/ISystem.h>
-#include <djvCore/UID.h>
-
-#include <glm/vec2.hpp>
+#include <djvCore/Range.h>
+#include <djvCore/Vector.h>
 
 #include <future>
-#include <map>
 
 namespace djv
 {
@@ -77,22 +75,21 @@ namespace djv
             };
 
             //! This struct provides a line of text.
-            //!
-            //! \todo Instead of copying the text should we use indices instead?
             struct TextLine
             {
                 inline TextLine();
-                inline TextLine(const std::string & text, const glm::vec2 &);
+                inline TextLine(size_t offset, size_t length, const glm::vec2 &);
 
-                std::string text;
-                glm::vec2   size = glm::vec2(0.f, 0.f);
+                size_t    offset = 0;
+                size_t    length = 0;
+                glm::vec2 size   = glm::vec2(0.f, 0.f);
             };
 
             //! This struct provides font glyph information.
             struct GlyphInfo
             {
                 inline GlyphInfo();
-                GlyphInfo(uint32_t code, const Info &);
+                inline GlyphInfo(uint32_t code, const Info &);
 
                 uint32_t code = 0;
                 Info     info;
@@ -147,14 +144,19 @@ namespace djv
                 //! Measure the size of text.
                 std::future<glm::vec2> measure(const std::string & text, const Info &);
 
-                //! Measure the size of text with word wrapping.
-                std::future<glm::vec2> measure(const std::string & text, float maxLineWidth, const Info &);
-
-                //! Break text into lines for word wrapping.
-                std::future<std::vector<TextLine> > textLines(const std::string & text, float maxLineWidth, const Info &);
+                //! Break text into lines for wrapping.
+                std::future<std::vector<TextLine> > textLines(
+                    const std::string& text,
+                    float              maxLineWidth,
+                    const Info&        info);
 
                 //! Get font glyphs.
-                std::future<std::vector<std::shared_ptr<Glyph> > > getGlyphs(const std::string & text, const Info &);
+                std::future<std::vector<std::shared_ptr<Glyph> > > getGlyphs(
+                    const std::string& text,
+                    const Info&        info);
+
+                //! Request font glyphs to be cached.
+                void cacheGlyphs(const std::string& text, const Info&);
 
                 //! Get the glyph cache percentage used.
                 float getGlyphCachePercentage() const;

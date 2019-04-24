@@ -56,7 +56,6 @@ namespace djv
             Widget::_init(context);
 
             DJV_PRIVATE_PTR();
-
             setClassName("djv::UI::PopupMenu");
 
             p.closeAction = Action::create();

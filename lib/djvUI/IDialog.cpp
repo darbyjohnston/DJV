@@ -95,6 +95,7 @@ namespace djv
             Widget::_init(context);
 
             DJV_PRIVATE_PTR();
+            setClassName("djv::UI::IDialog");
             setPointerEnabled(true);
 
             p.titleLabel = Label::create(context);

@@ -53,6 +53,7 @@ namespace djv
             Widget::_init(context);
 
             DJV_PRIVATE_PTR();
+            setClassName("djv::UI::LineGraphWidget");
 
             setBackgroundRole(ColorRole::Border);
 

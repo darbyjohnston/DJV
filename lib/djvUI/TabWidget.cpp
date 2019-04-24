@@ -52,9 +52,9 @@ namespace djv
         {
             Widget::_init(context);
             
+            DJV_PRIVATE_PTR();
             setClassName("djv::UI::TabWidget");
 
-            DJV_PRIVATE_PTR();
             p.tabBar = TabBar::create(context);
 
             p.soloLayout = SoloLayout::create(context);

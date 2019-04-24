@@ -59,9 +59,9 @@ namespace djv
         {
             IDialog::_init(context);
 
+            DJV_PRIVATE_PTR();
             setClassName("djv::ViewApp::SystemLogDialog");
 
-            DJV_PRIVATE_PTR();
             p.textBlock = UI::TextBlock::create(context);
             p.textBlock->setFontFamily(AV::Font::familyMono);
             p.textBlock->setFontSizeRole(UI::MetricsRole::FontSmall);

@@ -31,6 +31,7 @@
 
 #include <djvCore/ISystem.h>
 
+#include <functional>
 #include <map>
 
 namespace djv
@@ -42,6 +43,11 @@ namespace djv
         class Menu;
         class Widget;
     
+        namespace MDI
+        {
+            class Canvas;
+
+        } // namespace MDI
     } // namespace UI
 
     namespace ViewApp
@@ -68,8 +74,14 @@ namespace djv
 
             virtual std::map<std::string, std::shared_ptr<UI::Action> > getActions();
             virtual MenuData getMenu();
-            virtual std::vector<std::shared_ptr<ITool> > getTools();
             virtual std::vector<std::shared_ptr<UI::ISettingsWidget> > createSettingsWidgets();
+
+            void setToolCanvas(const std::shared_ptr<UI::MDI::Canvas>&);
+
+        protected:
+            void _openTool(const std::string&, const std::shared_ptr<ITool>&);
+            void _closeTool(const std::string&);
+            void _setCloseToolCallback(const std::function<void(const std::string&)>&);
 
         private:
             DJV_PRIVATE();

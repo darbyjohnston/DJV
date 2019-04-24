@@ -125,6 +125,7 @@ namespace djv
             void MenuWidget::_init(Context * context)
             {
                 Widget::_init(context);
+                setClassName("djv::UI::MenuWidget");
             }
 
             MenuWidget::MenuWidget()
@@ -664,6 +665,7 @@ namespace djv
             void MenuPopupWidget::_init(Context * context)
             {
                 Widget::_init(context);
+                setClassName("djv::UI::MenuPopupWidget");
                 setBackgroundRole(ColorRole::Background);
                 setPointerEnabled(true);
 
@@ -743,6 +745,7 @@ namespace djv
             void MenuOverlayLayout::_init(Context * context)
             {
                 Widget::_init(context);
+                setClassName("djv::UI::MenuOverlayLayout");
             }
 
             MenuOverlayLayout::MenuOverlayLayout()
@@ -881,48 +884,16 @@ namespace djv
             std::shared_ptr<Layout::Overlay> overlay;
             std::function<void(void)> closeCallback;
 
-            std::shared_ptr<Layout::Overlay> createOverlay();
+            void createOverlay();
         };
 
         void Menu::_init(Context * context)
         {
-            Widget::_init(context);
+            IObject::_init(context);
 
             DJV_PRIVATE_PTR();
             p.icon = ValueSubject<std::string>::create();
             p.text = ValueSubject<std::string>::create();
-
-            p.popupWidget = MenuPopupWidget::create(context);
-
-            p.overlayLayout = MenuOverlayLayout::create(context);
-            p.overlayLayout->addChild(p.popupWidget);
-
-            p.overlay = Layout::Overlay::create(context);
-            p.overlay->setCaptureKeyboard(false);
-            p.overlay->setFadeIn(false);
-            p.overlay->setVisible(true);
-            p.overlay->setBackgroundRole(ColorRole::None);
-            p.overlay->addChild(p.overlayLayout);
-            addChild(p.overlay);
-
-            auto weak = std::weak_ptr<Menu>(std::dynamic_pointer_cast<Menu>(shared_from_this()));
-            p.popupWidget->setCloseCallback(
-                [weak]
-            {
-                if (auto menu = weak.lock())
-                {
-                    menu->hide();
-                }
-            });
-
-            p.overlay->setCloseCallback(
-                [weak]
-            {
-                if (auto menu = weak.lock())
-                {
-                    menu->hide();
-                }
-            });
         }
 
         Menu::Menu() :
@@ -967,83 +938,14 @@ namespace djv
             _p->text->setIfChanged(value);
         }
 
-        void Menu::addSeparator()
+        void Menu::addAction(const std::shared_ptr<Action>& action)
         {
-            DJV_PRIVATE_PTR();
-            p.actions[p.count++] = nullptr;
-        }
-
-        void Menu::popup(const glm::vec2 & pos)
-        {
-            DJV_PRIVATE_PTR();
-            if (p.count > 0)
-            {
-                if (auto window = getWindow())
-                {
-                    p.overlayLayout->setPos(p.popupWidget, pos);
-                    window->addChild(std::dynamic_pointer_cast<Widget>(shared_from_this()));
-                    show();
-                }
-            }
-        }
-
-        void Menu::popup(const std::weak_ptr<Widget> & button)
-        {
-            DJV_PRIVATE_PTR();
-            if (p.count > 0)
-            {
-                if (auto window = getWindow())
-                {
-                    p.overlayLayout->setButton(p.popupWidget, button);
-                    p.overlay->setAnchor(button);
-                    window->addChild(std::dynamic_pointer_cast<Widget>(shared_from_this()));
-                    show();
-                }
-            }
-        }
-
-        void Menu::popup(const std::weak_ptr<Widget> & button, const std::weak_ptr<Widget> & anchor)
-        {
-            DJV_PRIVATE_PTR();
-            if (p.count > 0)
-            {
-                if (auto window = getWindow())
-                {
-                    p.overlayLayout->setButton(p.popupWidget, button);
-                    p.overlay->setAnchor(anchor);
-                    window->addChild(std::dynamic_pointer_cast<Widget>(shared_from_this()));
-                    show();
-                }
-            }
-        }
-
-        void Menu::setCloseCallback(const std::function<void(void)> & callback)
-        {
-            _p->closeCallback = callback;
-        }
-
-        void Menu::setVisible(bool value)
-        {
-            const bool visible = isVisible();
-            Widget::setVisible(value);
-            DJV_PRIVATE_PTR();
-            if (value != visible && visible && p.closeCallback)
-            {
-                p.closeCallback();
-            }
-        }
-
-        void Menu::addAction(const std::shared_ptr<Action> & action)
-        {
-            Widget::addAction(action);
             DJV_PRIVATE_PTR();
             p.actions[p.count++] = action;
-            p.popupWidget->setActions(p.actions);
         }
 
-        void Menu::removeAction(const std::shared_ptr<Action> & action)
+        void Menu::removeAction(const std::shared_ptr<Action>& action)
         {
-            Widget::removeAction(action);
             DJV_PRIVATE_PTR();
             auto i = p.actions.begin();
             while (i != p.actions.end())
@@ -1057,25 +959,127 @@ namespace djv
                     ++i;
                 }
             }
-            p.popupWidget->setActions(p.actions);
         }
 
         void Menu::clearActions()
         {
-            Widget::clearActions();
             DJV_PRIVATE_PTR();
             p.actions.clear();
+        }
+
+        void Menu::addSeparator()
+        {
+            DJV_PRIVATE_PTR();
+            p.actions[p.count++] = nullptr;
+        }
+
+        void Menu::popup(const glm::vec2 & pos)
+        {
+            DJV_PRIVATE_PTR();
+            if (p.count > 0)
+            {
+                if (auto window = getParentRecursiveT<Window>())
+                {
+                    _createWidgets();
+                    p.overlayLayout->setPos(p.popupWidget, pos);
+                    window->addChild(p.overlay);
+                    p.overlay->show();
+                }
+            }
+        }
+
+        void Menu::popup(const std::weak_ptr<Widget> & button)
+        {
+            DJV_PRIVATE_PTR();
+            if (p.count > 0)
+            {
+                if (auto window = getParentRecursiveT<Window>())
+                {
+                    _createWidgets();
+                    p.overlayLayout->setButton(p.popupWidget, button);
+                    p.overlay->setAnchor(button);
+                    window->addChild(p.overlay);
+                    p.overlay->show();
+                }
+            }
+        }
+
+        void Menu::popup(const std::weak_ptr<Widget> & button, const std::weak_ptr<Widget> & anchor)
+        {
+            DJV_PRIVATE_PTR();
+            if (p.count > 0)
+            {
+                if (auto window = getParentRecursiveT<Window>())
+                {
+                    _createWidgets();
+                    p.overlayLayout->setButton(p.popupWidget, button);
+                    p.overlay->setAnchor(anchor);
+                    window->addChild(p.overlay);
+                    p.overlay->show();
+                }
+            }
+        }
+
+        void Menu::hide()
+        {
+            DJV_PRIVATE_PTR();
+            if (p.overlay)
+            {
+                if (auto parent = p.overlay->getParent().lock())
+                {
+                    parent->removeChild(p.overlay);
+                    p.overlay.reset();
+                    p.overlayLayout.reset();
+                    p.popupWidget.reset();
+                }
+            }
+            if (p.closeCallback)
+            {
+                p.closeCallback();
+            }
+        }
+
+        void Menu::setCloseCallback(const std::function<void(void)> & callback)
+        {
+            _p->closeCallback = callback;
+        }
+
+        void Menu::_createWidgets()
+        {
+            DJV_PRIVATE_PTR();
+            auto context = getContext();
+            p.popupWidget = MenuPopupWidget::create(context);
             p.popupWidget->setActions(p.actions);
-        }
 
-        void Menu::_preLayoutEvent(Event::PreLayout &)
-        {
-            _setMinimumSize(_p->overlay->getMinimumSize());
-        }
+            p.overlayLayout = MenuOverlayLayout::create(context);
+            p.overlayLayout->addChild(p.popupWidget);
 
-        void Menu::_layoutEvent(Event::Layout &)
-        {
-            _p->overlay->setGeometry(getGeometry());
+            p.overlay = Layout::Overlay::create(context);
+            p.overlay->setCaptureKeyboard(false);
+            p.overlay->setFadeIn(false);
+            p.overlay->setVisible(true);
+            p.overlay->setBackgroundRole(ColorRole::None);
+            p.overlay->addChild(p.overlayLayout);
+            addChild(p.overlay);
+
+            auto weak = std::weak_ptr<Menu>(std::dynamic_pointer_cast<Menu>(shared_from_this()));
+            p.popupWidget->setCloseCallback(
+                [weak]
+            {
+                if (auto menu = weak.lock())
+                {
+                    menu->hide();
+                }
+            });
+
+            p.overlay->setCloseCallback(
+                [weak]
+            {
+                if (auto menu = weak.lock())
+                {
+                    menu->hide();
+                }
+            });
         }
 
     } // namespace UI

@@ -92,7 +92,6 @@ namespace djv
             UI::Window::_init(context);
 
             DJV_PRIVATE_PTR();
-
             setClassName("djv::ViewApp::MainWindow");
             setBackgroundRole(UI::ColorRole::Trough);
 
@@ -165,11 +164,7 @@ namespace djv
             p.toolCanvas = UI::MDI::Canvas::create(context);
             for (auto system : viewSystems)
             {
-                for (auto j : system->getTools())
-                {
-                    p.toolCanvas->addChild(j);
-                    j->setVisible(false);
-                }
+                system->setToolCanvas(p.toolCanvas);
             }
             
             p.stackLayout = UI::StackLayout::create(context);

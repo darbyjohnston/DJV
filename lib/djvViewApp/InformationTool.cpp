@@ -43,6 +43,7 @@ namespace djv
         void InformationTool::_init(Context * context)
         {
             ITool::_init(context);
+            setClassName("djv::ViewApp::InformationTool");
         }
 
         InformationTool::InformationTool() :

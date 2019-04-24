@@ -111,8 +111,8 @@ namespace djv
 
                 void drawText(
                     const std::string & text,
-                    const glm::vec2 & position,
-                    size_t maxLineWidth = 0);
+                    const glm::vec2 &   position,
+                    size_t              maxLineWidth = 0);
 
                 ///@}
 
