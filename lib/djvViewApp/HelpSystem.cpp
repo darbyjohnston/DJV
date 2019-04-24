@@ -144,6 +144,7 @@ namespace djv
                                     });
                                 }
                                 window->addChild(system->_p->systemLogDialog);
+                                system->_p->systemLogDialog->reloadLog();
                                 system->_p->systemLogDialog->show();
                             }
                         }
