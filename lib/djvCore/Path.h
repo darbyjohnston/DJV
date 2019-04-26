@@ -99,19 +99,19 @@ namespace djv
             class Path
             {
             public:
-                Path();
-                Path(const std::string &);
-                Path(const Path &, const std::string &);
-                Path(const std::string &, const std::string &);
+                inline Path();
+                inline Path(const std::string &);
+                inline Path(const Path &, const std::string &);
+                inline Path(const std::string &, const std::string &);
 
                 //! \name Path
                 ///@{
 
-                const std::string & get() const { return _value; }
+                inline std::string get() const;
                 void set(std::string);
                 void append(const std::string &);
 
-                bool isEmpty() const { return _value.empty(); }
+                inline bool isEmpty() const;
                 bool isRoot() const;
 
                 //! Go up a directory.
@@ -122,11 +122,11 @@ namespace djv
                 //! \name Path Components
                 ///@{
 
-                const std::string & getDirectoryName() const { return _directoryName; }
-                const std::string & getFileName() const { return _fileName; }
-                const std::string & getBaseName() const { return _baseName; }
-                const std::string & getNumber() const { return _number; }
-                const std::string & getExtension() const { return _extension; }
+                inline const std::string& getDirectoryName() const;
+                inline std::string getFileName() const;
+                inline const std::string& getBaseName() const;
+                inline const std::string& getNumber() const;
+                inline const std::string& getExtension() const;
                 void setDirectoryName(const std::string &);
                 void setFileName(const std::string &);
                 void setBaseName(const std::string &);
@@ -138,10 +138,8 @@ namespace djv
                 //! \name Utilities
                 ///@{
 
+                //! Is this character a path separator?
                 inline static bool isPathSeparator(char);
-                inline static bool isDigit(char);
-                inline static bool isSequence(char);
-                inline static bool isSequenceSeparator(char);
 
                 //! Get the path separator.
                 inline static char getPathSeparator(PathSeparator);
@@ -197,9 +195,7 @@ namespace djv
                 inline operator std::string() const;
 
             private:
-                std::string _value;
                 std::string _directoryName;
-                std::string _fileName;
                 std::string _baseName;
                 std::string _number;
                 std::string _extension;

@@ -70,23 +70,34 @@ namespace djv
                 };
                 const std::vector<Data> data =
                 {
-                    Data("",                      "",          "",             "",        "",  ""),
-                    Data("/",                     "/",         "",             "",        "",  ""),
-                    Data("//",                    "//",        "",             "",        "",  ""),
-                    Data(".",                     "",          ".",            ".",       "",  ""),
-                    Data("/.",                    "/",         ".",            ".",       "",  ""),
-                    Data("1.exr",                 "",          "1.exr",        "",        "1", ".exr"),
-                    Data(".exr",                  "",          ".exr",         ".exr",    "",  ""),
-                    Data("/tmp",                  "/",         "tmp",          "tmp",     "",  ""),
-                    Data("//tmp",                 "//",        "tmp",          "tmp",     "",  ""),
-                    Data("/tmp/",                 "/tmp/",     "",             "",        "",  ""),
-                    Data("//tmp/",                "//tmp/",    "",             "",        "",  ""),
-                    Data("render.1.exr",          "",          "render.1.exr", "render.", "1", ".exr"),
-                    Data("/tmp/render.1.exr",     "/tmp/",     "render.1.exr", "render.", "1", ".exr"),
-                    Data("C:\\",                  "C:\\",      "",             "",        "",  ""),
-                    Data("C:\\tmp\\render.1.exr", "C:\\tmp\\", "render.1.exr", "render.", "1", ".exr"),
-                    Data("C:/tmp/render.1.exr",   "C:/tmp/",   "render.1.exr", "render.", "1", ".exr"),
-                    Data("tmp/render.1.exr",      "tmp/",      "render.1.exr", "render.", "1", ".exr")
+                    Data("",                      "",          "",                "",        "",      ""),
+                    Data("/",                     "/",         "",                "",        "",      ""),
+                    Data("//",                    "//",        "",                "",        "",      ""),
+                    Data(".",                     "",          ".",               ".",       "",      ""),
+                    Data("/.",                    "/",         ".",               ".",       "",      ""),
+                    Data("1.exr",                 "",          "1.exr",           "",        "1",     ".exr"),
+                    Data(".exr",                  "",          ".exr",            ".exr",    "",      ""),
+                    Data("/tmp",                  "/",         "tmp",             "tmp",     "",      ""),
+                    Data("//tmp",                 "//",        "tmp",             "tmp",     "",      ""),
+                    Data("/tmp/",                 "/tmp/",     "",                "",        "",      ""),
+                    Data("//tmp/",                "//tmp/",    "",                "",        "",      ""),
+                    Data("render.1.exr",          "",          "render.1.exr",    "render.", "1",     ".exr"),
+                    Data("render.100.exr",        "",          "render.100.exr",  "render.", "100",   ".exr"),
+                    Data("render1.exr",           "",          "render1.exr",     "render",  "1",     ".exr"),
+                    Data("render100.exr",         "",          "render100.exr",   "render",  "100",   ".exr"),
+                    Data("render-1.exr",          "",          "render-1.exr",    "render-", "1",     ".exr"),
+                    Data("render-100.exr",        "",          "render-100.exr",  "render-", "100",   ".exr"),
+                    Data("render1-100.exr",       "",          "render1-100.exr", "render",  "1-100", ".exr"),
+                    Data("render####.exr",        "",          "render####.exr",  "render",  "####",  ".exr"),
+                    Data("1.exr",                 "",          "1.exr",           "",        "1",     ".exr"),
+                    Data("100.exr",               "",          "100.exr",         "",        "100",   ".exr"),
+                    Data("1",                     "",          "1",               "",        "1",     ""),
+                    Data("100",                   "",          "100",             "",        "100",   ""),
+                    Data("/tmp/render.1.exr",     "/tmp/",     "render.1.exr",    "render.", "1",     ".exr"),
+                    Data("C:\\",                  "C:\\",      "",                "",        "",      ""),
+                    Data("C:\\tmp\\render.1.exr", "C:\\tmp\\", "render.1.exr",    "render.", "1",     ".exr"),
+                    Data("C:/tmp/render.1.exr",   "C:/tmp/",   "render.1.exr",    "render.", "1",     ".exr"),
+                    Data("tmp/render.1.exr",      "tmp/",      "render.1.exr",    "render.", "1",     ".exr")
                 };
                 for (const auto & d : data)
                 {
@@ -104,6 +115,7 @@ namespace djv
                     DJV_ASSERT(baseName == d.baseName);
                     DJV_ASSERT(number == d.number);
                     DJV_ASSERT(extension == d.extension);
+                    DJV_ASSERT(d.value == directoryName + baseName + number + extension);
                 }
             }
             {

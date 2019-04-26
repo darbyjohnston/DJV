@@ -39,70 +39,46 @@ namespace djv
     {
         namespace FileSystem
         {
-            Path::Path()
-            {}
-
-            Path::Path(const std::string & value)
-            {
-                set(value);
-            }
-
-            Path::Path(const Path & value, const std::string & append)
-            {
-                *this = value;
-                this->append(append);
-            }
-
-            Path::Path(const std::string & value, const std::string & append)
-            {
-                set(value);
-                this->append(append);
-            }
-
             void Path::set(std::string value)
             {
-                if (value == _value)
+                if (value == get())
                     return;
-
 #if defined(DJV_PLATFORM_WINDOWS)
                 if (!value.empty() && value[value.size() - 1] == ':')
                 {
                     value += getCurrentPathSeparator();
                 }
 #endif // DJV_PLATFORM_WINDOWS
-
-                _value = value;
-
-                split(_value, _directoryName, _baseName, _number, _extension);
-
-                _fileName = _baseName + _number + _extension;
+                split(value, _directoryName, _baseName, _number, _extension);
             }
 
             void Path::append(const std::string & value)
             {
-                const size_t pathSize = _value.size();
-                if (value.size() && pathSize && !isPathSeparator(_value[pathSize - 1]))
+                const std::string path = get();
+                const size_t pathSize = path.size();
+                if (value.size() && pathSize && !isPathSeparator(path[pathSize - 1]))
                 {
-                    set(_value + getCurrentPathSeparator() + value);
+                    set(path + getCurrentPathSeparator() + value);
                 }
                 else
                 {
-                    set(_value + value);
+                    set(path + value);
                 }
             }
 
             bool Path::isRoot() const
             {
-                const bool unixStyle = _value.size() == 1 ? '/' == _value[0] : false;
+                const std::string path = get();
+                const bool unixStyle = path.size() == 1 ? '/' == path[0] : false;
                 //! \todo This is buggy.
-                const bool windowsStyle1 = _value.size() == 3 ? (':' == _value[1] && '\\' == _value[2]) : false;
-                const bool windowsStyle2 = _value.size() == 3 ? (':' == _value[1] && '/' == _value[2]) : false;
+                const bool windowsStyle1 = path.size() == 3 ? (':' == path[1] && '\\' == path[2]) : false;
+                const bool windowsStyle2 = path.size() == 3 ? (':' == path[1] && '/' == path[2]) : false;
                 return unixStyle || windowsStyle1 || windowsStyle2;
             }
 
             bool Path::cdUp()
             {
-                auto subDirectories = splitDir(_value);
+                auto subDirectories = splitDir(get());
                 if (subDirectories.size() > 1)
                 {
                     subDirectories.pop_back();
@@ -115,12 +91,7 @@ namespace djv
 
             void Path::setDirectoryName(const std::string & value)
             {
-                if (value == _directoryName)
-                    return;
-
                 _directoryName = value;
-
-                _value = _directoryName + _baseName + _number + _extension;
             }
 
             void Path::setFileName(const std::string & value)
@@ -130,35 +101,17 @@ namespace djv
 
             void Path::setBaseName(const std::string & value)
             {
-                if (value == _baseName)
-                    return;
-
                 _baseName = value;
-
-                _fileName = _baseName + _number + _extension;
-                _value = _directoryName + _fileName;
             }
 
             void Path::setNumber(const std::string & value)
             {
-                if (value == _number)
-                    return;
-
                 _number = value;
-
-                _fileName = _baseName + _number + _extension;
-                _value = _directoryName + _fileName;
             }
 
             void Path::setExtension(const std::string & value)
             {
-                if (value == _extension)
-                    return;
-
                 _extension = value;
-
-                _fileName = _baseName + _number + _extension;
-                _value = _directoryName + _fileName;
             }
 
             void Path::removeTrailingSeparator(std::string & value)
@@ -173,94 +126,53 @@ namespace djv
                 }
             }
 
-            namespace
-            {
-                inline bool matchPadding(const std::string & a, const std::string & b)
-                {
-                    return
-                        ((a.length() > 1 && '0' == a[0]) || (b.length() > 1 && '0' == b[0])) ?
-                        (a.length() == b.length()) :
-                        true;
-                }
-
-            } // namespace
-
             void Path::split(
-                const std::string & in,
-                std::string &       path,
-                std::string &       base,
-                std::string &       number,
-                std::string &       extension)
+                const std::string& in,
+                std::string& path,
+                std::string& base,
+                std::string& number,
+                std::string& extension)
             {
-                path.resize(0);
-                base.resize(0);
-                number.resize(0);
-                extension.resize(0);
-
-                const int length = static_cast<int>(in.length());
-                if (!length)
-                    return;
-
-                // Extension.
-                int i = length - 1;
-                int tmp = i;
-                for (; in[i] != '.' && !isPathSeparator(in[i]) && i > 0; --i)
+                const size_t size = in.size();
+                if (size > 0)
                 {
-                }
-                if (i > 0 && '.' == in[i] && !isPathSeparator(in[i - 1]))
-                {
-                    extension = in.substr(i, tmp - i + 1);
-                    --i;
-                }
-                else
-                {
-                    i = length - 1;
-                }
-
-                // Number.
-                if (i >= 0 && isSequence(in[i]))
-                {
-                    tmp = i;
-                    int separator = -1;
-                    std::string word;
-                    for (; i > 0; --i)
+                    // Find the extension.
+                    size_t i = in.find_last_of('.');
+                    if (i != std::string::npos && i > 0 && !isPathSeparator(in[i - 1]))
                     {
-                        if (!isSequence(in[i - 1]))
-                        {
-                            if (separator != -1 && !matchPadding(in.substr(i, separator - i), word))
-                            {
-                                i = separator + 1;
-                                break;
-                            }
-                            else
-                            {
-                                word = in.substr(i, -1 == separator ? (tmp - i + 1) : (separator - i));
-                                separator = i - 1;
-                            }
-                        }
-
-                        if (!(isSequence(in[i - 1])))
-                            break;
+                        extension = in.substr(i, size - 1);
+                        --i;
+                    }
+                    else
+                    {
+                        i = size - 1;
                     }
 
-                    number = in.substr(i, tmp - i + 1);
-                    --i;
-                }
+                    // Find the number.
+                    size_t j = i;
+                    i = in.find_last_not_of("0123456789#-", i);
+                    if (i != j)
+                    {
+                        if ('-' == in[i + 1])
+                        {
+                            ++i;
+                        }
+                        number = in.substr(i + 1, j - i);
+                    }
 
-                // Base.
-                if (i >= 0 && !isPathSeparator(in[i]))
-                {
-                    tmp = i;
-                    for (; i > 0 && !isPathSeparator(in[i - 1]); --i)
-                        ;
-                    base = in.substr(i, tmp - i + 1);
-                    --i;
-                }
+                    // Find the base.
+                    j = i;
+                    i = in.find_last_of("/\\", i);
+                    if (i != j)
+                    {
+                        base = in.substr(i + 1, j - i);
+                    }
 
-                // Path.
-                if (i >= 0)
-                {
-                    path = in.substr(0, i + 1);
+                    // Find the path.
+                    if (i != std::string::npos && isPathSeparator(in[i]))
+                    {
+                        path = in.substr(0, i + 1);
+                    }
                 }
             }
 

@@ -57,16 +57,16 @@ namespace djv
             //! composed of multiple frame ranges (e.g., 1-10,20-30).
             struct Sequence
             {
-                inline Sequence();
-                inline Sequence(Number);
-                inline Sequence(Number min, Number max);
+                constexpr Sequence();
+                constexpr Sequence(Number);
+                constexpr Sequence(Number min, Number max);
                 inline Sequence(const Range &, size_t pad = 0);
-                inline Sequence(const std::vector<Range> &, size_t pad = 0);
+                constexpr Sequence(const std::vector<Range> &, size_t pad = 0);
 
                 std::vector<Range> ranges;
                 size_t pad = 0;
 
-                bool isValid() const { return ranges.size() > 0; }
+                inline bool isValid() const;
 
                 //! \name Utilities
                 ///@{
@@ -83,9 +83,9 @@ namespace djv
             //! \name Utilities
             ///@{
 
-            inline bool isValid(const Range &);
+            constexpr bool isValid(const Range &);
 
-            inline Number getFrame(const std::vector<Number> &, Index index);
+            constexpr Number getFrame(const std::vector<Number> &, Index index);
 
             void sort(Range &);
 

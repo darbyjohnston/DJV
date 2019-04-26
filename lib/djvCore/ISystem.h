@@ -43,40 +43,40 @@ namespace djv
         class ISystemBase : public std::enable_shared_from_this<ISystemBase>
         {
         protected:
-            void _init(const std::string & name, Context *);
+            void _init(const std::string& name, Context*);
             inline ISystemBase();
 
         public:
             virtual ~ISystemBase() = 0;
 
-            inline const std::string & getSystemName() const;
+            inline const std::string& getSystemName() const;
 
-            inline Context * getContext() const;
+            inline Context* getContext() const;
 
-            inline const std::vector<std::shared_ptr<ISystemBase> > & getDependencies() const;
-            void addDependency(const std::shared_ptr<ISystemBase> &);
+            inline const std::vector<std::shared_ptr<ISystemBase> >& getDependencies() const;
+            void addDependency(const std::shared_ptr<ISystemBase>&);
 
             virtual void tick(float dt) {};
 
         private:
             std::string _name;
-            Context * _context = nullptr;
+            Context* _context = nullptr;
             std::vector<std::shared_ptr<ISystemBase> > _dependencies;
         };
 
         class ISystem : public ISystemBase
         {
         protected:
-            void _init(const std::string & name, Context *);
+            void _init(const std::string& name, Context*);
             inline ISystem();
 
         public:
             ~ISystem() override;
 
         protected:
-            void _log(const std::string & message, Core::LogLevel = Core::LogLevel::Information);
+            void _log(const std::string& message, Core::LogLevel = Core::LogLevel::Information);
             std::shared_ptr<ResourceSystem> _getResourceSystem() const;
-            const std::string & _getText(const std::string & id) const;
+            const std::string& _getText(const std::string& id) const;
 
         private:
             std::shared_ptr<LogSystem> _logSystem;

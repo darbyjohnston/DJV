@@ -112,15 +112,15 @@ namespace djv
             class FileInfo
             {
             public:
-                FileInfo();
-                FileInfo(const Path &, bool stat = true);
-                FileInfo(const std::string &, bool stat = true);
+                inline FileInfo();
+                inline FileInfo(const Path &, bool stat = true);
+                inline FileInfo(const std::string &, bool stat = true);
 
                 //! \name Path
                 ///@{
 
-                const Path & getPath() const { return _path; }
-                bool isEmpty() const { return _path.isEmpty(); }
+                inline const Path& getPath() const;
+                inline bool isEmpty() const;
                 void setPath(const Path &, bool stat = true);
                 void setPath(const std::string &, bool stat = true);
 
@@ -153,7 +153,7 @@ namespace djv
                 //! \name File Sequences
                 ///@{
 
-                const Frame::Sequence & getSequence() const { return _sequence; }
+                const Frame::Sequence& getSequence() const;
                 void setSequence(const Frame::Sequence &);
                 void evalSequence();
                 void sortSequence();
@@ -186,8 +186,6 @@ namespace djv
                 inline operator std::string() const;
 
             private:
-                void _init();
-
                 Path            _path;
                 bool            _exists      = false;
                 FileType        _type        = FileType::File;

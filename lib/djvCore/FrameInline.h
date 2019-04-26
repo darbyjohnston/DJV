@@ -45,14 +45,14 @@ namespace djv
     
         namespace Frame
         {            
-            Sequence::Sequence()
+            constexpr Sequence::Sequence()
             {}
 
-            inline Sequence::Sequence(Number value) :
+            constexpr Sequence::Sequence(Number value) :
                 ranges({ Range(value, value) })
             {}
 
-            inline Sequence::Sequence(Number min, Number max) :
+            constexpr Sequence::Sequence(Number min, Number max) :
                 ranges({ Range(min, max) })
             {}
 
@@ -62,10 +62,15 @@ namespace djv
                 ranges.push_back(range);
             }
 
-            inline Sequence::Sequence(const std::vector<Range> & ranges, size_t pad) :
+            constexpr Sequence::Sequence(const std::vector<Range> & ranges, size_t pad) :
                 ranges(ranges),
                 pad(pad)
             {}
+
+            inline bool Sequence::isValid() const
+            {
+                return ranges.size() > 0;
+            }
 
             inline bool Sequence::operator == (const Sequence & value) const
             {
@@ -77,12 +82,12 @@ namespace djv
                 return !(*this == value);
             }
 
-            inline bool isValid(const Range & value)
+            constexpr bool isValid(const Range & value)
             {
                 return value.min != Invalid && value.max != Invalid;
             }
 
-            inline Number getFrame(const std::vector<Number> & list, Index index)
+            constexpr Number getFrame(const std::vector<Number> & list, Index index)
             {
                 return index >= 0 && index < static_cast<Index>(list.size()) ? list[index] : Invalid;
             }

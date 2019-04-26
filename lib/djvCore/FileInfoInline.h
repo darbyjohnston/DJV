@@ -33,6 +33,34 @@ namespace djv
     {
         namespace FileSystem
         {
+            inline FileInfo::FileInfo()
+            {}
+
+            inline FileInfo::FileInfo(const Path& path, bool stat)
+            {
+                setPath(path, stat);
+            }
+
+            inline FileInfo::FileInfo(const std::string& path, bool stat)
+            {
+                setPath(path, stat);
+            }
+
+            inline const Path& FileInfo::getPath() const
+            {
+                return _path;
+            }
+
+            inline bool FileInfo::isEmpty() const
+            {
+                return _path.isEmpty();
+            }
+
+            inline const Frame::Sequence& FileInfo::getSequence() const
+            {
+                return _sequence;
+            }
+
             inline bool FileInfo::doesExist() const
             {
                 return _exists;

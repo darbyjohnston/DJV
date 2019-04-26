@@ -51,17 +51,17 @@ int main(int argc, char ** argv)
     {
         auto context = Core::Context::create(argc, argv);
 
-        (new CoreTest::CacheTest(context.get()))->run(argc, argv);
+        /*(new CoreTest::CacheTest(context.get()))->run(argc, argv);
         (new CoreTest::EnumTest(context.get()))->run(argc, argv);
         (new CoreTest::MathTest(context.get()))->run(argc, argv);
         (new CoreTest::MemoryTest(context.get()))->run(argc, argv);
-        (new CoreTest::ObjectTest(context.get()))->run(argc, argv);
+        (new CoreTest::ObjectTest(context.get()))->run(argc, argv);*/
         (new CoreTest::PathTest(context.get()))->run(argc, argv);
-        (new CoreTest::StringTest(context.get()))->run(argc, argv);
+        //(new CoreTest::StringTest(context.get()))->run(argc, argv);
 
-        (new AVTest::AudioTest(context.get()))->run(argc, argv);
-        (new AVTest::ColorTest(context.get()))->run(argc, argv);
-        (new AVTest::PixelTest(context.get()))->run(argc, argv);
+        //(new AVTest::AudioTest(context.get()))->run(argc, argv);
+        //(new AVTest::ColorTest(context.get()))->run(argc, argv);
+        //(new AVTest::PixelTest(context.get()))->run(argc, argv);
     }
     catch (const std::exception & error)
     {

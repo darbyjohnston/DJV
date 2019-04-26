@@ -192,12 +192,10 @@ namespace djv
 
             std::vector<std::weak_ptr<IObject> > _filters;
 
-            bool _localeInit = false;
-
-            static std::shared_ptr<ResourceSystem>      _resourceSystem;
-            static std::shared_ptr<LogSystem>           _logSystem;
-            static std::shared_ptr<TextSystem>          _textSystem;
-            static std::shared_ptr<Event::IEventSystem> _eventSystem;
+            std::shared_ptr<ResourceSystem>      _resourceSystem;
+            std::shared_ptr<LogSystem>           _logSystem;
+            std::shared_ptr<TextSystem>          _textSystem;
+            std::shared_ptr<Event::IEventSystem> _eventSystem;
 
             friend class Event::IEventSystem;
         };

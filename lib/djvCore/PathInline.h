@@ -35,34 +35,64 @@ namespace djv
     {
         namespace FileSystem
         {
+            inline Path::Path()
+            {}
+
+            inline Path::Path(const std::string& value)
+            {
+                set(value);
+            }
+
+            inline Path::Path(const Path& value, const std::string& append)
+            {
+                *this = value;
+                this->append(append);
+            }
+
+            inline Path::Path(const std::string& value, const std::string& append)
+            {
+                set(value);
+                this->append(append);
+            }
+
+            inline std::string Path::get() const
+            {
+                return _directoryName + _baseName + _number + _extension;
+            }
+
+            inline bool Path::isEmpty() const
+            {
+                return get().empty();
+            }
+
+            inline const std::string& Path::getDirectoryName() const
+            {
+                return _directoryName;
+            }
+
+            inline std::string Path::getFileName() const
+            {
+                return _baseName + _number + _extension;
+            }
+
+            inline const std::string& Path::getBaseName() const
+            {
+                return _baseName;
+            }
+
+            inline const std::string& Path::getNumber() const
+            {
+                return _number;
+            }
+
+            inline const std::string& Path::getExtension() const
+            {
+                return _extension;
+            }
+
             inline bool Path::isPathSeparator(char c)
             {
                 return '/' == c || '\\' == c;
-            }
-
-            inline bool Path::isDigit(char c)
-            {
-                return
-                    '0' == c ||
-                    '1' == c ||
-                    '2' == c ||
-                    '3' == c ||
-                    '4' == c ||
-                    '5' == c ||
-                    '6' == c ||
-                    '7' == c ||
-                    '8' == c ||
-                    '9' == c;
-            }
-
-            inline bool Path::isSequence(char c)
-            {
-                return isDigit(c) || isSequenceSeparator(c) || '#' == c;
-            }
-
-            inline bool Path::isSequenceSeparator(char c)
-            {
-                return '-' == c || ',' == c;
             }
 
             inline char Path::getPathSeparator(PathSeparator value)
@@ -70,7 +100,7 @@ namespace djv
                 return PathSeparator::Unix == value ? '/' : '\\';
             }
 
-            char Path::getCurrentPathSeparator()
+            inline char Path::getCurrentPathSeparator()
             {
 #if defined(DJV_PLATFORM_WINDOWS)
                 return getPathSeparator(PathSeparator::Windows);
@@ -81,7 +111,7 @@ namespace djv
 
             inline bool Path::operator == (const Path & other) const
             {
-                return other._value == _value;
+                return get() == other.get();
             }
 
             inline bool Path::operator != (const Path & other) const
@@ -91,12 +121,12 @@ namespace djv
 
             inline bool Path::operator < (const Path & other) const
             {
-                return _value.compare(other._value) < 0;
+                return get().compare(other.get()) < 0;
             }
 
             inline Path::operator std::string() const
             {
-                return _value;
+                return get();
             }
 
         } // namespace FileSystem

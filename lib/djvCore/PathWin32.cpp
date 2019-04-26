@@ -60,7 +60,7 @@ namespace djv
             {
                 wchar_t buf[MAX_PATH];
                 std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>, wchar_t> utf16;
-                if (!::_wfullpath(buf, utf16.from_bytes(value._value).c_str(), MAX_PATH))
+                if (!::_wfullpath(buf, utf16.from_bytes(value.get()).c_str(), MAX_PATH))
                 {
                     buf[0] = 0;
                 }

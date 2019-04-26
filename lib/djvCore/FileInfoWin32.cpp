@@ -52,8 +52,6 @@ namespace djv
         {
             bool FileInfo::stat()
             {
-                _init();
-
                 _STAT info;
                 memset(&info, 0, sizeof(_STAT));
                 if (_STAT_FNC(String::toWide(_path.get()).c_str(), &info) != 0)

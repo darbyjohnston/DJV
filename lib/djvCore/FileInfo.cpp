@@ -53,35 +53,6 @@ namespace djv
                 return data[in];
             }
 
-            void FileInfo::_init()
-            {
-                _exists = false;
-                _type = FileType::File;
-                _size = 0;
-                _user = 0;
-                _permissions = 0;
-                _time = 0;
-            }
-
-            FileInfo::FileInfo()
-            {
-                _init();
-            }
-
-            FileInfo::FileInfo(const Path & path, bool stat)
-            {
-                _init();
-
-                setPath(path, stat);
-            }
-
-            FileInfo::FileInfo(const std::string & path, bool stat)
-            {
-                _init();
-
-                setPath(path, stat);
-            }
-
             std::string FileInfo::getFileName(Frame::Number frame, bool path) const
             {
                 std::stringstream s;
@@ -116,8 +87,6 @@ namespace djv
 
             void FileInfo::setPath(const Path & value, bool stat)
             {
-                _init();
-
                 _path = value;
                 _exists = false;
                 _type = FileType::File;

@@ -47,11 +47,7 @@ namespace djv
 
         } // namespace
 
-        Context *                            IObject::_context        = nullptr;
-        std::shared_ptr<ResourceSystem>      IObject::_resourceSystem;
-        std::shared_ptr<LogSystem>           IObject::_logSystem;
-        std::shared_ptr<TextSystem>          IObject::_textSystem;
-        std::shared_ptr<Event::IEventSystem> IObject::_eventSystem;
+        Context * IObject::_context = nullptr;
 
         void IObject::_init(Context * context)
         {
@@ -209,15 +205,8 @@ namespace djv
                 switch (event.getEventType())
                 {
                 case Event::Type::ParentChanged:
-                {
-                    auto & parentChangedEvent = static_cast<Event::ParentChanged &>(event);
-                    if (!parentChangedEvent.getPrevParent() && parentChangedEvent.getNewParent())
-                    {
-                        _localeInit = false;
-                    }
                     _parentChangedEvent(static_cast<Event::ParentChanged &>(event));
                     break;
-                }
                 case Event::Type::ChildAdded:
                     _childAddedEvent(static_cast<Event::ChildAdded &>(event));
                     break;
