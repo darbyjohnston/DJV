@@ -87,7 +87,10 @@ namespace djv
                     if (auto widget = weak.lock())
                     {
                         widget->_p->image = image;
-                        widget->_redraw();
+                        if (widget->isVisible() && !widget->isClipped())
+                        {
+                            widget->_redraw();
+                        }
                     }
                 });
             }
@@ -95,6 +98,10 @@ namespace djv
             {
                 p.image.reset();
                 p.imageObserver.reset();
+                if (isVisible() && !isClipped())
+                {
+                    _redraw();
+                }
             }
         }
 

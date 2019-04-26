@@ -64,11 +64,11 @@ namespace djv
             void setValue(float);
             void setValueCallback(const std::function<void(float)>&);
 
-            const std::shared_ptr<Core::FloatValueModel> & getModel() const;
-            void setModel(const std::shared_ptr<Core::FloatValueModel> &);
-
             std::chrono::milliseconds getDelay() const;
             void setDelay(std::chrono::milliseconds);
+
+            const std::shared_ptr<Core::FloatValueModel> & getModel() const;
+            void setModel(const std::shared_ptr<Core::FloatValueModel> &);
 
         protected:
             void _preLayoutEvent(Core::Event::PreLayout &) override;
@@ -109,10 +109,10 @@ namespace djv
             void setValue(float);
             void setValueCallback(const std::function<void(float)> &);
 
-            const std::shared_ptr<Core::FloatValueModel> & getModel() const;
-
             std::chrono::milliseconds getDelay() const;
             void setDelay(std::chrono::milliseconds);
+
+            const std::shared_ptr<Core::FloatValueModel>& getModel() const;
 
         protected:
             void _preLayoutEvent(Core::Event::PreLayout &) override;

@@ -118,6 +118,16 @@ namespace djv
             return _p->model;
         }
 
+        std::chrono::milliseconds BasicFloatSlider::getDelay() const
+        {
+            return _p->delay;
+        }
+
+        void BasicFloatSlider::setDelay(std::chrono::milliseconds value)
+        {
+            _p->delay = value;
+        }
+
         void BasicFloatSlider::setModel(const std::shared_ptr<FloatValueModel> & model)
         {
             DJV_PRIVATE_PTR();
@@ -140,16 +150,6 @@ namespace djv
                     }
                 });
             }
-        }
-
-        std::chrono::milliseconds BasicFloatSlider::getDelay() const
-        {
-            return _p->delay;
-        }
-
-        void BasicFloatSlider::setDelay(std::chrono::milliseconds value)
-        {
-            _p->delay = value;
         }
 
         void BasicFloatSlider::_preLayoutEvent(Event::PreLayout & event)
@@ -487,11 +487,6 @@ namespace djv
             _p->callback = callback;
         }
 
-        const std::shared_ptr<FloatValueModel> & FloatSlider::getModel() const
-        {
-            return _p->slider->getModel();
-        }
-
         std::chrono::milliseconds FloatSlider::getDelay() const
         {
             return _p->slider->getDelay();
@@ -500,6 +495,11 @@ namespace djv
         void FloatSlider::setDelay(std::chrono::milliseconds value)
         {
             _p->slider->setDelay(value);
+        }
+
+        const std::shared_ptr<FloatValueModel> & FloatSlider::getModel() const
+        {
+            return _p->slider->getModel();
         }
 
         void FloatSlider::_preLayoutEvent(Event::PreLayout & event)

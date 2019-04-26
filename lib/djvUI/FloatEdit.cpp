@@ -48,6 +48,7 @@ namespace djv
             std::shared_ptr<FloatValueModel> model;
             int precision = 2;
             std::shared_ptr<LineEdit> lineEdit;
+            std::function<void(float)> callback;
             std::shared_ptr<ValueObserver<FloatRange> > rangeObserver;
             std::shared_ptr<ValueObserver<float> > valueObserver;
             std::shared_ptr<ValueObserver<bool> > incrementSmallObserver;
@@ -81,7 +82,7 @@ namespace djv
             p.lineEdit->setFont(AV::Font::familyMono);
             addChild(p.lineEdit);
 
-            _textUpdate();;
+            setModel(FloatValueModel::create());
 
             auto weak = std::weak_ptr<FloatEdit>(std::dynamic_pointer_cast<FloatEdit>(shared_from_this()));
             p.lineEdit->setTextFinishedCallback(
@@ -96,9 +97,12 @@ namespace djv
                             widget->_p->model->setValue(std::stof(value));
                         }
                         catch (const std::exception &)
-                        {
-                        }
+                        {}
                         widget->_textUpdate();
+                        if (widget->_p->callback)
+                        {
+                            widget->_p->callback(widget->_p->model->observeValue()->get());
+                        }
                     }
                 }
             });
@@ -112,6 +116,10 @@ namespace djv
                     if (auto widget = weak.lock())
                     {
                         widget->_p->model->incrementSmall();
+                        if (widget->_p->callback)
+                        {
+                            widget->_p->callback(widget->_p->model->observeValue()->get());
+                        }
                     }
                 }
             });
@@ -125,6 +133,10 @@ namespace djv
                     if (auto widget = weak.lock())
                     {
                         widget->_p->model->incrementLarge();
+                        if (widget->_p->callback)
+                        {
+                            widget->_p->callback(widget->_p->model->observeValue()->get());
+                        }
                     }
                 }
             });
@@ -138,6 +150,10 @@ namespace djv
                     if (auto widget = weak.lock())
                     {
                         widget->_p->model->decrementSmall();
+                        if (widget->_p->callback)
+                        {
+                            widget->_p->callback(widget->_p->model->observeValue()->get());
+                        }
                     }
                 }
             });
@@ -151,6 +167,10 @@ namespace djv
                     if (auto widget = weak.lock())
                     {
                         widget->_p->model->decrementLarge();
+                        if (widget->_p->callback)
+                        {
+                            widget->_p->callback(widget->_p->model->observeValue()->get());
+                        }
                     }
                 }
             });
@@ -170,6 +190,45 @@ namespace djv
             return out;
         }
 
+        FloatRange FloatEdit::getRange() const
+        {
+            return _p->model->observeRange()->get();
+        }
+
+        void FloatEdit::setRange(const FloatRange& value)
+        {
+            _p->model->setRange(value);
+        }
+
+        float FloatEdit::getValue() const
+        {
+            return _p->model->observeValue()->get();
+        }
+
+        void FloatEdit::setValue(float value)
+        {
+            _p->model->setValue(value);
+        }
+
+        void FloatEdit::setValueCallback(const std::function<void(float)>& callback)
+        {
+            _p->callback = callback;
+        }
+
+        int FloatEdit::getPrecision()
+        {
+            return _p->precision;
+        }
+
+        void FloatEdit::setPrecision(int value)
+        {
+            DJV_PRIVATE_PTR();
+            if (value == p.precision)
+                return;
+            p.precision = value;
+            _textUpdate();
+        }
+
         const std::shared_ptr<FloatValueModel> & FloatEdit::getModel() const
         {
             return _p->model;
@@ -180,6 +239,7 @@ namespace djv
             DJV_PRIVATE_PTR();
             if (p.model)
             {
+                p.rangeObserver.reset();
                 p.valueObserver.reset();
             }
             p.model = model;
@@ -205,20 +265,6 @@ namespace djv
                     }
                 });
             }
-        }
-
-        int FloatEdit::getPrecision()
-        {
-            return _p->precision;
-        }
-
-        void FloatEdit::setPrecision(int value)
-        {
-            DJV_PRIVATE_PTR();
-            if (value == p.precision)
-                return;
-            p.precision = value;
-            _textUpdate();
         }
 
         void FloatEdit::_preLayoutEvent(Event::PreLayout & event)

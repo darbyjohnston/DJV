@@ -79,7 +79,7 @@ namespace djv
                 std::shared_ptr<IObject> hover;
                 std::shared_ptr<IObject> grab;
                 std::shared_ptr<IObject> keyGrab;
-                std::shared_ptr<IObject> textFocus;
+                std::weak_ptr<IObject> textFocus;
                 std::string locale;
                 bool localeInit = false;
                 std::shared_ptr<ValueObserver<std::string> > localeObserver;
@@ -134,7 +134,7 @@ namespace djv
                 return _p->rootObject;
             }
 
-            const std::shared_ptr<IObject> & IEventSystem::getTextFocus() const
+            const std::weak_ptr<IObject> & IEventSystem::getTextFocus() const
             {
                 return _p->textFocus;
             }
@@ -142,19 +142,19 @@ namespace djv
             void IEventSystem::setTextFocus(const std::shared_ptr<IObject> & value)
             {
                 DJV_PRIVATE_PTR();
-                if (value == p.textFocus)
+                if (value == p.textFocus.lock())
                     return;
-                auto textFocus = p.textFocus;
+                auto prev = p.textFocus;
                 p.textFocus = value;
-                if (textFocus)
+                if (auto textFocus = prev.lock())
                 {
                     Event::TextFocusLost event;
                     textFocus->event(event);
                 }
-                if (p.textFocus)
+                if (auto textFocus = p.textFocus.lock())
                 {
                     Event::TextFocus event;
-                    p.textFocus->event(event);
+                    textFocus->event(event);
                 }
             }
 
@@ -310,10 +310,11 @@ namespace djv
             void IEventSystem::_keyPress(int key, int modifiers)
             {
                 DJV_PRIVATE_PTR();
-                if (p.textFocus || p.hover)
+                auto textFocus = p.textFocus.lock();
+                if (textFocus || p.hover)
                 {
                     Event::KeyPress event(key, modifiers, p.pointerInfo);
-                    auto object = p.textFocus ? p.textFocus : p.hover;
+                    auto object = textFocus ? textFocus : p.hover;
                     while (object)
                     {
                         object->event(event);
@@ -354,10 +355,10 @@ namespace djv
             void IEventSystem::_text(const std::string & text, int modifiers)
             {
                 DJV_PRIVATE_PTR();
-                if (p.textFocus)
+                if (auto textFocus = p.textFocus.lock())
                 {
                     Event::Text event(text, modifiers);
-                    p.textFocus->event(event);
+                    textFocus->event(event);
                 }
             }
 

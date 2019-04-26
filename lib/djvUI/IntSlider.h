@@ -64,11 +64,11 @@ namespace djv
             void setValue(int);
             void setValueCallback(const std::function<void(int)>&);
 
-            const std::shared_ptr<Core::IntValueModel> & getModel() const;
-            void setModel(const std::shared_ptr<Core::IntValueModel> &);
-
             std::chrono::milliseconds getDelay() const;
             void setDelay(std::chrono::milliseconds);
+
+            const std::shared_ptr<Core::IntValueModel> & getModel() const;
+            void setModel(const std::shared_ptr<Core::IntValueModel> &);
 
         protected:
             void _preLayoutEvent(Core::Event::PreLayout &) override;
@@ -109,10 +109,10 @@ namespace djv
             void setValue(int);
             void setValueCallback(const std::function<void(int)> &);
 
-            const std::shared_ptr<Core::IntValueModel> & getModel() const;
-
             std::chrono::milliseconds getDelay() const;
             void setDelay(std::chrono::milliseconds);
+
+            const std::shared_ptr<Core::IntValueModel>& getModel() const;
 
         protected:
             void _preLayoutEvent(Core::Event::PreLayout &) override;

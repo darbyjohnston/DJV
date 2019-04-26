@@ -55,11 +55,18 @@ namespace djv
 
             static std::shared_ptr<FloatEdit> create(Core::Context *);
 
-            const std::shared_ptr<Core::FloatValueModel> & getModel() const;
-            void setModel(const std::shared_ptr<Core::FloatValueModel> &);
+            Core::FloatRange getRange() const;
+            void setRange(const Core::FloatRange&);
+
+            float getValue() const;
+            void setValue(float);
+            void setValueCallback(const std::function<void(float)>&);
 
             int getPrecision();
             void setPrecision(int);
+
+            const std::shared_ptr<Core::FloatValueModel>& getModel() const;
+            void setModel(const std::shared_ptr<Core::FloatValueModel>&);
 
         protected:
             void _preLayoutEvent(Core::Event::PreLayout &) override;

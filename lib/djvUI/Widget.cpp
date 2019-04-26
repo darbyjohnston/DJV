@@ -243,29 +243,23 @@ namespace djv
         bool Widget::hasTextFocus() const
         {
             bool out = false;
-            if (auto eventSystem = getContext()->getSystemT<Event::IEventSystem>())
-            {
-                out = eventSystem->getTextFocus() == shared_from_this();
-            }
+            auto eventSystem = getContext()->getSystemT<Event::IEventSystem>();
+            out = eventSystem->getTextFocus().lock() == shared_from_this();
             return out;
         }
 
         void Widget::takeTextFocus()
         {
-            if (auto eventSystem = getContext()->getSystemT<Event::IEventSystem>())
-            {
-                eventSystem->setTextFocus(shared_from_this());
-            }
+            auto eventSystem = getContext()->getSystemT<Event::IEventSystem>();
+            eventSystem->setTextFocus(shared_from_this());
         }
 
         void Widget::releaseTextFocus()
         {
-            if (auto eventSystem = getContext()->getSystemT<Event::IEventSystem>())
+            auto eventSystem = getContext()->getSystemT<Event::IEventSystem>();
+            if (eventSystem->getTextFocus().lock() == shared_from_this())
             {
-                if (eventSystem->getTextFocus() == shared_from_this())
-                {
-                    eventSystem->setTextFocus(nullptr);
-                }
+                eventSystem->setTextFocus(nullptr);
             }
         }
 

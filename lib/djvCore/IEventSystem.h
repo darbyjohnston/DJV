@@ -53,7 +53,7 @@ namespace djv
 
                 std::shared_ptr<IObject> getRootObject() const;
 
-                const std::shared_ptr<IObject> & getTextFocus() const;
+                const std::weak_ptr<IObject> & getTextFocus() const;
                 void setTextFocus(const std::shared_ptr<IObject> &);
 
                 void tick(float dt) override;

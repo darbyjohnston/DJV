@@ -63,6 +63,7 @@ namespace djv
             std::shared_ptr<ValueSubject<AV::IO::Info> > info;
             AV::IO::VideoInfo videoInfo;
             AV::IO::AudioInfo audioInfo;
+            std::shared_ptr<ValueSubject<Time::Speed> > speed;
             std::shared_ptr<ValueSubject<Time::Timestamp> > duration;
             std::shared_ptr<ValueSubject<Time::Timestamp> > currentTime;
             std::shared_ptr<ValueSubject<std::shared_ptr<AV::Image::Image> > > currentImage;
@@ -103,6 +104,7 @@ namespace djv
 
             p.fileName = fileName;
             p.info = ValueSubject<AV::IO::Info>::create();
+            p.speed = ValueSubject<Time::Speed>::create();
             p.duration = ValueSubject<Time::Timestamp>::create();
             p.currentTime = ValueSubject<Time::Timestamp>::create();
             p.currentImage = ValueSubject<std::shared_ptr<AV::Image::Image> >::create();
@@ -179,11 +181,13 @@ namespace djv
                         {
                             p.infoTimer->stop();
                             const auto info = p.infoFuture.get();
+                            Time::Speed speed;
                             Time::Timestamp duration = 0;
                             const auto & video = info.video;
                             if (video.size())
                             {
                                 p.videoInfo = video[0];
+                                speed = video[0].speed;
                                 duration = std::max(duration, video[0].duration);
                             }
                             const auto & audio = info.audio;
@@ -199,6 +203,7 @@ namespace djv
                                 logSystem->log("djv::ViewApp::Media", ss.str());
                             }
                             p.info->setIfChanged(info);
+                            p.speed->setIfChanged(speed);
                             p.duration->setIfChanged(duration);
                         }
                     });
@@ -289,6 +294,11 @@ namespace djv
             return _p->info;
         }
 
+        std::shared_ptr<IValueSubject<Time::Speed> > Media::observeSpeed() const
+        {
+            return _p->speed;
+        }
+
         std::shared_ptr<IValueSubject<Time::Timestamp> > Media::observeDuration() const
         {
             return _p->duration;
@@ -364,13 +374,19 @@ namespace djv
             return _p->alUnqueuedBuffers;
         }
 
+        void Media::setSpeed(const Time::Speed& value)
+        {
+            _p->speed->setIfChanged(value);
+        }
+
         void Media::setCurrentTime(Time::Timestamp value)
         {
             DJV_PRIVATE_PTR();
             Time::Timestamp start = 0;
+            const auto& speed = p.speed->get();
             AVRational r;
-            r.num = p.videoInfo.speed.getDuration();
-            r.den = p.videoInfo.speed.getScale();
+            r.num = speed.getDuration();
+            r.den = speed.getScale();
             const int64_t f = av_rescale_q(1, r, av_get_time_base_q());
             const Time::Timestamp duration = p.duration->get();
             Time::Timestamp end = duration - f;
@@ -407,8 +423,9 @@ namespace djv
         {
             DJV_PRIVATE_PTR();
             AVRational r;
-            r.num = p.videoInfo.speed.getDuration();
-            r.den = p.videoInfo.speed.getScale();
+            const auto& speed = p.speed->get();
+            r.num = speed.getDuration();
+            r.den = speed.getScale();
             setCurrentTime(p.duration->get() - av_rescale_q(1, r, av_get_time_base_q()));
         }
 
@@ -416,8 +433,9 @@ namespace djv
         {
             DJV_PRIVATE_PTR();
             AVRational r;
-            r.num = p.videoInfo.speed.getDuration();
-            r.den = p.videoInfo.speed.getScale();
+            const auto& speed = p.speed->get();
+            r.num = speed.getDuration();
+            r.den = speed.getScale();
             setCurrentTime(p.currentTime->get() + av_rescale_q(value, r, av_get_time_base_q()));
         }
 
@@ -425,8 +443,9 @@ namespace djv
         {
             DJV_PRIVATE_PTR();
             AVRational r;
-            r.num = p.videoInfo.speed.getDuration();
-            r.den = p.videoInfo.speed.getScale();
+            const auto& speed = p.speed->get();
+            r.num = speed.getDuration();
+            r.den = speed.getScale();
             setCurrentTime(p.currentTime->get() - av_rescale_q(value, r, av_get_time_base_q()));
         }
 
@@ -492,11 +511,12 @@ namespace djv
                     case Playback::Reverse:
                     {
                         Time::Timestamp time = 0;
-                        const Time::Timestamp duration = p.duration->get();
+                        const auto& speed = p.speed->get();
                         AVRational r;
-                        r.num = p.videoInfo.speed.getDuration();
-                        r.den = p.videoInfo.speed.getScale();
+                        r.num = speed.getDuration();
+                        r.den = speed.getScale();
                         const int64_t f = av_rescale_q(1, r, av_get_time_base_q());
+                        const Time::Timestamp duration = p.duration->get();
                         if (Playback::Forward == playback && p.audioInfo.info.isValid() && p.alSource)
                         {
                             ALint offset = 0;
@@ -515,15 +535,19 @@ namespace djv
                         {
                             const auto now = std::chrono::system_clock::now();
                             const std::chrono::duration<double> delta = now - p.startTime;
-                            Time::Timestamp pts = static_cast<Time::Timestamp>(delta.count() * p.videoInfo.speed.getScale() / p.videoInfo.speed.getDuration());
-                            r.num = p.videoInfo.speed.getDuration();
-                            r.den = p.videoInfo.speed.getScale();
+                            Time::Timestamp pts = static_cast<Time::Timestamp>(delta.count() * speed.getScale() / speed.getDuration());
                             switch (playback)
                             {
                             case Playback::Forward: time = p.timeOffset + av_rescale_q(pts, r, av_get_time_base_q()); break;
                             case Playback::Reverse: time = p.timeOffset - av_rescale_q(pts, r, av_get_time_base_q()); break;
                             default: break;
                             }
+                            /*switch (playback)
+                            {
+                            case Playback::Forward: time = p.currentTime->get() + av_rescale_q(1, r, av_get_time_base_q()); break;
+                            case Playback::Reverse: time = p.currentTime->get() - av_rescale_q(1, r, av_get_time_base_q()); break;
+                            default: break;
+                            }*/
                             /*{
                                 std::stringstream ss;
                                 ss << "video time = " << time;

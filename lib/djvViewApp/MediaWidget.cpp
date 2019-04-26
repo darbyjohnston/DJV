@@ -35,6 +35,7 @@
 
 #include <djvUI/Action.h>
 #include <djvUI/ActionGroup.h>
+#include <djvUI/FloatEdit.h>
 #include <djvUI/FloatSlider.h>
 #include <djvUI/Label.h>
 #include <djvUI/PopupWidget.h>
@@ -54,14 +55,15 @@ namespace djv
         struct MediaWidget::Private
         {
             std::shared_ptr<Media> media;
+            Time::Speed speed;
             Time::Timestamp duration = 0;
             Time::Timestamp currentTime = 0;
-            Time::Speed speed;
             AV::TimeUnits timeUnits = AV::TimeUnits::First;
 
             std::map<std::string, std::shared_ptr<UI::Action> > actions;
             std::shared_ptr<UI::ActionGroup> playbackActionGroup;
             std::shared_ptr<ImageView> imageView;
+            std::shared_ptr<UI::FloatEdit> speedEdit;
             std::shared_ptr<UI::Label> currentTimeLabel;
             std::shared_ptr<TimelineSlider> timelineSlider;
             std::shared_ptr<UI::PopupWidget> audioPopupWidget;
@@ -70,6 +72,7 @@ namespace djv
             std::shared_ptr<UI::ToolBar> toolbar;
             std::shared_ptr<UI::StackLayout> layout;
             std::shared_ptr<ValueObserver<AV::IO::Info> > infoObserver;
+            std::shared_ptr<ValueObserver<Time::Speed> > speedObserver;
             std::shared_ptr<ValueObserver<Time::Timestamp> > durationObserver;
             std::shared_ptr<ValueObserver<Time::Timestamp> > currentTimeObserver;
             std::shared_ptr<ValueObserver<Time::Timestamp> > currentTimeObserver2;
@@ -105,6 +108,9 @@ namespace djv
 
             p.imageView = ImageView::create(context);
 
+            p.speedEdit = UI::FloatEdit::create(context);
+            p.speedEdit->setRange(FloatRange(0.f, 1000.f));
+
             p.currentTimeLabel = UI::Label::create(context);
             p.currentTimeLabel->setFontSizeRole(UI::MetricsRole::FontLarge);
             p.currentTimeLabel->setMargin(UI::Layout::Margin(UI::MetricsRole::Margin, UI::MetricsRole::Margin, UI::MetricsRole::MarginSmall, UI::MetricsRole::MarginSmall));
@@ -133,6 +139,7 @@ namespace djv
             p.toolbar->addAction(p.actions["PrevFrame"]);
             p.toolbar->addAction(p.actions["NextFrame"]);
             p.toolbar->addAction(p.actions["OutPoint"]);
+            p.toolbar->addChild(p.speedEdit);
             p.toolbar->addChild(p.currentTimeLabel);
             p.toolbar->addChild(p.timelineSlider);
             p.toolbar->setStretch(p.timelineSlider, UI::RowStretch::Expand);
@@ -165,6 +172,18 @@ namespace djv
                         case 1: playback = Playback::Reverse; break;
                         }
                         media->setPlayback(playback);
+                    }
+                }
+            });
+
+            p.speedEdit->setValueCallback(
+                [weak](float value)
+            {
+                if (auto widget = weak.lock())
+                {
+                    if (widget->_p->media)
+                    {
+                        widget->_p->media->setSpeed(Time::Speed::floatToSpeed(value));
                     }
                 }
             });
@@ -259,6 +278,16 @@ namespace djv
                         widget->_widgetUpdate();
                     }
                 });
+                p.speedObserver = ValueObserver<Time::Speed>::create(
+                    p.media->observeSpeed(),
+                    [weak](const Time::Speed& value)
+                {
+                    if (auto widget = weak.lock())
+                    {
+                        widget->_p->speed = value;
+                        widget->_widgetUpdate();
+                    }
+                });
                 p.durationObserver = ValueObserver<Time::Timestamp>::create(
                     p.media->observeDuration(),
                     [weak](Time::Timestamp value)
@@ -316,10 +345,11 @@ namespace djv
             }
             else
             {
+                p.speed = Time::Speed();
                 p.duration = 0;
                 p.currentTime = 0;
-                p.speed = Time::Speed();
                 p.infoObserver.reset();
+                p.speedObserver.reset();
                 p.durationObserver.reset();
                 p.currentTimeObserver2.reset();
                 p.playbackObserver.reset();
@@ -362,6 +392,8 @@ namespace djv
             case Playback::Reverse: p.playbackActionGroup->setChecked( 1); break;
             default: break;
             }
+
+            p.speedEdit->setValue(Time::Speed::speedToFloat(p.speed));
 
             auto avSystem = getContext()->getSystemT<AV::AVSystem>();
             p.currentTimeLabel->setText(avSystem->getLabel(p.currentTime, p.speed));

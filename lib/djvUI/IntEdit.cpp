@@ -47,6 +47,7 @@ namespace djv
         {
             std::shared_ptr<IntValueModel> model;
             std::shared_ptr<LineEdit> lineEdit;
+            std::function<void(int)> callback;
             std::shared_ptr<ValueObserver<IntRange> > rangeObserver;
             std::shared_ptr<ValueObserver<int> > valueObserver;
             std::shared_ptr<ValueObserver<bool> > incrementSmallObserver;
@@ -80,7 +81,7 @@ namespace djv
             p.lineEdit->setFont(AV::Font::familyMono);
             addChild(p.lineEdit);
 
-            _textUpdate();
+            setModel(IntValueModel::create());
 
             auto weak = std::weak_ptr<IntEdit>(std::dynamic_pointer_cast<IntEdit>(shared_from_this()));
             p.lineEdit->setTextFinishedCallback(
@@ -97,6 +98,10 @@ namespace djv
                         catch (const std::exception &)
                         {}
                         widget->_textUpdate();
+                        if (widget->_p->callback)
+                        {
+                            widget->_p->callback(widget->_p->model->observeValue()->get());
+                        }
                     }
                 }
             });
@@ -110,6 +115,10 @@ namespace djv
                     if (auto widget = weak.lock())
                     {
                         widget->_p->model->incrementSmall();
+                        if (widget->_p->callback)
+                        {
+                            widget->_p->callback(widget->_p->model->observeValue()->get());
+                        }
                     }
                 }
             });
@@ -123,6 +132,10 @@ namespace djv
                     if (auto widget = weak.lock())
                     {
                         widget->_p->model->incrementLarge();
+                        if (widget->_p->callback)
+                        {
+                            widget->_p->callback(widget->_p->model->observeValue()->get());
+                        }
                     }
                 }
             });
@@ -136,6 +149,10 @@ namespace djv
                     if (auto widget = weak.lock())
                     {
                         widget->_p->model->decrementSmall();
+                        if (widget->_p->callback)
+                        {
+                            widget->_p->callback(widget->_p->model->observeValue()->get());
+                        }
                     }
                 }
             });
@@ -149,6 +166,10 @@ namespace djv
                     if (auto widget = weak.lock())
                     {
                         widget->_p->model->decrementLarge();
+                        if (widget->_p->callback)
+                        {
+                            widget->_p->callback(widget->_p->model->observeValue()->get());
+                        }
                     }
                 }
             });
@@ -168,6 +189,31 @@ namespace djv
             return out;
         }
 
+        IntRange IntEdit::getRange() const
+        {
+            return _p->model->observeRange()->get();
+        }
+
+        void IntEdit::setRange(const IntRange& value)
+        {
+            _p->model->setRange(value);
+        }
+
+        int IntEdit::getValue() const
+        {
+            return _p->model->observeValue()->get();
+        }
+
+        void IntEdit::setValue(int value)
+        {
+            _p->model->setValue(value);
+        }
+
+        void IntEdit::setValueCallback(const std::function<void(int)>& callback)
+        {
+            _p->callback = callback;
+        }
+
         const std::shared_ptr<IntValueModel> & IntEdit::getModel() const
         {
             return _p->model;
@@ -178,6 +224,7 @@ namespace djv
             DJV_PRIVATE_PTR();
             if (p.model)
             {
+                p.rangeObserver.reset();
                 p.valueObserver.reset();
             }
             p.model = model;

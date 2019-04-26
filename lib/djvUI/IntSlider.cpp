@@ -113,6 +113,16 @@ namespace djv
             _p->callback = callback;
         }
 
+        std::chrono::milliseconds BasicIntSlider::getDelay() const
+        {
+            return _p->delay;
+        }
+
+        void BasicIntSlider::setDelay(std::chrono::milliseconds value)
+        {
+            _p->delay = value;
+        }
+
         const std::shared_ptr<IntValueModel> & BasicIntSlider::getModel() const
         {
             return _p->model;
@@ -140,16 +150,6 @@ namespace djv
                     }
                 });
             }
-        }
-
-        std::chrono::milliseconds BasicIntSlider::getDelay() const
-        {
-            return _p->delay;
-        }
-
-        void BasicIntSlider::setDelay(std::chrono::milliseconds value)
-        {
-            _p->delay = value;
         }
 
         void BasicIntSlider::_preLayoutEvent(Event::PreLayout & event)
@@ -489,11 +489,6 @@ namespace djv
             _p->callback = callback;
         }
 
-        const std::shared_ptr<IntValueModel> & IntSlider::getModel() const
-        {
-            return _p->slider->getModel();
-        }
-
         std::chrono::milliseconds IntSlider::getDelay() const
         {
             return _p->slider->getDelay();
@@ -502,6 +497,11 @@ namespace djv
         void IntSlider::setDelay(std::chrono::milliseconds value)
         {
             _p->slider->setDelay(value);
+        }
+
+        const std::shared_ptr<IntValueModel> & IntSlider::getModel() const
+        {
+            return _p->slider->getModel();
         }
 
         void IntSlider::_preLayoutEvent(Event::PreLayout & event)
