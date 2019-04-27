@@ -254,6 +254,7 @@ namespace djv
                         }
                     }
                     break;
+                    default: break;
                 }
                 return out;
             }

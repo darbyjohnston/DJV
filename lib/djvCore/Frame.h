@@ -57,11 +57,11 @@ namespace djv
             //! composed of multiple frame ranges (e.g., 1-10,20-30).
             struct Sequence
             {
-                constexpr Sequence();
-                constexpr Sequence(Number);
-                constexpr Sequence(Number min, Number max);
+                inline Sequence();
+                inline Sequence(Number);
+                inline Sequence(Number min, Number max);
                 inline Sequence(const Range &, size_t pad = 0);
-                constexpr Sequence(const std::vector<Range> &, size_t pad = 0);
+                inline Sequence(const std::vector<Range> &, size_t pad = 0);
 
                 std::vector<Range> ranges;
                 size_t pad = 0;

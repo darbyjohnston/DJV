@@ -56,8 +56,6 @@ namespace djv
         {
             bool FileInfo::stat()
             {
-                _init();
-
                 _STAT info;
                 memset(&info, 0, sizeof(_STAT));
 

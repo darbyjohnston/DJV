@@ -62,7 +62,7 @@ namespace djv
             Path Path::getAbsolute(const Path& value)
             {
                 char buf[PATH_MAX];
-                if (!realpath(value._value.c_str(), buf))
+                if (!realpath(value.get().c_str(), buf))
                 {
                     buf[0] = 0;
                     switch (errno)

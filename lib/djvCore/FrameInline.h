@@ -45,14 +45,14 @@ namespace djv
     
         namespace Frame
         {            
-            constexpr Sequence::Sequence()
+            inline Sequence::Sequence()
             {}
 
-            constexpr Sequence::Sequence(Number value) :
+            inline Sequence::Sequence(Number value) :
                 ranges({ Range(value, value) })
             {}
 
-            constexpr Sequence::Sequence(Number min, Number max) :
+            inline Sequence::Sequence(Number min, Number max) :
                 ranges({ Range(min, max) })
             {}
 
@@ -62,7 +62,7 @@ namespace djv
                 ranges.push_back(range);
             }
 
-            constexpr Sequence::Sequence(const std::vector<Range> & ranges, size_t pad) :
+            inline Sequence::Sequence(const std::vector<Range> & ranges, size_t pad) :
                 ranges(ranges),
                 pad(pad)
             {}
