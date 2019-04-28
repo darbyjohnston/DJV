@@ -54,16 +54,21 @@ namespace djv
             IEventSystem::_init(name, context);
 
             DJV_PRIVATE_PTR();
+            addDependency(context->getSystemT<UI::UISystem>());
 
             p.statsTimer = Time::Timer::create(context);
             p.statsTimer->setRepeating(true);
+            auto weak = std::weak_ptr<EventSystem>(std::dynamic_pointer_cast<EventSystem>(shared_from_this()));
             p.statsTimer->start(
                 Time::getMilliseconds(Time::TimerValue::VerySlow),
-                [this](float)
+                [weak](float)
             {
-                std::stringstream s;
-                s << "Global widget count: " << Widget::getGlobalWidgetCount();
-                _log(s.str());
+                if (auto system = weak.lock())
+                {
+                    std::stringstream s;
+                    s << "Global widget count: " << Widget::getGlobalWidgetCount();
+                    system->_log(s.str());
+                }
             });
         }
 

@@ -43,7 +43,6 @@
 
 #include <djvCore/Context.h>
 #include <djvCore/FileInfo.h>
-#include <djvCore/IEventSystem.h>
 #include <djvCore/TextSystem.h>
 
 using namespace djv::Core;
@@ -68,12 +67,12 @@ namespace djv
             DJV_PRIVATE_PTR();
             p.dpi = dpi;
 
-            auto avSystem = AV::AVSystem::create(context);
+            addDependency(context->getSystemT<AV::AVSystem>());
 
             auto settingsSystem = Settings::System::create(context);
-            Settings::AV::create(context);
-            Settings::General::create(context);
-            Settings::Font::create(context);
+            auto avSettings = Settings::AV::create(context);
+            auto generalSettings = Settings::General::create(context);
+            auto fontSettings = Settings::Font::create(context);
             auto styleSettings = Settings::Style::create(context);
 
             p.style = Style::Style::create(dpi, context);
@@ -81,7 +80,6 @@ namespace djv
             auto iconSystem = IconSystem::create(context);
             auto dialogSystem = DialogSystem::create(context);
 
-            addDependency(avSystem);
             addDependency(settingsSystem);
             addDependency(iconSystem);
             addDependency(dialogSystem);

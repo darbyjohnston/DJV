@@ -94,10 +94,10 @@ namespace djv
 
                 p.rootObject = RootObject::create(context);
 
+                auto weak = std::weak_ptr<IEventSystem>(std::dynamic_pointer_cast<IEventSystem>(shared_from_this()));
                 p.textSystem = context->getSystemT<TextSystem>();
                 if (auto textSystem = p.textSystem.lock())
                 {
-                    auto weak = std::weak_ptr<IEventSystem>(std::dynamic_pointer_cast<IEventSystem>(shared_from_this()));
                     p.localeObserver = ValueObserver<std::string>::create(
                         textSystem->observeCurrentLocale(),
                         [weak](const std::string & value)
@@ -114,11 +114,14 @@ namespace djv
                 p.statsTimer->setRepeating(true);
                 p.statsTimer->start(
                     Time::getMilliseconds(Time::TimerValue::VerySlow),
-                    [this](float)
+                    [weak](float)
                 {
-                    std::stringstream s;
-                    s << "Global object count: " << IObject::getGlobalObjectCount();
-                    _log(s.str());
+                    if (auto system = weak.lock())
+                    {
+                        std::stringstream s;
+                        s << "Global object count: " << IObject::getGlobalObjectCount();
+                        system->_log(s.str());
+                    }
                 });
             }
 

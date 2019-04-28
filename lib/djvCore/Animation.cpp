@@ -31,6 +31,7 @@
 
 #include <djvCore/Context.h>
 #include <djvCore/Math.h>
+#include <djvCore/TextSystem.h>
 
 #include <algorithm>
 
@@ -153,6 +154,7 @@ namespace djv
             void System::_init(Context * context)
             {
                 ISystem::_init("djv::Core::Animation::System", context);
+                addDependency(context->getSystemT<TextSystem>());
             }
 
             System::System() :

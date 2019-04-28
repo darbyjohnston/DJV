@@ -47,7 +47,6 @@ namespace djv
         void ISystemBase::_init(const std::string & name, Context * context)
         {
             ++systemCount;
-
             _name = name;
             _context = context;
             context->_addSystem(std::dynamic_pointer_cast<ISystemBase>(shared_from_this()));
@@ -59,7 +58,6 @@ namespace djv
             {
                 _dependencies.pop_back();
             }
-
             --systemCount;
         }
 

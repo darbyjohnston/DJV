@@ -31,7 +31,6 @@
 
 #include <djvUI/Style.h>
 #include <djvUI/StyleSettings.h>
-#include <djvUI/UISystem.h>
 #include <djvUI/Widget.h>
 #include <djvUI/Window.h>
 
@@ -96,8 +95,6 @@ namespace djv
 
             p.glfwWindow = glfwWindow;
             p.render = context->getSystemT<AV::Render::Render2D>();
-
-            addDependency(context->getSystemT<UI::UISystem>());
 
             glfwGetFramebufferSize(glfwWindow, &p.resize.x, &p.resize.y);
             glfwSetFramebufferSizeCallback(glfwWindow, _resizeCallback);

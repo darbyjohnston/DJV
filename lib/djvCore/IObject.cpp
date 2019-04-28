@@ -56,35 +56,16 @@ namespace djv
             _context   = context;
             _className = "djv::Core::IObject";
 
-            if (!_resourceSystem)
-            {
-                _resourceSystem = context->getSystemT<ResourceSystem>();
-            }
-            if (!_logSystem)
-            {
-                _logSystem = context->getSystemT<LogSystem>();
-            }
-            if (!_textSystem)
-            {
-                _textSystem = context->getSystemT<TextSystem>();
-            }
-            if (!_eventSystem)
-            {
-                _eventSystem = context->getSystemT<Event::IEventSystem>();
-            }
-            _eventSystem->_objectCreated(shared_from_this());
+            _resourceSystem = context->getSystemT<ResourceSystem>();
+            _logSystem = context->getSystemT<LogSystem>();
+            _textSystem = context->getSystemT<TextSystem>();
+            auto eventSystem = context->getSystemT<Event::IEventSystem>();
+            eventSystem->_objectCreated(shared_from_this());
         }
 
         IObject::~IObject()
         {
             --globalObjectCount;
-            if (!globalObjectCount)
-            {
-                _eventSystem.reset();
-                _textSystem.reset();
-                _logSystem.reset();
-                _resourceSystem.reset();
-            }
         }
 
         void IObject::installEventFilter(const std::weak_ptr<IObject> & value)

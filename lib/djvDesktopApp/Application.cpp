@@ -34,6 +34,7 @@
 
 #include <djvUI/UISystem.h>
 
+#include <djvAV/AVSystem.h>
 #include <djvAV/IO.h>
 #include <djvAV/Render2D.h>
 
@@ -67,12 +68,12 @@ namespace djv
             Context::_init(argc, argv);
 
             auto glfwSystem = GLFWSystem::create(this);
-            auto uiSystem = UI::UISystem::create(glfwSystem->getDPI(), this);
-
+            auto avSystem = AV::AVSystem::create(this);
             getSystemT<AV::IO::System>()->addDependency(glfwSystem);
             getSystemT<AV::Render::Render2D>()->addDependency(glfwSystem);
 
-            EventSystem::create(glfwSystem->getGLFWWindow(), this);
+            auto uiSystem = UI::UISystem::create(glfwSystem->getDPI(), this);
+            auto eventSystem = EventSystem::create(glfwSystem->getGLFWWindow(), this);
         }
         
         Application::Application() :
