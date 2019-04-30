@@ -120,58 +120,72 @@ namespace djv
                     tags == other.tags;
             }
 
-            Queue::Queue()
+            VideoQueue::VideoQueue(size_t max) :
+                _max(max)
             {}
 
-            std::shared_ptr<Queue> Queue::create(size_t videoMax, size_t audioMax)
+            void VideoQueue::addFrame(Time::Timestamp ts, const std::shared_ptr<Image::Image>& data)
             {
-                auto out = std::shared_ptr<Queue>(new Queue);
-                out->_videoMax = videoMax;
-                out->_audioMax = audioMax;
+                _queue.push_back(std::make_pair(ts, data));
+            }
+
+            VideoFrame VideoQueue::popFrame()
+            {
+                VideoFrame out;
+                if (_queue.size())
+                {
+                    out = _queue.front();
+                    _queue.pop_front();
+                }
                 return out;
             }
 
-            void Queue::addVideo(Time::Timestamp ts, const std::shared_ptr<Image::Image> & data)
+            void VideoQueue::clearFrames()
             {
-                _video.push_back(std::make_pair(ts, data));
+                _queue.clear();
             }
 
-            void Queue::addAudio(Time::Timestamp ts, const std::shared_ptr<Audio::Data> & data)
-            {
-                _audio.push_back(std::make_pair(ts, data));
-            }
-
-            void Queue::popVideo()
-            {
-                _video.pop_front();
-            }
-
-            void Queue::popAudio()
-            {
-                _audio.pop_front();
-            }
-
-            void Queue::clear()
-            {
-                _video.clear();
-                _audio.clear();
-            }
-
-            void Queue::setFinished(bool value)
+            void VideoQueue::setFinished(bool value)
             {
                 _finished = value;
             }
 
-            void IIO::_init(
-                const std::string &            fileName,
-                const std::shared_ptr<Queue> & queue,
-                Context *                      context)
+            AudioQueue::AudioQueue(size_t max) :
+                _max(max)
+            {}
+
+            void AudioQueue::addFrame(Time::Timestamp ts, const std::shared_ptr<Audio::Data>& data)
+            {
+                _queue.push_back(std::make_pair(ts, data));
+            }
+
+            AudioFrame AudioQueue::popFrame()
+            {
+                AudioFrame out;
+                if (_queue.size())
+                {
+                    out = _queue.front();
+                    _queue.pop_front();
+                }
+                return out;
+            }
+
+            void AudioQueue::clearFrames()
+            {
+                _queue.clear();
+            }
+
+            void AudioQueue::setFinished(bool value)
+            {
+                _finished = value;
+            }
+
+            void IIO::_init(const std::string & fileName, Context * context)
             {
                 _context    = context;
                 _logSystem  = context->getSystemT<LogSystem>();
                 _textSystem = context->getSystemT<TextSystem>();
                 _fileName   = fileName;
-                _queue      = queue;
             }
 
             IIO::IIO()
@@ -180,12 +194,9 @@ namespace djv
             IIO::~IIO()
             {}
 
-            void IRead::_init(
-                const std::string &            fileName,
-                const std::shared_ptr<Queue> & queue,
-                Context *                      context)
+            void IRead::_init(const std::string & fileName, Context * context)
             {
-                IIO::_init(fileName, queue, context);
+                IIO::_init(fileName, context);
             }
 
             IRead::IRead()
@@ -197,13 +208,9 @@ namespace djv
             void IRead::seek(Time::Timestamp)
             {}
 
-            void IWrite::_init(
-                const std::string &            fileName,
-                const Info &                   info,
-                const std::shared_ptr<Queue> & queue,
-                Context *                      context)
+            void IWrite::_init(const std::string & fileName, const Info & info, Context * context)
             {
-                IIO::_init(fileName, queue, context);
+                IIO::_init(fileName, context);
                 _info = info;
             }
 
@@ -259,6 +266,16 @@ namespace djv
 
             void IPlugin::setOptions(const picojson::value &)
             {}
+
+            std::shared_ptr<IRead> IPlugin::read(const std::string& fileName) const
+            {
+                return nullptr;
+            }
+
+            std::shared_ptr<IWrite> IPlugin::write(const std::string& fileName, const Info&) const
+            {
+                return nullptr;
+            }
 
             struct System::Private
             {
@@ -367,16 +384,14 @@ namespace djv
                 return false;
             }
 
-            std::shared_ptr<IRead> System::read(
-                const std::string & fileName,
-                const std::shared_ptr<Queue> & queue)
+            std::shared_ptr<IRead> System::read(const std::string & fileName)
             {
                 DJV_PRIVATE_PTR();
                 for (const auto & i : p.plugins)
                 {
                     if (i.second->canRead(fileName))
                     {
-                        return i.second->read(fileName, queue);
+                        return i.second->read(fileName);
                     }
                 }
                 std::stringstream s;
@@ -385,17 +400,14 @@ namespace djv
                 return nullptr;
             }
 
-            std::shared_ptr<IWrite> System::write(
-                const std::string & fileName,
-                const Info & info,
-                const std::shared_ptr<Queue> & queue)
+            std::shared_ptr<IWrite> System::write(const std::string & fileName, const Info & info)
             {
                 DJV_PRIVATE_PTR();
                 for (const auto & i : p.plugins)
                 {
                     if (i.second->canWrite(fileName, info))
                     {
-                        return i.second->write(fileName, info, queue);
+                        return i.second->write(fileName, info);
                     }
                 }
                 std::stringstream s;

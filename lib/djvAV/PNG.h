@@ -62,10 +62,7 @@ namespace djv
                     Read();
 
                 public:
-                    static std::shared_ptr<Read> create(
-                        const std::string & fileName,
-                        const std::shared_ptr<Queue> &,
-                        Core::Context *);
+                    static std::shared_ptr<Read> create(const std::string & fileName, Core::Context *);
 
                 protected:
                     Info _readInfo(const std::string & fileName) override;
@@ -89,7 +86,6 @@ namespace djv
                     static std::shared_ptr<Write> create(
                         const std::string & fileName,
                         const Info &,
-                        const std::shared_ptr<Queue> &,
                         Core::Context *);
 
                 protected:
@@ -109,13 +105,8 @@ namespace djv
                 public:
                     static std::shared_ptr<Plugin> create(Core::Context *);
 
-                    std::shared_ptr<IRead> read(
-                        const std::string & fileName,
-                        const std::shared_ptr<Queue> &) const override;
-                    std::shared_ptr<IWrite> write(
-                        const std::string & fileName,
-                        const Info &,
-                        const std::shared_ptr<Queue> &) const override;
+                    std::shared_ptr<IRead> read(const std::string & fileName) const override;
+                    std::shared_ptr<IWrite> write(const std::string & fileName, const Info &) const override;
                 };
 
                 extern "C"

@@ -73,10 +73,10 @@ namespace djv
                 Read::Read()
                 {}
 
-                std::shared_ptr<Read> Read::create(const std::string & fileName, const std::shared_ptr<Queue> & queue, Context * context)
+                std::shared_ptr<Read> Read::create(const std::string & fileName, Context * context)
                 {
                     auto out = std::shared_ptr<Read>(new Read);
-                    out->_init(fileName, queue, context);
+                    out->_init(fileName, context);
                     return out;
                 }
 

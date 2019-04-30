@@ -58,18 +58,15 @@ namespace djv
                 std::atomic<bool> running;
             };
 
-            void ISequenceRead::_init(
-                const std::string & fileName,
-                const std::shared_ptr<Queue> & queue,
-                Context * context)
+            void ISequenceRead::_init(const std::string & fileName, Context * context)
             {
-                IRead::_init(fileName, queue, context);
+                IRead::_init(fileName, context);
                 _p->running = true;
                 _p->thread = std::thread(
-                    [this, fileName]
+                    [this]
                 {
                     DJV_PRIVATE_PTR();
-                    FileSystem::FileInfo fileInfo(fileName);
+                    FileSystem::FileInfo fileInfo(_fileName);
                     fileInfo.evalSequence();
                     Frame::Index frameIndex = Frame::Invalid;
                     if (fileInfo.isSequenceValid())
@@ -97,10 +94,10 @@ namespace djv
                     {
                         try
                         {
-                            if (_queue)
                             {
-                                std::lock_guard<std::mutex> lock(_queue->getMutex());
-                                _queue->setFinished(true);
+                                std::lock_guard<std::mutex> lock(_mutex);
+                                _videoQueue.setFinished(true);
+                                _audioQueue.setFinished(true);
                             }
                             p.running = false;
                             p.infoPromise.set_exception(std::current_exception());
@@ -113,18 +110,18 @@ namespace djv
                     }
 
                     const auto timeout = Time::getValue(Time::TimerValue::Fast);
-                    while (_queue && p.running)
+                    while (p.running)
                     {
                         bool read = false;
                         Time::Timestamp seek = -1;
                         {
-                            std::unique_lock<std::mutex> lock(_queue->getMutex());
+                            std::unique_lock<std::mutex> lock(_mutex);
                             if (p.queueCV.wait_for(
                                 lock,
                                 std::chrono::milliseconds(timeout),
                                 [this]
                             {
-                                return (_queue->isFinished() ? false : (_queue->getVideoCount() < _queue->getVideoMax())) || _p->seek != -1;
+                                return (_videoQueue.isFinished() ? false : (_videoQueue.getFrameCount() < _videoQueue.getMax())) || _p->seek != -1;
                             }))
                             {
                                 read = true;
@@ -132,8 +129,8 @@ namespace djv
                                 {
                                     seek = p.seek;
                                     p.seek = -1;
-                                    _queue->setFinished(false);
-                                    _queue->clear();
+                                    _videoQueue.setFinished(false);
+                                    _videoQueue.clearFrames();
                                 }
                             }
                         }
@@ -176,14 +173,14 @@ namespace djv
 
                             if (image)
                             {
-                                std::lock_guard<std::mutex> lock(_queue->getMutex());
-                                _queue->addVideo(pts, image);
+                                std::lock_guard<std::mutex> lock(_mutex);
+                                _videoQueue.addFrame(pts, image);
                             }
 
                             if (Frame::Invalid == frameIndex || frameIndex >= static_cast<Frame::Index>(_frames.size()))
                             {
-                                std::lock_guard<std::mutex> lock(_queue->getMutex());
-                                _queue->setFinished(true);
+                                std::lock_guard<std::mutex> lock(_mutex);
+                                _videoQueue.setFinished(true);
                             }
                         }
                     }
@@ -218,7 +215,7 @@ namespace djv
             {
                 DJV_PRIVATE_PTR();
                 {
-                    std::lock_guard<std::mutex> lock(_queue->getMutex());
+                    std::lock_guard<std::mutex> lock(_mutex);
                     p.seek = value;
                 }
                 p.queueCV.notify_one();
@@ -233,13 +230,11 @@ namespace djv
                 std::atomic<bool> running;
             };
 
-            void ISequenceWrite::_init(
-                const std::string & fileName,
-                const Info & info,
-                const std::shared_ptr<Queue> & queue,
-                Context * context)
+            void ISequenceWrite::_init(const std::string& fileName, const Info& info, Context* context)
             {
-                IWrite::_init(fileName, info, queue, context);
+                IWrite::_init(fileName, info, context);
+
+                DJV_PRIVATE_PTR();
 
                 _info = info;
                 if (_info.video.size())
@@ -247,7 +242,6 @@ namespace djv
                     _imageInfo = _info.video[0].info;
                 }
 
-                DJV_PRIVATE_PTR();
                 p.fileInfo.setPath(fileName);
                 p.fileInfo.evalSequence();
                 if (p.fileInfo.isSequenceValid())
@@ -280,7 +274,7 @@ namespace djv
 
                 p.running = true;
                 p.thread = std::thread(
-                    [this, context]
+                    [this]
                 {
                     DJV_PRIVATE_PTR();
                     try
@@ -288,22 +282,22 @@ namespace djv
                         glfwMakeContextCurrent(p.glfwWindow);
                         glbinding::initialize(glfwGetProcAddress);
 
-                        _convert = Image::Convert::create(context);
+                        _convert = Image::Convert::create(_context);
 
                         const auto timeout = Time::getValue(Time::TimerValue::Fast);
                         while (p.running)
                         {
                             std::shared_ptr<Image::Image> image;
                             {
-                                std::unique_lock<std::mutex> lock(_queue->getMutex(), std::try_to_lock);
+                                std::unique_lock<std::mutex> lock(_mutex, std::try_to_lock);
                                 if (lock.owns_lock())
                                 {
-                                    if (_queue->hasVideo())
+                                    if (_videoQueue.hasFrames())
                                     {
-                                        image = _queue->getVideo().second;
-                                        _queue->popVideo();
+                                        auto frame = _videoQueue.popFrame();
+                                        image = frame.second;
                                     }
-                                    else if (_queue->isFinished())
+                                    else if (_videoQueue.isFinished())
                                     {
                                         p.running = false;
                                     }

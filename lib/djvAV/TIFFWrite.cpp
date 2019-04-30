@@ -57,10 +57,10 @@ namespace djv
                 Write::~Write()
                 {}
 
-                std::shared_ptr<Write> Write::create(const std::string & fileName, const Settings & settings, const Info & info, const std::shared_ptr<Queue> & queue, Context * context)
+                std::shared_ptr<Write> Write::create(const std::string & fileName, const Settings & settings, const Info & info, Context * context)
                 {
                     auto out = std::shared_ptr<Write>(new Write(settings));
-                    out->_init(fileName, info, queue, context);
+                    out->_init(fileName, info, context);
                     return out;
                 }
 

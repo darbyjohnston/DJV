@@ -71,25 +71,19 @@ namespace djv
                     DJV_NON_COPYABLE(Read);
 
                 protected:
-                    void _init(
-                        const std::string & fileName,
-                        const std::shared_ptr<Queue> &,
-                        Core::Context *);
+                    void _init(const std::string & fileName, Core::Context *);
                     Read();
 
                 public:
                     ~Read();
 
-                    static std::shared_ptr<Read> create(
-                        const std::string & fileName,
-                        const std::shared_ptr<Queue> &,
-                        Core::Context *);
+                    static std::shared_ptr<Read> create(const std::string & fileName, Core::Context *);
 
                     bool isRunning() const override;
 
                     std::future<Info> getInfo() override;
 
-                    virtual void seek(Core::Time::Timestamp) override;
+                    void seek(Core::Time::Timestamp) override;
 
                 private:
                     Core::Time::Timestamp _decodeVideo(AVPacket *, bool seek = false);
@@ -110,9 +104,7 @@ namespace djv
                 public:
                     static std::shared_ptr<Plugin> create(Core::Context *);
 
-                    std::shared_ptr<IRead> read(
-                        const std::string & fileName,
-                        const std::shared_ptr<Queue> &) const override;
+                    std::shared_ptr<IRead> read(const std::string & fileName) const override;
                 };
 
             } // namespace FFmpeg

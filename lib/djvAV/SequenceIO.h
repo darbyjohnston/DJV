@@ -51,10 +51,7 @@ namespace djv
                 DJV_NON_COPYABLE(ISequenceRead);
 
             protected:
-                void _init(
-                    const std::string & fileName,
-                    const std::shared_ptr<Queue> &,
-                    Core::Context *);
+                void _init(const std::string & fileName, Core::Context *);
                 ISequenceRead();
 
             public:
@@ -82,11 +79,7 @@ namespace djv
                 DJV_NON_COPYABLE(ISequenceWrite);
 
             protected:
-                void _init(
-                    const std::string &,
-                    const Info &,
-                    const std::shared_ptr<Queue> &,
-                    Core::Context *);
+                void _init(const std::string &, const Info &, Core::Context *);
                 ISequenceWrite();
 
             public:

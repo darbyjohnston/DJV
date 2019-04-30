@@ -104,7 +104,6 @@ namespace djv
                     path(other.path),
                     size(std::move(other.size)),
                     type(std::move(other.type)),
-                    queue(std::move(other.queue)),
                     read(std::move(other.read)),
                     promise(std::move(other.promise))
                 {}
@@ -117,7 +116,6 @@ namespace djv
                         path = other.path;
                         size = std::move(other.size);
                         type = std::move(other.type);
-                        queue = std::move(other.queue);
                         read = std::move(other.read);
                         promise = std::move(other.promise);
                     }
@@ -128,7 +126,6 @@ namespace djv
                 FileSystem::Path path;
                 glm::ivec2 size = glm::ivec2(0, 0);
                 Image::Type type = Image::Type::None;
-                std::shared_ptr<IO::Queue> queue;
                 std::shared_ptr<IO::IRead> read;
                 std::promise<std::shared_ptr<Image::Image> > promise;
             };
@@ -421,7 +418,7 @@ namespace djv
                 {
                     try
                     {
-                        i.read = io->read(i.path, nullptr);
+                        i.read = io->read(i.path);
                         i.infoFuture = i.read->getInfo();
                         p.pendingInfoRequests.push_back(std::move(i));
                     }
@@ -508,8 +505,7 @@ namespace djv
                     {
                         try
                         {
-                            i.queue = IO::Queue::create(1, 0);
-                            i.read = io->read(i.path, i.queue);
+                            i.read = io->read(i.path);
                             const auto info = i.read->getInfo().get();
                             if (info.video.size() > 0)
                             {
@@ -542,10 +538,11 @@ namespace djv
             {
                 std::shared_ptr<Image::Image> image;
                 {
-                    std::lock_guard<std::mutex> lock(i->queue->getMutex());
-                    if (i->queue->hasVideo())
+                    std::lock_guard<std::mutex> lock(i->read->getMutex());
+                    auto& queue = i->read->getVideoQueue();
+                    if (queue.hasFrames())
                     {
-                        image = i->queue->getVideo().second;
+                        image = queue.getFrame().second;
                     }
                 }
                 if (image)

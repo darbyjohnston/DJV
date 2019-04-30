@@ -92,10 +92,7 @@ namespace djv
                     Read();
 
                 public:
-                    static std::shared_ptr<Read> create(
-                        const std::string & fileName,
-                        const std::shared_ptr<Queue> &,
-                        Core::Context *);
+                    static std::shared_ptr<Read> create(const std::string & fileName, Core::Context *);
 
                 protected:
                     Info _readInfo(const std::string &) override;
@@ -119,7 +116,6 @@ namespace djv
                         const std::string & fileName,
                         const Settings &,
                         const Info &,
-                        const std::shared_ptr<Queue> &,
                         Core::Context *);
 
                 protected:
@@ -142,13 +138,8 @@ namespace djv
                     picojson::value getOptions() const override;
                     void setOptions(const picojson::value &) override;
 
-                    std::shared_ptr<IRead> read(
-                        const std::string & fileName,
-                        const std::shared_ptr<Queue> &) const override;
-                    std::shared_ptr<IWrite> write(
-                        const std::string & fileName,
-                        const Info &,
-                        const std::shared_ptr<Queue> &) const override;
+                    std::shared_ptr<IRead> read(const std::string & fileName) const override;
+                    std::shared_ptr<IWrite> write(const std::string & fileName, const Info &) const override;
 
                 private:
                     DJV_PRIVATE();

@@ -106,50 +106,61 @@ namespace djv
             //! This typedef provides a video I/O frame.
             typedef std::pair<Core::Time::Timestamp, std::shared_ptr<Image::Image> > VideoFrame;
 
+            //! This class provides a queue of video frames.
+            class VideoQueue
+            {
+                DJV_NON_COPYABLE(VideoQueue);
+
+            public:
+                //! \todo [1.0 S] What is a good default for this value?
+                VideoQueue(size_t max = 30);
+
+                inline size_t getMax() const;
+
+                inline bool hasFrames() const;
+                inline size_t getFrameCount() const;
+                inline VideoFrame getFrame() const;
+                void addFrame(Core::Time::Timestamp, const std::shared_ptr<Image::Image>&);
+                VideoFrame popFrame();
+                void clearFrames();
+
+                inline bool isFinished() const;
+                void setFinished(bool);
+
+            private:
+                size_t _max = 0;
+                std::list<VideoFrame> _queue;
+                bool _finished = false;
+            };
+
             //! This typedef provides an audio I/O frame.
             typedef std::pair<Core::Time::Timestamp, std::shared_ptr<Audio::Data> > AudioFrame;
 
-            //! This class provides a queue for video and audio I/O frames.
-            class Queue : public std::enable_shared_from_this<Queue>
+            //! This class provides a queue of audio frames.
+            class AudioQueue
             {
-                DJV_NON_COPYABLE(Queue);
-
-            protected:
-                Queue();
+                DJV_NON_COPYABLE(AudioQueue);
 
             public:
-                //! \todo [1.0 S] What are good defaults for these values?
-                static std::shared_ptr<Queue> create(size_t videoMax = 30, size_t audioMax = 30);
+                //! \todo [1.0 S] What is a good default for this value?
+                AudioQueue(size_t max = 30);
 
-                inline std::mutex & getMutex();
+                inline size_t getMax() const;
 
-                inline size_t getVideoMax() const;
-                inline size_t getAudioMax() const;
-
-                inline size_t getVideoCount() const;
-                inline size_t getAudioCount() const;
-                inline bool hasVideo() const;
-                inline bool hasAudio() const;
-
-                void addVideo(Core::Time::Timestamp, const std::shared_ptr<Image::Image> &);
-                void addAudio(Core::Time::Timestamp, const std::shared_ptr<Audio::Data> &);
-
-                inline VideoFrame getVideo() const;
-                inline AudioFrame getAudio() const;
-                void popVideo();
-                void popAudio();
-
-                void clear();
+                inline bool hasFrames() const;
+                inline size_t getFrameCount() const;
+                inline AudioFrame getFrame() const;
+                void addFrame(Core::Time::Timestamp, const std::shared_ptr<Audio::Data> &);
+                AudioFrame popFrame();
+                void clearFrames();
 
                 inline bool isFinished() const;
                 void setFinished(bool);
 
             private:
                 std::mutex _mutex;
-                size_t _videoMax = 0;
-                size_t _audioMax = 0;
-                std::list<VideoFrame> _video;
-                std::list<AudioFrame> _audio;
+                size_t _max = 0;
+                std::list<AudioFrame> _queue;
                 bool _finished = false;
             };
 
@@ -159,10 +170,7 @@ namespace djv
                 DJV_NON_COPYABLE(IIO);
 
             protected:
-                void _init(
-                    const std::string & fileName,
-                    const std::shared_ptr<Queue> &,
-                    Core::Context *);
+                void _init(const std::string & fileName, Core::Context *);
                 IIO();
 
             public:
@@ -170,12 +178,18 @@ namespace djv
 
                 virtual bool isRunning() const = 0;
 
+                inline std::mutex& getMutex();
+                inline VideoQueue& getVideoQueue();
+                inline AudioQueue& getAudioQueue();
+
             protected:
                 Core::Context * _context = nullptr;
                 std::shared_ptr<Core::LogSystem> _logSystem;
                 std::shared_ptr<Core::TextSystem> _textSystem;
                 std::string _fileName;
-                std::shared_ptr<Queue> _queue;
+                std::mutex _mutex;
+                VideoQueue _videoQueue;
+                AudioQueue _audioQueue;
             };
 
             //! This class provides an interface for reading.
@@ -184,10 +198,7 @@ namespace djv
                 DJV_NON_COPYABLE(IRead);
 
             protected:
-                void _init(
-                    const std::string & fileName,
-                    const std::shared_ptr<Queue> &,
-                    Core::Context *);
+                void _init(const std::string & fileName, Core::Context *);
                 IRead();
 
             public:
@@ -195,23 +206,16 @@ namespace djv
 
                 virtual std::future<Info> getInfo() = 0;
 
-                virtual void seek(Core::Time::Timestamp);
+                virtual void seek(Core::Time::Timestamp) = 0;
             };
 
             //! This class provides an interface for writing.
-            //!
-            //! \todo This class is derived from QThread for compatibility with Qt
-            //! OpenGL contexts.
             class IWrite : public IIO
             {
                 DJV_NON_COPYABLE(IWrite);
 
             protected:
-                void _init(
-                    const std::string &,
-                    const Info &,
-                    const std::shared_ptr<Queue> &,
-                    Core::Context *);
+                void _init(const std::string &, const Info &, Core::Context *);
                 IWrite();
 
             public:
@@ -252,16 +256,11 @@ namespace djv
 
                 //! Throws:
                 //! - std::exception
-                virtual std::shared_ptr<IRead> read(
-                    const std::string & fileName,
-                    const std::shared_ptr<Queue> &) const { return nullptr; }
+                virtual std::shared_ptr<IRead> read(const std::string& fileName) const;
 
                 //! Throws:
                 //! - std::exception
-                virtual std::shared_ptr<IWrite> write(
-                    const std::string & fileName,
-                    const Info &,
-                    const std::shared_ptr<Queue> &) const { return nullptr; }
+                virtual std::shared_ptr<IWrite> write(const std::string& fileName, const Info&) const;
 
             protected:
                 Core::Context * _context = nullptr;
@@ -299,16 +298,11 @@ namespace djv
 
                 //! Throws:
                 //! - std::exception
-                std::shared_ptr<IRead> read(
-                    const std::string & fileName,
-                    const std::shared_ptr<Queue> &);
+                std::shared_ptr<IRead> read(const std::string & fileName);
 
                 //! Throws:
                 //! - std::exception
-                std::shared_ptr<IWrite> write(
-                    const std::string & fileName,
-                    const Info &,
-                    const std::shared_ptr<Queue> &);
+                std::shared_ptr<IWrite> write(const std::string & fileName, const Info &);
 
             private:
                 DJV_PRIVATE();

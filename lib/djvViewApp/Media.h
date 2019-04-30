@@ -78,7 +78,7 @@ namespace djv
             std::shared_ptr<Core::IValueSubject<size_t> > observeAudioQueueMax() const;
             std::shared_ptr<Core::IValueSubject<size_t> > observeVideoQueueCount() const;
             std::shared_ptr<Core::IValueSubject<size_t> > observeAudioQueueCount() const;
-            std::shared_ptr<Core::IValueSubject<size_t> > observeALUnqueuedBuffers() const;
+            std::shared_ptr<Core::IValueSubject<size_t> > observeALQueueCount() const;
 
             void setSpeed(const Core::Time::Speed&);
             void setCurrentTime(Core::Time::Timestamp);
@@ -102,6 +102,7 @@ namespace djv
             DJV_PRIVATE();
 
             void _playbackUpdate();
+            void _playbackTick();
             void _timeUpdate();
             void _volumeUpdate();
         };

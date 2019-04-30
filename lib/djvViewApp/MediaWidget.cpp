@@ -37,6 +37,7 @@
 #include <djvUI/ActionGroup.h>
 #include <djvUI/FloatEdit.h>
 #include <djvUI/FloatSlider.h>
+#include <djvUI/GridLayout.h>
 #include <djvUI/Label.h>
 #include <djvUI/PopupWidget.h>
 #include <djvUI/RowLayout.h>
@@ -63,13 +64,14 @@ namespace djv
             std::map<std::string, std::shared_ptr<UI::Action> > actions;
             std::shared_ptr<UI::ActionGroup> playbackActionGroup;
             std::shared_ptr<ImageView> imageView;
-            std::shared_ptr<UI::FloatEdit> speedEdit;
+            //std::shared_ptr<UI::FloatEdit> speedEdit;
+            std::shared_ptr<UI::ToolButton> speedButton;
             std::shared_ptr<UI::Label> currentTimeLabel;
+            std::shared_ptr<UI::Label> durationLabel;
             std::shared_ptr<TimelineSlider> timelineSlider;
             std::shared_ptr<UI::PopupWidget> audioPopupWidget;
             std::shared_ptr<UI::BasicFloatSlider> volumeSlider;
             std::shared_ptr<UI::ToolButton> muteButton;
-            std::shared_ptr<UI::ToolBar> toolbar;
             std::shared_ptr<UI::StackLayout> layout;
             std::shared_ptr<ValueObserver<AV::IO::Info> > infoObserver;
             std::shared_ptr<ValueObserver<Time::Speed> > speedObserver;
@@ -108,13 +110,18 @@ namespace djv
 
             p.imageView = ImageView::create(context);
 
-            p.speedEdit = UI::FloatEdit::create(context);
-            p.speedEdit->setRange(FloatRange(0.f, 1000.f));
+            //p.speedEdit = UI::FloatEdit::create(context);
+            //p.speedEdit->setRange(FloatRange(0.f, 1000.f));
+            p.speedButton = UI::ToolButton::create(context);
+            p.speedButton->setFontSizeRole(UI::MetricsRole::FontSmall);
 
             p.currentTimeLabel = UI::Label::create(context);
-            p.currentTimeLabel->setFontSizeRole(UI::MetricsRole::FontLarge);
-            p.currentTimeLabel->setMargin(UI::Layout::Margin(UI::MetricsRole::Margin, UI::MetricsRole::Margin, UI::MetricsRole::MarginSmall, UI::MetricsRole::MarginSmall));
-            p.currentTimeLabel->setTextHAlign(UI::TextHAlign::Left);
+            p.currentTimeLabel->setFontSizeRole(UI::MetricsRole::FontSmall);
+            p.currentTimeLabel->setMargin(UI::MetricsRole::MarginSmall);
+
+            p.durationLabel = UI::Label::create(context);
+            p.durationLabel->setFontSizeRole(UI::MetricsRole::FontSmall);
+            p.durationLabel->setMargin(UI::MetricsRole::MarginSmall);
 
             p.timelineSlider = TimelineSlider::create(context);
 
@@ -131,24 +138,39 @@ namespace djv
             p.audioPopupWidget->setIcon("djvIconAudio");
             p.audioPopupWidget->addChild(hLayout);
 
-            p.toolbar = UI::ToolBar::create(context);
-            p.toolbar->setBackgroundRole(UI::ColorRole::Overlay);
-            p.toolbar->addAction(p.actions["Reverse"]);
-            p.toolbar->addAction(p.actions["Forward"]);
-            p.toolbar->addAction(p.actions["InPoint"]);
-            p.toolbar->addAction(p.actions["PrevFrame"]);
-            p.toolbar->addAction(p.actions["NextFrame"]);
-            p.toolbar->addAction(p.actions["OutPoint"]);
-            p.toolbar->addChild(p.speedEdit);
-            p.toolbar->addChild(p.currentTimeLabel);
-            p.toolbar->addChild(p.timelineSlider);
-            p.toolbar->setStretch(p.timelineSlider, UI::RowStretch::Expand);
-            p.toolbar->addChild(p.audioPopupWidget);
+            auto toolbar = UI::ToolBar::create(context);
+            toolbar->addAction(p.actions["Reverse"]);
+            toolbar->addAction(p.actions["Forward"]);
+            toolbar->addAction(p.actions["InPoint"]);
+            toolbar->addAction(p.actions["PrevFrame"]);
+            toolbar->addAction(p.actions["NextFrame"]);
+            toolbar->addAction(p.actions["OutPoint"]);
+
+            auto playbackLayout = UI::GridLayout::create(context);
+            playbackLayout->setSpacing(UI::MetricsRole::None);
+            playbackLayout->setBackgroundRole(UI::ColorRole::Overlay);
+            playbackLayout->addChild(toolbar);
+            playbackLayout->setGridPos(toolbar, 0, 0);
+            hLayout = UI::HorizontalLayout::create(context);
+            hLayout->addChild(p.timelineSlider);
+            hLayout->setStretch(p.timelineSlider, UI::RowStretch::Expand);
+            hLayout->addChild(p.audioPopupWidget);
+            playbackLayout->addChild(hLayout);
+            playbackLayout->setGridPos(hLayout, 1, 0);
+            playbackLayout->setStretch(hLayout, UI::GridStretch::Horizontal);
+            playbackLayout->addChild(p.speedButton);
+            playbackLayout->setGridPos(p.speedButton, 0, 1);
+            hLayout = UI::HorizontalLayout::create(context);
+            hLayout->addChild(p.currentTimeLabel);
+            hLayout->addExpander();
+            hLayout->addChild(p.durationLabel);
+            playbackLayout->addChild(hLayout);
+            playbackLayout->setGridPos(hLayout, 1, 1);
 
             auto vLayout = UI::VerticalLayout::create(context);
             vLayout->setSpacing(UI::MetricsRole::None);
             vLayout->addExpander();
-            vLayout->addChild(p.toolbar);
+            vLayout->addChild(playbackLayout);
 
             p.layout = UI::StackLayout::create(context);
             p.layout->addChild(p.imageView);
@@ -156,6 +178,7 @@ namespace djv
             addChild(p.layout);
 
             _widgetUpdate();
+            _speedUpdate();
 
             auto weak = std::weak_ptr<MediaWidget>(std::dynamic_pointer_cast<MediaWidget>(shared_from_this()));
             p.playbackActionGroup->setExclusiveCallback(
@@ -176,7 +199,7 @@ namespace djv
                 }
             });
 
-            p.speedEdit->setValueCallback(
+            /*p.speedEdit->setValueCallback(
                 [weak](float value)
             {
                 if (auto widget = weak.lock())
@@ -186,7 +209,7 @@ namespace djv
                         widget->_p->media->setSpeed(Time::Speed::floatToSpeed(value));
                     }
                 }
-            });
+            });*/
 
             p.volumeSlider->setValueCallback(
                 [weak](float value)
@@ -265,6 +288,7 @@ namespace djv
             p.media = value;
             p.imageView->setMedia(value);
             _widgetUpdate();
+            _speedUpdate();
             if (p.media)
             {
                 auto weak = std::weak_ptr<MediaWidget>(std::dynamic_pointer_cast<MediaWidget>(shared_from_this()));
@@ -286,6 +310,7 @@ namespace djv
                     {
                         widget->_p->speed = value;
                         widget->_widgetUpdate();
+                        widget->_speedUpdate();
                     }
                 });
                 p.durationObserver = ValueObserver<Time::Timestamp>::create(
@@ -356,6 +381,7 @@ namespace djv
                 p.volumeObserver.reset();
                 p.muteObserver.reset();
                 _widgetUpdate();
+                _speedUpdate();
             }
             p.timelineSlider->setMedia(p.media);
         }
@@ -393,28 +419,27 @@ namespace djv
             default: break;
             }
 
-            p.speedEdit->setValue(Time::Speed::speedToFloat(p.speed));
-
             auto avSystem = getContext()->getSystemT<AV::AVSystem>();
             p.currentTimeLabel->setText(avSystem->getLabel(p.currentTime, p.speed));
-            std::string currentTimeSizeString;
-            switch (p.timeUnits)
-            {
-            case AV::TimeUnits::Timecode:
-                currentTimeSizeString = "00:00:00:00";
-                break;
-            case AV::TimeUnits::Frames:
-                currentTimeSizeString = std::string(Math::getNumDigits(Time::timestampToFrame(p.duration, p.speed)), '0');
-                break;
-            default: break;
-            }
-            //! \bug Add an extra space for padding.
-            p.currentTimeLabel->setSizeString(currentTimeSizeString + " ");
             p.currentTimeLabel->setEnabled(p.media.get());
+            p.durationLabel->setText(avSystem->getLabel(p.duration, p.speed));
+            p.durationLabel->setEnabled(p.media.get());
 
             p.timelineSlider->setEnabled(p.media.get());
 
             p.audioPopupWidget->setEnabled(p.media.get());
+        }
+
+        void MediaWidget::_speedUpdate()
+        {
+            DJV_PRIVATE_PTR();
+            //p.speedEdit->setValue(Time::Speed::speedToFloat(p.speed));
+            {
+                std::stringstream ss;
+                ss.precision(2);
+                ss << DJV_TEXT("FPS") << ": " << std::fixed << Time::Speed::speedToFloat(p.speed);
+                p.speedButton->setText(ss.str());
+            }
         }
 
         void MediaWidget::_localeEvent(Event::Locale&)
@@ -428,10 +453,13 @@ namespace djv
             p.actions["OutPoint"]->setTooltip(_getText(DJV_TEXT("Go to out point tooltip")));
 
             p.currentTimeLabel->setTooltip(_getText(DJV_TEXT("Current time tooltip")));
+            p.durationLabel->setTooltip(_getText(DJV_TEXT("Duration tooltip")));
 
             p.audioPopupWidget->setTooltip(_getText(DJV_TEXT("Audio popup tooltip")));
             p.volumeSlider->setTooltip(_getText(DJV_TEXT("Volume tooltip")));
             p.muteButton->setTooltip(_getText(DJV_TEXT("Mute tooltip")));
+
+            _speedUpdate();
         }
         
     } // namespace ViewApp

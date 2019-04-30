@@ -61,7 +61,6 @@ namespace djv
 
                 ImageRequest(ImageRequest && other) :
                     path(other.path),
-                    queue(std::move(other.queue)),
                     read(std::move(other.read)),
                     promise(std::move(other.promise))
                 {}
@@ -71,7 +70,6 @@ namespace djv
                     if (this != &other)
                     {
                         path = other.path;
-                        queue = std::move(other.queue);
                         read = std::move(other.read);
                         promise = std::move(other.promise);
                     }
@@ -79,7 +77,6 @@ namespace djv
                 }
 
                 FileSystem::Path path;
-                std::shared_ptr<AV::IO::Queue> queue;
                 std::shared_ptr<AV::IO::IRead> read;
                 std::promise<std::shared_ptr<AV::Image::Image> > promise;
             };
@@ -258,8 +255,7 @@ namespace djv
                     {
                         try
                         {
-                            i.queue = AV::IO::Queue::create(1, 0);
-                            i.read = io->read(i.path, i.queue);
+                            i.read = io->read(i.path);
                             p.pendingImageRequests.push_back(std::move(i));
                         }
                         catch (const std::exception & e)
@@ -290,12 +286,13 @@ namespace djv
                 std::shared_ptr<AV::Image::Image> image;
                 bool finished = false;
                 {
-                    std::lock_guard<std::mutex> lock(i->queue->getMutex());
-                    if (i->queue->hasVideo())
+                    std::lock_guard<std::mutex> lock(i->read->getMutex());
+                    auto& queue = i->read->getVideoQueue();
+                    if (queue.hasFrames())
                     {
-                        image = i->queue->getVideo().second;
+                        image = queue.getFrame().second;
                     }
-                    else if (i->queue->isFinished())
+                    else if (queue.isFinished())
                     {
                         finished = true;
                     }

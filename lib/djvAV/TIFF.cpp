@@ -110,19 +110,14 @@ namespace djv
                     fromJSON(value, _p->settings);
                 }
 
-                std::shared_ptr<IRead> Plugin::read(
-                    const std::string & fileName,
-                    const std::shared_ptr<Queue> & queue) const
+                std::shared_ptr<IRead> Plugin::read(const std::string & fileName) const
                 {
-                    return Read::create(fileName, queue, _context);
+                    return Read::create(fileName, _context);
                 }
 
-                std::shared_ptr<IWrite> Plugin::write(
-                    const std::string & fileName,
-                    const Info & info,
-                    const std::shared_ptr<Queue> & queue) const
+                std::shared_ptr<IWrite> Plugin::write(const std::string & fileName, const Info & info) const
                 {
-                    return Write::create(fileName, _p->settings, info, queue, _context);
+                    return Write::create(fileName, _p->settings, info, _context);
                 }
 
             } // namespace TIFF

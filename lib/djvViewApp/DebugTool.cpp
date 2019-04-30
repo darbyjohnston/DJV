@@ -389,7 +389,7 @@ namespace djv
                 size_t _audioQueueMax = 0;
                 size_t _videoQueueCount = 0;
                 size_t _audioQueueCount = 0;
-                size_t _alUnqueuedBuffers = 0;
+                size_t _alQueueCount = 0;
                 std::map<std::string, std::shared_ptr<UI::Label> > _labels;
                 std::map<std::string, std::shared_ptr<UI::LineGraphWidget> > _lineGraphs;
                 std::shared_ptr<UI::VerticalLayout> _layout;
@@ -400,7 +400,7 @@ namespace djv
                 std::shared_ptr<ValueObserver<size_t> > _audioQueueMaxObserver;
                 std::shared_ptr<ValueObserver<size_t> > _videoQueueCountObserver;
                 std::shared_ptr<ValueObserver<size_t> > _audioQueueCountObserver;
-                std::shared_ptr<ValueObserver<size_t> > _alUnqueuedBuffersObserver;
+                std::shared_ptr<ValueObserver<size_t> > _alQueueCountObserver;
             };
 
             void MediaDebugWidget::_init(Context* context)
@@ -419,9 +419,9 @@ namespace djv
                 _lineGraphs["AudioQueue"] = UI::LineGraphWidget::create(context);
                 _lineGraphs["AudioQueue"]->setPrecision(0);
 
-                _labels["ALUnqueuedBuffers"] = UI::Label::create(context);
-                _lineGraphs["ALUnqueuedBuffers"] = UI::LineGraphWidget::create(context);
-                _lineGraphs["ALUnqueuedBuffers"]->setPrecision(0);
+                _labels["ALQueueCount"] = UI::Label::create(context);
+                _lineGraphs["ALQueueCount"] = UI::LineGraphWidget::create(context);
+                _lineGraphs["ALQueueCount"]->setPrecision(0);
 
                 for (auto& i : _labels)
                 {
@@ -435,8 +435,8 @@ namespace djv
                 _layout->addChild(_lineGraphs["VideoQueue"]);
                 _layout->addChild(_labels["AudioQueue"]);
                 _layout->addChild(_lineGraphs["AudioQueue"]);
-                _layout->addChild(_labels["ALUnqueuedBuffers"]);
-                _layout->addChild(_lineGraphs["ALUnqueuedBuffers"]);
+                _layout->addChild(_labels["ALQueueCount"]);
+                _layout->addChild(_lineGraphs["ALQueueCount"]);
                 addChild(_layout);
 
                 auto weak = std::weak_ptr<MediaDebugWidget>(std::dynamic_pointer_cast<MediaDebugWidget>(shared_from_this()));
@@ -517,14 +517,14 @@ namespace djv
                                         widget->_widgetUpdate();
                                     }
                                 });
-                                widget->_alUnqueuedBuffersObserver = ValueObserver<size_t>::create(
-                                    value->observeALUnqueuedBuffers(),
+                                widget->_alQueueCountObserver = ValueObserver<size_t>::create(
+                                    value->observeALQueueCount(),
                                     [weak](size_t value)
                                 {
                                     if (auto widget = weak.lock())
                                     {
-                                        widget->_alUnqueuedBuffers = value;
-                                        widget->_lineGraphs["ALUnqueuedBuffers"]->addSample(value);
+                                        widget->_alQueueCount = value;
+                                        widget->_lineGraphs["ALQueueCount"]->addSample(value);
                                         widget->_widgetUpdate();
                                     }
                                 });
@@ -537,14 +537,14 @@ namespace djv
                                 widget->_audioQueueMax = 0;
                                 widget->_videoQueueCount = 0;
                                 widget->_audioQueueCount = 0;
-                                widget->_alUnqueuedBuffers = 0;
+                                widget->_alQueueCount = 0;
                                 widget->_durationObserver.reset();
                                 widget->_currentTimeObserver.reset();
                                 widget->_videoQueueMaxObserver.reset();
                                 widget->_audioQueueMaxObserver.reset();
                                 widget->_videoQueueCountObserver.reset();
                                 widget->_audioQueueCountObserver.reset();
-                                widget->_alUnqueuedBuffersObserver.reset();
+                                widget->_alQueueCountObserver.reset();
                                 widget->_widgetUpdate();
                             }
                         }
@@ -586,8 +586,8 @@ namespace djv
                 }
                 {
                     std::stringstream ss;
-                    ss << _getText(DJV_TEXT("OpenAL unqueued buffers")) << ":";
-                    _labels["ALUnqueuedBuffers"]->setText(ss.str());
+                    ss << _getText(DJV_TEXT("OpenAL queue")) << ":";
+                    _labels["ALQueueCount"]->setText(ss.str());
                 }
                 _widgetUpdate();
             }
@@ -596,7 +596,7 @@ namespace djv
             {
                 {
                     std::stringstream ss;
-                    ss << _getText(DJV_TEXT("Current time")) << ": " << _currentTime << "/" << _duration;
+                    ss << _getText(DJV_TEXT("Current time")) << ": " << _currentTime << " / " << _duration;
                     _labels["CurrentTime"]->setText(ss.str());
                 }
             }

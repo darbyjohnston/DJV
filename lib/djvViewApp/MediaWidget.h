@@ -61,6 +61,7 @@ namespace djv
 
         private:
             void _widgetUpdate();
+            void _speedUpdate();
 
             DJV_PRIVATE();
         };

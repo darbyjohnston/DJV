@@ -155,6 +155,7 @@ namespace djv
             p.menuBar->addChild(sdiButton);
             p.menuBar->addChild(mdiButton);
             p.menuBar->addChild(playlistButton);
+            p.menuBar->addSeparator();
             p.menuBar->addChild(p.settingsButton);
 
             p.sdiWidget = SDIWidget::create(context);

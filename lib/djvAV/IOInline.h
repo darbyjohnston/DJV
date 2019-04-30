@@ -33,54 +33,69 @@ namespace djv
     {
         namespace IO
         {
-            inline std::mutex & Queue::getMutex()
+            inline size_t VideoQueue::getMax() const
+            {
+                return _max;
+            }
+
+            inline bool VideoQueue::hasFrames() const
+            {
+                return _queue.size() > 0;
+            }
+
+            inline size_t VideoQueue::getFrameCount() const
+            {
+                return _queue.size();
+            }
+
+            inline VideoFrame VideoQueue::getFrame() const
+            {
+                return _queue.size() ? _queue.front() : VideoFrame();
+            }
+
+            inline bool VideoQueue::isFinished() const
+            {
+                return _finished;
+            }
+
+            inline size_t AudioQueue::getMax() const
+            {
+                return _max;
+            }
+
+            inline bool AudioQueue::hasFrames() const
+            {
+                return _queue.size() > 0;
+            }
+
+            inline size_t AudioQueue::getFrameCount() const
+            {
+                return _queue.size();
+            }
+
+            inline bool AudioQueue::isFinished() const
+            {
+                return _finished;
+            }
+
+            inline AudioFrame AudioQueue::getFrame() const
+            {
+                return _queue.size() ? _queue.front() : AudioFrame();
+            }
+
+            inline std::mutex& IIO::getMutex()
             {
                 return _mutex;
             }
 
-            inline size_t Queue::getVideoMax() const
+            inline VideoQueue& IIO::getVideoQueue()
             {
-                return _videoMax;
+                return _videoQueue;
             }
 
-            inline size_t Queue::getAudioMax() const
+            inline AudioQueue& IIO::getAudioQueue()
             {
-                return _audioMax;
-            }
-
-            inline size_t Queue::getVideoCount() const
-            {
-                return _video.size();
-            }
-
-            inline size_t Queue::getAudioCount() const
-            {
-                return _audio.size();
-            }
-
-            inline bool Queue::hasVideo() const
-            {
-                return _video.size() > 0;
-            }
-
-            inline bool Queue::hasAudio() const
-            {
-                return _audio.size() > 0;
-            }
-
-            inline VideoFrame Queue::getVideo() const
-            {
-                return _video.size() > 0 ? _video.front() : VideoFrame();
-            }
-
-            inline AudioFrame Queue::getAudio() const
-            {
-                return _audio.size() > 0 ? _audio.front() : AudioFrame();
-            }
-
-            inline bool Queue::isFinished() const
-            {
-                return _finished;
+                return  _audioQueue;
             }
 
             inline const std::string & IPlugin::getPluginName() const
