@@ -187,11 +187,8 @@ namespace djv
 
             DJV_PRIVATE_PTR();
             auto languageWidget = UI::LanguageWidget::create(context);
-            languageWidget->setFontSizeRole(UI::MetricsRole::FontLarge);
             auto displaySizeWidget = UI::DisplaySizeWidget::create(context);
-            displaySizeWidget->setFontSizeRole(UI::MetricsRole::FontLarge);
             auto displayPaletteWidget = UI::DisplayPaletteWidget::create(context);
-            displayPaletteWidget->setFontSizeRole(UI::MetricsRole::FontLarge);
 
             p.titleLabel = UI::Label::create(context);
             p.titleLabel->setFontSizeRole(UI::MetricsRole::FontTitle);
@@ -202,7 +199,6 @@ namespace djv
             p.labels["DisplayPalette"] = UI::Label::create(context);
             for (const auto& i : p.labels)
             {
-                i.second->setFontSizeRole(UI::MetricsRole::FontLarge);
                 i.second->setTextHAlign(UI::TextHAlign::Left);
             }
 
@@ -231,7 +227,6 @@ namespace djv
             layout->addChild(soloLayout);
             layout->setStretch(soloLayout, UI::RowStretch::Expand);
             auto hLayout = UI::HorizontalLayout::create(context);
-            hLayout->setSpacing(UI::MetricsRole::SpacingLarge);
             auto hLayout2 = UI::HorizontalLayout::create(context);
             hLayout2->addChild(p.buttons["Prev"]);
             hLayout2->addChild(p.buttons["Next"]);
