@@ -249,48 +249,53 @@ namespace djv
                 }
             });
 
-            auto fileSystem = getContext()->getSystemT<FileSystem>();
-            p.mediaObserver = ListObserver<std::shared_ptr<Media>>::create(
-                fileSystem->observeMedia(),
-                [weak](const std::vector<std::shared_ptr<Media> > & value)
+            if (auto fileSystem = getContext()->getSystemT<FileSystem>())
             {
-                if (auto widget = weak.lock())
+                p.mediaObserver = ListObserver<std::shared_ptr<Media>>::create(
+                    fileSystem->observeMedia(),
+                    [weak](const std::vector<std::shared_ptr<Media> > & value)
                 {
-                    widget->_p->media = value;
-                    widget->_p->mediaActionGroup->clearActions();
-                    widget->_p->mediaMenu->clearActions();
-                    for (const auto& i : widget->_p->media)
+                    if (auto widget = weak.lock())
                     {
-                        auto action = UI::Action::create();
-                        action->setText(Core::FileSystem::Path(i->getFileName()).getFileName());
-                        widget->_p->mediaActionGroup->addAction(action);
-                        widget->_p->mediaMenu->addAction(action);
+                        widget->_p->media = value;
+                        widget->_p->mediaActionGroup->clearActions();
+                        widget->_p->mediaMenu->clearActions();
+                        for (const auto& i : widget->_p->media)
+                        {
+                            auto action = UI::Action::create();
+                            action->setText(Core::FileSystem::Path(i->getFileName()).getFileName());
+                            widget->_p->mediaActionGroup->addAction(action);
+                            widget->_p->mediaMenu->addAction(action);
+                        }
+                        widget->_p->mediaButton->setEnabled(widget->_p->media.size() > 1);
                     }
-                    widget->_p->mediaButton->setEnabled(widget->_p->media.size() > 1);
-                }
-            });
+                });
 
-            p.currentMediaObserver = ValueObserver<std::shared_ptr<Media>>::create(
-                fileSystem->observeCurrentMedia(),
-                [weak](const std::shared_ptr<Media> & value)
-            {
-                if (auto widget = weak.lock())
+                p.currentMediaObserver = ValueObserver<std::shared_ptr<Media>>::create(
+                    fileSystem->observeCurrentMedia(),
+                    [weak](const std::shared_ptr<Media> & value)
                 {
-                    const auto i = std::find(widget->_p->media.begin(), widget->_p->media.end(), value);
-                    if (i != widget->_p->media.end())
+                    if (auto widget = weak.lock())
                     {
-                        widget->_p->mediaActionGroup->setChecked(i - widget->_p->media.begin());
+                        const auto i = std::find(widget->_p->media.begin(), widget->_p->media.end(), value);
+                        if (i != widget->_p->media.end())
+                        {
+                            widget->_p->mediaActionGroup->setChecked(i - widget->_p->media.begin());
+                        }
+                        widget->_p->mediaButton->setText(value ? Core::FileSystem::Path(value->getFileName()).getFileName() : std::string());
                     }
-                    widget->_p->mediaButton->setText(value ? Core::FileSystem::Path(value->getFileName()).getFileName() : std::string());
-                }
-            });
+                });
+            }
             
-            p.windowModeObserver = ValueObserver<WindowMode>::create(
-                windowSystem->observeWindowMode(),
-                [soloLayout](WindowMode value)
+            if (windowSystem)
             {
-                soloLayout->setCurrentIndex(static_cast<int>(value));
-            });
+                p.windowModeObserver = ValueObserver<WindowMode>::create(
+                    windowSystem->observeWindowMode(),
+                    [soloLayout](WindowMode value)
+                {
+                    soloLayout->setCurrentIndex(static_cast<int>(value));
+                });
+            }
         }
 
         MainWindow::MainWindow() :

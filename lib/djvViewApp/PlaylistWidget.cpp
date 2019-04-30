@@ -207,44 +207,46 @@ namespace djv
                     }
                 });
 
-                auto fileSystem = context->getSystemT<FileSystem>();
-                _mediaObserver = ListObserver<std::shared_ptr<Media>>::create(
-                    fileSystem->observeMedia(),
-                    [weak, context](const std::vector<std::shared_ptr<Media> > & value)
+                if (auto fileSystem = context->getSystemT<FileSystem>())
                 {
-                    if (auto widget = weak.lock())
+                    _mediaObserver = ListObserver<std::shared_ptr<Media>>::create(
+                        fileSystem->observeMedia(),
+                        [weak, context](const std::vector<std::shared_ptr<Media> > & value)
                     {
-                        widget->_media = value;
-                        widget->_buttonGroup->clearButtons();
-                        widget->_layout->clearChildren();
-                        size_t j = 0;
-                        for (const auto& i : value)
+                        if (auto widget = weak.lock())
                         {
-                            auto button = Button::create(i, context);
-                            widget->_buttonGroup->addButton(button);
-                            widget->_layout->addChild(button);
-                            if (j < value.size() - 1)
+                            widget->_media = value;
+                            widget->_buttonGroup->clearButtons();
+                            widget->_layout->clearChildren();
+                            size_t j = 0;
+                            for (const auto& i : value)
                             {
-                                widget->_layout->addSeparator();
+                                auto button = Button::create(i, context);
+                                widget->_buttonGroup->addButton(button);
+                                widget->_layout->addChild(button);
+                                if (j < value.size() - 1)
+                                {
+                                    widget->_layout->addSeparator();
+                                }
+                                ++j;
                             }
-                            ++j;
                         }
-                    }
-                });
+                    });
 
-                _currentMediaObserver = ValueObserver<std::shared_ptr<Media>>::create(
-                    fileSystem->observeCurrentMedia(),
-                    [weak](const std::shared_ptr<Media> & value)
-                {
-                    if (auto widget = weak.lock())
+                    _currentMediaObserver = ValueObserver<std::shared_ptr<Media>>::create(
+                        fileSystem->observeCurrentMedia(),
+                        [weak](const std::shared_ptr<Media> & value)
                     {
-                        const auto i = std::find(widget->_media.begin(), widget->_media.end(), value);
-                        if (i != widget->_media.end())
+                        if (auto widget = weak.lock())
                         {
-                            widget->_buttonGroup->setChecked(i - widget->_media.begin());
+                            const auto i = std::find(widget->_media.begin(), widget->_media.end(), value);
+                            if (i != widget->_media.end())
+                            {
+                                widget->_buttonGroup->setChecked(i - widget->_media.begin());
+                            }
                         }
-                    }
-                });
+                    });
+                }
             }
 
             std::shared_ptr<ListWidget> ListWidget::create(Context* context)
@@ -327,17 +329,19 @@ namespace djv
             p.splitter->setSplit({ .75f, 1.f });
             addChild(p.splitter);
 
-            auto fileSystem = context->getSystemT<FileSystem>();
             auto weak = std::weak_ptr<PlaylistWidget>(std::dynamic_pointer_cast<PlaylistWidget>(shared_from_this()));
-            p.currentMediaObserver = ValueObserver<std::shared_ptr<Media>>::create(
-                fileSystem->observeCurrentMedia(),
-                [weak](const std::shared_ptr<Media> & value)
+            if (auto fileSystem = context->getSystemT<FileSystem>())
             {
-                if (auto widget = weak.lock())
+                p.currentMediaObserver = ValueObserver<std::shared_ptr<Media>>::create(
+                    fileSystem->observeCurrentMedia(),
+                    [weak](const std::shared_ptr<Media> & value)
                 {
-                    widget->_p->mediaWidget->setMedia(value);
-                }
-            });
+                    if (auto widget = weak.lock())
+                    {
+                        widget->_p->mediaWidget->setMedia(value);
+                    }
+                });
+            }
         }
 
         PlaylistWidget::PlaylistWidget() :

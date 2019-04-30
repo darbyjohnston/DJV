@@ -351,23 +351,27 @@ namespace djv
         {
             DJV_PRIVATE_PTR();
             auto context = getContext();
-            auto windowSystem = context->getSystemT<WindowSystem>();
-            if (WindowMode::SDI == windowSystem->observeWindowMode()->get())
+            if (auto windowSystem = context->getSystemT<WindowSystem>())
             {
-                if (auto media = p.currentMedia->get())
+                if (WindowMode::SDI == windowSystem->observeWindowMode()->get())
                 {
-                    const size_t index = p.media->indexOf(media);
-                    if (index != invalidListIndex)
+                    if (auto media = p.currentMedia->get())
                     {
-                        p.media->removeItem(index);
-                        p.closed->setAlways(media);
+                        const size_t index = p.media->indexOf(media);
+                        if (index != invalidListIndex)
+                        {
+                            p.media->removeItem(index);
+                            p.closed->setIfChanged(media);
+                            p.closed->setIfChanged(nullptr);
+                        }
                     }
                 }
             }
             auto media = Media::create(fileName, context);
             p.media->pushBack(media);
-            p.opened->setAlways(std::make_pair(media, pos));
-            p.currentMedia->setAlways(media);
+            p.opened->setIfChanged(std::make_pair(media, pos));
+            p.opened->setIfChanged(std::make_pair(nullptr, glm::ivec2(0, 0)));
+            p.currentMedia->setIfChanged(media);
             p.recentFilesModel->addFile(fileName);
             _actionsUpdate();
         }
@@ -379,7 +383,8 @@ namespace djv
             if (index != invalidListIndex)
             {
                 p.media->removeItem(index);
-                p.closed->setAlways(media);
+                p.closed->setIfChanged(media);
+                p.closed->setIfChanged(nullptr);
                 const size_t size = p.media->getSize();
                 std::shared_ptr<Media> current;
                 if (size > 0)
@@ -404,7 +409,8 @@ namespace djv
                 const size_t i = p.media->getSize() - 1;
                 auto media = p.media->getItem(i);
                 p.media->removeItem(i);
-                p.closed->setAlways(media);
+                p.closed->setIfChanged(media);
+                p.closed->setIfChanged(nullptr);
             }
             _actionsUpdate();
         }

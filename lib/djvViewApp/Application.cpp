@@ -36,6 +36,7 @@
 #include <djvViewApp/ImageSystem.h>
 #include <djvViewApp/ImageViewSystem.h>
 #include <djvViewApp/MainWindow.h>
+#include <djvViewApp/Media.h>
 #include <djvViewApp/NUXSystem.h>
 #include <djvViewApp/PlaybackSystem.h>
 #include <djvViewApp/SettingsSystem.h>

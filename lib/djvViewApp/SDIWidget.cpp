@@ -57,17 +57,19 @@ namespace djv
             p.mediaWidget = MediaWidget::create(context);
             addChild(p.mediaWidget);
 
-            auto fileSystem = context->getSystemT<FileSystem>();
             auto weak = std::weak_ptr<SDIWidget>(std::dynamic_pointer_cast<SDIWidget>(shared_from_this()));
-            p.currentMediaObserver = ValueObserver<std::shared_ptr<Media>>::create(
-                fileSystem->observeCurrentMedia(),
-                [weak](const std::shared_ptr<Media> & value)
+            if (auto fileSystem = context->getSystemT<FileSystem>())
             {
-                if (auto widget = weak.lock())
+                p.currentMediaObserver = ValueObserver<std::shared_ptr<Media>>::create(
+                    fileSystem->observeCurrentMedia(),
+                    [weak](const std::shared_ptr<Media> & value)
                 {
-                    widget->_p->mediaWidget->setMedia(value);
-                }
-            });
+                    if (auto widget = weak.lock())
+                    {
+                        widget->_p->mediaWidget->setMedia(value);
+                    }
+                });
+            }
         }
 
         SDIWidget::SDIWidget() :
