@@ -61,9 +61,8 @@ namespace djv
 
                 _parseArgs();
 
-                _queue = AV::IO::Queue::create();
                 auto io = getSystemT<AV::IO::System>();
-                _read = io->read(argv[1], _queue);
+                _read = io->read(argv[1]);
                 auto info = _read->getInfo().get();
                 auto & video = info.video;
                 if (!video.size())
@@ -76,7 +75,7 @@ namespace djv
                     video[0].info.size = *_resize;
                 }
                 const auto duration = videoInfo.duration;
-                _write = io->write(argv[2], info, _queue);
+                _write = io->write(argv[2], info);
 
                 _statsTimer = Core::Time::Timer::create(this);
                 _statsTimer->setRepeating(true);
@@ -86,10 +85,11 @@ namespace djv
                 {
                     Core::Time::Timestamp timestamp = 0;
                     {
-                        std::lock_guard<std::mutex> lock(_queue->getMutex());
-                        if (_queue->hasVideo())
+                        std::lock_guard<std::mutex> lock(_read->getMutex());
+                        auto& queue = _read->getVideoQueue();
+                        if (queue.hasFrames())
                         {
-                            timestamp = _queue->getVideo().first;
+                            timestamp = queue.getFrame().first;
                         }
                     }
                     if (timestamp && duration)
@@ -166,7 +166,6 @@ namespace djv
             std::string _input;
             std::string _output;
             std::unique_ptr<glm::ivec2> _resize;
-            std::shared_ptr<AV::IO::Queue> _queue;
             std::shared_ptr<AV::IO::IRead> _read;
             std::shared_ptr<Core::Time::Timer> _statsTimer;
             std::shared_ptr<AV::IO::IWrite> _write;

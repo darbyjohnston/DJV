@@ -100,7 +100,7 @@ namespace djv
                 {
                     try
                     {
-                        auto read = io->read(fileName, nullptr);
+                        auto read = io->read(fileName);
                         auto info = read->getInfo().get();
                         std::cout << fileName << std::endl;
                         size_t i = 0;
