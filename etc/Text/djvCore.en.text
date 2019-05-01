@@ -1,72 +1,37 @@
 [
     {
-        "text": "Error reading the text file", 
-        "id": "Error reading the text file", 
+        "text": "Home", 
+        "id": "Home", 
         "description": ""
     }, 
     {
-        "text": "Cannot parse the value", 
-        "id": "Cannot parse the value", 
+        "text": "Desktop", 
+        "id": "Desktop", 
         "description": ""
     }, 
     {
-        "text": "MSB", 
-        "id": "MSB", 
+        "text": "Documents", 
+        "id": "Documents", 
         "description": ""
     }, 
     {
-        "text": "LSB", 
-        "id": "LSB", 
+        "text": "Downloads", 
+        "id": "Downloads", 
         "description": ""
     }, 
     {
-        "text": "The directory", 
-        "id": "The directory", 
+        "text": "Error finding the change notification for", 
+        "id": "Error finding the change notification for", 
         "description": ""
     }, 
     {
-        "text": "cannot be created", 
-        "id": "cannot be created", 
+        "text": "Error watching the directory", 
+        "id": "Error watching the directory", 
         "description": ""
     }, 
     {
         "text": "Cannot parse the value.", 
         "id": "Cannot parse the value.", 
-        "description": ""
-    }, 
-    {
-        "text": "The file", 
-        "id": "The file", 
-        "description": ""
-    }, 
-    {
-        "text": "cannot be opened", 
-        "id": "cannot be opened", 
-        "description": ""
-    }, 
-    {
-        "text": "cannot be closed", 
-        "id": "cannot be closed", 
-        "description": ""
-    }, 
-    {
-        "text": "cannot be mapped", 
-        "id": "cannot be mapped", 
-        "description": ""
-    }, 
-    {
-        "text": "cannot be unmapped", 
-        "id": "cannot be unmapped", 
-        "description": ""
-    }, 
-    {
-        "text": "cannot be read", 
-        "id": "cannot be read", 
-        "description": ""
-    }, 
-    {
-        "text": "cannot be written", 
-        "id": "cannot be written", 
         "description": ""
     }, 
     {
@@ -1120,58 +1085,13 @@
         "description": ""
     }, 
     {
-        "text": "Linear", 
-        "id": "Linear", 
+        "text": "The directory", 
+        "id": "The directory", 
         "description": ""
     }, 
     {
-        "text": "Ease In", 
-        "id": "EaseIn", 
-        "description": ""
-    }, 
-    {
-        "text": "Ease Out", 
-        "id": "EaseOut", 
-        "description": ""
-    }, 
-    {
-        "text": "Smooth Step", 
-        "id": "SmoothStep", 
-        "description": ""
-    }, 
-    {
-        "text": "Sine", 
-        "id": "Sine", 
-        "description": ""
-    }, 
-    {
-        "text": "Slow", 
-        "id": "Slow", 
-        "description": ""
-    }, 
-    {
-        "text": "Medium", 
-        "id": "Medium", 
-        "description": ""
-    }, 
-    {
-        "text": "Fast", 
-        "id": "Fast", 
-        "description": ""
-    }, 
-    {
-        "text": "Very Fast", 
-        "id": "VeryFast", 
-        "description": ""
-    }, 
-    {
-        "text": "Error finding the change notification for", 
-        "id": "Error finding the change notification for", 
-        "description": ""
-    }, 
-    {
-        "text": "Error watching the directory", 
-        "id": "Error watching the directory", 
+        "text": "cannot be created", 
+        "id": "cannot be created", 
         "description": ""
     }, 
     {
@@ -1295,8 +1215,103 @@
         "description": ""
     }, 
     {
+        "text": "The file", 
+        "id": "The file", 
+        "description": ""
+    }, 
+    {
+        "text": "cannot be opened", 
+        "id": "cannot be opened", 
+        "description": ""
+    }, 
+    {
         "text": "cannot be queried", 
         "id": "cannot be queried", 
+        "description": ""
+    }, 
+    {
+        "text": "cannot be mapped", 
+        "id": "cannot be mapped", 
+        "description": ""
+    }, 
+    {
+        "text": "cannot be unmapped", 
+        "id": "cannot be unmapped", 
+        "description": ""
+    }, 
+    {
+        "text": "cannot be closed", 
+        "id": "cannot be closed", 
+        "description": ""
+    }, 
+    {
+        "text": "cannot be read", 
+        "id": "cannot be read", 
+        "description": ""
+    }, 
+    {
+        "text": "cannot be written", 
+        "id": "cannot be written", 
+        "description": ""
+    }, 
+    {
+        "text": "MSB", 
+        "id": "MSB", 
+        "description": ""
+    }, 
+    {
+        "text": "LSB", 
+        "id": "LSB", 
+        "description": ""
+    }, 
+    {
+        "text": "Cannot parse the value", 
+        "id": "Cannot parse the value", 
+        "description": ""
+    }, 
+    {
+        "text": "Slow", 
+        "id": "Slow", 
+        "description": ""
+    }, 
+    {
+        "text": "Medium", 
+        "id": "Medium", 
+        "description": ""
+    }, 
+    {
+        "text": "Fast", 
+        "id": "Fast", 
+        "description": ""
+    }, 
+    {
+        "text": "Very Fast", 
+        "id": "VeryFast", 
+        "description": ""
+    }, 
+    {
+        "text": "Linear", 
+        "id": "Linear", 
+        "description": ""
+    }, 
+    {
+        "text": "Ease In", 
+        "id": "EaseIn", 
+        "description": ""
+    }, 
+    {
+        "text": "Ease Out", 
+        "id": "EaseOut", 
+        "description": ""
+    }, 
+    {
+        "text": "Smooth Step", 
+        "id": "SmoothStep", 
+        "description": ""
+    }, 
+    {
+        "text": "Sine", 
+        "id": "Sine", 
         "description": ""
     }, 
     {
@@ -1330,23 +1345,8 @@
         "description": ""
     }, 
     {
-        "text": "Home", 
-        "id": "Home", 
-        "description": ""
-    }, 
-    {
-        "text": "Desktop", 
-        "id": "Desktop", 
-        "description": ""
-    }, 
-    {
-        "text": "Documents", 
-        "id": "Documents", 
-        "description": ""
-    }, 
-    {
-        "text": "Downloads", 
-        "id": "Downloads", 
+        "text": "Error reading the text file", 
+        "id": "Error reading the text file", 
         "description": ""
     }
 ]

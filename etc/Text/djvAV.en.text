@@ -1,27 +1,87 @@
 [
     {
-        "text": "Unknown", 
-        "id": "Unknown", 
-        "description": ""
-    }, 
-    {
-        "text": "Out of memory", 
-        "id": "Out of memory", 
-        "description": ""
-    }, 
-    {
-        "text": "Invalid value", 
-        "id": "Invalid value", 
-        "description": ""
-    }, 
-    {
-        "text": "Invalid enum", 
-        "id": "Invalid enum", 
-        "description": ""
-    }, 
-    {
         "text": "None", 
         "id": "None", 
+        "description": ""
+    }, 
+    {
+        "text": "Left", 
+        "id": "Left", 
+        "description": ""
+    }, 
+    {
+        "text": "Top", 
+        "id": "Top", 
+        "description": ""
+    }, 
+    {
+        "text": "Right", 
+        "id": "Right", 
+        "description": ""
+    }, 
+    {
+        "text": "Bottom", 
+        "id": "Bottom", 
+        "description": ""
+    }, 
+    {
+        "text": "Timecode", 
+        "id": "Timecode", 
+        "description": ""
+    }, 
+    {
+        "text": "Frames", 
+        "id": "Frames", 
+        "description": ""
+    }, 
+    {
+        "text": "This plugin provides Joint Photographic Experts Group (JPEG) image I/O.", 
+        "id": "This plugin provides Joint Photographic Experts Group (JPEG) image I/O.", 
+        "description": ""
+    }, 
+    {
+        "text": "Cannot parse the value.", 
+        "id": "Cannot parse the value.", 
+        "description": ""
+    }, 
+    {
+        "text": "The file", 
+        "id": "The file", 
+        "description": ""
+    }, 
+    {
+        "text": "cannot be written", 
+        "id": "cannot be written", 
+        "description": ""
+    }, 
+    {
+        "text": "cannot be opened", 
+        "id": "cannot be opened", 
+        "description": ""
+    }, 
+    {
+        "text": "This plugin provides NetPBM image I/O.", 
+        "id": "This plugin provides NetPBM image I/O.", 
+        "description": ""
+    }, 
+    {
+        "text": "ASCII", 
+        "id": "ASCII", 
+        "description": ""
+    }, 
+    {
+        "text": "Binary", 
+        "id": "Binary", 
+        "description": ""
+    }, 
+    {
+        "text": "The TIFF file", 
+        "id": "The TIFF file", 
+        "description": ""
+    }, 
+    {
+        "text": "cannot be read", 
+        "id": "cannot be read", 
         "description": ""
     }, 
     {
@@ -37,11 +97,6 @@
     {
         "text": "S32", 
         "id": "S32", 
-        "description": ""
-    }, 
-    {
-        "text": "F32", 
-        "id": "F32", 
         "description": ""
     }, 
     {
@@ -80,43 +135,73 @@
         "description": ""
     }, 
     {
+        "text": "Unknown", 
+        "id": "Unknown", 
+        "description": ""
+    }, 
+    {
         "text": "This plugin provides FFmpeg image and audio I/O.", 
         "id": "This plugin provides FFmpeg image and audio I/O.", 
         "description": ""
     }, 
     {
-        "text": "This plugin provides Joint Photographic Experts Group (JPEG) image I/O.", 
-        "id": "This plugin provides Joint Photographic Experts Group (JPEG) image I/O.", 
+        "text": "The FFMPEG file", 
+        "id": "The FFMPEG file", 
         "description": ""
     }, 
     {
-        "text": "Cannot parse the value.", 
-        "id": "Cannot parse the value.", 
+        "text": "does not have any video or audio streams", 
+        "id": "does not have any video or audio streams", 
         "description": ""
     }, 
     {
-        "text": "The JPEG file", 
-        "id": "The JPEG file", 
+        "text": "does not match any video codecs", 
+        "id": "does not match any video codecs", 
         "description": ""
     }, 
     {
-        "text": "cannot be opened", 
-        "id": "cannot be opened", 
+        "text": "The FFMPEG audio format ", 
+        "id": "The FFMPEG audio format ", 
         "description": ""
     }, 
     {
-        "text": "cannot be read", 
-        "id": "cannot be read", 
+        "text": "is not supported", 
+        "id": "is not supported", 
         "description": ""
     }, 
     {
-        "text": "The file", 
-        "id": "The file", 
+        "text": "does not match any audio codecs", 
+        "id": "does not match any audio codecs", 
         "description": ""
     }, 
     {
-        "text": "cannot be written", 
-        "id": "cannot be written", 
+        "text": "The PNG file", 
+        "id": "The PNG file", 
+        "description": ""
+    }, 
+    {
+        "text": "The GLFW window cannot be created.", 
+        "id": "The GLFW window cannot be created.", 
+        "description": ""
+    }, 
+    {
+        "text": "Out of memory", 
+        "id": "Out of memory", 
+        "description": ""
+    }, 
+    {
+        "text": "Invalid value", 
+        "id": "Invalid value", 
+        "description": ""
+    }, 
+    {
+        "text": "Invalid enum", 
+        "id": "Invalid enum", 
+        "description": ""
+    }, 
+    {
+        "text": "F32", 
+        "id": "F32", 
         "description": ""
     }, 
     {
@@ -135,33 +220,58 @@
         "description": ""
     }, 
     {
-        "text": "This plugin provides Portable Network Graphics (PNG) image I/O.", 
-        "id": "This plugin provides Portable Network Graphics (PNG) image I/O.", 
+        "text": "The OpenGL vertex shader cannot be created.", 
+        "id": "The OpenGL vertex shader cannot be created.", 
         "description": ""
     }, 
     {
-        "text": "The PNG file", 
-        "id": "The PNG file", 
+        "text": "The OpenGL vertex shader", 
+        "id": "The OpenGL vertex shader", 
         "description": ""
     }, 
     {
-        "text": "This plugin provides NetPBM image I/O.", 
-        "id": "This plugin provides NetPBM image I/O.", 
+        "text": "cannot be compiled", 
+        "id": "cannot be compiled", 
         "description": ""
     }, 
     {
-        "text": "ASCII", 
-        "id": "ASCII", 
+        "text": "The OpenGL fragment shader cannot be created.", 
+        "id": "The OpenGL fragment shader cannot be created.", 
         "description": ""
     }, 
     {
-        "text": "Binary", 
-        "id": "Binary", 
+        "text": "The OpenGL framgent shader", 
+        "id": "The OpenGL framgent shader", 
+        "description": ""
+    }, 
+    {
+        "text": "The program", 
+        "id": "The program", 
+        "description": ""
+    }, 
+    {
+        "text": "cannot be linked", 
+        "id": "cannot be linked", 
         "description": ""
     }, 
     {
         "text": "The PPM file", 
         "id": "The PPM file", 
+        "description": ""
+    }, 
+    {
+        "text": "This plugin provides Tagged Image File Format (TIFF) image I/O.", 
+        "id": "This plugin provides Tagged Image File Format (TIFF) image I/O.", 
+        "description": ""
+    }, 
+    {
+        "text": "RLE", 
+        "id": "RLE", 
+        "description": ""
+    }, 
+    {
+        "text": "LZW", 
+        "id": "LZW", 
         "description": ""
     }, 
     {
@@ -315,123 +425,13 @@
         "description": ""
     }, 
     {
-        "text": "This plugin provides Tagged Image File Format (TIFF) image I/O.", 
-        "id": "This plugin provides Tagged Image File Format (TIFF) image I/O.", 
+        "text": "The JPEG file", 
+        "id": "The JPEG file", 
         "description": ""
     }, 
     {
-        "text": "RLE", 
-        "id": "RLE", 
-        "description": ""
-    }, 
-    {
-        "text": "LZW", 
-        "id": "LZW", 
-        "description": ""
-    }, 
-    {
-        "text": "The TIFF file", 
-        "id": "The TIFF file", 
-        "description": ""
-    }, 
-    {
-        "text": "Left", 
-        "id": "Left", 
-        "description": ""
-    }, 
-    {
-        "text": "Top", 
-        "id": "Top", 
-        "description": ""
-    }, 
-    {
-        "text": "Right", 
-        "id": "Right", 
-        "description": ""
-    }, 
-    {
-        "text": "Bottom", 
-        "id": "Bottom", 
-        "description": ""
-    }, 
-    {
-        "text": "Timecode", 
-        "id": "Timecode", 
-        "description": ""
-    }, 
-    {
-        "text": "Frames", 
-        "id": "Frames", 
-        "description": ""
-    }, 
-    {
-        "text": "The FFMPEG file", 
-        "id": "The FFMPEG file", 
-        "description": ""
-    }, 
-    {
-        "text": "does not have any video or audio streams", 
-        "id": "does not have any video or audio streams", 
-        "description": ""
-    }, 
-    {
-        "text": "does not match any video codecs", 
-        "id": "does not match any video codecs", 
-        "description": ""
-    }, 
-    {
-        "text": "The FFMPEG audio format ", 
-        "id": "The FFMPEG audio format ", 
-        "description": ""
-    }, 
-    {
-        "text": "is not supported", 
-        "id": "is not supported", 
-        "description": ""
-    }, 
-    {
-        "text": "does not match any audio codecs", 
-        "id": "does not match any audio codecs", 
-        "description": ""
-    }, 
-    {
-        "text": "The OpenGL vertex shader cannot be created.", 
-        "id": "The OpenGL vertex shader cannot be created.", 
-        "description": ""
-    }, 
-    {
-        "text": "The OpenGL vertex shader", 
-        "id": "The OpenGL vertex shader", 
-        "description": ""
-    }, 
-    {
-        "text": "cannot be compiled", 
-        "id": "cannot be compiled", 
-        "description": ""
-    }, 
-    {
-        "text": "The OpenGL fragment shader cannot be created.", 
-        "id": "The OpenGL fragment shader cannot be created.", 
-        "description": ""
-    }, 
-    {
-        "text": "The OpenGL framgent shader", 
-        "id": "The OpenGL framgent shader", 
-        "description": ""
-    }, 
-    {
-        "text": "The program", 
-        "id": "The program", 
-        "description": ""
-    }, 
-    {
-        "text": "cannot be linked", 
-        "id": "cannot be linked", 
-        "description": ""
-    }, 
-    {
-        "text": "The GLFW window cannot be created.", 
-        "id": "The GLFW window cannot be created.", 
+        "text": "This plugin provides Portable Network Graphics (PNG) image I/O.", 
+        "id": "This plugin provides Portable Network Graphics (PNG) image I/O.", 
         "description": ""
     }
 ]
