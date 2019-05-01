@@ -158,7 +158,14 @@ namespace djv
             auto style = _getStyle();
             const float tc = style->getMetric(MetricsRole::Slider);
             p.handleWidth = style->getMetric(MetricsRole::Handle);
-            _setMinimumSize(glm::vec2(tc, p.handleWidth) + getMargin().getSize(style));
+            glm::vec2 size;
+            switch (p.orientation)
+            {
+            case Orientation::Horizontal: size = glm::vec2(tc, p.handleWidth); break;
+            case Orientation::Vertical:   size = glm::vec2(p.handleWidth, tc); break;
+            default: break;
+            }
+            _setMinimumSize(size + getMargin().getSize(style));
         }
 
         void BasicFloatSlider::_paintEvent(Event::Paint & event)
@@ -174,34 +181,85 @@ namespace djv
             if (p.value > 0.f && p.model)
             {
                 const auto & range = p.model->observeRange()->get();
-                const float v = (p.value - range.min) / (range.max - range.min);
+                float v = (p.value - range.min) / (range.max - range.min);
                 render->setFillColor(_getColorWithOpacity(style->getColor(ColorRole::Checked)));
-                render->drawRect(BBox2f(
-                    floorf(g.min.x + p.handleWidth / 2.f - m / 2.f),
-                    floorf(c.y - m / 2.f),
-                    ceilf((g.w() - p.handleWidth + m) * v),
-                    m));
+                switch (p.orientation)
+                {
+                case Orientation::Horizontal:
+                    render->drawRect(BBox2f(
+                        floorf(g.min.x + p.handleWidth / 2.f - m / 2.f),
+                        floorf(c.y - m / 2.f),
+                        ceilf((g.w() - p.handleWidth + m) * v),
+                        m));
+                    break;
+                case Orientation::Vertical:
+                {
+                    const float h = (g.h() - p.handleWidth + m) * v;
+                    render->drawRect(BBox2f(
+                        floorf(c.x - m / 2.f),
+                        floorf(g.max.y - p.handleWidth / 2.f - h + m / 2.f),
+                        m,
+                        ceilf(h)));
+                    break;
+                }
+                default: break;
+                }
                 render->setFillColor(_getColorWithOpacity(style->getColor(ColorRole::Trough)));
-                render->drawRect(BBox2f(
-                    floorf(g.min.x + p.handleWidth / 2.f - m / 2.f + (g.w() - p.handleWidth + m) * v),
-                    floorf(c.y - m / 2.f),
-                    ceilf((g.w() - p.handleWidth + m) * (1.f - v)),
-                    m));
+                switch (p.orientation)
+                {
+                case Orientation::Horizontal:
+                    render->drawRect(BBox2f(
+                        floorf(g.min.x + p.handleWidth / 2.f - m / 2.f + (g.w() - p.handleWidth + m) * v),
+                        floorf(c.y - m / 2.f),
+                        ceilf((g.w() - p.handleWidth + m) * (1.f - v)),
+                        m));
+                    break;
+                case Orientation::Vertical:
+                {
+                    const float h = (g.h() - p.handleWidth + m) * (1.f - v);
+                    render->drawRect(BBox2f(
+                        floorf(c.x - m / 2.f),
+                        floorf(g.min.y + p.handleWidth / 2.f - m / 2.f),
+                        m,
+                        ceilf(h)));
+                    break;
+                }
+                default: break;
+                }
             }
             else
             {
                 render->setFillColor(_getColorWithOpacity(style->getColor(ColorRole::Trough)));
-                render->drawRect(BBox2f(
-                    floorf(g.min.x + p.handleWidth / 2.f - m / 2.f),
-                    floorf(c.y - m / 2.f),
-                    ceilf(g.w() - p.handleWidth + m),
-                    m));
+                switch (p.orientation)
+                {
+                case Orientation::Horizontal:
+                    render->drawRect(BBox2f(
+                        floorf(g.min.x + p.handleWidth / 2.f - m / 2.f),
+                        floorf(c.y - m / 2.f),
+                        ceilf(g.w() - p.handleWidth + m),
+                        m));
+                    break;
+                case Orientation::Vertical:
+                    render->drawRect(BBox2f(
+                        floorf(c.x - m / 2.f),
+                        floorf(g.min.y + p.handleWidth / 2.f - m / 2.f),
+                        m,
+                        ceilf(g.h() - p.handleWidth + m)));
+                    break;
+                default: break;
+                }
             }
             if (p.model)
             {
                 render->setFillColor(_getColorWithOpacity(style->getColor(ColorRole::Border)));
-                const glm::vec2 pos(_valueToPos(p.value), c.y);
-                float r = ceilf(p.handleWidth / 2.f - 1.f);
+                glm::vec2 pos;
+                switch (p.orientation)
+                {
+                case Orientation::Horizontal: pos = glm::vec2(_valueToPos(p.value), c.y); break;
+                case Orientation::Vertical:   pos = glm::vec2(c.x, _valueToPos(p.value)); break;
+                default: break;
+                }
+                const float r = ceilf(p.handleWidth / 2.f - 1.f);
                 render->drawCircle(pos, r);
                 render->setFillColor(_getColorWithOpacity(style->getColor(_getColorRole())));
                 render->drawCircle(pos, r - b);
@@ -249,12 +307,8 @@ namespace djv
                 float v = 0.f;
                 switch (p.orientation)
                 {
-                case Orientation::Horizontal:
-                    v = pointerInfo.projectedPos.x;
-                    break;
-                case Orientation::Vertical:
-                    v = pointerInfo.projectedPos.y;
-                    break;
+                case Orientation::Horizontal: v = pointerInfo.projectedPos.x; break;
+                case Orientation::Vertical:   v = pointerInfo.projectedPos.y; break;
                 default: break;
                 }
                 p.value = _posToValue(v);
@@ -287,12 +341,8 @@ namespace djv
             float v = 0.f;
             switch (p.orientation)
             {
-            case Orientation::Horizontal:
-                v = pointerInfo.projectedPos.x;
-                break;
-            case Orientation::Vertical:
-                v = pointerInfo.projectedPos.y;
-                break;
+            case Orientation::Horizontal:  v = pointerInfo.projectedPos.x; break;
+            case Orientation::Vertical:    v = pointerInfo.projectedPos.y; break;
             default: break;
             }
             p.value = _posToValue(v);
@@ -346,13 +396,14 @@ namespace djv
                 auto style = _getStyle();
                 const BBox2f g = getMargin().bbox(getGeometry(), style);
                 const auto & range = p.model->observeRange()->get();
-                const float v = (value - range.min) / static_cast<float>(range.max - range.min);
+                float v = (value - range.min) / static_cast<float>(range.max - range.min);
                 switch (p.orientation)
                 {
                 case Orientation::Horizontal:
                     out = g.x() + ceilf(p.handleWidth / 2.f + (g.w() - p.handleWidth) * v);
                     break;
                 case Orientation::Vertical:
+                    v = 1.f - v;
                     out = g.y() + ceilf(p.handleWidth / 2.f + (g.h() - p.handleWidth) * v);
                     break;
                 default: break;
@@ -377,7 +428,7 @@ namespace djv
                     v = Math::clamp((value - g.x() - p.handleWidth / 2.f) / (g.w() - p.handleWidth), 0.f, 1.f);
                     break;
                 case Orientation::Vertical:
-                    v = Math::clamp((value - g.y() - p.handleWidth / 2.f) / (g.h() - p.handleWidth), 0.f, 1.f);
+                    v = 1.f - Math::clamp((value - g.y() - p.handleWidth / 2.f) / (g.h() - p.handleWidth), 0.f, 1.f);
                     break;
                 default: break;
                 }

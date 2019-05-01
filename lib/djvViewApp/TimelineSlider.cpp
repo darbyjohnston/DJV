@@ -35,8 +35,10 @@
 #include <djvUI/Border.h>
 #include <djvUI/EventSystem.h>
 #include <djvUI/ImageWidget.h>
+#include <djvUI/Label.h>
 #include <djvUI/Overlay.h>
 #include <djvUI/SettingsSystem.h>
+#include <djvUI/StackLayout.h>
 #include <djvUI/Window.h>
 
 #include <djvAV/AVSystem.h>
@@ -80,12 +82,18 @@ namespace djv
                 void _paintEvent(Event::Paint&) override;
 
             private:
+                void _textUpdate();
+
                 std::string _fileName;
                 glm::vec2 _pipPos = glm::vec2(0.f, 0.f);
-                Time::Timestamp _timestamp = 0;
                 std::shared_ptr<Media> _media;
+                Time::Speed _speed;
+                Time::Timestamp _currentTime = 0;
                 std::shared_ptr<UI::ImageWidget> _imageWidget;
+                std::shared_ptr<UI::Label> _timeLabel;
                 std::shared_ptr<UI::Border> _border;
+                std::shared_ptr<ValueObserver<Time::Speed> > _speedObserver;
+                std::shared_ptr<ValueObserver<Time::Timestamp> > _currentTimeObserver;
                 std::shared_ptr<ValueObserver<std::shared_ptr<AV::Image::Image> > > _imageObserver;
             };
 
@@ -98,8 +106,17 @@ namespace djv
                 _imageWidget = UI::ImageWidget::create(context);
                 _imageWidget->setSizeRole(UI::MetricsRole::Dialog);
 
+                _timeLabel = UI::Label::create(context);
+                _timeLabel->setVAlign(UI::VAlign::Bottom);
+                _timeLabel->setMargin(UI::MetricsRole::MarginSmall);
+                _timeLabel->setBackgroundRole(UI::ColorRole::Overlay);
+
+                auto layout = UI::StackLayout::create(context);
+                layout->addChild(_imageWidget);
+                layout->addChild(_timeLabel);
+
                 _border = UI::Border::create(context);
-                _border->addChild(_imageWidget);
+                _border->addChild(layout);
                 addChild(_border);
             }
 
@@ -120,6 +137,28 @@ namespace djv
                     _media = Media::create(_fileName, 1, 0, getContext());
 
                     auto weak = std::weak_ptr<PIPWidget>(std::dynamic_pointer_cast<PIPWidget>(shared_from_this()));
+                    _speedObserver = ValueObserver<Time::Speed>::create(
+                        _media->observeSpeed(),
+                        [weak](const Time::Speed& value)
+                    {
+                        if (auto widget = weak.lock())
+                        {
+                            widget->_speed = value;
+                            widget->_textUpdate();
+                        }
+                    });
+
+                    _currentTimeObserver = ValueObserver<Time::Timestamp>::create(
+                        _media->observeCurrentTime(),
+                        [weak](Time::Timestamp value)
+                    {
+                        if (auto widget = weak.lock())
+                        {
+                            widget->_currentTime = value;
+                            widget->_textUpdate();
+                        }
+                    });
+
                     _imageObserver = ValueObserver<std::shared_ptr<AV::Image::Image> >::create(
                         _media->observeCurrentImage(),
                         [weak](const std::shared_ptr<AV::Image::Image> & value)
@@ -175,6 +214,12 @@ namespace djv
                         render->drawRect(g);
                     }
                 }
+            }
+
+            void PIPWidget::_textUpdate()
+            {
+                auto avSystem = getContext()->getSystemT<AV::AVSystem>();
+                _timeLabel->setText(avSystem->getLabel(_currentTime, _speed));
             }
 
         } // namespace

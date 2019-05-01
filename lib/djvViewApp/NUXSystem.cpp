@@ -159,7 +159,7 @@ namespace djv
                 {
                     Primitive p;
                     p.text = "DJV";
-                    p.size = Math::getRandom(512.f, 4096.f);
+                    p.size = Math::getRandom(1, 4) * 512.f;
                     p.pos = glm::vec2(Math::getRandom(-1000.f, 1000.f), Math::getRandom(-1000.f, 1000.f));
                     p.vel = glm::vec2(Math::getRandom(-100.f, 100.f), Math::getRandom(-100.f, 100.f));
                     p.lifespan = Math::getRandom(5.f, 20.f);

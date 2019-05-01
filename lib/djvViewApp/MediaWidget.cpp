@@ -113,30 +113,27 @@ namespace djv
             //p.speedEdit = UI::FloatEdit::create(context);
             //p.speedEdit->setRange(FloatRange(0.f, 1000.f));
             p.speedButton = UI::ToolButton::create(context);
-            p.speedButton->setFontSizeRole(UI::MetricsRole::FontSmall);
 
             p.currentTimeLabel = UI::Label::create(context);
-            p.currentTimeLabel->setFontSizeRole(UI::MetricsRole::FontSmall);
             p.currentTimeLabel->setMargin(UI::MetricsRole::MarginSmall);
 
             p.durationLabel = UI::Label::create(context);
-            p.durationLabel->setFontSizeRole(UI::MetricsRole::FontSmall);
             p.durationLabel->setMargin(UI::MetricsRole::MarginSmall);
 
             p.timelineSlider = TimelineSlider::create(context);
 
-            p.volumeSlider = UI::BasicFloatSlider::create(UI::Orientation::Horizontal, context);
+            p.volumeSlider = UI::BasicFloatSlider::create(UI::Orientation::Vertical, context);
             p.volumeSlider->setMargin(UI::MetricsRole::MarginSmall);
             p.muteButton = UI::ToolButton::create(context);
-            p.muteButton->setIcon("djvIconClose");
+            p.muteButton->setIcon("djvIconAudioMute");
             p.muteButton->setButtonType(UI::ButtonType::Toggle);
-            auto hLayout = UI::HorizontalLayout::create(context);
-            hLayout->setSpacing(UI::MetricsRole::None);
-            hLayout->addChild(p.volumeSlider);
-            hLayout->addChild(p.muteButton);
+            auto vLayout = UI::VerticalLayout::create(context);
+            vLayout->setSpacing(UI::MetricsRole::None);
+            vLayout->addChild(p.volumeSlider);
+            vLayout->addChild(p.muteButton);
             p.audioPopupWidget = UI::PopupWidget::create(context);
             p.audioPopupWidget->setIcon("djvIconAudio");
-            p.audioPopupWidget->addChild(hLayout);
+            p.audioPopupWidget->addChild(vLayout);
 
             auto toolbar = UI::ToolBar::create(context);
             toolbar->addAction(p.actions["Reverse"]);
@@ -151,23 +148,27 @@ namespace djv
             playbackLayout->setBackgroundRole(UI::ColorRole::Overlay);
             playbackLayout->addChild(toolbar);
             playbackLayout->setGridPos(toolbar, 0, 0);
-            hLayout = UI::HorizontalLayout::create(context);
+            auto hLayout = UI::HorizontalLayout::create(context);
+            hLayout->setSpacing(UI::MetricsRole::None);
             hLayout->addChild(p.timelineSlider);
             hLayout->setStretch(p.timelineSlider, UI::RowStretch::Expand);
             hLayout->addChild(p.audioPopupWidget);
             playbackLayout->addChild(hLayout);
             playbackLayout->setGridPos(hLayout, 1, 0);
             playbackLayout->setStretch(hLayout, UI::GridStretch::Horizontal);
-            playbackLayout->addChild(p.speedButton);
-            playbackLayout->setGridPos(p.speedButton, 0, 1);
             hLayout = UI::HorizontalLayout::create(context);
+            hLayout->addChild(p.speedButton);
+            playbackLayout->addChild(hLayout);
+            playbackLayout->setGridPos(hLayout, 0, 1);
+            hLayout = UI::HorizontalLayout::create(context);
+            hLayout->setSpacing(UI::MetricsRole::None);
             hLayout->addChild(p.currentTimeLabel);
             hLayout->addExpander();
             hLayout->addChild(p.durationLabel);
             playbackLayout->addChild(hLayout);
             playbackLayout->setGridPos(hLayout, 1, 1);
 
-            auto vLayout = UI::VerticalLayout::create(context);
+            vLayout = UI::VerticalLayout::create(context);
             vLayout->setSpacing(UI::MetricsRole::None);
             vLayout->addExpander();
             vLayout->addChild(playbackLayout);
@@ -419,6 +420,8 @@ namespace djv
             default: break;
             }
 
+            p.speedButton->setEnabled(p.media.get());
+
             auto avSystem = getContext()->getSystemT<AV::AVSystem>();
             p.currentTimeLabel->setText(avSystem->getLabel(p.currentTime, p.speed));
             p.currentTimeLabel->setEnabled(p.media.get());
@@ -452,6 +455,7 @@ namespace djv
             p.actions["PrevFrame"]->setTooltip(_getText(DJV_TEXT("Previous frame tooltip")));
             p.actions["OutPoint"]->setTooltip(_getText(DJV_TEXT("Go to out point tooltip")));
 
+            p.speedButton->setTooltip(_getText(DJV_TEXT("Speed tooltip")));
             p.currentTimeLabel->setTooltip(_getText(DJV_TEXT("Current time tooltip")));
             p.durationLabel->setTooltip(_getText(DJV_TEXT("Duration tooltip")));
 
