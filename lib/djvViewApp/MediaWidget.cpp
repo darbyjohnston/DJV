@@ -47,12 +47,21 @@
 
 #include <djvAV/AVSystem.h>
 
+#include <djvCore/Animation.h>
+#include <djvCore/Timer.h>
+
 using namespace djv::Core;
 
 namespace djv
 {
     namespace ViewApp
     {
+        namespace
+        {
+            //! \todo [1.0 S] Should this be configurable?
+            const size_t fadeSeconds = 3;
+        }
+
         struct MediaWidget::Private
         {
             std::shared_ptr<Media> media;
@@ -72,6 +81,7 @@ namespace djv
             std::shared_ptr<UI::PopupWidget> audioPopupWidget;
             std::shared_ptr<UI::BasicFloatSlider> volumeSlider;
             std::shared_ptr<UI::ToolButton> muteButton;
+            std::shared_ptr<UI::VerticalLayout> uiLayout;
             std::shared_ptr<UI::StackLayout> layout;
             std::shared_ptr<ValueObserver<AV::IO::Info> > infoObserver;
             std::shared_ptr<ValueObserver<Time::Speed> > speedObserver;
@@ -82,6 +92,9 @@ namespace djv
             std::shared_ptr<ValueObserver<float> > volumeObserver;
             std::shared_ptr<ValueObserver<bool> > muteObserver;
             std::shared_ptr<ValueObserver<AV::TimeUnits> > timeUnitsObserver;
+            std::map<Core::Event::PointerID, glm::vec2> pointerMotion;
+            std::shared_ptr<Time::Timer> pointerMotionTimer;
+            std::shared_ptr<Animation::Animation> fadeAnimation;
         };
         
         void MediaWidget::_init(Context * context)
@@ -90,6 +103,7 @@ namespace djv
 
             DJV_PRIVATE_PTR();
             setClassName("djv::ViewApp::MediaWidget");
+            setPointerEnabled(true);
 
             p.actions["Forward"] = UI::Action::create();
             p.actions["Forward"]->setIcon("djvIconPlaybackForward");
@@ -168,14 +182,14 @@ namespace djv
             playbackLayout->addChild(hLayout);
             playbackLayout->setGridPos(hLayout, 1, 1);
 
-            vLayout = UI::VerticalLayout::create(context);
-            vLayout->setSpacing(UI::MetricsRole::None);
-            vLayout->addExpander();
-            vLayout->addChild(playbackLayout);
+            p.uiLayout = UI::VerticalLayout::create(context);
+            p.uiLayout->setSpacing(UI::MetricsRole::None);
+            p.uiLayout->addExpander();
+            p.uiLayout->addChild(playbackLayout);
 
             p.layout = UI::StackLayout::create(context);
             p.layout->addChild(p.imageView);
-            p.layout->addChild(vLayout);
+            p.layout->addChild(p.uiLayout);
             addChild(p.layout);
 
             _widgetUpdate();
@@ -260,6 +274,10 @@ namespace djv
                     widget->_widgetUpdate();
                 }
             });
+
+            p.pointerMotionTimer = Time::Timer::create(context);
+
+            p.fadeAnimation = Animation::Animation::create(context);
         }
 
         MediaWidget::MediaWidget() :
@@ -395,6 +413,95 @@ namespace djv
         void MediaWidget::_layoutEvent(Event::Layout &)
         {
             _p->layout->setGeometry(getGeometry());
+        }
+
+        void MediaWidget::_pointerLeaveEvent(Event::PointerLeave& event)
+        {
+            DJV_PRIVATE_PTR();
+            const Event::PointerID id = event.getPointerInfo().id;
+            const auto i = p.pointerMotion.find(id);
+            if (i != p.pointerMotion.end())
+            {
+                p.pointerMotion.erase(i);
+            }
+        }
+
+        void MediaWidget::_pointerMoveEvent(Event::PointerMove&)
+        {
+            DJV_PRIVATE_PTR();
+            for (const auto& i : _getPointerHover())
+            {
+                bool start = false;
+                auto weak = std::weak_ptr<MediaWidget>(std::dynamic_pointer_cast<MediaWidget>(shared_from_this()));
+                const auto j = p.pointerMotion.find(i.first);
+                if (j != p.pointerMotion.end())
+                {
+                    const float diff = glm::length(i.second - j->second);
+                    auto style = _getStyle();
+                    const float h = style->getMetric(UI::MetricsRole::Handle);
+                    if (diff > h)
+                    {
+                        start = true;
+                        if (!p.uiLayout->isVisible())
+                        {
+                            p.uiLayout->setVisible(true);
+                            p.fadeAnimation->start(
+                                p.uiLayout->getOpacity(),
+                                1.f,
+                                Time::getMilliseconds(Time::TimerValue::Medium),
+                                [weak](float value)
+                            {
+                                if (auto widget = weak.lock())
+                                {
+                                    widget->_p->uiLayout->setOpacity(value);
+                                }
+                            },
+                                [weak](float value)
+                            {
+                                if (auto widget = weak.lock())
+                                {
+                                    widget->_p->uiLayout->setOpacity(value);
+                                }
+                            });
+                        }
+                    }
+                }
+                else
+                {
+                    start = true;
+                }
+                p.pointerMotion[i.first] = i.second;
+                if (start)
+                {
+                    p.pointerMotionTimer->start(
+                        std::chrono::milliseconds(fadeSeconds * 1000),
+                        [weak](float value)
+                    {
+                        if (auto widget = weak.lock())
+                        {
+                            widget->_p->fadeAnimation->start(
+                                widget->_p->uiLayout->getOpacity(),
+                                0.f,
+                                Time::getMilliseconds(Time::TimerValue::Slow),
+                                [weak](float value)
+                            {
+                                if (auto widget = weak.lock())
+                                {
+                                    widget->_p->uiLayout->setOpacity(value);
+                                }
+                            },
+                                [weak](float value)
+                            {
+                                if (auto widget = weak.lock())
+                                {
+                                    widget->_p->uiLayout->setOpacity(value);
+                                    widget->_p->uiLayout->setVisible(false);
+                                }
+                            });
+                        }
+                    });
+                }
+            }
         }
 
         void MediaWidget::_widgetUpdate()

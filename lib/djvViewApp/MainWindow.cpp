@@ -267,7 +267,7 @@ namespace djv
                             widget->_p->mediaActionGroup->addAction(action);
                             widget->_p->mediaMenu->addAction(action);
                         }
-                        widget->_p->mediaButton->setEnabled(widget->_p->media.size() > 1);
+                        widget->_p->mediaButton->setEnabled(widget->_p->media.size() > 0);
                     }
                 });
 
