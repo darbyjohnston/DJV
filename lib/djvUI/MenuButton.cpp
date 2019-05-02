@@ -202,7 +202,7 @@ namespace djv
             {
                 if (isClipped())
                 {
-                    hide();
+                    setChecked(false);
                 }
             }
 
