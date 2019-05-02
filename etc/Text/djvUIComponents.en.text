@@ -465,8 +465,18 @@
         "description": ""
     }, 
     {
-        "text": "Units:", 
-        "id": "Units:", 
+        "text": "Units", 
+        "id": "Units", 
+        "description": ""
+    }, 
+    {
+        "text": "Tooltips", 
+        "id": "Tooltips", 
+        "description": ""
+    }, 
+    {
+        "text": "Enable tooltips", 
+        "id": "Enable tooltips", 
         "description": ""
     }
 ]

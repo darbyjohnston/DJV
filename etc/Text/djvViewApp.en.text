@@ -50,6 +50,11 @@
         "description": ""
     }, 
     {
+        "text": "Close tooltip", 
+        "id": "Close tooltip", 
+        "description": ""
+    }, 
+    {
         "text": "Cannot parse the value.", 
         "id": "Cannot parse the value.", 
         "description": ""
@@ -112,6 +117,66 @@
     {
         "text": "Settings", 
         "id": "Settings", 
+        "description": ""
+    }, 
+    {
+        "text": "FPS", 
+        "id": "FPS", 
+        "description": ""
+    }, 
+    {
+        "text": "Forward tooltip", 
+        "id": "Forward tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "Reverse tooltip", 
+        "id": "Reverse tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "Go to in point tooltip", 
+        "id": "Go to in point tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "Next frame tooltip", 
+        "id": "Next frame tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "Previous frame tooltip", 
+        "id": "Previous frame tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "Go to out point tooltip", 
+        "id": "Go to out point tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "Speed tooltip", 
+        "id": "Speed tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "Current time tooltip", 
+        "id": "Current time tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "Duration tooltip", 
+        "id": "Duration tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "Audio popup tooltip", 
+        "id": "Audio popup tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "Volume tooltip", 
+        "id": "Volume tooltip", 
         "description": ""
     }, 
     {
@@ -480,13 +545,48 @@
         "description": ""
     }, 
     {
-        "text": "Forward tooltip", 
-        "id": "Forward tooltip", 
+        "text": "Video track", 
+        "id": "Video track", 
         "description": ""
     }, 
     {
-        "text": "Reverse tooltip", 
-        "id": "Reverse tooltip", 
+        "text": "Size", 
+        "id": "Size", 
+        "description": ""
+    }, 
+    {
+        "text": "Aspect ratio", 
+        "id": "Aspect ratio", 
+        "description": ""
+    }, 
+    {
+        "text": "Type", 
+        "id": "Type", 
+        "description": ""
+    }, 
+    {
+        "text": "Speed", 
+        "id": "Speed", 
+        "description": ""
+    }, 
+    {
+        "text": "Duration", 
+        "id": "Duration", 
+        "description": ""
+    }, 
+    {
+        "text": "Audio track", 
+        "id": "Audio track", 
+        "description": ""
+    }, 
+    {
+        "text": "Channels", 
+        "id": "Channels", 
+        "description": ""
+    }, 
+    {
+        "text": "Sample rate", 
+        "id": "Sample rate", 
         "description": ""
     }, 
     {
@@ -530,18 +630,8 @@
         "description": ""
     }, 
     {
-        "text": "Go to in point tooltip", 
-        "id": "Go to in point tooltip", 
-        "description": ""
-    }, 
-    {
         "text": "Go to Out Point", 
         "id": "Go to Out Point", 
-        "description": ""
-    }, 
-    {
-        "text": "Go to out point tooltip", 
-        "id": "Go to out point tooltip", 
         "description": ""
     }, 
     {
@@ -570,11 +660,6 @@
         "description": ""
     }, 
     {
-        "text": "Next frame tooltip", 
-        "id": "Next frame tooltip", 
-        "description": ""
-    }, 
-    {
         "text": "Next Frame X10", 
         "id": "Next Frame X10", 
         "description": ""
@@ -597,11 +682,6 @@
     {
         "text": "Previous Frame", 
         "id": "Previous Frame", 
-        "description": ""
-    }, 
-    {
-        "text": "Previous frame tooltip", 
-        "id": "Previous frame tooltip", 
         "description": ""
     }, 
     {
@@ -672,6 +752,16 @@
     {
         "text": "Reset out point tooltip", 
         "id": "Reset out point tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "Media popup tooltip", 
+        "id": "Media popup tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "Settings tooltip", 
+        "id": "Settings tooltip", 
         "description": ""
     }, 
     {
@@ -1055,11 +1145,6 @@
         "description": ""
     }, 
     {
-        "text": "FPS", 
-        "id": "FPS", 
-        "description": ""
-    }, 
-    {
         "text": "Object count", 
         "id": "Object count", 
         "description": ""
@@ -1172,11 +1257,6 @@
     {
         "text": "Close", 
         "id": "Close", 
-        "description": ""
-    }, 
-    {
-        "text": "Close tooltip", 
-        "id": "Close tooltip", 
         "description": ""
     }, 
     {
@@ -1295,16 +1375,6 @@
         "description": ""
     }, 
     {
-        "text": "Media popup tooltip", 
-        "id": "Media popup tooltip", 
-        "description": ""
-    }, 
-    {
-        "text": "Settings tooltip", 
-        "id": "Settings tooltip", 
-        "description": ""
-    }, 
-    {
         "text": "cannot create OpenAL source", 
         "id": "cannot create OpenAL source", 
         "description": ""
@@ -1320,28 +1390,8 @@
         "description": ""
     }, 
     {
-        "text": "Speed tooltip", 
-        "id": "Speed tooltip", 
-        "description": ""
-    }, 
-    {
-        "text": "Current time tooltip", 
-        "id": "Current time tooltip", 
-        "description": ""
-    }, 
-    {
-        "text": "Duration tooltip", 
-        "id": "Duration tooltip", 
-        "description": ""
-    }, 
-    {
-        "text": "Audio popup tooltip", 
-        "id": "Audio popup tooltip", 
-        "description": ""
-    }, 
-    {
-        "text": "Volume tooltip", 
-        "id": "Volume tooltip", 
+        "text": "Automatically fade out the UI", 
+        "id": "Automatically fade out the UI", 
         "description": ""
     }
 ]
