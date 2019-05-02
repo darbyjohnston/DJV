@@ -34,8 +34,8 @@
 #include <djvViewApp/MediaWidget.h>
 
 #include <djvUI/ButtonGroup.h>
-#include <djvUI/IButton.h>
 #include <djvUI/FormLayout.h>
+#include <djvUI/IButton.h>
 #include <djvUI/ImageWidget.h>
 #include <djvUI/Label.h>
 #include <djvUI/RowLayout.h>
@@ -72,11 +72,17 @@ namespace djv
                 void _layoutEvent(Event::Layout&) override;
                 void _paintEvent(Event::Paint&) override;
 
+                void _localeEvent(Event::Locale&) override;
+
             private:
+                void _textUpdate();
+
+                AV::IO::Info _info;
                 std::shared_ptr<UI::Label> _label;
                 std::shared_ptr<UI::FormLayout> _infoLayout;
                 std::shared_ptr<UI::VerticalLayout> _layout;
                 std::shared_ptr<ValueObserver<std::shared_ptr<AV::Image::Image> > > _imageObserver;
+                std::shared_ptr<ValueObserver<AV::IO::Info> > _infoObserver;
             };
 
             void Button::_init(const std::shared_ptr<Media>& media, Context* context)
@@ -93,11 +99,20 @@ namespace djv
                 auto imageWidget = UI::ImageWidget::create(context);
                 imageWidget->setSizeRole(UI::MetricsRole::TextColumn);
 
+                _infoLayout = UI::FormLayout::create(context);
+                _infoLayout->setMargin(UI::MetricsRole::MarginSmall);
+                _infoLayout->setSpacing(UI::MetricsRole::SpacingSmall);
+                auto scrollWidget = UI::ScrollWidget::create(UI::ScrollType::Vertical, context);
+                scrollWidget->setMinimumSizeRole(UI::MetricsRole::MarginSmall);
+                scrollWidget->addChild(_infoLayout);
+
                 _layout = UI::VerticalLayout::create(context);
                 _layout->setMargin(UI::MetricsRole::Margin);
                 _layout->addChild(_label);
                 auto hLayout = UI::HorizontalLayout::create(context);
                 hLayout->addChild(imageWidget);
+                hLayout->addChild(scrollWidget);
+                hLayout->setStretch(scrollWidget, UI::RowStretch::Expand);
                 _layout->addChild(hLayout);
                 _layout->setStretch(hLayout, UI::RowStretch::Expand);
                 addChild(_layout);
@@ -107,6 +122,18 @@ namespace djv
                     [imageWidget](const std::shared_ptr<AV::Image::Image> & value)
                 {
                     imageWidget->setImage(value);
+                });
+
+                auto weak = std::weak_ptr<Button>(std::dynamic_pointer_cast<Button>(shared_from_this()));
+                _infoObserver = ValueObserver<AV::IO::Info>::create(
+                    media->observeInfo(),
+                    [weak](const AV::IO::Info & value)
+                {
+                    if (auto widget = weak.lock())
+                    {
+                        widget->_info = value;
+                        widget->_textUpdate();
+                    }
                 });
             }
 
@@ -157,6 +184,206 @@ namespace djv
                 {
                     render->setFillColor(_getColorWithOpacity(style->getColor(getHoveredColorRole())));
                     render->drawRect(g);
+                }
+            }
+
+            void Button::_localeEvent(Event::Locale& event)
+            {
+                _textUpdate();
+            }
+
+            void Button::_textUpdate()
+            {
+                _infoLayout->clearChildren();
+                auto context = getContext();
+                size_t j = 0;
+                size_t k = 0;
+                for (const auto& i : _info.video)
+                {
+                    std::string text;
+                    {
+                        std::stringstream ss;
+                        ss << _getText(DJV_TEXT("Video track")) << " #" << j;
+                        text = ss.str();
+                    }
+                    auto label = UI::Label::create(context);
+                    label->setText(text);
+                    label->setTextHAlign(UI::TextHAlign::Left);
+                    _infoLayout->addChild(label);
+                    ++k;
+
+                    {
+                        std::stringstream ss;
+                        ss << i.info.size;
+                        text = ss.str();
+                    }
+                    label = UI::Label::create(context);
+                    label->setText(text);
+                    label->setTextHAlign(UI::TextHAlign::Left);
+                    _infoLayout->addChild(label);
+                    {
+                        std::stringstream ss;
+                        ss << _getText(DJV_TEXT("Size")) << " :";
+                        text = ss.str();
+                    }
+                    _infoLayout->setText(label, text);
+                    ++k;
+
+                    {
+                        std::stringstream ss;
+                        ss << i.info.getAspectRatio();
+                        text = ss.str();
+                    }
+                    label = UI::Label::create(context);
+                    label->setText(text);
+                    label->setTextHAlign(UI::TextHAlign::Left);
+                    _infoLayout->addChild(label);
+                    {
+                        std::stringstream ss;
+                        ss << _getText(DJV_TEXT("Aspect ratio")) << " :";
+                        text = ss.str();
+                    }
+                    _infoLayout->setText(label, text);
+                    ++k;
+
+                    {
+                        std::stringstream ss;
+                        ss << i.info.type;
+                        text = ss.str();
+                    }
+                    label = UI::Label::create(context);
+                    label->setText(text);
+                    label->setTextHAlign(UI::TextHAlign::Left);
+                    _infoLayout->addChild(label);
+                    {
+                        std::stringstream ss;
+                        ss << _getText(DJV_TEXT("Type")) << " :";
+                        text = ss.str();
+                    }
+                    _infoLayout->setText(label, text);
+                    ++k;
+
+                    {
+                        std::stringstream ss;
+                        ss << i.speed;
+                        text = ss.str();
+                    }
+                    label = UI::Label::create(context);
+                    label->setText(text);
+                    label->setTextHAlign(UI::TextHAlign::Left);
+                    _infoLayout->addChild(label);
+                    {
+                        std::stringstream ss;
+                        ss << _getText(DJV_TEXT("Speed")) << " :";
+                        text = ss.str();
+                    }
+                    _infoLayout->setText(label, text);
+                    ++k;
+
+                    {
+                        std::stringstream ss;
+                        ss << i.info.type;
+                        text = ss.str();
+                    }
+                    label = UI::Label::create(context);
+                    label->setText(text);
+                    label->setTextHAlign(UI::TextHAlign::Left);
+                    _infoLayout->addChild(label);
+                    {
+                        std::stringstream ss;
+                        ss << _getText(DJV_TEXT("Duration")) << " :";
+                        text = ss.str();
+                    }
+                    _infoLayout->setText(label, text);
+                    ++k;
+
+                    ++j;
+                }
+                j = 0;
+                k = 0;
+                for (const auto& i : _info.audio)
+                {
+                    std::string text;
+                    {
+                        std::stringstream ss;
+                        ss << _getText(DJV_TEXT("Audio track")) << " #" << j;
+                        text = ss.str();
+                    }
+                    auto label = UI::Label::create(context);
+                    label->setText(text);
+                    label->setTextHAlign(UI::TextHAlign::Left);
+                    _infoLayout->addChild(label);
+                    ++k;
+
+                    {
+                        std::stringstream ss;
+                        ss << i.info.channelCount;
+                        text = ss.str();
+                    }
+                    label = UI::Label::create(context);
+                    label->setText(text);
+                    label->setTextHAlign(UI::TextHAlign::Left);
+                    _infoLayout->addChild(label);
+                    {
+                        std::stringstream ss;
+                        ss << _getText(DJV_TEXT("Channels")) << " :";
+                        text = ss.str();
+                    }
+                    _infoLayout->setText(label, text);
+                    ++k;
+
+                    {
+                        std::stringstream ss;
+                        ss << i.info.type;
+                        text = ss.str();
+                    }
+                    label = UI::Label::create(context);
+                    label->setText(text);
+                    label->setTextHAlign(UI::TextHAlign::Left);
+                    _infoLayout->addChild(label);
+                    {
+                        std::stringstream ss;
+                        ss << _getText(DJV_TEXT("Type")) << " :";
+                        text = ss.str();
+                    }
+                    _infoLayout->setText(label, text);
+                    ++k;
+
+                    {
+                        std::stringstream ss;
+                        ss << i.info.sampleRate;
+                        text = ss.str();
+                    }
+                    label = UI::Label::create(context);
+                    label->setText(text);
+                    label->setTextHAlign(UI::TextHAlign::Left);
+                    _infoLayout->addChild(label);
+                    {
+                        std::stringstream ss;
+                        ss << _getText(DJV_TEXT("Sample rate")) << " :";
+                        text = ss.str();
+                    }
+                    _infoLayout->setText(label, text);
+                    ++k;
+
+                    {
+                        std::stringstream ss;
+                        ss << i.info.type;
+                        text = ss.str();
+                    }
+                    label = UI::Label::create(context);
+                    label->setText(text);
+                    label->setTextHAlign(UI::TextHAlign::Left);
+                    _infoLayout->addChild(label);
+                    {
+                        std::stringstream ss;
+                        ss << _getText(DJV_TEXT("Duration")) << " :";
+                        text = ss.str();
+                    }
+                    _infoLayout->setText(label, text);
+                    ++k;
+
+                    ++j;
                 }
             }
 
@@ -326,7 +553,7 @@ namespace djv
             vLayout->addChild(scrollWidget);
             vLayout->setStretch(scrollWidget, UI::RowStretch::Expand);
             p.splitter->addChild(vLayout);
-            p.splitter->setSplit({ .75f, 1.f });
+            p.splitter->setSplit({ .65f, 1.f });
             addChild(p.splitter);
 
             auto weak = std::weak_ptr<PlaylistWidget>(std::dynamic_pointer_cast<PlaylistWidget>(shared_from_this()));

@@ -17,6 +17,7 @@ set(header
     SearchBox.h
 	ThermometerWidget.h
 	TimeSettingsWidget.h
+    TooltipsSettingsWidget.h
     UIComponentsSystem.h)
 set(source
     ColorPicker.cpp
@@ -37,6 +38,7 @@ set(source
     SearchBox.cpp
 	ThermometerWidget.cpp
 	TimeSettingsWidget.cpp
+    TooltipsSettingsWidget.cpp
     UIComponentsSystem.cpp)
 
 if(JPEG_FOUND)

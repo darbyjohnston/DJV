@@ -218,7 +218,7 @@ namespace djv
         {
             ISettingsWidget::_localeEvent(event);
             DJV_PRIVATE_PTR();
-            p.layout->setText(p.timeUnitsWidget, _getText(DJV_TEXT("Units:")));
+            p.layout->setText(p.timeUnitsWidget, _getText(DJV_TEXT("Units")) + ":");
         }
 
     } // namespace UI

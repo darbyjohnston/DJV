@@ -153,6 +153,11 @@ namespace djv
             _p->childLayout->removeChild(value);
         }
 
+        void ITool::clearChildren()
+        {
+            _p->childLayout->clearChildren();
+        }
+
         std::map<UI::MDI::Handle, std::vector<Core::BBox2f> > ITool::_getHandle() const
         {
             DJV_PRIVATE_PTR();

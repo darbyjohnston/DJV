@@ -53,6 +53,9 @@ namespace djv
 
                 static std::shared_ptr<General> create(Core::Context *);
 
+                std::shared_ptr<Core::IValueSubject<bool> > observeTooltips() const;
+                void setTooltips(bool);
+
                 void load(const picojson::value &) override;
                 picojson::value save() override;
 

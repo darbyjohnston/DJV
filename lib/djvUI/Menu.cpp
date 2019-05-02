@@ -1031,11 +1031,11 @@ namespace djv
                     p.overlay.reset();
                     p.overlayLayout.reset();
                     p.popupWidget.reset();
+                    if (p.closeCallback)
+                    {
+                        p.closeCallback();
+                    }
                 }
-            }
-            if (p.closeCallback)
-            {
-                p.closeCallback();
             }
         }
 

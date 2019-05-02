@@ -118,6 +118,11 @@ namespace djv
                 _p->childLayout->removeChild(value);
             }
 
+            void GroupBox::clearChildren()
+            {
+                _p->childLayout->clearChildren();
+            }
+
             void GroupBox::_preLayoutEvent(Event::PreLayout & event)
             {
                 _setMinimumSize(_p->layout->getMinimumSize());

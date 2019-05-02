@@ -64,8 +64,9 @@ namespace djv
 
         } // namespace
 
-        bool Widget::_resizeRequest = true;
-        bool Widget::_redrawRequest = true;
+        bool Widget::_tooltipsEnabled = true;
+        bool Widget::_resizeRequest   = true;
+        bool Widget::_redrawRequest   = true;
 
         void Widget::_init(Core::Context * context)
         {
@@ -116,10 +117,10 @@ namespace djv
 
         void Widget::setOpacity(float value)
         {
-            if (fuzzyCompare(value, _opacity))
+            if (value == _opacity)
                 return;
             _opacity = value;
-            _redraw();
+            _resize();
         }
 
         void Widget::show()
@@ -134,7 +135,7 @@ namespace djv
 
         void Widget::setGeometry(const BBox2f & value)
         {
-            if (fuzzyCompare(value, _geometry))
+            if (value == _geometry)
                 return;
             _geometry = value;
             _resize();
@@ -287,6 +288,16 @@ namespace djv
             _tooltipText = value;
         }
 
+        bool Widget::areTooltipsEnabled()
+        {
+            return _tooltipsEnabled;
+        }
+
+        void Widget::setTooltipsEnabled(bool value)
+        {
+            _tooltipsEnabled = value;
+        }
+
         size_t Widget::getGlobalWidgetCount()
         {
             return globalWidgetCount;
@@ -382,7 +393,10 @@ namespace djv
                     for (auto & i : _pointerToTooltips)
                     {
                         const auto j = _pointerHover.find(i.first);
-                        if ((_updateTime - i.second.timer) > tooltipTimeout && !i.second.tooltip && j != _pointerHover.end())
+                        if (_tooltipsEnabled &&
+                            (_updateTime - i.second.timer) > tooltipTimeout &&
+                            !i.second.tooltip &&
+                            j != _pointerHover.end())
                         {
                             for (
                                 auto widget = std::dynamic_pointer_cast<Widget>(shared_from_this());
@@ -415,11 +429,15 @@ namespace djv
                     break;
                 case Event::Type::Clip:
                 {
-                    auto & clipEvent = static_cast<Event::Clip &>(event);
+                    auto& clipEvent = static_cast<Event::Clip &>(event);
                     if (auto parent = std::dynamic_pointer_cast<Widget>(getParent().lock()))
                     {
                         _parentsVisible = parent->_visible && parent->_parentsVisible;
-                        _clipped = !clipEvent.getClipRect().isValid() || !_visible || !parent->_visible || !parent->_parentsVisible;
+                        _clipped =
+                            !clipEvent.getClipRect().isValid() ||
+                            !_visible ||
+                            !parent->_visible ||
+                            !parent->_parentsVisible;
                         _clipRect = clipEvent.getClipRect();
                     }
                     else
@@ -427,6 +445,14 @@ namespace djv
                         _parentsVisible = true;
                         _clipped = false;
                         _clipRect = BBox2f(0.f, 0.f, 0.f, 0.f);
+                    }
+                    if (_clipped)
+                    {
+                        for (auto& i : _pointerToTooltips)
+                        {
+                            i.second.tooltip = nullptr;
+                            i.second.timer   = _updateTime;
+                        }
                     }
                     _clipEvent(clipEvent);
                     break;
@@ -496,7 +522,7 @@ namespace djv
                         if (l > tooltipHideDelta)
                         {
                             i->second.tooltip = nullptr;
-                            i->second.timer = _updateTime;
+                            i->second.timer   = _updateTime;
                         }
                     }
                     _pointerHover[id] = info.projectedPos;

@@ -31,6 +31,8 @@
 
 #include <djvUI/Widget.h>
 
+#include <djvCore/ValueObserver.h>
+
 namespace djv
 {
     namespace ViewApp
@@ -53,9 +55,12 @@ namespace djv
             const std::shared_ptr<Media> & getMedia() const;
             void setMedia(const std::shared_ptr<Media> &);
 
+            std::shared_ptr<Core::IValueSubject<float> > observeFade() const;
+
         protected:
             void _preLayoutEvent(Core::Event::PreLayout &) override;
             void _layoutEvent(Core::Event::Layout&) override;
+            void _pointerEnterEvent(Core::Event::PointerEnter&) override;
             void _pointerLeaveEvent(Core::Event::PointerLeave&) override;
             void _pointerMoveEvent(Core::Event::PointerMove&) override;
 

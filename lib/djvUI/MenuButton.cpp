@@ -198,6 +198,14 @@ namespace djv
                 p.border->setGeometry(getMargin().bbox(getGeometry(), style));
             }
 
+            void Menu::_clipEvent(Event::Clip& event)
+            {
+                if (isClipped())
+                {
+                    hide();
+                }
+            }
+
             void Menu::_paintEvent(Event::Paint & event)
             {
                 Widget::_paintEvent(event);

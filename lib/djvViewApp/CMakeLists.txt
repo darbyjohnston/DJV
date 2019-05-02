@@ -31,7 +31,6 @@ set(header
     PlaybackSystem.h
 	PlaylistWidget.h
     RecentFilesDialog.h
-	SDIWidget.h
     SettingsSystem.h
     SettingsDialog.h
     SystemLogDialog.h
@@ -39,6 +38,7 @@ set(header
     ToolSystem.h
     ViewApp.h
 	WindowSettings.h
+    WindowSettingsWidget.h
     WindowSystem.h)
 set(source
     AboutDialog.cpp
@@ -73,13 +73,13 @@ set(source
     PlaybackSystem.cpp
 	PlaylistWidget.cpp
     RecentFilesDialog.cpp
-	SDIWidget.cpp
     SettingsSystem.cpp
     SettingsDialog.cpp
     SystemLogDialog.cpp
     TimelineSlider.cpp
     ToolSystem.cpp
 	WindowSettings.cpp
+    WindowSettingsWidget.cpp
     WindowSystem.cpp)
 
 add_library(djvViewApp ${header} ${source})

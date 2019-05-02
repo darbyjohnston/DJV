@@ -202,6 +202,11 @@ namespace djv
             _p->layout->removeChild(value);
         }
 
+        void ToolBar::clearChildren()
+        {
+            _p->layout->clearChildren();
+        }
+
         void ToolBar::_preLayoutEvent(Event::PreLayout & event)
         {
             auto style = _getStyle();

@@ -32,6 +32,7 @@
 #include <djvViewApp/ImageView.h>
 #include <djvViewApp/Media.h>
 #include <djvViewApp/TimelineSlider.h>
+#include <djvViewApp/WindowSettings.h>
 
 #include <djvUI/Action.h>
 #include <djvUI/ActionGroup.h>
@@ -41,6 +42,7 @@
 #include <djvUI/Label.h>
 #include <djvUI/PopupWidget.h>
 #include <djvUI/RowLayout.h>
+#include <djvUI/SettingsSystem.h>
 #include <djvUI/StackLayout.h>
 #include <djvUI/ToolBar.h>
 #include <djvUI/ToolButton.h>
@@ -83,6 +85,7 @@ namespace djv
             std::shared_ptr<UI::ToolButton> muteButton;
             std::shared_ptr<UI::VerticalLayout> uiLayout;
             std::shared_ptr<UI::StackLayout> layout;
+
             std::shared_ptr<ValueObserver<AV::IO::Info> > infoObserver;
             std::shared_ptr<ValueObserver<Time::Speed> > speedObserver;
             std::shared_ptr<ValueObserver<Time::Timestamp> > durationObserver;
@@ -92,9 +95,13 @@ namespace djv
             std::shared_ptr<ValueObserver<float> > volumeObserver;
             std::shared_ptr<ValueObserver<bool> > muteObserver;
             std::shared_ptr<ValueObserver<AV::TimeUnits> > timeUnitsObserver;
+
+            std::shared_ptr<ValueSubject<float> > fade;
+            bool fadeEnabled = true;
             std::map<Core::Event::PointerID, glm::vec2> pointerMotion;
             std::shared_ptr<Time::Timer> pointerMotionTimer;
             std::shared_ptr<Animation::Animation> fadeAnimation;
+            std::shared_ptr<ValueObserver<bool> > fadeObserver;
         };
         
         void MediaWidget::_init(Context * context)
@@ -275,9 +282,25 @@ namespace djv
                 }
             });
 
+            p.fade = ValueSubject<float>::create(1.f);
             p.pointerMotionTimer = Time::Timer::create(context);
-
             p.fadeAnimation = Animation::Animation::create(context);
+            auto settingsSystem = getContext()->getSystemT<UI::Settings::System>();
+            auto windowSettings = settingsSystem->getSettingsT<WindowSettings>();
+            p.fadeObserver = ValueObserver<bool>::create(
+                windowSettings->observeFade(),
+                [weak](bool value)
+            {
+                if (auto widget = weak.lock())
+                {
+                    widget->_p->fadeEnabled = value;
+                    if (!value)
+                    {
+                        widget->_p->fade->setIfChanged(1.f);
+                        widget->_p->uiLayout->setOpacity(1.f);
+                    }
+                }
+            });
         }
 
         MediaWidget::MediaWidget() :
@@ -405,6 +428,11 @@ namespace djv
             p.timelineSlider->setMedia(p.media);
         }
 
+        std::shared_ptr<Core::IValueSubject<float> > MediaWidget::observeFade() const
+        {
+            return _p->fade;
+        }
+
         void MediaWidget::_preLayoutEvent(Event::PreLayout & event)
         {
             _setMinimumSize(_p->layout->getMinimumSize());
@@ -415,8 +443,22 @@ namespace djv
             _p->layout->setGeometry(getGeometry());
         }
 
+        void MediaWidget::_pointerEnterEvent(Event::PointerEnter& event)
+        {
+            Widget::_pointerEnterEvent(event);
+            DJV_PRIVATE_PTR();
+            const Event::PointerID id = event.getPointerInfo().id;
+            const auto& hover = _getPointerHover();
+            const auto i = hover.find(id);
+            if (i != hover.end())
+            {
+                p.pointerMotion[id] = i->second;
+            }
+        }
+
         void MediaWidget::_pointerLeaveEvent(Event::PointerLeave& event)
         {
+            Widget::_pointerLeaveEvent(event);
             DJV_PRIVATE_PTR();
             const Event::PointerID id = event.getPointerInfo().id;
             const auto i = p.pointerMotion.find(id);
@@ -426,8 +468,9 @@ namespace djv
             }
         }
 
-        void MediaWidget::_pointerMoveEvent(Event::PointerMove&)
+        void MediaWidget::_pointerMoveEvent(Event::PointerMove& event)
         {
+            Widget::_pointerMoveEvent(event);
             DJV_PRIVATE_PTR();
             for (const auto& i : _getPointerHover())
             {
@@ -442,9 +485,9 @@ namespace djv
                     if (diff > h)
                     {
                         start = true;
-                        if (!p.uiLayout->isVisible())
+                        p.pointerMotion[i.first] = i.second;
+                        if (p.fadeEnabled)
                         {
-                            p.uiLayout->setVisible(true);
                             p.fadeAnimation->start(
                                 p.uiLayout->getOpacity(),
                                 1.f,
@@ -453,6 +496,7 @@ namespace djv
                             {
                                 if (auto widget = weak.lock())
                                 {
+                                    widget->_p->fade->setIfChanged(value);
                                     widget->_p->uiLayout->setOpacity(value);
                                 }
                             },
@@ -460,6 +504,7 @@ namespace djv
                             {
                                 if (auto widget = weak.lock())
                                 {
+                                    widget->_p->fade->setIfChanged(value);
                                     widget->_p->uiLayout->setOpacity(value);
                                 }
                             });
@@ -470,8 +515,7 @@ namespace djv
                 {
                     start = true;
                 }
-                p.pointerMotion[i.first] = i.second;
-                if (start)
+                if (start && p.fadeEnabled)
                 {
                     p.pointerMotionTimer->start(
                         std::chrono::milliseconds(fadeSeconds * 1000),
@@ -487,6 +531,7 @@ namespace djv
                             {
                                 if (auto widget = weak.lock())
                                 {
+                                    widget->_p->fade->setIfChanged(value);
                                     widget->_p->uiLayout->setOpacity(value);
                                 }
                             },
@@ -494,8 +539,8 @@ namespace djv
                             {
                                 if (auto widget = weak.lock())
                                 {
+                                    widget->_p->fade->setIfChanged(value);
                                     widget->_p->uiLayout->setOpacity(value);
-                                    widget->_p->uiLayout->setVisible(false);
                                 }
                             });
                         }

@@ -29,6 +29,8 @@
 
 #include <djvUI/GeneralSettings.h>
 
+#include <djvUI/Widget.h>
+
 #include <djvCore/Context.h>
 #include <djvCore/TextSystem.h>
 
@@ -47,6 +49,7 @@ namespace djv
             struct General::Private
             {
                 std::shared_ptr<TextSystem> textSystem;
+                std::shared_ptr<ValueSubject<bool> > tooltips;
             };
 
             void General::_init(Context * context)
@@ -54,6 +57,7 @@ namespace djv
                 ISettings::_init("djv::UI::Settings::General", context);
                 DJV_PRIVATE_PTR();
                 p.textSystem = context->getSystemT<TextSystem>();
+                p.tooltips = ValueSubject<bool>::create(true);
                 _load();
             }
 
@@ -71,15 +75,30 @@ namespace djv
                 return out;
             }
 
+            std::shared_ptr<IValueSubject<bool> > General::observeTooltips() const
+            {
+                return _p->tooltips;
+            }
+
+            void General::setTooltips(bool value)
+            {
+                if (_p->tooltips->setIfChanged(value))
+                {
+                    Widget::setTooltipsEnabled(value);
+                }
+            }
+
             void General::load(const picojson::value & value)
             {
                 DJV_PRIVATE_PTR();
                 if (value.is<picojson::object>())
                 {
-                    std::string currentLocale;
                     const auto & object = value.get<picojson::object>();
+                    std::string currentLocale;
                     read("CurrentLocale", object, currentLocale);
                     p.textSystem->setCurrentLocale(currentLocale);
+                    read("Tooltips", object, p.tooltips);
+                    Widget::setTooltipsEnabled(p.tooltips->get());
                 }
             }
 
@@ -89,6 +108,7 @@ namespace djv
                 picojson::value out(picojson::object_type, true);
                 auto & object = out.get<picojson::object>();
                 write("CurrentLocale", p.textSystem->getCurrentLocale(), object);
+                write("Tooltips", p.tooltips->get(), object);
                 return out;
             }
 

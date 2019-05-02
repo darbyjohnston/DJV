@@ -120,6 +120,11 @@ namespace djv
                 _p->layout->removeChild(value);
             }
 
+            void Drawer::clearChildren()
+            {
+                _p->layout->clearChildren();
+            }
+
             void Drawer::_preLayoutEvent(Event::PreLayout & event)
             {
                 _setMinimumSize(_p->layout->getMinimumSize());

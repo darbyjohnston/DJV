@@ -169,6 +169,9 @@ namespace djv
             inline const std::string & getTooltip() const;
             void setTooltip(const std::string &);
 
+            static bool areTooltipsEnabled();
+            static void setTooltipsEnabled(bool);
+
             ///@}
 
             //! Get the child widgets.
@@ -268,6 +271,7 @@ namespace djv
                            _actions;
 
             std::string    _tooltipText;
+            static bool    _tooltipsEnabled;
             struct TooltipData
             {
                 float timer = 0.f;

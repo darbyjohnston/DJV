@@ -56,6 +56,7 @@ namespace djv
 
             void addChild(const std::shared_ptr<IObject> &) override;
             void removeChild(const std::shared_ptr<IObject> &) override;
+            void clearChildren() override;
 
         protected:
             std::map<UI::MDI::Handle, std::vector<Core::BBox2f> > _getHandle() const override;

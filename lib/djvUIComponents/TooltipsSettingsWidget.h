@@ -29,57 +29,33 @@
 
 #pragma once
 
-#include <djvUI/Widget.h>
+#include <djvUIComponents/ISettingsWidget.h>
 
 namespace djv
 {
     namespace UI
     {
-        namespace Layout
+        class TooltipsSettingsWidget : public ISettingsWidget
         {
-            //! This class provides a bellows widget.
-            class Bellows : public Widget
-            {
-                DJV_NON_COPYABLE(Bellows);
+            DJV_NON_COPYABLE(TooltipsSettingsWidget);
 
-            protected:
-                void _init(Core::Context *);
-                Bellows();
+        protected:
+            void _init(Core::Context *);
+            TooltipsSettingsWidget();
 
-            public:
-                virtual ~Bellows();
+        public:
+            static std::shared_ptr<TooltipsSettingsWidget> create(Core::Context *);
 
-                static std::shared_ptr<Bellows> create(Core::Context *);
-                static std::shared_ptr<Bellows> create(const std::string &, Core::Context *);
-                
-                const std::string & getText() const;
-                void setText(const std::string &);
+            std::string getSettingsName() const override;
+            std::string getSettingsGroup() const override;
+            std::string getSettingsSortKey() const override;
 
-                bool isOpen() const;
-                void setOpen(bool);
-                void open();
-                void close();
-                void setOpenCallback(const std::function<void(bool)> &);
+        protected:
+            void _localeEvent(Core::Event::Locale &) override;
 
-                float getHeightForWidth(float) const override;
-
-                void addChild(const std::shared_ptr<IObject> &) override;
-                void removeChild(const std::shared_ptr<IObject> &) override;
-                void clearChildren() override;
-
-            protected:
-                void _preLayoutEvent(Core::Event::PreLayout &) override;
-                void _layoutEvent(Core::Event::Layout &) override;
-
-            private:
-                void _childrenUpdate();
-
-                DJV_PRIVATE();
-            };
-
-        } // namespace Layout
-
-        using Layout::Bellows;
+        private:
+            DJV_PRIVATE();
+        };
 
     } // namespace UI
 } // namespace djv

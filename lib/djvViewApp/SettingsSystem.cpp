@@ -32,11 +32,13 @@
 #include <djvViewApp/SettingsDialog.h>
 #include <djvViewApp/NUXSettingsWidget.h>
 #include <djvViewApp/PlaybackSettingsWidget.h>
+#include <djvViewApp/WindowSettingsWidget.h>
 
 #include <djvUIComponents/DisplaySettingsWidget.h>
 #include <djvUIComponents/LanguageSettingsWidget.h>
 #include <djvUIComponents/PPMSettingsWidget.h>
 #include <djvUIComponents/TimeSettingsWidget.h>
+#include <djvUIComponents/TooltipsSettingsWidget.h>
 #if defined(JPEG_FOUND)
 #include <djvUIComponents/JPEGSettingsWidget.h>
 #endif
@@ -131,7 +133,9 @@ namespace djv
                 UI::LanguageSettingsWidget::create(context),
                 NUXSettingsWidget::create(context),
                 PlaybackSettingsWidget::create(context),
+                WindowSettingsWidget::create(context),
                 UI::TimeSettingsWidget::create(context),
+                UI::TooltipsSettingsWidget::create(context),
 #if defined(JPEG_FOUND)
                 UI::JPEGSettingsWidget::create(context),
 #endif

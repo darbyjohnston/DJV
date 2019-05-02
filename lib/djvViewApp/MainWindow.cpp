@@ -36,7 +36,6 @@
 #include <djvViewApp/Media.h>
 #include <djvViewApp/MediaWidget.h>
 #include <djvViewApp/PlaylistWidget.h>
-#include <djvViewApp/SDIWidget.h>
 #include <djvViewApp/SettingsSystem.h>
 #include <djvViewApp/WindowSystem.h>
 
@@ -76,7 +75,7 @@ namespace djv
             std::shared_ptr<UI::Button::Menu> mediaButton;
             std::shared_ptr<UI::ToolButton> settingsButton;
             std::shared_ptr<UI::MenuBar> menuBar;
-            std::shared_ptr<SDIWidget> sdiWidget;
+            std::shared_ptr<MediaWidget> sdiWidget;
             std::shared_ptr<MDIWidget> mdiWidget;
             std::shared_ptr<PlaylistWidget> playlistWidget;
             std::shared_ptr<UI::MDI::Canvas> toolCanvas;
@@ -85,6 +84,7 @@ namespace djv
             std::shared_ptr<ListObserver<std::shared_ptr<Media> > > mediaObserver;
             std::shared_ptr<ValueObserver<std::shared_ptr<Media> > > currentMediaObserver;
             std::shared_ptr<ValueObserver<WindowMode> > windowModeObserver;
+            std::shared_ptr<ValueObserver<float> > fadeObserver;
         };
         
         void MainWindow::_init(Core::Context * context)
@@ -158,7 +158,7 @@ namespace djv
             p.menuBar->addSeparator();
             p.menuBar->addChild(p.settingsButton);
 
-            p.sdiWidget = SDIWidget::create(context);
+            p.sdiWidget = MediaWidget::create(context);
             p.mdiWidget = MDIWidget::create(context);
             p.playlistWidget = PlaylistWidget::create(context);
 
@@ -283,6 +283,7 @@ namespace djv
                             widget->_p->mediaActionGroup->setChecked(i - widget->_p->media.begin());
                         }
                         widget->_p->mediaButton->setText(value ? Core::FileSystem::Path(value->getFileName()).getFileName() : std::string());
+                        widget->_p->sdiWidget->setMedia(value);
                     }
                 });
             }
@@ -291,9 +292,32 @@ namespace djv
             {
                 p.windowModeObserver = ValueObserver<WindowMode>::create(
                     windowSystem->observeWindowMode(),
-                    [soloLayout](WindowMode value)
+                    [weak, soloLayout](WindowMode value)
                 {
-                    soloLayout->setCurrentIndex(static_cast<int>(value));
+                    if (auto widget = weak.lock())
+                    {
+                        soloLayout->setCurrentIndex(static_cast<int>(value));
+                        switch (value)
+                        {
+                        case WindowMode::SDI:
+                            widget->_p->fadeObserver = ValueObserver<float>::create(
+                                widget->_p->sdiWidget->observeFade(),
+                                [weak](float value)
+                            {
+                                if (auto widget = weak.lock())
+                                {
+                                    widget->_p->menuBar->setOpacity(value);
+                                }
+                            });
+                            break;
+                        case WindowMode::MDI:
+                        case WindowMode::List:
+                            widget->_p->fadeObserver.reset();
+                            widget->_p->menuBar->setOpacity(1.f);
+                            break;
+                        default: break;
+                        }
+                    }
                 });
             }
         }
