@@ -29,15 +29,16 @@
 
 #include <djvCore/UID.h>
 
+#include <atomic>
+
 namespace djv
 {
     namespace Core
     {
         uint64_t createUID()
         {
-            static uint64_t uid = 0;
-            ++uid;
-            return uid;
+            static std::atomic<uint64_t> uid(1);
+            return uid++;
         }
 
     } // namespace Core
