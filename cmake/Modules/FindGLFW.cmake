@@ -18,7 +18,7 @@ find_path(GLFW_INCLUDE_DIR
     NAMES GLFW/glfw3.h)
 set(GLFW_INCLUDE_DIRS ${GLFW_INCLUDE_DIR})
 
-find_library(GLFW_LIBRARY NAMES glfw3)
+find_library(GLFW_LIBRARY NAMES glfw3 glfw)
 set(GLFW_LIBRARIES ${GLFW_LIBRARY})
 
 if(DJV_PLATFORM_OSX)

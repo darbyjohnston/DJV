@@ -14,8 +14,8 @@
 #
 # * TIFF
 
-find_package(ZLIB REQUIRED)
-find_package(JPEG REQUIRED)
+find_package(ZLIB)
+find_package(JPEG)
 
 find_path(TIFF_INCLUDE_DIR
     NAMES tiff.h)
