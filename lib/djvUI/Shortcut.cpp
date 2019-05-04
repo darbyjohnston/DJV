@@ -256,9 +256,7 @@ namespace djv
                 { GLFW_MOD_SHIFT, DJV_TEXT("Shift") },
                 { GLFW_MOD_CONTROL, DJV_TEXT("Ctrl") },
                 { GLFW_MOD_ALT, DJV_TEXT("Alt") },
-                { GLFW_MOD_SUPER, DJV_TEXT("Super") },
-                { GLFW_MOD_CAPS_LOCK, DJV_TEXT("CapsLock") },
-                { GLFW_MOD_NUM_LOCK, DJV_TEXT("NumLock") }
+                { GLFW_MOD_SUPER, DJV_TEXT("Super") }
             };
             const auto i = data.find(key);
             return i != data.end() ? i->second : std::string();
@@ -282,14 +280,6 @@ namespace djv
             if (keyModifiers & GLFW_MOD_SUPER)
             {
                 out.push_back(textSystem->getText(getModifierString(GLFW_MOD_SUPER)));
-            }
-            if (keyModifiers & GLFW_MOD_CAPS_LOCK)
-            {
-                out.push_back(textSystem->getText(getModifierString(GLFW_MOD_CAPS_LOCK)));
-            }
-            if (keyModifiers & GLFW_MOD_NUM_LOCK)
-            {
-                out.push_back(textSystem->getText(getModifierString(GLFW_MOD_NUM_LOCK)));
             }
             out.push_back(textSystem->getText(getKeyString(key)));
             return String::join(out, "+");
