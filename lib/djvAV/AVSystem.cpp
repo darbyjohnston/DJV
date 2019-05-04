@@ -32,7 +32,6 @@
 #include <djvAV/AudioSystem.h>
 #include <djvAV/FontSystem.h>
 #include <djvAV/IO.h>
-#include <djvAV/OpenGL.h>
 #include <djvAV/Render2D.h>
 #include <djvAV/ThumbnailSystem.h>
 
@@ -42,16 +41,7 @@
 #include <djvCore/OS.h>
 #include <djvCore/TextSystem.h>
 
-#include <GLFW/glfw3.h>
-
 #include <iomanip>
-
-using namespace djv::Core;
-
-using namespace gl;
-
-#undef GL_DEBUG_SEVERITY_HIGH
-#undef GL_DEBUG_SEVERITY_MEDIUM
 
 using namespace djv::Core;
 
