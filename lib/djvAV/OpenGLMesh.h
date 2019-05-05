@@ -34,6 +34,8 @@
 
 #include <djvCore/Range.h>
 
+#include <memory>
+
 namespace djv
 {
     namespace AV

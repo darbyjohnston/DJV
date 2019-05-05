@@ -29,6 +29,8 @@
 
 #include <djvCore/Core.h>
 
+#include <iostream>
+
 #include <stdlib.h>
 
 namespace djv

@@ -31,6 +31,10 @@
 
 #include <djvCore/Core.h>
 
+#include <vector>
+
+#include <stddef.h>
+
 #ifdef min
 #undef min
 #endif

@@ -33,6 +33,8 @@
 
 #include <glm/mat4x4.hpp>
 
+#include <sstream>
+
 namespace djv
 {
     inline std::ostream & operator << (std::ostream &, const glm::mat4x4 &);

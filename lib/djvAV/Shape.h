@@ -31,6 +31,8 @@
 
 #include <djvAV/AV.h>
 
+#include <memory>
+
 namespace djv
 {
     namespace AV

@@ -32,6 +32,8 @@
 #include <djvCore/Core.h>
 
 #include <set>
+#include <string>
+#include <vector>
 
 namespace djv
 {

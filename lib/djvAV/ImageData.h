@@ -36,6 +36,8 @@
 
 #include <glm/vec2.hpp>
 
+#include <memory>
+
 namespace djv
 {
     namespace AV

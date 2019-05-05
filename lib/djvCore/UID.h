@@ -31,6 +31,8 @@
 
 #include <djvCore/Core.h>
 
+#include <stdint.h>
+
 namespace djv
 {
     namespace Core

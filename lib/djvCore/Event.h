@@ -36,6 +36,7 @@
 #include <glm/vec3.hpp>
 
 #include <map>
+#include <memory>
 
 namespace djv
 {

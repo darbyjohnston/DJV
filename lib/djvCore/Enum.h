@@ -31,6 +31,9 @@
 
 #include <djvCore/Core.h>
 
+#include <sstream>
+#include <vector>
+
 //! This macro provides enum helpers.
 #define DJV_ENUM_HELPERS(name)  \
     inline std::vector<name> get##name##Enums() \

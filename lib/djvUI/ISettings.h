@@ -31,6 +31,8 @@
 
 #include <djvCore/PicoJSON.h>
 
+#include <memory>
+
 namespace djv
 {
     namespace Core

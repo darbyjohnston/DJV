@@ -33,6 +33,8 @@
 
 #include <picojson/picojson.h>
 
+#include <string>
+
 namespace djv
 {
     namespace Core

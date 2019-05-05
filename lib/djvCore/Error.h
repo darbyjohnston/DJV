@@ -32,6 +32,7 @@
 #include <djvCore/Core.h>
 
 #include <exception>
+#include <string>
 
 namespace djv
 {

@@ -31,7 +31,9 @@
 
 #include <djvUI/UI.h>
 
-#include <djvCore/Vector.h>
+#include <glm/vec2.hpp>
+
+#include <memory>
 
 namespace djv
 {

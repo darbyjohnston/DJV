@@ -32,6 +32,7 @@
 #include <djvCore/Core.h>
 
 #include <map>
+#include <vector>
 
 namespace djv
 {

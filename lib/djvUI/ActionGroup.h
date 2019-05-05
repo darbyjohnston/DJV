@@ -32,6 +32,7 @@
 #include <djvUI/Enum.h>
 
 #include <functional>
+#include <memory>
 
 namespace djv
 {
