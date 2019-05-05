@@ -36,18 +36,31 @@
 
 #include <djvAV/OpenGLOffscreenBuffer.h>
 #include <djvAV/Render2D.h>
+#if defined(DJV_OPENGL_ES2)
+#include <djvAV/OpenGLMesh.h>
+#include <djvAV/OpenGLShader.h>
+#include <djvAV/Shader.h>
+#endif // DJV_OPENGL_ES2
 
 #include <djvCore/Context.h>
 #include <djvCore/Event.h>
 #include <djvCore/IObject.h>
+#if defined(DJV_OPENGL_ES2)
+#include <djvCore/ResourceSystem.h>
+#endif // DJV_OPENGL_ES2
 
 #include <GLFW/glfw3.h>
+
+#if defined(DJV_OPENGL_ES2)
+#include <glm/gtc/matrix_transform.hpp>
+#endif // DJV_OPENGL_ES2
 
 #include <codecvt>
 #include <locale>
 
 #undef GL_BLEND
 #undef GL_COLOR_BUFFER_BIT
+#undef GL_DEPTH_TEST
 #undef GL_SCISSOR_TEST
 
 using namespace djv::Core;
@@ -85,6 +98,9 @@ namespace djv
             bool redrawRequest = true;
             std::shared_ptr<AV::Render::Render2D> render;
             std::shared_ptr<AV::OpenGL::OffscreenBuffer> offscreenBuffer;
+#if defined(DJV_OPENGL_ES2)
+            std::shared_ptr<AV::OpenGL::Shader> shader;
+#endif // DJV_OPENGL_ES2
         };
 
         void EventSystem::_init(GLFWwindow * glfwWindow, Context * context)
@@ -95,6 +111,14 @@ namespace djv
 
             p.glfwWindow = glfwWindow;
             p.render = context->getSystemT<AV::Render::Render2D>();
+
+#if defined(DJV_OPENGL_ES2)
+            auto resourceSystem = context->getSystemT<ResourceSystem>();
+            const Core::FileSystem::Path shaderPath = resourceSystem->getPath(Core::FileSystem::ResourcePath::ShadersDirectory);
+            p.shader = AV::OpenGL::Shader::create(AV::Render::Shader::create(
+                Core::FileSystem::Path(shaderPath, "djvAVRender2DVertex.glsl"),
+                Core::FileSystem::Path(shaderPath, "djvAVRender2DFragment.glsl")));
+#endif // DJV_OPENGL_ES2
 
             glfwGetFramebufferSize(glfwWindow, &p.resize.x, &p.resize.y);
             glfwSetFramebufferSizeCallback(glfwWindow, _resizeCallback);
@@ -128,8 +152,7 @@ namespace djv
             if (p.resizeRequest)
             {
                 p.offscreenBuffer = AV::OpenGL::OffscreenBuffer::create(
-                    AV::Image::Info(p.resize, AV::Image::Type::RGBA_U8),
-                    AV::OpenGL::OffscreenType::MultiSample);
+                    AV::Image::Info(p.resize, AV::Image::Type::RGBA_U8));
             }
             auto rootObject = getRootObject();
         
@@ -230,6 +253,7 @@ namespace djv
             DJV_PRIVATE_PTR();
             if (p.offscreenBuffer)
             {
+                gl::glDisable(gl::GL_DEPTH_TEST);
                 gl::glDisable(gl::GL_SCISSOR_TEST);
                 gl::glDisable(gl::GL_BLEND);
                 const auto & size = p.offscreenBuffer->getInfo().size;
@@ -240,6 +264,69 @@ namespace djv
                     GLsizei(size.y));
                 gl::glClearColor(0.f, 0.f, 0.f, 0.f);
                 gl::glClear(gl::GL_COLOR_BUFFER_BIT);
+#if defined(DJV_OPENGL_ES2)
+                p.shader->bind();
+                const auto viewMatrix = glm::ortho(
+                    0.f,
+                    static_cast<float>(size.x),
+                    0.f,
+                    static_cast<float>(size.y),
+                    -1.f,
+                    1.f);
+                p.shader->setUniform("transform.mvp", viewMatrix);
+                
+                glActiveTexture(GL_TEXTURE0);
+                glBindTexture(GL_TEXTURE_2D, p.offscreenBuffer->getTextureID());
+                
+                p.shader->setUniform("transform.mvp", viewMatrix);
+                p.shader->setUniform("imageFormat", 3);
+                p.shader->setUniform("colorMode", 5);
+                const GLfloat color[] = { 1.f, 1.f, 1.f, 1.f };
+                p.shader->setUniform("color", color);
+                p.shader->setUniform("textureSampler", 0);
+                                
+                auto vbo = AV::OpenGL::VBO::create(2, 4, AV::OpenGL::VBOType::Pos2_F32_UV_U16);
+                std::vector<uint8_t> vboData(6 * (2 * 4 + 2 * 2));
+                struct Data
+                {
+                    float x, y;
+                    uint16_t u, v;
+                };
+                Data* vboP = reinterpret_cast<Data*>(&vboData[0]);
+                vboP->x = 0.f;
+                vboP->y = 0.f;
+                vboP->u = 0.f;
+                vboP->v = 0.f;
+                ++vboP;
+                vboP->x = size.x;
+                vboP->y = 0.f;
+                vboP->u = 65535;
+                vboP->v = 0;
+                ++vboP;
+                vboP->x = size.x;
+                vboP->y = size.y;
+                vboP->u = 65535;
+                vboP->v = 65535;
+                ++vboP;
+                vboP->x = size.x;
+                vboP->y = size.y;
+                vboP->u = 65535;
+                vboP->v = 65535;
+                ++vboP;
+                vboP->x = 0.f;
+                vboP->y = size.y;
+                vboP->u = 0;
+                vboP->v = 65535;
+                ++vboP;
+                vboP->x = 0.f;
+                vboP->y = 0.f;
+                vboP->u = 0;
+                vboP->v = 0;
+                ++vboP;
+                vbo->copy(vboData);
+                auto vao = AV::OpenGL::VAO::create(AV::OpenGL::VBOType::Pos2_F32_UV_U16, vbo->getID());
+                vao->draw(0, 6);
+#else // DJV_OPENGL_ES2
                 glBindFramebuffer(gl::GLenum(GL_READ_FRAMEBUFFER), p.offscreenBuffer->getID());
                 glBindFramebuffer(gl::GLenum(GL_DRAW_FRAMEBUFFER), gl::GLuint(0));
                 glBlitFramebuffer(
@@ -247,6 +334,7 @@ namespace djv
                     0, 0, size.x, size.y,
                     ClearBufferMask(gl::GL_COLOR_BUFFER_BIT),
                     gl::GLenum(GL_NEAREST));
+#endif // DJV_OPENGL_ES2
                 //gl::glFlush();
                 glfwSwapBuffers(p.glfwWindow);
             }

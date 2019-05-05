@@ -5,6 +5,10 @@ set(DJV_VERSION_MAJOR "2")
 set(DJV_VERSION_MINOR "0")
 set(DJV_VERSION_PATCH "0")
 set(DJV_VERSION ${DJV_VERSION_MAJOR}.${DJV_VERSION_MINOR}.${DJV_VERSION_PATCH})
+add_definitions(-DDJV_VERSION_MAJOR=${DJV_VERSION_MAJOR})
+add_definitions(-DDJV_VERSION_MINOR=${DJV_VERSION_MINOR})
+add_definitions(-DDJV_VERSION_PATCH=${DJV_VERSION_PATCH})
+add_definitions(-DDJV_VERSION="${DJV_VERSION}")
 
 project(
     DJV
@@ -56,12 +60,9 @@ set(DJV_INSTALL_TRANSLATIONS translations)
 add_definitions(-DDJV_MMAP)
 add_definitions(-DDJV_ASSERT)
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
-
-# Set the configuration file.
-configure_file(
-    ${PROJECT_SOURCE_DIR}/djvConfig.h.in
-    ${PROJECT_BINARY_DIR}/djvConfig.h
-    @ONLY)
+if(DJV_OPENGL_ES2)
+    add_definitions(-DDJV_OPENGL_ES2)
+endif()
 
 # Enable testing.
 enable_testing()
@@ -100,8 +101,7 @@ include_directories(
     ${CMAKE_SOURCE_DIR}/lib
     ${CMAKE_SOURCE_DIR}/bin
     ${CMAKE_SOURCE_DIR}/tests
-    ${CMAKE_SOURCE_DIR}/third-party
-    ${CMAKE_BINARY_DIR})
+    ${CMAKE_SOURCE_DIR}/third-party)
 
 #-------------------------------------------------------------------------------
 # Third Party Libraries

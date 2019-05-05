@@ -27,11 +27,10 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#version 400 core
+#version 100
 
-out vec4 FragColor;
-
-in vec2 Texture;
+precision mediump float;
+varying vec2 Texture;
 
 uniform int imageFormat;
 uniform int colorMode;
@@ -54,57 +53,58 @@ uniform sampler2D textureSampler;
 
 void main()
 {
-    vec4 t = texture(textureSampler, Texture);
-    switch (imageFormat)
+    vec4 t = texture2D(textureSampler, Texture);
+    if (IMAGE_FORMAT_L == imageFormat)
     {
-    case IMAGE_FORMAT_L:
         t.g = t.r;
         t.b = t.r;
         t.a = 1.0;
-        break;
-    case IMAGE_FORMAT_LA:
+    }
+    else if (IMAGE_FORMAT_LA == imageFormat)
+    {
         t.a = t.g;
         t.g = t.r;
         t.b = t.r;
-        break;
-    case IMAGE_FORMAT_RGB:
+    }
+    else if (IMAGE_FORMAT_RGB == imageFormat)
+    {
         t.a = 1.0;
-        break;
-    case IMAGE_FORMAT_RGBA:
-        break;
     }
     
-    switch (colorMode)
+    if (COLOR_MODE_SOLID_COLOR == colorMode)
     {
-    case COLOR_MODE_SOLID_COLOR:
-        FragColor = color;
-        break;
-    case COLOR_MODE_COLOR_WITH_TEXTURE_ALPHA:
-        FragColor.r = color.r;
-        FragColor.g = color.g;
-        FragColor.b = color.b;
-        FragColor.a = color.a * t.r;
-        break;
-    case COLOR_MODE_COLOR_WITH_TEXTURE_ALPHA_R:
-        FragColor.r = color.r;
-        FragColor.g = 0.f;
-        FragColor.b = 0.f;
-        FragColor.a = color.a * t.r;
-        break;
-    case COLOR_MODE_COLOR_WITH_TEXTURE_ALPHA_G:
-        FragColor.r = 0.f;
-        FragColor.g = color.g;
-        FragColor.b = 0.f;
-        FragColor.a = color.a * t.g;
-        break;
-    case COLOR_MODE_COLOR_WITH_TEXTURE_ALPHA_B:
-        FragColor.r = 0.f;
-        FragColor.g = 0.f;
-        FragColor.b = color.b;
-        FragColor.a = color.a * t.b;
-        break;
-    case COLOR_MODE_COLOR_AND_TEXTURE:
-        FragColor = color * t;
-        break;
+        gl_FragColor = color;
+    }
+    else if (COLOR_MODE_COLOR_WITH_TEXTURE_ALPHA == colorMode)
+    {
+        gl_FragColor.r = color.r;
+        gl_FragColor.g = color.g;
+        gl_FragColor.b = color.b;
+        gl_FragColor.a = color.a * t.r;
+    }
+    else if (COLOR_MODE_COLOR_WITH_TEXTURE_ALPHA_R == colorMode)
+    {
+        gl_FragColor.r = color.r;
+        gl_FragColor.g = 0.0;
+        gl_FragColor.b = 0.0;
+        gl_FragColor.a = color.a * t.r;
+    }
+    else if (COLOR_MODE_COLOR_WITH_TEXTURE_ALPHA_G == colorMode)
+    {
+        gl_FragColor.r = 0.0;
+        gl_FragColor.g = color.g;
+        gl_FragColor.b = 0.0;
+        gl_FragColor.a = color.a * t.g;
+    }
+    else if (COLOR_MODE_COLOR_WITH_TEXTURE_ALPHA_B == colorMode)
+    {
+        gl_FragColor.r = 0.0;
+        gl_FragColor.g = 0.0;
+        gl_FragColor.b = color.b;
+        gl_FragColor.a = color.a * t.b;
+    }
+    else if (COLOR_MODE_COLOR_AND_TEXTURE == colorMode)
+    {
+        gl_FragColor = color * t;
     }
 }

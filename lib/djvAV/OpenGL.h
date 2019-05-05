@@ -31,7 +31,11 @@
 
 #include <djvAV/AV.h>
 
+#if defined(DJV_OPENGL_ES2)
+#include <glbinding/gl20/gl.h>
+#else // DJV_OPENGL_ES2
 #include <glbinding/gl/gl.h>
+#endif // DJV_OPENGL_ES2
 #include <glbinding/glbinding.h>
 
 namespace djv

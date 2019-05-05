@@ -29,8 +29,6 @@
 
 #pragma once
 
-#include <djvConfig.h>
-
 #include <iostream>
 #include <memory>
 #include <sstream>

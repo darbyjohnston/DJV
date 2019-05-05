@@ -156,11 +156,8 @@ namespace djv
                         vbo = OpenGL::VBO::create(vboSize, 3, OpenGL::VBOType::Pos2_F32_UV_U16);
                         vao = OpenGL::VAO::create(vbo->getType(), vbo->getID());
 
-                        FileSystem::Path shaderPath;
-                        if (auto resourceSystem = context->getSystemT<ResourceSystem>())
-                        {
-                            shaderPath = resourceSystem->getPath(FileSystem::ResourcePath::ShadersDirectory);
-                        }
+                        auto resourceSystem = context->getSystemT<ResourceSystem>();
+                        const FileSystem::Path shaderPath = resourceSystem->getPath(FileSystem::ResourcePath::ShadersDirectory);
                         shader = OpenGL::Shader::create(Shader::create(
                             FileSystem::Path(shaderPath, "djvAVRender2DVertex.glsl"),
                             FileSystem::Path(shaderPath, "djvAVRender2DFragment.glsl")));

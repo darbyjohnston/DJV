@@ -90,16 +90,28 @@ namespace djv
             {
                 const auto & info = data.getInfo();
 
-                glBindBuffer(GL_PIXEL_UNPACK_BUFFER, _pbo);
-                glBufferData(GL_PIXEL_UNPACK_BUFFER, info.getDataByteCount(), data.getData(), GL_DYNAMIC_DRAW);
-
+#if defined(DJV_OPENGL_ES2)
                 glBindTexture(GL_TEXTURE_2D, _id);
                 glPixelStorei(GL_UNPACK_ALIGNMENT, info.layout.alignment);
                 glPixelStorei(GL_UNPACK_SWAP_BYTES, info.layout.endian != Memory::getEndian());
-#if !defined(DJV_PLATFORM_IOS)
+                glTexSubImage2D(
+                    GL_TEXTURE_2D,
+                    0,
+                    0,
+                    0,
+                    info.size.x,
+                    info.size.y,
+                    info.getGLFormat(),
+                    info.getGLType(),
+                    data.getData());
+#else // DJV_OPENGL_ES2
+                glBindBuffer(GL_PIXEL_UNPACK_BUFFER, _pbo);
+                glBufferData(GL_PIXEL_UNPACK_BUFFER, info.getDataByteCount(), data.getData(), GL_DYNAMIC_DRAW);
+                glBindTexture(GL_TEXTURE_2D, _id);
+                glPixelStorei(GL_UNPACK_ALIGNMENT, info.layout.alignment);
+                glPixelStorei(GL_UNPACK_SWAP_BYTES, info.layout.endian != Memory::getEndian());
                 glPixelStorei(GL_UNPACK_SKIP_ROWS, 0);
                 glPixelStorei(GL_UNPACK_SKIP_PIXELS, 0);
-#endif // DJV_PLATFORM_IOS
                 glTexSubImage2D(
                     GL_TEXTURE_2D,
                     0,
@@ -110,24 +122,36 @@ namespace djv
                     info.getGLFormat(),
                     info.getGLType(),
                     0);
-
                 glBindBuffer(GL_PIXEL_UNPACK_BUFFER, 0);
+#endif // DJV_OPENGL_ES2
             }
 
             void Texture::copy(const Image::Data & data, const glm::ivec2 & pos)
             {
                 const auto & info = data.getInfo();
 
-                glBindBuffer(GL_PIXEL_UNPACK_BUFFER, _pbo);
-                glBufferData(GL_PIXEL_UNPACK_BUFFER, info.getDataByteCount(), data.getData(), GL_STREAM_DRAW);
-
+#if defined(DJV_OPENGL_ES2)
                 glBindTexture(GL_TEXTURE_2D, _id);
                 glPixelStorei(GL_UNPACK_ALIGNMENT, info.layout.alignment);
                 glPixelStorei(GL_UNPACK_SWAP_BYTES, info.layout.endian != Memory::getEndian());
-#if !defined(DJV_PLATFORM_IOS)
+                glTexSubImage2D(
+                    GL_TEXTURE_2D,
+                    0,
+                    pos.x,
+                    pos.y,
+                    info.size.x,
+                    info.size.y,
+                    info.getGLFormat(),
+                    info.getGLType(),
+                    data.getData());
+#else // DJV_OPENGL_ES2
+                glBindBuffer(GL_PIXEL_UNPACK_BUFFER, _pbo);
+                glBufferData(GL_PIXEL_UNPACK_BUFFER, info.getDataByteCount(), data.getData(), GL_STREAM_DRAW);
+                glBindTexture(GL_TEXTURE_2D, _id);
+                glPixelStorei(GL_UNPACK_ALIGNMENT, info.layout.alignment);
+                glPixelStorei(GL_UNPACK_SWAP_BYTES, info.layout.endian != Memory::getEndian());
                 glPixelStorei(GL_UNPACK_SKIP_ROWS, 0);
                 glPixelStorei(GL_UNPACK_SKIP_PIXELS, 0);
-#endif // DJV_PLATFORM_IOS
                 glTexSubImage2D(
                     GL_TEXTURE_2D,
                     0,
@@ -138,8 +162,8 @@ namespace djv
                     info.getGLFormat(),
                     info.getGLType(),
                     0);
-
                 glBindBuffer(GL_PIXEL_UNPACK_BUFFER, 0);
+#endif // DJV_OPENGL_ES2
             }
 
             void Texture::bind()
@@ -149,6 +173,9 @@ namespace djv
 
             GLenum Texture::getInternalFormat(Image::Type type)
             {
+#if defined(DJV_OPENGL_ES2)
+                return Image::getGLFormat(type);
+#else // DJV_OPENGL_ES2
                 switch (Image::getGLFormat(type))
                 {
                 case GL_RED:
@@ -156,9 +183,7 @@ namespace djv
                     {
                     case GL_UNSIGNED_BYTE: return GL_R8;
                     case GL_UNSIGNED_SHORT: return GL_R16;
-#if !defined(DJV_PLATFORM_IOS)
                     case GL_HALF_FLOAT: return  GL_R16F;
-#endif // DJV_PLATFORM_IOS
                     case GL_FLOAT: return GL_R32F;
                     default: break;
                     }
@@ -168,9 +193,7 @@ namespace djv
                     {
                     case GL_UNSIGNED_BYTE: return GL_RG8;
                     case GL_UNSIGNED_SHORT: return GL_RG16;
-#if !defined(DJV_PLATFORM_IOS)
                     case GL_HALF_FLOAT: return  GL_RG16F;
-#endif // DJV_PLATFORM_IOS
                     case GL_FLOAT: return GL_RG32F;
                     default: break;
                     }
@@ -181,9 +204,7 @@ namespace djv
                     case GL_UNSIGNED_BYTE: return GL_RGB8;
                     case GL_UNSIGNED_INT_10_10_10_2: return GL_RGB10;
                     case GL_UNSIGNED_SHORT: return GL_RGB16;
-#if !defined(DJV_PLATFORM_IOS)
                     case GL_HALF_FLOAT: return  GL_RGB16F;
-#endif // DJV_PLATFORM_IOS
                     case GL_FLOAT: return GL_RGB32F;
                     default: break;
                     }
@@ -193,9 +214,7 @@ namespace djv
                     {
                     case GL_UNSIGNED_BYTE: return GL_RGBA8;
                     case GL_UNSIGNED_SHORT: return GL_RGBA16;
-#if !defined(DJV_PLATFORM_IOS)
                     case GL_HALF_FLOAT: return  GL_RGBA16F;
-#endif // DJV_PLATFORM_IOS
                     case GL_FLOAT: return GL_RGBA32F;
                     default: break;
                     }
@@ -203,6 +222,7 @@ namespace djv
                 default: break;
                 }
                 return GL_NONE;
+#endif // DJV_OPENGL_ES2
             }
 
         } // namespace OpenGL

@@ -358,6 +358,32 @@ namespace djv
                 {
                     GL_NONE,
 
+#if defined(DJV_OPENGL_ES2)
+                    GL_LUMINANCE,
+                    GL_LUMINANCE,
+                    GL_LUMINANCE,
+                    GL_LUMINANCE,
+                    GL_LUMINANCE,
+
+                    GL_LUMINANCE_ALPHA,
+                    GL_LUMINANCE_ALPHA,
+                    GL_LUMINANCE_ALPHA,
+                    GL_LUMINANCE_ALPHA,
+                    GL_LUMINANCE_ALPHA,
+                    
+                    GL_RGB,
+                    GL_RGBA,
+                    GL_RGB,
+                    GL_RGB,
+                    GL_RGB,
+                    GL_RGB,
+
+                    GL_RGBA,
+                    GL_RGBA,
+                    GL_RGBA,
+                    GL_RGBA,
+                    GL_RGBA
+#else // DJV_OPENGL_ES2
                     GL_RED,
                     GL_RED,
                     GL_RED,
@@ -382,6 +408,7 @@ namespace djv
                     GL_RGBA,
                     GL_RGBA,
                     GL_RGBA
+#endif // DJV_OPENGL_ES2
                 };
                 DJV_ASSERT(sizeof(data) / sizeof(data[0]) == static_cast<size_t>(Type::Count));
                 return data[static_cast<size_t>(value)];

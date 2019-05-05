@@ -32,17 +32,19 @@
 
 #include <djvAV/AVSystem.h>
 #include <djvAV/Color.h>
+#include <djvAV/IO.h>
 #include <djvAV/Render2D.h>
 
 #include <djvCore/Error.h>
 #include <djvCore/String.h>
+#include <djvCore/ResourceSystem.h>
 
 #include <GLFW/glfw3.h>
 
 using namespace djv;
 
-const size_t drawCount = 10000;
-const size_t randomCount = 10000;
+const size_t drawCount = 1000;
+const size_t randomCount = 1000;
 glm::ivec2 windowSize = glm::ivec2(0, 0);
 
 struct RandomColor
@@ -91,6 +93,16 @@ struct RandomText
 
 const std::vector<float> RandomText::sizes = { 12.f, 24.f, 48.f, 96.f, 1000.f };
 
+struct RandomIcon
+{
+    RandomIcon(const std::vector<std::shared_ptr<AV::Image::Image> >& images)
+    {
+        image = images[Core::Math::getRandom(static_cast<int>(images.size()) - 1)];
+    }
+    std::shared_ptr<AV::Image::Image> image;
+    RandomIcon * next = nullptr;
+};
+
 class Application : public CmdLine::Application
 {
     DJV_NON_COPYABLE(Application);
@@ -112,6 +124,7 @@ private:
     void _drawRandomRoundedRectangle();
     void _drawRandomCircle();
     void _drawRandomText();
+    void _drawRandomIcon();
     void _render();
 
     GLFWwindow*  _glfwWindow = nullptr;
@@ -124,15 +137,108 @@ private:
     RandomSize*  _currentSize  = nullptr;
     RandomText*  _randomText   = nullptr;
     RandomText*  _currentText  = nullptr;
+    RandomIcon*  _randomIcon   = nullptr;
+    RandomIcon*  _currentIcon  = nullptr;
+    std::vector<std::shared_ptr<AV::Image::Image> > _images;
 };
 
 void Application::_init(int argc, char ** argv)
 {
     CmdLine::Application::_init(argc, argv);
     _glfwWindow = getSystemT<CmdLine::GLFWSystem>()->getGLFWWindow();
-    glfwSetWindowSize(_glfwWindow, 1280, 720);
+    //glfwSetWindowSize(_glfwWindow, 1280, 720);
     glfwShowWindow(_glfwWindow);
     _render2D = getSystemT<AV::Render::Render2D>();
+
+    static const std::vector<std::string> names =
+    {
+        "96DPI/djvIconAdd.png",
+        "96DPI/djvIconArrowDown.png",
+        "96DPI/djvIconArrowLeft.png",
+        "96DPI/djvIconArrowRight.png",
+        "96DPI/djvIconArrowSmallDown.png",
+        "96DPI/djvIconArrowSmallLeft.png",
+        "96DPI/djvIconArrowSmallRight.png",
+        "96DPI/djvIconArrowSmallUp.png",
+        "96DPI/djvIconArrowUp.png",
+        "96DPI/djvIconAudioMute.png",
+        "96DPI/djvIconAudio.png",
+        "96DPI/djvIconCheckSmall.png",
+        "96DPI/djvIconClear.png",
+        "96DPI/djvIconClose.png",
+        "96DPI/djvIconCloseSmall.png",
+        "96DPI/djvIconColorPicker.png",
+        "96DPI/djvIconColor.png",
+        "96DPI/djvIconDirectory.png",
+        "96DPI/djvIconEdit.png",
+        "96DPI/djvIconFavorite.png",
+        "96DPI/djvIconFileClose.png",
+        "96DPI/djvIconFileOpen.png",
+        "96DPI/djvIconFile.png",
+        "96DPI/djvIconFileRecent.png",
+        "96DPI/djvIconFileSequence.png",
+        "96DPI/djvIconFrameEnd.png",
+        "96DPI/djvIconFrameNext.png",
+        "96DPI/djvIconFramePrev.png",
+        "96DPI/djvIconFrameStart.png",
+        "96DPI/djvIconHelp.png",
+        "96DPI/djvIconListView.png",
+        "96DPI/djvIconMenu.png",
+        "96DPI/djvIconMenuPopup.png",
+        "96DPI/djvIconPinSmall.png",
+        "96DPI/djvIconPlaybackForward.png",
+        "96DPI/djvIconPlaybackReverse.png",
+        "96DPI/djvIconPlaybackStop.png",
+        "96DPI/djvIconPopupMenu.png",
+        "96DPI/djvIconSearch.png",
+        "96DPI/djvIconSettings.png",
+        "96DPI/djvIconSettingsSmall.png",
+        "96DPI/djvIconSubtract.png",
+        "96DPI/djvIconThumbnailSize.png",
+        "96DPI/djvIconTileView.png",
+        "96DPI/djvIconViewLibMDI.png",
+        "96DPI/djvIconViewLibMDISmall.png",
+        "96DPI/djvIconViewLibPlaylist.png",
+        "96DPI/djvIconViewLibPlaylistSmall.png",
+        "96DPI/djvIconViewLibSDI.png",
+        "96DPI/djvIconViewLibSDISmall.png",
+        "96DPI/djvIconWindowDuplicate.png",
+        "96DPI/djvIconWindowFit.png",
+        "96DPI/djvIconWindowFullScreen.png",
+        "96DPI/djvIconWindow.png",
+        "96DPI/djvIconZoomFit.png",
+        "96DPI/djvIconZoomIn.png",
+        "96DPI/djvIconZoomOut.png",
+        "96DPI/djvIconZoomReset.png"
+    };
+    auto io = getSystemT<AV::IO::System>();
+    auto resourceSystem = getSystemT<Core::ResourceSystem>();
+    for (const auto& i : names)
+    {
+        try
+        {
+            auto read = io->read(Core::FileSystem::Path(
+                resourceSystem->getPath(Core::FileSystem::ResourcePath::IconsDirectory),
+                i));
+            while (1)
+            {
+                {
+                    std::lock_guard<std::mutex> lock(read->getMutex());
+                    auto& queue = read->getVideoQueue();
+                    if (queue.hasFrames())
+                    {
+                        _images.push_back(queue.getFrame().second);
+                        break;
+                    }
+                }
+                std::this_thread::sleep_for(std::chrono::milliseconds(10));
+            }
+        }
+        catch (const std::exception& e)
+        {
+            std::cout << "Cannot read " << names[0] << ": " << e.what() << std::endl;
+        }
+    }
 }
 
 Application::Application()
@@ -169,10 +275,12 @@ void Application::_generateRandomNumbers()
     _randomPos    = new RandomPos;
     _randomSizes  = new RandomSize;
     _randomText   = new RandomText;
+    _randomIcon   = new RandomIcon(_images);
     auto newColor = _randomColors;
     auto newPos   = _randomPos;
     auto newSize  = _randomSizes;
     auto newText  = _randomText;
+    auto newIcon  = _randomIcon;
     for (size_t i = 0; i < randomCount; ++i)
     {
         newColor->next = new RandomColor;
@@ -183,11 +291,14 @@ void Application::_generateRandomNumbers()
         newSize        = newSize->next;
         newText->next  = new RandomText;
         newText        = newText->next;
+        newIcon->next  = new RandomIcon(_images);
+        newIcon        = newIcon->next;
     }
     newColor->next = _randomColors;
     newPos->next   = _randomPos;
     newSize->next  = _randomSizes;
     newText->next  = _randomText;
+    newIcon->next  = _randomIcon;
 }
 
 void Application::_initRandomNumbers()
@@ -196,6 +307,7 @@ void Application::_initRandomNumbers()
     _currentPos   = _randomPos;
     _currentSize  = _randomSizes;
     _currentText  = _randomText;
+    _currentIcon  = _randomIcon;
     int random = Core::Math::getRandom(static_cast<int>(randomCount));
     for (int i = 0; i < random; ++i)
     {
@@ -215,6 +327,11 @@ void Application::_initRandomNumbers()
     for (int i = 0; i < random; ++i)
     {
         _currentText = _currentText->next;
+    }
+    random = Core::Math::getRandom(static_cast<int>(randomCount));
+    for (int i = 0; i < random; ++i)
+    {
+        _currentIcon = _currentIcon->next;
     }
 }
 
@@ -260,6 +377,19 @@ void Application::_drawRandomText()
     _currentText = _currentText->next;
 }
 
+void Application::_drawRandomIcon()
+{
+    _render2D->setFillColor(_currentColor->c);
+    _render2D->drawFilledImage(
+        _currentIcon->image,
+        Core::BBox2f(_currentPos->v.x, _currentPos->v.y, _currentSize->v.x, _currentSize->v.y),
+        AV::Render::ImageCache::Atlas);
+    _currentColor = _currentColor->next;
+    _currentPos = _currentPos->next;
+    _currentSize = _currentSize->next;
+    _currentIcon = _currentIcon->next;
+}
+
 void Application::_render()
 {
     glm::ivec2 size;
@@ -271,12 +401,13 @@ void Application::_render()
     }
     _initRandomNumbers();
     _render2D->beginFrame(windowSize);
-    for (size_t i = 0; i < drawCount / 4; ++i)
+    for (size_t i = 0; i < drawCount / 5; ++i)
     {
         _drawRandomRectangle();
         _drawRandomRoundedRectangle();
         _drawRandomCircle();
         _drawRandomText();
+        _drawRandomIcon();
     }
     _render2D->endFrame();
 }
