@@ -62,6 +62,13 @@ namespace djv
 {
     namespace ViewLib
     {
+        namespace
+        {
+            const QString jsonExtension = ".annotations.json";
+            const QString exportSuffix = "_annotation";
+
+        } // namespace
+
         struct AnnotateGroup::Private
         {
             Private(const QPointer<ViewContext> & context) :
@@ -72,6 +79,7 @@ namespace djv
 
             FileInfo                 fileInfo;
             FileInfo                 jsonFileInfo;
+            FileInfo                 exportFileInfo;
             Sequence                 sequence;
             Speed                    speed;
             QList<Annotate::Data *>  annotations;
@@ -243,15 +251,30 @@ namespace djv
                 setSummary(QString());
                 _p->fileInfo = value;
                 _p->jsonFileInfo = FileInfo();
+                _p->exportFileInfo = FileInfo();
                 if (!value.isEmpty())
                 {
-                    FileInfo fileInfo(value);
-                    fileInfo.setNumber(QString());
-                    fileInfo.setExtension(QString());
-                    _p->jsonFileInfo.setFileName(fileInfo.fileName());
-                    _p->jsonFileInfo.setExtension(".annotations.json");
+                    _p->jsonFileInfo = value;
+                    _p->jsonFileInfo.setNumber(QString());
+                    _p->jsonFileInfo.setExtension(jsonExtension);
                     _p->jsonFileInfo.stat();
                     loadAnnotations();
+
+                    _p->exportFileInfo = value;
+                    QString base = value.base();
+                    const int baseCount = base.count();
+                    if (baseCount > 0 && '.' == base[baseCount - 1])
+                    {
+                        base.chop(1);
+                        base += exportSuffix;
+                        base += ".";
+                    }
+                    else
+                    {
+                        base += exportSuffix;
+                    }
+                    _p->exportFileInfo.setBase(base);
+                    Q_EMIT exportChanged(_p->exportFileInfo);
                 }
             });
 
@@ -445,6 +468,15 @@ namespace djv
             Q_EMIT summaryChanged(_p->summary);
         }
 
+        void AnnotateGroup::exportAnnotations(const Core::FileInfo& outputFile, const Core::FileInfo& scriptFile, const QString& scriptOptions)
+        {
+            session()->exportAnnotations(
+                _p->annotations,
+                outputFile,
+                scriptFile,
+                scriptOptions);
+        }
+
         void AnnotateGroup::deleteAnnotation()
         {
             int index = _p->annotations.indexOf(_p->currentAnnotation);
@@ -586,7 +618,7 @@ namespace djv
                                 qint64 frameIndex = 0;
                                 qint64 frameNumber = 0;
                                 QString text;
-                                std::vector<Annotate::AbstractPrimitive *> primitives;
+                                std::vector<std::shared_ptr<Annotate::AbstractPrimitive> > primitives;
                                 for (const auto & k : j.get<picojson::object>())
                                 {
                                     if ("frameIndex" == k.first)
@@ -611,7 +643,7 @@ namespace djv
                                     {
                                         for (const auto & l : k.second.get<picojson::array>())
                                         {
-                                            Annotate::AbstractPrimitive * primitive = nullptr;
+                                            std::shared_ptr<Annotate::AbstractPrimitive> primitive;
                                             for (const auto & m : l.get<picojson::object>())
                                             {
                                                 if ("type" == m.first)
@@ -620,19 +652,19 @@ namespace djv
                                                     djv::fromJSON(m.second, type);
                                                     if ("freehandLine" == type)
                                                     {
-                                                        primitive = new Annotate::FreehandLinePrimitive;
+                                                        primitive = Annotate::create(Enum::ANNOTATE_FREEHAND_LINE);
                                                     }
                                                     else if ("line" == type)
                                                     {
-                                                        primitive = new Annotate::LinePrimitive;
+                                                        primitive = Annotate::create(Enum::ANNOTATE_LINE);
                                                     }
                                                     else if ("rectangle" == type)
                                                     {
-                                                        primitive = new Annotate::RectanglePrimitive;
+                                                        primitive = Annotate::create(Enum::ANNOTATE_RECTANGLE);
                                                     }
                                                     else if ("ellipse" == type)
                                                     {
-                                                        primitive = new Annotate::EllipsePrimitive;
+                                                        primitive = Annotate::create(Enum::ANNOTATE_ELLIPSE);
                                                     }
                                                 }
                                             }
@@ -737,10 +769,6 @@ namespace djv
             }
         }
 
-        void AnnotateGroup::exportAnnotations()
-        {
-        }
-
         void AnnotateGroup::pickPressedCallback(const glm::ivec2 & in)
         {
             if (_p->annotateToolDockWidget->isVisible())
@@ -751,15 +779,7 @@ namespace djv
                 }
                 if (_p->currentAnnotation)
                 {
-                    Annotate::AbstractPrimitive * p = nullptr;
-                    switch (_p->primitive)
-                    {
-                    case Enum::ANNOTATE_FREEHAND_LINE: p = new Annotate::FreehandLinePrimitive; break;
-                    case Enum::ANNOTATE_LINE:          p = new Annotate::LinePrimitive; break;
-                    case Enum::ANNOTATE_RECTANGLE:     p = new Annotate::RectanglePrimitive; break;
-                    case Enum::ANNOTATE_ELLIPSE:       p = new Annotate::EllipsePrimitive; break;
-                    default: break;
-                    }
+                    auto p = Annotate::create(_p->primitive);
                     p->setColor(_p->color);
                     p->setLineWidth(_p->lineWidth);
                     _p->currentAnnotation->addPrimitive(p);

@@ -72,6 +72,12 @@ namespace djv
         class ViewGroup;
         class WindowGroup;
 
+        namespace Annotate
+        {
+            class Data;
+
+        } // namespace Annotate
+
         class Session : public QObject
         {
             Q_OBJECT
@@ -106,6 +112,19 @@ namespace djv
             //! Open a file.
             void fileOpen(const djv::Core::FileInfo &, bool init = true);
 
+            //! Export a sequence.
+            void exportSequence(const djv::Core::FileInfo&);
+
+            //! Export a frame.
+            void exportFrame(const djv::Core::FileInfo&);
+
+            //! Export annotations.
+            void exportAnnotations(
+                const QList<Annotate::Data*>&,
+                const Core::FileInfo&,
+                const Core::FileInfo&,
+                const QString&);
+
             //! Set the current file layer.
             void setFileLayer(int);
 
@@ -139,8 +158,6 @@ namespace djv
 
         private Q_SLOTS:
             void reloadFrameCallback();
-            void exportSequenceCallback(const djv::Core::FileInfo &);
-            void exportFrameCallback(const djv::Core::FileInfo &);
             void setFrameStoreCallback();
 
             void imageUpdate();

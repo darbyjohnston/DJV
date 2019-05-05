@@ -469,10 +469,11 @@ namespace djv
             QPointer< UI::FileEdit> outputFileEdit;
             QPointer< UI::FileEdit> scriptFileEdit;
             QPointer<QLineEdit> scriptOptionsLineEdit;
+            QPointer<QPushButton> exportButton;
         };
 
         AnnotateExportWidget::AnnotateExportWidget(
-            const QPointer<AnnotateGroup> &,
+            const QPointer<AnnotateGroup> & group,
             const QPointer<Session> &,
             const QPointer<ViewContext> & context,
             QWidget * parent) :
@@ -495,14 +496,13 @@ namespace djv
             vLayout->addLayout(formLayout);
             scriptGroupBox->setLayout(vLayout);
 
-            auto exportButton = new QPushButton;
-            exportButton->setText(qApp->translate("djv::ViewLib::AnnotateExportWidget", "Export"));
-            exportButton->setEnabled(false);
+            _p->exportButton = new QPushButton;
+            _p->exportButton->setText(qApp->translate("djv::ViewLib::AnnotateExportWidget", "Export"));
 
             auto layout = new QVBoxLayout(this);
             layout->addWidget(outputFileGroupBox);
             layout->addWidget(scriptGroupBox);
-            layout->addWidget(exportButton);
+            layout->addWidget(_p->exportButton);
             layout->addStretch(1);
 
             setWindowTitle(qApp->translate("djv::ViewLib::AnnotateExportWidget", "Export Annotations"));
@@ -510,9 +510,18 @@ namespace djv
             widgetUpdate();
 
             connect(
+                _p->outputFileEdit,
+                &UI::FileEdit::fileInfoChanged,
+                [this](const FileInfo & value)
+            {
+                _p->outputFileInfo = value;
+                widgetUpdate();
+            });
+
+            connect(
                 _p->scriptFileEdit,
                 &UI::FileEdit::fileInfoChanged,
-                [this, context](const FileInfo & value)
+                [this, context](const FileInfo& value)
             {
                 _p->scriptFileInfo = value;
                 context->annotatePrefs()->setExportScript(value);
@@ -526,6 +535,23 @@ namespace djv
                 const auto & text = _p->scriptOptionsLineEdit->text();
                 _p->scriptOptions = text;
                 context->annotatePrefs()->setExportScriptOptions(text);
+            });
+
+            connect(
+                _p->exportButton,
+                &QPushButton::clicked,
+                [this, group]
+            {
+                group->exportAnnotations(_p->outputFileInfo, _p->scriptFileInfo, _p->scriptOptions);
+            });
+
+            connect(
+                group,
+                &AnnotateGroup::exportChanged,
+                [this](const FileInfo & value)
+            {
+                _p->outputFileInfo = value;
+                widgetUpdate();
             });
 
             connect(
@@ -551,8 +577,10 @@ namespace djv
 
         void AnnotateExportWidget::widgetUpdate()
         {
+            _p->outputFileEdit->setFileInfo(_p->outputFileInfo);
             _p->scriptFileEdit->setFileInfo(_p->scriptFileInfo);
             _p->scriptOptionsLineEdit->setText(_p->scriptOptions);
+            _p->exportButton->setEnabled(!_p->outputFileInfo.isEmpty());
         }
 
     } // namespace ViewLib

@@ -39,6 +39,12 @@ class QDockWidget;
 
 namespace djv
 {
+    namespace Core
+    {
+        class FileInfo;
+
+    } // namespace Core
+
     namespace ViewLib
     {
         namespace Annotate
@@ -87,6 +93,9 @@ namespace djv
             //! Set the summary.
             void setSummary(const QString &);
 
+            //! Export the annotations.
+            void exportAnnotations(const djv::Core::FileInfo&, const djv::Core::FileInfo&, const QString&);
+
         Q_SIGNALS:
             //! This signal is emitted when the list of annotations is changed.
             void annotationsChanged(const QList<djv::ViewLib::Annotate::Data *> &);
@@ -104,7 +113,10 @@ namespace djv
             void annotationsVisibleChanged(bool);
 
             //! This signal is emitted when the summary is changed.
-            void summaryChanged(const QString &);
+            void summaryChanged(const QString&);
+
+            //! This signal is emitted when the export file info is changed.
+            void exportChanged(const djv::Core::FileInfo&);
 
         private Q_SLOTS:
             void deleteAnnotation();
@@ -116,7 +128,6 @@ namespace djv
             void clearDrawing();
             void loadAnnotations();
             void saveAnnotations();
-            void exportAnnotations();
 
             void pickPressedCallback(const glm::ivec2 &);
             void pickReleasedCallback(const glm::ivec2 &);

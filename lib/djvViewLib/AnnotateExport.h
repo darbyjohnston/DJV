@@ -47,33 +47,36 @@ namespace djv
     {
         class ViewContext;
 
-        //! This struct provides file export information.
-        struct FileExportInfo
+        namespace Annotate
         {
-            Core::FileInfo           inputFile;
-            Core::FileInfo           outputFile;
-            AV::PixelDataInfo        info;
-            Core::Sequence           sequence;
-            size_t                   layer        = 0;
-            AV::PixelDataInfo::PROXY proxy        = AV::PixelDataInfo::PROXY_NONE;
-            bool                     u8Conversion = false;
-            bool                     colorProfile = true;
-            AV::ImageIOInfo          frameInfo;
-            AV::OpenGLImageOptions   options;
+            class AbstractPrimitive;
+
+        } // namespace Annotate
+
+        //! This struct provides annotations export information.
+        struct AnnotateExportInfo
+        {
+            Core::FileInfo    outputFile;
+            AV::PixelDataInfo info;
+            Core::Sequence    sequence;
+            std::map<qint64, std::vector<std::shared_ptr<Annotate::AbstractPrimitive> > >
+                              primitives;
+            Core::FileInfo    scriptFile;
+            QString           scriptOptions;
         };
 
-        //! This class provides file exporting.
-        class FileExport : public QObject
+        //! This class provides annotations exporting.
+        class AnnotateExport : public QObject
         {
             Q_OBJECT
 
         public:
-            explicit FileExport(const QPointer<ViewContext> &, QObject * parent = nullptr);
-            ~FileExport() override;
+            explicit AnnotateExport(const QPointer<ViewContext> &, QObject * parent = nullptr);
+            ~AnnotateExport() override;
 
         public Q_SLOTS:
             //! Start an export.
-            void start(const djv::ViewLib::FileExportInfo &);
+            void start(const djv::ViewLib::AnnotateExportInfo &);
 
             //! Cancel an in progress export.
             void cancel();
@@ -87,7 +90,7 @@ namespace djv
             void finishedCallback();
 
         private:
-            DJV_PRIVATE_COPY(FileExport);
+            DJV_PRIVATE_COPY(AnnotateExport);
 
             struct Private;
             std::unique_ptr<Private> _p;

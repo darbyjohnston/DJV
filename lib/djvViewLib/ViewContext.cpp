@@ -29,6 +29,7 @@
 
 #include <djvViewLib/ViewContext.h>
 
+#include <djvViewLib/AnnotateExport.h>
 #include <djvViewLib/AnnotatePrefs.h>
 #include <djvViewLib/FileCache.h>
 #include <djvViewLib/FileExport.h>
@@ -66,19 +67,20 @@ namespace djv
     {
         struct ViewContext::Private
         {
-            CommandLineOptions commandLineOptions;
+            CommandLineOptions             commandLineOptions;
             
-            QScopedPointer<AnnotatePrefs> annotatePrefs;
-            QScopedPointer<FilePrefs>     filePrefs;
-            QScopedPointer<ImagePrefs>    imagePrefs;
-            QScopedPointer<MousePrefs>    mousePrefs;
-            QScopedPointer<PlaybackPrefs> playbackPrefs;
-            QScopedPointer<ShortcutPrefs> shortcutPrefs;
-            QScopedPointer<ViewPrefs>     viewPrefs;
-            QScopedPointer<WindowPrefs>   windowPrefs;
+            QScopedPointer<AnnotatePrefs>  annotatePrefs;
+            QScopedPointer<FilePrefs>      filePrefs;
+            QScopedPointer<ImagePrefs>     imagePrefs;
+            QScopedPointer<MousePrefs>     mousePrefs;
+            QScopedPointer<PlaybackPrefs>  playbackPrefs;
+            QScopedPointer<ShortcutPrefs>  shortcutPrefs;
+            QScopedPointer<ViewPrefs>      viewPrefs;
+            QScopedPointer<WindowPrefs>    windowPrefs;
 
-            QScopedPointer<FileCache>  fileCache;
-            QScopedPointer<FileExport> fileExport;
+            QScopedPointer<FileCache>      fileCache;
+            QScopedPointer<FileExport>     fileExport;
+            QScopedPointer<AnnotateExport> annotateExport;
         };
 
         ViewContext::ViewContext(int & argc, char ** argv, QObject * parent) :
@@ -111,6 +113,7 @@ namespace djv
             DJV_LOG(debugLog(), "ViewContext", "Initialize objects...");
             _p->fileCache.reset(new FileCache(this));
             _p->fileExport.reset(new FileExport(this));
+            _p->annotateExport.reset(new AnnotateExport(this));
         }
 
         ViewContext::~ViewContext()
@@ -179,6 +182,11 @@ namespace djv
         QPointer<FileExport> ViewContext::fileExport() const
         {
             return _p->fileExport.data();
+        }
+
+        QPointer<AnnotateExport> ViewContext::annotateExport() const
+        {
+            return _p->annotateExport.data();
         }
 
         void ViewContext::setValid(bool valid)

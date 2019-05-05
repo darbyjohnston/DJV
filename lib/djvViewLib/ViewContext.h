@@ -45,6 +45,7 @@ namespace djv
 {
     namespace ViewLib
     {
+        class AnnotateExport;
         class AnnotatePrefs;
         class FileCache;
         class FileExport;
@@ -111,6 +112,9 @@ namespace djv
 
             //! Get the file exporter.
             QPointer<FileExport> fileExport() const;
+
+            //! Get the annotations exporter.
+            QPointer<AnnotateExport> annotateExport() const;
 
             void setValid(bool) override;
 

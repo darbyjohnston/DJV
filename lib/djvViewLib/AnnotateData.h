@@ -62,6 +62,7 @@ namespace djv
             class AbstractPrimitive
             {
             public:
+                AbstractPrimitive();
                 virtual ~AbstractPrimitive() = 0;
 
                 void setColor(const AV::Color &);
@@ -69,77 +70,88 @@ namespace djv
 
                 virtual void draw(QPainter &, const DrawData &) = 0;
                 virtual void mouse(const glm::ivec2 &) = 0;
-                virtual picojson::value toJSON() const = 0;
+                virtual picojson::value toJSON() const;
                 //! Throws:
                 //! - Error
-                virtual void fromJSON(const picojson::value &) = 0;
+                virtual void fromJSON(const picojson::value &);
 
             protected:
                 AV::Color getDrawColor(bool selected) const;
 
                 AV::Color _color;
                 size_t _lineWidth = 1;
+                std::vector<glm::ivec2> _points;
+
+            private:
+                DJV_PRIVATE_COPY(AbstractPrimitive);
             };
 
             //! This class provides a freehand line annotation primitive.
             class FreehandLinePrimitive : public AbstractPrimitive
             {
+            protected:
+                FreehandLinePrimitive();
+
             public:
                 ~FreehandLinePrimitive() override;
+
+                static std::shared_ptr<FreehandLinePrimitive> create();
 
                 void draw(QPainter &, const DrawData &) override;
                 void mouse(const glm::ivec2 &) override;
                 picojson::value toJSON() const override;
-                void fromJSON(const picojson::value &) override;
-
-            private:
-                std::vector<glm::ivec2> _points;
             };
 
             //! This class provides a line annotation primitive.
             class LinePrimitive : public AbstractPrimitive
             {
+            protected:
+                LinePrimitive();
+
             public:
                 ~LinePrimitive() override;
+
+                static std::shared_ptr<LinePrimitive> create();
 
                 void draw(QPainter &, const DrawData &) override;
                 void mouse(const glm::ivec2 &) override;
                 picojson::value toJSON() const override;
-                void fromJSON(const picojson::value &) override;
-
-            private:
-                std::vector<glm::ivec2> _points;
             };
 
             //! This class provides a rectangle annotation primitive.
             class RectanglePrimitive : public AbstractPrimitive
             {
+            protected:
+                RectanglePrimitive();
+
             public:
                 ~RectanglePrimitive() override;
+
+                static std::shared_ptr<RectanglePrimitive> create();
 
                 void draw(QPainter &, const DrawData &) override;
                 void mouse(const glm::ivec2 &) override;
                 picojson::value toJSON() const override;
-                void fromJSON(const picojson::value &) override;
-
-            private:
-                std::vector<glm::ivec2> _points;
             };
 
             //! This class provides an ellipse annotation primitive.
             class EllipsePrimitive : public AbstractPrimitive
             {
+            protected:
+                EllipsePrimitive();
+
             public:
                 ~EllipsePrimitive() override;
+
+                static std::shared_ptr<EllipsePrimitive> create();
 
                 void draw(QPainter &, const DrawData &) override;
                 void mouse(const glm::ivec2 &) override;
                 picojson::value toJSON() const override;
-                void fromJSON(const picojson::value &) override;
-
-            private:
-                std::vector<glm::ivec2> _points;
             };
+
+            //! This function creates an annotation primitive.
+            std::shared_ptr<AbstractPrimitive> create(Enum::ANNOTATE_PRIMITIVE);
 
             //! This struct provides the data for an annotation.
             class Data : public QObject
@@ -151,12 +163,11 @@ namespace djv
 
                 qint64 frameIndex() const;
                 qint64 frameNumber() const;
-
                 const QString & text() const;
 
-                const std::vector<AbstractPrimitive *> & primitives();
-                void setPrimitives(const std::vector<AbstractPrimitive *> &);
-                void addPrimitive(AbstractPrimitive *);
+                const std::vector<std::shared_ptr<AbstractPrimitive> > & primitives() const;
+                void setPrimitives(const std::vector< std::shared_ptr<AbstractPrimitive> > &);
+                void addPrimitive(const std::shared_ptr<AbstractPrimitive>&);
 
             public Q_SLOTS:
                 void setText(const QString &);
@@ -171,7 +182,9 @@ namespace djv
                 qint64 _frameIndex = 0;
                 qint64 _frameNumber = 0;
                 QString _text;
-                std::vector<AbstractPrimitive *> _primitives;
+                std::vector<std::shared_ptr<AbstractPrimitive> > _primitives;
+
+                DJV_PRIVATE_COPY(Data);
             };
 
         } // namespace Annotate

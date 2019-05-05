@@ -699,12 +699,12 @@ namespace djv
                         arg(QDir::toNativeSeparators(fileInfo)));
                     if (QDialog::Accepted == dialog.exec())
                     {
-                        Q_EMIT exportSequence(fileInfo);
+                        session()->exportSequence(fileInfo);
                     }
                 }
                 else
                 {
-                    Q_EMIT exportSequence(fileInfo);
+                    session()->exportSequence(fileInfo);
                 }
             }
         }
@@ -723,12 +723,12 @@ namespace djv
                         arg(QDir::toNativeSeparators(fileInfo)));
                     if (QDialog::Accepted == dialog.exec())
                     {
-                        Q_EMIT exportFrame(fileInfo);
+                        session()->exportFrame(fileInfo);
                     }
                 }
                 else
                 {
-                    Q_EMIT exportFrame(fileInfo);
+                    session()->exportFrame(fileInfo);
                 }
             }
         }

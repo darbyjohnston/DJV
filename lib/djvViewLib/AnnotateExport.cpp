@@ -27,7 +27,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvViewLib/FileExport.h>
+#include <djvViewLib/AnnotateExport.h>
 
 #include <djvViewLib/AnnotateData.h>
 #include <djvViewLib/Util.h>
@@ -49,22 +49,20 @@ namespace djv
 {
     namespace ViewLib
     {
-        struct FileExport::Private
+        struct AnnotateExport::Private
         {
             Private(const QPointer<ViewContext> & context) :
                 context(context)
             {}
 
-            FileExportInfo info;
-            Core::Sequence saveSequence;
-            std::unique_ptr<AV::Load> load;
+            AnnotateExportInfo info;
             std::unique_ptr<AV::Save> save;
             std::unique_ptr<AV::OpenGLImage> openGLImage;
             QPointer<UI::ProgressDialog> dialog;
             QPointer<ViewContext> context;
         };
 
-        FileExport::FileExport(const QPointer<ViewContext> & context, QObject * parent) :
+        AnnotateExport::AnnotateExport(const QPointer<ViewContext> & context, QObject * parent) :
             QObject(parent),
             _p(new Private(context))
         {
@@ -80,9 +78,9 @@ namespace djv
                 SLOT(finishedCallback()));
         }
 
-        FileExport::~FileExport()
+        AnnotateExport::~AnnotateExport()
         {
-            //DJV_DEBUG("FileExport::~FileExport");
+            //DJV_DEBUG("AnnotateExport::~AnnotateExport");
             delete _p->dialog;
 
             if (_p->openGLImage)
@@ -92,58 +90,19 @@ namespace djv
             }
         }
 
-        void FileExport::start(const FileExportInfo & info)
+        void AnnotateExport::start(const AnnotateExportInfo & info)
         {
-            //DJV_DEBUG("FileExport::start");
-            //DJV_DEBUG_PRINT("input = " << info.inputFile);
+            //DJV_DEBUG("AnnotateExport::start");
             //DJV_DEBUG_PRINT("output = " << info.outputFile);
             //DJV_DEBUG_PRINT("sequence = " << info.sequence);
 
             cancel();
 
             _p->info = info;
-            if (_p->info.outputFile.isSequenceValid())
-            {
-                _p->saveSequence = Core::Sequence(
-                    _p->info.outputFile.sequence().frames[0],
-                    _p->info.outputFile.sequence().frames[0] + info.sequence.frames.count() - 1,
-                    info.sequence.pad,
-                    info.sequence.speed);
-            }
-            else
-            {
-                _p->saveSequence = info.sequence;
-            }
-            //DJV_DEBUG_PRINT("save sequence = " << _p->saveSequence);
-
-            //! \todo Why do we need to reverse the rotation here?
-            _p->info.options.xform.rotate = -_p->info.options.xform.rotate;
-            const Core::Box2f bbox =
-                glm::mat3x3(AV::OpenGLImageXform::xformMatrix(_p->info.options.xform)) *
-                Core::Box2f(_p->info.info.size * AV::PixelDataUtil::proxyScale(_p->info.info.proxy));
-            //DJV_DEBUG_PRINT("bbox = " << bbox);
-            _p->info.options.xform.position = -bbox.position;
-            _p->info.info.size = bbox.size;
-
-            // Open input.
-            AV::IOInfo loadInfo;
-            try
-            {
-                _p->load = _p->context->ioFactory()->load(_p->info.inputFile, loadInfo);
-            }
-            catch (Core::Error error)
-            {
-                error.add(
-                    Enum::errorLabels()[Enum::ERROR_OPEN_IMAGE].
-                    arg(QDir::toNativeSeparators(_p->info.inputFile)));
-                _p->context->printError(error);
-                return;
-            }
 
             // Open output.
             AV::IOInfo saveInfo(_p->info.info);
-            saveInfo.tags = loadInfo.tags;
-            saveInfo.sequence = _p->saveSequence;
+            saveInfo.sequence = info.sequence;
             try
             {
                 _p->save = _p->context->ioFactory()->save(_p->info.outputFile, saveInfo);
@@ -158,16 +117,16 @@ namespace djv
             }
 
             // Start...
-            _p->dialog->setLabel(qApp->translate("djv::ViewLib::FileExport", "Exporting \"%1\":").
+            _p->dialog->setLabel(qApp->translate("djv::ViewLib::AnnotateExport", "Exporting \"%1\":").
                 arg(QDir::toNativeSeparators(_p->info.outputFile)));
-            _p->dialog->start(_p->info.sequence.frames.count() ? _p->info.sequence.frames.count() : 1);
+            _p->dialog->start(_p->info.sequence.frames.count());
             _p->dialog->show();
             _p->dialog->activateWindow();
         }
 
-        void FileExport::cancel()
+        void AnnotateExport::cancel()
         {
-            //DJV_DEBUG("FileExport::cancel");
+            //DJV_DEBUG("AnnotateExport::cancel");
             if (_p->dialog->isVisible())
             {
                 _p->dialog->reject();
@@ -187,14 +146,13 @@ namespace djv
                     _p->context->printError(error);
                 }
             }
-            _p->info = FileExportInfo();
-            _p->load.reset();
+            _p->info = AnnotateExportInfo();
             _p->save.reset();
         }
 
-        void FileExport::callback(int in)
+        void AnnotateExport::callback(int in)
         {
-            //DJV_DEBUG("FileExport::callback");
+            //DJV_DEBUG("AnnotateExport::callback");
             //DJV_DEBUG_PRINT("in = " << in);
 
             _p->context->makeGLContextCurrent();
@@ -203,66 +161,27 @@ namespace djv
                 _p->openGLImage.reset(new AV::OpenGLImage);
             }
 
-            // Load the frame.
-            AV::Image image;
-            const qint64 frame = in < _p->info.sequence.frames.count() ? _p->info.sequence.frames[in] : -1;
-            try
+            const auto& size = _p->info.info.size;
+            AV::Image image(AV::PixelDataInfo(size, AV::Pixel::RGBA_U8));
+            image.zero();
+            QImage qImage(image.data(), size.x, size.y, QImage::Format_RGBA8888);
+            QPainter painter(&qImage);
+            painter.setRenderHints(QPainter::TextAntialiasing);
+            Annotate::DrawData drawData;
+            drawData.viewSize = size;
+            drawData.selected = true;
+            const auto i = _p->info.primitives.find(_p->info.sequence.frames[in]);
+            if (i != _p->info.primitives.end())
             {
-                //DJV_DEBUG_PRINT("sequence = " << _p->info.sequence);
-                //DJV_DEBUG_PRINT("frame = " << frame);
-                _p->load->read(image, AV::ImageIOInfo(frame, _p->info.layer, _p->info.proxy));
-                //DJV_DEBUG_PRINT("image = " << image);
-            }
-            catch (Core::Error error)
-            {
-                error.add(
-                    Enum::errorLabels()[Enum::ERROR_READ_IMAGE].
-                    arg(QDir::toNativeSeparators(_p->info.inputFile)));
-                _p->context->printError(error);
-                cancel();
-                return;
+                for (const auto& j : i->second)
+                {
+                    j->draw(painter, drawData);
+                }
             }
 
-            // Process the frame.
-            AV::Image * p = &image;
-            AV::Image tmp;
-            AV::OpenGLImageOptions options(_p->info.options);
-            if (_p->info.u8Conversion || _p->info.colorProfile)
-            {
-                options.colorProfile = image.colorProfile;
-            }
-            //DJV_DEBUG_PRINT("convert = " << (p->info() != _p->info.info));
-            //DJV_DEBUG_PRINT("options = " << (options != AV::OpenGLImageOptions()));
-            //DJV_DEBUG_PRINT("options = " << options);
-            //DJV_DEBUG_PRINT("def options = " << AV::OpenGLImageOptions());
-            if (p->info() != _p->info.info || options != AV::OpenGLImageOptions())
-            {
-                tmp.set(_p->info.info);
-                try
-                {
-                    //DJV_DEBUG_PRINT("process");
-                    _p->openGLImage->copy(image, tmp, options);
-                }
-                catch (Core::Error error)
-                {
-                    error.add(
-                        Enum::errorLabels()[Enum::ERROR_WRITE_IMAGE].
-                        arg(QDir::toNativeSeparators(_p->info.outputFile)));
-                    _p->context->printError(error);
-                    cancel();
-                    return;
-                }
-                p = &tmp;
-            }
-            tmp.tags = image.tags;
-
-            // Save the frame.
             try
             {
-                //DJV_DEBUG_PRINT("save");
-                _p->save->write(
-                    tmp,
-                    AV::ImageIOInfo(in < _p->saveSequence.frames.count() ? _p->saveSequence.frames[in] : -1));
+                _p->save->write(image, _p->info.outputFile.sequence().frames[_p->info.sequence.frames[in]]);
             }
             catch (Core::Error error)
             {
@@ -273,26 +192,11 @@ namespace djv
                 cancel();
                 return;
             }
-            if ((_p->saveSequence.frames.count() - 1) == in)
-            {
-                try
-                {
-                    //DJV_DEBUG_PRINT("close");
-                    _p->save->close();
-                }
-                catch (Core::Error error)
-                {
-                    error.add(
-                        Enum::errorLabels()[Enum::ERROR_WRITE_IMAGE].
-                        arg(QDir::toNativeSeparators(_p->info.outputFile)));
-                    _p->context->printError(error);
-                }
-            }
         }
 
-        void FileExport::finishedCallback()
+        void AnnotateExport::finishedCallback()
         {
-            //DJV_DEBUG("FileExport::finishedCallback");
+            //DJV_DEBUG("AnnotateExport::finishedCallback");
             try
             {
                 //DJV_DEBUG_PRINT("close");

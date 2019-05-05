@@ -30,6 +30,7 @@
 #include <djvViewLib/Session.h>
 
 #include <djvViewLib/AnnotateData.h>
+#include <djvViewLib/AnnotateExport.h>
 #include <djvViewLib/AnnotateGroup.h>
 #include <djvViewLib/ControlsWindow.h>
 #include <djvViewLib/FileCache.h>
@@ -160,14 +161,6 @@ namespace djv
                 _p->fileGroup.data(),
                 SIGNAL(reloadFrame()),
                 SLOT(reloadFrameCallback()));
-            connect(
-                _p->fileGroup.data(),
-                SIGNAL(exportSequence(const djv::Core::FileInfo &)),
-                SLOT(exportSequenceCallback(const djv::Core::FileInfo &)));
-            connect(
-                _p->fileGroup.data(),
-                SIGNAL(exportFrame(const djv::Core::FileInfo &)),
-                SLOT(exportFrameCallback(const djv::Core::FileInfo &)));
 
             // Setup the image group callbacks.
             connect(
@@ -223,6 +216,10 @@ namespace djv
                     _p->playbackGroup->setFrame(value->frameIndex());
                 }
             });
+            connect(
+                _p->annotateGroup.data(),
+                SIGNAL(exportAnnotations(const QList<djv::ViewLib::Annotate::Data*>&)),
+                SLOT(exportAnnotations(const QList<djv::ViewLib::Annotate::Data*>&)));
 
             // Setup the preferences callbacks.
             connect(
@@ -362,6 +359,91 @@ namespace djv
             Q_EMIT fileChanged(init);
         }
 
+        void Session::exportSequence(const Core::FileInfo& in)
+        {
+            //DJV_DEBUG("Session::exportSequence");
+            //DJV_DEBUG_PRINT("in = " << in);
+            Core::Sequence sequence;
+            const Core::FrameList& frames = _p->playbackGroup->sequence().frames;
+            if (frames.count())
+            {
+                sequence.frames = frames.mid(
+                    _p->playbackGroup->inPoint(),
+                    _p->playbackGroup->outPoint() - _p->playbackGroup->inPoint() + 1);
+            }
+            sequence.speed = _p->playbackGroup->speed();
+            FileExportInfo info;
+            info.inputFile = _p->fileGroup->fileInfo();
+            info.outputFile = in;
+            info.info = _p->fileGroup->ioInfo().layers[_p->fileGroup->layer()];
+            info.sequence = sequence;
+            info.layer = _p->fileGroup->layer();
+            info.proxy = _p->fileGroup->proxy();
+            info.u8Conversion = _p->fileGroup->hasU8Conversion();
+            info.colorProfile = _p->imageGroup->hasColorProfile();
+            info.options = imageOptions();
+            _p->context->fileExport()->start(info);
+        }
+
+        void Session::exportFrame(const Core::FileInfo & in)
+        {
+            //DJV_DEBUG("Session::exportFrame");
+            //DJV_DEBUG_PRINT("in = " << in);
+            Core::Sequence sequence;
+            const Core::FrameList& frames = _p->playbackGroup->sequence().frames;
+            if (frames.count())
+            {
+                sequence.frames += frames[_p->playbackGroup->frame()];
+            }
+            sequence.speed = _p->playbackGroup->speed();
+            //DJV_DEBUG_PRINT("sequence = " << sequence);
+            FileExportInfo info;
+            info.inputFile = _p->fileGroup->fileInfo();
+            info.outputFile = in;
+            info.info = _p->fileGroup->ioInfo().layers[_p->fileGroup->layer()];
+            info.sequence = sequence;
+            info.layer = _p->fileGroup->layer();
+            info.proxy = _p->fileGroup->proxy();
+            info.u8Conversion = _p->fileGroup->hasU8Conversion();
+            info.colorProfile = _p->imageGroup->hasColorProfile();
+            info.options = imageOptions();
+            _p->context->fileExport()->start(info);
+        }
+
+        void Session::exportAnnotations(
+            const QList<Annotate::Data*>& data,
+            const Core::FileInfo& outputFile,
+            const Core::FileInfo& scriptFile,
+            const QString& scriptOptions)
+        {
+            //DJV_DEBUG("Session::exportAnnotations");
+            //DJV_DEBUG_PRINT("outputFile = " << outputFile);
+            //DJV_DEBUG_PRINT("scriptFile = " << scriptFile);
+            //DJV_DEBUG_PRINT("scriptOptions = " << scriptOptions);
+            Core::Sequence sequence;
+            for (const auto& i : data)
+            {
+                sequence.frames.push_back(i->frameIndex());
+            }
+            sequence.sort();
+            sequence.speed = _p->playbackGroup->speed();
+            //DJV_DEBUG_PRINT("sequence = " << sequence);
+            AnnotateExportInfo info;
+            info.outputFile = outputFile;
+            info.info = _p->fileGroup->ioInfo().layers[_p->fileGroup->layer()];
+            info.sequence = sequence;
+            for (const auto& i : data)
+            {
+                for (const auto& j : i->primitives())
+                {
+                    info.primitives[i->frameIndex()].push_back(j);
+                }
+            }
+            info.scriptFile = scriptFile;
+            info.scriptOptions = scriptOptions;
+            _p->context->annotateExport()->start(info);
+        }
+
         void Session::setFileLayer(int in)
         {
             _p->fileGroup->setLayer(in);
@@ -403,57 +485,6 @@ namespace djv
             const qint64 frame = _p->playbackGroup->frame();
             //DJV_DEBUG_PRINT("frame = " << frame);
             _p->context->fileCache()->removeItem(FileCacheKey(this, frame));
-        }
-
-        void Session::exportSequenceCallback(const Core::FileInfo & in)
-        {
-            //DJV_DEBUG("Session::exportSequenceCallback");
-            //DJV_DEBUG_PRINT("in = " << in);
-            Core::Sequence sequence;
-            const Core::FrameList & frames = _p->playbackGroup->sequence().frames;
-            if (frames.count())
-            {
-                sequence.frames = frames.mid(
-                    _p->playbackGroup->inPoint(),
-                    _p->playbackGroup->outPoint() - _p->playbackGroup->inPoint() + 1);
-            }
-            sequence.speed = _p->playbackGroup->speed();
-            const FileExportInfo info(
-                _p->fileGroup->fileInfo(),
-                in,
-                _p->fileGroup->ioInfo().layers[_p->fileGroup->layer()],
-                sequence,
-                _p->fileGroup->layer(),
-                _p->fileGroup->proxy(),
-                _p->fileGroup->hasU8Conversion(),
-                _p->imageGroup->hasColorProfile(),
-                imageOptions());
-            _p->context->fileExport()->start(info);
-        }
-
-        void Session::exportFrameCallback(const Core::FileInfo & in)
-        {
-            //DJV_DEBUG("Session::exportFrameCallback");
-            //DJV_DEBUG_PRINT("in = " << in);
-            Core::Sequence sequence;
-            const Core::FrameList & frames = _p->playbackGroup->sequence().frames;
-            if (frames.count())
-            {
-                sequence.frames += frames[_p->playbackGroup->frame()];
-            }
-            sequence.speed = _p->playbackGroup->speed();
-            //DJV_DEBUG_PRINT("sequence = " << sequence);
-            const FileExportInfo info(
-                _p->fileGroup->fileInfo(),
-                in,
-                _p->fileGroup->ioInfo().layers[_p->fileGroup->layer()],
-                sequence,
-                _p->fileGroup->layer(),
-                _p->fileGroup->proxy(),
-                _p->fileGroup->hasU8Conversion(),
-                _p->imageGroup->hasColorProfile(),
-                imageOptions());
-            _p->context->fileExport()->start(info);
         }
 
         void Session::setFrameStoreCallback()

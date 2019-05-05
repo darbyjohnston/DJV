@@ -132,12 +132,6 @@ namespace djv
             //! This signal is emitted to reload the frame.
             void reloadFrame();
 
-            //! This signal is emitted to export a sequence.
-            void exportSequence(const djv::Core::FileInfo &);
-
-            //! This signal is emitted to export a frame.
-            void exportFrame(const djv::Core::FileInfo &);
-
         protected:
             void timerEvent(QTimerEvent *) override;
 

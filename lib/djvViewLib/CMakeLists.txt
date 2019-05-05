@@ -9,6 +9,7 @@ set(header
     AnnotateActions.h
     AnnotateColorDialog.h
     AnnotateData.h
+    AnnotateExport.h
     AnnotateGroup.h
     AnnotateMenu.h
     AnnotateModel.h
@@ -88,6 +89,7 @@ set(mocHeader
     AbstractTool.h
     AnnotateColorDialog.h
     AnnotateData.h
+    AnnotateExport.h
     AnnotateGroup.h
     AnnotateMenu.h
     AnnotateModel.h
@@ -158,6 +160,7 @@ set(mocHeader
     WindowToolBar.h)
 set(source
     AbstractActions.cpp
+    AnnotateExport.cpp
     AbstractGroup.cpp
     AbstractMenu.cpp
     AbstractPrefs.cpp

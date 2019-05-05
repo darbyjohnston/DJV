@@ -33,12 +33,16 @@
 
 #include <djvUI/ImageView.h>
 
-#include <djvCore/FileInfo.h>
-
 #include <memory>
 
 namespace djv
 {
+    namespace Core
+    {
+        class FileInfo;
+    
+    } // namespace Core
+
     namespace ViewLib
     {
         class ViewContext;
