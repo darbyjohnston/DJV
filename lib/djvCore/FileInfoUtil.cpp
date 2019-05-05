@@ -116,9 +116,9 @@ namespace djv
             
             const int l = in.length();
             int i = l - 1;
-            for (; i > 0 && in[i] != '.'; --i)
+            for (; i > 0 && in[i] != '.' && !isPathSeparator(in[i]); --i)
                 ;
-            if (i > 0 && ! isPathSeparator(in[i - 1]))
+            if (i > 0 && !isPathSeparator(in[i]) && !isPathSeparator(in[i - 1]))
             {
                 extension = in.mid(i);
                 //DJV_DEBUG_PRINT("extension = " << extension);

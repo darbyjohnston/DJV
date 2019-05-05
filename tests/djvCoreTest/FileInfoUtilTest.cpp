@@ -95,6 +95,7 @@ namespace djv
                 { "1-100", "", "", "1-100", "" },
                 { "1", "", "", "1", "" },
                 { ".hidden", "", ".hidden", "", "" },
+                { "nothidden", "", "nothidden", "", "" },
                 { "", "", "", "", "" },
                 { "/", "/", "", "", "" },
                 { "//", "//", "", "", "" },
@@ -103,7 +104,9 @@ namespace djv
                 { "C:\\Documents and Settings\\darby\\Desktop\\movie.mov",
                   "C:\\Documents and Settings\\darby\\Desktop\\", "movie", "", ".mov"},
                 { "C:\\Documents and Settings\\darby\\Desktop\\movie-.mov",
-                  "C:\\Documents and Settings\\darby\\Desktop\\", "movie-", "", ".mov"}
+                  "C:\\Documents and Settings\\darby\\Desktop\\", "movie-", "", ".mov"},
+                { "\\\\server.local\\share\\",
+                  "\\\\server.local\\share\\", "", "", ""}
             };
             const int dataCount = sizeof(data) / sizeof(Data);
             for (int i = 0; i < dataCount; ++i)
