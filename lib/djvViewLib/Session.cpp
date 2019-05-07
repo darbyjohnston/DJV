@@ -420,24 +420,22 @@ namespace djv
             //DJV_DEBUG_PRINT("outputFile = " << outputFile);
             //DJV_DEBUG_PRINT("scriptFile = " << scriptFile);
             //DJV_DEBUG_PRINT("scriptOptions = " << scriptOptions);
-            Core::Sequence sequence;
-            for (const auto& i : data)
-            {
-                sequence.frames.push_back(i->frameIndex());
-            }
-            sequence.sort();
-            sequence.speed = _p->playbackGroup->speed();
             //DJV_DEBUG_PRINT("sequence = " << sequence);
             AnnotateExportInfo info;
+            info.inputFile = _p->fileGroup->fileInfo();
             info.outputFile = outputFile;
-            info.info = _p->fileGroup->ioInfo().layers[_p->fileGroup->layer()];
-            info.sequence = sequence;
+            info.layer = _p->fileGroup->layer();
+            info.proxy = _p->fileGroup->proxy();
+            info.colorProfile = _p->imageGroup->hasColorProfile();
+            info.options = imageOptions();
             for (const auto& i : data)
             {
+                std::vector<std::shared_ptr<Annotate::AbstractPrimitive> > primitives;
                 for (const auto& j : i->primitives())
                 {
-                    info.primitives[i->frameIndex()].push_back(j);
+                    primitives.push_back(j);
                 }
+                info.primitives.push_back(std::make_pair(i->frameIndex(), primitives));
             }
             info.scriptFile = scriptFile;
             info.scriptOptions = scriptOptions;

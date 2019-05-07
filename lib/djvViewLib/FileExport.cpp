@@ -238,6 +238,7 @@ namespace djv
             if (p->info() != _p->info.info || options != AV::OpenGLImageOptions())
             {
                 tmp.set(_p->info.info);
+                tmp.tags = image.tags;
                 try
                 {
                     //DJV_DEBUG_PRINT("process");
@@ -254,14 +255,13 @@ namespace djv
                 }
                 p = &tmp;
             }
-            tmp.tags = image.tags;
 
             // Save the frame.
             try
             {
                 //DJV_DEBUG_PRINT("save");
                 _p->save->write(
-                    tmp,
+                    *p,
                     AV::ImageIOInfo(in < _p->saveSequence.frames.count() ? _p->saveSequence.frames[in] : -1));
             }
             catch (Core::Error error)
@@ -272,21 +272,6 @@ namespace djv
                 _p->context->printError(error);
                 cancel();
                 return;
-            }
-            if ((_p->saveSequence.frames.count() - 1) == in)
-            {
-                try
-                {
-                    //DJV_DEBUG_PRINT("close");
-                    _p->save->close();
-                }
-                catch (Core::Error error)
-                {
-                    error.add(
-                        Enum::errorLabels()[Enum::ERROR_WRITE_IMAGE].
-                        arg(QDir::toNativeSeparators(_p->info.outputFile)));
-                    _p->context->printError(error);
-                }
             }
         }
 

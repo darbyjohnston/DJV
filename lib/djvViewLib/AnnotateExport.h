@@ -56,13 +56,16 @@ namespace djv
         //! This struct provides annotations export information.
         struct AnnotateExportInfo
         {
-            Core::FileInfo    outputFile;
-            AV::PixelDataInfo info;
-            Core::Sequence    sequence;
-            std::map<qint64, std::vector<std::shared_ptr<Annotate::AbstractPrimitive> > >
-                              primitives;
-            Core::FileInfo    scriptFile;
-            QString           scriptOptions;
+            Core::FileInfo           inputFile;
+            Core::FileInfo           outputFile;
+            size_t                   layer         = 0;
+            AV::PixelDataInfo::PROXY proxy         = AV::PixelDataInfo::PROXY_NONE;
+            bool                     colorProfile  = true;
+            AV::OpenGLImageOptions   options;
+            std::vector<std::pair<qint64, std::vector<std::shared_ptr<Annotate::AbstractPrimitive> > > >
+                                     primitives;
+            Core::FileInfo           scriptFile;
+            QString                  scriptOptions;
         };
 
         //! This class provides annotations exporting.

@@ -254,28 +254,41 @@ namespace djv
                 _p->exportFileInfo = FileInfo();
                 if (!value.isEmpty())
                 {
-                    _p->jsonFileInfo = value;
-                    _p->jsonFileInfo.setNumber(QString());
+                    _p->jsonFileInfo.setPath(value.path());
+                    QString tmp = value.base();
+                    int count = tmp.count();
+                    if (count > 0 && '.' == tmp[count - 1])
+                    {
+                        tmp.chop(1);
+                    }
+                    _p->jsonFileInfo.setBase(tmp);
                     _p->jsonFileInfo.setExtension(jsonExtension);
                     _p->jsonFileInfo.stat();
-                    loadAnnotations();
 
-                    _p->exportFileInfo = value;
-                    QString base = value.base();
-                    const int baseCount = base.count();
-                    if (baseCount > 0 && '.' == base[baseCount - 1])
+                    _p->exportFileInfo.setPath(value.path());
+                    tmp = value.base();
+                    count = tmp.count();
+                    if (count > 0 && '.' == tmp[count - 1])
                     {
-                        base.chop(1);
-                        base += exportSuffix;
-                        base += ".";
+                        tmp.chop(1);
+                        tmp += exportSuffix;
+                        tmp += ".";
                     }
                     else
                     {
-                        base += exportSuffix;
+                        tmp += exportSuffix;
                     }
-                    _p->exportFileInfo.setBase(base);
-                    Q_EMIT exportChanged(_p->exportFileInfo);
+                    _p->exportFileInfo.setBase(tmp);
+                    tmp = value.number();
+                    if (tmp.count())
+                    {
+                        _p->exportFileInfo.setNumber("0");
+                    }
+                    _p->exportFileInfo.setExtension(value.extension());
+
+                    loadAnnotations();
                 }
+                Q_EMIT exportChanged(_p->exportFileInfo);
             });
 
             auto playbackGroup = session->playbackGroup();
@@ -468,12 +481,15 @@ namespace djv
             Q_EMIT summaryChanged(_p->summary);
         }
 
-        void AnnotateGroup::exportAnnotations(const Core::FileInfo& outputFile, const Core::FileInfo& scriptFile, const QString& scriptOptions)
+        void AnnotateGroup::exportAnnotations(const Core::FileInfo& exportFileInfo, const Core::FileInfo& scriptFileInfo, const QString& scriptOptions)
         {
+            _p->exportFileInfo = exportFileInfo;
+            Q_EMIT exportChanged(_p->exportFileInfo);
+            saveAnnotations();
             session()->exportAnnotations(
                 _p->annotations,
-                outputFile,
-                scriptFile,
+                _p->exportFileInfo,
+                scriptFileInfo,
                 scriptOptions);
         }
 
@@ -605,11 +621,12 @@ namespace djv
                     }
                     for (const auto & i : v.get<picojson::object>())
                     {
-                        if ("summary" == i.first)
+                        if ("export" == i.first)
                         {
                             std::string s;
                             djv::fromJSON(i.second, s);
-                            setSummary(QString::fromStdString(s));
+                            _p->exportFileInfo = QString::fromStdString(s);
+                            Q_EMIT exportChanged(_p->exportFileInfo);
                         }
                         else if ("frames" == i.first)
                         {
@@ -681,6 +698,12 @@ namespace djv
                                 _p->annotations.push_back(data);
                             }
                         }
+                        else if ("summary" == i.first)
+                        {
+                            std::string s;
+                            djv::fromJSON(i.second, s);
+                            setSummary(QString::fromStdString(s));
+                        }
                     }
                     qStableSort(_p->annotations.begin(), _p->annotations.end(),
                         [](const Annotate::Data * a, const Annotate::Data * b)
@@ -730,7 +753,7 @@ namespace djv
                 fileIO.open(_p->jsonFileInfo.fileName(), FileIO::MODE::WRITE);
                 picojson::value root(picojson::object_type, true);
                 root.get<picojson::object>()["path"] = picojson::value(PicoJSON::escape(_p->fileInfo.fileName().toStdString()));
-                root.get<picojson::object>()["summary"] = picojson::value(PicoJSON::escape(_p->summary.toStdString()));
+                root.get<picojson::object>()["export"] = picojson::value(PicoJSON::escape(_p->exportFileInfo.fileName().toStdString()));
                 picojson::value frames(picojson::array_type, true);
                 Q_FOREACH(auto i, _p->annotations)
                 {
@@ -752,6 +775,7 @@ namespace djv
                     frames.get<picojson::array>().push_back(frame);
                 }
                 root.get<picojson::object>()["frames"] = frames;
+                root.get<picojson::object>()["summary"] = picojson::value(PicoJSON::escape(_p->summary.toStdString()));
                 PicoJSON::write(root, fileIO);
                 fileIO.set("\n");
             }

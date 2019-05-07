@@ -56,6 +56,9 @@ namespace djv
             {}
 
             AnnotateExportInfo info;
+            std::unique_ptr<AV::Load> load;
+            AV::PixelDataInfo pixelInfo;
+            Core::Sequence inputSequence;
             std::unique_ptr<AV::Save> save;
             std::unique_ptr<AV::OpenGLImage> openGLImage;
             QPointer<UI::ProgressDialog> dialog;
@@ -100,9 +103,37 @@ namespace djv
 
             _p->info = info;
 
+            // Open input.
+            try
+            {
+                AV::IOInfo ioInfo;
+                _p->load = _p->context->ioFactory()->load(_p->info.inputFile, ioInfo);
+
+                _p->pixelInfo = AV::PixelDataInfo();
+                if (ioInfo.layers.size() > 0)
+                {
+                    _p->pixelInfo.pixel = AV::Pixel::RGBA_U8;
+                    _p->pixelInfo.size = ioInfo.layers[0].size;
+                }
+                _p->inputSequence = ioInfo.sequence;
+            }
+            catch (Core::Error error)
+            {
+                error.add(
+                    Enum::errorLabels()[Enum::ERROR_OPEN_IMAGE].
+                    arg(QDir::toNativeSeparators(_p->info.inputFile)));
+                _p->context->printError(error);
+                return;
+            }
+
             // Open output.
-            AV::IOInfo saveInfo(_p->info.info);
-            saveInfo.sequence = info.sequence;
+            AV::IOInfo saveInfo(_p->pixelInfo);
+            qint64 frame = 0;
+            for (const auto& i : _p->info.primitives)
+            {
+                saveInfo.sequence.frames.push_back(frame);
+                ++frame;
+            }
             try
             {
                 _p->save = _p->context->ioFactory()->save(_p->info.outputFile, saveInfo);
@@ -119,7 +150,7 @@ namespace djv
             // Start...
             _p->dialog->setLabel(qApp->translate("djv::ViewLib::AnnotateExport", "Exporting \"%1\":").
                 arg(QDir::toNativeSeparators(_p->info.outputFile)));
-            _p->dialog->start(_p->info.sequence.frames.count());
+            _p->dialog->start(saveInfo.sequence.frames.count() ? saveInfo.sequence.frames.count() : 1);
             _p->dialog->show();
             _p->dialog->activateWindow();
         }
@@ -147,6 +178,7 @@ namespace djv
                 }
             }
             _p->info = AnnotateExportInfo();
+            _p->load.reset();
             _p->save.reset();
         }
 
@@ -161,27 +193,80 @@ namespace djv
                 _p->openGLImage.reset(new AV::OpenGLImage);
             }
 
-            const auto& size = _p->info.info.size;
-            AV::Image image(AV::PixelDataInfo(size, AV::Pixel::RGBA_U8));
-            image.zero();
-            QImage qImage(image.data(), size.x, size.y, QImage::Format_RGBA8888);
-            QPainter painter(&qImage);
-            painter.setRenderHints(QPainter::TextAntialiasing);
-            Annotate::DrawData drawData;
-            drawData.viewSize = size;
-            drawData.selected = true;
-            const auto i = _p->info.primitives.find(_p->info.sequence.frames[in]);
-            if (i != _p->info.primitives.end())
-            {
-                for (const auto& j : i->second)
-                {
-                    j->draw(painter, drawData);
-                }
-            }
-
+            // Load the frame.
+            AV::Image image;
             try
             {
-                _p->save->write(image, _p->info.outputFile.sequence().frames[_p->info.sequence.frames[in]]);
+                const qint64 frame = _p->info.primitives[in].first;
+                //DJV_DEBUG_PRINT("frame = " << frame);
+                //DJV_DEBUG_PRINT("sequence = " << sequence);
+                _p->load->read(
+                    image,
+                    AV::ImageIOInfo(
+                        frame < _p->inputSequence.frames.count() ?
+                            _p->inputSequence.frames[frame] :
+                            -1,
+                        _p->info.layer,
+                        _p->info.proxy));
+                //DJV_DEBUG_PRINT("image = " << image);
+            }
+            catch (Core::Error error)
+            {
+                error.add(
+                    Enum::errorLabels()[Enum::ERROR_READ_IMAGE].
+                    arg(QDir::toNativeSeparators(_p->info.inputFile)));
+                _p->context->printError(error);
+                cancel();
+                return;
+            }
+
+            // Process the frame.
+            AV::Image* p = &image;
+            AV::Image tmp;
+            AV::OpenGLImageOptions options(_p->info.options);
+            options.colorProfile = image.colorProfile;
+            if (p->info() != _p->pixelInfo || options != AV::OpenGLImageOptions())
+            {
+                tmp.set(_p->pixelInfo);
+                tmp.tags = image.tags;
+                try
+                {
+                    _p->openGLImage->copy(image, tmp, options);
+                }
+                catch (Core::Error error)
+                {
+                    error.add(
+                        Enum::errorLabels()[Enum::ERROR_WRITE_IMAGE].
+                        arg(QDir::toNativeSeparators(_p->info.outputFile)));
+                    _p->context->printError(error);
+                    cancel();
+                    return;
+                }
+                p = &tmp;
+            }
+
+            // Draw the annotations.
+            QImage qImage(p->data(), _p->pixelInfo.size.x, _p->pixelInfo.size.y, QImage::Format_RGBA8888);
+            QPainter painter(&qImage);
+            painter.setRenderHints(QPainter::TextAntialiasing);
+
+            QMatrix m;
+            m.translate(0, _p->pixelInfo.size.y);
+            m.scale(1, -1);
+            painter.setMatrix(m);
+
+            Annotate::DrawData drawData;
+            drawData.viewSize = _p->pixelInfo.size;
+            drawData.selected = true;
+            for (const auto& i : _p->info.primitives[in].second)
+            {
+                i->draw(painter, drawData);
+            }
+
+            // Save the frame.
+            try
+            {
+                _p->save->write(*p, in);
             }
             catch (Core::Error error)
             {
