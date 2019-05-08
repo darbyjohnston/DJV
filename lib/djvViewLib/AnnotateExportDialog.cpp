@@ -135,7 +135,7 @@ namespace djv
             hLayout->addWidget(_p->spinner);
             hLayout->addStretch();
             vLayout->addLayout(hLayout);
-            vLayout->addWidget(new QLabel(qApp->translate("djv::UI::AnnotateExportDialog", "Output:")));
+            vLayout->addWidget(new QLabel(qApp->translate("djv::UI::AnnotateExportDialog", "Script otput:")));
             vLayout->addWidget(_p->outputTextEdit);
             layout->addLayout(vLayout);
             layout->addWidget(_p->buttonBox);
@@ -215,7 +215,7 @@ namespace djv
         {
             static const std::map<QProcess::ProcessState, QString> stateLabels =
             {
-                { QProcess::NotRunning, qApp->translate("djv::ViewLib::AnnotateExportDialog", "The script has finished.") },
+                { QProcess::NotRunning, qApp->translate("djv::ViewLib::AnnotateExportDialog", "The script has finished running.") },
                 { QProcess::Starting, qApp->translate("djv::ViewLib::AnnotateExportDialog", "The script is starting...") },
                 { QProcess::Running, qApp->translate("djv::ViewLib::AnnotateExportDialog", "The script is running...") }
             };

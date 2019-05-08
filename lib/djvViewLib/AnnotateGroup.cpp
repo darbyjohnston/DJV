@@ -461,6 +461,8 @@ namespace djv
         {
             if (value == _p->currentAnnotation)
                 return;
+            auto playbackGroup = session()->playbackGroup();
+            playbackGroup->setPlayback(Enum::STOP);
             _p->currentAnnotation = value;
             update();
             Q_EMIT currentAnnotationChanged(_p->currentAnnotation);
@@ -542,6 +544,8 @@ namespace djv
 
         void AnnotateGroup::nextAnnotation()
         {
+            auto playbackGroup = session()->playbackGroup();
+            playbackGroup->setPlayback(Enum::STOP);
             int index = _p->annotations.indexOf(_p->currentAnnotation);
             ++index;
             if (index >= _p->annotations.size())
@@ -562,6 +566,8 @@ namespace djv
 
         void AnnotateGroup::prevAnnotation()
         {
+            auto playbackGroup = session()->playbackGroup();
+            playbackGroup->setPlayback(Enum::STOP);
             int index = _p->annotations.indexOf(_p->currentAnnotation);
             --index;
             if (index < 0)

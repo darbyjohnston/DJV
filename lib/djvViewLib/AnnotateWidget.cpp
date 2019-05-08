@@ -235,10 +235,14 @@ namespace djv
 
             connect(
                 _p->treeView->selectionModel(),
-                &QItemSelectionModel::currentChanged,
-                [session](const QModelIndex & current, const QModelIndex &)
+                &QItemSelectionModel::selectionChanged,
+                [session](const QItemSelection & selected, const QItemSelection&)
             {
-                session->annotateGroup()->setCurrentAnnotation(reinterpret_cast<Annotate::Data *>(current.internalPointer()));
+                auto indexes = selected.indexes();
+                if (indexes.count())
+                {
+                    session->annotateGroup()->setCurrentAnnotation(reinterpret_cast<Annotate::Data*>(indexes[0].internalPointer()));
+                }
             });
 
             connect(
@@ -386,11 +390,10 @@ namespace djv
         void AnnotateEditWidget::modelUpdate()
         {
             _p->model->setAnnotations(_p->annotations);
-            _p->treeView->selectionModel()->select(QModelIndex(), QItemSelectionModel::Clear);
             const int index = _p->annotations.indexOf(_p->currentAnnotation);
             _p->treeView->selectionModel()->select(
                 QItemSelection(_p->model->index(index, 0), _p->model->index(index, 1)),
-                QItemSelectionModel::Select);
+                QItemSelectionModel::ClearAndSelect);
         }
 
         void AnnotateEditWidget::widgetUpdate()
@@ -410,11 +413,10 @@ namespace djv
                 _p->textEdit->setText(text);
             }
 
-            _p->treeView->selectionModel()->select(QModelIndex(), QItemSelectionModel::Clear);
             const int index = _p->annotations.indexOf(_p->currentAnnotation);
             _p->treeView->selectionModel()->select(
                 QItemSelection(_p->model->index(index, 0), _p->model->index(index, 1)),
-                QItemSelectionModel::Select);
+                QItemSelectionModel::ClearAndSelect);
             _p->treeView->setVisible(_p->listVisible);
             
             const int count = _p->annotations.count();
