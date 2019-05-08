@@ -93,8 +93,11 @@ namespace djv
             //! Set the summary.
             void setSummary(const QString &);
 
+            //! Set the export file info.
+            void setExport(const djv::Core::FileInfo&);
+
             //! Export the annotations.
-            void exportAnnotations(const djv::Core::FileInfo&, const djv::Core::FileInfo&, const QString&);
+            void exportAnnotations();
 
         Q_SIGNALS:
             //! This signal is emitted when the list of annotations is changed.

@@ -31,13 +31,9 @@
 
 #include <djvViewLib/ViewLib.h>
 
-#include <djvAV/IO.h>
-#include <djvAV/OpenGLImage.h>
-#include <djvAV/Pixel.h>
+#include <djvCore/Util.h>
 
-#include <djvCore/FileInfo.h>
-
-#include <QObject>
+#include <QDialog>
 #include <QProcess>
 
 #include <memory>
@@ -46,53 +42,50 @@ namespace djv
 {
     namespace ViewLib
     {
-        class ViewContext;
-
-        namespace Annotate
-        {
-            class AbstractPrimitive;
-
-        } // namespace Annotate
-
-        //! This struct provides annotations export information.
-        struct AnnotateExportInfo
-        {
-            Core::FileInfo           inputFile;
-            Core::FileInfo           jsonFile;
-            Core::FileInfo           outputFile;
-            size_t                   layer         = 0;
-            AV::PixelDataInfo::PROXY proxy         = AV::PixelDataInfo::PROXY_NONE;
-            bool                     colorProfile  = true;
-            AV::OpenGLImageOptions   options;
-            std::vector<std::pair<qint64, std::vector<std::shared_ptr<Annotate::AbstractPrimitive> > > >
-                                     primitives;
-            Core::FileInfo           scriptFile;
-            QString                  scriptOptions;
-            Core::FileInfo           scriptInterpreter;
-        };
-
-        //! This class provides annotations exporting.
-        class AnnotateExport : public QObject
+        //! This class provides a spinner widget.
+        class Spinner : public QWidget
         {
             Q_OBJECT
 
         public:
-            explicit AnnotateExport(const QPointer<ViewContext> &, QObject * parent = nullptr);
-            ~AnnotateExport() override;
+            explicit Spinner(QWidget* parent = nullptr);
+
+            QSize sizeHint() const override;
 
         public Q_SLOTS:
-            //! Start an export.
-            void start(const djv::ViewLib::AnnotateExportInfo &);
+            void start();
+            void stop();
 
-            //! Cancel an in progress export.
-            void cancel();
-
-        private Q_SLOTS:
-            void progressCallback(int);
-            void finishedCallback();
+        protected:
+            void paintEvent(QPaintEvent*) override;
+            void timerEvent(QTimerEvent*) override;
 
         private:
-            DJV_PRIVATE_COPY(AnnotateExport);
+            DJV_PRIVATE_COPY(Spinner);
+
+            struct Private;
+            std::unique_ptr<Private> _p;
+        };
+
+        //! This class provides the annotations export dialog.
+        class AnnotateExportDialog : public QDialog
+        {
+            Q_OBJECT
+
+        public:
+            explicit AnnotateExportDialog(QProcess*, QWidget * parent = nullptr);
+            ~AnnotateExportDialog() override;
+
+        private Q_SLOTS:
+            void stateCallback(QProcess::ProcessState);
+            void standardOutputCallback();
+            void standardErrorCallback();
+            void scriptErrorCallback(QProcess::ProcessError);
+
+        private:
+            void widgetUpdate();
+
+            DJV_PRIVATE_COPY(AnnotateExportDialog);
 
             struct Private;
             std::unique_ptr<Private> _p;

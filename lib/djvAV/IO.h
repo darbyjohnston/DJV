@@ -257,6 +257,9 @@ namespace djv
                 QObject * parent = nullptr);
             ~IOFactory() override;
 
+            //! Get the list of supported file extensions.
+            QStringList extensions() const;
+
             //! Get a plugin option.
             QStringList option(const QString & name, const QString &) const;
 

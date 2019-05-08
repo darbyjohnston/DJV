@@ -265,6 +265,11 @@ namespace djv
             //DJV_DEBUG("IOFactory::~IOFactory");
         }
 
+        QStringList IOFactory::extensions() const
+        {
+            return _p->extensionMap.keys();
+        }
+
         QStringList IOFactory::option(const QString & name,  const QString & option) const
         {
             const QString nameLower = name.toLower();

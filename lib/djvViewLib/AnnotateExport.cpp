@@ -30,9 +30,11 @@
 #include <djvViewLib/AnnotateExport.h>
 
 #include <djvViewLib/AnnotateData.h>
+#include <djvViewLib/AnnotateExportDialog.h>
 #include <djvViewLib/Util.h>
 #include <djvViewLib/ViewContext.h>
 
+#include <djvUI/NoticeDialog.h>
 #include <djvUI/ProgressDialog.h>
 
 #include <djvAV/Image.h>
@@ -61,7 +63,9 @@ namespace djv
             Core::Sequence inputSequence;
             std::unique_ptr<AV::Save> save;
             std::unique_ptr<AV::OpenGLImage> openGLImage;
-            QPointer<UI::ProgressDialog> dialog;
+            QPointer<UI::ProgressDialog> progressDialog;
+            QPointer<QProcess> scriptProcess;
+            QPointer<AnnotateExportDialog> scriptDialog;
             QPointer<ViewContext> context;
         };
 
@@ -69,23 +73,33 @@ namespace djv
             QObject(parent),
             _p(new Private(context))
         {
-            _p->dialog = new UI::ProgressDialog;
+            _p->progressDialog = new UI::ProgressDialog;
+            _p->scriptProcess = new QProcess;
+            _p->scriptDialog = new AnnotateExportDialog(_p->scriptProcess);
 
             connect(
-                _p->dialog,
+                _p->progressDialog,
                 SIGNAL(progressSignal(int)),
-                SLOT(callback(int)));
+                SLOT(progressCallback(int)));
             connect(
-                _p->dialog,
+                _p->progressDialog,
                 SIGNAL(finishedSignal()),
                 SLOT(finishedCallback()));
+            connect(
+                _p->progressDialog,
+                SIGNAL(rejected()),
+                SLOT(cancel()));
+            connect(
+                _p->scriptDialog,
+                SIGNAL(rejected()),
+                SLOT(cancel()));
         }
 
         AnnotateExport::~AnnotateExport()
         {
             //DJV_DEBUG("AnnotateExport::~AnnotateExport");
-            delete _p->dialog;
-
+            delete _p->scriptDialog;
+            delete _p->progressDialog;
             if (_p->openGLImage)
             {
                 _p->context->makeGLContextCurrent();
@@ -128,11 +142,9 @@ namespace djv
 
             // Open output.
             AV::IOInfo saveInfo(_p->pixelInfo);
-            qint64 frame = 0;
-            for (const auto& i : _p->info.primitives)
+            for (size_t frame = 0; frame < _p->info.primitives.size(); ++frame)
             {
-                saveInfo.sequence.frames.push_back(frame);
-                ++frame;
+                saveInfo.sequence.frames.push_back(static_cast<qint64>(frame));
             }
             try
             {
@@ -148,20 +160,22 @@ namespace djv
             }
 
             // Start...
-            _p->dialog->setLabel(qApp->translate("djv::ViewLib::AnnotateExport", "Exporting \"%1\":").
+            _p->progressDialog->setLabel(qApp->translate("djv::ViewLib::AnnotateExport", "Exporting \"%1\":").
                 arg(QDir::toNativeSeparators(_p->info.outputFile)));
-            _p->dialog->start(saveInfo.sequence.frames.count() ? saveInfo.sequence.frames.count() : 1);
-            _p->dialog->show();
-            _p->dialog->activateWindow();
+            _p->progressDialog->start(static_cast<int>(_p->info.primitives.size()));
+            _p->progressDialog->show();
+            _p->progressDialog->activateWindow();
         }
 
         void AnnotateExport::cancel()
         {
             //DJV_DEBUG("AnnotateExport::cancel");
-            if (_p->dialog->isVisible())
+
+            if (_p->progressDialog->isVisible())
             {
-                _p->dialog->reject();
+                _p->progressDialog->reject();
             }
+            _p->load.reset();
             if (_p->save)
             {
                 try
@@ -176,13 +190,17 @@ namespace djv
                         arg(QDir::toNativeSeparators(_p->info.outputFile)));
                     _p->context->printError(error);
                 }
+                _p->save.reset();
             }
-            _p->info = AnnotateExportInfo();
-            _p->load.reset();
-            _p->save.reset();
+
+            if (_p->scriptDialog->isVisible())
+            {
+                _p->scriptDialog->reject();
+            }
+            _p->scriptProcess->close();
         }
 
-        void AnnotateExport::callback(int in)
+        void AnnotateExport::progressCallback(int in)
         {
             //DJV_DEBUG("AnnotateExport::callback");
             //DJV_DEBUG_PRINT("in = " << in);
@@ -282,9 +300,9 @@ namespace djv
         void AnnotateExport::finishedCallback()
         {
             //DJV_DEBUG("AnnotateExport::finishedCallback");
+            _p->load.reset();
             try
             {
-                //DJV_DEBUG_PRINT("close");
                 _p->save->close();
             }
             catch (Core::Error error)
@@ -294,7 +312,25 @@ namespace djv
                     arg(QDir::toNativeSeparators(_p->info.outputFile)));
                 _p->context->printError(error);
             }
-            Q_EMIT finished();
+            _p->save.reset();
+
+            if (!_p->info.scriptFile.isEmpty())
+            {
+                //DJV_DEBUG_PRINT("script = " << _p->info.scriptFile);
+                //DJV_DEBUG_PRINT("interpreter = " << _p->info.scriptInterpreter);
+                QStringList args;
+                if (!_p->info.scriptInterpreter.isEmpty())
+                {
+                    args.append(_p->info.scriptFile);
+                }
+                args.append(_p->info.jsonFile);
+                args.append(_p->info.outputFile);
+                args.append(_p->info.scriptOptions.split(" "));
+                //DJV_DEBUG_PRINT("args = " << args);
+                _p->scriptProcess->start(!_p->info.scriptInterpreter.isEmpty() ? _p->info.scriptInterpreter : _p->info.scriptFile, args);
+                _p->scriptDialog->show();
+                _p->scriptDialog->activateWindow();
+            }
         }
 
     } // namespace ViewLib

@@ -78,6 +78,10 @@ namespace djv
                 _p->dialog,
                 SIGNAL(finishedSignal()),
                 SLOT(finishedCallback()));
+            connect(
+                _p->dialog,
+                SIGNAL(rejected()),
+                SLOT(cancel()));
         }
 
         FileExport::~FileExport()
@@ -172,6 +176,7 @@ namespace djv
             {
                 _p->dialog->reject();
             }
+            _p->load.reset();
             if (_p->save)
             {
                 try
@@ -186,10 +191,8 @@ namespace djv
                         arg(QDir::toNativeSeparators(_p->info.outputFile)));
                     _p->context->printError(error);
                 }
+                _p->save.reset();
             }
-            _p->info = FileExportInfo();
-            _p->load.reset();
-            _p->save.reset();
         }
 
         void FileExport::callback(int in)
@@ -278,6 +281,7 @@ namespace djv
         void FileExport::finishedCallback()
         {
             //DJV_DEBUG("FileExport::finishedCallback");
+            _p->load.reset();
             try
             {
                 //DJV_DEBUG_PRINT("close");
@@ -290,7 +294,7 @@ namespace djv
                     arg(QDir::toNativeSeparators(_p->info.outputFile)));
                 _p->context->printError(error);
             }
-            Q_EMIT finished();
+            _p->save.reset();
         }
 
     } // namespace ViewLib

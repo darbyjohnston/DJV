@@ -216,10 +216,6 @@ namespace djv
                     _p->playbackGroup->setFrame(value->frameIndex());
                 }
             });
-            connect(
-                _p->annotateGroup.data(),
-                SIGNAL(exportAnnotations(const QList<djv::ViewLib::Annotate::Data*>&)),
-                SLOT(exportAnnotations(const QList<djv::ViewLib::Annotate::Data*>&)));
 
             // Setup the preferences callbacks.
             connect(
@@ -412,17 +408,20 @@ namespace djv
 
         void Session::exportAnnotations(
             const QList<Annotate::Data*>& data,
+            const Core::FileInfo& jsonFile,
             const Core::FileInfo& outputFile,
             const Core::FileInfo& scriptFile,
-            const QString& scriptOptions)
+            const QString& scriptOptions,
+            const Core::FileInfo& scriptInterpreter)
         {
             //DJV_DEBUG("Session::exportAnnotations");
             //DJV_DEBUG_PRINT("outputFile = " << outputFile);
             //DJV_DEBUG_PRINT("scriptFile = " << scriptFile);
             //DJV_DEBUG_PRINT("scriptOptions = " << scriptOptions);
-            //DJV_DEBUG_PRINT("sequence = " << sequence);
+            //DJV_DEBUG_PRINT("scriptInterpreter = " << scriptInterpreter);
             AnnotateExportInfo info;
             info.inputFile = _p->fileGroup->fileInfo();
+            info.jsonFile = jsonFile;
             info.outputFile = outputFile;
             info.layer = _p->fileGroup->layer();
             info.proxy = _p->fileGroup->proxy();
@@ -439,6 +438,7 @@ namespace djv
             }
             info.scriptFile = scriptFile;
             info.scriptOptions = scriptOptions;
+            info.scriptInterpreter = scriptInterpreter;
             _p->context->annotateExport()->start(info);
         }
 

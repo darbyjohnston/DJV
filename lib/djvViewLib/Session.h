@@ -123,7 +123,9 @@ namespace djv
                 const QList<Annotate::Data*>&,
                 const Core::FileInfo&,
                 const Core::FileInfo&,
-                const QString&);
+                const Core::FileInfo&,
+                const QString&,
+                const Core::FileInfo&);
 
             //! Set the current file layer.
             void setFileLayer(int);

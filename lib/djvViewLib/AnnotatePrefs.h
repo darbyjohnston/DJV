@@ -60,11 +60,17 @@ namespace djv
             //! Get whether the list is visible.
             bool isListVisible() const;
 
+            //! Get the export file extension.
+            const QString& exportExtension() const;
+
             //! Get the export script.
             const Core::FileInfo & exportScript() const;
 
             //! Get the export script options.
-            const QString & exportScriptOptions() const;
+            const QString& exportScriptOptions() const;
+
+            //! Get the export script interpreter.
+            const QString& exportScriptInterpreter() const;
 
             void reset() override;
 
@@ -81,11 +87,17 @@ namespace djv
             //! Set whether the list is visible.
             void setListVisible(bool);
 
+            //! Set the export file extension.
+            void setExportExtension(const QString&);
+
             //! Set the export script.
-            void setExportScript(const Core::FileInfo &);
+            void setExportScript(const Core::FileInfo&);
 
             //! Set the export script options.
-            void setExportScriptOptions(const QString &);
+            void setExportScriptOptions(const QString&);
+
+            //! Set the export script interpreter.
+            void setExportScriptInterpreter(const QString&);
 
         Q_SIGNALS:
             //! This signal is emitted when the current primitive is changed.
@@ -100,19 +112,27 @@ namespace djv
             //! This signal is emitted when the list visibility is changed.
             void listVisibleChanged(bool);
 
+            //! This signal is emitted when the export file extension is changed.
+            void exportExtensionChanged(const QString&);
+
             //! This signal is emitted when the export script is changed.
             void exportScriptChanged(const Core::FileInfo &);
 
             //! This signal is emitted when the export script options are changed.
-            void exportScriptOptionsChanged(const QString &);
+            void exportScriptOptionsChanged(const QString&);
+
+            //! This signal is emitted when the export script interpreter is changed.
+            void exportScriptInterpreterChanged(const QString&);
 
         private:
             Enum::ANNOTATE_PRIMITIVE _primitive;
             AV::Color _color;
             size_t _lineWidth;
             bool _listVisible;
+            QString _exportExtension;
             Core::FileInfo _exportScript;
             QString _exportScriptOptions;
+            QString _exportScriptInterpreter;
         };
 
     } // namespace ViewLib

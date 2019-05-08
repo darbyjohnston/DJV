@@ -10,6 +10,7 @@ set(header
     AnnotateColorDialog.h
     AnnotateData.h
     AnnotateExport.h
+    AnnotateExportDialog.h
     AnnotateGroup.h
     AnnotateMenu.h
     AnnotateModel.h
@@ -90,6 +91,7 @@ set(mocHeader
     AnnotateColorDialog.h
     AnnotateData.h
     AnnotateExport.h
+    AnnotateExportDialog.h
     AnnotateGroup.h
     AnnotateMenu.h
     AnnotateModel.h
@@ -160,7 +162,6 @@ set(mocHeader
     WindowToolBar.h)
 set(source
     AbstractActions.cpp
-    AnnotateExport.cpp
     AbstractGroup.cpp
     AbstractMenu.cpp
     AbstractPrefs.cpp
@@ -170,6 +171,8 @@ set(source
     AnnotateActions.cpp
     AnnotateColorDialog.cpp
     AnnotateData.cpp
+    AnnotateExport.cpp
+    AnnotateExportDialog.cpp
     AnnotateGroup.cpp
     AnnotateMenu.cpp
     AnnotateModel.cpp
@@ -238,6 +241,8 @@ set(source
     WindowPrefs.cpp
     WindowPrefsWidget.cpp
     WindowToolBar.cpp)
+set(scripts
+	scripts/AnnotateExportToHTML.py)
 
 QT5_WRAP_CPP(mocSource ${mocHeader})
 QT5_ADD_RESOURCES(rccSource djvViewLib.qrc)
@@ -250,9 +255,15 @@ add_library(djvViewLib ${header} ${source} ${mocSource} ${rccSource} ${qmSource}
 target_link_libraries(djvViewLib djvUI)
 set_target_properties(djvViewLib PROPERTIES FOLDER lib CXX_STANDARD 11)
 
+file(COPY ${scripts} DESTINATION ${DJV_BUILD_DIR}/scripts)
+
 #install(
 #    FILES ${header}
 #    DESTINATION include)
+install(
+    FILES
+    ${scripts}
+    DESTINATION ${DJV_INSTALL_SCRIPTS})
 install(
     FILES ${qmSource}
     DESTINATION ${DJV_INSTALL_TRANSLATIONS})
@@ -263,4 +274,3 @@ if(BUILD_SHARED_LIBS)
         LIBRARY DESTINATION ${DJV_INSTALL_LIB}
         ARCHIVE DESTINATION ${DJV_INSTALL_LIB})
 endif()
-

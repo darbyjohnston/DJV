@@ -46,6 +46,7 @@ set(DJV_INSTALL_BIN bin)
 set(DJV_INSTALL_LIB lib)
 set(DJV_INSTALL_PLUGINS plugins)
 set(DJV_INSTALL_DOC doc)
+set(DJV_INSTALL_SCRIPTS scripts)
 set(DJV_INSTALL_TRANSLATIONS translations)
 
 # Set miscellaneous options.

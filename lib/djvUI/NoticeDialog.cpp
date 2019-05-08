@@ -45,7 +45,7 @@ namespace djv
                 label(label)
             {}
 
-            QString  label;
+            QString label;
             QPointer<QLabel> labelWidget;
         };
 
@@ -54,6 +54,7 @@ namespace djv
             _p(new Private(label))
         {
             _p->labelWidget = new QLabel;
+            _p->labelWidget->setWordWrap(true);
 
             QDialogButtonBox * buttonBox = new QDialogButtonBox(
                 QDialogButtonBox::Ok);
@@ -70,7 +71,6 @@ namespace djv
             widgetUpdate();
 
             connect(buttonBox, SIGNAL(accepted()), this, SLOT(accept()));
-            connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
         }
 
         NoticeDialog::~NoticeDialog()

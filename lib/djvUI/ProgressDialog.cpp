@@ -150,7 +150,6 @@ namespace djv
             // Setup the callbacks.
             connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
             connect(buttonBox, SIGNAL(rejected()), this, SLOT(rejectedCallback()));
-            connect(this, SIGNAL(rejected()), SIGNAL(finishedSignal()));
         }
 
         ProgressDialog::~ProgressDialog()
@@ -161,7 +160,6 @@ namespace djv
         void ProgressDialog::rejectedCallback()
         {
             stopTimer();
-            Q_EMIT finishedSignal();
         }
 
         const QString & ProgressDialog::label() const

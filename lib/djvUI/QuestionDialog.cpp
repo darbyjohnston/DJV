@@ -45,7 +45,7 @@ namespace djv
                 label(label)
             {}
 
-            QString  label;
+            QString label;
             QPointer<QLabel> labelWidget;
         };
 

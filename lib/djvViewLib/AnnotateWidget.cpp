@@ -49,8 +49,9 @@
 #include <QApplication>
 #include <QBoxLayout>
 #include <QButtonGroup>
-#include <QFormLayout>
+#include <QComboBox>
 #include <QGroupBox>
+#include <QLabel>
 #include <QLineEdit>
 #include <QTreeView>
 #include <QMenu>
@@ -68,6 +69,16 @@ namespace djv
 {
     namespace ViewLib
     {
+        namespace
+        {
+            const std::vector<std::pair<QString, QString> > exportFileFormats =
+            {
+                { ".png", "PNG" },
+                { ".jpg", "JPG" }
+            };
+
+        } // namespace
+
         struct AnnotateEditWidget::Private
         {
             Private(const QPointer<ViewContext> & context) :
@@ -459,16 +470,24 @@ namespace djv
         struct AnnotateExportWidget::Private
         {
             Private(const QPointer<ViewContext> & context) :
-                scriptFileInfo(context->annotatePrefs()->exportScript()),
-                scriptOptions(context->annotatePrefs()->exportScriptOptions())
+                extension(context->annotatePrefs()->exportExtension()),
+                script(context->annotatePrefs()->exportScript()),
+                scriptOptions(context->annotatePrefs()->exportScriptOptions()),
+                scriptInterpreter(context->annotatePrefs()->exportScriptInterpreter())
             {}
 
-            FileInfo outputFileInfo;
-            FileInfo scriptFileInfo;
+            QPointer<ViewContext> context;
+            QPointer<AnnotateGroup> group;
+            FileInfo fileInfo;
+            QString extension;
+            FileInfo script;
             QString scriptOptions;
-            QPointer< UI::FileEdit> outputFileEdit;
-            QPointer< UI::FileEdit> scriptFileEdit;
+            QString scriptInterpreter;
+            QPointer< UI::FileEdit> fileEdit;
+            QPointer<QComboBox> extensionComboBox;
+            QPointer<UI::FileEdit> scriptFileEdit;
             QPointer<QLineEdit> scriptOptionsLineEdit;
+            QPointer<UI::FileEdit> scriptInterpreterFileEdit;
             QPointer<QPushButton> exportButton;
         };
 
@@ -480,27 +499,35 @@ namespace djv
             QWidget(parent),
             _p(new Private(context))
         {
-            _p->outputFileEdit = new UI::FileEdit(context.data());
-            auto outputFileGroupBox = new QGroupBox(qApp->translate("djv::ViewLib::AnnotateExportWidget", "Output File"));
+            _p->context = context;
+            _p->group = group;
+
+            _p->fileEdit = new UI::FileEdit(context.data());
+            _p->extensionComboBox = new QComboBox;
+            auto imagesGroupBox = new QGroupBox(qApp->translate("djv::ViewLib::AnnotateExportWidget", "Images"));
             auto vLayout = new QVBoxLayout;
-            vLayout->addWidget(_p->outputFileEdit);
-            outputFileGroupBox->setLayout(vLayout);
+            vLayout->addWidget(_p->fileEdit);
+            vLayout->addWidget(new QLabel(qApp->translate("djv::ViewLib::AnnotateExportWidget", "Format:")));
+            vLayout->addWidget(_p->extensionComboBox);
+            imagesGroupBox->setLayout(vLayout);
 
             _p->scriptFileEdit = new UI::FileEdit(context.data());
             _p->scriptOptionsLineEdit = new QLineEdit;
+            _p->scriptInterpreterFileEdit = new UI::FileEdit(context.data());
             auto scriptGroupBox = new QGroupBox(qApp->translate("djv::ViewLib::AnnotateExportWidget", "Script"));
             vLayout = new QVBoxLayout;
             vLayout->addWidget(_p->scriptFileEdit);
-            auto formLayout = new QFormLayout;
-            formLayout->addRow(qApp->translate("djv::ViewLib::AnnotateExportWidget", "Options:"), _p->scriptOptionsLineEdit);
-            vLayout->addLayout(formLayout);
+            vLayout->addWidget(new QLabel(qApp->translate("djv::ViewLib::AnnotateExportWidget", "Options:")));
+            vLayout->addWidget(_p->scriptOptionsLineEdit);
+            vLayout->addWidget(new QLabel(qApp->translate("djv::ViewLib::AnnotateExportWidget", "Interpreter:")));
+            vLayout->addWidget(_p->scriptInterpreterFileEdit);
             scriptGroupBox->setLayout(vLayout);
 
             _p->exportButton = new QPushButton;
             _p->exportButton->setText(qApp->translate("djv::ViewLib::AnnotateExportWidget", "Export"));
 
             auto layout = new QVBoxLayout(this);
-            layout->addWidget(outputFileGroupBox);
+            layout->addWidget(imagesGroupBox);
             layout->addWidget(scriptGroupBox);
             layout->addWidget(_p->exportButton);
             layout->addStretch(1);
@@ -510,31 +537,45 @@ namespace djv
             widgetUpdate();
 
             connect(
-                _p->outputFileEdit,
+                _p->fileEdit,
                 &UI::FileEdit::fileInfoChanged,
-                [this](const FileInfo & value)
+                [this, group](const FileInfo & value)
             {
-                _p->outputFileInfo = value;
-                widgetUpdate();
+                _p->fileInfo = value;
+                group->setExport(_p->fileInfo);
             });
+
+            connect(
+                _p->extensionComboBox,
+                SIGNAL(currentIndexChanged(int)),
+                SLOT(exportExtensionCallback(int)));
 
             connect(
                 _p->scriptFileEdit,
                 &UI::FileEdit::fileInfoChanged,
                 [this, context](const FileInfo& value)
             {
-                _p->scriptFileInfo = value;
+                _p->script = value;
                 context->annotatePrefs()->setExportScript(value);
             });
 
             connect(
                 _p->scriptOptionsLineEdit,
                 &QLineEdit::editingFinished,
-                [this, context]
+                [this, group, context]
             {
-                const auto & text = _p->scriptOptionsLineEdit->text();
+                const auto& text = _p->scriptOptionsLineEdit->text();
                 _p->scriptOptions = text;
                 context->annotatePrefs()->setExportScriptOptions(text);
+            });
+
+            connect(
+                _p->scriptInterpreterFileEdit,
+                &UI::FileEdit::fileInfoChanged,
+                [this, context](const FileInfo & value)
+            {
+                _p->scriptInterpreter = value;
+                context->annotatePrefs()->setExportScriptInterpreter(value);
             });
 
             connect(
@@ -542,7 +583,7 @@ namespace djv
                 &QPushButton::clicked,
                 [this, group]
             {
-                group->exportAnnotations(_p->outputFileInfo, _p->scriptFileInfo, _p->scriptOptions);
+                group->exportAnnotations();
             });
 
             connect(
@@ -550,24 +591,40 @@ namespace djv
                 &AnnotateGroup::exportChanged,
                 [this](const FileInfo & value)
             {
-                _p->outputFileInfo = value;
+                _p->fileInfo = value;
                 widgetUpdate();
             });
 
             connect(
                 context->annotatePrefs(),
+                &AnnotatePrefs::exportExtensionChanged,
+                [this](const QString& value)
+            {
+                _p->extension = value;
+                widgetUpdate();
+            });
+            connect(
+                context->annotatePrefs(),
                 &AnnotatePrefs::exportScriptChanged,
                 [this](const FileInfo & value)
             {
-                _p->scriptFileInfo = value;
+                _p->script = value;
                 widgetUpdate();
             });
             connect(
                 context->annotatePrefs(),
                 &AnnotatePrefs::exportScriptOptionsChanged,
-                [this](const QString & value)
+                [this](const QString& value)
             {
                 _p->scriptOptions = value;
+                widgetUpdate();
+            });
+            connect(
+                context->annotatePrefs(),
+                &AnnotatePrefs::exportScriptInterpreterChanged,
+                [this](const FileInfo& value)
+            {
+                _p->scriptInterpreter = value;
                 widgetUpdate();
             });
         }
@@ -575,12 +632,39 @@ namespace djv
         AnnotateExportWidget::~AnnotateExportWidget()
         {}
 
+        void AnnotateExportWidget::exportExtensionCallback(int value)
+        {
+            _p->extension = exportFileFormats[value].first;
+            _p->fileInfo.setExtension(_p->extension);
+            _p->group->setExport(_p->fileInfo);
+            _p->context->annotatePrefs()->setExportExtension(_p->extension);
+            widgetUpdate();
+        }
+
         void AnnotateExportWidget::widgetUpdate()
         {
-            _p->outputFileEdit->setFileInfo(_p->outputFileInfo);
-            _p->scriptFileEdit->setFileInfo(_p->scriptFileInfo);
+            SignalBlocker signalBlocker(QObjectList() <<
+                _p->fileEdit <<
+                _p->extensionComboBox <<
+                _p->scriptFileEdit <<
+                _p->scriptOptionsLineEdit <<
+                _p->scriptInterpreterFileEdit <<
+                _p->exportButton);
+            _p->fileEdit->setFileInfo(_p->fileInfo);
+            _p->extensionComboBox->clear();
+            QStringList fileFormatExtensions;
+            QStringList fileFormatNames;
+            for (const auto& i : exportFileFormats)
+            {
+                fileFormatExtensions.append(i.first);
+                fileFormatNames.append(i.second);
+            }
+            _p->extensionComboBox->addItems(fileFormatNames);
+            _p->extensionComboBox->setCurrentIndex(fileFormatExtensions.indexOf(_p->extension));
+            _p->scriptFileEdit->setFileInfo(_p->script);
             _p->scriptOptionsLineEdit->setText(_p->scriptOptions);
-            _p->exportButton->setEnabled(!_p->outputFileInfo.isEmpty());
+            _p->scriptInterpreterFileEdit->setFileInfo(_p->scriptInterpreter);
+            _p->exportButton->setEnabled(!_p->fileInfo.isEmpty());
         }
 
     } // namespace ViewLib

@@ -65,7 +65,16 @@ namespace djv
         namespace
         {
             const QString jsonExtension = ".annotations.json";
-            const QString exportSuffix = "_annotation";
+            const QString exportSuffix = "annotation.";
+
+            QString cleanBaseName(QString value)
+            {
+                while (value.count() > 0 && ('.' == value[value.count() - 1] || ' ' == value[value.count() - 1]))
+                {
+                    value.chop(1);
+                }
+                return value;
+            }
 
         } // namespace
 
@@ -241,7 +250,7 @@ namespace djv
             connect(
                 fileGroup,
                 &FileGroup::fileInfoChanged,
-                [this](const FileInfo & value)
+                [this, context](const FileInfo & value)
             {
                 if (doSave())
                 {
@@ -255,36 +264,20 @@ namespace djv
                 if (!value.isEmpty())
                 {
                     _p->jsonFileInfo.setPath(value.path());
-                    QString tmp = value.base();
-                    int count = tmp.count();
-                    if (count > 0 && '.' == tmp[count - 1])
-                    {
-                        tmp.chop(1);
-                    }
-                    _p->jsonFileInfo.setBase(tmp);
+                    _p->jsonFileInfo.setBase(cleanBaseName(value.base()));
                     _p->jsonFileInfo.setExtension(jsonExtension);
                     _p->jsonFileInfo.stat();
 
                     _p->exportFileInfo.setPath(value.path());
-                    tmp = value.base();
-                    count = tmp.count();
-                    if (count > 0 && '.' == tmp[count - 1])
+                    auto tmp = cleanBaseName(value.base());
+                    if (!tmp.isEmpty())
                     {
-                        tmp.chop(1);
-                        tmp += exportSuffix;
-                        tmp += ".";
+                        tmp.append(".");
                     }
-                    else
-                    {
-                        tmp += exportSuffix;
-                    }
+                    tmp.append(exportSuffix);
                     _p->exportFileInfo.setBase(tmp);
-                    tmp = value.number();
-                    if (tmp.count())
-                    {
-                        _p->exportFileInfo.setNumber("0");
-                    }
-                    _p->exportFileInfo.setExtension(value.extension());
+                    _p->exportFileInfo.setNumber("0");
+                    _p->exportFileInfo.setExtension(context->annotatePrefs()->exportExtension());
 
                     loadAnnotations();
                 }
@@ -481,16 +474,24 @@ namespace djv
             Q_EMIT summaryChanged(_p->summary);
         }
 
-        void AnnotateGroup::exportAnnotations(const Core::FileInfo& exportFileInfo, const Core::FileInfo& scriptFileInfo, const QString& scriptOptions)
+        void AnnotateGroup::setExport(const Core::FileInfo& value)
         {
-            _p->exportFileInfo = exportFileInfo;
+            if (value == _p->exportFileInfo)
+                return;
+            _p->exportFileInfo = value;
             Q_EMIT exportChanged(_p->exportFileInfo);
+        }
+
+        void AnnotateGroup::exportAnnotations()
+        {
             saveAnnotations();
             session()->exportAnnotations(
                 _p->annotations,
+                _p->jsonFileInfo,
                 _p->exportFileInfo,
-                scriptFileInfo,
-                scriptOptions);
+                context()->annotatePrefs()->exportScript(),
+                context()->annotatePrefs()->exportScriptOptions(),
+                context()->annotatePrefs()->exportScriptInterpreter());
         }
 
         void AnnotateGroup::deleteAnnotation()

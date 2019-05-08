@@ -43,10 +43,11 @@ namespace djv
     {
         namespace
         {
-            Enum::ANNOTATE_PRIMITIVE primitiveDefault   = Enum::ANNOTATE_FREEHAND_LINE;
-            AV::Color                colorDefault       = AV::Color(1.f, 0.f, 0.f);
-            size_t                   lineWidthDefault   = 5;
-            bool                     listVisibleDefault = false;
+            Enum::ANNOTATE_PRIMITIVE primitiveDefault       = Enum::ANNOTATE_FREEHAND_LINE;
+            AV::Color                colorDefault           = AV::Color(1.f, 0.f, 0.f);
+            size_t                   lineWidthDefault       = 5;
+            bool                     listVisibleDefault     = false;
+            QString                  exportExtensionDefault = ".jpg";
         
         } // namespace
 
@@ -55,7 +56,8 @@ namespace djv
             _primitive(primitiveDefault),
             _color(colorDefault),
             _lineWidth(lineWidthDefault),
-            _listVisible(listVisibleDefault)
+            _listVisible(listVisibleDefault),
+            _exportExtension(exportExtensionDefault)
         {
             UI::Prefs prefs("djv::ViewLib::AnnotatePrefs");
             prefs.get("primitive", _primitive);
@@ -64,8 +66,10 @@ namespace djv
             prefs.get("lineWidth", lineWidth);
             _lineWidth = Math::clamp(lineWidth, 1, 100);
             prefs.get("listVisible", _listVisible);
+            prefs.get("exportExtension", _exportExtension);
             prefs.get("exportScript", _exportScript);
             prefs.get("exportScriptOptions", _exportScriptOptions);
+            prefs.get("exportScriptInterpreter", _exportScriptInterpreter);
         }
 
         AnnotatePrefs::~AnnotatePrefs()
@@ -75,8 +79,10 @@ namespace djv
             prefs.set("color", _color);
             prefs.set("lineWidth", static_cast<int>(_lineWidth));
             prefs.set("listVisible", _listVisible);
+            prefs.set("exportExtension", _exportExtension);
             prefs.set("exportScript", _exportScript);
             prefs.set("exportScriptOptions", _exportScriptOptions);
+            prefs.set("exportScriptInterpreter", _exportScriptInterpreter);
         }
 
         Enum::ANNOTATE_PRIMITIVE AnnotatePrefs::primitive() const
@@ -99,14 +105,24 @@ namespace djv
             return _listVisible;
         }
 
-        const FileInfo & AnnotatePrefs::exportScript() const
+        const QString& AnnotatePrefs::exportExtension() const
+        {
+            return _exportExtension;
+        }
+
+        const FileInfo& AnnotatePrefs::exportScript() const
         {
             return _exportScript;
         }
 
-        const QString & AnnotatePrefs::exportScriptOptions() const
+        const QString& AnnotatePrefs::exportScriptOptions() const
         {
             return _exportScriptOptions;
+        }
+
+        const QString& AnnotatePrefs::exportScriptInterpreter() const
+        {
+            return _exportScriptInterpreter;
         }
 
         void AnnotatePrefs::reset()
@@ -115,8 +131,10 @@ namespace djv
             setColor(colorDefault);
             setLineWidth(lineWidthDefault);
             setListVisible(listVisibleDefault);
+            setExportExtension(exportExtensionDefault);
             setExportScript(QString());
             setExportScriptOptions(QString());
+            setExportScriptInterpreter(QString());
         }
 
         void AnnotatePrefs::setPrimitive(Enum::ANNOTATE_PRIMITIVE value)
@@ -155,7 +173,16 @@ namespace djv
             Q_EMIT prefChanged();
         }
 
-        void AnnotatePrefs::setExportScript(const FileInfo & value)
+        void AnnotatePrefs::setExportExtension(const QString& value)
+        {
+            if (value == _exportExtension)
+                return;
+            _exportExtension = value;
+            Q_EMIT exportExtensionChanged(_exportExtension);
+            Q_EMIT prefChanged();
+        }
+
+        void AnnotatePrefs::setExportScript(const FileInfo& value)
         {
             if (value == _exportScript)
                 return;
@@ -164,12 +191,21 @@ namespace djv
             Q_EMIT prefChanged();
         }
 
-        void AnnotatePrefs::setExportScriptOptions(const QString & value)
+        void AnnotatePrefs::setExportScriptOptions(const QString& value)
         {
             if (value == _exportScriptOptions)
                 return;
             _exportScriptOptions = value;
             Q_EMIT exportScriptOptionsChanged(_exportScriptOptions);
+            Q_EMIT prefChanged();
+        }
+
+        void AnnotatePrefs::setExportScriptInterpreter(const QString& value)
+        {
+            if (value == _exportScriptInterpreter)
+                return;
+            _exportScriptInterpreter = value;
+            Q_EMIT exportScriptInterpreterChanged(_exportScriptInterpreter);
             Q_EMIT prefChanged();
         }
 

@@ -78,10 +78,6 @@ namespace djv
             //! Cancel an in progress export.
             void cancel();
 
-        Q_SIGNALS:
-            //! This signal is emitted when the export is finished.
-            void finished();
-
         private Q_SLOTS:
             void callback(int);
             void finishedCallback();

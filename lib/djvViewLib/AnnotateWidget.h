@@ -121,6 +121,7 @@ namespace djv
             ~AnnotateExportWidget() override;
 
         private Q_SLOTS:
+            void exportExtensionCallback(int);
             void widgetUpdate();
 
         private:
