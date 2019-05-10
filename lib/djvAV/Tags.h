@@ -32,6 +32,7 @@
 #include <djvAV/AV.h>
 
 #include <map>
+#include <string>
 
 namespace djv
 {

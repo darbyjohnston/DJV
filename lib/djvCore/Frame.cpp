@@ -32,6 +32,7 @@
 #include <djvCore/Math.h>
 
 #include <algorithm>
+#include <sstream>
 
 namespace djv
 {
