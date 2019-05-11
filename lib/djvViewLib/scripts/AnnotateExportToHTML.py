@@ -2,17 +2,26 @@ import json
 import sys
 import webbrowser
 
+# Elide the given string.
 def elide(value, max=30):
 	if len(value) > max:
 		value = value[0:max] + "..."
 	return value
 
+# Split utility functions.
 def isPathSeparator(value):
 	return '/' == value or '\\' == value
 def isExtensionSeparator(value):
 	return '.' == value
 def isNumber(value):
 	return value in ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
+
+# Split a file name into pieces.
+# Returns an array:
+# 0 - Path
+# 1 - Base name
+# 2 - Number
+# 3 - Extension
 def splitFileName(value):
 	out = [ str(), str(), str(), str() ]
 	l = len(value)
