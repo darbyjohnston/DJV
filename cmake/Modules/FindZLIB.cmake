@@ -40,26 +40,3 @@ if(ZLIB_FOUND AND NOT TARGET ZLIB)
     add_library(ZLIB INTERFACE)
     target_link_libraries(ZLIB INTERFACE ZLIB::ZLIB)
 endif()
-
-if(DJV_THIRD_PARTY)
-    if(WIN32)
-        install(
-            FILES ${DJV_THIRD_PARTY}/bin/zlib.dll
-            DESTINATION ${DJV_INSTALL_BIN})
-    elseif(APPLE)
-        install(
-            FILES
-            ${DJV_THIRD_PARTY}/lib/libz.dylib
-            ${DJV_THIRD_PARTY}/lib/libz.1.dylib
-            ${DJV_THIRD_PARTY}/lib/libz.1.2.11.dylib
-            DESTINATION ${DJV_INSTALL_LIB})
-    else()
-        install(
-            FILES
-            ${DJV_THIRD_PARTY}/lib/libz.so
-            ${DJV_THIRD_PARTY}/lib/libz.so.1
-            ${DJV_THIRD_PARTY}/lib/libz.so.1.2.11
-            DESTINATION ${DJV_INSTALL_LIB})
-    endif()
-endif()
-

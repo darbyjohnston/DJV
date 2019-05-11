@@ -33,6 +33,12 @@
 #include <djvCore/Math.h>
 #include <djvCore/Memory.h>
 
+extern "C"
+{
+#include <fseq/fseq.h>
+
+} // extern "C"
+
 namespace djv
 {
     namespace Core
@@ -133,47 +139,13 @@ namespace djv
                 std::string& number,
                 std::string& extension)
             {
-                const size_t size = in.size();
-                if (size > 0)
-                {
-                    // Find the extension.
-                    size_t i = in.find_last_of('.');
-                    if (i != std::string::npos && i > 0 && !isPathSeparator(in[i - 1]))
-                    {
-                        extension = in.substr(i, size - 1);
-                        --i;
-                    }
-                    else
-                    {
-                        i = size - 1;
-                    }
-
-                    // Find the number.
-                    size_t j = i;
-                    i = in.find_last_not_of("0123456789#-", i);
-                    if (i != j)
-                    {
-                        if ('-' == in[i + 1])
-                        {
-                            ++i;
-                        }
-                        number = in.substr(i + 1, j - i);
-                    }
-
-                    // Find the base.
-                    j = i;
-                    i = in.find_last_of("/\\", i);
-                    if (i != j)
-                    {
-                        base = in.substr(i + 1, j - i);
-                    }
-
-                    // Find the path.
-                    if (i != std::string::npos && isPathSeparator(in[i]))
-                    {
-                        path = in.substr(0, i + 1);
-                    }
-                }
+                FSeqFileNameSizes sizes;
+                fseqFileNameSizesInit(&sizes);
+                fseqFileNameParseSizes(in.c_str(), &sizes, FSEQ_STRING_LEN_MAX);
+                path = in.substr(0, sizes.path);
+                base = in.substr(sizes.path, sizes.base);
+                number = in.substr(sizes.path + sizes.base, sizes.number);
+                extension = in.substr(sizes.path + sizes.base + sizes.number, sizes.extension);
             }
 
             std::vector<std::string> Path::splitDir(const std::string & value)

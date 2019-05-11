@@ -60,6 +60,9 @@ set(DJV_INSTALL_TRANSLATIONS translations)
 add_definitions(-DDJV_MMAP)
 add_definitions(-DDJV_ASSERT)
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
+
+# Set wheether to use OpenGL ES.
+set(DJV_OPENGL_ES2 FALSE CACHE STRING "Whether to enable OpenGL ES")
 if(DJV_OPENGL_ES2)
     add_definitions(-DDJV_OPENGL_ES2)
 endif()
@@ -222,6 +225,7 @@ add_subdirectory(tests)
 add_subdirectory(examples)
 add_subdirectory(experiments)
 add_subdirectory(doc)
+add_subdirectory(third-party)
 
 include(CPack)
 

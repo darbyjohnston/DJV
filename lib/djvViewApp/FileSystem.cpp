@@ -42,6 +42,7 @@
 #include <djvUI/GroupBox.h>
 #include <djvUI/Menu.h>
 #include <djvUI/RowLayout.h>
+#include <djvUI/Shortcut.h>
 #include <djvUI/Window.h>
 
 #include <djvCore/Context.h>
@@ -90,22 +91,22 @@ namespace djv
 
             p.actions["Open"] = UI::Action::create();
             p.actions["Open"]->setIcon("djvIconFileOpen");
-            p.actions["Open"]->setShortcut(GLFW_KEY_O, GLFW_MOD_CONTROL);
+            p.actions["Open"]->setShortcut(GLFW_KEY_O, UI::Shortcut::getSystemModifier());
             p.actions["Recent"] = UI::Action::create();
             p.actions["Recent"]->setIcon("djvIconFileRecent");
-            p.actions["Recent"]->setShortcut(GLFW_KEY_T, GLFW_MOD_CONTROL);
+            p.actions["Recent"]->setShortcut(GLFW_KEY_T, UI::Shortcut::getSystemModifier());
             //! \todo Implement me!
             p.actions["Reload"] = UI::Action::create();
-            p.actions["Reload"]->setShortcut(GLFW_KEY_R, GLFW_MOD_CONTROL);
+            p.actions["Reload"]->setShortcut(GLFW_KEY_R, UI::Shortcut::getSystemModifier());
             p.actions["Reload"]->setEnabled(false);
             p.actions["Close"] = UI::Action::create();
             p.actions["Close"]->setIcon("djvIconFileClose");
-            p.actions["Close"]->setShortcut(GLFW_KEY_E, GLFW_MOD_CONTROL);
+            p.actions["Close"]->setShortcut(GLFW_KEY_E, UI::Shortcut::getSystemModifier());
             p.actions["CloseAll"] = UI::Action::create();
-            p.actions["CloseAll"]->setShortcut(GLFW_KEY_E, GLFW_MOD_SHIFT | GLFW_MOD_CONTROL);
+            p.actions["CloseAll"]->setShortcut(GLFW_KEY_E, GLFW_MOD_SHIFT | UI::Shortcut::getSystemModifier());
             //! \todo Implement me!
             p.actions["Export"] = UI::Action::create();
-            p.actions["Export"]->setShortcut(GLFW_KEY_X, GLFW_MOD_CONTROL);
+            p.actions["Export"]->setShortcut(GLFW_KEY_X, UI::Shortcut::getSystemModifier());
             p.actions["Export"]->setEnabled(false);
             p.actions["Next"] = UI::Action::create();
             p.actions["Next"]->setShortcut(GLFW_KEY_PAGE_DOWN);
@@ -113,15 +114,15 @@ namespace djv
             p.actions["Prev"]->setShortcut(GLFW_KEY_PAGE_UP);
             //! \todo Implement me!
             p.actions["Layers"] = UI::Action::create();
-            p.actions["Layers"]->setShortcut(GLFW_KEY_L, GLFW_MOD_CONTROL);
+            p.actions["Layers"]->setShortcut(GLFW_KEY_L, UI::Shortcut::getSystemModifier());
             p.actions["Layers"]->setEnabled(false);
             //! \todo Implement me!
             p.actions["NextLayer"] = UI::Action::create();
-            p.actions["NextLayer"]->setShortcut(GLFW_KEY_EQUAL, GLFW_MOD_CONTROL);
+            p.actions["NextLayer"]->setShortcut(GLFW_KEY_EQUAL, UI::Shortcut::getSystemModifier());
             p.actions["NextLayer"]->setEnabled(false);
             //! \todo Implement me!
             p.actions["PrevLayer"] = UI::Action::create();
-            p.actions["PrevLayer"]->setShortcut(GLFW_KEY_MINUS, GLFW_MOD_CONTROL);
+            p.actions["PrevLayer"]->setShortcut(GLFW_KEY_MINUS, UI::Shortcut::getSystemModifier());
             p.actions["PrevLayer"]->setEnabled(false);
             //! \todo Implement me!
             p.actions["8BitConversion"] = UI::Action::create();
@@ -135,7 +136,7 @@ namespace djv
             p.actions["ClearCache"] = UI::Action::create();
             p.actions["ClearCache"]->setEnabled(false);
             p.actions["Exit"] = UI::Action::create();
-            p.actions["Exit"]->setShortcut(GLFW_KEY_Q, GLFW_MOD_CONTROL);
+            p.actions["Exit"]->setShortcut(GLFW_KEY_Q, UI::Shortcut::getSystemModifier());
 
             p.menu = UI::Menu::create(context);
             p.menu->addAction(p.actions["Open"]);

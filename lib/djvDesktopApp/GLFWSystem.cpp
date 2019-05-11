@@ -148,7 +148,9 @@ namespace djv
             }
 
             // Create a window.
+#if defined(DJV_OPENGL_ES2)
             glfwWindowHint(GLFW_CLIENT_API, GLFW_OPENGL_ES_API);
+#endif // DJV_OPENGL_ES2
             glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 2);
             glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 0);
             //glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
@@ -161,7 +163,7 @@ namespace djv
             p.glfwWindow = glfwCreateWindow(
                 static_cast<int>(ceilf(windowSize.x * (p.dpi / static_cast<float>(AV::dpiDefault)))),
                 static_cast<int>(ceilf(windowSize.y * (p.dpi / static_cast<float>(AV::dpiDefault)))),
-                getSystemName().c_str(), NULL, NULL);
+                context->getName().c_str(), NULL, NULL);
             if (!p.glfwWindow)
             {
                 std::stringstream ss;

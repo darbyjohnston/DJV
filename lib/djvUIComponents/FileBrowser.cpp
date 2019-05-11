@@ -49,6 +49,7 @@
 #include <djvUI/PopupWidget.h>
 #include <djvUI/RowLayout.h>
 #include <djvUI/SettingsSystem.h>
+#include <djvUI/Shortcut.h>
 #include <djvUI/Splitter.h>
 #include <djvUI/StackLayout.h>
 #include <djvUI/ScrollWidget.h>
@@ -163,7 +164,7 @@ namespace djv
 
                 p.actions["AddShortcut"] = Action::create();
                 p.actions["AddShortcut"]->setIcon("djvIconFavorite");
-                p.actions["AddShortcut"]->setShortcut(GLFW_KEY_S, GLFW_MOD_CONTROL);
+                p.actions["AddShortcut"]->setShortcut(GLFW_KEY_S, Shortcut::getSystemModifier());
 
                 p.actions["Tiles"] = Action::create();
                 p.actions["Tiles"]->setIcon("djvIconTileView");

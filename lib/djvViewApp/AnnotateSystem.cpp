@@ -34,6 +34,7 @@
 #include <djvUI/Action.h>
 #include <djvUI/Menu.h>
 #include <djvUI/RowLayout.h>
+#include <djvUI/Shortcut.h>
 
 #include <djvCore/Context.h>
 #include <djvCore/TextSystem.h>
@@ -62,7 +63,7 @@ namespace djv
             DJV_PRIVATE_PTR();
             p.actions["Tool"] = UI::Action::create();
             p.actions["Tool"]->setButtonType(UI::ButtonType::Toggle);
-            p.actions["Tool"]->setShortcut(GLFW_KEY_A, GLFW_MOD_CONTROL);
+            p.actions["Tool"]->setShortcut(GLFW_KEY_A, UI::Shortcut::getSystemModifier());
 
             p.menu = UI::Menu::create(context);
             p.menu->addAction(p.actions["Tool"]);

@@ -71,6 +71,7 @@ namespace djv
                 s << "Application: " << _name << '\n';
                 s << "System information: " << OS::getInformation() << '\n';
                 s << "Hardware concurrency: " << std::thread::hardware_concurrency() << '\n';
+                s << "argv0: " << argv0 << '\n';
                 s << "Resource paths:" << '\n';
                 for (auto path : FileSystem::getResourcePathEnums())
                 {
@@ -143,7 +144,7 @@ namespace djv
                     }
                 }
                 dot.push_back("}");
-                FileSystem::FileIO::writeLines("systems.dot", dot);
+                //FileSystem::FileIO::writeLines("systems.dot", dot);
             }
 
             for (const auto & system : _systems)

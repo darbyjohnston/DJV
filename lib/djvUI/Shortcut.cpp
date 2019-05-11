@@ -120,6 +120,15 @@ namespace djv
                 p.callback();
             }
         }
+        
+        int Shortcut::getSystemModifier()
+        {
+#if defined(DJV_PLATFORM_OSX)
+            return GLFW_MOD_SUPER;
+#else
+            return GLFW_MOD_CONTROL;
+#endif
+        }
 
         std::string Shortcut::getKeyString(int key)
         {
@@ -238,11 +247,11 @@ namespace djv
                 { GLFW_KEY_LEFT_SHIFT, DJV_TEXT("LeftShift") },
                 { GLFW_KEY_LEFT_CONTROL, DJV_TEXT("LeftControl") },
                 { GLFW_KEY_LEFT_ALT, DJV_TEXT("LeftAlt") },
-                { GLFW_KEY_LEFT_SUPER, DJV_TEXT("LeftSuper") },
+                { GLFW_KEY_LEFT_SUPER, DJV_TEXT("LeftCommand") },
                 { GLFW_KEY_RIGHT_SHIFT, DJV_TEXT("RightShift") },
                 { GLFW_KEY_RIGHT_CONTROL, DJV_TEXT("RightControl") },
                 { GLFW_KEY_RIGHT_ALT, DJV_TEXT("RightAlt") },
-                { GLFW_KEY_RIGHT_SUPER, DJV_TEXT("RightSuper") },
+                { GLFW_KEY_RIGHT_SUPER, DJV_TEXT("RightCommand") },
                 { GLFW_KEY_MENU, DJV_TEXT("Menu") },
             };
             const auto i = data.find(key);
@@ -256,7 +265,7 @@ namespace djv
                 { GLFW_MOD_SHIFT, DJV_TEXT("Shift") },
                 { GLFW_MOD_CONTROL, DJV_TEXT("Ctrl") },
                 { GLFW_MOD_ALT, DJV_TEXT("Alt") },
-                { GLFW_MOD_SUPER, DJV_TEXT("Super") }
+                { GLFW_MOD_SUPER, DJV_TEXT("Command") }
             };
             const auto i = data.find(key);
             return i != data.end() ? i->second : std::string();

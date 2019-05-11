@@ -27,9 +27,8 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#version 100
+#version 110
 
-precision mediump float;
 varying vec2 Texture;
 
 uniform int imageFormat;
