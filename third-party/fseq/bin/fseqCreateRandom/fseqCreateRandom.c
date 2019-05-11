@@ -49,7 +49,7 @@ FILE* _fopen(const char* fileName, const char* mode)
 }
 #endif
 
-static const char fileNames[][FSEQ_STRING_LEN_MAX] =
+static const char fileNames[][FSEQ_STRING_LEN] =
 {
     "shot%d_scene%d_normals",
     "shot%d_scene%d_rgba",
@@ -65,7 +65,7 @@ int randInt(int max)
 int main(int argc, char** argv)
 {
     int fileCount = 0;
-    int seqCount = 0;
+    int seqCount  = 0;
 
     if (argc != 4)
     {
@@ -73,19 +73,19 @@ int main(int argc, char** argv)
         return 1;
     }
     fileCount = atoi(argv[2]);
-    seqCount = atoi(argv[3]);
+    seqCount  = atoi(argv[3]);
 
     for (size_t i = 0; i < seqCount; ++i)
     {
-        static char seq[FSEQ_STRING_LEN_MAX];
+        static char seq[FSEQ_STRING_LEN];
         int frame = 0;
-        FSEQ_SNPRINTF(seq, FSEQ_STRING_LEN_MAX, fileNames[randInt((int)fileNamesSize - 1)], randInt(100), randInt(100));
+        FSEQ_SNPRINTF(seq, FSEQ_STRING_LEN, fileNames[randInt((int)fileNamesSize - 1)], randInt(100), randInt(100));
         frame = randInt(1000);
         for (size_t j = 0; j < fileCount / seqCount; ++j, ++frame)
         {
-            static char buf[FSEQ_STRING_LEN_MAX];
+            static char buf[FSEQ_STRING_LEN];
             FILE* f = NULL;
-            FSEQ_SNPRINTF(buf, FSEQ_STRING_LEN_MAX, "%s/%s.%d.tif", argv[1], seq, frame);
+            FSEQ_SNPRINTF(buf, FSEQ_STRING_LEN, "%s/%s.%d.tif", argv[1], seq, frame);
             f = _fopen(buf, "w");
             if (!f)
             {

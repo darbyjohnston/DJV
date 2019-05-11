@@ -5,7 +5,7 @@ cmake_policy(SET CMP0048 NEW)
 project(
     FSeq
     VERSION 1.0
-    DESCRIPTION "FSeq is a C library for working with file sequences commonly used in the VFX and film industry."
+    DESCRIPTION "FSeq is a C library for working with numbered sequences of files."
     LANGUAGES C)
 
 set(FSEQ_BUILD_BIN FALSE CACHE STRING "Whether to build the utilities")

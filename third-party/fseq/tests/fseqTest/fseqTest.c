@@ -47,7 +47,7 @@ void test()
         assert(0 == a.extension);
     }
     {
-        static const char testData[][5][FSEQ_STRING_LEN_MAX] =
+        static const char testData[][5][FSEQ_STRING_LEN] =
         {
             { "", "", "", "", "" },
             { "/", "/", "", "", "" },
@@ -73,10 +73,10 @@ void test()
             struct FSeqFileName fileName;
 
             fseqFileNameSizesInit(&sizes);
-            fseqFileNameParseSizes(testData[i][0], &sizes, FSEQ_STRING_LEN_MAX);
+            fseqFileNameParseSizes(testData[i][0], &sizes, FSEQ_STRING_LEN);
 
             fseqFileNameInit(&fileName);
-            fseqFileNameParse2(testData[i][0], &sizes, &fileName);
+            fseqFileNameSplit2(testData[i][0], &sizes, &fileName);
 
             printf("\"%s\": \"%s\" \"%s\" \"%s\" \"%s\"\n",
                 testData[i][0],
@@ -113,7 +113,7 @@ void test()
         char fileName[] = "/tmp/render.1.tif";
         struct FSeqFileName a;
         fseqFileNameInit(&a);
-        fseqFileNameParse("/tmp/render.1.tif", &a);
+        fseqFileNameSplit("/tmp/render.1.tif", &a, FSEQ_STRING_LEN);
         assert(0 == memcmp("/tmp/", a.path, strlen(a.path)));
         assert(0 == memcmp("render.", a.base, strlen(a.base)));
         assert(0 == memcmp("1", a.number, strlen(a.number)));
@@ -132,7 +132,7 @@ void test()
         int match = 0;
         
         fseqFileNameSizesInit(&sizesA);
-        fseqFileNameParseSizes(fileNameA, &sizesA, FSEQ_STRING_LEN_MAX);
+        fseqFileNameParseSizes(fileNameA, &sizesA, FSEQ_STRING_LEN);
         printf("%s: %d %d %d %d\n", fileNameA, sizesA.path, sizesA.base, sizesA.number, sizesA.extension);
         assert(5 == sizesA.path);
         assert(7 == sizesA.base);
@@ -140,7 +140,7 @@ void test()
         assert(4 == sizesA.extension);
         
         fseqFileNameSizesInit(&sizesB);
-        fseqFileNameParseSizes(fileNameB, &sizesB, FSEQ_STRING_LEN_MAX);
+        fseqFileNameParseSizes(fileNameB, &sizesB, FSEQ_STRING_LEN);
         printf("%s: %d %d %d %d\n", fileNameB, sizesB.path, sizesB.base, sizesB.number, sizesB.extension);
         assert(5 == sizesB.path);
         assert(7 == sizesB.base);
@@ -151,16 +151,32 @@ void test()
         assert(match != 0);
     }
     {
-        assert(0 == fseqPadding(""));
-        assert(1 == fseqPadding("0"));
-        assert(0 == fseqPadding("100"));
-        assert(4 == fseqPadding("0100"));
+        struct FSeqDirEntry entry;
+        fseqDirEntryInit(&entry);
+        char buf[FSEQ_STRING_LEN];
+        fseqDirEntryToString(&entry, buf, FSEQ_FALSE, FSEQ_STRING_LEN);
+        assert(!strlen(buf));
     }
     {
-        char fileName[] = "/tmp/render.0001.tif";
-        struct FSeqFileNameSizes a;
-        fseqFileNameSizesInit(&a);
-        fseqFileNameParseSizes(fileName, &a, FSEQ_STRING_LEN_MAX);
-        assert(4 == fseqPadding2(fileName, &a));
+        struct FSeqDirEntry entry;
+        fseqDirEntryInit(&entry);
+        fseqFileNameSplit("/tmp/render.exr", &entry.fileName, FSEQ_STRING_LEN);
+        char buf[FSEQ_STRING_LEN];
+        fseqDirEntryToString(&entry, buf, FSEQ_FALSE, FSEQ_STRING_LEN);
+        printf("%s\n", buf);
+        assert(0 == strcmp(buf, "render.exr"));
+    }
+    {
+        struct FSeqDirEntry entry;
+        fseqDirEntryInit(&entry);
+        fseqFileNameSplit("/tmp/render.1.exr", &entry.fileName, FSEQ_STRING_LEN);
+        entry.frameMin = 1000;
+        entry.frameMax = 10000;
+        entry.hasFramePadding = FSEQ_TRUE;
+        entry.framePadding = 5;
+        char buf[FSEQ_STRING_LEN];
+        fseqDirEntryToString(&entry, buf, FSEQ_FALSE, FSEQ_STRING_LEN);
+        printf("%s\n", buf);
+        assert(0 == strcmp(buf, "render.01000-10000.exr"));
     }
 }

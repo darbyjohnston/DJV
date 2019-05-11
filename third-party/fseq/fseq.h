@@ -31,16 +31,31 @@
 #define _FSEQ_H
 
 #include <stddef.h>
+#include <stdint.h>
 
 //! \mainpage
-//! FSeq is a C library for working with file sequences commonly used in the
-//! VFX and film industry.
+//! FSeq is a C library for working with numbered sequences of files. File
+//! sequences are commonly used in the VFX and film industry to represent
+//! individual frames of an animation or film clip.
 //!
-//! Parsing a file name:
+//! For example the files:
+//! - render.0001.exr
+//! - render.0002.exr
+//! - render.0003.exr
+//! - render.0004.exr
+//! - render.0005.exr
+//!
+//! Can be represented by the file sequence:
+//! - render.0001-0005.exr
+//!
+//! This makes browsing much easier when you have hundreds or thousands of
+//! files.
+//!
+//! Example splitting a file name into components:
 //! \code
 //! struct FSeqFileName fileName;
 //! fseqFileNameInit(&fileName);
-//! fseqFileNameParse("/tmp/render0100.exr", &fileName);
+//! fseqFileNameSplit("/tmp/render0100.exr", &fileName);
 //! printf("%s, %s, %s, %s\n", fileName.path, fileName.base, fileName.number, fileName.extension);
 //! fseqFileNameDel(&fileName);
 //! \endcode
@@ -50,15 +65,15 @@
 //! /tmp/, render, 0100, .exr
 //! \endcode
 //!
-//! List the contents of a directory with file sequences:
+//! Example listing the contents of a directory:
 //! \code
-//! struct FSeqDirEntry* entries = NULL;
-//! struct FSeqDirEntry* entry = NULL;
-//! entries = fseqDirList("/tmp", NULL);
-//! entry = entries;
+//! struct FSeqDirEntry* entries = fseqDirList("/tmp/", NULL, NULL);
+//! struct FSeqDirEntry* entry = entries;
 //! while (entry)
 //! {
-//!     printf("%s%s%s\n", entry->fileName.base, entry->fileName.number, entry->fileName.extension);
+//!     static char buf[FSEQ_STRING_LEN];
+//!     fseqDirEntryToString(entry, buf, FSEQ_FALSE, FSEQ_STRING_LEN);
+//!     printf("%s\n", buf);
 //!     entry = entry->next;
 //! }
 //! fseqDirListDel(entries);
@@ -66,16 +81,26 @@
 //!
 //! Output:
 //! \code
-//! render.rgba.1-100.tif
-//! render.normals.1-100.tif
-//! render.z.1-100.tif
+//! render.rgba.0001-0100.tif
+//! render.normals.0001-0100.tif
+//! render.z.0001-0100.tif
 //! \endcode
 
+//------------------------------------------------------------------------------
 //! \addtogroup Util
 //! @{
 
-//! The default maximum string length.
-#define FSEQ_STRING_LEN_MAX 4096
+//! Boolean type.
+typedef char FSeqBool;
+
+//! Boolean true value.
+#define FSEQ_TRUE 1
+
+//! Boolean false value.
+#define FSEQ_FALSE 0
+
+//! The default string length.
+#define FSEQ_STRING_LEN 4096
 
 //! Get the minimum of two values.
 #define FSEQ_MIN(A, B) (A < B ? A : B)
@@ -85,6 +110,7 @@
 
 //! @}
 
+//------------------------------------------------------------------------------
 //! \addtogroup FileNames File Names
 //! @{
 
@@ -111,10 +137,11 @@ unsigned short fseqFileNameParseSizes(
     size_t                    max);
 
 //! Compare FSeqFileNameSizes structs.
-//! \return 1 if the structs are equal, otherwise 0
-int fseqFileNameSizesCompare(const struct FSeqFileNameSizes*, const struct FSeqFileNameSizes*);
+FSeqBool fseqFileNameSizesCompare(
+    const struct FSeqFileNameSizes*,
+    const struct FSeqFileNameSizes*);
 
-//! This sructure provides file name components.
+//! This sruct provides file name components.
 struct FSeqFileName
 {
     char* path;
@@ -129,39 +156,37 @@ void fseqFileNameInit(struct FSeqFileName*);
 //! Delete a FSeqFileName struct.
 void fseqFileNameDel(struct FSeqFileName*);
 
-//! Parse the file name components.
-void fseqFileNameParse(const char*, struct FSeqFileName*);
+//! Split a file name into components.
+void fseqFileNameSplit(const char*, struct FSeqFileName*, size_t max);
 
-//! Parse the file name components.
-void fseqFileNameParse2(const char*, const struct FSeqFileNameSizes*, struct FSeqFileName*);
+//! Split a file name into components.
+FSeqBool fseqFileNameSplit2(
+    const char*,
+    const struct FSeqFileNameSizes*,
+    struct FSeqFileName*);
 
-//! Test whether two file names are part of the same sequence (all components are equal
-//! except for the number).
-//! \return 1 if there is a match, otherwise 0
-int fseqFileNameMatch(
+//! Test whether two file names are part of the same sequence (all components
+//! are equal except for the number).
+FSeqBool fseqFileNameMatch(
     const char*,
     const struct FSeqFileNameSizes*,
     const char*,
     const struct FSeqFileNameSizes*);
 
-//! Return the number of digits if the number is padded with zeroes.
-int fseqPadding(const char*);
-
-//! Return the number of digits if the number is padded with zeroes.
-int fseqPadding2(const char*, const struct FSeqFileNameSizes*);
-
 //! @}
 
+//------------------------------------------------------------------------------
 //! \addtogroup Directories
 //! @{
 
 //! This struct provides a directory entry.
 struct FSeqDirEntry
 {
-    struct FSeqFileName fileName;
-    int frameMin;
-    int frameMax;
-    char framePadding;
+    struct FSeqFileName  fileName;
+    int64_t              frameMin;
+    int64_t              frameMax;
+    FSeqBool             hasFramePadding;
+    char                 framePadding;
     struct FSeqDirEntry* next;
 };
 
@@ -171,22 +196,37 @@ void fseqDirEntryInit(struct FSeqDirEntry*);
 //! Delete a FSeqDirEntry struct.
 void fseqDirEntryDel(struct FSeqDirEntry*);
 
+//! Convert a directory entry to a string.
+//! \arg entry - The directory entry
+//! \arg out - The output string
+//! \arg path - Whether to include the path
+//! \arg max - The maximum output string length
+void fseqDirEntryToString(
+    const struct FSeqDirEntry* entry,
+    char*                      out,
+    FSeqBool                   path,
+    size_t                     max);
+
 //! This struct provides directory listing options.
 struct FSeqDirOptions
 {
-    char dotAndDotDotDirs;
-    char dotFiles;
-    char sequence;
+    FSeqBool dotAndDotDotDirs;
+    FSeqBool dotFiles;
+    FSeqBool sequence;
 };
 
 //! Initialize a fseqDirOptionsInit struct.
 void fseqDirOptionsInit(struct FSeqDirOptions*);
 
-//! List the contents of a directory.
+//! List the contents of a directory. Use fseqDirListDel() to delete the list.
 //! \arg path - The directory path
-//! \arg options - The directory listing options, may be NULL
+//! \arg options - The directory listing options, may also pass NULL instead
+//! \arg error - Whether any erros occurred, may also pass NULL instead
 //! \return A list of directory entries
-struct FSeqDirEntry* fseqDirList(const char* path, const struct FSeqDirOptions* options);
+struct FSeqDirEntry* fseqDirList(
+    const char*                  path,
+    const struct FSeqDirOptions* options,
+    FSeqBool*                    error);
 
 //! Delete a directory list.
 void fseqDirListDel(struct FSeqDirEntry*);

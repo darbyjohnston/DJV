@@ -27,48 +27,56 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include "fseqls.h"
+#include "fseq.h"
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
+void printDir(const char* path, const struct FSeqDirOptions* options)
+{
+    struct FSeqDirEntry* entries = NULL;
+    struct FSeqDirEntry* entry   = NULL;
+    FSeqBool             error   = FSEQ_FALSE;
+
+    entries = fseqDirList(path, options, &error);
+    if (error)
+    {
+        printf("cannot read %s\n", path);
+        return;
+    }
+
+    entry = entries;
+    while (entry)
+    {
+        static char buf[FSEQ_STRING_LEN];
+        fseqDirEntryToString(entry, buf, FSEQ_STRING_LEN);
+        printf("%s\n", buf);
+        entry = entry->next;
+    }
+
+    fseqDirListDel(entries);
+}
+
 int main(int argc, char** argv)
 {
-    char** dirs = NULL;
-    size_t dirsCount = 0;
     struct FSeqDirOptions options;
 
     fseqDirOptionsInit(&options);
 
     if (argc > 1)
     {
-        dirsCount = argc - 1;
-        dirs = (char**)malloc(dirsCount * sizeof(char**));
-        for (int i = 0; i < argc - 1; ++i)
+        // List the input directories.
+        for (int i = 1; i < argc; ++i)
         {
-            const size_t len = strlen(argv[i + 1]);
-            dirs[i] = (char*)malloc((len + 1) * sizeof(char));
-            memcpy(dirs[i], argv[i + 1], len);
-            dirs[i][len] = 0;
+            printDir(argv[i], &options);
         }
     }
     else
     {
-        dirsCount = 1;
-        dirs = (char**)malloc(dirsCount * sizeof(char**));
-        dirs[0] = (char*)malloc(2 * sizeof(char));
-        dirs[0][0] = '.';
-        dirs[0][1] = 0;
+        // List the current directory.
+        printDir(".", &options);
     }
-
-    for (size_t i = 0; i < dirsCount; ++i)
-    {
-        printDir(dirs[i], &options);
-        free(dirs[i]);
-    }
-
-    free(dirs);
 
     return 0;
 }
