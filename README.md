@@ -24,7 +24,6 @@ DJV is released under a BSD style open source license, see this
 
 Building on Linux
 -----------------
-
 #### Requirements
 
 Build tools:
