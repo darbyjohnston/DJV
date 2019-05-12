@@ -141,7 +141,7 @@ namespace djv
             {
                 FSeqFileNameSizes sizes;
                 fseqFileNameSizesInit(&sizes);
-                fseqFileNameParseSizes(in.c_str(), &sizes, FSEQ_STRING_LEN_MAX);
+                fseqFileNameParseSizes(in.c_str(), &sizes, FSEQ_STRING_LEN);
                 path = in.substr(0, sizes.path);
                 base = in.substr(sizes.path, sizes.base);
                 number = in.substr(sizes.path + sizes.base, sizes.number);
