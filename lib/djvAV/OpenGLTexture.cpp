@@ -33,8 +33,6 @@
 
 using namespace djv::Core;
 
-using namespace gl;
-
 namespace djv
 {
     namespace AV
@@ -93,7 +91,6 @@ namespace djv
 #if defined(DJV_OPENGL_ES2)
                 glBindTexture(GL_TEXTURE_2D, _id);
                 glPixelStorei(GL_UNPACK_ALIGNMENT, info.layout.alignment);
-                glPixelStorei(GL_UNPACK_SWAP_BYTES, info.layout.endian != Memory::getEndian());
                 glTexSubImage2D(
                     GL_TEXTURE_2D,
                     0,
@@ -133,7 +130,6 @@ namespace djv
 #if defined(DJV_OPENGL_ES2)
                 glBindTexture(GL_TEXTURE_2D, _id);
                 glPixelStorei(GL_UNPACK_ALIGNMENT, info.layout.alignment);
-                glPixelStorei(GL_UNPACK_SWAP_BYTES, info.layout.endian != Memory::getEndian());
                 glTexSubImage2D(
                     GL_TEXTURE_2D,
                     0,

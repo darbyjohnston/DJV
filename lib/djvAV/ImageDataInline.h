@@ -54,7 +54,7 @@ namespace djv
             inline Layout::Layout()
             {}
 
-            constexpr Layout::Layout(const Mirror & mirror, gl::GLint alignment, Core::Memory::Endian endian) :
+            constexpr Layout::Layout(const Mirror & mirror, GLint alignment, Core::Memory::Endian endian) :
                 mirror(mirror),
                 alignment(alignment),
                 endian(endian)
@@ -90,12 +90,12 @@ namespace djv
                 return size.y > 0 ? (size.x / static_cast<float>(size.y)) : 1.f;
             }
 
-            inline gl::GLenum Info::getGLFormat() const
+            inline GLenum Info::getGLFormat() const
             {
                 return AV::Image::getGLFormat(type);
             }
 
-            inline gl::GLenum Info::getGLType() const
+            inline GLenum Info::getGLType() const
             {
                 return AV::Image::getGLType(type);
             }
@@ -179,12 +179,12 @@ namespace djv
                 return _info.type;
             }
 
-            inline gl::GLenum Data::getGLFormat() const
+            inline GLenum Data::getGLFormat() const
             {
                 return _info.getGLFormat();
             }
 
-            inline gl::GLenum Data::getGLType() const
+            inline GLenum Data::getGLType() const
             {
                 return _info.getGLType();
             }

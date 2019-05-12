@@ -15,7 +15,7 @@ project(
     VERSION ${DJV_VERSION}
     DESCRIPTION "Professional media review software for VFX, animation, and film production"
     HOMEPAGE_URL "http://djv.sourceforge.net"
-    LANGUAGES CXX)
+    LANGUAGES C CXX)
 
 #-------------------------------------------------------------------------------
 # Options
@@ -135,6 +135,14 @@ else()
     set(ILMBASE_SHARED_LIBS ON)
     set(OPENEXR_SHARED_LIBS ON)
     set(FFMPEG_SHARED_LIBS ON)
+endif()
+
+if(DJV_OPENGL_ES2)
+    include_directories(${CMAKE_SOURCE_DIR}/third-party/gladGL2ES)
+    add_subdirectory(third-party/gladGL2ES)
+else()
+    include_directories(${CMAKE_SOURCE_DIR}/third-party/gladGL2)
+    add_subdirectory(third-party/gladGL2)
 endif()
 
 #-------------------------------------------------------------------------------

@@ -1,4 +1,4 @@
-[
+b[
     {
         "text": "Playback", 
         "id": "Playback", 
@@ -935,7 +935,7 @@
         "description": ""
     }, 
     {
-        "text": "* glbinding, https://github.com/cginternals/glbinding, Copyright (c) 2014-2015 Computer Graphics Systems Group at the Hasso-Plattner-Institute and CG Internals GmbH, Germany", 
+        "text": "* glad, https://github.com/Dav1dde/glad, Copyright (c) 2013-2018 David Herberth", 
         "id": "Third Party Text 8", 
         "description": ""
     }, 

@@ -61,10 +61,10 @@ namespace djv
             struct Layout
             {
                 inline Layout();
-                constexpr Layout(const Mirror &, gl::GLint alignment = 1, Core::Memory::Endian = Core::Memory::getEndian());
+                constexpr Layout(const Mirror &, GLint alignment = 1, Core::Memory::Endian = Core::Memory::getEndian());
 
                 Mirror mirror;
-                gl::GLint alignment = 1;
+                GLint alignment = 1;
                 Core::Memory::Endian endian = Core::Memory::getEndian();
 
                 constexpr bool operator == (const Layout &) const;
@@ -84,8 +84,8 @@ namespace djv
                 Layout layout;
 
                 inline float getAspectRatio() const;
-                inline gl::GLenum getGLFormat() const;
-                inline gl::GLenum getGLType() const;
+                inline GLenum getGLFormat() const;
+                inline GLenum getGLType() const;
                 inline bool isValid() const;
                 inline size_t getPixelByteCount() const;
                 inline size_t getScanlineByteCount() const;
@@ -117,8 +117,8 @@ namespace djv
                 inline int getHeight() const;
                 inline float getAspectRatio() const;
                 inline Type getType() const;
-                inline gl::GLenum getGLFormat() const;
-                inline gl::GLenum getGLType() const;
+                inline GLenum getGLFormat() const;
+                inline GLenum getGLType() const;
                 inline const Layout & getLayout() const;
                 inline bool isValid() const;
                 inline size_t getPixelByteCount() const;

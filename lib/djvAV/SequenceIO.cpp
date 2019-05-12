@@ -281,7 +281,12 @@ namespace djv
                     try
                     {
                         glfwMakeContextCurrent(p.glfwWindow);
-                        glbinding::initialize(glfwGetProcAddress);
+                        if (!gladLoadGLES2Loader((GLADloadproc)glfwGetProcAddress))
+                        {
+                            std::stringstream ss;
+                            ss << "Cannot initialize GLAD.";
+                            throw std::runtime_error(ss.str());
+                        }
 
                         _convert = Image::Convert::create(_context);
 

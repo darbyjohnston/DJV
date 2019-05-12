@@ -75,17 +75,17 @@ namespace djv
                 //! - std::exception
                 static std::shared_ptr<Shader> create(const std::shared_ptr<Render::Shader> &);
 
-                gl::GLuint getProgram() const;
+                GLuint getProgram() const;
 
-                void setUniform(gl::GLint, int);
-                void setUniform(gl::GLint, float);
-                void setUniform(gl::GLint, const glm::vec2 &);
-                void setUniform(gl::GLint, const glm::vec3 &);
-                void setUniform(gl::GLint, const glm::vec4 &);
-                void setUniform(gl::GLint, const glm::mat3x3 &);
-                void setUniform(gl::GLint, const glm::mat4x4 &);
-                void setUniform(gl::GLint, const Image::Color&);
-                void setUniform(gl::GLint, const float [4]);
+                void setUniform(GLint, int);
+                void setUniform(GLint, float);
+                void setUniform(GLint, const glm::vec2 &);
+                void setUniform(GLint, const glm::vec3 &);
+                void setUniform(GLint, const glm::vec4 &);
+                void setUniform(GLint, const glm::mat3x3 &);
+                void setUniform(GLint, const glm::mat4x4 &);
+                void setUniform(GLint, const Image::Color&);
+                void setUniform(GLint, const float [4]);
 
                 void setUniform(const std::string &, int);
                 void setUniform(const std::string &, float);
@@ -101,9 +101,9 @@ namespace djv
 
             private:
                 std::shared_ptr<Render::Shader> _shader;
-                gl::GLuint _vertex = 0;
-                gl::GLuint _fragment = 0;
-                gl::GLuint _program = 0;
+                GLuint _vertex = 0;
+                GLuint _fragment = 0;
+                GLuint _program = 0;
             };
 
         } // namespace OpenGL

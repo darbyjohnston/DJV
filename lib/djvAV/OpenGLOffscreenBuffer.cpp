@@ -37,8 +37,6 @@
 
 using namespace djv::Core;
 
-using namespace gl;
-
 namespace djv
 {
     namespace AV
@@ -67,16 +65,31 @@ namespace djv
                     throw std::runtime_error(ss.str());
                 }
                 GLenum target = GL_TEXTURE_2D;
+#if defined(DJV_OPENGL_ES2)
+#else // DJV_OPENGL_ES2
                 switch (type)
                 {
                 case OffscreenType::MultiSample: target = GL_TEXTURE_2D_MULTISAMPLE; break;
                 default: break;
                 }
+#endif // DJV_OPENGL_ES2
                 glBindTexture(target, _textureID);
                 glTexParameteri(target, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
                 glTexParameteri(target, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
                 glTexParameteri(target, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
                 glTexParameteri(target, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+#if defined(DJV_OPENGL_ES2)
+                glTexImage2D(
+                    target,
+                    0,
+                    Texture::getInternalFormat(_info.type),
+                    _info.size.x,
+                    _info.size.y,
+                    0,
+                    _info.getGLFormat(),
+                    _info.getGLType(),
+                    0);
+#else // DJV_OPENGL_ES2
                 switch (type)
                 {
                 case OffscreenType::MultiSample:
@@ -101,6 +114,7 @@ namespace djv
                         0);
                     break;
                 }
+#endif // DJV_OPENGL_ES2
                 glBindTexture(target, 0);
 
                 // Create the FBO.

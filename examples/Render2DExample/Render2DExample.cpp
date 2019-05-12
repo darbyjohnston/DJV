@@ -147,7 +147,7 @@ int Application::run()
         tick(dt);
         _render();
         //glfwSwapBuffers(glfwWindow);
-        gl::glFlush();
+        glFlush();
     }
     return 0;
 }

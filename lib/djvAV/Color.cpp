@@ -33,8 +33,6 @@
 
 using namespace djv::Core;
 
-using namespace gl;
-
 namespace djv
 {
     namespace AV

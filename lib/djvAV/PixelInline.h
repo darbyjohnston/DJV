@@ -351,9 +351,8 @@ namespace djv
                 return Type::None;
             }
 
-            inline gl::GLenum getGLFormat(Type value)
+            inline GLenum getGLFormat(Type value)
             {
-                using namespace gl;
                 const GLenum data[] =
                 {
                     GL_NONE,
@@ -414,9 +413,8 @@ namespace djv
                 return data[static_cast<size_t>(value)];
             }
 
-            inline gl::GLenum getGLType(Type value)
+            inline GLenum getGLType(Type value)
             {
-                using namespace gl;
                 const GLenum data[] =
                 {
                     GL_NONE,
@@ -424,26 +422,46 @@ namespace djv
                     GL_UNSIGNED_BYTE,
                     GL_UNSIGNED_SHORT,
                     GL_UNSIGNED_INT,
+#if defined(DJV_OPENGL_ES2)
+                    GL_FLOAT,
+#else
                     GL_HALF_FLOAT,
+#endif
                     GL_FLOAT,
 
                     GL_UNSIGNED_BYTE,
                     GL_UNSIGNED_SHORT,
                     GL_UNSIGNED_INT,
+#if defined(DJV_OPENGL_ES2)
+                    GL_FLOAT,
+#else
                     GL_HALF_FLOAT,
+#endif
                     GL_FLOAT,
 
                     GL_UNSIGNED_BYTE,
+#if defined(DJV_OPENGL_ES2)
+                    GL_UNSIGNED_SHORT,
+#else
                     GL_UNSIGNED_INT_10_10_10_2,
+#endif
                     GL_UNSIGNED_SHORT,
                     GL_UNSIGNED_INT,
+#if defined(DJV_OPENGL_ES2)
+                    GL_FLOAT,
+#else
                     GL_HALF_FLOAT,
+#endif
                     GL_FLOAT,
 
                     GL_UNSIGNED_BYTE,
                     GL_UNSIGNED_SHORT,
                     GL_UNSIGNED_INT,
+#if defined(DJV_OPENGL_ES2)
+                    GL_FLOAT,
+#else
                     GL_HALF_FLOAT,
+#endif
                     GL_FLOAT
                 };
                 DJV_ASSERT(sizeof(data) / sizeof(data[0]) == static_cast<size_t>(Type::Count));

@@ -54,13 +54,13 @@ namespace djv
                 DJV_NON_COPYABLE(TextureAtlas);
 
             public:
-                TextureAtlas(size_t textureCount, int textureSize, Image::Type, gl::GLenum filter = gl::GL_LINEAR, int border = 1);
+                TextureAtlas(size_t textureCount, int textureSize, Image::Type, GLenum filter = GL_LINEAR, int border = 1);
                 ~TextureAtlas();
 
                 size_t getTextureCount() const;
                 int getTextureSize() const;
                 Image::Type getTextureType() const;
-                std::vector<gl::GLuint> getTextures() const;
+                std::vector<GLuint> getTextures() const;
 
                 bool getItem(Core::UID, TextureAtlasItem &);
                 Core::UID addItem(const std::shared_ptr<Image::Data> &, TextureAtlasItem &);

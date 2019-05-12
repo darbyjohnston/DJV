@@ -39,8 +39,6 @@
 
 using namespace djv::Core;
 
-using namespace gl;
-
 namespace djv
 {
     namespace AV
@@ -261,8 +259,13 @@ namespace djv
 
             void VAO::_init(VBOType type, GLuint vbo)
             {
+#if defined(DJV_OPENGL_ES2)
+                glGenVertexArraysOES(1, &_vao);
+                glBindVertexArrayOES(_vao);
+#else // DJV_OPENGL_ES2
                 glGenVertexArrays(1, &_vao);
                 glBindVertexArray(_vao);
+#endif // DJV_OPENGL_ES2
                 glBindBuffer(GL_ARRAY_BUFFER, vbo);
                 const size_t vertexByteCount = getVertexByteCount(type);
                 switch (type)
@@ -273,6 +276,8 @@ namespace djv
                     glVertexAttribPointer(1, 2, GL_UNSIGNED_SHORT, GL_TRUE, static_cast<GLsizei>(vertexByteCount), (GLvoid*)8);
                     glEnableVertexAttribArray(1);
                     break;
+#if defined(DJV_OPENGL_ES2)
+#else // DJV_OPENGL_ES2
                 case VBOType::Pos3_F32_UV_U16_Normal_U10:
                     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, static_cast<GLsizei>(vertexByteCount), (GLvoid*)0);
                     glEnableVertexAttribArray(0);
@@ -291,6 +296,7 @@ namespace djv
                     glVertexAttribPointer(3, 4, GL_UNSIGNED_BYTE, GL_TRUE, static_cast<GLsizei>(vertexByteCount), (GLvoid*)20);
                     glEnableVertexAttribArray(3);
                     break;
+#endif // DJV_OPENGL_ES2
                 case VBOType::Pos3_F32_UV_F32_Normal_F32_Color_F32:
                     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, static_cast<GLsizei>(vertexByteCount), (GLvoid*)0);
                     glEnableVertexAttribArray(0);
@@ -309,7 +315,11 @@ namespace djv
             {
                 if (_vao)
                 {
+#if defined(DJV_OPENGL_ES2)
+                    glDeleteVertexArraysOES(1, &_vao);
+#else // DJV_OPENGL_ES2
                     glDeleteVertexArrays(1, &_vao);
+#endif // DJV_OPENGL_ES2
                     _vao = 0;
                 }
             }
@@ -323,7 +333,11 @@ namespace djv
 
             void VAO::bind()
             {
+#if defined(DJV_OPENGL_ES2)
+                glBindVertexArrayOES(_vao);
+#else // DJV_OPENGL_ES2
                 glBindVertexArray(_vao);
+#endif // DJV_OPENGL_ES2
             }
 
             void VAO::draw(size_t offset, size_t size)

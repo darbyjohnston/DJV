@@ -165,8 +165,8 @@ namespace djv
             inline Type getIntType(size_t channelCount, size_t bitDepth);
             inline Type getFloatType(size_t channelCount, size_t bitDepth);
 
-            inline gl::GLenum getGLFormat(Type);
-            inline gl::GLenum getGLType(Type);
+            inline GLenum getGLFormat(Type);
+            inline GLenum getGLType(Type);
 
             inline void convert_U8_U8(U8_T, U8_T &);
             inline void convert_U8_U10(U8_T, U10_T &);

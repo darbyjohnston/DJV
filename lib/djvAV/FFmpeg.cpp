@@ -33,6 +33,11 @@
 #include <djvCore/LogSystem.h>
 #include <djvCore/String.h>
 
+extern "C"
+{
+#include <libavformat/avformat.h>
+}
+
 using namespace djv::Core;
 
 namespace djv
@@ -117,6 +122,7 @@ namespace djv
                     _logSystem = context->getSystemT<LogSystem>();
                     av_log_set_level(AV_LOG_ERROR);
                     av_log_set_callback(avLogCallback);
+                    av_register_all();
                 }
 
                 Plugin::Plugin()

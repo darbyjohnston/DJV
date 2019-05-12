@@ -29,8 +29,6 @@
 
 #include <djvAV/ImageData.h>
 
-using namespace gl;
-
 namespace djv
 {
     namespace AV
@@ -72,6 +70,9 @@ namespace djv
             {
                 if (other._info == _info)
                 {
+#if defined(DJV_OPENGL_ES2)
+                    return 0 == memcmp(other._p, _p, _dataByteCount);
+#else
                     if (GL_UNSIGNED_INT_10_10_10_2 == _info.getGLType())
                     {
                         for (int y = 0; y < _info.size.y; ++y)
@@ -92,6 +93,7 @@ namespace djv
                     {
                         return 0 == memcmp(other._p, _p, _dataByteCount);
                     }
+#endif
                 }
                 return false;
             }

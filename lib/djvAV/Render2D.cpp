@@ -53,8 +53,6 @@
 
 using namespace djv::Core;
 
-using namespace gl;
-
 namespace djv
 {
     namespace AV
@@ -765,7 +763,10 @@ namespace djv
             {
                 DJV_PRIVATE_PTR();
 
+#if defined(DJV_OPENGL_ES2)
+#else // DJV_OPENGL_ES2
                 glEnable(GL_MULTISAMPLE);
+#endif // DJV_OPENGL_ES2
                 glEnable(GL_SCISSOR_TEST);
                 glEnable(GL_BLEND);
                 glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -1208,10 +1209,15 @@ namespace djv
                     const auto& info = imageData->getInfo();
                     switch (info.getGLFormat())
                     {
-                    case GL_RED:  primitive.imageFormat = ImageFormat::L;    break;
-                    case GL_RG:   primitive.imageFormat = ImageFormat::LA;   break;
-                    case GL_RGB:  primitive.imageFormat = ImageFormat::RGB;  break;
-                    case GL_RGBA: primitive.imageFormat = ImageFormat::RGBA; break;
+#if defined(DJV_OPENGL_ES2)
+                    case GL_LUMINANCE:       primitive.imageFormat = ImageFormat::L;    break;
+                    case GL_LUMINANCE_ALPHA: primitive.imageFormat = ImageFormat::LA;   break;
+#else // DJV_OPENGL_ES2
+                    case GL_RED:             primitive.imageFormat = ImageFormat::L;    break;
+                    case GL_RG:              primitive.imageFormat = ImageFormat::LA;   break;
+#endif // DJV_OPENGL_ES2
+                    case GL_RGB:             primitive.imageFormat = ImageFormat::RGB;  break;
+                    case GL_RGBA:            primitive.imageFormat = ImageFormat::RGBA; break;
                     default: break;
                     }
                     primitive.colorMode = colorMode;

@@ -3,7 +3,6 @@ find_package(IlmBase REQUIRED)
 find_package(OpenAL REQUIRED)
 find_package(OpenGL REQUIRED)
 find_package(GLFW REQUIRED)
-find_package(glbinding REQUIRED)
 
 find_package(JPEG)
 find_package(PNG)
@@ -111,7 +110,7 @@ endif()
 
 add_library(djvAV ${header} ${source})
 set(LIBRARIES
-    glbinding
+    glad
     GLFW
     FreeType
     IlmBase

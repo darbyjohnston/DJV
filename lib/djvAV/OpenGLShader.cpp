@@ -37,8 +37,6 @@
 
 using namespace djv::Core;
 
-using namespace gl;
-
 namespace djv
 {
     namespace AV
@@ -135,7 +133,7 @@ namespace djv
                 return out;
             }
 
-            gl::GLuint Shader::getProgram() const
+            GLuint Shader::getProgram() const
             {
                 return _program;
             }

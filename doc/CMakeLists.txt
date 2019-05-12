@@ -84,7 +84,7 @@ set(legal
     ../LICENSE_OpenAL.txt
     ../LICENSE_OpenEXR.txt
     ../LICENSE_dr_libs.txt
-    ../LICENSE_glbinding.txt
+    ../LICENSE_glad.txt
     ../LICENSE_libjpeg.txt
     ../LICENSE_libpng.txt
     ../LICENSE_libtiff.txt

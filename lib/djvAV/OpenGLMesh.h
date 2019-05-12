@@ -72,7 +72,7 @@ namespace djv
                 inline size_t getSize() const;
                 inline size_t getVertexCount() const;
                 inline VBOType getType() const;
-                inline gl::GLuint getID() const;
+                inline GLuint getID() const;
 
                 void copy(const std::vector<uint8_t> &);
                 void copy(const std::vector<uint8_t>&, size_t offset);
@@ -85,28 +85,28 @@ namespace djv
                 size_t _size = 0;
                 size_t _vertexCount = 0;
                 VBOType _type = VBOType::First;
-                gl::GLuint _vbo = 0;
+                GLuint _vbo = 0;
             };
 
             //! This class provides an OpenGL vertex array object.
             class VAO
             {
                 DJV_NON_COPYABLE(VAO);
-                void _init(VBOType, gl::GLuint vbo);
+                void _init(VBOType, GLuint vbo);
                 inline VAO();
 
             public:
                 ~VAO();
 
-                static std::shared_ptr<VAO> create(VBOType, gl::GLuint vbo);
+                static std::shared_ptr<VAO> create(VBOType, GLuint vbo);
 
-                inline gl::GLuint getID() const;
+                inline GLuint getID() const;
 
                 void bind();
                 void draw(size_t offset, size_t size);
 
             private:
-                gl::GLuint _vao = 0;
+                GLuint _vao = 0;
             };
 
         } // namespace OpenGL
