@@ -135,6 +135,7 @@ set(LIBRARIES
     FFMPEG
     GLM
     PicoJSON
+    fseq
     Threads::Threads
     ${CMAKE_DL_LIBS})
 if (WIN32)

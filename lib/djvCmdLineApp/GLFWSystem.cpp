@@ -145,7 +145,9 @@ namespace djv
             }
 
             // Create a window.
+#if defined(DJV_OPENGL_ES2)
             glfwWindowHint(GLFW_CLIENT_API, GLFW_OPENGL_ES_API);
+#endif // DJV_OPENGL_ES2
             glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 2);
             glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 0);
             //glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);

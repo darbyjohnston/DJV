@@ -27,7 +27,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#version 100
+#version 110
 
 attribute vec3 aPos;
 attribute vec2 aTexture;

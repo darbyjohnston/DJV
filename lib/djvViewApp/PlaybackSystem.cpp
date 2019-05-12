@@ -39,6 +39,7 @@
 #include <djvUI/ActionGroup.h>
 #include <djvUI/Menu.h>
 #include <djvUI/RowLayout.h>
+#include <djvUI/Shortcut.h>
 
 #include <djvAV/FFmpeg.h>
 
@@ -124,8 +125,8 @@ namespace djv
             p.actions["NextFrame10"]->addShortcut(GLFW_KEY_RIGHT, GLFW_MOD_SHIFT);
             p.actions["NextFrame10"]->addShortcut(GLFW_KEY_RIGHT_BRACKET, GLFW_MOD_SHIFT);
             p.actions["NextFrame100"] = UI::Action::create();
-            p.actions["NextFrame100"]->addShortcut(GLFW_KEY_RIGHT, GLFW_MOD_CONTROL);
-            p.actions["NextFrame100"]->addShortcut(GLFW_KEY_RIGHT_BRACKET, GLFW_MOD_CONTROL);
+            p.actions["NextFrame100"]->addShortcut(GLFW_KEY_RIGHT, UI::Shortcut::getSystemModifier());
+            p.actions["NextFrame100"]->addShortcut(GLFW_KEY_RIGHT_BRACKET, UI::Shortcut::getSystemModifier());
             p.actions["PrevFrame"] = UI::Action::create();
             p.actions["PrevFrame"]->setIcon("djvIconFramePrev");
             p.actions["PrevFrame"]->addShortcut(GLFW_KEY_LEFT);
@@ -134,8 +135,8 @@ namespace djv
             p.actions["PrevFrame10"]->addShortcut(GLFW_KEY_LEFT, GLFW_MOD_SHIFT);
             p.actions["PrevFrame10"]->addShortcut(GLFW_KEY_LEFT_BRACKET, GLFW_MOD_SHIFT);
             p.actions["PrevFrame100"] = UI::Action::create();
-            p.actions["PrevFrame100"]->addShortcut(GLFW_KEY_LEFT, GLFW_MOD_CONTROL);
-            p.actions["PrevFrame100"]->addShortcut(GLFW_KEY_LEFT_BRACKET, GLFW_MOD_CONTROL);
+            p.actions["PrevFrame100"]->addShortcut(GLFW_KEY_LEFT, UI::Shortcut::getSystemModifier());
+            p.actions["PrevFrame100"]->addShortcut(GLFW_KEY_LEFT_BRACKET, UI::Shortcut::getSystemModifier());
             p.actions["InOutPoints"] = UI::Action::create();
             p.actions["InOutPoints"]->setButtonType(UI::ButtonType::Toggle);
             p.actions["InOutPoints"]->setShortcut(GLFW_KEY_P);
