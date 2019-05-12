@@ -550,6 +550,7 @@ struct FSeqDirEntry* fseqDirList(const char* path, const struct FSeqDirOptions* 
     dir = opendir(path);
     if (!dir)
     {
+        if (error) *error = FSEQ_TRUE;
         return NULL;
     }
 
@@ -557,52 +558,77 @@ struct FSeqDirEntry* fseqDirList(const char* path, const struct FSeqDirOptions* 
     {
         struct FSeqFileNameSizes sizes;
         unsigned short           fileNameLen = 0;
+        FSeqBool                 filter      = FSEQ_FALSE;
 
         fseqFileNameSizesInit(&sizes);
         fileNameLen = fseqFileNameParseSizes(de->d_name, &sizes, FSEQ_STRING_LEN);
 
-        if (!_entries)
+        // Filter the entry.
+        if (!options->dotAndDotDotDirs && _IS_DOT_DIR(de->d_name, fileNameLen))
         {
-            // Create the first entry in the list.
-            _entries = _dirEntryCreate(de->d_name, fileNameLen, &sizes);
+            filter = FSEQ_TRUE;
+        }
+        else if (!options->dotAndDotDotDirs && _IS_DOT_DOT_DIR(de->d_name, fileNameLen))
+        {
+            filter = FSEQ_TRUE;
+        }
+        else if (!options->dotFiles && sizes.base)
+        {
+            filter |= '.' == *(de->d_name + sizes.path);
+        }
+
+        if (!filter)
+        {
             if (!_entries)
             {
-                break;
-            }
-            _lastEntry = _entries;
-        }
-        else
-        {
-            _entry = NULL;
-
-            if (options->sequence && sizes.number > 0)
-            {
-                // Check if this entry matches any already in the list.
-                _entry = _entries;
-                while (_entry)
+                // Create the first entry in the list.
+                _entries = _dirEntryCreate(de->d_name, fileNameLen, &sizes);
+                if (!_entries)
                 {
-                    if (fseqFileNameMatch(de->d_name, &sizes, _entry->fileName, &_entry->sizes))
+                    if (error) *error = FSEQ_TRUE;
+                    break;
+                }
+                _lastEntry = _entries;
+            }
+            else
+            {
+                _entry = NULL;
+
+                if (options->sequence && sizes.number > 0)
+                {
+                    // Check if this entry matches any already in the list.
+                    _entry = _entries;
+                    while (_entry)
                     {
-                        static char buf[FSEQ_STRING_LEN];
-                        memcpy(buf, de->d_name + sizes.path + sizes.base, sizes.number);
-                        buf[sizes.number] = 0;
+                        if (fseqFileNameMatch(de->d_name, &sizes, _entry->fileName, &_entry->sizes))
+                        {
+                            static char buf[FSEQ_STRING_LEN];
+                            memcpy(buf, de->d_name + sizes.path + sizes.base, sizes.number);
+                            buf[sizes.number] = 0;
+                            const int number = atoi(buf);
 
-                        const int number = atoi(buf);
-                        _entry->frameMin = FSEQ_MIN(_entry->frameMin, number);
-                        _entry->frameMax = FSEQ_MAX(_entry->frameMax, number);
-                        _entry->framePadding = FSEQ_MAX(_entry->framePadding, fseqPadding2(de->d_name, &sizes));
+                            _entry->frameMin        = FSEQ_MIN(_entry->frameMin, number);
+                            _entry->frameMax        = FSEQ_MAX(_entry->frameMax, number);
+                            _entry->hasFramePadding = '0' == buf[0] && _IS_NUMBER(buf[1]);
+                            _entry->framePadding    = (char)FSEQ_MIN(FSEQ_MAX((size_t)_entry->framePadding, sizes.number), 255);
 
+                            break;
+                        }
+                        _entry = _entry->next;
+                    }
+                }
+
+                if (!_entry)
+                {
+                    // Create a new entry.
+                    _lastEntry->next = _dirEntryCreate(de->d_name, fileNameLen, &sizes);
+                    if (!_lastEntry->next)
+                    {
+                        if (error) *error = FSEQ_TRUE;
                         break;
                     }
-                    _entry = _entry->next;
+                    _lastEntry = _lastEntry->next;
                 }
-            }
-
-            if (!_entry)
-            {
-                // Create a new entry.
-                _entry->next = _dirEntryCreate(de->d_name, fileNameLen, &sizes);
-                _lastEntry = _entry->next;
             }
         }
     }

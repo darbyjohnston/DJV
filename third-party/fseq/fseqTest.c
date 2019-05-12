@@ -27,8 +27,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include "fseqTest.h"
-
 #include "fseq.h"
 
 #include <assert.h>
@@ -36,7 +34,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-void test()
+int main(int argc, char** argv)
 {
     {
         struct FSeqFileNameSizes a;
@@ -179,4 +177,5 @@ void test()
         printf("%s\n", buf);
         assert(0 == strcmp(buf, "render.01000-10000.exr"));
     }
+    return 0;
 }

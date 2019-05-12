@@ -85,6 +85,25 @@
 //! render.normals.0001-0100.tif
 //! render.z.0001-0100.tif
 //! \endcode
+//!
+//! Listing a directory with 100K files on a Raspberry Pi 3 B+:
+//! \code
+//! pi@raspberrypi:~/dev/fseq-Release $ time ./fseqls ~/Desktop/Seq/Big/
+//! shot51_scene95_normals.00916-10915.tif
+//! shot97_scene29_normals.00771-10770.tif
+//! shot19_scene33_rgba.00768-10767.tif
+//! shot21_scene51_rgba.00839-10838.tif
+//! shot24_scene13_normals.00804-10803.tif
+//! shot29_scene63_rgba.00524-10523.tif
+//! shot40_scene12_normals.00108-10107.tif
+//! shot71_scene14_rgba.00606-10605.tif
+//! shot39_scene78_rgba.00798-10797.tif
+//! shot55_scene47_normals.00628-10627.tif
+//! 
+//! real    0m0.315s
+//! user    0m0.142s
+//! sys     0m0.171s
+//! \endcode
 
 //------------------------------------------------------------------------------
 //! \addtogroup Util
