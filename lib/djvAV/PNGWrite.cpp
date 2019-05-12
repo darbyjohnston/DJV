@@ -112,10 +112,10 @@ namespace djv
 #if defined(DJV_OPENGL_ES2)
                         case GL_LUMINANCE:       colorType = PNG_COLOR_TYPE_GRAY;       break;
                         case GL_LUMINANCE_ALPHA: colorType = PNG_COLOR_TYPE_GRAY_ALPHA; break;
-#else
-                        case GL_R:               colorType = PNG_COLOR_TYPE_GRAY;       break;
+#else // DJV_OPENGL_ES2
+                        case GL_RED:             colorType = PNG_COLOR_TYPE_GRAY;       break;
                         case GL_RG:              colorType = PNG_COLOR_TYPE_GRAY_ALPHA; break;
-#endif
+#endif // DJV_OPENGL_ES2
                         case GL_RGB:             colorType = PNG_COLOR_TYPE_RGB;        break;
                         case GL_RGBA:            colorType = PNG_COLOR_TYPE_RGB_ALPHA;  break;
                         default: break;

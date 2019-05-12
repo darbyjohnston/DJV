@@ -32,8 +32,12 @@
 #include <djvCore/String.h>
 
 #if defined(DJV_PLATFORM_WINDOWS)
+#ifndef WIN32_LEAN_AND_MEAN
 #define WIN32_LEAN_AND_MEAN
+#endif // WIN32_LEAN_AND_MEAN
+#ifndef NOMINMAX
 #define NOMINMAX
+#endif // NOMINMAX
 #include <windows.h>
 #endif // DJV_PLATFORM_WINDOWS
 

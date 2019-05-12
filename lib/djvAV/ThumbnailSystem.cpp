@@ -199,11 +199,14 @@ namespace djv
 
 #if defined(DJV_OPENGL_ES2)
             glfwWindowHint(GLFW_CLIENT_API, GLFW_OPENGL_ES_API);
-#endif
             glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 2);
             glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 0);
-            //glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
-            //glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+#else // DJV_OPENGL_ES2
+            glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
+            glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 1);
+            glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
+            glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+#endif // DJV_OPENGL_ES2
             glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE);
             if (OS::getIntEnv("DJV_OPENGL_DEBUG") != 0)
             {
@@ -240,7 +243,11 @@ namespace djv
                 try
                 {
                     glfwMakeContextCurrent(p.glfwWindow);
+#if defined(DJV_OPENGL_ES2)
                     if (!gladLoadGLES2Loader((GLADloadproc)glfwGetProcAddress))
+#else // DJV_OPENGL_ES2
+                    if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
+#endif // DJV_OPENGL_ES2
                     {
                         std::stringstream ss;
                         ss << "Cannot initialize GLAD.";

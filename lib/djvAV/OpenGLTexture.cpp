@@ -172,7 +172,8 @@ namespace djv
 #if defined(DJV_OPENGL_ES2)
                 return Image::getGLFormat(type);
 #else // DJV_OPENGL_ES2
-                switch (Image::getGLFormat(type))
+                return Image::getGLFormat(type);
+                /*switch (Image::getGLFormat(type))
                 {
                 case GL_RED:
                     switch (Image::getGLType(type))
@@ -217,7 +218,7 @@ namespace djv
                     break;
                 default: break;
                 }
-                return GL_NONE;
+                return GL_NONE;*/
 #endif // DJV_OPENGL_ES2
             }
 

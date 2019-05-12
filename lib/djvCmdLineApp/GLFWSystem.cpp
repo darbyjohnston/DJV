@@ -75,8 +75,8 @@ namespace djv
             {
                 switch (severity)
                 {
-                case GL_DEBUG_SEVERITY_HIGH:
-                case GL_DEBUG_SEVERITY_MEDIUM:
+                case GL_DEBUG_SEVERITY_HIGH_KHR:
+                case GL_DEBUG_SEVERITY_MEDIUM_KHR:
                     if (auto log = reinterpret_cast<const Context *>(userParam)->getSystemT<LogSystem>())
                     {
                         log->log("djv::CmdLine::GLFWSystem", message);
@@ -147,11 +147,14 @@ namespace djv
             // Create a window.
 #if defined(DJV_OPENGL_ES2)
             glfwWindowHint(GLFW_CLIENT_API, GLFW_OPENGL_ES_API);
-#endif // DJV_OPENGL_ES2
             glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 2);
             glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 0);
-            //glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
-            //glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+#else // DJV_OPENGL_ES2
+            glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
+            glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 1);
+            glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
+            glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+#endif // DJV_OPENGL_ES2
             glfwWindowHint(GLFW_SAMPLES, 1);
             glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE);
             glfwWindowHint(GLFW_DOUBLEBUFFER, GL_FALSE);
@@ -179,7 +182,11 @@ namespace djv
             }
             glfwSetWindowUserPointer(p.glfwWindow, context);
             glfwMakeContextCurrent(p.glfwWindow);
+#if defined(DJV_OPENGL_ES2)
             if (!gladLoadGLES2Loader((GLADloadproc)glfwGetProcAddress))
+#else
+            if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
+#endif
             {
                 std::stringstream ss;
                 ss << "Cannot initialize GLAD.";
