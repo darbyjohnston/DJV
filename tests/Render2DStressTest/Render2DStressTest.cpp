@@ -121,7 +121,7 @@ private:
     void _generateRandomNumbers();
     void _initRandomNumbers();
     void _drawRandomRectangle();
-    void _drawRandomRoundedRectangle();
+    void _drawRandomPill();
     void _drawRandomCircle();
     void _drawRandomText();
     void _drawRandomIcon();
@@ -343,12 +343,11 @@ void Application::_drawRandomRectangle()
     _currentSize = _currentSize->next;
 }
 
-void Application::_drawRandomRoundedRectangle()
+void Application::_drawRandomPill()
 {
     _render2D->setFillColor(_currentColor->c);
-    _render2D->drawRoundedRect(
-        Core::BBox2f(_currentPos->v.x, _currentPos->v.y, _currentSize->v.x, _currentSize->v.y),
-        std::min(_currentSize->v.x, _currentSize->v.y) / 4.f);
+    _render2D->drawPill(
+        Core::BBox2f(_currentPos->v.x, _currentPos->v.y, _currentSize->v.x, _currentSize->v.y));
     _currentColor = _currentColor->next;
     _currentPos = _currentPos->next;
     _currentSize = _currentSize->next;
@@ -403,7 +402,7 @@ void Application::_render()
     for (size_t i = 0; i < drawCount / 5; ++i)
     {
         _drawRandomRectangle();
-        _drawRandomRoundedRectangle();
+        _drawRandomPill();
         _drawRandomCircle();
         _drawRandomText();
         _drawRandomIcon();
