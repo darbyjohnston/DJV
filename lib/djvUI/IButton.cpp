@@ -46,10 +46,6 @@ namespace djv
                 ButtonType buttonType = ButtonType::Push;
                 bool checked = false;
                 ColorRole foregroundColorRole = ColorRole::Foreground;
-                ColorRole hoveredColorRole = ColorRole::Hovered;
-                ColorRole pressedColorRole = ColorRole::Pressed;
-                ColorRole checkedColorRole = ColorRole::Checked;
-                ColorRole disabledColorRole = ColorRole::Disabled;
 
                 std::function<void(void)> clickedCallback;
                 std::function<void(bool)> checkedCallback;
@@ -102,68 +98,12 @@ namespace djv
                 return _p->foregroundColorRole;
             }
 
-            ColorRole IButton::getHoveredColorRole() const
-            {
-                return _p->hoveredColorRole;
-            }
-
-            ColorRole IButton::getPressedColorRole() const
-            {
-                return _p->pressedColorRole;
-            }
-
-            ColorRole IButton::getCheckedColorRole() const
-            {
-                return _p->checkedColorRole;
-            }
-
-            ColorRole IButton::getDisabledColorRole() const
-            {
-                return _p->disabledColorRole;
-            }
-
             void IButton::setForegroundColorRole(ColorRole value)
             {
                 DJV_PRIVATE_PTR();
                 if (value == p.foregroundColorRole)
                     return;
                 p.foregroundColorRole = value;
-                _redraw();
-            }
-
-            void IButton::setHoveredColorRole(ColorRole value)
-            {
-                DJV_PRIVATE_PTR();
-                if (p.hoveredColorRole == value)
-                    return;
-                p.hoveredColorRole = value;
-                _redraw();
-            }
-
-            void IButton::setPressedColorRole(ColorRole value)
-            {
-                DJV_PRIVATE_PTR();
-                if (p.pressedColorRole == value)
-                    return;
-                p.pressedColorRole = value;
-                _redraw();
-            }
-
-            void IButton::setCheckedColorRole(ColorRole value)
-            {
-                DJV_PRIVATE_PTR();
-                if (p.checkedColorRole == value)
-                    return;
-                p.checkedColorRole = value;
-                _redraw();
-            }
-
-            void IButton::setDisabledColorRole(ColorRole value)
-            {
-                DJV_PRIVATE_PTR();
-                if (p.disabledColorRole == value)
-                    return;
-                p.disabledColorRole = value;
                 _redraw();
             }
 
@@ -322,12 +262,6 @@ namespace djv
             void IButton::_setCanRejectPressed(bool value)
             {
                 _p->canRejectPressed = value;
-            }
-
-            ColorRole IButton::_getForegroundColorRole() const
-            {
-                DJV_PRIVATE_PTR();
-                return !isEnabled(true) ? p.disabledColorRole : p.foregroundColorRole;
             }
 
             void IButton::_doClickedCallback()

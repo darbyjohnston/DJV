@@ -31,7 +31,6 @@
 
 #include <djvUI/Action.h>
 #include <djvUI/ActionGroup.h>
-#include <djvUI/Border.h>
 #include <djvUI/Icon.h>
 #include <djvUI/Label.h>
 #include <djvUI/Menu.h>
@@ -74,10 +73,12 @@ namespace djv
             p.actionGroup = ActionGroup::create(ButtonType::Radio);
 
             p.menu = Menu::create(context);
+            p.menu->setMargin(MetricsRole::MarginSmall);
             addChild(p.menu);
 
             p.button = Button::Menu::create(context);
-            p.button->setBorder(true);
+            p.button->setPopupIcon("djvIconPopupMenu");
+            p.button->setMenuStyle(Button::MenuStyle::Round);
             p.button->setBackgroundRole(ColorRole::Button);
             addChild(p.button);
 

@@ -84,7 +84,7 @@ namespace djv
 
                     setClassName("djv::UI::Layout::Bellows::Button");
                     setButtonType(ButtonType::Toggle);
-                    setBackgroundRole(ColorRole::Button);
+                    setBackgroundRole(ColorRole::BackgroundBellows);
 
                     _icon = Icon::create(context);
                     _icon->setIcon("djvIconArrowSmallRight");
@@ -165,7 +165,6 @@ namespace djv
             {
                 std::shared_ptr<Button> button;
                 std::shared_ptr<StackLayout> childLayout;
-                std::shared_ptr<VerticalLayout> separatorLayout;
                 std::shared_ptr<VerticalLayout> layout;
                 std::function<void(bool)> openCallback;
             };
@@ -181,18 +180,13 @@ namespace djv
                 p.button = Button::create(context);
 
                 p.childLayout = StackLayout::create(context);
-
-                p.separatorLayout = VerticalLayout::create(context);
-                p.separatorLayout->setSpacing(MetricsRole::None);
-                p.separatorLayout->addChild(p.childLayout);
-                p.separatorLayout->addSeparator();
+                p.childLayout->setShadowOverlay({ Side::Top });
 
                 p.layout = VerticalLayout::create(context);
                 p.layout->setSpacing(MetricsRole::None);
                 p.layout->addChild(p.button);
-                p.layout->addSeparator();
-                p.layout->addChild(p.separatorLayout);
-                p.layout->setStretch(p.separatorLayout, RowStretch::Expand);
+                p.layout->addChild(p.childLayout);
+                p.layout->setStretch(p.childLayout, RowStretch::Expand);
                 Widget::addChild(p.layout);
 
                 setOpen(true);
@@ -307,7 +301,7 @@ namespace djv
             void Bellows::_childrenUpdate()
             {
                 DJV_PRIVATE_PTR();
-                p.separatorLayout->setVisible(p.button->isChecked() && !p.childLayout->getChildren().empty());
+                p.childLayout->setVisible(p.button->isChecked());
             }
 
         } // namespace Layout

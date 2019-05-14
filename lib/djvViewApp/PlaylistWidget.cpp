@@ -169,20 +169,19 @@ namespace djv
                 auto style = _getStyle();
                 const BBox2f& g = getGeometry();
                 const float m = style->getMetric(UI::MetricsRole::MarginSmall);
-                const UI::ColorRole checkedColorRole = getCheckedColorRole();
-                if (_isToggled() && checkedColorRole != UI::ColorRole::None)
+                if (_isToggled())
                 {
-                    render->setFillColor(_getColorWithOpacity(style->getColor(checkedColorRole)));
+                    render->setFillColor(_getColorWithOpacity(style->getColor(UI::ColorRole::Checked)));
                     render->drawRect(BBox2f(g.min.x, g.min.y, m, g.h()));
                 }
                 if (_isPressed())
                 {
-                    render->setFillColor(_getColorWithOpacity(style->getColor(getPressedColorRole())));
+                    render->setFillColor(_getColorWithOpacity(style->getColor(UI::ColorRole::Pressed)));
                     render->drawRect(g);
                 }
                 else if (_isHovered())
                 {
-                    render->setFillColor(_getColorWithOpacity(style->getColor(getHoveredColorRole())));
+                    render->setFillColor(_getColorWithOpacity(style->getColor(UI::ColorRole::Hovered)));
                     render->drawRect(g);
                 }
             }

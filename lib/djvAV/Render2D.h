@@ -82,9 +82,8 @@ namespace djv
                 //! \name Primitives
                 ///@{
 
-                void drawRect(const Core::BBox2f &);
-                void drawRoundedRect(const Core::BBox2f &, float radius, size_t facets = 16);
-                void drawRoundedRect(const Core::BBox2f &, float radius, Side, size_t facets = 16);
+                void drawRect(const Core::BBox2f&);
+                void drawPill(const Core::BBox2f&, size_t facets = 32);
                 void drawCircle(const glm::vec2 & pos, float radius, size_t facets = 64);
 
                 ///@}

@@ -47,9 +47,7 @@ namespace djv
         void ImageWidget::_init(Context * context)
         {
             Widget::_init(context);
-
             setClassName("djv::UI::ImageWidget");
-            setBackgroundRole(ColorRole::Trough);
         }
 
         ImageWidget::ImageWidget() :

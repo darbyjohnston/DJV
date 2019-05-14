@@ -116,17 +116,17 @@ namespace djv
 
                 if (_isToggled())
                 {
-                    render->setFillColor(_getColorWithOpacity(style->getColor(getCheckedColorRole())));
+                    render->setFillColor(_getColorWithOpacity(style->getColor(ColorRole::Checked)));
                     render->drawRect(g1);
                 }
                 if (_isPressed())
                 {
-                    render->setFillColor(_getColorWithOpacity(style->getColor(getPressedColorRole())));
+                    render->setFillColor(_getColorWithOpacity(style->getColor(ColorRole::Checked)));
                     render->drawRect(g1);
                 }
                 else if (_isHovered())
                 {
-                    render->setFillColor(_getColorWithOpacity(style->getColor(getHoveredColorRole())));
+                    render->setFillColor(_getColorWithOpacity(style->getColor(ColorRole::Checked)));
                     render->drawRect(g1);
                 }
             }

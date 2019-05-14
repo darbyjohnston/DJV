@@ -29,7 +29,7 @@
 
 #pragma once
 
-#include <djvUI/UI.h>
+#include <djvUI/Style.h>
 
 #include <djvCore/IObject.h>
 #include <djvCore/ValueObserver.h>
@@ -64,6 +64,12 @@ namespace djv
             void removeAction(const std::shared_ptr<Action> &);
             void clearActions();
             void addSeparator();
+
+            MetricsRole getMinimumSizeRole() const;
+            void setMinimumSizeRole(MetricsRole);
+
+            MetricsRole getMargin() const;
+            void setMargin(MetricsRole);
 
             void popup(const glm::vec2 &);
             void popup(const std::weak_ptr<Widget> & button);

@@ -184,7 +184,6 @@ void Application::_init(int argc, char ** argv)
         "96DPI/djvIconHelp.png",
         "96DPI/djvIconListView.png",
         "96DPI/djvIconMenu.png",
-        "96DPI/djvIconMenuPopup.png",
         "96DPI/djvIconPinSmall.png",
         "96DPI/djvIconPlaybackForward.png",
         "96DPI/djvIconPlaybackReverse.png",

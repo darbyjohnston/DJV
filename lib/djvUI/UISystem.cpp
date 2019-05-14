@@ -75,9 +75,10 @@ namespace djv
             auto fontSettings = Settings::Font::create(context);
             auto styleSettings = Settings::Style::create(context);
 
+            auto iconSystem = IconSystem::create(context);
+
             p.style = Style::Style::create(dpi, context);
             
-            auto iconSystem = IconSystem::create(context);
             auto dialogSystem = DialogSystem::create(context);
 
             addDependency(settingsSystem);

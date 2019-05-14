@@ -33,6 +33,7 @@
 #include <djvUI/ActionGroup.h>
 #include <djvUI/Border.h>
 #include <djvUI/Icon.h>
+#include <djvUI/Label.h>
 #include <djvUI/LineEditBase.h>
 #include <djvUI/ListButton.h>
 #include <djvUI/Menu.h>
@@ -58,6 +59,7 @@ namespace djv
                 std::shared_ptr<Button::Menu> historyButton;
                 std::shared_ptr<HorizontalLayout> buttonLayout;
                 std::shared_ptr<LineEditBase> lineEditBase;
+                std::shared_ptr<Border> lineEditBorder;
                 std::shared_ptr<SoloLayout> soloLayout;
                 std::shared_ptr<HorizontalLayout> layout;
                 std::function<void(const FileSystem::Path &)> pathCallback;
@@ -81,26 +83,30 @@ namespace djv
                 p.historyButton->setEnabled(false);
 
                 p.buttonLayout = HorizontalLayout::create(context);
-                p.buttonLayout->setSpacing(MetricsRole::Border);
-                p.buttonLayout->setBackgroundRole(ColorRole::Trough);
+                p.buttonLayout->setSpacing(MetricsRole::None);
                 p.buttonLayout->setPointerEnabled(true);
+                p.buttonLayout->setBackgroundRole(ColorRole::Background);
                 p.buttonLayout->installEventFilter(shared_from_this());
 
                 p.lineEditBase = LineEditBase::create(context);
+                p.lineEditBase->setVAlign(VAlign::Fill);
                 p.lineEditBase->installEventFilter(shared_from_this());
+                p.lineEditBorder = Border::create(context);
+                p.lineEditBorder->setBorderColorRole(ColorRole::None);
+                p.lineEditBorder->addChild(p.lineEditBase);
 
                 p.layout = HorizontalLayout::create(context);
                 p.layout->setSpacing(MetricsRole::None);
-                p.layout->addChild(p.historyButton);
-                auto border = Border::create(context);
-                border->setMargin(MetricsRole::MarginSmall);
-                border->setVAlign(VAlign::Center);
+                auto hLayout = HorizontalLayout::create(context);
+                hLayout->setBackgroundRole(ColorRole::BackgroundToolBar);
+                hLayout->setSpacing(MetricsRole::None);
+                hLayout->addChild(p.historyButton);
+                p.layout->addChild(hLayout);
                 p.soloLayout = SoloLayout::create(context);
                 p.soloLayout->addChild(p.buttonLayout);
-                p.soloLayout->addChild(p.lineEditBase);
-                border->addChild(p.soloLayout);
-                p.layout->addChild(border);
-                p.layout->setStretch(border, RowStretch::Expand);
+                p.soloLayout->addChild(p.lineEditBorder);
+                p.layout->addChild(p.soloLayout);
+                p.layout->setStretch(p.soloLayout, RowStretch::Expand);
                 addChild(p.layout);
 
                 auto weak = std::weak_ptr<PathWidget>(std::dynamic_pointer_cast<PathWidget>(shared_from_this()));
@@ -151,13 +157,12 @@ namespace djv
                     }
                 });
 
-                auto weakBorder = std::weak_ptr<Border>(border);
                 p.lineEditBase->setFocusCallback(
-                    [weakBorder](bool value)
+                    [weak](bool value)
                 {
-                    if (auto border = weakBorder.lock())
+                    if (auto widget = weak.lock())
                     {
-                        border->setBorderColorRole(value ? ColorRole::Checked : ColorRole::Border);
+                        widget->_p->lineEditBorder->setBorderColorRole(value ? ColorRole::Checked : ColorRole::None);
                     }
                 });
             }
@@ -188,27 +193,41 @@ namespace djv
 
                 auto context = getContext();
                 _p->buttonLayout->clearChildren();
-                for (auto i = paths.rbegin(); i != paths.rend(); ++i)
+                size_t j = 0;
+                for (auto i = paths.rbegin(); i != paths.rend(); ++i, ++j)
                 {
-                    auto button = ListButton::create(context);
-                    button->setText(i->isRoot() ? i->get() : i->getFileName());
-                    button->setBackgroundRole(ColorRole::Button);
-
-                    _p->buttonLayout->addChild(button);
-
-                    const auto path = *i;
-                    auto weak = std::weak_ptr<PathWidget>(std::dynamic_pointer_cast<PathWidget>(shared_from_this()));
-                    button->setClickedCallback(
-                        [weak, path]
+                    if (j < paths.size() - 1)
                     {
-                        if (auto widget = weak.lock())
+                        auto button = ListButton::create(context);
+                        button->setText(i->isRoot() ? i->get() : i->getFileName());
+                        button->setForegroundColorRole(ColorRole::ForegroundDim);
+                        button->setBackgroundRole(ColorRole::BackgroundToolBar);
+                        button->setShadowOverlay({ Side::Left, Side::Top });
+
+                        _p->buttonLayout->addChild(button);
+
+                        const auto path = *i;
+                        auto weak = std::weak_ptr<PathWidget>(std::dynamic_pointer_cast<PathWidget>(shared_from_this()));
+                        button->setClickedCallback(
+                            [weak, path]
                         {
-                            if (widget->_p->pathCallback)
+                            if (auto widget = weak.lock())
                             {
-                                widget->_p->pathCallback(path);
+                                if (widget->_p->pathCallback)
+                                {
+                                    widget->_p->pathCallback(path);
+                                }
                             }
-                        }
-                    });
+                        });
+                    }
+                    else
+                    {
+                        auto label = Label::create(context);
+                        label->setText(i->isRoot() ? i->get() : i->getFileName());
+                        label->setMargin(MetricsRole::MarginSmall);
+
+                        _p->buttonLayout->addChild(label);
+                    }
                 }
 
                 _p->lineEditBase->setText(path.get());
@@ -256,7 +275,7 @@ namespace djv
                 }
                 p.soloLayout->setCurrentWidget(
                     value ?
-                    std::static_pointer_cast<Widget>(p.lineEditBase) :
+                    std::static_pointer_cast<Widget>(p.lineEditBorder) :
                     std::static_pointer_cast<Widget>(p.buttonLayout));
             }
 

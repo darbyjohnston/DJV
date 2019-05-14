@@ -139,6 +139,9 @@ namespace djv
             inline ColorRole getBackgroundRole() const;
             void setBackgroundRole(ColorRole);
 
+            inline const std::vector<Side>& getShadowOverlay() const;
+            void setShadowOverlay(const std::vector<Side>&);
+
             ///@}
 
             //! \name Input
@@ -195,7 +198,7 @@ namespace djv
             virtual void _layoutEvent(Core::Event::Layout &) {}
             virtual void _clipEvent(Core::Event::Clip &) {}
             virtual void _paintEvent(Core::Event::Paint &);
-            virtual void _paintOverlayEvent(Core::Event::PaintOverlay &) {}
+            virtual void _paintOverlayEvent(Core::Event::PaintOverlay&);
             virtual void _pointerEnterEvent(Core::Event::PointerEnter &);
             virtual void _pointerLeaveEvent(Core::Event::PointerLeave &);
             virtual void _pointerMoveEvent(Core::Event::PointerMove &);
@@ -262,6 +265,8 @@ namespace djv
             VAlign         _vAlign         = VAlign::Fill;
 
             ColorRole      _backgroundRole = ColorRole::None;
+            std::vector<Side>
+                           _shadowOverlay;
 
             bool           _pointerEnabled = false;
             std::map<Core::Event::PointerID, glm::vec2>

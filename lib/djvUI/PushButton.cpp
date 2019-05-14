@@ -29,7 +29,6 @@
 
 #include <djvUI/PushButton.h>
 
-#include <djvUI/Border.h>
 #include <djvUI/Icon.h>
 #include <djvUI/Label.h>
 #include <djvUI/RowLayout.h>
@@ -56,7 +55,6 @@ namespace djv
                 std::string fontFace;
                 MetricsRole fontSizeRole = MetricsRole::FontMedium;
                 std::shared_ptr<HorizontalLayout> layout;
-                std::shared_ptr<Border> border;
             };
 
             void Push::_init(Context * context)
@@ -68,11 +66,8 @@ namespace djv
                 setBackgroundRole(ColorRole::Button);
 
                 p.layout = HorizontalLayout::create(context);
-                p.layout->setMargin(Layout::Margin(MetricsRole::MarginLarge, MetricsRole::MarginLarge, MetricsRole::MarginSmall, MetricsRole::MarginSmall));
-
-                p.border = Border::create(context);
-                p.border->addChild(p.layout);
-                addChild(p.border);
+                p.layout->setMargin(MetricsRole::MarginSmall);
+                addChild(p.layout);
             }
 
             Push::Push() :
@@ -121,7 +116,7 @@ namespace djv
                     {
                         p.icon = Icon::create(getContext());
                         p.icon->setVAlign(VAlign::Center);
-                        p.icon->setIconColorRole(isChecked() ? getCheckedColorRole() : getForegroundColorRole());
+                        p.icon->setIconColorRole(isChecked() ? ColorRole::Checked : getForegroundColorRole());
                         p.layout->addChild(p.icon);
                         p.icon->moveToFront();
                     }
@@ -152,7 +147,7 @@ namespace djv
                         p.label->setFont(p.font);
                         p.label->setFontFace(p.fontFace);
                         p.label->setFontSizeRole(p.fontSizeRole);
-                        p.label->setTextColorRole(isChecked() ? getCheckedColorRole() : p.textColorRole);
+                        p.label->setTextColorRole(isChecked() ? ColorRole::Checked : p.textColorRole);
                         p.layout->addChild(p.label);
                         p.layout->setStretch(p.label, RowStretch::Expand);
                         p.label->moveToBack();
@@ -228,12 +223,12 @@ namespace djv
 
             const Layout::Margin & Push::getInsideMargin() const
             {
-                return _p->border->getMargin();
+                return _p->layout->getMargin();
             }
 
             void Push::setInsideMargin(const Layout::Margin & value)
             {
-                _p->border->setMargin(value);
+                _p->layout->setMargin(value);
             }
 
             void Push::setChecked(bool value)
@@ -241,36 +236,71 @@ namespace djv
                 IButton::setChecked(value);
                 if (_p->icon)
                 {
-                    _p->icon->setIconColorRole(value ? getCheckedColorRole() : getForegroundColorRole());
+                    _p->icon->setIconColorRole(value ? ColorRole::Checked : getForegroundColorRole());
+                }
+            }
+
+            void Push::setForegroundColorRole(ColorRole value)
+            {
+                IButton::setForegroundColorRole(value);
+                if (_p->icon)
+                {
+                    _p->icon->setIconColorRole(isChecked() ? ColorRole::Checked : value);
+                }
+                if (_p->label)
+                {
+                    _p->label->setTextColorRole(value);
                 }
             }
 
             void Push::_preLayoutEvent(Event::PreLayout & event)
             {
-                _setMinimumSize(_p->border->getMinimumSize());
+                glm::vec2 size = _p->layout->getMinimumSize();
+                size.x += size.y;
+                _setMinimumSize(size);
             }
 
             void Push::_layoutEvent(Event::Layout &)
             {
-                _p->border->setGeometry(getGeometry());
+                const BBox2f& g = getGeometry();
+                const float h = g.h();
+                const float radius = h / 2.f;
+                _p->layout->setGeometry(BBox2f(
+                    floorf(g.min.x + radius),
+                    g.min.y,
+                    ceilf(g.w() - radius),
+                    h));
             }
 
             void Push::_paintEvent(Event::Paint& event)
             {
-                Widget::_paintEvent(event);
                 DJV_PRIVATE_PTR();
-                const BBox2f& g = getGeometry();
-                auto render = _getRender();
                 auto style = _getStyle();
-                if (_isPressed())
+                const float b = style->getMetric(MetricsRole::Border);
+                const BBox2f& g = getMargin().bbox(getGeometry(), style);
+                const BBox2f& g2 = g.margin(-b);
+                auto render = _getRender();
+                if (isEnabled(true))
                 {
-                    render->setFillColor(_getColorWithOpacity(style->getColor(getPressedColorRole())));
-                    render->drawRect(g);
+                    render->setFillColor(_getColorWithOpacity(style->getColor(ColorRole::Border)));
+                    render->drawPill(g);
+                    render->setFillColor(_getColorWithOpacity(style->getColor(getBackgroundRole())));
+                    render->drawPill(g2);
+                    if (_isPressed())
+                    {
+                        render->setFillColor(_getColorWithOpacity(style->getColor(ColorRole::Pressed)));
+                        render->drawPill(g2);
+                    }
+                    else if (_isHovered())
+                    {
+                        render->setFillColor(_getColorWithOpacity(style->getColor(ColorRole::Hovered)));
+                        render->drawPill(g2);
+                    }
                 }
-                else if (_isHovered())
+                else
                 {
-                    render->setFillColor(_getColorWithOpacity(style->getColor(getHoveredColorRole())));
-                    render->drawRect(g);
+                    render->setFillColor(_getColorWithOpacity(style->getColor(getBackgroundRole())));
+                    render->drawPill(g);
                 }
             }
 

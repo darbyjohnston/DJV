@@ -144,8 +144,14 @@ namespace djv
             DJV_PRIVATE_PTR();
             if (p.resizeRequest)
             {
+#if defined(DJV_OPENGL_ES2)
                 p.offscreenBuffer = AV::OpenGL::OffscreenBuffer::create(
                     AV::Image::Info(p.resize, AV::Image::Type::RGBA_U8));
+#else
+                p.offscreenBuffer = AV::OpenGL::OffscreenBuffer::create(
+                    AV::Image::Info(p.resize, AV::Image::Type::RGBA_U8),
+                    AV::OpenGL::OffscreenType::MultiSample);
+#endif
             }
             auto rootObject = getRootObject();
         

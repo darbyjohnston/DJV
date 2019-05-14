@@ -93,7 +93,6 @@ namespace djv
 
             DJV_PRIVATE_PTR();
             setClassName("djv::ViewApp::MainWindow");
-            setBackgroundRole(UI::ColorRole::Trough);
 
             auto viewSystems = context->getSystemsT<IViewSystem>();
             std::map<std::string, std::shared_ptr<UI::Menu> > menus;
@@ -148,14 +147,11 @@ namespace djv
             {
                 p.menuBar->addChild(i.second);
             }
-            p.menuBar->addSeparator();
             p.menuBar->addChild(p.mediaButton);
             p.menuBar->setStretch(p.mediaButton, UI::RowStretch::Expand);
-            p.menuBar->addSeparator();
             p.menuBar->addChild(sdiButton);
             p.menuBar->addChild(mdiButton);
             p.menuBar->addChild(playlistButton);
-            p.menuBar->addSeparator();
             p.menuBar->addChild(p.settingsButton);
 
             p.sdiWidget = MediaWidget::create(context);

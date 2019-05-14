@@ -443,7 +443,7 @@ namespace djv
                 }
             }
 
-            render->setFillColor(_getColorWithOpacity(style->getColor(isEnabled() ? UI::ColorRole::Foreground : UI::ColorRole::Disabled)));
+            render->setFillColor(_getColorWithOpacity(style->getColor(UI::ColorRole::Foreground)));
             render->drawRect(hg);
 
             const auto fontInfo = style->getFontInfo(AV::Font::faceDefault, UI::MetricsRole::FontMedium);

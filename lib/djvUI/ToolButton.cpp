@@ -116,7 +116,7 @@ namespace djv
                     {
                         p.icon = Icon::create(getContext());
                         p.icon->setVAlign(VAlign::Center);
-                        p.icon->setIconColorRole(isChecked() ? getCheckedColorRole() : getForegroundColorRole());
+                        p.icon->setIconColorRole(isChecked() ? ColorRole::Checked : getForegroundColorRole());
                         p.layout->addChild(p.icon);
                         p.icon->moveToFront();
                     }
@@ -147,7 +147,7 @@ namespace djv
                         p.label->setFont(p.font);
                         p.label->setFontFace(p.fontFace);
                         p.label->setFontSizeRole(p.fontSizeRole);
-                        p.label->setTextColorRole(isChecked() ? getCheckedColorRole() : getForegroundColorRole());
+                        p.label->setTextColorRole(isChecked() ? ColorRole::Checked : getForegroundColorRole());
                         p.layout->addChild(p.label);
                         p.layout->setStretch(p.label, RowStretch::Expand);
                         p.label->moveToBack();
@@ -236,11 +236,11 @@ namespace djv
                 IButton::setChecked(value);
                 if (_p->icon)
                 {
-                    _p->icon->setIconColorRole(value ? getCheckedColorRole() : getForegroundColorRole());
+                    _p->icon->setIconColorRole(value ? ColorRole::Checked : getForegroundColorRole());
                 }
                 if (_p->label)
                 {
-                    _p->label->setTextColorRole(value ? getCheckedColorRole() : getForegroundColorRole());
+                    _p->label->setTextColorRole(value ? ColorRole::Checked : getForegroundColorRole());
                 }
             }
 
@@ -263,12 +263,12 @@ namespace djv
                 auto style = _getStyle();
                 if (_isPressed())
                 {
-                    render->setFillColor(_getColorWithOpacity(style->getColor(getPressedColorRole())));
+                    render->setFillColor(_getColorWithOpacity(style->getColor(ColorRole::Pressed)));
                     render->drawRect(g);
                 }
                 else if (_isHovered())
                 {
-                    render->setFillColor(_getColorWithOpacity(style->getColor(getHoveredColorRole())));
+                    render->setFillColor(_getColorWithOpacity(style->getColor(ColorRole::Hovered)));
                     render->drawRect(g);
                 }
             }

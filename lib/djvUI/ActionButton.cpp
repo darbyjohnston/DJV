@@ -157,9 +157,9 @@ namespace djv
             {
                 IButton::setChecked(value);
                 DJV_PRIVATE_PTR();
-                p.icon->setIconColorRole(value ? getCheckedColorRole() : getForegroundColorRole());
-                p.textLabel->setTextColorRole(value ? getCheckedColorRole() : getForegroundColorRole());
-                p.shortcutsLabel->setTextColorRole(value ? getCheckedColorRole() : getForegroundColorRole());
+                p.icon->setIconColorRole(value ? ColorRole::Checked : getForegroundColorRole());
+                p.textLabel->setTextColorRole(value ? ColorRole::Checked : getForegroundColorRole());
+                p.shortcutsLabel->setTextColorRole(value ? ColorRole::Checked : getForegroundColorRole());
             }
 
             void ActionButton::addAction(const std::shared_ptr<Action> & value)
@@ -199,12 +199,12 @@ namespace djv
                 auto style = _getStyle();
                 if (_isPressed())
                 {
-                    render->setFillColor(_getColorWithOpacity(style->getColor(getPressedColorRole())));
+                    render->setFillColor(_getColorWithOpacity(style->getColor(ColorRole::Pressed)));
                     render->drawRect(g);
                 }
                 else if (_isHovered())
                 {
-                    render->setFillColor(_getColorWithOpacity(style->getColor(getHoveredColorRole())));
+                    render->setFillColor(_getColorWithOpacity(style->getColor(ColorRole::Hovered)));
                     render->drawRect(g);
                 }
             }

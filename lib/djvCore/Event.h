@@ -246,6 +246,8 @@ namespace djv
                 glm::vec3 dir = glm::vec3(0.f, 0.f, 0.f);
                 glm::vec2 projectedPos = glm::vec2(-1.f, -1.f);
                 std::map<int, bool> buttons;
+
+                inline bool operator == (const PointerInfo&) const;
             };
 
             //! This class provides the interface for pointer events.

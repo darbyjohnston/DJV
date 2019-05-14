@@ -29,7 +29,6 @@
 
 #include <djvUI/IDialog.h>
 
-#include <djvUI/Border.h>
 #include <djvUI/Label.h>
 #include <djvUI/Overlay.h>
 #include <djvUI/RowLayout.h>
@@ -85,7 +84,6 @@ namespace djv
             std::shared_ptr<ToolButton> closeButton;
             std::shared_ptr<VerticalLayout> childLayout;
             std::shared_ptr<VerticalLayout> layout;
-            std::shared_ptr<Layout::Border> border;
             std::shared_ptr<Layout::Overlay> overlay;
             std::function<void(void)> closeCallback;
         };
@@ -111,26 +109,25 @@ namespace djv
             p.childLayout = VerticalLayout::create(context);
             p.childLayout->setSpacing(MetricsRole::None);
 
-            p.layout = DialogLayout::create(context);
-            p.layout->setSpacing(MetricsRole::None);
-            p.layout->setBackgroundRole(ColorRole::Background);
+            p.layout = VerticalLayout::create(context);
+            p.layout->setMargin(MetricsRole::MarginDialog);
+            auto layout = DialogLayout::create(context);
+            layout->setSpacing(MetricsRole::None);
+            layout->setBackgroundRole(ColorRole::Background);
             auto hLayout = HorizontalLayout::create(context);
-            hLayout->setBackgroundRole(ColorRole::Header);
+            hLayout->setBackgroundRole(ColorRole::BackgroundHeader);
             hLayout->addChild(p.titleLabel);
             hLayout->addExpander();
             hLayout->addChild(p.closeButton);
-            p.layout->addChild(hLayout);
-            p.layout->addSeparator();
-            p.layout->addChild(p.childLayout);
-            p.layout->setStretch(p.childLayout, RowStretch::Expand);
-
-            p.border = Layout::Border::create(context);
-            p.border->setMargin(MetricsRole::MarginDialog);
-            p.border->addChild(p.layout);
+            layout->addChild(hLayout);
+            layout->addChild(p.childLayout);
+            layout->setStretch(p.childLayout, RowStretch::Expand);
+            p.layout->addChild(layout);
+            p.layout->setStretch(layout, RowStretch::Expand);
 
             p.overlay = Layout::Overlay::create(context);
             p.overlay->setCaptureKeyboard(false);
-            p.overlay->addChild(p.border);
+            p.overlay->addChild(p.layout);
             Widget::addChild(p.overlay);
 
             auto weak = std::weak_ptr<IDialog>(std::dynamic_pointer_cast<IDialog>(shared_from_this()));
@@ -176,8 +173,8 @@ namespace djv
         void IDialog::setFillLayout(bool value)
         {
             DJV_PRIVATE_PTR();
-            p.border->setHAlign(value ? HAlign::Fill : HAlign::Center);
-            p.border->setVAlign(value ? VAlign::Fill : VAlign::Center);
+            p.layout->setHAlign(value ? HAlign::Fill : HAlign::Center);
+            p.layout->setVAlign(value ? VAlign::Fill : VAlign::Center);
         }
 
         void IDialog::setCloseCallback(const std::function<void(void)> & value)

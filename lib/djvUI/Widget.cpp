@@ -236,6 +236,14 @@ namespace djv
             _redraw();
         }
 
+        void Widget::setShadowOverlay(const std::vector<Side>& value)
+        {
+            if (value == _shadowOverlay)
+                return;
+            _shadowOverlay = value;
+            _redraw();
+        }
+
         void Widget::setPointerEnabled(bool value)
         {
             _pointerEnabled = value;
@@ -563,12 +571,21 @@ namespace djv
             return out;
         }
 
-        void Widget::_paintEvent(Event::Paint & event)
+        void Widget::_paintEvent(Event::Paint& event)
         {
             if (_backgroundRole != ColorRole::None)
             {
                 _render->setFillColor(_getColorWithOpacity(_style->getColor(_backgroundRole)));
                 _render->drawRect(getGeometry());
+            }
+        }
+
+        void Widget::_paintOverlayEvent(Event::PaintOverlay& event)
+        {
+            auto style = _getStyle();
+            for (const auto& i : _shadowOverlay)
+            {
+                style->drawShadow(_render, getGeometry(), i);
             }
         }
 
@@ -641,6 +658,12 @@ namespace djv
             if (value.getType() != AV::Image::Type::None)
             {
                 out = value.convert(AV::Image::Type::RGBA_F32);
+                if (!isEnabled(true))
+                {
+                    out.setF32(out.getF32(0) * .65f, 0);
+                    out.setF32(out.getF32(1) * .65f, 1);
+                    out.setF32(out.getF32(2) * .65f, 2);
+                }
                 out.setF32(out.getF32(3) * getOpacity(true), 3);
             }
             return out;

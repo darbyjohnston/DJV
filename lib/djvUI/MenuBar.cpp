@@ -147,10 +147,10 @@ namespace djv
             if (auto menu = std::dynamic_pointer_cast<Menu>(value))
             {
                 menu->hide();
+                menu->setMinimumSizeRole(MetricsRole::None);
                 p.menus.push_back(menu);
 
                 auto button = Button::Menu::create(getContext());
-                button->setInsideMargin(Layout::Margin(MetricsRole::Margin, MetricsRole::Margin, MetricsRole::MarginSmall, MetricsRole::MarginSmall));
                 button->installEventFilter(shared_from_this());
 
                 p.menuLayout->addChild(button);

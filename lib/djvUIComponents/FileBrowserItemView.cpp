@@ -448,7 +448,7 @@ namespace djv
                             }
                         }
                         {
-                            render->setFillColor(_getColorWithOpacity(style->getColor(ColorRole::Foreground)));
+                            render->setFillColor(_getColorWithOpacity(style->getColor(ColorRole::ForegroundDim)));
                             render->setCurrentFont(style->getFontInfo(AV::Font::faceDefault, MetricsRole::FontMedium));
                             switch (p.viewType)
                             {
@@ -468,7 +468,8 @@ namespace djv
                                         render->drawText(
                                             j->second.substr(l->offset, l->length),
                                             glm::vec2(
-                                                floorf(x + p.thumbnailSize.x / 2.f - l->size.x / 2.f),
+                                                //floorf(x + p.thumbnailSize.x / 2.f - l->size.x / 2.f),
+                                                floor(x),
                                                 floorf(y + p.nameFontMetrics.ascender - 1.f)));
                                         y += p.nameFontMetrics.lineHeight;
                                     }

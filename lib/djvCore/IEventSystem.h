@@ -31,6 +31,7 @@
 
 #include <djvCore/Event.h>
 #include <djvCore/ISystem.h>
+#include <djvCore/ValueObserver.h>
 
 namespace djv
 {
@@ -53,6 +54,8 @@ namespace djv
 
                 std::shared_ptr<IObject> getRootObject() const;
 
+                std::shared_ptr<Core::IValueSubject<PointerInfo> > observePointer() const;
+
                 const std::weak_ptr<IObject> & getTextFocus() const;
                 void setTextFocus(const std::shared_ptr<IObject> &);
 
@@ -74,11 +77,11 @@ namespace djv
                 virtual void _hover(Event::PointerMove &, std::shared_ptr<IObject> &) = 0;
 
             private:
-                DJV_PRIVATE();
-
                 void _localeRecursive(const std::shared_ptr<IObject> &, Locale &);
                 void _updateRecursive(const std::shared_ptr<IObject> &, Update &);
                 void _setHover(const std::shared_ptr<IObject> &);
+
+                DJV_PRIVATE();
 
                 friend class IObject;
             };

@@ -37,12 +37,6 @@ namespace djv
     {
         namespace Layout
         {
-            enum class SplitterHandleStyle
-            {
-                None,
-                Edges
-            };
-
             //! This class provides a splitter widget.
             class Splitter : public Widget
             {
@@ -65,10 +59,8 @@ namespace djv
                 void setSplitCallback(const std::function<void(const std::vector<float> &)> &);
                 void distributeEvenly();
 
-                SplitterHandleStyle getHandleStyle() const;
                 ColorRole getHandleColorRole() const;
                 void setHandleColorRole(ColorRole);
-                void setHandleStyle(SplitterHandleStyle);
 
                 float getHeightForWidth(float) const override;
 

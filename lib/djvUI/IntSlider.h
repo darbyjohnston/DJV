@@ -80,7 +80,6 @@ namespace djv
             void _buttonReleaseEvent(Core::Event::ButtonRelease &) override;
 
         private:
-            ColorRole _getColorRole() const;
             float _valueToPos(int) const;
             int _posToValue(float) const;
             void _resetTimer();

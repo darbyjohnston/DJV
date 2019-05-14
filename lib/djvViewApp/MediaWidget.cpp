@@ -50,6 +50,7 @@
 #include <djvAV/AVSystem.h>
 
 #include <djvCore/Animation.h>
+#include <djvCore/IEventSystem.h>
 #include <djvCore/Timer.h>
 
 using namespace djv::Core;
@@ -100,6 +101,7 @@ namespace djv
             bool fadeEnabled = true;
             std::map<Core::Event::PointerID, glm::vec2> pointerMotion;
             std::shared_ptr<Time::Timer> pointerMotionTimer;
+            std::shared_ptr<ValueObserver<Event::PointerInfo> > pointerObserver;
             std::shared_ptr<Animation::Animation> fadeAnimation;
             std::shared_ptr<ValueObserver<bool> > fadeObserver;
         };
@@ -110,7 +112,9 @@ namespace djv
 
             DJV_PRIVATE_PTR();
             setClassName("djv::ViewApp::MediaWidget");
-            setPointerEnabled(true);
+            p.fade = ValueSubject<float>::create(1.f);
+            p.pointerMotionTimer = Time::Timer::create(context);
+            p.fadeAnimation = Animation::Animation::create(context);
 
             p.actions["Forward"] = UI::Action::create();
             p.actions["Forward"]->setIcon("djvIconPlaybackForward");
@@ -282,10 +286,18 @@ namespace djv
                 }
             });
 
-            p.fade = ValueSubject<float>::create(1.f);
-            p.pointerMotionTimer = Time::Timer::create(context);
-            p.fadeAnimation = Animation::Animation::create(context);
-            auto settingsSystem = getContext()->getSystemT<UI::Settings::System>();
+            auto eventSystem = context->getSystemT<Event::IEventSystem>();
+            p.pointerObserver = ValueObserver<Event::PointerInfo>::create(
+                eventSystem->observePointer(),
+                [weak](const Event::PointerInfo & value)
+            {
+                if (auto widget = weak.lock())
+                {
+                    widget->_pointerUpdate(value);
+                }
+            });
+
+            auto settingsSystem = context->getSystemT<UI::Settings::System>();
             auto windowSettings = settingsSystem->getSettingsT<WindowSettings>();
             p.fadeObserver = ValueObserver<bool>::create(
                 windowSettings->observeFade(),
@@ -443,109 +455,81 @@ namespace djv
             _p->layout->setGeometry(getGeometry());
         }
 
-        void MediaWidget::_pointerEnterEvent(Event::PointerEnter& event)
+        void MediaWidget::_pointerUpdate(const Core::Event::PointerInfo& info)
         {
-            Widget::_pointerEnterEvent(event);
             DJV_PRIVATE_PTR();
-            const Event::PointerID id = event.getPointerInfo().id;
-            const auto& hover = _getPointerHover();
-            const auto i = hover.find(id);
-            if (i != hover.end())
+            bool start = false;
+            auto weak = std::weak_ptr<MediaWidget>(std::dynamic_pointer_cast<MediaWidget>(shared_from_this()));
+            const auto j = p.pointerMotion.find(info.id);
+            if (j != p.pointerMotion.end())
             {
-                p.pointerMotion[id] = i->second;
-            }
-        }
-
-        void MediaWidget::_pointerLeaveEvent(Event::PointerLeave& event)
-        {
-            Widget::_pointerLeaveEvent(event);
-            DJV_PRIVATE_PTR();
-            const Event::PointerID id = event.getPointerInfo().id;
-            const auto i = p.pointerMotion.find(id);
-            if (i != p.pointerMotion.end())
-            {
-                p.pointerMotion.erase(i);
-            }
-        }
-
-        void MediaWidget::_pointerMoveEvent(Event::PointerMove& event)
-        {
-            Widget::_pointerMoveEvent(event);
-            DJV_PRIVATE_PTR();
-            for (const auto& i : _getPointerHover())
-            {
-                bool start = false;
-                auto weak = std::weak_ptr<MediaWidget>(std::dynamic_pointer_cast<MediaWidget>(shared_from_this()));
-                const auto j = p.pointerMotion.find(i.first);
-                if (j != p.pointerMotion.end())
-                {
-                    const float diff = glm::length(i.second - j->second);
-                    auto style = _getStyle();
-                    const float h = style->getMetric(UI::MetricsRole::Handle);
-                    if (diff > h)
-                    {
-                        start = true;
-                        p.pointerMotion[i.first] = i.second;
-                        if (p.fadeEnabled)
-                        {
-                            p.fadeAnimation->start(
-                                p.uiLayout->getOpacity(),
-                                1.f,
-                                Time::getMilliseconds(Time::TimerValue::Medium),
-                                [weak](float value)
-                            {
-                                if (auto widget = weak.lock())
-                                {
-                                    widget->_p->fade->setIfChanged(value);
-                                    widget->_p->uiLayout->setOpacity(value);
-                                }
-                            },
-                                [weak](float value)
-                            {
-                                if (auto widget = weak.lock())
-                                {
-                                    widget->_p->fade->setIfChanged(value);
-                                    widget->_p->uiLayout->setOpacity(value);
-                                }
-                            });
-                        }
-                    }
-                }
-                else
+                const float diff = glm::length(info.projectedPos - j->second);
+                auto style = _getStyle();
+                const float h = style->getMetric(UI::MetricsRole::Handle);
+                if (diff > h)
                 {
                     start = true;
-                }
-                if (start && p.fadeEnabled)
-                {
-                    p.pointerMotionTimer->start(
-                        std::chrono::milliseconds(fadeSeconds * 1000),
-                        [weak](float value)
+                    p.pointerMotion[info.id] = info.projectedPos;
+                    if (p.fadeEnabled)
                     {
-                        if (auto widget = weak.lock())
+                        p.fadeAnimation->start(
+                            p.uiLayout->getOpacity(),
+                            1.f,
+                            Time::getMilliseconds(Time::TimerValue::Medium),
+                            [weak](float value)
                         {
-                            widget->_p->fadeAnimation->start(
-                                widget->_p->uiLayout->getOpacity(),
-                                0.f,
-                                Time::getMilliseconds(Time::TimerValue::Slow),
-                                [weak](float value)
+                            if (auto widget = weak.lock())
                             {
-                                if (auto widget = weak.lock())
-                                {
-                                    widget->_p->fade->setIfChanged(value);
-                                    widget->_p->uiLayout->setOpacity(value);
-                                }
-                            },
-                                [weak](float value)
+                                widget->_p->fade->setIfChanged(value);
+                                widget->_p->uiLayout->setOpacity(value);
+                            }
+                        },
+                            [weak](float value)
+                        {
+                            if (auto widget = weak.lock())
                             {
-                                if (auto widget = weak.lock())
-                                {
-                                    widget->_p->fade->setIfChanged(value);
-                                    widget->_p->uiLayout->setOpacity(value);
-                                }
-                            });
-                        }
-                    });
+                                widget->_p->fade->setIfChanged(value);
+                                widget->_p->uiLayout->setOpacity(value);
+                            }
+                        });
+                    }
                 }
+            }
+            else
+            {
+                start = true;
+                p.pointerMotion[info.id] = info.projectedPos;
+            }
+            if (start && p.fadeEnabled)
+            {
+                p.pointerMotionTimer->start(
+                    std::chrono::milliseconds(fadeSeconds * 1000),
+                    [weak](float value)
+                {
+                    if (auto widget = weak.lock())
+                    {
+                        widget->_p->fadeAnimation->start(
+                            widget->_p->uiLayout->getOpacity(),
+                            0.f,
+                            Time::getMilliseconds(Time::TimerValue::Slow),
+                            [weak](float value)
+                        {
+                            if (auto widget = weak.lock())
+                            {
+                                widget->_p->fade->setIfChanged(value);
+                                widget->_p->uiLayout->setOpacity(value);
+                            }
+                        },
+                            [weak](float value)
+                        {
+                            if (auto widget = weak.lock())
+                            {
+                                widget->_p->fade->setIfChanged(value);
+                                widget->_p->uiLayout->setOpacity(value);
+                            }
+                        });
+                    }
+                });
             }
         }
 

@@ -13,6 +13,13 @@ namespace djv
     {
         namespace Button
         {
+            //! This enum provides the menu button styles.
+            enum class MenuStyle
+            {
+                Flat,
+                Round
+            };
+
             //! This class provides a button for menu widgets.
             class Menu : public Widget
             {
@@ -29,8 +36,10 @@ namespace djv
                 static std::shared_ptr<Menu> create(const std::string &, Core::Context *);
                 static std::shared_ptr<Menu> create(const std::string &, const std::string & icon, Core::Context *);
 
-                const std::string & getIcon() const;
-                void setIcon(const std::string &);
+                const std::string& getIcon() const;
+                const std::string& getPopupIcon() const;
+                void setIcon(const std::string&);
+                void setPopupIcon(const std::string&);
 
                 const std::string & getText() const;
                 void setText(const std::string &);
@@ -41,11 +50,8 @@ namespace djv
                 void setChecked(bool);
                 void setCheckedCallback(const std::function<void(bool)> &);
 
-                bool hasBorder() const;
-                void setBorder(bool);
-
-                const Layout::Margin & getInsideMargin() const;
-                void setInsideMargin(const Layout::Margin &);
+                MenuStyle getMenuStyle() const;
+                void setMenuStyle(MenuStyle);
 
             protected:
                 void _preLayoutEvent(Core::Event::PreLayout &) override;
@@ -57,10 +63,9 @@ namespace djv
                 void _pointerMoveEvent(Core::Event::PointerMove &) override;
                 void _buttonPressEvent(Core::Event::ButtonPress &) override;
 
-                void _updateEvent(Core::Event::Update &) override;
-
             private:
                 bool _isHovered() const;
+                void _widgetUpdate();
 
                 DJV_PRIVATE();
             };

@@ -29,7 +29,13 @@
 
 #include <djvUI/Style.h>
 
+#include <djvUI/IconSystem.h>
+
+#include <djvAV/Image.h>
+#include <djvAV/Render2D.h>
+
 #include <djvCore/Context.h>
+#include <djvCore/LogSystem.h>
 
 //#pragma optimize("", off)
 
@@ -53,16 +59,18 @@ namespace djv
                 p.colors =
                 {
                     { ColorRole::None, AV::Image::Color() },
-                    { ColorRole::Background, AV::Image::Color(50, 60, 70) },
+                    { ColorRole::Background, AV::Image::Color(46, 46, 46) },
+                    { ColorRole::BackgroundBellows, AV::Image::Color(76, 76, 76) },
+                    { ColorRole::BackgroundHeader, AV::Image::Color(102, 102, 102) },
+                    { ColorRole::BackgroundToolBar, AV::Image::Color(89, 89, 89) },
                     { ColorRole::Foreground, AV::Image::Color(255, 255, 255) },
-                    { ColorRole::Border, AV::Image::Color(30, 30, 30) },
-                    { ColorRole::Trough, AV::Image::Color(33, 40, 47) },
-                    { ColorRole::Button, AV::Image::Color(71, 82, 93) },
-                    { ColorRole::Header, AV::Image::Color(70, 90, 110) },
+                    { ColorRole::ForegroundDim, AV::Image::Color(171, 171, 171) },
+                    { ColorRole::Border, AV::Image::Color(125, 125, 125) },
+                    { ColorRole::Trough, AV::Image::Color(64, 64, 64) },
+                    { ColorRole::Button, AV::Image::Color(102, 102, 102) },
                     { ColorRole::Hovered, AV::Image::Color(255, 255, 255, 15) },
                     { ColorRole::Pressed, AV::Image::Color(255, 255, 255, 30) },
                     { ColorRole::Checked, AV::Image::Color(48, 134, 171) },
-                    { ColorRole::Disabled, AV::Image::Color(127, 127, 127) },
                     { ColorRole::TooltipBackground, AV::Image::Color(255, 255, 191) },
                     { ColorRole::TooltipForeground, AV::Image::Color(0, 0, 0) },
                     { ColorRole::Overlay, AV::Image::Color(0, 0, 0, 160) },
@@ -139,9 +147,9 @@ namespace djv
                     { MetricsRole::Drag, 20.f },
                     { MetricsRole::Icon, static_cast<float>(iconSizeDefault) },
                     { MetricsRole::IconSmall, 16.f },
-                    { MetricsRole::FontSmall, 10.f },
-                    { MetricsRole::FontMedium, 12.f },
-                    { MetricsRole::FontLarge, 16.f },
+                    { MetricsRole::FontSmall, 12.f },
+                    { MetricsRole::FontMedium, 14.f },
+                    { MetricsRole::FontLarge, 20.f },
                     { MetricsRole::FontHeader, 14.f },
                     { MetricsRole::FontTitle, 32.f },
                     { MetricsRole::Swatch, 50.f },
@@ -177,6 +185,8 @@ namespace djv
                 Palette palette;
                 int dpi = AV::dpiDefault;
                 Metrics metrics;
+                std::map<Side, std::future<std::shared_ptr<AV::Image::Image> > > shadowFutures;
+                std::map<Side, std::shared_ptr<AV::Image::Image> > shadowImages;
                 std::string font = AV::Font::familyDefault;
                 std::map<AV::Font::FamilyID, std::string> fontNames;
                 std::map<std::string, AV::Font::FamilyID> fontNameToId;
@@ -186,14 +196,19 @@ namespace djv
             void Style::_init(int dpi, Context * context)
             {
                 DJV_PRIVATE_PTR();
+                
                 p.context = context;
                 p.dpi = dpi;
+
+                _iconUpdate();
+                
                 auto fontSystem = context->getSystemT<AV::Font::System>();
                 p.fontNames = fontSystem->getFontNames().get();
                 for (const auto & i : p.fontNames)
                 {
                     p.fontNameToId[i.second] = i.first;
                 }
+
                 p.dirty = true;
             }
 
@@ -259,6 +274,60 @@ namespace djv
                 p.dirty = true;
             }
 
+            void Style::drawShadow(const std::shared_ptr<AV::Render::Render2D>& render, const BBox2f& rect, Side side)
+            {
+                DJV_PRIVATE_PTR();
+                const auto i = p.shadowFutures.find(side);
+                if (i != p.shadowFutures.end())
+                {
+                    if (i->second.valid())
+                    {
+                        try
+                        {
+                            p.shadowImages[side] = i->second.get();
+                        }
+                        catch (const std::exception & e)
+                        {
+                            auto logSystem = p.context->getSystemT<LogSystem>();
+                            logSystem->log("djv::UI::Style", e.what(), LogLevel::Error);
+                        }
+                    }
+                    p.shadowFutures.erase(i);
+                }
+                switch (side)
+                {
+                case Side::Left:
+                {
+                    const auto i = p.shadowImages.find(side);
+                    if (i != p.shadowImages.end())
+                    {
+                        const float w = i->second->getWidth();
+                        const float h = i->second->getHeight();
+                        for (float y = rect.min.y; y < rect.max.y; y += h)
+                        {
+                            render->drawImage(i->second, BBox2f(rect.min.x, y, w, h));
+                        }
+                    }
+                    break;
+                }
+                case Side::Top:
+                {
+                    const auto i = p.shadowImages.find(side);
+                    if (i != p.shadowImages.end())
+                    {
+                        const float w = i->second->getWidth();
+                        const float h = i->second->getHeight();
+                        for (float x = rect.min.x; x < rect.max.x; x += w)
+                        {
+                            render->drawImage(i->second, BBox2f(x, rect.min.y, w, h));
+                        }
+                    }
+                    break;
+                }
+                default: break;
+                }
+            }
+
             const std::string Style::getFont() const
             {
                 return _p->font;
@@ -302,7 +371,21 @@ namespace djv
 
             void Style::setClean()
             {
-                _p->dirty = false;
+                if (_p->dirty)
+                {
+                    _p->dirty = false;
+                    _iconUpdate();
+                }
+            }
+
+            void Style::_iconUpdate()
+            {
+                DJV_PRIVATE_PTR();
+                auto iconSystem = p.context->getSystemT<IconSystem>();
+                p.shadowFutures[Side::Left] = iconSystem->getIcon("djvIconShadowLeft", getMetric(MetricsRole::Icon));
+                p.shadowFutures[Side::Right] = iconSystem->getIcon("djvIconShadowRight", getMetric(MetricsRole::Icon));
+                p.shadowFutures[Side::Top] = iconSystem->getIcon("djvIconShadowTop", getMetric(MetricsRole::Icon));
+                p.shadowFutures[Side::Bottom] = iconSystem->getIcon("djvIconShadowBottom", getMetric(MetricsRole::Icon));
             }
 
         } // namespace Style
@@ -427,15 +510,17 @@ namespace djv
         ColorRole,
         DJV_TEXT("None"),
         DJV_TEXT("Background"),
+        DJV_TEXT("BackgroundBellows"),
+        DJV_TEXT("BackgroundHeader"),
+        DJV_TEXT("BackgroundToolBar"),
         DJV_TEXT("Foreground"),
+        DJV_TEXT("ForegroundDim"),
         DJV_TEXT("Border"),
         DJV_TEXT("Trough"),
-        DJV_TEXT("Header"),
         DJV_TEXT("Button"),
         DJV_TEXT("Hovered"),
         DJV_TEXT("Pressed"),
         DJV_TEXT("Checked"),
-        DJV_TEXT("Disabled"),
         DJV_TEXT("TooltipBackground"),
         DJV_TEXT("TooltipForeground"),
         DJV_TEXT("Overlay"),

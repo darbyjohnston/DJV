@@ -261,7 +261,7 @@ namespace djv
                 }
                 const float r = ceilf(p.handleWidth / 2.f - 1.f);
                 render->drawCircle(pos, r);
-                render->setFillColor(_getColorWithOpacity(style->getColor(_getColorRole())));
+                render->setFillColor(_getColorWithOpacity(style->getColor(ColorRole::Button)));
                 render->drawCircle(pos, r - b);
                 if (p.pressedID != Event::InvalidID)
                 {
@@ -380,11 +380,6 @@ namespace djv
                 p.delayTimer->stop();
                 _redraw();
             }
-        }
-
-        ColorRole BasicFloatSlider::_getColorRole() const
-        {
-            return !isEnabled(true) ? ColorRole::Disabled : ColorRole::Button;
         }
 
         float BasicFloatSlider::_valueToPos(float value) const

@@ -196,7 +196,7 @@ namespace djv
                 auto render = _getRender();
                 if (p.iconColorRole != ColorRole::None)
                 {
-                    render->setFillColor(_getColorWithOpacity(style->getColor(isEnabled(true) ? p.iconColorRole : ColorRole::Disabled)));
+                    render->setFillColor(_getColorWithOpacity(style->getColor(p.iconColorRole)));
                     render->drawFilledImage(p.image, BBox2f(pos.x, pos.y, size.x, size.y));
                 }
                 else

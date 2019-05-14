@@ -981,32 +981,81 @@ namespace djv
                 }
             }
 
-            void Render2D::drawRoundedRect(const Core::BBox2f & rect, float radius, size_t facets)
+            void Render2D::drawPill(const Core::BBox2f& rect, size_t facets)
             {
                 DJV_PRIVATE_PTR();
-                /*auto primitive = std::unique_ptr<RoundedRectPrimitive>(new RoundedRectPrimitive(*p.render));
-                primitive->rect = rect;
-                primitive->radius = radius;
-                primitive->side = Side::None;
-                primitive->facets = facets;
-                primitive->clipRect = p.currentClipRect;
-                primitive->colorMode = ColorMode::SolidColor;
-                primitive->color = p.fillColor;
-                p.render->primitives.push_back(std::move(primitive));*/
-            }
+                if (rect.intersects(p.render->viewport))
+                {
+                    const size_t primitivesSize = p.render->primitivesSize;
+                    p.updatePrimitivesSize(1);
+                    Primitive& primitive = p.render->primitives[primitivesSize];
+                    primitive.clipRect = p.currentClipRect;
+                    primitive.colorMode = ColorMode::SolidColor;
+                    primitive.color[0] = p.fillColor.getF32(0);
+                    primitive.color[1] = p.fillColor.getF32(1);
+                    primitive.color[2] = p.fillColor.getF32(2);
+                    primitive.color[3] = p.fillColor.getF32(3);
+                    primitive.vaoOffset = p.render->vboDataSize / AV::OpenGL::getVertexByteCount(OpenGL::VBOType::Pos2_F32_UV_U16);
+                    primitive.vaoSize = 3 * 2 + facets * 2 * 3;
 
-            void Render2D::drawRoundedRect(const Core::BBox2f & rect, float radius, Side side, size_t facets)
-            {
-                DJV_PRIVATE_PTR();
-                /*auto primitive = std::unique_ptr<RoundedRectPrimitive>(new RoundedRectPrimitive(*p.render));
-                primitive->rect = rect;
-                primitive->radius = radius;
-                primitive->side = side;
-                primitive->facets = facets;
-                primitive->clipRect = p.currentClipRect;
-                primitive->colorMode = ColorMode::SolidColor;
-                primitive->color = p.fillColor;
-                p.render->primitives.push_back(std::move(primitive));*/
+                    const size_t vboDataSize = p.render->vboDataSize;
+                    p.updateVBODataSize(primitive.vaoSize);
+                    const float h = rect.h();
+                    const float radius = h / 2.f;
+                    VBOVertex* pData = reinterpret_cast<VBOVertex*>(&p.render->vboData[vboDataSize]);
+                    pData->vx = rect.min.x + radius;
+                    pData->vy = rect.min.y;
+                    ++pData;
+                    pData->vx = rect.max.x - radius;
+                    pData->vy = rect.min.y;
+                    ++pData;
+                    pData->vx = rect.max.x - radius;
+                    pData->vy = rect.max.y;
+                    ++pData;
+                    pData->vx = rect.max.x - radius;
+                    pData->vy = rect.max.y;
+                    ++pData;
+                    pData->vx = rect.min.x + radius;
+                    pData->vy = rect.max.y;
+                    ++pData;
+                    pData->vx = rect.min.x + radius;
+                    pData->vy = rect.min.y;
+                    ++pData;
+
+                    for (size_t i = 0; i < facets; ++i)
+                    {
+                        const float x = rect.min.x + radius;
+                        const float y = rect.min.y + radius;
+                        pData->vx = x;
+                        pData->vy = y;
+                        ++pData;
+                        float degrees = i / static_cast<float>(facets) * 180.f + 90.f;
+                        pData->vx = x + cosf(Math::deg2rad(degrees)) * radius;
+                        pData->vy = y + sinf(Math::deg2rad(degrees)) * radius;
+                        ++pData;
+                        degrees = (i + 1) / static_cast<float>(facets) * 180.f + 90.f;
+                        pData->vx = x + cosf(Math::deg2rad(degrees)) * radius;
+                        pData->vy = y + sinf(Math::deg2rad(degrees)) * radius;
+                        ++pData;
+                    }
+
+                    for (size_t i = 0; i < facets; ++i)
+                    {
+                        const float x = rect.max.x - radius;
+                        const float y = rect.min.y + radius;
+                        pData->vx = x;
+                        pData->vy = y;
+                        ++pData;
+                        float degrees = i / static_cast<float>(facets) * 180.f + 270.f;
+                        pData->vx = x + cosf(Math::deg2rad(degrees)) * radius;
+                        pData->vy = y + sinf(Math::deg2rad(degrees)) * radius;
+                        ++pData;
+                        degrees = (i + 1) / static_cast<float>(facets) * 180.f + 270.f;
+                        pData->vx = x + cosf(Math::deg2rad(degrees)) * radius;
+                        pData->vy = y + sinf(Math::deg2rad(degrees)) * radius;
+                        ++pData;
+                    }
+                }
             }
 
             void Render2D::drawCircle(const glm::vec2 & pos, float radius, size_t facets)

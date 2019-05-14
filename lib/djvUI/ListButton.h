@@ -49,6 +49,7 @@ namespace djv
                 void setInsideMargin(const Layout::Margin &);
 
                 void setChecked(bool) override;
+                void setForegroundColorRole(ColorRole) override;
 
             protected:
                 void _preLayoutEvent(Core::Event::PreLayout &) override;

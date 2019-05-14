@@ -183,6 +183,16 @@ namespace djv
                 _clipRect = value;
             }
 
+            inline bool PointerInfo::operator == (const PointerInfo& other) const
+            {
+                return
+                    id           == other.id           &&
+                    pos          == other.pos          &&
+                    dir          == other.dir          &&
+                    projectedPos == other.projectedPos &&
+                    buttons      == other.buttons;
+            }
+
             inline IPointer::IPointer(const PointerInfo & pointerInfo, Type type) :
                 IEvent(type),
                 _pointerInfo(pointerInfo)

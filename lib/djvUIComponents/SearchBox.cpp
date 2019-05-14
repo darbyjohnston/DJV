@@ -63,6 +63,7 @@ namespace djv
             
             auto searchIcon = Icon::create(context);
             searchIcon->setIcon("djvIconSearch");
+            searchIcon->setIconColorRole(ColorRole::Button);
             
             auto clearButton = ToolButton::create(context);
             clearButton->setIcon("djvIconClear");
@@ -80,6 +81,7 @@ namespace djv
             layout->addChild(p.soloLayout);
             
             p.border = Border::create(context);
+            p.border->setBorderColorRole(ColorRole::None);
             p.border->setMargin(MetricsRole::MarginSmall);
             p.border->addChild(layout);
             addChild(p.border);
@@ -90,7 +92,7 @@ namespace djv
             {
                 if (auto widget = weak.lock())
                 {
-                    widget->_p->border->setBorderColorRole(value ? ColorRole::Checked : ColorRole::Border);
+                    widget->_p->border->setBorderColorRole(value ? ColorRole::Checked : ColorRole::None);
                 }
             });
 

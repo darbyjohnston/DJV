@@ -36,6 +36,7 @@
 #include <djvUIComponents/SearchBox.h>
 
 #include <djvUI/Action.h>
+#include <djvUI/ActionButton.h>
 #include <djvUI/ActionGroup.h>
 #include <djvUI/Bellows.h>
 #include <djvUI/Border.h>
@@ -54,6 +55,7 @@
 #include <djvUI/StackLayout.h>
 #include <djvUI/ScrollWidget.h>
 #include <djvUI/ToolBar.h>
+#include <djvUI/ToolButton.h>
 #include <djvUI/Window.h>
 
 #include <djvAV/IO.h>
@@ -240,24 +242,31 @@ namespace djv
                 p.sortMenu->addAction(p.actions["SortDirectoriesFirst"]);
 
                 auto menuBar = MenuBar::create(context);
+                menuBar->setBackgroundRole(ColorRole::BackgroundToolBar);
+                menuBar->setShadowOverlay({ Side::Top });
                 menuBar->addChild(p.directoryMenu);
                 menuBar->addChild(p.shortcutsMenu);
                 menuBar->addChild(p.viewMenu);
                 menuBar->addChild(p.sortMenu);
 
                 auto pathWidget = PathWidget::create(context);
+                auto editPathButton = ActionButton::create(context);
+                editPathButton->setShowText(false);
+                editPathButton->setShowShortcuts(false);
+                editPathButton->addAction(p.actions["EditPath"]);
+                editPathButton->setShadowOverlay({ Side::Top });
 
                 auto topToolBar = ToolBar::create(context);
+                topToolBar->setBackgroundRole(ColorRole::BackgroundToolBar);
+                topToolBar->setShadowOverlay({ Side::Top });
                 topToolBar->addAction(p.actions["Up"]);
                 topToolBar->addAction(p.actions["Back"]);
                 topToolBar->addAction(p.actions["Forward"]);
-                topToolBar->addChild(pathWidget);
-                topToolBar->setStretch(pathWidget, RowStretch::Expand);
-                topToolBar->addAction(p.actions["EditPath"]);
 
                 p.shortcutsWidget = ShortcutsWidget::create(p.shortcutsModel, context);
                 p.drivesWidget = DrivesWidget::create(context);
                 p.shortcutsBellows["Shortcuts"] = Bellows::create(context);
+                p.shortcutsBellows["Shortcuts"]->setShadowOverlay({ Side::Top });
                 p.shortcutsBellows["Shortcuts"]->addChild(p.shortcutsWidget);
                 p.shortcutsBellows["Drives"] = Bellows::create(context);
                 p.shortcutsBellows["Drives"]->addChild(p.drivesWidget);
@@ -269,6 +278,7 @@ namespace djv
                 vLayout->addChild(p.shortcutsBellows["Recent"]);
                 p.shortcutsScrollWidget = ScrollWidget::create(ScrollType::Vertical, context);
                 p.shortcutsScrollWidget->setBorder(false);
+                p.shortcutsScrollWidget->setBackgroundRole(UI::ColorRole::Trough);
                 p.shortcutsScrollWidget->addChild(vLayout);
 
                 p.listViewHeader = ListViewHeader::create(context);
@@ -292,14 +302,15 @@ namespace djv
                 p.thumbnailSizeSlider->setMargin(MetricsRole::MarginSmall);
                 vLayout = VerticalLayout::create(context);
                 vLayout->setSpacing(MetricsRole::None);
+                vLayout->setBackgroundRole(ColorRole::BackgroundToolBar);
                 vLayout->addChild(p.thumbnailSizeLabel);
-                vLayout->addSeparator();
                 vLayout->addChild(p.thumbnailSizeSlider);
                 p.thumbnailSizePopupWidget = PopupWidget::create(context);
                 p.thumbnailSizePopupWidget->setIcon("djvIconThumbnailSize");
                 p.thumbnailSizePopupWidget->addChild(vLayout);
 
                 auto bottomToolBar = ToolBar::create(context);
+                bottomToolBar->setBackgroundRole(ColorRole::BackgroundToolBar);
                 bottomToolBar->addExpander();
                 bottomToolBar->addChild(p.itemCountLabel);
                 bottomToolBar->addChild(p.searchBox);
@@ -308,9 +319,13 @@ namespace djv
                 p.layout = VerticalLayout::create(context);
                 p.layout->setSpacing(MetricsRole::None);
                 p.layout->addChild(menuBar);
-                p.layout->addSeparator();
-                p.layout->addChild(topToolBar);
-                p.layout->addSeparator();
+                auto hLayout = HorizontalLayout::create(context);
+                hLayout->setSpacing(MetricsRole::None);
+                hLayout->addChild(topToolBar);
+                hLayout->addChild(pathWidget);
+                hLayout->setStretch(pathWidget, RowStretch::Expand);
+                hLayout->addChild(editPathButton);
+                p.layout->addChild(hLayout);
                 auto splitter = Layout::Splitter::create(Orientation::Horizontal, context);
                 splitter->addChild(p.shortcutsScrollWidget);
                 vLayout = VerticalLayout::create(context);
@@ -318,14 +333,12 @@ namespace djv
                 p.listViewLayout = VerticalLayout::create(context);
                 p.listViewLayout->setSpacing(MetricsRole::None);
                 p.listViewLayout->addChild(p.listViewHeader);
-                p.listViewLayout->addSeparator();
                 vLayout->addChild(p.listViewLayout);
                 vLayout->addChild(p.scrollWidget);
                 vLayout->setStretch(p.scrollWidget, RowStretch::Expand);
                 splitter->addChild(vLayout);
                 p.layout->addChild(splitter);
                 p.layout->setStretch(splitter, RowStretch::Expand);
-                p.layout->addSeparator();
                 p.layout->addChild(bottomToolBar);
                 addChild(p.layout);
 

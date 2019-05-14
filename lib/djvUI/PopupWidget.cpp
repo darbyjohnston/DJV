@@ -30,11 +30,10 @@
 #include <djvUI/PopupWidget.h>
 
 #include <djvUI/Action.h>
-#include <djvUI/Border.h>
 #include <djvUI/EventSystem.h>
 #include <djvUI/MenuButton.h>
 #include <djvUI/Overlay.h>
-#include <djvUI/RowLayout.h>
+#include <djvUI/StackLayout.h>
 #include <djvUI/Window.h>
 
 #include <djvAV/Render2D.h>
@@ -69,7 +68,7 @@ namespace djv
                 void _buttonReleaseEvent(Event::ButtonRelease &) override;
 
             private:
-                std::shared_ptr<Border> _border;
+                std::shared_ptr<StackLayout> _layout;
             };
 
             void OverlayWidget::_init(Context * context)
@@ -79,8 +78,8 @@ namespace djv
                 setBackgroundRole(ColorRole::Background);
                 setPointerEnabled(true);
 
-                _border = Layout::Border::create(context);
-                Widget::addChild(_border);
+                _layout = StackLayout::create(context);
+                Widget::addChild(_layout);
             }
 
             OverlayWidget::OverlayWidget()
@@ -95,7 +94,7 @@ namespace djv
 
             void OverlayWidget::addChild(const std::shared_ptr<IObject> & value)
             {
-                _border->addChild(value);
+                _layout->addChild(value);
             }
 
             void OverlayWidget::_buttonPressEvent(Event::ButtonPress & event)
@@ -110,12 +109,12 @@ namespace djv
 
             void OverlayWidget::_preLayoutEvent(Event::PreLayout &)
             {
-                _setMinimumSize(_border->getMinimumSize());
+                _setMinimumSize(_layout->getMinimumSize());
             }
 
             void OverlayWidget::_layoutEvent(Event::Layout &)
             {
-                _border->setGeometry(getGeometry());
+                _layout->setGeometry(getGeometry());
             }
 
             class OverlayLayout : public Widget

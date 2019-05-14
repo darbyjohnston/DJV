@@ -107,6 +107,8 @@ namespace djv
             p.viewMenu->addAction(p.actions["DecreaseThumbnailSize"]);
 
             auto menuBar = UI::MenuBar::create(context);
+            menuBar->setBackgroundRole(UI::ColorRole::BackgroundToolBar);
+            menuBar->setShadowOverlay({ UI::Side::Top });
             menuBar->addChild(p.viewMenu);
 
             p.itemView = UI::FileBrowser::ItemView::create(context);
@@ -128,14 +130,15 @@ namespace djv
             p.thumbnailSizeSlider->setMargin(UI::MetricsRole::MarginSmall);
             auto vLayout = UI::VerticalLayout::create(context);
             vLayout->setSpacing(UI::MetricsRole::None);
+            vLayout->setBackgroundRole(UI::ColorRole::BackgroundToolBar);
             vLayout->addChild(p.thumbnailSizeLabel);
-            vLayout->addSeparator();
             vLayout->addChild(p.thumbnailSizeSlider);
             p.thumbnailSizePopupWidget = UI::PopupWidget::create(context);
             p.thumbnailSizePopupWidget->setIcon("djvIconThumbnailSize");
             p.thumbnailSizePopupWidget->addChild(vLayout);
 
             auto bottomToolBar = UI::ToolBar::create(context);
+            bottomToolBar->setBackgroundRole(UI::ColorRole::BackgroundToolBar);
             bottomToolBar->addExpander();
             bottomToolBar->addChild(p.itemCountLabel);
             bottomToolBar->addChild(p.searchBox);
@@ -144,10 +147,8 @@ namespace djv
             p.layout = UI::VerticalLayout::create(context);
             p.layout->setSpacing(UI::MetricsRole::None);
             p.layout->addChild(menuBar);
-            p.layout->addSeparator();
             p.layout->addChild(scrollWidget);
             p.layout->setStretch(scrollWidget, UI::RowStretch::Expand);
-            p.layout->addSeparator();
             p.layout->addChild(bottomToolBar);
             addChild(p.layout);
             setStretch(p.layout, UI::RowStretch::Expand);

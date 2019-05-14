@@ -44,7 +44,6 @@ namespace djv
                 Orientation orientation = Orientation::Horizontal;
                 std::vector<float> split;
                 float splitterWidth = 0.f;
-                SplitterHandleStyle handleStyle = SplitterHandleStyle::Edges;
                 ColorRole handleColorRole = ColorRole::Background;
                 std::map<Event::PointerID, size_t> hover;
                 std::pair<Event::PointerID, size_t> pressedID;
@@ -121,11 +120,6 @@ namespace djv
                 _resize();
             }
 
-            SplitterHandleStyle Splitter::getHandleStyle() const
-            {
-                return _p->handleStyle;
-            }
-
             ColorRole Splitter::getHandleColorRole() const
             {
                 return _p->handleColorRole;
@@ -137,15 +131,6 @@ namespace djv
                 if (value == p.handleColorRole)
                     return;
                 p.handleColorRole = value;
-                _redraw();
-            }
-
-            void Splitter::setHandleStyle(SplitterHandleStyle value)
-            {
-                DJV_PRIVATE_PTR();
-                if (value == p.handleStyle)
-                    return;
-                p.handleStyle = value;
                 _redraw();
             }
 
@@ -291,32 +276,6 @@ namespace djv
                                 break;
                             }
                         }
-                    }
-
-                    render->setFillColor(_getColorWithOpacity(style->getColor(ColorRole::Border)));
-                    switch (p.orientation)
-                    {
-                    case Orientation::Horizontal:
-                        switch (p.handleStyle)
-                        {
-                        case SplitterHandleStyle::Edges:
-                            render->drawRect(BBox2f(g.min.x, g.min.y, b, g.h()));
-                            render->drawRect(BBox2f(g.max.x - b, g.min.y, b, g.h()));
-                            break;
-                        default: break;
-                        }
-                        break;
-                    case Orientation::Vertical:
-                        switch (p.handleStyle)
-                        {
-                        case SplitterHandleStyle::Edges:
-                            render->drawRect(BBox2f(g.min.x, g.min.y, g.w(), b));
-                            render->drawRect(BBox2f(g.max.x, g.min.y - b, g.w(), b));
-                            break;
-                        default: break;
-                        }
-                        break;
-                    default: break;
                     }
 
                     ++i;

@@ -76,6 +76,7 @@ namespace djv
                 std::weak_ptr<TextSystem> textSystem;
                 float t = 0.f;
                 Event::PointerInfo pointerInfo;
+                std::shared_ptr<ValueSubject<Event::PointerInfo> > pointerSubject;
                 std::shared_ptr<IObject> hover;
                 std::shared_ptr<IObject> grab;
                 std::shared_ptr<IObject> keyGrab;
@@ -93,6 +94,7 @@ namespace djv
                 DJV_PRIVATE_PTR();
 
                 p.rootObject = RootObject::create(context);
+                p.pointerSubject = ValueSubject<Event::PointerInfo>::create();
 
                 auto weak = std::weak_ptr<IEventSystem>(std::dynamic_pointer_cast<IEventSystem>(shared_from_this()));
                 p.textSystem = context->getSystemT<TextSystem>();
@@ -135,6 +137,11 @@ namespace djv
             std::shared_ptr<IObject> IEventSystem::getRootObject() const
             {
                 return _p->rootObject;
+            }
+
+            std::shared_ptr<Core::IValueSubject<Core::Event::PointerInfo> > IEventSystem::observePointer() const
+            {
+                return _p->pointerSubject;
             }
 
             const std::weak_ptr<IObject> & IEventSystem::getTextFocus() const
@@ -257,6 +264,7 @@ namespace djv
             {
                 DJV_PRIVATE_PTR();
                 p.pointerInfo = info;
+                p.pointerSubject->setIfChanged(info);
             }
 
             void IEventSystem::_buttonPress(int button)

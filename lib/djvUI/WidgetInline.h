@@ -104,6 +104,11 @@ namespace djv
             return _backgroundRole;
         }
 
+        inline const std::vector<Side>& Widget::getShadowOverlay() const
+        {
+            return _shadowOverlay;
+        }
+
         inline bool Widget::isPointerEnabled() const
         {
             return _pointerEnabled;

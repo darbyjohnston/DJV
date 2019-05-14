@@ -115,7 +115,7 @@ namespace djv
                     {
                         p.icon = Icon::create(getContext());
                         p.icon->setVAlign(VAlign::Center);
-                        p.icon->setIconColorRole(isChecked() ? getCheckedColorRole() : getForegroundColorRole());
+                        p.icon->setIconColorRole(isChecked() ? ColorRole::Checked : getForegroundColorRole());
                         p.layout->addChild(p.icon);
                         p.icon->moveToFront();
                     }
@@ -143,6 +143,7 @@ namespace djv
                     {
                         p.label = Label::create(getContext());
                         p.label->setTextHAlign(p.textHAlign);
+                        p.label->setTextColorRole(getForegroundColorRole());
                         p.label->setFont(p.font);
                         p.label->setFontFace(p.fontFace);
                         p.label->setFontSizeRole(p.fontSizeRole);
@@ -234,7 +235,20 @@ namespace djv
                 IButton::setChecked(value);
                 if (_p->icon)
                 {
-                    _p->icon->setIconColorRole(value ? getCheckedColorRole() : getForegroundColorRole());
+                    _p->icon->setIconColorRole(value ? ColorRole::Checked : getForegroundColorRole());
+                }
+            }
+
+            void List::setForegroundColorRole(ColorRole value)
+            {
+                IButton::setForegroundColorRole(value);
+                if (_p->icon)
+                {
+                    _p->icon->setIconColorRole(isChecked() ? ColorRole::Checked : value);
+                }
+                if (_p->label)
+                {
+                    _p->label->setTextColorRole(value);
                 }
             }
 
@@ -276,20 +290,19 @@ namespace djv
                 auto style = _getStyle();
                 const BBox2f& g = getGeometry();
                 const float m = style->getMetric(MetricsRole::MarginSmall);
-                const ColorRole checkedColorRole = getCheckedColorRole();
-                if (_isToggled() && checkedColorRole != ColorRole::None)
+                if (_isToggled())
                 {
-                    render->setFillColor(_getColorWithOpacity(style->getColor(checkedColorRole)));
+                    render->setFillColor(_getColorWithOpacity(style->getColor(ColorRole::Checked)));
                     render->drawRect(BBox2f(g.min.x, g.min.y, m, g.h()));
                 }
                 if (_isPressed())
                 {
-                    render->setFillColor(_getColorWithOpacity(style->getColor(getPressedColorRole())));
+                    render->setFillColor(_getColorWithOpacity(style->getColor(ColorRole::Pressed)));
                     render->drawRect(g);
                 }
                 else if (_isHovered())
                 {
-                    render->setFillColor(_getColorWithOpacity(style->getColor(getHoveredColorRole())));
+                    render->setFillColor(_getColorWithOpacity(style->getColor(ColorRole::Hovered)));
                     render->drawRect(g);
                 }
             }

@@ -94,7 +94,7 @@ namespace djv
             p.typeWidget = UI::ColorTypeWidget::create(context);
 
             p.menu = UI::Menu::create(context);
-            p.menu->setIcon("djvIconMenuPopup");
+            p.menu->setIcon("djvIconPopupMenu");
             p.menu->addAction(p.actions["Lock"]);
             p.menu->addAction(p.actions["ColorProfile"]);
             p.menu->addAction(p.actions["DisplayProfile"]);
