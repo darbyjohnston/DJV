@@ -27,12 +27,12 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#version 110
+#version 410
 
-attribute vec3 aPos;
-attribute vec2 aTexture;
+in vec3 aPos;
+in vec2 aTexture;
 
-varying vec2 Texture;
+out vec2 Texture;
 
 uniform struct Transform
 {

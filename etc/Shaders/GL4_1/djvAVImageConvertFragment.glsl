@@ -27,14 +27,16 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#version 110
+#version 410
 
-varying vec2 Texture;
+in vec2 Texture;
+
+out vec4 FragColor;
 
 uniform sampler2D textureSampler;
 
 void main()
 {
-    vec4 t = texture2D(textureSampler, Texture);
-    gl_FragColor = t;
+    vec4 t = texture(textureSampler, Texture);
+    FragColor = t;
 }

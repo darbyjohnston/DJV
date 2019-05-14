@@ -27,9 +27,11 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#version 110
+#version 410
 
-varying vec2 Texture;
+in vec2 Texture;
+
+out vec4 FragColor;
 
 uniform int imageFormat;
 uniform int colorMode;
@@ -52,7 +54,7 @@ uniform sampler2D textureSampler;
 
 void main()
 {
-    vec4 t = texture2D(textureSampler, Texture);
+    vec4 t = texture(textureSampler, Texture);
     if (IMAGE_FORMAT_L == imageFormat)
     {
         t.g = t.r;
@@ -72,38 +74,38 @@ void main()
     
     if (COLOR_MODE_SOLID_COLOR == colorMode)
     {
-        gl_FragColor = color;
+        FragColor = color;
     }
     else if (COLOR_MODE_COLOR_WITH_TEXTURE_ALPHA == colorMode)
     {
-        gl_FragColor.r = color.r;
-        gl_FragColor.g = color.g;
-        gl_FragColor.b = color.b;
-        gl_FragColor.a = color.a * t.r;
+        FragColor.r = color.r;
+        FragColor.g = color.g;
+        FragColor.b = color.b;
+        FragColor.a = color.a * t.r;
     }
     else if (COLOR_MODE_COLOR_WITH_TEXTURE_ALPHA_R == colorMode)
     {
-        gl_FragColor.r = color.r;
-        gl_FragColor.g = 0.0;
-        gl_FragColor.b = 0.0;
-        gl_FragColor.a = color.a * t.r;
+        FragColor.r = color.r;
+        FragColor.g = 0.0;
+        FragColor.b = 0.0;
+        FragColor.a = color.a * t.r;
     }
     else if (COLOR_MODE_COLOR_WITH_TEXTURE_ALPHA_G == colorMode)
     {
-        gl_FragColor.r = 0.0;
-        gl_FragColor.g = color.g;
-        gl_FragColor.b = 0.0;
-        gl_FragColor.a = color.a * t.g;
+        FragColor.r = 0.0;
+        FragColor.g = color.g;
+        FragColor.b = 0.0;
+        FragColor.a = color.a * t.g;
     }
     else if (COLOR_MODE_COLOR_WITH_TEXTURE_ALPHA_B == colorMode)
     {
-        gl_FragColor.r = 0.0;
-        gl_FragColor.g = 0.0;
-        gl_FragColor.b = color.b;
-        gl_FragColor.a = color.a * t.b;
+        FragColor.r = 0.0;
+        FragColor.g = 0.0;
+        FragColor.b = color.b;
+        FragColor.a = color.a * t.b;
     }
     else if (COLOR_MODE_COLOR_AND_TEXTURE == colorMode)
     {
-        gl_FragColor = color * t;
+        FragColor = color * t;
     }
 }
