@@ -202,7 +202,7 @@ namespace djv
                         button->setText(i->isRoot() ? i->get() : i->getFileName());
                         button->setForegroundColorRole(ColorRole::ForegroundDim);
                         button->setBackgroundRole(ColorRole::BackgroundToolBar);
-                        button->setShadowOverlay({ Side::Left, Side::Top });
+                        button->setShadowOverlay({ Side::Left });
 
                         _p->buttonLayout->addChild(button);
 

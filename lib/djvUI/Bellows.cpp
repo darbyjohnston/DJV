@@ -33,6 +33,7 @@
 #include <djvUI/Icon.h>
 #include <djvUI/Label.h>
 #include <djvUI/RowLayout.h>
+#include <djvUI/Spacer.h>
 #include <djvUI/StackLayout.h>
 
 #include <djvAV/Render2D.h>
@@ -164,6 +165,7 @@ namespace djv
             struct Bellows::Private
             {
                 std::shared_ptr<Button> button;
+                std::shared_ptr<Layout::Spacer> spacer;
                 std::shared_ptr<StackLayout> childLayout;
                 std::shared_ptr<VerticalLayout> layout;
                 std::function<void(bool)> openCallback;
@@ -179,8 +181,11 @@ namespace djv
 
                 p.button = Button::create(context);
 
+                p.spacer = Layout::Spacer::create(Orientation::Vertical, context);
+                
                 p.childLayout = StackLayout::create(context);
                 p.childLayout->setShadowOverlay({ Side::Top });
+                p.childLayout->addChild(p.spacer);
 
                 p.layout = VerticalLayout::create(context);
                 p.layout->setSpacing(MetricsRole::None);
@@ -281,6 +286,7 @@ namespace djv
             void Bellows::clearChildren()
             {
                 _p->childLayout->clearChildren();
+                _childrenUpdate();
             }
 
             float Bellows::getHeightForWidth(float value) const
@@ -301,6 +307,7 @@ namespace djv
             void Bellows::_childrenUpdate()
             {
                 DJV_PRIVATE_PTR();
+                p.spacer->setVisible(p.childLayout->getChildWidgets().size() == 1);
                 p.childLayout->setVisible(p.button->isChecked());
             }
 

@@ -310,6 +310,20 @@ namespace djv
                     }
                     break;
                 }
+                case Side::Right:
+                {
+                    const auto i = p.shadowImages.find(side);
+                    if (i != p.shadowImages.end())
+                    {
+                        const float w = i->second->getWidth();
+                        const float h = i->second->getHeight();
+                        for (float y = rect.min.y; y < rect.max.y; y += h)
+                        {
+                            render->drawImage(i->second, BBox2f(rect.max.x - w, y, w, h));
+                        }
+                    }
+                    break;
+                }
                 case Side::Top:
                 {
                     const auto i = p.shadowImages.find(side);
@@ -320,6 +334,20 @@ namespace djv
                         for (float x = rect.min.x; x < rect.max.x; x += w)
                         {
                             render->drawImage(i->second, BBox2f(x, rect.min.y, w, h));
+                        }
+                    }
+                    break;
+                }
+                case Side::Bottom:
+                {
+                    const auto i = p.shadowImages.find(side);
+                    if (i != p.shadowImages.end())
+                    {
+                        const float w = i->second->getWidth();
+                        const float h = i->second->getHeight();
+                        for (float x = rect.min.x; x < rect.max.x; x += w)
+                        {
+                            render->drawImage(i->second, BBox2f(x, rect.max.y - h, w, h));
                         }
                     }
                     break;

@@ -250,6 +250,7 @@ namespace djv
                 menuBar->addChild(p.sortMenu);
 
                 auto pathWidget = PathWidget::create(context);
+                pathWidget->setShadowOverlay({ Side::Top });
                 auto editPathButton = ActionButton::create(context);
                 editPathButton->setShowText(false);
                 editPathButton->setShowShortcuts(false);
