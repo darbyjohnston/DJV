@@ -37,42 +37,18 @@ namespace djv
     {
         namespace MDI
         {
+            void IWidget::_init(Context* context)
+            {
+                Widget::_init(context);
+            }
+
             IWidget::IWidget()
             {}
 
             IWidget::~IWidget()
             {}
 
-            Handle IWidget::getHandle(const glm::vec2 & pos) const
-            {
-                Handle out = Handle::None;
-                for (const auto & i : _getHandle())
-                {
-                    for (const auto & j : i.second)
-                    {
-                        if (j.contains(pos))
-                        {
-                            out = i.first;
-                            break;
-                        }
-                    }
-                }
-                return out;
-            }
-            
-            std::vector<BBox2f> IWidget::getHandleDraw(Handle value) const
-            {
-                std::vector<BBox2f> out;
-                const auto & bbox = _getHandleDraw();
-                const auto i = bbox.find(value);
-                if (i != bbox.end())
-                {
-                    out = i->second;
-                }
-                return out;
-            }
-
-            std::map<Handle, std::vector<BBox2f> > IWidget::_getHandle() const
+            std::map<Handle, std::vector<BBox2f> > IWidget::getHandles() const
             {
                 std::map<Handle, std::vector<BBox2f> > out;
                 const BBox2f & g = getGeometry();
@@ -167,7 +143,7 @@ namespace djv
                 return out;
             }
 
-            std::map<Handle, std::vector<BBox2f> > IWidget::_getHandleDraw() const
+            std::map<Handle, std::vector<BBox2f> > IWidget::getHandlesDraw() const
             {
                 std::map<Handle, std::vector<BBox2f> > out;
                 const BBox2f & g = getGeometry();

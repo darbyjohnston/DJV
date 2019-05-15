@@ -133,6 +133,14 @@ namespace djv
             _p->closeCallback = value;
         }
 
+        std::map<UI::MDI::Handle, std::vector<Core::BBox2f> > ITool::getHandles() const
+        {
+            DJV_PRIVATE_PTR();
+            auto out = IWidget::getHandles();
+            out[UI::MDI::Handle::Move][0] = p.titleBar->getGeometry();
+            return out;
+        }
+
         float ITool::getHeightForWidth(float value) const
         {
             return _p->border->getHeightForWidth(value);
@@ -156,14 +164,6 @@ namespace djv
         void ITool::clearChildren()
         {
             _p->childLayout->clearChildren();
-        }
-
-        std::map<UI::MDI::Handle, std::vector<Core::BBox2f> > ITool::_getHandle() const
-        {
-            DJV_PRIVATE_PTR();
-            auto out = IWidget::_getHandle();
-            out[UI::MDI::Handle::Move][0] = p.titleBar->getGeometry();
-            return out;
         }
 
         void ITool::_preLayoutEvent(Event::PreLayout & event)

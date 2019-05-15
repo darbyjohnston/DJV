@@ -39,6 +39,7 @@
 #include <djvUI/MDICanvas.h>
 #include <djvUI/MDIWidget.h>
 #include <djvUI/RowLayout.h>
+#include <djvUI/StackLayout.h>
 #include <djvUI/ToolButton.h>
 
 #include <djvCore/Context.h>
@@ -76,7 +77,8 @@ namespace djv
                 std::shared_ptr<UI::ToolButton> _closeButton;
                 std::shared_ptr<UI::HorizontalLayout> _titleBar;
                 std::shared_ptr<MediaWidget> _mediaWidget;
-                std::shared_ptr<UI::Border> _border;
+                std::shared_ptr<UI::StackLayout> _layout;
+                std::shared_ptr<ValueObserver<float> > _fadeObserver;
             };
 
             void SubWidget::_init(const std::shared_ptr<Media>& media, Context* context)
@@ -98,7 +100,7 @@ namespace djv
                 _closeButton->setInsideMargin(UI::MetricsRole::MarginSmall);
 
                 _titleBar = UI::HorizontalLayout::create(context);
-                _titleBar->setBackgroundRole(UI::ColorRole::BackgroundHeader);
+                _titleBar->setBackgroundRole(UI::ColorRole::Overlay);
                 _titleBar->setSpacing(UI::MetricsRole::None);
                 _titleBar->addChild(_titleLabel);
                 _titleBar->setStretch(_titleLabel, UI::RowStretch::Expand);
@@ -108,17 +110,14 @@ namespace djv
                 _mediaWidget = MediaWidget::create(context);
                 _mediaWidget->setMedia(media);
 
-                auto layout = UI::VerticalLayout::create(context);
-                layout->setBackgroundRole(UI::ColorRole::Background);
-                layout->setSpacing(UI::MetricsRole::None);
-                layout->addChild(_titleBar);
-                layout->addChild(_mediaWidget);
-                layout->setStretch(_mediaWidget, UI::RowStretch::Expand);
-
-                _border = UI::Border::create(context);
-                _border->setMargin(UI::MetricsRole::Handle);
-                _border->addChild(layout);
-                addChild(_border);
+                _layout = UI::StackLayout::create(context);
+                _layout->setMargin(UI::MetricsRole::Handle);
+                _layout->addChild(_mediaWidget);
+                auto vLayout = UI::VerticalLayout::create(context);
+                vLayout->addChild(_titleBar);
+                vLayout->addExpander();
+                _layout->addChild(vLayout);
+                addChild(_layout);
 
                 _maximizeButton->setClickedCallback(
                     [media, context]
@@ -134,6 +133,17 @@ namespace djv
                 {
                     auto fileSystem = context->getSystemT<FileSystem>();
                     fileSystem->close(media);
+                });
+
+                auto weak = std::weak_ptr<SubWidget>(std::dynamic_pointer_cast<SubWidget>(shared_from_this()));
+                _fadeObserver = ValueObserver<float>::create(
+                    _mediaWidget->observeFade(),
+                    [weak](float value)
+                {
+                    if (auto widget = weak.lock())
+                    {
+                        widget->_titleBar->setOpacity(value);
+                    }
                 });
             }
 
@@ -151,12 +161,12 @@ namespace djv
 
             void SubWidget::_preLayoutEvent(Event::PreLayout&)
             {
-                _setMinimumSize(_border->getMinimumSize());
+                _setMinimumSize(_layout->getMinimumSize());
             }
 
             void SubWidget::_layoutEvent(Event::Layout&)
             {
-                _border->setGeometry(getGeometry());
+                _layout->setGeometry(getGeometry());
             }
 
         } // namespace

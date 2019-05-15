@@ -267,7 +267,6 @@ namespace djv
                 p.shortcutsWidget = ShortcutsWidget::create(p.shortcutsModel, context);
                 p.drivesWidget = DrivesWidget::create(context);
                 p.shortcutsBellows["Shortcuts"] = Bellows::create(context);
-                p.shortcutsBellows["Shortcuts"]->setShadowOverlay({ Side::Top });
                 p.shortcutsBellows["Shortcuts"]->addChild(p.shortcutsWidget);
                 p.shortcutsBellows["Drives"] = Bellows::create(context);
                 p.shortcutsBellows["Drives"]->addChild(p.drivesWidget);

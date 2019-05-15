@@ -31,9 +31,6 @@
 
 #include <djvUI/IconSystem.h>
 
-#include <djvAV/Image.h>
-#include <djvAV/Render2D.h>
-
 #include <djvCore/Context.h>
 #include <djvCore/LogSystem.h>
 
@@ -73,8 +70,8 @@ namespace djv
                     { ColorRole::Checked, AV::Image::Color(48, 134, 171) },
                     { ColorRole::TooltipBackground, AV::Image::Color(255, 255, 191) },
                     { ColorRole::TooltipForeground, AV::Image::Color(0, 0, 0) },
-                    { ColorRole::Overlay, AV::Image::Color(0, 0, 0, 160) },
-                    { ColorRole::Shadow, AV::Image::Color(0, 0, 0, 80) },
+                    { ColorRole::Overlay, AV::Image::Color(0, 0, 0, 127) },
+                    { ColorRole::Shadow, AV::Image::Color(0, 0, 0, 40) },
                     { ColorRole::Handle, AV::Image::Color(48, 134, 171) }
                 };
             }
@@ -157,7 +154,7 @@ namespace djv
                     { MetricsRole::ScrollArea, 300.f },
                     { MetricsRole::TextColumn, 200.f },
                     { MetricsRole::Dialog, 400.f },
-                    { MetricsRole::Shadow, 5.f },
+                    { MetricsRole::Shadow, 10.f },
                     { MetricsRole::TooltipOffset, 10.f },
                     { MetricsRole::Handle, 15.f }
                 };
@@ -185,8 +182,6 @@ namespace djv
                 Palette palette;
                 int dpi = AV::dpiDefault;
                 Metrics metrics;
-                std::map<Side, std::future<std::shared_ptr<AV::Image::Image> > > shadowFutures;
-                std::map<Side, std::shared_ptr<AV::Image::Image> > shadowImages;
                 std::string font = AV::Font::familyDefault;
                 std::map<AV::Font::FamilyID, std::string> fontNames;
                 std::map<std::string, AV::Font::FamilyID> fontNameToId;
@@ -199,8 +194,6 @@ namespace djv
                 
                 p.context = context;
                 p.dpi = dpi;
-
-                _iconUpdate();
                 
                 auto fontSystem = context->getSystemT<AV::Font::System>();
                 p.fontNames = fontSystem->getFontNames().get();
@@ -274,88 +267,6 @@ namespace djv
                 p.dirty = true;
             }
 
-            void Style::drawShadow(const std::shared_ptr<AV::Render::Render2D>& render, const BBox2f& rect, Side side)
-            {
-                DJV_PRIVATE_PTR();
-                const auto i = p.shadowFutures.find(side);
-                if (i != p.shadowFutures.end())
-                {
-                    if (i->second.valid())
-                    {
-                        try
-                        {
-                            p.shadowImages[side] = i->second.get();
-                        }
-                        catch (const std::exception & e)
-                        {
-                            auto logSystem = p.context->getSystemT<LogSystem>();
-                            logSystem->log("djv::UI::Style", e.what(), LogLevel::Error);
-                        }
-                    }
-                    p.shadowFutures.erase(i);
-                }
-                switch (side)
-                {
-                case Side::Left:
-                {
-                    const auto i = p.shadowImages.find(side);
-                    if (i != p.shadowImages.end())
-                    {
-                        const float w = i->second->getWidth();
-                        const float h = i->second->getHeight();
-                        for (float y = rect.min.y; y < rect.max.y; y += h)
-                        {
-                            render->drawImage(i->second, BBox2f(rect.min.x, y, w, h));
-                        }
-                    }
-                    break;
-                }
-                case Side::Right:
-                {
-                    const auto i = p.shadowImages.find(side);
-                    if (i != p.shadowImages.end())
-                    {
-                        const float w = i->second->getWidth();
-                        const float h = i->second->getHeight();
-                        for (float y = rect.min.y; y < rect.max.y; y += h)
-                        {
-                            render->drawImage(i->second, BBox2f(rect.max.x - w, y, w, h));
-                        }
-                    }
-                    break;
-                }
-                case Side::Top:
-                {
-                    const auto i = p.shadowImages.find(side);
-                    if (i != p.shadowImages.end())
-                    {
-                        const float w = i->second->getWidth();
-                        const float h = i->second->getHeight();
-                        for (float x = rect.min.x; x < rect.max.x; x += w)
-                        {
-                            render->drawImage(i->second, BBox2f(x, rect.min.y, w, h));
-                        }
-                    }
-                    break;
-                }
-                case Side::Bottom:
-                {
-                    const auto i = p.shadowImages.find(side);
-                    if (i != p.shadowImages.end())
-                    {
-                        const float w = i->second->getWidth();
-                        const float h = i->second->getHeight();
-                        for (float x = rect.min.x; x < rect.max.x; x += w)
-                        {
-                            render->drawImage(i->second, BBox2f(x, rect.max.y - h, w, h));
-                        }
-                    }
-                    break;
-                }
-                default: break;
-                }
-            }
-
             const std::string Style::getFont() const
             {
                 return _p->font;
@@ -399,21 +310,7 @@ namespace djv
 
             void Style::setClean()
             {
-                if (_p->dirty)
-                {
-                    _p->dirty = false;
-                    _iconUpdate();
-                }
-            }
-
-            void Style::_iconUpdate()
-            {
-                DJV_PRIVATE_PTR();
-                auto iconSystem = p.context->getSystemT<IconSystem>();
-                p.shadowFutures[Side::Left] = iconSystem->getIcon("djvIconShadowLeft", getMetric(MetricsRole::Icon));
-                p.shadowFutures[Side::Right] = iconSystem->getIcon("djvIconShadowRight", getMetric(MetricsRole::Icon));
-                p.shadowFutures[Side::Top] = iconSystem->getIcon("djvIconShadowTop", getMetric(MetricsRole::Icon));
-                p.shadowFutures[Side::Bottom] = iconSystem->getIcon("djvIconShadowBottom", getMetric(MetricsRole::Icon));
+                _p->dirty = false;
             }
 
         } // namespace Style

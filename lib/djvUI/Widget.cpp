@@ -485,7 +485,7 @@ namespace djv
                 {
                     if (!_visibleInit)
                     {
-                        _paintOverlayEvent(static_cast<Event::PaintOverlay &>(event));
+                        _paintOverlayEvent(static_cast<Event::PaintOverlay&>(event));
                     }
                     break;
                 }
@@ -583,9 +583,31 @@ namespace djv
         void Widget::_paintOverlayEvent(Event::PaintOverlay& event)
         {
             auto style = _getStyle();
+            const float ss = style->getMetric(MetricsRole::Shadow);
+            const BBox2f& g = getGeometry();
+            _render->setFillColor(_getColorWithOpacity(_style->getColor(ColorRole::Shadow)));
+            /*if (_shadowOverlay.size())
+            {
+                _render->drawShadow(BBox2f(g.min.x + ss * 10, g.min.y + ss * 10, g.w(), g.h()), ss);
+            }*/
             for (const auto& i : _shadowOverlay)
             {
-                style->drawShadow(_render, getGeometry(), i);
+                switch (i)
+                {
+                case Side::Left:
+                    _render->drawShadow(BBox2f(g.min.x, g.min.y, ss, g.h()), AV::Side::Right);
+                    break;
+                case Side::Right:
+                    _render->drawShadow(BBox2f(g.max.x - ss, g.min.y, ss, g.h()), AV::Side::Left);
+                    break;
+                case Side::Top:
+                    _render->drawShadow(BBox2f(g.min.x, g.min.y, g.w(), ss), AV::Side::Bottom);
+                    break;
+                case Side::Bottom:
+                    _render->drawShadow(BBox2f(g.min.x, g.max.y - ss, g.w(), ss), AV::Side::Top);
+                    break;
+                default: break;
+                }
             }
         }
 

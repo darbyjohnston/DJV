@@ -67,7 +67,10 @@ namespace djv
             void _preLayoutRecursive(const std::shared_ptr<Widget> &, Core::Event::PreLayout &);
             void _layoutRecursive(const std::shared_ptr<Widget> &, Core::Event::Layout &);
             void _clipRecursive(const std::shared_ptr<Widget> &, Core::Event::Clip &);
-            void _paintRecursive(const std::shared_ptr<Widget> &, Core::Event::Paint &, Core::Event::PaintOverlay &);
+            void _paintRecursive(
+                const std::shared_ptr<Widget> &,
+                Core::Event::Paint &,
+                Core::Event::PaintOverlay&);
 
             void _initObject(const std::shared_ptr<Core::IObject> &) override;
 

@@ -293,29 +293,19 @@ namespace djv
                     if (auto widget = weak.lock())
                     {
                         soloLayout->setCurrentIndex(static_cast<int>(value));
-                        switch (value)
-                        {
-                        case WindowMode::SDI:
-                            widget->_p->fadeObserver = ValueObserver<float>::create(
-                                widget->_p->sdiWidget->observeFade(),
-                                [weak](float value)
-                            {
-                                if (auto widget = weak.lock())
-                                {
-                                    widget->_p->menuBar->setOpacity(value);
-                                }
-                            });
-                            break;
-                        case WindowMode::MDI:
-                        case WindowMode::List:
-                            widget->_p->fadeObserver.reset();
-                            widget->_p->menuBar->setOpacity(1.f);
-                            break;
-                        default: break;
-                        }
                     }
                 });
             }
+
+            p.fadeObserver = ValueObserver<float>::create(
+                p.sdiWidget->observeFade(),
+                [weak](float value)
+            {
+                if (auto widget = weak.lock())
+                {
+                    widget->_p->menuBar->setOpacity(value);
+                }
+            });
         }
 
         MainWindow::MainWindow() :

@@ -41,15 +41,6 @@
 
 namespace djv
 {
-    namespace AV
-    {
-        namespace Render
-        {
-            class Render2D;
-
-        } // namespace Render
-    } // namespace Render
-
     namespace UI
     {
         //! This namespace provides styling.
@@ -198,13 +189,6 @@ namespace djv
 
                 ///@}
 
-                //! \name Drawing
-                ///@{
-
-                void drawShadow(const std::shared_ptr<AV::Render::Render2D>&, const Core::BBox2f&, Side);
-
-                ///@}
-
                 //! \name Fonts
                 ///@{
 
@@ -220,8 +204,6 @@ namespace djv
                 void setClean();
 
             private:
-                void _iconUpdate();
-
                 DJV_PRIVATE();
             };
 

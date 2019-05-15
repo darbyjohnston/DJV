@@ -83,7 +83,8 @@ namespace djv
                     ColorWithTextureAlphaR,
                     ColorWithTextureAlphaG,
                     ColorWithTextureAlphaB,
-                    ColorAndTexture
+                    ColorAndTexture,
+                    Shadow
                 };
 
                 struct Primitive
@@ -174,475 +175,6 @@ namespace djv
                     std::shared_ptr<OpenGL::VAO>                     vao;
                     std::shared_ptr<OpenGL::Shader>                  shader;
                 };
-
-                /*struct RoundedRectPrimitive : public Primitive
-                {
-                    RoundedRectPrimitive(Render & render) :
-                        Primitive(render)
-                    {}
-
-                    BBox2f rect;
-                    float  radius;
-                    Side   side;
-                    size_t facets;
-
-                    void process(std::vector<RenderData> & out, Geom::TriangleMesh & mesh) override
-                    {
-                        if (rect.intersects(render.viewport))
-                        {
-                            RenderData data;
-                            data.bbox      = rect;
-                            data.clipRect  = clipRect;
-                            data.colorMode = colorMode;
-                            data.color     = color;
-
-                            size_t count = 0;
-                            switch (side)
-                            {
-                            case Side::None: count = 3 * 2 + facets * 4; break;
-                            default:         count = 2 * 2 + facets * 4; break;
-                            }
-                            data.vaoSize = count * 3;
-                            out.push_back(std::move(data));
-
-                            size_t vCount = mesh.v.size();
-                            const size_t trianglesCount = mesh.triangles.size();
-                            mesh.v.resize(vCount + count * 3);
-                            mesh.triangles.resize(trianglesCount + count);
-                            auto vIt = mesh.v.begin() + vCount;
-                            auto triangleIt = mesh.triangles.begin() + trianglesCount;
-
-                            switch (side)
-                            {
-                            case Side::None:
-                            {
-                                // Center
-                                triangleIt->v0 = Geom::TriangleMesh::Vertex(vCount + 1);
-                                triangleIt->v1 = Geom::TriangleMesh::Vertex(vCount + 2);
-                                triangleIt->v2 = Geom::TriangleMesh::Vertex(vCount + 3);
-                                ++triangleIt;
-                                triangleIt->v0 = Geom::TriangleMesh::Vertex(vCount + 3);
-                                triangleIt->v1 = Geom::TriangleMesh::Vertex(vCount + 4);
-                                triangleIt->v2 = Geom::TriangleMesh::Vertex(vCount + 1);
-                                ++triangleIt;
-                                vIt->x = rect.min.x;
-                                vIt->y = rect.min.y + radius;
-                                vIt->z = 0.f;
-                                ++vIt;
-                                vIt->x = rect.max.x;
-                                vIt->y = rect.min.y + radius;
-                                vIt->z = 0.f;
-                                ++vIt;
-                                vIt->x = rect.max.x;
-                                vIt->y = rect.max.y - radius;
-                                vIt->z = 0.f;
-                                ++vIt;
-                                vIt->x = rect.min.x;
-                                vIt->y = rect.max.y - radius;
-                                vIt->z = 0.f;
-                                ++vIt;
-                                vCount += 4;
-
-                                // Top
-                                triangleIt->v0 = Geom::TriangleMesh::Vertex(vCount + 1);
-                                triangleIt->v1 = Geom::TriangleMesh::Vertex(vCount + 2);
-                                triangleIt->v2 = Geom::TriangleMesh::Vertex(vCount + 3);
-                                ++triangleIt;
-                                triangleIt->v0 = Geom::TriangleMesh::Vertex(vCount + 3);
-                                triangleIt->v1 = Geom::TriangleMesh::Vertex(vCount + 4);
-                                triangleIt->v2 = Geom::TriangleMesh::Vertex(vCount + 1);
-                                ++triangleIt;
-                                vIt->x = rect.min.x + radius;
-                                vIt->y = rect.min.y;
-                                vIt->z = 0.f;
-                                ++vIt;
-                                vIt->x = rect.max.x - radius;
-                                vIt->y = rect.min.y;
-                                vIt->z = 0.f;
-                                ++vIt;
-                                vIt->x = rect.max.x - radius;
-                                vIt->y = rect.min.y + radius;
-                                vIt->z = 0.f;
-                                ++vIt;
-                                vIt->x = rect.min.x + radius;
-                                vIt->y = rect.min.y + radius;
-                                vIt->z = 0.f;
-                                ++vIt;
-                                vCount += 4;
-
-                                // Bottom
-                                triangleIt->v0 = Geom::TriangleMesh::Vertex(vCount + 1);
-                                triangleIt->v1 = Geom::TriangleMesh::Vertex(vCount + 2);
-                                triangleIt->v2 = Geom::TriangleMesh::Vertex(vCount + 3);
-                                ++triangleIt;
-                                triangleIt->v0 = Geom::TriangleMesh::Vertex(vCount + 3);
-                                triangleIt->v1 = Geom::TriangleMesh::Vertex(vCount + 4);
-                                triangleIt->v2 = Geom::TriangleMesh::Vertex(vCount + 1);
-                                ++triangleIt;
-                                vIt->x = rect.min.x + radius;
-                                vIt->y = rect.max.y - radius;
-                                vIt->z = 0.f;
-                                ++vIt;
-                                vIt->x = rect.max.x - radius;
-                                vIt->y = rect.max.y - radius;
-                                vIt->z = 0.f;
-                                ++vIt;
-                                vIt->x = rect.max.x - radius;
-                                vIt->y = rect.max.y;
-                                vIt->z = 0.f;
-                                ++vIt;
-                                vIt->x = rect.min.x + radius;
-                                vIt->y = rect.max.y;
-                                vIt->z = 0.f;
-                                ++vIt;
-                                vCount += 4;
-
-                                // Upper left corner
-                                for (size_t i = 0; i < facets; ++i)
-                                {
-                                    triangleIt->v0 = Geom::TriangleMesh::Vertex(vCount + i * 3 + 1);
-                                    triangleIt->v1 = Geom::TriangleMesh::Vertex(vCount + i * 3 + 2);
-                                    triangleIt->v2 = Geom::TriangleMesh::Vertex(vCount + i * 3 + 3);
-                                    ++triangleIt;
-
-                                    const float x = rect.min.x + radius;
-                                    const float y = rect.min.y + radius;
-                                    vIt->x = x;
-                                    vIt->y = y;
-                                    vIt->z = 0.f;
-                                    ++vIt;
-                                    float degrees = i / static_cast<float>(facets) * 90.f + 180.f;
-                                    vIt->x = x + cosf(Math::deg2rad(degrees)) * radius;
-                                    vIt->y = y + sinf(Math::deg2rad(degrees)) * radius;
-                                    vIt->z = 0.f;
-                                    ++vIt;
-                                    degrees = (i + 1) / static_cast<float>(facets) * 90.f + 180.f;
-                                    vIt->x = x + cosf(Math::deg2rad(degrees)) * radius;
-                                    vIt->y = y + sinf(Math::deg2rad(degrees)) * radius;
-                                    vIt->z = 0.f;
-                                    ++vIt;
-                                }
-                                vCount += facets * 3;
-
-                                // Upper right corner
-                                for (size_t i = 0; i < facets; ++i)
-                                {
-                                    triangleIt->v0 = Geom::TriangleMesh::Vertex(vCount + i * 3 + 1);
-                                    triangleIt->v1 = Geom::TriangleMesh::Vertex(vCount + i * 3 + 2);
-                                    triangleIt->v2 = Geom::TriangleMesh::Vertex(vCount + i * 3 + 3);
-                                    ++triangleIt;
-
-                                    const float x = rect.max.x - radius;
-                                    const float y = rect.min.y + radius;
-                                    vIt->x = x;
-                                    vIt->y = y;
-                                    vIt->z = 0.f;
-                                    ++vIt;
-                                    float degrees = i / static_cast<float>(facets) * 90.f - 90.f;
-                                    vIt->x = x + cosf(Math::deg2rad(degrees)) * radius;
-                                    vIt->y = y + sinf(Math::deg2rad(degrees)) * radius;
-                                    vIt->z = 0.f;
-                                    ++vIt;
-                                    degrees = (i + 1) / static_cast<float>(facets) * 90.f - 90.f;
-                                    vIt->x = x + cosf(Math::deg2rad(degrees)) * radius;
-                                    vIt->y = y + sinf(Math::deg2rad(degrees)) * radius;
-                                    vIt->z = 0.f;
-                                    ++vIt;
-                                }
-                                vCount += facets * 3;
-
-                                // Lower left corner
-                                for (size_t i = 0; i < facets; ++i)
-                                {
-                                    triangleIt->v0 = Geom::TriangleMesh::Vertex(vCount + i * 3 + 1);
-                                    triangleIt->v1 = Geom::TriangleMesh::Vertex(vCount + i * 3 + 2);
-                                    triangleIt->v2 = Geom::TriangleMesh::Vertex(vCount + i * 3 + 3);
-                                    ++triangleIt;
-
-                                    const float x = rect.min.x + radius;
-                                    const float y = rect.max.y - radius;
-                                    vIt->x = x;
-                                    vIt->y = y;
-                                    vIt->z = 0.f;
-                                    ++vIt;
-                                    float degrees = i / static_cast<float>(facets) * 90.f + 90.f;
-                                    vIt->x = x + cosf(Math::deg2rad(degrees)) * radius;
-                                    vIt->y = y + sinf(Math::deg2rad(degrees)) * radius;
-                                    vIt->z = 0.f;
-                                    ++vIt;
-                                    degrees = (i + 1) / static_cast<float>(facets) * 90.f + 90.f;
-                                    vIt->x = x + cosf(Math::deg2rad(degrees)) * radius;
-                                    vIt->y = y + sinf(Math::deg2rad(degrees)) * radius;
-                                    vIt->z = 0.f;
-                                    ++vIt;
-                                }
-                                vCount += facets * 3;
-
-                                // Lower right corner
-                                for (size_t i = 0; i < facets; ++i)
-                                {
-                                    triangleIt->v0 = Geom::TriangleMesh::Vertex(vCount + i * 3 + 1);
-                                    triangleIt->v1 = Geom::TriangleMesh::Vertex(vCount + i * 3 + 2);
-                                    triangleIt->v2 = Geom::TriangleMesh::Vertex(vCount + i * 3 + 3);
-                                    ++triangleIt;
-
-                                    const float x = rect.max.x - radius;
-                                    const float y = rect.max.y - radius;
-                                    vIt->x = x;
-                                    vIt->y = y;
-                                    vIt->z = 0.f;
-                                    ++vIt;
-                                    float degrees = i / static_cast<float>(facets) * 90.f;
-                                    vIt->x = x + cosf(Math::deg2rad(degrees)) * radius;
-                                    vIt->y = y + sinf(Math::deg2rad(degrees)) * radius;
-                                    vIt->z = 0.f;
-                                    ++vIt;
-                                    degrees = (i + 1) / static_cast<float>(facets) * 90.f;
-                                    vIt->x = x + cosf(Math::deg2rad(degrees)) * radius;
-                                    vIt->y = y + sinf(Math::deg2rad(degrees)) * radius;
-                                    vIt->z = 0.f;
-                                    ++vIt;
-                                }
-                                vCount += facets * 3;
-                                break;
-                            }
-                            case Side::Left:
-                            {
-                                DJV_ASSERT(0);
-                                break;
-                            }
-                            case Side::Top:
-                            {
-                                // Center
-                                triangleIt->v0 = Geom::TriangleMesh::Vertex(vCount + 1);
-                                triangleIt->v1 = Geom::TriangleMesh::Vertex(vCount + 2);
-                                triangleIt->v2 = Geom::TriangleMesh::Vertex(vCount + 3);
-                                ++triangleIt;
-                                triangleIt->v0 = Geom::TriangleMesh::Vertex(vCount + 3);
-                                triangleIt->v1 = Geom::TriangleMesh::Vertex(vCount + 4);
-                                triangleIt->v2 = Geom::TriangleMesh::Vertex(vCount + 1);
-                                ++triangleIt;
-                                vIt->x = rect.min.x;
-                                vIt->y = rect.min.y + radius;
-                                vIt->z = 0.f;
-                                ++vIt;
-                                vIt->x = rect.max.x;
-                                vIt->y = rect.min.y + radius;
-                                vIt->z = 0.f;
-                                ++vIt;
-                                vIt->x = rect.max.x;
-                                vIt->y = rect.max.y;
-                                vIt->z = 0.f;
-                                ++vIt;
-                                vIt->x = rect.min.x;
-                                vIt->y = rect.max.y;
-                                vIt->z = 0.f;
-                                ++vIt;
-                                vCount += 4;
-
-                                // Top
-                                triangleIt->v0 = Geom::TriangleMesh::Vertex(vCount + 1);
-                                triangleIt->v1 = Geom::TriangleMesh::Vertex(vCount + 2);
-                                triangleIt->v2 = Geom::TriangleMesh::Vertex(vCount + 3);
-                                ++triangleIt;
-                                triangleIt->v0 = Geom::TriangleMesh::Vertex(vCount + 3);
-                                triangleIt->v1 = Geom::TriangleMesh::Vertex(vCount + 4);
-                                triangleIt->v2 = Geom::TriangleMesh::Vertex(vCount + 1);
-                                ++triangleIt;
-                                vIt->x = rect.min.x + radius;
-                                vIt->y = rect.min.y;
-                                vIt->z = 0.f;
-                                ++vIt;
-                                vIt->x = rect.max.x - radius;
-                                vIt->y = rect.min.y;
-                                vIt->z = 0.f;
-                                ++vIt;
-                                vIt->x = rect.max.x - radius;
-                                vIt->y = rect.min.y + radius;
-                                vIt->z = 0.f;
-                                ++vIt;
-                                vIt->x = rect.min.x + radius;
-                                vIt->y = rect.min.y + radius;
-                                vIt->z = 0.f;
-                                ++vIt;
-                                vCount += 4;
-
-                                // Upper left corner
-                                for (size_t i = 0; i < facets; ++i)
-                                {
-                                    triangleIt->v0 = Geom::TriangleMesh::Vertex(vCount + i * 3 + 1);
-                                    triangleIt->v1 = Geom::TriangleMesh::Vertex(vCount + i * 3 + 2);
-                                    triangleIt->v2 = Geom::TriangleMesh::Vertex(vCount + i * 3 + 3);
-                                    ++triangleIt;
-
-                                    const float x = rect.min.x + radius;
-                                    const float y = rect.min.y + radius;
-                                    vIt->x = x;
-                                    vIt->y = y;
-                                    vIt->z = 0.f;
-                                    ++vIt;
-                                    float degrees = i / static_cast<float>(facets) * 90.f + 180.f;
-                                    vIt->x = x + cosf(Math::deg2rad(degrees)) * radius;
-                                    vIt->y = y + sinf(Math::deg2rad(degrees)) * radius;
-                                    vIt->z = 0.f;
-                                    ++vIt;
-                                    degrees = (i + 1) / static_cast<float>(facets) * 90.f + 180.f;
-                                    vIt->x = x + cosf(Math::deg2rad(degrees)) * radius;
-                                    vIt->y = y + sinf(Math::deg2rad(degrees)) * radius;
-                                    vIt->z = 0.f;
-                                    ++vIt;
-                                }
-                                vCount += facets * 3;
-
-                                // Upper right corner
-                                for (size_t i = 0; i < facets; ++i)
-                                {
-                                    triangleIt->v0 = Geom::TriangleMesh::Vertex(vCount + i * 3 + 1);
-                                    triangleIt->v1 = Geom::TriangleMesh::Vertex(vCount + i * 3 + 2);
-                                    triangleIt->v2 = Geom::TriangleMesh::Vertex(vCount + i * 3 + 3);
-                                    ++triangleIt;
-
-                                    const float x = rect.max.x - radius;
-                                    const float y = rect.min.y + radius;
-                                    vIt->x = x;
-                                    vIt->y = y;
-                                    vIt->z = 0.f;
-                                    ++vIt;
-                                    float degrees = i / static_cast<float>(facets) * 90.f - 90.f;
-                                    vIt->x = x + cosf(Math::deg2rad(degrees)) * radius;
-                                    vIt->y = y + sinf(Math::deg2rad(degrees)) * radius;
-                                    vIt->z = 0.f;
-                                    ++vIt;
-                                    degrees = (i + 1) / static_cast<float>(facets) * 90.f - 90.f;
-                                    vIt->x = x + cosf(Math::deg2rad(degrees)) * radius;
-                                    vIt->y = y + sinf(Math::deg2rad(degrees)) * radius;
-                                    vIt->z = 0.f;
-                                    ++vIt;
-                                }
-                                vCount += facets * 3;
-                                break;
-                            }
-                            case Side::Right:
-                            {
-                                DJV_ASSERT(0);
-                                break;
-                            }
-                            case Side::Bottom:
-                            {
-                                // Center
-                                triangleIt->v0 = Geom::TriangleMesh::Vertex(vCount + 1);
-                                triangleIt->v1 = Geom::TriangleMesh::Vertex(vCount + 2);
-                                triangleIt->v2 = Geom::TriangleMesh::Vertex(vCount + 3);
-                                ++triangleIt;
-                                triangleIt->v0 = Geom::TriangleMesh::Vertex(vCount + 3);
-                                triangleIt->v1 = Geom::TriangleMesh::Vertex(vCount + 4);
-                                triangleIt->v2 = Geom::TriangleMesh::Vertex(vCount + 1);
-                                ++triangleIt;
-                                vIt->x = rect.min.x;
-                                vIt->y = rect.min.y;
-                                vIt->z = 0.f;
-                                ++vIt;
-                                vIt->x = rect.max.x;
-                                vIt->y = rect.min.y;
-                                vIt->z = 0.f;
-                                ++vIt;
-                                vIt->x = rect.max.x;
-                                vIt->y = rect.max.y - radius;
-                                vIt->z = 0.f;
-                                ++vIt;
-                                vIt->x = rect.min.x;
-                                vIt->y = rect.max.y - radius;
-                                vIt->z = 0.f;
-                                ++vIt;
-                                vCount += 4;
-
-                                // Bottom
-                                triangleIt->v0 = Geom::TriangleMesh::Vertex(vCount + 1);
-                                triangleIt->v1 = Geom::TriangleMesh::Vertex(vCount + 2);
-                                triangleIt->v2 = Geom::TriangleMesh::Vertex(vCount + 3);
-                                ++triangleIt;
-                                triangleIt->v0 = Geom::TriangleMesh::Vertex(vCount + 3);
-                                triangleIt->v1 = Geom::TriangleMesh::Vertex(vCount + 4);
-                                triangleIt->v2 = Geom::TriangleMesh::Vertex(vCount + 1);
-                                ++triangleIt;
-                                vIt->x = rect.min.x + radius;
-                                vIt->y = rect.max.y - radius;
-                                vIt->z = 0.f;
-                                ++vIt;
-                                vIt->x = rect.max.x - radius;
-                                vIt->y = rect.max.y - radius;
-                                vIt->z = 0.f;
-                                ++vIt;
-                                vIt->x = rect.max.x - radius;
-                                vIt->y = rect.max.y;
-                                vIt->z = 0.f;
-                                ++vIt;
-                                vIt->x = rect.min.x + radius;
-                                vIt->y = rect.max.y;
-                                vIt->z = 0.f;
-                                ++vIt;
-                                vCount += 4;
-
-                                // Lower left corner
-                                for (size_t i = 0; i < facets; ++i)
-                                {
-                                    triangleIt->v0 = Geom::TriangleMesh::Vertex(vCount + i * 3 + 1);
-                                    triangleIt->v1 = Geom::TriangleMesh::Vertex(vCount + i * 3 + 2);
-                                    triangleIt->v2 = Geom::TriangleMesh::Vertex(vCount + i * 3 + 3);
-                                    ++triangleIt;
-
-                                    const float x = rect.min.x + radius;
-                                    const float y = rect.max.y - radius;
-                                    vIt->x = x;
-                                    vIt->y = y;
-                                    vIt->z = 0.f;
-                                    ++vIt;
-                                    float degrees = i / static_cast<float>(facets) * 90.f + 90.f;
-                                    vIt->x = x + cosf(Math::deg2rad(degrees)) * radius;
-                                    vIt->y = y + sinf(Math::deg2rad(degrees)) * radius;
-                                    vIt->z = 0.f;
-                                    ++vIt;
-                                    degrees = (i + 1) / static_cast<float>(facets) * 90.f + 90.f;
-                                    vIt->x = x + cosf(Math::deg2rad(degrees)) * radius;
-                                    vIt->y = y + sinf(Math::deg2rad(degrees)) * radius;
-                                    vIt->z = 0.f;
-                                    ++vIt;
-                                }
-                                vCount += facets * 3;
-
-                                // Lower right corner
-                                for (size_t i = 0; i < facets; ++i)
-                                {
-                                    triangleIt->v0 = Geom::TriangleMesh::Vertex(vCount + i * 3 + 1);
-                                    triangleIt->v1 = Geom::TriangleMesh::Vertex(vCount + i * 3 + 2);
-                                    triangleIt->v2 = Geom::TriangleMesh::Vertex(vCount + i * 3 + 3);
-                                    ++triangleIt;
-
-                                    const float x = rect.max.x - radius;
-                                    const float y = rect.max.y - radius;
-                                    vIt->x = x;
-                                    vIt->y = y;
-                                    vIt->z = 0.f;
-                                    ++vIt;
-                                    float degrees = i / static_cast<float>(facets) * 90.f;
-                                    vIt->x = x + cosf(Math::deg2rad(degrees)) * radius;
-                                    vIt->y = y + sinf(Math::deg2rad(degrees)) * radius;
-                                    vIt->z = 0.f;
-                                    ++vIt;
-                                    degrees = (i + 1) / static_cast<float>(facets) * 90.f;
-                                    vIt->x = x + cosf(Math::deg2rad(degrees)) * radius;
-                                    vIt->y = y + sinf(Math::deg2rad(degrees)) * radius;
-                                    vIt->z = 0.f;
-                                    ++vIt;
-                                }
-                                vCount += facets * 3;
-                                break;
-                            }
-                            default: break;
-                            }
-                        }
-                    }
-                };*/
 
                 BBox2f flip(const BBox2f & value, const glm::ivec2 & size)
                 {
@@ -1217,6 +749,298 @@ namespace djv
                 }
             }
 
+            void Render2D::drawShadow(const BBox2f& value, Side side)
+            {
+                DJV_PRIVATE_PTR();
+                if (value.intersects(p.render->viewport))
+                {
+                    const size_t primitivesSize = p.render->primitivesSize;
+                    p.updatePrimitivesSize(1);
+                    Primitive& primitive = p.render->primitives[primitivesSize];
+                    primitive.clipRect = p.currentClipRect;
+                    primitive.colorMode = ColorMode::Shadow;
+                    primitive.color[0] = p.fillColor.getF32(0);
+                    primitive.color[1] = p.fillColor.getF32(1);
+                    primitive.color[2] = p.fillColor.getF32(2);
+                    primitive.color[3] = p.fillColor.getF32(3);
+                    primitive.vaoOffset = p.render->vboDataSize / AV::OpenGL::getVertexByteCount(OpenGL::VBOType::Pos2_F32_UV_U16);
+                    primitive.vaoSize = 6;
+
+                    static const uint16_t u[][6] =
+                    {
+                        { 0, 0, 0, 0, 0, 0 },
+                        { 0, 65535, 65535, 65535, 0, 0 },
+                        { 0, 0, 65535, 65535, 65535, 0 },
+                        { 65535, 0, 0, 0, 65535, 65535 },
+                        { 65535, 65535, 0, 0, 0, 65535 }
+                    };
+
+                    const size_t vboDataSize = p.render->vboDataSize;
+                    p.updateVBODataSize(6);
+                    VBOVertex* pData = reinterpret_cast<VBOVertex*>(&p.render->vboData[vboDataSize]);
+                    pData->vx = value.min.x;
+                    pData->vy = value.min.y;
+                    pData->tx = u[static_cast<size_t>(side)][0];
+                    ++pData;
+                    pData->vx = value.max.x;
+                    pData->vy = value.min.y;
+                    pData->tx = u[static_cast<size_t>(side)][1];
+                    ++pData;
+                    pData->vx = value.max.x;
+                    pData->vy = value.max.y;
+                    pData->tx = u[static_cast<size_t>(side)][2];
+                    ++pData;
+                    pData->vx = value.max.x;
+                    pData->vy = value.max.y;
+                    pData->tx = u[static_cast<size_t>(side)][3];
+                    ++pData;
+                    pData->vx = value.min.x;
+                    pData->vy = value.max.y;
+                    pData->tx = u[static_cast<size_t>(side)][4];
+                    ++pData;
+                    pData->vx = value.min.x;
+                    pData->vy = value.min.y;
+                    pData->tx = u[static_cast<size_t>(side)][5];
+                }
+            }
+
+            void Render2D::drawShadow(const BBox2f& value, float radius, size_t facets)
+            {
+                DJV_PRIVATE_PTR();
+                if (value.intersects(p.render->viewport))
+                {
+                    const size_t primitivesSize = p.render->primitivesSize;
+                    p.updatePrimitivesSize(1);
+                    Primitive& primitive = p.render->primitives[primitivesSize];
+                    primitive.clipRect = p.currentClipRect;
+                    primitive.colorMode = ColorMode::Shadow;
+                    primitive.color[0] = p.fillColor.getF32(0);
+                    primitive.color[1] = p.fillColor.getF32(1);
+                    primitive.color[2] = p.fillColor.getF32(2);
+                    primitive.color[3] = p.fillColor.getF32(3);
+                    primitive.vaoOffset = p.render->vboDataSize / AV::OpenGL::getVertexByteCount(OpenGL::VBOType::Pos2_F32_UV_U16);
+                    primitive.vaoSize = 5 * 2 * 3 + 4 * facets * 3;
+
+                    const size_t vboDataSize = p.render->vboDataSize;
+                    p.updateVBODataSize(primitive.vaoSize);
+                    VBOVertex* pData = reinterpret_cast<VBOVertex*>(&p.render->vboData[vboDataSize]);
+
+                    // Center.
+                    pData->vx = value.min.x + radius;
+                    pData->vy = value.min.y + radius;
+                    pData->tx = 65535;
+                    ++pData;
+                    pData->vx = value.max.x - radius;
+                    pData->vy = value.min.y + radius;
+                    pData->tx = 65535;
+                    ++pData;
+                    pData->vx = value.max.x - radius;
+                    pData->vy = value.max.y - radius;
+                    pData->tx = 65535;
+                    ++pData;
+                    pData->vx = value.max.x - radius;
+                    pData->vy = value.max.y - radius;
+                    pData->tx = 65535;
+                    ++pData;
+                    pData->vx = value.min.x + radius;
+                    pData->vy = value.max.y - radius;
+                    pData->tx = 65535;
+                    ++pData;
+                    pData->vx = value.min.x + radius;
+                    pData->vy = value.min.y + radius;
+                    pData->tx = 65535;
+                    ++pData;
+
+                    // Right.
+                    pData->vx = value.max.x - radius;
+                    pData->vy = value.min.y + radius;
+                    pData->tx = 65535;
+                    ++pData;
+                    pData->vx = value.max.x;
+                    pData->vy = value.min.y + radius;
+                    pData->tx = 0;
+                    ++pData;
+                    pData->vx = value.max.x;
+                    pData->vy = value.max.y - radius;
+                    pData->tx = 0;
+                    ++pData;
+                    pData->vx = value.max.x;
+                    pData->vy = value.max.y - radius;
+                    pData->tx = 0;
+                    ++pData;
+                    pData->vx = value.max.x - radius;
+                    pData->vy = value.max.y - radius;
+                    pData->tx = 65535;
+                    ++pData;
+                    pData->vx = value.max.x - radius;
+                    pData->vy = value.min.y + radius;
+                    pData->tx = 65535;
+                    ++pData;
+
+                    // Left.
+                    pData->vx = value.min.x;
+                    pData->vy = value.min.y + radius;
+                    pData->tx = 0;
+                    ++pData;
+                    pData->vx = value.min.x + radius;
+                    pData->vy = value.min.y + radius;
+                    pData->tx = 65535;
+                    ++pData;
+                    pData->vx = value.min.x + radius;
+                    pData->vy = value.max.y - radius;
+                    pData->tx = 65535;
+                    ++pData;
+                    pData->vx = value.min.x + radius;
+                    pData->vy = value.max.y - radius;
+                    pData->tx = 65535;
+                    ++pData;
+                    pData->vx = value.min.x;
+                    pData->vy = value.max.y - radius;
+                    pData->tx = 0;
+                    ++pData;
+                    pData->vx = value.min.x;
+                    pData->vy = value.min.y + radius;
+                    pData->tx = 0;
+                    ++pData;
+
+                    // Top.
+                    pData->vx = value.min.x + radius;
+                    pData->vy = value.min.y;
+                    pData->tx = 0;
+                    ++pData;
+                    pData->vx = value.max.x - radius;
+                    pData->vy = value.min.y;
+                    pData->tx = 0;
+                    ++pData;
+                    pData->vx = value.max.x - radius;
+                    pData->vy = value.min.y + radius;
+                    pData->tx = 65535;
+                    ++pData;
+                    pData->vx = value.max.x - radius;
+                    pData->vy = value.min.y + radius;
+                    pData->tx = 65535;
+                    ++pData;
+                    pData->vx = value.min.x + radius;
+                    pData->vy = value.min.y + radius;
+                    pData->tx = 65535;
+                    ++pData;
+                    pData->vx = value.min.x + radius;
+                    pData->vy = value.min.y;
+                    pData->tx = 0;
+                    ++pData;
+
+                    // Bottom.
+                    pData->vx = value.min.x + radius;
+                    pData->vy = value.max.y - radius;
+                    pData->tx = 65535;
+                    ++pData;
+                    pData->vx = value.max.x - radius;
+                    pData->vy = value.max.y - radius;
+                    pData->tx = 65535;
+                    ++pData;
+                    pData->vx = value.max.x - radius;
+                    pData->vy = value.max.y;
+                    pData->tx = 0;
+                    ++pData;
+                    pData->vx = value.max.x - radius;
+                    pData->vy = value.max.y;
+                    pData->tx = 0;
+                    ++pData;
+                    pData->vx = value.min.x + radius;
+                    pData->vy = value.max.y;
+                    pData->tx = 0;
+                    ++pData;
+                    pData->vx = value.min.x + radius;
+                    pData->vy = value.max.y - radius;
+                    pData->tx = 65535;
+                    ++pData;
+
+                    // Upper left.
+                    float x = value.min.x + radius;
+                    float y = value.min.y + radius;
+                    for (size_t i = 0; i < facets; ++i)
+                    {
+                        pData->vx = x;
+                        pData->vy = y;
+                        pData->tx = 65535;
+                        ++pData;
+                        float degrees = i / static_cast<float>(facets) * 90.f + 180.f;
+                        pData->vx = x + cosf(Math::deg2rad(degrees)) * radius;
+                        pData->vy = y + sinf(Math::deg2rad(degrees)) * radius;
+                        pData->tx = 0;
+                        ++pData;
+                        degrees = (i + 1) / static_cast<float>(facets) * 90.f + 180.f;
+                        pData->vx = x + cosf(Math::deg2rad(degrees)) * radius;
+                        pData->vy = y + sinf(Math::deg2rad(degrees)) * radius;
+                        pData->tx = 0;
+                        ++pData;
+                    }
+
+                    // Upper right.
+                    x = value.max.x - radius;
+                    y = value.min.y + radius;
+                    for (size_t i = 0; i < facets; ++i)
+                    {
+                        pData->vx = x;
+                        pData->vy = y;
+                        pData->tx = 65535;
+                        ++pData;
+                        float degrees = i / static_cast<float>(facets) * 90.f + 270.f;
+                        pData->vx = x + cosf(Math::deg2rad(degrees)) * radius;
+                        pData->vy = y + sinf(Math::deg2rad(degrees)) * radius;
+                        pData->tx = 0;
+                        ++pData;
+                        degrees = (i + 1) / static_cast<float>(facets) * 90.f + 270.f;
+                        pData->vx = x + cosf(Math::deg2rad(degrees)) * radius;
+                        pData->vy = y + sinf(Math::deg2rad(degrees)) * radius;
+                        pData->tx = 0;
+                        ++pData;
+                    }
+
+                    // Lower right.
+                    x = value.max.x - radius;
+                    y = value.max.y - radius;
+                    for (size_t i = 0; i < facets; ++i)
+                    {
+                        pData->vx = x;
+                        pData->vy = y;
+                        pData->tx = 65535;
+                        ++pData;
+                        float degrees = i / static_cast<float>(facets) * 90.f;
+                        pData->vx = x + cosf(Math::deg2rad(degrees)) * radius;
+                        pData->vy = y + sinf(Math::deg2rad(degrees)) * radius;
+                        pData->tx = 0;
+                        ++pData;
+                        degrees = (i + 1) / static_cast<float>(facets) * 90.f;
+                        pData->vx = x + cosf(Math::deg2rad(degrees)) * radius;
+                        pData->vy = y + sinf(Math::deg2rad(degrees)) * radius;
+                        pData->tx = 0;
+                        ++pData;
+                    }
+
+                    // Lower left.
+                    x = value.min.x + radius;
+                    y = value.max.y - radius;
+                    for (size_t i = 0; i < facets; ++i)
+                    {
+                        pData->vx = x;
+                        pData->vy = y;
+                        pData->tx = 65535;
+                        ++pData;
+                        float degrees = i / static_cast<float>(facets) * 90.f + 90.f;
+                        pData->vx = x + cosf(Math::deg2rad(degrees)) * radius;
+                        pData->vy = y + sinf(Math::deg2rad(degrees)) * radius;
+                        pData->tx = 0;
+                        ++pData;
+                        degrees = (i + 1) / static_cast<float>(facets) * 90.f + 90.f;
+                        pData->vx = x + cosf(Math::deg2rad(degrees)) * radius;
+                        pData->vy = y + sinf(Math::deg2rad(degrees)) * radius;
+                        pData->tx = 0;
+                        ++pData;
+                    }
+                }
+            }
+
             float Render2D::getTextureAtlasPercentage() const
             {
                 return _p->render->textureAtlas->getPercentageUsed();
@@ -1247,7 +1071,11 @@ namespace djv
                 //! \todo
             }
 
-            void Render2D::Private::drawImage(const std::shared_ptr<Image::Data>& imageData, const BBox2f& rect, ImageCache cache, ColorMode colorMode)
+            void Render2D::Private::drawImage(
+                const std::shared_ptr<Image::Data>& imageData,
+                const BBox2f& rect,
+                ImageCache cache,
+                ColorMode colorMode)
             {
                 if (rect.intersects(render->viewport))
                 {

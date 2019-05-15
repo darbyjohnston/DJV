@@ -104,7 +104,7 @@ namespace djv
                 setClassName("djv::ViewApp::TimelineSlider::PIPWidget");
 
                 _imageWidget = UI::ImageWidget::create(context);
-                _imageWidget->setSizeRole(UI::MetricsRole::Dialog);
+                _imageWidget->setSizeRole(UI::MetricsRole::TextColumn);
 
                 _timeLabel = UI::Label::create(context);
                 _timeLabel->setVAlign(UI::VAlign::Bottom);
@@ -211,7 +211,7 @@ namespace djv
                         g.min.y += sh;
                         g.max.x += sh;
                         g.max.y += sh;
-                        render->drawRect(g);
+                        render->drawShadow(g, sh);
                     }
                 }
             }

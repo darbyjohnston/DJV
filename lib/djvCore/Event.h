@@ -223,10 +223,10 @@ namespace djv
             class PaintOverlay : public IEvent
             {
             public:
-                inline PaintOverlay(const BBox2f & clipRect);
+                inline PaintOverlay(const BBox2f& clipRect);
 
-                inline const BBox2f & getClipRect() const;
-                inline void setClipRect(const BBox2f &);
+                inline const BBox2f& getClipRect() const;
+                inline void setClipRect(const BBox2f&);
 
             private:
                 BBox2f _clipRect;

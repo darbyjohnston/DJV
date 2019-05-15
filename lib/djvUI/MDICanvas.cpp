@@ -203,7 +203,7 @@ namespace djv
                         g.min.y += sh;
                         g.max.x += sh;
                         g.max.y += sh;
-                        render->drawRect(g);
+                        render->drawShadow(g, sh);
                     }
                 }
             }
@@ -216,7 +216,7 @@ namespace djv
                 const float h = style->getMetric(MetricsRole::Handle);
 
                 auto render = _getRender();
-                if (p.activeWidget && p.activeWidget->isVisible() && !p.activeWidget->isClipped())
+                /*if (p.activeWidget && p.activeWidget->isVisible() && !p.activeWidget->isClipped())
                 {
                     const BBox2f g = p.activeWidget->getGeometry().margin(-h);
                     render->setFillColor(_getColorWithOpacity(style->getColor(ColorRole::Checked)));
@@ -232,42 +232,52 @@ namespace djv
                     render->drawRect(BBox2f(
                         glm::vec2(g.max.x - b, g.min.y + b),
                         glm::vec2(g.max.x, g.max.y - b)));
-                }
+                }*/
 
                 auto hovered = p.hovered;
                 render->setFillColor(_getColorWithOpacity(style->getColor(ColorRole::Handle)));
                 for (const auto & i : p.pressed)
                 {
-                    for (const auto & j : i.second.widget->getHandleDraw(i.second.handle))
+                    const auto& handles = i.second.widget->getHandlesDraw();
+                    const auto j = handles.find(i.second.handle);
+                    if (j != handles.end())
                     {
-                        switch (i.second.handle)
+                        for (const auto& k : j->second)
                         {
-                        case Handle::Move:
-                        case Handle::None: break;
-                        default:
-                            render->drawRect(j);
-                            break;
+                            switch (i.second.handle)
+                            {
+                            case Handle::Move:
+                            case Handle::None: break;
+                            default:
+                                render->drawRect(k);
+                                break;
+                            }
                         }
                     }
-                    const auto j = hovered.find(i.first);
-                    if (j != hovered.end())
+                    const auto k = hovered.find(i.first);
+                    if (k != hovered.end())
                     {
-                        hovered.erase(j);
+                        hovered.erase(k);
                     }
                 }
 
                 render->setFillColor(_getColorWithOpacity(style->getColor(ColorRole::Handle)));
                 for (const auto & i : hovered)
                 {
-                    for (const auto & j : i.second.widget->getHandleDraw(i.second.handle))
+                    const auto& handles = i.second.widget->getHandlesDraw();
+                    const auto j = handles.find(i.second.handle);
+                    if (j != handles.end())
                     {
-                        switch (i.second.handle)
+                        for (const auto& k : j->second)
                         {
-                        case Handle::Move:
-                        case Handle::None: break;
-                        default:
-                            render->drawRect(j);
-                            break;
+                            switch (i.second.handle)
+                            {
+                            case Handle::Move:
+                            case Handle::None: break;
+                            default:
+                                render->drawRect(k);
+                                break;
+                            }
                         }
                     }
                 }
@@ -338,11 +348,6 @@ namespace djv
             bool Canvas::_eventFilter(const std::shared_ptr<IObject> & object, Event::IEvent & event)
             {
                 DJV_PRIVATE_PTR();
-                /*{
-                    std::stringstream ss;
-                    ss << event.getEventType();
-                    _log(ss.str());
-                }*/
                 switch (event.getEventType())
                 {
                 case Event::Type::PointerEnter:
@@ -351,16 +356,21 @@ namespace djv
                     const auto & pointerInfo = pointerEnterEvent.getPointerInfo();
                     if (auto widget = std::dynamic_pointer_cast<IWidget>(object))
                     {
-                        const Handle handle = widget->getHandle(pointerInfo.projectedPos);
-                        if (handle != Handle::None)
+                        for (const auto& handle : widget->getHandles())
                         {
-                            event.accept();
-                            Hovered hovered;
-                            hovered.widget = widget;
-                            hovered.handle = handle;
-                            p.hovered[pointerInfo.id] = hovered;
-                            _redraw();
-                            break;
+                            for (const auto& rect : handle.second)
+                            {
+                                if (rect.contains(pointerInfo.projectedPos))
+                                {
+                                    event.accept();
+                                    Hovered hovered;
+                                    hovered.widget = widget;
+                                    hovered.handle = handle.first;
+                                    p.hovered[pointerInfo.id] = hovered;
+                                    _redraw();
+                                    break;
+                                }
+                            }
                         }
                     }
                     break;
@@ -443,17 +453,23 @@ namespace djv
                         }
                         else
                         {
-                            const Handle handle = widget->getHandle(pointerInfo.projectedPos);
-                            if (handle != Handle::None)
+                            for (const auto& handle : widget->getHandles())
                             {
-                                Hovered hovered;
-                                hovered.widget = widget;
-                                hovered.handle = handle;
-                                const auto j = p.hovered.find(pointerInfo.id);
-                                if (j != p.hovered.end() && (j->second.widget != widget || j->second.handle != handle))
+                                for (const auto& rect : handle.second)
                                 {
-                                    p.hovered[pointerInfo.id] = hovered;
-                                    _redraw();
+                                    if (rect.contains(pointerInfo.projectedPos))
+                                    {
+                                        Hovered hovered;
+                                        hovered.widget = widget;
+                                        hovered.handle = handle.first;
+                                        const auto j = p.hovered.find(pointerInfo.id);
+                                        if (j != p.hovered.end() && (j->second.widget != widget || j->second.handle != handle.first))
+                                        {
+                                            p.hovered[pointerInfo.id] = hovered;
+                                            _redraw();
+                                        }
+                                        break;
+                                    }
                                 }
                             }
                         }
@@ -469,15 +485,25 @@ namespace djv
                         const auto i = p.widgetToPos.find(widget);
                         if (i != p.widgetToPos.end())
                         {
-                            event.accept();
-                            Pressed pressed;
-                            pressed.widget = widget;
-                            pressed.pointer = pointerInfo.projectedPos;
-                            pressed.handle = widget->getHandle(pointerInfo.projectedPos);
-                            pressed.pos = i->second;
-                            pressed.size = widget->getSize();
-                            p.pressed[pointerInfo.id] = pressed;
-                            widget->moveToFront();
+                            for (const auto& handle : widget->getHandles())
+                            {
+                                for (const auto& rect : handle.second)
+                                {
+                                    if (rect.contains(pointerInfo.projectedPos))
+                                    {
+                                        event.accept();
+                                        Pressed pressed;
+                                        pressed.widget = widget;
+                                        pressed.pointer = pointerInfo.projectedPos;
+                                        pressed.handle = handle.first;
+                                        pressed.pos = i->second;
+                                        pressed.size = widget->getSize();
+                                        p.pressed[pointerInfo.id] = pressed;
+                                        widget->moveToFront();
+                                        break;
+                                    }
+                                }
+                            }
                         }
                     }
                     return true;
