@@ -32,7 +32,7 @@
 #include <djvViewApp/ImageView.h>
 #include <djvViewApp/Media.h>
 #include <djvViewApp/TimelineSlider.h>
-#include <djvViewApp/WindowSettings.h>
+#include <djvViewApp/WindowSystem.h>
 
 #include <djvUI/Action.h>
 #include <djvUI/ActionGroup.h>
@@ -49,8 +49,6 @@
 
 #include <djvAV/AVSystem.h>
 
-#include <djvCore/Animation.h>
-#include <djvCore/IEventSystem.h>
 #include <djvCore/Timer.h>
 
 using namespace djv::Core;
@@ -59,12 +57,6 @@ namespace djv
 {
     namespace ViewApp
     {
-        namespace
-        {
-            //! \todo [1.0 S] Should this be configurable?
-            const size_t fadeSeconds = 3;
-        }
-
         struct MediaWidget::Private
         {
             std::shared_ptr<Media> media;
@@ -96,14 +88,7 @@ namespace djv
             std::shared_ptr<ValueObserver<float> > volumeObserver;
             std::shared_ptr<ValueObserver<bool> > muteObserver;
             std::shared_ptr<ValueObserver<AV::TimeUnits> > timeUnitsObserver;
-
-            std::shared_ptr<ValueSubject<float> > fade;
-            bool fadeEnabled = true;
-            std::map<Core::Event::PointerID, glm::vec2> pointerMotion;
-            std::shared_ptr<Time::Timer> pointerMotionTimer;
-            std::shared_ptr<ValueObserver<Event::PointerInfo> > pointerObserver;
-            std::shared_ptr<Animation::Animation> fadeAnimation;
-            std::shared_ptr<ValueObserver<bool> > fadeObserver;
+            std::shared_ptr<ValueObserver<float> > fadeObserver;
         };
         
         void MediaWidget::_init(Context * context)
@@ -112,9 +97,6 @@ namespace djv
 
             DJV_PRIVATE_PTR();
             setClassName("djv::ViewApp::MediaWidget");
-            p.fade = ValueSubject<float>::create(1.f);
-            p.pointerMotionTimer = Time::Timer::create(context);
-            p.fadeAnimation = Animation::Animation::create(context);
 
             p.actions["Forward"] = UI::Action::create();
             p.actions["Forward"]->setIcon("djvIconPlaybackForward");
@@ -286,33 +268,18 @@ namespace djv
                 }
             });
 
-            auto eventSystem = context->getSystemT<Event::IEventSystem>();
-            p.pointerObserver = ValueObserver<Event::PointerInfo>::create(
-                eventSystem->observePointer(),
-                [weak](const Event::PointerInfo & value)
+            if (auto windowSystem = context->getSystemT<WindowSystem>())
             {
-                if (auto widget = weak.lock())
+                p.fadeObserver = ValueObserver<float>::create(
+                    windowSystem->observeFade(),
+                    [weak](float value)
                 {
-                    widget->_pointerUpdate(value);
-                }
-            });
-
-            auto settingsSystem = context->getSystemT<UI::Settings::System>();
-            auto windowSettings = settingsSystem->getSettingsT<WindowSettings>();
-            p.fadeObserver = ValueObserver<bool>::create(
-                windowSettings->observeFade(),
-                [weak](bool value)
-            {
-                if (auto widget = weak.lock())
-                {
-                    widget->_p->fadeEnabled = value;
-                    if (!value)
+                    if (auto widget = weak.lock())
                     {
-                        widget->_p->fade->setIfChanged(1.f);
-                        widget->_p->uiLayout->setOpacity(1.f);
+                        widget->_p->uiLayout->setOpacity(value);
                     }
-                }
-            });
+                });
+            }
         }
 
         MediaWidget::MediaWidget() :
@@ -440,11 +407,6 @@ namespace djv
             p.timelineSlider->setMedia(p.media);
         }
 
-        std::shared_ptr<Core::IValueSubject<float> > MediaWidget::observeFade() const
-        {
-            return _p->fade;
-        }
-
         void MediaWidget::_preLayoutEvent(Event::PreLayout & event)
         {
             _setMinimumSize(_p->layout->getMinimumSize());
@@ -453,84 +415,6 @@ namespace djv
         void MediaWidget::_layoutEvent(Event::Layout &)
         {
             _p->layout->setGeometry(getGeometry());
-        }
-
-        void MediaWidget::_pointerUpdate(const Core::Event::PointerInfo& info)
-        {
-            DJV_PRIVATE_PTR();
-            bool start = false;
-            auto weak = std::weak_ptr<MediaWidget>(std::dynamic_pointer_cast<MediaWidget>(shared_from_this()));
-            const auto j = p.pointerMotion.find(info.id);
-            if (j != p.pointerMotion.end())
-            {
-                const float diff = glm::length(info.projectedPos - j->second);
-                auto style = _getStyle();
-                const float h = style->getMetric(UI::MetricsRole::Handle);
-                if (diff > h)
-                {
-                    start = true;
-                    p.pointerMotion[info.id] = info.projectedPos;
-                    if (p.fadeEnabled)
-                    {
-                        p.fadeAnimation->start(
-                            p.uiLayout->getOpacity(),
-                            1.f,
-                            Time::getMilliseconds(Time::TimerValue::Medium),
-                            [weak](float value)
-                        {
-                            if (auto widget = weak.lock())
-                            {
-                                widget->_p->fade->setIfChanged(value);
-                                widget->_p->uiLayout->setOpacity(value);
-                            }
-                        },
-                            [weak](float value)
-                        {
-                            if (auto widget = weak.lock())
-                            {
-                                widget->_p->fade->setIfChanged(value);
-                                widget->_p->uiLayout->setOpacity(value);
-                            }
-                        });
-                    }
-                }
-            }
-            else
-            {
-                start = true;
-                p.pointerMotion[info.id] = info.projectedPos;
-            }
-            if (start && p.fadeEnabled)
-            {
-                p.pointerMotionTimer->start(
-                    std::chrono::milliseconds(fadeSeconds * 1000),
-                    [weak](float value)
-                {
-                    if (auto widget = weak.lock())
-                    {
-                        widget->_p->fadeAnimation->start(
-                            widget->_p->uiLayout->getOpacity(),
-                            0.f,
-                            Time::getMilliseconds(Time::TimerValue::Slow),
-                            [weak](float value)
-                        {
-                            if (auto widget = weak.lock())
-                            {
-                                widget->_p->fade->setIfChanged(value);
-                                widget->_p->uiLayout->setOpacity(value);
-                            }
-                        },
-                            [weak](float value)
-                        {
-                            if (auto widget = weak.lock())
-                            {
-                                widget->_p->fade->setIfChanged(value);
-                                widget->_p->uiLayout->setOpacity(value);
-                            }
-                        });
-                    }
-                });
-            }
         }
 
         void MediaWidget::_widgetUpdate()

@@ -354,7 +354,7 @@ namespace djv
             auto context = getContext();
             if (auto windowSystem = context->getSystemT<WindowSystem>())
             {
-                if (WindowMode::SDI == windowSystem->observeWindowMode()->get())
+                if (windowSystem->observeMaximized()->get())
                 {
                     if (auto media = p.currentMedia->get())
                     {

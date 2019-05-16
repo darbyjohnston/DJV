@@ -67,11 +67,17 @@ namespace djv
 
                 const std::shared_ptr<Media>& getMedia() const;
 
+                void setMaximized(float) override;
+
             protected:
                 void _preLayoutEvent(Event::PreLayout&) override;
                 void _layoutEvent(Event::Layout&) override;
 
             private:
+                void _opacityUpdate();
+
+                float _maximized = 0.f;
+                float _fade = 1.f;
                 std::shared_ptr<UI::Label> _titleLabel;
                 std::shared_ptr<UI::ToolButton> _maximizeButton;
                 std::shared_ptr<UI::ToolButton> _closeButton;
@@ -119,13 +125,19 @@ namespace djv
                 _layout->addChild(vLayout);
                 addChild(_layout);
 
+                _opacityUpdate();
+
+                auto weak = std::weak_ptr<SubWidget>(std::dynamic_pointer_cast<SubWidget>(shared_from_this()));
                 _maximizeButton->setClickedCallback(
-                    [media, context]
+                    [weak]
                 {
-                    auto fileSystem = context->getSystemT<FileSystem>();
-                    auto windowSystem = context->getSystemT<WindowSystem>();
-                    fileSystem->setCurrentMedia(media);
-                    windowSystem->setWindowMode(WindowMode::SDI);
+                    if (auto widget = weak.lock())
+                    {
+                        if (auto canvas = std::dynamic_pointer_cast<UI::MDI::Canvas>(widget->getParent().lock()))
+                        {
+                            canvas->setMaximized(!canvas->isMaximized());
+                        }
+                    }
                 });
 
                 _closeButton->setClickedCallback(
@@ -135,16 +147,20 @@ namespace djv
                     fileSystem->close(media);
                 });
 
-                auto weak = std::weak_ptr<SubWidget>(std::dynamic_pointer_cast<SubWidget>(shared_from_this()));
-                _fadeObserver = ValueObserver<float>::create(
-                    _mediaWidget->observeFade(),
-                    [weak](float value)
+                auto windowSystem = context->getSystemT<WindowSystem>();
+                if (windowSystem)
                 {
-                    if (auto widget = weak.lock())
+                    _fadeObserver = ValueObserver<float>::create(
+                        windowSystem->observeFade(),
+                        [weak](float value)
                     {
-                        widget->_titleBar->setOpacity(value);
-                    }
-                });
+                        if (auto widget = weak.lock())
+                        {
+                            widget->_fade = value;
+                            widget->_opacityUpdate();
+                        }
+                    });
+                }
             }
 
             std::shared_ptr<SubWidget> SubWidget::create(const std::shared_ptr<Media>& media, Context* context)
@@ -159,6 +175,14 @@ namespace djv
                 return _mediaWidget->getMedia();
             }
 
+            void SubWidget::setMaximized(float value)
+            {
+                if (value == _maximized)
+                    return;
+                _maximized = value;
+                _redraw();
+            }
+
             void SubWidget::_preLayoutEvent(Event::PreLayout&)
             {
                 _setMinimumSize(_layout->getMinimumSize());
@@ -167,6 +191,11 @@ namespace djv
             void SubWidget::_layoutEvent(Event::Layout&)
             {
                 _layout->setGeometry(getGeometry());
+            }
+
+            void SubWidget::_opacityUpdate()
+            {
+                _titleBar->setOpacity(_fade * (1.f - _maximized));
             }
 
         } // namespace
@@ -266,6 +295,11 @@ namespace djv
             auto out = std::shared_ptr<MDIWidget>(new MDIWidget);
             out->_init(context);
             return out;
+        }
+
+        void MDIWidget::setMaximized(bool value)
+        {
+            _p->canvas->setMaximized(value);
         }
 
         void MDIWidget::_preLayoutEvent(Event::PreLayout&)

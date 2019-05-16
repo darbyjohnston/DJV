@@ -36,6 +36,15 @@
 
 namespace djv
 {
+    namespace Core
+    {
+        namespace Event
+        {
+            struct PointerInfo;
+    
+        } // namespace Event
+    } // namespaace Core
+
     namespace ViewApp
     {
         class WindowSystem : public IViewSystem
@@ -51,13 +60,16 @@ namespace djv
 
             static std::shared_ptr<WindowSystem> create(Core::Context *);
 
-            std::shared_ptr<Core::IValueSubject<WindowMode> > observeWindowMode() const;
-            void setWindowMode(WindowMode);
+            std::shared_ptr<Core::IValueSubject<bool> > observeMaximized() const;
+            void setMaximized(bool);
+
+            std::shared_ptr<Core::IValueSubject<float> > observeFade() const;
 
             std::map<std::string, std::shared_ptr<UI::Action> > getActions() override;
             MenuData getMenu() override;
 
         protected:
+            void _pointerUpdate(const Core::Event::PointerInfo&);
             void _actionUpdate();
             void _textUpdate();
 

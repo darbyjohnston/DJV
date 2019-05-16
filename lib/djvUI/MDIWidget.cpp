@@ -238,6 +238,9 @@ namespace djv
                 return out;
             }
 
+            void IWidget::setMaximized(float)
+            {}
+
         } // namespace MDI
     } // namespace UI
 } // namespace djdv

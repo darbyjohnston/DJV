@@ -36,17 +36,6 @@ namespace djv
 {
     namespace ViewApp
     {
-        enum class WindowMode
-        {
-            SDI,
-            MDI,
-            List,
-
-            Count,
-            First = SDI
-        };
-        DJV_ENUM_HELPERS(WindowMode);
-
         enum class Playback
         {
             Stop,
@@ -71,13 +60,6 @@ namespace djv
 
     } // namespace ViewApp
 
-    picojson::value toJSON(const ViewApp::WindowMode&);
-
-    //! Throws:
-    //! - std::exception
-    void fromJSON(const picojson::value&, ViewApp::WindowMode&);
-
-    DJV_ENUM_SERIALIZE_HELPERS(ViewApp::WindowMode);
     DJV_ENUM_SERIALIZE_HELPERS(ViewApp::Playback);
     DJV_ENUM_SERIALIZE_HELPERS(ViewApp::PlaybackMode);
 

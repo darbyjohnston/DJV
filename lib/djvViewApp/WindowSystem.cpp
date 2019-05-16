@@ -38,11 +38,16 @@
 #include <djvUI/ActionGroup.h>
 #include <djvUI/Menu.h>
 #include <djvUI/RowLayout.h>
+#include <djvUI/SettingsSystem.h>
+#include <djvUI/UISystem.h>
 
 #include <djvAV/AVSystem.h>
 
+#include <djvCore/Animation.h>
 #include <djvCore/Context.h>
+#include <djvCore/IEventSystem.h>
 #include <djvCore/TextSystem.h>
+#include <djvCore/Timer.h>
 
 #include <GLFW/glfw3.h>
 
@@ -52,20 +57,34 @@ namespace djv
 {
     namespace ViewApp
     {
+        namespace
+        {
+            //! \todo [1.0 S] Should this be configurable?
+            const size_t fadeSeconds = 3;
+        }
+
         struct WindowSystem::Private
         {
             std::shared_ptr<WindowSettings> settings;
-            std::shared_ptr<ValueSubject<WindowMode> > windowMode;
+            std::shared_ptr<ValueSubject<bool> > maximized;
+            std::shared_ptr<ValueSubject<float> > fade;
+            bool fadeEnabled = true;
+            std::map<Core::Event::PointerID, glm::vec2> pointerMotion;
+            std::shared_ptr<Time::Timer> pointerMotionTimer;
             std::map<std::string, std::shared_ptr<UI::Action> > actions;
-            std::shared_ptr<UI::ActionGroup> windowModeActionGroup;
             std::shared_ptr<UI::Menu> menu;
             glm::ivec2 monitorSize = glm::ivec2(0, 0);
             int monitorRefresh = 0;
             BBox2i windowGeom = BBox2i(0, 0, 0, 0);
             std::map<std::string, std::shared_ptr<ValueObserver<bool> > > clickedObservers;
             std::shared_ptr<ValueObserver<bool> > fullScreenObserver;
-            std::shared_ptr<ValueObserver<WindowMode> > windowModeObserver;
+            std::shared_ptr<ValueObserver<bool> > maximizedObserver;
+            std::shared_ptr<ValueObserver<bool> > maximizedObserver2;
+            std::shared_ptr<ValueObserver<Event::PointerInfo> > pointerObserver;
+            std::shared_ptr<ValueObserver<bool> > fadeObserver;
             std::shared_ptr<ValueObserver<std::string> > localeObserver;
+
+            std::shared_ptr<Animation::Animation> fadeAnimation;
 
             void setFullScreen(bool, Context * context);
         };
@@ -77,7 +96,10 @@ namespace djv
             DJV_PRIVATE_PTR();
 
             p.settings = WindowSettings::create(context);
-            p.windowMode = ValueSubject<WindowMode>::create();
+            p.maximized = ValueSubject<bool>::create();
+            p.fade = ValueSubject<float>::create(1.f);
+            p.pointerMotionTimer = Time::Timer::create(context);
+            p.fadeAnimation = Animation::Animation::create(context);
 
             //! \todo Implement me!
             p.actions["Fit"] = UI::Action::create();
@@ -90,40 +112,19 @@ namespace djv
             p.actions["FullScreen"]->setButtonType(UI::ButtonType::Toggle);
             p.actions["FullScreen"]->setShortcut(GLFW_KEY_U);
 
-            p.actions["SDI"] = UI::Action::create();
-            p.actions["SDI"]->setIcon("djvIconViewLibSDI");
-            p.actions["MDI"] = UI::Action::create();
-            p.actions["MDI"]->setIcon("djvIconViewLibMDI");
-            p.actions["Playlist"] = UI::Action::create();
-            p.actions["Playlist"]->setIcon("djvIconViewLibPlaylist");
-            p.windowModeActionGroup = UI::ActionGroup::create(UI::ButtonType::Radio);
-            p.windowModeActionGroup->addAction(p.actions["SDI"]);
-            p.actions["SDI"]->setShortcut(GLFW_KEY_1);
-            p.windowModeActionGroup->addAction(p.actions["MDI"]);
-            p.actions["MDI"]->setShortcut(GLFW_KEY_2);
-            p.windowModeActionGroup->addAction(p.actions["Playlist"]);
-            p.actions["Playlist"]->setShortcut(GLFW_KEY_3);
+            p.actions["Maximized"] = UI::Action::create();
+            p.actions["Maximized"]->setIcon("djvIconViewLibSDI");
+            p.actions["Maximized"]->setButtonType(UI::ButtonType::Toggle);
+            p.actions["Maximized"]->setShortcut(GLFW_KEY_M);
 
             p.menu = UI::Menu::create(context);
             p.menu->addAction(p.actions["Fit"]);
             p.menu->addAction(p.actions["FullScreen"]);
-            p.menu->addSeparator();
-            p.menu->addAction(p.actions["SDI"]);
-            p.menu->addAction(p.actions["MDI"]);
-            p.menu->addAction(p.actions["Playlist"]);
+            p.menu->addAction(p.actions["Maximized"]);
 
             _actionUpdate();
 
             auto weak = std::weak_ptr<WindowSystem>(std::dynamic_pointer_cast<WindowSystem>(shared_from_this()));
-            p.windowModeActionGroup->setRadioCallback(
-                [weak](int index)
-            {
-                if (auto system = weak.lock())
-                {
-                    system->_p->settings->setWindowMode(static_cast<WindowMode>(index));
-                }
-            });
-
             p.fullScreenObserver = ValueObserver<bool>::create(
                 p.actions["FullScreen"]->observeChecked(),
                 [weak, context](bool value)
@@ -134,13 +135,50 @@ namespace djv
                 }
             });
 
-            p.windowModeObserver = ValueObserver<WindowMode>::create(
-                p.settings->observeWindowMode(),
-                [weak, context](WindowMode value)
+            p.maximizedObserver = ValueObserver<bool>::create(
+                p.actions["Maximized"]->observeChecked(),
+                [weak](bool value)
             {
                 if (auto system = weak.lock())
                 {
-                    system->setWindowMode(value);
+                    system->setMaximized(value);
+                }
+            });
+
+            p.maximizedObserver2 = ValueObserver<bool>::create(
+                p.settings->observeMaximized(),
+                [weak](bool value)
+            {
+                if (auto system = weak.lock())
+                {
+                    system->setMaximized(value);
+                }
+            });
+
+            auto eventSystem = context->getSystemT<Event::IEventSystem>();
+            p.pointerObserver = ValueObserver<Event::PointerInfo>::create(
+                eventSystem->observePointer(),
+                [weak](const Event::PointerInfo & value)
+            {
+                if (auto widget = weak.lock())
+                {
+                    widget->_pointerUpdate(value);
+                }
+            });
+
+            auto settingsSystem = context->getSystemT<UI::Settings::System>();
+            auto windowSettings = settingsSystem->getSettingsT<WindowSettings>();
+            p.fadeObserver = ValueObserver<bool>::create(
+                windowSettings->observeFade(),
+                [weak](bool value)
+            {
+                if (auto system = weak.lock())
+                {
+                    system->_p->fadeEnabled = value;
+                    if (!value)
+                    {
+                        system->_p->fade->setIfChanged(1.f);
+                    }
                 }
             });
 
@@ -169,19 +207,24 @@ namespace djv
             return out;
         }
 
-        std::shared_ptr<Core::IValueSubject<WindowMode> > WindowSystem::observeWindowMode() const
+        std::shared_ptr<Core::IValueSubject<bool> > WindowSystem::observeMaximized() const
         {
-            return _p->windowMode;
+            return _p->maximized;
         }
 
-        void WindowSystem::setWindowMode(WindowMode value)
+        void WindowSystem::setMaximized(bool value)
         {
             DJV_PRIVATE_PTR();
-            if (p.windowMode->setIfChanged(value))
+            if (p.maximized->setIfChanged(value))
             {
-                p.settings->setWindowMode(value);
+                p.settings->setMaximized(value);
                 _actionUpdate();
             }
+        }
+
+        std::shared_ptr<Core::IValueSubject<float> > WindowSystem::observeFade() const
+        {
+            return _p->fade;
         }
 
         std::map<std::string, std::shared_ptr<UI::Action> > WindowSystem::getActions()
@@ -198,10 +241,85 @@ namespace djv
             };
         }
 
+        void WindowSystem::_pointerUpdate(const Core::Event::PointerInfo& info)
+        {
+            DJV_PRIVATE_PTR();
+            bool start = false;
+            auto weak = std::weak_ptr<WindowSystem>(std::dynamic_pointer_cast<WindowSystem>(shared_from_this()));
+            const auto j = p.pointerMotion.find(info.id);
+            if (j != p.pointerMotion.end())
+            {
+                const float diff = glm::length(info.projectedPos - j->second);
+                auto uiSystem = getContext()->getSystemT<UI::UISystem>();
+                auto style = uiSystem->getStyle();
+                const float h = style->getMetric(UI::MetricsRole::Handle);
+                if (diff > h)
+                {
+                    start = true;
+                    p.pointerMotion[info.id] = info.projectedPos;
+                    if (p.fadeEnabled)
+                    {
+                        p.fadeAnimation->start(
+                            p.fade->get(),
+                            1.f,
+                            Time::getMilliseconds(Time::TimerValue::Medium),
+                            [weak](float value)
+                        {
+                            if (auto system = weak.lock())
+                            {
+                                system->_p->fade->setIfChanged(value);
+                            }
+                        },
+                            [weak](float value)
+                        {
+                            if (auto system = weak.lock())
+                            {
+                                system->_p->fade->setIfChanged(value);
+                            }
+                        });
+                    }
+                }
+            }
+            else
+            {
+                start = true;
+                p.pointerMotion[info.id] = info.projectedPos;
+            }
+            if (start && p.fadeEnabled)
+            {
+                p.pointerMotionTimer->start(
+                    std::chrono::milliseconds(fadeSeconds * 1000),
+                    [weak](float value)
+                {
+                    if (auto system = weak.lock())
+                    {
+                        system->_p->fadeAnimation->start(
+                            system->_p->fade->get(),
+                            0.f,
+                            Time::getMilliseconds(Time::TimerValue::Slow),
+                            [weak](float value)
+                        {
+                            if (auto system = weak.lock())
+                            {
+                                system->_p->fade->setIfChanged(value);
+                            }
+                        },
+                            [weak](float value)
+                        {
+                            if (auto system = weak.lock())
+                            {
+                                system->_p->fade->setIfChanged(value);
+                            }
+                        });
+                    }
+                });
+            }
+        }
+
         void WindowSystem::_actionUpdate()
         {
             DJV_PRIVATE_PTR();
-            p.windowModeActionGroup->setChecked(static_cast<int>(p.windowMode->get()));
+            p.actions["Maximized"]->setChecked(static_cast<int>(p.maximized->get()));
         }
 
         void WindowSystem::_textUpdate()
@@ -212,12 +330,8 @@ namespace djv
             p.actions["Fit"]->setTooltip(_getText(DJV_TEXT("Fit to image tooltip")));
             p.actions["FullScreen"]->setText(_getText(DJV_TEXT("Full Screen")));
             p.actions["FullScreen"]->setTooltip(_getText(DJV_TEXT("Full screen tooltip")));
-            p.actions["SDI"]->setText(_getText(DJV_TEXT("Single Window")));
-            p.actions["SDI"]->setTooltip(_getText(DJV_TEXT("Single window tooltip")));
-            p.actions["MDI"]->setText(_getText(DJV_TEXT("Multiple Windows")));
-            p.actions["MDI"]->setTooltip(_getText(DJV_TEXT("Multiple windows tooltip")));
-            p.actions["Playlist"]->setText(_getText(DJV_TEXT("Playlist")));
-            p.actions["Playlist"]->setTooltip(_getText(DJV_TEXT("Playlist tooltip")));
+            p.actions["Maximized"]->setText(_getText(DJV_TEXT("Maximized")));
+            p.actions["Maximized"]->setTooltip(_getText(DJV_TEXT("Maximized tooltip")));
 
             p.menu->setText(_getText(DJV_TEXT("Window")));
         }

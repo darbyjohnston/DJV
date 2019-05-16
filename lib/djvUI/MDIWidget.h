@@ -67,6 +67,8 @@ namespace djv
 
                 virtual std::map<Handle, std::vector<Core::BBox2f> > getHandles() const;
                 virtual std::map<Handle, std::vector<Core::BBox2f> > getHandlesDraw() const;
+
+                virtual void setMaximized(float);
             };
             
         } // namespace MDI

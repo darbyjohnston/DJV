@@ -44,7 +44,7 @@ namespace djv
     {
         struct WindowSettings::Private
         {
-            std::shared_ptr<ValueSubject<WindowMode> > windowMode;
+            std::shared_ptr<ValueSubject<bool> > maximized;
             std::shared_ptr<ValueSubject<bool> > fade;
         };
 
@@ -53,7 +53,7 @@ namespace djv
             ISettings::_init("djv::ViewApp::WindowSettings", context);
 
             DJV_PRIVATE_PTR();
-            p.windowMode = ValueSubject<WindowMode>::create(WindowMode::SDI);
+            p.maximized = ValueSubject<bool>::create(true);
             p.fade = ValueSubject<bool>::create(true);
             _load();
         }
@@ -72,14 +72,14 @@ namespace djv
             return out;
         }
 
-        std::shared_ptr<IValueSubject<WindowMode> > WindowSettings::observeWindowMode() const
+        std::shared_ptr<IValueSubject<bool> > WindowSettings::observeMaximized() const
         {
-            return _p->windowMode;
+            return _p->maximized;
         }
 
-        void WindowSettings::setWindowMode(WindowMode value)
+        void WindowSettings::setMaximized(bool value)
         {
-            _p->windowMode->setIfChanged(value);
+            _p->maximized->setIfChanged(value);
         }
 
         std::shared_ptr<IValueSubject<bool> > WindowSettings::observeFade() const
@@ -98,7 +98,7 @@ namespace djv
             {
                 DJV_PRIVATE_PTR();
                 const auto & object = value.get<picojson::object>();
-                UI::Settings::read("WindowMode", object, p.windowMode);
+                UI::Settings::read("Maximized", object, p.maximized);
                 UI::Settings::read("Fade", object, p.fade);
             }
         }
@@ -108,7 +108,7 @@ namespace djv
             DJV_PRIVATE_PTR();
             picojson::value out(picojson::object_type, true);
             auto & object = out.get<picojson::object>();
-            UI::Settings::write("WindowMode", p.windowMode->get(), object);
+            UI::Settings::write("Maximized", p.maximized->get(), object);
             UI::Settings::write("Fade", p.fade->get(), object);
             return out;
         }

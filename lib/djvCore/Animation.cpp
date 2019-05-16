@@ -88,7 +88,7 @@ namespace djv
             void Animation::start(
                 float                     begin,
                 float                     end,
-                std::chrono::milliseconds timeout,
+                std::chrono::milliseconds duration,
                 const Callback &          callback,
                 const Callback &          endCallback)
             {
@@ -100,7 +100,7 @@ namespace djv
                 _active      = true;
                 _begin       = begin;
                 _end         = end;
-                _timeout     = timeout;
+                _duration    = duration;
                 _callback    = callback;
                 _endCallback = endCallback;
                 _start       = std::chrono::system_clock::now();
@@ -113,7 +113,7 @@ namespace djv
                     const auto now = std::chrono::system_clock::now();
                     const auto diff = std::chrono::duration<float>(now - _start);
 
-                    const float t = Math::clamp(diff.count() / std::chrono::duration<float>(_timeout).count(), 0.f, 1.f);
+                    const float t = Math::clamp(diff.count() / std::chrono::duration<float>(_duration).count(), 0.f, 1.f);
 
                     float v = 0.f;
                     if (_begin < _end)
@@ -126,7 +126,7 @@ namespace djv
                     }
                     _callback(v);
 
-                    if (now > (_start + _timeout))
+                    if (now > (_start + _duration))
                     {
                         if (_callback)
                         {
