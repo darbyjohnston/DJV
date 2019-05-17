@@ -105,6 +105,9 @@ namespace djv
                     const Callback &          callback,
                     const Callback &          endCallback = nullptr);
 
+                //! Stop the animation.
+                void stop();
+
             private:
                 void _tick(float dt);
 

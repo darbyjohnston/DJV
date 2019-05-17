@@ -178,10 +178,7 @@ namespace djv
 
             namespace
             {
-                BBox2f lerp(
-                    float value,
-                    const BBox2f& min,
-                    const BBox2f& max)
+                BBox2f lerp(float value, const BBox2f& min, const BBox2f& max)
                 {
                     return BBox2f(
                         glm::vec2(
@@ -219,6 +216,7 @@ namespace djv
                             canvas->_p->maximizedValue = value;
                             if (maximizedWidget)
                             {
+                                maximizedWidget->setMaximized(value);
                                 maximizedWidget->setGeometry(lerp(value, maximizedWidgetGeometry, canvasGeometry));
                             }
                         }
@@ -230,11 +228,16 @@ namespace djv
                             canvas->_p->maximizedValue = value;
                             if (maximizedWidget)
                             {
+                                maximizedWidget->setMaximized(value);
                                 maximizedWidget->setGeometry(lerp(value, maximizedWidgetGeometry, canvasGeometry));
                             }
                             canvas->_p->maximizedWidget.reset();
                         }
                     });
+                }
+                else
+                {
+                    p.maximizedValue = 1.f;
                 }
                 if (p.maximizedCallback)
                 {
@@ -387,6 +390,7 @@ namespace djv
                 DJV_PRIVATE_PTR();
                 if (auto widget = std::dynamic_pointer_cast<IWidget>(value.getChild()))
                 {
+                    widget->setMaximized(p.maximizedValue);
                     widget->installEventFilter(shared_from_this());
                     const auto i = p.widgetToGeometry.find(widget);
                     if (i == p.widgetToGeometry.end())
@@ -437,6 +441,11 @@ namespace djv
                     auto widget = children.back();
                     if (widget != p.activeWidget)
                     {
+                        if (p.activeWidget)
+                        {
+                            p.activeWidget->setMaximized(0.f);
+                        }
+                        widget->setMaximized(p.maximizedValue);
                         p.activeWidget = widget;
                         if (p.activeCallback)
                         {

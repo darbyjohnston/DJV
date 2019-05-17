@@ -106,6 +106,11 @@ namespace djv
                 _start       = std::chrono::system_clock::now();
             }
 
+            void Animation::stop()
+            {
+                _active = false;
+            }
+
             void Animation::_tick(float dt)
             {
                 if (_active)

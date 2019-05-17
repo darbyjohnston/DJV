@@ -80,10 +80,10 @@ namespace djv
 
             void Timer::start(std::chrono::milliseconds value, const std::function<void(float)> & callback)
             {
-                _active = true;
-                _timeout = value;
+                _active   = true;
+                _timeout  = value;
                 _callback = callback;
-                _start = std::chrono::system_clock::now();
+                _start    = std::chrono::system_clock::now();
             }
 
             void Timer::stop()

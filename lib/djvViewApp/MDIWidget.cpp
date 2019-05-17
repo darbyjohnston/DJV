@@ -117,7 +117,6 @@ namespace djv
                 _mediaWidget->setMedia(media);
 
                 _layout = UI::StackLayout::create(context);
-                _layout->setMargin(UI::MetricsRole::Handle);
                 _layout->addChild(_mediaWidget);
                 auto vLayout = UI::VerticalLayout::create(context);
                 vLayout->addChild(_titleBar);
@@ -135,6 +134,7 @@ namespace djv
                     {
                         if (auto canvas = std::dynamic_pointer_cast<UI::MDI::Canvas>(widget->getParent().lock()))
                         {
+                            widget->moveToFront();
                             canvas->setMaximized(!canvas->isMaximized());
                         }
                     }
@@ -180,17 +180,22 @@ namespace djv
                 if (value == _maximized)
                     return;
                 _maximized = value;
-                _redraw();
+                _opacityUpdate();
+                _resize();
             }
 
             void SubWidget::_preLayoutEvent(Event::PreLayout&)
             {
-                _setMinimumSize(_layout->getMinimumSize());
+                auto style = _getStyle();
+                const float m = style->getMetric(UI::MetricsRole::Handle);
+                _setMinimumSize(_layout->getMinimumSize() + m * (1.f - _maximized));
             }
 
             void SubWidget::_layoutEvent(Event::Layout&)
             {
-                _layout->setGeometry(getGeometry());
+                auto style = _getStyle();
+                const float m = style->getMetric(UI::MetricsRole::Handle);
+                _layout->setGeometry(getGeometry().margin(-m * (1.f - _maximized)));
             }
 
             void SubWidget::_opacityUpdate()
@@ -233,54 +238,65 @@ namespace djv
                 }
             });
 
-            auto fileSystem = context->getSystemT<FileSystem>();
-            p.currentMediaObserver = ValueObserver<std::shared_ptr<Media> >::create(
-                fileSystem->observeCurrentMedia(),
-                [weak](const std::shared_ptr<Media>& value)
+            if (auto windowSystem = context->getSystemT<WindowSystem>())
             {
-                if (auto widget = weak.lock())
+                p.canvas->setMaximizedCallback(
+                    [windowSystem](bool value)
                 {
-                    const auto i = widget->_p->subWidgets.find(value);
-                    if (i != widget->_p->subWidgets.end())
-                    {
-                        i->second->moveToFront();
-                    }
-                }
-            });
+                    windowSystem->setMaximized(value);
+                });
+            }
 
-            p.openedObserver = ValueObserver<std::pair<std::shared_ptr<Media>, glm::vec2> >::create(
-                fileSystem->observeOpened(),
-                [weak, context](const std::pair<std::shared_ptr<Media>, glm::vec2>& value)
+            if (auto fileSystem = context->getSystemT<FileSystem>())
             {
-                if (value.first)
-                {
-                    if (auto widget = weak.lock())
-                    {
-                        auto subWidget = SubWidget::create(value.first, context);
-                        widget->_p->canvas->addChild(subWidget);
-                        widget->_p->canvas->setWidgetPos(subWidget, value.second);
-                        widget->_p->subWidgets[value.first] = subWidget;
-                    }
-                }
-            });
-
-            p.closedObserver = ValueObserver<std::shared_ptr<Media> >::create(
-                fileSystem->observeClosed(),
-                [weak](const std::shared_ptr<Media>& value)
-            {
-                if (value)
+                p.currentMediaObserver = ValueObserver<std::shared_ptr<Media> >::create(
+                    fileSystem->observeCurrentMedia(),
+                    [weak](const std::shared_ptr<Media> & value)
                 {
                     if (auto widget = weak.lock())
                     {
                         const auto i = widget->_p->subWidgets.find(value);
                         if (i != widget->_p->subWidgets.end())
                         {
-                            widget->_p->canvas->removeChild(i->second);
-                            widget->_p->subWidgets.erase(i);
+                            i->second->moveToFront();
                         }
                     }
-                }
-            });
+                });
+
+                p.openedObserver = ValueObserver<std::pair<std::shared_ptr<Media>, glm::vec2> >::create(
+                    fileSystem->observeOpened(),
+                    [weak, context](const std::pair<std::shared_ptr<Media>, glm::vec2> & value)
+                {
+                    if (value.first)
+                    {
+                        if (auto widget = weak.lock())
+                        {
+                            auto subWidget = SubWidget::create(value.first, context);
+                            widget->_p->canvas->addChild(subWidget);
+                            widget->_p->canvas->setWidgetPos(subWidget, value.second);
+                            widget->_p->subWidgets[value.first] = subWidget;
+                        }
+                    }
+                });
+
+                p.closedObserver = ValueObserver<std::shared_ptr<Media> >::create(
+                    fileSystem->observeClosed(),
+                    [weak](const std::shared_ptr<Media> & value)
+                {
+                    if (value)
+                    {
+                        if (auto widget = weak.lock())
+                        {
+                            const auto i = widget->_p->subWidgets.find(value);
+                            if (i != widget->_p->subWidgets.end())
+                            {
+                                widget->_p->canvas->removeChild(i->second);
+                                widget->_p->subWidgets.erase(i);
+                            }
+                        }
+                    }
+                });
+            }
         }
 
         MDIWidget::MDIWidget() :

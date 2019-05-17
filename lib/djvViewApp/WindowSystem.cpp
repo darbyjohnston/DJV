@@ -177,6 +177,8 @@ namespace djv
                     system->_p->fadeEnabled = value;
                     if (!value)
                     {
+                        system->_p->fadeAnimation->stop();
+                        system->_p->pointerMotionTimer->stop();
                         system->_p->fade->setIfChanged(1.f);
                     }
                 }
