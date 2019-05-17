@@ -40,7 +40,7 @@ namespace djv
             struct Solo::Private
             {
                 int currentIndex = -1;
-                bool sizeForAll = true;
+                SoloMinimumSize soloMinimumSize = SoloMinimumSize::Both;
             };
 
             void Solo::_init(Context * context)
@@ -78,6 +78,15 @@ namespace djv
                 _resize();
             }
 
+            void Solo::setCurrentIndex(int value, Side side)
+            {
+                DJV_PRIVATE_PTR();
+                if (value == p.currentIndex)
+                    return;
+                p.currentIndex = value;
+                _resize();
+            }
+
             std::shared_ptr<Widget> Solo::getCurrentWidget() const
             {
                 const auto& children = getChildWidgets();
@@ -89,10 +98,10 @@ namespace djv
                 return nullptr;
             }
 
-            void Solo::setCurrentWidget(const std::shared_ptr<Widget> & value)
+            void Solo::setCurrentWidget(const std::shared_ptr<Widget>& value)
             {
                 int i = 0;
-                for (const auto & child : getChildWidgets())
+                for (const auto& child : getChildWidgets())
                 {
                     if (value == child)
                     {
@@ -103,17 +112,31 @@ namespace djv
                 }
             }
 
-            bool Solo::hasSizeForAll() const
+            void Solo::setCurrentWidget(const std::shared_ptr<Widget>& value, Side)
             {
-                return _p->sizeForAll;
+                int i = 0;
+                for (const auto& child : getChildWidgets())
+                {
+                    if (value == child)
+                    {
+                        setCurrentIndex(i);
+                        break;
+                    }
+                    ++i;
+                }
             }
 
-            void Solo::setSizeForAll(bool value)
+            SoloMinimumSize Solo::getSoloMinimumSize() const
+            {
+                return _p->soloMinimumSize;
+            }
+
+            void Solo::setSoloMinimumSize(SoloMinimumSize value)
             {
                 DJV_PRIVATE_PTR();
-                if (value == p.sizeForAll)
+                if (value == p.soloMinimumSize)
                     return;
-                p.sizeForAll = value;
+                p.soloMinimumSize = value;
                 _resize();
             }
 
@@ -125,9 +148,11 @@ namespace djv
                 const glm::vec2 m = getMargin().getSize(style);
                 for (const auto & child : getChildWidgets())
                 {
-                    if (child->isVisible() || p.sizeForAll)
+                    if (child->isVisible() ||
+                        SoloMinimumSize::Vertical == p.soloMinimumSize ||
+                        SoloMinimumSize::Both == p.soloMinimumSize)
                     {
-                        out = glm::max(out, child->getHeightForWidth(value - m.x));
+                        out = std::max(out, child->getHeightForWidth(value - m.x));
                     }
                 }
                 out += m.y;
@@ -159,9 +184,16 @@ namespace djv
                 glm::vec2 minimumSize = glm::vec2(0.f, 0.f);
                 for (const auto & child : getChildWidgets())
                 {
-                    if (child->isVisible() || p.sizeForAll)
+                    if (child->isVisible() || p.soloMinimumSize != SoloMinimumSize::None)
                     {
-                        minimumSize = glm::max(minimumSize, child->getMinimumSize());
+                        const glm::vec2& childMinimumSize = child->getMinimumSize();
+                        switch (p.soloMinimumSize)
+                        {
+                        case Horizontal: minimumSize.x = glm::max(minimumSize.x, childMinimumSize.x); break;
+                        case Vertical:   minimumSize.y = glm::max(minimumSize.y, childMinimumSize.y); break;
+                        case Both:       minimumSize   = glm::max(minimumSize, child->getMinimumSize()); break;
+                        default: break;
+                        }
                     }
                 }
                 auto style = _getStyle();

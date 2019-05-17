@@ -37,6 +37,16 @@ namespace djv
     {
         namespace Layout
         {
+            //! This enumeration provides options for how the Solo layout
+            //! calculates it's minimum size.
+            enum SoloMinimumSize
+            {
+                None,
+                Horizontal,
+                Vertical,
+                Both
+            };
+
             //! This class provides a layout that shows a single child at a time.
             class Solo : public Widget
             {
@@ -52,12 +62,14 @@ namespace djv
 
                 int getCurrentIndex() const;
                 void setCurrentIndex(int);
+                void setCurrentIndex(int, Side);
 
                 std::shared_ptr<Widget> getCurrentWidget() const;
-                void setCurrentWidget(const std::shared_ptr<Widget> &);
+                void setCurrentWidget(const std::shared_ptr<Widget>&);
+                void setCurrentWidget(const std::shared_ptr<Widget>&, Side);
 
-                bool hasSizeForAll() const;
-                void setSizeForAll(bool);
+                SoloMinimumSize getSoloMinimumSize() const;
+                void setSoloMinimumSize(SoloMinimumSize);
 
                 float getHeightForWidth(float) const override;
 

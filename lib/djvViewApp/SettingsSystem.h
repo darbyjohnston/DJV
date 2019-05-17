@@ -38,6 +38,8 @@ namespace djv
 {
     namespace ViewApp
     {
+        class SettingsWidget;
+
         class SettingsSystem : public IViewSystem
         {
             DJV_NON_COPYABLE(SettingsSystem);
@@ -51,7 +53,7 @@ namespace djv
 
             static std::shared_ptr<SettingsSystem> create(Core::Context *);
 
-            void showSettings();
+            std::shared_ptr<SettingsWidget> createSettingsWidget();
 
             std::map<std::string, std::shared_ptr<UI::Action> > getActions() override;
             std::vector<std::shared_ptr<UI::ISettingsWidget> > createSettingsWidgets() override;

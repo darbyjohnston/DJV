@@ -36,12 +36,14 @@
 #include <djvViewApp/Media.h>
 #include <djvViewApp/MediaWidget.h>
 #include <djvViewApp/SettingsSystem.h>
+#include <djvViewApp/SettingsWidget.h>
 #include <djvViewApp/WindowSystem.h>
 
 #include <djvUI/Action.h>
 #include <djvUI/ActionButton.h>
 #include <djvUI/ActionGroup.h>
 #include <djvUI/ButtonGroup.h>
+#include <djvUI/Drawer.h>
 #include <djvUI/Label.h>
 #include <djvUI/MDICanvas.h>
 #include <djvUI/Menu.h>
@@ -129,6 +131,15 @@ namespace djv
 
             p.settingsButton = UI::ToolButton::create(context);
             p.settingsButton->setIcon("djvIconSettings");
+            std::shared_ptr<UI::Drawer> settingsDrawer;
+            std::shared_ptr<SettingsWidget> settingsWidget;
+            if (auto settingsSystem = context->getSystemT<SettingsSystem>())
+            {
+                settingsWidget = settingsSystem->createSettingsWidget();
+                settingsDrawer = UI::Drawer::create(context);
+                settingsDrawer->setSide(UI::Side::Right);
+                settingsDrawer->addChild(settingsWidget);
+            }
 
             p.menuBar = UI::MenuBar::create(context);
             p.menuBar->setBackgroundRole(UI::ColorRole::Overlay);
@@ -158,6 +169,10 @@ namespace djv
             vLayout->addExpander();
             p.stackLayout->addChild(vLayout);
             p.stackLayout->addChild(p.toolCanvas);
+            if (settingsDrawer)
+            {
+                p.stackLayout->addChild(settingsDrawer);
+            }
             addChild(p.stackLayout);
 
             auto weak = std::weak_ptr<MainWindow>(std::dynamic_pointer_cast<MainWindow>(shared_from_this()));
@@ -198,11 +213,20 @@ namespace djv
             });
 
             p.settingsButton->setClickedCallback(
-                [context]
+                [settingsDrawer]
             {
-                if (auto system = context->getSystemT<SettingsSystem>())
+                if (settingsDrawer)
                 {
-                    system->showSettings();
+                    settingsDrawer->open();
+                }
+            });
+
+            settingsWidget->setCloseCallback(
+                [settingsDrawer]
+            {
+                if (settingsDrawer)
+                {
+                    settingsDrawer->close();
                 }
             });
 

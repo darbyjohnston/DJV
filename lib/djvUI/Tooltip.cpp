@@ -148,7 +148,7 @@ namespace djv
                 for (const auto & i : getChildWidgets())
                 {
                     BBox2f g = i->getGeometry();
-                    g.min.x += sh;
+                    g.min.x -= sh;
                     g.min.y += sh;
                     g.max.x += sh;
                     g.max.y += sh;

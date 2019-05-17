@@ -301,7 +301,7 @@ namespace djv
                     if (i->isVisible())
                     {
                         BBox2f g = i->getGeometry().margin(-h);
-                        g.min.x += sh;
+                        g.min.x -= sh;
                         g.min.y += sh;
                         g.max.x += sh;
                         g.max.y += sh;

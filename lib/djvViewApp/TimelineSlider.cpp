@@ -32,7 +32,6 @@
 #include <djvViewApp/Media.h>
 #include <djvViewApp/PlaybackSettings.h>
 
-#include <djvUI/Border.h>
 #include <djvUI/EventSystem.h>
 #include <djvUI/ImageWidget.h>
 #include <djvUI/Label.h>
@@ -91,7 +90,7 @@ namespace djv
                 Time::Timestamp _currentTime = 0;
                 std::shared_ptr<UI::ImageWidget> _imageWidget;
                 std::shared_ptr<UI::Label> _timeLabel;
-                std::shared_ptr<UI::Border> _border;
+                std::shared_ptr<UI::StackLayout> _layout;
                 std::shared_ptr<ValueObserver<Time::Speed> > _speedObserver;
                 std::shared_ptr<ValueObserver<Time::Timestamp> > _currentTimeObserver;
                 std::shared_ptr<ValueObserver<std::shared_ptr<AV::Image::Image> > > _imageObserver;
@@ -111,13 +110,10 @@ namespace djv
                 _timeLabel->setMargin(UI::MetricsRole::MarginSmall);
                 _timeLabel->setBackgroundRole(UI::ColorRole::Overlay);
 
-                auto layout = UI::StackLayout::create(context);
-                layout->addChild(_imageWidget);
-                layout->addChild(_timeLabel);
-
-                _border = UI::Border::create(context);
-                _border->addChild(layout);
-                addChild(_border);
+                _layout = UI::StackLayout::create(context);
+                _layout->addChild(_imageWidget);
+                _layout->addChild(_timeLabel);
+                addChild(_layout);
             }
 
             std::shared_ptr<PIPWidget> PIPWidget::create(Context* context)
@@ -191,8 +187,8 @@ namespace djv
             void PIPWidget::_layoutEvent(Event::Layout&)
             {
                 const BBox2f& g = getGeometry();
-                const glm::vec2 size = _border->getMinimumSize();
-                _border->setGeometry(BBox2f(_pipPos.x - floorf(size.x / 2.f), _pipPos.y - size.y, size.x, size.y));
+                const glm::vec2 size = _layout->getMinimumSize();
+                _layout->setGeometry(BBox2f(_pipPos.x - floorf(size.x / 2.f), _pipPos.y - size.y, size.x, size.y));
             }
 
             void PIPWidget::_paintEvent(Event::Paint& event)
@@ -207,7 +203,7 @@ namespace djv
                     if (i->isVisible())
                     {
                         BBox2f g = i->getGeometry();
-                        g.min.x += sh;
+                        g.min.x -= sh;
                         g.min.y += sh;
                         g.max.x += sh;
                         g.max.y += sh;

@@ -17,7 +17,8 @@ namespace djv
             enum class MenuStyle
             {
                 Flat,
-                Round
+                Round,
+                Tool
             };
 
             //! This class provides a button for menu widgets.

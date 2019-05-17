@@ -32,7 +32,7 @@ set(header
 	PlaylistWidget.h
     RecentFilesDialog.h
     SettingsSystem.h
-    SettingsDialog.h
+    SettingsWidget.h
     SystemLogDialog.h
     TimelineSlider.h
     ToolSystem.h
@@ -74,7 +74,7 @@ set(source
 	PlaylistWidget.cpp
     RecentFilesDialog.cpp
     SettingsSystem.cpp
-    SettingsDialog.cpp
+    SettingsWidget.cpp
     SystemLogDialog.cpp
     TimelineSlider.cpp
     ToolSystem.cpp
