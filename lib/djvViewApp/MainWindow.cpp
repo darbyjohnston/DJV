@@ -30,6 +30,7 @@
 #include <djvViewApp/MainWindow.h>
 
 #include <djvViewApp/Application.h>
+#include <djvViewApp/FileBrowserWidget.h>
 #include <djvViewApp/FileSystem.h>
 #include <djvViewApp/ITool.h>
 #include <djvViewApp/MDIWidget.h>
@@ -38,6 +39,8 @@
 #include <djvViewApp/SettingsSystem.h>
 #include <djvViewApp/SettingsWidget.h>
 #include <djvViewApp/WindowSystem.h>
+
+//#include <djvUIComponents/FileBrowser.h>
 
 #include <djvUI/Action.h>
 #include <djvUI/ActionButton.h>
@@ -74,6 +77,8 @@ namespace djv
             std::shared_ptr<UI::ActionGroup> mediaActionGroup;
             std::shared_ptr<UI::Menu> mediaMenu;
             std::shared_ptr<UI::Button::Menu> mediaButton;
+            std::shared_ptr<UI::ToolButton> fileOpenButton;
+            std::shared_ptr<UI::ToolButton> maximizedButton;
             std::shared_ptr<UI::ToolButton> settingsButton;
             std::shared_ptr<UI::MenuBar> menuBar;
             std::shared_ptr<MDIWidget> mdiWidget;
@@ -115,6 +120,18 @@ namespace djv
                 addAction(i.second);
             }
 
+            p.fileOpenButton = UI::ToolButton::create(context);
+            p.fileOpenButton->setIcon("djvIconFile");
+            auto fileBrowserDrawer = UI::Drawer::create(context);
+            fileBrowserDrawer->setSide(UI::Side::Left);
+            std::shared_ptr<FileBrowserWidget> fileBrowser;
+            auto fileSystem = context->getSystemT<FileSystem>();
+            if (fileSystem)
+            {
+                fileBrowser = fileSystem->createFileBrowser();
+                fileBrowserDrawer->addChild(fileBrowser);
+            }
+
             p.mediaActionGroup = UI::ActionGroup::create(UI::ButtonType::Radio);
             p.mediaMenu = UI::Menu::create(context);
             addChild(p.mediaMenu);
@@ -122,34 +139,31 @@ namespace djv
             p.mediaButton->setIcon("djvIconPopupMenu");
             p.mediaButton->setEnabled(false);
 
-            auto windowSystem = context->getSystemT<WindowSystem>();
-            auto windowActions = windowSystem->getActions();
-            auto maximizedButton = UI::ActionButton::create(context);
-            maximizedButton->setShowText(false);
-            maximizedButton->setShowShortcuts(false);
-            maximizedButton->addAction(windowActions["Maximized"]);
+            p.maximizedButton = UI::ToolButton::create(context);
+            p.maximizedButton->setIcon("djvIconViewLibSDI");
 
             p.settingsButton = UI::ToolButton::create(context);
             p.settingsButton->setIcon("djvIconSettings");
-            std::shared_ptr<UI::Drawer> settingsDrawer;
+            auto settingsDrawer = UI::Drawer::create(context);
+            settingsDrawer->setSide(UI::Side::Right);
             std::shared_ptr<SettingsWidget> settingsWidget;
             if (auto settingsSystem = context->getSystemT<SettingsSystem>())
             {
                 settingsWidget = settingsSystem->createSettingsWidget();
-                settingsDrawer = UI::Drawer::create(context);
-                settingsDrawer->setSide(UI::Side::Right);
                 settingsDrawer->addChild(settingsWidget);
             }
 
             p.menuBar = UI::MenuBar::create(context);
             p.menuBar->setBackgroundRole(UI::ColorRole::Overlay);
+            p.menuBar->addChild(p.fileOpenButton);
+            p.menuBar->setSide(p.fileOpenButton, UI::Side::Left);
             for (auto i : menus)
             {
                 p.menuBar->addChild(i.second);
             }
             p.menuBar->addChild(p.mediaButton);
-            p.menuBar->setStretch(p.mediaButton, UI::RowStretch::Expand);
-            p.menuBar->addChild(maximizedButton);
+            p.menuBar->setStretch(p.mediaButton, UI::RowStretch::Expand, UI::Side::Right);
+            p.menuBar->addChild(p.maximizedButton);
             p.menuBar->addChild(p.settingsButton);
 
             p.mdiWidget = MDIWidget::create(context);
@@ -169,11 +183,23 @@ namespace djv
             vLayout->addExpander();
             p.stackLayout->addChild(vLayout);
             p.stackLayout->addChild(p.toolCanvas);
-            if (settingsDrawer)
-            {
-                p.stackLayout->addChild(settingsDrawer);
-            }
+            p.stackLayout->addChild(fileBrowserDrawer);
+            p.stackLayout->addChild(settingsDrawer);
             addChild(p.stackLayout);
+
+            p.fileOpenButton->setClickedCallback(
+                [fileBrowserDrawer]
+            {
+                fileBrowserDrawer->open();
+            });
+            if (fileBrowser)
+            {
+                fileBrowser->setCloseCallback(
+                    [fileBrowserDrawer]
+                {
+                    fileBrowserDrawer->close();
+                });
+            }
 
             auto weak = std::weak_ptr<MainWindow>(std::dynamic_pointer_cast<MainWindow>(shared_from_this()));
             p.mediaActionGroup->setRadioCallback(
@@ -183,8 +209,10 @@ namespace djv
                 {
                     if (value >= 0 && value < static_cast<int>(widget->_p->media.size()))
                     {
-                        auto fileSystem = context->getSystemT<FileSystem>();
-                        fileSystem->setCurrentMedia(widget->_p->media[value]);
+                        if (auto fileSystem = context->getSystemT<FileSystem>())
+                        {
+                            fileSystem->setCurrentMedia(widget->_p->media[value]);
+                        }
                     }
                     widget->_p->mediaMenu->hide();
                 }
@@ -212,23 +240,29 @@ namespace djv
                 }
             });
 
-            p.settingsButton->setClickedCallback(
-                [settingsDrawer]
+            p.maximizedButton->setClickedCallback(
+                [context]
             {
-                if (settingsDrawer)
+                if (auto windowSystem = context->getSystemT<WindowSystem>())
                 {
-                    settingsDrawer->open();
+                    windowSystem->setMaximized(!windowSystem->observeMaximized()->get());
                 }
             });
 
-            settingsWidget->setCloseCallback(
+            p.settingsButton->setClickedCallback(
                 [settingsDrawer]
             {
-                if (settingsDrawer)
+                settingsDrawer->open();
+            });
+
+            if (settingsWidget)
+            {
+                settingsWidget->setCloseCallback(
+                    [settingsDrawer]
                 {
                     settingsDrawer->close();
-                }
-            });
+                });
+            }
 
             p.closeToolActionObserver = ValueObserver<bool>::create(
                 p.actions["CloseTool"]->observeClicked(),
@@ -287,9 +321,15 @@ namespace djv
                         widget->_p->mediaButton->setText(value ? Core::FileSystem::Path(value->getFileName()).getFileName() : std::string());
                     }
                 });
+
+                fileSystem->setFileBrowserCallback(
+                    [fileBrowserDrawer]
+                {
+                    fileBrowserDrawer->open();
+                });
             }
 
-            if (windowSystem)
+            if (auto windowSystem = context->getSystemT<WindowSystem>())
             {
                 p.maximizedObserver = ValueObserver<bool>::create(
                     windowSystem->observeMaximized(),
@@ -349,7 +389,9 @@ namespace djv
         void MainWindow::_textUpdate()
         {
             DJV_PRIVATE_PTR();
+            p.fileOpenButton->setTooltip(_getText(DJV_TEXT("File open tooltip")));
             p.mediaButton->setTooltip(_getText(DJV_TEXT("Media popup tooltip")));
+            p.maximizedButton->setTooltip(_getText(DJV_TEXT("Maximized tooltip")));
             p.settingsButton->setTooltip(_getText(DJV_TEXT("Settings tooltip")));
         }
 

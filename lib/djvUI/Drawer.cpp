@@ -154,10 +154,10 @@ namespace djv
                 BBox2f childGeometry = g;
                 switch (p.side)
                 {
-                case Side::Left:   childGeometry.max.x = (p.open ? (g.min.x + minimumSize.x) : g.min.x) + sh; break;
-                case Side::Top:    childGeometry.max.y = (p.open ? (g.min.y + minimumSize.y) : g.min.y) + sh; break;
-                case Side::Right:  childGeometry.min.x = (p.open ? (g.max.x - minimumSize.x) : g.max.x) + sh; break;
-                case Side::Bottom: childGeometry.min.y = (p.open ? (g.max.y - minimumSize.y) : g.max.y) + sh; break;
+                case Side::Left:   childGeometry.max.x = (p.open ? (g.min.x + minimumSize.x + sh) : g.min.x); break;
+                case Side::Top:    childGeometry.max.y = (p.open ? (g.min.y + minimumSize.y + sh) : g.min.y); break;
+                case Side::Right:  childGeometry.min.x = (p.open ? (g.max.x - minimumSize.x + sh) : g.max.x); break;
+                case Side::Bottom: childGeometry.min.y = (p.open ? (g.max.y - minimumSize.y + sh) : g.max.y); break;
                 default: break;
                 }
                 _p->layout->setGeometry(childGeometry);
@@ -176,7 +176,7 @@ namespace djv
                     render->setFillColor(_getColorWithOpacity(style->getColor(ColorRole::Shadow)));
                     switch (p.side)
                     {
-                    case Side::Left:   render->drawShadow(BBox2f(g.max.x + sh, g.min.y, sh, g.h()), AV::Side::Right); break;
+                    case Side::Left:   render->drawShadow(BBox2f(g.max.x, g.min.y, sh, g.h()), AV::Side::Right); break;
                     case Side::Top:    render->drawShadow(BBox2f(g.min.x, g.max.y, g.w(), sh), AV::Side::Bottom);     break;
                     case Side::Right:  render->drawShadow(BBox2f(g.min.x - sh, g.min.y, sh, g.h()), AV::Side::Left);  break;
                     case Side::Bottom: render->drawShadow(BBox2f(g.min.x, g.min.y - sh, g.w(), sh), AV::Side::Top);   break;

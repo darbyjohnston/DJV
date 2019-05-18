@@ -51,8 +51,8 @@ namespace djv
             struct FileBrowser::Private
             {
                 std::shared_ptr<ListSubject<FileSystem::Path> > shortcuts;
-                std::shared_ptr<MapSubject<std::string, bool> > shortcutsBellows;
-                std::shared_ptr<ListSubject<float> > shortcutsSplit;
+                //std::shared_ptr<MapSubject<std::string, bool> > shortcutsBellows;
+                //std::shared_ptr<ListSubject<float> > shortcutsSplit;
                 std::shared_ptr<ValueSubject<ViewType> > viewType;
                 std::shared_ptr<ValueSubject<glm::ivec2> > thumbnailSize;
                 std::shared_ptr<ListSubject<float> > listViewHeaderSplit;
@@ -74,7 +74,7 @@ namespace djv
                     const auto shortcut = OS::getPath(static_cast<OS::DirectoryShortcut>(i));
                     p.shortcuts->pushBack(shortcut);
                 }
-                p.shortcutsBellows = MapSubject<std::string, bool>::create(
+                /*p.shortcutsBellows = MapSubject<std::string, bool>::create(
                     {
                         { "Shortcuts", true },
                         { "Drives",    true },
@@ -82,7 +82,7 @@ namespace djv
                         { "Recent",    true }
                     }
                 );
-                p.shortcutsSplit = ListSubject<float>::create({ .1f, 1.f });
+                p.shortcutsSplit = ListSubject<float>::create({ .1f, 1.f });*/
                 p.viewType = ValueSubject<ViewType>::create(ViewType::Tiles);
                 p.thumbnailSize = ValueSubject<glm::ivec2>::create(glm::ivec2(100, 50));
                 p.listViewHeaderSplit = ListSubject<float>::create({ .7f, .8f, 1.f });
@@ -120,7 +120,7 @@ namespace djv
                 p.shortcuts->setIfChanged(value);
             }
 
-            std::shared_ptr<IMapSubject<std::string, bool> > FileBrowser::observeShortcutsBellows() const
+            /*std::shared_ptr<IMapSubject<std::string, bool> > FileBrowser::observeShortcutsBellows() const
             {
                 return _p->shortcutsBellows;
             }
@@ -140,7 +140,7 @@ namespace djv
             {
                 DJV_PRIVATE_PTR();
                 p.shortcutsSplit->setIfChanged(value);
-            }
+            }*/
 
             std::shared_ptr<IValueSubject<ViewType> > FileBrowser::observeViewType() const
             {
@@ -237,8 +237,8 @@ namespace djv
                     DJV_PRIVATE_PTR();
                     const auto & object = value.get<picojson::object>();
                     read("Shortcuts", object, p.shortcuts);
-                    read("ShortcutsBellows", object, p.shortcutsBellows);
-                    read("ShortcutsSplit", object, p.shortcutsSplit);
+                    //read("ShortcutsBellows", object, p.shortcutsBellows);
+                    //read("ShortcutsSplit", object, p.shortcutsSplit);
                     read("ViewType", object, p.viewType);
                     read("ThumbnailSize", object, p.thumbnailSize);
                     read("ListViewHeaderSplit", object, p.listViewHeaderSplit);
@@ -256,8 +256,8 @@ namespace djv
                 picojson::value out(picojson::object_type, true);
                 auto & object = out.get<picojson::object>();
                 write("Shortcuts", p.shortcuts->get(), object);
-                write("ShortcutsBellows", p.shortcutsBellows->get(), object);
-                write("ShortcutsSplit", p.shortcutsSplit->get(), object);
+                //write("ShortcutsBellows", p.shortcutsBellows->get(), object);
+                //write("ShortcutsSplit", p.shortcutsSplit->get(), object);
                 write("ViewType", p.viewType->get(), object);
                 write("ThumbnailSize", p.thumbnailSize->get(), object);
                 write("ListViewHeaderSplit", p.listViewHeaderSplit->get(), object);

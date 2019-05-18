@@ -100,9 +100,19 @@ namespace djv
             return _p->lineEditBase->getTextColorRole();
         }
 
+        MetricsRole LineEdit::getTextSizeRole() const
+        {
+            return _p->lineEditBase->getTextSizeRole();
+        }
+
         void LineEdit::setTextColorRole(ColorRole value)
         {
             _p->lineEditBase->setTextColorRole(value);
+        }
+
+        void LineEdit::setTextSizeRole(MetricsRole value)
+        {
+            _p->lineEditBase->setTextSizeRole(value);
         }
 
         const std::string & LineEdit::getFont() const

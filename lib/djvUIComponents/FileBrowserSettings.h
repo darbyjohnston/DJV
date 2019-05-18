@@ -62,11 +62,11 @@ namespace djv
                 std::shared_ptr<Core::IListSubject<Core::FileSystem::Path> > observeShortcuts() const;
                 void setShortcuts(const std::vector<Core::FileSystem::Path> &);
 
-                std::shared_ptr<Core::IMapSubject<std::string, bool> > observeShortcutsBellows() const;
+                /*std::shared_ptr<Core::IMapSubject<std::string, bool> > observeShortcutsBellows() const;
                 void setShortcutsBellows(const std::map<std::string, bool> &);
 
                 std::shared_ptr<Core::IListSubject<float> > observeShortcutsSplit() const;
-                void setShortcutsSplit(const std::vector<float> &);
+                void setShortcutsSplit(const std::vector<float> &);*/
 
                 std::shared_ptr<Core::IValueSubject<ViewType> > observeViewType() const;
                 void setViewType(ViewType);

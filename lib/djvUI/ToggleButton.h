@@ -13,19 +13,21 @@ namespace djv
     {
         namespace Button
         {
-            //! This class provides a check button.
-            class Check : public IButton
+            //! This class provides a toggle button.
+            class Toggle : public IButton
             {
-                DJV_NON_COPYABLE(Check);
+                DJV_NON_COPYABLE(Toggle);
 
             protected:
                 void _init(Core::Context *);
-                Check();
+                Toggle();
 
             public:
-                virtual ~Check();
+                virtual ~Toggle();
 
-                static std::shared_ptr<Check> create(Core::Context *);
+                static std::shared_ptr<Toggle> create(Core::Context *);
+
+                void setChecked(bool) override;
 
             protected:
                 void _preLayoutEvent(Core::Event::PreLayout &) override;
@@ -37,7 +39,7 @@ namespace djv
 
         } // namespace Button
 
-        typedef Button::Check CheckButton;
+        typedef Button::Toggle ToggleButton;
 
     } // namespace UI
 } // namespace djv

@@ -97,6 +97,7 @@ namespace djv
                 Slider,
                 ScrollArea,
                 TextColumn,
+                SearchBox,
                 Dialog,
                 Shadow,
                 TooltipOffset,

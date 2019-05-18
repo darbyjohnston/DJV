@@ -31,10 +31,10 @@
 
 #include <djvViewApp/NUXSettings.h>
 
-#include <djvUI/CheckButton.h>
 #include <djvUI/FormLayout.h>
 #include <djvUI/RowLayout.h>
 #include <djvUI/SettingsSystem.h>
+#include <djvUI/ToggleButton.h>
 
 using namespace djv::Core;
 
@@ -44,7 +44,7 @@ namespace djv
     {
         struct NUXSettingsWidget::Private
         {
-            std::shared_ptr<UI::CheckButton> nuxButton;
+            std::shared_ptr<UI::ToggleButton> nuxButton;
             std::shared_ptr<UI::FormLayout> formLayout;
             std::shared_ptr<ValueObserver<bool> > nuxObserver;
         };
@@ -56,7 +56,7 @@ namespace djv
             DJV_PRIVATE_PTR();
             setClassName("djv::ViewApp::NUXSettingsWidget");
 
-            p.nuxButton = UI::CheckButton::create(context);
+            p.nuxButton = UI::ToggleButton::create(context);
 
             p.formLayout = UI::FormLayout::create(context);
             p.formLayout->addChild(p.nuxButton);

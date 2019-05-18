@@ -59,6 +59,7 @@ namespace djv
             setVAlign(VAlign::Center);
 
             p.lineEditBase = LineEditBase::create(context);
+            p.lineEditBase->setTextSizeRole(MetricsRole::SearchBox);
             p.lineEditBase->setBackgroundRole(ColorRole::None);
             
             auto searchIcon = Icon::create(context);

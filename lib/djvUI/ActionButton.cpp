@@ -153,15 +153,6 @@ namespace djv
                 _p->shortcutsLabel->setVisible(value);
             }
 
-            void ActionButton::setChecked(bool value)
-            {
-                IButton::setChecked(value);
-                DJV_PRIVATE_PTR();
-                p.icon->setIconColorRole(value ? ColorRole::Checked : getForegroundColorRole());
-                p.textLabel->setTextColorRole(value ? ColorRole::Checked : getForegroundColorRole());
-                p.shortcutsLabel->setTextColorRole(value ? ColorRole::Checked : getForegroundColorRole());
-            }
-
             void ActionButton::addAction(const std::shared_ptr<Action> & value)
             {
                 IButton::addAction(value);
@@ -182,21 +173,47 @@ namespace djv
 
             void ActionButton::_preLayoutEvent(Event::PreLayout & event)
             {
-                _setMinimumSize(_p->layout->getMinimumSize());
+                auto style = _getStyle();
+                const float m = style->getMetric(MetricsRole::MarginSmall);
+                glm::vec2 size = _p->layout->getMinimumSize();
+                const ButtonType buttonType = getButtonType();
+                if (ButtonType::Toggle == buttonType ||
+                    ButtonType::Radio == buttonType ||
+                    ButtonType::Exclusive == buttonType)
+                {
+                    size.x += m;
+                }
+                _setMinimumSize(size);
             }
 
             void ActionButton::_layoutEvent(Event::Layout &)
             {
-                _p->layout->setGeometry(getGeometry());
+                auto style = _getStyle();
+                BBox2f g = getGeometry();
+                const float m = style->getMetric(MetricsRole::MarginSmall);
+                const ButtonType buttonType = getButtonType();
+                if (ButtonType::Toggle == buttonType ||
+                    ButtonType::Radio == buttonType ||
+                    ButtonType::Exclusive == buttonType)
+                {
+                    g.min.x += m;
+                }
+                _p->layout->setGeometry(g);
             }
 
             void ActionButton::_paintEvent(Event::Paint& event)
             {
-                Widget::_paintEvent(event);
+                IButton::_paintEvent(event);
                 DJV_PRIVATE_PTR();
-                const BBox2f& g = getGeometry();
                 auto render = _getRender();
                 auto style = _getStyle();
+                const BBox2f& g = getGeometry();
+                const float m = style->getMetric(MetricsRole::MarginSmall);
+                if (_isToggled())
+                {
+                    render->setFillColor(_getColorWithOpacity(style->getColor(ColorRole::Checked)));
+                    render->drawRect(BBox2f(g.min.x, g.min.y, m, g.h()));
+                }
                 if (_isPressed())
                 {
                     render->setFillColor(_getColorWithOpacity(style->getColor(ColorRole::Pressed)));

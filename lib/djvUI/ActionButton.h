@@ -56,8 +56,6 @@ namespace djv
                 void setShowText(bool);
                 void setShowShortcuts(bool);
 
-                void setChecked(bool) override;
-
                 void addAction(const std::shared_ptr<Action> &) override;
                 void removeAction(const std::shared_ptr<Action> &) override;
                 void clearActions() override;

@@ -78,7 +78,6 @@ namespace djv
                 void setHistoryIndexCallback(const std::function<void(size_t)> &);
 
                 void setEdit(bool);
-                void setEditCallback(const std::function<void(bool)> &);
 
             protected:
                 void _preLayoutEvent(Core::Event::PreLayout &) override;

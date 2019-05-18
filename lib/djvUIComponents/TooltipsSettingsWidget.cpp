@@ -29,11 +29,11 @@
 
 #include <djvUIComponents/TooltipsSettingsWidget.h>
 
-#include <djvUI/CheckButton.h>
 #include <djvUI/FormLayout.h>
 #include <djvUI/GeneralSettings.h>
 #include <djvUI/RowLayout.h>
 #include <djvUI/SettingsSystem.h>
+#include <djvUI/ToggleButton.h>
 
 #include <djvCore/Context.h>
 
@@ -45,7 +45,7 @@ namespace djv
     {
         struct TooltipsSettingsWidget::Private
         {
-            std::shared_ptr<CheckButton> tooltipsButton;
+            std::shared_ptr<ToggleButton> tooltipsButton;
             std::shared_ptr<FormLayout> layout;
             std::shared_ptr<ValueObserver<bool> > tooltipsObserver;
         };
@@ -57,7 +57,7 @@ namespace djv
             DJV_PRIVATE_PTR();
             setClassName("djv::UI::TooltipsSettingsWidget");
 
-            p.tooltipsButton = CheckButton::create(context);
+            p.tooltipsButton = ToggleButton::create(context);
 
             p.layout = FormLayout::create(context);
             p.layout->addChild(p.tooltipsButton);

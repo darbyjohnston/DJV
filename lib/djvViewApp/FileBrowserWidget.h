@@ -29,7 +29,7 @@
 
 #pragma once
 
-#include <djvUI/IDialog.h>
+#include <djvUI/Widget.h>
 
 #include <djvUI/Enum.h>
 
@@ -47,25 +47,29 @@ namespace djv
 
     namespace ViewApp
     {
-        class FileBrowserDialog : public UI::IDialog
+        class FileBrowserWidget : public UI::Widget
         {
-            DJV_NON_COPYABLE(FileBrowserDialog);
+            DJV_NON_COPYABLE(FileBrowserWidget);
 
         protected:
             void _init(Core::Context *);
-            FileBrowserDialog();
+            FileBrowserWidget();
 
         public:
-            ~FileBrowserDialog() override;
+            ~FileBrowserWidget() override;
 
-            static std::shared_ptr<FileBrowserDialog> create(Core::Context *);
+            static std::shared_ptr<FileBrowserWidget> create(Core::Context *);
 
             const Core::FileSystem::Path& getPath() const;
             void setPath(const Core::FileSystem::Path&);
 
             void setCallback(const std::function<void(const Core::FileSystem::FileInfo &)> &);
+            void setCloseCallback(const std::function<void(void)>&);
 
         protected:
+            void _preLayoutEvent(Core::Event::PreLayout&) override;
+            void _layoutEvent(Core::Event::Layout&) override;
+
             void _localeEvent(Core::Event::Locale &) override;
 
         private:

@@ -200,6 +200,7 @@ namespace djv
                             break;
                         default: break;
                         }
+                        _redraw();
                     }
                 }
             }

@@ -51,6 +51,7 @@ namespace djv
         {
             std::string text;
             ColorRole textColorRole = ColorRole::Foreground;
+            MetricsRole textSizeRole = MetricsRole::TextColumn;
             std::string font;
             std::string fontFace = AV::Font::faceDefault;
             MetricsRole fontSizeRole = MetricsRole::FontMedium;
@@ -134,6 +135,20 @@ namespace djv
                 return;
             p.textColorRole = value;
             _redraw();
+        }
+
+        MetricsRole LineEditBase::getTextSizeRole() const
+        {
+            return _p->textSizeRole;
+        }
+
+        void LineEditBase::setTextSizeRole(MetricsRole value)
+        {
+            DJV_PRIVATE_PTR();
+            if (value == p.textSizeRole)
+                return;
+            p.textSizeRole = value;
+            _resize();
         }
 
         const std::string & LineEditBase::getFont() const
@@ -221,7 +236,7 @@ namespace djv
             DJV_PRIVATE_PTR();
             auto style = _getStyle();
             const float m = style->getMetric(MetricsRole::MarginSmall);
-            const float tc = style->getMetric(MetricsRole::TextColumn);
+            const float tc = style->getMetric(p.textSizeRole);
 
             if (p.fontMetricsFuture.valid())
             {

@@ -64,7 +64,6 @@ namespace djv
                 std::shared_ptr<HorizontalLayout> layout;
                 std::function<void(const FileSystem::Path &)> pathCallback;
                 std::function<void(size_t)> historyIndexCallback;
-                std::function<void(bool)> editCallback;
             };
 
             void PathWidget::_init(Context * context)
@@ -279,11 +278,6 @@ namespace djv
                     std::static_pointer_cast<Widget>(p.buttonLayout));
             }
 
-            void PathWidget::setEditCallback(const std::function<void(bool)> & value)
-            {
-                _p->editCallback = value;
-            }
-
             void PathWidget::_preLayoutEvent(Event::PreLayout & event)
             {
                 _setMinimumSize(_p->layout->getMinimumSize());
@@ -309,10 +303,6 @@ namespace djv
                     {
                     case Event::Type::ButtonPress:
                         setEdit(true);
-                        if (p.editCallback)
-                        {
-                            p.editCallback(true);
-                        }
                         break;
                     default: break;
                     }
@@ -323,10 +313,6 @@ namespace djv
                     {
                     case Event::Type::TextFocusLost:
                         setEdit(false);
-                        if (p.editCallback)
-                        {
-                            p.editCallback(false);
-                        }
                         break;
                     default: break;
                     }

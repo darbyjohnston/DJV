@@ -50,7 +50,7 @@ namespace djv
         {
             std::vector<std::shared_ptr<Menu> > menus;
             std::shared_ptr<HorizontalLayout> menuLayout;
-            std::shared_ptr<HorizontalLayout> widgetLayout;
+            std::map<Side, std::shared_ptr<HorizontalLayout> > widgetLayout;
             std::shared_ptr<HorizontalLayout> layout;
             std::shared_ptr<Button::Menu> menuOpen;
             std::map<std::shared_ptr<Menu>, std::shared_ptr<Button::Menu> > menusToButtons;
@@ -76,14 +76,17 @@ namespace djv
             p.menuLayout = HorizontalLayout::create(context);
             p.menuLayout->setSpacing(MetricsRole::None);
 
-            p.widgetLayout = HorizontalLayout::create(context);
-            p.widgetLayout->setSpacing(MetricsRole::None);
+            p.widgetLayout[Side::Left] = HorizontalLayout::create(context);
+            p.widgetLayout[Side::Left]->setSpacing(MetricsRole::None);
+            p.widgetLayout[Side::Right] = HorizontalLayout::create(context);
+            p.widgetLayout[Side::Right]->setSpacing(MetricsRole::None);
 
             p.layout = HorizontalLayout::create(context);
             p.layout->setSpacing(MetricsRole::None);
+            p.layout->addChild(p.widgetLayout[Side::Left]);
             p.layout->addChild(p.menuLayout);
-            p.layout->addChild(p.widgetLayout);
-            p.layout->setStretch(p.widgetLayout, RowStretch::Expand);
+            p.layout->addChild(p.widgetLayout[Side::Right]);
+            p.layout->setStretch(p.widgetLayout[Side::Right], RowStretch::Expand);
             Widget::addChild(p.layout);
 
             auto weak = std::weak_ptr<MenuBar>(std::dynamic_pointer_cast<MenuBar>(shared_from_this()));
@@ -115,24 +118,49 @@ namespace djv
             return out;
         }
 
-        void MenuBar::setStretch(const std::shared_ptr<Widget> & widget, RowStretch value)
+        void MenuBar::setSide(const std::shared_ptr<Widget>& widget, Side side)
         {
-            _p->widgetLayout->setStretch(widget, value);
+            const auto i = _p->widgetLayout.find(side);
+            if (i != _p->widgetLayout.end())
+            {
+                i->second->addChild(widget);
+            }
         }
 
-        void MenuBar::addSeparator()
+        void MenuBar::setStretch(const std::shared_ptr<Widget> & widget, RowStretch value, Side side)
         {
-            _p->widgetLayout->addSeparator();
+            const auto i = _p->widgetLayout.find(side);
+            if (i != _p->widgetLayout.end())
+            {
+                i->second->setStretch(widget, value);
+            }
         }
 
-        void MenuBar::addSpacer()
+        void MenuBar::addSeparator(Side side)
         {
-            _p->widgetLayout->addSpacer();
+            const auto i = _p->widgetLayout.find(side);
+            if (i != _p->widgetLayout.end())
+            {
+                i->second->addSeparator();
+            }
         }
 
-        void MenuBar::addExpander()
+        void MenuBar::addSpacer(Side side)
         {
-            _p->widgetLayout->addExpander();
+            const auto i = _p->widgetLayout.find(side);
+            if (i != _p->widgetLayout.end())
+            {
+                i->second->addSpacer();
+            }
+        }
+
+        void MenuBar::addExpander(Side side)
+        {
+            const auto i = _p->widgetLayout.find(side);
+            if (i != _p->widgetLayout.end())
+            {
+                i->second->addExpander();
+            }
         }
 
         float MenuBar::getHeightForWidth(float value) const
@@ -212,7 +240,7 @@ namespace djv
             }
             else if (auto widget = std::dynamic_pointer_cast<Widget>(value))
             {
-                p.widgetLayout->addChild(widget);
+                p.widgetLayout[Side::Right]->addChild(widget);
             }
         }
 
@@ -253,7 +281,8 @@ namespace djv
             }
             else if (auto widget = std::dynamic_pointer_cast<Widget>(value))
             {
-                p.widgetLayout->removeChild(widget);
+                p.widgetLayout[Side::Left]->removeChild(widget);
+                p.widgetLayout[Side::Right]->removeChild(widget);
             }
         }
 

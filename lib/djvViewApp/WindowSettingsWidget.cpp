@@ -31,7 +31,7 @@
 
 #include <djvViewApp/WindowSettings.h>
 
-#include <djvUI/CheckButton.h>
+#include <djvUI/ToggleButton.h>
 #include <djvUI/FormLayout.h>
 #include <djvUI/RowLayout.h>
 #include <djvUI/SettingsSystem.h>
@@ -44,7 +44,7 @@ namespace djv
     {
         struct WindowSettingsWidget::Private
         {
-            std::shared_ptr<UI::CheckButton> fadeButton;
+            std::shared_ptr<UI::ToggleButton> fadeButton;
             std::shared_ptr<UI::FormLayout> formLayout;
             std::shared_ptr<ValueObserver<bool> > fadeObserver;
         };
@@ -56,7 +56,7 @@ namespace djv
             DJV_PRIVATE_PTR();
             setClassName("djv::ViewApp::WindowSettingsWidget");
 
-            p.fadeButton = UI::CheckButton::create(context);
+            p.fadeButton = UI::ToggleButton::create(context);
 
             p.formLayout = UI::FormLayout::create(context);
             p.formLayout->addChild(p.fadeButton);

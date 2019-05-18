@@ -57,6 +57,7 @@ namespace djv
             std::shared_ptr<UI::ButtonGroup> buttonGroup;
             std::map<std::shared_ptr<UI::ISettingsWidget>, std::shared_ptr<UI::ListButton> > buttons;
             std::map<std::shared_ptr<UI::ISettingsWidget>, std::shared_ptr<UI::Bellows> > bellows;
+            std::shared_ptr<UI::SoloLayout> soloLayout;
             std::shared_ptr<UI::VerticalLayout> layout;
             std::function<void(void)> closeCallback;
         };
@@ -102,9 +103,9 @@ namespace djv
             vLayout->addChild(scrollWidget);
             vLayout->setStretch(scrollWidget, UI::RowStretch::Expand);
 
-            auto soloLayout = UI::SoloLayout::create(context);
-            soloLayout->setSoloMinimumSize(UI::Layout::SoloMinimumSize::Horizontal);
-            soloLayout->addChild(vLayout);
+            p.soloLayout = UI::SoloLayout::create(context);
+            p.soloLayout->setSoloMinimumSize(UI::Layout::SoloMinimumSize::Horizontal);
+            p.soloLayout->addChild(vLayout);
 
             for (const auto& i : p.widgets)
             {
@@ -119,7 +120,7 @@ namespace djv
                         p.buttons[j] = button;
                         p.buttonGroup->addButton(button);
                         vLayout->addChild(button);
-                        soloLayout->addChild(j);
+                        p.soloLayout->addChild(j);
                     }
                     auto bellows = UI::Bellows::create(context);
                     bellows->addChild(vLayout);
@@ -130,8 +131,8 @@ namespace djv
             
             p.layout = UI::VerticalLayout::create(context);
             p.layout->setSpacing(UI::MetricsRole::None);
-            p.layout->addChild(soloLayout);
-            p.layout->setStretch(soloLayout, UI::RowStretch::Expand);
+            p.layout->addChild(p.soloLayout);
+            p.layout->setStretch(p.soloLayout, UI::RowStretch::Expand);
             addChild(p.layout);
 
             auto weak = std::weak_ptr<SettingsWidget>(std::dynamic_pointer_cast<SettingsWidget>(shared_from_this()));
@@ -148,9 +149,12 @@ namespace djv
             });
 
             p.buttonGroup->setPushCallback(
-                [soloLayout](int value)
+                [weak](int value)
             {
-                soloLayout->setCurrentIndex(1 + value, UI::Side::Right);
+                if (auto widget = weak.lock())
+                {
+                    widget->_p->soloLayout->setCurrentIndex(1 + value, UI::Side::Right);
+                }
             });
 
             for (const auto& i : p.widgets)
@@ -158,9 +162,12 @@ namespace djv
                 for (const auto& j : i.second)
                 {
                     j->setBackCallback(
-                        [soloLayout]
+                        [weak]
                     {
-                        soloLayout->setCurrentIndex(0);
+                        if (auto widget = weak.lock())
+                        {
+                            widget->_p->soloLayout->setCurrentIndex(0);
+                        }
                     });
                     j->setCloseCallback(
                         [weak]

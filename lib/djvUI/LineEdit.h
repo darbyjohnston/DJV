@@ -53,7 +53,9 @@ namespace djv
             void setText(const std::string &);
 
             ColorRole getTextColorRole() const;
+            MetricsRole getTextSizeRole() const;
             void setTextColorRole(ColorRole);
+            void setTextSizeRole(MetricsRole);
 
             const std::string & getFont() const;
             const std::string & getFontFace() const;

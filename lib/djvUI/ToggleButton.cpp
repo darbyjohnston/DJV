@@ -27,9 +27,11 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvUI/CheckButton.h>
+#include <djvUI/ToggleButton.h>
 
 #include <djvAV/Render2D.h>
+
+#include <djvCore/Animation.h>
 
 //#pragma optimize("", off)
 
@@ -43,40 +45,67 @@ namespace djv
         {
             namespace
             {
-                const float buttonWidth  = 1.f;
-                const float buttonHeight = 1.f;
-
+                //! \todo [1.0 S] Should this be configurable?
+                const size_t animationDuration = 50;
+            
             } // namespace
 
-            struct Check::Private
+            struct Toggle::Private
             {
                 float lineHeight = 0.f;
+                float animationValue = 0.f;
+                std::shared_ptr<Animation::Animation> animation;
             };
 
-            void Check::_init(Context * context)
+            void Toggle::_init(Context * context)
             {
                 IButton::_init(context);
 
-                setClassName("djv::UI::Button::Check");
+                DJV_PRIVATE_PTR();
+                setClassName("djv::UI::Button::Toggle");
                 setButtonType(ButtonType::Toggle);
                 setHAlign(HAlign::Left);
+                setVAlign(VAlign::Center);
+                p.animation = Animation::Animation::create(context);
             }
 
-            Check::Check() :
+            Toggle::Toggle() :
                 _p(new Private)
             {}
 
-            Check::~Check()
+            Toggle::~Toggle()
             {}
 
-            std::shared_ptr<Check> Check::create(Context * context)
+            std::shared_ptr<Toggle> Toggle::create(Context * context)
             {
-                auto out = std::shared_ptr<Check>(new Check);
+                auto out = std::shared_ptr<Toggle>(new Toggle);
                 out->_init(context);
                 return out;
             }
 
-            void Check::_preLayoutEvent(Event::PreLayout & event)
+            void Toggle::setChecked(bool value)
+            {
+                IButton::setChecked(value);
+                DJV_PRIVATE_PTR();
+                if (isVisible(true))
+                {
+                    auto weak = std::weak_ptr<Toggle>(std::dynamic_pointer_cast<Toggle>(shared_from_this()));
+                    p.animation->start(
+                        p.animationValue,
+                        value ? 1.f : 0.f,
+                        std::chrono::milliseconds(animationDuration),
+                        [weak](float value)
+                    {
+                        if (auto widget = weak.lock())
+                        {
+                            widget->_p->animationValue = value;
+                            widget->_redraw();
+                        }
+                    });
+                }
+            }
+
+            void Toggle::_preLayoutEvent(Event::PreLayout & event)
             {
                 DJV_PRIVATE_PTR();
                 auto style = _getStyle();
@@ -85,12 +114,12 @@ namespace djv
                 const auto fontMetrics = fontSystem->getMetrics(style->getFontInfo(AV::Font::faceDefault, Style::MetricsRole::FontMedium)).get();
                 p.lineHeight = static_cast<float>(fontMetrics.lineHeight);
                 glm::vec2 minimumSize = glm::vec2(0.f, 0.f);
-                minimumSize.x = p.lineHeight * buttonWidth + m * 2.f;
+                minimumSize.x = p.lineHeight * 2.f + m * 2.f;
                 minimumSize.y = p.lineHeight + m * 2.f;
                 _setMinimumSize(minimumSize);
             }
 
-            void Check::_paintEvent(Event::Paint & event)
+            void Toggle::_paintEvent(Event::Paint & event)
             {
                 Widget::_paintEvent(event);
 
@@ -99,35 +128,34 @@ namespace djv
                 const float b = style->getMetric(Style::MetricsRole::Border);
                 const float m = style->getMetric(Style::MetricsRole::MarginSmall);
                 const BBox2f & g = getGeometry();
-                const glm::vec2 c = g.getCenter();
 
-                BBox2f g1;
-                g1.min.x = ceilf(c.x - (p.lineHeight * buttonWidth) / 2.f);
-                g1.min.y = ceilf(c.y - (p.lineHeight * buttonHeight) / 2.f);
-                g1.max.x = g1.min.x + p.lineHeight * buttonWidth;
-                g1.max.y = g1.min.y + p.lineHeight * buttonHeight;
+                const BBox2f g1 = g.margin(-m);
                 auto render = _getRender();
-                render->setFillColor(_getColorWithOpacity(style->getColor(ColorRole::Border)));
-                render->drawRect(g1);
-
-                g1 = g1.margin(-b);
                 render->setFillColor(_getColorWithOpacity(style->getColor(ColorRole::Trough)));
-                render->drawRect(g1);
+                render->drawPill(g1);
+                if (_isHovered())
+                {
+                    render->setFillColor(_getColorWithOpacity(style->getColor(ColorRole::Hovered)));
+                    render->drawPill(g1);
+                }
 
+                const BBox2f g2 = g1.margin(-b);
+                const float r = g2.h() / 2.f;
+                const float x = Math::lerp(p.animationValue, g2.min.x + r, g2.max.x - r);
+                const glm::vec2 pos(x, g2.min.y + r);
+                render->setFillColor(_getColorWithOpacity(style->getColor(ColorRole::Border)));
+                render->drawCircle(pos, r);
+                render->setFillColor(_getColorWithOpacity(style->getColor(ColorRole::Button)));
+                render->drawCircle(pos, r - b);
                 if (_isToggled())
                 {
                     render->setFillColor(_getColorWithOpacity(style->getColor(ColorRole::Checked)));
-                    render->drawRect(g1);
+                    render->drawCircle(pos, r - b);
                 }
                 if (_isPressed())
                 {
-                    render->setFillColor(_getColorWithOpacity(style->getColor(ColorRole::Checked)));
-                    render->drawRect(g1);
-                }
-                else if (_isHovered())
-                {
-                    render->setFillColor(_getColorWithOpacity(style->getColor(ColorRole::Checked)));
-                    render->drawRect(g1);
+                    render->setFillColor(_getColorWithOpacity(style->getColor(ColorRole::Pressed)));
+                    render->drawCircle(pos, r - b);
                 }
             }
 
