@@ -59,17 +59,16 @@ namespace djv
                 DJV_NON_COPYABLE(IWidget);
 
             protected:
+                void _init(Core::Context*);
                 IWidget();
 
             public:
                 virtual ~IWidget() = 0;
 
-                Handle getHandle(const glm::vec2 & pos) const;
-                std::vector<Core::BBox2f> getHandleDraw(Handle) const;
+                virtual std::map<Handle, std::vector<Core::BBox2f> > getHandles() const;
+                virtual std::map<Handle, std::vector<Core::BBox2f> > getHandlesDraw() const;
 
-            protected:
-                virtual std::map<Handle, std::vector<Core::BBox2f> > _getHandle() const;
-                virtual std::map<Handle, std::vector<Core::BBox2f> > _getHandleDraw() const;
+                virtual void setMaximized(float);
             };
             
         } // namespace MDI

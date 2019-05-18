@@ -35,14 +35,15 @@
 #include <djvViewApp/MDIWidget.h>
 #include <djvViewApp/Media.h>
 #include <djvViewApp/MediaWidget.h>
-#include <djvViewApp/PlaylistWidget.h>
 #include <djvViewApp/SettingsSystem.h>
+#include <djvViewApp/SettingsWidget.h>
 #include <djvViewApp/WindowSystem.h>
 
 #include <djvUI/Action.h>
 #include <djvUI/ActionButton.h>
 #include <djvUI/ActionGroup.h>
 #include <djvUI/ButtonGroup.h>
+#include <djvUI/Drawer.h>
 #include <djvUI/Label.h>
 #include <djvUI/MDICanvas.h>
 #include <djvUI/Menu.h>
@@ -75,15 +76,13 @@ namespace djv
             std::shared_ptr<UI::Button::Menu> mediaButton;
             std::shared_ptr<UI::ToolButton> settingsButton;
             std::shared_ptr<UI::MenuBar> menuBar;
-            std::shared_ptr<MediaWidget> sdiWidget;
             std::shared_ptr<MDIWidget> mdiWidget;
-            std::shared_ptr<PlaylistWidget> playlistWidget;
             std::shared_ptr<UI::MDI::Canvas> toolCanvas;
             std::shared_ptr<UI::StackLayout> stackLayout;
             std::shared_ptr<ValueObserver<bool> > closeToolActionObserver;
             std::shared_ptr<ListObserver<std::shared_ptr<Media> > > mediaObserver;
             std::shared_ptr<ValueObserver<std::shared_ptr<Media> > > currentMediaObserver;
-            std::shared_ptr<ValueObserver<WindowMode> > windowModeObserver;
+            std::shared_ptr<ValueObserver<bool> > maximizedObserver;
             std::shared_ptr<ValueObserver<float> > fadeObserver;
         };
         
@@ -125,21 +124,22 @@ namespace djv
 
             auto windowSystem = context->getSystemT<WindowSystem>();
             auto windowActions = windowSystem->getActions();
-            auto sdiButton = UI::ActionButton::create(context);
-            sdiButton->setShowText(false);
-            sdiButton->setShowShortcuts(false);
-            sdiButton->addAction(windowActions["SDI"]);
-            auto mdiButton = UI::ActionButton::create(context);
-            mdiButton->setShowText(false);
-            mdiButton->setShowShortcuts(false);
-            mdiButton->addAction(windowActions["MDI"]);
-            auto playlistButton = UI::ActionButton::create(context);
-            playlistButton->setShowText(false);
-            playlistButton->setShowShortcuts(false);
-            playlistButton->addAction(windowActions["Playlist"]);
+            auto maximizedButton = UI::ActionButton::create(context);
+            maximizedButton->setShowText(false);
+            maximizedButton->setShowShortcuts(false);
+            maximizedButton->addAction(windowActions["Maximized"]);
 
             p.settingsButton = UI::ToolButton::create(context);
             p.settingsButton->setIcon("djvIconSettings");
+            std::shared_ptr<UI::Drawer> settingsDrawer;
+            std::shared_ptr<SettingsWidget> settingsWidget;
+            if (auto settingsSystem = context->getSystemT<SettingsSystem>())
+            {
+                settingsWidget = settingsSystem->createSettingsWidget();
+                settingsDrawer = UI::Drawer::create(context);
+                settingsDrawer->setSide(UI::Side::Right);
+                settingsDrawer->addChild(settingsWidget);
+            }
 
             p.menuBar = UI::MenuBar::create(context);
             p.menuBar->setBackgroundRole(UI::ColorRole::Overlay);
@@ -149,14 +149,10 @@ namespace djv
             }
             p.menuBar->addChild(p.mediaButton);
             p.menuBar->setStretch(p.mediaButton, UI::RowStretch::Expand);
-            p.menuBar->addChild(sdiButton);
-            p.menuBar->addChild(mdiButton);
-            p.menuBar->addChild(playlistButton);
+            p.menuBar->addChild(maximizedButton);
             p.menuBar->addChild(p.settingsButton);
 
-            p.sdiWidget = MediaWidget::create(context);
             p.mdiWidget = MDIWidget::create(context);
-            p.playlistWidget = PlaylistWidget::create(context);
 
             p.toolCanvas = UI::MDI::Canvas::create(context);
             for (auto system : viewSystems)
@@ -166,16 +162,17 @@ namespace djv
             
             p.stackLayout = UI::StackLayout::create(context);
             auto soloLayout = UI::SoloLayout::create(context);
-            soloLayout->addChild(p.sdiWidget);
-            soloLayout->addChild(p.mdiWidget);
-            soloLayout->addChild(p.playlistWidget);
-            p.stackLayout->addChild(soloLayout);
+            p.stackLayout->addChild(p.mdiWidget);
             auto vLayout = UI::VerticalLayout::create(context);
             vLayout->setSpacing(UI::MetricsRole::None);
             vLayout->addChild(p.menuBar);
             vLayout->addExpander();
             p.stackLayout->addChild(vLayout);
             p.stackLayout->addChild(p.toolCanvas);
+            if (settingsDrawer)
+            {
+                p.stackLayout->addChild(settingsDrawer);
+            }
             addChild(p.stackLayout);
 
             auto weak = std::weak_ptr<MainWindow>(std::dynamic_pointer_cast<MainWindow>(shared_from_this()));
@@ -216,11 +213,20 @@ namespace djv
             });
 
             p.settingsButton->setClickedCallback(
-                [context]
+                [settingsDrawer]
             {
-                if (auto system = context->getSystemT<SettingsSystem>())
+                if (settingsDrawer)
                 {
-                    system->showSettings();
+                    settingsDrawer->open();
+                }
+            });
+
+            settingsWidget->setCloseCallback(
+                [settingsDrawer]
+            {
+                if (settingsDrawer)
+                {
+                    settingsDrawer->close();
                 }
             });
 
@@ -279,40 +285,29 @@ namespace djv
                             widget->_p->mediaActionGroup->setChecked(i - widget->_p->media.begin());
                         }
                         widget->_p->mediaButton->setText(value ? Core::FileSystem::Path(value->getFileName()).getFileName() : std::string());
-                        widget->_p->sdiWidget->setMedia(value);
                     }
                 });
             }
-            
+
             if (windowSystem)
             {
-                p.windowModeObserver = ValueObserver<WindowMode>::create(
-                    windowSystem->observeWindowMode(),
-                    [weak, soloLayout](WindowMode value)
+                p.maximizedObserver = ValueObserver<bool>::create(
+                    windowSystem->observeMaximized(),
+                    [weak](bool value)
                 {
                     if (auto widget = weak.lock())
                     {
-                        soloLayout->setCurrentIndex(static_cast<int>(value));
-                        switch (value)
-                        {
-                        case WindowMode::SDI:
-                            widget->_p->fadeObserver = ValueObserver<float>::create(
-                                widget->_p->sdiWidget->observeFade(),
-                                [weak](float value)
-                            {
-                                if (auto widget = weak.lock())
-                                {
-                                    widget->_p->menuBar->setOpacity(value);
-                                }
-                            });
-                            break;
-                        case WindowMode::MDI:
-                        case WindowMode::List:
-                            widget->_p->fadeObserver.reset();
-                            widget->_p->menuBar->setOpacity(1.f);
-                            break;
-                        default: break;
-                        }
+                        widget->_p->mdiWidget->setMaximized(value);
+                    }
+                });
+
+                p.fadeObserver = ValueObserver<float>::create(
+                    windowSystem->observeFade(),
+                    [weak](float value)
+                {
+                    if (auto widget = weak.lock())
+                    {
+                        widget->_p->menuBar->setOpacity(value);
                     }
                 });
             }

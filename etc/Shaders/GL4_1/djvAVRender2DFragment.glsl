@@ -51,6 +51,7 @@ uniform sampler2D textureSampler;
 #define COLOR_MODE_COLOR_WITH_TEXTURE_ALPHA_G 3
 #define COLOR_MODE_COLOR_WITH_TEXTURE_ALPHA_B 4
 #define COLOR_MODE_COLOR_AND_TEXTURE          5
+#define COLOR_MODE_SHADOW                     6
 
 void main()
 {
@@ -108,4 +109,8 @@ void main()
     {
         FragColor = color * t;
     }
+	else if (COLOR_MODE_SHADOW == colorMode)
+	{
+        FragColor = color * Texture.x;
+	}
 }

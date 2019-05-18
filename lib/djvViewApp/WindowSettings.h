@@ -54,8 +54,8 @@ namespace djv
 
             static std::shared_ptr<WindowSettings> create(Core::Context *);
 
-            std::shared_ptr<Core::IValueSubject<WindowMode> > observeWindowMode() const;
-            void setWindowMode(WindowMode);
+            std::shared_ptr<Core::IValueSubject<bool> > observeMaximized() const;
+            void setMaximized(bool);
 
             std::shared_ptr<Core::IValueSubject<bool> > observeFade() const;
             void setFade(bool);

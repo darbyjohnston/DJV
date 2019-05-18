@@ -27,7 +27,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvViewApp/SettingsDialog.h>
+#include <djvViewApp/SettingsWidget.h>
 
 #include <djvViewApp/IViewSystem.h>
 
@@ -35,11 +35,12 @@
 
 #include <djvUI/Bellows.h>
 #include <djvUI/ButtonGroup.h>
+#include <djvUI/Label.h>
 #include <djvUI/ListButton.h>
 #include <djvUI/RowLayout.h>
-#include <djvUI/Splitter.h>
 #include <djvUI/ScrollWidget.h>
 #include <djvUI/SoloLayout.h>
+#include <djvUI/ToolButton.h>
 
 #include <djvCore/Context.h>
 
@@ -49,20 +50,30 @@ namespace djv
 {
     namespace ViewApp
     {
-        struct SettingsDialog::Private
+        struct SettingsWidget::Private
         {
+            std::shared_ptr<UI::Label> titleLabel;
             std::map<std::string, std::vector<std::shared_ptr<UI::ISettingsWidget> > > widgets;
             std::shared_ptr<UI::ButtonGroup> buttonGroup;
             std::map<std::shared_ptr<UI::ISettingsWidget>, std::shared_ptr<UI::ListButton> > buttons;
             std::map<std::shared_ptr<UI::ISettingsWidget>, std::shared_ptr<UI::Bellows> > bellows;
+            std::shared_ptr<UI::VerticalLayout> layout;
+            std::function<void(void)> closeCallback;
         };
 
-        void SettingsDialog::_init(Context * context)
+        void SettingsWidget::_init(Context* context)
         {
-            IDialog::_init(context);
+            Widget::_init(context);
 
             DJV_PRIVATE_PTR();
-            setClassName("djv::ViewApp::SettingsDialog");
+            setClassName("djv::ViewApp::SettingsWidget");
+
+            p.titleLabel = UI::Label::create(context);
+            p.titleLabel->setTextHAlign(UI::TextHAlign::Left);
+            p.titleLabel->setFontSizeRole(UI::MetricsRole::FontHeader);
+            p.titleLabel->setMargin(UI::MetricsRole::Margin);
+            auto closeButton = UI::ToolButton::create(context);
+            closeButton->setIcon("djvIconClose");
 
             for (auto system : context->getSystemsT<IViewSystem>())
             {
@@ -72,12 +83,30 @@ namespace djv
                 }
             }
 
-            p.buttonGroup = UI::ButtonGroup::create(UI::ButtonType::Radio);
+            p.buttonGroup = UI::ButtonGroup::create(UI::ButtonType::Push);
             auto buttonLayout = UI::VerticalLayout::create(context);
             buttonLayout->setSpacing(UI::MetricsRole::None);
+            auto vLayout = UI::VerticalLayout::create(context);
+            vLayout->setSpacing(UI::MetricsRole::None);
+            auto hLayout = UI::HorizontalLayout::create(context);
+            hLayout->setSpacing(UI::MetricsRole::None);
+            hLayout->setBackgroundRole(UI::ColorRole::BackgroundHeader);
+            hLayout->addChild(p.titleLabel);
+            hLayout->setStretch(p.titleLabel, UI::RowStretch::Expand);
+            hLayout->addChild(closeButton);
+            vLayout->addChild(hLayout);
+            auto scrollWidget = UI::ScrollWidget::create(UI::ScrollType::Vertical, context);
+            scrollWidget->setBorder(false);
+            scrollWidget->setShadowOverlay({ UI::Side::Top });
+            scrollWidget->addChild(buttonLayout);
+            vLayout->addChild(scrollWidget);
+            vLayout->setStretch(scrollWidget, UI::RowStretch::Expand);
+
             auto soloLayout = UI::SoloLayout::create(context);
-            soloLayout->setSizeForAll(false);
-            for (const auto & i : p.widgets)
+            soloLayout->setSoloMinimumSize(UI::Layout::SoloMinimumSize::Horizontal);
+            soloLayout->addChild(vLayout);
+
+            for (const auto& i : p.widgets)
             {
                 if (i.second.size())
                 {
@@ -98,47 +127,89 @@ namespace djv
                     buttonLayout->addChild(bellows);
                 }
             }
+            
+            p.layout = UI::VerticalLayout::create(context);
+            p.layout->setSpacing(UI::MetricsRole::None);
+            p.layout->addChild(soloLayout);
+            p.layout->setStretch(soloLayout, UI::RowStretch::Expand);
+            addChild(p.layout);
 
-            auto splitter = UI::Layout::Splitter::create(UI::Orientation::Horizontal, context);
-            auto scrollWidget = UI::ScrollWidget::create(UI::ScrollType::Vertical, context);
-            scrollWidget->setBorder(false);
-            scrollWidget->addChild(buttonLayout);
-            splitter->addChild(scrollWidget);
-            scrollWidget = UI::ScrollWidget::create(UI::ScrollType::Vertical, context);
-            scrollWidget->setBorder(false);
-            scrollWidget->addChild(soloLayout);
-            splitter->addChild(scrollWidget);
-            splitter->setSplit({ .2f, 1.f });
-            addChild(splitter);
-            setStretch(splitter, UI::RowStretch::Expand);
+            auto weak = std::weak_ptr<SettingsWidget>(std::dynamic_pointer_cast<SettingsWidget>(shared_from_this()));
+            closeButton->setClickedCallback(
+                [weak]
+            {
+                if (auto widget = weak.lock())
+                {
+                    if (widget->_p->closeCallback)
+                    {
+                        widget->_p->closeCallback();
+                    }
+                }
+            });
 
-            auto weak = std::weak_ptr<SettingsDialog>(std::dynamic_pointer_cast<SettingsDialog>(shared_from_this()));
-            p.buttonGroup->setRadioCallback(
+            p.buttonGroup->setPushCallback(
                 [soloLayout](int value)
             {
-                soloLayout->setCurrentIndex(value);
+                soloLayout->setCurrentIndex(1 + value, UI::Side::Right);
             });
+
+            for (const auto& i : p.widgets)
+            {
+                for (const auto& j : i.second)
+                {
+                    j->setBackCallback(
+                        [soloLayout]
+                    {
+                        soloLayout->setCurrentIndex(0);
+                    });
+                    j->setCloseCallback(
+                        [weak]
+                    {
+                        if (auto widget = weak.lock())
+                        {
+                            if (widget->_p->closeCallback)
+                            {
+                                widget->_p->closeCallback();
+                            }
+                        }
+                    });
+                }
+            }
         }
 
-        SettingsDialog::SettingsDialog() :
+        SettingsWidget::SettingsWidget() :
             _p(new Private)
         {}
 
-        SettingsDialog::~SettingsDialog()
+        SettingsWidget::~SettingsWidget()
         {}
 
-        std::shared_ptr<SettingsDialog> SettingsDialog::create(Context * context)
+        std::shared_ptr<SettingsWidget> SettingsWidget::create(Context * context)
         {
-            auto out = std::shared_ptr<SettingsDialog>(new SettingsDialog);
+            auto out = std::shared_ptr<SettingsWidget>(new SettingsWidget);
             out->_init(context);
             return out;
         }
 
-        void SettingsDialog::_localeEvent(Event::Locale & event)
+        void SettingsWidget::setCloseCallback(const std::function<void(void)>& value)
         {
-            IDialog::_localeEvent(event);
+            _p->closeCallback = value;
+        }
+
+        void SettingsWidget::_preLayoutEvent(Event::PreLayout&)
+        {
+            _setMinimumSize(_p->layout->getMinimumSize());
+        }
+
+        void SettingsWidget::_layoutEvent(Event::Layout&)
+        {
+            _p->layout->setGeometry(getGeometry());
+        }
+
+        void SettingsWidget::_localeEvent(Event::Locale & event)
+        {
             DJV_PRIVATE_PTR();
-            setTitle(_getText(DJV_TEXT("Settings")));
+            p.titleLabel->setText(_getText(DJV_TEXT("Settings")));
             for (const auto& i : p.bellows)
             {
                 i.second->setText(_getText(i.first->getSettingsGroup()));

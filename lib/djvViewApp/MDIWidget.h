@@ -48,6 +48,8 @@ namespace djv
 
             static std::shared_ptr<MDIWidget> create(Core::Context*);
 
+            void setMaximized(bool);
+
         protected:
             void _preLayoutEvent(Core::Event::PreLayout&) override;
             void _layoutEvent(Core::Event::Layout&) override;

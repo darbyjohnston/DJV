@@ -173,7 +173,10 @@ namespace djv
             event.setClipRect(clipRect);
         }
 
-        void EventSystem::_paintRecursive(const std::shared_ptr<Widget> & widget, Event::Paint & event, Event::PaintOverlay & overlayEvent)
+        void EventSystem::_paintRecursive(
+            const std::shared_ptr<Widget> & widget,
+            Event::Paint & event,
+            Event::PaintOverlay& overlayEvent)
         {
             if (widget->isVisible() && !widget->isClipped())
             {

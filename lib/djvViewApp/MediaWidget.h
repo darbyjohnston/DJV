@@ -55,8 +55,6 @@ namespace djv
             const std::shared_ptr<Media> & getMedia() const;
             void setMedia(const std::shared_ptr<Media> &);
 
-            std::shared_ptr<Core::IValueSubject<float> > observeFade() const;
-
         protected:
             void _preLayoutEvent(Core::Event::PreLayout &) override;
             void _layoutEvent(Core::Event::Layout&) override;
@@ -64,7 +62,6 @@ namespace djv
             void _localeEvent(Core::Event::Locale&) override;
 
         private:
-            void _pointerUpdate(const Core::Event::PointerInfo&);
             void _widgetUpdate();
             void _speedUpdate();
 

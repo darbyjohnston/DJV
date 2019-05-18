@@ -30,14 +30,17 @@
 #include <djvViewApp/NUXSystem.h>
 
 #include <djvViewApp/NUXSettings.h>
+#include <djvViewApp/WindowSystem.h>
 
 #include <djvUIComponents/LanguageSettingsWidget.h>
 #include <djvUIComponents/DisplaySettingsWidget.h>
 
+#include <djvUI/ActionButton.h>
 #include <djvUI/Icon.h>
 #include <djvUI/Label.h>
 #include <djvUI/Overlay.h>
 #include <djvUI/PushButton.h>
+#include <djvUI/PopupWidget.h>
 #include <djvUI/RowLayout.h>
 #include <djvUI/SoloLayout.h>
 #include <djvUI/StackLayout.h>
@@ -214,6 +217,8 @@ namespace djv
             std::shared_ptr<UI::Icon> logoIcon;
             std::map<std::string, std::shared_ptr<UI::Label> > labels;
             std::map < std::string, std::shared_ptr<UI::PushButton> > buttons;
+            std::shared_ptr<UI::PopupWidget> settingsPopupWidget;
+            std::shared_ptr<UI::ActionButton> fullscreenButton;
             std::shared_ptr<UI::Layout::Overlay> overlay;
             std::shared_ptr<Animation::Animation> fadeOutAnimation;
             std::function<void(void)> finishCallback;
@@ -252,6 +257,16 @@ namespace djv
                 i.second->setFontSizeRole(UI::MetricsRole::FontLarge);
             }
 
+            p.fullscreenButton = UI::ActionButton::create(context);
+            p.fullscreenButton->setShowShortcuts(false);
+            if (auto windowSystem = context->getSystemT<WindowSystem>())
+            {
+                p.fullscreenButton->addAction(windowSystem->getActions()["FullScreen"]);
+            }
+            p.settingsPopupWidget = UI::PopupWidget::create(context);
+            p.settingsPopupWidget->setIcon("djvIconSettings");
+            p.settingsPopupWidget->addChild(p.fullscreenButton);
+
             auto layout = UI::VerticalLayout::create(context);
             layout->setBackgroundRole(UI::ColorRole::Hovered);
             layout->setVAlign(UI::VAlign::Center);
@@ -285,6 +300,11 @@ namespace djv
             hLayout->addExpander();
             hLayout->addChild(p.buttons["Next"]);
             hLayout->addChild(p.buttons["Finish"]);
+            vLayout->addChild(hLayout);
+            hLayout = UI::HorizontalLayout::create(context);
+            hLayout->setSpacing(UI::MetricsRole::SpacingLarge);
+            hLayout->addExpander();
+            hLayout->addChild(p.settingsPopupWidget);
             vLayout->addChild(hLayout);
             layout->addChild(vLayout);
 

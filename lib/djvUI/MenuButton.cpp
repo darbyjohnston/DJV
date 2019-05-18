@@ -214,9 +214,6 @@ namespace djv
                 const BBox2f& g = getMargin().bbox(getGeometry(), style);
                 switch (p.menuStyle)
                 {
-                case MenuStyle::Flat:
-                    _p->layout->setGeometry(g);
-                    break;
                 case MenuStyle::Round:
                 {
                     const float h = g.h();
@@ -228,7 +225,9 @@ namespace djv
                         h));
                     break;
                 }
-                default: break;
+                default:
+                    _p->layout->setGeometry(g);
+                    break;
                 }
             }
 
@@ -250,20 +249,6 @@ namespace djv
                 auto render = _getRender();
                 switch (p.menuStyle)
                 {
-                case MenuStyle::Flat:
-                    render->setFillColor(_getColorWithOpacity(style->getColor(getBackgroundRole())));
-                    render->drawRect(g);
-                    if (p.checked)
-                    {
-                        render->setFillColor(_getColorWithOpacity(style->getColor(ColorRole::Pressed)));
-                        render->drawRect(g);
-                    }
-                    else if (_isHovered())
-                    {
-                        render->setFillColor(_getColorWithOpacity(style->getColor(ColorRole::Hovered)));
-                        render->drawRect(g);
-                    }
-                    break;
                 case MenuStyle::Round:
                     render->setFillColor(_getColorWithOpacity(style->getColor(ColorRole::Border)));
                     render->drawPill(g);
@@ -280,7 +265,20 @@ namespace djv
                         render->drawPill(g2);
                     }
                     break;
-                default: break;
+                default:
+                    render->setFillColor(_getColorWithOpacity(style->getColor(getBackgroundRole())));
+                    render->drawRect(g);
+                    if (p.checked)
+                    {
+                        render->setFillColor(_getColorWithOpacity(style->getColor(ColorRole::Pressed)));
+                        render->drawRect(g);
+                    }
+                    else if (_isHovered())
+                    {
+                        render->setFillColor(_getColorWithOpacity(style->getColor(ColorRole::Hovered)));
+                        render->drawRect(g);
+                    }
+                    break;
                 }
             }
 
@@ -336,6 +334,9 @@ namespace djv
                     break;
                 case MenuStyle::Round:
                     p.layout->setMargin(MetricsRole::None);
+                    break;
+                case MenuStyle::Tool:
+                    p.layout->setMargin(MetricsRole::MarginSmall);
                     break;
                 default: break;
                 }

@@ -36,7 +36,7 @@
 
 #include <djvAV/Render2D.h>
 
-#include <set>
+#include <djvCore/Animation.h>
 
 using namespace djv::Core;
 
@@ -48,6 +48,9 @@ namespace djv
         {
             namespace
             {
+                //! \todo [1.0 S] Should this be configurable?
+                const size_t maximizedAnimationDuration = 500;
+
                 struct Hovered
                 {
                     std::shared_ptr<IWidget> widget;
@@ -68,19 +71,28 @@ namespace djv
             struct Canvas::Private
             {
                 glm::vec2 canvasSize = glm::vec2(10000.f, 10000.f);
-                std::map<std::shared_ptr<IWidget>, glm::vec2> widgetToPos;
-                std::map<std::shared_ptr<IWidget>, bool> widgetResized;
+                std::map<std::shared_ptr<IWidget>, BBox2f> widgetToGeometry;
                 std::map<Event::PointerID, Hovered> hovered;
                 std::map<Event::PointerID, Pressed> pressed;
                 std::shared_ptr<IWidget> activeWidget;
                 std::function<void(const std::shared_ptr<IWidget> &)> activeCallback;
+                bool maximized = false;
+                float maximizedValue = 0.f;
+                std::weak_ptr<IWidget> maximizedWidget;
+                std::function<void(bool)> maximizedCallback;
+                std::shared_ptr<Animation::Animation> maximizedAnimation;
             };
 
             void Canvas::_init(Context * context)
             {
                 Widget::_init(context);
 
+                DJV_PRIVATE_PTR();
+
                 setClassName("djv::UI::MDI::Canvas");
+
+                p.maximizedAnimation = Animation::Animation::create(context);
+                p.maximizedAnimation->setType(Animation::Type::SmoothStep);
             }
 
             Canvas::Canvas() :
@@ -144,19 +156,99 @@ namespace djv
             glm::vec2 Canvas::getWidgetPos(const std::shared_ptr<IWidget> & widget) const
             {
                 DJV_PRIVATE_PTR();
-                const auto i = p.widgetToPos.find(widget);
-                return i != p.widgetToPos.end() ? i->second : glm::vec2(0.f, 0.f);
+                const auto i = p.widgetToGeometry.find(widget);
+                return i != p.widgetToGeometry.end() ? i->second.min : glm::vec2(0.f, 0.f);
             }
 
             void Canvas::setWidgetPos(const std::shared_ptr<IWidget> & widget, const glm::vec2 & pos)
             {
                 DJV_PRIVATE_PTR();
-                const auto i = p.widgetToPos.find(widget);
-                if (i != p.widgetToPos.end())
+                auto i = p.widgetToGeometry.find(widget);
+                if (i != p.widgetToGeometry.end())
                 {
-                    p.widgetToPos[widget] = pos;
+                    i->second.min = pos;
                     _resize();
                 }
+            }
+
+            bool Canvas::isMaximized() const
+            {
+                return _p->maximized;
+            }
+
+            namespace
+            {
+                BBox2f lerp(float value, const BBox2f& min, const BBox2f& max)
+                {
+                    return BBox2f(
+                        glm::vec2(
+                            Math::lerp(value, min.min.x, max.min.x),
+                            Math::lerp(value, min.min.y, max.min.y)),
+                        glm::vec2(
+                            Math::lerp(value, min.max.x, max.max.x),
+                            Math::lerp(value, min.max.y, max.max.y)));
+                }
+
+            } // namespace
+
+            void Canvas::setMaximized(bool value)
+            {
+                DJV_PRIVATE_PTR();
+                if (value == p.maximized)
+                    return;
+                p.maximized = value;
+                const auto i = p.widgetToGeometry.find(p.activeWidget);
+                if (i != p.widgetToGeometry.end())
+                {
+                    const BBox2f canvasGeometry = getGeometry();
+                    p.maximizedWidget = p.activeWidget;
+                    auto maximizedWidget = p.activeWidget;
+                    const BBox2f maximizedWidgetGeometry = i->second;
+                    auto weak = std::weak_ptr<Canvas>(std::dynamic_pointer_cast<Canvas>(shared_from_this()));
+                    p.maximizedAnimation->start(
+                        p.maximized ? 0.f : 1.f,
+                        p.maximized ? 1.f : 0.f,
+                        std::chrono::milliseconds(maximizedAnimationDuration),
+                        [weak, canvasGeometry, maximizedWidget, maximizedWidgetGeometry](float value)
+                    {
+                        if (auto canvas = weak.lock())
+                        {
+                            canvas->_p->maximizedValue = value;
+                            if (maximizedWidget)
+                            {
+                                maximizedWidget->setMaximized(value);
+                                maximizedWidget->setGeometry(lerp(value, maximizedWidgetGeometry, canvasGeometry));
+                            }
+                        }
+                    },
+                        [weak, canvasGeometry, maximizedWidget, maximizedWidgetGeometry](float value)
+                    {
+                        if (auto canvas = weak.lock())
+                        {
+                            canvas->_p->maximizedValue = value;
+                            if (maximizedWidget)
+                            {
+                                maximizedWidget->setMaximized(value);
+                                maximizedWidget->setGeometry(lerp(value, maximizedWidgetGeometry, canvasGeometry));
+                            }
+                            canvas->_p->maximizedWidget.reset();
+                        }
+                    });
+                }
+                else
+                {
+                    p.maximizedValue = 1.f;
+                }
+                if (p.maximizedCallback)
+                {
+                    p.maximizedCallback(p.maximized);
+                }
+                _resize();
+            }
+
+            void Canvas::setMaximizedCallback(const std::function<void(bool)>& value)
+            {
+                _p->maximizedCallback = value;
             }
 
             void Canvas::_preLayoutEvent(Event::PreLayout &)
@@ -167,20 +259,30 @@ namespace djv
             void Canvas::_layoutEvent(Event::Layout &)
             {
                 DJV_PRIVATE_PTR();
-                const BBox2f & g = getGeometry();
-                for (auto & i : p.widgetToPos)
+                const BBox2f& g = getGeometry();
+                for (auto& i : p.widgetToGeometry)
                 {
-                    const glm::vec2& widgetMinimumSize = i.first->getMinimumSize();
-                    i.second.x = Math::clamp(i.second.x, g.min.x, g.max.x - widgetMinimumSize.x);
-                    i.second.y = Math::clamp(i.second.y, g.min.y, g.max.y - widgetMinimumSize.y);
-                    if (i.first->isVisible())
+                    auto maximizedWidget = p.maximizedWidget.lock();
+                    if (i.first != maximizedWidget)
                     {
-                        const glm::vec2 & widgetSize = i.first->getSize();
+                        const glm::vec2& widgetMinimumSize = i.first->getMinimumSize();
                         BBox2f widgetGeometry;
-                        widgetGeometry.min.x = g.min.x + i.second.x;
-                        widgetGeometry.min.y = g.min.y + i.second.y;
-                        widgetGeometry.max.x = Math::clamp(widgetGeometry.min.x + widgetSize.x, widgetGeometry.min.x + widgetMinimumSize.x, g.max.x);
-                        widgetGeometry.max.y = Math::clamp(widgetGeometry.min.y + widgetSize.y, widgetGeometry.min.y + widgetMinimumSize.y, g.max.y);
+                        if (p.maximized && i.first == p.activeWidget)
+                        {
+                            i.second.max.x = Math::clamp(i.second.max.x, i.second.min.x + widgetMinimumSize.x, g.max.x);
+                            i.second.max.y = Math::clamp(i.second.max.y, i.second.min.y + widgetMinimumSize.y, g.max.y);
+                            widgetGeometry = g;
+                        }
+                        else
+                        {
+                            float x = Math::clamp(i.second.min.x, g.min.x, g.max.x - widgetMinimumSize.x);
+                            float y = Math::clamp(i.second.min.y, g.min.y, g.max.y - widgetMinimumSize.y);
+                            i.second.min.x = g.min.x + x;
+                            i.second.min.y = g.min.y + y;
+                            i.second.max.x = Math::clamp(g.min.x + x + i.second.w(), g.min.x + x + widgetMinimumSize.x, g.max.x);
+                            i.second.max.y = Math::clamp(g.min.y + y + i.second.h(), g.min.y + y + widgetMinimumSize.y, g.max.y);
+                            widgetGeometry = i.second;
+                        }
                         i.first->setGeometry(widgetGeometry);
                     }
                 }
@@ -199,11 +301,11 @@ namespace djv
                     if (i->isVisible())
                     {
                         BBox2f g = i->getGeometry().margin(-h);
-                        g.min.x += sh;
+                        g.min.x -= sh;
                         g.min.y += sh;
                         g.max.x += sh;
                         g.max.y += sh;
-                        render->drawRect(g);
+                        render->drawShadow(g, sh);
                     }
                 }
             }
@@ -216,7 +318,7 @@ namespace djv
                 const float h = style->getMetric(MetricsRole::Handle);
 
                 auto render = _getRender();
-                if (p.activeWidget && p.activeWidget->isVisible() && !p.activeWidget->isClipped())
+                /*if (p.activeWidget && p.activeWidget->isVisible() && !p.activeWidget->isClipped())
                 {
                     const BBox2f g = p.activeWidget->getGeometry().margin(-h);
                     render->setFillColor(_getColorWithOpacity(style->getColor(ColorRole::Checked)));
@@ -232,42 +334,52 @@ namespace djv
                     render->drawRect(BBox2f(
                         glm::vec2(g.max.x - b, g.min.y + b),
                         glm::vec2(g.max.x, g.max.y - b)));
-                }
+                }*/
 
                 auto hovered = p.hovered;
                 render->setFillColor(_getColorWithOpacity(style->getColor(ColorRole::Handle)));
                 for (const auto & i : p.pressed)
                 {
-                    for (const auto & j : i.second.widget->getHandleDraw(i.second.handle))
+                    const auto& handles = i.second.widget->getHandlesDraw();
+                    const auto j = handles.find(i.second.handle);
+                    if (j != handles.end())
                     {
-                        switch (i.second.handle)
+                        for (const auto& k : j->second)
                         {
-                        case Handle::Move:
-                        case Handle::None: break;
-                        default:
-                            render->drawRect(j);
-                            break;
+                            switch (i.second.handle)
+                            {
+                            case Handle::Move:
+                            case Handle::None: break;
+                            default:
+                                render->drawRect(k);
+                                break;
+                            }
                         }
                     }
-                    const auto j = hovered.find(i.first);
-                    if (j != hovered.end())
+                    const auto k = hovered.find(i.first);
+                    if (k != hovered.end())
                     {
-                        hovered.erase(j);
+                        hovered.erase(k);
                     }
                 }
 
                 render->setFillColor(_getColorWithOpacity(style->getColor(ColorRole::Handle)));
                 for (const auto & i : hovered)
                 {
-                    for (const auto & j : i.second.widget->getHandleDraw(i.second.handle))
+                    const auto& handles = i.second.widget->getHandlesDraw();
+                    const auto j = handles.find(i.second.handle);
+                    if (j != handles.end())
                     {
-                        switch (i.second.handle)
+                        for (const auto& k : j->second)
                         {
-                        case Handle::Move:
-                        case Handle::None: break;
-                        default:
-                            render->drawRect(j);
-                            break;
+                            switch (i.second.handle)
+                            {
+                            case Handle::Move:
+                            case Handle::None: break;
+                            default:
+                                render->drawRect(k);
+                                break;
+                            }
                         }
                     }
                 }
@@ -278,8 +390,13 @@ namespace djv
                 DJV_PRIVATE_PTR();
                 if (auto widget = std::dynamic_pointer_cast<IWidget>(value.getChild()))
                 {
+                    widget->setMaximized(p.maximizedValue);
                     widget->installEventFilter(shared_from_this());
-                    p.widgetToPos[widget] = glm::vec2(0.f, 0.f);
+                    const auto i = p.widgetToGeometry.find(widget);
+                    if (i == p.widgetToGeometry.end())
+                    {
+                        p.widgetToGeometry[widget] = BBox2f(0.f, 0.f, 0.f, 0.f);
+                    }
                     p.activeWidget = widget;
                     _resize();
                     if (p.activeCallback)
@@ -306,12 +423,10 @@ namespace djv
                             }
                         }
                     }
+                    const auto j = p.widgetToGeometry.find(widget);
+                    if (j != p.widgetToGeometry.end())
                     {
-                        const auto j = p.widgetToPos.find(widget);
-                        if (j != p.widgetToPos.end())
-                        {
-                            p.widgetToPos.erase(j);
-                        }
+                        p.widgetToGeometry.erase(j);
                     }
                     _resize();
                 }
@@ -326,6 +441,11 @@ namespace djv
                     auto widget = children.back();
                     if (widget != p.activeWidget)
                     {
+                        if (p.activeWidget)
+                        {
+                            p.activeWidget->setMaximized(0.f);
+                        }
+                        widget->setMaximized(p.maximizedValue);
                         p.activeWidget = widget;
                         if (p.activeCallback)
                         {
@@ -338,11 +458,6 @@ namespace djv
             bool Canvas::_eventFilter(const std::shared_ptr<IObject> & object, Event::IEvent & event)
             {
                 DJV_PRIVATE_PTR();
-                /*{
-                    std::stringstream ss;
-                    ss << event.getEventType();
-                    _log(ss.str());
-                }*/
                 switch (event.getEventType())
                 {
                 case Event::Type::PointerEnter:
@@ -351,16 +466,21 @@ namespace djv
                     const auto & pointerInfo = pointerEnterEvent.getPointerInfo();
                     if (auto widget = std::dynamic_pointer_cast<IWidget>(object))
                     {
-                        const Handle handle = widget->getHandle(pointerInfo.projectedPos);
-                        if (handle != Handle::None)
+                        for (const auto& handle : widget->getHandles())
                         {
-                            event.accept();
-                            Hovered hovered;
-                            hovered.widget = widget;
-                            hovered.handle = handle;
-                            p.hovered[pointerInfo.id] = hovered;
-                            _redraw();
-                            break;
+                            for (const auto& rect : handle.second)
+                            {
+                                if (rect.contains(pointerInfo.projectedPos))
+                                {
+                                    event.accept();
+                                    Hovered hovered;
+                                    hovered.widget = widget;
+                                    hovered.handle = handle.first;
+                                    p.hovered[pointerInfo.id] = hovered;
+                                    _redraw();
+                                    break;
+                                }
+                            }
                         }
                     }
                     break;
@@ -388,11 +508,11 @@ namespace djv
                         const auto i = p.pressed.find(pointerInfo.id);
                         if (i != p.pressed.end())
                         {
-                            const auto j = p.widgetToPos.find(widget);
-                            if (j != p.widgetToPos.end())
+                            const auto j = p.widgetToGeometry.find(widget);
+                            if (j != p.widgetToGeometry.end())
                             {
-                                glm::vec2 size = widget->getSize();
-                                const glm::vec2 & minimumSize = widget->getMinimumSize();
+                                const glm::vec2 widgetSize = j->second.getSize();
+                                const glm::vec2& minimumSize = widget->getMinimumSize();
                                 const glm::vec2 d = pointerInfo.projectedPos - i->second.pointer;
                                 const glm::vec2 d2(
                                     d.x - std::max(0.f, minimumSize.x - (i->second.size.x - d.x)),
@@ -400,60 +520,59 @@ namespace djv
                                 switch (i->second.handle)
                                 {
                                 case Handle::Move:
-                                    j->second = i->second.pos + pointerInfo.projectedPos - i->second.pointer;
+                                    j->second.min = i->second.pos + pointerInfo.projectedPos - i->second.pointer;
+                                    j->second.max = j->second.min + widgetSize;
                                     break;
                                 case Handle::ResizeE:
-                                {
-                                    j->second.x = i->second.pos.x + d2.x;
-                                    size.x = i->second.size.x - d2.x;
+                                    j->second.min.x = i->second.pos.x + d2.x;
                                     break;
-                                }
                                 case Handle::ResizeN:
-                                    j->second.y = i->second.pos.y + d2.y;
-                                    size.y = i->second.size.y - d2.y;
+                                    j->second.min.y = i->second.pos.y + d2.y;
                                     break;
                                 case Handle::ResizeW:
-                                    size.x = i->second.size.x + d.x;
+                                    j->second.max.x = i->second.pos.x + i->second.size.x + d.x;
                                     break;
                                 case Handle::ResizeS:
-                                    size.y = i->second.size.y + d.y;
+                                    j->second.max.y = i->second.pos.y + i->second.size.y + d.y;
                                     break;
                                 case Handle::ResizeNE:
-                                    j->second = i->second.pos + d2;
-                                    size = i->second.size - d2;
+                                    j->second.min = i->second.pos + d2;
                                     break;
                                 case Handle::ResizeNW:
-                                    j->second.y = i->second.pos.y + d2.y;
-                                    size.x = i->second.size.x + d.x;
-                                    size.y = i->second.size.y - d2.y;
+                                    j->second.max.x = i->second.pos.x + i->second.size.x + d.x;
+                                    j->second.min.y = i->second.pos.y + d2.y;
                                     break;
                                 case Handle::ResizeSW:
-                                    size = i->second.size + pointerInfo.projectedPos - i->second.pointer;
+                                    j->second.max = i->second.pos + i->second.size + d;
                                     break;
                                 case Handle::ResizeSE:
-                                    j->second.x = i->second.pos.x + d2.x;
-                                    size.x = i->second.size.x - d2.x;
-                                    size.y = i->second.size.y + d.y;
+                                    j->second.min.x = i->second.pos.x + d2.x;
+                                    j->second.max.y = i->second.pos.y + i->second.size.y + d.y;
                                     break;
                                 default: break;
                                 }
-                                widget->resize(size);
-                                _resize();
+                                widget->setGeometry(j->second);
                             }
                         }
                         else
                         {
-                            const Handle handle = widget->getHandle(pointerInfo.projectedPos);
-                            if (handle != Handle::None)
+                            for (const auto& handle : widget->getHandles())
                             {
-                                Hovered hovered;
-                                hovered.widget = widget;
-                                hovered.handle = handle;
-                                const auto j = p.hovered.find(pointerInfo.id);
-                                if (j != p.hovered.end() && (j->second.widget != widget || j->second.handle != handle))
+                                for (const auto& rect : handle.second)
                                 {
-                                    p.hovered[pointerInfo.id] = hovered;
-                                    _redraw();
+                                    if (rect.contains(pointerInfo.projectedPos))
+                                    {
+                                        Hovered hovered;
+                                        hovered.widget = widget;
+                                        hovered.handle = handle.first;
+                                        const auto j = p.hovered.find(pointerInfo.id);
+                                        if (j != p.hovered.end() && (j->second.widget != widget || j->second.handle != handle.first))
+                                        {
+                                            p.hovered[pointerInfo.id] = hovered;
+                                            _redraw();
+                                        }
+                                        break;
+                                    }
                                 }
                             }
                         }
@@ -466,18 +585,28 @@ namespace djv
                     const auto & pointerInfo = buttonPressEvent.getPointerInfo();
                     if (auto widget = std::dynamic_pointer_cast<IWidget>(object))
                     {
-                        const auto i = p.widgetToPos.find(widget);
-                        if (i != p.widgetToPos.end())
+                        const auto i = p.widgetToGeometry.find(widget);
+                        if (i != p.widgetToGeometry.end())
                         {
-                            event.accept();
-                            Pressed pressed;
-                            pressed.widget = widget;
-                            pressed.pointer = pointerInfo.projectedPos;
-                            pressed.handle = widget->getHandle(pointerInfo.projectedPos);
-                            pressed.pos = i->second;
-                            pressed.size = widget->getSize();
-                            p.pressed[pointerInfo.id] = pressed;
-                            widget->moveToFront();
+                            for (const auto& handle : widget->getHandles())
+                            {
+                                for (const auto& rect : handle.second)
+                                {
+                                    if (rect.contains(pointerInfo.projectedPos))
+                                    {
+                                        event.accept();
+                                        Pressed pressed;
+                                        pressed.widget = widget;
+                                        pressed.pointer = pointerInfo.projectedPos;
+                                        pressed.handle = handle.first;
+                                        pressed.pos = i->second.min;
+                                        pressed.size = widget->getSize();
+                                        p.pressed[pointerInfo.id] = pressed;
+                                        widget->moveToFront();
+                                        break;
+                                    }
+                                }
+                            }
                         }
                     }
                     return true;

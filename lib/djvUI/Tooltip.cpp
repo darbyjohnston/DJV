@@ -142,17 +142,17 @@ namespace djv
             {
                 Widget::_paintEvent(event);
                 auto style = _getStyle();
-                const float s = style->getMetric(MetricsRole::Shadow);
+                const float sh = style->getMetric(MetricsRole::Shadow);
                 auto render = _getRender();
                 render->setFillColor(_getColorWithOpacity(style->getColor(ColorRole::Shadow)));
                 for (const auto & i : getChildWidgets())
                 {
                     BBox2f g = i->getGeometry();
-                    g.min.x += s;
-                    g.min.y += s;
-                    g.max.x += s;
-                    g.max.y += s;
-                    render->drawRect(g);
+                    g.min.x -= sh;
+                    g.min.y += sh;
+                    g.max.x += sh;
+                    g.max.y += sh;
+                    render->drawShadow(g, sh);
                 }
             }
 

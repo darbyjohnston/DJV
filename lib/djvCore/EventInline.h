@@ -168,17 +168,17 @@ namespace djv
                 _clipRect = value;
             }
 
-            inline PaintOverlay::PaintOverlay(const BBox2f & clipRect) :
+            inline PaintOverlay::PaintOverlay(const BBox2f& clipRect) :
                 IEvent(Type::PaintOverlay),
                 _clipRect(clipRect)
             {}
 
-            inline const BBox2f & PaintOverlay::getClipRect() const
+            inline const BBox2f& PaintOverlay::getClipRect() const
             {
                 return _clipRect;
             }
 
-            inline void PaintOverlay::setClipRect(const BBox2f & value)
+            inline void PaintOverlay::setClipRect(const BBox2f& value)
             {
                 _clipRect = value;
             }

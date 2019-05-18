@@ -29,9 +29,9 @@
 
 #include <djvViewApp/SettingsSystem.h>
 
-#include <djvViewApp/SettingsDialog.h>
 #include <djvViewApp/NUXSettingsWidget.h>
 #include <djvViewApp/PlaybackSettingsWidget.h>
+#include <djvViewApp/SettingsWidget.h>
 #include <djvViewApp/WindowSettingsWidget.h>
 
 #include <djvUIComponents/DisplaySettingsWidget.h>
@@ -65,7 +65,6 @@ namespace djv
         struct SettingsSystem::Private
         {
             std::map<std::string, std::shared_ptr<UI::Action> > actions;
-            std::shared_ptr<SettingsDialog> settingsDialog;
             std::map<std::string, std::shared_ptr<ValueObserver<bool> > > clickedObservers;
         };
 
@@ -88,35 +87,9 @@ namespace djv
             return out;
         }
 
-        void SettingsSystem::showSettings()
+        std::shared_ptr<SettingsWidget> SettingsSystem::createSettingsWidget()
         {
-            DJV_PRIVATE_PTR();
-            auto context = getContext();
-            if (auto eventSystem = context->getSystemT<UI::EventSystem>())
-            {
-                if (auto window = eventSystem->getCurrentWindow().lock())
-                {
-                    if (!p.settingsDialog)
-                    {
-                        p.settingsDialog = SettingsDialog::create(context);
-                        auto weak = std::weak_ptr<SettingsSystem>(std::dynamic_pointer_cast<SettingsSystem>(shared_from_this()));
-                        p.settingsDialog->setCloseCallback(
-                            [weak]
-                        {
-                            if (auto system = weak.lock())
-                            {
-                                if (auto parent = system->_p->settingsDialog->getParent().lock())
-                                {
-                                    parent->removeChild(system->_p->settingsDialog);
-                                }
-                                system->_p->settingsDialog.reset();
-                            }
-                        });
-                    }
-                    window->addChild(p.settingsDialog);
-                    p.settingsDialog->show();
-                }
-            }
+            return SettingsWidget::create(getContext());
         }
         
         std::map<std::string, std::shared_ptr<UI::Action> > SettingsSystem::getActions()

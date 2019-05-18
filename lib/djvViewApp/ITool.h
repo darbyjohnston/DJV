@@ -52,6 +52,8 @@ namespace djv
             void close();
             void setCloseCallback(const std::function<void(void)> &);
 
+            std::map<UI::MDI::Handle, std::vector<Core::BBox2f> > getHandles() const override;
+
             float getHeightForWidth(float) const override;
 
             void addChild(const std::shared_ptr<IObject> &) override;
@@ -59,8 +61,6 @@ namespace djv
             void clearChildren() override;
 
         protected:
-            std::map<UI::MDI::Handle, std::vector<Core::BBox2f> > _getHandle() const override;
-
             void _preLayoutEvent(Core::Event::PreLayout &) override;
             void _layoutEvent(Core::Event::Layout &) override;
 

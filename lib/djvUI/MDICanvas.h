@@ -67,6 +67,10 @@ namespace djv
                 //! we could remove this and use Widget::move() instead.
                 void setWidgetPos(const std::shared_ptr<IWidget> &, const glm::vec2 &);
 
+                bool isMaximized() const;
+                void setMaximized(bool);
+                void setMaximizedCallback(const std::function<void(bool)>&);
+
             protected:
                 void _preLayoutEvent(Core::Event::PreLayout &) override;
                 void _layoutEvent(Core::Event::Layout &) override;

@@ -39,6 +39,7 @@
 #include <djvUI/MDICanvas.h>
 #include <djvUI/MDIWidget.h>
 #include <djvUI/RowLayout.h>
+#include <djvUI/StackLayout.h>
 #include <djvUI/ToolButton.h>
 
 #include <djvCore/Context.h>
@@ -66,17 +67,24 @@ namespace djv
 
                 const std::shared_ptr<Media>& getMedia() const;
 
+                void setMaximized(float) override;
+
             protected:
                 void _preLayoutEvent(Event::PreLayout&) override;
                 void _layoutEvent(Event::Layout&) override;
 
             private:
+                void _opacityUpdate();
+
+                float _maximized = 0.f;
+                float _fade = 1.f;
                 std::shared_ptr<UI::Label> _titleLabel;
                 std::shared_ptr<UI::ToolButton> _maximizeButton;
                 std::shared_ptr<UI::ToolButton> _closeButton;
                 std::shared_ptr<UI::HorizontalLayout> _titleBar;
                 std::shared_ptr<MediaWidget> _mediaWidget;
-                std::shared_ptr<UI::Border> _border;
+                std::shared_ptr<UI::StackLayout> _layout;
+                std::shared_ptr<ValueObserver<float> > _fadeObserver;
             };
 
             void SubWidget::_init(const std::shared_ptr<Media>& media, Context* context)
@@ -98,7 +106,7 @@ namespace djv
                 _closeButton->setInsideMargin(UI::MetricsRole::MarginSmall);
 
                 _titleBar = UI::HorizontalLayout::create(context);
-                _titleBar->setBackgroundRole(UI::ColorRole::BackgroundHeader);
+                _titleBar->setBackgroundRole(UI::ColorRole::Overlay);
                 _titleBar->setSpacing(UI::MetricsRole::None);
                 _titleBar->addChild(_titleLabel);
                 _titleBar->setStretch(_titleLabel, UI::RowStretch::Expand);
@@ -108,25 +116,28 @@ namespace djv
                 _mediaWidget = MediaWidget::create(context);
                 _mediaWidget->setMedia(media);
 
-                auto layout = UI::VerticalLayout::create(context);
-                layout->setBackgroundRole(UI::ColorRole::Background);
-                layout->setSpacing(UI::MetricsRole::None);
-                layout->addChild(_titleBar);
-                layout->addChild(_mediaWidget);
-                layout->setStretch(_mediaWidget, UI::RowStretch::Expand);
+                _layout = UI::StackLayout::create(context);
+                _layout->addChild(_mediaWidget);
+                auto vLayout = UI::VerticalLayout::create(context);
+                vLayout->addChild(_titleBar);
+                vLayout->addExpander();
+                _layout->addChild(vLayout);
+                addChild(_layout);
 
-                _border = UI::Border::create(context);
-                _border->setMargin(UI::MetricsRole::Handle);
-                _border->addChild(layout);
-                addChild(_border);
+                _opacityUpdate();
 
+                auto weak = std::weak_ptr<SubWidget>(std::dynamic_pointer_cast<SubWidget>(shared_from_this()));
                 _maximizeButton->setClickedCallback(
-                    [media, context]
+                    [weak]
                 {
-                    auto fileSystem = context->getSystemT<FileSystem>();
-                    auto windowSystem = context->getSystemT<WindowSystem>();
-                    fileSystem->setCurrentMedia(media);
-                    windowSystem->setWindowMode(WindowMode::SDI);
+                    if (auto widget = weak.lock())
+                    {
+                        if (auto canvas = std::dynamic_pointer_cast<UI::MDI::Canvas>(widget->getParent().lock()))
+                        {
+                            widget->moveToFront();
+                            canvas->setMaximized(!canvas->isMaximized());
+                        }
+                    }
                 });
 
                 _closeButton->setClickedCallback(
@@ -135,6 +146,21 @@ namespace djv
                     auto fileSystem = context->getSystemT<FileSystem>();
                     fileSystem->close(media);
                 });
+
+                auto windowSystem = context->getSystemT<WindowSystem>();
+                if (windowSystem)
+                {
+                    _fadeObserver = ValueObserver<float>::create(
+                        windowSystem->observeFade(),
+                        [weak](float value)
+                    {
+                        if (auto widget = weak.lock())
+                        {
+                            widget->_fade = value;
+                            widget->_opacityUpdate();
+                        }
+                    });
+                }
             }
 
             std::shared_ptr<SubWidget> SubWidget::create(const std::shared_ptr<Media>& media, Context* context)
@@ -149,14 +175,32 @@ namespace djv
                 return _mediaWidget->getMedia();
             }
 
+            void SubWidget::setMaximized(float value)
+            {
+                if (value == _maximized)
+                    return;
+                _maximized = value;
+                _opacityUpdate();
+                _resize();
+            }
+
             void SubWidget::_preLayoutEvent(Event::PreLayout&)
             {
-                _setMinimumSize(_border->getMinimumSize());
+                auto style = _getStyle();
+                const float m = style->getMetric(UI::MetricsRole::Handle);
+                _setMinimumSize(_layout->getMinimumSize() + m * (1.f - _maximized));
             }
 
             void SubWidget::_layoutEvent(Event::Layout&)
             {
-                _border->setGeometry(getGeometry());
+                auto style = _getStyle();
+                const float m = style->getMetric(UI::MetricsRole::Handle);
+                _layout->setGeometry(getGeometry().margin(-m * (1.f - _maximized)));
+            }
+
+            void SubWidget::_opacityUpdate()
+            {
+                _titleBar->setOpacity(_fade * (1.f - _maximized));
             }
 
         } // namespace
@@ -194,54 +238,65 @@ namespace djv
                 }
             });
 
-            auto fileSystem = context->getSystemT<FileSystem>();
-            p.currentMediaObserver = ValueObserver<std::shared_ptr<Media> >::create(
-                fileSystem->observeCurrentMedia(),
-                [weak](const std::shared_ptr<Media>& value)
+            if (auto windowSystem = context->getSystemT<WindowSystem>())
             {
-                if (auto widget = weak.lock())
+                p.canvas->setMaximizedCallback(
+                    [windowSystem](bool value)
                 {
-                    const auto i = widget->_p->subWidgets.find(value);
-                    if (i != widget->_p->subWidgets.end())
-                    {
-                        i->second->moveToFront();
-                    }
-                }
-            });
+                    windowSystem->setMaximized(value);
+                });
+            }
 
-            p.openedObserver = ValueObserver<std::pair<std::shared_ptr<Media>, glm::vec2> >::create(
-                fileSystem->observeOpened(),
-                [weak, context](const std::pair<std::shared_ptr<Media>, glm::vec2>& value)
+            if (auto fileSystem = context->getSystemT<FileSystem>())
             {
-                if (value.first)
-                {
-                    if (auto widget = weak.lock())
-                    {
-                        auto subWidget = SubWidget::create(value.first, context);
-                        widget->_p->canvas->addChild(subWidget);
-                        widget->_p->canvas->setWidgetPos(subWidget, value.second);
-                        widget->_p->subWidgets[value.first] = subWidget;
-                    }
-                }
-            });
-
-            p.closedObserver = ValueObserver<std::shared_ptr<Media> >::create(
-                fileSystem->observeClosed(),
-                [weak](const std::shared_ptr<Media>& value)
-            {
-                if (value)
+                p.currentMediaObserver = ValueObserver<std::shared_ptr<Media> >::create(
+                    fileSystem->observeCurrentMedia(),
+                    [weak](const std::shared_ptr<Media> & value)
                 {
                     if (auto widget = weak.lock())
                     {
                         const auto i = widget->_p->subWidgets.find(value);
                         if (i != widget->_p->subWidgets.end())
                         {
-                            widget->_p->canvas->removeChild(i->second);
-                            widget->_p->subWidgets.erase(i);
+                            i->second->moveToFront();
                         }
                     }
-                }
-            });
+                });
+
+                p.openedObserver = ValueObserver<std::pair<std::shared_ptr<Media>, glm::vec2> >::create(
+                    fileSystem->observeOpened(),
+                    [weak, context](const std::pair<std::shared_ptr<Media>, glm::vec2> & value)
+                {
+                    if (value.first)
+                    {
+                        if (auto widget = weak.lock())
+                        {
+                            auto subWidget = SubWidget::create(value.first, context);
+                            widget->_p->canvas->addChild(subWidget);
+                            widget->_p->canvas->setWidgetPos(subWidget, value.second);
+                            widget->_p->subWidgets[value.first] = subWidget;
+                        }
+                    }
+                });
+
+                p.closedObserver = ValueObserver<std::shared_ptr<Media> >::create(
+                    fileSystem->observeClosed(),
+                    [weak](const std::shared_ptr<Media> & value)
+                {
+                    if (value)
+                    {
+                        if (auto widget = weak.lock())
+                        {
+                            const auto i = widget->_p->subWidgets.find(value);
+                            if (i != widget->_p->subWidgets.end())
+                            {
+                                widget->_p->canvas->removeChild(i->second);
+                                widget->_p->subWidgets.erase(i);
+                            }
+                        }
+                    }
+                });
+            }
         }
 
         MDIWidget::MDIWidget() :
@@ -256,6 +311,11 @@ namespace djv
             auto out = std::shared_ptr<MDIWidget>(new MDIWidget);
             out->_init(context);
             return out;
+        }
+
+        void MDIWidget::setMaximized(bool value)
+        {
+            _p->canvas->setMaximized(value);
         }
 
         void MDIWidget::_preLayoutEvent(Event::PreLayout&)

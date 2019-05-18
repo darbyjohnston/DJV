@@ -29,8 +29,10 @@
 
 #include <djvUIComponents/ISettingsWidget.h>
 
+#include <djvUI/Label.h>
 #include <djvUI/RowLayout.h>
 #include <djvUI/ScrollWidget.h>
+#include <djvUI/ToolButton.h>
 
 using namespace djv::Core;
 
@@ -40,8 +42,11 @@ namespace djv
     {
         struct ISettingsWidget::Private
         {
+            std::shared_ptr<Label> titleLabel;
+            std::shared_ptr<VerticalLayout> childLayout;
             std::shared_ptr<VerticalLayout> layout;
-            std::shared_ptr<ScrollWidget> scrollWidget;
+            std::function<void(void)> backCallback;
+            std::function<void(void)> closeCallback;
         };
 
         void ISettingsWidget::_init(Context * context)
@@ -51,14 +56,61 @@ namespace djv
             DJV_PRIVATE_PTR();
             setClassName("djv::UI::ISettingsWidget");
 
-            p.layout = VerticalLayout::create(context);
-            p.layout->setMargin(MetricsRole::MarginLarge);
-            p.layout->setSpacing(MetricsRole::SpacingLarge);
+            auto backButton = ToolButton::create(context);
+            backButton->setIcon("djvIconArrowLeft");
+            p.titleLabel = Label::create(context);
+            p.titleLabel->setTextHAlign(TextHAlign::Left);
+            p.titleLabel->setFontSizeRole(MetricsRole::FontHeader);
+            p.titleLabel->setMargin(MetricsRole::Margin);
+            auto closeButton = ToolButton::create(context);
+            closeButton->setIcon("djvIconClose");
 
-            p.scrollWidget = ScrollWidget::create(ScrollType::Vertical, context);
-            p.scrollWidget->setBorder(false);
-            p.scrollWidget->addChild(p.layout);
-            Widget::addChild(p.scrollWidget);
+            p.layout = VerticalLayout::create(context);
+            p.layout->setSpacing(MetricsRole::None);
+            auto hLayout = HorizontalLayout::create(context);
+            hLayout->setSpacing(MetricsRole::None);
+            hLayout->setBackgroundRole(ColorRole::BackgroundHeader);
+            hLayout->setShadowOverlay({ Side::Top });
+            hLayout->addChild(backButton);
+            hLayout->addChild(p.titleLabel);
+            hLayout->setStretch(p.titleLabel, RowStretch::Expand);
+            hLayout->addChild(closeButton);
+            p.layout->addChild(hLayout);
+            p.childLayout = VerticalLayout::create(context);
+            p.childLayout->setMargin(MetricsRole::MarginLarge);
+            p.childLayout->setSpacing(MetricsRole::SpacingLarge);
+            auto scrollWidget = ScrollWidget::create(ScrollType::Vertical, context);
+            scrollWidget->setBorder(false);
+            scrollWidget->setShadowOverlay({ UI::Side::Top });
+            scrollWidget->addChild(p.childLayout);
+            p.layout->addChild(scrollWidget);
+            p.layout->setStretch(scrollWidget, RowStretch::Expand);
+            Widget::addChild(p.layout);
+
+            auto weak = std::weak_ptr<ISettingsWidget>(std::dynamic_pointer_cast<ISettingsWidget>(shared_from_this()));
+            backButton->setClickedCallback(
+                [weak]
+            {
+                if (auto widget = weak.lock())
+                {
+                    if (widget->_p->backCallback)
+                    {
+                        widget->_p->backCallback();
+                    }
+                }
+            });
+
+            closeButton->setClickedCallback(
+                [weak]
+            {
+                if (auto widget = weak.lock())
+                {
+                    if (widget->_p->closeCallback)
+                    {
+                        widget->_p->closeCallback();
+                    }
+                }
+            });
         }
 
         ISettingsWidget::ISettingsWidget() :
@@ -68,29 +120,45 @@ namespace djv
         ISettingsWidget::~ISettingsWidget()
         {}
 
+        void ISettingsWidget::setBackCallback(const std::function<void(void)>& value)
+        {
+            _p->backCallback = value;
+        }
+
+        void ISettingsWidget::setCloseCallback(const std::function<void(void)>& value)
+        {
+            _p->closeCallback = value;
+        }
+
         float ISettingsWidget::getHeightForWidth(float value) const
         {
-            return _p->scrollWidget->getHeightForWidth(value);
+            return _p->layout->getHeightForWidth(value);
         }
 
         void ISettingsWidget::addChild(const std::shared_ptr<IObject> & value)
         {
-            _p->layout->addChild(value);
+            _p->childLayout->addChild(value);
         }
 
         void ISettingsWidget::removeChild(const std::shared_ptr<IObject> & value)
         {
-            _p->layout->removeChild(value);
+            _p->childLayout->removeChild(value);
         }
 
         void ISettingsWidget::_preLayoutEvent(Event::PreLayout & event)
         {
-            _setMinimumSize(_p->scrollWidget->getMinimumSize());
+            _setMinimumSize(_p->layout->getMinimumSize());
         }
 
         void ISettingsWidget::_layoutEvent(Event::Layout &)
         {
-            _p->scrollWidget->setGeometry(getGeometry());
+            _p->layout->setGeometry(getGeometry());
+        }
+
+        void ISettingsWidget::_localeEvent(Event::Locale&)
+        {
+            DJV_PRIVATE_PTR();
+            p.titleLabel->setText(_getText(getSettingsName()));
         }
 
     } // namespace UI

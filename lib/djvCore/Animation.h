@@ -101,9 +101,12 @@ namespace djv
                 void start(
                     float                     begin,
                     float                     end,
-                    std::chrono::milliseconds timeout,
+                    std::chrono::milliseconds duration,
                     const Callback &          callback,
                     const Callback &          endCallback = nullptr);
+
+                //! Stop the animation.
+                void stop();
 
             private:
                 void _tick(float dt);
@@ -114,7 +117,7 @@ namespace djv
                 bool                      _active      = false;
                 float                     _begin       = 0.f;
                 float                     _end         = 0.f;
-                std::chrono::milliseconds _timeout     = std::chrono::milliseconds(0);
+                std::chrono::milliseconds _duration    = std::chrono::milliseconds(0);
                 Callback                  _callback;
                 Callback                  _endCallback;
                 std::chrono::time_point<std::chrono::system_clock> _start;

@@ -55,6 +55,8 @@ namespace djv
                 setClassName("djv::UI::Layout::Drawer");
 
                 _p->layout = Stack::create(context);
+                _p->layout->setBackgroundRole(ColorRole::Background);
+                _p->layout->setPointerEnabled(true);
                 Widget::addChild(_p->layout);
             }
 
@@ -127,29 +129,35 @@ namespace djv
 
             void Drawer::_preLayoutEvent(Event::PreLayout & event)
             {
-                _setMinimumSize(_p->layout->getMinimumSize());
+                DJV_PRIVATE_PTR();
+                auto style = _getStyle();
+                const float sh = style->getMetric(MetricsRole::Shadow);
+                glm::vec2 size = _p->layout->getMinimumSize();
+                switch (p.side)
+                {
+                case Side::Left:   size.x += sh; break;
+                case Side::Top:    size.y += sh; break;
+                case Side::Right:  size.x += sh; break;
+                case Side::Bottom: size.y += sh; break;
+                default: break;
+                }
+                _setMinimumSize(size);
             }
 
             void Drawer::_layoutEvent(Event::Layout & event)
             {
                 DJV_PRIVATE_PTR();
+                auto style = _getStyle();
                 const BBox2f & g = getGeometry();
                 const glm::vec2 & minimumSize = p.layout->getMinimumSize();
+                const float sh = style->getMetric(MetricsRole::Shadow);
                 BBox2f childGeometry = g;
                 switch (p.side)
                 {
-                case Side::Left:
-                    childGeometry.max.x = p.open ? (g.min.x + minimumSize.x) : g.min.x;
-                    break;
-                case Side::Top:
-                    childGeometry.max.y = p.open ? (g.min.y + minimumSize.y) : g.min.y;
-                    break;
-                case Side::Right:
-                    childGeometry.min.x = p.open ? (g.max.x - minimumSize.x) : g.max.x;
-                    break;
-                case Side::Bottom:
-                    childGeometry.min.y = p.open ? (g.max.y - minimumSize.y) : g.max.y;
-                    break;
+                case Side::Left:   childGeometry.max.x = (p.open ? (g.min.x + minimumSize.x) : g.min.x) + sh; break;
+                case Side::Top:    childGeometry.max.y = (p.open ? (g.min.y + minimumSize.y) : g.min.y) + sh; break;
+                case Side::Right:  childGeometry.min.x = (p.open ? (g.max.x - minimumSize.x) : g.max.x) + sh; break;
+                case Side::Bottom: childGeometry.min.y = (p.open ? (g.max.y - minimumSize.y) : g.max.y) + sh; break;
                 default: break;
                 }
                 _p->layout->setGeometry(childGeometry);
@@ -163,23 +171,15 @@ namespace djv
                 {
                     const BBox2f & g = p.layout->getGeometry();
                     auto style = _getStyle();
-                    const float b = style->getMetric(MetricsRole::Border);
+                    const float sh = style->getMetric(MetricsRole::Shadow);
                     auto render = _getRender();
-                    render->setFillColor(_getColorWithOpacity(style->getColor(ColorRole::Border)));
+                    render->setFillColor(_getColorWithOpacity(style->getColor(ColorRole::Shadow)));
                     switch (p.side)
                     {
-                    case Side::Left:
-                        render->drawRect(BBox2f(g.max.x + b, g.min.y, b, g.h()));
-                        break;
-                    case Side::Top:
-                        render->drawRect(BBox2f(g.min.x, g.max.y, g.w(), b));
-                        break;
-                    case Side::Right:
-                        render->drawRect(BBox2f(g.min.x - b, g.min.y, b, g.h()));
-                        break;
-                    case Side::Bottom:
-                        render->drawRect(BBox2f(g.min.x, g.min.y - b, g.w(), b));
-                        break;
+                    case Side::Left:   render->drawShadow(BBox2f(g.max.x + sh, g.min.y, sh, g.h()), AV::Side::Right); break;
+                    case Side::Top:    render->drawShadow(BBox2f(g.min.x, g.max.y, g.w(), sh), AV::Side::Bottom);     break;
+                    case Side::Right:  render->drawShadow(BBox2f(g.min.x - sh, g.min.y, sh, g.h()), AV::Side::Left);  break;
+                    case Side::Bottom: render->drawShadow(BBox2f(g.min.x, g.min.y - sh, g.w(), sh), AV::Side::Top);   break;
                     default: break;
                     }
                 }
