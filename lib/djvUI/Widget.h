@@ -183,8 +183,6 @@ namespace djv
             //! Get the number of widgets that currently exist.
             static size_t getGlobalWidgetCount();
 
-            void addChild(const std::shared_ptr<IObject>&) override;
-            void removeChild(const std::shared_ptr<IObject>&) override;
             void moveToFront() override;
             void moveToBack() override;
             bool event(Core::Event::IEvent &) override;

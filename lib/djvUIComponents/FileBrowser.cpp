@@ -40,13 +40,12 @@
 #include <djvUI/ActionGroup.h>
 #include <djvUI/Bellows.h>
 #include <djvUI/Border.h>
+#include <djvUI/ButtonGroup.h>
 #include <djvUI/DialogSystem.h>
 #include <djvUI/FlowLayout.h>
 #include <djvUI/Icon.h>
 #include <djvUI/IntSlider.h>
 #include <djvUI/Label.h>
-//#include <djvUI/Menu.h>
-//#include <djvUI/MenuBar.h>
 #include <djvUI/PopupWidget.h>
 #include <djvUI/RowLayout.h>
 #include <djvUI/SettingsSystem.h>
@@ -85,15 +84,13 @@ namespace djv
                 std::map<std::string, std::shared_ptr<Action> > actions;
                 std::shared_ptr<ActionGroup> viewTypeActionGroup;
                 std::shared_ptr<ActionGroup> sortActionGroup;
-                /*std::shared_ptr<Menu> directoryMenu;
-                std::shared_ptr<Menu> shortcutsMenu;
-                std::shared_ptr<Menu> viewMenu;
-                std::shared_ptr<Menu> sortMenu;
                 std::shared_ptr<ShortcutsWidget> shortcutsWidget;
+                std::shared_ptr<PopupWidget> shortcutsPopupWidget;
                 std::shared_ptr<DrivesWidget> drivesWidget;
-                std::map<std::string, std::shared_ptr<Bellows> > shortcutsBellows;
-                std::shared_ptr<ScrollWidget> shortcutsScrollWidget;*/
-                std::shared_ptr<Label> thumbnailSizeLabel;
+                std::shared_ptr<PopupWidget> drivesPopupWidget;
+                std::shared_ptr<PopupWidget> recentPopupWidget;
+                std::shared_ptr<ButtonGroup> modelButtonGroup;
+                std::shared_ptr<PopupWidget> sortPopupWidget;
                 std::shared_ptr<IntSlider> thumbnailSizeSlider;
                 std::shared_ptr<PopupWidget> settingsPopupWidget;
                 std::shared_ptr<ListViewHeader> listViewHeader;
@@ -208,59 +205,10 @@ namespace djv
                     addAction(action.second);
                 }
 
-                /*p.directoryMenu = Menu::create(context);
-                p.directoryMenu->addAction(p.actions["Back"]);
-                p.directoryMenu->addAction(p.actions["Forward"]);
-                p.directoryMenu->addAction(p.actions["Up"]);
-                p.directoryMenu->addAction(p.actions["Current"]);
-                p.directoryMenu->addAction(p.actions["EditPath"]);
+                p.shortcutsWidget = ShortcutsWidget::create(p.shortcutsModel, context);
 
-                p.shortcutsMenu = Menu::create(context);
-                p.shortcutsMenu->addAction(p.actions["AddShortcut"]);
+                p.drivesWidget = DrivesWidget::create(context);
 
-                p.viewMenu = Menu::create(context);
-                p.viewMenu->addAction(p.actions["Tiles"]);
-                p.viewMenu->addAction(p.actions["List"]);
-                p.viewMenu->addSeparator();
-                p.viewMenu->addAction(p.actions["IncreaseThumbnailSize"]);
-                p.viewMenu->addAction(p.actions["DecreaseThumbnailSize"]);
-                p.viewMenu->addSeparator();
-                p.viewMenu->addAction(p.actions["FileSequences"]);
-                p.viewMenu->addAction(p.actions["ShowHidden"]);
-
-                p.sortMenu = Menu::create(context);
-                p.sortMenu->addAction(p.actions["SortByName"]);
-                p.sortMenu->addAction(p.actions["SortBySize"]);
-                p.sortMenu->addAction(p.actions["SortByTime"]);
-                p.sortMenu->addSeparator();
-                p.sortMenu->addAction(p.actions["ReverseSort"]);
-                p.sortMenu->addSeparator();
-                p.sortMenu->addAction(p.actions["SortDirectoriesFirst"]);
-
-                auto menuBar = MenuBar::create(context);
-                menuBar->setBackgroundRole(ColorRole::BackgroundToolBar);
-                menuBar->setShadowOverlay({ Side::Top });
-                menuBar->addChild(p.directoryMenu);
-                menuBar->addChild(p.shortcutsMenu);
-                menuBar->addChild(p.viewMenu);
-                menuBar->addChild(p.sortMenu);*/
-
-                auto tilesButton = ActionButton::create(context);
-                tilesButton->addAction(p.actions["Tiles"]);
-                auto listButton = ActionButton::create(context);
-                listButton->addAction(p.actions["List"]);
-                auto increaseThumbnailSizeButton = ActionButton::create(context);
-                increaseThumbnailSizeButton->addAction(p.actions["IncreaseThumbnailSize"]);
-                auto decreaseThumbnailSizeButton = ActionButton::create(context);
-                decreaseThumbnailSizeButton->addAction(p.actions["DecreaseThumbnailSize"]);
-                auto fileSequencesButton = ActionButton::create(context);
-                fileSequencesButton->addAction(p.actions["FileSequences"]);
-                auto showHiddenButton = ActionButton::create(context);
-                showHiddenButton->addAction(p.actions["ShowHidden"]);
-
-                p.thumbnailSizeLabel = Label::create(context);
-                p.thumbnailSizeLabel->setTextHAlign(TextHAlign::Left);
-                p.thumbnailSizeLabel->setMargin(MetricsRole::MarginSmall);
                 p.thumbnailSizeSlider = IntSlider::create(context);
                 p.thumbnailSizeSlider->setRange(thumbnailSizeRange);
                 p.thumbnailSizeSlider->setDelay(Time::getMilliseconds(Time::TimerValue::Medium));
@@ -269,16 +217,53 @@ namespace djv
                 auto vLayout = VerticalLayout::create(context);
                 vLayout->setSpacing(MetricsRole::None);
                 vLayout->setBackgroundRole(ColorRole::BackgroundToolBar);
+                vLayout->addChild(UI::ActionButton::create(p.actions["AddShortcut"], context));
                 vLayout->addSeparator();
-                vLayout->addChild(tilesButton);
-                vLayout->addChild(listButton);
+                vLayout->addChild(p.shortcutsWidget);
+                p.shortcutsPopupWidget = PopupWidget::create(context);
+                p.shortcutsPopupWidget->setIcon("djvIconFavorite");
+                p.shortcutsPopupWidget->addChild(vLayout);
+
+                vLayout = VerticalLayout::create(context);
+                vLayout->setSpacing(MetricsRole::None);
+                vLayout->setBackgroundRole(ColorRole::BackgroundToolBar);
+                vLayout->addChild(p.drivesWidget);
+                p.drivesPopupWidget = PopupWidget::create(context);
+                p.drivesPopupWidget->setIcon("djvIconDrives");
+                p.drivesPopupWidget->addChild(vLayout);
+
+                vLayout = VerticalLayout::create(context);
+                vLayout->setSpacing(MetricsRole::None);
+                vLayout->setBackgroundRole(ColorRole::BackgroundToolBar);
+                p.recentPopupWidget = PopupWidget::create(context);
+                p.recentPopupWidget->setIcon("djvIconRecent");
+                p.recentPopupWidget->addChild(vLayout);
+
+                vLayout = VerticalLayout::create(context);
+                vLayout->setSpacing(MetricsRole::None);
+                vLayout->setBackgroundRole(ColorRole::BackgroundToolBar);
+                vLayout->addChild(ActionButton::create(p.actions["SortByName"], context));
+                vLayout->addChild(ActionButton::create(p.actions["SortBySize"], context));
+                vLayout->addChild(ActionButton::create(p.actions["SortByTime"], context));
                 vLayout->addSeparator();
-                vLayout->addChild(increaseThumbnailSizeButton);
-                vLayout->addChild(decreaseThumbnailSizeButton);
+                vLayout->addChild(ActionButton::create(p.actions["ReverseSort"], context));
+                vLayout->addChild(ActionButton::create(p.actions["SortDirectoriesFirst"], context));
+                p.sortPopupWidget = PopupWidget::create(context);
+                p.sortPopupWidget->setIcon("djvIconSort");
+                p.sortPopupWidget->addChild(vLayout);
+
+                vLayout = VerticalLayout::create(context);
+                vLayout->setSpacing(MetricsRole::None);
+                vLayout->setBackgroundRole(ColorRole::BackgroundToolBar);
+                vLayout->addChild(ActionButton::create(p.actions["Tiles"], context));
+                vLayout->addChild(ActionButton::create(p.actions["List"], context));
+                vLayout->addSeparator();
+                vLayout->addChild(ActionButton::create(p.actions["IncreaseThumbnailSize"], context));
+                vLayout->addChild(ActionButton::create(p.actions["DecreaseThumbnailSize"], context));
                 vLayout->addChild(p.thumbnailSizeSlider);
                 vLayout->addSeparator();
-                vLayout->addChild(fileSequencesButton);
-                vLayout->addChild(showHiddenButton);
+                vLayout->addChild(ActionButton::create(p.actions["FileSequences"], context));
+                vLayout->addChild(ActionButton::create(p.actions["ShowHidden"], context));
                 p.settingsPopupWidget = PopupWidget::create(context);
                 p.settingsPopupWidget->setIcon("djvIconSettings");
                 p.settingsPopupWidget->addChild(vLayout);
@@ -289,28 +274,15 @@ namespace djv
                 topToolBar->addAction(p.actions["Up"]);
                 topToolBar->addAction(p.actions["Back"]);
                 topToolBar->addAction(p.actions["Forward"]);
+                topToolBar->addChild(p.shortcutsPopupWidget);
+                topToolBar->addChild(p.drivesPopupWidget);
+                topToolBar->addChild(p.recentPopupWidget);
+                topToolBar->addChild(p.sortPopupWidget);
                 topToolBar->addExpander();
                 topToolBar->addChild(p.settingsPopupWidget);
 
                 auto pathWidget = PathWidget::create(context);
                 pathWidget->setShadowOverlay({ Side::Top });
-
-                /*p.shortcutsWidget = ShortcutsWidget::create(p.shortcutsModel, context);
-                p.drivesWidget = DrivesWidget::create(context);
-                p.shortcutsBellows["Shortcuts"] = Bellows::create(context);
-                p.shortcutsBellows["Shortcuts"]->addChild(p.shortcutsWidget);
-                p.shortcutsBellows["Drives"] = Bellows::create(context);
-                p.shortcutsBellows["Drives"]->addChild(p.drivesWidget);
-                p.shortcutsBellows["Recent"] = Bellows::create(context);
-                auto vLayout = VerticalLayout::create(context);
-                vLayout->setSpacing(MetricsRole::None);
-                vLayout->addChild(p.shortcutsBellows["Shortcuts"]);
-                vLayout->addChild(p.shortcutsBellows["Drives"]);
-                vLayout->addChild(p.shortcutsBellows["Recent"]);
-                p.shortcutsScrollWidget = ScrollWidget::create(ScrollType::Vertical, context);
-                p.shortcutsScrollWidget->setBorder(false);
-                p.shortcutsScrollWidget->setBackgroundRole(UI::ColorRole::Trough);
-                p.shortcutsScrollWidget->addChild(vLayout);*/
 
                 p.listViewHeader = ListViewHeader::create(context);
                 p.listViewHeader->setText({ std::string(), std::string(), std::string() });
@@ -334,15 +306,12 @@ namespace djv
 
                 p.layout = VerticalLayout::create(context);
                 p.layout->setSpacing(MetricsRole::None);
-                //p.layout->addChild(menuBar);
                 p.layout->addChild(topToolBar);
                 auto hLayout = HorizontalLayout::create(context);
                 hLayout->setSpacing(MetricsRole::None);
                 hLayout->addChild(pathWidget);
                 hLayout->setStretch(pathWidget, RowStretch::Expand);
                 p.layout->addChild(hLayout);
-                //auto splitter = Layout::Splitter::create(Orientation::Horizontal, context);
-                //splitter->addChild(p.shortcutsScrollWidget);
                 vLayout = VerticalLayout::create(context);
                 vLayout->setSpacing(MetricsRole::None);
                 p.listViewLayout = VerticalLayout::create(context);
@@ -351,8 +320,6 @@ namespace djv
                 vLayout->addChild(p.listViewLayout);
                 vLayout->addChild(p.scrollWidget);
                 vLayout->setStretch(p.scrollWidget, RowStretch::Expand);
-                //splitter->addChild(vLayout);
-                //p.layout->addChild(splitter);
                 p.layout->addChild(vLayout);
                 p.layout->setStretch(vLayout, RowStretch::Expand);
                 p.layout->addChild(bottomToolBar);
@@ -376,7 +343,7 @@ namespace djv
                     }
                 });
 
-                /*p.shortcutsWidget->setCallback(
+                p.shortcutsWidget->setCallback(
                     [weak](const FileSystem::Path & value)
                 {
                     if (auto widget = weak.lock())
@@ -392,7 +359,7 @@ namespace djv
                     {
                         widget->_p->directoryModel->setPath(value);
                     }
-                });*/
+                });
 
                 p.itemView->setCallback(
                     [weak](const FileSystem::FileInfo & value)
@@ -568,30 +535,6 @@ namespace djv
                             }
                         });
 
-                        /*p.shortcutsBellowsSettingsObserver = MapObserver<std::string, bool>::create(
-                            fileBrowserSettings->observeShortcutsBellows(),
-                            [weak](const std::map<std::string, bool> & value)
-                        {
-                            if (auto widget = weak.lock())
-                            {
-                                for (const auto & i : value)
-                                {
-                                    const auto j = widget->_p->shortcutsBellows.find(i.first);
-                                    if (j != widget->_p->shortcutsBellows.end())
-                                    {
-                                        j->second->setOpen(i.second);
-                                    }
-                                }
-                            }
-                        });
-
-                        p.shortcutsSplitSettingsObserver = ListObserver<float>::create(
-                            fileBrowserSettings->observeShortcutsSplit(),
-                            [splitter](const std::vector<float> & value)
-                        {
-                            splitter->setSplit(value);
-                        });*/
-
                         p.viewTypeSettingsObserver = ValueObserver<ViewType>::create(
                             fileBrowserSettings->observeViewType(),
                             [weak](ViewType value)
@@ -721,41 +664,6 @@ namespace djv
                         }
                     }
                 });
-
-                /*for (auto & i : p.shortcutsBellows)
-                {
-                    i.second->setOpenCallback(
-                        [weak, context](bool)
-                    {
-                        if (auto widget = weak.lock())
-                        {
-                            if (auto settingsSystem = context->getSystemT<Settings::System>())
-                            {
-                                if (auto fileBrowserSettings = settingsSystem->getSettingsT<Settings::FileBrowser>())
-                                {
-                                    std::map<std::string, bool> bellows;
-                                    for (const auto & i : widget->_p->shortcutsBellows)
-                                    {
-                                        bellows[i.first] = i.second->isOpen();
-                                    }
-                                    fileBrowserSettings->setShortcutsBellows(bellows);
-                                }
-                            }
-                        }
-                    });
-                }
-
-                splitter->setSplitCallback(
-                    [context](const std::vector<float> & value)
-                {
-                    if (auto settingsSystem = context->getSystemT<Settings::System>())
-                    {
-                        if (auto fileBrowserSettings = settingsSystem->getSettingsT<Settings::FileBrowser>())
-                        {
-                            fileBrowserSettings->setShortcutsSplit(value);
-                        }
-                    }
-                });*/
 
                 p.listViewHeader->setSortCallback(
                     [context](size_t sort, bool reverse)
@@ -971,15 +879,6 @@ namespace djv
                 p.actions["SortDirectoriesFirst"]->setText(_getText(DJV_TEXT("Sort Directories First")));
                 p.actions["SortDirectoriesFirst"]->setTooltip(_getText(DJV_TEXT("File browser sort directories first tooltip")));
 
-                /*p.directoryMenu->setText(_getText(DJV_TEXT("Directory")));
-                p.shortcutsMenu->setText(_getText(DJV_TEXT("Shortcuts")));
-                p.viewMenu->setText(_getText(DJV_TEXT("View")));
-                p.sortMenu->setText(_getText(DJV_TEXT("Sort")));
-
-                p.shortcutsBellows["Shortcuts"]->setText(_getText(DJV_TEXT("Shortcuts")));
-                p.shortcutsBellows["Drives"]->setText(_getText(DJV_TEXT("Drives")));
-                p.shortcutsBellows["Recent"]->setText(_getText(DJV_TEXT("Recent")));*/
-
                 p.listViewHeader->setText(
                     {
                         _getText(DJV_TEXT("File browser name column")),
@@ -991,10 +890,10 @@ namespace djv
                 auto context = getContext();
                 p.itemCountLabel->setText(_getItemCountLabel(p.itemCount));
 
-                p.searchBox->setTooltip(_getText(DJV_TEXT("File browser search tooltip")));
-
-                p.thumbnailSizeLabel->setText(_getText(DJV_TEXT("Thumbnail size:")));
+                p.sortPopupWidget->setTooltip(_getText(DJV_TEXT("Sort tooltip")));
                 p.settingsPopupWidget->setTooltip(_getText(DJV_TEXT("File browser settings tooltip")));
+
+                p.searchBox->setTooltip(_getText(DJV_TEXT("File browser search tooltip")));
             }
 
             std::string Widget::_getItemCountLabel(size_t size) const

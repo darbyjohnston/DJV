@@ -75,9 +75,6 @@ namespace djv
             void _textUpdate();
 
         private:
-            //void _showFileBrowserDialog();
-            //void _showRecentFilesDialog();
-
             DJV_PRIVATE();
         };
 

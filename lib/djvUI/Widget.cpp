@@ -311,33 +311,6 @@ namespace djv
             return globalWidgetCount;
         }
 
-        void Widget::addChild(const std::shared_ptr<IObject>& value)
-        {
-            IObject::addChild(value);
-            if (auto widget = std::dynamic_pointer_cast<Widget>(value))
-            {
-                const auto i = std::find(_childWidgets.begin(), _childWidgets.end(), widget);
-                if (i != _childWidgets.end())
-                {
-                    _childWidgets.erase(i);
-                }
-                _childWidgets.push_back(widget);
-            }
-        }
-
-        void Widget::removeChild(const std::shared_ptr<IObject>& value)
-        {
-            IObject::removeChild(value);
-            if (auto widget = std::dynamic_pointer_cast<Widget>(value))
-            {
-                const auto i = std::find(_childWidgets.begin(), _childWidgets.end(), widget);
-                if (i != _childWidgets.end())
-                {
-                    _childWidgets.erase(i);
-                }
-            }
-        }
-
         void Widget::moveToFront()
         {
             IObject::moveToFront();
@@ -386,7 +359,34 @@ namespace djv
                     break;
                 }
                 case Event::Type::ChildAdded:
+                {
+                    auto& childAddedEvent = static_cast<Event::ChildAdded&>(event);
+                    if (auto widget = std::dynamic_pointer_cast<Widget>(childAddedEvent.getChild()))
+                    {
+                        const auto i = std::find(_childWidgets.begin(), _childWidgets.end(), widget);
+                        if (i != _childWidgets.end())
+                        {
+                            _childWidgets.erase(i);
+                        }
+                        _childWidgets.push_back(widget);
+                    }
+                    _resize();
+                    break;
+                }
                 case Event::Type::ChildRemoved:
+                {
+                    auto& childRemovedEvent = static_cast<Event::ChildRemoved&>(event);
+                    if (auto widget = std::dynamic_pointer_cast<Widget>(childRemovedEvent.getChild()))
+                    {
+                        const auto i = std::find(_childWidgets.begin(), _childWidgets.end(), widget);
+                        if (i != _childWidgets.end())
+                        {
+                            _childWidgets.erase(i);
+                        }
+                    }
+                    _resize();
+                    break;
+                }
                 case Event::Type::ChildOrder:
                 case Event::Type::Locale:
                     _resize();

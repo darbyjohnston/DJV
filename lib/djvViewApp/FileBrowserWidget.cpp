@@ -60,12 +60,12 @@ namespace djv
             DJV_PRIVATE_PTR();
             setClassName("djv::ViewApp::FileBrowserWidget");
 
+            auto closeButton = UI::ToolButton::create(context);
+            closeButton->setIcon("djvIconClose");
             p.titleLabel = UI::Label::create(context);
             p.titleLabel->setTextHAlign(UI::TextHAlign::Left);
             p.titleLabel->setFontSizeRole(UI::MetricsRole::FontHeader);
             p.titleLabel->setMargin(UI::MetricsRole::Margin);
-            auto closeButton = UI::ToolButton::create(context);
-            closeButton->setIcon("djvIconClose");
 
             p.fileBrowser = UI::FileBrowser::Widget::create(context);
             p.fileBrowser->setPath(Core::FileSystem::Path("."));
@@ -75,9 +75,9 @@ namespace djv
             auto hLayout = UI::HorizontalLayout::create(context);
             hLayout->setSpacing(UI::MetricsRole::None);
             hLayout->setBackgroundRole(UI::ColorRole::BackgroundHeader);
+            hLayout->addChild(closeButton);
             hLayout->addChild(p.titleLabel);
             hLayout->setStretch(p.titleLabel, UI::RowStretch::Expand);
-            hLayout->addChild(closeButton);
             p.layout->addChild(hLayout);
             p.layout->addChild(p.fileBrowser);
             p.layout->setStretch(p.fileBrowser, UI::RowStretch::Expand);

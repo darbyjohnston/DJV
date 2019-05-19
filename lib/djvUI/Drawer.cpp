@@ -29,6 +29,8 @@
 
 #include <djvUI/Drawer.h>
 
+#include <djvUI/Spacer.h>
+#include <djvUI/RowLayout.h>
 #include <djvUI/StackLayout.h>
 
 #include <djvAV/Render2D.h>
@@ -41,23 +43,107 @@ namespace djv
     {
         namespace Layout
         {
+            namespace
+            {
+                class DrawerLayout : public Layout::Row
+                {
+                    DJV_NON_COPYABLE(DrawerLayout);
+
+                protected:
+                    void _init(Orientation orientation, Context* context)
+                    {
+                        Row::_init(orientation, context);
+                        setPointerEnabled(true);
+                    }
+
+                    DrawerLayout()
+                    {}
+
+                public:
+                    static std::shared_ptr<DrawerLayout> create(Orientation orientation, Context* context)
+                    {
+                        auto out = std::shared_ptr<DrawerLayout>(new DrawerLayout);
+                        out->_init(orientation, context);
+                        return out;
+                    }
+
+                protected:
+                    void _buttonPressEvent(Event::ButtonPress& event) override
+                    {
+                        event.accept();
+                    }
+
+                    void _buttonReleaseEvent(Event::ButtonRelease& event) override
+                    {
+                        event.accept();
+                    }
+                };
+
+            } // namespace
+
             struct Drawer::Private
             {
-                bool open = false;
                 Side side = Side::First;
-                std::shared_ptr<Stack> layout;
+                bool open = false;
+                float size = .3f;
+                std::shared_ptr<Stack> childLayout;
+                std::shared_ptr<Layout::Spacer> spacer;
+                std::shared_ptr<DrawerLayout> layout;
+                std::vector<Event::PointerID> pointerHover;
+                Event::PointerID pressedID = Event::InvalidID;
+                glm::vec2 pressedPos;
+                float pressedSize = 0.f;
             };
 
-            void Drawer::_init(Context * context)
+            void Drawer::_init(Side side, Context * context)
             {
                 Widget::_init(context);
 
+                DJV_PRIVATE_PTR();
+
                 setClassName("djv::UI::Layout::Drawer");
 
-                _p->layout = Stack::create(context);
-                _p->layout->setBackgroundRole(ColorRole::Background);
-                _p->layout->setPointerEnabled(true);
-                Widget::addChild(_p->layout);
+                p.side = side;
+
+                p.spacer = Layout::Spacer::create(Orientation::Horizontal, context);
+                p.spacer->setPointerEnabled(true);
+                p.spacer->setShadowOverlay({ side });
+                p.spacer->installEventFilter(shared_from_this());
+
+                p.childLayout = Stack::create(context);
+
+                switch (side)
+                {
+                case Side::Left:
+                case Side::Right:
+                    p.layout = DrawerLayout::create(Orientation::Horizontal, context);
+                    break;
+                case Side::Top:
+                case Side::Bottom:
+                    p.layout = DrawerLayout::create(Orientation::Vertical, context);
+                    break;
+                default: break;
+                }
+                p.layout->setSpacing(MetricsRole::None);
+                p.layout->setBackgroundRole(ColorRole::Background);
+                p.layout->setPointerEnabled(true);
+                switch (side)
+                {
+                case Side::Left:
+                case Side::Top:
+                    p.layout->addChild(p.childLayout);
+                    p.layout->setStretch(p.childLayout, RowStretch::Expand);
+                    p.layout->addChild(p.spacer);
+                    break;
+                case Side::Right:
+                case Side::Bottom:
+                    p.layout->addChild(p.spacer);
+                    p.layout->addChild(p.childLayout);
+                    p.layout->setStretch(p.childLayout, RowStretch::Expand);
+                    break;
+                default: break;
+                }
+                Widget::addChild(p.layout);
             }
 
             Drawer::Drawer() :
@@ -67,11 +153,16 @@ namespace djv
             Drawer::~Drawer()
             {}
 
-            std::shared_ptr<Drawer> Drawer::create(Context * context)
+            std::shared_ptr<Drawer> Drawer::create(Side side, Context * context)
             {
                 auto out = std::shared_ptr<Drawer>(new Drawer);
-                out->_init(context);
+                out->_init(side, context);
                 return out;
+            }
+
+            Side Drawer::getSide() const
+            {
+                return _p->side;
             }
 
             bool Drawer::isOpen() const
@@ -98,33 +189,19 @@ namespace djv
                 setOpen(false);
             }
 
-            Side Drawer::getSide() const
-            {
-                return _p->side;
-            }
-
-            void Drawer::setSide(Side value)
-            {
-                DJV_PRIVATE_PTR();
-                if (value == p.side)
-                    return;
-                p.side = value;
-                _resize();
-            }
-
             void Drawer::addChild(const std::shared_ptr<IObject> & value)
             {
-                _p->layout->addChild(value);
+                _p->childLayout->addChild(value);
             }
 
             void Drawer::removeChild(const std::shared_ptr<IObject> & value)
             {
-                _p->layout->removeChild(value);
+                _p->childLayout->removeChild(value);
             }
 
             void Drawer::clearChildren()
             {
-                _p->layout->clearChildren();
+                _p->childLayout->clearChildren();
             }
 
             void Drawer::_preLayoutEvent(Event::PreLayout & event)
@@ -132,7 +209,7 @@ namespace djv
                 DJV_PRIVATE_PTR();
                 auto style = _getStyle();
                 const float sh = style->getMetric(MetricsRole::Shadow);
-                glm::vec2 size = _p->layout->getMinimumSize();
+                glm::vec2 size = p.layout->getMinimumSize();
                 switch (p.side)
                 {
                 case Side::Left:   size.x += sh; break;
@@ -150,39 +227,152 @@ namespace djv
                 auto style = _getStyle();
                 const BBox2f & g = getGeometry();
                 const glm::vec2 & minimumSize = p.layout->getMinimumSize();
-                const float sh = style->getMetric(MetricsRole::Shadow);
                 BBox2f childGeometry = g;
                 switch (p.side)
                 {
-                case Side::Left:   childGeometry.max.x = (p.open ? (g.min.x + minimumSize.x + sh) : g.min.x); break;
-                case Side::Top:    childGeometry.max.y = (p.open ? (g.min.y + minimumSize.y + sh) : g.min.y); break;
-                case Side::Right:  childGeometry.min.x = (p.open ? (g.max.x - minimumSize.x + sh) : g.max.x); break;
-                case Side::Bottom: childGeometry.min.y = (p.open ? (g.max.y - minimumSize.y + sh) : g.max.y); break;
+                case Side::Left:   childGeometry.max.x = p.open ? (g.min.x + ceilf(std::max(g.w() * p.size, minimumSize.x))) : g.min.x; break;
+                case Side::Top:    childGeometry.max.y = p.open ? (g.min.y + ceilf(std::max(g.h() * p.size, minimumSize.y))) : g.min.y; break;
+                case Side::Right:  childGeometry.min.x = p.open ? (g.max.x - ceilf(std::max(g.w() * p.size, minimumSize.x))) : g.max.x; break;
+                case Side::Bottom: childGeometry.min.y = p.open ? (g.max.y - ceilf(std::max(g.h() * p.size, minimumSize.y))) : g.max.y; break;
                 default: break;
                 }
-                _p->layout->setGeometry(childGeometry);
+                p.layout->setGeometry(childGeometry);
             }
 
-            void Drawer::_paintEvent(Event::Paint & event)
+            void Drawer::_paintEvent(Event::Paint& event)
             {
                 Widget::_paintEvent(event);
                 DJV_PRIVATE_PTR();
                 if (p.open)
                 {
-                    const BBox2f & g = p.layout->getGeometry();
+                    const BBox2f& g = p.layout->getGeometry();
                     auto style = _getStyle();
                     const float sh = style->getMetric(MetricsRole::Shadow);
                     auto render = _getRender();
                     render->setFillColor(_getColorWithOpacity(style->getColor(ColorRole::Shadow)));
                     switch (p.side)
                     {
-                    case Side::Left:   render->drawShadow(BBox2f(g.max.x, g.min.y, sh, g.h()), AV::Side::Right); break;
-                    case Side::Top:    render->drawShadow(BBox2f(g.min.x, g.max.y, g.w(), sh), AV::Side::Bottom);     break;
-                    case Side::Right:  render->drawShadow(BBox2f(g.min.x - sh, g.min.y, sh, g.h()), AV::Side::Left);  break;
-                    case Side::Bottom: render->drawShadow(BBox2f(g.min.x, g.min.y - sh, g.w(), sh), AV::Side::Top);   break;
+                    case Side::Left:   render->drawShadow(BBox2f(g.max.x, g.min.y, sh, g.h()), AV::Side::Right);     break;
+                    case Side::Top:    render->drawShadow(BBox2f(g.min.x, g.max.y, g.w(), sh), AV::Side::Bottom);    break;
+                    case Side::Right:  render->drawShadow(BBox2f(g.min.x - sh, g.min.y, sh, g.h()), AV::Side::Left); break;
+                    case Side::Bottom: render->drawShadow(BBox2f(g.min.x, g.min.y - sh, g.w(), sh), AV::Side::Top);  break;
                     default: break;
                     }
                 }
+            }
+
+            void Drawer::_paintOverlayEvent(Event::PaintOverlay& event)
+            {
+                DJV_PRIVATE_PTR();
+                if (p.open && p.pointerHover.size())
+                {
+                    auto style = _getStyle();
+                    auto render = _getRender();
+                    render->setFillColor(_getColorWithOpacity(style->getColor(ColorRole::Hovered)));
+                    render->drawRect(p.spacer->getGeometry());
+                }
+            }
+
+            bool Drawer::_eventFilter(const std::shared_ptr<IObject>& object, Event::IEvent& event)
+            {
+                DJV_PRIVATE_PTR();
+                switch (event.getEventType())
+                {
+                case Event::Type::PointerEnter:
+                {
+                    Event::PointerEnter& pointerEnterEvent = static_cast<Event::PointerEnter&>(event);
+                    const auto& pointerInfo = pointerEnterEvent.getPointerInfo();
+                    if (auto widget = std::dynamic_pointer_cast<Widget>(object))
+                    {
+                        event.accept();
+                        const auto i = std::find(p.pointerHover.begin(), p.pointerHover.end(), pointerInfo.id);
+                        if (i == p.pointerHover.end())
+                        {
+                            p.pointerHover.push_back(pointerInfo.id);
+                        }
+                        _redraw();
+                    }
+                    break;
+                }
+                case Event::Type::PointerLeave:
+                {
+                    Event::PointerLeave& pointerLeaveEvent = static_cast<Event::PointerLeave&>(event);
+                    const auto& pointerInfo = pointerLeaveEvent.getPointerInfo();
+                    if (auto widget = std::dynamic_pointer_cast<Widget>(object))
+                    {
+                        event.accept();
+                        const auto i = std::find(p.pointerHover.begin(), p.pointerHover.end(), pointerInfo.id);
+                        if (i != p.pointerHover.end())
+                        {
+                            p.pointerHover.erase(i);
+                        }
+                        _redraw();
+                    }
+                    break;
+                }
+                case Event::Type::PointerMove:
+                {
+                    Event::PointerMove& pointerMoveEvent = static_cast<Event::PointerMove&>(event);
+                    const auto& pointerInfo = pointerMoveEvent.getPointerInfo();
+                    if (auto widget = std::dynamic_pointer_cast<Widget>(object))
+                    {
+                        event.accept();
+                        auto style = _getStyle();
+                        const float sh = style->getMetric(MetricsRole::Shadow);
+                        const BBox2f& g = getGeometry();
+                        const float w = g.w();
+                        const float h = g.h();
+                        const glm::vec2& minimumSize = p.layout->getMinimumSize();
+                        if (pointerInfo.id == p.pressedID)
+                        {
+                            switch (p.side)
+                            {
+                            case Side::Left:
+                                p.size = Math::clamp(p.pressedSize * w + (pointerInfo.projectedPos.x - p.pressedPos.x), minimumSize.x, w) / w;
+                                break;
+                            case Side::Right:
+                                p.size = Math::clamp(p.pressedSize * w + (p.pressedPos.x - pointerInfo.projectedPos.x), minimumSize.x, w) / w;
+                                break;
+                            case Side::Top:
+                            case Side::Bottom:
+                                p.size = Math::clamp(p.pressedSize * h + (pointerInfo.projectedPos.y - p.pressedPos.y), minimumSize.y, h) / h;
+                                break;
+                            }
+                            _resize();
+                        }
+                    }
+                    break;
+                }
+                case Event::Type::ButtonPress:
+                {
+                    Event::ButtonPress& buttonPressEvent = static_cast<Event::ButtonPress&>(event);
+                    const auto& pointerInfo = buttonPressEvent.getPointerInfo();
+                    if (auto widget = std::dynamic_pointer_cast<Widget>(object))
+                    {
+                        if (!p.pressedID)
+                        {
+                            event.accept();
+                            p.pressedID = pointerInfo.id;
+                            p.pressedPos = pointerInfo.projectedPos;
+                            p.pressedSize = p.size;
+                        }
+                    }
+                    break;
+                }
+                case Event::Type::ButtonRelease:
+                {
+                    Event::ButtonRelease& buttonReleaseEvent = static_cast<Event::ButtonRelease&>(event);
+                    const auto& pointerInfo = buttonReleaseEvent.getPointerInfo();
+                    if (auto widget = std::dynamic_pointer_cast<Widget>(object))
+                    {
+                        event.accept();
+                        p.pressedID = Event::InvalidID;
+                    }
+                    break;
+                }
+                default: break;
+                }
+                return false;
             }
 
         } // namespace Layout

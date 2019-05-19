@@ -33,19 +33,14 @@
 #include <djvViewApp/FileBrowserWidget.h>
 #include <djvViewApp/FileSettings.h>
 #include <djvViewApp/Media.h>
-//#include <djvViewApp/RecentFilesDialog.h>
 #include <djvViewApp/WindowSystem.h>
 
-//#include <djvUIComponents/FileBrowser.h>
-
 #include <djvUI/Action.h>
-//#include <djvUI/DialogSystem.h>
 #include <djvUI/EventSystem.h>
 #include <djvUI/GroupBox.h>
 #include <djvUI/Menu.h>
 #include <djvUI/RowLayout.h>
 #include <djvUI/Shortcut.h>
-//#include <djvUI/Window.h>
 
 #include <djvCore/Context.h>
 #include <djvCore/FileInfo.h>
@@ -69,10 +64,8 @@ namespace djv
             std::shared_ptr<ValueSubject<std::shared_ptr<Media> > > currentMedia;
             std::map<std::string, std::shared_ptr<UI::Action> > actions;
             std::shared_ptr<UI::Menu> menu;
-            //std::shared_ptr<FileBrowserWidget> fileBrowserDialog;
             Core::FileSystem::Path fileBrowserPath = Core::FileSystem::Path(".");
             std::shared_ptr<Core::FileSystem::RecentFilesModel> recentFilesModel;
-            //std::shared_ptr<RecentFilesDialog> recentFilesDialog;
             std::function<void(void)> fileBrowserCallback;
             std::shared_ptr<ListObserver<Core::FileSystem::FileInfo> > recentFilesObserver;
             std::shared_ptr<ListObserver<Core::FileSystem::FileInfo> > recentFilesObserver2;
@@ -95,9 +88,9 @@ namespace djv
             p.actions["Open"] = UI::Action::create();
             p.actions["Open"]->setIcon("djvIconFileOpen");
             p.actions["Open"]->setShortcut(GLFW_KEY_O, UI::Shortcut::getSystemModifier());
-            //p.actions["Recent"] = UI::Action::create();
-            //p.actions["Recent"]->setIcon("djvIconFileRecent");
-            //p.actions["Recent"]->setShortcut(GLFW_KEY_T, UI::Shortcut::getSystemModifier());
+            p.actions["Recent"] = UI::Action::create();
+            p.actions["Recent"]->setIcon("djvIconFileRecent");
+            p.actions["Recent"]->setShortcut(GLFW_KEY_T, UI::Shortcut::getSystemModifier());
             //! \todo Implement me!
             p.actions["Reload"] = UI::Action::create();
             p.actions["Reload"]->setShortcut(GLFW_KEY_R, UI::Shortcut::getSystemModifier());
@@ -143,7 +136,7 @@ namespace djv
 
             p.menu = UI::Menu::create(context);
             p.menu->addAction(p.actions["Open"]);
-            //p.menu->addAction(p.actions["Recent"]);
+            p.menu->addAction(p.actions["Recent"]);
             p.menu->addAction(p.actions["Reload"]);
             p.menu->addAction(p.actions["Close"]);
             p.menu->addAction(p.actions["CloseAll"]);
@@ -484,8 +477,8 @@ namespace djv
             auto context = getContext();
             p.actions["Open"]->setText(_getText(DJV_TEXT("Open")));
             p.actions["Open"]->setTooltip(_getText(DJV_TEXT("Open tooltip")));
-            //p.actions["Recent"]->setText(_getText(DJV_TEXT("Recent")));
-            //p.actions["Recent"]->setTooltip(_getText(DJV_TEXT("Recent tooltip")));
+            p.actions["Recent"]->setText(_getText(DJV_TEXT("Recent")));
+            p.actions["Recent"]->setTooltip(_getText(DJV_TEXT("Recent tooltip")));
             p.actions["Reload"]->setText(_getText(DJV_TEXT("Reload")));
             p.actions["Reload"]->setTooltip(_getText(DJV_TEXT("Reload tooltip")));
             p.actions["Close"]->setText(_getText(DJV_TEXT("Close")));
@@ -511,97 +504,6 @@ namespace djv
 
             p.menu->setText(_getText(DJV_TEXT("File")));
         }
-
-        /*void FileSystem::_showFileBrowserDialog()
-        {
-            DJV_PRIVATE_PTR();
-            auto context = getContext();
-            if (auto eventSystem = context->getSystemT<UI::EventSystem>())
-            {
-                if (auto window = eventSystem->getCurrentWindow().lock())
-                {
-                    if (!p.fileBrowserDialog)
-                    {
-                        p.fileBrowserDialog = FileBrowserDialog::create(context);
-                        p.fileBrowserDialog->setPath(p.fileBrowserPath);
-                        auto weak = std::weak_ptr<FileSystem>(std::dynamic_pointer_cast<FileSystem>(shared_from_this()));
-                        p.fileBrowserDialog->setCallback(
-                            [weak](const Core::FileSystem::FileInfo & value)
-                        {
-                            if (auto system = weak.lock())
-                            {
-                                if (auto parent = system->_p->fileBrowserDialog->getParent().lock())
-                                {
-                                    parent->removeChild(system->_p->fileBrowserDialog);
-                                }
-                                system->_p->fileBrowserPath = system->_p->fileBrowserDialog->getPath();
-                                system->_p->fileBrowserDialog.reset();
-                                system->open(value);
-                            }
-                        });
-                        p.fileBrowserDialog->setCloseCallback(
-                            [weak, context]
-                        {
-                            if (auto system = weak.lock())
-                            {
-                                if (auto parent = system->_p->fileBrowserDialog->getParent().lock())
-                                {
-                                    parent->removeChild(system->_p->fileBrowserDialog);
-                                }
-                                system->_p->fileBrowserPath = system->_p->fileBrowserDialog->getPath();
-                                system->_p->fileBrowserDialog.reset();
-                            }
-                        });
-                    }
-                    window->addChild(p.fileBrowserDialog);
-                    p.fileBrowserDialog->show();
-                }
-            }
-        }
-
-        void FileSystem::_showRecentFilesDialog()
-        {
-            DJV_PRIVATE_PTR();
-            auto context = getContext();
-            if (auto eventSystem = context->getSystemT<UI::EventSystem>())
-            {
-                if (auto window = eventSystem->getCurrentWindow().lock())
-                {
-                    if (!p.recentFilesDialog)
-                    {
-                        p.recentFilesDialog = RecentFilesDialog::create(context);
-                        auto weak = std::weak_ptr<FileSystem>(std::dynamic_pointer_cast<FileSystem>(shared_from_this()));
-                        p.recentFilesDialog->setCallback(
-                            [weak](const Core::FileSystem::FileInfo & value)
-                        {
-                            if (auto system = weak.lock())
-                            {
-                                if (auto parent = system->_p->recentFilesDialog->getParent().lock())
-                                {
-                                    parent->removeChild(system->_p->recentFilesDialog);
-                                }
-                                system->_p->recentFilesDialog.reset();
-                                system->open(value);
-                            }
-                        });
-                        p.recentFilesDialog->setCloseCallback(
-                            [weak, context]
-                        {
-                            if (auto system = weak.lock())
-                            {
-                                if (auto parent = system->_p->recentFilesDialog->getParent().lock())
-                                {
-                                    parent->removeChild(system->_p->recentFilesDialog);
-                                }
-                                system->_p->recentFilesDialog.reset();
-                            }
-                        });
-                    }
-                    window->addChild(p.recentFilesDialog);
-                    p.recentFilesDialog->show();
-                }
-            }
-        }*/
 
     } // namespace ViewApp
 } // namespace djv

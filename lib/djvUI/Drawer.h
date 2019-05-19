@@ -45,21 +45,20 @@ namespace djv
                 DJV_NON_COPYABLE(Drawer);
 
             protected:
-                void _init(Core::Context *);
+                void _init(Side, Core::Context *);
                 Drawer();
 
             public:
                 virtual ~Drawer();
 
-                static std::shared_ptr<Drawer> create(Core::Context *);
+                static std::shared_ptr<Drawer> create(Side, Core::Context *);
+
+                Side getSide() const;
 
                 bool isOpen() const;
                 void setOpen(bool);
                 void open();
                 void close();
-
-                Side getSide() const;
-                void setSide(Side);
 
                 void addChild(const std::shared_ptr<IObject> &) override;
                 void removeChild(const std::shared_ptr<IObject> &) override;
@@ -68,7 +67,10 @@ namespace djv
             protected:
                 void _preLayoutEvent(Core::Event::PreLayout &) override;
                 void _layoutEvent(Core::Event::Layout &) override;
-                void _paintEvent(Core::Event::Paint &) override;
+                void _paintEvent(Core::Event::Paint&) override;
+                void _paintOverlayEvent(Core::Event::PaintOverlay&) override;
+
+                bool _eventFilter(const std::shared_ptr<IObject>&, Core::Event::IEvent&) override;
 
             private:
                 DJV_PRIVATE();

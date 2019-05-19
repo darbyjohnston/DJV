@@ -40,8 +40,6 @@
 #include <djvViewApp/SettingsWidget.h>
 #include <djvViewApp/WindowSystem.h>
 
-//#include <djvUIComponents/FileBrowser.h>
-
 #include <djvUI/Action.h>
 #include <djvUI/ActionButton.h>
 #include <djvUI/ActionGroup.h>
@@ -52,6 +50,7 @@
 #include <djvUI/Menu.h>
 #include <djvUI/MenuBar.h>
 #include <djvUI/MenuButton.h>
+#include <djvUI/Overlay.h>
 #include <djvUI/RowLayout.h>
 #include <djvUI/Shortcut.h>
 #include <djvUI/SoloLayout.h>
@@ -122,8 +121,7 @@ namespace djv
 
             p.fileOpenButton = UI::ToolButton::create(context);
             p.fileOpenButton->setIcon("djvIconFile");
-            auto fileBrowserDrawer = UI::Drawer::create(context);
-            fileBrowserDrawer->setSide(UI::Side::Left);
+            auto fileBrowserDrawer = UI::Drawer::create(UI::Side::Left, context);
             std::shared_ptr<FileBrowserWidget> fileBrowser;
             auto fileSystem = context->getSystemT<FileSystem>();
             if (fileSystem)
@@ -131,6 +129,11 @@ namespace djv
                 fileBrowser = fileSystem->createFileBrowser();
                 fileBrowserDrawer->addChild(fileBrowser);
             }
+            auto fileBrowserOverlay = UI::Layout::Overlay::create(context);
+            fileBrowserOverlay->setCaptureKeyboard(true);
+            fileBrowserOverlay->setCapturePointer(true);
+            fileBrowserOverlay->setBackgroundRole(UI::ColorRole::None);
+            fileBrowserOverlay->addChild(fileBrowserDrawer);
 
             p.mediaActionGroup = UI::ActionGroup::create(UI::ButtonType::Radio);
             p.mediaMenu = UI::Menu::create(context);
@@ -144,14 +147,18 @@ namespace djv
 
             p.settingsButton = UI::ToolButton::create(context);
             p.settingsButton->setIcon("djvIconSettings");
-            auto settingsDrawer = UI::Drawer::create(context);
-            settingsDrawer->setSide(UI::Side::Right);
+            auto settingsDrawer = UI::Drawer::create(UI::Side::Right, context);
             std::shared_ptr<SettingsWidget> settingsWidget;
             if (auto settingsSystem = context->getSystemT<SettingsSystem>())
             {
                 settingsWidget = settingsSystem->createSettingsWidget();
                 settingsDrawer->addChild(settingsWidget);
             }
+            auto settingsOverlay = UI::Layout::Overlay::create(context);
+            settingsOverlay->setCaptureKeyboard(true);
+            settingsOverlay->setCapturePointer(true);
+            settingsOverlay->setBackgroundRole(UI::ColorRole::None);
+            settingsOverlay->addChild(settingsDrawer);
 
             p.menuBar = UI::MenuBar::create(context);
             p.menuBar->setBackgroundRole(UI::ColorRole::Overlay);
@@ -183,23 +190,33 @@ namespace djv
             vLayout->addExpander();
             p.stackLayout->addChild(vLayout);
             p.stackLayout->addChild(p.toolCanvas);
-            p.stackLayout->addChild(fileBrowserDrawer);
-            p.stackLayout->addChild(settingsDrawer);
             addChild(p.stackLayout);
+            addChild(fileBrowserOverlay);
+            addChild(settingsOverlay);
 
             p.fileOpenButton->setClickedCallback(
-                [fileBrowserDrawer]
+                [context]
             {
-                fileBrowserDrawer->open();
+                if (auto fileSystem = context->getSystemT<FileSystem>())
+                {
+                    fileSystem->open();
+                }
             });
             if (fileBrowser)
             {
                 fileBrowser->setCloseCallback(
-                    [fileBrowserDrawer]
+                    [fileBrowserDrawer, fileBrowserOverlay]
                 {
                     fileBrowserDrawer->close();
+                    fileBrowserOverlay->hide();
                 });
             }
+            fileBrowserOverlay->setCloseCallback(
+                [fileBrowserDrawer, fileBrowserOverlay]
+            {
+                fileBrowserDrawer->close();
+                fileBrowserOverlay->hide();
+            });
 
             auto weak = std::weak_ptr<MainWindow>(std::dynamic_pointer_cast<MainWindow>(shared_from_this()));
             p.mediaActionGroup->setRadioCallback(
@@ -250,19 +267,26 @@ namespace djv
             });
 
             p.settingsButton->setClickedCallback(
-                [settingsDrawer]
+                [settingsDrawer, settingsOverlay]
             {
+                settingsOverlay->show();
                 settingsDrawer->open();
             });
-
             if (settingsWidget)
             {
                 settingsWidget->setCloseCallback(
-                    [settingsDrawer]
+                    [settingsDrawer, settingsOverlay]
                 {
                     settingsDrawer->close();
+                    settingsOverlay->hide();
                 });
             }
+            settingsOverlay->setCloseCallback(
+                [settingsDrawer, settingsOverlay]
+            {
+                settingsDrawer->close();
+                settingsOverlay->hide();
+            });
 
             p.closeToolActionObserver = ValueObserver<bool>::create(
                 p.actions["CloseTool"]->observeClicked(),
@@ -323,8 +347,9 @@ namespace djv
                 });
 
                 fileSystem->setFileBrowserCallback(
-                    [fileBrowserDrawer]
+                    [fileBrowserOverlay, fileBrowserDrawer]
                 {
+                    fileBrowserOverlay->show();
                     fileBrowserDrawer->open();
                 });
             }

@@ -207,7 +207,10 @@ namespace djv
                         g.min.y += sh;
                         g.max.x += sh;
                         g.max.y += sh;
-                        render->drawShadow(g, sh);
+                        if (g.isValid())
+                        {
+                            render->drawShadow(g, sh);
+                        }
                     }
                 }
             }
