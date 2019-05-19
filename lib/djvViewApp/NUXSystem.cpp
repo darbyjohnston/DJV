@@ -202,7 +202,7 @@ namespace djv
                     p.image = _images[Math::getRandom(static_cast<int>(_images.size()) - 1)];
                     p.size = Math::getRandom(1, 4) * 512.f;
                     p.pos = glm::vec2(Math::getRandom(-1000.f, 1000.f), Math::getRandom(-1000.f, 1000.f));
-                    p.vel = glm::vec2(Math::getRandom(-100.f, 100.f), Math::getRandom(-100.f, 100.f));
+                    p.vel = glm::vec2(Math::getRandom(-50.f, 50.f), Math::getRandom(-50.f, 50.f));
                     p.lifespan = Math::getRandom(5.f, 20.f);
                     _primitives.push_back(p);
                 }
