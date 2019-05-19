@@ -85,10 +85,8 @@ namespace djv
                 std::shared_ptr<ActionGroup> viewTypeActionGroup;
                 std::shared_ptr<ActionGroup> sortActionGroup;
                 std::shared_ptr<ShortcutsWidget> shortcutsWidget;
-                std::shared_ptr<PopupWidget> shortcutsPopupWidget;
                 std::shared_ptr<DrivesWidget> drivesWidget;
-                std::shared_ptr<PopupWidget> drivesPopupWidget;
-                std::shared_ptr<PopupWidget> recentPopupWidget;
+                std::shared_ptr<PopupWidget> shortcutsPopupWidget;
                 std::shared_ptr<ButtonGroup> modelButtonGroup;
                 std::shared_ptr<PopupWidget> sortPopupWidget;
                 std::shared_ptr<IntSlider> thumbnailSizeSlider;
@@ -217,27 +215,13 @@ namespace djv
                 auto vLayout = VerticalLayout::create(context);
                 vLayout->setSpacing(MetricsRole::None);
                 vLayout->setBackgroundRole(ColorRole::BackgroundToolBar);
+                vLayout->addChild(p.shortcutsWidget);
                 vLayout->addChild(UI::ActionButton::create(p.actions["AddShortcut"], context));
                 vLayout->addSeparator();
-                vLayout->addChild(p.shortcutsWidget);
+                vLayout->addChild(p.drivesWidget);
                 p.shortcutsPopupWidget = PopupWidget::create(context);
                 p.shortcutsPopupWidget->setIcon("djvIconFavorite");
                 p.shortcutsPopupWidget->addChild(vLayout);
-
-                vLayout = VerticalLayout::create(context);
-                vLayout->setSpacing(MetricsRole::None);
-                vLayout->setBackgroundRole(ColorRole::BackgroundToolBar);
-                vLayout->addChild(p.drivesWidget);
-                p.drivesPopupWidget = PopupWidget::create(context);
-                p.drivesPopupWidget->setIcon("djvIconDrives");
-                p.drivesPopupWidget->addChild(vLayout);
-
-                vLayout = VerticalLayout::create(context);
-                vLayout->setSpacing(MetricsRole::None);
-                vLayout->setBackgroundRole(ColorRole::BackgroundToolBar);
-                p.recentPopupWidget = PopupWidget::create(context);
-                p.recentPopupWidget->setIcon("djvIconRecent");
-                p.recentPopupWidget->addChild(vLayout);
 
                 vLayout = VerticalLayout::create(context);
                 vLayout->setSpacing(MetricsRole::None);
@@ -275,8 +259,6 @@ namespace djv
                 topToolBar->addAction(p.actions["Back"]);
                 topToolBar->addAction(p.actions["Forward"]);
                 topToolBar->addChild(p.shortcutsPopupWidget);
-                topToolBar->addChild(p.drivesPopupWidget);
-                topToolBar->addChild(p.recentPopupWidget);
                 topToolBar->addChild(p.sortPopupWidget);
                 topToolBar->addExpander();
                 topToolBar->addChild(p.settingsPopupWidget);
@@ -890,6 +872,7 @@ namespace djv
                 auto context = getContext();
                 p.itemCountLabel->setText(_getItemCountLabel(p.itemCount));
 
+                p.shortcutsPopupWidget->setTooltip(_getText(DJV_TEXT("Shortcuts tooltip")));
                 p.sortPopupWidget->setTooltip(_getText(DJV_TEXT("Sort tooltip")));
                 p.settingsPopupWidget->setTooltip(_getText(DJV_TEXT("File browser settings tooltip")));
 
