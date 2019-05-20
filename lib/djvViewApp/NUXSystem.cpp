@@ -35,6 +35,7 @@
 #include <djvUIComponents/LanguageSettingsWidget.h>
 #include <djvUIComponents/DisplaySettingsWidget.h>
 
+#include <djvUI/Action.h>
 #include <djvUI/ActionButton.h>
 #include <djvUI/Icon.h>
 #include <djvUI/Label.h>
@@ -222,6 +223,7 @@ namespace djv
             std::shared_ptr<UI::Layout::Overlay> overlay;
             std::shared_ptr<Animation::Animation> fadeOutAnimation;
             std::function<void(void)> finishCallback;
+            std::shared_ptr<ValueObserver<bool> > fullScreenObserver;
         };
 
         void NUXWidget::_init(Context* context)
@@ -259,7 +261,8 @@ namespace djv
 
             p.fullscreenButton = UI::ActionButton::create(context);
             p.fullscreenButton->setShowShortcuts(false);
-            if (auto windowSystem = context->getSystemT<WindowSystem>())
+            auto windowSystem = context->getSystemT<WindowSystem>();
+            if (windowSystem)
             {
                 p.fullscreenButton->addAction(windowSystem->getActions()["FullScreen"]);
             }
@@ -381,6 +384,19 @@ namespace djv
                 }
             });
 
+            if (windowSystem)
+            {
+                p.fullScreenObserver = ValueObserver<bool>::create(
+                    windowSystem->getActions()["FullScreen"]->observeChecked(),
+                    [weak](bool value)
+                {
+                    if (auto widget = weak.lock())
+                    {
+                        widget->_p->settingsPopupWidget->close();
+                    }
+                });
+            }
+                
             p.fadeOutAnimation = Animation::Animation::create(context);
         }
 
