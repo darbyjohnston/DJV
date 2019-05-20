@@ -337,6 +337,7 @@ namespace djv
                             case Side::Bottom:
                                 p.size = Math::clamp(p.pressedSize * h + (pointerInfo.projectedPos.y - p.pressedPos.y), minimumSize.y, h) / h;
                                 break;
+                            default: break;
                             }
                             _resize();
                         }

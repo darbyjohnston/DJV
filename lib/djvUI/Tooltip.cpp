@@ -29,7 +29,6 @@
 
 #include <djvUI/Tooltip.h>
 
-#include <djvUI/Border.h>
 #include <djvUI/Overlay.h>
 #include <djvUI/TextBlock.h>
 #include <djvUI/Window.h>

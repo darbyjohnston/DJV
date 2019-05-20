@@ -30,7 +30,6 @@
 #include <djvUI/Widget.h>
 
 #include <djvUI/Action.h>
-#include <djvUI/Border.h>
 #include <djvUI/IconSystem.h>
 #include <djvUI/Shortcut.h>
 #include <djvUI/TextBlock.h>
@@ -735,9 +734,7 @@ namespace djv
             textBlock->setTextColorRole(ColorRole::TooltipForeground);
             textBlock->setBackgroundRole(ColorRole::TooltipBackground);
             textBlock->setMargin(MetricsRole::Margin);
-            auto border = Border::create(context);
-            border->addChild(textBlock);
-            return border;
+            return textBlock;
         }
 
         std::shared_ptr<Widget> Widget::_createTooltip(const glm::vec2 &)
