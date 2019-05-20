@@ -1,17 +1,12 @@
 [
     {
-        "text": "Playback", 
-        "id": "Playback", 
+        "text": "Show Annotations", 
+        "id": "Show Annotations", 
         "description": ""
     }, 
     {
-        "text": "DJV", 
-        "id": "DJV", 
-        "description": ""
-    }, 
-    {
-        "text": "Show timeline PIP", 
-        "id": "Show timeline PIP", 
+        "text": "Annotate", 
+        "id": "Annotate", 
         "description": ""
     }, 
     {
@@ -50,58 +45,108 @@
         "description": ""
     }, 
     {
-        "text": "Close tooltip", 
-        "id": "Close tooltip", 
+        "text": "FPS", 
+        "id": "FPS", 
         "description": ""
     }, 
     {
-        "text": "Cannot parse the value.", 
-        "id": "Cannot parse the value.", 
+        "text": "Object count", 
+        "id": "Object count", 
         "description": ""
     }, 
     {
-        "text": "SDI", 
-        "id": "SDI", 
+        "text": "Widget count", 
+        "id": "Widget count", 
         "description": ""
     }, 
     {
-        "text": "MDI", 
-        "id": "MDI", 
+        "text": "Font system glyph cache", 
+        "id": "Font system glyph cache", 
         "description": ""
     }, 
     {
-        "text": "List", 
-        "id": "List", 
+        "text": "Thumbnail system information cache", 
+        "id": "Thumbnail system information cache", 
         "description": ""
     }, 
     {
-        "text": "Stop", 
-        "id": "Stop", 
+        "text": "Thumbnail system image cache", 
+        "id": "Thumbnail system image cache", 
         "description": ""
     }, 
     {
-        "text": "Forward", 
-        "id": "Forward", 
+        "text": "Icon system cache", 
+        "id": "Icon system cache", 
         "description": ""
     }, 
     {
-        "text": "Reverse", 
-        "id": "Reverse", 
+        "text": "Texture atlas", 
+        "id": "Texture atlas", 
         "description": ""
     }, 
     {
-        "text": "Once", 
-        "id": "Once", 
+        "text": "Dynamic texture count", 
+        "id": "Dynamic texture count", 
         "description": ""
     }, 
     {
-        "text": "Loop", 
-        "id": "Loop", 
+        "text": "VBO size", 
+        "id": "VBO size", 
         "description": ""
     }, 
     {
-        "text": "PingPong", 
-        "id": "PingPong", 
+        "text": "Video queue", 
+        "id": "Video queue", 
+        "description": ""
+    }, 
+    {
+        "text": "Audio queue", 
+        "id": "Audio queue", 
+        "description": ""
+    }, 
+    {
+        "text": "OpenAL queue", 
+        "id": "OpenAL queue", 
+        "description": ""
+    }, 
+    {
+        "text": "Current time", 
+        "id": "Current time", 
+        "description": ""
+    }, 
+    {
+        "text": "Debugging", 
+        "id": "Debugging", 
+        "description": ""
+    }, 
+    {
+        "text": "General", 
+        "id": "General", 
+        "description": ""
+    }, 
+    {
+        "text": "Render", 
+        "id": "Render", 
+        "description": ""
+    }, 
+    {
+        "text": "Media", 
+        "id": "Media", 
+        "description": ""
+    }, 
+    {
+        "text": "Media popup tooltip", 
+        "id": "Media popup tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "Maximized tooltip", 
+        "id": "Maximized tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "Settings tooltip", 
+        "id": "Settings tooltip", 
         "description": ""
     }, 
     {
@@ -110,123 +155,53 @@
         "description": ""
     }, 
     {
+        "text": "DJV", 
+        "id": "DJV", 
+        "description": ""
+    }, 
+    {
         "text": "Enable NUX on startup", 
         "id": "Enable NUX on startup", 
         "description": ""
     }, 
     {
-        "text": "Settings", 
-        "id": "Settings", 
+        "text": "Documentation", 
+        "id": "Documentation", 
         "description": ""
     }, 
     {
-        "text": "FPS", 
-        "id": "FPS", 
+        "text": "Documentation tooltip", 
+        "id": "Documentation tooltip", 
         "description": ""
     }, 
     {
-        "text": "Forward tooltip", 
-        "id": "Forward tooltip", 
+        "text": "About", 
+        "id": "About", 
         "description": ""
     }, 
     {
-        "text": "Reverse tooltip", 
-        "id": "Reverse tooltip", 
+        "text": "About tooltip", 
+        "id": "About tooltip", 
         "description": ""
     }, 
     {
-        "text": "Go to in point tooltip", 
-        "id": "Go to in point tooltip", 
+        "text": "System Log", 
+        "id": "System Log", 
         "description": ""
     }, 
     {
-        "text": "Next frame tooltip", 
-        "id": "Next frame tooltip", 
+        "text": "System log tooltip", 
+        "id": "System log tooltip", 
         "description": ""
     }, 
     {
-        "text": "Previous frame tooltip", 
-        "id": "Previous frame tooltip", 
+        "text": "Help", 
+        "id": "Help", 
         "description": ""
     }, 
     {
-        "text": "Go to out point tooltip", 
-        "id": "Go to out point tooltip", 
-        "description": ""
-    }, 
-    {
-        "text": "Speed tooltip", 
-        "id": "Speed tooltip", 
-        "description": ""
-    }, 
-    {
-        "text": "Current time tooltip", 
-        "id": "Current time tooltip", 
-        "description": ""
-    }, 
-    {
-        "text": "Duration tooltip", 
-        "id": "Duration tooltip", 
-        "description": ""
-    }, 
-    {
-        "text": "Audio popup tooltip", 
-        "id": "Audio popup tooltip", 
-        "description": ""
-    }, 
-    {
-        "text": "Volume tooltip", 
-        "id": "Volume tooltip", 
-        "description": ""
-    }, 
-    {
-        "text": "Recent Files", 
-        "id": "Recent Files", 
-        "description": ""
-    }, 
-    {
-        "text": "Increase Thumbnail Size", 
-        "id": "Increase Thumbnail Size", 
-        "description": ""
-    }, 
-    {
-        "text": "Recent files increase thumbnail size tooltip", 
-        "id": "Recent files increase thumbnail size tooltip", 
-        "description": ""
-    }, 
-    {
-        "text": "Decrease Thumbnail Size", 
-        "id": "Decrease Thumbnail Size", 
-        "description": ""
-    }, 
-    {
-        "text": "Recent files decrease thumbnail size tooltip", 
-        "id": "Recent files decrease thumbnail size tooltip", 
-        "description": ""
-    }, 
-    {
-        "text": "View", 
-        "id": "View", 
-        "description": ""
-    }, 
-    {
-        "text": "Recent files search tooltip", 
-        "id": "Recent files search tooltip", 
-        "description": ""
-    }, 
-    {
-        "text": "Thumbnail Size", 
-        "id": "Thumbnail Size", 
-        "description": ""
-    }, 
-    {
-        "text": "Recent files thumbnail size tooltip", 
-        "id": "Recent files thumbnail size tooltip", 
-        "description": ""
-    }, 
-    {
-        "text": "Items", 
-        "id": "Items", 
+        "text": "Histogram", 
+        "id": "Histogram", 
         "description": ""
     }, 
     {
@@ -455,68 +430,8 @@
         "description": ""
     }, 
     {
-        "text": "DJV ", 
-        "id": "DJV ", 
-        "description": ""
-    }, 
-    {
-        "text": "Choose your language", 
-        "id": "Choose your language", 
-        "description": ""
-    }, 
-    {
-        "text": "Choose a display size", 
-        "id": "Choose a display size", 
-        "description": ""
-    }, 
-    {
-        "text": "Choose a palette", 
-        "id": "Choose a palette", 
-        "description": ""
-    }, 
-    {
-        "text": "Next", 
-        "id": "Next", 
-        "description": ""
-    }, 
-    {
-        "text": "Previous", 
-        "id": "Previous", 
-        "description": ""
-    }, 
-    {
-        "text": "Finish", 
-        "id": "Finish", 
-        "description": ""
-    }, 
-    {
-        "text": "Magnifier", 
-        "id": "Magnifier", 
-        "description": ""
-    }, 
-    {
-        "text": "Magnifier tooltip", 
-        "id": "Magnifier tooltip", 
-        "description": ""
-    }, 
-    {
-        "text": "Color Picker", 
-        "id": "Color Picker", 
-        "description": ""
-    }, 
-    {
-        "text": "Color picker tooltip", 
-        "id": "Color picker tooltip", 
-        "description": ""
-    }, 
-    {
-        "text": "Histogram", 
-        "id": "Histogram", 
-        "description": ""
-    }, 
-    {
-        "text": "Histogram tooltip", 
-        "id": "Histogram tooltip", 
+        "text": "View", 
+        "id": "View", 
         "description": ""
     }, 
     {
@@ -525,68 +440,48 @@
         "description": ""
     }, 
     {
-        "text": "Information tooltip", 
-        "id": "Information tooltip", 
+        "text": "Playback", 
+        "id": "Playback", 
         "description": ""
     }, 
     {
-        "text": "Debugging", 
-        "id": "Debugging", 
+        "text": "Show timeline PIP", 
+        "id": "Show timeline PIP", 
         "description": ""
     }, 
     {
-        "text": "Debugging tooltip", 
-        "id": "Debugging tooltip", 
+        "text": "cannot create OpenAL source", 
+        "id": "cannot create OpenAL source", 
         "description": ""
     }, 
     {
-        "text": "Tools", 
-        "id": "Tools", 
+        "text": "cannot create OpenAL buffers", 
+        "id": "cannot create OpenAL buffers", 
         "description": ""
     }, 
     {
-        "text": "Video track", 
-        "id": "Video track", 
+        "text": "cannot open", 
+        "id": "cannot open", 
         "description": ""
     }, 
     {
-        "text": "Size", 
-        "id": "Size", 
+        "text": "Forward", 
+        "id": "Forward", 
         "description": ""
     }, 
     {
-        "text": "Aspect ratio", 
-        "id": "Aspect ratio", 
+        "text": "Forward tooltip", 
+        "id": "Forward tooltip", 
         "description": ""
     }, 
     {
-        "text": "Type", 
-        "id": "Type", 
+        "text": "Reverse", 
+        "id": "Reverse", 
         "description": ""
     }, 
     {
-        "text": "Speed", 
-        "id": "Speed", 
-        "description": ""
-    }, 
-    {
-        "text": "Duration", 
-        "id": "Duration", 
-        "description": ""
-    }, 
-    {
-        "text": "Audio track", 
-        "id": "Audio track", 
-        "description": ""
-    }, 
-    {
-        "text": "Channels", 
-        "id": "Channels", 
-        "description": ""
-    }, 
-    {
-        "text": "Sample rate", 
-        "id": "Sample rate", 
+        "text": "Reverse tooltip", 
+        "id": "Reverse tooltip", 
         "description": ""
     }, 
     {
@@ -597,6 +492,11 @@
     {
         "text": "Play once tooltip", 
         "id": "Play once tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "Loop", 
+        "id": "Loop", 
         "description": ""
     }, 
     {
@@ -630,8 +530,18 @@
         "description": ""
     }, 
     {
+        "text": "Go to in point tooltip", 
+        "id": "Go to in point tooltip", 
+        "description": ""
+    }, 
+    {
         "text": "Go to Out Point", 
         "id": "Go to Out Point", 
+        "description": ""
+    }, 
+    {
+        "text": "Go to out point tooltip", 
+        "id": "Go to out point tooltip", 
         "description": ""
     }, 
     {
@@ -660,6 +570,11 @@
         "description": ""
     }, 
     {
+        "text": "Next frame tooltip", 
+        "id": "Next frame tooltip", 
+        "description": ""
+    }, 
+    {
         "text": "Next Frame X10", 
         "id": "Next Frame X10", 
         "description": ""
@@ -682,6 +597,11 @@
     {
         "text": "Previous Frame", 
         "id": "Previous Frame", 
+        "description": ""
+    }, 
+    {
+        "text": "Previous frame tooltip", 
+        "id": "Previous frame tooltip", 
         "description": ""
     }, 
     {
@@ -755,18 +675,193 @@
         "description": ""
     }, 
     {
-        "text": "Media popup tooltip", 
-        "id": "Media popup tooltip", 
+        "text": "Settings", 
+        "id": "Settings", 
         "description": ""
     }, 
     {
-        "text": "Settings tooltip", 
-        "id": "Settings tooltip", 
+        "text": "Magnifier", 
+        "id": "Magnifier", 
         "description": ""
     }, 
     {
-        "text": "System Log", 
-        "id": "System Log", 
+        "text": "Magnifier tooltip", 
+        "id": "Magnifier tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "Color Picker", 
+        "id": "Color Picker", 
+        "description": ""
+    }, 
+    {
+        "text": "Color picker tooltip", 
+        "id": "Color picker tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "Histogram tooltip", 
+        "id": "Histogram tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "Information tooltip", 
+        "id": "Information tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "Debugging tooltip", 
+        "id": "Debugging tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "Tools", 
+        "id": "Tools", 
+        "description": ""
+    }, 
+    {
+        "text": "Window", 
+        "id": "Window", 
+        "description": ""
+    }, 
+    {
+        "text": "Automatically fade out the UI", 
+        "id": "Automatically fade out the UI", 
+        "description": ""
+    }, 
+    {
+        "text": "Lock Color Type", 
+        "id": "Lock Color Type", 
+        "description": ""
+    }, 
+    {
+        "text": "Color picker lock color type tooltip", 
+        "id": "Color picker lock color type tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "Enable Color Profile", 
+        "id": "Enable Color Profile", 
+        "description": ""
+    }, 
+    {
+        "text": "Color picker enable color profile tooltip", 
+        "id": "Color picker enable color profile tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "Enable Display Profile", 
+        "id": "Enable Display Profile", 
+        "description": ""
+    }, 
+    {
+        "text": "Color picker enable display profile tooltip", 
+        "id": "Color picker enable display profile tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "RGB", 
+        "id": "RGB", 
+        "description": ""
+    }, 
+    {
+        "text": "HSV", 
+        "id": "HSV", 
+        "description": ""
+    }, 
+    {
+        "text": "Color picker sample size tooltip", 
+        "id": "Color picker sample size tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "Choose your language", 
+        "id": "Choose your language", 
+        "description": ""
+    }, 
+    {
+        "text": "Choose a display size", 
+        "id": "Choose a display size", 
+        "description": ""
+    }, 
+    {
+        "text": "Choose a palette", 
+        "id": "Choose a palette", 
+        "description": ""
+    }, 
+    {
+        "text": "Next", 
+        "id": "Next", 
+        "description": ""
+    }, 
+    {
+        "text": "Previous", 
+        "id": "Previous", 
+        "description": ""
+    }, 
+    {
+        "text": "Finish", 
+        "id": "Finish", 
+        "description": ""
+    }, 
+    {
+        "text": "Full Screen", 
+        "id": "Full Screen", 
+        "description": ""
+    }, 
+    {
+        "text": "Full screen tooltip", 
+        "id": "Full screen tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "Maximized", 
+        "id": "Maximized", 
+        "description": ""
+    }, 
+    {
+        "text": "Video track", 
+        "id": "Video track", 
+        "description": ""
+    }, 
+    {
+        "text": "Size", 
+        "id": "Size", 
+        "description": ""
+    }, 
+    {
+        "text": "Aspect ratio", 
+        "id": "Aspect ratio", 
+        "description": ""
+    }, 
+    {
+        "text": "Type", 
+        "id": "Type", 
+        "description": ""
+    }, 
+    {
+        "text": "Speed", 
+        "id": "Speed", 
+        "description": ""
+    }, 
+    {
+        "text": "Duration", 
+        "id": "Duration", 
+        "description": ""
+    }, 
+    {
+        "text": "Audio track", 
+        "id": "Audio track", 
+        "description": ""
+    }, 
+    {
+        "text": "Channels", 
+        "id": "Channels", 
+        "description": ""
+    }, 
+    {
+        "text": "Sample rate", 
+        "id": "Sample rate", 
         "description": ""
     }, 
     {
@@ -785,51 +880,6 @@
         "description": ""
     }, 
     {
-        "text": "Full Screen", 
-        "id": "Full Screen", 
-        "description": ""
-    }, 
-    {
-        "text": "Full screen tooltip", 
-        "id": "Full screen tooltip", 
-        "description": ""
-    }, 
-    {
-        "text": "Single Window", 
-        "id": "Single Window", 
-        "description": ""
-    }, 
-    {
-        "text": "Single window tooltip", 
-        "id": "Single window tooltip", 
-        "description": ""
-    }, 
-    {
-        "text": "Multiple Windows", 
-        "id": "Multiple Windows", 
-        "description": ""
-    }, 
-    {
-        "text": "Multiple windows tooltip", 
-        "id": "Multiple windows tooltip", 
-        "description": ""
-    }, 
-    {
-        "text": "Playlist", 
-        "id": "Playlist", 
-        "description": ""
-    }, 
-    {
-        "text": "Playlist tooltip", 
-        "id": "Playlist tooltip", 
-        "description": ""
-    }, 
-    {
-        "text": "Window", 
-        "id": "Window", 
-        "description": ""
-    }, 
-    {
         "text": "DJV Imaging", 
         "id": "About Title", 
         "description": ""
@@ -837,6 +887,21 @@
     {
         "text": "Copyright and License", 
         "id": "Copyright and License", 
+        "description": ""
+    }, 
+    {
+        "text": "Contributors", 
+        "id": "Contributors", 
+        "description": ""
+    }, 
+    {
+        "text": "Third Party Software", 
+        "id": "Third Party", 
+        "description": ""
+    }, 
+    {
+        "text": "Trademarks", 
+        "id": "Trademarks", 
         "description": ""
     }, 
     {
@@ -870,11 +935,6 @@
         "description": ""
     }, 
     {
-        "text": "Contributors", 
-        "id": "Contributors", 
-        "description": ""
-    }, 
-    {
         "text": "Portions of this software are copyright (in alphabetical order):", 
         "id": "Contributors Text 1", 
         "description": ""
@@ -892,11 +952,6 @@
     {
         "text": "* Copyright (c) 2008-2009 Mikael Sundell. All rights reserved.", 
         "id": "Contributors Text 4", 
-        "description": ""
-    }, 
-    {
-        "text": "Third Party Software", 
-        "id": "Third Party", 
         "description": ""
     }, 
     {
@@ -967,11 +1022,6 @@
     {
         "text": "* zlib, http://www.zlib.net, Copyright (c) 1995-2013 Jean-loup Gailly and Mark Adler", 
         "id": "Third Party Text 14", 
-        "description": ""
-    }, 
-    {
-        "text": "Trademarks", 
-        "id": "Trademarks", 
         "description": ""
     }, 
     {
@@ -1090,143 +1140,18 @@
         "description": ""
     }, 
     {
-        "text": "Show Annotations", 
-        "id": "Show Annotations", 
+        "text": "Stop", 
+        "id": "Stop", 
         "description": ""
     }, 
     {
-        "text": "Annotate", 
-        "id": "Annotate", 
+        "text": "Once", 
+        "id": "Once", 
         "description": ""
     }, 
     {
-        "text": "Lock Color Type", 
-        "id": "Lock Color Type", 
-        "description": ""
-    }, 
-    {
-        "text": "Color picker lock color type tooltip", 
-        "id": "Color picker lock color type tooltip", 
-        "description": ""
-    }, 
-    {
-        "text": "Enable Color Profile", 
-        "id": "Enable Color Profile", 
-        "description": ""
-    }, 
-    {
-        "text": "Color picker enable color profile tooltip", 
-        "id": "Color picker enable color profile tooltip", 
-        "description": ""
-    }, 
-    {
-        "text": "Enable Display Profile", 
-        "id": "Enable Display Profile", 
-        "description": ""
-    }, 
-    {
-        "text": "Color picker enable display profile tooltip", 
-        "id": "Color picker enable display profile tooltip", 
-        "description": ""
-    }, 
-    {
-        "text": "RGB", 
-        "id": "RGB", 
-        "description": ""
-    }, 
-    {
-        "text": "HSV", 
-        "id": "HSV", 
-        "description": ""
-    }, 
-    {
-        "text": "Color picker sample size tooltip", 
-        "id": "Color picker sample size tooltip", 
-        "description": ""
-    }, 
-    {
-        "text": "Object count", 
-        "id": "Object count", 
-        "description": ""
-    }, 
-    {
-        "text": "Widget count", 
-        "id": "Widget count", 
-        "description": ""
-    }, 
-    {
-        "text": "Font system glyph cache", 
-        "id": "Font system glyph cache", 
-        "description": ""
-    }, 
-    {
-        "text": "Thumbnail system information cache", 
-        "id": "Thumbnail system information cache", 
-        "description": ""
-    }, 
-    {
-        "text": "Thumbnail system image cache", 
-        "id": "Thumbnail system image cache", 
-        "description": ""
-    }, 
-    {
-        "text": "Icon system cache", 
-        "id": "Icon system cache", 
-        "description": ""
-    }, 
-    {
-        "text": "Texture atlas", 
-        "id": "Texture atlas", 
-        "description": ""
-    }, 
-    {
-        "text": "Dynamic texture count", 
-        "id": "Dynamic texture count", 
-        "description": ""
-    }, 
-    {
-        "text": "VBO size", 
-        "id": "VBO size", 
-        "description": ""
-    }, 
-    {
-        "text": "Video queue", 
-        "id": "Video queue", 
-        "description": ""
-    }, 
-    {
-        "text": "Audio queue", 
-        "id": "Audio queue", 
-        "description": ""
-    }, 
-    {
-        "text": "OpenAL queue", 
-        "id": "OpenAL queue", 
-        "description": ""
-    }, 
-    {
-        "text": "Current time", 
-        "id": "Current time", 
-        "description": ""
-    }, 
-    {
-        "text": "General", 
-        "id": "General", 
-        "description": ""
-    }, 
-    {
-        "text": "Render", 
-        "id": "Render", 
-        "description": ""
-    }, 
-    {
-        "text": "Media", 
-        "id": "Media", 
-        "description": ""
-    }, 
-    {
-        "text": "File Browser", 
-        "id": "File Browser", 
+        "text": "PingPong", 
+        "id": "PingPong", 
         "description": ""
     }, 
     {
@@ -1257,6 +1182,11 @@
     {
         "text": "Close", 
         "id": "Close", 
+        "description": ""
+    }, 
+    {
+        "text": "Close tooltip", 
+        "id": "Close tooltip", 
         "description": ""
     }, 
     {
@@ -1345,53 +1275,68 @@
         "description": ""
     }, 
     {
-        "text": "Documentation", 
-        "id": "Documentation", 
+        "text": "Speed tooltip", 
+        "id": "Speed tooltip", 
         "description": ""
     }, 
     {
-        "text": "Documentation tooltip", 
-        "id": "Documentation tooltip", 
+        "text": "Current time tooltip", 
+        "id": "Current time tooltip", 
         "description": ""
     }, 
     {
-        "text": "About", 
-        "id": "About", 
+        "text": "Duration tooltip", 
+        "id": "Duration tooltip", 
         "description": ""
     }, 
     {
-        "text": "About tooltip", 
-        "id": "About tooltip", 
+        "text": "Audio popup tooltip", 
+        "id": "Audio popup tooltip", 
         "description": ""
     }, 
     {
-        "text": "System log tooltip", 
-        "id": "System log tooltip", 
+        "text": "Volume tooltip", 
+        "id": "Volume tooltip", 
         "description": ""
     }, 
     {
-        "text": "Help", 
-        "id": "Help", 
+        "text": "Recent Files", 
+        "id": "Recent Files", 
         "description": ""
     }, 
     {
-        "text": "cannot create OpenAL source", 
-        "id": "cannot create OpenAL source", 
+        "text": "Increase Thumbnail Size", 
+        "id": "Increase Thumbnail Size", 
         "description": ""
     }, 
     {
-        "text": "cannot create OpenAL buffers", 
-        "id": "cannot create OpenAL buffers", 
+        "text": "Recent files increase thumbnail size tooltip", 
+        "id": "Recent files increase thumbnail size tooltip", 
         "description": ""
     }, 
     {
-        "text": "cannot open", 
-        "id": "cannot open", 
+        "text": "Decrease Thumbnail Size", 
+        "id": "Decrease Thumbnail Size", 
         "description": ""
     }, 
     {
-        "text": "Automatically fade out the UI", 
-        "id": "Automatically fade out the UI", 
+        "text": "Recent files decrease thumbnail size tooltip", 
+        "id": "Recent files decrease thumbnail size tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "Recent files search tooltip", 
+        "id": "Recent files search tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "Recent files settings tooltip", 
+        "id": "Recent files settings tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "Items", 
+        "id": "Items", 
         "description": ""
     }
 ]

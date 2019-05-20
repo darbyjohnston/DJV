@@ -110,6 +110,111 @@
         "description": ""
     }, 
     {
+        "text": "JPEG", 
+        "id": "JPEG", 
+        "description": ""
+    }, 
+    {
+        "text": "I/O", 
+        "id": "I/O", 
+        "description": ""
+    }, 
+    {
+        "text": "Compression quality:", 
+        "id": "Compression quality:", 
+        "description": ""
+    }, 
+    {
+        "text": "Language", 
+        "id": "Language", 
+        "description": ""
+    }, 
+    {
+        "text": "Language:", 
+        "id": "Language:", 
+        "description": ""
+    }, 
+    {
+        "text": "PPM", 
+        "id": "PPM", 
+        "description": ""
+    }, 
+    {
+        "text": "Data type:", 
+        "id": "Data type:", 
+        "description": ""
+    }, 
+    {
+        "text": "TIFF", 
+        "id": "TIFF", 
+        "description": ""
+    }, 
+    {
+        "text": "File compression:", 
+        "id": "File compression:", 
+        "description": ""
+    }, 
+    {
+        "text": "Time", 
+        "id": "Time", 
+        "description": ""
+    }, 
+    {
+        "text": "Units", 
+        "id": "Units", 
+        "description": ""
+    }, 
+    {
+        "text": "Last modification time", 
+        "id": "Last modification time", 
+        "description": ""
+    }, 
+    {
+        "text": "Video track", 
+        "id": "Video track", 
+        "description": ""
+    }, 
+    {
+        "text": "Type", 
+        "id": "Type", 
+        "description": ""
+    }, 
+    {
+        "text": "Speed", 
+        "id": "Speed", 
+        "description": ""
+    }, 
+    {
+        "text": "FPS", 
+        "id": "FPS", 
+        "description": ""
+    }, 
+    {
+        "text": "Duration", 
+        "id": "Duration", 
+        "description": ""
+    }, 
+    {
+        "text": "Audio track", 
+        "id": "Audio track", 
+        "description": ""
+    }, 
+    {
+        "text": "Channels", 
+        "id": "Channels", 
+        "description": ""
+    }, 
+    {
+        "text": "Sample rate", 
+        "id": "Sample rate", 
+        "description": ""
+    }, 
+    {
+        "text": "kHz", 
+        "id": "kHz", 
+        "description": ""
+    }, 
+    {
         "text": "Back", 
         "id": "Back", 
         "description": ""
@@ -147,16 +252,6 @@
     {
         "text": "File browser current directory tooltip", 
         "id": "File browser current directory tooltip", 
-        "description": ""
-    }, 
-    {
-        "text": "Edit Path", 
-        "id": "Edit Path", 
-        "description": ""
-    }, 
-    {
-        "text": "File browser edit path tooltip", 
-        "id": "File browser edit path tooltip", 
         "description": ""
     }, 
     {
@@ -280,36 +375,6 @@
         "description": ""
     }, 
     {
-        "text": "Directory", 
-        "id": "Directory", 
-        "description": ""
-    }, 
-    {
-        "text": "Shortcuts", 
-        "id": "Shortcuts", 
-        "description": ""
-    }, 
-    {
-        "text": "View", 
-        "id": "View", 
-        "description": ""
-    }, 
-    {
-        "text": "Sort", 
-        "id": "Sort", 
-        "description": ""
-    }, 
-    {
-        "text": "Drives", 
-        "id": "Drives", 
-        "description": ""
-    }, 
-    {
-        "text": "Recent", 
-        "id": "Recent", 
-        "description": ""
-    }, 
-    {
         "text": "Name", 
         "id": "File browser name column", 
         "description": ""
@@ -325,18 +390,23 @@
         "description": ""
     }, 
     {
+        "text": "Shortcuts tooltip", 
+        "id": "Shortcuts tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "Sort tooltip", 
+        "id": "Sort tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "File browser settings tooltip", 
+        "id": "File browser settings tooltip", 
+        "description": ""
+    }, 
+    {
         "text": "File browser search tooltip", 
         "id": "File browser search tooltip", 
-        "description": ""
-    }, 
-    {
-        "text": "Thumbnail Size", 
-        "id": "Thumbnail Size", 
-        "description": ""
-    }, 
-    {
-        "text": "File browser thumbnail size tooltip", 
-        "id": "File browser thumbnail size tooltip", 
         "description": ""
     }, 
     {
@@ -345,83 +415,13 @@
         "description": ""
     }, 
     {
-        "text": "Last modification time", 
-        "id": "Last modification time", 
-        "description": ""
-    }, 
-    {
-        "text": "Video track", 
-        "id": "Video track", 
-        "description": ""
-    }, 
-    {
-        "text": "Type", 
-        "id": "Type", 
-        "description": ""
-    }, 
-    {
-        "text": "Speed", 
-        "id": "Speed", 
-        "description": ""
-    }, 
-    {
-        "text": "FPS", 
-        "id": "FPS", 
-        "description": ""
-    }, 
-    {
-        "text": "Duration", 
-        "id": "Duration", 
-        "description": ""
-    }, 
-    {
-        "text": "Audio track", 
-        "id": "Audio track", 
-        "description": ""
-    }, 
-    {
-        "text": "Channels", 
-        "id": "Channels", 
-        "description": ""
-    }, 
-    {
-        "text": "Sample rate", 
-        "id": "Sample rate", 
-        "description": ""
-    }, 
-    {
-        "text": "kHz", 
-        "id": "kHz", 
+        "text": "File Browser", 
+        "id": "File Browser", 
         "description": ""
     }, 
     {
         "text": "File browser history tooltip", 
         "id": "File browser history tooltip", 
-        "description": ""
-    }, 
-    {
-        "text": "JPEG", 
-        "id": "JPEG", 
-        "description": ""
-    }, 
-    {
-        "text": "I/O", 
-        "id": "I/O", 
-        "description": ""
-    }, 
-    {
-        "text": "Compression quality:", 
-        "id": "Compression quality:", 
-        "description": ""
-    }, 
-    {
-        "text": "Language", 
-        "id": "Language", 
-        "description": ""
-    }, 
-    {
-        "text": "Language:", 
-        "id": "Language:", 
         "description": ""
     }, 
     {
@@ -437,36 +437,6 @@
     {
         "text": "Value", 
         "id": "Value", 
-        "description": ""
-    }, 
-    {
-        "text": "PPM", 
-        "id": "PPM", 
-        "description": ""
-    }, 
-    {
-        "text": "Data type:", 
-        "id": "Data type:", 
-        "description": ""
-    }, 
-    {
-        "text": "TIFF", 
-        "id": "TIFF", 
-        "description": ""
-    }, 
-    {
-        "text": "File compression:", 
-        "id": "File compression:", 
-        "description": ""
-    }, 
-    {
-        "text": "Time", 
-        "id": "Time", 
-        "description": ""
-    }, 
-    {
-        "text": "Units", 
-        "id": "Units", 
         "description": ""
     }, 
     {

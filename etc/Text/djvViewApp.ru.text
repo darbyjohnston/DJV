@@ -1,1688 +1,1706 @@
 [
     {
-        "id": "About Title", 
         "source": "DJV Imaging", 
-        "description": "", 
-        "text": "DJV Imaging"
+        "text": "DJV Imaging", 
+        "id": "About Title", 
+        "description": ""
     }, 
     {
-        "id": "Copyright and License", 
         "source": "Copyright and License", 
-        "description": "", 
-        "text": "\u0410\u0432\u0442\u043e\u0440\u0441\u043a\u043e\u0435 \u043f\u0440\u0430\u0432\u043e \u0438 \u043b\u0438\u0446\u0435\u043d\u0437\u0438\u044f"
+        "text": "\u0410\u0432\u0442\u043e\u0440\u0441\u043a\u043e\u0435 \u043f\u0440\u0430\u0432\u043e \u0438 \u043b\u0438\u0446\u0435\u043d\u0437\u0438\u044f", 
+        "id": "Copyright and License", 
+        "description": ""
     }, 
     {
-        "id": "Copyright", 
         "source": "Copyright (c) 2004-2019 Darby Johnston. All rights reserved.", 
-        "description": "", 
-        "text": "Copyright (c) 2004-2019 \u0414\u0430\u0440\u0431\u0438 \u0414\u0436\u043e\u043d\u0441\u0442\u043e\u043d. \u0412\u0441\u0435 \u043f\u0440\u0430\u0432\u0430 \u0437\u0430\u0449\u0438\u0449\u0435\u043d\u044b."
+        "text": "Copyright (c) 2004-2019 \u0414\u0430\u0440\u0431\u0438 \u0414\u0436\u043e\u043d\u0441\u0442\u043e\u043d. \u0412\u0441\u0435 \u043f\u0440\u0430\u0432\u0430 \u0437\u0430\u0449\u0438\u0449\u0435\u043d\u044b.", 
+        "id": "Copyright", 
+        "description": ""
     }, 
     {
-        "id": "License 1", 
         "source": "Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:", 
-        "description": "", 
-        "text": "\u041f\u0435\u0440\u0435\u0440\u0430\u0441\u043f\u0440\u0435\u0434\u0435\u043b\u0435\u043d\u0438\u0435 \u0438 \u0438\u0441\u043f\u043e\u043b\u044c\u0437\u043e\u0432\u0430\u043d\u0438\u0435 \u0432 \u0438\u0441\u0445\u043e\u0434\u043d\u043e\u0439 \u0438 \u0434\u0432\u043e\u0438\u0447\u043d\u043e\u0439 \u0444\u043e\u0440\u043c\u0430\u0445, \u0441 \u0438\u0437\u043c\u0435\u043d\u0435\u043d\u0438\u044f\u043c\u0438 \u0438\u043b\u0438 \u0431\u0435\u0437 \u043d\u0438\u0445, \u0440\u0430\u0437\u0440\u0435\u0448\u0430\u0435\u0442\u0441\u044f \u043f\u0440\u0438 \u0443\u0441\u043b\u043e\u0432\u0438\u0438 \u0441\u043e\u0431\u043b\u044e\u0434\u0435\u043d\u0438\u044f \u0441\u043b\u0435\u0434\u0443\u044e\u0449\u0438\u0445 \u0443\u0441\u043b\u043e\u0432\u0438\u0439:"
+        "text": "\u041f\u0435\u0440\u0435\u0440\u0430\u0441\u043f\u0440\u0435\u0434\u0435\u043b\u0435\u043d\u0438\u0435 \u0438 \u0438\u0441\u043f\u043e\u043b\u044c\u0437\u043e\u0432\u0430\u043d\u0438\u0435 \u0432 \u0438\u0441\u0445\u043e\u0434\u043d\u043e\u0439 \u0438 \u0434\u0432\u043e\u0438\u0447\u043d\u043e\u0439 \u0444\u043e\u0440\u043c\u0430\u0445, \u0441 \u0438\u0437\u043c\u0435\u043d\u0435\u043d\u0438\u044f\u043c\u0438 \u0438\u043b\u0438 \u0431\u0435\u0437 \u043d\u0438\u0445, \u0440\u0430\u0437\u0440\u0435\u0448\u0430\u0435\u0442\u0441\u044f \u043f\u0440\u0438 \u0443\u0441\u043b\u043e\u0432\u0438\u0438 \u0441\u043e\u0431\u043b\u044e\u0434\u0435\u043d\u0438\u044f \u0441\u043b\u0435\u0434\u0443\u044e\u0449\u0438\u0445 \u0443\u0441\u043b\u043e\u0432\u0438\u0439:", 
+        "id": "License 1", 
+        "description": ""
     }, 
     {
-        "id": "License 2", 
         "source": "* Redistributions of source code must retain the above copyright notice, this list of conditions, and the following disclaimer.", 
-        "description": "", 
-        "text": "* \u041f\u0440\u0438 \u043f\u043e\u0432\u0442\u043e\u0440\u043d\u043e\u043c \u0440\u0430\u0441\u043f\u0440\u043e\u0441\u0442\u0440\u0430\u043d\u0435\u043d\u0438\u0438 \u0438\u0441\u0445\u043e\u0434\u043d\u043e\u0433\u043e \u043a\u043e\u0434\u0430 \u0434\u043e\u043b\u0436\u043d\u044b \u0441\u043e\u0445\u0440\u0430\u043d\u044f\u0442\u044c\u0441\u044f \u0443\u043a\u0430\u0437\u0430\u043d\u043d\u043e\u0435 \u0432\u044b\u0448\u0435 \u0443\u0432\u0435\u0434\u043e\u043c\u043b\u0435\u043d\u0438\u0435 \u043e\u0431 \u0430\u0432\u0442\u043e\u0440\u0441\u043a\u0438\u0445 \u043f\u0440\u0430\u0432\u0430\u0445, \u044d\u0442\u043e\u0442 \u0441\u043f\u0438\u0441\u043e\u043a \u0443\u0441\u043b\u043e\u0432\u0438\u0439 \u0438 \u0441\u043b\u0435\u0434\u0443\u044e\u0449\u0438\u0439 \u043e\u0442\u043a\u0430\u0437 \u043e\u0442 \u043e\u0442\u0432\u0435\u0442\u0441\u0442\u0432\u0435\u043d\u043d\u043e\u0441\u0442\u0438."
+        "text": "* \u041f\u0440\u0438 \u043f\u043e\u0432\u0442\u043e\u0440\u043d\u043e\u043c \u0440\u0430\u0441\u043f\u0440\u043e\u0441\u0442\u0440\u0430\u043d\u0435\u043d\u0438\u0438 \u0438\u0441\u0445\u043e\u0434\u043d\u043e\u0433\u043e \u043a\u043e\u0434\u0430 \u0434\u043e\u043b\u0436\u043d\u044b \u0441\u043e\u0445\u0440\u0430\u043d\u044f\u0442\u044c\u0441\u044f \u0443\u043a\u0430\u0437\u0430\u043d\u043d\u043e\u0435 \u0432\u044b\u0448\u0435 \u0443\u0432\u0435\u0434\u043e\u043c\u043b\u0435\u043d\u0438\u0435 \u043e\u0431 \u0430\u0432\u0442\u043e\u0440\u0441\u043a\u0438\u0445 \u043f\u0440\u0430\u0432\u0430\u0445, \u044d\u0442\u043e\u0442 \u0441\u043f\u0438\u0441\u043e\u043a \u0443\u0441\u043b\u043e\u0432\u0438\u0439 \u0438 \u0441\u043b\u0435\u0434\u0443\u044e\u0449\u0438\u0439 \u043e\u0442\u043a\u0430\u0437 \u043e\u0442 \u043e\u0442\u0432\u0435\u0442\u0441\u0442\u0432\u0435\u043d\u043d\u043e\u0441\u0442\u0438.", 
+        "id": "License 2", 
+        "description": ""
     }, 
     {
-        "id": "License 3", 
         "source": "* Redistributions in binary form must reproduce the above copyright notice, this list of conditions, and the following disclaimer in the documentation and/or other materials provided with the distribution.", 
-        "description": "", 
-        "text": "* \u041f\u0440\u0438 \u043f\u043e\u0432\u0442\u043e\u0440\u043d\u043e\u043c \u0440\u0430\u0441\u043f\u0440\u043e\u0441\u0442\u0440\u0430\u043d\u0435\u043d\u0438\u0438 \u0432 \u0434\u0432\u043e\u0438\u0447\u043d\u043e\u0439 \u0444\u043e\u0440\u043c\u0435 \u0434\u043e\u043b\u0436\u043d\u043e \u0431\u044b\u0442\u044c \u0432\u043e\u0441\u043f\u0440\u043e\u0438\u0437\u0432\u0435\u0434\u0435\u043d\u043e \u0443\u043a\u0430\u0437\u0430\u043d\u043d\u043e\u0435 \u0432\u044b\u0448\u0435 \u0443\u0432\u0435\u0434\u043e\u043c\u043b\u0435\u043d\u0438\u0435 \u043e\u0431 \u0430\u0432\u0442\u043e\u0440\u0441\u043a\u043e\u043c \u043f\u0440\u0430\u0432\u0435, \u044d\u0442\u043e\u0442 \u0441\u043f\u0438\u0441\u043e\u043a \u0443\u0441\u043b\u043e\u0432\u0438\u0439 \u0438 \u0441\u043b\u0435\u0434\u0443\u044e\u0449\u0438\u0439 \u043e\u0442\u043a\u0430\u0437 \u043e\u0442 \u043e\u0442\u0432\u0435\u0442\u0441\u0442\u0432\u0435\u043d\u043d\u043e\u0441\u0442\u0438 \u0432 \u0434\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u0430\u0446\u0438\u0438 \u0438 / \u0438\u043b\u0438 \u0434\u0440\u0443\u0433\u0438\u0445 \u043c\u0430\u0442\u0435\u0440\u0438\u0430\u043b\u0430\u0445, \u043f\u043e\u0441\u0442\u0430\u0432\u043b\u044f\u0435\u043c\u044b\u0445 \u043f\u0440\u0438 \u0440\u0430\u0441\u043f\u0440\u043e\u0441\u0442\u0440\u0430\u043d\u0435\u043d\u0438\u0438."
+        "text": "* \u041f\u0440\u0438 \u043f\u043e\u0432\u0442\u043e\u0440\u043d\u043e\u043c \u0440\u0430\u0441\u043f\u0440\u043e\u0441\u0442\u0440\u0430\u043d\u0435\u043d\u0438\u0438 \u0432 \u0434\u0432\u043e\u0438\u0447\u043d\u043e\u0439 \u0444\u043e\u0440\u043c\u0435 \u0434\u043e\u043b\u0436\u043d\u043e \u0431\u044b\u0442\u044c \u0432\u043e\u0441\u043f\u0440\u043e\u0438\u0437\u0432\u0435\u0434\u0435\u043d\u043e \u0443\u043a\u0430\u0437\u0430\u043d\u043d\u043e\u0435 \u0432\u044b\u0448\u0435 \u0443\u0432\u0435\u0434\u043e\u043c\u043b\u0435\u043d\u0438\u0435 \u043e\u0431 \u0430\u0432\u0442\u043e\u0440\u0441\u043a\u043e\u043c \u043f\u0440\u0430\u0432\u0435, \u044d\u0442\u043e\u0442 \u0441\u043f\u0438\u0441\u043e\u043a \u0443\u0441\u043b\u043e\u0432\u0438\u0439 \u0438 \u0441\u043b\u0435\u0434\u0443\u044e\u0449\u0438\u0439 \u043e\u0442\u043a\u0430\u0437 \u043e\u0442 \u043e\u0442\u0432\u0435\u0442\u0441\u0442\u0432\u0435\u043d\u043d\u043e\u0441\u0442\u0438 \u0432 \u0434\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u0430\u0446\u0438\u0438 \u0438 / \u0438\u043b\u0438 \u0434\u0440\u0443\u0433\u0438\u0445 \u043c\u0430\u0442\u0435\u0440\u0438\u0430\u043b\u0430\u0445, \u043f\u043e\u0441\u0442\u0430\u0432\u043b\u044f\u0435\u043c\u044b\u0445 \u043f\u0440\u0438 \u0440\u0430\u0441\u043f\u0440\u043e\u0441\u0442\u0440\u0430\u043d\u0435\u043d\u0438\u0438.", 
+        "id": "License 3", 
+        "description": ""
     }, 
     {
-        "id": "License 4", 
         "source": "* Neither the names of the copyright holders nor the names of any contributors may be used to endorse or promote products derived from this software without specific prior written permission.", 
-        "description": "", 
-        "text": "* \u041d\u0438 \u0438\u043c\u0435\u043d\u0430 \u0432\u043b\u0430\u0434\u0435\u043b\u044c\u0446\u0435\u0432 \u0430\u0432\u0442\u043e\u0440\u0441\u043a\u0438\u0445 \u043f\u0440\u0430\u0432, \u043d\u0438 \u0438\u043c\u0435\u043d\u0430 \u043a\u0430\u043a\u0438\u0445-\u043b\u0438\u0431\u043e \u0430\u0432\u0442\u043e\u0440\u043e\u0432 \u043d\u0435 \u043c\u043e\u0433\u0443\u0442 \u0438\u0441\u043f\u043e\u043b\u044c\u0437\u043e\u0432\u0430\u0442\u044c\u0441\u044f \u0434\u043b\u044f \u043f\u043e\u0434\u0434\u0435\u0440\u0436\u043a\u0438 \u0438\u043b\u0438 \u043f\u0440\u043e\u0434\u0432\u0438\u0436\u0435\u043d\u0438\u044f \u043f\u0440\u043e\u0434\u0443\u043a\u0442\u043e\u0432, \u0441\u043e\u0437\u0434\u0430\u043d\u043d\u044b\u0445 \u043d\u0430 \u043e\u0441\u043d\u043e\u0432\u0435 \u0434\u0430\u043d\u043d\u043e\u0433\u043e \u043f\u0440\u043e\u0433\u0440\u0430\u043c\u043c\u043d\u043e\u0433\u043e \u043e\u0431\u0435\u0441\u043f\u0435\u0447\u0435\u043d\u0438\u044f, \u0431\u0435\u0437 \u0441\u043f\u0435\u0446\u0438\u0430\u043b\u044c\u043d\u043e\u0433\u043e \u043f\u0440\u0435\u0434\u0432\u0430\u0440\u0438\u0442\u0435\u043b\u044c\u043d\u043e\u0433\u043e \u043f\u0438\u0441\u044c\u043c\u0435\u043d\u043d\u043e\u0433\u043e \u0440\u0430\u0437\u0440\u0435\u0448\u0435\u043d\u0438\u044f."
+        "text": "* \u041d\u0438 \u0438\u043c\u0435\u043d\u0430 \u0432\u043b\u0430\u0434\u0435\u043b\u044c\u0446\u0435\u0432 \u0430\u0432\u0442\u043e\u0440\u0441\u043a\u0438\u0445 \u043f\u0440\u0430\u0432, \u043d\u0438 \u0438\u043c\u0435\u043d\u0430 \u043a\u0430\u043a\u0438\u0445-\u043b\u0438\u0431\u043e \u0430\u0432\u0442\u043e\u0440\u043e\u0432 \u043d\u0435 \u043c\u043e\u0433\u0443\u0442 \u0438\u0441\u043f\u043e\u043b\u044c\u0437\u043e\u0432\u0430\u0442\u044c\u0441\u044f \u0434\u043b\u044f \u043f\u043e\u0434\u0434\u0435\u0440\u0436\u043a\u0438 \u0438\u043b\u0438 \u043f\u0440\u043e\u0434\u0432\u0438\u0436\u0435\u043d\u0438\u044f \u043f\u0440\u043e\u0434\u0443\u043a\u0442\u043e\u0432, \u0441\u043e\u0437\u0434\u0430\u043d\u043d\u044b\u0445 \u043d\u0430 \u043e\u0441\u043d\u043e\u0432\u0435 \u0434\u0430\u043d\u043d\u043e\u0433\u043e \u043f\u0440\u043e\u0433\u0440\u0430\u043c\u043c\u043d\u043e\u0433\u043e \u043e\u0431\u0435\u0441\u043f\u0435\u0447\u0435\u043d\u0438\u044f, \u0431\u0435\u0437 \u0441\u043f\u0435\u0446\u0438\u0430\u043b\u044c\u043d\u043e\u0433\u043e \u043f\u0440\u0435\u0434\u0432\u0430\u0440\u0438\u0442\u0435\u043b\u044c\u043d\u043e\u0433\u043e \u043f\u0438\u0441\u044c\u043c\u0435\u043d\u043d\u043e\u0433\u043e \u0440\u0430\u0437\u0440\u0435\u0448\u0435\u043d\u0438\u044f.", 
+        "id": "License 4", 
+        "description": ""
     }, 
     {
-        "id": "License 5", 
         "source": "THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS 'AS IS' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.", 
-        "description": "", 
-        "text": "\u041d\u0410\u0421\u0422\u041e\u042f\u0429\u0415\u0415 \u041f\u0420\u041e\u0413\u0420\u0410\u041c\u041c\u041d\u041e\u0415 \u041e\u0411\u0415\u0421\u041f\u0415\u0427\u0415\u041d\u0418\u0415 \u041f\u0420\u0415\u0414\u041e\u0421\u0422\u0410\u0412\u041b\u042f\u0415\u0422\u0421\u042f \u0414\u0418\u0420\u0415\u041a\u0422\u041e\u0420\u0410\u041c\u0418 \u0418 \u0412\u0417\u041d\u041e\u0421\u0410\u041c\u0418 \u0410\u0412\u0422\u041e\u0420\u0421\u041a\u0418\u0425 \u041f\u0420\u0410\u0412 \u00ab\u041a\u0410\u041a \u0415\u0421\u0422\u042c\u00bb \u0418 \u041b\u042e\u0411\u042b\u0425 \u042f\u0412\u041d\u042b\u0425 \u0418\u041b\u0418 \u041f\u041e\u0414\u0420\u0410\u0417\u0423\u041c\u0415\u0412\u0410\u0415\u041c\u042b\u0425 \u0413\u0410\u0420\u0410\u041d\u0422\u0418\u0419, \u0412\u041a\u041b\u042e\u0427\u0410\u042f, \u041d\u041e \u041d\u0415 \u041e\u0413\u0420\u0410\u041d\u0418\u0427\u0418\u0412\u0410\u042f\u0421\u042f, \u041f\u041e\u0414\u0420\u0410\u0417\u0423\u041c\u0415\u0412\u0410\u0415\u041c\u042b\u0415 \u0413\u0410\u0420\u0410\u041d\u0422\u0418\u0418 \u0422\u041e\u0412\u0410\u0420\u041d\u041e\u0413\u041e \u041e\u0411\u0415\u0421\u041f\u0415\u0427\u0415\u041d\u0418\u042f \u0418 \u041f\u0420\u0418\u0413\u041e\u0414\u041d\u041e\u0421\u0422\u0418 \u0414\u041b\u042f \u041e\u0421\u041e\u0411\u042b\u0425 \u0426\u0415\u041b\u0415\u0419. \u041d\u0418 \u0412 \u041a\u041e\u0415\u041c \u0421\u041b\u0423\u0427\u0410\u0415 \u041d\u0415 \u0414\u041e\u041b\u0416\u0415\u041d \u041e\u0422\u0412\u0415\u0422\u0421\u0422\u0412\u0415\u041d\u041d\u041e\u0421\u0422\u042c \u0417\u0410 \u0410\u0412\u0422\u041e\u0420\u0421\u041a\u0418\u0415 \u041f\u0420\u0410\u0412\u0410 \u0418\u041b\u0418 \u0412\u0417\u041d\u041e\u0421\u042b, \u041a\u0410\u0421\u0410\u042e\u0429\u0418\u0415\u0421\u042f \u041b\u042e\u0411\u041e\u0413\u041e \u041f\u0420\u042f\u041c\u041e\u0413\u041e, \u041d\u0415\u041f\u041e\u0421\u0420\u0415\u0414\u0421\u0422\u0412\u0415\u041d\u041d\u041e\u0413\u041e, \u0421\u041b\u0423\u0427\u0410\u0419\u041d\u041e\u0413\u041e, \u0421\u041f\u0415\u0426\u0418\u0410\u041b\u042c\u041d\u041e\u0413\u041e, \u0418\u0421\u041a\u041b\u042e\u0427\u0418\u0422\u0415\u041b\u042c\u041d\u041e\u0413\u041e \u0418\u041b\u0418 \u041a\u041e\u0421\u0412\u0415\u041d\u041d\u041e\u0413\u041e \u0423\u0411\u042b\u0422\u041a\u0410 (\u0412\u041a\u041b\u042e\u0427\u0410\u042f, \u041d\u041e \u041d\u0415 \u041e\u0413\u0420\u0410\u041d\u0418\u0427\u0418\u0412\u0410\u042f\u0421\u042f, \u0417\u0410\u041a\u0423\u041f\u041a\u0423 \u0418\u0417\u041c\u0415\u0420\u0418\u0422\u0415\u041b\u042c\u041d\u042b\u0425 \u0422\u041e\u0412\u0410\u0420\u041e\u0412 \u0418\u041b\u0418 \u0423\u0421\u041b\u0423\u0413; \u041f\u041e\u0422\u0415\u0420\u042e \u0418\u0421\u041f\u041e\u041b\u042c\u0417\u041e\u0412\u0410\u041d\u0418\u042f, \u0417\u0410\u0422\u0420\u0410\u0422\u042b \u041d\u0410 \u0418\u041b\u0418; \u0418\u041b\u0418 \u041f\u0420\u0415\u041a\u0420\u0410\u0429\u0415\u041d\u0418\u0415 \u0411\u0418\u0417\u041d\u0415\u0421\u0410) \u041e\u0414\u041d\u0410\u041a\u041e \u0412\u042b\u0417\u042b\u0412\u0410\u0415\u0422\u0421\u042f \u0418 \u041d\u0410 \u041b\u042e\u0411\u041e\u0419 \u0422\u0415\u041e\u0420\u0418\u0418 \u041e\u0422\u0412\u0415\u0422\u0421\u0422\u0412\u0415\u041d\u041d\u041e\u0421\u0422\u0418, \u0412 \u041a\u041e\u041d\u0422\u0420\u0410\u041a\u0422\u0415, \u0421\u0422\u0420\u041e\u0413\u041e \u041e\u0422\u0412\u0415\u0422\u0421\u0422\u0412\u0415\u041d\u041d\u041e\u0421\u0422\u0418, \u0418\u041b\u0418 \u0418\u0421\u041f\u042b\u0422\u0410\u041d\u0418\u0418 (\u0412\u041a\u041b\u042e\u0427\u0410\u042f \u0425\u0410\u0420\u0410\u041a\u0422\u0415\u0420\u0418\u0421\u0422\u0418\u041a\u0423 \u0418\u041b\u0418 \u0418\u041d\u042b\u041c \u041e\u0411\u0420\u0410\u0417\u041e\u041c), \u0412\u041e\u0417\u041d\u0418\u041a\u0410\u042e\u0429\u0415\u0419 \u0412 \u041b\u042e\u0411\u041e\u0419 \u0421\u041f\u041e\u0421\u041e\u0411 \u0418\u0421\u041f\u041e\u041b\u042c\u0417\u041e\u0412\u0410\u041d\u0418\u042f \u042d\u0422\u041e\u0413\u041e \u041f\u0420\u041e\u0413\u0420\u0410\u041c\u041c\u041d\u041e\u0413\u041e \u041e\u0411\u0415\u0421\u041f\u0415\u0427\u0415\u041d\u0418\u042f, \u0414\u0410\u0416\u0415 \u041f\u041e\u041b\u0423\u0427\u0418\u041b\u041e \u041f\u041e\u041f\u0420\u0410\u0412\u041a\u0418."
+        "text": "\u041d\u0410\u0421\u0422\u041e\u042f\u0429\u0415\u0415 \u041f\u0420\u041e\u0413\u0420\u0410\u041c\u041c\u041d\u041e\u0415 \u041e\u0411\u0415\u0421\u041f\u0415\u0427\u0415\u041d\u0418\u0415 \u041f\u0420\u0415\u0414\u041e\u0421\u0422\u0410\u0412\u041b\u042f\u0415\u0422\u0421\u042f \u0414\u0418\u0420\u0415\u041a\u0422\u041e\u0420\u0410\u041c\u0418 \u0418 \u0412\u0417\u041d\u041e\u0421\u0410\u041c\u0418 \u0410\u0412\u0422\u041e\u0420\u0421\u041a\u0418\u0425 \u041f\u0420\u0410\u0412 \u00ab\u041a\u0410\u041a \u0415\u0421\u0422\u042c\u00bb \u0418 \u041b\u042e\u0411\u042b\u0425 \u042f\u0412\u041d\u042b\u0425 \u0418\u041b\u0418 \u041f\u041e\u0414\u0420\u0410\u0417\u0423\u041c\u0415\u0412\u0410\u0415\u041c\u042b\u0425 \u0413\u0410\u0420\u0410\u041d\u0422\u0418\u0419, \u0412\u041a\u041b\u042e\u0427\u0410\u042f, \u041d\u041e \u041d\u0415 \u041e\u0413\u0420\u0410\u041d\u0418\u0427\u0418\u0412\u0410\u042f\u0421\u042f, \u041f\u041e\u0414\u0420\u0410\u0417\u0423\u041c\u0415\u0412\u0410\u0415\u041c\u042b\u0415 \u0413\u0410\u0420\u0410\u041d\u0422\u0418\u0418 \u0422\u041e\u0412\u0410\u0420\u041d\u041e\u0413\u041e \u041e\u0411\u0415\u0421\u041f\u0415\u0427\u0415\u041d\u0418\u042f \u0418 \u041f\u0420\u0418\u0413\u041e\u0414\u041d\u041e\u0421\u0422\u0418 \u0414\u041b\u042f \u041e\u0421\u041e\u0411\u042b\u0425 \u0426\u0415\u041b\u0415\u0419. \u041d\u0418 \u0412 \u041a\u041e\u0415\u041c \u0421\u041b\u0423\u0427\u0410\u0415 \u041d\u0415 \u0414\u041e\u041b\u0416\u0415\u041d \u041e\u0422\u0412\u0415\u0422\u0421\u0422\u0412\u0415\u041d\u041d\u041e\u0421\u0422\u042c \u0417\u0410 \u0410\u0412\u0422\u041e\u0420\u0421\u041a\u0418\u0415 \u041f\u0420\u0410\u0412\u0410 \u0418\u041b\u0418 \u0412\u0417\u041d\u041e\u0421\u042b, \u041a\u0410\u0421\u0410\u042e\u0429\u0418\u0415\u0421\u042f \u041b\u042e\u0411\u041e\u0413\u041e \u041f\u0420\u042f\u041c\u041e\u0413\u041e, \u041d\u0415\u041f\u041e\u0421\u0420\u0415\u0414\u0421\u0422\u0412\u0415\u041d\u041d\u041e\u0413\u041e, \u0421\u041b\u0423\u0427\u0410\u0419\u041d\u041e\u0413\u041e, \u0421\u041f\u0415\u0426\u0418\u0410\u041b\u042c\u041d\u041e\u0413\u041e, \u0418\u0421\u041a\u041b\u042e\u0427\u0418\u0422\u0415\u041b\u042c\u041d\u041e\u0413\u041e \u0418\u041b\u0418 \u041a\u041e\u0421\u0412\u0415\u041d\u041d\u041e\u0413\u041e \u0423\u0411\u042b\u0422\u041a\u0410 (\u0412\u041a\u041b\u042e\u0427\u0410\u042f, \u041d\u041e \u041d\u0415 \u041e\u0413\u0420\u0410\u041d\u0418\u0427\u0418\u0412\u0410\u042f\u0421\u042f, \u0417\u0410\u041a\u0423\u041f\u041a\u0423 \u0418\u0417\u041c\u0415\u0420\u0418\u0422\u0415\u041b\u042c\u041d\u042b\u0425 \u0422\u041e\u0412\u0410\u0420\u041e\u0412 \u0418\u041b\u0418 \u0423\u0421\u041b\u0423\u0413; \u041f\u041e\u0422\u0415\u0420\u042e \u0418\u0421\u041f\u041e\u041b\u042c\u0417\u041e\u0412\u0410\u041d\u0418\u042f, \u0417\u0410\u0422\u0420\u0410\u0422\u042b \u041d\u0410 \u0418\u041b\u0418; \u0418\u041b\u0418 \u041f\u0420\u0415\u041a\u0420\u0410\u0429\u0415\u041d\u0418\u0415 \u0411\u0418\u0417\u041d\u0415\u0421\u0410) \u041e\u0414\u041d\u0410\u041a\u041e \u0412\u042b\u0417\u042b\u0412\u0410\u0415\u0422\u0421\u042f \u0418 \u041d\u0410 \u041b\u042e\u0411\u041e\u0419 \u0422\u0415\u041e\u0420\u0418\u0418 \u041e\u0422\u0412\u0415\u0422\u0421\u0422\u0412\u0415\u041d\u041d\u041e\u0421\u0422\u0418, \u0412 \u041a\u041e\u041d\u0422\u0420\u0410\u041a\u0422\u0415, \u0421\u0422\u0420\u041e\u0413\u041e \u041e\u0422\u0412\u0415\u0422\u0421\u0422\u0412\u0415\u041d\u041d\u041e\u0421\u0422\u0418, \u0418\u041b\u0418 \u0418\u0421\u041f\u042b\u0422\u0410\u041d\u0418\u0418 (\u0412\u041a\u041b\u042e\u0427\u0410\u042f \u0425\u0410\u0420\u0410\u041a\u0422\u0415\u0420\u0418\u0421\u0422\u0418\u041a\u0423 \u0418\u041b\u0418 \u0418\u041d\u042b\u041c \u041e\u0411\u0420\u0410\u0417\u041e\u041c), \u0412\u041e\u0417\u041d\u0418\u041a\u0410\u042e\u0429\u0415\u0419 \u0412 \u041b\u042e\u0411\u041e\u0419 \u0421\u041f\u041e\u0421\u041e\u0411 \u0418\u0421\u041f\u041e\u041b\u042c\u0417\u041e\u0412\u0410\u041d\u0418\u042f \u042d\u0422\u041e\u0413\u041e \u041f\u0420\u041e\u0413\u0420\u0410\u041c\u041c\u041d\u041e\u0413\u041e \u041e\u0411\u0415\u0421\u041f\u0415\u0427\u0415\u041d\u0418\u042f, \u0414\u0410\u0416\u0415 \u041f\u041e\u041b\u0423\u0427\u0418\u041b\u041e \u041f\u041e\u041f\u0420\u0410\u0412\u041a\u0418.", 
+        "id": "License 5", 
+        "description": ""
     }, 
     {
-        "id": "Contributors", 
         "source": "Contributors", 
-        "description": "", 
-        "text": "\u0410\u0432\u0442\u043e\u0440\u044b"
+        "text": "\u0410\u0432\u0442\u043e\u0440\u044b", 
+        "id": "Contributors", 
+        "description": ""
     }, 
     {
-        "id": "Contributors Text 1", 
         "source": "Portions of this software are copyright (in alphabetical order):", 
-        "description": "", 
-        "text": "\u041d\u0430 \u043d\u0435\u043a\u043e\u0442\u043e\u0440\u044b\u0435 \u0447\u0430\u0441\u0442\u0438 \u0434\u0430\u043d\u043d\u043e\u0433\u043e \u043f\u0440\u043e\u0433\u0440\u0430\u043c\u043c\u043d\u043e\u0433\u043e \u043e\u0431\u0435\u0441\u043f\u0435\u0447\u0435\u043d\u0438\u044f \u0440\u0430\u0441\u043f\u0440\u043e\u0441\u0442\u0440\u0430\u043d\u044f\u0435\u0442\u0441\u044f \u0430\u0432\u0442\u043e\u0440\u0441\u043a\u043e\u0435 \u043f\u0440\u0430\u0432\u043e (\u0432 \u0430\u043b\u0444\u0430\u0432\u0438\u0442\u043d\u043e\u043c \u043f\u043e\u0440\u044f\u0434\u043a\u0435):"
+        "text": "\u041d\u0430 \u043d\u0435\u043a\u043e\u0442\u043e\u0440\u044b\u0435 \u0447\u0430\u0441\u0442\u0438 \u0434\u0430\u043d\u043d\u043e\u0433\u043e \u043f\u0440\u043e\u0433\u0440\u0430\u043c\u043c\u043d\u043e\u0433\u043e \u043e\u0431\u0435\u0441\u043f\u0435\u0447\u0435\u043d\u0438\u044f \u0440\u0430\u0441\u043f\u0440\u043e\u0441\u0442\u0440\u0430\u043d\u044f\u0435\u0442\u0441\u044f \u0430\u0432\u0442\u043e\u0440\u0441\u043a\u043e\u0435 \u043f\u0440\u0430\u0432\u043e (\u0432 \u0430\u043b\u0444\u0430\u0432\u0438\u0442\u043d\u043e\u043c \u043f\u043e\u0440\u044f\u0434\u043a\u0435):", 
+        "id": "Contributors Text 1", 
+        "description": ""
     }, 
     {
-        "id": "Contributors Text 2", 
         "source": "* Copyright (c) 2004-2019 Darby Johnston. All rights reserved.", 
-        "description": "", 
-        "text": "* Copyright (c) 2004-2019 Darby Johnston. \u0412\u0441\u0435 \u043f\u0440\u0430\u0432\u0430 \u0437\u0430\u0449\u0438\u0449\u0435\u043d\u044b."
+        "text": "* Copyright (c) 2004-2019 Darby Johnston. \u0412\u0441\u0435 \u043f\u0440\u0430\u0432\u0430 \u0437\u0430\u0449\u0438\u0449\u0435\u043d\u044b.", 
+        "id": "Contributors Text 2", 
+        "description": ""
     }, 
     {
-        "id": "Contributors Text 3", 
         "source": "* Copyright (c) 2008 Alan Jones. All rights reserved.", 
-        "description": "", 
-        "text": "* Copyright (c) 2008 \u0410\u043b\u0430\u043d \u0414\u0436\u043e\u043d\u0441. \u0412\u0441\u0435 \u043f\u0440\u0430\u0432\u0430 \u0437\u0430\u0449\u0438\u0449\u0435\u043d\u044b."
+        "text": "* Copyright (c) 2008 \u0410\u043b\u0430\u043d \u0414\u0436\u043e\u043d\u0441. \u0412\u0441\u0435 \u043f\u0440\u0430\u0432\u0430 \u0437\u0430\u0449\u0438\u0449\u0435\u043d\u044b.", 
+        "id": "Contributors Text 3", 
+        "description": ""
     }, 
     {
-        "id": "Contributors Text 4", 
         "source": "* Copyright (c) 2008-2009 Mikael Sundell. All rights reserved.", 
-        "description": "", 
-        "text": "* Copyright (c) 2008-2009 Mikael Sundell. \u0412\u0441\u0435 \u043f\u0440\u0430\u0432\u0430 \u0437\u0430\u0449\u0438\u0449\u0435\u043d\u044b."
+        "text": "* Copyright (c) 2008-2009 Mikael Sundell. \u0412\u0441\u0435 \u043f\u0440\u0430\u0432\u0430 \u0437\u0430\u0449\u0438\u0449\u0435\u043d\u044b.", 
+        "id": "Contributors Text 4", 
+        "description": ""
     }, 
     {
-        "id": "Third Party", 
         "source": "Third Party Software", 
-        "description": "", 
-        "text": "\u041f\u0440\u043e\u0433\u0440\u0430\u043c\u043c\u043d\u043e\u0435 \u043e\u0431\u0435\u0441\u043f\u0435\u0447\u0435\u043d\u0438\u0435 \u0441\u0442\u043e\u0440\u043e\u043d\u043d\u0438\u0445 \u043f\u0440\u043e\u0438\u0437\u0432\u043e\u0434\u0438\u0442\u0435\u043b\u0435\u0439"
+        "text": "\u041f\u0440\u043e\u0433\u0440\u0430\u043c\u043c\u043d\u043e\u0435 \u043e\u0431\u0435\u0441\u043f\u0435\u0447\u0435\u043d\u0438\u0435 \u0441\u0442\u043e\u0440\u043e\u043d\u043d\u0438\u0445 \u043f\u0440\u043e\u0438\u0437\u0432\u043e\u0434\u0438\u0442\u0435\u043b\u0435\u0439", 
+        "id": "Third Party", 
+        "description": ""
     }, 
     {
-        "id": "Third Party Text 1", 
         "source": "This software is based in part on the works of (in alphabetical order):", 
-        "description": "", 
-        "text": "\u042d\u0442\u043e \u043f\u0440\u043e\u0433\u0440\u0430\u043c\u043c\u043d\u043e\u0435 \u043e\u0431\u0435\u0441\u043f\u0435\u0447\u0435\u043d\u0438\u0435 \u0447\u0430\u0441\u0442\u0438\u0447\u043d\u043e \u043e\u0441\u043d\u043e\u0432\u0430\u043d\u043e \u043d\u0430 \u0440\u0430\u0431\u043e\u0442\u0430\u0445 (\u0432 \u0430\u043b\u0444\u0430\u0432\u0438\u0442\u043d\u043e\u043c \u043f\u043e\u0440\u044f\u0434\u043a\u0435):"
+        "text": "\u042d\u0442\u043e \u043f\u0440\u043e\u0433\u0440\u0430\u043c\u043c\u043d\u043e\u0435 \u043e\u0431\u0435\u0441\u043f\u0435\u0447\u0435\u043d\u0438\u0435 \u0447\u0430\u0441\u0442\u0438\u0447\u043d\u043e \u043e\u0441\u043d\u043e\u0432\u0430\u043d\u043e \u043d\u0430 \u0440\u0430\u0431\u043e\u0442\u0430\u0445 (\u0432 \u0430\u043b\u0444\u0430\u0432\u0438\u0442\u043d\u043e\u043c \u043f\u043e\u0440\u044f\u0434\u043a\u0435):", 
+        "id": "Third Party Text 1", 
+        "description": ""
     }, 
     {
-        "id": "Third Party Text 2", 
         "source": "* CMake, http://www.cmake.org, Copyright 2000-2011 Kitware, Inc., Insight Software Consortium. All rights reserved.", 
-        "description": "", 
-        "text": "* CMake, http://www.cmake.org, Copyright 2000-2011 Kitware, Inc., Insight Software Consortium. \u0412\u0441\u0435 \u043f\u0440\u0430\u0432\u0430 \u0437\u0430\u0449\u0438\u0449\u0435\u043d\u044b."
+        "text": "* CMake, http://www.cmake.org, Copyright 2000-2011 Kitware, Inc., Insight Software Consortium. \u0412\u0441\u0435 \u043f\u0440\u0430\u0432\u0430 \u0437\u0430\u0449\u0438\u0449\u0435\u043d\u044b.", 
+        "id": "Third Party Text 2", 
+        "description": ""
     }, 
     {
-        "id": "Third Party Text 3", 
         "source": "* dr_libs, https://github.com/mackron/dr_libs, David Reid", 
-        "description": "", 
-        "text": "* dr_libs, https://github.com/mackron/dr_libs, \u0414\u044d\u0432\u0438\u0434 \u0420\u0435\u0439\u0434"
+        "text": "* dr_libs, https://github.com/mackron/dr_libs, \u0414\u044d\u0432\u0438\u0434 \u0420\u0435\u0439\u0434", 
+        "id": "Third Party Text 3", 
+        "description": ""
     }, 
     {
-        "id": "Third Party Text 4", 
         "source": "* FFMpeg, http://www.ffmpeg.org, Licensed under the LGPLv2.1, http://www.gnu.org/pcenses/old-pcenses/lgpl-2.1.html", 
-        "description": "", 
-        "text": "* FFMpeg, http://www.ffmpeg.org, \u043f\u043e \u043b\u0438\u0446\u0435\u043d\u0437\u0438\u0438 LGPLv2.1, http://www.gnu.org/pcenses/old-pcenses/lgpl-2.1.html."
+        "text": "* FFMpeg, http://www.ffmpeg.org, \u043f\u043e \u043b\u0438\u0446\u0435\u043d\u0437\u0438\u0438 LGPLv2.1, http://www.gnu.org/pcenses/old-pcenses/lgpl-2.1.html.", 
+        "id": "Third Party Text 4", 
+        "description": ""
     }, 
     {
-        "id": "Third Party Text 5", 
         "source": "* FreeType, https://www.freetype.org, Copyright (c) 2018, The FreeType Project", 
-        "description": "", 
-        "text": "* FreeType, https://www.freetype.org, Copyright (c) 2018, \u041f\u0440\u043e\u0435\u043a\u0442 FreeType"
+        "text": "* FreeType, https://www.freetype.org, Copyright (c) 2018, \u041f\u0440\u043e\u0435\u043a\u0442 FreeType", 
+        "id": "Third Party Text 5", 
+        "description": ""
     }, 
     {
-        "id": "Third Party Text 6", 
         "source": "* GLFW, https://www.glfw.org, Copyright (c) 2002-2006 Marcus Geelnard, Copyright (c) 2006-2016 Camilla L\u00f6wy <elmindreda@glfw.org>", 
-        "description": "", 
-        "text": "* GLFW, https://www.glfw.org, Copyright (c) 2002-2006 Marcus Geelnard, Copyright (c) 2006-2016 Camilla L\u00f6wy <elmindreda@glfw.org>"
+        "text": "* GLFW, https://www.glfw.org, Copyright (c) 2002-2006 Marcus Geelnard, Copyright (c) 2006-2016 Camilla L\u00f6wy <elmindreda@glfw.org>", 
+        "id": "Third Party Text 6", 
+        "description": ""
     }, 
     {
-        "id": "Third Party Text 7", 
         "source": "* GLM, https://glm.g-truc.net/0.9.9/index.html, Copyright (c) 2005-2017 G-Truc Creation", 
-        "description": "", 
-        "text": "* GLM, https://glm.g-truc.net/0.9.9/index.html, Copyright (c) 2005-2017 G-Truc Creation"
+        "text": "* GLM, https://glm.g-truc.net/0.9.9/index.html, Copyright (c) 2005-2017 G-Truc Creation", 
+        "id": "Third Party Text 7", 
+        "description": ""
     }, 
     {
+        "source": "* glad, https://github.com/Dav1dde/glad, Copyright (c) 2013-2018 David Herberth", 
+        "text": "* \u0440\u0430\u0434, https://github.com/Dav1dde/glad, Copyright (c) 2013-2018 \u0414\u044d\u0432\u0438\u0434 \u0425\u0435\u0440\u0431\u0435\u0440\u0442", 
         "id": "Third Party Text 8", 
-        "source": "* glbinding, https://github.com/cginternals/glbinding, Copyright (c) 2014-2015 Computer Graphics Systems Group at the Hasso-Plattner-Institute and CG Internals GmbH, Germany", 
-        "description": "", 
-        "text": "* glbinding, https://github.com/cginternals/glbinding, Copyright (c) 2014\u20132015 \u0433\u043e\u0434\u044b \u0413\u0440\u0443\u043f\u043f\u0430 \u043a\u043e\u043c\u043f\u044c\u044e\u0442\u0435\u0440\u043d\u044b\u0445 \u0433\u0440\u0430\u0444\u0438\u0447\u0435\u0441\u043a\u0438\u0445 \u0441\u0438\u0441\u0442\u0435\u043c \u0432 \u0418\u043d\u0441\u0442\u0438\u0442\u0443\u0442\u0435 \u0425\u0430\u0441\u0441\u043e-\u041f\u043b\u0430\u0442\u0442\u043d\u0435\u0440\u0430 \u0438 CG Internals GmbH, \u0413\u0435\u0440\u043c\u0430\u043d\u0438\u044f"
+        "description": ""
     }, 
     {
-        "id": "Third Party Text 9", 
         "source": "* libjpeg, http://www.ijg.org, Copyright (c) 1991-2012, Thomas G. Lane, Guido Vollbeding", 
-        "description": "", 
-        "text": "* libjpeg, http://www.ijg.org, Copyright (c) 1991-2012, Thomas G. Lane, Guido Vollbeding"
+        "text": "* libjpeg, http://www.ijg.org, Copyright (c) 1991-2012, Thomas G. Lane, Guido Vollbeding", 
+        "id": "Third Party Text 9", 
+        "description": ""
     }, 
     {
-        "id": "Third Party Text 10", 
         "source": "* libpng, http://www.libpng.org, Copyright (c) 2004, 2006-2012 Glenn Randers-Pehrson", 
-        "description": "", 
-        "text": "* libpng, http://www.libpng.org, Copyright (c) 2004, 2006-2012 Glenn Randers-Pehrson"
+        "text": "* libpng, http://www.libpng.org, Copyright (c) 2004, 2006-2012 Glenn Randers-Pehrson", 
+        "id": "Third Party Text 10", 
+        "description": ""
     }, 
     {
-        "id": "Third Party Text 11", 
         "source": "* libtiff, http://www.libtiff.org, Copyright (c) 1988-1997 Sam Leffler, Copyright (c) 1991-1997 Silicon Graphics, Inc", 
-        "description": "", 
-        "text": "* libtiff, http://www.libtiff.org, Copyright (c) 1988-1997 \u0421\u044d\u043c \u041b\u0435\u0444\u0444\u043b\u0435\u0440, Copyright (c) 1991-1997 Silicon Graphics, Inc"
+        "text": "* libtiff, http://www.libtiff.org, Copyright (c) 1988-1997 \u0421\u044d\u043c \u041b\u0435\u0444\u0444\u043b\u0435\u0440, Copyright (c) 1991-1997 Silicon Graphics, Inc", 
+        "id": "Third Party Text 11", 
+        "description": ""
     }, 
     {
-        "id": "Third Party Text 12", 
         "source": "* OpenAL, https://www.openal.org, Copyright (C) 1999-2000 by Loki Software", 
-        "description": "", 
-        "text": "* OpenAL, https://www.openal.org, Copyright (C) 1999-2000, Loki Software"
+        "text": "* OpenAL, https://www.openal.org, Copyright (C) 1999-2000, Loki Software", 
+        "id": "Third Party Text 12", 
+        "description": ""
     }, 
     {
-        "id": "Third Party Text 13", 
         "source": "* OpenEXR, http://www.openexr.com, Copyright (c) 2006, Industrial Light and Magic, a division of Lucasfilm Entertainment Company Ltd.", 
-        "description": "", 
-        "text": "* OpenEXR, http://www.openexr.com, Copyright (c) 2006, Industrial Light and Magic, \u043f\u043e\u0434\u0440\u0430\u0437\u0434\u0435\u043b\u0435\u043d\u0438\u0435 Lucasfilm Entertainment Company Ltd."
+        "text": "* OpenEXR, http://www.openexr.com, Copyright (c) 2006, Industrial Light and Magic, \u043f\u043e\u0434\u0440\u0430\u0437\u0434\u0435\u043b\u0435\u043d\u0438\u0435 Lucasfilm Entertainment Company Ltd.", 
+        "id": "Third Party Text 13", 
+        "description": ""
     }, 
     {
-        "id": "Third Party Text 14", 
         "source": "* zlib, http://www.zlib.net, Copyright (c) 1995-2013 Jean-loup Gailly and Mark Adler", 
-        "description": "", 
-        "text": "* zlib, http://www.zlib.net, Copyright (c) 1995-2013 \u0416\u0430\u043d-\u041b\u0443\u043f \u0413\u044d\u0439\u043b\u0438 \u0438 \u041c\u0430\u0440\u043a \u0410\u0434\u043b\u0435\u0440"
+        "text": "* zlib, http://www.zlib.net, Copyright (c) 1995-2013 \u0416\u0430\u043d-\u041b\u0443\u043f \u0413\u044d\u0439\u043b\u0438 \u0438 \u041c\u0430\u0440\u043a \u0410\u0434\u043b\u0435\u0440", 
+        "id": "Third Party Text 14", 
+        "description": ""
     }, 
     {
-        "id": "Trademarks", 
         "source": "Trademarks", 
-        "description": "", 
-        "text": "\u0422\u043e\u0440\u0433\u043e\u0432\u0430\u044f \u043c\u0430\u0440\u043a\u0430"
+        "text": "\u0422\u043e\u0440\u0433\u043e\u0432\u0430\u044f \u043c\u0430\u0440\u043a\u0430", 
+        "id": "Trademarks", 
+        "description": ""
     }, 
     {
-        "id": "Trademarks Text 1", 
         "source": "Trademarks named in the documentation (in alphabetical order):", 
-        "description": "", 
-        "text": "\u0422\u043e\u0440\u0433\u043e\u0432\u044b\u0435 \u043c\u0430\u0440\u043a\u0438, \u043d\u0430\u0437\u0432\u0430\u043d\u043d\u044b\u0435 \u0432 \u0434\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u0430\u0446\u0438\u0438 (\u0432 \u0430\u043b\u0444\u0430\u0432\u0438\u0442\u043d\u043e\u043c \u043f\u043e\u0440\u044f\u0434\u043a\u0435):"
+        "text": "\u0422\u043e\u0440\u0433\u043e\u0432\u044b\u0435 \u043c\u0430\u0440\u043a\u0438, \u043d\u0430\u0437\u0432\u0430\u043d\u043d\u044b\u0435 \u0432 \u0434\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u0430\u0446\u0438\u0438 (\u0432 \u0430\u043b\u0444\u0430\u0432\u0438\u0442\u043d\u043e\u043c \u043f\u043e\u0440\u044f\u0434\u043a\u0435):", 
+        "id": "Trademarks Text 1", 
+        "description": ""
     }, 
     {
-        "id": "Trademarks Text 2", 
         "source": "* Apple, OS X, ProRes, and QuickTime are registered trademarks of Apple, Inc.", 
-        "description": "", 
-        "text": "* Apple, OS X, ProRes \u0438 QuickTime \u044f\u0432\u043b\u044f\u044e\u0442\u0441\u044f \u0437\u0430\u0440\u0435\u0433\u0438\u0441\u0442\u0440\u0438\u0440\u043e\u0432\u0430\u043d\u043d\u044b\u043c\u0438 \u0442\u043e\u0432\u0430\u0440\u043d\u044b\u043c\u0438 \u0437\u043d\u0430\u043a\u0430\u043c\u0438 Apple, Inc."
+        "text": "* Apple, OS X, ProRes \u0438 QuickTime \u044f\u0432\u043b\u044f\u044e\u0442\u0441\u044f \u0437\u0430\u0440\u0435\u0433\u0438\u0441\u0442\u0440\u0438\u0440\u043e\u0432\u0430\u043d\u043d\u044b\u043c\u0438 \u0442\u043e\u0432\u0430\u0440\u043d\u044b\u043c\u0438 \u0437\u043d\u0430\u043a\u0430\u043c\u0438 Apple, Inc.", 
+        "id": "Trademarks Text 2", 
+        "description": ""
     }, 
     {
-        "id": "Trademarks Text 3", 
         "source": "* AMD and ATI are registered trademarks of Advanced Micro Devices, Inc.", 
-        "description": "", 
-        "text": "* AMD \u0438 ATI \u044f\u0432\u043b\u044f\u044e\u0442\u0441\u044f \u0437\u0430\u0440\u0435\u0433\u0438\u0441\u0442\u0440\u0438\u0440\u043e\u0432\u0430\u043d\u043d\u044b\u043c\u0438 \u0442\u043e\u0432\u0430\u0440\u043d\u044b\u043c\u0438 \u0437\u043d\u0430\u043a\u0430\u043c\u0438 Advanced Micro Devices, Inc."
+        "text": "* AMD \u0438 ATI \u044f\u0432\u043b\u044f\u044e\u0442\u0441\u044f \u0437\u0430\u0440\u0435\u0433\u0438\u0441\u0442\u0440\u0438\u0440\u043e\u0432\u0430\u043d\u043d\u044b\u043c\u0438 \u0442\u043e\u0432\u0430\u0440\u043d\u044b\u043c\u0438 \u0437\u043d\u0430\u043a\u0430\u043c\u0438 Advanced Micro Devices, Inc.", 
+        "id": "Trademarks Text 3", 
+        "description": ""
     }, 
     {
-        "id": "Trademarks Text 4", 
         "source": "* Autodesk, Inferno, Maya, Softimage, and XSI are registered trademarks of Autodesk, Inc.", 
-        "description": "", 
-        "text": "* Autodesk, Inferno, Maya, Softimage \u0438 XSI \u044f\u0432\u043b\u044f\u044e\u0442\u0441\u044f \u0437\u0430\u0440\u0435\u0433\u0438\u0441\u0442\u0440\u0438\u0440\u043e\u0432\u0430\u043d\u043d\u044b\u043c\u0438 \u0442\u043e\u0432\u0430\u0440\u043d\u044b\u043c\u0438 \u0437\u043d\u0430\u043a\u0430\u043c\u0438 Autodesk, Inc."
+        "text": "* Autodesk, Inferno, Maya, Softimage \u0438 XSI \u044f\u0432\u043b\u044f\u044e\u0442\u0441\u044f \u0437\u0430\u0440\u0435\u0433\u0438\u0441\u0442\u0440\u0438\u0440\u043e\u0432\u0430\u043d\u043d\u044b\u043c\u0438 \u0442\u043e\u0432\u0430\u0440\u043d\u044b\u043c\u0438 \u0437\u043d\u0430\u043a\u0430\u043c\u0438 Autodesk, Inc.", 
+        "id": "Trademarks Text 4", 
+        "description": ""
     }, 
     {
-        "id": "Trademarks Text 5", 
         "source": "* Debian is a registered trademark of Software in the Public Interest, Inc.", 
-        "description": "", 
-        "text": "* Debian \u044f\u0432\u043b\u044f\u0435\u0442\u0441\u044f \u0437\u0430\u0440\u0435\u0433\u0438\u0441\u0442\u0440\u0438\u0440\u043e\u0432\u0430\u043d\u043d\u044b\u043c \u0442\u043e\u0432\u0430\u0440\u043d\u044b\u043c \u0437\u043d\u0430\u043a\u043e\u043c Software \u0432 Public Interest, Inc."
+        "text": "* Debian \u044f\u0432\u043b\u044f\u0435\u0442\u0441\u044f \u0437\u0430\u0440\u0435\u0433\u0438\u0441\u0442\u0440\u0438\u0440\u043e\u0432\u0430\u043d\u043d\u044b\u043c \u0442\u043e\u0432\u0430\u0440\u043d\u044b\u043c \u0437\u043d\u0430\u043a\u043e\u043c Software \u0432 Public Interest, Inc.", 
+        "id": "Trademarks Text 5", 
+        "description": ""
     }, 
     {
-        "id": "Trademarks Text 6", 
         "source": "* FFmpeg is a trademark of Fabrice Bellard, originator of the FFmpeg project", 
-        "description": "", 
-        "text": "* FFmpeg \u044f\u0432\u043b\u044f\u0435\u0442\u0441\u044f \u0442\u043e\u0440\u0433\u043e\u0432\u043e\u0439 \u043c\u0430\u0440\u043a\u043e\u0439 \u0424\u0430\u0431\u0440\u0438\u0441\u0430 \u0411\u0435\u043b\u043b\u0430\u0440\u0434\u0430, \u0441\u043e\u0437\u0434\u0430\u0442\u0435\u043b\u044f \u043f\u0440\u043e\u0435\u043a\u0442\u0430 FFmpeg"
+        "text": "* FFmpeg \u044f\u0432\u043b\u044f\u0435\u0442\u0441\u044f \u0442\u043e\u0440\u0433\u043e\u0432\u043e\u0439 \u043c\u0430\u0440\u043a\u043e\u0439 \u0424\u0430\u0431\u0440\u0438\u0441\u0430 \u0411\u0435\u043b\u043b\u0430\u0440\u0434\u0430, \u0441\u043e\u0437\u0434\u0430\u0442\u0435\u043b\u044f \u043f\u0440\u043e\u0435\u043a\u0442\u0430 FFmpeg", 
+        "id": "Trademarks Text 6", 
+        "description": ""
     }, 
     {
-        "id": "Trademarks Text 7", 
         "source": "* FreeBSD is a registered trademark of The FreeBSD Foundation", 
-        "description": "", 
-        "text": "* FreeBSD \u044f\u0432\u043b\u044f\u0435\u0442\u0441\u044f \u0437\u0430\u0440\u0435\u0433\u0438\u0441\u0442\u0440\u0438\u0440\u043e\u0432\u0430\u043d\u043d\u044b\u043c \u0442\u043e\u0432\u0430\u0440\u043d\u044b\u043c \u0437\u043d\u0430\u043a\u043e\u043c The FreeBSD Foundation"
+        "text": "* FreeBSD \u044f\u0432\u043b\u044f\u0435\u0442\u0441\u044f \u0437\u0430\u0440\u0435\u0433\u0438\u0441\u0442\u0440\u0438\u0440\u043e\u0432\u0430\u043d\u043d\u044b\u043c \u0442\u043e\u0432\u0430\u0440\u043d\u044b\u043c \u0437\u043d\u0430\u043a\u043e\u043c The FreeBSD Foundation", 
+        "id": "Trademarks Text 7", 
+        "description": ""
     }, 
     {
-        "id": "Trademarks Text 8", 
         "source": "* Intel is a registered trademark of Intel Corporation", 
-        "description": "", 
-        "text": "* Intel \u044f\u0432\u043b\u044f\u0435\u0442\u0441\u044f \u0437\u0430\u0440\u0435\u0433\u0438\u0441\u0442\u0440\u0438\u0440\u043e\u0432\u0430\u043d\u043d\u044b\u043c \u0442\u043e\u0432\u0430\u0440\u043d\u044b\u043c \u0437\u043d\u0430\u043a\u043e\u043c Intel Corporation"
+        "text": "* Intel \u044f\u0432\u043b\u044f\u0435\u0442\u0441\u044f \u0437\u0430\u0440\u0435\u0433\u0438\u0441\u0442\u0440\u0438\u0440\u043e\u0432\u0430\u043d\u043d\u044b\u043c \u0442\u043e\u0432\u0430\u0440\u043d\u044b\u043c \u0437\u043d\u0430\u043a\u043e\u043c Intel Corporation", 
+        "id": "Trademarks Text 8", 
+        "description": ""
     }, 
     {
-        "id": "Trademarks Text 9", 
         "source": "* Industrial Light and Magic and ILM are registered trademarks of Lucasfilm Ltd.", 
-        "description": "", 
-        "text": "* Industrial Light and Magic \u0438 ILM \u044f\u0432\u043b\u044f\u044e\u0442\u0441\u044f \u0437\u0430\u0440\u0435\u0433\u0438\u0441\u0442\u0440\u0438\u0440\u043e\u0432\u0430\u043d\u043d\u044b\u043c\u0438 \u0442\u043e\u0432\u0430\u0440\u043d\u044b\u043c\u0438 \u0437\u043d\u0430\u043a\u0430\u043c\u0438 Lucasfilm Ltd."
+        "text": "* Industrial Light and Magic \u0438 ILM \u044f\u0432\u043b\u044f\u044e\u0442\u0441\u044f \u0437\u0430\u0440\u0435\u0433\u0438\u0441\u0442\u0440\u0438\u0440\u043e\u0432\u0430\u043d\u043d\u044b\u043c\u0438 \u0442\u043e\u0432\u0430\u0440\u043d\u044b\u043c\u0438 \u0437\u043d\u0430\u043a\u0430\u043c\u0438 Lucasfilm Ltd.", 
+        "id": "Trademarks Text 9", 
+        "description": ""
     }, 
     {
-        "id": "Trademarks Text 10", 
         "source": "* Kodak and Cineon are a registered trademarks of the Eastman Kodak Company", 
-        "description": "", 
-        "text": "* Kodak \u0438 Cineon \u044f\u0432\u043b\u044f\u044e\u0442\u0441\u044f \u0437\u0430\u0440\u0435\u0433\u0438\u0441\u0442\u0440\u0438\u0440\u043e\u0432\u0430\u043d\u043d\u044b\u043c\u0438 \u0442\u043e\u0432\u0430\u0440\u043d\u044b\u043c\u0438 \u0437\u043d\u0430\u043a\u0430\u043c\u0438 \u043a\u043e\u043c\u043f\u0430\u043d\u0438\u0438 Eastman Kodak"
+        "text": "* Kodak \u0438 Cineon \u044f\u0432\u043b\u044f\u044e\u0442\u0441\u044f \u0437\u0430\u0440\u0435\u0433\u0438\u0441\u0442\u0440\u0438\u0440\u043e\u0432\u0430\u043d\u043d\u044b\u043c\u0438 \u0442\u043e\u0432\u0430\u0440\u043d\u044b\u043c\u0438 \u0437\u043d\u0430\u043a\u0430\u043c\u0438 \u043a\u043e\u043c\u043f\u0430\u043d\u0438\u0438 Eastman Kodak", 
+        "id": "Trademarks Text 10", 
+        "description": ""
     }, 
     {
-        "id": "Trademarks Text 11", 
         "source": "* Linux is a registered trademark of Linus Torvalds", 
-        "description": "", 
-        "text": "* Linux \u044f\u0432\u043b\u044f\u0435\u0442\u0441\u044f \u0437\u0430\u0440\u0435\u0433\u0438\u0441\u0442\u0440\u0438\u0440\u043e\u0432\u0430\u043d\u043d\u044b\u043c \u0442\u043e\u0432\u0430\u0440\u043d\u044b\u043c \u0437\u043d\u0430\u043a\u043e\u043c \u041b\u0438\u043d\u0443\u0441\u0430 \u0422\u043e\u0440\u0432\u0430\u043b\u044c\u0434\u0441\u0430"
+        "text": "* Linux \u044f\u0432\u043b\u044f\u0435\u0442\u0441\u044f \u0437\u0430\u0440\u0435\u0433\u0438\u0441\u0442\u0440\u0438\u0440\u043e\u0432\u0430\u043d\u043d\u044b\u043c \u0442\u043e\u0432\u0430\u0440\u043d\u044b\u043c \u0437\u043d\u0430\u043a\u043e\u043c \u041b\u0438\u043d\u0443\u0441\u0430 \u0422\u043e\u0440\u0432\u0430\u043b\u044c\u0434\u0441\u0430", 
+        "id": "Trademarks Text 11", 
+        "description": ""
     }, 
     {
-        "id": "Trademarks Text 12", 
         "source": "* Microsoft and Microsoft Windows are registered trademarks of Microsoft, Inc.", 
-        "description": "", 
-        "text": "* Microsoft \u0438 Microsoft Windows \u044f\u0432\u043b\u044f\u044e\u0442\u0441\u044f \u0437\u0430\u0440\u0435\u0433\u0438\u0441\u0442\u0440\u0438\u0440\u043e\u0432\u0430\u043d\u043d\u044b\u043c\u0438 \u0442\u043e\u0432\u0430\u0440\u043d\u044b\u043c\u0438 \u0437\u043d\u0430\u043a\u0430\u043c\u0438 Microsoft, Inc."
+        "text": "* Microsoft \u0438 Microsoft Windows \u044f\u0432\u043b\u044f\u044e\u0442\u0441\u044f \u0437\u0430\u0440\u0435\u0433\u0438\u0441\u0442\u0440\u0438\u0440\u043e\u0432\u0430\u043d\u043d\u044b\u043c\u0438 \u0442\u043e\u0432\u0430\u0440\u043d\u044b\u043c\u0438 \u0437\u043d\u0430\u043a\u0430\u043c\u0438 Microsoft, Inc.", 
+        "id": "Trademarks Text 12", 
+        "description": ""
     }, 
     {
-        "id": "Trademarks Text 13", 
         "source": "* MIPS is a registered trademark of MIPS Technologies, Inc.", 
-        "description": "", 
-        "text": "* MIPS \u044f\u0432\u043b\u044f\u0435\u0442\u0441\u044f \u0437\u0430\u0440\u0435\u0433\u0438\u0441\u0442\u0440\u0438\u0440\u043e\u0432\u0430\u043d\u043d\u044b\u043c \u0442\u043e\u0432\u0430\u0440\u043d\u044b\u043c \u0437\u043d\u0430\u043a\u043e\u043c MIPS Technologies, Inc."
+        "text": "* MIPS \u044f\u0432\u043b\u044f\u0435\u0442\u0441\u044f \u0437\u0430\u0440\u0435\u0433\u0438\u0441\u0442\u0440\u0438\u0440\u043e\u0432\u0430\u043d\u043d\u044b\u043c \u0442\u043e\u0432\u0430\u0440\u043d\u044b\u043c \u0437\u043d\u0430\u043a\u043e\u043c MIPS Technologies, Inc.", 
+        "id": "Trademarks Text 13", 
+        "description": ""
     }, 
     {
-        "id": "Trademarks Text 14", 
         "source": "* NVIDIA is a registered trademark of NVIDIA Corporation", 
-        "description": "", 
-        "text": "* NVIDIA \u044f\u0432\u043b\u044f\u0435\u0442\u0441\u044f \u0437\u0430\u0440\u0435\u0433\u0438\u0441\u0442\u0440\u0438\u0440\u043e\u0432\u0430\u043d\u043d\u044b\u043c \u0442\u043e\u0432\u0430\u0440\u043d\u044b\u043c \u0437\u043d\u0430\u043a\u043e\u043c NVIDIA Corporation"
+        "text": "* NVIDIA \u044f\u0432\u043b\u044f\u0435\u0442\u0441\u044f \u0437\u0430\u0440\u0435\u0433\u0438\u0441\u0442\u0440\u0438\u0440\u043e\u0432\u0430\u043d\u043d\u044b\u043c \u0442\u043e\u0432\u0430\u0440\u043d\u044b\u043c \u0437\u043d\u0430\u043a\u043e\u043c NVIDIA Corporation", 
+        "id": "Trademarks Text 14", 
+        "description": ""
     }, 
     {
-        "id": "Trademarks Text 15", 
         "source": "* Red Hat and Fedora are registered trademarks of Red Hat, Inc.", 
-        "description": "", 
-        "text": "* Red Hat \u0438 Fedora \u044f\u0432\u043b\u044f\u044e\u0442\u0441\u044f \u0437\u0430\u0440\u0435\u0433\u0438\u0441\u0442\u0440\u0438\u0440\u043e\u0432\u0430\u043d\u043d\u044b\u043c\u0438 \u0442\u043e\u0432\u0430\u0440\u043d\u044b\u043c\u0438 \u0437\u043d\u0430\u043a\u0430\u043c\u0438 Red Hat, Inc."
+        "text": "* Red Hat \u0438 Fedora \u044f\u0432\u043b\u044f\u044e\u0442\u0441\u044f \u0437\u0430\u0440\u0435\u0433\u0438\u0441\u0442\u0440\u0438\u0440\u043e\u0432\u0430\u043d\u043d\u044b\u043c\u0438 \u0442\u043e\u0432\u0430\u0440\u043d\u044b\u043c\u0438 \u0437\u043d\u0430\u043a\u0430\u043c\u0438 Red Hat, Inc.", 
+        "id": "Trademarks Text 15", 
+        "description": ""
     }, 
     {
-        "id": "Trademarks Text 16", 
         "source": "* Silicon Graphics, SGI, IRIX, and OpenGL are registered trademarks of Silicon Graphics International Corp.", 
-        "description": "", 
-        "text": "* Silicon Graphics, SGI, IRIX \u0438 OpenGL \u044f\u0432\u043b\u044f\u044e\u0442\u0441\u044f \u0437\u0430\u0440\u0435\u0433\u0438\u0441\u0442\u0440\u0438\u0440\u043e\u0432\u0430\u043d\u043d\u044b\u043c\u0438 \u0442\u043e\u0432\u0430\u0440\u043d\u044b\u043c\u0438 \u0437\u043d\u0430\u043a\u0430\u043c\u0438 Silicon Graphics International Corp."
+        "text": "* Silicon Graphics, SGI, IRIX \u0438 OpenGL \u044f\u0432\u043b\u044f\u044e\u0442\u0441\u044f \u0437\u0430\u0440\u0435\u0433\u0438\u0441\u0442\u0440\u0438\u0440\u043e\u0432\u0430\u043d\u043d\u044b\u043c\u0438 \u0442\u043e\u0432\u0430\u0440\u043d\u044b\u043c\u0438 \u0437\u043d\u0430\u043a\u0430\u043c\u0438 Silicon Graphics International Corp.", 
+        "id": "Trademarks Text 16", 
+        "description": ""
     }, 
     {
-        "id": "Trademarks Text 17", 
         "source": "* SMPTE is a registered trademark of the Society of Motion Picture and Television Engineers", 
-        "description": "", 
-        "text": "* SMPTE \u044f\u0432\u043b\u044f\u0435\u0442\u0441\u044f \u0437\u0430\u0440\u0435\u0433\u0438\u0441\u0442\u0440\u0438\u0440\u043e\u0432\u0430\u043d\u043d\u044b\u043c \u0442\u043e\u0432\u0430\u0440\u043d\u044b\u043c \u0437\u043d\u0430\u043a\u043e\u043c \u041e\u0431\u0449\u0435\u0441\u0442\u0432\u0430 \u0438\u043d\u0436\u0435\u043d\u0435\u0440\u043e\u0432 \u043a\u0438\u043d\u043e \u0438 \u0442\u0435\u043b\u0435\u0432\u0438\u0434\u0435\u043d\u0438\u044f"
+        "text": "* SMPTE \u044f\u0432\u043b\u044f\u0435\u0442\u0441\u044f \u0437\u0430\u0440\u0435\u0433\u0438\u0441\u0442\u0440\u0438\u0440\u043e\u0432\u0430\u043d\u043d\u044b\u043c \u0442\u043e\u0432\u0430\u0440\u043d\u044b\u043c \u0437\u043d\u0430\u043a\u043e\u043c \u041e\u0431\u0449\u0435\u0441\u0442\u0432\u0430 \u0438\u043d\u0436\u0435\u043d\u0435\u0440\u043e\u0432 \u043a\u0438\u043d\u043e \u0438 \u0442\u0435\u043b\u0435\u0432\u0438\u0434\u0435\u043d\u0438\u044f", 
+        "id": "Trademarks Text 17", 
+        "description": ""
     }, 
     {
-        "id": "Trademarks Text 18", 
         "source": "* SourceForge.net is a registered trademark of VA Software Corporation", 
-        "description": "", 
-        "text": "* SourceForge.net \u044f\u0432\u043b\u044f\u0435\u0442\u0441\u044f \u0437\u0430\u0440\u0435\u0433\u0438\u0441\u0442\u0440\u0438\u0440\u043e\u0432\u0430\u043d\u043d\u044b\u043c \u0442\u043e\u0432\u0430\u0440\u043d\u044b\u043c \u0437\u043d\u0430\u043a\u043e\u043c VA Software Corporation"
+        "text": "* SourceForge.net \u044f\u0432\u043b\u044f\u0435\u0442\u0441\u044f \u0437\u0430\u0440\u0435\u0433\u0438\u0441\u0442\u0440\u0438\u0440\u043e\u0432\u0430\u043d\u043d\u044b\u043c \u0442\u043e\u0432\u0430\u0440\u043d\u044b\u043c \u0437\u043d\u0430\u043a\u043e\u043c VA Software Corporation", 
+        "id": "Trademarks Text 18", 
+        "description": ""
     }, 
     {
-        "id": "Trademarks Text 19", 
         "source": "* SuSE is a registered trademark of Novell, Inc.", 
-        "description": "", 
-        "text": "* SuSE \u044f\u0432\u043b\u044f\u0435\u0442\u0441\u044f \u0437\u0430\u0440\u0435\u0433\u0438\u0441\u0442\u0440\u0438\u0440\u043e\u0432\u0430\u043d\u043d\u044b\u043c \u0442\u043e\u0432\u0430\u0440\u043d\u044b\u043c \u0437\u043d\u0430\u043a\u043e\u043c Novell, Inc."
+        "text": "* SuSE \u044f\u0432\u043b\u044f\u0435\u0442\u0441\u044f \u0437\u0430\u0440\u0435\u0433\u0438\u0441\u0442\u0440\u0438\u0440\u043e\u0432\u0430\u043d\u043d\u044b\u043c \u0442\u043e\u0432\u0430\u0440\u043d\u044b\u043c \u0437\u043d\u0430\u043a\u043e\u043c Novell, Inc.", 
+        "id": "Trademarks Text 19", 
+        "description": ""
     }, 
     {
-        "id": "Trademarks Text 20", 
         "source": "* Ubuntu is a registered trademark of Canonical Ltd.", 
-        "description": "", 
-        "text": "* Ubuntu \u044f\u0432\u043b\u044f\u0435\u0442\u0441\u044f \u0437\u0430\u0440\u0435\u0433\u0438\u0441\u0442\u0440\u0438\u0440\u043e\u0432\u0430\u043d\u043d\u044b\u043c \u0442\u043e\u0432\u0430\u0440\u043d\u044b\u043c \u0437\u043d\u0430\u043a\u043e\u043c Canonical Ltd."
+        "text": "* Ubuntu \u044f\u0432\u043b\u044f\u0435\u0442\u0441\u044f \u0437\u0430\u0440\u0435\u0433\u0438\u0441\u0442\u0440\u0438\u0440\u043e\u0432\u0430\u043d\u043d\u044b\u043c \u0442\u043e\u0432\u0430\u0440\u043d\u044b\u043c \u0437\u043d\u0430\u043a\u043e\u043c Canonical Ltd.", 
+        "id": "Trademarks Text 20", 
+        "description": ""
     }, 
     {
-        "id": "Trademarks Text 21", 
         "source": "* UNIX is a registered trademark of The Open Group", 
-        "description": "", 
-        "text": "* UNIX \u044f\u0432\u043b\u044f\u0435\u0442\u0441\u044f \u0437\u0430\u0440\u0435\u0433\u0438\u0441\u0442\u0440\u0438\u0440\u043e\u0432\u0430\u043d\u043d\u044b\u043c \u0442\u043e\u0432\u0430\u0440\u043d\u044b\u043c \u0437\u043d\u0430\u043a\u043e\u043c The Open Group"
+        "text": "* UNIX \u044f\u0432\u043b\u044f\u0435\u0442\u0441\u044f \u0437\u0430\u0440\u0435\u0433\u0438\u0441\u0442\u0440\u0438\u0440\u043e\u0432\u0430\u043d\u043d\u044b\u043c \u0442\u043e\u0432\u0430\u0440\u043d\u044b\u043c \u0437\u043d\u0430\u043a\u043e\u043c The Open Group", 
+        "id": "Trademarks Text 21", 
+        "description": ""
     }, 
     {
-        "id": "Trademarks Text 22", 
         "source": "All other products named in the documentation are trademarks of their respective owners.", 
-        "description": "", 
-        "text": "\u0412\u0441\u0435 \u043e\u0441\u0442\u0430\u043b\u044c\u043d\u044b\u0435 \u043f\u0440\u043e\u0434\u0443\u043a\u0442\u044b, \u0443\u043a\u0430\u0437\u0430\u043d\u043d\u044b\u0435 \u0432 \u0434\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u0430\u0446\u0438\u0438, \u044f\u0432\u043b\u044f\u044e\u0442\u0441\u044f \u0442\u043e\u0432\u0430\u0440\u043d\u044b\u043c\u0438 \u0437\u043d\u0430\u043a\u0430\u043c\u0438 \u0441\u043e\u043e\u0442\u0432\u0435\u0442\u0441\u0442\u0432\u0443\u044e\u0449\u0438\u0445 \u0432\u043b\u0430\u0434\u0435\u043b\u044c\u0446\u0435\u0432."
+        "text": "\u0412\u0441\u0435 \u043e\u0441\u0442\u0430\u043b\u044c\u043d\u044b\u0435 \u043f\u0440\u043e\u0434\u0443\u043a\u0442\u044b, \u0443\u043a\u0430\u0437\u0430\u043d\u043d\u044b\u0435 \u0432 \u0434\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u0430\u0446\u0438\u0438, \u044f\u0432\u043b\u044f\u044e\u0442\u0441\u044f \u0442\u043e\u0432\u0430\u0440\u043d\u044b\u043c\u0438 \u0437\u043d\u0430\u043a\u0430\u043c\u0438 \u0441\u043e\u043e\u0442\u0432\u0435\u0442\u0441\u0442\u0432\u0443\u044e\u0449\u0438\u0445 \u0432\u043b\u0430\u0434\u0435\u043b\u044c\u0446\u0435\u0432.", 
+        "id": "Trademarks Text 22", 
+        "description": ""
     }, 
     {
-        "id": "Made In", 
         "source": "Made in Berkeley, CA, USA", 
-        "description": "", 
-        "text": "\u0421\u0434\u0435\u043b\u0430\u043d\u043e \u0432 \u0411\u0435\u0440\u043a\u043b\u0438, \u041a\u0430\u043b\u0438\u0444\u043e\u0440\u043d\u0438\u044f, \u0421\u0428\u0410"
+        "text": "\u0421\u0434\u0435\u043b\u0430\u043d\u043e \u0432 \u0411\u0435\u0440\u043a\u043b\u0438, \u041a\u0430\u043b\u0438\u0444\u043e\u0440\u043d\u0438\u044f, \u0421\u0428\u0410", 
+        "id": "Made In", 
+        "description": ""
     }, 
     {
-        "id": "Show Annotations", 
         "source": "Show Annotations", 
-        "description": "", 
-        "text": "\u041f\u043e\u043a\u0430\u0437\u0430\u0442\u044c \u0430\u043d\u043d\u043e\u0442\u0430\u0446\u0438\u0438"
+        "text": "\u041f\u043e\u043a\u0430\u0437\u0430\u0442\u044c \u0430\u043d\u043d\u043e\u0442\u0430\u0446\u0438\u0438", 
+        "id": "Show Annotations", 
+        "description": ""
     }, 
     {
-        "id": "Annotate", 
         "source": "Annotate", 
-        "description": "", 
-        "text": "\u0430\u043d\u043d\u043e\u0442\u0438\u0440\u043e\u0432\u0430\u0442\u044c"
+        "text": "\u0430\u043d\u043d\u043e\u0442\u0438\u0440\u043e\u0432\u0430\u0442\u044c", 
+        "id": "Annotate", 
+        "description": ""
     }, 
     {
-        "id": "Increase Volume", 
         "source": "Increase Volume", 
-        "description": "", 
-        "text": "\u0423\u0432\u0435\u043b\u0438\u0447\u0438\u0442\u044c \u0433\u0440\u043e\u043c\u043a\u043e\u0441\u0442\u044c"
+        "text": "\u0423\u0432\u0435\u043b\u0438\u0447\u0438\u0442\u044c \u0433\u0440\u043e\u043c\u043a\u043e\u0441\u0442\u044c", 
+        "id": "Increase Volume", 
+        "description": ""
     }, 
     {
-        "id": "Increase volume tooltip", 
         "source": "Increase volume tooltip", 
-        "description": "", 
-        "text": "\u0423\u0432\u0435\u043b\u0438\u0447\u044c\u0442\u0435 \u0433\u0440\u043e\u043c\u043a\u043e\u0441\u0442\u044c \u0432\u0441\u043f\u043b\u044b\u0432\u0430\u044e\u0449\u0435\u0439 \u043f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0438"
+        "text": "\u0423\u0432\u0435\u043b\u0438\u0447\u044c\u0442\u0435 \u0433\u0440\u043e\u043c\u043a\u043e\u0441\u0442\u044c \u0432\u0441\u043f\u043b\u044b\u0432\u0430\u044e\u0449\u0435\u0439 \u043f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0438", 
+        "id": "Increase volume tooltip", 
+        "description": ""
     }, 
     {
-        "id": "Decrease Volume", 
         "source": "Decrease Volume", 
-        "description": "", 
-        "text": "\u0423\u043c\u0435\u043d\u044c\u0448\u0438\u0442\u044c \u0433\u0440\u043e\u043c\u043a\u043e\u0441\u0442\u044c"
+        "text": "\u0423\u043c\u0435\u043d\u044c\u0448\u0438\u0442\u044c \u0433\u0440\u043e\u043c\u043a\u043e\u0441\u0442\u044c", 
+        "id": "Decrease Volume", 
+        "description": ""
     }, 
     {
-        "id": "Decrease volume tooltip", 
         "source": "Decrease volume tooltip", 
-        "description": "", 
-        "text": "\u0423\u043c\u0435\u043d\u044c\u0448\u0438\u0442\u044c \u0433\u0440\u043e\u043c\u043a\u043e\u0441\u0442\u044c \u0432\u0441\u043f\u043b\u044b\u0432\u0430\u044e\u0449\u0435\u0439 \u043f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0438"
+        "text": "\u0423\u043c\u0435\u043d\u044c\u0448\u0438\u0442\u044c \u0433\u0440\u043e\u043c\u043a\u043e\u0441\u0442\u044c \u0432\u0441\u043f\u043b\u044b\u0432\u0430\u044e\u0449\u0435\u0439 \u043f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0438", 
+        "id": "Decrease volume tooltip", 
+        "description": ""
     }, 
     {
-        "id": "Mute", 
         "source": "Mute", 
-        "description": "", 
-        "text": "\u0431\u0435\u0437\u0433\u043b\u0430\u0441\u043d\u044b\u0439"
+        "text": "\u0431\u0435\u0437\u0433\u043b\u0430\u0441\u043d\u044b\u0439", 
+        "id": "Mute", 
+        "description": ""
     }, 
     {
-        "id": "Mute tooltip", 
         "source": "Mute tooltip", 
-        "description": "", 
-        "text": "Mute \u043f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0430"
+        "text": "Mute \u043f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0430", 
+        "id": "Mute tooltip", 
+        "description": ""
     }, 
     {
-        "id": "Audio", 
         "source": "Audio", 
-        "description": "", 
-        "text": "\u0430\u0443\u0434\u0438\u043e"
+        "text": "\u0430\u0443\u0434\u0438\u043e", 
+        "id": "Audio", 
+        "description": ""
     }, 
     {
-        "id": "Color Picker", 
         "source": "Color Picker", 
-        "description": "", 
-        "text": "\u041f\u0430\u043b\u0438\u0442\u0440\u0430 \u0446\u0432\u0435\u0442\u043e\u0432"
+        "text": "\u041f\u0430\u043b\u0438\u0442\u0440\u0430 \u0446\u0432\u0435\u0442\u043e\u0432", 
+        "id": "Color Picker", 
+        "description": ""
     }, 
     {
-        "id": "Lock Color Type", 
         "source": "Lock Color Type", 
-        "description": "", 
-        "text": "\u0422\u0438\u043f \u0431\u043b\u043e\u043a\u0438\u0440\u043e\u0432\u043a\u0438 \u0446\u0432\u0435\u0442\u0430"
+        "text": "\u0422\u0438\u043f \u0431\u043b\u043e\u043a\u0438\u0440\u043e\u0432\u043a\u0438 \u0446\u0432\u0435\u0442\u0430", 
+        "id": "Lock Color Type", 
+        "description": ""
     }, 
     {
-        "id": "Color picker lock color type tooltip", 
         "source": "Color picker lock color type tooltip", 
-        "description": "", 
-        "text": "\u041f\u043e\u0434\u0431\u043e\u0440 \u0446\u0432\u0435\u0442\u0430"
+        "text": "\u041f\u043e\u0434\u0431\u043e\u0440 \u0446\u0432\u0435\u0442\u0430", 
+        "id": "Color picker lock color type tooltip", 
+        "description": ""
     }, 
     {
-        "id": "Enable Color Profile", 
         "source": "Enable Color Profile", 
-        "description": "", 
-        "text": "\u0412\u043a\u043b\u044e\u0447\u0438\u0442\u044c \u0446\u0432\u0435\u0442\u043e\u0432\u043e\u0439 \u043f\u0440\u043e\u0444\u0438\u043b\u044c"
+        "text": "\u0412\u043a\u043b\u044e\u0447\u0438\u0442\u044c \u0446\u0432\u0435\u0442\u043e\u0432\u043e\u0439 \u043f\u0440\u043e\u0444\u0438\u043b\u044c", 
+        "id": "Enable Color Profile", 
+        "description": ""
     }, 
     {
-        "id": "Color picker enable color profile tooltip", 
         "source": "Color picker enable color profile tooltip", 
-        "description": "", 
-        "text": "\u0412\u044b\u0431\u043e\u0440 \u0446\u0432\u0435\u0442\u0430 \u0432\u043a\u043b\u044e\u0447\u0430\u0435\u0442 \u0432\u0441\u043f\u043b\u044b\u0432\u0430\u044e\u0449\u0443\u044e \u043f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0443 \u043e \u0446\u0432\u0435\u0442\u043e\u0432\u043e\u043c \u043f\u0440\u043e\u0444\u0438\u043b\u0435"
+        "text": "\u0412\u044b\u0431\u043e\u0440 \u0446\u0432\u0435\u0442\u0430 \u0432\u043a\u043b\u044e\u0447\u0430\u0435\u0442 \u0432\u0441\u043f\u043b\u044b\u0432\u0430\u044e\u0449\u0443\u044e \u043f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0443 \u043e \u0446\u0432\u0435\u0442\u043e\u0432\u043e\u043c \u043f\u0440\u043e\u0444\u0438\u043b\u0435", 
+        "id": "Color picker enable color profile tooltip", 
+        "description": ""
     }, 
     {
-        "id": "Enable Display Profile", 
         "source": "Enable Display Profile", 
-        "description": "", 
-        "text": "\u0412\u043a\u043b\u044e\u0447\u0438\u0442\u044c \u043e\u0442\u043e\u0431\u0440\u0430\u0436\u0435\u043d\u0438\u0435 \u043f\u0440\u043e\u0444\u0438\u043b\u044f"
+        "text": "\u0412\u043a\u043b\u044e\u0447\u0438\u0442\u044c \u043e\u0442\u043e\u0431\u0440\u0430\u0436\u0435\u043d\u0438\u0435 \u043f\u0440\u043e\u0444\u0438\u043b\u044f", 
+        "id": "Enable Display Profile", 
+        "description": ""
     }, 
     {
-        "id": "Color picker enable display profile tooltip", 
         "source": "Color picker enable display profile tooltip", 
-        "description": "", 
-        "text": "\u0412\u044b\u0431\u043e\u0440 \u0446\u0432\u0435\u0442\u0430 \u0432\u043a\u043b\u044e\u0447\u0430\u0435\u0442 \u043e\u0442\u043e\u0431\u0440\u0430\u0436\u0435\u043d\u0438\u0435 \u0432\u0441\u043f\u043b\u044b\u0432\u0430\u044e\u0449\u0435\u0439 \u043f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0438"
+        "text": "\u0412\u044b\u0431\u043e\u0440 \u0446\u0432\u0435\u0442\u0430 \u0432\u043a\u043b\u044e\u0447\u0430\u0435\u0442 \u043e\u0442\u043e\u0431\u0440\u0430\u0436\u0435\u043d\u0438\u0435 \u0432\u0441\u043f\u043b\u044b\u0432\u0430\u044e\u0449\u0435\u0439 \u043f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0438", 
+        "id": "Color picker enable display profile tooltip", 
+        "description": ""
     }, 
     {
-        "id": "RGB", 
         "source": "RGB", 
-        "description": "", 
-        "text": "RGB"
+        "text": "RGB", 
+        "id": "RGB", 
+        "description": ""
     }, 
     {
-        "id": "HSV", 
         "source": "HSV", 
-        "description": "", 
-        "text": "HSV"
+        "text": "HSV", 
+        "id": "HSV", 
+        "description": ""
     }, 
     {
-        "id": "Color picker sample size tooltip", 
         "source": "Color picker sample size tooltip", 
-        "description": "", 
-        "text": "\u041f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0430 \u0440\u0430\u0437\u043c\u0435\u0440\u0430 \u0432\u044b\u0431\u043e\u0440\u043a\u0438 \u0446\u0432\u0435\u0442\u0430"
+        "text": "\u041f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0430 \u0440\u0430\u0437\u043c\u0435\u0440\u0430 \u0432\u044b\u0431\u043e\u0440\u043a\u0438 \u0446\u0432\u0435\u0442\u0430", 
+        "id": "Color picker sample size tooltip", 
+        "description": ""
     }, 
     {
-        "id": "FPS", 
         "source": "FPS", 
-        "description": "", 
-        "text": "FPS"
+        "text": "FPS", 
+        "id": "FPS", 
+        "description": ""
     }, 
     {
-        "id": "Object count", 
         "source": "Object count", 
-        "description": "", 
-        "text": "\u041a\u043e\u043b\u0438\u0447\u0435\u0441\u0442\u0432\u043e \u043e\u0431\u044a\u0435\u043a\u0442\u043e\u0432"
+        "text": "\u041a\u043e\u043b\u0438\u0447\u0435\u0441\u0442\u0432\u043e \u043e\u0431\u044a\u0435\u043a\u0442\u043e\u0432", 
+        "id": "Object count", 
+        "description": ""
     }, 
     {
-        "id": "Widget count", 
         "source": "Widget count", 
-        "description": "", 
-        "text": "\u041a\u043e\u043b\u0438\u0447\u0435\u0441\u0442\u0432\u043e \u0432\u0438\u0434\u0436\u0435\u0442\u043e\u0432"
+        "text": "\u041a\u043e\u043b\u0438\u0447\u0435\u0441\u0442\u0432\u043e \u0432\u0438\u0434\u0436\u0435\u0442\u043e\u0432", 
+        "id": "Widget count", 
+        "description": ""
     }, 
     {
-        "id": "Font system glyph cache", 
         "source": "Font system glyph cache", 
-        "description": "", 
-        "text": "\u0421\u0438\u0441\u0442\u0435\u043c\u043d\u044b\u0439 \u0448\u0440\u0438\u0444\u0442 \u0433\u043b\u0438\u0444\u0430 \u043a\u0435\u0448\u0430"
+        "text": "\u0421\u0438\u0441\u0442\u0435\u043c\u043d\u044b\u0439 \u0448\u0440\u0438\u0444\u0442 \u0433\u043b\u0438\u0444\u0430 \u043a\u0435\u0448\u0430", 
+        "id": "Font system glyph cache", 
+        "description": ""
     }, 
     {
-        "id": "Thumbnail system information cache", 
         "source": "Thumbnail system information cache", 
-        "description": "", 
-        "text": "\u041c\u0438\u043d\u0438\u0430\u0442\u044e\u0440\u0430 \u0441\u0438\u0441\u0442\u0435\u043c\u043d\u043e\u0439 \u0438\u043d\u0444\u043e\u0440\u043c\u0430\u0446\u0438\u0438 \u043a\u0435\u0448"
+        "text": "\u041c\u0438\u043d\u0438\u0430\u0442\u044e\u0440\u0430 \u0441\u0438\u0441\u0442\u0435\u043c\u043d\u043e\u0439 \u0438\u043d\u0444\u043e\u0440\u043c\u0430\u0446\u0438\u0438 \u043a\u0435\u0448", 
+        "id": "Thumbnail system information cache", 
+        "description": ""
     }, 
     {
-        "id": "Thumbnail system image cache", 
         "source": "Thumbnail system image cache", 
-        "description": "", 
-        "text": "\u041c\u0438\u043d\u0438\u0430\u0442\u044e\u0440\u0430 \u0441\u0438\u0441\u0442\u0435\u043c\u043d\u043e\u0433\u043e \u043a\u0435\u0448\u0430 \u0438\u0437\u043e\u0431\u0440\u0430\u0436\u0435\u043d\u0438\u0439"
+        "text": "\u041c\u0438\u043d\u0438\u0430\u0442\u044e\u0440\u0430 \u0441\u0438\u0441\u0442\u0435\u043c\u043d\u043e\u0433\u043e \u043a\u0435\u0448\u0430 \u0438\u0437\u043e\u0431\u0440\u0430\u0436\u0435\u043d\u0438\u0439", 
+        "id": "Thumbnail system image cache", 
+        "description": ""
     }, 
     {
-        "id": "Icon system cache", 
         "source": "Icon system cache", 
-        "description": "", 
-        "text": "\u041a\u0435\u0448 \u0441\u0438\u0441\u0442\u0435\u043c\u044b \u0438\u043a\u043e\u043d\u043e\u043a"
+        "text": "\u041a\u0435\u0448 \u0441\u0438\u0441\u0442\u0435\u043c\u044b \u0438\u043a\u043e\u043d\u043e\u043a", 
+        "id": "Icon system cache", 
+        "description": ""
     }, 
     {
-        "id": "Texture atlas", 
         "source": "Texture atlas", 
-        "description": "", 
-        "text": "\u0422\u0435\u043a\u0441\u0442\u0443\u0440\u043d\u044b\u0439 \u0430\u0442\u043b\u0430\u0441"
+        "text": "\u0422\u0435\u043a\u0441\u0442\u0443\u0440\u043d\u044b\u0439 \u0430\u0442\u043b\u0430\u0441", 
+        "id": "Texture atlas", 
+        "description": ""
     }, 
     {
-        "id": "Dynamic texture count", 
         "source": "Dynamic texture count", 
-        "description": "", 
-        "text": "\u0414\u0438\u043d\u0430\u043c\u0438\u0447\u0435\u0441\u043a\u043e\u0435 \u043a\u043e\u043b\u0438\u0447\u0435\u0441\u0442\u0432\u043e \u0442\u0435\u043a\u0441\u0442\u0443\u0440"
+        "text": "\u0414\u0438\u043d\u0430\u043c\u0438\u0447\u0435\u0441\u043a\u043e\u0435 \u043a\u043e\u043b\u0438\u0447\u0435\u0441\u0442\u0432\u043e \u0442\u0435\u043a\u0441\u0442\u0443\u0440", 
+        "id": "Dynamic texture count", 
+        "description": ""
     }, 
     {
-        "id": "VBO count", 
         "source": "VBO count", 
-        "description": "", 
-        "text": "\u0421\u0447\u0435\u0442\u0447\u0438\u043a FEB"
+        "text": "\u0421\u0447\u0435\u0442\u0447\u0438\u043a FEB", 
+        "id": "VBO count", 
+        "description": ""
     }, 
     {
-        "id": "Video queue", 
         "source": "Video queue", 
-        "description": "", 
-        "text": "\u0412\u0438\u0434\u0435\u043e-\u043e\u0447\u0435\u0440\u0435\u0434\u044c"
+        "text": "\u0412\u0438\u0434\u0435\u043e-\u043e\u0447\u0435\u0440\u0435\u0434\u044c", 
+        "id": "Video queue", 
+        "description": ""
     }, 
     {
-        "id": "Audio queue", 
         "source": "Audio queue", 
-        "description": "", 
-        "text": "\u0410\u0443\u0434\u0438\u043e \u0445\u0432\u043e\u0441\u0442"
+        "text": "\u0410\u0443\u0434\u0438\u043e \u0445\u0432\u043e\u0441\u0442", 
+        "id": "Audio queue", 
+        "description": ""
     }, 
     {
-        "id": "OpenAL unqueued buffers", 
         "source": "OpenAL unqueued buffers", 
-        "description": "", 
-        "text": "OpenAL \u0431\u0435\u0437 \u043e\u0447\u0435\u0440\u0435\u0434\u0438 \u0431\u0443\u0444\u0435\u0440\u043e\u0432"
+        "text": "OpenAL \u0431\u0435\u0437 \u043e\u0447\u0435\u0440\u0435\u0434\u0438 \u0431\u0443\u0444\u0435\u0440\u043e\u0432", 
+        "id": "OpenAL unqueued buffers", 
+        "description": ""
     }, 
     {
-        "id": "Current time", 
         "source": "Current time", 
-        "description": "", 
-        "text": "\u0422\u0435\u043a\u0443\u0449\u0435\u0435 \u0432\u0440\u0435\u043c\u044f"
+        "text": "\u0422\u0435\u043a\u0443\u0449\u0435\u0435 \u0432\u0440\u0435\u043c\u044f", 
+        "id": "Current time", 
+        "description": ""
     }, 
     {
-        "id": "Debugging", 
         "source": "Debugging", 
-        "description": "", 
-        "text": "\u043e\u0442\u043b\u0430\u0434\u043a\u0430"
+        "text": "\u043e\u0442\u043b\u0430\u0434\u043a\u0430", 
+        "id": "Debugging", 
+        "description": ""
     }, 
     {
-        "id": "General", 
         "source": "General", 
-        "description": "", 
-        "text": "\u0433\u0435\u043d\u0435\u0440\u0430\u043b\u044c\u043d\u044b\u0439"
+        "text": "\u0433\u0435\u043d\u0435\u0440\u0430\u043b\u044c\u043d\u044b\u0439", 
+        "id": "General", 
+        "description": ""
     }, 
     {
-        "id": "Render", 
         "source": "Render", 
-        "description": "", 
-        "text": "\u043e\u043a\u0430\u0437\u044b\u0432\u0430\u0442\u044c"
+        "text": "\u043e\u043a\u0430\u0437\u044b\u0432\u0430\u0442\u044c", 
+        "id": "Render", 
+        "description": ""
     }, 
     {
-        "id": "Media", 
         "source": "Media", 
-        "description": "", 
-        "text": "\u0421\u0440\u0435\u0434\u0441\u0442\u0432\u0430 \u043c\u0430\u0441\u0441\u043e\u0432\u043e\u0439 \u0438\u043d\u0444\u043e\u0440\u043c\u0430\u0446\u0438\u0438"
+        "text": "\u0421\u0440\u0435\u0434\u0441\u0442\u0432\u0430 \u043c\u0430\u0441\u0441\u043e\u0432\u043e\u0439 \u0438\u043d\u0444\u043e\u0440\u043c\u0430\u0446\u0438\u0438", 
+        "id": "Media", 
+        "description": ""
     }, 
     {
-        "id": "Cannot parse the value.", 
         "source": "Cannot parse the value.", 
-        "description": "", 
-        "text": "\u041d\u0435\u0432\u043e\u0437\u043c\u043e\u0436\u043d\u043e \u043f\u0440\u043e\u0430\u043d\u0430\u043b\u0438\u0437\u0438\u0440\u043e\u0432\u0430\u0442\u044c \u0437\u043d\u0430\u0447\u0435\u043d\u0438\u0435."
+        "text": "\u041d\u0435\u0432\u043e\u0437\u043c\u043e\u0436\u043d\u043e \u043f\u0440\u043e\u0430\u043d\u0430\u043b\u0438\u0437\u0438\u0440\u043e\u0432\u0430\u0442\u044c \u0437\u043d\u0430\u0447\u0435\u043d\u0438\u0435.", 
+        "id": "Cannot parse the value.", 
+        "description": ""
     }, 
     {
-        "id": "SDI", 
         "source": "SDI", 
-        "description": "", 
-        "text": "SDI"
+        "text": "SDI", 
+        "id": "SDI", 
+        "description": ""
     }, 
     {
-        "id": "MDI", 
         "source": "MDI", 
-        "description": "", 
-        "text": "MDI"
+        "text": "MDI", 
+        "id": "MDI", 
+        "description": ""
     }, 
     {
-        "id": "List", 
         "source": "List", 
-        "description": "", 
-        "text": "\u0421\u043f\u0438\u0441\u043e\u043a"
+        "text": "\u0421\u043f\u0438\u0441\u043e\u043a", 
+        "id": "List", 
+        "description": ""
     }, 
     {
-        "id": "Stop", 
         "source": "Stop", 
-        "description": "", 
-        "text": "\u0421\u0442\u043e\u043f"
+        "text": "\u0421\u0442\u043e\u043f", 
+        "id": "Stop", 
+        "description": ""
     }, 
     {
-        "id": "Forward", 
         "source": "Forward", 
-        "description": "", 
-        "text": "\u0412\u043f\u0435\u0440\u0435\u0434"
+        "text": "\u0412\u043f\u0435\u0440\u0435\u0434", 
+        "id": "Forward", 
+        "description": ""
     }, 
     {
-        "id": "Reverse", 
         "source": "Reverse", 
-        "description": "", 
-        "text": "\u0417\u0430\u0434\u043d\u0438\u0439 \u0445\u043e\u0434"
+        "text": "\u0417\u0430\u0434\u043d\u0438\u0439 \u0445\u043e\u0434", 
+        "id": "Reverse", 
+        "description": ""
     }, 
     {
-        "id": "Once", 
         "source": "Once", 
-        "description": "", 
-        "text": "\u043e\u0434\u043d\u0430\u0436\u0434\u044b"
+        "text": "\u043e\u0434\u043d\u0430\u0436\u0434\u044b", 
+        "id": "Once", 
+        "description": ""
     }, 
     {
-        "id": "Loop", 
         "source": "Loop", 
-        "description": "", 
-        "text": "\u043f\u0435\u0442\u043b\u044f"
+        "text": "\u043f\u0435\u0442\u043b\u044f", 
+        "id": "Loop", 
+        "description": ""
     }, 
     {
-        "id": "PingPong", 
         "source": "PingPong", 
-        "description": "", 
-        "text": "PingPong"
+        "text": "PingPong", 
+        "id": "PingPong", 
+        "description": ""
     }, 
     {
-        "id": "File Browser", 
         "source": "File Browser", 
-        "description": "", 
-        "text": "\u0411\u0440\u0430\u0443\u0437\u0435\u0440 \u0444\u0430\u0439\u043b\u043e\u0432"
+        "text": "\u0411\u0440\u0430\u0443\u0437\u0435\u0440 \u0444\u0430\u0439\u043b\u043e\u0432", 
+        "id": "File Browser", 
+        "description": ""
     }, 
     {
-        "id": "Open", 
         "source": "Open", 
-        "description": "", 
-        "text": "\u043e\u0442\u043a\u0440\u044b\u0442\u043e"
+        "text": "\u043e\u0442\u043a\u0440\u044b\u0442\u043e", 
+        "id": "Open", 
+        "description": ""
     }, 
     {
-        "id": "Open tooltip", 
         "source": "Open tooltip", 
-        "description": "", 
-        "text": "\u041e\u0442\u043a\u0440\u044b\u0442\u044c \u043f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0443"
+        "text": "\u041e\u0442\u043a\u0440\u044b\u0442\u044c \u043f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0443", 
+        "id": "Open tooltip", 
+        "description": ""
     }, 
     {
-        "id": "Recent", 
         "source": "Recent", 
-        "description": "", 
-        "text": "\u043f\u043e\u0441\u043b\u0435\u0434\u043d\u0438\u0439"
+        "text": "\u043f\u043e\u0441\u043b\u0435\u0434\u043d\u0438\u0439", 
+        "id": "Recent", 
+        "description": ""
     }, 
     {
-        "id": "Recent tooltip", 
         "source": "Recent tooltip", 
-        "description": "", 
-        "text": "\u041d\u0435\u0434\u0430\u0432\u043d\u044f\u044f \u043f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0430"
+        "text": "\u041d\u0435\u0434\u0430\u0432\u043d\u044f\u044f \u043f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0430", 
+        "id": "Recent tooltip", 
+        "description": ""
     }, 
     {
-        "id": "Reload", 
         "source": "Reload", 
-        "description": "", 
-        "text": "\u043f\u0435\u0440\u0435\u0437\u0430\u0433\u0440\u0443\u0436\u0430\u0442\u044c"
+        "text": "\u043f\u0435\u0440\u0435\u0437\u0430\u0433\u0440\u0443\u0436\u0430\u0442\u044c", 
+        "id": "Reload", 
+        "description": ""
     }, 
     {
-        "id": "Reload tooltip", 
         "source": "Reload tooltip", 
-        "description": "", 
-        "text": "\u041f\u0435\u0440\u0435\u0437\u0430\u0433\u0440\u0443\u0437\u0438\u0442\u044c \u0432\u0441\u043f\u043b\u044b\u0432\u0430\u044e\u0449\u0443\u044e \u043f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0443"
+        "text": "\u041f\u0435\u0440\u0435\u0437\u0430\u0433\u0440\u0443\u0437\u0438\u0442\u044c \u0432\u0441\u043f\u043b\u044b\u0432\u0430\u044e\u0449\u0443\u044e \u043f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0443", 
+        "id": "Reload tooltip", 
+        "description": ""
     }, 
     {
-        "id": "Close", 
         "source": "Close", 
-        "description": "", 
-        "text": "\u0431\u043b\u0438\u0437\u043a\u043e"
+        "text": "\u0431\u043b\u0438\u0437\u043a\u043e", 
+        "id": "Close", 
+        "description": ""
     }, 
     {
-        "id": "Close tooltip", 
         "source": "Close tooltip", 
-        "description": "", 
-        "text": "\u0417\u0430\u043a\u0440\u044b\u0442\u044c \u0432\u0441\u043f\u043b\u044b\u0432\u0430\u044e\u0449\u0443\u044e \u043f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0443"
+        "text": "\u0417\u0430\u043a\u0440\u044b\u0442\u044c \u0432\u0441\u043f\u043b\u044b\u0432\u0430\u044e\u0449\u0443\u044e \u043f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0443", 
+        "id": "Close tooltip", 
+        "description": ""
     }, 
     {
-        "id": "Export", 
         "source": "Export", 
-        "description": "", 
-        "text": "\u044d\u043a\u0441\u043f\u043e\u0440\u0442"
+        "text": "\u044d\u043a\u0441\u043f\u043e\u0440\u0442", 
+        "id": "Export", 
+        "description": ""
     }, 
     {
-        "id": "Export tooltip", 
         "source": "Export tooltip", 
-        "description": "", 
-        "text": "\u042d\u043a\u0441\u043f\u043e\u0440\u0442 \u043f\u043e\u0434\u0441\u043a\u0430\u0437\u043e\u043a"
+        "text": "\u042d\u043a\u0441\u043f\u043e\u0440\u0442 \u043f\u043e\u0434\u0441\u043a\u0430\u0437\u043e\u043a", 
+        "id": "Export tooltip", 
+        "description": ""
     }, 
     {
-        "id": "Next", 
         "source": "Next", 
-        "description": "", 
-        "text": "\u0441\u043b\u0435\u0434\u0443\u044e\u0449\u0438\u0439"
+        "text": "\u0441\u043b\u0435\u0434\u0443\u044e\u0449\u0438\u0439", 
+        "id": "Next", 
+        "description": ""
     }, 
     {
-        "id": "Next tooltip", 
         "source": "Next tooltip", 
-        "description": "", 
-        "text": "\u0421\u043b\u0435\u0434\u0443\u044e\u0449\u0430\u044f \u043f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0430"
+        "text": "\u0421\u043b\u0435\u0434\u0443\u044e\u0449\u0430\u044f \u043f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0430", 
+        "id": "Next tooltip", 
+        "description": ""
     }, 
     {
-        "id": "Previous", 
         "source": "Previous", 
-        "description": "", 
-        "text": "\u043f\u0440\u0435\u0434\u044b\u0434\u0443\u0449\u0438\u0439"
+        "text": "\u043f\u0440\u0435\u0434\u044b\u0434\u0443\u0449\u0438\u0439", 
+        "id": "Previous", 
+        "description": ""
     }, 
     {
-        "id": "Prev tooltip", 
         "source": "Prev tooltip", 
-        "description": "", 
-        "text": "\u041f\u0440\u0435\u0434\u044b\u0434\u0443\u0449\u0430\u044f \u043f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0430"
+        "text": "\u041f\u0440\u0435\u0434\u044b\u0434\u0443\u0449\u0430\u044f \u043f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0430", 
+        "id": "Prev tooltip", 
+        "description": ""
     }, 
     {
-        "id": "Layers", 
         "source": "Layers", 
-        "description": "", 
-        "text": "\u0421\u043b\u043e\u0438"
+        "text": "\u0421\u043b\u043e\u0438", 
+        "id": "Layers", 
+        "description": ""
     }, 
     {
-        "id": "Layers tooltip", 
         "source": "Layers tooltip", 
-        "description": "", 
-        "text": "\u0412\u0441\u043f\u043b\u044b\u0432\u0430\u044e\u0449\u0430\u044f \u043f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0430"
+        "text": "\u0412\u0441\u043f\u043b\u044b\u0432\u0430\u044e\u0449\u0430\u044f \u043f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0430", 
+        "id": "Layers tooltip", 
+        "description": ""
     }, 
     {
-        "id": "8-Bit Conversion", 
         "source": "8-Bit Conversion", 
-        "description": "", 
-        "text": "8-\u0431\u0438\u0442\u043d\u043e\u0435 \u043f\u0440\u0435\u043e\u0431\u0440\u0430\u0437\u043e\u0432\u0430\u043d\u0438\u0435"
+        "text": "8-\u0431\u0438\u0442\u043d\u043e\u0435 \u043f\u0440\u0435\u043e\u0431\u0440\u0430\u0437\u043e\u0432\u0430\u043d\u0438\u0435", 
+        "id": "8-Bit Conversion", 
+        "description": ""
     }, 
     {
-        "id": "8-bit conversion tooltip", 
         "source": "8-bit conversion tooltip", 
-        "description": "", 
-        "text": "8-\u0431\u0438\u0442\u043d\u0430\u044f \u043f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0430 \u043f\u0440\u0435\u043e\u0431\u0440\u0430\u0437\u043e\u0432\u0430\u043d\u0438\u044f"
+        "text": "8-\u0431\u0438\u0442\u043d\u0430\u044f \u043f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0430 \u043f\u0440\u0435\u043e\u0431\u0440\u0430\u0437\u043e\u0432\u0430\u043d\u0438\u044f", 
+        "id": "8-bit conversion tooltip", 
+        "description": ""
     }, 
     {
-        "id": "Memory Cache", 
         "source": "Memory Cache", 
-        "description": "", 
-        "text": "\u041a\u044d\u0448 \u043f\u0430\u043c\u044f\u0442\u0438"
+        "text": "\u041a\u044d\u0448 \u043f\u0430\u043c\u044f\u0442\u0438", 
+        "id": "Memory Cache", 
+        "description": ""
     }, 
     {
-        "id": "Memory cache tooltip", 
         "source": "Memory cache tooltip", 
-        "description": "", 
-        "text": "\u041f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0430 \u043a\u0435\u0448\u0430 \u043f\u0430\u043c\u044f\u0442\u0438"
+        "text": "\u041f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0430 \u043a\u0435\u0448\u0430 \u043f\u0430\u043c\u044f\u0442\u0438", 
+        "id": "Memory cache tooltip", 
+        "description": ""
     }, 
     {
-        "id": "Clear Memory Cache", 
         "source": "Clear Memory Cache", 
-        "description": "", 
-        "text": "\u041e\u0447\u0438\u0441\u0442\u0438\u0442\u044c \u043a\u044d\u0448 \u043f\u0430\u043c\u044f\u0442\u0438"
+        "text": "\u041e\u0447\u0438\u0441\u0442\u0438\u0442\u044c \u043a\u044d\u0448 \u043f\u0430\u043c\u044f\u0442\u0438", 
+        "id": "Clear Memory Cache", 
+        "description": ""
     }, 
     {
-        "id": "Clear cache tooltip", 
         "source": "Clear cache tooltip", 
-        "description": "", 
-        "text": "\u041e\u0447\u0438\u0441\u0442\u0438\u0442\u044c \u043f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0443 \u043a\u0435\u0448\u0430"
+        "text": "\u041e\u0447\u0438\u0441\u0442\u0438\u0442\u044c \u043f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0443 \u043a\u0435\u0448\u0430", 
+        "id": "Clear cache tooltip", 
+        "description": ""
     }, 
     {
-        "id": "Exit", 
         "source": "Exit", 
-        "description": "", 
-        "text": "\u0412\u044b\u0445\u043e\u0434"
+        "text": "\u0412\u044b\u0445\u043e\u0434", 
+        "id": "Exit", 
+        "description": ""
     }, 
     {
-        "id": "Exit tooltip", 
         "source": "Exit tooltip", 
-        "description": "", 
-        "text": "\u0412\u0441\u043f\u043b\u044b\u0432\u0430\u044e\u0449\u0430\u044f \u043f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0430"
+        "text": "\u0412\u0441\u043f\u043b\u044b\u0432\u0430\u044e\u0449\u0430\u044f \u043f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0430", 
+        "id": "Exit tooltip", 
+        "description": ""
     }, 
     {
-        "id": "File", 
         "source": "File", 
-        "description": "", 
-        "text": "\u0444\u0430\u0439\u043b"
+        "text": "\u0444\u0430\u0439\u043b", 
+        "id": "File", 
+        "description": ""
     }, 
     {
-        "id": "Documentation", 
         "source": "Documentation", 
-        "description": "", 
-        "text": "\u0414\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u0430\u0446\u0438\u044f"
+        "text": "\u0414\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u0430\u0446\u0438\u044f", 
+        "id": "Documentation", 
+        "description": ""
     }, 
     {
-        "id": "Documentation tooltip", 
         "source": "Documentation tooltip", 
-        "description": "", 
-        "text": "\u041f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0430 \u043f\u043e \u0434\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u0430\u0446\u0438\u0438"
+        "text": "\u041f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0430 \u043f\u043e \u0434\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u0430\u0446\u0438\u0438", 
+        "id": "Documentation tooltip", 
+        "description": ""
     }, 
     {
-        "id": "About", 
         "source": "About", 
-        "description": "", 
-        "text": "\u041e\u043a\u043e\u043b\u043e"
+        "text": "\u041e\u043a\u043e\u043b\u043e", 
+        "id": "About", 
+        "description": ""
     }, 
     {
-        "id": "About tooltip", 
         "source": "About tooltip", 
-        "description": "", 
-        "text": "\u041e \u0432\u0441\u043f\u043b\u044b\u0432\u0430\u044e\u0449\u0435\u0439 \u043f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0435"
+        "text": "\u041e \u0432\u0441\u043f\u043b\u044b\u0432\u0430\u044e\u0449\u0435\u0439 \u043f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0435", 
+        "id": "About tooltip", 
+        "description": ""
     }, 
     {
-        "id": "System Log", 
         "source": "System Log", 
-        "description": "", 
-        "text": "\u0421\u0438\u0441\u0442\u0435\u043c\u043d\u044b\u0439 \u0436\u0443\u0440\u043d\u0430\u043b"
+        "text": "\u0421\u0438\u0441\u0442\u0435\u043c\u043d\u044b\u0439 \u0436\u0443\u0440\u043d\u0430\u043b", 
+        "id": "System Log", 
+        "description": ""
     }, 
     {
-        "id": "System log tooltip", 
         "source": "System log tooltip", 
-        "description": "", 
-        "text": "\u041f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0430 \u0441\u0438\u0441\u0442\u0435\u043c\u043d\u043e\u0433\u043e \u0436\u0443\u0440\u043d\u0430\u043b\u0430"
+        "text": "\u041f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0430 \u0441\u0438\u0441\u0442\u0435\u043c\u043d\u043e\u0433\u043e \u0436\u0443\u0440\u043d\u0430\u043b\u0430", 
+        "id": "System log tooltip", 
+        "description": ""
     }, 
     {
-        "id": "Help", 
         "source": "Help", 
-        "description": "", 
-        "text": "\u041f\u043e\u043c\u043e\u0433\u0438\u0442\u0435"
+        "text": "\u041f\u043e\u043c\u043e\u0433\u0438\u0442\u0435", 
+        "id": "Help", 
+        "description": ""
     }, 
     {
-        "id": "Histogram", 
         "source": "Histogram", 
-        "description": "", 
-        "text": "\u0413\u0438\u0441\u0442\u043e\u0433\u0440\u0430\u043c\u043c\u0430"
+        "text": "\u0413\u0438\u0441\u0442\u043e\u0433\u0440\u0430\u043c\u043c\u0430", 
+        "id": "Histogram", 
+        "description": ""
     }, 
     {
-        "id": "Color Manager", 
         "source": "Color Manager", 
-        "description": "", 
-        "text": "\u0414\u0438\u0441\u043f\u0435\u0442\u0447\u0435\u0440 \u0446\u0432\u0435\u0442\u0430"
+        "text": "\u0414\u0438\u0441\u043f\u0435\u0442\u0447\u0435\u0440 \u0446\u0432\u0435\u0442\u0430", 
+        "id": "Color Manager", 
+        "description": ""
     }, 
     {
-        "id": "Color manager tooltip", 
         "source": "Color manager tooltip", 
-        "description": "", 
-        "text": "\u041f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0430 \u043c\u0435\u043d\u0435\u0434\u0436\u0435\u0440\u0430 \u0446\u0432\u0435\u0442\u0430"
+        "text": "\u041f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0430 \u043c\u0435\u043d\u0435\u0434\u0436\u0435\u0440\u0430 \u0446\u0432\u0435\u0442\u0430", 
+        "id": "Color manager tooltip", 
+        "description": ""
     }, 
     {
-        "id": "Color channels", 
         "source": "Color channels", 
-        "description": "", 
-        "text": "\u0426\u0432\u0435\u0442\u043e\u0432\u044b\u0435 \u043a\u0430\u043d\u0430\u043b\u044b"
+        "text": "\u0426\u0432\u0435\u0442\u043e\u0432\u044b\u0435 \u043a\u0430\u043d\u0430\u043b\u044b", 
+        "id": "Color channels", 
+        "description": ""
     }, 
     {
-        "id": "Color channels tooltip", 
         "source": "Color channels tooltip", 
-        "description": "", 
-        "text": "\u041f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0430 \u043e \u0446\u0432\u0435\u0442\u043e\u0432\u044b\u0445 \u043a\u0430\u043d\u0430\u043b\u0430\u0445"
+        "text": "\u041f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0430 \u043e \u0446\u0432\u0435\u0442\u043e\u0432\u044b\u0445 \u043a\u0430\u043d\u0430\u043b\u0430\u0445", 
+        "id": "Color channels tooltip", 
+        "description": ""
     }, 
     {
-        "id": "Red channel", 
         "source": "Red channel", 
-        "description": "", 
-        "text": "\u041a\u0440\u0430\u0441\u043d\u044b\u0439 \u043a\u0430\u043d\u0430\u043b"
+        "text": "\u041a\u0440\u0430\u0441\u043d\u044b\u0439 \u043a\u0430\u043d\u0430\u043b", 
+        "id": "Red channel", 
+        "description": ""
     }, 
     {
-        "id": "Red channel tooltip", 
         "source": "Red channel tooltip", 
-        "description": "", 
-        "text": "\u041a\u0440\u0430\u0441\u043d\u0430\u044f \u043f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0430 \u043a\u0430\u043d\u0430\u043b\u0430"
+        "text": "\u041a\u0440\u0430\u0441\u043d\u0430\u044f \u043f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0430 \u043a\u0430\u043d\u0430\u043b\u0430", 
+        "id": "Red channel tooltip", 
+        "description": ""
     }, 
     {
-        "id": "Green channel", 
         "source": "Green channel", 
-        "description": "", 
-        "text": "\u0417\u0435\u043b\u0435\u043d\u044b\u0439 \u043a\u043e\u0440\u0438\u0434\u043e\u0440"
+        "text": "\u0417\u0435\u043b\u0435\u043d\u044b\u0439 \u043a\u043e\u0440\u0438\u0434\u043e\u0440", 
+        "id": "Green channel", 
+        "description": ""
     }, 
     {
-        "id": "Green channel tooltip", 
         "source": "Green channel tooltip", 
-        "description": "", 
-        "text": "\u0417\u0435\u043b\u0435\u043d\u0430\u044f \u043f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0430 \u043a\u0430\u043d\u0430\u043b\u0430"
+        "text": "\u0417\u0435\u043b\u0435\u043d\u0430\u044f \u043f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0430 \u043a\u0430\u043d\u0430\u043b\u0430", 
+        "id": "Green channel tooltip", 
+        "description": ""
     }, 
     {
-        "id": "Blue channel", 
         "source": "Blue channel", 
-        "description": "", 
-        "text": "\u0421\u0438\u043d\u0438\u0439 \u043a\u0430\u043d\u0430\u043b"
+        "text": "\u0421\u0438\u043d\u0438\u0439 \u043a\u0430\u043d\u0430\u043b", 
+        "id": "Blue channel", 
+        "description": ""
     }, 
     {
-        "id": "Blue channel tooltip", 
         "source": "Blue channel tooltip", 
-        "description": "", 
-        "text": "\u0421\u0438\u043d\u044f\u044f \u043f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0430 \u043a\u0430\u043d\u0430\u043b\u0430"
+        "text": "\u0421\u0438\u043d\u044f\u044f \u043f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0430 \u043a\u0430\u043d\u0430\u043b\u0430", 
+        "id": "Blue channel tooltip", 
+        "description": ""
     }, 
     {
-        "id": "Alpha channel", 
         "source": "Alpha channel", 
-        "description": "", 
-        "text": "\u0410\u043b\u044c\u0444\u0430-\u043a\u0430\u043d\u0430\u043b"
+        "text": "\u0410\u043b\u044c\u0444\u0430-\u043a\u0430\u043d\u0430\u043b", 
+        "id": "Alpha channel", 
+        "description": ""
     }, 
     {
-        "id": "Alpha channel tooltip", 
         "source": "Alpha channel tooltip", 
-        "description": "", 
-        "text": "\u041f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0430 \u043f\u043e \u0430\u043b\u044c\u0444\u0430-\u043a\u0430\u043d\u0430\u043b\u0443"
+        "text": "\u041f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0430 \u043f\u043e \u0430\u043b\u044c\u0444\u0430-\u043a\u0430\u043d\u0430\u043b\u0443", 
+        "id": "Alpha channel tooltip", 
+        "description": ""
     }, 
     {
-        "id": "Premultiplied alpha", 
         "source": "Premultiplied alpha", 
-        "description": "", 
-        "text": "\u041f\u0440\u0435\u0434\u0432\u0430\u0440\u0438\u0442\u0435\u043b\u044c\u043d\u043e \u0443\u043c\u043d\u043e\u0436\u0435\u043d\u043d\u0430\u044f \u0430\u043b\u044c\u0444\u0430"
+        "text": "\u041f\u0440\u0435\u0434\u0432\u0430\u0440\u0438\u0442\u0435\u043b\u044c\u043d\u043e \u0443\u043c\u043d\u043e\u0436\u0435\u043d\u043d\u0430\u044f \u0430\u043b\u044c\u0444\u0430", 
+        "id": "Premultiplied alpha", 
+        "description": ""
     }, 
     {
-        "id": "Premultiplied alpha tooltip", 
         "source": "Premultiplied alpha tooltip", 
-        "description": "", 
-        "text": "\u041f\u0440\u0435\u0434\u0432\u0430\u0440\u0438\u0442\u0435\u043b\u044c\u043d\u043e \u0443\u043c\u043d\u043e\u0436\u0435\u043d\u043d\u0430\u044f \u0430\u043b\u044c\u0444\u0430-\u043f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0430"
+        "text": "\u041f\u0440\u0435\u0434\u0432\u0430\u0440\u0438\u0442\u0435\u043b\u044c\u043d\u043e \u0443\u043c\u043d\u043e\u0436\u0435\u043d\u043d\u0430\u044f \u0430\u043b\u044c\u0444\u0430-\u043f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0430", 
+        "id": "Premultiplied alpha tooltip", 
+        "description": ""
     }, 
     {
-        "id": "Transform", 
         "source": "Transform", 
-        "description": "", 
-        "text": "\u043f\u0440\u0435\u043e\u0431\u0440\u0430\u0437\u043e\u0432\u0430\u043d\u0438\u0435"
+        "text": "\u043f\u0440\u0435\u043e\u0431\u0440\u0430\u0437\u043e\u0432\u0430\u043d\u0438\u0435", 
+        "id": "Transform", 
+        "description": ""
     }, 
     {
-        "id": "Transform tooltip", 
         "source": "Transform tooltip", 
-        "description": "", 
-        "text": "\u041f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0430 \u043f\u0440\u0435\u043e\u0431\u0440\u0430\u0437\u043e\u0432\u0430\u043d\u0438\u044f"
+        "text": "\u041f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0430 \u043f\u0440\u0435\u043e\u0431\u0440\u0430\u0437\u043e\u0432\u0430\u043d\u0438\u044f", 
+        "id": "Transform tooltip", 
+        "description": ""
     }, 
     {
-        "id": "Frame Store", 
         "source": "Frame Store", 
-        "description": "", 
-        "text": "Frame Store"
+        "text": "Frame Store", 
+        "id": "Frame Store", 
+        "description": ""
     }, 
     {
-        "id": "Frame store tooltip", 
         "source": "Frame store tooltip", 
-        "description": "", 
-        "text": "\u041f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0430 \u0434\u043b\u044f \u043c\u0430\u0433\u0430\u0437\u0438\u043d\u0430 \u0440\u0430\u043c\u043e\u043a"
+        "text": "\u041f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0430 \u0434\u043b\u044f \u043c\u0430\u0433\u0430\u0437\u0438\u043d\u0430 \u0440\u0430\u043c\u043e\u043a", 
+        "id": "Frame store tooltip", 
+        "description": ""
     }, 
     {
-        "id": "Set Frame Store", 
         "source": "Set Frame Store", 
-        "description": "", 
-        "text": "Set Frame Store"
+        "text": "Set Frame Store", 
+        "id": "Set Frame Store", 
+        "description": ""
     }, 
     {
-        "id": "Set frame store tooltip", 
         "source": "Set frame store tooltip", 
-        "description": "", 
-        "text": "\u0423\u0441\u0442\u0430\u043d\u043e\u0432\u0438\u0442\u044c \u0432\u0441\u043f\u043b\u044b\u0432\u0430\u044e\u0449\u0443\u044e \u043f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0443"
+        "text": "\u0423\u0441\u0442\u0430\u043d\u043e\u0432\u0438\u0442\u044c \u0432\u0441\u043f\u043b\u044b\u0432\u0430\u044e\u0449\u0443\u044e \u043f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0443", 
+        "id": "Set frame store tooltip", 
+        "description": ""
     }, 
     {
-        "id": "Image", 
         "source": "Image", 
-        "description": "", 
-        "text": "\u041e\u0431\u0440\u0430\u0437"
+        "text": "\u041e\u0431\u0440\u0430\u0437", 
+        "id": "Image", 
+        "description": ""
     }, 
     {
-        "id": "Navigation", 
         "source": "Navigation", 
-        "description": "", 
-        "text": "\u043d\u0430\u0432\u0438\u0433\u0430\u0446\u0438\u044f"
+        "text": "\u043d\u0430\u0432\u0438\u0433\u0430\u0446\u0438\u044f", 
+        "id": "Navigation", 
+        "description": ""
     }, 
     {
-        "id": "Navigation tooltip", 
         "source": "Navigation tooltip", 
-        "description": "", 
-        "text": "\u041f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0430 \u043f\u043e \u043d\u0430\u0432\u0438\u0433\u0430\u0446\u0438\u0438"
+        "text": "\u041f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0430 \u043f\u043e \u043d\u0430\u0432\u0438\u0433\u0430\u0446\u0438\u0438", 
+        "id": "Navigation tooltip", 
+        "description": ""
     }, 
     {
-        "id": "Left", 
         "source": "Left", 
-        "description": "", 
-        "text": "\u041e\u0441\u0442\u0430\u0432\u0438\u043b"
+        "text": "\u041e\u0441\u0442\u0430\u0432\u0438\u043b", 
+        "id": "Left", 
+        "description": ""
     }, 
     {
-        "id": "Left tooltip", 
         "source": "Left tooltip", 
-        "description": "", 
-        "text": "\u041b\u0435\u0432\u0430\u044f \u043f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0430"
+        "text": "\u041b\u0435\u0432\u0430\u044f \u043f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0430", 
+        "id": "Left tooltip", 
+        "description": ""
     }, 
     {
-        "id": "Right", 
         "source": "Right", 
-        "description": "", 
-        "text": "\u041f\u0440\u0430\u0432\u0438\u043b\u044c\u043d\u043e"
+        "text": "\u041f\u0440\u0430\u0432\u0438\u043b\u044c\u043d\u043e", 
+        "id": "Right", 
+        "description": ""
     }, 
     {
-        "id": "Right tooltip", 
         "source": "Right tooltip", 
-        "description": "", 
-        "text": "\u041f\u0440\u0430\u0432\u0430\u044f \u043f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0430"
+        "text": "\u041f\u0440\u0430\u0432\u0430\u044f \u043f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0430", 
+        "id": "Right tooltip", 
+        "description": ""
     }, 
     {
-        "id": "Up", 
         "source": "Up", 
-        "description": "", 
-        "text": "\u0432\u0432\u0435\u0440\u0445"
+        "text": "\u0432\u0432\u0435\u0440\u0445", 
+        "id": "Up", 
+        "description": ""
     }, 
     {
-        "id": "Up tooltip", 
         "source": "Up tooltip", 
-        "description": "", 
-        "text": "\u041f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0430"
+        "text": "\u041f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0430", 
+        "id": "Up tooltip", 
+        "description": ""
     }, 
     {
-        "id": "Down", 
         "source": "Down", 
-        "description": "", 
-        "text": "\u0432\u043d\u0438\u0437"
+        "text": "\u0432\u043d\u0438\u0437", 
+        "id": "Down", 
+        "description": ""
     }, 
     {
-        "id": "Down tooltip", 
         "source": "Down tooltip", 
-        "description": "", 
-        "text": "\u041f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0430 \u0432\u043d\u0438\u0437"
+        "text": "\u041f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0430 \u0432\u043d\u0438\u0437", 
+        "id": "Down tooltip", 
+        "description": ""
     }, 
     {
-        "id": "Zoom In", 
         "source": "Zoom In", 
-        "description": "", 
-        "text": "\u041f\u0440\u0438\u0431\u043b\u0438\u0437\u0438\u0442\u044c"
+        "text": "\u041f\u0440\u0438\u0431\u043b\u0438\u0437\u0438\u0442\u044c", 
+        "id": "Zoom In", 
+        "description": ""
     }, 
     {
-        "id": "Zoom in tooltip", 
         "source": "Zoom in tooltip", 
-        "description": "", 
-        "text": "\u0423\u0432\u0435\u043b\u0438\u0447\u0438\u0442\u044c \u043f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0443"
+        "text": "\u0423\u0432\u0435\u043b\u0438\u0447\u0438\u0442\u044c \u043f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0443", 
+        "id": "Zoom in tooltip", 
+        "description": ""
     }, 
     {
-        "id": "Zoom Out", 
         "source": "Zoom Out", 
-        "description": "", 
-        "text": "\u0423\u043c\u0435\u043d\u044c\u0448\u0438\u0442\u044c"
+        "text": "\u0423\u043c\u0435\u043d\u044c\u0448\u0438\u0442\u044c", 
+        "id": "Zoom Out", 
+        "description": ""
     }, 
     {
-        "id": "Zoom out tooltip", 
         "source": "Zoom out tooltip", 
-        "description": "", 
-        "text": "\u0423\u043c\u0435\u043d\u044c\u0448\u0438\u0442\u044c \u043f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0443"
+        "text": "\u0423\u043c\u0435\u043d\u044c\u0448\u0438\u0442\u044c \u043f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0443", 
+        "id": "Zoom out tooltip", 
+        "description": ""
     }, 
     {
-        "id": "Reset Zoom", 
         "source": "Reset Zoom", 
-        "description": "", 
-        "text": "\u0421\u0431\u0440\u043e\u0441\u0438\u0442\u044c \u043c\u0430\u0441\u0448\u0442\u0430\u0431"
+        "text": "\u0421\u0431\u0440\u043e\u0441\u0438\u0442\u044c \u043c\u0430\u0441\u0448\u0442\u0430\u0431", 
+        "id": "Reset Zoom", 
+        "description": ""
     }, 
     {
-        "id": "Reset zoom tooltip", 
         "source": "Reset zoom tooltip", 
-        "description": "", 
-        "text": "\u0421\u0431\u0440\u043e\u0441\u0438\u0442\u044c \u043f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0443"
+        "text": "\u0421\u0431\u0440\u043e\u0441\u0438\u0442\u044c \u043f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0443", 
+        "id": "Reset zoom tooltip", 
+        "description": ""
     }, 
     {
-        "id": "Reset Position and Zoom", 
         "source": "Reset Position and Zoom", 
-        "description": "", 
-        "text": "\u0421\u0431\u0440\u043e\u0441\u0438\u0442\u044c \u043f\u043e\u043b\u043e\u0436\u0435\u043d\u0438\u0435 \u0438 \u043c\u0430\u0441\u0448\u0442\u0430\u0431"
+        "text": "\u0421\u0431\u0440\u043e\u0441\u0438\u0442\u044c \u043f\u043e\u043b\u043e\u0436\u0435\u043d\u0438\u0435 \u0438 \u043c\u0430\u0441\u0448\u0442\u0430\u0431", 
+        "id": "Reset Position and Zoom", 
+        "description": ""
     }, 
     {
-        "id": "Reset poisiton and zoom tooltip", 
         "source": "Reset poisiton and zoom tooltip", 
-        "description": "", 
-        "text": "\u0421\u0431\u0440\u043e\u0441\u0438\u0442\u044c \u043f\u043e\u043b\u043e\u0436\u0435\u043d\u0438\u0435 \u0438 \u0432\u0441\u043f\u043b\u044b\u0432\u0430\u044e\u0449\u0443\u044e \u043f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0443"
+        "text": "\u0421\u0431\u0440\u043e\u0441\u0438\u0442\u044c \u043f\u043e\u043b\u043e\u0436\u0435\u043d\u0438\u0435 \u0438 \u0432\u0441\u043f\u043b\u044b\u0432\u0430\u044e\u0449\u0443\u044e \u043f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0443", 
+        "id": "Reset poisiton and zoom tooltip", 
+        "description": ""
     }, 
     {
-        "id": "Fit To Image", 
         "source": "Fit To Image", 
-        "description": "", 
-        "text": "Fit To Image"
+        "text": "Fit To Image", 
+        "id": "Fit To Image", 
+        "description": ""
     }, 
     {
-        "id": "Fit to image tooltip", 
         "source": "Fit to image tooltip", 
-        "description": "", 
-        "text": "\u041f\u043e\u0434\u0445\u043e\u0434\u0438\u0442 \u0434\u043b\u044f \u0438\u0437\u043e\u0431\u0440\u0430\u0436\u0435\u043d\u0438\u044f \u0432\u0441\u043f\u043b\u044b\u0432\u0430\u044e\u0449\u0435\u0439 \u043f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0438"
+        "text": "\u041f\u043e\u0434\u0445\u043e\u0434\u0438\u0442 \u0434\u043b\u044f \u0438\u0437\u043e\u0431\u0440\u0430\u0436\u0435\u043d\u0438\u044f \u0432\u0441\u043f\u043b\u044b\u0432\u0430\u044e\u0449\u0435\u0439 \u043f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0438", 
+        "id": "Fit to image tooltip", 
+        "description": ""
     }, 
     {
-        "id": "Grid", 
         "source": "Grid", 
-        "description": "", 
-        "text": "\u0441\u0435\u0442\u043a\u0430"
+        "text": "\u0441\u0435\u0442\u043a\u0430", 
+        "id": "Grid", 
+        "description": ""
     }, 
     {
-        "id": "Grid tooltip", 
         "source": "Grid tooltip", 
-        "description": "", 
-        "text": "\u0421\u0435\u0442\u043a\u0430 \u043f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0430"
+        "text": "\u0421\u0435\u0442\u043a\u0430 \u043f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0430", 
+        "id": "Grid tooltip", 
+        "description": ""
     }, 
     {
-        "id": "HUD", 
         "source": "HUD", 
-        "description": "", 
-        "text": "HUD"
+        "text": "HUD", 
+        "id": "HUD", 
+        "description": ""
     }, 
     {
-        "id": "HUD tooltip", 
         "source": "HUD tooltip", 
-        "description": "", 
-        "text": "HUD \u0432\u0441\u043f\u043b\u044b\u0432\u0430\u044e\u0449\u0430\u044f \u043f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0430"
+        "text": "HUD \u0432\u0441\u043f\u043b\u044b\u0432\u0430\u044e\u0449\u0430\u044f \u043f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0430", 
+        "id": "HUD tooltip", 
+        "description": ""
     }, 
     {
-        "id": "View", 
         "source": "View", 
-        "description": "", 
-        "text": "\u041f\u043e\u0441\u043c\u043e\u0442\u0440\u0435\u0442\u044c"
+        "text": "\u041f\u043e\u0441\u043c\u043e\u0442\u0440\u0435\u0442\u044c", 
+        "id": "View", 
+        "description": ""
     }, 
     {
-        "id": "Information", 
         "source": "Information", 
-        "description": "", 
-        "text": "\u0418\u043d\u0444\u043e\u0440\u043c\u0430\u0446\u0438\u044f"
+        "text": "\u0418\u043d\u0444\u043e\u0440\u043c\u0430\u0446\u0438\u044f", 
+        "id": "Information", 
+        "description": ""
     }, 
     {
-        "id": "Magnifier", 
         "source": "Magnifier", 
-        "description": "", 
-        "text": "\u0443\u0432\u0435\u043b\u0438\u0447\u0438\u0442\u0435\u043b\u044c\u043d\u043e\u0435 \u0441\u0442\u0435\u043a\u043b\u043e"
+        "text": "\u0443\u0432\u0435\u043b\u0438\u0447\u0438\u0442\u0435\u043b\u044c\u043d\u043e\u0435 \u0441\u0442\u0435\u043a\u043b\u043e", 
+        "id": "Magnifier", 
+        "description": ""
     }, 
     {
-        "id": "Media popup tooltip", 
         "source": "Media popup tooltip", 
-        "description": "", 
-        "text": "\u0412\u0441\u043f\u043b\u044b\u0432\u0430\u044e\u0449\u0430\u044f \u043f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0430 \u0434\u043b\u044f \u043c\u0435\u0434\u0438\u0430"
+        "text": "\u0412\u0441\u043f\u043b\u044b\u0432\u0430\u044e\u0449\u0430\u044f \u043f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0430 \u0434\u043b\u044f \u043c\u0435\u0434\u0438\u0430", 
+        "id": "Media popup tooltip", 
+        "description": ""
     }, 
     {
-        "id": "Settings tooltip", 
         "source": "Settings tooltip", 
-        "description": "", 
-        "text": "\u041f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0430 \u043d\u0430\u0441\u0442\u0440\u043e\u0435\u043a"
+        "text": "\u041f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0430 \u043d\u0430\u0441\u0442\u0440\u043e\u0435\u043a", 
+        "id": "Settings tooltip", 
+        "description": ""
     }, 
     {
-        "id": "cannot create OpenAL source", 
         "source": "cannot create OpenAL source", 
-        "description": "", 
-        "text": "\u043d\u0435 \u043c\u043e\u0436\u0435\u0442 \u0441\u043e\u0437\u0434\u0430\u0442\u044c \u0438\u0441\u0445\u043e\u0434\u043d\u044b\u0439 \u043a\u043e\u0434 OpenAL"
+        "text": "\u043d\u0435 \u043c\u043e\u0436\u0435\u0442 \u0441\u043e\u0437\u0434\u0430\u0442\u044c \u0438\u0441\u0445\u043e\u0434\u043d\u044b\u0439 \u043a\u043e\u0434 OpenAL", 
+        "id": "cannot create OpenAL source", 
+        "description": ""
     }, 
     {
-        "id": "cannot create OpenAL buffers", 
         "source": "cannot create OpenAL buffers", 
-        "description": "", 
-        "text": "\u043d\u0435 \u043c\u043e\u0436\u0435\u0442 \u0441\u043e\u0437\u0434\u0430\u0432\u0430\u0442\u044c \u0431\u0443\u0444\u0435\u0440\u044b OpenAL"
+        "text": "\u043d\u0435 \u043c\u043e\u0436\u0435\u0442 \u0441\u043e\u0437\u0434\u0430\u0432\u0430\u0442\u044c \u0431\u0443\u0444\u0435\u0440\u044b OpenAL", 
+        "id": "cannot create OpenAL buffers", 
+        "description": ""
     }, 
     {
-        "id": "cannot open", 
         "source": "cannot open", 
-        "description": "", 
-        "text": "\u043d\u0435 \u043c\u043e\u0433\u0443 \u043e\u0442\u043a\u0440\u044b\u0442\u044c"
+        "text": "\u043d\u0435 \u043c\u043e\u0433\u0443 \u043e\u0442\u043a\u0440\u044b\u0442\u044c", 
+        "id": "cannot open", 
+        "description": ""
     }, 
     {
-        "id": "Forward tooltip", 
         "source": "Forward tooltip", 
-        "description": "", 
-        "text": "\u0412\u043f\u0435\u0440\u0435\u0434 \u043f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0430"
+        "text": "\u0412\u043f\u0435\u0440\u0435\u0434 \u043f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0430", 
+        "id": "Forward tooltip", 
+        "description": ""
     }, 
     {
-        "id": "Reverse tooltip", 
         "source": "Reverse tooltip", 
-        "description": "", 
-        "text": "\u041e\u0431\u0440\u0430\u0442\u043d\u0430\u044f \u0432\u0441\u043f\u043b\u044b\u0432\u0430\u044e\u0449\u0430\u044f \u043f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0430"
+        "text": "\u041e\u0431\u0440\u0430\u0442\u043d\u0430\u044f \u0432\u0441\u043f\u043b\u044b\u0432\u0430\u044e\u0449\u0430\u044f \u043f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0430", 
+        "id": "Reverse tooltip", 
+        "description": ""
     }, 
     {
-        "id": "Go to in point tooltip", 
         "source": "Go to in point tooltip", 
-        "description": "", 
-        "text": "\u041f\u0435\u0440\u0435\u0439\u0442\u0438 \u043a \u043f\u0443\u043d\u043a\u0442\u0443 \u043f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0438"
+        "text": "\u041f\u0435\u0440\u0435\u0439\u0442\u0438 \u043a \u043f\u0443\u043d\u043a\u0442\u0443 \u043f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0438", 
+        "id": "Go to in point tooltip", 
+        "description": ""
     }, 
     {
-        "id": "Next frame tooltip", 
         "source": "Next frame tooltip", 
-        "description": "", 
-        "text": "\u0421\u043b\u0435\u0434\u0443\u044e\u0449\u0430\u044f \u0432\u0441\u043f\u043b\u044b\u0432\u0430\u044e\u0449\u0430\u044f \u043f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0430"
+        "text": "\u0421\u043b\u0435\u0434\u0443\u044e\u0449\u0430\u044f \u0432\u0441\u043f\u043b\u044b\u0432\u0430\u044e\u0449\u0430\u044f \u043f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0430", 
+        "id": "Next frame tooltip", 
+        "description": ""
     }, 
     {
-        "id": "Previous frame tooltip", 
         "source": "Previous frame tooltip", 
-        "description": "", 
-        "text": "\u041f\u0440\u0435\u0434\u044b\u0434\u0443\u0449\u0430\u044f \u0432\u0441\u043f\u043b\u044b\u0432\u0430\u044e\u0449\u0430\u044f \u043f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0430"
+        "text": "\u041f\u0440\u0435\u0434\u044b\u0434\u0443\u0449\u0430\u044f \u0432\u0441\u043f\u043b\u044b\u0432\u0430\u044e\u0449\u0430\u044f \u043f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0430", 
+        "id": "Previous frame tooltip", 
+        "description": ""
     }, 
     {
-        "id": "Go to out point tooltip", 
         "source": "Go to out point tooltip", 
-        "description": "", 
-        "text": "\u041f\u0435\u0440\u0435\u0439\u0442\u0438 \u043a \u0432\u0441\u043f\u043b\u044b\u0432\u0430\u044e\u0449\u0435\u0439 \u043f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0435"
+        "text": "\u041f\u0435\u0440\u0435\u0439\u0442\u0438 \u043a \u0432\u0441\u043f\u043b\u044b\u0432\u0430\u044e\u0449\u0435\u0439 \u043f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0435", 
+        "id": "Go to out point tooltip", 
+        "description": ""
     }, 
     {
-        "id": "Current time tooltip", 
         "source": "Current time tooltip", 
-        "description": "", 
-        "text": "\u0422\u0435\u043a\u0443\u0449\u0435\u0435 \u0432\u0440\u0435\u043c\u044f \u043f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0430"
+        "text": "\u0422\u0435\u043a\u0443\u0449\u0435\u0435 \u0432\u0440\u0435\u043c\u044f \u043f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0430", 
+        "id": "Current time tooltip", 
+        "description": ""
     }, 
     {
-        "id": "Audio popup tooltip", 
         "source": "Audio popup tooltip", 
-        "description": "", 
-        "text": "\u0412\u0441\u043f\u043b\u044b\u0432\u0430\u044e\u0449\u0430\u044f \u043f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0430 \u0434\u043b\u044f \u0430\u0443\u0434\u0438\u043e"
+        "text": "\u0412\u0441\u043f\u043b\u044b\u0432\u0430\u044e\u0449\u0430\u044f \u043f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0430 \u0434\u043b\u044f \u0430\u0443\u0434\u0438\u043e", 
+        "id": "Audio popup tooltip", 
+        "description": ""
     }, 
     {
-        "id": "Volume tooltip", 
         "source": "Volume tooltip", 
-        "description": "", 
-        "text": "\u041e\u0431\u044a\u0435\u043c\u043d\u0430\u044f \u043f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0430"
+        "text": "\u041e\u0431\u044a\u0435\u043c\u043d\u0430\u044f \u043f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0430", 
+        "id": "Volume tooltip", 
+        "description": ""
     }, 
     {
-        "id": "NUX", 
         "source": "NUX", 
-        "description": "", 
-        "text": "NUX"
+        "text": "NUX", 
+        "id": "NUX", 
+        "description": ""
     }, 
     {
-        "id": "DJV", 
         "source": "DJV", 
-        "description": "", 
-        "text": "DJV"
+        "text": "DJV", 
+        "id": "DJV", 
+        "description": ""
     }, 
     {
-        "id": "Enable NUX on startup", 
         "source": "Enable NUX on startup", 
-        "description": "", 
-        "text": "\u0412\u043a\u043b\u044e\u0447\u0438\u0442\u044c NUX \u043f\u0440\u0438 \u0437\u0430\u043f\u0443\u0441\u043a\u0435"
+        "text": "\u0412\u043a\u043b\u044e\u0447\u0438\u0442\u044c NUX \u043f\u0440\u0438 \u0437\u0430\u043f\u0443\u0441\u043a\u0435", 
+        "id": "Enable NUX on startup", 
+        "description": ""
     }, 
     {
-        "id": "DJV ", 
         "source": "DJV ", 
-        "description": "", 
-        "text": "DJV"
+        "text": "DJV", 
+        "id": "DJV ", 
+        "description": ""
     }, 
     {
-        "id": "Choose your language", 
         "source": "Choose your language", 
-        "description": "", 
-        "text": "\u0412\u044b\u0431\u0435\u0440\u0438\u0442\u0435 \u0441\u0432\u043e\u0439 \u044f\u0437\u044b\u043a"
+        "text": "\u0412\u044b\u0431\u0435\u0440\u0438\u0442\u0435 \u0441\u0432\u043e\u0439 \u044f\u0437\u044b\u043a", 
+        "id": "Choose your language", 
+        "description": ""
     }, 
     {
-        "id": "Choose a display size", 
         "source": "Choose a display size", 
-        "description": "", 
-        "text": "\u0412\u044b\u0431\u0435\u0440\u0438\u0442\u0435 \u0440\u0430\u0437\u043c\u0435\u0440 \u0434\u0438\u0441\u043f\u043b\u0435\u044f"
+        "text": "\u0412\u044b\u0431\u0435\u0440\u0438\u0442\u0435 \u0440\u0430\u0437\u043c\u0435\u0440 \u0434\u0438\u0441\u043f\u043b\u0435\u044f", 
+        "id": "Choose a display size", 
+        "description": ""
     }, 
     {
-        "id": "Choose a palette", 
         "source": "Choose a palette", 
-        "description": "", 
-        "text": "\u0412\u044b\u0431\u0435\u0440\u0438\u0442\u0435 \u043f\u0430\u043b\u0438\u0442\u0440\u0443"
+        "text": "\u0412\u044b\u0431\u0435\u0440\u0438\u0442\u0435 \u043f\u0430\u043b\u0438\u0442\u0440\u0443", 
+        "id": "Choose a palette", 
+        "description": ""
     }, 
     {
-        "id": "Finish", 
         "source": "Finish", 
-        "description": "", 
-        "text": "\u041a\u043e\u043d\u0435\u0446"
+        "text": "\u041a\u043e\u043d\u0435\u0446", 
+        "id": "Finish", 
+        "description": ""
     }, 
     {
-        "id": "Playback", 
         "source": "Playback", 
-        "description": "", 
-        "text": "\u0432\u043e\u0441\u043f\u0440\u043e\u0438\u0437\u0432\u0435\u0434\u0435\u043d\u0438\u0435"
+        "text": "\u0432\u043e\u0441\u043f\u0440\u043e\u0438\u0437\u0432\u0435\u0434\u0435\u043d\u0438\u0435", 
+        "id": "Playback", 
+        "description": ""
     }, 
     {
-        "id": "Show timeline PIP", 
         "source": "Show timeline PIP", 
-        "description": "", 
-        "text": "\u041f\u043e\u043a\u0430\u0437\u0430\u0442\u044c \u0433\u0440\u0430\u0444\u0438\u043a PIP"
+        "text": "\u041f\u043e\u043a\u0430\u0437\u0430\u0442\u044c \u0433\u0440\u0430\u0444\u0438\u043a PIP", 
+        "id": "Show timeline PIP", 
+        "description": ""
     }, 
     {
-        "id": "Play Once", 
         "source": "Play Once", 
-        "description": "", 
-        "text": "\u0418\u0433\u0440\u0430\u0442\u044c \u043e\u0434\u0438\u043d \u0440\u0430\u0437"
+        "text": "\u0418\u0433\u0440\u0430\u0442\u044c \u043e\u0434\u0438\u043d \u0440\u0430\u0437", 
+        "id": "Play Once", 
+        "description": ""
     }, 
     {
-        "id": "Play once tooltip", 
         "source": "Play once tooltip", 
-        "description": "", 
-        "text": "\u0412\u043e\u0441\u043f\u0440\u043e\u0438\u0437\u0432\u0435\u0441\u0442\u0438 \u043e\u0434\u0438\u043d \u0440\u0430\u0437 \u0432\u0441\u043f\u043b\u044b\u0432\u0430\u044e\u0449\u0443\u044e \u043f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0443"
+        "text": "\u0412\u043e\u0441\u043f\u0440\u043e\u0438\u0437\u0432\u0435\u0441\u0442\u0438 \u043e\u0434\u0438\u043d \u0440\u0430\u0437 \u0432\u0441\u043f\u043b\u044b\u0432\u0430\u044e\u0449\u0443\u044e \u043f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0443", 
+        "id": "Play once tooltip", 
+        "description": ""
     }, 
     {
-        "id": "Loop tooltip", 
         "source": "Loop tooltip", 
-        "description": "", 
-        "text": "\u0412\u0441\u043f\u043b\u044b\u0432\u0430\u044e\u0449\u0430\u044f \u043f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0430"
+        "text": "\u0412\u0441\u043f\u043b\u044b\u0432\u0430\u044e\u0449\u0430\u044f \u043f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0430", 
+        "id": "Loop tooltip", 
+        "description": ""
     }, 
     {
-        "id": "Ping Pong", 
         "source": "Ping Pong", 
-        "description": "", 
-        "text": "\u041f\u0438\u043d\u0433-\u043f\u043e\u043d\u0433"
+        "text": "\u041f\u0438\u043d\u0433-\u043f\u043e\u043d\u0433", 
+        "id": "Ping Pong", 
+        "description": ""
     }, 
     {
-        "id": "Ping pong tooltip", 
         "source": "Ping pong tooltip", 
-        "description": "", 
-        "text": "\u041f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0430 \u0434\u043b\u044f \u043f\u0438\u043d\u0433-\u043f\u043e\u043d\u0433\u0430"
+        "text": "\u041f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0430 \u0434\u043b\u044f \u043f\u0438\u043d\u0433-\u043f\u043e\u043d\u0433\u0430", 
+        "id": "Ping pong tooltip", 
+        "description": ""
     }, 
     {
-        "id": "Play Every Frame", 
         "source": "Play Every Frame", 
-        "description": "", 
-        "text": "\u0412\u043e\u0441\u043f\u0440\u043e\u0438\u0437\u0432\u0435\u0441\u0442\u0438 \u043a\u0430\u0436\u0434\u044b\u0439 \u043a\u0430\u0434\u0440"
+        "text": "\u0412\u043e\u0441\u043f\u0440\u043e\u0438\u0437\u0432\u0435\u0441\u0442\u0438 \u043a\u0430\u0436\u0434\u044b\u0439 \u043a\u0430\u0434\u0440", 
+        "id": "Play Every Frame", 
+        "description": ""
     }, 
     {
-        "id": "Play every frame tooltip", 
         "source": "Play every frame tooltip", 
-        "description": "", 
-        "text": "\u0412\u043e\u0441\u043f\u0440\u043e\u0438\u0437\u0432\u0435\u0441\u0442\u0438 \u043a\u0430\u0436\u0434\u044b\u0439 \u043a\u0430\u0434\u0440 \u043f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0438"
+        "text": "\u0412\u043e\u0441\u043f\u0440\u043e\u0438\u0437\u0432\u0435\u0441\u0442\u0438 \u043a\u0430\u0436\u0434\u044b\u0439 \u043a\u0430\u0434\u0440 \u043f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0438", 
+        "id": "Play every frame tooltip", 
+        "description": ""
     }, 
     {
-        "id": "Go to In Point", 
         "source": "Go to In Point", 
-        "description": "", 
-        "text": "\u041f\u0435\u0440\u0435\u0439\u0442\u0438 \u043a \u0442\u043e\u0447\u043a\u0435"
+        "text": "\u041f\u0435\u0440\u0435\u0439\u0442\u0438 \u043a \u0442\u043e\u0447\u043a\u0435", 
+        "id": "Go to In Point", 
+        "description": ""
     }, 
     {
-        "id": "Go to Out Point", 
         "source": "Go to Out Point", 
-        "description": "", 
-        "text": "\u041f\u0435\u0440\u0435\u0439\u0442\u0438 \u043a Out Point"
+        "text": "\u041f\u0435\u0440\u0435\u0439\u0442\u0438 \u043a Out Point", 
+        "id": "Go to Out Point", 
+        "description": ""
     }, 
     {
-        "id": "Go to Start Frame", 
         "source": "Go to Start Frame", 
-        "description": "", 
-        "text": "\u041f\u0435\u0440\u0435\u0439\u0442\u0438 \u043a \u043d\u0430\u0447\u0430\u043b\u0443 \u043a\u0430\u0434\u0440\u0430"
+        "text": "\u041f\u0435\u0440\u0435\u0439\u0442\u0438 \u043a \u043d\u0430\u0447\u0430\u043b\u0443 \u043a\u0430\u0434\u0440\u0430", 
+        "id": "Go to Start Frame", 
+        "description": ""
     }, 
     {
-        "id": "Go to start frame tooltip", 
         "source": "Go to start frame tooltip", 
-        "description": "", 
-        "text": "\u041f\u0435\u0440\u0435\u0439\u0442\u0438 \u043a \u043d\u0430\u0447\u0430\u043b\u0443 \u0432\u0441\u043f\u043b\u044b\u0432\u0430\u044e\u0449\u0435\u0439 \u043f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0438"
+        "text": "\u041f\u0435\u0440\u0435\u0439\u0442\u0438 \u043a \u043d\u0430\u0447\u0430\u043b\u0443 \u0432\u0441\u043f\u043b\u044b\u0432\u0430\u044e\u0449\u0435\u0439 \u043f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0438", 
+        "id": "Go to start frame tooltip", 
+        "description": ""
     }, 
     {
-        "id": "Go to End Frame", 
         "source": "Go to End Frame", 
-        "description": "", 
-        "text": "\u041f\u0435\u0440\u0435\u0439\u0442\u0438 \u043a \u043a\u043e\u043d\u0446\u0443 \u043a\u0430\u0434\u0440\u0430"
+        "text": "\u041f\u0435\u0440\u0435\u0439\u0442\u0438 \u043a \u043a\u043e\u043d\u0446\u0443 \u043a\u0430\u0434\u0440\u0430", 
+        "id": "Go to End Frame", 
+        "description": ""
     }, 
     {
-        "id": "Go to end frame tooltip", 
         "source": "Go to end frame tooltip", 
-        "description": "", 
-        "text": "\u041f\u0435\u0440\u0435\u0439\u0442\u0438 \u043a \u0432\u0441\u043f\u043b\u044b\u0432\u0430\u044e\u0449\u0435\u0439 \u043f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0435"
+        "text": "\u041f\u0435\u0440\u0435\u0439\u0442\u0438 \u043a \u0432\u0441\u043f\u043b\u044b\u0432\u0430\u044e\u0449\u0435\u0439 \u043f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0435", 
+        "id": "Go to end frame tooltip", 
+        "description": ""
     }, 
     {
-        "id": "Next Frame", 
         "source": "Next Frame", 
-        "description": "", 
-        "text": "\u0421\u043b\u0435\u0434\u0443\u044e\u0449\u0438\u0439 \u043a\u0430\u0434\u0440"
+        "text": "\u0421\u043b\u0435\u0434\u0443\u044e\u0449\u0438\u0439 \u043a\u0430\u0434\u0440", 
+        "id": "Next Frame", 
+        "description": ""
     }, 
     {
-        "id": "Next Frame X10", 
         "source": "Next Frame X10", 
-        "description": "", 
-        "text": "\u0421\u043b\u0435\u0434\u0443\u044e\u0449\u0438\u0439 \u043a\u0430\u0434\u0440 X10"
+        "text": "\u0421\u043b\u0435\u0434\u0443\u044e\u0449\u0438\u0439 \u043a\u0430\u0434\u0440 X10", 
+        "id": "Next Frame X10", 
+        "description": ""
     }, 
     {
-        "id": "Next frame X10 tooltip", 
         "source": "Next frame X10 tooltip", 
-        "description": "", 
-        "text": "\u0421\u043b\u0435\u0434\u0443\u044e\u0449\u0430\u044f \u0440\u0430\u043c\u043a\u0430 X10 \u043f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0430"
+        "text": "\u0421\u043b\u0435\u0434\u0443\u044e\u0449\u0430\u044f \u0440\u0430\u043c\u043a\u0430 X10 \u043f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0430", 
+        "id": "Next frame X10 tooltip", 
+        "description": ""
     }, 
     {
-        "id": "Next Frame X100", 
         "source": "Next Frame X100", 
-        "description": "", 
-        "text": "\u0421\u043b\u0435\u0434\u0443\u044e\u0449\u0438\u0439 \u043a\u0430\u0434\u0440 X100"
+        "text": "\u0421\u043b\u0435\u0434\u0443\u044e\u0449\u0438\u0439 \u043a\u0430\u0434\u0440 X100", 
+        "id": "Next Frame X100", 
+        "description": ""
     }, 
     {
-        "id": "Next frame X100 tooltip", 
         "source": "Next frame X100 tooltip", 
-        "description": "", 
-        "text": "\u0421\u043b\u0435\u0434\u0443\u044e\u0449\u0430\u044f \u0440\u0430\u043c\u043a\u0430 X100 \u043f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0430"
+        "text": "\u0421\u043b\u0435\u0434\u0443\u044e\u0449\u0430\u044f \u0440\u0430\u043c\u043a\u0430 X100 \u043f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0430", 
+        "id": "Next frame X100 tooltip", 
+        "description": ""
     }, 
     {
-        "id": "Previous Frame", 
         "source": "Previous Frame", 
-        "description": "", 
-        "text": "\u041f\u0440\u0435\u0434\u044b\u0434\u0443\u0449\u0438\u0439 \u043a\u0430\u0434\u0440"
+        "text": "\u041f\u0440\u0435\u0434\u044b\u0434\u0443\u0449\u0438\u0439 \u043a\u0430\u0434\u0440", 
+        "id": "Previous Frame", 
+        "description": ""
     }, 
     {
-        "id": "Previous Frame X10", 
         "source": "Previous Frame X10", 
-        "description": "", 
-        "text": "\u041f\u0440\u0435\u0434\u044b\u0434\u0443\u0449\u0430\u044f \u0440\u0430\u043c\u043a\u0430 X10"
+        "text": "\u041f\u0440\u0435\u0434\u044b\u0434\u0443\u0449\u0430\u044f \u0440\u0430\u043c\u043a\u0430 X10", 
+        "id": "Previous Frame X10", 
+        "description": ""
     }, 
     {
-        "id": "Previous frame X10 tooltip", 
         "source": "Previous frame X10 tooltip", 
-        "description": "", 
-        "text": "\u041f\u0440\u0435\u0434\u044b\u0434\u0443\u0449\u0430\u044f \u0440\u0430\u043c\u043a\u0430 X10"
+        "text": "\u041f\u0440\u0435\u0434\u044b\u0434\u0443\u0449\u0430\u044f \u0440\u0430\u043c\u043a\u0430 X10", 
+        "id": "Previous frame X10 tooltip", 
+        "description": ""
     }, 
     {
-        "id": "Previous Frame X100", 
         "source": "Previous Frame X100", 
-        "description": "", 
-        "text": "\u041f\u0440\u0435\u0434\u044b\u0434\u0443\u0449\u0430\u044f \u0440\u0430\u043c\u043a\u0430 X100"
+        "text": "\u041f\u0440\u0435\u0434\u044b\u0434\u0443\u0449\u0430\u044f \u0440\u0430\u043c\u043a\u0430 X100", 
+        "id": "Previous Frame X100", 
+        "description": ""
     }, 
     {
-        "id": "Previous frame X100 tooltip", 
         "source": "Previous frame X100 tooltip", 
-        "description": "", 
-        "text": "\u041f\u0440\u0435\u0434\u044b\u0434\u0443\u0449\u0430\u044f \u0440\u0430\u043c\u043a\u0430 X100 \u043f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0430"
+        "text": "\u041f\u0440\u0435\u0434\u044b\u0434\u0443\u0449\u0430\u044f \u0440\u0430\u043c\u043a\u0430 X100 \u043f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0430", 
+        "id": "Previous frame X100 tooltip", 
+        "description": ""
     }, 
     {
-        "id": "Enable In/Out Points", 
         "source": "Enable In/Out Points", 
-        "description": "", 
-        "text": "\u0412\u043a\u043b\u044e\u0447\u0438\u0442\u044c \u0442\u043e\u0447\u043a\u0438 \u0432\u0445\u043e\u0434\u0430 / \u0432\u044b\u0445\u043e\u0434\u0430"
+        "text": "\u0412\u043a\u043b\u044e\u0447\u0438\u0442\u044c \u0442\u043e\u0447\u043a\u0438 \u0432\u0445\u043e\u0434\u0430 / \u0432\u044b\u0445\u043e\u0434\u0430", 
+        "id": "Enable In/Out Points", 
+        "description": ""
     }, 
     {
-        "id": "Enable in/out points tooltip", 
         "source": "Enable in/out points tooltip", 
-        "description": "", 
-        "text": "\u0412\u043a\u043b\u044e\u0447\u0438\u0442\u044c \u043f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0438 \u0442\u043e\u0447\u0435\u043a \u0432\u0445\u043e\u0434\u0430 / \u0432\u044b\u0445\u043e\u0434\u0430"
+        "text": "\u0412\u043a\u043b\u044e\u0447\u0438\u0442\u044c \u043f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0438 \u0442\u043e\u0447\u0435\u043a \u0432\u0445\u043e\u0434\u0430 / \u0432\u044b\u0445\u043e\u0434\u0430", 
+        "id": "Enable in/out points tooltip", 
+        "description": ""
     }, 
     {
-        "id": "Set In Point", 
         "source": "Set In Point", 
-        "description": "", 
-        "text": "\u0423\u0441\u0442\u0430\u043d\u043e\u0432\u0438\u0442\u044c \u0432 \u0442\u043e\u0447\u043a\u0435"
+        "text": "\u0423\u0441\u0442\u0430\u043d\u043e\u0432\u0438\u0442\u044c \u0432 \u0442\u043e\u0447\u043a\u0435", 
+        "id": "Set In Point", 
+        "description": ""
     }, 
     {
-        "id": "Set in point tooltip", 
         "source": "Set in point tooltip", 
-        "description": "", 
-        "text": "\u0423\u0441\u0442\u0430\u043d\u043e\u0432\u0438\u0442\u044c \u0432\u0441\u043f\u043b\u044b\u0432\u0430\u044e\u0449\u0443\u044e \u043f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0443"
+        "text": "\u0423\u0441\u0442\u0430\u043d\u043e\u0432\u0438\u0442\u044c \u0432\u0441\u043f\u043b\u044b\u0432\u0430\u044e\u0449\u0443\u044e \u043f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0443", 
+        "id": "Set in point tooltip", 
+        "description": ""
     }, 
     {
-        "id": "Set Out Point", 
         "source": "Set Out Point", 
-        "description": "", 
-        "text": "\u0423\u0441\u0442\u0430\u043d\u043e\u0432\u0438\u0442\u044c \u0442\u043e\u0447\u043a\u0443"
+        "text": "\u0423\u0441\u0442\u0430\u043d\u043e\u0432\u0438\u0442\u044c \u0442\u043e\u0447\u043a\u0443", 
+        "id": "Set Out Point", 
+        "description": ""
     }, 
     {
-        "id": "Set out point tooltip", 
         "source": "Set out point tooltip", 
-        "description": "", 
-        "text": "\u0423\u0441\u0442\u0430\u043d\u043e\u0432\u0438\u0442\u044c \u0432\u0441\u043f\u043b\u044b\u0432\u0430\u044e\u0449\u0443\u044e \u043f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0443"
+        "text": "\u0423\u0441\u0442\u0430\u043d\u043e\u0432\u0438\u0442\u044c \u0432\u0441\u043f\u043b\u044b\u0432\u0430\u044e\u0449\u0443\u044e \u043f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0443", 
+        "id": "Set out point tooltip", 
+        "description": ""
     }, 
     {
-        "id": "Reset In Point", 
         "source": "Reset In Point", 
-        "description": "", 
-        "text": "\u0421\u0431\u0440\u043e\u0441\u0438\u0442\u044c \u0432 \u0442\u043e\u0447\u043a\u0435"
+        "text": "\u0421\u0431\u0440\u043e\u0441\u0438\u0442\u044c \u0432 \u0442\u043e\u0447\u043a\u0435", 
+        "id": "Reset In Point", 
+        "description": ""
     }, 
     {
-        "id": "Reset in point tooltip", 
         "source": "Reset in point tooltip", 
-        "description": "", 
-        "text": "Reset in point tooltip"
+        "text": "Reset in point tooltip", 
+        "id": "Reset in point tooltip", 
+        "description": ""
     }, 
     {
-        "id": "Reset Out Point", 
         "source": "Reset Out Point", 
-        "description": "", 
-        "text": "Reset Out Point"
+        "text": "Reset Out Point", 
+        "id": "Reset Out Point", 
+        "description": ""
     }, 
     {
-        "id": "Reset out point tooltip", 
         "source": "Reset out point tooltip", 
-        "description": "", 
-        "text": "\u0412\u0441\u043f\u043b\u044b\u0432\u0430\u044e\u0449\u0430\u044f \u043f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0430"
+        "text": "\u0412\u0441\u043f\u043b\u044b\u0432\u0430\u044e\u0449\u0430\u044f \u043f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0430", 
+        "id": "Reset out point tooltip", 
+        "description": ""
     }, 
     {
-        "id": "Recent Files", 
         "source": "Recent Files", 
-        "description": "", 
-        "text": "\u041d\u0435\u0434\u0430\u0432\u043d\u0438\u0435 \u0444\u0430\u0439\u043b\u044b"
+        "text": "\u041d\u0435\u0434\u0430\u0432\u043d\u0438\u0435 \u0444\u0430\u0439\u043b\u044b", 
+        "id": "Recent Files", 
+        "description": ""
     }, 
     {
-        "id": "Increase Thumbnail Size", 
         "source": "Increase Thumbnail Size", 
-        "description": "", 
-        "text": "\u0423\u0432\u0435\u043b\u0438\u0447\u0438\u0442\u044c \u0440\u0430\u0437\u043c\u0435\u0440 \u043c\u0438\u043d\u0438\u0430\u0442\u044e\u0440\u044b"
+        "text": "\u0423\u0432\u0435\u043b\u0438\u0447\u0438\u0442\u044c \u0440\u0430\u0437\u043c\u0435\u0440 \u043c\u0438\u043d\u0438\u0430\u0442\u044e\u0440\u044b", 
+        "id": "Increase Thumbnail Size", 
+        "description": ""
     }, 
     {
-        "id": "Recent files increase thumbnail size tooltip", 
         "source": "Recent files increase thumbnail size tooltip", 
-        "description": "", 
-        "text": "\u041f\u043e\u0441\u043b\u0435\u0434\u043d\u0438\u0435 \u0444\u0430\u0439\u043b\u044b \u0443\u0432\u0435\u043b\u0438\u0447\u0438\u0432\u0430\u044e\u0442 \u0440\u0430\u0437\u043c\u0435\u0440 \u043c\u0438\u043d\u0438\u0430\u0442\u044e\u0440\u044b"
+        "text": "\u041f\u043e\u0441\u043b\u0435\u0434\u043d\u0438\u0435 \u0444\u0430\u0439\u043b\u044b \u0443\u0432\u0435\u043b\u0438\u0447\u0438\u0432\u0430\u044e\u0442 \u0440\u0430\u0437\u043c\u0435\u0440 \u043c\u0438\u043d\u0438\u0430\u0442\u044e\u0440\u044b", 
+        "id": "Recent files increase thumbnail size tooltip", 
+        "description": ""
     }, 
     {
-        "id": "Decrease Thumbnail Size", 
         "source": "Decrease Thumbnail Size", 
-        "description": "", 
-        "text": "\u0423\u043c\u0435\u043d\u044c\u0448\u0438\u0442\u044c \u0440\u0430\u0437\u043c\u0435\u0440 \u043c\u0438\u043d\u0438\u0430\u0442\u044e\u0440\u044b"
+        "text": "\u0423\u043c\u0435\u043d\u044c\u0448\u0438\u0442\u044c \u0440\u0430\u0437\u043c\u0435\u0440 \u043c\u0438\u043d\u0438\u0430\u0442\u044e\u0440\u044b", 
+        "id": "Decrease Thumbnail Size", 
+        "description": ""
     }, 
     {
-        "id": "Recent files decrease thumbnail size tooltip", 
         "source": "Recent files decrease thumbnail size tooltip", 
-        "description": "", 
-        "text": "\u041f\u043e\u0441\u043b\u0435\u0434\u043d\u0438\u0435 \u0444\u0430\u0439\u043b\u044b \u0443\u043c\u0435\u043d\u044c\u0448\u0430\u044e\u0442 \u0440\u0430\u0437\u043c\u0435\u0440 \u0432\u0441\u043f\u043b\u044b\u0432\u0430\u044e\u0449\u0435\u0439 \u043f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0438"
+        "text": "\u041f\u043e\u0441\u043b\u0435\u0434\u043d\u0438\u0435 \u0444\u0430\u0439\u043b\u044b \u0443\u043c\u0435\u043d\u044c\u0448\u0430\u044e\u0442 \u0440\u0430\u0437\u043c\u0435\u0440 \u0432\u0441\u043f\u043b\u044b\u0432\u0430\u044e\u0449\u0435\u0439 \u043f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0438", 
+        "id": "Recent files decrease thumbnail size tooltip", 
+        "description": ""
     }, 
     {
-        "id": "Recent files search tooltip", 
         "source": "Recent files search tooltip", 
-        "description": "", 
-        "text": "\u041f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0430 \u043f\u043e \u043f\u043e\u0438\u0441\u043a\u0443 \u043f\u043e\u0441\u043b\u0435\u0434\u043d\u0438\u0445 \u0444\u0430\u0439\u043b\u043e\u0432"
+        "text": "\u041f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0430 \u043f\u043e \u043f\u043e\u0438\u0441\u043a\u0443 \u043f\u043e\u0441\u043b\u0435\u0434\u043d\u0438\u0445 \u0444\u0430\u0439\u043b\u043e\u0432", 
+        "id": "Recent files search tooltip", 
+        "description": ""
     }, 
     {
-        "id": "Thumbnail Size", 
         "source": "Thumbnail Size", 
-        "description": "", 
-        "text": "\u0420\u0430\u0437\u043c\u0435\u0440 \u043c\u0438\u043d\u0438\u0430\u0442\u044e\u0440\u044b"
+        "text": "\u0420\u0430\u0437\u043c\u0435\u0440 \u043c\u0438\u043d\u0438\u0430\u0442\u044e\u0440\u044b", 
+        "id": "Thumbnail Size", 
+        "description": ""
     }, 
     {
-        "id": "Recent files thumbnail size tooltip", 
         "source": "Recent files thumbnail size tooltip", 
-        "description": "", 
-        "text": "\u041d\u0435\u0434\u0430\u0432\u043d\u0438\u0435 \u0444\u0430\u0439\u043b\u044b \u043c\u0438\u043d\u0438\u0430\u0442\u044e\u0440 \u0440\u0430\u0437\u043c\u0435\u0440 \u043f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0438"
+        "text": "\u041d\u0435\u0434\u0430\u0432\u043d\u0438\u0435 \u0444\u0430\u0439\u043b\u044b \u043c\u0438\u043d\u0438\u0430\u0442\u044e\u0440 \u0440\u0430\u0437\u043c\u0435\u0440 \u043f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0438", 
+        "id": "Recent files thumbnail size tooltip", 
+        "description": ""
     }, 
     {
-        "id": "Items", 
         "source": "Items", 
-        "description": "", 
-        "text": "\u041f\u0440\u0435\u0434\u043c\u0435\u0442\u044b"
+        "text": "\u041f\u0440\u0435\u0434\u043c\u0435\u0442\u044b", 
+        "id": "Items", 
+        "description": ""
     }, 
     {
-        "id": "Settings", 
         "source": "Settings", 
-        "description": "", 
-        "text": "\u043d\u0430\u0441\u0442\u0440\u043e\u0439\u043a\u0438"
+        "text": "\u043d\u0430\u0441\u0442\u0440\u043e\u0439\u043a\u0438", 
+        "id": "Settings", 
+        "description": ""
     }, 
     {
-        "id": "Copy", 
         "source": "Copy", 
-        "description": "", 
-        "text": "\u043a\u043e\u043f\u0438\u044f"
+        "text": "\u043a\u043e\u043f\u0438\u044f", 
+        "id": "Copy", 
+        "description": ""
     }, 
     {
-        "id": "Clear", 
         "source": "Clear", 
-        "description": "", 
-        "text": "\u041e\u0447\u0438\u0441\u0442\u0438\u0442\u044c"
+        "text": "\u041e\u0447\u0438\u0441\u0442\u0438\u0442\u044c", 
+        "id": "Clear", 
+        "description": ""
     }, 
     {
-        "id": "Magnifier tooltip", 
         "source": "Magnifier tooltip", 
-        "description": "", 
-        "text": "\u0412\u0441\u043f\u043b\u044b\u0432\u0430\u044e\u0449\u0430\u044f \u043f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0430"
+        "text": "\u0412\u0441\u043f\u043b\u044b\u0432\u0430\u044e\u0449\u0430\u044f \u043f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0430", 
+        "id": "Magnifier tooltip", 
+        "description": ""
     }, 
     {
-        "id": "Color picker tooltip", 
         "source": "Color picker tooltip", 
-        "description": "", 
-        "text": "\u041f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0430 \u043f\u0430\u043b\u0438\u0442\u0440\u044b \u0446\u0432\u0435\u0442\u043e\u0432"
+        "text": "\u041f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0430 \u043f\u0430\u043b\u0438\u0442\u0440\u044b \u0446\u0432\u0435\u0442\u043e\u0432", 
+        "id": "Color picker tooltip", 
+        "description": ""
     }, 
     {
-        "id": "Histogram tooltip", 
         "source": "Histogram tooltip", 
-        "description": "", 
-        "text": "\u0412\u0441\u043f\u043b\u044b\u0432\u0430\u044e\u0449\u0430\u044f \u043f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0430 \u0433\u0438\u0441\u0442\u043e\u0433\u0440\u0430\u043c\u043c\u044b"
+        "text": "\u0412\u0441\u043f\u043b\u044b\u0432\u0430\u044e\u0449\u0430\u044f \u043f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0430 \u0433\u0438\u0441\u0442\u043e\u0433\u0440\u0430\u043c\u043c\u044b", 
+        "id": "Histogram tooltip", 
+        "description": ""
     }, 
     {
-        "id": "Information tooltip", 
         "source": "Information tooltip", 
-        "description": "", 
-        "text": "\u0418\u043d\u0444\u043e\u0440\u043c\u0430\u0446\u0438\u043e\u043d\u043d\u0430\u044f \u043f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0430"
+        "text": "\u0418\u043d\u0444\u043e\u0440\u043c\u0430\u0446\u0438\u043e\u043d\u043d\u0430\u044f \u043f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0430", 
+        "id": "Information tooltip", 
+        "description": ""
     }, 
     {
-        "id": "Debugging tooltip", 
         "source": "Debugging tooltip", 
-        "description": "", 
-        "text": "\u041f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0430 \u043f\u043e \u043e\u0442\u043b\u0430\u0434\u043a\u0435"
+        "text": "\u041f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0430 \u043f\u043e \u043e\u0442\u043b\u0430\u0434\u043a\u0435", 
+        "id": "Debugging tooltip", 
+        "description": ""
     }, 
     {
-        "id": "Tools", 
         "source": "Tools", 
-        "description": "", 
-        "text": "\u0438\u043d\u0441\u0442\u0440\u0443\u043c\u0435\u043d\u0442\u044b"
+        "text": "\u0438\u043d\u0441\u0442\u0440\u0443\u043c\u0435\u043d\u0442\u044b", 
+        "id": "Tools", 
+        "description": ""
     }, 
     {
-        "id": "Full Screen", 
         "source": "Full Screen", 
-        "description": "", 
-        "text": "\u041f\u043e\u043b\u043d\u043e\u044d\u043a\u0440\u0430\u043d\u043d\u044b\u0439"
+        "text": "\u041f\u043e\u043b\u043d\u043e\u044d\u043a\u0440\u0430\u043d\u043d\u044b\u0439", 
+        "id": "Full Screen", 
+        "description": ""
     }, 
     {
-        "id": "Full screen tooltip", 
         "source": "Full screen tooltip", 
-        "description": "", 
-        "text": "\u041f\u043e\u043b\u043d\u043e\u044d\u043a\u0440\u0430\u043d\u043d\u0430\u044f \u043f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0430"
+        "text": "\u041f\u043e\u043b\u043d\u043e\u044d\u043a\u0440\u0430\u043d\u043d\u0430\u044f \u043f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0430", 
+        "id": "Full screen tooltip", 
+        "description": ""
     }, 
     {
-        "id": "Single Window", 
         "source": "Single Window", 
-        "description": "", 
-        "text": "\u041e\u0434\u043d\u043e \u043e\u043a\u043d\u043e"
+        "text": "\u041e\u0434\u043d\u043e \u043e\u043a\u043d\u043e", 
+        "id": "Single Window", 
+        "description": ""
     }, 
     {
-        "id": "Single window tooltip", 
         "source": "Single window tooltip", 
-        "description": "", 
-        "text": "\u041f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0430 \u0434\u043b\u044f \u043e\u0434\u043d\u043e\u0433\u043e \u043e\u043a\u043d\u0430"
+        "text": "\u041f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0430 \u0434\u043b\u044f \u043e\u0434\u043d\u043e\u0433\u043e \u043e\u043a\u043d\u0430", 
+        "id": "Single window tooltip", 
+        "description": ""
     }, 
     {
-        "id": "Multiple Windows", 
         "source": "Multiple Windows", 
-        "description": "", 
-        "text": "\u041d\u0435\u0441\u043a\u043e\u043b\u044c\u043a\u043e \u043e\u043a\u043e\u043d"
+        "text": "\u041d\u0435\u0441\u043a\u043e\u043b\u044c\u043a\u043e \u043e\u043a\u043e\u043d", 
+        "id": "Multiple Windows", 
+        "description": ""
     }, 
     {
-        "id": "Multiple windows tooltip", 
         "source": "Multiple windows tooltip", 
-        "description": "", 
-        "text": "\u041d\u0435\u0441\u043a\u043e\u043b\u044c\u043a\u043e \u043e\u043a\u043e\u043d \u0432\u0441\u043f\u043b\u044b\u0432\u0430\u044e\u0449\u0435\u0439 \u043f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0438"
+        "text": "\u041d\u0435\u0441\u043a\u043e\u043b\u044c\u043a\u043e \u043e\u043a\u043e\u043d \u0432\u0441\u043f\u043b\u044b\u0432\u0430\u044e\u0449\u0435\u0439 \u043f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0438", 
+        "id": "Multiple windows tooltip", 
+        "description": ""
     }, 
     {
-        "id": "Playlist", 
         "source": "Playlist", 
-        "description": "", 
-        "text": "Playlist"
+        "text": "Playlist", 
+        "id": "Playlist", 
+        "description": ""
     }, 
     {
-        "id": "Playlist tooltip", 
         "source": "Playlist tooltip", 
-        "description": "", 
-        "text": "\u041f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0430 \u043a \u043f\u043b\u0435\u0439\u043b\u0438\u0441\u0442\u0443"
+        "text": "\u041f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0430 \u043a \u043f\u043b\u0435\u0439\u043b\u0438\u0441\u0442\u0443", 
+        "id": "Playlist tooltip", 
+        "description": ""
     }, 
     {
-        "id": "Window", 
         "source": "Window", 
-        "description": "", 
-        "text": "\u041e\u043a\u043d\u043e"
+        "text": "\u041e\u043a\u043d\u043e", 
+        "id": "Window", 
+        "description": ""
     }, 
     {
         "source": "VBO size", 
+        "text": "\u0420\u0430\u0437\u043c\u0435\u0440 VBO", 
         "description": "", 
-        "id": "VBO size", 
-        "text": "\u0420\u0430\u0437\u043c\u0435\u0440 VBO"
+        "id": "VBO size"
     }, 
     {
         "source": "OpenAL queue", 
+        "text": "OpenAL \u043e\u0447\u0435\u0440\u0435\u0434\u044c", 
         "description": "", 
-        "id": "OpenAL queue", 
-        "text": "OpenAL \u043e\u0447\u0435\u0440\u0435\u0434\u044c"
+        "id": "OpenAL queue"
     }, 
     {
         "source": "Close All", 
+        "text": "\u0417\u0430\u043a\u0440\u044b\u0442\u044c \u0432\u0441\u0435", 
         "description": "", 
-        "id": "Close All", 
-        "text": "\u0417\u0430\u043a\u0440\u044b\u0442\u044c \u0432\u0441\u0435"
+        "id": "Close All"
     }, 
     {
         "source": "Close all tooltip", 
+        "text": "\u0417\u0430\u043a\u0440\u044b\u0442\u044c \u0432\u0441\u0435 \u0432\u0441\u043f\u043b\u044b\u0432\u0430\u044e\u0449\u0438\u0435 \u043f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0438", 
         "description": "", 
-        "id": "Close all tooltip", 
-        "text": "\u0417\u0430\u043a\u0440\u044b\u0442\u044c \u0432\u0441\u0435 \u0432\u0441\u043f\u043b\u044b\u0432\u0430\u044e\u0449\u0438\u0435 \u043f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0438"
+        "id": "Close all tooltip"
     }, 
     {
         "source": "Speed tooltip", 
+        "text": "\u041f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0430 \u0441\u043a\u043e\u0440\u043e\u0441\u0442\u0438", 
         "description": "", 
-        "id": "Speed tooltip", 
-        "text": "\u041f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0430 \u0441\u043a\u043e\u0440\u043e\u0441\u0442\u0438"
+        "id": "Speed tooltip"
     }, 
     {
         "source": "Duration tooltip", 
+        "text": "\u0414\u043b\u0438\u0442\u0435\u043b\u044c\u043d\u043e\u0441\u0442\u044c \u0432\u0441\u043f\u043b\u044b\u0432\u0430\u044e\u0449\u0435\u0439 \u043f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0438", 
         "description": "", 
-        "id": "Duration tooltip", 
-        "text": "\u0414\u043b\u0438\u0442\u0435\u043b\u044c\u043d\u043e\u0441\u0442\u044c \u0432\u0441\u043f\u043b\u044b\u0432\u0430\u044e\u0449\u0435\u0439 \u043f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0438"
+        "id": "Duration tooltip"
     }, 
     {
         "source": "Video track", 
-        "text": "\u0412\u0438\u0434\u0435\u043e\u0434\u043e\u0440\u043e\u0436\u043a\u0430", 
+        "description": "", 
         "id": "Video track", 
-        "description": ""
+        "text": "\u0412\u0438\u0434\u0435\u043e\u0434\u043e\u0440\u043e\u0436\u043a\u0430"
     }, 
     {
         "source": "Size", 
-        "text": "\u0420\u0430\u0437\u043c\u0435\u0440", 
+        "description": "", 
         "id": "Size", 
-        "description": ""
+        "text": "\u0420\u0430\u0437\u043c\u0435\u0440"
     }, 
     {
         "source": "Aspect ratio", 
-        "text": "\u0421\u043e\u043e\u0442\u043d\u043e\u0448\u0435\u043d\u0438\u0435 \u0441\u0442\u043e\u0440\u043e\u043d", 
+        "description": "", 
         "id": "Aspect ratio", 
-        "description": ""
+        "text": "\u0421\u043e\u043e\u0442\u043d\u043e\u0448\u0435\u043d\u0438\u0435 \u0441\u0442\u043e\u0440\u043e\u043d"
     }, 
     {
         "source": "Type", 
-        "text": "\u0422\u0438\u043f", 
+        "description": "", 
         "id": "Type", 
-        "description": ""
+        "text": "\u0422\u0438\u043f"
     }, 
     {
         "source": "Speed", 
-        "text": "\u0441\u043a\u043e\u0440\u043e\u0441\u0442\u044c", 
+        "description": "", 
         "id": "Speed", 
-        "description": ""
+        "text": "\u0441\u043a\u043e\u0440\u043e\u0441\u0442\u044c"
     }, 
     {
         "source": "Duration", 
-        "text": "\u043f\u0440\u043e\u0434\u043e\u043b\u0436\u0438\u0442\u0435\u043b\u044c\u043d\u043e\u0441\u0442\u044c", 
+        "description": "", 
         "id": "Duration", 
-        "description": ""
+        "text": "\u043f\u0440\u043e\u0434\u043e\u043b\u0436\u0438\u0442\u0435\u043b\u044c\u043d\u043e\u0441\u0442\u044c"
     }, 
     {
         "source": "Audio track", 
-        "text": "\u0417\u0432\u0443\u043a\u043e\u0432\u0430\u044f \u0434\u043e\u0440\u043e\u0436\u043a\u0430", 
+        "description": "", 
         "id": "Audio track", 
-        "description": ""
+        "text": "\u0417\u0432\u0443\u043a\u043e\u0432\u0430\u044f \u0434\u043e\u0440\u043e\u0436\u043a\u0430"
     }, 
     {
         "source": "Channels", 
-        "text": "\u043a\u0430\u043d\u0430\u043b\u044b", 
+        "description": "", 
         "id": "Channels", 
-        "description": ""
+        "text": "\u043a\u0430\u043d\u0430\u043b\u044b"
     }, 
     {
         "source": "Sample rate", 
-        "text": "\u0427\u0430\u0441\u0442\u043e\u0442\u0430 \u0434\u0438\u0441\u043a\u0440\u0435\u0442\u0438\u0437\u0430\u0446\u0438\u0438", 
+        "description": "", 
         "id": "Sample rate", 
-        "description": ""
+        "text": "\u0427\u0430\u0441\u0442\u043e\u0442\u0430 \u0434\u0438\u0441\u043a\u0440\u0435\u0442\u0438\u0437\u0430\u0446\u0438\u0438"
     }, 
     {
         "source": "Automatically fade out the UI", 
-        "text": "\u0410\u0432\u0442\u043e\u043c\u0430\u0442\u0438\u0447\u0435\u0441\u043a\u0438 \u0438\u0441\u0447\u0435\u0437\u0430\u0435\u0442 \u043f\u043e\u043b\u044c\u0437\u043e\u0432\u0430\u0442\u0435\u043b\u044c\u0441\u043a\u0438\u0439 \u0438\u043d\u0442\u0435\u0440\u0444\u0435\u0439\u0441", 
+        "description": "", 
         "id": "Automatically fade out the UI", 
+        "text": "\u0410\u0432\u0442\u043e\u043c\u0430\u0442\u0438\u0447\u0435\u0441\u043a\u0438 \u0438\u0441\u0447\u0435\u0437\u0430\u0435\u0442 \u043f\u043e\u043b\u044c\u0437\u043e\u0432\u0430\u0442\u0435\u043b\u044c\u0441\u043a\u0438\u0439 \u0438\u043d\u0442\u0435\u0440\u0444\u0435\u0439\u0441"
+    }, 
+    {
+        "source": "Maximized tooltip", 
+        "text": "\u0420\u0430\u0437\u0432\u0435\u0440\u043d\u0443\u0442\u0430\u044f \u043f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0430", 
+        "id": "Maximized tooltip", 
+        "description": ""
+    }, 
+    {
+        "source": "Maximized", 
+        "text": "\u0420\u0430\u0437\u0432\u0435\u0440\u043d\u0443\u0442\u043e\u0435", 
+        "id": "Maximized", 
+        "description": ""
+    }, 
+    {
+        "source": "Recent files settings tooltip", 
+        "text": "\u041f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0430 \u043f\u043e \u043d\u0430\u0441\u0442\u0440\u043e\u0439\u043a\u0435 \u043f\u043e\u0441\u043b\u0435\u0434\u043d\u0438\u0445 \u0444\u0430\u0439\u043b\u043e\u0432", 
+        "id": "Recent files settings tooltip", 
         "description": ""
     }
 ]
