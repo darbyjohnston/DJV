@@ -48,7 +48,7 @@ int main(int argc, char ** argv)
 
         auto uiComponentsSystem = UI::UIComponentsSystem::create(app.get());
 
-        auto fileBrowser = UI::FileBrowser::Widget::create(app.get());
+        auto fileBrowser = UI::FileBrowser::FileBrowser::create(app.get());
         fileBrowser->setPath(Core::FileSystem::Path("."));
         fileBrowser->setCallback(
             [](const Core::FileSystem::FileInfo & value)
