@@ -29,7 +29,7 @@
 
 #include <djvViewApp/AboutDialog.h>
 
-#include <djvUI/GroupBox.h>
+#include <djvUI/Label.h>
 #include <djvUI/RowLayout.h>
 #include <djvUI/ScrollWidget.h>
 #include <djvUI/TextBlock.h>
@@ -46,7 +46,7 @@ namespace djv
     {
         struct AboutDialog::Private
         {
-            std::map<std::string, std::shared_ptr<UI::GroupBox> > groupBoxes;
+            std::map<std::string, std::shared_ptr<UI::Label> > headers;
             std::map<std::string, std::shared_ptr<UI::TextBlock> > textBlocks;
             std::future<std::shared_ptr<AV::Image::Image> > imageFuture;
         };
@@ -57,6 +57,16 @@ namespace djv
 
             DJV_PRIVATE_PTR();
             setClassName("djv::ViewApp::AboutDialog");
+
+            p.headers["Copyright"] = UI::Label::create(context);
+            p.headers["Contributors"] = UI::Label::create(context);
+            p.headers["ThirdParty"] = UI::Label::create(context);
+            p.headers["Trademarks"] = UI::Label::create(context);
+            for (auto& i : p.headers)
+            {
+                i.second->setTextHAlign(UI::TextHAlign::Left);
+                i.second->setFontSizeRole(UI::MetricsRole::FontLarge);
+            }
 
             p.textBlocks["Copyright"] = UI::TextBlock::create(context);
             p.textBlocks["License1"] = UI::TextBlock::create(context);
@@ -117,6 +127,7 @@ namespace djv
             textLayout->setSpacing(UI::MetricsRole::SpacingLarge);
             
             auto vLayout = UI::VerticalLayout::create(context);
+            vLayout->addChild(p.headers["Copyright"]);
             vLayout->addChild(p.textBlocks["Copyright"]);
             vLayout->addChild(p.textBlocks["License1"]);
             auto vLayout2 = UI::VerticalLayout::create(context);
@@ -126,11 +137,10 @@ namespace djv
             vLayout2->addChild(p.textBlocks["License4"]);
             vLayout->addChild(vLayout2);
             vLayout->addChild(p.textBlocks["License5"]);
-            p.groupBoxes["Copyright"] = UI::GroupBox::create(context);
-            p.groupBoxes["Copyright"]->addChild(vLayout);
-            textLayout->addChild(p.groupBoxes["Copyright"]);
+            textLayout->addChild(vLayout);
             
             vLayout = UI::VerticalLayout::create(context);
+            vLayout->addChild(p.headers["Contributors"]);
             vLayout->addChild(p.textBlocks["Contributors1"]);
             vLayout2 = UI::VerticalLayout::create(context);
             vLayout2->setSpacing(UI::MetricsRole::None);
@@ -138,11 +148,10 @@ namespace djv
             vLayout2->addChild(p.textBlocks["Contributors3"]);
             vLayout2->addChild(p.textBlocks["Contributors4"]);
             vLayout->addChild(vLayout2);
-            p.groupBoxes["Contributors"] = UI::GroupBox::create(context);
-            p.groupBoxes["Contributors"]->addChild(vLayout);
-            textLayout->addChild(p.groupBoxes["Contributors"]);
+            textLayout->addChild(vLayout);
             
             vLayout = UI::VerticalLayout::create(context);
+            vLayout->addChild(p.headers["ThirdParty"]);
             vLayout->addChild(p.textBlocks["ThirdParty1"]);
             vLayout2 = UI::VerticalLayout::create(context);
             vLayout2->setSpacing(UI::MetricsRole::None);
@@ -160,11 +169,10 @@ namespace djv
             vLayout2->addChild(p.textBlocks["ThirdParty13"]);
             vLayout2->addChild(p.textBlocks["ThirdParty14"]);
             vLayout->addChild(vLayout2);
-            p.groupBoxes["ThirdParty"] = UI::GroupBox::create(context);
-            p.groupBoxes["ThirdParty"]->addChild(vLayout);
-            textLayout->addChild(p.groupBoxes["ThirdParty"]);
+            textLayout->addChild(vLayout);
 
             vLayout = UI::VerticalLayout::create(context);
+            vLayout->addChild(p.headers["Trademarks"]);
             vLayout->addChild(p.textBlocks["Trademarks1"]);
             vLayout2 = UI::VerticalLayout::create(context);
             vLayout2->setSpacing(UI::MetricsRole::None);
@@ -190,12 +198,9 @@ namespace djv
             vLayout2->addChild(p.textBlocks["Trademarks21"]);
             vLayout->addChild(vLayout2);
             vLayout->addChild(p.textBlocks["Trademarks22"]);
-            p.groupBoxes["Trademarks"] = UI::GroupBox::create(context);
-            p.groupBoxes["Trademarks"]->addChild(vLayout);
-            textLayout->addChild(p.groupBoxes["Trademarks"]);
+            textLayout->addChild(vLayout);
 
             vLayout = UI::VerticalLayout::create(context);
-            vLayout->addSeparator();
             vLayout2 = UI::VerticalLayout::create(context);
             vLayout2->addChild(p.textBlocks["MadeIn"]);
             vLayout->addChild(vLayout2);
@@ -226,23 +231,27 @@ namespace djv
         {
             IDialog::_localeEvent(event);
             DJV_PRIVATE_PTR();
+
             std::stringstream ss;
             ss << _getText(DJV_TEXT("About Title"));
             ss << " " << DJV_VERSION;
             setTitle(ss.str());
-            p.groupBoxes["Copyright"]->setText(_getText(DJV_TEXT("Copyright and License")));
+
+            p.headers["Copyright"]->setText(_getText(DJV_TEXT("Copyright and License")));
+            p.headers["Contributors"]->setText(_getText(DJV_TEXT("Contributors")));
+            p.headers["ThirdParty"]->setText(_getText(DJV_TEXT("Third Party")));
+            p.headers["Trademarks"]->setText(_getText(DJV_TEXT("Trademarks")));
+
             p.textBlocks["Copyright"]->setText(_getText(DJV_TEXT("Copyright")));
             p.textBlocks["License1"]->setText(_getText(DJV_TEXT("License 1")));
             p.textBlocks["License2"]->setText(_getText(DJV_TEXT("License 2")));
             p.textBlocks["License3"]->setText(_getText(DJV_TEXT("License 3")));
             p.textBlocks["License4"]->setText(_getText(DJV_TEXT("License 4")));
             p.textBlocks["License5"]->setText(_getText(DJV_TEXT("License 5")));
-            p.groupBoxes["Contributors"]->setText(_getText(DJV_TEXT("Contributors")));
             p.textBlocks["Contributors1"]->setText(_getText(DJV_TEXT("Contributors Text 1")));
             p.textBlocks["Contributors2"]->setText(_getText(DJV_TEXT("Contributors Text 2")));
             p.textBlocks["Contributors3"]->setText(_getText(DJV_TEXT("Contributors Text 3")));
             p.textBlocks["Contributors4"]->setText(_getText(DJV_TEXT("Contributors Text 4")));
-            p.groupBoxes["ThirdParty"]->setText(_getText(DJV_TEXT("Third Party")));
             p.textBlocks["ThirdParty1"]->setText(_getText(DJV_TEXT("Third Party Text 1")));
             p.textBlocks["ThirdParty2"]->setText(_getText(DJV_TEXT("Third Party Text 2")));
             p.textBlocks["ThirdParty3"]->setText(_getText(DJV_TEXT("Third Party Text 3")));
@@ -257,7 +266,6 @@ namespace djv
             p.textBlocks["ThirdParty12"]->setText(_getText(DJV_TEXT("Third Party Text 12")));
             p.textBlocks["ThirdParty13"]->setText(_getText(DJV_TEXT("Third Party Text 13")));
             p.textBlocks["ThirdParty14"]->setText(_getText(DJV_TEXT("Third Party Text 14")));
-            p.groupBoxes["Trademarks"]->setText(_getText(DJV_TEXT("Trademarks")));
             p.textBlocks["Trademarks1"]->setText(_getText(DJV_TEXT("Trademarks Text 1")));
             p.textBlocks["Trademarks2"]->setText(_getText(DJV_TEXT("Trademarks Text 2")));
             p.textBlocks["Trademarks3"]->setText(_getText(DJV_TEXT("Trademarks Text 3")));

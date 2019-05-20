@@ -7,7 +7,6 @@ set(header
     ColorPickerTool.h
     DebugTool.h
     Enum.h
-    FileBrowserWidget.h
     FileSystem.h
     FileSettings.h
     HelpSystem.h
@@ -49,7 +48,6 @@ set(source
     ColorPickerTool.cpp
     DebugTool.cpp
     Enum.cpp
-    FileBrowserWidget.cpp
     FileSettings.cpp
     FileSystem.cpp
     HelpSystem.cpp

@@ -75,7 +75,7 @@ namespace djv
     {
         namespace FileBrowser
         {
-            struct Widget::Private
+            struct FileBrowser::Private
             {
                 std::shared_ptr<FileSystem::DirectoryModel> directoryModel;
                 size_t itemCount = 0;
@@ -133,12 +133,12 @@ namespace djv
                 std::shared_ptr<ValueObserver<bool> > sortDirectoriesFirstSettingsObserver;
             };
 
-            void Widget::_init(Context * context)
+            void FileBrowser::_init(Context * context)
             {
                 UI::Widget::_init(context);
 
                 DJV_PRIVATE_PTR();
-                setClassName("djv::UI::FileBrowser::Widget");
+                setClassName("djv::UI::FileBrowser::FileBrowser");
 
                 p.directoryModel = FileSystem::DirectoryModel::create(context);
                 p.shortcutsModel = ShortcutsModel::create(context);
@@ -156,7 +156,7 @@ namespace djv
                 p.actions["Current"]->setShortcut(GLFW_KEY_PERIOD);
 
                 p.actions["AddShortcut"] = Action::create();
-                p.actions["AddShortcut"]->setIcon("djvIconFavorite");
+                p.actions["AddShortcut"]->setIcon("djvIconBookmark");
                 p.actions["AddShortcut"]->setShortcut(GLFW_KEY_S, Shortcut::getSystemModifier());
 
                 p.actions["Tiles"] = Action::create();
@@ -203,24 +203,20 @@ namespace djv
                     addAction(action.second);
                 }
 
+                auto pathWidget = PathWidget::create(context);
+
                 p.shortcutsWidget = ShortcutsWidget::create(p.shortcutsModel, context);
-
                 p.drivesWidget = DrivesWidget::create(context);
-
-                p.thumbnailSizeSlider = IntSlider::create(context);
-                p.thumbnailSizeSlider->setRange(thumbnailSizeRange);
-                p.thumbnailSizeSlider->setDelay(Time::getMilliseconds(Time::TimerValue::Medium));
-                p.thumbnailSizeSlider->setMargin(MetricsRole::MarginSmall);
-
                 auto vLayout = VerticalLayout::create(context);
                 vLayout->setSpacing(MetricsRole::None);
                 vLayout->setBackgroundRole(ColorRole::BackgroundToolBar);
                 vLayout->addChild(p.shortcutsWidget);
+                vLayout->addSeparator();
                 vLayout->addChild(UI::ActionButton::create(p.actions["AddShortcut"], context));
                 vLayout->addSeparator();
                 vLayout->addChild(p.drivesWidget);
                 p.shortcutsPopupWidget = PopupWidget::create(context);
-                p.shortcutsPopupWidget->setIcon("djvIconFavorite");
+                p.shortcutsPopupWidget->setIcon("djvIconBookmark");
                 p.shortcutsPopupWidget->addChild(vLayout);
 
                 vLayout = VerticalLayout::create(context);
@@ -236,6 +232,12 @@ namespace djv
                 p.sortPopupWidget->setIcon("djvIconSort");
                 p.sortPopupWidget->addChild(vLayout);
 
+                p.searchBox = SearchBox::create(context);
+
+                p.thumbnailSizeSlider = IntSlider::create(context);
+                p.thumbnailSizeSlider->setRange(thumbnailSizeRange);
+                p.thumbnailSizeSlider->setDelay(Time::getMilliseconds(Time::TimerValue::Medium));
+                p.thumbnailSizeSlider->setMargin(MetricsRole::MarginSmall);
                 vLayout = VerticalLayout::create(context);
                 vLayout->setSpacing(MetricsRole::None);
                 vLayout->setBackgroundRole(ColorRole::BackgroundToolBar);
@@ -252,19 +254,18 @@ namespace djv
                 p.settingsPopupWidget->setIcon("djvIconSettings");
                 p.settingsPopupWidget->addChild(vLayout);
 
-                auto topToolBar = ToolBar::create(context);
-                topToolBar->setBackgroundRole(ColorRole::BackgroundToolBar);
-                topToolBar->setShadowOverlay({ Side::Top });
-                topToolBar->addAction(p.actions["Up"]);
-                topToolBar->addAction(p.actions["Back"]);
-                topToolBar->addAction(p.actions["Forward"]);
-                topToolBar->addChild(p.shortcutsPopupWidget);
-                topToolBar->addChild(p.sortPopupWidget);
-                topToolBar->addExpander();
-                topToolBar->addChild(p.settingsPopupWidget);
-
-                auto pathWidget = PathWidget::create(context);
-                pathWidget->setShadowOverlay({ Side::Top });
+                auto toolBar = ToolBar::create(context);
+                toolBar->setBackgroundRole(ColorRole::BackgroundToolBar);
+                toolBar->setShadowOverlay({ Side::Top });
+                toolBar->addChild(p.shortcutsPopupWidget);
+                toolBar->addAction(p.actions["Up"]);
+                toolBar->addAction(p.actions["Back"]);
+                toolBar->addAction(p.actions["Forward"]);
+                toolBar->addChild(pathWidget);
+                toolBar->setStretch(pathWidget, RowStretch::Expand);
+                toolBar->addChild(p.sortPopupWidget);
+                toolBar->addChild(p.searchBox);
+                toolBar->addChild(p.settingsPopupWidget);
 
                 p.listViewHeader = ListViewHeader::create(context);
                 p.listViewHeader->setText({ std::string(), std::string(), std::string() });
@@ -277,37 +278,24 @@ namespace djv
 
                 p.itemCountLabel = Label::create(context);
                 p.itemCountLabel->setTextHAlign(TextHAlign::Right);
-                p.itemCountLabel->setMargin(MetricsRole::MarginSmall);
-                p.searchBox = SearchBox::create(context);
-
-                auto bottomToolBar = ToolBar::create(context);
-                bottomToolBar->setBackgroundRole(ColorRole::BackgroundToolBar);
-                bottomToolBar->addExpander();
-                bottomToolBar->addChild(p.itemCountLabel);
-                bottomToolBar->addChild(p.searchBox);
+                p.itemCountLabel->setTextVAlign(TextVAlign::Bottom);
+                p.itemCountLabel->setMargin(MetricsRole::Margin);
 
                 p.layout = VerticalLayout::create(context);
                 p.layout->setSpacing(MetricsRole::None);
-                p.layout->addChild(topToolBar);
-                auto hLayout = HorizontalLayout::create(context);
-                hLayout->setSpacing(MetricsRole::None);
-                hLayout->addChild(pathWidget);
-                hLayout->setStretch(pathWidget, RowStretch::Expand);
-                p.layout->addChild(hLayout);
-                vLayout = VerticalLayout::create(context);
-                vLayout->setSpacing(MetricsRole::None);
+                p.layout->addChild(toolBar);
                 p.listViewLayout = VerticalLayout::create(context);
                 p.listViewLayout->setSpacing(MetricsRole::None);
                 p.listViewLayout->addChild(p.listViewHeader);
-                vLayout->addChild(p.listViewLayout);
-                vLayout->addChild(p.scrollWidget);
-                vLayout->setStretch(p.scrollWidget, RowStretch::Expand);
-                p.layout->addChild(vLayout);
-                p.layout->setStretch(vLayout, RowStretch::Expand);
-                p.layout->addChild(bottomToolBar);
+                p.layout->addChild(p.listViewLayout);
+                auto stackLayout = StackLayout::create(context);
+                stackLayout->addChild(p.scrollWidget);
+                stackLayout->addChild(p.itemCountLabel);
+                p.layout->addChild(stackLayout);
+                p.layout->setStretch(stackLayout, RowStretch::Expand);
                 addChild(p.layout);
 
-                auto weak = std::weak_ptr<Widget>(std::dynamic_pointer_cast<Widget>(shared_from_this()));
+                auto weak = std::weak_ptr<FileBrowser>(std::dynamic_pointer_cast<FileBrowser>(shared_from_this()));
                 pathWidget->setPathCallback(
                     [weak](const FileSystem::Path & value)
                 {
@@ -331,6 +319,7 @@ namespace djv
                     if (auto widget = weak.lock())
                     {
                         widget->_p->directoryModel->setPath(value);
+                        widget->_p->shortcutsPopupWidget->close();
                     }
                 });
 
@@ -340,6 +329,7 @@ namespace djv
                     if (auto widget = weak.lock())
                     {
                         widget->_p->directoryModel->setPath(value);
+                        widget->_p->shortcutsPopupWidget->close();
                     }
                 });
 
@@ -636,7 +626,7 @@ namespace djv
 
                 p.shortcutsObserver = ListObserver<FileSystem::Path>::create(
                     p.shortcutsModel->observeShortcuts(),
-                    [context](const std::vector<FileSystem::Path> & value)
+                    [weak, context](const std::vector<FileSystem::Path> & value)
                 {
                     if (auto settingsSystem = context->getSystemT<Settings::System>())
                     {
@@ -775,53 +765,53 @@ namespace djv
                 });
             }
 
-            Widget::Widget() :
+            FileBrowser::FileBrowser() :
                 _p(new Private)
             {}
 
-            Widget::~Widget()
+            FileBrowser::~FileBrowser()
             {}
 
-            std::shared_ptr<Widget> Widget::create(Context * context)
+            std::shared_ptr<FileBrowser> FileBrowser::create(Context * context)
             {
-                auto out = std::shared_ptr<Widget>(new Widget);
+                auto out = std::shared_ptr<FileBrowser>(new FileBrowser);
                 out->_init(context);
                 return out;
             }
 
-            const FileSystem::Path& Widget::getPath() const
+            const FileSystem::Path& FileBrowser::getPath() const
             {
                 return _p->directoryModel->observePath()->get();
             }
 
-            void Widget::setPath(const FileSystem::Path & value)
+            void FileBrowser::setPath(const FileSystem::Path & value)
             {
                 _p->directoryModel->setPath(value);
             }
 
-            void Widget::setCallback(const std::function<void(const FileSystem::FileInfo &)> & value)
+            void FileBrowser::setCallback(const std::function<void(const FileSystem::FileInfo &)> & value)
             {
                 _p->callback = value;
             }
 
-            float Widget::getHeightForWidth(float value) const
+            float FileBrowser::getHeightForWidth(float value) const
             {
                 return _p->layout->getHeightForWidth(value);
             }
             
-            void Widget::_preLayoutEvent(Event::PreLayout & event)
+            void FileBrowser::_preLayoutEvent(Event::PreLayout & event)
             {
                 auto style = _getStyle();
                 _setMinimumSize(_p->layout->getMinimumSize() + getMargin().getSize(style));
             }
 
-            void Widget::_layoutEvent(Event::Layout & event)
+            void FileBrowser::_layoutEvent(Event::Layout & event)
             {
                 auto style = _getStyle();
                 _p->layout->setGeometry(getMargin().bbox(getGeometry(), style));
             }
 
-            void Widget::_localeEvent(Event::Locale &)
+            void FileBrowser::_localeEvent(Event::Locale &)
             {
                 DJV_PRIVATE_PTR();
                 p.actions["Back"]->setText(_getText(DJV_TEXT("Back")));
@@ -879,7 +869,7 @@ namespace djv
                 p.searchBox->setTooltip(_getText(DJV_TEXT("File browser search tooltip")));
             }
 
-            std::string Widget::_getItemCountLabel(size_t size) const
+            std::string FileBrowser::_getItemCountLabel(size_t size) const
             {
                 std::stringstream ss;
                 ss << size << " " << _getText(DJV_TEXT("Items"));

@@ -39,8 +39,6 @@ namespace djv
 {
     namespace ViewApp
     {
-        class FileBrowserWidget;
-
         class FileSystem : public IViewSystem
         {
             DJV_NON_COPYABLE(FileSystem);
@@ -64,15 +62,14 @@ namespace djv
             void closeAll();
             void setCurrentMedia(const std::shared_ptr<Media> &);
 
-            std::shared_ptr<FileBrowserWidget> createFileBrowser();
-            void setFileBrowserCallback(const std::function<void(void)>&);
-
             std::map<std::string, std::shared_ptr<UI::Action> > getActions() override;
             MenuData getMenu() override;
 
         protected:
             void _actionsUpdate();
             void _textUpdate();
+            void _showFileBrowserDialog();
+            void _showRecentFilesDialog();
 
         private:
             DJV_PRIVATE();

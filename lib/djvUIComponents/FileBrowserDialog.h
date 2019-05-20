@@ -29,11 +29,9 @@
 
 #pragma once
 
-#include <djvUI/UI.h>
+#include <djvUI/IDialog.h>
 
 #include <djvCore/ISystem.h>
-
-#include <functional>
 
 namespace djv
 {
@@ -50,7 +48,33 @@ namespace djv
     {
         namespace FileBrowser
         {
-            //! This class provides standard dialog widgets.
+            //! This class provides a file browser dialog.
+            class Dialog : public UI::IDialog
+            {
+                DJV_NON_COPYABLE(Dialog);
+
+            protected:
+                void _init(Core::Context*);
+                Dialog();
+
+            public:
+                ~Dialog() override;
+
+                static std::shared_ptr<Dialog> create(Core::Context*);
+
+                const Core::FileSystem::Path& getPath() const;
+                void setPath(const Core::FileSystem::Path&);
+
+                void setCallback(const std::function<void(const Core::FileSystem::FileInfo&)>&);
+
+            protected:
+                void _localeEvent(Core::Event::Locale&) override;
+
+            private:
+                DJV_PRIVATE();
+            };
+
+            //! This class provides a global file browser dialog.
             class DialogSystem : public Core::ISystem
             {
                 DJV_NON_COPYABLE(DialogSystem);

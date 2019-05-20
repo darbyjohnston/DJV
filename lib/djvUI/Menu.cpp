@@ -326,7 +326,14 @@ namespace djv
                     if (!i.second->text.empty())
                     {
                         y = i.second->geom.min.y + ceilf(i.second->size.y / 2.f) - ceilf(i.second->fontMetrics.lineHeight / 2.f) + i.second->fontMetrics.ascender;
-                        render->setFillColor(_getColorWithOpacity(style->getColor(ColorRole::Foreground)));
+                        auto color = _getColorWithOpacity(style->getColor(ColorRole::Foreground));
+                        if (!i.second->enabled)
+                        {
+                            color.setF32(color.getF32(0) * .65f, 0);
+                            color.setF32(color.getF32(1) * .65f, 1);
+                            color.setF32(color.getF32(2) * .65f, 2);
+                        }
+                        render->setFillColor(color);
                         const auto fontInfo = i.second->font.empty() ?
                             style->getFontInfo(AV::Font::faceDefault, MetricsRole::FontMedium) :
                             style->getFontInfo(i.second->font, AV::Font::faceDefault, MetricsRole::FontMedium);
@@ -342,7 +349,7 @@ namespace djv
                     }
                     else
                     {
-                        render->setFillColor(_getColorWithOpacity(style->getColor(ColorRole::Border)));
+                        render->setFillColor(_getColorWithOpacity(style->getColor(ColorRole::Trough)));
                         render->drawRect(i.second->geom);
                     }
                 }

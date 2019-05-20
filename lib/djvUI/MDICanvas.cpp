@@ -266,6 +266,12 @@ namespace djv
                     if (i.first != maximizedWidget)
                     {
                         const glm::vec2& widgetMinimumSize = i.first->getMinimumSize();
+                        if (i.second.min.x < 0.f && i.second.min.y < 0.f)
+                        {
+                            const glm::vec2 c = g.getCenter();
+                            i.second.min.x = ceilf(c.x - widgetMinimumSize.x / 2.f);
+                            i.second.min.y = ceilf(c.y - widgetMinimumSize.y / 2.f);
+                        }
                         BBox2f widgetGeometry;
                         if (p.maximized && i.first == p.activeWidget)
                         {
@@ -316,72 +322,75 @@ namespace djv
             void Canvas::_paintOverlayEvent(Event::PaintOverlay & event)
             {
                 DJV_PRIVATE_PTR();
-                auto style = _getStyle();
-                const float b = style->getMetric(MetricsRole::Border);
-                const float h = style->getMetric(MetricsRole::Handle);
-
-                auto render = _getRender();
-                /*if (p.activeWidget && p.activeWidget->isVisible() && !p.activeWidget->isClipped())
+                if (!p.maximized)
                 {
-                    const BBox2f g = p.activeWidget->getGeometry().margin(-h);
-                    render->setFillColor(_getColorWithOpacity(style->getColor(ColorRole::Checked)));
-                    render->drawRect(BBox2f(
-                        glm::vec2(g.min.x, g.min.y),
-                        glm::vec2(g.max.x, g.min.y + b)));
-                    render->drawRect(BBox2f(
-                        glm::vec2(g.min.x, g.max.y - b),
-                        glm::vec2(g.max.x, g.max.y)));
-                    render->drawRect(BBox2f(
-                        glm::vec2(g.min.x, g.min.y + b),
-                        glm::vec2(g.min.x + b, g.max.y - b)));
-                    render->drawRect(BBox2f(
-                        glm::vec2(g.max.x - b, g.min.y + b),
-                        glm::vec2(g.max.x, g.max.y - b)));
-                }*/
+                    auto style = _getStyle();
+                    const float b = style->getMetric(MetricsRole::Border);
+                    const float h = style->getMetric(MetricsRole::Handle);
 
-                auto hovered = p.hovered;
-                render->setFillColor(_getColorWithOpacity(style->getColor(ColorRole::Handle)));
-                for (const auto & i : p.pressed)
-                {
-                    const auto& handles = i.second.widget->getHandlesDraw();
-                    const auto j = handles.find(i.second.handle);
-                    if (j != handles.end())
+                    auto render = _getRender();
+                    /*if (p.activeWidget && p.activeWidget->isVisible() && !p.activeWidget->isClipped())
                     {
-                        for (const auto& k : j->second)
+                        const BBox2f g = p.activeWidget->getGeometry().margin(-h);
+                        render->setFillColor(_getColorWithOpacity(style->getColor(ColorRole::Checked)));
+                        render->drawRect(BBox2f(
+                            glm::vec2(g.min.x, g.min.y),
+                            glm::vec2(g.max.x, g.min.y + b)));
+                        render->drawRect(BBox2f(
+                            glm::vec2(g.min.x, g.max.y - b),
+                            glm::vec2(g.max.x, g.max.y)));
+                        render->drawRect(BBox2f(
+                            glm::vec2(g.min.x, g.min.y + b),
+                            glm::vec2(g.min.x + b, g.max.y - b)));
+                        render->drawRect(BBox2f(
+                            glm::vec2(g.max.x - b, g.min.y + b),
+                            glm::vec2(g.max.x, g.max.y - b)));
+                    }*/
+
+                    auto hovered = p.hovered;
+                    render->setFillColor(_getColorWithOpacity(style->getColor(ColorRole::Handle)));
+                    for (const auto& i : p.pressed)
+                    {
+                        const auto& handles = i.second.widget->getHandlesDraw();
+                        const auto j = handles.find(i.second.handle);
+                        if (j != handles.end())
                         {
-                            switch (i.second.handle)
+                            for (const auto& k : j->second)
                             {
-                            case Handle::Move:
-                            case Handle::None: break;
-                            default:
-                                render->drawRect(k);
-                                break;
+                                switch (i.second.handle)
+                                {
+                                case Handle::Move:
+                                case Handle::None: break;
+                                default:
+                                    render->drawRect(k);
+                                    break;
+                                }
                             }
                         }
-                    }
-                    const auto k = hovered.find(i.first);
-                    if (k != hovered.end())
-                    {
-                        hovered.erase(k);
-                    }
-                }
-
-                render->setFillColor(_getColorWithOpacity(style->getColor(ColorRole::Handle)));
-                for (const auto & i : hovered)
-                {
-                    const auto& handles = i.second.widget->getHandlesDraw();
-                    const auto j = handles.find(i.second.handle);
-                    if (j != handles.end())
-                    {
-                        for (const auto& k : j->second)
+                        const auto k = hovered.find(i.first);
+                        if (k != hovered.end())
                         {
-                            switch (i.second.handle)
+                            hovered.erase(k);
+                        }
+                    }
+
+                    render->setFillColor(_getColorWithOpacity(style->getColor(ColorRole::Handle)));
+                    for (const auto& i : hovered)
+                    {
+                        const auto& handles = i.second.widget->getHandlesDraw();
+                        const auto j = handles.find(i.second.handle);
+                        if (j != handles.end())
+                        {
+                            for (const auto& k : j->second)
                             {
-                            case Handle::Move:
-                            case Handle::None: break;
-                            default:
-                                render->drawRect(k);
-                                break;
+                                switch (i.second.handle)
+                                {
+                                case Handle::Move:
+                                case Handle::None: break;
+                                default:
+                                    render->drawRect(k);
+                                    break;
+                                }
                             }
                         }
                     }

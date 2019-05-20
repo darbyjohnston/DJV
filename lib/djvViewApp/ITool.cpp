@@ -29,7 +29,6 @@
 
 #include <djvViewApp/ITool.h>
 
-#include <djvUI/Border.h>
 #include <djvUI/Label.h>
 #include <djvUI/MDICanvas.h>
 #include <djvUI/RowLayout.h>
@@ -49,7 +48,6 @@ namespace djv
             std::shared_ptr<UI::HorizontalLayout> titleBar;
             std::shared_ptr<UI::VerticalLayout> childLayout;
             std::shared_ptr<UI::VerticalLayout> layout;
-            std::shared_ptr<UI::Border> border;
             std::function<void(void)> closeCallback;
         };
 
@@ -77,18 +75,18 @@ namespace djv
 
             p.childLayout = UI::VerticalLayout::create(context);
 
-            p.layout = UI::VerticalLayout::create(context);
-            p.layout->setBackgroundRole(UI::ColorRole::Background);
-            p.layout->setSpacing(UI::MetricsRole::None);
-            p.layout->addChild(p.titleBar);
-            p.layout->addSeparator();
-            p.layout->addChild(p.childLayout);
-            p.layout->setStretch(p.childLayout, UI::RowStretch::Expand);
+            auto layout = UI::VerticalLayout::create(context);
+            layout->setBackgroundRole(UI::ColorRole::Background);
+            layout->setSpacing(UI::MetricsRole::None);
+            layout->addChild(p.titleBar);
+            layout->addChild(p.childLayout);
+            layout->setStretch(p.childLayout, UI::RowStretch::Expand);
 
-            p.border = UI::Border::create(context);
-            p.border->setMargin(UI::MetricsRole::Handle);
-            p.border->addChild(p.layout);
-            IWidget::addChild(p.border);
+            p.layout = UI::VerticalLayout::create(context);
+            p.layout->setMargin(UI::MetricsRole::Handle);
+            p.layout->addChild(layout);
+            p.layout->setStretch(layout, UI::RowStretch::Expand);
+            IWidget::addChild(p.layout);
 
             auto weak = std::weak_ptr<ITool>(std::dynamic_pointer_cast<ITool>(shared_from_this()));
             p.closeButton->setClickedCallback(
@@ -143,7 +141,7 @@ namespace djv
 
         float ITool::getHeightForWidth(float value) const
         {
-            return _p->border->getHeightForWidth(value);
+            return _p->layout->getHeightForWidth(value);
         }
 
         void ITool::addChild(const std::shared_ptr<IObject> & value)
@@ -168,12 +166,12 @@ namespace djv
 
         void ITool::_preLayoutEvent(Event::PreLayout & event)
         {
-            _setMinimumSize(_p->border->getMinimumSize());
+            _setMinimumSize(_p->layout->getMinimumSize());
         }
 
         void ITool::_layoutEvent(Event::Layout &)
         {
-            _p->border->setGeometry(getGeometry());
+            _p->layout->setGeometry(getGeometry());
         }
 
         void ITool::_localeEvent(Event::Locale &)

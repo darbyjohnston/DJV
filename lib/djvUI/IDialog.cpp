@@ -82,6 +82,7 @@ namespace djv
         {
             std::shared_ptr<Label> titleLabel;
             std::shared_ptr<ToolButton> closeButton;
+            std::shared_ptr<HorizontalLayout> titleBarLayout;
             std::shared_ptr<VerticalLayout> childLayout;
             std::shared_ptr<VerticalLayout> layout;
             std::shared_ptr<Layout::Overlay> overlay;
@@ -106,6 +107,9 @@ namespace djv
             p.closeButton->setIcon("djvIconClose");
             p.closeButton->setInsideMargin(MetricsRole::MarginSmall);
 
+            p.titleBarLayout = HorizontalLayout::create(context);
+            p.titleBarLayout->setSpacing(MetricsRole::None);
+
             p.childLayout = VerticalLayout::create(context);
             p.childLayout->setSpacing(MetricsRole::None);
 
@@ -115,9 +119,11 @@ namespace djv
             layout->setSpacing(MetricsRole::None);
             layout->setBackgroundRole(ColorRole::Background);
             auto hLayout = HorizontalLayout::create(context);
+            hLayout->setSpacing(MetricsRole::None);
             hLayout->setBackgroundRole(ColorRole::BackgroundHeader);
             hLayout->addChild(p.titleLabel);
             hLayout->addExpander();
+            hLayout->addChild(p.titleBarLayout);
             hLayout->addChild(p.closeButton);
             layout->addChild(hLayout);
             layout->addChild(p.childLayout);
@@ -175,6 +181,21 @@ namespace djv
             DJV_PRIVATE_PTR();
             p.layout->setHAlign(value ? HAlign::Fill : HAlign::Center);
             p.layout->setVAlign(value ? VAlign::Fill : VAlign::Center);
+        }
+
+        void IDialog::addTitleBarWidget(const std::shared_ptr<Widget>& widget)
+        {
+            _p->titleBarLayout->addChild(widget);
+        }
+
+        void IDialog::removeTitleBarWidget(const std::shared_ptr<Widget>& widget)
+        {
+            _p->titleBarLayout->removeChild(widget);
+        }
+
+        void IDialog::clearTitleBarWidgets()
+        {
+            _p->titleBarLayout->clearChildren();
         }
 
         void IDialog::setCloseCallback(const std::function<void(void)> & value)

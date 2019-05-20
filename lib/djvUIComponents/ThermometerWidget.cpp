@@ -49,7 +49,7 @@ namespace djv
             DJV_PRIVATE_PTR();
             setClassName("djv::UI::ThermometerWidget");
 
-            setBackgroundRole(ColorRole::Border);
+            setBackgroundRole(ColorRole::Trough);
         }
 
         ThermometerWidget::ThermometerWidget() :

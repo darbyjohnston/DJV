@@ -48,8 +48,6 @@ namespace djv
 
             static std::shared_ptr<SettingsWidget> create(Core::Context *);
 
-            void setCloseCallback(const std::function<void(void)>&);
-
         protected:
             void _preLayoutEvent(Core::Event::PreLayout&) override;
             void _layoutEvent(Core::Event::Layout&) override;

@@ -49,18 +49,18 @@ namespace djv
         namespace FileBrowser
         {
             //! This class provides a file browser widget.
-            class Widget : public UI::Widget
+            class FileBrowser : public Widget
             {
-                DJV_NON_COPYABLE(Widget);
+                DJV_NON_COPYABLE(FileBrowser);
 
             protected:
                 void _init(Core::Context *);
-                Widget();
+                FileBrowser();
 
             public:
-                virtual ~Widget();
+                virtual ~FileBrowser();
 
-                static std::shared_ptr<Widget> create(Core::Context *);
+                static std::shared_ptr<FileBrowser> create(Core::Context *);
 
                 const Core::FileSystem::Path& getPath() const;
                 void setPath(const Core::FileSystem::Path &);

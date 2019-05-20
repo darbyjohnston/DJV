@@ -58,8 +58,6 @@ namespace djv
             std::map<std::shared_ptr<UI::ISettingsWidget>, std::shared_ptr<UI::ListButton> > buttons;
             std::map<std::shared_ptr<UI::ISettingsWidget>, std::shared_ptr<UI::Bellows> > bellows;
             std::shared_ptr<UI::SoloLayout> soloLayout;
-            std::shared_ptr<UI::VerticalLayout> layout;
-            std::function<void(void)> closeCallback;
         };
 
         void SettingsWidget::_init(Context* context)
@@ -73,8 +71,6 @@ namespace djv
             p.titleLabel->setTextHAlign(UI::TextHAlign::Left);
             p.titleLabel->setFontSizeRole(UI::MetricsRole::FontHeader);
             p.titleLabel->setMargin(UI::MetricsRole::Margin);
-            auto closeButton = UI::ToolButton::create(context);
-            closeButton->setIcon("djvIconClose");
 
             for (auto system : context->getSystemsT<IViewSystem>())
             {
@@ -94,7 +90,6 @@ namespace djv
             hLayout->setBackgroundRole(UI::ColorRole::BackgroundHeader);
             hLayout->addChild(p.titleLabel);
             hLayout->setStretch(p.titleLabel, UI::RowStretch::Expand);
-            hLayout->addChild(closeButton);
             vLayout->addChild(hLayout);
             auto scrollWidget = UI::ScrollWidget::create(UI::ScrollType::Vertical, context);
             scrollWidget->setBorder(false);
@@ -104,7 +99,6 @@ namespace djv
             vLayout->setStretch(scrollWidget, UI::RowStretch::Expand);
 
             p.soloLayout = UI::SoloLayout::create(context);
-            p.soloLayout->setSoloMinimumSize(UI::Layout::SoloMinimumSize::Horizontal);
             p.soloLayout->addChild(vLayout);
 
             for (const auto& i : p.widgets)
@@ -129,25 +123,9 @@ namespace djv
                 }
             }
             
-            p.layout = UI::VerticalLayout::create(context);
-            p.layout->setSpacing(UI::MetricsRole::None);
-            p.layout->addChild(p.soloLayout);
-            p.layout->setStretch(p.soloLayout, UI::RowStretch::Expand);
-            addChild(p.layout);
+            addChild(p.soloLayout);
 
             auto weak = std::weak_ptr<SettingsWidget>(std::dynamic_pointer_cast<SettingsWidget>(shared_from_this()));
-            closeButton->setClickedCallback(
-                [weak]
-            {
-                if (auto widget = weak.lock())
-                {
-                    if (widget->_p->closeCallback)
-                    {
-                        widget->_p->closeCallback();
-                    }
-                }
-            });
-
             p.buttonGroup->setPushCallback(
                 [weak](int value)
             {
@@ -169,17 +147,6 @@ namespace djv
                             widget->_p->soloLayout->setCurrentIndex(0);
                         }
                     });
-                    j->setCloseCallback(
-                        [weak]
-                    {
-                        if (auto widget = weak.lock())
-                        {
-                            if (widget->_p->closeCallback)
-                            {
-                                widget->_p->closeCallback();
-                            }
-                        }
-                    });
                 }
             }
         }
@@ -198,19 +165,15 @@ namespace djv
             return out;
         }
 
-        void SettingsWidget::setCloseCallback(const std::function<void(void)>& value)
-        {
-            _p->closeCallback = value;
-        }
-
         void SettingsWidget::_preLayoutEvent(Event::PreLayout&)
         {
-            _setMinimumSize(_p->layout->getMinimumSize());
+            const glm::vec2 size = _p->soloLayout->getMinimumSize();
+            _setMinimumSize(size);
         }
 
         void SettingsWidget::_layoutEvent(Event::Layout&)
         {
-            _p->layout->setGeometry(getGeometry());
+            _p->soloLayout->setGeometry(getGeometry());
         }
 
         void SettingsWidget::_localeEvent(Event::Locale & event)

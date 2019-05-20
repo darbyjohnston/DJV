@@ -46,7 +46,6 @@ namespace djv
             std::shared_ptr<VerticalLayout> childLayout;
             std::shared_ptr<VerticalLayout> layout;
             std::function<void(void)> backCallback;
-            std::function<void(void)> closeCallback;
         };
 
         void ISettingsWidget::_init(Context * context)
@@ -62,19 +61,15 @@ namespace djv
             p.titleLabel->setTextHAlign(TextHAlign::Left);
             p.titleLabel->setFontSizeRole(MetricsRole::FontHeader);
             p.titleLabel->setMargin(MetricsRole::Margin);
-            auto closeButton = ToolButton::create(context);
-            closeButton->setIcon("djvIconClose");
 
             p.layout = VerticalLayout::create(context);
             p.layout->setSpacing(MetricsRole::None);
             auto hLayout = HorizontalLayout::create(context);
             hLayout->setSpacing(MetricsRole::None);
             hLayout->setBackgroundRole(ColorRole::BackgroundHeader);
-            hLayout->setShadowOverlay({ Side::Top });
             hLayout->addChild(backButton);
             hLayout->addChild(p.titleLabel);
             hLayout->setStretch(p.titleLabel, RowStretch::Expand);
-            hLayout->addChild(closeButton);
             p.layout->addChild(hLayout);
             p.childLayout = VerticalLayout::create(context);
             p.childLayout->setMargin(MetricsRole::MarginLarge);
@@ -99,18 +94,6 @@ namespace djv
                     }
                 }
             });
-
-            closeButton->setClickedCallback(
-                [weak]
-            {
-                if (auto widget = weak.lock())
-                {
-                    if (widget->_p->closeCallback)
-                    {
-                        widget->_p->closeCallback();
-                    }
-                }
-            });
         }
 
         ISettingsWidget::ISettingsWidget() :
@@ -123,11 +106,6 @@ namespace djv
         void ISettingsWidget::setBackCallback(const std::function<void(void)>& value)
         {
             _p->backCallback = value;
-        }
-
-        void ISettingsWidget::setCloseCallback(const std::function<void(void)>& value)
-        {
-            _p->closeCallback = value;
         }
 
         float ISettingsWidget::getHeightForWidth(float value) const

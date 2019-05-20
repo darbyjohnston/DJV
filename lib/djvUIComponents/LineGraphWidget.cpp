@@ -55,7 +55,7 @@ namespace djv
             DJV_PRIVATE_PTR();
             setClassName("djv::UI::LineGraphWidget");
 
-            setBackgroundRole(ColorRole::Border);
+            setBackgroundRole(ColorRole::Trough);
 
             p.label = Label::create(context);
             p.label->setFontSizeRole(MetricsRole::FontSmall);

@@ -52,6 +52,10 @@ namespace djv
             void setStretch(const std::shared_ptr<Widget> &, RowStretch = RowStretch::None);
             void setFillLayout(bool);
 
+            void addTitleBarWidget(const std::shared_ptr<Widget>&);
+            void removeTitleBarWidget(const std::shared_ptr<Widget>&);
+            void clearTitleBarWidgets();
+
             void setCloseCallback(const std::function<void(void)> &);
 
             void setVisible(bool) override;

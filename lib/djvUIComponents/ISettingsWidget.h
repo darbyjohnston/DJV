@@ -53,7 +53,6 @@ namespace djv
             virtual std::string getSettingsGroup() const = 0;
 
             void setBackCallback(const std::function<void(void)>&);
-            void setCloseCallback(const std::function<void(void)>&);
 
             float getHeightForWidth(float) const override;
 

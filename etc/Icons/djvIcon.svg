@@ -9,9 +9,9 @@
    xmlns="http://www.w3.org/2000/svg"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="400"
-   height="300"
-   viewBox="0 0 400.00001 300"
+   width="24"
+   height="24.000046"
+   viewBox="0 0 24.000001 24.000046"
    id="svg2"
    version="1.1"
    inkscape:version="0.92.4 (5da689c313, 2019-01-14)"
@@ -22,8 +22,8 @@
        sodipodi:type="inkscape:persp3d"
        inkscape:vp_x="0 : 100 : 1"
        inkscape:vp_y="0 : 1000 : 0"
-       inkscape:vp_z="500.00001 : 100 : 1"
-       inkscape:persp3d-origin="250 : 66.666667 : 1"
+       inkscape:vp_z="500.00002 : 100 : 1"
+       inkscape:persp3d-origin="250 : 66.666668 : 1"
        id="perspective926" />
   </defs>
   <sodipodi:namedview
@@ -34,8 +34,8 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="23.532514"
-     inkscape:cx="276.36909"
-     inkscape:cy="237.55621"
+     inkscape:cx="10.76623"
+     inkscape:cy="11.494883"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="true"
@@ -53,7 +53,9 @@
     <inkscape:grid
        type="xygrid"
        id="grid3336"
-       empspacing="4" />
+       empspacing="4"
+       originx="-320.00001"
+       originy="-223.99993" />
   </sodipodi:namedview>
   <metadata
      id="metadata7">
@@ -71,7 +73,7 @@
      inkscape:label="Layer 1"
      inkscape:groupmode="layer"
      id="layer1"
-     transform="translate(0,-752.36216)">
+     transform="translate(-320,-804.36218)">
     <rect
        style="fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:0.9600004px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
        id="File"
@@ -965,7 +967,7 @@
        style="opacity:1;fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1.98440635;stroke-linecap:square;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
     <path
        style="opacity:1;fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1.98440635;stroke-linecap:square;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
-       d="m 168,808.36218 h 12 v 11.99998 l -9,0 v -3.00001 l -3,10e-6 z"
+       d="m 168,808.36218 h 12 v 11.99998 h -9 v -3.00001 l -3,10e-6 z"
        id="rect1560"
        inkscape:connector-curvature="0"
        sodipodi:nodetypes="ccccccc" />
@@ -1167,5 +1169,28 @@
        d="m 300,824.36216 c -3.866,0 -7,-0.67158 -7,-1.5 v -2.98013 c 0,0.82842 3.134,1.5 7,1.5 3.866,0 7,-0.67158 7,-1.5 v 2.98013 c 0,0.82842 -3.134,1.5 -7,1.5 z"
        style="opacity:1;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:2;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        sodipodi:nodetypes="sscscss" />
+    <rect
+       inkscape:export-filename="C:\dev\djv-git\etc\Icons\96DPI\djvIconBookmark.png"
+       inkscape:label="#rect4216"
+       style="fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:0.96000087px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       id="Bookmark"
+       width="24"
+       height="24.000046"
+       x="320"
+       y="804.36218"
+       inkscape:export-xdpi="96"
+       inkscape:export-ydpi="96" />
+    <path
+       style="fill:#fffffa;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 329,808.36216 h 6 l -10e-6,14 -3,3 -3,-3 z"
+       id="path971"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="cccccc" />
+    <ellipse
+       style="opacity:1;fill:#000000;fill-opacity:1;stroke:none;stroke-width:2;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="path973"
+       cx="332"
+       cy="811.36218"
+       r="1" />
   </g>
 </svg>

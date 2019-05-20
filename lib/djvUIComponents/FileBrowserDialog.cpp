@@ -32,12 +32,6 @@
 #include <djvUIComponents/FileBrowser.h>
 
 #include <djvUI/EventSystem.h>
-#include <djvUI/IDialog.h>
-#include <djvUI/Label.h>
-#include <djvUI/Overlay.h>
-#include <djvUI/PushButton.h>
-#include <djvUI/RowLayout.h>
-#include <djvUI/TextBlock.h>
 #include <djvUI/UISystem.h>
 #include <djvUI/Window.h>
 
@@ -49,62 +43,72 @@ namespace djv
     {
         namespace FileBrowser
         {
-            namespace
+            struct Dialog::Private
             {
-                class Dialog : public IDialog
+                std::shared_ptr<FileBrowser> fileBrowser;
+                std::function<void(const FileSystem::FileInfo&)> callback;
+            };
+
+            void Dialog::_init(Context* context)
+            {
+                IDialog::_init(context);
+
+                DJV_PRIVATE_PTR();
+                setClassName("djv::UIComponents::Dialog");
+
+                p.fileBrowser = FileBrowser::create(context);
+                p.fileBrowser->setPath(FileSystem::Path("."));
+                addChild(p.fileBrowser);
+                setStretch(p.fileBrowser, UI::RowStretch::Expand);
+
+                auto weak = std::weak_ptr<Dialog>(std::dynamic_pointer_cast<Dialog>(shared_from_this()));
+                p.fileBrowser->setCallback(
+                    [weak](const FileSystem::FileInfo & value)
                 {
-                    DJV_NON_COPYABLE(Dialog);
-
-                protected:
-                    void _init(Context * context)
+                    if (auto widget = weak.lock())
                     {
-                        IDialog::_init(context);
-
-                        setClassName("djv::UI::FileBrowser::Dialog");
-
-                        _widget = FileBrowser::Widget::create(context);
-                        _widget->setPath(FileSystem::Path("."));
-                        _widget->setBackgroundRole(ColorRole::Background);
-                        addChild(_widget);
-                        setStretch(_widget, RowStretch::Expand);
-
-                        auto weak = std::weak_ptr<Dialog>(std::dynamic_pointer_cast<Dialog>(shared_from_this()));
-                        _widget->setCallback(
-                            [weak](const FileSystem::FileInfo & value)
+                        if (widget->_p->callback)
                         {
-                            if (auto dialog = weak.lock())
-                            {
-                                if (dialog->_callback)
-                                {
-                                    dialog->_callback(value);
-                                }
-                                dialog->_doCloseCallback();
-                            }
-                        });
+                            widget->_p->callback(value);
+                        }
                     }
+                });
+            }
 
-                    Dialog()
-                    {}
+            Dialog::Dialog() :
+                _p(new Private)
+            {}
 
-                public:
-                    static std::shared_ptr<Dialog> create(Context * context)
-                    {
-                        auto out = std::shared_ptr<Dialog>(new Dialog);
-                        out->_init(context);
-                        return out;
-                    }
+            Dialog::~Dialog()
+            {}
 
-                    void setCallback(const std::function<void(const FileSystem::FileInfo &)> & value)
-                    {
-                        _callback = value;
-                    }
+            std::shared_ptr<Dialog> Dialog::create(Context* context)
+            {
+                auto out = std::shared_ptr<Dialog>(new Dialog);
+                out->_init(context);
+                return out;
+            }
 
-                private:
-                    std::shared_ptr<FileBrowser::Widget> _widget;
-                    std::function<void(const FileSystem::FileInfo &)> _callback;
-                };
+            const FileSystem::Path& Dialog::getPath() const
+            {
+                return _p->fileBrowser->getPath();
+            }
 
-            } // namespace
+            void Dialog::setPath(const FileSystem::Path& value)
+            {
+                _p->fileBrowser->setPath(value);
+            }
+
+            void Dialog::setCallback(const std::function<void(const FileSystem::FileInfo&)>& value)
+            {
+                _p->callback = value;
+            }
+
+            void Dialog::_localeEvent(Event::Locale& event)
+            {
+                DJV_PRIVATE_PTR();
+                setTitle(_getText(DJV_TEXT("File Browser")));
+            }
 
             struct DialogSystem::Private
             {
@@ -134,7 +138,7 @@ namespace djv
 
             void DialogSystem::fileBrowser(
                 const std::string & title,
-                const std::function<void(const Core::FileSystem::FileInfo &)> & callback)
+                const std::function<void(const FileSystem::FileInfo &)> & callback)
             {
                 auto context = getContext();
                 DJV_PRIVATE_PTR();
@@ -142,9 +146,9 @@ namespace djv
                 {
                     p.dialog = Dialog::create(context);
                 }
-                if (auto windowSystem = context->getSystemT<EventSystem>())
+                if (auto eventSystem = context->getSystemT<EventSystem>())
                 {
-                    if (auto window = windowSystem->getCurrentWindow().lock())
+                    if (auto window = eventSystem->getCurrentWindow().lock())
                     {
                         if (auto dialog = p.dialog.lock())
                         {
@@ -154,7 +158,7 @@ namespace djv
 
                             auto weak = std::weak_ptr<DialogSystem>(std::dynamic_pointer_cast<DialogSystem>(shared_from_this()));
                             dialog->setCallback(
-                                [callback](const Core::FileSystem::FileInfo & value)
+                                [callback](const FileSystem::FileInfo & value)
                             {
                                 callback(value);
                             });
