@@ -4,6 +4,7 @@ find_package(OpenAL REQUIRED)
 find_package(OpenGL REQUIRED)
 find_package(GLFW REQUIRED)
 
+find_package(FFmpeg)
 find_package(JPEG)
 find_package(PNG)
 find_package(TIFF)
@@ -19,8 +20,6 @@ set(header
     Color.h
     ColorInline.h
     Enum.h
-    FFmpeg.h
-    FFmpegInline.h
     FontSystem.h
     FontSystemInline.h
     IO.h
@@ -54,8 +53,6 @@ set(source
     AudioSystem.cpp
     Color.cpp
     Enum.cpp
-    FFmpeg.cpp
-    FFmpegRead.cpp
     FontSystem.cpp
     IO.cpp
     Image.cpp
@@ -77,6 +74,16 @@ set(source
     TextureAtlas.cpp
     ThumbnailSystem.cpp
     TriangleMesh.cpp)
+if(FFMPEG_FOUND)
+    set(header
+        ${header}
+		FFmpeg.h
+		FFmpegInline.h)
+    set(source
+        ${source}
+		FFmpeg.cpp
+		FFmpegRead.cpp)
+endif()
 if(JPEG_FOUND)
     set(header
         ${header}
@@ -117,6 +124,9 @@ set(LIBRARIES
     OpenAL
     OpenGL::GL
     djvCore)
+if(FFMPEG_FOUND)
+    set(LIBRARIES ${LIBRARIES} FFMPEG)
+endif()
 if(JPEG_FOUND)
     set(LIBRARIES ${LIBRARIES} JPEG)
 endif()

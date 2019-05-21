@@ -31,14 +31,12 @@
 
 #include <djvCore/String.h>
 
+#include <iomanip>
+
 extern "C"
 {
-#include <libavutil/avutil.h>
-#include <libavutil/rational.h>
-
-} // extern "C"
-
-#include <iomanip>
+#include <libavutil/mathematics.h>
+}
 
 namespace djv
 {
@@ -46,30 +44,38 @@ namespace djv
     {
         namespace Time
         {
-            Frame::Index timestampToFrame(Time::Timestamp value, const Time::Speed & speed)
+            Math::Rational getTimebaseRational()
             {
-                AVRational r;
-                r.num = speed.getDuration();
-                r.den = speed.getScale();
-                return av_rescale_q(value, av_get_time_base_q(), r);
+                return Math::Rational(1, timebase);
             }
 
-            Time::Timestamp frameToTimestamp(Frame::Index value, const Time::Speed & speed)
+            int64_t scale(int64_t value, const Math::Rational& br, const Math::Rational& cr)
             {
-                AVRational r;
-                r.num = speed.getDuration();
-                r.den = speed.getScale();
-                return av_rescale_q(value, r, av_get_time_base_q());
+                const int64_t b = br.getNum() * static_cast<int64_t>(cr.getDen());
+                const int64_t c = cr.getNum() * static_cast<int64_t>(br.getDen());
+                //! \bug The FFmpeg documentation for av_rescale_q() says that this can overflow?
+                const int64_t out = value * b / c;
+                return out;
+            }
+
+            Frame::Index timestampToFrame(Time::Timestamp value, const Speed& speed)
+            {
+                return scale(value, Math::Rational(1, timebase), Math::Rational(speed.getDen(), speed.getNum()));
+            }
+
+            Time::Timestamp frameToTimestamp(Frame::Index value, const Speed& speed)
+            {
+                return scale(value, Math::Rational(speed.getDen(), speed.getNum()), Math::Rational(1, timebase));
             }
 
             double timestampToSeconds(Timestamp value)
             {
-                return value / static_cast<double>(AV_TIME_BASE);
+                return value / static_cast<double>(timebase);
             }
 
             Timestamp secondsToTimestamp(double value)
             {
-                return static_cast<Timestamp>(value * static_cast<double>(AV_TIME_BASE));
+                return static_cast<Timestamp>(value * static_cast<double>(timebase));
             }
 
             std::string getLabel(double value)

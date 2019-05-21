@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------
-// Copyright (c) 2004-2018 Darby Johnston
+// Copyright (c) 2004-2019 Darby Johnston
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -27,47 +27,48 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvCoreTest/CacheTest.h>
-#include <djvCoreTest/EnumTest.h>
-#include <djvCoreTest/MathTest.h>
-#include <djvCoreTest/MemoryTest.h>
-#include <djvCoreTest/ObjectTest.h>
-#include <djvCoreTest/PathTest.h>
-#include <djvCoreTest/SpeedTest.h>
-#include <djvCoreTest/StringTest.h>
+#pragma once
 
-#include <djvAVTest/AudioTest.h>
-#include <djvAVTest/ColorTest.h>
-#include <djvAVTest/PixelTest.h>
+#include <djvCore/Core.h>
 
-#include <djvCore/Context.h>
-#include <djvCore/Error.h>
+#include <sstream>
 
-using namespace djv;
-
-int main(int argc, char ** argv)
+namespace djv
 {
-    int r = 0;
-    try
+    namespace Core
     {
-        auto context = Core::Context::create(argc, argv);
+        namespace Math
+        {
+            //! This class provides a rational number.
+            class Rational
+            {
+            public:
+                Rational();
+                Rational(int num, int den);
 
-        (new CoreTest::CacheTest(context.get()))->run(argc, argv);
-        (new CoreTest::EnumTest(context.get()))->run(argc, argv);
-        (new CoreTest::MathTest(context.get()))->run(argc, argv);
-        (new CoreTest::MemoryTest(context.get()))->run(argc, argv);
-        (new CoreTest::ObjectTest(context.get()))->run(argc, argv);
-        (new CoreTest::PathTest(context.get()))->run(argc, argv);
-        (new CoreTest::SpeedTest(context.get()))->run(argc, argv);
-        (new CoreTest::StringTest(context.get()))->run(argc, argv);
+                inline int getNum() const;
+                inline int getDen() const;
+                inline bool isValid() const;
 
-        (new AVTest::AudioTest(context.get()))->run(argc, argv);
-        (new AVTest::ColorTest(context.get()))->run(argc, argv);
-        (new AVTest::PixelTest(context.get()))->run(argc, argv);
-    }
-    catch (const std::exception & error)
-    {
-        std::cout << Core::Error::format(error) << std::endl;
-    }
-    return r;
-}
+                static float toFloat(const Rational&);
+                static Rational fromFloat(float);
+
+                inline Rational swap() const;
+
+                bool operator == (const Rational&) const;
+                bool operator != (const Rational&) const;
+
+            private:
+                int _num = 0;
+                int _den = 0;
+            };
+
+        } // namespace Math
+    } // namespace Core
+
+    std::ostream & operator << (std::ostream &, const Core::Math::Rational&);
+    std::istream & operator >> (std::istream &, Core::Math::Rational&);
+
+} // namespace djv
+
+#include <djvCore/RationalInline.h>

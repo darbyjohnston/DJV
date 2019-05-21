@@ -5,6 +5,7 @@ set(header
     MemoryTest.h
     ObjectTest.h
     PathTest.h
+	SpeedTest.h
     StringTest.h)
 set(source
 	CacheTest.cpp
@@ -13,6 +14,7 @@ set(source
     MemoryTest.cpp
     ObjectTest.cpp
     PathTest.cpp
+	SpeedTest.cpp
     StringTest.cpp)
 
 add_library(djvCoreTest ${header} ${source})

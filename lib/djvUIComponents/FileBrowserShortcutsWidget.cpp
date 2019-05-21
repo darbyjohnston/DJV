@@ -75,6 +75,8 @@ namespace djv
                         {
                             auto button = ListButton::create(context);
                             button->setText(i.getFileName());
+                            button->setTooltip(i);
+
                             itemLayout->addChild(button);
 
                             const auto path = i;

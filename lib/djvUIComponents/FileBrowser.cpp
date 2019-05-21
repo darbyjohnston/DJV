@@ -48,11 +48,11 @@
 #include <djvUI/Label.h>
 #include <djvUI/PopupWidget.h>
 #include <djvUI/RowLayout.h>
+#include <djvUI/ScrollWidget.h>
 #include <djvUI/SettingsSystem.h>
 #include <djvUI/Shortcut.h>
 #include <djvUI/Splitter.h>
 #include <djvUI/StackLayout.h>
-#include <djvUI/ScrollWidget.h>
 #include <djvUI/ToolBar.h>
 #include <djvUI/ToolButton.h>
 #include <djvUI/Window.h>
@@ -215,9 +215,12 @@ namespace djv
                 vLayout->addChild(UI::ActionButton::create(p.actions["AddShortcut"], context));
                 vLayout->addSeparator();
                 vLayout->addChild(p.drivesWidget);
+                auto scrollWidget = UI::ScrollWidget::create(UI::ScrollType::Vertical, context);
+                scrollWidget->setBorder(false);
+                scrollWidget->addChild(vLayout);
                 p.shortcutsPopupWidget = PopupWidget::create(context);
                 p.shortcutsPopupWidget->setIcon("djvIconBookmark");
-                p.shortcutsPopupWidget->addChild(vLayout);
+                p.shortcutsPopupWidget->addChild(scrollWidget);
 
                 vLayout = VerticalLayout::create(context);
                 vLayout->setSpacing(MetricsRole::None);

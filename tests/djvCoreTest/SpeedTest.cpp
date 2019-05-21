@@ -27,37 +27,36 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#pragma once
+#include <djvCoreTest/SpeedTest.h>
 
-#include <djvUI/Widget.h>
+#include <djvCore/Speed.h>
+
+#include <sstream>
 
 namespace djv
 {
-    namespace ViewApp
+    using namespace Core;
+
+    namespace CoreTest
     {
-        class PlaylistWidget : public UI::Widget
+        SpeedTest::SpeedTest(Core::Context * context) :
+            ITest("djv::CoreTest::SpeedTest", context)
+        {}
+        
+        void SpeedTest::run(int & argc, char ** argv)
         {
-            DJV_NON_COPYABLE(PlaylistWidget);
-
-        protected:
-            void _init(Core::Context*);
-            PlaylistWidget();
-
-        public:
-            ~PlaylistWidget() override;
-
-            static std::shared_ptr<PlaylistWidget> create(Core::Context*);
-
-        protected:
-            void _preLayoutEvent(Core::Event::PreLayout&) override;
-            void _layoutEvent(Core::Event::Layout&) override;
-
-            void _localeEvent(Core::Event::Locale&) override;
-
-        private:
-            DJV_PRIVATE();
-        };
-
-    } // namespace ViewApp
+            {
+                DJV_ASSERT(Core::Time::toRational(Core::Time::FPS::_24) == Core::Math::Rational(24, 1));
+                DJV_ASSERT(Core::Time::FPS::_24 == Core::Time::fromRational(Core::Math::Rational(1, 24)));
+            }
+            {
+                DJV_ASSERT(Core::Time::FPS::_24 == Core::Time::getDefaultSpeed());
+                DJV_ASSERT(Core::Time::FPS::_24 == Core::Time::getGlobalSpeed());
+                Core::Time::setGlobalSpeed(Core::Time::FPS::_25);
+                DJV_ASSERT(Core::Time::FPS::_25 == Core::Time::getGlobalSpeed());
+            }
+        }
+        
+    } // namespace CoreTest
 } // namespace djv
 

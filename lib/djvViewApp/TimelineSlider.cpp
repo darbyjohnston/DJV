@@ -135,7 +135,7 @@ namespace djv
                     auto weak = std::weak_ptr<PIPWidget>(std::dynamic_pointer_cast<PIPWidget>(shared_from_this()));
                     _speedObserver = ValueObserver<Time::Speed>::create(
                         _media->observeSpeed(),
-                        [weak](const Time::Speed& value)
+                        [weak](const Time::Speed & value)
                     {
                         if (auto widget = weak.lock())
                         {
@@ -388,10 +388,7 @@ namespace djv
 
             auto render = _getRender();
             {
-                AVRational r;
-                r.num = p.speed.getDuration();
-                r.den = p.speed.getScale();
-                const Time::Timestamp t = av_rescale_q(1, r, av_get_time_base_q());
+                const Time::Timestamp t = Time::scale(1, p.speed.swap(), Time::getTimebaseRational());
                 if (_timeToPos(t) - _timeToPos(0) > b * 2.f)
                 {
                     auto color = _getColorWithOpacity(style->getColor(UI::ColorRole::Foreground));
@@ -406,10 +403,7 @@ namespace djv
                 }
             }
             {
-                AVRational r;
-                r.num = p.speed.getDuration();
-                r.den = p.speed.getScale();
-                const Time::Timestamp t = av_rescale_q(Time::Speed::speedToFloat(p.speed), r, av_get_time_base_q());
+                const Time::Timestamp t = Time::scale(Math::Rational::toFloat(p.speed), p.speed.swap(), Time::getTimebaseRational());
                 if (_timeToPos(t) - _timeToPos(0) > b * 2.f)
                 {
                     auto color = _getColorWithOpacity(style->getColor(UI::ColorRole::Foreground));
@@ -424,10 +418,7 @@ namespace djv
                 }
             }
             {
-                AVRational r;
-                r.num = p.speed.getDuration();
-                r.den = p.speed.getScale();
-                const Time::Timestamp t = av_rescale_q(60.f * Time::Speed::speedToFloat(p.speed), r, av_get_time_base_q());
+                const Time::Timestamp t = Time::scale(60.f * Math::Rational::toFloat(p.speed), p.speed.swap(), Time::getTimebaseRational());
                 if (_timeToPos(t) - _timeToPos(0) > b * 2.f)
                 {
                     auto color = _getColorWithOpacity(style->getColor(UI::ColorRole::Foreground));
@@ -560,10 +551,7 @@ namespace djv
             const BBox2f& g = getGeometry();
             const float m = style->getMetric(UI::MetricsRole::MarginSmall);
             const double v = (value - m) / static_cast<double>(g.w() - m * 2.f);
-            AVRational r;
-            r.num = p.speed.getDuration();
-            r.den = p.speed.getScale();
-            const Time::Timestamp t = av_rescale_q(1, r, av_get_time_base_q());
+            const Time::Timestamp t = Time::scale(1, p.speed.swap(), Time::getTimebaseRational());
             Time::Timestamp out = p.duration ?
                 Math::clamp(static_cast<Time::Timestamp>(v * (p.duration - t)), static_cast<Time::Timestamp>(0), p.duration - t) :
                 0;
@@ -576,10 +564,7 @@ namespace djv
             auto style = _getStyle();
             const BBox2f& g = getGeometry();
             const float m = style->getMetric(UI::MetricsRole::MarginSmall);
-            AVRational r;
-            r.num = p.speed.getDuration();
-            r.den = p.speed.getScale();
-            const Time::Timestamp t = av_rescale_q(1, r, av_get_time_base_q());
+            const Time::Timestamp t = Time::scale(1, p.speed.swap(), Time::getTimebaseRational());
             const double v = value / static_cast<double>(p.duration - t);
             float out = floorf(g.min.x + m + v * (g.w() - m * 2.f));
             return out;
@@ -591,10 +576,7 @@ namespace djv
             const BBox2f & g = getGeometry();
             auto style = _getStyle();
             const float m = style->getMetric(UI::MetricsRole::MarginSmall);
-            AVRational r;
-            r.num = p.speed.getDuration();
-            r.den = p.speed.getScale();
-            const int64_t t = av_rescale_q(1, r, av_get_time_base_q());
+            const int64_t t = Time::scale(1, p.speed.swap(), Time::getTimebaseRational());
             const float x = p.duration ? floorf(p.currentTime->get() / static_cast<float>(p.duration - t) * (g.w() - 1.f - m * 2.f)) : 0.f;
             BBox2f out = BBox2f(g.min.x + m + x, g.min.y + m, 1.f, g.h() - m * 2.f);
             return out;

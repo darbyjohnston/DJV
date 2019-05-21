@@ -27,57 +27,71 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#pragma once
-
-#include <djvCore/Enum.h>
 #include <djvCore/Rational.h>
+
+#include <djvCore/String.h>
 
 namespace djv
 {
     namespace Core
     {
-        namespace Time
+        namespace Math
         {
-            //! This enumeration provides common speeds.
-            enum class FPS
+            Rational::Rational()
+            {}
+
+            Rational::Rational(int num, int den) :
+                _num(num),
+                _den(den)
+            {}
+
+            float Rational::toFloat(const Rational& value)
             {
-                _1,
-                _3,
-                _6,
-                _12,
-                _15,
-                _16,
-                _18,
-                _23_976,
-                _24,
-                _25,
-                _29_97,
-                _30,
-                _50,
-                _59_94,
-                _60,
-                _120,
+                return value._num / static_cast<float>(value._den);
+            }
 
-                Count
-            };
-            DJV_ENUM_HELPERS(FPS);
-            Math::Rational toRational(FPS);
-            FPS fromRational(const Math::Rational&);
-
-            FPS getDefaultSpeed();
-            FPS getGlobalSpeed();
-            void setGlobalSpeed(FPS);
-
-            class Speed : public Math::Rational
+            Rational Rational::fromFloat(float value)
             {
-            public:
-                Speed();
-                Speed(int scale, int duration = 1);
-            };
+                //! \todo Implement a proper floating-point to rational number conversion.
+                //! Check-out: OpenEXR\IlmImf\ImfRational.h
+                return Rational(static_cast<int>(round(value)), 1);
+            }
 
-        } // namespace Time
+            bool Rational::operator == (const Rational& other) const
+            {
+                return _num == other._num && _den == other._den;
+            }
+
+            bool Rational::operator != (const Rational& other) const
+            {
+                return !(*this == other);
+            }
+
+        } // namespace Math
     } // namespace Core
 
-    DJV_ENUM_SERIALIZE_HELPERS(Core::Time::FPS);
+    std::ostream & operator << (std::ostream & is, const Core::Math::Rational& value)
+    {
+        is << value.getNum() << '/' << value.getDen();
+        return is;
+    }
+
+    std::istream & operator >> (std::istream & os, Core::Math::Rational& value)
+    {
+        std::string s;
+        os >> s;
+        const auto split = Core::String::split(s, '/');
+        if (2 == split.size())
+        {
+            value = Core::Math::Rational(std::stoi(split[0]), std::stoi(split[1]));
+        }
+        else
+        {
+            std::stringstream ss;
+            ss << DJV_TEXT("Cannot parse the value") << " '" << s << "'.";
+            throw std::invalid_argument(ss.str());
+        }
+        return os;
+    }
 
 } // namespace djv

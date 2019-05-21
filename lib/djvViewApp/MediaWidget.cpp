@@ -214,7 +214,7 @@ namespace djv
                 {
                     if (widget->_p->media)
                     {
-                        widget->_p->media->setSpeed(Time::Speed::floatToSpeed(value));
+                        widget->_p->media->setSpeed(Time::Speed::fromFloat(value));
                     }
                 }
             });*/
@@ -456,11 +456,11 @@ namespace djv
         void MediaWidget::_speedUpdate()
         {
             DJV_PRIVATE_PTR();
-            //p.speedEdit->setValue(Time::Speed::speedToFloat(p.speed));
+            //p.speedEdit->setValue(Time::Speed::toFloat(p.speed));
             {
                 std::stringstream ss;
                 ss.precision(2);
-                ss << DJV_TEXT("FPS") << ": " << std::fixed << Time::Speed::speedToFloat(p.speed);
+                ss << DJV_TEXT("FPS") << ": " << std::fixed << Time::Speed::toFloat(p.speed);
                 p.speedButton->setText(ss.str());
             }
         }

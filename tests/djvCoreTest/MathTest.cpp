@@ -30,6 +30,7 @@
 #include <djvCoreTest/MathTest.h>
 
 #include <djvCore/Math.h>
+#include <djvCore/Rational.h>
 
 namespace djv
 {
@@ -44,6 +45,24 @@ namespace djv
             {
                 DJV_ASSERT(Core::Math::clamp(0, 1, 2) == 1);
                 DJV_ASSERT(Core::Math::clamp(3, 1, 2) == 2);
+            }
+            {
+                const Core::Math::Rational r;
+                DJV_ASSERT(0 == r.getNum());
+                DJV_ASSERT(0 == r.getDen());
+                DJV_ASSERT(!r.isValid());
+            }
+            {
+                const Core::Math::Rational r(1, 2);
+                DJV_ASSERT(1 == r.getNum());
+                DJV_ASSERT(2 == r.getDen());
+                DJV_ASSERT(r.isValid());
+            }
+            {
+                const Core::Math::Rational r(2, 2);
+                const float f = Core::Math::Rational::toFloat(r);
+                DJV_ASSERT(1.f == f);
+                DJV_ASSERT(Core::Math::Rational(1, 1) == Core::Math::Rational::fromFloat(f));
             }
         }
         

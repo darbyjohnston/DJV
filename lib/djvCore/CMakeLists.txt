@@ -1,4 +1,3 @@
-find_package(FFmpeg REQUIRED)
 find_package(GLM REQUIRED)
 find_package(PicoJSON REQUIRED)
 find_package(Threads REQUIRED)
@@ -55,6 +54,8 @@ set(header
     PicoJSONTemplatesInline.h
     Range.h
     RangeInline.h
+	Rational.h
+	RationalInline.h
     Ray.h
     RayInline.h
     RecentFilesModel.h
@@ -95,6 +96,7 @@ set(source
     Memory.cpp
     NumericValueModels.cpp
     OS.cpp
+	Rational.cpp
     RecentFilesModel.cpp
     ResourceSystem.cpp
     Path.cpp

@@ -83,7 +83,7 @@ namespace djv
                         for (const auto & i : value)
                         {
                             auto button = ListButton::create(context);
-                            button->setText(i.get());
+                            button->setText(i);
 
                             widget->_p->itemLayout->addChild(button);
 

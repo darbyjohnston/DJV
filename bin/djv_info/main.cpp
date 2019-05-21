@@ -111,7 +111,7 @@ namespace djv
                             std::cout << "        Size: " << video.info.size << std::endl;
                             std::cout << "        Aspect ratio: " << video.info.getAspectRatio() << std::endl;
                             std::cout << "        Type: " << video.info.type << std::endl;
-                            std::cout << "        Speed: " << Core::Time::Speed::speedToFloat(video.speed) << std::endl;
+                            std::cout << "        Speed: " << Core::Math::Rational::toFloat(video.speed) << std::endl;
                             std::cout << "        Duration: " << Core::Time::timestampToSeconds(video.duration) << std::endl;
                             ++i;
                         }

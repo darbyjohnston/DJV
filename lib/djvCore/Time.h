@@ -41,16 +41,21 @@ namespace djv
         //! This namespace provides time functionality.
         namespace Time
         {
-            class Speed;
-
             //! This typedef provides a timestamp.
             typedef int64_t Timestamp;
 
             //! \name Time Conversion
             ///@{
 
-            Frame::Index timestampToFrame(Time::Timestamp, const Time::Speed &);
-            Time::Timestamp frameToTimestamp(Frame::Index, const Time::Speed &);
+            // This is the same timebase as FFmpeg (libavutil.h/avutil.h).
+            const int64_t timebase = 1000000;
+
+            Math::Rational getTimebaseRational();
+
+            Timestamp scale(int64_t, const Math::Rational&, const Math::Rational&);
+
+            Frame::Index timestampToFrame(Timestamp, const Speed&);
+            Timestamp frameToTimestamp(Frame::Index, const Speed&);
 
             double timestampToSeconds(Timestamp);
             Timestamp secondsToTimestamp(double);
@@ -105,8 +110,8 @@ namespace djv
                 int second,
                 int frame);
 
-            inline int64_t timecodeToFrame(uint32_t timecode, const Speed &);
-            inline uint32_t frameToTimecode(int64_t frame, const Speed &);
+            inline int64_t timecodeToFrame(uint32_t timecode, const Math::Rational&);
+            inline uint32_t frameToTimecode(int64_t frame, const Math::Rational&);
 
             std::string timecodeToString(uint32_t);
             void stringToTimecode(const std::string &, uint32_t &, bool * ok = nullptr);

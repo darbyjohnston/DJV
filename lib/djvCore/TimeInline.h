@@ -35,7 +35,7 @@ namespace djv
         {
             inline void secondsToTime(double in, int& hour, int& minute, double& seconds)
             {
-                hour     = in / 60 * 60;
+                hour     = static_cast<int>(in / 60) * 60;
                 in      -= static_cast<int64_t>(hour) * static_cast<int64_t>(60) * static_cast<int64_t>(60);
                 minute   = in / 60;
                 in      -= static_cast<int64_t>(minute) * static_cast<int64_t>(60);
@@ -68,9 +68,9 @@ namespace djv
                     (frame   / 10 & 0x0f) <<  4 | (frame   % 10 & 0x0f) <<  0;
             }
 
-            inline int64_t timecodeToFrame(uint32_t in, const Speed & speed)
+            inline int64_t timecodeToFrame(uint32_t in, const Math::Rational & r)
             {
-                if (!speed.isValid())
+                if (!r.isValid())
                     return 0;
                 int hour    = 0;
                 int minute  = 0;
@@ -82,21 +82,21 @@ namespace djv
                     static_cast<int64_t>(minute) * static_cast<int64_t>(60) +
                     static_cast<int64_t>(seconds)
                     ) *
-                    static_cast<double>(Speed::speedToFloat(speed)) +
+                    static_cast<double>(Math::Rational::toFloat(r)) +
                     static_cast<int64_t>(frame);
             }
 
-            inline uint32_t frameToTimecode(int64_t frame, const Speed & speed)
+            inline uint32_t frameToTimecode(int64_t frame, const Math::Rational& r)
             {
-                if (!speed.isValid())
+                if (!r.isValid())
                     return 0;
-                const float speedF = Speed::speedToFloat(speed);
-                const int hour = static_cast<int>(frame / (speedF * 60 * 60));
-                frame -= static_cast<int64_t>(hour) * double(speedF) * static_cast<int64_t>(60) * static_cast<int64_t>(60);
-                const int minute = static_cast<int>(frame / (speedF * 60));
-                frame -= static_cast<int64_t>(minute) * double(speedF) * static_cast<int64_t>(60);
-                const int second = static_cast<int>(frame / speedF);
-                frame -= static_cast<int64_t>(second) * double(speedF);
+                const float f = Math::Rational::toFloat(r);
+                const int hour = static_cast<int>(frame / (f * 60 * 60));
+                frame -= static_cast<int64_t>(hour) * double(f) * static_cast<int64_t>(60) * static_cast<int64_t>(60);
+                const int minute = static_cast<int>(frame / (f * 60));
+                frame -= static_cast<int64_t>(minute) * double(f) * static_cast<int64_t>(60);
+                const int second = static_cast<int>(frame / f);
+                frame -= static_cast<int64_t>(second) * double(f);
                 return timeToTimecode(hour, minute, second, static_cast<int>(frame));
             }
 

@@ -396,10 +396,7 @@ namespace djv
             DJV_PRIVATE_PTR();
             Time::Timestamp start = 0;
             const auto& speed = p.speed->get();
-            AVRational r;
-            r.num = speed.getDuration();
-            r.den = speed.getScale();
-            const int64_t f = av_rescale_q(1, r, av_get_time_base_q());
+            const int64_t f = Time::scale(1, speed.swap(), Time::getTimebaseRational());
             const Time::Timestamp duration = p.duration->get();
             Time::Timestamp end = duration - f;
             if (p.inOutPointsEnabled->get())
@@ -434,31 +431,22 @@ namespace djv
         void Media::end()
         {
             DJV_PRIVATE_PTR();
-            AVRational r;
             const auto& speed = p.speed->get();
-            r.num = speed.getDuration();
-            r.den = speed.getScale();
-            setCurrentTime(p.duration->get() - av_rescale_q(1, r, av_get_time_base_q()));
+            setCurrentTime(p.duration->get() - Time::scale(1, speed.swap(), Time::getTimebaseRational()));
         }
 
         void Media::nextFrame(size_t value)
         {
             DJV_PRIVATE_PTR();
-            AVRational r;
             const auto& speed = p.speed->get();
-            r.num = speed.getDuration();
-            r.den = speed.getScale();
-            setCurrentTime(p.currentTime->get() + av_rescale_q(value, r, av_get_time_base_q()));
+            setCurrentTime(p.currentTime->get() + Time::scale(value, speed.swap(), Time::getTimebaseRational()));
         }
 
         void Media::prevFrame(size_t value)
         {
             DJV_PRIVATE_PTR();
-            AVRational r;
             const auto& speed = p.speed->get();
-            r.num = speed.getDuration();
-            r.den = speed.getScale();
-            setCurrentTime(p.currentTime->get() - av_rescale_q(value, r, av_get_time_base_q()));
+            setCurrentTime(p.currentTime->get() - Time::scale(value, speed.swap(), Time::getTimebaseRational()));
         }
 
         void Media::setPlayback(Playback value)
@@ -562,19 +550,17 @@ namespace djv
 
                 Time::Timestamp time = 0;
                 const auto& speed = p.speed->get();
-                AVRational r;
-                r.num = speed.getDuration();
-                r.den = speed.getScale();
-                const int64_t f = av_rescale_q(1, r, av_get_time_base_q());
+                const int64_t f = Time::scale(1, speed.swap(), Time::getTimebaseRational());
                 const Time::Timestamp duration = p.duration->get();
                 if (Playback::Forward == playback && p.audioInfo.info.isValid() && p.alSource)
                 {
                     ALint offset = 0;
                     alGetSourcei(p.alSource, AL_BYTE_OFFSET, &offset);
                     Time::Timestamp pts = (p.alBytes + offset) / AV::Audio::getByteCount(p.audioInfo.info.type);
-                    r.num = 1;
-                    r.den = static_cast<int>(p.audioInfo.info.sampleRate);
-                    time = p.timeOffset + av_rescale_q(pts, r, av_get_time_base_q());
+                    time = p.timeOffset + Time::scale(
+                        pts,
+                        Math::Rational(1, static_cast<int>(p.audioInfo.info.sampleRate)),
+                        Time::getTimebaseRational());
                     /*{
                         std::stringstream ss;
                         ss << "audio time = " << time;
@@ -585,17 +571,17 @@ namespace djv
                 {
                     const auto now = std::chrono::system_clock::now();
                     const std::chrono::duration<double> delta = now - p.startTime;
-                    Time::Timestamp pts = static_cast<Time::Timestamp>(delta.count() * speed.getScale() / speed.getDuration());
+                    Time::Timestamp pts = static_cast<Time::Timestamp>(delta.count() * Math::Rational::toFloat(speed));
                     switch (playback)
                     {
-                    case Playback::Forward: time = p.timeOffset + av_rescale_q(pts, r, av_get_time_base_q()); break;
-                    case Playback::Reverse: time = p.timeOffset - av_rescale_q(pts, r, av_get_time_base_q()); break;
+                    case Playback::Forward: time = p.timeOffset + Time::scale(pts, speed.swap(), Time::getTimebaseRational()); break;
+                    case Playback::Reverse: time = p.timeOffset - Time::scale(pts, speed.swap(), Time::getTimebaseRational()); break;
                     default: break;
                     }
                     /*switch (playback)
                     {
-                    case Playback::Forward: time = p.currentTime->get() + av_rescale_q(1, r, av_get_time_base_q()); break;
-                    case Playback::Reverse: time = p.currentTime->get() - av_rescale_q(1, r, av_get_time_base_q()); break;
+                    case Playback::Forward: time = p.currentTime->get() + Time::scale(1, speed.swap()); break;
+                    case Playback::Reverse: time = p.currentTime->get() - Time::scale(1, speed.swap()); break;
                     default: break;
                     }*/
                     /*{

@@ -88,7 +88,7 @@ namespace djv
             return out;
         }
 
-        std::shared_ptr<Core::IValueSubject<TimeUnits> > AVSystem::observeTimeUnits() const
+        std::shared_ptr<IValueSubject<TimeUnits> > AVSystem::observeTimeUnits() const
         {
             return _p->timeUnits;
         }
@@ -98,7 +98,7 @@ namespace djv
             _p->timeUnits->setIfChanged(value);
         }
 
-        std::string AVSystem::getLabel(Time::Timestamp value, const Core::Time::Speed & speed) const
+        std::string AVSystem::getLabel(Time::Timestamp value, const Time::Speed& speed) const
         {
             DJV_PRIVATE_PTR();
             std::string out;
@@ -107,7 +107,7 @@ namespace djv
             {
             case TimeUnits::Timecode:
             {
-                const float speedF = Time::Speed::speedToFloat(speed);
+                const float speedF = Math::Rational::toFloat(speed);
                 const int hours = static_cast<int>(frame / (speedF * 60 * 60));
                 frame -= static_cast<int>(hours * speedF * 60 * 60);
                 const int minutes = static_cast<int>(frame / (speedF * 60));

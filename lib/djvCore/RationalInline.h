@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------
-// Copyright (c) 2004-2018 Darby Johnston
+// Copyright (c) 2004-2019 Darby Johnston
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -27,47 +27,32 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvCoreTest/CacheTest.h>
-#include <djvCoreTest/EnumTest.h>
-#include <djvCoreTest/MathTest.h>
-#include <djvCoreTest/MemoryTest.h>
-#include <djvCoreTest/ObjectTest.h>
-#include <djvCoreTest/PathTest.h>
-#include <djvCoreTest/SpeedTest.h>
-#include <djvCoreTest/StringTest.h>
-
-#include <djvAVTest/AudioTest.h>
-#include <djvAVTest/ColorTest.h>
-#include <djvAVTest/PixelTest.h>
-
-#include <djvCore/Context.h>
-#include <djvCore/Error.h>
-
-using namespace djv;
-
-int main(int argc, char ** argv)
+namespace djv
 {
-    int r = 0;
-    try
+    namespace Core
     {
-        auto context = Core::Context::create(argc, argv);
+        namespace Math
+        {
+            inline int Rational::getNum() const
+            {
+                return _num;
+            }
 
-        (new CoreTest::CacheTest(context.get()))->run(argc, argv);
-        (new CoreTest::EnumTest(context.get()))->run(argc, argv);
-        (new CoreTest::MathTest(context.get()))->run(argc, argv);
-        (new CoreTest::MemoryTest(context.get()))->run(argc, argv);
-        (new CoreTest::ObjectTest(context.get()))->run(argc, argv);
-        (new CoreTest::PathTest(context.get()))->run(argc, argv);
-        (new CoreTest::SpeedTest(context.get()))->run(argc, argv);
-        (new CoreTest::StringTest(context.get()))->run(argc, argv);
+            inline int Rational::getDen() const
+            {
+                return _den;
+            }
 
-        (new AVTest::AudioTest(context.get()))->run(argc, argv);
-        (new AVTest::ColorTest(context.get()))->run(argc, argv);
-        (new AVTest::PixelTest(context.get()))->run(argc, argv);
-    }
-    catch (const std::exception & error)
-    {
-        std::cout << Core::Error::format(error) << std::endl;
-    }
-    return r;
-}
+            inline bool Rational::isValid() const
+            {
+                return _num != 0 && _den != 0;
+            }
+
+            inline Rational Rational::swap() const
+            {
+                return Rational(_den, _num);
+            }
+
+        } // namespace Math
+    } // namespace Core
+} // namespace djv

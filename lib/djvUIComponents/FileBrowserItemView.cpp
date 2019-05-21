@@ -937,7 +937,7 @@ namespace djv
                     ss << _getText(DJV_TEXT("Type")) << ": " << videoInfo.info.type << '\n';
                     ss.precision(2);
                     ss << _getText(DJV_TEXT("Speed")) << ": " <<
-                        Time::Speed::speedToFloat(videoInfo.speed) <<
+                        Math::Rational::toFloat(videoInfo.speed) <<
                         _getText(DJV_TEXT("FPS")) << '\n';
                     ss << _getText(DJV_TEXT("Duration")) << ": " <<
                         Time::getLabel(Time::timestampToSeconds(videoInfo.duration));

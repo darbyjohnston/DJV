@@ -61,6 +61,7 @@ namespace djv
             void ISequenceRead::_init(const std::string & fileName, Context * context)
             {
                 IRead::_init(fileName, context);
+                _speed = Time::Speed();
                 _p->running = true;
                 _p->thread = std::thread(
                     [this]

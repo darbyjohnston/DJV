@@ -42,71 +42,11 @@ namespace djv
         {
             namespace
             {
-                Speed::FPS _globalSpeed = Speed::getDefaultSpeed();
+                FPS _globalSpeed = getDefaultSpeed();
 
             } // namespace
 
-            Speed::Speed()
-            {
-                _set(_globalSpeed);
-            }
-
-            Speed::Speed(int scale, int duration) :
-                _scale(scale),
-                _duration(duration)
-            {}
-
-            Speed::Speed(FPS in)
-            {
-                _set(in);
-            }
-
-            float Speed::speedToFloat(const Speed & speed)
-            {
-                return speed._scale / static_cast<float>(speed._duration);
-            }
-
-            Speed Speed::floatToSpeed(float value)
-            {
-                //! \todo Implement a proper floating-point to rational number conversion.
-                //! Check-out: OpenEXR\IlmImf\ImfRational.h
-                for (size_t i = 0; i < static_cast<size_t>(FPS::Count); ++i)
-                {
-                    const FPS fps = static_cast<FPS>(i);
-                    if (fabs(value - speedToFloat(fps)) < .001f)
-                    {
-                        return fps;
-                    }
-                }
-                return Speed(static_cast<int>(round(value)));
-            }
-
-            Speed::FPS Speed::getDefaultSpeed()
-            {
-                return FPS::_24;
-            }
-
-            Speed::FPS Speed::getGlobalSpeed()
-            {
-                return _globalSpeed;
-            }
-
-            void Speed::setGlobalSpeed(FPS fps)
-            {
-                _globalSpeed = fps;
-            }
-
-            bool Speed::operator == (const Speed & other) const
-            {
-                return _scale == other._scale && _duration == other._duration;
-            }
-
-            bool Speed::operator != (const Speed & other) const
-            {
-                return !(*this == other);
-            }
-
-            void Speed::_set(FPS fps)
+            Math::Rational toRational(FPS fps)
             {
                 const int scale[] =
                 {
@@ -148,15 +88,52 @@ namespace djv
                     1
                 };
                 DJV_ASSERT(static_cast<size_t>(FPS::Count) == sizeof(duration) / sizeof(duration[0]));
-                _scale = scale[static_cast<size_t>(fps)];
-                _duration = duration[static_cast<size_t>(fps)];
+                return Math::Rational(scale[static_cast<size_t>(fps)], duration[static_cast<size_t>(fps)]);
             }
+
+            FPS fromRational(const Math::Rational& value)
+            {
+                //! \todo Implement a proper floating-point to rational number conversion.
+                //! Check-out: OpenEXR\IlmImf\ImfRational.h
+                for (size_t i = 0; i < static_cast<size_t>(FPS::Count); ++i)
+                {
+                    const FPS fps = static_cast<FPS>(i);
+                    if (fabs(Math::Rational::toFloat(value) - Math::Rational::toFloat(toRational(fps))) < .001f)
+                    {
+                        return fps;
+                    }
+                }
+                return getGlobalSpeed();
+            }
+
+            FPS getDefaultSpeed()
+            {
+                return FPS::_24;
+            }
+
+            FPS getGlobalSpeed()
+            {
+                return _globalSpeed;
+            }
+
+            void setGlobalSpeed(FPS fps)
+            {
+                _globalSpeed = fps;
+            }
+
+            Speed::Speed() :
+                Math::Rational(toRational(getGlobalSpeed()))
+            {}
+
+            Speed::Speed(int scale, int duration) :
+                Math::Rational(scale, duration)
+            {}
 
         } // namespace Time
     } // namespace Core
 
     DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
-        Core::Time::Speed,
+        Core::Time,
         FPS,
         "1",
         "3",
@@ -174,29 +151,5 @@ namespace djv
         "59.94",
         "60",
         "120");
-
-    std::ostream & operator << (std::ostream & is, const Core::Time::Speed & value)
-    {
-        is << value.getScale() << '/' << value.getDuration();
-        return is;
-    }
-
-    std::istream & operator >> (std::istream & os, Core::Time::Speed & value)
-    {
-        std::string s;
-        os >> s;
-        const auto split = Core::String::split(s, '/');
-        if (2 == split.size())
-        {
-            value = Core::Time::Speed(std::stoi(split[0]), std::stoi(split[1]));
-        }
-        else
-        {
-            std::stringstream ss;
-            ss << DJV_TEXT("Cannot parse the value") << " '" << s << "'.";
-            throw std::invalid_argument(ss.str());
-        }
-        return os;
-    }
 
 } // namespace djv
