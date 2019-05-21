@@ -66,6 +66,11 @@ namespace djv
                 {
                     struct File
                     {
+                        File()
+                        {
+                            memset(&pngError, 0, sizeof(ErrorStruct));
+                        }
+
                         ~File()
                         {
                             if (png || pngInfo)

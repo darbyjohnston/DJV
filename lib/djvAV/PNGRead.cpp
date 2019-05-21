@@ -44,6 +44,11 @@ namespace djv
             {
                 struct Read::File
                 {
+                    File()
+                    {
+                        memset(&pngError, 0, sizeof(ErrorStruct));
+                    }
+
                     ~File()
                     {
                         if (png || pngInfo || pngInfoEnd)

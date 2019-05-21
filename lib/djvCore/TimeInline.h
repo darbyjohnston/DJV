@@ -92,11 +92,11 @@ namespace djv
                     return 0;
                 const float f = Math::Rational::toFloat(r);
                 const int hour = static_cast<int>(frame / (f * 60 * 60));
-                frame -= static_cast<int64_t>(hour) * double(f) * static_cast<int64_t>(60) * static_cast<int64_t>(60);
+                frame -= static_cast<int64_t>(hour) * static_cast<double>(f) * static_cast<int64_t>(60) * static_cast<int64_t>(60);
                 const int minute = static_cast<int>(frame / (f * 60));
-                frame -= static_cast<int64_t>(minute) * double(f) * static_cast<int64_t>(60);
+                frame -= static_cast<int64_t>(minute) * static_cast<double>(f) * static_cast<int64_t>(60);
                 const int second = static_cast<int>(frame / f);
-                frame -= static_cast<int64_t>(second) * double(f);
+                frame -= static_cast<int64_t>(second) * static_cast<double>(f);
                 return timeToTimecode(hour, minute, second, static_cast<int>(frame));
             }
 

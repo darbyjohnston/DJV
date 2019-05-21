@@ -91,7 +91,7 @@ namespace djv
                 std::shared_ptr<DrawerLayout> layout;
                 std::vector<Event::PointerID> pointerHover;
                 Event::PointerID pressedID = Event::InvalidID;
-                glm::vec2 pressedPos;
+                glm::vec2 pressedPos = glm::vec2(0.f, 0.f);
                 float pressedSize = 0.f;
             };
 

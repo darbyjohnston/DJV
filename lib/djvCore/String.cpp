@@ -121,7 +121,7 @@ namespace djv
                     {
                         if (j < isize - 1)
                         {
-                            fromString(s + j + 1, isize - j - 1, e);
+                            fromString(s + j + 1, isize - static_cast<size_t>(j) - static_cast<size_t>(1), e);
                         }
                         isize = j;
                         break;

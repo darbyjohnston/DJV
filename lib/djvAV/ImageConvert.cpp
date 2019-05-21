@@ -59,7 +59,7 @@ namespace djv
                 std::shared_ptr<AV::OpenGL::VBO> vbo;
                 std::shared_ptr<AV::OpenGL::VAO> vao;
                 std::shared_ptr<AV::OpenGL::Shader> shader;
-                glm::mat4x4 mvp;
+                glm::mat4x4 mvp = glm::mat4x4(1.f);
             };
 
             void Convert::_init(Context * context)

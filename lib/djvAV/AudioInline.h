@@ -44,13 +44,13 @@ namespace djv
             inline Type getIntType(size_t value)
             {
                 const Type data[] = { Type::None, Type::U8, Type::S16, Type::None, Type::S32 };
-                return value < sizeof(data) ? data[value] : Type::None;
+                return value < sizeof(data) / sizeof(data[0]) ? data[value] : Type::None;
             }
 
             inline Type getFloatType(size_t value)
             {
                 const Type data[] = { Type::None, Type::None, Type::None, Type::None, Type::F32 };
-                return value < sizeof(data) ? data[value] : Type::None;
+                return value < sizeof(data) / sizeof(data[0]) ? data[value] : Type::None;
             }
 
             inline ALenum getALType(size_t channels, Type type)
@@ -140,7 +140,7 @@ namespace djv
             inline void F32ToS32(F32_T value, S32_T & out)
             {
                 out = static_cast<S32_T>(Core::Math::clamp(
-                    static_cast<int64_t>(value * S32Max),
+                    static_cast<int64_t>(static_cast<int64_t>(value) * S32Max),
                     static_cast<int64_t>(S32Min),
                     static_cast<int64_t>(S32Max)));
             }

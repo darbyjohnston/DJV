@@ -44,6 +44,11 @@ namespace djv
             {
                 struct Read::File
                 {
+                    File()
+                    {
+                        memset(&jpeg, 0, sizeof(jpeg_decompress_struct));
+                    }
+
                     ~File()
                     {
                         if (jpegInit)

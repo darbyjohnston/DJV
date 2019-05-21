@@ -93,7 +93,7 @@ namespace djv
                     glm::vec2 shortcutSize;
                     bool enabled = true;
                     glm::vec2 size;
-                    BBox2f geom;
+                    BBox2f geom = BBox2f(0.f, 0.f, 0.f, 0.f);
                 };
 
                 std::shared_ptr<Item> _getItem(const glm::vec2 &) const;

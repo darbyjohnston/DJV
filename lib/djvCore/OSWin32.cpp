@@ -41,6 +41,7 @@
 #include <windows.h>
 #include <Shlobj.h>
 #include <stdlib.h>
+#include <VersionHelpers.h>
 
 #include <codecvt>
 #include <locale>
@@ -85,40 +86,21 @@ namespace djv
                 Windows windowsVersion()
                 {
                     Windows out = Windows::Unknown;
-
-                    // Get OS version information.
-                    OSVERSIONINFOEX info;
-                    memset(&info, 0, sizeof(OSVERSIONINFOEX));
-                    info.dwOSVersionInfoSize = sizeof(OSVERSIONINFOEX);
-                    if (!::GetVersionEx((OSVERSIONINFO *)&info))
-                        return out;
-
-                    // Get system information.
-                    SYSTEM_INFO systemInfo;
-                    memset(&systemInfo, 0, sizeof(SYSTEM_INFO));
-                    if (PGNSI pGNSI = (PGNSI)::GetProcAddress(GetModuleHandle(TEXT("kernel32.dll")), "GetNativeSystemInfo"))
+                    if (IsWindows10OrGreater())
                     {
-                        pGNSI(&systemInfo);
-                    }
-                    else
-                    {
-                        GetSystemInfo(&systemInfo);
-                    }
-
-                    // Use OS version and system information to determnine the version name.
-                    switch (info.dwMajorVersion)
-                    {
-                    case 6:
-                        switch (info.dwMinorVersion)
-                        {
-                        case 1: out = Windows::_7;   break;
-                        case 2: out = Windows::_8;   break;
-                        case 3: out = Windows::_8_1; break;
-                        }
-                        break;
-                    case 10:
                         out = Windows::_10;
-                        break;
+                    }
+                    else if (IsWindows8Point1OrGreater())
+                    {
+                        out = Windows::_8_1;
+                    }
+                    else if (IsWindows8OrGreater())
+                    {
+                        out = Windows::_8;
+                    }
+                    else if (IsWindows7OrGreater())
+                    {
+                        out = Windows::_7;
                     }
                     return out;
                 }
@@ -184,6 +166,7 @@ namespace djv
             {
                 FileSystem::Path out;
                 KNOWNFOLDERID id;
+                memset(&id, 0, sizeof(KNOWNFOLDERID));
                 switch (value)
                 {
                 case DirectoryShortcut::Home:      id = FOLDERID_Profile;   break;

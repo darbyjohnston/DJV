@@ -450,6 +450,7 @@ struct FSeqDirEntry* fseqDirList(const char* path, const struct FSeqDirOptions* 
 #if defined(WIN32)
 
     static char glob[FSEQ_STRING_LEN];
+    const size_t len = strlen(path);
     memcpy(glob, path, len);
     glob[len] = '\\';
     glob[len + 1] = '*';

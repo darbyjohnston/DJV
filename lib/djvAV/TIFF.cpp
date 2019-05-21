@@ -54,7 +54,7 @@ namespace djv
                     case 1:
                     {
                         const uint8_t * inP = in + size - 1;
-                        uint8_t * outP = in + (size - 1) * 3;
+                        uint8_t * outP = in + (size_t(size) - 1) * 3;
                         for (int x = 0; x < size; ++x, outP -= 3)
                         {
                             const uint8_t index = *inP--;
@@ -67,7 +67,7 @@ namespace djv
                     case 2:
                     {
                         const uint16_t * inP = reinterpret_cast<const uint16_t *>(in) + size - 1;
-                        uint16_t * outP = reinterpret_cast<uint16_t *>(in) + (size - 1) * 3;
+                        uint16_t * outP = reinterpret_cast<uint16_t *>(in) + (size_t(size) - 1) * 3;
                         for (int x = 0; x < size; ++x, outP -= 3)
                         {
                             const uint16_t index = *inP--;

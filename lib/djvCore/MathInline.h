@@ -93,14 +93,14 @@ namespace djv
                 {
                     return 1.f;
                 }
-                const float tmp = log(1.f - gain) / log(.5f);
+                const float tmp = logf(1.f - gain) / logf(.5f);
                 if (value < .5f)
                 {
-                    return pow(2.f * value, tmp) / 2.f;
+                    return powf(2.f * value, tmp) / 2.f;
                 }
                 else
                 {
-                    return 1.f - pow(2.f * (1.f - value), tmp) / 2.f;
+                    return 1.f - powf(2.f * (1.f - value), tmp) / 2.f;
                 }
             }
 

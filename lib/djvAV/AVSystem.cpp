@@ -109,11 +109,11 @@ namespace djv
             {
                 const float speedF = Math::Rational::toFloat(speed);
                 const int hours = static_cast<int>(frame / (speedF * 60 * 60));
-                frame -= static_cast<int>(hours * speedF * 60 * 60);
+                frame -= static_cast<int64_t>(hours * static_cast<double>(speedF)) * 60 * 60;
                 const int minutes = static_cast<int>(frame / (speedF * 60));
-                frame -= static_cast<int>(minutes * speedF * 60);
+                frame -= static_cast<int64_t>(minutes * static_cast<double>(speedF)) * 60;
                 const int seconds = static_cast<int>(frame / speedF);
-                frame -= static_cast<int>(seconds * speedF);
+                frame -= static_cast<int64_t>(seconds * static_cast<double>(speedF));
                 std::stringstream ss;
                 ss << std::setfill('0') << std::setw(2) << hours;
                 ss << std::setw(0) << ":";

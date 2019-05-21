@@ -422,7 +422,7 @@ namespace djv
                 }
             }
             {
-                const Time::Timestamp t = Time::scale(60.f * Math::Rational::toFloat(p.speed), p.speed.swap(), Time::getTimebaseRational());
+                const Time::Timestamp t = Time::scale(60.f * static_cast<double>(Math::Rational::toFloat(p.speed)), p.speed.swap(), Time::getTimebaseRational());
                 if (_timeToPos(t) - _timeToPos(0) > b * 2.f)
                 {
                     auto color = _getColorWithOpacity(style->getColor(UI::ColorRole::Foreground));
@@ -557,7 +557,8 @@ namespace djv
             auto style = _getStyle();
             const BBox2f& g = getGeometry();
             const float m = style->getMetric(UI::MetricsRole::MarginSmall);
-            const double v = (value - m) / static_cast<double>(g.w() - m * 2.f);
+            const double v = (static_cast<double>(value - static_cast<double>(m))) /
+                (static_cast<double>(g.w()) - static_cast<double>(m) * 2);
             const Time::Timestamp t = Time::scale(1, p.speed.swap(), Time::getTimebaseRational());
             Time::Timestamp out = p.duration ?
                 Math::clamp(static_cast<Time::Timestamp>(v * (p.duration - t)), static_cast<Time::Timestamp>(0), p.duration - t) :
@@ -573,7 +574,7 @@ namespace djv
             const float m = style->getMetric(UI::MetricsRole::MarginSmall);
             const Time::Timestamp t = Time::scale(1, p.speed.swap(), Time::getTimebaseRational());
             const double v = value / static_cast<double>(p.duration - t);
-            float out = floorf(g.min.x + m + v * (g.w() - m * 2.f));
+            float out = floorf(g.min.x + m + v * (static_cast<double>(g.w()) - static_cast<double>(m) * 2.0));
             return out;
         }
 

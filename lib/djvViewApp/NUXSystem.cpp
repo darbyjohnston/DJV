@@ -93,8 +93,8 @@ namespace djv
                 {
                     std::shared_ptr<AV::Image::Image> image;
                     float size = 0.f;
-                    glm::vec2 pos;
-                    glm::vec2 vel;
+                    glm::vec2 pos = glm::vec2(0.f, 0.f);
+                    glm::vec2 vel = glm::vec2(0.f, 0.f);
                     float age = 0.f;
                     float lifespan = 0.f;
                 };

@@ -69,6 +69,11 @@ namespace djv
                 {
                     struct File
                     {
+                        File()
+                        {
+                            memset(&jpeg, 0, sizeof(jpeg_compress_struct));
+                        }
+
                         ~File()
                         {
                             if (jpegInit)

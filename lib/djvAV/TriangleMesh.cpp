@@ -105,9 +105,9 @@ namespace djv
 
             void TriangleMesh::calcNormals(TriangleMesh & mesh)
             {
-                const int trianglesSize = int(mesh.triangles.size());
+                const size_t trianglesSize = mesh.triangles.size();
                 mesh.n.resize(trianglesSize);
-                for (int i = 0; i < trianglesSize; ++i)
+                for (size_t i = 0; i < trianglesSize; ++i)
                 {
                     auto & tri = mesh.triangles[i];
                     const size_t p0 = tri.v0.v;

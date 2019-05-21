@@ -187,19 +187,31 @@ namespace djv
                     char * tag = 0;
                     if (TIFFGetField(f.f, TIFFTAG_ARTIST, &tag))
                     {
-                        tags.setTag("Creator", tag);
+                        if (tag)
+                        {
+                            tags.setTag("Creator", tag);
+                        }
                     }
                     if (TIFFGetField(f.f, TIFFTAG_IMAGEDESCRIPTION, &tag))
                     {
-                        tags.setTag("Description", tag);
+                        if (tag)
+                        {
+                            tags.setTag("Description", tag);
+                        }
                     }
                     if (TIFFGetField(f.f, TIFFTAG_COPYRIGHT, &tag))
                     {
-                        tags.setTag("Copyright", tag);
+                        if (tag)
+                        {
+                            tags.setTag("Copyright", tag);
+                        }
                     }
                     if (TIFFGetField(f.f, TIFFTAG_DATETIME, &tag))
                     {
-                        tags.setTag("Time", tag);
+                        if (tag)
+                        {
+                            tags.setTag("Time", tag);
+                        }
                     }
 
                     auto imageInfo = Image::Info(width, height, imageType, layout);

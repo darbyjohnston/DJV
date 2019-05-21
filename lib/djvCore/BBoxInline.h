@@ -35,12 +35,28 @@ namespace djv
     {
         namespace BBox
         {
-            template<typename T, glm::precision P>
-            constexpr tBBox2<T, P>::tBBox2()
+            template<>
+            constexpr tBBox2<int>::tBBox2() :
+                min(0, 0),
+                max(0, 0)
             {}
 
-            template<typename T, glm::precision P>
-            constexpr tBBox3<T, P>::tBBox3()
+            template<>
+            constexpr tBBox2<float>::tBBox2() :
+                min(0.f, 0.f),
+                max(0.f, 0.f)
+            {}
+
+            template<>
+            constexpr tBBox3<int>::tBBox3() :
+                min(0, 0, 0),
+                max(0, 0, 0)
+            {}
+
+            template<>
+            constexpr tBBox3<float>::tBBox3() :
+                min(0.f, 0.f, 0.f),
+                max(0.f, 0.f, 0.f)
             {}
 
             template<typename T, glm::precision P>

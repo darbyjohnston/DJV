@@ -837,7 +837,7 @@ namespace djv
                             {
                                 memcpy(
                                     imageData->getData(y),
-                                    bitmap->bitmap.buffer + y * bitmap->bitmap.pitch,
+                                    bitmap->bitmap.buffer + static_cast<size_t>(y) * bitmap->bitmap.pitch,
                                     imageInfo.size.x * renderModeChannels);
                             }
                             out->imageData = imageData;
