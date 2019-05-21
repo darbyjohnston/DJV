@@ -382,7 +382,6 @@ namespace djv
                                 if (rect.contains(pointerInfo.projectedPos))
                                 {
                                     event.accept();
-                                    const auto i = p.hovered.find(pointerInfo.id);
                                     Hovered hovered;
                                     hovered.widget = widget;
                                     hovered.handle = handle.first;

@@ -257,7 +257,6 @@ namespace djv
             void Tool::_paintEvent(Event::Paint& event)
             {
                 Widget::_paintEvent(event);
-                DJV_PRIVATE_PTR();
                 const BBox2f& g = getGeometry();
                 auto render = _getRender();
                 auto style = _getStyle();

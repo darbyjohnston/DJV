@@ -436,7 +436,6 @@ struct FSeqDirEntry* fseqDirList(const char* path, const struct FSeqDirOptions* 
 {
     struct FSeqDirEntry*  out        = NULL;
     struct FSeqDirEntry*  entry      = NULL;
-    const size_t          len        = strlen(path);
     struct _DirEntry*     _entries   = NULL;
     struct _DirEntry*     _entry     = NULL;
     struct _DirEntry*     _lastEntry = NULL;
@@ -645,8 +644,6 @@ struct FSeqDirEntry* fseqDirList(const char* path, const struct FSeqDirOptions* 
     _entry = _entries;
     while (_entry)
     {
-        struct _DirEntry* tmp = _entry;
-        
         if (!out)
         {
             out = (struct FSeqDirEntry*)malloc(sizeof(struct FSeqDirEntry));

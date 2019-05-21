@@ -190,7 +190,6 @@ namespace djv
         void HelpSystem::_textUpdate()
         {
             DJV_PRIVATE_PTR();
-            auto context = getContext();
             p.actions["Documentation"]->setText(_getText(DJV_TEXT("Documentation")));
             p.actions["Documentation"]->setTooltip(_getText(DJV_TEXT("Documentation tooltip")));
             p.actions["About"]->setText(_getText(DJV_TEXT("About")));

@@ -217,7 +217,6 @@ namespace djv
 
             p.arrowCursor = glfwCreateStandardCursor(GLFW_ARROW_CURSOR);
 
-            static uint32_t pixel = 0;
             GLFWimage image;
             image.width = 1;
             image.height = 1;

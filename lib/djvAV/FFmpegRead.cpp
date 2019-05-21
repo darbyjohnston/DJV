@@ -77,8 +77,8 @@ namespace djv
                 {
                     IRead::_init(fileName, context);
                     DJV_PRIVATE_PTR();
-                    _p->running = true;
-                    _p->thread = std::thread(
+                    p.running = true;
+                    p.thread = std::thread(
                         [this]
                     {
                         DJV_PRIVATE_PTR();

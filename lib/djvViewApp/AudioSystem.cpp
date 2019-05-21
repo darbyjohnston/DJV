@@ -208,7 +208,6 @@ namespace djv
         void AudioSystem::_textUpdate()
         {
             DJV_PRIVATE_PTR();
-            auto context = getContext();
             p.actions["IncreaseVolume"]->setText(_getText(DJV_TEXT("Increase Volume")));
             p.actions["IncreaseVolume"]->setTooltip(_getText(DJV_TEXT("Increase volume tooltip")));
             p.actions["DecreaseVolume"]->setText(_getText(DJV_TEXT("Decrease Volume")));

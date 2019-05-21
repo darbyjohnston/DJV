@@ -49,8 +49,6 @@ namespace djv
         {
             ISystem::_init("djv::UI::UIComponentsSystem", context);
 
-            DJV_PRIVATE_PTR();
-
             Settings::FileBrowser::create(context);
 
             auto fileBrowserDialogSystem = FileBrowser::DialogSystem::create(context);

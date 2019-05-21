@@ -329,9 +329,7 @@ namespace djv
         }
 
         void MDIWidget::_localeEvent(Event::Locale& event)
-        {
-            DJV_PRIVATE_PTR();
-        }
+        {}
 
     } // namespace ViewApp
 } // namespace djv

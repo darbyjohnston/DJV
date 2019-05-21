@@ -341,11 +341,9 @@ namespace djv
             void ItemView::_paintEvent(Event::Paint & event)
             {
                 DJV_PRIVATE_PTR();
-                const BBox2f & g = getGeometry();
                 auto style = _getStyle();
                 const float m = style->getMetric(MetricsRole::MarginSmall);
                 const float s = style->getMetric(MetricsRole::SpacingSmall);
-                const float b = style->getMetric(MetricsRole::Border);
 
                 auto render = _getRender();
                 {
@@ -654,7 +652,6 @@ namespace djv
                     {
                         if (i.first < p.items.size())
                         {
-                            auto context = getContext();
                             const auto & fileInfo = p.items[i.first];
                             const auto j = p.ioInfo.find(i.first);
                             if (j != p.ioInfo.end())

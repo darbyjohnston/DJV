@@ -168,7 +168,6 @@ namespace djv
         void ImageViewSystem::_textUpdate()
         {
             DJV_PRIVATE_PTR();
-            auto context = getContext();
             p.actions["Navigation"]->setText(_getText(DJV_TEXT("Navigation")));
             p.actions["Navigation"]->setTooltip(_getText(DJV_TEXT("Navigation tooltip")));
             p.actions["Left"]->setText(_getText(DJV_TEXT("Left")));

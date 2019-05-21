@@ -106,7 +106,6 @@ namespace djv
 
             void Dialog::_localeEvent(Event::Locale& event)
             {
-                DJV_PRIVATE_PTR();
                 setTitle(_getText(DJV_TEXT("File Browser")));
             }
 

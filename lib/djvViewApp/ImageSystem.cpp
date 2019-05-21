@@ -158,7 +158,6 @@ namespace djv
         void ImageSystem::_textUpdate()
         {
             DJV_PRIVATE_PTR();
-            auto context = getContext();
             p.actions["ColorManager"]->setText(_getText(DJV_TEXT("Color Manager")));
             p.actions["ColorManager"]->setTooltip(_getText(DJV_TEXT("Color manager tooltip")));
             p.actions["ColorChannels"]->setText(_getText(DJV_TEXT("Color channels")));

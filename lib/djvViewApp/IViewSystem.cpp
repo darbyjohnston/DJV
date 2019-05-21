@@ -57,8 +57,6 @@ namespace djv
         {
             ISystem::_init(name, context);
 
-            DJV_PRIVATE_PTR();
-
             addDependency(context->getSystemT<UI::UIComponentsSystem>());
         }
             

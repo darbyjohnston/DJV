@@ -285,7 +285,6 @@ namespace djv
             void List::_paintEvent(Event::Paint& event)
             {
                 IButton::_paintEvent(event);
-                DJV_PRIVATE_PTR();
                 auto render = _getRender();
                 auto style = _getStyle();
                 const BBox2f& g = getGeometry();

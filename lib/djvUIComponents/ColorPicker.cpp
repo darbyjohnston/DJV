@@ -371,7 +371,6 @@ namespace djv
             DJV_PRIVATE_PTR();
             const auto type = p.color.getType();
             const size_t channelCount = AV::Image::getChannelCount(type);
-            auto context = getContext();
             for (size_t i = 0; i < channelCount; ++i)
             {
                 if (AV::Image::isIntType(type))

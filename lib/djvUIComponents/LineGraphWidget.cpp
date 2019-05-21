@@ -128,7 +128,6 @@ namespace djv
             DJV_PRIVATE_PTR();
             auto style = _getStyle();
             const BBox2f& g = getGeometry();
-            const float m = style->getMetric(MetricsRole::MarginSmall);
             const float b = style->getMetric(MetricsRole::Border) * 2.f;
             const float w = g.w();
             p.samplesSize = static_cast<size_t>(w > 0.f ? (g.w() / b) : 0.f);

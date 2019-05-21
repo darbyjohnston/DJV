@@ -251,7 +251,6 @@ namespace djv
                 DJV_PRIVATE_PTR();
                 auto style = _getStyle();
                 const auto hg = _getHandleGeometry();
-                const float b = style->getMetric(MetricsRole::Border);
 
                 auto render = _getRender();
                 size_t i = 0;

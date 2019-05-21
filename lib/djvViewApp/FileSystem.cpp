@@ -453,7 +453,6 @@ namespace djv
         void FileSystem::_textUpdate()
         {
             DJV_PRIVATE_PTR();
-            auto context = getContext();
             p.actions["Open"]->setText(_getText(DJV_TEXT("Open")));
             p.actions["Open"]->setTooltip(_getText(DJV_TEXT("Open tooltip")));
             p.actions["Recent"]->setText(_getText(DJV_TEXT("Recent")));

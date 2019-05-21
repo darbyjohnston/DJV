@@ -274,7 +274,6 @@ namespace djv
 
             void Push::_paintEvent(Event::Paint& event)
             {
-                DJV_PRIVATE_PTR();
                 auto style = _getStyle();
                 const float b = style->getMetric(MetricsRole::Border);
                 const BBox2f& g = getMargin().bbox(getGeometry(), style);

@@ -323,7 +323,6 @@ namespace djv
 
         void MainWindow::_localeEvent(Core::Event::Locale & event)
         {
-            DJV_PRIVATE_PTR();
             _textUpdate();
         }
 

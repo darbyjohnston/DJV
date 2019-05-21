@@ -129,7 +129,6 @@ namespace djv
         {
             try
             {
-                auto context = getContext();
                 const auto log = FileSystem::FileIO::readLines(_getResourceSystem()->getPath(FileSystem::ResourcePath::LogFile));
                 _p->textBlock->setText(String::join(log, '\n'));
             }

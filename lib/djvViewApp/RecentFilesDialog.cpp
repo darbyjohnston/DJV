@@ -267,7 +267,6 @@ namespace djv
             p.actions["DecreaseThumbnailSize"]->setText(_getText(DJV_TEXT("Decrease Thumbnail Size")));
             p.actions["DecreaseThumbnailSize"]->setTooltip(_getText(DJV_TEXT("Recent files decrease thumbnail size tooltip")));
 
-            auto context = getContext();
             p.itemCountLabel->setText(_getItemCountLabel(p.itemCount));
 
             p.searchBox->setTooltip(_getText(DJV_TEXT("Recent files search tooltip")));

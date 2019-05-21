@@ -192,9 +192,6 @@ namespace djv
             DJV_PRIVATE_PTR();
             float out = 0.f;
             auto style = _getStyle();
-            const auto fontInfo = p.fontFamily.empty() ?
-                style->getFontInfo(p.fontFace, p.fontSizeRole) :
-                style->getFontInfo(p.fontFamily, p.fontFace, p.fontSizeRole);
             const float w = value - getMargin().getWidth(style);
             _calcSize(w);
             out = p.textSize.y + getMargin().getHeight(style);
@@ -304,7 +301,6 @@ namespace djv
         {
             DJV_PRIVATE_PTR();
             auto style = _getStyle();
-            const BBox2f & g = getMargin().bbox(getGeometry(), style);
             auto fontInfo = p.fontFamily.empty() ?
                 style->getFontInfo(p.fontFace, p.fontSizeRole) :
                 style->getFontInfo(p.fontFamily, p.fontFace, p.fontSizeRole);

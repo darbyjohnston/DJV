@@ -160,7 +160,6 @@ namespace djv
                 const float m = style->getMetric(MetricsRole::MarginSmall);
                 const float s = style->getMetric(MetricsRole::Spacing);
                 const float b = style->getMetric(MetricsRole::Border);
-                const float iconSize = style->getMetric(MetricsRole::IconSmall);
 
                 for (auto & i : _fontMetricsFutures)
                 {
@@ -280,8 +279,6 @@ namespace djv
                 const BBox2f & g = getGeometry();
                 auto style = _getStyle();
                 const float m = style->getMetric(MetricsRole::MarginSmall);
-                const float s = style->getMetric(MetricsRole::Spacing);
-                const float iconSize = style->getMetric(MetricsRole::IconSmall);
 
                 auto render = _getRender();
                 for (const auto & i : _items)

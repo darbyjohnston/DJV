@@ -90,7 +90,7 @@ namespace djv
             {
                 auto out = std::unique_ptr<Application>(new Application);
                 out->_init(argc, argv);
-                return std::move(out);
+                return out;
             }
 
         private:

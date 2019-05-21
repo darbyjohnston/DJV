@@ -224,7 +224,6 @@ namespace djv
         void ToolSystem::_textUpdate()
         {
             DJV_PRIVATE_PTR();
-            auto context = getContext();
             p.actions["Magnifier"]->setText(_getText(DJV_TEXT("Magnifier")));
             p.actions["Magnifier"]->setTooltip(_getText(DJV_TEXT("Magnifier tooltip")));
             p.actions["ColorPicker"]->setText(_getText(DJV_TEXT("Color Picker")));

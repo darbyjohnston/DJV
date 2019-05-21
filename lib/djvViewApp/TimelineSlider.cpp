@@ -189,7 +189,6 @@ namespace djv
 
             void PIPWidget::_layoutEvent(Event::Layout&)
             {
-                const BBox2f& g = getGeometry();
                 const glm::vec2 size = _layout->getMinimumSize();
                 const glm::vec2 pos(
                     Math::clamp(_pipPos.x - floorf(size.x / 2.f), _timelineGeometry.min.x, _timelineGeometry.max.x - size.x),
@@ -389,7 +388,6 @@ namespace djv
             auto style = _getStyle();
             const float m = style->getMetric(UI::MetricsRole::MarginSmall);
             const float b = style->getMetric(UI::MetricsRole::Border);
-            const float h = style->getMetric(UI::MetricsRole::Handle);
             const BBox2f & hg = _getHandleGeometry();
 
             auto render = _getRender();

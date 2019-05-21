@@ -862,7 +862,6 @@ namespace djv
                     }
                 );
 
-                auto context = getContext();
                 p.itemCountLabel->setText(_getItemCountLabel(p.itemCount));
 
                 p.shortcutsPopupWidget->setTooltip(_getText(DJV_TEXT("Shortcuts tooltip")));

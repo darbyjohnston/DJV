@@ -338,7 +338,6 @@ namespace djv
         void WindowSystem::_textUpdate()
         {
             DJV_PRIVATE_PTR();
-            auto context = getContext();
             p.actions["Fit"]->setText(_getText(DJV_TEXT("Fit To Image")));
             p.actions["Fit"]->setTooltip(_getText(DJV_TEXT("Fit to image tooltip")));
             p.actions["FullScreen"]->setText(_getText(DJV_TEXT("Full Screen")));

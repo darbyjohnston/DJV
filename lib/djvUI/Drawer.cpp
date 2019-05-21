@@ -318,7 +318,6 @@ namespace djv
                     {
                         event.accept();
                         auto style = _getStyle();
-                        const float sh = style->getMetric(MetricsRole::Shadow);
                         const BBox2f& g = getGeometry();
                         const float w = g.w();
                         const float h = g.h();
@@ -362,8 +361,6 @@ namespace djv
                 }
                 case Event::Type::ButtonRelease:
                 {
-                    Event::ButtonRelease& buttonReleaseEvent = static_cast<Event::ButtonRelease&>(event);
-                    const auto& pointerInfo = buttonReleaseEvent.getPointerInfo();
                     if (auto widget = std::dynamic_pointer_cast<Widget>(object))
                     {
                         event.accept();

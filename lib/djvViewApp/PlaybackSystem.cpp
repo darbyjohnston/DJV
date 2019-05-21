@@ -447,7 +447,6 @@ namespace djv
         void PlaybackSystem::_textUpdate()
         {
             DJV_PRIVATE_PTR();
-            auto context = getContext();
             p.actions["Forward"]->setText(_getText(DJV_TEXT("Forward")));
             p.actions["Forward"]->setTooltip(_getText(DJV_TEXT("Forward tooltip")));
             p.actions["Reverse"]->setText(_getText(DJV_TEXT("Reverse")));
