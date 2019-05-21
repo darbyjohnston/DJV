@@ -52,7 +52,7 @@ namespace djv
         {
             struct Convert::Private
             {
-                glm::ivec2 size;
+                glm::ivec2 size = glm::ivec2(0, 0);
                 Mirror mirror;
                 std::shared_ptr<OpenGL::OffscreenBuffer> offscreenBuffer;
                 std::shared_ptr<AV::OpenGL::Texture> texture;

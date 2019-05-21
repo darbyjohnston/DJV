@@ -78,7 +78,7 @@ namespace djv
             glm::ivec2 Grid::getGridSize() const
             {
                 DJV_PRIVATE_PTR();
-                glm::ivec2 out = glm::ivec2(0, 0);
+                glm::ivec2 out(0, 0);
                 for (const auto & widget : p.widgets)
                 {
                     out = glm::max(widget.first + 1, out);
@@ -334,7 +334,7 @@ namespace djv
                 const float gh = g.h();
 
                 // Get the child sizes.
-                glm::vec2 minimumSize = glm::vec2(0.f, 0.f);
+                glm::vec2 minimumSize(0.f, 0.f);
                 std::map<Orientation, std::vector<float> > minimumSizes;
                 std::map<Orientation, std::vector<bool> > expandList;
                 std::map<Orientation, size_t> expandCount =

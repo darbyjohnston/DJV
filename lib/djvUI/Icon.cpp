@@ -154,7 +154,7 @@ namespace djv
                 _resize();
             }
 
-            glm::vec2 size;
+            glm::vec2 size(0.f, 0.f);
             if (p.image)
             {
                 size = p.image->getSize();
