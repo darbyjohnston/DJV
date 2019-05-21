@@ -30,7 +30,7 @@
 #include <djvViewApp/HelpSystem.h>
 
 #include <djvViewApp/AboutDialog.h>
-#include <djvViewApp/SystemLogDialog.h>
+#include <djvViewApp/SystemLogTool.h>
 
 #include <djvUI/Action.h>
 #include <djvUI/EventSystem.h>
@@ -54,7 +54,7 @@ namespace djv
             std::map<std::string, std::shared_ptr<UI::Action> > actions;
             std::shared_ptr<UI::Menu> menu;
             std::shared_ptr<AboutDialog> aboutDialog;
-            std::shared_ptr<SystemLogDialog> systemLogDialog;
+            std::shared_ptr<SystemLogTool> systemLogTool;
             std::map<std::string, std::shared_ptr<ValueObserver<bool> > > clickedObservers;
             std::shared_ptr<ValueObserver<std::string> > localeObserver;
         };
@@ -70,6 +70,7 @@ namespace djv
             p.actions["Documentation"]->setEnabled(false);
             p.actions["About"] = UI::Action::create();
             p.actions["SystemLog"] = UI::Action::create();
+            p.actions["SystemLog"]->setButtonType(UI::ButtonType::Toggle);
 
             p.menu = UI::Menu::create(context);
             p.menu->addAction(p.actions["Documentation"]);
@@ -79,6 +80,19 @@ namespace djv
             p.menu->addAction(p.actions["SystemLog"]);
 
             auto weak = std::weak_ptr<HelpSystem>(std::dynamic_pointer_cast<HelpSystem>(shared_from_this()));
+            _setCloseToolCallback(
+                [weak](const std::string & name)
+            {
+                if (auto system = weak.lock())
+                {
+                    const auto i = system->_p->actions.find(name);
+                    if (i != system->_p->actions.end())
+                    {
+                        i->second->setChecked(false);
+                    }
+                }
+            });
+
             p.clickedObservers["About"] = ValueObserver<bool>::create(
                 p.actions["About"]->observeClicked(),
                 [weak, context](bool value)
@@ -116,38 +130,20 @@ namespace djv
             });
 
             p.clickedObservers["SystemLog"] = ValueObserver<bool>::create(
-                p.actions["SystemLog"]->observeClicked(),
+                p.actions["SystemLog"]->observeChecked(),
                 [weak, context](bool value)
             {
-                if (value)
+                if (auto system = weak.lock())
                 {
-                    if (auto system = weak.lock())
+                    if (value)
                     {
-                        if (auto windowSystem = context->getSystemT<UI::EventSystem>())
-                        {
-                            if (auto window = windowSystem->getCurrentWindow().lock())
-                            {
-                                if (!system->_p->systemLogDialog)
-                                {
-                                    system->_p->systemLogDialog = SystemLogDialog::create(context);
-                                    system->_p->systemLogDialog->setCloseCallback(
-                                        [weak, context]
-                                    {
-                                        if (auto system = weak.lock())
-                                        {
-                                            if (auto parent = system->_p->systemLogDialog->getParent().lock())
-                                            {
-                                                parent->removeChild(system->_p->systemLogDialog);
-                                            }
-                                            system->_p->systemLogDialog.reset();
-                                        }
-                                    });
-                                }
-                                window->addChild(system->_p->systemLogDialog);
-                                system->_p->systemLogDialog->reloadLog();
-                                system->_p->systemLogDialog->show();
-                            }
-                        }
+                        auto tool = SystemLogTool::create(context);
+                        tool->reloadLog();
+                        system->_openTool("SystemLog", tool);
+                    }
+                    else
+                    {
+                        system->_closeTool("SystemLog");
                     }
                 }
             });

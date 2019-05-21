@@ -86,12 +86,17 @@ namespace djv
                 }
             }
 #endif // DJV_OPENGL_ES2
+
+            unsigned char hiddenArrowPixel[] = { 0, 0, 0, 0 };
+
         } // namespace
 
         struct GLFWSystem::Private
         {
             int dpi = AV::dpiDefault;
             GLFWwindow * glfwWindow = nullptr;
+            GLFWcursor* arrowCursor = nullptr;
+            GLFWcursor* hiddenCursor = nullptr;
         };
 
         void GLFWSystem::_init(Context * context)
@@ -210,6 +215,16 @@ namespace djv
 #endif // DJV_OPENGL_ES2
             glfwSwapInterval(1);
 
+            p.arrowCursor = glfwCreateStandardCursor(GLFW_ARROW_CURSOR);
+
+            static uint32_t pixel = 0;
+            GLFWimage image;
+            image.width = 1;
+            image.height = 1;
+            image.pixels = hiddenArrowPixel;
+            GLFWcursor* cursor = glfwCreateCursor(&image, 0, 0);
+            p.hiddenCursor = cursor;
+
             glfwShowWindow(p.glfwWindow);
         }
 
@@ -220,6 +235,14 @@ namespace djv
         GLFWSystem::~GLFWSystem()
         {
             DJV_PRIVATE_PTR();
+            if (p.hiddenCursor)
+            {
+                glfwDestroyCursor(p.hiddenCursor);
+            }
+            if (p.arrowCursor)
+            {
+                glfwDestroyCursor(p.arrowCursor);
+            }
             if (p.glfwWindow)
             {
                 glfwDestroyWindow(p.glfwWindow);
@@ -243,6 +266,18 @@ namespace djv
         GLFWwindow * GLFWSystem::getGLFWWindow() const
         {
             return _p->glfwWindow;
+        }
+
+        void GLFWSystem::showCursor()
+        {
+            DJV_PRIVATE_PTR();
+            glfwSetCursor(p.glfwWindow, p.arrowCursor);
+        }
+
+        void GLFWSystem::hideCursor()
+        {
+            DJV_PRIVATE_PTR();
+            glfwSetCursor(p.glfwWindow, p.hiddenCursor);
         }
 
         void GLFWSystem::tick(float dt)

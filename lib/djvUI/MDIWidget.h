@@ -69,6 +69,17 @@ namespace djv
                 virtual std::map<Handle, std::vector<Core::BBox2f> > getHandlesDraw() const;
 
                 virtual void setMaximized(float);
+                void setHandleHovered(Handle);
+                void setHandlePressed(Handle);
+
+            protected:
+                float _getMaximized() const;
+
+                void _paintEvent(Core::Event::Paint&) override;
+                void _paintOverlayEvent(Core::Event::PaintOverlay&) override;
+
+            private:
+                DJV_PRIVATE();
             };
             
         } // namespace MDI

@@ -71,6 +71,9 @@ namespace djv
             MetricsRole getMargin() const;
             void setMargin(MetricsRole);
 
+            ColorRole getBackgroundRole() const;
+            void setBackgroundRole(ColorRole);
+
             void popup(const glm::vec2 &);
             void popup(const std::weak_ptr<Widget> & button);
             void popup(const std::weak_ptr<Widget> & button, const std::weak_ptr<Widget> & anchor);

@@ -31,7 +31,7 @@ set(header
     RecentFilesDialog.h
     SettingsSystem.h
     SettingsWidget.h
-    SystemLogDialog.h
+    SystemLogTool.h
     TimelineSlider.h
     ToolSystem.h
     ViewApp.h
@@ -71,7 +71,7 @@ set(source
     RecentFilesDialog.cpp
     SettingsSystem.cpp
     SettingsWidget.cpp
-    SystemLogDialog.cpp
+    SystemLogTool.cpp
     TimelineSlider.cpp
     ToolSystem.cpp
 	WindowSettings.cpp

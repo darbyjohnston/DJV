@@ -74,8 +74,6 @@ namespace djv
             protected:
                 void _preLayoutEvent(Core::Event::PreLayout &) override;
                 void _layoutEvent(Core::Event::Layout &) override;
-                void _paintEvent(Core::Event::Paint &) override;
-                void _paintOverlayEvent(Core::Event::PaintOverlay &) override;
 
                 void _childAddedEvent(Core::Event::ChildAdded &) override;
                 void _childRemovedEvent(Core::Event::ChildRemoved &) override;

@@ -29,6 +29,8 @@
 
 #include <djvUI/MDIWidget.h>
 
+#include <djvAV/Render2D.h>
+
 using namespace djv::Core;
 
 namespace djv
@@ -37,12 +39,22 @@ namespace djv
     {
         namespace MDI
         {
+            struct IWidget::Private
+            {
+                float maximized = 0.f;
+                Handle hovered = Handle::None;
+                Handle pressed = Handle::None;
+            };
+
             void IWidget::_init(Context* context)
             {
                 Widget::_init(context);
+
+                setPointerEnabled(true);
             }
 
-            IWidget::IWidget()
+            IWidget::IWidget() :
+                _p(new Private)
             {}
 
             IWidget::~IWidget()
@@ -153,12 +165,6 @@ namespace djv
                 out =
                 {
                     {
-                        Handle::Move,
-                        {
-                            g.margin(-edge)
-                        }
-                    },
-                    {
                         Handle::ResizeE,
                         {
                             BBox2f(
@@ -238,8 +244,84 @@ namespace djv
                 return out;
             }
 
-            void IWidget::setMaximized(float)
-            {}
+            void IWidget::setMaximized(float value)
+            {
+                _p->maximized = value;
+            }
+
+            void IWidget::setHandleHovered(Handle value)
+            {
+                if (value == _p->hovered)
+                    return;
+                _p->hovered = value;
+                _redraw();
+            }
+
+            void IWidget::setHandlePressed(Handle value)
+            {
+                if (value == _p->pressed)
+                    return;
+                _p->pressed = value;
+                _redraw();
+            }
+
+            float IWidget::_getMaximized() const
+            {
+                return _p->maximized;
+            }
+
+            void IWidget::_paintEvent(Event::Paint&)
+            {
+                DJV_PRIVATE_PTR();
+                if (p.maximized < 1.f)
+                {
+                    auto style = _getStyle();
+                    const float h = style->getMetric(MetricsRole::Handle);
+                    const float sh = style->getMetric(MetricsRole::Shadow);
+                    auto render = _getRender();
+                    render->setFillColor(_getColorWithOpacity(style->getColor(ColorRole::Shadow)));
+                    BBox2f g = getGeometry().margin(-h);
+                    g.min.x -= sh;
+                    g.min.y += sh;
+                    g.max.x += sh;
+                    g.max.y += sh;
+                    if (g.isValid())
+                    {
+                        render->drawShadow(g, sh);
+                    }
+                }
+            }
+
+            void IWidget::_paintOverlayEvent(Event::PaintOverlay&)
+            {
+                DJV_PRIVATE_PTR();
+                if (p.maximized < 1.f)
+                {
+                    auto style = _getStyle();
+                    auto render = _getRender();
+                    render->setFillColor(_getColorWithOpacity(style->getColor(ColorRole::Handle)));
+                    const auto& handles = getHandlesDraw();
+                    const auto i = handles.find(p.pressed);
+                    if (i != handles.end())
+                    {
+                        for (const auto& j : i->second)
+                        {
+                            render->drawRect(j);
+                        }
+                    }
+                    if (p.hovered != p.pressed)
+                    {
+                        const auto i = handles.find(p.hovered);
+                        if (i != handles.end())
+                        {
+                            for (const auto& j : i->second)
+                            {
+                                render->drawRect(j);
+                            }
+                        }
+                    }
+                }
+            }
 
         } // namespace MDI
     } // namespace UI

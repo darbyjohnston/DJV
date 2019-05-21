@@ -30,6 +30,7 @@
 #include <djvViewApp/TimelineSlider.h>
 
 #include <djvViewApp/Media.h>
+#include <djvViewApp/MediaWidget.h>
 #include <djvViewApp/PlaybackSettings.h>
 
 #include <djvUI/EventSystem.h>
@@ -74,7 +75,7 @@ namespace djv
                 static std::shared_ptr<PIPWidget> create(Context*);
 
                 void setPIPFileName(const std::string&);
-                void setPIPPos(const glm::vec2&, Time::Timestamp);
+                void setPIPPos(const glm::vec2&, Time::Timestamp, const BBox2f&);
 
             protected:
                 void _layoutEvent(Event::Layout&) override;
@@ -85,6 +86,7 @@ namespace djv
 
                 std::string _fileName;
                 glm::vec2 _pipPos = glm::vec2(0.f, 0.f);
+                BBox2f _timelineGeometry;
                 std::shared_ptr<Media> _media;
                 Time::Speed _speed;
                 Time::Timestamp _currentTime = 0;
@@ -172,15 +174,16 @@ namespace djv
                 }
             }
 
-            void PIPWidget::setPIPPos(const glm::vec2& value, Time::Timestamp timestamp)
+            void PIPWidget::setPIPPos(const glm::vec2& value, Time::Timestamp timestamp, const BBox2f& timelineGeometry)
             {
-                if (value == _pipPos)
+                if (value == _pipPos && timelineGeometry == _timelineGeometry)
                     return;
                 if (_media)
                 {
                     _media->setCurrentTime(timestamp);
                 }
                 _pipPos = value;
+                _timelineGeometry = timelineGeometry;
                 _resize();
             }
 
@@ -188,7 +191,10 @@ namespace djv
             {
                 const BBox2f& g = getGeometry();
                 const glm::vec2 size = _layout->getMinimumSize();
-                _layout->setGeometry(BBox2f(_pipPos.x - floorf(size.x / 2.f), _pipPos.y - size.y, size.x, size.y));
+                const glm::vec2 pos(
+                    Math::clamp(_pipPos.x - floorf(size.x / 2.f), _timelineGeometry.min.x, _timelineGeometry.max.x - size.x),
+                    _pipPos.y - size.y);
+                _layout->setGeometry(BBox2f(pos.x, pos.y, size.x, size.y));
             }
 
             void PIPWidget::_paintEvent(Event::Paint& event)
@@ -483,10 +489,13 @@ namespace djv
             const Time::Timestamp timestamp = _posToTime(static_cast<int>(pos.x - g.min.x));
             if (p.hover[id] || p.pressedID)
             {
-                event.accept();
-                auto style = _getStyle();
-                const float s = style->getMetric(UI::MetricsRole::Spacing);
-                p.pipWidget->setPIPPos(glm::vec2(pos.x, g.min.y - s), timestamp);
+                if (auto parent = getParentRecursiveT<MediaWidget>())
+                {
+                    event.accept();
+                    auto style = _getStyle();
+                    const float s = style->getMetric(UI::MetricsRole::Spacing);
+                    p.pipWidget->setPIPPos(glm::vec2(pos.x, g.min.y - s), timestamp, parent->getGeometry().margin(-s));
+                }
             }
             if (p.pressedID)
             {

@@ -277,6 +277,17 @@ namespace djv
                             if (auto system = weak.lock())
                             {
                                 system->_p->fade->setIfChanged(value);
+                                if (auto glfwSystem = system->getContext()->getSystemT<Desktop::GLFWSystem>())
+                                {
+                                    if (value > 0.f)
+                                    {
+                                        glfwSystem->showCursor();
+                                    }
+                                    else
+                                    {
+                                        glfwSystem->hideCursor();
+                                    }
+                                }
                             }
                         });
                     }
@@ -311,6 +322,17 @@ namespace djv
                             if (auto system = weak.lock())
                             {
                                 system->_p->fade->setIfChanged(value);
+                                if (auto glfwSystem = system->getContext()->getSystemT<Desktop::GLFWSystem>())
+                                {
+                                    if (value > 0.f)
+                                    {
+                                        glfwSystem->showCursor();
+                                    }
+                                    else
+                                    {
+                                        glfwSystem->hideCursor();
+                                    }
+                                }
                             }
                         });
                     }

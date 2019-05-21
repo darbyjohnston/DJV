@@ -29,24 +29,24 @@
 
 #pragma once
 
-#include <djvUI/IDialog.h>
+#include <djvViewApp/ITool.h>
 
 namespace djv
 {
     namespace ViewApp
     {
-        class SystemLogDialog : public UI::IDialog
+        class SystemLogTool : public ITool
         {
-            DJV_NON_COPYABLE(SystemLogDialog);
+            DJV_NON_COPYABLE(SystemLogTool);
 
         protected:
             void _init(Core::Context *);
-            SystemLogDialog();
+            SystemLogTool();
 
         public:
-            ~SystemLogDialog() override;
+            ~SystemLogTool() override;
 
-            static std::shared_ptr<SystemLogDialog> create(Core::Context *);
+            static std::shared_ptr<SystemLogTool> create(Core::Context *);
 
             void reloadLog();
             void clearLog();

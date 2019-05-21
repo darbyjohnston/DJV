@@ -27,7 +27,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvViewApp/SystemLogDialog.h>
+#include <djvViewApp/SystemLogTool.h>
 
 #include <djvUI/PushButton.h>
 #include <djvUI/RowLayout.h>
@@ -46,7 +46,7 @@ namespace djv
 {
     namespace ViewApp
     {
-        struct SystemLogDialog::Private
+        struct SystemLogTool::Private
         {
             bool shown = false;
             std::shared_ptr<UI::TextBlock> textBlock;
@@ -55,12 +55,12 @@ namespace djv
             std::shared_ptr< UI::PushButton> clearButton;
         };
 
-        void SystemLogDialog::_init(Context * context)
+        void SystemLogTool::_init(Context * context)
         {
-            IDialog::_init(context);
+            ITool::_init(context);
 
             DJV_PRIVATE_PTR();
-            setClassName("djv::ViewApp::SystemLogDialog");
+            setClassName("djv::ViewApp::SystemLogTool");
 
             p.textBlock = UI::TextBlock::create(context);
             p.textBlock->setFontFamily(AV::Font::familyMono);
@@ -91,42 +91,41 @@ namespace djv
             hLayout->addChild(p.clearButton);
             layout->addChild(hLayout);
             addChild(layout);
-            setStretch(layout, UI::RowStretch::Expand);
 
-            auto weak = std::weak_ptr<SystemLogDialog>(std::dynamic_pointer_cast<SystemLogDialog>(shared_from_this()));
+            auto weak = std::weak_ptr<SystemLogTool>(std::dynamic_pointer_cast<SystemLogTool>(shared_from_this()));
             p.reloadButton->setClickedCallback(
                 [weak]
             {
-                if (auto dialog = weak.lock())
+                if (auto widget = weak.lock())
                 {
-                    dialog->reloadLog();
+                    widget->reloadLog();
                 }
             });
             p.clearButton->setClickedCallback(
                 [weak]
             {
-                if (auto dialog = weak.lock())
+                if (auto widget = weak.lock())
                 {
-                    dialog->clearLog();
+                    widget->clearLog();
                 }
             });
         }
 
-        SystemLogDialog::SystemLogDialog() :
+        SystemLogTool::SystemLogTool() :
             _p(new Private)
         {}
 
-        SystemLogDialog::~SystemLogDialog()
+        SystemLogTool::~SystemLogTool()
         {}
 
-        std::shared_ptr<SystemLogDialog> SystemLogDialog::create(Context * context)
+        std::shared_ptr<SystemLogTool> SystemLogTool::create(Context * context)
         {
-            auto out = std::shared_ptr<SystemLogDialog>(new SystemLogDialog);
+            auto out = std::shared_ptr<SystemLogTool>(new SystemLogTool);
             out->_init(context);
             return out;
         }
 
-        void SystemLogDialog::reloadLog()
+        void SystemLogTool::reloadLog()
         {
             try
             {
@@ -140,14 +139,14 @@ namespace djv
             }
         }
 
-        void SystemLogDialog::clearLog()
+        void SystemLogTool::clearLog()
         {
             _p->textBlock->setText(std::string());
         }
 
-        void SystemLogDialog::_localeEvent(Event::Locale & event)
+        void SystemLogTool::_localeEvent(Event::Locale & event)
         {
-            IDialog::_localeEvent(event);
+            ITool::_localeEvent(event);
             DJV_PRIVATE_PTR();
             setTitle(_getText(DJV_TEXT("System Log")));
             p.copyButton->setText(_getText(DJV_TEXT("Copy")));

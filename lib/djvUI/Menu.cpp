@@ -675,7 +675,6 @@ namespace djv
             {
                 Widget::_init(context);
                 setClassName("djv::UI::MenuPopupWidget");
-                setBackgroundRole(ColorRole::Background);
                 setPointerEnabled(true);
 
                 _menuWidget = MenuWidget::create(context);
@@ -934,6 +933,7 @@ namespace djv
             size_t count = 0;
             MetricsRole minimumSizeRole = MetricsRole::ScrollArea;
             MetricsRole margin = MetricsRole::None;
+            ColorRole backgroundRole = ColorRole::Background;
             std::shared_ptr<MenuPopupWidget> popupWidget;
             std::shared_ptr< MenuOverlayLayout> overlayLayout;
             std::shared_ptr<Layout::Overlay> overlay;
@@ -1047,6 +1047,22 @@ namespace djv
         {
             _p->margin = value;
         }
+        
+        ColorRole Menu::getBackgroundRole() const
+        {
+            return _p->backgroundRole;
+        }
+
+        void Menu::setBackgroundRole(ColorRole value)
+        {
+            if (value == _p->backgroundRole)
+                return;
+            _p->backgroundRole = value;
+            if (_p->popupWidget)
+            {
+                _p->popupWidget->setBackgroundRole(_p->backgroundRole);
+            }
+        }
 
         void Menu::popup(const glm::vec2 & pos)
         {
@@ -1128,6 +1144,7 @@ namespace djv
             p.popupWidget = MenuPopupWidget::create(context);
             p.popupWidget->setActions(p.actions);
             p.popupWidget->setMinimumSizeRole(p.minimumSizeRole);
+            p.popupWidget->setBackgroundRole(p.backgroundRole);
 
             p.overlayLayout = MenuOverlayLayout::create(context);
             p.overlayLayout->setMargin(Layout::Margin(MetricsRole::None, MetricsRole::None, MetricsRole::Margin, MetricsRole::Margin));

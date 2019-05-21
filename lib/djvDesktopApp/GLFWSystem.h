@@ -53,6 +53,9 @@ namespace djv
             int getDPI() const;
             GLFWwindow * getGLFWWindow() const;
 
+            void showCursor();
+            void hideCursor();
+
             void tick(float dt) override;
 
         private:
