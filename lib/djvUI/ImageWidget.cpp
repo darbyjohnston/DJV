@@ -92,7 +92,7 @@ namespace djv
         void ImageWidget::_preLayoutEvent(Event::PreLayout & event)
         {
             DJV_PRIVATE_PTR();
-            glm::vec2 size;
+            glm::vec2 size(0.f, 0.f);
             auto style = _getStyle();
             if (p.sizeRole != MetricsRole::None)
             {

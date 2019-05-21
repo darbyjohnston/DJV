@@ -184,7 +184,7 @@ namespace djv
 
             p.clickedObservers["Open"] = ValueObserver<bool>::create(
                 p.actions["Open"]->observeClicked(),
-                [weak, context](bool value)
+                [weak](bool value)
             {
                 if (value)
                 {
@@ -197,7 +197,7 @@ namespace djv
 
             p.clickedObservers["Recent"] = ValueObserver<bool>::create(
                 p.actions["Recent"]->observeClicked(),
-                [weak, context](bool value)
+                [weak](bool value)
             {
                 if (value)
                 {
@@ -210,7 +210,7 @@ namespace djv
 
             p.clickedObservers["Close"] = ValueObserver<bool>::create(
                 p.actions["Close"]->observeClicked(),
-                [weak, context](bool value)
+                [weak](bool value)
             {
                 if (value)
                 {
@@ -226,7 +226,7 @@ namespace djv
 
             p.clickedObservers["CloseAll"] = ValueObserver<bool>::create(
                 p.actions["CloseAll"]->observeClicked(),
-                [weak, context](bool value)
+                [weak](bool value)
             {
                 if (value)
                 {
@@ -239,7 +239,7 @@ namespace djv
 
             p.clickedObservers["Next"] = ValueObserver<bool>::create(
                 p.actions["Next"]->observeClicked(),
-                [weak, context](bool value)
+                [weak](bool value)
             {
                 if (value)
                 {
@@ -265,7 +265,7 @@ namespace djv
 
             p.clickedObservers["Prev"] = ValueObserver<bool>::create(
                 p.actions["Prev"]->observeClicked(),
-                [weak, context](bool value)
+                [weak](bool value)
             {
                 if (value)
                 {
@@ -511,7 +511,7 @@ namespace djv
                             }
                         });
                         p.fileBrowserDialog->setCloseCallback(
-                            [weak, context]
+                            [weak]
                         {
                             if (auto system = weak.lock())
                             {
@@ -556,7 +556,7 @@ namespace djv
                             }
                         });
                         p.recentFilesDialog->setCloseCallback(
-                            [weak, context]
+                            [weak]
                         {
                             if (auto system = weak.lock())
                             {

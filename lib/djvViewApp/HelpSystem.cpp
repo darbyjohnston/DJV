@@ -109,7 +109,7 @@ namespace djv
                                 {
                                     system->_p->aboutDialog = AboutDialog::create(context);
                                     system->_p->aboutDialog->setCloseCallback(
-                                        [weak, context]
+                                        [weak]
                                     {
                                         if (auto system = weak.lock())
                                         {

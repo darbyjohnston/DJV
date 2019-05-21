@@ -158,7 +158,7 @@ namespace djv
             auto style = _getStyle();
             const float tc = style->getMetric(MetricsRole::Slider);
             p.handleWidth = style->getMetric(MetricsRole::Handle);
-            glm::vec2 size;
+            glm::vec2 size(0.f, 0.f);
             switch (p.orientation)
             {
             case Orientation::Horizontal: size = glm::vec2(tc, p.handleWidth); break;

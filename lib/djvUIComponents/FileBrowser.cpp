@@ -374,7 +374,7 @@ namespace djv
 
                 p.fileInfoObserver = ListObserver<FileSystem::FileInfo>::create(
                     p.directoryModel->observeFileInfo(),
-                    [weak, context](const std::vector<FileSystem::FileInfo> & value)
+                    [weak](const std::vector<FileSystem::FileInfo> & value)
                 {
                     if (auto widget = weak.lock())
                     {

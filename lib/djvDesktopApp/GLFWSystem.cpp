@@ -131,9 +131,9 @@ namespace djv
             if (auto primaryMonitor = glfwGetPrimaryMonitor())
             {
                 const GLFWvidmode * mode = glfwGetVideoMode(primaryMonitor);
-                glm::ivec2 mm;
+                glm::ivec2 mm(0, 0);
                 glfwGetMonitorPhysicalSize(primaryMonitor, &mm.x, &mm.y);
-                glm::vec2 dpi;
+                glm::vec2 dpi(0, 0);
                 if (mm.x > 0 && mm.y > 0)
                 {
                     dpi.x = mode->width / (mm.x / 25.4f);

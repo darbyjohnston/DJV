@@ -91,7 +91,7 @@ namespace djv
                 {
                     p.metricsObserver = MapObserver<std::string, Style::Metrics>::create(
                         styleSettings->observeMetrics(),
-                        [weak, context](const std::map<std::string, Style::Metrics> & value)
+                        [weak](const std::map<std::string, Style::Metrics> & value)
                     {
                         if (auto widget = weak.lock())
                         {
