@@ -73,6 +73,7 @@ namespace djv
                 void _keyPress(int key, int modifiers);
                 void _keyRelease(int key, int modifiers);
                 void _text(const std::string &, int modifiers);
+                void _scroll(float, float);
 
                 virtual void _hover(Event::PointerMove &, std::shared_ptr<IObject> &) = 0;
 

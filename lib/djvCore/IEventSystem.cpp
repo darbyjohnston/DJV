@@ -372,6 +372,26 @@ namespace djv
                     textFocus->event(event);
                 }
             }
+            
+            void IEventSystem::_scroll(float x, float y)
+            {
+                DJV_PRIVATE_PTR();
+                auto textFocus = p.textFocus.lock();
+                if (textFocus || p.hover)
+                {
+                    Event::Scroll event(glm::vec2(x, y), p.pointerInfo);
+                    auto object = textFocus ? textFocus : p.hover;
+                    while (object)
+                    {
+                        object->event(event);
+                        if (event.isAccepted())
+                        {
+                            break;
+                        }
+                        object = object->getParent().lock();
+                    }
+                }
+            }
 
             void IEventSystem::_objectCreated(const std::shared_ptr<IObject> & object)
             {

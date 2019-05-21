@@ -121,6 +121,7 @@ namespace djv
             glfwSetDropCallback(glfwWindow, _dropCallback);
             glfwSetKeyCallback(glfwWindow, _keyCallback);
             glfwSetCharModsCallback(glfwWindow, _charCallback);
+            glfwSetScrollCallback(glfwWindow, _scrollCallback);
         }
 
         EventSystem::EventSystem() :
@@ -473,6 +474,15 @@ namespace djv
                     system->_log(ss.str(), LogLevel::Error);
                 }
                 system->_text(text, modifiers);
+            }
+        }
+
+        void EventSystem::_scrollCallback(GLFWwindow * window, double x, double y)
+        {
+            Context * context = reinterpret_cast<Context *>(glfwGetWindowUserPointer(window));
+            if (auto system = context->getSystemT<EventSystem>())
+            {
+                system->_scroll(x, y);
             }
         }
 
