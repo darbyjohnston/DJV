@@ -60,7 +60,9 @@ namespace djv
         namespace
         {
             //! \todo [1.0 S] Should this be configurable?
-            const size_t fadeSeconds = 3;
+            const size_t fadeTimeout = 3000;
+            const size_t fadeInTime  = 200;
+            const size_t fadeOutTime = 1000;
         }
 
         struct WindowSystem::Private
@@ -252,7 +254,8 @@ namespace djv
             if (j != p.pointerMotion.end())
             {
                 const float diff = glm::length(info.projectedPos - j->second);
-                auto uiSystem = getContext()->getSystemT<UI::UISystem>();
+                auto context = getContext();
+                auto uiSystem = context->getSystemT<UI::UISystem>();
                 auto style = uiSystem->getStyle();
                 const float h = style->getMetric(UI::MetricsRole::Handle);
                 if (diff > h)
@@ -261,10 +264,14 @@ namespace djv
                     p.pointerMotion[info.id] = info.projectedPos;
                     if (p.fadeEnabled)
                     {
+                        if (auto glfwSystem = context->getSystemT<Desktop::GLFWSystem>())
+                        {
+                            glfwSystem->showCursor();
+                        }
                         p.fadeAnimation->start(
                             p.fade->get(),
                             1.f,
-                            Time::getMilliseconds(Time::TimerValue::Medium),
+                            std::chrono::milliseconds(fadeInTime),
                             [weak](float value)
                         {
                             if (auto system = weak.lock())
@@ -277,17 +284,6 @@ namespace djv
                             if (auto system = weak.lock())
                             {
                                 system->_p->fade->setIfChanged(value);
-                                if (auto glfwSystem = system->getContext()->getSystemT<Desktop::GLFWSystem>())
-                                {
-                                    if (value > 0.f)
-                                    {
-                                        glfwSystem->showCursor();
-                                    }
-                                    else
-                                    {
-                                        glfwSystem->hideCursor();
-                                    }
-                                }
                             }
                         });
                     }
@@ -301,7 +297,7 @@ namespace djv
             if (start && p.fadeEnabled)
             {
                 p.pointerMotionTimer->start(
-                    std::chrono::milliseconds(fadeSeconds * 1000),
+                    std::chrono::milliseconds(fadeTimeout),
                     [weak](float value)
                 {
                     if (auto system = weak.lock())
@@ -309,7 +305,7 @@ namespace djv
                         system->_p->fadeAnimation->start(
                             system->_p->fade->get(),
                             0.f,
-                            Time::getMilliseconds(Time::TimerValue::Slow),
+                            std::chrono::milliseconds(fadeOutTime),
                             [weak](float value)
                         {
                             if (auto system = weak.lock())
@@ -324,14 +320,7 @@ namespace djv
                                 system->_p->fade->setIfChanged(value);
                                 if (auto glfwSystem = system->getContext()->getSystemT<Desktop::GLFWSystem>())
                                 {
-                                    if (value > 0.f)
-                                    {
-                                        glfwSystem->showCursor();
-                                    }
-                                    else
-                                    {
-                                        glfwSystem->hideCursor();
-                                    }
+                                    glfwSystem->hideCursor();
                                 }
                             }
                         });
