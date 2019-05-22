@@ -152,20 +152,23 @@ namespace djv
                 {
                     auto style = _getStyle();
                     const float m = style->getMetric(MetricsRole::MarginSmall);
-                    const float s = style->getMetric(MetricsRole::SpacingSmall);
+                    const float s = style->getMetric(MetricsRole::Spacing);
+                    const float sh = style->getMetric(MetricsRole::Shadow);
                     switch (p.viewType)
                     {
                     case ViewType::Tiles:
                     {
                         size_t columns = 1;
-                        float x = p.thumbnailSize.x + m * 2.f;
-                        while (x < value - (p.thumbnailSize.x + m * 2.f))
+                        const float itemWidth = p.thumbnailSize.x + sh * 2.f;
+                        float x = s + itemWidth;
+                        while (x < value - itemWidth)
                         {
                             ++columns;
-                            x += p.thumbnailSize.x + m * 2.f;
+                            x += itemWidth + s;
                         }
                         const size_t rows = itemCount / columns + (itemCount % columns ? 1 : 0);
-                        out = (p.thumbnailSize.y + s + p.nameFontMetrics.lineHeight * 2.f + m * 2.f) * rows;
+                        out = (p.thumbnailSize.y + p.nameFontMetrics.lineHeight * 2.f + m * 2.f + sh * 2.f) * rows;
+                        out += s * (rows + 1);
                         break;
                     }
                     case ViewType::List:
@@ -206,36 +209,42 @@ namespace djv
                 const BBox2f & g = getGeometry();
                 auto style = _getStyle();
                 const float m = style->getMetric(MetricsRole::MarginSmall);
-                const float s = style->getMetric(MetricsRole::SpacingSmall);
+                const float s = style->getMetric(MetricsRole::Spacing);
+                const float sh = style->getMetric(MetricsRole::Shadow);
                 p.itemGeometry.clear();
                 glm::vec2 pos = g.min;
                 auto item = p.items.begin();
                 size_t i = 0;
-                for (; item != p.items.end(); ++item, ++i)
+                switch (p.viewType)
                 {
-                    switch (p.viewType)
+                case ViewType::Tiles:
+                    pos += s;
+                    for (; item != p.items.end(); ++item, ++i)
                     {
-                    case ViewType::Tiles:
-                    {
-                        const float itemHeight = p.thumbnailSize.y + s + p.nameFontMetrics.lineHeight * 2.f + m * 2.f;
-                        p.itemGeometry[i] = BBox2f(pos.x, pos.y, p.thumbnailSize.x + m * 2.f, itemHeight);
-                        pos.x += p.thumbnailSize.x + m * 2.f;
-                        if (pos.x > g.max.x - (p.thumbnailSize.x + m * 2.f))
+                        const float itemHeight = p.thumbnailSize.y + p.nameFontMetrics.lineHeight * 2.f + m * 2.f + sh * 2.f;
+                        const float itemWidth = p.thumbnailSize.x + sh * 2.f;
+                        p.itemGeometry[i] = BBox2f(pos.x, pos.y, itemWidth, itemHeight);
+                        pos.x += itemWidth;
+                        if (pos.x > g.max.x - itemWidth)
                         {
-                            pos.x = g.min.x;
-                            pos.y += itemHeight;
+                            pos.x = g.min.x + s;
+                            pos.y += itemHeight + s;
                         }
-                        break;
+                        else
+                        {
+                            pos.x += s;
+                        }
                     }
-                    case ViewType::List:
+                    break;
+                case ViewType::List:
+                    for (; item != p.items.end(); ++item, ++i)
                     {
                         const float itemHeight = std::max(static_cast<float>(p.thumbnailSize.y), p.nameFontMetrics.lineHeight) + m * 2.f;
                         p.itemGeometry[i] = BBox2f(pos.x, pos.y, g.w(), itemHeight);
                         pos.y += itemHeight;
-                        break;
                     }
-                    default: break;
-                    }
+                    break;
+                default: break;
                 }
             }
 
@@ -261,11 +270,12 @@ namespace djv
                                 if (k == p.nameLinesFutures.end())
                                 {
                                     const float m = style->getMetric(MetricsRole::MarginSmall);
+                                    const float sh = style->getMetric(MetricsRole::Shadow);
                                     const auto fontInfo = style->getFontInfo(AV::Font::faceDefault, MetricsRole::FontMedium);
                                     p.names[i.first] = fileInfo.getFileName(Frame::Invalid, false);
                                     p.nameLinesFutures[i.first] = fontSystem->textLines(
                                         p.names[i.first],
-                                        p.thumbnailSize.x - m * 2.f,
+                                        p.thumbnailSize.x - sh * 2.f,
                                         fontInfo);
                                 }
                             }
@@ -343,28 +353,10 @@ namespace djv
                 DJV_PRIVATE_PTR();
                 auto style = _getStyle();
                 const float m = style->getMetric(MetricsRole::MarginSmall);
-                const float s = style->getMetric(MetricsRole::SpacingSmall);
+                const float s = style->getMetric(MetricsRole::Spacing);
+                const float sh = style->getMetric(MetricsRole::Shadow);
 
                 auto render = _getRender();
-                {
-                    const auto i = p.itemGeometry.find(p.grab);
-                    if (i != p.itemGeometry.end())
-                    {
-                        render->setFillColor(_getColorWithOpacity(style->getColor(ColorRole::Pressed)));
-                        render->drawRect(i->second);
-                    }
-                }
-
-                {
-                    const auto i = p.itemGeometry.find(p.hover);
-                    const auto j = p.itemGeometry.find(p.grab);
-                    if (i != p.itemGeometry.end() && i != j)
-                    {
-                        render->setFillColor(_getColorWithOpacity(style->getColor(ColorRole::Hovered)));
-                        render->drawRect(i->second);
-                    }
-                }
-
                 const float ut = _getUpdateTime();
                 auto item = p.items.begin();
                 size_t index = 0;
@@ -373,7 +365,17 @@ namespace djv
                     const auto i = p.itemGeometry.find(index);
                     if (i != p.itemGeometry.end())
                     {
-                        const BBox2f & itemGeometry = i->second;
+                        BBox2f itemGeometry = i->second;
+
+                        if (ViewType::Tiles == p.viewType)
+                        {
+                            render->setFillColor(_getColorWithOpacity(style->getColor(ColorRole::Shadow)));
+                            render->drawShadow(itemGeometry.margin(0, -sh, 0, 0), sh);
+                            itemGeometry = itemGeometry.margin(-sh);
+                            render->setFillColor(_getColorWithOpacity(style->getColor(ColorRole::Background)));
+                            render->drawRect(itemGeometry);
+                        }
+
                         if (ViewType::List == p.viewType)
                         {
                             render->pushClipRect(BBox2f(
@@ -401,8 +403,8 @@ namespace djv
                                     switch (p.viewType)
                                     {
                                     case ViewType::Tiles:
-                                        x = floor(i->second.min.x + m + p.thumbnailSize.x / 2.f - size.x / 2.f);
-                                        y = floor(i->second.min.y + m + p.thumbnailSize.y - size.y);
+                                        x = floor(i->second.min.x + sh + p.thumbnailSize.x / 2.f - size.x / 2.f);
+                                        y = floor(i->second.min.y + sh + p.thumbnailSize.y - size.y);
                                         break;
                                     case ViewType::List:
                                         x = floor(i->second.min.x + m);
@@ -428,8 +430,8 @@ namespace djv
                                 switch (p.viewType)
                                 {
                                 case ViewType::Tiles:
-                                    x = floor(i->second.min.x + m + p.thumbnailSize.x / 2.f - size.x / 2.f);
-                                    y = floor(i->second.min.y + m + p.thumbnailSize.y - size.y);
+                                    x = floor(i->second.min.x + sh + p.thumbnailSize.x / 2.f - size.x / 2.f);
+                                    y = floor(i->second.min.y + sh + p.thumbnailSize.y - size.y);
                                     break;
                                 case ViewType::List:
                                     x = floor(i->second.min.x + m);
@@ -456,8 +458,8 @@ namespace djv
                                 const auto k = p.nameLines.find(index);
                                 if (j != p.names.end() && k != p.nameLines.end())
                                 {
-                                    float x = i->second.min.x + m;
-                                    float y = i->second.max.y - p.nameFontMetrics.lineHeight * 2.f - m;
+                                    float x = i->second.min.x + m + sh;
+                                    float y = i->second.max.y - p.nameFontMetrics.lineHeight * 2.f - m - sh;
                                     size_t line = 0;
                                     auto l = k->second.begin();
                                     for (; l != k->second.end() && line < 2; ++l, ++line)
@@ -530,6 +532,17 @@ namespace djv
                             }
                             default: break;
                             }
+                        }
+
+                        if (p.grab == index)
+                        {
+                            render->setFillColor(_getColorWithOpacity(style->getColor(ColorRole::Pressed)));
+                            render->drawRect(itemGeometry);
+                        }
+                        else if (p.hover == index)
+                        {
+                            render->setFillColor(_getColorWithOpacity(style->getColor(ColorRole::Hovered)));
+                            render->drawRect(itemGeometry);
                         }
                     }
                 }
@@ -857,11 +870,14 @@ namespace djv
                                     if (k == p.nameLinesFutures.end())
                                     {
                                         const float m = style->getMetric(MetricsRole::MarginSmall);
+                                        const float sh = style->getMetric(MetricsRole::Shadow);
                                         const auto fontInfo = style->getFontInfo(AV::Font::faceDefault, MetricsRole::FontMedium);
                                         p.names[i.first] = fileInfo.getFileName(Frame::Invalid, false);
                                         p.nameLinesFutures[i.first] = fontSystem->textLines(
                                             p.names[i.first],
-                                            p.thumbnailSize.x - m * 2.f,
+                                            ViewType::Tiles == p.viewType ?
+                                            (p.thumbnailSize.x - m * 2.f - sh * 2.f) :
+                                            (p.thumbnailSize.x - m * 2.f),
                                             fontInfo);
                                     }
                                 }
