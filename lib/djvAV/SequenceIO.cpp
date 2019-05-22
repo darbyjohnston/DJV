@@ -196,14 +196,7 @@ namespace djv
             {}
 
             ISequenceRead::~ISequenceRead()
-            {
-                DJV_PRIVATE_PTR();
-                p.running = false;
-                if (p.thread.joinable())
-                {
-                    p.thread.join();
-                }
-            }
+            {}
 
             bool ISequenceRead::isRunning() const
             {
@@ -223,6 +216,16 @@ namespace djv
                     p.seek = value;
                 }
                 p.queueCV.notify_one();
+            }
+
+            void ISequenceRead::_finish()
+            {
+                DJV_PRIVATE_PTR();
+                p.running = false;
+                if (p.thread.joinable())
+                {
+                    p.thread.join();
+                }
             }
 
             struct ISequenceWrite::Private
@@ -362,6 +365,14 @@ namespace djv
             {}
 
             ISequenceWrite::~ISequenceWrite()
+            {}
+
+            bool ISequenceWrite::isRunning() const
+            {
+                return _p->running;
+            }
+
+            void ISequenceWrite::_finish()
             {
                 DJV_PRIVATE_PTR();
                 p.running = false;
@@ -373,11 +384,6 @@ namespace djv
                 {
                     glfwDestroyWindow(p.glfwWindow);
                 }
-            }
-
-            bool ISequenceWrite::isRunning() const
-            {
-                return _p->running;
             }
 
         } // namespace IO

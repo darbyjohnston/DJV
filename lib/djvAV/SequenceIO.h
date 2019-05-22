@@ -67,6 +67,7 @@ namespace djv
             protected:
                 virtual Info _readInfo(const std::string & fileName) = 0;
                 virtual std::shared_ptr<Image::Image> _readImage(const std::string & fileName) = 0;
+                void _finish();
 
                 Core::Time::Speed _speed;
                 Core::Time::Timestamp _duration = 0;
@@ -96,6 +97,7 @@ namespace djv
 
             protected:
                 virtual void _write(const std::string & fileName, const std::shared_ptr<Image::Image> &) = 0;
+                void _finish();
 
                 Info _info;
                 Image::Info _imageInfo;

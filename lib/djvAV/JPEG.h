@@ -79,6 +79,8 @@ namespace djv
                     Read();
 
                 public:
+                    ~Read() override;
+
                     static std::shared_ptr<Read> create(
                         const std::string & fileName,
                         const std::shared_ptr<Core::ResourceSystem>&,
@@ -101,7 +103,7 @@ namespace djv
                     Write(const Settings &);
 
                 public:
-                    ~Write();
+                    ~Write() override;
 
                     static std::shared_ptr<Write> create(
                         const std::string & fileName,

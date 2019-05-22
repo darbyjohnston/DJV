@@ -78,7 +78,7 @@ namespace djv
                     Read();
 
                 public:
-                    ~Read();
+                    ~Read() override;
 
                     static std::shared_ptr<Read> create(
                         const std::string & fileName,

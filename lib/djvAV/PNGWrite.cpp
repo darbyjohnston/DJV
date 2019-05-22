@@ -52,7 +52,9 @@ namespace djv
                 {}
 
                 Write::~Write()
-                {}
+                {
+                    _finish();
+                }
 
                 std::shared_ptr<Write> Write::create(
                     const std::string & fileName,

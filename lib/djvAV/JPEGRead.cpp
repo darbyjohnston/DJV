@@ -72,6 +72,11 @@ namespace djv
                 Read::Read()
                 {}
 
+                Read::~Read()
+                {
+                    _finish();
+                }
+
                 std::shared_ptr<Read> Read::create(
                     const std::string & fileName,
                     const std::shared_ptr<ResourceSystem>& resourceSystem,
