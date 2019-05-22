@@ -51,24 +51,14 @@ namespace djv
 
         inline std::vector<std::shared_ptr<ISystemBase> > Context::getSystems() const
         {
-            std::vector<std::shared_ptr<ISystemBase> > systems;
-            {
-                std::lock_guard<std::mutex> lock(_systemsMutex);
-                systems = _systems;
-            }
-            return systems;
+            return _systems;
         }
 
         template<typename T>
         inline std::vector<std::shared_ptr<T> > Context::getSystemsT() const
         {
             std::vector<std::shared_ptr<T> > out;
-            std::vector<std::shared_ptr<ISystemBase> > systems;
-            {
-                std::lock_guard<std::mutex> lock(_systemsMutex);
-                systems = _systems;
-            }
-            for (const auto & i : systems)
+            for (const auto & i : _systems)
             {
                 if (auto system = std::dynamic_pointer_cast<T>(i))
                 {
@@ -81,12 +71,7 @@ namespace djv
         template<typename T>
         inline std::shared_ptr<T> Context::getSystemT() const
         {
-            std::vector<std::shared_ptr<ISystemBase> > systems;
-            {
-                std::lock_guard<std::mutex> lock(_systemsMutex);
-                systems = _systems;
-            }
-            for (const auto & i : systems)
+            for (const auto & i : _systems)
             {
                 if (auto system = std::dynamic_pointer_cast<T>(i))
                 {

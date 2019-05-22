@@ -58,9 +58,12 @@ namespace djv
                 std::atomic<bool> running;
             };
 
-            void ISequenceRead::_init(const std::string & fileName, Context * context)
+            void ISequenceRead::_init(
+                const std::string & fileName,
+                const std::shared_ptr<ResourceSystem>& resourceSystem,
+                const std::shared_ptr<LogSystem>& logSystem)
             {
-                IRead::_init(fileName, context);
+                IRead::_init(fileName, resourceSystem, logSystem);
                 _speed = Time::Speed();
                 _p->running = true;
                 _p->thread = std::thread(
@@ -231,9 +234,13 @@ namespace djv
                 std::atomic<bool> running;
             };
 
-            void ISequenceWrite::_init(const std::string& fileName, const Info& info, Context* context)
+            void ISequenceWrite::_init(
+                const std::string& fileName,
+                const Info& info,
+                const std::shared_ptr<ResourceSystem>& resourceSystem,
+                const std::shared_ptr<LogSystem>& logSystem)
             {
-                IWrite::_init(fileName, info, context);
+                IWrite::_init(fileName, info, resourceSystem, logSystem);
 
                 DJV_PRIVATE_PTR();
 
@@ -271,7 +278,7 @@ namespace djv
                 {
                     glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, GL_TRUE);
                 }
-                p.glfwWindow = glfwCreateWindow(100, 100, context->getName().c_str(), NULL, NULL);
+                p.glfwWindow = glfwCreateWindow(100, 100, "djv::IO::ISequenceWrite", NULL, NULL);
                 if (!p.glfwWindow)
                 {
                     std::stringstream ss;
@@ -298,7 +305,7 @@ namespace djv
                             throw std::runtime_error(ss.str());
                         }
 
-                        _convert = Image::Convert::create(_context);
+                        _convert = Image::Convert::create(_resourceSystem);
 
                         const auto timeout = Time::getValue(Time::TimerValue::Fast);
                         while (p.running)

@@ -29,7 +29,6 @@
 
 #include <djvAV/FFmpeg.h>
 
-#include <djvCore/Context.h>
 #include <djvCore/LogSystem.h>
 #include <djvCore/Timer.h>
 #include <djvCore/Vector.h>
@@ -73,9 +72,12 @@ namespace djv
                     SwsContext * swsContext = nullptr;
                 };
 
-                void Read::_init(const std::string & fileName, Context * context)
+                void Read::_init(
+                    const std::string & fileName,
+                    const std::shared_ptr<ResourceSystem>& resourceSystem,
+                    const std::shared_ptr<LogSystem>& logSystem)
                 {
-                    IRead::_init(fileName, context);
+                    IRead::_init(fileName, resourceSystem, logSystem);
                     DJV_PRIVATE_PTR();
                     p.running = true;
                     p.thread = std::thread(
@@ -477,10 +479,13 @@ namespace djv
                     }
                 }
 
-                std::shared_ptr<Read> Read::create(const std::string & fileName, Context * context)
+                std::shared_ptr<Read> Read::create(
+                    const std::string & fileName,
+                    const std::shared_ptr<ResourceSystem>& resourceSystem,
+                    const std::shared_ptr<LogSystem>& logSystem)
                 {
                     auto out = std::shared_ptr<Read>(new Read);
-                    out->_init(fileName, context);
+                    out->_init(fileName, resourceSystem, logSystem);
                     return out;
                 }
 

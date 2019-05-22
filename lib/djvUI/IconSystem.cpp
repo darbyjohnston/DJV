@@ -92,6 +92,8 @@ namespace djv
 
         struct IconSystem::Private
         {
+            std::shared_ptr<ResourceSystem> resourceSystem;
+            std::shared_ptr<AV::IO::System> io;
             std::vector<int> dpiList;
             std::list<ImageRequest> imageQueue;
             std::condition_variable requestCV;
@@ -106,7 +108,7 @@ namespace djv
             std::thread thread;
             std::atomic<bool> running;
 
-            FileSystem::Path getPath(const std::string & name, int dpi, Context *) const;
+            FileSystem::Path getPath(const std::string & name, int dpi, const std::shared_ptr<ResourceSystem>&) const;
             int findClosestDPI(int) const;
         };
 
@@ -117,6 +119,9 @@ namespace djv
             DJV_PRIVATE_PTR();
 
             addDependency(context->getSystemT<AV::AVSystem>());
+
+            p.io = context->getSystemT<AV::IO::System>();
+            p.resourceSystem = context->getSystemT<ResourceSystem>();
 
             p.imageCache.setMax(imageCacheMax);
             p.imageCachePercentage = 0.f;
@@ -135,27 +140,25 @@ namespace djv
                 _log(s.str());
             });
 
+            auto logSystem = context->getSystemT<LogSystem>();
             p.running = true;
             p.thread = std::thread(
-                [this, context]
+                [this, logSystem]
             {
                 DJV_PRIVATE_PTR();
                 try
                 {
                     // Find the DPI values.
-                    if (auto resourceSystem = context->getSystemT<ResourceSystem>())
+                    for (const auto & i : FileSystem::FileInfo::directoryList(p.resourceSystem->getPath(FileSystem::ResourcePath::IconsDirectory)))
                     {
-                        for (const auto & i : FileSystem::FileInfo::directoryList(resourceSystem->getPath(FileSystem::ResourcePath::IconsDirectory)))
+                        const std::string fileName = i.getFileName(Frame::Invalid, false);
+                        const size_t size = fileName.size();
+                        if (size > 3 &&
+                            fileName[size - 3] == 'D' &&
+                            fileName[size - 2] == 'P' &&
+                            fileName[size - 1] == 'I')
                         {
-                            const std::string fileName = i.getFileName(Frame::Invalid, false);
-                            const size_t size = fileName.size();
-                            if (size > 3 &&
-                                fileName[size - 3] == 'D' &&
-                                fileName[size - 2] == 'P' &&
-                                fileName[size - 1] == 'I')
-                            {
-                                p.dpiList.push_back(std::stoi(fileName.substr(0, size - 3)));
-                            }
+                            p.dpiList.push_back(std::stoi(fileName.substr(0, size - 3)));
                         }
                     }
                     std::sort(p.dpiList.begin(), p.dpiList.end());
@@ -191,10 +194,7 @@ namespace djv
                 }
                 catch (const std::exception & e)
                 {
-                    if (auto logSystem = context->getSystemT<LogSystem>())
-                    {
-                        logSystem->log("djv::AV::ThumbnailSystem", e.what(), LogLevel::Error);
-                    }
+                    logSystem->log("djv::AV::ThumbnailSystem", e.what(), LogLevel::Error);
                 }
             });
         }
@@ -224,7 +224,7 @@ namespace djv
         {
             DJV_PRIVATE_PTR();
             ImageRequest request;
-            request.path = p.getPath(name, p.findClosestDPI(size), getContext());
+            request.path = p.getPath(name, p.findClosestDPI(size), p.resourceSystem);
             auto future = request.promise.get_future();
             {
                 std::unique_lock<std::mutex> lock(p.requestMutex);
@@ -251,25 +251,22 @@ namespace djv
                 p.imageCache.get(key, image);
                 if (!image)
                 {
-                    if (auto io = getContext()->getSystemT<AV::IO::System>())
+                    try
+                    {
+                        i.read = p.io->read(i.path);
+                        p.pendingImageRequests.push_back(std::move(i));
+                    }
+                    catch (const std::exception & e)
                     {
                         try
                         {
-                            i.read = io->read(i.path);
-                            p.pendingImageRequests.push_back(std::move(i));
+                            i.promise.set_exception(std::current_exception());
                         }
                         catch (const std::exception & e)
                         {
-                            try
-                            {
-                                i.promise.set_exception(std::current_exception());
-                            }
-                            catch (const std::exception & e)
-                            {
-                                _log(e.what(), LogLevel::Error);
-                            }
                             _log(e.what(), LogLevel::Error);
                         }
+                        _log(e.what(), LogLevel::Error);
                     }
                 }
                 if (image)
@@ -330,13 +327,9 @@ namespace djv
             }
         }
 
-        FileSystem::Path IconSystem::Private::getPath(const std::string & name, int dpi, Context * context) const
+        FileSystem::Path IconSystem::Private::getPath(const std::string & name, int dpi, const std::shared_ptr<ResourceSystem>& resourceSystem) const
         {
-            FileSystem::Path out;
-            if (auto resourceSystem = context->getSystemT<ResourceSystem>())
-            {
-                out = resourceSystem->getPath(FileSystem::ResourcePath::IconsDirectory);
-            }
+            FileSystem::Path out = resourceSystem->getPath(FileSystem::ResourcePath::IconsDirectory);
             {
                 std::stringstream ss;
                 ss << dpi << "DPI";

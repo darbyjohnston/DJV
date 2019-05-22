@@ -37,6 +37,7 @@
 #include <djvCore/Context.h>
 #include <djvCore/LogSystem.h>
 #include <djvCore/OS.h>
+#include <djvCore/ResourceSystem.h>
 #include <djvCore/Timer.h>
 
 #include <GLFW/glfw3.h>
@@ -54,8 +55,8 @@ namespace djv
         namespace
         {
             //! \todo [1.0 S] Should this be configurable?
-            const size_t infoProcessMax  = 8;
-            const size_t imageProcessMax = 8;
+            const size_t infoProcessMax  = 16;
+            const size_t imageProcessMax = 16;
             const size_t infoCacheMax    = 1000;
             const size_t imageCacheMax   = 1000;
 
@@ -166,6 +167,8 @@ namespace djv
         
         struct ThumbnailSystem::Private
         {
+            std::shared_ptr<IO::System> io;
+
             std::list<InfoRequest> infoRequests;
             std::list<ImageRequest> imageRequests;
             std::condition_variable requestCV;
@@ -190,8 +193,10 @@ namespace djv
 
             DJV_PRIVATE_PTR();
 
-            addDependency(context->getSystemT<IO::System>());
+            auto io = context->getSystemT<IO::System>();
+            addDependency(io);
 
+            p.io = io;
             p.infoCache.setMax(infoCacheMax);
             p.infoCachePercentage = 0.f;
             p.imageCache.setMax(imageCacheMax);
@@ -235,9 +240,11 @@ namespace djv
                 _log(s.str());
             });
 
+            auto logSystem = context->getSystemT<LogSystem>();
+            auto resourceSystem = context->getSystemT<ResourceSystem>();
             p.running = true;
             p.thread = std::thread(
-                [this, context]
+                [this, resourceSystem, logSystem]
             {
                 DJV_PRIVATE_PTR();
                 try
@@ -254,7 +261,7 @@ namespace djv
                         throw std::runtime_error(ss.str());
                     }
 
-                    auto convert = Image::Convert::create(context);
+                    auto convert = Image::Convert::create(resourceSystem);
 
                     const auto timeout = Time::getValue(Time::TimerValue::Medium);
                     while (p.running)
@@ -288,10 +295,7 @@ namespace djv
                 }
                 catch (const std::exception & e)
                 {
-                    if (auto logSystem = context->getSystemT<LogSystem>())
-                    {
-                        logSystem->log("djv::AV::ThumbnailSystem", e.what(), LogLevel::Error);
-                    }
+                    logSystem->log("djv::AV::ThumbnailSystem", e.what(), LogLevel::Error);
                 }
             });
         }
@@ -429,11 +433,11 @@ namespace djv
                 {
                     i.promise.set_value(info);
                 }
-                else if (auto io = getContext()->getSystemT<IO::System>())
+                else
                 {
                     try
                     {
-                        i.read = io->read(i.path);
+                        i.read = p.io->read(i.path);
                         i.infoFuture = i.read->getInfo();
                         p.pendingInfoRequests.push_back(std::move(i));
                     }
@@ -516,33 +520,30 @@ namespace djv
                 }
                 else
                 {
-                    if (auto io = getContext()->getSystemT<IO::System>())
+                    try
+                    {
+                        i.read = p.io->read(i.path);
+                        const auto info = i.read->getInfo().get();
+                        if (info.video.size() > 0)
+                        {
+                            p.pendingImageRequests.push_back(std::move(i));
+                        }
+                        else
+                        {
+                            i.promise.set_value(nullptr);
+                        }
+                    }
+                    catch (const std::exception & e)
                     {
                         try
                         {
-                            i.read = io->read(i.path);
-                            const auto info = i.read->getInfo().get();
-                            if (info.video.size() > 0)
-                            {
-                                p.pendingImageRequests.push_back(std::move(i));
-                            }
-                            else
-                            {
-                                i.promise.set_value(nullptr);
-                            }
+                            i.promise.set_exception(std::current_exception());
                         }
                         catch (const std::exception & e)
                         {
-                            try
-                            {
-                                i.promise.set_exception(std::current_exception());
-                            }
-                            catch (const std::exception & e)
-                            {
-                                _log(e.what(), LogLevel::Error);
-                            }
                             _log(e.what(), LogLevel::Error);
                         }
+                        _log(e.what(), LogLevel::Error);
                     }
                 }
             }

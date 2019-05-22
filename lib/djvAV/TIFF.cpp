@@ -29,8 +29,6 @@
 
 #include <djvAV/TIFF.h>
 
-#include <djvCore/Context.h>
-
 using namespace djv::Core;
 
 namespace djv
@@ -89,14 +87,17 @@ namespace djv
                     _p(new Private)
                 {}
 
-                std::shared_ptr<Plugin> Plugin::create(Context * context)
+                std::shared_ptr<Plugin> Plugin::create(
+                    const std::shared_ptr<ResourceSystem>& resourceSystem,
+                    const std::shared_ptr<LogSystem>& logSystem)
                 {
                     auto out = std::shared_ptr<Plugin>(new Plugin);
                     out->_init(
                         pluginName,
                         DJV_TEXT("This plugin provides Tagged Image File Format (TIFF) image I/O."),
                         fileExtensions,
-                        context);
+                        resourceSystem,
+                        logSystem);
                     return out;
                 }
 
@@ -112,12 +113,12 @@ namespace djv
 
                 std::shared_ptr<IRead> Plugin::read(const std::string & fileName) const
                 {
-                    return Read::create(fileName, _context);
+                    return Read::create(fileName, _resourceSystem, _logSystem);
                 }
 
                 std::shared_ptr<IWrite> Plugin::write(const std::string & fileName, const Info & info) const
                 {
-                    return Write::create(fileName, _p->settings, info, _context);
+                    return Write::create(fileName, _p->settings, info, _resourceSystem, _logSystem);
                 }
 
             } // namespace TIFF

@@ -29,7 +29,6 @@
 
 #include <djvAV/PNG.h>
 
-#include <djvCore/Context.h>
 #include <djvCore/String.h>
 
 using namespace djv::Core;
@@ -45,25 +44,28 @@ namespace djv
                 Plugin::Plugin()
                 {}
 
-                std::shared_ptr<Plugin> Plugin::create(Context * context)
+                std::shared_ptr<Plugin> Plugin::create(
+                    const std::shared_ptr<ResourceSystem>& resourceSystem,
+                    const std::shared_ptr<LogSystem>& logSystem)
                 {
                     auto out = std::shared_ptr<Plugin>(new Plugin);
                     out->_init(
                         "PNG",
                         DJV_TEXT("This plugin provides Portable Network Graphics (PNG) image I/O."),
                         { ".png" },
-                        context);
+                        resourceSystem,
+                        logSystem);
                     return out;
                 }
 
                 std::shared_ptr<IRead> Plugin::read(const std::string & fileName) const
                 {
-                    return Read::create(fileName, _context);
+                    return Read::create(fileName, _resourceSystem, _logSystem);
                 }
 
                 std::shared_ptr<IWrite> Plugin::write(const std::string & fileName, const Info & info) const
                 {
-                    return Write::create(fileName, info, _context);
+                    return Write::create(fileName, info, _resourceSystem, _logSystem);
                 }
 
                 extern "C"

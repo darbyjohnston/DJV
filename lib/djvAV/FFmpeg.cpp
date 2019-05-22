@@ -29,7 +29,6 @@
 
 #include <djvAV/FFmpeg.h>
 
-#include <djvCore/Context.h>
 #include <djvCore/LogSystem.h>
 #include <djvCore/String.h>
 
@@ -111,15 +110,18 @@ namespace djv
 
                 } // namespace
 
-                void Plugin::_init(Context * context)
+                void Plugin::_init(
+                    const std::shared_ptr<ResourceSystem>& resourceSystem,
+                    const std::shared_ptr<LogSystem>& logSystem)
                 {
                     IPlugin::_init(
                         pluginName,
                         DJV_TEXT("This plugin provides FFmpeg image and audio I/O."),
                         fileExtensions,
-                        context);
+                        resourceSystem,
+                        logSystem);
                         
-                    _logSystem = context->getSystemT<LogSystem>();
+                    _logSystem = logSystem;
                     av_log_set_level(AV_LOG_ERROR);
                     av_log_set_callback(avLogCallback);
                     av_register_all();
@@ -128,16 +130,18 @@ namespace djv
                 Plugin::Plugin()
                 {}
 
-                std::shared_ptr<Plugin> Plugin::create(Context * context)
+                std::shared_ptr<Plugin> Plugin::create(
+                    const std::shared_ptr<ResourceSystem>& resourceSystem,
+                    const std::shared_ptr<LogSystem>& logSystem)
                 {
                     auto out = std::shared_ptr<Plugin>(new Plugin);
-                    out->_init(context);
+                    out->_init(resourceSystem, logSystem);
                     return out;
                 }
 
                 std::shared_ptr<IRead> Plugin::read(const std::string & fileName) const
                 {
-                    return Read::create(fileName, _context);
+                    return Read::create(fileName, _resourceSystem, _logSystem);
                 }
 
             } // namespace FFmpeg

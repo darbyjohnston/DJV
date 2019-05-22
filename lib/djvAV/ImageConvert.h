@@ -35,7 +35,7 @@ namespace djv
 {
     namespace Core
     {
-        class Context;
+        class ResourceSystem;
 
     } // namespace Core
 
@@ -49,7 +49,7 @@ namespace djv
                 DJV_NON_COPYABLE(Convert);
 
             protected:
-                void _init(Core::Context *);
+                void _init(const std::shared_ptr<Core::ResourceSystem>&);
                 Convert();
 
             public:
@@ -58,7 +58,7 @@ namespace djv
                 //! Note that this function requires an OpenGL context.
                 //! Throws:
                 //! - std::exception
-                static std::shared_ptr<Convert> create(Core::Context *);
+                static std::shared_ptr<Convert> create(const std::shared_ptr<Core::ResourceSystem>&);
 
                 //! Note that this function requires an OpenGL context.
                 void process(const Data &, const Info &, Data &);

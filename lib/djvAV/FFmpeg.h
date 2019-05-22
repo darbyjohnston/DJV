@@ -71,13 +71,19 @@ namespace djv
                     DJV_NON_COPYABLE(Read);
 
                 protected:
-                    void _init(const std::string & fileName, Core::Context *);
+                    void _init(
+                        const std::string & fileName,
+                        const std::shared_ptr<Core::ResourceSystem>&,
+                        const std::shared_ptr<Core::LogSystem>&);
                     Read();
 
                 public:
                     ~Read();
 
-                    static std::shared_ptr<Read> create(const std::string & fileName, Core::Context *);
+                    static std::shared_ptr<Read> create(
+                        const std::string & fileName,
+                        const std::shared_ptr<Core::ResourceSystem>&,
+                        const std::shared_ptr<Core::LogSystem>&);
 
                     bool isRunning() const override;
 
@@ -97,12 +103,16 @@ namespace djv
                     DJV_NON_COPYABLE(Plugin);
 
                 protected:
-                    void _init(Core::Context *);
+                    void _init(
+                        const std::shared_ptr<Core::ResourceSystem>&,
+                        const std::shared_ptr<Core::LogSystem>&);
 
                     Plugin();
 
                 public:
-                    static std::shared_ptr<Plugin> create(Core::Context *);
+                    static std::shared_ptr<Plugin> create(
+                        const std::shared_ptr<Core::ResourceSystem>&,
+                        const std::shared_ptr<Core::LogSystem>&);
 
                     std::shared_ptr<IRead> read(const std::string & fileName) const override;
                 };

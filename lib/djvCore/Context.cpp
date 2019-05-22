@@ -160,7 +160,6 @@ namespace djv
 
         void Context::_addSystem(const std::shared_ptr<ISystemBase> & system)
         {
-            std::lock_guard<std::mutex> lock(_systemsMutex);
             _systems.push_back(system);
         }
 

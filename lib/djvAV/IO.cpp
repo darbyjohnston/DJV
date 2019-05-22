@@ -29,8 +29,10 @@
 
 #include <djvAV/IO.h>
 
-#include <djvAV/FFmpeg.h>
 #include <djvAV/PPM.h>
+#if defined(FFMPEG_FOUND)
+#include <djvAV/FFmpeg.h>
+#endif // FFMPEG_FOUND
 #if defined(JPEG_FOUND)
 #include <djvAV/JPEG.h>
 #endif // JPEG_FOUND
@@ -45,8 +47,8 @@
 #include <djvCore/CoreSystem.h>
 #include <djvCore/LogSystem.h>
 #include <djvCore/Path.h>
+#include <djvCore/ResourceSystem.h>
 #include <djvCore/String.h>
-#include <djvCore/TextSystem.h>
 
 using namespace djv::Core;
 
@@ -180,12 +182,14 @@ namespace djv
                 _finished = value;
             }
 
-            void IIO::_init(const std::string & fileName, Context * context)
+            void IIO::_init(
+                const std::string & fileName,
+                const std::shared_ptr<ResourceSystem>& resourceSystem,
+                const std::shared_ptr<LogSystem>& logSystem)
             {
-                _context    = context;
-                _logSystem  = context->getSystemT<LogSystem>();
-                _textSystem = context->getSystemT<TextSystem>();
-                _fileName   = fileName;
+                _logSystem      = logSystem;
+                _resourceSystem = resourceSystem;
+                _fileName       = fileName;
             }
 
             IIO::IIO()
@@ -194,9 +198,12 @@ namespace djv
             IIO::~IIO()
             {}
 
-            void IRead::_init(const std::string & fileName, Context * context)
+            void IRead::_init(
+                const std::string & fileName,
+                const std::shared_ptr<ResourceSystem>& resourceSystem,
+                const std::shared_ptr<LogSystem>& logSystem)
             {
-                IIO::_init(fileName, context);
+                IIO::_init(fileName, resourceSystem, logSystem);
             }
 
             IRead::IRead()
@@ -208,9 +215,13 @@ namespace djv
             void IRead::seek(Time::Timestamp)
             {}
 
-            void IWrite::_init(const std::string & fileName, const Info & info, Context * context)
+            void IWrite::_init(
+                const std::string & fileName,
+                const Info & info,
+                const std::shared_ptr<ResourceSystem>& resourceSystem,
+                const std::shared_ptr<LogSystem>& logSystem)
             {
-                IIO::_init(fileName, context);
+                IIO::_init(fileName, resourceSystem, logSystem);
                 _info = info;
             }
 
@@ -221,12 +232,14 @@ namespace djv
             {}
 
             void IPlugin::_init(
-                const std::string &           pluginName,
-                const std::string &           pluginInfo,
+                const std::string & pluginName,
+                const std::string & pluginInfo,
                 const std::set<std::string> & fileExtensions,
-                Context *                     context)
+                const std::shared_ptr<ResourceSystem>& resourceSystem,
+                const std::shared_ptr<LogSystem>& logSystem)
             {
-                _context        = context;
+                _logSystem      = logSystem;
+                _resourceSystem = resourceSystem;
                 _pluginName     = pluginName;
                 _pluginInfo     = pluginInfo;
                 _fileExtensions = fileExtensions;
@@ -290,16 +303,18 @@ namespace djv
 
                 addDependency(context->getSystemT<CoreSystem>());
 
-                p.plugins[FFmpeg::pluginName] = FFmpeg::Plugin::create(context);
-                p.plugins[PPM::pluginName] = PPM::Plugin::create(context);
+                auto logSystem = context->getSystemT<LogSystem>();
+                auto resourceSystem = context->getSystemT<ResourceSystem>();
+                p.plugins[FFmpeg::pluginName] = FFmpeg::Plugin::create(resourceSystem, logSystem);
+                p.plugins[PPM::pluginName] = PPM::Plugin::create(resourceSystem, logSystem);
 #if defined(JPEG_FOUND)
-                p.plugins[JPEG::pluginName] = JPEG::Plugin::create(context);
+                p.plugins[JPEG::pluginName] = JPEG::Plugin::create(resourceSystem, logSystem);
 #endif // JPEG_FOUND
 #if defined(PNG_FOUND)
-                p.plugins[PNG::pluginName] = PNG::Plugin::create(context);
+                p.plugins[PNG::pluginName] = PNG::Plugin::create(resourceSystem, logSystem);
 #endif // PNG_FOUND
 #if defined(TIFF_FOUND)
-                p.plugins[TIFF::pluginName] = TIFF::Plugin::create(context);
+                p.plugins[TIFF::pluginName] = TIFF::Plugin::create(resourceSystem, logSystem);
 #endif // TIFF_FOUND
 
                 for (const auto & i : p.plugins)

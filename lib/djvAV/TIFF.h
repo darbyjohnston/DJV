@@ -83,7 +83,10 @@ namespace djv
                     Read();
 
                 public:
-                    static std::shared_ptr<Read> create(const std::string & fileName, Core::Context *);
+                    static std::shared_ptr<Read> create(
+                        const std::string & fileName,
+                        const std::shared_ptr<Core::ResourceSystem>&,
+                        const std::shared_ptr<Core::LogSystem>&);
 
                 protected:
                     Info _readInfo(const std::string & fileName) override;
@@ -108,7 +111,8 @@ namespace djv
                         const std::string & fileName,
                         const Settings &,
                         const Info &,
-                        Core::Context *);
+                        const std::shared_ptr<Core::ResourceSystem>&,
+                        const std::shared_ptr<Core::LogSystem>&);
 
                 protected:
                     void _write(const std::string & fileName, const std::shared_ptr<Image::Image> &) override;
@@ -125,7 +129,9 @@ namespace djv
                     Plugin();
 
                 public:
-                    static std::shared_ptr<Plugin> create(Core::Context *);
+                    static std::shared_ptr<Plugin> create(
+                        const std::shared_ptr<Core::ResourceSystem>&,
+                        const std::shared_ptr<Core::LogSystem>&);
 
                     picojson::value getOptions() const override;
                     void setOptions(const picojson::value &) override;

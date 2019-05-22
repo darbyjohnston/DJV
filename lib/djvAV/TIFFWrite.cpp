@@ -31,8 +31,6 @@
 
 #include <djvAV/ImageConvert.h>
 
-#include <djvCore/Context.h>
-
 using namespace djv::Core;
 
 namespace djv
@@ -57,10 +55,15 @@ namespace djv
                 Write::~Write()
                 {}
 
-                std::shared_ptr<Write> Write::create(const std::string & fileName, const Settings & settings, const Info & info, Context * context)
+                std::shared_ptr<Write> Write::create(
+                    const std::string & fileName,
+                    const Settings & settings,
+                    const Info & info,
+                    const std::shared_ptr<ResourceSystem>& resourceSystem,
+                    const std::shared_ptr<LogSystem>& logSystem)
                 {
                     auto out = std::shared_ptr<Write>(new Write(settings));
-                    out->_init(fileName, info, context);
+                    out->_init(fileName, info, resourceSystem, logSystem);
                     return out;
                 }
 

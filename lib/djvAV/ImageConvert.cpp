@@ -62,14 +62,10 @@ namespace djv
                 glm::mat4x4 mvp = glm::mat4x4(1.f);
             };
 
-            void Convert::_init(Context * context)
+            void Convert::_init(const std::shared_ptr<ResourceSystem>& resourceSystem)
             {
                 DJV_PRIVATE_PTR();
-                FileSystem::Path shaderPath;
-                if (auto resourceSystem = context->getSystemT<ResourceSystem>())
-                {
-                    shaderPath = resourceSystem->getPath(Core::FileSystem::ResourcePath::ShadersDirectory);
-                }
+                const FileSystem::Path shaderPath = resourceSystem->getPath(Core::FileSystem::ResourcePath::ShadersDirectory);
                 p.shader = AV::OpenGL::Shader::create(Render::Shader::create(
                     FileSystem::Path(shaderPath, "djvAVImageConvertVertex.glsl"),
                     FileSystem::Path(shaderPath, "djvAVImageConvertFragment.glsl")));
@@ -82,10 +78,10 @@ namespace djv
             Convert::~Convert()
             {}
 
-            std::shared_ptr<Convert> Convert::create(Context * context)
+            std::shared_ptr<Convert> Convert::create(const std::shared_ptr<ResourceSystem>& resourceSystem)
             {
                 auto out = std::shared_ptr<Convert>(new Convert);
-                out->_init(context);
+                out->_init(resourceSystem);
                 return out;
             }
 

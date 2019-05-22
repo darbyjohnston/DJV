@@ -29,7 +29,6 @@
 
 #include <djvAV/PNG.h>
 
-#include <djvCore/Context.h>
 #include <djvCore/FileIO.h>
 
 using namespace djv::Core;
@@ -78,10 +77,13 @@ namespace djv
                 Read::Read()
                 {}
 
-                std::shared_ptr<Read> Read::create(const std::string & fileName, Context * context)
+                std::shared_ptr<Read> Read::create(
+                    const std::string & fileName,
+                    const std::shared_ptr<ResourceSystem>& resourceSystem,
+                    const std::shared_ptr<LogSystem>& logSystem)
                 {
                     auto out = std::shared_ptr<Read>(new Read);
-                    out->_init(fileName, context);
+                    out->_init(fileName, resourceSystem, logSystem);
                     return out;
                 }
 

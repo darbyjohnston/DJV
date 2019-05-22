@@ -49,7 +49,7 @@ namespace djv
     namespace Core
     {
         class LogSystem;
-        class TextSystem;
+        class ResourceSystem;
 
     } // namespace Core
 
@@ -170,7 +170,10 @@ namespace djv
                 DJV_NON_COPYABLE(IIO);
 
             protected:
-                void _init(const std::string & fileName, Core::Context *);
+                void _init(
+                    const std::string & fileName,
+                    const std::shared_ptr<Core::ResourceSystem>&,
+                    const std::shared_ptr<Core::LogSystem>&);
                 IIO();
 
             public:
@@ -183,9 +186,8 @@ namespace djv
                 inline AudioQueue& getAudioQueue();
 
             protected:
-                Core::Context * _context = nullptr;
                 std::shared_ptr<Core::LogSystem> _logSystem;
-                std::shared_ptr<Core::TextSystem> _textSystem;
+                std::shared_ptr<Core::ResourceSystem> _resourceSystem;
                 std::string _fileName;
                 std::mutex _mutex;
                 VideoQueue _videoQueue;
@@ -198,7 +200,10 @@ namespace djv
                 DJV_NON_COPYABLE(IRead);
 
             protected:
-                void _init(const std::string & fileName, Core::Context *);
+                void _init(
+                    const std::string & fileName,
+                    const std::shared_ptr<Core::ResourceSystem>&,
+                    const std::shared_ptr<Core::LogSystem>&);
                 IRead();
 
             public:
@@ -215,7 +220,11 @@ namespace djv
                 DJV_NON_COPYABLE(IWrite);
 
             protected:
-                void _init(const std::string &, const Info &, Core::Context *);
+                void _init(
+                    const std::string &,
+                    const Info &,
+                    const std::shared_ptr<Core::ResourceSystem>&,
+                    const std::shared_ptr<Core::LogSystem>&);
                 IWrite();
 
             public:
@@ -235,7 +244,8 @@ namespace djv
                     const std::string & pluginName,
                     const std::string & pluginInfo,
                     const std::set<std::string> & fileExtensions,
-                    Core::Context *);
+                    const std::shared_ptr<Core::ResourceSystem>&,
+                    const std::shared_ptr<Core::LogSystem>&);
                 IPlugin();
 
             public:
@@ -263,9 +273,8 @@ namespace djv
                 virtual std::shared_ptr<IWrite> write(const std::string& fileName, const Info&) const;
 
             protected:
-                Core::Context * _context = nullptr;
                 std::shared_ptr<Core::LogSystem> _logSystem;
-                std::shared_ptr<Core::TextSystem> _textSystem;
+                std::shared_ptr<Core::ResourceSystem> _resourceSystem;
                 std::string _pluginName;
                 std::string _pluginInfo;
                 std::set<std::string> _fileExtensions;
