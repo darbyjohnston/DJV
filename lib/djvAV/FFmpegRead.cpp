@@ -87,11 +87,11 @@ namespace djv
                         try
                         {
                             // Open the file.
-                            {
+                            /*{
                                 std::stringstream ss;
                                 ss << "Reading file: " << _fileName;
                                 _logSystem->log("djv::AV::IO::FFmpeg::Read", ss.str());
-                            }
+                            }*/
                             int r = avformat_open_input(
                                 &p.avFormatContext,
                                 _fileName.c_str(),
@@ -218,14 +218,14 @@ namespace djv
                                 const Time::Speed speed(avVideoStream->r_frame_rate.num, avVideoStream->r_frame_rate.den);
                                 p.videoInfo = VideoInfo(pixelDataInfo, speed, duration);
                                 info.video.push_back(p.videoInfo);
-                                {
+                                /*{
                                     std::stringstream ss;
                                     ss << _fileName << ": image size " << pixelDataInfo.size << "\n";
                                     ss << _fileName << ": pixel type " << pixelDataInfo.type << "\n";
                                     ss << _fileName << ": duration " << duration << "\n";
                                     ss << _fileName << ": speed " << speed << "\n";
                                     _logSystem->log("djv::AV::IO::FFmpeg::Read", ss.str());
-                                }
+                                }*/
                             }
 
                             if (p.avAudioStream != -1)
@@ -426,11 +426,11 @@ namespace djv
                                 }
                                 catch (const std::exception&)
                                 {
-                                    {
+                                    /*{
                                         std::stringstream ss;
                                         ss << _fileName << ": finished";
                                         _logSystem->log("djv::AV::IO::FFmpeg::Read", ss.str());
-                                    }
+                                    }*/
                                     av_packet_unref(&packet);
                                     {
                                         std::lock_guard<std::mutex> lock(_mutex);

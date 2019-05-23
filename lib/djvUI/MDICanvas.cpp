@@ -69,6 +69,7 @@ namespace djv
             struct Canvas::Private
             {
                 glm::vec2 canvasSize = glm::vec2(10000.f, 10000.f);
+                std::map<std::shared_ptr<IWidget>, bool> widgetInit;
                 std::map<std::shared_ptr<IWidget>, BBox2f> widgetToGeometry;
                 std::map<Event::PointerID, Hovered> hovered;
                 std::map<Event::PointerID, Pressed> pressed;
@@ -158,13 +159,25 @@ namespace djv
                 return i != p.widgetToGeometry.end() ? i->second.min : glm::vec2(0.f, 0.f);
             }
 
-            void Canvas::setWidgetPos(const std::shared_ptr<IWidget> & widget, const glm::vec2 & pos)
+            void Canvas::setWidgetPos(const std::shared_ptr<IWidget>& widget, const glm::vec2& pos)
             {
                 DJV_PRIVATE_PTR();
                 auto i = p.widgetToGeometry.find(widget);
                 if (i != p.widgetToGeometry.end())
                 {
                     i->second.min = pos;
+                    _resize();
+                }
+            }
+
+            void Canvas::setWidgetGeometry(const std::shared_ptr<IWidget>& widget, const BBox2f& geometry)
+            {
+                DJV_PRIVATE_PTR();
+                auto i = p.widgetToGeometry.find(widget);
+                if (i != p.widgetToGeometry.end())
+                {
+                    i->second = geometry;
+                    p.widgetInit[widget] = false;
                     _resize();
                 }
             }
@@ -264,8 +277,9 @@ namespace djv
                     if (i.first != maximizedWidget)
                     {
                         const glm::vec2& widgetMinimumSize = i.first->getMinimumSize();
-                        if (i.second.min.x < 0.f && i.second.min.y < 0.f)
+                        if (p.widgetInit[i.first])
                         {
+                            p.widgetInit[i.first] = false;
                             const glm::vec2 c = g.getCenter();
                             const float w = std::max(i.first->getWidth(), widgetMinimumSize.x);
                             const float h = std::max(i.first->getHeight(), widgetMinimumSize.y);
@@ -304,7 +318,8 @@ namespace djv
                     const auto i = p.widgetToGeometry.find(widget);
                     if (i == p.widgetToGeometry.end())
                     {
-                        p.widgetToGeometry[widget] = BBox2f(-1.f, -1.f, 0.f, 0.f);
+                        p.widgetInit[widget] = true;
+                        p.widgetToGeometry[widget] = BBox2f(0.f, 0.f, 0.f, 0.f);
                     }
                     p.activeWidget = widget;
                     _resize();
@@ -353,8 +368,17 @@ namespace djv
                         if (p.activeWidget)
                         {
                             p.activeWidget->setMaximized(0.f);
+                            const auto i = p.widgetToGeometry.find(p.activeWidget);
+                            if (i != p.widgetToGeometry.end())
+                            {
+                                i->first->setGeometry(i->second);
+                            }
                         }
                         widget->setMaximized(p.maximizedValue);
+                        if (p.maximized)
+                        {
+                            widget->setGeometry(getGeometry());
+                        }
                         p.activeWidget = widget;
                         if (p.activeCallback)
                         {

@@ -63,6 +63,9 @@ namespace djv
             void setCapturePointer(bool);
             void setCaptureKeyboard(bool);
 
+            void setOpenCallback(const std::function<void(void)>&);
+            void setCloseCallback(const std::function<void(void)>&);
+
             void addChild(const std::shared_ptr<IObject> &) override;
             void removeChild(const std::shared_ptr<IObject> &) override;
             void clearChildren() override;

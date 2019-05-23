@@ -59,7 +59,8 @@ namespace djv
             public:
                 static std::shared_ptr<OverlayWidget> create(Context *);
 
-                void addChild(const std::shared_ptr<IObject> &) override;
+                void addChild(const std::shared_ptr<IObject>&) override;
+                void removeChild(const std::shared_ptr<IObject>&) override;
 
             protected:
                 void _preLayoutEvent(Event::PreLayout &) override;
@@ -92,9 +93,14 @@ namespace djv
                 return out;
             }
 
-            void OverlayWidget::addChild(const std::shared_ptr<IObject> & value)
+            void OverlayWidget::addChild(const std::shared_ptr<IObject>& value)
             {
                 _layout->addChild(value);
+            }
+
+            void OverlayWidget::removeChild(const std::shared_ptr<IObject>& value)
+            {
+                _layout->removeChild(value);
             }
 
             void OverlayWidget::_buttonPressEvent(Event::ButtonPress & event)
@@ -130,11 +136,11 @@ namespace djv
 
                 void setButton(const std::shared_ptr<Widget> &, const std::weak_ptr<Widget> &);
 
-                void removeChild(const std::shared_ptr<IObject> &) override;
-
             protected:
                 void _layoutEvent(Event::Layout &) override;
                 void _paintEvent(Event::Paint &) override;
+
+                void _childRemovedEvent(Event::ChildRemoved&) override;
 
             private:
                 std::map<std::shared_ptr<Widget>, std::weak_ptr<Widget> > _widgetToButton;
@@ -159,19 +165,6 @@ namespace djv
             void OverlayLayout::setButton(const std::shared_ptr<Widget> & widget, const std::weak_ptr<Widget> & button)
             {
                 _widgetToButton[widget] = button;
-            }
-
-            void OverlayLayout::removeChild(const std::shared_ptr<IObject> & value)
-            {
-                Widget::removeChild(value);
-                if (auto widget = std::dynamic_pointer_cast<Widget>(value))
-                {
-                    const auto j = _widgetToButton.find(widget);
-                    if (j != _widgetToButton.end())
-                    {
-                        _widgetToButton.erase(j);
-                    }
-                }
             }
 
             void OverlayLayout::_layoutEvent(Event::Layout &)
@@ -236,6 +229,18 @@ namespace djv
                 }
             }
 
+            void OverlayLayout::_childRemovedEvent(Event::ChildRemoved& event)
+            {
+                if (auto widget = std::dynamic_pointer_cast<Widget>(event.getChild()))
+                {
+                    const auto j = _widgetToButton.find(widget);
+                    if (j != _widgetToButton.end())
+                    {
+                        _widgetToButton.erase(j);
+                    }
+                }
+            }
+
         } // namespace
 
         struct PopupWidget::Private
@@ -246,6 +251,8 @@ namespace djv
             std::shared_ptr<OverlayLayout> overlayLayout;
             std::shared_ptr<Layout::Overlay> overlay;
             std::function<void(int)> callback;
+            std::function<void(void)> openCallback;
+            std::function<void(void)> closeCallback;
             std::shared_ptr<ValueObserver<bool> > closeObserver;
         };
 
@@ -343,6 +350,10 @@ namespace djv
                     p.closeAction->setEnabled(true);
                     p.overlay->moveToFront();
                     p.overlay->show();
+                    if (p.openCallback)
+                    {
+                        p.openCallback();
+                    }
                 }
             }
         }
@@ -353,6 +364,10 @@ namespace djv
             p.closeAction->setEnabled(false);
             p.button->setChecked(false);
             p.overlay->hide();
+            if (p.closeCallback)
+            {
+                p.closeCallback();
+            }
         }
 
         const std::string & PopupWidget::getIcon() const
@@ -393,6 +408,16 @@ namespace djv
         void PopupWidget::setCaptureKeyboard(bool value)
         {
             _p->overlay->setCaptureKeyboard(value);
+        }
+
+        void PopupWidget::setOpenCallback(const std::function<void(void)>& value)
+        {
+            _p->openCallback = value;
+        }
+
+        void PopupWidget::setCloseCallback(const std::function<void(void)>& value)
+        {
+            _p->closeCallback = value;
         }
 
         void PopupWidget::addChild(const std::shared_ptr<IObject> & value)

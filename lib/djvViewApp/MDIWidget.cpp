@@ -76,7 +76,6 @@ namespace djv
             private:
                 void _opacityUpdate();
 
-                float _maximized = 0.f;
                 float _fade = 1.f;
                 std::shared_ptr<UI::Label> _titleLabel;
                 std::shared_ptr<UI::ToolButton> _maximizeButton;
@@ -177,9 +176,7 @@ namespace djv
 
             void SubWidget::setMaximized(float value)
             {
-                if (value == _maximized)
-                    return;
-                _maximized = value;
+                IWidget::setMaximized(value);
                 _opacityUpdate();
                 _resize();
             }
@@ -188,19 +185,19 @@ namespace djv
             {
                 auto style = _getStyle();
                 const float m = style->getMetric(UI::MetricsRole::Handle);
-                _setMinimumSize(_layout->getMinimumSize() + m * (1.f - _maximized));
+                _setMinimumSize(_layout->getMinimumSize() + m * (1.f - _getMaximized()));
             }
 
             void SubWidget::_layoutEvent(Event::Layout&)
             {
                 auto style = _getStyle();
                 const float m = style->getMetric(UI::MetricsRole::Handle);
-                _layout->setGeometry(getGeometry().margin(-m * (1.f - _maximized)));
+                _layout->setGeometry(getGeometry().margin(-m * (1.f - _getMaximized())));
             }
 
             void SubWidget::_opacityUpdate()
             {
-                _titleBar->setOpacity(_fade * (1.f - _maximized));
+                _titleBar->setOpacity(_fade * (1.f - _getMaximized()));
             }
 
         } // namespace
@@ -210,7 +207,8 @@ namespace djv
             std::shared_ptr<UI::MDI::Canvas> canvas;
             std::map<std::shared_ptr<Media>, std::shared_ptr<SubWidget> > subWidgets;
             std::shared_ptr<ValueObserver<std::shared_ptr<Media> > > currentMediaObserver;
-            std::shared_ptr<ValueObserver<std::pair<std::shared_ptr<Media>, glm::vec2> > > openedObserver;
+            std::shared_ptr<ValueObserver<std::shared_ptr<Media> > > openedObserver;
+            std::shared_ptr<ValueObserver<std::pair<std::shared_ptr<Media>, glm::vec2> > > opened2Observer;
             std::shared_ptr<ValueObserver<std::shared_ptr<Media> > > closedObserver;
         };
 
@@ -263,9 +261,24 @@ namespace djv
                     }
                 });
 
-                p.openedObserver = ValueObserver<std::pair<std::shared_ptr<Media>, glm::vec2> >::create(
+                p.openedObserver = ValueObserver<std::shared_ptr<Media> >::create(
                     fileSystem->observeOpened(),
-                    [weak, context](const std::pair<std::shared_ptr<Media>, glm::vec2> & value)
+                    [weak, context](const std::shared_ptr<Media>& value)
+                {
+                    if (value)
+                    {
+                        if (auto widget = weak.lock())
+                        {
+                            auto subWidget = SubWidget::create(value, context);
+                            widget->_p->canvas->addChild(subWidget);
+                            widget->_p->subWidgets[value] = subWidget;
+                        }
+                    }
+                });
+
+                p.opened2Observer = ValueObserver<std::pair<std::shared_ptr<Media>, glm::vec2> >::create(
+                    fileSystem->observeOpened2(),
+                    [weak, context](const std::pair<std::shared_ptr<Media>, glm::vec2>& value)
                 {
                     if (value.first)
                     {
@@ -273,7 +286,7 @@ namespace djv
                         {
                             auto subWidget = SubWidget::create(value.first, context);
                             widget->_p->canvas->addChild(subWidget);
-                            widget->_p->canvas->setWidgetPos(subWidget, value.second);
+                            widget->_p->canvas->setWidgetGeometry(subWidget, BBox2f(value.second, value.second));
                             widget->_p->subWidgets[value.first] = subWidget;
                         }
                     }

@@ -52,12 +52,14 @@ namespace djv
 
             static std::shared_ptr<FileSystem> create(Core::Context *);
 
-            std::shared_ptr<Core::IValueSubject<std::pair<std::shared_ptr<Media>, glm::vec2> > > observeOpened() const;
+            std::shared_ptr<Core::IValueSubject<std::shared_ptr<Media> > > observeOpened() const;
+            std::shared_ptr<Core::IValueSubject<std::pair<std::shared_ptr<Media>, glm::vec2> > > observeOpened2() const;
             std::shared_ptr<Core::IValueSubject<std::shared_ptr<Media> > > observeClosed() const;
             std::shared_ptr<Core::IListSubject<std::shared_ptr<Media> > > observeMedia() const;
             std::shared_ptr<Core::IValueSubject<std::shared_ptr<Media> > > observeCurrentMedia() const;
             void open();
-            void open(const std::string &, const glm::vec2 & = glm::vec2(-1.f, -1.f));
+            void open(const std::string&);
+            void open(const std::string&, const glm::vec2 &);
             void close(const std::shared_ptr<Media> &);
             void closeAll();
             void setCurrentMedia(const std::shared_ptr<Media> &);

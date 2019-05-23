@@ -373,11 +373,10 @@ namespace djv
         {
             DJV_PRIVATE_PTR();
             auto style = _getStyle();
-            const float m = style->getMetric(UI::MetricsRole::MarginSmall);
-            const float h = style->getMetric(UI::MetricsRole::Handle);
+            const float is = style->getMetric(UI::MetricsRole::Icon);
             glm::vec2 size = glm::vec2(0.f, 0.f);
             size.x = style->getMetric(UI::MetricsRole::TextColumn);
-            size.y = h + p.fontMetrics.lineHeight + m * 2.f;
+            size.y = is;
             _setMinimumSize(size);
         }
 

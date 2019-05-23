@@ -76,6 +76,7 @@ namespace djv
             std::shared_ptr<UI::PopupWidget> audioPopupWidget;
             std::shared_ptr<UI::BasicFloatSlider> volumeSlider;
             std::shared_ptr<UI::ToolButton> muteButton;
+            std::shared_ptr<UI::GridLayout> playbackLayout;
             std::shared_ptr<UI::VerticalLayout> uiLayout;
             std::shared_ptr<UI::StackLayout> layout;
 
@@ -150,35 +151,35 @@ namespace djv
             toolbar->addAction(p.actions["NextFrame"]);
             toolbar->addAction(p.actions["OutPoint"]);
 
-            auto playbackLayout = UI::GridLayout::create(context);
-            playbackLayout->setSpacing(UI::MetricsRole::None);
-            playbackLayout->setBackgroundRole(UI::ColorRole::Overlay);
-            playbackLayout->addChild(toolbar);
-            playbackLayout->setGridPos(toolbar, 0, 0);
+            p.playbackLayout = UI::GridLayout::create(context);
+            p.playbackLayout->setSpacing(UI::MetricsRole::None);
+            p.playbackLayout->setBackgroundRole(UI::ColorRole::Overlay);
+            p.playbackLayout->addChild(toolbar);
+            p.playbackLayout->setGridPos(toolbar, 0, 0);
             auto hLayout = UI::HorizontalLayout::create(context);
             hLayout->setSpacing(UI::MetricsRole::None);
             hLayout->addChild(p.timelineSlider);
             hLayout->setStretch(p.timelineSlider, UI::RowStretch::Expand);
             hLayout->addChild(p.audioPopupWidget);
-            playbackLayout->addChild(hLayout);
-            playbackLayout->setGridPos(hLayout, 1, 0);
-            playbackLayout->setStretch(hLayout, UI::GridStretch::Horizontal);
+            p.playbackLayout->addChild(hLayout);
+            p.playbackLayout->setGridPos(hLayout, 1, 0);
+            p.playbackLayout->setStretch(hLayout, UI::GridStretch::Horizontal);
             hLayout = UI::HorizontalLayout::create(context);
             hLayout->addChild(p.speedButton);
-            playbackLayout->addChild(hLayout);
-            playbackLayout->setGridPos(hLayout, 0, 1);
+            p.playbackLayout->addChild(hLayout);
+            p.playbackLayout->setGridPos(hLayout, 0, 1);
             hLayout = UI::HorizontalLayout::create(context);
             hLayout->setSpacing(UI::MetricsRole::None);
             hLayout->addChild(p.currentTimeLabel);
             hLayout->addExpander();
             hLayout->addChild(p.durationLabel);
-            playbackLayout->addChild(hLayout);
-            playbackLayout->setGridPos(hLayout, 1, 1);
+            p.playbackLayout->addChild(hLayout);
+            p.playbackLayout->setGridPos(hLayout, 1, 1);
 
             p.uiLayout = UI::VerticalLayout::create(context);
             p.uiLayout->setSpacing(UI::MetricsRole::None);
             p.uiLayout->addExpander();
-            p.uiLayout->addChild(playbackLayout);
+            p.uiLayout->addChild(p.playbackLayout);
 
             p.layout = UI::StackLayout::create(context);
             p.layout->addChild(p.imageView);
@@ -319,7 +320,17 @@ namespace djv
                 {
                     if (auto widget = weak.lock())
                     {
-                        widget->_p->speed = value.video.size() ? value.video[0].speed : Time::Speed();
+                        if (value.video.size())
+                        {
+                            widget->_p->speed = value.video[0].speed;
+                            const int64_t f = Time::scale(1, value.video[0].speed.swap(), Time::getTimebaseRational());
+                            widget->_p->playbackLayout->setVisible(value.video[0].duration > f);
+                        }
+                        else
+                        {
+                            widget->_p->speed = Time::Speed();
+                            widget->_p->playbackLayout->hide();
+                        }
                         widget->_widgetUpdate();
                     }
                 });

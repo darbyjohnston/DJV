@@ -62,7 +62,8 @@ namespace djv
         struct FileSystem::Private
         {
             std::shared_ptr<FileSettings> settings;
-            std::shared_ptr<ValueSubject<std::pair<std::shared_ptr<Media>, glm::vec2> > > opened;
+            std::shared_ptr<ValueSubject<std::shared_ptr<Media> > > opened;
+            std::shared_ptr<ValueSubject<std::pair<std::shared_ptr<Media>, glm::vec2> > > opened2;
             std::shared_ptr<ValueSubject<std::shared_ptr<Media> > > closed;
             std::shared_ptr<ListSubject<std::shared_ptr<Media> > > media;
             std::shared_ptr<ValueSubject<std::shared_ptr<Media> > > currentMedia;
@@ -85,7 +86,8 @@ namespace djv
             DJV_PRIVATE_PTR();
 
             p.settings = FileSettings::create(context);
-            p.opened = ValueSubject<std::pair<std::shared_ptr<Media>, glm::vec2> >::create();
+            p.opened = ValueSubject<std::shared_ptr<Media> >::create();
+            p.opened2 = ValueSubject<std::pair<std::shared_ptr<Media>, glm::vec2> >::create();
             p.closed = ValueSubject<std::shared_ptr<Media> >::create();
             p.media = ListSubject<std::shared_ptr<Media> >::create();
             p.currentMedia = ValueSubject<std::shared_ptr<Media> >::create();
@@ -324,9 +326,14 @@ namespace djv
             return out;
         }
 
-        std::shared_ptr<IValueSubject<std::pair<std::shared_ptr<Media>, glm::vec2> > > FileSystem::observeOpened() const
+        std::shared_ptr<IValueSubject<std::shared_ptr<Media> > > FileSystem::observeOpened() const
         {
             return _p->opened;
+        }
+
+        std::shared_ptr<IValueSubject<std::pair<std::shared_ptr<Media>, glm::vec2> > > FileSystem::observeOpened2() const
+        {
+            return _p->opened2;
         }
 
         std::shared_ptr<IValueSubject<std::shared_ptr<Media>> > FileSystem::observeClosed() const
@@ -349,7 +356,7 @@ namespace djv
             _showFileBrowserDialog();
         }
 
-        void FileSystem::open(const std::string & fileName, const glm::vec2 & pos)
+        void FileSystem::open(const std::string& fileName)
         {
             DJV_PRIVATE_PTR();
             auto context = getContext();
@@ -371,10 +378,41 @@ namespace djv
             }
             auto media = Media::create(fileName, context);
             p.media->pushBack(media);
-            p.opened->setIfChanged(std::make_pair(media, pos));
-            // Reset the "opened" observer so we don't have an extra shared_ptr holding
+            p.opened->setIfChanged(media);
+            // Reset the observer so we don't have an extra shared_ptr holding
             // onto the media object.
-            p.opened->setIfChanged(std::make_pair(nullptr, glm::ivec2(0, 0)));
+            p.opened->setIfChanged(nullptr);
+            p.currentMedia->setIfChanged(media);
+            p.recentFilesModel->addFile(fileName);
+            _actionsUpdate();
+        }
+
+        void FileSystem::open(const std::string& fileName, const glm::vec2& pos)
+        {
+            DJV_PRIVATE_PTR();
+            auto context = getContext();
+            if (auto windowSystem = context->getSystemT<WindowSystem>())
+            {
+                if (windowSystem->observeMaximized()->get())
+                {
+                    if (auto media = p.currentMedia->get())
+                    {
+                        const size_t index = p.media->indexOf(media);
+                        if (index != invalidListIndex)
+                        {
+                            p.media->removeItem(index);
+                            p.closed->setIfChanged(media);
+                            p.closed->setIfChanged(nullptr);
+                        }
+                    }
+                }
+            }
+            auto media = Media::create(fileName, context);
+            p.media->pushBack(media);
+            p.opened2->setIfChanged(std::make_pair(media, pos));
+            // Reset the observer so we don't have an extra shared_ptr holding
+            // onto the media object.
+            p.opened2->setIfChanged(std::make_pair(nullptr, glm::ivec2(0, 0)));
             p.currentMedia->setIfChanged(media);
             p.recentFilesModel->addFile(fileName);
             _actionsUpdate();

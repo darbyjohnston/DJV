@@ -75,6 +75,7 @@ namespace djv
             std::shared_ptr<UI::Menu> mediaMenu;
             std::shared_ptr<UI::Button::Menu> mediaButton;
             std::shared_ptr<UI::ToolButton> maximizedButton;
+            std::shared_ptr<SettingsWidget> settingsWidget;
             std::shared_ptr<UI::PopupWidget> settingsPopupWidget;
             std::shared_ptr<UI::MenuBar> menuBar;
             std::shared_ptr<MDIWidget> mdiWidget;
@@ -128,10 +129,10 @@ namespace djv
 
             p.settingsPopupWidget = UI::PopupWidget::create(context);
             p.settingsPopupWidget->setIcon("djvIconSettings");
-            if (auto settingsSystem = context->getSystemT<SettingsSystem>())
-            {
-                p.settingsPopupWidget->addChild(settingsSystem->createSettingsWidget());
-            }
+            //if (auto settingsSystem = context->getSystemT<SettingsSystem>())
+            //{
+            //    p.settingsPopupWidget->addChild(settingsSystem->createSettingsWidget());
+            //}
 
             p.menuBar = UI::MenuBar::create(context);
             p.menuBar->setBackgroundRole(UI::ColorRole::Overlay);
@@ -208,6 +209,29 @@ namespace djv
                 if (auto windowSystem = context->getSystemT<WindowSystem>())
                 {
                     windowSystem->setMaximized(!windowSystem->observeMaximized()->get());
+                }
+            });
+
+            p.settingsPopupWidget->setOpenCallback(
+                [weak, context]
+            {
+                if (auto widget = weak.lock())
+                {
+                    if (auto settingsSystem = context->getSystemT<SettingsSystem>())
+                    {
+                        widget->_p->settingsWidget = settingsSystem->createSettingsWidget();
+                        widget->_p->settingsPopupWidget->addChild(widget->_p->settingsWidget);
+                    }
+                }
+            });
+
+            p.settingsPopupWidget->setCloseCallback(
+                [weak]
+            {
+                if (auto widget = weak.lock())
+                {
+                    widget->_p->settingsPopupWidget->removeChild(widget->_p->settingsWidget);
+                    widget->_p->settingsWidget.reset();
                 }
             });
 
