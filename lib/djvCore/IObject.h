@@ -192,9 +192,9 @@ namespace djv
 
             std::vector<std::weak_ptr<IObject> > _filters;
 
-            std::shared_ptr<ResourceSystem>      _resourceSystem;
-            std::shared_ptr<LogSystem>           _logSystem;
-            std::shared_ptr<TextSystem>          _textSystem;
+            std::shared_ptr<ResourceSystem> _resourceSystem;
+            std::shared_ptr<LogSystem>      _logSystem;
+            std::shared_ptr<TextSystem>     _textSystem;
 
             friend class Event::IEventSystem;
         };

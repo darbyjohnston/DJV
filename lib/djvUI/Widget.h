@@ -92,8 +92,8 @@ namespace djv
 
             inline bool isVisible(bool parents = false) const;
             virtual void setVisible(bool);
-            void show();
-            void hide();
+            inline void show();
+            inline void hide();
 
             inline bool isClipped() const;
             inline const Core::BBox2f & getClipRect() const;
@@ -112,8 +112,8 @@ namespace djv
             inline float getWidth() const;
             inline float getHeight() const;
             void setGeometry(const Core::BBox2f &);
-            void move(const glm::vec2 &);
-            void resize(const glm::vec2 &);
+            inline void move(const glm::vec2 &);
+            inline void resize(const glm::vec2 &);
 
             //! This function is called during the layout event to determine the height of a
             //! widget based upon the given width. This is used for example by FlowLayout
@@ -172,7 +172,7 @@ namespace djv
             inline const std::string & getTooltip() const;
             void setTooltip(const std::string &);
 
-            static bool areTooltipsEnabled();
+            static inline bool areTooltipsEnabled();
             static void setTooltipsEnabled(bool);
 
             ///@}
@@ -220,21 +220,20 @@ namespace djv
             inline const std::shared_ptr<IconSystem> & _getIconSystem() const;
             inline const std::shared_ptr<Style::Style> & _getStyle() const;
 
-            AV::Image::Color _getColorWithOpacity(const AV::Image::Color &) const;
+            AV::Image::Color _getColorWithOpacity(AV::Image::Color) const;
 
             ///@}
 
             //! Call this function when the widget needs resizing.
-            void _resize();
+            inline void _resize();
 
             //! Call this function to redraw the widget.
-            void _redraw();
+            inline void _redraw();
 
             //! Set the minimum size. This is computed and set in the pre-layout event.
             void _setMinimumSize(const glm::vec2 &);
 
-            inline float _getUpdateTime() const;
-            inline float _getElapsedTime() const;
+            static inline float _getUpdateTime();
             inline const std::map<Core::Event::PointerID, glm::vec2> _getPointerHover() const;
 
             std::string _getTooltipText() const;
@@ -245,8 +244,7 @@ namespace djv
             std::vector<std::shared_ptr<Widget> >
                            _childWidgets;
 
-            float          _updateTime     = 0.f;
-            float          _elapsedTime    = 0.f;
+            static float   _updateTime;
 
             bool           _visible        = true;
             bool           _visibleInit    = true;

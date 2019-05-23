@@ -41,13 +41,13 @@ namespace djv
             class Color
             {
             public:
-                inline Color();
+                constexpr Color();
                 inline Color(Type);
                 inline Color(int r, int g, int b, int a = U8Max);
                 inline Color(F32_T r, F32_T g, F32_T b, F32_T a = F32Max);
 
-                inline Type getType() const;
-                inline bool isValid() const;
+                constexpr Type getType() const;
+                constexpr bool isValid() const;
 
                 inline U8_T  getU8(size_t channel) const;
                 inline U10_T getU10(size_t channel) const;

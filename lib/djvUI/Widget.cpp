@@ -63,9 +63,10 @@ namespace djv
 
         } // namespace
 
-        bool Widget::_tooltipsEnabled = true;
-        bool Widget::_resizeRequest   = true;
-        bool Widget::_redrawRequest   = true;
+        float Widget::_updateTime      = 0.f;
+        bool  Widget::_tooltipsEnabled = true;
+        bool  Widget::_resizeRequest   = true;
+        bool  Widget::_redrawRequest   = true;
 
         void Widget::_init(Core::Context * context)
         {
@@ -122,36 +123,12 @@ namespace djv
             _resize();
         }
 
-        void Widget::show()
-        {
-            setVisible(true);
-        }
-
-        void Widget::hide()
-        {
-            setVisible(false);
-        }
-
         void Widget::setGeometry(const BBox2f & value)
         {
             if (value == _geometry)
                 return;
             _geometry = value;
             _resize();
-        }
-
-        void Widget::move(const glm::vec2 & value)
-        {
-            const glm::vec2 size = _geometry.getSize();
-            BBox2f geometry;
-            geometry.min = value;
-            geometry.max = value + size;
-            setGeometry(geometry);
-        }
-
-        void Widget::resize(const glm::vec2 & value)
-        {
-            setGeometry(BBox2f(_geometry.min, _geometry.min + value));
         }
 
         void Widget::setMargin(const Layout::Margin & value)
@@ -295,11 +272,6 @@ namespace djv
             _tooltipText = value;
         }
 
-        bool Widget::areTooltipsEnabled()
-        {
-            return _tooltipsEnabled;
-        }
-
         void Widget::setTooltipsEnabled(bool value)
         {
             _tooltipsEnabled = value;
@@ -393,9 +365,7 @@ namespace djv
                 case Event::Type::Update:
                 {
                     auto & updateEvent = static_cast<Event::Update &>(event);
-
                     _updateTime = updateEvent.getTime();
-                    _elapsedTime += updateEvent.getDeltaTime();
 
                     for (auto & i : _pointerToTooltips)
                     {
@@ -673,31 +643,17 @@ namespace djv
             }
         }
 
-        AV::Image::Color Widget::_getColorWithOpacity(const AV::Image::Color & value) const
+        AV::Image::Color Widget::_getColorWithOpacity(AV::Image::Color value) const
         {
-            AV::Image::Color out(AV::Image::Type::RGBA_F32);
-            if (value.getType() != AV::Image::Type::None)
+            DJV_ASSERT(AV::Image::Type::RGBA_F32 == value.getType());
+            if (!isEnabled(true))
             {
-                out = value.convert(AV::Image::Type::RGBA_F32);
-                if (!isEnabled(true))
-                {
-                    out.setF32(out.getF32(0) * .65f, 0);
-                    out.setF32(out.getF32(1) * .65f, 1);
-                    out.setF32(out.getF32(2) * .65f, 2);
-                }
-                out.setF32(out.getF32(3) * getOpacity(true), 3);
+                value.setF32(value.getF32(0) * .65f, 0);
+                value.setF32(value.getF32(1) * .65f, 1);
+                value.setF32(value.getF32(2) * .65f, 2);
             }
-            return out;
-        }
-
-        void Widget::_redraw()
-        {
-            _redrawRequest = true;
-        }
-
-        void Widget::_resize()
-        {
-            _resizeRequest = true;
+            value.setF32(value.getF32(3) * getOpacity(true), 3);
+            return value;
         }
 
         void Widget::_setMinimumSize(const glm::vec2 & value)

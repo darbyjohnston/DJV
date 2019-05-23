@@ -39,6 +39,16 @@ namespace djv
             return parents ? (_parentsVisible && _visible) : _visible;
         }
 
+        inline void Widget::show()
+        {
+            setVisible(true);
+        }
+
+        inline void Widget::hide()
+        {
+            setVisible(false);
+        }
+
         inline bool Widget::isClipped() const
         {
             return _clipped;
@@ -77,6 +87,20 @@ namespace djv
         inline float Widget::getHeight() const
         {
             return _geometry.h();
+        }
+
+        inline void Widget::move(const glm::vec2& value)
+        {
+            const glm::vec2 size = _geometry.getSize();
+            Core::BBox2f geometry;
+            geometry.min = value;
+            geometry.max = value + size;
+            setGeometry(geometry);
+        }
+
+        inline void Widget::resize(const glm::vec2& value)
+        {
+            setGeometry(Core::BBox2f(_geometry.min, _geometry.min + value));
         }
 
         inline float Widget::getHeightForWidth(float) const
@@ -124,6 +148,11 @@ namespace djv
             return _tooltipText;
         }
 
+        inline bool Widget::areTooltipsEnabled()
+        {
+            return _tooltipsEnabled;
+        }
+
         inline const std::vector<std::shared_ptr<Widget> >& Widget::getChildWidgets() const
         {
             return _childWidgets;
@@ -149,14 +178,19 @@ namespace djv
             return _style;
         }
 
-        inline float Widget::_getUpdateTime() const
+        inline void Widget::_redraw()
         {
-            return _updateTime;
+            _redrawRequest = true;
         }
 
-        inline float Widget::_getElapsedTime() const
+        inline void Widget::_resize()
         {
-            return _elapsedTime;
+            _resizeRequest = true;
+        }
+
+        inline float Widget::_getUpdateTime()
+        {
+            return _updateTime;
         }
 
         inline const std::map<Core::Event::PointerID, glm::vec2> Widget::_getPointerHover() const

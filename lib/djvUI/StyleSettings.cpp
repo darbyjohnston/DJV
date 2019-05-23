@@ -70,16 +70,16 @@ namespace djv
                 palettes[DJV_TEXT("Dark")] = UI::Style::Palette();
 
                 UI::Style::Palette palette;
-                palette.setColor(ColorRole::Background, AV::Image::Color(250, 250, 250));
-                palette.setColor(ColorRole::BackgroundHeader, AV::Image::Color(230, 240, 250));
-                palette.setColor(ColorRole::Foreground, AV::Image::Color(0, 0, 0));
-                palette.setColor(ColorRole::Border, AV::Image::Color(200, 200, 200));
-                palette.setColor(ColorRole::Trough, AV::Image::Color(210, 210, 210));
-                palette.setColor(ColorRole::Button, AV::Image::Color(230, 230, 230));
-                palette.setColor(ColorRole::Hovered, AV::Image::Color(0, 0, 0, 15));
-                palette.setColor(ColorRole::Pressed, AV::Image::Color(0, 0, 0, 30));
-                palette.setColor(ColorRole::Checked, AV::Image::Color(48, 134, 171));
-                palette.setColor(ColorRole::Overlay, AV::Image::Color(255, 255, 255, 160));
+                palette.setColor(ColorRole::Background, AV::Image::Color(.98f, .98f, .98f, 1.f));
+                palette.setColor(ColorRole::BackgroundHeader, AV::Image::Color(.9f, .94f, .98f, 1.f));
+                palette.setColor(ColorRole::Foreground, AV::Image::Color(0.f, 0.f, 0.f, 1.f));
+                palette.setColor(ColorRole::Border, AV::Image::Color(.78f, .78f, .78f, 1.f));
+                palette.setColor(ColorRole::Trough, AV::Image::Color(.82f, .82f, .82f, 1.f));
+                palette.setColor(ColorRole::Button, AV::Image::Color(.9f, .9f, .9f, 1.f));
+                palette.setColor(ColorRole::Hovered, AV::Image::Color(0.f, 0.f, 0.f, .06f));
+                palette.setColor(ColorRole::Pressed, AV::Image::Color(0.f, 0.f, 0.f, .18f));
+                palette.setColor(ColorRole::Checked, AV::Image::Color(.19f, .53f, .76f, 1.f));
+                palette.setColor(ColorRole::Overlay, AV::Image::Color(1.f, 1.f, 1.f, .63f));
                 palettes[DJV_TEXT("Light")] = palette;
                 
                 std::map<std::string, UI::Style::Metrics> metricsList;

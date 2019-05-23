@@ -55,24 +55,25 @@ namespace djv
                 DJV_PRIVATE_PTR();
                 p.colors =
                 {
-                    { ColorRole::None, AV::Image::Color() },
-                    { ColorRole::Background, AV::Image::Color(46, 46, 46) },
-                    { ColorRole::BackgroundBellows, AV::Image::Color(76, 76, 76) },
-                    { ColorRole::BackgroundHeader, AV::Image::Color(102, 102, 102) },
-                    { ColorRole::BackgroundToolBar, AV::Image::Color(89, 89, 89) },
-                    { ColorRole::Foreground, AV::Image::Color(255, 255, 255) },
-                    { ColorRole::ForegroundDim, AV::Image::Color(171, 171, 171) },
-                    { ColorRole::Border, AV::Image::Color(125, 125, 125) },
-                    { ColorRole::Trough, AV::Image::Color(64, 64, 64) },
-                    { ColorRole::Button, AV::Image::Color(102, 102, 102) },
-                    { ColorRole::Hovered, AV::Image::Color(255, 255, 255, 15) },
-                    { ColorRole::Pressed, AV::Image::Color(255, 255, 255, 30) },
-                    { ColorRole::Checked, AV::Image::Color(48, 134, 171) },
-                    { ColorRole::TooltipBackground, AV::Image::Color(255, 255, 191) },
-                    { ColorRole::TooltipForeground, AV::Image::Color(0, 0, 0) },
-                    { ColorRole::Overlay, AV::Image::Color(0, 0, 0, 127) },
-                    { ColorRole::Shadow, AV::Image::Color(0, 0, 0, 40) },
-                    { ColorRole::Handle, AV::Image::Color(48, 134, 171) }
+                    // These colors must be specified as RGBA F32.
+                    { ColorRole::None, AV::Image::Color(0.f, 0.f, 0.f, 0.f) },
+                    { ColorRole::Background, AV::Image::Color(.18f, .18f, .18f, 1.f) },
+                    { ColorRole::BackgroundBellows, AV::Image::Color(.3f, .3f, .3f, 1.f) },
+                    { ColorRole::BackgroundHeader, AV::Image::Color(.4f, .4f, .4f, 1.f) },
+                    { ColorRole::BackgroundToolBar, AV::Image::Color(.35f, .35f, .35f, 1.f) },
+                    { ColorRole::Foreground, AV::Image::Color(1.f, 1.f, 1.f, 1.f) },
+                    { ColorRole::ForegroundDim, AV::Image::Color(.67f, .67f, .67f, 1.f) },
+                    { ColorRole::Border, AV::Image::Color(.49f, .49f, .49f, 1.f) },
+                    { ColorRole::Trough, AV::Image::Color(.25f, .25f, .25f, 1.f) },
+                    { ColorRole::Button, AV::Image::Color(.4f, .4f, .4f, 1.f) },
+                    { ColorRole::Hovered, AV::Image::Color(1.f, 1.f, 1.f, .06f) },
+                    { ColorRole::Pressed, AV::Image::Color(1.f, 1.f, 1.f, .18f) },
+                    { ColorRole::Checked, AV::Image::Color(.19f, .53f, .67f, 1.f) },
+                    { ColorRole::TooltipBackground, AV::Image::Color(1.f, 1.f, .75f, 1.f) },
+                    { ColorRole::TooltipForeground, AV::Image::Color(0.f, 0.f, 0.f, 1.f) },
+                    { ColorRole::Overlay, AV::Image::Color(0.f, 0.f, 0.f, .5f) },
+                    { ColorRole::Shadow, AV::Image::Color(0.f, 0.f, 0.f, .16f) },
+                    { ColorRole::Handle, AV::Image::Color(.19f, .53f, .67f, 1.f) }
                 };
             }
 
@@ -98,7 +99,9 @@ namespace djv
 
             void Palette::setColor(ColorRole role, const AV::Image::Color & value)
             {
-                _p->colors[role] = value;
+                _p->colors[role] = value.getType() !=  AV::Image::Type::None ?
+                    value.convert(AV::Image::Type::RGBA_F32) :
+                    AV::Image::Color(AV::Image::Type::RGBA_F32);
             }
 
             bool Palette::operator == (const Palette & other) const
