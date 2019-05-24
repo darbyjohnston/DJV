@@ -38,7 +38,7 @@ namespace djv
             inline Info::Info()
             {}
 
-            constexpr Info::Info(FamilyID family, FaceID face, float size, int dpi) :
+            constexpr Info::Info(FamilyID family, FaceID face, uint16_t size, uint16_t dpi) :
                 family(family),
                 face(face),
                 size(size),

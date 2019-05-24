@@ -44,6 +44,7 @@ namespace djv
     {
         namespace Image
         {
+            struct Size;
             class Color;
             class Data;
 
@@ -71,13 +72,15 @@ namespace djv
 
                 static std::shared_ptr<Render2D> create(Core::Context *);
 
-                void beginFrame(const glm::ivec2 &);
+                void beginFrame(const Image::Size&);
                 void endFrame();
 
                 void pushClipRect(const Core::BBox2f &);
                 void popClipRect();
 
-                void setFillColor(const Image::Color &);
+                void setFillColor(const Image::Color&);
+                void setColorMult(float);
+                void setAlphaMult(float);
 
                 //! \name Primitives
                 ///@{

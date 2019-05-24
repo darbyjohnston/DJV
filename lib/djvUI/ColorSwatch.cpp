@@ -111,7 +111,7 @@ namespace djv
             Widget::_paintEvent(event);
             const BBox2f & g = getGeometry();
             auto render = _getRender();
-            render->setFillColor(_getColorWithOpacity(_p->color));
+            render->setFillColor(_p->color);
             render->drawRect(g);
         }
 

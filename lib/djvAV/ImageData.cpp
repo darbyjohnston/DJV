@@ -75,11 +75,11 @@ namespace djv
 #else
                     if (GL_UNSIGNED_INT_10_10_10_2 == _info.getGLType())
                     {
-                        for (int y = 0; y < _info.size.y; ++y)
+                        for (uint16_t y = 0; y < _info.size.h; ++y)
                         {
                             const U10_S * p = reinterpret_cast<const U10_S*>(getData(y));
                             const U10_S * otherP = reinterpret_cast<const U10_S*>(other.getData(y));
-                            for (int x = 0; x < _info.size.x; ++x, ++p, ++otherP)
+                            for (uint16_t x = 0; x < _info.size.w; ++x, ++p, ++otherP)
                             {
                                 if (*p != *otherP)
                                 {
@@ -100,5 +100,40 @@ namespace djv
 
         } // namespace Image
     } // namespace AV
+
+    picojson::value toJSON(const AV::Image::Size& value)
+    {
+        std::stringstream ss;
+        ss << value;
+        return picojson::value(ss.str());
+    }
+
+    void fromJSON(const picojson::value& value, AV::Image::Size& out)
+    {
+        if (value.is<std::string>())
+        {
+            std::stringstream ss(value.get<std::string>());
+            ss >> out;
+        }
+        else
+        {
+            throw std::invalid_argument(DJV_TEXT("Cannot parse the value."));
+        }
+    }
+
+    std::ostream& operator << (std::ostream& s, const AV::Image::Size& value)
+    {
+        s << value.w << " ";
+        s << value.h;
+        return s;
+    }
+
+    std::istream& operator >> (std::istream& s, AV::Image::Size& value)
+    {
+        s >> value.w;
+        s >> value.h;
+        return s;
+    }
+
 } // namespace djv
 

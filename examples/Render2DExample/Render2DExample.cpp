@@ -80,7 +80,7 @@ public:
 private:
     void _render();
 
-    glm::ivec2 _windowSize = glm::ivec2(1280, 720);
+    AV::Image::Size _windowSize = AV::Image::Size(1280, 720);
     std::vector<Circle> _circles;
     std::shared_ptr<Core::Time::Timer> _timer;
 };
@@ -97,7 +97,7 @@ void Application::_init(int argc, char ** argv)
     {
         while (_circles.size() < circleCount)
         {
-            _circles.push_back(Circle(_windowSize));
+            _circles.push_back(Circle(glm::vec2(_windowSize.w, _windowSize.h)));
         }
         auto i = _circles.begin();
         while (i != _circles.end())
@@ -117,7 +117,7 @@ void Application::_init(int argc, char ** argv)
     });
 
     auto glfwWindow = getSystemT<CmdLine::GLFWSystem>()->getGLFWWindow();
-    glfwSetWindowSize(glfwWindow, _windowSize.x, _windowSize.y);
+    glfwSetWindowSize(glfwWindow, _windowSize.w, _windowSize.h);
     glfwShowWindow(glfwWindow);
 }
 
@@ -157,7 +157,10 @@ void Application::_render()
     if (auto render = getSystemT<AV::Render::Render2D>())
     {
         auto glfwWindow = getSystemT<CmdLine::GLFWSystem>()->getGLFWWindow();
-        glfwGetWindowSize(glfwWindow, &_windowSize.x, &_windowSize.y);
+        glm::ivec2 windowSize = glm::ivec2(0, 0);
+        glfwGetWindowSize(glfwWindow, &windowSize.x, &windowSize.y);
+        _windowSize.w = windowSize.x;
+        _windowSize.h = windowSize.y;
         render->beginFrame(_windowSize);
         for (const auto & i : _circles)
         {

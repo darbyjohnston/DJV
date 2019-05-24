@@ -109,7 +109,8 @@ namespace djv
             }
             else if (p.image)
             {
-                size = p.image->getSize();
+                size.x = p.image->getWidth();
+                size.y = p.image->getHeight();
             }
             _setMinimumSize(size + getMargin().getSize(style));
         }
@@ -123,7 +124,7 @@ namespace djv
                 auto style = _getStyle();
                 const BBox2f & g = getMargin().bbox(getGeometry(), style);
                 const glm::vec2 c = g.getCenter();
-                glm::vec2 size = p.image->getSize();
+                glm::vec2 size = glm::vec2(p.image->getWidth(), p.image->getHeight());
                 glm::vec2 pos = glm::vec2(0.f, 0.f);
                 switch (getHAlign())
                 {

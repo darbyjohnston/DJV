@@ -220,8 +220,6 @@ namespace djv
             inline const std::shared_ptr<IconSystem> & _getIconSystem() const;
             inline const std::shared_ptr<Style::Style> & _getStyle() const;
 
-            AV::Image::Color _getColorWithOpacity(AV::Image::Color) const;
-
             ///@}
 
             //! Call this function when the widget needs resizing.
@@ -242,47 +240,46 @@ namespace djv
 
         private:
             std::vector<std::shared_ptr<Widget> >
-                           _childWidgets;
+                                _childWidgets;
 
-            static float   _updateTime;
+            static float        _updateTime;
 
-            bool           _visible        = true;
-            bool           _visibleInit    = true;
-            bool           _parentsVisible = true;
-            bool           _clipped        = false;
-            Core::BBox2f   _clipRect       = Core::BBox2f(0.f, 0.f, 0.f, 0.f);
-            float          _opacity        = 1.f;
-            float          _parentsOpacity = 1.f;
+            bool                _visible        = true;
+            bool                _visibleInit    = true;
+            bool                _parentsVisible = true;
+            bool                _clipped        = false;
+            Core::BBox2f        _clipRect       = Core::BBox2f(0.f, 0.f, 0.f, 0.f);
+            float               _opacity        = 1.f;
+            float               _parentsOpacity = 1.f;
 
-            Core::BBox2f   _geometry       = Core::BBox2f(0.f, 0.f, 0.f, 0.f);
-            glm::vec2      _minimumSize    = glm::vec2(0.f, 0.f);
-            Layout::Margin _margin;
-            HAlign         _hAlign         = HAlign::Fill;
-            VAlign         _vAlign         = VAlign::Fill;
+            Core::BBox2f        _geometry       = Core::BBox2f(0.f, 0.f, 0.f, 0.f);
+            glm::vec2           _minimumSize    = glm::vec2(0.f, 0.f);
+            Layout::Margin      _margin;
+            HAlign              _hAlign         = HAlign::Fill;
+            VAlign              _vAlign         = VAlign::Fill;
 
-            ColorRole      _backgroundRole = ColorRole::None;
-            std::vector<Side>
-                           _shadowOverlay;
+            ColorRole           _backgroundRole = ColorRole::None;
+            std::vector<Side>   _shadowOverlay;
 
-            bool           _pointerEnabled = false;
+            bool                _pointerEnabled = false;
             std::map<Core::Event::PointerID, glm::vec2>
-                           _pointerHover;
+                                _pointerHover;
 
             std::vector<std::shared_ptr<Action> >
-                           _actions;
+                                _actions;
 
-            std::string    _tooltipText;
-            static bool    _tooltipsEnabled;
+            std::string         _tooltipText;
+            static bool         _tooltipsEnabled;
             struct TooltipData
             {
                 float timer = 0.f;
                 std::shared_ptr<Tooltip> tooltip;
             };
             std::map<Core::Event::PointerID, TooltipData>
-                           _pointerToTooltips;
+                                _pointerToTooltips;
 
-            static bool    _resizeRequest;
-            static bool    _redrawRequest;
+            static bool         _resizeRequest;
+            static bool         _redrawRequest;
 
             std::shared_ptr<AV::Font::System>     _fontSystem;
             std::shared_ptr<AV::Render::Render2D> _render;

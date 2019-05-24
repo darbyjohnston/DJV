@@ -109,7 +109,7 @@ namespace djv
             DJV_ENUM_HELPERS(MetricsRole);
 
             //! This constant provides the default icon size.
-            const int iconSizeDefault = 24;
+            const uint16_t iconSizeDefault = 24;
 
             //! This class provides a color palette.
             class Palette
@@ -159,14 +159,14 @@ namespace djv
             class Style : public std::enable_shared_from_this<Style>
             {
                 DJV_NON_COPYABLE(Style);
-                void _init(int dpi, Core::Context *);
+                void _init(uint16_t dpi, Core::Context *);
                 Style();
 
             public:
                 virtual ~Style();
 
                 //! Create a new style.
-                static std::shared_ptr<Style> create(int dpi, Core::Context *);
+                static std::shared_ptr<Style> create(uint16_t dpi, Core::Context *);
 
                 //! \name Color Palette
                 ///@{

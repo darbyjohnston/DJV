@@ -70,16 +70,31 @@ namespace djv
                 return !(other == *this);
             }
 
+            inline Size::Size(uint16_t w, uint16_t h) :
+                w(w),
+                h(h)
+            {}
+
+            constexpr bool Size::operator == (const Size& other) const
+            {
+                return w == other.w && h == other.h;
+            }
+
+            constexpr bool Size::operator != (const Size& other) const
+            {
+                return !(*this == other);
+            }
+
             inline Info::Info()
             {}
 
-            inline Info::Info(const glm::ivec2 & size, Type type, const Layout & layout) :
+            inline Info::Info(const Size& size, Type type, const Layout & layout) :
                 size(size),
                 type(type),
                 layout(layout)
             {}
 
-            inline Info::Info(int width, int height, Type type, const Layout & layout) :
+            inline Info::Info(uint16_t width, uint16_t height, Type type, const Layout & layout) :
                 size(width, height),
                 type(type),
                 layout(layout)
@@ -87,7 +102,7 @@ namespace djv
 
             inline float Info::getAspectRatio() const
             {
-                return size.y > 0 ? (size.x / static_cast<float>(size.y)) : 1.f;
+                return size.h > 0 ? (size.w / static_cast<float>(size.h)) : 1.f;
             }
 
             inline GLenum Info::getGLFormat() const
@@ -102,17 +117,17 @@ namespace djv
 
             inline bool Info::isValid() const
             {
-                return size.x > 0 && size.y > 0 && type != Type::None;
+                return size.w > 0 && size.h > 0 && type != Type::None;
             }
 
-            inline size_t Info::getPixelByteCount() const
+            inline uint8_t Info::getPixelByteCount() const
             {
                 return AV::Image::getByteCount(type);
             }
 
             inline size_t Info::getScanlineByteCount() const
             {
-                const size_t byteCount = size.x * AV::Image::getByteCount(type);
+                const size_t byteCount = static_cast<size_t>(size.w) * AV::Image::getByteCount(type);
                 const size_t q = byteCount / layout.alignment * layout.alignment;
                 const size_t r = byteCount - q;
                 return q + (r ? layout.alignment : 0);
@@ -120,13 +135,14 @@ namespace djv
 
             inline size_t Info::getDataByteCount() const
             {
-                return size.y * getScanlineByteCount();
+                return size.h * getScanlineByteCount();
             }
 
             inline bool Info::operator == (const Info & other) const
             {
                 return
-                    other.size == size &&
+                    other.size.w == size.w &&
+                    other.size.h == size.h &&
                     other.type == type &&
                     other.layout == layout;
             }
@@ -149,24 +165,24 @@ namespace djv
                 return _info.isValid();
             }
 
-            inline const Info & Data::getInfo() const
+            inline const Info& Data::getInfo() const
             {
                 return _info;
             }
 
-            inline const glm::ivec2 & Data::getSize() const
+            inline const Size& Data::getSize() const
             {
                 return _info.size;
             }
 
-            inline int Data::getWidth() const
+            inline uint16_t Data::getWidth() const
             {
-                return _info.size.x;
+                return _info.size.w;
             }
 
-            inline int Data::getHeight() const
+            inline uint16_t Data::getHeight() const
             {
-                return _info.size.y;
+                return _info.size.h;
             }
 
             inline float Data::getAspectRatio() const
@@ -194,7 +210,7 @@ namespace djv
                 return _info.layout;
             }
 
-            inline size_t Data::getPixelByteCount() const
+            inline uint8_t Data::getPixelByteCount() const
             {
                 return _info.getPixelByteCount();
             }
@@ -214,14 +230,14 @@ namespace djv
                 return _p;
             }
 
-            inline const uint8_t * Data::getData(int y) const
+            inline const uint8_t * Data::getData(uint16_t y) const
             {
                 return _p + y * _scanlineByteCount;
             }
 
-            inline const uint8_t * Data::getData(int x, int y) const
+            inline const uint8_t * Data::getData(uint16_t x, uint16_t y) const
             {
-                return _p + y * _scanlineByteCount + x * _pixelByteCount;
+                return _p + y * _scanlineByteCount + x * static_cast<size_t>(_pixelByteCount);
             }
 
             inline uint8_t * Data::getData()
@@ -229,14 +245,14 @@ namespace djv
                 return _data;
             }
 
-            inline uint8_t * Data::getData(int y)
+            inline uint8_t * Data::getData(uint16_t y)
             {
                 return _data + y * _scanlineByteCount;
             }
 
-            inline uint8_t * Data::getData(int x, int y)
+            inline uint8_t * Data::getData(uint16_t x, uint16_t y)
             {
-                return _data + y * _scanlineByteCount + x * _pixelByteCount;
+                return _data + y * _scanlineByteCount + x * static_cast<size_t>(_pixelByteCount);
             }
 
         } // namespace Image

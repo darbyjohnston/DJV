@@ -83,7 +83,7 @@ namespace djv
 
                     std::string text;
                     Info info;
-                    float maxLineWidth = std::numeric_limits<float>::max();
+                    uint16_t maxLineWidth = std::numeric_limits<uint16_t>::max();
                     std::promise<glm::vec2> promise;
                 };
 
@@ -95,7 +95,7 @@ namespace djv
 
                     std::string text;
                     Info info;
-                    float maxLineWidth = std::numeric_limits<float>::max();
+                    uint16_t maxLineWidth = std::numeric_limits<uint16_t>::max();
                     std::promise<std::vector<TextLine> > promise;
                 };
 
@@ -160,19 +160,20 @@ namespace djv
                 std::map<FamilyID, std::map<FaceID, std::string> > fontFaceNames;
                 std::map<FamilyID, std::map<FaceID, FT_Face> > fontFaces;
 
-                std::vector<MetricsRequest> metricsQueue;
-                std::vector<MeasureRequest> measureQueue;
-                std::vector<TextLinesRequest> textLinesQueue;
-                std::vector<GlyphsRequest> glyphsQueue;
+                std::list<MetricsRequest> metricsQueue;
+                std::list<MeasureRequest> measureQueue;
+                std::list<TextLinesRequest> textLinesQueue;
+                std::list<GlyphsRequest> glyphsQueue;
                 std::condition_variable requestCV;
                 std::mutex requestMutex;
-                std::vector<MetricsRequest> metricsRequests;
-                std::vector<MeasureRequest> measureRequests;
-                std::vector<TextLinesRequest> textLinesRequests;
-                std::vector<GlyphsRequest> glyphsRequests;
+                std::list<MetricsRequest> metricsRequests;
+                std::list<MeasureRequest> measureRequests;
+                std::list<TextLinesRequest> textLinesRequests;
+                std::list<GlyphsRequest> glyphsRequests;
 
                 std::wstring_convert<std::codecvt_utf8<djv_char_t>, djv_char_t> utf32;
                 Memory::Cache<GlyphInfo, std::shared_ptr<Glyph> > glyphCache;
+                std::atomic<size_t> glyphCacheSize;
                 std::atomic<float> glyphCachePercentageUsed;
 
                 std::shared_ptr<Time::Timer> statsTimer;
@@ -192,6 +193,7 @@ namespace djv
 
                 p.fontPath = _getResourceSystem()->getPath(FileSystem::ResourcePath::FontsDirectory);
                 p.glyphCache.setMax(glyphCacheMax);
+                p.glyphCacheSize = 0;
                 p.glyphCachePercentageUsed = 0.f;
 
                 p.statsTimer = Time::Timer::create(context);
@@ -202,7 +204,7 @@ namespace djv
                 {
                     DJV_PRIVATE_PTR();
                     std::stringstream s;
-                    s << "Glyph cache: " << p.glyphCachePercentageUsed << "%";
+                    s << "Glyph cache: " << p.glyphCacheSize << ", " << p.glyphCachePercentageUsed << "%";
                     _log(s.str());
                 });
 
@@ -311,7 +313,7 @@ namespace djv
                 return future;
             }
 
-            std::future<std::vector<TextLine> > System::textLines(const std::string & text, float maxLineWidth, const Info & info)
+            std::future<std::vector<TextLine> > System::textLines(const std::string & text, uint16_t maxLineWidth, const Info & info)
             {
                 DJV_PRIVATE_PTR();
                 TextLinesRequest request;
@@ -354,6 +356,11 @@ namespace djv
                     p.glyphsQueue.push_back(std::move(request));
                 }
                 p.requestCV.notify_one();
+            }
+
+            size_t System::getGlyphCacheSize() const
+            {
+                return _p->glyphCacheSize;
             }
 
             float System::getGlyphCachePercentage() const
@@ -520,17 +527,17 @@ namespace djv
                                 {
                                     const auto info = GlyphInfo(*i, request.info);
                                     const auto glyph = p.getGlyph(info);
-                                    float x = 0.f;
+                                    int32_t x = 0;
                                     if (glyph->imageData)
                                     {
                                         x = glyph->advance;
                                         if (rsbDeltaPrev - glyph->lsbDelta > 32)
                                         {
-                                            x -= 1.f;
+                                            x -= 1;
                                         }
                                         else if (rsbDeltaPrev - glyph->lsbDelta < -31)
                                         {
-                                            x += 1.f;
+                                            x += 1;
                                         }
                                         rsbDeltaPrev = glyph->rsbDelta;
                                     }
@@ -798,7 +805,7 @@ namespace djv
                                 return nullptr;
                             }
                             FT_Render_Mode renderMode = FT_RENDER_MODE_NORMAL;
-                            size_t renderModeChannels = 1;
+                            uint8_t renderModeChannels = 1;
                             if (lcdHinting)
                             {
                                 renderMode = FT_RENDER_MODE_LCD;
@@ -833,22 +840,23 @@ namespace djv
                                 bitmap->bitmap.rows,
                                 Image::getIntType(renderModeChannels, 8));
                             auto imageData = Image::Data::create(imageInfo);
-                            for (int y = 0; y < imageInfo.size.y; ++y)
+                            for (uint16_t y = 0; y < imageInfo.size.h; ++y)
                             {
                                 memcpy(
                                     imageData->getData(y),
                                     bitmap->bitmap.buffer + static_cast<size_t>(y) * bitmap->bitmap.pitch,
-                                    imageInfo.size.x * renderModeChannels);
+                                    static_cast<size_t>(imageInfo.size.w) * renderModeChannels);
                             }
                             out->imageData = imageData;
                             out->offset = glm::vec2(ftFace->glyph->bitmap_left, ftFace->glyph->bitmap_top);
                             out->advance = ftFace->glyph->advance.x / 64.f;
                             out->lsbDelta = ftFace->glyph->lsb_delta;
                             out->rsbDelta = ftFace->glyph->rsb_delta;
-                            glyphCache.add(info, out);
-                            glyphCachePercentageUsed = glyphCache.getPercentageUsed();
                             FT_Done_Glyph(ftGlyph);
                         }
+                        glyphCache.add(info, out);
+                        glyphCacheSize = glyphCache.getSize();
+                        glyphCachePercentageUsed = glyphCache.getPercentageUsed();
                     }
                 }
                 return out;

@@ -29,6 +29,8 @@
 
 #include <djvViewApp/FileSettings.h>
 
+#include <djvAV/ImageData.h>
+
 #include <djvCore/Context.h>
 #include <djvCore/FileInfo.h>
 
@@ -45,7 +47,7 @@ namespace djv
         struct FileSettings::Private
         {
             std::shared_ptr<ListSubject<Core::FileSystem::FileInfo> > recentFiles;
-            std::shared_ptr<ValueSubject<glm::ivec2> > recentThumbnailSize;
+            std::shared_ptr<ValueSubject<AV::Image::Size> > recentThumbnailSize;
         };
 
         void FileSettings::_init(Context * context)
@@ -54,7 +56,7 @@ namespace djv
 
             DJV_PRIVATE_PTR();
             p.recentFiles = ListSubject<Core::FileSystem::FileInfo>::create();
-            p.recentThumbnailSize = ValueSubject<glm::ivec2>::create(glm::ivec2(100, 50));
+            p.recentThumbnailSize = ValueSubject<AV::Image::Size>::create(AV::Image::Size(100, 50));
             _load();
         }
 
@@ -82,12 +84,12 @@ namespace djv
             _p->recentFiles->setIfChanged(value);
         }
 
-        std::shared_ptr<IValueSubject<glm::ivec2> > FileSettings::observeRecentThumbnailSize() const
+        std::shared_ptr<IValueSubject<AV::Image::Size> > FileSettings::observeRecentThumbnailSize() const
         {
             return _p->recentThumbnailSize;
         }
 
-        void FileSettings::setRecentThumbnailSize(const glm::ivec2 & value)
+        void FileSettings::setRecentThumbnailSize(const AV::Image::Size& value)
         {
             _p->recentThumbnailSize->setIfChanged(value);
         }

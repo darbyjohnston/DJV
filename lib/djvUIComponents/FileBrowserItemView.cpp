@@ -66,7 +66,7 @@ namespace djv
                 std::map<size_t, std::future<std::vector<AV::Font::TextLine> > > nameLinesFutures;
                 std::map<size_t, AV::IO::Info> ioInfo;
                 std::map<size_t, AV::ThumbnailSystem::InfoFuture> ioInfoFutures;
-                glm::ivec2 thumbnailSize = glm::ivec2(100, 50);
+                AV::Image::Size thumbnailSize = AV::Image::Size(100, 50);
                 std::map<size_t, std::shared_ptr<AV::Image::Image> > thumbnails;
                 std::map<size_t, AV::ThumbnailSystem::ImageFuture> thumbnailFutures;
                 std::map<size_t, float> thumbnailTimers;
@@ -113,7 +113,7 @@ namespace djv
                 _itemsUpdate();
             }
 
-            void ItemView::setThumbnailSize(const glm::ivec2 & value)
+            void ItemView::setThumbnailSize(const AV::Image::Size& value)
             {
                 DJV_PRIVATE_PTR();
                 if (value == p.thumbnailSize)
@@ -159,7 +159,7 @@ namespace djv
                     case ViewType::Tiles:
                     {
                         size_t columns = 1;
-                        const float itemWidth = p.thumbnailSize.x + sh * 2.f;
+                        const float itemWidth = p.thumbnailSize.w + sh * 2.f;
                         float x = s + itemWidth;
                         while (x < value - itemWidth)
                         {
@@ -167,12 +167,12 @@ namespace djv
                             x += itemWidth + s;
                         }
                         const size_t rows = itemCount / columns + (itemCount % columns ? 1 : 0);
-                        out = (p.thumbnailSize.y + p.nameFontMetrics.lineHeight * 2.f + m * 2.f + sh * 2.f) * rows;
+                        out = (p.thumbnailSize.h + p.nameFontMetrics.lineHeight * 2.f + m * 2.f + sh * 2.f) * rows;
                         out += s * (rows + 1);
                         break;
                     }
                     case ViewType::List:
-                        out = (std::max(static_cast<float>(p.thumbnailSize.y), p.nameFontMetrics.lineHeight) + m * 2.f) * itemCount;
+                        out = (std::max(p.thumbnailSize.h, p.nameFontMetrics.lineHeight) + m * 2.f) * itemCount;
                         break;
                     default: break;
                     }
@@ -221,8 +221,8 @@ namespace djv
                     pos += s;
                     for (; item != p.items.end(); ++item, ++i)
                     {
-                        const float itemHeight = p.thumbnailSize.y + p.nameFontMetrics.lineHeight * 2.f + m * 2.f + sh * 2.f;
-                        const float itemWidth = p.thumbnailSize.x + sh * 2.f;
+                        const float itemHeight = p.thumbnailSize.h + p.nameFontMetrics.lineHeight * 2.f + m * 2.f + sh * 2.f;
+                        const float itemWidth = p.thumbnailSize.w + sh * 2.f;
                         p.itemGeometry[i] = BBox2f(pos.x, pos.y, itemWidth, itemHeight);
                         pos.x += itemWidth;
                         if (pos.x > g.max.x - itemWidth)
@@ -239,7 +239,7 @@ namespace djv
                 case ViewType::List:
                     for (; item != p.items.end(); ++item, ++i)
                     {
-                        const float itemHeight = std::max(static_cast<float>(p.thumbnailSize.y), p.nameFontMetrics.lineHeight) + m * 2.f;
+                        const float itemHeight = std::max(p.thumbnailSize.h, p.nameFontMetrics.lineHeight) + m * 2.f;
                         p.itemGeometry[i] = BBox2f(pos.x, pos.y, g.w(), itemHeight);
                         pos.y += itemHeight;
                     }
@@ -275,7 +275,7 @@ namespace djv
                                     p.names[i.first] = fileInfo.getFileName(Frame::Invalid, false);
                                     p.nameLinesFutures[i.first] = fontSystem->textLines(
                                         p.names[i.first],
-                                        p.thumbnailSize.x - sh * 2.f,
+                                        p.thumbnailSize.w - static_cast<uint16_t>(sh * 2.f),
                                         fontInfo);
                                 }
                             }
@@ -305,9 +305,7 @@ namespace djv
                                 auto ioSystem = context->getSystemT<AV::IO::System>();
                                 if (thumbnailSystem && ioSystem && ioSystem->canRead(path))
                                 {
-                                    p.thumbnailFutures[i.first] = thumbnailSystem->getImage(
-                                        path,
-                                        glm::ivec2(static_cast<int>(p.thumbnailSize.x), static_cast<int>(p.thumbnailSize.y)));
+                                    p.thumbnailFutures[i.first] = thumbnailSystem->getImage(path, p.thumbnailSize);
                                 }
                             }
                         }
@@ -369,10 +367,10 @@ namespace djv
 
                         if (ViewType::Tiles == p.viewType)
                         {
-                            render->setFillColor(_getColorWithOpacity(style->getColor(ColorRole::Shadow)));
+                            render->setFillColor(style->getColor(ColorRole::Shadow));
                             render->drawShadow(itemGeometry.margin(0, -sh, 0, 0), sh);
                             itemGeometry = itemGeometry.margin(-sh);
-                            render->setFillColor(_getColorWithOpacity(style->getColor(ColorRole::Background)));
+                            render->setFillColor(style->getColor(ColorRole::Background));
                             render->drawRect(itemGeometry);
                         }
 
@@ -397,25 +395,26 @@ namespace djv
                                     {
                                         opacity = std::min((ut - k->second) / thumbnailFadeTime, 1.f);
                                     }
-                                    const auto & size = j->second->getSize();
+                                    const uint16_t w = j->second->getWidth();
+                                    const uint16_t h = j->second->getHeight();
                                     float x = 0.f;
                                     float y = 0.f;
                                     switch (p.viewType)
                                     {
                                     case ViewType::Tiles:
-                                        x = floor(i->second.min.x + sh + p.thumbnailSize.x / 2.f - size.x / 2.f);
-                                        y = floor(i->second.min.y + sh + p.thumbnailSize.y - size.y);
+                                        x = floor(i->second.min.x + sh + p.thumbnailSize.w / 2.f - w / 2.f);
+                                        y = floor(i->second.min.y + sh + p.thumbnailSize.h - h);
                                         break;
                                     case ViewType::List:
                                         x = floor(i->second.min.x + m);
-                                        y = floor(i->second.min.y + i->second.h() / 2.f - size.y / 2.f);
+                                        y = floor(i->second.min.y + i->second.h() / 2.f - h / 2.f);
                                         break;
                                     default: break;
                                     }
-                                    render->setFillColor(_getColorWithOpacity(AV::Image::Color(1.f, 1.f, 1.f, opacity)));
+                                    render->setFillColor(AV::Image::Color(1.f, 1.f, 1.f, opacity));
                                     render->drawImage(
                                         j->second,
-                                        BBox2f(x, y, static_cast<float>(size.x), static_cast<float>(size.y)));
+                                        BBox2f(x, y, static_cast<float>(w), static_cast<float>(h)));
                                 }
                             }
                         }
@@ -424,31 +423,32 @@ namespace djv
                             const auto j = p.icons.find(item->getType());
                             if (j != p.icons.end())
                             {
-                                const auto & size = j->second->getSize();
+                                const uint16_t w = j->second->getWidth();
+                                const uint16_t h = j->second->getHeight();
                                 float x = 0.f;
                                 float y = 0.f;
                                 switch (p.viewType)
                                 {
                                 case ViewType::Tiles:
-                                    x = floor(i->second.min.x + sh + p.thumbnailSize.x / 2.f - size.x / 2.f);
-                                    y = floor(i->second.min.y + sh + p.thumbnailSize.y - size.y);
+                                    x = floor(i->second.min.x + sh + p.thumbnailSize.w / 2.f - w / 2.f);
+                                    y = floor(i->second.min.y + sh + p.thumbnailSize.h - h);
                                     break;
                                 case ViewType::List:
                                     x = floor(i->second.min.x + m);
-                                    y = floor(i->second.min.y + i->second.h() / 2.f - size.y / 2.f);
+                                    y = floor(i->second.min.y + i->second.h() / 2.f - h / 2.f);
                                     break;
                                 default: break;
                                 }
                                 auto c = style->getColor(ColorRole::Button).convert(AV::Image::Type::RGBA_F32);
                                 c.setF32(1.f - opacity, 3);
-                                render->setFillColor(_getColorWithOpacity(c));
+                                render->setFillColor(c);
                                 render->drawFilledImage(
                                     j->second,
-                                    BBox2f(x, y, static_cast<float>(size.x), static_cast<float>(size.y)));
+                                    BBox2f(x, y, static_cast<float>(w), static_cast<float>(h)));
                             }
                         }
                         {
-                            render->setFillColor(_getColorWithOpacity(style->getColor(ColorRole::ForegroundDim)));
+                            render->setFillColor(style->getColor(ColorRole::ForegroundDim));
                             render->setCurrentFont(style->getFontInfo(AV::Font::faceDefault, MetricsRole::FontMedium));
                             switch (p.viewType)
                             {
@@ -478,7 +478,7 @@ namespace djv
                             }
                             case ViewType::List:
                             {
-                                float x = i->second.min.x + m + p.thumbnailSize.x + s;
+                                float x = i->second.min.x + m + p.thumbnailSize.w + s;
                                 float y = i->second.min.y + i->second.h() / 2.f - p.nameFontMetrics.lineHeight / 2.f;
                                 //! \bug Why the extra subtract by one here?
                                 render->drawText(
@@ -536,12 +536,12 @@ namespace djv
 
                         if (p.grab == index)
                         {
-                            render->setFillColor(_getColorWithOpacity(style->getColor(ColorRole::Pressed)));
+                            render->setFillColor(style->getColor(ColorRole::Pressed));
                             render->drawRect(itemGeometry);
                         }
                         else if (p.hover == index)
                         {
-                            render->setFillColor(_getColorWithOpacity(style->getColor(ColorRole::Hovered)));
+                            render->setFillColor(style->getColor(ColorRole::Hovered));
                             render->drawRect(itemGeometry);
                         }
                     }
@@ -828,7 +828,7 @@ namespace djv
                         break;
                     }
                     auto iconSystem = _getIconSystem();
-                    p.iconsFutures[type] = iconSystem->getIcon(name, p.thumbnailSize.y);
+                    p.iconsFutures[type] = iconSystem->getIcon(name, p.thumbnailSize.h);
                 }
             }
 
@@ -876,8 +876,8 @@ namespace djv
                                         p.nameLinesFutures[i.first] = fontSystem->textLines(
                                             p.names[i.first],
                                             ViewType::Tiles == p.viewType ?
-                                            (p.thumbnailSize.x - m * 2.f - sh * 2.f) :
-                                            (p.thumbnailSize.x - m * 2.f),
+                                                (p.thumbnailSize.w - m * 2.f - sh * 2.f) :
+                                                (p.thumbnailSize.w - m * 2.f),
                                             fontInfo);
                                     }
                                 }
@@ -888,9 +888,7 @@ namespace djv
                                 auto ioSystem = context->getSystemT<AV::IO::System>();
                                 if (ioSystem && ioSystem->canRead(path))
                                 {
-                                    p.thumbnailFutures[i.first] = thumbnailSystem->getImage(
-                                        path,
-                                        glm::ivec2(static_cast<int>(p.thumbnailSize.x), static_cast<int>(p.thumbnailSize.y)));
+                                    p.thumbnailFutures[i.first] = thumbnailSystem->getImage(path, p.thumbnailSize);
                                 }
                             }
                         }

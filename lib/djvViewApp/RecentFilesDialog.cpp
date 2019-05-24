@@ -80,7 +80,7 @@ namespace djv
             std::shared_ptr<ListObserver<Core::FileSystem::FileInfo> > recentFilesObserver;
             std::shared_ptr<ValueObserver<bool> > increaseThumbnailSizeObserver;
             std::shared_ptr<ValueObserver<bool> > decreaseThumbnailSizeObserver;
-            std::shared_ptr<ValueObserver<glm::ivec2> > thumbnailSizeSettingsObserver;
+            std::shared_ptr<ValueObserver<AV::Image::Size> > thumbnailSizeSettingsObserver;
         };
 
         void RecentFilesDialog::_init(Context * context)
@@ -173,14 +173,14 @@ namespace djv
                         }
                     });
 
-                    p.thumbnailSizeSettingsObserver = ValueObserver<glm::ivec2>::create(
+                    p.thumbnailSizeSettingsObserver = ValueObserver<AV::Image::Size>::create(
                         fileSystemSettings->observeRecentThumbnailSize(),
-                        [weak](const glm::ivec2 & value)
+                        [weak](const AV::Image::Size& value)
                     {
                         if (auto widget = weak.lock())
                         {
                             widget->_p->itemView->setThumbnailSize(value);
-                            widget->_p->thumbnailSizeSlider->setValue(value.x);
+                            widget->_p->thumbnailSizeSlider->setValue(value.w);
                         }
                     });
                 }
@@ -193,7 +193,7 @@ namespace djv
                 {
                     if (auto fileSettings = settingsSystem->getSettingsT<FileSettings>())
                     {
-                        fileSettings->setRecentThumbnailSize(glm::ivec2(value, ceilf(value / 2.f)));
+                        fileSettings->setRecentThumbnailSize(AV::Image::Size(value, ceilf(value / 2.f)));
                     }
                 }
             });
@@ -209,8 +209,8 @@ namespace djv
                         if (auto fileSettings = settingsSystem->getSettingsT<FileSettings>())
                         {
                             auto size = fileSettings->observeRecentThumbnailSize()->get();
-                            size.x = Math::clamp(static_cast<int>(size.x * 1.25f), UI::FileBrowser::thumbnailSizeRange.min, UI::FileBrowser::thumbnailSizeRange.max);
-                            size.y = static_cast<int>(ceilf(size.x / 2.f));
+                            size.w = Math::clamp(static_cast<int>(size.w * 1.25f), UI::FileBrowser::thumbnailSizeRange.min, UI::FileBrowser::thumbnailSizeRange.max);
+                            size.h = static_cast<int>(ceilf(size.w / 2.f));
                             fileSettings->setRecentThumbnailSize(size);
                         }
                     }
@@ -228,8 +228,8 @@ namespace djv
                         if (auto fileSettings = settingsSystem->getSettingsT<FileSettings>())
                         {
                             auto size = fileSettings->observeRecentThumbnailSize()->get();
-                            size.x = Math::clamp(static_cast<int>(size.x * .75f), UI::FileBrowser::thumbnailSizeRange.min, UI::FileBrowser::thumbnailSizeRange.max);
-                            size.y = static_cast<int>(ceilf(size.x / 2.f));
+                            size.w = Math::clamp(static_cast<int>(size.w * .75f), UI::FileBrowser::thumbnailSizeRange.min, UI::FileBrowser::thumbnailSizeRange.max);
+                            size.h = static_cast<int>(ceilf(size.w / 2.f));
                             fileSettings->setRecentThumbnailSize(size);
                         }
                     }

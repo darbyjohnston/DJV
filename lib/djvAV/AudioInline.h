@@ -35,25 +35,25 @@ namespace djv
     {
         namespace Audio
         {
-            inline size_t getByteCount(Type value)
+            inline uint8_t getByteCount(Type value)
             {
-                const size_t data[] = { 0, 1, 2, 4, 4 };
+                const uint8_t data[] = { 0, 1, 2, 4, 4 };
                 return data[static_cast<size_t>(value)];
             }
 
-            inline Type getIntType(size_t value)
+            inline Type getIntType(uint8_t value)
             {
                 const Type data[] = { Type::None, Type::U8, Type::S16, Type::None, Type::S32 };
                 return value < sizeof(data) / sizeof(data[0]) ? data[value] : Type::None;
             }
 
-            inline Type getFloatType(size_t value)
+            inline Type getFloatType(uint8_t value)
             {
                 const Type data[] = { Type::None, Type::None, Type::None, Type::None, Type::F32 };
                 return value < sizeof(data) / sizeof(data[0]) ? data[value] : Type::None;
             }
 
-            inline ALenum getALType(size_t channels, Type type)
+            inline ALenum getALType(uint8_t channels, Type type)
             {
                 ALenum out = AL_NONE;
                 switch (channels)

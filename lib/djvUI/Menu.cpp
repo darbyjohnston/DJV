@@ -88,11 +88,11 @@ namespace djv
                     std::string text;
                     std::string font;
                     AV::Font::Metrics fontMetrics;
-                    glm::vec2 textSize;
+                    glm::vec2 textSize = glm::vec2(0.f, 0.f);
                     std::string shortcutLabel;
-                    glm::vec2 shortcutSize;
+                    glm::vec2 shortcutSize = glm::vec2(0.f, 0.f);
                     bool enabled = true;
-                    glm::vec2 size;
+                    glm::vec2 size = glm::vec2(0.f, 0.f);
                     BBox2f geom = BBox2f(0.f, 0.f, 0.f, 0.f);
                 };
 
@@ -287,7 +287,7 @@ namespace djv
                     {
                         if (i.second == _pressed.second)
                         {
-                            render->setFillColor(_getColorWithOpacity(style->getColor(ColorRole::Pressed)));
+                            render->setFillColor(style->getColor(ColorRole::Pressed));
                             render->drawRect(i.second->geom);
                         }
                         else
@@ -296,7 +296,7 @@ namespace djv
                             {
                                 if (i.second == hovered.second)
                                 {
-                                    render->setFillColor(_getColorWithOpacity(style->getColor(ColorRole::Hovered)));
+                                    render->setFillColor(style->getColor(ColorRole::Hovered));
                                     render->drawRect(i.second->geom);
                                     break;
                                 }
@@ -312,7 +312,7 @@ namespace djv
 
                     if (i.second->checked)
                     {
-                        render->setFillColor(_getColorWithOpacity(style->getColor(ColorRole::Checked)));
+                        render->setFillColor(style->getColor(ColorRole::Checked));
                         render->drawRect(BBox2f(i.second->geom.min.x, i.second->geom.min.y, m, i.second->geom.h()));
                     }
                     if (_hasCheckable)
@@ -323,7 +323,7 @@ namespace djv
                     if (!i.second->text.empty())
                     {
                         y = i.second->geom.min.y + ceilf(i.second->size.y / 2.f) - ceilf(i.second->fontMetrics.lineHeight / 2.f) + i.second->fontMetrics.ascender;
-                        auto color = _getColorWithOpacity(style->getColor(ColorRole::Foreground));
+                        auto color = style->getColor(ColorRole::Foreground);
                         if (!i.second->enabled)
                         {
                             color.setF32(color.getF32(0) * .65f, 0);
@@ -346,7 +346,7 @@ namespace djv
                     }
                     else
                     {
-                        render->setFillColor(_getColorWithOpacity(style->getColor(ColorRole::Trough)));
+                        render->setFillColor(style->getColor(ColorRole::Trough));
                         render->drawRect(i.second->geom);
                     }
                 }
@@ -905,7 +905,7 @@ namespace djv
                 auto style = _getStyle();
                 const float sh = style->getMetric(MetricsRole::Shadow);
                 auto render = _getRender();
-                render->setFillColor(_getColorWithOpacity(style->getColor(ColorRole::Shadow)));
+                render->setFillColor(style->getColor(ColorRole::Shadow));
                 for (const auto & i : getChildWidgets())
                 {
                     BBox2f g = i->getGeometry();

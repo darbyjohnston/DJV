@@ -157,7 +157,8 @@ namespace djv
             glm::vec2 size(0.f, 0.f);
             if (p.image)
             {
-                size = p.image->getSize();
+                size.x = p.image->getWidth();
+                size.y = p.image->getHeight();
             }
             size.x = std::max(size.x, i);
             size.y = std::max(size.y, i);
@@ -175,34 +176,35 @@ namespace djv
             // Draw the icon.
             if (p.image && p.image->isValid())
             {
-                const glm::vec2 & size = p.image->getSize();
+                const uint16_t w = p.image->getWidth();
+                const uint16_t h = p.image->getHeight();
                 glm::vec2 pos = glm::vec2(0.f, 0.f);
                 switch (getHAlign())
                 {
                 case HAlign::Center:
-                case HAlign::Fill:   pos.x = ceilf(c.x - size.x / 2.f); break;
+                case HAlign::Fill:   pos.x = ceilf(c.x - w / 2.f); break;
                 case HAlign::Left:   pos.x = g.min.x; break;
-                case HAlign::Right:  pos.x = g.max.x - size.x; break;
+                case HAlign::Right:  pos.x = g.max.x - w; break;
                 default: break;
                 }
                 switch (getVAlign())
                 {
                 case VAlign::Center:
-                case VAlign::Fill:   pos.y = ceilf(c.y - size.y / 2.f); break;
+                case VAlign::Fill:   pos.y = ceilf(c.y - h / 2.f); break;
                 case VAlign::Top:    pos.y = g.min.y; break;
-                case VAlign::Bottom: pos.y = g.max.y - size.y; break;
+                case VAlign::Bottom: pos.y = g.max.y - h; break;
                 default: break;
                 }
                 auto render = _getRender();
                 if (p.iconColorRole != ColorRole::None)
                 {
-                    render->setFillColor(_getColorWithOpacity(style->getColor(p.iconColorRole)));
-                    render->drawFilledImage(p.image, BBox2f(pos.x, pos.y, size.x, size.y));
+                    render->setFillColor(style->getColor(p.iconColorRole));
+                    render->drawFilledImage(p.image, BBox2f(pos.x, pos.y, w, h));
                 }
                 else
                 {
-                    render->setFillColor(_getColorWithOpacity(AV::Image::Color(1.f, 1.f, 1.f)));
-                    render->drawImage(p.image, BBox2f(pos.x, pos.y, size.x, size.y));
+                    render->setFillColor(AV::Image::Color(1.f, 1.f, 1.f));
+                    render->drawImage(p.image, BBox2f(pos.x, pos.y, w, h));
                 }
             }
         }

@@ -90,7 +90,7 @@ namespace djv
 
         struct GLFWSystem::Private
         {
-            int dpi = AV::dpiDefault;
+            uint16_t dpi = AV::dpiDefault;
             GLFWwindow * glfwWindow = nullptr;
         };
 

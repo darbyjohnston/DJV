@@ -202,7 +202,7 @@ namespace djv
                 auto style = _getStyle();
                 const float sh = style->getMetric(UI::MetricsRole::Shadow);
                 auto render = _getRender();
-                render->setFillColor(_getColorWithOpacity(style->getColor(UI::ColorRole::Shadow)));
+                render->setFillColor(style->getColor(UI::ColorRole::Shadow));
                 for (const auto& i : getChildrenT<UI::Widget>())
                 {
                     if (i->isVisible())
@@ -394,7 +394,7 @@ namespace djv
                 const Time::Timestamp t = Time::scale(1, p.speed.swap(), Time::getTimebaseRational());
                 if (_timeToPos(t) - _timeToPos(0) > b * 2.f)
                 {
-                    auto color = _getColorWithOpacity(style->getColor(UI::ColorRole::Foreground));
+                    auto color = style->getColor(UI::ColorRole::Foreground);
                     color.setF32(color.getF32(3) * .2f, 3);
                     render->setFillColor(color);
                     for (Time::Timestamp t2 = 0; t2 < p.duration; t2 += t)
@@ -409,7 +409,7 @@ namespace djv
                 const Time::Timestamp t = Time::scale(Math::Rational::toFloat(p.speed), p.speed.swap(), Time::getTimebaseRational());
                 if (_timeToPos(t) - _timeToPos(0) > b * 2.f)
                 {
-                    auto color = _getColorWithOpacity(style->getColor(UI::ColorRole::Foreground));
+                    auto color = style->getColor(UI::ColorRole::Foreground);
                     color.setF32(color.getF32(3) * .2f, 3);
                     render->setFillColor(color);
                     for (Time::Timestamp t2 = 0; t2 < p.duration; t2 += t)
@@ -424,7 +424,7 @@ namespace djv
                 const Time::Timestamp t = Time::scale(60.f * static_cast<double>(Math::Rational::toFloat(p.speed)), p.speed.swap(), Time::getTimebaseRational());
                 if (_timeToPos(t) - _timeToPos(0) > b * 2.f)
                 {
-                    auto color = _getColorWithOpacity(style->getColor(UI::ColorRole::Foreground));
+                    auto color = style->getColor(UI::ColorRole::Foreground);
                     color.setF32(color.getF32(3) * .2f, 3);
                     render->setFillColor(color);
                     for (Time::Timestamp t2 = 0; t2 < p.duration; t2 += t)
@@ -436,7 +436,7 @@ namespace djv
                 }
             }
 
-            render->setFillColor(_getColorWithOpacity(style->getColor(UI::ColorRole::Foreground)));
+            render->setFillColor(style->getColor(UI::ColorRole::Foreground));
             render->drawRect(hg);
 
             const auto fontInfo = style->getFontInfo(AV::Font::faceDefault, UI::MetricsRole::FontMedium);

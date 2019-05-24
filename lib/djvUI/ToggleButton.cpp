@@ -131,11 +131,11 @@ namespace djv
 
                 const BBox2f g1 = g.margin(-m);
                 auto render = _getRender();
-                render->setFillColor(_getColorWithOpacity(style->getColor(ColorRole::Trough)));
+                render->setFillColor(style->getColor(ColorRole::Trough));
                 render->drawPill(g1);
                 if (_isHovered())
                 {
-                    render->setFillColor(_getColorWithOpacity(style->getColor(ColorRole::Hovered)));
+                    render->setFillColor(style->getColor(ColorRole::Hovered));
                     render->drawPill(g1);
                 }
 
@@ -143,18 +143,18 @@ namespace djv
                 const float r = g2.h() / 2.f;
                 const float x = Math::lerp(p.animationValue, g2.min.x + r, g2.max.x - r);
                 const glm::vec2 pos(x, g2.min.y + r);
-                render->setFillColor(_getColorWithOpacity(style->getColor(ColorRole::Border)));
+                render->setFillColor(style->getColor(ColorRole::Border));
                 render->drawCircle(pos, r);
-                render->setFillColor(_getColorWithOpacity(style->getColor(ColorRole::Button)));
+                render->setFillColor(style->getColor(ColorRole::Button));
                 render->drawCircle(pos, r - b);
                 if (_isToggled())
                 {
-                    render->setFillColor(_getColorWithOpacity(style->getColor(ColorRole::Checked)));
+                    render->setFillColor(style->getColor(ColorRole::Checked));
                     render->drawCircle(pos, r - b);
                 }
                 if (_isPressed())
                 {
-                    render->setFillColor(_getColorWithOpacity(style->getColor(ColorRole::Pressed)));
+                    render->setFillColor(style->getColor(ColorRole::Pressed));
                     render->drawCircle(pos, r - b);
                 }
             }

@@ -179,7 +179,7 @@ namespace djv
 
                 // Draw the background.
                 auto render = _getRender();
-                render->setFillColor(_getColorWithOpacity(style->getColor(ColorRole::Trough)));
+                render->setFillColor(style->getColor(ColorRole::Trough));
                 render->drawRect(g);
 
                 if (_viewSize < _contentsSize)
@@ -202,13 +202,13 @@ namespace djv
                     }
                     default: break;
                     }
-                    render->setFillColor(_getColorWithOpacity(style->getColor(ColorRole::Button)));
+                    render->setFillColor(style->getColor(ColorRole::Button));
                     render->drawRect(handleGeom);
 
                     // Draw the pressed and hovered state.
                     if (_pressedID)
                     {
-                        render->setFillColor(_getColorWithOpacity(style->getColor(ColorRole::Pressed)));
+                        render->setFillColor(style->getColor(ColorRole::Pressed));
                         render->drawRect(handleGeom);
                     }
                     else
@@ -220,7 +220,7 @@ namespace djv
                         }
                         if (hover)
                         {
-                            render->setFillColor(_getColorWithOpacity(style->getColor(ColorRole::Hovered)));
+                            render->setFillColor(style->getColor(ColorRole::Hovered));
                             render->drawRect(handleGeom);
                         }
                     }

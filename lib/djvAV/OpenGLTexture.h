@@ -54,7 +54,7 @@ namespace djv
                 inline GLuint getID() const;
 
                 void copy(const Image::Data &);
-                void copy(const Image::Data &, const glm::ivec2 &);
+                void copy(const Image::Data &, uint16_t x, uint16_t y);
 
                 void bind();
 

@@ -134,7 +134,7 @@ namespace djv
                     if (info.video.size())
                     {
                         out = Image::Image::create(info.video[0].info);
-                        for (int y = 0; y < info.video[0].info.size.y; ++y)
+                        for (uint16_t y = 0; y < info.video[0].info.size.h; ++y)
                         {
                             if (!jpegScanline(&f.jpeg, out->getData(y), &f.jpegError))
                             {
@@ -224,7 +224,6 @@ namespace djv
                         throw std::runtime_error(s.str());
                     }
 
-                    const glm::ivec2 size = glm::ivec2(f.jpeg.output_width, f.jpeg.output_height);
                     Image::Type imageType = Image::getIntType(f.jpeg.out_color_components, 8);
                     if (Image::Type::None == imageType)
                     {
@@ -233,7 +232,7 @@ namespace djv
                             " '" << fileName << "' " << DJV_TEXT("cannot be opened") << ".";
                         throw std::runtime_error(s.str());
                     }
-                    auto info = Info(fileName, VideoInfo(Image::Info(size, imageType), _speed, _duration));
+                    auto info = Info(fileName, VideoInfo(Image::Info(f.jpeg.output_width, f.jpeg.output_height, imageType), _speed, _duration));
 
                     const jpeg_saved_marker_ptr marker = f.jpeg.marker_list;
                     if (marker)

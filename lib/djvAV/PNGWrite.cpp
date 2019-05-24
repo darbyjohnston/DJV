@@ -134,8 +134,8 @@ namespace djv
                         png_set_IHDR(
                             png,
                             *pngInfo,
-                            info.size.x,
-                            info.size.y,
+                            info.size.w,
+                            info.size.h,
                             static_cast<int>(Image::getBitDepth(info.type)),
                             colorType,
                             PNG_INTERLACE_NONE,
@@ -241,7 +241,7 @@ namespace djv
                         png_set_swap(f.png);
                     }
 
-                    for (int y = 0; y < info.size.y; ++y)
+                    for (uint16_t y = 0; y < info.size.h; ++y)
                     {
                         if (!pngScanline(f.png, imageData->getData(y)))
                         {

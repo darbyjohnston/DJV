@@ -120,7 +120,7 @@ namespace djv
                     }
 
                     int ppmType = Data::ASCII == p.settings.data ? 2 : 5;
-                    const size_t channelCount = Image::getChannelCount(info.type);
+                    const uint8_t channelCount = Image::getChannelCount(info.type);
                     if (3 == channelCount)
                     {
                         ++ppmType;
@@ -132,7 +132,7 @@ namespace djv
                     io.write(magic, 3);
 
                     std::stringstream s;
-                    s << info.size.x << ' ' << info.size.y;
+                    s << info.size.w << ' ' << info.size.h;
                     io.write(s.str());
                     io.writeU8('\n');
                     const size_t bitDepth = Image::getBitDepth(info.type);
@@ -147,12 +147,12 @@ namespace djv
                     case Data::ASCII:
                     {
                         std::vector<uint8_t> scanline(info.getScanlineByteCount());
-                        for (int y = 0; y < info.size.y; ++y)
+                        for (uint16_t y = 0; y < info.size.h; ++y)
                         {
                             const size_t size = writeASCII(
                                 imageData->getData(y),
                                 reinterpret_cast<char *>(scanline.data()),
-                                info.size.x * channelCount,
+                                static_cast<size_t>(info.size.w) * channelCount,
                                 bitDepth);
                             io.write(scanline.data(), size);
                         }

@@ -53,14 +53,14 @@ namespace djv
     {
         struct UISystem::Private
         {
-            int dpi = AV::dpiDefault;
+            uint16_t dpi = AV::dpiDefault;
             std::shared_ptr<Style::Style> style;
             std::shared_ptr<ValueObserver<UI::Style::Palette> > paletteObserver;
             std::shared_ptr<ValueObserver<UI::Style::Metrics> > metricsObserver;
             std::shared_ptr<ValueObserver<std::string> > fontObserver;
         };
 
-        void UISystem::_init(int dpi, Context * context)
+        void UISystem::_init(uint16_t dpi, Context * context)
         {
             ISystem::_init("djv::UI::UISystem", context);
 
@@ -124,14 +124,14 @@ namespace djv
         UISystem::~UISystem()
         {}
 
-        std::shared_ptr<UISystem> UISystem::create(int dpi, Context * context)
+        std::shared_ptr<UISystem> UISystem::create(uint16_t dpi, Context * context)
         {
             auto out = std::shared_ptr<UISystem>(new UISystem);
             out->_init(dpi, context);
             return out;
         }
 
-        int UISystem::getDPI() const
+        uint16_t UISystem::getDPI() const
         {
             return _p->dpi;
         }

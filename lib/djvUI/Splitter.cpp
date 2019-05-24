@@ -256,12 +256,12 @@ namespace djv
                 size_t i = 0;
                 for (const auto & g : hg)
                 {
-                    render->setFillColor(_getColorWithOpacity(style->getColor(p.handleColorRole)));
+                    render->setFillColor(style->getColor(p.handleColorRole));
                     render->drawRect(g);
 
                     if (p.pressedID.first && p.pressedID.second == i)
                     {
-                        render->setFillColor(_getColorWithOpacity(style->getColor(ColorRole::Pressed)));
+                        render->setFillColor(style->getColor(ColorRole::Pressed));
                         render->drawRect(g);
                     }
                     else
@@ -270,7 +270,7 @@ namespace djv
                         {
                             if (j.second == i)
                             {
-                                render->setFillColor(_getColorWithOpacity(style->getColor(ColorRole::Hovered)));
+                                render->setFillColor(style->getColor(ColorRole::Hovered));
                                 render->drawRect(g);
                                 break;
                             }

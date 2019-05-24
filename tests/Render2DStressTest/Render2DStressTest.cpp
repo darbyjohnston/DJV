@@ -45,7 +45,7 @@ using namespace djv;
 
 const size_t drawCount = 1000;
 const size_t randomCount = 1000;
-glm::ivec2 windowSize = glm::ivec2(0, 0);
+AV::Image::Size windowSize;
 
 struct RandomColor
 {
@@ -62,8 +62,8 @@ struct RandomColor
 struct RandomPos
 {
     RandomPos() : v(
-        floorf(Core::Math::getRandom(windowSize.x / -2.f, windowSize.x * 1.5f)),
-        floorf(Core::Math::getRandom(windowSize.y / -2.f, windowSize.y * 1.5f)))
+        floorf(Core::Math::getRandom(windowSize.w / -2.f, windowSize.w * 1.5f)),
+        floorf(Core::Math::getRandom(windowSize.h / -2.f, windowSize.h * 1.5f)))
     {}
     glm::vec2 v;
     RandomPos * next = nullptr;
@@ -390,11 +390,12 @@ void Application::_drawRandomIcon()
 
 void Application::_render()
 {
-    glm::ivec2 size;
+    glm::ivec2 size = glm::ivec2(0, 0);
     glfwGetWindowSize(_glfwWindow, &size.x, &size.y);
-    if (size != windowSize)
+    if (size.x != windowSize.w || size.y != windowSize.h)
     {
-        windowSize = size;
+        windowSize.w = size.x;
+        windowSize.h = size.y;
         _generateRandomNumbers();
     }
     _initRandomNumbers();

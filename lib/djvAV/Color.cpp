@@ -144,18 +144,6 @@ namespace djv
                 }
             }
 
-            bool Color::operator == (const Color & other) const
-            {
-                return
-                    _type == other._type &&
-                    0 == memcmp(_data.data(), other._data.data(), getByteCount(_type));
-            }
-
-            bool Color::operator != (const Color & other) const
-            {
-                return !(*this == other);
-            }
-
         } // namepsace Image
     } // namespace AV
 

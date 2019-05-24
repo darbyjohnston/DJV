@@ -410,7 +410,7 @@ namespace djv
             void IEventSystem::_updateRecursive(const std::shared_ptr<IObject> & object, Update & event)
             {
                 object->event(event);
-                auto children = object->_children;
+                const auto children = object->_children;
                 for (const auto & child : children)
                 {
                     child->_parentsEnabled = object->_enabled && object->_parentsEnabled;

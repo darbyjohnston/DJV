@@ -244,7 +244,7 @@ namespace djv
                     style->getFontInfo(p.fontFace, p.fontSizeRole) :
                     style->getFontInfo(p.fontFamily, p.fontFace, p.fontSizeRole));
 
-                render->setFillColor(_getColorWithOpacity(style->getColor(p.textColorRole)));
+                render->setFillColor(style->getColor(p.textColorRole));
                 for (const auto & line : p.textLines)
                 {
                     if (pos.y + line.size.y >= p.clipRect.min.y && pos.y <= p.clipRect.max.y)
@@ -260,7 +260,7 @@ namespace djv
                         default: break;
                         }
 
-                        render->setFillColor(_getColorWithOpacity(style->getColor(p.textColorRole)));
+                        render->setFillColor(style->getColor(p.textColorRole));
                         //! \bug Why the extra subtract by one here?
                         render->drawText(
                             p.text.substr(line.offset, line.length),

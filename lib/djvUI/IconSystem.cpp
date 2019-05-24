@@ -94,7 +94,7 @@ namespace djv
         {
             std::shared_ptr<ResourceSystem> resourceSystem;
             std::shared_ptr<AV::IO::System> io;
-            std::vector<int> dpiList;
+            std::vector<uint16_t> dpiList;
             std::list<ImageRequest> imageQueue;
             std::condition_variable requestCV;
             std::mutex requestMutex;
@@ -108,8 +108,8 @@ namespace djv
             std::thread thread;
             std::atomic<bool> running;
 
-            FileSystem::Path getPath(const std::string & name, int dpi, const std::shared_ptr<ResourceSystem>&) const;
-            int findClosestDPI(int) const;
+            FileSystem::Path getPath(const std::string & name, uint16_t dpi, const std::shared_ptr<ResourceSystem>&) const;
+            uint16_t findClosestDPI(uint16_t) const;
         };
 
         void IconSystem::_init(Context * context)
@@ -327,7 +327,7 @@ namespace djv
             }
         }
 
-        FileSystem::Path IconSystem::Private::getPath(const std::string & name, int dpi, const std::shared_ptr<ResourceSystem>& resourceSystem) const
+        FileSystem::Path IconSystem::Private::getPath(const std::string & name, uint16_t dpi, const std::shared_ptr<ResourceSystem>& resourceSystem) const
         {
             FileSystem::Path out = resourceSystem->getPath(FileSystem::ResourcePath::IconsDirectory);
             {
@@ -343,10 +343,10 @@ namespace djv
             return out;
         }
 
-        int IconSystem::Private::findClosestDPI(int value) const
+        uint16_t IconSystem::Private::findClosestDPI(uint16_t value) const
         {
-            const int dpi = static_cast<int>(value / static_cast<float>(Style::iconSizeDefault) * static_cast<float>(AV::dpiDefault));
-            std::map<int, int> differenceToDPI;
+            const uint16_t dpi = static_cast<uint16_t>(value / static_cast<float>(Style::iconSizeDefault) * static_cast<float>(AV::dpiDefault));
+            std::map<uint16_t, uint16_t> differenceToDPI;
             for (auto i : dpiList)
             {
                 differenceToDPI[Math::abs(dpi - i)] = i;
