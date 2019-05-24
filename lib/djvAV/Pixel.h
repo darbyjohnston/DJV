@@ -153,17 +153,17 @@ namespace djv
 #endif
 
             inline ChannelType getChannelType(Type);
-            inline size_t getChannelCount(Type);
+            inline uint8_t getChannelCount(Type);
             inline DataType getDataType(Type);
-            inline size_t getBitDepth(Type);
-            inline size_t getByteCount(Type);
+            inline uint8_t getBitDepth(Type);
+            inline uint8_t getByteCount(Type);
 
             inline bool isIntType(Type);
             inline bool isFloatType(Type);
             inline Core::IntRange getIntRange(Type);
             inline Core::FloatRange getFloatRange(Type);
-            inline Type getIntType(size_t channelCount, size_t bitDepth);
-            inline Type getFloatType(size_t channelCount, size_t bitDepth);
+            inline Type getIntType(uint8_t channelCount, uint8_t bitDepth);
+            inline Type getFloatType(uint8_t channelCount, uint8_t bitDepth);
 
             inline GLenum getGLFormat(Type);
             inline GLenum getGLType(Type);

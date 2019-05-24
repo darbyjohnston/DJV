@@ -210,17 +210,17 @@ namespace djv
                 const float m = style->getMetric(MetricsRole::MarginSmall);
                 if (_isToggled())
                 {
-                    render->setFillColor(_getColorWithOpacity(style->getColor(ColorRole::Checked)));
+                    render->setFillColor(style->getColor(ColorRole::Checked));
                     render->drawRect(BBox2f(g.min.x, g.min.y, m, g.h()));
                 }
                 if (_isPressed())
                 {
-                    render->setFillColor(_getColorWithOpacity(style->getColor(ColorRole::Pressed)));
+                    render->setFillColor(style->getColor(ColorRole::Pressed));
                     render->drawRect(g);
                 }
                 else if (_isHovered())
                 {
-                    render->setFillColor(_getColorWithOpacity(style->getColor(ColorRole::Hovered)));
+                    render->setFillColor(style->getColor(ColorRole::Hovered));
                     render->drawRect(g);
                 }
             }

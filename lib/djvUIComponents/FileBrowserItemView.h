@@ -44,6 +44,12 @@ namespace djv
 
     namespace AV
     {
+        namespace Image
+        {
+            struct Size;
+        
+        } // namespace Image
+
         namespace IO
         {
             struct Info;
@@ -74,7 +80,7 @@ namespace djv
                 static std::shared_ptr<ItemView> create(Core::Context *);
 
                 void setViewType(ViewType);
-                void setThumbnailSize(const glm::ivec2 &);
+                void setThumbnailSize(const AV::Image::Size&);
                 void setSplit(const std::vector<float> &);
                 void setItems(const std::vector<Core::FileSystem::FileInfo> &);
                 void setCallback(const std::function<void(const Core::FileSystem::FileInfo &)> &);

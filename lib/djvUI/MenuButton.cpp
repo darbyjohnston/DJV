@@ -250,32 +250,32 @@ namespace djv
                 switch (p.menuStyle)
                 {
                 case MenuStyle::Round:
-                    render->setFillColor(_getColorWithOpacity(style->getColor(ColorRole::Border)));
+                    render->setFillColor(style->getColor(ColorRole::Border));
                     render->drawPill(g);
-                    render->setFillColor(_getColorWithOpacity(style->getColor(getBackgroundRole())));
+                    render->setFillColor(style->getColor(getBackgroundRole()));
                     render->drawPill(g2);
                     if (p.checked)
                     {
-                        render->setFillColor(_getColorWithOpacity(style->getColor(ColorRole::Pressed)));
+                        render->setFillColor(style->getColor(ColorRole::Pressed));
                         render->drawPill(g2);
                     }
                     else if (_isHovered())
                     {
-                        render->setFillColor(_getColorWithOpacity(style->getColor(ColorRole::Hovered)));
+                        render->setFillColor(style->getColor(ColorRole::Hovered));
                         render->drawPill(g2);
                     }
                     break;
                 default:
-                    render->setFillColor(_getColorWithOpacity(style->getColor(getBackgroundRole())));
+                    render->setFillColor(style->getColor(getBackgroundRole()));
                     render->drawRect(g);
                     if (p.checked)
                     {
-                        render->setFillColor(_getColorWithOpacity(style->getColor(ColorRole::Pressed)));
+                        render->setFillColor(style->getColor(ColorRole::Pressed));
                         render->drawRect(g);
                     }
                     else if (_isHovered())
                     {
-                        render->setFillColor(_getColorWithOpacity(style->getColor(ColorRole::Hovered)));
+                        render->setFillColor(style->getColor(ColorRole::Hovered));
                         render->drawRect(g);
                     }
                     break;

@@ -40,6 +40,15 @@
 
 namespace djv
 {
+    namespace AV
+    {
+        namespace Image
+        {
+            struct Size;
+    
+        } // namespace Image
+    } // namespace AV
+
     namespace UI
     {
         namespace Settings
@@ -65,8 +74,8 @@ namespace djv
                 std::shared_ptr<Core::IValueSubject<ViewType> > observeViewType() const;
                 void setViewType(ViewType);
 
-                std::shared_ptr<Core::IValueSubject<glm::ivec2> > observeThumbnailSize() const;
-                void setThumbnailSize(const glm::ivec2 &);
+                std::shared_ptr<Core::IValueSubject<AV::Image::Size> > observeThumbnailSize() const;
+                void setThumbnailSize(const AV::Image::Size&);
 
                 std::shared_ptr<Core::IListSubject<float> > observeListViewHeaderSplit() const;
                 void setListViewHeaderSplit(const std::vector<float> &);

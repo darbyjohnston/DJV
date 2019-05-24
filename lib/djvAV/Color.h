@@ -72,8 +72,8 @@ namespace djv
                 static void rgbToHSV(const float[3], float[3]);
                 static void hsvToRGB(const float[3], float[3]);
 
-                bool operator == (const Color &) const;
-                bool operator != (const Color &) const;
+                inline bool operator == (const Color &) const;
+                inline bool operator != (const Color &) const;
 
             private:
                 Type _type = Type::None;

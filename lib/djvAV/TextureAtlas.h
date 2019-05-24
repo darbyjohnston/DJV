@@ -42,7 +42,8 @@ namespace djv
             //! This struct provides information about a texture atlas item.
             struct TextureAtlasItem
             {
-                glm::ivec2 size = glm::ivec2(0, 0);
+                uint16_t w = 0;
+                uint16_t h = 0;
                 size_t textureIndex = 0;
                 Core::FloatRange textureU;
                 Core::FloatRange textureV;

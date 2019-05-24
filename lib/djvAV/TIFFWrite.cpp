@@ -209,8 +209,8 @@ namespace djv
                         break;
                     default: break;
                     }
-                    TIFFSetField(f.f, TIFFTAG_IMAGEWIDTH, info.size.x);
-                    TIFFSetField(f.f, TIFFTAG_IMAGELENGTH, info.size.y);
+                    TIFFSetField(f.f, TIFFTAG_IMAGEWIDTH, info.size.w);
+                    TIFFSetField(f.f, TIFFTAG_IMAGELENGTH, info.size.h);
                     TIFFSetField(f.f, TIFFTAG_PHOTOMETRIC, photometric);
                     TIFFSetField(f.f, TIFFTAG_SAMPLESPERPIXEL, samples);
                     TIFFSetField(f.f, TIFFTAG_BITSPERSAMPLE, sampleDepth);
@@ -241,7 +241,7 @@ namespace djv
                         TIFFSetField(f.f, TIFFTAG_IMAGEDESCRIPTION, tag.data());
                     }
 
-                    for (int y = 0; y < info.size.y; ++y)
+                    for (uint16_t y = 0; y < info.size.h; ++y)
                     {
                         if (TIFFWriteScanline(f.f, (tdata_t *)imageData->getData(y), y) == -1)
                         {

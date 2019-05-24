@@ -46,6 +46,15 @@ namespace djv
         } // namespace FileSystem
     } // namespace Core
 
+    namespace AV
+    {
+        namespace Image
+        {
+            struct Size;
+
+        } // namespace Image
+    } // namespace AV
+
     namespace ViewApp
     {
         //! This class provides file settings.
@@ -66,8 +75,8 @@ namespace djv
             std::shared_ptr<Core::IListSubject<Core::FileSystem::FileInfo> > observeRecentFiles() const;
             void setRecentFiles(const std::vector<Core::FileSystem::FileInfo> &);
 
-            std::shared_ptr<Core::IValueSubject<glm::ivec2> > observeRecentThumbnailSize() const;
-            void setRecentThumbnailSize(const glm::ivec2 &);
+            std::shared_ptr<Core::IValueSubject<AV::Image::Size> > observeRecentThumbnailSize() const;
+            void setRecentThumbnailSize(const AV::Image::Size&);
 
             void load(const picojson::value &) override;
             picojson::value save() override;

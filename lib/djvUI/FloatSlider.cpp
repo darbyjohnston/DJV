@@ -182,7 +182,7 @@ namespace djv
             {
                 const auto & range = p.model->observeRange()->get();
                 float v = (p.value - range.min) / (range.max - range.min);
-                render->setFillColor(_getColorWithOpacity(style->getColor(ColorRole::Checked)));
+                render->setFillColor(style->getColor(ColorRole::Checked));
                 switch (p.orientation)
                 {
                 case Orientation::Horizontal:
@@ -204,7 +204,7 @@ namespace djv
                 }
                 default: break;
                 }
-                render->setFillColor(_getColorWithOpacity(style->getColor(ColorRole::Trough)));
+                render->setFillColor(style->getColor(ColorRole::Trough));
                 switch (p.orientation)
                 {
                 case Orientation::Horizontal:
@@ -229,7 +229,7 @@ namespace djv
             }
             else
             {
-                render->setFillColor(_getColorWithOpacity(style->getColor(ColorRole::Trough)));
+                render->setFillColor(style->getColor(ColorRole::Trough));
                 switch (p.orientation)
                 {
                 case Orientation::Horizontal:
@@ -251,7 +251,7 @@ namespace djv
             }
             if (p.model)
             {
-                render->setFillColor(_getColorWithOpacity(style->getColor(ColorRole::Border)));
+                render->setFillColor(style->getColor(ColorRole::Border));
                 glm::vec2 pos;
                 switch (p.orientation)
                 {
@@ -261,16 +261,16 @@ namespace djv
                 }
                 const float r = ceilf(p.handleWidth / 2.f - 1.f);
                 render->drawCircle(pos, r);
-                render->setFillColor(_getColorWithOpacity(style->getColor(ColorRole::Button)));
+                render->setFillColor(style->getColor(ColorRole::Button));
                 render->drawCircle(pos, r - b);
                 if (p.pressedID != Event::InvalidID)
                 {
-                    render->setFillColor(_getColorWithOpacity(style->getColor(ColorRole::Pressed)));
+                    render->setFillColor(style->getColor(ColorRole::Pressed));
                     render->drawCircle(pos, r);
                 }
                 else if (_getPointerHover().size())
                 {
-                    render->setFillColor(_getColorWithOpacity(style->getColor(ColorRole::Hovered)));
+                    render->setFillColor(style->getColor(ColorRole::Hovered));
                     render->drawCircle(pos, r);
                 }
             }

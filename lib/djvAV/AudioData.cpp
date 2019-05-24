@@ -168,7 +168,7 @@ namespace djv
                 return out;
             }
             
-            void Data::planarInterleave(const float ** value, float * out, size_t size, size_t channelCount)
+            void Data::planarInterleave(const float ** value, float * out, size_t size, uint8_t channelCount)
             {
                 const size_t planeSize = size / channelCount;
                 switch (channelCount)
@@ -190,7 +190,7 @@ namespace djv
                         break;
                     }
                     default:
-                        for (size_t c = 0; c < channelCount; ++c)
+                        for (uint8_t c = 0; c < channelCount; ++c)
                         {
                             const float * inP = value[c];
                             const float * endP = inP + planeSize;
@@ -207,10 +207,10 @@ namespace djv
             namespace
             {
                 template<typename U>
-                void _planarDeinterleave(const U * value, U * out, size_t channelCount, size_t size)
+                void _planarDeinterleave(const U * value, U * out, uint8_t channelCount, size_t size)
                 {
                     const size_t planeSize = size / channelCount;
-                    for (size_t c = 0; c < channelCount; ++c)
+                    for (uint8_t c = 0; c < channelCount; ++c)
                     {
                         const U * inP = value + c;
                         U * outP = out + c * planeSize;
@@ -225,7 +225,7 @@ namespace djv
             std::shared_ptr<Data> Data::planarDeinterleave(const std::shared_ptr<Data> & data)
             {
                 auto out = Data::create(data->getInfo(), data->getSampleCount());
-                const size_t channelCount = data->getChannelCount();
+                const uint8_t channelCount = data->getChannelCount();
                 const size_t sampleCount = data->getSampleCount();
                 switch (data->getType())
                 {

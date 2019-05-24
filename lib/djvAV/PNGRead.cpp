@@ -175,7 +175,7 @@ namespace djv
                     File f;
                     const auto info = _open(fileName, f);
                     out = Image::Image::create(info.video[0].info);
-                    for (int y = 0; y < info.video[0].info.size.y; ++y)
+                    for (uint16_t y = 0; y < info.video[0].info.size.h; ++y)
                     {
                         if (!pngScanline(f.png, out->getData(y)))
                         {
@@ -220,9 +220,6 @@ namespace djv
                         throw std::runtime_error(s.str());
                     }
 
-                    const glm::ivec2 size(
-                        png_get_image_width(f.png, f.pngInfo),
-                        png_get_image_height(f.png, f.pngInfo));
                     int channels = png_get_channels(f.png, f.pngInfo);
                     if (png_get_color_type(f.png, f.pngInfo) == PNG_COLOR_TYPE_PALETTE)
                     {
@@ -245,7 +242,7 @@ namespace djv
                             " '" << fileName << "' " << DJV_TEXT("cannot be opened") << ".";
                         throw std::runtime_error(s.str());
                     }
-                    auto info = Image::Info(size, imageType);
+                    auto info = Image::Info(png_get_image_width(f.png, f.pngInfo), png_get_image_height(f.png, f.pngInfo), imageType);
 
                     if (bitDepth >= 16 && Memory::Endian::LSB == Memory::getEndian())
                     {

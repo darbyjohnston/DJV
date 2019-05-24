@@ -55,12 +55,12 @@ namespace djv
             struct Info
             {
                 inline Info();
-                constexpr Info(FamilyID, FaceID, float size, int DPI);
+                constexpr Info(FamilyID, FaceID, uint16_t size, uint16_t DPI);
 
                 FamilyID family = 1;
                 FaceID   face   = 1;
-                float    size   = 0.f;
-                int      dpi    = dpiDefault;
+                uint16_t size   = 0;
+                uint16_t dpi    = dpiDefault;
 
                 inline bool operator == (const Info &) const;
                 inline bool operator < (const Info&) const;
@@ -69,9 +69,9 @@ namespace djv
             //! This struct provides font metrics.
             struct Metrics
             {
-                float ascender   = 0.f;
-                float descender  = 0.f;
-                float lineHeight = 0.f;
+                uint16_t ascender   = 0;
+                uint16_t descender  = 0;
+                uint16_t lineHeight = 0;
             };
 
             //! This struct provides a line of text.
@@ -112,7 +112,7 @@ namespace djv
                 GlyphInfo                    info;
                 std::shared_ptr<Image::Data> imageData;
                 glm::vec2                    offset    = glm::vec2(0.f, 0.f);
-                float                        advance   = 0.f;
+                uint16_t                     advance   = 0;
                 int32_t                      lsbDelta  = 0;
                 int32_t                      rsbDelta  = 0;
             };
@@ -147,7 +147,7 @@ namespace djv
                 //! Break text into lines for wrapping.
                 std::future<std::vector<TextLine> > textLines(
                     const std::string& text,
-                    float              maxLineWidth,
+                    uint16_t           maxLineWidth,
                     const Info&        info);
 
                 //! Get font glyphs.
@@ -157,6 +157,9 @@ namespace djv
 
                 //! Request font glyphs to be cached.
                 void cacheGlyphs(const std::string& text, const Info&);
+
+                //! Get the glyph cache sized.
+                size_t getGlyphCacheSize() const;
 
                 //! Get the glyph cache percentage used.
                 float getGlyphCachePercentage() const;

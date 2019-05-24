@@ -120,7 +120,7 @@ namespace djv
                 std::shared_ptr<ValueObserver<ViewType> > viewTypeSettingsObserver;
                 std::shared_ptr<ValueObserver<bool> > increaseThumbnailSizeObserver;
                 std::shared_ptr<ValueObserver<bool> > decreaseThumbnailSizeObserver;
-                std::shared_ptr<ValueObserver<glm::ivec2> > thumbnailSizeSettingsObserver;
+                std::shared_ptr<ValueObserver<AV::Image::Size> > thumbnailSizeSettingsObserver;
                 std::shared_ptr<ListObserver<float> > listViewHeaderSplitSettingsObserver;
                 std::shared_ptr<ValueObserver<bool> > fileSequencesObserver;
                 std::shared_ptr<ValueObserver<bool> > fileSequencesSettingsObserver;
@@ -522,14 +522,14 @@ namespace djv
                             }
                         });
 
-                        p.thumbnailSizeSettingsObserver = ValueObserver<glm::ivec2>::create(
+                        p.thumbnailSizeSettingsObserver = ValueObserver<AV::Image::Size>::create(
                             fileBrowserSettings->observeThumbnailSize(),
-                            [weak](const glm::ivec2 & value)
+                            [weak](const AV::Image::Size & value)
                         {
                             if (auto widget = weak.lock())
                             {
                                 widget->_p->itemView->setThumbnailSize(value);
-                                widget->_p->thumbnailSizeSlider->setValue(value.x);
+                                widget->_p->thumbnailSizeSlider->setValue(value.w);
                             }
                         });
 
@@ -672,7 +672,7 @@ namespace djv
                     {
                         if (auto fileBrowserSettings = settingsSystem->getSettingsT<Settings::FileBrowser>())
                         {
-                            fileBrowserSettings->setThumbnailSize(glm::ivec2(value, ceilf(value / 2.f)));
+                            fileBrowserSettings->setThumbnailSize(AV::Image::Size(value, ceilf(value / 2.f)));
                         }
                     }
                 });
@@ -688,8 +688,8 @@ namespace djv
                             if (auto fileBrowserSettings = settingsSystem->getSettingsT<Settings::FileBrowser>())
                             {
                                 auto size = fileBrowserSettings->observeThumbnailSize()->get();
-                                size.x = Math::clamp(static_cast<int>(size.x * 1.25f), thumbnailSizeRange.min, thumbnailSizeRange.max);
-                                size.y = static_cast<int>(ceilf(size.x / 2.f));
+                                size.w = Math::clamp(static_cast<int>(size.w * 1.25f), thumbnailSizeRange.min, thumbnailSizeRange.max);
+                                size.h = static_cast<int>(ceilf(size.w / 2.f));
                                 fileBrowserSettings->setThumbnailSize(size);
                             }
                         }
@@ -707,8 +707,8 @@ namespace djv
                             if (auto fileBrowserSettings = settingsSystem->getSettingsT<Settings::FileBrowser>())
                             {
                                 auto size = fileBrowserSettings->observeThumbnailSize()->get();
-                                size.x = Math::clamp(static_cast<int>(size.x * .75f), thumbnailSizeRange.min, thumbnailSizeRange.max);
-                                size.y = static_cast<int>(ceilf(size.x / 2.f));
+                                size.w = Math::clamp(static_cast<int>(size.w * .75f), thumbnailSizeRange.min, thumbnailSizeRange.max);
+                                size.h = static_cast<int>(ceilf(size.w / 2.f));
                                 fileBrowserSettings->setThumbnailSize(size);
                             }
                         }

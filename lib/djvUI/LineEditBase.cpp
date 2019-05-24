@@ -315,7 +315,7 @@ namespace djv
             pos += m;
             pos.y = c.y - p.textSize.y / 2.f;
 
-            render->setFillColor(_getColorWithOpacity(style->getColor(p.textColorRole)));
+            render->setFillColor(style->getColor(p.textColorRole));
             //! \bug Why the extra subtract by one here?
             render->drawText(p.text, glm::vec2(floorf(pos.x), floorf(pos.y + p.fontMetrics.ascender - 1.f)));
 

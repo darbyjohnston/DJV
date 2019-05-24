@@ -124,8 +124,8 @@ namespace djv
                             return false;
                         }
                         jpeg_stdio_dest(jpeg, f);
-                        jpeg->image_width = info.size.x;
-                        jpeg->image_height = info.size.y;
+                        jpeg->image_width = info.size.w;
+                        jpeg->image_height = info.size.h;
                         if (Image::Type::L_U8 == info.type)
                         {
                             jpeg->input_components = 1;
@@ -214,7 +214,7 @@ namespace djv
                             " '" << fileName << "' " << DJV_TEXT("cannot be written") << ".";
                         throw std::runtime_error(s.str());
                     }
-                    const auto info = Image::Info(_imageInfo.size, imageType);
+                    const auto info = Image::Info(_imageInfo.size.w, _imageInfo.size.h, imageType);
 
                     std::shared_ptr<Image::Data> imageData = image;
                     if (imageData->getInfo() != info)
@@ -255,8 +255,8 @@ namespace djv
                         throw std::runtime_error(s.str());
                     }
 
-                    const auto & size = imageData->getSize();
-                    for (int y = 0; y < size.y; ++y)
+                    const uint16_t h = imageData->getHeight();
+                    for (uint16_t y = 0; y < h; ++y)
                     {
                         if (!jpegScanline(&f.jpeg, imageData->getData(y), &f.jpegError))
                         {

@@ -125,7 +125,7 @@ namespace djv
 
                 UID uid = 0;
                 FileSystem::Path path;
-                glm::ivec2 size = glm::ivec2(0, 0);
+                Image::Size size;
                 Image::Type type = Image::Type::None;
                 std::shared_ptr<IO::IRead> read;
                 std::promise<std::shared_ptr<Image::Image> > promise;
@@ -138,11 +138,12 @@ namespace djv
                 return out;
             }
 
-            size_t getImageCacheKey(const FileSystem::Path & path, const glm::ivec2 & size, Image::Type type)
+            size_t getImageCacheKey(const FileSystem::Path & path, const Image::Size& size, Image::Type type)
             {
                 size_t out = 0;
                 Memory::hashCombine(out, path.get());
-                Memory::hashCombine(out, size);
+                Memory::hashCombine(out, size.w);
+                Memory::hashCombine(out, size.h);
                 Memory::hashCombine(out, type);
                 return out;
             }
@@ -360,7 +361,7 @@ namespace djv
 
         ThumbnailSystem::ImageFuture ThumbnailSystem::getImage(
             const FileSystem::Path & path,
-            const glm::ivec2 &       size,
+            const Image::Size&       size,
             Image::Type              type)
         {
             DJV_PRIVATE_PTR();
@@ -565,15 +566,15 @@ namespace djv
                 {
                     if (i->size != image->getSize() || i->type != Image::Type::None)
                     {
-                        auto size = i->size;
+                        Image::Size size = i->size;
                         const float aspect = image->getAspectRatio();
-                        if (0 == size.x)
+                        if (0 == size.w)
                         {
-                            size.x = static_cast<int>(size.y * aspect);
+                            size.w = static_cast<uint16_t>(size.h * aspect);
                         }
-                        else if (0 == size.y && aspect > 0.f)
+                        else if (0 == size.w && aspect > 0.f)
                         {
-                            size.y = static_cast<int>(size.x / aspect);
+                            size.h = static_cast<int>(size.w / aspect);
                         }
                         const auto type = i->type != Image::Type::None ? i->type : image->getType();
                         const auto info = Image::Info(size, type);

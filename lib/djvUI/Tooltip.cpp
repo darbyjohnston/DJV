@@ -143,7 +143,7 @@ namespace djv
                 auto style = _getStyle();
                 const float sh = style->getMetric(MetricsRole::Shadow);
                 auto render = _getRender();
-                render->setFillColor(_getColorWithOpacity(style->getColor(ColorRole::Shadow)));
+                render->setFillColor(style->getColor(ColorRole::Shadow));
                 for (const auto & i : getChildWidgets())
                 {
                     BBox2f g = i->getGeometry();

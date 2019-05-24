@@ -150,7 +150,7 @@ namespace djv
                     AV::Image::Info(p.resize, AV::Image::Type::RGBA_U8));
 #else
                 p.offscreenBuffer = AV::OpenGL::OffscreenBuffer::create(
-                    AV::Image::Info(p.resize, AV::Image::Type::RGBA_U8),
+                    AV::Image::Info(p.resize.x, p.resize.y, AV::Image::Type::RGBA_U8),
                     AV::OpenGL::OffscreenType::MultiSample);
 #endif
             }
@@ -181,12 +181,12 @@ namespace djv
                     redrawRequest |= _redrawRequest(i);
                 }
 
-                const auto & size = p.offscreenBuffer->getInfo().size;
+                const auto& size = p.offscreenBuffer->getInfo().size;
                 if (resizeRequest)
                 {
                     for (const auto & i : rootObject->getChildrenT<UI::Window>())
                     {
-                        i->resize(size);
+                        i->resize(glm::vec2(size.w, size.h));
 
                         Event::PreLayout preLayout;
                         _preLayoutRecursive(i, preLayout);
@@ -196,7 +196,7 @@ namespace djv
                             Event::Layout layout;
                             _layoutRecursive(i, layout);
 
-                            Event::Clip clip(BBox2f(0.f, 0.f, static_cast<float>(size.x), static_cast<float>(size.y)));
+                            Event::Clip clip(BBox2f(0.f, 0.f, static_cast<float>(size.w), static_cast<float>(size.h)));
                             _clipRecursive(i, clip);
                         }
                     }
@@ -210,8 +210,8 @@ namespace djv
                     {
                         if (i->isVisible())
                         {
-                            Event::Paint paintEvent(BBox2f(0.f, 0.f, static_cast<float>(size.x), static_cast<float>(size.y)));
-                            Event::PaintOverlay paintOverlayEvent(BBox2f(0.f, 0.f, static_cast<float>(size.x), static_cast<float>(size.y)));
+                            Event::Paint paintEvent(BBox2f(0.f, 0.f, static_cast<float>(size.w), static_cast<float>(size.h)));
+                            Event::PaintOverlay paintOverlayEvent(BBox2f(0.f, 0.f, static_cast<float>(size.w), static_cast<float>(size.h)));
                             _paintRecursive(i, paintEvent, paintOverlayEvent);
                         }
                     }
@@ -256,21 +256,21 @@ namespace djv
                 glDisable(GL_DEPTH_TEST);
                 glDisable(GL_SCISSOR_TEST);
                 glDisable(GL_BLEND);
-                const auto & size = p.offscreenBuffer->getInfo().size;
+                const auto& size = p.offscreenBuffer->getInfo().size;
                 glViewport(
                     0,
                     0,
-                    GLsizei(size.x),
-                    GLsizei(size.y));
+                    GLsizei(size.w),
+                    GLsizei(size.h));
                 glClearColor(0.f, 0.f, 0.f, 0.f);
                 glClear(GL_COLOR_BUFFER_BIT);
 #if defined(DJV_OPENGL_ES2)
                 p.shader->bind();
                 const auto viewMatrix = glm::ortho(
                     0.f,
-                    static_cast<float>(size.x),
+                    static_cast<float>(size.w),
                     0.f,
-                    static_cast<float>(size.y),
+                    static_cast<float>(size.h),
                     -1.f,
                     1.f);
                 p.shader->setUniform("transform.mvp", viewMatrix);
@@ -298,23 +298,23 @@ namespace djv
                 vboP->u = 0.f;
                 vboP->v = 0.f;
                 ++vboP;
-                vboP->x = size.x;
+                vboP->x = size.w;
                 vboP->y = 0.f;
                 vboP->u = 65535;
                 vboP->v = 0;
                 ++vboP;
-                vboP->x = size.x;
-                vboP->y = size.y;
+                vboP->x = size.w;
+                vboP->y = size.h;
                 vboP->u = 65535;
                 vboP->v = 65535;
                 ++vboP;
-                vboP->x = size.x;
-                vboP->y = size.y;
+                vboP->x = size.w;
+                vboP->y = size.h;
                 vboP->u = 65535;
                 vboP->v = 65535;
                 ++vboP;
                 vboP->x = 0.f;
-                vboP->y = size.y;
+                vboP->y = size.h;
                 vboP->u = 0;
                 vboP->v = 65535;
                 ++vboP;
@@ -330,8 +330,8 @@ namespace djv
                 glBindFramebuffer(GL_READ_FRAMEBUFFER, p.offscreenBuffer->getID());
                 glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
                 glBlitFramebuffer(
-                    0, 0, size.x, size.y,
-                    0, 0, size.x, size.y,
+                    0, 0, size.w, size.h,
+                    0, 0, size.w, size.h,
                     GL_COLOR_BUFFER_BIT,
                     GL_NEAREST);
 #endif // DJV_OPENGL_ES2

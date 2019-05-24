@@ -147,17 +147,17 @@ namespace djv
             const float b = style->getMetric(MetricsRole::Border) * 2.f;
             const BBox2f& g = getMargin().bbox(getGeometry(), style).margin(0, 0, 0, -b);
             auto render = _getRender();
-            auto color1 = _getColorWithOpacity(style->getColor(ColorRole::Checked));
-            auto color2 = _getColorWithOpacity(style->getColor(ColorRole::Checked));
+            auto color1 = style->getColor(ColorRole::Checked);
+            auto color2 = style->getColor(ColorRole::Checked);
             color2.setF32(color2.getF32(3) * .5f, 3);
             float x = g.min.x;
             const float range = p.samplesRange.max - p.samplesRange.min;
             for (const auto& i : p.samples)
             {
                 float h = (i - p.samplesRange.min) / range * g.h();
-                render->setFillColor(_getColorWithOpacity(color1));
+                render->setFillColor(color1);
                 render->drawRect(BBox2f(x, g.min.y + g.h() - h, b, b));
-                render->setFillColor(_getColorWithOpacity(color2));
+                render->setFillColor(color2);
                 render->drawRect(BBox2f(x, g.min.y + g.h() - h + b, b, h));
                 x += b;
             }

@@ -249,7 +249,7 @@ namespace djv
                     auto style = _getStyle();
                     const float sh = style->getMetric(MetricsRole::Shadow);
                     auto render = _getRender();
-                    render->setFillColor(_getColorWithOpacity(style->getColor(ColorRole::Shadow)));
+                    render->setFillColor(style->getColor(ColorRole::Shadow));
                     switch (p.side)
                     {
                     case Side::Left:   render->drawShadow(BBox2f(g.max.x, g.min.y, sh, g.h()), AV::Side::Right);     break;
@@ -268,7 +268,7 @@ namespace djv
                 {
                     auto style = _getStyle();
                     auto render = _getRender();
-                    render->setFillColor(_getColorWithOpacity(style->getColor(ColorRole::Hovered)));
+                    render->setFillColor(style->getColor(ColorRole::Hovered));
                     render->drawRect(p.spacer->getGeometry());
                 }
             }

@@ -32,9 +32,8 @@
 #include <djvAV/Pixel.h>
 
 #include <djvCore/Memory.h>
+#include <djvCore/PicoJSON.h>
 #include <djvCore/UID.h>
-
-#include <glm/vec2.hpp>
 
 #include <memory>
 
@@ -71,15 +70,27 @@ namespace djv
                 constexpr bool operator != (const Layout &) const;
             };
 
+            //! This struct provides the image size.
+            struct Size
+            {
+                inline Size(uint16_t w = 0, uint16_t h = 0);
+
+                uint16_t w = 0;
+                uint16_t h = 0;
+
+                constexpr bool operator == (const Size&) const;
+                constexpr bool operator != (const Size&) const;
+            };
+
             //! This struct provides image data information.
             struct Info
             {
                 inline Info();
-                inline Info(const glm::ivec2 &, Type, const Layout & = Layout());
-                inline Info(int width, int height, Type, const Layout & = Layout());
+                inline Info(const Size&, Type, const Layout & = Layout());
+                inline Info(uint16_t width, uint16_t height, Type, const Layout & = Layout());
 
                 std::string name;
-                glm::ivec2 size = glm::ivec2(0, 0);
+                Size size;
                 Type type = Type::None;
                 Layout layout;
 
@@ -87,7 +98,7 @@ namespace djv
                 inline GLenum getGLFormat() const;
                 inline GLenum getGLType() const;
                 inline bool isValid() const;
-                inline size_t getPixelByteCount() const;
+                inline uint8_t getPixelByteCount() const;
                 inline size_t getScanlineByteCount() const;
                 inline size_t getDataByteCount() const;
 
@@ -112,25 +123,25 @@ namespace djv
                 inline Core::UID getUID() const;
 
                 inline const Info & getInfo() const;
-                inline const glm::ivec2 & getSize() const;
-                inline int getWidth() const;
-                inline int getHeight() const;
+                inline const Size& getSize() const;
+                inline uint16_t getWidth() const;
+                inline uint16_t getHeight() const;
                 inline float getAspectRatio() const;
                 inline Type getType() const;
                 inline GLenum getGLFormat() const;
                 inline GLenum getGLType() const;
                 inline const Layout & getLayout() const;
                 inline bool isValid() const;
-                inline size_t getPixelByteCount() const;
+                inline uint8_t getPixelByteCount() const;
                 inline size_t getScanlineByteCount() const;
                 inline size_t getDataByteCount() const;
 
                 inline const uint8_t * getData() const;
-                inline const uint8_t * getData(int y) const;
-                inline const uint8_t * getData(int x, int y) const;
+                inline const uint8_t * getData(uint16_t y) const;
+                inline const uint8_t * getData(uint16_t x, uint16_t y) const;
                 inline uint8_t * getData();
-                inline uint8_t * getData(int y);
-                inline uint8_t * getData(int x, int y);
+                inline uint8_t * getData(uint16_t y);
+                inline uint8_t * getData(uint16_t x, uint16_t y);
 
                 void zero();
 
@@ -140,7 +151,7 @@ namespace djv
             private:
                 Core::UID _uid = 0;
                 Info _info;
-                size_t _pixelByteCount = 0;
+                uint8_t _pixelByteCount = 0;
                 size_t _scanlineByteCount = 0;
                 size_t _dataByteCount = 0;
                 uint8_t * _data = nullptr;
@@ -149,6 +160,16 @@ namespace djv
 
         } // namespace Image
     } // namespace AV
+
+    picojson::value toJSON(const AV::Image::Size&);
+
+    //! Throws:
+    //! - std::exception
+    void fromJSON(const picojson::value&, AV::Image::Size&);
+
+    std::ostream& operator << (std::ostream&, const AV::Image::Size&);
+    std::istream& operator >> (std::istream&, AV::Image::Size&);
+
 } // namespace djv
 
 #include <djvAV/ImageDataInline.h>

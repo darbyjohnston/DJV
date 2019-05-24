@@ -55,7 +55,7 @@ namespace djv
                 DJV_PRIVATE_PTR();
                 p.colors =
                 {
-                    // These colors must be specified as RGBA F32.
+                    // These colors should be specified as RGBA F32.
                     { ColorRole::None, AV::Image::Color(0.f, 0.f, 0.f, 0.f) },
                     { ColorRole::Background, AV::Image::Color(.18f, .18f, .18f, 1.f) },
                     { ColorRole::BackgroundBellows, AV::Image::Color(.3f, .3f, .3f, 1.f) },
@@ -184,7 +184,7 @@ namespace djv
             {
                 Context * context = nullptr;
                 Palette palette;
-                int dpi = AV::dpiDefault;
+                uint16_t dpi = AV::dpiDefault;
                 Metrics metrics;
                 std::string font = AV::Font::familyDefault;
                 std::map<AV::Font::FamilyID, std::string> fontNames;
@@ -192,7 +192,7 @@ namespace djv
                 bool dirty = true;
             };
 
-            void Style::_init(int dpi, Context * context)
+            void Style::_init(uint16_t dpi, Context * context)
             {
                 DJV_PRIVATE_PTR();
                 
@@ -216,7 +216,7 @@ namespace djv
             Style::~Style()
             {}
 
-            std::shared_ptr<Style> Style::create(int dpi, Context * context)
+            std::shared_ptr<Style> Style::create(uint16_t dpi, Context * context)
             {
                 auto out = std::shared_ptr<Style>(new Style);
                 out->_init(dpi, context);

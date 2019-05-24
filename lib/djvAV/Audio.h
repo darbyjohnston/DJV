@@ -72,11 +72,11 @@ namespace djv
             const F32_T F32Min = -1.f;
             const F32_T F32Max =  1.f;
 
-            inline size_t getByteCount(Type);
-            inline Type getIntType(size_t);
-            inline Type getFloatType(size_t);
+            inline uint8_t getByteCount(Type);
+            inline Type getIntType(uint8_t);
+            inline Type getFloatType(uint8_t);
 
-            inline ALenum getALType(size_t channels, Type);
+            inline ALenum getALType(uint8_t channels, Type);
             std::string getALErrorString(ALenum);
 
             inline void U8ToS16(U8_T, S16_T &);

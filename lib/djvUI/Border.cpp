@@ -144,7 +144,7 @@ namespace djv
                 const BBox2f & g = getMargin().bbox(getGeometry(), style);
                 const float borderSize = style->getMetric(p.borderSize);
                 auto render = _getRender();
-                render->setFillColor(_getColorWithOpacity(style->getColor(p.borderColor)));
+                render->setFillColor(style->getColor(p.borderColor));
                 render->drawRect(BBox2f(
                     glm::vec2(g.min.x, g.min.y),
                     glm::vec2(g.max.x, g.min.y + borderSize)));

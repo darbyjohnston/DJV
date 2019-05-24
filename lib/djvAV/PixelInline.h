@@ -97,9 +97,9 @@ namespace djv
                 return data[static_cast<size_t>(value)];
             }
 
-            inline size_t getChannelCount(Type value)
+            inline uint8_t getChannelCount(Type value)
             {
-                const size_t data[] =
+                const uint8_t data[] =
                 {
                     0,
                     1, 1, 1, 1, 1,
@@ -146,9 +146,9 @@ namespace djv
                 return data[static_cast<size_t>(value)];
             }
 
-            inline size_t getBitDepth(Type value)
+            inline uint8_t getBitDepth(Type value)
             {
-                const size_t data[] =
+                const uint8_t data[] =
                 {
                     0,
                     8, 16, 32, 16, 32,
@@ -160,9 +160,9 @@ namespace djv
                 return data[static_cast<size_t>(value)];
             }
 
-            inline size_t getByteCount(Type value)
+            inline uint8_t getByteCount(Type value)
             {
-                const size_t data[] =
+                const uint8_t data[] =
                 {
                     0,
                     1, 2, 4, 2, 4,
@@ -274,7 +274,7 @@ namespace djv
                 return data[static_cast<size_t>(value)];
             }
 
-            inline Type getIntType(size_t channelCount, size_t bitDepth)
+            inline Type getIntType(uint8_t channelCount, uint8_t bitDepth)
             {
                 switch (channelCount)
                 {
@@ -315,7 +315,7 @@ namespace djv
                 return Type::None;
             }
 
-            inline Type getFloatType(size_t channelCount, size_t bitDepth)
+            inline Type getFloatType(uint8_t channelCount, uint8_t bitDepth)
             {
                 switch (channelCount)
                 {

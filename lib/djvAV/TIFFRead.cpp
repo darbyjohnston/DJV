@@ -90,7 +90,7 @@ namespace djv
                     File f;
                     const auto info = _open(fileName, f);
                     out = Image::Image::create(info.video[0].info);
-                    for (int y = 0; y < info.video[0].info.size.y; ++y)
+                    for (uint16_t y = 0; y < info.video[0].info.size.h; ++y)
                     {
                         if (TIFFReadScanline(f.f, (tdata_t *)out->getData(y), y) == -1)
                         {
@@ -103,7 +103,7 @@ namespace djv
                         {
                             TIFF::paletteLoad(
                                 out->getData(y),
-                                info.video[0].info.size.x,
+                                info.video[0].info.size.w,
                                 static_cast<int>(Image::getChannelCount(info.video[0].info.type)),
                                 f.colormap[0], f.colormap[1], f.colormap[2]);
                         }

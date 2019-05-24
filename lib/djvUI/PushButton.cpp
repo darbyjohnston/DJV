@@ -281,24 +281,24 @@ namespace djv
                 auto render = _getRender();
                 if (isEnabled(true))
                 {
-                    render->setFillColor(_getColorWithOpacity(style->getColor(ColorRole::Border)));
+                    render->setFillColor(style->getColor(ColorRole::Border));
                     render->drawPill(g);
-                    render->setFillColor(_getColorWithOpacity(style->getColor(getBackgroundRole())));
+                    render->setFillColor(style->getColor(getBackgroundRole()));
                     render->drawPill(g2);
                     if (_isPressed())
                     {
-                        render->setFillColor(_getColorWithOpacity(style->getColor(ColorRole::Pressed)));
+                        render->setFillColor(style->getColor(ColorRole::Pressed));
                         render->drawPill(g2);
                     }
                     else if (_isHovered())
                     {
-                        render->setFillColor(_getColorWithOpacity(style->getColor(ColorRole::Hovered)));
+                        render->setFillColor(style->getColor(ColorRole::Hovered));
                         render->drawPill(g2);
                     }
                 }
                 else
                 {
-                    render->setFillColor(_getColorWithOpacity(style->getColor(getBackgroundRole())));
+                    render->setFillColor(style->getColor(getBackgroundRole()));
                     render->drawPill(g);
                 }
             }

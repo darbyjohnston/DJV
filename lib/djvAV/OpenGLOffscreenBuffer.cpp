@@ -83,8 +83,8 @@ namespace djv
                     target,
                     0,
                     Texture::getInternalFormat(_info.type),
-                    _info.size.x,
-                    _info.size.y,
+                    _info.size.w,
+                    _info.size.h,
                     0,
                     _info.getGLFormat(),
                     _info.getGLType(),
@@ -97,8 +97,8 @@ namespace djv
                         target,
                         static_cast<GLsizei>(samples),
                         Texture::getInternalFormat(_info.type),
-                        _info.size.x,
-                        _info.size.y,
+                        _info.size.w,
+                        _info.size.h,
                         false);
                     break;
                 default:
@@ -106,8 +106,8 @@ namespace djv
                         target,
                         0,
                         Texture::getInternalFormat(_info.type),
-                        _info.size.x,
-                        _info.size.y,
+                        _info.size.w,
+                        _info.size.h,
                         0,
                         _info.getGLFormat(),
                         _info.getGLType(),

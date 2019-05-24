@@ -52,7 +52,7 @@ namespace djv
         {
             struct Convert::Private
             {
-                glm::ivec2 size = glm::ivec2(0, 0);
+                Size size;
                 Mirror mirror;
                 std::shared_ptr<OpenGL::OffscreenBuffer> offscreenBuffer;
                 std::shared_ptr<AV::OpenGL::Texture> texture;
@@ -109,15 +109,15 @@ namespace djv
                     p.size = info.size;
                     glm::mat4x4 modelMatrix(1);
                     modelMatrix = glm::rotate(modelMatrix, Core::Math::deg2rad(90.f), glm::vec3(1.f, 0.f, 0.f));
-                    modelMatrix = glm::scale(modelMatrix, glm::vec3(info.size.x, 0.f, info.size.y));
+                    modelMatrix = glm::scale(modelMatrix, glm::vec3(info.size.w, 0.f, info.size.h));
                     modelMatrix = glm::translate(modelMatrix, glm::vec3(.5f, 0.f, -.5f));
                     glm::mat4x4 viewMatrix(1);
                     glm::mat4x4 projectionMatrix(1);
                     projectionMatrix = glm::ortho(
                         0.f,
-                        static_cast<float>(info.size.x) - 1.f,
+                        static_cast<float>(info.size.w) - 1.f,
                         0.f,
-                        static_cast<float>(info.size.y) - 1.f,
+                        static_cast<float>(info.size.h) - 1.f,
                         -1.f,
                         1.f);
                     p.mvp = projectionMatrix * viewMatrix * modelMatrix;
@@ -154,7 +154,7 @@ namespace djv
                 }
                 p.vao->bind();
 
-                glViewport(0, 0, info.size.x, info.size.y);
+                glViewport(0, 0, info.size.w, info.size.h);
                 glClearColor(0.f, 0.f, 0.f, 0.f);
                 glClear(GL_COLOR_BUFFER_BIT);
                 glActiveTexture(GL_TEXTURE0);
@@ -163,7 +163,7 @@ namespace djv
 
                 glPixelStorei(GL_PACK_ALIGNMENT, 1);
                 glReadPixels(
-                    0, 0, info.size.x, info.size.y,
+                    0, 0, info.size.w, info.size.h,
                     info.getGLFormat(),
                     info.getGLType(),
                     out.getData());

@@ -169,11 +169,11 @@ namespace djv
                 auto render = _getRender();
                 auto style = _getStyle();
                 const BBox2f& g = getGeometry();
-                render->setFillColor(_getColorWithOpacity(style->getColor(UI::ColorRole::Background)));
+                render->setFillColor(style->getColor(UI::ColorRole::Background));
                 render->drawRect(g);
                 for (const auto& i : _primitives)
                 {
-                    AV::Image::Color color = _getColorWithOpacity(style->getColor(UI::ColorRole::Foreground));
+                    AV::Image::Color color = style->getColor(UI::ColorRole::Foreground);
                     color.setF32(color.getF32(3) * primitiveOpacity * sin(i.age / i.lifespan * Math::pi), 3);
                     render->setFillColor(color);
                     render->drawFilledImage(i.image, BBox2f(floorf(i.pos.x), floorf(i.pos.y), i.image->getWidth(), i.image->getHeight()));

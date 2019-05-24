@@ -279,7 +279,7 @@ namespace djv
                     const float h = style->getMetric(MetricsRole::Handle);
                     const float sh = style->getMetric(MetricsRole::Shadow);
                     auto render = _getRender();
-                    render->setFillColor(_getColorWithOpacity(style->getColor(ColorRole::Shadow)));
+                    render->setFillColor(style->getColor(ColorRole::Shadow));
                     BBox2f g = getGeometry().margin(-h);
                     g.min.x -= sh;
                     g.min.y += sh;
@@ -299,7 +299,7 @@ namespace djv
                 {
                     auto style = _getStyle();
                     auto render = _getRender();
-                    render->setFillColor(_getColorWithOpacity(style->getColor(ColorRole::Handle)));
+                    render->setFillColor(style->getColor(ColorRole::Handle));
                     const auto& handles = getHandlesDraw();
                     const auto i = handles.find(p.pressed);
                     if (i != handles.end())

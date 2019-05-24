@@ -36,7 +36,7 @@ namespace djv
             constexpr DataInfo::DataInfo()
             {}
 
-            constexpr DataInfo::DataInfo(size_t channelCount, Type type, size_t sampleRate) :
+            constexpr DataInfo::DataInfo(uint8_t channelCount, Type type, size_t sampleRate) :
                 channelCount(channelCount),
                 type(type),
                 sampleRate(sampleRate)
@@ -56,7 +56,7 @@ namespace djv
             inline Data::Data()
             {}
 
-            inline size_t Data::getChannelCount() const
+            inline uint8_t Data::getChannelCount() const
             {
                 return _info.channelCount;
             }

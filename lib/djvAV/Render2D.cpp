@@ -176,13 +176,13 @@ namespace djv
                     std::shared_ptr<OpenGL::Shader>                  shader;
                 };
 
-                BBox2f flip(const BBox2f & value, const glm::ivec2 & size)
+                BBox2f flip(const BBox2f & value, const Image::Size& size)
                 {
                     BBox2f out;
                     out.min.x = value.min.x;
-                    out.min.y = static_cast<float>(size.y) - value.max.y;
+                    out.min.y = static_cast<float>(size.h) - value.max.y;
                     out.max.x = value.max.x;
-                    out.max.y = static_cast<float>(size.y) - value.min.y;
+                    out.max.y = static_cast<float>(size.h) - value.min.y;
                     return out;
                 }
 
@@ -198,10 +198,13 @@ namespace djv
 
             struct Render2D::Private
             {
-                glm::ivec2                   size               = glm::ivec2(0, 0);
+                Image::Size                  size;
                 std::list<BBox2f>            clipRects;
                 BBox2f                       currentClipRect    = BBox2f(0.f, 0.f, 0.f, 0.f);
-                Image::Color                 fillColor          = Image::Color(1.f, 1.f, 1.f, 1.f);
+                float                        fillColor[4]       = { 1.f, 1.f, 1.f, 1.f };
+                float                        colorMult          = 1.f;
+                float                        alphaMult          = 1.f;
+                float                        finalColor[4]      = { 1.f, 1.f, 1.f, 1.f };
                 std::weak_ptr<Font::System>  fontSystem;
                 Font::Info                   currentFont;
 
@@ -283,12 +286,12 @@ namespace djv
                 return out;
             }
 
-            void Render2D::beginFrame(const glm::ivec2 & size)
+            void Render2D::beginFrame(const Image::Size& size)
             {
                 DJV_PRIVATE_PTR();
                 p.size = size;
-                p.currentClipRect = BBox2f(0.f, 0.f, static_cast<float>(size.x), static_cast<float>(size.y));
-                p.render->viewport = BBox2f(0.f, 0.f, static_cast<float>(size.x), static_cast<float>(size.y));
+                p.currentClipRect = BBox2f(0.f, 0.f, static_cast<float>(size.w), static_cast<float>(size.h));
+                p.render->viewport = BBox2f(0.f, 0.f, static_cast<float>(size.w), static_cast<float>(size.h));
             }
 
             void Render2D::endFrame()
@@ -461,16 +464,51 @@ namespace djv
             void Render2D::setFillColor(const Image::Color & value)
             {
                 DJV_PRIVATE_PTR();
-                if (value == p.fillColor)
-                    return;
-                if (p.fillColor.getType() == value.getType())
+                if (Image::Type::RGBA_F32 == value.getType())
                 {
-                    p.fillColor = value;
+                    const float* d = reinterpret_cast<const float*>(value.getData());
+                    p.fillColor[0] = d[0];
+                    p.fillColor[1] = d[1];
+                    p.fillColor[2] = d[2];
+                    p.fillColor[3] = d[3];
                 }
                 else
                 {
-                    p.fillColor = value.convert(Image::Type::RGBA_F32);
+                    const Image::Color tmp = value.convert(Image::Type::RGBA_F32);
+                    const float* d = reinterpret_cast<const float*>(tmp.getData());
+                    p.fillColor[0] = d[0];
+                    p.fillColor[1] = d[1];
+                    p.fillColor[2] = d[2];
+                    p.fillColor[3] = d[3];
                 }
+                p.finalColor[0] = p.fillColor[0] * p.colorMult;
+                p.finalColor[1] = p.fillColor[1] * p.colorMult;
+                p.finalColor[2] = p.fillColor[2] * p.colorMult;
+                p.finalColor[3] = p.fillColor[3] * p.alphaMult;
+            }
+
+            void Render2D::setColorMult(float value)
+            {
+                DJV_PRIVATE_PTR();
+                if (value == p.colorMult)
+                    return;
+                p.colorMult = value;
+                p.finalColor[0] = p.fillColor[0] * p.colorMult;
+                p.finalColor[1] = p.fillColor[1] * p.colorMult;
+                p.finalColor[2] = p.fillColor[2] * p.colorMult;
+                p.finalColor[3] = p.fillColor[3] * p.alphaMult;
+            }
+
+            void Render2D::setAlphaMult(float value)
+            {
+                DJV_PRIVATE_PTR();
+                if (value == p.alphaMult)
+                    return;
+                p.alphaMult = value;
+                p.finalColor[0] = p.fillColor[0] * p.colorMult;
+                p.finalColor[1] = p.fillColor[1] * p.colorMult;
+                p.finalColor[2] = p.fillColor[2] * p.colorMult;
+                p.finalColor[3] = p.fillColor[3] * p.alphaMult;
             }
 
             void Render2D::drawRect(const BBox2f & value)
@@ -483,10 +521,10 @@ namespace djv
                     Primitive& primitive = p.render->primitives[primitivesSize];
                     primitive.clipRect = p.currentClipRect;
                     primitive.colorMode = ColorMode::SolidColor;
-                    primitive.color[0] = p.fillColor.getF32(0);
-                    primitive.color[1] = p.fillColor.getF32(1);
-                    primitive.color[2] = p.fillColor.getF32(2);
-                    primitive.color[3] = p.fillColor.getF32(3);
+                    primitive.color[0] = p.finalColor[0];
+                    primitive.color[1] = p.finalColor[1];
+                    primitive.color[2] = p.finalColor[2];
+                    primitive.color[3] = p.finalColor[3];
                     primitive.vaoOffset = p.render->vboDataSize / AV::OpenGL::getVertexByteCount(OpenGL::VBOType::Pos2_F32_UV_U16);
                     primitive.vaoSize = 6;
 
@@ -523,10 +561,10 @@ namespace djv
                     Primitive& primitive = p.render->primitives[primitivesSize];
                     primitive.clipRect = p.currentClipRect;
                     primitive.colorMode = ColorMode::SolidColor;
-                    primitive.color[0] = p.fillColor.getF32(0);
-                    primitive.color[1] = p.fillColor.getF32(1);
-                    primitive.color[2] = p.fillColor.getF32(2);
-                    primitive.color[3] = p.fillColor.getF32(3);
+                    primitive.color[0] = p.finalColor[0];
+                    primitive.color[1] = p.finalColor[1];
+                    primitive.color[2] = p.finalColor[2];
+                    primitive.color[3] = p.finalColor[3];
                     primitive.vaoOffset = p.render->vboDataSize / AV::OpenGL::getVertexByteCount(OpenGL::VBOType::Pos2_F32_UV_U16);
                     primitive.vaoSize = 3 * 2 + facets * 2 * 3;
 
@@ -601,10 +639,10 @@ namespace djv
                     Primitive& primitive = p.render->primitives[primitivesSize];
                     primitive.clipRect = p.currentClipRect;
                     primitive.colorMode = ColorMode::SolidColor;
-                    primitive.color[0] = p.fillColor.getF32(0);
-                    primitive.color[1] = p.fillColor.getF32(1);
-                    primitive.color[2] = p.fillColor.getF32(2);
-                    primitive.color[3] = p.fillColor.getF32(3);
+                    primitive.color[0] = p.finalColor[0];
+                    primitive.color[1] = p.finalColor[1];
+                    primitive.color[2] = p.finalColor[2];
+                    primitive.color[3] = p.finalColor[3];
                     primitive.vaoOffset = p.render->vboDataSize / AV::OpenGL::getVertexByteCount(OpenGL::VBOType::Pos2_F32_UV_U16);;
                     primitive.vaoSize = 3 * facets;
 
@@ -671,9 +709,10 @@ namespace djv
 
                             if (glyph->imageData && glyph->imageData->isValid())
                             {
-                                const glm::vec2& size = glyph->imageData->getSize();
+                                const uint16_t width = glyph->imageData->getWidth();
+                                const uint16_t height = glyph->imageData->getHeight();
                                 const glm::vec2& offset = glyph->offset;
-                                const BBox2f bbox(pos.x + x + offset.x, pos.y - offset.y, size.x, size.y);
+                                const BBox2f bbox(pos.x + x + offset.x, pos.y - offset.y, width, height);
                                 if (bbox.intersects(p.render->viewport))
                                 {
                                     const auto uid = glyph->imageData->getUID();
@@ -697,10 +736,10 @@ namespace djv
                                         primitive = &p.render->primitives[primitivesSize];
                                         primitive->clipRect = p.currentClipRect;
                                         primitive->colorMode = ColorMode::ColorWithTextureAlpha;
-                                        primitive->color[0] = p.fillColor.getF32(0);
-                                        primitive->color[1] = p.fillColor.getF32(1);
-                                        primitive->color[2] = p.fillColor.getF32(2);
-                                        primitive->color[3] = p.fillColor.getF32(3);
+                                        primitive->color[0] = p.finalColor[0];
+                                        primitive->color[1] = p.finalColor[1];
+                                        primitive->color[2] = p.finalColor[2];
+                                        primitive->color[3] = p.finalColor[3];
                                         primitive->imageCache = ImageCache::Atlas;
                                         primitive->atlasIndex = item.textureIndex;
                                         primitive->vaoOffset = p.render->vboDataSize / AV::OpenGL::getVertexByteCount(OpenGL::VBOType::Pos2_F32_UV_U16);;
@@ -759,10 +798,10 @@ namespace djv
                     Primitive& primitive = p.render->primitives[primitivesSize];
                     primitive.clipRect = p.currentClipRect;
                     primitive.colorMode = ColorMode::Shadow;
-                    primitive.color[0] = p.fillColor.getF32(0);
-                    primitive.color[1] = p.fillColor.getF32(1);
-                    primitive.color[2] = p.fillColor.getF32(2);
-                    primitive.color[3] = p.fillColor.getF32(3);
+                    primitive.color[0] = p.finalColor[0];
+                    primitive.color[1] = p.finalColor[1];
+                    primitive.color[2] = p.finalColor[2];
+                    primitive.color[3] = p.finalColor[3];
                     primitive.vaoOffset = p.render->vboDataSize / AV::OpenGL::getVertexByteCount(OpenGL::VBOType::Pos2_F32_UV_U16);
                     primitive.vaoSize = 6;
 
@@ -814,10 +853,10 @@ namespace djv
                     Primitive& primitive = p.render->primitives[primitivesSize];
                     primitive.clipRect = p.currentClipRect;
                     primitive.colorMode = ColorMode::Shadow;
-                    primitive.color[0] = p.fillColor.getF32(0);
-                    primitive.color[1] = p.fillColor.getF32(1);
-                    primitive.color[2] = p.fillColor.getF32(2);
-                    primitive.color[3] = p.fillColor.getF32(3);
+                    primitive.color[0] = p.finalColor[0];
+                    primitive.color[1] = p.finalColor[1];
+                    primitive.color[2] = p.finalColor[2];
+                    primitive.color[3] = p.finalColor[3];
                     primitive.vaoOffset = p.render->vboDataSize / AV::OpenGL::getVertexByteCount(OpenGL::VBOType::Pos2_F32_UV_U16);
                     primitive.vaoSize = 5 * 2 * 3 + 4 * facets * 3;
 
@@ -1058,12 +1097,14 @@ namespace djv
 
             void Render2D::Private::updateCurrentClipRect()
             {
-                BBox2f clipRect = BBox2f(0.f, 0.f, static_cast<float>(size.x), static_cast<float>(size.y));
+                currentClipRect.min.x = 0.f;
+                currentClipRect.min.y = 0.f;
+                currentClipRect.max.x = static_cast<float>(size.w);
+                currentClipRect.max.y = static_cast<float>(size.h);
                 for (const auto & i : clipRects)
                 {
-                    clipRect = clipRect.intersect(i);
+                    currentClipRect = currentClipRect.intersect(i);
                 }
-                currentClipRect = clipRect;
             }
 
             void Render2D::Private::drawRoundedRect(const BBox2f& rect, float radius, size_t facets)
@@ -1098,10 +1139,10 @@ namespace djv
                     default: break;
                     }
                     primitive.colorMode = colorMode;
-                    primitive.color[0] = fillColor.getF32(0);
-                    primitive.color[1] = fillColor.getF32(1);
-                    primitive.color[2] = fillColor.getF32(2);
-                    primitive.color[3] = fillColor.getF32(3);
+                    primitive.color[0] = finalColor[0];
+                    primitive.color[1] = finalColor[1];
+                    primitive.color[2] = finalColor[2];
+                    primitive.color[3] = finalColor[3];
                     primitive.imageCache = cache;
                     static FloatRange textureU;
                     static FloatRange textureV;

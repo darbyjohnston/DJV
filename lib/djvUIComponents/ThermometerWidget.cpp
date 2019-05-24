@@ -91,7 +91,7 @@ namespace djv
             auto style = _getStyle();
             const BBox2f& g = getMargin().bbox(getGeometry(), style);
             auto render = _getRender();
-            render->setFillColor(_getColorWithOpacity(style->getColor(ColorRole::Checked)));
+            render->setFillColor(style->getColor(ColorRole::Checked));
             const float w = p.percentage / 100.f * g.w();
             render->drawRect(BBox2f(g.min.x, g.min.y, w, g.h()));
         }

@@ -136,12 +136,12 @@ namespace djv
                         i = args.erase(i);
                         if (args.size() >= 2)
                         {
-                            glm::ivec2 resize;
-                            resize.x = std::stoi(*i);
+                            AV::Image::Size resize;
+                            resize.w = std::stoi(*i);
                             i = args.erase(i);
-                            resize.y = std::stoi(*i);
+                            resize.h = std::stoi(*i);
                             i = args.erase(i);
-                            _resize.reset(new glm::ivec2(resize));
+                            _resize.reset(new AV::Image::Size(resize));
                         }
                         else
                         {
@@ -165,7 +165,7 @@ namespace djv
 
             std::string _input;
             std::string _output;
-            std::unique_ptr<glm::ivec2> _resize;
+            std::unique_ptr<AV::Image::Size> _resize;
             std::shared_ptr<AV::IO::IRead> _read;
             std::shared_ptr<Core::Time::Timer> _statsTimer;
             std::shared_ptr<AV::IO::IWrite> _write;

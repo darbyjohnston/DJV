@@ -394,9 +394,11 @@ namespace djv
                     break;
                 }
                 case Event::Type::Style:
+                {
                     _styleEvent(static_cast<Event::Style &>(event));
                     _resize();
                     break;
+                }
                 case Event::Type::PreLayout:
                     _visibleInit = false;
                     _preLayoutEvent(static_cast<Event::PreLayout &>(event));
@@ -446,6 +448,8 @@ namespace djv
                     }
                     if (!_visibleInit)
                     {
+                        _render->setColorMult(!isEnabled(true) ? .65f : 1.f);
+                        _render->setAlphaMult(getOpacity(true));
                         _paintEvent(static_cast<Event::Paint &>(event));
                     }
                     break;
@@ -544,7 +548,7 @@ namespace djv
         {
             if (_backgroundRole != ColorRole::None)
             {
-                _render->setFillColor(_getColorWithOpacity(_style->getColor(_backgroundRole)));
+                _render->setFillColor(_style->getColor(_backgroundRole));
                 _render->drawRect(getGeometry());
             }
         }
@@ -554,7 +558,7 @@ namespace djv
             auto style = _getStyle();
             const float ss = style->getMetric(MetricsRole::Shadow);
             const BBox2f& g = getGeometry();
-            _render->setFillColor(_getColorWithOpacity(_style->getColor(ColorRole::Shadow)));
+            _render->setFillColor(_style->getColor(ColorRole::Shadow));
             /*if (_shadowOverlay.size())
             {
                 _render->drawShadow(BBox2f(g.min.x + ss * 10, g.min.y + ss * 10, g.w(), g.h()), ss);
@@ -641,19 +645,6 @@ namespace djv
                     }
                 }
             }
-        }
-
-        AV::Image::Color Widget::_getColorWithOpacity(AV::Image::Color value) const
-        {
-            DJV_ASSERT(AV::Image::Type::RGBA_F32 == value.getType());
-            if (!isEnabled(true))
-            {
-                value.setF32(value.getF32(0) * .65f, 0);
-                value.setF32(value.getF32(1) * .65f, 1);
-                value.setF32(value.getF32(2) * .65f, 2);
-            }
-            value.setF32(value.getF32(3) * getOpacity(true), 3);
-            return value;
         }
 
         void Widget::_setMinimumSize(const glm::vec2 & value)

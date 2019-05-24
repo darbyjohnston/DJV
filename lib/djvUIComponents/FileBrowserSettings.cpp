@@ -29,6 +29,8 @@
 
 #include <djvUIComponents/FileBrowserSettings.h>
 
+#include <djvAV/ImageData.h>
+
 #include <djvCore/Context.h>
 #include <djvCore/FileInfo.h>
 #include <djvCore/OS.h>
@@ -52,7 +54,7 @@ namespace djv
             {
                 std::shared_ptr<ListSubject<FileSystem::Path> > shortcuts;
                 std::shared_ptr<ValueSubject<ViewType> > viewType;
-                std::shared_ptr<ValueSubject<glm::ivec2> > thumbnailSize;
+                std::shared_ptr<ValueSubject<AV::Image::Size> > thumbnailSize;
                 std::shared_ptr<ListSubject<float> > listViewHeaderSplit;
                 std::shared_ptr<ValueSubject<bool> > fileSequences;
                 std::shared_ptr<ValueSubject<bool> > showHidden;
@@ -73,7 +75,7 @@ namespace djv
                     p.shortcuts->pushBack(shortcut);
                 }
                 p.viewType = ValueSubject<ViewType>::create(ViewType::Tiles);
-                p.thumbnailSize = ValueSubject<glm::ivec2>::create(glm::ivec2(100, 50));
+                p.thumbnailSize = ValueSubject<AV::Image::Size>::create(AV::Image::Size(100, 50));
                 p.listViewHeaderSplit = ListSubject<float>::create({ .7f, .8f, 1.f });
                 p.fileSequences = ValueSubject<bool>::create(false);
                 p.showHidden = ValueSubject<bool>::create(false);
@@ -120,12 +122,12 @@ namespace djv
                 p.viewType->setIfChanged(value);
             }
 
-            std::shared_ptr<IValueSubject<glm::ivec2> > FileBrowser::observeThumbnailSize() const
+            std::shared_ptr<IValueSubject<AV::Image::Size> > FileBrowser::observeThumbnailSize() const
             {
                 return _p->thumbnailSize;
             }
 
-            void FileBrowser::setThumbnailSize(const glm::ivec2 & value)
+            void FileBrowser::setThumbnailSize(const AV::Image::Size& value)
             {
                 DJV_PRIVATE_PTR();
                 p.thumbnailSize->setIfChanged(value);

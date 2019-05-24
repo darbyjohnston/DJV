@@ -97,7 +97,7 @@ namespace djv
                 }
                 else
                 {
-                    const glm::ivec2 & dataSize = data->getSize() + border * 2;
+                    const glm::ivec2 & dataSize = glm::ivec2(data->getWidth(), data->getHeight()) + border * 2;
                     const glm::ivec2 & bboxSize = bbox.getSize();
                     if (dataSize.x > bboxSize.x || dataSize.y > bboxSize.y)
                     {
@@ -232,7 +232,7 @@ namespace djv
                     {
                         // The data has been added to the atlas.
                         node->uid = ++_uid;
-                        p.textures[node->textureIndex]->copy(*data, node->bbox.min + p.border);
+                        p.textures[node->textureIndex]->copy(*data, node->bbox.min.x + p.border, node->bbox.min.y + p.border);
                         p.cache[node->uid] = node;
                         _toTextureAtlasItem(node, out);
                         return node->uid;
@@ -250,7 +250,7 @@ namespace djv
                 {
                     return a->timestamp < b->timestamp;
                 });
-                const glm::ivec2 dataSize = data->getSize() + p.border * 2;
+                const glm::ivec2 dataSize = glm::ivec2(data->getWidth(), data->getHeight()) + p.border * 2;
                 for (auto node : nodes)
                 {
                     const glm::ivec2 nodeSize = node->bbox.getSize();
@@ -277,7 +277,10 @@ namespace djv
                             //zero->zero();
                             //p.textures[node->texture]->copy(zero, node->bbox.min);
 
-                            p.textures[node->textureIndex]->copy(*data, node->bbox.min + p.border);
+                            p.textures[node->textureIndex]->copy(
+                                *data,
+                                static_cast<uint16_t>(node->bbox.min.x + p.border),
+                                static_cast<uint16_t>(node->bbox.min.y + p.border));
                             p.cache[node->uid] = node;
                             _toTextureAtlasItem(node, out);
 
@@ -335,7 +338,8 @@ namespace djv
             void TextureAtlas::_toTextureAtlasItem(const BoxPackingNode * node, TextureAtlasItem & out)
             {
                 DJV_PRIVATE_PTR();
-                out.size = node->bbox.getSize();
+                out.w = node->bbox.w();
+                out.h = node->bbox.h();
                 out.textureIndex = node->textureIndex;
                 out.textureU = FloatRange(
                     (node->bbox.min.x + p.border)     / static_cast<float>(p.textureSize),

@@ -494,7 +494,7 @@ namespace djv
                 auto render = _getRender();
                 if (bg != ColorRole::None)
                 {
-                    render->setFillColor(_getColorWithOpacity(style->getColor(bg)));
+                    render->setFillColor(style->getColor(bg));
                     render->drawRect(g);
                 }
 
@@ -522,7 +522,7 @@ namespace djv
                     const auto j = p.rowBackgroundRoles.find(i.first);
                     if (j != p.rowBackgroundRoles.end())
                     {
-                        render->setFillColor(_getColorWithOpacity(style->getColor(j->second)));
+                        render->setFillColor(style->getColor(j->second));
                         render->drawRect(i.second);
                     }
                 }
@@ -549,7 +549,7 @@ namespace djv
                     const auto j = p.columnBackgroundRoles.find(i.first);
                     if (j != p.columnBackgroundRoles.end())
                     {
-                        render->setFillColor(_getColorWithOpacity(style->getColor(j->second)));
+                        render->setFillColor(style->getColor(j->second));
                         render->drawRect(i.second);
                     }
                 }

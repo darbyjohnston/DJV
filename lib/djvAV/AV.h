@@ -31,13 +31,15 @@
 
 #include <djvCore/Core.h>
 
+#include <stdint.h>
+
 namespace djv
 {
     //! This namespace provides audio and visual functionality.
     namespace AV
     {
         //! This constant provides the default DPI.
-        const int dpiDefault = 96;
+        const uint16_t dpiDefault = 96;
         
     } // namespace AV
 } // namespace djv

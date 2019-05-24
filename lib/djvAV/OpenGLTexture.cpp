@@ -49,13 +49,12 @@ namespace djv
                 glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, filter);
                 glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, filter);
                 GLenum internalFormat = GL_RGBA;
-                const glm::ivec2 & size = _info.size;
                 glTexImage2D(
                     GL_TEXTURE_2D,
                     0,
                     internalFormat,
-                    size.x,
-                    size.y,
+                    _info.size.w,
+                    _info.size.h,
                     0,
                     _info.getGLFormat(),
                     _info.getGLType(),
@@ -114,8 +113,8 @@ namespace djv
                     0,
                     0,
                     0,
-                    info.size.x,
-                    info.size.y,
+                    info.size.w,
+                    info.size.h,
                     info.getGLFormat(),
                     info.getGLType(),
                     0);
@@ -123,7 +122,7 @@ namespace djv
 #endif // DJV_OPENGL_ES2
             }
 
-            void Texture::copy(const Image::Data & data, const glm::ivec2 & pos)
+            void Texture::copy(const Image::Data & data, uint16_t x, uint16_t y)
             {
                 const auto & info = data.getInfo();
 
@@ -133,10 +132,10 @@ namespace djv
                 glTexSubImage2D(
                     GL_TEXTURE_2D,
                     0,
-                    pos.x,
-                    pos.y,
-                    info.size.x,
-                    info.size.y,
+                    x,
+                    y,
+                    info.w,
+                    info.h,
                     info.getGLFormat(),
                     info.getGLType(),
                     data.getData());
@@ -151,10 +150,10 @@ namespace djv
                 glTexSubImage2D(
                     GL_TEXTURE_2D,
                     0,
-                    pos.x,
-                    pos.y,
-                    info.size.x,
-                    info.size.y,
+                    x,
+                    y,
+                    info.size.w,
+                    info.size.h,
                     info.getGLFormat(),
                     info.getGLType(),
                     0);

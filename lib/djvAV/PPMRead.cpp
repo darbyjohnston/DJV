@@ -81,9 +81,9 @@ namespace djv
                         out = Image::Image::create(info.video[0].info);
                         const size_t channelCount = Image::getChannelCount(info.video[0].info.type);
                         const size_t bitDepth = Image::getBitDepth(info.video[0].info.type);
-                        for (int y = 0; y < info.video[0].info.size.y; ++y)
+                        for (uint16_t y = 0; y < info.video[0].info.size.h; ++y)
                         {
-                            readASCII(io, out->getData(y), info.video[0].info.size.x * channelCount, bitDepth);
+                            readASCII(io, out->getData(y), info.video[0].info.size.w * channelCount, bitDepth);
                         }
                         break;
                     }

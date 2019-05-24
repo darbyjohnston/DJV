@@ -150,12 +150,12 @@ namespace djv
                     auto style = _getStyle();
                     if (_isPressed())
                     {
-                        render->setFillColor(_getColorWithOpacity(style->getColor(ColorRole::Pressed)));
+                        render->setFillColor(style->getColor(ColorRole::Pressed));
                         render->drawRect(g);
                     }
                     else if (_isHovered())
                     {
-                        render->setFillColor(_getColorWithOpacity(style->getColor(ColorRole::Hovered)));
+                        render->setFillColor(style->getColor(ColorRole::Hovered));
                         render->drawRect(g);
                     }
                 }
