@@ -33,7 +33,7 @@ namespace djv
     {
         namespace Image
         {
-            constexpr Color::Color() :
+            inline Color::Color() :
                 _type(Type::None)
             {}
 

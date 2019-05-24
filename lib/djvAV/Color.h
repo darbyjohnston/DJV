@@ -41,7 +41,7 @@ namespace djv
             class Color
             {
             public:
-                constexpr Color();
+                inline Color();
                 inline Color(Type);
                 inline Color(int r, int g, int b, int a = U8Max);
                 inline Color(F32_T r, F32_T g, F32_T b, F32_T a = F32Max);
