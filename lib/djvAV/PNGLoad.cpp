@@ -59,13 +59,13 @@ namespace djv
 
         namespace
         {
-            bool pngScanline(png_structp png, quint8 * out)
+            bool pngRead(png_structp png, quint8 * out[])
             {
                 if (setjmp(png_jmpbuf(png)))
                 {
                     return false;
                 }
-                png_read_row(png, out, 0);
+                png_read_image(png, out);
                 return true;
             }
 
@@ -99,13 +99,19 @@ namespace djv
             PixelData * data = frame.proxy ? &_tmp : &image;
             auto pixelDataInfo = info.layers[0];
             data->set(pixelDataInfo);
+
+            quint8** rows = new quint8*[pixelDataInfo.size.y];
             for (int y = 0; y < pixelDataInfo.size.y; ++y)
             {
-                if (!pngScanline(_png, data->data(0, data->h() - 1 - y)))
-                {
-                    throw Core::Error(PNG::staticName, _pngError.msg);
-                }
+                rows[y] = data->data(0, pixelDataInfo.size.y - 1 - y);
             }
+            if (!pngRead(_png, rows))
+            {
+                delete[] rows;
+                throw Core::Error(PNG::staticName, _pngError.msg);
+            }
+            delete[] rows;
+
             if (!pngEnd(_png, _pngInfoEnd))
             {
                 throw Core::Error(PNG::staticName, _pngError.msg);
@@ -159,10 +165,6 @@ namespace djv
                 png_init_io(png, f);
                 png_set_sig_bytes(png, 8);
                 png_read_info(png, *pngInfo);
-                if (png_get_interlace_type(png, *pngInfo) != PNG_INTERLACE_NONE)
-                {
-                    return false;
-                }
                 png_set_expand(png);
                 //png_set_gray_1_2_4_to_8(png);
                 png_set_palette_to_rgb(png);
