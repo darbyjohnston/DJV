@@ -39,6 +39,8 @@
 #include <QTextEdit>
 #include <QVBoxLayout>
 
+#include <math.h>
+
 namespace djv
 {
     namespace ViewLib
@@ -52,9 +54,11 @@ namespace djv
         Spinner::Spinner(QWidget* parent) :
             QWidget(parent),
             _p(new Private)
-        {
-        }
+        {}
 
+        Spinner::~Spinner()
+        {}
+        
         QSize Spinner::sizeHint() const
         {
             const int iconSize = style()->pixelMetric(QStyle::PM_ToolBarIconSize);
