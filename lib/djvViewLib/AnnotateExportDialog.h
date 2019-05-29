@@ -49,7 +49,8 @@ namespace djv
 
         public:
             explicit Spinner(QWidget* parent = nullptr);
-
+            ~Spinner() override;
+            
             QSize sizeHint() const override;
 
         public Q_SLOTS:
