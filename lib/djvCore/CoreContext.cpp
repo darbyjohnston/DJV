@@ -48,6 +48,12 @@
 #include <QScopedPointer>
 #include <QTranslator>
 
+#if defined(DJV_WINDOWS)
+#define WIN32_LEAN_AND_MEAN
+#include <windows.h>
+#include <shellapi.h>
+#endif // DJV_WINDOWS
+
 static void initResources()
 {
     Q_INIT_RESOURCE(djvCore);
@@ -128,6 +134,28 @@ namespace djv
 
         namespace
         {
+            QStringList commandLineArgs(int & argc, char** argv)
+            {
+                QStringList out;
+#if defined(DJV_WINDOWS)
+                int nArgs = 0;
+                if (LPWSTR * szArglist = CommandLineToArgvW(GetCommandLineW(), &nArgs))
+                {
+                    for (int i = 1; i < nArgs; ++i)
+                    {
+                        out += QString::fromWCharArray(szArglist[i]);
+                    }
+                    LocalFree(szArglist);
+                }
+#else // DJV_WINDOWS
+                for (int i = 0; i < argc; ++i)
+                {
+                    out += argv[i];
+                }
+#endif // DJV_WINDOWS
+                return out;
+            }
+
             QString applicationPath(int & argc, char ** argv)
             {
                 QFileInfo applicationPath(argv[0]);
@@ -157,11 +185,7 @@ namespace djv
 
         bool CoreContext::commandLine(int & argc, char ** argv)
         {
-            QStringList args;
-            for (int i = 1; i < argc; ++i)
-            {
-                args += argv[i];
-            }
+            QStringList args = commandLineArgs(argc, argv);
             DJV_LOG(debugLog(), "djv::Core::CoreContext",
                 QString("Command line: %1").arg(StringUtil::addQuotes(args).join(", ")));
             DJV_LOG(debugLog(), "djv::Core::CoreContext", "");
