@@ -84,16 +84,6 @@ namespace djv
         {
             return QModelIndex();
         }
-        
-        Qt::ItemFlags AnnotateModel::flags(const QModelIndex & index) const
-        {
-            Qt::ItemFlags flags = QAbstractItemModel::flags(index);
-            if (index.isValid() && 1 == index.column())
-            {
-                flags |= Qt::ItemIsEditable;
-            }
-            return flags;
-        }
 
         QVariant AnnotateModel::data(
             const QModelIndex & index,
@@ -101,7 +91,7 @@ namespace djv
         {
             if (!index.isValid())
                 return QVariant();
-            if (role != Qt::DisplayRole)
+            if (!(role == Qt::DisplayRole || role == Qt::ToolTipRole))
                 return QVariant();
             if (_p->annotations.isEmpty())
                 return QVariant();
@@ -134,6 +124,12 @@ namespace djv
                     break;
                 }
                 default: break;
+                }
+                break;
+            case Qt::ToolTipRole:
+                if (_p->annotations[row])
+                {
+                    return _p->annotations[row]->text();
                 }
                 break;
             default: break;
