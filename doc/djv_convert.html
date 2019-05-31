@@ -50,7 +50,6 @@ djv_convert
 </ul>
 </div>
 
-<h2 class="header">djv_convert</h2>
 <div class="block">
 <p>Batch process images and movies. Common uses include resizing images and
 converting sequences of images to a movie.<p>
@@ -64,8 +63,8 @@ converting sequences of images to a movie.<p>
 <h2 class="header"><a name="Usage">Usage</a></h2>
 <div class="block">
 <p>djv_convert (input) (output) [option]...</p>
-<table width="100%">
-<tr><td width="300em">input</td><td>Input image, image sequence, or
+<table>
+<tr><td>input</td><td>Input image, image sequence, or
 movie</td></tr>
 <tr><td>output</td><td>Output image, image sequence, or movie</td></tr>
 </table>
@@ -73,8 +72,8 @@ movie</td></tr>
 
 <h2 class="header"><a name="Options">Options</a></h2>
 <div class="block">
-<table width="100%">
-<tr><td width="300em">-mirror_h</td><td>Mirror the image horizontally.</td></tr>
+<table>
+<tr><td>-mirror_h</td><td>Mirror the image horizontally.</td></tr>
 <tr><td>-mirror_v</td><td>Mirror the image vertically.</td></tr>
 <tr><td>-scale (value)</td><td>Scale the image width and height using a
 floating point value (1.0 = 100%).</td></tr>
@@ -92,9 +91,9 @@ using floating point values (1.0 = 100%).</td></tr>
 <tr><td>-channel (value)</td><td>Show only specific image channels:
 Default, Red, Green, Blue, Alpha. Default = Default.</td></tr>
 </table>
-<h2>Input</h2>
-<table width="100%">
-<tr><td width="300em">-layer (value)</td><td>Set the input layer.</td></tr>
+<p>Input:</p>
+<table>
+<tr><td>-layer (value)</td><td>Set the input layer.</td></tr>
 <tr><td>-proxy (value)</td><td>Set the proxy scale: None, 1/2,
 1/4, 1/8. Default = None.</td></tr>
 <tr><td>-time (start) (end)</td><td>Set the start and end time.</td></tr>
@@ -102,9 +101,9 @@ Default, Red, Green, Blue, Alpha. Default = Default.</td></tr>
 <tr><td>-timeout (value)</td><td>Set the maximum number of seconds to
 wait for each input frame. Default = 0.</td></tr>
 </table>
-<h2>Output</h2>
-<table width="100%">
-<tr><td width="300em">-pixel (value)</td><td>Convert the pixel type: L U8,
+<p>Output:</p>
+<table>
+<tr><td>-pixel (value)</td><td>Convert the pixel type: L U8,
 L U16, L F16, L F32, LA U8, LA U16, LA F16, LA F32, RGB U8, RGB U10, RGB U16,
 RGB F16, RGB F32, RGBA U8, RGBA U16, RGBA F16, RGBA F32.</td></tr>
 <tr><td>-speed (value)</td><td>Set the speed: 1, 3, 6, 12, 15,

@@ -24,7 +24,7 @@ div.header
 {
     padding: .4em;
     background-color: rgba(0, 0, 0, 0.5);
-    font-size: 48;
+    font-size: 32;
     border-style: solid;
     border-width: 0 0 .1em 0;
     border-color: rgba(255, 255, 255, .4);
@@ -88,6 +88,13 @@ img.button
     margin: 0 .4em 0 0;
 }
 
+img.center
+{
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+}
+
 h1
 {
     font-weight: normal;
@@ -119,6 +126,11 @@ h2
 h3
 {
     font-weight: normal;
+}
+
+p.small
+{
+    margin: .5em 0 0 0;
 }
 
 pre

@@ -70,8 +70,6 @@ namespace djv
 
             addSeparator();
 
-            addAction(actions->action(ImageActions::PREMULTIPLIED_ALPHA));
-
             addAction(actions->action(ImageActions::COLOR_PROFILE));
 
             addAction(actions->action(ImageActions::DISPLAY_PROFILE_EDITOR));
@@ -83,6 +81,8 @@ namespace djv
                 qApp->translate("djv::ViewLib::ImageMenu", "C&hannel"));
             channelMenu->addActions(
                 actions->group(ImageActions::CHANNEL_GROUP)->actions());
+
+            addAction(actions->action(ImageActions::PREMULTIPLIED_ALPHA));
 
             // Initialize.
             setTitle(qApp->translate("djv::ViewLib::ImageMenu", "&Image"));

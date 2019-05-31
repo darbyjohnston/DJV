@@ -1,0 +1,214 @@
+<!-- ---------------------------------------------------------------------------
+  Copyright (c) 2004-2019 Darby Johnston
+  All rights reserved.
+  
+  Redistribution and use in source and binary forms, with or without
+  modification, are permitted provided that the following conditions are met:
+  
+  * Redistributions of source code must retain the above copyright notice,
+    this list of conditions, and the following disclaimer.
+  * Redistributions in binary form must reproduce the above copyright notice,
+    this list of conditions, and the following disclaimer in the documentation
+    and/or other materials provided with the distribution.
+  * Neither the names of the copyright holders nor the names of any
+    contributors may be used to endorse or promote products derived from this
+    software without specific prior written permission.
+  
+  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+  AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+  IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+  ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
+  LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+  CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+  SUBSTITUE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+  INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+  CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+  POSSIBILITY OF SUCH DAMAGE.
+---------------------------------------------------------------------------- -->
+
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="Style.css">
+<title>DJV Imaging</title>
+</head>
+<body>
+
+<div class="header">
+<img class="header" src="images/logo-filmreel.png">DJV Imaging
+</div>
+<div class="content">
+
+<div class="nav">
+<a href="index.html">Home</a> |
+<a href="Documentation.html">Documentation</a> |
+<a href="djv_view.html">djv_view</a> |
+Annotations
+<ul>
+    <li><a href="#Overview">Overview</a></li>
+    <li><a href="#Exporting">Exporting</a></li>
+    <li><a href="#Actions">Actions</a></li>
+</ul>
+</div>
+
+<h2 class="header"><a name="Overview">Overview</a></h2>
+<div class="block">
+<p>The annotations feature allows you to make simple drawings and add text to frames
+for reviewing renders or film footage. These review notes can then be exported as JSON
+data for integration into your pipeline. An example script is provided to export the notes
+and images as a simple static HTML page.</p>
+<img src="images/ViewAnnotate.png">
+<p>The annotations panel can be shown from the "Annotate" menu, by clicking the "Show
+annotations" button on the tool bar, or using the keyboard shortcut "Ctrl+A". When the
+annotaions panel is visible you can draw on the current frame by clicking and dragging
+in the image view. You can add text to the frame by clicking the text entry box in the
+annotations panel and typing.</p>
+<p>The annotations are saved automatically as JSON data in the same directory as the
+images. The annotations will also be loaded automatically when you open the same set
+of images again.</p>
+<p>The annotations user interface:</p>
+<img src="images/ViewAnnotateUI.png">
+</div>
+
+<h2 class="header"><a name="Summary">Summary</a></h2>
+<div class="block">
+<p>Click on the "Summary" tab to write a summary of the annotations.</p>
+<img src="images/ViewAnnotateSummary.png">
+</div>
+
+<h2 class="header"><a name="Exporting">Exporting</a></h2>
+<div class="block">
+<p>Click on the "Export" tab to export the annotated images.</p>
+<img src="images/ViewAnnotateExport.png">
+<p>A default file name is automatically provided for the exported images so you can
+generally just click the "Export" button to start the process.</p>
+<p>You may optionally run a script after the images are exported which can be useful
+for pipeline integrations. An example script is provided that creates a simple static
+HTML page with the annotated images and text. The script can be found in the "scripts"
+sub-directory where DJV is installed.</p>
+<p>Example script and interpreter paths on Windows:</p>
+<pre>
+C:\Program Files\DJV\scripts\AnnotateExportToHTML.py
+C:\Users\darby\AppData\Local\Programs\Python\Python37-32\python.exe
+</pre>
+</div>
+
+<h2 class="header"><a name="Actions">Actions</a></h2>
+<div class="block">
+<table>
+<tr>
+    <th>Icon</th>
+    <th>Menu Item</th>
+    <th>Description</th>
+    <th>Keyboard Shortcut</th>
+</tr>
+<tr>
+    <td><img src="images/AnnotateIcon96DPI.png" align="middle"></td>
+    <td>Show</td>
+    <td>Show annotations</td>
+    <td>Ctrl A</td>
+</tr>
+</table>
+<p>Drawing:</p>
+<table>
+<tr>
+    <th>Icon</th>
+    <th>Menu Item</th>
+    <th>Description</th>
+    <th>Keyboard Shortcut</th>
+</tr>
+<tr>
+    <td><img src="images/AnnotateFreehandLineIcon96DPI.png" align="middle"></td>
+    <td>Freehand line</td>
+    <td>Draw freehand lines</td>
+    <td></td>
+</tr>
+<tr>
+    <td><img src="images/AnnotateLineIcon96DPI.png" align="middle"></td>
+    <td>Line</td>
+    <td>Draw straight lines</td>
+    <td></td>
+</tr>
+<tr>
+    <td><img src="images/AnnotateRectangleIcon96DPI.png" align="middle"></td>
+    <td>Rectangle</td>
+    <td>Draw rectangles</td>
+    <td></td>
+</tr>
+<tr>
+    <td><img src="images/AnnotateEllipseIcon96DPI.png" align="middle"></td>
+    <td>Ellipse</td>
+    <td>Draw ellipses</td>
+    <td></td>
+</tr>
+<tr>
+    <td></td>
+    <td>Set Color</td>
+    <td>Set the drawing color</td>
+    <td></td>
+</tr>
+<tr>
+    <td></td>
+    <td>Increase Line Width</td>
+    <td>Increase the drawing line width</td>
+    <td></td>
+</tr>
+<tr>
+    <td></td>
+    <td>Decrease Line Width</td>
+    <td>Decrease the drawing line width</td>
+    <td></td>
+</tr>
+<tr>
+    <td><img src="images/EraseIcon96DPI.png" align="middle"></td>
+    <td>Clear Drawing</td>
+    <td>Clear the drawing</td>
+    <td></td>
+</tr>
+</table>
+<p>New and delete:</p>
+<table>
+<tr>
+    <td><img src="images/AddIcon96DPI.png" align="middle"></td>
+    <td>New Annotation</td>
+    <td>Add an annotation</td>
+    <td></td>
+</tr>
+<tr>
+    <td><img src="images/RemoveIcon96DPI.png" align="middle"></td>
+    <td>Delete Annotation</td>
+    <td>Delete the current annotation</td>
+    <td></td>
+</tr>
+<tr>
+    <td></td>
+    <td>Delete All Annotations</td>
+    <td>Delete all of the annotations</td>
+    <td></td>
+</tr>
+</table>
+<p>Navigation:</p>
+<table>
+<tr>
+    <td><img src="images/RightIcon96DPI.png" align="middle"></td>
+    <td>Next Annotation</td>
+    <td>Go to the next annotation</td>
+    <td></td>
+</tr>
+<tr>
+    <td><img src="images/LeftIcon96DPI.png" align="middle"></td>
+    <td>Previous Annotation</td>
+    <td>Go to the previous annotation</td>
+    <td></td>
+</tr>
+</table>
+</div>
+
+<div class="footer">
+Copyright (c) 2004-2019 Darby Johnston
+</div>
+
+</div>
+</body>
+</html>
+

@@ -45,18 +45,39 @@
 <a href="djv_view.html">djv_view</a> |
 Files
 <ul>
-    <li><a href="#Open">Opening Files</a></li>
-    <li><a href="#Export">Exporting Files</a></li>
-    <li><a href="#Layers">Layers</a></li>
-    <li><a href="#8BitConversion">8-bit Conversion</a></li>
-    <li><a href="#Proxy">Proxy Scale</a></li>
-    <li><a href="#Cache">Memory Cache</a></li>
+    <li><a href="#Open">Overview</a></li>
+    <li><a href="#Actions">Actions</a></li>
 </ul>
 </div>
 
-<h2 class="header"><a name="Open">Opening Files</a></h2>
+<h2 class="header"><a name="Overview">Overview</a></h2>
 <div class="block">
-<table width="100%">
+<p>Images, image sequences, and movie files may be opened from the "File" menu,
+by dragging and dropping them onto the <a href="ViewImageView.html">image view</a>,
+or by listing them on the <a href="ViewCommandLine">command-line</a>.</p>
+
+<p>A memory cache stores images for fast playback performance, you can change
+the size in the preferences. You can also disable the cache if you
+want to stream images directly from disk.</p>
+
+<p>If you don't mind sacrificing image quality you can speed up image loading
+and reduce memory consumption by using either "proxy scaling" or "8-bit conversion".
+Proxy scaling reduces the resolution of the images as they are loaded, 8-bit
+conversion reduces their bit-depth.</p>
+
+<p>See also:</p>
+<ul>
+    <li><a href="FileBrowser.html">File Browser</a></li>
+    <li><a href="FileSequences.html">File Sequences</a></li>
+    <li><a href="ImageFileFormats.html">Image File Formats</a></li>
+</ul>
+</div>
+
+<h2 class="header"><a name="Actions">Actions</a></h2>
+<div class="block">
+
+<p>Opening and closing:</p>
+<table>
 <tr>
     <th>Icon</th>
     <th>Menu Item</th>
@@ -68,11 +89,6 @@ Files
     <td>Open</td>
     <td>Open a new file</td>
     <td>Ctrl O</td>
-</tr>
-<tr>
-    <td></td>
-    <td>Recent</td>
-    <td>List of recently opened files</td>
 </tr>
 <tr>
     <td><img src="images/FileReloadIcon96DPI.png" align="middle"></td>
@@ -93,20 +109,9 @@ Files
     <td>Ctrl W</td>
 </tr>
 </table>
-<p>Files may also be opened by either dragging and dropping them onto the
-<a href="ViewImageView.html">image view</a>, or by listing them on the
-<a href="ViewCommandLine">command-line</a>.</p>
-<p>See also:</p>
-<ul>
-    <li><a href="FileBrowser.html">File Browser</a></li>
-    <li><a href="FileSequences.html">File Sequences</a></li>
-    <li><a href="ImageFileFormats.html">Image File Formats</a></li>
-</ul>
-</div>
 
-<h2 class="header"><a name="Export">Exporting Files</a></h2>
-<div class="block">
-<table width="100%">
+<p>Exporting:</p>
+<table>
 <tr>
     <th>Menu Item</th>
     <th>Description</th>
@@ -123,24 +128,13 @@ Files
     <td>Shift Ctrl S</td>
 </tr>
 </table>
-<p>See also:</p>
-<ul>
-    <li><a href="ImageFileFormats.html">Image File Formats</a></li>
-</ul>
-</div>
 
-<h2 class="header"><a name="Layers">Layers</a></h2>
-<div class="block">
-<table width="100%">
+<p>Layers:</p>
+<table>
 <tr>
     <th>Menu Item</th>
     <th>Description</th>
     <th>Keyboard Shortcut</th>
-</tr>
-<tr>
-    <td>Layer</td>
-    <td>Set the current layer</td>
-    <td></td>
 </tr>
 <tr>
     <td>Next Layer</td>
@@ -153,13 +147,9 @@ Files
     <td>Ctrl -</td>
 </tr>
 </table>
-</div>
 
-<h2 class="header"><a name="Proxy">Proxy Scale</a></h2>
-<div class="block">
-<p>Proxy scaling reduces the resolution of images as they are loaded. This
-allows more images to fit in the memory cache at the expense of image quality.</p>
-<table width="100%">
+<p>Proxy scaling and 8-bit conversion:</p>
+<table>
 <tr>
     <th>Menu Item</th>
     <th>Description</th>
@@ -180,29 +170,14 @@ allows more images to fit in the memory cache at the expense of image quality.</
     <td>Proxy Scale / 1/8</td>
     <td>Reduce the resolution of loaded images by 1/8</td>
 </tr>
-</table>
-</div>
-
-<h2 class="header"><a name="8BitConversion">8-bit Conversion</a></h2>
-<div class="block">
-<p>Convert images to 8-bits as they are loaded. This allows more images to
-fit in the memory cache at the expense of image quality.</p>
-<table width="100%">
-<tr>
-    <th>Menu Item</th>
-    <th>Description</th>
-</tr>
 <tr>
     <td>8-bit Conversion</td>
     <td>Toggle whether 8-bit conversion is enabled</td>
 </tr>
 </table>
-</div>
 
-<h2 class="header"><a name="Cache">Memory Cache</a></h2>
-<div class="block">
-<p>The memory cache stores images for faster playback performance.</p>
-<table width="100%">
+<p>Memory cache:</p>
+<table>
 <tr>
     <th>Menu Item</th>
     <th>Description</th>

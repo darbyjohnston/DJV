@@ -61,6 +61,7 @@ namespace djv
             addAction(actions->action(AnnotateActions::NEW));
             addAction(actions->action(AnnotateActions::DELETE));
             addAction(actions->action(AnnotateActions::DELETE_ALL));
+            addSeparator();
             addAction(actions->action(AnnotateActions::NEXT));
             addAction(actions->action(AnnotateActions::PREV));
 

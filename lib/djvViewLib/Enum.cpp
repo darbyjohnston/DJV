@@ -286,7 +286,7 @@ namespace djv
             static const QStringList data = QStringList() <<
                 qApp->translate("djv::ViewLib::Enum", "Freehand Line") <<
                 qApp->translate("djv::ViewLib::Enum", "Line") <<
-                qApp->translate("djv::ViewLib::Enum", "Square") <<
+                qApp->translate("djv::ViewLib::Enum", "Rectangle") <<
                 qApp->translate("djv::ViewLib::Enum", "Ellipse");
             DJV_ASSERT(data.count() == ANNOTATE_PRIMITIVE_COUNT);
             return data;

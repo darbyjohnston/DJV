@@ -58,7 +58,7 @@ namespace djv
             {
                 _actions[i] = new QAction(this);
             }
-            _actions[SHOW]->setText(qApp->translate("djv::ViewLib::AnnotateActions", "&Show Annotations"));
+            _actions[SHOW]->setText(qApp->translate("djv::ViewLib::AnnotateActions", "&Show"));
             _actions[SHOW]->setCheckable(true);
             _actions[COLOR]->setText(qApp->translate("djv::ViewLib::AnnotateActions", "Set &Color"));
             _actions[LINE_WIDTH_INC]->setText(qApp->translate("djv::ViewLib::AnnotateActions", "&Increase Line Width"));
@@ -170,11 +170,11 @@ namespace djv
             _actions[NEW]->setShortcut(shortcuts[Enum::SHORTCUT_ANNOTATE_NEW].value);
             _actions[NEW]->setToolTip(
                 qApp->translate("djv::ViewLib::AnnotateActions",
-                    "Create a new annotation<br><br>"
+                    "Add an annotation<br><br>"
                     "Keyboard shortcut: %1").arg(shortcuts[Enum::SHORTCUT_ANNOTATE_NEW].value.toString()));
             _actions[NEW]->setWhatsThis(
                 qApp->translate("djv::ViewLib::AnnotateActions",
-                    "Create a new annotation<br><br>"
+                    "Add an annotation<br><br>"
                     "Keyboard shortcut: %1<br><br>"
                     "<a href=\"ViewAnnotate.html\">Documentation</a>").arg(shortcuts[Enum::SHORTCUT_ANNOTATE_NEW].value.toString()));
 
