@@ -26,17 +26,21 @@ set(html
     djv_view.html
     index.html)
 set(images
+	"images/AddIcon96DPI.png"
+	"images/AnnotateEllipseIcon96DPI.png"
+	"images/AnnotateFreehandLineIcon96DPI.png"
+	"images/AnnotateIcon96DPI.png"
+	"images/AnnotateLineIcon96DPI.png"
+	"images/AnnotateRectangleIcon96DPI.png"
     "images/Berkeley 2010-12-19 Tinted.jpg"
     "images/Bodega Bay 2013-01-02 Tinted.jpg"
     "images/ColorPickerIcon96DPI.png"
-    "images/DocumentationIcon.png"
-    "images/DownloadIcon.png"
+	"images/EraseIcon96DPI.png"
     "images/FileBrowser.png"
     "images/FileCloseIcon96DPI.png"
     "images/FileIcon96DPI.png"
     "images/FileOpenIcon96DPI.png"
     "images/FileReloadIcon96DPI.png"
-    "images/ForumsIcon.png"
     "images/FrameEndIcon96DPI.png"
     "images/FrameNextIcon96DPI.png"
     "images/FramePrevIcon96DPI.png"
@@ -46,6 +50,7 @@ set(images
     "images/InPointMarkIcon96DPI.png"
     "images/InPointResetIcon96DPI.png"
     "images/InfoIcon96DPI.png"
+	"images/LeftIcon96DPI.png"
     "images/MagnifyIcon96DPI.png"
     "images/OutPointMarkIcon96DPI.png"
     "images/OutPointResetIcon96DPI.png"
@@ -55,9 +60,14 @@ set(images
     "images/PlayLoopRepeatIcon96DPI.png"
     "images/PlayReverseIcon96DPI.png"
     "images/PlayStopIcon96DPI.png"
-    "images/ScreenshotsIcon.png"
+	"images/RemoveIcon96DPI.png"
+	"images/RightIcon96DPI.png"
     "images/Screenshot 1.png"
     "images/Screenshot 2.png"
+	"images/ViewAnnotate.png"
+	"images/ViewAnnotateExport.png"
+	"images/ViewAnnotateSummary.png"
+	"images/ViewAnnotateUI.png"
     "images/ViewColorPickerTool.png"
     "images/ViewFitIcon96DPI.png"
     "images/ViewHistogramTool.png"
@@ -72,7 +82,8 @@ set(images
     "images/WindowFullScreenIcon96DPI.png"
     "images/WindowNewIcon96DPI.png"
     "images/index.png"
-    "images/logo-filmreel.png")
+    "images/logo-filmreel.png"
+	"images/unexpected_logo_white_150px.png")
 set(legal
     ../LICENSE_CMake.txt
     ../LICENSE_FFmpeg.txt
