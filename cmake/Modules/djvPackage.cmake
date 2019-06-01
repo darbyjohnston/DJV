@@ -197,3 +197,5 @@ endif (WIN32)
 
 set(CPACK_PACKAGE_EXECUTABLES djv_view djv_view)
 set(CPACK_RESOURCE_FILE_LICENSE ${PROJECT_SOURCE_DIR}/LICENSE.txt)
+set(CPACK_PACKAGE_CONTACT "darbyjohnston@yahoo.com")
+
