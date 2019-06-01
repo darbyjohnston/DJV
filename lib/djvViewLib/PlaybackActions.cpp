@@ -71,7 +71,7 @@ namespace djv
             _actions[EVERY_FRAME]->setWhatsThis(
                 qApp->translate("djv::ViewLib::PlaybackActions",
                 "Playback every frame even if the playback speed cannot be maintained<br><br>"
-                "<a href=\"ViewPlayback.html\">Documentation</a>"));
+                "<a href=\"djv_view.htm#PlaybackControls\">Documentation</a>"));
 
             // Create the action groups.
             for (int i = 0; i < GROUP_COUNT; ++i)
@@ -160,7 +160,7 @@ namespace djv
                 qApp->translate("djv::ViewLib::PlaybackActions",
                 "Start or stop playback<br><br>"
                 "Keyboard shortcut: %1<br><br>"
-                "<a href=\"ViewPlayback.html\">Documentation</a>").
+                "<a href=\"djv_view.htm#PlaybackControls\">Documentation</a>").
                 arg(key.toString()));
             _actions[EVERY_FRAME]->setIcon(
                 context()->iconLibrary()->icon("djv/UI/UnlockIcon", "djv/UI/LockIcon"));
@@ -188,11 +188,11 @@ namespace djv
                 qApp->translate("djv::ViewLib::PlaybackActions",
                 "Forward playback<br><br>"
                 "Keyboard shortcut: %1<br><br>"
-                "<a href=\"ViewPlayback.html\">Documentation</a>") <<
+                "<a href=\"djv_view.htm#PlaybackControls\">Documentation</a>") <<
                 qApp->translate("djv::ViewLib::PlaybackActions",
                 "Stop playback<br><br>"
                 "Keyboard shortcut: %1<br><br>"
-                "<a href=\"ViewPlayback.html\">Documentation</a>") <<
+                "<a href=\"djv_view.htm#PlaybackControls\">Documentation</a>") <<
                 qApp->translate("djv::ViewLib::PlaybackActions",
                 "Reverse playback<br><br>"
                 "Keyboard shortcut: %1<br><br>"
@@ -264,21 +264,21 @@ namespace djv
                 qApp->translate("djv::ViewLib::PlaybackActions",
                 "Go to the start frame<br><br>"
                 "Keyboard shortcut: %1<br><br>"
-                "<a href=\"ViewPlayback.html\">Documentation</a>") <<
+                "<a href=\"djv_view.htm#PlaybackControls\">Documentation</a>") <<
                 qApp->translate("djv::ViewLib::PlaybackActions",
                 "Go to the end frame<br><br>"
                 "Keyboard shortcut: %1<br><br>"
-                "<a href=\"ViewPlayback.html\">Documentation</a>") <<
+                "<a href=\"djv_view.htm#PlaybackControls\">Documentation</a>") <<
                 qApp->translate("djv::ViewLib::PlaybackActions",
                 "Go to the next frame<br><br>"
                 "Keyboard shortcut: %1<br><br>"
-                "<a href=\"ViewPlayback.html\">Documentation</a>") <<
+                "<a href=\"djv_view.htm#PlaybackControls\">Documentation</a>") <<
                 QString() <<
                 QString() <<
                 qApp->translate("djv::ViewLib::PlaybackActions",
                 "Go to the previous frame<br><br>"
                 "Keyboard shortcut: %1<br><br>"
-                "<a href=\"ViewPlayback.html\">Documentation</a>") <<
+                "<a href=\"djv_view.htm#PlaybackControls\">Documentation</a>") <<
                 QString() <<
                 QString();
             for (int i = 0; i < Enum::FRAME_COUNT; ++i)
@@ -327,23 +327,23 @@ namespace djv
                 qApp->translate("djv::ViewLib::PlaybackActions",
                 "Enable in/out points<br><br>"
                 "Keyboard shortcut: %1<br><br>"
-                "<a href=\"ViewPlayback.html\">Documentation</a>") <<
+                "<a href=\"djv_view.htm#PlaybackControls\">Documentation</a>") <<
                 qApp->translate("djv::ViewLib::PlaybackActions",
                 "Set the current frame as the in point<br><br>"
                 "Keyboard shortcut: %1<br><br>"
-                "<a href=\"ViewPlayback.html\">Documentation</a>") <<
+                "<a href=\"djv_view.htm#PlaybackControls\">Documentation</a>") <<
                 qApp->translate("djv::ViewLib::PlaybackActions",
                 "Set the current frame as the out point<br><br>"
                 "Keyboard shortcut: %1<br><br>"
-                "<a href=\"ViewPlayback.html\">Documentation</a>") <<
+                "<a href=\"djv_view.htm#PlaybackControls\">Documentation</a>") <<
                 qApp->translate("djv::ViewLib::PlaybackActions",
                 "Reset the current in point<br><br>"
                 "Keyboard shortcut: %1<br><br>"
-                "<a href=\"ViewPlayback.html\">Documentation</a>") <<
+                "<a href=\"djv_view.htm#PlaybackControls\">Documentation</a>") <<
                 qApp->translate("djv::ViewLib::PlaybackActions",
                 "Reset the current out point<br><br>"
                 "Keyboard shortcut: %1<br><br>"
-                "<a href=\"ViewPlayback.html\">Documentation</a>");
+                "<a href=\"djv_view.htm#PlaybackControls\">Documentation</a>");
             for (int i = 0; i < Enum::IN_OUT_COUNT; ++i)
             {
                 _groups[IN_OUT_GROUP]->actions()[i]->setIcon(inOutIcons[i]);

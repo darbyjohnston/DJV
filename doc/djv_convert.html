@@ -43,16 +43,25 @@
 <a href="index.html">Home</a> |
 <a href="Documentation.html">Documentation</a> |
 djv_convert
+</div>
+
+<h2>djv_convert</h2>
+<hr>
+<div class="block">
 <ul>
+    <li><a href="#Overview">Overview</a></li>
     <li><a href="#Usage">Usage</a></li>
     <li><a href="#Options">Options</a></li>
     <li><a href="#Examples">Examples</a></li>
 </ul>
 </div>
 
+<h2><a name="Usage">Overview</a></h2>
+<hr>
 <div class="block">
-<p>Batch process images and movies. Common uses include resizing images and
-converting sequences of images to a movie.<p>
+<p>djv_convert is a command line tool for batch processing images and movies.
+Common uses include resizing images and converting sequences of images to a
+movie.<p>
 <p>Example of converting an image sequence to a movie:</p>
 <pre>
 > djv_convert input.1-100.tga output.mp4
@@ -60,19 +69,20 @@ converting sequences of images to a movie.<p>
 <p>Note that djv_convert requires OpenGL in order to run.</p>
 </div>
 
-<h2 class="header"><a name="Usage">Usage</a></h2>
+<h2><a name="Usage">Usage</a></h2>
+<hr>
 <div class="block">
 <p>djv_convert (input) (output) [option]...</p>
 <table>
-<tr><td>input</td><td>Input image, image sequence, or
-movie</td></tr>
+<tr><td>input</td><td>Input image, image sequence, or movie</td></tr>
 <tr><td>output</td><td>Output image, image sequence, or movie</td></tr>
 </table>
 </div>
 
-<h2 class="header"><a name="Options">Options</a></h2>
+<h2><a name="Options">Options</a></h2>
+<hr>
 <div class="block">
-<table>
+<table class="translucent">
 <tr><td>-mirror_h</td><td>Mirror the image horizontally.</td></tr>
 <tr><td>-mirror_v</td><td>Mirror the image vertically.</td></tr>
 <tr><td>-scale (value)</td><td>Scale the image width and height using a
@@ -91,8 +101,10 @@ using floating point values (1.0 = 100%).</td></tr>
 <tr><td>-channel (value)</td><td>Show only specific image channels:
 Default, Red, Green, Blue, Alpha. Default = Default.</td></tr>
 </table>
+</div>
+<div class="block">
 <p>Input:</p>
-<table>
+<table class="translucent">
 <tr><td>-layer (value)</td><td>Set the input layer.</td></tr>
 <tr><td>-proxy (value)</td><td>Set the proxy scale: None, 1/2,
 1/4, 1/8. Default = None.</td></tr>
@@ -101,8 +113,10 @@ Default, Red, Green, Blue, Alpha. Default = Default.</td></tr>
 <tr><td>-timeout (value)</td><td>Set the maximum number of seconds to
 wait for each input frame. Default = 0.</td></tr>
 </table>
+</div>
+<div class="block">
 <p>Output:</p>
-<table>
+<table class="translucent">
 <tr><td>-pixel (value)</td><td>Convert the pixel type: L U8,
 L U16, L F16, L F32, LA U8, LA U16, LA F16, LA F32, RGB U8, RGB U10, RGB U16,
 RGB F16, RGB F32, RGBA U8, RGBA U16, RGBA F16, RGBA F32.</td></tr>
@@ -112,6 +126,8 @@ RGB F16, RGB F32, RGBA U8, RGBA U16, RGBA F16, RGBA F32.</td></tr>
 <tr><td>-tag_auto (value)</td><td>Automatically generate image tags
 (e.g., timecode): False, True. Default = True.</td></tr>
 </table>
+</div>
+<div class="block">
 <p>See also:</p>
 <ul>
     <li><a href="ImageFileFormats.html">Image File Formats</a></li>
@@ -119,71 +135,70 @@ RGB F16, RGB F32, RGBA U8, RGBA U16, RGBA F16, RGBA F32.</td></tr>
 </ul>
 </div>
 
-<h2 class="header"><a name="Examples">Examples</a></h2>
+<h2><a name="Examples">Examples</a></h2>
+<hr>
 <div class="block">
-<div class="blockSmall">
 <p>Convert an image:</p>
 <pre>
 > djv_convert input.sgi output.tga
 </pre>
 </div>
-<div class="blockSmall">
+<div class="block">
 <p>Convert an image sequence:</p>
 <pre>
 > djv_convert input.1-100.sgi output.1.tga
 </pre>
 <p>Note that only the first frame of the output sequence needs to be specified.</p>
 </div>
-<div class="blockSmall">
+<div class="block">
 <p>Create an RLE compressed image sequence:</p>
 <pre>
 > djv_convert input.1-100.sgi output.1.tga -targa_compression RLE
 </pre>
 </div>
-<div class="blockSmall">
+<div class="block">
 <p>Convert an image sequence to a movie:</p>
 <pre>
 > djv_convert input.0001-0100.dpx output.m4v
 </pre>
 </div>
-<div class="blockSmall">
+<div class="block">
 <p>Convert a movie to an image sequence:</p>
 <pre>
 > djv_convert input.m4v output.1.tga
 </pre>
 </div>
-<div class="blockSmall">
+<div class="block">
 <p>Convert the pixel type:</p>
 <pre>
 > djv_convert input.sgi output.sgi -pixel "RGB U16"
 </pre>
 <p>Note the use of quotes around the pixel type option.</p>
 </div>
-<div class="blockSmall">
+<div class="block">
 <p>Scale an image by half:</p>
 <pre>
 > djv_convert input.tga output.tga -scale 0.5
 </pre>
 </div>
-<div class="blockSmall">
+<div class="block">
 <p>Resize an image:</p>
 <pre>
 > djv_convert input.tga output.tga -resize 2048 1556
 </pre>
 </div>
-<div class="blockSmall">
+<div class="block">
 <p>Convert a Cineon file to a linear format using the default settings:</p>
 <pre>
 > djv_convert input.cin output.tga
 </pre>
 </div>
-<div class="blockSmall">
+<div class="block">
 <p>Convert a Cineon file to a linear format using custom print settings (black
 point, white point, gamma, and soft clip):</p>
 <pre>
 > djv_convert input.cin output.tga -cineon_input_film_print 95 685 2.2 2
 </pre>
-</div>
 </div>
 
 <div class="footer">

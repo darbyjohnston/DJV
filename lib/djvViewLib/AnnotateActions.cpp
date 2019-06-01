@@ -114,7 +114,7 @@ namespace djv
                 qApp->translate("djv::ViewLib::AnnotateActions",
                     "Show annotations<br><br>"
                     "Keyboard shortcut: %1<br><br>"
-                    "<a href=\"ViewAnnotate.html\">Documentation</a>").arg(shortcuts[Enum::SHORTCUT_ANNOTATE_SHOW].value.toString()));
+                    "<a href=\"djv_view.html\">Documentation</a>").arg(shortcuts[Enum::SHORTCUT_ANNOTATE_SHOW].value.toString()));
 
             _actions[COLOR]->setShortcut(shortcuts[Enum::SHORTCUT_ANNOTATE_COLOR].value);
             _actions[COLOR]->setToolTip(
@@ -125,7 +125,7 @@ namespace djv
                 qApp->translate("djv::ViewLib::AnnotateActions",
                     "Set the drawing color<br><br>"
                     "Keyboard shortcut: %1<br><br>"
-                    "<a href=\"ViewAnnotate.html\">Documentation</a>").arg(shortcuts[Enum::SHORTCUT_ANNOTATE_COLOR].value.toString()));
+                    "<a href=\"djv_view.html\">Documentation</a>").arg(shortcuts[Enum::SHORTCUT_ANNOTATE_COLOR].value.toString()));
 
             _actions[LINE_WIDTH_INC]->setShortcut(shortcuts[Enum::SHORTCUT_ANNOTATE_LINE_WIDTH_INC].value);
             _actions[LINE_WIDTH_DEC]->setShortcut(shortcuts[Enum::SHORTCUT_ANNOTATE_LINE_WIDTH_DEC].value);
@@ -140,7 +140,7 @@ namespace djv
                 qApp->translate("djv::ViewLib::AnnotateActions",
                     "Undo the last drawing<br><br>"
                     "Keyboard shortcut: %1<br><br>"
-                    "<a href=\"ViewAnnotate.html\">Documentation</a>").arg(shortcuts[Enum::SHORTCUT_ANNOTATE_UNDO].value.toString()));
+                    "<a href=\"djv_view.html\">Documentation</a>").arg(shortcuts[Enum::SHORTCUT_ANNOTATE_UNDO].value.toString()));
 
             _actions[REDO]->setIcon(context()->iconLibrary()->icon("djv/UI/RedoIcon"));
             _actions[REDO]->setShortcut(shortcuts[Enum::SHORTCUT_ANNOTATE_REDO].value);
@@ -152,7 +152,7 @@ namespace djv
                 qApp->translate("djv::ViewLib::AnnotateActions",
                     "Redo the last drawing<br><br>"
                     "Keyboard shortcut: %1<br><br>"
-                    "<a href=\"ViewAnnotate.html\">Documentation</a>").arg(shortcuts[Enum::SHORTCUT_ANNOTATE_REDO].value.toString()));
+                    "<a href=\"djv_view.html\">Documentation</a>").arg(shortcuts[Enum::SHORTCUT_ANNOTATE_REDO].value.toString()));
 
             _actions[CLEAR]->setIcon(context()->iconLibrary()->icon("djv/UI/EraseIcon"));
             _actions[CLEAR]->setShortcut(shortcuts[Enum::SHORTCUT_ANNOTATE_CLEAR].value);
@@ -164,7 +164,7 @@ namespace djv
                 qApp->translate("djv::ViewLib::AnnotateActions",
                     "Clear the drawing<br><br>"
                     "Keyboard shortcut: %1<br><br>"
-                    "<a href=\"ViewAnnotate.html\">Documentation</a>").arg(shortcuts[Enum::SHORTCUT_ANNOTATE_CLEAR].value.toString()));
+                    "<a href=\"djv_view.html\">Documentation</a>").arg(shortcuts[Enum::SHORTCUT_ANNOTATE_CLEAR].value.toString()));
 
             _actions[NEW]->setIcon(context()->iconLibrary()->icon("djv/UI/AddIcon"));
             _actions[NEW]->setShortcut(shortcuts[Enum::SHORTCUT_ANNOTATE_NEW].value);
@@ -176,7 +176,7 @@ namespace djv
                 qApp->translate("djv::ViewLib::AnnotateActions",
                     "Add an annotation<br><br>"
                     "Keyboard shortcut: %1<br><br>"
-                    "<a href=\"ViewAnnotate.html\">Documentation</a>").arg(shortcuts[Enum::SHORTCUT_ANNOTATE_NEW].value.toString()));
+                    "<a href=\"djv_view.html\">Documentation</a>").arg(shortcuts[Enum::SHORTCUT_ANNOTATE_NEW].value.toString()));
 
             _actions[DELETE]->setIcon(context()->iconLibrary()->icon("djv/UI/RemoveIcon"));
             _actions[DELETE]->setShortcut(shortcuts[Enum::SHORTCUT_ANNOTATE_DELETE].value);
@@ -188,7 +188,7 @@ namespace djv
                 qApp->translate("djv::ViewLib::AnnotateActions",
                     "Delete the current annotation<br><br>"
                     "Keyboard shortcut: %1<br><br>"
-                    "<a href=\"ViewAnnotate.html\">Documentation</a>").arg(shortcuts[Enum::SHORTCUT_ANNOTATE_DELETE].value.toString()));
+                    "<a href=\"djv_view.html\">Documentation</a>").arg(shortcuts[Enum::SHORTCUT_ANNOTATE_DELETE].value.toString()));
 
             _actions[NEXT]->setIcon(context()->iconLibrary()->icon("djv/UI/RightIcon"));
             _actions[NEXT]->setShortcut(shortcuts[Enum::SHORTCUT_ANNOTATE_NEXT].value);
@@ -200,7 +200,7 @@ namespace djv
                 qApp->translate("djv::ViewLib::AnnotateActions",
                     "Go to the next annotation<br><br>"
                     "Keyboard shortcut: %1<br><br>"
-                    "<a href=\"ViewAnnotate.html\">Documentation</a>").arg(shortcuts[Enum::SHORTCUT_ANNOTATE_NEXT].value.toString()));
+                    "<a href=\"djv_view.html\">Documentation</a>").arg(shortcuts[Enum::SHORTCUT_ANNOTATE_NEXT].value.toString()));
 
             _actions[PREV]->setIcon(context()->iconLibrary()->icon("djv/UI/LeftIcon"));
             _actions[PREV]->setShortcut(shortcuts[Enum::SHORTCUT_ANNOTATE_PREV].value);
@@ -243,19 +243,19 @@ namespace djv
                 qApp->translate("djv::ViewLib::AnnotateActions",
                     "Draw freehand lines<br><br>"
                     "Keyboard shortcut: %1<br><br>"
-                    "<a href=\"ViewAnnotate.html\">Documentation</a>") <<
+                    "<a href=\"djv_view.html\">Documentation</a>") <<
                 qApp->translate("djv::ViewLib::AnnotateActions",
                     "Draw lines<br><br>"
                     "Keyboard shortcut: %1<br><br>"
-                    "<a href=\"ViewAnnotate.html\">Documentation</a>") <<
+                    "<a href=\"djv_view.html\">Documentation</a>") <<
                 qApp->translate("djv::ViewLib::AnnotateActions",
                     "Draw rectangles<br><br>"
                     "Keyboard shortcut: %1<br><br>"
-                    "<a href=\"ViewAnnotate.html\">Documentation</a>") <<
+                    "<a href=\"djv_view.html\">Documentation</a>") <<
                 qApp->translate("djv::ViewLib::AnnotateActions",
                     "Draw ellipses<br><br>"
                     "Keyboard shortcut: %1<br><br>"
-                    "<a href=\"ViewAnnotate.html\">Documentation</a>");
+                    "<a href=\"djv_view.html\">Documentation</a>");
             for (int i = 0; i < Enum::annotatePrimitiveLabels().count(); ++i)
             {
                 _groups[PRIMITIVE_GROUP]->actions()[i]->setIcon(context()->iconLibrary()->icon(primitiveIcons[i]));

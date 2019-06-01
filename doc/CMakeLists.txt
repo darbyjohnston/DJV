@@ -8,79 +8,33 @@ set(html
     FAQ.html
     FileBrowser.html
     FileSequences.html
-    ImageFileFormats.html
+    ImageFormats.html
     Legal.html
     Screenshots.html
     Style.css
     Testimonials.html
-    ViewCommandLine.html
-    ViewFiles.html
-    ViewImageView.html
-    ViewImages.html
-    ViewPlayback.html
-    ViewTools.html
-    ViewWindows.html
-    djv_convert.html
+	djv_convert.html
     djv_info.html
     djv_ls.html
     djv_view.html
     index.html)
 set(images
-	"images/AddIcon96DPI.png"
-	"images/AnnotateEllipseIcon96DPI.png"
-	"images/AnnotateFreehandLineIcon96DPI.png"
-	"images/AnnotateIcon96DPI.png"
-	"images/AnnotateLineIcon96DPI.png"
-	"images/AnnotateRectangleIcon96DPI.png"
     "images/Berkeley 2010-12-19 Tinted.jpg"
     "images/Bodega Bay 2013-01-02 Tinted.jpg"
-    "images/ColorPickerIcon96DPI.png"
-	"images/EraseIcon96DPI.png"
-    "images/FileBrowser.png"
-    "images/FileCloseIcon96DPI.png"
-    "images/FileIcon96DPI.png"
-    "images/FileOpenIcon96DPI.png"
-    "images/FileReloadIcon96DPI.png"
-    "images/FrameEndIcon96DPI.png"
-    "images/FrameNextIcon96DPI.png"
-    "images/FramePrevIcon96DPI.png"
-    "images/FrameStartIcon96DPI.png"
-    "images/HistogramIcon96DPI.png"
-    "images/InOutPointsIcon96DPI.png"
-    "images/InPointMarkIcon96DPI.png"
-    "images/InPointResetIcon96DPI.png"
-    "images/InfoIcon96DPI.png"
-	"images/LeftIcon96DPI.png"
-    "images/MagnifyIcon96DPI.png"
-    "images/OutPointMarkIcon96DPI.png"
-    "images/OutPointResetIcon96DPI.png"
-    "images/PlayForwardIcon96DPI.png"
-    "images/PlayLoopOnceIcon96DPI.png"
-    "images/PlayLoopPingPongIcon96DPI.png"
-    "images/PlayLoopRepeatIcon96DPI.png"
-    "images/PlayReverseIcon96DPI.png"
-    "images/PlayStopIcon96DPI.png"
-	"images/RemoveIcon96DPI.png"
-	"images/RightIcon96DPI.png"
+    "images/djvViewAnnotate.png"
+    "images/djvViewAnnotateExport.png"
+    "images/djvViewAnnotateSummary.png"
+    "images/djvViewAnnotateUI.png"
+    "images/djvViewColorPickerToolUI.png"
+    "images/djvViewHistogramToolUI.png"
+    "images/djvViewInformationToolUI.png"
+    "images/djvViewMagnifyToolUI.png"
+    "images/djvViewPlaybackUI.png"
+    "images/djvViewUI.png"
+    "images/FileBrowserUI.png"
+    "images/GitHub_Logo.png"
     "images/Screenshot 1.png"
     "images/Screenshot 2.png"
-	"images/ViewAnnotate.png"
-	"images/ViewAnnotateExport.png"
-	"images/ViewAnnotateSummary.png"
-	"images/ViewAnnotateUI.png"
-    "images/ViewColorPickerTool.png"
-    "images/ViewFitIcon96DPI.png"
-    "images/ViewHistogramTool.png"
-    "images/ViewInfoTool.png"
-    "images/ViewMagnifyTool.png"
-    "images/ViewZoomInIcon96DPI.png"
-    "images/ViewZoomOutIcon96DPI.png"
-    "images/ViewZoomResetIcon96DPI.png"
-    "images/WindowCloseIcon96DPI.png"
-    "images/WindowDuplicateIcon96DPI.png"
-    "images/WindowFitIcon96DPI.png"
-    "images/WindowFullScreenIcon96DPI.png"
-    "images/WindowNewIcon96DPI.png"
     "images/index.png"
     "images/logo-filmreel.png"
 	"images/unexpected_logo_white_150px.png")

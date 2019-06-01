@@ -84,7 +84,7 @@ namespace djv
             _p->shuttle->setWhatsThis(
                 qApp->translate("djv::ViewLib::PlaybackButtons",
                 "Click and drag to start playback; the playback speed is determined by how far you drag<br><br>"
-                "<a href=\"ViewPlayback.html\">Documentation</a>"));
+                "<a href=\"djv_view.htm#PlaybackControls\">Documentation</a>"));
 
             _p->layout = new QHBoxLayout(this);
             _p->layout->setMargin(0);
@@ -192,7 +192,7 @@ namespace djv
                 qApp->translate("djv::ViewLib::LoopWidget",
                 "Loop mode: %1<br><br>"
                 "Keyboard shortcut: %2<br><br>"
-                "<a href=\"ViewPlayback.html\">Documentation</a>").
+                "<a href=\"djv_view.htm#PlaybackControls\">Documentation</a>").
                 arg(_p->text).
                 arg(shortcuts[Enum::SHORTCUT_PLAYBACK_LOOP].value.toString()));
         }
@@ -235,7 +235,7 @@ namespace djv
             _p->shuttle->setWhatsThis(
                 qApp->translate("djv::ViewLib::FrameButtons",
                 "Click and drag to change the current frame<br><br>"
-                "<a href=\"ViewPlayback.html\">Documentation</a>"));
+                "<a href=\"djv_view.htm#PlaybackControls\">Documentation</a>"));
 
             _p->layout = new QHBoxLayout(this);
             _p->layout->setMargin(0);

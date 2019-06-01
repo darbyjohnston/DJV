@@ -37,6 +37,7 @@
 <div class="header">
 <img class="header" src="images/logo-filmreel.png">DJV Imaging
 </div>
+
 <div class="content">
 
 <div class="nav">
@@ -45,17 +46,185 @@
 djv_view
 </div>
 
+<h2>djv_view</h2>
+<hr>
 <div class="block">
-<p>Real-time image sequence and movie playback.</p>
-<li><a href="ViewFiles.html">Files</a></li>
-<li><a href="ViewWindows.html">Windows</a></li>
-<li><a href="ViewImageView.html">Image View</a></li>
-<li><a href="ViewImages.html">Images</a></li>
-<li><a href="ViewPlayback.html">Playback</a></li>
-<li><a href="ViewTools.html">Tools</a></li>
-<li><a href="ViewAnnotate.html">Annotations</a></li>
-<li><a href="ViewCommandLine.html">Command Line</a></li>
+<ul>
+    <li><a href="#Overview">Overview</a></li>
+    <li><a href="#UserInterface">User Interface</a></li>
+    <li><a href="#Files">Files</a></li>
+    <li><a href="#PlaybackControls">Playback Controls</a></li>
+    <li><a href="#MagnifyTool">Magnify Tool</a></li>
+    <li><a href="#ColorPickerTool">Color Picker Tool</a></li>
+    <li><a href="#HistogramTool">Histogram Tool</a></li>
+    <li><a href="#InformationTool">Information Tool</a></li>
+    <li><a href="#Annotations">Annotations</a></li>
+    <li><a href="#CommandLine">Command Line</a></li>
+</ul>
 </div>
+
+<h2><a name="Overview">Overview</a></h2>
+<hr>
+<div class="block">
+<p>djv_view is an application for viewing image sequences and movies.</p>
+<p>Features include:</p>
+<ul>
+	<li>Frame accurate playback controls</li>
+	<li>Image and movie conversion</li>
+	<li>Options to cache images in memory or stream them directly from disk</li>
+	<li>Image magnification, color picking, histogram, and image meta-data display</li>
+	<li>Annotations tool for reviewing renders and film footage</li>
+</ul>
+</div>
+
+<h2><a name="UserInterface">User Interface</a></h2>
+<hr>
+<div class="block">
+<img src="images/djvViewUI.png">
+</div>
+
+<h2><a name="Files">Files</a></h2>
+<hr>
+<div class="block">
+<p>Image sequences and movie files may be opened from the "File" menu,
+by dragging and dropping them onto the <a href="ViewImageView.html">image view</a>,
+or by listing them on the <a href="ViewCommandLine">command-line</a>.</p>
+<p>A memory cache stores images for fast playback performance, you can change
+the size in the preferences. You can also disable the cache if you
+want to stream images directly from disk.</p>
+<p>If you don't mind sacrificing image quality you can speed up image loading
+and reduce memory consumption by using either "proxy scaling" or "8-bit conversion".
+Proxy scaling reduces the resolution of the images as they are loaded, 8-bit
+conversion reduces their bit-depth.</p>
+<p>See also:</p>
+<ul>
+    <li><a href="FileBrowser.html">File Browser</a></li>
+    <li><a href="FileSequences.html">File Sequences</a></li>
+    <li><a href="ImageFormats.html">Image Formats</a></li>
+</ul>
+</div>
+
+<h2><a name="PlaybackControls">Playback Controls</a></h2>
+<hr>
+<div class="block">
+<img src="images/djvViewPlaybackUI.png">
+</div>
+
+<h2><a name="MagnifyTool">Magnify Tool</a></h2>
+<hr>
+<div class="block">
+<img src="images/djvViewMagnifyToolUI.png">
+</div>
+
+<h2><a name="ColorPickerTool">Color Picker Tool</a></h2>
+<hr>
+<div class="block">
+<img src="images/djvViewColorPickerToolUI.png">
+</div>
+
+<h2><a name="HistogramTool">Histogram Tool</a></h2>
+<hr>
+<div class="block">
+<img src="images/djvViewHistogramToolUI.png">
+</div>
+
+<h2><a name="InformationTool">Information Tool</a></h2>
+<hr>
+<div class="block">
+<img src="images/djvViewInformationToolUI.png">
+</div>
+
+<h2><a name="Annotations">Annotations</a></h2>
+<hr>
+<div class="block">
+<p>The annotations feature allows you to make simple drawings and add text to frames
+for reviewing renders or film footage. These review notes can then be exported as JSON
+data for integration into your pipeline. An example script is provided to export the notes
+and images as a simple static HTML page.</p>
+<img src="images/djvViewAnnotate.png">
+<p>The annotations panel can be shown from the "Annotate" menu, by clicking the "Show
+annotations" button on the tool bar, or using the keyboard shortcut "Ctrl+A". When the
+annotaions panel is visible you can draw on the current frame by clicking and dragging
+in the image view. You can add text to the frame by clicking the text entry box in the
+annotations panel and typing.</p>
+<p>The annotations are saved automatically as JSON data in the same directory as the
+images. The annotations will also be loaded automatically when you open the same set
+of images again.</p>
+<p>The annotations user interface:</p>
+<img src="images/djvViewAnnotateUI.png">
+</div>
+<h3>Summary</h3>
+<div class="block">
+<p>Click on the "Summary" tab to write a summary of the annotations.</p>
+<img src="images/djvViewAnnotateSummary.png">
+</div>
+<h3>Exporting<h3>
+<div class="block">
+<p>Click on the "Export" tab to export the annotated images.</p>
+<img src="images/djvViewAnnotateExport.png">
+<p>A default file name is automatically provided for the exported images so you can
+generally just click the "Export" button to start the process.</p>
+<p>You may optionally run a script after the images are exported which can be useful
+for pipeline integrations. An example script is provided that creates a simple static
+HTML page with the annotated images and text. The script can be found in the "scripts"
+sub-directory where DJV is installed.</p>
+<p>Example script and interpreter paths on Windows:</p>
+<pre>
+C:\Program Files\DJV\scripts\AnnotateExportToHTML.py
+C:\Users\darby\AppData\Local\Programs\Python\Python37-32\python.exe
+</pre>
+</div>
+
+<h2><a name="CommandLine">Command Line</a></h2>
+<hr>
+<h3>Usage</h2>
+<div class="block">
+<p>djv_view [image]... [option]...</p>
+<table>
+<tr><td>image</td><td>One or more images, image sequences,
+or movies</td></tr>
+</table>
+</div>
+<h3>Options</h3>
+<div class="block">
+<table>
+<tr><td>-combine</td><td>Combine multiple command line
+arguments into a single sequence.</td></tr>
+</table>
+<p>Files:</p>
+<table>
+<tr><td>-file_layer (value)</td><td>Set the input layer.
+Default = 0.</td></tr>
+<tr><td>-file_proxy (value)</td><td>Set the proxy scale: None,
+1/2, 1/4, 1/8.</td></tr>
+<tr><td>-file_cache (value)</td><td>Set whether the file cache is
+enabled: False, True.</td></tr>
+</table>
+<p>Windows:</p>
+<table>
+<tr><td>-window_full_screen</td><td>Set the window full
+screen.</td></tr>
+</table>
+<p>Playback:</p>
+<table>
+<tr><td>-playback (value)</td><td>Set the playback:
+Reverse, Stop, Forward.</td></tr>
+<tr><td>-playback_frame (value)</td><td>Set the playback frame.</td></tr>
+<tr><td>-playback_speed (value)</td><td>Set the playback speed: 1, 3, 6,
+12, 15, 16, 18, 23.976, 24, 25, 29.97, 30, 50, 59.94, 60, 120.</td></tr>
+</table>
+</div>
+<div class="block">
+<p>See also:</p>
+<ul>
+    <li><a href="ImageFileFormats.html">Image File Formats</a></li>
+    <li><a href="CommandLine.html">Command Line</a></li>
+</ul>
+</div>
+
+</td>
+</tr>
+</table>
 
 <div class="footer">
 Copyright (c) 2004-2019 Darby Johnston

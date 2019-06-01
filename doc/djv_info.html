@@ -43,15 +43,23 @@
 <a href="index.html">Home</a> |
 <a href="Documentation.html">Documentation</a> |
 djv_info
+</div>
+
+<h2>djv_info</h2>
+<hr>
+<div class="block">
 <ul>
+    <li><a href="#Overview">Overview</a></li>
     <li><a href="#Usage">Usage</a></li>
     <li><a href="#Options">Options</a></li>
     <li><a href="#Examples">Examples</a></li>
 </ul>
 </div>
 
+<h2><a name="Overview">Overview</a></h2>
+<hr>
 <div class="block">
-<p>Print file metadata.</p>
+<p>djv_info is a command line tool for printing file metadata.</p>
 <p>Example output:</p>
 <pre>
 yesterdayview.mov                    640x424:1.51 RGB U8 00:02:00:01@12
@@ -71,7 +79,8 @@ render0001-1000.exr                                      00:00:41:16@24
 </pre>
 </div>
 
-<h2 class="header"><a name="Usage">Usage</a></h2>
+<h2><a name="Usage">Usage</a></h2>
+<hr>
 <div class="block">
 <p>djv_info (image|directory)... [option]...</p>
 <table>
@@ -83,7 +92,8 @@ or movies</td></tr>
 used.</p>
 </div>
 
-<h2 class="header"><a name="Options">Options</a></h2>
+<h2><a name="Options">Options</a></h2>
+<hr>
 <div class="block">
 <table>
 <tr><td>-x_info, -xi</td><td>Don't show image information,
@@ -94,6 +104,8 @@ only file names.</td></tr>
 <tr><td>-columns, -c (value)</td><td>Set the number of columns used to
 format the output. Setting this value to zero disables formatting.</td></tr>
 </table>
+</div>
+<div class="block">
 <p>See also:</p>
 <ul>
     <li><a href="ImageFileFormats.html">Image File Formats</a></li>
@@ -101,26 +113,25 @@ format the output. Setting this value to zero disables formatting.</td></tr>
 </ul>
 </div>
 
-<h2 class="header"><a name="Examples">Examples</a></h2>
+<h2><a name="Examples">Examples</a></h2>
+<hr>
 <div class="block">
-<div class="blockSmall">
 <p>Display image information:</p>
 <pre>
 > djv_info image.sgi image2.sgi
 </pre>
 </div>
-<div class="blockSmall">
+<div class="block">
 <p>Display image sequence information:</p>
 <pre>
 > djv_info image.1-100.sgi
 </pre>
 </div>
-<div class="blockSmall">
+<div class="block">
 <p>Display information about all images within a directory:</p>
 <pre>
 > djv_info ~/pics
 </pre>
-</div>
 </div>
 
 <div class="footer">

@@ -124,19 +124,19 @@ namespace djv
                 qApp->translate("djv::ViewLib::ToolActions",
                 "Show the magnify tool<br><br>"
                 "Keyboard shortcut: %1<br><br>"
-                "<a href=\"ViewTools.html\">Documentation</a>") <<
+                "<a href=\"djv_view.html\">Documentation</a>") <<
                 qApp->translate("djv::ViewLib::ToolActions",
                 "Show the color picker tool<br><br>"
                 "Keyboard shortcut: %1<br><br>"
-                "<a href=\"ViewTools.html\">Documentation</a>") <<
+                "<a href=\"djv_view.html\">Documentation</a>") <<
                 qApp->translate("djv::ViewLib::ToolActions",
                 "Show the histogram tool<br><br>"
                 "Keyboard shortcut: %1<br><br>"
-                "<a href=\"ViewTools.html\">Documentation</a>") <<
+                "<a href=\"djv_view.html\">Documentation</a>") <<
                 qApp->translate("djv::ViewLib::ToolActions",
                 "Show the information tool<br><br>"
                 "Keyboard shortcut: %1<br><br>"
-                "<a href=\"ViewTools.html\">Documentation</a>");
+                "<a href=\"djv_view.html\">Documentation</a>");
             for (int i = 0; i < Enum::TOOL_COUNT; ++i)
             {
                 _groups[TOOL_GROUP]->actions()[i]->setIcon(toolIcons[i]);

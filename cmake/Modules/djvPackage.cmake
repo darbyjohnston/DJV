@@ -4,6 +4,7 @@ if (WIN32)
     set(CMAKE_INSTALL_DEBUG_LIBRARIES true)	
 	include(InstallRequiredSystemLibraries)
     	
+    set(CPACK_NSIS_INSTALLED_ICON_NAME ${PROJECT_SOURCE_DIR}/etc/Windows/djv_view.ico)
     set(CPACK_NSIS_MUI_ICON ${PROJECT_SOURCE_DIR}/etc/Windows/djv_view.ico)
     set(CPACK_NSIS_MUI_UNICON ${PROJECT_SOURCE_DIR}/etc/Windows/djv_view.ico)
     set(CPACK_NSIS_INSTALL_ROOT "$PROGRAMFILES64")

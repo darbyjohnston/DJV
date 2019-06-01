@@ -43,15 +43,23 @@
 <a href="index.html">Home</a> |
 <a href="Documentation.html">Documentation</a> |
 djv_ls
+</div>
+
+<h2>djv_ls</h2>
+<hr>
+<div class="block">
 <ul>
+    <li><a href="#Overview">Overview</a></li>
     <li><a href="#Usage">Usage</a></li>
     <li><a href="#Options">Options</a></li>
     <li><a href="#Examples">Examples</a></li>
 </ul>
 </div>
 
+<h2><a name="Overview">Overview</a></h2>
+<hr>
 <div class="block">
-<p>List directories with file sequences.</p>
+<p>djv_ls is a command line tool for listing directories with file sequences.</p>
 <p>Example output:</p>
 <pre>
 el_cerrito_bart.1k.tiff   File 2.23MB darby rw Mon Jun 12 21:21:55 2006
@@ -64,7 +72,8 @@ fishpond.1-749.png       Seq 293.17MB darby rw Thu Aug 17 16:47:43 2006
 </pre>
 </div>
 
-<h2 class="header"><a name="Usage">Usage</a></h2>
+<h2><a name="Usage">Usage</a></h2>
+<hr>
 <div class="block">
 <p>djv_ls [file|directory]... [option]...</p>
 <table>
@@ -74,7 +83,8 @@ fishpond.1-749.png       Seq 293.17MB darby rw Thu Aug 17 16:47:43 2006
 <p>If no files or directories are given the current directory is used.</p>
 </div>
 
-<h2 class="header"><a name="Options">Options</a></h2>
+<h2><a name="Options">Options</a></h2>
+<hr>
 <div class="block">
 <table>
 <tr><td>-x_info, -xi</td><td>Don't show file information,
@@ -85,6 +95,8 @@ only file names.</td></tr>
 <tr><td>-columns, -c (value)</td><td>Set the number of columns used to
 format the output. Setting this value to zero disables formatting.</td></tr>
 </table>
+</div>
+<div class="block">
 <p>Sorting:</p>
 <table>
 <tr><td>-sort, -s (value)</td><td>Set how the items are sorted:
@@ -92,6 +104,8 @@ Name, Type, Size, User, Permissions, Time. Default = Name.</td></tr>
 <tr><td>-reverse_sort, -rs</td><td>Reverse the sorting order.</td></tr>
 <tr><td>-x_sort_dirs, -xsd</td><td>Don't sort directories to the top of the list.</td></tr>
 </table>
+</div>
+<div class="block">
 <p>See also:</p>
 <ul>
     <li><a href="ImageFileFormats.html">Image File Formats</a></li>
@@ -99,26 +113,25 @@ Name, Type, Size, User, Permissions, Time. Default = Name.</td></tr>
 </ul>
 </div>
 
-<h2 class="header"><a name="Examples">Examples</a></h2>
+<h2><a name="Examples">Examples</a></h2>
+<hr>
 <div class="block">
-<div class="blockSmall">
 <p>List the current directory:</p>
 <pre>
 > djv_ls
 </pre>
 </div>
-<div class="blockSmall">
+<div class="block">
 <p>List multiple directories:</p>
 <pre>
 > djv_ls ~/movies ~/pictures
 </pre>
 </div>
-<div class="blockSmall">
+<div class="block">
 <p>Sort the directory contents by time with the most recent items first:</p>
 <pre>
 > djv_ls -sort time -reverse_sort
 </pre>
-</div>
 </div>
 
 <div class="footer">

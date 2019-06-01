@@ -18,7 +18,7 @@ find_path(JPEG_INCLUDE_DIR
     NAMES jpeglib.h)
 set(JPEG_INCLUDE_DIRS ${JPEG_INCLUDE_DIR})
 
-find_library(JPEG_LIBRARY NAMES jpeg)
+find_library(JPEG_LIBRARY NAMES jpeg-static jpeg)
 set(JPEG_LIBRARIES ${JPEG_LIBRARY})
 
 if(NOT JPEG_SHARED_LIBS)

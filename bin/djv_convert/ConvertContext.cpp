@@ -248,8 +248,8 @@ namespace djv
             static const QString label = qApp->translate("djv::convert::Context",
                 "djv_convert\n"
                 "\n"
-                "    Batch process images and movies. Common uses include resizing "
-                "images and converting sequences of images to a movie.\n"
+                "    djv_convert is a command line tool for batch processing images and movies. "
+                "Common uses include resizing images and converting sequences of images to a movie.\n"
                 "\n"
                 "    Example of converting an image sequence to a movie:\n"
                 "    > djv_convert input.1-100.tga output.mp4\n"

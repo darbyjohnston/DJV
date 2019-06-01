@@ -189,7 +189,7 @@ namespace djv
             static const QString label = qApp->translate("djv::ls::Context",
                 "djv_ls\n"
                 "\n"
-                "    List directories with file sequences.\n"
+                "    djv_ls is a command line tool for listing directories with file sequences.\n"
                 "\n"
                 "    Example:\n"
                 "    el_cerrito_bart.1k.tiff   File 2.23MB darby rw Mon Jun 12 21:21:55 2006\n"

@@ -120,7 +120,7 @@ namespace djv
                 qApp->translate("djv::ViewLib::ViewActions",
                 "Move the view left<br><br>"
                 "Keyboard shortcut: %1<br><br>"
-                "<a href=\"ViewImageView.html\">Documentation</a>").
+                "<a href=\"djv_view.html\">Documentation</a>").
                 arg(shortcuts[Enum::SHORTCUT_VIEW_LEFT].value.toString()));
 
             _actions[RIGHT]->setShortcut(shortcuts[Enum::SHORTCUT_VIEW_RIGHT].value);
@@ -133,7 +133,7 @@ namespace djv
                 qApp->translate("djv::ViewLib::ViewActions",
                 "Move the view right<br><br>"
                 "Keyboard shortcut: %1<br><br>"
-                "<a href=\"ViewImageView.html\">Documentation</a>").
+                "<a href=\"djv_view.html\">Documentation</a>").
                 arg(shortcuts[Enum::SHORTCUT_VIEW_RIGHT].value.toString()));
 
             _actions[UP]->setShortcut(shortcuts[Enum::SHORTCUT_VIEW_UP].value);
@@ -146,7 +146,7 @@ namespace djv
                 qApp->translate("djv::ViewLib::ViewActions",
                 "Move the view up<br><br>"
                 "Keyboard shortcut: %1<br><br>"
-                "<a href=\"ViewImageView.html\">Documentation</a>").
+                "<a href=\"djv_view.html\">Documentation</a>").
                 arg(shortcuts[Enum::SHORTCUT_VIEW_UP].value.toString()));
 
             _actions[DOWN]->setShortcut(shortcuts[Enum::SHORTCUT_VIEW_DOWN].value);
@@ -159,7 +159,7 @@ namespace djv
                 qApp->translate("djv::ViewLib::ViewActions",
                 "Move the view down<br><br>"
                 "Keyboard shortcut: %1<br><br>"
-                "<a href=\"ViewImageView.html\">Documentation</a>").
+                "<a href=\"djv_view.html\">Documentation</a>").
                 arg(shortcuts[Enum::SHORTCUT_VIEW_DOWN].value.toString()));
 
             _actions[CENTER]->setShortcut(shortcuts[Enum::SHORTCUT_VIEW_CENTER].value);
@@ -172,7 +172,7 @@ namespace djv
                 qApp->translate("djv::ViewLib::ViewActions",
                 "Center the view<br><br>"
                 "Keyboard shortcut: %1<br><br>"
-                "<a href=\"ViewImageView.html\">Documentation</a>").
+                "<a href=\"djv_view.html\">Documentation</a>").
                 arg(shortcuts[Enum::SHORTCUT_VIEW_CENTER].value.toString()));
 
             _actions[ZOOM_IN]->setIcon(context()->iconLibrary()->icon("djv/UI/ViewZoomInIcon"));
@@ -186,7 +186,7 @@ namespace djv
                 qApp->translate("djv::ViewLib::ViewActions",
                 "Zoom in<br><br>"
                 "Keyboard shortcut: %1<br><br>"
-                "<a href=\"ViewImageView.html\">Documentation</a>").
+                "<a href=\"djv_view.html\">Documentation</a>").
                 arg(shortcuts[Enum::SHORTCUT_VIEW_ZOOM_IN].value.toString()));
 
             _actions[ZOOM_OUT]->setIcon(context()->iconLibrary()->icon("djv/UI/ViewZoomOutIcon"));
@@ -200,7 +200,7 @@ namespace djv
                 qApp->translate("djv::ViewLib::ViewActions",
                 "Zoom out<br><br>"
                 "Keyboard shortcut: %1<br><br>"
-                "<a href=\"ViewImageView.html\">Documentation</a>").
+                "<a href=\"djv_view.html\">Documentation</a>").
                 arg(shortcuts[Enum::SHORTCUT_VIEW_ZOOM_OUT].value.toString()));
 
             _actions[ZOOM_RESET]->setIcon(context()->iconLibrary()->icon("djv/UI/ViewZoomResetIcon"));
@@ -214,7 +214,7 @@ namespace djv
                 qApp->translate("djv::ViewLib::ViewActions",
                 "Reset the view zoom<br><br>"
                 "Keyboard shortcut: %1<br><br>"
-                "<a href=\"ViewImageView.html\">Documentation</a>").
+                "<a href=\"djv_view.html\">Documentation</a>").
                 arg(shortcuts[Enum::SHORTCUT_VIEW_ZOOM_RESET].value.toString()));
 
             _actions[RESET]->setShortcut(shortcuts[Enum::SHORTCUT_VIEW_RESET].value);
@@ -227,7 +227,7 @@ namespace djv
                 qApp->translate("djv::ViewLib::ViewActions",
                 "Reset the view position and zoom<br><br>"
                 "Keyboard shortcut: %1<br><br>"
-                "<a href=\"ViewImageView.html\">Documentation</a>").
+                "<a href=\"djv_view.html\">Documentation</a>").
                 arg(shortcuts[Enum::SHORTCUT_VIEW_RESET].value.toString()));
 
             _actions[FIT]->setIcon(context()->iconLibrary()->icon("djv/UI/ViewFitIcon"));
@@ -241,7 +241,7 @@ namespace djv
                 qApp->translate("djv::ViewLib::ViewActions",
                 "Fit the view to the window<br><br>"
                 "Keyboard shortcut: %1<br><br>"
-                "<a href=\"ViewImageView.html\">Documentation</a>").
+                "<a href=\"djv_view.html\">Documentation</a>").
                 arg(shortcuts[Enum::SHORTCUT_VIEW_FIT].value.toString()));
 
             _actions[HUD]->setShortcut(shortcuts[Enum::SHORTCUT_VIEW_HUD].value);
@@ -254,7 +254,7 @@ namespace djv
                 qApp->translate("djv::ViewLib::ViewActions",
                     "Toggle the HUD (Heads Up Display)<br><br>"
                     "Keyboard shortcut: %1<br><br>"
-                    "<a href=\"ViewImageView.html\">Documentation</a>").
+                    "<a href=\"djv_view.html\">Documentation</a>").
                 arg(shortcuts[Enum::SHORTCUT_VIEW_HUD].value.toString()));
 
             Q_EMIT changed();

@@ -156,7 +156,7 @@ namespace djv
             _actions[DISPLAY_PROFILE_EDITOR]->setWhatsThis(
                 qApp->translate("djv::ViewLib::ImageActions",
                 "Show the display profile editor<br><br>"
-                "<a href=\"ViewImages.html\">Documentation</a>"));
+                "<a href=\"djv_view.html\">Documentation</a>"));
             
             const QVector<QKeySequence> scaleShortcuts = QVector<QKeySequence>() <<
                 shortcuts[Enum::SHORTCUT_IMAGE_SCALE_NONE].value <<

@@ -38,25 +38,28 @@ img.header
 
 div.content
 {
-    margin: 1em;
+    margin: 0em;
+	padding: 2em;
 }
 
 div.footer
 {
+    margin: 2em 0 0 0;
     text-align: center;
 }
 
 div.nav
 {
-    margin: 0 0 2em 0;
+    margin: 0em 0em 4em 0em;
+    font-size: small;
 }
 
 div.block
 {
-    margin: 1em 1em 2em 1em;
+    margin: 0em 0em 4em 0em;
 }
 
-div.blockSmall
+div.subblock
 {
     margin: 0em 0em 2em 0em;
 }
@@ -102,16 +105,6 @@ h1
 
 h1.header
 {
-    padding: .4em;
-    margin: 0 0 0 0;
-    border-style: solid;
-    border-width: 0 0 .1em 0;
-    border-color: rgba(255, 255, 255, .3);
-}
-
-h2.header
-{
-    padding: .4em;
     margin: 0 0 0 0;
     border-style: solid;
     border-width: 0 0 .1em 0;
@@ -120,17 +113,22 @@ h2.header
 
 h2
 {
+    margin: 0 0 0 0;
     font-weight: normal;
+}
+
+h2.header
+{
+    margin: 0 0 1em 0;
+    border-style: solid;
+    border-width: 0 0 .1em 0;
+    border-color: rgba(255, 255, 255, .3);
 }
 
 h3
 {
+    margin: 0 0 0 0;
     font-weight: normal;
-}
-
-p.small
-{
-    margin: .5em 0 0 0;
 }
 
 pre
