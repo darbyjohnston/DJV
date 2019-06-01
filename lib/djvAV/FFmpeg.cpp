@@ -124,8 +124,7 @@ namespace djv
                     _logSystem = logSystem;
                     av_log_set_level(AV_LOG_ERROR);
                     av_log_set_callback(avLogCallback);
-                    av_register_all();
-                }
+               }
 
                 Plugin::Plugin()
                 {}
