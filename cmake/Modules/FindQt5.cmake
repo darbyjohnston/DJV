@@ -336,40 +336,40 @@ if(DJV_THIRD_PARTY)
             FILES
             ${DJV_THIRD_PARTY}/lib/libQt5Core.dylib
             ${DJV_THIRD_PARTY}/lib/libQt5Core.5.dylib
-            ${DJV_THIRD_PARTY}/lib/libQt5Core.5.6.dylib
-            ${DJV_THIRD_PARTY}/lib/libQt5Core.5.6.3.dylib
+            ${DJV_THIRD_PARTY}/lib/libQt5Core.5.12.dylib
+            ${DJV_THIRD_PARTY}/lib/libQt5Core.5.12.3.dylib
             ${DJV_THIRD_PARTY}/lib/libQt5DBus.dylib
             ${DJV_THIRD_PARTY}/lib/libQt5DBus.5.dylib
-            ${DJV_THIRD_PARTY}/lib/libQt5DBus.5.6.dylib
-            ${DJV_THIRD_PARTY}/lib/libQt5DBus.5.6.3.dylib
+            ${DJV_THIRD_PARTY}/lib/libQt5DBus.5.12.dylib
+            ${DJV_THIRD_PARTY}/lib/libQt5DBus.5.12.3.dylib
             ${DJV_THIRD_PARTY}/lib/libQt5Gui.dylib
             ${DJV_THIRD_PARTY}/lib/libQt5Gui.5.dylib
-            ${DJV_THIRD_PARTY}/lib/libQt5Gui.5.6.dylib
-            ${DJV_THIRD_PARTY}/lib/libQt5Gui.5.6.3.dylib
+            ${DJV_THIRD_PARTY}/lib/libQt5Gui.5.12.dylib
+            ${DJV_THIRD_PARTY}/lib/libQt5Gui.5.12.3.dylib
             ${DJV_THIRD_PARTY}/lib/libQt5Network.dylib
             ${DJV_THIRD_PARTY}/lib/libQt5Network.5.dylib
-            ${DJV_THIRD_PARTY}/lib/libQt5Network.5.6.dylib
-            ${DJV_THIRD_PARTY}/lib/libQt5Network.5.6.3.dylib
+            ${DJV_THIRD_PARTY}/lib/libQt5Network.5.12.dylib
+            ${DJV_THIRD_PARTY}/lib/libQt5Network.5.12.3.dylib
             ${DJV_THIRD_PARTY}/lib/libQt5OpenGL.dylib
             ${DJV_THIRD_PARTY}/lib/libQt5OpenGL.5.dylib
-            ${DJV_THIRD_PARTY}/lib/libQt5OpenGL.5.6.dylib
-            ${DJV_THIRD_PARTY}/lib/libQt5OpenGL.5.6.3.dylib
+            ${DJV_THIRD_PARTY}/lib/libQt5OpenGL.5.12.dylib
+            ${DJV_THIRD_PARTY}/lib/libQt5OpenGL.5.12.3.dylib
             ${DJV_THIRD_PARTY}/lib/libQt5PrintSupport.dylib
             ${DJV_THIRD_PARTY}/lib/libQt5PrintSupport.5.dylib
-            ${DJV_THIRD_PARTY}/lib/libQt5PrintSupport.5.6.dylib
-            ${DJV_THIRD_PARTY}/lib/libQt5PrintSupport.5.6.3.dylib
+            ${DJV_THIRD_PARTY}/lib/libQt5PrintSupport.5.12.dylib
+            ${DJV_THIRD_PARTY}/lib/libQt5PrintSupport.5.12.3.dylib
             ${DJV_THIRD_PARTY}/lib/libQt5Sql.dylib
             ${DJV_THIRD_PARTY}/lib/libQt5Sql.5.dylib
-            ${DJV_THIRD_PARTY}/lib/libQt5Sql.5.6.dylib
-            ${DJV_THIRD_PARTY}/lib/libQt5Sql.5.6.3.dylib
+            ${DJV_THIRD_PARTY}/lib/libQt5Sql.5.12.dylib
+            ${DJV_THIRD_PARTY}/lib/libQt5Sql.5.12.3.dylib
             ${DJV_THIRD_PARTY}/lib/libQt5Widgets.dylib
             ${DJV_THIRD_PARTY}/lib/libQt5Widgets.5.dylib
-            ${DJV_THIRD_PARTY}/lib/libQt5Widgets.5.6.dylib
-            ${DJV_THIRD_PARTY}/lib/libQt5Widgets.5.6.3.dylib
+            ${DJV_THIRD_PARTY}/lib/libQt5Widgets.5.12.dylib
+            ${DJV_THIRD_PARTY}/lib/libQt5Widgets.5.12.3.dylib
             ${DJV_THIRD_PARTY}/lib/libQt5Xml.dylib
             ${DJV_THIRD_PARTY}/lib/libQt5Xml.5.dylib
-            ${DJV_THIRD_PARTY}/lib/libQt5Xml.5.6.dylib
-            ${DJV_THIRD_PARTY}/lib/libQt5Xml.5.6.3.dylib
+            ${DJV_THIRD_PARTY}/lib/libQt5Xml.5.12.dylib
+            ${DJV_THIRD_PARTY}/lib/libQt5Xml.5.12.3.dylib
             DESTINATION ${DJV_INSTALL_LIB})
         install(
             DIRECTORY
@@ -387,44 +387,44 @@ if(DJV_THIRD_PARTY)
             FILES
             ${QT_CORE_LIBRARY}
             ${QT_CORE_LIBRARY}.5
-            ${QT_CORE_LIBRARY}.5.6
-            ${QT_CORE_LIBRARY}.5.6.3
+            ${QT_CORE_LIBRARY}.5.12
+            ${QT_CORE_LIBRARY}.5.12.3
             ${QT_DBUS_LIBRARY}
             ${QT_DBUS_LIBRARY}.5
-            ${QT_DBUS_LIBRARY}.5.6
-            ${QT_DBUS_LIBRARY}.5.6.3
+            ${QT_DBUS_LIBRARY}.5.12
+            ${QT_DBUS_LIBRARY}.5.12.3
             ${QT_GUI_LIBRARY}
             ${QT_GUI_LIBRARY}.5
-            ${QT_GUI_LIBRARY}.5.6
-            ${QT_GUI_LIBRARY}.5.6.3
+            ${QT_GUI_LIBRARY}.5.12
+            ${QT_GUI_LIBRARY}.5.12.3
             ${QT_NETWORK_LIBRARY}
             ${QT_NETWORK_LIBRARY}.5
-            ${QT_NETWORK_LIBRARY}.5.6
-            ${QT_NETWORK_LIBRARY}.5.6.3
+            ${QT_NETWORK_LIBRARY}.5.12
+            ${QT_NETWORK_LIBRARY}.5.12.3
             ${QT_OPENGL_LIBRARY}
             ${QT_OPENGL_LIBRARY}.5
-            ${QT_OPENGL_LIBRARY}.5.6
-            ${QT_OPENGL_LIBRARY}.5.6.3
+            ${QT_OPENGL_LIBRARY}.5.12
+            ${QT_OPENGL_LIBRARY}.5.12.3
             ${QT_PRINT_SUPPORT_LIBRARY}
             ${QT_PRINT_SUPPORT_LIBRARY}.5
-            ${QT_PRINT_SUPPORT_LIBRARY}.5.6
-            ${QT_PRINT_SUPPORT_LIBRARY}.5.6.3
+            ${QT_PRINT_SUPPORT_LIBRARY}.5.12
+            ${QT_PRINT_SUPPORT_LIBRARY}.5.12.3
             ${QT_SQL_LIBRARY}
             ${QT_SQL_LIBRARY}.5
-            ${QT_SQL_LIBRARY}.5.6
-            ${QT_SQL_LIBRARY}.5.6.3
+            ${QT_SQL_LIBRARY}.5.12
+            ${QT_SQL_LIBRARY}.5.12.3
             ${QT_WIDGETS_LIBRARY}
             ${QT_WIDGETS_LIBRARY}.5
-            ${QT_WIDGETS_LIBRARY}.5.6
-            ${QT_WIDGETS_LIBRARY}.5.6.3
+            ${QT_WIDGETS_LIBRARY}.5.12
+            ${QT_WIDGETS_LIBRARY}.5.12.3
             ${QT_XML_LIBRARY}
             ${QT_XML_LIBRARY}.5
-            ${QT_XML_LIBRARY}.5.6
-            ${QT_XML_LIBRARY}.5.6.3
+            ${QT_XML_LIBRARY}.5.12
+            ${QT_XML_LIBRARY}.5.12.3
             ${DJV_THIRD_PARTY}/lib/libQt5XcbQpa.so
             ${DJV_THIRD_PARTY}/lib/libQt5XcbQpa.so.5
-            ${DJV_THIRD_PARTY}/lib/libQt5XcbQpa.so.5.6
-            ${DJV_THIRD_PARTY}/lib/libQt5XcbQpa.so.5.6.3
+            ${DJV_THIRD_PARTY}/lib/libQt5XcbQpa.so.5.12
+            ${DJV_THIRD_PARTY}/lib/libQt5XcbQpa.so.5.12.3
             DESTINATION ${DJV_INSTALL_LIB})
         install(
             DIRECTORY

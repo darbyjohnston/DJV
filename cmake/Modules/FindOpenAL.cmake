@@ -68,14 +68,14 @@ if(DJV_THIRD_PARTY)
             FILES
             ${OPENAL_LIBRARY}
             ${DJV_THIRD_PARTY}/lib/libopenal.1.dylib
-            ${DJV_THIRD_PARTY}/lib/libopenal.1.18.2.dylib
+            ${DJV_THIRD_PARTY}/lib/libopenal.1.19.1.dylib
             DESTINATION ${DJV_INSTALL_LIB})
     else()
         install(
             FILES
             ${OPENAL_LIBRARY}
             ${OPENAL_LIBRARY}.1
-            ${OPENAL_LIBRARY}.1.18.2
+            ${OPENAL_LIBRARY}.1.19.1
             DESTINATION ${DJV_INSTALL_LIB})
     endif()
 endif()

@@ -154,50 +154,50 @@ if(DJV_THIRD_PARTY)
             FILES
             ${FFMPEG_LIBAVCODEC}
             ${DJV_THIRD_PARTY}/lib/libavcodec.58.dylib
-            ${DJV_THIRD_PARTY}/lib/libavcodec.58.18.100.dylib
+            ${DJV_THIRD_PARTY}/lib/libavcodec.58.35.100.dylib
             ${FFMPEG_LIBAVDEVICE}
             ${DJV_THIRD_PARTY}/lib/libavdevice.58.dylib
-            ${DJV_THIRD_PARTY}/lib/libavdevice.58.3.100.dylib
+            ${DJV_THIRD_PARTY}/lib/libavdevice.58.5.100.dylib
             ${FFMPEG_LIBAVFILTER}
             ${DJV_THIRD_PARTY}/lib/libavfilter.7.dylib
-            ${DJV_THIRD_PARTY}/lib/libavfilter.7.16.100.dylib
+            ${DJV_THIRD_PARTY}/lib/libavfilter.7.40.101.dylib
             ${FFMPEG_LIBAVFORMAT}
             ${DJV_THIRD_PARTY}/lib/libavformat.58.dylib
-            ${DJV_THIRD_PARTY}/lib/libavformat.58.12.100.dylib
+            ${DJV_THIRD_PARTY}/lib/libavformat.58.20.100.dylib
             ${FFMPEG_LIBAVUTIL}
             ${DJV_THIRD_PARTY}/lib/libavutil.56.dylib
-            ${DJV_THIRD_PARTY}/lib/libavutil.56.14.100.dylib
+            ${DJV_THIRD_PARTY}/lib/libavutil.56.22.100.dylib
             ${FFMPEG_LIBSWRESAMPLE}
             ${DJV_THIRD_PARTY}/lib/libswresample.3.dylib
-            ${DJV_THIRD_PARTY}/lib/libswresample.3.1.100.dylib
+            ${DJV_THIRD_PARTY}/lib/libswresample.3.3.100.dylib
             ${FFMPEG_LIBSWSCALE}
             ${DJV_THIRD_PARTY}/lib/libswscale.5.dylib
-            ${DJV_THIRD_PARTY}/lib/libswscale.5.1.100.dylib
+            ${DJV_THIRD_PARTY}/lib/libswscale.5.3.100.dylib
             DESTINATION ${DJV_INSTALL_LIB})
     else()
         install(
             FILES
             ${FFMPEG_LIBAVCODEC}
             ${FFMPEG_LIBAVCODEC}.58
-            ${FFMPEG_LIBAVCODEC}.58.18.100
+            ${FFMPEG_LIBAVCODEC}.58.35.100
             ${FFMPEG_LIBAVDEVICE}
             ${FFMPEG_LIBAVDEVICE}.58
-            ${FFMPEG_LIBAVDEVICE}.58.3.100
+            ${FFMPEG_LIBAVDEVICE}.58.5.100
             ${FFMPEG_LIBAVFILTER}
             ${FFMPEG_LIBAVFILTER}.7
-            ${FFMPEG_LIBAVFILTER}.7.16.100
+            ${FFMPEG_LIBAVFILTER}.7.40.101
             ${FFMPEG_LIBAVFORMAT}
             ${FFMPEG_LIBAVFORMAT}.58
-            ${FFMPEG_LIBAVFORMAT}.58.12.100
+            ${FFMPEG_LIBAVFORMAT}.58.20.100
             ${FFMPEG_LIBAVUTIL}
             ${FFMPEG_LIBAVUTIL}.56
-            ${FFMPEG_LIBAVUTIL}.56.14.100
+            ${FFMPEG_LIBAVUTIL}.56.22.100
             ${FFMPEG_LIBSWRESAMPLE}
             ${FFMPEG_LIBSWRESAMPLE}.3
-            ${FFMPEG_LIBSWRESAMPLE}.3.1.100
+            ${FFMPEG_LIBSWRESAMPLE}.3.3.100
             ${FFMPEG_LIBSWSCALE}
             ${FFMPEG_LIBSWSCALE}.5
-            ${FFMPEG_LIBSWSCALE}.5.1.100
+            ${FFMPEG_LIBSWSCALE}.5.3.100
             DESTINATION ${DJV_INSTALL_LIB})
     endif()
 endif()
