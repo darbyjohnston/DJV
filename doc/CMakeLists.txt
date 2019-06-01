@@ -43,6 +43,7 @@ set(legal
     ../LICENSE_FFmpeg.txt
     ../LICENSE_GLM.txt
     ../LICENSE_libjpeg.txt
+    ../LICENSE_libjpeg-turbo.txt
     ../LICENSE_libpng.txt
     ../LICENSE_libtiff.txt
     ../LICENSE_OFL.txt
