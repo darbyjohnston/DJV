@@ -1,3 +1,12 @@
+/* Fix fonts that render as bold in Firefox */
+html
+{
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  font-smoothing: antialiased;
+  font-weight: 400;
+}
+
 *
 {
     font-family: sans-serif;
