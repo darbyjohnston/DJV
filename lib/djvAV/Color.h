@@ -46,8 +46,8 @@ namespace djv
                 inline Color(int r, int g, int b, int a = U8Max);
                 inline Color(F32_T r, F32_T g, F32_T b, F32_T a = F32Max);
 
-                constexpr Type getType() const;
-                constexpr bool isValid() const;
+                inline Type getType() const;
+                inline bool isValid() const;
 
                 inline U8_T  getU8(size_t channel) const;
                 inline U10_T getU10(size_t channel) const;

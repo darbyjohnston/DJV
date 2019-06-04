@@ -44,10 +44,10 @@ namespace djv
             template<typename T, glm::precision P = glm::defaultp>
             struct tBBox2
             {
-                constexpr tBBox2();
-                constexpr tBBox2(const glm::tvec2<T, P> &);
-                constexpr tBBox2(const glm::tvec2<T, P> & min, const glm::tvec2<T, P> & max);
-                constexpr tBBox2(T x, T y, T w, T h);
+                inline tBBox2();
+                inline tBBox2(const glm::tvec2<T, P> &);
+                inline tBBox2(const glm::tvec2<T, P> & min, const glm::tvec2<T, P> & max);
+                inline tBBox2(T x, T y, T w, T h);
 
                 //! \name Box Components
                 ///@{
@@ -95,10 +95,10 @@ namespace djv
             template<typename T, glm::precision P = glm::defaultp>
             struct tBBox3
             {
-                constexpr tBBox3();
-                constexpr tBBox3(const glm::tvec3<T, P> &);
-                constexpr tBBox3(const glm::tvec3<T, P> & min, const glm::tvec3<T, P> & max);
-                constexpr tBBox3(T x, T y, T z, T w, T h, T d);
+                inline tBBox3();
+                inline tBBox3(const glm::tvec3<T, P> &);
+                inline tBBox3(const glm::tvec3<T, P> & min, const glm::tvec3<T, P> & max);
+                inline tBBox3(T x, T y, T z, T w, T h, T d);
 
                 //! \name Components
                 ///@{

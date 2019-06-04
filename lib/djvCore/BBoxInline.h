@@ -36,61 +36,61 @@ namespace djv
         namespace BBox
         {
             template<>
-            constexpr tBBox2<int>::tBBox2() :
+            inline tBBox2<int>::tBBox2() :
                 min(0, 0),
                 max(0, 0)
             {}
 
             template<>
-            constexpr tBBox2<float>::tBBox2() :
+            inline tBBox2<float>::tBBox2() :
                 min(0.f, 0.f),
                 max(0.f, 0.f)
             {}
 
             template<>
-            constexpr tBBox3<int>::tBBox3() :
+            inline tBBox3<int>::tBBox3() :
                 min(0, 0, 0),
                 max(0, 0, 0)
             {}
 
             template<>
-            constexpr tBBox3<float>::tBBox3() :
+            inline tBBox3<float>::tBBox3() :
                 min(0.f, 0.f, 0.f),
                 max(0.f, 0.f, 0.f)
             {}
 
             template<typename T, glm::precision P>
-            constexpr tBBox2<T, P>::tBBox2(const glm::tvec2<T, P> & value) :
+            inline tBBox2<T, P>::tBBox2(const glm::tvec2<T, P> & value) :
                 min(value),
                 max(value)
             {}
 
             template<typename T, glm::precision P>
-            constexpr tBBox3<T, P>::tBBox3(const glm::tvec3<T, P> & value) :
+            inline tBBox3<T, P>::tBBox3(const glm::tvec3<T, P> & value) :
                 min(value),
                 max(value)
             {}
 
             template<typename T, glm::precision P>
-            constexpr tBBox2<T, P>::tBBox2(const glm::tvec2<T, P> & min, const glm::tvec2<T, P> & max) :
+            inline tBBox2<T, P>::tBBox2(const glm::tvec2<T, P> & min, const glm::tvec2<T, P> & max) :
                 min(min),
                 max(max)
             {}
 
             template<typename T, glm::precision P>
-            constexpr tBBox3<T, P>::tBBox3(const glm::tvec3<T, P> & min, const glm::tvec3<T, P> & max) :
+            inline tBBox3<T, P>::tBBox3(const glm::tvec3<T, P> & min, const glm::tvec3<T, P> & max) :
                 min(min),
                 max(max)
             {}
 
             template<typename T, glm::precision P>
-            constexpr tBBox2<T, P>::tBBox2(T x, T y, T w, T h) :
+            inline tBBox2<T, P>::tBBox2(T x, T y, T w, T h) :
                 min(x, y),
                 max(x + w, y + h)
             {}
 
             template<typename T, glm::precision P>
-            constexpr tBBox3<T, P>::tBBox3(T x, T y, T z, T w, T h, T d) :
+            inline tBBox3<T, P>::tBBox3(T x, T y, T z, T w, T h, T d) :
                 min(x, y, z),
                 max(x + w, y + h, z + d)
             {}

@@ -75,12 +75,12 @@ namespace djv
                 h(h)
             {}
 
-            constexpr bool Size::operator == (const Size& other) const
+            inline bool Size::operator == (const Size& other) const
             {
                 return w == other.w && h == other.h;
             }
 
-            constexpr bool Size::operator != (const Size& other) const
+            inline bool Size::operator != (const Size& other) const
             {
                 return !(*this == other);
             }
