@@ -134,7 +134,6 @@ endif()
 
 add_library(djvCore ${header} ${source})
 set(LIBRARIES
-    FFMPEG
     GLM
     PicoJSON
     fseq

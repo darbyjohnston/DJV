@@ -33,13 +33,6 @@
 #include <djvCore/LogSystem.h>
 #include <djvCore/Timer.h>
 
-extern "C"
-{
-#include <libavutil/avutil.h>
-#include <libavutil/rational.h>
-
-} // extern "C"
-
 #include <condition_variable>
 
 using namespace djv::Core;

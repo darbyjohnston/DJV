@@ -47,13 +47,6 @@
 
 #include <djvCore/Math.h>
 
-extern "C"
-{
-#include <libavutil/avutil.h>
-#include <libavutil/rational.h>
-
-} // extern "C"
-
 using namespace djv::Core;
 
 namespace djv

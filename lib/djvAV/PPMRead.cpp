@@ -29,8 +29,6 @@
 
 #include <djvAV/PPM.h>
 
-#include <djvAV/FFmpeg.h>
-
 #include <djvCore/FileIO.h>
 
 using namespace djv::Core;
