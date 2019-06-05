@@ -746,8 +746,6 @@ namespace djv
                 void setPos(const std::shared_ptr<Widget> &, const glm::vec2 &);
                 void setButton(const std::shared_ptr<Widget> &, const std::weak_ptr<Widget> &);
 
-                void setMenuMargin(MetricsRole);
-
                 void removeChild(const std::shared_ptr<IObject> &) override;
 
             protected:
@@ -757,7 +755,6 @@ namespace djv
             private:
                 std::map<std::shared_ptr<Widget>, glm::vec2> _widgetToPos;
                 std::map<std::shared_ptr<Widget>, std::weak_ptr<Widget> > _widgetToButton;
-                MetricsRole _menuMargin = MetricsRole::None;
             };
 
             void MenuOverlayLayout::_init(Context * context)
@@ -786,14 +783,6 @@ namespace djv
                 _widgetToButton[widget] = button;
             }
 
-            void MenuOverlayLayout::setMenuMargin(MetricsRole value)
-            {
-                if (value == _menuMargin)
-                    return;
-                _menuMargin = value;
-                _resize();
-            }
-
             void MenuOverlayLayout::removeChild(const std::shared_ptr<IObject> & value)
             {
                 Widget::removeChild(value);
@@ -816,7 +805,6 @@ namespace djv
             {
                 const auto style = _getStyle();
                 const BBox2f & g = getMargin().bbox(getGeometry(), style);
-                const float m = style->getMetric(_menuMargin);
                 // Bias menu placement below the geometry.
                 const float bias = .5f;
                 for (const auto & i : _widgetToPos)
@@ -825,17 +813,17 @@ namespace djv
                     const auto & minimumSize = i.first->getMinimumSize();
                     std::vector<BBox2f> geomCandidates;
                     const BBox2f aboveLeft(
-                        glm::vec2(pos.x - minimumSize.x * bias, pos.y - m - minimumSize.y * bias),
-                        glm::vec2(pos.x, pos.y - m));
+                        glm::vec2(pos.x - minimumSize.x * bias, pos.y - minimumSize.y * bias),
+                        glm::vec2(pos.x, pos.y));
                     const BBox2f aboveRight(
-                        glm::vec2(pos.x, pos.y - m - minimumSize.y * bias),
-                        glm::vec2(pos.x + minimumSize.x * bias, pos.y - m));
+                        glm::vec2(pos.x, pos.y - minimumSize.y * bias),
+                        glm::vec2(pos.x + minimumSize.x * bias, pos.y));
                     const BBox2f belowLeft(
-                        glm::vec2(pos.x - minimumSize.x, pos.y + m),
-                        glm::vec2(pos.x, pos.y + m + minimumSize.y));
+                        glm::vec2(pos.x - minimumSize.x, pos.y),
+                        glm::vec2(pos.x, pos.y + minimumSize.y));
                     const BBox2f belowRight(
-                        glm::vec2(pos.x, pos.y + m),
-                        glm::vec2(pos.x + minimumSize.x, pos.y + m + minimumSize.y));
+                        glm::vec2(pos.x, pos.y),
+                        glm::vec2(pos.x + minimumSize.x, pos.y + minimumSize.y));
                     geomCandidates.push_back(belowRight.intersect(g));
                     geomCandidates.push_back(belowLeft.intersect(g));
                     geomCandidates.push_back(aboveRight.intersect(g));
@@ -858,31 +846,31 @@ namespace djv
                         const BBox2f aboveLeft(
                             glm::vec2(
                                 std::min(buttonBBox.max.x - minimumSize.x * bias, buttonBBox.min.x),
-                                buttonBBox.min.y + 1 - m - minimumSize.y * bias),
+                                buttonBBox.min.y + 1 - minimumSize.y * bias),
                             glm::vec2(
                                 buttonBBox.max.x,
-                                buttonBBox.min.y + 1 - m));
+                                buttonBBox.min.y + 1));
                         const BBox2f aboveRight(
                             glm::vec2(
                                 buttonBBox.min.x,
-                                buttonBBox.min.y + 1 - m - minimumSize.y * bias),
+                                buttonBBox.min.y + 1 - minimumSize.y * bias),
                             glm::vec2(
                                 std::max(buttonBBox.min.x + minimumSize.x * bias, buttonBBox.max.x),
-                                buttonBBox.min.y + 1 - m));
+                                buttonBBox.min.y + 1));
                         const BBox2f belowLeft(
                             glm::vec2(
                                 std::min(buttonBBox.max.x - minimumSize.x, buttonBBox.min.x),
-                                buttonBBox.max.y - 1 + m),
+                                buttonBBox.max.y - 1),
                             glm::vec2(
                                 buttonBBox.max.x,
-                                buttonBBox.max.y - 1 + m + minimumSize.y));
+                                buttonBBox.max.y - 1 + minimumSize.y));
                         const BBox2f belowRight(
                             glm::vec2(
                                 buttonBBox.min.x,
-                                buttonBBox.max.y - 1 + m),
+                                buttonBBox.max.y - 1),
                             glm::vec2(
                                 std::max(buttonBBox.min.x + minimumSize.x, buttonBBox.max.x),
-                                buttonBBox.max.y - 1 + m + minimumSize.y));
+                                buttonBBox.max.y - 1 + minimumSize.y));
                         geomCandidates.push_back(belowRight.intersect(g));
                         geomCandidates.push_back(belowLeft.intersect(g));
                         geomCandidates.push_back(aboveRight.intersect(g));
@@ -929,7 +917,6 @@ namespace djv
             std::map<size_t, std::shared_ptr<Action> > actions;
             size_t count = 0;
             MetricsRole minimumSizeRole = MetricsRole::ScrollArea;
-            MetricsRole margin = MetricsRole::None;
             ColorRole backgroundRole = ColorRole::Background;
             std::shared_ptr<MenuPopupWidget> popupWidget;
             std::shared_ptr< MenuOverlayLayout> overlayLayout;
@@ -1034,16 +1021,6 @@ namespace djv
         {
             _p->minimumSizeRole = value;
         }
-
-        MetricsRole Menu::getMargin() const
-        {
-            return _p->margin;
-        }
-
-        void Menu::setMargin(MetricsRole value)
-        {
-            _p->margin = value;
-        }
         
         ColorRole Menu::getBackgroundRole() const
         {
@@ -1085,7 +1062,6 @@ namespace djv
                 {
                     _createWidgets();
                     p.overlayLayout->setButton(p.popupWidget, button);
-                    p.overlayLayout->setMenuMargin(p.margin);
                     p.overlay->setAnchor(button);
                     window->addChild(p.overlay);
                     p.overlay->show();
@@ -1102,7 +1078,6 @@ namespace djv
                 {
                     _createWidgets();
                     p.overlayLayout->setButton(p.popupWidget, button);
-                    p.overlayLayout->setMenuMargin(p.margin);
                     p.overlay->setAnchor(anchor);
                     window->addChild(p.overlay);
                     p.overlay->show();

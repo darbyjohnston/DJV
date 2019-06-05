@@ -73,12 +73,11 @@ namespace djv
             p.actionGroup = ActionGroup::create(ButtonType::Radio);
 
             p.menu = Menu::create(context);
-            p.menu->setMargin(MetricsRole::MarginSmall);
             addChild(p.menu);
 
             p.button = Button::Menu::create(context);
+            p.button->setMenuStyle(Button::MenuStyle::ComboBox);
             p.button->setPopupIcon("djvIconPopupMenu");
-            p.button->setMenuStyle(Button::MenuStyle::Round);
             p.button->setBackgroundRole(ColorRole::Button);
             addChild(p.button);
 

@@ -199,10 +199,6 @@ namespace djv
             {
                 DJV_PRIVATE_PTR();
                 glm::vec2 size = p.layout->getMinimumSize();
-                if (MenuStyle::Round == p.menuStyle)
-                {
-                    size.x += size.y;
-                }
                 auto style = _getStyle();
                 _setMinimumSize(size + getMargin().getSize(style));
             }
@@ -214,17 +210,6 @@ namespace djv
                 const BBox2f& g = getMargin().bbox(getGeometry(), style);
                 switch (p.menuStyle)
                 {
-                case MenuStyle::Round:
-                {
-                    const float h = g.h();
-                    const float radius = h / 2.f;
-                    _p->layout->setGeometry(BBox2f(
-                        floorf(g.min.x + radius),
-                        g.min.y,
-                        ceilf(g.w() - h),
-                        h));
-                    break;
-                }
                 default:
                     _p->layout->setGeometry(g);
                     break;
@@ -249,23 +234,7 @@ namespace djv
                 auto render = _getRender();
                 switch (p.menuStyle)
                 {
-                case MenuStyle::Round:
-                    render->setFillColor(style->getColor(ColorRole::Border));
-                    render->drawPill(g);
-                    render->setFillColor(style->getColor(getBackgroundRole()));
-                    render->drawPill(g2);
-                    if (p.checked)
-                    {
-                        render->setFillColor(style->getColor(ColorRole::Pressed));
-                        render->drawPill(g2);
-                    }
-                    else if (_isHovered())
-                    {
-                        render->setFillColor(style->getColor(ColorRole::Hovered));
-                        render->drawPill(g2);
-                    }
-                    break;
-                default:
+                case MenuStyle::Flat:
                     render->setFillColor(style->getColor(getBackgroundRole()));
                     render->drawRect(g);
                     if (p.checked)
@@ -279,6 +248,30 @@ namespace djv
                         render->drawRect(g);
                     }
                     break;
+                case MenuStyle::Tool:
+                case MenuStyle::ComboBox:
+                {
+                    const ColorRole bg = getBackgroundRole();
+                    if (bg != ColorRole::None)
+                    {
+                        render->setFillColor(style->getColor(ColorRole::Border));
+                        render->drawRect(g);
+                        render->setFillColor(style->getColor(getBackgroundRole()));
+                        render->drawRect(g2);
+                    }
+                    if (p.checked)
+                    {
+                        render->setFillColor(style->getColor(ColorRole::Pressed));
+                        render->drawRect(g);
+                    }
+                    else if (_isHovered())
+                    {
+                        render->setFillColor(style->getColor(ColorRole::Hovered));
+                        render->drawRect(g);
+                    }
+                    break;
+                }
+                default: break;
                 }
             }
 
@@ -330,10 +323,8 @@ namespace djv
                 switch (p.menuStyle)
                 {
                 case MenuStyle::Flat:
+                case MenuStyle::ComboBox:
                     p.layout->setMargin(Layout::Margin(MetricsRole::MarginSmall, MetricsRole::MarginSmall, MetricsRole::None, MetricsRole::None));
-                    break;
-                case MenuStyle::Round:
-                    p.layout->setMargin(MetricsRole::None);
                     break;
                 case MenuStyle::Tool:
                     p.layout->setMargin(MetricsRole::MarginSmall);

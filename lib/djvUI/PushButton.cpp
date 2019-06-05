@@ -66,7 +66,8 @@ namespace djv
                 setBackgroundRole(ColorRole::Button);
 
                 p.layout = HorizontalLayout::create(context);
-                p.layout->setMargin(MetricsRole::MarginSmall);
+                p.layout->setMargin(Layout::Margin(MetricsRole::Margin, MetricsRole::Margin, MetricsRole::MarginSmall, MetricsRole::MarginSmall));
+
                 addChild(p.layout);
             }
 
@@ -256,20 +257,13 @@ namespace djv
             void Push::_preLayoutEvent(Event::PreLayout & event)
             {
                 glm::vec2 size = _p->layout->getMinimumSize();
-                size.x += size.y;
                 _setMinimumSize(size);
             }
 
             void Push::_layoutEvent(Event::Layout &)
             {
                 const BBox2f& g = getGeometry();
-                const float h = g.h();
-                const float radius = h / 2.f;
-                _p->layout->setGeometry(BBox2f(
-                    floorf(g.min.x + radius),
-                    g.min.y,
-                    ceilf(g.w() - radius),
-                    h));
+                _p->layout->setGeometry(g);
             }
 
             void Push::_paintEvent(Event::Paint& event)
@@ -279,27 +273,19 @@ namespace djv
                 const BBox2f& g = getMargin().bbox(getGeometry(), style);
                 const BBox2f& g2 = g.margin(-b);
                 auto render = _getRender();
-                if (isEnabled(true))
+                render->setFillColor(style->getColor(ColorRole::Border));
+                render->drawRect(g);
+                render->setFillColor(style->getColor(getBackgroundRole()));
+                render->drawRect(g2);
+                if (_isPressed())
                 {
-                    render->setFillColor(style->getColor(ColorRole::Border));
-                    render->drawPill(g);
-                    render->setFillColor(style->getColor(getBackgroundRole()));
-                    render->drawPill(g2);
-                    if (_isPressed())
-                    {
-                        render->setFillColor(style->getColor(ColorRole::Pressed));
-                        render->drawPill(g2);
-                    }
-                    else if (_isHovered())
-                    {
-                        render->setFillColor(style->getColor(ColorRole::Hovered));
-                        render->drawPill(g2);
-                    }
+                    render->setFillColor(style->getColor(ColorRole::Pressed));
+                    render->drawRect(g);
                 }
-                else
+                else if (_isHovered())
                 {
-                    render->setFillColor(style->getColor(getBackgroundRole()));
-                    render->drawPill(g);
+                    render->setFillColor(style->getColor(ColorRole::Hovered));
+                    render->drawRect(g);
                 }
             }
 

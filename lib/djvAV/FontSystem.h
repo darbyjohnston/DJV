@@ -47,7 +47,7 @@ namespace djv
             typedef uint16_t FamilyID;
             typedef uint16_t FaceID;
 
-            const std::string familyDefault = "Barlow";
+            const std::string familyDefault = "Noto Sans";
             const std::string familyMono    = "Noto Sans Mono";
             const std::string faceDefault   = "Regular";
 

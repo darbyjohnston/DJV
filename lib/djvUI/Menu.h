@@ -68,9 +68,6 @@ namespace djv
             MetricsRole getMinimumSizeRole() const;
             void setMinimumSizeRole(MetricsRole);
 
-            MetricsRole getMargin() const;
-            void setMargin(MetricsRole);
-
             ColorRole getBackgroundRole() const;
             void setBackgroundRole(ColorRole);
 

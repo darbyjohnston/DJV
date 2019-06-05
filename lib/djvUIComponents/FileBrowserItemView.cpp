@@ -368,7 +368,7 @@ namespace djv
                         if (ViewType::Tiles == p.viewType)
                         {
                             render->setFillColor(style->getColor(ColorRole::Shadow));
-                            render->drawShadow(itemGeometry.margin(0, -sh, 0, 0), sh);
+                            render->drawShadow(itemGeometry, sh);
                             itemGeometry = itemGeometry.margin(-sh);
                             render->setFillColor(style->getColor(ColorRole::Background));
                             render->drawRect(itemGeometry);
