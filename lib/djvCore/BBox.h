@@ -66,7 +66,7 @@ namespace djv
                 ///@{
 
                 constexpr bool isValid() const;
-                constexpr glm::tvec2<T, P> getSize() const;
+                inline glm::tvec2<T, P> getSize() const;
                 constexpr glm::tvec2<T, P> getCenter() const;
                 constexpr T getArea() const;
                 inline float getAspect() const;
@@ -118,7 +118,7 @@ namespace djv
                 ///@{
 
                 constexpr bool isValid() const;
-                constexpr glm::tvec3<T, P> getSize() const;
+                inline glm::tvec3<T, P> getSize() const;
                 constexpr glm::tvec3<T, P> getCenter() const;
                 inline void zero();
 

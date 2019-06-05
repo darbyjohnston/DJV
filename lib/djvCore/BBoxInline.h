@@ -180,25 +180,25 @@ namespace djv
             }*/
 
             template<>
-            constexpr glm::tvec2<float> tBBox2<float>::getSize() const
+            inline glm::tvec2<float> tBBox2<float>::getSize() const
             {
                 return glm::tvec2<float>(max.x - min.x, max.y - min.y);
             }
 
             template<>
-            constexpr glm::tvec2<int> tBBox2<int>::getSize() const
+            inline glm::tvec2<int> tBBox2<int>::getSize() const
             {
                 return glm::tvec2<int>(max.x - min.x + 1, max.y - min.y + 1);
             }
 
             template<>
-            constexpr glm::tvec3<float> tBBox3<float>::getSize() const
+            inline glm::tvec3<float> tBBox3<float>::getSize() const
             {
                 return glm::tvec3<float>(max.x - min.x, max.y - min.y, max.z - min.z);
             }
 
             template<>
-            constexpr glm::tvec3<int> tBBox3<int>::getSize() const
+            inline glm::tvec3<int> tBBox3<int>::getSize() const
             {
                 return glm::tvec3<int>(max.x - min.x + 1, max.y - min.y + 1, max.z - min.z + 1);
             }
