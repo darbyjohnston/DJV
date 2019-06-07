@@ -29,7 +29,10 @@
 
 #include <djvViewApp/ImageView.h>
 
+#include <djvViewApp/ImageViewSystem.h>
 #include <djvViewApp/Media.h>
+
+#include <djvUI/Action.h>
 
 #include <djvAV/Render2D.h>
 
@@ -43,7 +46,12 @@ namespace djv
         {
             std::shared_ptr<Media> media;
             std::shared_ptr<AV::Image::Image> image;
+            glm::vec2 imagePos = glm::vec2(0.f, 0.f);
+            float imageZoom = 1.f;
+            AV::Image::Color backgroundColor = AV::Image::Color(0.f, 0.f, 0.f);
+            glm::vec2 pressedImagePos = glm::vec2(0.f, 0.f);
             std::shared_ptr<ValueObserver<std::shared_ptr<AV::Image::Image> > > imageObserver;
+            std::map<std::string, std::shared_ptr<ValueObserver<bool> > > clickedObservers;
         };
 
         void ImageView::_init(Context * context)
@@ -93,16 +101,69 @@ namespace djv
                         }
                     }
                 });
+                auto imageViewSystem = getContext()->getSystemT<ImageViewSystem>();
+                p.clickedObservers["Left"] = ValueObserver<bool>::create(
+                    imageViewSystem->getActions()["Left"]->observeClicked(),
+                    [weak](bool value)
+                {
+                    if (value)
+                    {
+                        if (auto widget = weak.lock())
+                        {
+                            widget->setImagePos(widget->getImagePos() + glm::vec2(-10.f, 0.f));
+                        }
+                    }
+                });
             }
             else
             {
                 p.image.reset();
                 p.imageObserver.reset();
+                p.clickedObservers["Left"].reset();
                 if (isVisible() && !isClipped())
                 {
                     _redraw();
                 }
             }
+        }
+
+        const glm::vec2& ImageView::getImagePos() const
+        {
+            return _p->imagePos;
+        }
+
+        float ImageView::getImageZoom() const
+        {
+            return _p->imageZoom;
+        }
+
+        void ImageView::setImagePos(const glm::vec2& value)
+        {
+            if (value == _p->imagePos)
+                return;
+            _p->imagePos = value;
+            _redraw();
+        }
+
+        void ImageView::setImageZoom(float value)
+        {
+            if (value == _p->imageZoom)
+                return;
+            _p->imageZoom = value;
+            _redraw();
+        }
+
+        const AV::Image::Color& ImageView::getBackgroundColor() const
+        {
+            return _p->backgroundColor;
+        }
+
+        void ImageView::setBackgroundColor(const AV::Image::Color& value)
+        {
+            if (value == _p->backgroundColor)
+                return;
+            _p->backgroundColor = value;
+            _redraw();
         }
 
         void ImageView::_preLayoutEvent(Event::PreLayout & event)
@@ -115,15 +176,23 @@ namespace djv
         void ImageView::_layoutEvent(Event::Layout &)
         {}
 
-        void ImageView::_paintEvent(Core::Event::Paint &)
+        void ImageView::_paintEvent(Event::Paint &)
         {
+            DJV_PRIVATE_PTR();
             if (_p->image)
             {
                 auto style = _getStyle();
                 const BBox2f & g = getMargin().bbox(getGeometry(), style);
                 auto render = _getRender();
+                render->setFillColor(p.backgroundColor);
+                render->drawRect(g);
                 render->setFillColor(AV::Image::Color(1.f, 1.f, 1.f));
-                render->drawImage(_p->image, g, AV::Render::ImageCache::Dynamic);
+                const BBox2f imageGeometry(
+                    g.min.x + p.imagePos.x * p.imageZoom,
+                    g.min.y + p.imagePos.y * p.imageZoom,
+                    _p->image->getWidth() * p.imageZoom,
+                    _p->image->getHeight() * p.imageZoom);
+                render->drawImage(_p->image, imageGeometry, AV::Render::ImageCache::Dynamic);
             }
         }
 

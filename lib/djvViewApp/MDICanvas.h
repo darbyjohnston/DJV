@@ -31,40 +31,32 @@
 
 #include <djvUI/Widget.h>
 
-#include <djvCore/ValueObserver.h>
-
 namespace djv
 {
     namespace ViewApp
     {
-        class Media;
-
-        class MediaWidget : public UI::Widget
+        class MDICanvas : public UI::Widget
         {
-            DJV_NON_COPYABLE(MediaWidget);
+            DJV_NON_COPYABLE(MDICanvas);
 
         protected:
-            void _init(Core::Context *);
-            MediaWidget();
+            void _init(Core::Context*);
+            MDICanvas();
 
         public:
-            ~MediaWidget() override;
+            ~MDICanvas() override;
 
-            static std::shared_ptr<MediaWidget> create(Core::Context *);
+            static std::shared_ptr<MDICanvas> create(Core::Context*);
 
-            const std::shared_ptr<Media> & getMedia() const;
-            void setMedia(const std::shared_ptr<Media> &);
+            void setMaximized(bool);
 
         protected:
-            void _preLayoutEvent(Core::Event::PreLayout &) override;
+            void _preLayoutEvent(Core::Event::PreLayout&) override;
             void _layoutEvent(Core::Event::Layout&) override;
 
             void _localeEvent(Core::Event::Locale&) override;
 
         private:
-            void _widgetUpdate();
-            void _speedUpdate();
-
             DJV_PRIVATE();
         };
 

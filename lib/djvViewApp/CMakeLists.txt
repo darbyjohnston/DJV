@@ -17,11 +17,11 @@ set(header
     ImageView.h
     ImageViewSystem.h
     InformationTool.h
+	MDICanvas.h
 	MDIWidget.h
     MagnifierTool.h
     MainWindow.h
     Media.h
-    MediaWidget.h
 	NUXSettings.h
     NUXSettingsWidget.h
 	NUXSystem.h
@@ -57,11 +57,11 @@ set(source
     ImageView.cpp
     ImageViewSystem.cpp
     InformationTool.cpp
+	MDICanvas.cpp
 	MDIWidget.cpp
     MagnifierTool.cpp
     MainWindow.cpp
     Media.cpp
-    MediaWidget.cpp
 	NUXSettings.cpp
     NUXSettingsWidget.cpp
 	NUXSystem.cpp

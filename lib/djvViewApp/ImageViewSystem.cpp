@@ -61,22 +61,14 @@ namespace djv
             //! \todo Implement me!
             p.actions["Navigation"] = UI::Action::create();
             p.actions["Navigation"]->setEnabled(false);
-            //! \todo Implement me!
             p.actions["Left"] = UI::Action::create();
             p.actions["Left"]->addShortcut(GLFW_KEY_KP_4);
-            p.actions["Left"]->setEnabled(false);
-            //! \todo Implement me!
             p.actions["Right"] = UI::Action::create();
             p.actions["Right"]->addShortcut(GLFW_KEY_KP_6);
-            p.actions["Right"]->setEnabled(false);
-            //! \todo Implement me!
             p.actions["Up"] = UI::Action::create();
             p.actions["Up"]->addShortcut(GLFW_KEY_KP_8);
-            p.actions["Up"]->setEnabled(false);
-            //! \todo Implement me!
             p.actions["Down"] = UI::Action::create();
             p.actions["Down"]->addShortcut(GLFW_KEY_KP_2);
-            p.actions["Down"]->setEnabled(false);
             //! \todo Implement me!
             p.actions["ZoomIn"] = UI::Action::create();
             p.actions["ZoomIn"]->addShortcut(GLFW_KEY_EQUAL);

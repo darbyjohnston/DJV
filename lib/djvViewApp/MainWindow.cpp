@@ -32,9 +32,8 @@
 #include <djvViewApp/Application.h>
 #include <djvViewApp/FileSystem.h>
 #include <djvViewApp/ITool.h>
-#include <djvViewApp/MDIWidget.h>
+#include <djvViewApp/MDICanvas.h>
 #include <djvViewApp/Media.h>
-#include <djvViewApp/MediaWidget.h>
 #include <djvViewApp/SettingsSystem.h>
 #include <djvViewApp/SettingsWidget.h>
 #include <djvViewApp/WindowSystem.h>
@@ -78,7 +77,7 @@ namespace djv
             std::shared_ptr<SettingsWidget> settingsWidget;
             std::shared_ptr<UI::PopupWidget> settingsPopupWidget;
             std::shared_ptr<UI::MenuBar> menuBar;
-            std::shared_ptr<MDIWidget> mdiWidget;
+            std::shared_ptr<MDICanvas> mdiCanvas;
             std::shared_ptr<UI::MDI::Canvas> toolCanvas;
             std::shared_ptr<UI::StackLayout> stackLayout;
             std::shared_ptr<ValueObserver<bool> > closeToolActionObserver;
@@ -145,7 +144,7 @@ namespace djv
             p.menuBar->addChild(p.maximizedButton);
             p.menuBar->addChild(p.settingsPopupWidget);
 
-            p.mdiWidget = MDIWidget::create(context);
+            p.mdiCanvas = MDICanvas::create(context);
 
             p.toolCanvas = UI::MDI::Canvas::create(context);
             for (auto system : viewSystems)
@@ -155,7 +154,7 @@ namespace djv
             
             p.stackLayout = UI::StackLayout::create(context);
             auto soloLayout = UI::SoloLayout::create(context);
-            p.stackLayout->addChild(p.mdiWidget);
+            p.stackLayout->addChild(p.mdiCanvas);
             auto vLayout = UI::VerticalLayout::create(context);
             vLayout->setSpacing(UI::MetricsRole::None);
             vLayout->addChild(p.menuBar);
@@ -302,7 +301,7 @@ namespace djv
                 {
                     if (auto widget = weak.lock())
                     {
-                        widget->_p->mdiWidget->setMaximized(value);
+                        widget->_p->mdiCanvas->setMaximized(value);
                     }
                 });
 

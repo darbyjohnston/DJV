@@ -29,8 +29,8 @@
 
 #include <djvViewApp/TimelineSlider.h>
 
+#include <djvViewApp/MDIWidget.h>
 #include <djvViewApp/Media.h>
-#include <djvViewApp/MediaWidget.h>
 #include <djvViewApp/PlaybackSettings.h>
 
 #include <djvUI/EventSystem.h>
@@ -229,7 +229,6 @@ namespace djv
             Time::Speed speed;
             AV::Font::Metrics fontMetrics;
             std::future<AV::Font::Metrics> fontMetricsFuture;
-            std::map<uint32_t, bool> hover;
             uint32_t pressedID = Event::InvalidID;
             bool pip = true;
             std::shared_ptr<PIPWidget> pipWidget;
@@ -442,7 +441,6 @@ namespace djv
             if (!event.isRejected())
             {
                 event.accept();
-                p.hover[event.getPointerInfo().id] = true;
                 _redraw();
                 if (p.pip && isEnabled())
                 {
@@ -460,32 +458,22 @@ namespace djv
         {
             DJV_PRIVATE_PTR();
             event.accept();
-            auto i = p.hover.find(event.getPointerInfo().id);
-            if (i != p.hover.end())
-            {
-                p.hover.erase(i);
-                _redraw();
-            }
+            _redraw();
             p.overlay->setVisible(false);
         }
 
         void TimelineSlider::_pointerMoveEvent(Event::PointerMove & event)
         {
             DJV_PRIVATE_PTR();
-            const auto id = event.getPointerInfo().id;
+            event.accept();
             const auto & pos = event.getPointerInfo().projectedPos;
             const BBox2f & g = getGeometry();
-            p.hover[id] = g.contains(pos);
             const Time::Timestamp timestamp = _posToTime(static_cast<int>(pos.x - g.min.x));
-            if (p.hover[id] || p.pressedID)
+            if (auto parent = getParentRecursiveT<MDIWidget>())
             {
-                if (auto parent = getParentRecursiveT<MediaWidget>())
-                {
-                    event.accept();
-                    auto style = _getStyle();
-                    const float s = style->getMetric(UI::MetricsRole::Spacing);
-                    p.pipWidget->setPIPPos(glm::vec2(pos.x, g.min.y - s), timestamp, parent->getGeometry().margin(-s));
-                }
+                auto style = _getStyle();
+                const float s = style->getMetric(UI::MetricsRole::Spacing);
+                p.pipWidget->setPIPPos(glm::vec2(pos.x, g.min.y - s), timestamp, parent->getGeometry().margin(-s));
             }
             if (p.pressedID)
             {
@@ -505,15 +493,12 @@ namespace djv
             const auto id = event.getPointerInfo().id;
             const auto & pos = event.getPointerInfo().projectedPos;
             const BBox2f & g = getGeometry();
-            if (p.hover[id])
+            event.accept();
+            p.pressedID = id;
+            if (p.currentTime->setIfChanged(_posToTime(static_cast<int>(pos.x - g.min.x))))
             {
-                event.accept();
-                p.pressedID = id;
-                if (p.currentTime->setIfChanged(_posToTime(static_cast<int>(pos.x - g.min.x))))
-                {
-                    _textUpdate();
-                    _redraw();
-                }
+                _textUpdate();
+                _redraw();
             }
         }
 

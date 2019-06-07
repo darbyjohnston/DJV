@@ -29,26 +29,30 @@
 
 #pragma once
 
-#include <djvUI/Widget.h>
+#include <djvUI/MDIWidget.h>
 
 namespace djv
 {
     namespace ViewApp
     {
-        class MDIWidget : public UI::Widget
+        class Media;
+
+        class MDIWidget : public UI::MDI::IWidget
         {
             DJV_NON_COPYABLE(MDIWidget);
 
         protected:
-            void _init(Core::Context*);
+            void _init(const std::shared_ptr<Media>&, Core::Context*);
             MDIWidget();
 
         public:
             ~MDIWidget() override;
 
-            static std::shared_ptr<MDIWidget> create(Core::Context*);
+            static std::shared_ptr<MDIWidget> create(const std::shared_ptr<Media>&, Core::Context*);
 
-            void setMaximized(bool);
+            const std::shared_ptr<Media>& getMedia() const;
+
+            void setMaximized(float) override;
 
         protected:
             void _preLayoutEvent(Core::Event::PreLayout&) override;
@@ -57,6 +61,10 @@ namespace djv
             void _localeEvent(Core::Event::Locale&) override;
 
         private:
+            void _widgetUpdate();
+            void _speedUpdate();
+            void _opacityUpdate();
+
             DJV_PRIVATE();
         };
 

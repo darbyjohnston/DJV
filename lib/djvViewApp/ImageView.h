@@ -33,6 +33,15 @@
 
 namespace djv
 {
+    namespace AV
+    {
+        namespace Image
+        {
+            class Color;
+    
+        } // namespace Image
+    } // namespace AV
+
     namespace ViewApp
     {
         class Media;
@@ -52,6 +61,14 @@ namespace djv
 
             const std::shared_ptr<Media> & getMedia() const;
             void setMedia(const std::shared_ptr<Media> &);
+
+            const glm::vec2& getImagePos() const;
+            float getImageZoom() const;
+            void setImagePos(const glm::vec2&);
+            void setImageZoom(float);
+
+            const AV::Image::Color& getBackgroundColor() const;
+            void setBackgroundColor(const AV::Image::Color&);
 
         protected:
             void _preLayoutEvent(Core::Event::PreLayout &) override;
