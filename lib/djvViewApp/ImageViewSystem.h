@@ -31,10 +31,14 @@
 
 #include <djvViewApp/IViewSystem.h>
 
+#include <glm/vec2.hpp>
+
 namespace djv
 {
     namespace ViewApp
     {
+        class MDICanvas;
+
         class ImageViewSystem : public IViewSystem
         {
             DJV_NON_COPYABLE(ImageViewSystem);
@@ -48,6 +52,8 @@ namespace djv
 
             static std::shared_ptr<ImageViewSystem> create(Core::Context *);
 
+            void setMDICanvas(const std::shared_ptr<MDICanvas>&);
+
             std::map<std::string, std::shared_ptr<UI::Action> > getActions() override;
             MenuData getMenu() override;
 
@@ -55,6 +61,10 @@ namespace djv
             void _textUpdate();
 
         private:
+            void _initWidget();
+            void _moveImage(const glm::vec2&);
+            void _zoomImage(float);
+
             DJV_PRIVATE();
         };
 

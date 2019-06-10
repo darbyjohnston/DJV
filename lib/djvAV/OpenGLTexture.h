@@ -42,13 +42,19 @@ namespace djv
             class Texture
             {
                 DJV_NON_COPYABLE(Texture);
-                void _init(const Image::Info &, GLenum filter = GL_LINEAR);
+                void _init(
+                    const Image::Info &,
+                    GLenum filterMin = GL_LINEAR,
+                    GLenum filterMax = GL_LINEAR);
                 inline Texture();
 
             public:
                 ~Texture();
 
-                static std::shared_ptr<Texture> create(const Image::Info &, GLenum filter = GL_LINEAR);
+                static std::shared_ptr<Texture> create(
+                    const Image::Info &,
+                    GLenum filterMin = GL_LINEAR,
+                    GLenum filterMax = GL_LINEAR);
 
                 inline const Image::Info & getInfo() const;
                 inline GLuint getID() const;

@@ -104,11 +104,6 @@ namespace djv
             p.fadeAnimation = Animation::Animation::create(context);
 
             //! \todo Implement me!
-            p.actions["Fit"] = UI::Action::create();
-            p.actions["Fit"]->setIcon("djvIconWindowFit");
-            p.actions["Fit"]->setShortcut(GLFW_KEY_F);
-            p.actions["Fit"]->setEnabled(false);
-
             p.actions["FullScreen"] = UI::Action::create();
             p.actions["FullScreen"]->setIcon("djvIconWindowFullScreen");
             p.actions["FullScreen"]->setButtonType(UI::ButtonType::Toggle);
@@ -120,7 +115,6 @@ namespace djv
             p.actions["Maximized"]->setShortcut(GLFW_KEY_M);
 
             p.menu = UI::Menu::create(context);
-            p.menu->addAction(p.actions["Fit"]);
             p.menu->addAction(p.actions["FullScreen"]);
             p.menu->addAction(p.actions["Maximized"]);
 
@@ -338,8 +332,6 @@ namespace djv
         void WindowSystem::_textUpdate()
         {
             DJV_PRIVATE_PTR();
-            p.actions["Fit"]->setText(_getText(DJV_TEXT("Fit To Image")));
-            p.actions["Fit"]->setTooltip(_getText(DJV_TEXT("Fit to image tooltip")));
             p.actions["FullScreen"]->setText(_getText(DJV_TEXT("Full Screen")));
             p.actions["FullScreen"]->setTooltip(_getText(DJV_TEXT("Full screen tooltip")));
             p.actions["Maximized"]->setText(_getText(DJV_TEXT("Maximized")));

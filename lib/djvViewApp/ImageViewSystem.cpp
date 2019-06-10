@@ -29,6 +29,11 @@
 
 #include <djvViewApp/ImageViewSystem.h>
 
+#include <djvViewApp/ImageView.h>
+#include <djvViewApp/MDICanvas.h>
+#include <djvViewApp/MDIWidget.h>
+#include <djvViewApp/MainWindow.h>
+
 #include <djvUI/Action.h>
 #include <djvUI/Menu.h>
 #include <djvUI/RowLayout.h>
@@ -46,8 +51,13 @@ namespace djv
     {
         struct ImageViewSystem::Private
         {
+            std::weak_ptr<MDICanvas> canvas;
+            std::weak_ptr<MDIWidget> widget;
             std::map<std::string, std::shared_ptr<UI::Action> > actions;
             std::shared_ptr<UI::Menu> menu;
+            glm::vec2 hoverPos = glm::vec2(0.f, 0.f);
+            glm::vec2 dragStart = glm::vec2(0.f, 0.f);
+            glm::vec2 dragImagePos = glm::vec2(0.f, 0.f);
             std::map<std::string, std::shared_ptr<ValueObserver<bool> > > clickedObservers;
             std::shared_ptr<ValueObserver<std::string> > localeObserver;
         };
@@ -69,28 +79,18 @@ namespace djv
             p.actions["Up"]->addShortcut(GLFW_KEY_KP_8);
             p.actions["Down"] = UI::Action::create();
             p.actions["Down"]->addShortcut(GLFW_KEY_KP_2);
-            //! \todo Implement me!
             p.actions["ZoomIn"] = UI::Action::create();
             p.actions["ZoomIn"]->addShortcut(GLFW_KEY_EQUAL);
-            p.actions["ZoomIn"]->setEnabled(false);
-            //! \todo Implement me!
             p.actions["ZoomOut"] = UI::Action::create();
             p.actions["ZoomOut"]->addShortcut(GLFW_KEY_MINUS);
-            p.actions["ZoomOut"]->setEnabled(false);
-            //! \todo Implement me!
             p.actions["ResetZoom"] = UI::Action::create();
             p.actions["ResetZoom"]->addShortcut(GLFW_KEY_0);
-            p.actions["ResetZoom"]->setEnabled(false);
-            //! \todo Implement me!
             p.actions["ResetPositionAndZoom"] = UI::Action::create();
             p.actions["ResetPositionAndZoom"]->addShortcut(GLFW_KEY_DELETE);
-            p.actions["ResetPositionAndZoom"]->setEnabled(false);
-            //! \todo Implement me!
             p.actions["Fit"] = UI::Action::create();
             p.actions["Fit"]->setIcon("djvIconZoomFit");
             p.actions["Fit"]->addShortcut(GLFW_KEY_BACKSPACE);
             p.actions["Fit"]->addShortcut(GLFW_KEY_KP_ENTER);
-            p.actions["Fit"]->setEnabled(false);
             //! \todo Implement me!
             p.actions["Grid"] = UI::Action::create();
             p.actions["Grid"]->setEnabled(false);
@@ -118,6 +118,150 @@ namespace djv
             p.menu->addAction(p.actions["HUD"]);
 
             auto weak = std::weak_ptr<ImageViewSystem>(std::dynamic_pointer_cast<ImageViewSystem>(shared_from_this()));
+            p.clickedObservers["Left"] = ValueObserver<bool>::create(
+                p.actions["Left"]->observeClicked(),
+                [weak](bool value)
+                {
+                    if (value)
+                    {
+                        if (auto system = weak.lock())
+                        {
+                            system->_moveImage(glm::vec2(-10.f, 0.f));
+                        }
+                    }
+                });
+            p.clickedObservers["Right"] = ValueObserver<bool>::create(
+                p.actions["Right"]->observeClicked(),
+                [weak](bool value)
+                {
+                    if (value)
+                    {
+                        if (auto system = weak.lock())
+                        {
+                            system->_moveImage(glm::vec2(10.f, 0.f));
+                        }
+                    }
+                });
+            p.clickedObservers["Up"] = ValueObserver<bool>::create(
+                p.actions["Up"]->observeClicked(),
+                [weak](bool value)
+                {
+                    if (value)
+                    {
+                        if (auto system = weak.lock())
+                        {
+                            system->_moveImage(glm::vec2(0.f, -10.f));
+                        }
+                    }
+                });
+            p.clickedObservers["Down"] = ValueObserver<bool>::create(
+                p.actions["Down"]->observeClicked(),
+                [weak](bool value)
+                {
+                    if (value)
+                    {
+                        if (auto system = weak.lock())
+                        {
+                            system->_moveImage(glm::vec2(0.f, 10.f));
+                        }
+                    }
+                });
+
+            p.clickedObservers["ZoomIn"] = ValueObserver<bool>::create(
+                p.actions["ZoomIn"]->observeClicked(),
+                [weak](bool value)
+                {
+                    if (value)
+                    {
+                        if (auto system = weak.lock())
+                        {
+                            if (auto widget = system->_p->widget.lock())
+                            {
+                                auto imageView = widget->getImageView();
+                                const float zoom = imageView->getImageZoom();
+                                system->_zoomImage(zoom * 2.f);
+                            }
+                        }
+                    }
+                });
+            p.clickedObservers["ZoomOut"] = ValueObserver<bool>::create(
+                p.actions["ZoomOut"]->observeClicked(),
+                [weak](bool value)
+                {
+                    if (value)
+                    {
+                        if (auto system = weak.lock())
+                        {
+                            if (auto widget = system->_p->widget.lock())
+                            {
+                                auto imageView = widget->getImageView();
+                                const float zoom = imageView->getImageZoom();
+                                system->_zoomImage(zoom / 2.f);
+                            }
+                        }
+                    }
+                });
+            p.clickedObservers["ResetZoom"] = ValueObserver<bool>::create(
+                p.actions["ResetZoom"]->observeClicked(),
+                [weak](bool value)
+                {
+                    if (value)
+                    {
+                        if (auto system = weak.lock())
+                        {
+                            if (auto widget = system->_p->widget.lock())
+                            {
+                                auto imageView = widget->getImageView();
+                                imageView->setImageZoom(1.f);
+                            }
+                        }
+                    }
+                });
+            p.clickedObservers["ResetPositionAndZoom"] = ValueObserver<bool>::create(
+                p.actions["ResetPositionAndZoom"]->observeClicked(),
+                [weak](bool value)
+                {
+                    if (value)
+                    {
+                        if (auto system = weak.lock())
+                        {
+                            if (auto widget = system->_p->widget.lock())
+                            {
+                                auto imageView = widget->getImageView();
+                                imageView->setImagePosAndZoom(glm::vec2(0.f, 0.f), 1.f);
+                            }
+                        }
+                    }
+                });
+
+            p.clickedObservers["Fit"] = ValueObserver<bool>::create(
+                p.actions["Fit"]->observeClicked(),
+                [weak](bool value)
+                {
+                    if (value)
+                    {
+                        if (auto system = weak.lock())
+                        {
+                            if (auto widget = system->_p->widget.lock())
+                            {
+                                auto imageView = widget->getImageView();
+                                const AV::Image::Size& imageSize = imageView->getImageSize();
+                                const BBox2f& g = imageView->getGeometry();
+                                float zoom = g.w() / static_cast<float>(imageSize.w);
+                                if (zoom * imageSize.h > g.h())
+                                {
+                                    zoom = g.h() / static_cast<float>(imageSize.h);
+                                }
+                                imageView->setImagePosAndZoom(
+                                    glm::vec2(
+                                        g.w() / 2.f - ((imageSize.w * zoom) / 2.f),
+                                        g.h() / 2.f - ((imageSize.h * zoom) / 2.f)),
+                                    zoom);
+                            }
+                        }
+                    }
+                });
+
             p.localeObserver = ValueObserver<std::string>::create(
                 context->getSystemT<TextSystem>()->observeCurrentLocale(),
                 [weak](const std::string & value)
@@ -141,6 +285,40 @@ namespace djv
             auto out = std::shared_ptr<ImageViewSystem>(new ImageViewSystem);
             out->_init(context);
             return out;
+        }
+
+        void ImageViewSystem::setMDICanvas(const std::shared_ptr<MDICanvas>& value)
+        {
+            DJV_PRIVATE_PTR();
+            if (auto widget = p.widget.lock())
+            {
+                widget->setHoverCallback(nullptr);
+                widget->setDragCallback(nullptr);
+            }
+            if (auto canvas = p.canvas.lock())
+            {
+                canvas->setActiveCallback(nullptr);
+            }
+            p.canvas = value;
+            p.widget.reset();
+            auto weak = std::weak_ptr<ImageViewSystem>(std::dynamic_pointer_cast<ImageViewSystem>(shared_from_this()));
+            if (auto canvas = p.canvas.lock())
+            {
+                p.widget = canvas->getActiveWidget();
+                canvas->setActiveCallback(
+                    [weak](const std::shared_ptr<MDIWidget>& value)
+                {
+                    if (auto system = weak.lock())
+                    {
+                        system->_p->widget = value;
+                        system->_initWidget();
+                    }
+                });
+            }
+            if (auto widget = p.widget.lock())
+            {
+                _initWidget();
+            }
         }
 
         std::map<std::string, std::shared_ptr<UI::Action> > ImageViewSystem::getActions()
@@ -186,6 +364,77 @@ namespace djv
             p.actions["HUD"]->setTooltip(_getText(DJV_TEXT("HUD tooltip")));
 
             p.menu->setText(_getText(DJV_TEXT("View")));
+        }
+
+        void ImageViewSystem::_initWidget()
+        {
+            DJV_PRIVATE_PTR();
+            if (auto widget = p.widget.lock())
+            {
+                auto weak = std::weak_ptr<ImageViewSystem>(std::dynamic_pointer_cast<ImageViewSystem>(shared_from_this()));
+                widget->setHoverCallback(
+                    [weak](Hover hover, const glm::vec2& value)
+                    {
+                        if (auto system = weak.lock())
+                        {
+                            system->_p->hoverPos = value;
+                        }
+                    });
+                widget->setDragCallback(
+                    [weak](Drag drag, const glm::vec2& value)
+                    {
+                        if (auto system = weak.lock())
+                        {
+                            if (auto widget = system->_p->widget.lock())
+                            {
+                                auto imageView = widget->getImageView();
+                                switch (drag)
+                                {
+                                case Drag::Start:
+                                    system->_p->dragStart = value;
+                                    system->_p->dragImagePos = imageView->getImagePos();
+                                    break;
+                                case Drag::Move:
+                                    imageView->setImagePos(system->_p->dragImagePos + (value - system->_p->dragStart));
+                                    break;
+                                default: break;
+                                }
+                            }
+                        }
+                    });
+            }
+        }
+
+        void ImageViewSystem::_moveImage(const glm::vec2& value)
+        {
+            DJV_PRIVATE_PTR();
+            if (auto widget = p.widget.lock())
+            {
+                auto imageView = widget->getImageView();
+                imageView->setImagePos(imageView->getImagePos() + value);
+            }
+        }
+
+        void ImageViewSystem::_zoomImage(float value)
+        {
+            DJV_PRIVATE_PTR();
+            if (auto widget = p.widget.lock())
+            {
+                auto imageView = widget->getImageView();
+                const float w = imageView->getWidth();
+                const float h = imageView->getHeight();
+                glm::vec2 focus = glm::vec2(0.f, 0.f);
+                if (BBox2f(0.f, 0.f, w, h).contains(p.hoverPos))
+                {
+                    focus = p.hoverPos;
+                }
+                else
+                {
+                    focus.x = w / 2.f;
+                    focus.y = h / 2.f;
+                }
+                imageView->setImageZoomFocus(value, focus);
+            }
         }
 
     } // namespace ViewApp

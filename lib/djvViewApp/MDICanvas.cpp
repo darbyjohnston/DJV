@@ -48,6 +48,7 @@ namespace djv
         {
             std::shared_ptr<UI::MDI::Canvas> canvas;
             std::map<std::shared_ptr<Media>, std::shared_ptr<MDIWidget> > mdiWidgets;
+            std::function<void(const std::shared_ptr<MDIWidget>&)> activeCallback;
             std::shared_ptr<ValueObserver<std::shared_ptr<Media> > > currentMediaObserver;
             std::shared_ptr<ValueObserver<std::shared_ptr<Media> > > openedObserver;
             std::shared_ptr<ValueObserver<std::pair<std::shared_ptr<Media>, glm::vec2> > > opened2Observer;
@@ -74,6 +75,10 @@ namespace djv
                     {
                         auto fileSystem = context->getSystemT<FileSystem>();
                         fileSystem->setCurrentMedia(mdiWidget->getMedia());
+                        if (widget->_p->activeCallback)
+                        {
+                            widget->_p->activeCallback(mdiWidget);
+                        }
                     }
                 }
             });
@@ -166,6 +171,16 @@ namespace djv
             auto out = std::shared_ptr<MDICanvas>(new MDICanvas);
             out->_init(context);
             return out;
+        }
+
+        std::shared_ptr<MDIWidget> MDICanvas::getActiveWidget() const
+        {
+            return std::dynamic_pointer_cast<MDIWidget>(_p->canvas->getActiveWidget());
+        }
+
+        void MDICanvas::setActiveCallback(const std::function<void(const std::shared_ptr<MDIWidget>&)>& value)
+        {
+            _p->activeCallback = value;
         }
 
         void MDICanvas::setMaximized(bool value)

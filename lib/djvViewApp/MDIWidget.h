@@ -35,7 +35,22 @@ namespace djv
 {
     namespace ViewApp
     {
+        class ImageView;
         class Media;
+
+        enum class Hover
+        {
+            Start,
+            Move,
+            End
+        };
+
+        enum class Drag
+        {
+            Start,
+            Move,
+            End
+        };
 
         class MDIWidget : public UI::MDI::IWidget
         {
@@ -51,6 +66,11 @@ namespace djv
             static std::shared_ptr<MDIWidget> create(const std::shared_ptr<Media>&, Core::Context*);
 
             const std::shared_ptr<Media>& getMedia() const;
+
+            const std::shared_ptr<ImageView>& getImageView() const;
+
+            void setHoverCallback(const std::function<void(Hover, const glm::vec2&)>&);
+            void setDragCallback(const std::function<void(Drag, const glm::vec2&)>&);
 
             void setMaximized(float) override;
 

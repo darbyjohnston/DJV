@@ -282,7 +282,7 @@ namespace djv
                     render->setFillColor(style->getColor(ColorRole::Shadow));
                     BBox2f g = getGeometry().margin(-h);
                     g.min.x -= sh;
-                    g.min.y += sh;
+                    g.min.y -= sh;
                     g.max.x += sh;
                     g.max.y += sh;
                     if (g.isValid())

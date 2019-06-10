@@ -51,21 +51,23 @@ namespace djv
             DJV_NON_COPYABLE(ImageView);
 
         protected:
-            void _init(Core::Context *);
+            void _init(const std::shared_ptr<Media>&, Core::Context *);
             ImageView();
 
         public:
             ~ImageView() override;
 
-            static std::shared_ptr<ImageView> create(Core::Context *);
+            static std::shared_ptr<ImageView> create(const std::shared_ptr<Media>&, Core::Context *);
 
             const std::shared_ptr<Media> & getMedia() const;
-            void setMedia(const std::shared_ptr<Media> &);
 
+            AV::Image::Size getImageSize() const;
             const glm::vec2& getImagePos() const;
             float getImageZoom() const;
             void setImagePos(const glm::vec2&);
             void setImageZoom(float);
+            void setImageZoomFocus(float, const glm::vec2 &);
+            void setImagePosAndZoom(const glm::vec2&, float);
 
             const AV::Image::Color& getBackgroundColor() const;
             void setBackgroundColor(const AV::Image::Color&);

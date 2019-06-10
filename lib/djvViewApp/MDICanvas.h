@@ -35,6 +35,8 @@ namespace djv
 {
     namespace ViewApp
     {
+        class MDIWidget;
+
         class MDICanvas : public UI::Widget
         {
             DJV_NON_COPYABLE(MDICanvas);
@@ -47,6 +49,9 @@ namespace djv
             ~MDICanvas() override;
 
             static std::shared_ptr<MDICanvas> create(Core::Context*);
+
+            std::shared_ptr<MDIWidget> getActiveWidget() const;
+            void setActiveCallback(const std::function<void(const std::shared_ptr<MDIWidget>&)>&);
 
             void setMaximized(bool);
 

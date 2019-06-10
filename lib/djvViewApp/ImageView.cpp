@@ -29,7 +29,6 @@
 
 #include <djvViewApp/ImageView.h>
 
-#include <djvViewApp/ImageViewSystem.h>
 #include <djvViewApp/Media.h>
 
 #include <djvUI/Action.h>
@@ -51,46 +50,22 @@ namespace djv
             AV::Image::Color backgroundColor = AV::Image::Color(0.f, 0.f, 0.f);
             glm::vec2 pressedImagePos = glm::vec2(0.f, 0.f);
             std::shared_ptr<ValueObserver<std::shared_ptr<AV::Image::Image> > > imageObserver;
-            std::map<std::string, std::shared_ptr<ValueObserver<bool> > > clickedObservers;
         };
 
-        void ImageView::_init(Context * context)
+        void ImageView::_init(const std::shared_ptr<Media>& media, Context * context)
         {
             Widget::_init(context);
+
             setClassName("djv::ViewApp::ImageView");
-        }
 
-        ImageView::ImageView() :
-            _p(new Private)
-        {}
-
-        ImageView::~ImageView()
-        {}
-
-        std::shared_ptr<ImageView> ImageView::create(Context * context)
-        {
-            auto out = std::shared_ptr<ImageView>(new ImageView);
-            out->_init(context);
-            return out;
-        }
-
-        const std::shared_ptr<Media> & ImageView::getMedia() const
-        {
-            return _p->media;
-        }
-
-        void ImageView::setMedia(const std::shared_ptr<Media> & media)
-        {
             DJV_PRIVATE_PTR();
-            if (media == p.media)
-                return;
+
             p.media = media;
-            if (p.media)
-            {
-                auto weak = std::weak_ptr<ImageView>(std::dynamic_pointer_cast<ImageView>(shared_from_this()));
-                p.imageObserver = ValueObserver<std::shared_ptr<AV::Image::Image> >::create(
-                    p.media->observeCurrentImage(),
-                    [weak](const std::shared_ptr<AV::Image::Image> & image)
+
+            auto weak = std::weak_ptr<ImageView>(std::dynamic_pointer_cast<ImageView>(shared_from_this()));
+            p.imageObserver = ValueObserver<std::shared_ptr<AV::Image::Image> >::create(
+                p.media->observeCurrentImage(),
+                [weak](const std::shared_ptr<AV::Image::Image>& image)
                 {
                     if (auto widget = weak.lock())
                     {
@@ -101,30 +76,30 @@ namespace djv
                         }
                     }
                 });
-                auto imageViewSystem = getContext()->getSystemT<ImageViewSystem>();
-                p.clickedObservers["Left"] = ValueObserver<bool>::create(
-                    imageViewSystem->getActions()["Left"]->observeClicked(),
-                    [weak](bool value)
-                {
-                    if (value)
-                    {
-                        if (auto widget = weak.lock())
-                        {
-                            widget->setImagePos(widget->getImagePos() + glm::vec2(-10.f, 0.f));
-                        }
-                    }
-                });
-            }
-            else
-            {
-                p.image.reset();
-                p.imageObserver.reset();
-                p.clickedObservers["Left"].reset();
-                if (isVisible() && !isClipped())
-                {
-                    _redraw();
-                }
-            }
+        }
+
+        ImageView::ImageView() :
+            _p(new Private)
+        {}
+
+        ImageView::~ImageView()
+        {}
+
+        std::shared_ptr<ImageView> ImageView::create(const std::shared_ptr<Media>& media, Context * context)
+        {
+            auto out = std::shared_ptr<ImageView>(new ImageView);
+            out->_init(media, context);
+            return out;
+        }
+
+        const std::shared_ptr<Media> & ImageView::getMedia() const
+        {
+            return _p->media;
+        }
+
+        AV::Image::Size ImageView::getImageSize() const
+        {
+            return _p->image ? _p->image->getSize() : AV::Image::Size(0, 0);
         }
 
         const glm::vec2& ImageView::getImagePos() const
@@ -150,6 +125,22 @@ namespace djv
             if (value == _p->imageZoom)
                 return;
             _p->imageZoom = value;
+            _redraw();
+        }
+
+        void ImageView::setImageZoomFocus(float value, const glm::vec2& mouse)
+        {
+            setImagePosAndZoom(
+                mouse + (_p->imagePos - mouse) * (value / _p->imageZoom),
+                value);
+        }
+
+        void ImageView::setImagePosAndZoom(const glm::vec2& pos, float zoom)
+        {
+            if (pos == _p->imagePos && zoom == _p->imageZoom)
+                return;
+            _p->imagePos = pos;
+            _p->imageZoom = zoom;
             _redraw();
         }
 
@@ -188,8 +179,8 @@ namespace djv
                 render->drawRect(g);
                 render->setFillColor(AV::Image::Color(1.f, 1.f, 1.f));
                 const BBox2f imageGeometry(
-                    g.min.x + p.imagePos.x * p.imageZoom,
-                    g.min.y + p.imagePos.y * p.imageZoom,
+                    g.min.x + p.imagePos.x,
+                    g.min.y + p.imagePos.y,
                     _p->image->getWidth() * p.imageZoom,
                     _p->image->getHeight() * p.imageZoom);
                 render->drawImage(_p->image, imageGeometry, AV::Render::ImageCache::Dynamic);

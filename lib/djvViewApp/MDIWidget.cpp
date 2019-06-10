@@ -77,9 +77,8 @@ namespace djv
             public:
                 static std::shared_ptr<PointerWidget> create(Context*);
 
-                void setDragStartCallback(const std::function<void(const glm::vec2&)>&);
-                void setDragMoveCallback(const std::function<void(const glm::vec2&)>&);
-                void setDragEndCallback(const std::function<void(const glm::vec2&)>&);
+                void setHoverCallback(const std::function<void(Hover, const glm::vec2&)>&);
+                void setDragCallback(const std::function<void(Drag, const glm::vec2&)>&);
 
             protected:
                 void _pointerEnterEvent(Event::PointerEnter&) override;
@@ -90,10 +89,8 @@ namespace djv
 
             private:
                 uint32_t _pressedID = Event::InvalidID;
-                glm::vec2 _pressedPos = glm::vec2(0.f, 0.f);
-                std::function<void(const glm::vec2&)> _dragStartCallback;
-                std::function<void(const glm::vec2&)> _dragMoveCallback;
-                std::function<void(const glm::vec2&)> _dragEndCallback;
+                std::function<void(Hover, const glm::vec2&)> _hoverCallback;
+                std::function<void(Drag, const glm::vec2&)> _dragCallback;
             };
 
             void PointerWidget::_init(Context* context)
@@ -109,28 +106,55 @@ namespace djv
                 return out;
             }
 
+            void PointerWidget::setHoverCallback(const std::function<void(Hover, const glm::vec2&)>& callback)
+            {
+                _hoverCallback = callback;
+            }
+
+            void PointerWidget::setDragCallback(const std::function<void(Drag, const glm::vec2&)>& callback)
+            {
+                _dragCallback = callback;
+            }
+
             void PointerWidget::_pointerEnterEvent(Event::PointerEnter& event)
             {
                 if (!event.isRejected())
                 {
                     event.accept();
+                    const auto& pos = event.getPointerInfo().projectedPos;
+                    if (_hoverCallback)
+                    {
+                        _hoverCallback(Hover::Start, pos);
+                    }
                 }
             }
 
             void PointerWidget::_pointerLeaveEvent(Event::PointerLeave& event)
             {
                 event.accept();
+                const auto& pos = event.getPointerInfo().projectedPos;
+                if (_hoverCallback)
+                {
+                    _hoverCallback(Hover::End, pos);
+                }
             }
 
             void PointerWidget::_pointerMoveEvent(Event::PointerMove& event)
             {
                 event.accept();
+                const auto& pos = event.getPointerInfo().projectedPos;
                 if (_pressedID)
                 {
-                    const auto& pos = event.getPointerInfo().projectedPos;
-                    if (_dragMoveCallback)
+                    if (_dragCallback)
                     {
-                        _dragMoveCallback(pos - _pressedPos);
+                        _dragCallback(Drag::Move, pos);
+                    }
+                }
+                else
+                {
+                    if (_hoverCallback)
+                    {
+                        _hoverCallback(Hover::Move, pos);
                     }
                 }
             }
@@ -143,10 +167,9 @@ namespace djv
                 const auto& pos = event.getPointerInfo().projectedPos;
                 event.accept();
                 _pressedID = id;
-                _pressedPos = pos;
-                if (_dragStartCallback)
+                if (_dragCallback)
                 {
-                    _dragStartCallback(pos);
+                    _dragCallback(Drag::Start, pos);
                 }
             }
 
@@ -157,10 +180,9 @@ namespace djv
                 event.accept();
                 const auto& pos = event.getPointerInfo().projectedPos;
                 _pressedID = Event::InvalidID;
-                _pressedPos = pos;
-                if (_dragEndCallback)
+                if (_dragCallback)
                 {
-                    _dragEndCallback(pos - _pressedPos);
+                    _dragCallback(Drag::End, pos);
                 }
             }
 
@@ -194,6 +216,9 @@ namespace djv
             std::shared_ptr<UI::ToolButton> muteButton;
             std::shared_ptr<UI::GridLayout> playbackLayout;
             std::shared_ptr<UI::StackLayout> layout;
+
+            std::function<void(Hover, const glm::vec2&)> hoverCallback;
+            std::function<void(Drag, const glm::vec2&)> dragCallback;
 
             std::shared_ptr<ValueObserver<Time::Timestamp> > currentTimeObserver;
             std::shared_ptr<ValueObserver<AV::TimeUnits> > timeUnitsObserver;
@@ -256,8 +281,7 @@ namespace djv
 
             p.pointerWidget = PointerWidget::create(context);
 
-            p.imageView = ImageView::create(context);
-            p.imageView->setMedia(media);
+            p.imageView = ImageView::create(media, context);
 
             //p.speedEdit = UI::FloatEdit::create(context);
             //p.speedEdit->setRange(FloatRange(0.f, 1000.f));
@@ -351,6 +375,33 @@ namespace djv
                     }
                 });
 
+            p.pointerWidget->setHoverCallback(
+                [weak](Hover hover, const glm::vec2& value)
+                {
+                    if (auto widget = weak.lock())
+                    {
+                        if (widget->_p->hoverCallback)
+                        {
+                            const BBox2f& g = widget->_p->imageView->getGeometry();
+                            widget->_p->hoverCallback(hover, value - g.min);
+                        }
+                    }
+                });
+
+            p.pointerWidget->setDragCallback(
+                [weak](Drag drag, const glm::vec2& value)
+                {
+                    if (auto widget = weak.lock())
+                    {
+                        widget->moveToFront();
+                        if (widget->_p->dragCallback)
+                        {
+                            const BBox2f& g = widget->_p->imageView->getGeometry();
+                            widget->_p->dragCallback(drag, value - g.min);
+                        }
+                    }
+                });
+
             /*p.speedEdit->setValueCallback(
                 [weak](float value)
             {
@@ -365,15 +416,15 @@ namespace djv
 
             p.volumeSlider->setValueCallback(
                 [weak](float value)
+            {
+                if (auto widget = weak.lock())
                 {
-                    if (auto widget = weak.lock())
+                    if (auto media = widget->_p->media)
                     {
-                        if (auto media = widget->_p->media)
-                        {
-                            media->setVolume(value);
-                        }
+                        media->setVolume(value);
                     }
-                });
+                }
+            });
 
             p.muteButton->setCheckedCallback(
                 [weak](bool value)
@@ -530,13 +581,13 @@ namespace djv
                 p.fadeObserver = ValueObserver<float>::create(
                     windowSystem->observeFade(),
                     [weak](float value)
+                {
+                    if (auto widget = weak.lock())
                     {
-                        if (auto widget = weak.lock())
-                        {
-                            widget->_p->fade = value;
-                            widget->_opacityUpdate();
-                        }
-                    });
+                        widget->_p->fade = value;
+                        widget->_opacityUpdate();
+                    }
+                });
             }
         }
 
@@ -557,6 +608,21 @@ namespace djv
         const std::shared_ptr<Media>& MDIWidget::getMedia() const
         {
             return _p->media;
+        }
+
+        const std::shared_ptr<ImageView>& MDIWidget::getImageView() const
+        {
+            return _p->imageView;
+        }
+
+        void MDIWidget::setHoverCallback(const std::function<void(Hover hover, const glm::vec2&)>& value)
+        {
+            _p->hoverCallback = value;
+        }
+
+        void MDIWidget::setDragCallback(const std::function<void(Drag drag, const glm::vec2&)>& value)
+        {
+            _p->dragCallback = value;
         }
 
         void MDIWidget::setMaximized(float value)
@@ -621,8 +687,8 @@ namespace djv
             switch (playback)
             {
             case Playback::Stop:    p.playbackActionGroup->setChecked(-1); break;
-            case Playback::Forward: p.playbackActionGroup->setChecked(0); break;
-            case Playback::Reverse: p.playbackActionGroup->setChecked(1); break;
+            case Playback::Forward: p.playbackActionGroup->setChecked( 0); break;
+            case Playback::Reverse: p.playbackActionGroup->setChecked( 1); break;
             default: break;
             }
 

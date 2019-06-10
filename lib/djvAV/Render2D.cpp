@@ -1192,7 +1192,7 @@ namespace djv
                         }
                         else
                         {
-                            auto texture = OpenGL::Texture::create(imageData->getInfo());
+                            auto texture = OpenGL::Texture::create(imageData->getInfo(), GL_LINEAR, GL_NEAREST);
                             texture->copy(*imageData);
                             render->dynamicTextureCache[uid] = texture;
                             primitive.textureID = texture->getID();

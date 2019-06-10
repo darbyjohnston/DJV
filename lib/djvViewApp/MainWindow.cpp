@@ -331,6 +331,11 @@ namespace djv
             return out;
         }
 
+        const std::shared_ptr<MDICanvas>& MainWindow::getMDICanvas() const
+        {
+            return _p->mdiCanvas;
+        }
+
         void MainWindow::_dropEvent(Core::Event::Drop & event)
         {
             auto style = _getStyle();
