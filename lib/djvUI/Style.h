@@ -102,6 +102,7 @@ namespace djv
                 Shadow,
                 TooltipOffset,
                 Handle,
+                Move,
 
                 Count,
                 First = None

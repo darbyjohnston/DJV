@@ -161,7 +161,7 @@ namespace djv
         } // namespace FileSystem
     } // namespace Core
 
-    picojson::value toJSON(const Core::FileSystem::DirectoryListSort & value)
+    picojson::value toJSON(Core::FileSystem::DirectoryListSort value)
     {
         std::stringstream ss;
         ss << value;

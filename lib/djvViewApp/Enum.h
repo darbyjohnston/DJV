@@ -36,6 +36,17 @@ namespace djv
 {
     namespace ViewApp
     {
+        enum class ImageViewLock
+        {
+            None,
+            Fit,
+            Center,
+
+            Count,
+            First = None
+        };
+        DJV_ENUM_HELPERS(ImageViewLock);
+
         enum class Playback
         {
             Stop,
@@ -60,6 +71,13 @@ namespace djv
 
     } // namespace ViewApp
 
+    picojson::value toJSON(ViewApp::ImageViewLock);
+
+    //! Throws:
+    //! - std::exception
+    void fromJSON(const picojson::value&, ViewApp::ImageViewLock&);
+
+    DJV_ENUM_SERIALIZE_HELPERS(ViewApp::ImageViewLock);
     DJV_ENUM_SERIALIZE_HELPERS(ViewApp::Playback);
     DJV_ENUM_SERIALIZE_HELPERS(ViewApp::PlaybackMode);
 

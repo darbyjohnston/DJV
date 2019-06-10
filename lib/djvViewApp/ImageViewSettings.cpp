@@ -27,56 +27,73 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#pragma once
+#include <djvViewApp/ImageViewSettings.h>
 
-#include <djvViewApp/IViewSystem.h>
+#include <djvCore/Context.h>
 
-#include <djvCore/ListObserver.h>
-#include <djvCore/ValueObserver.h>
+// These need to be included last on OSX.
+#include <djvCore/PicoJSONTemplates.h>
+#include <djvUI/ISettingsTemplates.h>
 
-#include <glm/vec2.hpp>
+using namespace djv::Core;
 
 namespace djv
 {
     namespace ViewApp
     {
-        class FileSystem : public IViewSystem
+        struct ImageViewSettings::Private
         {
-            DJV_NON_COPYABLE(FileSystem);
-
-        protected:
-            void _init(Core::Context *);
-            FileSystem();
-
-        public:
-            ~FileSystem() override;
-
-            static std::shared_ptr<FileSystem> create(Core::Context *);
-
-            std::shared_ptr<Core::IValueSubject<std::shared_ptr<Media> > > observeOpened() const;
-            std::shared_ptr<Core::IValueSubject<std::pair<std::shared_ptr<Media>, glm::vec2> > > observeOpened2() const;
-            std::shared_ptr<Core::IValueSubject<std::shared_ptr<Media> > > observeClosed() const;
-            std::shared_ptr<Core::IListSubject<std::shared_ptr<Media> > > observeMedia() const;
-            std::shared_ptr<Core::IValueSubject<std::shared_ptr<Media> > > observeCurrentMedia() const;
-            void open();
-            void open(const std::string&);
-            void open(const std::string&, const glm::vec2 &);
-            void close(const std::shared_ptr<Media> &);
-            void closeAll();
-            void setCurrentMedia(const std::shared_ptr<Media> &);
-
-            std::map<std::string, std::shared_ptr<UI::Action> > getActions() override;
-            MenuData getMenu() override;
-
-        protected:
-            void _actionsUpdate();
-            void _textUpdate();
-            void _showFileBrowserDialog();
-            void _showRecentFilesDialog();
-
-        private:
-            DJV_PRIVATE();
+            std::shared_ptr<ValueSubject<ImageViewLock> > lock;
         };
+
+        void ImageViewSettings::_init(Context * context)
+        {
+            ISettings::_init("djv::ViewApp::ImageViewSettings", context);
+
+            DJV_PRIVATE_PTR();
+            p.lock = ValueSubject<ImageViewLock>::create(ImageViewLock::Fit);
+            _load();
+        }
+
+        ImageViewSettings::ImageViewSettings() :
+            _p(new Private)
+        {}
+
+        std::shared_ptr<ImageViewSettings> ImageViewSettings::create(Context * context)
+        {
+            auto out = std::shared_ptr<ImageViewSettings>(new ImageViewSettings);
+            out->_init(context);
+            return out;
+        }
+
+        std::shared_ptr<IValueSubject<ImageViewLock> > ImageViewSettings::observeLock() const
+        {
+            return _p->lock;
+        }
+
+        void ImageViewSettings::setLock(ImageViewLock value)
+        {
+            _p->lock->setIfChanged(value);
+        }
+
+        void ImageViewSettings::load(const picojson::value & value)
+        {
+            if (value.is<picojson::object>())
+            {
+                DJV_PRIVATE_PTR();
+                const auto & object = value.get<picojson::object>();
+                UI::Settings::read("Lock", object, p.lock);
+            }
+        }
+
+        picojson::value ImageViewSettings::save()
+        {
+            DJV_PRIVATE_PTR();
+            picojson::value out(picojson::object_type, true);
+            auto & object = out.get<picojson::object>();
+            UI::Settings::write("Lock", p.lock->get(), object);
+            return out;
+        }
 
     } // namespace ViewApp
 } // namespace djv

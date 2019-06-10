@@ -15,6 +15,7 @@ set(header
     IViewSystem.h
     ImageSystem.h
     ImageView.h
+	ImageViewSettings.h
     ImageViewSystem.h
     InformationTool.h
 	MDICanvas.h
@@ -55,6 +56,7 @@ set(source
     IViewSystem.cpp
     ImageSystem.cpp
     ImageView.cpp
+	ImageViewSettings.cpp
     ImageViewSystem.cpp
     InformationTool.cpp
 	MDICanvas.cpp

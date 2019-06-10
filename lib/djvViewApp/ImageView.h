@@ -29,6 +29,8 @@
 
 #pragma once
 
+#include <djvViewApp/Enum.h>
+
 #include <djvUI/Widget.h>
 
 namespace djv
@@ -61,7 +63,6 @@ namespace djv
 
             const std::shared_ptr<Media> & getMedia() const;
 
-            AV::Image::Size getImageSize() const;
             const glm::vec2& getImagePos() const;
             float getImageZoom() const;
             void setImagePos(const glm::vec2&);
@@ -69,8 +70,8 @@ namespace djv
             void setImageZoomFocus(float, const glm::vec2 &);
             void setImagePosAndZoom(const glm::vec2&, float);
 
-            const AV::Image::Color& getBackgroundColor() const;
-            void setBackgroundColor(const AV::Image::Color&);
+            void imageFit();
+            void imageCenter();
 
         protected:
             void _preLayoutEvent(Core::Event::PreLayout &) override;

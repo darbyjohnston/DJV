@@ -36,6 +36,33 @@ namespace djv
 
     } // namespace ViewApp
    
+    picojson::value toJSON(ViewApp::ImageViewLock value)
+    {
+        std::stringstream ss;
+        ss << value;
+        return picojson::value(ss.str());
+    }
+
+    void fromJSON(const picojson::value& value, ViewApp::ImageViewLock& out)
+    {
+        if (value.is<std::string>())
+        {
+            std::stringstream ss(value.get<std::string>());
+            ss >> out;
+        }
+        else
+        {
+            throw std::invalid_argument(DJV_TEXT("Cannot parse the value."));
+        }
+    }
+   
+    DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
+        ViewApp,
+        ImageViewLock,
+        DJV_TEXT("None"),
+        DJV_TEXT("Fit"),
+        DJV_TEXT("Center"));
+
     DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
         ViewApp,
         Playback,

@@ -29,50 +29,34 @@
 
 #pragma once
 
-#include <djvViewApp/IViewSystem.h>
+#include <djvViewApp/Enum.h>
 
-#include <djvCore/ListObserver.h>
+#include <djvUI/ISettings.h>
+
 #include <djvCore/ValueObserver.h>
-
-#include <glm/vec2.hpp>
 
 namespace djv
 {
     namespace ViewApp
     {
-        class FileSystem : public IViewSystem
+        //! This class provides image view settings.
+        class ImageViewSettings : public UI::Settings::ISettings
         {
-            DJV_NON_COPYABLE(FileSystem);
+            DJV_NON_COPYABLE(ImageViewSettings);
 
         protected:
-            void _init(Core::Context *);
-            FileSystem();
+            void _init(Core::Context * context);
+
+            ImageViewSettings();
 
         public:
-            ~FileSystem() override;
+            static std::shared_ptr<ImageViewSettings> create(Core::Context *);
 
-            static std::shared_ptr<FileSystem> create(Core::Context *);
+            std::shared_ptr<Core::IValueSubject<ImageViewLock> > observeLock() const;
+            void setLock(ImageViewLock);
 
-            std::shared_ptr<Core::IValueSubject<std::shared_ptr<Media> > > observeOpened() const;
-            std::shared_ptr<Core::IValueSubject<std::pair<std::shared_ptr<Media>, glm::vec2> > > observeOpened2() const;
-            std::shared_ptr<Core::IValueSubject<std::shared_ptr<Media> > > observeClosed() const;
-            std::shared_ptr<Core::IListSubject<std::shared_ptr<Media> > > observeMedia() const;
-            std::shared_ptr<Core::IValueSubject<std::shared_ptr<Media> > > observeCurrentMedia() const;
-            void open();
-            void open(const std::string&);
-            void open(const std::string&, const glm::vec2 &);
-            void close(const std::shared_ptr<Media> &);
-            void closeAll();
-            void setCurrentMedia(const std::shared_ptr<Media> &);
-
-            std::map<std::string, std::shared_ptr<UI::Action> > getActions() override;
-            MenuData getMenu() override;
-
-        protected:
-            void _actionsUpdate();
-            void _textUpdate();
-            void _showFileBrowserDialog();
-            void _showRecentFilesDialog();
+            void load(const picojson::value &) override;
+            picojson::value save() override;
 
         private:
             DJV_PRIVATE();

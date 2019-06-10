@@ -151,7 +151,7 @@ namespace djv
                 if (const size_t itemCount = p.items.size())
                 {
                     auto style = _getStyle();
-                    const float m = style->getMetric(MetricsRole::MarginSmall);
+                    const float m = style->getMetric(MetricsRole::Margin);
                     const float s = style->getMetric(MetricsRole::Spacing);
                     const float sh = style->getMetric(MetricsRole::Shadow);
                     switch (p.viewType)
@@ -208,7 +208,7 @@ namespace djv
                 DJV_PRIVATE_PTR();
                 const BBox2f & g = getGeometry();
                 auto style = _getStyle();
-                const float m = style->getMetric(MetricsRole::MarginSmall);
+                const float m = style->getMetric(MetricsRole::Margin);
                 const float s = style->getMetric(MetricsRole::Spacing);
                 const float sh = style->getMetric(MetricsRole::Shadow);
                 p.itemGeometry.clear();
@@ -269,7 +269,7 @@ namespace djv
                                 const auto k = p.nameLinesFutures.find(i.first);
                                 if (k == p.nameLinesFutures.end())
                                 {
-                                    const float m = style->getMetric(MetricsRole::MarginSmall);
+                                    const float m = style->getMetric(MetricsRole::Margin);
                                     const float sh = style->getMetric(MetricsRole::Shadow);
                                     const auto fontInfo = style->getFontInfo(AV::Font::faceDefault, MetricsRole::FontMedium);
                                     p.names[i.first] = fileInfo.getFileName(Frame::Invalid, false);
@@ -350,7 +350,7 @@ namespace djv
             {
                 DJV_PRIVATE_PTR();
                 auto style = _getStyle();
-                const float m = style->getMetric(MetricsRole::MarginSmall);
+                const float m = style->getMetric(MetricsRole::Margin);
                 const float s = style->getMetric(MetricsRole::Spacing);
                 const float sh = style->getMetric(MetricsRole::Shadow);
 
@@ -869,7 +869,7 @@ namespace djv
                                     const auto k = p.nameLinesFutures.find(i.first);
                                     if (k == p.nameLinesFutures.end())
                                     {
-                                        const float m = style->getMetric(MetricsRole::MarginSmall);
+                                        const float m = style->getMetric(MetricsRole::Margin);
                                         const float sh = style->getMetric(MetricsRole::Shadow);
                                         const auto fontInfo = style->getFontInfo(AV::Font::faceDefault, MetricsRole::FontMedium);
                                         p.names[i.first] = fileInfo.getFileName(Frame::Invalid, false);

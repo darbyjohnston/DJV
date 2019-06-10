@@ -46,7 +46,6 @@
 #include <djvUI/MDIWidget.h>
 #include <djvUI/PopupWidget.h>
 #include <djvUI/RowLayout.h>
-#include <djvUI/SettingsSystem.h>
 #include <djvUI/StackLayout.h>
 #include <djvUI/ToolBar.h>
 #include <djvUI/ToolButton.h>
