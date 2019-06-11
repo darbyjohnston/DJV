@@ -636,7 +636,7 @@ namespace djv
                 {
                     const int key = i->observeShortcutKey()->get();
                     const int modifiers = i->observeShortcutModifiers()->get();
-                    if ((key == event.getKey() && event.getKeyModifiers() & modifiers) ||
+                    if ((key == event.getKey() && event.getKeyModifiers() == modifiers) ||
                         (key == event.getKey() && modifiers == 0 && event.getKeyModifiers() == 0))
                     {
                         event.accept();

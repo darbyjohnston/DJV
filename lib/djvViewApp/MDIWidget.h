@@ -72,9 +72,10 @@ namespace djv
             void setHoverCallback(const std::function<void(Hover, const glm::vec2&)>&);
             void setDragCallback(const std::function<void(Drag, const glm::vec2&)>&);
 
-            void setMaximized(float) override;
-
         protected:
+            void _setMaximized(float) override;
+            void _activeWidget(bool) override;
+
             void _preLayoutEvent(Core::Event::PreLayout&) override;
             void _layoutEvent(Core::Event::Layout&) override;
 
@@ -82,6 +83,7 @@ namespace djv
 
         private:
             void _widgetUpdate();
+            void _imageUpdate();
             void _speedUpdate();
             void _opacityUpdate();
 

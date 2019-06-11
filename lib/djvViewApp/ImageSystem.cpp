@@ -29,9 +29,14 @@
 
 #include <djvViewApp/ImageSystem.h>
 
+#include <djvViewApp/FileSystem.h>
+#include <djvViewApp/Media.h>
+
 #include <djvUI/Action.h>
 #include <djvUI/Menu.h>
 #include <djvUI/RowLayout.h>
+
+#include <djvAV/Image.h>
 
 #include <djvCore/Context.h>
 #include <djvCore/TextSystem.h>
@@ -46,9 +51,14 @@ namespace djv
     {
         struct ImageSystem::Private
         {
+            std::shared_ptr<ValueSubject<bool> > frameStoreEnabled;
+            std::shared_ptr<ValueSubject<std::shared_ptr<AV::Image::Image> > > frameStore;
+            std::shared_ptr<AV::Image::Image> currentImage;
             std::map<std::string, std::shared_ptr<UI::Action> > actions;
             std::shared_ptr<UI::Menu> menu;
             std::map<std::string, std::shared_ptr<ValueObserver<bool> > > clickedObservers;
+            std::shared_ptr<ValueObserver<std::shared_ptr<Media> > > currentMediaObserver;
+            std::shared_ptr<ValueObserver<std::shared_ptr<AV::Image::Image> > > currentImageObserver;
             std::shared_ptr<ValueObserver<std::string> > localeObserver;
         };
 
@@ -57,6 +67,9 @@ namespace djv
             IViewSystem::_init("djv::ViewApp::ImageSystem", context);
 
             DJV_PRIVATE_PTR();
+
+            p.frameStoreEnabled = ValueSubject<bool>::create();
+            p.frameStore = ValueSubject<std::shared_ptr<AV::Image::Image> >::create();
 
             //! \todo Implement me!
             p.actions["ColorManager"] = UI::Action::create();
@@ -89,15 +102,12 @@ namespace djv
             p.actions["Transform"] = UI::Action::create();
             p.actions["Transform"]->setButtonType(UI::ButtonType::Toggle);
             p.actions["Transform"]->setEnabled(false);
-            //! \todo Transform me!
-            p.actions["FrameStore"] = UI::Action::create();
-            p.actions["FrameStore"]->setButtonType(UI::ButtonType::Toggle);
-            p.actions["FrameStore"]->setShortcut(GLFW_KEY_E);
-            p.actions["FrameStore"]->setEnabled(false);
-            //! \todo Implement me!
-            p.actions["SetFrameStore"] = UI::Action::create();
-            p.actions["SetFrameStore"]->setShortcut(GLFW_KEY_E, GLFW_MOD_SHIFT);
-            p.actions["SetFrameStore"]->setEnabled(false);
+            p.actions["FrameStoreEnabled"] = UI::Action::create();
+            p.actions["FrameStoreEnabled"]->setButtonType(UI::ButtonType::Toggle);
+            p.actions["FrameStoreEnabled"]->setShortcut(GLFW_KEY_F);
+            p.actions["FrameStoreEnabled"]->setEnabled(false);
+            p.actions["LoadFrameStore"] = UI::Action::create();
+            p.actions["LoadFrameStore"]->setShortcut(GLFW_KEY_F, GLFW_MOD_SHIFT);
 
             p.menu = UI::Menu::create(context);
             p.menu->addAction(p.actions["ColorManager"]);
@@ -111,11 +121,64 @@ namespace djv
             p.menu->addAction(p.actions["PremultipliedAlpha"]);
             p.menu->addSeparator();
             p.menu->addAction(p.actions["Transform"]);
-            p.menu->addAction(p.actions["FrameStore"]);
             p.menu->addSeparator();
-            p.menu->addAction(p.actions["SetFrameStore"]);
+            p.menu->addAction(p.actions["FrameStoreEnabled"]);
+            p.menu->addAction(p.actions["LoadFrameStore"]);
 
             auto weak = std::weak_ptr<ImageSystem>(std::dynamic_pointer_cast<ImageSystem>(shared_from_this()));
+            p.clickedObservers["FrameStoreEnabled"] = ValueObserver<bool>::create(
+                p.actions["FrameStoreEnabled"]->observeChecked(),
+                [weak](bool value)
+                {
+                    if (auto system = weak.lock())
+                    {
+                        system->_p->frameStoreEnabled->setIfChanged(value);
+                    }
+                });
+
+            p.clickedObservers["LoadFrameStore"] = ValueObserver<bool>::create(
+                p.actions["LoadFrameStore"]->observeClicked(),
+                [weak](bool value)
+                {
+                    if (value)
+                    {
+                        if (auto system = weak.lock())
+                        {
+                            system->_p->actions["FrameStoreEnabled"]->setEnabled(system->_p->currentImage ? true : false);
+                            system->_p->frameStore->setIfChanged(system->_p->currentImage);
+                        }
+                    }
+                });
+
+            if (auto fileSystem = context->getSystemT<FileSystem>())
+            {
+                p.currentMediaObserver = ValueObserver<std::shared_ptr<Media> >::create(
+                    fileSystem->observeCurrentMedia(),
+                    [weak](const std::shared_ptr<Media>& value)
+                    {
+                        if (auto system = weak.lock())
+                        {
+                            if (value)
+                            {
+                                system->_p->currentImageObserver = ValueObserver<std::shared_ptr<AV::Image::Image> >::create(
+                                    value->observeCurrentImage(),
+                                    [weak](const std::shared_ptr<AV::Image::Image>& value)
+                                    {
+                                        if (auto system = weak.lock())
+                                        {
+                                            system->_p->currentImage = value;
+                                        }
+                                    });
+                            }
+                            else
+                            {
+                                system->_p->currentImage.reset();
+                                system->_p->currentImageObserver.reset();
+                            }
+                        }
+                    });
+            }
+
             p.localeObserver = ValueObserver<std::string>::create(
                 context->getSystemT<TextSystem>()->observeCurrentLocale(),
                 [weak](const std::string & value)
@@ -139,6 +202,16 @@ namespace djv
             auto out = std::shared_ptr<ImageSystem>(new ImageSystem);
             out->_init(context);
             return out;
+        }
+
+        std::shared_ptr<Core::IValueSubject<bool> > ImageSystem::observeFrameStoreEnabled() const
+        {
+            return _p->frameStoreEnabled;
+        }
+
+        std::shared_ptr<IValueSubject<std::shared_ptr<AV::Image::Image> > > ImageSystem::observeFrameStore() const
+        {
+            return _p->frameStore;
         }
 
         std::map<std::string, std::shared_ptr<UI::Action> > ImageSystem::getActions()
@@ -174,10 +247,10 @@ namespace djv
             p.actions["PremultipliedAlpha"]->setTooltip(_getText(DJV_TEXT("Premultiplied alpha tooltip")));
             p.actions["Transform"]->setText(_getText(DJV_TEXT("Transform")));
             p.actions["Transform"]->setTooltip(_getText(DJV_TEXT("Transform tooltip")));
-            p.actions["FrameStore"]->setText(_getText(DJV_TEXT("Frame Store")));
-            p.actions["FrameStore"]->setTooltip(_getText(DJV_TEXT("Frame store tooltip")));
-            p.actions["SetFrameStore"]->setText(_getText(DJV_TEXT("Set Frame Store")));
-            p.actions["SetFrameStore"]->setTooltip(_getText(DJV_TEXT("Set frame store tooltip")));
+            p.actions["FrameStoreEnabled"]->setText(_getText(DJV_TEXT("Frame Store")));
+            p.actions["FrameStoreEnabled"]->setTooltip(_getText(DJV_TEXT("Frame store tooltip")));
+            p.actions["LoadFrameStore"]->setText(_getText(DJV_TEXT("Load Frame Store")));
+            p.actions["LoadFrameStore"]->setTooltip(_getText(DJV_TEXT("Load frame store tooltip")));
 
             p.menu->setText(_getText(DJV_TEXT("Image")));
         }

@@ -30,6 +30,7 @@
 #include <djvViewApp/MDIWidget.h>
 
 #include <djvViewApp/FileSystem.h>
+#include <djvViewApp/ImageSystem.h>
 #include <djvViewApp/ImageView.h>
 #include <djvViewApp/Media.h>
 #include <djvViewApp/TimelineSlider.h>
@@ -190,10 +191,14 @@ namespace djv
         struct MDIWidget::Private
         {
             std::shared_ptr<Media> media;
+            std::shared_ptr<AV::Image::Image> image;
             Time::Speed speed;
             Time::Timestamp duration = 0;
             Time::Timestamp currentTime = 0;
             AV::TimeUnits timeUnits = AV::TimeUnits::First;
+            bool frameStoreEnabled = false;
+            std::shared_ptr<AV::Image::Image> frameStore;
+            bool active = false;
             float fade = 1.f;
 
             std::map<std::string, std::shared_ptr<UI::Action> > actions;
@@ -221,6 +226,7 @@ namespace djv
 
             std::shared_ptr<ValueObserver<Time::Timestamp> > currentTimeObserver;
             std::shared_ptr<ValueObserver<AV::TimeUnits> > timeUnitsObserver;
+            std::shared_ptr<ValueObserver<std::shared_ptr<AV::Image::Image> > > imageObserver;
             std::shared_ptr<ValueObserver<AV::IO::Info> > infoObserver;
             std::shared_ptr<ValueObserver<Time::Speed> > speedObserver;
             std::shared_ptr<ValueObserver<Time::Timestamp> > durationObserver;
@@ -229,6 +235,8 @@ namespace djv
             std::shared_ptr<ValueObserver<float> > volumeObserver;
             std::shared_ptr<ValueObserver<bool> > muteObserver;
             std::shared_ptr<ValueObserver<float> > fadeObserver;
+            std::shared_ptr<ValueObserver<bool> > frameStoreEnabledObserver;
+            std::shared_ptr<ValueObserver<std::shared_ptr<AV::Image::Image> > > frameStoreObserver;
         };
 
         void MDIWidget::_init(const std::shared_ptr<Media>& media, Context* context)
@@ -280,7 +288,7 @@ namespace djv
 
             p.pointerWidget = PointerWidget::create(context);
 
-            p.imageView = ImageView::create(media, context);
+            p.imageView = ImageView::create(context);
 
             //p.speedEdit = UI::FloatEdit::create(context);
             //p.speedEdit->setRange(FloatRange(0.f, 1000.f));
@@ -482,6 +490,17 @@ namespace djv
                     }
                 });
 
+            p.imageObserver = ValueObserver<std::shared_ptr<AV::Image::Image> >::create(
+                p.media->observeCurrentImage(),
+                [weak](const std::shared_ptr<AV::Image::Image>& value)
+                {
+                    if (auto widget = weak.lock())
+                    {
+                        widget->_p->image = value;
+                        widget->_imageUpdate();
+                    }
+                });
+
             p.infoObserver = ValueObserver<AV::IO::Info>::create(
                 p.media->observeInfo(),
                 [weak](const AV::IO::Info& value)
@@ -574,8 +593,31 @@ namespace djv
                     }
                 });
 
-            auto windowSystem = context->getSystemT<WindowSystem>();
-            if (windowSystem)
+            if (auto imageSystem = context->getSystemT<ImageSystem>())
+            {
+                p.frameStoreEnabledObserver = ValueObserver<bool>::create(
+                    imageSystem->observeFrameStoreEnabled(),
+                    [weak](bool value)
+                    {
+                        if (auto widget = weak.lock())
+                        {
+                            widget->_p->frameStoreEnabled = value;
+                            widget->_imageUpdate();
+                        }
+                    });
+                p.frameStoreObserver = ValueObserver<std::shared_ptr<AV::Image::Image> >::create(
+                    imageSystem->observeFrameStore(),
+                    [weak](const std::shared_ptr<AV::Image::Image>& value)
+                    {
+                        if (auto widget = weak.lock())
+                        {
+                            widget->_p->frameStore = value;
+                            widget->_imageUpdate();
+                        }
+                    });
+            }
+
+            if (auto windowSystem = context->getSystemT<WindowSystem>())
             {
                 p.fadeObserver = ValueObserver<float>::create(
                     windowSystem->observeFade(),
@@ -624,11 +666,18 @@ namespace djv
             _p->dragCallback = value;
         }
 
-        void MDIWidget::setMaximized(float value)
+        void MDIWidget::_setMaximized(float value)
         {
-            IWidget::setMaximized(value);
+            IWidget::_setMaximized(value);
             _opacityUpdate();
             _resize();
+        }
+
+        void MDIWidget::_activeWidget(bool value)
+        {
+            DJV_PRIVATE_PTR();
+            p.active = value;
+            _imageUpdate();
         }
 
         void MDIWidget::_preLayoutEvent(Event::PreLayout&)
@@ -704,6 +753,12 @@ namespace djv
             p.audioPopupWidget->setEnabled(p.media.get());
         }
 
+        void MDIWidget::_imageUpdate()
+        {
+            DJV_PRIVATE_PTR();
+            p.imageView->setImage(p.active && p.frameStoreEnabled && p.frameStore ? p.frameStore : p.image);
+        }
+
         void MDIWidget::_speedUpdate()
         {
             DJV_PRIVATE_PTR();
@@ -719,9 +774,8 @@ namespace djv
         void MDIWidget::_opacityUpdate()
         {
             DJV_PRIVATE_PTR();
-            const float opacity = p.fade * (1.f - _getMaximized());
-            p.titleBar->setOpacity(opacity);
-            p.playbackLayout->setOpacity(opacity);
+            p.titleBar->setOpacity(p.fade * (1.f - _getMaximized()));
+            p.playbackLayout->setOpacity(p.fade);
         }
 
     } // namespace ViewApp

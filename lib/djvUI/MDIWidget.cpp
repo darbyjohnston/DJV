@@ -60,7 +60,7 @@ namespace djv
             IWidget::~IWidget()
             {}
 
-            std::map<Handle, std::vector<BBox2f> > IWidget::getHandles() const
+            std::map<Handle, std::vector<BBox2f> > IWidget::_getHandles() const
             {
                 std::map<Handle, std::vector<BBox2f> > out;
                 const BBox2f & g = getGeometry();
@@ -155,7 +155,7 @@ namespace djv
                 return out;
             }
 
-            std::map<Handle, std::vector<BBox2f> > IWidget::getHandlesDraw() const
+            std::map<Handle, std::vector<BBox2f> > IWidget::_getHandlesDraw() const
             {
                 std::map<Handle, std::vector<BBox2f> > out;
                 const BBox2f & g = getGeometry();
@@ -244,12 +244,12 @@ namespace djv
                 return out;
             }
 
-            void IWidget::setMaximized(float value)
+            void IWidget::_setMaximized(float value)
             {
                 _p->maximized = value;
             }
 
-            void IWidget::setHandleHovered(Handle value)
+            void IWidget::_setHandleHovered(Handle value)
             {
                 if (value == _p->hovered)
                     return;
@@ -257,7 +257,7 @@ namespace djv
                 _redraw();
             }
 
-            void IWidget::setHandlePressed(Handle value)
+            void IWidget::_setHandlePressed(Handle value)
             {
                 if (value == _p->pressed)
                     return;
@@ -300,7 +300,7 @@ namespace djv
                     auto style = _getStyle();
                     auto render = _getRender();
                     render->setFillColor(style->getColor(ColorRole::Handle));
-                    const auto& handles = getHandlesDraw();
+                    const auto& handles = _getHandlesDraw();
                     const auto i = handles.find(p.pressed);
                     if (i != handles.end())
                     {

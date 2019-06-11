@@ -39,7 +39,7 @@ namespace djv
     {
         namespace Image
         {
-            class Color;
+            class Image;
     
         } // namespace Image
     } // namespace AV
@@ -53,15 +53,16 @@ namespace djv
             DJV_NON_COPYABLE(ImageView);
 
         protected:
-            void _init(const std::shared_ptr<Media>&, Core::Context *);
+            void _init(Core::Context *);
             ImageView();
 
         public:
             ~ImageView() override;
 
-            static std::shared_ptr<ImageView> create(const std::shared_ptr<Media>&, Core::Context *);
+            static std::shared_ptr<ImageView> create(Core::Context *);
 
-            const std::shared_ptr<Media> & getMedia() const;
+            const std::shared_ptr<AV::Image::Image>& getImage() const;
+            void setImage(const std::shared_ptr<AV::Image::Image>&);
 
             const glm::vec2& getImagePos() const;
             float getImageZoom() const;

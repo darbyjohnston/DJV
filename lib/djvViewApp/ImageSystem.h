@@ -31,8 +31,19 @@
 
 #include <djvViewApp/IViewSystem.h>
 
+#include <djvCore/ValueObserver.h>
+
 namespace djv
 {
+    namespace AV
+    {
+        namespace Image
+        {
+            class Image;
+
+        } // namespace Image
+    } // namespace AV
+
     namespace ViewApp
     {
         class ImageSystem : public IViewSystem
@@ -47,6 +58,9 @@ namespace djv
             ~ImageSystem() override;
 
             static std::shared_ptr<ImageSystem> create(Core::Context *);
+
+            std::shared_ptr<Core::IValueSubject<bool> > observeFrameStoreEnabled() const;
+            std::shared_ptr<Core::IValueSubject<std::shared_ptr<AV::Image::Image> > > observeFrameStore() const;
 
             std::map<std::string, std::shared_ptr<UI::Action> > getActions() override;
             MenuData getMenu() override;

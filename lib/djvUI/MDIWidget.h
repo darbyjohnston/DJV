@@ -37,6 +37,8 @@ namespace djv
     {
         namespace MDI
         {
+            class Canvas;
+
             enum class Handle
             {
                 None,
@@ -65,21 +67,24 @@ namespace djv
             public:
                 virtual ~IWidget() = 0;
 
-                virtual std::map<Handle, std::vector<Core::BBox2f> > getHandles() const;
-                virtual std::map<Handle, std::vector<Core::BBox2f> > getHandlesDraw() const;
-
-                virtual void setMaximized(float);
-                void setHandleHovered(Handle);
-                void setHandlePressed(Handle);
-
             protected:
+                virtual std::map<Handle, std::vector<Core::BBox2f> > _getHandles() const;
+                virtual std::map<Handle, std::vector<Core::BBox2f> > _getHandlesDraw() const;
+
                 float _getMaximized() const;
+                virtual void _setMaximized(float);
+                void _setHandleHovered(Handle);
+                void _setHandlePressed(Handle);
+
+                virtual void _activeWidget(bool) {}
 
                 void _paintEvent(Core::Event::Paint&) override;
                 void _paintOverlayEvent(Core::Event::PaintOverlay&) override;
 
             private:
                 DJV_PRIVATE();
+
+                friend class Canvas;
             };
             
         } // namespace MDI

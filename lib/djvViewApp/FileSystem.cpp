@@ -445,7 +445,6 @@ namespace djv
         void FileSystem::closeAll()
         {
             DJV_PRIVATE_PTR();
-            p.currentMedia->setIfChanged(nullptr);
             while (p.media->getSize())
             {
                 const size_t i = p.media->getSize() - 1;
@@ -454,6 +453,7 @@ namespace djv
                 p.closed->setIfChanged(media);
                 p.closed->setIfChanged(nullptr);
             }
+            p.currentMedia->setIfChanged(nullptr);
             _actionsUpdate();
         }
 

@@ -30,11 +30,11 @@
 #include <djvViewApp/ImageView.h>
 
 #include <djvViewApp/ImageViewSettings.h>
-#include <djvViewApp/Media.h>
 
 #include <djvUI/Action.h>
 #include <djvUI/SettingsSystem.h>
 
+#include <djvAV/Image.h>
 #include <djvAV/Render2D.h>
 
 using namespace djv::Core;
@@ -45,18 +45,16 @@ namespace djv
     {
         struct ImageView::Private
         {
-            std::shared_ptr<Media> media;
             std::shared_ptr<AV::Image::Image> image;
             glm::vec2 imagePos = glm::vec2(0.f, 0.f);
             float imageZoom = 1.f;
             ImageViewLock lock = ImageViewLock::None;
             AV::Image::Color backgroundColor = AV::Image::Color(0.f, 0.f, 0.f);
             glm::vec2 pressedImagePos = glm::vec2(0.f, 0.f);
-            std::shared_ptr<ValueObserver<std::shared_ptr<AV::Image::Image> > > imageObserver;
             std::shared_ptr<ValueObserver<ImageViewLock> > lockObserver;
         };
 
-        void ImageView::_init(const std::shared_ptr<Media>& media, Context * context)
+        void ImageView::_init(Context * context)
         {
             Widget::_init(context);
 
@@ -64,23 +62,7 @@ namespace djv
 
             DJV_PRIVATE_PTR();
 
-            p.media = media;
-
             auto weak = std::weak_ptr<ImageView>(std::dynamic_pointer_cast<ImageView>(shared_from_this()));
-            p.imageObserver = ValueObserver<std::shared_ptr<AV::Image::Image> >::create(
-                p.media->observeCurrentImage(),
-                [weak](const std::shared_ptr<AV::Image::Image>& image)
-                {
-                    if (auto widget = weak.lock())
-                    {
-                        widget->_p->image = image;
-                        if (widget->isVisible() && !widget->isClipped())
-                        {
-                            widget->_redraw();
-                        }
-                    }
-                });
-
             auto settingsSystem = context->getSystemT<UI::Settings::System>();
             auto imageViewSettings = settingsSystem->getSettingsT<ImageViewSettings>();
             p.lockObserver = ValueObserver<ImageViewLock>::create(
@@ -105,16 +87,28 @@ namespace djv
         ImageView::~ImageView()
         {}
 
-        std::shared_ptr<ImageView> ImageView::create(const std::shared_ptr<Media>& media, Context * context)
+        std::shared_ptr<ImageView> ImageView::create(Context * context)
         {
             auto out = std::shared_ptr<ImageView>(new ImageView);
-            out->_init(media, context);
+            out->_init(context);
             return out;
         }
 
-        const std::shared_ptr<Media> & ImageView::getMedia() const
+        const std::shared_ptr<AV::Image::Image> & ImageView::getImage() const
         {
-            return _p->media;
+            return _p->image;
+        }
+
+        void ImageView::setImage(const std::shared_ptr<AV::Image::Image>& value)
+        {
+            DJV_PRIVATE_PTR();
+            if (value == p.image)
+                return;
+            p.image = value;
+            if (isVisible() && !isClipped())
+            {
+                _resize();
+            }
         }
 
         const glm::vec2& ImageView::getImagePos() const

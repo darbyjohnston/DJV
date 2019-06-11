@@ -289,6 +289,7 @@ namespace djv
                             widget->_p->mediaActionGroup->setChecked(i - widget->_p->media.begin());
                         }
                         widget->_p->mediaButton->setText(value ? Core::FileSystem::Path(value->getFileName()).getFileName() : std::string());
+                        widget->_p->mediaButton->setTooltip(value ? value->getFileName() : std::string());
                     }
                 });
             }
