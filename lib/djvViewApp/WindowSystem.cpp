@@ -105,13 +105,13 @@ namespace djv
 
             //! \todo Implement me!
             p.actions["FullScreen"] = UI::Action::create();
-            p.actions["FullScreen"]->setIcon("djvIconWindowFullScreen");
             p.actions["FullScreen"]->setButtonType(UI::ButtonType::Toggle);
+            p.actions["FullScreen"]->setIcon("djvIconWindowFullScreen");
             p.actions["FullScreen"]->setShortcut(GLFW_KEY_U);
 
             p.actions["Maximized"] = UI::Action::create();
-            p.actions["Maximized"]->setIcon("djvIconViewLibSDI");
             p.actions["Maximized"]->setButtonType(UI::ButtonType::Toggle);
+            p.actions["Maximized"]->setIcon("djvIconViewLibSDI");
             p.actions["Maximized"]->setShortcut(GLFW_KEY_M);
 
             p.menu = UI::Menu::create(context);

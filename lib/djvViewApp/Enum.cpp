@@ -35,8 +35,22 @@ namespace djv
     {
 
     } // namespace ViewApp
-   
+
     picojson::value toJSON(ViewApp::ImageViewLock value)
+    {
+        std::stringstream ss;
+        ss << value;
+        return picojson::value(ss.str());
+    }
+
+    picojson::value toJSON(ViewApp::ImageRotate value)
+    {
+        std::stringstream ss;
+        ss << value;
+        return picojson::value(ss.str());
+    }
+
+    picojson::value toJSON(ViewApp::ImageAspectRatio value)
     {
         std::stringstream ss;
         ss << value;
@@ -55,13 +69,56 @@ namespace djv
             throw std::invalid_argument(DJV_TEXT("Cannot parse the value."));
         }
     }
-   
+
+    void fromJSON(const picojson::value& value, ViewApp::ImageRotate& out)
+    {
+        if (value.is<std::string>())
+        {
+            std::stringstream ss(value.get<std::string>());
+            ss >> out;
+        }
+        else
+        {
+            throw std::invalid_argument(DJV_TEXT("Cannot parse the value."));
+        }
+    }
+
+    void fromJSON(const picojson::value& value, ViewApp::ImageAspectRatio& out)
+    {
+        if (value.is<std::string>())
+        {
+            std::stringstream ss(value.get<std::string>());
+            ss >> out;
+        }
+        else
+        {
+            throw std::invalid_argument(DJV_TEXT("Cannot parse the value."));
+        }
+    }
+
     DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
         ViewApp,
         ImageViewLock,
         DJV_TEXT("None"),
         DJV_TEXT("Fit"),
         DJV_TEXT("Center"));
+
+    DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
+        ViewApp,
+        ImageRotate,
+        DJV_TEXT("0"),
+        DJV_TEXT("90"),
+        DJV_TEXT("180"),
+        DJV_TEXT("270"));
+
+    DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
+        ViewApp,
+        ImageAspectRatio,
+        DJV_TEXT("Default"),
+        DJV_TEXT("Auto"),
+        DJV_TEXT("16:9"),
+        DJV_TEXT("1.85"),
+        DJV_TEXT("2.35"));
 
     DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
         ViewApp,

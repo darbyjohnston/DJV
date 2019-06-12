@@ -143,8 +143,6 @@ namespace djv
                 const float r = g2.h() / 2.f;
                 const float x = Math::lerp(p.animationValue, g2.min.x + r, g2.max.x - r);
                 const glm::vec2 pos(x, g2.min.y + r);
-                render->setFillColor(style->getColor(ColorRole::Border));
-                render->drawCircle(pos, r);
                 render->setFillColor(style->getColor(ColorRole::Button));
                 render->drawCircle(pos, r - b);
                 if (_isToggled())

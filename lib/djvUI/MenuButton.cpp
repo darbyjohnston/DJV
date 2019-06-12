@@ -226,52 +226,20 @@ namespace djv
 
             void Menu::_paintEvent(Event::Paint & event)
             {
+                Widget::_paintEvent(event);
                 DJV_PRIVATE_PTR();
                 auto style = _getStyle();
-                const float b = style->getMetric(MetricsRole::Border);
                 const BBox2f& g = getMargin().bbox(getGeometry(), style);
-                const BBox2f& g2 = g.margin(-b);
                 auto render = _getRender();
-                switch (p.menuStyle)
+                if (p.checked)
                 {
-                case MenuStyle::Flat:
-                    render->setFillColor(style->getColor(getBackgroundRole()));
+                    render->setFillColor(style->getColor(ColorRole::Pressed));
                     render->drawRect(g);
-                    if (p.checked)
-                    {
-                        render->setFillColor(style->getColor(ColorRole::Pressed));
-                        render->drawRect(g);
-                    }
-                    else if (_isHovered())
-                    {
-                        render->setFillColor(style->getColor(ColorRole::Hovered));
-                        render->drawRect(g);
-                    }
-                    break;
-                case MenuStyle::Tool:
-                case MenuStyle::ComboBox:
-                {
-                    const ColorRole bg = getBackgroundRole();
-                    if (bg != ColorRole::None)
-                    {
-                        render->setFillColor(style->getColor(ColorRole::Border));
-                        render->drawRect(g);
-                        render->setFillColor(style->getColor(getBackgroundRole()));
-                        render->drawRect(g2);
-                    }
-                    if (p.checked)
-                    {
-                        render->setFillColor(style->getColor(ColorRole::Pressed));
-                        render->drawRect(g);
-                    }
-                    else if (_isHovered())
-                    {
-                        render->setFillColor(style->getColor(ColorRole::Hovered));
-                        render->drawRect(g);
-                    }
-                    break;
                 }
-                default: break;
+                else if (_isHovered())
+                {
+                    render->setFillColor(style->getColor(ColorRole::Hovered));
+                    render->drawRect(g);
                 }
             }
 

@@ -117,7 +117,7 @@ namespace djv
                     {
                         p.icon = Icon::create(getContext());
                         p.icon->setVAlign(VAlign::Center);
-                        p.icon->setIconColorRole(isChecked() ? ColorRole::Checked : getForegroundColorRole());
+                        p.icon->setIconColorRole(getForegroundColorRole());
                         p.layout->addChild(p.icon);
                         p.icon->moveToFront();
                     }
@@ -145,10 +145,10 @@ namespace djv
                     {
                         p.label = Label::create(getContext());
                         p.label->setTextHAlign(p.textHAlign);
+                        p.label->setTextColorRole(getForegroundColorRole());
                         p.label->setFont(p.font);
                         p.label->setFontFace(p.fontFace);
                         p.label->setFontSizeRole(p.fontSizeRole);
-                        p.label->setTextColorRole(isChecked() ? ColorRole::Checked : p.textColorRole);
                         p.layout->addChild(p.label);
                         p.layout->setStretch(p.label, RowStretch::Expand);
                         p.label->moveToBack();
@@ -232,15 +232,6 @@ namespace djv
                 _p->layout->setMargin(value);
             }
 
-            void Push::setChecked(bool value)
-            {
-                IButton::setChecked(value);
-                if (_p->icon)
-                {
-                    _p->icon->setIconColorRole(value ? ColorRole::Checked : getForegroundColorRole());
-                }
-            }
-
             void Push::setForegroundColorRole(ColorRole value)
             {
                 IButton::setForegroundColorRole(value);
@@ -268,15 +259,15 @@ namespace djv
 
             void Push::_paintEvent(Event::Paint& event)
             {
+                IButton::_paintEvent(event);
                 auto style = _getStyle();
-                const float b = style->getMetric(MetricsRole::Border);
                 const BBox2f& g = getMargin().bbox(getGeometry(), style);
-                const BBox2f& g2 = g.margin(-b);
                 auto render = _getRender();
-                render->setFillColor(style->getColor(ColorRole::Border));
-                render->drawRect(g);
-                render->setFillColor(style->getColor(getBackgroundRole()));
-                render->drawRect(g2);
+                if (_isToggled())
+                {
+                    render->setFillColor(style->getColor(ColorRole::Checked));
+                    render->drawRect(g);
+                }
                 if (_isPressed())
                 {
                     render->setFillColor(style->getColor(ColorRole::Pressed));

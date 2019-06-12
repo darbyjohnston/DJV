@@ -33,6 +33,7 @@
 #include <djvViewApp/Media.h>
 
 #include <djvUI/Action.h>
+#include <djvUI/ActionGroup.h>
 #include <djvUI/Menu.h>
 #include <djvUI/RowLayout.h>
 
@@ -55,6 +56,8 @@ namespace djv
             std::shared_ptr<ValueSubject<std::shared_ptr<AV::Image::Image> > > frameStore;
             std::shared_ptr<AV::Image::Image> currentImage;
             std::map<std::string, std::shared_ptr<UI::Action> > actions;
+            std::shared_ptr<UI::ActionGroup> rotateActionGroup;
+            std::shared_ptr<UI::ActionGroup> aspectRationActionGroup;
             std::shared_ptr<UI::Menu> menu;
             std::map<std::string, std::shared_ptr<ValueObserver<bool> > > clickedObservers;
             std::shared_ptr<ValueObserver<std::shared_ptr<Media> > > currentMediaObserver;
@@ -99,9 +102,51 @@ namespace djv
             p.actions["PremultipliedAlpha"] = UI::Action::create();
             p.actions["PremultipliedAlpha"]->setEnabled(false);
             //! \todo Implement me!
-            p.actions["Transform"] = UI::Action::create();
-            p.actions["Transform"]->setButtonType(UI::ButtonType::Toggle);
-            p.actions["Transform"]->setEnabled(false);
+            p.actions["MirrorH"] = UI::Action::create();
+            p.actions["MirrorH"]->setButtonType(UI::ButtonType::Toggle);
+            p.actions["MirrorH"]->setEnabled(false);
+            //! \todo Implement me!
+            p.actions["MirrorV"] = UI::Action::create();
+            p.actions["MirrorV"]->setButtonType(UI::ButtonType::Toggle);
+            p.actions["MirrorV"]->setEnabled(false);
+            //! \todo Implement me!
+            p.actions["Rotate_0"] = UI::Action::create();
+            p.actions["Rotate_0"]->setEnabled(false);
+            //! \todo Implement me!
+            p.actions["Rotate_90"] = UI::Action::create();
+            p.actions["Rotate_90"]->setEnabled(false);
+            //! \todo Implement me!
+            p.actions["Rotate_180"] = UI::Action::create();
+            p.actions["Rotate_180"]->setEnabled(false);
+            //! \todo Implement me!
+            p.actions["Rotate_270"] = UI::Action::create();
+            p.actions["Rotate_270"]->setEnabled(false);
+            p.rotateActionGroup = UI::ActionGroup::create(UI::ButtonType::Radio);
+            p.rotateActionGroup->addAction(p.actions["Rotate_0"]);
+            p.rotateActionGroup->addAction(p.actions["Rotate_90"]);
+            p.rotateActionGroup->addAction(p.actions["Rotate_180"]);
+            p.rotateActionGroup->addAction(p.actions["Rotate_270"]);
+            //! \todo Implement me!
+            p.actions["AspectRatio_Default"] = UI::Action::create();
+            p.actions["AspectRatio_Default"]->setEnabled(false);
+            //! \todo Implement me!
+            p.actions["AspectRatio_Auto"] = UI::Action::create();
+            p.actions["AspectRatio_Auto"]->setEnabled(false);
+            //! \todo Implement me!
+            p.actions["AspectRatio_16_9"] = UI::Action::create();
+            p.actions["AspectRatio_16_9"]->setEnabled(false);
+            //! \todo Implement me!
+            p.actions["AspectRatio_1_85"] = UI::Action::create();
+            p.actions["AspectRatio_1_85"]->setEnabled(false);
+            //! \todo Implement me!
+            p.actions["AspectRatio_2_35"] = UI::Action::create();
+            p.actions["AspectRatio_2_35"]->setEnabled(false);
+            p.aspectRationActionGroup = UI::ActionGroup::create(UI::ButtonType::Radio);
+            p.aspectRationActionGroup->addAction(p.actions["AspectRatio_Default"]);
+            p.aspectRationActionGroup->addAction(p.actions["AspectRatio_Auto"]);
+            p.aspectRationActionGroup->addAction(p.actions["AspectRatio_16_9"]);
+            p.aspectRationActionGroup->addAction(p.actions["AspectRatio_1_85"]);
+            p.aspectRationActionGroup->addAction(p.actions["AspectRatio_2_35"]);
             p.actions["FrameStoreEnabled"] = UI::Action::create();
             p.actions["FrameStoreEnabled"]->setButtonType(UI::ButtonType::Toggle);
             p.actions["FrameStoreEnabled"]->setShortcut(GLFW_KEY_F);
@@ -120,7 +165,17 @@ namespace djv
             p.menu->addSeparator();
             p.menu->addAction(p.actions["PremultipliedAlpha"]);
             p.menu->addSeparator();
-            p.menu->addAction(p.actions["Transform"]);
+            p.menu->addAction(p.actions["MirrorH"]);
+            p.menu->addAction(p.actions["MirrorV"]);
+            p.menu->addAction(p.actions["Rotate_0"]);
+            p.menu->addAction(p.actions["Rotate_90"]);
+            p.menu->addAction(p.actions["Rotate_180"]);
+            p.menu->addAction(p.actions["Rotate_270"]);
+            p.menu->addAction(p.actions["AspectRatio_Default"]);
+            p.menu->addAction(p.actions["AspectRatio_Auto"]);
+            p.menu->addAction(p.actions["AspectRatio_16_9"]);
+            p.menu->addAction(p.actions["AspectRatio_1_85"]);
+            p.menu->addAction(p.actions["AspectRatio_2_35"]);
             p.menu->addSeparator();
             p.menu->addAction(p.actions["FrameStoreEnabled"]);
             p.menu->addAction(p.actions["LoadFrameStore"]);
@@ -245,8 +300,28 @@ namespace djv
             p.actions["AlphaChannel"]->setTooltip(_getText(DJV_TEXT("Alpha channel tooltip")));
             p.actions["PremultipliedAlpha"]->setText(_getText(DJV_TEXT("Premultiplied Alpha")));
             p.actions["PremultipliedAlpha"]->setTooltip(_getText(DJV_TEXT("Premultiplied alpha tooltip")));
-            p.actions["Transform"]->setText(_getText(DJV_TEXT("Transform")));
-            p.actions["Transform"]->setTooltip(_getText(DJV_TEXT("Transform tooltip")));
+            p.actions["MirrorH"]->setText(_getText(DJV_TEXT("Mirror Horizontal")));
+            p.actions["MirrorH"]->setTooltip(_getText(DJV_TEXT("Mirror horizontal tooltip")));
+            p.actions["MirrorV"]->setText(_getText(DJV_TEXT("Mirror Vertical")));
+            p.actions["MirrorV"]->setTooltip(_getText(DJV_TEXT("Mirror vertical tooltip")));
+            p.actions["Rotate_0"]->setText(_getText(DJV_TEXT("Rotate 0")));
+            p.actions["Rotate_0"]->setTooltip(_getText(DJV_TEXT("Rotate 0 tooltip")));
+            p.actions["Rotate_90"]->setText(_getText(DJV_TEXT("Rotate 90")));
+            p.actions["Rotate_90"]->setTooltip(_getText(DJV_TEXT("Rotate 90 tooltip")));
+            p.actions["Rotate_180"]->setText(_getText(DJV_TEXT("Rotate 180")));
+            p.actions["Rotate_180"]->setTooltip(_getText(DJV_TEXT("Rotate 180 tooltip")));
+            p.actions["Rotate_270"]->setText(_getText(DJV_TEXT("Rotate 270")));
+            p.actions["Rotate_270"]->setTooltip(_getText(DJV_TEXT("Rotate 270 tooltip")));
+            p.actions["AspectRatio_Default"]->setText(_getText(DJV_TEXT("Default Aspect Ratio")));
+            p.actions["AspectRatio_Default"]->setTooltip(_getText(DJV_TEXT("Default aspect ratio tooltip")));
+            p.actions["AspectRatio_Auto"]->setText(_getText(DJV_TEXT("Automatic Aspect Ratio")));
+            p.actions["AspectRatio_Auto"]->setTooltip(_getText(DJV_TEXT("Automatic aspect ratio tooltip")));
+            p.actions["AspectRatio_16_9"]->setText(_getText(DJV_TEXT("16:9 Aspect Ratio")));
+            p.actions["AspectRatio_16_9"]->setTooltip(_getText(DJV_TEXT("16:9 aspect ratio tooltip")));
+            p.actions["AspectRatio_1_85"]->setText(_getText(DJV_TEXT("1:85 Aspect Ratio")));
+            p.actions["AspectRatio_1_85"]->setTooltip(_getText(DJV_TEXT("1:85 aspect ratio tooltip")));
+            p.actions["AspectRatio_2_35"]->setText(_getText(DJV_TEXT("2:35 Aspect Ratio")));
+            p.actions["AspectRatio_2_35"]->setTooltip(_getText(DJV_TEXT("2:35 aspect ratio tooltip")));
             p.actions["FrameStoreEnabled"]->setText(_getText(DJV_TEXT("Frame Store")));
             p.actions["FrameStoreEnabled"]->setTooltip(_getText(DJV_TEXT("Frame store tooltip")));
             p.actions["LoadFrameStore"]->setText(_getText(DJV_TEXT("Load Frame Store")));

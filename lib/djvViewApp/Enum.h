@@ -47,6 +47,31 @@ namespace djv
         };
         DJV_ENUM_HELPERS(ImageViewLock);
 
+        enum class ImageRotate
+        {
+            _0,
+            _90,
+            _180,
+            _270,
+
+            Count,
+            First = _0
+        };
+        DJV_ENUM_HELPERS(ImageRotate);
+
+        enum class ImageAspectRatio
+        {
+            Default,
+            Auto,
+            _16_9,
+            _1_85,
+            _2_35,
+
+            Count,
+            First = Default
+        };
+        DJV_ENUM_HELPERS(ImageAspectRatio);
+
         enum class Playback
         {
             Stop,
@@ -72,12 +97,24 @@ namespace djv
     } // namespace ViewApp
 
     picojson::value toJSON(ViewApp::ImageViewLock);
+    picojson::value toJSON(ViewApp::ImageRotate);
+    picojson::value toJSON(ViewApp::ImageAspectRatio);
 
     //! Throws:
     //! - std::exception
     void fromJSON(const picojson::value&, ViewApp::ImageViewLock&);
 
+    //! Throws:
+    //! - std::exception
+    void fromJSON(const picojson::value&, ViewApp::ImageRotate&);
+
+    //! Throws:
+    //! - std::exception
+    void fromJSON(const picojson::value&, ViewApp::ImageAspectRatio&);
+
     DJV_ENUM_SERIALIZE_HELPERS(ViewApp::ImageViewLock);
+    DJV_ENUM_SERIALIZE_HELPERS(ViewApp::ImageRotate);
+    DJV_ENUM_SERIALIZE_HELPERS(ViewApp::ImageAspectRatio);
     DJV_ENUM_SERIALIZE_HELPERS(ViewApp::Playback);
     DJV_ENUM_SERIALIZE_HELPERS(ViewApp::PlaybackMode);
 

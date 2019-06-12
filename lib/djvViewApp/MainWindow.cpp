@@ -32,6 +32,7 @@
 #include <djvViewApp/Application.h>
 #include <djvViewApp/FileSystem.h>
 #include <djvViewApp/ITool.h>
+#include <djvViewApp/ImageViewSystem.h>
 #include <djvViewApp/MDICanvas.h>
 #include <djvViewApp/Media.h>
 #include <djvViewApp/SettingsSystem.h>
@@ -53,7 +54,6 @@
 #include <djvUI/SoloLayout.h>
 #include <djvUI/StackLayout.h>
 #include <djvUI/ToolBar.h>
-#include <djvUI/ToolButton.h>
 
 #include <djvCore/FileInfo.h>
 #include <djvCore/Path.h>
@@ -73,7 +73,6 @@ namespace djv
             std::shared_ptr<UI::ActionGroup> mediaActionGroup;
             std::shared_ptr<UI::Menu> mediaMenu;
             std::shared_ptr<UI::Button::Menu> mediaButton;
-            std::shared_ptr<UI::ToolButton> maximizedButton;
             std::shared_ptr<SettingsWidget> settingsWidget;
             std::shared_ptr<UI::PopupWidget> settingsPopupWidget;
             std::shared_ptr<UI::MenuBar> menuBar;
@@ -123,8 +122,31 @@ namespace djv
             p.mediaButton->setIcon("djvIconPopupMenu");
             p.mediaButton->setEnabled(false);
 
-            p.maximizedButton = UI::ToolButton::create(context);
-            p.maximizedButton->setIcon("djvIconViewLibSDI");
+            auto maximizedButton = UI::ActionButton::create(context);
+            maximizedButton->setShowText(false);
+            maximizedButton->setShowShortcuts(false);
+            auto windowSystem = context->getSystemT<WindowSystem>();
+            if (windowSystem)
+            {
+                maximizedButton->addAction(windowSystem->getActions()["Maximized"]);
+            }
+
+            auto viewLockFitButton = UI::ActionButton::create(context);
+            viewLockFitButton->setShowText(false);
+            viewLockFitButton->setShowShortcuts(false);
+            auto imageViewSystem = context->getSystemT<ImageViewSystem>();
+            if (imageViewSystem)
+            {
+                viewLockFitButton->addAction(imageViewSystem->getActions()["LockFit"]);
+            }
+
+            auto viewLockCenterButton = UI::ActionButton::create(context);
+            viewLockCenterButton->setShowText(false);
+            viewLockCenterButton->setShowShortcuts(false);
+            if (imageViewSystem)
+            {
+                viewLockCenterButton->addAction(imageViewSystem->getActions()["LockCenter"]);
+            }
 
             p.settingsPopupWidget = UI::PopupWidget::create(context);
             p.settingsPopupWidget->setIcon("djvIconSettings");
@@ -141,7 +163,9 @@ namespace djv
             }
             p.menuBar->addChild(p.mediaButton);
             p.menuBar->setStretch(p.mediaButton, UI::RowStretch::Expand, UI::Side::Right);
-            p.menuBar->addChild(p.maximizedButton);
+            p.menuBar->addChild(maximizedButton);
+            p.menuBar->addChild(viewLockFitButton);
+            p.menuBar->addChild(viewLockCenterButton);
             p.menuBar->addChild(p.settingsPopupWidget);
 
             p.mdiCanvas = MDICanvas::create(context);
@@ -199,15 +223,6 @@ namespace djv
                     {
                         widget->_p->mediaMenu->popup(widget->_p->mediaButton);
                     }
-                }
-            });
-
-            p.maximizedButton->setClickedCallback(
-                [context]
-            {
-                if (auto windowSystem = context->getSystemT<WindowSystem>())
-                {
-                    windowSystem->setMaximized(!windowSystem->observeMaximized()->get());
                 }
             });
 
@@ -294,7 +309,7 @@ namespace djv
                 });
             }
 
-            if (auto windowSystem = context->getSystemT<WindowSystem>())
+            if (windowSystem)
             {
                 p.maximizedObserver = ValueObserver<bool>::create(
                     windowSystem->observeMaximized(),
@@ -359,7 +374,6 @@ namespace djv
         {
             DJV_PRIVATE_PTR();
             p.mediaButton->setTooltip(_getText(DJV_TEXT("Media popup tooltip")));
-            p.maximizedButton->setTooltip(_getText(DJV_TEXT("Maximized tooltip")));
             p.settingsPopupWidget->setTooltip(_getText(DJV_TEXT("Settings tooltip")));
         }
 

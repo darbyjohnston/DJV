@@ -209,7 +209,6 @@ namespace djv
                 p.drivesWidget = DrivesWidget::create(context);
                 auto vLayout = VerticalLayout::create(context);
                 vLayout->setSpacing(MetricsRole::None);
-                vLayout->setBackgroundRole(ColorRole::BackgroundToolBar);
                 vLayout->addChild(p.shortcutsWidget);
                 vLayout->addSeparator();
                 vLayout->addChild(UI::ActionButton::create(p.actions["AddShortcut"], context));
@@ -224,7 +223,6 @@ namespace djv
 
                 vLayout = VerticalLayout::create(context);
                 vLayout->setSpacing(MetricsRole::None);
-                vLayout->setBackgroundRole(ColorRole::BackgroundToolBar);
                 vLayout->addChild(ActionButton::create(p.actions["SortByName"], context));
                 vLayout->addChild(ActionButton::create(p.actions["SortBySize"], context));
                 vLayout->addChild(ActionButton::create(p.actions["SortByTime"], context));
@@ -243,7 +241,6 @@ namespace djv
                 p.thumbnailSizeSlider->setMargin(MetricsRole::MarginSmall);
                 vLayout = VerticalLayout::create(context);
                 vLayout->setSpacing(MetricsRole::None);
-                vLayout->setBackgroundRole(ColorRole::BackgroundToolBar);
                 vLayout->addChild(ActionButton::create(p.actions["Tiles"], context));
                 vLayout->addChild(ActionButton::create(p.actions["List"], context));
                 vLayout->addSeparator();

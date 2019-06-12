@@ -106,7 +106,6 @@ namespace djv
             p.layout->addChild(p.colorSwatch);
             p.layout->setStretch(p.colorSwatch, UI::RowStretch::Expand);
             p.layout->addChild(p.tabWidget);
-            p.layout->addSeparator();
             auto hLayout = UI::HorizontalLayout::create(context);
             hLayout->setSpacing(UI::MetricsRole::None);
             hLayout->addChild(p.sampleSizeSlider);
