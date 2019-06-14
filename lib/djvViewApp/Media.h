@@ -44,6 +44,15 @@ namespace djv
 
     } // namespace Core
 
+    namespace AV
+    {
+        namespace Render
+        {
+            struct ImageOptions;
+
+        } // namespace Render
+    } // namespace AV
+
     namespace ViewApp
     {
         class Media : public std::enable_shared_from_this<Media>
@@ -66,6 +75,7 @@ namespace djv
             std::shared_ptr<Core::IValueSubject<Core::Time::Timestamp> > observeDuration() const;
             std::shared_ptr<Core::IValueSubject<Core::Time::Timestamp> > observeCurrentTime() const;
             std::shared_ptr<Core::IValueSubject<std::shared_ptr<AV::Image::Image> > > observeCurrentImage() const;
+            std::shared_ptr<Core::IValueSubject<AV::Render::ImageOptions> > observeImageOptions() const;
             std::shared_ptr<Core::IValueSubject<Playback> > observePlayback() const;
             std::shared_ptr<Core::IValueSubject<PlaybackMode> > observePlaybackMode() const;
             std::shared_ptr<Core::IValueSubject<bool> > observeInOutPointsEnabled() const;
@@ -80,6 +90,7 @@ namespace djv
             std::shared_ptr<Core::IValueSubject<size_t> > observeAudioQueueCount() const;
             std::shared_ptr<Core::IValueSubject<size_t> > observeALQueueCount() const;
 
+            void setImageOptions(const AV::Render::ImageOptions&);
             void setSpeed(const Core::Time::Speed&);
             void setCurrentTime(Core::Time::Timestamp);
             void setPlayback(Playback);

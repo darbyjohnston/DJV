@@ -46,6 +46,7 @@ namespace djv
         struct ImageView::Private
         {
             std::shared_ptr<AV::Image::Image> image;
+            AV::Render::ImageOptions imageOptions;
             glm::vec2 imagePos = glm::vec2(0.f, 0.f);
             float imageZoom = 1.f;
             ImageViewLock lock = ImageViewLock::None;
@@ -105,6 +106,18 @@ namespace djv
             if (value == p.image)
                 return;
             p.image = value;
+            if (isVisible() && !isClipped())
+            {
+                _resize();
+            }
+        }
+
+        void ImageView::setImageOptions(const AV::Render::ImageOptions& value)
+        {
+            DJV_PRIVATE_PTR();
+            if (value == p.imageOptions)
+                return;
+            p.imageOptions = value;
             if (isVisible() && !isClipped())
             {
                 _resize();
@@ -226,7 +239,9 @@ namespace djv
                     g.min.y + p.imagePos.y,
                     p.image->getWidth() * p.imageZoom,
                     p.image->getHeight() * p.imageZoom);
-                render->drawImage(p.image, imageGeometry, AV::Render::ImageCache::Dynamic);
+                AV::Render::ImageOptions options(p.imageOptions);
+                options.cache = AV::Render::ImageCache::Dynamic;
+                render->drawImage(p.image, imageGeometry, options);
             }
         }
 

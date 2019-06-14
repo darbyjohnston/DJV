@@ -53,10 +53,28 @@ namespace djv
         //! This namespace provides rendering functionality.
         namespace Render
         {
+            enum class ImageChannel
+            {
+                Color,
+                Red,
+                Green,
+                Blue,
+                Alpha
+            };
+
             enum class ImageCache
             {
                 Atlas,
                 Dynamic
+            };
+
+            struct ImageOptions
+            {
+                ImageChannel channel = ImageChannel::Color;
+                ImageCache   cache   = ImageCache::Atlas;
+
+                inline bool operator == (const ImageOptions&) const;
+                inline bool operator != (const ImageOptions&) const;
             };
 
             class Render2D : public Core::ISystem
@@ -97,12 +115,12 @@ namespace djv
                 void drawImage(
                     const std::shared_ptr<Image::Data> &,
                     const Core::BBox2f &,
-                    ImageCache = ImageCache::Atlas);
+                    const ImageOptions& = ImageOptions());
 
                 void drawFilledImage(
                     const std::shared_ptr<Image::Data> &,
                     const Core::BBox2f &,
-                    ImageCache = ImageCache::Atlas);
+                    const ImageOptions & = ImageOptions());
 
                 ///@}
 
@@ -143,3 +161,4 @@ namespace djv
     } // namespace AV
 } // namespace djv
 
+#include <djvAV/Render2DInline.h>

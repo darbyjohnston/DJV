@@ -38,6 +38,7 @@
 #include <djvUI/RowLayout.h>
 
 #include <djvAV/Image.h>
+#include <djvAV/Render2D.h>
 
 #include <djvCore/Context.h>
 #include <djvCore/TextSystem.h>
@@ -54,14 +55,18 @@ namespace djv
         {
             std::shared_ptr<ValueSubject<bool> > frameStoreEnabled;
             std::shared_ptr<ValueSubject<std::shared_ptr<AV::Image::Image> > > frameStore;
+            std::shared_ptr<Media> currentMedia;
             std::shared_ptr<AV::Image::Image> currentImage;
+            AV::Render::ImageOptions imageOptions;
             std::map<std::string, std::shared_ptr<UI::Action> > actions;
+            std::shared_ptr<UI::ActionGroup> channelActionGroup;
             std::shared_ptr<UI::ActionGroup> rotateActionGroup;
             std::shared_ptr<UI::ActionGroup> aspectRationActionGroup;
             std::shared_ptr<UI::Menu> menu;
             std::map<std::string, std::shared_ptr<ValueObserver<bool> > > clickedObservers;
             std::shared_ptr<ValueObserver<std::shared_ptr<Media> > > currentMediaObserver;
             std::shared_ptr<ValueObserver<std::shared_ptr<AV::Image::Image> > > currentImageObserver;
+            std::shared_ptr<ValueObserver<AV::Render::ImageOptions> > imageOptionsObserver;
             std::shared_ptr<ValueObserver<std::string> > localeObserver;
         };
 
@@ -78,26 +83,22 @@ namespace djv
             p.actions["ColorManager"] = UI::Action::create();
             p.actions["ColorManager"]->setButtonType(UI::ButtonType::Toggle);
             p.actions["ColorManager"]->setEnabled(false);
-            //! \todo Implement me!
             p.actions["ColorChannels"] = UI::Action::create();
             p.actions["ColorChannels"]->setShortcut(GLFW_KEY_C);
-            p.actions["ColorChannels"]->setEnabled(false);
-            //! \todo Implement me!
             p.actions["RedChannel"] = UI::Action::create();
             p.actions["RedChannel"]->setShortcut(GLFW_KEY_R);
-            p.actions["RedChannel"]->setEnabled(false);
-            //! \todo Implement me!
             p.actions["GreenChannel"] = UI::Action::create();
             p.actions["GreenChannel"]->setShortcut(GLFW_KEY_G);
-            p.actions["GreenChannel"]->setEnabled(false);
-            //! \todo Implement me!
             p.actions["BlueChannel"] = UI::Action::create();
             p.actions["BlueChannel"]->setShortcut(GLFW_KEY_B);
-            p.actions["BlueChannel"]->setEnabled(false);
-            //! \todo Implement me!
             p.actions["AlphaChannel"] = UI::Action::create();
             p.actions["AlphaChannel"]->setShortcut(GLFW_KEY_A);
-            p.actions["AlphaChannel"]->setEnabled(false);
+            p.channelActionGroup = UI::ActionGroup::create(UI::ButtonType::Radio);
+            p.channelActionGroup->addAction(p.actions["ColorChannels"]);
+            p.channelActionGroup->addAction(p.actions["RedChannel"]);
+            p.channelActionGroup->addAction(p.actions["GreenChannel"]);
+            p.channelActionGroup->addAction(p.actions["BlueChannel"]);
+            p.channelActionGroup->addAction(p.actions["AlphaChannel"]);
             //! \todo Implement me!
             p.actions["PremultipliedAlpha"] = UI::Action::create();
             p.actions["PremultipliedAlpha"]->setEnabled(false);
@@ -167,10 +168,12 @@ namespace djv
             p.menu->addSeparator();
             p.menu->addAction(p.actions["MirrorH"]);
             p.menu->addAction(p.actions["MirrorV"]);
+            p.menu->addSeparator();
             p.menu->addAction(p.actions["Rotate_0"]);
             p.menu->addAction(p.actions["Rotate_90"]);
             p.menu->addAction(p.actions["Rotate_180"]);
             p.menu->addAction(p.actions["Rotate_270"]);
+            p.menu->addSeparator();
             p.menu->addAction(p.actions["AspectRatio_Default"]);
             p.menu->addAction(p.actions["AspectRatio_Auto"]);
             p.menu->addAction(p.actions["AspectRatio_16_9"]);
@@ -180,7 +183,22 @@ namespace djv
             p.menu->addAction(p.actions["FrameStoreEnabled"]);
             p.menu->addAction(p.actions["LoadFrameStore"]);
 
+            _imageOptionsUpdate();
+
             auto weak = std::weak_ptr<ImageSystem>(std::dynamic_pointer_cast<ImageSystem>(shared_from_this()));
+            p.channelActionGroup->setRadioCallback(
+                [weak](int value)
+                {
+                    if (auto system = weak.lock())
+                    {
+                        system->_p->imageOptions.channel = static_cast<AV::Render::ImageChannel>(value);
+                        if (system->_p->currentMedia)
+                        {
+                            system->_p->currentMedia->setImageOptions(system->_p->imageOptions);
+                        }
+                    }
+                });
+
             p.clickedObservers["FrameStoreEnabled"] = ValueObserver<bool>::create(
                 p.actions["FrameStoreEnabled"]->observeChecked(),
                 [weak](bool value)
@@ -213,6 +231,7 @@ namespace djv
                     {
                         if (auto system = weak.lock())
                         {
+                            system->_p->currentMedia = value;
                             if (value)
                             {
                                 system->_p->currentImageObserver = ValueObserver<std::shared_ptr<AV::Image::Image> >::create(
@@ -224,12 +243,24 @@ namespace djv
                                             system->_p->currentImage = value;
                                         }
                                     });
+                                system->_p->imageOptionsObserver = ValueObserver<AV::Render::ImageOptions>::create(
+                                    value->observeImageOptions(),
+                                    [weak](const AV::Render::ImageOptions& value)
+                                    {
+                                        if (auto system = weak.lock())
+                                        {
+                                            system->_p->imageOptions = value;
+                                            system->_imageOptionsUpdate();
+                                        }
+                                    });
                             }
                             else
                             {
                                 system->_p->currentImage.reset();
                                 system->_p->currentImageObserver.reset();
+                                system->_p->imageOptionsObserver.reset();
                             }
+                            system->_imageOptionsUpdate();
                         }
                     });
             }
@@ -283,6 +314,17 @@ namespace djv
             };
         }
 
+        void ImageSystem::_imageOptionsUpdate()
+        {
+            DJV_PRIVATE_PTR();
+            p.actions["ColorChannels"]->setEnabled(p.currentMedia.get());
+            p.actions["RedChannel"]->setEnabled(p.currentMedia.get());
+            p.actions["GreenChannel"]->setEnabled(p.currentMedia.get());
+            p.actions["BlueChannel"]->setEnabled(p.currentMedia.get());
+            p.actions["AlphaChannel"]->setEnabled(p.currentMedia.get());
+            p.channelActionGroup->setChecked(static_cast<int>(p.imageOptions.channel));
+        }
+
         void ImageSystem::_textUpdate()
         {
             DJV_PRIVATE_PTR();
@@ -316,12 +358,12 @@ namespace djv
             p.actions["AspectRatio_Default"]->setTooltip(_getText(DJV_TEXT("Default aspect ratio tooltip")));
             p.actions["AspectRatio_Auto"]->setText(_getText(DJV_TEXT("Automatic Aspect Ratio")));
             p.actions["AspectRatio_Auto"]->setTooltip(_getText(DJV_TEXT("Automatic aspect ratio tooltip")));
-            p.actions["AspectRatio_16_9"]->setText(_getText(DJV_TEXT("16:9 Aspect Ratio")));
+            p.actions["AspectRatio_16_9"]->setText(_getText(DJV_TEXT("16:9")));
             p.actions["AspectRatio_16_9"]->setTooltip(_getText(DJV_TEXT("16:9 aspect ratio tooltip")));
-            p.actions["AspectRatio_1_85"]->setText(_getText(DJV_TEXT("1:85 Aspect Ratio")));
-            p.actions["AspectRatio_1_85"]->setTooltip(_getText(DJV_TEXT("1:85 aspect ratio tooltip")));
-            p.actions["AspectRatio_2_35"]->setText(_getText(DJV_TEXT("2:35 Aspect Ratio")));
-            p.actions["AspectRatio_2_35"]->setTooltip(_getText(DJV_TEXT("2:35 aspect ratio tooltip")));
+            p.actions["AspectRatio_1_85"]->setText(_getText(DJV_TEXT("1.85")));
+            p.actions["AspectRatio_1_85"]->setTooltip(_getText(DJV_TEXT("1.85 aspect ratio tooltip")));
+            p.actions["AspectRatio_2_35"]->setText(_getText(DJV_TEXT("2.35")));
+            p.actions["AspectRatio_2_35"]->setTooltip(_getText(DJV_TEXT("2.35 aspect ratio tooltip")));
             p.actions["FrameStoreEnabled"]->setText(_getText(DJV_TEXT("Frame Store")));
             p.actions["FrameStoreEnabled"]->setTooltip(_getText(DJV_TEXT("Frame store tooltip")));
             p.actions["LoadFrameStore"]->setText(_getText(DJV_TEXT("Load Frame Store")));

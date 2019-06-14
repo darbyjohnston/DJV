@@ -39,6 +39,7 @@ set(header
     Pixel.h
     PixelInline.h
     Render2D.h
+    Render2DInline.h
     SequenceIO.h
     Shader.h
     Shape.h

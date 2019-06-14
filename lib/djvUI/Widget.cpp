@@ -270,6 +270,7 @@ namespace djv
         void Widget::setTooltip(const std::string & value)
         {
             _tooltipText = value;
+            setPointerEnabled(true);
         }
 
         void Widget::setTooltipsEnabled(bool value)

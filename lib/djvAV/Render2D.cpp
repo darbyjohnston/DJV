@@ -89,16 +89,17 @@ namespace djv
 
                 struct Primitive
                 {
-                    BBox2f      clipRect;
-                    ImageFormat imageFormat = ImageFormat::RGBA;
-                    ColorMode   colorMode   = ColorMode::SolidColor;
-                    float       color[4]    = { 0.f, 0.f, 0.f, 0.f };
-                    ImageCache  imageCache  = ImageCache::Atlas;
-                    size_t      atlasIndex  = 0;
-                    GLuint      textureID   = 0;
-                    size_t      vao         = 0;
-                    size_t      vaoOffset   = 0;
-                    size_t      vaoSize     = 0;
+                    BBox2f       clipRect;
+                    ImageFormat  imageFormat  = ImageFormat::RGBA;
+                    ColorMode    colorMode    = ColorMode::SolidColor;
+                    float        color[4]     = { 0.f, 0.f, 0.f, 0.f };
+                    ImageChannel imageChannel = ImageChannel::Color;
+                    ImageCache   imageCache   = ImageCache::Atlas;
+                    size_t       atlasIndex   = 0;
+                    GLuint       textureID    = 0;
+                    size_t       vao          = 0;
+                    size_t       vaoOffset    = 0;
+                    size_t       vaoSize      = 0;
                 };
 
                 struct VBOVertex
@@ -220,7 +221,7 @@ namespace djv
                 void drawImage(
                     const std::shared_ptr<Image::Data>&,
                     const Core::BBox2f&,
-                    ImageCache,
+                    const ImageOptions& options,
                     ColorMode);
 
                 void updatePrimitivesSize(size_t);
@@ -329,6 +330,7 @@ namespace djv
                 p.render->shader->setUniform("transform.mvp", viewMatrix);
                 const auto program = p.render->shader->getProgram();
                 const GLint imageFormatLoc = glGetUniformLocation(program, "imageFormat");
+                const GLint imageChannelLoc = glGetUniformLocation(program, "imageChannel");
                 const GLint colorModeLoc = glGetUniformLocation(program, "colorMode");
                 const GLint colorLoc = glGetUniformLocation(program, "color");
                 const GLint textureSamplerLoc = glGetUniformLocation(program, "textureSampler");
@@ -351,6 +353,7 @@ namespace djv
                 p.render->vao->bind();
 
                 auto imageFormat = static_cast<ImageFormat>(0);
+                auto imageChannel = static_cast<ImageChannel>(0);
                 auto colorMode = static_cast<ColorMode>(0);
                 float color[] = { 0.f, 0.f, 0.f, 0.f };
                 ImageCache imageCache = ImageCache::Atlas;
@@ -370,6 +373,11 @@ namespace djv
                     {
                         imageFormat = primitive.imageFormat;
                         p.render->shader->setUniform(imageFormatLoc, static_cast<int>(primitive.imageFormat));
+                    }
+                    if (0 == i || primitive.imageChannel != imageChannel)
+                    {
+                        imageChannel = primitive.imageChannel;
+                        p.render->shader->setUniform(imageChannelLoc, static_cast<int>(primitive.imageChannel));
                     }
                     if (0 == i || primitive.colorMode != colorMode)
                     {
@@ -666,16 +674,16 @@ namespace djv
                 }
             }
 
-            void Render2D::drawImage(const std::shared_ptr<Image::Data> & imageData, const BBox2f & rect, ImageCache cache)
+            void Render2D::drawImage(const std::shared_ptr<Image::Data> & imageData, const BBox2f & rect, const ImageOptions& options)
             {
                 DJV_PRIVATE_PTR();
-                p.drawImage(imageData, rect, cache, ColorMode::ColorAndTexture);
+                p.drawImage(imageData, rect, options, ColorMode::ColorAndTexture);
             }
 
-            void Render2D::drawFilledImage(const std::shared_ptr<Image::Data> & imageData, const BBox2f & rect, ImageCache cache)
+            void Render2D::drawFilledImage(const std::shared_ptr<Image::Data> & imageData, const BBox2f & rect, const ImageOptions& options)
             {
                 DJV_PRIVATE_PTR();
-                p.drawImage(imageData, rect, cache, ColorMode::ColorWithTextureAlpha);
+                p.drawImage(imageData, rect, options, ColorMode::ColorWithTextureAlpha);
             }
 
             void Render2D::setCurrentFont(const Font::Info & value)
@@ -1115,7 +1123,7 @@ namespace djv
             void Render2D::Private::drawImage(
                 const std::shared_ptr<Image::Data>& imageData,
                 const BBox2f& rect,
-                ImageCache cache,
+                const ImageOptions& options,
                 ColorMode colorMode)
             {
                 if (rect.intersects(render->viewport))
@@ -1143,11 +1151,12 @@ namespace djv
                     primitive.color[1] = finalColor[1];
                     primitive.color[2] = finalColor[2];
                     primitive.color[3] = finalColor[3];
-                    primitive.imageCache = cache;
+                    primitive.imageChannel = options.channel;
+                    primitive.imageCache = options.cache;
                     static FloatRange textureU;
                     static FloatRange textureV;
                     const UID uid = imageData->getUID();
-                    switch (cache)
+                    switch (options.cache)
                     {
                     case ImageCache::Atlas:
                     {

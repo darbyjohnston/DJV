@@ -111,7 +111,7 @@ namespace djv
 
             p.actions["Maximized"] = UI::Action::create();
             p.actions["Maximized"]->setButtonType(UI::ButtonType::Toggle);
-            p.actions["Maximized"]->setIcon("djvIconViewLibSDI");
+            p.actions["Maximized"]->setIcon("djvIconSDI");
             p.actions["Maximized"]->setShortcut(GLFW_KEY_M);
 
             p.menu = UI::Menu::create(context);

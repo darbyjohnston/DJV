@@ -33,6 +33,7 @@ precision mediump float;
 varying vec2 Texture;
 
 uniform int imageFormat;
+uniform int imageChannel;
 uniform int colorMode;
 uniform vec4 color;
 uniform sampler2D textureSampler;
@@ -43,6 +44,13 @@ uniform sampler2D textureSampler;
 #define IMAGE_FORMAT_RGB  2
 #define IMAGE_FORMAT_RGBA 3
 
+// djv::AV::Render::ImageChannel
+#define IMAGE_CHANNEL_COLOR 0
+#define IMAGE_CHANNEL_RED   1
+#define IMAGE_CHANNEL_GREEN 2
+#define IMAGE_CHANNEL_BLUE  3
+#define IMAGE_CHANNEL_ALPHA 4
+
 // djv::AV::Render::ColorMode
 #define COLOR_MODE_SOLID_COLOR                0
 #define COLOR_MODE_COLOR_WITH_TEXTURE_ALPHA   1
@@ -50,33 +58,17 @@ uniform sampler2D textureSampler;
 #define COLOR_MODE_COLOR_WITH_TEXTURE_ALPHA_G 3
 #define COLOR_MODE_COLOR_WITH_TEXTURE_ALPHA_B 4
 #define COLOR_MODE_COLOR_AND_TEXTURE          5
+#define COLOR_MODE_SHADOW                     6
 
 void main()
 {
-    vec4 t = texture2D(textureSampler, Texture);
-    if (IMAGE_FORMAT_L == imageFormat)
-    {
-        t.g = t.r;
-        t.b = t.r;
-        t.a = 1.0;
-    }
-    else if (IMAGE_FORMAT_LA == imageFormat)
-    {
-        t.a = t.g;
-        t.g = t.r;
-        t.b = t.r;
-    }
-    else if (IMAGE_FORMAT_RGB == imageFormat)
-    {
-        t.a = 1.0;
-    }
-    
     if (COLOR_MODE_SOLID_COLOR == colorMode)
     {
         gl_FragColor = color;
     }
     else if (COLOR_MODE_COLOR_WITH_TEXTURE_ALPHA == colorMode)
     {
+		vec4 t = texture(textureSampler, Texture);
         gl_FragColor.r = color.r;
         gl_FragColor.g = color.g;
         gl_FragColor.b = color.b;
@@ -84,6 +76,7 @@ void main()
     }
     else if (COLOR_MODE_COLOR_WITH_TEXTURE_ALPHA_R == colorMode)
     {
+		vec4 t = texture(textureSampler, Texture);
         gl_FragColor.r = color.r;
         gl_FragColor.g = 0.0;
         gl_FragColor.b = 0.0;
@@ -91,6 +84,7 @@ void main()
     }
     else if (COLOR_MODE_COLOR_WITH_TEXTURE_ALPHA_G == colorMode)
     {
+		vec4 t = texture(textureSampler, Texture);
         gl_FragColor.r = 0.0;
         gl_FragColor.g = color.g;
         gl_FragColor.b = 0.0;
@@ -98,6 +92,7 @@ void main()
     }
     else if (COLOR_MODE_COLOR_WITH_TEXTURE_ALPHA_B == colorMode)
     {
+		vec4 t = texture(textureSampler, Texture);
         gl_FragColor.r = 0.0;
         gl_FragColor.g = 0.0;
         gl_FragColor.b = color.b;
@@ -105,6 +100,27 @@ void main()
     }
     else if (COLOR_MODE_COLOR_AND_TEXTURE == colorMode)
     {
+	    vec4 t = texture2D(textureSampler, Texture);
+		if (IMAGE_FORMAT_L == imageFormat)
+		{
+			t.g = t.r;
+			t.b = t.r;
+			t.a = 1.0;
+		}
+		else if (IMAGE_FORMAT_LA == imageFormat)
+		{
+			t.a = t.g;
+			t.g = t.r;
+			t.b = t.r;
+		}
+		else if (IMAGE_FORMAT_RGB == imageFormat)
+		{
+			t.a = 1.0;
+		}
         gl_FragColor = color * t;
     }
+	else if (COLOR_MODE_SHADOW == colorMode)
+	{
+        gl_FragColor = color * Texture.x;
+	}
 }

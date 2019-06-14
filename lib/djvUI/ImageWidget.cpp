@@ -154,7 +154,9 @@ namespace djv
                 }
                 auto render = _getRender();
                 render->setFillColor(AV::Image::Color(1.f, 1.f, 1.f, getOpacity(true)));
-                render->drawImage(p.image, BBox2f(pos.x, pos.y, size.x, size.y), AV::Render::ImageCache::Dynamic);
+                AV::Render::ImageOptions options;
+                options.cache = AV::Render::ImageCache::Dynamic;
+                render->drawImage(p.image, BBox2f(pos.x, pos.y, size.x, size.y), options);
             }
         }
 

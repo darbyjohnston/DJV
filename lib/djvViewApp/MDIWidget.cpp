@@ -227,6 +227,7 @@ namespace djv
             std::shared_ptr<ValueObserver<Time::Timestamp> > currentTimeObserver;
             std::shared_ptr<ValueObserver<AV::TimeUnits> > timeUnitsObserver;
             std::shared_ptr<ValueObserver<std::shared_ptr<AV::Image::Image> > > imageObserver;
+            std::shared_ptr<ValueObserver<AV::Render::ImageOptions> > imageOptionsObserver;
             std::shared_ptr<ValueObserver<AV::IO::Info> > infoObserver;
             std::shared_ptr<ValueObserver<Time::Speed> > speedObserver;
             std::shared_ptr<ValueObserver<Time::Timestamp> > durationObserver;
@@ -269,9 +270,10 @@ namespace djv
             p.titleLabel->setText(Core::FileSystem::Path(media->getFileName()).getFileName());
             p.titleLabel->setTextHAlign(UI::TextHAlign::Left);
             p.titleLabel->setMargin(UI::MetricsRole::Margin);
+            p.titleLabel->setTooltip(media->getFileName());
 
             p.maximizeButton = UI::ToolButton::create(context);
-            p.maximizeButton->setIcon("djvIconViewLibSDI");
+            p.maximizeButton->setIcon("djvIconSDI");
             p.maximizeButton->setInsideMargin(UI::MetricsRole::MarginSmall);
 
             p.closeButton = UI::ToolButton::create(context);
@@ -501,6 +503,16 @@ namespace djv
                     }
                 });
 
+            p.imageOptionsObserver = ValueObserver<AV::Render::ImageOptions>::create(
+                p.media->observeImageOptions(),
+                [weak](const AV::Render::ImageOptions& value)
+                {
+                    if (auto widget = weak.lock())
+                    {
+                        widget->_p->imageView->setImageOptions(value);
+                    }
+                });
+
             p.infoObserver = ValueObserver<AV::IO::Info>::create(
                 p.media->observeInfo(),
                 [weak](const AV::IO::Info& value)
@@ -705,6 +717,9 @@ namespace djv
             p.actions["NextFrame"]->setTooltip(_getText(DJV_TEXT("Next frame tooltip")));
             p.actions["PrevFrame"]->setTooltip(_getText(DJV_TEXT("Previous frame tooltip")));
             p.actions["OutPoint"]->setTooltip(_getText(DJV_TEXT("Go to out point tooltip")));
+
+            p.maximizeButton->setTooltip(_getText(DJV_TEXT("Maximize tooltip")));
+            p.closeButton->setTooltip(_getText(DJV_TEXT("Close tooltip")));
 
             p.speedButton->setTooltip(_getText(DJV_TEXT("Speed tooltip")));
             p.currentTimeLabel->setTooltip(_getText(DJV_TEXT("Current time tooltip")));

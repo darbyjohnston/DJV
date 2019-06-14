@@ -66,6 +66,7 @@ namespace djv
             MenuData getMenu() override;
 
         protected:
+            void _imageOptionsUpdate();
             void _textUpdate();
 
         private:

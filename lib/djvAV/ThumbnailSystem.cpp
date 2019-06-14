@@ -66,7 +66,7 @@ namespace djv
                     uid(createUID())
                 {}
 
-                InfoRequest(InfoRequest && other) :
+                InfoRequest(InfoRequest && other) noexcept :
                     uid(other.uid),
                     path(other.path),
                     read(std::move(other.read)),
@@ -74,7 +74,7 @@ namespace djv
                     promise(std::move(other.promise))
                 {}
 
-                InfoRequest & operator = (InfoRequest && other)
+                InfoRequest & operator = (InfoRequest && other) noexcept
                 {
                     if (this != &other)
                     {
@@ -100,7 +100,7 @@ namespace djv
                     uid(createUID())
                 {}
 
-                ImageRequest(ImageRequest && other) :
+                ImageRequest(ImageRequest && other) noexcept :
                     uid(other.uid),
                     path(other.path),
                     size(std::move(other.size)),
@@ -109,7 +109,7 @@ namespace djv
                     promise(std::move(other.promise))
                 {}
 
-                ImageRequest & operator = (ImageRequest && other)
+                ImageRequest & operator = (ImageRequest && other) noexcept
                 {
                     if (this != &other)
                     {

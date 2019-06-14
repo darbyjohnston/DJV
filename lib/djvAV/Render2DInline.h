@@ -27,38 +27,25 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvDesktopApp/Application.h>
-
-#include <djvUI/PushButton.h>
-#include <djvUI/Window.h>
-
-#include <djvCore/Error.h>
-
-using namespace djv;
-
-int main(int argc, char ** argv)
+namespace djv
 {
-    int r = 0;
-    try
+    namespace AV
     {
-        auto app = Desktop::Application::create(argc, argv);
+        namespace Render
+        {
+            inline bool ImageOptions::operator == (const ImageOptions& other) const
+            {
+                return
+                    channel == other.channel &&
+                    cache == other.cache;
+            }
 
-        auto button = UI::PushButton::create(app.get());
-        button->setText("Hello world!");
-        button->setFontSizeRole(UI::MetricsRole::FontLarge);
-        button->setHAlign(UI::HAlign::Center);
-        button->setVAlign(UI::VAlign::Center);
-        button->setTooltip("Hoo dat!");
+            inline bool ImageOptions::operator != (const ImageOptions& other) const
+            {
+                return !(*this == other);
+            }
 
-        auto window = UI::Window::create(app.get());
-        window->addChild(button);
-        window->show();
+        } // namespace Render
+    } // namespace AV
+} // namespace djv
 
-        return app->run();
-    }
-    catch (const std::exception & e)
-    {
-        std::cout << Core::Error::format(e) << std::endl;
-    }
-    return r;
-}

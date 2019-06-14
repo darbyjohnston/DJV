@@ -42,6 +42,12 @@ namespace djv
             class Image;
     
         } // namespace Image
+
+        namespace Render
+        {
+            struct ImageOptions;
+
+        } // namespace Render
     } // namespace AV
 
     namespace ViewApp
@@ -63,6 +69,8 @@ namespace djv
 
             const std::shared_ptr<AV::Image::Image>& getImage() const;
             void setImage(const std::shared_ptr<AV::Image::Image>&);
+
+            void setImageOptions(const AV::Render::ImageOptions&);
 
             const glm::vec2& getImagePos() const;
             float getImageZoom() const;
