@@ -176,7 +176,7 @@ namespace djv
                     AV::Image::Color color = style->getColor(UI::ColorRole::Foreground);
                     color.setF32(color.getF32(3) * primitiveOpacity * sin(i.age / i.lifespan * Math::pi), 3);
                     render->setFillColor(color);
-                    render->drawFilledImage(i.image, BBox2f(floorf(i.pos.x), floorf(i.pos.y), i.image->getWidth(), i.image->getHeight()));
+                    render->drawFilledImage(i.image, i.pos);
                 }
             }
 

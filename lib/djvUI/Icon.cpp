@@ -199,12 +199,12 @@ namespace djv
                 if (p.iconColorRole != ColorRole::None)
                 {
                     render->setFillColor(style->getColor(p.iconColorRole));
-                    render->drawFilledImage(p.image, BBox2f(pos.x, pos.y, w, h));
+                    render->drawFilledImage(p.image, pos);
                 }
                 else
                 {
                     render->setFillColor(AV::Image::Color(1.f, 1.f, 1.f));
-                    render->drawImage(p.image, BBox2f(pos.x, pos.y, w, h));
+                    render->drawImage(p.image, pos);
                 }
             }
         }

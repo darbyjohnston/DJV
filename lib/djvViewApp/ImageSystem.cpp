@@ -30,7 +30,10 @@
 #include <djvViewApp/ImageSystem.h>
 
 #include <djvViewApp/FileSystem.h>
+#include <djvViewApp/ImageView.h>
+#include <djvViewApp/MDIWidget.h>
 #include <djvViewApp/Media.h>
+#include <djvViewApp/WindowSystem.h>
 
 #include <djvUI/Action.h>
 #include <djvUI/ActionGroup.h>
@@ -55,8 +58,8 @@ namespace djv
         {
             std::shared_ptr<ValueSubject<bool> > frameStoreEnabled;
             std::shared_ptr<ValueSubject<std::shared_ptr<AV::Image::Image> > > frameStore;
-            std::shared_ptr<Media> currentMedia;
             std::shared_ptr<AV::Image::Image> currentImage;
+            std::shared_ptr<MDIWidget> activeWidget;
             AV::Render::ImageOptions imageOptions;
             std::map<std::string, std::shared_ptr<UI::Action> > actions;
             std::shared_ptr<UI::ActionGroup> channelActionGroup;
@@ -67,6 +70,7 @@ namespace djv
             std::shared_ptr<ValueObserver<std::shared_ptr<Media> > > currentMediaObserver;
             std::shared_ptr<ValueObserver<std::shared_ptr<AV::Image::Image> > > currentImageObserver;
             std::shared_ptr<ValueObserver<AV::Render::ImageOptions> > imageOptionsObserver;
+            std::shared_ptr<ValueObserver<std::shared_ptr<MDIWidget> > > activeWidgetObserver;
             std::shared_ptr<ValueObserver<std::string> > localeObserver;
         };
 
@@ -102,26 +106,14 @@ namespace djv
             //! \todo Implement me!
             p.actions["PremultipliedAlpha"] = UI::Action::create();
             p.actions["PremultipliedAlpha"]->setEnabled(false);
-            //! \todo Implement me!
             p.actions["MirrorH"] = UI::Action::create();
             p.actions["MirrorH"]->setButtonType(UI::ButtonType::Toggle);
-            p.actions["MirrorH"]->setEnabled(false);
-            //! \todo Implement me!
             p.actions["MirrorV"] = UI::Action::create();
             p.actions["MirrorV"]->setButtonType(UI::ButtonType::Toggle);
-            p.actions["MirrorV"]->setEnabled(false);
-            //! \todo Implement me!
             p.actions["Rotate_0"] = UI::Action::create();
-            p.actions["Rotate_0"]->setEnabled(false);
-            //! \todo Implement me!
             p.actions["Rotate_90"] = UI::Action::create();
-            p.actions["Rotate_90"]->setEnabled(false);
-            //! \todo Implement me!
             p.actions["Rotate_180"] = UI::Action::create();
-            p.actions["Rotate_180"]->setEnabled(false);
-            //! \todo Implement me!
             p.actions["Rotate_270"] = UI::Action::create();
-            p.actions["Rotate_270"]->setEnabled(false);
             p.rotateActionGroup = UI::ActionGroup::create(UI::ButtonType::Radio);
             p.rotateActionGroup->addAction(p.actions["Rotate_0"]);
             p.rotateActionGroup->addAction(p.actions["Rotate_90"]);
@@ -192,10 +184,18 @@ namespace djv
                     if (auto system = weak.lock())
                     {
                         system->_p->imageOptions.channel = static_cast<AV::Render::ImageChannel>(value);
-                        if (system->_p->currentMedia)
+                        if (system->_p->activeWidget)
                         {
-                            system->_p->currentMedia->setImageOptions(system->_p->imageOptions);
+                            system->_p->activeWidget->getImageView()->setImageOptions(system->_p->imageOptions);
                         }
+                    }
+                });
+
+            p.rotateActionGroup->setRadioCallback(
+                [weak](int value)
+                {
+                    if (auto system = weak.lock())
+                    {
                     }
                 });
 
@@ -231,7 +231,6 @@ namespace djv
                     {
                         if (auto system = weak.lock())
                         {
-                            system->_p->currentMedia = value;
                             if (value)
                             {
                                 system->_p->currentImageObserver = ValueObserver<std::shared_ptr<AV::Image::Image> >::create(
@@ -243,8 +242,30 @@ namespace djv
                                             system->_p->currentImage = value;
                                         }
                                     });
+                            }
+                            else
+                            {
+                                system->_p->currentImage.reset();
+                                system->_p->currentImageObserver.reset();
+                            }
+                            system->_imageOptionsUpdate();
+                        }
+                    });
+            }
+
+            if (auto windowSystem = context->getSystemT<WindowSystem>())
+            {
+                p.activeWidgetObserver = ValueObserver<std::shared_ptr<MDIWidget> >::create(
+                    windowSystem->observeActiveWidget(),
+                    [weak](const std::shared_ptr<MDIWidget>& value)
+                    {
+                        if (auto system = weak.lock())
+                        {
+                            system->_p->activeWidget = value;
+                            if (system->_p->activeWidget)
+                            {
                                 system->_p->imageOptionsObserver = ValueObserver<AV::Render::ImageOptions>::create(
-                                    value->observeImageOptions(),
+                                    system->_p->activeWidget->getImageView()->observeImageOptions(),
                                     [weak](const AV::Render::ImageOptions& value)
                                     {
                                         if (auto system = weak.lock())
@@ -256,8 +277,6 @@ namespace djv
                             }
                             else
                             {
-                                system->_p->currentImage.reset();
-                                system->_p->currentImageObserver.reset();
                                 system->_p->imageOptionsObserver.reset();
                             }
                             system->_imageOptionsUpdate();
@@ -317,11 +336,11 @@ namespace djv
         void ImageSystem::_imageOptionsUpdate()
         {
             DJV_PRIVATE_PTR();
-            p.actions["ColorChannels"]->setEnabled(p.currentMedia.get());
-            p.actions["RedChannel"]->setEnabled(p.currentMedia.get());
-            p.actions["GreenChannel"]->setEnabled(p.currentMedia.get());
-            p.actions["BlueChannel"]->setEnabled(p.currentMedia.get());
-            p.actions["AlphaChannel"]->setEnabled(p.currentMedia.get());
+            p.actions["ColorChannels"]->setEnabled(p.currentImage.get());
+            p.actions["RedChannel"]->setEnabled(p.currentImage.get());
+            p.actions["GreenChannel"]->setEnabled(p.currentImage.get());
+            p.actions["BlueChannel"]->setEnabled(p.currentImage.get());
+            p.actions["AlphaChannel"]->setEnabled(p.currentImage.get());
             p.channelActionGroup->setChecked(static_cast<int>(p.imageOptions.channel));
         }
 

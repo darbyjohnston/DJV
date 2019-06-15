@@ -397,24 +397,21 @@ namespace djv
                                     }
                                     const uint16_t w = j->second->getWidth();
                                     const uint16_t h = j->second->getHeight();
-                                    float x = 0.f;
-                                    float y = 0.f;
+                                    glm::vec2 pos(0.f, 0.f);
                                     switch (p.viewType)
                                     {
                                     case ViewType::Tiles:
-                                        x = floor(i->second.min.x + sh + p.thumbnailSize.w / 2.f - w / 2.f);
-                                        y = floor(i->second.min.y + sh + p.thumbnailSize.h - h);
+                                        pos.x = floor(i->second.min.x + sh + p.thumbnailSize.w / 2.f - w / 2.f);
+                                        pos.y = floor(i->second.min.y + sh + p.thumbnailSize.h - h);
                                         break;
                                     case ViewType::List:
-                                        x = floor(i->second.min.x + m);
-                                        y = floor(i->second.min.y + i->second.h() / 2.f - h / 2.f);
+                                        pos.x = floor(i->second.min.x + m);
+                                        pos.y = floor(i->second.min.y + i->second.h() / 2.f - h / 2.f);
                                         break;
                                     default: break;
                                     }
                                     render->setFillColor(AV::Image::Color(1.f, 1.f, 1.f, opacity));
-                                    render->drawImage(
-                                        j->second,
-                                        BBox2f(x, y, static_cast<float>(w), static_cast<float>(h)));
+                                    render->drawImage(j->second, pos);
                                 }
                             }
                         }
@@ -425,26 +422,23 @@ namespace djv
                             {
                                 const uint16_t w = j->second->getWidth();
                                 const uint16_t h = j->second->getHeight();
-                                float x = 0.f;
-                                float y = 0.f;
+                                glm::vec2 pos(0.f, 0.f);
                                 switch (p.viewType)
                                 {
                                 case ViewType::Tiles:
-                                    x = floor(i->second.min.x + sh + p.thumbnailSize.w / 2.f - w / 2.f);
-                                    y = floor(i->second.min.y + sh + p.thumbnailSize.h - h);
+                                    pos.x = floor(i->second.min.x + sh + p.thumbnailSize.w / 2.f - w / 2.f);
+                                    pos.y = floor(i->second.min.y + sh + p.thumbnailSize.h - h);
                                     break;
                                 case ViewType::List:
-                                    x = floor(i->second.min.x + m);
-                                    y = floor(i->second.min.y + i->second.h() / 2.f - h / 2.f);
+                                    pos.x = floor(i->second.min.x + m);
+                                    pos.y = floor(i->second.min.y + i->second.h() / 2.f - h / 2.f);
                                     break;
                                 default: break;
                                 }
                                 auto c = style->getColor(ColorRole::Button).convert(AV::Image::Type::RGBA_F32);
                                 c.setF32(1.f - opacity, 3);
                                 render->setFillColor(c);
-                                render->drawFilledImage(
-                                    j->second,
-                                    BBox2f(x, y, static_cast<float>(w), static_cast<float>(h)));
+                                render->drawFilledImage(j->second, pos);
                             }
                         }
                         {

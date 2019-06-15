@@ -37,6 +37,8 @@
 #include <djvAV/Image.h>
 #include <djvAV/Render2D.h>
 
+#include <glm/gtx/matrix_transform_2d.hpp>
+
 using namespace djv::Core;
 
 namespace djv
@@ -46,9 +48,10 @@ namespace djv
         struct ImageView::Private
         {
             std::shared_ptr<AV::Image::Image> image;
-            AV::Render::ImageOptions imageOptions;
+            std::shared_ptr<ValueSubject<AV::Render::ImageOptions> > imageOptions;
             glm::vec2 imagePos = glm::vec2(0.f, 0.f);
             float imageZoom = 1.f;
+            float imageRotate = 0.f;
             ImageViewLock lock = ImageViewLock::None;
             AV::Image::Color backgroundColor = AV::Image::Color(0.f, 0.f, 0.f);
             glm::vec2 pressedImagePos = glm::vec2(0.f, 0.f);
@@ -62,6 +65,7 @@ namespace djv
             setClassName("djv::ViewApp::ImageView");
 
             DJV_PRIVATE_PTR();
+            p.imageOptions = ValueSubject<AV::Render::ImageOptions>::create();
 
             auto weak = std::weak_ptr<ImageView>(std::dynamic_pointer_cast<ImageView>(shared_from_this()));
             auto settingsSystem = context->getSystemT<UI::Settings::System>();
@@ -112,15 +116,20 @@ namespace djv
             }
         }
 
+        std::shared_ptr<IValueSubject<AV::Render::ImageOptions> > ImageView::observeImageOptions() const
+        {
+            return _p->imageOptions;
+        }
+
         void ImageView::setImageOptions(const AV::Render::ImageOptions& value)
         {
             DJV_PRIVATE_PTR();
-            if (value == p.imageOptions)
-                return;
-            p.imageOptions = value;
-            if (isVisible() && !isClipped())
+            if (p.imageOptions->setIfChanged(value))
             {
-                _resize();
+                if (isVisible() && !isClipped())
+                {
+                    _resize();
+                }
             }
         }
 
@@ -132,6 +141,11 @@ namespace djv
         float ImageView::getImageZoom() const
         {
             return _p->imageZoom;
+        }
+
+        float ImageView::getImageRotate() const
+        {
+            return _p->imageRotate;
         }
 
         void ImageView::setImagePos(const glm::vec2& value)
@@ -167,7 +181,16 @@ namespace djv
                 return;
             p.imagePos = pos;
             p.imageZoom = zoom;
-            _redraw();
+            _resize();
+        }
+
+        void ImageView::setImageRotate(float value)
+        {
+            DJV_PRIVATE_PTR();
+            if (value == p.imageRotate)
+                return;
+            p.imageRotate = value;
+            _resize();
         }
 
         void ImageView::imageFit()
@@ -177,7 +200,7 @@ namespace djv
             {
                 const AV::Image::Size& imageSize = p.image->getSize();
                 const BBox2f& g = getGeometry();
-                float zoom = g.w() / static_cast<float>(imageSize.w);
+                /*float zoom = g.w() / static_cast<float>(imageSize.w);
                 if (zoom * imageSize.h > g.h())
                 {
                     zoom = g.h() / static_cast<float>(imageSize.h);
@@ -186,6 +209,46 @@ namespace djv
                     glm::vec2(
                         g.w() / 2.f - ((imageSize.w * zoom) / 2.f),
                         g.h() / 2.f - ((imageSize.h * zoom) / 2.f)),
+                    zoom);*/
+
+                glm::mat3x3 m(1.f);
+                m = glm::rotate(m, Math::deg2rad(p.imageRotate));
+
+                glm::vec3 pts[4];
+                pts[0].x = 0.f;
+                pts[0].y = 0.f;
+                pts[0].z = 1.f;
+                pts[1].x = 0.f + imageSize.w;
+                pts[1].y = 0.f;
+                pts[1].z = 1.f;
+                pts[2].x = 0.f + imageSize.w;
+                pts[2].y = 0.f + imageSize.h;
+                pts[2].z = 1.f;
+                pts[3].x = 0.f;
+                pts[3].y = 0.f + imageSize.h;
+                pts[3].z = 1.f;
+                for (auto& i : pts)
+                {
+                    i = m * i;
+                }
+
+                BBox2f bbox(pts[0], pts[0]);
+                for (size_t i = 1; i < 4; ++i)
+                {
+                    bbox.min.x = std::min(bbox.min.x, pts[i].x);
+                    bbox.max.x = std::max(bbox.max.x, pts[i].x);
+                    bbox.min.y = std::min(bbox.min.y, pts[i].y);
+                    bbox.max.y = std::max(bbox.max.y, pts[i].y);
+                }
+                const glm::vec2 c = bbox.getCenter();
+
+                float zoom = g.w() / static_cast<float>(bbox.w());
+                if (zoom * bbox.h() > g.h())
+                {
+                    zoom = g.h() / static_cast<float>(bbox.h());
+                }
+                setImagePosAndZoom(
+                    glm::vec2(g.w() / 2.f, g.h() / 2.f),
                     zoom);
             }
         }
@@ -197,10 +260,47 @@ namespace djv
             {
                 const AV::Image::Size& imageSize = p.image->getSize();
                 const BBox2f& g = getGeometry();
+                //setImagePosAndZoom(
+                //    glm::vec2(
+                //        g.w() / 2.f - ((imageSize.w) / 2.f),
+                //        g.h() / 2.f - ((imageSize.h) / 2.f)),
+                //    1.f);
+
+                glm::mat3x3 m(1.f);
+                m = glm::rotate(m, Math::deg2rad(p.imageRotate));
+                m = glm::scale(m, glm::vec2(p.imageZoom, p.imageZoom));
+
+                glm::vec3 pts[4];
+                pts[0].x = 0.f;
+                pts[0].y = 0.f;
+                pts[0].z = 1.f;
+                pts[1].x = 0.f + imageSize.w;
+                pts[1].y = 0.f;
+                pts[1].z = 1.f;
+                pts[2].x = 0.f + imageSize.w;
+                pts[2].y = 0.f + imageSize.h;
+                pts[2].z = 1.f;
+                pts[3].x = 0.f;
+                pts[3].y = 0.f + imageSize.h;
+                pts[3].z = 1.f;
+                for (auto& i : pts)
+                {
+                    i = m * i;
+                }
+
+                glm::vec3 c(0.f, 0.f, 1.f);
+                for (const auto& i : pts)
+                {
+                    c.x += i.x;
+                    c.y += i.y;
+                }
+                c.x /= 4.f;
+                c.y /= 4.f;
+
                 setImagePosAndZoom(
                     glm::vec2(
-                        g.w() / 2.f - ((imageSize.w) / 2.f),
-                        g.h() / 2.f - ((imageSize.h) / 2.f)),
+                        g.w() / 2.f - c.x,
+                        g.h() / 2.f - c.y),
                     1.f);
             }
         }
@@ -234,14 +334,15 @@ namespace djv
                 render->setFillColor(p.backgroundColor);
                 render->drawRect(g);
                 render->setFillColor(AV::Image::Color(1.f, 1.f, 1.f));
-                const BBox2f imageGeometry(
-                    g.min.x + p.imagePos.x,
-                    g.min.y + p.imagePos.y,
-                    p.image->getWidth() * p.imageZoom,
-                    p.image->getHeight() * p.imageZoom);
-                AV::Render::ImageOptions options(p.imageOptions);
+                glm::mat3x3 m(1.f);
+                m = glm::translate(m, g.min + p.imagePos);
+                m = glm::rotate(m, Math::deg2rad(p.imageRotate));
+                m = glm::scale(m, glm::vec2(p.imageZoom, p.imageZoom));
+                render->pushTransform(m);
+                AV::Render::ImageOptions options(p.imageOptions->get());
                 options.cache = AV::Render::ImageCache::Dynamic;
-                render->drawImage(p.image, imageGeometry, options);
+                render->drawImage(p.image, glm::vec2(0.f, 0.f), options);
+                render->popTransform();
             }
         }
 

@@ -62,11 +62,11 @@ namespace djv
             namespace
             {
                 //! \todo [1.0 S] Should this be configurable?
-                const size_t primitiveSize            = 10000;
-                const size_t textureAtlasCount        = 4;
-                const size_t textureAtlasSize         = 8192;
+                const size_t primitiveSize = 10000;
+                const size_t textureAtlasCount = 4;
+                const size_t textureAtlasSize = 8192;
                 const size_t dynamicTextureCacheCount = 16;
-                const size_t vboSize                  = 10000;
+                const size_t vboSize = 10000;
 
                 enum class ImageFormat
                 {
@@ -90,16 +90,16 @@ namespace djv
                 struct Primitive
                 {
                     BBox2f       clipRect;
-                    ImageFormat  imageFormat  = ImageFormat::RGBA;
-                    ColorMode    colorMode    = ColorMode::SolidColor;
-                    float        color[4]     = { 0.f, 0.f, 0.f, 0.f };
+                    ImageFormat  imageFormat = ImageFormat::RGBA;
+                    ColorMode    colorMode = ColorMode::SolidColor;
+                    float        color[4] = { 0.f, 0.f, 0.f, 0.f };
                     ImageChannel imageChannel = ImageChannel::Color;
-                    ImageCache   imageCache   = ImageCache::Atlas;
-                    size_t       atlasIndex   = 0;
-                    GLuint       textureID    = 0;
-                    size_t       vao          = 0;
-                    size_t       vaoOffset    = 0;
-                    size_t       vaoSize      = 0;
+                    ImageCache   imageCache = ImageCache::Atlas;
+                    size_t       atlasIndex = 0;
+                    GLuint       textureID = 0;
+                    size_t       vao = 0;
+                    size_t       vaoOffset = 0;
+                    size_t       vaoSize = 0;
                 };
 
                 struct VBOVertex
@@ -118,12 +118,12 @@ namespace djv
 
                 struct Render
                 {
-                    Render(Context * context)
+                    Render(Context* context)
                     {
                         primitives.resize(primitiveSize);
 
                         GLint maxTextureUnits = 0;
-                        GLint maxTextureSize  = 0;
+                        GLint maxTextureSize = 0;
                         glGetIntegerv(GL_MAX_TEXTURE_IMAGE_UNITS, &maxTextureUnits);
                         glGetIntegerv(GL_MAX_TEXTURE_SIZE, &maxTextureSize);
                         {
@@ -177,7 +177,7 @@ namespace djv
                     std::shared_ptr<OpenGL::Shader>                  shader;
                 };
 
-                BBox2f flip(const BBox2f & value, const Image::Size& size)
+                BBox2f flip(const BBox2f& value, const Image::Size& size)
                 {
                     BBox2f out;
                     out.min.x = value.min.x;
@@ -200,12 +200,14 @@ namespace djv
             struct Render2D::Private
             {
                 Image::Size                  size;
+                std::list<glm::mat3x3>       transforms;
+                glm::mat3x3                  currentTransform = glm::mat3x3(1.f);
                 std::list<BBox2f>            clipRects;
-                BBox2f                       currentClipRect    = BBox2f(0.f, 0.f, 0.f, 0.f);
-                float                        fillColor[4]       = { 1.f, 1.f, 1.f, 1.f };
-                float                        colorMult          = 1.f;
-                float                        alphaMult          = 1.f;
-                float                        finalColor[4]      = { 1.f, 1.f, 1.f, 1.f };
+                BBox2f                       currentClipRect = BBox2f(0.f, 0.f, 0.f, 0.f);
+                float                        fillColor[4] = { 1.f, 1.f, 1.f, 1.f };
+                float                        colorMult = 1.f;
+                float                        alphaMult = 1.f;
+                float                        finalColor[4] = { 1.f, 1.f, 1.f, 1.f };
                 std::weak_ptr<Font::System>  fontSystem;
                 Font::Info                   currentFont;
 
@@ -214,26 +216,27 @@ namespace djv
                 std::shared_ptr<Time::Timer> statsTimer;
                 std::vector<float>           fpsSamples;
                 std::chrono::time_point<std::chrono::system_clock>
-                                             fpsTime            = std::chrono::system_clock::now();
+                    fpsTime = std::chrono::system_clock::now();
 
+                void updateCurrentTransform();
                 void updateCurrentClipRect();
                 void drawRoundedRect(const Core::BBox2f&, float radius, size_t facets);
                 void drawImage(
                     const std::shared_ptr<Image::Data>&,
-                    const Core::BBox2f&,
-                    const ImageOptions& options,
+                    const glm::vec2& pos,
+                    const ImageOptions&,
                     ColorMode);
 
                 void updatePrimitivesSize(size_t);
                 void updateVBODataSize(size_t);
             };
 
-            void Render2D::_init(Context * context)
+            void Render2D::_init(Context* context)
             {
                 ISystem::_init("djv::AV::Render::Render2D", context);
 
                 DJV_PRIVATE_PTR();
-                
+
                 auto fontSystem = context->getSystemT<Font::System>();
                 p.fontSystem = fontSystem;
                 addDependency(fontSystem);
@@ -245,14 +248,14 @@ namespace djv
                 p.statsTimer->start(
                     Time::getMilliseconds(Time::TimerValue::VerySlow),
                     [this](float)
-                {
-                    DJV_PRIVATE_PTR();
-                    std::stringstream s;
-                    s << "Texture atlas: " << p.render->textureAtlas->getPercentageUsed() << "%\n";
-                    s << "Dynamic texture cache: " << p.render->dynamicTextureCache.size() << "\n";
-                    s << "VBO size: " << p.render->vbo->getSize();
-                    _log(s.str());
-                });
+                    {
+                        DJV_PRIVATE_PTR();
+                        std::stringstream s;
+                        s << "Texture atlas: " << p.render->textureAtlas->getPercentageUsed() << "%\n";
+                        s << "Dynamic texture cache: " << p.render->dynamicTextureCache.size() << "\n";
+                        s << "VBO size: " << p.render->vbo->getSize();
+                        _log(s.str());
+                    });
 
                 /*p.fpsTimer = Time::Timer::create(context);
                 p.fpsTimer->setRepeating(true);
@@ -280,7 +283,7 @@ namespace djv
             Render2D::~Render2D()
             {}
 
-            std::shared_ptr<Render2D> Render2D::create(Context * context)
+            std::shared_ptr<Render2D> Render2D::create(Context* context)
             {
                 auto out = std::shared_ptr<Render2D>(new Render2D);
                 out->_init(context);
@@ -335,7 +338,7 @@ namespace djv
                 const GLint colorLoc = glGetUniformLocation(program, "color");
                 const GLint textureSamplerLoc = glGetUniformLocation(program, "textureSampler");
 
-                const auto & atlasTextures = p.render->textureAtlas->getTextures();
+                const auto& atlasTextures = p.render->textureAtlas->getTextures();
                 const size_t atlasTexturesCount = atlasTextures.size();
                 for (GLuint i = 0; i < static_cast<GLuint>(atlasTexturesCount); ++i)
                 {
@@ -359,7 +362,7 @@ namespace djv
                 ImageCache imageCache = ImageCache::Atlas;
                 size_t atlasIndex = 0;
                 GLuint textureID = 0;
-                
+
                 for (size_t i = 0; i < p.render->primitivesSize; ++i)
                 {
                     const auto& primitive = p.render->primitives[i];
@@ -453,6 +456,20 @@ namespace djv
                 {
                     p.render->dynamicTextureCache.erase(p.render->dynamicTextureCache.begin());
                 }
+            }
+
+            void Render2D::pushTransform(const glm::mat3x3& value)
+            {
+                DJV_PRIVATE_PTR();
+                p.transforms.push_back(value);
+                p.updateCurrentTransform();
+            }
+
+            void Render2D::popTransform()
+            {
+                DJV_PRIVATE_PTR();
+                p.transforms.pop_back();
+                p.updateCurrentTransform();
             }
 
             void Render2D::pushClipRect(const BBox2f & value)
@@ -674,16 +691,22 @@ namespace djv
                 }
             }
 
-            void Render2D::drawImage(const std::shared_ptr<Image::Data> & imageData, const BBox2f & rect, const ImageOptions& options)
+            void Render2D::drawImage(
+                const std::shared_ptr<Image::Data> & imageData,
+                const glm::vec2& pos,
+                const ImageOptions& options)
             {
                 DJV_PRIVATE_PTR();
-                p.drawImage(imageData, rect, options, ColorMode::ColorAndTexture);
+                p.drawImage(imageData, pos, options, ColorMode::ColorAndTexture);
             }
 
-            void Render2D::drawFilledImage(const std::shared_ptr<Image::Data> & imageData, const BBox2f & rect, const ImageOptions& options)
+            void Render2D::drawFilledImage(
+                const std::shared_ptr<Image::Data> & imageData,
+                const glm::vec2& pos,
+                const ImageOptions& options)
             {
                 DJV_PRIVATE_PTR();
-                p.drawImage(imageData, rect, options, ColorMode::ColorWithTextureAlpha);
+                p.drawImage(imageData, pos, options, ColorMode::ColorWithTextureAlpha);
             }
 
             void Render2D::setCurrentFont(const Font::Info & value)
@@ -730,7 +753,7 @@ namespace djv
                                     {
                                         id = i->second;
                                     }
-                                    static TextureAtlasItem item;
+                                    TextureAtlasItem item;
                                     if (!p.render->textureAtlas->getItem(id, item))
                                     {
                                         id = p.render->textureAtlas->addItem(glyph->imageData, item);
@@ -1103,6 +1126,15 @@ namespace djv
                 return _p->render->vbo->getSize();
             }
 
+            void Render2D::Private::updateCurrentTransform()
+            {
+                currentTransform = glm::mat3x3(1.f);
+                for (const auto& i : transforms)
+                {
+                    currentTransform *= i;
+                }
+            }
+
             void Render2D::Private::updateCurrentClipRect()
             {
                 currentClipRect.min.x = 0.f;
@@ -1122,17 +1154,47 @@ namespace djv
 
             void Render2D::Private::drawImage(
                 const std::shared_ptr<Image::Data>& imageData,
-                const BBox2f& rect,
+                const glm::vec2& pos,
                 const ImageOptions& options,
                 ColorMode colorMode)
             {
-                if (rect.intersects(render->viewport))
+                const auto& info = imageData->getInfo();
+
+                static glm::vec3 pts[4];
+                pts[0].x = pos.x;
+                pts[0].y = pos.y;
+                pts[0].z = 1.f;
+                pts[1].x = pos.x + info.size.w;
+                pts[1].y = pos.y;
+                pts[1].z = 1.f;
+                pts[2].x = pos.x + info.size.w;
+                pts[2].y = pos.y + info.size.h;
+                pts[2].z = 1.f;
+                pts[3].x = pos.x;
+                pts[3].y = pos.y + info.size.h;
+                pts[3].z = 1.f;
+                for (auto& i : pts)
+                {
+                    i = currentTransform * i;
+                }
+
+                static BBox2f bbox;
+                bbox.min = pts[0];
+                bbox.max = pts[0];
+                for (size_t i = 1; i < 4; ++i)
+                {
+                    bbox.min.x = std::min(bbox.min.x, pts[i].x);
+                    bbox.max.x = std::max(bbox.max.x, pts[i].x);
+                    bbox.min.y = std::min(bbox.min.y, pts[i].y);
+                    bbox.max.y = std::max(bbox.max.y, pts[i].y);
+                }
+
+                if (bbox.intersects(render->viewport))
                 {
                     const size_t primitivesSize = render->primitivesSize;
                     updatePrimitivesSize(1);
                     Primitive& primitive = render->primitives[primitivesSize];
                     primitive.clipRect = currentClipRect;
-                    const auto& info = imageData->getInfo();
                     switch (info.getGLFormat())
                     {
 #if defined(DJV_OPENGL_ES2)
@@ -1153,8 +1215,8 @@ namespace djv
                     primitive.color[3] = finalColor[3];
                     primitive.imageChannel = options.channel;
                     primitive.imageCache = options.cache;
-                    static FloatRange textureU;
-                    static FloatRange textureV;
+                    FloatRange textureU;
+                    FloatRange textureV;
                     const UID uid = imageData->getUID();
                     switch (options.cache)
                     {
@@ -1206,13 +1268,39 @@ namespace djv
                             render->dynamicTextureCache[uid] = texture;
                             primitive.textureID = texture->getID();
                         }
-                        textureU.min = 0.f;
-                        textureU.max = 1.f;
-                        textureV.min = 0.f;
-                        textureV.max = 1.f;
+                        if (info.layout.mirror.x)
+                        {
+                            textureU.min = 1.f;
+                            textureU.max = 0.f;
+                        }
+                        else
+                        {
+                            textureU.min = 0.f;
+                            textureU.max = 1.f;
+                        }
+                        if (info.layout.mirror.y)
+                        {
+                            textureV.min = 1.f;
+                            textureV.max = 0.f;
+                        }
+                        else
+                        {
+                            textureV.min = 0.f;
+                            textureV.max = 1.f;
+                        }
                         break;
                     }
                     default: break;
+                    }
+                    if (options.mirrorH)
+                    {
+                        textureU.min = 1.f - textureU.min;
+                        textureU.max = 1.f - textureU.max;
+                    }
+                    if (options.mirrorV)
+                    {
+                        textureV.min = 1.f - textureV.min;
+                        textureV.max = 1.f - textureV.max;
                     }
                     primitive.vaoOffset = render->vboDataSize / AV::OpenGL::getVertexByteCount(OpenGL::VBOType::Pos2_F32_UV_U16);;
                     primitive.vaoSize = 6;
@@ -1220,28 +1308,28 @@ namespace djv
                     const size_t vboDataSize = render->vboDataSize;
                     updateVBODataSize(6);
                     VBOVertex* pData = reinterpret_cast<VBOVertex*>(&render->vboData[vboDataSize]);
-                    pData->vx = rect.min.x;
-                    pData->vy = rect.min.y;
+                    pData->vx = pts[0].x;
+                    pData->vy = pts[0].y;
                     pData->setTextureCoord(textureU.min, textureV.min);
                     ++pData;
-                    pData->vx = rect.max.x;
-                    pData->vy = rect.min.y;
+                    pData->vx = pts[1].x;
+                    pData->vy = pts[1].y;
                     pData->setTextureCoord(textureU.max, textureV.min);
                     ++pData;
-                    pData->vx = rect.max.x;
-                    pData->vy = rect.max.y;
+                    pData->vx = pts[2].x;
+                    pData->vy = pts[2].y;
                     pData->setTextureCoord(textureU.max, textureV.max);
                     ++pData;
-                    pData->vx = rect.max.x;
-                    pData->vy = rect.max.y;
+                    pData->vx = pts[2].x;
+                    pData->vy = pts[2].y;
                     pData->setTextureCoord(textureU.max, textureV.max);
                     ++pData;
-                    pData->vx = rect.min.x;
-                    pData->vy = rect.max.y;
+                    pData->vx = pts[3].x;
+                    pData->vy = pts[3].y;
                     pData->setTextureCoord(textureU.min, textureV.max);
                     ++pData;
-                    pData->vx = rect.min.x;
-                    pData->vy = rect.min.y;
+                    pData->vx = pts[0].x;
+                    pData->vy = pts[0].y;
                     pData->setTextureCoord(textureU.min, textureV.min);
                 }
             }

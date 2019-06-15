@@ -29,8 +29,6 @@
 
 #include <djvViewApp/Media.h>
 
-#include <djvAV/Render2D.h>
-
 #include <djvCore/Context.h>
 #include <djvCore/LogSystem.h>
 #include <djvCore/Timer.h>
@@ -62,7 +60,6 @@ namespace djv
             std::shared_ptr<ValueSubject<Time::Timestamp> > duration;
             std::shared_ptr<ValueSubject<Time::Timestamp> > currentTime;
             std::shared_ptr<ValueSubject<std::shared_ptr<AV::Image::Image> > > currentImage;
-            std::shared_ptr<ValueSubject<AV::Render::ImageOptions> > imageOptions;
             std::shared_ptr<ValueSubject<Playback> > playback;
             std::shared_ptr<ValueSubject<PlaybackMode> > playbackMode;
             std::shared_ptr<ValueSubject<bool> > inOutPointsEnabled;
@@ -104,7 +101,6 @@ namespace djv
             p.duration = ValueSubject<Time::Timestamp>::create();
             p.currentTime = ValueSubject<Time::Timestamp>::create();
             p.currentImage = ValueSubject<std::shared_ptr<AV::Image::Image> >::create();
-            p.imageOptions = ValueSubject<AV::Render::ImageOptions>::create();
             p.playback = ValueSubject<Playback>::create();
             p.playbackMode = ValueSubject<PlaybackMode>::create(PlaybackMode::Loop);
             p.inOutPointsEnabled = ValueSubject<bool>::create(false);
@@ -331,11 +327,6 @@ namespace djv
             return _p->currentImage;
         }
 
-        std::shared_ptr<IValueSubject<AV::Render::ImageOptions> > Media::observeImageOptions() const
-        {
-            return _p->imageOptions;
-        }
-
         std::shared_ptr<IValueSubject<Playback> > Media::observePlayback() const
         {
             return _p->playback;
@@ -394,11 +385,6 @@ namespace djv
         std::shared_ptr<IValueSubject<size_t> > Media::observeALQueueCount() const
         {
             return _p->alQueueCount;
-        }
-
-        void Media::setImageOptions(const AV::Render::ImageOptions& value)
-        {
-            _p->imageOptions->setIfChanged(value);
         }
 
         void Media::setSpeed(const Time::Speed& value)

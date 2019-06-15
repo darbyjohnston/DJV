@@ -227,7 +227,6 @@ namespace djv
             std::shared_ptr<ValueObserver<Time::Timestamp> > currentTimeObserver;
             std::shared_ptr<ValueObserver<AV::TimeUnits> > timeUnitsObserver;
             std::shared_ptr<ValueObserver<std::shared_ptr<AV::Image::Image> > > imageObserver;
-            std::shared_ptr<ValueObserver<AV::Render::ImageOptions> > imageOptionsObserver;
             std::shared_ptr<ValueObserver<AV::IO::Info> > infoObserver;
             std::shared_ptr<ValueObserver<Time::Speed> > speedObserver;
             std::shared_ptr<ValueObserver<Time::Timestamp> > durationObserver;
@@ -354,6 +353,7 @@ namespace djv
             p.layout = UI::StackLayout::create(context);
             p.layout->addChild(p.imageView);
             vLayout = UI::VerticalLayout::create(context);
+            vLayout->setSpacing(UI::MetricsRole::None);
             vLayout->addChild(p.titleBar);
             vLayout->addChild(p.pointerWidget);
             vLayout->setStretch(p.pointerWidget, UI::RowStretch::Expand);
@@ -500,16 +500,6 @@ namespace djv
                     {
                         widget->_p->image = value;
                         widget->_imageUpdate();
-                    }
-                });
-
-            p.imageOptionsObserver = ValueObserver<AV::Render::ImageOptions>::create(
-                p.media->observeImageOptions(),
-                [weak](const AV::Render::ImageOptions& value)
-                {
-                    if (auto widget = weak.lock())
-                    {
-                        widget->_p->imageView->setImageOptions(value);
                     }
                 });
 

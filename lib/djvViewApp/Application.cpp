@@ -66,9 +66,9 @@ namespace djv
 
             DJV_PRIVATE_PTR();
             p.systems.push_back(FileSystem::create(this));
-            p.systems.push_back(WindowSystem::create(this));
-            auto imageViewSystem = ImageViewSystem::create(this);
-            p.systems.push_back(imageViewSystem);
+            auto windowSystem = WindowSystem::create(this);
+            p.systems.push_back(windowSystem);
+            p.systems.push_back(ImageViewSystem::create(this));
             p.systems.push_back(ImageSystem::create(this));
             p.systems.push_back(PlaybackSystem::create(this));
             p.systems.push_back(ToolSystem::create(this));
@@ -81,7 +81,7 @@ namespace djv
 
             p.mainWindow = MainWindow::create(this);
 
-            imageViewSystem->setMDICanvas(p.mainWindow->getMDICanvas());
+            windowSystem->setMDICanvas(p.mainWindow->getMDICanvas());
 
             p.nuxWidget = nuxSystem->createNUXWidget();
             if (p.nuxWidget)

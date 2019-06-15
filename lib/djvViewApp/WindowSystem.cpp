@@ -29,6 +29,8 @@
 
 #include <djvViewApp/WindowSystem.h>
 
+#include <djvViewApp/MDICanvas.h>
+#include <djvViewApp/MDIWidget.h>
 #include <djvViewApp/WindowSettings.h>
 
 #include <djvDesktopApp/Application.h>
@@ -68,6 +70,8 @@ namespace djv
         struct WindowSystem::Private
         {
             std::shared_ptr<WindowSettings> settings;
+            std::weak_ptr<MDICanvas> canvas;
+            std::shared_ptr<ValueSubject<std::shared_ptr<MDIWidget> > > activeWidget;
             std::shared_ptr<ValueSubject<bool> > maximized;
             std::shared_ptr<ValueSubject<float> > fade;
             bool fadeEnabled = true;
@@ -98,6 +102,7 @@ namespace djv
             DJV_PRIVATE_PTR();
 
             p.settings = WindowSettings::create(context);
+            p.activeWidget = ValueSubject<std::shared_ptr<MDIWidget> >::create();
             p.maximized = ValueSubject<bool>::create();
             p.fade = ValueSubject<float>::create(1.f);
             p.pointerMotionTimer = Time::Timer::create(context);
@@ -203,6 +208,33 @@ namespace djv
             auto out = std::shared_ptr<WindowSystem>(new WindowSystem);
             out->_init(context);
             return out;
+        }
+
+        void WindowSystem::setMDICanvas(const std::shared_ptr<MDICanvas>& value)
+        {
+            DJV_PRIVATE_PTR();
+            if (auto canvas = p.canvas.lock())
+            {
+                canvas->setActiveCallback(nullptr);
+            }
+            p.canvas = value;
+            auto weak = std::weak_ptr<WindowSystem>(std::dynamic_pointer_cast<WindowSystem>(shared_from_this()));
+            if (auto canvas = p.canvas.lock())
+            {
+                canvas->setActiveCallback(
+                    [weak](const std::shared_ptr<MDIWidget>& value)
+                    {
+                        if (auto system = weak.lock())
+                        {
+                            system->_p->activeWidget->setIfChanged(value);
+                        }
+                    });
+            }
+        }
+
+        std::shared_ptr<Core::IValueSubject<std::shared_ptr<MDIWidget> > > WindowSystem::observeActiveWidget() const
+        {
+            return _p->activeWidget;
         }
 
         std::shared_ptr<Core::IValueSubject<bool> > WindowSystem::observeMaximized() const

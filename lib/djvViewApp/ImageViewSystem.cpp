@@ -31,9 +31,8 @@
 
 #include <djvViewApp/ImageView.h>
 #include <djvViewApp/ImageViewSettings.h>
-#include <djvViewApp/MDICanvas.h>
 #include <djvViewApp/MDIWidget.h>
-#include <djvViewApp/MainWindow.h>
+#include <djvViewApp/WindowSystem.h>
 
 #include <djvUI/Action.h>
 #include <djvUI/ActionGroup.h>
@@ -56,8 +55,7 @@ namespace djv
         struct ImageViewSystem::Private
         {
             std::shared_ptr<ImageViewSettings> settings;
-            std::weak_ptr<MDICanvas> canvas;
-            std::weak_ptr<MDIWidget> widget;
+            std::shared_ptr<MDIWidget> activeWidget;
             std::shared_ptr<ValueSubject<ImageViewLock> > lock;
             std::map<std::string, std::shared_ptr<UI::Action> > actions;
             std::shared_ptr<UI::ActionGroup> lockActionGroup;
@@ -66,6 +64,7 @@ namespace djv
             glm::vec2 dragStart = glm::vec2(0.f, 0.f);
             glm::vec2 dragImagePos = glm::vec2(0.f, 0.f);
             std::map<std::string, std::shared_ptr<ValueObserver<bool> > > clickedObservers;
+            std::shared_ptr<ValueObserver<std::shared_ptr<MDIWidget> > > activeWidgetObserver;
             std::shared_ptr<ValueObserver<ImageViewLock> > lockObserver;
             std::shared_ptr<ValueObserver<std::string> > localeObserver;
         };
@@ -266,7 +265,7 @@ namespace djv
                         if (auto system = weak.lock())
                         {
                             system->_p->settings->setLock(ImageViewLock::None);
-                            if (auto widget = system->_p->widget.lock())
+                            if (auto widget = system->_p->activeWidget)
                             {
                                 auto imageView = widget->getImageView();
                                 const float zoom = imageView->getImageZoom();
@@ -284,7 +283,7 @@ namespace djv
                         if (auto system = weak.lock())
                         {
                             system->_p->settings->setLock(ImageViewLock::None);
-                            if (auto widget = system->_p->widget.lock())
+                            if (auto widget = system->_p->activeWidget)
                             {
                                 auto imageView = widget->getImageView();
                                 const float zoom = imageView->getImageZoom();
@@ -303,7 +302,7 @@ namespace djv
                         if (auto system = weak.lock())
                         {
                             system->_p->settings->setLock(ImageViewLock::None);
-                            if (auto widget = system->_p->widget.lock())
+                            if (auto widget = system->_p->activeWidget)
                             {
                                 auto imageView = widget->getImageView();
                                 imageView->imageFit();
@@ -320,7 +319,7 @@ namespace djv
                         if (auto system = weak.lock())
                         {
                             system->_p->settings->setLock(ImageViewLock::None);
-                            if (auto widget = system->_p->widget.lock())
+                            if (auto widget = system->_p->activeWidget)
                             {
                                 auto imageView = widget->getImageView();
                                 imageView->imageCenter();
@@ -328,6 +327,56 @@ namespace djv
                         }
                     }
                 });
+
+            if (auto windowSystem = context->getSystemT<WindowSystem>())
+            {
+                p.activeWidgetObserver = ValueObserver<std::shared_ptr<MDIWidget> >::create(
+                    windowSystem->observeActiveWidget(),
+                    [weak](const std::shared_ptr<MDIWidget>& value)
+                    {
+                        if (auto system = weak.lock())
+                        {
+                            if (system->_p->activeWidget)
+                            {
+                                system->_p->activeWidget->setHoverCallback(nullptr);
+                                system->_p->activeWidget->setDragCallback(nullptr);
+                            }
+                            system->_p->activeWidget = value;
+                            if (system->_p->activeWidget)
+                            {
+                                system->_p->activeWidget->setHoverCallback(
+                                    [weak](Hover hover, const glm::vec2& value)
+                                    {
+                                        if (auto system = weak.lock())
+                                        {
+                                            system->_p->hoverPos = value;
+                                        }
+                                    });
+                                system->_p->activeWidget->setDragCallback(
+                                    [weak](Drag drag, const glm::vec2& value)
+                                    {
+                                        if (auto system = weak.lock())
+                                        {
+                                            system->_p->settings->setLock(ImageViewLock::None);
+                                            auto imageView = system->_p->activeWidget->getImageView();
+                                            switch (drag)
+                                            {
+                                            case Drag::Start:
+                                                system->_p->dragStart = value;
+                                                system->_p->dragImagePos = imageView->getImagePos();
+                                                break;
+                                            case Drag::Move:
+                                                imageView->setImagePos(system->_p->dragImagePos + (value - system->_p->dragStart));
+                                                break;
+                                            default: break;
+                                            }
+                                        }
+                                    });
+                            }
+                        }
+                    });
+            }
+
             p.lockActionGroup->setExclusiveCallback(
                 [weak](int index)
                 {
@@ -391,40 +440,6 @@ namespace djv
             return out;
         }
 
-        void ImageViewSystem::setMDICanvas(const std::shared_ptr<MDICanvas>& value)
-        {
-            DJV_PRIVATE_PTR();
-            if (auto widget = p.widget.lock())
-            {
-                widget->setHoverCallback(nullptr);
-                widget->setDragCallback(nullptr);
-            }
-            if (auto canvas = p.canvas.lock())
-            {
-                canvas->setActiveCallback(nullptr);
-            }
-            p.canvas = value;
-            p.widget.reset();
-            auto weak = std::weak_ptr<ImageViewSystem>(std::dynamic_pointer_cast<ImageViewSystem>(shared_from_this()));
-            if (auto canvas = p.canvas.lock())
-            {
-                p.widget = canvas->getActiveWidget();
-                canvas->setActiveCallback(
-                    [weak](const std::shared_ptr<MDIWidget>& value)
-                {
-                    if (auto system = weak.lock())
-                    {
-                        system->_p->widget = value;
-                        system->_initWidget();
-                    }
-                });
-            }
-            if (auto widget = p.widget.lock())
-            {
-                _initWidget();
-            }
-        }
-
         std::map<std::string, std::shared_ptr<UI::Action> > ImageViewSystem::getActions()
         {
             return _p->actions;
@@ -480,50 +495,10 @@ namespace djv
             p.menu->setText(_getText(DJV_TEXT("View")));
         }
 
-        void ImageViewSystem::_initWidget()
-        {
-            DJV_PRIVATE_PTR();
-            if (auto widget = p.widget.lock())
-            {
-                auto weak = std::weak_ptr<ImageViewSystem>(std::dynamic_pointer_cast<ImageViewSystem>(shared_from_this()));
-                widget->setHoverCallback(
-                    [weak](Hover hover, const glm::vec2& value)
-                    {
-                        if (auto system = weak.lock())
-                        {
-                            system->_p->hoverPos = value;
-                        }
-                    });
-                widget->setDragCallback(
-                    [weak](Drag drag, const glm::vec2& value)
-                    {
-                        if (auto system = weak.lock())
-                        {
-                            system->_p->settings->setLock(ImageViewLock::None);
-                            if (auto widget = system->_p->widget.lock())
-                            {
-                                auto imageView = widget->getImageView();
-                                switch (drag)
-                                {
-                                case Drag::Start:
-                                    system->_p->dragStart = value;
-                                    system->_p->dragImagePos = imageView->getImagePos();
-                                    break;
-                                case Drag::Move:
-                                    imageView->setImagePos(system->_p->dragImagePos + (value - system->_p->dragStart));
-                                    break;
-                                default: break;
-                                }
-                            }
-                        }
-                    });
-            }
-        }
-
         void ImageViewSystem::_moveImage(const glm::vec2& value)
         {
             DJV_PRIVATE_PTR();
-            if (auto widget = p.widget.lock())
+            if (auto widget = p.activeWidget)
             {
                 auto uiSystem = getContext()->getSystemT<UI::UISystem>();
                 auto style = uiSystem->getStyle();
@@ -536,7 +511,7 @@ namespace djv
         void ImageViewSystem::_zoomImage(float value)
         {
             DJV_PRIVATE_PTR();
-            if (auto widget = p.widget.lock())
+            if (auto widget = p.activeWidget)
             {
                 auto imageView = widget->getImageView();
                 const float w = imageView->getWidth();

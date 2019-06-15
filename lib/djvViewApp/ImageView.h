@@ -33,6 +33,8 @@
 
 #include <djvUI/Widget.h>
 
+#include <djvCore/ValueObserver.h>
+
 namespace djv
 {
     namespace AV
@@ -70,14 +72,17 @@ namespace djv
             const std::shared_ptr<AV::Image::Image>& getImage() const;
             void setImage(const std::shared_ptr<AV::Image::Image>&);
 
+            std::shared_ptr<Core::IValueSubject<AV::Render::ImageOptions> > observeImageOptions() const;
             void setImageOptions(const AV::Render::ImageOptions&);
 
             const glm::vec2& getImagePos() const;
             float getImageZoom() const;
+            float getImageRotate() const;
             void setImagePos(const glm::vec2&);
             void setImageZoom(float);
             void setImageZoomFocus(float, const glm::vec2 &);
             void setImagePosAndZoom(const glm::vec2&, float);
+            void setImageRotate(float);
 
             void imageFit();
             void imageCenter();
