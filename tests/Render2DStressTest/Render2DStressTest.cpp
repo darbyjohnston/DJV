@@ -372,9 +372,7 @@ void Application::_drawRandomText()
 void Application::_drawRandomIcon()
 {
     _render2D->setFillColor(_currentColor->c);
-    _render2D->drawFilledImage(
-        _currentIcon->image,
-        Core::BBox2f(_currentPos->v.x, _currentPos->v.y, _currentSize->v.x, _currentSize->v.y));
+    _render2D->drawFilledImage(_currentIcon->image, _currentPos->v);
     _currentColor = _currentColor->next;
     _currentPos = _currentPos->next;
     _currentSize = _currentSize->next;

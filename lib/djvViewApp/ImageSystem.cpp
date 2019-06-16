@@ -240,6 +240,7 @@ namespace djv
                                         if (auto system = weak.lock())
                                         {
                                             system->_p->currentImage = value;
+                                            system->_imageOptionsUpdate();
                                         }
                                     });
                             }
@@ -247,8 +248,8 @@ namespace djv
                             {
                                 system->_p->currentImage.reset();
                                 system->_p->currentImageObserver.reset();
+                                system->_imageOptionsUpdate();
                             }
-                            system->_imageOptionsUpdate();
                         }
                     });
             }

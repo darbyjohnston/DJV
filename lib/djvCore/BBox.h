@@ -55,10 +55,10 @@ namespace djv
                 glm::tvec2<T, P> min;
                 glm::tvec2<T, P> max;
 
-                constexpr T x() const;
-                constexpr T y() const;
-                constexpr T w() const;
-                constexpr T h() const;
+                inline T x() const;
+                inline T y() const;
+                inline T w() const;
+                inline T h() const;
 
                 ///@}
 
@@ -68,7 +68,7 @@ namespace djv
                 constexpr bool isValid() const;
                 inline glm::tvec2<T, P> getSize() const;
                 constexpr glm::tvec2<T, P> getCenter() const;
-                constexpr T getArea() const;
+                inline T getArea() const;
                 inline float getAspect() const;
                 inline void zero();
 
@@ -105,12 +105,12 @@ namespace djv
 
                 glm::tvec3<T, P> min, max;
 
-                constexpr T x() const;
-                constexpr T y() const;
-                constexpr T z() const;
-                constexpr T w() const;
-                constexpr T h() const;
-                constexpr T d() const;
+                inline T x() const;
+                inline T y() const;
+                inline T z() const;
+                inline T w() const;
+                inline T h() const;
+                inline T d() const;
 
                 ///@}
 

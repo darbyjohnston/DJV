@@ -96,59 +96,59 @@ namespace djv
             {}
 
             template<typename T, glm::precision P>
-            constexpr T tBBox2<T, P>::x() const { return min.x; }
+            inline T tBBox2<T, P>::x() const { return min.x; }
 
             template<typename T, glm::precision P>
-            constexpr T tBBox3<T, P>::x() const { return min.x; }
+            inline T tBBox3<T, P>::x() const { return min.x; }
 
             template<typename T, glm::precision P>
-            constexpr T tBBox2<T, P>::y() const { return min.y; }
+            inline T tBBox2<T, P>::y() const { return min.y; }
 
             template<typename T, glm::precision P>
-            constexpr T tBBox3<T, P>::y() const { return min.y; }
+            inline T tBBox3<T, P>::y() const { return min.y; }
 
             template<typename T, glm::precision P>
-            constexpr T tBBox3<T, P>::z() const { return min.z; }
+            inline T tBBox3<T, P>::z() const { return min.z; }
 
             /*template<typename T, glm::precision P>
-            constexpr T tBBox2<T, P>::w() const { return max.x - min.x; }
+            inline T tBBox2<T, P>::w() const { return max.x - min.x; }
 
             template<typename T, glm::precision P>
-            constexpr T tBBox3<T, P>::w() const { return max.x - min.x; }
+            inline T tBBox3<T, P>::w() const { return max.x - min.x; }
 
             template<typename T, glm::precision P>
-            constexpr T tBBox2<T, P>::h() const { return max.y - min.y; }
+            inline T tBBox2<T, P>::h() const { return max.y - min.y; }
 
             template<typename T, glm::precision P>
-            constexpr T tBBox3<T, P>::h() const { return max.y - min.y; }
+            inline T tBBox3<T, P>::h() const { return max.y - min.y; }
 
             template<typename T, glm::precision P>
-            constexpr T tBBox3<T, P>::d() const { return max.z - min.z; }*/
+            inline T tBBox3<T, P>::d() const { return max.z - min.z; }*/
 
             template<>
-            constexpr float tBBox2<float>::w() const { return max.x - min.x; }
+            inline float tBBox2<float>::w() const { return max.x - min.x; }
             template<>
-            constexpr int tBBox2<int>::w() const { return max.x - min.x + 1; }
+            inline int tBBox2<int>::w() const { return max.x - min.x + 1; }
 
             template<>
-            constexpr float tBBox3<float>::w() const { return max.x - min.x; }
+            inline float tBBox3<float>::w() const { return max.x - min.x; }
             template<>
-            constexpr int tBBox3<int>::w() const { return max.x - min.x + 1; }
+            inline int tBBox3<int>::w() const { return max.x - min.x + 1; }
 
             template<>
-            constexpr float tBBox2<float>::h() const { return max.y - min.y; }
+            inline float tBBox2<float>::h() const { return max.y - min.y; }
             template<>
-            constexpr int tBBox2<int>::h() const { return max.y - min.y + 1; }
+            inline int tBBox2<int>::h() const { return max.y - min.y + 1; }
 
             template<>
-            constexpr float tBBox3<float>::h() const { return max.y - min.y; }
+            inline float tBBox3<float>::h() const { return max.y - min.y; }
             template<>
-            constexpr int tBBox3<int>::h() const { return max.y - min.y + 1; }
+            inline int tBBox3<int>::h() const { return max.y - min.y + 1; }
 
             template<>
-            constexpr float tBBox3<float>::d() const { return max.z - min.z; }
+            inline float tBBox3<float>::d() const { return max.z - min.z; }
             template<>
-            constexpr int tBBox3<int>::d() const { return max.z - min.z + 1; }
+            inline int tBBox3<int>::d() const { return max.z - min.z + 1; }
 
             template<typename T, glm::precision P>
             constexpr bool tBBox2<T, P>::isValid() const
@@ -221,13 +221,13 @@ namespace djv
             }
 
             template<>
-            constexpr int tBBox2<int>::getArea() const
+            inline int tBBox2<int>::getArea() const
             {
                 return w() * h();
             }
 
             template<>
-            constexpr float tBBox2<float>::getArea() const
+            inline float tBBox2<float>::getArea() const
             {
                 return w() * h();
             }
