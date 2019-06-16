@@ -30,6 +30,7 @@
 #include <djvViewApp/ImageSystem.h>
 
 #include <djvViewApp/FileSystem.h>
+#include <djvViewApp/ImageSettings.h>
 #include <djvViewApp/ImageView.h>
 #include <djvViewApp/MDIWidget.h>
 #include <djvViewApp/Media.h>
@@ -56,6 +57,7 @@ namespace djv
     {
         struct ImageSystem::Private
         {
+            std::shared_ptr<ImageSettings> settings;
             std::shared_ptr<ValueSubject<bool> > frameStoreEnabled;
             std::shared_ptr<ValueSubject<std::shared_ptr<AV::Image::Image> > > frameStore;
             std::shared_ptr<AV::Image::Image> currentImage;
@@ -84,6 +86,7 @@ namespace djv
 
             DJV_PRIVATE_PTR();
 
+            p.settings = ImageSettings::create(context);
             p.frameStoreEnabled = ValueSubject<bool>::create();
             p.frameStore = ValueSubject<std::shared_ptr<AV::Image::Image> >::create();
 

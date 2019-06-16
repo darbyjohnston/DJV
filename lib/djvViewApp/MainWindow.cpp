@@ -35,8 +35,8 @@
 #include <djvViewApp/ImageViewSystem.h>
 #include <djvViewApp/MDICanvas.h>
 #include <djvViewApp/Media.h>
+#include <djvViewApp/SettingsDialog.h>
 #include <djvViewApp/SettingsSystem.h>
-#include <djvViewApp/SettingsWidget.h>
 #include <djvViewApp/WindowSystem.h>
 
 #include <djvUI/Action.h>
@@ -48,12 +48,12 @@
 #include <djvUI/Menu.h>
 #include <djvUI/MenuBar.h>
 #include <djvUI/MenuButton.h>
-#include <djvUI/PopupWidget.h>
 #include <djvUI/RowLayout.h>
 #include <djvUI/Shortcut.h>
 #include <djvUI/SoloLayout.h>
 #include <djvUI/StackLayout.h>
 #include <djvUI/ToolBar.h>
+#include <djvUI/ToolButton.h>
 
 #include <djvCore/FileInfo.h>
 #include <djvCore/Path.h>
@@ -73,8 +73,7 @@ namespace djv
             std::shared_ptr<UI::ActionGroup> mediaActionGroup;
             std::shared_ptr<UI::Menu> mediaMenu;
             std::shared_ptr<UI::Button::Menu> mediaButton;
-            std::shared_ptr<SettingsWidget> settingsWidget;
-            std::shared_ptr<UI::PopupWidget> settingsPopupWidget;
+            std::shared_ptr<UI::ToolButton> settingsButton;
             std::shared_ptr<UI::MenuBar> menuBar;
             std::shared_ptr<MDICanvas> mdiCanvas;
             std::shared_ptr<UI::MDI::Canvas> toolCanvas;
@@ -148,12 +147,8 @@ namespace djv
                 viewLockCenterButton->addAction(imageViewSystem->getActions()["LockCenter"]);
             }
 
-            p.settingsPopupWidget = UI::PopupWidget::create(context);
-            p.settingsPopupWidget->setIcon("djvIconSettings");
-            //if (auto settingsSystem = context->getSystemT<SettingsSystem>())
-            //{
-            //    p.settingsPopupWidget->addChild(settingsSystem->createSettingsWidget());
-            //}
+            p.settingsButton = UI::ToolButton::create(context);
+            p.settingsButton->setIcon("djvIconSettings");
 
             p.menuBar = UI::MenuBar::create(context);
             p.menuBar->setBackgroundRole(UI::ColorRole::Overlay);
@@ -166,7 +161,7 @@ namespace djv
             p.menuBar->addChild(maximizedButton);
             p.menuBar->addChild(viewLockFitButton);
             p.menuBar->addChild(viewLockCenterButton);
-            p.menuBar->addChild(p.settingsPopupWidget);
+            p.menuBar->addChild(p.settingsButton);
 
             p.mdiCanvas = MDICanvas::create(context);
 
@@ -226,26 +221,15 @@ namespace djv
                 }
             });
 
-            p.settingsPopupWidget->setOpenCallback(
+            p.settingsButton->setClickedCallback(
                 [weak, context]
             {
                 if (auto widget = weak.lock())
                 {
                     if (auto settingsSystem = context->getSystemT<SettingsSystem>())
                     {
-                        widget->_p->settingsWidget = settingsSystem->createSettingsWidget();
-                        widget->_p->settingsPopupWidget->addChild(widget->_p->settingsWidget);
+                        settingsSystem->showSettingsDialog();
                     }
-                }
-            });
-
-            p.settingsPopupWidget->setCloseCallback(
-                [weak]
-            {
-                if (auto widget = weak.lock())
-                {
-                    widget->_p->settingsPopupWidget->removeChild(widget->_p->settingsWidget);
-                    widget->_p->settingsWidget.reset();
                 }
             });
 
@@ -374,7 +358,7 @@ namespace djv
         {
             DJV_PRIVATE_PTR();
             p.mediaButton->setTooltip(_getText(DJV_TEXT("Media popup tooltip")));
-            p.settingsPopupWidget->setTooltip(_getText(DJV_TEXT("Settings tooltip")));
+            p.settingsButton->setTooltip(_getText(DJV_TEXT("Settings tooltip")));
         }
 
     } // namespace ViewApp

@@ -31,7 +31,6 @@
 
 #include <djvUI/Border.h>
 #include <djvUI/GridLayout.h>
-#include <djvUI/RowLayout.h>
 #include <djvUI/StackLayout.h>
 #include <djvUI/Window.h>
 

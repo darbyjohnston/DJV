@@ -29,6 +29,7 @@
 
 #include <djvViewApp/ImageView.h>
 
+#include <djvViewApp/ImageSettings.h>
 #include <djvViewApp/ImageViewSettings.h>
 
 #include <djvUI/Action.h>
@@ -69,11 +70,12 @@ namespace djv
             p.imageOptions = ValueSubject<AV::Render::ImageOptions>::create();
             p.imagePos = ValueSubject<glm::vec2>::create();
             p.imageZoom = ValueSubject<float>::create();
-            p.imageRotate = ValueSubject<ImageRotate>::create();
-            p.imageAspectRatio = ValueSubject<ImageAspectRatio>::create();
+            auto settingsSystem = context->getSystemT<UI::Settings::System>();
+            auto imageSettings = settingsSystem->getSettingsT<ImageSettings>();
+            p.imageRotate = ValueSubject<ImageRotate>::create(imageSettings->observeImageRotate()->get());
+            p.imageAspectRatio = ValueSubject<ImageAspectRatio>::create(imageSettings->observeImageAspectRatio()->get());
 
             auto weak = std::weak_ptr<ImageView>(std::dynamic_pointer_cast<ImageView>(shared_from_this()));
-            auto settingsSystem = context->getSystemT<UI::Settings::System>();
             auto imageViewSettings = settingsSystem->getSettingsT<ImageViewSettings>();
             p.lockObserver = ValueObserver<ImageViewLock>::create(
                 imageViewSettings->observeLock(),

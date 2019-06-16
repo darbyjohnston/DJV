@@ -38,7 +38,6 @@
 #include <djvUIComponents/FileBrowserDialog.h>
 
 #include <djvUI/Action.h>
-#include <djvUI/DialogSystem.h>
 #include <djvUI/EventSystem.h>
 #include <djvUI/GroupBox.h>
 #include <djvUI/Menu.h>

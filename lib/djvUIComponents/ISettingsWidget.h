@@ -52,8 +52,6 @@ namespace djv
             virtual std::string getSettingsSortKey() const = 0;
             virtual std::string getSettingsGroup() const = 0;
 
-            void setBackCallback(const std::function<void(void)>&);
-
             float getHeightForWidth(float) const override;
 
             void addChild(const std::shared_ptr<IObject> &) override;
@@ -62,8 +60,6 @@ namespace djv
         protected:
             void _preLayoutEvent(Core::Event::PreLayout &) override;
             void _layoutEvent(Core::Event::Layout &) override;
-
-            void _localeEvent(Core::Event::Locale&) override;
 
         private:
             DJV_PRIVATE();

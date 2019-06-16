@@ -31,7 +31,7 @@
 
 #include <djvViewApp/NUXSettingsWidget.h>
 #include <djvViewApp/PlaybackSettingsWidget.h>
-#include <djvViewApp/SettingsWidget.h>
+#include <djvViewApp/SettingsDialog.h>
 #include <djvViewApp/WindowSettingsWidget.h>
 
 #include <djvUIComponents/DisplaySettingsWidget.h>
@@ -87,9 +87,31 @@ namespace djv
             return out;
         }
 
-        std::shared_ptr<SettingsWidget> SettingsSystem::createSettingsWidget()
+        void SettingsSystem::showSettingsDialog()
         {
-            return SettingsWidget::create(getContext());
+            DJV_PRIVATE_PTR();
+            auto context = getContext();
+            if (auto eventSystem = context->getSystemT<UI::EventSystem>())
+            {
+                if (auto window = eventSystem->getCurrentWindow().lock())
+                {
+                    auto settingsDialog = SettingsDialog::create(context);
+                    auto weak = std::weak_ptr<SettingsDialog>(settingsDialog);
+                    settingsDialog->setCloseCallback(
+                        [weak]
+                        {
+                            if (auto widget = weak.lock())
+                            {
+                                if (auto parent = widget->getParent().lock())
+                                {
+                                    parent->removeChild(widget);
+                                }
+                            }
+                        });
+                    window->addChild(settingsDialog);
+                    settingsDialog->show();
+                }
+            }
         }
         
         std::map<std::string, std::shared_ptr<UI::Action> > SettingsSystem::getActions()

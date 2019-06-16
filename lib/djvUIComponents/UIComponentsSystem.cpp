@@ -29,7 +29,6 @@
 
 #include <djvUIComponents/UIComponentsSystem.h>
 
-#include <djvUIComponents/FileBrowserDialog.h>
 #include <djvUIComponents/FileBrowserSettings.h>
 
 #include <djvUI/UISystem.h>
@@ -51,10 +50,7 @@ namespace djv
 
             Settings::FileBrowser::create(context);
 
-            auto fileBrowserDialogSystem = FileBrowser::DialogSystem::create(context);
-
             addDependency(context->getSystemT<UISystem>());
-            addDependency(fileBrowserDialogSystem);
         }
 
         UIComponentsSystem::UIComponentsSystem() :

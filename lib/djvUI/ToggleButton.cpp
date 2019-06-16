@@ -131,7 +131,7 @@ namespace djv
 
                 const BBox2f g1 = g.margin(-m);
                 auto render = _getRender();
-                render->setFillColor(style->getColor(ColorRole::Trough));
+                render->setFillColor(style->getColor(_isToggled() ? ColorRole::Checked : ColorRole::Trough));
                 render->drawPill(g1);
                 if (_isHovered())
                 {
@@ -145,11 +145,6 @@ namespace djv
                 const glm::vec2 pos(x, g2.min.y + r);
                 render->setFillColor(style->getColor(ColorRole::Button));
                 render->drawCircle(pos, r - b);
-                if (_isToggled())
-                {
-                    render->setFillColor(style->getColor(ColorRole::Checked));
-                    render->drawCircle(pos, r - b);
-                }
                 if (_isPressed())
                 {
                     render->setFillColor(style->getColor(ColorRole::Pressed));
