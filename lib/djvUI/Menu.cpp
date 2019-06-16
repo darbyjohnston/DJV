@@ -813,7 +813,7 @@ namespace djv
 
             void MenuOverlayLayout::_layoutEvent(Event::Layout &)
             {
-                const const auto& style = _getStyle();
+                const auto& style = _getStyle();
                 const BBox2f & g = getMargin().bbox(getGeometry(), style);
                 // Bias menu placement below the geometry.
                 const float bias = .5f;

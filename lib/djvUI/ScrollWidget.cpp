@@ -324,7 +324,7 @@ namespace djv
 
             float ScrollBar::_valueToPos(float value) const
             {
-                const const auto& style = _getStyle();
+                const auto& style = _getStyle();
                 const BBox2f & g = getGeometry();
                 float out = 0.f;
                 const float v = std::min(value / (_contentsSize > 0 ? static_cast<float>(_contentsSize) : 1.f), 1.f);
@@ -343,7 +343,7 @@ namespace djv
 
             float ScrollBar::_posToValue(float value) const
             {
-                const const auto& style = _getStyle();
+                const auto& style = _getStyle();
                 const BBox2f & g = getGeometry();
                 float v = 0.f;
                 switch (_orientation)

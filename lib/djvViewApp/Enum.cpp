@@ -33,6 +33,30 @@ namespace djv
 {
     namespace ViewApp
     {
+        float getImageRotate(ImageRotate value)
+        {
+            const float values[] =
+            {
+                0.f,
+                90.f,
+                180.f,
+                270.f
+            };
+            return values[static_cast<size_t>(value)];
+        }
+
+        float getImageAspectRatio(ImageAspectRatio value)
+        {
+            const float values[] =
+            {
+                1.f,
+                1.f,
+                1.78f,
+                1.85f,
+                2.35f
+            };
+            return values[static_cast<size_t>(value)];
+        }
 
     } // namespace ViewApp
 

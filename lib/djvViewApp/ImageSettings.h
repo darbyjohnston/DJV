@@ -31,75 +31,37 @@
 
 #include <djvViewApp/Enum.h>
 
-#include <djvUI/Widget.h>
+#include <djvUI/ISettings.h>
 
 #include <djvCore/ValueObserver.h>
 
 namespace djv
 {
-    namespace AV
-    {
-        namespace Image
-        {
-            class Image;
-    
-        } // namespace Image
-
-        namespace Render
-        {
-            struct ImageOptions;
-
-        } // namespace Render
-    } // namespace AV
-
     namespace ViewApp
     {
-        class Media;
-
-        class ImageView : public UI::Widget
+        //! This class provides image settings.
+        class ImageSettings : public UI::Settings::ISettings
         {
-            DJV_NON_COPYABLE(ImageView);
+            DJV_NON_COPYABLE(ImageSettings);
 
         protected:
-            void _init(Core::Context *);
-            ImageView();
+            void _init(Core::Context * context);
+
+            ImageSettings();
 
         public:
-            ~ImageView() override;
+            static std::shared_ptr<ImageSettings> create(Core::Context *);
 
-            static std::shared_ptr<ImageView> create(Core::Context *);
-
-            const std::shared_ptr<AV::Image::Image>& getImage() const;
-            void setImage(const std::shared_ptr<AV::Image::Image>&);
-
-            std::shared_ptr<Core::IValueSubject<AV::Render::ImageOptions> > observeImageOptions() const;
-            void setImageOptions(const AV::Render::ImageOptions&);
-
-            std::shared_ptr<Core::IValueSubject<glm::vec2> > observeImagePos() const;
-            std::shared_ptr<Core::IValueSubject<float> > observeImageZoom() const;
             std::shared_ptr<Core::IValueSubject<ImageRotate> > observeImageRotate() const;
-            std::shared_ptr<Core::IValueSubject<ImageAspectRatio> > observeImageAspectRatio() const;
-            void setImagePos(const glm::vec2&);
-            void setImageZoom(float);
-            void setImageZoomFocus(float, const glm::vec2 &);
-            void setImagePosAndZoom(const glm::vec2&, float);
             void setImageRotate(ImageRotate);
+
+            std::shared_ptr<Core::IValueSubject<ImageAspectRatio> > observeImageAspectRatio() const;
             void setImageAspectRatio(ImageAspectRatio);
 
-            void imageFit();
-            void imageCenter();
-
-        protected:
-            void _preLayoutEvent(Core::Event::PreLayout &) override;
-            void _layoutEvent(Core::Event::Layout &) override;
-            void _paintEvent(Core::Event::Paint &) override;
+            void load(const picojson::value &) override;
+            picojson::value save() override;
 
         private:
-            float _getImageAspectRatioScale() const;
-            std::vector<glm::vec3> _getXFormPoints() const;
-            static glm::vec2 _getCenter(const std::vector<glm::vec3>&);
-            static Core::BBox2f _getBBox(const std::vector<glm::vec3>&);
-
             DJV_PRIVATE();
         };
 

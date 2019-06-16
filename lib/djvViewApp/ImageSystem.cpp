@@ -61,15 +61,19 @@ namespace djv
             std::shared_ptr<AV::Image::Image> currentImage;
             std::shared_ptr<MDIWidget> activeWidget;
             AV::Render::ImageOptions imageOptions;
+            ImageRotate imageRotate = ImageRotate::First;
+            ImageAspectRatio imageAspectRatio = ImageAspectRatio::First;
             std::map<std::string, std::shared_ptr<UI::Action> > actions;
             std::shared_ptr<UI::ActionGroup> channelActionGroup;
             std::shared_ptr<UI::ActionGroup> rotateActionGroup;
-            std::shared_ptr<UI::ActionGroup> aspectRationActionGroup;
+            std::shared_ptr<UI::ActionGroup> aspectRatioActionGroup;
             std::shared_ptr<UI::Menu> menu;
             std::map<std::string, std::shared_ptr<ValueObserver<bool> > > clickedObservers;
             std::shared_ptr<ValueObserver<std::shared_ptr<Media> > > currentMediaObserver;
             std::shared_ptr<ValueObserver<std::shared_ptr<AV::Image::Image> > > currentImageObserver;
             std::shared_ptr<ValueObserver<AV::Render::ImageOptions> > imageOptionsObserver;
+            std::shared_ptr<ValueObserver<ImageRotate> > imageRotateObserver;
+            std::shared_ptr<ValueObserver<ImageAspectRatio> > imageAspectRatioObserver;
             std::shared_ptr<ValueObserver<std::shared_ptr<MDIWidget> > > activeWidgetObserver;
             std::shared_ptr<ValueObserver<std::string> > localeObserver;
         };
@@ -108,8 +112,10 @@ namespace djv
             p.actions["PremultipliedAlpha"]->setEnabled(false);
             p.actions["MirrorH"] = UI::Action::create();
             p.actions["MirrorH"]->setButtonType(UI::ButtonType::Toggle);
+            p.actions["MirrorH"]->setShortcut(GLFW_KEY_H);
             p.actions["MirrorV"] = UI::Action::create();
             p.actions["MirrorV"]->setButtonType(UI::ButtonType::Toggle);
+            p.actions["MirrorV"]->setShortcut(GLFW_KEY_V);
             p.actions["Rotate_0"] = UI::Action::create();
             p.actions["Rotate_90"] = UI::Action::create();
             p.actions["Rotate_180"] = UI::Action::create();
@@ -119,27 +125,19 @@ namespace djv
             p.rotateActionGroup->addAction(p.actions["Rotate_90"]);
             p.rotateActionGroup->addAction(p.actions["Rotate_180"]);
             p.rotateActionGroup->addAction(p.actions["Rotate_270"]);
-            //! \todo Implement me!
             p.actions["AspectRatio_Default"] = UI::Action::create();
-            p.actions["AspectRatio_Default"]->setEnabled(false);
             //! \todo Implement me!
             p.actions["AspectRatio_Auto"] = UI::Action::create();
             p.actions["AspectRatio_Auto"]->setEnabled(false);
-            //! \todo Implement me!
             p.actions["AspectRatio_16_9"] = UI::Action::create();
-            p.actions["AspectRatio_16_9"]->setEnabled(false);
-            //! \todo Implement me!
             p.actions["AspectRatio_1_85"] = UI::Action::create();
-            p.actions["AspectRatio_1_85"]->setEnabled(false);
-            //! \todo Implement me!
             p.actions["AspectRatio_2_35"] = UI::Action::create();
-            p.actions["AspectRatio_2_35"]->setEnabled(false);
-            p.aspectRationActionGroup = UI::ActionGroup::create(UI::ButtonType::Radio);
-            p.aspectRationActionGroup->addAction(p.actions["AspectRatio_Default"]);
-            p.aspectRationActionGroup->addAction(p.actions["AspectRatio_Auto"]);
-            p.aspectRationActionGroup->addAction(p.actions["AspectRatio_16_9"]);
-            p.aspectRationActionGroup->addAction(p.actions["AspectRatio_1_85"]);
-            p.aspectRationActionGroup->addAction(p.actions["AspectRatio_2_35"]);
+            p.aspectRatioActionGroup = UI::ActionGroup::create(UI::ButtonType::Radio);
+            p.aspectRatioActionGroup->addAction(p.actions["AspectRatio_Default"]);
+            p.aspectRatioActionGroup->addAction(p.actions["AspectRatio_Auto"]);
+            p.aspectRatioActionGroup->addAction(p.actions["AspectRatio_16_9"]);
+            p.aspectRatioActionGroup->addAction(p.actions["AspectRatio_1_85"]);
+            p.aspectRatioActionGroup->addAction(p.actions["AspectRatio_2_35"]);
             p.actions["FrameStoreEnabled"] = UI::Action::create();
             p.actions["FrameStoreEnabled"]->setButtonType(UI::ButtonType::Toggle);
             p.actions["FrameStoreEnabled"]->setShortcut(GLFW_KEY_F);
@@ -175,7 +173,7 @@ namespace djv
             p.menu->addAction(p.actions["FrameStoreEnabled"]);
             p.menu->addAction(p.actions["LoadFrameStore"]);
 
-            _imageOptionsUpdate();
+            _imageUpdate();
 
             auto weak = std::weak_ptr<ImageSystem>(std::dynamic_pointer_cast<ImageSystem>(shared_from_this()));
             p.channelActionGroup->setRadioCallback(
@@ -196,6 +194,52 @@ namespace djv
                 {
                     if (auto system = weak.lock())
                     {
+                        system->_p->imageRotate = static_cast<ImageRotate>(value);
+                        if (system->_p->activeWidget)
+                        {
+                            system->_p->activeWidget->getImageView()->setImageRotate(system->_p->imageRotate);
+                        }
+                    }
+                });
+
+            p.aspectRatioActionGroup->setRadioCallback(
+                [weak](int value)
+                {
+                    if (auto system = weak.lock())
+                    {
+                        system->_p->imageAspectRatio = static_cast<ImageAspectRatio>(value);
+                        if (system->_p->activeWidget)
+                        {
+                            system->_p->activeWidget->getImageView()->setImageAspectRatio(system->_p->imageAspectRatio);
+                        }
+                    }
+                });
+
+            p.clickedObservers["MirrorH"] = ValueObserver<bool>::create(
+                p.actions["MirrorH"]->observeChecked(),
+                [weak](bool value)
+                {
+                    if (auto system = weak.lock())
+                    {
+                        system->_p->imageOptions.mirror.x = value;
+                        if (system->_p->activeWidget)
+                        {
+                            system->_p->activeWidget->getImageView()->setImageOptions(system->_p->imageOptions);
+                        }
+                    }
+                });
+
+            p.clickedObservers["MirrorV"] = ValueObserver<bool>::create(
+                p.actions["MirrorV"]->observeChecked(),
+                [weak](bool value)
+                {
+                    if (auto system = weak.lock())
+                    {
+                        system->_p->imageOptions.mirror.y = value;
+                        if (system->_p->activeWidget)
+                        {
+                            system->_p->activeWidget->getImageView()->setImageOptions(system->_p->imageOptions);
+                        }
                     }
                 });
 
@@ -240,7 +284,7 @@ namespace djv
                                         if (auto system = weak.lock())
                                         {
                                             system->_p->currentImage = value;
-                                            system->_imageOptionsUpdate();
+                                            system->_imageUpdate();
                                         }
                                     });
                             }
@@ -248,7 +292,7 @@ namespace djv
                             {
                                 system->_p->currentImage.reset();
                                 system->_p->currentImageObserver.reset();
-                                system->_imageOptionsUpdate();
+                                system->_imageUpdate();
                             }
                         }
                     });
@@ -272,15 +316,37 @@ namespace djv
                                         if (auto system = weak.lock())
                                         {
                                             system->_p->imageOptions = value;
-                                            system->_imageOptionsUpdate();
+                                            system->_imageUpdate();
+                                        }
+                                    });
+                                system->_p->imageRotateObserver = ValueObserver<ImageRotate>::create(
+                                    system->_p->activeWidget->getImageView()->observeImageRotate(),
+                                    [weak](ImageRotate value)
+                                    {
+                                        if (auto system = weak.lock())
+                                        {
+                                            system->_p->imageRotate = value;
+                                            system->_imageUpdate();
+                                        }
+                                    });
+                                system->_p->imageAspectRatioObserver = ValueObserver<ImageAspectRatio>::create(
+                                    system->_p->activeWidget->getImageView()->observeImageAspectRatio(),
+                                    [weak](ImageAspectRatio value)
+                                    {
+                                        if (auto system = weak.lock())
+                                        {
+                                            system->_p->imageAspectRatio = value;
+                                            system->_imageUpdate();
                                         }
                                     });
                             }
                             else
                             {
                                 system->_p->imageOptionsObserver.reset();
+                                system->_p->imageRotateObserver.reset();
+                                system->_p->imageAspectRatioObserver.reset();
                             }
-                            system->_imageOptionsUpdate();
+                            system->_imageUpdate();
                         }
                     });
             }
@@ -334,15 +400,30 @@ namespace djv
             };
         }
 
-        void ImageSystem::_imageOptionsUpdate()
+        void ImageSystem::_imageUpdate()
         {
             DJV_PRIVATE_PTR();
-            p.actions["ColorChannels"]->setEnabled(p.currentImage.get());
-            p.actions["RedChannel"]->setEnabled(p.currentImage.get());
-            p.actions["GreenChannel"]->setEnabled(p.currentImage.get());
-            p.actions["BlueChannel"]->setEnabled(p.currentImage.get());
-            p.actions["AlphaChannel"]->setEnabled(p.currentImage.get());
+            const bool currentImage = p.currentImage.get();
+            p.actions["ColorChannels"]->setEnabled(currentImage);
+            p.actions["RedChannel"]->setEnabled(currentImage);
+            p.actions["GreenChannel"]->setEnabled(currentImage);
+            p.actions["BlueChannel"]->setEnabled(currentImage);
+            p.actions["AlphaChannel"]->setEnabled(currentImage);
+            p.actions["MirrorH"]->setEnabled(currentImage);
+            p.actions["MirrorV"]->setEnabled(currentImage);
+            p.actions["Rotate_0"]->setEnabled(currentImage);
+            p.actions["Rotate_90"]->setEnabled(currentImage);
+            p.actions["Rotate_180"]->setEnabled(currentImage);
+            p.actions["Rotate_270"]->setEnabled(currentImage);
+            p.actions["AspectRatio_Default"]->setEnabled(currentImage);
+            p.actions["AspectRatio_Auto"]->setEnabled(currentImage);
+            p.actions["AspectRatio_16_9"]->setEnabled(currentImage);
+            p.actions["AspectRatio_1_85"]->setEnabled(currentImage);
+            p.actions["AspectRatio_2_35"]->setEnabled(currentImage);
+
             p.channelActionGroup->setChecked(static_cast<int>(p.imageOptions.channel));
+            p.rotateActionGroup->setChecked(static_cast<int>(p.imageRotate));
+            p.aspectRatioActionGroup->setChecked(static_cast<int>(p.imageAspectRatio));
         }
 
         void ImageSystem::_textUpdate()

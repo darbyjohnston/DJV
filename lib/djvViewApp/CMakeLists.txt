@@ -13,6 +13,7 @@ set(header
     HistogramTool.h
     ITool.h
     IViewSystem.h
+	ImageSettings.h
     ImageSystem.h
     ImageView.h
 	ImageViewSettings.h
@@ -54,6 +55,7 @@ set(source
     HistogramTool.cpp
     ITool.cpp
     IViewSystem.cpp
+	ImageSettings.cpp
     ImageSystem.cpp
     ImageView.cpp
 	ImageViewSettings.cpp

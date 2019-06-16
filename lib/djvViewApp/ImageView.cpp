@@ -49,9 +49,10 @@ namespace djv
         {
             std::shared_ptr<AV::Image::Image> image;
             std::shared_ptr<ValueSubject<AV::Render::ImageOptions> > imageOptions;
-            glm::vec2 imagePos = glm::vec2(0.f, 0.f);
-            float imageZoom = 1.f;
-            float imageRotate = 0.f;
+            std::shared_ptr<ValueSubject<glm::vec2> > imagePos;
+            std::shared_ptr<ValueSubject<float> > imageZoom;
+            std::shared_ptr<ValueSubject<ImageRotate> > imageRotate;
+            std::shared_ptr<ValueSubject<ImageAspectRatio> > imageAspectRatio;
             ImageViewLock lock = ImageViewLock::None;
             AV::Image::Color backgroundColor = AV::Image::Color(0.f, 0.f, 0.f);
             glm::vec2 pressedImagePos = glm::vec2(0.f, 0.f);
@@ -66,6 +67,10 @@ namespace djv
 
             DJV_PRIVATE_PTR();
             p.imageOptions = ValueSubject<AV::Render::ImageOptions>::create();
+            p.imagePos = ValueSubject<glm::vec2>::create();
+            p.imageZoom = ValueSubject<float>::create();
+            p.imageRotate = ValueSubject<ImageRotate>::create();
+            p.imageAspectRatio = ValueSubject<ImageAspectRatio>::create();
 
             auto weak = std::weak_ptr<ImageView>(std::dynamic_pointer_cast<ImageView>(shared_from_this()));
             auto settingsSystem = context->getSystemT<UI::Settings::System>();
@@ -133,64 +138,79 @@ namespace djv
             }
         }
 
-        const glm::vec2& ImageView::getImagePos() const
+        std::shared_ptr<IValueSubject<glm::vec2> > ImageView::observeImagePos() const
         {
             return _p->imagePos;
         }
 
-        float ImageView::getImageZoom() const
+        std::shared_ptr<IValueSubject<float> > ImageView::observeImageZoom() const
         {
             return _p->imageZoom;
         }
 
-        float ImageView::getImageRotate() const
+        std::shared_ptr<IValueSubject<ImageRotate> > ImageView::observeImageRotate() const
         {
             return _p->imageRotate;
+        }
+
+        std::shared_ptr<IValueSubject<ImageAspectRatio> > ImageView::observeImageAspectRatio() const
+        {
+            return _p->imageAspectRatio;
         }
 
         void ImageView::setImagePos(const glm::vec2& value)
         {
             DJV_PRIVATE_PTR();
-            if (value == p.imagePos)
-                return;
-            p.imagePos = value;
-            _redraw();
+            if (p.imagePos->setIfChanged(value))
+            {
+                _resize();
+            }
         }
 
         void ImageView::setImageZoom(float value)
         {
             DJV_PRIVATE_PTR();
-            if (value == p.imageZoom)
-                return;
-            p.imageZoom = value;
-            _redraw();
+            if (p.imageZoom->setIfChanged(value))
+            {
+                _resize();
+            }
         }
 
         void ImageView::setImageZoomFocus(float value, const glm::vec2& mouse)
         {
             DJV_PRIVATE_PTR();
             setImagePosAndZoom(
-                mouse + (p.imagePos - mouse) * (value / p.imageZoom),
+                mouse + (p.imagePos->get() - mouse) * (value / p.imageZoom->get()),
                 value);
         }
 
         void ImageView::setImagePosAndZoom(const glm::vec2& pos, float zoom)
         {
             DJV_PRIVATE_PTR();
-            if (pos == p.imagePos && zoom == p.imageZoom)
-                return;
-            p.imagePos = pos;
-            p.imageZoom = zoom;
-            _resize();
+            const bool posChanged = p.imagePos->setIfChanged(pos);
+            const bool zoomChanged = p.imageZoom->setIfChanged(zoom);
+            if (posChanged || zoomChanged)
+            {
+                _resize();
+            }
         }
 
-        void ImageView::setImageRotate(float value)
+        void ImageView::setImageRotate(ImageRotate value)
         {
             DJV_PRIVATE_PTR();
-            if (value == p.imageRotate)
-                return;
-            p.imageRotate = value;
-            _resize();
+            if (p.imageRotate->setIfChanged(value))
+            {
+                _resize();
+            }
+        }
+
+        void ImageView::setImageAspectRatio(ImageAspectRatio value)
+        {
+            DJV_PRIVATE_PTR();
+            if (p.imageAspectRatio->setIfChanged(value))
+            {
+                _resize();
+            }
         }
 
         void ImageView::imageFit()
@@ -198,57 +218,19 @@ namespace djv
             DJV_PRIVATE_PTR();
             if (p.image)
             {
-                const AV::Image::Size& imageSize = p.image->getSize();
                 const BBox2f& g = getGeometry();
-                /*float zoom = g.w() / static_cast<float>(imageSize.w);
-                if (zoom * imageSize.h > g.h())
-                {
-                    zoom = g.h() / static_cast<float>(imageSize.h);
-                }
-                setImagePosAndZoom(
-                    glm::vec2(
-                        g.w() / 2.f - ((imageSize.w * zoom) / 2.f),
-                        g.h() / 2.f - ((imageSize.h * zoom) / 2.f)),
-                    zoom);*/
-
-                glm::mat3x3 m(1.f);
-                m = glm::rotate(m, Math::deg2rad(p.imageRotate));
-
-                glm::vec3 pts[4];
-                pts[0].x = 0.f;
-                pts[0].y = 0.f;
-                pts[0].z = 1.f;
-                pts[1].x = 0.f + imageSize.w;
-                pts[1].y = 0.f;
-                pts[1].z = 1.f;
-                pts[2].x = 0.f + imageSize.w;
-                pts[2].y = 0.f + imageSize.h;
-                pts[2].z = 1.f;
-                pts[3].x = 0.f;
-                pts[3].y = 0.f + imageSize.h;
-                pts[3].z = 1.f;
-                for (auto& i : pts)
-                {
-                    i = m * i;
-                }
-
-                BBox2f bbox(pts[0], pts[0]);
-                for (size_t i = 1; i < 4; ++i)
-                {
-                    bbox.min.x = std::min(bbox.min.x, pts[i].x);
-                    bbox.max.x = std::max(bbox.max.x, pts[i].x);
-                    bbox.min.y = std::min(bbox.min.y, pts[i].y);
-                    bbox.max.y = std::max(bbox.max.y, pts[i].y);
-                }
-                const glm::vec2 c = bbox.getCenter();
-
+                const auto pts = _getXFormPoints();
+                const glm::vec2 c = _getCenter(pts);
+                const BBox2f bbox = _getBBox(pts);
                 float zoom = g.w() / static_cast<float>(bbox.w());
                 if (zoom * bbox.h() > g.h())
                 {
                     zoom = g.h() / static_cast<float>(bbox.h());
                 }
                 setImagePosAndZoom(
-                    glm::vec2(g.w() / 2.f, g.h() / 2.f),
+                    glm::vec2(
+                        g.w() / 2.f - c.x * zoom,
+                        g.h() / 2.f - c.y * zoom),
                     zoom);
             }
         }
@@ -258,45 +240,8 @@ namespace djv
             DJV_PRIVATE_PTR();
             if (p.image)
             {
-                const AV::Image::Size& imageSize = p.image->getSize();
                 const BBox2f& g = getGeometry();
-                //setImagePosAndZoom(
-                //    glm::vec2(
-                //        g.w() / 2.f - ((imageSize.w) / 2.f),
-                //        g.h() / 2.f - ((imageSize.h) / 2.f)),
-                //    1.f);
-
-                glm::mat3x3 m(1.f);
-                m = glm::rotate(m, Math::deg2rad(p.imageRotate));
-                m = glm::scale(m, glm::vec2(p.imageZoom, p.imageZoom));
-
-                glm::vec3 pts[4];
-                pts[0].x = 0.f;
-                pts[0].y = 0.f;
-                pts[0].z = 1.f;
-                pts[1].x = 0.f + imageSize.w;
-                pts[1].y = 0.f;
-                pts[1].z = 1.f;
-                pts[2].x = 0.f + imageSize.w;
-                pts[2].y = 0.f + imageSize.h;
-                pts[2].z = 1.f;
-                pts[3].x = 0.f;
-                pts[3].y = 0.f + imageSize.h;
-                pts[3].z = 1.f;
-                for (auto& i : pts)
-                {
-                    i = m * i;
-                }
-
-                glm::vec3 c(0.f, 0.f, 1.f);
-                for (const auto& i : pts)
-                {
-                    c.x += i.x;
-                    c.y += i.y;
-                }
-                c.x /= 4.f;
-                c.y /= 4.f;
-
+                const glm::vec2 c = _getCenter(_getXFormPoints());
                 setImagePosAndZoom(
                     glm::vec2(
                         g.w() / 2.f - c.x,
@@ -334,16 +279,100 @@ namespace djv
                 render->setFillColor(p.backgroundColor);
                 render->drawRect(g);
                 render->setFillColor(AV::Image::Color(1.f, 1.f, 1.f));
+
                 glm::mat3x3 m(1.f);
-                m = glm::translate(m, g.min + p.imagePos);
-                m = glm::rotate(m, Math::deg2rad(p.imageRotate));
-                m = glm::scale(m, glm::vec2(p.imageZoom, p.imageZoom));
+                m = glm::translate(m, g.min + p.imagePos->get());
+                m = glm::rotate(m, Math::deg2rad(getImageRotate(p.imageRotate->get())));
+                m = glm::scale(m, glm::vec2(p.imageZoom->get(), p.imageZoom->get() * _getImageAspectRatioScale()));
                 render->pushTransform(m);
                 AV::Render::ImageOptions options(p.imageOptions->get());
                 options.cache = AV::Render::ImageCache::Dynamic;
                 render->drawImage(p.image, glm::vec2(0.f, 0.f), options);
                 render->popTransform();
             }
+        }
+
+        float ImageView::_getImageAspectRatioScale() const
+        {
+            DJV_PRIVATE_PTR();
+            float out = 1.f;
+            switch (p.imageAspectRatio->get())
+            {
+            case ImageAspectRatio::Auto:
+                //! \todo Automatic aspect ratio.
+                break;
+            case ImageAspectRatio::_16_9:
+            case ImageAspectRatio::_1_85:
+            case ImageAspectRatio::_2_35:
+                out = p.image->getAspectRatio() / getImageAspectRatio(p.imageAspectRatio->get());
+                break;
+            default: break;
+            }
+            return out;
+        }
+
+        std::vector<glm::vec3> ImageView::_getXFormPoints() const
+        {
+            DJV_PRIVATE_PTR();
+            std::vector<glm::vec3> out;
+            if (p.image)
+            {
+                const AV::Image::Size& imageSize = p.image->getSize();
+                glm::mat3x3 m(1.f);
+                m = glm::rotate(m, Math::deg2rad(getImageRotate(p.imageRotate->get())));
+                m = glm::scale(m, glm::vec2(1.f, _getImageAspectRatioScale()));
+                out.resize(4);
+                out[0].x = 0.f;
+                out[0].y = 0.f;
+                out[0].z = 1.f;
+                out[1].x = 0.f + imageSize.w;
+                out[1].y = 0.f;
+                out[1].z = 1.f;
+                out[2].x = 0.f + imageSize.w;
+                out[2].y = 0.f + imageSize.h;
+                out[2].z = 1.f;
+                out[3].x = 0.f;
+                out[3].y = 0.f + imageSize.h;
+                out[3].z = 1.f;
+                for (auto& i : out)
+                {
+                    i = m * i;
+                }
+            }
+            return out;
+        }
+
+        glm::vec2 ImageView::_getCenter(const std::vector<glm::vec3>& value)
+        {
+            glm::vec2 out(0.f, 0.f);
+            if (value.size())
+            {
+                for (const auto& i : value)
+                {
+                    out.x += i.x;
+                    out.y += i.y;
+                }
+                out.x /= static_cast<float>(value.size());
+                out.y /= static_cast<float>(value.size());
+            }
+            return out;
+        }
+        
+        BBox2f ImageView::_getBBox(const std::vector<glm::vec3>& value)
+        {
+            BBox2f out(0.f, 0.f, 0.f, 0.f);
+            if (value.size())
+            {
+                out.min = out.max = value[0];
+                for (size_t i = 1; i < 4; ++i)
+                {
+                    out.min.x = std::min(out.min.x, value[i].x);
+                    out.max.x = std::max(out.max.x, value[i].x);
+                    out.min.y = std::min(out.min.y, value[i].y);
+                    out.max.y = std::max(out.max.y, value[i].y);
+                }
+            }
+            return out;
         }
 
     } // namespace ViewApp

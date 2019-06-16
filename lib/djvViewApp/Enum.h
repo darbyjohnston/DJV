@@ -58,6 +58,7 @@ namespace djv
             First = _0
         };
         DJV_ENUM_HELPERS(ImageRotate);
+        float getImageRotate(ImageRotate);
 
         enum class ImageAspectRatio
         {
@@ -71,6 +72,7 @@ namespace djv
             First = Default
         };
         DJV_ENUM_HELPERS(ImageAspectRatio);
+        float getImageAspectRatio(ImageAspectRatio);
 
         enum class Playback
         {

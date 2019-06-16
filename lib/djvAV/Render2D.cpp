@@ -1292,12 +1292,12 @@ namespace djv
                     }
                     default: break;
                     }
-                    if (options.mirrorH)
+                    if (options.mirror.x)
                     {
                         textureU.min = 1.f - textureU.min;
                         textureU.max = 1.f - textureU.max;
                     }
-                    if (options.mirrorV)
+                    if (options.mirror.y)
                     {
                         textureV.min = 1.f - textureV.min;
                         textureV.max = 1.f - textureV.max;

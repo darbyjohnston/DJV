@@ -31,6 +31,7 @@
 
 #include <djvAV/Enum.h>
 #include <djvAV/FontSystem.h>
+#include <djvAV/ImageData.h>
 
 #include <djvCore/BBox.h>
 #include <djvCore/ISystem.h>
@@ -44,9 +45,7 @@ namespace djv
     {
         namespace Image
         {
-            struct Size;
             class Color;
-            class Data;
 
         } // namespace Image
 
@@ -73,11 +72,10 @@ namespace djv
             //! This struct provides image options.
             struct ImageOptions
             {
-                ImageChannel channel      = ImageChannel::Color;
-                bool         premultAlpha = true;
-                bool         mirrorH      = false;
-                bool         mirrorV      = false;
-                ImageCache   cache        = ImageCache::Atlas;
+                ImageChannel      channel      = ImageChannel::Color;
+                bool              premultAlpha = true;
+                AV::Image::Mirror mirror;
+                ImageCache        cache        = ImageCache::Atlas;
 
                 inline bool operator == (const ImageOptions&) const;
                 inline bool operator != (const ImageOptions&) const;

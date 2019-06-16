@@ -268,7 +268,7 @@ namespace djv
                             if (auto widget = system->_p->activeWidget)
                             {
                                 auto imageView = widget->getImageView();
-                                const float zoom = imageView->getImageZoom();
+                                const float zoom = imageView->observeImageZoom()->get();
                                 system->_zoomImage(zoom * 2.f);
                             }
                         }
@@ -286,7 +286,7 @@ namespace djv
                             if (auto widget = system->_p->activeWidget)
                             {
                                 auto imageView = widget->getImageView();
-                                const float zoom = imageView->getImageZoom();
+                                const float zoom = imageView->observeImageZoom()->get();
                                 system->_zoomImage(zoom / 2.f);
                             }
                         }
@@ -363,7 +363,7 @@ namespace djv
                                             {
                                             case Drag::Start:
                                                 system->_p->dragStart = value;
-                                                system->_p->dragImagePos = imageView->getImagePos();
+                                                system->_p->dragImagePos = imageView->observeImagePos()->get();
                                                 break;
                                             case Drag::Move:
                                                 imageView->setImagePos(system->_p->dragImagePos + (value - system->_p->dragStart));
@@ -504,7 +504,7 @@ namespace djv
                 auto style = uiSystem->getStyle();
                 const float m = style->getMetric(UI::MetricsRole::Move);
                 auto imageView = widget->getImageView();
-                imageView->setImagePos(imageView->getImagePos() + value * m);
+                imageView->setImagePos(imageView->observeImagePos()->get() + value * m);
             }
         }
 
