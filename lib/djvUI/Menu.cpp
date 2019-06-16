@@ -105,6 +105,7 @@ namespace djv
                 std::map<size_t, std::shared_ptr<Item> > _items;
                 std::map<std::shared_ptr<Action>, std::shared_ptr<Item> > _actionToItem;
                 std::map<std::shared_ptr<Item>, std::shared_ptr<Action> > _itemToAction;
+                std::map<std::shared_ptr<Item>, std::future<std::shared_ptr<AV::Image::Image> > > _iconFutures;
                 std::map<std::shared_ptr<Item>, std::future<AV::Font::Metrics> > _fontMetricsFutures;
                 std::map<std::shared_ptr<Item>, std::future<glm::vec2> > _textSizeFutures;
                 std::map<std::shared_ptr<Item>, std::future<glm::vec2> > _shortcutSizeFutures;
@@ -113,6 +114,7 @@ namespace djv
                 glm::vec2 _pressedPos = glm::vec2(0.f, 0.f);
                 std::function<void(void)> _closeCallback;
                 std::map<std::shared_ptr<Item>, std::shared_ptr<ValueObserver<bool> > > _checkedObservers;
+                std::map<std::shared_ptr<Item>, std::shared_ptr<ValueObserver<std::string> > > _iconObservers;
                 std::map<std::shared_ptr<Item>, std::shared_ptr<ValueObserver<std::string> > > _textObservers;
                 std::map<std::shared_ptr<Item>, std::shared_ptr<ValueObserver<std::string> > > _fontObservers;
                 std::map<std::shared_ptr<Item>, std::shared_ptr<ListObserver<std::shared_ptr<Shortcut> > > > _shortcutsObservers;
@@ -158,8 +160,23 @@ namespace djv
                 const float m = style->getMetric(MetricsRole::MarginSmall);
                 const float s = style->getMetric(MetricsRole::Spacing);
                 const float b = style->getMetric(MetricsRole::Border);
+                const float is = style->getMetric(MetricsRole::Icon);
 
-                for (auto & i : _fontMetricsFutures)
+                for (auto& i : _iconFutures)
+                {
+                    if (i.second.valid())
+                    {
+                        try
+                        {
+                            i.first->icon = i.second.get();
+                        }
+                        catch (const std::exception& e)
+                        {
+                            _log(e.what(), LogLevel::Error);
+                        }
+                    }
+                }
+                for (auto& i : _fontMetricsFutures)
                 {
                     if (i.second.valid())
                     {
@@ -167,7 +184,7 @@ namespace djv
                         {
                             i.first->fontMetrics = i.second.get();
                         }
-                        catch (const std::exception & e)
+                        catch (const std::exception& e)
                         {
                             _log(e.what(), LogLevel::Error);
                         }
@@ -219,12 +236,13 @@ namespace djv
                 }
 
                 glm::vec2 itemSize(0.f, 0.f);
+                itemSize.x += is + s;
+                itemSize.y = std::max(itemSize.y, is);
                 itemSize.x += textSize.x;
                 itemSize.y = std::max(itemSize.y, textSize.y);
                 if (_hasShortcuts)
                 {
-                    itemSize.x += s;
-                    itemSize.x += shortcutSize.x;
+                    itemSize.x += s + shortcutSize.x;
                     itemSize.y = std::max(itemSize.y, shortcutSize.y);
                 }
 
@@ -270,9 +288,12 @@ namespace djv
             void MenuWidget::_paintEvent(Event::Paint & event)
             {
                 Widget::_paintEvent(event);
+
                 const BBox2f & g = getGeometry();
                 auto style = _getStyle();
                 const float m = style->getMetric(MetricsRole::MarginSmall);
+                const float s = style->getMetric(MetricsRole::Spacing);
+                const float is = style->getMetric(MetricsRole::Icon);
 
                 auto render = _getRender();
                 for (const auto & i : _items)
@@ -310,17 +331,19 @@ namespace djv
                         render->drawRect(i.second->geom);
                     }
 
+                    render->setColorMult(!i.second->enabled ? Style::disabledColorMult : 1.f);
+                    render->setFillColor(style->getColor(ColorRole::Foreground));
+
+                    if (i.second->icon)
+                    {
+                        y = i.second->geom.min.y + ceilf(i.second->size.y / 2.f - is / 2.f);
+                        render->drawFilledImage(i.second->icon, glm::vec2(x, y));
+                    }
+                    x += is + s;
+
                     if (!i.second->text.empty())
                     {
                         y = i.second->geom.min.y + ceilf(i.second->size.y / 2.f) - ceilf(i.second->fontMetrics.lineHeight / 2.f) + i.second->fontMetrics.ascender;
-                        auto color = style->getColor(ColorRole::Foreground);
-                        if (!i.second->enabled)
-                        {
-                            color.setF32(color.getF32(0) * .65f, 0);
-                            color.setF32(color.getF32(1) * .65f, 1);
-                            color.setF32(color.getF32(2) * .65f, 2);
-                        }
-                        render->setFillColor(color);
                         const auto fontInfo = i.second->font.empty() ?
                             style->getFontInfo(AV::Font::faceDefault, MetricsRole::FontMedium) :
                             style->getFontInfo(i.second->font, AV::Font::faceDefault, MetricsRole::FontMedium);
@@ -503,17 +526,16 @@ namespace djv
 
             void MenuWidget::_itemsUpdate()
             {
-                auto style = _getStyle();
-                auto fontSystem = _getFontSystem();
-                auto textSystem = _getTextSystem();
                 _hasShortcuts = false;
                 _items.clear();
                 _actionToItem.clear();
                 _itemToAction.clear();
+                _iconFutures.clear();
                 _fontMetricsFutures.clear();
                 _textSizeFutures.clear();
                 _shortcutSizeFutures.clear();
                 _checkedObservers.clear();
+                _iconObservers.clear();
                 _textObservers.clear();
                 _fontObservers.clear();
                 _shortcutsObservers.clear();
@@ -534,19 +556,34 @@ namespace djv
                                 widget->_redraw();
                             }
                         });
+                        _iconObservers[item] = ValueObserver<std::string>::create(
+                            i.second->observeIcon(),
+                            [weak, item](const std::string& value)
+                            {
+                                if (auto widget = weak.lock())
+                                {
+                                    if (!value.empty())
+                                    {
+                                        auto style = widget->_getStyle();
+                                        auto iconSystem = widget->_getIconSystem();
+                                        widget->_iconFutures[item] = iconSystem->getIcon(value, static_cast<int>(style->getMetric(MetricsRole::Icon)));
+                                        widget->_resize();
+                                    }
+                                }
+                            });
                         _textObservers[item] = ValueObserver<std::string>::create(
                             i.second->observeText(),
-                            [weak, item](std::string value)
-                        {
-                            if (auto widget = weak.lock())
+                            [weak, item](const std::string& value)
                             {
-                                item->text = value;
-                                widget->_textUpdateRequest = true;
-                            }
-                        });
+                                if (auto widget = weak.lock())
+                                {
+                                    item->text = value;
+                                    widget->_textUpdateRequest = true;
+                                }
+                            });
                         _fontObservers[item] = ValueObserver<std::string>::create(
                             i.second->observeFont(),
-                            [weak, item](std::string value)
+                            [weak, item](const std::string& value)
                         {
                             if (auto widget = weak.lock())
                             {

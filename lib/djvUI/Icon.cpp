@@ -53,7 +53,6 @@ namespace djv
         void Icon::_init(Context * context)
         {
             Widget::_init(context);
-
             setClassName("djv::UI::Icon");
         }
 

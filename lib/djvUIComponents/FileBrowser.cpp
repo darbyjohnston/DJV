@@ -169,8 +169,10 @@ namespace djv
                 p.viewTypeActionGroup->addAction(p.actions["Tiles"]);
                 p.viewTypeActionGroup->addAction(p.actions["List"]);
                 p.actions["IncreaseThumbnailSize"] = Action::create();
+                p.actions["IncreaseThumbnailSize"]->setIcon("djvIconAdd");
                 p.actions["IncreaseThumbnailSize"]->setShortcut(GLFW_KEY_EQUAL);
                 p.actions["DecreaseThumbnailSize"] = Action::create();
+                p.actions["DecreaseThumbnailSize"]->setIcon("djvIconSubtract");
                 p.actions["DecreaseThumbnailSize"]->setShortcut(GLFW_KEY_MINUS);
 
                 p.actions["FileSequences"] = Action::create();

@@ -72,7 +72,6 @@ namespace djv
                 setClassName("djv::UI::ActionButton");
 
                 p.icon = Icon::create(context);
-                p.icon->setVisible(false);
                 p.textLabel = Label::create(context);
                 p.textLabel->setTextHAlign(TextHAlign::Left);
                 p.shortcutsLabel = Label::create(context);
@@ -241,7 +240,6 @@ namespace djv
                         if (auto widget = weak.lock())
                         {
                             widget->_p->icon->setIcon(value);
-                            widget->_p->icon->setVisible(!value.empty());
                         }
                     });
                     p.textObserver = ValueObserver<std::string>::create(

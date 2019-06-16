@@ -370,7 +370,7 @@ namespace djv
                             render->setFillColor(style->getColor(ColorRole::Shadow));
                             render->drawShadow(itemGeometry, sh);
                             itemGeometry = itemGeometry.margin(-sh);
-                            render->setFillColor(style->getColor(ColorRole::Background));
+                            render->setFillColor(style->getColor(ColorRole::BackgroundBellows));
                             render->drawRect(itemGeometry);
                         }
 
@@ -442,7 +442,7 @@ namespace djv
                             }
                         }
                         {
-                            render->setFillColor(style->getColor(ColorRole::ForegroundDim));
+                            render->setFillColor(style->getColor(ColorRole::Foreground));
                             render->setCurrentFont(style->getFontInfo(AV::Font::faceDefault, MetricsRole::FontMedium));
                             switch (p.viewType)
                             {
