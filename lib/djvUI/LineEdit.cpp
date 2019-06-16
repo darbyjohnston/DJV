@@ -173,7 +173,7 @@ namespace djv
         void LineEdit::_preLayoutEvent(Event::PreLayout & event)
         {
             DJV_PRIVATE_PTR();
-            auto style = _getStyle();
+            const auto& style = _getStyle();
             _setMinimumSize(p.border->getMinimumSize() + getMargin().getSize(style));
         }
 
@@ -181,7 +181,7 @@ namespace djv
         {
             DJV_PRIVATE_PTR();
             const BBox2f g = getGeometry();
-            auto style = _getStyle();
+            const auto& style = _getStyle();
             p.border->setGeometry(getAlign(getMargin().bbox(g, style), p.border->getMinimumSize(), HAlign::Fill, VAlign::Center));
         }
 

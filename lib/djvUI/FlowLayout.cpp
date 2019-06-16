@@ -80,7 +80,7 @@ namespace djv
 
             float Flow::getHeightForWidth(float width) const
             {
-                auto style = _getStyle();
+                const auto& style = _getStyle();
                 const glm::vec2 s = _p->spacing.get(style);
                 glm::vec2 pos = glm::vec2(0.f, 0.f);
                 float h = 0.f;
@@ -115,13 +115,13 @@ namespace djv
                     minimumSize.x = std::max(minimumSize.x, childMinimumSize.x);
                     minimumSize.y += childMinimumSize.y;
                 }
-                auto style = _getStyle();
+                const auto& style = _getStyle();
                 _setMinimumSize(minimumSize + getMargin().getSize(style));
             }
 
             void Flow::_layoutEvent(Event::Layout &)
             {
-                auto style = _getStyle();
+                const auto& style = _getStyle();
                 const BBox2f & g = getMargin().bbox(getGeometry(), style);
                 const float gx = g.min.x;
                 const float gw = g.w();

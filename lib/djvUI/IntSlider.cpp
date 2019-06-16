@@ -155,7 +155,7 @@ namespace djv
         void BasicIntSlider::_preLayoutEvent(Event::PreLayout & event)
         {
             DJV_PRIVATE_PTR();
-            auto style = _getStyle();
+            const auto& style = _getStyle();
             const float tc = style->getMetric(MetricsRole::Slider);
             p.handleWidth = style->getMetric(MetricsRole::Handle);
             glm::vec2 size(0.f, 0.f);
@@ -172,7 +172,7 @@ namespace djv
         {
             Widget::_paintEvent(event);
             DJV_PRIVATE_PTR();
-            auto style = _getStyle();
+            const auto& style = _getStyle();
             const BBox2f & g = getMargin().bbox(getGeometry(), style);
             const glm::vec2 c = g.getCenter();
             const float m = style->getMetric(MetricsRole::MarginSmall);
@@ -394,7 +394,7 @@ namespace djv
             float out = 0.f;
             if (p.model)
             {
-                auto style = _getStyle();
+                const auto& style = _getStyle();
                 const BBox2f g = getMargin().bbox(getGeometry(), style);
                 const auto & range = p.model->observeRange()->get();
                 float v = (value - range.min) / static_cast<float>(range.max - range.min);
@@ -419,7 +419,7 @@ namespace djv
             int out = 0;
             if (p.model)
             {
-                auto style = _getStyle();
+                const auto& style = _getStyle();
                 const BBox2f g = getMargin().bbox(getGeometry(), style);
                 const auto & range = p.model->observeRange()->get();
                 const float step = g.w() / static_cast<float>(range.max - range.min) / 2.f;
@@ -557,13 +557,13 @@ namespace djv
 
         void IntSlider::_preLayoutEvent(Event::PreLayout & event)
         {
-            auto style = _getStyle();
+            const auto& style = _getStyle();
             _setMinimumSize(_p->layout->getMinimumSize() + getMargin().getSize(style));
         }
 
         void IntSlider::_layoutEvent(Event::Layout & event)
         {
-            auto style = _getStyle();
+            const auto& style = _getStyle();
             _p->layout->setGeometry(getMargin().bbox(getGeometry(), style));
         }
 

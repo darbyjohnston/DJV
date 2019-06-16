@@ -803,13 +803,13 @@ namespace djv
             
             void FileBrowser::_preLayoutEvent(Event::PreLayout & event)
             {
-                auto style = _getStyle();
+                const auto& style = _getStyle();
                 _setMinimumSize(_p->layout->getMinimumSize() + getMargin().getSize(style));
             }
 
             void FileBrowser::_layoutEvent(Event::Layout & event)
             {
-                auto style = _getStyle();
+                const auto& style = _getStyle();
                 _p->layout->setGeometry(getMargin().bbox(getGeometry(), style));
             }
 

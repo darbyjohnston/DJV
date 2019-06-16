@@ -150,7 +150,7 @@ namespace djv
                 float out = 0.f;
                 if (const size_t itemCount = p.items.size())
                 {
-                    auto style = _getStyle();
+                    const auto& style = _getStyle();
                     const float m = style->getMetric(MetricsRole::Margin);
                     const float s = style->getMetric(MetricsRole::Spacing);
                     const float sh = style->getMetric(MetricsRole::Shadow);
@@ -207,7 +207,7 @@ namespace djv
             {
                 DJV_PRIVATE_PTR();
                 const BBox2f & g = getGeometry();
-                auto style = _getStyle();
+                const auto& style = _getStyle();
                 const float m = style->getMetric(MetricsRole::Margin);
                 const float s = style->getMetric(MetricsRole::Spacing);
                 const float sh = style->getMetric(MetricsRole::Shadow);
@@ -254,7 +254,7 @@ namespace djv
                 if (isClipped())
                     return;
                 auto fontSystem = _getFontSystem();
-                auto style = _getStyle();
+                const auto& style = _getStyle();
                 auto context = getContext();
                 const auto & clipRect = event.getClipRect();
                 for (const auto & i : p.itemGeometry)
@@ -349,7 +349,7 @@ namespace djv
             void ItemView::_paintEvent(Event::Paint & event)
             {
                 DJV_PRIVATE_PTR();
-                auto style = _getStyle();
+                const auto& style = _getStyle();
                 const float m = style->getMetric(MetricsRole::Margin);
                 const float s = style->getMetric(MetricsRole::Spacing);
                 const float sh = style->getMetric(MetricsRole::Shadow);
@@ -577,7 +577,7 @@ namespace djv
                 if (p.grab != invalid && pointerInfo.id == p.pressedId)
                 {
                     const float distance = glm::length(pointerInfo.projectedPos - p.pressedPos);
-                    auto style = _getStyle();
+                    const auto& style = _getStyle();
                     const bool accepted = distance < style->getMetric(MetricsRole::Drag);
                     event.setAccepted(accepted);
                     if (!accepted)
@@ -833,7 +833,7 @@ namespace djv
                 auto context = getContext();
                 auto thumbnailSystem = context->getSystemT<AV::ThumbnailSystem>();
                 auto fontSystem = _getFontSystem();
-                auto style = _getStyle();
+                const auto& style = _getStyle();
                 p.names.clear();
                 p.nameLines.clear();
                 p.nameLinesFutures.clear();
@@ -893,7 +893,7 @@ namespace djv
             void ItemView::_itemsUpdate()
             {
                 DJV_PRIVATE_PTR();
-                auto style = _getStyle();
+                const auto& style = _getStyle();
                 auto fontSystem = _getFontSystem();
                 auto thumbnailSystem = getContext()->getSystemT<AV::ThumbnailSystem>();
                 p.nameFontMetricsFuture = fontSystem->getMetrics(

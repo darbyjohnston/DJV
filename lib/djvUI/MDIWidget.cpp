@@ -64,7 +64,7 @@ namespace djv
             {
                 std::map<Handle, std::vector<BBox2f> > out;
                 const BBox2f & g = getGeometry();
-                auto style = _getStyle();
+                const auto& style = _getStyle();
                 const float edge = style->getMetric(MetricsRole::Handle);
                 const float corner = style->getMetric(MetricsRole::Handle) * 2.f;
                 out =
@@ -159,7 +159,7 @@ namespace djv
             {
                 std::map<Handle, std::vector<BBox2f> > out;
                 const BBox2f & g = getGeometry();
-                auto style = _getStyle();
+                const auto& style = _getStyle();
                 const float edge = style->getMetric(MetricsRole::Handle);
                 const float corner = style->getMetric(MetricsRole::Handle) * 2.f;
                 out =
@@ -275,7 +275,7 @@ namespace djv
                 DJV_PRIVATE_PTR();
                 if (p.maximized < 1.f)
                 {
-                    auto style = _getStyle();
+                    const auto& style = _getStyle();
                     const float h = style->getMetric(MetricsRole::Handle);
                     const float sh = style->getMetric(MetricsRole::Shadow);
                     auto render = _getRender();
@@ -297,7 +297,7 @@ namespace djv
                 DJV_PRIVATE_PTR();
                 if (p.maximized < 1.f)
                 {
-                    auto style = _getStyle();
+                    const auto& style = _getStyle();
                     auto render = _getRender();
                     render->setFillColor(style->getColor(ColorRole::Handle));
                     const auto& handles = _getHandlesDraw();

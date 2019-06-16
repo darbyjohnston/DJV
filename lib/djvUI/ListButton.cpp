@@ -257,7 +257,7 @@ namespace djv
             {
                 IButton::_paintEvent(event);
                 auto render = _getRender();
-                auto style = _getStyle();
+                const auto& style = _getStyle();
                 const BBox2f& g = getGeometry();
                 if (_isToggled())
                 {

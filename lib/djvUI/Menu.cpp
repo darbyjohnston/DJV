@@ -156,7 +156,7 @@ namespace djv
 
             void MenuWidget::_preLayoutEvent(Event::PreLayout &)
             {
-                auto style = _getStyle();
+                const auto& style = _getStyle();
                 const float m = style->getMetric(MetricsRole::MarginSmall);
                 const float s = style->getMetric(MetricsRole::Spacing);
                 const float b = style->getMetric(MetricsRole::Border);
@@ -290,7 +290,7 @@ namespace djv
                 Widget::_paintEvent(event);
 
                 const BBox2f & g = getGeometry();
-                auto style = _getStyle();
+                const auto& style = _getStyle();
                 const float m = style->getMetric(MetricsRole::MarginSmall);
                 const float s = style->getMetric(MetricsRole::Spacing);
                 const float is = style->getMetric(MetricsRole::Icon);
@@ -397,7 +397,7 @@ namespace djv
                 if (id == _pressed.first)
                 {
                     const float distance = glm::length(pos - _pressedPos);
-                    auto style = _getStyle();
+                    const auto& style = _getStyle();
                     const bool accepted = distance < style->getMetric(MetricsRole::Drag);
                     event.setAccepted(accepted);
                     if (!accepted)
@@ -633,7 +633,7 @@ namespace djv
             void MenuWidget::_textUpdate()
             {
                 _textUpdateRequest = false;
-                auto style = _getStyle();
+                const auto& style = _getStyle();
                 auto fontSystem = _getFontSystem();
                 auto textSystem = _getTextSystem();
                 _hasShortcuts = false;
@@ -813,7 +813,7 @@ namespace djv
 
             void MenuOverlayLayout::_layoutEvent(Event::Layout &)
             {
-                const auto style = _getStyle();
+                const const auto& style = _getStyle();
                 const BBox2f & g = getMargin().bbox(getGeometry(), style);
                 // Bias menu placement below the geometry.
                 const float bias = .5f;
@@ -900,7 +900,7 @@ namespace djv
             void MenuOverlayLayout::_paintEvent(Event::Paint & event)
             {
                 Widget::_paintEvent(event);
-                auto style = _getStyle();
+                const auto& style = _getStyle();
                 const float sh = style->getMetric(MetricsRole::Shadow);
                 auto render = _getRender();
                 render->setFillColor(style->getColor(ColorRole::Shadow));

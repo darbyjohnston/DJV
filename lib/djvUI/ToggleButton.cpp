@@ -108,7 +108,7 @@ namespace djv
             void Toggle::_preLayoutEvent(Event::PreLayout & event)
             {
                 DJV_PRIVATE_PTR();
-                auto style = _getStyle();
+                const auto& style = _getStyle();
                 const float m = style->getMetric(Style::MetricsRole::MarginSmall);
                 auto fontSystem = _getFontSystem();
                 const auto fontMetrics = fontSystem->getMetrics(style->getFontInfo(AV::Font::faceDefault, Style::MetricsRole::FontMedium)).get();
@@ -124,7 +124,7 @@ namespace djv
                 Widget::_paintEvent(event);
 
                 DJV_PRIVATE_PTR();
-                auto style = _getStyle();
+                const auto& style = _getStyle();
                 const float b = style->getMetric(Style::MetricsRole::Border);
                 const float m = style->getMetric(Style::MetricsRole::MarginSmall);
                 const BBox2f & g = getGeometry();

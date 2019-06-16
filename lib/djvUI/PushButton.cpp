@@ -260,7 +260,7 @@ namespace djv
             void Push::_paintEvent(Event::Paint& event)
             {
                 IButton::_paintEvent(event);
-                auto style = _getStyle();
+                const auto& style = _getStyle();
                 const BBox2f& g = getMargin().bbox(getGeometry(), style);
                 auto render = _getRender();
                 if (_isToggled())

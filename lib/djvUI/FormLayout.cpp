@@ -104,7 +104,7 @@ namespace djv
 
             float Form::getHeightForWidth(float value) const
             {
-                auto style = _getStyle();
+                const auto& style = _getStyle();
                 float out = _p->layout->getHeightForWidth(value - getMargin().getWidth(style)) + getMargin().getWidth(style);
                 return out;
             }
@@ -132,7 +132,7 @@ namespace djv
 
             void Form::_preLayoutEvent(Event::PreLayout & event)
             {
-                auto style = _getStyle();
+                const auto& style = _getStyle();
                 _setMinimumSize(_p->layout->getMinimumSize() + getMargin().getSize(style));
             }
 
@@ -140,7 +140,7 @@ namespace djv
             {
                 DJV_PRIVATE_PTR();
                 const BBox2f & g = getGeometry();
-                auto style = _getStyle();
+                const auto& style = _getStyle();
                 p.layout->setGeometry(getMargin().bbox(g, style));
             }
 

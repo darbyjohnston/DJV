@@ -88,7 +88,7 @@ namespace djv
             if (value == p.name)
                 return;
             p.name = value;
-            auto style = _getStyle();
+            const auto& style = _getStyle();
             auto iconSystem = _getIconSystem();
             p.imageFuture = iconSystem->getIcon(p.name, static_cast<int>(style->getMetric(p.iconSizeRole)));
             _resize();
@@ -127,7 +127,7 @@ namespace djv
             DJV_PRIVATE_PTR();
             if (!p.name.empty())
             {
-                auto style = _getStyle();
+                const auto& style = _getStyle();
                 auto iconSystem = _getIconSystem();
                 p.imageFuture = iconSystem->getIcon(p.name, static_cast<int>(style->getMetric(p.iconSizeRole)));
             }
@@ -136,7 +136,7 @@ namespace djv
         void Icon::_preLayoutEvent(Event::PreLayout & event)
         {
             DJV_PRIVATE_PTR();
-            auto style = _getStyle();
+            const auto& style = _getStyle();
             const float i = style->getMetric(p.iconSizeRole);
 
             if (p.imageFuture.valid())
@@ -168,7 +168,7 @@ namespace djv
         {
             Widget::_paintEvent(event);
             DJV_PRIVATE_PTR();
-            auto style = _getStyle();
+            const auto& style = _getStyle();
             const BBox2f & g = getMargin().bbox(getGeometry(), style);
             const glm::vec2 c = g.getCenter();
 

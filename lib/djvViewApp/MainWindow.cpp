@@ -354,7 +354,7 @@ namespace djv
 
         void MainWindow::_dropEvent(Core::Event::Drop & event)
         {
-            auto style = _getStyle();
+            const auto& style = _getStyle();
             const float s = style->getMetric(UI::MetricsRole::SpacingLarge);
             glm::vec2 pos = event.getPointerInfo().projectedPos;
             for (const auto & i : event.getDropPaths())

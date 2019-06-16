@@ -207,7 +207,7 @@ namespace djv
             void Drawer::_preLayoutEvent(Event::PreLayout & event)
             {
                 DJV_PRIVATE_PTR();
-                auto style = _getStyle();
+                const auto& style = _getStyle();
                 const float sh = style->getMetric(MetricsRole::Shadow);
                 glm::vec2 size = p.layout->getMinimumSize();
                 switch (p.side)
@@ -224,7 +224,7 @@ namespace djv
             void Drawer::_layoutEvent(Event::Layout & event)
             {
                 DJV_PRIVATE_PTR();
-                auto style = _getStyle();
+                const auto& style = _getStyle();
                 const BBox2f & g = getGeometry();
                 const glm::vec2 & minimumSize = p.layout->getMinimumSize();
                 BBox2f childGeometry = g;
@@ -246,7 +246,7 @@ namespace djv
                 if (p.open)
                 {
                     const BBox2f& g = p.layout->getGeometry();
-                    auto style = _getStyle();
+                    const auto& style = _getStyle();
                     const float sh = style->getMetric(MetricsRole::Shadow);
                     auto render = _getRender();
                     render->setFillColor(style->getColor(ColorRole::Shadow));
@@ -266,7 +266,7 @@ namespace djv
                 DJV_PRIVATE_PTR();
                 if (p.open && p.pointerHover.size())
                 {
-                    auto style = _getStyle();
+                    const auto& style = _getStyle();
                     auto render = _getRender();
                     render->setFillColor(style->getColor(ColorRole::Hovered));
                     render->drawRect(p.spacer->getGeometry());
@@ -317,7 +317,7 @@ namespace djv
                     if (auto widget = std::dynamic_pointer_cast<Widget>(object))
                     {
                         event.accept();
-                        auto style = _getStyle();
+                        const auto& style = _getStyle();
                         const BBox2f& g = getGeometry();
                         const float w = g.w();
                         const float h = g.h();

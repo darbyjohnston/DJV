@@ -238,7 +238,7 @@ namespace djv
                 }
             }
             const glm::vec2 size(glm::max(p.textSize.x, p.sizeStringSize.x), p.fontMetrics.lineHeight);
-            auto style = _getStyle();
+            const auto& style = _getStyle();
             _setMinimumSize(size + getMargin().getSize(style));
         }
 
@@ -246,7 +246,7 @@ namespace djv
         {
             Widget::_paintEvent(event);
             DJV_PRIVATE_PTR();
-            auto style = _getStyle();
+            const auto& style = _getStyle();
             const BBox2f & g = getMargin().bbox(getGeometry(), style);
             const glm::vec2 c = g.getCenter();
 
@@ -294,7 +294,7 @@ namespace djv
         void Label::_textUpdate()
         {
             DJV_PRIVATE_PTR();
-            auto style = _getStyle();
+            const auto& style = _getStyle();
             const auto fontInfo = p.font.empty() ?
                 style->getFontInfo(p.fontFace, p.fontSizeRole) :
                 style->getFontInfo(p.font, p.fontFace, p.fontSizeRole);

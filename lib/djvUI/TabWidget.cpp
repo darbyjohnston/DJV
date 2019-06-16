@@ -184,7 +184,7 @@ namespace djv
         void TabWidget::_layoutEvent(Event::Layout & event)
         {
             const BBox2f & g = getGeometry();
-            auto style = _getStyle();
+            const auto& style = _getStyle();
             _p->layout->setGeometry(getMargin().bbox(g, style));
         }
 

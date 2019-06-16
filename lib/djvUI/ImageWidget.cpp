@@ -95,7 +95,7 @@ namespace djv
         {
             DJV_PRIVATE_PTR();
             glm::vec2 size(0.f, 0.f);
-            auto style = _getStyle();
+            const auto& style = _getStyle();
             if (p.sizeRole != MetricsRole::None)
             {
                 size.x = style->getMetric(p.sizeRole);
@@ -123,7 +123,7 @@ namespace djv
             DJV_PRIVATE_PTR();
             if (p.image)
             {
-                auto style = _getStyle();
+                const auto& style = _getStyle();
                 const BBox2f & g = getMargin().bbox(getGeometry(), style);
                 const glm::vec2 c = g.getCenter();
                 const auto& info = p.image->getInfo();

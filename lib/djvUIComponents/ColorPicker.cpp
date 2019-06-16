@@ -241,13 +241,13 @@ namespace djv
 
         void RGBColorSliders::_preLayoutEvent(Event::PreLayout & event)
         {
-            auto style = _getStyle();
+            const auto& style = _getStyle();
             _setMinimumSize(_p->layout->getMinimumSize() + getMargin().getSize(style));
         }
 
         void RGBColorSliders::_layoutEvent(Event::Layout &)
         {
-            auto style = _getStyle();
+            const auto& style = _getStyle();
             _p->layout->setGeometry(getMargin().bbox(getGeometry(), style));
         }
 
@@ -637,13 +637,13 @@ namespace djv
 
         void HSVColorSliders::_preLayoutEvent(Event::PreLayout & event)
         {
-            auto style = _getStyle();
+            const auto& style = _getStyle();
             _setMinimumSize(_p->layout->getMinimumSize() + getMargin().getSize(style));
         }
 
         void HSVColorSliders::_layoutEvent(Event::Layout &)
         {
-            auto style = _getStyle();
+            const auto& style = _getStyle();
             _p->layout->setGeometry(getMargin().bbox(getGeometry(), style));
         }
 

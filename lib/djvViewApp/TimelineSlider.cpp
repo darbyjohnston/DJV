@@ -192,7 +192,7 @@ namespace djv
             void PIPWidget::_paintEvent(Event::Paint& event)
             {
                 UI::Widget::_paintEvent(event);
-                auto style = _getStyle();
+                const auto& style = _getStyle();
                 const float sh = style->getMetric(UI::MetricsRole::Shadow);
                 auto render = _getRender();
                 render->setFillColor(style->getColor(UI::ColorRole::Shadow));
@@ -354,7 +354,7 @@ namespace djv
         void TimelineSlider::_styleEvent(Event::Style &)
         {
             DJV_PRIVATE_PTR();
-            auto style = _getStyle();
+            const auto& style = _getStyle();
             const auto fontInfo = style->getFontInfo(AV::Font::faceDefault, UI::MetricsRole::FontMedium);
             auto fontSystem = _getFontSystem();
             p.fontMetricsFuture = fontSystem->getMetrics(fontInfo);
@@ -364,7 +364,7 @@ namespace djv
         void TimelineSlider::_preLayoutEvent(Event::PreLayout & event)
         {
             DJV_PRIVATE_PTR();
-            auto style = _getStyle();
+            const auto& style = _getStyle();
             const float is = style->getMetric(UI::MetricsRole::Icon);
             glm::vec2 size = glm::vec2(0.f, 0.f);
             size.x = style->getMetric(UI::MetricsRole::TextColumn);
@@ -376,7 +376,7 @@ namespace djv
         {
             DJV_PRIVATE_PTR();
             const BBox2f & g = getGeometry();
-            auto style = _getStyle();
+            const auto& style = _getStyle();
             const float m = style->getMetric(UI::MetricsRole::MarginSmall);
             const float b = style->getMetric(UI::MetricsRole::Border);
             const BBox2f & hg = _getHandleGeometry();
@@ -471,7 +471,7 @@ namespace djv
             const Time::Timestamp timestamp = _posToTime(static_cast<int>(pos.x - g.min.x));
             if (auto parent = getParentRecursiveT<MDIWidget>())
             {
-                auto style = _getStyle();
+                const auto& style = _getStyle();
                 const float s = style->getMetric(UI::MetricsRole::Spacing);
                 p.pipWidget->setPIPPos(glm::vec2(pos.x, g.min.y - s), timestamp, parent->getGeometry().margin(-s));
             }
@@ -531,7 +531,7 @@ namespace djv
         Time::Timestamp TimelineSlider::_posToTime(float value) const
         {
             DJV_PRIVATE_PTR();
-            auto style = _getStyle();
+            const auto& style = _getStyle();
             const BBox2f& g = getGeometry();
             const float m = style->getMetric(UI::MetricsRole::MarginSmall);
             const double v = (static_cast<double>(value - static_cast<double>(m))) /
@@ -546,7 +546,7 @@ namespace djv
         float TimelineSlider::_timeToPos(Time::Timestamp value) const
         {
             DJV_PRIVATE_PTR();
-            auto style = _getStyle();
+            const auto& style = _getStyle();
             const BBox2f& g = getGeometry();
             const float m = style->getMetric(UI::MetricsRole::MarginSmall);
             const Time::Timestamp t = Time::scale(1, p.speed.swap(), Time::getTimebaseRational());
@@ -559,7 +559,7 @@ namespace djv
         {
             DJV_PRIVATE_PTR();
             const BBox2f & g = getGeometry();
-            auto style = _getStyle();
+            const auto& style = _getStyle();
             const float m = style->getMetric(UI::MetricsRole::MarginSmall);
             const int64_t t = Time::scale(1, p.speed.swap(), Time::getTimebaseRational());
             const float x = p.duration ? floorf(p.currentTime->get() / static_cast<float>(p.duration - t) * (g.w() - 1.f - m * 2.f)) : 0.f;
@@ -571,7 +571,7 @@ namespace djv
         {
             DJV_PRIVATE_PTR();
             auto avSystem = getContext()->getSystemT<AV::AVSystem>();
-            auto style = _getStyle();
+            const auto& style = _getStyle();
             auto fontSystem = _getFontSystem();
             const auto fontInfo = style->getFontInfo(AV::Font::faceDefault, UI::MetricsRole::FontMedium);
             _resize();

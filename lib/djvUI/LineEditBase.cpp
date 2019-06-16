@@ -234,7 +234,7 @@ namespace djv
         void LineEditBase::_preLayoutEvent(Event::PreLayout & event)
         {
             DJV_PRIVATE_PTR();
-            auto style = _getStyle();
+            const auto& style = _getStyle();
             const float m = style->getMetric(MetricsRole::MarginSmall);
             const float tc = style->getMetric(p.textSizeRole);
 
@@ -299,7 +299,7 @@ namespace djv
         {
             Widget::_paintEvent(event);
             DJV_PRIVATE_PTR();
-            auto style = _getStyle();
+            const auto& style = _getStyle();
             const BBox2f & g = getMargin().bbox(getGeometry(), style);
             const glm::vec2 c = g.getCenter();
             const float m = style->getMetric(MetricsRole::MarginSmall);
@@ -499,7 +499,7 @@ namespace djv
         void LineEditBase::_textUpdate()
         {
             DJV_PRIVATE_PTR();
-            auto style = _getStyle();
+            const auto& style = _getStyle();
             const auto fontInfo = p.font.empty() ?
                 style->getFontInfo(p.fontFace, p.fontSizeRole) :
                 style->getFontInfo(p.font, p.fontFace, p.fontSizeRole);
@@ -526,7 +526,7 @@ namespace djv
                 p.cursorPos = 0;
             }
 
-            auto style = _getStyle();
+            const auto& style = _getStyle();
             const auto fontInfo = p.font.empty() ?
                 style->getFontInfo(p.fontFace, p.fontSizeRole) :
                 style->getFontInfo(p.font, p.fontFace, p.fontSizeRole);

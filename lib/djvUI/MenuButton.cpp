@@ -199,14 +199,14 @@ namespace djv
             {
                 DJV_PRIVATE_PTR();
                 glm::vec2 size = p.layout->getMinimumSize();
-                auto style = _getStyle();
+                const auto& style = _getStyle();
                 _setMinimumSize(size + getMargin().getSize(style));
             }
 
             void Menu::_layoutEvent(Event::Layout &)
             {
                 DJV_PRIVATE_PTR();
-                auto style = _getStyle();
+                const auto& style = _getStyle();
                 const BBox2f& g = getMargin().bbox(getGeometry(), style);
                 switch (p.menuStyle)
                 {
@@ -228,7 +228,7 @@ namespace djv
             {
                 Widget::_paintEvent(event);
                 DJV_PRIVATE_PTR();
-                auto style = _getStyle();
+                const auto& style = _getStyle();
                 const BBox2f& g = getMargin().bbox(getGeometry(), style);
                 auto render = _getRender();
                 if (p.checked)

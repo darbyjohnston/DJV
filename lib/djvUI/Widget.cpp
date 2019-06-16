@@ -556,7 +556,7 @@ namespace djv
 
         void Widget::_paintOverlayEvent(Event::PaintOverlay& event)
         {
-            auto style = _getStyle();
+            const auto& style = _getStyle();
             const float ss = style->getMetric(MetricsRole::Shadow);
             const BBox2f& g = getGeometry();
             _render->setFillColor(_style->getColor(ColorRole::Shadow));

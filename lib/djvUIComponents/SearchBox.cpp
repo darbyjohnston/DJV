@@ -161,7 +161,7 @@ namespace djv
 
         float SearchBox::getHeightForWidth(float value) const
         {
-            auto style = _getStyle();
+            const auto& style = _getStyle();
             const glm::vec2 m = getMargin().getSize(style);
             float out = _p->border->getHeightForWidth(value - m.x) + m.y;
             return out;
@@ -169,14 +169,14 @@ namespace djv
 
         void SearchBox::_preLayoutEvent(Event::PreLayout & event)
         {
-            auto style = _getStyle();
+            const auto& style = _getStyle();
             _setMinimumSize(_p->border->getMinimumSize() + getMargin().getSize(style));
         }
 
         void SearchBox::_layoutEvent(Event::Layout & event)
         {
             const BBox2f g = getGeometry();
-            auto style = _getStyle();
+            const auto& style = _getStyle();
             _p->border->setGeometry(getMargin().bbox(g, style));
         }
 

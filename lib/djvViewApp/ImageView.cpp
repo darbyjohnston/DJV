@@ -307,7 +307,7 @@ namespace djv
 
         void ImageView::_preLayoutEvent(Event::PreLayout & event)
         {
-            auto style = _getStyle();
+            const auto& style = _getStyle();
             const float sa = style->getMetric(UI::MetricsRole::ScrollArea);
             _setMinimumSize(glm::vec2(sa, sa));
         }
@@ -328,7 +328,7 @@ namespace djv
             DJV_PRIVATE_PTR();
             if (p.image)
             {
-                auto style = _getStyle();
+                const auto& style = _getStyle();
                 const BBox2f & g = getMargin().bbox(getGeometry(), style);
                 auto render = _getRender();
                 render->setFillColor(p.backgroundColor);

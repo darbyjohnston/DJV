@@ -101,7 +101,7 @@ namespace djv
 
         void ColorSwatch::_preLayoutEvent(Event::PreLayout & event)
         {
-            auto style = _getStyle();
+            const auto& style = _getStyle();
             const float sw = style->getMetric(_p->swatchSizeRole);
             _setMinimumSize(glm::vec2(sw, sw));
         }

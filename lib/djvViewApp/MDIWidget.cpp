@@ -685,7 +685,7 @@ namespace djv
         void MDIWidget::_preLayoutEvent(Event::PreLayout&)
         {
             DJV_PRIVATE_PTR();
-            auto style = _getStyle();
+            const auto& style = _getStyle();
             const float m = style->getMetric(UI::MetricsRole::Handle);
             _setMinimumSize(p.layout->getMinimumSize() + m * (1.f - _getMaximized()));
         }
@@ -693,7 +693,7 @@ namespace djv
         void MDIWidget::_layoutEvent(Event::Layout&)
         {
             DJV_PRIVATE_PTR();
-            auto style = _getStyle();
+            const auto& style = _getStyle();
             const float m = style->getMetric(UI::MetricsRole::Handle);
             p.layout->setGeometry(getGeometry().margin(-m * (1.f - _getMaximized())));
         }

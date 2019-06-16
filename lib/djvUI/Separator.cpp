@@ -70,7 +70,7 @@ namespace djv
             {
                 DJV_PRIVATE_PTR();
 
-                auto style = _getStyle();
+                const auto& style = _getStyle();
                 p.width = style->getMetric(MetricsRole::Border);
 
                 glm::vec2 minimumSize = glm::vec2(0.f, 0.f);

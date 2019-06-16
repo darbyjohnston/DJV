@@ -149,7 +149,7 @@ namespace djv
                 float out = 0.f;
 
                 // Get the child sizes.
-                auto style = _getStyle();
+                const auto& style = _getStyle();
                 const glm::vec2 m = getMargin().getSize(style);
                 const auto& children = getChildWidgets();
                 size_t visibleChildren = 0;
@@ -243,7 +243,7 @@ namespace djv
                 }
 
                 // Adjust for spacing.
-                auto style = _getStyle();
+                const auto& style = _getStyle();
                 if (visibleChildren > 1)
                 {
                     const glm::vec2 s = p.spacing.get(style);
@@ -266,7 +266,7 @@ namespace djv
             {
                 DJV_PRIVATE_PTR();
 
-                auto style = _getStyle();
+                const auto& style = _getStyle();
                 const BBox2f & g = getMargin().bbox(getGeometry(), style);
                 const float gw = g.w();
                 const float gh = g.h();

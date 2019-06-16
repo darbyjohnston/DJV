@@ -164,7 +164,7 @@ namespace djv
             void ScrollBar::_preLayoutEvent(Event::PreLayout &)
             {
                 glm::vec2 size = glm::vec2(0.f, 0.f);
-                auto style = _getStyle();
+                const auto& style = _getStyle();
                 size += style->getMetric(MetricsRole::Handle);
                 _setMinimumSize(size);
             }
@@ -173,7 +173,7 @@ namespace djv
             {
                 Widget::_paintEvent(event);
 
-                auto style = _getStyle();
+                const auto& style = _getStyle();
                 const BBox2f & g = getGeometry();
                 const float b = style->getMetric(MetricsRole::Border);
 
@@ -324,7 +324,7 @@ namespace djv
 
             float ScrollBar::_valueToPos(float value) const
             {
-                const auto style = _getStyle();
+                const const auto& style = _getStyle();
                 const BBox2f & g = getGeometry();
                 float out = 0.f;
                 const float v = std::min(value / (_contentsSize > 0 ? static_cast<float>(_contentsSize) : 1.f), 1.f);
@@ -343,7 +343,7 @@ namespace djv
 
             float ScrollBar::_posToValue(float value) const
             {
-                const auto style = _getStyle();
+                const const auto& style = _getStyle();
                 const BBox2f & g = getGeometry();
                 float v = 0.f;
                 switch (_orientation)
@@ -469,7 +469,7 @@ namespace djv
                     }
                 }
                 glm::vec2 size = childrenMinimumSize;
-                auto style = _getStyle();
+                const auto& style = _getStyle();
                 const float minimumSize = style->getMetric(_minimumSizeRole);
                 switch (_scrollType)
                 {
@@ -815,7 +815,7 @@ namespace djv
         void ScrollWidget::_preLayoutEvent(Event::PreLayout &)
         {
             DJV_PRIVATE_PTR();
-            auto style = _getStyle();
+            const auto& style = _getStyle();
             _setMinimumSize(p.border->getMinimumSize() + getMargin().getSize(style));
             _updateScrollBars(p.scrollArea->getContentsSize());
         }
@@ -823,7 +823,7 @@ namespace djv
         void ScrollWidget::_layoutEvent(Event::Layout &)
         {
             DJV_PRIVATE_PTR();
-            auto style = _getStyle();
+            const auto& style = _getStyle();
             p.border->setGeometry(getMargin().bbox(getGeometry(), style));
         }
 

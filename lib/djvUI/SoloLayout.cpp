@@ -144,7 +144,7 @@ namespace djv
             {
                 DJV_PRIVATE_PTR();
                 float out = 0.f;
-                auto style = _getStyle();
+                const auto& style = _getStyle();
                 const glm::vec2 m = getMargin().getSize(style);
                 for (const auto & child : getChildWidgets())
                 {
@@ -196,13 +196,13 @@ namespace djv
                         }
                     }
                 }
-                auto style = _getStyle();
+                const auto& style = _getStyle();
                 _setMinimumSize(minimumSize + getMargin().getSize(style));
             }
 
             void Solo::_layoutEvent(Event::Layout &)
             {
-                auto style = _getStyle();
+                const auto& style = _getStyle();
                 const BBox2f & g = getMargin().bbox(getGeometry(), style);
                 for (const auto & child : getChildWidgets())
                 {

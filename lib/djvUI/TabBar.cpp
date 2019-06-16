@@ -138,7 +138,7 @@ namespace djv
             {
                 const BBox2f & g = getGeometry();
                 auto render = _getRender();
-                auto style = _getStyle();
+                const auto& style = _getStyle();
                 render->setFillColor(style->getColor(_isToggled() ? ColorRole::Background : ColorRole::Trough));
                 render->drawRect(g);
                 if (_isHovered() && !_isToggled())
@@ -290,7 +290,7 @@ namespace djv
         void TabBar::_layoutEvent(Event::Layout & event)
         {
             const BBox2f & g = getGeometry();
-            auto style = _getStyle();
+            const auto& style = _getStyle();
             _p->layout->setGeometry(getMargin().bbox(g, style));
         }
 

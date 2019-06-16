@@ -113,7 +113,7 @@ namespace djv
             {
                 DJV_PRIVATE_PTR();
                 float out = 0.f;
-                auto style = _getStyle();
+                const auto& style = _getStyle();
                 const glm::vec2 m = getMargin().getSize(style);
                 const float b = style->getMetric(MetricsRole::Border);
                 out = StackLayout::heightForWidth(value - b * 2.f - m.x, getChildWidgets(), p.insideMargin, style) + b * 2.f + m.y;
@@ -123,7 +123,7 @@ namespace djv
             void Border::_preLayoutEvent(Event::PreLayout & event)
             {
                 DJV_PRIVATE_PTR();
-                auto style = _getStyle();
+                const auto& style = _getStyle();
                 _setMinimumSize(StackLayout::minimumSize(getChildWidgets(), p.insideMargin, style) +
                     style->getMetric(p.borderSize) * 2.f + getMargin().getSize(style));
             }
@@ -131,7 +131,7 @@ namespace djv
             void Border::_layoutEvent(Event::Layout & event)
             {
                 DJV_PRIVATE_PTR();
-                auto style = _getStyle();
+                const auto& style = _getStyle();
                 const BBox2f & g = getGeometry().margin(-style->getMetric(p.borderSize));
                 StackLayout::layout(getMargin().bbox(g, style), getChildWidgets(), p.insideMargin, style);
             }
@@ -140,7 +140,7 @@ namespace djv
             {
                 Widget::_paintEvent(event);
                 DJV_PRIVATE_PTR();
-                auto style = _getStyle();
+                const auto& style = _getStyle();
                 const BBox2f & g = getMargin().bbox(getGeometry(), style);
                 const float borderSize = style->getMetric(p.borderSize);
                 auto render = _getRender();
