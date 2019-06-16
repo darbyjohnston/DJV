@@ -136,7 +136,7 @@ namespace djv
                 p.samples.pop_back();
             }
             const glm::vec2 labelSize = p.label->getMinimumSize();
-            p.label->setGeometry(BBox2f(g.min.x, g.max.y - labelSize.y, labelSize.x, labelSize.y));
+            p.label->setGeometry(BBox2f(g.max.x - labelSize.x, g.max.y - labelSize.y, labelSize.x, labelSize.y));
         }
 
         void LineGraphWidget::_paintEvent(Event::Paint& event)

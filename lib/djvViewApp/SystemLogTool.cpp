@@ -33,6 +33,7 @@
 #include <djvUI/RowLayout.h>
 #include <djvUI/ScrollWidget.h>
 #include <djvUI/TextBlock.h>
+#include <djvUI/StackLayout.h>
 
 #include <djvCore/Context.h>
 #include <djvCore/FileIO.h>
@@ -46,13 +47,48 @@ namespace djv
 {
     namespace ViewApp
     {
+        namespace
+        {
+            class SizeWidget : public UI::Widget
+            {
+                DJV_NON_COPYABLE(SizeWidget);
+
+            protected:
+                SizeWidget();
+
+            public:
+                static std::shared_ptr<SizeWidget> create(Context*);
+
+            protected:
+                void _preLayoutEvent(Event::PreLayout&) override;
+            };
+
+            SizeWidget::SizeWidget()
+            {}
+
+            std::shared_ptr<SizeWidget> SizeWidget::create(Context* context)
+            {
+                auto out = std::shared_ptr<SizeWidget>(new SizeWidget);
+                out->_init(context);
+                return out;
+            }
+
+            void SizeWidget::_preLayoutEvent(Event::PreLayout&)
+            {
+                const auto& style = _getStyle();
+                const float s = style->getMetric(UI::MetricsRole::Dialog);
+                _setMinimumSize(glm::vec2(s * 2.f, s));
+            }
+        
+        } // namespace
+
         struct SystemLogTool::Private
         {
             bool shown = false;
             std::shared_ptr<UI::TextBlock> textBlock;
-            std::shared_ptr< UI::PushButton> copyButton;
-            std::shared_ptr< UI::PushButton> reloadButton;
-            std::shared_ptr< UI::PushButton> clearButton;
+            std::shared_ptr<UI::PushButton> copyButton;
+            std::shared_ptr<UI::PushButton> reloadButton;
+            std::shared_ptr<UI::PushButton> clearButton;
         };
 
         void SystemLogTool::_init(Context * context)
@@ -81,16 +117,17 @@ namespace djv
             layout->setSpacing(UI::MetricsRole::None);
             layout->addChild(scrollWidget);
             layout->setStretch(scrollWidget, UI::RowStretch::Expand);
-            layout->addSeparator();
             auto hLayout = UI::HorizontalLayout::create(context);
-            hLayout->setBackgroundRole(UI::ColorRole::BackgroundHeader);
             hLayout->setMargin(UI::MetricsRole::MarginSmall);
             hLayout->addExpander();
             hLayout->addChild(p.copyButton);
             hLayout->addChild(p.reloadButton);
             hLayout->addChild(p.clearButton);
             layout->addChild(hLayout);
-            addChild(layout);
+            auto stackLayout = UI::StackLayout::create(context);
+            stackLayout->addChild(SizeWidget::create(context));
+            stackLayout->addChild(layout);
+            addChild(stackLayout);
 
             auto weak = std::weak_ptr<SystemLogTool>(std::dynamic_pointer_cast<SystemLogTool>(shared_from_this()));
             p.reloadButton->setClickedCallback(

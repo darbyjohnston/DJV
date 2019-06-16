@@ -159,11 +159,11 @@ namespace djv
                 render->setFillColor(AV::Image::Color(1.f, 1.f, 1.f, getOpacity(true)));
                 AV::Render::ImageOptions options;
                 options.cache = AV::Render::ImageCache::Dynamic;
-
                 glm::mat3x3 m(1.f);
+                m = glm::translate(m, pos);
                 m = glm::scale(m, glm::vec2(size.x / static_cast<float>(info.size.w), size.y / static_cast<float>(info.size.h)));
                 render->pushTransform(m);
-                render->drawImage(p.image, pos, options);
+                render->drawImage(p.image, glm::vec2(0.f, 0.f), options);
                 render->popTransform();
             }
         }
