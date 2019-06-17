@@ -79,11 +79,14 @@ namespace djv
 
             p.rgbSliders = UI::RGBColorSliders::create(context);
             p.rgbSliders->setMargin(UI::MetricsRole::MarginSmall);
+            p.rgbSliders->setShadowOverlay({ UI::Side::Top });
+
             p.hsvSliders = UI::HSVColorSliders::create(context);
             p.hsvSliders->setMargin(UI::MetricsRole::MarginSmall);
+            p.hsvSliders->setShadowOverlay({ UI::Side::Top });
 
             p.tabWidget = UI::TabWidget::create(context);
-            p.tabWidget->setPointerEnabled(true);
+            p.tabWidget->setShadowOverlay({ UI::Side::Top });
             p.tabText["RGB"] = p.tabWidget->addTab(std::string(), p.rgbSliders);
             p.tabText["HSV"] = p.tabWidget->addTab(std::string(), p.hsvSliders);
 
@@ -94,7 +97,7 @@ namespace djv
             p.typeWidget = UI::ColorTypeWidget::create(context);
 
             p.menu = UI::Menu::create(context);
-            p.menu->setIcon("djvIconPopupMenu");
+            p.menu->setIcon("djvIconSettings");
             p.menu->addAction(p.actions["Lock"]);
             p.menu->addAction(p.actions["ColorProfile"]);
             p.menu->addAction(p.actions["DisplayProfile"]);
@@ -103,10 +106,13 @@ namespace djv
 
             p.layout = UI::VerticalLayout::create(context);
             p.layout->setSpacing(UI::MetricsRole::None);
-            p.layout->addChild(p.colorSwatch);
-            p.layout->setStretch(p.colorSwatch, UI::RowStretch::Expand);
-            p.layout->addChild(p.tabWidget);
             auto hLayout = UI::HorizontalLayout::create(context);
+            hLayout->setSpacing(UI::MetricsRole::None);
+            hLayout->addChild(p.colorSwatch);
+            hLayout->setStretch(p.colorSwatch, UI::RowStretch::Expand);
+            hLayout->addChild(p.tabWidget);
+            p.layout->addChild(hLayout);
+            hLayout = UI::HorizontalLayout::create(context);
             hLayout->setSpacing(UI::MetricsRole::None);
             hLayout->addChild(p.sampleSizeSlider);
             hLayout->setStretch(p.sampleSizeSlider, UI::RowStretch::Expand);

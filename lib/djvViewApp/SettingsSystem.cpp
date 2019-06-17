@@ -29,10 +29,12 @@
 
 #include <djvViewApp/SettingsSystem.h>
 
+#include <djvViewApp/ImageSettingsWidget.h>
+#include <djvViewApp/ImageViewSettingsWidget.h>
 #include <djvViewApp/NUXSettingsWidget.h>
 #include <djvViewApp/PlaybackSettingsWidget.h>
 #include <djvViewApp/SettingsDialog.h>
-#include <djvViewApp/WindowSettingsWidget.h>
+#include <djvViewApp/UISettingsWidget.h>
 
 #include <djvUIComponents/DisplaySettingsWidget.h>
 #include <djvUIComponents/LanguageSettingsWidget.h>
@@ -71,6 +73,7 @@ namespace djv
         void SettingsSystem::_init(Context * context)
         {
             IViewSystem::_init("djv::ViewApp::SettingsSystem", context);
+            DJV_PRIVATE_PTR();
         }
 
         SettingsSystem::SettingsSystem() :
@@ -126,9 +129,6 @@ namespace djv
             {
                 UI::DisplaySettingsWidget::create(context),
                 UI::LanguageSettingsWidget::create(context),
-                NUXSettingsWidget::create(context),
-                PlaybackSettingsWidget::create(context),
-                WindowSettingsWidget::create(context),
                 UI::TimeSettingsWidget::create(context),
                 UI::TooltipsSettingsWidget::create(context),
 #if defined(JPEG_FOUND)
@@ -137,6 +137,11 @@ namespace djv
 #if defined(TIFF_FOUND)
                 UI::TIFFSettingsWidget::create(context),
 #endif
+                ImageSettingsWidget::create(context),
+                ImageViewSettingsWidget::create(context),
+                NUXSettingsWidget::create(context),
+                PlaybackSettingsWidget::create(context),
+                UISettingsWidget::create(context),
             };
         }
         

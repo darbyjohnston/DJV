@@ -31,6 +31,7 @@
 
 #include <djvViewApp/MDICanvas.h>
 #include <djvViewApp/MDIWidget.h>
+#include <djvViewApp/UISettings.h>
 #include <djvViewApp/WindowSettings.h>
 
 #include <djvDesktopApp/Application.h>
@@ -168,9 +169,9 @@ namespace djv
             });
 
             auto settingsSystem = context->getSystemT<UI::Settings::System>();
-            auto windowSettings = settingsSystem->getSettingsT<WindowSettings>();
+            auto uiSettings = settingsSystem->getSettingsT<UISettings>();
             p.fadeObserver = ValueObserver<bool>::create(
-                windowSettings->observeFade(),
+                uiSettings->observeAutoHide(),
                 [weak](bool value)
             {
                 if (auto system = weak.lock())

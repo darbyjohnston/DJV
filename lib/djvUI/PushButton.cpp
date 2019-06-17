@@ -49,7 +49,7 @@ namespace djv
             {
                 std::shared_ptr<Icon> icon;
                 std::shared_ptr<Label> label;
-                TextHAlign textHAlign = TextHAlign::Left;
+                TextHAlign textHAlign = TextHAlign::Center;
                 ColorRole textColorRole = ColorRole::Foreground;
                 std::string font;
                 std::string fontFace;

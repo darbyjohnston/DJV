@@ -65,6 +65,7 @@ namespace djv
 
             DJV_PRIVATE_PTR();
             setClassName("djv::UI::ComboBox");
+            setBackgroundRole(ColorRole::Button);
 
             p.closeAction = Action::create();
             p.closeAction->setShortcut(GLFW_KEY_ESCAPE);
@@ -78,7 +79,6 @@ namespace djv
             p.button = Button::Menu::create(context);
             p.button->setMenuStyle(Button::MenuStyle::ComboBox);
             p.button->setPopupIcon("djvIconPopupMenu");
-            p.button->setBackgroundRole(ColorRole::Button);
             addChild(p.button);
 
             _updateCurrentItem();

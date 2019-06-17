@@ -80,7 +80,7 @@ namespace djv
             p.zoomOutButton->setIcon("djvIconSubtract");
 
             p.menu = UI::Menu::create(context);
-            p.menu->setIcon("djvIconPopupMenu");
+            p.menu->setIcon("djvIconSettings");
             p.menu->addAction(p.actions["ColorProfile"]);
             p.menu->addAction(p.actions["DisplayProfile"]);
             p.popupMenu = UI::PopupMenu::create(context);

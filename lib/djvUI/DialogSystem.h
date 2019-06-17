@@ -39,7 +39,7 @@ namespace djv
 {
     namespace UI
     {
-        //! This class provides standard dialog widgets.
+        //! This class provides standard dialogs.
         class DialogSystem : public Core::ISystem
         {
             DJV_NON_COPYABLE(DialogSystem);
@@ -61,11 +61,11 @@ namespace djv
 
             //! Show a confirmation dialog.
             void confirmation(
-                const std::string & title,
-                const std::string & text,
-                const std::string & acceptText,
-                const std::string & cancelText,
-                const std::function<void(bool)> & callback);
+                const std::string& title,
+                const std::string& text,
+                const std::string& acceptText,
+                const std::string& cancelText,
+                const std::function<void(bool)>& callback);
 
         private:
             DJV_PRIVATE();

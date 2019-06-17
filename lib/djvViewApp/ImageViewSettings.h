@@ -37,6 +37,15 @@
 
 namespace djv
 {
+    namespace AV
+    {
+        namespace Image
+        {
+            class Color;
+
+        } // namespace Image
+    } // namespace AV
+
     namespace ViewApp
     {
         //! This class provides image view settings.
@@ -54,6 +63,9 @@ namespace djv
 
             std::shared_ptr<Core::IValueSubject<ImageViewLock> > observeLock() const;
             void setLock(ImageViewLock);
+
+            std::shared_ptr<Core::IValueSubject<AV::Image::Color> > observeBackgroundColor() const;
+            void setBackgroundColor(const AV::Image::Color&);
 
             void load(const picojson::value &) override;
             picojson::value save() override;

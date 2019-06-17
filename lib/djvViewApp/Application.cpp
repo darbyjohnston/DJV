@@ -41,6 +41,7 @@
 #include <djvViewApp/PlaybackSystem.h>
 #include <djvViewApp/SettingsSystem.h>
 #include <djvViewApp/ToolSystem.h>
+#include <djvViewApp/UISettings.h>
 #include <djvViewApp/WindowSystem.h>
 
 #include <djvUIComponents/UIComponentsSystem.h>
@@ -53,6 +54,7 @@ namespace djv
     {
         struct Application::Private
         {
+            std::shared_ptr<UISettings> uiSettings;
             std::vector<std::shared_ptr<ISystem> > systems;
             std::shared_ptr<MainWindow> mainWindow;
             std::shared_ptr<NUXWidget> nuxWidget;
@@ -65,6 +67,8 @@ namespace djv
             UI::UIComponentsSystem::create(this);
 
             DJV_PRIVATE_PTR();
+            p.uiSettings = UISettings::create(this);
+
             p.systems.push_back(FileSystem::create(this));
             auto windowSystem = WindowSystem::create(this);
             p.systems.push_back(windowSystem);
@@ -75,9 +79,9 @@ namespace djv
             p.systems.push_back(AudioSystem::create(this));
             p.systems.push_back(AnnotateSystem::create(this));
             p.systems.push_back(HelpSystem::create(this));
-            p.systems.push_back(SettingsSystem::create(this));
             auto nuxSystem = NUXSystem::create(this);
             p.systems.push_back(nuxSystem);
+            p.systems.push_back(SettingsSystem::create(this));
 
             p.mainWindow = MainWindow::create(this);
 

@@ -29,6 +29,7 @@
 
 #include <djvUIComponents/UIComponentsSystem.h>
 
+#include <djvUIComponents/ColorPicker.h>
 #include <djvUIComponents/FileBrowserSettings.h>
 
 #include <djvUI/UISystem.h>
@@ -49,6 +50,8 @@ namespace djv
             ISystem::_init("djv::UI::UIComponentsSystem", context);
 
             Settings::FileBrowser::create(context);
+
+            ColorPickerDialogSystem::create(context);
 
             addDependency(context->getSystemT<UISystem>());
         }

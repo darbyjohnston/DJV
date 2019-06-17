@@ -87,7 +87,6 @@ namespace djv
                     p.layout->addChild(label);
                     p.layout->setGridPos(label, glm::ivec2(0, gridPos.y));
                     p.layout->setGridPos(value, glm::ivec2(1, gridPos.y));
-                    p.layout->setStretch(value, GridStretch::Horizontal);
                     p.widgetToLabel[value] = label;
                 }
             }
@@ -117,7 +116,6 @@ namespace djv
                 if (auto widget = std::dynamic_pointer_cast<Widget>(value))
                 {
                     p.layout->setGridPos(widget, glm::ivec2(1, gridSize.y));
-                    p.layout->setStretch(widget, GridStretch::Horizontal);
                 }
             }
 

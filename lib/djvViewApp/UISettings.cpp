@@ -27,7 +27,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvViewApp/WindowSettings.h>
+#include <djvViewApp/UISettings.h>
 
 #include <djvCore/Context.h>
 #include <djvCore/FileInfo.h>
@@ -42,60 +42,60 @@ namespace djv
 {
     namespace ViewApp
     {
-        struct WindowSettings::Private
+        struct UISettings::Private
         {
-            std::shared_ptr<ValueSubject<bool> > maximized;
+            std::shared_ptr<ValueSubject<bool> > autoHide;
         };
 
-        void WindowSettings::_init(Context * context)
+        void UISettings::_init(Context * context)
         {
-            ISettings::_init("djv::ViewApp::WindowSettings", context);
+            ISettings::_init("djv::ViewApp::UISettings", context);
 
             DJV_PRIVATE_PTR();
-            p.maximized = ValueSubject<bool>::create(true);
+            p.autoHide = ValueSubject<bool>::create(true);
             _load();
         }
 
-        WindowSettings::WindowSettings() :
+        UISettings::UISettings() :
             _p(new Private)
         {}
 
-        WindowSettings::~WindowSettings()
+        UISettings::~UISettings()
         {}
 
-        std::shared_ptr<WindowSettings> WindowSettings::create(Context * context)
+        std::shared_ptr<UISettings> UISettings::create(Context * context)
         {
-            auto out = std::shared_ptr<WindowSettings>(new WindowSettings);
+            auto out = std::shared_ptr<UISettings>(new UISettings);
             out->_init(context);
             return out;
         }
 
-        std::shared_ptr<IValueSubject<bool> > WindowSettings::observeMaximized() const
+        std::shared_ptr<IValueSubject<bool> > UISettings::observeAutoHide() const
         {
-            return _p->maximized;
+            return _p->autoHide;
         }
 
-        void WindowSettings::setMaximized(bool value)
+        void UISettings::setAutoHide(bool value)
         {
-            _p->maximized->setIfChanged(value);
+            _p->autoHide->setIfChanged(value);
         }
 
-        void WindowSettings::load(const picojson::value & value)
+        void UISettings::load(const picojson::value & value)
         {
             if (value.is<picojson::object>())
             {
                 DJV_PRIVATE_PTR();
                 const auto & object = value.get<picojson::object>();
-                UI::Settings::read("Maximized", object, p.maximized);
+                UI::Settings::read("AutoHide", object, p.autoHide);
             }
         }
 
-        picojson::value WindowSettings::save()
+        picojson::value UISettings::save()
         {
             DJV_PRIVATE_PTR();
             picojson::value out(picojson::object_type, true);
             auto & object = out.get<picojson::object>();
-            UI::Settings::write("Maximized", p.maximized->get(), object);
+            UI::Settings::write("AutoHide", p.autoHide->get(), object);
             return out;
         }
 

@@ -27,14 +27,21 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvViewApp/WindowSettingsWidget.h>
+#include <djvViewApp/ImageViewSettingsWidget.h>
 
-#include <djvViewApp/WindowSettings.h>
+#include <djvViewApp/ImageViewSettings.h>
 
-#include <djvUI/ToggleButton.h>
+#include <djvUIComponents/ColorPicker.h>
+
+#include <djvUI/ColorSwatch.h>
+
 #include <djvUI/FormLayout.h>
 #include <djvUI/RowLayout.h>
 #include <djvUI/SettingsSystem.h>
+#include <djvUI/ToggleButton.h>
+
+#include <djvCore/Context.h>
+#include <djvCore/TextSystem.h>
 
 using namespace djv::Core;
 
@@ -42,82 +49,92 @@ namespace djv
 {
     namespace ViewApp
     {
-        struct WindowSettingsWidget::Private
+        struct ImageViewSettingsWidget::Private
         {
-            std::shared_ptr<UI::ToggleButton> fadeButton;
+            std::shared_ptr<UI::ColorSwatch> colorSwatch;
             std::shared_ptr<UI::FormLayout> formLayout;
-            std::shared_ptr<ValueObserver<bool> > fadeObserver;
+            std::shared_ptr<ValueObserver<AV::Image::Color> > backgroundColorObserver;
         };
 
-        void WindowSettingsWidget::_init(Context * context)
+        void ImageViewSettingsWidget::_init(Context* context)
         {
             ISettingsWidget::_init(context);
 
             DJV_PRIVATE_PTR();
-            setClassName("djv::ViewApp::WindowSettingsWidget");
+            setClassName("djv::ViewApp::ImageViewSettingsWidget");
 
-            p.fadeButton = UI::ToggleButton::create(context);
+            p.colorSwatch = UI::ColorSwatch::create(context);
+            p.colorSwatch->setPointerEnabled(true);
 
             p.formLayout = UI::FormLayout::create(context);
-            p.formLayout->addChild(p.fadeButton);
+            p.formLayout->addChild(p.colorSwatch);
             addChild(p.formLayout);
 
-            auto weak = std::weak_ptr<WindowSettingsWidget>(std::dynamic_pointer_cast<WindowSettingsWidget>(shared_from_this()));
-            p.fadeButton->setCheckedCallback(
-                [weak, context](bool value)
+            auto weak = std::weak_ptr<ImageViewSettingsWidget>(std::dynamic_pointer_cast<ImageViewSettingsWidget>(shared_from_this()));
+            p.colorSwatch->setClickedCallback(
+                [weak, context]
             {
                 if (auto widget = weak.lock())
                 {
                     auto settingsSystem = context->getSystemT<UI::Settings::System>();
-                    auto windowSettings = settingsSystem->getSettingsT<WindowSettings>();
-                    windowSettings->setFade(value);
+                    auto imageViewSettings = settingsSystem->getSettingsT<ImageViewSettings>();
+                    auto colorPickerDialogSystem = context->getSystemT<UI::ColorPickerDialogSystem>();
+                    colorPickerDialogSystem->colorPicker(
+                        widget->_getText(DJV_TEXT("Color Picker")),
+                        imageViewSettings->observeBackgroundColor()->get(),
+                        [context](const AV::Image::Color& value)
+                        {
+                            auto settingsSystem = context->getSystemT<UI::Settings::System>();
+                            auto imageViewSettings = settingsSystem->getSettingsT<ImageViewSettings>();
+                            imageViewSettings->setBackgroundColor(value);
+                        });
                 }
             });
 
             auto settingsSystem = context->getSystemT<UI::Settings::System>();
-            auto windowSettings = settingsSystem->getSettingsT<WindowSettings>();
-            p.fadeObserver = ValueObserver<bool>::create(
-                windowSettings->observeFade(),
-                [weak](bool value)
+            auto imageViewSettings = settingsSystem->getSettingsT<ImageViewSettings>();
+            p.backgroundColorObserver = ValueObserver<AV::Image::Color>::create(
+                imageViewSettings->observeBackgroundColor(),
+                [weak](const AV::Image::Color& value)
             {
                 if (auto widget = weak.lock())
                 {
-                    widget->_p->fadeButton->setChecked(value);
+                    widget->_p->colorSwatch->setColor(value);
                 }
             });
         }
 
-        WindowSettingsWidget::WindowSettingsWidget() :
+        ImageViewSettingsWidget::ImageViewSettingsWidget() :
             _p(new Private)
         {}
 
-        std::shared_ptr<WindowSettingsWidget> WindowSettingsWidget::create(Context * context)
+        std::shared_ptr<ImageViewSettingsWidget> ImageViewSettingsWidget::create(Context* context)
         {
-            auto out = std::shared_ptr<WindowSettingsWidget>(new WindowSettingsWidget);
+            auto out = std::shared_ptr<ImageViewSettingsWidget>(new ImageViewSettingsWidget);
             out->_init(context);
             return out;
         }
 
-        std::string WindowSettingsWidget::getSettingsName() const
+        std::string ImageViewSettingsWidget::getSettingsName() const
         {
-            return DJV_TEXT("Window");
+            return DJV_TEXT("Image");
         }
 
-        std::string WindowSettingsWidget::getSettingsGroup() const
+        std::string ImageViewSettingsWidget::getSettingsGroup() const
         {
             return DJV_TEXT("DJV");
         }
 
-        std::string WindowSettingsWidget::getSettingsSortKey() const
+        std::string ImageViewSettingsWidget::getSettingsSortKey() const
         {
             return "B";
         }
 
-        void WindowSettingsWidget::_localeEvent(Event::Locale & event)
+        void ImageViewSettingsWidget::_localeEvent(Event::Locale& event)
         {
             ISettingsWidget::_localeEvent(event);
             DJV_PRIVATE_PTR();
-            p.formLayout->setText(p.fadeButton, _getText(DJV_TEXT("Automatically fade out the UI")) + ":");
+            p.formLayout->setText(p.colorSwatch, _getText(DJV_TEXT("Background color")) + ":");
         }
 
     } // namespace ViewApp

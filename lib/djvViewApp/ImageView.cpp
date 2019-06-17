@@ -58,6 +58,7 @@ namespace djv
             AV::Image::Color backgroundColor = AV::Image::Color(0.f, 0.f, 0.f);
             glm::vec2 pressedImagePos = glm::vec2(0.f, 0.f);
             std::shared_ptr<ValueObserver<ImageViewLock> > lockObserver;
+            std::shared_ptr<ValueObserver<AV::Image::Color> > backgroundColorObserver;
         };
 
         void ImageView::_init(Context * context)
@@ -87,6 +88,20 @@ namespace djv
                         if (widget->isVisible() && !widget->isClipped())
                         {
                             widget->_resize();
+                        }
+                    }
+                });
+
+            p.backgroundColorObserver = ValueObserver<AV::Image::Color>::create(
+                imageViewSettings->observeBackgroundColor(),
+                [weak](const AV::Image::Color& value)
+                {
+                    if (auto widget = weak.lock())
+                    {
+                        widget->_p->backgroundColor = value;
+                        if (widget->isVisible() && !widget->isClipped())
+                        {
+                            widget->_redraw();
                         }
                     }
                 });

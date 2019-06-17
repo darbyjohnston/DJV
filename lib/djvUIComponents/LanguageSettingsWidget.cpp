@@ -212,6 +212,7 @@ namespace djv
             setClassName("djv::UI::LanguageSettingsWidget");
 
             p.languageWidget = LanguageWidget::create(context);
+            p.languageWidget->setHAlign(UI::HAlign::Left);
 
             p.layout = VerticalLayout::create(context);
             p.layout->addChild(p.languageWidget);

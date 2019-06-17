@@ -14,9 +14,11 @@ set(header
     ITool.h
     IViewSystem.h
 	ImageSettings.h
+	ImageSettingsWidget.h
     ImageSystem.h
     ImageView.h
 	ImageViewSettings.h
+	ImageViewSettingsWidget.h
     ImageViewSystem.h
     InformationTool.h
 	MDICanvas.h
@@ -36,9 +38,10 @@ set(header
     SystemLogTool.h
     TimelineSlider.h
     ToolSystem.h
+	UISettings.h
+	UISettingsWidget.h
     ViewApp.h
 	WindowSettings.h
-    WindowSettingsWidget.h
     WindowSystem.h)
 set(source
     AboutDialog.cpp
@@ -56,9 +59,11 @@ set(source
     ITool.cpp
     IViewSystem.cpp
 	ImageSettings.cpp
+	ImageSettingsWidget.cpp
     ImageSystem.cpp
     ImageView.cpp
 	ImageViewSettings.cpp
+	ImageViewSettingsWidget.cpp
     ImageViewSystem.cpp
     InformationTool.cpp
 	MDICanvas.cpp
@@ -78,8 +83,9 @@ set(source
     SystemLogTool.cpp
     TimelineSlider.cpp
     ToolSystem.cpp
+	UISettings.cpp
+	UISettingsWidget.cpp
 	WindowSettings.cpp
-    WindowSettingsWidget.cpp
     WindowSystem.cpp)
 
 add_library(djvViewApp ${header} ${source})

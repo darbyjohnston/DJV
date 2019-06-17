@@ -27,14 +27,17 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvViewApp/NUXSettingsWidget.h>
+#include <djvViewApp/UISettingsWidget.h>
 
-#include <djvViewApp/NUXSettings.h>
+#include <djvViewApp/UISettings.h>
 
 #include <djvUI/FormLayout.h>
 #include <djvUI/RowLayout.h>
 #include <djvUI/SettingsSystem.h>
 #include <djvUI/ToggleButton.h>
+
+#include <djvCore/Context.h>
+#include <djvCore/TextSystem.h>
 
 using namespace djv::Core;
 
@@ -42,37 +45,37 @@ namespace djv
 {
     namespace ViewApp
     {
-        struct NUXSettingsWidget::Private
+        struct UISettingsWidget::Private
         {
-            std::shared_ptr<UI::ToggleButton> nuxButton;
+            std::shared_ptr<UI::ToggleButton> autoHideButton;
             std::shared_ptr<UI::FormLayout> formLayout;
-            std::shared_ptr<ValueObserver<bool> > nuxObserver;
+            std::shared_ptr<ValueObserver<bool> > autoHideObserver;
         };
 
-        void NUXSettingsWidget::_init(Context * context)
+        void UISettingsWidget::_init(Context* context)
         {
             ISettingsWidget::_init(context);
 
             DJV_PRIVATE_PTR();
-            setClassName("djv::ViewApp::NUXSettingsWidget");
+            setClassName("djv::ViewApp::UISettingsWidget");
 
-            p.nuxButton = UI::ToggleButton::create(context);
+            p.autoHideButton = UI::ToggleButton::create(context);
 
             p.formLayout = UI::FormLayout::create(context);
-            p.formLayout->addChild(p.nuxButton);
+            p.formLayout->addChild(p.autoHideButton);
             addChild(p.formLayout);
 
-            auto weak = std::weak_ptr<NUXSettingsWidget>(std::dynamic_pointer_cast<NUXSettingsWidget>(shared_from_this()));
-            p.nuxButton->setCheckedCallback(
+            auto weak = std::weak_ptr<UISettingsWidget>(std::dynamic_pointer_cast<UISettingsWidget>(shared_from_this()));
+            p.autoHideButton->setCheckedCallback(
                 [weak, context](bool value)
             {
                 if (auto widget = weak.lock())
                 {
                     if (auto settingsSystem = context->getSystemT<UI::Settings::System>())
                     {
-                        if (auto nuxSettings = settingsSystem->getSettingsT<NUXSettings>())
+                        if (auto uiSettings = settingsSystem->getSettingsT<UISettings>())
                         {
-                            nuxSettings->setNUX(value);
+                            uiSettings->setAutoHide(value);
                         }
                     }
                 }
@@ -80,52 +83,52 @@ namespace djv
 
             if (auto settingsSystem = context->getSystemT<UI::Settings::System>())
             {
-                if (auto nuxSettings = settingsSystem->getSettingsT<NUXSettings>())
+                if (auto uiSettings = settingsSystem->getSettingsT<UISettings>())
                 {
-                    p.nuxObserver = ValueObserver<bool>::create(
-                        nuxSettings->observeNUX(),
+                    p.autoHideObserver = ValueObserver<bool>::create(
+                        uiSettings->observeAutoHide(),
                         [weak](bool value)
                     {
                         if (auto widget = weak.lock())
                         {
-                            widget->_p->nuxButton->setChecked(value);
+                            widget->_p->autoHideButton->setChecked(value);
                         }
                     });
                 }
             }
         }
 
-        NUXSettingsWidget::NUXSettingsWidget() :
+        UISettingsWidget::UISettingsWidget() :
             _p(new Private)
         {}
 
-        std::shared_ptr<NUXSettingsWidget> NUXSettingsWidget::create(Context * context)
+        std::shared_ptr<UISettingsWidget> UISettingsWidget::create(Context* context)
         {
-            auto out = std::shared_ptr<NUXSettingsWidget>(new NUXSettingsWidget);
+            auto out = std::shared_ptr<UISettingsWidget>(new UISettingsWidget);
             out->_init(context);
             return out;
         }
 
-        std::string NUXSettingsWidget::getSettingsName() const
+        std::string UISettingsWidget::getSettingsName() const
         {
-            return DJV_TEXT("NUX");
+            return DJV_TEXT("User Interface");
         }
 
-        std::string NUXSettingsWidget::getSettingsGroup() const
+        std::string UISettingsWidget::getSettingsGroup() const
         {
-            return DJV_TEXT("DJV");
+            return DJV_TEXT("General");
         }
 
-        std::string NUXSettingsWidget::getSettingsSortKey() const
+        std::string UISettingsWidget::getSettingsSortKey() const
         {
-            return "B";
+            return "A";
         }
 
-        void NUXSettingsWidget::_localeEvent(Event::Locale & event)
+        void UISettingsWidget::_localeEvent(Event::Locale& event)
         {
             ISettingsWidget::_localeEvent(event);
             DJV_PRIVATE_PTR();
-            p.formLayout->setText(p.nuxButton, _getText(DJV_TEXT("Enable new-user experience on startup")) + ":");
+            p.formLayout->setText(p.autoHideButton, _getText(DJV_TEXT("Automatically hide the user interface")) + ":");
         }
 
     } // namespace ViewApp

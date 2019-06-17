@@ -58,9 +58,16 @@ namespace djv
             MetricsRole getSwatchSizeRole() const;
             void setSwatchSizeRole(MetricsRole);
 
+            void setClickedCallback(const std::function<void(void)>&);
+
         protected:
             void _preLayoutEvent(Core::Event::PreLayout &) override;
             void _paintEvent(Core::Event::Paint &) override;
+            void _pointerEnterEvent(Core::Event::PointerEnter&) override;
+            void _pointerLeaveEvent(Core::Event::PointerLeave&) override;
+            void _pointerMoveEvent(Core::Event::PointerMove&) override;
+            void _buttonPressEvent(Core::Event::ButtonPress&) override;
+            void _buttonReleaseEvent(Core::Event::ButtonRelease&) override;
 
         private:
             DJV_PRIVATE();

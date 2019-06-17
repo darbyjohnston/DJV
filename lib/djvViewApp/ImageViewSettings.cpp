@@ -29,6 +29,8 @@
 
 #include <djvViewApp/ImageViewSettings.h>
 
+#include <djvAV/Color.h>
+
 #include <djvCore/Context.h>
 
 // These need to be included last on OSX.
@@ -44,6 +46,7 @@ namespace djv
         struct ImageViewSettings::Private
         {
             std::shared_ptr<ValueSubject<ImageViewLock> > lock;
+            std::shared_ptr<ValueSubject<AV::Image::Color> > backgroundColor;
         };
 
         void ImageViewSettings::_init(Context * context)
@@ -52,6 +55,7 @@ namespace djv
 
             DJV_PRIVATE_PTR();
             p.lock = ValueSubject<ImageViewLock>::create(ImageViewLock::Fit);
+            p.backgroundColor = ValueSubject<AV::Image::Color>::create(AV::Image::Color(0.f, 0.f, 0.f));
             _load();
         }
 
@@ -76,6 +80,16 @@ namespace djv
             _p->lock->setIfChanged(value);
         }
 
+        std::shared_ptr<IValueSubject<AV::Image::Color> > ImageViewSettings::observeBackgroundColor() const
+        {
+            return _p->backgroundColor;
+        }
+
+        void ImageViewSettings::setBackgroundColor(const AV::Image::Color& value)
+        {
+            _p->backgroundColor->setIfChanged(value);
+        }
+
         void ImageViewSettings::load(const picojson::value & value)
         {
             if (value.is<picojson::object>())
@@ -83,6 +97,7 @@ namespace djv
                 DJV_PRIVATE_PTR();
                 const auto & object = value.get<picojson::object>();
                 UI::Settings::read("Lock", object, p.lock);
+                UI::Settings::read("BackgroundColor", object, p.backgroundColor);
             }
         }
 
@@ -92,6 +107,7 @@ namespace djv
             picojson::value out(picojson::object_type, true);
             auto & object = out.get<picojson::object>();
             UI::Settings::write("Lock", p.lock->get(), object);
+            UI::Settings::write("BackgroundColor", p.backgroundColor->get(), object);
             return out;
         }
 

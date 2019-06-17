@@ -29,18 +29,19 @@
 
 #include <djvUIComponents/ColorPicker.h>
 
-#include <djvUI/Action.h>
-#include <djvUI/ActionGroup.h>
+#include <djvUI/ComboBox.h>
 #include <djvUI/ColorSwatch.h>
 #include <djvUI/GridLayout.h>
+#include <djvUI/EventSystem.h>
+#include <djvUI/IDialog.h>
 #include <djvUI/IntEdit.h>
 #include <djvUI/IntSlider.h>
 #include <djvUI/FloatEdit.h>
 #include <djvUI/FloatSlider.h>
 #include <djvUI/Label.h>
-#include <djvUI/Menu.h>
-#include <djvUI/PopupMenu.h>
+#include <djvUI/PushButton.h>
 #include <djvUI/RowLayout.h>
+#include <djvUI/Window.h>
 
 #include <djvAV/Color.h>
 
@@ -55,10 +56,7 @@ namespace djv
         struct ColorTypeWidget::Private
         {
             AV::Image::Type type = AV::Image::Type::First;
-            std::shared_ptr<ActionGroup> actionGroup;
-            std::map<std::shared_ptr<Action>, AV::Image::Type> actionsToType;
-            std::shared_ptr<Menu> menu;
-            std::shared_ptr<PopupMenu> popupMenu;
+            std::shared_ptr<ComboBox> comboBox;
             std::function<void(AV::Image::Type)> typeCallback;
         };
 
@@ -69,28 +67,14 @@ namespace djv
             DJV_PRIVATE_PTR();
             setClassName("djv::Ui::ColorTypeWidget");
 
-            p.actionGroup = ActionGroup::create(ButtonType::Radio);
-            for (size_t i = static_cast<size_t>(AV::Image::Type::L_U8); i < static_cast<size_t>(AV::Image::Type::Count); ++i)
-            {
-                auto action = Action::create();
-                p.actionGroup->addAction(action);
-                p.actionsToType[action] = static_cast<AV::Image::Type>(i);
-            }
+            p.comboBox = ComboBox::create(context);
+            p.comboBox->setBackgroundRole(ColorRole::None);
+            addChild(p.comboBox);
 
-            p.menu = Menu::create(context);
-            for (const auto & action : p.actionGroup->getActions())
-            {
-                p.menu->addAction(action);
-            }
-            p.popupMenu = PopupMenu::create(context);
-            p.popupMenu->setMenu(p.menu);
-            p.popupMenu->setHAlign(HAlign::Right);
-            addChild(p.popupMenu);
-
-            _typeUpdate();
+            _widgetUpdate();
 
             auto weak = std::weak_ptr<ColorTypeWidget>(std::dynamic_pointer_cast<ColorTypeWidget>(shared_from_this()));
-            p.actionGroup->setRadioCallback(
+            p.comboBox->setCallback(
                 [weak](int value)
             {
                 if (auto widget = weak.lock())
@@ -130,7 +114,7 @@ namespace djv
             if (value == p.type)
                 return;
             p.type = value;
-            _typeUpdate();
+            _widgetUpdate();
         }
 
         void ColorTypeWidget::setTypeCallback(const std::function<void(AV::Image::Type)> & callback)
@@ -140,34 +124,32 @@ namespace djv
 
         void ColorTypeWidget::_preLayoutEvent(Event::PreLayout & event)
         {
-            _setMinimumSize(_p->popupMenu->getMinimumSize());
+            _setMinimumSize(_p->comboBox->getMinimumSize());
         }
 
         void ColorTypeWidget::_layoutEvent(Event::Layout &)
         {
-            _p->popupMenu->setGeometry(getGeometry());
+            _p->comboBox->setGeometry(getGeometry());
         }
 
         void ColorTypeWidget::_localeEvent(Event::Locale &)
         {
             DJV_PRIVATE_PTR();
             setTooltip(_getText(DJV_TEXT("Color type widget tooltip")));
-            for (const auto & action : p.actionsToType)
-            {
-                std::stringstream ss;
-                ss << action.second;
-                action.first->setText(_getText(ss.str()));
-            }
-            _typeUpdate();
+            _widgetUpdate();
         }
 
-        void ColorTypeWidget::_typeUpdate()
+        void ColorTypeWidget::_widgetUpdate()
         {
             DJV_PRIVATE_PTR();
-            p.actionGroup->setChecked(static_cast<int>(p.type) - 1);
-            std::stringstream ss;
-            ss << p.type;
-            p.menu->setText(_getText(ss.str()));
+            p.comboBox->clearItems();
+            for (size_t i = static_cast<size_t>(AV::Image::Type::L_U8); i < static_cast<size_t>(AV::Image::Type::Count); ++i)
+            {
+                std::stringstream ss;
+                ss << static_cast<AV::Image::Type>(i);
+                p.comboBox->addItem(ss.str());
+            }
+            p.comboBox->setCurrentItem(static_cast<int>(p.type));
         }
 
         struct RGBColorSliders::Private
@@ -998,7 +980,7 @@ namespace djv
             std::shared_ptr<ColorSwatch> colorSwatch;
             std::shared_ptr<RGBColorSliders> sliders;
             std::shared_ptr<ColorTypeWidget> typeWidget;
-            std::shared_ptr<VerticalLayout> layout;
+            std::shared_ptr<HorizontalLayout> layout;
             std::function<void(const AV::Image::Color &)> colorCallback;
         };
 
@@ -1017,11 +999,14 @@ namespace djv
             p.typeWidget = ColorTypeWidget::create(context);
             p.typeWidget->setHAlign(HAlign::Right);
 
-            p.layout = VerticalLayout::create(context);
+            p.layout = HorizontalLayout::create(context);
             p.layout->setSpacing(MetricsRole::None);
             p.layout->addChild(p.colorSwatch);
-            p.layout->addChild(p.sliders);
-            p.layout->addChild(p.typeWidget);
+            auto vLayout = VerticalLayout::create(context);
+            vLayout->setSpacing(MetricsRole::None);
+            vLayout->addChild(p.sliders);
+            vLayout->addChild(p.typeWidget);
+            p.layout->addChild(vLayout);
             addChild(p.layout);
 
             _colorUpdate();
@@ -1090,12 +1075,17 @@ namespace djv
 
         void ColorPicker::_preLayoutEvent(Event::PreLayout & event)
         {
-            _setMinimumSize(_p->layout->getMinimumSize());
+            DJV_PRIVATE_PTR();
+            const auto& style = _getStyle();
+            _setMinimumSize(p.layout->getMinimumSize() + getMargin().getSize(style));
         }
 
         void ColorPicker::_layoutEvent(Event::Layout &)
         {
-            _p->layout->setGeometry(getGeometry());
+            DJV_PRIVATE_PTR();
+            const BBox2f g = getGeometry();
+            const auto& style = _getStyle();
+            p.layout->setGeometry(getAlign(getMargin().bbox(g, style), p.layout->getMinimumSize(), getHAlign(), getVAlign()));
         }
 
         void ColorPicker::_colorUpdate()
@@ -1104,6 +1094,138 @@ namespace djv
             p.colorSwatch->setColor(p.color);
             p.sliders->setColor(p.color);
             p.typeWidget->setType(p.color.getType());
+        }
+
+        namespace
+        {
+            class ColorPickerDialog : public IDialog
+            {
+                DJV_NON_COPYABLE(ColorPickerDialog);
+
+            protected:
+                void _init(Context* context)
+                {
+                    IDialog::_init(context);
+
+                    setClassName("djv::UI::ColorPickerDialog");
+                    setFillLayout(false);
+
+                    _colorPicker = ColorPicker::create(context);
+
+                    _closeButton = PushButton::create(context);
+
+                    auto layout = VerticalLayout::create(context);
+                    layout->setMargin(MetricsRole::Margin);
+                    layout->addChild(_colorPicker);
+                    auto hLayout = HorizontalLayout::create(context);
+                    hLayout->addExpander();
+                    hLayout->addChild(_closeButton);
+                    layout->addChild(hLayout);
+                    addChild(layout);
+                    setStretch(layout, RowStretch::Expand);
+
+                    auto weak = std::weak_ptr<ColorPickerDialog>(std::dynamic_pointer_cast<ColorPickerDialog>(shared_from_this()));
+                    _closeButton->setClickedCallback(
+                        [weak]
+                        {
+                            if (auto dialog = weak.lock())
+                            {
+                                dialog->_doCloseCallback();
+                            }
+                        });
+                }
+
+                ColorPickerDialog()
+                {}
+
+            public:
+                static std::shared_ptr<ColorPickerDialog> create(Context* context)
+                {
+                    auto out = std::shared_ptr<ColorPickerDialog>(new ColorPickerDialog);
+                    out->_init(context);
+                    return out;
+                }
+
+                void setColor(const AV::Image::Color& value)
+                {
+                    _colorPicker->setColor(value);
+                }
+
+                void setColorCallback(const std::function<void(const AV::Image::Color)>& value)
+                {
+                    _colorPicker->setColorCallback(value);
+                }
+
+            protected:
+                void _localeEvent(Core::Event::Locale&) override
+                {
+                    _closeButton->setText(_getText(DJV_TEXT("Close")));
+                }
+
+            private:
+                std::shared_ptr<ColorPicker> _colorPicker;
+                std::shared_ptr<PushButton> _closeButton;
+            };
+
+        } // namespace
+
+        struct ColorPickerDialogSystem::Private
+        {
+            std::shared_ptr<ColorPickerDialog> colorPickerDialog;
+        };
+
+        void ColorPickerDialogSystem::_init(Context* context)
+        {
+            ISystem::_init("djv::UI::ColorPickerDialogSystem", context);
+        }
+
+        ColorPickerDialogSystem::ColorPickerDialogSystem() :
+            _p(new Private)
+        {}
+
+        ColorPickerDialogSystem::~ColorPickerDialogSystem()
+        {}
+
+        std::shared_ptr<ColorPickerDialogSystem> ColorPickerDialogSystem::create(Context* context)
+        {
+            auto out = std::shared_ptr<ColorPickerDialogSystem>(new ColorPickerDialogSystem);
+            out->_init(context);
+            return out;
+        }
+
+        void ColorPickerDialogSystem::colorPicker(
+            const std::string& title,
+            const AV::Image::Color& color,
+            const std::function<void(const AV::Image::Color&)>& callback)
+        {
+            auto context = getContext();
+            DJV_PRIVATE_PTR();
+            auto eventSystem = context->getSystemT<UI::EventSystem>();
+            if (auto window = eventSystem->getCurrentWindow().lock())
+            {
+                if (!p.colorPickerDialog)
+                {
+                    p.colorPickerDialog = ColorPickerDialog::create(context);
+                }
+                p.colorPickerDialog->setTitle(title);
+                p.colorPickerDialog->setColor(color);
+                auto weak = std::weak_ptr<ColorPickerDialogSystem>(std::dynamic_pointer_cast<ColorPickerDialogSystem>(shared_from_this()));
+                p.colorPickerDialog->setColorCallback(callback);
+                p.colorPickerDialog->setCloseCallback(
+                    [weak]
+                    {
+                        if (auto system = weak.lock())
+                        {
+                            if (auto parent = system->_p->colorPickerDialog->getParent().lock())
+                            {
+                                parent->removeChild(system->_p->colorPickerDialog);
+                            }
+                            system->_p->colorPickerDialog.reset();
+                        }
+                    });
+                window->addChild(p.colorPickerDialog);
+                p.colorPickerDialog->show();
+            }
         }
 
     } // namespace UI

@@ -41,13 +41,15 @@ namespace djv
         {
             AV::Image::Color color;
             MetricsRole swatchSizeRole = MetricsRole::Swatch;
+            Event::PointerID pressedID = Event::InvalidID;
+            std::function<void(void)> clickedCallback;
         };
 
         void ColorSwatch::_init(Context * context)
         {
             Widget::_init(context);
-            
             setClassName("djv::UI::ColorSwatch");
+            setPointerEnabled(true);
         }
         
         ColorSwatch::ColorSwatch() :
@@ -99,6 +101,11 @@ namespace djv
             _resize();
         }
 
+        void ColorSwatch::setClickedCallback(const std::function<void(void)>& value)
+        {
+            _p->clickedCallback = value;
+        }
+
         void ColorSwatch::_preLayoutEvent(Event::PreLayout & event)
         {
             const auto& style = _getStyle();
@@ -109,10 +116,92 @@ namespace djv
         void ColorSwatch::_paintEvent(Event::Paint & event)
         {
             Widget::_paintEvent(event);
+            const auto& style = _getStyle();
             const BBox2f & g = getGeometry();
             auto render = _getRender();
             render->setFillColor(_p->color);
             render->drawRect(g);
+            if (isEnabled(true) && _p->pressedID != 0)
+            {
+                render->setFillColor(style->getColor(ColorRole::Pressed));
+                render->drawRect(g);
+            }
+            else if (isEnabled(true) && _getPointerHover().size())
+            {
+                render->setFillColor(style->getColor(ColorRole::Hovered));
+                render->drawRect(g);
+            }
+        }
+
+        void ColorSwatch::_pointerEnterEvent(Event::PointerEnter& event)
+        {
+            DJV_PRIVATE_PTR();
+            if (p.clickedCallback)
+            {
+                event.accept();
+                if (isEnabled(true))
+                {
+                    _redraw();
+                }
+            }
+        }
+
+        void ColorSwatch::_pointerLeaveEvent(Event::PointerLeave& event)
+        {
+            DJV_PRIVATE_PTR();
+            if (p.clickedCallback)
+            {
+                event.accept();
+                if (isEnabled(true))
+                {
+                    _redraw();
+                }
+            }
+        }
+
+        void ColorSwatch::_pointerMoveEvent(Event::PointerMove& event)
+        {
+            DJV_PRIVATE_PTR();
+            if (p.clickedCallback)
+            {
+                event.accept();
+            }
+        }
+
+        void ColorSwatch::_buttonPressEvent(Event::ButtonPress& event)
+        {
+            DJV_PRIVATE_PTR();
+            if (p.clickedCallback)
+            {
+                if (!isEnabled(true) || p.pressedID)
+                    return;
+                event.accept();
+                const auto& pointerInfo = event.getPointerInfo();
+                p.pressedID = pointerInfo.id;
+                _redraw();
+            }
+        }
+
+        void ColorSwatch::_buttonReleaseEvent(Event::ButtonRelease& event)
+        {
+            DJV_PRIVATE_PTR();
+            if (p.clickedCallback)
+            {
+                const auto& pointerInfo = event.getPointerInfo();
+                if (pointerInfo.id == p.pressedID)
+                {
+                    event.accept();
+                    p.pressedID = Event::InvalidID;
+                    const BBox2f& g = getGeometry();
+                    const auto& hover = _getPointerHover();
+                    const auto i = hover.find(pointerInfo.id);
+                    if (i != hover.end() && g.contains(i->second))
+                    {
+                        p.clickedCallback();
+                        _redraw();
+                    }
+                }
+            }
         }
 
     } // namespace UI
