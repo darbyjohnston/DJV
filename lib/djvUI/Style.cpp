@@ -158,7 +158,8 @@ namespace djv
                     { MetricsRole::TextColumn, 200.f },
                     { MetricsRole::SearchBox, 100.f },
                     { MetricsRole::Dialog, 400.f },
-                    { MetricsRole::Shadow, 10.f },
+                    { MetricsRole::Shadow, 20.f },
+                    { MetricsRole::ShadowSmall, 10.f },
                     { MetricsRole::TooltipOffset, 10.f },
                     { MetricsRole::Handle, 15.f },
                     { MetricsRole::Move, 10.f }
@@ -484,6 +485,7 @@ namespace djv
         DJV_TEXT("SearchBox"),
         DJV_TEXT("Dialog"),
         DJV_TEXT("Shadow"),
+        DJV_TEXT("ShadowSmall"),
         DJV_TEXT("TooltipOffset"),
         DJV_TEXT("Handle"),
         DJV_TEXT("Move"));

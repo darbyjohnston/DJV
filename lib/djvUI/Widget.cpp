@@ -557,13 +557,9 @@ namespace djv
         void Widget::_paintOverlayEvent(Event::PaintOverlay& event)
         {
             const auto& style = _getStyle();
-            const float ss = style->getMetric(MetricsRole::Shadow);
+            const float ss = style->getMetric(MetricsRole::ShadowSmall);
             const BBox2f& g = getGeometry();
             _render->setFillColor(_style->getColor(ColorRole::Shadow));
-            /*if (_shadowOverlay.size())
-            {
-                _render->drawShadow(BBox2f(g.min.x + ss * 10, g.min.y + ss * 10, g.w(), g.h()), ss);
-            }*/
             for (const auto& i : _shadowOverlay)
             {
                 switch (i)

@@ -151,7 +151,7 @@ namespace djv
                 if (const size_t itemCount = p.items.size())
                 {
                     const auto& style = _getStyle();
-                    const float m = style->getMetric(MetricsRole::Margin);
+                    const float m = style->getMetric(MetricsRole::MarginSmall);
                     const float s = style->getMetric(MetricsRole::Spacing);
                     const float sh = style->getMetric(MetricsRole::Shadow);
                     switch (p.viewType)
@@ -172,7 +172,7 @@ namespace djv
                         break;
                     }
                     case ViewType::List:
-                        out = (std::max(p.thumbnailSize.h, p.nameFontMetrics.lineHeight) + m * 2.f) * itemCount;
+                        out = std::max(static_cast<float>(p.thumbnailSize.h), p.nameFontMetrics.lineHeight + m * 2.f) * itemCount;
                         break;
                     default: break;
                     }
@@ -208,7 +208,7 @@ namespace djv
                 DJV_PRIVATE_PTR();
                 const BBox2f & g = getGeometry();
                 const auto& style = _getStyle();
-                const float m = style->getMetric(MetricsRole::Margin);
+                const float m = style->getMetric(MetricsRole::MarginSmall);
                 const float s = style->getMetric(MetricsRole::Spacing);
                 const float sh = style->getMetric(MetricsRole::Shadow);
                 p.itemGeometry.clear();
@@ -239,7 +239,7 @@ namespace djv
                 case ViewType::List:
                     for (; item != p.items.end(); ++item, ++i)
                     {
-                        const float itemHeight = std::max(p.thumbnailSize.h, p.nameFontMetrics.lineHeight) + m * 2.f;
+                        const float itemHeight = std::max(static_cast<float>(p.thumbnailSize.h), p.nameFontMetrics.lineHeight + m * 2.f);
                         p.itemGeometry[i] = BBox2f(pos.x, pos.y, g.w(), itemHeight);
                         pos.y += itemHeight;
                     }
@@ -269,13 +269,12 @@ namespace djv
                                 const auto k = p.nameLinesFutures.find(i.first);
                                 if (k == p.nameLinesFutures.end())
                                 {
-                                    const float m = style->getMetric(MetricsRole::Margin);
-                                    const float sh = style->getMetric(MetricsRole::Shadow);
+                                    const float m = style->getMetric(MetricsRole::MarginSmall);
                                     const auto fontInfo = style->getFontInfo(AV::Font::faceDefault, MetricsRole::FontMedium);
                                     p.names[i.first] = fileInfo.getFileName(Frame::Invalid, false);
                                     p.nameLinesFutures[i.first] = fontSystem->textLines(
                                         p.names[i.first],
-                                        p.thumbnailSize.w - static_cast<uint16_t>(sh * 2.f),
+                                        p.thumbnailSize.w - static_cast<uint16_t>(m * 2.f),
                                         fontInfo);
                                 }
                             }
@@ -350,7 +349,7 @@ namespace djv
             {
                 DJV_PRIVATE_PTR();
                 const auto& style = _getStyle();
-                const float m = style->getMetric(MetricsRole::Margin);
+                const float m = style->getMetric(MetricsRole::MarginSmall);
                 const float s = style->getMetric(MetricsRole::Spacing);
                 const float sh = style->getMetric(MetricsRole::Shadow);
 
@@ -368,7 +367,7 @@ namespace djv
                         if (ViewType::Tiles == p.viewType)
                         {
                             render->setFillColor(style->getColor(ColorRole::Shadow));
-                            render->drawShadow(itemGeometry, sh);
+                            render->drawShadow(itemGeometry.margin(0, -sh, 0, 0), sh);
                             itemGeometry = itemGeometry.margin(-sh);
                             render->setFillColor(style->getColor(ColorRole::BackgroundBellows));
                             render->drawRect(itemGeometry);
@@ -405,7 +404,7 @@ namespace djv
                                         pos.y = floor(i->second.min.y + sh + p.thumbnailSize.h - h);
                                         break;
                                     case ViewType::List:
-                                        pos.x = floor(i->second.min.x + m);
+                                        pos.x = floor(i->second.min.x);
                                         pos.y = floor(i->second.min.y + i->second.h() / 2.f - h / 2.f);
                                         break;
                                     default: break;
@@ -430,7 +429,7 @@ namespace djv
                                     pos.y = floor(i->second.min.y + sh + p.thumbnailSize.h - h);
                                     break;
                                 case ViewType::List:
-                                    pos.x = floor(i->second.min.x + m);
+                                    pos.x = floor(i->second.min.x);
                                     pos.y = floor(i->second.min.y + i->second.h() / 2.f - h / 2.f);
                                     break;
                                 default: break;
@@ -472,7 +471,7 @@ namespace djv
                             }
                             case ViewType::List:
                             {
-                                float x = i->second.min.x + m + p.thumbnailSize.w + s;
+                                float x = i->second.min.x + p.thumbnailSize.w + s;
                                 float y = i->second.min.y + i->second.h() / 2.f - p.nameFontMetrics.lineHeight / 2.f;
                                 //! \bug Why the extra subtract by one here?
                                 render->drawText(
@@ -804,6 +803,51 @@ namespace djv
                 _itemsUpdate();
             }
 
+            std::string ItemView::_getTooltip(const FileSystem::FileInfo& fileInfo) const
+            {
+                std::stringstream ss;
+                ss << fileInfo.getFileName(Frame::Invalid, false) << '\n';
+                ss << '\n';
+                ss << _getText(DJV_TEXT("Size")) << ": " << Memory::getSizeLabel(fileInfo.getSize()) << '\n';
+                ss << _getText(DJV_TEXT("Last modification time")) << ": " << Time::getLabel(fileInfo.getTime());
+                return ss.str();
+            }
+
+            std::string ItemView::_getTooltip(const FileSystem::FileInfo& fileInfo, const AV::IO::Info& avInfo) const
+            {
+                std::stringstream ss;
+                ss << _getTooltip(fileInfo);
+                size_t track = 0;
+                for (const auto& videoInfo : avInfo.video)
+                {
+                    ss << '\n' << '\n';
+                    ss << _getText(DJV_TEXT("Video track")) << " #" << track << '\n';
+                    ss << _getText(DJV_TEXT("Size")) << ": " << videoInfo.info.size << '\n';
+                    ss << _getText(DJV_TEXT("Type")) << ": " << videoInfo.info.type << '\n';
+                    ss.precision(2);
+                    ss << _getText(DJV_TEXT("Speed")) << ": " <<
+                        Math::Rational::toFloat(videoInfo.speed) <<
+                        _getText(DJV_TEXT("FPS")) << '\n';
+                    ss << _getText(DJV_TEXT("Duration")) << ": " <<
+                        Time::getLabel(Time::timestampToSeconds(videoInfo.duration));
+                    ++track;
+                }
+                track = 0;
+                for (const auto& audioInfo : avInfo.audio)
+                {
+                    ss << '\n' << '\n';
+                    ss << _getText(DJV_TEXT("Audio track")) << " #" << track << '\n';
+                    ss << _getText(DJV_TEXT("Channels")) << ": " << audioInfo.info.channelCount << '\n';
+                    ss << _getText(DJV_TEXT("Type")) << ": " << audioInfo.info.type << '\n';
+                    ss << _getText(DJV_TEXT("Sample rate")) << ": " <<
+                        audioInfo.info.sampleRate / 1000.f << DJV_TEXT("kHz") << '\n';
+                    ss << _getText(DJV_TEXT("Duration")) << ": " <<
+                        Time::getLabel(Time::timestampToSeconds(audioInfo.duration));
+                    ++track;
+                }
+                return ss.str();
+            }
+
             void ItemView::_iconsUpdate()
             {
                 DJV_PRIVATE_PTR();
@@ -863,15 +907,12 @@ namespace djv
                                     const auto k = p.nameLinesFutures.find(i.first);
                                     if (k == p.nameLinesFutures.end())
                                     {
-                                        const float m = style->getMetric(MetricsRole::Margin);
-                                        const float sh = style->getMetric(MetricsRole::Shadow);
+                                        const float m = style->getMetric(MetricsRole::MarginSmall);
                                         const auto fontInfo = style->getFontInfo(AV::Font::faceDefault, MetricsRole::FontMedium);
                                         p.names[i.first] = fileInfo.getFileName(Frame::Invalid, false);
                                         p.nameLinesFutures[i.first] = fontSystem->textLines(
                                             p.names[i.first],
-                                            ViewType::Tiles == p.viewType ?
-                                                (p.thumbnailSize.w - m * 2.f - sh * 2.f) :
-                                                (p.thumbnailSize.w - m * 2.f),
+                                            p.thumbnailSize.w - static_cast<uint16_t>(m * 2.f),
                                             fontInfo);
                                     }
                                 }
@@ -917,51 +958,6 @@ namespace djv
                 p.sizeText.clear();
                 p.timeText.clear();
                 _resize();
-            }
-
-            std::string ItemView::_getTooltip(const FileSystem::FileInfo & fileInfo) const
-            {
-                std::stringstream ss;
-                ss << fileInfo.getFileName(Frame::Invalid, false) << '\n';
-                ss << '\n';
-                ss << _getText(DJV_TEXT("Size")) << ": " << Memory::getSizeLabel(fileInfo.getSize()) << '\n';
-                ss << _getText(DJV_TEXT("Last modification time")) << ": " << Time::getLabel(fileInfo.getTime());
-                return ss.str();
-            }
-
-            std::string ItemView::_getTooltip(const FileSystem::FileInfo & fileInfo, const AV::IO::Info & avInfo) const
-            {
-                std::stringstream ss;
-                ss << _getTooltip(fileInfo);
-                size_t track = 0;
-                for (const auto & videoInfo : avInfo.video)
-                {
-                    ss << '\n' << '\n';
-                    ss << _getText(DJV_TEXT("Video track")) << " #" << track << '\n';
-                    ss << _getText(DJV_TEXT("Size")) << ": " << videoInfo.info.size << '\n';
-                    ss << _getText(DJV_TEXT("Type")) << ": " << videoInfo.info.type << '\n';
-                    ss.precision(2);
-                    ss << _getText(DJV_TEXT("Speed")) << ": " <<
-                        Math::Rational::toFloat(videoInfo.speed) <<
-                        _getText(DJV_TEXT("FPS")) << '\n';
-                    ss << _getText(DJV_TEXT("Duration")) << ": " <<
-                        Time::getLabel(Time::timestampToSeconds(videoInfo.duration));
-                    ++track;
-                }
-                track = 0;
-                for (const auto & audioInfo : avInfo.audio)
-                {
-                    ss << '\n' << '\n';
-                    ss << _getText(DJV_TEXT("Audio track")) << " #" << track << '\n';
-                    ss << _getText(DJV_TEXT("Channels")) << ": " << audioInfo.info.channelCount << '\n';
-                    ss << _getText(DJV_TEXT("Type")) << ": " << audioInfo.info.type << '\n';
-                    ss << _getText(DJV_TEXT("Sample rate")) << ": " <<
-                        audioInfo.info.sampleRate / 1000.f << DJV_TEXT("kHz") << '\n';
-                    ss << _getText(DJV_TEXT("Duration")) << ": " <<
-                        Time::getLabel(Time::timestampToSeconds(audioInfo.duration));
-                    ++track;
-                }
-                return ss.str();
             }
 
         } // namespace FileBrowser

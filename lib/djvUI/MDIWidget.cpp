@@ -280,11 +280,7 @@ namespace djv
                     const float sh = style->getMetric(MetricsRole::Shadow);
                     auto render = _getRender();
                     render->setFillColor(style->getColor(ColorRole::Shadow));
-                    BBox2f g = getGeometry().margin(-h);
-                    g.min.x -= sh;
-                    g.min.y -= sh;
-                    g.max.x += sh;
-                    g.max.y += sh;
+                    const BBox2f& g = getGeometry().margin(0, -h, 0, 0);
                     if (g.isValid())
                     {
                         render->drawShadow(g, sh);

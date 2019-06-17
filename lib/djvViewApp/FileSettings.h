@@ -75,9 +75,6 @@ namespace djv
             std::shared_ptr<Core::IListSubject<Core::FileSystem::FileInfo> > observeRecentFiles() const;
             void setRecentFiles(const std::vector<Core::FileSystem::FileInfo> &);
 
-            std::shared_ptr<Core::IValueSubject<AV::Image::Size> > observeRecentThumbnailSize() const;
-            void setRecentThumbnailSize(const AV::Image::Size&);
-
             void load(const picojson::value &) override;
             picojson::value save() override;
 

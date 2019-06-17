@@ -103,6 +103,7 @@ namespace djv
                 SearchBox,
                 Dialog,
                 Shadow,
+                ShadowSmall,
                 TooltipOffset,
                 Handle,
                 Move,

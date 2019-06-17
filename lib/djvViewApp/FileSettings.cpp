@@ -47,7 +47,6 @@ namespace djv
         struct FileSettings::Private
         {
             std::shared_ptr<ListSubject<Core::FileSystem::FileInfo> > recentFiles;
-            std::shared_ptr<ValueSubject<AV::Image::Size> > recentThumbnailSize;
         };
 
         void FileSettings::_init(Context * context)
@@ -56,7 +55,6 @@ namespace djv
 
             DJV_PRIVATE_PTR();
             p.recentFiles = ListSubject<Core::FileSystem::FileInfo>::create();
-            p.recentThumbnailSize = ValueSubject<AV::Image::Size>::create(AV::Image::Size(100, 50));
             _load();
         }
 
@@ -84,16 +82,6 @@ namespace djv
             _p->recentFiles->setIfChanged(value);
         }
 
-        std::shared_ptr<IValueSubject<AV::Image::Size> > FileSettings::observeRecentThumbnailSize() const
-        {
-            return _p->recentThumbnailSize;
-        }
-
-        void FileSettings::setRecentThumbnailSize(const AV::Image::Size& value)
-        {
-            _p->recentThumbnailSize->setIfChanged(value);
-        }
-
         void FileSettings::load(const picojson::value & value)
         {
             if (value.is<picojson::object>())
@@ -108,7 +96,6 @@ namespace djv
                     fileInfoList.push_back(i);
                 }
                 p.recentFiles->setIfChanged(fileInfoList);
-                UI::Settings::read("RecentThumbnailSize", object, p.recentThumbnailSize);
             }
         }
 
@@ -123,7 +110,6 @@ namespace djv
                 tmp.push_back(i);
             }
             UI::Settings::write("RecentFiles", tmp, object);
-            UI::Settings::write("RecentThumbnailSize", p.recentThumbnailSize->get(), object);
             return out;
         }
 
