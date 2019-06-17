@@ -1,270 +1,5 @@
 [
     {
-        "text": "DJV Imaging", 
-        "id": "About Title", 
-        "description": ""
-    }, 
-    {
-        "text": "Copyright and License", 
-        "id": "Copyright and License", 
-        "description": ""
-    }, 
-    {
-        "text": "Contributors", 
-        "id": "Contributors", 
-        "description": ""
-    }, 
-    {
-        "text": "Third Party Software", 
-        "id": "Third Party", 
-        "description": ""
-    }, 
-    {
-        "text": "Trademarks", 
-        "id": "Trademarks", 
-        "description": ""
-    }, 
-    {
-        "text": "Copyright (c) 2004-2019 Darby Johnston. All rights reserved.", 
-        "id": "Copyright", 
-        "description": ""
-    }, 
-    {
-        "text": "Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:", 
-        "id": "License 1", 
-        "description": ""
-    }, 
-    {
-        "text": "* Redistributions of source code must retain the above copyright notice, this list of conditions, and the following disclaimer.", 
-        "id": "License 2", 
-        "description": ""
-    }, 
-    {
-        "text": "* Redistributions in binary form must reproduce the above copyright notice, this list of conditions, and the following disclaimer in the documentation and/or other materials provided with the distribution.", 
-        "id": "License 3", 
-        "description": ""
-    }, 
-    {
-        "text": "* Neither the names of the copyright holders nor the names of any contributors may be used to endorse or promote products derived from this software without specific prior written permission.", 
-        "id": "License 4", 
-        "description": ""
-    }, 
-    {
-        "text": "THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS 'AS IS' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.", 
-        "id": "License 5", 
-        "description": ""
-    }, 
-    {
-        "text": "Portions of this software are copyright (in alphabetical order):", 
-        "id": "Contributors Text 1", 
-        "description": ""
-    }, 
-    {
-        "text": "* Copyright (c) 2004-2019 Darby Johnston. All rights reserved.", 
-        "id": "Contributors Text 2", 
-        "description": ""
-    }, 
-    {
-        "text": "* Copyright (c) 2008 Alan Jones. All rights reserved.", 
-        "id": "Contributors Text 3", 
-        "description": ""
-    }, 
-    {
-        "text": "* Copyright (c) 2008-2009 Mikael Sundell. All rights reserved.", 
-        "id": "Contributors Text 4", 
-        "description": ""
-    }, 
-    {
-        "text": "This software is based in part on the works of (in alphabetical order):", 
-        "id": "Third Party Text 1", 
-        "description": ""
-    }, 
-    {
-        "text": "* CMake, http://www.cmake.org, Copyright 2000-2011 Kitware, Inc., Insight Software Consortium. All rights reserved.", 
-        "id": "Third Party Text 2", 
-        "description": ""
-    }, 
-    {
-        "text": "* dr_libs, https://github.com/mackron/dr_libs, David Reid", 
-        "id": "Third Party Text 3", 
-        "description": ""
-    }, 
-    {
-        "text": "* FFMpeg, http://www.ffmpeg.org, Licensed under the LGPLv2.1, http://www.gnu.org/pcenses/old-pcenses/lgpl-2.1.html", 
-        "id": "Third Party Text 4", 
-        "description": ""
-    }, 
-    {
-        "text": "* FreeType, https://www.freetype.org, Copyright (c) 2018, The FreeType Project", 
-        "id": "Third Party Text 5", 
-        "description": ""
-    }, 
-    {
-        "text": "* GLFW, https://www.glfw.org, Copyright (c) 2002-2006 Marcus Geelnard, Copyright (c) 2006-2016 Camilla L\u00f6wy <elmindreda@glfw.org>", 
-        "id": "Third Party Text 6", 
-        "description": ""
-    }, 
-    {
-        "text": "* GLM, https://glm.g-truc.net/0.9.9/index.html, Copyright (c) 2005-2017 G-Truc Creation", 
-        "id": "Third Party Text 7", 
-        "description": ""
-    }, 
-    {
-        "text": "* glad, https://github.com/Dav1dde/glad, Copyright (c) 2013-2018 David Herberth", 
-        "id": "Third Party Text 8", 
-        "description": ""
-    }, 
-    {
-        "text": "* libjpeg, http://www.ijg.org, Copyright (c) 1991-2012, Thomas G. Lane, Guido Vollbeding", 
-        "id": "Third Party Text 9", 
-        "description": ""
-    }, 
-    {
-        "text": "* libjpeg-turbo, http://libjpeg-turbo.org, Copyright (C)2009-2019 D. R. Commander. All Rights Reserved. Copyright (C)2015 Viktor Szathmáry. All Rights Reserved.",
-        "id": "Third Party Text 9B",
-        "description": ""
-    }, 
-    {
-        "text": "* libpng, http://www.libpng.org, Copyright (c) 2004, 2006-2012 Glenn Randers-Pehrson", 
-        "id": "Third Party Text 10", 
-        "description": ""
-    }, 
-    {
-        "text": "* libtiff, http://www.libtiff.org, Copyright (c) 1988-1997 Sam Leffler, Copyright (c) 1991-1997 Silicon Graphics, Inc", 
-        "id": "Third Party Text 11", 
-        "description": ""
-    }, 
-    {
-        "text": "* OpenAL, https://www.openal.org, Copyright (C) 1999-2000 by Loki Software", 
-        "id": "Third Party Text 12", 
-        "description": ""
-    }, 
-    {
-        "text": "* OpenEXR, http://www.openexr.com, Copyright (c) 2006, Industrial Light and Magic, a division of Lucasfilm Entertainment Company Ltd.", 
-        "id": "Third Party Text 13", 
-        "description": ""
-    }, 
-    {
-        "text": "* zlib, http://www.zlib.net, Copyright (c) 1995-2013 Jean-loup Gailly and Mark Adler", 
-        "id": "Third Party Text 14", 
-        "description": ""
-    }, 
-    {
-        "text": "Trademarks named in the documentation (in alphabetical order):", 
-        "id": "Trademarks Text 1", 
-        "description": ""
-    }, 
-    {
-        "text": "* Apple, OS X, ProRes, and QuickTime are registered trademarks of Apple, Inc.", 
-        "id": "Trademarks Text 2", 
-        "description": ""
-    }, 
-    {
-        "text": "* AMD and ATI are registered trademarks of Advanced Micro Devices, Inc.", 
-        "id": "Trademarks Text 3", 
-        "description": ""
-    }, 
-    {
-        "text": "* Autodesk, Inferno, Maya, Softimage, and XSI are registered trademarks of Autodesk, Inc.", 
-        "id": "Trademarks Text 4", 
-        "description": ""
-    }, 
-    {
-        "text": "* Debian is a registered trademark of Software in the Public Interest, Inc.", 
-        "id": "Trademarks Text 5", 
-        "description": ""
-    }, 
-    {
-        "text": "* FFmpeg is a trademark of Fabrice Bellard, originator of the FFmpeg project", 
-        "id": "Trademarks Text 6", 
-        "description": ""
-    }, 
-    {
-        "text": "* FreeBSD is a registered trademark of The FreeBSD Foundation", 
-        "id": "Trademarks Text 7", 
-        "description": ""
-    }, 
-    {
-        "text": "* Intel is a registered trademark of Intel Corporation", 
-        "id": "Trademarks Text 8", 
-        "description": ""
-    }, 
-    {
-        "text": "* Industrial Light and Magic and ILM are registered trademarks of Lucasfilm Ltd.", 
-        "id": "Trademarks Text 9", 
-        "description": ""
-    }, 
-    {
-        "text": "* Kodak and Cineon are a registered trademarks of the Eastman Kodak Company", 
-        "id": "Trademarks Text 10", 
-        "description": ""
-    }, 
-    {
-        "text": "* Linux is a registered trademark of Linus Torvalds", 
-        "id": "Trademarks Text 11", 
-        "description": ""
-    }, 
-    {
-        "text": "* Microsoft and Microsoft Windows are registered trademarks of Microsoft, Inc.", 
-        "id": "Trademarks Text 12", 
-        "description": ""
-    }, 
-    {
-        "text": "* MIPS is a registered trademark of MIPS Technologies, Inc.", 
-        "id": "Trademarks Text 13", 
-        "description": ""
-    }, 
-    {
-        "text": "* NVIDIA is a registered trademark of NVIDIA Corporation", 
-        "id": "Trademarks Text 14", 
-        "description": ""
-    }, 
-    {
-        "text": "* Red Hat and Fedora are registered trademarks of Red Hat, Inc.", 
-        "id": "Trademarks Text 15", 
-        "description": ""
-    }, 
-    {
-        "text": "* Silicon Graphics, SGI, IRIX, and OpenGL are registered trademarks of Silicon Graphics International Corp.", 
-        "id": "Trademarks Text 16", 
-        "description": ""
-    }, 
-    {
-        "text": "* SMPTE is a registered trademark of the Society of Motion Picture and Television Engineers", 
-        "id": "Trademarks Text 17", 
-        "description": ""
-    }, 
-    {
-        "text": "* SourceForge.net is a registered trademark of VA Software Corporation", 
-        "id": "Trademarks Text 18", 
-        "description": ""
-    }, 
-    {
-        "text": "* SuSE is a registered trademark of Novell, Inc.", 
-        "id": "Trademarks Text 19", 
-        "description": ""
-    }, 
-    {
-        "text": "* Ubuntu is a registered trademark of Canonical Ltd.", 
-        "id": "Trademarks Text 20", 
-        "description": ""
-    }, 
-    {
-        "text": "* UNIX is a registered trademark of The Open Group", 
-        "id": "Trademarks Text 21", 
-        "description": ""
-    }, 
-    {
-        "text": "All other products named in the documentation are trademarks of their respective owners.", 
-        "id": "Trademarks Text 22", 
-        "description": ""
-    }, 
-    {
-        "text": "Made in Berkeley, CA, USA", 
-        "id": "Made In", 
-        "description": ""
-    }, 
-    {
         "text": "Show Annotations", 
         "id": "Show Annotations", 
         "description": ""
@@ -610,56 +345,6 @@
         "description": ""
     }, 
     {
-        "text": "Magnifier", 
-        "id": "Magnifier", 
-        "description": ""
-    }, 
-    {
-        "text": "Magnifier tooltip", 
-        "id": "Magnifier tooltip", 
-        "description": ""
-    }, 
-    {
-        "text": "Color Picker", 
-        "id": "Color Picker", 
-        "description": ""
-    }, 
-    {
-        "text": "Color picker tooltip", 
-        "id": "Color picker tooltip", 
-        "description": ""
-    }, 
-    {
-        "text": "Histogram tooltip", 
-        "id": "Histogram tooltip", 
-        "description": ""
-    }, 
-    {
-        "text": "Information", 
-        "id": "Information", 
-        "description": ""
-    }, 
-    {
-        "text": "Information tooltip", 
-        "id": "Information tooltip", 
-        "description": ""
-    }, 
-    {
-        "text": "Debugging", 
-        "id": "Debugging", 
-        "description": ""
-    }, 
-    {
-        "text": "Debugging tooltip", 
-        "id": "Debugging tooltip", 
-        "description": ""
-    }, 
-    {
-        "text": "Tools", 
-        "id": "Tools", 
-        "description": ""
-    }, 
-    {
         "text": "Image", 
         "id": "Image", 
         "description": ""
@@ -682,6 +367,46 @@
     {
         "text": "Settings", 
         "id": "Settings", 
+        "description": ""
+    }, 
+    {
+        "text": "Information", 
+        "id": "Information", 
+        "description": ""
+    }, 
+    {
+        "text": "Magnifier", 
+        "id": "Magnifier", 
+        "description": ""
+    }, 
+    {
+        "text": "Enable Color Profile", 
+        "id": "Enable Color Profile", 
+        "description": ""
+    }, 
+    {
+        "text": "Magnifier enable color profile tooltip", 
+        "id": "Magnifier enable color profile tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "Enable Display Profile", 
+        "id": "Enable Display Profile", 
+        "description": ""
+    }, 
+    {
+        "text": "Magnifier enable display profile tooltip", 
+        "id": "Magnifier enable display profile tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "Magnifier zoom in tooltip", 
+        "id": "Magnifier zoom in tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "Magnifier zoom out tooltip", 
+        "id": "Magnifier zoom out tooltip", 
         "description": ""
     }, 
     {
@@ -980,6 +705,11 @@
         "description": ""
     }, 
     {
+        "text": "Color Picker", 
+        "id": "Color Picker", 
+        "description": ""
+    }, 
+    {
         "text": "Lock Color Type", 
         "id": "Lock Color Type", 
         "description": ""
@@ -990,18 +720,8 @@
         "description": ""
     }, 
     {
-        "text": "Enable Color Profile", 
-        "id": "Enable Color Profile", 
-        "description": ""
-    }, 
-    {
         "text": "Color picker enable color profile tooltip", 
         "id": "Color picker enable color profile tooltip", 
-        "description": ""
-    }, 
-    {
-        "text": "Enable Display Profile", 
-        "id": "Enable Display Profile", 
         "description": ""
     }, 
     {
@@ -1022,86 +742,6 @@
     {
         "text": "Color picker sample size tooltip", 
         "id": "Color picker sample size tooltip", 
-        "description": ""
-    }, 
-    {
-        "text": "Object count", 
-        "id": "Object count", 
-        "description": ""
-    }, 
-    {
-        "text": "Widget count", 
-        "id": "Widget count", 
-        "description": ""
-    }, 
-    {
-        "text": "Font system glyph cache", 
-        "id": "Font system glyph cache", 
-        "description": ""
-    }, 
-    {
-        "text": "Thumbnail system information cache", 
-        "id": "Thumbnail system information cache", 
-        "description": ""
-    }, 
-    {
-        "text": "Thumbnail system image cache", 
-        "id": "Thumbnail system image cache", 
-        "description": ""
-    }, 
-    {
-        "text": "Icon system cache", 
-        "id": "Icon system cache", 
-        "description": ""
-    }, 
-    {
-        "text": "Texture atlas", 
-        "id": "Texture atlas", 
-        "description": ""
-    }, 
-    {
-        "text": "Dynamic texture count", 
-        "id": "Dynamic texture count", 
-        "description": ""
-    }, 
-    {
-        "text": "VBO size", 
-        "id": "VBO size", 
-        "description": ""
-    }, 
-    {
-        "text": "Video queue", 
-        "id": "Video queue", 
-        "description": ""
-    }, 
-    {
-        "text": "Audio queue", 
-        "id": "Audio queue", 
-        "description": ""
-    }, 
-    {
-        "text": "OpenAL queue", 
-        "id": "OpenAL queue", 
-        "description": ""
-    }, 
-    {
-        "text": "Current time", 
-        "id": "Current time", 
-        "description": ""
-    }, 
-    {
-        "text": "General", 
-        "id": "General", 
-        "description": ""
-    }, 
-    {
-        "text": "Render", 
-        "id": "Render", 
-        "description": ""
-    }, 
-    {
-        "text": "Media", 
-        "id": "Media", 
         "description": ""
     }, 
     {
@@ -1490,6 +1130,11 @@
         "description": ""
     }, 
     {
+        "text": "General", 
+        "id": "General", 
+        "description": ""
+    }, 
+    {
         "text": "Automatically hide the user interface", 
         "id": "Automatically hide the user interface", 
         "description": ""
@@ -1517,6 +1162,376 @@
     {
         "text": "Window", 
         "id": "Window", 
+        "description": ""
+    }, 
+    {
+        "text": "DJV Imaging", 
+        "id": "About Title", 
+        "description": ""
+    }, 
+    {
+        "text": "Copyright and License", 
+        "id": "Copyright and License", 
+        "description": ""
+    }, 
+    {
+        "text": "Contributors", 
+        "id": "Contributors", 
+        "description": ""
+    }, 
+    {
+        "text": "Third Party Software", 
+        "id": "Third Party", 
+        "description": ""
+    }, 
+    {
+        "text": "Trademarks", 
+        "id": "Trademarks", 
+        "description": ""
+    }, 
+    {
+        "text": "Copyright (c) 2004-2019 Darby Johnston. All rights reserved.", 
+        "id": "Copyright", 
+        "description": ""
+    }, 
+    {
+        "text": "Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:", 
+        "id": "License 1", 
+        "description": ""
+    }, 
+    {
+        "text": "* Redistributions of source code must retain the above copyright notice, this list of conditions, and the following disclaimer.", 
+        "id": "License 2", 
+        "description": ""
+    }, 
+    {
+        "text": "* Redistributions in binary form must reproduce the above copyright notice, this list of conditions, and the following disclaimer in the documentation and/or other materials provided with the distribution.", 
+        "id": "License 3", 
+        "description": ""
+    }, 
+    {
+        "text": "* Neither the names of the copyright holders nor the names of any contributors may be used to endorse or promote products derived from this software without specific prior written permission.", 
+        "id": "License 4", 
+        "description": ""
+    }, 
+    {
+        "text": "THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS 'AS IS' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.", 
+        "id": "License 5", 
+        "description": ""
+    }, 
+    {
+        "text": "Portions of this software are copyright (in alphabetical order):", 
+        "id": "Contributors Text 1", 
+        "description": ""
+    }, 
+    {
+        "text": "* Copyright (c) 2004-2019 Darby Johnston. All rights reserved.", 
+        "id": "Contributors Text 2", 
+        "description": ""
+    }, 
+    {
+        "text": "* Copyright (c) 2008 Alan Jones. All rights reserved.", 
+        "id": "Contributors Text 3", 
+        "description": ""
+    }, 
+    {
+        "text": "* Copyright (c) 2008-2009 Mikael Sundell. All rights reserved.", 
+        "id": "Contributors Text 4", 
+        "description": ""
+    }, 
+    {
+        "text": "This software is based in part on the works of (in alphabetical order):", 
+        "id": "Third Party Text 1", 
+        "description": ""
+    }, 
+    {
+        "text": "* CMake, http://www.cmake.org, Copyright 2000-2011 Kitware, Inc., Insight Software Consortium. All rights reserved.", 
+        "id": "Third Party Text 2", 
+        "description": ""
+    }, 
+    {
+        "text": "* dr_libs, https://github.com/mackron/dr_libs, David Reid", 
+        "id": "Third Party Text 3", 
+        "description": ""
+    }, 
+    {
+        "text": "* FFMpeg, http://www.ffmpeg.org, Licensed under the LGPLv2.1, http://www.gnu.org/pcenses/old-pcenses/lgpl-2.1.html", 
+        "id": "Third Party Text 4", 
+        "description": ""
+    }, 
+    {
+        "text": "* FreeType, https://www.freetype.org, Copyright (c) 2018, The FreeType Project", 
+        "id": "Third Party Text 5", 
+        "description": ""
+    }, 
+    {
+        "text": "* GLFW, https://www.glfw.org, Copyright (c) 2002-2006 Marcus Geelnard, Copyright (c) 2006-2016 Camilla L\u00f6wy <elmindreda@glfw.org>", 
+        "id": "Third Party Text 6", 
+        "description": ""
+    }, 
+    {
+        "text": "* GLM, https://glm.g-truc.net/0.9.9/index.html, Copyright (c) 2005-2017 G-Truc Creation", 
+        "id": "Third Party Text 7", 
+        "description": ""
+    }, 
+    {
+        "text": "* glad, https://github.com/Dav1dde/glad, Copyright (c) 2013-2018 David Herberth", 
+        "id": "Third Party Text 8", 
+        "description": ""
+    }, 
+    {
+        "text": "* libjpeg, http://www.ijg.org, Copyright (c) 1991-2012, Thomas G. Lane, Guido Vollbeding", 
+        "id": "Third Party Text 9", 
+        "description": ""
+    }, 
+    {
+        "text": "* libpng, http://www.libpng.org, Copyright (c) 2004, 2006-2012 Glenn Randers-Pehrson", 
+        "id": "Third Party Text 10", 
+        "description": ""
+    }, 
+    {
+        "text": "* libtiff, http://www.libtiff.org, Copyright (c) 1988-1997 Sam Leffler, Copyright (c) 1991-1997 Silicon Graphics, Inc", 
+        "id": "Third Party Text 11", 
+        "description": ""
+    }, 
+    {
+        "text": "* OpenAL, https://www.openal.org, Copyright (C) 1999-2000 by Loki Software", 
+        "id": "Third Party Text 12", 
+        "description": ""
+    }, 
+    {
+        "text": "* OpenEXR, http://www.openexr.com, Copyright (c) 2006, Industrial Light and Magic, a division of Lucasfilm Entertainment Company Ltd.", 
+        "id": "Third Party Text 13", 
+        "description": ""
+    }, 
+    {
+        "text": "* zlib, http://www.zlib.net, Copyright (c) 1995-2013 Jean-loup Gailly and Mark Adler", 
+        "id": "Third Party Text 14", 
+        "description": ""
+    }, 
+    {
+        "text": "Trademarks named in the documentation (in alphabetical order):", 
+        "id": "Trademarks Text 1", 
+        "description": ""
+    }, 
+    {
+        "text": "* Apple, OS X, ProRes, and QuickTime are registered trademarks of Apple, Inc.", 
+        "id": "Trademarks Text 2", 
+        "description": ""
+    }, 
+    {
+        "text": "* AMD and ATI are registered trademarks of Advanced Micro Devices, Inc.", 
+        "id": "Trademarks Text 3", 
+        "description": ""
+    }, 
+    {
+        "text": "* Autodesk, Inferno, Maya, Softimage, and XSI are registered trademarks of Autodesk, Inc.", 
+        "id": "Trademarks Text 4", 
+        "description": ""
+    }, 
+    {
+        "text": "* Debian is a registered trademark of Software in the Public Interest, Inc.", 
+        "id": "Trademarks Text 5", 
+        "description": ""
+    }, 
+    {
+        "text": "* FFmpeg is a trademark of Fabrice Bellard, originator of the FFmpeg project", 
+        "id": "Trademarks Text 6", 
+        "description": ""
+    }, 
+    {
+        "text": "* FreeBSD is a registered trademark of The FreeBSD Foundation", 
+        "id": "Trademarks Text 7", 
+        "description": ""
+    }, 
+    {
+        "text": "* Intel is a registered trademark of Intel Corporation", 
+        "id": "Trademarks Text 8", 
+        "description": ""
+    }, 
+    {
+        "text": "* Industrial Light and Magic and ILM are registered trademarks of Lucasfilm Ltd.", 
+        "id": "Trademarks Text 9", 
+        "description": ""
+    }, 
+    {
+        "text": "* Kodak and Cineon are a registered trademarks of the Eastman Kodak Company", 
+        "id": "Trademarks Text 10", 
+        "description": ""
+    }, 
+    {
+        "text": "* Linux is a registered trademark of Linus Torvalds", 
+        "id": "Trademarks Text 11", 
+        "description": ""
+    }, 
+    {
+        "text": "* Microsoft and Microsoft Windows are registered trademarks of Microsoft, Inc.", 
+        "id": "Trademarks Text 12", 
+        "description": ""
+    }, 
+    {
+        "text": "* MIPS is a registered trademark of MIPS Technologies, Inc.", 
+        "id": "Trademarks Text 13", 
+        "description": ""
+    }, 
+    {
+        "text": "* NVIDIA is a registered trademark of NVIDIA Corporation", 
+        "id": "Trademarks Text 14", 
+        "description": ""
+    }, 
+    {
+        "text": "* Red Hat and Fedora are registered trademarks of Red Hat, Inc.", 
+        "id": "Trademarks Text 15", 
+        "description": ""
+    }, 
+    {
+        "text": "* Silicon Graphics, SGI, IRIX, and OpenGL are registered trademarks of Silicon Graphics International Corp.", 
+        "id": "Trademarks Text 16", 
+        "description": ""
+    }, 
+    {
+        "text": "* SMPTE is a registered trademark of the Society of Motion Picture and Television Engineers", 
+        "id": "Trademarks Text 17", 
+        "description": ""
+    }, 
+    {
+        "text": "* SourceForge.net is a registered trademark of VA Software Corporation", 
+        "id": "Trademarks Text 18", 
+        "description": ""
+    }, 
+    {
+        "text": "* SuSE is a registered trademark of Novell, Inc.", 
+        "id": "Trademarks Text 19", 
+        "description": ""
+    }, 
+    {
+        "text": "* Ubuntu is a registered trademark of Canonical Ltd.", 
+        "id": "Trademarks Text 20", 
+        "description": ""
+    }, 
+    {
+        "text": "* UNIX is a registered trademark of The Open Group", 
+        "id": "Trademarks Text 21", 
+        "description": ""
+    }, 
+    {
+        "text": "All other products named in the documentation are trademarks of their respective owners.", 
+        "id": "Trademarks Text 22", 
+        "description": ""
+    }, 
+    {
+        "text": "Made in Berkeley, CA, USA", 
+        "id": "Made In", 
+        "description": ""
+    }, 
+    {
+        "text": "Object count", 
+        "id": "Object count", 
+        "description": ""
+    }, 
+    {
+        "text": "Widget count", 
+        "id": "Widget count", 
+        "description": ""
+    }, 
+    {
+        "text": "Font system glyph cache", 
+        "id": "Font system glyph cache", 
+        "description": ""
+    }, 
+    {
+        "text": "Thumbnail system information cache", 
+        "id": "Thumbnail system information cache", 
+        "description": ""
+    }, 
+    {
+        "text": "Thumbnail system image cache", 
+        "id": "Thumbnail system image cache", 
+        "description": ""
+    }, 
+    {
+        "text": "Icon system cache", 
+        "id": "Icon system cache", 
+        "description": ""
+    }, 
+    {
+        "text": "Texture atlas", 
+        "id": "Texture atlas", 
+        "description": ""
+    }, 
+    {
+        "text": "Dynamic texture count", 
+        "id": "Dynamic texture count", 
+        "description": ""
+    }, 
+    {
+        "text": "VBO size", 
+        "id": "VBO size", 
+        "description": ""
+    }, 
+    {
+        "text": "Video queue", 
+        "id": "Video queue", 
+        "description": ""
+    }, 
+    {
+        "text": "Audio queue", 
+        "id": "Audio queue", 
+        "description": ""
+    }, 
+    {
+        "text": "OpenAL queue", 
+        "id": "OpenAL queue", 
+        "description": ""
+    }, 
+    {
+        "text": "Current time", 
+        "id": "Current time", 
+        "description": ""
+    }, 
+    {
+        "text": "Debugging", 
+        "id": "Debugging", 
+        "description": ""
+    }, 
+    {
+        "text": "Render", 
+        "id": "Render", 
+        "description": ""
+    }, 
+    {
+        "text": "Media", 
+        "id": "Media", 
+        "description": ""
+    }, 
+    {
+        "text": "Magnifier tooltip", 
+        "id": "Magnifier tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "Color picker tooltip", 
+        "id": "Color picker tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "Histogram tooltip", 
+        "id": "Histogram tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "Information tooltip", 
+        "id": "Information tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "Debugging tooltip", 
+        "id": "Debugging tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "Tools", 
+        "id": "Tools", 
         "description": ""
     }
 ]

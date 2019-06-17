@@ -370,6 +370,36 @@
         "description": ""
     }, 
     {
+        "text": "Language", 
+        "id": "Language", 
+        "description": ""
+    }, 
+    {
+        "text": "Min", 
+        "id": "Min", 
+        "description": ""
+    }, 
+    {
+        "text": "Max", 
+        "id": "Max", 
+        "description": ""
+    }, 
+    {
+        "text": "Value", 
+        "id": "Value", 
+        "description": ""
+    }, 
+    {
+        "text": "PPM", 
+        "id": "PPM", 
+        "description": ""
+    }, 
+    {
+        "text": "Data type", 
+        "id": "Data type", 
+        "description": ""
+    }, 
+    {
         "text": "Last modification time", 
         "id": "Last modification time", 
         "description": ""
@@ -417,36 +447,6 @@
     {
         "text": "kHz", 
         "id": "kHz", 
-        "description": ""
-    }, 
-    {
-        "text": "Language", 
-        "id": "Language", 
-        "description": ""
-    }, 
-    {
-        "text": "Min", 
-        "id": "Min", 
-        "description": ""
-    }, 
-    {
-        "text": "Max", 
-        "id": "Max", 
-        "description": ""
-    }, 
-    {
-        "text": "Value", 
-        "id": "Value", 
-        "description": ""
-    }, 
-    {
-        "text": "PPM", 
-        "id": "PPM", 
-        "description": ""
-    }, 
-    {
-        "text": "Data type", 
-        "id": "Data type", 
         "description": ""
     }
 ]
