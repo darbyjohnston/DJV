@@ -32,6 +32,7 @@
 #include <djvAV/Image.h>
 #include <djvAV/Render2D.h>
 
+#define GLM_ENABLE_EXPERIMENTAL
 #include <glm/gtx/matrix_transform_2d.hpp>
 
 using namespace djv::Core;
