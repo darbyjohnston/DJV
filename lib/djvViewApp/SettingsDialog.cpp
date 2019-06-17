@@ -121,7 +121,7 @@ namespace djv
             setTitle(_getText(DJV_TEXT("Settings")));
             for (const auto& i : p.tabs)
             {
-                p.tabWidget->setText(i.first, i.second->getSettingsGroup());
+                p.tabWidget->setText(i.first, _getText(i.second->getSettingsGroup()));
             }
             for (const auto& i : p.groupBoxes)
             {

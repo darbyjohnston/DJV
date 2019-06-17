@@ -116,7 +116,7 @@ namespace djv
         {
             ISettingsWidget::_localeEvent(event);
             DJV_PRIVATE_PTR();
-            p.layout->setText(p.qualitySlider, DJV_TEXT("Compression quality:"));
+            p.layout->setText(p.qualitySlider, _getText(DJV_TEXT("Compression quality:")));
         }
 
     } // namespace UI

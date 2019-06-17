@@ -122,13 +122,13 @@ namespace djv
             DJV_PRIVATE_PTR();
             setTitle(_getText(DJV_TEXT("Magnifier")));
 
-            p.actions["ColorProfile"]->setText("Enable Color Profile");
-            p.actions["ColorProfile"]->setTooltip("Magnifier enable color profile tooltip");
-            p.actions["DisplayProfile"]->setText("Enable Display Profile");
-            p.actions["DisplayProfile"]->setTooltip("Magnifier enable display profile tooltip");
+            p.actions["ColorProfile"]->setText(_getText(DJV_TEXT("Enable Color Profile")));
+            p.actions["ColorProfile"]->setTooltip(_getText(DJV_TEXT("Magnifier enable color profile tooltip")));
+            p.actions["DisplayProfile"]->setText(_getText(DJV_TEXT("Enable Display Profile")));
+            p.actions["DisplayProfile"]->setTooltip(_getText(DJV_TEXT("Magnifier enable display profile tooltip")));
 
-            p.zoomInButton->setTooltip("Magnifier zoom in tooltip");
-            p.zoomOutButton->setTooltip("Magnifier zoom out tooltip");
+            p.zoomInButton->setTooltip(_getText(DJV_TEXT("Magnifier zoom in tooltip"));
+            p.zoomOutButton->setTooltip(_getText(DJV_TEXT("Magnifier zoom out tooltip"));
         }
 
     } // namespace ViewApp

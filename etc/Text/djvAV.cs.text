@@ -1,734 +1,734 @@
 [
     {
-        "id": "None", 
         "source": "None", 
-        "description": "", 
-        "text": "\u017d\u00e1dn\u00fd"
+        "text": "\u017d\u00e1dn\u00fd", 
+        "id": "None", 
+        "description": ""
     }, 
     {
-        "id": "Left", 
         "source": "Left", 
-        "description": "", 
-        "text": "Vlevo, odjet"
+        "text": "Vlevo, odjet", 
+        "id": "Left", 
+        "description": ""
     }, 
     {
-        "id": "Top", 
         "source": "Top", 
-        "description": "", 
-        "text": "Horn\u00ed"
+        "text": "Horn\u00ed", 
+        "id": "Top", 
+        "description": ""
     }, 
     {
-        "id": "Right", 
         "source": "Right", 
-        "description": "", 
-        "text": "\u017de jo"
+        "text": "\u017de jo", 
+        "id": "Right", 
+        "description": ""
     }, 
     {
-        "id": "Bottom", 
         "source": "Bottom", 
-        "description": "", 
-        "text": "Dno"
+        "text": "Dno", 
+        "id": "Bottom", 
+        "description": ""
     }, 
     {
-        "id": "Cannot read", 
         "source": "Cannot read", 
-        "description": "", 
-        "text": "Neum\u00ed \u010d\u00edst"
+        "text": "Neum\u00ed \u010d\u00edst", 
+        "id": "Cannot read", 
+        "description": ""
     }, 
     {
-        "id": "Cannot write", 
         "source": "Cannot write", 
-        "description": "", 
-        "text": "Nelze ps\u00e1t"
+        "text": "Nelze ps\u00e1t", 
+        "id": "Cannot write", 
+        "description": ""
     }, 
     {
-        "id": "cannot write", 
         "source": "cannot write", 
-        "description": "", 
-        "text": "nem\u016f\u017ee ps\u00e1t"
+        "text": "nem\u016f\u017ee ps\u00e1t", 
+        "id": "cannot write", 
+        "description": ""
     }, 
     {
-        "id": "Unknown", 
         "source": "Unknown", 
-        "description": "", 
-        "text": "Nezn\u00e1m\u00fd"
+        "text": "Nezn\u00e1m\u00fd", 
+        "id": "Unknown", 
+        "description": ""
     }, 
     {
-        "id": "Out of memory", 
         "source": "Out of memory", 
-        "description": "", 
-        "text": "Nedostatek pam\u011bti"
+        "text": "Nedostatek pam\u011bti", 
+        "id": "Out of memory", 
+        "description": ""
     }, 
     {
-        "id": "Invalid value", 
         "source": "Invalid value", 
-        "description": "", 
-        "text": "neplatn\u00e1 hodnota"
+        "text": "neplatn\u00e1 hodnota", 
+        "id": "Invalid value", 
+        "description": ""
     }, 
     {
-        "id": "Invalid enum", 
         "source": "Invalid enum", 
-        "description": "", 
-        "text": "Neplatn\u00e9 enum"
+        "text": "Neplatn\u00e9 enum", 
+        "id": "Invalid enum", 
+        "description": ""
     }, 
     {
-        "id": "U8", 
         "source": "U8", 
-        "description": "", 
-        "text": "U8"
+        "text": "U8", 
+        "id": "U8", 
+        "description": ""
     }, 
     {
-        "id": "S16", 
         "source": "S16", 
-        "description": "", 
-        "text": "S16"
+        "text": "S16", 
+        "id": "S16", 
+        "description": ""
     }, 
     {
-        "id": "S32", 
         "source": "S32", 
-        "description": "", 
-        "text": "S32"
+        "text": "S32", 
+        "id": "S32", 
+        "description": ""
     }, 
     {
-        "id": "F32", 
         "source": "F32", 
-        "description": "", 
-        "text": "F32"
+        "text": "F32", 
+        "id": "F32", 
+        "description": ""
     }, 
     {
-        "id": "Cannot create OpenGL vertex shader.", 
         "source": "Cannot create OpenGL vertex shader.", 
-        "description": "", 
-        "text": "Nelze vytvo\u0159it OpenGL vrchol shader."
+        "text": "Nelze vytvo\u0159it OpenGL vrchol shader.", 
+        "id": "Cannot create OpenGL vertex shader.", 
+        "description": ""
     }, 
     {
-        "id": "Cannot compile OpenGL vertex shader", 
         "source": "Cannot compile OpenGL vertex shader", 
-        "description": "", 
-        "text": "Nelze kompilovat vertik\u00e1ln\u00ed shader OpenGL"
+        "text": "Nelze kompilovat vertik\u00e1ln\u00ed shader OpenGL", 
+        "id": "Cannot compile OpenGL vertex shader", 
+        "description": ""
     }, 
     {
-        "id": "Cannot create OpenGL fragment shader.", 
         "source": "Cannot create OpenGL fragment shader.", 
-        "description": "", 
-        "text": "Nelze vytvo\u0159it shader openGL fragmentu."
+        "text": "Nelze vytvo\u0159it shader openGL fragmentu.", 
+        "id": "Cannot create OpenGL fragment shader.", 
+        "description": ""
     }, 
     {
-        "id": "Cannot compile OpenGL framgent shader", 
         "source": "Cannot compile OpenGL framgent shader", 
-        "description": "", 
-        "text": "Nelze kompilace shaderu OpenGL framgent"
+        "text": "Nelze kompilace shaderu OpenGL framgent", 
+        "id": "Cannot compile OpenGL framgent shader", 
+        "description": ""
     }, 
     {
-        "id": "Cannot link program", 
         "source": "Cannot link program", 
-        "description": "", 
-        "text": "Nelze propojit program"
+        "text": "Nelze propojit program", 
+        "id": "Cannot link program", 
+        "description": ""
     }, 
     {
-        "id": "cannot read", 
         "source": "cannot read", 
-        "description": "", 
-        "text": "neum\u00ed \u010d\u00edst"
+        "text": "neum\u00ed \u010d\u00edst", 
+        "id": "cannot read", 
+        "description": ""
     }, 
     {
-        "id": "cannot open", 
         "source": "cannot open", 
+        "text": "nelze otev\u0159\u00edt", 
+        "id": "cannot open", 
+        "description": ""
+    }, 
+    {
+        "source": "Cannot open OpenAL device.", 
+        "text": "Nelze otev\u0159\u00edt za\u0159\u00edzen\u00ed OpenAL.", 
+        "id": "Cannot open OpenAL device.", 
+        "description": ""
+    }, 
+    {
+        "source": "Cannot create OpenAL context.", 
+        "text": "Nelze vytvo\u0159it kontext OpenAL.", 
+        "id": "Cannot create OpenAL context.", 
+        "description": ""
+    }, 
+    {
+        "source": "Cannot make OpenAL context current.", 
+        "text": "Kontext OpenAL nelze spustit.", 
+        "id": "Cannot make OpenAL context current.", 
+        "description": ""
+    }, 
+    {
+        "source": "Cannot create GLFW window.", 
+        "text": "Nelze vytvo\u0159it okno GLFW.", 
+        "id": "Cannot create GLFW window.", 
+        "description": ""
+    }, 
+    {
+        "source": "This plugin provides Portable Network Graphics (PNG) image I/O.", 
+        "text": "Tento plugin poskytuje obraz I / O obrazu z p\u0159enosn\u00e9 s\u00ed\u0165ov\u00e9 grafiky (PNG).", 
+        "id": "This plugin provides Portable Network Graphics (PNG) image I/O.", 
+        "description": ""
+    }, 
+    {
+        "source": "Cannot create shader", 
+        "text": "Nelze vytvo\u0159it shader", 
+        "id": "Cannot create shader", 
+        "description": ""
+    }, 
+    {
+        "source": "Float", 
+        "text": "Plov\u00e1k", 
+        "id": "Float", 
+        "description": ""
+    }, 
+    {
+        "source": "Double", 
+        "text": "Dvojn\u00e1sobek", 
+        "id": "Double", 
+        "description": ""
+    }, 
+    {
+        "source": "U8 Planar", 
+        "text": "U8 Planar", 
+        "id": "U8 Planar", 
+        "description": ""
+    }, 
+    {
+        "source": "S16 Planar", 
+        "text": "S16 Planar", 
+        "id": "S16 Planar", 
+        "description": ""
+    }, 
+    {
+        "source": "S32 Planar", 
+        "text": "S32 Planar", 
+        "id": "S32 Planar", 
+        "description": ""
+    }, 
+    {
+        "source": "Float Planar", 
+        "text": "Float Planar", 
+        "id": "Float Planar", 
+        "description": ""
+    }, 
+    {
+        "source": "Double Planar", 
+        "text": "Double Planar", 
+        "id": "Double Planar", 
+        "description": ""
+    }, 
+    {
+        "source": "This plugin provides FFmpeg image and audio I/O.", 
+        "text": "Tento plugin poskytuje obrazov\u00e9 a zvukov\u00e9 vstupy a v\u00fdstupy FFmpeg.", 
+        "id": "This plugin provides FFmpeg image and audio I/O.", 
+        "description": ""
+    }, 
+    {
+        "source": "cannot find any streams in", 
+        "text": "nem\u016f\u017ee naj\u00edt \u017e\u00e1dn\u00e9 proudy", 
+        "id": "cannot find any streams in", 
+        "description": ""
+    }, 
+    {
+        "source": "cannot find video codec for", 
+        "text": "nem\u016f\u017ee naj\u00edt video kodek pro", 
+        "id": "cannot find video codec for", 
+        "description": ""
+    }, 
+    {
+        "source": "unsupported audio format ", 
+        "text": "nepodporovan\u00fd form\u00e1t zvuku", 
+        "id": "unsupported audio format ", 
+        "description": ""
+    }, 
+    {
+        "source": "cannot find audio codec for", 
+        "text": "nem\u016f\u017ee naj\u00edt audio kodek pro", 
+        "id": "cannot find audio codec for", 
+        "description": ""
+    }, 
+    {
+        "source": "This plugin provides Joint Photographic Experts Group (JPEG) image I/O.", 
+        "text": "Tento plugin poskytuje vstupn\u00ed a v\u00fdstupn\u00ed obraz skupiny Joint Photographic Experts Group (JPEG).", 
+        "id": "This plugin provides Joint Photographic Experts Group (JPEG) image I/O.", 
+        "description": ""
+    }, 
+    {
+        "source": "Cannot initialize GLFW.", 
+        "text": "Nelze inicializovat GLFW.", 
+        "id": "Cannot initialize GLFW.", 
+        "description": ""
+    }, 
+    {
+        "source": "Cannot create OpenGL texture.", 
+        "text": "Nelze vytvo\u0159it texturu OpenGL.", 
+        "id": "Cannot create OpenGL texture.", 
+        "description": ""
+    }, 
+    {
+        "source": "Cannot create OpenGL frame buffer.", 
+        "text": "Nelze vytvo\u0159it buffer vyrovn\u00e1vac\u00ed pam\u011bti OpenGL.", 
+        "id": "Cannot create OpenGL frame buffer.", 
+        "description": ""
+    }, 
+    {
+        "source": "Cannot initialize OpenGL frame buffer.", 
+        "text": "Nelze inicializovat buffer vyrovn\u00e1vac\u00ed pam\u011bti OpenGL.", 
+        "id": "Cannot initialize OpenGL frame buffer.", 
+        "description": ""
+    }, 
+    {
+        "source": "L U8", 
+        "text": "50 U8", 
+        "id": "L_U8", 
+        "description": ""
+    }, 
+    {
+        "source": "L U16", 
+        "text": "L U16", 
+        "id": "L_U16", 
+        "description": ""
+    }, 
+    {
+        "source": "L U32", 
+        "text": "L U32", 
+        "id": "L_U32", 
+        "description": ""
+    }, 
+    {
+        "source": "L F16", 
+        "text": "L F16", 
+        "id": "L_F16", 
+        "description": ""
+    }, 
+    {
+        "source": "L F32", 
+        "text": "L F32", 
+        "id": "L_F32", 
+        "description": ""
+    }, 
+    {
+        "source": "LA U8", 
+        "text": "U8", 
+        "id": "LA_U8", 
+        "description": ""
+    }, 
+    {
+        "source": "LA U16", 
+        "text": "U16", 
+        "id": "LA_U16", 
+        "description": ""
+    }, 
+    {
+        "source": "LA U32", 
+        "text": "U32", 
+        "id": "LA_U32", 
+        "description": ""
+    }, 
+    {
+        "source": "LA F16", 
+        "text": "F16", 
+        "id": "LA_F16", 
+        "description": ""
+    }, 
+    {
+        "source": "LA F32", 
+        "text": "LA F32", 
+        "id": "LA_F32", 
+        "description": ""
+    }, 
+    {
+        "source": "RGB U8", 
+        "text": "RGB U8", 
+        "id": "RGB_U8", 
+        "description": ""
+    }, 
+    {
+        "source": "RGB U10", 
+        "text": "RGB U10", 
+        "id": "RGB_U10", 
+        "description": ""
+    }, 
+    {
+        "source": "RGB U16", 
+        "text": "RGB U16", 
+        "id": "RGB_U16", 
+        "description": ""
+    }, 
+    {
+        "source": "RGB U32", 
+        "text": "RGB U32", 
+        "id": "RGB_U32", 
+        "description": ""
+    }, 
+    {
+        "source": "RGB F16", 
+        "text": "RGB F16", 
+        "id": "RGB_F16", 
+        "description": ""
+    }, 
+    {
+        "source": "RGB F32", 
+        "text": "RGB F32", 
+        "id": "RGB_F32", 
+        "description": ""
+    }, 
+    {
+        "source": "RGBA U8", 
+        "text": "RGBA U8", 
+        "id": "RGBA_U8", 
+        "description": ""
+    }, 
+    {
+        "source": "RGBA U16", 
+        "text": "RGBA U16", 
+        "id": "RGBA_U16", 
+        "description": ""
+    }, 
+    {
+        "source": "RGBA U32", 
+        "text": "RGBA U32", 
+        "id": "RGBA_U32", 
+        "description": ""
+    }, 
+    {
+        "source": "RGBA F16", 
+        "text": "RGBA F16", 
+        "id": "RGBA_F16", 
+        "description": ""
+    }, 
+    {
+        "source": "RGBA F32", 
+        "text": "RGBA F32", 
+        "id": "RGBA_F32", 
+        "description": ""
+    }, 
+    {
+        "source": "U10", 
+        "text": "U10", 
+        "id": "U10", 
+        "description": ""
+    }, 
+    {
+        "source": "U16", 
+        "text": "U16", 
+        "id": "U16", 
+        "description": ""
+    }, 
+    {
+        "source": "U32", 
+        "text": "U32", 
+        "id": "U32", 
+        "description": ""
+    }, 
+    {
+        "source": "F16", 
+        "text": "F16", 
+        "id": "F16", 
+        "description": ""
+    }, 
+    {
+        "source": "Cannot initialize FreeType.", 
+        "text": "Nelze inicializovat FreeType.", 
+        "id": "Cannot initialize FreeType.", 
+        "description": ""
+    }, 
+    {
+        "source": "Cannot find any fonts.", 
+        "text": "Nelze naj\u00edt \u017e\u00e1dn\u00e9 p\u00edsma.", 
+        "id": "Cannot find any fonts.", 
+        "description": ""
+    }, 
+    {
+        "source": "This plugin provides NetPBM image I/O.", 
+        "text": "Tento plugin poskytuje I / O obraz NetPBM.", 
+        "id": "This plugin provides NetPBM image I/O.", 
+        "description": ""
+    }, 
+    {
+        "source": "ASCII", 
+        "text": "ASCII", 
+        "id": "ASCII", 
+        "description": ""
+    }, 
+    {
+        "source": "Binary", 
+        "text": "Bin\u00e1rn\u00ed", 
+        "id": "Binary", 
+        "description": ""
+    }, 
+    {
+        "source": "Cannot parse value.", 
+        "text": "Hodnotu nelze analyzovat.", 
+        "id": "Cannot parse value.", 
+        "description": ""
+    }, 
+    {
+        "id": "The file\")) << \" '\" << fileName << \"' \" << DJV_TEXT(\"cannot be read", 
+        "source": "The file\")) << \" '\" << fileName << \"' \" << DJV_TEXT(\"cannot be read", 
+        "description": "", 
+        "text": "Soubor &quot;)) &lt;&lt;&quot; &#39;&quot;&lt;&lt; fileName &lt;&lt;&quot;&#39; &quot;&lt;&lt; DJV_TEXT (&quot; nelze \u010d\u00edst"
+    }, 
+    {
+        "id": "The file\")) << \" '\" << fileName << \"' \" << DJV_TEXT(\"cannot be written", 
+        "source": "The file\")) << \" '\" << fileName << \"' \" << DJV_TEXT(\"cannot be written", 
+        "description": "", 
+        "text": "Soubor &quot;)) &lt;&lt;&quot; &#39;&quot;&lt;&lt; fileName &lt;&lt;&quot;&#39; &quot;&lt;&lt; DJV_TEXT (&quot; nelze zapsat. &quot;"
+    }, 
+    {
+        "id": "The file", 
+        "source": "The file", 
+        "description": "", 
+        "text": "Soubor"
+    }, 
+    {
+        "id": "cannot be written", 
+        "source": "cannot be written", 
+        "description": "", 
+        "text": "nelze ps\u00e1t"
+    }, 
+    {
+        "id": "cannot be opened", 
+        "source": "cannot be opened", 
         "description": "", 
         "text": "nelze otev\u0159\u00edt"
     }, 
     {
-        "id": "Cannot open OpenAL device.", 
-        "source": "Cannot open OpenAL device.", 
-        "description": "", 
-        "text": "Nelze otev\u0159\u00edt za\u0159\u00edzen\u00ed OpenAL."
-    }, 
-    {
-        "id": "Cannot create OpenAL context.", 
-        "source": "Cannot create OpenAL context.", 
-        "description": "", 
-        "text": "Nelze vytvo\u0159it kontext OpenAL."
-    }, 
-    {
-        "id": "Cannot make OpenAL context current.", 
-        "source": "Cannot make OpenAL context current.", 
-        "description": "", 
-        "text": "Kontext OpenAL nelze spustit."
-    }, 
-    {
-        "id": "Cannot create GLFW window.", 
-        "source": "Cannot create GLFW window.", 
-        "description": "", 
-        "text": "Nelze vytvo\u0159it okno GLFW."
-    }, 
-    {
-        "id": "This plugin provides Portable Network Graphics (PNG) image I/O.", 
-        "source": "This plugin provides Portable Network Graphics (PNG) image I/O.", 
-        "description": "", 
-        "text": "Tento plugin poskytuje obraz I / O obrazu z p\u0159enosn\u00e9 s\u00ed\u0165ov\u00e9 grafiky (PNG)."
-    }, 
-    {
-        "id": "Cannot create shader", 
-        "source": "Cannot create shader", 
-        "description": "", 
-        "text": "Nelze vytvo\u0159it shader"
-    }, 
-    {
-        "id": "Float", 
-        "source": "Float", 
-        "description": "", 
-        "text": "Plov\u00e1k"
-    }, 
-    {
-        "id": "Double", 
-        "source": "Double", 
-        "description": "", 
-        "text": "Dvojn\u00e1sobek"
-    }, 
-    {
-        "id": "U8 Planar", 
-        "source": "U8 Planar", 
-        "description": "", 
-        "text": "U8 Planar"
-    }, 
-    {
-        "id": "S16 Planar", 
-        "source": "S16 Planar", 
-        "description": "", 
-        "text": "S16 Planar"
-    }, 
-    {
-        "id": "S32 Planar", 
-        "source": "S32 Planar", 
-        "description": "", 
-        "text": "S32 Planar"
-    }, 
-    {
-        "id": "Float Planar", 
-        "source": "Float Planar", 
-        "description": "", 
-        "text": "Float Planar"
-    }, 
-    {
-        "id": "Double Planar", 
-        "source": "Double Planar", 
-        "description": "", 
-        "text": "Double Planar"
-    }, 
-    {
-        "id": "This plugin provides FFmpeg image and audio I/O.", 
-        "source": "This plugin provides FFmpeg image and audio I/O.", 
-        "description": "", 
-        "text": "Tento plugin poskytuje obrazov\u00e9 a zvukov\u00e9 vstupy a v\u00fdstupy FFmpeg."
-    }, 
-    {
-        "id": "cannot find any streams in", 
-        "source": "cannot find any streams in", 
-        "description": "", 
-        "text": "nem\u016f\u017ee naj\u00edt \u017e\u00e1dn\u00e9 proudy"
-    }, 
-    {
-        "id": "cannot find video codec for", 
-        "source": "cannot find video codec for", 
-        "description": "", 
-        "text": "nem\u016f\u017ee naj\u00edt video kodek pro"
-    }, 
-    {
-        "id": "unsupported audio format ", 
-        "source": "unsupported audio format ", 
-        "description": "", 
-        "text": "nepodporovan\u00fd form\u00e1t zvuku"
-    }, 
-    {
-        "id": "cannot find audio codec for", 
-        "source": "cannot find audio codec for", 
-        "description": "", 
-        "text": "nem\u016f\u017ee naj\u00edt audio kodek pro"
-    }, 
-    {
-        "id": "This plugin provides Joint Photographic Experts Group (JPEG) image I/O.", 
-        "source": "This plugin provides Joint Photographic Experts Group (JPEG) image I/O.", 
-        "description": "", 
-        "text": "Tento plugin poskytuje vstupn\u00ed a v\u00fdstupn\u00ed obraz skupiny Joint Photographic Experts Group (JPEG)."
-    }, 
-    {
-        "id": "Cannot initialize GLFW.", 
-        "source": "Cannot initialize GLFW.", 
-        "description": "", 
-        "text": "Nelze inicializovat GLFW."
-    }, 
-    {
-        "id": "Cannot create OpenGL texture.", 
-        "source": "Cannot create OpenGL texture.", 
-        "description": "", 
-        "text": "Nelze vytvo\u0159it texturu OpenGL."
-    }, 
-    {
-        "id": "Cannot create OpenGL frame buffer.", 
-        "source": "Cannot create OpenGL frame buffer.", 
-        "description": "", 
-        "text": "Nelze vytvo\u0159it buffer vyrovn\u00e1vac\u00ed pam\u011bti OpenGL."
-    }, 
-    {
-        "id": "Cannot initialize OpenGL frame buffer.", 
-        "source": "Cannot initialize OpenGL frame buffer.", 
-        "description": "", 
-        "text": "Nelze inicializovat buffer vyrovn\u00e1vac\u00ed pam\u011bti OpenGL."
-    }, 
-    {
-        "id": "L_U8", 
-        "source": "L U8", 
-        "description": "", 
-        "text": "50 U8"
-    }, 
-    {
-        "id": "L_U16", 
-        "source": "L U16", 
-        "description": "", 
-        "text": "L U16"
-    }, 
-    {
-        "id": "L_U32", 
-        "source": "L U32", 
-        "description": "", 
-        "text": "L U32"
-    }, 
-    {
-        "id": "L_F16", 
-        "source": "L F16", 
-        "description": "", 
-        "text": "L F16"
-    }, 
-    {
-        "id": "L_F32", 
-        "source": "L F32", 
-        "description": "", 
-        "text": "L F32"
-    }, 
-    {
-        "id": "LA_U8", 
-        "source": "LA U8", 
-        "description": "", 
-        "text": "U8"
-    }, 
-    {
-        "id": "LA_U16", 
-        "source": "LA U16", 
-        "description": "", 
-        "text": "U16"
-    }, 
-    {
-        "id": "LA_U32", 
-        "source": "LA U32", 
-        "description": "", 
-        "text": "U32"
-    }, 
-    {
-        "id": "LA_F16", 
-        "source": "LA F16", 
-        "description": "", 
-        "text": "F16"
-    }, 
-    {
-        "id": "LA_F32", 
-        "source": "LA F32", 
-        "description": "", 
-        "text": "LA F32"
-    }, 
-    {
-        "id": "RGB_U8", 
-        "source": "RGB U8", 
-        "description": "", 
-        "text": "RGB U8"
-    }, 
-    {
-        "id": "RGB_U10", 
-        "source": "RGB U10", 
-        "description": "", 
-        "text": "RGB U10"
-    }, 
-    {
-        "id": "RGB_U16", 
-        "source": "RGB U16", 
-        "description": "", 
-        "text": "RGB U16"
-    }, 
-    {
-        "id": "RGB_U32", 
-        "source": "RGB U32", 
-        "description": "", 
-        "text": "RGB U32"
-    }, 
-    {
-        "id": "RGB_F16", 
-        "source": "RGB F16", 
-        "description": "", 
-        "text": "RGB F16"
-    }, 
-    {
-        "id": "RGB_F32", 
-        "source": "RGB F32", 
-        "description": "", 
-        "text": "RGB F32"
-    }, 
-    {
-        "id": "RGBA_U8", 
-        "source": "RGBA U8", 
-        "description": "", 
-        "text": "RGBA U8"
-    }, 
-    {
-        "id": "RGBA_U16", 
-        "source": "RGBA U16", 
-        "description": "", 
-        "text": "RGBA U16"
-    }, 
-    {
-        "id": "RGBA_U32", 
-        "source": "RGBA U32", 
-        "description": "", 
-        "text": "RGBA U32"
-    }, 
-    {
-        "id": "RGBA_F16", 
-        "source": "RGBA F16", 
-        "description": "", 
-        "text": "RGBA F16"
-    }, 
-    {
-        "id": "RGBA_F32", 
-        "source": "RGBA F32", 
-        "description": "", 
-        "text": "RGBA F32"
-    }, 
-    {
-        "id": "U10", 
-        "source": "U10", 
-        "description": "", 
-        "text": "U10"
-    }, 
-    {
-        "id": "U16", 
-        "source": "U16", 
-        "description": "", 
-        "text": "U16"
-    }, 
-    {
-        "id": "U32", 
-        "source": "U32", 
-        "description": "", 
-        "text": "U32"
-    }, 
-    {
-        "id": "F16", 
-        "source": "F16", 
-        "description": "", 
-        "text": "F16"
-    }, 
-    {
-        "id": "Cannot initialize FreeType.", 
-        "source": "Cannot initialize FreeType.", 
+        "id": "FreeType cannot be initialized.", 
+        "source": "FreeType cannot be initialized.", 
         "description": "", 
         "text": "Nelze inicializovat FreeType."
     }, 
     {
-        "id": "Cannot find any fonts.", 
-        "source": "Cannot find any fonts.", 
+        "id": "No fonts were found.", 
+        "source": "No fonts were found.", 
         "description": "", 
-        "text": "Nelze naj\u00edt \u017e\u00e1dn\u00e9 p\u00edsma."
+        "text": "Nebyla nalezena \u017e\u00e1dn\u00e1 p\u00edsma."
     }, 
     {
-        "id": "This plugin provides NetPBM image I/O.", 
-        "source": "This plugin provides NetPBM image I/O.", 
+        "id": "The GLFW window cannot be created.", 
+        "source": "The GLFW window cannot be created.", 
         "description": "", 
-        "text": "Tento plugin poskytuje I / O obraz NetPBM."
+        "text": "Okno GLFW nelze vytvo\u0159it."
     }, 
     {
-        "id": "ASCII", 
-        "source": "ASCII", 
-        "description": "", 
-        "text": "ASCII"
-    }, 
-    {
-        "id": "Binary", 
-        "source": "Binary", 
-        "description": "", 
-        "text": "Bin\u00e1rn\u00ed"
-    }, 
-    {
-        "id": "Cannot parse value.", 
-        "source": "Cannot parse value.", 
+        "id": "Cannot parse the value.", 
+        "source": "Cannot parse the value.", 
         "description": "", 
         "text": "Hodnotu nelze analyzovat."
     }, 
     {
-        "source": "The file\")) << \" '\" << fileName << \"' \" << DJV_TEXT(\"cannot be read", 
-        "text": "Soubor &quot;)) &lt;&lt;&quot; &#39;&quot;&lt;&lt; fileName &lt;&lt;&quot;&#39; &quot;&lt;&lt; DJV_TEXT (&quot; nelze \u010d\u00edst", 
-        "description": "", 
-        "id": "The file\")) << \" '\" << fileName << \"' \" << DJV_TEXT(\"cannot be read"
-    }, 
-    {
-        "source": "The file\")) << \" '\" << fileName << \"' \" << DJV_TEXT(\"cannot be written", 
-        "text": "Soubor &quot;)) &lt;&lt;&quot; &#39;&quot;&lt;&lt; fileName &lt;&lt;&quot;&#39; &quot;&lt;&lt; DJV_TEXT (&quot; nelze zapsat. &quot;", 
-        "description": "", 
-        "id": "The file\")) << \" '\" << fileName << \"' \" << DJV_TEXT(\"cannot be written"
-    }, 
-    {
-        "source": "The file", 
-        "text": "Soubor", 
-        "description": "", 
-        "id": "The file"
-    }, 
-    {
-        "source": "cannot be written", 
-        "text": "nelze ps\u00e1t", 
-        "description": "", 
-        "id": "cannot be written"
-    }, 
-    {
-        "source": "cannot be opened", 
-        "text": "nelze otev\u0159\u00edt", 
-        "description": "", 
-        "id": "cannot be opened"
-    }, 
-    {
-        "source": "FreeType cannot be initialized.", 
-        "text": "Nelze inicializovat FreeType.", 
-        "description": "", 
-        "id": "FreeType cannot be initialized."
-    }, 
-    {
-        "source": "No fonts were found.", 
-        "text": "Nebyla nalezena \u017e\u00e1dn\u00e1 p\u00edsma.", 
-        "description": "", 
-        "id": "No fonts were found."
-    }, 
-    {
-        "source": "The GLFW window cannot be created.", 
-        "text": "Okno GLFW nelze vytvo\u0159it.", 
-        "description": "", 
-        "id": "The GLFW window cannot be created."
-    }, 
-    {
-        "source": "Cannot parse the value.", 
-        "text": "Hodnotu nelze analyzovat.", 
-        "description": "", 
-        "id": "Cannot parse the value."
-    }, 
-    {
+        "id": "The JPEG file", 
         "source": "The JPEG file", 
-        "text": "Soubor JPEG", 
         "description": "", 
-        "id": "The JPEG file"
+        "text": "Soubor JPEG"
     }, 
     {
+        "id": "cannot be read", 
         "source": "cannot be read", 
-        "text": "nelze \u010d\u00edst", 
         "description": "", 
-        "id": "cannot be read"
+        "text": "nelze \u010d\u00edst"
     }, 
     {
+        "id": "The OpenGL vertex shader cannot be created.", 
         "source": "The OpenGL vertex shader cannot be created.", 
-        "text": "Shader vertexu OpenGL nelze vytvo\u0159it.", 
         "description": "", 
-        "id": "The OpenGL vertex shader cannot be created."
+        "text": "Shader vertexu OpenGL nelze vytvo\u0159it."
     }, 
     {
+        "id": "The OpenGL vertex shader", 
         "source": "The OpenGL vertex shader", 
-        "text": "Shader vertexu OpenGL", 
         "description": "", 
-        "id": "The OpenGL vertex shader"
+        "text": "Shader vertexu OpenGL"
     }, 
     {
+        "id": "cannot be compiled", 
         "source": "cannot be compiled", 
-        "text": "nelze kompilovat", 
         "description": "", 
-        "id": "cannot be compiled"
+        "text": "nelze kompilovat"
     }, 
     {
+        "id": "The OpenGL fragment shader cannot be created.", 
         "source": "The OpenGL fragment shader cannot be created.", 
-        "text": "Shader fragmentu OpenGL nelze vytvo\u0159it.", 
         "description": "", 
-        "id": "The OpenGL fragment shader cannot be created."
+        "text": "Shader fragmentu OpenGL nelze vytvo\u0159it."
     }, 
     {
+        "id": "The OpenGL framgent shader", 
         "source": "The OpenGL framgent shader", 
-        "text": "OpenGL dop\u0159edn\u00fd shader", 
         "description": "", 
-        "id": "The OpenGL framgent shader"
+        "text": "OpenGL dop\u0159edn\u00fd shader"
     }, 
     {
+        "id": "The program", 
         "source": "The program", 
-        "text": "Program", 
         "description": "", 
-        "id": "The program"
+        "text": "Program"
     }, 
     {
+        "id": "cannot be linked", 
         "source": "cannot be linked", 
-        "text": "nelze propojit", 
         "description": "", 
-        "id": "cannot be linked"
+        "text": "nelze propojit"
     }, 
     {
+        "id": "The FFMPEG file", 
         "source": "The FFMPEG file", 
-        "text": "Soubor FFMPEG", 
         "description": "", 
-        "id": "The FFMPEG file"
+        "text": "Soubor FFMPEG"
     }, 
     {
+        "id": "does not have any video or audio streams", 
         "source": "does not have any video or audio streams", 
-        "text": "nem\u00e1 \u017e\u00e1dn\u00e9 video ani audio streamy", 
         "description": "", 
-        "id": "does not have any video or audio streams"
+        "text": "nem\u00e1 \u017e\u00e1dn\u00e9 video ani audio streamy"
     }, 
     {
+        "id": "does not match any video codecs", 
         "source": "does not match any video codecs", 
-        "text": "neodpov\u00edd\u00e1 \u017e\u00e1dn\u00fdm video kodek\u016fm", 
         "description": "", 
-        "id": "does not match any video codecs"
+        "text": "neodpov\u00edd\u00e1 \u017e\u00e1dn\u00fdm video kodek\u016fm"
     }, 
     {
+        "id": "The FFMPEG audio format ", 
         "source": "The FFMPEG audio format ", 
-        "text": "Zvukov\u00fd form\u00e1t FFMPEG", 
         "description": "", 
-        "id": "The FFMPEG audio format "
+        "text": "Zvukov\u00fd form\u00e1t FFMPEG"
     }, 
     {
+        "id": "is not supported", 
         "source": "is not supported", 
-        "text": "nen\u00ed podporov\u00e1no", 
         "description": "", 
-        "id": "is not supported"
+        "text": "nen\u00ed podporov\u00e1no"
     }, 
     {
+        "id": "does not match any audio codecs", 
         "source": "does not match any audio codecs", 
-        "text": "neodpov\u00edd\u00e1 \u017e\u00e1dn\u00fdm audio kodek\u016fm", 
         "description": "", 
-        "id": "does not match any audio codecs"
+        "text": "neodpov\u00edd\u00e1 \u017e\u00e1dn\u00fdm audio kodek\u016fm"
     }, 
     {
+        "id": "GLFW cannot be initialized.", 
         "source": "GLFW cannot be initialized.", 
-        "text": "GLFW nelze inicializovat.", 
         "description": "", 
-        "id": "GLFW cannot be initialized."
+        "text": "GLFW nelze inicializovat."
     }, 
     {
+        "id": "GLFW window cannot be created.", 
         "source": "GLFW window cannot be created.", 
-        "text": "Okno GLFW nelze vytvo\u0159it.", 
         "description": "", 
-        "id": "GLFW window cannot be created."
+        "text": "Okno GLFW nelze vytvo\u0159it."
     }, 
     {
+        "id": "The OpenAL device cannot be opened.", 
         "source": "The OpenAL device cannot be opened.", 
-        "text": "Za\u0159\u00edzen\u00ed OpenAL nelze otev\u0159\u00edt.", 
         "description": "", 
-        "id": "The OpenAL device cannot be opened."
+        "text": "Za\u0159\u00edzen\u00ed OpenAL nelze otev\u0159\u00edt."
     }, 
     {
+        "id": "The OpenAL context cannot be created.", 
         "source": "The OpenAL context cannot be created.", 
-        "text": "Nelze vytvo\u0159it kontext OpenAL.", 
         "description": "", 
-        "id": "The OpenAL context cannot be created."
+        "text": "Nelze vytvo\u0159it kontext OpenAL."
     }, 
     {
+        "id": "The OpenAL context cannot be made current.", 
         "source": "The OpenAL context cannot be made current.", 
-        "text": "Kontext OpenAL nelze prov\u00e9st jako aktu\u00e1ln\u00ed.", 
         "description": "", 
-        "id": "The OpenAL context cannot be made current."
+        "text": "Kontext OpenAL nelze prov\u00e9st jako aktu\u00e1ln\u00ed."
     }, 
     {
+        "id": "The OpenGL texture cannot be created.", 
         "source": "The OpenGL texture cannot be created.", 
-        "text": "Texturu OpenGL nelze vytvo\u0159it.", 
         "description": "", 
-        "id": "The OpenGL texture cannot be created."
+        "text": "Texturu OpenGL nelze vytvo\u0159it."
     }, 
     {
+        "id": "The OpenGL frame buffer cannot be created.", 
         "source": "The OpenGL frame buffer cannot be created.", 
-        "text": "Nelze vytvo\u0159it vyrovn\u00e1vac\u00ed pam\u011b\u0165 r\u00e1mc\u016f OpenGL.", 
         "description": "", 
-        "id": "The OpenGL frame buffer cannot be created."
+        "text": "Nelze vytvo\u0159it vyrovn\u00e1vac\u00ed pam\u011b\u0165 r\u00e1mc\u016f OpenGL."
     }, 
     {
+        "id": "The OpenGL frame buffer cannot be initialized.", 
         "source": "The OpenGL frame buffer cannot be initialized.", 
-        "text": "Nelze inicializovat vyrovn\u00e1vac\u00ed pam\u011b\u0165 r\u00e1mce OpenGL.", 
         "description": "", 
-        "id": "The OpenGL frame buffer cannot be initialized."
+        "text": "Nelze inicializovat vyrovn\u00e1vac\u00ed pam\u011b\u0165 r\u00e1mce OpenGL."
     }, 
     {
+        "id": "The PNG file", 
         "source": "The PNG file", 
-        "text": "Soubor PNG", 
         "description": "", 
-        "id": "The PNG file"
+        "text": "Soubor PNG"
     }, 
     {
+        "id": "The PPM file", 
         "source": "The PPM file", 
-        "text": "Soubor PPM", 
         "description": "", 
-        "id": "The PPM file"
+        "text": "Soubor PPM"
     }, 
     {
+        "id": "The shader cannot be created", 
         "source": "The shader cannot be created", 
-        "text": "Shader nelze vytvo\u0159it", 
         "description": "", 
-        "id": "The shader cannot be created"
+        "text": "Shader nelze vytvo\u0159it"
     }, 
     {
+        "id": "This plugin provides Tagged Image File Format (TIFF) image I/O.", 
         "source": "This plugin provides Tagged Image File Format (TIFF) image I/O.", 
-        "text": "Tento plugin poskytuje tagovan\u00fd obrazov\u00fd form\u00e1t (TIFF).", 
         "description": "", 
-        "id": "This plugin provides Tagged Image File Format (TIFF) image I/O."
+        "text": "Tento plugin poskytuje tagovan\u00fd obrazov\u00fd form\u00e1t (TIFF)."
     }, 
     {
+        "id": "RLE", 
         "source": "RLE", 
-        "text": "RLE", 
         "description": "", 
-        "id": "RLE"
+        "text": "RLE"
     }, 
     {
+        "id": "LZW", 
         "source": "LZW", 
-        "text": "LZW", 
         "description": "", 
-        "id": "LZW"
+        "text": "LZW"
     }, 
     {
+        "id": "The TIFF file", 
         "source": "The TIFF file", 
-        "text": "Soubor TIFF", 
         "description": "", 
-        "id": "The TIFF file"
+        "text": "Soubor TIFF"
     }, 
     {
+        "id": "L", 
         "source": "L", 
-        "text": "", 
         "description": "", 
-        "id": "L"
+        "text": ""
     }, 
     {
+        "id": "LA", 
         "source": "LA", 
-        "text": "LA", 
         "description": "", 
-        "id": "LA"
+        "text": "LA"
     }, 
     {
+        "id": "RGB", 
         "source": "RGB", 
-        "text": "RGB", 
         "description": "", 
-        "id": "RGB"
+        "text": "RGB"
     }, 
     {
+        "id": "RGBA", 
         "source": "RGBA", 
-        "text": "RGBA", 
         "description": "", 
-        "id": "RGBA"
+        "text": "RGBA"
     }, 
     {
+        "id": "Timecode", 
         "source": "Timecode", 
-        "text": "\u010casov\u00fd k\u00f3d", 
         "description": "", 
-        "id": "Timecode"
+        "text": "\u010casov\u00fd k\u00f3d"
     }, 
     {
+        "id": "Frames", 
         "source": "Frames", 
-        "text": "R\u00e1my", 
         "description": "", 
-        "id": "Frames"
+        "text": "R\u00e1my"
     }
 ]
