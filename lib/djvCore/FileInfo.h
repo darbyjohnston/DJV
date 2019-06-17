@@ -199,7 +199,7 @@ namespace djv
 
     } // namespace FileSystem
 
-    picojson::value toJSON(const Core::FileSystem::DirectoryListSort &);
+    picojson::value toJSON(Core::FileSystem::DirectoryListSort);
 
     //! Throws:
     //! - std::exception

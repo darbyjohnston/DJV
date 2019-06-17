@@ -160,7 +160,7 @@ namespace djv
 
                 for (size_t i = 0; i < p.textureCount; ++i)
                 {
-                    auto texture = OpenGL::Texture::create(Image::Info(textureSize, textureSize, textureType), filter);
+                    auto texture = OpenGL::Texture::create(Image::Info(textureSize, textureSize, textureType), filter, filter);
                     p.textures.push_back(std::move(texture));
 
                     auto node = new BoxPackingNode(border);

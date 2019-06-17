@@ -45,7 +45,6 @@ namespace djv
         struct WindowSettings::Private
         {
             std::shared_ptr<ValueSubject<bool> > maximized;
-            std::shared_ptr<ValueSubject<bool> > fade;
         };
 
         void WindowSettings::_init(Context * context)
@@ -54,7 +53,6 @@ namespace djv
 
             DJV_PRIVATE_PTR();
             p.maximized = ValueSubject<bool>::create(true);
-            p.fade = ValueSubject<bool>::create(true);
             _load();
         }
 
@@ -82,16 +80,6 @@ namespace djv
             _p->maximized->setIfChanged(value);
         }
 
-        std::shared_ptr<IValueSubject<bool> > WindowSettings::observeFade() const
-        {
-            return _p->fade;
-        }
-
-        void WindowSettings::setFade(bool value)
-        {
-            _p->fade->setIfChanged(value);
-        }
-
         void WindowSettings::load(const picojson::value & value)
         {
             if (value.is<picojson::object>())
@@ -99,7 +87,6 @@ namespace djv
                 DJV_PRIVATE_PTR();
                 const auto & object = value.get<picojson::object>();
                 UI::Settings::read("Maximized", object, p.maximized);
-                UI::Settings::read("Fade", object, p.fade);
             }
         }
 
@@ -109,7 +96,6 @@ namespace djv
             picojson::value out(picojson::object_type, true);
             auto & object = out.get<picojson::object>();
             UI::Settings::write("Maximized", p.maximized->get(), object);
-            UI::Settings::write("Fade", p.fade->get(), object);
             return out;
         }
 

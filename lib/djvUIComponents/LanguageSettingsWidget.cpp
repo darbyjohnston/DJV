@@ -31,7 +31,6 @@
 
 #include <djvUI/ComboBox.h>
 #include <djvUI/FontSettings.h>
-#include <djvUI/FormLayout.h>
 #include <djvUI/Label.h>
 #include <djvUI/RowLayout.h>
 #include <djvUI/SettingsSystem.h>
@@ -202,7 +201,7 @@ namespace djv
         struct LanguageSettingsWidget::Private
         {
             std::shared_ptr<LanguageWidget> languageWidget;
-            std::shared_ptr<FormLayout> layout;
+            std::shared_ptr<VerticalLayout> layout;
         };
 
         void LanguageSettingsWidget::_init(Context * context)
@@ -213,8 +212,9 @@ namespace djv
             setClassName("djv::UI::LanguageSettingsWidget");
 
             p.languageWidget = LanguageWidget::create(context);
+            p.languageWidget->setHAlign(UI::HAlign::Left);
 
-            p.layout = FormLayout::create(context);
+            p.layout = VerticalLayout::create(context);
             p.layout->addChild(p.languageWidget);
             addChild(p.layout);
         }
@@ -243,13 +243,6 @@ namespace djv
         std::string LanguageSettingsWidget::getSettingsSortKey() const
         {
             return "A";
-        }
-
-        void LanguageSettingsWidget::_localeEvent(Event::Locale & event)
-        {
-            ISettingsWidget::_localeEvent(event);
-            DJV_PRIVATE_PTR();
-            p.layout->setText(p.languageWidget, _getText(DJV_TEXT("Language:")));
         }
 
     } // namespace UI

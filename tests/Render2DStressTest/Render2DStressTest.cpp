@@ -43,7 +43,7 @@
 
 using namespace djv;
 
-const size_t drawCount = 1000;
+const size_t drawCount = 10000;
 const size_t randomCount = 1000;
 AV::Image::Size windowSize;
 
@@ -195,12 +195,6 @@ void Application::_init(int argc, char ** argv)
         "96DPI/djvIconSubtract.png",
         "96DPI/djvIconThumbnailSize.png",
         "96DPI/djvIconTileView.png",
-        "96DPI/djvIconViewLibMDI.png",
-        "96DPI/djvIconViewLibMDISmall.png",
-        "96DPI/djvIconViewLibPlaylist.png",
-        "96DPI/djvIconViewLibPlaylistSmall.png",
-        "96DPI/djvIconViewLibSDI.png",
-        "96DPI/djvIconViewLibSDISmall.png",
         "96DPI/djvIconWindowDuplicate.png",
         "96DPI/djvIconWindowFit.png",
         "96DPI/djvIconWindowFullScreen.png",
@@ -378,10 +372,7 @@ void Application::_drawRandomText()
 void Application::_drawRandomIcon()
 {
     _render2D->setFillColor(_currentColor->c);
-    _render2D->drawFilledImage(
-        _currentIcon->image,
-        Core::BBox2f(_currentPos->v.x, _currentPos->v.y, _currentSize->v.x, _currentSize->v.y),
-        AV::Render::ImageCache::Atlas);
+    _render2D->drawFilledImage(_currentIcon->image, _currentPos->v);
     _currentColor = _currentColor->next;
     _currentPos = _currentPos->next;
     _currentSize = _currentSize->next;

@@ -57,9 +57,6 @@ namespace djv
             std::shared_ptr<Core::IValueSubject<bool> > observeMaximized() const;
             void setMaximized(bool);
 
-            std::shared_ptr<Core::IValueSubject<bool> > observeFade() const;
-            void setFade(bool);
-
             void load(const picojson::value &) override;
             picojson::value save() override;
 

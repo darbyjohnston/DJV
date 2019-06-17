@@ -109,65 +109,6 @@ namespace djv
                 setTitle(_getText(DJV_TEXT("File Browser")));
             }
 
-            struct DialogSystem::Private
-            {
-                std::weak_ptr<Dialog> dialog;
-            };
-
-            void DialogSystem::_init(Context * context)
-            {
-                ISystem::_init("djv::UI::FileBrowser::DialogSystem", context);
-
-                addDependency(context->getSystemT<UISystem>());
-            }
-
-            DialogSystem::DialogSystem() :
-                _p(new Private)
-            {}
-
-            DialogSystem::~DialogSystem()
-            {}
-
-            std::shared_ptr<DialogSystem> DialogSystem::create(Context * context)
-            {
-                auto out = std::shared_ptr<DialogSystem>(new DialogSystem);
-                out->_init(context);
-                return out;
-            }
-
-            void DialogSystem::fileBrowser(
-                const std::string & title,
-                const std::function<void(const FileSystem::FileInfo &)> & callback)
-            {
-                auto context = getContext();
-                DJV_PRIVATE_PTR();
-                if (!p.dialog.lock())
-                {
-                    p.dialog = Dialog::create(context);
-                }
-                if (auto eventSystem = context->getSystemT<EventSystem>())
-                {
-                    if (auto window = eventSystem->getCurrentWindow().lock())
-                    {
-                        if (auto dialog = p.dialog.lock())
-                        {
-                            dialog->setTitle(title);
-
-                            window->addChild(dialog);
-
-                            auto weak = std::weak_ptr<DialogSystem>(std::dynamic_pointer_cast<DialogSystem>(shared_from_this()));
-                            dialog->setCallback(
-                                [callback](const FileSystem::FileInfo & value)
-                            {
-                                callback(value);
-                            });
-
-                            dialog->show();
-                        }
-                    }
-                }
-            }
-
         } // namespace FileBrowser
     } // namespace UI
 } // namespace djv

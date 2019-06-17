@@ -64,7 +64,7 @@ namespace djv
                 std::shared_ptr<ValueObserver<std::string> > tooltipObserver;
             };
 
-            void ActionButton::_init(Context * context)
+            void ActionButton::_init(Context* context)
             {
                 Widget::_init(context);
 
@@ -89,26 +89,26 @@ namespace djv
                 auto weak = std::weak_ptr<ActionButton>(std::dynamic_pointer_cast<ActionButton>(shared_from_this()));
                 setClickedCallback(
                     [weak]
-                {
-                    if (auto widget = weak.lock())
                     {
-                        if (widget->_p->action)
+                        if (auto widget = weak.lock())
                         {
-                            widget->_p->action->doClicked();
+                            if (widget->_p->action)
+                            {
+                                widget->_p->action->doClicked();
+                            }
                         }
-                    }
-                });
+                    });
                 setCheckedCallback(
                     [weak](bool value)
-                {
-                    if (auto widget = weak.lock())
                     {
-                        if (widget->_p->action)
+                        if (auto widget = weak.lock())
                         {
-                            widget->_p->action->setChecked(value);
+                            if (widget->_p->action)
+                            {
+                                widget->_p->action->setChecked(value);
+                            }
                         }
-                    }
-                });
+                    });
             }
 
             ActionButton::ActionButton() :
@@ -118,14 +118,14 @@ namespace djv
             ActionButton::~ActionButton()
             {}
 
-            std::shared_ptr<ActionButton> ActionButton::create(Context * context)
+            std::shared_ptr<ActionButton> ActionButton::create(Context* context)
             {
                 auto out = std::shared_ptr<ActionButton>(new ActionButton);
                 out->_init(context);
                 return out;
             }
 
-            std::shared_ptr<ActionButton> ActionButton::create(const std::shared_ptr<Action> & action, Context * context)
+            std::shared_ptr<ActionButton> ActionButton::create(const std::shared_ptr<Action>& action, Context* context)
             {
                 auto out = std::shared_ptr<ActionButton>(new ActionButton);
                 out->_init(context);
@@ -153,13 +153,13 @@ namespace djv
                 _p->shortcutsLabel->setVisible(value);
             }
 
-            void ActionButton::addAction(const std::shared_ptr<Action> & value)
+            void ActionButton::addAction(const std::shared_ptr<Action>& value)
             {
                 IButton::addAction(value);
                 _actionUpdate();
             }
 
-            void ActionButton::removeAction(const std::shared_ptr<Action> & value)
+            void ActionButton::removeAction(const std::shared_ptr<Action>& value)
             {
                 IButton::removeAction(value);
                 _actionUpdate();
@@ -171,47 +171,29 @@ namespace djv
                 _actionUpdate();
             }
 
-            void ActionButton::_preLayoutEvent(Event::PreLayout & event)
+            void ActionButton::_preLayoutEvent(Event::PreLayout& event)
             {
-                auto style = _getStyle();
-                const float m = style->getMetric(MetricsRole::MarginSmall);
-                glm::vec2 size = _p->layout->getMinimumSize();
-                const ButtonType buttonType = getButtonType();
-                if (ButtonType::Toggle == buttonType ||
-                    ButtonType::Radio == buttonType ||
-                    ButtonType::Exclusive == buttonType)
-                {
-                    size.x += m;
-                }
-                _setMinimumSize(size);
+                DJV_PRIVATE_PTR();
+                _setMinimumSize(p.layout->getMinimumSize());
             }
 
-            void ActionButton::_layoutEvent(Event::Layout &)
+            void ActionButton::_layoutEvent(Event::Layout&)
             {
-                auto style = _getStyle();
-                BBox2f g = getGeometry();
-                const float m = style->getMetric(MetricsRole::MarginSmall);
-                const ButtonType buttonType = getButtonType();
-                if (ButtonType::Toggle == buttonType ||
-                    ButtonType::Radio == buttonType ||
-                    ButtonType::Exclusive == buttonType)
-                {
-                    g.min.x += m;
-                }
-                _p->layout->setGeometry(g);
+                DJV_PRIVATE_PTR();
+                p.layout->setGeometry(getGeometry());
             }
 
             void ActionButton::_paintEvent(Event::Paint& event)
             {
                 IButton::_paintEvent(event);
                 auto render = _getRender();
-                auto style = _getStyle();
+                const auto& style = _getStyle();
                 const BBox2f& g = getGeometry();
                 const float m = style->getMetric(MetricsRole::MarginSmall);
                 if (_isToggled())
                 {
                     render->setFillColor(style->getColor(ColorRole::Checked));
-                    render->drawRect(BBox2f(g.min.x, g.min.y, m, g.h()));
+                    render->drawRect(g);
                 }
                 if (_isPressed())
                 {

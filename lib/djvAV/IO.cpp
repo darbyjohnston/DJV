@@ -305,8 +305,10 @@ namespace djv
 
                 auto logSystem = context->getSystemT<LogSystem>();
                 auto resourceSystem = context->getSystemT<ResourceSystem>();
-                p.plugins[FFmpeg::pluginName] = FFmpeg::Plugin::create(resourceSystem, logSystem);
                 p.plugins[PPM::pluginName] = PPM::Plugin::create(resourceSystem, logSystem);
+#if defined(FFMPEG_FOUND)
+                p.plugins[FFmpeg::pluginName] = FFmpeg::Plugin::create(resourceSystem, logSystem);
+#endif // FFMPEG_FOUND
 #if defined(JPEG_FOUND)
                 p.plugins[JPEG::pluginName] = JPEG::Plugin::create(resourceSystem, logSystem);
 #endif // JPEG_FOUND

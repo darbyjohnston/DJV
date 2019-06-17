@@ -68,12 +68,12 @@ namespace djv
                     { ColorRole::Button, AV::Image::Color(.4f, .4f, .4f, 1.f) },
                     { ColorRole::Hovered, AV::Image::Color(1.f, 1.f, 1.f, .06f) },
                     { ColorRole::Pressed, AV::Image::Color(1.f, 1.f, 1.f, .18f) },
-                    { ColorRole::Checked, AV::Image::Color(.19f, .53f, .67f, 1.f) },
+                    { ColorRole::Checked, AV::Image::Color(.18f, .32f, .38f, 1.f) },
                     { ColorRole::TooltipBackground, AV::Image::Color(1.f, 1.f, .75f, 1.f) },
                     { ColorRole::TooltipForeground, AV::Image::Color(0.f, 0.f, 0.f, 1.f) },
                     { ColorRole::Overlay, AV::Image::Color(0.f, 0.f, 0.f, .5f) },
                     { ColorRole::Shadow, AV::Image::Color(0.f, 0.f, 0.f, .16f) },
-                    { ColorRole::Handle, AV::Image::Color(.19f, .53f, .67f, 1.f) }
+                    { ColorRole::Handle, AV::Image::Color(.18f, .32f, .38f, 1.f) }
                 };
             }
 
@@ -158,9 +158,11 @@ namespace djv
                     { MetricsRole::TextColumn, 200.f },
                     { MetricsRole::SearchBox, 100.f },
                     { MetricsRole::Dialog, 400.f },
-                    { MetricsRole::Shadow, 10.f },
+                    { MetricsRole::Shadow, 20.f },
+                    { MetricsRole::ShadowSmall, 10.f },
                     { MetricsRole::TooltipOffset, 10.f },
-                    { MetricsRole::Handle, 15.f }
+                    { MetricsRole::Handle, 15.f },
+                    { MetricsRole::Move, 10.f }
                 };
             }
 
@@ -483,8 +485,10 @@ namespace djv
         DJV_TEXT("SearchBox"),
         DJV_TEXT("Dialog"),
         DJV_TEXT("Shadow"),
+        DJV_TEXT("ShadowSmall"),
         DJV_TEXT("TooltipOffset"),
-        DJV_TEXT("Handle"));
+        DJV_TEXT("Handle"),
+        DJV_TEXT("Move"));
 
 } // namespace djv
 

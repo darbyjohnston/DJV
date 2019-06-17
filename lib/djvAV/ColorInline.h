@@ -66,12 +66,12 @@ namespace djv
                 p[3] = a;
             }
 
-            constexpr Type Color::getType() const
+            inline Type Color::getType() const
             {
                 return _type;
             }
 
-            constexpr bool Color::isValid() const
+            inline bool Color::isValid() const
             {
                 return _type != Type::None;
             }

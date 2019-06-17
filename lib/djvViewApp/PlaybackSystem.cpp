@@ -41,8 +41,6 @@
 #include <djvUI/RowLayout.h>
 #include <djvUI/Shortcut.h>
 
-#include <djvAV/FFmpeg.h>
-
 #include <djvCore/Context.h>
 #include <djvCore/TextSystem.h>
 

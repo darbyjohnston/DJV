@@ -191,7 +191,7 @@ namespace djv
         {
             DJV_PRIVATE_PTR();
             float out = 0.f;
-            auto style = _getStyle();
+            const auto& style = _getStyle();
             const float w = value - getMargin().getWidth(style);
             _calcSize(w);
             out = p.textSize.y + getMargin().getHeight(style);
@@ -206,7 +206,7 @@ namespace djv
         void TextBlock::_preLayoutEvent(Event::PreLayout & event)
         {
             DJV_PRIVATE_PTR();
-            auto style = _getStyle();
+            const auto& style = _getStyle();
             _calcSize(style->getMetric(p.textSizeRole));
             _setMinimumSize(p.textSize + getMargin().getSize(style));
         }
@@ -222,7 +222,7 @@ namespace djv
             DJV_PRIVATE_PTR();
             if (p.textSize.x > 0.f && p.textSize.y > 0.f)
             {
-                auto style = _getStyle();
+                const auto& style = _getStyle();
                 const BBox2f & g = getMargin().bbox(getGeometry(), style);
                 const glm::vec2 c = g.getCenter();
 
@@ -274,7 +274,7 @@ namespace djv
         void TextBlock::_calcSize(float value) const
         {
             DJV_PRIVATE_PTR();
-            auto style = _getStyle();
+            const auto& style = _getStyle();
             const auto fontInfo = p.fontFamily.empty() ?
                 style->getFontInfo(p.fontFace, p.fontSizeRole) :
                 style->getFontInfo(p.fontFamily, p.fontFace, p.fontSizeRole);
@@ -300,7 +300,7 @@ namespace djv
         void TextBlock::_textUpdate()
         {
             DJV_PRIVATE_PTR();
-            auto style = _getStyle();
+            const auto& style = _getStyle();
             auto fontInfo = p.fontFamily.empty() ?
                 style->getFontInfo(p.fontFace, p.fontSizeRole) :
                 style->getFontInfo(p.fontFamily, p.fontFace, p.fontSizeRole);

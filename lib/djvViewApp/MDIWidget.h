@@ -29,34 +29,64 @@
 
 #pragma once
 
-#include <djvUI/Widget.h>
+#include <djvUI/MDIWidget.h>
 
 namespace djv
 {
     namespace ViewApp
     {
-        class MDIWidget : public UI::Widget
+        class ImageView;
+        class Media;
+
+        enum class Hover
+        {
+            Start,
+            Move,
+            End
+        };
+
+        enum class Drag
+        {
+            Start,
+            Move,
+            End
+        };
+
+        class MDIWidget : public UI::MDI::IWidget
         {
             DJV_NON_COPYABLE(MDIWidget);
 
         protected:
-            void _init(Core::Context*);
+            void _init(const std::shared_ptr<Media>&, Core::Context*);
             MDIWidget();
 
         public:
             ~MDIWidget() override;
 
-            static std::shared_ptr<MDIWidget> create(Core::Context*);
+            static std::shared_ptr<MDIWidget> create(const std::shared_ptr<Media>&, Core::Context*);
 
-            void setMaximized(bool);
+            const std::shared_ptr<Media>& getMedia() const;
+
+            const std::shared_ptr<ImageView>& getImageView() const;
+
+            void setHoverCallback(const std::function<void(Hover, const glm::vec2&)>&);
+            void setDragCallback(const std::function<void(Drag, const glm::vec2&)>&);
 
         protected:
+            void _setMaximized(float) override;
+            void _activeWidget(bool) override;
+
             void _preLayoutEvent(Core::Event::PreLayout&) override;
             void _layoutEvent(Core::Event::Layout&) override;
 
             void _localeEvent(Core::Event::Locale&) override;
 
         private:
+            void _widgetUpdate();
+            void _imageUpdate();
+            void _speedUpdate();
+            void _opacityUpdate();
+
             DJV_PRIVATE();
         };
 

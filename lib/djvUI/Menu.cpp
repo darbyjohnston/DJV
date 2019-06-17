@@ -101,11 +101,11 @@ namespace djv
                 void _textUpdate();
 
                 std::map<size_t, std::shared_ptr<Action> > _actions;
-                bool _hasCheckable = false;
                 bool _hasShortcuts = false;
                 std::map<size_t, std::shared_ptr<Item> > _items;
                 std::map<std::shared_ptr<Action>, std::shared_ptr<Item> > _actionToItem;
                 std::map<std::shared_ptr<Item>, std::shared_ptr<Action> > _itemToAction;
+                std::map<std::shared_ptr<Item>, std::future<std::shared_ptr<AV::Image::Image> > > _iconFutures;
                 std::map<std::shared_ptr<Item>, std::future<AV::Font::Metrics> > _fontMetricsFutures;
                 std::map<std::shared_ptr<Item>, std::future<glm::vec2> > _textSizeFutures;
                 std::map<std::shared_ptr<Item>, std::future<glm::vec2> > _shortcutSizeFutures;
@@ -113,8 +113,8 @@ namespace djv
                 std::pair<Event::PointerID, std::shared_ptr<Item> > _pressed;
                 glm::vec2 _pressedPos = glm::vec2(0.f, 0.f);
                 std::function<void(void)> _closeCallback;
-                std::map<std::shared_ptr<Item>, std::shared_ptr<ValueObserver<ButtonType> > > _buttonTypeObservers;
                 std::map<std::shared_ptr<Item>, std::shared_ptr<ValueObserver<bool> > > _checkedObservers;
+                std::map<std::shared_ptr<Item>, std::shared_ptr<ValueObserver<std::string> > > _iconObservers;
                 std::map<std::shared_ptr<Item>, std::shared_ptr<ValueObserver<std::string> > > _textObservers;
                 std::map<std::shared_ptr<Item>, std::shared_ptr<ValueObserver<std::string> > > _fontObservers;
                 std::map<std::shared_ptr<Item>, std::shared_ptr<ListObserver<std::shared_ptr<Shortcut> > > > _shortcutsObservers;
@@ -156,12 +156,27 @@ namespace djv
 
             void MenuWidget::_preLayoutEvent(Event::PreLayout &)
             {
-                auto style = _getStyle();
+                const auto& style = _getStyle();
                 const float m = style->getMetric(MetricsRole::MarginSmall);
                 const float s = style->getMetric(MetricsRole::Spacing);
                 const float b = style->getMetric(MetricsRole::Border);
+                const float is = style->getMetric(MetricsRole::Icon);
 
-                for (auto & i : _fontMetricsFutures)
+                for (auto& i : _iconFutures)
+                {
+                    if (i.second.valid())
+                    {
+                        try
+                        {
+                            i.first->icon = i.second.get();
+                        }
+                        catch (const std::exception& e)
+                        {
+                            _log(e.what(), LogLevel::Error);
+                        }
+                    }
+                }
+                for (auto& i : _fontMetricsFutures)
                 {
                     if (i.second.valid())
                     {
@@ -169,7 +184,7 @@ namespace djv
                         {
                             i.first->fontMetrics = i.second.get();
                         }
-                        catch (const std::exception & e)
+                        catch (const std::exception& e)
                         {
                             _log(e.what(), LogLevel::Error);
                         }
@@ -221,16 +236,13 @@ namespace djv
                 }
 
                 glm::vec2 itemSize(0.f, 0.f);
+                itemSize.x += is + s;
+                itemSize.y = std::max(itemSize.y, is);
                 itemSize.x += textSize.x;
                 itemSize.y = std::max(itemSize.y, textSize.y);
-                if (_hasCheckable)
-                {
-                    itemSize.x += m;
-                }
                 if (_hasShortcuts)
                 {
-                    itemSize.x += s;
-                    itemSize.x += shortcutSize.x;
+                    itemSize.x += s + shortcutSize.x;
                     itemSize.y = std::max(itemSize.y, shortcutSize.y);
                 }
 
@@ -276,9 +288,12 @@ namespace djv
             void MenuWidget::_paintEvent(Event::Paint & event)
             {
                 Widget::_paintEvent(event);
+
                 const BBox2f & g = getGeometry();
-                auto style = _getStyle();
+                const auto& style = _getStyle();
                 const float m = style->getMetric(MetricsRole::MarginSmall);
+                const float s = style->getMetric(MetricsRole::Spacing);
+                const float is = style->getMetric(MetricsRole::Icon);
 
                 auto render = _getRender();
                 for (const auto & i : _items)
@@ -313,24 +328,22 @@ namespace djv
                     if (i.second->checked)
                     {
                         render->setFillColor(style->getColor(ColorRole::Checked));
-                        render->drawRect(BBox2f(i.second->geom.min.x, i.second->geom.min.y, m, i.second->geom.h()));
+                        render->drawRect(i.second->geom);
                     }
-                    if (_hasCheckable)
+
+                    render->setColorMult(!i.second->enabled ? Style::disabledColorMult : 1.f);
+                    render->setFillColor(style->getColor(ColorRole::Foreground));
+
+                    if (i.second->icon)
                     {
-                        x += m;
+                        y = i.second->geom.min.y + ceilf(i.second->size.y / 2.f - is / 2.f);
+                        render->drawFilledImage(i.second->icon, glm::vec2(x, y));
                     }
+                    x += is + s;
 
                     if (!i.second->text.empty())
                     {
                         y = i.second->geom.min.y + ceilf(i.second->size.y / 2.f) - ceilf(i.second->fontMetrics.lineHeight / 2.f) + i.second->fontMetrics.ascender;
-                        auto color = style->getColor(ColorRole::Foreground);
-                        if (!i.second->enabled)
-                        {
-                            color.setF32(color.getF32(0) * .65f, 0);
-                            color.setF32(color.getF32(1) * .65f, 1);
-                            color.setF32(color.getF32(2) * .65f, 2);
-                        }
-                        render->setFillColor(color);
                         const auto fontInfo = i.second->font.empty() ?
                             style->getFontInfo(AV::Font::faceDefault, MetricsRole::FontMedium) :
                             style->getFontInfo(i.second->font, AV::Font::faceDefault, MetricsRole::FontMedium);
@@ -384,7 +397,7 @@ namespace djv
                 if (id == _pressed.first)
                 {
                     const float distance = glm::length(pos - _pressedPos);
-                    auto style = _getStyle();
+                    const auto& style = _getStyle();
                     const bool accepted = distance < style->getMetric(MetricsRole::Drag);
                     event.setAccepted(accepted);
                     if (!accepted)
@@ -513,19 +526,16 @@ namespace djv
 
             void MenuWidget::_itemsUpdate()
             {
-                auto style = _getStyle();
-                auto fontSystem = _getFontSystem();
-                auto textSystem = _getTextSystem();
-                _hasCheckable = false;
                 _hasShortcuts = false;
                 _items.clear();
                 _actionToItem.clear();
                 _itemToAction.clear();
+                _iconFutures.clear();
                 _fontMetricsFutures.clear();
                 _textSizeFutures.clear();
                 _shortcutSizeFutures.clear();
-                _buttonTypeObservers.clear();
                 _checkedObservers.clear();
+                _iconObservers.clear();
                 _textObservers.clear();
                 _fontObservers.clear();
                 _shortcutsObservers.clear();
@@ -536,21 +546,6 @@ namespace djv
                     auto item = std::shared_ptr<Item>(new Item);
                     if (i.second)
                     {
-                        _buttonTypeObservers[item] = ValueObserver<ButtonType>::create(
-                            i.second->observeButtonType(),
-                            [weak, item](ButtonType value)
-                        {
-                            if (auto widget = weak.lock())
-                            {
-                                if (ButtonType::Toggle    == value ||
-                                    ButtonType::Radio     == value ||
-                                    ButtonType::Exclusive == value)
-                                {
-                                    widget->_hasCheckable = true;
-                                    widget->_resize();
-                                }
-                            }
-                        });
                         _checkedObservers[item] = ValueObserver<bool>::create(
                             i.second->observeChecked(),
                             [weak, item](bool value)
@@ -561,19 +556,34 @@ namespace djv
                                 widget->_redraw();
                             }
                         });
+                        _iconObservers[item] = ValueObserver<std::string>::create(
+                            i.second->observeIcon(),
+                            [weak, item](const std::string& value)
+                            {
+                                if (auto widget = weak.lock())
+                                {
+                                    if (!value.empty())
+                                    {
+                                        auto style = widget->_getStyle();
+                                        auto iconSystem = widget->_getIconSystem();
+                                        widget->_iconFutures[item] = iconSystem->getIcon(value, static_cast<int>(style->getMetric(MetricsRole::Icon)));
+                                        widget->_resize();
+                                    }
+                                }
+                            });
                         _textObservers[item] = ValueObserver<std::string>::create(
                             i.second->observeText(),
-                            [weak, item](std::string value)
-                        {
-                            if (auto widget = weak.lock())
+                            [weak, item](const std::string& value)
                             {
-                                item->text = value;
-                                widget->_textUpdateRequest = true;
-                            }
-                        });
+                                if (auto widget = weak.lock())
+                                {
+                                    item->text = value;
+                                    widget->_textUpdateRequest = true;
+                                }
+                            });
                         _fontObservers[item] = ValueObserver<std::string>::create(
                             i.second->observeFont(),
-                            [weak, item](std::string value)
+                            [weak, item](const std::string& value)
                         {
                             if (auto widget = weak.lock())
                             {
@@ -623,7 +633,7 @@ namespace djv
             void MenuWidget::_textUpdate()
             {
                 _textUpdateRequest = false;
-                auto style = _getStyle();
+                const auto& style = _getStyle();
                 auto fontSystem = _getFontSystem();
                 auto textSystem = _getTextSystem();
                 _hasShortcuts = false;
@@ -746,8 +756,6 @@ namespace djv
                 void setPos(const std::shared_ptr<Widget> &, const glm::vec2 &);
                 void setButton(const std::shared_ptr<Widget> &, const std::weak_ptr<Widget> &);
 
-                void setMenuMargin(MetricsRole);
-
                 void removeChild(const std::shared_ptr<IObject> &) override;
 
             protected:
@@ -757,7 +765,6 @@ namespace djv
             private:
                 std::map<std::shared_ptr<Widget>, glm::vec2> _widgetToPos;
                 std::map<std::shared_ptr<Widget>, std::weak_ptr<Widget> > _widgetToButton;
-                MetricsRole _menuMargin = MetricsRole::None;
             };
 
             void MenuOverlayLayout::_init(Context * context)
@@ -786,14 +793,6 @@ namespace djv
                 _widgetToButton[widget] = button;
             }
 
-            void MenuOverlayLayout::setMenuMargin(MetricsRole value)
-            {
-                if (value == _menuMargin)
-                    return;
-                _menuMargin = value;
-                _resize();
-            }
-
             void MenuOverlayLayout::removeChild(const std::shared_ptr<IObject> & value)
             {
                 Widget::removeChild(value);
@@ -814,9 +813,8 @@ namespace djv
 
             void MenuOverlayLayout::_layoutEvent(Event::Layout &)
             {
-                const auto style = _getStyle();
+                const auto& style = _getStyle();
                 const BBox2f & g = getMargin().bbox(getGeometry(), style);
-                const float m = style->getMetric(_menuMargin);
                 // Bias menu placement below the geometry.
                 const float bias = .5f;
                 for (const auto & i : _widgetToPos)
@@ -825,17 +823,17 @@ namespace djv
                     const auto & minimumSize = i.first->getMinimumSize();
                     std::vector<BBox2f> geomCandidates;
                     const BBox2f aboveLeft(
-                        glm::vec2(pos.x - minimumSize.x * bias, pos.y - m - minimumSize.y * bias),
-                        glm::vec2(pos.x, pos.y - m));
+                        glm::vec2(pos.x - minimumSize.x * bias, pos.y - minimumSize.y * bias),
+                        glm::vec2(pos.x, pos.y));
                     const BBox2f aboveRight(
-                        glm::vec2(pos.x, pos.y - m - minimumSize.y * bias),
-                        glm::vec2(pos.x + minimumSize.x * bias, pos.y - m));
+                        glm::vec2(pos.x, pos.y - minimumSize.y * bias),
+                        glm::vec2(pos.x + minimumSize.x * bias, pos.y));
                     const BBox2f belowLeft(
-                        glm::vec2(pos.x - minimumSize.x, pos.y + m),
-                        glm::vec2(pos.x, pos.y + m + minimumSize.y));
+                        glm::vec2(pos.x - minimumSize.x, pos.y),
+                        glm::vec2(pos.x, pos.y + minimumSize.y));
                     const BBox2f belowRight(
-                        glm::vec2(pos.x, pos.y + m),
-                        glm::vec2(pos.x + minimumSize.x, pos.y + m + minimumSize.y));
+                        glm::vec2(pos.x, pos.y),
+                        glm::vec2(pos.x + minimumSize.x, pos.y + minimumSize.y));
                     geomCandidates.push_back(belowRight.intersect(g));
                     geomCandidates.push_back(belowLeft.intersect(g));
                     geomCandidates.push_back(aboveRight.intersect(g));
@@ -858,31 +856,31 @@ namespace djv
                         const BBox2f aboveLeft(
                             glm::vec2(
                                 std::min(buttonBBox.max.x - minimumSize.x * bias, buttonBBox.min.x),
-                                buttonBBox.min.y + 1 - m - minimumSize.y * bias),
+                                buttonBBox.min.y + 1 - minimumSize.y * bias),
                             glm::vec2(
                                 buttonBBox.max.x,
-                                buttonBBox.min.y + 1 - m));
+                                buttonBBox.min.y + 1));
                         const BBox2f aboveRight(
                             glm::vec2(
                                 buttonBBox.min.x,
-                                buttonBBox.min.y + 1 - m - minimumSize.y * bias),
+                                buttonBBox.min.y + 1 - minimumSize.y * bias),
                             glm::vec2(
                                 std::max(buttonBBox.min.x + minimumSize.x * bias, buttonBBox.max.x),
-                                buttonBBox.min.y + 1 - m));
+                                buttonBBox.min.y + 1));
                         const BBox2f belowLeft(
                             glm::vec2(
                                 std::min(buttonBBox.max.x - minimumSize.x, buttonBBox.min.x),
-                                buttonBBox.max.y - 1 + m),
+                                buttonBBox.max.y - 1),
                             glm::vec2(
                                 buttonBBox.max.x,
-                                buttonBBox.max.y - 1 + m + minimumSize.y));
+                                buttonBBox.max.y - 1 + minimumSize.y));
                         const BBox2f belowRight(
                             glm::vec2(
                                 buttonBBox.min.x,
-                                buttonBBox.max.y - 1 + m),
+                                buttonBBox.max.y - 1),
                             glm::vec2(
                                 std::max(buttonBBox.min.x + minimumSize.x, buttonBBox.max.x),
-                                buttonBBox.max.y - 1 + m + minimumSize.y));
+                                buttonBBox.max.y - 1 + minimumSize.y));
                         geomCandidates.push_back(belowRight.intersect(g));
                         geomCandidates.push_back(belowLeft.intersect(g));
                         geomCandidates.push_back(aboveRight.intersect(g));
@@ -902,7 +900,7 @@ namespace djv
             void MenuOverlayLayout::_paintEvent(Event::Paint & event)
             {
                 Widget::_paintEvent(event);
-                auto style = _getStyle();
+                const auto& style = _getStyle();
                 const float sh = style->getMetric(MetricsRole::Shadow);
                 auto render = _getRender();
                 render->setFillColor(style->getColor(ColorRole::Shadow));
@@ -910,7 +908,6 @@ namespace djv
                 {
                     BBox2f g = i->getGeometry();
                     g.min.x -= sh;
-                    g.min.y += sh;
                     g.max.x += sh;
                     g.max.y += sh;
                     if (g.isValid())
@@ -929,7 +926,6 @@ namespace djv
             std::map<size_t, std::shared_ptr<Action> > actions;
             size_t count = 0;
             MetricsRole minimumSizeRole = MetricsRole::ScrollArea;
-            MetricsRole margin = MetricsRole::None;
             ColorRole backgroundRole = ColorRole::Background;
             std::shared_ptr<MenuPopupWidget> popupWidget;
             std::shared_ptr< MenuOverlayLayout> overlayLayout;
@@ -1034,16 +1030,6 @@ namespace djv
         {
             _p->minimumSizeRole = value;
         }
-
-        MetricsRole Menu::getMargin() const
-        {
-            return _p->margin;
-        }
-
-        void Menu::setMargin(MetricsRole value)
-        {
-            _p->margin = value;
-        }
         
         ColorRole Menu::getBackgroundRole() const
         {
@@ -1085,7 +1071,6 @@ namespace djv
                 {
                     _createWidgets();
                     p.overlayLayout->setButton(p.popupWidget, button);
-                    p.overlayLayout->setMenuMargin(p.margin);
                     p.overlay->setAnchor(button);
                     window->addChild(p.overlay);
                     p.overlay->show();
@@ -1102,7 +1087,6 @@ namespace djv
                 {
                     _createWidgets();
                     p.overlayLayout->setButton(p.popupWidget, button);
-                    p.overlayLayout->setMenuMargin(p.margin);
                     p.overlay->setAnchor(anchor);
                     window->addChild(p.overlay);
                     p.overlay->show();

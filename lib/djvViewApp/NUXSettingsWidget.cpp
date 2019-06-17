@@ -125,7 +125,7 @@ namespace djv
         {
             ISettingsWidget::_localeEvent(event);
             DJV_PRIVATE_PTR();
-            p.formLayout->setText(p.nuxButton, _getText(DJV_TEXT("Enable NUX on startup")) + ":");
+            p.formLayout->setText(p.nuxButton, _getText(DJV_TEXT("Enable new-user experience on startup")) + ":");
         }
 
     } // namespace ViewApp

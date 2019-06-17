@@ -169,8 +169,10 @@ namespace djv
                 p.viewTypeActionGroup->addAction(p.actions["Tiles"]);
                 p.viewTypeActionGroup->addAction(p.actions["List"]);
                 p.actions["IncreaseThumbnailSize"] = Action::create();
+                p.actions["IncreaseThumbnailSize"]->setIcon("djvIconAdd");
                 p.actions["IncreaseThumbnailSize"]->setShortcut(GLFW_KEY_EQUAL);
                 p.actions["DecreaseThumbnailSize"] = Action::create();
+                p.actions["DecreaseThumbnailSize"]->setIcon("djvIconSubtract");
                 p.actions["DecreaseThumbnailSize"]->setShortcut(GLFW_KEY_MINUS);
 
                 p.actions["FileSequences"] = Action::create();
@@ -209,7 +211,6 @@ namespace djv
                 p.drivesWidget = DrivesWidget::create(context);
                 auto vLayout = VerticalLayout::create(context);
                 vLayout->setSpacing(MetricsRole::None);
-                vLayout->setBackgroundRole(ColorRole::BackgroundToolBar);
                 vLayout->addChild(p.shortcutsWidget);
                 vLayout->addSeparator();
                 vLayout->addChild(UI::ActionButton::create(p.actions["AddShortcut"], context));
@@ -224,7 +225,6 @@ namespace djv
 
                 vLayout = VerticalLayout::create(context);
                 vLayout->setSpacing(MetricsRole::None);
-                vLayout->setBackgroundRole(ColorRole::BackgroundToolBar);
                 vLayout->addChild(ActionButton::create(p.actions["SortByName"], context));
                 vLayout->addChild(ActionButton::create(p.actions["SortBySize"], context));
                 vLayout->addChild(ActionButton::create(p.actions["SortByTime"], context));
@@ -243,7 +243,6 @@ namespace djv
                 p.thumbnailSizeSlider->setMargin(MetricsRole::MarginSmall);
                 vLayout = VerticalLayout::create(context);
                 vLayout->setSpacing(MetricsRole::None);
-                vLayout->setBackgroundRole(ColorRole::BackgroundToolBar);
                 vLayout->addChild(ActionButton::create(p.actions["Tiles"], context));
                 vLayout->addChild(ActionButton::create(p.actions["List"], context));
                 vLayout->addSeparator();
@@ -804,13 +803,13 @@ namespace djv
             
             void FileBrowser::_preLayoutEvent(Event::PreLayout & event)
             {
-                auto style = _getStyle();
+                const auto& style = _getStyle();
                 _setMinimumSize(_p->layout->getMinimumSize() + getMargin().getSize(style));
             }
 
             void FileBrowser::_layoutEvent(Event::Layout & event)
             {
-                auto style = _getStyle();
+                const auto& style = _getStyle();
                 _p->layout->setGeometry(getMargin().bbox(getGeometry(), style));
             }
 

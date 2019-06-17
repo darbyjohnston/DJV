@@ -31,6 +31,8 @@
 
 #include <djvUI/Widget.h>
 
+#include <djvCore/ISystem.h>
+
 namespace djv
 {
     namespace AV
@@ -71,7 +73,7 @@ namespace djv
         private:
             DJV_PRIVATE();
 
-            void _typeUpdate();
+            void _widgetUpdate();
         };
 
         //! This class provides slider widgets for choosing a color in the RGB color space.
@@ -166,6 +168,29 @@ namespace djv
             DJV_PRIVATE();
 
             void _colorUpdate();
+        };
+
+        //! This class provides a global color picker dialog.
+        class ColorPickerDialogSystem : public Core::ISystem
+        {
+            DJV_NON_COPYABLE(ColorPickerDialogSystem);
+
+        protected:
+            void _init(Core::Context*);
+            ColorPickerDialogSystem();
+
+        public:
+            virtual ~ColorPickerDialogSystem();
+
+            static std::shared_ptr<ColorPickerDialogSystem> create(Core::Context*);
+
+            void colorPicker(
+                const std::string& title,
+                const AV::Image::Color&,
+                const std::function<void(const AV::Image::Color&)>& callback);
+
+        private:
+            DJV_PRIVATE();
         };
 
     } // namespace UI

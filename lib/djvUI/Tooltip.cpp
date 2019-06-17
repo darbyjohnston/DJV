@@ -98,7 +98,7 @@ namespace djv
             void TooltipLayout::_layoutEvent(Event::Layout &)
             {
                 const BBox2f & g = getGeometry();
-                auto style = _getStyle();
+                const auto& style = _getStyle();
                 const float to = style->getMetric(MetricsRole::TooltipOffset);
                 for (auto i : _widgetToPos)
                 {
@@ -140,7 +140,7 @@ namespace djv
             void TooltipLayout::_paintEvent(Event::Paint & event)
             {
                 Widget::_paintEvent(event);
-                auto style = _getStyle();
+                const auto& style = _getStyle();
                 const float sh = style->getMetric(MetricsRole::Shadow);
                 auto render = _getRender();
                 render->setFillColor(style->getColor(ColorRole::Shadow));
@@ -148,7 +148,6 @@ namespace djv
                 {
                     BBox2f g = i->getGeometry();
                     g.min.x -= sh;
-                    g.min.y += sh;
                     g.max.x += sh;
                     g.max.y += sh;
                     if (g.isValid())

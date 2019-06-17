@@ -105,7 +105,7 @@ namespace djv
         {
             ISettingsWidget::_localeEvent(event);
             DJV_PRIVATE_PTR();
-            p.layout->setText(p.dataComboBox, DJV_TEXT("Data type:"));
+            p.layout->setText(p.dataComboBox, _getText(DJV_TEXT("Data type")) + ":");
             _widgetUpdate();
         }
 

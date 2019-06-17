@@ -167,7 +167,7 @@ namespace djv
             void BackgroundWidget::_paintEvent(Event::Paint&)
             {
                 auto render = _getRender();
-                auto style = _getStyle();
+                const auto& style = _getStyle();
                 const BBox2f& g = getGeometry();
                 render->setFillColor(style->getColor(UI::ColorRole::Background));
                 render->drawRect(g);
@@ -176,7 +176,7 @@ namespace djv
                     AV::Image::Color color = style->getColor(UI::ColorRole::Foreground);
                     color.setF32(color.getF32(3) * primitiveOpacity * sin(i.age / i.lifespan * Math::pi), 3);
                     render->setFillColor(color);
-                    render->drawFilledImage(i.image, BBox2f(floorf(i.pos.x), floorf(i.pos.y), i.image->getWidth(), i.image->getHeight()));
+                    render->drawFilledImage(i.image, i.pos);
                 }
             }
 
@@ -232,11 +232,8 @@ namespace djv
 
             DJV_PRIVATE_PTR();
             auto languageWidget = UI::LanguageWidget::create(context);
-            languageWidget->setFontSizeRole(UI::MetricsRole::FontLarge);
             auto displaySizeWidget = UI::DisplaySizeWidget::create(context);
-            displaySizeWidget->setFontSizeRole(UI::MetricsRole::FontLarge);
             auto displayPaletteWidget = UI::DisplayPaletteWidget::create(context);
-            displayPaletteWidget->setFontSizeRole(UI::MetricsRole::FontLarge);
 
             p.logoIcon = UI::Icon::create(context);
             p.logoIcon->setIcon("djvLogoStartScreen");
@@ -248,16 +245,11 @@ namespace djv
             for (const auto& i : p.labels)
             {
                 i.second->setTextHAlign(UI::TextHAlign::Left);
-                i.second->setFontSizeRole(UI::MetricsRole::FontLarge);
             }
 
             p.buttons["Next"] = UI::PushButton::create(context);
             p.buttons["Prev"] = UI::PushButton::create(context);
             p.buttons["Finish"] = UI::PushButton::create(context);
-            for (const auto& i : p.buttons)
-            {
-                i.second->setFontSizeRole(UI::MetricsRole::FontLarge);
-            }
 
             p.fullscreenButton = UI::ActionButton::create(context);
             p.fullscreenButton->setShowShortcuts(false);
@@ -281,31 +273,26 @@ namespace djv
             vLayout->addSeparator();
             auto soloLayout = UI::SoloLayout::create(context);
             auto vLayout2 = UI::VerticalLayout::create(context);
-            vLayout2->setSpacing(UI::MetricsRole::SpacingLarge);
             vLayout2->addChild(p.labels["Language"]);
             vLayout2->addChild(languageWidget);
             soloLayout->addChild(vLayout2);
             vLayout2 = UI::VerticalLayout::create(context);
-            vLayout2->setSpacing(UI::MetricsRole::SpacingLarge);
             vLayout2->addChild(p.labels["DisplaySize"]);
             vLayout2->addChild(displaySizeWidget);
             soloLayout->addChild(vLayout2);
             vLayout2 = UI::VerticalLayout::create(context);
-            vLayout2->setSpacing(UI::MetricsRole::SpacingLarge);
             vLayout2->addChild(p.labels["DisplayPalette"]);
             vLayout2->addChild(displayPaletteWidget);
             soloLayout->addChild(vLayout2);
             vLayout->addChild(soloLayout);
             vLayout->setStretch(soloLayout, UI::RowStretch::Expand);
             auto hLayout = UI::HorizontalLayout::create(context);
-            hLayout->setSpacing(UI::MetricsRole::SpacingLarge);
             hLayout->addChild(p.buttons["Prev"]);
             hLayout->addExpander();
             hLayout->addChild(p.buttons["Next"]);
             hLayout->addChild(p.buttons["Finish"]);
             vLayout->addChild(hLayout);
             hLayout = UI::HorizontalLayout::create(context);
-            hLayout->setSpacing(UI::MetricsRole::SpacingLarge);
             hLayout->addExpander();
             hLayout->addChild(p.settingsPopupWidget);
             vLayout->addChild(hLayout);

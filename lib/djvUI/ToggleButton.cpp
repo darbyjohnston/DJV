@@ -108,7 +108,7 @@ namespace djv
             void Toggle::_preLayoutEvent(Event::PreLayout & event)
             {
                 DJV_PRIVATE_PTR();
-                auto style = _getStyle();
+                const auto& style = _getStyle();
                 const float m = style->getMetric(Style::MetricsRole::MarginSmall);
                 auto fontSystem = _getFontSystem();
                 const auto fontMetrics = fontSystem->getMetrics(style->getFontInfo(AV::Font::faceDefault, Style::MetricsRole::FontMedium)).get();
@@ -124,14 +124,14 @@ namespace djv
                 Widget::_paintEvent(event);
 
                 DJV_PRIVATE_PTR();
-                auto style = _getStyle();
+                const auto& style = _getStyle();
                 const float b = style->getMetric(Style::MetricsRole::Border);
                 const float m = style->getMetric(Style::MetricsRole::MarginSmall);
                 const BBox2f & g = getGeometry();
 
                 const BBox2f g1 = g.margin(-m);
                 auto render = _getRender();
-                render->setFillColor(style->getColor(ColorRole::Trough));
+                render->setFillColor(style->getColor(_isToggled() ? ColorRole::Checked : ColorRole::Trough));
                 render->drawPill(g1);
                 if (_isHovered())
                 {
@@ -143,15 +143,8 @@ namespace djv
                 const float r = g2.h() / 2.f;
                 const float x = Math::lerp(p.animationValue, g2.min.x + r, g2.max.x - r);
                 const glm::vec2 pos(x, g2.min.y + r);
-                render->setFillColor(style->getColor(ColorRole::Border));
-                render->drawCircle(pos, r);
                 render->setFillColor(style->getColor(ColorRole::Button));
                 render->drawCircle(pos, r - b);
-                if (_isToggled())
-                {
-                    render->setFillColor(style->getColor(ColorRole::Checked));
-                    render->drawCircle(pos, r - b);
-                }
                 if (_isPressed())
                 {
                     render->setFillColor(style->getColor(ColorRole::Pressed));

@@ -103,7 +103,7 @@ namespace djv
 
         float ToolBar::getHeightForWidth(float value) const
         {
-            auto style = _getStyle();
+            const auto& style = _getStyle();
             const glm::vec2 m = getMargin().getSize(style);
             float out = _p->layout->getHeightForWidth(value - m.x) + m.y;
             return out;
@@ -209,7 +209,7 @@ namespace djv
 
         void ToolBar::_preLayoutEvent(Event::PreLayout & event)
         {
-            auto style = _getStyle();
+            const auto& style = _getStyle();
             const glm::vec2 m = getMargin().getSize(style);
             _setMinimumSize(_p->layout->getMinimumSize() + m);
         }
@@ -217,7 +217,7 @@ namespace djv
         void ToolBar::_layoutEvent(Event::Layout & event)
         {
             const BBox2f & g = getGeometry();
-            auto style = _getStyle();
+            const auto& style = _getStyle();
             _p->layout->setGeometry(getMargin().bbox(g, style));
         }
 

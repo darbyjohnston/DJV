@@ -38,7 +38,6 @@
 #include <djvUIComponents/FileBrowserDialog.h>
 
 #include <djvUI/Action.h>
-#include <djvUI/DialogSystem.h>
 #include <djvUI/EventSystem.h>
 #include <djvUI/GroupBox.h>
 #include <djvUI/Menu.h>
@@ -445,7 +444,6 @@ namespace djv
         void FileSystem::closeAll()
         {
             DJV_PRIVATE_PTR();
-            p.currentMedia->setIfChanged(nullptr);
             while (p.media->getSize())
             {
                 const size_t i = p.media->getSize() - 1;
@@ -454,6 +452,7 @@ namespace djv
                 p.closed->setIfChanged(media);
                 p.closed->setIfChanged(nullptr);
             }
+            p.currentMedia->setIfChanged(nullptr);
             _actionsUpdate();
         }
 

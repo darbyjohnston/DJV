@@ -29,7 +29,12 @@
 
 #pragma once
 
+#include <djvViewApp/Enum.h>
 #include <djvViewApp/IViewSystem.h>
+
+#include <djvCore/ValueObserver.h>
+
+#include <glm/vec2.hpp>
 
 namespace djv
 {
@@ -48,6 +53,8 @@ namespace djv
 
             static std::shared_ptr<ImageViewSystem> create(Core::Context *);
 
+            std::shared_ptr<Core::IValueSubject<ImageViewLock > > observeLock() const;
+
             std::map<std::string, std::shared_ptr<UI::Action> > getActions() override;
             MenuData getMenu() override;
 
@@ -55,6 +62,9 @@ namespace djv
             void _textUpdate();
 
         private:
+            void _moveImage(const glm::vec2&);
+            void _zoomImage(float);
+
             DJV_PRIVATE();
         };
 

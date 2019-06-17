@@ -29,8 +29,6 @@
 
 #include <djvAV/TIFF.h>
 
-#include <djvAV/FFmpeg.h>
-
 #include <djvCore/FileIO.h>
 
 using namespace djv::Core;

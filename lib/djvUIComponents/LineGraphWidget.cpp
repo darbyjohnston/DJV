@@ -118,7 +118,7 @@ namespace djv
 
         void LineGraphWidget::_preLayoutEvent(Event::PreLayout & event)
         {
-            auto style = _getStyle();
+            const auto& style = _getStyle();
             const float tc = style->getMetric(MetricsRole::TextColumn);
             _setMinimumSize(glm::vec2(tc, tc / 3.f));
         }
@@ -126,7 +126,7 @@ namespace djv
         void LineGraphWidget::_layoutEvent(Event::Layout&)
         {
             DJV_PRIVATE_PTR();
-            auto style = _getStyle();
+            const auto& style = _getStyle();
             const BBox2f& g = getGeometry();
             const float b = style->getMetric(MetricsRole::Border) * 2.f;
             const float w = g.w();
@@ -136,14 +136,14 @@ namespace djv
                 p.samples.pop_back();
             }
             const glm::vec2 labelSize = p.label->getMinimumSize();
-            p.label->setGeometry(BBox2f(g.min.x, g.max.y - labelSize.y, labelSize.x, labelSize.y));
+            p.label->setGeometry(BBox2f(g.max.x - labelSize.x, g.max.y - labelSize.y, labelSize.x, labelSize.y));
         }
 
         void LineGraphWidget::_paintEvent(Event::Paint& event)
         {
             Widget::_paintEvent(event);
             DJV_PRIVATE_PTR();
-            auto style = _getStyle();
+            const auto& style = _getStyle();
             const float b = style->getMetric(MetricsRole::Border) * 2.f;
             const BBox2f& g = getMargin().bbox(getGeometry(), style).margin(0, 0, 0, -b);
             auto render = _getRender();

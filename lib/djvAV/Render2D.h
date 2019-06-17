@@ -31,6 +31,7 @@
 
 #include <djvAV/Enum.h>
 #include <djvAV/FontSystem.h>
+#include <djvAV/ImageData.h>
 
 #include <djvCore/BBox.h>
 #include <djvCore/ISystem.h>
@@ -44,21 +45,43 @@ namespace djv
     {
         namespace Image
         {
-            struct Size;
             class Color;
-            class Data;
 
         } // namespace Image
 
         //! This namespace provides rendering functionality.
         namespace Render
         {
+            //! This enumeration provides which image channels are displayed.
+            enum class ImageChannel
+            {
+                Color,
+                Red,
+                Green,
+                Blue,
+                Alpha
+            };
+
+            //! This eumeration provides the image cache options.
             enum class ImageCache
             {
                 Atlas,
                 Dynamic
             };
 
+            //! This struct provides image options.
+            struct ImageOptions
+            {
+                ImageChannel      channel      = ImageChannel::Color;
+                bool              premultAlpha = true;
+                AV::Image::Mirror mirror;
+                ImageCache        cache        = ImageCache::Atlas;
+
+                inline bool operator == (const ImageOptions&) const;
+                inline bool operator != (const ImageOptions&) const;
+            };
+
+            //! This class provides a 2D renderer.
             class Render2D : public Core::ISystem
             {
                 DJV_NON_COPYABLE(Render2D);
@@ -72,15 +95,38 @@ namespace djv
 
                 static std::shared_ptr<Render2D> create(Core::Context *);
 
+                //! \name Begin and End
+                ///@{
+
                 void beginFrame(const Image::Size&);
                 void endFrame();
+
+                ///@}
+
+                //! \name Transform
+                ///@{
+
+                void pushTransform(const glm::mat3x3&);
+                void popTransform();
+
+                ///@}
+
+                //! \name Clipping Rectangle
+                ///@{
 
                 void pushClipRect(const Core::BBox2f &);
                 void popClipRect();
 
+                ///@}
+
+                //! \name Color
+                ///@{
+
                 void setFillColor(const Image::Color&);
                 void setColorMult(float);
                 void setAlphaMult(float);
+
+                ///@}
 
                 //! \name Primitives
                 ///@{
@@ -96,13 +142,13 @@ namespace djv
 
                 void drawImage(
                     const std::shared_ptr<Image::Data> &,
-                    const Core::BBox2f &,
-                    ImageCache = ImageCache::Atlas);
+                    const glm::vec2& pos,
+                    const ImageOptions& = ImageOptions());
 
                 void drawFilledImage(
                     const std::shared_ptr<Image::Data> &,
-                    const Core::BBox2f &,
-                    ImageCache = ImageCache::Atlas);
+                    const glm::vec2& pos,
+                    const ImageOptions & = ImageOptions());
 
                 ///@}
 
@@ -143,3 +189,4 @@ namespace djv
     } // namespace AV
 } // namespace djv
 
+#include <djvAV/Render2DInline.h>

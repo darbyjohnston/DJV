@@ -29,10 +29,29 @@
 
 #pragma once
 
+#include <djvViewApp/Enum.h>
+
 #include <djvUI/Widget.h>
+
+#include <djvCore/ValueObserver.h>
 
 namespace djv
 {
+    namespace AV
+    {
+        namespace Image
+        {
+            class Image;
+    
+        } // namespace Image
+
+        namespace Render
+        {
+            struct ImageOptions;
+
+        } // namespace Render
+    } // namespace AV
+
     namespace ViewApp
     {
         class Media;
@@ -50,8 +69,25 @@ namespace djv
 
             static std::shared_ptr<ImageView> create(Core::Context *);
 
-            const std::shared_ptr<Media> & getMedia() const;
-            void setMedia(const std::shared_ptr<Media> &);
+            const std::shared_ptr<AV::Image::Image>& getImage() const;
+            void setImage(const std::shared_ptr<AV::Image::Image>&);
+
+            std::shared_ptr<Core::IValueSubject<AV::Render::ImageOptions> > observeImageOptions() const;
+            void setImageOptions(const AV::Render::ImageOptions&);
+
+            std::shared_ptr<Core::IValueSubject<glm::vec2> > observeImagePos() const;
+            std::shared_ptr<Core::IValueSubject<float> > observeImageZoom() const;
+            std::shared_ptr<Core::IValueSubject<ImageRotate> > observeImageRotate() const;
+            std::shared_ptr<Core::IValueSubject<ImageAspectRatio> > observeImageAspectRatio() const;
+            void setImagePos(const glm::vec2&);
+            void setImageZoom(float);
+            void setImageZoomFocus(float, const glm::vec2 &);
+            void setImagePosAndZoom(const glm::vec2&, float);
+            void setImageRotate(ImageRotate);
+            void setImageAspectRatio(ImageAspectRatio);
+
+            void imageFit();
+            void imageCenter();
 
         protected:
             void _preLayoutEvent(Core::Event::PreLayout &) override;
@@ -59,6 +95,11 @@ namespace djv
             void _paintEvent(Core::Event::Paint &) override;
 
         private:
+            float _getImageAspectRatioScale() const;
+            std::vector<glm::vec3> _getXFormPoints() const;
+            static glm::vec2 _getCenter(const std::vector<glm::vec3>&);
+            static Core::BBox2f _getBBox(const std::vector<glm::vec3>&);
+
             DJV_PRIVATE();
         };
 

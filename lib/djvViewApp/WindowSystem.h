@@ -47,6 +47,9 @@ namespace djv
 
     namespace ViewApp
     {
+        class MDICanvas;
+        class MDIWidget;
+
         class WindowSystem : public IViewSystem
         {
             DJV_NON_COPYABLE(WindowSystem);
@@ -59,6 +62,10 @@ namespace djv
             ~WindowSystem() override;
 
             static std::shared_ptr<WindowSystem> create(Core::Context *);
+
+            void setMDICanvas(const std::shared_ptr<MDICanvas>&);
+
+            std::shared_ptr<Core::IValueSubject<std::shared_ptr<MDIWidget> > > observeActiveWidget() const;
 
             std::shared_ptr<Core::IValueSubject<bool> > observeMaximized() const;
             void setMaximized(bool);
@@ -74,6 +81,7 @@ namespace djv
             void _textUpdate();
 
         private:
+            void _initWidget();
             DJV_PRIVATE();
         };
 

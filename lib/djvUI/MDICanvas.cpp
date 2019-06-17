@@ -227,7 +227,7 @@ namespace djv
                             canvas->_p->maximizedValue = value;
                             if (maximizedWidget)
                             {
-                                maximizedWidget->setMaximized(value);
+                                maximizedWidget->_setMaximized(value);
                                 maximizedWidget->setGeometry(lerp(value, maximizedWidgetGeometry, canvasGeometry));
                             }
                         }
@@ -239,7 +239,7 @@ namespace djv
                             canvas->_p->maximizedValue = value;
                             if (maximizedWidget)
                             {
-                                maximizedWidget->setMaximized(value);
+                                maximizedWidget->_setMaximized(value);
                                 maximizedWidget->setGeometry(lerp(value, maximizedWidgetGeometry, canvasGeometry));
                             }
                             canvas->_p->maximizedWidget.reset();
@@ -313,15 +313,20 @@ namespace djv
                 DJV_PRIVATE_PTR();
                 if (auto widget = std::dynamic_pointer_cast<IWidget>(value.getChild()))
                 {
-                    widget->setMaximized(p.maximizedValue);
-                    widget->installEventFilter(shared_from_this());
-                    const auto i = p.widgetToGeometry.find(widget);
-                    if (i == p.widgetToGeometry.end())
+                    if (p.activeWidget)
                     {
-                        p.widgetInit[widget] = true;
-                        p.widgetToGeometry[widget] = BBox2f(0.f, 0.f, 0.f, 0.f);
+                        p.activeWidget->_activeWidget(false);
                     }
                     p.activeWidget = widget;
+                    p.activeWidget->_activeWidget(true);
+                    p.activeWidget->_setMaximized(p.maximizedValue);
+                    p.activeWidget->installEventFilter(shared_from_this());
+                    const auto i = p.widgetToGeometry.find(p.activeWidget);
+                    if (i == p.widgetToGeometry.end())
+                    {
+                        p.widgetInit[p.activeWidget] = true;
+                        p.widgetToGeometry[p.activeWidget] = BBox2f(0.f, 0.f, 0.f, 0.f);
+                    }
                     _resize();
                     if (p.activeCallback)
                     {
@@ -339,11 +344,19 @@ namespace djv
                     {
                         if (widget == p.activeWidget)
                         {
+                            if (p.activeWidget)
+                            {
+                                p.activeWidget->_activeWidget(false);
+                            }
                             const auto & children = getChildrenT<IWidget>();
                             p.activeWidget = children.size() ? children.back() : nullptr;
+                            if (p.activeWidget)
+                            {
+                                p.activeWidget->_activeWidget(true);
+                            }
                             if (p.activeCallback)
                             {
-                                p.activeCallback(nullptr);
+                                p.activeCallback(p.activeWidget);
                             }
                         }
                     }
@@ -367,22 +380,24 @@ namespace djv
                     {
                         if (p.activeWidget)
                         {
-                            p.activeWidget->setMaximized(0.f);
+                            p.activeWidget->_setMaximized(0.f);
+                            p.activeWidget->_activeWidget(false);
                             const auto i = p.widgetToGeometry.find(p.activeWidget);
                             if (i != p.widgetToGeometry.end())
                             {
                                 i->first->setGeometry(i->second);
                             }
                         }
-                        widget->setMaximized(p.maximizedValue);
+                        widget->_setMaximized(p.maximizedValue);
                         if (p.maximized)
                         {
                             widget->setGeometry(getGeometry());
                         }
                         p.activeWidget = widget;
+                        p.activeWidget->_activeWidget(true);
                         if (p.activeCallback)
                         {
-                            p.activeCallback(widget);
+                            p.activeCallback(p.activeWidget);
                         }
                     }
                 }
@@ -399,7 +414,7 @@ namespace djv
                     const auto & pointerInfo = pointerEnterEvent.getPointerInfo();
                     if (auto widget = std::dynamic_pointer_cast<IWidget>(object))
                     {
-                        for (const auto& handle : widget->getHandles())
+                        for (const auto& handle : widget->_getHandles())
                         {
                             for (const auto& rect : handle.second)
                             {
@@ -410,7 +425,7 @@ namespace djv
                                     hovered.widget = widget;
                                     hovered.handle = handle.first;
                                     p.hovered[pointerInfo.id] = hovered;
-                                    widget->setHandleHovered(handle.first);
+                                    widget->_setHandleHovered(handle.first);
                                     break;
                                 }
                             }
@@ -426,7 +441,7 @@ namespace djv
                     if (i != p.hovered.end())
                     {
                         event.accept();
-                        i->second.widget->setHandleHovered(Handle::None);
+                        i->second.widget->_setHandleHovered(Handle::None);
                         p.hovered.erase(i);
                     }
                     break;
@@ -489,7 +504,7 @@ namespace djv
                         }
                         else
                         {
-                            for (const auto& handle : widget->getHandles())
+                            for (const auto& handle : widget->_getHandles())
                             {
                                 for (const auto& rect : handle.second)
                                 {
@@ -504,10 +519,10 @@ namespace djv
                                             auto k = p.hovered.find(pointerInfo.id);
                                             if (k != p.hovered.end())
                                             {
-                                                k->second.widget->setHandleHovered(Handle::None);
+                                                k->second.widget->_setHandleHovered(Handle::None);
                                             }
                                             p.hovered[pointerInfo.id] = hovered;
-                                            widget->setHandleHovered(handle.first);
+                                            widget->_setHandleHovered(handle.first);
                                         }
                                         break;
                                     }
@@ -526,7 +541,7 @@ namespace djv
                         const auto i = p.widgetToGeometry.find(widget);
                         if (i != p.widgetToGeometry.end())
                         {
-                            for (const auto& handle : widget->getHandles())
+                            for (const auto& handle : widget->_getHandles())
                             {
                                 for (const auto& rect : handle.second)
                                 {
@@ -540,7 +555,7 @@ namespace djv
                                         pressed.pos = i->second.min;
                                         pressed.size = widget->getSize();
                                         p.pressed[pointerInfo.id] = pressed;
-                                        widget->setHandlePressed(handle.first);
+                                        widget->_setHandlePressed(handle.first);
                                         widget->moveToFront();
                                         break;
                                     }
@@ -558,7 +573,7 @@ namespace djv
                     if (i != p.pressed.end())
                     {
                         event.accept();
-                        i->second.widget->setHandlePressed(Handle::None);
+                        i->second.widget->_setHandlePressed(Handle::None);
                         p.pressed.erase(i);
                     }
                     return true;

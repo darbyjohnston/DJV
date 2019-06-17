@@ -44,10 +44,10 @@ namespace djv
             template<typename T, glm::precision P = glm::defaultp>
             struct tBBox2
             {
-                constexpr tBBox2();
-                constexpr tBBox2(const glm::tvec2<T, P> &);
-                constexpr tBBox2(const glm::tvec2<T, P> & min, const glm::tvec2<T, P> & max);
-                constexpr tBBox2(T x, T y, T w, T h);
+                inline tBBox2();
+                inline tBBox2(const glm::tvec2<T, P> &);
+                inline tBBox2(const glm::tvec2<T, P> & min, const glm::tvec2<T, P> & max);
+                inline tBBox2(T x, T y, T w, T h);
 
                 //! \name Box Components
                 ///@{
@@ -55,10 +55,10 @@ namespace djv
                 glm::tvec2<T, P> min;
                 glm::tvec2<T, P> max;
 
-                constexpr T x() const;
-                constexpr T y() const;
-                constexpr T w() const;
-                constexpr T h() const;
+                inline T x() const;
+                inline T y() const;
+                inline T w() const;
+                inline T h() const;
 
                 ///@}
 
@@ -66,9 +66,9 @@ namespace djv
                 ///@{
 
                 constexpr bool isValid() const;
-                constexpr glm::tvec2<T, P> getSize() const;
+                inline glm::tvec2<T, P> getSize() const;
                 constexpr glm::tvec2<T, P> getCenter() const;
-                constexpr T getArea() const;
+                inline T getArea() const;
                 inline float getAspect() const;
                 inline void zero();
 
@@ -95,22 +95,22 @@ namespace djv
             template<typename T, glm::precision P = glm::defaultp>
             struct tBBox3
             {
-                constexpr tBBox3();
-                constexpr tBBox3(const glm::tvec3<T, P> &);
-                constexpr tBBox3(const glm::tvec3<T, P> & min, const glm::tvec3<T, P> & max);
-                constexpr tBBox3(T x, T y, T z, T w, T h, T d);
+                inline tBBox3();
+                inline tBBox3(const glm::tvec3<T, P> &);
+                inline tBBox3(const glm::tvec3<T, P> & min, const glm::tvec3<T, P> & max);
+                inline tBBox3(T x, T y, T z, T w, T h, T d);
 
                 //! \name Components
                 ///@{
 
                 glm::tvec3<T, P> min, max;
 
-                constexpr T x() const;
-                constexpr T y() const;
-                constexpr T z() const;
-                constexpr T w() const;
-                constexpr T h() const;
-                constexpr T d() const;
+                inline T x() const;
+                inline T y() const;
+                inline T z() const;
+                inline T w() const;
+                inline T h() const;
+                inline T d() const;
 
                 ///@}
 
@@ -118,7 +118,7 @@ namespace djv
                 ///@{
 
                 constexpr bool isValid() const;
-                constexpr glm::tvec3<T, P> getSize() const;
+                inline glm::tvec3<T, P> getSize() const;
                 constexpr glm::tvec3<T, P> getCenter() const;
                 inline void zero();
 

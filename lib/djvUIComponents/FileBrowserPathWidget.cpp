@@ -84,7 +84,6 @@ namespace djv
                 p.buttonLayout = HorizontalLayout::create(context);
                 p.buttonLayout->setSpacing(MetricsRole::None);
                 p.buttonLayout->setPointerEnabled(true);
-                p.buttonLayout->setBackgroundRole(ColorRole::Background);
                 p.buttonLayout->installEventFilter(shared_from_this());
 
                 p.lineEditBase = LineEditBase::create(context);
@@ -97,7 +96,6 @@ namespace djv
                 p.layout = HorizontalLayout::create(context);
                 p.layout->setSpacing(MetricsRole::None);
                 auto hLayout = HorizontalLayout::create(context);
-                hLayout->setBackgroundRole(ColorRole::BackgroundToolBar);
                 hLayout->setSpacing(MetricsRole::None);
                 hLayout->addChild(p.historyButton);
                 p.layout->addChild(hLayout);
@@ -200,7 +198,6 @@ namespace djv
                         auto button = ListButton::create(context);
                         button->setText(i->isRoot() ? i->get() : i->getFileName());
                         button->setForegroundColorRole(ColorRole::ForegroundDim);
-                        button->setBackgroundRole(ColorRole::BackgroundToolBar);
                         button->setShadowOverlay({ Side::Left });
 
                         _p->buttonLayout->addChild(button);
@@ -224,6 +221,7 @@ namespace djv
                         auto label = Label::create(context);
                         label->setText(i->isRoot() ? i->get() : i->getFileName());
                         label->setMargin(MetricsRole::MarginSmall);
+                        label->setShadowOverlay({ Side::Left });
 
                         _p->buttonLayout->addChild(label);
                     }

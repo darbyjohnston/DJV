@@ -61,6 +61,8 @@ namespace djv
                 const std::string & getText() const;
                 void setText(const std::string &);
 
+                void setChecked(bool) override;
+
                 float getHeightForWidth(float) const override;
 
             protected:
@@ -80,6 +82,7 @@ namespace djv
                 setClassName("djv::UI::TabBarButton");
 
                 _label = Label::create(text, context);
+                _label->setTextColorRole(ColorRole::ForegroundDim);
                 _label->setMargin(Layout::Margin(MetricsRole::Margin, MetricsRole::Margin, MetricsRole::MarginSmall, MetricsRole::MarginSmall));
 
                 _layout = StackLayout::create(context);
@@ -110,6 +113,12 @@ namespace djv
                 _label->setText(value);
             }
 
+            void TabBarButton::setChecked(bool value)
+            {
+                IButton::setChecked(value);
+                _label->setTextColorRole(value ? ColorRole::Foreground : ColorRole::ForegroundDim);
+            }
+
             float TabBarButton::getHeightForWidth(float value) const
             {
                 return _layout->getHeightForWidth(value);
@@ -129,8 +138,8 @@ namespace djv
             {
                 const BBox2f & g = getGeometry();
                 auto render = _getRender();
-                auto style = _getStyle();
-                render->setFillColor(style->getColor(_isToggled() ? ColorRole::Background : ColorRole::Border));
+                const auto& style = _getStyle();
+                render->setFillColor(style->getColor(_isToggled() ? ColorRole::Background : ColorRole::Trough));
                 render->drawRect(g);
                 if (_isHovered() && !_isToggled())
                 {
@@ -154,13 +163,13 @@ namespace djv
             Widget::_init(context);
             
             setClassName("djv::UI::TabBar");
-            setBackgroundRole(ColorRole::Border);
+            setBackgroundRole(ColorRole::Trough);
 
             DJV_PRIVATE_PTR();
             p.buttonGroup = ButtonGroup::create(ButtonType::Radio);
 
             p.layout = HorizontalLayout::create(context);
-            p.layout->setSpacing(MetricsRole::Border);
+            p.layout->setSpacing(MetricsRole::None);
             addChild(p.layout);
 
             auto weak = std::weak_ptr<TabBar>(std::dynamic_pointer_cast<TabBar>(shared_from_this()));
@@ -281,7 +290,7 @@ namespace djv
         void TabBar::_layoutEvent(Event::Layout & event)
         {
             const BBox2f & g = getGeometry();
-            auto style = _getStyle();
+            const auto& style = _getStyle();
             _p->layout->setGeometry(getMargin().bbox(g, style));
         }
 

@@ -51,7 +51,7 @@ namespace djv
 
     } // namespace UI
    
-    picojson::value toJSON(const UI::ViewType & value)
+    picojson::value toJSON(UI::ViewType value)
     {
         std::stringstream ss;
         ss << value;

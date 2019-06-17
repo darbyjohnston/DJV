@@ -155,7 +155,7 @@ namespace djv
         void BasicFloatSlider::_preLayoutEvent(Event::PreLayout & event)
         {
             DJV_PRIVATE_PTR();
-            auto style = _getStyle();
+            const auto& style = _getStyle();
             const float tc = style->getMetric(MetricsRole::Slider);
             p.handleWidth = style->getMetric(MetricsRole::Handle);
             glm::vec2 size(0.f, 0.f);
@@ -172,11 +172,10 @@ namespace djv
         {
             Widget::_paintEvent(event);
             DJV_PRIVATE_PTR();
-            auto style = _getStyle();
+            const auto& style = _getStyle();
             const BBox2f & g = getMargin().bbox(getGeometry(), style);
             const glm::vec2 c = g.getCenter();
             const float m = style->getMetric(MetricsRole::MarginSmall);
-            const float b = style->getMetric(MetricsRole::Border);
             auto render = _getRender();
             if (p.value > 0.f && p.model)
             {
@@ -251,7 +250,6 @@ namespace djv
             }
             if (p.model)
             {
-                render->setFillColor(style->getColor(ColorRole::Border));
                 glm::vec2 pos;
                 switch (p.orientation)
                 {
@@ -260,9 +258,8 @@ namespace djv
                 default: break;
                 }
                 const float r = ceilf(p.handleWidth / 2.f - 1.f);
-                render->drawCircle(pos, r);
                 render->setFillColor(style->getColor(ColorRole::Button));
-                render->drawCircle(pos, r - b);
+                render->drawCircle(pos, r);
                 if (p.pressedID != Event::InvalidID)
                 {
                     render->setFillColor(style->getColor(ColorRole::Pressed));
@@ -388,7 +385,7 @@ namespace djv
             float out = 0.f;
             if (p.model)
             {
-                auto style = _getStyle();
+                const auto& style = _getStyle();
                 const BBox2f g = getMargin().bbox(getGeometry(), style);
                 const auto & range = p.model->observeRange()->get();
                 float v = (value - range.min) / static_cast<float>(range.max - range.min);
@@ -413,7 +410,7 @@ namespace djv
             float out = 0.f;
             if (p.model)
             {
-                auto style = _getStyle();
+                const auto& style = _getStyle();
                 const BBox2f g = getMargin().bbox(getGeometry(), style);
                 const auto & range = p.model->observeRange()->get();
                 float v = 0.f;
@@ -550,13 +547,13 @@ namespace djv
 
         void FloatSlider::_preLayoutEvent(Event::PreLayout & event)
         {
-            auto style = _getStyle();
+            const auto& style = _getStyle();
             _setMinimumSize(_p->layout->getMinimumSize() + getMargin().getSize(style));
         }
 
         void FloatSlider::_layoutEvent(Event::Layout & event)
         {
-            auto style = _getStyle();
+            const auto& style = _getStyle();
             _p->layout->setGeometry(getMargin().bbox(getGeometry(), style));
         }
 

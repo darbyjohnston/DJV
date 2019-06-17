@@ -73,6 +73,9 @@ namespace djv
             };
             DJV_ENUM_HELPERS(ColorRole);
 
+            //! This constant provides the multiplier for disabled colors.
+            const float disabledColorMult = .65f;
+
             //! This enumeration provides the metrics roles.
             enum class MetricsRole
             {
@@ -100,8 +103,10 @@ namespace djv
                 SearchBox,
                 Dialog,
                 Shadow,
+                ShadowSmall,
                 TooltipOffset,
                 Handle,
+                Move,
 
                 Count,
                 First = None

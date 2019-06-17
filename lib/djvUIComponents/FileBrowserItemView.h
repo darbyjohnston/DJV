@@ -107,7 +107,7 @@ namespace djv
             private:
                 std::string _getTooltip(const Core::FileSystem::FileInfo &) const;
                 std::string _getTooltip(const Core::FileSystem::FileInfo &, const AV::IO::Info &) const;
-
+                
                 void _iconsUpdate();
                 void _thumbnailsSizeUpdate();
                 void _itemsUpdate();

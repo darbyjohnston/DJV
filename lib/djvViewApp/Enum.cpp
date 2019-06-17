@@ -33,9 +33,117 @@ namespace djv
 {
     namespace ViewApp
     {
+        float getImageRotate(ImageRotate value)
+        {
+            const float values[] =
+            {
+                0.f,
+                90.f,
+                180.f,
+                270.f
+            };
+            return values[static_cast<size_t>(value)];
+        }
+
+        float getImageAspectRatio(ImageAspectRatio value)
+        {
+            const float values[] =
+            {
+                1.f,
+                1.f,
+                1.78f,
+                1.85f,
+                2.35f
+            };
+            return values[static_cast<size_t>(value)];
+        }
 
     } // namespace ViewApp
-   
+
+    picojson::value toJSON(ViewApp::ImageViewLock value)
+    {
+        std::stringstream ss;
+        ss << value;
+        return picojson::value(ss.str());
+    }
+
+    picojson::value toJSON(ViewApp::ImageRotate value)
+    {
+        std::stringstream ss;
+        ss << value;
+        return picojson::value(ss.str());
+    }
+
+    picojson::value toJSON(ViewApp::ImageAspectRatio value)
+    {
+        std::stringstream ss;
+        ss << value;
+        return picojson::value(ss.str());
+    }
+
+    void fromJSON(const picojson::value& value, ViewApp::ImageViewLock& out)
+    {
+        if (value.is<std::string>())
+        {
+            std::stringstream ss(value.get<std::string>());
+            ss >> out;
+        }
+        else
+        {
+            throw std::invalid_argument(DJV_TEXT("Cannot parse the value."));
+        }
+    }
+
+    void fromJSON(const picojson::value& value, ViewApp::ImageRotate& out)
+    {
+        if (value.is<std::string>())
+        {
+            std::stringstream ss(value.get<std::string>());
+            ss >> out;
+        }
+        else
+        {
+            throw std::invalid_argument(DJV_TEXT("Cannot parse the value."));
+        }
+    }
+
+    void fromJSON(const picojson::value& value, ViewApp::ImageAspectRatio& out)
+    {
+        if (value.is<std::string>())
+        {
+            std::stringstream ss(value.get<std::string>());
+            ss >> out;
+        }
+        else
+        {
+            throw std::invalid_argument(DJV_TEXT("Cannot parse the value."));
+        }
+    }
+
+    DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
+        ViewApp,
+        ImageViewLock,
+        DJV_TEXT("None"),
+        DJV_TEXT("Fit"),
+        DJV_TEXT("Center"));
+
+    DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
+        ViewApp,
+        ImageRotate,
+        DJV_TEXT("0"),
+        DJV_TEXT("90"),
+        DJV_TEXT("180"),
+        DJV_TEXT("270"));
+
+    DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
+        ViewApp,
+        ImageAspectRatio,
+        DJV_TEXT("Default"),
+        DJV_TEXT("Auto"),
+        DJV_TEXT("16:9"),
+        DJV_TEXT("1.85"),
+        DJV_TEXT("2.35"));
+
     DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
         ViewApp,
         Playback,

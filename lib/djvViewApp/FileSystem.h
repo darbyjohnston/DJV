@@ -33,7 +33,8 @@
 
 #include <djvCore/ListObserver.h>
 #include <djvCore/ValueObserver.h>
-#include <djvCore/Vector.h>
+
+#include <glm/vec2.hpp>
 
 namespace djv
 {

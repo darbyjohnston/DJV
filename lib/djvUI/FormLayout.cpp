@@ -87,7 +87,6 @@ namespace djv
                     p.layout->addChild(label);
                     p.layout->setGridPos(label, glm::ivec2(0, gridPos.y));
                     p.layout->setGridPos(value, glm::ivec2(1, gridPos.y));
-                    p.layout->setStretch(value, GridStretch::Horizontal);
                     p.widgetToLabel[value] = label;
                 }
             }
@@ -104,7 +103,7 @@ namespace djv
 
             float Form::getHeightForWidth(float value) const
             {
-                auto style = _getStyle();
+                const auto& style = _getStyle();
                 float out = _p->layout->getHeightForWidth(value - getMargin().getWidth(style)) + getMargin().getWidth(style);
                 return out;
             }
@@ -116,7 +115,7 @@ namespace djv
                 p.layout->addChild(value);
                 if (auto widget = std::dynamic_pointer_cast<Widget>(value))
                 {
-                    p.layout->setGridPos(widget, glm::ivec2(0, gridSize.y));
+                    p.layout->setGridPos(widget, glm::ivec2(1, gridSize.y));
                 }
             }
 
@@ -132,7 +131,7 @@ namespace djv
 
             void Form::_preLayoutEvent(Event::PreLayout & event)
             {
-                auto style = _getStyle();
+                const auto& style = _getStyle();
                 _setMinimumSize(_p->layout->getMinimumSize() + getMargin().getSize(style));
             }
 
@@ -140,7 +139,7 @@ namespace djv
             {
                 DJV_PRIVATE_PTR();
                 const BBox2f & g = getGeometry();
-                auto style = _getStyle();
+                const auto& style = _getStyle();
                 p.layout->setGeometry(getMargin().bbox(g, style));
             }
 

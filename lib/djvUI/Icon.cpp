@@ -53,7 +53,6 @@ namespace djv
         void Icon::_init(Context * context)
         {
             Widget::_init(context);
-
             setClassName("djv::UI::Icon");
         }
 
@@ -89,7 +88,7 @@ namespace djv
             if (value == p.name)
                 return;
             p.name = value;
-            auto style = _getStyle();
+            const auto& style = _getStyle();
             auto iconSystem = _getIconSystem();
             p.imageFuture = iconSystem->getIcon(p.name, static_cast<int>(style->getMetric(p.iconSizeRole)));
             _resize();
@@ -128,7 +127,7 @@ namespace djv
             DJV_PRIVATE_PTR();
             if (!p.name.empty())
             {
-                auto style = _getStyle();
+                const auto& style = _getStyle();
                 auto iconSystem = _getIconSystem();
                 p.imageFuture = iconSystem->getIcon(p.name, static_cast<int>(style->getMetric(p.iconSizeRole)));
             }
@@ -137,7 +136,7 @@ namespace djv
         void Icon::_preLayoutEvent(Event::PreLayout & event)
         {
             DJV_PRIVATE_PTR();
-            auto style = _getStyle();
+            const auto& style = _getStyle();
             const float i = style->getMetric(p.iconSizeRole);
 
             if (p.imageFuture.valid())
@@ -169,7 +168,7 @@ namespace djv
         {
             Widget::_paintEvent(event);
             DJV_PRIVATE_PTR();
-            auto style = _getStyle();
+            const auto& style = _getStyle();
             const BBox2f & g = getMargin().bbox(getGeometry(), style);
             const glm::vec2 c = g.getCenter();
 
@@ -199,12 +198,12 @@ namespace djv
                 if (p.iconColorRole != ColorRole::None)
                 {
                     render->setFillColor(style->getColor(p.iconColorRole));
-                    render->drawFilledImage(p.image, BBox2f(pos.x, pos.y, w, h));
+                    render->drawFilledImage(p.image, pos);
                 }
                 else
                 {
                     render->setFillColor(AV::Image::Color(1.f, 1.f, 1.f));
-                    render->drawImage(p.image, BBox2f(pos.x, pos.y, w, h));
+                    render->drawImage(p.image, pos);
                 }
             }
         }

@@ -39,15 +39,15 @@ namespace djv
     {
         namespace OpenGL
         {
-            void Texture::_init(const Image::Info & info, GLenum filter)
+            void Texture::_init(const Image::Info & info, GLenum filterMin, GLenum filterMax)
             {
                 _info = info;
                 glGenTextures(1, &_id);
                 glBindTexture(GL_TEXTURE_2D, _id);
                 glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
                 glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-                glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, filter);
-                glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, filter);
+                glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, filterMin);
+                glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, filterMax);
                 GLenum internalFormat = GL_RGBA;
                 glTexImage2D(
                     GL_TEXTURE_2D,
@@ -76,10 +76,10 @@ namespace djv
                 }
             }
 
-            std::shared_ptr<Texture> Texture::create(const Image::Info & info, GLenum filter)
+            std::shared_ptr<Texture> Texture::create(const Image::Info & info, GLenum filterMin, GLenum filterMax)
             {
                 auto out = std::shared_ptr<Texture>(new Texture);
-                out->_init(info, filter);
+                out->_init(info, filterMin, filterMax);
                 return out;
             }
 

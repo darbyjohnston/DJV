@@ -33,11 +33,6 @@
 
 #include <iomanip>
 
-extern "C"
-{
-#include <libavutil/mathematics.h>
-}
-
 namespace djv
 {
     namespace Core

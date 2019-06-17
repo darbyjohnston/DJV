@@ -49,7 +49,7 @@ namespace djv
             {
                 std::shared_ptr<Icon> icon;
                 std::shared_ptr<Label> label;
-                TextHAlign textHAlign = TextHAlign::Left;
+                TextHAlign textHAlign = TextHAlign::Center;
                 ColorRole textColorRole = ColorRole::Foreground;
                 std::string font;
                 std::string fontFace;
@@ -66,7 +66,8 @@ namespace djv
                 setBackgroundRole(ColorRole::Button);
 
                 p.layout = HorizontalLayout::create(context);
-                p.layout->setMargin(MetricsRole::MarginSmall);
+                p.layout->setMargin(Layout::Margin(MetricsRole::Margin, MetricsRole::Margin, MetricsRole::MarginSmall, MetricsRole::MarginSmall));
+
                 addChild(p.layout);
             }
 
@@ -116,7 +117,7 @@ namespace djv
                     {
                         p.icon = Icon::create(getContext());
                         p.icon->setVAlign(VAlign::Center);
-                        p.icon->setIconColorRole(isChecked() ? ColorRole::Checked : getForegroundColorRole());
+                        p.icon->setIconColorRole(getForegroundColorRole());
                         p.layout->addChild(p.icon);
                         p.icon->moveToFront();
                     }
@@ -144,10 +145,10 @@ namespace djv
                     {
                         p.label = Label::create(getContext());
                         p.label->setTextHAlign(p.textHAlign);
+                        p.label->setTextColorRole(getForegroundColorRole());
                         p.label->setFont(p.font);
                         p.label->setFontFace(p.fontFace);
                         p.label->setFontSizeRole(p.fontSizeRole);
-                        p.label->setTextColorRole(isChecked() ? ColorRole::Checked : p.textColorRole);
                         p.layout->addChild(p.label);
                         p.layout->setStretch(p.label, RowStretch::Expand);
                         p.label->moveToBack();
@@ -231,15 +232,6 @@ namespace djv
                 _p->layout->setMargin(value);
             }
 
-            void Push::setChecked(bool value)
-            {
-                IButton::setChecked(value);
-                if (_p->icon)
-                {
-                    _p->icon->setIconColorRole(value ? ColorRole::Checked : getForegroundColorRole());
-                }
-            }
-
             void Push::setForegroundColorRole(ColorRole value)
             {
                 IButton::setForegroundColorRole(value);
@@ -256,50 +248,35 @@ namespace djv
             void Push::_preLayoutEvent(Event::PreLayout & event)
             {
                 glm::vec2 size = _p->layout->getMinimumSize();
-                size.x += size.y;
                 _setMinimumSize(size);
             }
 
             void Push::_layoutEvent(Event::Layout &)
             {
                 const BBox2f& g = getGeometry();
-                const float h = g.h();
-                const float radius = h / 2.f;
-                _p->layout->setGeometry(BBox2f(
-                    floorf(g.min.x + radius),
-                    g.min.y,
-                    ceilf(g.w() - radius),
-                    h));
+                _p->layout->setGeometry(g);
             }
 
             void Push::_paintEvent(Event::Paint& event)
             {
-                auto style = _getStyle();
-                const float b = style->getMetric(MetricsRole::Border);
+                IButton::_paintEvent(event);
+                const auto& style = _getStyle();
                 const BBox2f& g = getMargin().bbox(getGeometry(), style);
-                const BBox2f& g2 = g.margin(-b);
                 auto render = _getRender();
-                if (isEnabled(true))
+                if (_isToggled())
                 {
-                    render->setFillColor(style->getColor(ColorRole::Border));
-                    render->drawPill(g);
-                    render->setFillColor(style->getColor(getBackgroundRole()));
-                    render->drawPill(g2);
-                    if (_isPressed())
-                    {
-                        render->setFillColor(style->getColor(ColorRole::Pressed));
-                        render->drawPill(g2);
-                    }
-                    else if (_isHovered())
-                    {
-                        render->setFillColor(style->getColor(ColorRole::Hovered));
-                        render->drawPill(g2);
-                    }
+                    render->setFillColor(style->getColor(ColorRole::Checked));
+                    render->drawRect(g);
                 }
-                else
+                if (_isPressed())
                 {
-                    render->setFillColor(style->getColor(getBackgroundRole()));
-                    render->drawPill(g);
+                    render->setFillColor(style->getColor(ColorRole::Pressed));
+                    render->drawRect(g);
+                }
+                else if (_isHovered())
+                {
+                    render->setFillColor(style->getColor(ColorRole::Hovered));
+                    render->drawRect(g);
                 }
             }
 

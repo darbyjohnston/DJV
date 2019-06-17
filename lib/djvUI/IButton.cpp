@@ -144,7 +144,7 @@ namespace djv
                 if (id == p.pressedID)
                 {
                     const float distance = glm::length(pos - p.pressedPos);
-                    auto style = _getStyle();
+                    const auto& style = _getStyle();
                     const bool accepted = p.canRejectPressed ? distance < style->getMetric(MetricsRole::Drag) : true;
                     event.setAccepted(accepted);
                     if (!accepted)

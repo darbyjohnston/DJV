@@ -75,7 +75,7 @@ namespace djv
 
         void ThermometerWidget::_preLayoutEvent(Event::PreLayout & event)
         {
-            auto style = _getStyle();
+            const auto& style = _getStyle();
             const float sl = style->getMetric(MetricsRole::Slider);
             const float hw = style->getMetric(MetricsRole::Handle);
             _setMinimumSize(glm::vec2(sl, hw));
@@ -88,7 +88,7 @@ namespace djv
         {
             Widget::_paintEvent(event);
             DJV_PRIVATE_PTR();
-            auto style = _getStyle();
+            const auto& style = _getStyle();
             const BBox2f& g = getMargin().bbox(getGeometry(), style);
             auto render = _getRender();
             render->setFillColor(style->getColor(ColorRole::Checked));

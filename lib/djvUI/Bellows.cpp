@@ -147,7 +147,7 @@ namespace djv
                     Widget::_paintEvent(event);
                     const BBox2f & g = getGeometry();
                     auto render = _getRender();
-                    auto style = _getStyle();
+                    const auto& style = _getStyle();
                     if (_isPressed())
                     {
                         render->setFillColor(style->getColor(ColorRole::Pressed));

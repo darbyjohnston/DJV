@@ -115,7 +115,7 @@ namespace djv
                     {
                         p.icon = Icon::create(getContext());
                         p.icon->setVAlign(VAlign::Center);
-                        p.icon->setIconColorRole(isChecked() ? ColorRole::Checked : getForegroundColorRole());
+                        p.icon->setIconColorRole(getForegroundColorRole());
                         p.layout->addChild(p.icon);
                         p.icon->moveToFront();
                     }
@@ -230,15 +230,6 @@ namespace djv
                 _p->layout->setMargin(value);
             }
 
-            void List::setChecked(bool value)
-            {
-                IButton::setChecked(value);
-                if (_p->icon)
-                {
-                    _p->icon->setIconColorRole(value ? ColorRole::Checked : getForegroundColorRole());
-                }
-            }
-
             void List::setForegroundColorRole(ColorRole value)
             {
                 IButton::setForegroundColorRole(value);
@@ -254,45 +245,24 @@ namespace djv
 
             void List::_preLayoutEvent(Event::PreLayout & event)
             {
-                auto style = _getStyle();
-                const float m = style->getMetric(MetricsRole::MarginSmall);
-                glm::vec2 size = _p->layout->getMinimumSize();
-                const ButtonType buttonType = getButtonType();
-                if (ButtonType::Toggle    == buttonType ||
-                    ButtonType::Radio     == buttonType ||
-                    ButtonType::Exclusive == buttonType)
-                {
-                    size.x += m;
-                }
-                _setMinimumSize(size);
+                _setMinimumSize(_p->layout->getMinimumSize());
             }
 
             void List::_layoutEvent(Event::Layout &)
             {
-                auto style = _getStyle();
-                BBox2f g = getGeometry();
-                const float m = style->getMetric(MetricsRole::MarginSmall);
-                const ButtonType buttonType = getButtonType();
-                if (ButtonType::Toggle == buttonType ||
-                    ButtonType::Radio == buttonType ||
-                    ButtonType::Exclusive == buttonType)
-                {
-                    g.min.x += m;
-                }
-                _p->layout->setGeometry(g);
+                _p->layout->setGeometry(getGeometry());
             }
 
             void List::_paintEvent(Event::Paint& event)
             {
                 IButton::_paintEvent(event);
                 auto render = _getRender();
-                auto style = _getStyle();
+                const auto& style = _getStyle();
                 const BBox2f& g = getGeometry();
-                const float m = style->getMetric(MetricsRole::MarginSmall);
                 if (_isToggled())
                 {
                     render->setFillColor(style->getColor(ColorRole::Checked));
-                    render->drawRect(BBox2f(g.min.x, g.min.y, m, g.h()));
+                    render->drawRect(g);
                 }
                 if (_isPressed())
                 {

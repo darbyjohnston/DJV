@@ -255,14 +255,14 @@ namespace djv
         void IntEdit::_preLayoutEvent(Event::PreLayout & event)
         {
             DJV_PRIVATE_PTR();
-            auto style = _getStyle();
+            const auto& style = _getStyle();
             _setMinimumSize(p.lineEdit->getMinimumSize() + getMargin().getSize(style));
         }
 
         void IntEdit::_layoutEvent(Event::Layout & event)
         {
             DJV_PRIVATE_PTR();
-            auto style = _getStyle();
+            const auto& style = _getStyle();
             p.lineEdit->setGeometry(getMargin().bbox(getGeometry(), style));
         }
 

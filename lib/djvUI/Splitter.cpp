@@ -138,7 +138,7 @@ namespace djv
             {
                 DJV_PRIVATE_PTR();
                 float out = 0.f;
-                auto style = _getStyle();
+                const auto& style = _getStyle();
                 const glm::vec2 m = getMargin().getSize(style);
                 size_t i = 0;
                 for (const auto & child : getChildWidgets())
@@ -188,7 +188,7 @@ namespace djv
             void Splitter::_styleEvent(Event::Style &)
             {
                 DJV_PRIVATE_PTR();
-                auto style = _getStyle();
+                const auto& style = _getStyle();
                 p.splitterWidth = style->getMetric(MetricsRole::Handle);
                 _resize();
             }
@@ -231,7 +231,7 @@ namespace djv
                         ++i;
                     }
                 }
-                auto style = _getStyle();
+                const auto& style = _getStyle();
                 _setMinimumSize(minimumSize + getMargin().getSize(style));
             }
 
@@ -249,7 +249,7 @@ namespace djv
             void Splitter::_paintEvent(Event::Paint & event)
             {
                 DJV_PRIVATE_PTR();
-                auto style = _getStyle();
+                const auto& style = _getStyle();
                 const auto hg = _getHandleGeometry();
 
                 auto render = _getRender();
@@ -391,7 +391,7 @@ namespace djv
             {
                 DJV_PRIVATE_PTR();
                 float out = 0.f;
-                auto style = _getStyle();
+                const auto& style = _getStyle();
                 const BBox2f & g = getMargin().bbox(getGeometry(), style);
                 switch (p.orientation)
                 {
@@ -410,7 +410,7 @@ namespace djv
             {
                 DJV_PRIVATE_PTR();
                 float out = 0.f;
-                auto style = _getStyle();
+                const auto& style = _getStyle();
                 const BBox2f & g = getMargin().bbox(getGeometry(), style);
                 switch (p.orientation)
                 {
@@ -429,7 +429,7 @@ namespace djv
             {
                 DJV_PRIVATE_PTR();
                 std::vector<BBox2f> out;
-                auto style = _getStyle();
+                const auto& style = _getStyle();
                 const BBox2f & g = getMargin().bbox(getGeometry(), style);
                 const float sw = ceilf(p.splitterWidth / 2.f);
                 float x = g.min.x;
@@ -466,7 +466,7 @@ namespace djv
             {
                 DJV_PRIVATE_PTR();
                 std::vector<BBox2f> out;
-                auto style = _getStyle();
+                const auto& style = _getStyle();
                 const BBox2f & g = getMargin().bbox(getGeometry(), style);
                 const float sw = ceilf(p.splitterWidth / 2.f);
                 float x = g.min.x;

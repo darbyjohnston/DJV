@@ -190,7 +190,7 @@ namespace djv
 
             float Overlay::getHeightForWidth(float value) const
             {
-                auto style = _getStyle();
+                const auto& style = _getStyle();
                 const glm::vec2 m = getMargin().getSize(style);
                 float out = Stack::heightForWidth(value - m.x, getChildWidgets(), Margin(), style) + m.y;
                 return out;
@@ -198,13 +198,13 @@ namespace djv
 
             void Overlay::_preLayoutEvent(Event::PreLayout & event)
             {
-                auto style = _getStyle();
+                const auto& style = _getStyle();
                 _setMinimumSize(Stack::minimumSize(getChildWidgets(), Margin(), style) + getMargin().getSize(style));
             }
 
             void Overlay::_layoutEvent(Event::Layout & event)
             {
-                auto style = _getStyle();
+                const auto& style = _getStyle();
                 Stack::layout(getMargin().bbox(getGeometry(), style), getChildWidgets(), Margin(), style);
             }
 

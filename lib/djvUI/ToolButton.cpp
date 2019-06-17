@@ -231,19 +231,6 @@ namespace djv
                 _p->layout->setMargin(value);
             }
 
-            void Tool::setChecked(bool value)
-            {
-                IButton::setChecked(value);
-                if (_p->icon)
-                {
-                    _p->icon->setIconColorRole(value ? ColorRole::Checked : getForegroundColorRole());
-                }
-                if (_p->label)
-                {
-                    _p->label->setTextColorRole(value ? ColorRole::Checked : getForegroundColorRole());
-                }
-            }
-
             void Tool::_preLayoutEvent(Event::PreLayout & event)
             {
                 _setMinimumSize(_p->layout->getMinimumSize());
@@ -259,7 +246,12 @@ namespace djv
                 Widget::_paintEvent(event);
                 const BBox2f& g = getGeometry();
                 auto render = _getRender();
-                auto style = _getStyle();
+                const auto& style = _getStyle();
+                if (_isToggled())
+                {
+                    render->setFillColor(style->getColor(ColorRole::Checked));
+                    render->drawRect(g);
+                }
                 if (_isPressed())
                 {
                     render->setFillColor(style->getColor(ColorRole::Pressed));

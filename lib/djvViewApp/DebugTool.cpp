@@ -137,7 +137,7 @@ namespace djv
                 _timer->setRepeating(true);
                 auto weak = std::weak_ptr<GeneralDebugWidget>(std::dynamic_pointer_cast<GeneralDebugWidget>(shared_from_this()));
                 _timer->start(
-                    Core::Time::getMilliseconds(Core::Time::TimerValue::Slow),
+                    Core::Time::getMilliseconds(Core::Time::TimerValue::Medium),
                     [weak](float)
                 {
                     if (auto widget = weak.lock())
@@ -298,7 +298,7 @@ namespace djv
                 _timer->setRepeating(true);
                 auto weak = std::weak_ptr<RenderDebugWidget>(std::dynamic_pointer_cast<RenderDebugWidget>(shared_from_this()));
                 _timer->start(
-                    Core::Time::getMilliseconds(Core::Time::TimerValue::Slow),
+                    Core::Time::getMilliseconds(Core::Time::TimerValue::Medium),
                     [weak](float)
                 {
                     if (auto widget = weak.lock())

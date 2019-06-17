@@ -1,26 +1,26 @@
 [
     {
         "source": "Nothing to convert", 
+        "text": "\u03a4\u03af\u03c0\u03bf\u03c4\u03b1 \u03b4\u03b5\u03bd \u03bc\u03b5\u03c4\u03b1\u03c4\u03c1\u03ad\u03c0\u03b5\u03c4\u03b1\u03b9", 
         "description": "", 
-        "id": "Nothing to convert", 
-        "text": "\u03a4\u03af\u03c0\u03bf\u03c4\u03b1 \u03b4\u03b5\u03bd \u03bc\u03b5\u03c4\u03b1\u03c4\u03c1\u03ad\u03c0\u03b5\u03c4\u03b1\u03b9"
+        "id": "Nothing to convert"
     }, 
     {
         "source": "Cannot parse option '-resize'", 
+        "text": "\u0394\u03b5\u03bd \u03b5\u03af\u03bd\u03b1\u03b9 \u03b4\u03c5\u03bd\u03b1\u03c4\u03ae \u03b7 \u03b1\u03bd\u03ac\u03bb\u03c5\u03c3\u03b7 \u03c4\u03b7\u03c2 \u03b5\u03c0\u03b9\u03bb\u03bf\u03b3\u03ae\u03c2 &#39;-resize&#39;", 
         "description": "", 
-        "id": "Cannot parse option '-resize'", 
-        "text": "\u0394\u03b5\u03bd \u03b5\u03af\u03bd\u03b1\u03b9 \u03b4\u03c5\u03bd\u03b1\u03c4\u03ae \u03b7 \u03b1\u03bd\u03ac\u03bb\u03c5\u03c3\u03b7 \u03c4\u03b7\u03c2 \u03b5\u03c0\u03b9\u03bb\u03bf\u03b3\u03ae\u03c2 &#39;-resize&#39;"
+        "id": "Cannot parse option '-resize'"
     }, 
     {
         "source": "Usage: djv_convert (input) (output)", 
+        "text": "\u03a7\u03c1\u03ae\u03c3\u03b7: djv_convert (\u03b5\u03af\u03c3\u03bf\u03b4\u03bf\u03c2) (\u03ad\u03be\u03bf\u03b4\u03bf\u03c2)", 
         "description": "", 
-        "id": "Usage: djv_convert (input) (output)", 
-        "text": "\u03a7\u03c1\u03ae\u03c3\u03b7: djv_convert (\u03b5\u03af\u03c3\u03bf\u03b4\u03bf\u03c2) (\u03ad\u03be\u03bf\u03b4\u03bf\u03c2)"
+        "id": "Usage: djv_convert (input) (output)"
     }, 
     {
         "source": "Cannot parse the option '-resize'", 
-        "text": "\u0394\u03b5\u03bd \u03b5\u03af\u03bd\u03b1\u03b9 \u03b4\u03c5\u03bd\u03b1\u03c4\u03ae \u03b7 \u03b1\u03bd\u03ac\u03bb\u03c5\u03c3\u03b7 \u03c4\u03b7\u03c2 \u03b5\u03c0\u03b9\u03bb\u03bf\u03b3\u03ae\u03c2 &#39;-resize&#39;", 
+        "description": "", 
         "id": "Cannot parse the option '-resize'", 
-        "description": ""
+        "text": "\u0394\u03b5\u03bd \u03b5\u03af\u03bd\u03b1\u03b9 \u03b4\u03c5\u03bd\u03b1\u03c4\u03ae \u03b7 \u03b1\u03bd\u03ac\u03bb\u03c5\u03c3\u03b7 \u03c4\u03b7\u03c2 \u03b5\u03c0\u03b9\u03bb\u03bf\u03b3\u03ae\u03c2 &#39;-resize&#39;"
     }
 ]

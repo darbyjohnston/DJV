@@ -33,6 +33,7 @@
 
 #include <djvUIComponents/FileBrowserItemView.h>
 #include <djvUIComponents/FileBrowserPrivate.h>
+#include <djvUIComponents/FileBrowserSettings.h>
 #include <djvUIComponents/SearchBox.h>
 
 #include <djvUI/Action.h>
@@ -158,44 +159,37 @@ namespace djv
                 }
             });
 
-            if (auto settingsSystem = context->getSystemT<UI::Settings::System>())
+            auto settingsSystem = context->getSystemT<UI::Settings::System>();
+            auto fileSettings = settingsSystem->getSettingsT<FileSettings>();
+            p.recentFilesObserver = ListObserver<Core::FileSystem::FileInfo>::create(
+                fileSettings->observeRecentFiles(),
+                [weak](const std::vector<Core::FileSystem::FileInfo> & value)
             {
-                if (auto fileSystemSettings = settingsSystem->getSettingsT<FileSettings>())
+                if (auto widget = weak.lock())
                 {
-                    p.recentFilesObserver = ListObserver<Core::FileSystem::FileInfo>::create(
-                        fileSystemSettings->observeRecentFiles(),
-                        [weak](const std::vector<Core::FileSystem::FileInfo> & value)
-                    {
-                        if (auto widget = weak.lock())
-                        {
-                            widget->_p->recentFiles = value;
-                            widget->_recentFilesUpdate();
-                        }
-                    });
-
-                    p.thumbnailSizeSettingsObserver = ValueObserver<AV::Image::Size>::create(
-                        fileSystemSettings->observeRecentThumbnailSize(),
-                        [weak](const AV::Image::Size& value)
-                    {
-                        if (auto widget = weak.lock())
-                        {
-                            widget->_p->itemView->setThumbnailSize(value);
-                            widget->_p->thumbnailSizeSlider->setValue(value.w);
-                        }
-                    });
+                    widget->_p->recentFiles = value;
+                    widget->_recentFilesUpdate();
                 }
-            }
+            });
+
+            auto fileBrowserSettings = settingsSystem->getSettingsT<UI::Settings::FileBrowser>();
+            p.thumbnailSizeSettingsObserver = ValueObserver<AV::Image::Size>::create(
+                fileBrowserSettings->observeThumbnailSize(),
+                [weak](const AV::Image::Size& value)
+            {
+                if (auto widget = weak.lock())
+                {
+                    widget->_p->itemView->setThumbnailSize(value);
+                    widget->_p->thumbnailSizeSlider->setValue(value.w);
+                }
+            });
 
             p.thumbnailSizeSlider->setValueCallback(
                 [context](int value)
             {
-                if (auto settingsSystem = context->getSystemT<UI::Settings::System>())
-                {
-                    if (auto fileSettings = settingsSystem->getSettingsT<FileSettings>())
-                    {
-                        fileSettings->setRecentThumbnailSize(AV::Image::Size(value, ceilf(value / 2.f)));
-                    }
-                }
+                auto settingsSystem = context->getSystemT<UI::Settings::System>();
+                auto fileBrowserSettings = settingsSystem->getSettingsT<UI::Settings::FileBrowser>();
+                fileBrowserSettings->setThumbnailSize(AV::Image::Size(value, ceilf(value / 2.f)));
             });
 
             p.increaseThumbnailSizeObserver = ValueObserver<bool>::create(
@@ -204,16 +198,12 @@ namespace djv
             {
                 if (value)
                 {
-                    if (auto settingsSystem = context->getSystemT<UI::Settings::System>())
-                    {
-                        if (auto fileSettings = settingsSystem->getSettingsT<FileSettings>())
-                        {
-                            auto size = fileSettings->observeRecentThumbnailSize()->get();
-                            size.w = Math::clamp(static_cast<int>(size.w * 1.25f), UI::FileBrowser::thumbnailSizeRange.min, UI::FileBrowser::thumbnailSizeRange.max);
-                            size.h = static_cast<int>(ceilf(size.w / 2.f));
-                            fileSettings->setRecentThumbnailSize(size);
-                        }
-                    }
+                    auto settingsSystem = context->getSystemT<UI::Settings::System>();
+                    auto fileBrowserSettings = settingsSystem->getSettingsT<UI::Settings::FileBrowser>();
+                    auto size = fileBrowserSettings->observeThumbnailSize()->get();
+                    size.w = Math::clamp(static_cast<int>(size.w * 1.25f), UI::FileBrowser::thumbnailSizeRange.min, UI::FileBrowser::thumbnailSizeRange.max);
+                    size.h = static_cast<int>(ceilf(size.w / 2.f));
+                    fileBrowserSettings->setThumbnailSize(size);
                 }
             });
 
@@ -223,16 +213,12 @@ namespace djv
             {
                 if (value)
                 {
-                    if (auto settingsSystem = context->getSystemT<UI::Settings::System>())
-                    {
-                        if (auto fileSettings = settingsSystem->getSettingsT<FileSettings>())
-                        {
-                            auto size = fileSettings->observeRecentThumbnailSize()->get();
-                            size.w = Math::clamp(static_cast<int>(size.w * .75f), UI::FileBrowser::thumbnailSizeRange.min, UI::FileBrowser::thumbnailSizeRange.max);
-                            size.h = static_cast<int>(ceilf(size.w / 2.f));
-                            fileSettings->setRecentThumbnailSize(size);
-                        }
-                    }
+                    auto settingsSystem = context->getSystemT<UI::Settings::System>();
+                    auto fileBrowserSettings = settingsSystem->getSettingsT<UI::Settings::FileBrowser>();
+                    auto size = fileBrowserSettings->observeThumbnailSize()->get();
+                    size.w = Math::clamp(static_cast<int>(size.w * .75f), UI::FileBrowser::thumbnailSizeRange.min, UI::FileBrowser::thumbnailSizeRange.max);
+                    size.h = static_cast<int>(ceilf(size.w / 2.f));
+                    fileBrowserSettings->setThumbnailSize(size);
                 }
             });
         }
@@ -268,9 +254,7 @@ namespace djv
             p.actions["DecreaseThumbnailSize"]->setTooltip(_getText(DJV_TEXT("Recent files decrease thumbnail size tooltip")));
 
             p.itemCountLabel->setText(_getItemCountLabel(p.itemCount));
-
             p.searchBox->setTooltip(_getText(DJV_TEXT("Recent files search tooltip")));
-
             p.settingsPopupWidget->setTooltip(_getText(DJV_TEXT("Recent files settings tooltip")));
         }
 

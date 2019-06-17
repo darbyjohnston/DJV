@@ -33,13 +33,6 @@
 #include <djvCore/LogSystem.h>
 #include <djvCore/Timer.h>
 
-extern "C"
-{
-#include <libavutil/avutil.h>
-#include <libavutil/rational.h>
-
-} // extern "C"
-
 #include <condition_variable>
 
 using namespace djv::Core;
@@ -174,35 +167,43 @@ namespace djv
                 {
                     if (auto media = weak.lock())
                     {
-                        if (media->_p->infoFuture.valid() &&
-                            media->_p->infoFuture.wait_for(std::chrono::seconds(0)) == std::future_status::ready)
+                        try
                         {
-                            media->_p->infoTimer->stop();
-                            const auto info = media->_p->infoFuture.get();
-                            Time::Speed speed;
-                            Time::Timestamp duration = 0;
-                            const auto& video = info.video;
-                            if (video.size())
+                            if (media->_p->infoFuture.valid() &&
+                                media->_p->infoFuture.wait_for(std::chrono::seconds(0)) == std::future_status::ready)
                             {
-                                media->_p->videoInfo = video[0];
-                                speed = video[0].speed;
-                                duration = std::max(duration, video[0].duration);
+                                media->_p->infoTimer->stop();
+                                const auto info = media->_p->infoFuture.get();
+                                Time::Speed speed;
+                                Time::Timestamp duration = 0;
+                                const auto& video = info.video;
+                                if (video.size())
+                                {
+                                    media->_p->videoInfo = video[0];
+                                    speed = video[0].speed;
+                                    duration = std::max(duration, video[0].duration);
+                                }
+                                const auto& audio = info.audio;
+                                if (audio.size())
+                                {
+                                    media->_p->audioInfo = audio[0];
+                                    duration = std::max(duration, audio[0].duration);
+                                }
+                                {
+                                    std::stringstream ss;
+                                    ss << fileName << " duration: " << duration;
+                                    auto logSystem = context->getSystemT<LogSystem>();
+                                    logSystem->log("djv::ViewApp::Media", ss.str());
+                                }
+                                media->_p->info->setIfChanged(info);
+                                media->_p->speed->setIfChanged(speed);
+                                media->_p->duration->setIfChanged(duration);
                             }
-                            const auto& audio = info.audio;
-                            if (audio.size())
-                            {
-                                media->_p->audioInfo = audio[0];
-                                duration = std::max(duration, audio[0].duration);
-                            }
-                            {
-                                std::stringstream ss;
-                                ss << fileName << " duration: " << duration;
-                                auto logSystem = context->getSystemT<LogSystem>();
-                                logSystem->log("djv::ViewApp::Media", ss.str());
-                            }
-                            media->_p->info->setIfChanged(info);
-                            media->_p->speed->setIfChanged(speed);
-                            media->_p->duration->setIfChanged(duration);
+                        }
+                        catch (const std::exception& e)
+                        {
+                            auto logSystem = context->getSystemT<LogSystem>();
+                            logSystem->log("djv::ViewApp::Media", e.what());
                         }
                     }
                 });
@@ -345,7 +346,7 @@ namespace djv
         {
             return _p->inPoint;
         }
-
+        
         std::shared_ptr<IValueSubject<float> > Media::observeVolume() const
         {
             return _p->volume;
@@ -461,7 +462,7 @@ namespace djv
         {
             _p->playbackMode->setIfChanged(value);
         }
-
+        
         void Media::setVolume(float value)
         {
             if (_p->volume->setIfChanged(Math::clamp(value, 0.f, 1.f)))

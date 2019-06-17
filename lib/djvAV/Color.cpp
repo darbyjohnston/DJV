@@ -147,6 +147,26 @@ namespace djv
         } // namepsace Image
     } // namespace AV
 
+    picojson::value toJSON(const AV::Image::Color& value)
+    {
+        std::stringstream ss;
+        ss << value;
+        return picojson::value(ss.str());
+    }
+
+    void fromJSON(const picojson::value& value, AV::Image::Color& out)
+    {
+        if (value.is<std::string>())
+        {
+            std::stringstream ss(value.get<std::string>());
+            ss >> out;
+        }
+        else
+        {
+            throw std::invalid_argument(DJV_TEXT("Cannot parse the value."));
+        }
+    }
+
     std::ostream & operator << (std::ostream & os, const AV::Image::Color & value)
     {
         const auto type = value.getType();

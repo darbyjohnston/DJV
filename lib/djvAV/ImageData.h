@@ -78,8 +78,8 @@ namespace djv
                 uint16_t w = 0;
                 uint16_t h = 0;
 
-                constexpr bool operator == (const Size&) const;
-                constexpr bool operator != (const Size&) const;
+                inline bool operator == (const Size&) const;
+                inline bool operator != (const Size&) const;
             };
 
             //! This struct provides image data information.

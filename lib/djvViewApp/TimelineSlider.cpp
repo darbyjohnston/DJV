@@ -29,8 +29,8 @@
 
 #include <djvViewApp/TimelineSlider.h>
 
+#include <djvViewApp/MDIWidget.h>
 #include <djvViewApp/Media.h>
-#include <djvViewApp/MediaWidget.h>
 #include <djvViewApp/PlaybackSettings.h>
 
 #include <djvUI/EventSystem.h>
@@ -46,13 +46,6 @@
 #include <djvAV/Render2D.h>
 
 #include <djvCore/Math.h>
-
-extern "C"
-{
-#include <libavutil/avutil.h>
-#include <libavutil/rational.h>
-
-} // extern "C"
 
 using namespace djv::Core;
 
@@ -199,7 +192,7 @@ namespace djv
             void PIPWidget::_paintEvent(Event::Paint& event)
             {
                 UI::Widget::_paintEvent(event);
-                auto style = _getStyle();
+                const auto& style = _getStyle();
                 const float sh = style->getMetric(UI::MetricsRole::Shadow);
                 auto render = _getRender();
                 render->setFillColor(style->getColor(UI::ColorRole::Shadow));
@@ -209,7 +202,6 @@ namespace djv
                     {
                         BBox2f g = i->getGeometry();
                         g.min.x -= sh;
-                        g.min.y += sh;
                         g.max.x += sh;
                         g.max.y += sh;
                         if (g.isValid())
@@ -236,7 +228,6 @@ namespace djv
             Time::Speed speed;
             AV::Font::Metrics fontMetrics;
             std::future<AV::Font::Metrics> fontMetricsFuture;
-            std::map<uint32_t, bool> hover;
             uint32_t pressedID = Event::InvalidID;
             bool pip = true;
             std::shared_ptr<PIPWidget> pipWidget;
@@ -362,7 +353,7 @@ namespace djv
         void TimelineSlider::_styleEvent(Event::Style &)
         {
             DJV_PRIVATE_PTR();
-            auto style = _getStyle();
+            const auto& style = _getStyle();
             const auto fontInfo = style->getFontInfo(AV::Font::faceDefault, UI::MetricsRole::FontMedium);
             auto fontSystem = _getFontSystem();
             p.fontMetricsFuture = fontSystem->getMetrics(fontInfo);
@@ -372,7 +363,7 @@ namespace djv
         void TimelineSlider::_preLayoutEvent(Event::PreLayout & event)
         {
             DJV_PRIVATE_PTR();
-            auto style = _getStyle();
+            const auto& style = _getStyle();
             const float is = style->getMetric(UI::MetricsRole::Icon);
             glm::vec2 size = glm::vec2(0.f, 0.f);
             size.x = style->getMetric(UI::MetricsRole::TextColumn);
@@ -384,7 +375,7 @@ namespace djv
         {
             DJV_PRIVATE_PTR();
             const BBox2f & g = getGeometry();
-            auto style = _getStyle();
+            const auto& style = _getStyle();
             const float m = style->getMetric(UI::MetricsRole::MarginSmall);
             const float b = style->getMetric(UI::MetricsRole::Border);
             const BBox2f & hg = _getHandleGeometry();
@@ -449,7 +440,6 @@ namespace djv
             if (!event.isRejected())
             {
                 event.accept();
-                p.hover[event.getPointerInfo().id] = true;
                 _redraw();
                 if (p.pip && isEnabled())
                 {
@@ -467,32 +457,22 @@ namespace djv
         {
             DJV_PRIVATE_PTR();
             event.accept();
-            auto i = p.hover.find(event.getPointerInfo().id);
-            if (i != p.hover.end())
-            {
-                p.hover.erase(i);
-                _redraw();
-            }
+            _redraw();
             p.overlay->setVisible(false);
         }
 
         void TimelineSlider::_pointerMoveEvent(Event::PointerMove & event)
         {
             DJV_PRIVATE_PTR();
-            const auto id = event.getPointerInfo().id;
+            event.accept();
             const auto & pos = event.getPointerInfo().projectedPos;
             const BBox2f & g = getGeometry();
-            p.hover[id] = g.contains(pos);
             const Time::Timestamp timestamp = _posToTime(static_cast<int>(pos.x - g.min.x));
-            if (p.hover[id] || p.pressedID)
+            if (auto parent = getParentRecursiveT<MDIWidget>())
             {
-                if (auto parent = getParentRecursiveT<MediaWidget>())
-                {
-                    event.accept();
-                    auto style = _getStyle();
-                    const float s = style->getMetric(UI::MetricsRole::Spacing);
-                    p.pipWidget->setPIPPos(glm::vec2(pos.x, g.min.y - s), timestamp, parent->getGeometry().margin(-s));
-                }
+                const auto& style = _getStyle();
+                const float s = style->getMetric(UI::MetricsRole::Spacing);
+                p.pipWidget->setPIPPos(glm::vec2(pos.x, g.min.y - s), timestamp, parent->getGeometry().margin(-s));
             }
             if (p.pressedID)
             {
@@ -512,15 +492,12 @@ namespace djv
             const auto id = event.getPointerInfo().id;
             const auto & pos = event.getPointerInfo().projectedPos;
             const BBox2f & g = getGeometry();
-            if (p.hover[id])
+            event.accept();
+            p.pressedID = id;
+            if (p.currentTime->setIfChanged(_posToTime(static_cast<int>(pos.x - g.min.x))))
             {
-                event.accept();
-                p.pressedID = id;
-                if (p.currentTime->setIfChanged(_posToTime(static_cast<int>(pos.x - g.min.x))))
-                {
-                    _textUpdate();
-                    _redraw();
-                }
+                _textUpdate();
+                _redraw();
             }
         }
 
@@ -553,7 +530,7 @@ namespace djv
         Time::Timestamp TimelineSlider::_posToTime(float value) const
         {
             DJV_PRIVATE_PTR();
-            auto style = _getStyle();
+            const auto& style = _getStyle();
             const BBox2f& g = getGeometry();
             const float m = style->getMetric(UI::MetricsRole::MarginSmall);
             const double v = (static_cast<double>(value - static_cast<double>(m))) /
@@ -568,7 +545,7 @@ namespace djv
         float TimelineSlider::_timeToPos(Time::Timestamp value) const
         {
             DJV_PRIVATE_PTR();
-            auto style = _getStyle();
+            const auto& style = _getStyle();
             const BBox2f& g = getGeometry();
             const float m = style->getMetric(UI::MetricsRole::MarginSmall);
             const Time::Timestamp t = Time::scale(1, p.speed.swap(), Time::getTimebaseRational());
@@ -581,7 +558,7 @@ namespace djv
         {
             DJV_PRIVATE_PTR();
             const BBox2f & g = getGeometry();
-            auto style = _getStyle();
+            const auto& style = _getStyle();
             const float m = style->getMetric(UI::MetricsRole::MarginSmall);
             const int64_t t = Time::scale(1, p.speed.swap(), Time::getTimebaseRational());
             const float x = p.duration ? floorf(p.currentTime->get() / static_cast<float>(p.duration - t) * (g.w() - 1.f - m * 2.f)) : 0.f;
@@ -593,7 +570,7 @@ namespace djv
         {
             DJV_PRIVATE_PTR();
             auto avSystem = getContext()->getSystemT<AV::AVSystem>();
-            auto style = _getStyle();
+            const auto& style = _getStyle();
             auto fontSystem = _getFontSystem();
             const auto fontInfo = style->getFontInfo(AV::Font::faceDefault, UI::MetricsRole::FontMedium);
             _resize();

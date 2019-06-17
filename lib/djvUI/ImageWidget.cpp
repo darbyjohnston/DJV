@@ -32,6 +32,8 @@
 #include <djvAV/Image.h>
 #include <djvAV/Render2D.h>
 
+#include <glm/gtx/matrix_transform_2d.hpp>
+
 using namespace djv::Core;
 
 namespace djv
@@ -93,7 +95,7 @@ namespace djv
         {
             DJV_PRIVATE_PTR();
             glm::vec2 size(0.f, 0.f);
-            auto style = _getStyle();
+            const auto& style = _getStyle();
             if (p.sizeRole != MetricsRole::None)
             {
                 size.x = style->getMetric(p.sizeRole);
@@ -121,10 +123,11 @@ namespace djv
             DJV_PRIVATE_PTR();
             if (p.image)
             {
-                auto style = _getStyle();
+                const auto& style = _getStyle();
                 const BBox2f & g = getMargin().bbox(getGeometry(), style);
                 const glm::vec2 c = g.getCenter();
-                glm::vec2 size = glm::vec2(p.image->getWidth(), p.image->getHeight());
+                const auto& info = p.image->getInfo();
+                glm::vec2 size = glm::vec2(info.size.w, info.size.h);
                 glm::vec2 pos = glm::vec2(0.f, 0.f);
                 switch (getHAlign())
                 {
@@ -154,7 +157,14 @@ namespace djv
                 }
                 auto render = _getRender();
                 render->setFillColor(AV::Image::Color(1.f, 1.f, 1.f, getOpacity(true)));
-                render->drawImage(p.image, BBox2f(pos.x, pos.y, size.x, size.y), AV::Render::ImageCache::Dynamic);
+                AV::Render::ImageOptions options;
+                options.cache = AV::Render::ImageCache::Dynamic;
+                glm::mat3x3 m(1.f);
+                m = glm::translate(m, pos);
+                m = glm::scale(m, glm::vec2(size.x / static_cast<float>(info.size.w), size.y / static_cast<float>(info.size.h)));
+                render->pushTransform(m);
+                render->drawImage(p.image, glm::vec2(0.f, 0.f), options);
+                render->popTransform();
             }
         }
 

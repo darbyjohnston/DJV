@@ -270,6 +270,7 @@ namespace djv
         void Widget::setTooltip(const std::string & value)
         {
             _tooltipText = value;
+            setPointerEnabled(true);
         }
 
         void Widget::setTooltipsEnabled(bool value)
@@ -448,7 +449,7 @@ namespace djv
                     }
                     if (!_visibleInit)
                     {
-                        _render->setColorMult(!isEnabled(true) ? .65f : 1.f);
+                        _render->setColorMult(!isEnabled(true) ? Style::disabledColorMult : 1.f);
                         _render->setAlphaMult(getOpacity(true));
                         _paintEvent(static_cast<Event::Paint &>(event));
                     }
@@ -555,14 +556,10 @@ namespace djv
 
         void Widget::_paintOverlayEvent(Event::PaintOverlay& event)
         {
-            auto style = _getStyle();
-            const float ss = style->getMetric(MetricsRole::Shadow);
+            const auto& style = _getStyle();
+            const float ss = style->getMetric(MetricsRole::ShadowSmall);
             const BBox2f& g = getGeometry();
             _render->setFillColor(_style->getColor(ColorRole::Shadow));
-            /*if (_shadowOverlay.size())
-            {
-                _render->drawShadow(BBox2f(g.min.x + ss * 10, g.min.y + ss * 10, g.w(), g.h()), ss);
-            }*/
             for (const auto& i : _shadowOverlay)
             {
                 switch (i)
@@ -636,7 +633,7 @@ namespace djv
                 {
                     const int key = i->observeShortcutKey()->get();
                     const int modifiers = i->observeShortcutModifiers()->get();
-                    if ((key == event.getKey() && event.getKeyModifiers() & modifiers) ||
+                    if ((key == event.getKey() && event.getKeyModifiers() == modifiers) ||
                         (key == event.getKey() && modifiers == 0 && event.getKeyModifiers() == 0))
                     {
                         event.accept();

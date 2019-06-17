@@ -13,15 +13,19 @@ set(header
     HistogramTool.h
     ITool.h
     IViewSystem.h
+	ImageSettings.h
+	ImageSettingsWidget.h
     ImageSystem.h
     ImageView.h
+	ImageViewSettings.h
+	ImageViewSettingsWidget.h
     ImageViewSystem.h
     InformationTool.h
+	MDICanvas.h
 	MDIWidget.h
     MagnifierTool.h
     MainWindow.h
     Media.h
-    MediaWidget.h
 	NUXSettings.h
     NUXSettingsWidget.h
 	NUXSystem.h
@@ -29,14 +33,15 @@ set(header
     PlaybackSettingsWidget.h
     PlaybackSystem.h
     RecentFilesDialog.h
+    SettingsDialog.h
     SettingsSystem.h
-    SettingsWidget.h
     SystemLogTool.h
     TimelineSlider.h
     ToolSystem.h
+	UISettings.h
+	UISettingsWidget.h
     ViewApp.h
 	WindowSettings.h
-    WindowSettingsWidget.h
     WindowSystem.h)
 set(source
     AboutDialog.cpp
@@ -53,15 +58,19 @@ set(source
     HistogramTool.cpp
     ITool.cpp
     IViewSystem.cpp
+	ImageSettings.cpp
+	ImageSettingsWidget.cpp
     ImageSystem.cpp
     ImageView.cpp
+	ImageViewSettings.cpp
+	ImageViewSettingsWidget.cpp
     ImageViewSystem.cpp
     InformationTool.cpp
+	MDICanvas.cpp
 	MDIWidget.cpp
     MagnifierTool.cpp
     MainWindow.cpp
     Media.cpp
-    MediaWidget.cpp
 	NUXSettings.cpp
     NUXSettingsWidget.cpp
 	NUXSystem.cpp
@@ -69,13 +78,14 @@ set(source
     PlaybackSettingsWidget.cpp
     PlaybackSystem.cpp
     RecentFilesDialog.cpp
+    SettingsDialog.cpp
     SettingsSystem.cpp
-    SettingsWidget.cpp
     SystemLogTool.cpp
     TimelineSlider.cpp
     ToolSystem.cpp
+	UISettings.cpp
+	UISettingsWidget.cpp
 	WindowSettings.cpp
-    WindowSettingsWidget.cpp
     WindowSystem.cpp)
 
 add_library(djvViewApp ${header} ${source})

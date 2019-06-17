@@ -49,7 +49,6 @@ namespace djv
                 const Layout::Margin & getInsideMargin() const;
                 void setInsideMargin(const Layout::Margin &);
 
-                void setChecked(bool) override;
                 void setForegroundColorRole(ColorRole) override;
 
             protected:

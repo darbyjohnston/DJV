@@ -183,7 +183,7 @@ namespace djv
 
     } // namespace UI
 
-    picojson::value toJSON(const UI::ViewType &);
+    picojson::value toJSON(UI::ViewType);
 
     //! Throws:
     //! - std::exception

@@ -199,32 +199,17 @@ namespace djv
             {
                 DJV_PRIVATE_PTR();
                 glm::vec2 size = p.layout->getMinimumSize();
-                if (MenuStyle::Round == p.menuStyle)
-                {
-                    size.x += size.y;
-                }
-                auto style = _getStyle();
+                const auto& style = _getStyle();
                 _setMinimumSize(size + getMargin().getSize(style));
             }
 
             void Menu::_layoutEvent(Event::Layout &)
             {
                 DJV_PRIVATE_PTR();
-                auto style = _getStyle();
+                const auto& style = _getStyle();
                 const BBox2f& g = getMargin().bbox(getGeometry(), style);
                 switch (p.menuStyle)
                 {
-                case MenuStyle::Round:
-                {
-                    const float h = g.h();
-                    const float radius = h / 2.f;
-                    _p->layout->setGeometry(BBox2f(
-                        floorf(g.min.x + radius),
-                        g.min.y,
-                        ceilf(g.w() - h),
-                        h));
-                    break;
-                }
                 default:
                     _p->layout->setGeometry(g);
                     break;
@@ -241,44 +226,20 @@ namespace djv
 
             void Menu::_paintEvent(Event::Paint & event)
             {
+                Widget::_paintEvent(event);
                 DJV_PRIVATE_PTR();
-                auto style = _getStyle();
-                const float b = style->getMetric(MetricsRole::Border);
+                const auto& style = _getStyle();
                 const BBox2f& g = getMargin().bbox(getGeometry(), style);
-                const BBox2f& g2 = g.margin(-b);
                 auto render = _getRender();
-                switch (p.menuStyle)
+                if (p.checked)
                 {
-                case MenuStyle::Round:
-                    render->setFillColor(style->getColor(ColorRole::Border));
-                    render->drawPill(g);
-                    render->setFillColor(style->getColor(getBackgroundRole()));
-                    render->drawPill(g2);
-                    if (p.checked)
-                    {
-                        render->setFillColor(style->getColor(ColorRole::Pressed));
-                        render->drawPill(g2);
-                    }
-                    else if (_isHovered())
-                    {
-                        render->setFillColor(style->getColor(ColorRole::Hovered));
-                        render->drawPill(g2);
-                    }
-                    break;
-                default:
-                    render->setFillColor(style->getColor(getBackgroundRole()));
+                    render->setFillColor(style->getColor(ColorRole::Pressed));
                     render->drawRect(g);
-                    if (p.checked)
-                    {
-                        render->setFillColor(style->getColor(ColorRole::Pressed));
-                        render->drawRect(g);
-                    }
-                    else if (_isHovered())
-                    {
-                        render->setFillColor(style->getColor(ColorRole::Hovered));
-                        render->drawRect(g);
-                    }
-                    break;
+                }
+                else if (_isHovered())
+                {
+                    render->setFillColor(style->getColor(ColorRole::Hovered));
+                    render->drawRect(g);
                 }
             }
 
@@ -330,10 +291,8 @@ namespace djv
                 switch (p.menuStyle)
                 {
                 case MenuStyle::Flat:
+                case MenuStyle::ComboBox:
                     p.layout->setMargin(Layout::Margin(MetricsRole::MarginSmall, MetricsRole::MarginSmall, MetricsRole::None, MetricsRole::None));
-                    break;
-                case MenuStyle::Round:
-                    p.layout->setMargin(MetricsRole::None);
                     break;
                 case MenuStyle::Tool:
                     p.layout->setMargin(MetricsRole::MarginSmall);
