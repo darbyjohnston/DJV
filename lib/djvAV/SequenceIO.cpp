@@ -265,7 +265,6 @@ namespace djv
                     }
                 }
 
-                //! \todo This should not happen for every write plugin.
 #if defined(DJV_OPENGL_ES2)
                 glfwWindowHint(GLFW_CLIENT_API, GLFW_OPENGL_ES_API);
                 glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 2);

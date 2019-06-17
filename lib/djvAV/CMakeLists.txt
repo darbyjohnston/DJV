@@ -17,6 +17,7 @@ set(header
     AudioDataInline.h
     AudioInline.h
     AudioSystem.h
+    Cineon.h
     Color.h
     ColorInline.h
     Enum.h
@@ -52,6 +53,9 @@ set(source
     Audio.cpp
     AudioData.cpp
     AudioSystem.cpp
+    Cineon.cpp
+    CineonRead.cpp
+    CineonWrite.cpp
     Color.cpp
     Enum.cpp
     FontSystem.cpp
