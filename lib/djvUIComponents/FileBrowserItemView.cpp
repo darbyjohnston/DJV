@@ -858,12 +858,9 @@ namespace djv
                     std::string name;
                     switch (type)
                     {
-                    case FileSystem::FileType::Directory:
-                        name = "djvIconDirectory";
-                        break;
-                    default:
-                        name = "djvIconFile";
-                        break;
+                    case FileSystem::FileType::Directory: name = "djvIconDirectory"; break;
+                    case FileSystem::FileType::Sequence: name = "djvIconFileSequence"; break;
+                    default: name = "djvIconFile"; break;
                     }
                     auto iconSystem = _getIconSystem();
                     p.iconsFutures[type] = iconSystem->getIcon(name, p.thumbnailSize.h);
