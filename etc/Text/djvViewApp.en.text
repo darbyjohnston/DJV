@@ -120,6 +120,11 @@
         "description": ""
     }, 
     {
+        "text": "* libjpeg-turbo, http://libjpeg-turbo.org, Copyright (C)2009-2019 D. R. Commander. All Rights Reserved. Copyright (C)2015 Viktor Szathmáry. All Rights Reserved.",
+        "id": "Third Party Text 9B",
+        "description": ""
+    }, 
+    {
         "text": "* libpng, http://www.libpng.org, Copyright (c) 2004, 2006-2012 Glenn Randers-Pehrson", 
         "id": "Third Party Text 10", 
         "description": ""

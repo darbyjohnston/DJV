@@ -91,6 +91,7 @@ namespace djv
             p.textBlocks["ThirdParty7"] = UI::TextBlock::create(context);
             p.textBlocks["ThirdParty8"] = UI::TextBlock::create(context);
             p.textBlocks["ThirdParty9"] = UI::TextBlock::create(context);
+            p.textBlocks["ThirdParty9B"] = UI::TextBlock::create(context);
             p.textBlocks["ThirdParty10"] = UI::TextBlock::create(context);
             p.textBlocks["ThirdParty11"] = UI::TextBlock::create(context);
             p.textBlocks["ThirdParty12"] = UI::TextBlock::create(context);
