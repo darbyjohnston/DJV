@@ -78,6 +78,7 @@ namespace djv
             p.actions["Information"]->setShortcut(GLFW_KEY_4);
             p.actions["Debug"] = UI::Action::create();
             p.actions["Debug"]->setButtonType(UI::ButtonType::Toggle);
+            p.actions["Debug"]->setShortcut(GLFW_KEY_5);
 
             p.menu = UI::Menu::create(context);
             p.menu->addAction(p.actions["Magnifier"]);
