@@ -1,1796 +1,1796 @@
 [
     {
         "source": "Home", 
+        "text": "\u0413\u043b\u0430\u0432\u043d\u0430\u044f", 
         "description": "", 
-        "id": "Home", 
-        "text": "\u0413\u043b\u0430\u0432\u043d\u0430\u044f"
+        "id": "Home"
     }, 
     {
         "source": "Desktop", 
+        "text": "\u0440\u0430\u0431\u043e\u0447\u0438\u0439 \u0441\u0442\u043e\u043b", 
         "description": "", 
-        "id": "Desktop", 
-        "text": "\u0440\u0430\u0431\u043e\u0447\u0438\u0439 \u0441\u0442\u043e\u043b"
+        "id": "Desktop"
     }, 
     {
         "source": "Documents", 
+        "text": "\u0434\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u044b", 
         "description": "", 
-        "id": "Documents", 
-        "text": "\u0434\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u044b"
+        "id": "Documents"
     }, 
     {
         "source": "Downloads", 
+        "text": "\u0417\u0430\u0433\u0440\u0443\u0437\u043a\u0438", 
         "description": "", 
-        "id": "Downloads", 
-        "text": "\u0417\u0430\u0433\u0440\u0443\u0437\u043a\u0438"
+        "id": "Downloads"
     }, 
     {
         "source": "Application", 
+        "text": "\u0437\u0430\u044f\u0432\u043a\u0430", 
         "description": "", 
-        "id": "Application", 
-        "text": "\u0437\u0430\u044f\u0432\u043a\u0430"
+        "id": "Application"
     }, 
     {
         "source": "Log File", 
+        "text": "\u0416\u0443\u0440\u043d\u0430\u043b\u044c\u043d\u044b\u0439 \u0444\u0430\u0439\u043b", 
         "description": "", 
-        "id": "LogFile", 
-        "text": "\u0416\u0443\u0440\u043d\u0430\u043b\u044c\u043d\u044b\u0439 \u0444\u0430\u0439\u043b"
+        "id": "LogFile"
     }, 
     {
         "source": "Settings File", 
+        "text": "\u0424\u0430\u0439\u043b \u043d\u0430\u0441\u0442\u0440\u043e\u0435\u043a", 
         "description": "", 
-        "id": "SettingsFile", 
-        "text": "\u0424\u0430\u0439\u043b \u043d\u0430\u0441\u0442\u0440\u043e\u0435\u043a"
+        "id": "SettingsFile"
     }, 
     {
         "source": "Audio Directory", 
+        "text": "\u0410\u0443\u0434\u0438\u043e \u043a\u0430\u0442\u0430\u043b\u043e\u0433", 
         "description": "", 
-        "id": "AudioDirectory", 
-        "text": "\u0410\u0443\u0434\u0438\u043e \u043a\u0430\u0442\u0430\u043b\u043e\u0433"
+        "id": "AudioDirectory"
     }, 
     {
         "source": "Fonts Directory", 
+        "text": "\u041a\u0430\u0442\u0430\u043b\u043e\u0433 \u0448\u0440\u0438\u0444\u0442\u043e\u0432", 
         "description": "", 
-        "id": "FontsDirectory", 
-        "text": "\u041a\u0430\u0442\u0430\u043b\u043e\u0433 \u0448\u0440\u0438\u0444\u0442\u043e\u0432"
+        "id": "FontsDirectory"
     }, 
     {
         "source": "Icons Directory", 
+        "text": "\u041a\u0430\u0442\u0430\u043b\u043e\u0433 \u0437\u043d\u0430\u0447\u043a\u043e\u0432", 
         "description": "", 
-        "id": "IconsDirectory", 
-        "text": "\u041a\u0430\u0442\u0430\u043b\u043e\u0433 \u0437\u043d\u0430\u0447\u043a\u043e\u0432"
+        "id": "IconsDirectory"
     }, 
     {
         "source": "Images Directory", 
+        "text": "\u041a\u0430\u0442\u0430\u043b\u043e\u0433 \u0438\u0437\u043e\u0431\u0440\u0430\u0436\u0435\u043d\u0438\u0439", 
         "description": "", 
-        "id": "ImagesDirectory", 
-        "text": "\u041a\u0430\u0442\u0430\u043b\u043e\u0433 \u0438\u0437\u043e\u0431\u0440\u0430\u0436\u0435\u043d\u0438\u0439"
+        "id": "ImagesDirectory"
     }, 
     {
         "source": "Models Directory", 
+        "text": "\u041a\u0430\u0442\u0430\u043b\u043e\u0433 \u043c\u043e\u0434\u0435\u043b\u0435\u0439", 
         "description": "", 
-        "id": "ModelsDirectory", 
-        "text": "\u041a\u0430\u0442\u0430\u043b\u043e\u0433 \u043c\u043e\u0434\u0435\u043b\u0435\u0439"
+        "id": "ModelsDirectory"
     }, 
     {
         "source": "Shaders Directory", 
+        "text": "\u041a\u0430\u0442\u0430\u043b\u043e\u0433 \u0448\u0435\u0439\u0434\u0435\u0440\u043e\u0432", 
         "description": "", 
-        "id": "ShadersDirectory", 
-        "text": "\u041a\u0430\u0442\u0430\u043b\u043e\u0433 \u0448\u0435\u0439\u0434\u0435\u0440\u043e\u0432"
+        "id": "ShadersDirectory"
     }, 
     {
         "source": "Text Directory", 
+        "text": "\u0422\u0435\u043a\u0441\u0442\u043e\u0432\u044b\u0439 \u0441\u043f\u0440\u0430\u0432\u043e\u0447\u043d\u0438\u043a", 
         "description": "", 
-        "id": "TextDirectory", 
-        "text": "\u0422\u0435\u043a\u0441\u0442\u043e\u0432\u044b\u0439 \u0441\u043f\u0440\u0430\u0432\u043e\u0447\u043d\u0438\u043a"
+        "id": "TextDirectory"
     }, 
     {
         "source": "Cannot parse value", 
+        "text": "\u041d\u0435 \u043c\u043e\u0433\u0443 \u0440\u0430\u0437\u043e\u0431\u0440\u0430\u0442\u044c \u0437\u043d\u0430\u0447\u0435\u043d\u0438\u0435", 
         "description": "", 
-        "id": "Cannot parse value", 
-        "text": "\u041d\u0435 \u043c\u043e\u0433\u0443 \u0440\u0430\u0437\u043e\u0431\u0440\u0430\u0442\u044c \u0437\u043d\u0430\u0447\u0435\u043d\u0438\u0435"
+        "id": "Cannot parse value"
     }, 
     {
         "source": "Linear", 
+        "text": "\u043b\u0438\u043d\u0435\u0439\u043d\u044b\u0439", 
         "description": "", 
-        "id": "Linear", 
-        "text": "\u043b\u0438\u043d\u0435\u0439\u043d\u044b\u0439"
+        "id": "Linear"
     }, 
     {
         "source": "Ease In", 
+        "text": "\u041b\u0435\u0433\u043a\u043e\u0441\u0442\u044c \u0432", 
         "description": "", 
-        "id": "EaseIn", 
-        "text": "\u041b\u0435\u0433\u043a\u043e\u0441\u0442\u044c \u0432"
+        "id": "EaseIn"
     }, 
     {
         "source": "Ease Out", 
+        "text": "\u041e\u0431\u043b\u0435\u0433\u0447\u0438\u0442\u044c", 
         "description": "", 
-        "id": "EaseOut", 
-        "text": "\u041e\u0431\u043b\u0435\u0433\u0447\u0438\u0442\u044c"
+        "id": "EaseOut"
     }, 
     {
         "source": "Smooth Step", 
+        "text": "\u041f\u043b\u0430\u0432\u043d\u044b\u0439 \u0428\u0430\u0433", 
         "description": "", 
-        "id": "SmoothStep", 
-        "text": "\u041f\u043b\u0430\u0432\u043d\u044b\u0439 \u0428\u0430\u0433"
+        "id": "SmoothStep"
     }, 
     {
         "source": "Sine", 
+        "text": "\u0435\u0433\u043e", 
         "description": "", 
-        "id": "Sine", 
-        "text": "\u0435\u0433\u043e"
+        "id": "Sine"
     }, 
     {
         "source": "Error finding change notification for", 
+        "text": "\u041e\u0448\u0438\u0431\u043a\u0430 \u043f\u0440\u0438 \u043f\u043e\u0438\u0441\u043a\u0435 \u0443\u0432\u0435\u0434\u043e\u043c\u043b\u0435\u043d\u0438\u044f \u043e\u0431 \u0438\u0437\u043c\u0435\u043d\u0435\u043d\u0438\u0438 \u0434\u043b\u044f", 
         "description": "", 
-        "id": "Error finding change notification for", 
-        "text": "\u041e\u0448\u0438\u0431\u043a\u0430 \u043f\u0440\u0438 \u043f\u043e\u0438\u0441\u043a\u0435 \u0443\u0432\u0435\u0434\u043e\u043c\u043b\u0435\u043d\u0438\u044f \u043e\u0431 \u0438\u0437\u043c\u0435\u043d\u0435\u043d\u0438\u0438 \u0434\u043b\u044f"
+        "id": "Error finding change notification for"
     }, 
     {
         "source": "Error watching directory", 
+        "text": "\u041e\u0448\u0438\u0431\u043a\u0430 \u043f\u0440\u043e\u0441\u043c\u043e\u0442\u0440\u0430 \u043a\u0430\u0442\u0430\u043b\u043e\u0433\u0430", 
         "description": "", 
-        "id": "Error watching directory", 
-        "text": "\u041e\u0448\u0438\u0431\u043a\u0430 \u043f\u0440\u043e\u0441\u043c\u043e\u0442\u0440\u0430 \u043a\u0430\u0442\u0430\u043b\u043e\u0433\u0430"
+        "id": "Error watching directory"
     }, 
     {
         "source": "Cannot open file", 
+        "text": "\u041d\u0435\u0432\u043e\u0437\u043c\u043e\u0436\u043d\u043e \u043e\u0442\u043a\u0440\u044b\u0442\u044c \u0444\u0430\u0439\u043b", 
         "description": "", 
-        "id": "Cannot open file", 
-        "text": "\u041d\u0435\u0432\u043e\u0437\u043c\u043e\u0436\u043d\u043e \u043e\u0442\u043a\u0440\u044b\u0442\u044c \u0444\u0430\u0439\u043b"
+        "id": "Cannot open file"
     }, 
     {
         "source": "Cannot close file", 
+        "text": "\u041d\u0435 \u0443\u0434\u0430\u0435\u0442\u0441\u044f \u0437\u0430\u043a\u0440\u044b\u0442\u044c \u0444\u0430\u0439\u043b", 
         "description": "", 
-        "id": "Cannot close file", 
-        "text": "\u041d\u0435 \u0443\u0434\u0430\u0435\u0442\u0441\u044f \u0437\u0430\u043a\u0440\u044b\u0442\u044c \u0444\u0430\u0439\u043b"
+        "id": "Cannot close file"
     }, 
     {
         "source": "Cannot map file", 
+        "text": "\u041d\u0435\u0432\u043e\u0437\u043c\u043e\u0436\u043d\u043e \u043e\u0442\u043e\u0431\u0440\u0430\u0437\u0438\u0442\u044c \u0444\u0430\u0439\u043b", 
         "description": "", 
-        "id": "Cannot map file", 
-        "text": "\u041d\u0435\u0432\u043e\u0437\u043c\u043e\u0436\u043d\u043e \u043e\u0442\u043e\u0431\u0440\u0430\u0437\u0438\u0442\u044c \u0444\u0430\u0439\u043b"
+        "id": "Cannot map file"
     }, 
     {
         "source": "Cannot unmap file", 
+        "text": "\u041d\u0435 \u0443\u0434\u0430\u0435\u0442\u0441\u044f \u0443\u0434\u0430\u043b\u0438\u0442\u044c \u0444\u0430\u0439\u043b", 
         "description": "", 
-        "id": "Cannot unmap file", 
-        "text": "\u041d\u0435 \u0443\u0434\u0430\u0435\u0442\u0441\u044f \u0443\u0434\u0430\u043b\u0438\u0442\u044c \u0444\u0430\u0439\u043b"
+        "id": "Cannot unmap file"
     }, 
     {
         "source": "Cannot read file", 
+        "text": "\u041d\u0435 \u043c\u043e\u0433\u0443 \u043f\u0440\u043e\u0447\u0438\u0442\u0430\u0442\u044c \u0444\u0430\u0439\u043b", 
         "description": "", 
-        "id": "Cannot read file", 
-        "text": "\u041d\u0435 \u043c\u043e\u0433\u0443 \u043f\u0440\u043e\u0447\u0438\u0442\u0430\u0442\u044c \u0444\u0430\u0439\u043b"
+        "id": "Cannot read file"
     }, 
     {
         "source": "Cannot write file", 
+        "text": "\u041d\u0435 \u043c\u043e\u0433\u0443 \u0437\u0430\u043f\u0438\u0441\u0430\u0442\u044c \u0444\u0430\u0439\u043b", 
         "description": "", 
-        "id": "Cannot write file", 
-        "text": "\u041d\u0435 \u043c\u043e\u0433\u0443 \u0437\u0430\u043f\u0438\u0441\u0430\u0442\u044c \u0444\u0430\u0439\u043b"
+        "id": "Cannot write file"
     }, 
     {
         "source": "Slow", 
+        "text": "\u041c\u0435\u0434\u043b\u0435\u043d\u043d\u044b\u0439", 
         "description": "", 
-        "id": "Slow", 
-        "text": "\u041c\u0435\u0434\u043b\u0435\u043d\u043d\u044b\u0439"
+        "id": "Slow"
     }, 
     {
         "source": "Medium", 
+        "text": "\u0421\u0440\u0435\u0434\u043d\u044f\u044f", 
         "description": "", 
-        "id": "Medium", 
-        "text": "\u0421\u0440\u0435\u0434\u043d\u044f\u044f"
+        "id": "Medium"
     }, 
     {
         "source": "Fast", 
+        "text": "\u0411\u044b\u0441\u0442\u0440\u043e", 
         "description": "", 
-        "id": "Fast", 
-        "text": "\u0411\u044b\u0441\u0442\u0440\u043e"
+        "id": "Fast"
     }, 
     {
         "source": "Very Fast", 
+        "text": "\u041e\u0447\u0435\u043d\u044c \u0431\u044b\u0441\u0442\u0440\u043e", 
         "description": "", 
-        "id": "VeryFast", 
-        "text": "\u041e\u0447\u0435\u043d\u044c \u0431\u044b\u0441\u0442\u0440\u043e"
+        "id": "VeryFast"
     }, 
     {
         "source": "Parent Changed", 
+        "text": "\u0420\u043e\u0434\u0438\u0442\u0435\u043b\u044c \u0438\u0437\u043c\u0435\u043d\u0435\u043d", 
         "description": "", 
-        "id": "ParentChanged", 
-        "text": "\u0420\u043e\u0434\u0438\u0442\u0435\u043b\u044c \u0438\u0437\u043c\u0435\u043d\u0435\u043d"
+        "id": "ParentChanged"
     }, 
     {
         "source": "Child Added", 
+        "text": "\u0420\u0435\u0431\u0435\u043d\u043e\u043a \u0434\u043e\u0431\u0430\u0432\u043b\u0435\u043d", 
         "description": "", 
-        "id": "ChildAdded", 
-        "text": "\u0420\u0435\u0431\u0435\u043d\u043e\u043a \u0434\u043e\u0431\u0430\u0432\u043b\u0435\u043d"
+        "id": "ChildAdded"
     }, 
     {
         "source": "Child Removed", 
+        "text": "\u0420\u0435\u0431\u0435\u043d\u043e\u043a \u0443\u0434\u0430\u043b\u0435\u043d", 
         "description": "", 
-        "id": "ChildRemoved", 
-        "text": "\u0420\u0435\u0431\u0435\u043d\u043e\u043a \u0443\u0434\u0430\u043b\u0435\u043d"
+        "id": "ChildRemoved"
     }, 
     {
         "source": "Child Order", 
+        "text": "\u0414\u0435\u0442\u0441\u043a\u0438\u0439 \u0417\u0430\u043a\u0430\u0437", 
         "description": "", 
-        "id": "ChildOrder", 
-        "text": "\u0414\u0435\u0442\u0441\u043a\u0438\u0439 \u0417\u0430\u043a\u0430\u0437"
+        "id": "ChildOrder"
     }, 
     {
         "source": "Locale", 
+        "text": "\u043c\u0435\u0441\u0442\u043d\u044b\u0439", 
         "description": "", 
-        "id": "Locale", 
-        "text": "\u043c\u0435\u0441\u0442\u043d\u044b\u0439"
+        "id": "Locale"
     }, 
     {
         "source": "Update", 
+        "text": "\u041e\u0431\u043d\u043e\u0432\u0438\u0442\u044c", 
         "description": "", 
-        "id": "Update", 
-        "text": "\u041e\u0431\u043d\u043e\u0432\u0438\u0442\u044c"
+        "id": "Update"
     }, 
     {
         "source": "Style", 
+        "text": "\u0421\u0442\u0438\u043b\u044c", 
         "description": "", 
-        "id": "Style", 
-        "text": "\u0421\u0442\u0438\u043b\u044c"
+        "id": "Style"
     }, 
     {
         "source": "Pre Layout", 
+        "text": "\u041f\u0440\u0435\u0434\u0432\u0430\u0440\u0438\u0442\u0435\u043b\u044c\u043d\u044b\u0439 \u043c\u0430\u043a\u0435\u0442", 
         "description": "", 
-        "id": "PreLayout", 
-        "text": "\u041f\u0440\u0435\u0434\u0432\u0430\u0440\u0438\u0442\u0435\u043b\u044c\u043d\u044b\u0439 \u043c\u0430\u043a\u0435\u0442"
+        "id": "PreLayout"
     }, 
     {
         "source": "Layout", 
+        "text": "\u0440\u0430\u0441\u043a\u043b\u0430\u0434\u043a\u0430", 
         "description": "", 
-        "id": "Layout", 
-        "text": "\u0440\u0430\u0441\u043a\u043b\u0430\u0434\u043a\u0430"
+        "id": "Layout"
     }, 
     {
         "source": "Clip", 
+        "text": "\u043a\u043b\u0438\u043f", 
         "description": "", 
-        "id": "Clip", 
-        "text": "\u043a\u043b\u0438\u043f"
+        "id": "Clip"
     }, 
     {
         "source": "Paint", 
+        "text": "\u041f\u043e\u043a\u0440\u0430\u0441\u0438\u0442\u044c", 
         "description": "", 
-        "id": "Paint", 
-        "text": "\u041f\u043e\u043a\u0440\u0430\u0441\u0438\u0442\u044c"
+        "id": "Paint"
     }, 
     {
         "source": "Paint Overlay", 
+        "text": "\u041d\u0430\u043b\u043e\u0436\u0435\u043d\u0438\u0435 \u043a\u0440\u0430\u0441\u043a\u0438", 
         "description": "", 
-        "id": "PaintOverlay", 
-        "text": "\u041d\u0430\u043b\u043e\u0436\u0435\u043d\u0438\u0435 \u043a\u0440\u0430\u0441\u043a\u0438"
+        "id": "PaintOverlay"
     }, 
     {
         "source": "Pointer Enter", 
+        "text": "\u0423\u043a\u0430\u0437\u0430\u0442\u0435\u043b\u044c Enter", 
         "description": "", 
-        "id": "PointerEnter", 
-        "text": "\u0423\u043a\u0430\u0437\u0430\u0442\u0435\u043b\u044c Enter"
+        "id": "PointerEnter"
     }, 
     {
         "source": "Pointer Leave", 
+        "text": "\u0423\u043a\u0430\u0437\u0430\u0442\u0435\u043b\u044c \u043e\u0442\u043f\u0443\u0441\u043a", 
         "description": "", 
-        "id": "PointerLeave", 
-        "text": "\u0423\u043a\u0430\u0437\u0430\u0442\u0435\u043b\u044c \u043e\u0442\u043f\u0443\u0441\u043a"
+        "id": "PointerLeave"
     }, 
     {
         "source": "Pointer Move", 
+        "text": "\u0414\u0432\u0438\u0436\u0435\u043d\u0438\u0435 \u0443\u043a\u0430\u0437\u0430\u0442\u0435\u043b\u044f", 
         "description": "", 
-        "id": "PointerMove", 
-        "text": "\u0414\u0432\u0438\u0436\u0435\u043d\u0438\u0435 \u0443\u043a\u0430\u0437\u0430\u0442\u0435\u043b\u044f"
+        "id": "PointerMove"
     }, 
     {
         "source": "Button Press", 
+        "text": "\u041d\u0430\u0436\u0430\u0442\u0438\u0435 \u043a\u043d\u043e\u043f\u043a\u0438", 
         "description": "", 
-        "id": "ButtonPress", 
-        "text": "\u041d\u0430\u0436\u0430\u0442\u0438\u0435 \u043a\u043d\u043e\u043f\u043a\u0438"
+        "id": "ButtonPress"
     }, 
     {
         "source": "Button Release", 
+        "text": "\u041a\u043d\u043e\u043f\u043a\u0430 \u0432\u044b\u043f\u0443\u0441\u043a\u0430", 
         "description": "", 
-        "id": "ButtonRelease", 
-        "text": "\u041a\u043d\u043e\u043f\u043a\u0430 \u0432\u044b\u043f\u0443\u0441\u043a\u0430"
+        "id": "ButtonRelease"
     }, 
     {
         "source": "Scroll", 
+        "text": "\u043c\u0430\u043d\u0443\u0441\u043a\u0440\u0438\u043f\u0442", 
         "description": "", 
-        "id": "Scroll", 
-        "text": "\u043c\u0430\u043d\u0443\u0441\u043a\u0440\u0438\u043f\u0442"
+        "id": "Scroll"
     }, 
     {
         "source": "Drop", 
+        "text": "\u041a\u0430\u043f\u043b\u044f", 
         "description": "", 
-        "id": "Drop", 
-        "text": "\u041a\u0430\u043f\u043b\u044f"
+        "id": "Drop"
     }, 
     {
         "source": "Keyboard Focus", 
+        "text": "\u0424\u043e\u043a\u0443\u0441 \u043a\u043b\u0430\u0432\u0438\u0430\u0442\u0443\u0440\u044b", 
         "description": "", 
-        "id": "KeyboardFocus", 
-        "text": "\u0424\u043e\u043a\u0443\u0441 \u043a\u043b\u0430\u0432\u0438\u0430\u0442\u0443\u0440\u044b"
+        "id": "KeyboardFocus"
     }, 
     {
         "source": "Keyboard Focus Lost", 
+        "text": "\u0424\u043e\u043a\u0443\u0441 \u043a\u043b\u0430\u0432\u0438\u0430\u0442\u0443\u0440\u044b \u043f\u043e\u0442\u0435\u0440\u044f\u043d", 
         "description": "", 
-        "id": "KeyboardFocusLost", 
-        "text": "\u0424\u043e\u043a\u0443\u0441 \u043a\u043b\u0430\u0432\u0438\u0430\u0442\u0443\u0440\u044b \u043f\u043e\u0442\u0435\u0440\u044f\u043d"
+        "id": "KeyboardFocusLost"
     }, 
     {
         "source": "Key", 
+        "text": "\u043a\u043b\u044e\u0447", 
         "description": "", 
-        "id": "Key", 
-        "text": "\u043a\u043b\u044e\u0447"
+        "id": "Key"
     }, 
     {
         "source": "Text", 
+        "text": "\u0422\u0435\u043a\u0441\u0442", 
         "description": "", 
-        "id": "Text", 
-        "text": "\u0422\u0435\u043a\u0441\u0442"
+        "id": "Text"
     }, 
     {
         "source": "File", 
+        "text": "\u0444\u0430\u0439\u043b", 
         "description": "", 
-        "id": "File", 
-        "text": "\u0444\u0430\u0439\u043b"
+        "id": "File"
     }, 
     {
         "source": "Sequence", 
+        "text": "\u041f\u043e\u0441\u043b\u0435\u0434\u043e\u0432\u0430\u0442\u0435\u043b\u044c\u043d\u043e\u0441\u0442\u044c", 
         "description": "", 
-        "id": "Sequence", 
-        "text": "\u041f\u043e\u0441\u043b\u0435\u0434\u043e\u0432\u0430\u0442\u0435\u043b\u044c\u043d\u043e\u0441\u0442\u044c"
+        "id": "Sequence"
     }, 
     {
         "source": "Directory", 
+        "text": "\u043a\u0430\u0442\u0430\u043b\u043e\u0433", 
         "description": "", 
-        "id": "Directory", 
-        "text": "\u043a\u0430\u0442\u0430\u043b\u043e\u0433"
+        "id": "Directory"
     }, 
     {
         "source": "Name", 
+        "text": "\u043d\u0430\u0437\u0432\u0430\u043d\u0438\u0435", 
         "description": "", 
-        "id": "Name", 
-        "text": "\u043d\u0430\u0437\u0432\u0430\u043d\u0438\u0435"
+        "id": "Name"
     }, 
     {
         "source": "Size", 
+        "text": "\u0420\u0430\u0437\u043c\u0435\u0440", 
         "description": "", 
-        "id": "Size", 
-        "text": "\u0420\u0430\u0437\u043c\u0435\u0440"
+        "id": "Size"
     }, 
     {
         "source": "Permissions", 
+        "text": "\u043f\u0440\u0430\u0432\u0430 \u0434\u043e\u0441\u0442\u0443\u043f\u0430", 
         "description": "", 
-        "id": "Permissions", 
-        "text": "\u043f\u0440\u0430\u0432\u0430 \u0434\u043e\u0441\u0442\u0443\u043f\u0430"
+        "id": "Permissions"
     }, 
     {
         "source": "Type", 
+        "text": "\u0422\u0438\u043f", 
         "description": "", 
-        "id": "Type", 
-        "text": "\u0422\u0438\u043f"
+        "id": "Type"
     }, 
     {
         "source": "Cannot parse value.", 
+        "text": "\u041d\u0435\u0432\u043e\u0437\u043c\u043e\u0436\u043d\u043e \u0440\u0430\u0437\u043e\u0431\u0440\u0430\u0442\u044c \u0437\u043d\u0430\u0447\u0435\u043d\u0438\u0435.", 
         "description": "", 
-        "id": "Cannot parse value.", 
-        "text": "\u041d\u0435\u0432\u043e\u0437\u043c\u043e\u0436\u043d\u043e \u0440\u0430\u0437\u043e\u0431\u0440\u0430\u0442\u044c \u0437\u043d\u0430\u0447\u0435\u043d\u0438\u0435."
+        "id": "Cannot parse value."
     }, 
     {
         "source": "MSB", 
+        "text": "MSB", 
         "description": "", 
-        "id": "MSB", 
-        "text": "MSB"
+        "id": "MSB"
     }, 
     {
         "source": "LSB", 
+        "text": "LSB", 
         "description": "", 
-        "id": "LSB", 
-        "text": "LSB"
+        "id": "LSB"
     }, 
     {
         "source": "Amargosa Canyon Speckled Dace", 
+        "text": "\u041a\u0430\u043d\u044c\u043e\u043d \u0410\u043c\u0430\u0440\u0433\u043e\u0441\u0430, \u043f\u0435\u0441\u0442\u0440\u0430\u044f \u043f\u043b\u043e\u0442\u0432\u0430", 
         "description": "", 
-        "id": "Amargosa Canyon Speckled Dace", 
-        "text": "\u041a\u0430\u043d\u044c\u043e\u043d \u0410\u043c\u0430\u0440\u0433\u043e\u0441\u0430, \u043f\u0435\u0441\u0442\u0440\u0430\u044f \u043f\u043b\u043e\u0442\u0432\u0430"
+        "id": "Amargosa Canyon Speckled Dace"
     }, 
     {
         "source": "Amargosa River Pupfish", 
+        "text": "\u0420\u0435\u043a\u0430 \u0410\u043c\u0430\u0440\u0433\u043e\u0441\u0430 \u041f\u0443\u043f\u0444\u0438\u0448", 
         "description": "", 
-        "id": "Amargosa River Pupfish", 
-        "text": "\u0420\u0435\u043a\u0430 \u0410\u043c\u0430\u0440\u0433\u043e\u0441\u0430 \u041f\u0443\u043f\u0444\u0438\u0448"
+        "id": "Amargosa River Pupfish"
     }, 
     {
         "source": "American Shad", 
+        "text": "\u0410\u043c\u0435\u0440\u0438\u043a\u0430\u043d\u0441\u043a\u0438\u0439 \u0428\u0430\u0434", 
         "description": "", 
-        "id": "American Shad", 
-        "text": "\u0410\u043c\u0435\u0440\u0438\u043a\u0430\u043d\u0441\u043a\u0438\u0439 \u0428\u0430\u0434"
+        "id": "American Shad"
     }, 
     {
         "source": "Arroyo Chub", 
+        "text": "\u0410\u0440\u0440\u043e\u0439\u043e \u0427\u0443\u0431", 
         "description": "", 
-        "id": "Arroyo Chub", 
-        "text": "\u0410\u0440\u0440\u043e\u0439\u043e \u0427\u0443\u0431"
+        "id": "Arroyo Chub"
     }, 
     {
         "source": "Bigeye Marbled Sculpin", 
+        "text": "\u0411\u043e\u043b\u044c\u0448\u0435\u0433\u043b\u0430\u0437\u0430\u044f \u043c\u0440\u0430\u043c\u043e\u0440\u043d\u0430\u044f \u0441\u043a\u0443\u043b\u044c\u043f\u0442\u0443\u0440\u0430", 
         "description": "", 
-        "id": "Bigeye Marbled Sculpin", 
-        "text": "\u0411\u043e\u043b\u044c\u0448\u0435\u0433\u043b\u0430\u0437\u0430\u044f \u043c\u0440\u0430\u043c\u043e\u0440\u043d\u0430\u044f \u0441\u043a\u0443\u043b\u044c\u043f\u0442\u0443\u0440\u0430"
+        "id": "Bigeye Marbled Sculpin"
     }, 
     {
         "source": "Bigscale Logperch", 
+        "text": "Bigscale Logperch", 
         "description": "", 
-        "id": "Bigscale Logperch", 
-        "text": "Bigscale Logperch"
+        "id": "Bigscale Logperch"
     }, 
     {
         "source": "Black Bullhead", 
+        "text": "\u0427\u0435\u0440\u043d\u044b\u0439 \u0431\u044b\u0447\u043e\u043a", 
         "description": "", 
-        "id": "Black Bullhead", 
-        "text": "\u0427\u0435\u0440\u043d\u044b\u0439 \u0431\u044b\u0447\u043e\u043a"
+        "id": "Black Bullhead"
     }, 
     {
         "source": "Black Crappie", 
+        "text": "\u0427\u0435\u0440\u043d\u044b\u0439 \u043a\u0440\u0430\u043f\u043f\u0438", 
         "description": "", 
-        "id": "Black Crappie", 
-        "text": "\u0427\u0435\u0440\u043d\u044b\u0439 \u043a\u0440\u0430\u043f\u043f\u0438"
+        "id": "Black Crappie"
     }, 
     {
         "source": "Blue Catfish", 
+        "text": "\u0421\u0438\u043d\u0438\u0439 \u0441\u043e\u043c", 
         "description": "", 
-        "id": "Blue Catfish", 
-        "text": "\u0421\u0438\u043d\u0438\u0439 \u0441\u043e\u043c"
+        "id": "Blue Catfish"
     }, 
     {
         "source": "Blue Chub", 
+        "text": "\u0413\u043e\u043b\u0443\u0431\u043e\u0439 \u0433\u043e\u043b\u0430\u0432\u043b\u044c", 
         "description": "", 
-        "id": "Blue Chub", 
-        "text": "\u0413\u043e\u043b\u0443\u0431\u043e\u0439 \u0433\u043e\u043b\u0430\u0432\u043b\u044c"
+        "id": "Blue Chub"
     }, 
     {
         "source": "Bluefin Killifish", 
+        "text": "Bluefin Killifish", 
         "description": "", 
-        "id": "Bluefin Killifish", 
-        "text": "Bluefin Killifish"
+        "id": "Bluefin Killifish"
     }, 
     {
         "source": "Bluegill", 
+        "text": "Bluegill", 
         "description": "", 
-        "id": "Bluegill", 
-        "text": "Bluegill"
+        "id": "Bluegill"
     }, 
     {
         "source": "Lepomis macrochirus", 
+        "text": "\u041c\u0430\u043a\u0440\u043e\u0445\u0438\u0440\u0443\u0441 \u043b\u0435\u043f\u043e\u043c\u0438\u0441\u0430", 
         "description": "", 
-        "id": "Lepomis macrochirus", 
-        "text": "\u041c\u0430\u043a\u0440\u043e\u0445\u0438\u0440\u0443\u0441 \u043b\u0435\u043f\u043e\u043c\u0438\u0441\u0430"
+        "id": "Lepomis macrochirus"
     }, 
     {
         "source": "Bonytail", 
+        "text": "Bonytail", 
         "description": "", 
-        "id": "Bonytail", 
-        "text": "Bonytail"
+        "id": "Bonytail"
     }, 
     {
         "source": "Brook Stickleback", 
+        "text": "\u0411\u0440\u0443\u043a \u0421\u0442\u0438\u043b\u0431\u0435\u043a", 
         "description": "", 
-        "id": "Brook Stickleback", 
-        "text": "\u0411\u0440\u0443\u043a \u0421\u0442\u0438\u043b\u0431\u0435\u043a"
+        "id": "Brook Stickleback"
     }, 
     {
         "source": "Brook Trout", 
+        "text": "\u0420\u0443\u0447\u0435\u0435\u0432\u0430\u044f \u0444\u043e\u0440\u0435\u043b\u044c", 
         "description": "", 
-        "id": "Brook Trout", 
-        "text": "\u0420\u0443\u0447\u0435\u0435\u0432\u0430\u044f \u0444\u043e\u0440\u0435\u043b\u044c"
+        "id": "Brook Trout"
     }, 
     {
         "source": "Brown Bullhead", 
+        "text": "\u0411\u0440\u0430\u0443\u043d \u0411\u0443\u043b\u043b\u0445\u0435\u0434", 
         "description": "", 
-        "id": "Brown Bullhead", 
-        "text": "\u0411\u0440\u0430\u0443\u043d \u0411\u0443\u043b\u043b\u0445\u0435\u0434"
+        "id": "Brown Bullhead"
     }, 
     {
         "source": "Brown Trout", 
+        "text": "\u0424\u043e\u0440\u0435\u043b\u044c", 
         "description": "", 
-        "id": "Brown Trout", 
-        "text": "\u0424\u043e\u0440\u0435\u043b\u044c"
+        "id": "Brown Trout"
     }, 
     {
         "source": "Bull Trout", 
+        "text": "\u0411\u044b\u0447\u044c\u044f \u0444\u043e\u0440\u0435\u043b\u044c", 
         "description": "", 
-        "id": "Bull Trout", 
-        "text": "\u0411\u044b\u0447\u044c\u044f \u0444\u043e\u0440\u0435\u043b\u044c"
+        "id": "Bull Trout"
     }, 
     {
         "source": "California Coast Fall Chinook Salmon", 
+        "text": "\u041b\u043e\u0441\u043e\u0441\u044c \u041a\u0430\u043b\u0438\u0444\u043e\u0440\u043d\u0438\u0438 \u041f\u043e\u0431\u0435\u0440\u0435\u0436\u044c\u0435 \u0427\u0438\u043d\u0443\u043a", 
         "description": "", 
-        "id": "California Coast Fall Chinook Salmon", 
-        "text": "\u041b\u043e\u0441\u043e\u0441\u044c \u041a\u0430\u043b\u0438\u0444\u043e\u0440\u043d\u0438\u0438 \u041f\u043e\u0431\u0435\u0440\u0435\u0436\u044c\u0435 \u0427\u0438\u043d\u0443\u043a"
+        "id": "California Coast Fall Chinook Salmon"
     }, 
     {
         "source": "California Golden Trout", 
+        "text": "\u041a\u0430\u043b\u0438\u0444\u043e\u0440\u043d\u0438\u0439\u0441\u043a\u0430\u044f \u0437\u043e\u043b\u043e\u0442\u0430\u044f \u0444\u043e\u0440\u0435\u043b\u044c", 
         "description": "", 
-        "id": "California Golden Trout", 
-        "text": "\u041a\u0430\u043b\u0438\u0444\u043e\u0440\u043d\u0438\u0439\u0441\u043a\u0430\u044f \u0437\u043e\u043b\u043e\u0442\u0430\u044f \u0444\u043e\u0440\u0435\u043b\u044c"
+        "id": "California Golden Trout"
     }, 
     {
         "source": "California Killifish", 
+        "text": "\u041a\u0430\u043b\u0438\u0444\u043e\u0440\u043d\u0438\u044f \u041a\u0438\u043b\u043b\u0438\u0444\u0438\u0448", 
         "description": "", 
-        "id": "California Killifish", 
-        "text": "\u041a\u0430\u043b\u0438\u0444\u043e\u0440\u043d\u0438\u044f \u041a\u0438\u043b\u043b\u0438\u0444\u0438\u0448"
+        "id": "California Killifish"
     }, 
     {
         "source": "California Tilapia", 
+        "text": "\u041a\u0430\u043b\u0438\u0444\u043e\u0440\u043d\u0438\u0439\u0441\u043a\u0430\u044f \u0442\u0438\u043b\u0430\u043f\u0438\u044f", 
         "description": "", 
-        "id": "California Tilapia", 
-        "text": "\u041a\u0430\u043b\u0438\u0444\u043e\u0440\u043d\u0438\u0439\u0441\u043a\u0430\u044f \u0442\u0438\u043b\u0430\u043f\u0438\u044f"
+        "id": "California Tilapia"
     }, 
     {
         "source": "Central California Coast Winter Steelhead", 
+        "text": "\u0426\u0435\u043d\u0442\u0440\u0430\u043b\u044c\u043d\u0430\u044f \u041a\u0430\u043b\u0438\u0444\u043e\u0440\u043d\u0438\u044f \u041f\u043e\u0431\u0435\u0440\u0435\u0436\u044c\u0435 \u0417\u0438\u043c\u0430 \u0421\u0442\u0438\u043b\u0445\u0435\u0434", 
         "description": "", 
-        "id": "Central California Coast Winter Steelhead", 
-        "text": "\u0426\u0435\u043d\u0442\u0440\u0430\u043b\u044c\u043d\u0430\u044f \u041a\u0430\u043b\u0438\u0444\u043e\u0440\u043d\u0438\u044f \u041f\u043e\u0431\u0435\u0440\u0435\u0436\u044c\u0435 \u0417\u0438\u043c\u0430 \u0421\u0442\u0438\u043b\u0445\u0435\u0434"
+        "id": "Central California Coast Winter Steelhead"
     }, 
     {
         "source": "Central California Roach", 
+        "text": "\u0426\u0435\u043d\u0442\u0440\u0430\u043b\u044c\u043d\u0430\u044f \u041a\u0430\u043b\u0438\u0444\u043e\u0440\u043d\u0438\u044f \u0420\u043e\u0443\u0447", 
         "description": "", 
-        "id": "Central California Roach", 
-        "text": "\u0426\u0435\u043d\u0442\u0440\u0430\u043b\u044c\u043d\u0430\u044f \u041a\u0430\u043b\u0438\u0444\u043e\u0440\u043d\u0438\u044f \u0420\u043e\u0443\u0447"
+        "id": "Central California Roach"
     }, 
     {
         "source": "Central Coast Coho Salmon", 
+        "text": "\u0426\u0435\u043d\u0442\u0440\u0430\u043b\u044c\u043d\u043e\u0435 \u043f\u043e\u0431\u0435\u0440\u0435\u0436\u044c\u0435 Coho Salmon", 
         "description": "", 
-        "id": "Central Coast Coho Salmon", 
-        "text": "\u0426\u0435\u043d\u0442\u0440\u0430\u043b\u044c\u043d\u043e\u0435 \u043f\u043e\u0431\u0435\u0440\u0435\u0436\u044c\u0435 Coho Salmon"
+        "id": "Central Coast Coho Salmon"
     }, 
     {
         "source": "Central Valley Fall Chinook Salmon", 
+        "text": "\u0426\u0435\u043d\u0442\u0440\u0430\u043b\u044c\u043d\u0430\u044f \u0414\u043e\u043b\u0438\u043d\u0430 \u041e\u0441\u0435\u043d\u044c \u0427\u0438\u043d\u0443\u043a \u041b\u043e\u0441\u043e\u0441\u044c", 
         "description": "", 
-        "id": "Central Valley Fall Chinook Salmon", 
-        "text": "\u0426\u0435\u043d\u0442\u0440\u0430\u043b\u044c\u043d\u0430\u044f \u0414\u043e\u043b\u0438\u043d\u0430 \u041e\u0441\u0435\u043d\u044c \u0427\u0438\u043d\u0443\u043a \u041b\u043e\u0441\u043e\u0441\u044c"
+        "id": "Central Valley Fall Chinook Salmon"
     }, 
     {
         "source": "Central Valley late Fall Chinook Salmon", 
+        "text": "\u0426\u0435\u043d\u0442\u0440\u0430\u043b\u044c\u043d\u0430\u044f \u0434\u043e\u043b\u0438\u043d\u0430 \u043f\u043e\u0437\u0434\u043d\u0435\u0439 \u043e\u0441\u0435\u043d\u0438 \u043b\u043e\u0441\u043e\u0441\u044f \u0447\u0438\u043d\u0443\u043a", 
         "description": "", 
-        "id": "Central Valley late Fall Chinook Salmon", 
-        "text": "\u0426\u0435\u043d\u0442\u0440\u0430\u043b\u044c\u043d\u0430\u044f \u0434\u043e\u043b\u0438\u043d\u0430 \u043f\u043e\u0437\u0434\u043d\u0435\u0439 \u043e\u0441\u0435\u043d\u0438 \u043b\u043e\u0441\u043e\u0441\u044f \u0447\u0438\u043d\u0443\u043a"
+        "id": "Central Valley late Fall Chinook Salmon"
     }, 
     {
         "source": "Oncorhynchus tshawytscha", 
+        "text": "Oncorhynchus tshawytscha", 
         "description": "", 
-        "id": "Oncorhynchus tshawytscha", 
-        "text": "Oncorhynchus tshawytscha"
+        "id": "Oncorhynchus tshawytscha"
     }, 
     {
         "source": "Central Valley spring Chinook Salmon", 
+        "text": "\u0426\u0435\u043d\u0442\u0440\u0430\u043b\u044c\u043d\u0430\u044f \u0434\u043e\u043b\u0438\u043d\u0430 \u0432\u0435\u0441\u043d\u044b \u0427\u0438\u043d\u0443\u043a \u041b\u043e\u0441\u043e\u0441\u044c", 
         "description": "", 
-        "id": "Central Valley spring Chinook Salmon", 
-        "text": "\u0426\u0435\u043d\u0442\u0440\u0430\u043b\u044c\u043d\u0430\u044f \u0434\u043e\u043b\u0438\u043d\u0430 \u0432\u0435\u0441\u043d\u044b \u0427\u0438\u043d\u0443\u043a \u041b\u043e\u0441\u043e\u0441\u044c"
+        "id": "Central Valley spring Chinook Salmon"
     }, 
     {
         "source": "Central Valley Steelhead", 
+        "text": "\u0426\u0435\u043d\u0442\u0440\u0430\u043b\u044c\u043d\u0430\u044f \u0434\u043e\u043b\u0438\u043d\u0430 \u0421\u0442\u0438\u043b\u0445\u0435\u0434", 
         "description": "", 
-        "id": "Central Valley Steelhead", 
-        "text": "\u0426\u0435\u043d\u0442\u0440\u0430\u043b\u044c\u043d\u0430\u044f \u0434\u043e\u043b\u0438\u043d\u0430 \u0421\u0442\u0438\u043b\u0445\u0435\u0434"
+        "id": "Central Valley Steelhead"
     }, 
     {
         "source": "Central Valley Winter Chinook Salmon", 
+        "text": "\u0426\u0435\u043d\u0442\u0440\u0430\u043b\u044c\u043d\u0430\u044f \u0434\u043e\u043b\u0438\u043d\u0430 \u0417\u0438\u043c\u043d\u0438\u0439 \u0427\u0438\u043d\u0443\u043a \u041b\u043e\u0441\u043e\u0441\u044c", 
         "description": "", 
-        "id": "Central Valley Winter Chinook Salmon", 
-        "text": "\u0426\u0435\u043d\u0442\u0440\u0430\u043b\u044c\u043d\u0430\u044f \u0434\u043e\u043b\u0438\u043d\u0430 \u0417\u0438\u043c\u043d\u0438\u0439 \u0427\u0438\u043d\u0443\u043a \u041b\u043e\u0441\u043e\u0441\u044c"
+        "id": "Central Valley Winter Chinook Salmon"
     }, 
     {
         "source": "Channel Catfish", 
+        "text": "\u041a\u0430\u043d\u0430\u043b \u0421\u043e\u043c", 
         "description": "", 
-        "id": "Channel Catfish", 
-        "text": "\u041a\u0430\u043d\u0430\u043b \u0421\u043e\u043c"
+        "id": "Channel Catfish"
     }, 
     {
         "source": "Chum Salmon", 
+        "text": "\u041b\u043e\u0441\u043e\u0441\u044c", 
         "description": "", 
-        "id": "Chum Salmon", 
-        "text": "\u041b\u043e\u0441\u043e\u0441\u044c"
+        "id": "Chum Salmon"
     }, 
     {
         "source": "Clear Lake Hitch", 
+        "text": "\u042f\u0441\u043d\u043e\u0435 \u043e\u0437\u0435\u0440\u043e \u0425\u0438\u0442\u0447", 
         "description": "", 
-        "id": "Clear Lake Hitch", 
-        "text": "\u042f\u0441\u043d\u043e\u0435 \u043e\u0437\u0435\u0440\u043e \u0425\u0438\u0442\u0447"
+        "id": "Clear Lake Hitch"
     }, 
     {
         "source": "Clear Lake Prickly Sculpin", 
+        "text": "\u0427\u0438\u0441\u0442\u043e\u0435 \u043e\u0437\u0435\u0440\u043e \u041a\u043e\u043b\u044e\u0447\u0430\u044f \u0441\u043a\u0443\u043b\u044c\u043f\u0442\u0443\u0440\u0430", 
         "description": "", 
-        "id": "Clear Lake Prickly Sculpin", 
-        "text": "\u0427\u0438\u0441\u0442\u043e\u0435 \u043e\u0437\u0435\u0440\u043e \u041a\u043e\u043b\u044e\u0447\u0430\u044f \u0441\u043a\u0443\u043b\u044c\u043f\u0442\u0443\u0440\u0430"
+        "id": "Clear Lake Prickly Sculpin"
     }, 
     {
         "source": "Clear Lake Roach", 
+        "text": "\u042f\u0441\u043d\u043e\u0435 \u041e\u0437\u0435\u0440\u043e \u0420\u043e\u0443\u0447", 
         "description": "", 
-        "id": "Clear Lake Roach", 
-        "text": "\u042f\u0441\u043d\u043e\u0435 \u041e\u0437\u0435\u0440\u043e \u0420\u043e\u0443\u0447"
+        "id": "Clear Lake Roach"
     }, 
     {
         "source": "Clear Lake Splittail", 
+        "text": "\u0427\u0438\u0441\u0442\u043e\u0435 \u043e\u0437\u0435\u0440\u043e \u0421\u043f\u043b\u0438\u0442\u0442\u0435\u0439\u043b", 
         "description": "", 
-        "id": "Clear Lake Splittail", 
-        "text": "\u0427\u0438\u0441\u0442\u043e\u0435 \u043e\u0437\u0435\u0440\u043e \u0421\u043f\u043b\u0438\u0442\u0442\u0435\u0439\u043b"
+        "id": "Clear Lake Splittail"
     }, 
     {
         "source": "Clear Lake Tule Perch", 
+        "text": "\u042f\u0441\u043d\u043e\u0435 \u041e\u0437\u0435\u0440\u043e \u0422\u0443\u043b\u0435 \u041e\u043a\u0443\u043d\u044c", 
         "description": "", 
-        "id": "Clear Lake Tule Perch", 
-        "text": "\u042f\u0441\u043d\u043e\u0435 \u041e\u0437\u0435\u0440\u043e \u0422\u0443\u043b\u0435 \u041e\u043a\u0443\u043d\u044c"
+        "id": "Clear Lake Tule Perch"
     }, 
     {
         "source": "Coastal Cutthroat Trout", 
+        "text": "\u041f\u0440\u0438\u0431\u0440\u0435\u0436\u043d\u0430\u044f \u0413\u043e\u043b\u043e\u0432\u043e\u0440\u0435\u0437\u043d\u0430\u044f \u0424\u043e\u0440\u0435\u043b\u044c", 
         "description": "", 
-        "id": "Coastal Cutthroat Trout", 
-        "text": "\u041f\u0440\u0438\u0431\u0440\u0435\u0436\u043d\u0430\u044f \u0413\u043e\u043b\u043e\u0432\u043e\u0440\u0435\u0437\u043d\u0430\u044f \u0424\u043e\u0440\u0435\u043b\u044c"
+        "id": "Coastal Cutthroat Trout"
     }, 
     {
         "source": "Coastal Rainbow Trout", 
+        "text": "\u041f\u0440\u0438\u0431\u0440\u0435\u0436\u043d\u0430\u044f \u0440\u0430\u0434\u0443\u0436\u043d\u0430\u044f \u0444\u043e\u0440\u0435\u043b\u044c", 
         "description": "", 
-        "id": "Coastal Rainbow Trout", 
-        "text": "\u041f\u0440\u0438\u0431\u0440\u0435\u0436\u043d\u0430\u044f \u0440\u0430\u0434\u0443\u0436\u043d\u0430\u044f \u0444\u043e\u0440\u0435\u043b\u044c"
+        "id": "Coastal Rainbow Trout"
     }, 
     {
         "source": "Coastal Threespine Stickleback", 
+        "text": "\u0411\u0435\u0440\u0435\u0433\u043e\u0432\u0430\u044f \u0442\u0440\u0451\u0445\u043f\u043e\u043b\u043e\u0441\u043d\u0430\u044f \u043a\u043e\u043b\u044e\u0448\u043a\u0430", 
         "description": "", 
-        "id": "Coastal Threespine Stickleback", 
-        "text": "\u0411\u0435\u0440\u0435\u0433\u043e\u0432\u0430\u044f \u0442\u0440\u0451\u0445\u043f\u043e\u043b\u043e\u0441\u043d\u0430\u044f \u043a\u043e\u043b\u044e\u0448\u043a\u0430"
+        "id": "Coastal Threespine Stickleback"
     }, 
     {
         "source": "Coastrange Sculpin", 
+        "text": "\u041f\u0440\u0438\u0431\u0440\u0435\u0436\u043d\u044b\u0439 Sculpin", 
         "description": "", 
-        "id": "Coastrange Sculpin", 
-        "text": "\u041f\u0440\u0438\u0431\u0440\u0435\u0436\u043d\u044b\u0439 Sculpin"
+        "id": "Coastrange Sculpin"
     }, 
     {
         "source": "Colorado Pikeminnow", 
+        "text": "\u041a\u043e\u043b\u043e\u0440\u0430\u0434\u043e \u041f\u0430\u0439\u043a\u043c\u0438\u043d\u043d\u043e\u0443", 
         "description": "", 
-        "id": "Colorado Pikeminnow", 
-        "text": "\u041a\u043e\u043b\u043e\u0440\u0430\u0434\u043e \u041f\u0430\u0439\u043a\u043c\u0438\u043d\u043d\u043e\u0443"
+        "id": "Colorado Pikeminnow"
     }, 
     {
         "source": "Colorado River Cutthroat Trout", 
+        "text": "\u041a\u043e\u043b\u043e\u0440\u0430\u0434\u0441\u043a\u0430\u044f \u0440\u0435\u0447\u043d\u0430\u044f \u0433\u043e\u043b\u043e\u0432\u043e\u0440\u0435\u0437\u043d\u0430\u044f \u0444\u043e\u0440\u0435\u043b\u044c", 
         "description": "", 
-        "id": "Colorado River Cutthroat Trout", 
-        "text": "\u041a\u043e\u043b\u043e\u0440\u0430\u0434\u0441\u043a\u0430\u044f \u0440\u0435\u0447\u043d\u0430\u044f \u0433\u043e\u043b\u043e\u0432\u043e\u0440\u0435\u0437\u043d\u0430\u044f \u0444\u043e\u0440\u0435\u043b\u044c"
+        "id": "Colorado River Cutthroat Trout"
     }, 
     {
         "source": "Common Carp", 
+        "text": "\u041a\u0430\u0440\u043f \u043e\u0431\u044b\u043a\u043d\u043e\u0432\u0435\u043d\u043d\u044b\u0439", 
         "description": "", 
-        "id": "Common Carp", 
-        "text": "\u041a\u0430\u0440\u043f \u043e\u0431\u044b\u043a\u043d\u043e\u0432\u0435\u043d\u043d\u044b\u0439"
+        "id": "Common Carp"
     }, 
     {
         "source": "Cottonball Marsh Pupfish", 
+        "text": "\u041a\u043e\u0442\u0442\u043e\u043d \u0431\u043e\u043b\u043e\u0442\u043d\u044b\u0439 Pupfish", 
         "description": "", 
-        "id": "Cottonball Marsh Pupfish", 
-        "text": "\u041a\u043e\u0442\u0442\u043e\u043d \u0431\u043e\u043b\u043e\u0442\u043d\u044b\u0439 Pupfish"
+        "id": "Cottonball Marsh Pupfish"
     }, 
     {
         "source": "Cow Head Tui Chub", 
+        "text": "\u0413\u043e\u043b\u043e\u0432\u0430 \u043a\u043e\u0440\u043e\u0432\u044b \u0422\u0443\u0439 \u0427\u0443\u0431", 
         "description": "", 
-        "id": "Cow Head Tui Chub", 
-        "text": "\u0413\u043e\u043b\u043e\u0432\u0430 \u043a\u043e\u0440\u043e\u0432\u044b \u0422\u0443\u0439 \u0427\u0443\u0431"
+        "id": "Cow Head Tui Chub"
     }, 
     {
         "source": "Delta Smelt", 
+        "text": "Delta Melt", 
         "description": "", 
-        "id": "Delta Smelt", 
-        "text": "Delta Melt"
+        "id": "Delta Smelt"
     }, 
     {
         "source": "Desert Pupfish", 
+        "text": "\u041f\u0443\u0441\u0442\u044b\u043d\u044f \u041f\u0443\u043f\u0444\u0438\u0448", 
         "description": "", 
-        "id": "Desert Pupfish", 
-        "text": "\u041f\u0443\u0441\u0442\u044b\u043d\u044f \u041f\u0443\u043f\u0444\u0438\u0448"
+        "id": "Desert Pupfish"
     }, 
     {
         "source": "Eagle Lake Rainbow Trout", 
+        "text": "\u0420\u0430\u0434\u0443\u0436\u043d\u0430\u044f \u0444\u043e\u0440\u0435\u043b\u044c", 
         "description": "", 
-        "id": "Eagle Lake Rainbow Trout", 
-        "text": "\u0420\u0430\u0434\u0443\u0436\u043d\u0430\u044f \u0444\u043e\u0440\u0435\u043b\u044c"
+        "id": "Eagle Lake Rainbow Trout"
     }, 
     {
         "source": "Eagle Lake Tui Chub", 
+        "text": "\u041e\u0440\u043b\u0438\u043d\u043e\u0435 \u043e\u0437\u0435\u0440\u043e \u0442\u0443\u0438 \u0447\u0443\u0431", 
         "description": "", 
-        "id": "Eagle Lake Tui Chub", 
-        "text": "\u041e\u0440\u043b\u0438\u043d\u043e\u0435 \u043e\u0437\u0435\u0440\u043e \u0442\u0443\u0438 \u0447\u0443\u0431"
+        "id": "Eagle Lake Tui Chub"
     }, 
     {
         "source": "Eulachon", 
+        "text": "Eulachon", 
         "description": "", 
-        "id": "Eulachon", 
-        "text": "Eulachon"
+        "id": "Eulachon"
     }, 
     {
         "source": "Fathead Minnow", 
+        "text": "\u0422\u043e\u043b\u0441\u0442\u043e\u0433\u043e\u043b\u043e\u0432\u044b\u0439 \u0433\u043e\u043b\u044c\u044f\u043d", 
         "description": "", 
-        "id": "Fathead Minnow", 
-        "text": "\u0422\u043e\u043b\u0441\u0442\u043e\u0433\u043e\u043b\u043e\u0432\u044b\u0439 \u0433\u043e\u043b\u044c\u044f\u043d"
+        "id": "Fathead Minnow"
     }, 
     {
         "source": "Flannelmouth Sucker", 
+        "text": "\u041f\u0440\u0438\u0441\u043e\u0441\u043a\u0430 \u0424\u043b\u0430\u043d\u0435\u043b\u043c\u0443\u0442", 
         "description": "", 
-        "id": "Flannelmouth Sucker", 
-        "text": "\u041f\u0440\u0438\u0441\u043e\u0441\u043a\u0430 \u0424\u043b\u0430\u043d\u0435\u043b\u043c\u0443\u0442"
+        "id": "Flannelmouth Sucker"
     }, 
     {
         "source": "Flathead Catfish", 
+        "text": "\u041f\u043b\u043e\u0441\u043a\u0438\u0439 \u0441\u043e\u043c", 
         "description": "", 
-        "id": "Flathead Catfish", 
-        "text": "\u041f\u043b\u043e\u0441\u043a\u0438\u0439 \u0441\u043e\u043c"
+        "id": "Flathead Catfish"
     }, 
     {
         "source": "Golden Shiner", 
+        "text": "\u0417\u043e\u043b\u043e\u0442\u043e\u0439 \u0428\u0438\u043d\u0435\u0440", 
         "description": "", 
-        "id": "Golden Shiner", 
-        "text": "\u0417\u043e\u043b\u043e\u0442\u043e\u0439 \u0428\u0438\u043d\u0435\u0440"
+        "id": "Golden Shiner"
     }, 
     {
         "source": "Goldfish", 
+        "text": "\u0437\u043e\u043b\u043e\u0442\u0430\u044f \u0440\u044b\u0431\u043a\u0430", 
         "description": "", 
-        "id": "Goldfish", 
-        "text": "\u0437\u043e\u043b\u043e\u0442\u0430\u044f \u0440\u044b\u0431\u043a\u0430"
+        "id": "Goldfish"
     }, 
     {
         "source": "Goose Lake Lamprey", 
+        "text": "\u0413\u0443\u0441\u0438\u043d\u043e\u0435 \u041e\u0437\u0435\u0440\u043e \u041c\u0438\u043d\u043e\u0433\u0430", 
         "description": "", 
-        "id": "Goose Lake Lamprey", 
-        "text": "\u0413\u0443\u0441\u0438\u043d\u043e\u0435 \u041e\u0437\u0435\u0440\u043e \u041c\u0438\u043d\u043e\u0433\u0430"
+        "id": "Goose Lake Lamprey"
     }, 
     {
         "source": "Goose Lake Redband Trout", 
+        "text": "\u0413\u0443\u0441\u0438\u043d\u043e\u0435 \u041e\u0437\u0435\u0440\u043e \u0420\u0435\u0434\u0431\u0430\u043d\u0434 \u0424\u043e\u0440\u0435\u043b\u044c", 
         "description": "", 
-        "id": "Goose Lake Redband Trout", 
-        "text": "\u0413\u0443\u0441\u0438\u043d\u043e\u0435 \u041e\u0437\u0435\u0440\u043e \u0420\u0435\u0434\u0431\u0430\u043d\u0434 \u0424\u043e\u0440\u0435\u043b\u044c"
+        "id": "Goose Lake Redband Trout"
     }, 
     {
         "source": "Goose Lake Sucker", 
+        "text": "\u041f\u0440\u0438\u0441\u043e\u0441\u043a\u0430 \u0413\u0443\u0441\u0438\u043d\u043e\u0433\u043e \u041e\u0437\u0435\u0440\u0430", 
         "description": "", 
-        "id": "Goose Lake Sucker", 
-        "text": "\u041f\u0440\u0438\u0441\u043e\u0441\u043a\u0430 \u0413\u0443\u0441\u0438\u043d\u043e\u0433\u043e \u041e\u0437\u0435\u0440\u0430"
+        "id": "Goose Lake Sucker"
     }, 
     {
         "source": "Goose Lake Tui Chub", 
+        "text": "\u0413\u0443\u0441\u0438\u043d\u043e\u0435 \u043e\u0437\u0435\u0440\u043e \u0422\u0443\u0439 \u0427\u0443\u0431", 
         "description": "", 
-        "id": "Goose Lake Tui Chub", 
-        "text": "\u0413\u0443\u0441\u0438\u043d\u043e\u0435 \u043e\u0437\u0435\u0440\u043e \u0422\u0443\u0439 \u0427\u0443\u0431"
+        "id": "Goose Lake Tui Chub"
     }, 
     {
         "source": "Grass Carp", 
+        "text": "\u0422\u0440\u0430\u0432\u0430 \u043a\u0430\u0440\u043f\u0430", 
         "description": "", 
-        "id": "Grass Carp", 
-        "text": "\u0422\u0440\u0430\u0432\u0430 \u043a\u0430\u0440\u043f\u0430"
+        "id": "Grass Carp"
     }, 
     {
         "source": "Green Sunfish", 
+        "text": "\u0417\u0435\u043b\u0435\u043d\u0430\u044f \u0421\u043e\u043b\u043d\u0435\u0447\u043d\u0430\u044f \u0420\u044b\u0431\u0430", 
         "description": "", 
-        "id": "Green Sunfish", 
-        "text": "\u0417\u0435\u043b\u0435\u043d\u0430\u044f \u0421\u043e\u043b\u043d\u0435\u0447\u043d\u0430\u044f \u0420\u044b\u0431\u0430"
+        "id": "Green Sunfish"
     }, 
     {
         "source": "Gualala Roach", 
+        "text": "\u0413\u0443\u0430\u043b\u0430\u043b\u0430 \u0420\u043e\u0443\u0447", 
         "description": "", 
-        "id": "Gualala Roach", 
-        "text": "\u0413\u0443\u0430\u043b\u0430\u043b\u0430 \u0420\u043e\u0443\u0447"
+        "id": "Gualala Roach"
     }, 
     {
         "source": "Hardhead", 
+        "text": "\u0436\u0435\u0441\u0442\u043a\u0438\u0439 \u0440\u0443\u043a\u043e\u0432\u043e\u0434\u0438\u0442\u0435\u043b\u044c", 
         "description": "", 
-        "id": "Hardhead", 
-        "text": "\u0436\u0435\u0441\u0442\u043a\u0438\u0439 \u0440\u0443\u043a\u043e\u0432\u043e\u0434\u0438\u0442\u0435\u043b\u044c"
+        "id": "Hardhead"
     }, 
     {
         "source": "High Rock Springs Tui Chub", 
+        "text": "\u0425\u0430\u0439 \u0420\u043e\u043a \u0421\u043f\u0440\u0438\u043d\u0433\u0441 \u0422\u0443\u0438 \u0427\u0443\u0431", 
         "description": "", 
-        "id": "High Rock Springs Tui Chub", 
-        "text": "\u0425\u0430\u0439 \u0420\u043e\u043a \u0421\u043f\u0440\u0438\u043d\u0433\u0441 \u0422\u0443\u0438 \u0427\u0443\u0431"
+        "id": "High Rock Springs Tui Chub"
     }, 
     {
         "source": "Humboldt Sucker", 
+        "text": "\u0413\u0443\u043c\u0431\u043e\u043b\u044c\u0434\u0442 \u041f\u0440\u0438\u0441\u043e\u0441\u043a\u0430", 
         "description": "", 
-        "id": "Humboldt Sucker", 
-        "text": "\u0413\u0443\u043c\u0431\u043e\u043b\u044c\u0434\u0442 \u041f\u0440\u0438\u0441\u043e\u0441\u043a\u0430"
+        "id": "Humboldt Sucker"
     }, 
     {
         "source": "Inland Threespine Stickleback", 
+        "text": "\u0412\u043d\u0443\u0442\u0440\u0435\u043d\u043d\u0438\u0439 \u0442\u0440\u0451\u0445\u0441\u043b\u043e\u0439\u043d\u044b\u0439 \u043a\u043e\u043b\u044e\u0448\u043a\u0430", 
         "description": "", 
-        "id": "Inland Threespine Stickleback", 
-        "text": "\u0412\u043d\u0443\u0442\u0440\u0435\u043d\u043d\u0438\u0439 \u0442\u0440\u0451\u0445\u0441\u043b\u043e\u0439\u043d\u044b\u0439 \u043a\u043e\u043b\u044e\u0448\u043a\u0430"
+        "id": "Inland Threespine Stickleback"
     }, 
     {
         "source": "Kern Brook Lamprey", 
+        "text": "\u041a\u0435\u0440\u043d \u0411\u0440\u0443\u043a \u041c\u0438\u043d\u043e\u0433", 
         "description": "", 
-        "id": "Kern Brook Lamprey", 
-        "text": "\u041a\u0435\u0440\u043d \u0411\u0440\u0443\u043a \u041c\u0438\u043d\u043e\u0433"
+        "id": "Kern Brook Lamprey"
     }, 
     {
         "source": "Kern River Rainbow Trout", 
+        "text": "\u0420\u0430\u0434\u0443\u0436\u043d\u0430\u044f \u0444\u043e\u0440\u0435\u043b\u044c \u0440\u0435\u043a\u0438 \u041a\u0435\u0440\u043d", 
         "description": "", 
-        "id": "Kern River Rainbow Trout", 
-        "text": "\u0420\u0430\u0434\u0443\u0436\u043d\u0430\u044f \u0444\u043e\u0440\u0435\u043b\u044c \u0440\u0435\u043a\u0438 \u041a\u0435\u0440\u043d"
+        "id": "Kern River Rainbow Trout"
     }, 
     {
         "source": "Klamath Largescale Sucker", 
+        "text": "\u041a\u0440\u0443\u043f\u043d\u044b\u0439 \u043a\u0440\u0443\u043f\u043d\u044b\u0439 \u043f\u0440\u0438\u0441\u043e\u0441\u043a\u0430 \u041a\u043b\u0430\u043c\u0430\u0442\u0430", 
         "description": "", 
-        "id": "Klamath Largescale Sucker", 
-        "text": "\u041a\u0440\u0443\u043f\u043d\u044b\u0439 \u043a\u0440\u0443\u043f\u043d\u044b\u0439 \u043f\u0440\u0438\u0441\u043e\u0441\u043a\u0430 \u041a\u043b\u0430\u043c\u0430\u0442\u0430"
+        "id": "Klamath Largescale Sucker"
     }, 
     {
         "source": "Klamath Mountains Province Summer Steelhead", 
+        "text": "\u041b\u0435\u0442\u043d\u044f\u044f \u0421\u0442\u0430\u043b\u044c\u043d\u0430\u044f \u0413\u043e\u043b\u043e\u0432\u0430 \u0432 \u041a\u043b\u0430\u043c\u0430\u0442\u0441\u043a\u0438\u0445 \u0413\u043e\u0440\u0430\u0445", 
         "description": "", 
-        "id": "Klamath Mountains Province Summer Steelhead", 
-        "text": "\u041b\u0435\u0442\u043d\u044f\u044f \u0421\u0442\u0430\u043b\u044c\u043d\u0430\u044f \u0413\u043e\u043b\u043e\u0432\u0430 \u0432 \u041a\u043b\u0430\u043c\u0430\u0442\u0441\u043a\u0438\u0445 \u0413\u043e\u0440\u0430\u0445"
+        "id": "Klamath Mountains Province Summer Steelhead"
     }, 
     {
         "source": "Klamath Mountains Province Winter Steelhead", 
+        "text": "\u041f\u0440\u043e\u0432\u0438\u043d\u0446\u0438\u044f \u041a\u043b\u0430\u043c\u0430\u0442 \u0413\u043e\u0440\u044b \u0417\u0438\u043c\u043d\u044f\u044f \u0421\u0442\u0430\u043b\u044c\u043d\u0430\u044f \u0413\u043e\u043b\u043e\u0432\u0430", 
         "description": "", 
-        "id": "Klamath Mountains Province Winter Steelhead", 
-        "text": "\u041f\u0440\u043e\u0432\u0438\u043d\u0446\u0438\u044f \u041a\u043b\u0430\u043c\u0430\u0442 \u0413\u043e\u0440\u044b \u0417\u0438\u043c\u043d\u044f\u044f \u0421\u0442\u0430\u043b\u044c\u043d\u0430\u044f \u0413\u043e\u043b\u043e\u0432\u0430"
+        "id": "Klamath Mountains Province Winter Steelhead"
     }, 
     {
         "source": "Klamath River Lamprey", 
+        "text": "\u041a\u043b\u0430\u043c\u0430\u0442 \u0420\u0435\u043a\u0430 \u041c\u0438\u043d\u043e\u0433\u0430", 
         "description": "", 
-        "id": "Klamath River Lamprey", 
-        "text": "\u041a\u043b\u0430\u043c\u0430\u0442 \u0420\u0435\u043a\u0430 \u041c\u0438\u043d\u043e\u0433\u0430"
+        "id": "Klamath River Lamprey"
     }, 
     {
         "source": "Klamath Smallscale Sucker", 
+        "text": "\u041a\u043b\u0430\u043c\u0430\u0442 \u043c\u0435\u043b\u043a\u0430\u044f \u043f\u0440\u0438\u0441\u043e\u0441\u043a\u0430", 
         "description": "", 
-        "id": "Klamath Smallscale Sucker", 
-        "text": "\u041a\u043b\u0430\u043c\u0430\u0442 \u043c\u0435\u043b\u043a\u0430\u044f \u043f\u0440\u0438\u0441\u043e\u0441\u043a\u0430"
+        "id": "Klamath Smallscale Sucker"
     }, 
     {
         "source": "Klamath Speckled Dace", 
+        "text": "\u041a\u043b\u0430\u043c\u0430\u0442 \u041f\u0435\u0441\u0442\u0440\u0430\u044f \u043f\u043b\u043e\u0442\u0432\u0430", 
         "description": "", 
-        "id": "Klamath Speckled Dace", 
-        "text": "\u041a\u043b\u0430\u043c\u0430\u0442 \u041f\u0435\u0441\u0442\u0440\u0430\u044f \u043f\u043b\u043e\u0442\u0432\u0430"
+        "id": "Klamath Speckled Dace"
     }, 
     {
         "source": "Klamath Tui Chub", 
+        "text": "\u041a\u043b\u0430\u043c\u0430\u0442 \u0422\u0443\u0439 \u0427\u0443\u0431", 
         "description": "", 
-        "id": "Klamath Tui Chub", 
-        "text": "\u041a\u043b\u0430\u043c\u0430\u0442 \u0422\u0443\u0439 \u0427\u0443\u0431"
+        "id": "Klamath Tui Chub"
     }, 
     {
         "source": "Lahontan Cutthroat Trout", 
+        "text": "\u041b\u0430\u0445\u043e\u043d\u0442\u0430\u043d\u0441\u043a\u0430\u044f \u0433\u043e\u043b\u043e\u0432\u043e\u0440\u0435\u0437\u043d\u0430\u044f \u0444\u043e\u0440\u0435\u043b\u044c", 
         "description": "", 
-        "id": "Lahontan Cutthroat Trout", 
-        "text": "\u041b\u0430\u0445\u043e\u043d\u0442\u0430\u043d\u0441\u043a\u0430\u044f \u0433\u043e\u043b\u043e\u0432\u043e\u0440\u0435\u0437\u043d\u0430\u044f \u0444\u043e\u0440\u0435\u043b\u044c"
+        "id": "Lahontan Cutthroat Trout"
     }, 
     {
         "source": "Lahontan Lake Tui Chub", 
+        "text": "\u041e\u0437\u0435\u0440\u043e \u041b\u0430\u0445\u043e\u043d\u0442\u0430\u043d \u0422\u0443\u0439 \u0427\u0443\u0431", 
         "description": "", 
-        "id": "Lahontan Lake Tui Chub", 
-        "text": "\u041e\u0437\u0435\u0440\u043e \u041b\u0430\u0445\u043e\u043d\u0442\u0430\u043d \u0422\u0443\u0439 \u0427\u0443\u0431"
+        "id": "Lahontan Lake Tui Chub"
     }, 
     {
         "source": "Lahontan Mountain Sucker", 
+        "text": "Lahontan Mountain Sucker", 
         "description": "", 
-        "id": "Lahontan Mountain Sucker", 
-        "text": "Lahontan Mountain Sucker"
+        "id": "Lahontan Mountain Sucker"
     }, 
     {
         "source": "Lahontan Redside", 
+        "text": "\u041b\u0430\u0445\u043e\u043d\u0442\u0430\u043d \u0420\u0435\u0434\u0441\u0430\u0439\u0434", 
         "description": "", 
-        "id": "Lahontan Redside", 
-        "text": "\u041b\u0430\u0445\u043e\u043d\u0442\u0430\u043d \u0420\u0435\u0434\u0441\u0430\u0439\u0434"
+        "id": "Lahontan Redside"
     }, 
     {
         "source": "Lahontan Speckled Dace", 
+        "text": "\u041b\u0430\u043e\u043d\u0442\u0430\u043d \u043f\u0435\u0441\u0442\u0440\u0430\u044f \u043f\u043b\u043e\u0442\u0432\u0430", 
         "description": "", 
-        "id": "Lahontan Speckled Dace", 
-        "text": "\u041b\u0430\u043e\u043d\u0442\u0430\u043d \u043f\u0435\u0441\u0442\u0440\u0430\u044f \u043f\u043b\u043e\u0442\u0432\u0430"
+        "id": "Lahontan Speckled Dace"
     }, 
     {
         "source": "Lahontan Stream Tui Chub", 
+        "text": "\u041b\u0430\u043e\u043d\u0442\u0430\u043d \u0421\u0442\u0440\u0438\u043c \u0422\u0443\u0438 \u0427\u0443\u0431", 
         "description": "", 
-        "id": "Lahontan Stream Tui Chub", 
-        "text": "\u041b\u0430\u043e\u043d\u0442\u0430\u043d \u0421\u0442\u0440\u0438\u043c \u0422\u0443\u0438 \u0427\u0443\u0431"
+        "id": "Lahontan Stream Tui Chub"
     }, 
     {
         "source": "Lake Trout", 
+        "text": "\u041e\u0437\u0435\u0440\u043d\u0430\u044f \u0444\u043e\u0440\u0435\u043b\u044c", 
         "description": "", 
-        "id": "Lake Trout", 
-        "text": "\u041e\u0437\u0435\u0440\u043d\u0430\u044f \u0444\u043e\u0440\u0435\u043b\u044c"
+        "id": "Lake Trout"
     }, 
     {
         "source": "Largemouth Bass", 
+        "text": "\u0411\u043e\u043b\u044c\u0448\u043e\u0439 \u0440\u043e\u0442 \u0411\u0430\u0441", 
         "description": "", 
-        "id": "Largemouth Bass", 
-        "text": "\u0411\u043e\u043b\u044c\u0448\u043e\u0439 \u0440\u043e\u0442 \u0411\u0430\u0441"
+        "id": "Largemouth Bass"
     }, 
     {
         "source": "Little Kern Golden Trout", 
+        "text": "\u041c\u0430\u043b\u0435\u043d\u044c\u043a\u0430\u044f \u043a\u0435\u0440\u043d\u0441\u043a\u0430\u044f \u0437\u043e\u043b\u043e\u0442\u0430\u044f \u0444\u043e\u0440\u0435\u043b\u044c", 
         "description": "", 
-        "id": "Little Kern Golden Trout", 
-        "text": "\u041c\u0430\u043b\u0435\u043d\u044c\u043a\u0430\u044f \u043a\u0435\u0440\u043d\u0441\u043a\u0430\u044f \u0437\u043e\u043b\u043e\u0442\u0430\u044f \u0444\u043e\u0440\u0435\u043b\u044c"
+        "id": "Little Kern Golden Trout"
     }, 
     {
         "source": "Long Valley Speckled Dace", 
+        "text": "\u0414\u043b\u0438\u043d\u043d\u0430\u044f \u0434\u043e\u043b\u0438\u043d\u0430 \u043f\u0435\u0441\u0442\u0440\u0430\u044f \u043f\u043b\u043e\u0442\u0432\u0430", 
         "description": "", 
-        "id": "Long Valley Speckled Dace", 
-        "text": "\u0414\u043b\u0438\u043d\u043d\u0430\u044f \u0434\u043e\u043b\u0438\u043d\u0430 \u043f\u0435\u0441\u0442\u0440\u0430\u044f \u043f\u043b\u043e\u0442\u0432\u0430"
+        "id": "Long Valley Speckled Dace"
     }, 
     {
         "source": "Longfin Smelt", 
+        "text": "Longfin \u043a\u043e\u0440\u044e\u0448\u043a\u0430", 
         "description": "", 
-        "id": "Longfin Smelt", 
-        "text": "Longfin \u043a\u043e\u0440\u044e\u0448\u043a\u0430"
+        "id": "Longfin Smelt"
     }, 
     {
         "source": "Longjaw Mudsucker", 
+        "text": "\u041b\u043e\u043d\u0433\u0434\u0436\u043e \u0413\u0440\u044f\u0437\u0435\u043d\u043e\u0441\u0435\u0446", 
         "description": "", 
-        "id": "Longjaw Mudsucker", 
-        "text": "\u041b\u043e\u043d\u0433\u0434\u0436\u043e \u0413\u0440\u044f\u0437\u0435\u043d\u043e\u0441\u0435\u0446"
+        "id": "Longjaw Mudsucker"
     }, 
     {
         "source": "Lost River Sucker", 
+        "text": "\u0417\u0430\u0442\u0435\u0440\u044f\u043d\u043d\u0430\u044f \u0440\u0435\u043a\u0430 \u041f\u0440\u0438\u0441\u043e\u0441\u043a\u0430", 
         "description": "", 
-        "id": "Lost River Sucker", 
-        "text": "\u0417\u0430\u0442\u0435\u0440\u044f\u043d\u043d\u0430\u044f \u0440\u0435\u043a\u0430 \u041f\u0440\u0438\u0441\u043e\u0441\u043a\u0430"
+        "id": "Lost River Sucker"
     }, 
     {
         "source": "Lower Klamath Marbled Sculpin", 
+        "text": "\u041d\u0438\u0436\u043d\u044f\u044f \u043a\u043b\u0430\u043c\u0430\u0442\u0441\u043a\u0430\u044f \u043c\u0440\u0430\u043c\u043e\u0440\u043d\u0430\u044f \u0441\u043a\u0443\u043b\u044c\u043f\u0442\u0443\u0440\u0430", 
         "description": "", 
-        "id": "Lower Klamath Marbled Sculpin", 
-        "text": "\u041d\u0438\u0436\u043d\u044f\u044f \u043a\u043b\u0430\u043c\u0430\u0442\u0441\u043a\u0430\u044f \u043c\u0440\u0430\u043c\u043e\u0440\u043d\u0430\u044f \u0441\u043a\u0443\u043b\u044c\u043f\u0442\u0443\u0440\u0430"
+        "id": "Lower Klamath Marbled Sculpin"
     }, 
     {
         "source": "McCloud River Redband Trout", 
+        "text": "\u0420\u0435\u043a\u0430 \u041c\u0430\u043a\u041a\u043b\u0430\u0443\u0434 \u0420\u0435\u0434\u0431\u044d\u043d\u0434 \u0424\u043e\u0440\u0435\u043b\u044c", 
         "description": "", 
-        "id": "McCloud River Redband Trout", 
-        "text": "\u0420\u0435\u043a\u0430 \u041c\u0430\u043a\u041a\u043b\u0430\u0443\u0434 \u0420\u0435\u0434\u0431\u044d\u043d\u0434 \u0424\u043e\u0440\u0435\u043b\u044c"
+        "id": "McCloud River Redband Trout"
     }, 
     {
         "source": "Mississippi Silversides", 
+        "text": "\u041c\u0438\u0441\u0441\u0438\u0441\u0438\u043f\u0438 \u0421\u0438\u043b\u044c\u0432\u0435\u0440\u0441\u0430\u0439\u0434\u0441", 
         "description": "", 
-        "id": "Mississippi Silversides", 
-        "text": "\u041c\u0438\u0441\u0441\u0438\u0441\u0438\u043f\u0438 \u0421\u0438\u043b\u044c\u0432\u0435\u0440\u0441\u0430\u0439\u0434\u0441"
+        "id": "Mississippi Silversides"
     }, 
     {
         "source": "Modoc Sucker", 
+        "text": "\u041c\u043e\u0434\u043e\u043a \u041f\u0440\u0438\u0441\u043e\u0441\u043a\u0430", 
         "description": "", 
-        "id": "Modoc Sucker", 
-        "text": "\u041c\u043e\u0434\u043e\u043a \u041f\u0440\u0438\u0441\u043e\u0441\u043a\u0430"
+        "id": "Modoc Sucker"
     }, 
     {
         "source": "Mojave Tui Chub", 
+        "text": "\u041c\u043e\u0445\u0430\u0432\u0435 \u0422\u0443\u0439 \u0427\u0443\u0431", 
         "description": "", 
-        "id": "Mojave Tui Chub", 
-        "text": "\u041c\u043e\u0445\u0430\u0432\u0435 \u0422\u0443\u0439 \u0427\u0443\u0431"
+        "id": "Mojave Tui Chub"
     }, 
     {
         "source": "Monterey Hitch", 
+        "text": "\u041c\u043e\u043d\u0442\u0435\u0440\u0435\u0439 \u0425\u0438\u0442\u0447", 
         "description": "", 
-        "id": "Monterey Hitch", 
-        "text": "\u041c\u043e\u043d\u0442\u0435\u0440\u0435\u0439 \u0425\u0438\u0442\u0447"
+        "id": "Monterey Hitch"
     }, 
     {
         "source": "Monterey Roach", 
+        "text": "\u041c\u043e\u043d\u0442\u0435\u0440\u0435\u0439 \u0420\u043e\u0443\u0447", 
         "description": "", 
-        "id": "Monterey Roach", 
-        "text": "\u041c\u043e\u043d\u0442\u0435\u0440\u0435\u0439 \u0420\u043e\u0443\u0447"
+        "id": "Monterey Roach"
     }, 
     {
         "source": "Monterey Sucker", 
+        "text": "\u041c\u043e\u043d\u0442\u0435\u0440\u0435\u0439 \u0421\u0430\u043a\u0435\u0440", 
         "description": "", 
-        "id": "Monterey Sucker", 
-        "text": "\u041c\u043e\u043d\u0442\u0435\u0440\u0435\u0439 \u0421\u0430\u043a\u0435\u0440"
+        "id": "Monterey Sucker"
     }, 
     {
         "source": "Mountain Whitefish", 
+        "text": "\u0413\u043e\u0440\u043d\u044b\u0439 \u0441\u0438\u0433", 
         "description": "", 
-        "id": "Mountain Whitefish", 
-        "text": "\u0413\u043e\u0440\u043d\u044b\u0439 \u0441\u0438\u0433"
+        "id": "Mountain Whitefish"
     }, 
     {
         "source": "Navarro Roach", 
+        "text": "\u041d\u0430\u0432\u0430\u0440\u0440\u043e \u0420\u043e\u0443\u0447", 
         "description": "", 
-        "id": "Navarro Roach", 
-        "text": "\u041d\u0430\u0432\u0430\u0440\u0440\u043e \u0420\u043e\u0443\u0447"
+        "id": "Navarro Roach"
     }, 
     {
         "source": "Northern (Pit) Roach", 
+        "text": "\u0421\u0435\u0432\u0435\u0440\u043d\u0430\u044f (\u044f\u043c\u0430) \u043f\u043b\u043e\u0442\u0432\u0430", 
         "description": "", 
-        "id": "Northern (Pit) Roach", 
-        "text": "\u0421\u0435\u0432\u0435\u0440\u043d\u0430\u044f (\u044f\u043c\u0430) \u043f\u043b\u043e\u0442\u0432\u0430"
+        "id": "Northern (Pit) Roach"
     }, 
     {
         "source": "Northern California Brook Lamprey", 
+        "text": "\u0421\u0435\u0432\u0435\u0440\u043d\u0430\u044f \u041a\u0430\u043b\u0438\u0444\u043e\u0440\u043d\u0438\u044f \u0411\u0440\u0443\u043a \u041c\u0438\u043d\u043e\u0433", 
         "description": "", 
-        "id": "Northern California Brook Lamprey", 
-        "text": "\u0421\u0435\u0432\u0435\u0440\u043d\u0430\u044f \u041a\u0430\u043b\u0438\u0444\u043e\u0440\u043d\u0438\u044f \u0411\u0440\u0443\u043a \u041c\u0438\u043d\u043e\u0433"
+        "id": "Northern California Brook Lamprey"
     }, 
     {
         "source": "Northern California Coast Summer Steelhead", 
+        "text": "\u041f\u043e\u0431\u0435\u0440\u0435\u0436\u044c\u0435 \u0421\u0435\u0432\u0435\u0440\u043d\u043e\u0439 \u041a\u0430\u043b\u0438\u0444\u043e\u0440\u043d\u0438\u0438 \u041b\u0435\u0442\u043e \u0421\u0442\u0438\u043b\u0445\u0435\u0434", 
         "description": "", 
-        "id": "Northern California Coast Summer Steelhead", 
-        "text": "\u041f\u043e\u0431\u0435\u0440\u0435\u0436\u044c\u0435 \u0421\u0435\u0432\u0435\u0440\u043d\u043e\u0439 \u041a\u0430\u043b\u0438\u0444\u043e\u0440\u043d\u0438\u0438 \u041b\u0435\u0442\u043e \u0421\u0442\u0438\u043b\u0445\u0435\u0434"
+        "id": "Northern California Coast Summer Steelhead"
     }, 
     {
         "source": "Northern California Coast Winter Steelhead", 
+        "text": "\u0421\u0435\u0432\u0435\u0440\u043d\u043e\u0435 \u043a\u0430\u043b\u0438\u0444\u043e\u0440\u043d\u0438\u0439\u0441\u043a\u043e\u0435 \u043f\u043e\u0431\u0435\u0440\u0435\u0436\u044c\u0435 \u0417\u0438\u043c\u043d\u0438\u0439 \u0421\u0442\u0438\u043b\u0445\u0435\u0434", 
         "description": "", 
-        "id": "Northern California Coast Winter Steelhead", 
-        "text": "\u0421\u0435\u0432\u0435\u0440\u043d\u043e\u0435 \u043a\u0430\u043b\u0438\u0444\u043e\u0440\u043d\u0438\u0439\u0441\u043a\u043e\u0435 \u043f\u043e\u0431\u0435\u0440\u0435\u0436\u044c\u0435 \u0417\u0438\u043c\u043d\u0438\u0439 \u0421\u0442\u0438\u043b\u0445\u0435\u0434"
+        "id": "Northern California Coast Winter Steelhead"
     }, 
     {
         "source": "Northern Green Sturgeon", 
+        "text": "\u0421\u0435\u0432\u0435\u0440\u043d\u044b\u0439 \u0437\u0435\u043b\u0435\u043d\u044b\u0439 \u043e\u0441\u0435\u0442\u0440", 
         "description": "", 
-        "id": "Northern Green Sturgeon", 
-        "text": "\u0421\u0435\u0432\u0435\u0440\u043d\u044b\u0439 \u0437\u0435\u043b\u0435\u043d\u044b\u0439 \u043e\u0441\u0435\u0442\u0440"
+        "id": "Northern Green Sturgeon"
     }, 
     {
         "source": "Owens Pupfish", 
+        "text": "\u041e\u0443\u044d\u043d\u0441 \u041f\u0443\u043f\u0444\u0438\u0448", 
         "description": "", 
-        "id": "Owens Pupfish", 
-        "text": "\u041e\u0443\u044d\u043d\u0441 \u041f\u0443\u043f\u0444\u0438\u0448"
+        "id": "Owens Pupfish"
     }, 
     {
         "source": "Owens Speckled Dace", 
+        "text": "\u041e\u0443\u044d\u043d\u0441 \u0441\u043f\u0435\u043a\u043b \u0434\u044d\u0439\u0441", 
         "description": "", 
-        "id": "Owens Speckled Dace", 
-        "text": "\u041e\u0443\u044d\u043d\u0441 \u0441\u043f\u0435\u043a\u043b \u0434\u044d\u0439\u0441"
+        "id": "Owens Speckled Dace"
     }, 
     {
         "source": "Owens Sucker", 
+        "text": "\u041e\u0443\u044d\u043d\u0441 \u0421\u0443\u043a\u0435\u0440", 
         "description": "", 
-        "id": "Owens Sucker", 
-        "text": "\u041e\u0443\u044d\u043d\u0441 \u0421\u0443\u043a\u0435\u0440"
+        "id": "Owens Sucker"
     }, 
     {
         "source": "Owens Tui Chub", 
+        "text": "\u041e\u0443\u044d\u043d\u0441 \u0422\u0443\u0439 \u0427\u0443\u0431", 
         "description": "", 
-        "id": "Owens Tui Chub", 
-        "text": "\u041e\u0443\u044d\u043d\u0441 \u0422\u0443\u0439 \u0427\u0443\u0431"
+        "id": "Owens Tui Chub"
     }, 
     {
         "source": "Pacific Lamprey", 
+        "text": "\u0422\u0438\u0445\u043e\u043e\u043a\u0435\u0430\u043d\u0441\u043a\u0430\u044f \u043c\u0438\u043d\u043e\u0433\u0430", 
         "description": "", 
-        "id": "Pacific Lamprey", 
-        "text": "\u0422\u0438\u0445\u043e\u043e\u043a\u0435\u0430\u043d\u0441\u043a\u0430\u044f \u043c\u0438\u043d\u043e\u0433\u0430"
+        "id": "Pacific Lamprey"
     }, 
     {
         "source": "Paiute Cutthroat Trout", 
+        "text": "\u041f\u0430\u0439\u0443\u0442\u0441\u043a\u0430\u044f \u0433\u043e\u043b\u043e\u0432\u043e\u0440\u0435\u0437\u043d\u0430\u044f \u0444\u043e\u0440\u0435\u043b\u044c", 
         "description": "", 
-        "id": "Paiute Cutthroat Trout", 
-        "text": "\u041f\u0430\u0439\u0443\u0442\u0441\u043a\u0430\u044f \u0433\u043e\u043b\u043e\u0432\u043e\u0440\u0435\u0437\u043d\u0430\u044f \u0444\u043e\u0440\u0435\u043b\u044c"
+        "id": "Paiute Cutthroat Trout"
     }, 
     {
         "source": "Paiute Sculpin", 
+        "text": "Paiute Sculpin", 
         "description": "", 
-        "id": "Paiute Sculpin", 
-        "text": "Paiute Sculpin"
+        "id": "Paiute Sculpin"
     }, 
     {
         "source": "Pink Salmon", 
+        "text": "\u0420\u043e\u0437\u043e\u0432\u044b\u0439 \u043b\u043e\u0441\u043e\u0441\u044c", 
         "description": "", 
-        "id": "Pink Salmon", 
-        "text": "\u0420\u043e\u0437\u043e\u0432\u044b\u0439 \u043b\u043e\u0441\u043e\u0441\u044c"
+        "id": "Pink Salmon"
     }, 
     {
         "source": "Pit River Tui Chub", 
+        "text": "\u042f\u043c\u0430 \u0422\u0443\u0439 \u0427\u0443\u0431", 
         "description": "", 
-        "id": "Pit River Tui Chub", 
-        "text": "\u042f\u043c\u0430 \u0422\u0443\u0439 \u0427\u0443\u0431"
+        "id": "Pit River Tui Chub"
     }, 
     {
         "source": "Pit Sculpin", 
+        "text": "\u042f\u043c\u0430 Sculpin", 
         "description": "", 
-        "id": "Pit Sculpin", 
-        "text": "\u042f\u043c\u0430 Sculpin"
+        "id": "Pit Sculpin"
     }, 
     {
         "source": "Pit-Klamath Brook Lamprey", 
+        "text": "\u041f\u0438\u0442-\u041a\u043b\u0430\u043c\u0430\u0442 \u0411\u0440\u0443\u043a \u041c\u0438\u043d\u043e\u0433\u0430", 
         "description": "", 
-        "id": "Pit-Klamath Brook Lamprey", 
-        "text": "\u041f\u0438\u0442-\u041a\u043b\u0430\u043c\u0430\u0442 \u0411\u0440\u0443\u043a \u041c\u0438\u043d\u043e\u0433\u0430"
+        "id": "Pit-Klamath Brook Lamprey"
     }, 
     {
         "source": "Porthole Livebearer", 
+        "text": "\u0418\u043b\u043b\u044e\u043c\u0438\u043d\u0430\u0442\u043e\u0440 Livebearer", 
         "description": "", 
-        "id": "Porthole Livebearer", 
-        "text": "\u0418\u043b\u043b\u044e\u043c\u0438\u043d\u0430\u0442\u043e\u0440 Livebearer"
+        "id": "Porthole Livebearer"
     }, 
     {
         "source": "Prickly Sculpin", 
+        "text": "\u041a\u043e\u043b\u044e\u0447\u0430\u044f \u0441\u043a\u0443\u043b\u044c\u043f\u0442\u0443\u0440\u0430", 
         "description": "", 
-        "id": "Prickly Sculpin", 
-        "text": "\u041a\u043e\u043b\u044e\u0447\u0430\u044f \u0441\u043a\u0443\u043b\u044c\u043f\u0442\u0443\u0440\u0430"
+        "id": "Prickly Sculpin"
     }, 
     {
         "source": "Pumpkinseed", 
+        "text": "\u0422\u044b\u043a\u0432\u0435\u043d\u043d\u043e\u0435 \u0441\u0435\u043c\u0435\u0447\u043a\u043e", 
         "description": "", 
-        "id": "Pumpkinseed", 
-        "text": "\u0422\u044b\u043a\u0432\u0435\u043d\u043d\u043e\u0435 \u0441\u0435\u043c\u0435\u0447\u043a\u043e"
+        "id": "Pumpkinseed"
     }, 
     {
         "source": "Rainwater Killifish", 
+        "text": "Rainwater Killifish", 
         "description": "", 
-        "id": "Rainwater Killifish", 
-        "text": "Rainwater Killifish"
+        "id": "Rainwater Killifish"
     }, 
     {
         "source": "Razorback Sucker", 
+        "text": "Razorback Sucker", 
         "description": "", 
-        "id": "Razorback Sucker", 
-        "text": "Razorback Sucker"
+        "id": "Razorback Sucker"
     }, 
     {
         "source": "Red Hills Roach", 
+        "text": "Red Hills Roach", 
         "description": "", 
-        "id": "Red Hills Roach", 
-        "text": "Red Hills Roach"
+        "id": "Red Hills Roach"
     }, 
     {
         "source": "Red Shiner", 
+        "text": "\u041a\u0440\u0430\u0441\u043d\u044b\u0439 \u0428\u0438\u043d\u0435\u0440", 
         "description": "", 
-        "id": "Red Shiner", 
-        "text": "\u041a\u0440\u0430\u0441\u043d\u044b\u0439 \u0428\u0438\u043d\u0435\u0440"
+        "id": "Red Shiner"
     }, 
     {
         "source": "Redear Sunfish", 
+        "text": "Redear Sunfish", 
         "description": "", 
-        "id": "Redear Sunfish", 
-        "text": "Redear Sunfish"
+        "id": "Redear Sunfish"
     }, 
     {
         "source": "Redeye Bass", 
+        "text": "\u0420\u0435\u0434\u0430\u0439 \u0411\u0430\u0441\u0441", 
         "description": "", 
-        "id": "Redeye Bass", 
-        "text": "\u0420\u0435\u0434\u0430\u0439 \u0411\u0430\u0441\u0441"
+        "id": "Redeye Bass"
     }, 
     {
         "source": "Reticulate Sculpin", 
+        "text": "\u0421\u0435\u0442\u0447\u0430\u0442\u0430\u044f \u0441\u043a\u0443\u043b\u044c\u043f\u0442\u0443\u0440\u0430", 
         "description": "", 
-        "id": "Reticulate Sculpin", 
-        "text": "\u0421\u0435\u0442\u0447\u0430\u0442\u0430\u044f \u0441\u043a\u0443\u043b\u044c\u043f\u0442\u0443\u0440\u0430"
+        "id": "Reticulate Sculpin"
     }, 
     {
         "source": "Riffle Sculpin", 
+        "text": "Riffle Sculpin", 
         "description": "", 
-        "id": "Riffle Sculpin", 
-        "text": "Riffle Sculpin"
+        "id": "Riffle Sculpin"
     }, 
     {
         "source": "River Lamprey", 
+        "text": "\u0420\u0435\u043a\u0430 \u041c\u0438\u043d\u043e\u0433\u0430", 
         "description": "", 
-        "id": "River Lamprey", 
-        "text": "\u0420\u0435\u043a\u0430 \u041c\u0438\u043d\u043e\u0433\u0430"
+        "id": "River Lamprey"
     }, 
     {
         "source": "Rough Sculpin", 
+        "text": "\u0413\u0440\u0443\u0431\u0430\u044f \u0441\u043a\u0443\u043b\u044c\u043f\u0442\u0443\u0440\u0430", 
         "description": "", 
-        "id": "Rough Sculpin", 
-        "text": "\u0413\u0440\u0443\u0431\u0430\u044f \u0441\u043a\u0443\u043b\u044c\u043f\u0442\u0443\u0440\u0430"
+        "id": "Rough Sculpin"
     }, 
     {
         "source": "Russian River Roach", 
+        "text": "\u0420\u0443\u0441\u0441\u043a\u0430\u044f \u0440\u0435\u043a\u0430 \u0420\u043e\u0443\u0447", 
         "description": "", 
-        "id": "Russian River Roach", 
-        "text": "\u0420\u0443\u0441\u0441\u043a\u0430\u044f \u0440\u0435\u043a\u0430 \u0420\u043e\u0443\u0447"
+        "id": "Russian River Roach"
     }, 
     {
         "source": "Russian River Tule Perch", 
+        "text": "\u0420\u0443\u0441\u0441\u043a\u0430\u044f \u0440\u0435\u043a\u0430 \u0422\u0443\u043b\u0435 \u041e\u043a\u0443\u043d\u044c", 
         "description": "", 
-        "id": "Russian River Tule Perch", 
-        "text": "\u0420\u0443\u0441\u0441\u043a\u0430\u044f \u0440\u0435\u043a\u0430 \u0422\u0443\u043b\u0435 \u041e\u043a\u0443\u043d\u044c"
+        "id": "Russian River Tule Perch"
     }, 
     {
         "source": "Sacramento Blackfish", 
+        "text": "\u0421\u0430\u043a\u0440\u0430\u043c\u0435\u043d\u0442\u043e Blackfish", 
         "description": "", 
-        "id": "Sacramento Blackfish", 
-        "text": "\u0421\u0430\u043a\u0440\u0430\u043c\u0435\u043d\u0442\u043e Blackfish"
+        "id": "Sacramento Blackfish"
     }, 
     {
         "source": "Sacramento Hitch", 
+        "text": "\u0421\u0430\u043a\u0440\u0430\u043c\u0435\u043d\u0442\u043e \u0425\u0438\u0442\u0447", 
         "description": "", 
-        "id": "Sacramento Hitch", 
-        "text": "\u0421\u0430\u043a\u0440\u0430\u043c\u0435\u043d\u0442\u043e \u0425\u0438\u0442\u0447"
+        "id": "Sacramento Hitch"
     }, 
     {
         "source": "Sacramento Perch", 
+        "text": "\u0421\u0430\u043a\u0440\u0430\u043c\u0435\u043d\u0442\u043e \u041e\u043a\u0443\u043d\u044c", 
         "description": "", 
-        "id": "Sacramento Perch", 
-        "text": "\u0421\u0430\u043a\u0440\u0430\u043c\u0435\u043d\u0442\u043e \u041e\u043a\u0443\u043d\u044c"
+        "id": "Sacramento Perch"
     }, 
     {
         "source": "Sacramento Pikeminnow", 
+        "text": "\u0421\u0430\u043a\u0440\u0430\u043c\u0435\u043d\u0442\u043e Pikeminnow", 
         "description": "", 
-        "id": "Sacramento Pikeminnow", 
-        "text": "\u0421\u0430\u043a\u0440\u0430\u043c\u0435\u043d\u0442\u043e Pikeminnow"
+        "id": "Sacramento Pikeminnow"
     }, 
     {
         "source": "Sacramento Speckled Dace", 
+        "text": "\u0421\u0430\u043a\u0440\u0430\u043c\u0435\u043d\u0442\u043e \u043f\u0435\u0441\u0442\u0440\u0430\u044f \u043f\u043b\u043e\u0442\u0432\u0430", 
         "description": "", 
-        "id": "Sacramento Speckled Dace", 
-        "text": "\u0421\u0430\u043a\u0440\u0430\u043c\u0435\u043d\u0442\u043e \u043f\u0435\u0441\u0442\u0440\u0430\u044f \u043f\u043b\u043e\u0442\u0432\u0430"
+        "id": "Sacramento Speckled Dace"
     }, 
     {
         "source": "Sacramento Splittail", 
+        "text": "\u0421\u0430\u043a\u0440\u0430\u043c\u0435\u043d\u0442\u043e \u0421\u043f\u043b\u0438\u0442\u0442\u0435\u0439\u043b", 
         "description": "", 
-        "id": "Sacramento Splittail", 
-        "text": "\u0421\u0430\u043a\u0440\u0430\u043c\u0435\u043d\u0442\u043e \u0421\u043f\u043b\u0438\u0442\u0442\u0435\u0439\u043b"
+        "id": "Sacramento Splittail"
     }, 
     {
         "source": "Sacramento Sucker", 
+        "text": "\u0421\u0430\u043a\u0440\u0430\u043c\u0435\u043d\u0442\u043e \u043f\u0440\u0438\u0441\u043e\u0441\u043a\u0438", 
         "description": "", 
-        "id": "Sacramento Sucker", 
-        "text": "\u0421\u0430\u043a\u0440\u0430\u043c\u0435\u043d\u0442\u043e \u043f\u0440\u0438\u0441\u043e\u0441\u043a\u0438"
+        "id": "Sacramento Sucker"
     }, 
     {
         "source": "Sacramento Tule Perch", 
+        "text": "\u0421\u0430\u043a\u0440\u0430\u043c\u0435\u043d\u0442\u043e \u0422\u0443\u043b\u0435 \u041e\u043a\u0443\u043d\u044c", 
         "description": "", 
-        "id": "Sacramento Tule Perch", 
-        "text": "\u0421\u0430\u043a\u0440\u0430\u043c\u0435\u043d\u0442\u043e \u0422\u0443\u043b\u0435 \u041e\u043a\u0443\u043d\u044c"
+        "id": "Sacramento Tule Perch"
     }, 
     {
         "source": "Sailfin Molly", 
+        "text": "\u041f\u0430\u0440\u0443\u0441\u043d\u0438\u043a \u041c\u043e\u043b\u043b\u0438", 
         "description": "", 
-        "id": "Sailfin Molly", 
-        "text": "\u041f\u0430\u0440\u0443\u0441\u043d\u0438\u043a \u041c\u043e\u043b\u043b\u0438"
+        "id": "Sailfin Molly"
     }, 
     {
         "source": "Salt Creek Pupfish", 
+        "text": "\u0421\u043e\u043b\u0442-\u041a\u0440\u0438\u043a \u041f\u0443\u043f\u0444\u0438\u0448", 
         "description": "", 
-        "id": "Salt Creek Pupfish", 
-        "text": "\u0421\u043e\u043b\u0442-\u041a\u0440\u0438\u043a \u041f\u0443\u043f\u0444\u0438\u0448"
+        "id": "Salt Creek Pupfish"
     }, 
     {
         "source": "Santa Ana Speckled Dace", 
+        "text": "\u0421\u0430\u043d\u0442\u0430-\u0410\u043d\u0430 \u043f\u0435\u0441\u0442\u0440\u0430\u044f \u043f\u043b\u043e\u0442\u0432\u0430", 
         "description": "", 
-        "id": "Santa Ana Speckled Dace", 
-        "text": "\u0421\u0430\u043d\u0442\u0430-\u0410\u043d\u0430 \u043f\u0435\u0441\u0442\u0440\u0430\u044f \u043f\u043b\u043e\u0442\u0432\u0430"
+        "id": "Santa Ana Speckled Dace"
     }, 
     {
         "source": "Santa Ana Sucker", 
+        "text": "\u0421\u0430\u043d\u0442\u0430 \u0410\u043d\u0430 \u041f\u0440\u0438\u0441\u043e\u0441\u043a\u0430", 
         "description": "", 
-        "id": "Santa Ana Sucker", 
-        "text": "\u0421\u0430\u043d\u0442\u0430 \u0410\u043d\u0430 \u041f\u0440\u0438\u0441\u043e\u0441\u043a\u0430"
+        "id": "Santa Ana Sucker"
     }, 
     {
         "source": "Saratoga Springs Pupfish", 
+        "text": "\u0421\u0430\u0440\u0430\u0442\u043e\u0433\u0430 \u0421\u043f\u0440\u0438\u043d\u0433\u0441 \u041f\u0443\u043f\u0444\u0438\u0448", 
         "description": "", 
-        "id": "Saratoga Springs Pupfish", 
-        "text": "\u0421\u0430\u0440\u0430\u0442\u043e\u0433\u0430 \u0421\u043f\u0440\u0438\u043d\u0433\u0441 \u041f\u0443\u043f\u0444\u0438\u0448"
+        "id": "Saratoga Springs Pupfish"
     }, 
     {
         "source": "Shay Creek Stickleback", 
+        "text": "Shay Creek Stickleback", 
         "description": "", 
-        "id": "Shay Creek Stickleback", 
-        "text": "Shay Creek Stickleback"
+        "id": "Shay Creek Stickleback"
     }, 
     {
         "source": "Shimofuri Goby", 
+        "text": "\u0428\u0438\u043c\u043e\u0444\u0443\u0440\u0438 \u0413\u043e\u0431\u0438", 
         "description": "", 
-        "id": "Shimofuri Goby", 
-        "text": "\u0428\u0438\u043c\u043e\u0444\u0443\u0440\u0438 \u0413\u043e\u0431\u0438"
+        "id": "Shimofuri Goby"
     }, 
     {
         "source": "Shiner Perch", 
+        "text": "\u0428\u0438\u043d\u0435\u0440 \u041e\u043a\u0443\u043d\u044c", 
         "description": "", 
-        "id": "Shiner Perch", 
-        "text": "\u0428\u0438\u043d\u0435\u0440 \u041e\u043a\u0443\u043d\u044c"
+        "id": "Shiner Perch"
     }, 
     {
         "source": "Shortfin Molly", 
+        "text": "\u041a\u043e\u0440\u043e\u0442\u043a\u043e\u0448\u0435\u0440\u0441\u0442\u043d\u0430\u044f \u041c\u043e\u043b\u043b\u0438", 
         "description": "", 
-        "id": "Shortfin Molly", 
-        "text": "\u041a\u043e\u0440\u043e\u0442\u043a\u043e\u0448\u0435\u0440\u0441\u0442\u043d\u0430\u044f \u041c\u043e\u043b\u043b\u0438"
+        "id": "Shortfin Molly"
     }, 
     {
         "source": "Shortnose Sucker", 
+        "text": "\u041a\u043e\u0440\u043e\u0442\u043a\u043e\u0448\u0435\u0440\u0441\u0442\u043d\u0430\u044f \u043f\u0440\u0438\u0441\u043e\u0441\u043a\u0430", 
         "description": "", 
-        "id": "Shortnose Sucker", 
-        "text": "\u041a\u043e\u0440\u043e\u0442\u043a\u043e\u0448\u0435\u0440\u0441\u0442\u043d\u0430\u044f \u043f\u0440\u0438\u0441\u043e\u0441\u043a\u0430"
+        "id": "Shortnose Sucker"
     }, 
     {
         "source": "Shoshone Pupfish", 
+        "text": "\u0428\u043e\u0448\u043e\u043d\u0435 \u041f\u0443\u043f\u0444\u0438\u0448", 
         "description": "", 
-        "id": "Shoshone Pupfish", 
-        "text": "\u0428\u043e\u0448\u043e\u043d\u0435 \u041f\u0443\u043f\u0444\u0438\u0448"
+        "id": "Shoshone Pupfish"
     }, 
     {
         "source": "Smallmouth Bass", 
+        "text": "\u041c\u0430\u043b\u043e\u0440\u043e\u0442\u044b\u0439 \u0431\u0430\u0441", 
         "description": "", 
-        "id": "Smallmouth Bass", 
-        "text": "\u041c\u0430\u043b\u043e\u0440\u043e\u0442\u044b\u0439 \u0431\u0430\u0441"
+        "id": "Smallmouth Bass"
     }, 
     {
         "source": "Sockeye (Kokanee) Salmon", 
+        "text": "\u041b\u043e\u0441\u043e\u0441\u044c Sockeye (Kokanee)", 
         "description": "", 
-        "id": "Sockeye (Kokanee) Salmon", 
-        "text": "\u041b\u043e\u0441\u043e\u0441\u044c Sockeye (Kokanee)"
+        "id": "Sockeye (Kokanee) Salmon"
     }, 
     {
         "source": "South Central California Coast Steelhead", 
+        "text": "\u041f\u043e\u0431\u0435\u0440\u0435\u0436\u044c\u0435 \u042e\u0436\u043d\u043e\u0439 \u0438 \u0426\u0435\u043d\u0442\u0440\u0430\u043b\u044c\u043d\u043e\u0439 \u041a\u0430\u043b\u0438\u0444\u043e\u0440\u043d\u0438\u0438 \u0421\u0442\u0438\u043b\u0445\u0435\u0434", 
         "description": "", 
-        "id": "South Central California Coast Steelhead", 
-        "text": "\u041f\u043e\u0431\u0435\u0440\u0435\u0436\u044c\u0435 \u042e\u0436\u043d\u043e\u0439 \u0438 \u0426\u0435\u043d\u0442\u0440\u0430\u043b\u044c\u043d\u043e\u0439 \u041a\u0430\u043b\u0438\u0444\u043e\u0440\u043d\u0438\u0438 \u0421\u0442\u0438\u043b\u0445\u0435\u0434"
+        "id": "South Central California Coast Steelhead"
     }, 
     {
         "source": "Southern California Steelhead", 
+        "text": "\u042e\u0436\u043d\u0430\u044f \u041a\u0430\u043b\u0438\u0444\u043e\u0440\u043d\u0438\u044f \u0421\u0442\u0438\u043b\u0445\u0435\u0434", 
         "description": "", 
-        "id": "Southern California Steelhead", 
-        "text": "\u042e\u0436\u043d\u0430\u044f \u041a\u0430\u043b\u0438\u0444\u043e\u0440\u043d\u0438\u044f \u0421\u0442\u0438\u043b\u0445\u0435\u0434"
+        "id": "Southern California Steelhead"
     }, 
     {
         "source": "Southern Green Sturgeon", 
+        "text": "\u042e\u0436\u043d\u043e-\u0437\u0435\u043b\u0435\u043d\u044b\u0439 \u043e\u0441\u0435\u0442\u0440", 
         "description": "", 
-        "id": "Southern Green Sturgeon", 
-        "text": "\u042e\u0436\u043d\u043e-\u0437\u0435\u043b\u0435\u043d\u044b\u0439 \u043e\u0441\u0435\u0442\u0440"
+        "id": "Southern Green Sturgeon"
     }, 
     {
         "source": "Southern Oregon Northern California Coast Coho Salmon", 
+        "text": "\u041b\u043e\u0441\u043e\u0441\u044c \u042e\u0436\u043d\u043e\u0433\u043e \u041e\u0440\u0435\u0433\u043e\u043d\u0430 \u041f\u043e\u0431\u0435\u0440\u0435\u0436\u044c\u0435 \u0421\u0435\u0432\u0435\u0440\u043d\u043e\u0439 \u041a\u0430\u043b\u0438\u0444\u043e\u0440\u043d\u0438\u0438", 
         "description": "", 
-        "id": "Southern Oregon Northern California Coast Coho Salmon", 
-        "text": "\u041b\u043e\u0441\u043e\u0441\u044c \u042e\u0436\u043d\u043e\u0433\u043e \u041e\u0440\u0435\u0433\u043e\u043d\u0430 \u041f\u043e\u0431\u0435\u0440\u0435\u0436\u044c\u0435 \u0421\u0435\u0432\u0435\u0440\u043d\u043e\u0439 \u041a\u0430\u043b\u0438\u0444\u043e\u0440\u043d\u0438\u0438"
+        "id": "Southern Oregon Northern California Coast Coho Salmon"
     }, 
     {
         "source": "Southern Oregon Northern California Coast Fall Chinook Salmon", 
+        "text": "\u042e\u0436\u043d\u044b\u0439 \u041e\u0440\u0435\u0433\u043e\u043d, \u0421\u0435\u0432\u0435\u0440\u043d\u0430\u044f \u041a\u0430\u043b\u0438\u0444\u043e\u0440\u043d\u0438\u044f \u041f\u043e\u0431\u0435\u0440\u0435\u0436\u044c\u0435 \u0427\u0438\u043d\u0443\u043a \u041b\u043e\u0441\u043e\u0441\u044c", 
         "description": "", 
-        "id": "Southern Oregon Northern California Coast Fall Chinook Salmon", 
-        "text": "\u042e\u0436\u043d\u044b\u0439 \u041e\u0440\u0435\u0433\u043e\u043d, \u0421\u0435\u0432\u0435\u0440\u043d\u0430\u044f \u041a\u0430\u043b\u0438\u0444\u043e\u0440\u043d\u0438\u044f \u041f\u043e\u0431\u0435\u0440\u0435\u0436\u044c\u0435 \u0427\u0438\u043d\u0443\u043a \u041b\u043e\u0441\u043e\u0441\u044c"
+        "id": "Southern Oregon Northern California Coast Fall Chinook Salmon"
     }, 
     {
         "source": "Spotted Bass", 
+        "text": "\u041f\u044f\u0442\u043d\u0438\u0441\u0442\u044b\u0439 \u0431\u0430\u0441", 
         "description": "", 
-        "id": "Spotted Bass", 
-        "text": "\u041f\u044f\u0442\u043d\u0438\u0441\u0442\u044b\u0439 \u0431\u0430\u0441"
+        "id": "Spotted Bass"
     }, 
     {
         "source": "Staghorn Sculpin", 
+        "text": "Staghorn Sculpin", 
         "description": "", 
-        "id": "Staghorn Sculpin", 
-        "text": "Staghorn Sculpin"
+        "id": "Staghorn Sculpin"
     }, 
     {
         "source": "Starry Flounder", 
+        "text": "\u0417\u0432\u0435\u0437\u0434\u043d\u0430\u044f \u041a\u0430\u043c\u0431\u0430\u043b\u0430", 
         "description": "", 
-        "id": "Starry Flounder", 
-        "text": "\u0417\u0432\u0435\u0437\u0434\u043d\u0430\u044f \u041a\u0430\u043c\u0431\u0430\u043b\u0430"
+        "id": "Starry Flounder"
     }, 
     {
         "source": "Striped Bass", 
+        "text": "\u041f\u043e\u043b\u043e\u0441\u0430\u0442\u044b\u0439 \u043e\u043a\u0443\u043d\u044c", 
         "description": "", 
-        "id": "Striped Bass", 
-        "text": "\u041f\u043e\u043b\u043e\u0441\u0430\u0442\u044b\u0439 \u043e\u043a\u0443\u043d\u044c"
+        "id": "Striped Bass"
     }, 
     {
         "source": "Striped Mullet", 
+        "text": "\u041f\u043e\u043b\u043e\u0441\u0430\u0442\u044b\u0439 \u043a\u0435\u0444\u0430\u043b\u044c", 
         "description": "", 
-        "id": "Striped Mullet", 
-        "text": "\u041f\u043e\u043b\u043e\u0441\u0430\u0442\u044b\u0439 \u043a\u0435\u0444\u0430\u043b\u044c"
+        "id": "Striped Mullet"
     }, 
     {
         "source": "Surf Smelt", 
+        "text": "Surf Smelt", 
         "description": "", 
-        "id": "Surf Smelt", 
-        "text": "Surf Smelt"
+        "id": "Surf Smelt"
     }, 
     {
         "source": "Tahoe Sucker", 
+        "text": "Tahoe Sucker", 
         "description": "", 
-        "id": "Tahoe Sucker", 
-        "text": "Tahoe Sucker"
+        "id": "Tahoe Sucker"
     }, 
     {
         "source": "Tecopa Pupfish", 
+        "text": "Tecopa Pupfish", 
         "description": "", 
-        "id": "Tecopa Pupfish", 
-        "text": "Tecopa Pupfish"
+        "id": "Tecopa Pupfish"
     }, 
     {
         "source": "Tench", 
+        "text": "\u041b\u0438\u043d\u044c", 
         "description": "", 
-        "id": "Tench", 
-        "text": "\u041b\u0438\u043d\u044c"
+        "id": "Tench"
     }, 
     {
         "source": "Thicktail Chub", 
+        "text": "\u0422\u043e\u043b\u0441\u0442\u043e\u0445\u0432\u043e\u0441\u0442\u044b\u0439 \u0433\u043e\u043b\u0430\u0432\u043b\u044c", 
         "description": "", 
-        "id": "Thicktail Chub", 
-        "text": "\u0422\u043e\u043b\u0441\u0442\u043e\u0445\u0432\u043e\u0441\u0442\u044b\u0439 \u0433\u043e\u043b\u0430\u0432\u043b\u044c"
+        "id": "Thicktail Chub"
     }, 
     {
         "source": "Threadfin Shad", 
+        "text": "\u041d\u0438\u0442\u044c", 
         "description": "", 
-        "id": "Threadfin Shad", 
-        "text": "\u041d\u0438\u0442\u044c"
+        "id": "Threadfin Shad"
     }, 
     {
         "source": "Tidewater Goby", 
+        "text": "Tidewater Goby", 
         "description": "", 
-        "id": "Tidewater Goby", 
-        "text": "Tidewater Goby"
+        "id": "Tidewater Goby"
     }, 
     {
         "source": "Tomales Roach", 
+        "text": "\u0422\u043e\u043c\u044d\u0439\u043b\u0441 \u0420\u043e\u0443\u0447", 
         "description": "", 
-        "id": "Tomales Roach", 
-        "text": "\u0422\u043e\u043c\u044d\u0439\u043b\u0441 \u0420\u043e\u0443\u0447"
+        "id": "Tomales Roach"
     }, 
     {
         "source": "Topsmelt", 
+        "text": "Topsmelt", 
         "description": "", 
-        "id": "Topsmelt", 
-        "text": "Topsmelt"
+        "id": "Topsmelt"
     }, 
     {
         "source": "Unarmored Threespine Stickleback", 
+        "text": "\u0411\u0435\u0437\u0440\u0443\u043a\u0438\u0439 \u0442\u0440\u043e\u0441\u0442\u0438\u0448\u043d\u044b\u0439 \u043a\u043e\u043b\u044e\u0448\u043a\u0430", 
         "description": "", 
-        "id": "Unarmored Threespine Stickleback", 
-        "text": "\u0411\u0435\u0437\u0440\u0443\u043a\u0438\u0439 \u0442\u0440\u043e\u0441\u0442\u0438\u0448\u043d\u044b\u0439 \u043a\u043e\u043b\u044e\u0448\u043a\u0430"
+        "id": "Unarmored Threespine Stickleback"
     }, 
     {
         "source": "Upper Klamath Marbled Sculpin", 
+        "text": "\u0412\u0435\u0440\u0445\u043d\u0438\u0439 \u043a\u043b\u0430\u043c\u0430\u0442 \u0441 \u043c\u0440\u0430\u043c\u043e\u0440\u043d\u043e\u0439 \u0441\u043a\u0443\u043b\u044c\u043f\u0442\u0443\u0440\u043e\u0439", 
         "description": "", 
-        "id": "Upper Klamath Marbled Sculpin", 
-        "text": "\u0412\u0435\u0440\u0445\u043d\u0438\u0439 \u043a\u043b\u0430\u043c\u0430\u0442 \u0441 \u043c\u0440\u0430\u043c\u043e\u0440\u043d\u043e\u0439 \u0441\u043a\u0443\u043b\u044c\u043f\u0442\u0443\u0440\u043e\u0439"
+        "id": "Upper Klamath Marbled Sculpin"
     }, 
     {
         "source": "Upper Klamath-Trinity Fall Chinook Salmon", 
+        "text": "\u041b\u043e\u0441\u043e\u0441\u044c \u0412\u0435\u0440\u0445\u043d\u0435\u0439 \u041a\u043b\u0430\u043c\u0430\u0442-\u0422\u0440\u043e\u0438\u0446\u043a\u043e\u0439 \u043e\u0441\u0435\u043d\u0438 \u0427\u0438\u043d\u0443\u043a", 
         "description": "", 
-        "id": "Upper Klamath-Trinity Fall Chinook Salmon", 
-        "text": "\u041b\u043e\u0441\u043e\u0441\u044c \u0412\u0435\u0440\u0445\u043d\u0435\u0439 \u041a\u043b\u0430\u043c\u0430\u0442-\u0422\u0440\u043e\u0438\u0446\u043a\u043e\u0439 \u043e\u0441\u0435\u043d\u0438 \u0427\u0438\u043d\u0443\u043a"
+        "id": "Upper Klamath-Trinity Fall Chinook Salmon"
     }, 
     {
         "source": "Upper Klamath-Trinity Spring Chinook Salmon", 
+        "text": "\u0412\u0435\u0440\u0445\u043d\u0438\u0439 \u041a\u043b\u0430\u043c\u0430\u0442-\u0422\u0440\u043e\u0438\u0446\u043a\u0438\u0439 \u0421\u043f\u0440\u0438\u043d\u0433 \u0427\u0438\u043d\u0443\u043a \u041b\u043e\u0441\u043e\u0441\u044c", 
         "description": "", 
-        "id": "Upper Klamath-Trinity Spring Chinook Salmon", 
-        "text": "\u0412\u0435\u0440\u0445\u043d\u0438\u0439 \u041a\u043b\u0430\u043c\u0430\u0442-\u0422\u0440\u043e\u0438\u0446\u043a\u0438\u0439 \u0421\u043f\u0440\u0438\u043d\u0433 \u0427\u0438\u043d\u0443\u043a \u041b\u043e\u0441\u043e\u0441\u044c"
+        "id": "Upper Klamath-Trinity Spring Chinook Salmon"
     }, 
     {
         "source": "Wakasagi", 
+        "text": "Wakasagi", 
         "description": "", 
-        "id": "Wakasagi", 
-        "text": "Wakasagi"
+        "id": "Wakasagi"
     }, 
     {
         "source": "Warmouth", 
+        "text": "Warmouth", 
         "description": "", 
-        "id": "Warmouth", 
-        "text": "Warmouth"
+        "id": "Warmouth"
     }, 
     {
         "source": "Western Brook Lamprey", 
+        "text": "\u0417\u0430\u043f\u0430\u0434\u043d\u044b\u0439 \u0411\u0440\u0443\u043a \u041c\u0438\u043d\u043e\u0433\u0430", 
         "description": "", 
-        "id": "Western Brook Lamprey", 
-        "text": "\u0417\u0430\u043f\u0430\u0434\u043d\u044b\u0439 \u0411\u0440\u0443\u043a \u041c\u0438\u043d\u043e\u0433\u0430"
+        "id": "Western Brook Lamprey"
     }, 
     {
         "source": "Western Mosquitofish", 
+        "text": "\u0417\u0430\u043f\u0430\u0434\u043d\u044b\u0439 \u043a\u043e\u043c\u0430\u0440", 
         "description": "", 
-        "id": "Western Mosquitofish", 
-        "text": "\u0417\u0430\u043f\u0430\u0434\u043d\u044b\u0439 \u043a\u043e\u043c\u0430\u0440"
+        "id": "Western Mosquitofish"
     }, 
     {
         "source": "White Bass", 
+        "text": "\u0411\u0435\u043b\u044b\u0439 \u043e\u043a\u0443\u043d\u044c", 
         "description": "", 
-        "id": "White Bass", 
-        "text": "\u0411\u0435\u043b\u044b\u0439 \u043e\u043a\u0443\u043d\u044c"
+        "id": "White Bass"
     }, 
     {
         "source": "White Catfish", 
+        "text": "\u0411\u0435\u043b\u044b\u0439 \u0441\u043e\u043c", 
         "description": "", 
-        "id": "White Catfish", 
-        "text": "\u0411\u0435\u043b\u044b\u0439 \u0441\u043e\u043c"
+        "id": "White Catfish"
     }, 
     {
         "source": "White Crappie", 
+        "text": "\u0411\u0435\u043b\u0430\u044f \u043a\u0440\u0430\u043f\u043f\u0438", 
         "description": "", 
-        "id": "White Crappie", 
-        "text": "\u0411\u0435\u043b\u0430\u044f \u043a\u0440\u0430\u043f\u043f\u0438"
+        "id": "White Crappie"
     }, 
     {
         "source": "White Sturgeon", 
+        "text": "\u0411\u0435\u043b\u044b\u0439 \u041e\u0441\u0435\u0442\u0440", 
         "description": "", 
-        "id": "White Sturgeon", 
-        "text": "\u0411\u0435\u043b\u044b\u0439 \u041e\u0441\u0435\u0442\u0440"
+        "id": "White Sturgeon"
     }, 
     {
         "source": "Yellow Bullhead", 
+        "text": "\u0416\u0435\u043b\u0442\u044b\u0439 \u0431\u044b\u043a", 
         "description": "", 
-        "id": "Yellow Bullhead", 
-        "text": "\u0416\u0435\u043b\u0442\u044b\u0439 \u0431\u044b\u043a"
+        "id": "Yellow Bullhead"
     }, 
     {
         "source": "Yellow Perch", 
+        "text": "\u0416\u0435\u043b\u0442\u044b\u0439 \u043e\u043a\u0443\u043d\u044c", 
         "description": "", 
-        "id": "Yellow Perch", 
-        "text": "\u0416\u0435\u043b\u0442\u044b\u0439 \u043e\u043a\u0443\u043d\u044c"
+        "id": "Yellow Perch"
     }, 
     {
         "source": "Yellowfin Goby", 
+        "text": "Yellowfin Goby", 
         "description": "", 
-        "id": "Yellowfin Goby", 
-        "text": "Yellowfin Goby"
+        "id": "Yellowfin Goby"
     }, 
     {
         "source": "Speckled Dace are capable of living in an array of habitats from small springs or streams to large rivers and deep lakes.", 
+        "text": "\u041f\u0435\u0441\u0442\u0440\u0430\u044f \u043f\u043b\u043e\u0442\u0432\u0430 \u0441\u043f\u043e\u0441\u043e\u0431\u043d\u0430 \u0436\u0438\u0442\u044c \u0432\u043e \u043c\u043d\u043e\u0436\u0435\u0441\u0442\u0432\u0435 \u043c\u0435\u0441\u0442 \u043e\u0431\u0438\u0442\u0430\u043d\u0438\u044f \u043e\u0442 \u043d\u0435\u0431\u043e\u043b\u044c\u0448\u0438\u0445 \u0438\u0441\u0442\u043e\u0447\u043d\u0438\u043a\u043e\u0432 \u0438\u043b\u0438 \u0440\u0443\u0447\u044c\u0435\u0432 \u0434\u043e \u0431\u043e\u043b\u044c\u0448\u0438\u0445 \u0440\u0435\u043a \u0438 \u0433\u043b\u0443\u0431\u043e\u043a\u0438\u0445 \u043e\u0437\u0435\u0440.", 
         "description": "", 
-        "id": "Speckled Dace are capable of living in an array of habitats from small springs or streams to large rivers and deep lakes.", 
-        "text": "\u041f\u0435\u0441\u0442\u0440\u0430\u044f \u043f\u043b\u043e\u0442\u0432\u0430 \u0441\u043f\u043e\u0441\u043e\u0431\u043d\u0430 \u0436\u0438\u0442\u044c \u0432\u043e \u043c\u043d\u043e\u0436\u0435\u0441\u0442\u0432\u0435 \u043c\u0435\u0441\u0442 \u043e\u0431\u0438\u0442\u0430\u043d\u0438\u044f \u043e\u0442 \u043d\u0435\u0431\u043e\u043b\u044c\u0448\u0438\u0445 \u0438\u0441\u0442\u043e\u0447\u043d\u0438\u043a\u043e\u0432 \u0438\u043b\u0438 \u0440\u0443\u0447\u044c\u0435\u0432 \u0434\u043e \u0431\u043e\u043b\u044c\u0448\u0438\u0445 \u0440\u0435\u043a \u0438 \u0433\u043b\u0443\u0431\u043e\u043a\u0438\u0445 \u043e\u0437\u0435\u0440."
+        "id": "Speckled Dace are capable of living in an array of habitats from small springs or streams to large rivers and deep lakes."
     }, 
     {
         "source": "Speckled Dace prefer habitat that includes clear, well oxygenated water, with movement due to a current or waves.", 
+        "text": "\u041f\u0435\u0441\u0442\u0440\u0430\u044f \u043f\u043b\u043e\u0442\u0432\u0430 \u043f\u0440\u0435\u0434\u043f\u043e\u0447\u0438\u0442\u0430\u0435\u0442 \u0441\u0440\u0435\u0434\u0443 \u043e\u0431\u0438\u0442\u0430\u043d\u0438\u044f, \u043a\u043e\u0442\u043e\u0440\u0430\u044f \u0432\u043a\u043b\u044e\u0447\u0430\u0435\u0442 \u0432 \u0441\u0435\u0431\u044f \u0447\u0438\u0441\u0442\u0443\u044e, \u0445\u043e\u0440\u043e\u0448\u043e \u043d\u0430\u0441\u044b\u0449\u0435\u043d\u043d\u0443\u044e \u043a\u0438\u0441\u043b\u043e\u0440\u043e\u0434\u043e\u043c \u0432\u043e\u0434\u0443, \u0441 \u0434\u0432\u0438\u0436\u0435\u043d\u0438\u0435\u043c \u0438\u0437-\u0437\u0430 \u0442\u0435\u0447\u0435\u043d\u0438\u044f \u0438\u043b\u0438 \u0432\u043e\u043b\u043d.", 
         "description": "", 
-        "id": "Speckled Dace prefer habitat that includes clear, well oxygenated water, with movement due to a current or waves.", 
-        "text": "\u041f\u0435\u0441\u0442\u0440\u0430\u044f \u043f\u043b\u043e\u0442\u0432\u0430 \u043f\u0440\u0435\u0434\u043f\u043e\u0447\u0438\u0442\u0430\u0435\u0442 \u0441\u0440\u0435\u0434\u0443 \u043e\u0431\u0438\u0442\u0430\u043d\u0438\u044f, \u043a\u043e\u0442\u043e\u0440\u0430\u044f \u0432\u043a\u043b\u044e\u0447\u0430\u0435\u0442 \u0432 \u0441\u0435\u0431\u044f \u0447\u0438\u0441\u0442\u0443\u044e, \u0445\u043e\u0440\u043e\u0448\u043e \u043d\u0430\u0441\u044b\u0449\u0435\u043d\u043d\u0443\u044e \u043a\u0438\u0441\u043b\u043e\u0440\u043e\u0434\u043e\u043c \u0432\u043e\u0434\u0443, \u0441 \u0434\u0432\u0438\u0436\u0435\u043d\u0438\u0435\u043c \u0438\u0437-\u0437\u0430 \u0442\u0435\u0447\u0435\u043d\u0438\u044f \u0438\u043b\u0438 \u0432\u043e\u043b\u043d."
+        "id": "Speckled Dace prefer habitat that includes clear, well oxygenated water, with movement due to a current or waves."
     }, 
     {
         "source": "In addition the fish thrive in areas with deep cover or overhead protection from vegetation or woody debris.", 
+        "text": "\u041a\u0440\u043e\u043c\u0435 \u0442\u043e\u0433\u043e, \u0440\u044b\u0431\u0430 \u043f\u0440\u043e\u0446\u0432\u0435\u0442\u0430\u0435\u0442 \u0432 \u0440\u0430\u0439\u043e\u043d\u0430\u0445 \u0441 \u0433\u043b\u0443\u0431\u043e\u043a\u0438\u043c \u0443\u043a\u0440\u044b\u0442\u0438\u0435\u043c \u0438\u043b\u0438 \u0437\u0430\u0449\u0438\u0442\u043e\u0439 \u043e\u0442 \u0440\u0430\u0441\u0442\u0438\u0442\u0435\u043b\u044c\u043d\u043e\u0441\u0442\u0438 \u0438\u043b\u0438 \u0434\u0440\u0435\u0432\u0435\u0441\u043d\u043e\u0433\u043e \u043c\u0443\u0441\u043e\u0440\u0430.", 
         "description": "", 
-        "id": "In addition the fish thrive in areas with deep cover or overhead protection from vegetation or woody debris.", 
-        "text": "\u041a\u0440\u043e\u043c\u0435 \u0442\u043e\u0433\u043e, \u0440\u044b\u0431\u0430 \u043f\u0440\u043e\u0446\u0432\u0435\u0442\u0430\u0435\u0442 \u0432 \u0440\u0430\u0439\u043e\u043d\u0430\u0445 \u0441 \u0433\u043b\u0443\u0431\u043e\u043a\u0438\u043c \u0443\u043a\u0440\u044b\u0442\u0438\u0435\u043c \u0438\u043b\u0438 \u0437\u0430\u0449\u0438\u0442\u043e\u0439 \u043e\u0442 \u0440\u0430\u0441\u0442\u0438\u0442\u0435\u043b\u044c\u043d\u043e\u0441\u0442\u0438 \u0438\u043b\u0438 \u0434\u0440\u0435\u0432\u0435\u0441\u043d\u043e\u0433\u043e \u043c\u0443\u0441\u043e\u0440\u0430."
+        "id": "In addition the fish thrive in areas with deep cover or overhead protection from vegetation or woody debris."
     }, 
     {
         "source": "Speckled Dace predominantly occupy small streams of the second to third order where they feed and forage for aquatic insects.", 
+        "text": "\u041a\u0440\u0430\u043f\u0447\u0430\u0442\u0430\u044f \u043f\u043b\u043e\u0442\u0432\u0430 \u043f\u0440\u0435\u0438\u043c\u0443\u0449\u0435\u0441\u0442\u0432\u0435\u043d\u043d\u043e \u0437\u0430\u043d\u0438\u043c\u0430\u0435\u0442 \u043d\u0435\u0431\u043e\u043b\u044c\u0448\u0438\u0435 \u0440\u0443\u0447\u044c\u0438 \u0432\u0442\u043e\u0440\u043e\u0433\u043e-\u0442\u0440\u0435\u0442\u044c\u0435\u0433\u043e \u043f\u043e\u0440\u044f\u0434\u043a\u0430, \u0433\u0434\u0435 \u043e\u043d\u0438 \u043f\u0438\u0442\u0430\u044e\u0442\u0441\u044f \u0438 \u0434\u043e\u0431\u044b\u0432\u0430\u044e\u0442 \u043a\u043e\u0440\u043c \u0434\u043b\u044f \u0432\u043e\u0434\u043d\u044b\u0445 \u043d\u0430\u0441\u0435\u043a\u043e\u043c\u044b\u0445.", 
         "description": "", 
-        "id": "Speckled Dace predominantly occupy small streams of the second to third order where they feed and forage for aquatic insects.", 
-        "text": "\u041a\u0440\u0430\u043f\u0447\u0430\u0442\u0430\u044f \u043f\u043b\u043e\u0442\u0432\u0430 \u043f\u0440\u0435\u0438\u043c\u0443\u0449\u0435\u0441\u0442\u0432\u0435\u043d\u043d\u043e \u0437\u0430\u043d\u0438\u043c\u0430\u0435\u0442 \u043d\u0435\u0431\u043e\u043b\u044c\u0448\u0438\u0435 \u0440\u0443\u0447\u044c\u0438 \u0432\u0442\u043e\u0440\u043e\u0433\u043e-\u0442\u0440\u0435\u0442\u044c\u0435\u0433\u043e \u043f\u043e\u0440\u044f\u0434\u043a\u0430, \u0433\u0434\u0435 \u043e\u043d\u0438 \u043f\u0438\u0442\u0430\u044e\u0442\u0441\u044f \u0438 \u0434\u043e\u0431\u044b\u0432\u0430\u044e\u0442 \u043a\u043e\u0440\u043c \u0434\u043b\u044f \u0432\u043e\u0434\u043d\u044b\u0445 \u043d\u0430\u0441\u0435\u043a\u043e\u043c\u044b\u0445."
+        "id": "Speckled Dace predominantly occupy small streams of the second to third order where they feed and forage for aquatic insects."
     }, 
     {
         "source": "The species is very adaptable and is found in cold alpine lakes such as Lake Tahoe, but has also been able to survive adversity in temperatures at or above 31\\u2103 with a dissolved oxygen concentration of 1 mg / L.", 
+        "text": "\u042d\u0442\u043e\u0442 \u0432\u0438\u0434 \u043e\u0447\u0435\u043d\u044c \u0430\u0434\u0430\u043f\u0442\u0438\u0432\u0435\u043d \u0438 \u0432\u0441\u0442\u0440\u0435\u0447\u0430\u0435\u0442\u0441\u044f \u0432 \u0445\u043e\u043b\u043e\u0434\u043d\u044b\u0445 \u0430\u043b\u044c\u043f\u0438\u0439\u0441\u043a\u0438\u0445 \u043e\u0437\u0435\u0440\u0430\u0445, \u0442\u0430\u043a\u0438\u0445 \u043a\u0430\u043a \u043e\u0437\u0435\u0440\u043e \u0422\u0430\u0445\u043e, \u043d\u043e \u043e\u043d \u0442\u0430\u043a\u0436\u0435 \u043c\u043e\u0436\u0435\u0442 \u0432\u044b\u0436\u0438\u0442\u044c \u0432 \u043d\u0435\u0431\u043b\u0430\u0433\u043e\u043f\u0440\u0438\u044f\u0442\u043d\u044b\u0445 \u0443\u0441\u043b\u043e\u0432\u0438\u044f\u0445 \u043f\u0440\u0438 \u0442\u0435\u043c\u043f\u0435\u0440\u0430\u0442\u0443\u0440\u0435 \u043d\u0435 \u0432\u044b\u0448\u0435 312103 \u043f\u0440\u0438 \u043a\u043e\u043d\u0446\u0435\u043d\u0442\u0440\u0430\u0446\u0438\u0438 \u0440\u0430\u0441\u0442\u0432\u043e\u0440\u0435\u043d\u043d\u043e\u0433\u043e \u043a\u0438\u0441\u043b\u043e\u0440\u043e\u0434\u0430 1 \u043c\u0433 / \u043b", 
         "description": "", 
-        "id": "The species is very adaptable and is found in cold alpine lakes such as Lake Tahoe, but has also been able to survive adversity in temperatures at or above 31\\u2103 with a dissolved oxygen concentration of 1 mg / L.", 
-        "text": "\u042d\u0442\u043e\u0442 \u0432\u0438\u0434 \u043e\u0447\u0435\u043d\u044c \u0430\u0434\u0430\u043f\u0442\u0438\u0432\u0435\u043d \u0438 \u0432\u0441\u0442\u0440\u0435\u0447\u0430\u0435\u0442\u0441\u044f \u0432 \u0445\u043e\u043b\u043e\u0434\u043d\u044b\u0445 \u0430\u043b\u044c\u043f\u0438\u0439\u0441\u043a\u0438\u0445 \u043e\u0437\u0435\u0440\u0430\u0445, \u0442\u0430\u043a\u0438\u0445 \u043a\u0430\u043a \u043e\u0437\u0435\u0440\u043e \u0422\u0430\u0445\u043e, \u043d\u043e \u043e\u043d \u0442\u0430\u043a\u0436\u0435 \u043c\u043e\u0436\u0435\u0442 \u0432\u044b\u0436\u0438\u0442\u044c \u0432 \u043d\u0435\u0431\u043b\u0430\u0433\u043e\u043f\u0440\u0438\u044f\u0442\u043d\u044b\u0445 \u0443\u0441\u043b\u043e\u0432\u0438\u044f\u0445 \u043f\u0440\u0438 \u0442\u0435\u043c\u043f\u0435\u0440\u0430\u0442\u0443\u0440\u0435 \u043d\u0435 \u0432\u044b\u0448\u0435 312103 \u043f\u0440\u0438 \u043a\u043e\u043d\u0446\u0435\u043d\u0442\u0440\u0430\u0446\u0438\u0438 \u0440\u0430\u0441\u0442\u0432\u043e\u0440\u0435\u043d\u043d\u043e\u0433\u043e \u043a\u0438\u0441\u043b\u043e\u0440\u043e\u0434\u0430 1 \u043c\u0433 / \u043b"
+        "id": "The species is very adaptable and is found in cold alpine lakes such as Lake Tahoe, but has also been able to survive adversity in temperatures at or above 31\\u2103 with a dissolved oxygen concentration of 1 mg / L."
     }, 
     {
         "source": "In streams speckled dace swim along the bottom looking for small invertebrates while in lakes they are opportunistic feeders that may feed on zooplankton, algae, nymphs, or the resulting flying insects.", 
+        "text": "\u0412 \u0440\u0443\u0447\u044c\u044f\u0445 \u043f\u0435\u0441\u0442\u0440\u0430\u044f \u043f\u043b\u043e\u0442\u0432\u0430 \u043f\u043b\u044b\u0432\u0435\u0442 \u0432\u0434\u043e\u043b\u044c \u0434\u043d\u0430 \u0432 \u043f\u043e\u0438\u0441\u043a\u0430\u0445 \u043c\u0435\u043b\u043a\u0438\u0445 \u0431\u0435\u0441\u043f\u043e\u0437\u0432\u043e\u043d\u043e\u0447\u043d\u044b\u0445, \u0432 \u0442\u043e \u0432\u0440\u0435\u043c\u044f \u043a\u0430\u043a \u0432 \u043e\u0437\u0435\u0440\u0430\u0445 \u043e\u043d\u0438 \u044f\u0432\u043b\u044f\u044e\u0442\u0441\u044f \u0443\u0441\u043b\u043e\u0432\u043d\u043e-\u043f\u0438\u0442\u0430\u0442\u0435\u043b\u044c\u043d\u044b\u043c\u0438 \u0432\u0435\u0449\u0435\u0441\u0442\u0432\u0430\u043c\u0438, \u043a\u043e\u0442\u043e\u0440\u044b\u0435 \u043c\u043e\u0433\u0443\u0442 \u043f\u0438\u0442\u0430\u0442\u044c\u0441\u044f \u0437\u043e\u043e\u043f\u043b\u0430\u043d\u043a\u0442\u043e\u043d\u043e\u043c, \u0432\u043e\u0434\u043e\u0440\u043e\u0441\u043b\u044f\u043c\u0438, \u043d\u0438\u043c\u0444\u0430\u043c\u0438 \u0438\u043b\u0438 \u043e\u0431\u0440\u0430\u0437\u0443\u044e\u0449\u0438\u043c\u0438\u0441\u044f \u043b\u0435\u0442\u0430\u044e\u0449\u0438\u043c\u0438 \u043d\u0430\u0441\u0435\u043a\u043e\u043c\u044b\u043c\u0438.", 
         "description": "", 
-        "id": "In streams speckled dace swim along the bottom looking for small invertebrates while in lakes they are opportunistic feeders that may feed on zooplankton, algae, nymphs, or the resulting flying insects.", 
-        "text": "\u0412 \u0440\u0443\u0447\u044c\u044f\u0445 \u043f\u0435\u0441\u0442\u0440\u0430\u044f \u043f\u043b\u043e\u0442\u0432\u0430 \u043f\u043b\u044b\u0432\u0435\u0442 \u0432\u0434\u043e\u043b\u044c \u0434\u043d\u0430 \u0432 \u043f\u043e\u0438\u0441\u043a\u0430\u0445 \u043c\u0435\u043b\u043a\u0438\u0445 \u0431\u0435\u0441\u043f\u043e\u0437\u0432\u043e\u043d\u043e\u0447\u043d\u044b\u0445, \u0432 \u0442\u043e \u0432\u0440\u0435\u043c\u044f \u043a\u0430\u043a \u0432 \u043e\u0437\u0435\u0440\u0430\u0445 \u043e\u043d\u0438 \u044f\u0432\u043b\u044f\u044e\u0442\u0441\u044f \u0443\u0441\u043b\u043e\u0432\u043d\u043e-\u043f\u0438\u0442\u0430\u0442\u0435\u043b\u044c\u043d\u044b\u043c\u0438 \u0432\u0435\u0449\u0435\u0441\u0442\u0432\u0430\u043c\u0438, \u043a\u043e\u0442\u043e\u0440\u044b\u0435 \u043c\u043e\u0433\u0443\u0442 \u043f\u0438\u0442\u0430\u0442\u044c\u0441\u044f \u0437\u043e\u043e\u043f\u043b\u0430\u043d\u043a\u0442\u043e\u043d\u043e\u043c, \u0432\u043e\u0434\u043e\u0440\u043e\u0441\u043b\u044f\u043c\u0438, \u043d\u0438\u043c\u0444\u0430\u043c\u0438 \u0438\u043b\u0438 \u043e\u0431\u0440\u0430\u0437\u0443\u044e\u0449\u0438\u043c\u0438\u0441\u044f \u043b\u0435\u0442\u0430\u044e\u0449\u0438\u043c\u0438 \u043d\u0430\u0441\u0435\u043a\u043e\u043c\u044b\u043c\u0438."
+        "id": "In streams speckled dace swim along the bottom looking for small invertebrates while in lakes they are opportunistic feeders that may feed on zooplankton, algae, nymphs, or the resulting flying insects."
     }, 
     {
         "source": "Speckled Dace typically have a life span of three years, but may live 6 or more years, during which time females typically grow more rapidly than males.", 
+        "text": "\u041f\u0435\u0441\u0442\u0440\u0430\u044f \u043f\u0430\u043b\u0438\u0446\u0430 \u043e\u0431\u044b\u0447\u043d\u043e \u0438\u043c\u0435\u0435\u0442 \u043f\u0440\u043e\u0434\u043e\u043b\u0436\u0438\u0442\u0435\u043b\u044c\u043d\u043e\u0441\u0442\u044c \u0436\u0438\u0437\u043d\u0438 \u0442\u0440\u0438 \u0433\u043e\u0434\u0430, \u043d\u043e \u043c\u043e\u0436\u0435\u0442 \u043f\u0440\u043e\u0436\u0438\u0442\u044c 6 \u0438 \u0431\u043e\u043b\u0435\u0435 \u043b\u0435\u0442, \u0432 \u0442\u0435\u0447\u0435\u043d\u0438\u0435 \u043a\u043e\u0442\u043e\u0440\u044b\u0445 \u0436\u0435\u043d\u0449\u0438\u043d\u044b \u043e\u0431\u044b\u0447\u043d\u043e \u0440\u0430\u0441\u0442\u0443\u0442 \u0431\u044b\u0441\u0442\u0440\u0435\u0435, \u0447\u0435\u043c \u043c\u0443\u0436\u0447\u0438\u043d\u044b.", 
         "description": "", 
-        "id": "Speckled Dace typically have a life span of three years, but may live 6 or more years, during which time females typically grow more rapidly than males.", 
-        "text": "\u041f\u0435\u0441\u0442\u0440\u0430\u044f \u043f\u0430\u043b\u0438\u0446\u0430 \u043e\u0431\u044b\u0447\u043d\u043e \u0438\u043c\u0435\u0435\u0442 \u043f\u0440\u043e\u0434\u043e\u043b\u0436\u0438\u0442\u0435\u043b\u044c\u043d\u043e\u0441\u0442\u044c \u0436\u0438\u0437\u043d\u0438 \u0442\u0440\u0438 \u0433\u043e\u0434\u0430, \u043d\u043e \u043c\u043e\u0436\u0435\u0442 \u043f\u0440\u043e\u0436\u0438\u0442\u044c 6 \u0438 \u0431\u043e\u043b\u0435\u0435 \u043b\u0435\u0442, \u0432 \u0442\u0435\u0447\u0435\u043d\u0438\u0435 \u043a\u043e\u0442\u043e\u0440\u044b\u0445 \u0436\u0435\u043d\u0449\u0438\u043d\u044b \u043e\u0431\u044b\u0447\u043d\u043e \u0440\u0430\u0441\u0442\u0443\u0442 \u0431\u044b\u0441\u0442\u0440\u0435\u0435, \u0447\u0435\u043c \u043c\u0443\u0436\u0447\u0438\u043d\u044b."
+        "id": "Speckled Dace typically have a life span of three years, but may live 6 or more years, during which time females typically grow more rapidly than males."
     }, 
     {
         "source": "The fish become sexually mature in their second year and during the summer months the dace spawn.", 
+        "text": "\u0420\u044b\u0431\u044b \u0441\u0442\u0430\u043d\u043e\u0432\u044f\u0442\u0441\u044f \u043f\u043e\u043b\u043e\u0432\u043e\u0437\u0440\u0435\u043b\u044b\u043c\u0438 \u043d\u0430 \u0432\u0442\u043e\u0440\u043e\u0439 \u0433\u043e\u0434, \u0430 \u0432 \u043b\u0435\u0442\u043d\u0438\u0435 \u043c\u0435\u0441\u044f\u0446\u044b \u043d\u0435\u0440\u0435\u0441\u0442\u0438\u0442\u0441\u044f \u043f\u043b\u043e\u0442\u0432\u0430.", 
         "description": "", 
-        "id": "The fish become sexually mature in their second year and during the summer months the dace spawn.", 
-        "text": "\u0420\u044b\u0431\u044b \u0441\u0442\u0430\u043d\u043e\u0432\u044f\u0442\u0441\u044f \u043f\u043e\u043b\u043e\u0432\u043e\u0437\u0440\u0435\u043b\u044b\u043c\u0438 \u043d\u0430 \u0432\u0442\u043e\u0440\u043e\u0439 \u0433\u043e\u0434, \u0430 \u0432 \u043b\u0435\u0442\u043d\u0438\u0435 \u043c\u0435\u0441\u044f\u0446\u044b \u043d\u0435\u0440\u0435\u0441\u0442\u0438\u0442\u0441\u044f \u043f\u043b\u043e\u0442\u0432\u0430."
+        "id": "The fish become sexually mature in their second year and during the summer months the dace spawn."
     }, 
     {
         "source": "Stream dwellers spawn in riffles or gravely areas, while the lake inhabitants spawn in tributaries or in shallow shoreline regions.", 
+        "text": "\u0416\u0438\u0442\u0435\u043b\u0438 \u0440\u0443\u0447\u044c\u044f \u043d\u0435\u0440\u0435\u0441\u0442\u044f\u0442\u0441\u044f \u0432 \u0440\u0438\u0444\u0430\u0445 \u0438\u043b\u0438 \u0432 \u043c\u043e\u0433\u0443\u0447\u0438\u0445 \u043e\u0431\u043b\u0430\u0441\u0442\u044f\u0445, \u0432 \u0442\u043e \u0432\u0440\u0435\u043c\u044f \u043a\u0430\u043a \u043e\u0431\u0438\u0442\u0430\u0442\u0435\u043b\u0438 \u043e\u0437\u0435\u0440\u0430 \u043d\u0435\u0440\u0435\u0441\u0442\u044f\u0442\u0441\u044f \u0432 \u043f\u0440\u0438\u0442\u043e\u043a\u0430\u0445 \u0438\u043b\u0438 \u0432 \u043c\u0435\u043b\u043a\u043e\u0432\u043e\u0434\u043d\u044b\u0445 \u0440\u0430\u0439\u043e\u043d\u0430\u0445 \u043f\u043e\u0431\u0435\u0440\u0435\u0436\u044c\u044f.", 
         "description": "", 
-        "id": "Stream dwellers spawn in riffles or gravely areas, while the lake inhabitants spawn in tributaries or in shallow shoreline regions.", 
-        "text": "\u0416\u0438\u0442\u0435\u043b\u0438 \u0440\u0443\u0447\u044c\u044f \u043d\u0435\u0440\u0435\u0441\u0442\u044f\u0442\u0441\u044f \u0432 \u0440\u0438\u0444\u0430\u0445 \u0438\u043b\u0438 \u0432 \u043c\u043e\u0433\u0443\u0447\u0438\u0445 \u043e\u0431\u043b\u0430\u0441\u0442\u044f\u0445, \u0432 \u0442\u043e \u0432\u0440\u0435\u043c\u044f \u043a\u0430\u043a \u043e\u0431\u0438\u0442\u0430\u0442\u0435\u043b\u0438 \u043e\u0437\u0435\u0440\u0430 \u043d\u0435\u0440\u0435\u0441\u0442\u044f\u0442\u0441\u044f \u0432 \u043f\u0440\u0438\u0442\u043e\u043a\u0430\u0445 \u0438\u043b\u0438 \u0432 \u043c\u0435\u043b\u043a\u043e\u0432\u043e\u0434\u043d\u044b\u0445 \u0440\u0430\u0439\u043e\u043d\u0430\u0445 \u043f\u043e\u0431\u0435\u0440\u0435\u0436\u044c\u044f."
+        "id": "Stream dwellers spawn in riffles or gravely areas, while the lake inhabitants spawn in tributaries or in shallow shoreline regions."
     }, 
     {
         "source": "The embryos hatch in 6 days, and the larvae remain in the safety of the gravel for 7 - 8 days.", 
+        "text": "\u042d\u043c\u0431\u0440\u0438\u043e\u043d\u044b \u0432\u044b\u0432\u043e\u0434\u044f\u0442\u0441\u044f \u0447\u0435\u0440\u0435\u0437 6 \u0434\u043d\u0435\u0439, \u0430 \u043b\u0438\u0447\u0438\u043d\u043a\u0438 \u043e\u0441\u0442\u0430\u044e\u0442\u0441\u044f \u0432 \u0431\u0435\u0437\u043e\u043f\u0430\u0441\u043d\u043e\u0441\u0442\u0438 \u0433\u0440\u0430\u0432\u0438\u044f \u0432 \u0442\u0435\u0447\u0435\u043d\u0438\u0435 7-8 \u0434\u043d\u0435\u0439", 
         "description": "", 
-        "id": "The embryos hatch in 6 days, and the larvae remain in the safety of the gravel for 7 - 8 days.", 
-        "text": "\u042d\u043c\u0431\u0440\u0438\u043e\u043d\u044b \u0432\u044b\u0432\u043e\u0434\u044f\u0442\u0441\u044f \u0447\u0435\u0440\u0435\u0437 6 \u0434\u043d\u0435\u0439, \u0430 \u043b\u0438\u0447\u0438\u043d\u043a\u0438 \u043e\u0441\u0442\u0430\u044e\u0442\u0441\u044f \u0432 \u0431\u0435\u0437\u043e\u043f\u0430\u0441\u043d\u043e\u0441\u0442\u0438 \u0433\u0440\u0430\u0432\u0438\u044f \u0432 \u0442\u0435\u0447\u0435\u043d\u0438\u0435 7-8 \u0434\u043d\u0435\u0439"
+        "id": "The embryos hatch in 6 days, and the larvae remain in the safety of the gravel for 7 - 8 days."
     }, 
     {
         "source": "The young fry then spend the early part of their lives in the shallow warm areas of the stream or lake where they hatched.", 
+        "text": "\u041c\u043e\u043b\u043e\u0434\u043d\u044f\u043a \u0437\u0430\u0442\u0435\u043c \u043f\u0440\u043e\u0432\u043e\u0434\u0438\u0442 \u0440\u0430\u043d\u043d\u044e\u044e \u0447\u0430\u0441\u0442\u044c \u0441\u0432\u043e\u0435\u0439 \u0436\u0438\u0437\u043d\u0438 \u0432 \u043c\u0435\u043b\u043a\u0438\u0445 \u0442\u0435\u043f\u043b\u044b\u0445 \u043e\u0431\u043b\u0430\u0441\u0442\u044f\u0445 \u0440\u0443\u0447\u044c\u044f \u0438\u043b\u0438 \u043e\u0437\u0435\u0440\u0430, \u0433\u0434\u0435 \u043e\u043d\u0438 \u0432\u044b\u043b\u0443\u043f\u0438\u043b\u0438\u0441\u044c.", 
         "description": "", 
-        "id": "The young fry then spend the early part of their lives in the shallow warm areas of the stream or lake where they hatched.", 
-        "text": "\u041c\u043e\u043b\u043e\u0434\u043d\u044f\u043a \u0437\u0430\u0442\u0435\u043c \u043f\u0440\u043e\u0432\u043e\u0434\u0438\u0442 \u0440\u0430\u043d\u043d\u044e\u044e \u0447\u0430\u0441\u0442\u044c \u0441\u0432\u043e\u0435\u0439 \u0436\u0438\u0437\u043d\u0438 \u0432 \u043c\u0435\u043b\u043a\u0438\u0445 \u0442\u0435\u043f\u043b\u044b\u0445 \u043e\u0431\u043b\u0430\u0441\u0442\u044f\u0445 \u0440\u0443\u0447\u044c\u044f \u0438\u043b\u0438 \u043e\u0437\u0435\u0440\u0430, \u0433\u0434\u0435 \u043e\u043d\u0438 \u0432\u044b\u043b\u0443\u043f\u0438\u043b\u0438\u0441\u044c."
+        "id": "The young fry then spend the early part of their lives in the shallow warm areas of the stream or lake where they hatched."
     }, 
     {
         "source": "False", 
+        "text": "\u041b\u043e\u0436\u044c", 
         "description": "", 
-        "id": "False", 
-        "text": "\u041b\u043e\u0436\u044c"
+        "id": "False"
     }, 
     {
         "source": "True", 
+        "text": "\u041f\u0440\u0430\u0432\u0434\u0430", 
         "description": "", 
-        "id": "True", 
-        "text": "\u041f\u0440\u0430\u0432\u0434\u0430"
+        "id": "True"
     }, 
     {
         "source": "Error reading text file", 
+        "text": "\u041e\u0448\u0438\u0431\u043a\u0430 \u0447\u0442\u0435\u043d\u0438\u044f \u0442\u0435\u043a\u0441\u0442\u043e\u0432\u043e\u0433\u043e \u0444\u0430\u0439\u043b\u0430", 
         "description": "", 
-        "id": "Error reading text file", 
-        "text": "\u041e\u0448\u0438\u0431\u043a\u0430 \u0447\u0442\u0435\u043d\u0438\u044f \u0442\u0435\u043a\u0441\u0442\u043e\u0432\u043e\u0433\u043e \u0444\u0430\u0439\u043b\u0430"
+        "id": "Error reading text file"
     }, 
     {
         "source": "Cannot create directory", 
+        "text": "\u041d\u0435\u0432\u043e\u0437\u043c\u043e\u0436\u043d\u043e \u0441\u043e\u0437\u0434\u0430\u0442\u044c \u043a\u0430\u0442\u0430\u043b\u043e\u0433", 
         "description": "", 
-        "id": "Cannot create directory", 
-        "text": "\u041d\u0435\u0432\u043e\u0437\u043c\u043e\u0436\u043d\u043e \u0441\u043e\u0437\u0434\u0430\u0442\u044c \u043a\u0430\u0442\u0430\u043b\u043e\u0433"
+        "id": "Cannot create directory"
     }, 
     {
         "source": "KeyPress", 
-        "text": "\u041d\u0430\u0436\u0430\u0442\u0438\u0435 \u043a\u043b\u0430\u0432\u0438\u0448\u0438", 
+        "description": "", 
         "id": "KeyPress", 
-        "description": ""
+        "text": "\u041d\u0430\u0436\u0430\u0442\u0438\u0435 \u043a\u043b\u0430\u0432\u0438\u0448\u0438"
     }, 
     {
         "source": "KeyRelease", 
-        "text": "KeyRelease", 
+        "description": "", 
         "id": "KeyRelease", 
-        "description": ""
+        "text": "KeyRelease"
     }, 
     {
         "source": "TextFocus", 
-        "text": "\u0442\u0435\u043a\u0441\u0442 \u0424\u043e\u043a\u0443\u0441", 
+        "description": "", 
         "id": "TextFocus", 
-        "description": ""
+        "text": "\u0442\u0435\u043a\u0441\u0442 \u0424\u043e\u043a\u0443\u0441"
     }, 
     {
         "source": "TextFocusLost", 
-        "text": "\u0422\u0435\u043a\u0441\u0442 \u0424\u043e\u043a\u0443\u0441 \u041f\u043e\u0442\u0435\u0440\u044f\u043d\u043d\u0430\u044f", 
+        "description": "", 
         "id": "TextFocusLost", 
-        "description": ""
+        "text": "\u0422\u0435\u043a\u0441\u0442 \u0424\u043e\u043a\u0443\u0441 \u041f\u043e\u0442\u0435\u0440\u044f\u043d\u043d\u0430\u044f"
     }, 
     {
         "source": "The file\") << \" '\" << fileName << \"' \" << DJV_TEXT(\"cannot be opened", 
-        "text": "\u0424\u0430\u0439\u043b &quot;) &lt;&lt;&quot; &#39;&quot;&lt;&lt; fileName &lt;&lt;&quot;&#39; &quot;&lt;&lt; DJV_TEXT (&quot; \u043d\u0435 \u043c\u043e\u0436\u0435\u0442 \u0431\u044b\u0442\u044c \u043e\u0442\u043a\u0440\u044b\u0442", 
+        "description": "", 
         "id": "The file\") << \" '\" << fileName << \"' \" << DJV_TEXT(\"cannot be opened", 
-        "description": ""
+        "text": "\u0424\u0430\u0439\u043b &quot;) &lt;&lt;&quot; &#39;&quot;&lt;&lt; fileName &lt;&lt;&quot;&#39; &quot;&lt;&lt; DJV_TEXT (&quot; \u043d\u0435 \u043c\u043e\u0436\u0435\u0442 \u0431\u044b\u0442\u044c \u043e\u0442\u043a\u0440\u044b\u0442"
     }, 
     {
         "source": "The file\") << \" '\" << fileName << \"' \" << DJV_TEXT(\"cannot be queried", 
-        "text": "\u0424\u0430\u0439\u043b &quot;) &lt;&lt;&quot; &#39;&quot;&lt;&lt; fileName &lt;&lt;&quot;&#39; &quot;&lt;&lt; DJV_TEXT (&quot; \u043d\u0435 \u043c\u043e\u0436\u0435\u0442 \u0431\u044b\u0442\u044c \u0437\u0430\u043f\u0440\u043e\u0448\u0435\u043d", 
+        "description": "", 
         "id": "The file\") << \" '\" << fileName << \"' \" << DJV_TEXT(\"cannot be queried", 
-        "description": ""
+        "text": "\u0424\u0430\u0439\u043b &quot;) &lt;&lt;&quot; &#39;&quot;&lt;&lt; fileName &lt;&lt;&quot;&#39; &quot;&lt;&lt; DJV_TEXT (&quot; \u043d\u0435 \u043c\u043e\u0436\u0435\u0442 \u0431\u044b\u0442\u044c \u0437\u0430\u043f\u0440\u043e\u0448\u0435\u043d"
     }, 
     {
         "source": "The file\") << \" '\" << _fileName << \"' \" << DJV_TEXT(\"cannot be mapped", 
-        "text": "\u0424\u0430\u0439\u043b &quot;) &lt;&lt;&quot; &#39;&quot;&lt;&lt; _fileName &lt;&lt;&quot;&#39; &quot;&lt;&lt; DJV_TEXT (&quot; \u043d\u0435 \u043c\u043e\u0436\u0435\u0442 \u0431\u044b\u0442\u044c \u0441\u043e\u043f\u043e\u0441\u0442\u0430\u0432\u043b\u0435\u043d", 
+        "description": "", 
         "id": "The file\") << \" '\" << _fileName << \"' \" << DJV_TEXT(\"cannot be mapped", 
-        "description": ""
+        "text": "\u0424\u0430\u0439\u043b &quot;) &lt;&lt;&quot; &#39;&quot;&lt;&lt; _fileName &lt;&lt;&quot;&#39; &quot;&lt;&lt; DJV_TEXT (&quot; \u043d\u0435 \u043c\u043e\u0436\u0435\u0442 \u0431\u044b\u0442\u044c \u0441\u043e\u043f\u043e\u0441\u0442\u0430\u0432\u043b\u0435\u043d"
     }, 
     {
         "source": "The file\") << \" '\" << _fileName << \"' \" << DJV_TEXT(\"cannot be unmapped", 
-        "text": "\u0424\u0430\u0439\u043b &quot;) &lt;&lt;&quot; &#39;&quot;&lt;&lt; _fileName &lt;&lt;&quot;&#39; &quot;&lt;&lt; DJV_TEXT (&quot; \u043d\u0435 \u043c\u043e\u0436\u0435\u0442 \u0431\u044b\u0442\u044c \u043e\u0442\u043e\u0431\u0440\u0430\u0436\u0435\u043d", 
+        "description": "", 
         "id": "The file\") << \" '\" << _fileName << \"' \" << DJV_TEXT(\"cannot be unmapped", 
-        "description": ""
+        "text": "\u0424\u0430\u0439\u043b &quot;) &lt;&lt;&quot; &#39;&quot;&lt;&lt; _fileName &lt;&lt;&quot;&#39; &quot;&lt;&lt; DJV_TEXT (&quot; \u043d\u0435 \u043c\u043e\u0436\u0435\u0442 \u0431\u044b\u0442\u044c \u043e\u0442\u043e\u0431\u0440\u0430\u0436\u0435\u043d"
     }, 
     {
         "source": "The file\") << \" '\" << _fileName << \"' \" << DJV_TEXT(\"cannot be closed", 
-        "text": "\u0424\u0430\u0439\u043b &quot;) &lt;&lt;&quot; &#39;&quot;&lt;&lt; _fileName &lt;&lt;&quot;&#39; &quot;&lt;&lt; DJV_TEXT (&quot; \u043d\u0435 \u043c\u043e\u0436\u0435\u0442 \u0431\u044b\u0442\u044c \u0437\u0430\u043a\u0440\u044b\u0442", 
+        "description": "", 
         "id": "The file\") << \" '\" << _fileName << \"' \" << DJV_TEXT(\"cannot be closed", 
-        "description": ""
+        "text": "\u0424\u0430\u0439\u043b &quot;) &lt;&lt;&quot; &#39;&quot;&lt;&lt; _fileName &lt;&lt;&quot;&#39; &quot;&lt;&lt; DJV_TEXT (&quot; \u043d\u0435 \u043c\u043e\u0436\u0435\u0442 \u0431\u044b\u0442\u044c \u0437\u0430\u043a\u0440\u044b\u0442"
     }, 
     {
         "source": "The file\") << \" '\" << _fileName << \"' \" << DJV_TEXT(\"cannot be read", 
-        "text": "\u0424\u0430\u0439\u043b &quot;) &lt;&lt;&quot; &#39;&quot;&lt;&lt; _fileName &lt;&lt;&quot;&#39; &quot;&lt;&lt; DJV_TEXT (&quot; \u043d\u0435 \u043c\u043e\u0436\u0435\u0442 \u0431\u044b\u0442\u044c \u043f\u0440\u043e\u0447\u0438\u0442\u0430\u043d", 
+        "description": "", 
         "id": "The file\") << \" '\" << _fileName << \"' \" << DJV_TEXT(\"cannot be read", 
-        "description": ""
+        "text": "\u0424\u0430\u0439\u043b &quot;) &lt;&lt;&quot; &#39;&quot;&lt;&lt; _fileName &lt;&lt;&quot;&#39; &quot;&lt;&lt; DJV_TEXT (&quot; \u043d\u0435 \u043c\u043e\u0436\u0435\u0442 \u0431\u044b\u0442\u044c \u043f\u0440\u043e\u0447\u0438\u0442\u0430\u043d"
     }, 
     {
         "source": "The file\") << \" '\" << _fileName << \"' \" << DJV_TEXT(\"cannot be written", 
-        "text": "\u0424\u0430\u0439\u043b &quot;) &lt;&lt;&quot; &#39;&quot;&lt;&lt; _fileName &lt;&lt;&quot;&#39; &quot;&lt;&lt; DJV_TEXT (&quot; \u043d\u0435 \u043c\u043e\u0436\u0435\u0442 \u0431\u044b\u0442\u044c \u0437\u0430\u043f\u0438\u0441\u0430\u043d", 
+        "description": "", 
         "id": "The file\") << \" '\" << _fileName << \"' \" << DJV_TEXT(\"cannot be written", 
-        "description": ""
+        "text": "\u0424\u0430\u0439\u043b &quot;) &lt;&lt;&quot; &#39;&quot;&lt;&lt; _fileName &lt;&lt;&quot;&#39; &quot;&lt;&lt; DJV_TEXT (&quot; \u043d\u0435 \u043c\u043e\u0436\u0435\u0442 \u0431\u044b\u0442\u044c \u0437\u0430\u043f\u0438\u0441\u0430\u043d"
     }, 
     {
         "source": "The file\") << \" '\" << fileName << \"' \" << DJV_TEXT(\"cannot be closed", 
-        "text": "\u0424\u0430\u0439\u043b &quot;) &lt;&lt;&quot; &#39;&quot;&lt;&lt; fileName &lt;&lt;&quot;&#39; &quot;&lt;&lt; DJV_TEXT (&quot; \u043d\u0435 \u043c\u043e\u0436\u0435\u0442 \u0431\u044b\u0442\u044c \u0437\u0430\u043a\u0440\u044b\u0442", 
+        "description": "", 
         "id": "The file\") << \" '\" << fileName << \"' \" << DJV_TEXT(\"cannot be closed", 
-        "description": ""
+        "text": "\u0424\u0430\u0439\u043b &quot;) &lt;&lt;&quot; &#39;&quot;&lt;&lt; fileName &lt;&lt;&quot;&#39; &quot;&lt;&lt; DJV_TEXT (&quot; \u043d\u0435 \u043c\u043e\u0436\u0435\u0442 \u0431\u044b\u0442\u044c \u0437\u0430\u043a\u0440\u044b\u0442"
     }, 
     {
         "source": "The file\") << \" '\" << fileName << \"' \" << DJV_TEXT(\"cannot be mapped", 
-        "text": "\u0424\u0430\u0439\u043b &quot;) &lt;&lt;&quot; &#39;&quot;&lt;&lt; fileName &lt;&lt;&quot;&#39; &quot;&lt;&lt; DJV_TEXT (&quot; \u043d\u0435 \u043c\u043e\u0436\u0435\u0442 \u0431\u044b\u0442\u044c \u0441\u043e\u043f\u043e\u0441\u0442\u0430\u0432\u043b\u0435\u043d", 
+        "description": "", 
         "id": "The file\") << \" '\" << fileName << \"' \" << DJV_TEXT(\"cannot be mapped", 
-        "description": ""
+        "text": "\u0424\u0430\u0439\u043b &quot;) &lt;&lt;&quot; &#39;&quot;&lt;&lt; fileName &lt;&lt;&quot;&#39; &quot;&lt;&lt; DJV_TEXT (&quot; \u043d\u0435 \u043c\u043e\u0436\u0435\u0442 \u0431\u044b\u0442\u044c \u0441\u043e\u043f\u043e\u0441\u0442\u0430\u0432\u043b\u0435\u043d"
     }, 
     {
         "source": "The file\") << \" '\" << fileName << \"' \" << DJV_TEXT(\"cannot be unmapped", 
-        "text": "\u0424\u0430\u0439\u043b &quot;) &lt;&lt;&quot; &#39;&quot;&lt;&lt; fileName &lt;&lt;&quot;&#39; &quot;&lt;&lt; DJV_TEXT (&quot; \u043d\u0435 \u043c\u043e\u0436\u0435\u0442 \u0431\u044b\u0442\u044c \u043e\u0442\u043e\u0431\u0440\u0430\u0436\u0435\u043d", 
+        "description": "", 
         "id": "The file\") << \" '\" << fileName << \"' \" << DJV_TEXT(\"cannot be unmapped", 
-        "description": ""
+        "text": "\u0424\u0430\u0439\u043b &quot;) &lt;&lt;&quot; &#39;&quot;&lt;&lt; fileName &lt;&lt;&quot;&#39; &quot;&lt;&lt; DJV_TEXT (&quot; \u043d\u0435 \u043c\u043e\u0436\u0435\u0442 \u0431\u044b\u0442\u044c \u043e\u0442\u043e\u0431\u0440\u0430\u0436\u0435\u043d"
     }, 
     {
         "source": "The file\") << \" '\" << fileName << \"' \" << DJV_TEXT(\"cannot be read", 
-        "text": "\u0424\u0430\u0439\u043b &quot;) &lt;&lt;&quot; &#39;&quot;&lt;&lt; fileName &lt;&lt;&quot;&#39; &quot;&lt;&lt; DJV_TEXT (&quot; \u043d\u0435 \u043c\u043e\u0436\u0435\u0442 \u0431\u044b\u0442\u044c \u043f\u0440\u043e\u0447\u0438\u0442\u0430\u043d", 
+        "description": "", 
         "id": "The file\") << \" '\" << fileName << \"' \" << DJV_TEXT(\"cannot be read", 
-        "description": ""
+        "text": "\u0424\u0430\u0439\u043b &quot;) &lt;&lt;&quot; &#39;&quot;&lt;&lt; fileName &lt;&lt;&quot;&#39; &quot;&lt;&lt; DJV_TEXT (&quot; \u043d\u0435 \u043c\u043e\u0436\u0435\u0442 \u0431\u044b\u0442\u044c \u043f\u0440\u043e\u0447\u0438\u0442\u0430\u043d"
     }, 
     {
         "source": "The file\") << \" '\" << fileName << \"' \" << DJV_TEXT(\"cannot be written", 
-        "text": "\u0424\u0430\u0439\u043b &quot;) &lt;&lt;&quot; &#39;&quot;&lt;&lt; fileName &lt;&lt;&quot;&#39; &quot;&lt;&lt; DJV_TEXT (&quot; \u043d\u0435 \u043c\u043e\u0436\u0435\u0442 \u0431\u044b\u0442\u044c \u0437\u0430\u043f\u0438\u0441\u0430\u043d", 
+        "description": "", 
         "id": "The file\") << \" '\" << fileName << \"' \" << DJV_TEXT(\"cannot be written", 
-        "description": ""
+        "text": "\u0424\u0430\u0439\u043b &quot;) &lt;&lt;&quot; &#39;&quot;&lt;&lt; fileName &lt;&lt;&quot;&#39; &quot;&lt;&lt; DJV_TEXT (&quot; \u043d\u0435 \u043c\u043e\u0436\u0435\u0442 \u0431\u044b\u0442\u044c \u0437\u0430\u043f\u0438\u0441\u0430\u043d"
     }, 
     {
         "source": "Cannot parse the value.", 
-        "text": "\u041d\u0435\u0432\u043e\u0437\u043c\u043e\u0436\u043d\u043e \u043f\u0440\u043e\u0430\u043d\u0430\u043b\u0438\u0437\u0438\u0440\u043e\u0432\u0430\u0442\u044c \u0437\u043d\u0430\u0447\u0435\u043d\u0438\u0435.", 
+        "description": "", 
         "id": "Cannot parse the value.", 
-        "description": ""
+        "text": "\u041d\u0435\u0432\u043e\u0437\u043c\u043e\u0436\u043d\u043e \u043f\u0440\u043e\u0430\u043d\u0430\u043b\u0438\u0437\u0438\u0440\u043e\u0432\u0430\u0442\u044c \u0437\u043d\u0430\u0447\u0435\u043d\u0438\u0435."
     }, 
     {
         "source": "The directory\") << \" '\" << value << \"' \" << DJV_TEXT(\"cannot be created", 
-        "text": "\u041a\u0430\u0442\u0430\u043b\u043e\u0433 &quot;) &lt;&lt;&quot; &#39;&quot;&lt;&lt; value &lt;&lt;&quot;&#39; &quot;&lt;&lt; DJV_TEXT (&quot; \u043d\u0435 \u043c\u043e\u0436\u0435\u0442 \u0431\u044b\u0442\u044c \u0441\u043e\u0437\u0434\u0430\u043d", 
+        "description": "", 
         "id": "The directory\") << \" '\" << value << \"' \" << DJV_TEXT(\"cannot be created", 
-        "description": ""
+        "text": "\u041a\u0430\u0442\u0430\u043b\u043e\u0433 &quot;) &lt;&lt;&quot; &#39;&quot;&lt;&lt; value &lt;&lt;&quot;&#39; &quot;&lt;&lt; DJV_TEXT (&quot; \u043d\u0435 \u043c\u043e\u0436\u0435\u0442 \u0431\u044b\u0442\u044c \u0441\u043e\u0437\u0434\u0430\u043d"
     }, 
     {
         "source": "Cannot parse the value", 
-        "text": "\u041d\u0435 \u043c\u043e\u0433\u0443 \u0440\u0430\u0437\u043e\u0431\u0440\u0430\u0442\u044c \u0437\u043d\u0430\u0447\u0435\u043d\u0438\u0435", 
+        "description": "", 
         "id": "Cannot parse the value", 
-        "description": ""
+        "text": "\u041d\u0435 \u043c\u043e\u0433\u0443 \u0440\u0430\u0437\u043e\u0431\u0440\u0430\u0442\u044c \u0437\u043d\u0430\u0447\u0435\u043d\u0438\u0435"
     }, 
     {
         "source": "Error reading the text file", 
-        "text": "\u041e\u0448\u0438\u0431\u043a\u0430 \u0447\u0442\u0435\u043d\u0438\u044f \u0442\u0435\u043a\u0441\u0442\u043e\u0432\u043e\u0433\u043e \u0444\u0430\u0439\u043b\u0430", 
+        "description": "", 
         "id": "Error reading the text file", 
-        "description": ""
+        "text": "\u041e\u0448\u0438\u0431\u043a\u0430 \u0447\u0442\u0435\u043d\u0438\u044f \u0442\u0435\u043a\u0441\u0442\u043e\u0432\u043e\u0433\u043e \u0444\u0430\u0439\u043b\u0430"
     }, 
     {
         "source": "Error finding the change notification for", 
-        "text": "\u041e\u0448\u0438\u0431\u043a\u0430 \u043f\u0440\u0438 \u043f\u043e\u0438\u0441\u043a\u0435 \u0443\u0432\u0435\u0434\u043e\u043c\u043b\u0435\u043d\u0438\u044f \u043e\u0431 \u0438\u0437\u043c\u0435\u043d\u0435\u043d\u0438\u0438", 
+        "description": "", 
         "id": "Error finding the change notification for", 
-        "description": ""
+        "text": "\u041e\u0448\u0438\u0431\u043a\u0430 \u043f\u0440\u0438 \u043f\u043e\u0438\u0441\u043a\u0435 \u0443\u0432\u0435\u0434\u043e\u043c\u043b\u0435\u043d\u0438\u044f \u043e\u0431 \u0438\u0437\u043c\u0435\u043d\u0435\u043d\u0438\u0438"
     }, 
     {
         "source": "Error watching the directory", 
-        "text": "\u041e\u0448\u0438\u0431\u043a\u0430 \u043f\u0440\u0438 \u043f\u0440\u043e\u0441\u043c\u043e\u0442\u0440\u0435 \u043a\u0430\u0442\u0430\u043b\u043e\u0433\u0430", 
+        "description": "", 
         "id": "Error watching the directory", 
+        "text": "\u041e\u0448\u0438\u0431\u043a\u0430 \u043f\u0440\u0438 \u043f\u0440\u043e\u0441\u043c\u043e\u0442\u0440\u0435 \u043a\u0430\u0442\u0430\u043b\u043e\u0433\u0430"
+    }, 
+    {
+        "source": "The file", 
+        "text": "\u0424\u0430\u0439\u043b", 
+        "id": "The file", 
         "description": ""
     }, 
     {
-        "id": "The file", 
-        "source": "The file", 
-        "description": "", 
-        "text": "\u0424\u0430\u0439\u043b"
-    }, 
-    {
-        "id": "cannot be opened", 
         "source": "cannot be opened", 
-        "description": "", 
-        "text": "\u043d\u0435 \u043c\u043e\u0436\u0435\u0442 \u0431\u044b\u0442\u044c \u043e\u0442\u043a\u0440\u044b\u0442"
+        "text": "\u043d\u0435 \u043c\u043e\u0436\u0435\u0442 \u0431\u044b\u0442\u044c \u043e\u0442\u043a\u0440\u044b\u0442", 
+        "id": "cannot be opened", 
+        "description": ""
     }, 
     {
-        "id": "cannot be queried", 
         "source": "cannot be queried", 
-        "description": "", 
-        "text": "\u043d\u0435 \u043c\u043e\u0436\u0435\u0442 \u0431\u044b\u0442\u044c \u0437\u0430\u043f\u0440\u043e\u0448\u0435\u043d\u043e"
+        "text": "\u043d\u0435 \u043c\u043e\u0436\u0435\u0442 \u0431\u044b\u0442\u044c \u0437\u0430\u043f\u0440\u043e\u0448\u0435\u043d\u043e", 
+        "id": "cannot be queried", 
+        "description": ""
     }, 
     {
-        "id": "cannot be mapped", 
         "source": "cannot be mapped", 
-        "description": "", 
-        "text": "\u043d\u0435 \u043c\u043e\u0436\u0435\u0442 \u0431\u044b\u0442\u044c \u0441\u043e\u043f\u043e\u0441\u0442\u0430\u0432\u043b\u0435\u043d"
+        "text": "\u043d\u0435 \u043c\u043e\u0436\u0435\u0442 \u0431\u044b\u0442\u044c \u0441\u043e\u043f\u043e\u0441\u0442\u0430\u0432\u043b\u0435\u043d", 
+        "id": "cannot be mapped", 
+        "description": ""
     }, 
     {
-        "id": "cannot be unmapped", 
         "source": "cannot be unmapped", 
-        "description": "", 
-        "text": "\u043d\u0435 \u043c\u043e\u0436\u0435\u0442 \u0431\u044b\u0442\u044c \u043e\u0442\u043e\u0431\u0440\u0430\u0436\u0435\u043d"
+        "text": "\u043d\u0435 \u043c\u043e\u0436\u0435\u0442 \u0431\u044b\u0442\u044c \u043e\u0442\u043e\u0431\u0440\u0430\u0436\u0435\u043d", 
+        "id": "cannot be unmapped", 
+        "description": ""
     }, 
     {
-        "id": "cannot be closed", 
         "source": "cannot be closed", 
-        "description": "", 
-        "text": "\u043d\u0435 \u043c\u043e\u0436\u0435\u0442 \u0431\u044b\u0442\u044c \u0437\u0430\u043a\u0440\u044b\u0442"
+        "text": "\u043d\u0435 \u043c\u043e\u0436\u0435\u0442 \u0431\u044b\u0442\u044c \u0437\u0430\u043a\u0440\u044b\u0442", 
+        "id": "cannot be closed", 
+        "description": ""
     }, 
     {
-        "id": "cannot be read", 
         "source": "cannot be read", 
-        "description": "", 
-        "text": "\u043d\u0435 \u043c\u043e\u0436\u0435\u0442 \u0431\u044b\u0442\u044c \u043f\u0440\u043e\u0447\u0438\u0442\u0430\u043d\u043e"
+        "text": "\u043d\u0435 \u043c\u043e\u0436\u0435\u0442 \u0431\u044b\u0442\u044c \u043f\u0440\u043e\u0447\u0438\u0442\u0430\u043d\u043e", 
+        "id": "cannot be read", 
+        "description": ""
     }, 
     {
-        "id": "cannot be written", 
         "source": "cannot be written", 
-        "description": "", 
-        "text": "\u043d\u0435 \u043c\u043e\u0436\u0435\u0442 \u0431\u044b\u0442\u044c \u043d\u0430\u043f\u0438\u0441\u0430\u043d\u043e"
+        "text": "\u043d\u0435 \u043c\u043e\u0436\u0435\u0442 \u0431\u044b\u0442\u044c \u043d\u0430\u043f\u0438\u0441\u0430\u043d\u043e", 
+        "id": "cannot be written", 
+        "description": ""
     }, 
     {
-        "id": "The directory", 
         "source": "The directory", 
-        "description": "", 
-        "text": "\u041a\u0430\u0442\u0430\u043b\u043e\u0433"
+        "text": "\u041a\u0430\u0442\u0430\u043b\u043e\u0433", 
+        "id": "The directory", 
+        "description": ""
     }, 
     {
-        "id": "cannot be created", 
         "source": "cannot be created", 
-        "description": "", 
-        "text": "\u043d\u0435 \u043c\u043e\u0436\u0435\u0442 \u0431\u044b\u0442\u044c \u0441\u043e\u0437\u0434\u0430\u043d"
+        "text": "\u043d\u0435 \u043c\u043e\u0436\u0435\u0442 \u0431\u044b\u0442\u044c \u0441\u043e\u0437\u0434\u0430\u043d", 
+        "id": "cannot be created", 
+        "description": ""
     }
 ]
