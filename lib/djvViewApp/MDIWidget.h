@@ -74,7 +74,7 @@ namespace djv
 
         protected:
             void _setMaximized(float) override;
-            void _activeWidget(bool) override;
+            void _setActiveWidget(bool) override;
 
             void _preLayoutEvent(Core::Event::PreLayout&) override;
             void _layoutEvent(Core::Event::Layout&) override;

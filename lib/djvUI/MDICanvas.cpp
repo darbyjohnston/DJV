@@ -166,6 +166,7 @@ namespace djv
                 if (i != p.widgetToGeometry.end())
                 {
                     i->second.min = pos;
+                    p.widgetInit[widget] = false;
                     _resize();
                 }
             }
@@ -315,10 +316,10 @@ namespace djv
                 {
                     if (p.activeWidget)
                     {
-                        p.activeWidget->_activeWidget(false);
+                        p.activeWidget->_setActiveWidget(false);
                     }
                     p.activeWidget = widget;
-                    p.activeWidget->_activeWidget(true);
+                    p.activeWidget->_setActiveWidget(true);
                     p.activeWidget->_setMaximized(p.maximizedValue);
                     p.activeWidget->installEventFilter(shared_from_this());
                     const auto i = p.widgetToGeometry.find(p.activeWidget);
@@ -346,13 +347,13 @@ namespace djv
                         {
                             if (p.activeWidget)
                             {
-                                p.activeWidget->_activeWidget(false);
+                                p.activeWidget->_setActiveWidget(false);
                             }
                             const auto & children = getChildrenT<IWidget>();
                             p.activeWidget = children.size() ? children.back() : nullptr;
                             if (p.activeWidget)
                             {
-                                p.activeWidget->_activeWidget(true);
+                                p.activeWidget->_setActiveWidget(true);
                             }
                             if (p.activeCallback)
                             {
@@ -381,7 +382,7 @@ namespace djv
                         if (p.activeWidget)
                         {
                             p.activeWidget->_setMaximized(0.f);
-                            p.activeWidget->_activeWidget(false);
+                            p.activeWidget->_setActiveWidget(false);
                             const auto i = p.widgetToGeometry.find(p.activeWidget);
                             if (i != p.widgetToGeometry.end())
                             {
@@ -394,7 +395,7 @@ namespace djv
                             widget->setGeometry(getGeometry());
                         }
                         p.activeWidget = widget;
-                        p.activeWidget->_activeWidget(true);
+                        p.activeWidget->_setActiveWidget(true);
                         if (p.activeCallback)
                         {
                             p.activeCallback(p.activeWidget);

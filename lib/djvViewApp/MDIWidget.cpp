@@ -675,8 +675,9 @@ namespace djv
             _resize();
         }
 
-        void MDIWidget::_activeWidget(bool value)
+        void MDIWidget::_setActiveWidget(bool value)
         {
+            IWidget::_setActiveWidget(value);
             DJV_PRIVATE_PTR();
             p.active = value;
             _imageUpdate();

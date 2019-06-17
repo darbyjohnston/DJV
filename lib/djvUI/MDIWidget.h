@@ -76,7 +76,7 @@ namespace djv
                 void _setHandleHovered(Handle);
                 void _setHandlePressed(Handle);
 
-                virtual void _activeWidget(bool) {}
+                virtual void _setActiveWidget(bool);
 
                 void _paintEvent(Core::Event::Paint&) override;
                 void _paintOverlayEvent(Core::Event::PaintOverlay&) override;

@@ -41,6 +41,7 @@ namespace djv
         {
             struct IWidget::Private
             {
+                bool active = false;
                 float maximized = 0.f;
                 Handle hovered = Handle::None;
                 Handle pressed = Handle::None;
@@ -244,6 +245,11 @@ namespace djv
                 return out;
             }
 
+            float IWidget::_getMaximized() const
+            {
+                return _p->maximized;
+            }
+
             void IWidget::_setMaximized(float value)
             {
                 _p->maximized = value;
@@ -265,9 +271,13 @@ namespace djv
                 _redraw();
             }
 
-            float IWidget::_getMaximized() const
+            void IWidget::_setActiveWidget(bool value)
             {
-                return _p->maximized;
+                DJV_PRIVATE_PTR();
+                if (value == p.active)
+                    return;
+                p.active = value;
+                _redraw();
             }
 
             void IWidget::_paintEvent(Event::Paint&)
@@ -294,8 +304,16 @@ namespace djv
                 if (p.maximized < 1.f)
                 {
                     const auto& style = _getStyle();
+                    const BBox2f& g = getGeometry();
+                    const float m = style->getMetric(MetricsRole::MarginSmall);
+                    const float h = style->getMetric(MetricsRole::Handle);
+                    const float sh = style->getMetric(MetricsRole::Shadow);
                     auto render = _getRender();
                     render->setFillColor(style->getColor(ColorRole::Handle));
+                    if (p.active)
+                    {
+                        render->drawRect(BBox2f(g.min.x + sh, g.min.y + h - m, g.w() - sh * 2.f, m));
+                    }
                     const auto& handles = _getHandlesDraw();
                     const auto i = handles.find(p.pressed);
                     if (i != handles.end())

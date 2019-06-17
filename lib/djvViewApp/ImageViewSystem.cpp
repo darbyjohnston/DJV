@@ -78,9 +78,6 @@ namespace djv
             p.settings = ImageViewSettings::create(context);
             p.lock = ValueSubject<ImageViewLock>::create();
 
-            //! \todo Implement me!
-            p.actions["Navigation"] = UI::Action::create();
-            p.actions["Navigation"]->setEnabled(false);
             p.actions["Left"] = UI::Action::create();
             p.actions["Left"]->addShortcut(GLFW_KEY_KP_4);
             p.actions["Right"] = UI::Action::create();
@@ -133,8 +130,6 @@ namespace djv
             p.actions["HUD"]->setEnabled(false);
 
             p.menu = UI::Menu::create(context);
-            p.menu->addAction(p.actions["Navigation"]);
-            p.menu->addSeparator();
             p.menu->addAction(p.actions["Left"]);
             p.menu->addAction(p.actions["Right"]);
             p.menu->addAction(p.actions["Up"]);
@@ -457,8 +452,6 @@ namespace djv
         void ImageViewSystem::_textUpdate()
         {
             DJV_PRIVATE_PTR();
-            p.actions["Navigation"]->setText(_getText(DJV_TEXT("Navigation")));
-            p.actions["Navigation"]->setTooltip(_getText(DJV_TEXT("Navigation tooltip")));
             p.actions["Left"]->setText(_getText(DJV_TEXT("Left")));
             p.actions["Left"]->setTooltip(_getText(DJV_TEXT("Left tooltip")));
             p.actions["Right"]->setText(_getText(DJV_TEXT("Right")));

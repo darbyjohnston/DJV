@@ -85,15 +85,17 @@ void MDIWidget::_init(const std::string & title, Core::Context * context)
 
     auto titleBar = UI::HorizontalLayout::create(context);
     titleBar->setClassName("djv::UI::MDI::TitleBar");
+    titleBar->setBackgroundRole(UI::ColorRole::BackgroundHeader);
     titleBar->addChild(titleLabel);
     titleBar->addExpander();
     titleBar->addChild(_closeButton);
 
     auto textBlock = UI::TextBlock::create(context);
-    textBlock->setText(Core::String::getRandomText(100));
+    textBlock->setText(Core::String::getRandomText(20));
     textBlock->setMargin(UI::MetricsRole::Margin);
 
     auto scrollWidget = UI::ScrollWidget::create(UI::ScrollType::Vertical, context);
+    scrollWidget->setBorder(false);
     scrollWidget->addChild(textBlock);
 
     auto layout = UI::VerticalLayout::create(context);
@@ -104,7 +106,7 @@ void MDIWidget::_init(const std::string & title, Core::Context * context)
     layout->setStretch(scrollWidget, UI::RowStretch::Expand);
 
     _border = UI::Border::create(context);
-    _border->setMargin(UI::MetricsRole::Handle);
+    _border->setMargin(UI::Layout::Margin(UI::MetricsRole::Shadow, UI::MetricsRole::Shadow, UI::MetricsRole::Handle, UI::MetricsRole::Shadow));
     _border->addChild(layout);
     addChild(_border);
 }
