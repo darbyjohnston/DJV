@@ -177,7 +177,7 @@ namespace djv
             float v = p.samples.size() ? p.samples.front() : 0.f;
             ss << _getText(DJV_TEXT("Min")) << ": " << p.samplesRange.min << ", " <<
                 _getText(DJV_TEXT("Max")) << ": " << p.samplesRange.max << ", " <<
-                _getText(DJV_TEXT("Value")) << ": " << v;
+                _getText(DJV_TEXT("Current")) << ": " << v;
             p.label->setText(ss.str());
         }
 
