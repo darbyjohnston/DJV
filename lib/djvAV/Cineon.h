@@ -85,7 +85,7 @@ namespace djv
                 {
                     uint16_t black    = 95;
                     uint16_t white    = 685;
-                    uint16_t gamma    = 1.7f;
+                    float    gamma    = 1.7f;
                     uint8_t  softClip = 0;
                 };
 
