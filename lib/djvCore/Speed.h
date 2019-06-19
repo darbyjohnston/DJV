@@ -73,6 +73,7 @@ namespace djv
             public:
                 Speed();
                 Speed(int scale, int duration = 1);
+                Speed(const Math::Rational&);
             };
 
         } // namespace Time

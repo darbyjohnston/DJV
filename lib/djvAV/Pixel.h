@@ -121,6 +121,8 @@ namespace djv
             const U8_T   U8Max = std::numeric_limits<uint8_t>::max();
             const U10_T U10Min = 0;
             const U10_T U10Max = 1023;
+            const U10_T U12Min = 0;
+            const U10_T U12Max = 4095;
             const U16_T U16Min = std::numeric_limits<uint16_t>::min();
             const U16_T U16Max = std::numeric_limits<uint16_t>::max();
             const U32_T U32Min = std::numeric_limits<uint32_t>::min();
@@ -138,6 +140,7 @@ namespace djv
                 constexpr bool operator == (const U10_S_MSB &) const;
                 constexpr bool operator != (const U10_S_MSB &) const;
             };
+
             //! This struct provides 10-bit LSB pixel data.
             struct U10_S_LSB
             {

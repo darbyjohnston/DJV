@@ -69,10 +69,13 @@ namespace djv
                     uint16_t black = 95;
                     uint16_t white = 685;
                     float    gamma = 1.7f;
+
+                    bool operator == (const LinearToFilmPrint&) const;
+                    bool operator != (const LinearToFilmPrint&) const;
                 };
 
                 //! Create a linear color space to Cineon film print color space LUT.
-                static Image::Data linearToFilmPrintLut(const LinearToFilmPrint&);
+                std::shared_ptr<Image::Data> linearToFilmPrintLut(const LinearToFilmPrint&);
 
                 //! This struct provides options to convert from the Cineon film print
                 //! color space to a linear color space.
@@ -87,10 +90,13 @@ namespace djv
                     uint16_t white    = 685;
                     float    gamma    = 1.7f;
                     uint8_t  softClip = 0;
+
+                    bool operator == (const FilmPrintToLinear&) const;
+                    bool operator != (const FilmPrintToLinear&) const;
                 };
 
                 //! Create a Cineon film print color space to linear space LUT.
-                static Image::Data filmPrintToLinearLut(const FilmPrintToLinear&);
+                std::shared_ptr<Image::Data> filmPrintToLinearLut(const FilmPrintToLinear&);
 
                 //! This enumeration provides additional image tags for Cineon files.
                 enum class Tag
@@ -114,7 +120,146 @@ namespace djv
                 };
                 DJV_ENUM_HELPERS(Tag);
 
-                //! This struct provides the settings.
+                //! This constant provides the Cineon header magic numbers for LSB
+                //! and MSB endians.
+                const uint32_t magic[] =
+                {
+                    0x802a5fd7,
+                    0xd75f2a80
+                };
+
+                //! This enumeration provides the image orientations.
+                enum class Orient
+                {
+                    LeftRightTopBottom,
+                    LeftRightBottomTop,
+                    RightLeftTopBottom,
+                    RightLeftBottomTop,
+                    TopBottomLeftRight,
+                    TopBottomRightLeft,
+                    BottomTopLeftRight,
+                    BottomTopRightLeft
+                };
+
+                //! This enumeration provides the descriptors.
+                enum class Descriptor
+                {
+                    Luminance,
+                    RedFilmPrint,
+                    GreenFilmPrint,
+                    BlueFilmPrint,
+                    RedCCIRXA11,
+                    GreenCCIRXA11,
+                    BlueCCIRXA11
+                };
+
+                //! This stuct provides Cineon header data.
+                struct Header
+                {
+                    struct File
+                    {
+                        uint32_t magic;
+                        uint32_t imageOffset;
+                        uint32_t headerSize;
+                        uint32_t industryHeaderSize;
+                        uint32_t userHeaderSize;
+                        uint32_t size;
+                        char     version[8];
+                        char     name[100];
+                        char     time[24];
+                        uint8_t  pad[36];
+                    }
+                        file;
+
+                    struct Image
+                    {
+                        uint8_t orient;
+                        uint8_t channels;
+                        uint8_t pad[2];
+
+                        struct Channel
+                        {
+                            uint8_t  descriptor[2];
+                            uint8_t  bitDepth;
+                            uint8_t  pad;
+                            uint32_t size[2];
+                            float    lowData;
+                            float    lowQuantity;
+                            float    highData;
+                            float    highQuantity;
+                        }
+                            channel[8];
+
+                        float    white[2];
+                        float    red[2];
+                        float    green[2];
+                        float    blue[2];
+                        char     label[200];
+                        uint8_t  pad2[28];
+                        uint8_t  interleave;
+                        uint8_t  packing;
+                        uint8_t  dataSign;
+                        uint8_t  dataSense;
+                        uint32_t linePadding;
+                        uint32_t channelPadding;
+                        uint8_t  pad3[20];
+                    }
+                        image;
+
+                    struct Source
+                    {
+                        int32_t offset[2];
+                        char    file[100];
+                        char    time[24];
+                        char    inputDevice[64];
+                        char    inputModel[32];
+                        char    inputSerial[32];
+                        float   inputPitch[2];
+                        float   gamma;
+                        char    pad[40];
+                    }
+                        source;
+
+                    struct Film
+                    {
+                        uint8_t  id;
+                        uint8_t  type;
+                        uint8_t  offset;
+                        uint8_t  pad;
+                        uint8_t  prefix;
+                        uint32_t count;
+                        char     format[32];
+                        uint32_t frame;
+                        float    frameRate;
+                        char     frameId[32];
+                        char     slate[200];
+                        char     pad2[740];
+                    }
+                        film;
+                };
+
+                //! Zero out the data in a Cineon header.
+                void zero(Header&);
+
+                //! Flip the endian of a Cineon header.
+                void endian(Header&);
+
+                //! Read a Cineon header.
+                //!
+                //! Throws:
+                //! - std::exception
+                Header read(Core::FileSystem::FileIO&, Info&, bool& filmPrint);
+                
+                //! Write a Cineon header.
+                //!
+                //! Throws:
+                //! - std::exception
+                void write(Core::FileSystem::FileIO&, const Info&, ColorProfile);
+
+                //! Finish writing the Cineon header after image data is written.
+                void writeFinish(Core::FileSystem::FileIO&);
+
+                //! This struct provides the plugin settings.
                 struct Settings
                 {
                     ColorProfile      inputProfile    = ColorProfile::Auto;
@@ -123,6 +268,7 @@ namespace djv
                     FilmPrintToLinear outputFilmPrint;
                 };
 
+                //! This class provides the reader.
                 class Read : public ISequenceRead
                 {
                     DJV_NON_COPYABLE(Read);
@@ -144,8 +290,11 @@ namespace djv
 
                 private:
                     Info _open(const std::string &, Core::FileSystem::FileIO &);
+
+                    bool _filmPrint = false;
                 };
-                
+
+                //! This class provides the writer.
                 class Write : public ISequenceWrite
                 {
                     DJV_NON_COPYABLE(Write);
@@ -170,6 +319,7 @@ namespace djv
                     DJV_PRIVATE();
                 };
 
+                //! This class provides the plugin.
                 class Plugin : public IPlugin
                 {
                     DJV_NON_COPYABLE(Plugin);
@@ -197,6 +347,7 @@ namespace djv
     } // namespace AV
 
     DJV_ENUM_SERIALIZE_HELPERS(AV::IO::Cineon::ColorProfile);
+    DJV_ENUM_SERIALIZE_HELPERS(AV::IO::Cineon::Tag);
 
     picojson::value toJSON(const AV::IO::Cineon::FilmPrintToLinear&);
     picojson::value toJSON(const AV::IO::Cineon::LinearToFilmPrint&);

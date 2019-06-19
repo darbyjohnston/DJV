@@ -29,6 +29,7 @@
 
 #include <djvAV/IO.h>
 
+#include <djvAV/Cineon.h>
 #include <djvAV/PPM.h>
 #if defined(FFMPEG_FOUND)
 #include <djvAV/FFmpeg.h>
@@ -305,6 +306,7 @@ namespace djv
 
                 auto logSystem = context->getSystemT<LogSystem>();
                 auto resourceSystem = context->getSystemT<ResourceSystem>();
+                p.plugins[Cineon::pluginName] = Cineon::Plugin::create(resourceSystem, logSystem);
                 p.plugins[PPM::pluginName] = PPM::Plugin::create(resourceSystem, logSystem);
 #if defined(FFMPEG_FOUND)
                 p.plugins[FFmpeg::pluginName] = FFmpeg::Plugin::create(resourceSystem, logSystem);

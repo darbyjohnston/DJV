@@ -1195,17 +1195,12 @@ namespace djv
                     updatePrimitivesSize(1);
                     Primitive& primitive = render->primitives[primitivesSize];
                     primitive.clipRect = currentClipRect;
-                    switch (info.getGLFormat())
+                    switch (Image::getChannelType(info.type))
                     {
-#if defined(DJV_OPENGL_ES2)
-                    case GL_LUMINANCE:       primitive.imageFormat = ImageFormat::L;    break;
-                    case GL_LUMINANCE_ALPHA: primitive.imageFormat = ImageFormat::LA;   break;
-#else // DJV_OPENGL_ES2
-                    case GL_RED:             primitive.imageFormat = ImageFormat::L;    break;
-                    case GL_RG:              primitive.imageFormat = ImageFormat::LA;   break;
-#endif // DJV_OPENGL_ES2
-                    case GL_RGB:             primitive.imageFormat = ImageFormat::RGB;  break;
-                    case GL_RGBA:            primitive.imageFormat = ImageFormat::RGBA; break;
+                    case Image::ChannelType::L:    primitive.imageFormat = ImageFormat::L;    break;
+                    case Image::ChannelType::LA:   primitive.imageFormat = ImageFormat::LA;   break;
+                    case Image::ChannelType::RGB:  primitive.imageFormat = ImageFormat::RGB;  break;
+                    case Image::ChannelType::RGBA: primitive.imageFormat = ImageFormat::RGBA; break;
                     default: break;
                     }
                     primitive.colorMode = colorMode;

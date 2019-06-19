@@ -67,13 +67,24 @@ namespace djv
 
                 std::shared_ptr<Image::Image> Read::_readImage(const std::string & fileName)
                 {
-                    std::shared_ptr<Image::Image> out;
+                    FileSystem::FileIO io;
+                    const auto info = _open(fileName, io);
+                    auto out = Image::Image::create(info.video[0].info);
+                    out->setTags(info.tags);
+                    const size_t size = std::min(out->getDataByteCount(), io.getSize() - io.getPos());
+                    memcpy(out->getData(), io.mmapP(), size);
                     return out;
                 }
 
                 Info Read::_open(const std::string & fileName, FileSystem::FileIO & io)
                 {
-                    return Info();
+                    io.open(fileName, FileSystem::FileIO::Mode::Read);
+                    Info info;
+                    info.video.resize(1);
+                    info.video[0].info.name = fileName;
+                    read(io, info, _filmPrint);
+                    info.video[0].duration = _duration;
+                    return info;
                 }
 
             } // namespace Cineon

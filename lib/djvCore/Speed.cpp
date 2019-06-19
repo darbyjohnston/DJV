@@ -129,6 +129,10 @@ namespace djv
                 Math::Rational(scale, duration)
             {}
 
+            Speed::Speed(const Math::Rational& value) :
+                Math::Rational(value)
+            {}
+
         } // namespace Time
     } // namespace Core
 

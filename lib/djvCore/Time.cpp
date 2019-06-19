@@ -46,10 +46,19 @@ namespace djv
 
             int64_t scale(int64_t value, const Math::Rational& br, const Math::Rational& cr)
             {
+                int64_t out = 0;
                 const int64_t b = br.getNum() * static_cast<int64_t>(cr.getDen());
                 const int64_t c = cr.getNum() * static_cast<int64_t>(br.getDen());
                 //! \bug The FFmpeg documentation for av_rescale_q() says that this can overflow?
-                const int64_t out = value * b / c;
+                if (b <= INT_MAX && c <= INT_MAX)
+                {
+                    const int64_t r = c / 2;
+                    out = (value * b + r) / c;
+                }
+                else
+                {
+                    DJV_ASSERT(0);
+                }
                 return out;
             }
 

@@ -43,6 +43,7 @@ namespace djv
         {
         public:
             const std::map<std::string, std::string> & getTags() const;
+            bool hasTag(const std::string& key) const;
             const std::string & getTag(const std::string & key) const;
 
             void setTags(const std::map<std::string, std::string> &);

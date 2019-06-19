@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------
-// Copyright (c) 2018 Darby Johnston
+// Copyright (c) 20018-2019 Darby Johnston
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without

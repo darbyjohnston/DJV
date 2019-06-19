@@ -40,6 +40,11 @@ namespace djv
             return _tags;
         }
 
+        bool Tags::hasTag(const std::string& key) const
+        {
+            return _tags.find(key) != _tags.end();
+        }
+
         const std::string & Tags::getTag(const std::string & key) const
         {
             static const std::string empty;

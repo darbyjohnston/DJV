@@ -29,6 +29,8 @@
 
 #include <djvViewApp/Media.h>
 
+#include <djvAV/AVSystem.h>
+
 #include <djvCore/Context.h>
 #include <djvCore/LogSystem.h>
 #include <djvCore/Timer.h>
@@ -85,7 +87,8 @@ namespace djv
             std::vector<ALuint> alBuffers;
             int64_t alBytes = 0;
             Time::Timestamp timeOffset = 0;
-            
+            Time::Timestamp framePts = 0;
+
             std::shared_ptr<Time::Timer> playbackTimer;
             std::shared_ptr<Time::Timer> debugTimer;
         };
@@ -570,7 +573,8 @@ namespace djv
                 }
                 else
                 {
-                    const auto now = std::chrono::system_clock::now();
+                    time = p.framePts;
+                    /*const auto now = std::chrono::system_clock::now();
                     const std::chrono::duration<double> delta = now - p.startTime;
                     Time::Timestamp pts = static_cast<Time::Timestamp>(delta.count() * Math::Rational::toFloat(speed));
                     switch (playback)
@@ -578,7 +582,8 @@ namespace djv
                     case Playback::Forward: time = p.timeOffset + Time::scale(pts, speed.swap(), Time::getTimebaseRational()); break;
                     case Playback::Reverse: time = p.timeOffset - Time::scale(pts, speed.swap(), Time::getTimebaseRational()); break;
                     default: break;
-                    }
+                    }*/
+
                     /*switch (playback)
                     {
                     case Playback::Forward: time = p.currentTime->get() + Time::scale(1, speed.swap()); break;
@@ -645,7 +650,7 @@ namespace djv
                     }
                 }
                 p.currentTime->setIfChanged(time);
-                if (Playback::Reverse == playback && p.read)
+                if (p.read && Playback::Reverse == playback)
                 {
                     p.read->seek(time);
                 }
@@ -665,10 +670,21 @@ namespace djv
                 {
                     std::lock_guard<std::mutex> lock(p.read->getMutex());
                     auto& queue = p.read->getVideoQueue();
-                    std::shared_ptr<AV::Image::Image> image;
-                    while (queue.hasFrames() && queue.getFrame().first < p.currentTime->get())
+                    if (p.audioInfo.info.isValid() && p.alSource)
                     {
-                        image = queue.popFrame().second;
+                        while (queue.hasFrames() && queue.getFrame().first < p.currentTime->get())
+                        {
+                            auto frame = queue.popFrame();
+                            p.framePts = frame.first;
+                        }
+                    }
+                    else
+                    {
+                        if (queue.hasFrames() && queue.getFrame().first > p.currentTime->get())
+                        {
+                            auto frame = queue.popFrame();
+                            p.framePts = frame.first;
+                        }
                     }
                     p.readFinished |= queue.isFinished();
                 }

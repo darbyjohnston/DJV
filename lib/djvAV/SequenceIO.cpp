@@ -41,6 +41,8 @@
 
 #include <GLFW/glfw3.h>
 
+#include <future>
+
 using namespace djv::Core;
 
 namespace djv
@@ -49,6 +51,13 @@ namespace djv
     {
         namespace IO
         {
+            namespace
+            {
+                //! \todo [1.0 S] Should this be configurable?
+                const size_t threadCount = 4;
+
+            } // namespace
+
             struct ISequenceRead::Private
             {
                 std::promise<Info> infoPromise;
@@ -116,7 +125,7 @@ namespace djv
                     const auto timeout = Time::getValue(Time::TimerValue::Fast);
                     while (p.running)
                     {
-                        bool read = false;
+                        size_t read = 0;
                         Time::Timestamp seek = -1;
                         {
                             std::unique_lock<std::mutex> lock(_mutex);
@@ -128,7 +137,7 @@ namespace djv
                                 return (_videoQueue.isFinished() ? false : (_videoQueue.getFrameCount() < _videoQueue.getMax())) || _p->seek != -1;
                             }))
                             {
-                                read = true;
+                                read = std::min(_videoQueue.getMax() - _videoQueue.getFrameCount(), threadCount);
                                 if (p.seek != -1)
                                 {
                                     seek = p.seek;
@@ -147,40 +156,55 @@ namespace djv
                                 _logSystem->log("djv::AV::IO::ISequenceRead", ss.str());
                             }*/
                         }
-                        if (read)
+                        struct Future
                         {
-                            std::shared_ptr<Image::Image> image;
+                            Frame::Number frameNumber = Frame::Invalid;
                             Time::Timestamp pts = 0;
+                            std::shared_ptr<Image::Image> image;
+                        };
+                        std::vector<std::future<Future> > futures;
+                        for (size_t i = 0; i < read; ++i)
+                        {
                             Frame::Number frameNumber = Frame::Invalid;
                             if (frameIndex != Frame::Invalid)
                             {
                                 frameNumber = Frame::getFrame(_frames, frameIndex);
                                 ++frameIndex;
                             }
-                            auto fileName = fileInfo.getFileName(frameNumber);
-
-                            pts = Time::frameToTimestamp(frameNumber, _speed);
+                            Time::Timestamp pts = Time::frameToTimestamp(frameNumber, _speed);
                             /*{
                                 std::stringstream ss;
                                 ss << _fileName << ": read frame " << pts;
                                 _logSystem->log("djv::AV::IO::ISequenceRead", ss.str());
                             }*/
+                            auto fileName = fileInfo.getFileName(frameNumber);
+                            futures.push_back(std::async(
+                                std::launch::async,
+                                [this, frameNumber, pts, fileName]
+                                {
+                                    Future out;
+                                    out.frameNumber = frameNumber;
+                                    out.pts = pts;
+                                    try
+                                    {
+                                        out.image = _readImage(fileName);
+                                    }
+                                    catch (const std::exception& e)
+                                    {
+                                        _logSystem->log("djv::AV::ISequenceRead", e.what(), LogLevel::Error);
+                                    }
+                                    return out;
+                                }));
+                        }
 
-                            try
-                            {
-                                image = _readImage(fileName);
-                            }
-                            catch (const std::exception & e)
-                            {
-                                _logSystem->log("djv::AV::ISequenceRead", e.what(), LogLevel::Error);
-                            }
-
-                            if (image)
+                        for (size_t i = 0; i < read; ++i)
+                        {
+                            const auto future = futures[i].get();
+                            if (future.image)
                             {
                                 std::lock_guard<std::mutex> lock(_mutex);
-                                _videoQueue.addFrame(pts, image);
+                                _videoQueue.addFrame(future.pts, future.image);
                             }
-
                             if (Frame::Invalid == frameIndex || frameIndex >= static_cast<Frame::Index>(_frames.size()))
                             {
                                 std::lock_guard<std::mutex> lock(_mutex);
