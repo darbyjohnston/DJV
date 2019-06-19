@@ -806,7 +806,7 @@ namespace djv
             std::string ItemView::_getTooltip(const FileSystem::FileInfo& fileInfo) const
             {
                 std::stringstream ss;
-                ss << fileInfo.getFileName(Frame::Invalid, false) << '\n';
+                ss << fileInfo << '\n';
                 ss << '\n';
                 ss << _getText(DJV_TEXT("Size")) << ": " << Memory::getSizeLabel(fileInfo.getSize()) << '\n';
                 ss << _getText(DJV_TEXT("Last modification time")) << ": " << Time::getLabel(fileInfo.getTime());
