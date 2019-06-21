@@ -65,11 +65,6 @@
         "description": ""
     }, 
     {
-        "text": "File browser history tooltip", 
-        "id": "File browser history tooltip", 
-        "description": ""
-    }, 
-    {
         "text": "Color type widget tooltip", 
         "id": "Color type widget tooltip", 
         "description": ""
@@ -375,21 +370,6 @@
         "description": ""
     }, 
     {
-        "text": "Min", 
-        "id": "Min", 
-        "description": ""
-    }, 
-    {
-        "text": "Max", 
-        "id": "Max", 
-        "description": ""
-    }, 
-    {
-        "text": "Value", 
-        "id": "Value", 
-        "description": ""
-    }, 
-    {
         "text": "PPM", 
         "id": "PPM", 
         "description": ""
@@ -447,6 +427,26 @@
     {
         "text": "kHz", 
         "id": "kHz", 
+        "description": ""
+    }, 
+    {
+        "text": "File browser history tooltip", 
+        "id": "File browser history tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "Min", 
+        "id": "Min", 
+        "description": ""
+    }, 
+    {
+        "text": "Max", 
+        "id": "Max", 
+        "description": ""
+    }, 
+    {
+        "text": "Current", 
+        "id": "Current", 
         "description": ""
     }
 ]

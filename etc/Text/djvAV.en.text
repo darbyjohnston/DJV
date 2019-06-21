@@ -20,23 +20,13 @@
         "description": ""
     }, 
     {
-        "text": "The file", 
-        "id": "The file", 
-        "description": ""
-    }, 
-    {
-        "text": "cannot be written", 
-        "id": "cannot be written", 
-        "description": ""
-    }, 
-    {
         "text": "The PNG file", 
         "id": "The PNG file", 
         "description": ""
     }, 
     {
-        "text": "The PPM file", 
-        "id": "The PPM file", 
+        "text": "cannot be written", 
+        "id": "cannot be written", 
         "description": ""
     }, 
     {
@@ -375,6 +365,126 @@
         "description": ""
     }, 
     {
+        "text": "Unknown magic number.", 
+        "id": "Unknown magic number.", 
+        "description": ""
+    }, 
+    {
+        "text": "No image channels.", 
+        "id": "No image channels.", 
+        "description": ""
+    }, 
+    {
+        "text": "Image channels must have the same size and bit depth.", 
+        "id": "Image channels must have the same size and bit depth.", 
+        "description": ""
+    }, 
+    {
+        "text": "Unsupported bit depth.", 
+        "id": "Unsupported bit depth.", 
+        "description": ""
+    }, 
+    {
+        "text": "Line padding is unsupported.", 
+        "id": "Line padding is unsupported.", 
+        "description": ""
+    }, 
+    {
+        "text": "Channel padding is unsupported.", 
+        "id": "Channel padding is unsupported.", 
+        "description": ""
+    }, 
+    {
+        "text": "This plugin provides Cineon image I/O.", 
+        "id": "This plugin provides Cineon image I/O.", 
+        "description": ""
+    }, 
+    {
+        "text": "Auto", 
+        "id": "Auto", 
+        "description": ""
+    }, 
+    {
+        "text": "Raw", 
+        "id": "Raw", 
+        "description": ""
+    }, 
+    {
+        "text": "FilmPrint", 
+        "id": "FilmPrint", 
+        "description": ""
+    }, 
+    {
+        "text": "SourceOffset", 
+        "id": "SourceOffset", 
+        "description": ""
+    }, 
+    {
+        "text": "SourceFile", 
+        "id": "SourceFile", 
+        "description": ""
+    }, 
+    {
+        "text": "SourceTime", 
+        "id": "SourceTime", 
+        "description": ""
+    }, 
+    {
+        "text": "SourceInputDevice", 
+        "id": "SourceInputDevice", 
+        "description": ""
+    }, 
+    {
+        "text": "SourceInputModel", 
+        "id": "SourceInputModel", 
+        "description": ""
+    }, 
+    {
+        "text": "SourceInputSerial", 
+        "id": "SourceInputSerial", 
+        "description": ""
+    }, 
+    {
+        "text": "SourceInputPitch", 
+        "id": "SourceInputPitch", 
+        "description": ""
+    }, 
+    {
+        "text": "SourceGamma", 
+        "id": "SourceGamma", 
+        "description": ""
+    }, 
+    {
+        "text": "FilmFormat", 
+        "id": "FilmFormat", 
+        "description": ""
+    }, 
+    {
+        "text": "FilmFrame", 
+        "id": "FilmFrame", 
+        "description": ""
+    }, 
+    {
+        "text": "FilmFrameRate", 
+        "id": "FilmFrameRate", 
+        "description": ""
+    }, 
+    {
+        "text": "FilmFrameID", 
+        "id": "FilmFrameID", 
+        "description": ""
+    }, 
+    {
+        "text": "FilmSlate", 
+        "id": "FilmSlate", 
+        "description": ""
+    }, 
+    {
+        "text": "The PPM file", 
+        "id": "The PPM file", 
+        "description": ""
+    }, 
+    {
         "text": "The OpenGL vertex shader cannot be created.", 
         "id": "The OpenGL vertex shader cannot be created.", 
         "description": ""
@@ -432,6 +542,11 @@
     {
         "text": "The shader cannot be created", 
         "id": "The shader cannot be created", 
+        "description": ""
+    }, 
+    {
+        "text": "The file", 
+        "id": "The file", 
         "description": ""
     }
 ]
