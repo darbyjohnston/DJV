@@ -27,55 +27,45 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#pragma once
+#include <djvViewApp/ColorSpaceTool.h>
 
-#include <djvAV/AV.h>
-
-#include <djvCore/ISystem.h>
-#include <djvCore/ListObserver.h>
-#include <djvCore/ValueObserver.h>
+using namespace djv::Core;
 
 namespace djv
 {
-    namespace AV
+    namespace ViewApp
     {
-        struct OCIOView
+        struct ColorSpaceTool::Private
         {
-            std::string name;
-            std::string colorSpace;
-            std::string looks;
 
-            bool operator == (const OCIOView&) const;
         };
 
-        struct OCIODisplay
+        void ColorSpaceTool::_init(Context * context)
         {
-            std::string name;
-            std::string defaultView;
-            std::vector<OCIOView> views;
+            ITool::_init(context);
+            setClassName("djv::ViewApp::ColorSpaceTool");
+        }
 
-            bool operator == (const OCIODisplay&) const;
-        };
+        ColorSpaceTool::ColorSpaceTool() :
+            _p(new Private)
+        {}
 
-        class OCIOSystem : public Core::ISystem
+        ColorSpaceTool::~ColorSpaceTool()
+        {}
+
+        std::shared_ptr<ColorSpaceTool> ColorSpaceTool::create(Context * context)
         {
-            DJV_NON_COPYABLE(OCIOSystem);
+            auto out = std::shared_ptr<ColorSpaceTool>(new ColorSpaceTool);
+            out->_init(context);
+            return out;
+        }
 
-        protected:
-            void _init(Core::Context *);
-            OCIOSystem();
+        void ColorSpaceTool::_localeEvent(Event::Locale & event)
+        {
+            ITool::_localeEvent(event);
+            setTitle(_getText(DJV_TEXT("Color Space")));
+        }
 
-        public:
-            ~OCIOSystem() override;
-            static std::shared_ptr<OCIOSystem> create(Core::Context *);
-
-            std::shared_ptr<Core::IListSubject<std::string> > observeColorSpaces() const;
-            std::shared_ptr<Core::IListSubject<OCIODisplay> > observeDisplays() const;
-            std::shared_ptr<Core::IValueSubject<std::string> > observeDefaultDisplay() const;
-
-        private:
-            DJV_PRIVATE();
-        };
-
-    } // namespace AV
+    } // namespace ViewApp
 } // namespace djv
+

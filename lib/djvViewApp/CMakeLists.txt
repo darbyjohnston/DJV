@@ -5,6 +5,7 @@ set(header
     Application.h
 	AudioSystem.h
     ColorPickerTool.h
+	ColorSpaceTool.h
     DebugTool.h
     Enum.h
     FileSystem.h
@@ -50,6 +51,7 @@ set(source
     Application.cpp
 	AudioSystem.cpp
     ColorPickerTool.cpp
+	ColorSpaceTool.cpp
     DebugTool.cpp
     Enum.cpp
     FileSettings.cpp

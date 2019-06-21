@@ -29,53 +29,32 @@
 
 #pragma once
 
-#include <djvAV/AV.h>
-
-#include <djvCore/ISystem.h>
-#include <djvCore/ListObserver.h>
-#include <djvCore/ValueObserver.h>
+#include <djvViewApp/ITool.h>
 
 namespace djv
 {
-    namespace AV
+    namespace ViewApp
     {
-        struct OCIOView
+        class ColorSpaceTool : public ITool
         {
-            std::string name;
-            std::string colorSpace;
-            std::string looks;
-
-            bool operator == (const OCIOView&) const;
-        };
-
-        struct OCIODisplay
-        {
-            std::string name;
-            std::string defaultView;
-            std::vector<OCIOView> views;
-
-            bool operator == (const OCIODisplay&) const;
-        };
-
-        class OCIOSystem : public Core::ISystem
-        {
-            DJV_NON_COPYABLE(OCIOSystem);
+            DJV_NON_COPYABLE(ColorSpaceTool);
 
         protected:
             void _init(Core::Context *);
-            OCIOSystem();
+            ColorSpaceTool();
 
         public:
-            ~OCIOSystem() override;
-            static std::shared_ptr<OCIOSystem> create(Core::Context *);
+            ~ColorSpaceTool() override;
 
-            std::shared_ptr<Core::IListSubject<std::string> > observeColorSpaces() const;
-            std::shared_ptr<Core::IListSubject<OCIODisplay> > observeDisplays() const;
-            std::shared_ptr<Core::IValueSubject<std::string> > observeDefaultDisplay() const;
+            static std::shared_ptr<ColorSpaceTool> create(Core::Context *);
+
+        protected:
+            void _localeEvent(Core::Event::Locale &) override;
 
         private:
             DJV_PRIVATE();
         };
 
-    } // namespace AV
+    } // namespace ViewApp
 } // namespace djv
+

@@ -29,6 +29,7 @@
 
 #include <djvViewApp/ImageSystem.h>
 
+#include <djvViewApp/ColorSpaceTool.h>
 #include <djvViewApp/FileSystem.h>
 #include <djvViewApp/ImageSettings.h>
 #include <djvViewApp/ImageView.h>
@@ -70,6 +71,7 @@ namespace djv
             std::shared_ptr<UI::ActionGroup> rotateActionGroup;
             std::shared_ptr<UI::ActionGroup> aspectRatioActionGroup;
             std::shared_ptr<UI::Menu> menu;
+            std::shared_ptr<ColorSpaceTool> colorSpaceTool;
             std::map<std::string, std::shared_ptr<ValueObserver<bool> > > clickedObservers;
             std::shared_ptr<ValueObserver<std::shared_ptr<Media> > > currentMediaObserver;
             std::shared_ptr<ValueObserver<std::shared_ptr<AV::Image::Image> > > currentImageObserver;
@@ -90,10 +92,8 @@ namespace djv
             p.frameStoreEnabled = ValueSubject<bool>::create();
             p.frameStore = ValueSubject<std::shared_ptr<AV::Image::Image> >::create();
 
-            //! \todo Implement me!
-            p.actions["ColorManager"] = UI::Action::create();
-            p.actions["ColorManager"]->setButtonType(UI::ButtonType::Toggle);
-            p.actions["ColorManager"]->setEnabled(false);
+            p.actions["ColorSpace"] = UI::Action::create();
+            p.actions["ColorSpace"]->setButtonType(UI::ButtonType::Toggle);
             p.actions["ColorChannels"] = UI::Action::create();
             p.actions["ColorChannels"]->setShortcut(GLFW_KEY_C);
             p.actions["RedChannel"] = UI::Action::create();
@@ -149,7 +149,7 @@ namespace djv
             p.actions["LoadFrameStore"]->setShortcut(GLFW_KEY_F, GLFW_MOD_SHIFT);
 
             p.menu = UI::Menu::create(context);
-            p.menu->addAction(p.actions["ColorManager"]);
+            p.menu->addAction(p.actions["ColorSpace"]);
             p.menu->addSeparator();
             p.menu->addAction(p.actions["ColorChannels"]);
             p.menu->addAction(p.actions["RedChannel"]);
@@ -214,6 +214,36 @@ namespace djv
                         if (system->_p->activeWidget)
                         {
                             system->_p->activeWidget->getImageView()->setImageAspectRatio(system->_p->imageAspectRatio);
+                        }
+                    }
+                });
+
+            _setCloseToolCallback(
+                [weak](const std::string& name)
+                {
+                    if (auto system = weak.lock())
+                    {
+                        const auto i = system->_p->actions.find(name);
+                        if (i != system->_p->actions.end())
+                        {
+                            i->second->setChecked(false);
+                        }
+                    }
+                });
+
+            p.clickedObservers["ColorSpace"] = ValueObserver<bool>::create(
+                p.actions["ColorSpace"]->observeChecked(),
+                [weak, context](bool value)
+                {
+                    if (auto system = weak.lock())
+                    {
+                        if (value)
+                        {
+                            system->_openTool("ColorSpace", ColorSpaceTool::create(context));
+                        }
+                        else
+                        {
+                            system->_closeTool("ColorSpace");
                         }
                     }
                 });
@@ -432,8 +462,8 @@ namespace djv
         void ImageSystem::_textUpdate()
         {
             DJV_PRIVATE_PTR();
-            p.actions["ColorManager"]->setText(_getText(DJV_TEXT("Color Manager")));
-            p.actions["ColorManager"]->setTooltip(_getText(DJV_TEXT("Color manager tooltip")));
+            p.actions["ColorSpace"]->setText(_getText(DJV_TEXT("Show Color Space")));
+            p.actions["ColorSpace"]->setTooltip(_getText(DJV_TEXT("Color space tooltip")));
             p.actions["ColorChannels"]->setText(_getText(DJV_TEXT("Color Channels")));
             p.actions["ColorChannels"]->setTooltip(_getText(DJV_TEXT("Color channels tooltip")));
             p.actions["RedChannel"]->setText(_getText(DJV_TEXT("Red Channel")));

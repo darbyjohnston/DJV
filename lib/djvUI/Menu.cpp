@@ -325,13 +325,14 @@ namespace djv
                     float x = i.second->geom.min.x + m;
                     float y = 0.f;
 
+                    render->setColorMult(!i.second->enabled ? Style::disabledColorMult : 1.f);
+
                     if (i.second->checked)
                     {
                         render->setFillColor(style->getColor(ColorRole::Checked));
                         render->drawRect(i.second->geom);
                     }
 
-                    render->setColorMult(!i.second->enabled ? Style::disabledColorMult : 1.f);
                     render->setFillColor(style->getColor(ColorRole::Foreground));
 
                     if (i.second->icon)
