@@ -273,7 +273,7 @@ namespace djv
                 }
             }
 
-            bool Drawer::_eventFilter(const std::shared_ptr<IObject>& object, Event::IEvent& event)
+            bool Drawer::_eventFilter(const std::shared_ptr<IObject>& object, Event::Event& event)
             {
                 DJV_PRIVATE_PTR();
                 switch (event.getEventType())

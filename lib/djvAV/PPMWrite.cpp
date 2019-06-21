@@ -48,11 +48,9 @@ namespace djv
                     Settings settings;
                 };
 
-                Write::Write(const Settings & settings) :
+                Write::Write() :
                     _p(new Private)
-                {
-                    _p->settings = settings;
-                }
+                {}
 
                 Write::~Write()
                 {
@@ -66,7 +64,8 @@ namespace djv
                     const std::shared_ptr<ResourceSystem>& resourceSystem,
                     const std::shared_ptr<LogSystem>& logSystem)
                 {
-                    auto out = std::shared_ptr<Write>(new Write(settings));
+                    auto out = std::shared_ptr<Write>(new Write);
+                    out->_p->settings = settings;
                     out->_init(fileName, info, resourceSystem, logSystem);
                     return out;
                 }

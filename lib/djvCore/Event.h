@@ -80,14 +80,14 @@ namespace djv
             };
             DJV_ENUM_HELPERS(Type);
 
-            //! This class provides the interface for events.
-            class IEvent
+            //! This class provides the event base class.
+            class Event
             {
             protected:
-                inline IEvent(Type);
+                inline Event(Type);
 
             public:
-                inline virtual ~IEvent() = 0;
+                inline virtual ~Event() = 0;
 
                 inline Type getEventType() const;
 
@@ -101,7 +101,7 @@ namespace djv
             };
 
             //! This class provides an event for when an object's parent changes.
-            class ParentChanged : public IEvent
+            class ParentChanged : public Event
             {
             public:
                 inline ParentChanged(const std::shared_ptr<IObject> & prevParent, const std::shared_ptr<IObject> & newParent);
@@ -115,7 +115,7 @@ namespace djv
             };
 
             //! This class provides an event for when a child object is added.
-            class ChildAdded : public IEvent
+            class ChildAdded : public Event
             {
             public:
                 inline ChildAdded(const std::shared_ptr<IObject> & child);
@@ -127,7 +127,7 @@ namespace djv
             };
 
             //! This class provides an event for when a child object is removed.
-            class ChildRemoved : public IEvent
+            class ChildRemoved : public Event
             {
             public:
                 inline ChildRemoved(const std::shared_ptr<IObject> & child);
@@ -139,14 +139,14 @@ namespace djv
             };
 
             //! This class provides an event for when the children change order.
-            class ChildOrder : public IEvent
+            class ChildOrder : public Event
             {
             public:
                 inline ChildOrder();
             };
 
             //! This class provides a locale event.
-            class Locale : public IEvent
+            class Locale : public Event
             {
             public:
                 inline Locale(const std::string &);
@@ -158,7 +158,7 @@ namespace djv
             };
 
             //! This class provides an update event.
-            class Update : public IEvent
+            class Update : public Event
             {
             public:
                 inline Update(float t, float dt);
@@ -172,28 +172,28 @@ namespace djv
             };
 
             //! This class provides a style event.
-            class Style : public IEvent
+            class Style : public Event
             {
             public:
                 inline Style();
             };
 
             //! This class provides an event to prepare for user interface layout.
-            class PreLayout : public IEvent
+            class PreLayout : public Event
             {
             public:
                 inline PreLayout();
             };
 
             //! This class provides an event for user interface layout.
-            class Layout : public IEvent
+            class Layout : public Event
             {
             public:
                 inline Layout();
             };
 
             //! This class provides a clip event.
-            class Clip : public IEvent
+            class Clip : public Event
             {
             public:
                 inline Clip(const BBox2f & clipRect);
@@ -206,7 +206,7 @@ namespace djv
             };
 
             //! This class provides a paint event.
-            class Paint : public IEvent
+            class Paint : public Event
             {
             public:
                 inline Paint(const BBox2f & clipRect);
@@ -220,7 +220,7 @@ namespace djv
 
             //! This class provides a second paint event after the children have been
             //! drawn.
-            class PaintOverlay : public IEvent
+            class PaintOverlay : public Event
             {
             public:
                 inline PaintOverlay(const BBox2f& clipRect);
@@ -251,7 +251,7 @@ namespace djv
             };
 
             //! This class provides the interface for pointer events.
-            class IPointer : public IEvent
+            class IPointer : public Event
             {
             protected:
                 inline IPointer(const PointerInfo &, Type);
@@ -361,21 +361,21 @@ namespace djv
             };
 
             //! This class provides a text focus event.
-            class TextFocus : public IEvent
+            class TextFocus : public Event
             {
             public:
                 inline TextFocus();
             };
 
             //! This class provides a text focus lost event.
-            class TextFocusLost : public IEvent
+            class TextFocusLost : public Event
             {
             public:
                 inline TextFocusLost();
             };
 
             //! This class provides a text event.
-            class Text : public IEvent
+            class Text : public Event
             {
             public:
                 inline Text(const std::string & text, int texttModifiers);

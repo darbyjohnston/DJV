@@ -32,6 +32,7 @@
 #include <djvAV/AudioSystem.h>
 #include <djvAV/FontSystem.h>
 #include <djvAV/IO.h>
+#include <djvAV/OCIOSystem.h>
 #include <djvAV/Render2D.h>
 #include <djvAV/ThumbnailSystem.h>
 
@@ -62,12 +63,14 @@ namespace djv
             p.timeUnits = ValueSubject<TimeUnits>::create(TimeUnits::First);
 
             auto ioSystem = IO::System::create(context);
+            auto ocioSystem = OCIOSystem::create(context);
             auto fontSystem = Font::System::create(context);
             auto thumbnailSystem = ThumbnailSystem::create(context);
             auto render2D = Render::Render2D::create(context);
             auto audioSystem = Audio::System::create(context);
 
             addDependency(ioSystem);
+            addDependency(ocioSystem);
             addDependency(fontSystem);
             addDependency(thumbnailSystem);
             addDependency(render2D);

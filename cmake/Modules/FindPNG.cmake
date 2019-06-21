@@ -54,41 +54,20 @@ if(DJV_THIRD_PARTY AND PNG_SHARED_LIBS)
     if(WIN32)
         # \todo
     elseif(APPLE)
-        if(CMAKE_BUILD_TYPE MATCHES "^Debug$")
-            install(
-                FILES
-                ${DJV_THIRD_PARTY}/lib/libpng.dylib
-                ${DJV_THIRD_PARTY}/lib/libpng16d.dylib
-                ${DJV_THIRD_PARTY}/lib/libpng16d.16.dylib
-                ${DJV_THIRD_PARTY}/lib/libpng16d.16.34.0.dylib
-                DESTINATION ${DJV_INSTALL_LIB})
-        else()
-            install(
-                FILES
-                ${DJV_THIRD_PARTY}/lib/libpng.dylib
-                ${DJV_THIRD_PARTY}/lib/libpng16.dylib
-                ${DJV_THIRD_PARTY}/lib/libpng16.16.dylib
-                ${DJV_THIRD_PARTY}/lib/libpng16.16.34.0.dylib
-                DESTINATION ${DJV_INSTALL_LIB})
-        endif()
+		install(
+			FILES
+			${DJV_THIRD_PARTY}/lib/libpng.dylib
+			${DJV_THIRD_PARTY}/lib/libpng16.dylib
+			${DJV_THIRD_PARTY}/lib/libpng16.16.dylib
+			${DJV_THIRD_PARTY}/lib/libpng16.16.34.0.dylib
+			DESTINATION ${DJV_INSTALL_LIB})
     else()
-        if(CMAKE_BUILD_TYPE MATCHES "^Debug$")
-            install(
-                FILES
-                ${DJV_THIRD_PARTY}/lib/libpng.so
-                ${DJV_THIRD_PARTY}/lib/libpng16d.so
-                ${DJV_THIRD_PARTY}/lib/libpng16d.so.16
-                ${DJV_THIRD_PARTY}/lib/libpng16d.so.16.34.0
-                DESTINATION ${DJV_INSTALL_LIB})
-        else()
-             install(
-                FILES
-                ${DJV_THIRD_PARTY}/lib/libpng.so
-                ${DJV_THIRD_PARTY}/lib/libpng16.so
-                ${DJV_THIRD_PARTY}/lib/libpng16.so.16
-                ${DJV_THIRD_PARTY}/lib/libpng16.so.16.34.0
-                DESTINATION ${DJV_INSTALL_LIB})
-        endif()
+		 install(
+			FILES
+			${DJV_THIRD_PARTY}/lib/libpng.so
+			${DJV_THIRD_PARTY}/lib/libpng16.so
+			${DJV_THIRD_PARTY}/lib/libpng16.so.16
+			${DJV_THIRD_PARTY}/lib/libpng16.so.16.34.0
+			DESTINATION ${DJV_INSTALL_LIB})
     endif()
 endif()
-

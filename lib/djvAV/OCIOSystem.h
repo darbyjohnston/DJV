@@ -29,57 +29,29 @@
 
 #pragma once
 
-#include <djvUI/Widget.h>
+#include <djvAV/AV.h>
+
+#include <djvCore/ISystem.h>
 
 namespace djv
 {
-    namespace UI
+    namespace AV
     {
-        namespace Layout
+        class OCIOSystem : public Core::ISystem
         {
-            //! This class provides a drawer widget.
-            //!
-            //! \todo Add animation.
-            class Drawer : public Widget
-            {
-                DJV_NON_COPYABLE(Drawer);
+            DJV_NON_COPYABLE(OCIOSystem);
 
-            protected:
-                void _init(Side, Core::Context *);
-                Drawer();
+        protected:
+            void _init(Core::Context *);
+            OCIOSystem();
 
-            public:
-                virtual ~Drawer();
+        public:
+            ~OCIOSystem() override;
+            static std::shared_ptr<OCIOSystem> create(Core::Context *);
 
-                static std::shared_ptr<Drawer> create(Side, Core::Context *);
+        private:
+            DJV_PRIVATE();
+        };
 
-                Side getSide() const;
-
-                bool isOpen() const;
-                void setOpen(bool);
-                void open();
-                void close();
-
-                void addChild(const std::shared_ptr<IObject> &) override;
-                void removeChild(const std::shared_ptr<IObject> &) override;
-                void clearChildren() override;
-
-            protected:
-                void _preLayoutEvent(Core::Event::PreLayout &) override;
-                void _layoutEvent(Core::Event::Layout &) override;
-                void _paintEvent(Core::Event::Paint&) override;
-                void _paintOverlayEvent(Core::Event::PaintOverlay&) override;
-
-                bool _eventFilter(const std::shared_ptr<IObject>&, Core::Event::Event&) override;
-
-            private:
-                DJV_PRIVATE();
-            };
-
-        } // namespace Layout
-
-        typedef Layout::Drawer Drawer;
-
-    } // namespace UI
+    } // namespace AV
 } // namespace djv
-

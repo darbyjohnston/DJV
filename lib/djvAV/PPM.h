@@ -112,7 +112,7 @@ namespace djv
                     DJV_NON_COPYABLE(Write);
 
                 protected:
-                    Write(const Settings &);
+                    Write();
 
                 public:
                     ~Write() override;

@@ -27,39 +27,77 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
+#include <djvAV/OCIOSystem.h>
+
+#include <djvCore/Context.h>
+#include <djvCore/CoreSystem.h>
+
+#include <OpenColorIO/OpenColorIO.h>
+
+using namespace djv::Core;
+namespace OCIO = OCIO_NAMESPACE;
+
 namespace djv
 {
     namespace AV
     {
-        namespace OpenGL
+        struct OCIOSystem::Private
         {
-            inline Texture::Texture()
-            {}
+            OCIO::ConstConfigRcPtr ocioConfig = nullptr;
+        };
 
-            inline const Image::Info& Texture::getInfo() const
+        void OCIOSystem::_init(Core::Context * context)
+        {
+            ISystem::_init("djv::AV::OCIOSystem", context);
+
+            addDependency(context->getSystemT<CoreSystem>());
+
+            DJV_PRIVATE_PTR();
+            p.ocioConfig = OCIO::GetCurrentConfig();
             {
-                return _info;
+                std::stringstream ss;
+                ss << "Version: " << OCIO::GetVersion();
+                _log(ss.str());
             }
-
-            inline GLuint Texture::getID() const
             {
-                return _id;
+                std::stringstream ss;
+                ss << "Config description: " << p.ocioConfig->getDescription();
+                _log(ss.str());
             }
-
-            inline Texture1D::Texture1D()
-            {}
-
-            inline const Image::Info& Texture1D::getInfo() const
+            for (int i = 0; i < p.ocioConfig->getNumColorSpaces(); ++i)
             {
-                return _info;
+                std::stringstream ss;
+                ss << "Color space " << i << ": " << p.ocioConfig->getColorSpaceNameByIndex(i);
+                _log(ss.str());
             }
-
-            inline GLuint Texture1D::getID() const
             {
-                return _id;
+                std::stringstream ss;
+                ss << "Default display: " << p.ocioConfig->getDefaultDisplay();
+                _log(ss.str());
             }
-            
-        } // namespace OpenGL
+            for (int i = 0; i < p.ocioConfig->getNumDisplays(); ++i)
+            {
+                std::stringstream ss;
+                ss << "Display " << i << ": " << p.ocioConfig->getDisplay(i);
+                _log(ss.str());
+            }
+        }
+
+        OCIOSystem::OCIOSystem() :
+            _p(new Private)
+        {}
+
+        OCIOSystem::~OCIOSystem()
+        {
+        }
+
+        std::shared_ptr<OCIOSystem> OCIOSystem::create(Core::Context * context)
+        {
+            auto out = std::shared_ptr<OCIOSystem>(new OCIOSystem);
+            out->_init(context);
+            return out;
+        }
+
     } // namespace AV
 } // namespace djv
 

@@ -840,7 +840,7 @@ namespace djv
             setScrollPos(_p->scrollArea->getScrollPos() - event.getScrollDelta() * scrollWheelMult);
         }
 
-        bool ScrollWidget::_eventFilter(const std::shared_ptr<IObject> & object, Event::IEvent & event)
+        bool ScrollWidget::_eventFilter(const std::shared_ptr<IObject> & object, Event::Event & event)
         {
             DJV_PRIVATE_PTR();
             switch (event.getEventType())

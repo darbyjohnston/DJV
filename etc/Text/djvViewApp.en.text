@@ -1221,202 +1221,212 @@
     }, 
     {
         "text": "Portions of this software are copyright (in alphabetical order):", 
-        "id": "Contributors Text 1", 
+        "id": "Contributors Text", 
         "description": ""
     }, 
     {
         "text": "* Copyright (c) 2004-2019 Darby Johnston. All rights reserved.", 
-        "id": "Contributors Text 2", 
+        "id": "Contributors Darby Johnston", 
         "description": ""
     }, 
     {
         "text": "* Copyright (c) 2008 Alan Jones. All rights reserved.", 
-        "id": "Contributors Text 3", 
+        "id": "Contributors Alan Jones", 
         "description": ""
     }, 
     {
         "text": "* Copyright (c) 2008-2009 Mikael Sundell. All rights reserved.", 
-        "id": "Contributors Text 4", 
+        "id": "Contributors Mikael Sundell", 
         "description": ""
     }, 
     {
         "text": "This software is based in part on the works of (in alphabetical order):", 
-        "id": "Third Party Text 1", 
+        "id": "Third Party Text", 
         "description": ""
     }, 
     {
         "text": "* CMake, http://www.cmake.org, Copyright 2000-2011 Kitware, Inc., Insight Software Consortium. All rights reserved.", 
-        "id": "Third Party Text 2", 
+        "id": "Third Party CMake", 
         "description": ""
     }, 
     {
-        "text": "* dr_libs, https://github.com/mackron/dr_libs, David Reid", 
-        "id": "Third Party Text 3", 
+        "text": "* dr_libs, http://github.com/mackron/dr_libs, David Reid", 
+        "id": "Third Party dr_libs", 
         "description": ""
     }, 
     {
         "text": "* FFMpeg, http://www.ffmpeg.org, Licensed under the LGPLv2.1, http://www.gnu.org/pcenses/old-pcenses/lgpl-2.1.html", 
-        "id": "Third Party Text 4", 
+        "id": "Third Party FFMpeg", 
         "description": ""
     }, 
     {
-        "text": "* FreeType, https://www.freetype.org, Copyright (c) 2018, The FreeType Project", 
-        "id": "Third Party Text 5", 
+        "text": "* FreeType, http://www.freetype.org, Copyright (c) 2018, The FreeType Project", 
+        "id": "Third Party FreeType", 
         "description": ""
     }, 
     {
-        "text": "* GLFW, https://www.glfw.org, Copyright (c) 2002-2006 Marcus Geelnard, Copyright (c) 2006-2016 Camilla L\u00f6wy <elmindreda@glfw.org>", 
-        "id": "Third Party Text 6", 
+        "text": "* GLFW, http://www.glfw.org, Copyright (c) 2002-2006 Marcus Geelnard, Copyright (c) 2006-2016 Camilla L\u00f6wy <elmindreda@glfw.org>", 
+        "id": "Third Party GLFW", 
         "description": ""
     }, 
     {
-        "text": "* GLM, https://glm.g-truc.net/0.9.9/index.html, Copyright (c) 2005-2017 G-Truc Creation", 
-        "id": "Third Party Text 7", 
+        "text": "* GLM, http://glm.g-truc.net/0.9.9/index.html, Copyright (c) 2005-2017 G-Truc Creation", 
+        "id": "Third Party GLM", 
         "description": ""
     }, 
     {
-        "text": "* glad, https://github.com/Dav1dde/glad, Copyright (c) 2013-2018 David Herberth", 
-        "id": "Third Party Text 8", 
+        "text": "* glad, http://github.com/Dav1dde/glad, Copyright (c) 2013-2018 David Herberth", 
+        "id": "Third Party glad", 
         "description": ""
     }, 
     {
         "text": "* libjpeg, http://www.ijg.org, Copyright (c) 1991-2012, Thomas G. Lane, Guido Vollbeding", 
-        "id": "Third Party Text 9", 
+        "id": "Third Party libjpeg", 
+        "description": ""
+    }, 
+    {
+        "text": "* libjpeg-turbo, http://libjpeg-turbo.org, Copyright (C)2009-2019 D. R. Commander. All Rights Reserved. Copyright (C)2015 Viktor Szathmáry. All Rights Reserved.", 
+        "id": "Third Party libjpeg-turbo", 
         "description": ""
     }, 
     {
         "text": "* libpng, http://www.libpng.org, Copyright (c) 2004, 2006-2012 Glenn Randers-Pehrson", 
-        "id": "Third Party Text 10", 
+        "id": "Third Party libpng", 
         "description": ""
     }, 
     {
         "text": "* libtiff, http://www.libtiff.org, Copyright (c) 1988-1997 Sam Leffler, Copyright (c) 1991-1997 Silicon Graphics, Inc", 
-        "id": "Third Party Text 11", 
+        "id": "Third Party libtiff", 
         "description": ""
     }, 
     {
-        "text": "* OpenAL, https://www.openal.org, Copyright (C) 1999-2000 by Loki Software", 
-        "id": "Third Party Text 12", 
+        "text": "* OpenAL, http://www.openal.org, Copyright (C) 1999-2000 by Loki Software", 
+        "id": "Third Party OpenAL", 
+        "description": ""
+    }, 
+    {
+        "text": "* OpenColorIO, http://opencolorio.org, Copyright (c) 2003-2010 Sony Pictures Imageworks Inc., et al. All rights reserved.", 
+        "id": "Third Party OpenColorIO", 
         "description": ""
     }, 
     {
         "text": "* OpenEXR, http://www.openexr.com, Copyright (c) 2006, Industrial Light and Magic, a division of Lucasfilm Entertainment Company Ltd.", 
-        "id": "Third Party Text 13", 
+        "id": "Third Party OpenEXR", 
         "description": ""
     }, 
     {
         "text": "* zlib, http://www.zlib.net, Copyright (c) 1995-2013 Jean-loup Gailly and Mark Adler", 
-        "id": "Third Party Text 14", 
+        "id": "Third Party zlib", 
         "description": ""
     }, 
     {
         "text": "Trademarks named in the documentation (in alphabetical order):", 
-        "id": "Trademarks Text 1", 
+        "id": "Trademarks Text", 
         "description": ""
     }, 
     {
         "text": "* Apple, OS X, ProRes, and QuickTime are registered trademarks of Apple, Inc.", 
-        "id": "Trademarks Text 2", 
+        "id": "Trademarks Apple", 
         "description": ""
     }, 
     {
         "text": "* AMD and ATI are registered trademarks of Advanced Micro Devices, Inc.", 
-        "id": "Trademarks Text 3", 
+        "id": "Trademarks AMD", 
         "description": ""
     }, 
     {
         "text": "* Autodesk, Inferno, Maya, Softimage, and XSI are registered trademarks of Autodesk, Inc.", 
-        "id": "Trademarks Text 4", 
+        "id": "Trademarks Autodesk", 
         "description": ""
     }, 
     {
         "text": "* Debian is a registered trademark of Software in the Public Interest, Inc.", 
-        "id": "Trademarks Text 5", 
+        "id": "Trademarks Debian", 
         "description": ""
     }, 
     {
         "text": "* FFmpeg is a trademark of Fabrice Bellard, originator of the FFmpeg project", 
-        "id": "Trademarks Text 6", 
+        "id": "Trademarks FFmpeg", 
         "description": ""
     }, 
     {
         "text": "* FreeBSD is a registered trademark of The FreeBSD Foundation", 
-        "id": "Trademarks Text 7", 
+        "id": "Trademarks FreeBSD", 
         "description": ""
     }, 
     {
         "text": "* Intel is a registered trademark of Intel Corporation", 
-        "id": "Trademarks Text 8", 
+        "id": "Trademarks Intel", 
         "description": ""
     }, 
     {
         "text": "* Industrial Light and Magic and ILM are registered trademarks of Lucasfilm Ltd.", 
-        "id": "Trademarks Text 9", 
+        "id": "Trademarks Lucasfilm", 
         "description": ""
     }, 
     {
         "text": "* Kodak and Cineon are a registered trademarks of the Eastman Kodak Company", 
-        "id": "Trademarks Text 10", 
+        "id": "Trademarks Kodak", 
         "description": ""
     }, 
     {
         "text": "* Linux is a registered trademark of Linus Torvalds", 
-        "id": "Trademarks Text 11", 
+        "id": "Trademarks Linux", 
         "description": ""
     }, 
     {
         "text": "* Microsoft and Microsoft Windows are registered trademarks of Microsoft, Inc.", 
-        "id": "Trademarks Text 12", 
+        "id": "Trademarks Microsoft", 
         "description": ""
     }, 
     {
         "text": "* MIPS is a registered trademark of MIPS Technologies, Inc.", 
-        "id": "Trademarks Text 13", 
+        "id": "Trademarks MIPS", 
         "description": ""
     }, 
     {
         "text": "* NVIDIA is a registered trademark of NVIDIA Corporation", 
-        "id": "Trademarks Text 14", 
+        "id": "Trademarks NVIDIA", 
         "description": ""
     }, 
     {
         "text": "* Red Hat and Fedora are registered trademarks of Red Hat, Inc.", 
-        "id": "Trademarks Text 15", 
+        "id": "Trademarks Red Hat", 
         "description": ""
     }, 
     {
         "text": "* Silicon Graphics, SGI, IRIX, and OpenGL are registered trademarks of Silicon Graphics International Corp.", 
-        "id": "Trademarks Text 16", 
+        "id": "Trademarks SGI", 
         "description": ""
     }, 
     {
         "text": "* SMPTE is a registered trademark of the Society of Motion Picture and Television Engineers", 
-        "id": "Trademarks Text 17", 
+        "id": "Trademarks SMPTE", 
         "description": ""
     }, 
     {
         "text": "* SourceForge.net is a registered trademark of VA Software Corporation", 
-        "id": "Trademarks Text 18", 
+        "id": "Trademarks SourceForge", 
         "description": ""
     }, 
     {
         "text": "* SuSE is a registered trademark of Novell, Inc.", 
-        "id": "Trademarks Text 19", 
+        "id": "Trademarks SuSE", 
         "description": ""
     }, 
     {
         "text": "* Ubuntu is a registered trademark of Canonical Ltd.", 
-        "id": "Trademarks Text 20", 
+        "id": "Trademarks Ubuntu", 
         "description": ""
     }, 
     {
         "text": "* UNIX is a registered trademark of The Open Group", 
-        "id": "Trademarks Text 21", 
+        "id": "Trademarks UNIX", 
         "description": ""
     }, 
     {
         "text": "All other products named in the documentation are trademarks of their respective owners.", 
-        "id": "Trademarks Text 22", 
+        "id": "Trademarks End", 
         "description": ""
     }, 
     {

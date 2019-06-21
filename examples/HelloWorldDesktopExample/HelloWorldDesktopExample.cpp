@@ -48,7 +48,6 @@ int main(int argc, char ** argv)
         button->setFontSizeRole(UI::MetricsRole::FontLarge);
         button->setHAlign(UI::HAlign::Center);
         button->setVAlign(UI::VAlign::Center);
-        button->setTooltip("Hoo dat!");
 
         auto window = UI::Window::create(app.get());
         window->addChild(button);

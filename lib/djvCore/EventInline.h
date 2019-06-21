@@ -33,35 +33,35 @@ namespace djv
     {
         namespace Event
         {
-            inline IEvent::IEvent(Type type) :
+            inline Event::Event(Type type) :
                 _eventType(type)
             {}
 
-            inline IEvent::~IEvent()
+            inline Event::~Event()
             {}
 
-            inline Type IEvent::getEventType() const
+            inline Type Event::getEventType() const
             {
                 return _eventType;
             }
 
-            inline void IEvent::setAccepted(bool value)
+            inline void Event::setAccepted(bool value)
             {
                 _accepted = value;
             }
 
-            inline void IEvent::accept()
+            inline void Event::accept()
             {
                 _accepted = true;
             }
 
-            inline bool IEvent::isAccepted() const
+            inline bool Event::isAccepted() const
             {
                 return _accepted;
             }
 
             inline ParentChanged::ParentChanged(const std::shared_ptr<IObject> & prevParent, const std::shared_ptr<IObject> & newParent) :
-                IEvent(Type::ParentChanged),
+                Event(Type::ParentChanged),
                 _prevParent(prevParent),
                 _newParent(newParent)
             {}
@@ -77,7 +77,7 @@ namespace djv
             }
 
             inline ChildAdded::ChildAdded(const std::shared_ptr<IObject> & child) :
-                IEvent(Type::ChildAdded),
+                Event(Type::ChildAdded),
                 _child(child)
             {}
 
@@ -87,7 +87,7 @@ namespace djv
             }
 
             inline ChildRemoved::ChildRemoved(const std::shared_ptr<IObject> & child) :
-                IEvent(Type::ChildRemoved),
+                Event(Type::ChildRemoved),
                 _child(child)
             {}
 
@@ -97,11 +97,11 @@ namespace djv
             }
 
             inline ChildOrder::ChildOrder() :
-                IEvent(Type::ChildOrder)
+                Event(Type::ChildOrder)
             {}
 
             inline Locale::Locale(const std::string & locale) :
-                IEvent(Type::Locale),
+                Event(Type::Locale),
                 _locale(locale)
             {}
 
@@ -111,7 +111,7 @@ namespace djv
             }
 
             inline Update::Update(float t, float dt) :
-                IEvent(Type::Update),
+                Event(Type::Update),
                 _t(t),
                 _dt(dt)
             {}
@@ -127,19 +127,19 @@ namespace djv
             }
 
             inline Style::Style() :
-                IEvent(Type::Style)
+                Event(Type::Style)
             {}
 
             inline PreLayout::PreLayout() :
-                IEvent(Type::PreLayout)
+                Event(Type::PreLayout)
             {}
 
             inline Layout::Layout() :
-                IEvent(Type::Layout)
+                Event(Type::Layout)
             {}
 
             inline Clip::Clip(const BBox2f & clipRect) :
-                IEvent(Type::Clip),
+                Event(Type::Clip),
                 _clipRect(clipRect)
             {}
 
@@ -154,7 +154,7 @@ namespace djv
             }
 
             inline Paint::Paint(const BBox2f & clipRect) :
-                IEvent(Type::Paint),
+                Event(Type::Paint),
                 _clipRect(clipRect)
             {}
 
@@ -169,7 +169,7 @@ namespace djv
             }
 
             inline PaintOverlay::PaintOverlay(const BBox2f& clipRect) :
-                IEvent(Type::PaintOverlay),
+                Event(Type::PaintOverlay),
                 _clipRect(clipRect)
             {}
 
@@ -194,7 +194,7 @@ namespace djv
             }
 
             inline IPointer::IPointer(const PointerInfo & pointerInfo, Type type) :
-                IEvent(type),
+                Event(type),
                 _pointerInfo(pointerInfo)
             {}
 
@@ -289,15 +289,15 @@ namespace djv
             {}
 
             inline TextFocus::TextFocus() :
-                IEvent(Type::TextFocus)
+                Event(Type::TextFocus)
             {}
 
             inline TextFocusLost::TextFocusLost() :
-                IEvent(Type::TextFocusLost)
+                Event(Type::TextFocusLost)
             {}
 
             inline Text::Text(const std::string & text, int textModifiers) :
-                IEvent(Type::Text),
+                Event(Type::Text),
                 _text(text),
                 _textModifiers(textModifiers)
             {}

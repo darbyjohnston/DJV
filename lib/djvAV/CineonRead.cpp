@@ -41,7 +41,14 @@ namespace djv
         {
             namespace Cineon
             {
-                Read::Read()
+                struct Read::Private
+                {
+                    Settings settings;
+                    bool     filmPrint = false;
+                };
+
+                Read::Read() :
+                    _p(new Private)
                 {}
 
                 Read::~Read()
@@ -51,10 +58,12 @@ namespace djv
 
                 std::shared_ptr<Read> Read::create(
                     const std::string & fileName,
+                    const Settings& settings,
                     const std::shared_ptr<ResourceSystem>& resourceSystem,
                     const std::shared_ptr<LogSystem>& logSystem)
                 {
                     auto out = std::shared_ptr<Read>(new Read);
+                    out->_p->settings = settings;
                     out->_init(fileName, resourceSystem, logSystem);
                     return out;
                 }
@@ -67,6 +76,7 @@ namespace djv
 
                 std::shared_ptr<Image::Image> Read::_readImage(const std::string & fileName)
                 {
+                    DJV_PRIVATE_PTR();
                     FileSystem::FileIO io;
                     const auto info = _open(fileName, io);
                     auto out = Image::Image::create(info.video[0].info);
@@ -78,11 +88,12 @@ namespace djv
 
                 Info Read::_open(const std::string & fileName, FileSystem::FileIO & io)
                 {
+                    DJV_PRIVATE_PTR();
                     io.open(fileName, FileSystem::FileIO::Mode::Read);
                     Info info;
                     info.video.resize(1);
                     info.video[0].info.name = fileName;
-                    read(io, info, _filmPrint);
+                    read(io, info, p.filmPrint);
                     info.video[0].duration = _duration;
                     return info;
                 }

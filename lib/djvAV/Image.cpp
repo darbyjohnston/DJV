@@ -53,14 +53,14 @@ namespace djv
                 return out;
             }
 
-            const Tags & Image::getTags() const
+            const Tags& Image::getTags() const
             {
                 return _tags;
             }
 
-            void Image::setTags(const Tags & tags)
+            void Image::setTags(const Tags& value)
             {
-                _tags = tags;
+                _tags = value;
             }
 
         } // namespace Image

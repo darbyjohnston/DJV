@@ -185,7 +185,7 @@ namespace djv
 
             void moveToFront() override;
             void moveToBack() override;
-            bool event(Core::Event::IEvent &) override;
+            bool event(Core::Event::Event &) override;
 
         protected:
             //! \name Events

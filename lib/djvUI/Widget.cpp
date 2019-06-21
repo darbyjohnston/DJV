@@ -315,7 +315,7 @@ namespace djv
             }
         }
 
-        bool Widget::event(Event::IEvent & event)
+        bool Widget::event(Event::Event & event)
         {
             bool out = IObject::event(event);
             if (!out)

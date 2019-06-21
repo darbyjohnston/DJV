@@ -31,7 +31,7 @@
 
 #include <djvAV/Enum.h>
 #include <djvAV/FontSystem.h>
-#include <djvAV/ImageData.h>
+#include <djvAV/Image.h>
 
 #include <djvCore/BBox.h>
 #include <djvCore/ISystem.h>
@@ -141,12 +141,12 @@ namespace djv
                 ///@{
 
                 void drawImage(
-                    const std::shared_ptr<Image::Data> &,
+                    const std::shared_ptr<Image::Image> &,
                     const glm::vec2& pos,
                     const ImageOptions& = ImageOptions());
 
                 void drawFilledImage(
-                    const std::shared_ptr<Image::Data> &,
+                    const std::shared_ptr<Image::Image> &,
                     const glm::vec2& pos,
                     const ImageOptions & = ImageOptions());
 

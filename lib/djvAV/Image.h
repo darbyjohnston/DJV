@@ -52,8 +52,8 @@ namespace djv
 
                 static std::shared_ptr<Image> create(const Info &);
 
-                const Tags & getTags() const;
-                void setTags(const Tags &);
+                const Tags& getTags() const;
+                void setTags(const Tags&);
 
             private:
                 Tags _tags;

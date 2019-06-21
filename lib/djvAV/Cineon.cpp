@@ -717,7 +717,7 @@ namespace djv
 
                 std::shared_ptr<IRead> Plugin::read(const std::string & fileName) const
                 {
-                    return Read::create(fileName, _resourceSystem, _logSystem);
+                    return Read::create(fileName, _p->settings, _resourceSystem, _logSystem);
                 }
 
                 std::shared_ptr<IWrite> Plugin::write(const std::string & fileName, const Info & info) const

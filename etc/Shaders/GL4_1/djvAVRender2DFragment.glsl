@@ -102,22 +102,25 @@ void main()
     else if (COLOR_MODE_COLOR_AND_TEXTURE == colorMode)
     {
 		vec4 t = texture(textureSampler, Texture);
+		
 		if (IMAGE_FORMAT_L == imageFormat)
 		{
-			t.g = t.r;
-			t.b = t.r;
+			t.g = t.b = t.r;
 			t.a = 1.0;
 		}
 		else if (IMAGE_FORMAT_LA == imageFormat)
 		{
 			t.a = t.g;
-			t.g = t.r;
-			t.b = t.r;
+			t.g = t.b = t.r;
 		}
 		else if (IMAGE_FORMAT_RGB == imageFormat)
 		{
 			t.a = 1.0;
 		}
+		else if (IMAGE_FORMAT_RGBA == imageFormat)
+		{
+		}
+		
 		if (IMAGE_CHANNEL_RED == imageChannel)
 		{
 			t.g = t.r;
@@ -139,6 +142,7 @@ void main()
 			t.g = t.a;
 			t.b = t.a;
 		}
+		
         FragColor = color * t;
     }
 	else if (COLOR_MODE_SHADOW == colorMode)

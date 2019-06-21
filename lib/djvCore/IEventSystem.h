@@ -66,7 +66,7 @@ namespace djv
             protected:
                 virtual void _initObject(const std::shared_ptr<IObject> &);
 
-                void _pointerMove(const Event::PointerInfo &);
+                void _pointerMove(const PointerInfo &);
                 void _buttonPress(int);
                 void _buttonRelease(int);
                 void _drop(const std::vector<std::string> &);
@@ -75,7 +75,7 @@ namespace djv
                 void _text(const std::string &, int modifiers);
                 void _scroll(float, float);
 
-                virtual void _hover(Event::PointerMove &, std::shared_ptr<IObject> &) = 0;
+                virtual void _hover(PointerMove &, std::shared_ptr<IObject> &) = 0;
 
             private:
                 void _localeRecursive(const std::shared_ptr<IObject> &, Locale &);

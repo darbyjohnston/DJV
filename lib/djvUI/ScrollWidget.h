@@ -94,7 +94,7 @@ namespace djv
             void _clipEvent(Core::Event::Clip &) override;
             void _scrollEvent(Core::Event::Scroll &) override;
 
-            bool _eventFilter(const std::shared_ptr<IObject> &, Core::Event::IEvent &) override;
+            bool _eventFilter(const std::shared_ptr<IObject> &, Core::Event::Event &) override;
 
         private:
             void _updateScrollBars(const glm::vec2 &);

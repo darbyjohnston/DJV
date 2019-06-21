@@ -68,7 +68,7 @@ namespace djv
             void _preLayoutEvent(Core::Event::PreLayout &) override;
             void _layoutEvent(Core::Event::Layout &) override;
 
-            bool _eventFilter(const std::shared_ptr<IObject> &, Core::Event::IEvent &) override;
+            bool _eventFilter(const std::shared_ptr<IObject> &, Core::Event::Event &) override;
 
         private:
             DJV_PRIVATE();

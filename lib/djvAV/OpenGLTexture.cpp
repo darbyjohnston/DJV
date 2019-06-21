@@ -221,6 +221,131 @@ namespace djv
 #endif // DJV_OPENGL_ES2
             }
 
+            void Texture1D::_init(const Image::Info& info, GLenum filter)
+            {
+                _info = info;
+                glGenTextures(1, &_id);
+                glBindTexture(GL_TEXTURE_1D, _id);
+                glTexParameteri(GL_TEXTURE_1D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+                glTexParameteri(GL_TEXTURE_1D, GL_TEXTURE_MIN_FILTER, filter);
+                GLenum internalFormat = GL_RGBA;
+                glTexImage1D(
+                    GL_TEXTURE_1D,
+                    0,
+                    internalFormat,
+                    _info.size.w,
+                    0,
+                    _info.getGLFormat(),
+                    _info.getGLType(),
+                    0);
+                glGenBuffers(1, &_pbo);
+            }
+
+            Texture1D::~Texture1D()
+            {
+                if (_id)
+                {
+                    glDeleteTextures(1, &_id);
+                    _id = 0;
+                }
+                if (_pbo)
+                {
+                    glDeleteBuffers(1, &_pbo);
+                    _pbo = 0;
+                }
+            }
+
+            std::shared_ptr<Texture1D> Texture1D::create(const Image::Info& info, GLenum filter)
+            {
+                auto out = std::shared_ptr<Texture1D>(new Texture1D);
+                out->_init(info, filter);
+                return out;
+            }
+
+            void Texture1D::copy(const Image::Data& data)
+            {
+                const auto& info = data.getInfo();
+
+#if defined(DJV_OPENGL_ES2)
+                glBindTexture(GL_TEXTURE_1D, _id);
+                glPixelStorei(GL_UNPACK_ALIGNMENT, info.layout.alignment);
+                glTexSubImage1D(
+                    GL_TEXTURE_1D,
+                    0,
+                    0,
+                    info.size.x,
+                    info.getGLFormat(),
+                    info.getGLType(),
+                    data.getData());
+#else // DJV_OPENGL_ES2
+                glBindBuffer(GL_PIXEL_UNPACK_BUFFER, _pbo);
+                glBufferData(GL_PIXEL_UNPACK_BUFFER, info.getDataByteCount(), data.getData(), GL_DYNAMIC_DRAW);
+                glBindTexture(GL_TEXTURE_1D, _id);
+                glPixelStorei(GL_UNPACK_ALIGNMENT, info.layout.alignment);
+                glPixelStorei(GL_UNPACK_SWAP_BYTES, info.layout.endian != Memory::getEndian());
+                glPixelStorei(GL_UNPACK_SKIP_ROWS, 0);
+                glPixelStorei(GL_UNPACK_SKIP_PIXELS, 0);
+                glTexSubImage1D(
+                    GL_TEXTURE_1D,
+                    0,
+                    0,
+                    info.size.w,
+                    info.getGLFormat(),
+                    info.getGLType(),
+                    0);
+                glBindBuffer(GL_PIXEL_UNPACK_BUFFER, 0);
+#endif // DJV_OPENGL_ES2
+            }
+
+            void Texture1D::copy(const Image::Data& data, uint16_t x)
+            {
+                const auto& info = data.getInfo();
+
+#if defined(DJV_OPENGL_ES2)
+                glBindTexture(GL_TEXTURE_1D, _id);
+                glPixelStorei(GL_UNPACK_ALIGNMENT, info.layout.alignment);
+                glTexSubImage1D(
+                    GL_TEXTURE_1D,
+                    0,
+                    x,
+                    info.w,
+                    info.getGLFormat(),
+                    info.getGLType(),
+                    data.getData());
+#else // DJV_OPENGL_ES2
+                glBindBuffer(GL_PIXEL_UNPACK_BUFFER, _pbo);
+                glBufferData(GL_PIXEL_UNPACK_BUFFER, info.getDataByteCount(), data.getData(), GL_STREAM_DRAW);
+                glBindTexture(GL_TEXTURE_1D, _id);
+                glPixelStorei(GL_UNPACK_ALIGNMENT, info.layout.alignment);
+                glPixelStorei(GL_UNPACK_SWAP_BYTES, info.layout.endian != Memory::getEndian());
+                glPixelStorei(GL_UNPACK_SKIP_ROWS, 0);
+                glPixelStorei(GL_UNPACK_SKIP_PIXELS, 0);
+                glTexSubImage1D(
+                    GL_TEXTURE_1D,
+                    0,
+                    x,
+                    info.size.w,
+                    info.getGLFormat(),
+                    info.getGLType(),
+                    0);
+                glBindBuffer(GL_PIXEL_UNPACK_BUFFER, 0);
+#endif // DJV_OPENGL_ES2
+            }
+
+            void Texture1D::bind()
+            {
+                glBindTexture(GL_TEXTURE_1D, _id);
+            }
+
+            GLenum Texture1D::getInternalFormat(Image::Type type)
+            {
+#if defined(DJV_OPENGL_ES2)
+                return Image::getGLFormat(type);
+#else // DJV_OPENGL_ES2
+                return Image::getGLFormat(type);
+#endif // DJV_OPENGL_ES2
+            }
+
         } // namespace OpenGL
     } // namespace AV
 } // namespace djv

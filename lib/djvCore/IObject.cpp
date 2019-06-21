@@ -178,7 +178,7 @@ namespace djv
             }
         }
 
-        bool IObject::event(Event::IEvent & event)
+        bool IObject::event(Event::Event & event)
         {
             bool out = _eventFilter(event);
             if (!out)
@@ -243,7 +243,7 @@ namespace djv
             _logSystem->log(_className, message, level);
         }
 
-        bool IObject::_eventFilter(Event::IEvent & event)
+        bool IObject::_eventFilter(Event::Event & event)
         {
             bool filtered = false;
             auto i = _filters.begin();

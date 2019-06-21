@@ -82,10 +82,12 @@ set(legal
     ../LICENSE_GLM.txt
     ../LICENSE_OFL.txt
     ../LICENSE_OpenAL.txt
+    ../LICENSE_OCIO.txt
     ../LICENSE_OpenEXR.txt
     ../LICENSE_dr_libs.txt
     ../LICENSE_glad.txt
     ../LICENSE_libjpeg.txt
+    ../LICENSE_libjpeg-turbo.txt
     ../LICENSE_libpng.txt
     ../LICENSE_libtiff.txt
     ../LICENSE_zlib.txt

@@ -43,7 +43,7 @@ namespace djv
             {
                 DJV_NON_COPYABLE(Texture);
                 void _init(
-                    const Image::Info &,
+                    const Image::Info&,
                     GLenum filterMin = GL_LINEAR,
                     GLenum filterMax = GL_LINEAR);
                 inline Texture();
@@ -52,15 +52,47 @@ namespace djv
                 ~Texture();
 
                 static std::shared_ptr<Texture> create(
-                    const Image::Info &,
+                    const Image::Info&,
                     GLenum filterMin = GL_LINEAR,
                     GLenum filterMax = GL_LINEAR);
 
-                inline const Image::Info & getInfo() const;
+                inline const Image::Info& getInfo() const;
                 inline GLuint getID() const;
 
-                void copy(const Image::Data &);
-                void copy(const Image::Data &, uint16_t x, uint16_t y);
+                void copy(const Image::Data&);
+                void copy(const Image::Data&, uint16_t x, uint16_t y);
+
+                void bind();
+
+                static GLenum getInternalFormat(Image::Type);
+
+            private:
+                Image::Info _info;
+                GLuint _id = 0;
+                GLuint _pbo = 0;
+            };
+
+            //! This class provides a 1D OpenGL texture.
+            class Texture1D
+            {
+                DJV_NON_COPYABLE(Texture1D);
+                void _init(
+                    const Image::Info&,
+                    GLenum filter = GL_LINEAR);
+                inline Texture1D();
+
+            public:
+                ~Texture1D();
+
+                static std::shared_ptr<Texture1D> create(
+                    const Image::Info&,
+                    GLenum filter = GL_LINEAR);
+
+                inline const Image::Info& getInfo() const;
+                inline GLuint getID() const;
+
+                void copy(const Image::Data&);
+                void copy(const Image::Data&, uint16_t);
 
                 void bind();
 

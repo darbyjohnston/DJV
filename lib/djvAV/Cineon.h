@@ -281,6 +281,7 @@ namespace djv
 
                     static std::shared_ptr<Read> create(
                         const std::string & fileName,
+                        const Settings&,
                         const std::shared_ptr<Core::ResourceSystem>&,
                         const std::shared_ptr<Core::LogSystem>&);
 
@@ -291,7 +292,7 @@ namespace djv
                 private:
                     Info _open(const std::string &, Core::FileSystem::FileIO &);
 
-                    bool _filmPrint = false;
+                    DJV_PRIVATE();
                 };
 
                 //! This class provides the writer.

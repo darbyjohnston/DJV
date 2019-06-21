@@ -132,7 +132,7 @@ namespace djv
             void removeEventFilter(const std::weak_ptr<IObject> &);
 
             //! This function receives events for the object.
-            virtual bool event(Event::IEvent &);
+            virtual bool event(Event::Event &);
 
             ///@}
 
@@ -154,7 +154,7 @@ namespace djv
             virtual void _updateEvent(Event::Update &) {}
 
             //! Over-ride this function to filter events for other objects.
-            virtual bool _eventFilter(const std::shared_ptr<IObject> &, Event::IEvent &) { return false; }
+            virtual bool _eventFilter(const std::shared_ptr<IObject> &, Event::Event &) { return false; }
 
             ///@}
 
@@ -172,7 +172,7 @@ namespace djv
             ///@}
 
         private:
-            bool _eventFilter(Event::IEvent &);
+            bool _eventFilter(Event::Event &);
 
             template<typename T>
             inline static void _getChildrenRecursiveT(const std::shared_ptr<IObject> &, std::vector<std::shared_ptr<T> > &);

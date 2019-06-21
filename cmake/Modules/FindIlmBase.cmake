@@ -3,6 +3,7 @@
 # This module defines the following variables:
 #
 # * ILMBASE_FOUND
+# * ILMBASE_DEFINES
 #
 # This module defines the following imported targets:
 #
@@ -27,6 +28,7 @@ find_package(Threads REQUIRED)
 find_path(ILMBASE_INCLUDE_DIR
     NAMES half.h
     PATH_SUFFIXES OpenEXR)
+
 set(ILMBASE_DEFINES)
 
 find_library(ILMBASE_HALF_STATIC_LIBRARY NAMES Half_s)

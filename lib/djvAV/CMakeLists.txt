@@ -1,5 +1,6 @@
 find_package(FreeType REQUIRED)
 find_package(IlmBase REQUIRED)
+find_package(OCIO REQUIRED)
 find_package(OpenAL REQUIRED)
 find_package(OpenGL REQUIRED)
 find_package(GLFW REQUIRED)
@@ -29,6 +30,7 @@ set(header
     ImageConvert.h
     ImageData.h
     ImageDataInline.h
+	OCIOSystem.h
     OpenGL.h
     OpenGLMesh.h
     OpenGLMeshInline.h
@@ -63,6 +65,7 @@ set(source
     Image.cpp
     ImageConvert.cpp
     ImageData.cpp
+	OCIOSystem.cpp
     OpenGLMesh.cpp
     OpenGLOffscreenBuffer.cpp
     OpenGLShader.cpp
@@ -125,6 +128,7 @@ set(LIBRARIES
     glad
     GLFW
     FreeType
+	OCIO
     IlmBase
     OpenAL
     OpenGL::GL
