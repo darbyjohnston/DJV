@@ -31,6 +31,7 @@
 
 #include <djvCore/String.h>
 
+#include <climits>
 #include <iomanip>
 
 namespace djv

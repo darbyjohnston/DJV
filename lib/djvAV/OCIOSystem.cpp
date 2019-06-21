@@ -43,7 +43,7 @@ namespace djv
     {
         struct OCIOSystem::Private
         {
-            OCIO::ConstConfigRcPtr ocioConfig = nullptr;
+            OCIO::ConstConfigRcPtr ocioConfig;
         };
 
         void OCIOSystem::_init(Core::Context * context)
