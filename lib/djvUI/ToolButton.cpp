@@ -231,6 +231,20 @@ namespace djv
                 _p->layout->setMargin(value);
             }
 
+            void Tool::setForegroundColorRole(ColorRole value)
+            {
+                IButton::setForegroundColorRole(value);
+                DJV_PRIVATE_PTR();
+                if (p.icon)
+                {
+                    p.icon->setIconColorRole(isChecked() ? ColorRole::Checked : getForegroundColorRole());
+                }
+                if (p.label)
+                {
+                    p.label->setTextColorRole(isChecked() ? ColorRole::Checked : getForegroundColorRole());
+                }
+            }
+
             void Tool::_preLayoutEvent(Event::PreLayout & event)
             {
                 _setMinimumSize(_p->layout->getMinimumSize());

@@ -71,14 +71,15 @@ namespace djv
             {
                 if (auto widget = weak.lock())
                 {
-                    if (auto mdiWidget = std::dynamic_pointer_cast<MDIWidget>(value))
+                    auto mdiWidget = std::dynamic_pointer_cast<MDIWidget>(value);
+                    if (mdiWidget)
                     {
                         auto fileSystem = context->getSystemT<FileSystem>();
                         fileSystem->setCurrentMedia(mdiWidget->getMedia());
-                        if (widget->_p->activeCallback)
-                        {
-                            widget->_p->activeCallback(mdiWidget);
-                        }
+                    }
+                    if (widget->_p->activeCallback)
+                    {
+                        widget->_p->activeCallback(mdiWidget);
                     }
                 }
             });

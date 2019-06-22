@@ -60,6 +60,7 @@ namespace djv
 
         protected:
             std::map<UI::MDI::Handle, std::vector<Core::BBox2f> > _getHandles() const override;
+            void _setActiveWidget(bool) override;
 
             void _preLayoutEvent(Core::Event::PreLayout &) override;
             void _layoutEvent(Core::Event::Layout &) override;

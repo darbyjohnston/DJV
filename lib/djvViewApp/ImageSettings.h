@@ -52,6 +52,16 @@ namespace djv
         public:
             static std::shared_ptr<ImageSettings> create(Core::Context *);
 
+            std::shared_ptr<Core::IValueSubject<std::string> > observeInputColorSpace() const;
+            std::shared_ptr<Core::IValueSubject<std::string> > observeOutputColorSpace() const;
+            void setInputColorSpace(const std::string&);
+
+            std::shared_ptr<Core::IValueSubject<std::string> > observeColorDisplay() const;
+            void setColorDisplay(const std::string&);
+
+            std::shared_ptr<Core::IValueSubject<std::string> > observeColorView() const;
+            void setColorView(const std::string&);
+
             std::shared_ptr<Core::IValueSubject<ImageRotate> > observeImageRotate() const;
             void setImageRotate(ImageRotate);
 
@@ -62,6 +72,8 @@ namespace djv
             picojson::value save() override;
 
         private:
+            std::string _getOutputColorSpace() const;
+
             DJV_PRIVATE();
         };
 

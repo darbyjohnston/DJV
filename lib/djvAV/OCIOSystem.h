@@ -71,7 +71,9 @@ namespace djv
 
             std::shared_ptr<Core::IListSubject<std::string> > observeColorSpaces() const;
             std::shared_ptr<Core::IListSubject<OCIODisplay> > observeDisplays() const;
-            std::shared_ptr<Core::IValueSubject<std::string> > observeDefaultDisplay() const;
+
+            const std::string& getDefaultDisplay() const;
+            const std::string& getDefaultView() const;
 
         private:
             DJV_PRIVATE();

@@ -117,7 +117,7 @@ namespace djv
 
         std::string ImageViewSettingsWidget::getSettingsName() const
         {
-            return DJV_TEXT("Image");
+            return DJV_TEXT("Image View");
         }
 
         std::string ImageViewSettingsWidget::getSettingsGroup() const

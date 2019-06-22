@@ -65,11 +65,10 @@ namespace djv
             std::map<std::string, std::shared_ptr<UI::Action> > getActions() override;
             MenuData getMenu() override;
 
-        protected:
-            void _imageUpdate();
+        private:
+            void _actionUpdate();
             void _textUpdate();
 
-        private:
             DJV_PRIVATE();
         };
 

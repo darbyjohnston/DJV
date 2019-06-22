@@ -310,10 +310,6 @@ namespace djv
                     const float sh = style->getMetric(MetricsRole::Shadow);
                     auto render = _getRender();
                     render->setFillColor(style->getColor(ColorRole::Handle));
-                    if (p.active)
-                    {
-                        render->drawRect(BBox2f(g.min.x + sh, g.min.y + h - m, g.w() - sh * 2.f, m));
-                    }
                     const auto& handles = _getHandlesDraw();
                     const auto i = handles.find(p.pressed);
                     if (i != handles.end())

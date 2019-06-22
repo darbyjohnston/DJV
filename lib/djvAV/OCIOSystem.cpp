@@ -62,7 +62,8 @@ namespace djv
             OCIO::ConstConfigRcPtr ocioConfig;
             std::shared_ptr<ListSubject<std::string> > colorSpaces;
             std::shared_ptr<ListSubject<OCIODisplay> > displays;
-            std::shared_ptr<ValueSubject<std::string> > defaultDisplay;
+            std::string defaultDisplay;
+            std::string defaultView;
         };
 
         void OCIOSystem::_init(Core::Context * context)
@@ -74,7 +75,6 @@ namespace djv
             DJV_PRIVATE_PTR();
             std::vector<std::string> colorSpaces;
             std::vector<OCIODisplay> displays;
-            std::string defaultDisplay;
             try
             {
                 p.ocioConfig = OCIO::GetCurrentConfig();
@@ -98,10 +98,10 @@ namespace djv
                     _log(ss.str());
                 }
 
-                defaultDisplay = p.ocioConfig->getDefaultDisplay();
+                p.defaultDisplay = p.ocioConfig->getDefaultDisplay();
                 {
                     std::stringstream ss;
-                    ss << "Default display: " << defaultDisplay;
+                    ss << "Default display: " << p.defaultDisplay;
                     _log(ss.str());
                 }
 
@@ -111,6 +111,10 @@ namespace djv
                     OCIODisplay display;
                     display.name = displayName;
                     display.defaultView = p.ocioConfig->getDefaultView(displayName);
+                    if (display.name == p.defaultDisplay)
+                    {
+                        p.defaultView = display.defaultView;
+                    }
                     {
                         std::stringstream ss;
                         ss << "Display: " << display.name;
@@ -157,7 +161,6 @@ namespace djv
 
             p.colorSpaces = ListSubject<std::string>::create(colorSpaces);
             p.displays = ListSubject<OCIODisplay>::create(displays);
-            p.defaultDisplay = ValueSubject<std::string>::create(defaultDisplay);
         }
 
         OCIOSystem::OCIOSystem() :
@@ -184,9 +187,14 @@ namespace djv
             return _p->displays;
         }
 
-        std::shared_ptr<Core::IValueSubject<std::string> > OCIOSystem::observeDefaultDisplay() const
+        const std::string& OCIOSystem::getDefaultDisplay() const
         {
             return _p->defaultDisplay;
+        }
+
+        const std::string& OCIOSystem::getDefaultView() const
+        {
+            return _p->defaultView;
         }
 
     } // namespace AV

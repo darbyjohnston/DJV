@@ -227,7 +227,10 @@ namespace djv
                     {
                         if (auto system = weak.lock())
                         {
-                            system->_p->activeWidget->setIfChanged(value);
+                            if (system->_p->activeWidget->setIfChanged(value))
+                            {
+                                system->_actionUpdate();
+                            }
                         }
                     });
             }
@@ -360,6 +363,8 @@ namespace djv
         {
             DJV_PRIVATE_PTR();
             p.actions["Maximized"]->setChecked(static_cast<int>(p.maximized->get()));
+            const bool activeWidget = p.activeWidget->get().get();
+            p.actions["Maximized"]->setEnabled(activeWidget);
         }
 
         void WindowSystem::_textUpdate()

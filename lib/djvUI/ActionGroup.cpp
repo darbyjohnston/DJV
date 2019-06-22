@@ -97,10 +97,9 @@ namespace djv
 
             auto weak = std::weak_ptr<ActionGroup>(std::dynamic_pointer_cast<ActionGroup>(shared_from_this()));
             const int index = static_cast<int>(p.actions.size());
-            p.clickedObservers[action] =
-                ValueObserver<bool>::create(
-                    action->observeClicked(),
-                    [weak, index](bool value)
+            p.clickedObservers[action] = ValueObserver<bool>::create(
+                action->observeClicked(),
+                [weak, index](bool value)
             {
                 if (value)
                 {
@@ -114,10 +113,9 @@ namespace djv
                 }
             });
 
-            p.checkedObservers[action] =
-                ValueObserver<bool>::create(
-                    action->observeChecked(),
-                    [weak, index](bool value)
+            p.checkedObservers[action] = ValueObserver<bool>::create(
+                action->observeChecked(),
+                [weak, index](bool value)
             {
                 if (auto group = weak.lock())
                 {

@@ -75,7 +75,7 @@ namespace djv
                     p.shortcuts->pushBack(shortcut);
                 }
                 p.viewType = ValueSubject<ViewType>::create(ViewType::Tiles);
-                p.thumbnailSize = ValueSubject<AV::Image::Size>::create(AV::Image::Size(100, 50));
+                p.thumbnailSize = ValueSubject<AV::Image::Size>::create(AV::Image::Size(200, 100));
                 p.listViewHeaderSplit = ListSubject<float>::create({ .7f, .8f, 1.f });
                 p.fileSequences = ValueSubject<bool>::create(false);
                 p.showHidden = ValueSubject<bool>::create(false);

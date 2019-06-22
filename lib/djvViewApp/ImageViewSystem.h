@@ -58,12 +58,12 @@ namespace djv
             std::map<std::string, std::shared_ptr<UI::Action> > getActions() override;
             MenuData getMenu() override;
 
-        protected:
-            void _textUpdate();
-
         private:
             void _moveImage(const glm::vec2&);
             void _zoomImage(float);
+
+            void _actionUpdate();
+            void _textUpdate();
 
             DJV_PRIVATE();
         };

@@ -680,6 +680,9 @@ namespace djv
             IWidget::_setActiveWidget(value);
             DJV_PRIVATE_PTR();
             p.active = value;
+            p.titleLabel->setTextColorRole(p.active ? UI::ColorRole::Foreground : UI::ColorRole::ForegroundDim);
+            p.maximizeButton->setForegroundColorRole(p.active ? UI::ColorRole::Foreground : UI::ColorRole::ForegroundDim);
+            p.closeButton->setForegroundColorRole(p.active ? UI::ColorRole::Foreground : UI::ColorRole::ForegroundDim);
             _imageUpdate();
         }
 

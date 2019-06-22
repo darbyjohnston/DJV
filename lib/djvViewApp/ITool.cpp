@@ -164,6 +164,14 @@ namespace djv
             return out;
         }
 
+        void ITool::_setActiveWidget(bool value)
+        {
+            IWidget::_setActiveWidget(value);
+            DJV_PRIVATE_PTR();
+            p.titleLabel->setTextColorRole(value ? UI::ColorRole::Foreground : UI::ColorRole::ForegroundDim);
+            p.closeButton->setForegroundColorRole(value ? UI::ColorRole::Foreground : UI::ColorRole::ForegroundDim);
+        }
+
         void ITool::_preLayoutEvent(Event::PreLayout & event)
         {
             _setMinimumSize(_p->layout->getMinimumSize());

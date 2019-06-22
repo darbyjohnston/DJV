@@ -146,6 +146,8 @@ namespace djv
             p.menu->addAction(p.actions["Grid"]);
             p.menu->addAction(p.actions["HUD"]);
 
+            _actionUpdate();
+
             auto weak = std::weak_ptr<ImageViewSystem>(std::dynamic_pointer_cast<ImageViewSystem>(shared_from_this()));
             p.clickedObservers["Left"] = ValueObserver<bool>::create(
                 p.actions["Left"]->observeClicked(),
@@ -368,6 +370,7 @@ namespace djv
                                         }
                                     });
                             }
+                            system->_actionUpdate();
                         }
                     });
             }
@@ -449,6 +452,63 @@ namespace djv
             };
         }
 
+        void ImageViewSystem::_moveImage(const glm::vec2& value)
+        {
+            DJV_PRIVATE_PTR();
+            if (auto widget = p.activeWidget)
+            {
+                auto uiSystem = getContext()->getSystemT<UI::UISystem>();
+                auto style = uiSystem->getStyle();
+                const float m = style->getMetric(UI::MetricsRole::Move);
+                auto imageView = widget->getImageView();
+                imageView->setImagePos(imageView->observeImagePos()->get() + value * m);
+            }
+        }
+
+        void ImageViewSystem::_zoomImage(float value)
+        {
+            DJV_PRIVATE_PTR();
+            if (auto widget = p.activeWidget)
+            {
+                auto imageView = widget->getImageView();
+                const float w = imageView->getWidth();
+                const float h = imageView->getHeight();
+                glm::vec2 focus = glm::vec2(0.f, 0.f);
+                if (BBox2f(0.f, 0.f, w, h).contains(p.hoverPos))
+                {
+                    focus = p.hoverPos;
+                }
+                else
+                {
+                    focus.x = w / 2.f;
+                    focus.y = h / 2.f;
+                }
+                imageView->setImageZoomFocus(value, focus);
+            }
+        }
+
+        void ImageViewSystem::_actionUpdate()
+        {
+            DJV_PRIVATE_PTR();
+            const bool activeWidget = p.activeWidget.get();
+            p.actions["Left"]->setEnabled(activeWidget);
+            p.actions["Right"]->setEnabled(activeWidget);
+            p.actions["Up"]->setEnabled(activeWidget);
+            p.actions["Down"]->setEnabled(activeWidget);
+            p.actions["NW"]->setEnabled(activeWidget);
+            p.actions["NE"]->setEnabled(activeWidget);
+            p.actions["SE"]->setEnabled(activeWidget);
+            p.actions["SW"]->setEnabled(activeWidget);
+            p.actions["ZoomIn"]->setEnabled(activeWidget);
+            p.actions["ZoomOut"]->setEnabled(activeWidget);
+            p.actions["Fit"]->setEnabled(activeWidget);
+            p.actions["Center"]->setEnabled(activeWidget);
+            p.actions["LockFit"]->setEnabled(activeWidget);
+            p.actions["LockCenter"]->setEnabled(activeWidget);
+            p.actions["Grid"]->setEnabled(activeWidget);
+            p.actions["HUD"]->setEnabled(activeWidget);
+        }
+
         void ImageViewSystem::_textUpdate()
         {
             DJV_PRIVATE_PTR();
@@ -486,41 +546,6 @@ namespace djv
             p.actions["HUD"]->setTooltip(_getText(DJV_TEXT("HUD tooltip")));
 
             p.menu->setText(_getText(DJV_TEXT("View")));
-        }
-
-        void ImageViewSystem::_moveImage(const glm::vec2& value)
-        {
-            DJV_PRIVATE_PTR();
-            if (auto widget = p.activeWidget)
-            {
-                auto uiSystem = getContext()->getSystemT<UI::UISystem>();
-                auto style = uiSystem->getStyle();
-                const float m = style->getMetric(UI::MetricsRole::Move);
-                auto imageView = widget->getImageView();
-                imageView->setImagePos(imageView->observeImagePos()->get() + value * m);
-            }
-        }
-
-        void ImageViewSystem::_zoomImage(float value)
-        {
-            DJV_PRIVATE_PTR();
-            if (auto widget = p.activeWidget)
-            {
-                auto imageView = widget->getImageView();
-                const float w = imageView->getWidth();
-                const float h = imageView->getHeight();
-                glm::vec2 focus = glm::vec2(0.f, 0.f);
-                if (BBox2f(0.f, 0.f, w, h).contains(p.hoverPos))
-                {
-                    focus = p.hoverPos;
-                }
-                else
-                {
-                    focus.x = w / 2.f;
-                    focus.y = h / 2.f;
-                }
-                imageView->setImageZoomFocus(value, focus);
-            }
         }
 
     } // namespace ViewApp

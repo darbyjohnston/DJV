@@ -51,6 +51,8 @@ namespace djv
         {
             std::shared_ptr<AV::Image::Image> image;
             std::shared_ptr<ValueSubject<AV::Render::ImageOptions> > imageOptions;
+            std::shared_ptr<ValueSubject<std::string> > colorDisplay;
+            std::shared_ptr<ValueSubject<std::string> > colorView;
             std::shared_ptr<ValueSubject<glm::vec2> > imagePos;
             std::shared_ptr<ValueSubject<float> > imageZoom;
             std::shared_ptr<ValueSubject<ImageRotate> > imageRotate;
@@ -69,11 +71,16 @@ namespace djv
             setClassName("djv::ViewApp::ImageView");
 
             DJV_PRIVATE_PTR();
-            p.imageOptions = ValueSubject<AV::Render::ImageOptions>::create();
-            p.imagePos = ValueSubject<glm::vec2>::create();
-            p.imageZoom = ValueSubject<float>::create();
             auto settingsSystem = context->getSystemT<UI::Settings::System>();
             auto imageSettings = settingsSystem->getSettingsT<ImageSettings>();
+            AV::Render::ImageOptions imageOptions;
+            imageOptions.colorSpaceXForm.first = imageSettings->observeInputColorSpace()->get();
+            imageOptions.colorSpaceXForm.second = imageSettings->observeOutputColorSpace()->get();
+            p.imageOptions = ValueSubject<AV::Render::ImageOptions>::create(imageOptions);
+            p.colorDisplay = ValueSubject<std::string>::create(imageSettings->observeColorDisplay()->get());
+            p.colorView = ValueSubject<std::string>::create(imageSettings->observeColorView()->get());
+            p.imagePos = ValueSubject<glm::vec2>::create();
+            p.imageZoom = ValueSubject<float>::create();
             p.imageRotate = ValueSubject<ImageRotate>::create(imageSettings->observeImageRotate()->get());
             p.imageAspectRatio = ValueSubject<ImageAspectRatio>::create(imageSettings->observeImageAspectRatio()->get());
 
@@ -144,6 +151,16 @@ namespace djv
             return _p->imageOptions;
         }
 
+        std::shared_ptr<Core::IValueSubject<std::string> > ImageView::observeColorDisplay() const
+        {
+            return _p->colorDisplay;
+        }
+
+        std::shared_ptr<Core::IValueSubject<std::string> > ImageView::observeColorView() const
+        {
+            return _p->colorView;
+        }
+
         void ImageView::setImageOptions(const AV::Render::ImageOptions& value)
         {
             DJV_PRIVATE_PTR();
@@ -152,6 +169,30 @@ namespace djv
                 if (isVisible() && !isClipped())
                 {
                     _resize();
+                }
+            }
+        }
+
+        void ImageView::setColorDisplay(const std::string& value)
+        {
+            DJV_PRIVATE_PTR();
+            if (p.colorDisplay->setIfChanged(value))
+            {
+                if (isVisible() && !isClipped())
+                {
+                    _redraw();
+                }
+            }
+        }
+
+        void ImageView::setColorView(const std::string& value)
+        {
+            DJV_PRIVATE_PTR();
+            if (p.colorView->setIfChanged(value))
+            {
+                if (isVisible() && !isClipped())
+                {
+                    _redraw();
                 }
             }
         }

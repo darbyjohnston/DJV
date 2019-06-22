@@ -342,29 +342,27 @@ namespace djv
                 if (auto widget = std::dynamic_pointer_cast<IWidget>(value.getChild()))
                 {
                     widget->removeEventFilter(shared_from_this());
+                    if (widget == p.activeWidget)
                     {
-                        if (widget == p.activeWidget)
+                        if (p.activeWidget)
                         {
-                            if (p.activeWidget)
-                            {
-                                p.activeWidget->_setActiveWidget(false);
-                            }
-                            const auto & children = getChildrenT<IWidget>();
-                            p.activeWidget = children.size() ? children.back() : nullptr;
-                            if (p.activeWidget)
-                            {
-                                p.activeWidget->_setActiveWidget(true);
-                            }
-                            if (p.activeCallback)
-                            {
-                                p.activeCallback(p.activeWidget);
-                            }
+                            p.activeWidget->_setActiveWidget(false);
+                        }
+                        const auto & children = getChildrenT<IWidget>();
+                        p.activeWidget = children.size() ? children.back() : nullptr;
+                        if (p.activeWidget)
+                        {
+                            p.activeWidget->_setActiveWidget(true);
+                        }
+                        if (p.activeCallback)
+                        {
+                            p.activeCallback(p.activeWidget);
                         }
                     }
-                    const auto j = p.widgetToGeometry.find(widget);
-                    if (j != p.widgetToGeometry.end())
+                    const auto i = p.widgetToGeometry.find(widget);
+                    if (i != p.widgetToGeometry.end())
                     {
-                        p.widgetToGeometry.erase(j);
+                        p.widgetToGeometry.erase(i);
                     }
                     _resize();
                 }

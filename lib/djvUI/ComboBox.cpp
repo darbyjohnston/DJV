@@ -177,7 +177,6 @@ namespace djv
                 return;
             p.items = value;
             _updateItems();
-            setCurrentItem(p.currentItem);
         }
 
         void ComboBox::addItem(const std::string & value)
