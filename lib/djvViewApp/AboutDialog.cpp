@@ -30,6 +30,7 @@
 #include <djvViewApp/AboutDialog.h>
 
 #include <djvUI/Label.h>
+#include <djvUI/GridLayout.h>
 #include <djvUI/RowLayout.h>
 #include <djvUI/ScrollWidget.h>
 #include <djvUI/TextBlock.h>
@@ -47,6 +48,7 @@ namespace djv
         struct AboutDialog::Private
         {
             std::map<std::string, std::shared_ptr<UI::Label> > headers;
+            std::map<std::string, std::shared_ptr<UI::Label> > labels;
             std::map<std::string, std::shared_ptr<UI::TextBlock> > textBlocks;
             std::future<std::shared_ptr<AV::Image::Image> > imageFuture;
         };
@@ -58,6 +60,7 @@ namespace djv
             DJV_PRIVATE_PTR();
             setClassName("djv::ViewApp::AboutDialog");
 
+            p.headers["Credits"] = UI::Label::create(context);
             p.headers["Copyright"] = UI::Label::create(context);
             p.headers["Contributors"] = UI::Label::create(context);
             p.headers["ThirdParty"] = UI::Label::create(context);
@@ -68,19 +71,25 @@ namespace djv
                 i.second->setFontSizeRole(UI::MetricsRole::FontLarge);
             }
 
+            p.labels["Credits1"] = UI::Label::create(context);
+            p.labels["Credits1"]->setTextHAlign(UI::TextHAlign::Left);
+            p.textBlocks["Credits1"] = UI::TextBlock::create(context);
+            p.labels["Credits2"] = UI::Label::create(context);
+            p.labels["Credits2"]->setTextHAlign(UI::TextHAlign::Left);
+            p.textBlocks["Credits2"] = UI::TextBlock::create(context);
+            p.labels["Credits3"] = UI::Label::create(context);
+            p.labels["Credits3"]->setTextHAlign(UI::TextHAlign::Left);
+            p.textBlocks["Credits3"] = UI::TextBlock::create(context);
             p.textBlocks["Copyright"] = UI::TextBlock::create(context);
             p.textBlocks["License1"] = UI::TextBlock::create(context);
             p.textBlocks["License2"] = UI::TextBlock::create(context);
             p.textBlocks["License3"] = UI::TextBlock::create(context);
             p.textBlocks["License4"] = UI::TextBlock::create(context);
             p.textBlocks["License5"] = UI::TextBlock::create(context);
-            p.textBlocks["ContributorsHeader"] = UI::TextBlock::create(context);
-            p.textBlocks["ContributorsHeader"]->setFontSizeRole(UI::MetricsRole::FontLarge);
             p.textBlocks["Contributors1"] = UI::TextBlock::create(context);
             p.textBlocks["Contributors2"] = UI::TextBlock::create(context);
             p.textBlocks["Contributors3"] = UI::TextBlock::create(context);
-            p.textBlocks["ThirdPartyHeader"] = UI::TextBlock::create(context);
-            p.textBlocks["ThirdPartyHeader"]->setFontSizeRole(UI::MetricsRole::FontLarge);
+            p.textBlocks["Contributors4"] = UI::TextBlock::create(context);
             p.textBlocks["ThirdParty1"] = UI::TextBlock::create(context);
             p.textBlocks["ThirdParty2"] = UI::TextBlock::create(context);
             p.textBlocks["ThirdParty3"] = UI::TextBlock::create(context);
@@ -98,8 +107,6 @@ namespace djv
             p.textBlocks["ThirdParty14"] = UI::TextBlock::create(context);
             p.textBlocks["ThirdParty15"] = UI::TextBlock::create(context);
             p.textBlocks["ThirdParty16"] = UI::TextBlock::create(context);
-            p.textBlocks["TrademarksHeader"] = UI::TextBlock::create(context);
-            p.textBlocks["TrademarksHeader"]->setFontSizeRole(UI::MetricsRole::FontLarge);
             p.textBlocks["Trademarks1"] = UI::TextBlock::create(context);
             p.textBlocks["Trademarks2"] = UI::TextBlock::create(context);
             p.textBlocks["Trademarks3"] = UI::TextBlock::create(context);
@@ -129,6 +136,25 @@ namespace djv
             textLayout->setSpacing(UI::MetricsRole::SpacingLarge);
             
             auto vLayout = UI::VerticalLayout::create(context);
+            vLayout->addChild(p.headers["Credits"]);
+            auto gridLayout = UI::GridLayout::create(context);
+            gridLayout->addChild(p.labels["Credits1"]);
+            gridLayout->setGridPos(p.labels["Credits1"], glm::ivec2(0, 0));
+            gridLayout->addChild(p.textBlocks["Credits1"]);
+            gridLayout->setGridPos(p.textBlocks["Credits1"], glm::ivec2(1, 0));
+            gridLayout->setStretch(p.textBlocks["Credits1"], UI::GridStretch::Horizontal);
+            gridLayout->addChild(p.labels["Credits2"]);
+            gridLayout->setGridPos(p.labels["Credits2"], glm::ivec2(0, 1));
+            gridLayout->addChild(p.textBlocks["Credits2"]);
+            gridLayout->setGridPos(p.textBlocks["Credits2"], glm::ivec2(1, 1));
+            gridLayout->addChild(p.labels["Credits3"]);
+            gridLayout->setGridPos(p.labels["Credits3"], glm::ivec2(0, 2));
+            gridLayout->addChild(p.textBlocks["Credits3"]);
+            gridLayout->setGridPos(p.textBlocks["Credits3"], glm::ivec2(1, 2));
+            vLayout->addChild(gridLayout);
+            textLayout->addChild(vLayout);
+
+            vLayout = UI::VerticalLayout::create(context);
             vLayout->addChild(p.headers["Copyright"]);
             vLayout->addChild(p.textBlocks["Copyright"]);
             vLayout->addChild(p.textBlocks["License1"]);
@@ -148,6 +174,7 @@ namespace djv
             vLayout2->setSpacing(UI::MetricsRole::None);
             vLayout2->addChild(p.textBlocks["Contributors2"]);
             vLayout2->addChild(p.textBlocks["Contributors3"]);
+            vLayout2->addChild(p.textBlocks["Contributors4"]);
             vLayout->addChild(vLayout2);
             textLayout->addChild(vLayout);
             
@@ -211,6 +238,7 @@ namespace djv
 
             auto scrollWidget = UI::ScrollWidget::create(UI::ScrollType::Vertical, context);
             scrollWidget->setBorder(false);
+            scrollWidget->setShadowOverlay({ UI::Side::Top });
             scrollWidget->addChild(textLayout);
             addChild(scrollWidget);
             setStretch(scrollWidget, UI::RowStretch::Expand);
@@ -240,11 +268,18 @@ namespace djv
             ss << " " << DJV_VERSION;
             setTitle(ss.str());
 
+            p.headers["Credits"]->setText(_getText(DJV_TEXT("Credits")));
             p.headers["Copyright"]->setText(_getText(DJV_TEXT("Copyright and License")));
             p.headers["Contributors"]->setText(_getText(DJV_TEXT("Contributors")));
             p.headers["ThirdParty"]->setText(_getText(DJV_TEXT("Third Party")));
             p.headers["Trademarks"]->setText(_getText(DJV_TEXT("Trademarks")));
 
+            p.labels["Credits1"]->setText(_getText(DJV_TEXT("Credits Darby Johnston")));
+            p.textBlocks["Credits1"]->setText(_getText(DJV_TEXT("Credits Darby Johnston Text")));
+            p.labels["Credits2"]->setText(_getText(DJV_TEXT("Credits Kent Oberheu")));
+            p.textBlocks["Credits2"]->setText(_getText(DJV_TEXT("Credits Kent Oberheu Text")));
+            p.labels["Credits3"]->setText(_getText(DJV_TEXT("Credits Mikael Sundell")));
+            p.textBlocks["Credits3"]->setText(_getText(DJV_TEXT("Credits Mikael Sundell Text")));
             p.textBlocks["Copyright"]->setText(_getText(DJV_TEXT("Copyright")));
             p.textBlocks["License1"]->setText(_getText(DJV_TEXT("License 1")));
             p.textBlocks["License2"]->setText(_getText(DJV_TEXT("License 2")));
@@ -254,6 +289,7 @@ namespace djv
             p.textBlocks["Contributors1"]->setText(_getText(DJV_TEXT("Contributors Text")));
             p.textBlocks["Contributors2"]->setText(_getText(DJV_TEXT("Contributors Darby Johnston")));
             p.textBlocks["Contributors3"]->setText(_getText(DJV_TEXT("Contributors Mikael Sundell")));
+            p.textBlocks["Contributors4"]->setText(_getText(DJV_TEXT("Contributors Kent Oberheu")));
             p.textBlocks["ThirdParty1"]->setText(_getText(DJV_TEXT("Third Party Text")));
             p.textBlocks["ThirdParty2"]->setText(_getText(DJV_TEXT("Third Party CMake")));
             p.textBlocks["ThirdParty3"]->setText(_getText(DJV_TEXT("Third Party dr_libs")));

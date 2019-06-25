@@ -1020,6 +1020,36 @@
         "description": ""
     }, 
     {
+        "text": "Darby Johnston", 
+        "id": "Credits Darby Johnston", 
+        "description": ""
+    }, 
+    {
+        "text": "- Principal author", 
+        "id": "Credits Darby Johnston Text", 
+        "description": ""
+    }, 
+    {
+        "text": "Kent Oberheu", 
+        "id": "Credits Kent Oberheu", 
+        "description": ""
+    }, 
+    {
+        "text": "- Identity, Iconography, UI / UX design", 
+        "id": "Credits Kent Oberheu Text", 
+        "description": ""
+    }, 
+    {
+        "text": "Mikael Sundell", 
+        "id": "Credits Mikael Sundell", 
+        "description": ""
+    }, 
+    {
+        "text": "- IFF image file format support, example images", 
+        "id": "Credits Mikael Sundell Text", 
+        "description": ""
+    }, 
+    {
         "text": "Copyright (c) 2004-2019 Darby Johnston. All rights reserved.", 
         "id": "Copyright", 
         "description": ""
@@ -1057,6 +1087,11 @@
     {
         "text": "* Copyright (c) 2004-2019 Darby Johnston. All rights reserved.", 
         "id": "Contributors Darby Johnston", 
+        "description": ""
+    }, 
+    {
+        "text": "* Copyright (c) 2019 Kent Oberheu. All rights reserved.", 
+        "id": "Contributors Kent Oberheu", 
         "description": ""
     }, 
     {

@@ -80,6 +80,7 @@ set(legal
     ../LICENSE_FreeType.txt
     ../LICENSE_GLFW.md
     ../LICENSE_GLM.txt
+    ../LICENSE_Icons.txt
     ../LICENSE_OFL.txt
     ../LICENSE_OpenAL.txt
     ../LICENSE_OCIO.txt
