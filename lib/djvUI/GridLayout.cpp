@@ -210,6 +210,46 @@ namespace djv
                 const auto& style = _getStyle();
                 const glm::vec2 m = getMargin().getSize(style);
                 const glm::ivec2 gridSize = getGridSize();
+                float minimumWidth = 0.f;
+                std::vector<float> minimumWidths;
+                std::map<Orientation, std::vector<bool> > expandList;
+                std::map<Orientation, size_t> expandCount =
+                {
+                    { Orientation::Horizontal, 0 },
+                    { Orientation::Vertical,   0 }
+                };
+                for (int x = 0; x < gridSize.x; ++x)
+                {
+                    float minimumWidthMax = 0.f;
+                    bool expand = false;
+                    for (int y = 0; y < gridSize.y; ++y)
+                    {
+                        const auto i = p.widgets.find(glm::ivec2(x, y));
+                        if (i != p.widgets.end())
+                        {
+                            if (i->second->isVisible())
+                            {
+                                minimumWidthMax = std::max(i->second->getMinimumSize().x, minimumWidthMax);
+                                switch (p.stretch[i->first])
+                                {
+                                case GridStretch::Both:
+                                case GridStretch::Horizontal: expand = true; break;
+                                default: break;
+                                }
+                            }
+                        }
+                    }
+                    minimumWidths.push_back(minimumWidthMax);
+                    expandList[Orientation::Horizontal].push_back(expand);
+                    if (expand)
+                    {
+                        ++expandCount[Orientation::Horizontal];
+                    }
+                    else
+                    {
+                        minimumWidth += minimumWidthMax;
+                    }
+                }
                 for (int y = 0; y < gridSize.y; ++y)
                 {
                     float heightForWidth = 0.f;
@@ -220,7 +260,13 @@ namespace djv
                         {
                             if (i->second->isVisible())
                             {
-                                heightForWidth = std::max(i->second->getHeightForWidth(value - m.x), heightForWidth);
+                                float w = 0.f;
+                                if (expandList[Orientation::Horizontal][x])
+                                {
+                                    w = ((value - m.x) - minimumWidth) / static_cast<float>(expandCount[Orientation::Horizontal]);
+                                }
+                                w = std::max(w, minimumWidths[x]);
+                                heightForWidth = std::max(i->second->getHeightForWidth(w), heightForWidth);
                             }
                         }
                     }
@@ -329,6 +375,7 @@ namespace djv
             {
                 DJV_PRIVATE_PTR();
 
+                const auto& style = _getStyle();
                 const BBox2f & g = getGeometry();
                 const float gw = g.w();
                 const float gh = g.h();
@@ -364,16 +411,15 @@ namespace djv
                             }
                         }
                     }
+                    minimumSizes[Orientation::Horizontal].push_back(minimumSizeMax);
                     expandList[Orientation::Horizontal].push_back(expand);
                     if (expand)
                     {
-                        minimumSizes[Orientation::Horizontal].push_back(0.f);
                         ++expandCount[Orientation::Horizontal];
                     }
                     else
                     {
                         minimumSize.x += minimumSizeMax;
-                        minimumSizes[Orientation::Horizontal].push_back(minimumSizeMax);
                     }
                 }
                 for (int y = 0; y < gridSize.y; ++y)
@@ -387,7 +433,14 @@ namespace djv
                         {
                             if (i->second->isVisible())
                             {
-                                minimumSizeMax = std::max(i->second->getHeightForWidth(gw), minimumSizeMax);
+                                float w = 0.f;
+                                if (expandList[Orientation::Horizontal][x])
+                                {
+                                    w = (gw - getMargin().getWidth(style) - minimumSize.x) / static_cast<float>(expandCount[Orientation::Horizontal]);
+                                }
+                                w = std::max(w, minimumSizes[Orientation::Horizontal][x]);
+
+                                minimumSizeMax = std::max(i->second->getHeightForWidth(w), minimumSizeMax);
                                 switch (p.stretch[i->first])
                                 {
                                 case GridStretch::Both:
@@ -397,21 +450,19 @@ namespace djv
                             }
                         }
                     }
+                    minimumSizes[Orientation::Vertical].push_back(minimumSizeMax);
                     expandList[Orientation::Vertical].push_back(expand);
                     if (expand)
                     {
-                        minimumSizes[Orientation::Vertical].push_back(0.f);
                         ++expandCount[Orientation::Vertical];
                     }
                     else
                     {
                         minimumSize.y += minimumSizeMax;
-                        minimumSizes[Orientation::Vertical].push_back(minimumSizeMax);
                     }
                 }
 
                 // Adjust for spacing.
-                const auto& style = _getStyle();
                 const glm::vec2 s = p.spacing.get(style);
                 if (gridSize.x)
                 {
@@ -432,10 +483,7 @@ namespace djv
                     {
                         w = (gw - getMargin().getWidth(style) - minimumSize.x) / static_cast<float>(expandCount[Orientation::Horizontal]);
                     }
-                    else
-                    {
-                        w = minimumSizes[Orientation::Horizontal][x];
-                    }
+                    w = std::max(w, minimumSizes[Orientation::Horizontal][x]);
                     for (int y = 0; y < gridSize.y; ++y)
                     {
                         const auto i = p.widgets.find(glm::ivec2(x, y));
@@ -456,10 +504,7 @@ namespace djv
                     {
                         h = (gh - getMargin().getHeight(style) - minimumSize.y) / static_cast<float>(expandCount[Orientation::Vertical]);
                     }
-                    else
-                    {
-                        h = minimumSizes[Orientation::Vertical][y];
-                    }
+                    h = std::max(h, minimumSizes[Orientation::Vertical][y]);
                     for (int x = 0; x < gridSize.x; ++x)
                     {
                         const auto i = p.widgets.find(glm::ivec2(x, y));
