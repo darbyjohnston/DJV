@@ -286,11 +286,10 @@ namespace djv
                 if (p.maximized < 1.f)
                 {
                     const auto& style = _getStyle();
-                    const float h = style->getMetric(MetricsRole::Handle);
                     const float sh = style->getMetric(MetricsRole::Shadow);
                     auto render = _getRender();
                     render->setFillColor(style->getColor(ColorRole::Shadow));
-                    const BBox2f& g = getGeometry().margin(0, -h, 0, 0);
+                    const BBox2f& g = getGeometry().margin(0, -sh, 0, 0);
                     if (g.isValid())
                     {
                         render->drawShadow(g, sh);
@@ -306,7 +305,6 @@ namespace djv
                     const auto& style = _getStyle();
                     const BBox2f& g = getGeometry();
                     const float m = style->getMetric(MetricsRole::MarginSmall);
-                    const float h = style->getMetric(MetricsRole::Handle);
                     const float sh = style->getMetric(MetricsRole::Shadow);
                     auto render = _getRender();
                     render->setFillColor(style->getColor(ColorRole::Handle));

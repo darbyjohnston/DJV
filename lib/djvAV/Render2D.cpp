@@ -40,10 +40,13 @@
 
 #include <djvCore/Cache.h>
 #include <djvCore/Context.h>
+#include <djvCore/FileIO.h>
 #include <djvCore/LogSystem.h>
 #include <djvCore/Range.h>
 #include <djvCore/ResourceSystem.h>
 #include <djvCore/Timer.h>
+
+#include <OpenColorIO/OpenColorIO.h>
 
 #include <glm/gtc/matrix_transform.hpp>
 
@@ -52,6 +55,7 @@
 #include <locale>
 
 using namespace djv::Core;
+namespace OCIO = OCIO_NAMESPACE;
 
 namespace djv
 {
@@ -65,6 +69,8 @@ namespace djv
                 const size_t textureAtlasCount        = 4;
                 const size_t textureAtlasSize         = 8192;
                 const size_t dynamicTextureCacheCount = 32;
+                const size_t lut3DSize                = 32;
+                const size_t colorXFormCacheCount     = 32;
 
                 enum class ImageFormat
                 {
@@ -93,6 +99,8 @@ namespace djv
                     GLint imageFormatLoc = 0;
                     GLint imageChannelLoc = 0;
                     GLint textureSamplerLoc = 0;
+                    GLint colorXFormLoc = 0;
+                    GLint colorXFormSamplerLoc = 0;
                 };
 
                 class Primitive
@@ -126,12 +134,14 @@ namespace djv
                 class ImagePrimitive : public Primitive
                 {
                 public:
-                    ColorMode    colorMode = ColorMode::SolidColor;
-                    ImageFormat  imageFormat = ImageFormat::RGBA;
+                    ColorMode    colorMode    = ColorMode::SolidColor;
+                    ImageFormat  imageFormat  = ImageFormat::RGBA;
                     ImageChannel imageChannel = ImageChannel::Color;
-                    ImageCache   imageCache = ImageCache::Atlas;
-                    uint8_t      atlasIndex = 0;
-                    GLuint       textureID = 0;
+                    ImageCache   imageCache   = ImageCache::Atlas;
+                    uint8_t      atlasIndex   = 0;
+                    GLuint       textureID    = 0;
+                    uint8_t      colorXForm   = 0;
+                    GLuint       colorXFormID = 0;
 
                     void bind(const PrimitiveData& data, const std::shared_ptr<OpenGL::Shader>& shader) override
                     {
@@ -150,6 +160,13 @@ namespace djv
                             shader->setUniform(data.textureSamplerLoc, static_cast<int>(data.atlasTexturesCount));
                             break;
                         default: break;
+                        }
+                        shader->setUniform(data.colorXFormLoc, colorXForm);
+                        if (colorXForm > 0)
+                        {
+                            glActiveTexture(static_cast<GLenum>(GL_TEXTURE0 + data.atlasTexturesCount + 1));
+                            glBindTexture(GL_TEXTURE_3D, colorXFormID);
+                            shader->setUniform(data.colorXFormSamplerLoc, static_cast<int>(data.atlasTexturesCount + 1));
                         }
                     }
                 };
@@ -178,6 +195,90 @@ namespace djv
                     }
                 };
 
+                class LUT3D
+                {
+                    DJV_NON_COPYABLE(LUT3D);
+
+                public:
+                    LUT3D(size_t edgeLen = lut3DSize) :
+                        _edgeLen(edgeLen),
+                        _data(new float[3 * edgeLen * edgeLen * edgeLen])
+                    {
+                        glGenTextures(1, &_id);
+                        glBindTexture(GL_TEXTURE_3D, _id);
+                        glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+                        glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+                        glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
+                        glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+                        glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+                        GLenum internalFormat = GL_RGB;
+                        glTexImage3D(
+                            GL_TEXTURE_3D,
+                            0,
+                            internalFormat,
+                            edgeLen,
+                            edgeLen,
+                            edgeLen,
+                            0,
+                            GL_RGB,
+                            GL_FLOAT,
+                            0);
+                    }
+
+                    ~LUT3D()
+                    {
+                        if (_id)
+                        {
+                            glDeleteTextures(1, &_id);
+                            _id = 0;
+                        }
+                        delete[] _data;
+                    }
+
+                    int getEdgeLen() const { return _edgeLen; }
+                    float* getData() { return _data; }
+                    const float* getData() const { return _data; }
+                    GLuint getID() const { return _id; }
+
+                    void copy()
+                    {
+                        glBindTexture(GL_TEXTURE_3D, _id);
+                        glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+                        glPixelStorei(GL_UNPACK_SKIP_ROWS, 0);
+                        glPixelStorei(GL_UNPACK_SKIP_PIXELS, 0);
+                        glPixelStorei(GL_UNPACK_SKIP_IMAGES, 0);
+                        glTexSubImage3D(
+                            GL_TEXTURE_3D,
+                            0,
+                            0,
+                            0,
+                            0,
+                            _edgeLen,
+                            _edgeLen,
+                            _edgeLen,
+                            GL_RGB,
+                            GL_FLOAT,
+                            _data);
+                    }
+
+                    void bind()
+                    {
+                        glBindTexture(GL_TEXTURE_3D, _id);
+                    }
+
+                private:
+                    size_t _edgeLen = 0;
+                    float* _data = nullptr;
+                    GLuint _id = 0;
+                };
+
+                struct ColorXFormData
+                {
+                    AV::Render::ColorXForm xform;
+                    std::string            shaderSource;
+                    std::shared_ptr<LUT3D> lut3D;
+                };
+
                 struct Render
                 {
                     Render(Context* context)
@@ -187,24 +288,20 @@ namespace djv
                         glGetIntegerv(GL_MAX_TEXTURE_IMAGE_UNITS, &maxTextureUnits);
                         glGetIntegerv(GL_MAX_TEXTURE_SIZE, &maxTextureSize);
                         {
-                            if (auto logSystem = context->getSystemT<LogSystem>())
-                            {
-                                std::stringstream ss;
-                                ss << "Maximum OpenGL texture units: " << maxTextureUnits << "\n";
-                                ss << "Maximum OpenGL texture size: " << maxTextureSize;
-                                logSystem->log("djv::AV::Render::Render2D", ss.str());
-                            }
+                            auto logSystem = context->getSystemT<LogSystem>();
+                            std::stringstream ss;
+                            ss << "Maximum OpenGL texture units: " << maxTextureUnits << "\n";
+                            ss << "Maximum OpenGL texture size: " << maxTextureSize;
+                            logSystem->log("djv::AV::Render::Render2D", ss.str());
                         }
                         const size_t _textureAtlasCount = std::min(size_t(maxTextureUnits), textureAtlasCount);
                         const int _textureAtlasSize = std::min(maxTextureSize, int(textureAtlasSize));
                         {
-                            if (auto logSystem = context->getSystemT<LogSystem>())
-                            {
-                                std::stringstream ss;
-                                ss << "Texture atlas count: " << _textureAtlasCount << "\n";
-                                ss << "Texture atlas size: " << _textureAtlasSize;
-                                logSystem->log("djv::AV::Render::Render2D", ss.str());
-                            }
+                            auto logSystem = context->getSystemT<LogSystem>();
+                            std::stringstream ss;
+                            ss << "Texture atlas count: " << _textureAtlasCount << "\n";
+                            ss << "Texture atlas size: " << _textureAtlasSize;
+                            logSystem->log("djv::AV::Render::Render2D", ss.str());
                         }
                         textureAtlas.reset(new TextureAtlas(
                             _textureAtlasCount,
@@ -215,33 +312,37 @@ namespace djv
 
                         auto resourceSystem = context->getSystemT<ResourceSystem>();
                         const FileSystem::Path shaderPath = resourceSystem->getPath(FileSystem::ResourcePath::ShadersDirectory);
-                        shader = OpenGL::Shader::create(Shader::create(
-                            FileSystem::Path(shaderPath, "djvAVRender2DVertex.glsl"),
-                            FileSystem::Path(shaderPath, "djvAVRender2DFragment.glsl")));
-
-                        shader->bind();
-                        const auto program = shader->getProgram();
-                        mvpLoc = glGetUniformLocation(program, "transform.mvp");
-                        primitiveData.imageFormatLoc = glGetUniformLocation(program, "imageFormat");
-                        primitiveData.imageChannelLoc = glGetUniformLocation(program, "imageChannel");
-                        primitiveData.colorModeLoc = glGetUniformLocation(program, "colorMode");
-                        primitiveData.colorLoc = glGetUniformLocation(program, "color");
-                        primitiveData.textureSamplerLoc = glGetUniformLocation(program, "textureSampler");
+                        try
+                        {
+                            FileSystem::FileIO io;
+                            io.open(FileSystem::Path(shaderPath, "djvAVRender2DVertex.glsl"), FileSystem::FileIO::Mode::Read);
+                            FileSystem::FileIO::readContents(io, vertexSource);
+                            io.close();
+                            io.open(FileSystem::Path(shaderPath, "djvAVRender2DFragment.glsl"), FileSystem::FileIO::Mode::Read);
+                            FileSystem::FileIO::readContents(io, fragmentSource);
+                        }
+                        catch (const std::exception& e)
+                        {
+                            auto logSystem = context->getSystemT<LogSystem>();
+                            logSystem->log("djv::AV::Render::Render2D", e.what(), LogLevel::Error);
+                        }
                     }
 
-                    BBox2f                                             viewport;
-                    std::vector<Primitive*>                            primitives;
-                    PrimitiveData                                      primitiveData;
-                    std::shared_ptr<TextureAtlas>                      textureAtlas;
-                    std::map<UID, uint64_t>                            textureIDs;
-                    std::map<UID, uint64_t>                            glyphTextureIDs;
-                    std::map<UID, std::shared_ptr<OpenGL::Texture> >   dynamicTextureCache;
-                    std::vector<uint8_t>                               vboData;
-                    size_t                                             vboDataSize = 0;
-                    std::shared_ptr<OpenGL::VBO>                       vbo;
-                    std::shared_ptr<OpenGL::VAO>                       vao;
-                    std::shared_ptr<OpenGL::Shader>                    shader;
-                    GLint                                              mvpLoc = 0;
+                    BBox2f                                           viewport;
+                    std::vector<Primitive*>                          primitives;
+                    PrimitiveData                                    primitiveData;
+                    std::shared_ptr<TextureAtlas>                    textureAtlas;
+                    std::map<UID, uint64_t>                          textureIDs;
+                    std::map<UID, uint64_t>                          glyphTextureIDs;
+                    std::map<UID, std::shared_ptr<OpenGL::Texture> > dynamicTextureCache;
+                    std::vector<ColorXFormData>                      colorXFormCache;
+                    std::vector<uint8_t>                             vboData;
+                    size_t                                           vboDataSize = 0;
+                    std::shared_ptr<OpenGL::VBO>                     vbo;
+                    std::shared_ptr<OpenGL::VAO>                     vao;
+                    std::string                                      vertexSource;
+                    std::string                                      fragmentSource;
+                    GLint                                            mvpLoc = 0;
                 };
 
                 BBox2f flip(const BBox2f& value, const Image::Size& size)
@@ -266,6 +367,8 @@ namespace djv
 
             struct Render2D::Private
             {
+                Render2D*                    system           = nullptr;
+
                 Image::Size                  size;
                 std::list<glm::mat3x3>       transforms;
                 glm::mat3x3                  currentTransform = glm::mat3x3(1.f);
@@ -287,15 +390,15 @@ namespace djv
 
                 void updateCurrentTransform();
                 void updateCurrentClipRect();
-                void drawRoundedRect(const Core::BBox2f&, float radius, size_t facets);
+                void updateVBODataSize(size_t);
+
                 void drawImage(
                     const std::shared_ptr<Image::Image>&,
                     const glm::vec2& pos,
                     const ImageOptions&,
                     ColorMode);
 
-                void updatePrimitivesSize(size_t);
-                void updateVBODataSize(size_t);
+                std::string getFragmentSource() const;
             };
 
             void Render2D::_init(Context* context)
@@ -303,6 +406,7 @@ namespace djv
                 ISystem::_init("djv::AV::Render::Render2D", context);
 
                 DJV_PRIVATE_PTR();
+                p.system = this;
 
                 auto fontSystem = context->getSystemT<Font::System>();
                 p.fontSystem = fontSystem;
@@ -369,6 +473,18 @@ namespace djv
             {
                 DJV_PRIVATE_PTR();
 
+                auto shader = OpenGL::Shader::create(Shader::create(p.render->vertexSource, p.getFragmentSource()));
+                shader->bind();
+                const auto program = shader->getProgram();
+                p.render->mvpLoc = glGetUniformLocation(program, "transform.mvp");
+                p.render->primitiveData.imageFormatLoc = glGetUniformLocation(program, "imageFormat");
+                p.render->primitiveData.imageChannelLoc = glGetUniformLocation(program, "imageChannel");
+                p.render->primitiveData.colorModeLoc = glGetUniformLocation(program, "colorMode");
+                p.render->primitiveData.colorLoc = glGetUniformLocation(program, "color");
+                p.render->primitiveData.textureSamplerLoc = glGetUniformLocation(program, "textureSampler");
+                p.render->primitiveData.colorXFormLoc = glGetUniformLocation(program, "colorXForm");
+                p.render->primitiveData.colorXFormSamplerLoc = glGetUniformLocation(program, "colorXFormSampler");
+
 #if defined(DJV_OPENGL_ES2)
 #else // DJV_OPENGL_ES2
                 glEnable(GL_MULTISAMPLE);
@@ -390,14 +506,13 @@ namespace djv
                 glClearColor(0.f, 0.f, 0.f, 0.f);
                 glClear(GL_COLOR_BUFFER_BIT);
 
-                p.render->shader->bind();
                 const auto viewMatrix = glm::ortho(
                     p.render->viewport.min.x,
                     p.render->viewport.max.x,
                     p.render->viewport.max.y,
                     p.render->viewport.min.y,
                     -1.f, 1.f);
-                p.render->shader->setUniform(p.render->mvpLoc, viewMatrix);
+                shader->setUniform(p.render->mvpLoc, viewMatrix);
 
                 const auto& atlasTextures = p.render->textureAtlas->getTextures();
                 p.render->primitiveData.atlasTexturesCount = atlasTextures.size();
@@ -425,7 +540,7 @@ namespace djv
                         static_cast<GLint>(clipRect.min.y),
                         static_cast<GLsizei>(clipRect.w()),
                         static_cast<GLsizei>(clipRect.h()));
-                    primitive->bind(p.render->primitiveData, p.render->shader);
+                    primitive->bind(p.render->primitiveData, shader);
                     p.render->vao->draw(primitive->vaoOffset, primitive->vaoSize);
                 }
 
@@ -1127,9 +1242,14 @@ namespace djv
                 }
             }
 
-            void Render2D::Private::drawRoundedRect(const BBox2f& rect, float radius, size_t facets)
+            void Render2D::Private::updateVBODataSize(size_t value)
             {
-                //! \todo
+                const size_t vertexByteCount = AV::OpenGL::getVertexByteCount(OpenGL::VBOType::Pos2_F32_UV_U16);
+                render->vboDataSize += value * vertexByteCount;
+                if (render->vboDataSize > render->vboData.size())
+                {
+                    render->vboData.resize(render->vboDataSize);
+                }
             }
 
             void Render2D::Private::drawImage(
@@ -1276,6 +1396,53 @@ namespace djv
                         textureV.min = 1.f - textureV.min;
                         textureV.max = 1.f - textureV.max;
                     }
+                    if (!options.colorXForm.first.empty() && !options.colorXForm.second.empty())
+                    {
+                        ColorXFormData xformData;
+                        const size_t size = render->colorXFormCache.size();
+                        size_t i = 0;
+                        for (; i < size; ++i)
+                        {
+                            auto& item = render->colorXFormCache[i];
+                            if (options.colorXForm.first == item.xform.first &&
+                                options.colorXForm.second == item.xform.second)
+                            {
+                                xformData = item;
+                                break;
+                            }
+                        }
+                        if (size == i)
+                        {
+                            try
+                            {
+                                xformData.xform = options.colorXForm;
+                                xformData.lut3D.reset(new LUT3D);
+                                auto config = OCIO::GetCurrentConfig();
+                                auto processor = config->getProcessor(options.colorXForm.first.c_str(), options.colorXForm.second.c_str());
+                                OCIO::GpuShaderDesc shaderDesc;
+                                shaderDesc.setLanguage(OCIO::GPU_LANGUAGE_GLSL_1_3);
+                                std::stringstream ss;
+                                ss << "colorXForm" << (1 + i);
+                                shaderDesc.setFunctionName(ss.str().c_str());
+                                shaderDesc.setLut3DEdgeLen(xformData.lut3D->getEdgeLen());
+                                xformData.shaderSource = processor->getGpuShaderText(shaderDesc);
+                                size_t index = xformData.shaderSource.find("texture3D");
+                                if (index != std::string::npos)
+                                {
+                                    xformData.shaderSource.replace(index, std::string("texture3D").size(), "texture");
+                                }
+                                processor->getGpuLut3D(xformData.lut3D->getData(), shaderDesc);
+                                xformData.lut3D->copy();
+                                render->colorXFormCache.push_back(xformData);
+                            }
+                            catch (const std::exception& e)
+                            {
+                                system->_log(e.what());
+                            }
+                        }
+                        primitive->colorXForm = 1 + i;
+                        primitive->colorXFormID = xformData.lut3D->getID();
+                    }
                     primitive->vaoOffset = render->vboDataSize / AV::OpenGL::getVertexByteCount(OpenGL::VBOType::Pos2_F32_UV_U16);
                     primitive->vaoSize = 6;
 
@@ -1308,14 +1475,47 @@ namespace djv
                 }
             }
 
-            void Render2D::Private::updateVBODataSize(size_t value)
+            std::string Render2D::Private::getFragmentSource() const
             {
-                const size_t vertexByteCount = AV::OpenGL::getVertexByteCount(OpenGL::VBOType::Pos2_F32_UV_U16);
-                render->vboDataSize += value * vertexByteCount;
-                if (render->vboDataSize > render->vboData.size())
+                std::string out = render->fragmentSource;
+
+                std::string functions;
+                std::string body;
+                for (size_t i = 0; i < render->colorXFormCache.size(); ++i)
                 {
-                    render->vboData.resize(render->vboDataSize);
+                    const auto& colorXFormData = render->colorXFormCache[i];
+                    functions += colorXFormData.shaderSource;
+                    {
+                        std::stringstream ss;
+                        if (0 == i)
+                        {
+                            ss << "    if (" << (1 + i) << " == colorXForm)\n";
+                        }
+                        else
+                        {
+                            ss << "    else if (" << (1 + i) << " == colorXForm)\n";
+                        }
+                        ss << "    {\n";
+                        ss << "        t = colorXForm" << (1 + i) << "(t, colorXFormSampler);\n";
+                        ss << "    }\n";
+                        body += ss.str();
+                    }
                 }
+
+                std::string token = "//$colorXFormFunctions";
+                size_t i = out.find(token);
+                if (i != std::string::npos)
+                {
+                    out.replace(i, token.size(), functions);
+                }
+                token = "//$colorXFormBody";
+                i = out.find(token);
+                if (i != std::string::npos)
+                {
+                    out.replace(i, token.size(), body);
+                }
+
+                return out;
             }
 
         } // namespace Render

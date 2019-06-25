@@ -83,7 +83,7 @@ namespace djv
             layout->setStretch(p.childLayout, UI::RowStretch::Expand);
 
             p.layout = UI::VerticalLayout::create(context);
-            p.layout->setMargin(UI::Layout::Margin(UI::MetricsRole::Shadow, UI::MetricsRole::Shadow, UI::MetricsRole::Handle, UI::MetricsRole::Shadow));
+            p.layout->setMargin(UI::MetricsRole::Shadow);
             p.layout->addChild(layout);
             p.layout->setStretch(layout, UI::RowStretch::Expand);
             IWidget::addChild(p.layout);

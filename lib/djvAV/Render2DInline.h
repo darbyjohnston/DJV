@@ -39,7 +39,7 @@ namespace djv
                     channel == other.channel &&
                     premultAlpha == other.premultAlpha &&
                     mirror == other.mirror &&
-                    colorSpaceXForm == other.colorSpaceXForm &&
+                    colorXForm == other.colorXForm &&
                     cache == other.cache;
             }
 

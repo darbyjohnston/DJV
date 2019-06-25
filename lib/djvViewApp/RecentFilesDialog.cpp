@@ -121,6 +121,7 @@ namespace djv
             p.itemView = UI::FileBrowser::ItemView::create(context);
             auto scrollWidget = UI::ScrollWidget::create(UI::ScrollType::Vertical, context);
             scrollWidget->setBorder(false);
+            scrollWidget->setShadowOverlay({ UI::Side::Top });
             scrollWidget->addChild(p.itemView);
 
             p.itemCountLabel = UI::Label::create(context);

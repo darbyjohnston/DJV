@@ -38,6 +38,8 @@ uniform int imageChannel;
 uniform int colorMode;
 uniform vec4 color;
 uniform sampler2D textureSampler;
+uniform int colorXForm = 0;
+uniform sampler3D colorXFormSampler;
 
 // djv::AV::Render::ImageFormat
 #define IMAGE_FORMAT_L    0
@@ -60,6 +62,8 @@ uniform sampler2D textureSampler;
 #define COLOR_MODE_COLOR_WITH_TEXTURE_ALPHA_B 4
 #define COLOR_MODE_COLOR_AND_TEXTURE          5
 #define COLOR_MODE_SHADOW                     6
+
+//$colorXFormFunctions
 
 void main()
 {
@@ -101,8 +105,10 @@ void main()
     }
     else if (COLOR_MODE_COLOR_AND_TEXTURE == colorMode)
     {
+		// Sample the texture.
 		vec4 t = texture(textureSampler, Texture);
 		
+		// Swizzle the channels for the given image format.
 		if (IMAGE_FORMAT_L == imageFormat)
 		{
 			t.g = t.b = t.r;
@@ -121,11 +127,14 @@ void main()
 		{
 		}
 		
-		if (IMAGE_CHANNEL_RED == imageChannel)
-		{
-			t.g = t.r;
-			t.b = t.r;
-		}
+//$colorXFormBody
+
+        // Swizzle the channels for the given image channel configuration.
+        if (IMAGE_CHANNEL_RED == imageChannel)
+        {
+            t.g = t.r;
+            t.b = t.r;
+        }
 		else if (IMAGE_CHANNEL_GREEN == imageChannel)
 		{
 			t.r = t.g;
@@ -143,7 +152,7 @@ void main()
 			t.b = t.a;
 		}
 		
-        FragColor = color * t;
+        FragColor = t * color;
     }
 	else if (COLOR_MODE_SHADOW == colorMode)
 	{

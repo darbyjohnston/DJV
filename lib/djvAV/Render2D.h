@@ -63,7 +63,7 @@ namespace djv
             };
 
             //! This typedef provides the input and output color spaces.
-            typedef std::pair<std::string, std::string> ColorSpaceXForm;
+            typedef std::pair<std::string, std::string> ColorXForm;
 
             //! This eumeration provides the image cache options.
             enum class ImageCache
@@ -78,7 +78,7 @@ namespace djv
                 ImageChannel      channel         = ImageChannel::Color;
                 bool              premultAlpha    = true;
                 AV::Image::Mirror mirror;
-                ColorSpaceXForm   colorSpaceXForm;
+                ColorXForm        colorXForm;
                 ImageCache        cache           = ImageCache::Atlas;
 
                 inline bool operator == (const ImageOptions&) const;

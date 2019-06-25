@@ -29,47 +29,56 @@
 
 #pragma once
 
-#include <djvViewApp/Enum.h>
+#include <djvViewApp/ViewApp.h>
 
-#include <djvUI/ISettings.h>
-
+#include <djvCore/ListObserver.h>
 #include <djvCore/ValueObserver.h>
+
+#include <string>
 
 namespace djv
 {
+    namespace Core
+    {
+        class Context;
+
+    } // namespace Core
+
     namespace ViewApp
     {
-        //! This class provides image settings.
-        class ImageSettings : public UI::Settings::ISettings
+        class ColorSpaceModel : public std::enable_shared_from_this<ColorSpaceModel>
         {
-            DJV_NON_COPYABLE(ImageSettings);
+            DJV_NON_COPYABLE(ColorSpaceModel);
 
         protected:
-            void _init(Core::Context * context);
-
-            ImageSettings();
+            void _init(Core::Context *);
+            ColorSpaceModel();
 
         public:
-            static std::shared_ptr<ImageSettings> create(Core::Context *);
+            ~ColorSpaceModel();
 
+            static std::shared_ptr<ColorSpaceModel> create(Core::Context *);
+
+            std::shared_ptr<Core::IListSubject<std::string> > observeColorSpaces() const;
+            std::shared_ptr<Core::IListSubject<std::string> > observeDisplays() const;
+            std::shared_ptr<Core::IListSubject<std::string> > observeViews() const;
             std::shared_ptr<Core::IValueSubject<std::string> > observeColorSpace() const;
-            std::shared_ptr<Core::IValueSubject<std::string> > observeColorDisplay() const;
-            std::shared_ptr<Core::IValueSubject<std::string> > observeColorView() const;
+            std::shared_ptr<Core::IValueSubject<std::string> > observeDisplay() const;
+            std::shared_ptr<Core::IValueSubject<std::string> > observeView() const;
             std::shared_ptr<Core::IValueSubject<std::string> > observeOutputColorSpace() const;
             void setColorSpace(const std::string&);
-            void setColorDisplay(const std::string&);
-            void setColorView(const std::string&);
+            void setDisplay(const std::string&);
+            void setView(const std::string&);
 
-            std::shared_ptr<Core::IValueSubject<ImageRotate> > observeImageRotate() const;
-            std::shared_ptr<Core::IValueSubject<ImageAspectRatio> > observeImageAspectRatio() const;
-            void setImageRotate(ImageRotate);
-            void setImageAspectRatio(ImageAspectRatio);
-
-            void load(const picojson::value &) override;
-            picojson::value save() override;
+            int colorSpaceToIndex(const std::string&) const;
+            int displayToIndex(const std::string&) const;
+            int viewToIndex(const std::string&) const;
+            std::string indexToColorSpace(int) const;
+            std::string indexToDisplay(int) const;
+            std::string indexToView(int) const;
 
         private:
-            std::string _getOutputColorSpace() const;
+            void _modelUpdate();
 
             DJV_PRIVATE();
         };

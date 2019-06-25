@@ -74,8 +74,8 @@ namespace djv
             auto settingsSystem = context->getSystemT<UI::Settings::System>();
             auto imageSettings = settingsSystem->getSettingsT<ImageSettings>();
             AV::Render::ImageOptions imageOptions;
-            imageOptions.colorSpaceXForm.first = imageSettings->observeInputColorSpace()->get();
-            imageOptions.colorSpaceXForm.second = imageSettings->observeOutputColorSpace()->get();
+            imageOptions.colorXForm.first = imageSettings->observeColorSpace()->get();
+            imageOptions.colorXForm.second = imageSettings->observeOutputColorSpace()->get();
             p.imageOptions = ValueSubject<AV::Render::ImageOptions>::create(imageOptions);
             p.colorDisplay = ValueSubject<std::string>::create(imageSettings->observeColorDisplay()->get());
             p.colorView = ValueSubject<std::string>::create(imageSettings->observeColorView()->get());
@@ -176,25 +176,13 @@ namespace djv
         void ImageView::setColorDisplay(const std::string& value)
         {
             DJV_PRIVATE_PTR();
-            if (p.colorDisplay->setIfChanged(value))
-            {
-                if (isVisible() && !isClipped())
-                {
-                    _redraw();
-                }
-            }
+            p.colorDisplay->setIfChanged(value);
         }
 
         void ImageView::setColorView(const std::string& value)
         {
             DJV_PRIVATE_PTR();
-            if (p.colorView->setIfChanged(value))
-            {
-                if (isVisible() && !isClipped())
-                {
-                    _redraw();
-                }
-            }
+            p.colorView->setIfChanged(value);
         }
 
         std::shared_ptr<IValueSubject<glm::vec2> > ImageView::observeImagePos() const

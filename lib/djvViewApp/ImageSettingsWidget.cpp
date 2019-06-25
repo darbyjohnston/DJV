@@ -29,14 +29,13 @@
 
 #include <djvViewApp/ImageSettingsWidget.h>
 
+#include <djvViewApp/ColorSpaceModel.h>
 #include <djvViewApp/ImageSettings.h>
 
 #include <djvUI/ComboBox.h>
 #include <djvUI/FormLayout.h>
 #include <djvUI/SettingsSystem.h>
 #include <djvUI/ToggleButton.h>
-
-#include <djvAV/OCIOSystem.h>
 
 #include <djvCore/Context.h>
 #include <djvCore/TextSystem.h>
@@ -49,11 +48,7 @@ namespace djv
     {
         struct ImageSettingsWidget::Private
         {
-            std::vector<std::string> colorSpaces;
-            std::vector<AV::OCIODisplay> colorDisplays;
-            std::string inputColorSpace;
-            std::string colorDisplay;
-            std::string colorView;
+            std::shared_ptr<ColorSpaceModel> colorSpaceModel;
             ImageRotate rotate = ImageRotate::First;
             ImageAspectRatio aspectRatio = ImageAspectRatio::First;
 
@@ -65,10 +60,14 @@ namespace djv
             std::shared_ptr<UI::FormLayout> formLayout;
 
             std::shared_ptr<ListObserver<std::string> > colorSpacesObserver;
-            std::shared_ptr<ListObserver<AV::OCIODisplay> > colorDisplaysObserver;
+            std::shared_ptr<ListObserver<std::string> > colorDisplaysObserver;
+            std::shared_ptr<ListObserver<std::string> > colorViewsObserver;
             std::shared_ptr<ValueObserver<std::string> > inputColorSpaceObserver;
+            std::shared_ptr<ValueObserver<std::string> > inputColorSpaceObserver2;
             std::shared_ptr<ValueObserver<std::string> > colorDisplayObserver;
+            std::shared_ptr<ValueObserver<std::string> > colorDisplayObserver2;
             std::shared_ptr<ValueObserver<std::string> > colorViewObserver;
+            std::shared_ptr<ValueObserver<std::string> > colorViewObserver2;
             std::shared_ptr<ValueObserver<ImageRotate> > rotateObserver;
             std::shared_ptr<ValueObserver<ImageAspectRatio> > aspectRatioObserver;
         };
@@ -79,6 +78,8 @@ namespace djv
             DJV_PRIVATE_PTR();
 
             setClassName("djv::ViewApp::ImageSettingsWidget");
+
+            p.colorSpaceModel = ColorSpaceModel::create(context);
 
             p.inputColorSpaceComboBox = UI::ComboBox::create(context);
             p.colorDisplayComboBox = UI::ComboBox::create(context);
@@ -102,15 +103,10 @@ namespace djv
                 {
                     if (auto widget = weak.lock())
                     {
-                        if (auto settingsSystem = context->getSystemT<UI::Settings::System>())
+                        auto settingsSystem = context->getSystemT<UI::Settings::System>();
+                        if (auto imageSettings = settingsSystem->getSettingsT<ImageSettings>())
                         {
-                            if (auto imageSettings = settingsSystem->getSettingsT<ImageSettings>())
-                            {
-                                if (value >= 0 && value < widget->_p->colorSpaces.size())
-                                {
-                                    imageSettings->setInputColorSpace(widget->_p->colorSpaces[value]);
-                                }
-                            }
+                            imageSettings->setColorSpace(widget->_p->colorSpaceModel->indexToColorSpace(value));
                         }
                     }
                 });
@@ -120,15 +116,10 @@ namespace djv
                 {
                     if (auto widget = weak.lock())
                     {
-                        if (auto settingsSystem = context->getSystemT<UI::Settings::System>())
+                        auto settingsSystem = context->getSystemT<UI::Settings::System>();
+                        if (auto imageSettings = settingsSystem->getSettingsT<ImageSettings>())
                         {
-                            if (auto imageSettings = settingsSystem->getSettingsT<ImageSettings>())
-                            {
-                                if (value >= 0 && value < widget->_p->colorDisplays.size())
-                                {
-                                    imageSettings->setColorDisplay(widget->_p->colorDisplays[value].name);
-                                }
-                            }
+                            imageSettings->setColorDisplay(widget->_p->colorSpaceModel->indexToDisplay(value));
                         }
                     }
                 });
@@ -138,22 +129,10 @@ namespace djv
                 {
                     if (auto widget = weak.lock())
                     {
-                        if (auto settingsSystem = context->getSystemT<UI::Settings::System>())
+                        auto settingsSystem = context->getSystemT<UI::Settings::System>();
+                        if (auto imageSettings = settingsSystem->getSettingsT<ImageSettings>())
                         {
-                            if (auto imageSettings = settingsSystem->getSettingsT<ImageSettings>())
-                            {
-                                for (size_t i = 0; i < widget->_p->colorDisplays.size(); ++i)
-                                {
-                                    if (widget->_p->colorDisplay == widget->_p->colorDisplays[i].name)
-                                    {
-                                        if (value >= 0 && value < widget->_p->colorDisplays[i].views.size())
-                                        {
-                                            imageSettings->setColorView(widget->_p->colorDisplays[i].views[value].name);
-                                        }
-                                        break;
-                                    }
-                                }
-                            }
+                            imageSettings->setColorView(widget->_p->colorSpaceModel->indexToView(value));
                         }
                     }
                 });
@@ -163,12 +142,10 @@ namespace djv
                 {
                     if (auto widget = weak.lock())
                     {
-                        if (auto settingsSystem = context->getSystemT<UI::Settings::System>())
+                        auto settingsSystem = context->getSystemT<UI::Settings::System>();
+                        if (auto imageSettings = settingsSystem->getSettingsT<ImageSettings>())
                         {
-                            if (auto imageSettings = settingsSystem->getSettingsT<ImageSettings>())
-                            {
-                                imageSettings->setImageRotate(static_cast<ImageRotate>(value));
-                            }
+                            imageSettings->setImageRotate(static_cast<ImageRotate>(value));
                         }
                     }
                 });
@@ -178,72 +155,104 @@ namespace djv
                 {
                     if (auto widget = weak.lock())
                     {
-                        if (auto settingsSystem = context->getSystemT<UI::Settings::System>())
+                        auto settingsSystem = context->getSystemT<UI::Settings::System>();
+                        if (auto imageSettings = settingsSystem->getSettingsT<ImageSettings>())
                         {
-                            if (auto imageSettings = settingsSystem->getSettingsT<ImageSettings>())
-                            {
-                                imageSettings->setImageAspectRatio(static_cast<ImageAspectRatio>(value));
-                            }
+                            imageSettings->setImageAspectRatio(static_cast<ImageAspectRatio>(value));
                         }
                     }
                 });
 
-            auto ocioSystem = context->getSystemT<AV::OCIOSystem>();
             p.colorSpacesObserver = ListObserver<std::string>::create(
-                ocioSystem->observeColorSpaces(),
+                p.colorSpaceModel->observeColorSpaces(),
                 [weak](const std::vector<std::string>& value)
                 {
                     if (auto widget = weak.lock())
                     {
-                        widget->_p->colorSpaces = value;
-                        widget->_widgetUpdate();
+                        widget->_p->inputColorSpaceComboBox->setItems(value);
                     }
                 });
 
-            p.colorDisplaysObserver = ListObserver<AV::OCIODisplay>::create(
-                ocioSystem->observeDisplays(),
-                [weak](const std::vector<AV::OCIODisplay>& value)
+            p.colorDisplaysObserver = ListObserver<std::string>::create(
+                p.colorSpaceModel->observeDisplays(),
+                [weak](const std::vector<std::string>& value)
                 {
                     if (auto widget = weak.lock())
                     {
-                        widget->_p->colorDisplays = value;
-                        widget->_widgetUpdate();
+                        widget->_p->colorDisplayComboBox->setItems(value);
+                    }
+                });
+
+            p.colorViewsObserver = ListObserver<std::string>::create(
+                p.colorSpaceModel->observeViews(),
+                [weak](const std::vector<std::string>& value)
+                {
+                    if (auto widget = weak.lock())
+                    {
+                        widget->_p->colorViewComboBox->setItems(value);
+                    }
+                });
+
+            p.inputColorSpaceObserver = ValueObserver<std::string>::create(
+                p.colorSpaceModel->observeColorSpace(),
+                [weak](const std::string& value)
+                {
+                    if (auto widget = weak.lock())
+                    {
+                        widget->_p->inputColorSpaceComboBox->setCurrentItem(widget->_p->colorSpaceModel->colorSpaceToIndex(value));
+                    }
+                });
+
+            p.colorDisplayObserver = ValueObserver<std::string>::create(
+                p.colorSpaceModel->observeDisplay(),
+                [weak](const std::string& value)
+                {
+                    if (auto widget = weak.lock())
+                    {
+                        widget->_p->colorDisplayComboBox->setCurrentItem(widget->_p->colorSpaceModel->displayToIndex(value));
+                    }
+                });
+
+            p.colorViewObserver = ValueObserver<std::string>::create(
+                p.colorSpaceModel->observeView(),
+                [weak](const std::string& value)
+                {
+                    if (auto widget = weak.lock())
+                    {
+                        widget->_p->colorViewComboBox->setCurrentItem(widget->_p->colorSpaceModel->viewToIndex(value));
                     }
                 });
 
             auto settingsSystem = context->getSystemT<UI::Settings::System>();
             if (auto imageSettings = settingsSystem->getSettingsT<ImageSettings>())
             {
-                p.inputColorSpaceObserver = ValueObserver<std::string>::create(
-                    imageSettings->observeInputColorSpace(),
+                p.inputColorSpaceObserver2 = ValueObserver<std::string>::create(
+                    imageSettings->observeColorSpace(),
                     [weak](const std::string& value)
                     {
                         if (auto widget = weak.lock())
                         {
-                            widget->_p->inputColorSpace = value;
-                            widget->_widgetUpdate();
+                            widget->_p->colorSpaceModel->setColorSpace(value);
                         }
                     });
 
-                p.colorDisplayObserver = ValueObserver<std::string>::create(
+                p.colorDisplayObserver2 = ValueObserver<std::string>::create(
                     imageSettings->observeColorDisplay(),
                     [weak](const std::string& value)
                     {
                         if (auto widget = weak.lock())
                         {
-                            widget->_p->colorDisplay = value;
-                            widget->_widgetUpdate();
+                            widget->_p->colorSpaceModel->setDisplay(value);
                         }
                     });
 
-                p.colorViewObserver = ValueObserver<std::string>::create(
+                p.colorViewObserver2 = ValueObserver<std::string>::create(
                     imageSettings->observeColorView(),
                     [weak](const std::string& value)
                     {
                         if (auto widget = weak.lock())
                         {
-                            widget->_p->colorView = value;
-                            widget->_widgetUpdate();
+                            widget->_p->colorSpaceModel->setView(value);
                         }
                     });
 
@@ -308,30 +317,8 @@ namespace djv
             DJV_PRIVATE_PTR();
 
             p.formLayout->setText(p.inputColorSpaceComboBox, _getText(DJV_TEXT("Input color space")) + ":");
-            p.inputColorSpaceComboBox->setItems(p.colorSpaces);
-
-            p.formLayout->setText(p.colorDisplayComboBox, _getText(DJV_TEXT("Display")) + ":");
-            p.formLayout->setText(p.colorViewComboBox, _getText(DJV_TEXT("View:")) + ":");
-            p.colorDisplayComboBox->clearItems();
-            p.colorViewComboBox->clearItems();
-            for (size_t i = 0; i < p.colorDisplays.size(); ++i)
-            {
-                const auto& colorDisplay = p.colorDisplays[i];
-                p.colorDisplayComboBox->addItem(colorDisplay.name);
-                if (colorDisplay.name == p.colorDisplay)
-                {
-                    p.colorDisplayComboBox->setCurrentItem(i);
-                    for (size_t j = 0; j < colorDisplay.views.size(); ++j)
-                    {
-                        const auto& colorView = colorDisplay.views[j];
-                        p.colorViewComboBox->addItem(colorView.name);
-                        if (colorView.name == p.colorView)
-                        {
-                            p.colorViewComboBox->setCurrentItem(j);
-                        }
-                    }
-                }
-            }
+            p.formLayout->setText(p.colorDisplayComboBox, _getText(DJV_TEXT("Color display")) + ":");
+            p.formLayout->setText(p.colorViewComboBox, _getText(DJV_TEXT("Color view")) + ":");
 
             p.formLayout->setText(p.rotateComboBox, _getText(DJV_TEXT("Rotate")) + ":");
             p.rotateComboBox->clearItems();

@@ -223,7 +223,8 @@ namespace djv
                 glm::vec2 shortcutSize(0.f, 0.f);
                 for (const auto & i : _items)
                 {
-                    if (!i.second->text.empty())
+                    const auto j = _itemToAction.find(i.second);
+                    if (j != _itemToAction.end() && j->second)
                     {
                         textSize.x = std::max(textSize.x, i.second->textSize.x);
                         textSize.y = std::max(textSize.y, i.second->textSize.y);
@@ -250,7 +251,8 @@ namespace djv
                 for (auto & i : _items)
                 {
                     glm::vec2 size(0.f, 0.f);
-                    if (!i.second->text.empty())
+                    const auto j = _itemToAction.find(i.second);
+                    if (j != _itemToAction.end() && j->second)
                     {
                         size = itemSize + m * 2.f;
                     }
@@ -342,7 +344,8 @@ namespace djv
                     }
                     x += is + s;
 
-                    if (!i.second->text.empty())
+                    const auto j = _itemToAction.find(i.second);
+                    if (j != _itemToAction.end() && j->second)
                     {
                         y = i.second->geom.min.y + ceilf(i.second->size.y / 2.f) - ceilf(i.second->fontMetrics.lineHeight / 2.f) + i.second->fontMetrics.ascender;
                         const auto fontInfo = i.second->font.empty() ?
@@ -516,7 +519,8 @@ namespace djv
                 std::shared_ptr<MenuWidget::Item> out;
                 for (const auto & i : _items)
                 {
-                    if (i.second->geom.contains(pos) && !i.second->text.empty())
+                    const auto j = _itemToAction.find(i.second);
+                    if (i.second->geom.contains(pos) && j != _itemToAction.end() && j->second)
                     {
                         out = i.second;
                         break;

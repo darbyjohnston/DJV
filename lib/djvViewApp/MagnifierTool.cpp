@@ -68,6 +68,7 @@ namespace djv
 
             p.imageWidget = UI::ImageWidget::create(context);
             p.imageWidget->setSizeRole(UI::MetricsRole::Swatch);
+            p.imageWidget->setShadowOverlay({ UI::Side::Top });
             
             p.magnificationSlider = UI::IntSlider::create(context);
             p.magnificationSlider->setRange(IntRange(1, 10));

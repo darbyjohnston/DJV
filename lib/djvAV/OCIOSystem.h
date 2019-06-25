@@ -75,6 +75,8 @@ namespace djv
             const std::string& getDefaultDisplay() const;
             const std::string& getDefaultView() const;
 
+            std::string getColorSpace(const std::string& display, const std::string& view) const;
+
         private:
             DJV_PRIVATE();
         };

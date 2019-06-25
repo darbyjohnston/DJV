@@ -690,19 +690,17 @@ namespace djv
         {
             DJV_PRIVATE_PTR();
             const auto& style = _getStyle();
-            const float h = style->getMetric(UI::MetricsRole::Handle);
             const float sh = style->getMetric(UI::MetricsRole::Shadow);
-            _setMinimumSize(p.layout->getMinimumSize() + glm::vec2(sh * 2.f, h + sh) * (1.f - _getMaximized()));
+            _setMinimumSize(p.layout->getMinimumSize() + (sh * 2.f) * (1.f - _getMaximized()));
         }
 
         void MDIWidget::_layoutEvent(Event::Layout&)
         {
             DJV_PRIVATE_PTR();
             const auto& style = _getStyle();
-            const float h = style->getMetric(UI::MetricsRole::Handle);
             const float sh = style->getMetric(UI::MetricsRole::Shadow);
             const float v = (1.f - _getMaximized());
-            p.layout->setGeometry(getGeometry().margin(-sh * v, -h * v, -sh * v, -sh * v));
+            p.layout->setGeometry(getGeometry().margin(-sh * v, -sh * v, -sh * v, -sh * v));
         }
 
         void MDIWidget::_localeEvent(Event::Locale&)

@@ -45,10 +45,10 @@ namespace djv
     {
         struct ImageSettings::Private
         {
-            std::shared_ptr<ValueSubject<std::string> > inputColorSpace;
-            std::shared_ptr<ValueSubject<std::string> > outputColorSpace;
+            std::shared_ptr<ValueSubject<std::string> > colorSpace;
             std::shared_ptr<ValueSubject<std::string> > colorDisplay;
             std::shared_ptr<ValueSubject<std::string> > colorView;
+            std::shared_ptr<ValueSubject<std::string> > outputColorSpace;
             std::shared_ptr<ValueSubject<ImageRotate> > rotate;
             std::shared_ptr<ValueSubject<ImageAspectRatio> > aspectRatio;
         };
@@ -58,11 +58,11 @@ namespace djv
             ISettings::_init("djv::ViewApp::ImageSettings", context);
 
             DJV_PRIVATE_PTR();
-            p.inputColorSpace = ValueSubject<std::string>::create();
-            p.outputColorSpace = ValueSubject<std::string>::create();
+            p.colorSpace = ValueSubject<std::string>::create();
             auto ocioSystem = context->getSystemT<AV::OCIOSystem>();
             p.colorDisplay = ValueSubject<std::string>::create(ocioSystem->getDefaultDisplay());
             p.colorView = ValueSubject<std::string>::create(ocioSystem->getDefaultView());
+            p.outputColorSpace = ValueSubject<std::string>::create(_getOutputColorSpace());
 
             p.rotate = ValueSubject<ImageRotate>::create(ImageRotate::_0);
             p.aspectRatio = ValueSubject<ImageAspectRatio>::create(ImageAspectRatio::Default);
@@ -80,9 +80,19 @@ namespace djv
             return out;
         }
 
-        std::shared_ptr<Core::IValueSubject<std::string> > ImageSettings::observeInputColorSpace() const
+        std::shared_ptr<Core::IValueSubject<std::string> > ImageSettings::observeColorSpace() const
         {
-            return _p->inputColorSpace;
+            return _p->colorSpace;
+        }
+
+        std::shared_ptr<Core::IValueSubject<std::string> > ImageSettings::observeColorDisplay() const
+        {
+            return _p->colorDisplay;
+        }
+
+        std::shared_ptr<Core::IValueSubject<std::string> > ImageSettings::observeColorView() const
+        {
+            return _p->colorView;
         }
 
         std::shared_ptr<Core::IValueSubject<std::string> > ImageSettings::observeOutputColorSpace() const
@@ -90,14 +100,9 @@ namespace djv
             return _p->outputColorSpace;
         }
 
-        void ImageSettings::setInputColorSpace(const std::string& value)
+        void ImageSettings::setColorSpace(const std::string& value)
         {
-            _p->inputColorSpace->setIfChanged(value);
-        }
-
-        std::shared_ptr<Core::IValueSubject<std::string> > ImageSettings::observeColorDisplay() const
-        {
-            return _p->colorDisplay;
+            _p->colorSpace->setIfChanged(value);
         }
 
         void ImageSettings::setColorDisplay(const std::string& value)
@@ -106,11 +111,6 @@ namespace djv
             {
                 _p->outputColorSpace->setIfChanged(_getOutputColorSpace());
             }
-        }
-
-        std::shared_ptr<Core::IValueSubject<std::string> > ImageSettings::observeColorView() const
-        {
-            return _p->colorView;
         }
 
         void ImageSettings::setColorView(const std::string& value)
@@ -126,14 +126,14 @@ namespace djv
             return _p->rotate;
         }
 
-        void ImageSettings::setImageRotate(ImageRotate value)
-        {
-            _p->rotate->setIfChanged(value);
-        }
-
         std::shared_ptr<IValueSubject<ImageAspectRatio> > ImageSettings::observeImageAspectRatio() const
         {
             return _p->aspectRatio;
+        }
+
+        void ImageSettings::setImageRotate(ImageRotate value)
+        {
+            _p->rotate->setIfChanged(value);
         }
 
         void ImageSettings::setImageAspectRatio(ImageAspectRatio value)
@@ -147,7 +147,7 @@ namespace djv
             {
                 DJV_PRIVATE_PTR();
                 const auto & object = value.get<picojson::object>();
-                UI::Settings::read("InputColorSpace", object, p.inputColorSpace);
+                UI::Settings::read("ColorSpace", object, p.colorSpace);
                 UI::Settings::read("ColorDisplay", object, p.colorDisplay);
                 UI::Settings::read("ColorView", object, p.colorView);
                 UI::Settings::read("Rotate", object, p.rotate);
@@ -160,7 +160,7 @@ namespace djv
             DJV_PRIVATE_PTR();
             picojson::value out(picojson::object_type, true);
             auto & object = out.get<picojson::object>();
-            UI::Settings::write("InputColorSpace", p.inputColorSpace->get(), object);
+            UI::Settings::write("ColorSpace", p.colorSpace->get(), object);
             UI::Settings::write("ColorDisplay", p.colorDisplay->get(), object);
             UI::Settings::write("ColorView", p.colorView->get(), object);
             UI::Settings::write("Rotate", p.rotate->get(), object);

@@ -154,7 +154,7 @@ namespace djv
                     { MetricsRole::FontTitle, 32.f },
                     { MetricsRole::Swatch, 50.f },
                     { MetricsRole::Slider, 100.f },
-                    { MetricsRole::ScrollArea, 300.f },
+                    { MetricsRole::ScrollArea, 200.f },
                     { MetricsRole::TextColumn, 200.f },
                     { MetricsRole::SearchBox, 100.f },
                     { MetricsRole::Dialog, 400.f },

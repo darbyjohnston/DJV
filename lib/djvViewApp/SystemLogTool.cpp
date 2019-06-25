@@ -105,6 +105,7 @@ namespace djv
 
             auto scrollWidget = UI::ScrollWidget::create(UI::ScrollType::Vertical, context);
             scrollWidget->setBorder(false);
+            scrollWidget->setShadowOverlay({ UI::Side::Top });
             scrollWidget->addChild(p.textBlock);
 
             //! \todo Implement me!
@@ -119,6 +120,7 @@ namespace djv
             layout->setStretch(scrollWidget, UI::RowStretch::Expand);
             auto hLayout = UI::HorizontalLayout::create(context);
             hLayout->setMargin(UI::MetricsRole::MarginSmall);
+            hLayout->setShadowOverlay({ UI::Side::Top });
             hLayout->addExpander();
             hLayout->addChild(p.copyButton);
             hLayout->addChild(p.reloadButton);

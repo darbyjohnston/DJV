@@ -197,6 +197,25 @@ namespace djv
             return _p->defaultView;
         }
 
+        std::string OCIOSystem::getColorSpace(const std::string& display, const std::string& view) const
+        {
+            DJV_PRIVATE_PTR();
+            for (const auto& i : p.displays->get())
+            {
+                if (display == i.name)
+                {
+                    for (const auto& j : i.views)
+                    {
+                        if (view == j.name)
+                        {
+                            return j.colorSpace;
+                        }
+                    }
+                }
+            }
+            return std::string();
+        }
+
     } // namespace AV
 } // namespace djv
 
