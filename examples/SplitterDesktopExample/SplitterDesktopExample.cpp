@@ -47,16 +47,16 @@ int main(int argc, char ** argv)
         auto app = Desktop::Application::create(argc, argv);
 
         auto splitter = UI::Layout::Splitter::create(UI::Orientation::Horizontal, app.get());
-        splitter->setMargin(UI::MetricsRole::Margin);
 
         for (size_t i = 0; i < 3; ++i)
         {
             auto textBlock = UI::TextBlock::create(app.get());
-            textBlock->setText(Core::String::getRandomText(30));
+            textBlock->setText(Core::String::getRandomText(20));
             textBlock->setFontSizeRole(UI::MetricsRole::FontLarge);
             textBlock->setMargin(UI::MetricsRole::Margin);
 
             auto scrollWidget = UI::ScrollWidget::create(UI::ScrollType::Vertical, app.get());
+            scrollWidget->setBorder(false);
             scrollWidget->addChild(textBlock);
 
             splitter->addChild(scrollWidget);
