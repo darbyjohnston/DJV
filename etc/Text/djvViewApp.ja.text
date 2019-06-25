@@ -1272,12 +1272,6 @@
         "description": ""
     }, 
     {
-        "source": "* Copyright (c) 2008 Alan Jones. All rights reserved.", 
-        "text": "* Copyright\uff08c\uff092008 Alan Jones\u3002\u5168\u8457\u4f5c\u6a29\u6240\u6709\u3002", 
-        "id": "Contributors Alan Jones", 
-        "description": ""
-    }, 
-    {
         "source": "* Copyright (c) 2008-2009 Mikael Sundell. All rights reserved.", 
         "text": "* Copyright\uff08c\uff092008-2009 Mikael Sundell\u5168\u8457\u4f5c\u6a29\u6240\u6709\u3002", 
         "id": "Contributors Mikael Sundell", 
