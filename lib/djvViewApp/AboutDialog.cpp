@@ -79,7 +79,6 @@ namespace djv
             p.textBlocks["Contributors1"] = UI::TextBlock::create(context);
             p.textBlocks["Contributors2"] = UI::TextBlock::create(context);
             p.textBlocks["Contributors3"] = UI::TextBlock::create(context);
-            p.textBlocks["Contributors4"] = UI::TextBlock::create(context);
             p.textBlocks["ThirdPartyHeader"] = UI::TextBlock::create(context);
             p.textBlocks["ThirdPartyHeader"]->setFontSizeRole(UI::MetricsRole::FontLarge);
             p.textBlocks["ThirdParty1"] = UI::TextBlock::create(context);
@@ -149,7 +148,6 @@ namespace djv
             vLayout2->setSpacing(UI::MetricsRole::None);
             vLayout2->addChild(p.textBlocks["Contributors2"]);
             vLayout2->addChild(p.textBlocks["Contributors3"]);
-            vLayout2->addChild(p.textBlocks["Contributors4"]);
             vLayout->addChild(vLayout2);
             textLayout->addChild(vLayout);
             
@@ -255,8 +253,7 @@ namespace djv
             p.textBlocks["License5"]->setText(_getText(DJV_TEXT("License 5")));
             p.textBlocks["Contributors1"]->setText(_getText(DJV_TEXT("Contributors Text")));
             p.textBlocks["Contributors2"]->setText(_getText(DJV_TEXT("Contributors Darby Johnston")));
-            p.textBlocks["Contributors3"]->setText(_getText(DJV_TEXT("Contributors Alan Jones")));
-            p.textBlocks["Contributors4"]->setText(_getText(DJV_TEXT("Contributors Mikael Sundell")));
+            p.textBlocks["Contributors3"]->setText(_getText(DJV_TEXT("Contributors Mikael Sundell")));
             p.textBlocks["ThirdParty1"]->setText(_getText(DJV_TEXT("Third Party Text")));
             p.textBlocks["ThirdParty2"]->setText(_getText(DJV_TEXT("Third Party CMake")));
             p.textBlocks["ThirdParty3"]->setText(_getText(DJV_TEXT("Third Party dr_libs")));
