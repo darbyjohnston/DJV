@@ -1025,17 +1025,17 @@
         "description": ""
     }, 
     {
-        "text": "- Principal author", 
+        "text": "Principal author", 
         "id": "Credits Darby Johnston Text", 
         "description": ""
     }, 
     {
-        "text": "Kent Oberheu", 
+        "text": "Kent Oberheu https://semafore.com", 
         "id": "Credits Kent Oberheu", 
         "description": ""
     }, 
     {
-        "text": "- Identity, Iconography, UI / UX design", 
+        "text": "Identity, Iconography, UI / UX design", 
         "id": "Credits Kent Oberheu Text", 
         "description": ""
     }, 
@@ -1045,8 +1045,13 @@
         "description": ""
     }, 
     {
-        "text": "- IFF image file format support, example images", 
+        "text": "IFF image file format support, example images", 
         "id": "Credits Mikael Sundell Text", 
+        "description": ""
+    }, 
+    {
+        "text": "unexpected GmbH https://www.unexpected.de", 
+        "id": "Sponsors unexpected", 
         "description": ""
     }, 
     {
