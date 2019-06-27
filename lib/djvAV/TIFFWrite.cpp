@@ -29,8 +29,6 @@
 
 #include <djvAV/TIFF.h>
 
-#include <djvAV/ImageConvert.h>
-
 using namespace djv::Core;
 
 namespace djv
@@ -85,11 +83,11 @@ namespace djv
                         ::TIFF * f = nullptr;
                     };
                 }
-                
-                void Write::_write(const std::string & fileName, const std::shared_ptr<Image::Image> & image)
+
+                Image::Type Write::_getImageType(Image::Type value) const
                 {
-                    Image::Type imageType = Image::Type::None;
-                    switch (image->getType())
+                    Image::Type out = Image::Type::None;
+                    switch (value)
                     {
                     case Image::Type::L_U8:
                     case Image::Type::L_U16:
@@ -106,33 +104,26 @@ namespace djv
                     case Image::Type::RGBA_U8:
                     case Image::Type::RGBA_U16:
                     case Image::Type::RGBA_U32:
-                    case Image::Type::RGBA_F32: imageType = image->getType();      break;
-                    case Image::Type::L_F16:    imageType = Image::Type::L_F32;    break;
-                    case Image::Type::LA_F16:   imageType = Image::Type::LA_F32;   break;
-                    case Image::Type::RGB_U10:  imageType = Image::Type::RGB_U16;  break;
-                    case Image::Type::RGB_F16:  imageType = Image::Type::RGB_F32;  break;
-                    case Image::Type::RGBA_F16: imageType = Image::Type::RGBA_F32; break;
+                    case Image::Type::RGBA_F32: out = value;                 break;
+                    case Image::Type::L_F16:    out = Image::Type::L_F32;    break;
+                    case Image::Type::LA_F16:   out = Image::Type::LA_F32;   break;
+                    case Image::Type::RGB_U10:  out = Image::Type::RGB_U16;  break;
+                    case Image::Type::RGB_F16:  out = Image::Type::RGB_F32;  break;
+                    case Image::Type::RGBA_F16: out = Image::Type::RGBA_F32; break;
                     default: break;
                     }
-                    if (Image::Type::None == imageType)
-                    {
-                        std::stringstream s;
-                        s << DJV_TEXT("The TIFF file") <<
-                            " '" << fileName << "' " << DJV_TEXT("cannot be written") << ".";
-                        throw std::runtime_error(s.str());
-                    }
-                    Image::Layout layout;
-                    layout.mirror.y = true;
-                    Image::Info info(_imageInfo.size, imageType, layout);
+                    return out;
+                }
 
-                    std::shared_ptr<Image::Data> imageData = image;
-                    if (imageData->getInfo() != info)
-                    {
-                        auto tmp = Image::Data::create(info);
-                        _convert->process(*imageData, info, *tmp);
-                        imageData = tmp;
-                    }
+                Image::Layout Write::_getImageLayout() const
+                {
+                    Image::Layout out;
+                    out.mirror.y = true;
+                    return out;
+                }
 
+                void Write::_write(const std::string & fileName, const std::shared_ptr<Image::Image> & image)
+                {
                     File f;
 #if defined(DJV_PLATFORM_WINDOWS)
                     f.f = TIFFOpen(fileName.data(), "w");
@@ -147,6 +138,7 @@ namespace djv
                         throw std::runtime_error(s.str());
                     }
 
+                    const auto& info = image->getInfo();
                     uint16 photometric      = 0;
                     uint16 samples          = 0;
                     uint16 sampleDepth      = 0;
@@ -243,7 +235,7 @@ namespace djv
 
                     for (uint16_t y = 0; y < info.size.h; ++y)
                     {
-                        if (TIFFWriteScanline(f.f, (tdata_t *)imageData->getData(y), y) == -1)
+                        if (TIFFWriteScanline(f.f, (tdata_t *)image->getData(y), y) == -1)
                         {
                             std::stringstream s;
                             s << DJV_TEXT("The TIFF file") <<

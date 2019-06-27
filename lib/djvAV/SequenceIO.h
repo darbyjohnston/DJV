@@ -37,12 +37,6 @@ namespace djv
 {
     namespace AV
     {
-        namespace Image
-        {
-            class Convert;
-
-        } // namespace
-
         namespace IO
         {
             //! This class provides an interface for reading sequences.
@@ -96,12 +90,13 @@ namespace djv
                 bool isRunning() const override;
 
             protected:
+                virtual Image::Type _getImageType(Image::Type) const;
+                virtual Image::Layout _getImageLayout() const;
                 virtual void _write(const std::string & fileName, const std::shared_ptr<Image::Image> &) = 0;
                 void _finish();
 
                 Info _info;
                 Image::Info _imageInfo;
-                std::shared_ptr<Image::Convert> _convert;
 
             private:
                 DJV_PRIVATE();

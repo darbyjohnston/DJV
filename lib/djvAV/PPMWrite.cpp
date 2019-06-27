@@ -29,8 +29,6 @@
 
 #include <djvAV/PPM.h>
 
-#include <djvAV/ImageConvert.h>
-
 #include <djvCore/FileIO.h>
 
 using namespace djv::Core;
@@ -69,55 +67,50 @@ namespace djv
                     out->_init(fileName, info, resourceSystem, logSystem);
                     return out;
                 }
-                
-                void Write::_write(const std::string & fileName, const std::shared_ptr<Image::Image> & image)
+
+                Image::Type Write::_getImageType(Image::Type value) const
                 {
-                    DJV_PRIVATE_PTR();
-                    Image::Type imageType = Image::Type::None;
-                    switch (image->getType())
+                    Image::Type out = Image::Type::None;
+                    switch (value)
                     {
                     case Image::Type::L_U8:
                     case Image::Type::L_U16:
                     case Image::Type::RGB_U8:
-                    case Image::Type::RGB_U16:  imageType = image->getType(); break;
-                    case Image::Type::LA_U8:    imageType = Image::Type::L_U8; break;
+                    case Image::Type::RGB_U16:  out = value; break;
+                    case Image::Type::LA_U8:    out = Image::Type::L_U8; break;
                     case Image::Type::L_U32:
                     case Image::Type::L_F16:
                     case Image::Type::L_F32:
                     case Image::Type::LA_U16:
                     case Image::Type::LA_U32:
                     case Image::Type::LA_F16:
-                    case Image::Type::LA_F32:   imageType = Image::Type::L_U16; break;
+                    case Image::Type::LA_F32:   out = Image::Type::L_U16; break;
                     case Image::Type::RGB_U10:
                     case Image::Type::RGB_U32:
                     case Image::Type::RGB_F16:
-                    case Image::Type::RGB_F32:  imageType = Image::Type::RGB_U16; break;
-                    case Image::Type::RGBA_U8:  imageType = Image::Type::RGB_U8; break;
+                    case Image::Type::RGB_F32:  out = Image::Type::RGB_U16; break;
+                    case Image::Type::RGBA_U8:  out = Image::Type::RGB_U8; break;
                     case Image::Type::RGBA_U16:
                     case Image::Type::RGBA_U32:
                     case Image::Type::RGBA_F16:
-                    case Image::Type::RGBA_F32: imageType = Image::Type::RGB_U16; break;
+                    case Image::Type::RGBA_F32: out = Image::Type::RGB_U16; break;
                     default: break;
                     }
-                    if (Image::Type::None == imageType)
-                    {
-                        std::stringstream s;
-                        s << DJV_TEXT("The PPM file") <<
-                            " '" << fileName << "' " << DJV_TEXT("cannot be written") << ".";
-                        throw std::runtime_error(s.str());
-                    }
-                    Image::Layout layout;
-                    layout.endian = p.settings.data != Data::ASCII ? Memory::Endian::MSB : Memory::getEndian();
-                    Image::Info info(_imageInfo.size, imageType, layout);
+                    return out;
+                }
 
-                    std::shared_ptr<Image::Data> imageData = image;
-                    if (imageData->getInfo() != info)
-                    {
-                        auto tmp = Image::Data::create(info);
-                        _convert->process(*imageData, info, *tmp);
-                        imageData = tmp;
-                    }
+                Image::Layout Write::_getImageLayout() const
+                {
+                    Image::Layout out;
+                    out.endian = _p->settings.data != Data::ASCII ? Memory::Endian::MSB : Memory::getEndian();
+                    return out;
+                }
+                
+                void Write::_write(const std::string & fileName, const std::shared_ptr<Image::Image> & image)
+                {
+                    DJV_PRIVATE_PTR();
 
+                    const auto& info = image->getInfo();
                     int ppmType = Data::ASCII == p.settings.data ? 2 : 5;
                     const uint8_t channelCount = Image::getChannelCount(info.type);
                     if (3 == channelCount)
@@ -149,7 +142,7 @@ namespace djv
                         for (uint16_t y = 0; y < info.size.h; ++y)
                         {
                             const size_t size = writeASCII(
-                                imageData->getData(y),
+                                image->getData(y),
                                 reinterpret_cast<char *>(scanline.data()),
                                 static_cast<size_t>(info.size.w) * channelCount,
                                 bitDepth);
@@ -158,7 +151,7 @@ namespace djv
                         break;
                     }
                     case Data::Binary:
-                        io.write(imageData->getData(), info.getDataByteCount());
+                        io.write(image->getData(), info.getDataByteCount());
                         break;
                     default: break;
                     }

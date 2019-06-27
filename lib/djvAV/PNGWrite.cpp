@@ -29,8 +29,6 @@
 
 #include <djvAV/PNG.h>
 
-#include <djvAV/ImageConvert.h>
-
 #include <djvCore/FileIO.h>
 
 using namespace djv::Core;
@@ -163,10 +161,10 @@ namespace djv
 
                 } // namespace
 
-                void Write::_write(const std::string & fileName, const std::shared_ptr<Image::Image> & image)
+                Image::Type Write::_getImageType(Image::Type value) const
                 {
-                    Image::Type imageType = Image::Type::None;
-                    switch (image->getType())
+                    Image::Type out = Image::Type::None;
+                    switch (value)
                     {
                     case Image::Type::L_U8:
                     case Image::Type::L_U16:
@@ -175,39 +173,27 @@ namespace djv
                     case Image::Type::RGB_U8:
                     case Image::Type::RGB_U16:
                     case Image::Type::RGBA_U8:
-                    case Image::Type::RGBA_U16: imageType = image->getType(); break;
+                    case Image::Type::RGBA_U16: out = value; break;
                     case Image::Type::L_U32:
                     case Image::Type::L_F16:
-                    case Image::Type::L_F32:    imageType = Image::Type::L_U16; break;
+                    case Image::Type::L_F32:    out = Image::Type::L_U16; break;
                     case Image::Type::LA_U32:
                     case Image::Type::LA_F16:
-                    case Image::Type::LA_F32:   imageType = Image::Type::LA_U16; break;
+                    case Image::Type::LA_F32:   out = Image::Type::LA_U16; break;
                     case Image::Type::RGB_U10:
                     case Image::Type::RGB_U32:
                     case Image::Type::RGB_F16:
-                    case Image::Type::RGB_F32:  imageType = Image::Type::RGB_U16; break;
+                    case Image::Type::RGB_F32:  out = Image::Type::RGB_U16; break;
                     case Image::Type::RGBA_U32:
                     case Image::Type::RGBA_F16:
-                    case Image::Type::RGBA_F32: imageType = Image::Type::RGBA_U16; break;
+                    case Image::Type::RGBA_F32: out = Image::Type::RGBA_U16; break;
                     default: break;
                     }
-                    if (Image::Type::None == imageType)
-                    {
-                        std::stringstream s;
-                        s << DJV_TEXT("The PNG file") <<
-                            " '" << fileName << "' " << DJV_TEXT("cannot be written") << ".";
-                        throw std::runtime_error(s.str());
-                    }
-                    const auto info = Image::Info(_imageInfo.size, imageType);
+                    return out;
+                }
 
-                    std::shared_ptr<Image::Data> imageData = image;
-                    if (imageData->getInfo() != info)
-                    {
-                        auto tmp = Image::Data::create(info);
-                        _convert->process(*imageData, info, *tmp);
-                        imageData = tmp;
-                    }
-
+                void Write::_write(const std::string & fileName, const std::shared_ptr<Image::Image> & image)
+                {
                     File f;
                     f.png = png_create_write_struct(
                         PNG_LIBPNG_VER_STRING,
@@ -229,6 +215,7 @@ namespace djv
                             " '" << fileName << "' " << DJV_TEXT("cannot be opened") << ".";
                         throw std::runtime_error(s.str());
                     }
+                    const auto& info = image->getInfo();
                     if (!pngOpen(f.f, f.png, &f.pngInfo, info))
                     {
                         std::stringstream s;
@@ -243,7 +230,7 @@ namespace djv
 
                     for (uint16_t y = 0; y < info.size.h; ++y)
                     {
-                        if (!pngScanline(f.png, imageData->getData(y)))
+                        if (!pngScanline(f.png, image->getData(y)))
                         {
                             std::stringstream s;
                             s << DJV_TEXT("The PNG file") <<

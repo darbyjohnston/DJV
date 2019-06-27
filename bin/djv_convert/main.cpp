@@ -56,8 +56,8 @@ namespace djv
             {
                 CmdLine::Application::_init(argc, argv);
 
-                auto system = getSystemT<Core::TextSystem>();
-                const auto locale = system->getCurrentLocale();
+                auto testSystem = getSystemT<Core::TextSystem>();
+                const auto locale = testSystem->getCurrentLocale();
 
                 _parseArgs();
 
@@ -120,6 +120,23 @@ namespace djv
                     time = now;
                     const float dt = delta.count();
                     tick(dt);
+
+                    std::unique_lock<std::mutex> lock(_read->getMutex(), std::try_to_lock);
+                    if (lock.owns_lock())
+                    {
+                        std::lock_guard<std::mutex> lock(_write->getMutex());
+                        auto& readQueue = _read->getVideoQueue();
+                        auto& writeQueue = _write->getVideoQueue();
+                        if (readQueue.hasFrames() && writeQueue.getFrameCount() < writeQueue.getMax())
+                        {
+                            auto frame = readQueue.popFrame();
+                            writeQueue.addFrame(frame.first, frame.second);
+                        }
+                        else if (readQueue.isFinished())
+                        {
+                            writeQueue.setFinished(true);
+                        }
+                    }
                 }
                 return 0;
             }

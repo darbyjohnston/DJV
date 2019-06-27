@@ -49,12 +49,11 @@ namespace djv
                 //! This enumeration provides the color profiles.
                 enum class ColorProfile
                 {
-                    Auto,
                     Raw,
                     FilmPrint,
 
                     Count,
-                    First = Auto
+                    First = Raw
                 };
                 DJV_ENUM_HELPERS(ColorProfile);
 
@@ -248,24 +247,21 @@ namespace djv
                 //!
                 //! Throws:
                 //! - std::exception
-                Header read(Core::FileSystem::FileIO&, Info&, bool& filmPrint);
+                Header read(Core::FileSystem::FileIO&, Info&, ColorProfile&);
                 
                 //! Write a Cineon header.
                 //!
                 //! Throws:
                 //! - std::exception
-                void write(Core::FileSystem::FileIO&, const Info&, ColorProfile);
+                void write(Core::FileSystem::FileIO&, const Info& info, ColorProfile);
 
                 //! Finish writing the Cineon header after image data is written.
                 void writeFinish(Core::FileSystem::FileIO&);
 
-                //! This struct provides the plugin settings.
+                //! This struct provides the Cineon settings.
                 struct Settings
                 {
-                    ColorProfile      inputProfile    = ColorProfile::Auto;
-                    FilmPrintToLinear inputFilmPrint;
-                    ColorProfile      outputProfile   = ColorProfile::FilmPrint;
-                    FilmPrintToLinear outputFilmPrint;
+                    ColorProfile colorProfile = ColorProfile::FilmPrint;
                 };
 
                 //! This class provides the reader.
@@ -281,7 +277,6 @@ namespace djv
 
                     static std::shared_ptr<Read> create(
                         const std::string & fileName,
-                        const Settings&,
                         const std::shared_ptr<Core::ResourceSystem>&,
                         const std::shared_ptr<Core::LogSystem>&);
 
@@ -301,19 +296,21 @@ namespace djv
                     DJV_NON_COPYABLE(Write);
 
                 protected:
-                    Write(const Settings &);
+                    Write();
 
                 public:
                     ~Write() override;
 
                     static std::shared_ptr<Write> create(
                         const std::string & fileName,
-                        const Settings &,
+                        const Settings&,
                         const Info &,
                         const std::shared_ptr<Core::ResourceSystem>&,
                         const std::shared_ptr<Core::LogSystem>&);
 
                 protected:
+                    Image::Type _getImageType(Image::Type) const override;
+                    Image::Layout _getImageLayout() const override;
                     void _write(const std::string & fileName, const std::shared_ptr<Image::Image> &) override;
 
                 private:
@@ -347,7 +344,6 @@ namespace djv
         } // namespace IO
     } // namespace AV
 
-    DJV_ENUM_SERIALIZE_HELPERS(AV::IO::Cineon::ColorProfile);
     DJV_ENUM_SERIALIZE_HELPERS(AV::IO::Cineon::Tag);
 
     picojson::value toJSON(const AV::IO::Cineon::FilmPrintToLinear&);

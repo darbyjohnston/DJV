@@ -29,6 +29,7 @@
 
 #include <djvCmdLineApp/Application.h>
 
+#include <djvAV/AVSystem.h>
 #include <djvAV/IO.h>
 
 #include <djvCore/Context.h>
@@ -53,16 +54,17 @@ namespace djv
             {
                 CmdLine::Application::_init(argc, argv);
 
-                auto system = getSystemT<Core::TextSystem>();
-                const auto locale = system->getCurrentLocale();
+                auto textSystem = getSystemT<Core::TextSystem>();
+                const auto locale = textSystem->getCurrentLocale();
 
                 auto io = getSystemT<AV::IO::System>();
+                auto avSystem = getSystemT<AV::AVSystem>();
                 for (int i = 1; i < argc; ++i)
                 {
                     const Core::FileSystem::FileInfo fileInfo(argv[i]);
                     switch (fileInfo.getType())
                     {
-                    case Core::FileSystem::FileType::File: _print(fileInfo, io); break;
+                    case Core::FileSystem::FileType::File: _print(fileInfo, io, avSystem); break;
                     case Core::FileSystem::FileType::Directory:
                     {
                         std::cout << fileInfo.getPath() << ":" << std::endl;
@@ -70,7 +72,7 @@ namespace djv
                         options.fileSequences = true;
                         for (const auto & i : Core::FileSystem::FileInfo::directoryList(fileInfo.getPath(), options))
                         {
-                            _print(i, io);
+                            _print(i, io, avSystem);
                         }
                         break;
                     }
@@ -94,7 +96,7 @@ namespace djv
             }
 
         private:
-            void _print(const std::string & fileName, std::shared_ptr<AV::IO::System> & io)
+            void _print(const std::string & fileName, std::shared_ptr<AV::IO::System>& io, std::shared_ptr<AV::AVSystem>& avSystem)
             {
                 if (io->canRead(fileName))
                 {
@@ -112,17 +114,17 @@ namespace djv
                             std::cout << "        Aspect ratio: " << video.info.getAspectRatio() << std::endl;
                             std::cout << "        Type: " << video.info.type << std::endl;
                             std::cout << "        Speed: " << Core::Math::Rational::toFloat(video.speed) << std::endl;
-                            std::cout << "        Duration: " << Core::Time::timestampToSeconds(video.duration) << std::endl;
+                            std::cout << "        Duration: " << avSystem->getLabel(video.duration, video.speed) << std::endl;
                             ++i;
                         }
                         i = 0;
                         for (const auto & audio : info.audio)
                         {
                             std::cout << "    Audio track " << i << ":" << std::endl;
-                            std::cout << "        Channels: " << audio.info.channelCount << std::endl;
+                            std::cout << "        Channels: " << static_cast<int>(audio.info.channelCount) << std::endl;
                             std::cout << "        Type: " << audio.info.type << std::endl;
                             std::cout << "        Sample rate: " << audio.info.sampleRate << std::endl;
-                            std::cout << "        Duration: " << Core::Time::timestampToSeconds(audio.duration) << std::endl;
+                            std::cout << "        Duration: " << Core::Time::timestampToSeconds(audio.duration) << " seconds" << std::endl;
                             ++i;
                         }
                     }

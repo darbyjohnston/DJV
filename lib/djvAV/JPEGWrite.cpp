@@ -29,8 +29,6 @@
 
 #include <djvAV/JPEG.h>
 
-#include <djvAV/ImageConvert.h>
-
 #include <djvCore/Context.h>
 #include <djvCore/FileIO.h>
 
@@ -59,9 +57,9 @@ namespace djv
                 }
 
                 std::shared_ptr<Write> Write::create(
-                    const std::string & fileName,
-                    const Settings & settings,
-                    const Info & info,
+                    const std::string& fileName,
+                    const Settings& settings,
+                    const Info& info,
                     const std::shared_ptr<ResourceSystem>& resourceSystem,
                     const std::shared_ptr<LogSystem>& logSystem)
                 {
@@ -93,14 +91,14 @@ namespace djv
                                 f = nullptr;
                             }
                         }
-                        
-                        FILE *               f         = nullptr;
+
+                        FILE* f = nullptr;
                         jpeg_compress_struct jpeg;
-                        bool                 jpegInit  = false;
+                        bool                 jpegInit = false;
                         JPEGErrorStruct      jpegError;
                     };
 
-                    bool jpegInit(jpeg_compress_struct * jpeg, JPEGErrorStruct * error)
+                    bool jpegInit(jpeg_compress_struct* jpeg, JPEGErrorStruct* error)
                     {
                         if (setjmp(error->jump))
                         {
@@ -111,12 +109,12 @@ namespace djv
                     }
 
                     bool jpegOpen(
-                        FILE *                 f,
-                        jpeg_compress_struct * jpeg,
-                        const Image::Info &    info,
-                        const Tags &           tags,
-                        const Settings &       settings,
-                        JPEGErrorStruct *      error)
+                        FILE* f,
+                        jpeg_compress_struct* jpeg,
+                        const Image::Info& info,
+                        const Tags& tags,
+                        const Settings& settings,
+                        JPEGErrorStruct* error)
                     {
                         if (setjmp(error->jump))
                         {
@@ -144,22 +142,22 @@ namespace djv
                             jpeg_write_marker(
                                 jpeg,
                                 JPEG_COM,
-                                (JOCTET *)tag.c_str(),
+                                (JOCTET*)tag.c_str(),
                                 static_cast<unsigned int>(tag.size()));
                         }
                         return true;
                     }
 
                     bool jpegScanline(
-                        jpeg_compress_struct * jpeg,
-                        const uint8_t *        in,
-                        JPEGErrorStruct *      error)
+                        jpeg_compress_struct* jpeg,
+                        const uint8_t* in,
+                        JPEGErrorStruct* error)
                     {
                         if (::setjmp(error->jump))
                         {
                             return false;
                         }
-                        JSAMPROW p[] = { (JSAMPLE *)(in) };
+                        JSAMPROW p[] = { (JSAMPLE*)(in) };
                         if (!jpeg_write_scanlines(jpeg, p, 1))
                         {
                             return false;
@@ -167,7 +165,7 @@ namespace djv
                         return true;
                     }
 
-                    bool jpeg_end(jpeg_compress_struct * jpeg, JPEGErrorStruct * error)
+                    bool jpeg_end(jpeg_compress_struct* jpeg, JPEGErrorStruct* error)
                     {
                         if (::setjmp(error->jump))
                         {
@@ -179,13 +177,13 @@ namespace djv
 
                 } // namespace
 
-                void Write::_write(const std::string & fileName, const std::shared_ptr<Image::Image> & image)
+                Image::Type Write::_getImageType(Image::Type value) const
                 {
-                    Image::Type imageType = Image::Type::None;
-                    switch (image->getType())
+                    Image::Type out = Image::Type::None;
+                    switch (value)
                     {
                     case Image::Type::L_U8:
-                    case Image::Type::RGB_U8:   imageType = image->getType(); break;
+                    case Image::Type::RGB_U8:   out = value; break;
                     case Image::Type::L_U16:
                     case Image::Type::L_U32:
                     case Image::Type::L_F16:
@@ -194,7 +192,7 @@ namespace djv
                     case Image::Type::LA_U16:
                     case Image::Type::LA_U32:
                     case Image::Type::LA_F16:
-                    case Image::Type::LA_F32:   imageType = Image::Type::LA_U8; break;
+                    case Image::Type::LA_F32:   out = Image::Type::LA_U8; break;
                     case Image::Type::RGB_U16:
                     case Image::Type::RGB_U32:
                     case Image::Type::RGB_F16:
@@ -203,26 +201,14 @@ namespace djv
                     case Image::Type::RGBA_U16:
                     case Image::Type::RGBA_U32:
                     case Image::Type::RGBA_F16:
-                    case Image::Type::RGBA_F32: imageType = Image::Type::RGB_U8; break;
+                    case Image::Type::RGBA_F32: out = Image::Type::RGB_U8; break;
                     default: break;
                     }
-                    if (Image::Type::None == imageType)
-                    {
-                        std::stringstream s;
-                        s << pluginName << " " << DJV_TEXT("The file") <<
-                            " '" << fileName << "' " << DJV_TEXT("cannot be written") << ".";
-                        throw std::runtime_error(s.str());
-                    }
-                    const auto info = Image::Info(_imageInfo.size.w, _imageInfo.size.h, imageType);
+                    return out;
+                }
 
-                    std::shared_ptr<Image::Data> imageData = image;
-                    if (imageData->getInfo() != info)
-                    {
-                        auto tmp = Image::Data::create(info);
-                        _convert->process(*imageData, info, *tmp);
-                        imageData = tmp;
-                    }
-
+                void Write::_write(const std::string & fileName, const std::shared_ptr<Image::Image> & image)
+                {
                     File f;
                     f.jpeg.err = jpeg_std_error(&f.jpegError.pub);
                     f.jpegError.pub.error_exit = djvJPEGError;
@@ -246,6 +232,7 @@ namespace djv
                         throw std::runtime_error(s.str());
                     }
 
+                    const auto& info = image->getInfo();
                     if (!jpegOpen(f.f, &f.jpeg, info, _info.tags, _p->settings, &f.jpegError))
                     {
                         std::stringstream s;
@@ -254,10 +241,10 @@ namespace djv
                         throw std::runtime_error(s.str());
                     }
 
-                    const uint16_t h = imageData->getHeight();
+                    const uint16_t h = image->getHeight();
                     for (uint16_t y = 0; y < h; ++y)
                     {
-                        if (!jpegScanline(&f.jpeg, imageData->getData(y), &f.jpegError))
+                        if (!jpegScanline(&f.jpeg, image->getData(y), &f.jpegError))
                         {
                             std::stringstream s;
                             s << pluginName << " " << DJV_TEXT("The file") <<

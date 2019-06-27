@@ -31,6 +31,7 @@
 
 #include <djvUI/IconSystem.h>
 
+#include <djvAV/AVSystem.h>
 #include <djvAV/IO.h>
 #include <djvAV/Render2D.h>
 #include <djvAV/ThumbnailSystem.h>
@@ -828,8 +829,9 @@ namespace djv
                     ss << _getText(DJV_TEXT("Speed")) << ": " <<
                         Math::Rational::toFloat(videoInfo.speed) <<
                         _getText(DJV_TEXT("FPS")) << '\n';
+                    auto avSystem = getContext()->getSystemT<AV::AVSystem>();
                     ss << _getText(DJV_TEXT("Duration")) << ": " <<
-                        Time::getLabel(Time::timestampToSeconds(videoInfo.duration));
+                        avSystem->getLabel(videoInfo.duration, videoInfo.speed);
                     ++track;
                 }
                 track = 0;
@@ -837,7 +839,7 @@ namespace djv
                 {
                     ss << '\n' << '\n';
                     ss << _getText(DJV_TEXT("Audio track")) << " #" << track << '\n';
-                    ss << _getText(DJV_TEXT("Channels")) << ": " << audioInfo.info.channelCount << '\n';
+                    ss << _getText(DJV_TEXT("Channels")) << ": " << static_cast<int>(audioInfo.info.channelCount) << '\n';
                     ss << _getText(DJV_TEXT("Type")) << ": " << audioInfo.info.type << '\n';
                     ss << _getText(DJV_TEXT("Sample rate")) << ": " <<
                         audioInfo.info.sampleRate / 1000.f << DJV_TEXT("kHz") << '\n';

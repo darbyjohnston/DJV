@@ -163,7 +163,7 @@ namespace djv
                             std::shared_ptr<Image::Image> image;
                         };
                         std::vector<std::future<Future> > futures;
-                        for (size_t i = 0; i < read; ++i)
+                        for (size_t i = 0; i < read && (Frame::Invalid == frameIndex || frameIndex < _frames.size()); ++i)
                         {
                             Frame::Number frameNumber = Frame::Invalid;
                             if (frameIndex != Frame::Invalid)
@@ -197,21 +197,24 @@ namespace djv
                                 }));
                         }
 
-                        for (size_t i = 0; i < read; ++i)
+                        for (auto& future : futures)
                         {
-                            const auto future = futures[i].get();
-                            if (future.image)
+                            const auto result = future.get();
+                            if (result.image)
                             {
                                 std::lock_guard<std::mutex> lock(_mutex);
-                                _videoQueue.addFrame(future.pts, future.image);
-                            }
-                            if (Frame::Invalid == frameIndex || frameIndex >= static_cast<Frame::Index>(_frames.size()))
-                            {
-                                std::lock_guard<std::mutex> lock(_mutex);
-                                _videoQueue.setFinished(true);
+                                _videoQueue.addFrame(result.pts, result.image);
                             }
                         }
+
+                        if (Frame::Invalid == frameIndex || frameIndex >= static_cast<Frame::Index>(_frames.size()))
+                        {
+                            std::lock_guard<std::mutex> lock(_mutex);
+                            _videoQueue.setFinished(true);
+                        }
                     }
+
+                    p.running = false;
                 });
             }
             
@@ -257,6 +260,7 @@ namespace djv
                 FileSystem::FileInfo fileInfo;
                 Frame::Number frameNumber = Frame::Invalid;
                 GLFWwindow * glfwWindow = nullptr;
+                std::shared_ptr<Image::Convert> convert;
                 std::thread thread;
                 std::atomic<bool> running;
             };
@@ -331,42 +335,92 @@ namespace djv
                             throw std::runtime_error(ss.str());
                         }
 
-                        _convert = Image::Convert::create(_resourceSystem);
+                        p.convert = Image::Convert::create(_resourceSystem);
 
                         const auto timeout = Time::getValue(Time::TimerValue::Fast);
                         while (p.running)
                         {
-                            std::shared_ptr<Image::Image> image;
+                            std::vector<std::shared_ptr<Image::Image> > images;
                             {
                                 std::unique_lock<std::mutex> lock(_mutex, std::try_to_lock);
                                 if (lock.owns_lock())
                                 {
-                                    if (_videoQueue.hasFrames())
+                                    while (_videoQueue.hasFrames() && images.size() < threadCount)
                                     {
                                         auto frame = _videoQueue.popFrame();
-                                        image = frame.second;
+                                        images.push_back(frame.second);
                                     }
-                                    else if (_videoQueue.isFinished())
+
+                                    if (!_videoQueue.hasFrames() && _videoQueue.isFinished())
                                     {
                                         p.running = false;
                                     }
                                 }
                             }
-                            if (image)
+                            if (images.size())
                             {
-                                const auto fileName = p.fileInfo.getFileName(p.frameNumber);
-                                if (p.frameNumber != Frame::Invalid)
+                                struct Future
                                 {
-                                    ++p.frameNumber;
+                                    bool error = false;
+                                    std::string errorString;
+                                };
+                                std::vector<std::future<Future> > futures;
+                                for (size_t i = 0; i < images.size(); ++i)
+                                {
+                                    const auto fileName = p.fileInfo.getFileName(p.frameNumber);
+                                    /*{
+                                        std::stringstream ss;
+                                        ss << "Writing: " << fileName;
+                                        _logSystem->log("djv::AV::IO::ISequenceWrite", ss.str());
+                                    }*/
+                                    if (p.frameNumber != Frame::Invalid)
+                                    {
+                                        ++p.frameNumber;
+                                    }
+                                    auto image = images[i];
+                                    const Image::Type imageType = _getImageType(image->getType());
+                                    if (Image::Type::None == imageType)
+                                    {
+                                        std::stringstream s;
+                                        s << DJV_TEXT("The file") <<
+                                            " '" << fileName << "' " << DJV_TEXT("cannot be written") << ".";
+                                        throw std::runtime_error(s.str());
+                                    }
+                                    const Image::Layout imageLayout = _getImageLayout();
+                                    if (imageType != image->getType() || imageLayout != image->getLayout())
+                                    {
+                                        const Image::Info info(image->getSize(), imageType, imageLayout);
+                                        auto tmp = Image::Image::create(info);
+                                        tmp->setTags(image->getTags());
+                                        p.convert->process(*image, info, *tmp);
+                                        image = tmp;
+                                    }
+                                    futures.push_back(std::async(
+                                        std::launch::async,
+                                        [this, fileName, image]
+                                        {
+                                            Future out;
+                                            try
+                                            {
+                                                _write(fileName, image);
+                                            }
+                                            catch (const std::exception& e)
+                                            {
+                                                out.error = true;
+                                                out.errorString = e.what();
+                                            }
+                                            return out;
+                                        }));
                                 }
-
-                                /*{
-                                    std::stringstream ss;
-                                    ss << "Writing: " << fileName;
-                                    _logSystem->log("djv::AV::IO::ISequenceWrite", ss.str());
-                                }*/
-
-                                _write(fileName, image);
+                                for (auto& future : futures)
+                                {
+                                    const auto result = future.get();
+                                    if (result.error)
+                                    {
+                                        _logSystem->log("djv::AV::ISequenceWrite", result.errorString, LogLevel::Error);
+                                        p.running = false;
+                                    }
+                                }
                             }
                             else
                             {
@@ -374,12 +428,14 @@ namespace djv
                             }
                         }
 
-                        _convert.reset();
+                        p.convert.reset();
                     }
                     catch (const std::exception & e)
                     {
                         _logSystem->log("djv::AV::ISequenceWrite", e.what(), LogLevel::Error);
                     }
+
+                    p.running = false;
                 });
             }
 
@@ -393,6 +449,16 @@ namespace djv
             bool ISequenceWrite::isRunning() const
             {
                 return _p->running;
+            }
+
+            Image::Type ISequenceWrite::_getImageType(Image::Type value) const
+            {
+                return value;
+            }
+
+            Image::Layout ISequenceWrite::_getImageLayout() const
+            {
+                return Image::Layout();
             }
 
             void ISequenceWrite::_finish()

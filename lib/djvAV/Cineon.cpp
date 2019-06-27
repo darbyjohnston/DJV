@@ -328,7 +328,7 @@ namespace djv
 
                 } // namespace
 
-                Header read(FileSystem::FileIO& io, Info& info, bool& filmPrint)
+                Header read(FileSystem::FileIO& io, Info& info, ColorProfile& colorProfile)
                 {
                     Header out;
 
@@ -520,7 +520,11 @@ namespace djv
                     {
                         info.tags.setTag("Film Slate", toString(out.film.slate, 200));
                     }
-                    filmPrint = Descriptor::RedFilmPrint == static_cast<Descriptor>(out.image.channel[0].descriptor[1]);
+                    switch (static_cast<Descriptor>(out.image.channel[0].descriptor[1]))
+                    {
+                    case Descriptor::RedFilmPrint: colorProfile = ColorProfile::FilmPrint; break;
+                    default:                       colorProfile = ColorProfile::Raw;       break;
+                    }
 
                     // Set the file position.
                     if (out.file.imageOffset)
@@ -717,7 +721,7 @@ namespace djv
 
                 std::shared_ptr<IRead> Plugin::read(const std::string & fileName) const
                 {
-                    return Read::create(fileName, _p->settings, _resourceSystem, _logSystem);
+                    return Read::create(fileName, _resourceSystem, _logSystem);
                 }
 
                 std::shared_ptr<IWrite> Plugin::write(const std::string & fileName, const Info & info) const
@@ -732,7 +736,6 @@ namespace djv
     DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
         AV::IO::Cineon,
         ColorProfile,
-        DJV_TEXT("Auto"),
         DJV_TEXT("Raw"),
         DJV_TEXT("FilmPrint"));
 
@@ -810,16 +813,9 @@ namespace djv
         {
             {
                 std::stringstream ss;
-                ss << value.inputProfile;
-                out.get<picojson::object>()["InputProfile"] = picojson::value(ss.str());
+                ss << value.colorProfile;
+                out.get<picojson::object>()["ColorProfile"] = picojson::value(ss.str());
             }
-            out.get<picojson::object>()["InputFilmPrint"] = toJSON(value.inputFilmPrint);
-            {
-                std::stringstream ss;
-                ss << value.outputProfile;
-                out.get<picojson::object>()["OutputProfile"] = picojson::value(ss.str());
-            }
-            out.get<picojson::object>()["OutputFilmPrint"] = toJSON(value.outputFilmPrint);
         }
         return out;
     }
@@ -895,23 +891,10 @@ namespace djv
         {
             for (const auto& i : value.get<picojson::object>())
             {
-                if ("InputProfile" == i.first)
+                if ("ColorProfile" == i.first)
                 {
                     std::stringstream ss(i.second.get<std::string>());
-                    ss >> out.inputProfile;
-                }
-                else if ("InputFilmPrint" == i.first)
-                {
-                    fromJSON(i.second, out.inputFilmPrint);
-                }
-                else if ("OutputProfile" == i.first)
-                {
-                    std::stringstream ss(i.second.get<std::string>());
-                    ss >> out.outputProfile;
-                }
-                else if ("OutputFilmPrint" == i.first)
-                {
-                    fromJSON(i.second, out.outputFilmPrint);
+                    ss >> out.colorProfile;
                 }
             }
         }

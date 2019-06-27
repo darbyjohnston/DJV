@@ -29,8 +29,6 @@
 
 #include <djvAV/Cineon.h>
 
-#include <djvAV/ImageConvert.h>
-
 #include <djvCore/FileIO.h>
 
 using namespace djv::Core;
@@ -48,11 +46,9 @@ namespace djv
                     Settings settings;
                 };
 
-                Write::Write(const Settings & settings) :
+                Write::Write() :
                     _p(new Private)
-                {
-                    _p->settings = settings;
-                }
+                {}
 
                 Write::~Write()
                 {
@@ -61,19 +57,41 @@ namespace djv
 
                 std::shared_ptr<Write> Write::create(
                     const std::string & fileName,
-                    const Settings & settings,
+                    const Settings& settings,
                     const Info & info,
                     const std::shared_ptr<ResourceSystem>& resourceSystem,
                     const std::shared_ptr<LogSystem>& logSystem)
                 {
-                    auto out = std::shared_ptr<Write>(new Write(settings));
+                    auto out = std::shared_ptr<Write>(new Write);
+                    out->_p->settings = settings;
                     out->_init(fileName, info, resourceSystem, logSystem);
+                    return out;
+                }
+
+                Image::Type Write::_getImageType(Image::Type) const
+                {
+                    return Image::Type::RGB_U10;
+                }
+
+                Image::Layout Write::_getImageLayout() const
+                {
+                    Image::Layout out;
+                    out.endian = Memory::Endian::MSB;
+                    out.alignment = 4;
                     return out;
                 }
                 
                 void Write::_write(const std::string & fileName, const std::shared_ptr<Image::Image> & image)
                 {
                     DJV_PRIVATE_PTR();
+                    FileSystem::FileIO io;
+                    io.open(fileName, FileSystem::FileIO::Mode::Write);
+                    Info info;
+                    info.video.push_back(image->getInfo());
+                    info.tags = image->getTags();
+                    write(io, info, p.settings.colorProfile);
+                    io.write(image->getData(), image->getDataByteCount());
+                    writeFinish(io);
                 }
 
             } // namespace PPM

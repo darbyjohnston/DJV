@@ -113,6 +113,7 @@ namespace djv
                         const std::shared_ptr<Core::LogSystem>&);
 
                 protected:
+                    Image::Type _getImageType(Image::Type) const override;
                     void _write(const std::string & fileName, const std::shared_ptr<Image::Image> &) override;
 
                 private:
