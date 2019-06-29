@@ -245,7 +245,7 @@ namespace djv
                     }
 
                     // Read the reset of the header.
-                    io.read(&out.file, sizeof(Header::Image));
+                    io.read(&out.image, sizeof(Header::Image));
                     io.read(&out.source, sizeof(Header::Source));
                     io.read(&out.film, sizeof(Header::Film));
                     io.read(&out.tv, sizeof(Header::TV));
