@@ -62,6 +62,7 @@ int main(int argc, char ** argv)
         {
             throw std::runtime_error(curl_easy_strerror(res));
         }
+        std::cout << s << std::endl;
 
         /*auto app = Desktop::Application::create(argc, argv);
 
