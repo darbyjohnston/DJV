@@ -57,7 +57,7 @@ namespace djv
                 static const std::string pluginName = "JPEG";
                 static const std::set<std::string> fileExtensions = { ".jpeg", ".jpg", ".jfif" };
 
-                //! This struct provides the JPEG settings.
+                //! This struct provides the JPEG file I/O settings.
                 struct Settings
                 {
                     int quality = 90;
@@ -71,6 +71,7 @@ namespace djv
                     jmp_buf jump;
                 };
 
+                //! This class provides the JPEG file reader.
                 class Read : public ISequenceRead
                 {
                     DJV_NON_COPYABLE(Read);
@@ -95,6 +96,7 @@ namespace djv
                     Info _open(const std::string &, File &);
                 };
                 
+                //! This class provides the JPEG file writer.
                 class Write : public ISequenceWrite
                 {
                     DJV_NON_COPYABLE(Write);
@@ -120,6 +122,7 @@ namespace djv
                     DJV_PRIVATE();
                 };
 
+                //! This class provides the JPEG file I/O plugin.
                 class Plugin : public IPlugin
                 {
                     DJV_NON_COPYABLE(Plugin);

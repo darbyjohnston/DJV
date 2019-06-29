@@ -66,6 +66,7 @@ namespace djv
 
                 std::string getErrorString(int);
 
+                //! This class provides the FFmpeg file reader.
                 class Read : public IRead
                 {
                     DJV_NON_COPYABLE(Read);
@@ -98,6 +99,7 @@ namespace djv
                     DJV_PRIVATE();
                 };
 
+                //! This class provides the FFmpeg file I/O plugin.
                 class Plugin : public IPlugin
                 {
                     DJV_NON_COPYABLE(Plugin);

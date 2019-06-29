@@ -27,7 +27,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvAV/Cineon.h>
+#include <djvAV/DPX.h>
 
 #include <djvCore/FileIO.h>
 
@@ -39,62 +39,63 @@ namespace djv
     {
         namespace IO
         {
-            namespace Cineon
+            namespace DPX
             {
-                struct Write::Private
+                struct Read::Private
                 {
-                    Settings settings;
+                    ColorProfile colorProfile = ColorProfile::FilmPrint;
                 };
 
-                Write::Write() :
+                Read::Read() :
                     _p(new Private)
                 {}
 
-                Write::~Write()
+                Read::~Read()
                 {
                     _finish();
                 }
 
-                std::shared_ptr<Write> Write::create(
+                std::shared_ptr<Read> Read::create(
                     const std::string & fileName,
-                    const Settings& settings,
-                    const Info & info,
                     const std::shared_ptr<ResourceSystem>& resourceSystem,
                     const std::shared_ptr<LogSystem>& logSystem)
                 {
-                    auto out = std::shared_ptr<Write>(new Write);
-                    out->_p->settings = settings;
-                    out->_init(fileName, info, resourceSystem, logSystem);
+                    auto out = std::shared_ptr<Read>(new Read);
+                    out->_init(fileName, resourceSystem, logSystem);
                     return out;
                 }
 
-                Image::Type Write::_getImageType(Image::Type) const
+                Info Read::_readInfo(const std::string & fileName)
                 {
-                    return Image::Type::RGB_U10;
+                    FileSystem::FileIO io;
+                    return _open(fileName, io);
                 }
 
-                Image::Layout Write::_getImageLayout() const
-                {
-                    Image::Layout out;
-                    out.endian = Memory::Endian::MSB;
-                    out.alignment = 4;
-                    return out;
-                }
-                
-                void Write::_write(const std::string & fileName, const std::shared_ptr<Image::Image> & image)
+                std::shared_ptr<Image::Image> Read::_readImage(const std::string & fileName)
                 {
                     DJV_PRIVATE_PTR();
                     FileSystem::FileIO io;
-                    io.open(fileName, FileSystem::FileIO::Mode::Write);
-                    Info info;
-                    info.video.push_back(image->getInfo());
-                    info.tags = image->getTags();
-                    write(io, info, p.settings.colorProfile);
-                    io.write(image->getData(), image->getDataByteCount());
-                    writeFinish(io);
+                    const auto info = _open(fileName, io);
+                    auto out = Image::Image::create(info.video[0].info);
+                    out->setTags(info.tags);
+                    const size_t size = std::min(out->getDataByteCount(), io.getSize() - io.getPos());
+                    memcpy(out->getData(), io.mmapP(), size);
+                    return out;
                 }
 
-            } // namespace Cineon
+                Info Read::_open(const std::string & fileName, FileSystem::FileIO & io)
+                {
+                    DJV_PRIVATE_PTR();
+                    io.open(fileName, FileSystem::FileIO::Mode::Read);
+                    Info info;
+                    info.video.resize(1);
+                    info.video[0].info.name = fileName;
+                    read(io, info, p.colorProfile);
+                    info.video[0].duration = _duration;
+                    return info;
+                }
+
+            } // namespace DPX
         } // namespace IO
     } // namespace AV
 } // namespace djv

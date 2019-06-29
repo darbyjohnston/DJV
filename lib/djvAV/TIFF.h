@@ -39,7 +39,7 @@ namespace djv
     {
         namespace IO
         {
-            //! This namespace provides Tagged Image File Format (TIFF) image I/O.
+            //! This namespace provides Tagged Image File Format (TIFF) I/O.
             //!
             //! References:
             //! - http://www.libtiff.org
@@ -48,7 +48,7 @@ namespace djv
                 static const std::string pluginName = "TIFF";
                 static const std::set<std::string> fileExtensions = { ".tif", ".tiff" };
 
-                //! This enumeration provides the TIFF compression types.
+                //! This enumeration provides the TIFF file compression types.
                 enum class Compression
                 {
                     None,
@@ -60,13 +60,13 @@ namespace djv
                 };
                 DJV_ENUM_HELPERS(Compression);
 
-                //! This struct provides the TIFF settings.
+                //! This struct provides the TIFF file I/O settings.
                 struct Settings
                 {
                     Compression compression = Compression::LZW;
                 };
 
-                //! Load a TIFF palette.
+                //! Load a TIFF file palette.
                 void paletteLoad(
                     uint8_t *  out,
                     int        size,
@@ -75,6 +75,7 @@ namespace djv
                     uint16_t * green,
                     uint16_t * blue);
 
+                //! This class provides the TIFF file reader.
                 class Read : public ISequenceRead
                 {
                     DJV_NON_COPYABLE(Read);
@@ -99,6 +100,7 @@ namespace djv
                     Info _open(const std::string &, File &);
                 };
                 
+                //! This class provides the TIFF file writer.
                 class Write : public ISequenceWrite
                 {
                     DJV_NON_COPYABLE(Write);
@@ -125,6 +127,7 @@ namespace djv
                     DJV_PRIVATE();
                 };
 
+                //! This class provides the TIFF file I/O plugin.
                 class Plugin : public IPlugin
                 {
                     DJV_NON_COPYABLE(Plugin);

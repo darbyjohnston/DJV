@@ -46,7 +46,7 @@ namespace djv
                 static const std::string pluginName = "Cineon";
                 static const std::set<std::string> fileExtensions = { ".cin" };
 
-                //! This enumeration provides the color profiles.
+                //! This enumeration provides the Cineon file color profiles.
                 enum class ColorProfile
                 {
                     Raw,
@@ -97,37 +97,14 @@ namespace djv
                 //! Create a Cineon film print color space to linear space LUT.
                 std::shared_ptr<Image::Data> filmPrintToLinearLut(const FilmPrintToLinear&);
 
-                //! This enumeration provides additional image tags for Cineon files.
-                enum class Tag
-                {
-                    SourceOffset,
-                    SourceFile,
-                    SourceTime,
-                    SourceInputDevice,
-                    SourceInputModel,
-                    SourceInputSerial,
-                    SourceInputPitch,
-                    SourceGamma,
-                    FilmFormat,
-                    FilmFrame,
-                    FilmFrameRate,
-                    FilmFrameID,
-                    FilmSlate,
-
-                    Count,
-                    First = SourceOffset
-                };
-                DJV_ENUM_HELPERS(Tag);
-
-                //! This constant provides the Cineon header magic numbers for LSB
-                //! and MSB endians.
+                //! This constant provides the Cineon file header magic numbers.
                 const uint32_t magic[] =
                 {
                     0x802a5fd7,
                     0xd75f2a80
                 };
 
-                //! This enumeration provides the image orientations.
+                //! This enumeration provides the Cineon file image orientations.
                 enum class Orient
                 {
                     LeftRightTopBottom,
@@ -140,7 +117,7 @@ namespace djv
                     BottomTopRightLeft
                 };
 
-                //! This enumeration provides the descriptors.
+                //! This enumeration provides the Cineon file descriptors.
                 enum class Descriptor
                 {
                     Luminance,
@@ -152,7 +129,7 @@ namespace djv
                     BlueCCIRXA11
                 };
 
-                //! This stuct provides Cineon header data.
+                //! This stuct provides the Cineon file header.
                 struct Header
                 {
                     struct File
@@ -237,34 +214,31 @@ namespace djv
                         film;
                 };
 
-                //! Zero out the data in a Cineon header.
+                //! Zero out the data in a Cineon file header.
                 void zero(Header&);
 
-                //! Flip the endian of a Cineon header.
-                void endian(Header&);
-
-                //! Read a Cineon header.
+                //! Read a Cineon file header.
                 //!
                 //! Throws:
                 //! - std::exception
                 Header read(Core::FileSystem::FileIO&, Info&, ColorProfile&);
                 
-                //! Write a Cineon header.
+                //! Write a Cineon file header.
                 //!
                 //! Throws:
                 //! - std::exception
                 void write(Core::FileSystem::FileIO&, const Info& info, ColorProfile);
 
-                //! Finish writing the Cineon header after image data is written.
+                //! Finish writing the Cineon file header after image data is written.
                 void writeFinish(Core::FileSystem::FileIO&);
 
-                //! This struct provides the Cineon settings.
+                //! This struct provides the Cineon file I/O settings.
                 struct Settings
                 {
                     ColorProfile colorProfile = ColorProfile::FilmPrint;
                 };
 
-                //! This class provides the reader.
+                //! This class provides the Cineon file reader.
                 class Read : public ISequenceRead
                 {
                     DJV_NON_COPYABLE(Read);
@@ -290,7 +264,7 @@ namespace djv
                     DJV_PRIVATE();
                 };
 
-                //! This class provides the writer.
+                //! This class provides the Cineon file writer.
                 class Write : public ISequenceWrite
                 {
                     DJV_NON_COPYABLE(Write);
@@ -317,7 +291,7 @@ namespace djv
                     DJV_PRIVATE();
                 };
 
-                //! This class provides the plugin.
+                //! This class provides the Cineon file I/O plugin.
                 class Plugin : public IPlugin
                 {
                     DJV_NON_COPYABLE(Plugin);
@@ -344,7 +318,7 @@ namespace djv
         } // namespace IO
     } // namespace AV
 
-    DJV_ENUM_SERIALIZE_HELPERS(AV::IO::Cineon::Tag);
+    DJV_ENUM_SERIALIZE_HELPERS(AV::IO::Cineon::ColorProfile);
 
     picojson::value toJSON(const AV::IO::Cineon::FilmPrintToLinear&);
     picojson::value toJSON(const AV::IO::Cineon::LinearToFilmPrint&);

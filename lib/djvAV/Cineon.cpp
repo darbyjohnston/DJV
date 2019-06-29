@@ -201,7 +201,7 @@ namespace djv
                     zero(header.film.slate, 200);
                 }
 
-                void endian(Header& header)
+                void convertEndian(Header& header)
                 {
                     Memory::endian(&header.file.imageOffset, 1, 4);
                     Memory::endian(&header.file.headerSize, 1, 4);
@@ -331,9 +331,9 @@ namespace djv
                 Header read(FileSystem::FileIO& io, Info& info, ColorProfile& colorProfile)
                 {
                     Header out;
+                    zero(out);
 
                     // Read the file section of the header.
-                    zero(out);
                     io.read(&out.file, sizeof(Header::File));
 
                     // Check the magic number.
@@ -351,8 +351,20 @@ namespace djv
                         throw std::runtime_error(s.str());
                     }
 
-                    // Read the image section of the header.
+                    // Read the rest of the header.
                     io.read(&out.image, sizeof(Header::Image));
+                    io.read(&out.source, sizeof(Header::Source));
+                    io.read(&out.film, sizeof(Header::Film));
+
+                    // Flip the endian of the data if necessary.
+                    if (flipEndian)
+                    {
+                        io.setEndian(true);
+                        convertEndian(out);
+                        info.video[0].info.layout.endian = Memory::opposite(Memory::getEndian());
+                    }
+
+                    // Read the image section of the header.
                     if (!out.image.channels)
                     {
                         std::stringstream s;
@@ -407,18 +419,6 @@ namespace djv
                         std::stringstream s;
                         s << DJV_TEXT("Channel padding is unsupported.");
                         throw std::runtime_error(s.str());
-                    }
-
-                    // Read the reset of the header.
-                    io.read(&out.source, sizeof(Header::Source));
-                    io.read(&out.film, sizeof(Header::Film));
-
-                    // Flip the endian of the data if necessary.
-                    if (flipEndian)
-                    {
-                        io.setEndian(true);
-                        endian(out);
-                        info.video[0].info.layout.endian = Memory::opposite(Memory::getEndian());
                     }
 
                     // Collect the information.
@@ -538,6 +538,7 @@ namespace djv
                 void write(FileSystem::FileIO& io, const Info& info, ColorProfile colorProfile)
                 {
                     Header header;
+                    zero(header);
                     
                     // Set the file section.
                     header.file.imageOffset        = 2048;
@@ -666,7 +667,7 @@ namespace djv
                     io.setEndian(flipEndian);
                     if (flipEndian)
                     {
-                        endian(header);
+                        convertEndian(header);
                         header.file.magic = magic[1];
                     }
                     else
@@ -738,23 +739,6 @@ namespace djv
         ColorProfile,
         DJV_TEXT("Raw"),
         DJV_TEXT("FilmPrint"));
-
-    DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
-        AV::IO::Cineon,
-        Tag,
-        DJV_TEXT("SourceOffset"),
-        DJV_TEXT("SourceFile"),
-        DJV_TEXT("SourceTime"),
-        DJV_TEXT("SourceInputDevice"),
-        DJV_TEXT("SourceInputModel"),
-        DJV_TEXT("SourceInputSerial"),
-        DJV_TEXT("SourceInputPitch"),
-        DJV_TEXT("SourceGamma"),
-        DJV_TEXT("FilmFormat"),
-        DJV_TEXT("FilmFrame"),
-        DJV_TEXT("FilmFrameRate"),
-        DJV_TEXT("FilmFrameID"),
-        DJV_TEXT("FilmSlate"));
 
     picojson::value toJSON(const AV::IO::Cineon::LinearToFilmPrint& value)
     {

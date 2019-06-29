@@ -21,6 +21,7 @@ set(header
     Cineon.h
     Color.h
     ColorInline.h
+    DPX.h
     Enum.h
     FontSystem.h
     FontSystemInline.h
@@ -59,6 +60,9 @@ set(source
     CineonRead.cpp
     CineonWrite.cpp
     Color.cpp
+    DPX.cpp
+    DPXRead.cpp
+    DPXWrite.cpp
     Enum.cpp
     FontSystem.cpp
     IO.cpp

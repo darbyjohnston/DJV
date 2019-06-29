@@ -27,7 +27,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvAV/Cineon.h>
+#include <djvAV/DPX.h>
 
 #include <djvCore/FileIO.h>
 
@@ -39,7 +39,7 @@ namespace djv
     {
         namespace IO
         {
-            namespace Cineon
+            namespace DPX
             {
                 struct Write::Private
                 {
@@ -89,12 +89,12 @@ namespace djv
                     Info info;
                     info.video.push_back(image->getInfo());
                     info.tags = image->getTags();
-                    write(io, info, p.settings.colorProfile);
+                    write(io, info, p.settings.version, p.settings.endian, p.settings.colorProfile);
                     io.write(image->getData(), image->getDataByteCount());
                     writeFinish(io);
                 }
 
-            } // namespace Cineon
+            } // namespace DPX
         } // namespace IO
     } // namespace AV
 } // namespace djv

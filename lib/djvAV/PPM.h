@@ -37,7 +37,7 @@ namespace djv
     {
         namespace IO
         {
-            //! This namespace provides NetPBM image I/O.
+            //! This namespace provides NetPBM file I/O.
             //!
             //! References:
             //! - Netpbm, "PPM Format Specification"
@@ -47,7 +47,7 @@ namespace djv
                 static const std::string pluginName = "PPM";
                 static const std::set<std::string> fileExtensions = { ".ppm" };
 
-                //! This enumeration provides the PPM data types.
+                //! This enumeration provides the PPM file data types.
                 enum class Data
                 {
                     ASCII,
@@ -58,7 +58,7 @@ namespace djv
                 };
                 DJV_ENUM_HELPERS(Data);
 
-                //! This struct provides the PPM settings.
+                //! This struct provides the PPM file I/O settings.
                 struct Settings
                 {
                     Data data = Data::Binary;
@@ -70,20 +70,21 @@ namespace djv
                     size_t channelCount,
                     size_t componentSize);
 
-                //! Read ASCII data.
+                //! Read PPM file ASCII data.
                 void readASCII(
                     Core::FileSystem::FileIO & io,
                     uint8_t *                  out,
                     size_t                     size,
                     size_t                     componentSize);
 
-                //! Save ASCII data.
+                //! Save PPM file ASCII data.
                 size_t writeASCII(
                     const uint8_t * in,
                     char *          out,
                     size_t          size,
                     size_t          componentSize);
 
+                //! This class provides the PPM file reader.
                 class Read : public ISequenceRead
                 {
                     DJV_NON_COPYABLE(Read);
@@ -107,6 +108,7 @@ namespace djv
                     Info _open(const std::string &, Core::FileSystem::FileIO &, Data &);
                 };
                 
+                //! This class provides the PPM file writer.
                 class Write : public ISequenceWrite
                 {
                     DJV_NON_COPYABLE(Write);
@@ -133,6 +135,7 @@ namespace djv
                     DJV_PRIVATE();
                 };
 
+                //! This class provides the PPM file I/O plugin.
                 class Plugin : public IPlugin
                 {
                     DJV_NON_COPYABLE(Plugin);
