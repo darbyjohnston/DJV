@@ -23,7 +23,8 @@
 find_package(ZLIB REQUIRED)
 
 find_path(FFMPEG_INCLUDE_DIR
-    NAMES libavcodec/avcodec.h)
+    NAMES avcodec.h
+	PATH_SUFFIXES libavcodec)
 set(FFMPEG_INCLUDE_DIRS
     ${FFMPEG_INCLUDE_DIR}
     ${ZLIB_INCLUDE_DIRS})
