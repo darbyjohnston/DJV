@@ -1,6 +1,7 @@
 find_package(curl REQUIRED)
 
-set(source gallery.cpp)
+set(header jpeg.h)
+set(source gallery.cpp jpeg.cpp)
 
 add_executable(gallery ${header} ${source})
 target_link_libraries(gallery djvDesktopApp curl)

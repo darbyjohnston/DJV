@@ -140,7 +140,7 @@ namespace djv
                             {
                                 std::stringstream s;
                                 s << DJV_TEXT("The JPEG file") <<
-                                    " '" << fileName << "' " << DJV_TEXT("cannot be opened") << ". " << f.jpegError.msg;
+                                    " '" << fileName << "' " << DJV_TEXT("cannot be read") << ". " << f.jpegError.msg;
                                 throw std::runtime_error(s.str());
                             }
                         }

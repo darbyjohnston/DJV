@@ -14,7 +14,9 @@
 #
 # * curl
 
-find_package(MbedTLS REQUIRED)
+if (NOT WIN32 OR APPLE)
+	find_package(MbedTLS REQUIRED)
+endif()
 
 find_path(curl_INCLUDE_DIR
     NAMES curl.h
@@ -32,10 +34,6 @@ set(curl_LIBRARIES
     ${curl_LIBRARY}
     ${MbedTLS_LIBRARIES})
 
-if(NOT curl_SHARED_LIBS)
-    add_definitions(-DCURL_STATICLIB)
-endif()
-
 include(FindPackageHandleStandardArgs)
 find_package_handle_standard_args(
     curl
@@ -44,11 +42,24 @@ mark_as_advanced(curl_INCLUDE_DIR curl_LIBRARY)
 
 if(curl_FOUND AND NOT TARGET curl::curl)
     add_library(curl::curl UNKNOWN IMPORTED)
-    set_target_properties(curl::curl PROPERTIES
-        IMPORTED_LOCATION "${curl_LIBRARY}"
-        IMPORTED_LINK_INTERFACE_LIBRARIES MbedTLS
-        INTERFACE_INCLUDE_DIRECTORIES "${curl_INCLUDE_DIRS}"
-        INTERFACE_COMPILE_DEFINITIONS curl_FOUND)
+	if(WIN32)
+		set_property(TARGET curl::curl PROPERTY IMPORTED_LOCATION ${curl_LIBRARY})
+		set_property(TARGET curl::curl PROPERTY INTERFACE_LINK_LIBRARIES winmm ws2_32 advapi32 crypt32)
+		set_property(TARGET curl::curl PROPERTY INTERFACE_INCLUDE_DIRECTORIES ${curl_INCLUDE_DIRS})
+		set_property(TARGET curl::curl PROPERTY INTERFACE_COMPILE_DEFINITIONS curl_FOUND)
+		if(NOT curl_SHARED_LIBS)
+			set_property(TARGET curl::curl APPEND PROPERTY INTERFACE_COMPILE_DEFINITIONS CURL_STATICLIB)
+		endif()
+	elseif(APPLE)
+		set_property(TARGET curl::curl PROPERTY IMPORTED_LOCATION ${curl_LIBRARY})
+		set_property(TARGET curl::curl PROPERTY INTERFACE_INCLUDE_DIRECTORIES ${curl_INCLUDE_DIRS})
+		set_property(TARGET curl::curl PROPERTY INTERFACE_COMPILE_DEFINITIONS curl_FOUND)
+	else()
+		set_property(TARGET curl::curl PROPERTY IMPORTED_LOCATION ${curl_LIBRARY})
+		set_property(TARGET curl::curl PROPERTY INTERFACE_LINK_LIBRARIES MbedTLS)
+		set_property(TARGET curl::curl PROPERTY INTERFACE_INCLUDE_DIRECTORIES ${curl_INCLUDE_DIRS})
+		set_property(TARGET curl::curl PROPERTY INTERFACE_COMPILE_DEFINITIONS curl_FOUND)
+	endif()
 endif()
 if(curl_FOUND AND NOT TARGET curl)
     add_library(curl INTERFACE)

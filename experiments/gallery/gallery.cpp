@@ -27,22 +27,220 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
+#include "jpeg.h"
+
 #include <djvDesktopApp/Application.h>
 
 #include <djvUI/ImageWidget.h>
+#include <djvUI/Label.h>
+#include <djvUI/RowLayout.h>
 #include <djvUI/Window.h>
 
+#include <djvAV/Image.h>
+
 #include <djvCore/Error.h>
+#include <djvCore/LogSystem.h>
+#include <djvCore/Timer.h>
 
 #include <curl/curl.h>
 
 using namespace djv;
 
-size_t curlCallback(void* contents, size_t size, size_t nmemb, void* userp)
+size_t jsonCallback(void* contents, size_t size, size_t nmemb, void* userp)
 {
     const size_t totalSize = size * nmemb;
     *reinterpret_cast<std::string*>(userp) += std::string(reinterpret_cast<char*>(contents), totalSize);
     return totalSize;
+}
+
+size_t jpegCallback(void* contents, size_t size, size_t nmemb, void* userp)
+{
+    const size_t totalSize = size * nmemb;
+    std::vector<uint8_t> tmp;
+    tmp.resize(totalSize);
+    memcpy(tmp.data(), contents, totalSize);
+    auto data = reinterpret_cast<std::vector<uint8_t>*>(userp);
+    data->insert(data->end(), tmp.begin(), tmp.end());
+    return totalSize;
+}
+
+std::vector<uint64_t> getIDs()
+{
+    std::vector<uint64_t> out;
+
+    auto curlHandle = curl_easy_init();
+    curl_easy_setopt(curlHandle, CURLOPT_URL, "https://collectionapi.metmuseum.org/public/collection/v1/objects");
+    curl_easy_setopt(curlHandle, CURLOPT_WRITEFUNCTION, jsonCallback);
+    std::string s;
+    curl_easy_setopt(curlHandle, CURLOPT_WRITEDATA, (void*)& s);
+    curl_easy_setopt(curlHandle, CURLOPT_USERAGENT, "libcurl-agent/1.0");
+    if (auto res = curl_easy_perform(curlHandle))
+    {
+        throw std::runtime_error(curl_easy_strerror(res));
+    }
+    curl_easy_cleanup(curlHandle);
+
+    picojson::value json;
+    std::string error;
+    picojson::parse(json, s.begin(), s.end(), &error);
+    if (!error.empty())
+    {
+        throw std::runtime_error(error);
+    }
+    if (json.is<picojson::object>())
+    {
+        const auto& object = json.get<picojson::object>();
+        for (const auto& i : object)
+        {
+            if ("total" == i.first && i.second.is<double>())
+            {
+                for (const auto& j : object)
+                {
+                    if ("objectIDs" == j.first && j.second.is<picojson::array>())
+                    {
+                        for (const auto& k : j.second.get<picojson::array>())
+                        {
+                            if (k.is<double>())
+                            {
+                                out.push_back(static_cast<uint64_t>(k.get<double>()));
+                            }
+                        }
+                        break;
+                    }
+                }
+                break;
+            }
+        }
+    }
+
+    return out;
+}
+
+bool isPublicDomain(uint64_t id)
+{
+    bool out = false;
+
+    auto curlHandle = curl_easy_init();
+    std::stringstream ss;
+    ss << "https://collectionapi.metmuseum.org/public/collection/v1/objects/";
+    ss << id;
+    curl_easy_setopt(curlHandle, CURLOPT_URL, ss.str().c_str());
+    curl_easy_setopt(curlHandle, CURLOPT_WRITEFUNCTION, jsonCallback);
+    std::string s;
+    curl_easy_setopt(curlHandle, CURLOPT_WRITEDATA, (void*)& s);
+    curl_easy_setopt(curlHandle, CURLOPT_USERAGENT, "libcurl-agent/1.0");
+    if (auto res = curl_easy_perform(curlHandle))
+    {
+        throw std::runtime_error(curl_easy_strerror(res));
+    }
+    curl_easy_cleanup(curlHandle);
+
+    picojson::value json;
+    std::string error;
+    picojson::parse(json, s.begin(), s.end(), &error);
+    if (!error.empty())
+    {
+        throw std::runtime_error(error);
+    }
+    if (json.is<picojson::object>())
+    {
+        const auto& object = json.get<picojson::object>();
+        for (const auto& i : object)
+        {
+            if ("isPublicDomain" == i.first && i.second.is<bool>())
+            {
+                out = i.second.get<bool>();
+                break;
+            }
+        }
+    }
+
+    return out;
+}
+
+struct Image
+{
+    uint64_t id = 0;
+    std::shared_ptr<AV::Image::Image> image;
+    std::string title;
+    std::string objectName;
+    std::string department;
+};
+
+Image getImage(uint64_t id)
+{
+    Image out;
+
+    auto curlHandle = curl_easy_init();
+    //curl_easy_setopt(curlHandle, CURLOPT_URL, "https://collectionapi.metmuseum.org/public/collection/v1/departments");
+    std::stringstream ss;
+    ss << "https://collectionapi.metmuseum.org/public/collection/v1/objects/";
+    ss << id;
+    curl_easy_setopt(curlHandle, CURLOPT_URL, ss.str().c_str());
+    curl_easy_setopt(curlHandle, CURLOPT_WRITEFUNCTION, jsonCallback);
+    std::string s;
+    curl_easy_setopt(curlHandle, CURLOPT_WRITEDATA, (void*)& s);
+    curl_easy_setopt(curlHandle, CURLOPT_USERAGENT, "libcurl-agent/1.0");
+    if (auto res = curl_easy_perform(curlHandle))
+    {
+        throw std::runtime_error(curl_easy_strerror(res));
+    }
+    curl_easy_cleanup(curlHandle);
+
+    picojson::value json;
+    std::string error;
+    picojson::parse(json, s.begin(), s.end(), &error);
+    if (!error.empty())
+    {
+        throw std::runtime_error(error);
+    }
+    if (json.is<picojson::object>())
+    {
+        const auto& object = json.get<picojson::object>();
+        for (const auto& i : object)
+        {
+            if ("isPublicDomain" == i.first && i.second.is<bool>() && i.second.get<bool>())
+            {
+                for (const auto& j : object)
+                {
+                    if ("primaryImage" == j.first && j.second.is<std::string>())
+                    {
+                        const std::string& s = j.second.get<std::string>();
+                        if (!s.empty())
+                        {
+                            std::vector<uint8_t> data;
+                            curlHandle = curl_easy_init();
+                            curl_easy_setopt(curlHandle, CURLOPT_URL, s.c_str());
+                            curl_easy_setopt(curlHandle, CURLOPT_WRITEFUNCTION, jpegCallback);
+                            curl_easy_setopt(curlHandle, CURLOPT_WRITEDATA, (void*)&data);
+                            curl_easy_setopt(curlHandle, CURLOPT_USERAGENT, "libcurl-agent/1.0");
+                            if (auto res = curl_easy_perform(curlHandle))
+                            {
+                                throw std::runtime_error(curl_easy_strerror(res));
+                            }
+                            curl_easy_cleanup(curlHandle);
+                            out.id = id;
+                            out.image = jpegRead(data);
+                        }
+                    }
+                    else if ("title" == j.first && j.second.is<std::string>())
+                    {
+                        out.title = j.second.get<std::string>();
+                    }
+                    else if ("objectName" == j.first && j.second.is<std::string>())
+                    {
+                        out.objectName = j.second.get<std::string>();
+                    }
+                    else if ("department" == j.first && j.second.is<std::string>())
+                    {
+                        out.department = j.second.get<std::string>();
+                    }
+                }
+            }
+        }
+    }
+
+    return out;
 }
 
 int main(int argc, char ** argv)
@@ -50,30 +248,139 @@ int main(int argc, char ** argv)
     int r = 0;
     try
     {
-        std::string s;
-
         curl_global_init(CURL_GLOBAL_ALL);
-        auto curlHandle = curl_easy_init();
-        curl_easy_setopt(curlHandle, CURLOPT_URL, "https://collectionapi.metmuseum.org/public/collection/v1/departments");
-        curl_easy_setopt(curlHandle, CURLOPT_WRITEFUNCTION, curlCallback);
-        curl_easy_setopt(curlHandle, CURLOPT_WRITEDATA, (void*)&s);
-        curl_easy_setopt(curlHandle, CURLOPT_USERAGENT, "libcurl-agent/1.0");
-        if (auto res = curl_easy_perform(curlHandle))
-        {
-            throw std::runtime_error(curl_easy_strerror(res));
-        }
-        std::cout << s << std::endl;
 
-        /*auto app = Desktop::Application::create(argc, argv);
+        Core::Math::setRandomSeed();
 
+        auto app = Desktop::Application::create(argc, argv);
+
+        auto ids = getIDs();
+        std::vector<Image> images;
+        std::vector<std::future<Image> > imageFutures;
+        auto timer = Core::Time::Timer::create(app.get());
+        timer->setRepeating(true);
+        timer->start(
+            std::chrono::milliseconds(1000),
+            [&app, &ids, &images, &imageFutures](float)
+            {
+                if (ids.size())
+                {
+                    {
+                        std::stringstream ss;
+                        ss << "Images = " << images.size();
+                        app->getSystemT<Core::LogSystem>()->log("gallery", ss.str());
+                    }
+                    {
+                        std::stringstream ss;
+                        ss << "Image futures = " << imageFutures.size();
+                        app->getSystemT<Core::LogSystem>()->log("gallery", ss.str());
+                    }
+                    if (images.size() < 100 && imageFutures.size() < 3)
+                    {
+                        const uint64_t id = Core::Math::getRandom(static_cast<int>(ids.size() - 1));
+                        imageFutures.push_back(std::async(
+                            std::launch::async,
+                            [&app, &ids, id]
+                            {
+                                Image out;
+                                try
+                                {
+                                    if (isPublicDomain(id))
+                                    {
+                                        out = getImage(id);
+                                    }
+                                }
+                                catch (const std::exception& e)
+                                {
+                                    app->getSystemT<Core::LogSystem>()->log("gallery", e.what(), Core::LogLevel::Error);
+                                }
+                                return out;
+                            }));
+                    }
+                    auto i = imageFutures.begin();
+                    while (i != imageFutures.end())
+                    {
+                        if (i->valid() &&
+                            i->wait_for(std::chrono::seconds(0)) == std::future_status::ready)
+                        {
+                            const auto result = i->get();
+                            if (result.id)
+                            {
+                                const auto j = std::find_if(
+                                    images.begin(), images.end(),
+                                    [result](const Image& value)
+                                    {
+                                        return value.id == result.id;
+                                    });
+                                if (j == images.end())
+                                {
+                                    images.push_back(result);
+                                }
+                            }
+                            i = imageFutures.erase(i);
+                        }
+                        else
+                        {
+                            ++i;
+                        }
+                    }
+                }
+            });
+
+        auto imageWidget = UI::ImageWidget::create(app.get());
+        imageWidget->setHAlign(UI::HAlign::Center);
+        imageWidget->setVAlign(UI::VAlign::Center);
+
+        auto titleLabel = UI::Label::create(app.get());
+        titleLabel->setFontSizeRole(UI::MetricsRole::FontLarge);
+        titleLabel->setTextHAlign(UI::TextHAlign::Left);
+        auto objectNameLabel = UI::Label::create(app.get());
+        objectNameLabel->setTextHAlign(UI::TextHAlign::Left);
+        auto departmentLabel = UI::Label::create(app.get());
+        departmentLabel->setTextHAlign(UI::TextHAlign::Left);
+
+        auto rowLayout = UI::VerticalLayout::create(app.get());
+        rowLayout->setMargin(UI::MetricsRole::Margin);
+        rowLayout->setSpacing(UI::MetricsRole::None);
+        rowLayout->setVAlign(UI::VAlign::Bottom);
+        rowLayout->setBackgroundRole(UI::ColorRole::Overlay);
+        rowLayout->addChild(titleLabel);
+        rowLayout->addChild(objectNameLabel);
+        rowLayout->addChild(departmentLabel);
+        
         auto window = UI::Window::create(app.get());
+        window->addChild(imageWidget);
+        window->addChild(rowLayout);
         window->show();
 
-        return app->run();*/
+        size_t index = 0;
+        auto timer2 = Core::Time::Timer::create(app.get());
+        timer2->setRepeating(true);
+        timer2->start(
+            std::chrono::milliseconds(5000),
+            [&app, &images, &index, imageWidget, titleLabel, objectNameLabel, departmentLabel](float)
+            {
+                if (images.size())
+                {
+                    const auto& image = images[index];
+                    imageWidget->setImage(image.image);
+                    titleLabel->setText(image.title);
+                    objectNameLabel->setText(image.objectName);
+                    departmentLabel->setText(image.department);
+                    ++index;
+                    if (index >= images.size())
+                    {
+                        index = 0;
+                    }
+                }
+            });
+
+        return app->run();
     }
     catch (const std::exception & e)
     {
         std::cout << Core::Error::format(e) << std::endl;
     }
+    curl_global_cleanup();
     return r;
 }
