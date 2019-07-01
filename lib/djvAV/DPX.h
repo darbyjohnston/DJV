@@ -392,7 +392,7 @@ namespace djv
                     picojson::value getOptions() const override;
                     void setOptions(const picojson::value &) override;
 
-                    std::shared_ptr<IRead> read(const std::string & fileName, size_t layer) const override;
+                    std::shared_ptr<IRead> read(const std::string & fileName, size_t layer = 0) const override;
                     std::shared_ptr<IWrite> write(const std::string & fileName, const Info &) const override;
 
                 private:

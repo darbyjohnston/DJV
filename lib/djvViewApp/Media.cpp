@@ -590,11 +590,11 @@ namespace djv
                     case Playback::Reverse: time = p.currentTime->get() - Time::scale(1, speed.swap(), Time::getTimebaseRational()); break;
                     default: break;
                     }*/
-                    {
+                    /*{
                         std::stringstream ss;
                         ss << "video time = " << time;
                         p.context->getSystemT<LogSystem>()->log("djv::ViewApp::Media", ss.str());
-                    }
+                    }*/
                 }
 
                 Time::Timestamp start = 0;
