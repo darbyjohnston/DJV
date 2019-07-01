@@ -159,6 +159,7 @@ namespace djv
                                 _logSystem->log("djv::AV::IO::ISequenceRead", ss.str());
                             }*/
                         }
+
                         struct Future
                         {
                             Frame::Number frameNumber = Frame::Invalid;
@@ -166,7 +167,7 @@ namespace djv
                             std::shared_ptr<Image::Image> image;
                         };
                         std::vector<std::future<Future> > futures;
-                        for (size_t i = 0; i < read && (Frame::Invalid == frameIndex || frameIndex < _frames.size()); ++i)
+                        for (size_t i = 0; i < read; ++i)
                         {
                             Frame::Number frameNumber = Frame::Invalid;
                             if (frameIndex != Frame::Invalid)
