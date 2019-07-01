@@ -59,7 +59,6 @@ namespace djv
 
             p.label = Label::create(context);
             p.label->setTextHAlign(TextHAlign::Right);
-            p.label->setFont(AV::Font::familyMono);
             addChild(p.label);
 
             _textUpdate();

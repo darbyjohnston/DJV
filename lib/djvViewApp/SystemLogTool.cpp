@@ -99,7 +99,6 @@ namespace djv
             setClassName("djv::ViewApp::SystemLogTool");
 
             p.textBlock = UI::TextBlock::create(context);
-            p.textBlock->setFontFamily(AV::Font::familyMono);
             p.textBlock->setFontSizeRole(UI::MetricsRole::FontSmall);
             p.textBlock->setMargin(UI::MetricsRole::Margin);
 
