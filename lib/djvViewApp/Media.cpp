@@ -586,15 +586,15 @@ namespace djv
 
                     /*switch (playback)
                     {
-                    case Playback::Forward: time = p.currentTime->get() + Time::scale(1, speed.swap()); break;
-                    case Playback::Reverse: time = p.currentTime->get() - Time::scale(1, speed.swap()); break;
+                    case Playback::Forward: time = p.currentTime->get() + Time::scale(1, speed.swap(), Time::getTimebaseRational()); break;
+                    case Playback::Reverse: time = p.currentTime->get() - Time::scale(1, speed.swap(), Time::getTimebaseRational()); break;
                     default: break;
                     }*/
-                    /*{
+                    {
                         std::stringstream ss;
                         ss << "video time = " << time;
-                        p.context->log("djv::ViewApp::Media", ss.str());
-                    }*/
+                        p.context->getSystemT<LogSystem>()->log("djv::ViewApp::Media", ss.str());
+                    }
                 }
 
                 Time::Timestamp start = 0;
@@ -604,7 +604,7 @@ namespace djv
                     start = p.inPoint->get();
                     end = p.outPoint->get();
                 }
-                if (time < start || time > end || p.readFinished)
+                if (time <= start || time >= end)
                 {
                     switch (p.playbackMode->get())
                     {
@@ -680,13 +680,13 @@ namespace djv
                     }
                     else
                     {
-                        if (queue.hasFrames() && queue.getFrame().first > p.currentTime->get())
+                        if (queue.getFrameCount() > 1)
                         {
                             auto frame = queue.popFrame();
                             p.framePts = frame.first;
                         }
                     }
-                    p.readFinished |= queue.isFinished();
+                    //p.readFinished |= queue.isFinished();
                 }
 
                 // Unqueue the processed OpenAL buffers.

@@ -823,6 +823,7 @@ namespace djv
                 {
                     ss << '\n' << '\n';
                     ss << _getText(DJV_TEXT("Video track")) << " #" << track << '\n';
+                    ss << _getText(DJV_TEXT("Name")) << ": " << videoInfo.info.name << '\n';
                     ss << _getText(DJV_TEXT("Size")) << ": " << videoInfo.info.size << '\n';
                     ss << _getText(DJV_TEXT("Type")) << ": " << videoInfo.info.type << '\n';
                     ss.precision(2);

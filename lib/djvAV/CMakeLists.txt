@@ -8,6 +8,7 @@ find_package(GLFW REQUIRED)
 find_package(FFmpeg)
 find_package(JPEG)
 find_package(PNG)
+find_package(OpenEXR)
 find_package(TIFF)
 
 set(header
@@ -116,6 +117,16 @@ if(PNG_FOUND)
         PNGRead.cpp
         PNGWrite.cpp)
 endif()
+if(OPENEXR_FOUND)
+    set(header
+        ${header}
+        OpenEXR.h)
+    set(source
+        ${source}
+        OpenEXR.cpp
+        OpenEXRRead.cpp
+        OpenEXRWrite.cpp)
+endif()
 if(TIFF_FOUND)
     set(header
         ${header}
@@ -145,6 +156,9 @@ if(JPEG_FOUND)
 endif()
 if(PNG_FOUND)
     set(LIBRARIES ${LIBRARIES} PNG)
+endif()
+if(OPENEXR_FOUND)
+    set(LIBRARIES ${LIBRARIES} OpenEXR)
 endif()
 if(TIFF_FOUND)
     set(LIBRARIES ${LIBRARIES} TIFF)

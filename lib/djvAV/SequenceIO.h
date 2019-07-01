@@ -47,6 +47,7 @@ namespace djv
             protected:
                 void _init(
                     const std::string & fileName,
+                    size_t layer,
                     const std::shared_ptr<Core::ResourceSystem>&,
                     const std::shared_ptr<Core::LogSystem>&);
                 ISequenceRead();

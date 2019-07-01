@@ -160,6 +160,22 @@ namespace djv
                 return data[static_cast<size_t>(value)];
             }
 
+            inline uint8_t getBitDepth(DataType value)
+            {
+                const uint8_t data[] =
+                {
+                    0,
+                    8,
+                    10,
+                    16,
+                    32,
+                    16,
+                    32
+                };
+                DJV_ASSERT(sizeof(data) / sizeof(data[0]) == static_cast<size_t>(DataType::Count));
+                return data[static_cast<size_t>(value)];
+            }
+
             inline uint8_t getByteCount(Type value)
             {
                 const uint8_t data[] =
@@ -171,6 +187,22 @@ namespace djv
                     4, 8, 16, 8, 16
                 };
                 DJV_ASSERT(sizeof(data) / sizeof(data[0]) == static_cast<size_t>(Type::Count));
+                return data[static_cast<size_t>(value)];
+            }
+
+            inline uint8_t getByteCount(DataType value)
+            {
+                const uint8_t data[] =
+                {
+                    0,
+                    1,
+                    2,
+                    2,
+                    4,
+                    2,
+                    4
+                };
+                DJV_ASSERT(sizeof(data) / sizeof(data[0]) == static_cast<size_t>(DataType::Count));
                 return data[static_cast<size_t>(value)];
             }
 

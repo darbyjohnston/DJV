@@ -202,6 +202,7 @@ namespace djv
             protected:
                 void _init(
                     const std::string & fileName,
+                    size_t layer,
                     const std::shared_ptr<Core::ResourceSystem>&,
                     const std::shared_ptr<Core::LogSystem>&);
                 IRead();
@@ -212,6 +213,9 @@ namespace djv
                 virtual std::future<Info> getInfo() = 0;
 
                 virtual void seek(Core::Time::Timestamp) = 0;
+
+            protected:
+                size_t _layer = 0;
             };
 
             //! This class provides an interface for writing.
@@ -266,7 +270,7 @@ namespace djv
 
                 //! Throws:
                 //! - std::exception
-                virtual std::shared_ptr<IRead> read(const std::string& fileName) const;
+                virtual std::shared_ptr<IRead> read(const std::string& fileName, size_t layer = 0) const;
 
                 //! Throws:
                 //! - std::exception

@@ -38,6 +38,9 @@
 #if defined(JPEG_FOUND)
 #include <djvAV/JPEG.h>
 #endif // JPEG_FOUND
+#if defined(OPENEXR_FOUND)
+#include <djvAV/OpenEXR.h>
+#endif // OPENEXR_FOUND
 #if defined(PNG_FOUND)
 #include <djvAV/PNG.h>
 #endif // PNG_FOUND
@@ -202,10 +205,12 @@ namespace djv
 
             void IRead::_init(
                 const std::string & fileName,
+                size_t layer,
                 const std::shared_ptr<ResourceSystem>& resourceSystem,
                 const std::shared_ptr<LogSystem>& logSystem)
             {
                 IIO::_init(fileName, resourceSystem, logSystem);
+                _layer = layer;
             }
 
             IRead::IRead()
@@ -282,7 +287,7 @@ namespace djv
             void IPlugin::setOptions(const picojson::value &)
             {}
 
-            std::shared_ptr<IRead> IPlugin::read(const std::string& fileName) const
+            std::shared_ptr<IRead> IPlugin::read(const std::string& fileName, size_t layer) const
             {
                 return nullptr;
             }
@@ -319,6 +324,9 @@ namespace djv
 #if defined(PNG_FOUND)
                 p.plugins[PNG::pluginName] = PNG::Plugin::create(resourceSystem, logSystem);
 #endif // PNG_FOUND
+#if defined(OPENEXR_FOUND)
+                p.plugins[OpenEXR::pluginName] = OpenEXR::Plugin::create(resourceSystem, logSystem);
+#endif // OPENEXR_FOUND
 #if defined(TIFF_FOUND)
                 p.plugins[TIFF::pluginName] = TIFF::Plugin::create(resourceSystem, logSystem);
 #endif // TIFF_FOUND

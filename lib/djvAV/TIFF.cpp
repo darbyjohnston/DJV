@@ -111,9 +111,9 @@ namespace djv
                     fromJSON(value, _p->settings);
                 }
 
-                std::shared_ptr<IRead> Plugin::read(const std::string & fileName) const
+                std::shared_ptr<IRead> Plugin::read(const std::string & fileName, size_t layer) const
                 {
-                    return Read::create(fileName, _resourceSystem, _logSystem);
+                    return Read::create(fileName, layer, _resourceSystem, _logSystem);
                 }
 
                 std::shared_ptr<IWrite> Plugin::write(const std::string & fileName, const Info & info) const

@@ -56,13 +56,15 @@ namespace djv
     picojson::value toJSON(bool);
     picojson::value toJSON(int);
     picojson::value toJSON(float);
+    picojson::value toJSON(size_t);
     picojson::value toJSON(const std::string &);
 
     //! Throws:
     //! - std::exception
     void fromJSON(const picojson::value &, bool &);
     void fromJSON(const picojson::value &, int &);
-    void fromJSON(const picojson::value &, float &);
+    void fromJSON(const picojson::value&, float&);
+    void fromJSON(const picojson::value&, size_t&);
     void fromJSON(const picojson::value &, std::string &);
 
 } // namespace djv

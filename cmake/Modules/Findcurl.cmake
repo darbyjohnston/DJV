@@ -26,9 +26,9 @@ set(curl_INCLUDE_DIRS
     ${MbedTLS_INCLUDE_DIRS})
 
 if(CMAKE_BUILD_TYPE MATCHES "^Debug$")
-	find_library(curl_LIBRARY NAMES curl-d curl)
+	find_library(curl_LIBRARY NAMES curl-d libcurl-d curl libcurl)
 else()
-	find_library(curl_LIBRARY NAMES curl)
+	find_library(curl_LIBRARY NAMES curl libcurl)
 endif()
 set(curl_LIBRARIES
     ${curl_LIBRARY}

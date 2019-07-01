@@ -27,9 +27,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvAV/Cineon.h>
-
-#include <djvCore/FileIO.h>
+#include <djvAV/OpenEXR.h>
 
 using namespace djv::Core;
 
@@ -39,64 +37,84 @@ namespace djv
     {
         namespace IO
         {
-            namespace Cineon
+            namespace OpenEXR
             {
-                struct Read::Private
+                struct Write::Private
                 {
-                    ColorProfile colorProfile = ColorProfile::FilmPrint;
+                    Settings settings;
                 };
 
-                Read::Read() :
+                Write::Write() :
                     _p(new Private)
                 {}
 
-                Read::~Read()
+                Write::~Write()
                 {
                     _finish();
                 }
 
-                std::shared_ptr<Read> Read::create(
+                std::shared_ptr<Write> Write::create(
                     const std::string & fileName,
-                    size_t layer,
+                    const Info & info,
+                    const Settings& settings,
                     const std::shared_ptr<ResourceSystem>& resourceSystem,
                     const std::shared_ptr<LogSystem>& logSystem)
                 {
-                    auto out = std::shared_ptr<Read>(new Read);
-                    out->_init(fileName, layer, resourceSystem, logSystem);
+                    auto out = std::shared_ptr<Write>(new Write);
+                    out->_p->settings = settings;
+                    out->_init(fileName, info, resourceSystem, logSystem);
                     return out;
                 }
 
-                Info Read::_readInfo(const std::string & fileName)
+                namespace
                 {
-                    FileSystem::FileIO io;
-                    return _open(fileName, io);
+                    struct File
+                    {
+                        ~File()
+                        {
+                        }
+                    };
                 }
 
-                std::shared_ptr<Image::Image> Read::_readImage(const std::string & fileName)
+                Image::Type Write::_getImageType(Image::Type value) const
                 {
-                    DJV_PRIVATE_PTR();
-                    FileSystem::FileIO io;
-                    const auto info = _open(fileName, io);
-                    auto out = Image::Image::create(info.video[0].info);
-                    out->setTags(info.tags);
-                    const size_t size = std::min(out->getDataByteCount(), io.getSize() - io.getPos());
-                    memcpy(out->getData(), io.mmapP(), size);
+                    Image::Type out = Image::Type::None;
+                    switch (value)
+                    {
+                    case Image::Type::L_U8:
+                    case Image::Type::L_U16:    out = Image::Type::L_F16; break;
+                    case Image::Type::L_F16:
+                    case Image::Type::L_U32:
+                    case Image::Type::L_F32:    out = value; break;
+                    case Image::Type::LA_U8:    out = Image::Type::LA_F16; break;
+                    case Image::Type::LA_U16:
+                    case Image::Type::LA_U32:
+                    case Image::Type::LA_F32:   out = value; break;
+                    case Image::Type::RGB_U8:
+                    case Image::Type::RGB_U10:
+                    case Image::Type::RGB_U16:  out = Image::Type::RGB_F16; break;
+                    case Image::Type::RGB_U32:
+                    case Image::Type::RGB_F32:  out = value; break;
+                    case Image::Type::RGBA_U8:
+                    case Image::Type::RGBA_U16: out = Image::Type::RGBA_F16; break;
+                    case Image::Type::RGBA_U32:
+                    case Image::Type::RGBA_F32: out = value; break;
+                    default: break;
+                    }
                     return out;
                 }
 
-                Info Read::_open(const std::string & fileName, FileSystem::FileIO & io)
+                Image::Layout Write::_getImageLayout() const
                 {
-                    DJV_PRIVATE_PTR();
-                    io.open(fileName, FileSystem::FileIO::Mode::Read);
-                    Info info;
-                    info.video.resize(1);
-                    info.video[0].info.name = fileName;
-                    read(io, info, p.colorProfile);
-                    info.video[0].duration = _duration;
-                    return info;
+                    Image::Layout out;
+                    return out;
                 }
 
-            } // namespace Cineon
+                void Write::_write(const std::string & fileName, const std::shared_ptr<Image::Image> & image)
+                {
+                }
+
+            } // namespace TIFF
         } // namespace IO
     } // namespace AV
 } // namespace djv

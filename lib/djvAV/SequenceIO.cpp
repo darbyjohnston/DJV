@@ -69,10 +69,11 @@ namespace djv
 
             void ISequenceRead::_init(
                 const std::string & fileName,
+                size_t layer,
                 const std::shared_ptr<ResourceSystem>& resourceSystem,
                 const std::shared_ptr<LogSystem>& logSystem)
             {
-                IRead::_init(fileName, resourceSystem, logSystem);
+                IRead::_init(fileName, layer, resourceSystem, logSystem);
                 _speed = Time::Speed();
                 _p->running = true;
                 _p->thread = std::thread(
@@ -137,7 +138,9 @@ namespace djv
                                 return (_videoQueue.isFinished() ? false : (_videoQueue.getFrameCount() < _videoQueue.getMax())) || _p->seek != -1;
                             }))
                             {
-                                read = std::min(_videoQueue.getMax() - _videoQueue.getFrameCount(), threadCount);
+                                read = std::min(
+                                    std::min(_videoQueue.getMax() - _videoQueue.getFrameCount(), threadCount),
+                                    frameIndex != Frame::Invalid ? _frames.size() : 1);
                                 if (p.seek != -1)
                                 {
                                     seek = p.seek;

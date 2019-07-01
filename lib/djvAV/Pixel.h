@@ -159,7 +159,9 @@ namespace djv
             inline uint8_t getChannelCount(Type);
             inline DataType getDataType(Type);
             inline uint8_t getBitDepth(Type);
+            inline uint8_t getBitDepth(DataType);
             inline uint8_t getByteCount(Type);
+            inline uint8_t getByteCount(DataType);
 
             inline bool isIntType(Type);
             inline bool isFloatType(Type);

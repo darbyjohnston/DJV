@@ -139,6 +139,13 @@ namespace djv
         return picojson::value(s.str());
     }
 
+    picojson::value toJSON(size_t value)
+    {
+        std::stringstream s;
+        s << value;
+        return picojson::value(s.str());
+    }
+
     picojson::value toJSON(const std::string & value)
     {
         return picojson::value(Core::String::escape(value));
@@ -168,11 +175,23 @@ namespace djv
         }
     }
 
-    void fromJSON(const picojson::value & value, float & out)
+    void fromJSON(const picojson::value& value, float& out)
     {
         if (value.is<std::string>())
         {
             out = std::stof(value.get<std::string>());
+        }
+        else
+        {
+            throw std::invalid_argument(DJV_TEXT("Cannot parse the value."));
+        }
+    }
+
+    void fromJSON(const picojson::value& value, size_t& out)
+    {
+        if (value.is<std::string>())
+        {
+            out = std::max(static_cast<long>(0), std::stol(value.get<std::string>()));
         }
         else
         {
