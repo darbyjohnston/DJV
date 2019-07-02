@@ -176,6 +176,7 @@ namespace djv
             const BBox2f & g = getMargin().bbox(getGeometry(), style);
             const glm::vec2 c = g.getCenter();
             const float m = style->getMetric(MetricsRole::MarginSmall);
+            const float b = style->getMetric(MetricsRole::Border);
             auto render = _getRender();
             if (p.value > 0.f && p.model)
             {
@@ -258,8 +259,10 @@ namespace djv
                 default: break;
                 }
                 const float r = ceilf(p.handleWidth / 2.f - 1.f);
-                render->setFillColor(style->getColor(ColorRole::Button));
+                render->setFillColor(style->getColor(ColorRole::Border));
                 render->drawCircle(pos, r);
+                render->setFillColor(style->getColor(ColorRole::Button));
+                render->drawCircle(pos, r - b);
                 if (p.pressedID != Event::InvalidID)
                 {
                     render->setFillColor(style->getColor(ColorRole::Pressed));

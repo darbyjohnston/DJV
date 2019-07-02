@@ -31,6 +31,7 @@
 
 #include <djvUI/Action.h>
 #include <djvUI/IconSystem.h>
+#include <djvUI/MenuButton.h>
 #include <djvUI/Overlay.h>
 #include <djvUI/ScrollWidget.h>
 #include <djvUI/Shortcut.h>
@@ -759,7 +760,7 @@ namespace djv
                 static std::shared_ptr<MenuOverlayLayout> create(Context *);
 
                 void setPos(const std::shared_ptr<Widget> &, const glm::vec2 &);
-                void setButton(const std::shared_ptr<Widget> &, const std::weak_ptr<Widget> &);
+                void setButton(const std::shared_ptr<Widget> &, const std::weak_ptr<Button::Menu> &);
 
                 void removeChild(const std::shared_ptr<IObject> &) override;
 
@@ -769,7 +770,7 @@ namespace djv
 
             private:
                 std::map<std::shared_ptr<Widget>, glm::vec2> _widgetToPos;
-                std::map<std::shared_ptr<Widget>, std::weak_ptr<Widget> > _widgetToButton;
+                std::map<std::shared_ptr<Widget>, std::weak_ptr<Button::Menu> > _widgetToButton;
             };
 
             void MenuOverlayLayout::_init(Context * context)
@@ -793,7 +794,7 @@ namespace djv
                 _widgetToPos[widget] = pos;
             }
 
-            void MenuOverlayLayout::setButton(const std::shared_ptr<Widget> & widget, const std::weak_ptr<Widget> & button)
+            void MenuOverlayLayout::setButton(const std::shared_ptr<Widget> & widget, const std::weak_ptr<Button::Menu> & button)
             {
                 _widgetToButton[widget] = button;
             }
@@ -861,31 +862,31 @@ namespace djv
                         const BBox2f aboveLeft(
                             glm::vec2(
                                 std::min(buttonBBox.max.x - minimumSize.x * bias, buttonBBox.min.x),
-                                buttonBBox.min.y + 1 - minimumSize.y * bias),
+                                buttonBBox.min.y - minimumSize.y * bias),
                             glm::vec2(
                                 buttonBBox.max.x,
-                                buttonBBox.min.y + 1));
+                                buttonBBox.min.y));
                         const BBox2f aboveRight(
                             glm::vec2(
                                 buttonBBox.min.x,
-                                buttonBBox.min.y + 1 - minimumSize.y * bias),
+                                buttonBBox.min.y - minimumSize.y * bias),
                             glm::vec2(
                                 std::max(buttonBBox.min.x + minimumSize.x * bias, buttonBBox.max.x),
-                                buttonBBox.min.y + 1));
+                                buttonBBox.min.y));
                         const BBox2f belowLeft(
                             glm::vec2(
                                 std::min(buttonBBox.max.x - minimumSize.x, buttonBBox.min.x),
-                                buttonBBox.max.y - 1),
+                                buttonBBox.max.y),
                             glm::vec2(
                                 buttonBBox.max.x,
-                                buttonBBox.max.y - 1 + minimumSize.y));
+                                buttonBBox.max.y + minimumSize.y));
                         const BBox2f belowRight(
                             glm::vec2(
                                 buttonBBox.min.x,
-                                buttonBBox.max.y - 1),
+                                buttonBBox.max.y),
                             glm::vec2(
                                 std::max(buttonBBox.min.x + minimumSize.x, buttonBBox.max.x),
-                                buttonBBox.max.y - 1 + minimumSize.y));
+                                buttonBBox.max.y + minimumSize.y));
                         geomCandidates.push_back(belowRight.intersect(g));
                         geomCandidates.push_back(belowLeft.intersect(g));
                         geomCandidates.push_back(aboveRight.intersect(g));
@@ -1067,7 +1068,7 @@ namespace djv
             }
         }
 
-        void Menu::popup(const std::weak_ptr<Widget> & button)
+        void Menu::popup(const std::weak_ptr<Button::Menu> & button)
         {
             DJV_PRIVATE_PTR();
             if (p.count > 0)
@@ -1083,7 +1084,7 @@ namespace djv
             }
         }
 
-        void Menu::popup(const std::weak_ptr<Widget> & button, const std::weak_ptr<Widget> & anchor)
+        void Menu::popup(const std::weak_ptr<Button::Menu> & button, const std::weak_ptr<Widget> & anchor)
         {
             DJV_PRIVATE_PTR();
             if (p.count > 0)

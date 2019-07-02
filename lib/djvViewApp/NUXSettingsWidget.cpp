@@ -113,12 +113,12 @@ namespace djv
 
         std::string NUXSettingsWidget::getSettingsGroup() const
         {
-            return DJV_TEXT("DJV");
+            return DJV_TEXT("NUX");
         }
 
         std::string NUXSettingsWidget::getSettingsSortKey() const
         {
-            return "B";
+            return "L";
         }
 
         void NUXSettingsWidget::_localeEvent(Event::Locale & event)

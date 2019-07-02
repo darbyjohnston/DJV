@@ -143,8 +143,12 @@ namespace djv
                 const float r = g2.h() / 2.f;
                 const float x = Math::lerp(p.animationValue, g2.min.x + r, g2.max.x - r);
                 const glm::vec2 pos(x, g2.min.y + r);
-                render->setFillColor(style->getColor(ColorRole::Button));
+                auto color = style->getColor(ColorRole::Border);
+                render->setFillColor(color);
                 render->drawCircle(pos, r - b);
+                color = style->getColor(ColorRole::Button);
+                render->setFillColor(color);
+                render->drawCircle(pos, r - b * 2.f);
                 if (_isPressed())
                 {
                     render->setFillColor(style->getColor(ColorRole::Pressed));

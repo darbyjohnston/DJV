@@ -35,7 +35,7 @@ namespace djv
 {
     namespace UI
     {
-        class DisplaySizeWidget : public Widget
+        class DisplaySizeWidget : public ISettingsWidget
         {
             DJV_NON_COPYABLE(DisplaySizeWidget);
 
@@ -46,14 +46,11 @@ namespace djv
         public:
             static std::shared_ptr<DisplaySizeWidget> create(Core::Context*);
 
-            void setFontSizeRole(UI::MetricsRole);
-
-            float getHeightForWidth(float) const override;
+            std::string getSettingsName() const override;
+            std::string getSettingsGroup() const override;
+            std::string getSettingsSortKey() const override;
 
         protected:
-            void _preLayoutEvent(Core::Event::PreLayout&) override;
-            void _layoutEvent(Core::Event::Layout&) override;
-
             void _localeEvent(Core::Event::Locale&) override;
 
         private:
@@ -63,7 +60,7 @@ namespace djv
             DJV_PRIVATE();
         };
 
-        class DisplayPaletteWidget : public Widget
+        class DisplayPaletteWidget : public ISettingsWidget
         {
             DJV_NON_COPYABLE(DisplayPaletteWidget);
 
@@ -74,42 +71,17 @@ namespace djv
         public:
             static std::shared_ptr<DisplayPaletteWidget> create(Core::Context*);
 
-            void setFontSizeRole(UI::MetricsRole);
-
-            float getHeightForWidth(float) const override;
+            std::string getSettingsName() const override;
+            std::string getSettingsGroup() const override;
+            std::string getSettingsSortKey() const override;
 
         protected:
-            void _preLayoutEvent(Core::Event::PreLayout&) override;
-            void _layoutEvent(Core::Event::Layout&) override;
-
             void _localeEvent(Core::Event::Locale&) override;
 
         private:
             void _widgetUpdate();
             void _currentItemUpdate();
 
-            DJV_PRIVATE();
-        };
-
-        class DisplaySettingsWidget : public ISettingsWidget
-        {
-            DJV_NON_COPYABLE(DisplaySettingsWidget);
-
-        protected:
-            void _init(Core::Context *);
-            DisplaySettingsWidget();
-
-        public:
-            static std::shared_ptr<DisplaySettingsWidget> create(Core::Context *);
-
-            std::string getSettingsName() const override;
-            std::string getSettingsGroup() const override;
-            std::string getSettingsSortKey() const override;
-
-        protected:
-            void _localeEvent(Core::Event::Locale &) override;
-
-        private:
             DJV_PRIVATE();
         };
 

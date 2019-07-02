@@ -57,7 +57,7 @@ namespace djv
 
         void DisplaySizeWidget::_init(Context* context)
         {
-            Widget::_init(context);
+            ISettingsWidget::_init(context);
 
             DJV_PRIVATE_PTR();
             setClassName("djv::Ui::DisplaySizeWidget");
@@ -128,24 +128,19 @@ namespace djv
             return out;
         }
 
-        void DisplaySizeWidget::setFontSizeRole(UI::MetricsRole value)
+        std::string DisplaySizeWidget::getSettingsName() const
         {
-            _p->comboBox->setFontSizeRole(value);
+            return DJV_TEXT("Display Size");
         }
 
-        float DisplaySizeWidget::getHeightForWidth(float value) const
+        std::string DisplaySizeWidget::getSettingsGroup() const
         {
-            return _p->comboBox->getHeightForWidth(value);
+            return DJV_TEXT("General");
         }
 
-        void DisplaySizeWidget::_preLayoutEvent(Event::PreLayout&)
+        std::string DisplaySizeWidget::getSettingsSortKey() const
         {
-            _setMinimumSize(_p->comboBox->getMinimumSize());
-        }
-
-        void DisplaySizeWidget::_layoutEvent(Event::Layout&)
-        {
-            _p->comboBox->setGeometry(getGeometry());
+            return "A";
         }
 
         void DisplaySizeWidget::_localeEvent(Event::Locale& event)
@@ -192,7 +187,7 @@ namespace djv
 
         void DisplayPaletteWidget::_init(Context* context)
         {
-            Widget::_init(context);
+            ISettingsWidget::_init(context);
 
             DJV_PRIVATE_PTR();
             setClassName("djv::Ui::DisplayPaletteWidget");
@@ -263,24 +258,19 @@ namespace djv
             return out;
         }
 
-        void DisplayPaletteWidget::setFontSizeRole(UI::MetricsRole value)
+        std::string DisplayPaletteWidget::getSettingsName() const
         {
-            _p->comboBox->setFontSizeRole(value);
+            return DJV_TEXT("Palette");
         }
 
-        float DisplayPaletteWidget::getHeightForWidth(float value) const
+        std::string DisplayPaletteWidget::getSettingsGroup() const
         {
-            return _p->comboBox->getHeightForWidth(value);
+            return DJV_TEXT("General");
         }
 
-        void DisplayPaletteWidget::_preLayoutEvent(Event::PreLayout&)
+        std::string DisplayPaletteWidget::getSettingsSortKey() const
         {
-            _setMinimumSize(_p->comboBox->getMinimumSize());
-        }
-
-        void DisplayPaletteWidget::_layoutEvent(Event::Layout&)
-        {
-            _p->comboBox->setGeometry(getGeometry());
+            return "A";
         }
 
         void DisplayPaletteWidget::_localeEvent(Event::Locale& event)
@@ -312,63 +302,6 @@ namespace djv
             {
                 p.comboBox->setCurrentItem(static_cast<int>(i->second));
             }
-        }
-
-        struct DisplaySettingsWidget::Private
-        {
-            std::shared_ptr<DisplaySizeWidget> sizeWidget;
-            std::shared_ptr<DisplayPaletteWidget> paletteWidget;
-            std::shared_ptr<FormLayout> formLayout;
-        };
-
-        void DisplaySettingsWidget::_init(Context * context)
-        {
-            ISettingsWidget::_init(context);
-
-            DJV_PRIVATE_PTR();
-            setClassName("djv::Ui::DisplaySettingsWidget");
-
-            p.sizeWidget = DisplaySizeWidget::create(context);
-            p.paletteWidget = DisplayPaletteWidget::create(context);
-
-            p.formLayout = FormLayout::create(context);
-            p.formLayout->addChild(p.sizeWidget);
-            p.formLayout->addChild(p.paletteWidget);
-            addChild(p.formLayout);
-        }
-
-        DisplaySettingsWidget::DisplaySettingsWidget() :
-            _p(new Private)
-        {}
-
-        std::shared_ptr<DisplaySettingsWidget> DisplaySettingsWidget::create(Context * context)
-        {
-            auto out = std::shared_ptr<DisplaySettingsWidget>(new DisplaySettingsWidget);
-            out->_init(context);
-            return out;
-        }
-
-        std::string DisplaySettingsWidget::getSettingsName() const
-        {
-            return DJV_TEXT("Display");
-        }
-
-        std::string DisplaySettingsWidget::getSettingsGroup() const
-        {
-            return DJV_TEXT("General");
-        }
-
-        std::string DisplaySettingsWidget::getSettingsSortKey() const
-        {
-            return "A";
-        }
-
-        void DisplaySettingsWidget::_localeEvent(Event::Locale & event)
-        {
-            ISettingsWidget::_localeEvent(event);
-            DJV_PRIVATE_PTR();
-            p.formLayout->setText(p.sizeWidget, _getText(DJV_TEXT("Size")) + ":");
-            p.formLayout->setText(p.paletteWidget, _getText(DJV_TEXT("Palette")) + ":");
         }
 
     } // namespace UI

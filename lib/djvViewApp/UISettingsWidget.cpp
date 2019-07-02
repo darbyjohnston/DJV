@@ -111,17 +111,17 @@ namespace djv
 
         std::string UISettingsWidget::getSettingsName() const
         {
-            return DJV_TEXT("User Interface");
+            return DJV_TEXT("Auto Hide");
         }
 
         std::string UISettingsWidget::getSettingsGroup() const
         {
-            return DJV_TEXT("General");
+            return DJV_TEXT("UI");
         }
 
         std::string UISettingsWidget::getSettingsSortKey() const
         {
-            return "A";
+            return "B";
         }
 
         void UISettingsWidget::_localeEvent(Event::Locale& event)

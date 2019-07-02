@@ -64,9 +64,10 @@ namespace djv
                 DJV_PRIVATE_PTR();
                 setClassName("djv::UI::Button::Push");
                 setBackgroundRole(ColorRole::Button);
+                setVAlign(VAlign::Center);
 
                 p.layout = HorizontalLayout::create(context);
-                p.layout->setMargin(Layout::Margin(MetricsRole::Margin, MetricsRole::Margin, MetricsRole::MarginSmall, MetricsRole::MarginSmall));
+                p.layout->setMargin(Layout::Margin(MetricsRole::MarginLarge, MetricsRole::MarginLarge, MetricsRole::MarginSmall, MetricsRole::MarginSmall));
 
                 addChild(p.layout);
             }
@@ -259,24 +260,31 @@ namespace djv
 
             void Push::_paintEvent(Event::Paint& event)
             {
-                IButton::_paintEvent(event);
                 const auto& style = _getStyle();
                 const BBox2f& g = getMargin().bbox(getGeometry(), style);
+                const float b = style->getMetric(MetricsRole::Border);
                 auto render = _getRender();
+                render->setFillColor(style->getColor(ColorRole::Border));
+                render->drawPill(g);
                 if (_isToggled())
                 {
                     render->setFillColor(style->getColor(ColorRole::Checked));
-                    render->drawRect(g);
+                    render->drawPill(g.margin(-b));
+                }
+                else
+                {
+                    render->setFillColor(style->getColor(getBackgroundRole()));
+                    render->drawPill(g.margin(-b));
                 }
                 if (_isPressed())
                 {
                     render->setFillColor(style->getColor(ColorRole::Pressed));
-                    render->drawRect(g);
+                    render->drawPill(g);
                 }
                 else if (_isHovered())
                 {
                     render->setFillColor(style->getColor(ColorRole::Hovered));
-                    render->drawRect(g);
+                    render->drawPill(g);
                 }
             }
 

@@ -127,8 +127,10 @@ namespace djv
             auto context = getContext();
             return
             {
-                UI::DisplaySettingsWidget::create(context),
                 UI::LanguageSettingsWidget::create(context),
+                UI::DisplaySizeWidget::create(context),
+                UI::DisplayPaletteWidget::create(context),
+                UI::PPMSettingsWidget::create(context),
                 UI::TimeSettingsWidget::create(context),
                 UI::TooltipsSettingsWidget::create(context),
 #if defined(JPEG_FOUND)
@@ -137,7 +139,9 @@ namespace djv
 #if defined(TIFF_FOUND)
                 UI::TIFFSettingsWidget::create(context),
 #endif
-                ImageSettingsWidget::create(context),
+                ImageAspectRatioSettingsWidget::create(context),
+                ImageColorSpaceSettingsWidget::create(context),
+                ImageRotateSettingsWidget::create(context),
                 ImageViewSettingsWidget::create(context),
                 NUXSettingsWidget::create(context),
                 PlaybackSettingsWidget::create(context),

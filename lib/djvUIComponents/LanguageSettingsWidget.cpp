@@ -29,10 +29,10 @@
 
 #include <djvUIComponents/LanguageSettingsWidget.h>
 
-#include <djvUI/ComboBox.h>
+#include <djvUI/ButtonGroup.h>
 #include <djvUI/FontSettings.h>
-#include <djvUI/Label.h>
-#include <djvUI/RowLayout.h>
+#include <djvUI/ListButton.h>
+#include <djvUI/FlowLayout.h>
 #include <djvUI/SettingsSystem.h>
 #include <djvUI/StyleSettings.h>
 
@@ -50,9 +50,11 @@ namespace djv
         struct LanguageWidget::Private
         {
             std::string locale;
-            std::shared_ptr<ComboBox> comboBox;
-            std::map<size_t, std::string> indexToLocale;
-            std::map<std::string, size_t> localeToIndex;
+            std::shared_ptr<ButtonGroup> buttonGroup;
+            std::map<std::string, std::shared_ptr<ListButton> > buttons;
+            std::shared_ptr<FlowLayout> layout;
+            std::map<int, std::string> indexToLocale;
+            std::map<std::string, int> localeToIndex;
             std::map<std::string, std::string> localeFonts;
             std::shared_ptr<ValueObserver<std::string> > localeObserver;
             std::shared_ptr<MapObserver<std::string, std::string> > localeFontsObserver;
@@ -65,11 +67,13 @@ namespace djv
             DJV_PRIVATE_PTR();
             setClassName("djv::UI::LanguageWidget");
 
-            p.comboBox = ComboBox::create(context);
-            addChild(p.comboBox);
+            p.buttonGroup = ButtonGroup::create(ButtonType::Radio);
+
+            p.layout = FlowLayout::create(context);
+            addChild(p.layout);
 
             auto weak = std::weak_ptr<LanguageWidget>(std::dynamic_pointer_cast<LanguageWidget>(shared_from_this()));
-            p.comboBox->setCallback(
+            p.buttonGroup->setRadioCallback(
                 [weak, context](int value)
             {
                 if (auto widget = weak.lock())
@@ -128,24 +132,19 @@ namespace djv
             return out;
         }
 
-        void LanguageWidget::setFontSizeRole(UI::MetricsRole value)
-        {
-            _p->comboBox->setFontSizeRole(value);
-        }
-
         float LanguageWidget::getHeightForWidth(float value) const
         {
-            return _p->comboBox->getHeightForWidth(value);
+            return _p->layout->getHeightForWidth(value);
         }
 
         void LanguageWidget::_preLayoutEvent(Event::PreLayout&)
         {
-            _setMinimumSize(_p->comboBox->getMinimumSize());
+            _setMinimumSize(_p->layout->getMinimumSize());
         }
 
         void LanguageWidget::_layoutEvent(Event::Layout&)
         {
-            _p->comboBox->setGeometry(getGeometry());
+            _p->layout->setGeometry(getGeometry());
         }
 
         void LanguageWidget::_localeEvent(Event::Locale& event)
@@ -159,7 +158,8 @@ namespace djv
             auto context = getContext();
             if (auto textSystem = context->getSystemT<TextSystem>())
             {
-                p.comboBox->clearItems();
+                p.buttonGroup->clearButtons();
+                p.layout->clearChildren();
                 const auto& locales = textSystem->getLocales();
                 size_t j = 0;
                 for (const auto& i : locales)
@@ -178,8 +178,12 @@ namespace djv
                             font = k->second;
                         }
                     }
-                    p.comboBox->addItem(_getText(i));
-                    p.comboBox->setFont(static_cast<int>(j), font);
+                    auto button = ListButton::create(context);
+                    button->setText(_getText(i));
+                    button->setFont(font);
+                    p.buttons[i] = button;
+                    p.buttonGroup->addButton(button);
+                    p.layout->addChild(button);
                     p.indexToLocale[j] = i;
                     p.localeToIndex[i] = j;
                     ++j;
@@ -194,14 +198,13 @@ namespace djv
             const auto i = p.localeToIndex.find(p.locale);
             if (i != p.localeToIndex.end())
             {
-                p.comboBox->setCurrentItem(static_cast<int>(i->second));
+                p.buttonGroup->setChecked(static_cast<int>(i->second));
             }
         }
 
         struct LanguageSettingsWidget::Private
         {
             std::shared_ptr<LanguageWidget> languageWidget;
-            std::shared_ptr<VerticalLayout> layout;
         };
 
         void LanguageSettingsWidget::_init(Context * context)
@@ -212,11 +215,7 @@ namespace djv
             setClassName("djv::UI::LanguageSettingsWidget");
 
             p.languageWidget = LanguageWidget::create(context);
-            p.languageWidget->setHAlign(UI::HAlign::Left);
-
-            p.layout = VerticalLayout::create(context);
-            p.layout->addChild(p.languageWidget);
-            addChild(p.layout);
+            addChild(p.languageWidget);
         }
 
         LanguageSettingsWidget::LanguageSettingsWidget() :

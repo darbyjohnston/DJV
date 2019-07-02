@@ -35,16 +35,38 @@ namespace djv
 {
     namespace ViewApp
     {
-        class ImageSettingsWidget : public UI::ISettingsWidget
+        class ImageAspectRatioSettingsWidget : public UI::ISettingsWidget
         {
-            DJV_NON_COPYABLE(ImageSettingsWidget);
+            DJV_NON_COPYABLE(ImageAspectRatioSettingsWidget);
 
         protected:
             void _init(Core::Context*);
-            ImageSettingsWidget();
+            ImageAspectRatioSettingsWidget();
 
         public:
-            static std::shared_ptr<ImageSettingsWidget> create(Core::Context*);
+            static std::shared_ptr<ImageAspectRatioSettingsWidget> create(Core::Context*);
+
+            std::string getSettingsName() const override;
+            std::string getSettingsGroup() const override;
+            std::string getSettingsSortKey() const override;
+
+        protected:
+            void _localeEvent(Core::Event::Locale&) override;
+
+        private:
+            DJV_PRIVATE();
+        };
+
+        class ImageColorSpaceSettingsWidget : public UI::ISettingsWidget
+        {
+            DJV_NON_COPYABLE(ImageColorSpaceSettingsWidget);
+
+        protected:
+            void _init(Core::Context*);
+            ImageColorSpaceSettingsWidget();
+
+        public:
+            static std::shared_ptr<ImageColorSpaceSettingsWidget> create(Core::Context*);
 
             std::string getSettingsName() const override;
             std::string getSettingsGroup() const override;
@@ -56,6 +78,28 @@ namespace djv
         private:
             void _widgetUpdate();
 
+            DJV_PRIVATE();
+        };
+
+        class ImageRotateSettingsWidget : public UI::ISettingsWidget
+        {
+            DJV_NON_COPYABLE(ImageRotateSettingsWidget);
+
+        protected:
+            void _init(Core::Context*);
+            ImageRotateSettingsWidget();
+
+        public:
+            static std::shared_ptr<ImageRotateSettingsWidget> create(Core::Context*);
+
+            std::string getSettingsName() const override;
+            std::string getSettingsGroup() const override;
+            std::string getSettingsSortKey() const override;
+
+        protected:
+            void _localeEvent(Core::Event::Locale&) override;
+
+        private:
             DJV_PRIVATE();
         };
 

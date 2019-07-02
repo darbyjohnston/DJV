@@ -35,7 +35,6 @@
 
 #include <djvUI/ColorSwatch.h>
 
-#include <djvUI/FormLayout.h>
 #include <djvUI/RowLayout.h>
 #include <djvUI/SettingsSystem.h>
 #include <djvUI/ToggleButton.h>
@@ -52,7 +51,6 @@ namespace djv
         struct ImageViewSettingsWidget::Private
         {
             std::shared_ptr<UI::ColorSwatch> colorSwatch;
-            std::shared_ptr<UI::FormLayout> formLayout;
             std::shared_ptr<ValueObserver<AV::Image::Color> > backgroundColorObserver;
         };
 
@@ -66,9 +64,7 @@ namespace djv
             p.colorSwatch = UI::ColorSwatch::create(context);
             p.colorSwatch->setPointerEnabled(true);
 
-            p.formLayout = UI::FormLayout::create(context);
-            p.formLayout->addChild(p.colorSwatch);
-            addChild(p.formLayout);
+            addChild(p.colorSwatch);
 
             auto weak = std::weak_ptr<ImageViewSettingsWidget>(std::dynamic_pointer_cast<ImageViewSettingsWidget>(shared_from_this()));
             p.colorSwatch->setClickedCallback(
@@ -117,24 +113,17 @@ namespace djv
 
         std::string ImageViewSettingsWidget::getSettingsName() const
         {
-            return DJV_TEXT("Image View");
+            return DJV_TEXT("View");
         }
 
         std::string ImageViewSettingsWidget::getSettingsGroup() const
         {
-            return DJV_TEXT("DJV");
+            return DJV_TEXT("View");
         }
 
         std::string ImageViewSettingsWidget::getSettingsSortKey() const
         {
-            return "B";
-        }
-
-        void ImageViewSettingsWidget::_localeEvent(Event::Locale& event)
-        {
-            ISettingsWidget::_localeEvent(event);
-            DJV_PRIVATE_PTR();
-            p.formLayout->setText(p.colorSwatch, _getText(DJV_TEXT("Background color")) + ":");
+            return "E";
         }
 
     } // namespace ViewApp

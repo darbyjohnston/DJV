@@ -50,9 +50,6 @@ namespace djv
             std::string getSettingsGroup() const override;
             std::string getSettingsSortKey() const override;
 
-        protected:
-            void _localeEvent(Core::Event::Locale&) override;
-
         private:
             DJV_PRIVATE();
         };

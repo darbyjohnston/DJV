@@ -77,7 +77,7 @@ namespace djv
                 p.historyActionGroup = ActionGroup::create(ButtonType::Radio);
                 p.historyMenu = Menu::create(context);
                 addChild(p.historyMenu);
-                p.historyButton = Button::Menu::create(context);
+                p.historyButton = Button::Menu::create(UI::Button::MenuStyle::Flat, context);
                 p.historyButton->setIcon("djvIconPopupMenu");
                 p.historyButton->setEnabled(false);
 
@@ -137,7 +137,7 @@ namespace djv
                         widget->_p->historyMenu->hide();
                         if (value)
                         {
-                            widget->_p->historyMenu->popup(weak);
+                            widget->_p->historyMenu->popup(widget->_p->historyButton);
                         }
                     }
                 });

@@ -41,6 +41,12 @@ namespace djv
         class Action;
         class Widget;
 
+        namespace Button
+        {
+            class Menu;
+        
+        } // namespace Button
+
         //! This class provides a popup menu widget.
         class Menu : public Core::IObject
         {
@@ -72,8 +78,8 @@ namespace djv
             void setBackgroundRole(ColorRole);
 
             void popup(const glm::vec2 &);
-            void popup(const std::weak_ptr<Widget> & button);
-            void popup(const std::weak_ptr<Widget> & button, const std::weak_ptr<Widget> & anchor);
+            void popup(const std::weak_ptr<Button::Menu> & button);
+            void popup(const std::weak_ptr<Button::Menu> & button, const std::weak_ptr<Widget> & anchor);
             void hide();
 
             void setCloseCallback(const std::function<void(void)> &);

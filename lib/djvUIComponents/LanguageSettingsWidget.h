@@ -46,8 +46,6 @@ namespace djv
         public:
             static std::shared_ptr<LanguageWidget> create(Core::Context*);
 
-            void setFontSizeRole(MetricsRole);
-
             float getHeightForWidth(float) const override;
 
         protected:

@@ -262,11 +262,7 @@ namespace djv
             p.settingsPopupWidget->setIcon("djvIconSettings");
             p.settingsPopupWidget->addChild(p.fullscreenButton);
 
-            auto layout = UI::VerticalLayout::create(context);
-            layout->setBackgroundRole(UI::ColorRole::Hovered);
-            layout->setVAlign(UI::VAlign::Center);
             auto vLayout = UI::VerticalLayout::create(context);
-            vLayout->setMargin(UI::MetricsRole::MarginDialog);
             vLayout->setSpacing(UI::MetricsRole::SpacingLarge);
             vLayout->setHAlign(UI::HAlign::Center);
             vLayout->addChild(p.logoIcon);
@@ -285,17 +281,16 @@ namespace djv
             vLayout2->addChild(displayPaletteWidget);
             soloLayout->addChild(vLayout2);
             vLayout->addChild(soloLayout);
-            vLayout->setStretch(soloLayout, UI::RowStretch::Expand);
             auto hLayout = UI::HorizontalLayout::create(context);
             hLayout->addChild(p.buttons["Prev"]);
             hLayout->addExpander();
             hLayout->addChild(p.buttons["Next"]);
             hLayout->addChild(p.buttons["Finish"]);
-            vLayout->addChild(hLayout);
-            hLayout = UI::HorizontalLayout::create(context);
-            hLayout->addExpander();
             hLayout->addChild(p.settingsPopupWidget);
             vLayout->addChild(hLayout);
+            auto layout = UI::VerticalLayout::create(context);
+            layout->setBackgroundRole(UI::ColorRole::Hovered);
+            layout->setVAlign(UI::VAlign::Center);
             layout->addChild(vLayout);
 
             auto stackLayout = UI::StackLayout::create(context);

@@ -266,8 +266,7 @@ namespace djv
             p.closeAction->setShortcut(GLFW_KEY_ESCAPE);
             addAction(p.closeAction);
 
-            p.button = Button::Menu::create(context);
-            p.button->setMenuStyle(Button::MenuStyle::Tool);
+            p.button = Button::Menu::create(Button::MenuStyle::Tool, context);
             Widget::addChild(p.button);
 
             p.overlayWidget = OverlayWidget::create(context);

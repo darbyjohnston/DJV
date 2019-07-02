@@ -116,12 +116,12 @@ namespace djv
 
         std::string PlaybackSettingsWidget::getSettingsGroup() const
         {
-            return DJV_TEXT("DJV");
+            return DJV_TEXT("Playback");
         }
 
         std::string PlaybackSettingsWidget::getSettingsSortKey() const
         {
-            return "B";
+            return "G";
         }
 
         void PlaybackSettingsWidget::_localeEvent(Event::Locale& event)

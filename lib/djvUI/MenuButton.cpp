@@ -56,11 +56,12 @@ namespace djv
                 std::function<void(bool)> checkedCallback;
             };
 
-            void Menu::_init(Context * context)
+            void Menu::_init(MenuStyle menuStyle, Context * context)
             {
                 Widget::_init(context);
 
                 DJV_PRIVATE_PTR();
+                p.menuStyle = menuStyle;
 
                 setClassName("djv::UI::Button::Menu");
                 setPointerEnabled(true);
@@ -70,7 +71,17 @@ namespace djv
                 p.icon->hide();
 
                 p.label = Label::create(context);
-                p.label->setMargin(MetricsRole::MarginSmall);
+                switch (menuStyle)
+                {
+                case MenuStyle::Flat:
+                case MenuStyle::Tool:
+                    p.label->setMargin(MetricsRole::MarginSmall);
+                    break;
+                case MenuStyle::ComboBox:
+                    p.label->setMargin(Layout::Margin(MetricsRole::MarginLarge, MetricsRole::MarginLarge, MetricsRole::MarginSmall, MetricsRole::MarginSmall));
+                    break;
+                default: break;
+                }
                 p.label->setHAlign(HAlign::Left);
                 p.label->hide();
 
@@ -95,27 +106,10 @@ namespace djv
             Menu::~Menu()
             {}
 
-            std::shared_ptr<Menu> Menu::create(Context * context)
+            std::shared_ptr<Menu> Menu::create(MenuStyle menuStyle, Context * context)
             {
                 auto out = std::shared_ptr<Menu>(new Menu);
-                out->_init(context);
-                return out;
-            }
-
-            std::shared_ptr<Menu> Menu::create(const std::string & text, Context * context)
-            {
-                auto out = std::shared_ptr<Menu>(new Menu);
-                out->_init(context);
-                out->setText(text);
-                return out;
-            }
-
-            std::shared_ptr<Menu> Menu::create(const std::string & text, const std::string & icon, Context * context)
-            {
-                auto out = std::shared_ptr<Menu>(new Menu);
-                out->_init(context);
-                out->setIcon(icon);
-                out->setText(text);
+                out->_init(menuStyle, context);
                 return out;
             }
 
@@ -185,16 +179,6 @@ namespace djv
                 return _p->menuStyle;
             }
 
-            void Menu::setMenuStyle(MenuStyle value)
-            {
-                DJV_PRIVATE_PTR();
-                if (value == p.menuStyle)
-                    return;
-                p.menuStyle = value;
-                _widgetUpdate();
-                _resize();
-            }
-
             void Menu::_preLayoutEvent(Event::PreLayout &)
             {
                 DJV_PRIVATE_PTR();
@@ -226,20 +210,44 @@ namespace djv
 
             void Menu::_paintEvent(Event::Paint & event)
             {
-                Widget::_paintEvent(event);
                 DJV_PRIVATE_PTR();
                 const auto& style = _getStyle();
                 const BBox2f& g = getMargin().bbox(getGeometry(), style);
+                const float b = style->getMetric(MetricsRole::Border);
                 auto render = _getRender();
-                if (p.checked)
+                switch (p.menuStyle)
                 {
-                    render->setFillColor(style->getColor(ColorRole::Pressed));
+                case MenuStyle::Flat:
+                case MenuStyle::Tool:
+                    render->setFillColor(style->getColor(getBackgroundRole()));
                     render->drawRect(g);
-                }
-                else if (_isHovered())
-                {
-                    render->setFillColor(style->getColor(ColorRole::Hovered));
-                    render->drawRect(g);
+                    if (p.checked)
+                    {
+                        render->setFillColor(style->getColor(ColorRole::Pressed));
+                        render->drawRect(g);
+                    }
+                    else if (_isHovered())
+                    {
+                        render->setFillColor(style->getColor(ColorRole::Hovered));
+                        render->drawRect(g);
+                    }
+                    break;
+                case MenuStyle::ComboBox:
+                    render->setFillColor(style->getColor(ColorRole::Border));
+                    render->drawPill(g);
+                    render->setFillColor(style->getColor(getBackgroundRole()));
+                    render->drawPill(g.margin(-b));
+                    if (p.checked)
+                    {
+                        render->setFillColor(style->getColor(ColorRole::Pressed));
+                        render->drawPill(g);
+                    }
+                    else if (_isHovered())
+                    {
+                        render->setFillColor(style->getColor(ColorRole::Hovered));
+                        render->drawPill(g);
+                    }
+                    break;
                 }
             }
 

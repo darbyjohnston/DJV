@@ -29,9 +29,11 @@
 
 #include <djvUIComponents/PPMSettingsWidget.h>
 
-#include <djvUI/ComboBox.h>
+#include <djvUI/ButtonGroup.h>
+#include <djvUI/FlowLayout.h>
 #include <djvUI/FormLayout.h>
 #include <djvUI/GroupBox.h>
+#include <djvUI/ListButton.h>
 
 #include <djvAV/PPM.h>
 
@@ -45,7 +47,9 @@ namespace djv
     {
         struct PPMSettingsWidget::Private
         {
-            std::shared_ptr<ComboBox> dataComboBox;
+            std::shared_ptr<ButtonGroup> buttonGroup;
+            std::map<AV::IO::PPM::Data, std::shared_ptr<UI::ListButton> > buttons;
+            std::shared_ptr<FlowLayout> buttonLayout;
             std::shared_ptr<FormLayout> layout;
         };
 
@@ -56,22 +60,36 @@ namespace djv
             DJV_PRIVATE_PTR();
             setClassName("djv::UI::PPMSettingsWidget");
 
-            p.dataComboBox = ComboBox::create(context);
+            p.buttonGroup = ButtonGroup::create(ButtonType::Radio);
+            for (auto i : AV::IO::PPM::getDataEnums())
+            {
+                auto button = UI::ListButton::create(context);
+                p.buttonGroup->addButton(button);
+                p.buttons[i] = button;
+            }
 
             p.layout = FormLayout::create(context);
-            p.layout->addChild(p.dataComboBox);
+            p.buttonLayout = FlowLayout::create(context);
+            for (auto i : AV::IO::PPM::getDataEnums())
+            {
+                p.buttonLayout->addChild(p.buttons[i]);
+            }
+            p.layout->addChild(p.buttonLayout);
             addChild(p.layout);
 
+            AV::IO::PPM::Settings settings;
+            auto io = context->getSystemT<AV::IO::System>();
+            fromJSON(io->getOptions(AV::IO::PPM::pluginName), settings);
+            p.buttonGroup->setChecked(static_cast<int>(settings.data));
+
             auto weak = std::weak_ptr<PPMSettingsWidget>(std::dynamic_pointer_cast<PPMSettingsWidget>(shared_from_this()));
-            p.dataComboBox->setCallback(
+            p.buttonGroup->setRadioCallback(
                 [weak, context](int value)
             {
-                if (auto io = context->getSystemT<AV::IO::System>())
-                {
-                    AV::IO::PPM::Settings settings;
-                    settings.data = static_cast<AV::IO::PPM::Data>(value);
-                    io->setOptions(AV::IO::PPM::pluginName, toJSON(settings));
-                }
+                AV::IO::PPM::Settings settings;
+                settings.data = static_cast<AV::IO::PPM::Data>(value);
+                auto io = context->getSystemT<AV::IO::System>();
+                io->setOptions(AV::IO::PPM::pluginName, toJSON(settings));
             });
         }
 
@@ -101,35 +119,16 @@ namespace djv
             return "Z";
         }
 
-        void PPMSettingsWidget::_localeEvent(Event::Locale & event)
+        void PPMSettingsWidget::_localeEvent(Event::Locale& event)
         {
             ISettingsWidget::_localeEvent(event);
             DJV_PRIVATE_PTR();
-            p.layout->setText(p.dataComboBox, _getText(DJV_TEXT("Data type")) + ":");
-            _widgetUpdate();
-        }
-
-        void PPMSettingsWidget::_widgetUpdate()
-        {
-            DJV_PRIVATE_PTR();
-            p.dataComboBox->clearItems();
+            p.layout->setText(p.buttonLayout, _getText(DJV_TEXT("Data type")) + ":");
             for (auto i : AV::IO::PPM::getDataEnums())
             {
                 std::stringstream ss;
                 ss << i;
-                p.dataComboBox->addItem(_getText(ss.str()));
-            }
-            _currentItemUpdate();
-        }
-
-        void PPMSettingsWidget::_currentItemUpdate()
-        {
-            DJV_PRIVATE_PTR();
-            if (auto io = getContext()->getSystemT<AV::IO::System>())
-            {
-                AV::IO::PPM::Settings settings;
-                fromJSON(io->getOptions(AV::IO::PPM::pluginName), settings);
-                p.dataComboBox->setCurrentItem(static_cast<int>(settings.data));
+                p.buttons[i]->setText(ss.str());
             }
         }
 

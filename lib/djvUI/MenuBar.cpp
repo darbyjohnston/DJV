@@ -178,7 +178,7 @@ namespace djv
                 menu->setMinimumSizeRole(MetricsRole::None);
                 p.menus.push_back(menu);
 
-                auto button = Button::Menu::create(getContext());
+                auto button = Button::Menu::create(Button::MenuStyle::Flat, getContext());
                 button->installEventFilter(shared_from_this());
 
                 p.menuLayout->addChild(button);
