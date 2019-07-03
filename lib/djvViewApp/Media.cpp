@@ -231,7 +231,7 @@ namespace djv
                             return out;
                         }))
                         {
-                            media->_p->currentImage->setIfChanged(media->_p->read->getVideoQueue().getFrame().second);
+                            media->_p->currentImage->setIfChanged(media->_p->read->getVideoQueue().getFrame().image);
                         }
                     }
                 });
@@ -672,10 +672,10 @@ namespace djv
                     auto& queue = p.read->getVideoQueue();
                     if (p.audioInfo.info.isValid() && p.alSource)
                     {
-                        while (queue.hasFrames() && queue.getFrame().first < p.currentTime->get())
+                        while (queue.hasFrames() && queue.getFrame().timestamp < p.currentTime->get())
                         {
                             auto frame = queue.popFrame();
-                            p.framePts = frame.first;
+                            p.framePts = frame.timestamp;
                         }
                     }
                     else
@@ -683,7 +683,7 @@ namespace djv
                         if (queue.getFrameCount() > 1)
                         {
                             auto frame = queue.popFrame();
-                            p.framePts = frame.first;
+                            p.framePts = frame.timestamp;
                         }
                     }
                     //p.readFinished |= queue.isFinished();
@@ -728,7 +728,7 @@ namespace djv
                     }
                     for (size_t i = 0; i < frames.size(); ++i)
                     {
-                        auto data = AV::Audio::Data::convert(frames[i].second, AV::Audio::Type::S16);
+                        auto data = AV::Audio::Data::convert(frames[i].audio, AV::Audio::Type::S16);
                         const auto info = data->getInfo();
                         auto buffer = p.alBuffers.back();
                         p.alBuffers.pop_back();

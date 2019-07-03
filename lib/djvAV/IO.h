@@ -103,8 +103,15 @@ namespace djv
                 bool operator == (const Info &) const;
             };
 
-            //! This typedef provides a video I/O frame.
-            typedef std::pair<Core::Time::Timestamp, std::shared_ptr<Image::Image> > VideoFrame;
+            //! This struct provides a video frame.
+            struct VideoFrame
+            {
+                VideoFrame();
+                VideoFrame(Core::Time::Timestamp, const std::shared_ptr<Image::Image>&);
+
+                Core::Time::Timestamp         timestamp = 0;
+                std::shared_ptr<Image::Image> image;
+            };
 
             //! This class provides a queue of video frames.
             class VideoQueue
@@ -113,14 +120,14 @@ namespace djv
 
             public:
                 //! \todo [1.0 S] What is a good default for this value?
-                VideoQueue(size_t max = 30);
+                VideoQueue(size_t max = 10);
 
                 inline size_t getMax() const;
 
                 inline bool hasFrames() const;
                 inline size_t getFrameCount() const;
                 inline VideoFrame getFrame() const;
-                void addFrame(Core::Time::Timestamp, const std::shared_ptr<Image::Image>&);
+                void addFrame(const VideoFrame&);
                 VideoFrame popFrame();
                 void clearFrames();
 
@@ -133,8 +140,15 @@ namespace djv
                 bool _finished = false;
             };
 
-            //! This typedef provides an audio I/O frame.
-            typedef std::pair<Core::Time::Timestamp, std::shared_ptr<Audio::Data> > AudioFrame;
+            //! This struct provides an audio frame.
+            struct AudioFrame
+            {
+                AudioFrame();
+                AudioFrame(Core::Time::Timestamp, const std::shared_ptr<Audio::Data>&);
+
+                Core::Time::Timestamp        timestamp = 0;
+                std::shared_ptr<Audio::Data> audio;
+            };
 
             //! This class provides a queue of audio frames.
             class AudioQueue
@@ -143,14 +157,14 @@ namespace djv
 
             public:
                 //! \todo [1.0 S] What is a good default for this value?
-                AudioQueue(size_t max = 30);
+                AudioQueue(size_t max = 10);
 
                 inline size_t getMax() const;
 
                 inline bool hasFrames() const;
                 inline size_t getFrameCount() const;
                 inline AudioFrame getFrame() const;
-                void addFrame(Core::Time::Timestamp, const std::shared_ptr<Audio::Data> &);
+                void addFrame(const AudioFrame &);
                 AudioFrame popFrame();
                 void clearFrames();
 

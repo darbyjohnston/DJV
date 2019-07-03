@@ -220,7 +220,7 @@ void Application::_init(int argc, char ** argv)
                     auto& queue = read->getVideoQueue();
                     if (queue.hasFrames())
                     {
-                        _images.push_back(queue.getFrame().second);
+                        _images.push_back(queue.getFrame().image);
                         break;
                     }
                 }

@@ -66,8 +66,8 @@ namespace djv
                 std::map<Handle, std::vector<BBox2f> > out;
                 const BBox2f & g = getGeometry();
                 const auto& style = _getStyle();
-                const float edge = style->getMetric(MetricsRole::Handle);
-                const float corner = style->getMetric(MetricsRole::Handle) * 2.f;
+                const float edge = style->getMetric(MetricsRole::Shadow);
+                const float corner = style->getMetric(MetricsRole::Shadow) * 2.f;
                 out =
                 {
                     {

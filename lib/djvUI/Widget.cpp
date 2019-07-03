@@ -607,39 +607,36 @@ namespace djv
 
         void Widget::_keyPressEvent(Event::KeyPress & event)
         {
-            if (isEnabled(true))
+            // Find the shortcuts.
+            std::vector<std::shared_ptr<Shortcut> > shortcuts;
+            for (const auto & i : _actions)
             {
-                // Find the shortcuts.
-                std::vector<std::shared_ptr<Shortcut> > shortcuts;
-                for (const auto & i : _actions)
+                if (i->observeEnabled()->get())
                 {
-                    if (i->observeEnabled()->get())
+                    for (auto j : i->observeShortcuts()->get())
                     {
-                        for (auto j : i->observeShortcuts()->get())
-                        {
-                            shortcuts.push_back(j);
-                        }
+                        shortcuts.push_back(j);
                     }
                 }
+            }
 
-                // Sort the actions so that we test those with keyboard modifiers first.
-                std::sort(shortcuts.begin(), shortcuts.end(),
-                    [](const std::shared_ptr<Shortcut> & a, const std::shared_ptr<Shortcut> & b) -> bool
-                {
-                    return a->observeShortcutModifiers()->get() > b->observeShortcutModifiers()->get();
-                });
+            // Sort the actions so that we test those with keyboard modifiers first.
+            std::sort(shortcuts.begin(), shortcuts.end(),
+                [](const std::shared_ptr<Shortcut> & a, const std::shared_ptr<Shortcut> & b) -> bool
+            {
+                return a->observeShortcutModifiers()->get() > b->observeShortcutModifiers()->get();
+            });
 
-                for (const auto & i : shortcuts)
+            for (const auto & i : shortcuts)
+            {
+                const int key = i->observeShortcutKey()->get();
+                const int modifiers = i->observeShortcutModifiers()->get();
+                if ((key == event.getKey() && event.getKeyModifiers() == modifiers) ||
+                    (key == event.getKey() && modifiers == 0 && event.getKeyModifiers() == 0))
                 {
-                    const int key = i->observeShortcutKey()->get();
-                    const int modifiers = i->observeShortcutModifiers()->get();
-                    if ((key == event.getKey() && event.getKeyModifiers() == modifiers) ||
-                        (key == event.getKey() && modifiers == 0 && event.getKeyModifiers() == 0))
-                    {
-                        event.accept();
-                        i->doCallback();
-                        break;
-                    }
+                    event.accept();
+                    i->doCallback();
+                    break;
                 }
             }
         }

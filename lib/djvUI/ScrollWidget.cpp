@@ -283,7 +283,7 @@ namespace djv
 
             void ScrollBar::_buttonPressEvent(Event::ButtonPress & event)
             {
-                if (!isEnabled(true) || _pressedID)
+                if (_pressedID)
                     return;
                 event.accept();
                 _pressedID = event.getPointerInfo().id;
@@ -314,7 +314,7 @@ namespace djv
 
             void ScrollBar::_buttonReleaseEvent(Event::ButtonRelease & event)
             {
-                if (!isEnabled(true) || event.getPointerInfo().id != _pressedID)
+                if (event.getPointerInfo().id != _pressedID)
                     return;
                 event.accept();
                 _pressedID = Event::InvalidID;
@@ -467,29 +467,18 @@ namespace djv
                         childrenMinimumSize = glm::max(childrenMinimumSize, child->getMinimumSize());
                     }
                 }
-                glm::vec2 size = childrenMinimumSize;
                 const auto& style = _getStyle();
-                const float minimumSize = style->getMetric(_minimumSizeRole);
+                const glm::vec2 minimumSize = glm::vec2(style->getMetric(MetricsRole::ScrollArea), style->getMetric(_minimumSizeRole));
+                glm::vec2 size = minimumSize;
                 switch (_scrollType)
                 {
-                case ScrollType::Both:
-                    if (_minimumSizeRole != MetricsRole::None)
-                    {
-                        size.x = std::min(childrenMinimumSize.x, minimumSize);
-                        size.y = std::min(childrenMinimumSize.y, minimumSize);
-                    }
-                    break;
                 case ScrollType::Horizontal:
-                    if (_minimumSizeRole != MetricsRole::None)
-                    {
-                        size.x = std::min(childrenMinimumSize.x, minimumSize);
-                    }
+                    size.x = std::min(childrenMinimumSize.x, size.x);
+                    size.y = std::max(childrenMinimumSize.y, size.y);
                     break;
                 case ScrollType::Vertical:
-                    if (_minimumSizeRole != MetricsRole::None)
-                    {
-                        size.y = std::min(childrenMinimumSize.y, minimumSize);
-                    }
+                    size.x = std::max(childrenMinimumSize.x, size.x);
+                    size.y = std::min(childrenMinimumSize.y, size.y);
                     break;
                 default: break;
                 }
@@ -816,14 +805,16 @@ namespace djv
             DJV_PRIVATE_PTR();
             const auto& style = _getStyle();
             _setMinimumSize(p.border->getMinimumSize() + getMargin().getSize(style));
-            _updateScrollBars(p.scrollArea->getContentsSize());
+            const glm::vec2 contentsSize = p.scrollArea->getContentsSize();
+            _updateScrollBars(contentsSize);
         }
 
         void ScrollWidget::_layoutEvent(Event::Layout &)
         {
             DJV_PRIVATE_PTR();
             const auto& style = _getStyle();
-            p.border->setGeometry(getMargin().bbox(getGeometry(), style));
+            const BBox2f& g = getMargin().bbox(getGeometry(), style);
+            p.border->setGeometry(g);
         }
 
         void ScrollWidget::_clipEvent(Event::Clip &)

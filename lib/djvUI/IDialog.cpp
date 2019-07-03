@@ -132,7 +132,6 @@ namespace djv
             p.layout->setStretch(layout, RowStretch::Expand);
 
             p.overlay = Layout::Overlay::create(context);
-            p.overlay->setCaptureKeyboard(false);
             p.overlay->addChild(p.layout);
             Widget::addChild(p.overlay);
 

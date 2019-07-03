@@ -524,7 +524,9 @@ namespace djv
                 for (const auto & widget : p.widgets)
                 {
                     const auto & child = widget.second;
-                    child->setGeometry(Widget::getAlign(childrenGeometry[widget.second], child->getMinimumSize(), child->getHAlign(), child->getVAlign()));
+                    child->setGeometry(
+                        Widget::getAlign(childrenGeometry[widget.second], child->getMinimumSize(), child->getHAlign(), child->getVAlign()).
+                        intersect(g));
                 }
             }
 

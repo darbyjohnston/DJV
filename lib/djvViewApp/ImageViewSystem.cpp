@@ -532,8 +532,6 @@ namespace djv
             p.actions["ZoomOut"]->setEnabled(activeWidget);
             p.actions["Fit"]->setEnabled(activeWidget);
             p.actions["Center"]->setEnabled(activeWidget);
-            p.actions["LockFit"]->setEnabled(activeWidget);
-            p.actions["LockCenter"]->setEnabled(activeWidget);
             p.actions["Grid"]->setEnabled(activeWidget);
             p.actions["HUD"]->setEnabled(activeWidget);
         }

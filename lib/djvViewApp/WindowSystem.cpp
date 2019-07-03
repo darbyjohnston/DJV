@@ -363,8 +363,6 @@ namespace djv
         {
             DJV_PRIVATE_PTR();
             p.actions["Maximized"]->setChecked(static_cast<int>(p.maximized->get()));
-            const bool activeWidget = p.activeWidget->get().get();
-            p.actions["Maximized"]->setEnabled(activeWidget);
         }
 
         void WindowSystem::_textUpdate()

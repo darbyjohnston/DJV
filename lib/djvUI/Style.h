@@ -99,6 +99,7 @@ namespace djv
                 Swatch,
                 Slider,
                 ScrollArea,
+                Menu,
                 TextColumn,
                 TextColumnLarge,
                 SearchBox,

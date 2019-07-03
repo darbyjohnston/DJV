@@ -207,7 +207,7 @@ namespace djv
                             if (result.image)
                             {
                                 std::lock_guard<std::mutex> lock(_mutex);
-                                _videoQueue.addFrame(result.pts, result.image);
+                                _videoQueue.addFrame(VideoFrame(result.pts, result.image));
                             }
                         }
 
@@ -352,7 +352,7 @@ namespace djv
                                     while (_videoQueue.hasFrames() && images.size() < threadCount)
                                     {
                                         auto frame = _videoQueue.popFrame();
-                                        images.push_back(frame.second);
+                                        images.push_back(frame.image);
                                     }
 
                                     if (!_videoQueue.hasFrames() && _videoQueue.isFinished())

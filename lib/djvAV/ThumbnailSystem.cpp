@@ -559,7 +559,7 @@ namespace djv
                     auto& queue = i->read->getVideoQueue();
                     if (queue.hasFrames())
                     {
-                        image = queue.getFrame().second;
+                        image = queue.getFrame().image;
                     }
                 }
                 if (image)

@@ -29,8 +29,8 @@
 
 #include <djvViewApp/TimelineSlider.h>
 
-#include <djvViewApp/MDIWidget.h>
 #include <djvViewApp/Media.h>
+#include <djvViewApp/MediaWidget.h>
 #include <djvViewApp/PlaybackSettings.h>
 
 #include <djvUI/EventSystem.h>
@@ -468,7 +468,7 @@ namespace djv
             const auto & pos = event.getPointerInfo().projectedPos;
             const BBox2f & g = getGeometry();
             const Time::Timestamp timestamp = _posToTime(static_cast<int>(pos.x - g.min.x));
-            if (auto parent = getParentRecursiveT<MDIWidget>())
+            if (auto parent = getParentRecursiveT<MediaWidget>())
             {
                 const auto& style = _getStyle();
                 const float s = style->getMetric(UI::MetricsRole::Spacing);

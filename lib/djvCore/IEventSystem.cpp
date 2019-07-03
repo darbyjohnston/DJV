@@ -77,9 +77,9 @@ namespace djv
                 float t = 0.f;
                 PointerInfo pointerInfo;
                 std::shared_ptr<ValueSubject<PointerInfo> > pointerSubject;
-                std::shared_ptr<IObject> hover;
-                std::shared_ptr<IObject> grab;
-                std::shared_ptr<IObject> keyGrab;
+                std::shared_ptr<ValueSubject<std::shared_ptr<IObject> > > hover;
+                std::shared_ptr<ValueSubject<std::shared_ptr<IObject> > > grab;
+                std::shared_ptr<ValueSubject<std::shared_ptr<IObject> > > keyGrab;
                 std::weak_ptr<IObject> textFocus;
                 std::string locale;
                 bool localeInit = false;
@@ -95,6 +95,9 @@ namespace djv
 
                 p.rootObject = RootObject::create(context);
                 p.pointerSubject = ValueSubject<PointerInfo>::create();
+                p.hover = ValueSubject<std::shared_ptr<IObject> >::create();
+                p.grab = ValueSubject<std::shared_ptr<IObject> >::create();
+                p.keyGrab = ValueSubject<std::shared_ptr<IObject> >::create();
 
                 auto weak = std::weak_ptr<IEventSystem>(std::dynamic_pointer_cast<IEventSystem>(shared_from_this()));
                 p.textSystem = context->getSystemT<TextSystem>();
@@ -144,6 +147,21 @@ namespace djv
                 return _p->pointerSubject;
             }
 
+            std::shared_ptr<Core::IValueSubject<std::shared_ptr<IObject> > > IEventSystem::observeHover() const
+            {
+                return _p->hover;
+            }
+
+            std::shared_ptr<Core::IValueSubject<std::shared_ptr<IObject> > > IEventSystem::observeGrab() const
+            {
+                return _p->grab;
+            }
+
+            std::shared_ptr<Core::IValueSubject<std::shared_ptr<IObject> > > IEventSystem::observeKeyGrab() const
+            {
+                return _p->keyGrab;
+            }
+
             const std::weak_ptr<IObject> & IEventSystem::getTextFocus() const
             {
                 return _p->textFocus;
@@ -190,19 +208,19 @@ namespace djv
                 _updateRecursive(p.rootObject, updateEvent);
 
                 PointerMove moveEvent(p.pointerInfo);
-                if (p.grab)
+                if (auto grab = p.grab->get())
                 {
                     /*{
                         std::stringstream ss;
                         ss << "Grab: " << p.grab->getClassName();
                         _log(ss.str());
                     }*/
-                    p.grab->event(moveEvent);
+                    grab->event(moveEvent);
                     if (!moveEvent.isAccepted())
                     {
                         // Release the grabbed object if it did not accept the move event.
-                        auto object = p.grab;
-                        p.grab = nullptr;
+                        auto object = grab;
+                        p.grab->setIfChanged(nullptr);
                         moveEvent.reject();
 
                         // See if a parent wants the event.
@@ -212,15 +230,16 @@ namespace djv
                             if (moveEvent.isAccepted())
                             {
                                 _setHover(parent);
-                                if (p.hover)
+                                auto hover = p.hover->get();
+                                if (hover && hover->isEnabled())
                                 {
                                     auto info = p.pointerInfo;
                                     info.buttons[info.id] = true;
                                     ButtonPress buttonPressEvent(info);
-                                    p.hover->event(buttonPressEvent);
+                                    hover->event(buttonPressEvent);
                                     if (buttonPressEvent.isAccepted())
                                     {
-                                        p.grab = p.hover;
+                                        p.grab->setIfChanged(hover);
                                     }
                                 }
                                 break;
@@ -245,9 +264,16 @@ namespace djv
                     _hover(moveEvent, hover);
                     /*if (hover)
                     {
-                        std::stringstream ss;
-                        ss << "Hover: " << hover->getClassName();
-                        _log(ss.str());
+                        size_t indent = 0;
+                        auto widget = hover;
+                        while (widget)
+                        {
+                            std::stringstream ss;
+                            ss << "Hover: " << std::string(indent, ' ') << widget->getClassName();
+                            _log(ss.str());
+                            indent += 2;
+                            widget = widget->getParent().lock();
+                        }
                     }*/
                     _setHover(hover);
                 }
@@ -273,14 +299,17 @@ namespace djv
                 auto info = p.pointerInfo;
                 info.buttons[button] = true;
                 ButtonPress event(info);
-                auto object = p.hover;
+                auto object = p.hover->get();
                 while (object)
                 {
-                    object->event(event);
-                    if (event.isAccepted())
+                    if (object->isEnabled())
                     {
-                        p.grab = object;
-                        break;
+                        object->event(event);
+                        if (event.isAccepted())
+                        {
+                            p.grab->setIfChanged(object);
+                            break;
+                        }
                     }
                     object = object->getParent().lock();
                 }
@@ -292,10 +321,10 @@ namespace djv
                 auto info = p.pointerInfo;
                 info.buttons[button] = false;
                 ButtonRelease event(info);
-                if (p.grab)
+                if (auto grab = p.grab->get())
                 {
-                    p.grab->event(event);
-                    p.grab = nullptr;
+                    grab->event(event);
+                    p.grab->setIfChanged(nullptr);
                 }
             }
 
@@ -305,13 +334,16 @@ namespace djv
                 if (p.hover)
                 {
                     Drop event(list, p.pointerInfo);
-                    auto object = p.hover;
+                    auto object = p.hover->get();
                     while (object)
                     {
-                        object->event(event);
-                        if (event.isAccepted())
+                        if (object->isEnabled())
                         {
-                            break;
+                            object->event(event);
+                            if (event.isAccepted())
+                            {
+                                break;
+                            }
                         }
                         object = object->getParent().lock();
                     }
@@ -322,17 +354,21 @@ namespace djv
             {
                 DJV_PRIVATE_PTR();
                 auto textFocus = p.textFocus.lock();
-                if (textFocus || p.hover)
+                auto hover = p.hover->get();
+                if (textFocus || hover)
                 {
                     KeyPress event(key, modifiers, p.pointerInfo);
-                    auto object = textFocus ? textFocus : p.hover;
+                    auto object = textFocus ? textFocus : hover;
                     while (object)
                     {
-                        object->event(event);
-                        if (event.isAccepted())
+                        if (object->isEnabled())
                         {
-                            p.keyGrab = object;
-                            break;
+                            object->event(event);
+                            if (event.isAccepted())
+                            {
+                                p.keyGrab->setIfChanged(object);
+                                break;
+                            }
                         }
                         object = object->getParent().lock();
                     }
@@ -343,14 +379,14 @@ namespace djv
             {
                 DJV_PRIVATE_PTR();
                 KeyRelease event(key, modifiers, p.pointerInfo);
-                if (p.keyGrab)
+                if (auto keyGrab = p.keyGrab->get())
                 {
-                    p.keyGrab->event(event);
-                    p.keyGrab.reset();
+                    keyGrab->event(event);
+                    p.keyGrab->setIfChanged(nullptr);
                 }
                 else
                 {
-                    auto object = p.hover;
+                    auto object = p.hover->get();
                     while (object)
                     {
                         object->event(event);
@@ -380,13 +416,16 @@ namespace djv
                 if (textFocus || p.hover)
                 {
                     Scroll event(glm::vec2(x, y), p.pointerInfo);
-                    auto object = textFocus ? textFocus : p.hover;
+                    auto object = textFocus ? textFocus : p.hover->get();
                     while (object)
                     {
-                        object->event(event);
-                        if (event.isAccepted())
+                        if (object->isEnabled())
                         {
-                            break;
+                            object->event(event);
+                            if (event.isAccepted())
+                            {
+                                break;
+                            }
                         }
                         object = object->getParent().lock();
                     }
@@ -421,18 +460,16 @@ namespace djv
             void IEventSystem::_setHover(const std::shared_ptr<IObject> & value)
             {
                 DJV_PRIVATE_PTR();
-                if (value == p.hover)
-                    return;
-                if (p.hover)
+                auto hoverPrev = p.hover->get();
+                if (p.hover->setIfChanged(value))
                 {
-                    PointerLeave leaveEvent(p.pointerInfo);
-                    p.hover->event(leaveEvent);
-                }
-                p.hover = value;
-                if (p.hover)
-                {
+                    if (hoverPrev)
+                    {
+                        PointerLeave leaveEvent(p.pointerInfo);
+                        hoverPrev->event(leaveEvent);
+                    }
                     PointerEnter enterEvent(p.pointerInfo);
-                    p.hover->event(enterEvent);
+                    value->event(enterEvent);
                 }
             }
 

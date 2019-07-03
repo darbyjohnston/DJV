@@ -29,54 +29,20 @@
 
 #pragma once
 
-#include <djvUI/IButton.h>
+#include <djvUI/UI.h>
+
+#include <djvCore/BBox.h>
 
 namespace djv
 {
     namespace UI
     {
-        namespace Button
+        namespace Layout
         {
-            class ActionButton : public Button::IButton
-            {
-                DJV_NON_COPYABLE(ActionButton);
+            Core::BBox2f getPopupGeometry(const Core::BBox2f& area, const glm::vec2& pos, const glm::vec2& minimumSize);
+            Core::BBox2f getPopupGeometry(const Core::BBox2f& area, const Core::BBox2f& button, const glm::vec2& minimumSize);
 
-            protected:
-                void _init(Core::Context *);
-                ActionButton();
-
-            public:
-                ~ActionButton() override;
-
-                static std::shared_ptr<ActionButton> create(Core::Context *);
-                static std::shared_ptr<ActionButton> create(const std::shared_ptr<Action> &, Core::Context *);
-
-                bool hasShowText() const;
-                bool hasShowShortcuts() const;
-                void setShowText(bool);
-                void setShowShortcuts(bool);
-
-                void addAction(const std::shared_ptr<Action> &) override;
-                void removeAction(const std::shared_ptr<Action> &) override;
-                void clearActions() override;
-
-            protected:
-                void _preLayoutEvent(Core::Event::PreLayout &) override;
-                void _layoutEvent(Core::Event::Layout &) override;
-                void _paintEvent(Core::Event::Paint&) override;
-                void _keyPressEvent(Core::Event::KeyPress&) override;
-                void _keyReleaseEvent(Core::Event::KeyRelease&) override;
-
-            private:
-                void _actionUpdate();
-
-                DJV_PRIVATE();
-            };
-
-        } // namespace Button
-
-        using Button::ActionButton;
-
+        } // namespace Layout
     } // namespace UI
 } // namespace djv
 

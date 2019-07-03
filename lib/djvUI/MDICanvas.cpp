@@ -34,6 +34,8 @@
 #include <djvUI/MDIWidget.h>
 #include <djvUI/RowLayout.h>
 
+#include <djvAV/Render2D.h>
+
 #include <djvCore/Animation.h>
 
 using namespace djv::Core;
@@ -80,14 +82,13 @@ namespace djv
                 std::weak_ptr<IWidget> maximizedWidget;
                 std::function<void(bool)> maximizedCallback;
                 std::shared_ptr<Animation::Animation> maximizedAnimation;
+                std::map<Handle, std::vector<BBox2f> > handles;
             };
 
             void Canvas::_init(Context * context)
             {
                 Widget::_init(context);
-
                 DJV_PRIVATE_PTR();
-
                 setClassName("djv::UI::MDI::Canvas");
 
                 p.maximizedAnimation = Animation::Animation::create(context);
@@ -212,7 +213,9 @@ namespace djv
                 const auto i = p.widgetToGeometry.find(p.activeWidget);
                 if (i != p.widgetToGeometry.end())
                 {
-                    const BBox2f canvasGeometry = getGeometry();
+                    const auto& style = _getStyle();
+                    const float sh = style->getMetric(MetricsRole::Shadow);
+                    const BBox2f canvasGeometry = getGeometry().margin(sh);
                     p.maximizedWidget = p.activeWidget;
                     auto maximizedWidget = p.activeWidget;
                     const BBox2f maximizedWidgetGeometry = i->second;
@@ -271,6 +274,8 @@ namespace djv
             void Canvas::_layoutEvent(Event::Layout &)
             {
                 DJV_PRIVATE_PTR();
+                const auto& style = _getStyle();
+                const float sh = style->getMetric(MetricsRole::Shadow);
                 const BBox2f& g = getGeometry();
                 for (auto& i : p.widgetToGeometry)
                 {
@@ -292,7 +297,7 @@ namespace djv
                         BBox2f widgetGeometry;
                         if (p.maximized && i.first == p.activeWidget)
                         {
-                            widgetGeometry = g;
+                            widgetGeometry = g.margin(sh);
                         }
                         else
                         {
@@ -305,6 +310,22 @@ namespace djv
                             widgetGeometry = i.second;
                         }
                         i.first->setGeometry(widgetGeometry);
+                    }
+                }
+            }
+
+            void Canvas::_paintOverlayEvent(Core::Event::PaintOverlay&)
+            {
+                return;
+                DJV_PRIVATE_PTR();
+                const auto& style = _getStyle();
+                auto render = _getRender();
+                render->setFillColor(style->getColor(ColorRole::Checked));
+                for (const auto& i : p.handles)
+                {
+                    for (const auto& j : i.second)
+                    {
+                        render->drawRect(j);
                     }
                 }
             }
@@ -390,7 +411,9 @@ namespace djv
                         widget->_setMaximized(p.maximizedValue);
                         if (p.maximized)
                         {
-                            widget->setGeometry(getGeometry());
+                            const auto& style = _getStyle();
+                            const float sh = style->getMetric(MetricsRole::Shadow);
+                            widget->setGeometry(getGeometry().margin(sh));
                         }
                         p.activeWidget = widget;
                         p.activeWidget->_setActiveWidget(true);
@@ -413,7 +436,9 @@ namespace djv
                     const auto & pointerInfo = pointerEnterEvent.getPointerInfo();
                     if (auto widget = std::dynamic_pointer_cast<IWidget>(object))
                     {
-                        for (const auto& handle : widget->_getHandles())
+                        p.handles = widget->_getHandles();
+                        _redraw();
+                        for (const auto& handle : p.handles)
                         {
                             for (const auto& rect : handle.second)
                             {
@@ -443,6 +468,8 @@ namespace djv
                         i->second.widget->_setHandleHovered(Handle::None);
                         p.hovered.erase(i);
                     }
+                    p.handles.clear();
+                    _redraw();
                     break;
                 }
                 case Event::Type::PointerMove:
@@ -503,7 +530,9 @@ namespace djv
                         }
                         else
                         {
-                            for (const auto& handle : widget->_getHandles())
+                            p.handles = widget->_getHandles();
+                            _redraw();
+                            for (const auto& handle : p.handles)
                             {
                                 for (const auto& rect : handle.second)
                                 {

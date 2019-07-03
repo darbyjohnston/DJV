@@ -174,7 +174,7 @@ namespace djv
             DJV_PRIVATE_PTR();
             if (p.clickedCallback)
             {
-                if (!isEnabled(true) || p.pressedID)
+                if (p.pressedID)
                     return;
                 event.accept();
                 const auto& pointerInfo = event.getPointerInfo();

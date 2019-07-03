@@ -160,8 +160,8 @@ namespace djv
             DJV_PRIVATE_PTR();
             p.actions["Tool"]->setText(_getText(DJV_TEXT("Annotate")));
             p.actions["Tool"]->setTooltip(_getText(DJV_TEXT("Annotate tooltip")));
-            p.actions["Widget"]->setText(_getText(DJV_TEXT("Show Annotations")));
-            p.actions["Widget"]->setTooltip(_getText(DJV_TEXT("Show annotations tooltip")));
+            p.actions["Widget"]->setText(_getText(DJV_TEXT("Annotate Widget")));
+            p.actions["Widget"]->setTooltip(_getText(DJV_TEXT("Annotate widget tooltip")));
 
             p.menu->setText(_getText(DJV_TEXT("Annotate")));
         }

@@ -158,7 +158,7 @@ namespace djv
             void IButton::_buttonPressEvent(Event::ButtonPress & event)
             {
                 DJV_PRIVATE_PTR();
-                if (!isEnabled(true) || p.pressedID)
+                if (p.pressedID)
                     return;
                 event.accept();
                 const auto & pointerInfo = event.getPointerInfo();
@@ -252,7 +252,7 @@ namespace djv
 
             bool IButton::_isPressed() const
             {
-                return isEnabled(true) && _p->pressedID != 0;
+                return _p->pressedID != 0;
             }
 
             const glm::vec2 & IButton::_getPressedPos() const

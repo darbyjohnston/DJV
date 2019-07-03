@@ -140,7 +140,7 @@ namespace djv
                                 if (queue.hasFrames())
                                 {
                                     image = true;
-                                    widget->_images.push_back(queue.popFrame().second);
+                                    widget->_images.push_back(queue.popFrame().image);
                                 }
                             }
                             if (image)

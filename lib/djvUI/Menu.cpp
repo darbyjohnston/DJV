@@ -31,6 +31,7 @@
 
 #include <djvUI/Action.h>
 #include <djvUI/IconSystem.h>
+#include <djvUI/LayoutUtil.h>
 #include <djvUI/MenuButton.h>
 #include <djvUI/Overlay.h>
 #include <djvUI/ScrollWidget.h>
@@ -427,7 +428,7 @@ namespace djv
 
             void MenuWidget::_buttonPressEvent(Event::ButtonPress & event)
             {
-                if (!isEnabled(true) || _pressed.second)
+                if (_pressed.second)
                     return;
                 const auto & pointerInfo = event.getPointerInfo();
                 const auto id = pointerInfo.id;
@@ -745,7 +746,8 @@ namespace djv
 
             void MenuPopupWidget::_layoutEvent(Event::Layout &)
             {
-                _scrollWidget->setGeometry(getGeometry());
+                const BBox2f& g = getGeometry();
+                _scrollWidget->setGeometry(g);
             }
 
             class MenuOverlayLayout : public Widget
@@ -821,36 +823,11 @@ namespace djv
             {
                 const auto& style = _getStyle();
                 const BBox2f & g = getMargin().bbox(getGeometry(), style);
-                // Bias menu placement below the geometry.
-                const float bias = .5f;
                 for (const auto & i : _widgetToPos)
                 {
                     const auto & pos = i.second;
                     const auto & minimumSize = i.first->getMinimumSize();
-                    std::vector<BBox2f> geomCandidates;
-                    const BBox2f aboveLeft(
-                        glm::vec2(pos.x - minimumSize.x * bias, pos.y - minimumSize.y * bias),
-                        glm::vec2(pos.x, pos.y));
-                    const BBox2f aboveRight(
-                        glm::vec2(pos.x, pos.y - minimumSize.y * bias),
-                        glm::vec2(pos.x + minimumSize.x * bias, pos.y));
-                    const BBox2f belowLeft(
-                        glm::vec2(pos.x - minimumSize.x, pos.y),
-                        glm::vec2(pos.x, pos.y + minimumSize.y));
-                    const BBox2f belowRight(
-                        glm::vec2(pos.x, pos.y),
-                        glm::vec2(pos.x + minimumSize.x, pos.y + minimumSize.y));
-                    geomCandidates.push_back(belowRight.intersect(g));
-                    geomCandidates.push_back(belowLeft.intersect(g));
-                    geomCandidates.push_back(aboveRight.intersect(g));
-                    geomCandidates.push_back(aboveLeft.intersect(g));
-                    std::sort(geomCandidates.begin(), geomCandidates.end(),
-                        [](const BBox2f & a, const BBox2f & b) -> bool
-                    {
-                        return a.getArea() > b.getArea();
-                    });
-                    i.first->move(geomCandidates.front().min);
-                    i.first->resize(geomCandidates.front().getSize());
+                    i.first->setGeometry(Layout::getPopupGeometry(g, pos, minimumSize));
                 }
                 for (const auto & i : _widgetToButton)
                 {
@@ -858,47 +835,8 @@ namespace djv
                     {
                         const auto & buttonBBox = button->getGeometry();
                         const auto & minimumSize = i.first->getMinimumSize();
-                        std::vector<BBox2f> geomCandidates;
-                        const BBox2f aboveLeft(
-                            glm::vec2(
-                                std::min(buttonBBox.max.x - minimumSize.x * bias, buttonBBox.min.x),
-                                buttonBBox.min.y - minimumSize.y * bias),
-                            glm::vec2(
-                                buttonBBox.max.x,
-                                buttonBBox.min.y));
-                        const BBox2f aboveRight(
-                            glm::vec2(
-                                buttonBBox.min.x,
-                                buttonBBox.min.y - minimumSize.y * bias),
-                            glm::vec2(
-                                std::max(buttonBBox.min.x + minimumSize.x * bias, buttonBBox.max.x),
-                                buttonBBox.min.y));
-                        const BBox2f belowLeft(
-                            glm::vec2(
-                                std::min(buttonBBox.max.x - minimumSize.x, buttonBBox.min.x),
-                                buttonBBox.max.y),
-                            glm::vec2(
-                                buttonBBox.max.x,
-                                buttonBBox.max.y + minimumSize.y));
-                        const BBox2f belowRight(
-                            glm::vec2(
-                                buttonBBox.min.x,
-                                buttonBBox.max.y),
-                            glm::vec2(
-                                std::max(buttonBBox.min.x + minimumSize.x, buttonBBox.max.x),
-                                buttonBBox.max.y + minimumSize.y));
-                        geomCandidates.push_back(belowRight.intersect(g));
-                        geomCandidates.push_back(belowLeft.intersect(g));
-                        geomCandidates.push_back(aboveRight.intersect(g));
-                        geomCandidates.push_back(aboveLeft.intersect(g));
-                        std::sort(geomCandidates.begin(), geomCandidates.end(),
-                            [](const BBox2f & a, const BBox2f & b) -> bool
-                        {
-                            return a.getArea() > b.getArea();
-                        });
-                        const auto & geom = geomCandidates.front();
-                        i.first->move(geom.min);
-                        i.first->resize(geom.getSize());
+                        const BBox2f popupGeometry = Layout::getPopupGeometry(g, buttonBBox, minimumSize);
+                        i.first->setGeometry(popupGeometry);
                     }
                 }
             }
@@ -1138,7 +1076,6 @@ namespace djv
             p.overlayLayout->addChild(p.popupWidget);
 
             p.overlay = Layout::Overlay::create(context);
-            p.overlay->setCaptureKeyboard(false);
             p.overlay->setFadeIn(false);
             p.overlay->setVisible(true);
             p.overlay->setBackgroundRole(ColorRole::None);

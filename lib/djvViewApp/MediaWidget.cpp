@@ -700,7 +700,7 @@ namespace djv
             DJV_PRIVATE_PTR();
             const auto& style = _getStyle();
             const float sh = style->getMetric(UI::MetricsRole::Shadow);
-            _setMinimumSize(p.layout->getMinimumSize() + (sh * 2.f) * (1.f - _getMaximized()));
+            _setMinimumSize(p.layout->getMinimumSize() + sh * 2.f);
         }
 
         void MediaWidget::_layoutEvent(Event::Layout&)
@@ -708,8 +708,7 @@ namespace djv
             DJV_PRIVATE_PTR();
             const auto& style = _getStyle();
             const float sh = style->getMetric(UI::MetricsRole::Shadow);
-            const float v = (1.f - _getMaximized());
-            p.layout->setGeometry(getGeometry().margin(-sh * v, -sh * v, -sh * v, -sh * v));
+            p.layout->setGeometry(getGeometry().margin(-sh));
         }
 
         void MediaWidget::_localeEvent(Event::Locale&)

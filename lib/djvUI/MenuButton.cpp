@@ -278,14 +278,34 @@ namespace djv
             void Menu::_buttonPressEvent(Event::ButtonPress & event)
             {
                 DJV_PRIVATE_PTR();
-                if (isEnabled(true))
+                event.accept();
+                setChecked(!p.checked);
+                if (p.checkedCallback)
+                {
+                    p.checkedCallback(p.checked);
+                }
+            }
+
+            void Menu::_buttonReleaseEvent(Event::ButtonRelease& event)
+            {
+                event.accept();
+            }
+
+            void Menu::_keyPressEvent(Event::KeyPress& event)
+            {
+                DJV_PRIVATE_PTR();
+                if (p.checked)
                 {
                     event.accept();
-                    setChecked(!p.checked);
-                    if (p.checkedCallback)
-                    {
-                        p.checkedCallback(p.checked);
-                    }
+                }
+            }
+
+            void Menu::_keyReleaseEvent(Event::KeyRelease& event)
+            {
+                DJV_PRIVATE_PTR();
+                if (p.checked)
+                {
+                    event.accept();
                 }
             }
 

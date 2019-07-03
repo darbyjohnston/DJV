@@ -46,6 +46,7 @@
 #include <djvAV/Render2D.h>
 #include <djvAV/ThumbnailSystem.h>
 
+#include <djvCore/IEventSystem.h>
 #include <djvCore/Timer.h>
 
 using namespace djv::Core;
@@ -99,6 +100,10 @@ namespace djv
                 _lineGraphs["WidgetCount"] = UI::LineGraphWidget::create(context);
                 _lineGraphs["WidgetCount"]->setPrecision(0);
 
+                _labels["Hover"] = UI::Label::create(context);
+                _labels["Grab"] = UI::Label::create(context);
+                _labels["KeyGrab"] = UI::Label::create(context);
+
                 _labels["GlyphCache"] = UI::Label::create(context);
                 _thermometerWidgets["GlyphCache"] = UI::ThermometerWidget::create(context);
 
@@ -123,6 +128,9 @@ namespace djv
                 _layout->addChild(_lineGraphs["ObjectCount"]);
                 _layout->addChild(_labels["WidgetCount"]);
                 _layout->addChild(_lineGraphs["WidgetCount"]);
+                _layout->addChild(_labels["Hover"]);
+                _layout->addChild(_labels["Grab"]);
+                _layout->addChild(_labels["KeyGrab"]);
                 _layout->addChild(_labels["GlyphCache"]);
                 _layout->addChild(_thermometerWidgets["GlyphCache"]);
                 _layout->addChild(_labels["ThumbnailInfoCache"]);
@@ -178,6 +186,7 @@ namespace djv
                 const float fps = context->getFPSAverage();
                 const size_t objectCount = IObject::getGlobalObjectCount();
                 const size_t widgetCount = UI::Widget::getGlobalWidgetCount();
+                auto eventSystem = context->getSystemT<Event::IEventSystem>();
                 auto fontSystem = context->getSystemT<AV::Font::System>();
                 const float glyphCachePercentage = fontSystem->getGlyphCachePercentage();
                 auto thumbnailSystem = context->getSystemT<AV::ThumbnailSystem>();
@@ -208,6 +217,24 @@ namespace djv
                     std::stringstream ss;
                     ss << _getText(DJV_TEXT("Widget count")) << ": " << widgetCount;
                     _labels["WidgetCount"]->setText(ss.str());
+                }
+                {
+                    std::stringstream ss;
+                    auto object = eventSystem->observeHover()->get();
+                    ss << _getText(DJV_TEXT("Hover")) << ": " << (object ? object->getClassName() : _getText(DJV_TEXT("None")));
+                    _labels["Hover"]->setText(ss.str());
+                }
+                {
+                    std::stringstream ss;
+                    auto object = eventSystem->observeGrab()->get();
+                    ss << _getText(DJV_TEXT("Grab")) << ": " << (object ? object->getClassName() : _getText(DJV_TEXT("None")));
+                    _labels["Grab"]->setText(ss.str());
+                }
+                {
+                    std::stringstream ss;
+                    auto object = eventSystem->observeKeyGrab()->get();
+                    ss << _getText(DJV_TEXT("Key grab")) << ": " << (object ? object->getClassName() : _getText(DJV_TEXT("None")));
+                    _labels["KeyGrab"]->setText(ss.str());
                 }
                 {
                     std::stringstream ss;

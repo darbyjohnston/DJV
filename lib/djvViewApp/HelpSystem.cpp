@@ -30,6 +30,7 @@
 #include <djvViewApp/HelpSystem.h>
 
 #include <djvViewApp/AboutDialog.h>
+#include <djvViewApp/DebugWidget.h>
 #include <djvViewApp/SystemLogWidget.h>
 
 #include <djvUI/Action.h>
@@ -54,7 +55,6 @@ namespace djv
             std::map<std::string, std::shared_ptr<UI::Action> > actions;
             std::shared_ptr<UI::Menu> menu;
             std::shared_ptr<AboutDialog> aboutDialog;
-            std::shared_ptr<SystemLogWidget> systemLogWidget;
             std::map<std::string, std::shared_ptr<ValueObserver<bool> > > clickedObservers;
             std::shared_ptr<ValueObserver<std::string> > localeObserver;
         };
@@ -71,6 +71,8 @@ namespace djv
             p.actions["About"] = UI::Action::create();
             p.actions["SystemLog"] = UI::Action::create();
             p.actions["SystemLog"]->setButtonType(UI::ButtonType::Toggle);
+            p.actions["Debug"] = UI::Action::create();
+            p.actions["Debug"]->setButtonType(UI::ButtonType::Toggle);
 
             p.menu = UI::Menu::create(context);
             p.menu->addAction(p.actions["Documentation"]);
@@ -78,6 +80,7 @@ namespace djv
             p.menu->addAction(p.actions["About"]);
             p.menu->addSeparator();
             p.menu->addAction(p.actions["SystemLog"]);
+            p.menu->addAction(p.actions["Debug"]);
 
             auto weak = std::weak_ptr<HelpSystem>(std::dynamic_pointer_cast<HelpSystem>(shared_from_this()));
             _setCloseWidgetCallback(
@@ -132,21 +135,39 @@ namespace djv
             p.clickedObservers["SystemLog"] = ValueObserver<bool>::create(
                 p.actions["SystemLog"]->observeChecked(),
                 [weak, context](bool value)
-            {
-                if (auto system = weak.lock())
                 {
-                    if (value)
+                    if (auto system = weak.lock())
                     {
-                        auto widget = SystemLogWidget::create(context);
-                        widget->reloadLog();
-                        system->_openWidget("SystemLog", widget);
+                        if (value)
+                        {
+                            auto widget = SystemLogWidget::create(context);
+                            widget->reloadLog();
+                            system->_openWidget("SystemLog", widget);
+                        }
+                        else
+                        {
+                            system->_closeWidget("SystemLog");
+                        }
                     }
-                    else
+                });
+
+            p.clickedObservers["Debug"] = ValueObserver<bool>::create(
+                p.actions["Debug"]->observeChecked(),
+                [weak, context](bool value)
+                {
+                    if (auto system = weak.lock())
                     {
-                        system->_closeWidget("SystemLog");
+                        if (value)
+                        {
+                            auto widget = DebugWidget::create(context);
+                            system->_openWidget("Debug", widget);
+                        }
+                        else
+                        {
+                            system->_closeWidget("Debug");
+                        }
                     }
-                }
-            });
+                });
 
             p.localeObserver = ValueObserver<std::string>::create(
                 context->getSystemT<TextSystem>()->observeCurrentLocale(),
@@ -196,6 +217,8 @@ namespace djv
             p.actions["About"]->setTooltip(_getText(DJV_TEXT("About tooltip")));
             p.actions["SystemLog"]->setText(_getText(DJV_TEXT("System Log")));
             p.actions["SystemLog"]->setTooltip(_getText(DJV_TEXT("System log tooltip")));
+            p.actions["Debug"]->setText(_getText(DJV_TEXT("Debug Widget")));
+            p.actions["Debug"]->setTooltip(_getText(DJV_TEXT("Debug widget tooltip")));
 
             p.menu->setText(_getText(DJV_TEXT("Help")));
         }

@@ -89,7 +89,7 @@ namespace djv
                         auto& queue = _read->getVideoQueue();
                         if (queue.hasFrames())
                         {
-                            timestamp = queue.getFrame().first;
+                            timestamp = queue.getFrame().timestamp;
                         }
                     }
                     if (timestamp && duration)
@@ -130,7 +130,7 @@ namespace djv
                         if (readQueue.hasFrames() && writeQueue.getFrameCount() < writeQueue.getMax())
                         {
                             auto frame = readQueue.popFrame();
-                            writeQueue.addFrame(frame.first, frame.second);
+                            writeQueue.addFrame(frame);
                         }
                         else if (readQueue.isFinished())
                         {

@@ -33,6 +33,7 @@ set(header
     IntLabel.h
     IntSlider.h
     Label.h
+	LayoutUtil.h
     ListButton.h
     LineEdit.h
     LineEditBase.h
@@ -106,6 +107,7 @@ set(source
     IntLabel.cpp
     IntSlider.cpp
     Label.cpp
+	LayoutUtil.cpp
     ListButton.cpp
     LineEdit.cpp
     LineEditBase.cpp

@@ -31,6 +31,7 @@
 
 #include <djvUI/Action.h>
 #include <djvUI/EventSystem.h>
+#include <djvUI/LayoutUtil.h>
 #include <djvUI/MenuButton.h>
 #include <djvUI/Overlay.h>
 #include <djvUI/StackLayout.h>
@@ -176,34 +177,7 @@ namespace djv
                     {
                         const auto & buttonBBox = button->getGeometry();
                         const auto & minimumSize = i.first->getMinimumSize();
-                        std::vector<BBox2f> geomCandidates;
-                        const BBox2f aboveLeft(
-                            glm::vec2(std::min(buttonBBox.max.x - minimumSize.x, buttonBBox.min.x), buttonBBox.min.y + 1 - minimumSize.y),
-                            glm::vec2(buttonBBox.max.x, buttonBBox.min.y + 1));
-                        const BBox2f aboveRight(
-                            glm::vec2(buttonBBox.min.x, buttonBBox.min.y + 1 - minimumSize.y),
-                            glm::vec2(std::max(buttonBBox.min.x + minimumSize.x, buttonBBox.max.x), buttonBBox.min.y + 1));
-                        const BBox2f belowLeft(
-                            glm::vec2(std::min(buttonBBox.max.x - minimumSize.x, buttonBBox.min.x), buttonBBox.max.y - 1),
-                            glm::vec2(buttonBBox.max.x, buttonBBox.max.y - 1 + minimumSize.y));
-                        const BBox2f belowRight(
-                            glm::vec2(buttonBBox.min.x, buttonBBox.max.y - 1),
-                            glm::vec2(std::max(buttonBBox.min.x + minimumSize.x, buttonBBox.max.x), buttonBBox.max.y - 1 + minimumSize.y));
-                        geomCandidates.push_back(belowRight.intersect(g));
-                        geomCandidates.push_back(belowLeft.intersect(g));
-                        geomCandidates.push_back(aboveRight.intersect(g));
-                        geomCandidates.push_back(aboveLeft.intersect(g));
-                        if (geomCandidates.size())
-                        {
-                            std::sort(geomCandidates.begin(), geomCandidates.end(),
-                                [](const BBox2f & a, const BBox2f & b) -> bool
-                            {
-                                return a.getArea() > b.getArea();
-                            });
-                            const auto & geom = geomCandidates.front();
-                            i.first->move(geom.min);
-                            i.first->resize(geom.getSize());
-                        }
+                        i.first->setGeometry(Layout::getPopupGeometry(g, buttonBBox, minimumSize));
                     }
                 }
             }
@@ -276,7 +250,6 @@ namespace djv
             p.overlayLayout->setButton(p.overlayWidget, p.button);
 
             p.overlay = Layout::Overlay::create(context);
-            p.overlay->setCaptureKeyboard(false);
             p.overlay->setAnchor(p.button);
             p.overlay->setFadeIn(false);
             p.overlay->setBackgroundRole(ColorRole::None);

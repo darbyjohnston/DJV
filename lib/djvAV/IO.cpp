@@ -127,13 +127,21 @@ namespace djv
                     tags == other.tags;
             }
 
+            VideoFrame::VideoFrame()
+            {}
+
+            VideoFrame::VideoFrame(Time::Timestamp timestamp, const std::shared_ptr<Image::Image>& image) :
+                timestamp(timestamp),
+                image(image)
+            {}
+
             VideoQueue::VideoQueue(size_t max) :
                 _max(max)
             {}
 
-            void VideoQueue::addFrame(Time::Timestamp ts, const std::shared_ptr<Image::Image>& data)
+            void VideoQueue::addFrame(const VideoFrame& value)
             {
-                _queue.push_back(std::make_pair(ts, data));
+                _queue.push_back(value);
             }
 
             VideoFrame VideoQueue::popFrame()
@@ -157,13 +165,21 @@ namespace djv
                 _finished = value;
             }
 
+            AudioFrame::AudioFrame()
+            {}
+
+            AudioFrame::AudioFrame(Time::Timestamp timestamp, const std::shared_ptr<Audio::Data>& audio) :
+                timestamp(timestamp),
+                audio(audio)
+            {}
+
             AudioQueue::AudioQueue(size_t max) :
                 _max(max)
             {}
 
-            void AudioQueue::addFrame(Time::Timestamp ts, const std::shared_ptr<Audio::Data>& data)
+            void AudioQueue::addFrame(const AudioFrame& value)
             {
-                _queue.push_back(std::make_pair(ts, data));
+                _queue.push_back(value);
             }
 
             AudioFrame AudioQueue::popFrame()

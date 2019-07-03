@@ -175,7 +175,7 @@ namespace djv
             if (auto menu = std::dynamic_pointer_cast<Menu>(value))
             {
                 menu->hide();
-                menu->setMinimumSizeRole(MetricsRole::None);
+                menu->setMinimumSizeRole(MetricsRole::Menu);
                 p.menus.push_back(menu);
 
                 auto button = Button::Menu::create(Button::MenuStyle::Flat, getContext());
