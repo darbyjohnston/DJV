@@ -42,7 +42,9 @@ namespace djv
             std::shared_ptr<ValueSubject<ButtonType> > buttonType;
             std::shared_ptr<ValueSubject<bool> > clicked;
             std::shared_ptr<ValueSubject<bool> > checked;
-            std::shared_ptr<ValueSubject<std::string> > icon;
+            std::string icon;
+            std::string checkedIcon;
+            std::shared_ptr<ValueSubject<std::string> > iconSubject;
             std::shared_ptr<ValueSubject<std::string> > text;
             std::shared_ptr<ValueSubject<std::string> > font;
             std::shared_ptr<ListSubject<std::shared_ptr<Shortcut> > > shortcuts;
@@ -56,12 +58,13 @@ namespace djv
             p.buttonType = ValueSubject<ButtonType>::create(ButtonType::Push);
             p.clicked = ValueSubject<bool>::create(false);
             p.checked = ValueSubject<bool>::create(false);
-            p.icon = ValueSubject<std::string>::create();
+            p.iconSubject = ValueSubject<std::string>::create();
             p.text = ValueSubject<std::string>::create();
             p.font = ValueSubject<std::string>::create();
             p.shortcuts = ListSubject<std::shared_ptr<Shortcut> >::create();
             p.enabled = ValueSubject<bool>::create(true);
             p.tooltip = ValueSubject<std::string>::create();
+            _iconUpdate();
         }
 
         Action::Action() :
@@ -105,17 +108,31 @@ namespace djv
 
         void Action::setChecked(bool value)
         {
-            _p->checked->setIfChanged(value);
+            if (_p->checked->setIfChanged(value))
+            {
+                _iconUpdate();
+            }
         }
 
         std::shared_ptr<IValueSubject<std::string> > Action::observeIcon() const
         {
-            return _p->icon;
+            return _p->iconSubject;
         }
 
-        void Action::setIcon(const std::string & value)
+        void Action::setIcon(const std::string& value)
         {
-            _p->icon->setIfChanged(value);
+            if (value == _p->icon)
+                return;
+            _p->icon = value;
+            _iconUpdate();
+        }
+
+        void Action::setCheckedIcon(const std::string& value)
+        {
+            if (value == _p->checkedIcon)
+                return;
+            _p->checkedIcon = value;
+            _iconUpdate();
         }
 
         std::shared_ptr<IValueSubject<std::string> > Action::observeText() const
@@ -227,6 +244,19 @@ namespace djv
         void Action::setTooltip(const std::string & value)
         {
             _p->tooltip->setIfChanged(value);
+        }
+
+        void Action::_iconUpdate()
+        {
+            DJV_PRIVATE_PTR();
+            if (_p->checked->get() && !_p->checkedIcon.empty())
+            {
+                _p->iconSubject->setIfChanged(_p->checkedIcon);
+            }
+            else
+            {
+                _p->iconSubject->setIfChanged(_p->icon);
+            }
         }
 
     } // namespace UI

@@ -31,13 +31,14 @@
 
 #include <djvViewApp/ImageView.h>
 #include <djvViewApp/ImageViewSettings.h>
-#include <djvViewApp/MDIWidget.h>
+#include <djvViewApp/MediaWidget.h>
 #include <djvViewApp/WindowSystem.h>
 
 #include <djvUI/Action.h>
 #include <djvUI/ActionGroup.h>
 #include <djvUI/Menu.h>
 #include <djvUI/RowLayout.h>
+#include <djvUI/Shortcut.h>
 #include <djvUI/Style.h>
 #include <djvUI/UISystem.h>
 
@@ -55,29 +56,38 @@ namespace djv
         struct ImageViewSystem::Private
         {
             std::shared_ptr<ImageViewSettings> settings;
-            std::shared_ptr<MDIWidget> activeWidget;
+            
+            bool currentTool = false;
+            glm::vec2 hoverPos = glm::vec2(0.f, 0.f);
+            glm::vec2 dragStart = glm::vec2(0.f, 0.f);
+            glm::vec2 dragImagePos = glm::vec2(0.f, 0.f);
+
+            std::shared_ptr<MediaWidget> activeWidget;
             std::shared_ptr<ValueSubject<ImageViewLock> > lock;
             std::map<std::string, std::shared_ptr<UI::Action> > actions;
             std::shared_ptr<UI::ActionGroup> lockActionGroup;
             std::shared_ptr<UI::Menu> menu;
-            glm::vec2 hoverPos = glm::vec2(0.f, 0.f);
-            glm::vec2 dragStart = glm::vec2(0.f, 0.f);
-            glm::vec2 dragImagePos = glm::vec2(0.f, 0.f);
+            
             std::map<std::string, std::shared_ptr<ValueObserver<bool> > > clickedObservers;
-            std::shared_ptr<ValueObserver<std::shared_ptr<MDIWidget> > > activeWidgetObserver;
+            std::shared_ptr<ValueObserver<std::shared_ptr<MediaWidget> > > activeWidgetObserver;
             std::shared_ptr<ValueObserver<ImageViewLock> > lockObserver;
+            std::shared_ptr<ValueObserver<PointerData> > hoverObserver;
+            std::shared_ptr<ValueObserver<PointerData> > dragObserver;
             std::shared_ptr<ValueObserver<std::string> > localeObserver;
         };
 
         void ImageViewSystem::_init(Context * context)
         {
-            IViewSystem::_init("djv::ViewApp::ImageViewSystem", context);
+            IToolSystem::_init("djv::ViewApp::ImageViewSystem", context);
 
             DJV_PRIVATE_PTR();
 
             p.settings = ImageViewSettings::create(context);
             p.lock = ValueSubject<ImageViewLock>::create();
 
+            p.actions["Tool"] = UI::Action::create();
+            p.actions["Tool"]->setIcon("djvIconMove");
+            p.actions["Tool"]->addShortcut(GLFW_KEY_1);
             p.actions["Left"] = UI::Action::create();
             p.actions["Left"]->addShortcut(GLFW_KEY_KP_4);
             p.actions["Right"] = UI::Action::create();
@@ -327,48 +337,53 @@ namespace djv
 
             if (auto windowSystem = context->getSystemT<WindowSystem>())
             {
-                p.activeWidgetObserver = ValueObserver<std::shared_ptr<MDIWidget> >::create(
+                p.activeWidgetObserver = ValueObserver<std::shared_ptr<MediaWidget> >::create(
                     windowSystem->observeActiveWidget(),
-                    [weak](const std::shared_ptr<MDIWidget>& value)
+                    [weak](const std::shared_ptr<MediaWidget>& value)
                     {
                         if (auto system = weak.lock())
                         {
-                            if (system->_p->activeWidget)
-                            {
-                                system->_p->activeWidget->setHoverCallback(nullptr);
-                                system->_p->activeWidget->setDragCallback(nullptr);
-                            }
                             system->_p->activeWidget = value;
                             if (system->_p->activeWidget)
                             {
-                                system->_p->activeWidget->setHoverCallback(
-                                    [weak](Hover hover, const glm::vec2& value)
+                                system->_p->hoverObserver = ValueObserver<PointerData>::create(
+                                    system->_p->activeWidget->observeHover(),
+                                    [weak](const PointerData& value)
                                     {
                                         if (auto system = weak.lock())
                                         {
-                                            system->_p->hoverPos = value;
+                                            system->_p->hoverPos = value.pos;
                                         }
                                     });
-                                system->_p->activeWidget->setDragCallback(
-                                    [weak](Drag drag, const glm::vec2& value)
+                                system->_p->dragObserver = ValueObserver<PointerData>::create(
+                                    system->_p->activeWidget->observeDrag(),
+                                    [weak](const PointerData& value)
                                     {
                                         if (auto system = weak.lock())
                                         {
-                                            system->_p->settings->setLock(ImageViewLock::None);
-                                            auto imageView = system->_p->activeWidget->getImageView();
-                                            switch (drag)
+                                            if (system->_p->currentTool)
                                             {
-                                            case Drag::Start:
-                                                system->_p->dragStart = value;
-                                                system->_p->dragImagePos = imageView->observeImagePos()->get();
-                                                break;
-                                            case Drag::Move:
-                                                imageView->setImagePos(system->_p->dragImagePos + (value - system->_p->dragStart));
-                                                break;
-                                            default: break;
+                                                system->_p->settings->setLock(ImageViewLock::None);
+                                                auto imageView = system->_p->activeWidget->getImageView();
+                                                switch (value.state)
+                                                {
+                                                case PointerState::Start:
+                                                    system->_p->dragStart = value.pos;
+                                                    system->_p->dragImagePos = imageView->observeImagePos()->get();
+                                                    break;
+                                                case PointerState::Move:
+                                                    imageView->setImagePos(system->_p->dragImagePos + (value.pos - system->_p->dragStart));
+                                                    break;
+                                                default: break;
+                                                }
                                             }
                                         }
                                     });
+                            }
+                            else
+                            {
+                                system->_p->hoverObserver.reset();
+                                system->_p->dragObserver.reset();
                             }
                             system->_actionUpdate();
                         }
@@ -438,12 +453,26 @@ namespace djv
             return out;
         }
 
-        std::map<std::string, std::shared_ptr<UI::Action> > ImageViewSystem::getActions()
+        ToolActionData ImageViewSystem::getToolAction() const
+        {
+            return
+            {
+                _p->actions["Tool"],
+                "A"
+            };
+        }
+
+        void ImageViewSystem::setCurrentTool(bool value)
+        {
+            _p->currentTool = value;
+        }
+
+        std::map<std::string, std::shared_ptr<UI::Action> > ImageViewSystem::getActions() const
         {
             return _p->actions;
         }
 
-        MenuData ImageViewSystem::getMenu()
+        MenuData ImageViewSystem::getMenu() const
         {
             return
             {
@@ -512,6 +541,8 @@ namespace djv
         void ImageViewSystem::_textUpdate()
         {
             DJV_PRIVATE_PTR();
+            p.actions["Tool"]->setText(_getText(DJV_TEXT("Move View")));
+            p.actions["Tool"]->setTooltip(_getText(DJV_TEXT("Move view tooltip")));
             p.actions["Left"]->setText(_getText(DJV_TEXT("Left")));
             p.actions["Left"]->setTooltip(_getText(DJV_TEXT("Left tooltip")));
             p.actions["Right"]->setText(_getText(DJV_TEXT("Right")));

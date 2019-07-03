@@ -116,6 +116,7 @@ namespace djv
                 if (auto widget = std::dynamic_pointer_cast<Widget>(value))
                 {
                     p.layout->setGridPos(widget, glm::ivec2(1, gridSize.y));
+                    p.layout->setStretch(widget, GridStretch::Horizontal);
                 }
             }
 

@@ -66,6 +66,7 @@ namespace djv
 
             DJV_PRIVATE_PTR();
             setClassName("djv::Ui::ColorTypeWidget");
+            setVAlign(VAlign::Center);
 
             p.comboBox = ComboBox::create(context);
             p.comboBox->setBackgroundRole(ColorRole::None);
@@ -997,7 +998,6 @@ namespace djv
             p.sliders->setMargin(MetricsRole::MarginSmall);
 
             p.typeWidget = ColorTypeWidget::create(context);
-            p.typeWidget->setHAlign(HAlign::Right);
 
             p.layout = HorizontalLayout::create(context);
             p.layout->setSpacing(MetricsRole::None);

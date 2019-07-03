@@ -31,10 +31,12 @@
 
 #include <djvViewApp/AnnotateSystem.h>
 #include <djvViewApp/AudioSystem.h>
+#include <djvViewApp/ColorPickerSystem.h>
 #include <djvViewApp/FileSystem.h>
 #include <djvViewApp/HelpSystem.h>
 #include <djvViewApp/ImageSystem.h>
 #include <djvViewApp/ImageViewSystem.h>
+#include <djvViewApp/MagnifierSystem.h>
 #include <djvViewApp/MainWindow.h>
 #include <djvViewApp/Media.h>
 #include <djvViewApp/NUXSystem.h>
@@ -75,9 +77,11 @@ namespace djv
             p.systems.push_back(ImageViewSystem::create(this));
             p.systems.push_back(ImageSystem::create(this));
             p.systems.push_back(PlaybackSystem::create(this));
-            p.systems.push_back(ToolSystem::create(this));
             p.systems.push_back(AudioSystem::create(this));
             p.systems.push_back(AnnotateSystem::create(this));
+            p.systems.push_back(ColorPickerSystem::create(this));
+            p.systems.push_back(MagnifierSystem::create(this));
+            p.systems.push_back(ToolSystem::create(this));
             p.systems.push_back(HelpSystem::create(this));
             auto nuxSystem = NUXSystem::create(this);
             p.systems.push_back(nuxSystem);
@@ -85,7 +89,7 @@ namespace djv
 
             p.mainWindow = MainWindow::create(this);
 
-            windowSystem->setMDICanvas(p.mainWindow->getMDICanvas());
+            windowSystem->setMediaCanvas(p.mainWindow->getMediaCanvas());
 
             p.nuxWidget = nuxSystem->createNUXWidget();
             if (p.nuxWidget)

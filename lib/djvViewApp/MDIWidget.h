@@ -35,58 +35,39 @@ namespace djv
 {
     namespace ViewApp
     {
-        class ImageView;
-        class Media;
-
-        enum class Hover
-        {
-            Start,
-            Move,
-            End
-        };
-
-        enum class Drag
-        {
-            Start,
-            Move,
-            End
-        };
-
         class MDIWidget : public UI::MDI::IWidget
         {
             DJV_NON_COPYABLE(MDIWidget);
 
         protected:
-            void _init(const std::shared_ptr<Media>&, Core::Context*);
+            void _init(Core::Context *);
             MDIWidget();
 
         public:
-            ~MDIWidget() override;
+            ~MDIWidget() override = 0;
 
-            static std::shared_ptr<MDIWidget> create(const std::shared_ptr<Media>&, Core::Context*);
+            const std::string & getTitle() const;
+            void setTitle(const std::string &);
 
-            const std::shared_ptr<Media>& getMedia() const;
+            void close();
+            void setCloseCallback(const std::function<void(void)> &);
 
-            const std::shared_ptr<ImageView>& getImageView() const;
+            float getHeightForWidth(float) const override;
 
-            void setHoverCallback(const std::function<void(Hover, const glm::vec2&)>&);
-            void setDragCallback(const std::function<void(Drag, const glm::vec2&)>&);
+            void addChild(const std::shared_ptr<IObject> &) override;
+            void removeChild(const std::shared_ptr<IObject> &) override;
+            void clearChildren() override;
 
         protected:
-            void _setMaximized(float) override;
+            std::map<UI::MDI::Handle, std::vector<Core::BBox2f> > _getHandles() const override;
             void _setActiveWidget(bool) override;
 
-            void _preLayoutEvent(Core::Event::PreLayout&) override;
-            void _layoutEvent(Core::Event::Layout&) override;
+            void _preLayoutEvent(Core::Event::PreLayout &) override;
+            void _layoutEvent(Core::Event::Layout &) override;
 
-            void _localeEvent(Core::Event::Locale&) override;
+            void _localeEvent(Core::Event::Locale &) override;
 
         private:
-            void _widgetUpdate();
-            void _imageUpdate();
-            void _speedUpdate();
-            void _opacityUpdate();
-
             DJV_PRIVATE();
         };
 

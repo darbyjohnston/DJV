@@ -40,6 +40,8 @@ namespace djv
 {
     namespace ViewApp
     {
+        class Media;
+
         class FileSystem : public IViewSystem
         {
             DJV_NON_COPYABLE(FileSystem);
@@ -65,8 +67,8 @@ namespace djv
             void closeAll();
             void setCurrentMedia(const std::shared_ptr<Media> &);
 
-            std::map<std::string, std::shared_ptr<UI::Action> > getActions() override;
-            MenuData getMenu() override;
+            std::map<std::string, std::shared_ptr<UI::Action> > getActions() const override;
+            MenuData getMenu() const override;
 
         protected:
             void _actionsUpdate();

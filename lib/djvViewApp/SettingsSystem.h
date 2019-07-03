@@ -53,8 +53,8 @@ namespace djv
 
             void showSettingsDialog();
 
-            std::map<std::string, std::shared_ptr<UI::Action> > getActions() override;
-            std::vector<std::shared_ptr<UI::ISettingsWidget> > createSettingsWidgets() override;
+            std::map<std::string, std::shared_ptr<UI::Action> > getActions() const override;
+            std::vector<std::shared_ptr<UI::ISettingsWidget> > createSettingsWidgets() const override;
             
         private:
             DJV_PRIVATE();

@@ -27,44 +27,35 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvViewApp/HistogramTool.h>
+#pragma once
 
-using namespace djv::Core;
+#include <djvViewApp/MDIWidget.h>
 
 namespace djv
 {
     namespace ViewApp
     {
-        struct HistogramTool::Private
+        class ColorSpaceWidget : public MDIWidget
         {
+            DJV_NON_COPYABLE(ColorSpaceWidget);
 
+        protected:
+            void _init(Core::Context *);
+            ColorSpaceWidget();
+
+        public:
+            ~ColorSpaceWidget() override;
+
+            static std::shared_ptr<ColorSpaceWidget> create(Core::Context *);
+
+        protected:
+            void _localeEvent(Core::Event::Locale &) override;
+
+        private:
+            void _widgetUpdate();
+
+            DJV_PRIVATE();
         };
-
-        void HistogramTool::_init(Context * context)
-        {
-            ITool::_init(context);
-            setClassName("djv::ViewApp::HistogramTool");
-        }
-
-        HistogramTool::HistogramTool() :
-            _p(new Private)
-        {}
-
-        HistogramTool::~HistogramTool()
-        {}
-
-        std::shared_ptr<HistogramTool> HistogramTool::create(Context * context)
-        {
-            auto out = std::shared_ptr<HistogramTool>(new HistogramTool);
-            out->_init(context);
-            return out;
-        }
-
-        void HistogramTool::_localeEvent(Event::Locale & event)
-        {
-            ITool::_localeEvent(event);
-            setTitle(_getText(DJV_TEXT("Histogram")));
-        }
 
     } // namespace ViewApp
 } // namespace djv

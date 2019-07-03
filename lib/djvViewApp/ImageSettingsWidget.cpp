@@ -32,11 +32,8 @@
 #include <djvViewApp/ColorSpaceModel.h>
 #include <djvViewApp/ImageSettings.h>
 
-#include <djvUI/ButtonGroup.h>
 #include <djvUI/ComboBox.h>
-#include <djvUI/FlowLayout.h>
 #include <djvUI/FormLayout.h>
-#include <djvUI/ListButton.h>
 #include <djvUI/SettingsSystem.h>
 #include <djvUI/ToggleButton.h>
 
@@ -51,9 +48,8 @@ namespace djv
     {
         struct ImageAspectRatioSettingsWidget::Private
         {
-            std::shared_ptr<UI::ButtonGroup> buttonGroup;
-            std::map<ImageAspectRatio, std::shared_ptr<UI::ListButton> > buttons;
-            std::shared_ptr<UI::FlowLayout> layout;
+            ImageAspectRatio aspectRatio = ImageAspectRatio::First;
+            std::shared_ptr<UI::ComboBox> comboBox;
             std::shared_ptr<ValueObserver<ImageAspectRatio> > aspectRatioObserver;
         };
 
@@ -64,23 +60,13 @@ namespace djv
 
             setClassName("djv::ViewApp::ImageAspectRatioSettingsWidget");
 
-            p.buttonGroup = UI::ButtonGroup::create(UI::ButtonType::Radio);
-            for (auto i : getImageAspectRatioEnums())
-            {
-                auto button = UI::ListButton::create(context);
-                p.buttonGroup->addButton(button);
-                p.buttons[i] = button;
-            }
+            p.comboBox = UI::ComboBox::create(context);
+            addChild(p.comboBox);
 
-            p.layout = UI::FlowLayout::create(context);
-            for (auto i : p.buttonGroup->getButtons())
-            {
-                p.layout->addChild(i);
-            }
-            addChild(p.layout);
+            _widgetUpdate();
 
             auto weak = std::weak_ptr<ImageAspectRatioSettingsWidget>(std::dynamic_pointer_cast<ImageAspectRatioSettingsWidget>(shared_from_this()));
-            p.buttonGroup->setRadioCallback(
+            p.comboBox->setCallback(
                 [weak, context](int value)
                 {
                     if (auto widget = weak.lock())
@@ -102,7 +88,8 @@ namespace djv
                     {
                         if (auto widget = weak.lock())
                         {
-                            widget->_p->buttonGroup->setChecked(static_cast<int>(value));
+                            widget->_p->aspectRatio = value;
+                            widget->_p->comboBox->setCurrentItem(static_cast<int>(value));
                         }
                     });
             }
@@ -137,14 +124,20 @@ namespace djv
         void ImageAspectRatioSettingsWidget::_localeEvent(Event::Locale& event)
         {
             ISettingsWidget::_localeEvent(event);
+            _widgetUpdate();
+        }
+
+        void ImageAspectRatioSettingsWidget::_widgetUpdate()
+        {
             DJV_PRIVATE_PTR();
-            auto buttons = p.buttonGroup->getButtons();
+            p.comboBox->clearItems();
             for (auto i : getImageAspectRatioEnums())
             {
                 std::stringstream ss;
                 ss << i;
-                p.buttons[i]->setText(ss.str());
+                p.comboBox->addItem(_getText(ss.str()));
             }
+            p.comboBox->setCurrentItem(static_cast<int>(p.aspectRatio));
         }
 
         struct ImageColorSpaceSettingsWidget::Private
@@ -365,9 +358,8 @@ namespace djv
 
         struct ImageRotateSettingsWidget::Private
         {
-            std::shared_ptr<UI::ButtonGroup> buttonGroup;
-            std::map<ImageRotate, std::shared_ptr<UI::ListButton> > buttons;
-            std::shared_ptr<UI::FlowLayout> layout;
+            ImageRotate rotate = ImageRotate::First;
+            std::shared_ptr<UI::ComboBox> comboBox;
             std::shared_ptr<ValueObserver<ImageRotate> > rotateObserver;
         };
 
@@ -378,23 +370,13 @@ namespace djv
 
             setClassName("djv::ViewApp::ImageRotateSettingsWidget");
 
-            p.buttonGroup = UI::ButtonGroup::create(UI::ButtonType::Radio);
-            for (auto i : getImageRotateEnums())
-            {
-                auto button = UI::ListButton::create(context);
-                p.buttonGroup->addButton(button);
-                p.buttons[i] = button;
-            }
+            p.comboBox = UI::ComboBox::create(context);
+            addChild(p.comboBox);
 
-            p.layout = UI::FlowLayout::create(context);
-            for (auto i : p.buttonGroup->getButtons())
-            {
-                p.layout->addChild(i);
-            }
-            addChild(p.layout);
+            _widgetUpdate();
 
             auto weak = std::weak_ptr<ImageRotateSettingsWidget>(std::dynamic_pointer_cast<ImageRotateSettingsWidget>(shared_from_this()));
-            p.buttonGroup->setRadioCallback(
+            p.comboBox->setCallback(
                 [weak, context](int value)
                 {
                     if (auto widget = weak.lock())
@@ -416,7 +398,8 @@ namespace djv
                     {
                         if (auto widget = weak.lock())
                         {
-                            widget->_p->buttonGroup->setChecked(static_cast<int>(value));
+                            widget->_p->rotate = value;
+                            widget->_p->comboBox->setCurrentItem(static_cast<int>(value));
                         }
                     });
             }
@@ -451,13 +434,20 @@ namespace djv
         void ImageRotateSettingsWidget::_localeEvent(Event::Locale& event)
         {
             ISettingsWidget::_localeEvent(event);
+            _widgetUpdate();
+        }
+
+        void ImageRotateSettingsWidget::_widgetUpdate()
+        {
             DJV_PRIVATE_PTR();
+            p.comboBox->clearItems();
             for (auto i : getImageRotateEnums())
             {
                 std::stringstream ss;
                 ss << i;
-                p.buttons[i]->setText(_getText(ss.str()));
+                p.comboBox->addItem(_getText(ss.str()));
             }
+            p.comboBox->setCurrentItem(static_cast<int>(p.rotate));
         }
 
     } // namespace ViewApp

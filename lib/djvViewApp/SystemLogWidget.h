@@ -29,31 +29,32 @@
 
 #pragma once
 
-#include <djvViewApp/ITool.h>
+#include <djvViewApp/MDIWidget.h>
 
 namespace djv
 {
     namespace ViewApp
     {
-        class ColorSpaceTool : public ITool
+        class SystemLogWidget : public MDIWidget
         {
-            DJV_NON_COPYABLE(ColorSpaceTool);
+            DJV_NON_COPYABLE(SystemLogWidget);
 
         protected:
             void _init(Core::Context *);
-            ColorSpaceTool();
+            SystemLogWidget();
 
         public:
-            ~ColorSpaceTool() override;
+            ~SystemLogWidget() override;
 
-            static std::shared_ptr<ColorSpaceTool> create(Core::Context *);
+            static std::shared_ptr<SystemLogWidget> create(Core::Context *);
+
+            void reloadLog();
+            void clearLog();
 
         protected:
             void _localeEvent(Core::Event::Locale &) override;
 
         private:
-            void _widgetUpdate();
-
             DJV_PRIVATE();
         };
 

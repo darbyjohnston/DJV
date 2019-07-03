@@ -232,8 +232,11 @@ namespace djv
 
             DJV_PRIVATE_PTR();
             auto languageWidget = UI::LanguageWidget::create(context);
+            languageWidget->setHAlign(UI::HAlign::Fill);
             auto displaySizeWidget = UI::DisplaySizeWidget::create(context);
+            displaySizeWidget->setHAlign(UI::HAlign::Fill);
             auto displayPaletteWidget = UI::DisplayPaletteWidget::create(context);
+            displayPaletteWidget->setHAlign(UI::HAlign::Fill);
 
             p.logoIcon = UI::Icon::create(context);
             p.logoIcon->setIcon("djvLogoStartScreen");
@@ -263,6 +266,7 @@ namespace djv
             p.settingsPopupWidget->addChild(p.fullscreenButton);
 
             auto vLayout = UI::VerticalLayout::create(context);
+            vLayout->setMargin(UI::MetricsRole::MarginDialog);
             vLayout->setSpacing(UI::MetricsRole::SpacingLarge);
             vLayout->setHAlign(UI::HAlign::Center);
             vLayout->addChild(p.logoIcon);

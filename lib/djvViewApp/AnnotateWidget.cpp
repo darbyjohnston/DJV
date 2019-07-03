@@ -27,33 +27,44 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#pragma once
+#include <djvViewApp/AnnotateWidget.h>
 
-#include <djvViewApp/ITool.h>
+using namespace djv::Core;
 
 namespace djv
 {
     namespace ViewApp
     {
-        class InformationTool : public ITool
+        struct AnnotateWidget::Private
         {
-            DJV_NON_COPYABLE(InformationTool);
 
-        protected:
-            void _init(Core::Context *);
-            InformationTool();
-
-        public:
-            ~InformationTool() override;
-
-            static std::shared_ptr<InformationTool> create(Core::Context *);
-
-        protected:
-            void _localeEvent(Core::Event::Locale &) override;
-
-        private:
-            DJV_PRIVATE();
         };
+
+        void AnnotateWidget::_init(Context * context)
+        {
+            MDIWidget::_init(context);
+            setClassName("djv::ViewApp::AnnotateWidget");
+        }
+
+        AnnotateWidget::AnnotateWidget() :
+            _p(new Private)
+        {}
+
+        AnnotateWidget::~AnnotateWidget()
+        {}
+
+        std::shared_ptr<AnnotateWidget> AnnotateWidget::create(Context * context)
+        {
+            auto out = std::shared_ptr<AnnotateWidget>(new AnnotateWidget);
+            out->_init(context);
+            return out;
+        }
+
+        void AnnotateWidget::_localeEvent(Event::Locale & event)
+        {
+            MDIWidget::_localeEvent(event);
+            setTitle(_getText(DJV_TEXT("Annotate")));
+        }
 
     } // namespace ViewApp
 } // namespace djv

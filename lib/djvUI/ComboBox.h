@@ -39,6 +39,7 @@ namespace djv
         //!
         //! \todo Add support for icons.
         //! \todo When the combo box is opened position the current item under the pointer.
+        //! \todo Add keyboard shortcuts.
         class ComboBox : public Widget
         {
             DJV_NON_COPYABLE(ComboBox);

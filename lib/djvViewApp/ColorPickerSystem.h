@@ -29,27 +29,33 @@
 
 #pragma once
 
-#include <djvViewApp/ITool.h>
+#include <djvViewApp/IToolSystem.h>
 
 namespace djv
 {
     namespace ViewApp
     {
-        class DebugTool : public ITool
+        class ColorPickerSystem : public IToolSystem
         {
-            DJV_NON_COPYABLE(DebugTool);
+            DJV_NON_COPYABLE(ColorPickerSystem);
 
         protected:
             void _init(Core::Context *);
-            DebugTool();
+            ColorPickerSystem();
 
         public:
-            ~DebugTool() override;
+            ~ColorPickerSystem() override;
 
-            static std::shared_ptr<DebugTool> create(Core::Context *);
+            static std::shared_ptr<ColorPickerSystem> create(Core::Context *);
+
+            ToolActionData getToolAction() const override;
+            ToolActionData getToolWidgetAction() const override;
+            void setCurrentTool(bool) override;
+
+            std::map<std::string, std::shared_ptr<UI::Action> > getActions() const override;
 
         protected:
-            void _localeEvent(Core::Event::Locale &) override;
+            void _textUpdate();
 
         private:
             DJV_PRIVATE();

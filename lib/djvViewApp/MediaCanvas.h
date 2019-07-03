@@ -27,44 +27,43 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvViewApp/InformationTool.h>
+#pragma once
 
-using namespace djv::Core;
+#include <djvUI/Widget.h>
 
 namespace djv
 {
     namespace ViewApp
     {
-        struct InformationTool::Private
-        {
+        class MediaWidget;
 
+        class MediaCanvas : public UI::Widget
+        {
+            DJV_NON_COPYABLE(MediaCanvas);
+
+        protected:
+            void _init(Core::Context*);
+            MediaCanvas();
+
+        public:
+            ~MediaCanvas() override;
+
+            static std::shared_ptr<MediaCanvas> create(Core::Context*);
+
+            std::shared_ptr<MediaWidget> getActiveWidget() const;
+            void setActiveCallback(const std::function<void(const std::shared_ptr<MediaWidget>&)>&);
+
+            void setMaximized(bool);
+
+        protected:
+            void _preLayoutEvent(Core::Event::PreLayout&) override;
+            void _layoutEvent(Core::Event::Layout&) override;
+
+            void _localeEvent(Core::Event::Locale&) override;
+
+        private:
+            DJV_PRIVATE();
         };
-
-        void InformationTool::_init(Context * context)
-        {
-            ITool::_init(context);
-            setClassName("djv::ViewApp::InformationTool");
-        }
-
-        InformationTool::InformationTool() :
-            _p(new Private)
-        {}
-
-        InformationTool::~InformationTool()
-        {}
-
-        std::shared_ptr<InformationTool> InformationTool::create(Context * context)
-        {
-            auto out = std::shared_ptr<InformationTool>(new InformationTool);
-            out->_init(context);
-            return out;
-        }
-
-        void InformationTool::_localeEvent(Event::Locale & event)
-        {
-            ITool::_localeEvent(event);
-            setTitle(_getText(DJV_TEXT("Information")));
-        }
 
     } // namespace ViewApp
 } // namespace djv

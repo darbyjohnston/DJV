@@ -35,16 +35,16 @@ namespace djv
 {
     namespace ViewApp
     {
-        class ImageViewSettingsWidget : public UI::ISettingsWidget
+        class ImageViewBackgroundSettingsWidget : public UI::ISettingsWidget
         {
-            DJV_NON_COPYABLE(ImageViewSettingsWidget);
+            DJV_NON_COPYABLE(ImageViewBackgroundSettingsWidget);
 
         protected:
             void _init(Core::Context*);
-            ImageViewSettingsWidget();
+            ImageViewBackgroundSettingsWidget();
 
         public:
-            static std::shared_ptr<ImageViewSettingsWidget> create(Core::Context*);
+            static std::shared_ptr<ImageViewBackgroundSettingsWidget> create(Core::Context*);
 
             std::string getSettingsName() const override;
             std::string getSettingsGroup() const override;

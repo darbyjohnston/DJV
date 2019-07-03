@@ -63,7 +63,6 @@ namespace djv
 
             private:
                 bool _isHovered() const;
-                void _widgetUpdate();
 
                 DJV_PRIVATE();
             };

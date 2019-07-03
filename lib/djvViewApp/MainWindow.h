@@ -44,7 +44,7 @@ namespace djv
 
     namespace ViewApp
     {
-        class MDICanvas;
+        class MediaCanvas;
 
         class MainWindow : public UI::Window
         {
@@ -59,7 +59,7 @@ namespace djv
 
             static std::shared_ptr<MainWindow> create(Core::Context *);
 
-            const std::shared_ptr<MDICanvas>& getMDICanvas() const;
+            const std::shared_ptr<MediaCanvas>& getMediaCanvas() const;
 
         protected:
             void _dropEvent(Core::Event::Drop &) override;

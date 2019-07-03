@@ -1,19 +1,20 @@
 set(header
     AboutDialog.h
 	AnnotateSystem.h
-	AnnotateTool.h
+	AnnotateWidget.h
     Application.h
 	AudioSystem.h
-    ColorPickerTool.h
+    ColorPickerSystem.h
+    ColorPickerWidget.h
 	ColorSpaceModel.h
-	ColorSpaceTool.h
-    DebugTool.h
+	ColorSpaceWidget.h
+    DebugWidget.h
     Enum.h
     FileSystem.h
     FileSettings.h
     HelpSystem.h
-    HistogramTool.h
-    ITool.h
+    HistogramWidget.h
+    IToolSystem.h
     IViewSystem.h
 	ImageSettings.h
 	ImageSettingsWidget.h
@@ -22,12 +23,14 @@ set(header
 	ImageViewSettings.h
 	ImageViewSettingsWidget.h
     ImageViewSystem.h
-    InformationTool.h
-	MDICanvas.h
+    InformationWidget.h
 	MDIWidget.h
-    MagnifierTool.h
+    MagnifierSystem.h
+    MagnifierWidget.h
     MainWindow.h
     Media.h
+	MediaCanvas.h
+	MediaWidget.h
 	NUXSettings.h
     NUXSettingsWidget.h
 	NUXSystem.h
@@ -37,7 +40,7 @@ set(header
     RecentFilesDialog.h
     SettingsDialog.h
     SettingsSystem.h
-    SystemLogTool.h
+    SystemLogWidget.h
     TimelineSlider.h
     ToolSystem.h
 	UISettings.h
@@ -48,19 +51,20 @@ set(header
 set(source
     AboutDialog.cpp
 	AnnotateSystem.cpp
-	AnnotateTool.cpp
+	AnnotateWidget.cpp
     Application.cpp
 	AudioSystem.cpp
-    ColorPickerTool.cpp
+    ColorPickerSystem.cpp
+    ColorPickerWidget.cpp
 	ColorSpaceModel.cpp
-	ColorSpaceTool.cpp
-    DebugTool.cpp
+	ColorSpaceWidget.cpp
+    DebugWidget.cpp
     Enum.cpp
     FileSettings.cpp
     FileSystem.cpp
     HelpSystem.cpp
-    HistogramTool.cpp
-    ITool.cpp
+    HistogramWidget.cpp
+    IToolSystem.cpp
     IViewSystem.cpp
 	ImageSettings.cpp
 	ImageSettingsWidget.cpp
@@ -69,12 +73,14 @@ set(source
 	ImageViewSettings.cpp
 	ImageViewSettingsWidget.cpp
     ImageViewSystem.cpp
-    InformationTool.cpp
-	MDICanvas.cpp
+    InformationWidget.cpp
 	MDIWidget.cpp
-    MagnifierTool.cpp
+    MagnifierSystem.cpp
+    MagnifierWidget.cpp
     MainWindow.cpp
     Media.cpp
+	MediaCanvas.cpp
+	MediaWidget.cpp
 	NUXSettings.cpp
     NUXSettingsWidget.cpp
 	NUXSystem.cpp
@@ -84,7 +90,7 @@ set(source
     RecentFilesDialog.cpp
     SettingsDialog.cpp
     SettingsSystem.cpp
-    SystemLogTool.cpp
+    SystemLogWidget.cpp
     TimelineSlider.cpp
     ToolSystem.cpp
 	UISettings.cpp

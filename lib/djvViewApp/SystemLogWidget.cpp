@@ -27,7 +27,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvViewApp/SystemLogTool.h>
+#include <djvViewApp/SystemLogWidget.h>
 
 #include <djvUI/PushButton.h>
 #include <djvUI/RowLayout.h>
@@ -82,7 +82,7 @@ namespace djv
         
         } // namespace
 
-        struct SystemLogTool::Private
+        struct SystemLogWidget::Private
         {
             bool shown = false;
             std::shared_ptr<UI::TextBlock> textBlock;
@@ -91,12 +91,12 @@ namespace djv
             std::shared_ptr<UI::PushButton> clearButton;
         };
 
-        void SystemLogTool::_init(Context * context)
+        void SystemLogWidget::_init(Context * context)
         {
-            ITool::_init(context);
+            MDIWidget::_init(context);
 
             DJV_PRIVATE_PTR();
-            setClassName("djv::ViewApp::SystemLogTool");
+            setClassName("djv::ViewApp::SystemLogWidget");
 
             p.textBlock = UI::TextBlock::create(context);
             p.textBlock->setFontSizeRole(UI::MetricsRole::FontSmall);
@@ -130,7 +130,7 @@ namespace djv
             stackLayout->addChild(layout);
             addChild(stackLayout);
 
-            auto weak = std::weak_ptr<SystemLogTool>(std::dynamic_pointer_cast<SystemLogTool>(shared_from_this()));
+            auto weak = std::weak_ptr<SystemLogWidget>(std::dynamic_pointer_cast<SystemLogWidget>(shared_from_this()));
             p.reloadButton->setClickedCallback(
                 [weak]
             {
@@ -149,21 +149,21 @@ namespace djv
             });
         }
 
-        SystemLogTool::SystemLogTool() :
+        SystemLogWidget::SystemLogWidget() :
             _p(new Private)
         {}
 
-        SystemLogTool::~SystemLogTool()
+        SystemLogWidget::~SystemLogWidget()
         {}
 
-        std::shared_ptr<SystemLogTool> SystemLogTool::create(Context * context)
+        std::shared_ptr<SystemLogWidget> SystemLogWidget::create(Context * context)
         {
-            auto out = std::shared_ptr<SystemLogTool>(new SystemLogTool);
+            auto out = std::shared_ptr<SystemLogWidget>(new SystemLogWidget);
             out->_init(context);
             return out;
         }
 
-        void SystemLogTool::reloadLog()
+        void SystemLogWidget::reloadLog()
         {
             try
             {
@@ -176,14 +176,14 @@ namespace djv
             }
         }
 
-        void SystemLogTool::clearLog()
+        void SystemLogWidget::clearLog()
         {
             _p->textBlock->setText(std::string());
         }
 
-        void SystemLogTool::_localeEvent(Event::Locale & event)
+        void SystemLogWidget::_localeEvent(Event::Locale & event)
         {
-            ITool::_localeEvent(event);
+            MDIWidget::_localeEvent(event);
             DJV_PRIVATE_PTR();
             setTitle(_getText(DJV_TEXT("System Log")));
             p.copyButton->setText(_getText(DJV_TEXT("Copy")));

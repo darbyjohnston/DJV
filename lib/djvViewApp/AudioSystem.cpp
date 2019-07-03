@@ -191,17 +191,17 @@ namespace djv
             return out;
         }
 
-        std::map<std::string, std::shared_ptr<UI::Action> > AudioSystem::getActions()
+        std::map<std::string, std::shared_ptr<UI::Action> > AudioSystem::getActions() const
         {
             return _p->actions;
         }
 
-        MenuData AudioSystem::getMenu()
+        MenuData AudioSystem::getMenu() const
         {
             return
             {
                 _p->menu,
-                "G"
+                "F"
             };
         }
 

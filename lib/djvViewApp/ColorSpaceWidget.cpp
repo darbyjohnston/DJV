@@ -27,11 +27,11 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvViewApp/ColorSpaceTool.h>
+#include <djvViewApp/ColorSpaceWidget.h>
 
 #include <djvViewApp/ColorSpaceModel.h>
 #include <djvViewApp/ImageView.h>
-#include <djvViewApp/MDIWidget.h>
+#include <djvViewApp/MediaWidget.h>
 #include <djvViewApp/WindowSystem.h>
 
 #include <djvUI/ButtonGroup.h>
@@ -51,10 +51,10 @@ namespace djv
 {
     namespace ViewApp
     {
-        struct ColorSpaceTool::Private
+        struct ColorSpaceWidget::Private
         {
             std::shared_ptr<ColorSpaceModel> model;
-            std::shared_ptr<MDIWidget> activeWidget;
+            std::shared_ptr<MediaWidget> activeWidget;
             std::string emptyLabel;
 
             std::shared_ptr<UI::ButtonGroup> colorSpaceButtonGroup;
@@ -82,16 +82,16 @@ namespace djv
             std::shared_ptr<ValueObserver<std::string> > viewObserver;
             std::shared_ptr<ValueObserver<std::string> > viewObserver2;
             std::shared_ptr<ValueObserver<std::string> > outputColorSpaceObserver;
-            std::shared_ptr<ValueObserver<std::shared_ptr<MDIWidget> > > activeWidgetObserver;
+            std::shared_ptr<ValueObserver<std::shared_ptr<MediaWidget> > > activeWidgetObserver;
             std::shared_ptr<ValueObserver<AV::Render::ImageOptions> > imageOptionsObserver;
         };
 
-        void ColorSpaceTool::_init(Context * context)
+        void ColorSpaceWidget::_init(Context * context)
         {
-            ITool::_init(context);
+            MDIWidget::_init(context);
             DJV_PRIVATE_PTR();
 
-            setClassName("djv::ViewApp::ColorSpaceTool");
+            setClassName("djv::ViewApp::ColorSpaceWidget");
             p.model = ColorSpaceModel::create(context);
 
             p.colorSpaceButtonGroup = UI::ButtonGroup::create(UI::ButtonType::Exclusive);
@@ -144,7 +144,7 @@ namespace djv
 
             _widgetUpdate();
 
-            auto weak = std::weak_ptr<ColorSpaceTool>(std::dynamic_pointer_cast<ColorSpaceTool>(shared_from_this()));
+            auto weak = std::weak_ptr<ColorSpaceWidget>(std::dynamic_pointer_cast<ColorSpaceWidget>(shared_from_this()));
             p.colorSpaceButtonGroup->setExclusiveCallback(
                 [weak](int value)
                 {
@@ -268,9 +268,9 @@ namespace djv
 
             if (auto windowSystem = context->getSystemT<WindowSystem>())
             {
-                p.activeWidgetObserver = ValueObserver<std::shared_ptr<MDIWidget> >::create(
+                p.activeWidgetObserver = ValueObserver<std::shared_ptr<MediaWidget> >::create(
                     windowSystem->observeActiveWidget(),
-                    [weak](const std::shared_ptr<MDIWidget>& value)
+                    [weak](const std::shared_ptr<MediaWidget>& value)
                     {
                         if (auto widget = weak.lock())
                         {
@@ -318,23 +318,23 @@ namespace djv
             }
         }
 
-        ColorSpaceTool::ColorSpaceTool() :
+        ColorSpaceWidget::ColorSpaceWidget() :
             _p(new Private)
         {}
 
-        ColorSpaceTool::~ColorSpaceTool()
+        ColorSpaceWidget::~ColorSpaceWidget()
         {}
 
-        std::shared_ptr<ColorSpaceTool> ColorSpaceTool::create(Context * context)
+        std::shared_ptr<ColorSpaceWidget> ColorSpaceWidget::create(Context * context)
         {
-            auto out = std::shared_ptr<ColorSpaceTool>(new ColorSpaceTool);
+            auto out = std::shared_ptr<ColorSpaceWidget>(new ColorSpaceWidget);
             out->_init(context);
             return out;
         }
 
-        void ColorSpaceTool::_localeEvent(Event::Locale & event)
+        void ColorSpaceWidget::_localeEvent(Event::Locale & event)
         {
-            ITool::_localeEvent(event);
+            MDIWidget::_localeEvent(event);
             DJV_PRIVATE_PTR();
             setTitle(_getText(DJV_TEXT("Color Space")));
             p.emptyLabel = _getText(DJV_TEXT("(empty)"));
@@ -346,7 +346,7 @@ namespace djv
             _widgetUpdate();
         }
 
-        void ColorSpaceTool::_widgetUpdate()
+        void ColorSpaceWidget::_widgetUpdate()
         {
             DJV_PRIVATE_PTR();
             auto context = getContext();

@@ -29,8 +29,8 @@
 
 #include <djvViewApp/WindowSystem.h>
 
-#include <djvViewApp/MDICanvas.h>
-#include <djvViewApp/MDIWidget.h>
+#include <djvViewApp/MediaCanvas.h>
+#include <djvViewApp/MediaWidget.h>
 #include <djvViewApp/UISettings.h>
 #include <djvViewApp/WindowSettings.h>
 
@@ -71,8 +71,8 @@ namespace djv
         struct WindowSystem::Private
         {
             std::shared_ptr<WindowSettings> settings;
-            std::weak_ptr<MDICanvas> canvas;
-            std::shared_ptr<ValueSubject<std::shared_ptr<MDIWidget> > > activeWidget;
+            std::weak_ptr<MediaCanvas> canvas;
+            std::shared_ptr<ValueSubject<std::shared_ptr<MediaWidget> > > activeWidget;
             std::shared_ptr<ValueSubject<bool> > maximized;
             std::shared_ptr<ValueSubject<float> > fade;
             bool fadeEnabled = true;
@@ -103,13 +103,12 @@ namespace djv
             DJV_PRIVATE_PTR();
 
             p.settings = WindowSettings::create(context);
-            p.activeWidget = ValueSubject<std::shared_ptr<MDIWidget> >::create();
+            p.activeWidget = ValueSubject<std::shared_ptr<MediaWidget> >::create();
             p.maximized = ValueSubject<bool>::create();
             p.fade = ValueSubject<float>::create(1.f);
             p.pointerMotionTimer = Time::Timer::create(context);
             p.fadeAnimation = Animation::Animation::create(context);
 
-            //! \todo Implement me!
             p.actions["FullScreen"] = UI::Action::create();
             p.actions["FullScreen"]->setButtonType(UI::ButtonType::Toggle);
             p.actions["FullScreen"]->setIcon("djvIconWindowFullScreen");
@@ -117,7 +116,8 @@ namespace djv
 
             p.actions["Maximized"] = UI::Action::create();
             p.actions["Maximized"]->setButtonType(UI::ButtonType::Toggle);
-            p.actions["Maximized"]->setIcon("djvIconSDI");
+            p.actions["Maximized"]->setIcon("djvIconMDI");
+            p.actions["Maximized"]->setCheckedIcon("djvIconSDI");
             p.actions["Maximized"]->setShortcut(GLFW_KEY_M);
 
             p.menu = UI::Menu::create(context);
@@ -211,7 +211,7 @@ namespace djv
             return out;
         }
 
-        void WindowSystem::setMDICanvas(const std::shared_ptr<MDICanvas>& value)
+        void WindowSystem::setMediaCanvas(const std::shared_ptr<MediaCanvas>& value)
         {
             DJV_PRIVATE_PTR();
             if (auto canvas = p.canvas.lock())
@@ -223,7 +223,7 @@ namespace djv
             if (auto canvas = p.canvas.lock())
             {
                 canvas->setActiveCallback(
-                    [weak](const std::shared_ptr<MDIWidget>& value)
+                    [weak](const std::shared_ptr<MediaWidget>& value)
                     {
                         if (auto system = weak.lock())
                         {
@@ -236,7 +236,7 @@ namespace djv
             }
         }
 
-        std::shared_ptr<Core::IValueSubject<std::shared_ptr<MDIWidget> > > WindowSystem::observeActiveWidget() const
+        std::shared_ptr<Core::IValueSubject<std::shared_ptr<MediaWidget> > > WindowSystem::observeActiveWidget() const
         {
             return _p->activeWidget;
         }
@@ -261,12 +261,12 @@ namespace djv
             return _p->fade;
         }
 
-        std::map<std::string, std::shared_ptr<UI::Action> > WindowSystem::getActions()
+        std::map<std::string, std::shared_ptr<UI::Action> > WindowSystem::getActions() const
         {
             return _p->actions;
         }
 
-        MenuData WindowSystem::getMenu()
+        MenuData WindowSystem::getMenu() const
         {
             return
             {

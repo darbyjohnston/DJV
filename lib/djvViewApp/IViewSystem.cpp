@@ -29,7 +29,7 @@
 
 #include <djvViewApp/IViewSystem.h>
 
-#include <djvViewApp/ITool.h>
+#include <djvViewApp/MDIWidget.h>
 
 #include <djvUIComponents/UIComponentsSystem.h>
 
@@ -46,11 +46,11 @@ namespace djv
     {
         struct IViewSystem::Private
         {
-            std::shared_ptr<UI::MDI::Canvas> toolCanvas;
-            std::map<std::string, std::shared_ptr<ITool> > tools;
-            std::map<std::string, glm::vec2> toolsPos;
-            std::map<std::string, glm::vec2> toolsSize;
-            std::function<void(const std::string&)> closeToolCallback;
+            std::shared_ptr<UI::MDI::Canvas> canvas;
+            std::map<std::string, std::shared_ptr<MDIWidget> > widgets;
+            std::map<std::string, glm::vec2> widgetsPos;
+            std::map<std::string, glm::vec2> widgetsSize;
+            std::function<void(const std::string&)> closeWidgetCallback;
         };
 
         void IViewSystem::_init(const std::string & name, Context * context)
@@ -67,72 +67,72 @@ namespace djv
         IViewSystem::~IViewSystem()
         {}
         
-        std::map<std::string, std::shared_ptr<UI::Action> > IViewSystem::getActions()
+        std::map<std::string, std::shared_ptr<UI::Action> > IViewSystem::getActions() const
         {
             return std::map<std::string, std::shared_ptr<UI::Action> >();
         }
 
-        MenuData IViewSystem::getMenu()
+        MenuData IViewSystem::getMenu() const
         {
             return MenuData();
         }
 
-        std::vector<std::shared_ptr<UI::ISettingsWidget> > IViewSystem::createSettingsWidgets()
+        std::vector<std::shared_ptr<UI::ISettingsWidget> > IViewSystem::createSettingsWidgets() const
         {
             return std::vector<std::shared_ptr<UI::ISettingsWidget> >();
         }
 
-        void IViewSystem::setToolCanvas(const std::shared_ptr<UI::MDI::Canvas>& value)
+        void IViewSystem::setCanvas(const std::shared_ptr<UI::MDI::Canvas>& value)
         {
-            _p->toolCanvas = value;
+            _p->canvas = value;
         }
 
-        void IViewSystem::_openTool(const std::string& name, const std::shared_ptr<ITool>& tool)
+        void IViewSystem::_openWidget(const std::string& name, const std::shared_ptr<MDIWidget>& widget)
         {
             DJV_PRIVATE_PTR();
-            p.toolCanvas->addChild(tool);
-            p.tools[name] = tool;
+            p.canvas->addChild(widget);
+            p.widgets[name] = widget;
             auto weak = std::weak_ptr<IViewSystem>(std::dynamic_pointer_cast<IViewSystem>(shared_from_this()));
-            tool->setCloseCallback(
+            widget->setCloseCallback(
                 [weak, name]
-            {
-                if (auto system = weak.lock())
                 {
-                    system->_closeTool(name);
-                    if (system->_p->closeToolCallback)
+                    if (auto system = weak.lock())
                     {
-                        system->_p->closeToolCallback(name);
+                        system->_closeWidget(name);
+                        if (system->_p->closeWidgetCallback)
+                        {
+                            system->_p->closeWidgetCallback(name);
+                        }
                     }
-                }
-            });
-            const auto j = p.toolsPos.find(name);
-            if (j != p.toolsPos.end())
+                });
+            const auto j = p.widgetsPos.find(name);
+            if (j != p.widgetsPos.end())
             {
-                p.toolCanvas->setWidgetPos(tool, j->second);
+                p.canvas->setWidgetPos(widget, j->second);
             }
-            const auto k = p.toolsSize.find(name);
-            if (k != p.toolsSize.end())
+            const auto k = p.widgetsSize.find(name);
+            if (k != p.widgetsSize.end())
             {
-                tool->resize(k->second);
+                widget->resize(k->second);
             }
         }
 
-        void IViewSystem::_closeTool(const std::string& name)
+        void IViewSystem::_closeWidget(const std::string& name)
         {
             DJV_PRIVATE_PTR();
-            const auto i = p.tools.find(name);
-            if (i != p.tools.end())
+            const auto i = p.widgets.find(name);
+            if (i != p.widgets.end())
             {
-                p.toolsPos[name] = p.toolCanvas->getWidgetPos(i->second);
-                p.toolsSize[name] = i->second->getSize();
-                p.toolCanvas->removeChild(i->second);
-                p.tools.erase(i);
+                p.widgetsPos[name] = p.canvas->getWidgetPos(i->second);
+                p.widgetsSize[name] = i->second->getSize();
+                p.canvas->removeChild(i->second);
+                p.widgets.erase(i);
             }
         }
 
-        void IViewSystem::_setCloseToolCallback(const std::function<void(const std::string&)>& value)
+        void IViewSystem::_setCloseWidgetCallback(const std::function<void(const std::string&)>& value)
         {
-            _p->closeToolCallback = value;
+            _p->closeWidgetCallback = value;
         }
 
     } // namespace ViewApp

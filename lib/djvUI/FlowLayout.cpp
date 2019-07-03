@@ -108,15 +108,17 @@ namespace djv
 
             void Flow::_preLayoutEvent(Event::PreLayout &)
             {
-                glm::vec2 minimumSize = glm::vec2(0.f, 0.f);
+                const auto& style = _getStyle();
+                const float tc = style->getMetric(MetricsRole::TextColumn);
+                glm::vec2 size = glm::vec2(0.f, 0.f);
                 for (const auto & child : getChildWidgets())
                 {
                     const auto & childMinimumSize = child->getMinimumSize();
-                    minimumSize.x = std::max(minimumSize.x, childMinimumSize.x);
-                    minimumSize.y += childMinimumSize.y;
+                    size.x = std::max(size.x, childMinimumSize.x);
+                    size.y += childMinimumSize.y;
                 }
-                const auto& style = _getStyle();
-                _setMinimumSize(minimumSize + getMargin().getSize(style));
+                size.x = std::max(size.x, tc);
+                _setMinimumSize(size + getMargin().getSize(style));
             }
 
             void Flow::_layoutEvent(Event::Layout &)

@@ -30,7 +30,7 @@
 #pragma once
 
 #include <djvViewApp/Enum.h>
-#include <djvViewApp/IViewSystem.h>
+#include <djvViewApp/IToolSystem.h>
 
 #include <djvCore/ValueObserver.h>
 
@@ -40,7 +40,7 @@ namespace djv
 {
     namespace ViewApp
     {
-        class ImageViewSystem : public IViewSystem
+        class ImageViewSystem : public IToolSystem
         {
             DJV_NON_COPYABLE(ImageViewSystem);
 
@@ -53,10 +53,13 @@ namespace djv
 
             static std::shared_ptr<ImageViewSystem> create(Core::Context *);
 
-            std::shared_ptr<Core::IValueSubject<ImageViewLock > > observeLock() const;
+            std::shared_ptr<Core::IValueSubject<ImageViewLock> > observeLock() const;
 
-            std::map<std::string, std::shared_ptr<UI::Action> > getActions() override;
-            MenuData getMenu() override;
+            ToolActionData getToolAction() const override;
+            void setCurrentTool(bool) override;
+
+            std::map<std::string, std::shared_ptr<UI::Action> > getActions() const override;
+            MenuData getMenu() const override;
 
         private:
             void _moveImage(const glm::vec2&);

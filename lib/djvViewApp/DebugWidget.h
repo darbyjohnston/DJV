@@ -29,24 +29,24 @@
 
 #pragma once
 
-#include <djvViewApp/ITool.h>
+#include <djvViewApp/MDIWidget.h>
 
 namespace djv
 {
     namespace ViewApp
     {
-        class AnnotateTool : public ITool
+        class DebugWidget : public MDIWidget
         {
-            DJV_NON_COPYABLE(AnnotateTool);
+            DJV_NON_COPYABLE(DebugWidget);
 
         protected:
             void _init(Core::Context *);
-            AnnotateTool();
+            DebugWidget();
 
         public:
-            ~AnnotateTool() override;
+            ~DebugWidget() override;
 
-            static std::shared_ptr<AnnotateTool> create(Core::Context *);
+            static std::shared_ptr<DebugWidget> create(Core::Context *);
 
         protected:
             void _localeEvent(Core::Event::Locale &) override;

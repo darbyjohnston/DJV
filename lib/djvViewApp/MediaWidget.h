@@ -29,45 +29,72 @@
 
 #pragma once
 
+#include <djvViewApp/Enum.h>
+
 #include <djvUI/MDIWidget.h>
+
+#include <djvCore/ValueObserver.h>
 
 namespace djv
 {
     namespace ViewApp
     {
-        class ITool : public UI::MDI::IWidget
+        class ImageView;
+        class Media;
+
+        enum class PointerState
         {
-            DJV_NON_COPYABLE(ITool);
+            Start,
+            Move,
+            End
+        };
+
+        struct PointerData
+        {
+            PointerData();
+            PointerData(PointerState, const glm::vec2&);
+
+            PointerState state = PointerState::Start;
+            glm::vec2 pos = glm::vec2(0.f, 0.f);
+
+            bool operator == (const PointerData&) const;
+        };
+
+        class MediaWidget : public UI::MDI::IWidget
+        {
+            DJV_NON_COPYABLE(MediaWidget);
 
         protected:
-            void _init(Core::Context *);
-            ITool();
+            void _init(const std::shared_ptr<Media>&, Core::Context*);
+            MediaWidget();
 
         public:
-            ~ITool() override = 0;
+            ~MediaWidget() override;
 
-            const std::string & getTitle() const;
-            void setTitle(const std::string &);
+            static std::shared_ptr<MediaWidget> create(const std::shared_ptr<Media>&, Core::Context*);
 
-            void close();
-            void setCloseCallback(const std::function<void(void)> &);
+            const std::shared_ptr<Media>& getMedia() const;
 
-            float getHeightForWidth(float) const override;
+            const std::shared_ptr<ImageView>& getImageView() const;
 
-            void addChild(const std::shared_ptr<IObject> &) override;
-            void removeChild(const std::shared_ptr<IObject> &) override;
-            void clearChildren() override;
+            std::shared_ptr<Core::IValueSubject<PointerData> > observeHover() const;
+            std::shared_ptr<Core::IValueSubject<PointerData> > observeDrag() const;
 
         protected:
-            std::map<UI::MDI::Handle, std::vector<Core::BBox2f> > _getHandles() const override;
+            void _setMaximized(float) override;
             void _setActiveWidget(bool) override;
 
-            void _preLayoutEvent(Core::Event::PreLayout &) override;
-            void _layoutEvent(Core::Event::Layout &) override;
+            void _preLayoutEvent(Core::Event::PreLayout&) override;
+            void _layoutEvent(Core::Event::Layout&) override;
 
-            void _localeEvent(Core::Event::Locale &) override;
+            void _localeEvent(Core::Event::Locale&) override;
 
         private:
+            void _widgetUpdate();
+            void _imageUpdate();
+            void _speedUpdate();
+            void _opacityUpdate();
+
             DJV_PRIVATE();
         };
 

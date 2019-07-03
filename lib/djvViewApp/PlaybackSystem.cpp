@@ -428,12 +428,12 @@ namespace djv
             return out;
         }
 
-        std::map<std::string, std::shared_ptr<UI::Action> > PlaybackSystem::getActions()
+        std::map<std::string, std::shared_ptr<UI::Action> > PlaybackSystem::getActions() const
         {
             return _p->actions;
         }
 
-        MenuData PlaybackSystem::getMenu()
+        MenuData PlaybackSystem::getMenu() const
         {
             return
             {

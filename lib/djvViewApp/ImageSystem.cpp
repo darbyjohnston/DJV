@@ -29,12 +29,12 @@
 
 #include <djvViewApp/ImageSystem.h>
 
-#include <djvViewApp/ColorSpaceTool.h>
+#include <djvViewApp/ColorSpaceWidget.h>
 #include <djvViewApp/FileSystem.h>
 #include <djvViewApp/ImageSettings.h>
 #include <djvViewApp/ImageView.h>
-#include <djvViewApp/MDIWidget.h>
 #include <djvViewApp/Media.h>
+#include <djvViewApp/MediaWidget.h>
 #include <djvViewApp/WindowSystem.h>
 
 #include <djvUI/Action.h>
@@ -62,7 +62,7 @@ namespace djv
             std::shared_ptr<ValueSubject<bool> > frameStoreEnabled;
             std::shared_ptr<ValueSubject<std::shared_ptr<AV::Image::Image> > > frameStore;
             std::shared_ptr<AV::Image::Image> currentImage;
-            std::shared_ptr<MDIWidget> activeWidget;
+            std::shared_ptr<MediaWidget> activeWidget;
             AV::Render::ImageOptions imageOptions;
             ImageRotate imageRotate = ImageRotate::First;
             ImageAspectRatio imageAspectRatio = ImageAspectRatio::First;
@@ -72,7 +72,7 @@ namespace djv
             std::shared_ptr<UI::ActionGroup> rotateActionGroup;
             std::shared_ptr<UI::ActionGroup> aspectRatioActionGroup;
             std::shared_ptr<UI::Menu> menu;
-            std::shared_ptr<ColorSpaceTool> colorSpaceTool;
+            std::shared_ptr<ColorSpaceWidget> colorSpaceWidget;
 
             std::map<std::string, std::shared_ptr<ValueObserver<bool> > > clickedObservers;
             std::shared_ptr<ValueObserver<std::shared_ptr<Media> > > currentMediaObserver;
@@ -80,7 +80,7 @@ namespace djv
             std::shared_ptr<ValueObserver<AV::Render::ImageOptions> > imageOptionsObserver;
             std::shared_ptr<ValueObserver<ImageRotate> > imageRotateObserver;
             std::shared_ptr<ValueObserver<ImageAspectRatio> > imageAspectRatioObserver;
-            std::shared_ptr<ValueObserver<std::shared_ptr<MDIWidget> > > activeWidgetObserver;
+            std::shared_ptr<ValueObserver<std::shared_ptr<MediaWidget> > > activeWidgetObserver;
             std::shared_ptr<ValueObserver<std::string> > localeObserver;
         };
 
@@ -220,7 +220,7 @@ namespace djv
                     }
                 });
 
-            _setCloseToolCallback(
+            _setCloseWidgetCallback(
                 [weak](const std::string& name)
                 {
                     if (auto system = weak.lock())
@@ -241,11 +241,11 @@ namespace djv
                     {
                         if (value)
                         {
-                            system->_openTool("ColorSpace", ColorSpaceTool::create(context));
+                            system->_openWidget("ColorSpace", ColorSpaceWidget::create(context));
                         }
                         else
                         {
-                            system->_closeTool("ColorSpace");
+                            system->_closeWidget("ColorSpace");
                         }
                     }
                 });
@@ -335,9 +335,9 @@ namespace djv
 
             if (auto windowSystem = context->getSystemT<WindowSystem>())
             {
-                p.activeWidgetObserver = ValueObserver<std::shared_ptr<MDIWidget> >::create(
+                p.activeWidgetObserver = ValueObserver<std::shared_ptr<MediaWidget> >::create(
                     windowSystem->observeActiveWidget(),
-                    [weak](const std::shared_ptr<MDIWidget>& value)
+                    [weak](const std::shared_ptr<MediaWidget>& value)
                     {
                         if (auto system = weak.lock())
                         {
@@ -421,12 +421,12 @@ namespace djv
             return _p->frameStore;
         }
 
-        std::map<std::string, std::shared_ptr<UI::Action> > ImageSystem::getActions()
+        std::map<std::string, std::shared_ptr<UI::Action> > ImageSystem::getActions() const
         {
             return _p->actions;
         }
 
-        MenuData ImageSystem::getMenu()
+        MenuData ImageSystem::getMenu() const
         {
             return
             {

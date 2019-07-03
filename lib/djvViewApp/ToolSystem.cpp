@@ -29,14 +29,10 @@
 
 #include <djvViewApp/ToolSystem.h>
 
-#include <djvViewApp/ColorPickerTool.h>
-#include <djvViewApp/DebugTool.h>
-#include <djvViewApp/HistogramTool.h>
-#include <djvViewApp/InformationTool.h>
-#include <djvViewApp/MagnifierTool.h>
+#include <djvViewApp/IToolSystem.h>
 
 #include <djvUI/Action.h>
-#include <djvUI/MDICanvas.h>
+#include <djvUI/ActionGroup.h>
 #include <djvUI/Menu.h>
 #include <djvUI/RowLayout.h>
 
@@ -53,7 +49,10 @@ namespace djv
     {
         struct ToolSystem::Private
         {
+            int currentToolSystem = -1;
+            std::vector<std::shared_ptr<IToolSystem> > toolSystems;
             std::map<std::string, std::shared_ptr<UI::Action> > actions;
+            std::shared_ptr<UI::ActionGroup> toolActionGroup;
             std::shared_ptr<UI::Menu> menu;
             std::map<std::string, std::shared_ptr<ValueObserver<bool> > > clickedObservers;
             std::shared_ptr<ValueObserver<std::string> > localeObserver;
@@ -64,31 +63,41 @@ namespace djv
             IViewSystem::_init("djv::ViewApp::ToolSystem", context);
 
             DJV_PRIVATE_PTR();
-            p.actions["Magnifier"] = UI::Action::create();
-            p.actions["Magnifier"]->setButtonType(UI::ButtonType::Toggle);
-            p.actions["Magnifier"]->setShortcut(GLFW_KEY_1);
-            p.actions["ColorPicker"] = UI::Action::create();
-            p.actions["ColorPicker"]->setButtonType(UI::ButtonType::Toggle);
-            p.actions["ColorPicker"]->setShortcut(GLFW_KEY_2);
-            p.actions["Histogram"] = UI::Action::create();
-            p.actions["Histogram"]->setButtonType(UI::ButtonType::Toggle);
-            p.actions["Histogram"]->setShortcut(GLFW_KEY_3);
-            p.actions["Information"] = UI::Action::create();
-            p.actions["Information"]->setButtonType(UI::ButtonType::Toggle);
-            p.actions["Information"]->setShortcut(GLFW_KEY_4);
-            p.actions["Debug"] = UI::Action::create();
-            p.actions["Debug"]->setButtonType(UI::ButtonType::Toggle);
-            p.actions["Debug"]->setShortcut(GLFW_KEY_5);
+
+            std::map<std::string, std::shared_ptr<UI::Action> > toolActions;
+            std::map<std::string, std::shared_ptr<UI::Action> > toolWidgetActions;
+            auto systems = context->getSystemsT<IToolSystem>();
+            for (const auto& i : systems)
+            {
+                auto data = i->getToolAction();
+                toolActions[data.sortKey] = data.action;
+                auto widgetData = i->getToolWidgetAction();
+                if (widgetData.action)
+                {
+                    toolWidgetActions[widgetData.sortKey] = widgetData.action;
+                }
+                p.toolSystems.push_back(i);
+            }
+
+            p.toolActionGroup = UI::ActionGroup::create(UI::ButtonType::Exclusive);
+            for (const auto& i : toolActions)
+            {
+                p.toolActionGroup->addAction(i.second);
+            }
 
             p.menu = UI::Menu::create(context);
-            p.menu->addAction(p.actions["Magnifier"]);
-            p.menu->addAction(p.actions["ColorPicker"]);
-            p.menu->addAction(p.actions["Histogram"]);
-            p.menu->addAction(p.actions["Information"]);
-            p.menu->addAction(p.actions["Debug"]);
+            for (const auto& i : toolActions)
+            {
+                p.menu->addAction(i.second);
+            }
+            p.menu->addSeparator();
+            for (const auto& i : toolWidgetActions)
+            {
+                p.menu->addAction(i.second);
+            }
 
             auto weak = std::weak_ptr<ToolSystem>(std::dynamic_pointer_cast<ToolSystem>(shared_from_this()));
-            _setCloseToolCallback(
+            _setCloseWidgetCallback(
                 [weak](const std::string& name)
             {
                 if (auto system = weak.lock())
@@ -101,86 +110,22 @@ namespace djv
                 }
             });
 
-            p.clickedObservers["Magnifier"] = ValueObserver<bool>::create(
-                p.actions["Magnifier"]->observeChecked(),
-                [weak, context](bool value)
-            {
-                if (auto system = weak.lock())
+            p.toolActionGroup->setExclusiveCallback(
+                [weak](int value)
                 {
-                    if (value)
+                    if (auto system = weak.lock())
                     {
-                        system->_openTool("Magnifier", MagnifierTool::create(context));
+                        if (system->_p->currentToolSystem >= 0 && system->_p->currentToolSystem < system->_p->toolSystems.size())
+                        {
+                            system->_p->toolSystems[system->_p->currentToolSystem]->setCurrentTool(false);
+                        }
+                        system->_p->currentToolSystem = value;
+                        if (system->_p->currentToolSystem >= 0 && system->_p->currentToolSystem < system->_p->toolSystems.size())
+                        {
+                            system->_p->toolSystems[system->_p->currentToolSystem]->setCurrentTool(true);
+                        }
                     }
-                    else
-                    {
-                        system->_closeTool("Magnifier");
-                    }
-                }
-            });
-            p.clickedObservers["ColorPicker"] = ValueObserver<bool>::create(
-                p.actions["ColorPicker"]->observeChecked(),
-                [weak, context](bool value)
-            {
-                if (auto system = weak.lock())
-                {
-                    if (value)
-                    {
-                        system->_openTool("ColorPicker", ColorPickerTool::create(context));
-                    }
-                    else
-                    {
-                        system->_closeTool("ColorPicker");
-                    }
-                }
-            });
-            p.clickedObservers["Histogram"] = ValueObserver<bool>::create(
-                p.actions["Histogram"]->observeChecked(),
-                [weak, context](bool value)
-            {
-                if (auto system = weak.lock())
-                {
-                    if (value)
-                    {
-                        system->_openTool("Histogram", HistogramTool::create(context));
-                    }
-                    else
-                    {
-                        system->_closeTool("Histogram");
-                    }
-                }
-            });
-            p.clickedObservers["Information"] = ValueObserver<bool>::create(
-                p.actions["Information"]->observeChecked(),
-                [weak, context](bool value)
-            {
-                if (auto system = weak.lock())
-                {
-                    if (value)
-                    {
-                        system->_openTool("Information", InformationTool::create(context));
-                    }
-                    else
-                    {
-                        system->_closeTool("Information");
-                    }
-                }
-            });
-            p.clickedObservers["Debug"] = ValueObserver<bool>::create(
-                p.actions["Debug"]->observeChecked(),
-                [weak, context](bool value)
-            {
-                if (auto system = weak.lock())
-                {
-                    if (value)
-                    {
-                        system->_openTool("Debug", DebugTool::create(context));
-                    }
-                    else
-                    {
-                        system->_closeTool("Debug");
-                    }
-                }
-            });
+                });
 
             p.localeObserver = ValueObserver<std::string>::create(
                 context->getSystemT<TextSystem>()->observeCurrentLocale(),
@@ -207,34 +152,23 @@ namespace djv
             return out;
         }
 
-        std::map<std::string, std::shared_ptr<UI::Action> > ToolSystem::getActions()
+        std::map<std::string, std::shared_ptr<UI::Action> > ToolSystem::getActions() const
         {
             return _p->actions;
         }
 
-        MenuData ToolSystem::getMenu()
+        MenuData ToolSystem::getMenu() const
         {
             return
             {
                 _p->menu,
-                "F"
+                "H"
             };
         }
 
         void ToolSystem::_textUpdate()
         {
             DJV_PRIVATE_PTR();
-            p.actions["Magnifier"]->setText(_getText(DJV_TEXT("Magnifier")));
-            p.actions["Magnifier"]->setTooltip(_getText(DJV_TEXT("Magnifier tooltip")));
-            p.actions["ColorPicker"]->setText(_getText(DJV_TEXT("Color Picker")));
-            p.actions["ColorPicker"]->setTooltip(_getText(DJV_TEXT("Color picker tooltip")));
-            p.actions["Histogram"]->setText(_getText(DJV_TEXT("Histogram")));
-            p.actions["Histogram"]->setTooltip(_getText(DJV_TEXT("Histogram tooltip")));
-            p.actions["Information"]->setText(_getText(DJV_TEXT("Information")));
-            p.actions["Information"]->setTooltip(_getText(DJV_TEXT("Information tooltip")));
-            p.actions["Debug"]->setText(_getText(DJV_TEXT("Debugging")));
-            p.actions["Debug"]->setTooltip(_getText(DJV_TEXT("Debugging tooltip")));
-
             p.menu->setText(_getText(DJV_TEXT("Tools")));
         }
 

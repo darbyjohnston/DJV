@@ -29,31 +29,28 @@
 
 #pragma once
 
-#include <djvViewApp/IViewSystem.h>
+#include <djvViewApp/MDIWidget.h>
 
 namespace djv
 {
     namespace ViewApp
     {
-        class ToolSystem : public IViewSystem
+        class AnnotateWidget : public MDIWidget
         {
-            DJV_NON_COPYABLE(ToolSystem);
+            DJV_NON_COPYABLE(AnnotateWidget);
 
         protected:
             void _init(Core::Context *);
-            ToolSystem();
+            AnnotateWidget();
 
         public:
-            ~ToolSystem() override;
+            ~AnnotateWidget() override;
 
-            static std::shared_ptr<ToolSystem> create(Core::Context *);
-
-            std::map<std::string, std::shared_ptr<UI::Action> > getActions() const override;
-            MenuData getMenu() const override;
+            static std::shared_ptr<AnnotateWidget> create(Core::Context *);
 
         protected:
-            void _textUpdate();
-            
+            void _localeEvent(Core::Event::Locale &) override;
+
         private:
             DJV_PRIVATE();
         };

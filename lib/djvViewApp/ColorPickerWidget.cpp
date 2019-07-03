@@ -27,7 +27,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvViewApp/ColorPickerTool.h>
+#include <djvViewApp/ColorPickerWidget.h>
 
 #include <djvUIComponents/ColorPicker.h>
 
@@ -45,7 +45,7 @@ namespace djv
 {
     namespace ViewApp
     {
-        struct ColorPickerTool::Private
+        struct ColorPickerWidget::Private
         {
             AV::Image::Color color = AV::Image::Color(0.f, 0.f, 0.f);
             std::map<std::string, std::shared_ptr<UI::Action> > actions;
@@ -61,12 +61,12 @@ namespace djv
             std::shared_ptr<UI::PopupMenu> popupMenu;
         };
 
-        void ColorPickerTool::_init(Context * context)
+        void ColorPickerWidget::_init(Context * context)
         {
-            ITool::_init(context);
+            MDIWidget::_init(context);
 
             DJV_PRIVATE_PTR();
-            setClassName("djv::ViewApp::ColorPickerTool");
+            setClassName("djv::ViewApp::ColorPickerWidget");
 
             p.actions["Lock"] = UI::Action::create();
             p.actions["Lock"]->setButtonType(UI::ButtonType::Toggle);
@@ -109,8 +109,8 @@ namespace djv
             auto hLayout = UI::HorizontalLayout::create(context);
             hLayout->setSpacing(UI::MetricsRole::None);
             hLayout->addChild(p.colorSwatch);
-            hLayout->setStretch(p.colorSwatch, UI::RowStretch::Expand);
             hLayout->addChild(p.tabWidget);
+            hLayout->setStretch(p.tabWidget, UI::RowStretch::Expand);
             p.layout->addChild(hLayout);
             p.layout->setStretch(hLayout, UI::RowStretch::Expand);
             hLayout = UI::HorizontalLayout::create(context);
@@ -124,7 +124,7 @@ namespace djv
 
             _colorUpdate();
 
-            auto weak = std::weak_ptr<ColorPickerTool>(std::dynamic_pointer_cast<ColorPickerTool>(shared_from_this()));
+            auto weak = std::weak_ptr<ColorPickerWidget>(std::dynamic_pointer_cast<ColorPickerWidget>(shared_from_this()));
             p.rgbSliders->setColorCallback(
                 [weak](const AV::Image::Color & value)
             {
@@ -156,23 +156,23 @@ namespace djv
             });
         }
 
-        ColorPickerTool::ColorPickerTool() :
+        ColorPickerWidget::ColorPickerWidget() :
             _p(new Private)
         {}
 
-        ColorPickerTool::~ColorPickerTool()
+        ColorPickerWidget::~ColorPickerWidget()
         {}
 
-        std::shared_ptr<ColorPickerTool> ColorPickerTool::create(Context * context)
+        std::shared_ptr<ColorPickerWidget> ColorPickerWidget::create(Context * context)
         {
-            auto out = std::shared_ptr<ColorPickerTool>(new ColorPickerTool);
+            auto out = std::shared_ptr<ColorPickerWidget>(new ColorPickerWidget);
             out->_init(context);
             return out;
         }
 
-        void ColorPickerTool::_localeEvent(Event::Locale & event)
+        void ColorPickerWidget::_localeEvent(Event::Locale & event)
         {
-            ITool::_localeEvent(event);
+            MDIWidget::_localeEvent(event);
 
             DJV_PRIVATE_PTR();
             setTitle(_getText(DJV_TEXT("Color Picker")));
@@ -190,7 +190,7 @@ namespace djv
             p.sampleSizeSlider->setTooltip(_getText(DJV_TEXT("Color picker sample size tooltip")));
         }
 
-        void ColorPickerTool::_colorUpdate()
+        void ColorPickerWidget::_colorUpdate()
         {
             DJV_PRIVATE_PTR();
             p.colorSwatch->setColor(p.color);

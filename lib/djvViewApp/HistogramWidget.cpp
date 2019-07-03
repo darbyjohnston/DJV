@@ -27,36 +27,44 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#pragma once
+#include <djvViewApp/HistogramWidget.h>
 
-#include <djvViewApp/ITool.h>
+using namespace djv::Core;
 
 namespace djv
 {
     namespace ViewApp
     {
-        class SystemLogTool : public ITool
+        struct HistogramWidget::Private
         {
-            DJV_NON_COPYABLE(SystemLogTool);
 
-        protected:
-            void _init(Core::Context *);
-            SystemLogTool();
-
-        public:
-            ~SystemLogTool() override;
-
-            static std::shared_ptr<SystemLogTool> create(Core::Context *);
-
-            void reloadLog();
-            void clearLog();
-
-        protected:
-            void _localeEvent(Core::Event::Locale &) override;
-
-        private:
-            DJV_PRIVATE();
         };
+
+        void HistogramWidget::_init(Context * context)
+        {
+            MDIWidget::_init(context);
+            setClassName("djv::ViewApp::HistogramWidget");
+        }
+
+        HistogramWidget::HistogramWidget() :
+            _p(new Private)
+        {}
+
+        HistogramWidget::~HistogramWidget()
+        {}
+
+        std::shared_ptr<HistogramWidget> HistogramWidget::create(Context * context)
+        {
+            auto out = std::shared_ptr<HistogramWidget>(new HistogramWidget);
+            out->_init(context);
+            return out;
+        }
+
+        void HistogramWidget::_localeEvent(Event::Locale & event)
+        {
+            MDIWidget::_localeEvent(event);
+            setTitle(_getText(DJV_TEXT("Histogram")));
+        }
 
     } // namespace ViewApp
 } // namespace djv

@@ -29,30 +29,32 @@
 
 #pragma once
 
-#include <djvViewApp/ITool.h>
+#include <djvViewApp/MDIWidget.h>
 
 namespace djv
 {
     namespace ViewApp
     {
-        class HistogramTool : public ITool
+        class ColorPickerWidget : public MDIWidget
         {
-            DJV_NON_COPYABLE(HistogramTool);
+            DJV_NON_COPYABLE(ColorPickerWidget);
 
         protected:
             void _init(Core::Context *);
-            HistogramTool();
+            ColorPickerWidget();
 
         public:
-            ~HistogramTool() override;
+            ~ColorPickerWidget() override;
 
-            static std::shared_ptr<HistogramTool> create(Core::Context *);
+            static std::shared_ptr<ColorPickerWidget> create(Core::Context *);
 
         protected:
             void _localeEvent(Core::Event::Locale &) override;
 
         private:
             DJV_PRIVATE();
+
+            void _colorUpdate();
         };
 
     } // namespace ViewApp

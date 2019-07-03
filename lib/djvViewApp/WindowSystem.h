@@ -47,8 +47,8 @@ namespace djv
 
     namespace ViewApp
     {
-        class MDICanvas;
-        class MDIWidget;
+        class MediaCanvas;
+        class MediaWidget;
 
         class WindowSystem : public IViewSystem
         {
@@ -63,17 +63,17 @@ namespace djv
 
             static std::shared_ptr<WindowSystem> create(Core::Context *);
 
-            void setMDICanvas(const std::shared_ptr<MDICanvas>&);
+            void setMediaCanvas(const std::shared_ptr<MediaCanvas>&);
 
-            std::shared_ptr<Core::IValueSubject<std::shared_ptr<MDIWidget> > > observeActiveWidget() const;
+            std::shared_ptr<Core::IValueSubject<std::shared_ptr<MediaWidget> > > observeActiveWidget() const;
 
             std::shared_ptr<Core::IValueSubject<bool> > observeMaximized() const;
             void setMaximized(bool);
 
             std::shared_ptr<Core::IValueSubject<float> > observeFade() const;
 
-            std::map<std::string, std::shared_ptr<UI::Action> > getActions() override;
-            MenuData getMenu() override;
+            std::map<std::string, std::shared_ptr<UI::Action> > getActions() const override;
+            MenuData getMenu() const override;
 
         protected:
             void _pointerUpdate(const Core::Event::PointerInfo&);

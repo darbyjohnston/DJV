@@ -117,19 +117,19 @@ namespace djv
             }
         }
         
-        std::map<std::string, std::shared_ptr<UI::Action> > SettingsSystem::getActions()
+        std::map<std::string, std::shared_ptr<UI::Action> > SettingsSystem::getActions() const
         {
             return _p->actions;
         }
 
-        std::vector<std::shared_ptr<UI::ISettingsWidget> > SettingsSystem::createSettingsWidgets()
+        std::vector<std::shared_ptr<UI::ISettingsWidget> > SettingsSystem::createSettingsWidgets() const
         {
             auto context = getContext();
             return
             {
                 UI::LanguageSettingsWidget::create(context),
-                UI::DisplaySizeWidget::create(context),
-                UI::DisplayPaletteWidget::create(context),
+                UI::DisplaySizeSettingsWidget::create(context),
+                UI::DisplayPaletteSettingsWidget::create(context),
                 UI::PPMSettingsWidget::create(context),
                 UI::TimeSettingsWidget::create(context),
                 UI::TooltipsSettingsWidget::create(context),
@@ -142,7 +142,7 @@ namespace djv
                 ImageAspectRatioSettingsWidget::create(context),
                 ImageColorSpaceSettingsWidget::create(context),
                 ImageRotateSettingsWidget::create(context),
-                ImageViewSettingsWidget::create(context),
+                ImageViewBackgroundSettingsWidget::create(context),
                 NUXSettingsWidget::create(context),
                 PlaybackSettingsWidget::create(context),
                 UISettingsWidget::create(context),

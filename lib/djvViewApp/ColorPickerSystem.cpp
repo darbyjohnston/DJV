@@ -27,12 +27,11 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvViewApp/AnnotateSystem.h>
+#include <djvViewApp/ColorPickerSystem.h>
 
-#include <djvViewApp/AnnotateWidget.h>
+#include <djvViewApp/ColorPickerWidget.h>
 
 #include <djvUI/Action.h>
-#include <djvUI/Menu.h>
 #include <djvUI/RowLayout.h>
 #include <djvUI/Shortcut.h>
 
@@ -47,31 +46,26 @@ namespace djv
 {
     namespace ViewApp
     {
-        struct AnnotateSystem::Private
+        struct ColorPickerSystem::Private
         {
             std::map<std::string, std::shared_ptr<UI::Action> > actions;
-            std::shared_ptr<UI::Menu> menu;
-            std::shared_ptr<AnnotateWidget> annotateWidget;
             std::map<std::string, std::shared_ptr<ValueObserver<bool> > > clickedObservers;
             std::shared_ptr<ValueObserver<std::string> > localeObserver;
         };
 
-        void AnnotateSystem::_init(Context * context)
+        void ColorPickerSystem::_init(Context * context)
         {
-            IToolSystem::_init("djv::ViewApp::AnnotateSystem", context);
+            IToolSystem::_init("djv::ViewApp::ColorPickerSystem", context);
 
             DJV_PRIVATE_PTR();
             p.actions["Tool"] = UI::Action::create();
-            p.actions["Tool"]->setIcon("djvIconAnnotate");
-            p.actions["Tool"]->setShortcut(GLFW_KEY_4);
+            p.actions["Tool"]->setIcon("djvIconColorPicker");
+            p.actions["Tool"]->setShortcut(GLFW_KEY_2);
             p.actions["Widget"] = UI::Action::create();
             p.actions["Widget"]->setButtonType(UI::ButtonType::Toggle);
-            p.actions["Widget"]->setShortcut(GLFW_KEY_4, GLFW_MOD_SHIFT);
+            p.actions["Widget"]->setShortcut(GLFW_KEY_2, GLFW_MOD_SHIFT);
 
-            p.menu = UI::Menu::create(context);
-            p.menu->addAction(p.actions["Widget"]);
-
-            auto weak = std::weak_ptr<AnnotateSystem>(std::dynamic_pointer_cast<AnnotateSystem>(shared_from_this()));
+            auto weak = std::weak_ptr<ColorPickerSystem>(std::dynamic_pointer_cast<ColorPickerSystem>(shared_from_this()));
             _setCloseWidgetCallback(
                 [weak](const std::string & name)
             {
@@ -93,11 +87,11 @@ namespace djv
                 {
                     if (value)
                     {
-                        system->_openWidget("Annotate", AnnotateWidget::create(context));
+                        system->_openWidget("ColorPicker", ColorPickerWidget::create(context));
                     }
                     else
                     {
-                        system->_closeWidget("Annotate");
+                        system->_closeWidget("ColorPicker");
                     }
                 }
             });
@@ -113,57 +107,55 @@ namespace djv
             });
         }
 
-        AnnotateSystem::AnnotateSystem() :
+        ColorPickerSystem::ColorPickerSystem() :
             _p(new Private)
         {}
 
-        AnnotateSystem::~AnnotateSystem()
+        ColorPickerSystem::~ColorPickerSystem()
         {}
 
-        std::shared_ptr<AnnotateSystem> AnnotateSystem::create(Context * context)
+        std::shared_ptr<ColorPickerSystem> ColorPickerSystem::create(Context * context)
         {
-            auto out = std::shared_ptr<AnnotateSystem>(new AnnotateSystem);
+            auto out = std::shared_ptr<ColorPickerSystem>(new ColorPickerSystem);
             out->_init(context);
             return out;
         }
 
-        ToolActionData AnnotateSystem::getToolAction() const
+        ToolActionData ColorPickerSystem::getToolAction() const
         {
             return
             {
                 _p->actions["Tool"],
-                "G"
+                "B"
             };
         }
 
-        void AnnotateSystem::setCurrentTool(bool value)
+        ToolActionData ColorPickerSystem::getToolWidgetAction() const
+        {
+            return
+            {
+                _p->actions["Widget"],
+                "B"
+            };
+        }
+
+        void ColorPickerSystem::setCurrentTool(bool value)
         {
 
         }
 
-        std::map<std::string, std::shared_ptr<UI::Action> > AnnotateSystem::getActions() const
+        std::map<std::string, std::shared_ptr<UI::Action> > ColorPickerSystem::getActions() const
         {
             return _p->actions;
         }
 
-        MenuData AnnotateSystem::getMenu() const
-        {
-            return
-            {
-                _p->menu,
-                "G"
-            };
-        }
-
-        void AnnotateSystem::_textUpdate()
+        void ColorPickerSystem::_textUpdate()
         {
             DJV_PRIVATE_PTR();
-            p.actions["Tool"]->setText(_getText(DJV_TEXT("Annotate")));
-            p.actions["Tool"]->setTooltip(_getText(DJV_TEXT("Annotate tooltip")));
-            p.actions["Widget"]->setText(_getText(DJV_TEXT("Show Annotations")));
-            p.actions["Widget"]->setTooltip(_getText(DJV_TEXT("Show annotations tooltip")));
-
-            p.menu->setText(_getText(DJV_TEXT("Annotate")));
+            p.actions["Tool"]->setText(_getText(DJV_TEXT("Color Picker")));
+            p.actions["Tool"]->setTooltip(_getText(DJV_TEXT("Color picker tooltip")));
+            p.actions["Widget"]->setText(_getText(DJV_TEXT("Color Picker Widget")));
+            p.actions["Widget"]->setTooltip(_getText(DJV_TEXT("Color picker widget tooltip")));
         }
 
     } // namespace ViewApp

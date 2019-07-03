@@ -462,12 +462,12 @@ namespace djv
             p.currentMedia->setIfChanged(media);
         }
 
-        std::map<std::string, std::shared_ptr<UI::Action> > FileSystem::getActions()
+        std::map<std::string, std::shared_ptr<UI::Action> > FileSystem::getActions() const
         {
             return _p->actions;
         }
 
-        MenuData FileSystem::getMenu()
+        MenuData FileSystem::getMenu() const
         {
             return
             {

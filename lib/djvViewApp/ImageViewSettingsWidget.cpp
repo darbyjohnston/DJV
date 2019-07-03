@@ -48,25 +48,25 @@ namespace djv
 {
     namespace ViewApp
     {
-        struct ImageViewSettingsWidget::Private
+        struct ImageViewBackgroundSettingsWidget::Private
         {
             std::shared_ptr<UI::ColorSwatch> colorSwatch;
             std::shared_ptr<ValueObserver<AV::Image::Color> > backgroundColorObserver;
         };
 
-        void ImageViewSettingsWidget::_init(Context* context)
+        void ImageViewBackgroundSettingsWidget::_init(Context* context)
         {
             ISettingsWidget::_init(context);
 
             DJV_PRIVATE_PTR();
-            setClassName("djv::ViewApp::ImageViewSettingsWidget");
+            setClassName("djv::ViewApp::ImageViewBackgroundSettingsWidget");
 
             p.colorSwatch = UI::ColorSwatch::create(context);
             p.colorSwatch->setPointerEnabled(true);
 
             addChild(p.colorSwatch);
 
-            auto weak = std::weak_ptr<ImageViewSettingsWidget>(std::dynamic_pointer_cast<ImageViewSettingsWidget>(shared_from_this()));
+            auto weak = std::weak_ptr<ImageViewBackgroundSettingsWidget>(std::dynamic_pointer_cast<ImageViewBackgroundSettingsWidget>(shared_from_this()));
             p.colorSwatch->setClickedCallback(
                 [weak, context]
             {
@@ -100,28 +100,28 @@ namespace djv
             });
         }
 
-        ImageViewSettingsWidget::ImageViewSettingsWidget() :
+        ImageViewBackgroundSettingsWidget::ImageViewBackgroundSettingsWidget() :
             _p(new Private)
         {}
 
-        std::shared_ptr<ImageViewSettingsWidget> ImageViewSettingsWidget::create(Context* context)
+        std::shared_ptr<ImageViewBackgroundSettingsWidget> ImageViewBackgroundSettingsWidget::create(Context* context)
         {
-            auto out = std::shared_ptr<ImageViewSettingsWidget>(new ImageViewSettingsWidget);
+            auto out = std::shared_ptr<ImageViewBackgroundSettingsWidget>(new ImageViewBackgroundSettingsWidget);
             out->_init(context);
             return out;
         }
 
-        std::string ImageViewSettingsWidget::getSettingsName() const
+        std::string ImageViewBackgroundSettingsWidget::getSettingsName() const
+        {
+            return DJV_TEXT("Background Color");
+        }
+
+        std::string ImageViewBackgroundSettingsWidget::getSettingsGroup() const
         {
             return DJV_TEXT("View");
         }
 
-        std::string ImageViewSettingsWidget::getSettingsGroup() const
-        {
-            return DJV_TEXT("View");
-        }
-
-        std::string ImageViewSettingsWidget::getSettingsSortKey() const
+        std::string ImageViewBackgroundSettingsWidget::getSettingsSortKey() const
         {
             return "E";
         }

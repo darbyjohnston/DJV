@@ -30,7 +30,7 @@
 #include <djvViewApp/HelpSystem.h>
 
 #include <djvViewApp/AboutDialog.h>
-#include <djvViewApp/SystemLogTool.h>
+#include <djvViewApp/SystemLogWidget.h>
 
 #include <djvUI/Action.h>
 #include <djvUI/EventSystem.h>
@@ -54,7 +54,7 @@ namespace djv
             std::map<std::string, std::shared_ptr<UI::Action> > actions;
             std::shared_ptr<UI::Menu> menu;
             std::shared_ptr<AboutDialog> aboutDialog;
-            std::shared_ptr<SystemLogTool> systemLogTool;
+            std::shared_ptr<SystemLogWidget> systemLogWidget;
             std::map<std::string, std::shared_ptr<ValueObserver<bool> > > clickedObservers;
             std::shared_ptr<ValueObserver<std::string> > localeObserver;
         };
@@ -80,7 +80,7 @@ namespace djv
             p.menu->addAction(p.actions["SystemLog"]);
 
             auto weak = std::weak_ptr<HelpSystem>(std::dynamic_pointer_cast<HelpSystem>(shared_from_this()));
-            _setCloseToolCallback(
+            _setCloseWidgetCallback(
                 [weak](const std::string & name)
             {
                 if (auto system = weak.lock())
@@ -137,13 +137,13 @@ namespace djv
                 {
                     if (value)
                     {
-                        auto tool = SystemLogTool::create(context);
-                        tool->reloadLog();
-                        system->_openTool("SystemLog", tool);
+                        auto widget = SystemLogWidget::create(context);
+                        widget->reloadLog();
+                        system->_openWidget("SystemLog", widget);
                     }
                     else
                     {
-                        system->_closeTool("SystemLog");
+                        system->_closeWidget("SystemLog");
                     }
                 }
             });
@@ -173,12 +173,12 @@ namespace djv
             return out;
         }
 
-        std::map<std::string, std::shared_ptr<UI::Action> > HelpSystem::getActions()
+        std::map<std::string, std::shared_ptr<UI::Action> > HelpSystem::getActions() const
         {
             return _p->actions;
         }
 
-        MenuData HelpSystem::getMenu()
+        MenuData HelpSystem::getMenu() const
         {
             return
             {

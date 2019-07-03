@@ -27,36 +27,50 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#pragma once
+#include <djvDesktopApp/Application.h>
 
-#include <djvViewApp/ITool.h>
+#include <djvUI/Label.h>
+#include <djvUI/RowLayout.h>
+#include <djvUI/ScrollWidget.h>
+#include <djvUI/TextBlock.h>
+#include <djvUI/Window.h>
 
-namespace djv
+#include <djvCore/Error.h>
+#include <djvCore/String.h>
+
+using namespace djv;
+
+int main(int argc, char ** argv)
 {
-    namespace ViewApp
+    int r = 0;
+    try
     {
-        class ColorPickerTool : public ITool
-        {
-            DJV_NON_COPYABLE(ColorPickerTool);
+        auto app = Desktop::Application::create(argc, argv);
 
-        protected:
-            void _init(Core::Context *);
-            ColorPickerTool();
+        auto label = UI::Label::create(app.get());
+        label->setText("Hello");
 
-        public:
-            ~ColorPickerTool() override;
+        auto textBlock = UI::TextBlock::create(app.get());
+        textBlock->setText(Core::String::getRandomText(20));
+        textBlock->setFontSizeRole(UI::MetricsRole::FontLarge);
+        textBlock->setMargin(UI::MetricsRole::Margin);
 
-            static std::shared_ptr<ColorPickerTool> create(Core::Context *);
+        //auto scrollWidget = UI::ScrollWidget::create(UI::ScrollType::Vertical, app.get());
+        //scrollWidget->setBorder(false);
+        //scrollWidget->addChild(textBlock);
+        auto layout = UI::HorizontalLayout::create(app.get());
+        layout->addChild(label);
+        layout->addChild(textBlock);
 
-        protected:
-            void _localeEvent(Core::Event::Locale &) override;
+        auto window = UI::Window::create(app.get());
+        window->addChild(layout);
+        window->show();
 
-        private:
-            DJV_PRIVATE();
-
-            void _colorUpdate();
-        };
-
-    } // namespace ViewApp
-} // namespace djv
-
+        return app->run();
+    }
+    catch (const std::exception & e)
+    {
+        std::cout << Core::Error::format(e) << std::endl;
+    }
+    return r;
+}

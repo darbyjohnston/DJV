@@ -27,36 +27,44 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#pragma once
+#include <djvViewApp/InformationWidget.h>
 
-#include <djvViewApp/IViewSystem.h>
+using namespace djv::Core;
 
 namespace djv
 {
     namespace ViewApp
     {
-        class ToolSystem : public IViewSystem
+        struct InformationWidget::Private
         {
-            DJV_NON_COPYABLE(ToolSystem);
 
-        protected:
-            void _init(Core::Context *);
-            ToolSystem();
-
-        public:
-            ~ToolSystem() override;
-
-            static std::shared_ptr<ToolSystem> create(Core::Context *);
-
-            std::map<std::string, std::shared_ptr<UI::Action> > getActions() const override;
-            MenuData getMenu() const override;
-
-        protected:
-            void _textUpdate();
-            
-        private:
-            DJV_PRIVATE();
         };
+
+        void InformationWidget::_init(Context * context)
+        {
+            MDIWidget::_init(context);
+            setClassName("djv::ViewApp::InformationWidget");
+        }
+
+        InformationWidget::InformationWidget() :
+            _p(new Private)
+        {}
+
+        InformationWidget::~InformationWidget()
+        {}
+
+        std::shared_ptr<InformationWidget> InformationWidget::create(Context * context)
+        {
+            auto out = std::shared_ptr<InformationWidget>(new InformationWidget);
+            out->_init(context);
+            return out;
+        }
+
+        void InformationWidget::_localeEvent(Event::Locale & event)
+        {
+            MDIWidget::_localeEvent(event);
+            setTitle(_getText(DJV_TEXT("Information")));
+        }
 
     } // namespace ViewApp
 } // namespace djv

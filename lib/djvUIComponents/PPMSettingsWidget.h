@@ -54,6 +54,8 @@ namespace djv
             void _localeEvent(Core::Event::Locale &) override;
 
         private:
+            void _widgetUpdate();
+
             DJV_PRIVATE();
         };
 

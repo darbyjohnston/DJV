@@ -27,7 +27,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvViewApp/MagnifierTool.h>
+#include <djvViewApp/MagnifierWidget.h>
 
 #include <djvUI/Action.h>
 #include <djvUI/ImageWidget.h>
@@ -43,7 +43,7 @@ namespace djv
 {
     namespace ViewApp
     {
-        struct MagnifierTool::Private
+        struct MagnifierWidget::Private
         {
             std::map<std::string, std::shared_ptr<UI::Action> > actions;
             std::shared_ptr<UI::ImageWidget> imageWidget;
@@ -54,12 +54,12 @@ namespace djv
             std::shared_ptr<UI::PopupMenu> popupMenu;
         };
 
-        void MagnifierTool::_init(Context * context)
+        void MagnifierWidget::_init(Context * context)
         {
-            ITool::_init(context);
+            MDIWidget::_init(context);
 
             DJV_PRIVATE_PTR();
-            setClassName("djv::ViewApp::MagnifierTool");
+            setClassName("djv::ViewApp::MagnifierWidget");
 
             p.actions["ColorProfile"] = UI::Action::create();
             p.actions["ColorProfile"]->setButtonType(UI::ButtonType::Toggle);
@@ -102,23 +102,23 @@ namespace djv
             addChild(layout);
         }
 
-        MagnifierTool::MagnifierTool() :
+        MagnifierWidget::MagnifierWidget() :
             _p(new Private)
         {}
 
-        MagnifierTool::~MagnifierTool()
+        MagnifierWidget::~MagnifierWidget()
         {}
 
-        std::shared_ptr<MagnifierTool> MagnifierTool::create(Context * context)
+        std::shared_ptr<MagnifierWidget> MagnifierWidget::create(Context * context)
         {
-            auto out = std::shared_ptr<MagnifierTool>(new MagnifierTool);
+            auto out = std::shared_ptr<MagnifierWidget>(new MagnifierWidget);
             out->_init(context);
             return out;
         }
 
-        void MagnifierTool::_localeEvent(Event::Locale & event)
+        void MagnifierWidget::_localeEvent(Event::Locale & event)
         {
-            ITool::_localeEvent(event);
+            MDIWidget::_localeEvent(event);
 
             DJV_PRIVATE_PTR();
             setTitle(_getText(DJV_TEXT("Magnifier")));

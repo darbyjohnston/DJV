@@ -27,7 +27,12 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvViewApp/AnnotateTool.h>
+#include <djvViewApp/IToolSystem.h>
+
+#include <djvUI/MDICanvas.h>
+
+#include <djvCore/Context.h>
+#include <djvCore/TextSystem.h>
 
 using namespace djv::Core;
 
@@ -35,37 +40,21 @@ namespace djv
 {
     namespace ViewApp
     {
-        struct AnnotateTool::Private
+        struct IToolSystem::Private
         {
-
         };
 
-        void AnnotateTool::_init(Context * context)
+        void IToolSystem::_init(const std::string & name, Context * context)
         {
-            ITool::_init(context);
-            setClassName("djv::ViewApp::AnnotateTool");
+            IViewSystem::_init(name, context);
         }
-
-        AnnotateTool::AnnotateTool() :
+            
+        IToolSystem::IToolSystem() :
             _p(new Private)
         {}
 
-        AnnotateTool::~AnnotateTool()
+        IToolSystem::~IToolSystem()
         {}
-
-        std::shared_ptr<AnnotateTool> AnnotateTool::create(Context * context)
-        {
-            auto out = std::shared_ptr<AnnotateTool>(new AnnotateTool);
-            out->_init(context);
-            return out;
-        }
-
-        void AnnotateTool::_localeEvent(Event::Locale & event)
-        {
-            ITool::_localeEvent(event);
-            setTitle(_getText(DJV_TEXT("Annotate")));
-        }
 
     } // namespace ViewApp
 } // namespace djv
-

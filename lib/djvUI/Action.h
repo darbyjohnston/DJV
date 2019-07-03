@@ -63,7 +63,8 @@ namespace djv
             void setChecked(bool);
 
             std::shared_ptr<Core::IValueSubject<std::string> > observeIcon() const;
-            void setIcon(const std::string &);
+            void setIcon(const std::string&);
+            void setCheckedIcon(const std::string&);
 
             std::shared_ptr<Core::IValueSubject<std::string> > observeText() const;
             void setText(const std::string &);
@@ -87,6 +88,8 @@ namespace djv
             void setTooltip(const std::string &);
 
         private:
+            void _iconUpdate();
+
             DJV_PRIVATE();
         };
 

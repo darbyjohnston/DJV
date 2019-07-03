@@ -57,10 +57,11 @@ namespace djv
 
         void DisplaySizeWidget::_init(Context* context)
         {
-            ISettingsWidget::_init(context);
+            Widget::_init(context);
 
             DJV_PRIVATE_PTR();
             setClassName("djv::Ui::DisplaySizeWidget");
+            setHAlign(HAlign::Left);
 
             p.comboBox = ComboBox::create(context);
             addChild(p.comboBox);
@@ -128,19 +129,14 @@ namespace djv
             return out;
         }
 
-        std::string DisplaySizeWidget::getSettingsName() const
+        void DisplaySizeWidget::_preLayoutEvent(Core::Event::PreLayout&)
         {
-            return DJV_TEXT("Display Size");
+            _setMinimumSize(_p->comboBox->getMinimumSize());
         }
 
-        std::string DisplaySizeWidget::getSettingsGroup() const
+        void DisplaySizeWidget::_layoutEvent(Core::Event::Layout&)
         {
-            return DJV_TEXT("General");
-        }
-
-        std::string DisplaySizeWidget::getSettingsSortKey() const
-        {
-            return "A";
+            _p->comboBox->setGeometry(getGeometry());
         }
 
         void DisplaySizeWidget::_localeEvent(Event::Locale& event)
@@ -174,6 +170,42 @@ namespace djv
             }
         }
 
+        struct DisplaySizeSettingsWidget::Private
+        {};
+
+        void DisplaySizeSettingsWidget::_init(Context* context)
+        {
+            ISettingsWidget::_init(context);
+            setClassName("djv::Ui::DisplaySizeSettingsWidget");
+            addChild(DisplaySizeWidget::create(context));
+        }
+
+        DisplaySizeSettingsWidget::DisplaySizeSettingsWidget() :
+            _p(new Private)
+        {}
+
+        std::shared_ptr<DisplaySizeSettingsWidget> DisplaySizeSettingsWidget::create(Context* context)
+        {
+            auto out = std::shared_ptr<DisplaySizeSettingsWidget>(new DisplaySizeSettingsWidget);
+            out->_init(context);
+            return out;
+        }
+
+        std::string DisplaySizeSettingsWidget::getSettingsName() const
+        {
+            return DJV_TEXT("Display Size");
+        }
+
+        std::string DisplaySizeSettingsWidget::getSettingsGroup() const
+        {
+            return DJV_TEXT("General");
+        }
+
+        std::string DisplaySizeSettingsWidget::getSettingsSortKey() const
+        {
+            return "A";
+        }
+
         struct DisplayPaletteWidget::Private
         {
             std::vector<std::string> palettes;
@@ -187,10 +219,11 @@ namespace djv
 
         void DisplayPaletteWidget::_init(Context* context)
         {
-            ISettingsWidget::_init(context);
+            Widget::_init(context);
 
             DJV_PRIVATE_PTR();
             setClassName("djv::Ui::DisplayPaletteWidget");
+            setHAlign(HAlign::Left);
 
             p.comboBox = ComboBox::create(context);
             addChild(p.comboBox);
@@ -258,19 +291,14 @@ namespace djv
             return out;
         }
 
-        std::string DisplayPaletteWidget::getSettingsName() const
+        void DisplayPaletteWidget::_preLayoutEvent(Core::Event::PreLayout&)
         {
-            return DJV_TEXT("Palette");
+            _setMinimumSize(_p->comboBox->getMinimumSize());
         }
 
-        std::string DisplayPaletteWidget::getSettingsGroup() const
+        void DisplayPaletteWidget::_layoutEvent(Core::Event::Layout&)
         {
-            return DJV_TEXT("General");
-        }
-
-        std::string DisplayPaletteWidget::getSettingsSortKey() const
-        {
-            return "A";
+            _p->comboBox->setGeometry(getGeometry());
         }
 
         void DisplayPaletteWidget::_localeEvent(Event::Locale& event)
@@ -302,6 +330,42 @@ namespace djv
             {
                 p.comboBox->setCurrentItem(static_cast<int>(i->second));
             }
+        }
+
+        struct DisplayPaletteSettingsWidget::Private
+        {};
+
+        void DisplayPaletteSettingsWidget::_init(Context* context)
+        {
+            ISettingsWidget::_init(context);
+            setClassName("djv::Ui::DisplayPaletteSettingsWidget");
+            addChild(DisplayPaletteWidget::create(context));
+        }
+
+        DisplayPaletteSettingsWidget::DisplayPaletteSettingsWidget() :
+            _p(new Private)
+        {}
+
+        std::shared_ptr<DisplayPaletteSettingsWidget> DisplayPaletteSettingsWidget::create(Context* context)
+        {
+            auto out = std::shared_ptr<DisplayPaletteSettingsWidget>(new DisplayPaletteSettingsWidget);
+            out->_init(context);
+            return out;
+        }
+
+        std::string DisplayPaletteSettingsWidget::getSettingsName() const
+        {
+            return DJV_TEXT("Palette");
+        }
+
+        std::string DisplayPaletteSettingsWidget::getSettingsGroup() const
+        {
+            return DJV_TEXT("General");
+        }
+
+        std::string DisplayPaletteSettingsWidget::getSettingsSortKey() const
+        {
+            return "A";
         }
 
     } // namespace UI

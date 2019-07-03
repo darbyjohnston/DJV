@@ -65,6 +65,8 @@ namespace djv
 
             DJV_PRIVATE_PTR();
             setClassName("djv::UI::ComboBox");
+            setHAlign(HAlign::Left);
+            setVAlign(VAlign::Center);
 
             p.closeAction = Action::create();
             p.closeAction->setShortcut(GLFW_KEY_ESCAPE);

@@ -29,37 +29,33 @@
 
 #pragma once
 
-#include <djvUI/Widget.h>
+#include <djvViewApp/IViewSystem.h>
 
 namespace djv
 {
     namespace ViewApp
     {
-        class MDIWidget;
-
-        class MDICanvas : public UI::Widget
+        struct ToolActionData
         {
-            DJV_NON_COPYABLE(MDICanvas);
+            std::shared_ptr<UI::Action> action;
+            std::string sortKey;
+        };
+
+        class IToolSystem : public IViewSystem
+        {
+            DJV_NON_COPYABLE(IToolSystem);
 
         protected:
-            void _init(Core::Context*);
-            MDICanvas();
+            void _init(const std::string & name, Core::Context *);
+            IToolSystem();
 
         public:
-            ~MDICanvas() override;
+            ~IToolSystem() override;
 
-            static std::shared_ptr<MDICanvas> create(Core::Context*);
+            virtual ToolActionData getToolAction() const = 0;
+            virtual ToolActionData getToolWidgetAction() const { return ToolActionData(); }
 
-            std::shared_ptr<MDIWidget> getActiveWidget() const;
-            void setActiveCallback(const std::function<void(const std::shared_ptr<MDIWidget>&)>&);
-
-            void setMaximized(bool);
-
-        protected:
-            void _preLayoutEvent(Core::Event::PreLayout&) override;
-            void _layoutEvent(Core::Event::Layout&) override;
-
-            void _localeEvent(Core::Event::Locale&) override;
+            virtual void setCurrentTool(bool) = 0;
 
         private:
             DJV_PRIVATE();

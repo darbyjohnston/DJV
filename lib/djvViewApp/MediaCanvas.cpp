@@ -27,11 +27,11 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvViewApp/MDICanvas.h>
+#include <djvViewApp/MediaCanvas.h>
 
 #include <djvViewApp/FileSystem.h>
-#include <djvViewApp/MDIWidget.h>
 #include <djvViewApp/Media.h>
+#include <djvViewApp/MediaWidget.h>
 #include <djvViewApp/WindowSystem.h>
 
 #include <djvUI/MDICanvas.h>
@@ -44,42 +44,42 @@ namespace djv
 {
     namespace ViewApp
     {
-        struct MDICanvas::Private
+        struct MediaCanvas::Private
         {
             std::shared_ptr<UI::MDI::Canvas> canvas;
-            std::map<std::shared_ptr<Media>, std::shared_ptr<MDIWidget> > mdiWidgets;
-            std::function<void(const std::shared_ptr<MDIWidget>&)> activeCallback;
+            std::map<std::shared_ptr<Media>, std::shared_ptr<MediaWidget> > mediaWidgets;
+            std::function<void(const std::shared_ptr<MediaWidget>&)> activeCallback;
             std::shared_ptr<ValueObserver<std::shared_ptr<Media> > > currentMediaObserver;
             std::shared_ptr<ValueObserver<std::shared_ptr<Media> > > openedObserver;
             std::shared_ptr<ValueObserver<std::pair<std::shared_ptr<Media>, glm::vec2> > > opened2Observer;
             std::shared_ptr<ValueObserver<std::shared_ptr<Media> > > closedObserver;
         };
 
-        void MDICanvas::_init(Context* context)
+        void MediaCanvas::_init(Context* context)
         {
             Widget::_init(context);
 
             DJV_PRIVATE_PTR();
-            setClassName("djv::ViewApp::MDICanvas");
+            setClassName("djv::ViewApp::MediaCanvas");
 
             p.canvas = UI::MDI::Canvas::create(context);
             addChild(p.canvas);
 
-            auto weak = std::weak_ptr<MDICanvas>(std::dynamic_pointer_cast<MDICanvas>(shared_from_this()));
+            auto weak = std::weak_ptr<MediaCanvas>(std::dynamic_pointer_cast<MediaCanvas>(shared_from_this()));
             p.canvas->setActiveCallback(
                 [weak, context](const std::shared_ptr<UI::MDI::IWidget> & value)
             {
                 if (auto widget = weak.lock())
                 {
-                    auto mdiWidget = std::dynamic_pointer_cast<MDIWidget>(value);
-                    if (mdiWidget)
+                    auto mediaWidget = std::dynamic_pointer_cast<MediaWidget>(value);
+                    if (mediaWidget)
                     {
                         auto fileSystem = context->getSystemT<FileSystem>();
-                        fileSystem->setCurrentMedia(mdiWidget->getMedia());
+                        fileSystem->setCurrentMedia(mediaWidget->getMedia());
                     }
                     if (widget->_p->activeCallback)
                     {
-                        widget->_p->activeCallback(mdiWidget);
+                        widget->_p->activeCallback(mediaWidget);
                     }
                 }
             });
@@ -101,8 +101,8 @@ namespace djv
                 {
                     if (auto widget = weak.lock())
                     {
-                        const auto i = widget->_p->mdiWidgets.find(value);
-                        if (i != widget->_p->mdiWidgets.end())
+                        const auto i = widget->_p->mediaWidgets.find(value);
+                        if (i != widget->_p->mediaWidgets.end())
                         {
                             i->second->moveToFront();
                         }
@@ -117,9 +117,9 @@ namespace djv
                     {
                         if (auto widget = weak.lock())
                         {
-                            auto mdiWidget = MDIWidget::create(value, context);
-                            widget->_p->canvas->addChild(mdiWidget);
-                            widget->_p->mdiWidgets[value] = mdiWidget;
+                            auto mediaWidget = MediaWidget::create(value, context);
+                            widget->_p->canvas->addChild(mediaWidget);
+                            widget->_p->mediaWidgets[value] = mediaWidget;
                         }
                     }
                 });
@@ -132,10 +132,10 @@ namespace djv
                     {
                         if (auto widget = weak.lock())
                         {
-                            auto mdiWidget = MDIWidget::create(value.first, context);
-                            widget->_p->canvas->addChild(mdiWidget);
-                            widget->_p->canvas->setWidgetGeometry(mdiWidget, BBox2f(value.second, value.second));
-                            widget->_p->mdiWidgets[value.first] = mdiWidget;
+                            auto mediaWidget = MediaWidget::create(value.first, context);
+                            widget->_p->canvas->addChild(mediaWidget);
+                            widget->_p->canvas->setWidgetGeometry(mediaWidget, BBox2f(value.second, value.second));
+                            widget->_p->mediaWidgets[value.first] = mediaWidget;
                         }
                     }
                 });
@@ -148,11 +148,11 @@ namespace djv
                     {
                         if (auto widget = weak.lock())
                         {
-                            const auto i = widget->_p->mdiWidgets.find(value);
-                            if (i != widget->_p->mdiWidgets.end())
+                            const auto i = widget->_p->mediaWidgets.find(value);
+                            if (i != widget->_p->mediaWidgets.end())
                             {
                                 widget->_p->canvas->removeChild(i->second);
-                                widget->_p->mdiWidgets.erase(i);
+                                widget->_p->mediaWidgets.erase(i);
                             }
                         }
                     }
@@ -160,46 +160,46 @@ namespace djv
             }
         }
 
-        MDICanvas::MDICanvas() :
+        MediaCanvas::MediaCanvas() :
             _p(new Private)
         {}
 
-        MDICanvas::~MDICanvas()
+        MediaCanvas::~MediaCanvas()
         {}
 
-        std::shared_ptr<MDICanvas> MDICanvas::create(Context* context)
+        std::shared_ptr<MediaCanvas> MediaCanvas::create(Context* context)
         {
-            auto out = std::shared_ptr<MDICanvas>(new MDICanvas);
+            auto out = std::shared_ptr<MediaCanvas>(new MediaCanvas);
             out->_init(context);
             return out;
         }
 
-        std::shared_ptr<MDIWidget> MDICanvas::getActiveWidget() const
+        std::shared_ptr<MediaWidget> MediaCanvas::getActiveWidget() const
         {
-            return std::dynamic_pointer_cast<MDIWidget>(_p->canvas->getActiveWidget());
+            return std::dynamic_pointer_cast<MediaWidget>(_p->canvas->getActiveWidget());
         }
 
-        void MDICanvas::setActiveCallback(const std::function<void(const std::shared_ptr<MDIWidget>&)>& value)
+        void MediaCanvas::setActiveCallback(const std::function<void(const std::shared_ptr<MediaWidget>&)>& value)
         {
             _p->activeCallback = value;
         }
 
-        void MDICanvas::setMaximized(bool value)
+        void MediaCanvas::setMaximized(bool value)
         {
             _p->canvas->setMaximized(value);
         }
 
-        void MDICanvas::_preLayoutEvent(Event::PreLayout&)
+        void MediaCanvas::_preLayoutEvent(Event::PreLayout&)
         {
             _setMinimumSize(_p->canvas->getMinimumSize());
         }
 
-        void MDICanvas::_layoutEvent(Event::Layout&)
+        void MediaCanvas::_layoutEvent(Event::Layout&)
         {
             _p->canvas->setGeometry(getGeometry());
         }
 
-        void MDICanvas::_localeEvent(Event::Locale& event)
+        void MediaCanvas::_localeEvent(Event::Locale& event)
         {}
 
     } // namespace ViewApp

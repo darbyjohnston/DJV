@@ -27,7 +27,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvViewApp/DebugTool.h>
+#include <djvViewApp/DebugWidget.h>
 
 #include <djvViewApp/FileSystem.h>
 #include <djvViewApp/Media.h>
@@ -602,17 +602,17 @@ namespace djv
 
         } // namespace
 
-        struct DebugTool::Private
+        struct DebugWidget::Private
         {
             std::map < std::string, std::shared_ptr<UI::Bellows> > bellows;
         };
 
-        void DebugTool::_init(Context * context)
+        void DebugWidget::_init(Context * context)
         {
-            ITool::_init(context);
+            MDIWidget::_init(context);
 
             DJV_PRIVATE_PTR();
-            setClassName("djv::ViewApp::DebugTool");
+            setClassName("djv::ViewApp::DebugWidget");
 
             auto layout = UI::VerticalLayout::create(context);
             layout->setSpacing(UI::MetricsRole::None);
@@ -641,23 +641,23 @@ namespace djv
             addChild(scrollWidget);
         }
 
-        DebugTool::DebugTool() :
+        DebugWidget::DebugWidget() :
             _p(new Private)
         {}
 
-        DebugTool::~DebugTool()
+        DebugWidget::~DebugWidget()
         {}
 
-        std::shared_ptr<DebugTool> DebugTool::create(Context * context)
+        std::shared_ptr<DebugWidget> DebugWidget::create(Context * context)
         {
-            auto out = std::shared_ptr<DebugTool>(new DebugTool);
+            auto out = std::shared_ptr<DebugWidget>(new DebugWidget);
             out->_init(context);
             return out;
         }
 
-        void DebugTool::_localeEvent(Event::Locale & event)
+        void DebugWidget::_localeEvent(Event::Locale & event)
         {
-            ITool::_localeEvent(event);
+            MDIWidget::_localeEvent(event);
             DJV_PRIVATE_PTR();
             setTitle(_getText(DJV_TEXT("Debugging")));
             p.bellows["General"]->setText(_getText(DJV_TEXT("General")));

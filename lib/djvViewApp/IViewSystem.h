@@ -29,6 +29,8 @@
 
 #pragma once
 
+#include <djvViewApp/ViewApp.h>
+
 #include <djvCore/ISystem.h>
 
 #include <functional>
@@ -41,7 +43,6 @@ namespace djv
         class Action;
         class ISettingsWidget;
         class Menu;
-        class Widget;
     
         namespace MDI
         {
@@ -52,9 +53,8 @@ namespace djv
 
     namespace ViewApp
     {
-        class ITool;
-        class Media;
-        
+        class MDIWidget;
+
         struct MenuData
         {
             std::shared_ptr<UI::Menu> menu;
@@ -72,16 +72,16 @@ namespace djv
         public:
             ~IViewSystem() override;
 
-            virtual std::map<std::string, std::shared_ptr<UI::Action> > getActions();
-            virtual MenuData getMenu();
-            virtual std::vector<std::shared_ptr<UI::ISettingsWidget> > createSettingsWidgets();
+            virtual std::map<std::string, std::shared_ptr<UI::Action> > getActions() const;
+            virtual MenuData getMenu() const;
+            virtual std::vector<std::shared_ptr<UI::ISettingsWidget> > createSettingsWidgets() const;
 
-            void setToolCanvas(const std::shared_ptr<UI::MDI::Canvas>&);
+            void setCanvas(const std::shared_ptr<UI::MDI::Canvas>&);
 
         protected:
-            void _openTool(const std::string&, const std::shared_ptr<ITool>&);
-            void _closeTool(const std::string&);
-            void _setCloseToolCallback(const std::function<void(const std::string&)>&);
+            void _openWidget(const std::string&, const std::shared_ptr<MDIWidget>&);
+            void _closeWidget(const std::string&);
+            void _setCloseWidgetCallback(const std::function<void(const std::string&)>&);
 
         private:
             DJV_PRIVATE();

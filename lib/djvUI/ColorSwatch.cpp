@@ -49,6 +49,7 @@ namespace djv
         {
             Widget::_init(context);
             setClassName("djv::UI::ColorSwatch");
+            setHAlign(HAlign::Left);
             setPointerEnabled(true);
         }
         

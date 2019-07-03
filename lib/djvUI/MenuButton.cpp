@@ -71,18 +71,8 @@ namespace djv
                 p.icon->hide();
 
                 p.label = Label::create(context);
-                switch (menuStyle)
-                {
-                case MenuStyle::Flat:
-                case MenuStyle::Tool:
-                    p.label->setMargin(MetricsRole::MarginSmall);
-                    break;
-                case MenuStyle::ComboBox:
-                    p.label->setMargin(Layout::Margin(MetricsRole::MarginLarge, MetricsRole::MarginLarge, MetricsRole::MarginSmall, MetricsRole::MarginSmall));
-                    break;
-                default: break;
-                }
                 p.label->setHAlign(HAlign::Left);
+                p.label->setMargin(MetricsRole::MarginSmall);
                 p.label->hide();
 
                 p.popupIcon = Icon::create(context);
@@ -90,13 +80,24 @@ namespace djv
                 p.popupIcon->hide();
 
                 p.layout = HorizontalLayout::create(context);
+                switch (menuStyle)
+                {
+                case MenuStyle::Flat:
+                    p.layout->setMargin(Layout::Margin(MetricsRole::MarginSmall, MetricsRole::MarginSmall, MetricsRole::None, MetricsRole::None));
+                    break;
+                case MenuStyle::Tool:
+                    p.layout->setMargin(MetricsRole::MarginSmall);
+                    break;
+                case MenuStyle::ComboBox:
+                    p.layout->setMargin(Layout::Margin(MetricsRole::Margin, MetricsRole::Margin, MetricsRole::None, MetricsRole::None));
+                    break;
+                default: break;
+                }
                 p.layout->addChild(p.icon);
                 p.layout->addChild(p.label);
                 p.layout->setStretch(p.label, RowStretch::Expand);
                 p.layout->addChild(p.popupIcon);
                 addChild(p.layout);
-
-                _widgetUpdate();
             }
 
             Menu::Menu() :
@@ -291,22 +292,6 @@ namespace djv
             bool Menu::_isHovered() const
             {
                 return isEnabled(true) && _getPointerHover().size();
-            }
-
-            void Menu::_widgetUpdate()
-            {
-                DJV_PRIVATE_PTR();
-                switch (p.menuStyle)
-                {
-                case MenuStyle::Flat:
-                case MenuStyle::ComboBox:
-                    p.layout->setMargin(Layout::Margin(MetricsRole::MarginSmall, MetricsRole::MarginSmall, MetricsRole::None, MetricsRole::None));
-                    break;
-                case MenuStyle::Tool:
-                    p.layout->setMargin(MetricsRole::MarginSmall);
-                    break;
-                default: break;
-                }
             }
 
         } // namespace Button

@@ -31,10 +31,11 @@
 
 #include <djvViewApp/Application.h>
 #include <djvViewApp/FileSystem.h>
-#include <djvViewApp/ITool.h>
+#include <djvViewApp/IToolSystem.h>
 #include <djvViewApp/ImageViewSystem.h>
-#include <djvViewApp/MDICanvas.h>
+#include <djvViewApp/MDIWidget.h>
 #include <djvViewApp/Media.h>
+#include <djvViewApp/MediaCanvas.h>
 #include <djvViewApp/SettingsDialog.h>
 #include <djvViewApp/SettingsSystem.h>
 #include <djvViewApp/WindowSystem.h>
@@ -75,8 +76,8 @@ namespace djv
             std::shared_ptr<UI::Button::Menu> mediaButton;
             std::shared_ptr<UI::ToolButton> settingsButton;
             std::shared_ptr<UI::MenuBar> menuBar;
-            std::shared_ptr<MDICanvas> mdiCanvas;
-            std::shared_ptr<UI::MDI::Canvas> toolCanvas;
+            std::shared_ptr<MediaCanvas> mediaCanvas;
+            std::shared_ptr<UI::MDI::Canvas> canvas;
             std::shared_ptr<UI::StackLayout> stackLayout;
             std::shared_ptr<ValueObserver<bool> > closeToolActionObserver;
             std::shared_ptr<ListObserver<std::shared_ptr<Media> > > mediaObserver;
@@ -118,16 +119,18 @@ namespace djv
             p.mediaMenu = UI::Menu::create(context);
             addChild(p.mediaMenu);
             p.mediaButton = UI::Button::Menu::create(UI::Button::MenuStyle::Flat, context);
-            p.mediaButton->setIcon("djvIconPopupMenu");
+            p.mediaButton->setPopupIcon("djvIconPopupMenu");
             p.mediaButton->setEnabled(false);
 
-            auto maximizedButton = UI::ActionButton::create(context);
-            maximizedButton->setShowText(false);
-            maximizedButton->setShowShortcuts(false);
-            auto windowSystem = context->getSystemT<WindowSystem>();
-            if (windowSystem)
+            std::map<std::string, std::shared_ptr<UI::ActionButton> > toolButtons;
+            for (const auto& i : context->getSystemsT<IToolSystem>())
             {
-                maximizedButton->addAction(windowSystem->getActions()["Maximized"]);
+                auto button = UI::ActionButton::create(context);
+                button->setShowText(false);
+                button->setShowShortcuts(false);
+                auto data = i->getToolAction();
+                button->addAction(data.action);
+                toolButtons[data.sortKey] = button;
             }
 
             auto viewLockFitButton = UI::ActionButton::create(context);
@@ -138,13 +141,21 @@ namespace djv
             {
                 viewLockFitButton->addAction(imageViewSystem->getActions()["LockFit"]);
             }
-
             auto viewLockCenterButton = UI::ActionButton::create(context);
             viewLockCenterButton->setShowText(false);
             viewLockCenterButton->setShowShortcuts(false);
             if (imageViewSystem)
             {
                 viewLockCenterButton->addAction(imageViewSystem->getActions()["LockCenter"]);
+            }
+
+            auto maximizedButton = UI::ActionButton::create(context);
+            maximizedButton->setShowText(false);
+            maximizedButton->setShowShortcuts(false);
+            auto windowSystem = context->getSystemT<WindowSystem>();
+            if (windowSystem)
+            {
+                maximizedButton->addAction(windowSystem->getActions()["Maximized"]);
             }
 
             p.settingsButton = UI::ToolButton::create(context);
@@ -156,30 +167,39 @@ namespace djv
             {
                 p.menuBar->addChild(i.second);
             }
+            p.menuBar->addSeparator(UI::Side::Right);
             p.menuBar->addChild(p.mediaButton);
             p.menuBar->setStretch(p.mediaButton, UI::RowStretch::Expand, UI::Side::Right);
-            p.menuBar->addChild(maximizedButton);
+            p.menuBar->addSeparator(UI::Side::Right);
+            for (const auto& i : toolButtons)
+            {
+                p.menuBar->addChild(i.second);
+            }
+            p.menuBar->addSeparator(UI::Side::Right);
             p.menuBar->addChild(viewLockFitButton);
             p.menuBar->addChild(viewLockCenterButton);
+            p.menuBar->addSeparator(UI::Side::Right);
+            p.menuBar->addChild(maximizedButton);
+            p.menuBar->addSeparator(UI::Side::Right);
             p.menuBar->addChild(p.settingsButton);
 
-            p.mdiCanvas = MDICanvas::create(context);
+            p.mediaCanvas = MediaCanvas::create(context);
 
-            p.toolCanvas = UI::MDI::Canvas::create(context);
+            p.canvas = UI::MDI::Canvas::create(context);
             for (auto system : viewSystems)
             {
-                system->setToolCanvas(p.toolCanvas);
+                system->setCanvas(p.canvas);
             }
             
             p.stackLayout = UI::StackLayout::create(context);
             auto soloLayout = UI::SoloLayout::create(context);
-            p.stackLayout->addChild(p.mdiCanvas);
+            p.stackLayout->addChild(p.mediaCanvas);
             auto vLayout = UI::VerticalLayout::create(context);
             vLayout->setSpacing(UI::MetricsRole::None);
             vLayout->addChild(p.menuBar);
             vLayout->addExpander();
             p.stackLayout->addChild(vLayout);
-            p.stackLayout->addChild(p.toolCanvas);
+            p.stackLayout->addChild(p.canvas);
             addChild(p.stackLayout);
 
             auto weak = std::weak_ptr<MainWindow>(std::dynamic_pointer_cast<MainWindow>(shared_from_this()));
@@ -241,7 +261,7 @@ namespace djv
                 {
                     if (auto widget = weak.lock())
                     {
-                        const auto children = widget->_p->toolCanvas->getChildrenT<ITool>();
+                        const auto children = widget->_p->canvas->getChildrenT<MDIWidget>();
                         for (auto i = children.rbegin(); i != children.rend(); ++i)
                         {
                             if ((*i)->isVisible())
@@ -287,7 +307,7 @@ namespace djv
                         {
                             widget->_p->mediaActionGroup->setChecked(i - widget->_p->media.begin());
                         }
-                        widget->_p->mediaButton->setText(value ? Core::FileSystem::Path(value->getFileName()).getFileName() : std::string());
+                        widget->_p->mediaButton->setText(value ? Core::FileSystem::Path(value->getFileName()).getFileName() : "-");
                         widget->_p->mediaButton->setTooltip(value ? value->getFileName() : std::string());
                     }
                 });
@@ -301,7 +321,7 @@ namespace djv
                 {
                     if (auto widget = weak.lock())
                     {
-                        widget->_p->mdiCanvas->setMaximized(value);
+                        widget->_p->mediaCanvas->setMaximized(value);
                     }
                 });
 
@@ -331,9 +351,9 @@ namespace djv
             return out;
         }
 
-        const std::shared_ptr<MDICanvas>& MainWindow::getMDICanvas() const
+        const std::shared_ptr<MediaCanvas>& MainWindow::getMediaCanvas() const
         {
-            return _p->mdiCanvas;
+            return _p->mediaCanvas;
         }
 
         void MainWindow::_dropEvent(Core::Event::Drop & event)
