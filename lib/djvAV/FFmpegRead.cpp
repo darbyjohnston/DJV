@@ -566,7 +566,7 @@ namespace djv
                                 p.avFrameRgb->linesize);
                             {
                                 std::lock_guard<std::mutex> lock(_mutex);
-                                _videoQueue.addFrame(pts, image);
+                                _videoQueue.addFrame(VideoFrame(pts, image));
                             }
                         }
                     }
@@ -633,7 +633,7 @@ namespace djv
                             }
                             {
                                 std::lock_guard<std::mutex> lock(_mutex);
-                                _audioQueue.addFrame(pts, audioData);
+                                _audioQueue.addFrame(AudioFrame(pts, audioData));
                             }
                         }
                     }
