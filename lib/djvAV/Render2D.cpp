@@ -246,6 +246,7 @@ namespace djv
                     {
                         glBindTexture(GL_TEXTURE_3D, _id);
                         glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+                        glPixelStorei(GL_UNPACK_SWAP_BYTES, 0);
                         glPixelStorei(GL_UNPACK_SKIP_ROWS, 0);
                         glPixelStorei(GL_UNPACK_SKIP_PIXELS, 0);
                         glPixelStorei(GL_UNPACK_SKIP_IMAGES, 0);
