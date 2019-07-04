@@ -227,12 +227,12 @@ namespace djv
 
         std::string ColorSpaceSettingsWidget::getSettingsName() const
         {
-            return DJV_TEXT("General");
+            return DJV_TEXT("Color Space");
         }
 
         std::string ColorSpaceSettingsWidget::getSettingsGroup() const
         {
-            return DJV_TEXT("Color Space");
+            return DJV_TEXT("General");
         }
 
         std::string ColorSpaceSettingsWidget::getSettingsSortKey() const
